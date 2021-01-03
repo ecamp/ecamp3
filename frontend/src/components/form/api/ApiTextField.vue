@@ -8,6 +8,7 @@ Displays a field as a e-text-field + write access via API wrapper
     v-bind="$props"
     v-on="$listeners">
     <e-text-field
+      ref="textField"
       :value="wrapper.localValue"
       v-bind="$attrs"
       :readonly="wrapper.readonly"
@@ -34,16 +35,19 @@ export default {
   name: 'ApiTextField',
   components: { ApiWrapper, ApiWrapperAppend },
   mixins: [apiPropsMixin],
-
   props: {
     outlined: {
       type: Boolean,
       default: true
     }
   },
-
   data () {
     return {}
+  },
+  methods: {
+    focus () {
+      this.$refs.textField.focus()
+    }
   }
 }
 </script>

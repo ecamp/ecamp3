@@ -86,6 +86,9 @@
         },
         "title": "Einstellungen"
       },
+      "materialCreateItem": {
+        "noMaterialListAvailable": "Für dieses Lager sind noch keine Materiallisten erfasst. Du kannst diese unter 'Admin' erfassen."
+      },
       "picasso": {
         "moment": {
           "date": "dd. D.MM | D. MMM | DD. MMM YYYY"

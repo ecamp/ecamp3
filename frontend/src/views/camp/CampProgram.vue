@@ -4,12 +4,12 @@ Show all activity schedule entries of a single period.
 
 <template>
   <content-card>
-    <template v-slot:title>
+    <template #title>
       <period-switcher v-if="$vuetify.breakpoint.xsOnly" :period="period" />
     </template>
     <camp-program-view-mode-switcher />
     <schedule-entries :period="period" :show-button="true">
-      <template v-slot:default="slotProps">
+      <template #default="slotProps">
         <template v-if="slotProps.loading">
           <v-skeleton-loader v-if="listFormat" type="list-item-avatar-two-line@2" class="py-2" />
           <v-skeleton-loader v-else type="table" />

@@ -8,7 +8,7 @@ Displays all periods of a single camp and allows to edit them & create new ones
       <div class="ec-content-group__title py-1 subtitle-1">
         {{ $tc('components.camp.campActivityCategories.title') }}
         <dialog-activity-category-create :camp="camp()">
-          <template v-slot:activator="{ on }">
+          <template #activator="{ on }">
             <button-add color="secondary" text
                         :hide-label="true"
                         v-on="on">
@@ -35,7 +35,7 @@ Displays all periods of a single camp and allows to edit them & create new ones
         <v-list-item-action style="display: inline">
           <v-item-group>
             <dialog-activity-category-edit :camp="camp()" :activity-category="activityCategory">
-              <template v-slot:activator="{ on }">
+              <template #activator="{ on }">
                 <button-edit class="mr-1" v-on="on" />
               </template>
             </dialog-activity-category-edit>
@@ -43,7 +43,7 @@ Displays all periods of a single camp and allows to edit them & create new ones
         </v-list-item-action>
 
         <v-menu offset-y>
-          <template v-slot:activator="{ on, attrs }">
+          <template #activator="{ on, attrs }">
             <v-btn icon v-bind="attrs" v-on="on">
               <v-icon>mdi-dots-vertical</v-icon>
             </v-btn>
@@ -58,10 +58,10 @@ Displays all periods of a single camp and allows to edit them & create new ones
                       {{ activityCategory.short }}: {{ activityCategory.name }}
                     </li>
                   </ul>
-                  <template v-slot:activator="{ on }">
+                  <template #activator="{ on }">
                     <button-delete v-on="on" />
                   </template>
-                  <template v-if="findActivities(activityCategory).length > 0" v-slot:error>
+                  <template v-if="findActivities(activityCategory).length > 0" #error>
                     {{ $tc('components.camp.campActivityCategories.deleteActivityCategoryNotPossibleInUse') }}
                     <ul>
                       <li v-for="activity in findActivities(activityCategory)" :key="activity.id">

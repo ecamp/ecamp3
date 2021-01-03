@@ -45,7 +45,7 @@ Listing all given activity schedule entries in a calendar view.
         <div v-if="dateNow === date"
              class="v-current-time" :style="{ top: nowY }" />
       </template>
-      <template #event="{event, eventParsed, timed}">
+      <template #event="{event, timed}">
         <v-btn v-if="!event.tmpEvent && dialogActivityEdit" absolute
                top
                right x-small
@@ -226,6 +226,7 @@ export default {
         this.showScheduleEntryInNewTab(entry)
         this.openedInNewTab = true
       } else if (nativeEvent.button === 2) {
+        // don't move event if middle mouse button
       } else {
         if (entry && timed) {
           this.draggedEntry = entry

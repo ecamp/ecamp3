@@ -32,6 +32,10 @@
       "icon": "mdi-book-open-variant",
       "name": "Story concept",
       "sort": "1"
+    },
+    "material": {
+      "icon": "mdi-package-variant",
+      "name": "Material"
     }
   },
   "components": {
@@ -60,6 +64,13 @@
       },
       "campInvitations": {
         "title": "Invite"
+      },
+      "campMaterialLists": {
+        "createMaterialList": "Create material list",
+        "title": "Material lists"
+      },
+      "campMaterialListsItem": {
+        "deleteWarning": "Do you really want to delete this material list?"
       },
       "campMembers": {
         "title": "Members"
@@ -94,6 +105,9 @@
       "collaboratorListItem": {
         "remove": "Remove"
       },
+      "periodMaterialLists": {
+        "addNewItem": "Add new item"
+      },
       "picasso": {
         "moment": {
           "date": "dd. D.MM | D. MMM | DD. MMM YYYY"
@@ -110,6 +124,12 @@
       "dialogEntityDelete": {
         "title": "Really delete?",
         "warningText": "Do you really want to delete this?"
+      },
+      "dialogMaterialItemCreate": {
+        "title": "Create material item"
+      },
+      "dialogMaterialListCreate": {
+        "title": "Create material list"
       },
       "dialogPeriodCreate": {
         "title": "Create period"
@@ -189,6 +209,19 @@
     },
     "campCollaboration": {
       "campLeft": "left camp"
+    },
+    "materialItem": {
+      "fields": {
+        "article": "Article",
+        "quantity": "Quantity",
+        "unit": "Unit"
+      }
+    },
+    "materialList": {
+      "fields": {
+        "name": "Name"
+      },
+      "name": "Material list"
     },
     "period": {
       "defaultDescription": "Main",
@@ -318,8 +351,14 @@
         "openRequests": "Open requests",
         "title": "Team"
       },
+      "material": {
+        "showActivityMaterial": "Show activity material",
+        "showActivityMaterialShort": "incl. Activity",
+        "title": "Material"
+      },
       "navigationCamp": {
         "admin": "Admin",
+        "camp": "Camp",
         "campIsLoading": "Camp is loading",
         "material": "Materials",
         "print": "Print",

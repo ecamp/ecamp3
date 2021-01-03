@@ -1,0 +1,462 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`An ESelect looks like a dropdown: dropdown closed with selected value 1`] = `
+<div
+  data-app=""
+>
+  <div
+    class="e-form-container"
+    items="[object Object],[object Object],[object Object]"
+    value="1"
+  >
+    <div
+      class="v-input v-input--hide-details v-input--is-label-active v-input--is-dirty v-input--is-focused theme--light v-text-field v-text-field--single-line v-text-field--filled v-text-field--enclosed v-select primary--text"
+    >
+      <div
+        class="v-input__control"
+      >
+        <div
+          aria-expanded="false"
+          aria-haspopup="listbox"
+          aria-owns="list-6"
+          class="v-input__slot"
+          role="button"
+        >
+          <div
+            class="v-select__slot"
+          >
+            <div
+              class="v-select__selections"
+            >
+              <div
+                class="v-select__selection v-select__selection--comma"
+              >
+                firstOption
+              </div>
+              <input
+                aria-readonly="false"
+                autocomplete="off"
+                id="input-6"
+                readonly="readonly"
+                type="text"
+              />
+            </div>
+            <div
+              class="v-input__append-inner"
+            >
+              <div
+                class="v-input__icon v-input__icon--append"
+              >
+                <i
+                  aria-hidden="true"
+                  class="v-icon notranslate mdi mdi-menu-down theme--light primary--text"
+                />
+              </div>
+            </div>
+            <input
+              type="hidden"
+              value="1"
+            />
+          </div>
+          <div
+            class="v-menu"
+          >
+            <transition-stub
+              name="v-menu-transition"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="v-menu__content theme--light "
+    style="max-height: 304px; min-width: 0px; max-width: auto; top: 12px; left: 0px; transform-origin: top left; z-index: 8; display: none;"
+  >
+    <div
+      class="v-list v-select-list v-sheet theme--light theme--light"
+      id="list-6"
+      role="listbox"
+      tabindex="-1"
+    >
+      <div
+        aria-selected="true"
+        class="v-list-item primary--text v-list-item--active v-list-item--link theme--light"
+        id="list-item-11-0"
+        role="option"
+        tabindex="0"
+      >
+        <div
+          class="v-list-item__content"
+        >
+          <div
+            class="v-list-item__title"
+          >
+            firstOption
+          </div>
+        </div>
+      </div>
+      <div
+        aria-selected="false"
+        class="v-list-item v-list-item--link theme--light"
+        id="list-item-11-1"
+        role="option"
+        tabindex="0"
+      >
+        <div
+          class="v-list-item__content"
+        >
+          <div
+            class="v-list-item__title"
+          >
+            secondOption
+          </div>
+        </div>
+      </div>
+      <div
+        aria-selected="false"
+        class="v-list-item v-list-item--link theme--light"
+        id="list-item-11-2"
+        role="option"
+        tabindex="0"
+      >
+        <div
+          class="v-list-item__content"
+        >
+          <div
+            class="v-list-item__title"
+          >
+            thirdOption
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`An ESelect looks like a dropdown: dropdown open 1`] = `
+<div
+  data-app=""
+>
+  <div
+    class="e-form-container"
+    items="[object Object],[object Object],[object Object]"
+  >
+    <div
+      class="v-input v-input--hide-details v-input--is-focused theme--light v-text-field v-text-field--single-line v-text-field--filled v-text-field--enclosed v-select v-select--is-menu-active primary--text"
+    >
+      <div
+        class="v-input__control"
+      >
+        <div
+          aria-expanded="true"
+          aria-haspopup="listbox"
+          aria-owns="list-6"
+          class="v-input__slot"
+          role="button"
+        >
+          <div
+            class="v-select__slot"
+          >
+            <div
+              class="v-select__selections"
+            >
+              <input
+                aria-readonly="false"
+                autocomplete="off"
+                id="input-6"
+                readonly="readonly"
+                type="text"
+              />
+            </div>
+            <div
+              class="v-input__append-inner"
+            >
+              <div
+                class="v-input__icon v-input__icon--append"
+              >
+                <i
+                  aria-hidden="true"
+                  class="v-icon notranslate mdi mdi-menu-down theme--light primary--text"
+                />
+              </div>
+            </div>
+            <input
+              type="hidden"
+            />
+          </div>
+          <div
+            class="v-menu"
+          >
+            <transition-stub
+              name="v-menu-transition"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="v-menu__content theme--light menuable__content__active "
+    style="max-height: 304px; min-width: 0px; max-width: auto; top: 12px; left: 0px; transform-origin: top left; z-index: 8; display: none;"
+  >
+    <div
+      class="v-list v-select-list v-sheet theme--light theme--light"
+      id="list-6"
+      role="listbox"
+      tabindex="-1"
+    >
+      <div
+        aria-selected="false"
+        class="v-list-item v-list-item--link theme--light"
+        id="list-item-11-0"
+        role="option"
+        tabindex="0"
+      >
+        <div
+          class="v-list-item__content"
+        >
+          <div
+            class="v-list-item__title"
+          >
+            firstOption
+          </div>
+        </div>
+      </div>
+      <div
+        aria-selected="false"
+        class="v-list-item v-list-item--link theme--light"
+        id="list-item-11-1"
+        role="option"
+        tabindex="0"
+      >
+        <div
+          class="v-list-item__content"
+        >
+          <div
+            class="v-list-item__title"
+          >
+            secondOption
+          </div>
+        </div>
+      </div>
+      <div
+        aria-selected="false"
+        class="v-list-item v-list-item--link theme--light"
+        id="list-item-11-2"
+        role="option"
+        tabindex="0"
+      >
+        <div
+          class="v-list-item__content"
+        >
+          <div
+            class="v-list-item__title"
+          >
+            thirdOption
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`An ESelect looks like a dropdown: dropdown open with selected value 1`] = `
+<div
+  data-app=""
+>
+  <div
+    class="e-form-container"
+    items="[object Object],[object Object],[object Object]"
+    value="1"
+  >
+    <div
+      class="v-input v-input--hide-details v-input--is-label-active v-input--is-dirty v-input--is-focused theme--light v-text-field v-text-field--single-line v-text-field--filled v-text-field--enclosed v-select v-select--is-menu-active primary--text"
+    >
+      <div
+        class="v-input__control"
+      >
+        <div
+          aria-expanded="true"
+          aria-haspopup="listbox"
+          aria-owns="list-6"
+          class="v-input__slot"
+          role="button"
+        >
+          <div
+            class="v-select__slot"
+          >
+            <div
+              class="v-select__selections"
+            >
+              <div
+                class="v-select__selection v-select__selection--comma"
+              >
+                firstOption
+              </div>
+              <input
+                aria-readonly="false"
+                autocomplete="off"
+                id="input-6"
+                readonly="readonly"
+                type="text"
+              />
+            </div>
+            <div
+              class="v-input__append-inner"
+            >
+              <div
+                class="v-input__icon v-input__icon--append"
+              >
+                <i
+                  aria-hidden="true"
+                  class="v-icon notranslate mdi mdi-menu-down theme--light primary--text"
+                />
+              </div>
+            </div>
+            <input
+              type="hidden"
+              value="1"
+            />
+          </div>
+          <div
+            class="v-menu"
+          >
+            <transition-stub
+              name="v-menu-transition"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="v-menu__content theme--light menuable__content__active "
+    style="max-height: 304px; min-width: 0px; max-width: auto; top: 12px; left: 0px; transform-origin: top left; z-index: 8; display: none;"
+  >
+    <div
+      class="v-list v-select-list v-sheet theme--light theme--light"
+      id="list-6"
+      role="listbox"
+      tabindex="-1"
+    >
+      <div
+        aria-selected="true"
+        class="v-list-item primary--text v-list-item--active v-list-item--link theme--light"
+        id="list-item-11-0"
+        role="option"
+        tabindex="0"
+      >
+        <div
+          class="v-list-item__content"
+        >
+          <div
+            class="v-list-item__title"
+          >
+            firstOption
+          </div>
+        </div>
+      </div>
+      <div
+        aria-selected="false"
+        class="v-list-item v-list-item--link theme--light"
+        id="list-item-11-1"
+        role="option"
+        tabindex="0"
+      >
+        <div
+          class="v-list-item__content"
+        >
+          <div
+            class="v-list-item__title"
+          >
+            secondOption
+          </div>
+        </div>
+      </div>
+      <div
+        aria-selected="false"
+        class="v-list-item v-list-item--link theme--light"
+        id="list-item-11-2"
+        role="option"
+        tabindex="0"
+      >
+        <div
+          class="v-list-item__content"
+        >
+          <div
+            class="v-list-item__title"
+          >
+            thirdOption
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`An ESelect looks like a dropdown: no item selected 1`] = `
+<div
+  data-app=""
+>
+  <div
+    class="e-form-container"
+    items="[object Object],[object Object],[object Object]"
+  >
+    <div
+      class="v-input v-input--hide-details theme--light v-text-field v-text-field--single-line v-text-field--filled v-text-field--enclosed v-select"
+    >
+      <div
+        class="v-input__control"
+      >
+        <div
+          aria-expanded="false"
+          aria-haspopup="listbox"
+          aria-owns="list-6"
+          class="v-input__slot"
+          role="button"
+        >
+          <div
+            class="v-select__slot"
+          >
+            <div
+              class="v-select__selections"
+            >
+              <input
+                aria-readonly="false"
+                autocomplete="off"
+                id="input-6"
+                readonly="readonly"
+                type="text"
+              />
+            </div>
+            <div
+              class="v-input__append-inner"
+            >
+              <div
+                class="v-input__icon v-input__icon--append"
+              >
+                <i
+                  aria-hidden="true"
+                  class="v-icon notranslate mdi mdi-menu-down theme--light"
+                />
+              </div>
+            </div>
+            <input
+              type="hidden"
+            />
+          </div>
+          <div
+            class="v-menu"
+          >
+            <!---->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

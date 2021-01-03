@@ -17,11 +17,14 @@ use Laminas\ApiTools\ApiProblem\ApiProblem;
 use Laminas\Authentication\AuthenticationService;
 
 class CampCollaborationService extends AbstractEntityService {
+    /** @var MaterialListService */
+    private $materialListService;
     private SendmailService $sendmailService;
 
     public function __construct(
         ServiceUtils $serviceUtils,
         AuthenticationService $authenticationService,
+        MaterialListService $materialListService,
         SendmailService $sendmailService
     ) {
         parent::__construct(
@@ -30,6 +33,8 @@ class CampCollaborationService extends AbstractEntityService {
             CampCollaborationHydrator::class,
             $authenticationService
         );
+
+        $this->materialListService = $materialListService;
         $this->sendmailService = $sendmailService;
     }
 
@@ -124,6 +129,17 @@ class CampCollaborationService extends AbstractEntityService {
                 $uniqid,
                 $campCollaboration->getInviteEmail()
             );
+        }
+
+        return $campCollaboration;
+    }
+
+    protected function createEntityPost(BaseEntity $entity, $data) {
+        /** @var CampCollaboration $campCollaboration */
+        $campCollaboration = $entity;
+
+        if (CampCollaboration::STATUS_ESTABLISHED === $campCollaboration->getStatus()) {
+            $this->createMaterialList($campCollaboration);
         }
 
         return $campCollaboration;
@@ -255,6 +271,7 @@ class CampCollaborationService extends AbstractEntityService {
 
                     case CampCollaboration::STATUS_ESTABLISHED:
                         $campCollaboration->setStatus(CampCollaboration::STATUS_ESTABLISHED);
+                        $this->createMaterialList($campCollaboration);
 
                     break;
                 }
@@ -318,6 +335,7 @@ class CampCollaborationService extends AbstractEntityService {
                         }
                         $campCollaboration->setCollaborationAcceptedBy($authUser->getUsername());
                         $campCollaboration->setStatus(CampCollaboration::STATUS_ESTABLISHED);
+                        $this->createMaterialList($campCollaboration);
 
                     break;
                 }
@@ -325,5 +343,12 @@ class CampCollaborationService extends AbstractEntityService {
         }
 
         return $campCollaboration;
+    }
+
+    private function createMaterialList(CampCollaboration $campCollaboration) {
+        $this->materialListService->create((object) [
+            'campId' => $campCollaboration->getCamp()->getId(),
+            'name' => $campCollaboration->getUser()->getDisplayName(),
+        ]);
     }
 }

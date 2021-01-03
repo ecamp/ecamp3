@@ -51,7 +51,7 @@
               <div class="float-right section-buttons">
                 <v-btn icon small class="float-right"><v-icon>mdi-arrow-up-bold</v-icon></v-btn>
                 <dialog-entity-delete :entity="section">
-                  <template v-slot:activator="{ on }">
+                  <template #activator="{ on }">
                     <v-btn icon
                            small
                            color="error"
