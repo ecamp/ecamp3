@@ -7,7 +7,7 @@
     <v-list-item-action style="display: inline">
       <v-item-group>
         <dialog-material-list-edit :material-list="materialList">
-          <template v-slot:activator="{ on }">
+          <template #activator="{ on }">
             <button-edit class="mr-1" v-on="on" />
           </template>
         </dialog-material-list-edit>
@@ -15,7 +15,7 @@
     </v-list-item-action>
 
     <v-menu offset-y>
-      <template v-slot:activator="{ on, attrs }">
+      <template #activator="{ on, attrs }">
         <v-btn icon v-bind="attrs" v-on="on">
           <v-icon>mdi-dots-vertical</v-icon>
         </v-btn>
@@ -24,7 +24,7 @@
         <v-item-group>
           <v-list-item-action>
             <dialog-entity-delete :entity="materialList">
-              <template v-slot:activator="{ on }">
+              <template #activator="{ on }">
                 <button-delete v-on="on" />
               </template>
               {{ $tc('components.camp.campMaterialListsItem.deleteWarning') }} <br>

@@ -1,7 +1,7 @@
 <template>
   <div>
     <e-text-field
-      v-model="materialList.name"
+      v-model="localMaterialList.name"
       :name="$tc('entity.materialList.fields.name')"
       autofocus
       vee-rules="required" />
@@ -13,6 +13,11 @@ export default {
   name: 'DialogMaterialListForm',
   props: {
     materialList: { type: Object, required: true }
+  },
+  computed: {
+    localMaterialList () {
+      return this.materialList
+    }
   }
 }
 </script>
