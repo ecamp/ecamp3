@@ -46,13 +46,4 @@ abstract class AbstractDatabaseTestCase extends TestCase {
         $schemaTool->dropDatabase();
         $schemaTool->createSchema($metadatas);
     }
-
-    /**
-     * loads data from Fixtures into ORM.
-     */
-    protected function loadFixtures(Loader $loader) {
-        $purger = new ORMPurger();
-        $executor = new ORMExecutor($this->getEntityManager(), $purger);
-        $executor->execute($loader->getFixtures());
-    }
 }
