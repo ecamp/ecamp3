@@ -80,6 +80,8 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-composer-
 
+      - run: printenv
+      
       - run: composer install --no-interaction --no-plugins
         working-directory: backend
 
