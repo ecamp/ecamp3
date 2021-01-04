@@ -73,12 +73,12 @@ jobs:
         run: 'echo "::set-output name=dir::$(composer config cache-files-dir)"'
         working-directory: backend
 
-      - uses: actions/cache@v2
-        with:
-          path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-composer-
+#      - uses: actions/cache@v2
+#        with:
+#          path: ${{ steps.composer-cache.outputs.dir }}
+#          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+#          restore-keys: |
+#            ${{ runner.os }}-composer-
 
       - run: composer install --no-interaction
         working-directory: backend
