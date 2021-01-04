@@ -14,7 +14,7 @@
     "test": "jest"
   },
   "dependencies": {
-    "@nuxtjs/axios": "5.12.4",
+    "@nuxtjs/axios": "5.12.5",
     "deepmerge": "4.2.2",
     "hal-json-vuex": "1.2.1",
     "nuxt": "2.14.12",
