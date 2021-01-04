@@ -80,7 +80,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-composer-
 
-      - run: composer install --no-interaction --no-dev
+      - run: composer install --no-interaction --no-plugins --no-scripts --prefer-dist --no-suggest
         working-directory: backend
 
       - run: composer test
