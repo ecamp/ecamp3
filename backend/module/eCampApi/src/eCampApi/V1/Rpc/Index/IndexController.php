@@ -105,11 +105,6 @@ class IndexController extends AbstractActionController {
             'route' => 'api-tools/swagger',
         ]);
 
-        $data['admin'] = Link::factory([
-            'rel' => 'admin',
-            'route' => 'api-tools/ui',
-        ]);
-
         $data['users'] = TemplatedLink::factory([
             'rel' => 'users',
             'route' => 'e-camp-api.rest.doctrine.user',
