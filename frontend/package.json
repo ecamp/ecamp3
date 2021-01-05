@@ -51,7 +51,7 @@
     "eslint-plugin-import": "2.22.1",
     "eslint-plugin-node": "11.1.0",
     "eslint-plugin-promise": "4.2.1",
-    "eslint-plugin-vue": "7.4.0",
+    "eslint-plugin-vue": "7.4.1",
     "flush-promises": "1.0.2",
     "jest-canvas-mock": "2.3.0",
     "jest-serializer-vue-tjw": "3.15.0",
