@@ -6,7 +6,7 @@ COPY common /common
 WORKDIR /app
 COPY print .
 
-RUN npm install
+RUN npm ci
 RUN npm run build
 
 # production stage
