@@ -19,7 +19,7 @@
     "hal-json-vuex": "1.2.1",
     "nuxt": "2.14.12",
     "pagedjs": "0.1.43",
-    "vue-i18n": "8.22.2"
+    "vue-i18n": "8.22.3"
   },
   "devDependencies": {
     "@nuxtjs/eslint-config": "5.0.0",
