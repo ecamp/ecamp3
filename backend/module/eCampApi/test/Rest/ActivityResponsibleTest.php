@@ -22,7 +22,7 @@ class ActivityResponsibleTest extends AbstractApiControllerTestCase {
 
     private $apiEndpoint = '/api/activity-responsibles';
 
-    public function setUp() {
+    public function setUp(): void {
         parent::setUp();
 
         $userLoader = new UserTestData();

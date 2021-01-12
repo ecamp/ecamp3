@@ -29,9 +29,13 @@
     },
     "storycontext": {
       "add": "Add story context",
-      "icon": "mdi-book-open-page-variant",
+      "icon": "mdi-book-open-variant",
       "name": "Story concept",
       "sort": "1"
+    },
+    "material": {
+      "icon": "mdi-package-variant",
+      "name": "Material"
     }
   },
   "components": {
@@ -60,6 +64,13 @@
       },
       "campInvitations": {
         "title": "Invite"
+      },
+      "campMaterialLists": {
+        "createMaterialList": "Create material list",
+        "title": "Material lists"
+      },
+      "campMaterialListsItem": {
+        "deleteWarning": "Do you really want to delete this material list?"
       },
       "campMembers": {
         "title": "Members"
@@ -94,6 +105,9 @@
       "collaboratorListItem": {
         "remove": "Remove"
       },
+      "periodMaterialLists": {
+        "addNewItem": "Add new item"
+      },
       "picasso": {
         "moment": {
           "date": "dd. D.MM | D. MMM | DD. MMM YYYY"
@@ -111,6 +125,12 @@
         "title": "Really delete?",
         "warningText": "Do you really want to delete this?"
       },
+      "dialogMaterialItemCreate": {
+        "title": "Create material item"
+      },
+      "dialogMaterialListCreate": {
+        "title": "Create material list"
+      },
       "dialogPeriodCreate": {
         "title": "Create period"
       }
@@ -125,6 +145,7 @@
         "search": "Search"
       },
       "searchMobile": {
+        "allCamps": "All camps",
         "search": "Search",
         "searchActivitiesAndCamps": "Search for activities and camps"
       },
@@ -143,7 +164,7 @@
         "responsible": "responsible",
         "title": "Title"
       },
-      "name": "Activity",
+      "name": "Activity | Activities",
       "new": "New activity"
     },
     "activityCategory": {
@@ -174,10 +195,23 @@
         "name": "Name",
         "title": "Title"
       },
-      "name": "Camp"
+      "name": "Camp | Camps"
     },
     "campCollaboration": {
       "campLeft": "left camp"
+    },
+    "materialItem": {
+      "fields": {
+        "article": "Article",
+        "quantity": "Quantity",
+        "unit": "Unit"
+      }
+    },
+    "materialList": {
+      "fields": {
+        "name": "Name"
+      },
+      "name": "Material list"
     },
     "period": {
       "defaultDescription": "Main",
@@ -221,6 +255,8 @@
       "create": "Create",
       "delete": "Delete",
       "edit": "Edit",
+      "editable": "Editable",
+      "logout": "Logout",
       "ok": "Okay",
       "open": "Open",
       "save": "Save",
@@ -230,6 +266,11 @@
       "update": "Update"
     },
     "changeLanguage": "Change language",
+    "empty": {
+      "list": "Empty | No {entities} yet",
+      "result": "No result | No results",
+      "resultFor": "No result for {search} | No results for {search}"
+    },
     "language": "English",
     "loading": "Loading …",
     "lokaliseMessage": "Language switching powered by lokalise.com",
@@ -289,7 +330,8 @@
     },
     "camp": {
       "admin": {
-        "title": "Admin"
+        "collaborators": "Manage Team",
+        "title": "Camp Admin"
       },
       "collaborators": {
         "invite": "Invite",
@@ -299,11 +341,18 @@
         "search": "Search...",
         "title": "Team"
       },
+      "material": {
+        "showActivityMaterial": "Show activity material",
+        "showActivityMaterialShort": "incl. Activity",
+        "title": "Material"
+      },
       "navigationCamp": {
         "admin": "Admin",
+        "camp": "Camp",
         "campIsLoading": "Camp is loading",
         "material": "Materials",
         "print": "Print",
+        "program": "Program",
         "story": "Story",
         "tasks": "Tasks",
         "team": "Team"
@@ -336,7 +385,7 @@
       "welcome": "Hello {user}. Welcome on eCamp"
     },
     "navigationDefault": {
-      "home": "Homepage",
+      "home": "Home",
       "myCamps": "My camp | My camps",
       "profile": "Profile"
     },

@@ -21,7 +21,7 @@ class ActivityCategoryTest extends AbstractApiControllerTestCase {
 
     private $apiEndpoint = '/api/activity-categories';
 
-    public function setUp() {
+    public function setUp(): void {
         parent::setUp();
 
         $userLoader = new UserTestData();

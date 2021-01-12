@@ -122,6 +122,10 @@ class MaterialItemService extends AbstractEntityService {
             $q->andWhere('row.materialList = :materialListId');
             $q->setParameter('materialListId', $params['materialListId']);
         }
+        if (isset($params['activityContentId'])) {
+            $q->andWhere('row.activityContent = :activityContentId');
+            $q->setParameter('activityContentId', $params['activityContentId']);
+        }
 
         return $q;
     }
@@ -132,5 +136,20 @@ class MaterialItemService extends AbstractEntityService {
         $q->andWhere($this->createFilter($q, Camp::class, 'ml', 'camp'));
 
         return $q;
+    }
+
+    protected function validateEntity(BaseEntity $entity) {
+        /** @var MaterialItem $materialItem */
+        $materialItem = $entity;
+
+        if (null == $materialItem->getActivityContent() && null == $materialItem->getPeriod()) {
+            $ex = new EntityValidationException();
+            $ex->setMessages([
+                'periodId' => ['required' => 'periodId or activityContentId is required'],
+                'activityContentId' => ['required' => 'periodId or activityContentId is required'],
+            ]);
+
+            throw $ex;
+        }
     }
 }

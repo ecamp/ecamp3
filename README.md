@@ -1,11 +1,8 @@
-<p align="center"><img width="320px" align="center" style="width:320px" src="https://raw.githubusercontent.com/ecamp/ecamp3/devel/logo.svg"/></p><br/>
-<p align="center">
-  <a href="https://travis-ci.com/ecamp/ecamp3"><img src="https://travis-ci.com/ecamp/ecamp3.svg?branch=devel" alt="Build Status"></a>
-  <a href="https://coveralls.io/github/ecamp/ecamp3?branch=devel"><img src="https://coveralls.io/repos/github/ecamp/ecamp3/badge.svg?branch=devel" alt="Coverage Status"></a>
-  <a href="https://github.com/ecamp/ecamp3/blob/devel/LICENSE"><img src="https://badgen.net/github/license/ecamp/ecamp3" alt="License"></a>
-</p>
+<p align="center"><img src="frontend/public/logo.svg" alt="Logo" width="250"></p>
+<h1 align="center">eCamp<sup><small>v3</small></sup></h1>
+<p align="center"><a href="https://github.com/ecamp/ecamp3/actions?query=workflow%3ACI"><img src="https://github.com/ecamp/ecamp3/workflows/CI/badge.svg?branch=devel" alt="CI"></a> <a href="https://coveralls.io/github/ecamp/ecamp3?branch=devel"><img src="https://coveralls.io/repos/github/ecamp/ecamp3/badge.svg?branch=devel" alt="Coverage Status"></a> <a href="https://github.com/ecamp/ecamp3/blob/devel/LICENSE"><img src="https://badgen.net/github/license/ecamp/ecamp3" alt="License"></a></p>
 
-## eCamp3
+## English
 
 *(deutsche Übersetzung weiter unten)*
 
@@ -25,7 +22,7 @@ The following commonly requested improvements over eCamp v2 are already implemen
 
 eCamp v3 is made up of a backend based on the PHP framework Laminas (which offers a HAL JSON API) as well as a Vue.js frontend and some other smaller services.
 
-#### Want to help?
+### Want to help?
 
 Thanks for helping! There are a few ways to get started.
 - Visit our test environment at https://dev.ecamp3.ch. If you discover a bug, [open an issue](https://github.com/ecamp/ecamp3/issues/new) for it.
@@ -39,7 +36,7 @@ Thanks for helping! There are a few ways to get started.
 - Choose an [issue labeled "good first issue"](https://github.com/ecamp/ecamp3/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) and try to solve it
 
 
-## eCamp3 (deutsche Übersetzung)
+## Deutsch
 
 eCamp ist eine Webapplikation, mit welcher J+S-Lager, J+S-Kurse und andere Lager geplant werden können. Dabei verfügen alle Benutzer stets über den aktuellsten Stand der Planung.
 
@@ -57,7 +54,7 @@ Folgende Verbesserungen, die bei eCamp v2 oft gewünscht werden, sind bereits im
 
 eCamp v3 besteht aus einem Backend basierend auf dem PHP-Framework Laminas (welches eine HAL JSON API anbietet), einem Vue.js-Frontend sowie einigen weiteren kleineren Services.
 
-#### Mithelfen
+### Mithelfen
 
 Danke dass du mithelfen möchtest! Es gibt ein paar verschiedene Arten wie du beginnen kannst.
 - Besuche unsere Testumgebung auf https://dev.ecamp3.ch. Wenn du einen Fehler entdeckst, [eröffne ein Issue dafür](https://github.com/ecamp/ecamp3/issues/new).

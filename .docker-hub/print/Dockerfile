@@ -1,16 +1,16 @@
 # build stage
-FROM node:12.18 AS build-stage
+FROM node:12.20 AS build-stage
 
 COPY common /common
 
 WORKDIR /app
 COPY print .
 
-RUN npm install
+RUN npm ci
 RUN npm run build
 
 # production stage
-FROM node:12.18 AS production-stage
+FROM node:12.20 AS production-stage
 WORKDIR /app
 
 COPY --from=build-stage /app/node_modules ./node_modules

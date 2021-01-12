@@ -89,7 +89,7 @@ class GroupMembershipService extends AbstractEntityService {
      *
      * @return ApiProblem|GroupMembership
      */
-    protected function uupdateEntity(BaseEntity $entity, $data) {
+    protected function updateEntity(BaseEntity $entity, $data) {
         /** @var GroupMembership $groupMembership */
         $groupMembership = parent::updateEntity($entity, $data);
 

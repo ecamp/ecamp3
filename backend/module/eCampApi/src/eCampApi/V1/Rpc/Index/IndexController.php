@@ -105,11 +105,6 @@ class IndexController extends AbstractActionController {
             'route' => 'api-tools/swagger',
         ]);
 
-        $data['admin'] = Link::factory([
-            'rel' => 'admin',
-            'route' => 'api-tools/ui',
-        ]);
-
         $data['users'] = TemplatedLink::factory([
             'rel' => 'users',
             'route' => 'e-camp-api.rest.doctrine.user',
@@ -138,6 +133,11 @@ class IndexController extends AbstractActionController {
         $data['activities'] = TemplatedLink::factory([
             'rel' => 'activities',
             'route' => 'e-camp-api.rest.doctrine.activity',
+        ]);
+
+        $data['materialItems'] = TemplatedLink::factory([
+            'rel' => 'materialItems',
+            'route' => 'e-camp-api.rest.doctrine.material-item',
         ]);
 
         $json = new HalJsonModel();

@@ -20,28 +20,33 @@
         <testsuite name="eCamp.Api">
             <directory suffix="Test.php">module/eCampApi/test</directory>
         </testsuite>
+        <testsuite name="eCamp.AoT">
+            <directory suffix="Test.php">module/eCampAoT/test</directory>
+        </testsuite>
 
         <testsuite name="eCamp.ContentType.Storyboard">
             <directory suffix="Test.php">content-type/eCampStoryboard/test</directory>
         </testsuite>
-        <testsuite name="eCamp.ContentType.Textarea">
-            <directory suffix="Test.php">content-type/eCampTextarea/test</directory>
+        <testsuite name="eCamp.ContentType.SingleText">
+            <directory suffix="Test.php">content-type/eCampSingleText/test</directory>
         </testsuite>
     </testsuites>
 
-    <filter>
-        <whitelist processUncoveredFilesFromWhitelist="true">
+    <coverage processUncoveredFiles="true">
+        <include>
             <directory suffix=".php">module/eCampLib/src</directory>
             <directory suffix=".php">module/eCampCore/src</directory>
             <directory suffix=".php">module/eCampApi/src</directory>
             <directory suffix=".php">content-type/eCampStoryboard/src</directory>
-            <directory suffix=".php">content-type/eCampTextarea/src</directory>
-        </whitelist>
-    </filter>
+            <directory suffix=".php">content-type/eCampSingleText/src</directory>
+            <file>bin/di-generate-aot.php</file>
+        </include>
 
-    <logging>
-        <log type="coverage-html" target="./data/codeCoverage" charset="UTF-8" yui="true" highlight="true" lowUpperBound="50" highLowerBound="80" showUncoveredFiles="false" />
-        <log type="coverage-clover" target="build/logs/clover.xml"/>
-    </logging>
+        <report>
+            <html outputDirectory="./data/codeCoverage" lowUpperBound="50" highLowerBound="80" />
+            <clover outputFile="build/logs/clover.xml"/>
+        </report>
+
+    </coverage>
 
 </phpunit>

@@ -7,7 +7,7 @@
     :submit-action="createPeriod"
     submit-color="success"
     :cancel-action="close">
-    <template v-slot:activator="scope">
+    <template #activator="scope">
       <slot name="activator" v-bind="scope" />
     </template>
     <server-error :server-error="error" />

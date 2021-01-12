@@ -9,7 +9,7 @@ use eCamp\Lib\Entity\BaseEntity;
  * @ORM\Entity
  */
 class Login extends BaseEntity {
-    const CURRENT_HASH_VERSION = 0;
+    const CURRENT_HASH_VERSION = 1;
 
     /**
      * @var string
@@ -149,7 +149,7 @@ class Login extends BaseEntity {
      */
     private function setNewPassword($password, $hashVersion = null) {
         $this->createSalt();
-        $this->hashVersion = (null !== $hashVersion) ? $hashVersion : self::CURRENT_HASH_VERSION;
+        $this->hashVersion = $hashVersion ?? self::CURRENT_HASH_VERSION;
         $this->password = $this->getHash($password);
     }
 

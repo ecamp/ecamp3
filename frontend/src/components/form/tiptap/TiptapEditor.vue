@@ -81,9 +81,9 @@ export default {
         editable: this.editable
       }),
       regex: {
-        emptyParagraph: new RegExp('<p></p>'),
-        lineBreak1: new RegExp('<br>', 'g'),
-        lineBreak2: new RegExp('<br/>', 'g')
+        emptyParagraph: /<p><\/p>/,
+        lineBreak1: /<br>/g,
+        lineBreak2: /<br\/>/g
       },
       lastSelection: null
     }

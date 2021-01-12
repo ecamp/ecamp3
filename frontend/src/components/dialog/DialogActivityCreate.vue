@@ -9,7 +9,7 @@
     submit-icon="mdi-plus"
     submit-color="success"
     :cancel-action="cancelCreate">
-    <template v-slot:activator="scope">
+    <template #activator="scope">
       <slot name="activator" v-bind="scope" />
     </template>
 

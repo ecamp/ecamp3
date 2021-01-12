@@ -99,15 +99,6 @@ export default {
     HorizontalRule,
     AuthContainer
   },
-  data () {
-    return {
-      username: '',
-      password: '',
-      error: false,
-      normalLoggingIn: false,
-      showCredits: true
-    }
-  },
   beforeRouteEnter (to, from, next) {
     refreshLoginStatus(false).then(loggedIn => {
       if (loggedIn) {
@@ -116,6 +107,15 @@ export default {
         next()
       }
     })
+  },
+  data () {
+    return {
+      username: '',
+      password: '',
+      error: false,
+      normalLoggingIn: false,
+      showCredits: true
+    }
   },
   mounted () {
     this.$store.commit('setLanguage', this.$i18n.browserPreferredLocale)

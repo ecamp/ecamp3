@@ -6,7 +6,7 @@
     max-width="600px"
     :submit-action="update"
     :cancel-action="close">
-    <template v-slot:activator="scope">
+    <template #activator="scope">
       <slot name="activator" v-bind="scope" />
     </template>
 
