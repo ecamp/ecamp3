@@ -25,10 +25,10 @@ class Strategy extends ContentTypeStrategyBase {
     public function activityContentExtract(ActivityContent $activityContent): array {
         $this->multiSelectService->setEntityClass(MultiSelectItem::class);
         $this->multiSelectService->setCollectionClass(MultiSelectItemCollection::class);
-        $listItems = $this->multiSelectService->fetchAllByActivityContent($activityContent->getId());
+        $multiSelectItems = $this->multiSelectService->fetchAllByActivityContent($activityContent->getId());
 
         return [
-            'list' => $listItems,
+            'items' => $multiSelectItems,
         ];
     }
 

@@ -13,22 +13,20 @@ class MultiSelectItemHydrator implements HydratorInterface {
      * @return array
      */
     public function extract($object) {
-        /** @var MultiSelectItem $listItem */
-        $listItem = $object;
+        /** @var MultiSelectItem $multiSelectItem */
+        $multiSelectItem = $object;
 
         return [
-            'id' => $listItem->getId(),
-            'pos' => $listItem->getPos(),
-            'title' => $listItem->getTitle(),
-            'description' => $listItem->getDescription(),
-            'checked' => $listItem->getChecked(),
-            'translated' => $listItem->getTranslated(),
+            'id' => $multiSelectItem->getId(),
+            'pos' => $multiSelectItem->getPos(),
+            'key' => $multiSelectItem->getKey(),
+            'checked' => $multiSelectItem->getChecked(),
 
             'activityContent' => Link::factory([
                 'rel' => 'activityContent',
                 'route' => [
                     'name' => 'e-camp-api.rest.doctrine.activity-content',
-                    'params' => ['activityContentId' => $listItem->getActivityContent()->getId()],
+                    'params' => ['activityContentId' => $multiSelectItem->getActivityContent()->getId()],
                 ],
             ]),
         ];
@@ -40,29 +38,21 @@ class MultiSelectItemHydrator implements HydratorInterface {
      * @return object
      */
     public function hydrate(array $data, $object) {
-        /** @var MultiSelectItem $listItem */
-        $listItem = $object;
+        /** @var MultiSelectItem $multiSelectItem */
+        $multiSelectItem = $object;
 
         if (isset($data['pos'])) {
-            $listItem->setPos($data['pos']);
+            $multiSelectItem->setPos($data['pos']);
         }
 
-        if (isset($data['title'])) {
-            $listItem->setTitle($data['title']);
-        }
-
-        if (isset($data['description'])) {
-            $listItem->setDescription($data['description']);
-        }
-
-        if (isset($data['translated'])) {
-            $listItem->setTranslated($data['translated']);
+        if (isset($data['key'])) {
+            $multiSelectItem->setKey($data['key']);
         }
 
         if (isset($data['checked'])) {
-            $listItem->setChecked($data['checked']);
+            $multiSelectItem->setChecked($data['checked']);
         }
 
-        return $listItem;
+        return $multiSelectItem;
     }
 }

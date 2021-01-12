@@ -18,17 +18,7 @@ class MultiSelectItem extends BaseContentTypeEntity {
     /**
      * @ORM\Column(type="text", nullable=false)
      */
-    private string $title;
-
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
-    private string $description;
-
-    /**
-     * @ORM\Column(type="boolean", nullable=false)
-     */
-    private bool $translated;
+    private string $key;
 
     /**
      * @ORM\Column(type="boolean", nullable=false)
@@ -52,43 +42,15 @@ class MultiSelectItem extends BaseContentTypeEntity {
     /**
      * @return string
      */
-    public function getTitle() {
-        return $this->title;
+    public function getKey() {
+        return $this->key;
     }
 
     /**
-     * @param string $title
+     * @param string $key
      */
-    public function setTitle($title): void {
-        $this->title = $title;
-    }
-
-    /**
-     * @return string
-     */
-    public function getDescription() {
-        return $this->description;
-    }
-
-    /**
-     * @param string $description
-     */
-    public function setDescription($description): void {
-        $this->description = $description;
-    }
-
-    /**
-     * @return bool
-     */
-    public function getTranslated() {
-        return $this->translated;
-    }
-
-    /**
-     * @param bool $translated
-     */
-    public function setTranslated($translated): void {
-        $this->translated = $translated;
+    public function setKey($key): void {
+        $this->key = $key;
     }
 
     /**
