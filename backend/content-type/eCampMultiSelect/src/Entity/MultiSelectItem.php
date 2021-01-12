@@ -1,15 +1,15 @@
 <?php
 
-namespace eCamp\ContentType\SingleText\Entity;
+namespace eCamp\ContentType\MultiSelect\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use eCamp\Core\ContentType\BaseContentTypeEntity;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="content_type_textlist_item")
+ * @ORM\Table(name="content_type_multiselect_item")
  */
-class TextListItem extends BaseContentTypeEntity {
+class MultiSelectItem extends BaseContentTypeEntity {
     /**
      * @ORM\Column(type="integer", nullable=false)
      */

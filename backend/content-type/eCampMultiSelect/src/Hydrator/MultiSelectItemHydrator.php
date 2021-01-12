@@ -1,19 +1,19 @@
 <?php
 
-namespace eCamp\ContentType\TextList\Hydrator;
+namespace eCamp\ContentType\MultiSelect\Hydrator;
 
-use eCamp\ContentType\SingleText\Entity\TextListItem;
+use eCamp\ContentType\MultiSelect\Entity\MultiSelectItem;
 use Laminas\ApiTools\Hal\Link\Link;
 use Laminas\Hydrator\HydratorInterface;
 
-class TextListItemHydrator implements HydratorInterface {
+class MultiSelectItemHydrator implements HydratorInterface {
     /**
      * @param object $object
      *
      * @return array
      */
     public function extract($object) {
-        /** @var TextListItem $listItem */
+        /** @var MultiSelectItem $listItem */
         $listItem = $object;
 
         return [
@@ -40,7 +40,7 @@ class TextListItemHydrator implements HydratorInterface {
      * @return object
      */
     public function hydrate(array $data, $object) {
-        /** @var TextListItem $listItem */
+        /** @var MultiSelectItem $listItem */
         $listItem = $object;
 
         if (isset($data['pos'])) {

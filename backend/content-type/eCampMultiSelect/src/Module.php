@@ -1,8 +1,8 @@
 <?php
 
-namespace eCamp\ContentType\TextList;
+namespace eCamp\ContentType\MultiSelect;
 
-use eCamp\ContentType\SingleText\Entity\TextListItem;
+use eCamp\ContentType\MultiSelect\Entity\MultiSelectItem;
 use eCamp\Core\Acl\UserIsCollaborator;
 use eCamp\Core\ContentType\ConfigFactory;
 use eCamp\Core\Entity\CampCollaboration;
@@ -13,10 +13,10 @@ use Laminas\Permissions\Acl\AclInterface;
 
 class Module {
     public function getConfig() {
-        $config = ConfigFactory::createConfig('TextList', true, 'TextListItem');
+        $config = ConfigFactory::createConfig('MultiSelect', true, 'MultiSelectItem');
 
         array_push(
-            $config['api-tools-rest']['eCamp\\ContentType\\TextList\\Controller\\TextListItemController']['collection_http_methods'],
+            $config['api-tools-rest']['eCamp\\ContentType\\MultiSelect\\Controller\\MultiSelectItemController']['collection_http_methods'],
             'PATCH'
         );
 
@@ -27,16 +27,16 @@ class Module {
         /** @var Acl $acl */
         $acl = $e->getApplication()->getServiceManager()->get(AclInterface::class);
 
-        $acl->addResource(TextListItem::class);
+        $acl->addResource(MultiSelectItem::class);
 
         $acl->allow(
             User::ROLE_USER,
-            TextListItem::class,
+            MultiSelectItem::class,
             [Acl::REST_PRIVILEGE_FETCH_ALL]
         );
         $acl->allow(
             User::ROLE_USER,
-            TextListItem::class,
+            MultiSelectItem::class,
             [
                 Acl::REST_PRIVILEGE_CREATE,
                 Acl::REST_PRIVILEGE_FETCH,

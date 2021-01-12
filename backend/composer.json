@@ -58,7 +58,7 @@
             "eCamp\\ContentType\\SingleText\\": "content-type/eCampSingleText/src/",
             "eCamp\\ContentType\\Storyboard\\": "content-type/eCampStoryboard/src/",
             "eCamp\\ContentType\\Material\\": "content-type/eCampMaterial/src/",
-            "eCamp\\ContentType\\TextList\\": "content-type/eCampTextList/src/"
+            "eCamp\\ContentType\\MultiSelect\\": "content-type/eCampMultiSelect/src/"
         },
         "files": [
             "module/eCampApp.php"
