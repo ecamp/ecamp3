@@ -4,7 +4,6 @@ namespace eCamp\Core\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use eCamp\Lib\Entity\BaseEntity;
-use Laminas\Json\Json;
 
 /**
  * ActivityTypeContentType.
@@ -33,12 +32,6 @@ class ActivityTypeContentType extends BaseEntity {
      * @ORM\Column(type="integer", nullable=true)
      */
     private $defaultInstances = 0;
-
-    /**
-     * @var string
-     * @ORM\Column(type="string", nullable=true)
-     */
-    private $jsonConfig;
 
     public function __construct() {
         parent::__construct();
@@ -69,30 +62,5 @@ class ActivityTypeContentType extends BaseEntity {
 
     public function setDefaultInstances(int $defaultInstances): void {
         $this->defaultInstances = $defaultInstances;
-    }
-
-    public function getJsonConfig(): string {
-        return $this->jsonConfig;
-    }
-
-    public function setJsonConfig(string $jsonConfig): void {
-        $this->jsonConfig = $jsonConfig;
-    }
-
-    /**
-     * @param string $key
-     *
-     * @return mixed
-     */
-    public function getConfig($key = null) {
-        $config = null;
-        if (null != $this->jsonConfig) {
-            $config = Json::decode($this->jsonConfig);
-            if (null != $key) {
-                $config = $config->{$key};
-            }
-        }
-
-        return $config;
     }
 }
