@@ -38,7 +38,7 @@ class Strategy extends ContentTypeStrategyBase {
      */
     public function activityContentCreated(ActivityContent $activityContent): void {
         foreach ($activityContent->getContentType()->getJsonConfig()['items'] as $key => $configItem) {
-            $option = $this->optionService->createEntity(['pos' => $key, 'key' => $configItem], $activityContent);
+            $option = $this->optionService->createEntity(['pos' => $key, 'translateKey' => $configItem, 'checked' => false], $activityContent);
             $this->getServiceUtils()->emPersist($option);
         }
     }

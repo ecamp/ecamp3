@@ -83,10 +83,10 @@ class ContentTypeData extends AbstractFixture {
             $contentType->setStrategyClass(MultiSelectStrategy::class);
             $contentType->setJsonConfig([
                 'items' => [
-                    'outdoorTech',
+                    'outdoorTechnique',
                     'security',
                     'natureAndEnvironment',
-                    'pioneer',
+                    'pioneeringTechnique',
                     'campsiteAndSurroundings',
                     'preventionAndIntegration',
                 ],

@@ -18,10 +18,10 @@ class Option extends BaseContentTypeEntity {
     /**
      * @ORM\Column(type="text", nullable=false)
      */
-    private string $key;
+    private string $translateKey;
 
     /**
-     * @ORM\Column(type="boolean", nullable=false)
+     * @ORM\Column(type="boolean", nullable=true)
      */
     private bool $checked = false;
 
@@ -42,15 +42,15 @@ class Option extends BaseContentTypeEntity {
     /**
      * @return string
      */
-    public function getKey() {
-        return $this->key;
+    public function getTranslateKey() {
+        return $this->translateKey;
     }
 
     /**
-     * @param string $key
+     * @param string $translateKey
      */
-    public function setKey($key): void {
-        $this->key = $key;
+    public function setTranslateKey($translateKey): void {
+        $this->translateKey = $translateKey;
     }
 
     /**

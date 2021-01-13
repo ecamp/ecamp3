@@ -19,7 +19,7 @@ class OptionHydrator implements HydratorInterface {
         return [
             'id' => $option->getId(),
             'pos' => $option->getPos(),
-            'key' => $option->getKey(),
+            'translateKey' => $option->getTranslateKey(),
             'checked' => $option->getChecked(),
 
             'activityContent' => Link::factory([
@@ -45,8 +45,8 @@ class OptionHydrator implements HydratorInterface {
             $option->setPos($data['pos']);
         }
 
-        if (isset($data['key'])) {
-            $option->setKey($data['key']);
+        if (isset($data['translateKey'])) {
+            $option->setTranslateKey($data['translateKey']);
         }
 
         if (isset($data['checked'])) {
