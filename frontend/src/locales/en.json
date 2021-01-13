@@ -1,5 +1,38 @@
 {
   "activityContent": {
+    "laThematicArea": {
+      "add": "Add thematic area of camp activity",
+      "entity": {
+        "option": {
+          "campsiteAndSurroundings": {
+            "description": "Construction of a camp / surroundings, dismantling / setting up of a playground and fabrication of sports equipment.",
+            "name": "Campsite and Surroundings"
+          },
+          "natureAndEnvironment": {
+            "description": "Fauna and flora, environmental protection in the camp, meteorology and astronomy, transmission techniques, preparation and making a fire.",
+            "name": "Nature and Environment"
+          },
+          "outdoorTechnique": {
+            "description": "Planning a hike, map reading (e.g. NORDA checklist), croquis, use of instruments (e.g. compass, GPS receiver, altimeter, etc.), orientation in the terrain.",
+            "name": "Outdoor Technique"
+          },
+          "pioneeringTechnique": {
+            "description": "Setting up a bivouac, building an igloo, knowledge of materials and equipment, equipment maintenance, construction and dismantling of pioneer structures, ropes and knots, zip lines, rope bridges, abseiling.",
+            "name": "Pioneering Technique"
+          },
+          "preventionAndIntegration": {
+            "description": "Activities promoting prevention and integration or developing participants' skills in this area.",
+            "name": "Prevention and Integration"
+          },
+          "security": {
+            "description": "Safety during camp activities, measures to be taken in case of accident and alert, first aid, safety considerations.",
+            "name": "Security"
+          }
+        }
+      },
+      "icon": "mdi-shape",
+      "name": "CA thematic area"
+    },
     "notes": {
       "add": "Add notes",
       "icon": "mdi-pen",

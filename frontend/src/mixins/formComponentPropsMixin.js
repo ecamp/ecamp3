@@ -1,5 +1,10 @@
 export const formComponentPropsMixin = {
   props: {
+    id: {
+      type: String,
+      required: false,
+      default: null
+    },
 
     // vuetify property hideDetails
     filled: {
