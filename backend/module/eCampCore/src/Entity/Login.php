@@ -168,6 +168,7 @@ class Login extends BaseEntity {
         switch ($this->hashVersion) {
             case 1:
                 return $this->getHash_v1($password);
+
             default:
                 return $password;
         }
@@ -183,6 +184,7 @@ class Login extends BaseEntity {
         switch ($this->hashVersion) {
             case 1:
                 return $this->checkHash_v1($password, $hash);
+
             default:
                 return $password == $hash;
         }

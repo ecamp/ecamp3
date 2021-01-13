@@ -232,6 +232,7 @@ class CampCollaborationService extends AbstractEntityService {
                         $campCollaboration->setStatus(CampCollaboration::STATUS_LEFT);
 
                     break;
+
                     case CampCollaboration::STATUS_ESTABLISHED:
                         $campCollaboration->setStatus(CampCollaboration::STATUS_ESTABLISHED);
                         $this->createMaterialList($campCollaboration);
@@ -291,6 +292,7 @@ class CampCollaborationService extends AbstractEntityService {
                         $campCollaboration->setStatus(CampCollaboration::STATUS_LEFT);
 
                     break;
+
                     case CampCollaboration::STATUS_ESTABLISHED:
                         if (isset($data->role)) {
                             $campCollaboration->setRole($data->role);
