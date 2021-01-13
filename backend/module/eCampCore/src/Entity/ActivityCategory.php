@@ -141,12 +141,16 @@ class ActivityCategory extends BaseEntity implements BelongsToCampInterface {
         switch ($this->numberingStyle) {
             case 'a':
                 return strtolower($this->getAlphaNum($num));
+
             case 'A':
                 return strtoupper($this->getAlphaNum($num));
+
             case 'i':
                 return strtolower($this->getRomanNum($num));
+
             case 'I':
                 return strtoupper($this->getRomanNum($num));
+
             default:
                 return $num;
         }
