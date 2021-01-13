@@ -4,7 +4,6 @@ namespace eCamp\CoreTest\Entity;
 
 use eCamp\Core\Entity\Activity;
 use eCamp\Core\Entity\ActivityCategory;
-use eCamp\Core\Entity\ActivityType;
 use eCamp\Core\Entity\Camp;
 use eCamp\Core\Entity\Period;
 use eCamp\Core\Entity\ScheduleEntry;
@@ -16,10 +15,6 @@ use eCamp\LibTest\PHPUnit\AbstractTestCase;
  */
 class ScheduleEntryTest extends AbstractTestCase {
     public function testScheduleEntry() {
-        $activityType = new ActivityType();
-        $activityType->setDefaultColor('#1fa2df');
-        $activityType->setDefaultNumberingStyle('i');
-
         $camp = new Camp();
 
         $start = new DateUtc();
@@ -33,7 +28,8 @@ class ScheduleEntryTest extends AbstractTestCase {
         $period->setEnd($end);
 
         $activityCategory = new ActivityCategory();
-        $activityCategory->setActivityType($activityType);
+        $activityCategory->setColor('#1fa2df');
+        $activityCategory->setNumberingStyle('i');
 
         $activity = new Activity();
         $activity->setCamp($camp);

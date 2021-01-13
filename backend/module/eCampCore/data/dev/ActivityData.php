@@ -38,7 +38,6 @@ class ActivityData extends AbstractFixture implements DependentFixtureInterface,
             $activity->setCamp($camp);
             $activity->setTitle('Activity LS');
             $activity->setActivityCategory($activityCategoryLs);
-            $activity->createDefaultActivityContents($contentTypeStrategyProvider);
 
             $manager->persist($activity);
         }
@@ -50,7 +49,6 @@ class ActivityData extends AbstractFixture implements DependentFixtureInterface,
             $activity->setCamp($camp);
             $activity->setTitle('Activity LA');
             $activity->setActivityCategory($activityCategoryLa);
-            $activity->createDefaultActivityContents($contentTypeStrategyProvider);
 
             $manager->persist($activity);
         }
@@ -69,7 +67,6 @@ class ActivityData extends AbstractFixture implements DependentFixtureInterface,
             $activity->setCamp($camp);
             $activity->setTitle('Activity LS');
             $activity->setActivityCategory($activityCategoryLs);
-            $activity->createDefaultActivityContents($contentTypeStrategyProvider);
 
             $manager->persist($activity);
         }
@@ -81,7 +78,6 @@ class ActivityData extends AbstractFixture implements DependentFixtureInterface,
             $activity->setCamp($camp);
             $activity->setTitle('Activity LA');
             $activity->setActivityCategory($activityCategoryLa);
-            $activity->createDefaultActivityContents($contentTypeStrategyProvider);
 
             $manager->persist($activity);
         }

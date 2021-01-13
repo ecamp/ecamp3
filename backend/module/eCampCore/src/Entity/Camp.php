@@ -54,11 +54,9 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
     protected $materialLists;
 
     /**
-     * @var CampType
-     * @ORM\ManyToOne(targetEntity="CampType")
-     * @ORM\JoinColumn(nullable=false)
+     * @var string
      */
-    private $campType;
+    private $campTemplateId;
 
     /**
      * @var string
@@ -101,26 +99,6 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
         $this->activityCategories = new ArrayCollection();
         $this->activities = new ArrayCollection();
         $this->materialLists = new ArrayCollection();
-    }
-
-    /**
-     * @return CampType
-     */
-    public function getCampType() {
-        return $this->campType;
-    }
-
-    public function setCampType(CampType $campType) {
-        $this->campType = $campType;
-    }
-
-    /**
-     * @param null $key
-     *
-     * @return object
-     */
-    public function getConfig($key = null) {
-        return (null !== $this->campType) ? $this->campType->getConfig($key) : null;
     }
 
     /**

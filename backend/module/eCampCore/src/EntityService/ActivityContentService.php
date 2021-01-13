@@ -51,6 +51,7 @@ class ActivityContentService extends AbstractEntityService {
         /** @var ActivityTypeContentType $activityTypeContentType */
         $activityTypeContentType = $this->findEntity(ActivityTypeContentType::class, $data->activityTypeContentTypeId); // POSSIBLE ALTERNATIVE: accept contentTypeId instead of activityTypeContentTypeId
 
+        // TODO
         // verify ActivityTypeContentType matches ActivityType of activity
         if ($activity->getActivityType() !== $activityTypeContentType->getActivityType()) {
             throw new \Error("ActivityType of Activity and ActivityTypeContentType don't match");

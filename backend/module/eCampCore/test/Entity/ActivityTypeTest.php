@@ -2,12 +2,9 @@
 
 namespace eCamp\CoreTest\Entity;
 
-use eCamp\Core\Entity\Activity;
-use eCamp\Core\Entity\ActivityCategory;
 use eCamp\Core\Entity\ActivityType;
 use eCamp\Core\Entity\ActivityTypeContentType;
 use eCamp\Core\Entity\ActivityTypeFactory;
-use eCamp\Core\Entity\ContentType;
 use eCamp\LibTest\PHPUnit\AbstractTestCase;
 
 /**
@@ -49,30 +46,5 @@ class ActivityTypeTest extends AbstractTestCase {
         $this->assertContains($activityTypeContentType, $activityType->getActivityTypeContentTypes());
         $activityType->removeActivityTypeContentType($activityTypeContentType);
         $this->assertEquals(0, $activityType->getActivityTypeContentTypes()->count());
-    }
-
-    public function testCreateActivityContents() {
-        $contentType = new ContentType();
-        $contentType->setName('test');
-
-        $activityType = new ActivityType();
-        $activityType->setName('ActivityType Name');
-        $activityType->setDefaultColor('#FF00FF');
-        $activityType->setDefaultNumberingStyle('i');
-
-        $activityTypeContentType = new ActivityTypeContentType();
-        $activityTypeContentType->setContentType($contentType);
-        $activityTypeContentType->setDefaultInstances(2);
-        $activityType->addActivityTypeContentType($activityTypeContentType);
-
-        $activityCategory = new ActivityCategory();
-        $activityCategory->setActivityType($activityType);
-
-        $activity = new Activity();
-        $activity->setActivityCategory($activityCategory);
-
-        $activity->createDefaultActivityContents();
-
-        $this->assertCount(2, $activity->getActivityContents());
     }
 }

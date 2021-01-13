@@ -3,7 +3,6 @@
 namespace eCamp\CoreTest\Entity;
 
 use eCamp\Core\Entity\ActivityCategory;
-use eCamp\Core\Entity\ActivityType;
 use eCamp\Core\Entity\Camp;
 use eCamp\LibTest\PHPUnit\AbstractTestCase;
 
@@ -14,17 +13,13 @@ class ActivityCategoryTest extends AbstractTestCase {
     public function testActivityCategory() {
         $camp = new Camp();
 
-        $activityType = new ActivityType();
-        $activityType->setDefaultColor('#1fa2df');
-        $activityType->setDefaultNumberingStyle('i');
-
         $activityCategory = new ActivityCategory();
-        $activityCategory->setActivityType($activityType);
         $activityCategory->setCamp($camp);
         $activityCategory->setName('TestCategory');
         $activityCategory->setShort('TC');
+        $activityCategory->setColor('#1fa2df');
+        $activityCategory->setNumberingStyle('i');
 
-        $this->assertEquals($activityType, $activityCategory->getActivityType());
         $this->assertEquals($camp, $activityCategory->getCamp());
         $this->assertEquals('TestCategory', $activityCategory->getName());
         $this->assertEquals('TC', $activityCategory->getShort());

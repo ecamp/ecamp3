@@ -19,11 +19,9 @@ class ActivityCategory extends BaseEntity implements BelongsToCampInterface {
     private $camp;
 
     /**
-     * @var ActivityType
-     * @ORM\ManyToOne(targetEntity="ActivityType")
-     * @ORM\JoinColumn(nullable=false)
+     * @var string
      */
-    private $activityType;
+    private $activityCategoryTemplateId;
 
     /**
      * @var string
@@ -70,24 +68,6 @@ class ActivityCategory extends BaseEntity implements BelongsToCampInterface {
     }
 
     /**
-     * @return ActivityType
-     */
-    public function getActivityType() {
-        return $this->activityType;
-    }
-
-    public function setActivityType(ActivityType $activityType) {
-        $this->activityType = $activityType;
-
-        if (null == $this->getColor()) {
-            $this->setColor($activityType->getDefaultColor());
-        }
-        if (null == $this->getNumberingStyle()) {
-            $this->setNumberingStyle($activityType->getDefaultNumberingStyle());
-        }
-    }
-
-    /**
      * @return string
      */
     public function getShort() {
@@ -113,12 +93,7 @@ class ActivityCategory extends BaseEntity implements BelongsToCampInterface {
      * @return string
      */
     public function getColor() {
-        if (null !== $this->color) {
-            return $this->color;
-        }
-        $activityType = $this->getActivityType();
-
-        return null !== $activityType ? $activityType->getDefaultColor() : null;
+        return $this->color;
     }
 
     public function setColor($color) {
@@ -140,16 +115,12 @@ class ActivityCategory extends BaseEntity implements BelongsToCampInterface {
         switch ($this->numberingStyle) {
             case 'a':
                 return strtolower($this->getAlphaNum($num));
-
             case 'A':
                 return strtoupper($this->getAlphaNum($num));
-
             case 'i':
                 return strtolower($this->getRomanNum($num));
-
             case 'I':
                 return strtoupper($this->getRomanNum($num));
-
             default:
                 return $num;
         }
