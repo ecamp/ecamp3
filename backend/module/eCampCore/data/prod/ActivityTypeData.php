@@ -58,6 +58,7 @@ class ActivityTypeData extends AbstractFixture implements DependentFixtureInterf
             $this->addContentType($activityType, $this->getReference(ContentTypeData::$STORYCONTEXT));
             $this->addContentType($activityType, $this->getReference(ContentTypeData::$NOTES));
             $this->addContentType($activityType, $this->getReference(ContentTypeData::$MATERIAL));
+            $this->addContentType($activityType, $this->getReference(ContentTypeData::$LATHEMATICAREA));
 
             $activityTypeFactory = new ActivityTypeFactory();
             $activityTypeFactory->setName('TABS');
