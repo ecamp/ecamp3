@@ -7,9 +7,9 @@ use eCamp\Core\ContentType\BaseContentTypeEntity;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="content_type_multiselect_item")
+ * @ORM\Table(name="content_type_multiselect_option")
  */
-class MultiSelectItem extends BaseContentTypeEntity {
+class Option extends BaseContentTypeEntity {
     /**
      * @ORM\Column(type="integer", nullable=false)
      */
@@ -23,7 +23,7 @@ class MultiSelectItem extends BaseContentTypeEntity {
     /**
      * @ORM\Column(type="boolean", nullable=false)
      */
-    private bool $checked;
+    private bool $checked = false;
 
     /**
      * @return int
