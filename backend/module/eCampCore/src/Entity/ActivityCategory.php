@@ -2,6 +2,7 @@
 
 namespace eCamp\Core\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use eCamp\Lib\Entity\BaseEntity;
 
@@ -11,6 +12,12 @@ use eCamp\Lib\Entity\BaseEntity;
  * @ORM\Entity
  */
 class ActivityCategory extends BaseEntity implements BelongsToCampInterface {
+    /**
+     * @var ArrayCollection
+     * @ORM\OneToMany(targetEntity="ContentTypeConfig", mappedBy="activityCategory", orphanRemoval=true)
+     */
+    protected $contentTypeConfigs;
+
     /**
      * @var Camp
      * @ORM\ManyToOne(targetEntity="Camp")
@@ -49,6 +56,8 @@ class ActivityCategory extends BaseEntity implements BelongsToCampInterface {
 
     public function __construct() {
         parent::__construct();
+
+        $this->contentTypeConfigs = new ArrayCollection();
     }
 
     /**
@@ -65,6 +74,23 @@ class ActivityCategory extends BaseEntity implements BelongsToCampInterface {
      */
     public function setCamp($camp) {
         $this->camp = $camp;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getContentTypeConfigs() {
+        return $this->contentTypeConfigs;
+    }
+
+    public function addContentTypeConfig(ContentTypeConfig $contentTypeConfig) {
+        $contentTypeConfig->setActivityCategory($this);
+        $this->contentTypeConfigs->add($contentTypeConfig);
+    }
+
+    public function removeContentTypeConfig(ContentTypeConfig $contentTypeConfig) {
+        $contentTypeConfig->setActivityCategory(null);
+        $this->contentTypeConfigs->removeElement($contentTypeConfig);
     }
 
     /**
