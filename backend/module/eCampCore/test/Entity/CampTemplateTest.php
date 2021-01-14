@@ -21,10 +21,10 @@ class CampTemplateTest extends AbstractTestCase {
         $campTemplate = new CampTemplate();
         $activityCategoryTemplate = new ActivityCategoryTemplate();
 
-        $this->assertCount(0, $campTemplate->getActivityCategoryTemplate());
+        $this->assertCount(0, $campTemplate->getActivityCategoryTemplates());
         $campTemplate->addActivityCategoryTemplate($activityCategoryTemplate);
-        $this->assertContains($activityCategoryTemplate, $campTemplate->getActivityCategoryTemplate());
+        $this->assertContains($activityCategoryTemplate, $campTemplate->getActivityCategoryTemplates());
         $campTemplate->removeActivityCategoryTemplate($activityCategoryTemplate);
-        $this->assertCount(0, $campTemplate->getActivityCategoryTemplate());
+        $this->assertCount(0, $campTemplate->getActivityCategoryTemplates());
     }
 }

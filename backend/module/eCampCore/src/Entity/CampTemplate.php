@@ -22,12 +22,19 @@ class CampTemplate extends BaseEntity {
      * @var ArrayCollection
      * @ORM\OneToMany(targetEntity="ActivityCategoryTemplate", mappedBy="campTemplate", orphanRemoval=true)
      */
-    private $activityCategoryTemplate;
+    private $activityCategoryTemplates;
+
+    /**
+     * @var ArrayCollection
+     * @ORM\OneToMany(targetEntity="MaterialListTemplate", mappedBy="campTemplate", orphanRemoval=true)
+     */
+    private $materialListTemplates;
 
     public function __construct() {
         parent::__construct();
 
-        $this->activityCategoryTemplate = new ArrayCollection();
+        $this->activityCategoryTemplates = new ArrayCollection();
+        $this->materialListTemplates = new ArrayCollection();
     }
 
     /**
@@ -44,17 +51,34 @@ class CampTemplate extends BaseEntity {
     /**
      * @return ArrayCollection
      */
-    public function getActivityCategoryTemplate() {
-        return $this->activityCategoryTemplate;
+    public function getActivityCategoryTemplates() {
+        return $this->activityCategoryTemplates;
     }
 
     public function addActivityCategoryTemplate(ActivityCategoryTemplate $activityCategoryTemplate) {
         $activityCategoryTemplate->setCampTemplate($this);
-        $this->activityCategoryTemplate->add($activityCategoryTemplate);
+        $this->activityCategoryTemplates->add($activityCategoryTemplate);
     }
 
     public function removeActivityCategoryTemplate(ActivityCategoryTemplate $activityCategoryTemplate) {
         $activityCategoryTemplate->setCampTemplate(null);
-        $this->activityCategoryTemplate->removeElement($activityCategoryTemplate);
+        $this->activityCategoryTemplates->removeElement($activityCategoryTemplate);
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getMaterialListTemplates() {
+        return $this->materialListTemplates;
+    }
+
+    public function addMaterialListTemplate(MaterialListTemplate $materialListTemplate) {
+        $materialListTemplate->setCampTemplate($this);
+        $this->materialListTemplates->add($materialListTemplate);
+    }
+
+    public function removeMaterialListTemplate(MaterialListTemplate $materialListTemplate) {
+        $materialListTemplate->setCampTemplate(null);
+        $this->materialListTemplates->removeElement($materialListTemplate);
     }
 }

@@ -18,6 +18,7 @@ use eCamp\Core\Entity\Group;
 use eCamp\Core\Entity\GroupMembership;
 use eCamp\Core\Entity\MaterialItem;
 use eCamp\Core\Entity\MaterialList;
+use eCamp\Core\Entity\MaterialListTemplate;
 use eCamp\Core\Entity\Organization;
 use eCamp\Core\Entity\Period;
 use eCamp\Core\Entity\ScheduleEntry;
@@ -52,6 +53,7 @@ class AclFactory implements FactoryInterface {
         $acl->addResource(GroupMembership::class, BaseEntity::class);
 
         $acl->addResource(CampTemplate::class, BaseEntity::class);
+        $acl->addResource(MaterialListTemplate::class, BaseEntity::class);
         $acl->addResource(ActivityCategoryTemplate::class, BaseEntity::class);
         $acl->addResource(ContentTypeConfigTemplate::class, BaseEntity::class);
         $acl->addResource(ContentType::class, BaseEntity::class);
@@ -84,6 +86,7 @@ class AclFactory implements FactoryInterface {
                 Organization::class,
                 Group::class,
                 CampTemplate::class,
+                MaterialListTemplate::class,
                 ActivityCategoryTemplate::class,
                 ContentTypeConfigTemplate::class,
                 ContentType::class,

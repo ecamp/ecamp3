@@ -25,7 +25,7 @@ class CampTemplateHydrator implements HydratorInterface {
             'id' => $campTemplate->getId(),
             'name' => $campTemplate->getName(),
 
-            'activityCategoryTemplates' => new EntityLinkCollection($campTemplate->getActivityCategoryTemplate()),
+            'activityCategoryTemplates' => new EntityLinkCollection($campTemplate->getActivityCategoryTemplates()),
         ];
     }
 
