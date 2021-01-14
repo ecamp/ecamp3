@@ -2,7 +2,7 @@
 
 use eCampApi\ConfigFactory;
 
-$entity = 'CampType';
+$entity = 'CampTemplate';
 $config = ConfigFactory::createConfig($entity);
 
 // read-only endpoint
@@ -10,13 +10,13 @@ $config['api-tools-rest']["eCampApi\\V1\\Rest\\{$entity}\\Controller"]['entity_h
 $config['api-tools-rest']["eCampApi\\V1\\Rest\\{$entity}\\Controller"]['collection_http_methods'] = ['GET'];
 
 $config['api-tools-content-validation'] = [
-    'eCampApi\\V1\\Rest\\CampType\\Controller' => [
-        'input_filter' => 'eCampApi\\V1\\Rest\\CampType\\Validator',
+    'eCampApi\\V1\\Rest\\CampTemplate\\Controller' => [
+        'input_filter' => 'eCampApi\\V1\\Rest\\CampTemplate\\Validator',
     ],
 ];
 
 $config['input_filter_specs'] = [
-    'eCampApi\\V1\\Rest\\CampType\\Validator' => [
+    'eCampApi\\V1\\Rest\\CampTemplate\\Validator' => [
         0 => [
             'name' => 'name',
             'required' => true,
@@ -37,24 +37,6 @@ $config['input_filter_specs'] = [
                     ],
                 ],
             ],
-        ],
-        1 => [
-            'name' => 'isJS',
-            'required' => true,
-            'filters' => [],
-            'validators' => [],
-        ],
-        2 => [
-            'name' => 'isCourse',
-            'required' => true,
-            'filters' => [],
-            'validators' => [],
-        ],
-        3 => [
-            'name' => 'jsonConfig',
-            'required' => false,
-            'filters' => [],
-            'validators' => [],
         ],
     ],
 ];

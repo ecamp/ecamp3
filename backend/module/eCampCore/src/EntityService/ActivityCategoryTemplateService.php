@@ -2,17 +2,17 @@
 
 namespace eCamp\Core\EntityService;
 
-use eCamp\Core\Entity\ActivityType;
-use eCamp\Core\Hydrator\ActivityTypeHydrator;
+use eCamp\Core\Entity\ActivityCategoryTemplate;
+use eCamp\Core\Hydrator\ActivityCategoryTemplateHydrator;
 use eCamp\Lib\Service\ServiceUtils;
 use Laminas\Authentication\AuthenticationService;
 
-class ActivityTypeService extends AbstractEntityService {
+class ActivityCategoryTemplateService extends AbstractEntityService {
     public function __construct(ServiceUtils $serviceUtils, AuthenticationService $authenticationService) {
         parent::__construct(
             $serviceUtils,
-            ActivityType::class,
-            ActivityTypeHydrator::class,
+            ActivityCategoryTemplate::class,
+            ActivityCategoryTemplateHydrator::class,
             $authenticationService
         );
     }
@@ -20,9 +20,9 @@ class ActivityTypeService extends AbstractEntityService {
     protected function fetchAllQueryBuilder($params = []) {
         $q = parent::fetchAllQueryBuilder($params);
 
-        if (isset($params['campTypeId'])) {
-            $q->andWhere(':campTypeId MEMBER OF row.campTypes');
-            $q->setParameter('campTypeId', $params['campTypeId']);
+        if (isset($params['campTemplateId'])) {
+            $q->andWhere('row.campTemplate = :campTemplateId');
+            $q->setParameter('campTemplateId', $params['campTemplateId']);
         }
 
         return $q;

@@ -3,13 +3,11 @@
 namespace eCamp\Core\Hydrator;
 
 use eCamp\Core\Entity\Organization;
-use eCamp\Lib\Entity\EntityLinkCollection;
 use Laminas\Hydrator\HydratorInterface;
 
 class OrganizationHydrator implements HydratorInterface {
     public static function HydrateInfo() {
-        return [
-        ];
+        return [];
     }
 
     /**
@@ -24,8 +22,6 @@ class OrganizationHydrator implements HydratorInterface {
         return [
             'id' => $organization->getId(),
             'name' => $organization->getName(),
-
-            'campTypes' => new EntityLinkCollection($organization->getCampTypes()),
         ];
     }
 

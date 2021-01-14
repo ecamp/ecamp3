@@ -2,7 +2,7 @@
 
 use eCampApi\ConfigFactory;
 
-$entity = 'ActivityType';
+$entity = 'ActivityCategoryTemplate';
 $config = ConfigFactory::createConfig($entity);
 
 // read-only endpoint
@@ -10,18 +10,18 @@ $config['api-tools-rest']["eCampApi\\V1\\Rest\\{$entity}\\Controller"]['entity_h
 $config['api-tools-rest']["eCampApi\\V1\\Rest\\{$entity}\\Controller"]['collection_http_methods'] = ['GET'];
 
 array_push(
-    $config['api-tools-rest']['eCampApi\\V1\\Rest\\ActivityType\\Controller']['collection_query_whitelist'],
+    $config['api-tools-rest']['eCampApi\\V1\\Rest\\ActivityCategoryTemplate\\Controller']['collection_query_whitelist'],
     'campTypeId'
 );
 
 $config['api-tools-content-validation'] = [
-    'eCampApi\\V1\\Rest\\ActivityType\\Controller' => [
-        'input_filter' => 'eCampApi\\V1\\Rest\\ActivityType\\Validator',
+    'eCampApi\\V1\\Rest\\ActivityCategoryTemplate\\Controller' => [
+        'input_filter' => 'eCampApi\\V1\\Rest\\ActivityCategoryTemplate\\Validator',
     ],
 ];
 
 $config['input_filter_specs'] = [
-    'eCampApi\\V1\\Rest\\ActivityType\\Validator' => [
+    'eCampApi\\V1\\Rest\\ActivityCategoryTemplate\\Validator' => [
         0 => [
             'name' => 'name',
             'required' => true,
@@ -44,7 +44,7 @@ $config['input_filter_specs'] = [
             ],
         ],
         1 => [
-            'name' => 'defaultColor',
+            'name' => 'color',
             'required' => true,
             'filters' => [
                 0 => [
@@ -65,7 +65,7 @@ $config['input_filter_specs'] = [
             ],
         ],
         2 => [
-            'name' => 'defaultNumberingStyle',
+            'name' => 'numberingStyle',
             'required' => true,
             'filters' => [
                 0 => [
