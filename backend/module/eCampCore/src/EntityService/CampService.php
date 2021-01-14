@@ -6,7 +6,6 @@ use Doctrine\ORM\ORMException;
 use eCamp\Core\Entity\AbstractCampOwner;
 use eCamp\Core\Entity\Camp;
 use eCamp\Core\Entity\CampCollaboration;
-use eCamp\Core\Entity\CampType;
 use eCamp\Core\Entity\User;
 use eCamp\Core\Hydrator\CampHydrator;
 use eCamp\Lib\Acl\NoAccessException;
@@ -96,23 +95,10 @@ class CampService extends AbstractEntityService {
             'role' => CampCollaboration::ROLE_MANAGER,
         ]);
 
-        // Create default Jobs
-        /*
-        $jobConfigs = $campType->getConfig(CampType::CNF_JOBS) ?: [];
-        foreach ($jobConfigs as $jobConfig) {
-            $jobConfig->campId = $camp->getId();
-            $this->getJobService()->create($jobConfig);
-        }
-        */
-
-        // TODO
-        // Create ActivityCategory from ActivityCategoryTemplate
-        // Create default ActivityCategories
-        // $acConfigs = $campType->getConfig(CampType::CNF_ACTIVITY_CATEGORIES) ?: [];
-        // foreach ($acConfigs as $acConfig) {
-        //     $acConfig->campId = $camp->getId();
-        //     $this->activityCategoryService->create($acConfig);
-        // }
+        // TODO:
+        // - Load CampTemplate
+        // - Create MaterialLists
+        // - Create ActivityCategories + ContentTypeConfigs
 
         // Create Periods:
         if (isset($data->periods)) {
