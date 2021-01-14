@@ -3,6 +3,7 @@
 namespace eCamp\CoreTest\Entity;
 
 use eCamp\Core\Entity\ActivityCategoryTemplate;
+use eCamp\Core\Entity\CampTemplate;
 use eCamp\Core\Entity\ContentTypeConfigTemplate;
 use eCamp\LibTest\PHPUnit\AbstractTestCase;
 
@@ -11,18 +12,21 @@ use eCamp\LibTest\PHPUnit\AbstractTestCase;
  */
 class ActivityCategoryTemplateTest extends AbstractTestCase {
     public function testActivityTemplate() {
+        $campTemplate = new CampTemplate();
         $activityCategoryTemplate = new ActivityCategoryTemplate();
         $activityCategoryTemplate->setName('ActivityType Name');
         $activityCategoryTemplate->setColor('#FF00FF');
         $activityCategoryTemplate->setNumberingStyle('i');
+        $campTemplate->addActivityCategoryTemplate($activityCategoryTemplate);
 
+        $this->assertEquals($campTemplate, $activityCategoryTemplate->getCampTemplate());
         $this->assertEquals('ActivityType Name', $activityCategoryTemplate->getName());
         $this->assertEquals('#FF00FF', $activityCategoryTemplate->getColor());
         $this->assertEquals('i', $activityCategoryTemplate->getNumberingStyle());
         $this->assertInstanceOf('Doctrine\Common\Collections\ArrayCollection', $activityCategoryTemplate->getContentTypeConfigTemplates());
     }
 
-    public function testActivityTypeContentType() {
+    public function testContentTypeConfigTemplate() {
         $activityCategoryTemplate = new ActivityCategoryTemplate();
         $contentTypeConfigTemplate = new ContentTypeConfigTemplate();
 
