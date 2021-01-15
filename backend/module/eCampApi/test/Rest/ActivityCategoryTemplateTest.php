@@ -74,13 +74,13 @@ JSON;
 
     public function testFetchAll() {
         $campTemplateId = $this->campTemplate->getId();
-        $this->dispatch("{$this->apiEndpoint}?page_size=10&campTypeId={$campTemplateId}", 'GET');
+        $this->dispatch("{$this->apiEndpoint}?page_size=10&campTemplateId={$campTemplateId}", 'GET');
 
         $this->assertResponseStatusCode(200);
 
         $this->assertEquals(1, $this->getResponseContent()->total_items);
         $this->assertEquals(10, $this->getResponseContent()->page_size);
-        $this->assertEquals("http://{$this->host}{$this->apiEndpoint}?page_size=10&campTypeId={$campTemplateId}&page=1", $this->getResponseContent()->_links->self->href);
+        $this->assertEquals("http://{$this->host}{$this->apiEndpoint}?page_size=10&campTemplateId={$campTemplateId}&page=1", $this->getResponseContent()->_links->self->href);
         $this->assertEquals($this->activityCategoryTemplate->getId(), $this->getResponseContent()->_embedded->items[0]->id);
     }
 

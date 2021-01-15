@@ -11,7 +11,7 @@ $config['api-tools-rest']["eCampApi\\V1\\Rest\\{$entity}\\Controller"]['collecti
 
 array_push(
     $config['api-tools-rest']['eCampApi\\V1\\Rest\\ActivityCategoryTemplate\\Controller']['collection_query_whitelist'],
-    'campTypeId'
+    'campTemplateId'
 );
 
 $config['api-tools-content-validation'] = [

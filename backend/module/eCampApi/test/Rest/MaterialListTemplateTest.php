@@ -4,6 +4,7 @@ namespace eCamp\ApiTest\Rest;
 
 use Doctrine\Common\DataFixtures\Loader;
 use eCamp\Core\Entity\MaterialListTemplate;
+use eCamp\CoreTest\Data\CampTemplateTestData;
 use eCamp\CoreTest\Data\MaterialListTemplateTestData;
 use eCamp\CoreTest\Data\UserTestData;
 use eCamp\LibTest\PHPUnit\AbstractApiControllerTestCase;
@@ -15,6 +16,9 @@ class MaterialListTemplateTest extends AbstractApiControllerTestCase {
     /** @var MaterialListTemplate */
     protected $materialListTemplate;
 
+    /** @var CampTemplate */
+    protected $campTemplate;
+
     /** @var User */
     protected $user;
 
@@ -24,14 +28,17 @@ class MaterialListTemplateTest extends AbstractApiControllerTestCase {
         parent::setUp();
 
         $userLoader = new UserTestData();
+        $campTemplateLoader = new CampTemplateTestData();
         $materialListTemplateLoader = new MaterialListTemplateTestData();
 
         $loader = new Loader();
         $loader->addFixture($userLoader);
+        $loader->addFixture($campTemplateLoader);
         $loader->addFixture($materialListTemplateLoader);
         $this->loadFixtures($loader);
 
         $this->user = $userLoader->getReference(UserTestData::$USER1);
+        $this->campTemplate = $campTemplateLoader->getReference(CampTemplateTestData::$TYPE1);
         $this->materialListTemplate = $materialListTemplateLoader->getReference(MaterialListTemplateTestData::$MATERIALLISTTEMPLATE1);
 
         $this->authenticateUser($this->user);
@@ -59,6 +66,18 @@ JSON;
         $expectedEmbeddedObjects = [];
 
         $this->verifyHalResourceResponse($expectedBody, $expectedLinks, $expectedEmbeddedObjects);
+    }
+
+    public function testFetchAll() {
+        $campTemplateId = $this->campTemplate->getId();
+        $this->dispatch("{$this->apiEndpoint}?page_size=10&campTemplateId={$campTemplateId}", 'GET');
+
+        $this->assertResponseStatusCode(200);
+
+        $this->assertEquals(1, $this->getResponseContent()->total_items);
+        $this->assertEquals(10, $this->getResponseContent()->page_size);
+        $this->assertEquals("http://{$this->host}{$this->apiEndpoint}?page_size=10&campTemplateId={$campTemplateId}&page=1", $this->getResponseContent()->_links->self->href);
+        $this->assertEquals($this->materialListTemplate->getId(), $this->getResponseContent()->_embedded->items[0]->id);
     }
 
     public function testCreateForbidden() {
