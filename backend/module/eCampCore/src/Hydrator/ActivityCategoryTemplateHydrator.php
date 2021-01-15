@@ -23,6 +23,7 @@ class ActivityCategoryTemplateHydrator implements HydratorInterface {
 
         return [
             'id' => $activityCategoryTemplate->getId(),
+            'short' => $activityCategoryTemplate->getShort(),
             'name' => $activityCategoryTemplate->getName(),
             'color' => $activityCategoryTemplate->getColor(),
             'numberingStyle' => $activityCategoryTemplate->getNumberingStyle(),
@@ -39,6 +40,9 @@ class ActivityCategoryTemplateHydrator implements HydratorInterface {
         /** @var ActivityCategoryTemplate $activityCategoryTemplate */
         $activityCategoryTemplate = $object;
 
+        if (isset($data['short'])) {
+            $activityCategoryTemplate->setShort($data['short']);
+        }
         if (isset($data['name'])) {
             $activityCategoryTemplate->setName($data['name']);
         }

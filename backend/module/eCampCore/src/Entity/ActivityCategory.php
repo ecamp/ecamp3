@@ -27,6 +27,7 @@ class ActivityCategory extends BaseEntity implements BelongsToCampInterface {
 
     /**
      * @var string
+     * @ORM\Column(type="string", length=32, nullable=true)
      */
     private $activityCategoryTemplateId;
 
@@ -91,6 +92,17 @@ class ActivityCategory extends BaseEntity implements BelongsToCampInterface {
     public function removeContentTypeConfig(ContentTypeConfig $contentTypeConfig) {
         $contentTypeConfig->setActivityCategory(null);
         $this->contentTypeConfigs->removeElement($contentTypeConfig);
+    }
+
+    /**
+     * @return string
+     */
+    public function getActivityCategoryTemplateId() {
+        return $this->activityCategoryTemplateId;
+    }
+
+    public function setActivityCategoryTemplateId(string $activityCategoryTemplateId) {
+        $this->activityCategoryTemplateId = $activityCategoryTemplateId;
     }
 
     /**

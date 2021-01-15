@@ -54,6 +54,7 @@ class ActivityCategoryTemplateTest extends AbstractApiControllerTestCase {
         $expectedBody = <<<JSON
             {
                 "id": "{$this->activityCategoryTemplate->getId()}",
+                "short": "AT",
                 "name": "ActivityType1",
                 "color": "#FF00FF",
                 "numberingStyle": "i"

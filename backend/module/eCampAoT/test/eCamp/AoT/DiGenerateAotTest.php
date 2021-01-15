@@ -31,5 +31,9 @@ class DiGenerateAotTest extends AbstractTestCase {
         $this->assertDirectoryExists(self::GEN_DIRECTORY);
         $this->assertDirectoryExists(self::GEN_DIRECTORY.'/Factory/eCamp');
         $this->assertDirectoryExists(self::GEN_DIRECTORY.'/Factory/eCampApi');
+
+        // Recreate empty folder
+        (new Filesystem())->remove(self::GEN_DIRECTORY);
+        (new Filesystem())->mkdir(self::GEN_DIRECTORY);
     }
 }

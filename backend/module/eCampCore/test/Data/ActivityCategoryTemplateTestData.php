@@ -14,6 +14,7 @@ class ActivityCategoryTemplateTestData extends AbstractFixture implements Depend
         $campTemplate = $this->getReference(CampTemplateTestData::$TYPE1);
 
         $activityCategoryTemplate = new ActivityCategoryTemplate();
+        $activityCategoryTemplate->setShort('AT');
         $activityCategoryTemplate->setName('ActivityType1');
         $activityCategoryTemplate->setColor('#FF00FF');
         $activityCategoryTemplate->setNumberingStyle('i');

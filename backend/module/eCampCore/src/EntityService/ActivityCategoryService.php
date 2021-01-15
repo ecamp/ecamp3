@@ -4,7 +4,9 @@ namespace eCamp\Core\EntityService;
 
 use Doctrine\ORM\ORMException;
 use eCamp\Core\Entity\ActivityCategory;
+use eCamp\Core\Entity\ActivityCategoryTemplate;
 use eCamp\Core\Entity\Camp;
+use eCamp\Core\Entity\ContentTypeConfigTemplate;
 use eCamp\Core\Hydrator\ActivityCategoryHydrator;
 use eCamp\Lib\Acl\NoAccessException;
 use eCamp\Lib\Service\EntityNotFoundException;
@@ -12,13 +14,41 @@ use eCamp\Lib\Service\ServiceUtils;
 use Laminas\Authentication\AuthenticationService;
 
 class ActivityCategoryService extends AbstractEntityService {
-    public function __construct(ServiceUtils $serviceUtils, AuthenticationService $authenticationService) {
+    /** @var ContentTypeConfigService */
+    protected $contentTypeConfigService;
+
+    public function __construct(
+        ServiceUtils $serviceUtils,
+        AuthenticationService $authenticationService,
+        ContentTypeConfigService $contentTypeConfigService
+    ) {
         parent::__construct(
             $serviceUtils,
             ActivityCategory::class,
             ActivityCategoryHydrator::class,
             $authenticationService
         );
+
+        $this->contentTypeConfigService = $contentTypeConfigService;
+    }
+
+    public function createFromTemplate(Camp $camp, ActivityCategoryTemplate $template) {
+        /** @var ActivityCategory $activityCategory */
+        $activityCategory = $this->create((object) [
+            'campId' => $camp->getId(),
+            'short' => $template->getShort(),
+            'name' => $template->getName(),
+            'color' => $template->getColor(),
+            'numberingStyle' => $template->getNumberingStyle(),
+        ]);
+        $activityCategory->setActivityCategoryTemplateId($template->getId());
+
+        /** @var ContentTypeConfigTemplate $contentTypeConfigTemplate */
+        foreach ($template->getContentTypeConfigTemplates() as $contentTypeConfigTemplate) {
+            $this->contentTypeConfigService->createFromTemplate($activityCategory, $contentTypeConfigTemplate);
+        }
+
+        return $activityCategory;
     }
 
     /**

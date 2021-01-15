@@ -26,6 +26,12 @@ class ActivityCategoryTemplate extends BaseEntity {
 
     /**
      * @var string
+     * @ORM\Column(type="string", length=16, nullable=false)
+     */
+    private $short;
+
+    /**
+     * @var string
      * @ORM\Column(type="string", length=64, nullable=false)
      */
     private $name;
@@ -57,6 +63,17 @@ class ActivityCategoryTemplate extends BaseEntity {
 
     public function setCampTemplate(?CampTemplate $campTemplate) {
         $this->campTemplate = $campTemplate;
+    }
+
+    /**
+     * @return string
+     */
+    public function getShort() {
+        return $this->short;
+    }
+
+    public function setShort($short) {
+        $this->short = $short;
     }
 
     /**
