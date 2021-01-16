@@ -45,7 +45,7 @@ class CampServiceTest extends AbstractApiControllerTestCase {
         $this->loadFixtures($loader);
 
         $this->user = $userLoader->getReference(UserTestData::$USER1);
-        $this->campTemplate = $campTemplateLoader->getReference(CampTemplateTestData::$TYPE1);
+        $this->campTemplate = $campTemplateLoader->getReference(CampTemplateTestData::$TEMPLATE1);
 
         $this->authenticateUser($this->user);
     }
@@ -80,7 +80,7 @@ class CampServiceTest extends AbstractApiControllerTestCase {
         $activityCategory = $camp->getActivityCategories()->first();
         $this->assertNotNull($activityCategory);
         $this->assertNotNull($activityCategory->getActivityCategoryTemplateId());
-        $this->assertEquals('ActivityType1', $activityCategory->getName());
+        $this->assertEquals('ActivityCategory1', $activityCategory->getName());
 
         $this->assertCount(1, $activityCategory->getContentTypeConfigs());
         /** @var ContentTypeConfig $contentTypeConfig */

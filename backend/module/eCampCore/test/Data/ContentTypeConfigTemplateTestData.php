@@ -8,10 +8,10 @@ use Doctrine\Persistence\ObjectManager;
 use eCamp\Core\Entity\ContentTypeConfigTemplate;
 
 class ContentTypeConfigTemplateTestData extends AbstractFixture implements DependentFixtureInterface {
-    public static $TYPE1 = ContentTypeConfigTemplateTestData::class.':1';
+    public static $TEMPLATE1 = ContentTypeConfigTemplateTestData::class.':Template1';
 
     public function load(ObjectManager $manager) {
-        $activityCategoryTemplate = $this->getReference(ActivityCategoryTemplateTestData::$TYPE1);
+        $activityCategoryTemplate = $this->getReference(ActivityCategoryTemplateTestData::$TEMPLATE1);
         $contentType = $this->getReference(ContentTypeTestData::$TYPE1);
 
         $contentTypeConfigTemplate = new ContentTypeConfigTemplate();
@@ -23,7 +23,7 @@ class ContentTypeConfigTemplateTestData extends AbstractFixture implements Depen
         $manager->persist($contentTypeConfigTemplate);
         $manager->flush();
 
-        $this->addReference(self::$TYPE1, $contentTypeConfigTemplate);
+        $this->addReference(self::$TEMPLATE1, $contentTypeConfigTemplate);
     }
 
     public function getDependencies() {

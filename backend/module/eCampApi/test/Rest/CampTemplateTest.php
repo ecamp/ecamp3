@@ -32,7 +32,7 @@ class CampTemplateTest extends AbstractApiControllerTestCase {
         $this->loadFixtures($loader);
 
         $this->user = $userLoader->getReference(UserTestData::$USER1);
-        $this->campTemplate = $campTemplateLoader->getReference(CampTemplateTestData::$TYPE1);
+        $this->campTemplate = $campTemplateLoader->getReference(CampTemplateTestData::$TEMPLATE1);
 
         $this->authenticateUser($this->user);
     }

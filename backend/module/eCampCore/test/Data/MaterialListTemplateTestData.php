@@ -13,7 +13,7 @@ class MaterialListTemplateTestData extends AbstractFixture implements DependentF
 
     public function load(ObjectManager $manager) {
         /** @var CampTemplate $campTemplate */
-        $campTemplate = $this->getReference(CampTemplateTestData::$TYPE1);
+        $campTemplate = $this->getReference(CampTemplateTestData::$TEMPLATE1);
 
         $materialListTemplate = new MaterialListTemplate();
         $materialListTemplate->setName('MaterialListTemplate1');

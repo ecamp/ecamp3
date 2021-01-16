@@ -7,7 +7,7 @@ use Doctrine\Persistence\ObjectManager;
 use eCamp\Core\Entity\CampTemplate;
 
 class CampTemplateTestData extends AbstractFixture {
-    public static $TYPE1 = CampTemplate::class.':Type1';
+    public static $TEMPLATE1 = CampTemplate::class.':Template1';
 
     public function load(ObjectManager $manager) {
         $campTemplate = new CampTemplate();
@@ -16,6 +16,6 @@ class CampTemplateTestData extends AbstractFixture {
         $manager->persist($campTemplate);
         $manager->flush();
 
-        $this->addReference(self::$TYPE1, $campTemplate);
+        $this->addReference(self::$TEMPLATE1, $campTemplate);
     }
 }

@@ -40,8 +40,8 @@ class ActivityCategoryTemplateTest extends AbstractApiControllerTestCase {
         $this->loadFixtures($loader);
 
         $this->user = $userLoader->getReference(UserTestData::$USER1);
-        $this->campTemplate = $campTemplateLoader->getReference(CampTemplateTestData::$TYPE1);
-        $this->activityCategoryTemplate = $activityCategoryTemplateLoader->getReference(ActivityCategoryTemplateTestData::$TYPE1);
+        $this->campTemplate = $campTemplateLoader->getReference(CampTemplateTestData::$TEMPLATE1);
+        $this->activityCategoryTemplate = $activityCategoryTemplateLoader->getReference(ActivityCategoryTemplateTestData::$TEMPLATE1);
 
         $this->authenticateUser($this->user);
     }
@@ -54,8 +54,8 @@ class ActivityCategoryTemplateTest extends AbstractApiControllerTestCase {
         $expectedBody = <<<JSON
             {
                 "id": "{$this->activityCategoryTemplate->getId()}",
-                "short": "AT",
-                "name": "ActivityType1",
+                "short": "AC",
+                "name": "ActivityCategory1",
                 "color": "#FF00FF",
                 "numberingStyle": "i"
             }

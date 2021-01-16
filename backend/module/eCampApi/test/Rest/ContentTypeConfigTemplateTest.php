@@ -39,8 +39,8 @@ class ContentTypeConfigTemplateTest extends AbstractApiControllerTestCase {
         $this->loadFixtures($loader);
 
         $this->user = $userLoader->getReference(UserTestData::$USER1);
-        $this->activityCategoryTemplate = $activityCategoryTemplateLoader->getReference(ActivityCategoryTemplateTestData::$TYPE1);
-        $this->contentTypeConfigTemplate = $contentTypeConfigTemplateLoader->getReference(ContentTypeConfigTemplateTestData::$TYPE1);
+        $this->activityCategoryTemplate = $activityCategoryTemplateLoader->getReference(ActivityCategoryTemplateTestData::$TEMPLATE1);
+        $this->contentTypeConfigTemplate = $contentTypeConfigTemplateLoader->getReference(ContentTypeConfigTemplateTestData::$TEMPLATE1);
 
         $this->authenticateUser($this->user);
     }

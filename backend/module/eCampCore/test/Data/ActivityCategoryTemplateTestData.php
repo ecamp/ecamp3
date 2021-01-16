@@ -8,14 +8,14 @@ use Doctrine\Persistence\ObjectManager;
 use eCamp\Core\Entity\ActivityCategoryTemplate;
 
 class ActivityCategoryTemplateTestData extends AbstractFixture implements DependentFixtureInterface {
-    public static $TYPE1 = ActivityCategoryTemplate::class.':TYPE1';
+    public static $TEMPLATE1 = ActivityCategoryTemplate::class.':Template1';
 
     public function load(ObjectManager $manager) {
-        $campTemplate = $this->getReference(CampTemplateTestData::$TYPE1);
+        $campTemplate = $this->getReference(CampTemplateTestData::$TEMPLATE1);
 
         $activityCategoryTemplate = new ActivityCategoryTemplate();
-        $activityCategoryTemplate->setShort('AT');
-        $activityCategoryTemplate->setName('ActivityType1');
+        $activityCategoryTemplate->setShort('AC');
+        $activityCategoryTemplate->setName('ActivityCategory1');
         $activityCategoryTemplate->setColor('#FF00FF');
         $activityCategoryTemplate->setNumberingStyle('i');
         $campTemplate->addActivityCategoryTemplate($activityCategoryTemplate);
@@ -23,7 +23,7 @@ class ActivityCategoryTemplateTestData extends AbstractFixture implements Depend
         $manager->persist($activityCategoryTemplate);
         $manager->flush();
 
-        $this->addReference(self::$TYPE1, $activityCategoryTemplate);
+        $this->addReference(self::$TEMPLATE1, $activityCategoryTemplate);
     }
 
     public function getDependencies() {
