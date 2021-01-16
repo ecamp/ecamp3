@@ -20,6 +20,9 @@
         <testsuite name="eCamp.Api">
             <directory suffix="Test.php">module/eCampApi/test</directory>
         </testsuite>
+        <testsuite name="eCamp.AoT">
+            <directory suffix="Test.php">module/eCampAoT/test</directory>
+        </testsuite>
 
         <testsuite name="eCamp.ContentType.Storyboard">
             <directory suffix="Test.php">content-type/eCampStoryboard/test</directory>
@@ -36,6 +39,7 @@
             <directory suffix=".php">module/eCampApi/src</directory>
             <directory suffix=".php">content-type/eCampStoryboard/src</directory>
             <directory suffix=".php">content-type/eCampSingleText/src</directory>
+            <file>bin/di-generate-aot.php</file>
         </include>
 
         <report>

@@ -8,4 +8,4 @@ vendor/
 config/sentry.config.php
 node_modules
 cghooks.lock
-
+/.phpunit.result.cache
