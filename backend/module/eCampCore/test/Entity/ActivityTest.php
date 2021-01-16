@@ -5,10 +5,7 @@ namespace eCamp\CoreTest\Entity;
 use eCamp\Core\Entity\Activity;
 use eCamp\Core\Entity\ActivityCategory;
 use eCamp\Core\Entity\ActivityContent;
-use eCamp\Core\Entity\ActivityType;
-use eCamp\Core\Entity\ActivityTypeContentType;
 use eCamp\Core\Entity\Camp;
-use eCamp\Core\Entity\ContentType;
 use eCamp\Core\Entity\ScheduleEntry;
 use eCamp\LibTest\PHPUnit\AbstractTestCase;
 
@@ -51,37 +48,5 @@ class ActivityTest extends AbstractTestCase {
         $this->assertContains($scheduleEntry, $activity->getScheduleEntries());
         $activity->removeScheduleEntry($scheduleEntry);
         $this->assertEquals(0, $activity->getScheduleEntries()->count());
-    }
-
-    public function testCreateActivityContents() {
-        $this->assertTrue(true);
-
-        // TODO:
-
-        // $contentType = new ContentType();
-        // $contentType->setName('TestContentType');
-
-        // $activityTypeContentType = new ActivityTypeContentType();
-        // $activityTypeContentType->setContentType($contentType);
-        // $activityTypeContentType->setDefaultInstances(1);
-
-        // $camp = new Camp();
-
-        // $activityType = new ActivityType();
-        // $activityType->setDefaultColor('#FF00FF');
-        // $activityType->setDefaultNumberingStyle('i');
-        // $activityType->addActivityTypeContentType($activityTypeContentType);
-
-        // $activityCategory = new ActivityCategory();
-        // $activityCategory->setActivityType($activityType);
-
-        // $activity = new Activity();
-        // $activity->setCamp($camp);
-        // $activity->setTitle('ActivityTitle');
-        // $activity->setActivityCategory($activityCategory);
-
-        // $activity->PrePersist();
-
-        // $this->assertCount(1, $activity->getActivityContents());
     }
 }
