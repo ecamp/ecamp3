@@ -1,60 +1,24 @@
 <?php
 
-use eCampApi\ConfigFactory;
+return
+    eCampApi\V1\ConfigFactory::Create('Activity', 'Activities')
+        ->addCollectionQueryWhitelist('campId', 'periodId')
 
-$config = ConfigFactory::createConfig('Activity', 'Activities');
+        ->createInputFilterItem('title', true)
+        ->addFilterStringTrim()
+        ->addFilterStripTags()
+        ->addValidatorStringLength(1, 32)
+        ->buildInputFilter()
 
-array_push(
-    $config['api-tools-rest']['eCampApi\\V1\\Rest\\Activity\\Controller']['collection_query_whitelist'],
-    'campId',
-    'periodId'
-);
+        ->createInputFilterItem('location')
+        ->addFilterStringTrim()
+        ->addFilterStripTags()
+        ->buildInputFilter()
 
-$config['api-tools-content-validation'] = [
-    'eCampApi\\V1\\Rest\\Activity\\Controller' => [
-        'input_filter' => 'eCampApi\\V1\\Rest\\Activity\\Validator',
-    ],
-];
+        ->addInputFilterItem('progress')
+        ->addInputFilterItem('campCollaborations')
+        ->addInputFilterItem('scheduleEntries')
+        ->addInputFilterItem('activityCategoryId')
 
-$config['input_filter_specs'] = [
-    'eCampApi\\V1\\Rest\\Activity\\Validator' => [
-        0 => [
-            'name' => 'title',
-            'required' => true,
-            'filters' => [],
-            'validators' => [],
-        ],
-        1 => [
-            'name' => 'location',
-            'required' => false,
-            'filters' => [],
-            'validators' => [],
-        ],
-        2 => [
-            'name' => 'progress',
-            'required' => false,
-            'filters' => [],
-            'validators' => [],
-        ],
-        3 => [
-            'name' => 'campCollaborations',
-            'required' => false,
-            'filters' => [],
-            'validators' => [],
-        ],
-        4 => [
-            'name' => 'scheduleEntries',
-            'required' => false,
-            'filters' => [],
-            'validators' => [],
-        ],
-        5 => [
-            'name' => 'activityCategoryId',
-            'required' => false,
-            'filters' => [],
-            'validators' => [],
-        ],
-    ],
-];
-
-return $config;
+        ->buildConfig()
+;
