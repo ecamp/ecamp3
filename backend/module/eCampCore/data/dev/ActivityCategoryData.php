@@ -4,9 +4,11 @@ namespace eCamp\CoreData;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use eCamp\Core\Entity\ActivityCategory;
 use eCamp\Core\Entity\Camp;
+use eCamp\Core\Entity\ContentType;
+use eCamp\Core\Entity\ContentTypeConfig;
 
 class ActivityCategoryData extends AbstractFixture implements DependentFixtureInterface {
     public static $EVENTCATEGORY_1_LS = ActivityCategory::class.':EVENTCATEGORY_1_LS';
@@ -14,7 +16,11 @@ class ActivityCategoryData extends AbstractFixture implements DependentFixtureIn
     public static $EVENTCATEGORY_2_LS = ActivityCategory::class.':EVENTCATEGORY_2_LS';
     public static $EVENTCATEGORY_2_LA = ActivityCategory::class.':EVENTCATEGORY_2_LA';
 
+    private ObjectManager $manager;
+
     public function load(ObjectManager $manager) {
+        $this->manager = $manager;
+
         $repository = $manager->getRepository(ActivityCategory::class);
 
         /** @var Camp $camp */
@@ -28,8 +34,14 @@ class ActivityCategoryData extends AbstractFixture implements DependentFixtureIn
             $activityCategory->setShort('LS');
             $activityCategory->setColor('#4CAF50');
             $activityCategory->setNumberingStyle('1');
-
             $manager->persist($activityCategory);
+
+            // add prefered content types
+            $this->addContentType($activityCategory, $this->getReference(ContentTypeData::$STORYBOARD));
+            $this->addContentType($activityCategory, $this->getReference(ContentTypeData::$STORYCONTEXT));
+            $this->addContentType($activityCategory, $this->getReference(ContentTypeData::$SAFETYCONCEPT));
+            $this->addContentType($activityCategory, $this->getReference(ContentTypeData::$NOTES));
+            $this->addContentType($activityCategory, $this->getReference(ContentTypeData::$MATERIAL));
         }
         $this->addReference(self::$EVENTCATEGORY_1_LS, $activityCategory);
 
@@ -41,8 +53,12 @@ class ActivityCategoryData extends AbstractFixture implements DependentFixtureIn
             $activityCategory->setShort('LA');
             $activityCategory->setColor('#FF9800');
             $activityCategory->setNumberingStyle('A');
-
             $manager->persist($activityCategory);
+
+            // add prefered content types
+            $this->addContentType($activityCategory, $this->getReference(ContentTypeData::$STORYCONTEXT));
+            $this->addContentType($activityCategory, $this->getReference(ContentTypeData::$NOTES));
+            $this->addContentType($activityCategory, $this->getReference(ContentTypeData::$MATERIAL));
         }
         $this->addReference(self::$EVENTCATEGORY_1_LA, $activityCategory);
 
@@ -57,8 +73,14 @@ class ActivityCategoryData extends AbstractFixture implements DependentFixtureIn
             $activityCategory->setShort('LS');
             $activityCategory->setColor('#4CAF50');
             $activityCategory->setNumberingStyle('1');
-
             $manager->persist($activityCategory);
+
+            // add prefered content types
+            $this->addContentType($activityCategory, $this->getReference(ContentTypeData::$STORYBOARD));
+            $this->addContentType($activityCategory, $this->getReference(ContentTypeData::$STORYCONTEXT));
+            $this->addContentType($activityCategory, $this->getReference(ContentTypeData::$SAFETYCONCEPT));
+            $this->addContentType($activityCategory, $this->getReference(ContentTypeData::$NOTES));
+            $this->addContentType($activityCategory, $this->getReference(ContentTypeData::$MATERIAL));
         }
         $this->addReference(self::$EVENTCATEGORY_2_LS, $activityCategory);
 
@@ -70,8 +92,12 @@ class ActivityCategoryData extends AbstractFixture implements DependentFixtureIn
             $activityCategory->setShort('LA');
             $activityCategory->setColor('#FF9800');
             $activityCategory->setNumberingStyle('A');
-
             $manager->persist($activityCategory);
+
+            // add prefered content types
+            $this->addContentType($activityCategory, $this->getReference(ContentTypeData::$STORYCONTEXT));
+            $this->addContentType($activityCategory, $this->getReference(ContentTypeData::$NOTES));
+            $this->addContentType($activityCategory, $this->getReference(ContentTypeData::$MATERIAL));
         }
         $this->addReference(self::$EVENTCATEGORY_2_LA, $activityCategory);
 
@@ -79,6 +105,15 @@ class ActivityCategoryData extends AbstractFixture implements DependentFixtureIn
     }
 
     public function getDependencies() {
-        return [CampData::class];
+        return [CampData::class, ContentTypeData::class];
+    }
+
+    private function addContentType(ActivityCategory $activityCategory, ContentType $contentType) {
+        $contentTypeConfig = new ContentTypeConfig();
+        $contentTypeConfig->setContentType($contentType);
+        $activityCategory->addContentTypeConfig($contentTypeConfig);
+        $this->manager->persist($contentTypeConfig);
+
+        return $contentTypeConfig;
     }
 }

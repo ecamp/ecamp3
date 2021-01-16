@@ -4,7 +4,7 @@ namespace eCamp\CoreData;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use eCamp\Core\ContentType\ContentTypeStrategyProvider;
 use eCamp\Core\Entity\Activity;
 use eCamp\Core\Entity\ActivityCategory;
