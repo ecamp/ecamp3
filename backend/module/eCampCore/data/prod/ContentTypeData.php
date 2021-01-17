@@ -74,7 +74,7 @@ class ContentTypeData extends AbstractFixture {
         }
         $this->addReference(self::$MATERIAL, $contentType);
 
-        // MultiSelect
+        // LA Thematic Area (LA Themenbereich)
         $contentType = $repository->findOneBy(['name' => 'LAThematicArea']);
         if (null == $contentType) {
             $contentType = new ContentType();
