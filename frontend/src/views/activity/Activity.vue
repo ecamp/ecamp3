@@ -30,7 +30,7 @@ Displays a single activity
             <v-list-item v-for="act in availableContentTypes"
                          :key="act.contentType.id"
                          :disabled="!act.enabled"
-                         @click="addActivityContent(act.id)">
+                         @click="addActivityContent(act.contentType.id)">
               <v-list-item-icon>
                 <v-icon>{{ $tc(act.contentTypeIconKey) }}</v-icon>
               </v-list-item-icon>
@@ -103,7 +103,7 @@ Displays a single activity
               </div>
             </div>
           </v-card>
-          <component :is="'ActivityLayout' + activityType.template" v-if="!activityType._meta.loading" :activity="activity" />
+          <component :is="'ActivityLayoutGeneral'" :activity="activity" />
         </template>
       </v-card-text>
     </content-card>
@@ -111,7 +111,6 @@ Displays a single activity
 </template>
 
 <script>
-import ButtonBack from '@/components/buttons/ButtonBack'
 import ContentCard from '@/components/layout/ContentCard'
 import ApiTextField from '@/components/form/api/ApiTextField'
 import ApiSelect from '@/components/form/api/ApiSelect'
@@ -122,7 +121,6 @@ import camelCase from 'lodash/camelCase'
 export default {
   name: 'Activity',
   components: {
-    ButtonBack,
     ContentCard,
     ApiTextField,
     ApiSelect,
@@ -177,23 +175,17 @@ export default {
       }
       )
     },
-    activityType () {
-      return this.category.activityType()
-    },
     activityContents () {
       return this.activity.activityContents()
     },
-    activityTypeContentTypes () {
-      return this.activityType.activityTypeContentTypes()
-    },
     availableContentTypes () {
-      return this.activityTypeContentTypes.items.map(atct => ({
-        id: atct.id,
-        contentType: atct.contentType(),
-        contentTypeNameKey: 'activityContent.' + camelCase(atct.contentType().name) + '.name',
-        contentTypeIconKey: 'activityContent.' + camelCase(atct.contentType().name) + '.icon',
-        contentTypeSort: parseInt(this.$tc('activityContent.' + camelCase(atct.contentType().name) + '.sort')),
-        enabled: atct.contentType().allowMultiple || this.countActivityContents(atct.contentType()) === 0
+      return this.category.contentTypeConfigs().items.map(ctc => ({
+        id: ctc.id,
+        contentType: ctc.contentType(),
+        contentTypeNameKey: 'activityContent.' + camelCase(ctc.contentType().name) + '.name',
+        contentTypeIconKey: 'activityContent.' + camelCase(ctc.contentType().name) + '.icon',
+        contentTypeSort: parseInt(this.$tc('activityContent.' + camelCase(ctc.contentType().name) + '.sort')),
+        enabled: true // atct.contentType().allowMultiple || this.countActivityContents(atct.contentType()) === 0
       })).sort((a, b) => a.contentTypeSort - b.contentTypeSort)
     }
   },
@@ -203,10 +195,10 @@ export default {
         return ac.contentType().id === contentType.id
       }).length
     },
-    async addActivityContent (atctId) {
+    async addActivityContent (ctId) {
       await this.api.post('/activity-contents', {
         activityId: this.activity.id,
-        activityTypeContentTypeId: atctId
+        contentTypeId: ctId
       })
       await this.refreshActivity()
     },
