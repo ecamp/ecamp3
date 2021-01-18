@@ -15,7 +15,7 @@
     "test:unit:watch": "vue-cli-service test:unit --watch"
   },
   "dependencies": {
-    "@mdi/font": "5.8.55",
+    "@mdi/font": "5.9.55",
     "axios": "0.21.1",
     "deepmerge": "4.2.2",
     "hal-json-vuex": "1.2.1",
@@ -29,11 +29,11 @@
     "vee-validate": "3.4.5",
     "vue": "2.6.12",
     "vue-axios": "3.2.2",
-    "vue-i18n": "8.22.3",
+    "vue-i18n": "8.22.4",
     "vue-moment": "4.1.0",
     "vue-router": "3.4.9",
     "vuedraggable": "2.24.3",
-    "vuetify": "2.4.0",
+    "vuetify": "2.4.2",
     "vuex": "3.6.0"
   },
   "devDependencies": {
@@ -47,7 +47,7 @@
     "babel-eslint": "10.1.0",
     "babel-plugin-require-context-hook": "1.0.0",
     "coveralls": "3.1.0",
-    "eslint": "7.17.0",
+    "eslint": "7.18.0",
     "eslint-plugin-import": "2.22.1",
     "eslint-plugin-node": "11.1.0",
     "eslint-plugin-promise": "4.2.1",

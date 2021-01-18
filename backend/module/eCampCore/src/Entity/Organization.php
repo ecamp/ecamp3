@@ -10,11 +10,11 @@ use eCamp\Lib\Entity\BaseEntity;
  * @ORM\Entity
  */
 class Organization extends BaseEntity {
-    /**
-     * @var CampType[]
-     * @ORM\OneToMany(targetEntity="CampType", mappedBy="organization", orphanRemoval=true)
-     */
-    protected $campTypes;
+    // /**
+    //  * @var CampType[]
+    //  * @ORM\OneToMany(targetEntity="CampType", mappedBy="organization", orphanRemoval=true)
+    //  */
+    // protected $campTypes;
 
     /**
      * @var string
@@ -25,7 +25,7 @@ class Organization extends BaseEntity {
     public function __construct() {
         parent::__construct();
 
-        $this->campTypes = new ArrayCollection();
+        // $this->campTypes = new ArrayCollection();
     }
 
     public function getName() {
@@ -36,20 +36,20 @@ class Organization extends BaseEntity {
         $this->name = $name;
     }
 
-    /**
-     * @return ArrayCollection
-     */
-    public function getCampTypes() {
-        return $this->campTypes;
-    }
+    // /**
+    //  * @return ArrayCollection
+    //  */
+    // public function getCampTypes() {
+    //     return $this->campTypes;
+    // }
 
-    public function addCampType(CampType $campType): void {
-        $campType->setOrganization($this);
-        $this->campTypes->add($campType);
-    }
+    // public function addCampType(CampType $campType): void {
+    //     $campType->setOrganization($this);
+    //     $this->campTypes->add($campType);
+    // }
 
-    public function removeCampType(CampType $campType): void {
-        $campType->setOrganization(null);
-        $this->campTypes->removeElement($campType);
-    }
+    // public function removeCampType(CampType $campType): void {
+    //     $campType->setOrganization(null);
+    //     $this->campTypes->removeElement($campType);
+    // }
 }

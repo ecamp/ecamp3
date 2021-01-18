@@ -7,8 +7,8 @@ use eCamp\Core\ContentType\ContentTypeStrategyProvider;
 use eCamp\Core\ContentType\ContentTypeStrategyProviderTrait;
 use eCamp\Core\Entity\Activity;
 use eCamp\Core\Entity\ActivityContent;
-use eCamp\Core\Entity\ActivityTypeContentType;
 use eCamp\Core\Entity\Camp;
+use eCamp\Core\Entity\ContentType;
 use eCamp\Core\Hydrator\ActivityContentHydrator;
 use eCamp\Lib\Acl\NoAccessException;
 use eCamp\Lib\Service\ServiceUtils;
@@ -46,18 +46,13 @@ class ActivityContentService extends AbstractEntityService {
         $activityContent = parent::createEntity($data);
 
         /** @var Activity $activity */
-        $activity = $this->findEntity(Activity::class, $data->activityId);
+        $activity = $this->findRelatedEntity(Activity::class, $data, 'activityId');
 
-        /** @var ActivityTypeContentType $activityTypeContentType */
-        $activityTypeContentType = $this->findEntity(ActivityTypeContentType::class, $data->activityTypeContentTypeId); // POSSIBLE ALTERNATIVE: accept contentTypeId instead of activityTypeContentTypeId
+        /** @var ContentType $contentType */
+        $contentType = $this->findRelatedEntity(ContentType::class, $data, 'contentTypeId');
 
-        // verify ActivityTypeContentType matches ActivityType of activity
-        if ($activity->getActivityType() !== $activityTypeContentType->getActivityType()) {
-            throw new \Error("ActivityType of Activity and ActivityTypeContentType don't match");
-        }
-
-        $activityContent->setActivity($activity);
-        $activityContent->setContentType($activityTypeContentType->getContentType());
+        $activity->addActivityContent($activityContent);
+        $activityContent->setContentType($contentType);
         $activityContent->setContentTypeStrategyProvider($this->getContentTypeStrategyProvider());
 
         return $activityContent;

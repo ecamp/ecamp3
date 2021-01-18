@@ -15,7 +15,6 @@ class ContentTypeTestData extends AbstractFixture {
     public function load(ObjectManager $manager) {
         $contentType = new ContentType();
         $contentType->setName('Storyboard');
-        $contentType->setAllowMultiple(true);
         $contentType->setStrategyClass(StoryboardStrategy::class);
 
         $manager->persist($contentType);
@@ -25,7 +24,6 @@ class ContentTypeTestData extends AbstractFixture {
 
         $contentType = new ContentType();
         $contentType->setName('Material');
-        $contentType->setAllowMultiple(true);
         $contentType->setStrategyClass(MaterialStrategy::class);
 
         $manager->persist($contentType);

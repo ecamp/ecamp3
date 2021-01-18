@@ -2,27 +2,53 @@
 
 namespace eCamp\Core\EntityService;
 
-use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\ORMException;
 use eCamp\Core\Entity\ActivityCategory;
-use eCamp\Core\Entity\ActivityType;
+use eCamp\Core\Entity\ActivityCategoryTemplate;
 use eCamp\Core\Entity\Camp;
+use eCamp\Core\Entity\ContentTypeConfigTemplate;
 use eCamp\Core\Hydrator\ActivityCategoryHydrator;
 use eCamp\Lib\Acl\NoAccessException;
-use eCamp\Lib\Entity\BaseEntity;
 use eCamp\Lib\Service\EntityNotFoundException;
-use eCamp\Lib\Service\EntityValidationException;
 use eCamp\Lib\Service\ServiceUtils;
 use Laminas\Authentication\AuthenticationService;
 
 class ActivityCategoryService extends AbstractEntityService {
-    public function __construct(ServiceUtils $serviceUtils, AuthenticationService $authenticationService) {
+    /** @var ContentTypeConfigService */
+    protected $contentTypeConfigService;
+
+    public function __construct(
+        ServiceUtils $serviceUtils,
+        AuthenticationService $authenticationService,
+        ContentTypeConfigService $contentTypeConfigService
+    ) {
         parent::__construct(
             $serviceUtils,
             ActivityCategory::class,
             ActivityCategoryHydrator::class,
             $authenticationService
         );
+
+        $this->contentTypeConfigService = $contentTypeConfigService;
+    }
+
+    public function createFromTemplate(Camp $camp, ActivityCategoryTemplate $template) {
+        /** @var ActivityCategory $activityCategory */
+        $activityCategory = $this->create((object) [
+            'campId' => $camp->getId(),
+            'short' => $template->getShort(),
+            'name' => $template->getName(),
+            'color' => $template->getColor(),
+            'numberingStyle' => $template->getNumberingStyle(),
+        ]);
+        $activityCategory->setActivityCategoryTemplateId($template->getId());
+
+        /** @var ContentTypeConfigTemplate $contentTypeConfigTemplate */
+        foreach ($template->getContentTypeConfigTemplates() as $contentTypeConfigTemplate) {
+            $this->contentTypeConfigService->createFromTemplate($activityCategory, $contentTypeConfigTemplate);
+        }
+
+        return $activityCategory;
     }
 
     /**
@@ -38,42 +64,9 @@ class ActivityCategoryService extends AbstractEntityService {
         /** @var ActivityCategory $activityCategory */
         $activityCategory = parent::createEntity($data);
 
-        /** @var ActivityType $activityType */
-        $activityType = $this->findRelatedEntity(ActivityType::class, $data, 'activityTypeId');
-        $activityCategory->setActivityType($activityType);
-
         /** @var Camp $camp */
         $camp = $this->findRelatedEntity(Camp::class, $data, 'campId');
         $camp->addActivityCategory($activityCategory);
-
-        if (!$camp->getCampType()->getActivityTypes()->contains($activityType)) {
-            throw (new EntityValidationException())->setMessages([
-                'campId' => ['activityTypeMismatch' => 'Selected activityType is not allowed in this camp'],
-                'activityTypeId' => ['activityTypeMismatch' => 'Selected activityType is not allowed in this camp'],
-            ]);
-        }
-
-        return $activityCategory;
-    }
-
-    /**
-     * @param $data
-     *
-     * @throws EntityNotFoundException
-     * @throws NoAccessException
-     * @throws NonUniqueResultException
-     *
-     * @return ActivityCategory
-     */
-    protected function patchEntity(BaseEntity $entity, $data) {
-        /** @var ActivityCategory $activityCategory */
-        $activityCategory = parent::patchEntity($entity, $data);
-
-        if (isset($data->activityTypeId)) {
-            /** @var ActivityType $activityType */
-            $activityType = $this->findEntity(ActivityType::class, $data->activityTypeId);
-            $activityCategory->setActivityType($activityType);
-        }
 
         return $activityCategory;
     }
