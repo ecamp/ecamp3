@@ -24,7 +24,6 @@ class ContentTypeData extends AbstractFixture {
         if (null == $contentType) {
             $contentType = new ContentType();
             $contentType->setName('Storyboard');
-            $contentType->setAllowMultiple(true);
             $contentType->setStrategyClass(StoryboardStrategy::class);
             $manager->persist($contentType);
         }
@@ -66,7 +65,6 @@ class ContentTypeData extends AbstractFixture {
         if (null == $contentType) {
             $contentType = new ContentType();
             $contentType->setName('Material');
-            $contentType->setAllowMultiple(true);
             $contentType->setStrategyClass(MaterialStrategy::class);
             $manager->persist($contentType);
         }

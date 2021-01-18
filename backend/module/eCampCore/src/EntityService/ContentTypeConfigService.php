@@ -5,6 +5,7 @@ namespace eCamp\Core\EntityService;
 use eCamp\Core\Entity\ActivityCategory;
 use eCamp\Core\Entity\ContentType;
 use eCamp\Core\Entity\ContentTypeConfig;
+use eCamp\Core\Entity\ContentTypeConfigTemplate;
 use eCamp\Core\Hydrator\ContentTypeConfigHydrator;
 use eCamp\Lib\Service\ServiceUtils;
 use Laminas\Authentication\AuthenticationService;
@@ -17,6 +18,19 @@ class ContentTypeConfigService extends AbstractEntityService {
             ContentTypeConfigHydrator::class,
             $authenticationService
         );
+    }
+
+    public function createFromTemplate(ActivityCategory $activityCategory, ContentTypeConfigTemplate $template) {
+        /** @var ContentTypeConfig $contentTypeConfig */
+        $contentTypeConfig = $this->create((object) [
+            'activityCategoryId' => $activityCategory->getId(),
+            'contentTypeId' => $template->getContentType()->getId(),
+            'required' => $template->getRequired(),
+            'multiple' => $template->getMultiple(),
+        ]);
+        $contentTypeConfig->setContentTypeConfigTemplateId($template->getId());
+
+        return $contentTypeConfig;
     }
 
     protected function createEntity($data) {

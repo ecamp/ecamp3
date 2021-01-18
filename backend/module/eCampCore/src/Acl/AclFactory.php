@@ -4,21 +4,21 @@ namespace eCamp\Core\Acl;
 
 use eCamp\Core\Entity\Activity;
 use eCamp\Core\Entity\ActivityCategory;
+use eCamp\Core\Entity\ActivityCategoryTemplate;
 use eCamp\Core\Entity\ActivityContent;
 use eCamp\Core\Entity\ActivityResponsible;
-use eCamp\Core\Entity\ActivityType;
-use eCamp\Core\Entity\ActivityTypeContentType;
-use eCamp\Core\Entity\ActivityTypeFactory;
 use eCamp\Core\Entity\Camp;
 use eCamp\Core\Entity\CampCollaboration;
-use eCamp\Core\Entity\CampType;
+use eCamp\Core\Entity\CampTemplate;
 use eCamp\Core\Entity\ContentType;
 use eCamp\Core\Entity\ContentTypeConfig;
+use eCamp\Core\Entity\ContentTypeConfigTemplate;
 use eCamp\Core\Entity\Day;
 use eCamp\Core\Entity\Group;
 use eCamp\Core\Entity\GroupMembership;
 use eCamp\Core\Entity\MaterialItem;
 use eCamp\Core\Entity\MaterialList;
+use eCamp\Core\Entity\MaterialListTemplate;
 use eCamp\Core\Entity\Organization;
 use eCamp\Core\Entity\Period;
 use eCamp\Core\Entity\ScheduleEntry;
@@ -52,12 +52,11 @@ class AclFactory implements FactoryInterface {
         $acl->addResource(Group::class, BaseEntity::class);
         $acl->addResource(GroupMembership::class, BaseEntity::class);
 
-        $acl->addResource(CampType::class, BaseEntity::class);
-        $acl->addResource(ActivityType::class, BaseEntity::class);
-        $acl->addResource(ActivityTypeFactory::class, BaseEntity::class);
-
+        $acl->addResource(CampTemplate::class, BaseEntity::class);
+        $acl->addResource(MaterialListTemplate::class, BaseEntity::class);
+        $acl->addResource(ActivityCategoryTemplate::class, BaseEntity::class);
+        $acl->addResource(ContentTypeConfigTemplate::class, BaseEntity::class);
         $acl->addResource(ContentType::class, BaseEntity::class);
-        $acl->addResource(ActivityTypeContentType::class, BaseEntity::class);
 
         $acl->addResource(Activity::class, BaseEntity::class);
         $acl->addResource(ActivityCategory::class, BaseEntity::class);
@@ -86,10 +85,10 @@ class AclFactory implements FactoryInterface {
             [
                 Organization::class,
                 Group::class,
-                CampType::class,
-                ActivityType::class,
-                ActivityTypeFactory::class,
-                ActivityTypeContentType::class,
+                CampTemplate::class,
+                MaterialListTemplate::class,
+                ActivityCategoryTemplate::class,
+                ContentTypeConfigTemplate::class,
                 ContentType::class,
             ],
             [

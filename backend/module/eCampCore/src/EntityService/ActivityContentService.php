@@ -51,7 +51,7 @@ class ActivityContentService extends AbstractEntityService {
         /** @var ContentType $contentType */
         $contentType = $this->findRelatedEntity(ContentType::class, $data, 'contentTypeId');
 
-        $activityContent->setActivity($activity);
+        $activity->addActivityContent($activityContent);
         $activityContent->setContentType($contentType);
         $activityContent->setContentTypeStrategyProvider($this->getContentTypeStrategyProvider());
 

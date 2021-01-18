@@ -4,8 +4,11 @@ namespace eCamp\Core\EntityService;
 
 use Doctrine\ORM\ORMException;
 use eCamp\Core\Entity\AbstractCampOwner;
+use eCamp\Core\Entity\ActivityCategoryTemplate;
 use eCamp\Core\Entity\Camp;
 use eCamp\Core\Entity\CampCollaboration;
+use eCamp\Core\Entity\CampTemplate;
+use eCamp\Core\Entity\MaterialListTemplate;
 use eCamp\Core\Entity\User;
 use eCamp\Core\Hydrator\CampHydrator;
 use eCamp\Lib\Acl\NoAccessException;
@@ -19,6 +22,9 @@ class CampService extends AbstractEntityService {
     /** @var PeriodService */
     protected $periodService;
 
+    /** @var MaterialListService */
+    protected $materialListService;
+
     /** @var ActivityCategoryService */
     protected $activityCategoryService;
 
@@ -26,10 +32,11 @@ class CampService extends AbstractEntityService {
     protected $campCollaboratorService;
 
     public function __construct(
-        ActivityCategoryService $activityCategoryService,
-        PeriodService $periodService,
         ServiceUtils $serviceUtils,
         AuthenticationService $authenticationService,
+        PeriodService $periodService,
+        MaterialListService $materialListService,
+        ActivityCategoryService $activityCategoryService,
         CampCollaborationService $campCollaboratorService
     ) {
         parent::__construct(
@@ -40,6 +47,7 @@ class CampService extends AbstractEntityService {
         );
 
         $this->periodService = $periodService;
+        $this->materialListService = $materialListService;
         $this->activityCategoryService = $activityCategoryService;
         $this->campCollaboratorService = $campCollaboratorService;
     }
@@ -95,10 +103,25 @@ class CampService extends AbstractEntityService {
             'role' => CampCollaboration::ROLE_MANAGER,
         ]);
 
-        // TODO:
-        // - Load CampTemplate
-        // - Create MaterialLists
-        // - Create ActivityCategories + ContentTypeConfigs
+        if (isset($data->campTemplateId)) {
+            // CampTemplateId given
+            // - Create MaterialLists
+            // - Create ActivityCategories + ContentTypeConfigs
+            $camp->setCampTemplateId($data->campTemplateId);
+
+            /** @var CampTemplate $campTemplate */
+            $campTemplate = $this->findEntity(CampTemplate::class, $data->campTemplateId);
+
+            /** @var MaterialListTemplate $materialListTemplate */
+            foreach ($campTemplate->getMaterialListTemplates() as $materialListTemplate) {
+                $this->materialListService->createFromTemplate($camp, $materialListTemplate);
+            }
+
+            /** @var ActivityCategoryTemplate $activityCategoryTemplate */
+            foreach ($campTemplate->getActivityCategoryTemplates() as $activityCategoryTemplate) {
+                $this->activityCategoryService->createFromTemplate($camp, $activityCategoryTemplate);
+            }
+        }
 
         // Create Periods:
         if (isset($data->periods)) {

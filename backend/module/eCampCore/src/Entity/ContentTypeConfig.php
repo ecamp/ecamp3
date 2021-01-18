@@ -25,6 +25,7 @@ class ContentTypeConfig extends BaseEntity implements BelongsToCampInterface {
 
     /**
      * @var string
+     * @ORM\Column(type="string", length=32, nullable=true)
      */
     private $contentTypeConfigTemplateId;
 
@@ -71,6 +72,17 @@ class ContentTypeConfig extends BaseEntity implements BelongsToCampInterface {
 
     public function setContentType(?ContentType $contentType) {
         $this->contentType = $contentType;
+    }
+
+    /**
+     * @return string
+     */
+    public function getContentTypeConfigTemplateId() {
+        return $this->contentTypeConfigTemplateId;
+    }
+
+    public function setContentTypeConfigTemplateId(string $contentTypeConfigTemplateId) {
+        $this->contentTypeConfigTemplateId = $contentTypeConfigTemplateId;
     }
 
     /**

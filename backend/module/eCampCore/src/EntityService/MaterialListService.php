@@ -4,6 +4,7 @@ namespace eCamp\Core\EntityService;
 
 use eCamp\Core\Entity\Camp;
 use eCamp\Core\Entity\MaterialList;
+use eCamp\Core\Entity\MaterialListTemplate;
 use eCamp\Core\Hydrator\MaterialListHydrator;
 use eCamp\Lib\Service\ServiceUtils;
 use Laminas\Authentication\AuthenticationService;
@@ -16,6 +17,20 @@ class MaterialListService extends AbstractEntityService {
             MaterialListHydrator::class,
             $authenticationService
         );
+    }
+
+    /**
+     * @return MaterialList
+     */
+    public function createFromTemplate(Camp $camp, MaterialListTemplate $template) {
+        /** @var MaterialList $materialList */
+        $materialList = $this->create((object) [
+            'campId' => $camp->getId(),
+            'name' => $template->getName(),
+        ]);
+        $materialList->setMaterialListTemplateId($template->getId());
+
+        return $materialList;
     }
 
     /**

@@ -55,6 +55,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
 
     /**
      * @var string
+     * @ORM\Column(type="string", length=32, nullable=true)
      */
     private $campTemplateId;
 
@@ -99,6 +100,17 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
         $this->activityCategories = new ArrayCollection();
         $this->activities = new ArrayCollection();
         $this->materialLists = new ArrayCollection();
+    }
+
+    /**
+     * @return string
+     */
+    public function getCampTemplateId() {
+        return $this->campTemplateId;
+    }
+
+    public function setCampTemplateId(string $campTemplateId) {
+        $this->campTemplateId = $campTemplateId;
     }
 
     /**
