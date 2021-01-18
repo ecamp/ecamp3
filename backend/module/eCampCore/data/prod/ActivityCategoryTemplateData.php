@@ -16,11 +16,7 @@ class ActivityCategoryTemplateData extends AbstractFixture implements DependentF
     public static $PBS_JS_TEEN_LAGERSPORT = 'PBS_JS_TEEN_LAGERSPORT';
     public static $PBS_JS_TEEN_LAGERAKTIVITAET = 'PBS_JS_TEEN_LAGERAKTIVITAET';
 
-    private ObjectManager $manager;
-
     public function load(ObjectManager $manager) {
-        $this->manager = $manager;
-
         $repository = $manager->getRepository(ActivityCategoryTemplate::class);
 
         /** @var CampTemplate $pbsJsKids */
@@ -37,11 +33,11 @@ class ActivityCategoryTemplateData extends AbstractFixture implements DependentF
             $manager->persist($lagersport);
 
             // add allowed content types
-            $this->addContentType($lagersport, $this->getReference(ContentTypeData::$STORYBOARD));
-            $this->addContentType($lagersport, $this->getReference(ContentTypeData::$STORYCONTEXT));
-            $this->addContentType($lagersport, $this->getReference(ContentTypeData::$SAFETYCONCEPT));
-            $this->addContentType($lagersport, $this->getReference(ContentTypeData::$NOTES));
-            $this->addContentType($lagersport, $this->getReference(ContentTypeData::$MATERIAL));
+            $this->addContentType($manager, $lagersport, $this->getReference(ContentTypeData::$STORYBOARD));
+            $this->addContentType($manager, $lagersport, $this->getReference(ContentTypeData::$STORYCONTEXT));
+            $this->addContentType($manager, $lagersport, $this->getReference(ContentTypeData::$SAFETYCONCEPT));
+            $this->addContentType($manager, $lagersport, $this->getReference(ContentTypeData::$NOTES));
+            $this->addContentType($manager, $lagersport, $this->getReference(ContentTypeData::$MATERIAL));
         }
         $this->addReference(self::$PBS_JS_KIDS_LAGERSPORT, $lagersport);
 
@@ -57,9 +53,9 @@ class ActivityCategoryTemplateData extends AbstractFixture implements DependentF
 
             // add allowed content types
             //$this->addContentType($activityType, $this->getReference(ContentTypeData::$STORYBOARD));
-            $this->addContentType($lageraktivitaet, $this->getReference(ContentTypeData::$STORYCONTEXT));
-            $this->addContentType($lageraktivitaet, $this->getReference(ContentTypeData::$NOTES));
-            $this->addContentType($lageraktivitaet, $this->getReference(ContentTypeData::$MATERIAL));
+            $this->addContentType($manager, $lageraktivitaet, $this->getReference(ContentTypeData::$STORYCONTEXT));
+            $this->addContentType($manager, $lageraktivitaet, $this->getReference(ContentTypeData::$NOTES));
+            $this->addContentType($manager, $lageraktivitaet, $this->getReference(ContentTypeData::$MATERIAL));
         }
         $this->addReference(self::$PBS_JS_KIDS_LAGERAKTIVITAET, $lageraktivitaet);
 
@@ -77,11 +73,11 @@ class ActivityCategoryTemplateData extends AbstractFixture implements DependentF
             $manager->persist($lagersport);
 
             // add allowed content types
-            $this->addContentType($lagersport, $this->getReference(ContentTypeData::$STORYBOARD));
-            $this->addContentType($lagersport, $this->getReference(ContentTypeData::$STORYCONTEXT));
-            $this->addContentType($lagersport, $this->getReference(ContentTypeData::$SAFETYCONCEPT));
-            $this->addContentType($lagersport, $this->getReference(ContentTypeData::$NOTES));
-            $this->addContentType($lagersport, $this->getReference(ContentTypeData::$MATERIAL));
+            $this->addContentType($manager, $lagersport, $this->getReference(ContentTypeData::$STORYBOARD));
+            $this->addContentType($manager, $lagersport, $this->getReference(ContentTypeData::$STORYCONTEXT));
+            $this->addContentType($manager, $lagersport, $this->getReference(ContentTypeData::$SAFETYCONCEPT));
+            $this->addContentType($manager, $lagersport, $this->getReference(ContentTypeData::$NOTES));
+            $this->addContentType($manager, $lagersport, $this->getReference(ContentTypeData::$MATERIAL));
         }
         $this->addReference(self::$PBS_JS_TEEN_LAGERSPORT, $lagersport);
 
@@ -97,9 +93,9 @@ class ActivityCategoryTemplateData extends AbstractFixture implements DependentF
 
             // add allowed content types
             //$this->addContentType($activityType, $this->getReference(ContentTypeData::$STORYBOARD));
-            $this->addContentType($lageraktivitaet, $this->getReference(ContentTypeData::$STORYCONTEXT));
-            $this->addContentType($lageraktivitaet, $this->getReference(ContentTypeData::$NOTES));
-            $this->addContentType($lageraktivitaet, $this->getReference(ContentTypeData::$MATERIAL));
+            $this->addContentType($manager, $lageraktivitaet, $this->getReference(ContentTypeData::$STORYCONTEXT));
+            $this->addContentType($manager, $lageraktivitaet, $this->getReference(ContentTypeData::$NOTES));
+            $this->addContentType($manager, $lageraktivitaet, $this->getReference(ContentTypeData::$MATERIAL));
         }
         $this->addReference(self::$PBS_JS_TEEN_LAGERAKTIVITAET, $lageraktivitaet);
 
@@ -110,11 +106,11 @@ class ActivityCategoryTemplateData extends AbstractFixture implements DependentF
         return [CampTemplateData::class, ContentTypeData::class];
     }
 
-    private function addContentType(ActivityCategoryTemplate $activityCategoryTemplate, ContentType $contentType) {
+    private function addContentType(ObjectManager $manager, ActivityCategoryTemplate $activityCategoryTemplate, ContentType $contentType) {
         $contentTypeConfigTemplate = new ContentTypeConfigTemplate();
         $contentTypeConfigTemplate->setContentType($contentType);
         $activityCategoryTemplate->addContentTypeConfigTemplate($contentTypeConfigTemplate);
-        $this->manager->persist($contentTypeConfigTemplate);
+        $manager->persist($contentTypeConfigTemplate);
 
         return $contentTypeConfigTemplate;
     }

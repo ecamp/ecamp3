@@ -16,11 +16,7 @@ class ActivityCategoryData extends AbstractFixture implements DependentFixtureIn
     public static $EVENTCATEGORY_2_LS = ActivityCategory::class.':EVENTCATEGORY_2_LS';
     public static $EVENTCATEGORY_2_LA = ActivityCategory::class.':EVENTCATEGORY_2_LA';
 
-    private ObjectManager $manager;
-
     public function load(ObjectManager $manager) {
-        $this->manager = $manager;
-
         $repository = $manager->getRepository(ActivityCategory::class);
 
         /** @var Camp $camp */
@@ -37,11 +33,11 @@ class ActivityCategoryData extends AbstractFixture implements DependentFixtureIn
             $manager->persist($activityCategory);
 
             // add prefered content types
-            $this->addContentType($activityCategory, $this->getReference(ContentTypeData::$STORYBOARD));
-            $this->addContentType($activityCategory, $this->getReference(ContentTypeData::$STORYCONTEXT));
-            $this->addContentType($activityCategory, $this->getReference(ContentTypeData::$SAFETYCONCEPT));
-            $this->addContentType($activityCategory, $this->getReference(ContentTypeData::$NOTES));
-            $this->addContentType($activityCategory, $this->getReference(ContentTypeData::$MATERIAL));
+            $this->addContentType($manager, $activityCategory, $this->getReference(ContentTypeData::$STORYBOARD));
+            $this->addContentType($manager, $activityCategory, $this->getReference(ContentTypeData::$STORYCONTEXT));
+            $this->addContentType($manager, $activityCategory, $this->getReference(ContentTypeData::$SAFETYCONCEPT));
+            $this->addContentType($manager, $activityCategory, $this->getReference(ContentTypeData::$NOTES));
+            $this->addContentType($manager, $activityCategory, $this->getReference(ContentTypeData::$MATERIAL));
         }
         $this->addReference(self::$EVENTCATEGORY_1_LS, $activityCategory);
 
@@ -56,9 +52,9 @@ class ActivityCategoryData extends AbstractFixture implements DependentFixtureIn
             $manager->persist($activityCategory);
 
             // add prefered content types
-            $this->addContentType($activityCategory, $this->getReference(ContentTypeData::$STORYCONTEXT));
-            $this->addContentType($activityCategory, $this->getReference(ContentTypeData::$NOTES));
-            $this->addContentType($activityCategory, $this->getReference(ContentTypeData::$MATERIAL));
+            $this->addContentType($manager, $activityCategory, $this->getReference(ContentTypeData::$STORYCONTEXT));
+            $this->addContentType($manager, $activityCategory, $this->getReference(ContentTypeData::$NOTES));
+            $this->addContentType($manager, $activityCategory, $this->getReference(ContentTypeData::$MATERIAL));
         }
         $this->addReference(self::$EVENTCATEGORY_1_LA, $activityCategory);
 
@@ -76,11 +72,11 @@ class ActivityCategoryData extends AbstractFixture implements DependentFixtureIn
             $manager->persist($activityCategory);
 
             // add prefered content types
-            $this->addContentType($activityCategory, $this->getReference(ContentTypeData::$STORYBOARD));
-            $this->addContentType($activityCategory, $this->getReference(ContentTypeData::$STORYCONTEXT));
-            $this->addContentType($activityCategory, $this->getReference(ContentTypeData::$SAFETYCONCEPT));
-            $this->addContentType($activityCategory, $this->getReference(ContentTypeData::$NOTES));
-            $this->addContentType($activityCategory, $this->getReference(ContentTypeData::$MATERIAL));
+            $this->addContentType($manager, $activityCategory, $this->getReference(ContentTypeData::$STORYBOARD));
+            $this->addContentType($manager, $activityCategory, $this->getReference(ContentTypeData::$STORYCONTEXT));
+            $this->addContentType($manager, $activityCategory, $this->getReference(ContentTypeData::$SAFETYCONCEPT));
+            $this->addContentType($manager, $activityCategory, $this->getReference(ContentTypeData::$NOTES));
+            $this->addContentType($manager, $activityCategory, $this->getReference(ContentTypeData::$MATERIAL));
         }
         $this->addReference(self::$EVENTCATEGORY_2_LS, $activityCategory);
 
@@ -95,9 +91,9 @@ class ActivityCategoryData extends AbstractFixture implements DependentFixtureIn
             $manager->persist($activityCategory);
 
             // add prefered content types
-            $this->addContentType($activityCategory, $this->getReference(ContentTypeData::$STORYCONTEXT));
-            $this->addContentType($activityCategory, $this->getReference(ContentTypeData::$NOTES));
-            $this->addContentType($activityCategory, $this->getReference(ContentTypeData::$MATERIAL));
+            $this->addContentType($manager, $activityCategory, $this->getReference(ContentTypeData::$STORYCONTEXT));
+            $this->addContentType($manager, $activityCategory, $this->getReference(ContentTypeData::$NOTES));
+            $this->addContentType($manager, $activityCategory, $this->getReference(ContentTypeData::$MATERIAL));
         }
         $this->addReference(self::$EVENTCATEGORY_2_LA, $activityCategory);
 
@@ -108,11 +104,11 @@ class ActivityCategoryData extends AbstractFixture implements DependentFixtureIn
         return [CampData::class, ContentTypeData::class];
     }
 
-    private function addContentType(ActivityCategory $activityCategory, ContentType $contentType) {
+    private function addContentType(ObjectManager $manager, ActivityCategory $activityCategory, ContentType $contentType) {
         $contentTypeConfig = new ContentTypeConfig();
         $contentTypeConfig->setContentType($contentType);
         $activityCategory->addContentTypeConfig($contentTypeConfig);
-        $this->manager->persist($contentTypeConfig);
+        $manager->persist($contentTypeConfig);
 
         return $contentTypeConfig;
     }
