@@ -15,6 +15,6 @@ RUN apt-get -y update && apt-get -y upgrade && apt-get -y install libxml2-dev cu
 COPY --from=composer-stage /app/vendor /app/vendor
 COPY backend .
 RUN chmod -R a+rw data && a2enmod rewrite
-COPY backend/apache-vhost.conf /etc/apache2/sites-enabled/000-default.conf
+COPY .docker-hub/backend/apache-vhost.conf /etc/apache2/sites-enabled/000-default.conf
 COPY .docker-hub/backend/docker-entrypoint.sh docker-entrypoint.sh
 ENTRYPOINT bash docker-entrypoint.sh

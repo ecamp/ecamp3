@@ -3,4 +3,4 @@ set -euo pipefail
 
 npm ci
 
-npm run dev
+npm run print
