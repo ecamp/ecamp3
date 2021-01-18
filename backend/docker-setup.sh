@@ -1,4 +1,5 @@
 #!/bin/bash
+set -euo pipefail
 
 BASEDIR=$(dirname "$0")
 DB_CONFIG_FILE=$BASEDIR"/config/autoload/doctrine.local.dev.php"
