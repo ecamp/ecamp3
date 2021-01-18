@@ -103,7 +103,7 @@ Displays a single activity
               </div>
             </div>
           </v-card>
-          <component :is="'ActivityLayoutGeneral'" :activity="activity" />
+          <activity-content-layout :activity="activity" />
         </template>
       </v-card-text>
     </content-card>
@@ -115,7 +115,7 @@ import ContentCard from '@/components/layout/ContentCard'
 import ApiTextField from '@/components/form/api/ApiTextField'
 import ApiSelect from '@/components/form/api/ApiSelect'
 
-import ActivityLayoutGeneral from '@/components/activity/layouts/General'
+import ActivityContentLayout from '@/components/activity/ActivityContentLayout'
 import camelCase from 'lodash/camelCase'
 
 export default {
@@ -124,7 +124,7 @@ export default {
     ContentCard,
     ApiTextField,
     ApiSelect,
-    ActivityLayoutGeneral
+    ActivityContentLayout
   },
   props: {
     scheduleEntry: {
