@@ -13,6 +13,7 @@ use eCamp\Core\Entity\Camp;
 use eCamp\Core\Entity\CampCollaboration;
 use eCamp\Core\Entity\CampType;
 use eCamp\Core\Entity\ContentType;
+use eCamp\Core\Entity\ContentTypeConfig;
 use eCamp\Core\Entity\Day;
 use eCamp\Core\Entity\Group;
 use eCamp\Core\Entity\GroupMembership;
@@ -60,6 +61,7 @@ class AclFactory implements FactoryInterface {
 
         $acl->addResource(Activity::class, BaseEntity::class);
         $acl->addResource(ActivityCategory::class, BaseEntity::class);
+        $acl->addResource(ContentTypeConfig::class, BaseEntity::class);
         $acl->addResource(ActivityContent::class, BaseEntity::class);
         $acl->addResource(ActivityResponsible::class, BaseEntity::class);
 
@@ -143,6 +145,7 @@ class AclFactory implements FactoryInterface {
                 Day::class,
                 Activity::class,
                 ActivityCategory::class,
+                ContentTypeConfig::class,
                 ActivityResponsible::class,
                 ScheduleEntry::class,
                 ActivityContent::class,
@@ -161,6 +164,7 @@ class AclFactory implements FactoryInterface {
                 Day::class,
                 Activity::class,
                 ActivityCategory::class,
+                ContentTypeConfig::class,
                 ActivityResponsible::class,
                 ScheduleEntry::class,
                 ActivityContent::class,

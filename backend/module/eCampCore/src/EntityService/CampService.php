@@ -6,7 +6,6 @@ use Doctrine\ORM\ORMException;
 use eCamp\Core\Entity\AbstractCampOwner;
 use eCamp\Core\Entity\Camp;
 use eCamp\Core\Entity\CampCollaboration;
-use eCamp\Core\Entity\CampType;
 use eCamp\Core\Entity\User;
 use eCamp\Core\Hydrator\CampHydrator;
 use eCamp\Lib\Acl\NoAccessException;
@@ -49,7 +48,7 @@ class CampService extends AbstractEntityService {
      * @return ApiProblem|array
      */
     public function fetchByOwner(AbstractCampOwner $owner) {
-        $q = parent::findCollectionQueryBuilder(Camp::class, 'row');
+        $q = parent::findCollectionQueryBuilder(Camp::class, 'row', null);
         $q->where('row.owner = :owner');
         $q->setParameter('owner', $owner);
 
@@ -68,9 +67,6 @@ class CampService extends AbstractEntityService {
     protected function createEntity($data) {
         $this->assertAuthenticated();
 
-        /** @var CampType $campType */
-        $campType = $this->findEntity(CampType::class, $data->campTypeId);
-
         /** @var AbstractCampOwner $owner */
         $owner = $this->getAuthUser();
         if (isset($data->ownerId)) {
@@ -83,7 +79,6 @@ class CampService extends AbstractEntityService {
         /** @var Camp $camp */
         $camp = parent::createEntity($data);
         $camp->setName($data->name);
-        $camp->setCampType($campType);
         $camp->setCreator($creator);
         $owner->addOwnedCamp($camp);
 
@@ -93,7 +88,6 @@ class CampService extends AbstractEntityService {
     protected function createEntityPost(BaseEntity $entity, $data) {
         /** @var Camp $camp */
         $camp = $entity;
-        $campType = $camp->getCampType();
 
         // Create CampCollaboration for Creator
         $this->campCollaboratorService->create((object) [
@@ -101,21 +95,10 @@ class CampService extends AbstractEntityService {
             'role' => CampCollaboration::ROLE_MANAGER,
         ]);
 
-        /** Create default Jobs */
-        /*
-        $jobConfigs = $campType->getConfig(CampType::CNF_JOBS) ?: [];
-        foreach ($jobConfigs as $jobConfig) {
-            $jobConfig->campId = $camp->getId();
-            $this->getJobService()->create($jobConfig);
-        }
-        */
-
-        // Create default ActivityCategories
-        $acConfigs = $campType->getConfig(CampType::CNF_ACTIVITY_CATEGORIES) ?: [];
-        foreach ($acConfigs as $acConfig) {
-            $acConfig->campId = $camp->getId();
-            $this->activityCategoryService->create($acConfig);
-        }
+        // TODO:
+        // - Load CampTemplate
+        // - Create MaterialLists
+        // - Create ActivityCategories + ContentTypeConfigs
 
         // Create Periods:
         if (isset($data->periods)) {

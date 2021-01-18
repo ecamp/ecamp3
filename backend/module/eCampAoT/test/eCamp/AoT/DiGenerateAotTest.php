@@ -12,14 +12,17 @@ class DiGenerateAotTest extends AbstractTestCase {
     const SCRIPT_PATH = __DIR__.'/../../../../../bin/di-generate-aot.php';
     const GEN_DIRECTORY = __DIR__.'/../../../gen';
 
-    protected function setUp(): void {
-        parent::setUp();
-        $this->removeDirectory(self::GEN_DIRECTORY);
-    }
-
     public function testRunsThroughWithoutErrors() {
+        // delete folder
+        if (file_exists(self::GEN_DIRECTORY)) {
+            (new Filesystem())->remove(self::GEN_DIRECTORY);
+        }
+
         // given
         $this->assertDirectoryDoesNotExist(self::GEN_DIRECTORY);
+
+        // recreate empty folder
+        (new Filesystem())->mkdir(self::GEN_DIRECTORY);
 
         // when
         require self::SCRIPT_PATH;
@@ -28,11 +31,5 @@ class DiGenerateAotTest extends AbstractTestCase {
         $this->assertDirectoryExists(self::GEN_DIRECTORY);
         $this->assertDirectoryExists(self::GEN_DIRECTORY.'/Factory/eCamp');
         $this->assertDirectoryExists(self::GEN_DIRECTORY.'/Factory/eCampApi');
-    }
-
-    protected function removeDirectory($dir) {
-        if (file_exists($dir)) {
-            (new Filesystem())->remove($dir);
-        }
     }
 }
