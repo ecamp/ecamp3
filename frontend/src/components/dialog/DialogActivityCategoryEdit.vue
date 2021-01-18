@@ -41,9 +41,6 @@ export default {
         'name',
         'color',
         'numberingStyle'
-      ],
-      embeddedEntities: [
-        'activityType'
       ]
     }
   },
