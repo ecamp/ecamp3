@@ -13,7 +13,7 @@ jobs:
 
       - uses: actions/checkout@v2
 
-      - uses: OskarStark/php-cs-fixer-ga@2.17.3
+      - uses: OskarStark/php-cs-fixer-ga@2.18.0
         with:
           args: --dry-run --diff --config=backend/.php_cs
 
