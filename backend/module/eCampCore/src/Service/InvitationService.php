@@ -48,7 +48,7 @@ class InvitationService {
         $campCollaboration->setStatus(CampCollaboration::STATUS_ESTABLISHED);
         $campCollaboration->setInviteKey(null);
         $campCollaboration->setInviteEmail(null);
-        $this->campCollaborationRepository->save($campCollaboration);
+        $this->campCollaborationRepository->saveWithoutAcl($campCollaboration);
 
         return $campCollaboration;
     }
@@ -63,7 +63,7 @@ class InvitationService {
         }
         $campCollaboration->setStatus(CampCollaboration::STATUS_LEFT);
         $campCollaboration->setInviteKey(null);
-        $this->campCollaborationRepository->save($campCollaboration);
+        $this->campCollaborationRepository->saveWithoutAcl($campCollaboration);
 
         return $campCollaboration;
     }

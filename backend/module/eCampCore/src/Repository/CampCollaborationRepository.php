@@ -22,7 +22,7 @@ class CampCollaborationRepository extends EntityRepository {
         }
     }
 
-    public function save(CampCollaboration $campCollaboration) {
+    public function saveWithoutAcl(CampCollaboration $campCollaboration) {
         $this->getEntityManager()->persist($campCollaboration);
         $this->getEntityManager()->flush();
     }
