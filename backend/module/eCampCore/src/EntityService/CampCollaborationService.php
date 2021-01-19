@@ -77,7 +77,8 @@ class CampCollaborationService extends AbstractEntityService {
             )
         ));
         $q->setParameter('campId', $camp->getId());
-        $q->setParameter('userId', null != $user ? $user->getId() : null);
+        $userForCampCollaborationAlreadyKnown = null != $user;
+        $q->setParameter('userId', $userForCampCollaborationAlreadyKnown ? $user->getId() : null);
         $q->setParameter('inviteEmail', $inviteEmail);
         $result = $q->getQuery()->getResult();
 
@@ -96,7 +97,7 @@ class CampCollaborationService extends AbstractEntityService {
         /** @var CampCollaboration $campCollaboration */
         $campCollaboration = parent::createEntity($data);
         $camp->addCampCollaboration($campCollaboration);
-        if (null != $user) {
+        if ($userForCampCollaborationAlreadyKnown) {
             $user->addCampCollaboration($campCollaboration);
         }
 
