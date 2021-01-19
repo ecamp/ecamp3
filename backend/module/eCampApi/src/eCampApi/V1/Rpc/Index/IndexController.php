@@ -79,7 +79,6 @@ class IndexController extends AbstractActionController {
             $data['user'] = 'guest';
             $data['authenticated'] = false;
         }
-
         $data['profile'] = Link::factory([
             'rel' => 'profile',
             'route' => 'e-camp-api.rpc.profile',
@@ -105,11 +104,6 @@ class IndexController extends AbstractActionController {
             'route' => 'api-tools/swagger',
         ]);
 
-        $data['admin'] = Link::factory([
-            'rel' => 'admin',
-            'route' => 'api-tools/ui',
-        ]);
-
         $data['invitation'] = TemplatedLink::factory([
             'rel' => 'invitation',
             'route' => [
@@ -125,9 +119,9 @@ class IndexController extends AbstractActionController {
             'route' => 'e-camp-api.rest.doctrine.user',
         ]);
 
-        $data['campTypes'] = TemplatedLink::factory([
-            'rel' => 'campTypes',
-            'route' => 'e-camp-api.rest.doctrine.camp-type',
+        $data['campTemplates'] = TemplatedLink::factory([
+            'rel' => 'campTemplates',
+            'route' => 'e-camp-api.rest.doctrine.camp-template',
         ]);
 
         $data['camps'] = TemplatedLink::factory([

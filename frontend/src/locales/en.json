@@ -200,7 +200,6 @@
         "member": "Member"
       },
       "fields": {
-        "campType": "Camp type",
         "motto": "Motto",
         "name": "Name",
         "title": "Title"
@@ -209,6 +208,9 @@
     },
     "campCollaboration": {
       "campLeft": "left camp"
+    },
+    "campTemplate": {
+      "name": "Camp template"
     },
     "materialItem": {
       "fields": {

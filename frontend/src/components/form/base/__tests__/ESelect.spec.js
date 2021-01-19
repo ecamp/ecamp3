@@ -53,16 +53,16 @@ describe('An ESelect', () => {
   })
   test('looks like a dropdown', async () => {
     const wrapper = mount()
-    expect(wrapper.element).toMatchSnapshot('no item selected')
+    expect(wrapper).toMatchSnapshot('no item selected')
 
     await wrapper.find('.v-input__slot').trigger('click')
-    expect(wrapper.element).toMatchSnapshot('dropdown open')
+    expect(wrapper).toMatchSnapshot('dropdown open')
 
     await wrapper.findAll('[role="option"]').at(0).trigger('click')
-    expect(wrapper.element).toMatchSnapshot('dropdown closed with selected value')
+    expect(wrapper).toMatchSnapshot('dropdown closed with selected value')
 
     await wrapper.find('.v-input__slot').trigger('click')
-    expect(wrapper.element).toMatchSnapshot('dropdown open with selected value')
+    expect(wrapper).toMatchSnapshot('dropdown open with selected value')
   })
 
   test('update viewmodel with selected value', async () => {

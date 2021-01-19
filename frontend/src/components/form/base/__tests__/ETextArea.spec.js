@@ -36,17 +36,17 @@ describe('An ETextArea', () => {
   })
   test('looks like a textarea', async () => {
     const wrapper = mount()
-    expect(wrapper.element).toMatchSnapshot('notext')
+    expect(wrapper).toMatchSnapshot('notext')
 
     await wrapper.setData({ data: multiLineText })
-    expect(wrapper.element).toMatchSnapshot('withtext')
+    expect(wrapper).toMatchSnapshot('withtext')
 
     const mountWithMultiLine = mount({ data: () => ({ data: multiLineText }) }, `
         <div data-app>
           <e-textarea v-model="data" multi-line/>
         </div>
       `)
-    expect(mountWithMultiLine.element).toMatchSnapshot('multiline')
+    expect(mountWithMultiLine).toMatchSnapshot('multiline')
 
     const mountAsinControls = mount({ data: () => ({ data: multiLineText }) }, `
         <div data-app>
@@ -57,7 +57,7 @@ describe('An ETextArea', () => {
           />
         </div>
       `)
-    expect(mountAsinControls.element).toMatchSnapshot('mountAsInControls')
+    expect(mountAsinControls).toMatchSnapshot('mountAsInControls')
   })
 
   test('updates the text with the viewmodel', async () => {

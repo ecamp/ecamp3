@@ -10,12 +10,6 @@
       :name="$tc('entity.activityCategory.fields.name')"
       vee-rules="required" />
 
-    <e-select
-      v-model="localActivityCategory.activityTypeId"
-      :items="activityTypeOptions"
-      :name="$tc('entity.activityCategory.fields.activityType')"
-      vee-rules="required" />
-
     <e-color-picker
       v-model="localActivityCategory.color"
       :name="$tc('entity.activityCategory.fields.color')"
@@ -44,31 +38,11 @@ export default {
     }
   },
   computed: {
-    activityTypes () {
-      return this.camp.campType().activityTypes().items
-    },
-    activityTypeOptions () {
-      return this.activityTypes.map(ct => ({
-        value: ct.id,
-        text: this.$tc(ct.name),
-        object: ct
-      }))
-    },
     numberingStyles () {
       return ['1', 'a', 'A', 'i', 'I'].map(i => ({
         value: i,
         text: this.$tc('entity.activityCategory.numberingStyles.' + i)
       }))
-    }
-  },
-  watch: {
-    'activityCategory.activityTypeId': function (activityTypeId) {
-      if (this.isNew && this.updateColorAndNumberingStyle) {
-        this.updateColorAndNumberingStyle = false
-        const activityType = this.activityTypes.filter(a => a.id === activityTypeId)[0]
-        this.localActivityCategory.color = activityType.defaultColor
-        this.localActivityCategory.numberingStyle = activityType.defaultNumberingStyle
-      }
     }
   }
 }

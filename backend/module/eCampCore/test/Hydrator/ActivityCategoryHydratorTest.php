@@ -13,10 +13,8 @@ use eCamp\LibTest\PHPUnit\AbstractTestCase;
  */
 class ActivityCategoryHydratorTest extends AbstractTestCase {
     public function testExtract() {
-        $activityType = new ActivityType();
         $camp = new Camp();
         $activityCategory = new ActivityCategory();
-        $activityCategory->setActivityType($activityType);
         $activityCategory->setCamp($camp);
         $activityCategory->setShort('sh');
         $activityCategory->setName('name');
@@ -35,7 +33,6 @@ class ActivityCategoryHydratorTest extends AbstractTestCase {
     }
 
     public function testHydrate() {
-        $activityType = new ActivityType();
         $camp = new Camp();
 
         $activityCategory = new ActivityCategory();
@@ -47,12 +44,10 @@ class ActivityCategoryHydratorTest extends AbstractTestCase {
         ];
 
         $activityCategory->setCamp($camp);
-        $activityCategory->setActivityType($activityType);
 
         $hydrator = new ActivityCategoryHydrator();
         $hydrator->hydrate($data, $activityCategory);
 
-        $this->assertEquals($activityType, $activityCategory->getActivityType());
         $this->assertEquals($camp, $activityCategory->getCamp());
         $this->assertEquals('sh', $activityCategory->getShort());
         $this->assertEquals('name', $activityCategory->getName());

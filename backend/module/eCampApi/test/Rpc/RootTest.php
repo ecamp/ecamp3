@@ -57,9 +57,6 @@ JSON;
                 "docu": {
                     "href": "http://{$host}/api-tools/swagger"
                 },
-                "admin": {
-                    "href": "http://{$host}/api-tools/ui"
-                },
                 "invitation": {
                   "href": "http://{$host}/api/invitation{/action}{/inviteKey}",
                   "templated": true
@@ -68,8 +65,8 @@ JSON;
                     "href": "http://{$host}/api/users{/userId}{?page_size,search}",
                     "templated": true
                 },
-                "campTypes": {
-                    "href": "http://{$host}/api/camp-types{/campTypeId}{?page_size}",
+                "campTemplates": {
+                    "href": "http://{$host}/api/camp-templates{/campTemplateId}{?page_size}",
                     "templated": true
                 },
                 "camps": {

@@ -157,7 +157,6 @@
         "member": "Membre"
       },
       "fields": {
-        "campType": "Type de camp",
         "motto": "Devise",
         "name": "Nom",
         "title": "Titre"
@@ -166,6 +165,9 @@
     },
     "campCollaboration": {
       "campLeft": "quitter le camp"
+    },
+    "campTemplate": {
+      "name": "Modèle de camp"
     },
     "period": {
       "defaultDescription": "Camp principal",

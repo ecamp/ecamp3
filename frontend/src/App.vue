@@ -56,8 +56,7 @@ export default {
 </script>
 <style lang="scss">
   @import "src/scss/global";
-  // consider replacing with CDN for production
-  @import '../node_modules/@mdi/font/css/materialdesignicons.css';
+  @import "~@mdi/font/css/materialdesignicons.css";
 
   .v-btn.ec-drawer-collapse {
     right: 0;

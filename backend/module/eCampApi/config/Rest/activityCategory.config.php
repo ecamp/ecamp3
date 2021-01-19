@@ -107,9 +107,6 @@ $config['input_filter_specs'] = [
                 ],
             ],
         ],
-        4 => [
-            'name' => 'activityTypeId',
-        ],
     ],
 ];
 

@@ -21,6 +21,10 @@
         <v-icon :left="$vuetify.breakpoint.mdAndUp">mdi-account-group</v-icon>
         <span class="sr-only-sm-and-down">{{ $tc('views.camp.navigationCamp.team') }}</span>
       </v-btn>
+      <v-btn :to="campRoute(camp(), 'material')" text>
+        <v-icon :left="$vuetify.breakpoint.mdAndUp">mdi-package-variant</v-icon>
+        <span class="sr-only-sm-and-down">{{ $tc('views.camp.navigationCamp.material') }}</span>
+      </v-btn>
       <v-btn :to="campRoute(camp(), 'print')" text>
         <v-icon :left="$vuetify.breakpoint.mdAndUp">mdi-printer</v-icon>
         <span class="sr-only-sm-and-down">{{ $tc('views.camp.navigationCamp.print') }}</span>
@@ -28,10 +32,6 @@
       <v-btn :to="campRoute(camp(), 'admin')" text>
         <v-icon :left="$vuetify.breakpoint.mdAndUp">mdi-cogs</v-icon>
         <span class="sr-only-sm-and-down">{{ $tc('views.camp.navigationCamp.admin') }}</span>
-      </v-btn>
-      <v-btn :to="campRoute(camp(), 'material')" text>
-        <v-icon :left="$vuetify.breakpoint.mdAndUp">mdi-package-variant</v-icon>
-        <span class="sr-only-sm-and-down">{{ $tc('views.camp.navigationCamp.material') }}</span>
       </v-btn>
     </v-toolbar-items>
     <v-spacer />
@@ -52,7 +52,7 @@
       <span>{{ $tc('views.camp.navigationCamp.program') }}</span>
       <v-icon large>mdi-tent</v-icon>
     </v-btn>
-    <v-btn :to="campRoute(camp(), 'material')" exact>
+    <v-btn :to="campRoute(camp(), 'material')">
       <span>{{ $tc('views.camp.navigationCamp.material') }}</span>
       <v-icon>mdi-package-variant</v-icon>
     </v-btn>

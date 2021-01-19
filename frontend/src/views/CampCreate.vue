@@ -22,20 +22,14 @@
               vee-rules="required"
               required />
             <e-select
-              v-model="camp.campTypeId"
-              :name="$tc('entity.camp.fields.campType')"
-              vee-rules="required"
-              :items="campTypes">
+              v-model="camp.campTemplateId"
+              :name="$tc('entity.campTemplate.name')"
+              :items="campTemplates">
               <template #item="data">
                 <v-list-item v-bind="data.attrs" v-on="data.on">
                   <v-list-item-content>
                     {{ data.item.text }}
                   </v-list-item-content>
-                  <v-list-item-action-text>
-                    <v-icon v-if="data.item.object.isCourse" left>
-                      mdi-school
-                    </v-icon>
-                  </v-list-item-action-text>
                 </v-list-item>
               </template>
             </e-select>
@@ -84,7 +78,7 @@ export default {
         name: '',
         title: '',
         motto: '',
-        campTypeId: null,
+        campTemplateId: null,
         periods: [
           {
             key: 0,
@@ -99,8 +93,8 @@ export default {
     }
   },
   computed: {
-    campTypes () {
-      return this.api.get().campTypes().items.map(ct => ({
+    campTemplates () {
+      return this.api.get().campTemplates().items.map(ct => ({
         value: ct.id,
         text: this.$tc(ct.name),
         object: ct

@@ -2,6 +2,7 @@
 
 namespace eCamp\Core\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use eCamp\Lib\Entity\BaseEntity;
 
@@ -12,6 +13,12 @@ use eCamp\Lib\Entity\BaseEntity;
  */
 class ActivityCategory extends BaseEntity implements BelongsToCampInterface {
     /**
+     * @var ArrayCollection
+     * @ORM\OneToMany(targetEntity="ContentTypeConfig", mappedBy="activityCategory", orphanRemoval=true)
+     */
+    protected $contentTypeConfigs;
+
+    /**
      * @var Camp
      * @ORM\ManyToOne(targetEntity="Camp")
      * @ORM\JoinColumn(nullable=false, onDelete="cascade")
@@ -19,11 +26,10 @@ class ActivityCategory extends BaseEntity implements BelongsToCampInterface {
     private $camp;
 
     /**
-     * @var ActivityType
-     * @ORM\ManyToOne(targetEntity="ActivityType")
-     * @ORM\JoinColumn(nullable=false)
+     * @var string
+     * @ORM\Column(type="string", length=32, nullable=true)
      */
-    private $activityType;
+    private $activityCategoryTemplateId;
 
     /**
      * @var string
@@ -51,6 +57,8 @@ class ActivityCategory extends BaseEntity implements BelongsToCampInterface {
 
     public function __construct() {
         parent::__construct();
+
+        $this->contentTypeConfigs = new ArrayCollection();
     }
 
     /**
@@ -70,21 +78,31 @@ class ActivityCategory extends BaseEntity implements BelongsToCampInterface {
     }
 
     /**
-     * @return ActivityType
+     * @return ArrayCollection
      */
-    public function getActivityType() {
-        return $this->activityType;
+    public function getContentTypeConfigs() {
+        return $this->contentTypeConfigs;
     }
 
-    public function setActivityType(ActivityType $activityType) {
-        $this->activityType = $activityType;
+    public function addContentTypeConfig(ContentTypeConfig $contentTypeConfig) {
+        $contentTypeConfig->setActivityCategory($this);
+        $this->contentTypeConfigs->add($contentTypeConfig);
+    }
 
-        if (null == $this->getColor()) {
-            $this->setColor($activityType->getDefaultColor());
-        }
-        if (null == $this->getNumberingStyle()) {
-            $this->setNumberingStyle($activityType->getDefaultNumberingStyle());
-        }
+    public function removeContentTypeConfig(ContentTypeConfig $contentTypeConfig) {
+        $contentTypeConfig->setActivityCategory(null);
+        $this->contentTypeConfigs->removeElement($contentTypeConfig);
+    }
+
+    /**
+     * @return string
+     */
+    public function getActivityCategoryTemplateId() {
+        return $this->activityCategoryTemplateId;
+    }
+
+    public function setActivityCategoryTemplateId(string $activityCategoryTemplateId) {
+        $this->activityCategoryTemplateId = $activityCategoryTemplateId;
     }
 
     /**
@@ -113,12 +131,7 @@ class ActivityCategory extends BaseEntity implements BelongsToCampInterface {
      * @return string
      */
     public function getColor() {
-        if (null !== $this->color) {
-            return $this->color;
-        }
-        $activityType = $this->getActivityType();
-
-        return null !== $activityType ? $activityType->getDefaultColor() : null;
+        return $this->color;
     }
 
     public function setColor($color) {

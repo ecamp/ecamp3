@@ -40,9 +40,7 @@ return [
     'Laminas\\ApiTools',
     'Laminas\\ApiTools\\Configuration',
     'Laminas\\ApiTools\\Documentation',
-    'Laminas\\ApiTools\\Admin',
     'Phpro\\DoctrineHydrationModule',
-    'Laminas\\ApiTools\\Doctrine\\Admin',
     'Laminas\\ApiTools\\Doctrine\\Server',
     'Laminas\\ApiTools\\Documentation\\Swagger',
 ];

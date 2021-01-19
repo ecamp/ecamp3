@@ -1,4 +1,5 @@
 #!/bin/bash
+set -euo pipefail
 
 BASEDIR=$(dirname "$0")
 DB_CONFIG_FILE=$BASEDIR"/config/autoload/doctrine.local.dev.php"
@@ -13,4 +14,4 @@ php bin/wait-for-db.php
 # load schema, prod date & dev data
 php cli-setup.php dev
 
-./docker-run.sh
+apache2-foreground

@@ -34,10 +34,10 @@ describe('An ECheckbox', () => {
   test('looks like a checkbox', async () => {
     const wrapper = mount()
     await wrapper.setData({ data: false })
-    expect(wrapper.element).toMatchSnapshot('unchecked')
+    expect(wrapper).toMatchSnapshot('unchecked')
 
     await wrapper.setData({ data: true })
-    expect(wrapper.element).toMatchSnapshot('checked')
+    expect(wrapper).toMatchSnapshot('checked')
   })
 
   test('is checked when initialized checked', () => {

@@ -65,7 +65,7 @@ JSON;
                 }
             }
 JSON;
-        $expectedEmbeddedObjects = ['creator', 'campType', 'campCollaborations', 'periods', 'activityCategories'];
+        $expectedEmbeddedObjects = ['creator', 'campCollaborations', 'periods', 'activityCategories'];
 
         $this->verifyHalResourceResponse($expectedBody, $expectedLinks, $expectedEmbeddedObjects);
     }
@@ -98,7 +98,7 @@ JSON;
             'name' => 'CampName2',
             'title' => 'CampTitle',
             'motto' => 'CampMotto', // TODO for discussion: Should motto really be mandatory?
-            'campTypeId' => $this->camp->getCampType()->getId(), ]);
+        ]);
 
         $this->dispatch('/api/camps', 'POST');
 
