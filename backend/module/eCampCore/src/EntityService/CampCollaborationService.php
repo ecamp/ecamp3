@@ -62,7 +62,10 @@ class CampCollaborationService extends AbstractEntityService {
         $camp = $this->findRelatedEntity(Camp::class, $data, 'campId');
 
         /** @var User $user */
-        $user = null != $data->userId ? $this->findRelatedEntity(User::class, $data, 'userId') : null;
+        $user = null;
+        if (null != $data->userId) {
+            $user = $this->findRelatedEntity(User::class, $data, 'userId');
+        }
 
         $q = $this->fetchAllQueryBuilder();
         $expr = new Expr();
