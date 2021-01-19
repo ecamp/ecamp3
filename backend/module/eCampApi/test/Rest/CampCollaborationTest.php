@@ -65,7 +65,7 @@ JSON;
         $expectedEmbeddedObjects = [
             'camp',
             'user',
-        ]; // TODO discuss: wouldn't 'campCollaborationResponsibles' be more intuitive than 'campCollaborations'
+        ];
 
         $this->verifyHalResourceResponse($expectedBody, $expectedLinks, $expectedEmbeddedObjects);
     }
@@ -92,7 +92,7 @@ JSON;
                 }
             }
 JSON;
-        $expectedEmbeddedObjects = ['camp']; // TODO discuss: wouldn't 'campCollaborationResponsibles' be more intuitive than 'campCollaborations'
+        $expectedEmbeddedObjects = ['camp'];
 
         $this->verifyHalResourceResponse($expectedBody, $expectedLinks, $expectedEmbeddedObjects);
     }
