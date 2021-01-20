@@ -48,10 +48,6 @@
 import AuthContainer from '@/components/layout/AuthContainer'
 import { campRoute, loginRoute } from '@/router'
 
-function loginLink () {
-  return loginRoute(this.$route.fullPath)
-}
-
 export default {
   name: 'Invitation',
   components: { AuthContainer },
@@ -75,7 +71,9 @@ export default {
     isLoggedIn () {
       return this.$auth.isLoggedIn()
     },
-    loginLink
+    loginLink () {
+      return loginRoute(this.$route.fullPath)
+    }
   },
   mounted: function () {
     this.campCollaboration()._meta.load.then(
@@ -86,7 +84,9 @@ export default {
   },
   methods: {
     useAnotherAccount () {
-      this.$auth.logout().then(__ => this.$router.push(loginLink()))
+      // Remember the login link for after we are logged out
+      const loginLink = this.loginLink
+      this.$auth.logout().then(__ => this.$router.push(loginLink))
     },
     acceptInvitation () {
       if (!this.invitationFound) return
