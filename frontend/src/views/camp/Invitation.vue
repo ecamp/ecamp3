@@ -77,10 +77,8 @@ export default {
   },
   mounted: function () {
     this.campCollaboration()._meta.load.then(
-      // eslint-disable-next-line no-return-assign
-      () => this.invitationFound = true,
-      // eslint-disable-next-line no-return-assign
-      () => this.invitationFound = false)
+      () => { this.invitationFound = true },
+      () => { this.invitationFound = false })
   },
   methods: {
     useAnotherAccount () {
