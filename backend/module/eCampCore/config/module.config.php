@@ -128,6 +128,23 @@ return [
                     ],
                 ],
             ],
+            'campCollaborationInvite' => [
+                'type' => \Laminas\Mime\Mime::MULTIPART_ALTERNATIVE,
+                'parts' => [
+                    [
+                        'type' => \Laminas\Mime\Mime::TYPE_TEXT,
+                        'template' => 'mail/campCollaborationInvite-text',
+                        'encoding' => \Laminas\Mime\Mime::ENCODING_8BIT,
+                        'charset' => 'utf-8',
+                    ],
+                    [
+                        'type' => \Laminas\Mime\Mime::TYPE_HTML,
+                        'template' => 'mail/campCollaborationInvite-html',
+                        'encoding' => \Laminas\Mime\Mime::ENCODING_8BIT,
+                        'charset' => 'utf-8',
+                    ],
+                ],
+            ],
         ],
     ],
 ];

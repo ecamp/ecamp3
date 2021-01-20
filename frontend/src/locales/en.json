@@ -135,6 +135,15 @@
         "title": "Create period"
       }
     },
+    "invitation" : {
+      "acceptCurrentAuth" : "Accept invitation with current account",
+      "login": "Login",
+      "notFound" : "This invitation is already accepted or was deleted",
+      "register" : "Register",
+      "reject" : "Deny invitation",
+      "title" : "Invitation to Camp",
+      "useOtherAuth" : "Use another account"
+    },
     "layout": {
       "authContainer": {
         "photoCredits": "Photo by Markus Rohner / Lotos"
@@ -186,6 +195,7 @@
     },
     "camp": {
       "collaborators": {
+        "invite" : "Invite",
         "manager": "Manager",
         "member": "Member"
       },
@@ -336,11 +346,11 @@
         "title": "Camp Admin"
       },
       "collaborators": {
+        "email": "Email address",
         "invite": "Invite",
         "members": "Members",
         "openInvitations": "Open invitations",
         "openRequests": "Open requests",
-        "search": "Search...",
         "title": "Team"
       },
       "material": {

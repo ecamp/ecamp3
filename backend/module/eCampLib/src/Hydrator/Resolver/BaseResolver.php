@@ -19,7 +19,9 @@ abstract class BaseResolver {
     public function resolve($object) {
         $resolver = $this->resolver;
         $value = $resolver($object);
-        $value->_hydrateInfo_ = $this->selection;
+        if (null != $value) {
+            $value->_hydrateInfo_ = $this->selection;
+        }
 
         return $value;
     }

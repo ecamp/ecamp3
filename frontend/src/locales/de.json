@@ -293,6 +293,7 @@
         "title": "Lager Admin"
       },
       "collaborators": {
+        "email": "E-Mail-Adresse",
         "invite": "Einladen",
         "members": "Mitarbeitende",
         "openInvitations": "Offene Einladungen",
