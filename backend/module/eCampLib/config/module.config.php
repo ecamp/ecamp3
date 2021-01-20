@@ -26,6 +26,7 @@ return [
         'auto' => [
             'preferences' => [
                 \Doctrine\ORM\EntityManager::class => 'doctrine.entitymanager.orm_default',
+                \Doctrine\ORM\EntityManagerInterface::class => \Doctrine\ORM\EntityManager::class,
                 \Interop\Container\ContainerInterface::class => Laminas\ServiceManager\ServiceManager::class,
             ],
             'types' => [
@@ -46,6 +47,9 @@ return [
             \eCamp\Lib\ServiceManager\EntityFilterManager::class => \eCamp\Lib\ServiceManager\EntityFilterManagerFactory::class,
             Laminas\Hydrator\HydratorPluginManager::class => Laminas\Hydrator\HydratorPluginManagerFactory::class,
             \eCamp\Lib\Amqp\AmqpService::class => \eCamp\Lib\Amqp\AmqpServiceFactory::class,
+        ],
+        'aliases' => [
+            \Symfony\Component\Console\Output\OutputInterface::class => \Symfony\Component\Console\Output\ConsoleOutput::class,
         ],
     ],
     'entity_filter' => [
