@@ -9,7 +9,7 @@ use Laminas\Cli\Input\PathParam;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class LoadDataFixtureCommand extends AbstractParamAwareCommand {
+class LoadDataFixturesCommand extends AbstractParamAwareCommand {
     private $entityManager;
     private $fixtureLoader;
 
