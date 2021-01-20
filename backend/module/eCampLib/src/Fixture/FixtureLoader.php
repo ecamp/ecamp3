@@ -22,4 +22,16 @@ class FixtureLoader extends BaseLoader {
         }
         parent::addFixture($fixture);
     }
+
+    /**
+     * Creates the fixture object from the class.
+     *
+     * @param string $class
+     *
+     * @return FixtureInterface
+     */
+    protected function createFixture($class)
+    {
+        return $this->container->get($class);
+    }
 }
