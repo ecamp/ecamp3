@@ -30,8 +30,7 @@ class FixtureLoader extends BaseLoader {
      *
      * @return FixtureInterface
      */
-    protected function createFixture($class)
-    {
+    protected function createFixture($class) {
         return $this->container->get($class);
     }
 }

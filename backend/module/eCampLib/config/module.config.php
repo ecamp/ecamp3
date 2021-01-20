@@ -50,7 +50,7 @@ return [
         ],
         'aliases' => [
             \Symfony\Component\Console\Output\OutputInterface::class => \Symfony\Component\Console\Output\ConsoleOutput::class,
-        ]
+        ],
     ],
     'entity_filter' => [
         'abstract_factories' => [

@@ -14,7 +14,6 @@ use Symfony\Component\Console\Output\OutputInterface;
  * @internal
  */
 class LoadDataFixturesCommandTest extends AbstractConsoleControllerTestCase {
-
     public function testLoadsFilesFromGivenPath() {
         // given
         $services = $this->getApplicationServiceLocator();
@@ -51,5 +50,4 @@ class LoadDataFixturesCommandTest extends AbstractConsoleControllerTestCase {
         $consoleOutput = $output->fetch();
         $this->assertThat($consoleOutput, new IsEqual(''));
     }
-
 }

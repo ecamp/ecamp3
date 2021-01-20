@@ -37,6 +37,5 @@ class UpdateDatabaseSchemaCommandTest extends AbstractConsoleControllerTestCase 
 
         // then
         $this->assertThat($result, new IsEqual(UpdateDatabaseSchemaCommand::SUCCESS));
-
     }
 }

@@ -50,9 +50,10 @@ abstract class AbstractConsoleControllerTestCase extends LaminasAbstractConsoleC
     }
 
     public function getSymfonyApplication() {
-        if (!$this->symfonyApplication){
+        if (!$this->symfonyApplication) {
             $this->symfonyApplication = (new ApplicationFactory())($this->getApplicationServiceLocator());
         }
+
         return $this->symfonyApplication;
     }
 

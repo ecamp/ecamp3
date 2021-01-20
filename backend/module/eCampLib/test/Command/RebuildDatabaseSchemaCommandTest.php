@@ -38,6 +38,5 @@ class RebuildDatabaseSchemaCommandTest extends AbstractConsoleControllerTestCase
 
         // then
         $this->assertThat($result, new IsEqual(RebuildDatabaseSchemaCommand::SUCCESS));
-
     }
 }
