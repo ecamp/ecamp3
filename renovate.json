@@ -12,5 +12,12 @@
       "updateTypes": ["minor", "patch", "pin", "digest"],
       "automerge": true
     }
+  ],
+  "regexManagers": [
+    {
+      "fileMatch": ["^.github/workflows/continuous-integration.yml$"],
+      "matchStrings": ["(?<depName>cypress/included):(?<currentValue>[0-9.]+)\n"],
+      "datasourceTemplate": "docker"
+    }
   ]
 }
