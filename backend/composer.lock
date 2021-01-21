@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "669c9461628345a198207a0e44888e79",
+    "content-hash": "6b38e60ab9a9fef20b6658da0f88b7f0",
     "packages": [
         {
             "name": "assetic/framework",
@@ -3714,16 +3714,16 @@
         },
         {
             "name": "laminas/laminas-cli",
-            "version": "0.1.5",
+            "version": "1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-cli.git",
-                "reference": "863f529b929034b7ad73dc951d2a03735412735c"
+                "reference": "1fdb3edd0cd399a50b69559ebedb494c53853601"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-cli/zipball/863f529b929034b7ad73dc951d2a03735412735c",
-                "reference": "863f529b929034b7ad73dc951d2a03735412735c",
+                "url": "https://api.github.com/repos/laminas/laminas-cli/zipball/1fdb3edd0cd399a50b69559ebedb494c53853601",
+                "reference": "1fdb3edd0cd399a50b69559ebedb494c53853601",
                 "shasum": ""
             },
             "require": {
@@ -3740,7 +3740,7 @@
                 "laminas/laminas-mvc": "^3.1.1",
                 "laminas/laminas-servicemanager": "^3.4",
                 "phpunit/phpunit": "^9.4.1",
-                "vimeo/psalm": "^3.13"
+                "vimeo/psalm": "^4.4.1"
             },
             "bin": [
                 "bin/laminas"
@@ -3785,7 +3785,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2020-10-24T14:40:34+00:00"
+            "time": "2021-01-21T15:31:57+00:00"
         },
         {
             "name": "laminas/laminas-code",
@@ -9585,12 +9585,12 @@
             "version": "1.9.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/webmozart/assert.git",
+                "url": "https://github.com/webmozarts/assert.git",
                 "reference": "bafc69caeb4d49c39fd0779086c03a3738cbb389"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/webmozart/assert/zipball/bafc69caeb4d49c39fd0779086c03a3738cbb389",
+                "url": "https://api.github.com/repos/webmozarts/assert/zipball/bafc69caeb4d49c39fd0779086c03a3738cbb389",
                 "reference": "bafc69caeb4d49c39fd0779086c03a3738cbb389",
                 "shasum": ""
             },
@@ -9628,8 +9628,8 @@
                 "validate"
             ],
             "support": {
-                "issues": "https://github.com/webmozart/assert/issues",
-                "source": "https://github.com/webmozart/assert/tree/master"
+                "issues": "https://github.com/webmozarts/assert/issues",
+                "source": "https://github.com/webmozarts/assert/tree/1.9.1"
             },
             "time": "2020-07-08T17:02:28+00:00"
         },

@@ -13,7 +13,7 @@
         "php": "^7.4.2",
         "laminas-api-tools/api-tools-hal": "^1.5",
         "laminas-api-tools/api-tools-rest": "^1.5",
-        "laminas/laminas-cli": "^0.1.5",
+        "laminas/laminas-cli": "^1.0.0",
         "laminas/laminas-di": "^3.2",
         "laminas/laminas-mvc": "^3.1",
         "laminas/laminas-mail": "^2.10",
