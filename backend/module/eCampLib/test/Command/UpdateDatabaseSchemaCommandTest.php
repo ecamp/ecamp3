@@ -18,6 +18,7 @@ class UpdateDatabaseSchemaCommandTest extends AbstractConsoleControllerTestCase 
     public function testUpdatesDatabaseSchema() {
         // given
         $services = $this->getApplicationServiceLocator();
+
         $mockMetadata = [];
         $mockMetadataFactory = $this->createMock(ClassMetadataFactory::class);
         $mockMetadataFactory->method('getAllMetadata')->willReturn($mockMetadata);
@@ -27,6 +28,9 @@ class UpdateDatabaseSchemaCommandTest extends AbstractConsoleControllerTestCase 
 
         $mockSchemaTool = $this->createMock(SchemaTool::class);
         $services->setService(SchemaTool::class, $mockSchemaTool);
+
+        $mockFilesystem = $this->createMock(Filesystem::class);
+        $services->setService(Filesystem::class, $mockFilesystem);
 
         /** @var UpdateDatabaseSchemaCommand $command */
         $command = $services->get(UpdateDatabaseSchemaCommand::class);

@@ -29,6 +29,9 @@ class RebuildDatabaseSchemaCommandTest extends AbstractConsoleControllerTestCase
         $mockSchemaTool = $this->createMock(SchemaTool::class);
         $services->setService(SchemaTool::class, $mockSchemaTool);
 
+        $mockFilesystem = $this->createMock(Filesystem::class);
+        $services->setService(Filesystem::class, $mockFilesystem);
+
         /** @var RebuildDatabaseSchemaCommand $command */
         $command = $services->get(RebuildDatabaseSchemaCommand::class);
 

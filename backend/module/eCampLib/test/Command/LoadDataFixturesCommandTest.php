@@ -19,11 +19,16 @@ class LoadDataFixturesCommandTest extends AbstractConsoleControllerTestCase {
     public function testLoadsFilesFromGivenPath() {
         // given
         $services = $this->getApplicationServiceLocator();
-        /** @var LoadDataFixturesCommand $command */
-        $command = $services->get(LoadDataFixturesCommand::class);
+
         $input = new StringInput('load-data-fixtures --path='.__DIR__.'/../data/fixtures');
         $output = new BufferedOutput();
         $services->setService(OutputInterface::class, $output);
+
+        $mockFilesystem = $this->createMock(Filesystem::class);
+        $services->setService(Filesystem::class, $mockFilesystem);
+
+        /** @var LoadDataFixturesCommand $command */
+        $command = $services->get(LoadDataFixturesCommand::class);
 
         // when
         $result = $this->runCommand($command, $input, $output);
@@ -38,11 +43,16 @@ class LoadDataFixturesCommandTest extends AbstractConsoleControllerTestCase {
     public function testDoesNotCrashWhenGivenNonexistentLocation() {
         // given
         $services = $this->getApplicationServiceLocator();
-        /** @var LoadDataFixturesCommand $command */
-        $command = $services->get(LoadDataFixturesCommand::class);
+
         $input = new StringInput('load-data-fixtures --path='.__DIR__.'/../data/some-dir-that-does-not-exist');
         $output = new BufferedOutput();
         $services->setService(OutputInterface::class, $output);
+
+        $mockFilesystem = $this->createMock(Filesystem::class);
+        $services->setService(Filesystem::class, $mockFilesystem);
+
+        /** @var LoadDataFixturesCommand $command */
+        $command = $services->get(LoadDataFixturesCommand::class);
 
         // when
         $result = $this->runCommand($command, $input, $output);
