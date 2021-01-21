@@ -6,12 +6,24 @@
 
       <v-spacer />
       <div v-if="isLoggedIn">
-        <v-btn color="primary"
+        <v-btn v-if="userAlreadyInCamp !== true" color="primary"
                x-large
                class="my-4" block
                @click="acceptInvitation">
           {{ this.$tc('components.invitation.acceptCurrentAuth') }}
         </v-btn>
+        <div v-else>
+          <v-alert type="warning">
+            {{ this.$tc('components.invitation.userAlreadyInCamp') }}
+          </v-alert>
+          <v-spacer />
+          <v-btn color="primary"
+                 x-large
+                 class="my-4" block
+                 :to="campLink">
+            {{ this.$tc('components.invitation.openCamp') }}
+          </v-btn>
+        </div>
         <v-btn color="primary"
                x-large
                class="my-4" block
@@ -58,10 +70,13 @@ export default {
   data: () => ({ invitationFound: undefined }),
   computed: {
     camp () {
-      if (this.invitationFound === undefined) {
+      if (!this.invitationFound) {
         return undefined
       }
       return this.campCollaboration().camp()
+    },
+    campLink () {
+      return campRoute(this.camp)
     },
     campCollaborationOpen () {
       if (this.invitationFound === undefined) {
@@ -75,8 +90,31 @@ export default {
     loginLink () {
       return loginRoute(this.$route.fullPath)
     },
+    profile () {
+      if (this.isLoggedIn !== true) {
+        return undefined
+      }
+      return this.api.get().profile()
+    },
+    userAlreadyInCamp () {
+      if (this.isLoggedIn !== true) {
+        return undefined
+      }
+      if (this.camp === undefined) {
+        return undefined
+      }
+      const alreadyExistingCampCollaborations = this.api.get()
+        .campCollaborations({ campId: this.camp.id })
+        .items
+        .filter(campCollaboration => campCollaboration.user)
+        .filter(campCollaboration => this.profile.username === campCollaboration.user().username)
+      return alreadyExistingCampCollaborations.length > 0
+    },
     userDisplayName () {
-      return this.api.get().profile().displayName
+      if (this.profile === undefined) {
+        return undefined
+      }
+      return this.profile.displayName
     }
   },
   mounted: function () {
@@ -100,7 +138,7 @@ export default {
         action: 'accept',
         inviteKey: this.$route.params.inviteKey
       }).then(postUrl => me.api.post(postUrl, {}))
-        .then(_ => { me.$router.push(campRoute(me.camp)) },
+        .then(_ => { me.$router.push(me.campLink) },
           e => console.log(e))
     }
   }

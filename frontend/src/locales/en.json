@@ -143,7 +143,9 @@
       "reject" : "Deny invitation",
       "title" : "Invitation to Camp",
       "useOtherAuth" : "Use another account",
-      "userWelcome" : "Welcome"
+      "userAlreadyInCamp" : "You are already part of this camp",
+      "userWelcome" : "Welcome",
+      "openCamp" : "Open camp"
     },
     "layout": {
       "authContainer": {
