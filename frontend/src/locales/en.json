@@ -142,7 +142,8 @@
       "register" : "Register",
       "reject" : "Deny invitation",
       "title" : "Invitation to Camp",
-      "useOtherAuth" : "Use another account"
+      "useOtherAuth" : "Use another account",
+      "userWelcome" : "Welcome"
     },
     "layout": {
       "authContainer": {

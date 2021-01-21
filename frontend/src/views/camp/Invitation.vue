@@ -1,6 +1,7 @@
 <template>
   <auth-container>
     <div v-if="invitationFound !== false && campCollaborationOpen !== false">
+      <h1 v-if="isLoggedIn" class="display-1">{{ this.$tc('components.invitation.userWelcome') }} {{ userDisplayName }}</h1>
       <h1 class="display-1">{{ this.$tc('components.invitation.title') }} {{ camp ? camp.title : '' }}</h1>
 
       <v-spacer />
@@ -73,12 +74,18 @@ export default {
     },
     loginLink () {
       return loginRoute(this.$route.fullPath)
+    },
+    userDisplayName () {
+      return this.api.get().profile().displayName
     }
   },
   mounted: function () {
     this.campCollaboration()._meta.load.then(
       () => { this.invitationFound = true },
       () => { this.invitationFound = false })
+    if (this.$auth.isLoggedIn() === true) {
+      this.api.get().profile()
+    }
   },
   methods: {
     useAnotherAccount () {
