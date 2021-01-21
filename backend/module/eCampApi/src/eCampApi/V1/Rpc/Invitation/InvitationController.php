@@ -9,6 +9,7 @@ use eCamp\Core\Service\InvitationService;
 use eCamp\Lib\Acl\NoAccessException;
 use eCamp\Lib\Hydrator\Resolver\BaseResolver;
 use eCamp\Lib\Service\EntityNotFoundException;
+use eCamp\Lib\Service\EntityValidationException;
 use eCamp\Lib\Service\ServiceUtils;
 use Laminas\ApiTools\Hal\Entity;
 use Laminas\ApiTools\Hal\Link\Link;
@@ -97,8 +98,9 @@ class InvitationController extends RpcController {
     /**
      * @param $inviteKey
      *
-     * @throws EntityNotFoundException
      * @throws NoAccessException
+     * @throws EntityValidationException
+     * @throws EntityNotFoundException
      */
     public function accept($inviteKey): HalJsonModel {
         /** @var Request $request */
@@ -120,6 +122,11 @@ class InvitationController extends RpcController {
             throw new NoAccessException('You cannot fetch your own User', 401);
         } catch (EntityNotFoundException $e) {
             throw new EntityNotFoundException('Not Found', 404);
+        } catch (EntityValidationException $e) {
+            $entityValidationException = new EntityValidationException('Failed to update CampCollaboration', 422);
+            $entityValidationException->setMessages($e->getMessages());
+
+            throw $entityValidationException;
         }
     }
 

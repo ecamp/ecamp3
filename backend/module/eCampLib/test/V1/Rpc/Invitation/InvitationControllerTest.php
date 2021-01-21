@@ -15,7 +15,10 @@ use eCamp\LibTest\PHPUnit\AbstractApiControllerTestCase;
  */
 class InvitationControllerTest extends AbstractApiControllerTestCase {
     /** @var User */
-    protected $user;
+    protected $userAlreadyInCamp;
+
+    /** @var User */
+    private $newUser;
 
     private $apiEndpoint = '/api/invitation';
     private $camp;
@@ -37,7 +40,8 @@ class InvitationControllerTest extends AbstractApiControllerTestCase {
         $loader->addFixture($campCollaborationTestData);
         $this->loadFixtures($loader);
 
-        $this->user = $userLoader->getReference(UserTestData::$USER1);
+        $this->userAlreadyInCamp = $userLoader->getReference(UserTestData::$USER1);
+        $this->newUser = $userLoader->getReference(UserTestData::$USER2);
         $this->camp = $campLoader->getReference(CampTestData::$CAMP1);
         $this->campCollaborationInvited = $campCollaborationTestData->getReference(CampCollaborationTestData::$COLLAB_INVITED);
     }
@@ -96,8 +100,15 @@ JSON;
         $this->assertResponseStatusCode(401);
     }
 
+    public function testAcceptInvitationWithUserAlreadyInCamp() {
+        $this->authenticateUser($this->userAlreadyInCamp);
+        $this->dispatch("{$this->apiEndpoint}/accept/{$this->campCollaborationInvited->getInviteKey()}", 'POST');
+
+        $this->assertResponseStatusCode(422);
+    }
+
     public function testAcceptInvitation() {
-        $this->authenticateUser($this->user);
+        $this->authenticateUser($this->newUser);
         $this->dispatch("{$this->apiEndpoint}/accept/{$this->campCollaborationInvited->getInviteKey()}", 'POST');
 
         $this->assertResponseStatusCode(200);

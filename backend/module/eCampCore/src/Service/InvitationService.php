@@ -9,6 +9,7 @@ use eCamp\Core\EntityService\UserService;
 use eCamp\Core\Repository\CampCollaborationRepository;
 use eCamp\Lib\Acl\NoAccessException;
 use eCamp\Lib\Service\EntityNotFoundException;
+use eCamp\Lib\Service\EntityValidationException;
 use eCamp\Lib\Service\ServiceUtils;
 use Laminas\Authentication\AuthenticationService;
 
@@ -31,6 +32,7 @@ class InvitationService {
      * @throws EntityNotFoundException
      * @throws NonUniqueResultException
      * @throws NoAccessException
+     * @throws EntityValidationException
      */
     public function acceptInvitation(string $inviteKey, string $userId): CampCollaboration {
         $campCollaboration = $this->findInvitation($inviteKey);
@@ -41,6 +43,11 @@ class InvitationService {
         $user = $this->userService->fetch($userId);
         if (null == $user) {
             throw new EntityNotFoundException();
+        }
+        $camp = $campCollaboration->getCamp();
+        $existingCampCollaboration = $this->campCollaborationRepository->findByUserAndCamp($user, $camp);
+        if (null != $existingCampCollaboration) {
+            throw (new EntityValidationException())->setMessages(['user' => ['alreadyInCamp' => "This user is already associated with the camp {$camp->getId()}"]]);
         }
         $campCollaboration->setUser($user);
         $campCollaboration->setStatus(CampCollaboration::STATUS_ESTABLISHED);
