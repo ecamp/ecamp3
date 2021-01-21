@@ -14,21 +14,16 @@ class UpdateDatabaseSchemaCommand extends Command {
     private $schemaTool;
     private $filesystem;
 
-    public function __construct(EntityManager $entityManager, SchemaTool $schemaTool, Filesystem $filesystem) {
+    public function __construct(EntityManager $entityManager, SchemaTool $schemaTool) {
         parent::__construct();
         $this->entityManager = $entityManager;
         $this->schemaTool = $schemaTool;
-        $this->filesystem = $filesystem;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output) {
         $allMetadata = $this->entityManager->getMetadataFactory()->getAllMetadata();
 
         $this->schemaTool->updateSchema($allMetadata);
-
-        // Cleaning up the generated Doctrine proxies is necessary because the command might be run by a user other
-        // than www-data.
-        $this->filesystem->remove(__DIR__.'/../../../../data/DoctrineORMModule');
 
         return 0;
     }
