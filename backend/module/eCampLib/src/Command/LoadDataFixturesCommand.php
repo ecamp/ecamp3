@@ -44,7 +44,7 @@ class LoadDataFixturesCommand extends AbstractParamAwareCommand {
         if (count($fixtures) > 0) {
             // Cleaning up the generated Doctrine proxies is necessary because the command might be run by a user other
             // than www-data.
-            $this->filesystem->remove(__DIR__ . '/../../../../data/DoctrineORMModule');
+            $this->filesystem->remove(__DIR__.'/../../../../data/DoctrineORMModule');
         }
 
         return 0;
