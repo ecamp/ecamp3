@@ -11,7 +11,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 class UpdateDatabaseSchemaCommand extends Command {
     private $entityManager;
     private $schemaTool;
-    private $filesystem;
 
     public function __construct(EntityManager $entityManager, SchemaTool $schemaTool) {
         parent::__construct();
