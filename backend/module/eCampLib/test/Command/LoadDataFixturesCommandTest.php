@@ -54,6 +54,9 @@ class LoadDataFixturesCommandTest extends AbstractConsoleControllerTestCase {
         /** @var LoadDataFixturesCommand $command */
         $command = $services->get(LoadDataFixturesCommand::class);
 
+        // then
+        $mockFilesystem->expects($this->never())->method('remove');
+
         // when
         $result = $this->runCommand($command, $input, $output);
 
