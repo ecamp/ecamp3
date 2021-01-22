@@ -70,7 +70,7 @@ inputs:
     description: 'The location of the file server'
     required: true
 
-  sentry-dsn:
+  sentry-backend-dsn:
     description: 'DSN for reporting backend errors to sentry'
     required: false
     default: ''
@@ -128,7 +128,7 @@ runs:
         FRONTEND_URL: ${{ inputs.frontend-url }}
         PRINT_SERVER_URL: ${{ inputs.print-server-url }}
         PRINT_FILE_SERVER_URL: ${{ inputs.print-file-server-url }}
-        SENTRY_DSN: ${{ inputs.sentry-dsn }}
+        SENTRY_BACKEND_DSN: ${{ inputs.sentry-backend-dsn }}
         RABBITMQ_HOST: ${{ inputs.rabbitmq-host }}
         RABBITMQ_PORT: ${{ inputs.rabbitmq-port }}
         RABBITMQ_VHOST: ${{ inputs.rabbitmq-vhost }}

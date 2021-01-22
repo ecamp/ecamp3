@@ -36,7 +36,7 @@ cp backend/config/autoload/zfr_cors.global.php .github/actions/deploy/dist/zfr_c
 php $EDIT_SCRIPT .github/actions/deploy/dist/zfr_cors.global.php "zfr_cors.allowed_origins.0" "${FRONTEND_URL}"
 php $EDIT_SCRIPT .github/actions/deploy/dist/zfr_cors.global.php "zfr_cors.allowed_origins.1" "${PRINT_SERVER_URL}"
 cp backend/config/sentry.config.php.dist .github/actions/deploy/dist/sentry.config.php
-php $EDIT_SCRIPT .github/actions/deploy/dist/sentry.config.php "dsn" "${SENTRY_DSN}"
+php $EDIT_SCRIPT .github/actions/deploy/dist/sentry.config.php "dsn" "${SENTRY_BACKEND_DSN}"
 cp backend/config/autoload/amq.local.dev.dist .github/actions/deploy/dist/amq.local.prod.php
 php $EDIT_SCRIPT .github/actions/deploy/dist/amq.local.prod.php "amqp.connection.host" "${RABBITMQ_HOST}"
 php $EDIT_SCRIPT .github/actions/deploy/dist/amq.local.prod.php "amqp.connection.port" "${RABBITMQ_PORT}"
