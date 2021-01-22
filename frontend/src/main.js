@@ -4,6 +4,16 @@ import router from '@/router'
 import { vuetifyLoader, auth, storeLoader, filterLoading, formBaseComponents, ignoreNativeBindingWarnMessages, i18n, veeValidate, vueMoment, moment } from './plugins'
 import { store } from './plugins/store'
 import { vuetify } from './plugins/vuetify'
+import * as Sentry from '@sentry/vue'
+
+if (window.environment && window.environment.SENTRY_FRONTEND_DSN) {
+  Sentry.init({
+    Vue,
+    dsn: window.environment.SENTRY_FRONTEND_DSN,
+    tracing: false,
+    logErrors: process.env.NODE_ENV !== 'production'
+  })
+}
 
 Vue.use(auth)
 Vue.use(filterLoading)
