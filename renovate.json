@@ -4,7 +4,7 @@
   ],
   "force": {
     "constraints": {
-      "node": "= 12.20"
+      "node": "= 14"
     }
   },
   "packageRules": [
