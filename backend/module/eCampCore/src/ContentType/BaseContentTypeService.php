@@ -3,6 +3,7 @@
 namespace eCamp\Core\ContentType;
 
 use Doctrine\ORM\ORMException;
+use Doctrine\ORM\QueryBuilder;
 use eCamp\Core\Entity\ActivityContent;
 use eCamp\Core\Entity\Camp;
 use eCamp\Core\EntityService\AbstractEntityService;
@@ -10,7 +11,6 @@ use eCamp\Lib\Acl\NoAccessException;
 use eCamp\Lib\Entity\BaseEntity;
 use eCamp\Lib\Service\EntityNotFoundException;
 use eCamp\Lib\Service\ServiceUtils;
-use Laminas\ApiTools\ApiProblem\ApiProblem;
 use Laminas\Authentication\AuthenticationService;
 use Laminas\Paginator\Paginator;
 
@@ -28,10 +28,8 @@ abstract class BaseContentTypeService extends AbstractEntityService {
      * Returns a single contentType entity attached to $activityContentId (1:1 connection).
      *
      * @param mixed $activityContentId
-     *
-     * @return BaseEntity
      */
-    public function findOneByActivityContent($activityContentId) {
+    public function findOneByActivityContent($activityContentId): BaseEntity {
         return $this->getRepository()->findOneBy(['activityContent' => $activityContentId]);
     }
 
@@ -41,10 +39,8 @@ abstract class BaseContentTypeService extends AbstractEntityService {
      * @param string $activityContentId
      *
      * @throws NoAccessException
-     *
-     * @return Paginator
      */
-    public function fetchAllByActivityContent($activityContentId) {
+    public function fetchAllByActivityContent($activityContentId): Paginator {
         return $this->fetchAll(['activityContentId' => $activityContentId]);
     }
 
@@ -54,10 +50,8 @@ abstract class BaseContentTypeService extends AbstractEntityService {
      * @throws NoAccessException
      * @throws EntityNotFoundException
      * @throws ORMException
-     *
-     * @return ApiProblem|BaseContentTypeEntity
      */
-    public function createEntity($data, ?ActivityContent $activityContent = null) {
+    public function createEntity($data, ?ActivityContent $activityContent = null): BaseContentTypeEntity {
         /** @var BaseContentTypeEntity $entity */
         $entity = parent::createEntity($data);
 
@@ -72,7 +66,7 @@ abstract class BaseContentTypeService extends AbstractEntityService {
         return $entity;
     }
 
-    protected function fetchAllQueryBuilder($params = []) {
+    protected function fetchAllQueryBuilder($params = []): QueryBuilder {
         $q = parent::fetchAllQueryBuilder($params);
 
         if (is_subclass_of($this->entityClass, BaseContentTypeEntity::class)) {
@@ -89,7 +83,7 @@ abstract class BaseContentTypeService extends AbstractEntityService {
         return $q;
     }
 
-    protected function fetchQueryBuilder($id) {
+    protected function fetchQueryBuilder($id): QueryBuilder {
         $q = parent::fetchQueryBuilder($id);
 
         if (is_subclass_of($this->entityClass, BaseContentTypeEntity::class)) {

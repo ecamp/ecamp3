@@ -12,13 +12,13 @@ use Laminas\Permissions\Acl\Resource\ResourceInterface;
 use Laminas\Permissions\Acl\Role\RoleInterface;
 
 class UserIsCollaborator implements AssertionInterface {
-    private $collaborationRoles;
+    private array $collaborationRoles;
 
     public function __construct(array $collaborationRoles) {
         $this->collaborationRoles = $collaborationRoles;
     }
 
-    public function assert(Acl $acl, RoleInterface $role = null, ResourceInterface $resource = null, $privilege = null) {
+    public function assert(Acl $acl, RoleInterface $role = null, ResourceInterface $resource = null, $privilege = null): bool {
         /** @var User $user */
         $user = $role;
 

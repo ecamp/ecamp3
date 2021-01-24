@@ -10,7 +10,7 @@ use Hybridauth\User;
 abstract class Hitobito extends OAuth2 {
     protected $scope = 'name';
 
-    public function getUserProfile() {
+    public function getUserProfile(): User\Profile {
         // Send a signed http request to provider API to request user's profile
         $response = $this->apiRequest('profile', 'GET', [], ['X-Scope' => $this->scope]);
         $data = new Data\Collection($response);

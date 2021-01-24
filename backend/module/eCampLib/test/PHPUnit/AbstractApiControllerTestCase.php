@@ -41,10 +41,8 @@ abstract class AbstractApiControllerTestCase extends LaminasAbstractHttpControll
 
     /**
      * @param null|mixed $name
-     *
-     * @return EntityManager
      */
-    protected function getEntityManager($name = null) {
+    protected function getEntityManager($name = null): EntityManager {
         $name = $name ?: 'orm_default';
         $name = 'doctrine.entitymanager.'.$name;
 
@@ -80,10 +78,8 @@ abstract class AbstractApiControllerTestCase extends LaminasAbstractHttpControll
 
     /**
      * Creates a new user and authenticates it as the current user.
-     *
-     * @return User
      */
-    protected function createAndAuthenticateUser() {
+    protected function createAndAuthenticateUser(): User {
         $user = new User();
         $user->setRole(User::ROLE_USER);
         $user->setState(User::STATE_ACTIVATED);
@@ -108,7 +104,7 @@ abstract class AbstractApiControllerTestCase extends LaminasAbstractHttpControll
     /**
      * Returns id of authenticated user.
      */
-    protected function getAuthenticatedUserId() {
+    protected function getAuthenticatedUserId(): ?string {
         /** @var AuthenticationService $auth */
         $auth = $this->getApplicationServiceLocator()->get(AuthenticationService::class);
 

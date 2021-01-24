@@ -11,19 +11,15 @@ class Util {
     /**
      * @param $resolver
      * @param array $selection
-     *
-     * @return EntityResolver
      */
-    public static function Entity($resolver, $selection = []) {
+    public static function Entity($resolver, $selection = []): EntityResolver {
         return new EntityResolver($resolver, null, $selection);
     }
 
     /**
      * @param $resolver
-     *
-     * @return EntityLinkResolver
      */
-    public static function EntityLink($resolver) {
+    public static function EntityLink($resolver): EntityLinkResolver {
         return new EntityLinkResolver($resolver, null);
     }
 
@@ -31,14 +27,12 @@ class Util {
      * @param $resolver
      * @param array $selection
      * @param mixed $linkResolver
-     *
-     * @return CollectionResolver
      */
-    public static function Collection($resolver, $linkResolver, $selection = []) {
+    public static function Collection($resolver, $linkResolver, $selection = []): CollectionResolver {
         return new CollectionResolver($resolver, $linkResolver, $selection);
     }
 
-    public static function CollectionLink($resolver, $linkResolver) {
+    public static function CollectionLink($resolver, $linkResolver): CollectionLinkResolver {
         return new CollectionLinkResolver($resolver, $linkResolver);
     }
 }

@@ -10,37 +10,29 @@ use eCamp\Lib\Entity\BaseEntity;
  */
 class MaterialListTemplate extends BaseEntity {
     /**
-     * @var CampTemplate
      * @ORM\ManyToOne(targetEntity="CampTemplate")
      * @ORM\JoinColumn(nullable=false, onDelete="cascade")
      */
-    private $campTemplate;
+    private ?CampTemplate $campTemplate = null;
 
     /**
-     * @var string
      * @ORM\Column(type="string", length=64, nullable=false)
      */
-    private $name;
+    private ?string $name = null;
 
-    /**
-     * @return CampTemplate
-     */
-    public function getCampTemplate() {
+    public function getCampTemplate(): ?CampTemplate {
         return $this->campTemplate;
     }
 
-    /**
-     * @param $campTemplate
-     */
     public function setCampTemplate(?CampTemplate $campTemplate) {
         $this->campTemplate = $campTemplate;
     }
 
-    public function getName() {
+    public function getName(): ?string {
         return $this->name;
     }
 
-    public function setName(string $name) {
+    public function setName(?string $name) {
         $this->name = $name;
     }
 }

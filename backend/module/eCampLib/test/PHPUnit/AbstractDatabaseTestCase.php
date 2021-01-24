@@ -26,10 +26,8 @@ abstract class AbstractDatabaseTestCase extends TestCase {
 
     /**
      * @param string $name
-     *
-     * @return EntityManager
      */
-    protected function getEntityManager($name = 'orm_default') {
+    protected function getEntityManager($name = 'orm_default'): EntityManager {
         return \eCampApp::GetEntityManager($name);
     }
 

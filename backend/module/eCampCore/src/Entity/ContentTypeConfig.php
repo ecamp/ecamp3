@@ -10,52 +10,41 @@ use eCamp\Lib\Entity\BaseEntity;
  */
 class ContentTypeConfig extends BaseEntity implements BelongsToCampInterface {
     /**
-     * @var ActivityCategory
      * @ORM\ManyToOne(targetEntity="ActivityCategory")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $activityCategory;
+    private ?ActivityCategory $activityCategory = null;
 
     /**
-     * @var ContentType
      * @ORM\ManyToOne(targetEntity="ContentType")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $contentType;
+    private ?ContentType $contentType = null;
 
     /**
-     * @var string
      * @ORM\Column(type="string", length=32, nullable=true)
      */
-    private $contentTypeConfigTemplateId;
+    private ?string $contentTypeConfigTemplateId = null;
 
     /**
      * ContentType should be present on each activitiy.
      *
-     * @var bool
      * @ORM\Column(type="boolean", nullable=false)
      */
-    private $required = false;
+    private bool $required = false;
 
     /**
      * Multiple instances on a single activitiy are resonable.
      *
-     * @var bool
      * @ORM\Column(type="boolean", nullable=false)
      */
-    private $multiple = true;
+    private bool $multiple = true;
 
-    /**
-     * @return Camp
-     */
-    public function getCamp() {
-        return $this->activityCategory->getCamp();
+    public function getCamp(): ?Camp {
+        return (null != $this->activityCategory) ? $this->activityCategory->getCamp() : null;
     }
 
-    /**
-     * @return ActivityCategory
-     */
-    public function getActivityCategory() {
+    public function getActivityCategory(): ?ActivityCategory {
         return $this->activityCategory;
     }
 
@@ -63,10 +52,7 @@ class ContentTypeConfig extends BaseEntity implements BelongsToCampInterface {
         $this->activityCategory = $activityCategory;
     }
 
-    /**
-     * @return ContentType
-     */
-    public function getContentType() {
+    public function getContentType(): ?ContentType {
         return $this->contentType;
     }
 
@@ -74,21 +60,15 @@ class ContentTypeConfig extends BaseEntity implements BelongsToCampInterface {
         $this->contentType = $contentType;
     }
 
-    /**
-     * @return string
-     */
-    public function getContentTypeConfigTemplateId() {
+    public function getContentTypeConfigTemplateId(): ?string {
         return $this->contentTypeConfigTemplateId;
     }
 
-    public function setContentTypeConfigTemplateId(string $contentTypeConfigTemplateId) {
+    public function setContentTypeConfigTemplateId(?string $contentTypeConfigTemplateId) {
         $this->contentTypeConfigTemplateId = $contentTypeConfigTemplateId;
     }
 
-    /**
-     * @return bool
-     */
-    public function getRequired() {
+    public function getRequired(): bool {
         return $this->required;
     }
 
@@ -96,10 +76,7 @@ class ContentTypeConfig extends BaseEntity implements BelongsToCampInterface {
         $this->required = $required;
     }
 
-    /**
-     * @return bool
-     */
-    public function getMultiple() {
+    public function getMultiple(): bool {
         return $this->multiple;
     }
 

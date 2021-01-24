@@ -3,6 +3,7 @@
 namespace eCamp\Core\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use eCamp\Lib\Entity\BaseEntity;
 
@@ -13,10 +14,9 @@ use eCamp\Lib\Entity\BaseEntity;
  */
 abstract class AbstractCampOwner extends BaseEntity {
     /**
-     * @var Camp[]
      * @ORM\OneToMany(targetEntity="Camp", mappedBy="owner")
      */
-    private $ownedCamps;
+    private Collection $ownedCamps;
 
     public function __construct() {
         parent::__construct();
@@ -24,10 +24,7 @@ abstract class AbstractCampOwner extends BaseEntity {
         $this->ownedCamps = new ArrayCollection();
     }
 
-    /**
-     * @return ArrayCollection
-     */
-    public function getOwnedCamps() {
+    public function getOwnedCamps(): Collection {
         return $this->ownedCamps;
     }
 
@@ -41,8 +38,5 @@ abstract class AbstractCampOwner extends BaseEntity {
         $this->ownedCamps->removeElement($camp);
     }
 
-    /**
-     * @return string
-     */
-    abstract public function getDisplayName();
+    abstract public function getDisplayName(): ?string;
 }

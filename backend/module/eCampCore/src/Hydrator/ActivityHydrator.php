@@ -12,7 +12,7 @@ use eCampApi\V1\Rest\ScheduleEntry\ScheduleEntryCollection;
 use Laminas\Hydrator\HydratorInterface;
 
 class ActivityHydrator implements HydratorInterface {
-    public static function HydrateInfo() {
+    public static function HydrateInfo(): array {
         return [
             'activityCategory' => Util::Entity(function (Activity $e) {
                 return $e->getActivityCategory();
@@ -32,10 +32,8 @@ class ActivityHydrator implements HydratorInterface {
 
     /**
      * @param object $object
-     *
-     * @return array
      */
-    public function extract($object) {
+    public function extract($object): array {
         /** @var Activity $activity */
         $activity = $object;
 
@@ -69,10 +67,8 @@ class ActivityHydrator implements HydratorInterface {
 
     /**
      * @param object $object
-     *
-     * @return object
      */
-    public function hydrate(array $data, $object) {
+    public function hydrate(array $data, $object): Activity {
         /** @var Activity $activity */
         $activity = $object;
 

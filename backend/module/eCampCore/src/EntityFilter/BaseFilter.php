@@ -30,10 +30,8 @@ abstract class BaseFilter implements EntityFilterInterface {
     /**
      * @param $alias
      * @param $field
-     *
-     * @return Expr\Func
      */
-    abstract public function create(QueryBuilder $q, $alias, $field);
+    abstract public function create(QueryBuilder $q, $alias, $field): Expr\Func;
 
     /**
      * @param $className

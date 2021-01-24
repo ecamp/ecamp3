@@ -3,17 +3,16 @@
 namespace eCamp\Lib\Entity;
 
 class EntityLink {
-    public $id;
+    public string $id;
 
-    /** @var BaseEntity */
-    private $entity;
+    private BaseEntity $entity;
 
     public function __construct(BaseEntity $entity) {
         $this->entity = $entity;
         $this->id = $entity->getId();
     }
 
-    public static function Create($entity) {
+    public static function Create($entity): ?EntityLink {
         if ($entity instanceof BaseEntity) {
             return new EntityLink($entity);
         }
@@ -21,11 +20,11 @@ class EntityLink {
         return null;
     }
 
-    public function getEntity() {
+    public function getEntity(): BaseEntity {
         return $this->entity;
     }
 
-    public function getId() {
+    public function getId(): string {
         return $this->id;
     }
 }

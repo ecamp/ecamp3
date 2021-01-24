@@ -3,6 +3,7 @@
 namespace eCamp\Core\Entity;
 
 use Doctrine\Common\Collections\Criteria;
+use Doctrine\Common\Collections\Selectable;
 use Doctrine\ORM\Mapping as ORM;
 use eCamp\Lib\Entity\BaseEntity;
 
@@ -12,79 +13,63 @@ use eCamp\Lib\Entity\BaseEntity;
  */
 class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
     /**
-     * @var Period
      * @ORM\ManyToOne(targetEntity="Period")
      * @ORM\JoinColumn(nullable=false, onDelete="cascade")
      */
-    private $period;
+    private ?Period $period = null;
 
     /**
-     * @var Activity
      * @ORM\ManyToOne(targetEntity="Activity")
      * @ORM\JoinColumn(nullable=false, onDelete="cascade")
      */
-    private $activity;
+    private ?Activity $activity = null;
 
     /**
      * @var int minutes since period start
      * @ORM\Column(type="integer", nullable=false)
      */
-    private $periodOffset;
+    private int $periodOffset = 0;
 
     /**
      * @var int minutes
      * @ORM\Column(type="integer", nullable=false)
      */
-    private $length;
+    private int $length = 0;
 
     /**
      * @ORM\Column(name="`left`", type="float", nullable=true)
      * --> left is a MariaDB keyword, therefore escaping for column name necessary
      */
-    private $left;
+    private float $left = 0;
 
     /**
      * @ORM\Column(type="float", nullable=true)
      */
-    private $width;
+    private float $width = 1;
 
-    public function __construct() {
-        parent::__construct();
-    }
-
-    /**
-     * @return Period
-     */
-    public function getPeriod() {
+    public function getPeriod(): ?Period {
         return $this->period;
     }
 
     /**
      * @internal Do not set the {@link Period} directly on the ScheduleEntry. Instead use {@see Period::addScheduleEntry()}
-     *
-     * @param $period
      */
-    public function setPeriod($period) {
+    public function setPeriod(?Period $period) {
         $this->period = $period;
     }
 
-    public function getCamp() {
+    public function getCamp(): ?Camp {
         return (null !== $this->period) ? $this->period->getCamp() : null;
     }
 
-    /**
-     * @return Activity
-     */
-    public function getActivity() {
+    public function getActivity(): ?Activity {
         return $this->activity;
     }
 
     /**
      * @internal Do not set the {@see Activity} directly on the ScheduleEntry. Instead use {@see Activity::addScheduleEntry()}
-     *
-     * @param $activity
      */
-    public function setActivity($activity) {
+    public function setActivity(?Activity $activity) {
         $this->activity = $activity;
     }
 
@@ -130,25 +115,19 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
         $this->length = $length;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getLeft() {
-        return $this->left ?: 0;
+    public function getLeft(): float {
+        return $this->left;
     }
 
-    public function setLeft($left): void {
+    public function setLeft(float $left): void {
         $this->left = $left;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getWidth() {
-        return $this->width ?: 1;
+    public function getWidth(): float {
+        return $this->width;
     }
 
-    public function setWidth($width): void {
+    public function setWidth(float $width): void {
         $this->width = $width;
     }
 
@@ -170,7 +149,9 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
             $expr->lte('periodOffset', $this->periodOffset)
         ));
 
-        $scheduleEntries = $this->period->getScheduleEntries()->matching($crit);
+        /** @var Selectable $scheduleEntriesCollection */
+        $scheduleEntriesCollection = $this->period->getScheduleEntries();
+        $scheduleEntries = $scheduleEntriesCollection->matching($crit);
         $activityNumber = $scheduleEntries->filter(function (ScheduleEntry $scheduleEntry) {
             if ($scheduleEntry->getNumberingStyle() === $this->getNumberingStyle()) {
                 if ($scheduleEntry->periodOffset < $this->periodOffset) {

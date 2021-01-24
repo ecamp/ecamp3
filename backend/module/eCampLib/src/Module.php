@@ -14,7 +14,7 @@ use Laminas\Mvc\Application;
 use Laminas\Mvc\MvcEvent;
 
 class Module implements InitProviderInterface {
-    public function getConfig() {
+    public function getConfig(): array {
         return include __DIR__.'/../config/module.config.php';
     }
 

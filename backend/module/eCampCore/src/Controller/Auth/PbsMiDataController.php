@@ -3,11 +3,11 @@
 namespace eCamp\Core\Controller\Auth;
 
 class PbsMiDataController extends HitobitoController {
-    protected function getProviderName() {
+    protected function getProviderName(): string {
         return 'PbsMiData';
     }
 
-    protected function getCallbackRoute() {
+    protected function getCallbackRoute(): string {
         return 'ecamp.auth/pbsmidata';
     }
 }

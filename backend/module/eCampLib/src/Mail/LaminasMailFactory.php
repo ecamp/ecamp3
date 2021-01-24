@@ -10,10 +10,8 @@ use Laminas\View\View;
 class LaminasMailFactory implements FactoryInterface {
     /**
      * @param string $requestedName
-     *
-     * @return ProviderInterface
      */
-    public function __invoke(ContainerInterface $container, $requestedName, array $options = null) {
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null): ProviderInterface {
         $config = $container->get('Config');
 
         $mailTransport = $container->get(TransportInterface::class);

@@ -9,8 +9,6 @@ interface EntityFilterInterface {
     /**
      * @param $alias
      * @param $field
-     *
-     * @return Expr\Func
      */
-    public function create(QueryBuilder $q, $alias, $field);
+    public function create(QueryBuilder $q, $alias, $field): Expr\Func;
 }

@@ -13,8 +13,7 @@ use Hybridauth\User\Profile;
 use Laminas\Authentication\AuthenticationService;
 
 class UserIdentityService extends AbstractEntityService {
-    /** @var UserService */
-    protected $userService;
+    protected UserService $userService;
 
     public function __construct(
         ServiceUtils $serviceUtils,
@@ -36,10 +35,8 @@ class UserIdentityService extends AbstractEntityService {
      *
      * @throws NoAccessException
      * @throws ORMException
-     *
-     * @return User
      */
-    public function findOrCreateUser($provider, Profile $profile) {
+    public function findOrCreateUser($provider, Profile $profile): User {
         $identifier = $profile->identifier;
         // Look for existing identity in database
         $existingIdentity = $this->find($provider, $identifier);
@@ -82,10 +79,8 @@ class UserIdentityService extends AbstractEntityService {
     /**
      * @param $provider
      * @param $identifier
-     *
-     * @return null|object|UserIdentity
      */
-    protected function find($provider, $identifier) {
+    protected function find($provider, $identifier): ?UserIdentity {
         return $this->getRepository()->findOneBy([
             'provider' => $provider,
             'providerId' => $identifier,
@@ -95,10 +90,8 @@ class UserIdentityService extends AbstractEntityService {
     /**
      * @param array $data
      * @param User  $user
-     *
-     * @return UserIdentity
      */
-    protected function createEntity($data) {
+    protected function createEntity($data): UserIdentity {
         /** @var UserIdentity $identity */
         $identity = parent::createEntity($data);
 

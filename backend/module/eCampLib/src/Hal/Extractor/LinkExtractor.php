@@ -6,6 +6,7 @@ use eCamp\Lib\Hal\TemplatedLink;
 use Laminas\ApiTools\ApiProblem\Exception\DomainException;
 use Laminas\ApiTools\Hal\Extractor\LinkExtractor as HalLinkExtractor;
 use Laminas\ApiTools\Hal\Link\Link;
+use Laminas\ApiTools\Hal\Link\LinkUrlBuilder;
 use Laminas\Mvc\ModuleRouteListener;
 use Laminas\Router\Http\Literal;
 use Laminas\Router\Http\Part;
@@ -17,109 +18,74 @@ use Laminas\View\Helper\ServerUrl;
 use Laminas\View\Helper\Url;
 
 class LinkExtractor extends HalLinkExtractor {
-    /** @var SimpleRouteStack */
-    protected $router;
+    protected SimpleRouteStack $router;
+    protected ?RouteMatch $routeMatch;
+    protected ServerUrl $serverUrlHelper;
+    protected Url $urlHelper;
+    protected array $zfRestConfig;
+    protected array $rpcConfig;
 
-    /** @var RouteMatch */
-    protected $routeMatch;
+    public function __construct(LinkUrlBuilder $linkUrlBuilder) {
+        parent::__construct($linkUrlBuilder);
 
-    /** @var ServerUrl */
-    protected $serverUrlHelper;
+        $this->routeMatch = null;
+    }
 
-    /** @var Url */
-    protected $urlHelper;
-
-    /** @var array */
-    protected $zfRestConfig;
-
-    /** @var array */
-    protected $rpcConfig;
-
-    /** @return SimpleRouteStack */
-    public function getRouter() {
+    public function getRouter(): SimpleRouteStack {
         return $this->router;
     }
 
-    /**
-     * @return $this
-     */
-    public function setRouter(SimpleRouteStack $router) {
+    public function setRouter(SimpleRouteStack $router): self {
         $this->router = $router;
 
         return $this;
     }
 
-    /** @return RouteMatch */
-    public function getRouteMatch() {
+    public function getRouteMatch(): RouteMatch {
         return $this->routeMatch;
     }
 
-    /**
-     * @param RouteMatch $routeMatch
-     *
-     * @return $this
-     */
-    public function setRouteMatch(RouteMatch $routeMatch = null) {
+    public function setRouteMatch(RouteMatch $routeMatch = null): self {
         $this->routeMatch = $routeMatch;
 
         return $this;
     }
 
-    /** @return ServerUrl */
-    public function getServerUrl() {
+    public function getServerUrl(): ServerUrl {
         return $this->serverUrlHelper;
     }
 
-    /**
-     * @return $this
-     */
-    public function setServerUrl(ServerUrl $serverUrlHelper) {
+    public function setServerUrl(ServerUrl $serverUrlHelper): self {
         $this->serverUrlHelper = $serverUrlHelper;
 
         return $this;
     }
 
-    /** @return Url */
-    public function getUrl() {
+    public function getUrl(): Url {
         return $this->urlHelper;
     }
 
-    /**
-     * @return $this
-     */
-    public function setUrl(Url $urlHelper) {
+    public function setUrl(Url $urlHelper): self {
         $this->urlHelper = $urlHelper;
 
         return $this;
     }
 
-    /** @return array */
-    public function getZfRestConfig() {
+    public function getZfRestConfig(): array {
         return $this->zfRestConfig;
     }
 
-    /**
-     * @param array $zfRestConfig
-     *
-     * @return $this
-     */
-    public function setZfRestConfig($zfRestConfig) {
+    public function setZfRestConfig(array $zfRestConfig): self {
         $this->zfRestConfig = $zfRestConfig;
 
         return $this;
     }
 
-    /** @return array */
-    public function getRpcConfig() {
+    public function getRpcConfig(): array {
         return $this->rpcConfig;
     }
 
-    /**
-     * @param array $rpcConfig
-     *
-     * @return $this
-     */
-    public function setRpcConfig($rpcConfig) {
+    public function setRpcConfig(array $rpcConfig): self {
         $this->rpcConfig = $rpcConfig;
 
         return $this;
@@ -127,10 +93,8 @@ class LinkExtractor extends HalLinkExtractor {
 
     /**
      * @throws \ReflectionException
-     *
-     * @return array
      */
-    public function extract(Link $object) {
+    public function extract(Link $object): array {
         if ($object instanceof TemplatedLink) {
             return $this->extractTemplatedLink($object);
         }
@@ -140,10 +104,8 @@ class LinkExtractor extends HalLinkExtractor {
 
     /**
      * @throws \ReflectionException
-     *
-     * @return array
      */
-    public function extractTemplatedLink(TemplatedLink $object) {
+    public function extractTemplatedLink(TemplatedLink $object): array {
         if (!$object->isComplete()) {
             throw new DomainException(sprintf(
                 'Link from resource provided to %s was incomplete; must contain a URL or a route',
@@ -179,10 +141,8 @@ class LinkExtractor extends HalLinkExtractor {
      * @param bool   $reUseMatchedParams
      *
      * @throws \ReflectionException
-     *
-     * @return string
      */
-    public function buildLinkUrl($name, $params = [], $options = [], $reUseMatchedParams = false) {
+    public function buildLinkUrl($name, $params = [], $options = [], $reUseMatchedParams = false): string {
         if ($reUseMatchedParams && null !== $this->routeMatch) {
             $routeMatchParams = $this->routeMatch->getParams();
 
@@ -207,10 +167,8 @@ class LinkExtractor extends HalLinkExtractor {
      * @param string $uri
      *
      * @throws \ReflectionException
-     *
-     * @return string
      */
-    protected function assemble(SimpleRouteStack $router, string $name, array $params, array $options, $uri = '') {
+    protected function assemble(SimpleRouteStack $router, string $name, array $params, array $options, $uri = ''): string {
         $names = explode('/', $name, 2);
         $childRouteName = $names[0];
 
@@ -246,10 +204,8 @@ class LinkExtractor extends HalLinkExtractor {
      * Get the URI template for a literal route.
      *
      * @throws \ReflectionException
-     *
-     * @return mixed
      */
-    protected function assembleLiteral(Literal $route) {
+    protected function assembleLiteral(Literal $route): string {
         $reflectionProp = new \ReflectionProperty(get_class($route), 'route');
         $reflectionProp->setAccessible(true);
 
@@ -260,10 +216,8 @@ class LinkExtractor extends HalLinkExtractor {
      * Get a URI template for a segment route.
      *
      * @throws \ReflectionException
-     *
-     * @return string
      */
-    protected function assembleSegment(Segment $segment, array $params = [], array $options = []) {
+    protected function assembleSegment(Segment $segment, array $params = [], array $options = []): string {
         $reflectionProp = new \ReflectionProperty(get_class($segment), 'parts');
         $reflectionProp->setAccessible(true);
         $parts = $reflectionProp->getValue($segment);
@@ -287,10 +241,8 @@ class LinkExtractor extends HalLinkExtractor {
      * @param array $mergedParams
      * @param $isOptional
      * @param $hasChild
-     *
-     * @return string
      */
-    protected function buildPathSegment($parts, array $defaults, array $params, $isOptional, $hasChild, array $options) {
+    protected function buildPathSegment($parts, array $defaults, array $params, $isOptional, $hasChild, array $options): string {
         $uri = '';
         $skip = true;
         $skippable = false;
@@ -338,10 +290,8 @@ class LinkExtractor extends HalLinkExtractor {
      * Get the route from a part route.
      *
      * @throws \ReflectionException
-     *
-     * @return mixed
      */
-    protected function extractRouteFromPartRoute(Part $route) {
+    protected function extractRouteFromPartRoute(Part $route): RouteInterface {
         $reflectionProp = new \ReflectionProperty(get_class($route), 'route');
         $reflectionProp->setAccessible(true);
 
@@ -368,10 +318,8 @@ class LinkExtractor extends HalLinkExtractor {
      * Get ZF-Rest whitelisted queryparams for a route (based on the routes controller).
      *
      * @throws \ReflectionException
-     *
-     * @return string an URI template for queryparams
      */
-    protected function getZfRestQueryParamsAsUriTemplate(RouteInterface $childRouteRealRoute) {
+    protected function getZfRestQueryParamsAsUriTemplate(RouteInterface $childRouteRealRoute): string {
         $refObj = new \ReflectionObject($childRouteRealRoute);
         if (!$refObj->hasProperty('defaults')) {
             return '';

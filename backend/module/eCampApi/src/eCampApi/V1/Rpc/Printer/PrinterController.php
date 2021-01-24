@@ -14,19 +14,15 @@ use Laminas\ApiTools\Hal\View\HalJsonModel;
 use Laminas\Authentication\AuthenticationService;
 use Laminas\Http\Request;
 use Laminas\Json\Json;
+use Laminas\View\Model\ViewModel;
 
 /**
  * PrinterController.
  */
 class PrinterController extends ApiController {
-    /** @var AuthenticationService */
-    private $authenticationService;
-
-    /** @var UserService */
-    private $userService;
-
-    /** @var AmqpService */
-    private $amqpService;
+    private AuthenticationService $authenticationService;
+    private UserService $userService;
+    private AmqpService $amqpService;
 
     public function __construct(
         AuthenticationService $authenticationService,
@@ -38,7 +34,7 @@ class PrinterController extends ApiController {
         $this->amqpService = $amqpService;
     }
 
-    public function indexAction() {
+    public function indexAction(): ViewModel {
         // make sure user is logged in
         if (!$this->authenticationService->hasIdentity()) {
             return new ApiProblemModel(new ApiProblem(401, null));

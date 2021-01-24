@@ -9,10 +9,8 @@ use Laminas\ServiceManager\AbstractPluginManager;
 class EntityFilterManager extends AbstractPluginManager {
     /**
      * @param $className
-     *
-     * @return EntityFilterInterface
      */
-    public function getByEntityClass($className) {
+    public function getByEntityClass($className): ?EntityFilterInterface {
         $filterName = AnnotationsReader::getEntityFilterAnnotation($className);
         if (null == $filterName) {
             return null;

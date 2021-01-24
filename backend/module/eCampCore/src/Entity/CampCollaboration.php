@@ -3,6 +3,7 @@
 namespace eCamp\Core\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use eCamp\Lib\Entity\BaseEntity;
 
@@ -32,54 +33,46 @@ class CampCollaboration extends BaseEntity implements BelongsToCampInterface {
     ];
 
     /**
-     * @var ArrayCollection
      * @ORM\OneToMany(targetEntity="ActivityResponsible", mappedBy="campCollaboration", orphanRemoval=true)
      */
-    protected $activityResponsibles;
+    protected Collection $activityResponsibles;
 
     /**
-     * @var string
      * @ORM\Column(type="string", nullable=true)
      */
-    private $inviteEmail;
+    private ?string $inviteEmail = null;
 
     /**
-     * @var string
      * @ORM\Column(type="string", nullable=true)
      */
-    private $inviteKey;
+    private ?string $inviteKey = null;
 
     /**
-     * @var User
      * @ORM\ManyToOne(targetEntity="User")
      * @ORM\JoinColumn(nullable=true, onDelete="cascade")
      */
-    private $user;
+    private ?User $user = null;
 
     /**
-     * @var Camp
      * @ORM\ManyToOne(targetEntity="Camp")
      * @ORM\JoinColumn(nullable=false, onDelete="cascade")
      */
-    private $camp;
+    private ?Camp $camp = null;
 
     /**
-     * @var string
      * @ORM\Column(type="string", nullable=false)
      */
-    private $status;
+    private string $status;
 
     /**
-     * @var string
      * @ORM\Column(type="string", nullable=false)
      */
-    private $role;
+    private string $role;
 
     /**
-     * @var string
      * @ORM\Column(type="string", nullable=true)
      */
-    private $collaborationAcceptedBy;
+    private ?string $collaborationAcceptedBy = null;
 
     public function __construct() {
         parent::__construct();
@@ -97,21 +90,15 @@ class CampCollaboration extends BaseEntity implements BelongsToCampInterface {
         $this->user = $user;
     }
 
-    /**
-     * @return Camp
-     */
-    public function getCamp() {
+    public function getCamp(): ?Camp {
         return $this->camp;
     }
 
-    public function setCamp($camp) {
+    public function setCamp(?Camp $camp) {
         $this->camp = $camp;
     }
 
-    /**
-     * @return string
-     */
-    public function getInviteEmail() {
+    public function getInviteEmail(): ?string {
         return $this->inviteEmail;
     }
 
@@ -179,21 +166,15 @@ class CampCollaboration extends BaseEntity implements BelongsToCampInterface {
         return self::ROLE_MANAGER === $this->role;
     }
 
-    /**
-     * @return string
-     */
-    public function getCollaborationAcceptedBy() {
+    public function getCollaborationAcceptedBy(): ?string {
         return $this->collaborationAcceptedBy;
     }
 
-    public function setCollaborationAcceptedBy($collaborationAcceptedBy) {
+    public function setCollaborationAcceptedBy(?string $collaborationAcceptedBy) {
         $this->collaborationAcceptedBy = $collaborationAcceptedBy;
     }
 
-    /**
-     * @return ArrayCollection
-     */
-    public function getActivityResponsibles() {
+    public function getActivityResponsibles(): Collection {
         return $this->activityResponsibles;
     }
 
@@ -209,8 +190,6 @@ class CampCollaboration extends BaseEntity implements BelongsToCampInterface {
 
     /**
      * @ORM\PrePersist
-     *
-     * @throws \Exception
      */
     public function PrePersist() {
         parent::PrePersist();
@@ -220,7 +199,9 @@ class CampCollaboration extends BaseEntity implements BelongsToCampInterface {
         }
     }
 
-    /** @ORM\PreUpdate */
+    /**
+     * @ORM\PreUpdate
+     */
     public function PreUpdate() {
         parent::PreUpdate();
     }

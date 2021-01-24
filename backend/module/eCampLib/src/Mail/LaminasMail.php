@@ -10,14 +10,9 @@ use Laminas\View\Model\ViewModel;
 use Laminas\View\View;
 
 class LaminasMail implements ProviderInterface {
-    /** @var TransportInterface */
-    private $mailTransport;
-
-    /** @var View */
-    private $view;
-
-    /** @var array */
-    private $templateConfig;
+    private TransportInterface $mailTransport;
+    private View $view;
+    private array $templateConfig;
 
     public function __construct(TransportInterface $mailTransport, View $view, array $templateConfig) {
         $this->mailTransport = $mailTransport;
@@ -45,7 +40,7 @@ class LaminasMail implements ProviderInterface {
         $this->mailTransport->send($mail);
     }
 
-    private function createBody(MessageData $data) {
+    private function createBody(MessageData $data): \Laminas\Mime\Message {
         if (!array_key_exists($data->template, $this->templateConfig)) {
             throw new Exception("Config for template '".$data->template."' is missing");
         }
@@ -59,7 +54,7 @@ class LaminasMail implements ProviderInterface {
         return $message;
     }
 
-    private function create(MessageData $data, array $config) {
+    private function create(MessageData $data, array $config): \Laminas\Mime\Part {
         $type = $config['type'];
 
         switch ($type) {
@@ -75,7 +70,7 @@ class LaminasMail implements ProviderInterface {
         }
     }
 
-    private function createMultipart(MessageData $data, array $config) {
+    private function createMultipart(MessageData $data, array $config): \Laminas\Mime\Part {
         $partsConfig = $config['parts'];
 
         $partsMessage = new \Laminas\Mime\Message();
@@ -91,7 +86,7 @@ class LaminasMail implements ProviderInterface {
         return $multipart;
     }
 
-    private function createPart(MessageData $data, array $config) {
+    private function createPart(MessageData $data, array $config): \Laminas\Mime\Part {
         $viewModel = new ViewModel();
         $viewModel->setOption('has_parent', true);
         $viewModel->setTemplate($config['template']);

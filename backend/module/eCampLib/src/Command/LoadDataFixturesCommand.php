@@ -23,7 +23,7 @@ class LoadDataFixturesCommand extends AbstractParamAwareCommand {
         $this->addParam(new PathParam('path', PathParam::TYPE_DIR));
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output) {
+    protected function execute(InputInterface $input, OutputInterface $output): int {
         $path = $input->getParam('path');
 
         $files = \Laminas\Stdlib\Glob::glob($path.'/*.php');

@@ -29,10 +29,11 @@ use eCamp\Lib\Acl\Guest;
 use eCamp\Lib\Entity\BaseEntity;
 use Interop\Container\ContainerInterface;
 use Laminas\Authentication\AuthenticationService;
+use Laminas\Permissions\Acl\AclInterface;
 use Laminas\ServiceManager\Factory\FactoryInterface;
 
 class AclFactory implements FactoryInterface {
-    public function __invoke(ContainerInterface $container, $requestedName, array $options = null) {
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null): AclInterface {
         $authenticationService = $container->get(AuthenticationService::class);
 
         $acl = new Acl();

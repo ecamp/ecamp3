@@ -20,7 +20,7 @@ class DateTimeUtcType extends DateTimeType {
      *
      * @return null|mixed|string
      */
-    public function convertToDatabaseValue($value, AbstractPlatform $platform) {
+    public function convertToDatabaseValue($value, AbstractPlatform $platform): ?string {
         if ($value instanceof \DateTime) {
             $value->setTimezone(self::getUtc());
         }
@@ -33,10 +33,8 @@ class DateTimeUtcType extends DateTimeType {
      *
      * @throws ConversionException
      * @throws \Exception
-     *
-     * @return null|\DateTime|\DateTimeInterface|mixed
      */
-    public function convertToPHPValue($value, AbstractPlatform $platform) {
+    public function convertToPHPValue($value, AbstractPlatform $platform): ?DateTimeUtc {
         if (null === $value || $value instanceof DateTimeUtc) {
             return $value;
         }

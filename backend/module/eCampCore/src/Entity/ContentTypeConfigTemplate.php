@@ -10,39 +10,33 @@ use eCamp\Lib\Entity\BaseEntity;
  */
 class ContentTypeConfigTemplate extends BaseEntity {
     /**
-     * @var ActivityCategoryTemplate
      * @ORM\ManyToOne(targetEntity="ActivityCategoryTemplate")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $activityCategoryTemplate;
+    private ?ActivityCategoryTemplate $activityCategoryTemplate = null;
 
     /**
      * @var ContentType
      * @ORM\ManyToOne(targetEntity="ContentType")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $contentType;
+    private ?ContentType $contentType = null;
 
     /**
      * ContentType should be present on each activitiy.
      *
-     * @var bool
      * @ORM\Column(type="boolean", nullable=false)
      */
-    private $required = false;
+    private bool $required = false;
 
     /**
      * Multiple instances on a single activitiy are resonable.
      *
-     * @var bool
      * @ORM\Column(type="boolean", nullable=false)
      */
-    private $multiple = true;
+    private bool $multiple = true;
 
-    /**
-     * @return ActivityCategoryTemplate
-     */
-    public function getActivityCategoryTemplate() {
+    public function getActivityCategoryTemplate(): ?ActivityCategoryTemplate {
         return $this->activityCategoryTemplate;
     }
 
@@ -50,10 +44,7 @@ class ContentTypeConfigTemplate extends BaseEntity {
         $this->activityCategoryTemplate = $activityCategoryTemplate;
     }
 
-    /**
-     * @return ContentType
-     */
-    public function getContentType() {
+    public function getContentType(): ?ContentType {
         return $this->contentType;
     }
 
@@ -61,10 +52,7 @@ class ContentTypeConfigTemplate extends BaseEntity {
         $this->contentType = $contentType;
     }
 
-    /**
-     * @return bool
-     */
-    public function getRequired() {
+    public function getRequired(): bool {
         return $this->required;
     }
 
@@ -72,10 +60,7 @@ class ContentTypeConfigTemplate extends BaseEntity {
         $this->required = $required;
     }
 
-    /**
-     * @return bool
-     */
-    public function getMultiple() {
+    public function getMultiple(): bool {
         return $this->multiple;
     }
 

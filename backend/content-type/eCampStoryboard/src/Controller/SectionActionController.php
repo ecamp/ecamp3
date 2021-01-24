@@ -6,8 +6,7 @@ use eCamp\ContentType\Storyboard\Service\SectionService;
 use Laminas\Mvc\Controller\AbstractActionController;
 
 class SectionActionController extends AbstractActionController {
-    /** @var SectionService */
-    private $sectionService;
+    private SectionService $sectionService;
 
     public function __construct(SectionService $sectionService) {
         $this->sectionService = $sectionService;

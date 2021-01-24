@@ -10,12 +10,7 @@ use Laminas\View\Helper\ServerUrl;
 use Laminas\View\Helper\Url;
 
 class LinkExtractorFactory {
-    /**
-     * @param \Interop\Container\ContainerInterface|\Laminas\ServiceManager\ServiceLocatorInterface $container
-     *
-     * @return LinkExtractor
-     */
-    public function __invoke($container) {
+    public function __invoke($container): LinkExtractor {
         /** @var Application $application */
         $application = $container->get('Application');
         /** @var RouteMatch $routeMatch */

@@ -3,6 +3,7 @@
 namespace eCamp\Core\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use eCamp\Lib\Entity\BaseEntity;
 
@@ -13,47 +14,40 @@ use eCamp\Lib\Entity\BaseEntity;
  */
 class ActivityCategory extends BaseEntity implements BelongsToCampInterface {
     /**
-     * @var ArrayCollection
      * @ORM\OneToMany(targetEntity="ContentTypeConfig", mappedBy="activityCategory", orphanRemoval=true)
      */
-    protected $contentTypeConfigs;
+    protected Collection $contentTypeConfigs;
 
     /**
-     * @var Camp
      * @ORM\ManyToOne(targetEntity="Camp")
      * @ORM\JoinColumn(nullable=false, onDelete="cascade")
      */
-    private $camp;
+    private ?Camp $camp = null;
 
     /**
-     * @var string
      * @ORM\Column(type="string", length=32, nullable=true)
      */
-    private $activityCategoryTemplateId;
+    private ?string $activityCategoryTemplateId = null;
 
     /**
-     * @var string
      * @ORM\Column(type="string", length=16, nullable=false)
      */
-    private $short;
+    private ?string $short = null;
 
     /**
-     * @var string
      * @ORM\Column(type="string", length=64, nullable=false)
      */
-    private $name;
+    private ?string $name = null;
 
     /**
-     * @var string
      * @ORM\Column(type="string", length=8, nullable=false)
      */
-    private $color;
+    private ?string $color = null;
 
     /**
-     * @var string
      * @ORM\Column(type="string", length=1, nullable=false)
      */
-    private $numberingStyle;
+    private ?string $numberingStyle = null;
 
     public function __construct() {
         parent::__construct();
@@ -61,10 +55,7 @@ class ActivityCategory extends BaseEntity implements BelongsToCampInterface {
         $this->contentTypeConfigs = new ArrayCollection();
     }
 
-    /**
-     * @return Camp
-     */
-    public function getCamp() {
+    public function getCamp(): ?Camp {
         return $this->camp;
     }
 
@@ -73,14 +64,11 @@ class ActivityCategory extends BaseEntity implements BelongsToCampInterface {
      *
      * @param $camp
      */
-    public function setCamp($camp) {
+    public function setCamp(?Camp $camp) {
         $this->camp = $camp;
     }
 
-    /**
-     * @return ArrayCollection
-     */
-    public function getContentTypeConfigs() {
+    public function getContentTypeConfigs(): Collection {
         return $this->contentTypeConfigs;
     }
 
@@ -94,58 +82,43 @@ class ActivityCategory extends BaseEntity implements BelongsToCampInterface {
         $this->contentTypeConfigs->removeElement($contentTypeConfig);
     }
 
-    /**
-     * @return string
-     */
-    public function getActivityCategoryTemplateId() {
+    public function getActivityCategoryTemplateId(): ?string {
         return $this->activityCategoryTemplateId;
     }
 
-    public function setActivityCategoryTemplateId(string $activityCategoryTemplateId) {
+    public function setActivityCategoryTemplateId(?string $activityCategoryTemplateId) {
         $this->activityCategoryTemplateId = $activityCategoryTemplateId;
     }
 
-    /**
-     * @return string
-     */
-    public function getShort() {
+    public function getShort(): ?string {
         return $this->short;
     }
 
-    public function setShort($short) {
+    public function setShort(?string $short) {
         $this->short = $short;
     }
 
-    /**
-     * @return string
-     */
-    public function getName() {
+    public function getName(): ?string {
         return $this->name;
     }
 
-    public function setName($name) {
+    public function setName(?string $name) {
         $this->name = $name;
     }
 
-    /**
-     * @return string
-     */
-    public function getColor() {
+    public function getColor(): ?string {
         return $this->color;
     }
 
-    public function setColor($color) {
+    public function setColor(?string $color) {
         $this->color = $color;
     }
 
-    /**
-     * @return string
-     */
-    public function getNumberingStyle() {
+    public function getNumberingStyle(): ?string {
         return $this->numberingStyle;
     }
 
-    public function setNumberingStyle($numberingStyle) {
+    public function setNumberingStyle(?string $numberingStyle) {
         $this->numberingStyle = $numberingStyle;
     }
 
@@ -168,7 +141,7 @@ class ActivityCategory extends BaseEntity implements BelongsToCampInterface {
         }
     }
 
-    private function getAlphaNum($num) {
+    private function getAlphaNum($num): string {
         --$num;
         $alphaNum = '';
         if ($num >= 26) {
@@ -179,7 +152,7 @@ class ActivityCategory extends BaseEntity implements BelongsToCampInterface {
         return $alphaNum;
     }
 
-    private function getRomanNum($num) {
+    private function getRomanNum($num): string {
         $table = [
             'M' => 1000,  'CM' => 900,  'D' => 500,   'CD' => 400,
             'C' => 100,   'XC' => 90,   'L' => 50,    'XL' => 40,

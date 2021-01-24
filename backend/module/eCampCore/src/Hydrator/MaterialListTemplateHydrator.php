@@ -7,17 +7,15 @@ use eCamp\Lib\Entity\EntityLink;
 use Laminas\Hydrator\HydratorInterface;
 
 class MaterialListTemplateHydrator implements HydratorInterface {
-    public static function HydrateInfo() {
+    public static function HydrateInfo(): array {
         return [
         ];
     }
 
     /**
      * @param object $object
-     *
-     * @return array
      */
-    public function extract($object) {
+    public function extract($object): array {
         /** @var MaterialListTemplate $materialListTemplate */
         $materialListTemplate = $object;
 
@@ -30,10 +28,8 @@ class MaterialListTemplateHydrator implements HydratorInterface {
 
     /**
      * @param object $object
-     *
-     * @return object
      */
-    public function hydrate(array $data, $object) {
+    public function hydrate(array $data, $object): MaterialListTemplate {
         /** @var MaterialListTemplate $materialListTemplate */
         $materialListTemplate = $object;
 

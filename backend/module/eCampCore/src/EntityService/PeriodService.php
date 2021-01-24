@@ -3,6 +3,7 @@
 namespace eCamp\Core\EntityService;
 
 use Doctrine\ORM\ORMException;
+use Doctrine\ORM\QueryBuilder;
 use eCamp\Core\Entity\Camp;
 use eCamp\Core\Entity\Day;
 use eCamp\Core\Entity\Period;
@@ -40,10 +41,8 @@ class PeriodService extends AbstractEntityService {
      * @throws ORMException
      * @throws EntityNotFoundException
      * @throws NoAccessException
-     *
-     * @return Period
      */
-    protected function createEntity($data) {
+    protected function createEntity($data): Period {
         /** @var Camp $camp */
         $camp = $this->findRelatedEntity(Camp::class, $data, 'campId');
 
@@ -60,10 +59,8 @@ class PeriodService extends AbstractEntityService {
      *
      * @throws NoAccessException
      * @throws ORMException
-     *
-     * @return Period
      */
-    protected function createEntityPost(BaseEntity $entity, $data) {
+    protected function createEntityPost(BaseEntity $entity, $data): Period {
         /** @var Period $period */
         $period = $entity;
 
@@ -83,10 +80,8 @@ class PeriodService extends AbstractEntityService {
      *
      * @throws NoAccessException
      * @throws ORMException
-     *
-     * @return Period
      */
-    protected function patchEntity(BaseEntity $entity, $data) {
+    protected function patchEntity(BaseEntity $entity, $data): Period {
         /** @var Period $period */
         $period = parent::patchEntity($entity, $data);
         $this->updatePeriodDays($period);
@@ -103,10 +98,8 @@ class PeriodService extends AbstractEntityService {
      *
      * @throws ORMException
      * @throws NoAccessException
-     *
-     * @return Period
      */
-    protected function updateEntity($id, $data) {
+    protected function updateEntity($id, $data): Period {
         /** @var Period $period */
         $period = parent::updateEntity($id, $data);
         $this->updatePeriodDays($period);
@@ -156,7 +149,7 @@ class PeriodService extends AbstractEntityService {
         }
     }
 
-    protected function fetchAllQueryBuilder($params = []) {
+    protected function fetchAllQueryBuilder($params = []): QueryBuilder {
         $q = parent::fetchAllQueryBuilder($params);
         $q->andWhere($this->createFilter($q, Camp::class, 'row', 'camp'));
 
@@ -168,7 +161,7 @@ class PeriodService extends AbstractEntityService {
         return $q;
     }
 
-    protected function fetchQueryBuilder($id) {
+    protected function fetchQueryBuilder($id): QueryBuilder {
         $q = parent::fetchQueryBuilder($id);
         $q->andWhere($this->createFilter($q, Camp::class, 'row', 'camp'));
 

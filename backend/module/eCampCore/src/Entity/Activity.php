@@ -3,6 +3,7 @@
 namespace eCamp\Core\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use eCamp\Lib\Entity\BaseEntity;
 
@@ -12,48 +13,41 @@ use eCamp\Lib\Entity\BaseEntity;
  */
 class Activity extends BaseEntity implements BelongsToCampInterface {
     /**
-     * @var ArrayCollection
      * @ORM\OneToMany(targetEntity="ActivityContent", mappedBy="activity", cascade={"all"}, orphanRemoval=true)
      */
-    protected $activityContents;
+    protected Collection $activityContents;
 
     /**
-     * @var ArrayCollection
      * @ORM\OneToMany(targetEntity="ScheduleEntry", mappedBy="activity", orphanRemoval=true)
      */
-    protected $scheduleEntries;
+    protected Collection $scheduleEntries;
 
     /**
-     * @var ArrayCollection
      * @ORM\OneToMany(targetEntity="ActivityResponsible", mappedBy="activity", orphanRemoval=true)
      */
-    protected $activityResponsibles;
+    protected Collection $activityResponsibles;
 
     /**
-     * @var Camp
      * @ORM\ManyToOne(targetEntity="Camp")
      * @ORM\JoinColumn(nullable=false, onDelete="cascade")
      */
-    private $camp;
+    private ?Camp $camp = null;
 
     /**
-     * @var ActivityCategory
      * @ORM\ManyToOne(targetEntity="ActivityCategory")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $activityCategory;
+    private ?ActivityCategory $activityCategory = null;
 
     /**
-     * @var string
      * @ORM\Column(type="text")
      */
-    private $title;
+    private ?string $title = null;
 
     /**
-     * @var string
      * @ORM\Column(type="text")
      */
-    private $location = '';
+    private ?string $location = '';
 
     public function __construct() {
         parent::__construct();
@@ -61,13 +55,9 @@ class Activity extends BaseEntity implements BelongsToCampInterface {
         $this->activityContents = new ArrayCollection();
         $this->scheduleEntries = new ArrayCollection();
         $this->activityResponsibles = new ArrayCollection();
-        $this->progress = 0;
     }
 
-    /**
-     * @return Camp
-     */
-    public function getCamp() {
+    public function getCamp(): ?Camp {
         return $this->camp;
     }
 
@@ -76,38 +66,35 @@ class Activity extends BaseEntity implements BelongsToCampInterface {
      *
      * @param $camp
      */
-    public function setCamp($camp) {
+    public function setCamp(?Camp $camp) {
         $this->camp = $camp;
     }
 
-    public function getActivityCategory(): ActivityCategory {
+    public function getActivityCategory(): ?ActivityCategory {
         return $this->activityCategory;
     }
 
-    public function setActivityCategory(ActivityCategory $activityCategory): void {
+    public function setActivityCategory(?ActivityCategory $activityCategory): void {
         $this->activityCategory = $activityCategory;
     }
 
-    public function getTitle(): string {
+    public function getTitle(): ?string {
         return $this->title;
     }
 
-    public function setTitle(string $title): void {
+    public function setTitle(?string $title): void {
         $this->title = $title;
     }
 
-    public function getLocation(): string {
+    public function getLocation(): ?string {
         return $this->location;
     }
 
-    public function setLocation(string $location): void {
+    public function setLocation(?string $location): void {
         $this->location = $location;
     }
 
-    /**
-     * @return ArrayCollection
-     */
-    public function getActivityContents() {
+    public function getActivityContents(): Collection {
         return $this->activityContents;
     }
 
@@ -121,10 +108,7 @@ class Activity extends BaseEntity implements BelongsToCampInterface {
         $this->activityContents->removeElement($activityContent);
     }
 
-    /**
-     * @return ArrayCollection
-     */
-    public function getScheduleEntries() {
+    public function getScheduleEntries(): Collection {
         return $this->scheduleEntries;
     }
 
@@ -138,10 +122,7 @@ class Activity extends BaseEntity implements BelongsToCampInterface {
         $this->scheduleEntries->removeElement($scheduleEntry);
     }
 
-    /**
-     * @return ArrayCollection
-     */
-    public function getActivityResponsibles() {
+    public function getActivityResponsibles(): Collection {
         return $this->activityResponsibles;
     }
 

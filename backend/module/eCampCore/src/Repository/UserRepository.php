@@ -9,10 +9,8 @@ use eCamp\Core\Entity\User;
 class UserRepository extends EntityRepository {
     /**
      * @param $username
-     *
-     * @return mixed
      */
-    public function findByUsername($username) {
+    public function findByUsername($username): ?User {
         $q = $this->createQueryBuilder('u');
         $q->where('u.username = :username');
         $q->setParameter('username', $username);
@@ -29,10 +27,8 @@ class UserRepository extends EntityRepository {
 
     /**
      * @param string $mail
-     *
-     * @return User
      */
-    public function findByTrustedMail($mail) {
+    public function findByTrustedMail($mail): ?User {
         $q = $this->createQueryBuilder('u');
         $q->join('u.trustedMailAddress', 'tm');
         $q->where('tm.mail = :mail');
@@ -50,10 +46,8 @@ class UserRepository extends EntityRepository {
 
     /**
      * @param string $mail
-     *
-     * @return User
      */
-    public function findByUntrustedMail($mail) {
+    public function findByUntrustedMail($mail): ?User {
         $q = $this->createQueryBuilder('u');
         $q->join('u.untrustedMailAddress', 'utm');
         $q->where('utm.mail = :mail');
