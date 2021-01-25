@@ -1,5 +1,5 @@
 # composer stage
-FROM composer:2 AS composer-stage
+FROM composer:2@sha256:9e06eaf9cffaaeccf2b7901f683b445574d7ac8238331db118abae1b4f36372a AS composer-stage
 WORKDIR /app
 ENV env=prod
 COPY backend/composer.* ./
@@ -8,7 +8,7 @@ COPY backend .
 RUN composer di-generate-aot
 
 # production stage
-FROM php:7.4.14-apache AS production-stage
+FROM php:7.4.14-apache@sha256:ba7c444c30b7e13ac5bafd212fc8b995c04a9b3762223df0570bb277b5842139 AS production-stage
 WORKDIR /app
 ENV env=prod
 RUN apt-get -y update && apt-get -y upgrade && apt-get -y install libxml2-dev curl unzip iproute2 libonig-dev && docker-php-ext-install pdo pdo_mysql xml
