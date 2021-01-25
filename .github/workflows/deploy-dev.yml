@@ -43,6 +43,7 @@ jobs:
           sentry-backend-dsn: ${{ secrets.DEVEL_SENTRY_BACKEND_DSN }}
           sentry-frontend-dsn: ${{ secrets.DEVEL_SENTRY_FRONTEND_DSN }}
           sentry-print-dsn: ${{ secrets.DEVEL_SENTRY_PRINT_DSN }}
+          sentry-worker-print-puppeteer-dsn: ${{ secrets.DEVEL_SENTRY_WORKER_PRINT_PUPPETEER_DSN }}
           rabbitmq-host: ${{ secrets.DEVEL_RABBITMQ_HOST }}
           rabbitmq-port: ${{ secrets.DEVEL_RABBITMQ_PORT }}
           rabbitmq-vhost: ${{ secrets.DEVEL_RABBITMQ_VHOST }}

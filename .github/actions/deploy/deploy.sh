@@ -63,6 +63,7 @@ sed -ri "s~SENTRY_PRINT_DSN=.*~SENTRY_PRINT_DSN=${SENTRY_PRINT_DSN}~" .github/ac
 cp workers/print-puppeteer/environment.js .github/actions/deploy/dist/worker-print-puppeteer-environment.js
 sed -ri "s~PRINT_SERVER: .*$~PRINT_SERVER: '${PRINT_SERVER_URL}',~" .github/actions/deploy/dist/worker-print-puppeteer-environment.js
 sed -ri "s~SESSION_COOKIE_DOMAIN: .*$~SESSION_COOKIE_DOMAIN: '${SESSION_COOKIE_DOMAIN}',~" .github/actions/deploy/dist/worker-print-puppeteer-environment.js
+sed -ri "s~SENTRY_WORKER_PRINT_PUPPETEER_DSN: .*$~SENTRY_WORKER_PRINT_PUPPETEER_DSN: '${SENTRY_WORKER_PRINT_PUPPETEER_DSN}',~" .github/actions/deploy/dist/worker-print-puppeteer-environment.js
 sed -ri "s~AMQP_HOST: .*$~AMQP_HOST: '${RABBITMQ_HOST}',~" .github/actions/deploy/dist/worker-print-puppeteer-environment.js
 sed -ri "s~AMQP_PORT: .*$~AMQP_PORT: '${RABBITMQ_PORT}',~" .github/actions/deploy/dist/worker-print-puppeteer-environment.js
 sed -ri "s~AMQP_VHOST: .*$~AMQP_VHOST: '${RABBITMQ_VHOST}',~" .github/actions/deploy/dist/worker-print-puppeteer-environment.js
