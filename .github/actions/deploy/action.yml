@@ -80,6 +80,11 @@ inputs:
     required: false
     default: ''
 
+  sentry-print-dsn:
+    description: 'DSN for reporting errors in the print service to sentry'
+    required: false
+    default: ''
+
   rabbitmq-host:
     description: 'The URL of the RabbitMQ server'
     required: false
@@ -135,6 +140,7 @@ runs:
         PRINT_FILE_SERVER_URL: ${{ inputs.print-file-server-url }}
         SENTRY_BACKEND_DSN: ${{ inputs.sentry-backend-dsn }}
         SENTRY_FRONTEND_DSN: ${{ inputs.sentry-frontend-dsn }}
+        SENTRY_PRINT_DSN: ${{ inputs.sentry-print-dsn }}
         RABBITMQ_HOST: ${{ inputs.rabbitmq-host }}
         RABBITMQ_PORT: ${{ inputs.rabbitmq-port }}
         RABBITMQ_VHOST: ${{ inputs.rabbitmq-vhost }}

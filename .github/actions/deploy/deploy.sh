@@ -57,6 +57,7 @@ sed -ri "s~VERSION_LINK_TEMPLATE: '.*'~VERSION_LINK_TEMPLATE: '${VERSION_LINK_TE
 cp print/print.env .github/actions/deploy/dist/print.env
 sed -ri "s~INTERNAL_API_ROOT_URL=.*~INTERNAL_API_ROOT_URL=${INTERNAL_BACKEND_URL}~" .github/actions/deploy/dist/print.env
 sed -ri "s~API_ROOT_URL=.*~API_ROOT_URL=${BACKEND_URL}~" .github/actions/deploy/dist/print.env
+sed -ri "s~SENTRY_PRINT_DSN=.*~SENTRY_PRINT_DSN=${SENTRY_PRINT_DSN}~" .github/actions/deploy/dist/print.env
 
 # Inject environment secrets into print-worker-puppeteer config file
 cp workers/print-puppeteer/environment.js .github/actions/deploy/dist/worker-print-puppeteer-environment.js

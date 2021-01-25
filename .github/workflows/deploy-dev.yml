@@ -42,6 +42,7 @@ jobs:
           print-file-server-url: ${{ secrets.DEVEL_PRINT_FILE_SERVER_URL }}
           sentry-backend-dsn: ${{ secrets.DEVEL_SENTRY_BACKEND_DSN }}
           sentry-frontend-dsn: ${{ secrets.DEVEL_SENTRY_FRONTEND_DSN }}
+          sentry-print-dsn: ${{ secrets.DEVEL_SENTRY_PRINT_DSN }}
           rabbitmq-host: ${{ secrets.DEVEL_RABBITMQ_HOST }}
           rabbitmq-port: ${{ secrets.DEVEL_RABBITMQ_PORT }}
           rabbitmq-vhost: ${{ secrets.DEVEL_RABBITMQ_VHOST }}
