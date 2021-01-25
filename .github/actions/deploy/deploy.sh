@@ -73,6 +73,7 @@ sed -ri "s~AMQP_PASS: .*$~AMQP_PASS: '${RABBITMQ_PASS}',~" .github/actions/deplo
 # Inject environment secrets into print-worker-weasy config file
 cp workers/print-weasy/environment.py .github/actions/deploy/dist/worker-print-weasy-environment.py
 sed -ri "s~PRINT_SERVER = .*$~PRINT_SERVER = '${PRINT_SERVER_URL}'~" .github/actions/deploy/dist/worker-print-weasy-environment.py
+sed -ri "s~SENTRY_WORKER_PRINT_WEASY_DSN = .*$~SENTRY_WORKER_PRINT_WEASY_DSN = '${SENTRY_WORKER_PRINT_WEASY_DSN}'~" .github/actions/deploy/dist/worker-print-weasy-environment.py
 sed -ri "s~AMQP_HOST = .*$~AMQP_HOST = '${RABBITMQ_HOST}'~" .github/actions/deploy/dist/worker-print-weasy-environment.py
 sed -ri "s~AMQP_PORT = .*$~AMQP_PORT = '${RABBITMQ_PORT}'~" .github/actions/deploy/dist/worker-print-weasy-environment.py
 sed -ri "s~AMQP_VHOST = .*$~AMQP_VHOST = '${RABBITMQ_VHOST}'~" .github/actions/deploy/dist/worker-print-weasy-environment.py
