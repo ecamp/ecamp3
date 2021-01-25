@@ -77,7 +77,6 @@ class ContentTypeData extends AbstractFixture {
         if (null == $contentType) {
             $contentType = new ContentType();
             $contentType->setName('LAThematicArea');
-            $contentType->setAllowMultiple(false);
             $contentType->setStrategyClass(MultiSelectStrategy::class);
             $contentType->setJsonConfig([
                 'items' => [
