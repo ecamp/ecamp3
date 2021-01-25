@@ -1,10 +1,11 @@
 {
   "extends": [
-    "config:base"
+    "config:base",
+    "docker:pinDigests"
   ],
   "force": {
     "constraints": {
-      "node": "= 12.20"
+      "node": "< 15.0.0"
     }
   },
   "packageRules": [
