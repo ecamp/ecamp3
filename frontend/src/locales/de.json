@@ -192,7 +192,6 @@
         "member": "Mitglied"
       },
       "fields": {
-        "campType": "Lager-Typ",
         "motto": "Motto",
         "name": "Name",
         "title": "Titel"
@@ -201,6 +200,9 @@
     },
     "campCollaboration": {
       "campLeft": "Lager verlassen"
+    },
+    "campTemplate": {
+      "name": "Lagervorlage"
     },
     "period": {
       "defaultDescription": "Hauptlager",
@@ -322,6 +324,7 @@
         "title": "Lager Admin"
       },
       "collaborators": {
+        "email": "E-Mail-Adresse",
         "invite": "Einladen",
         "members": "Mitarbeitende",
         "openInvitations": "Offene Einladungen",

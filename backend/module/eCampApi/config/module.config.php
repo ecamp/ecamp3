@@ -43,6 +43,16 @@ return [
                     ],
                 ],
             ],
+            'e-camp-api.rpc.invitation' => [
+                'type' => 'Segment',
+                'options' => [
+                    'route' => '/api/invitation[/:action][/:inviteKey]',
+                    'defaults' => [
+                        'controller' => 'eCampApi\\V1\\Rpc\\Invitation\\InvitationController',
+                        'action' => 'index',
+                    ],
+                ],
+            ],
             'e-camp-api.rpc.register' => [
                 'type' => 'Segment',
                 'options' => [
@@ -79,6 +89,7 @@ return [
         'factories' => [
             'eCampApi\\V1\\Rpc\\Auth\\AuthController' => \Laminas\Di\Container\ServiceManager\AutowireFactory::class,
             'eCampApi\\V1\\Rpc\\Index\\IndexController' => \Laminas\Di\Container\ServiceManager\AutowireFactory::class,
+            'eCampApi\\V1\\Rpc\\Invitation\\InvitationController' => \Laminas\Di\Container\ServiceManager\AutowireFactory::class,
             'eCampApi\\V1\\Rpc\\Register\\RegisterController' => \Laminas\Di\Container\ServiceManager\AutowireFactory::class,
             'eCampApi\\V1\\Rpc\\Profile\\ProfileController' => \Laminas\Di\Container\ServiceManager\AutowireFactory::class,
             'eCampApi\\V1\\Rpc\\Printer\\PrinterController' => \Laminas\Di\Container\ServiceManager\AutowireFactory::class,
@@ -87,6 +98,7 @@ return [
     'api-tools-content-negotiation' => [
         'controllers' => [
             'eCampApi\\V1\\Rpc\\Index\\IndexController' => 'HalJson',
+            'eCampApi\\V1\\Rpc\\Invitation\\InvitationController' => 'HalJson',
             'eCampApi\\V1\\Rpc\\Auth\\AuthController' => 'HalJson',
             'eCampApi\\V1\\Rpc\\Register\\RegisterController' => 'HalJson',
             'eCampApi\\V1\\Rpc\\Profile\\ProfileController' => 'HalJson',
@@ -94,6 +106,11 @@ return [
         ],
         'accept_whitelist' => [
             'eCampApi\\V1\\Rpc\\Index\\IndexController' => [
+                0 => 'application/vnd.e-camp-api.v1+json',
+                1 => 'application/json',
+                2 => 'application/*+json',
+            ],
+            'eCampApi\\V1\\Rpc\\Index\\InvitationController' => [
                 0 => 'application/vnd.e-camp-api.v1+json',
                 1 => 'application/json',
                 2 => 'application/*+json',
@@ -121,6 +138,10 @@ return [
         ],
         'content_type_whitelist' => [
             'eCampApi\\V1\\Rpc\\Index\\IndexController' => [
+                0 => 'application/vnd.e-camp-api.v1+json',
+                1 => 'application/json',
+            ],
+            'eCampApi\\V1\\Rpc\\Index\\InvitationController' => [
                 0 => 'application/vnd.e-camp-api.v1+json',
                 1 => 'application/json',
             ],
@@ -174,6 +195,14 @@ return [
                 0 => 'GET',
             ],
             'route_name' => 'e-camp-api.rpc.index',
+        ],
+        'eCampApi\\V1\\Rpc\\Index\\InvitationController' => [
+            'service_name' => 'Invitation',
+            'http_methods' => [
+                0 => 'GET',
+                1 => 'POST',
+            ],
+            'route_name' => 'e-camp-api.rpc.invitation',
         ],
         'eCampApi\\V1\\Rpc\\Register\\RegisterController' => [
             'service_name' => 'Register',

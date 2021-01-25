@@ -21,8 +21,16 @@ Displays a field as a date picker (can be used with v-model)
         scrollable
         @input="picker.on.input">
         <v-spacer />
-        <v-btn text color="primary" @click="picker.on.close">{{ $tc('global.button.cancel') }}</v-btn>
-        <v-btn text color="primary" @click="picker.on.save">{{ $tc('global.button.ok') }}</v-btn>
+        <v-btn text color="primary"
+               data-testid="action-cancel"
+               @click="picker.on.close">
+          {{ $tc('global.button.cancel') }}
+        </v-btn>
+        <v-btn text color="primary"
+               data-testid="action-ok"
+               @click="picker.on.save">
+          {{ $tc('global.button.ok') }}
+        </v-btn>
       </v-date-picker>
     </template>
 
@@ -59,7 +67,7 @@ export default {
     },
     parse (val) {
       if (val) {
-        const m = this.$moment.utc(val, 'L')
+        const m = this.$moment.utc(val, 'L', this.$i18n.locale)
         if (m.isValid()) {
           return Promise.resolve(m.format(this.valueFormat))
         } else {

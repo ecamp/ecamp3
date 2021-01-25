@@ -157,7 +157,6 @@
         "member": "Membro"
       },
       "fields": {
-        "campType": "Tipo di campo",
         "motto": "Motto",
         "name": "Nome",
         "title": "Titolo"
@@ -166,6 +165,9 @@
     },
     "campCollaboration": {
       "campLeft": "lasciato il campo"
+    },
+    "campTemplate": {
+      "name": "Modello di campo"
     },
     "period": {
       "defaultDescription": "Campo principale",
@@ -273,11 +275,11 @@
         "title": "Admin"
       },
       "collaborators": {
+        "email": "Indirizzo e-mail",
         "invite": "Invitare",
         "members": "Membri",
         "openInvitations": "Inviti aperti",
         "openRequests": "Richieste aperte",
-        "search": "Cerca",
         "title": "Team"
       },
       "navigationCamp": {

@@ -10,9 +10,9 @@ use Doctrine\ORM\Tools\SchemaTool;
 use Doctrine\ORM\Tools\ToolsException;
 use eCamp\Core\Entity\User;
 use Laminas\Authentication\AuthenticationService;
-use Laminas\Test\PHPUnit\Controller\AbstractHttpControllerTestCase as ZendAbstractHttpControllerTestCase;
+use Laminas\Test\PHPUnit\Controller\AbstractHttpControllerTestCase as LaminasAbstractHttpControllerTestCase;
 
-abstract class AbstractApiControllerTestCase extends ZendAbstractHttpControllerTestCase {
+abstract class AbstractApiControllerTestCase extends LaminasAbstractHttpControllerTestCase {
     /**
      * Host name in URIs returned by API.
      *

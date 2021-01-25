@@ -54,11 +54,10 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
     protected $materialLists;
 
     /**
-     * @var CampType
-     * @ORM\ManyToOne(targetEntity="CampType")
-     * @ORM\JoinColumn(nullable=false)
+     * @var string
+     * @ORM\Column(type="string", length=32, nullable=true)
      */
-    private $campType;
+    private $campTemplateId;
 
     /**
      * @var string
@@ -104,23 +103,14 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
     }
 
     /**
-     * @return CampType
+     * @return string
      */
-    public function getCampType() {
-        return $this->campType;
+    public function getCampTemplateId() {
+        return $this->campTemplateId;
     }
 
-    public function setCampType(CampType $campType) {
-        $this->campType = $campType;
-    }
-
-    /**
-     * @param null $key
-     *
-     * @return object
-     */
-    public function getConfig($key = null) {
-        return (null !== $this->campType) ? $this->campType->getConfig($key) : null;
+    public function setCampTemplateId(string $campTemplateId) {
+        $this->campTemplateId = $campTemplateId;
     }
 
     /**
@@ -219,7 +209,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
         }
 
         $campCollaborations = $this->collaborations->filter(function (CampCollaboration $cc) use ($userId) {
-            return $cc->getUser()->getId() == $userId;
+            return null != $cc->getUser() && $cc->getUser()->getId() == $userId;
         });
 
         if (1 == $campCollaborations->count()) {
@@ -247,7 +237,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
         }
 
         return $this->getCampCollaborations()->exists(function ($idx, CampCollaboration $cc) use ($userId) {
-            return $cc->isEstablished() && ($cc->getUser()->getId() == $userId);
+            return $cc->isEstablished() && null != $cc->getUser() && ($cc->getUser()->getId() == $userId);
         });
     }
 

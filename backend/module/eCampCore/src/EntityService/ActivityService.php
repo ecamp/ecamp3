@@ -6,6 +6,7 @@ use Doctrine\ORM\ORMException;
 use eCamp\Core\Entity\Activity;
 use eCamp\Core\Entity\ActivityCategory;
 use eCamp\Core\Entity\Camp;
+use eCamp\Core\Entity\ContentTypeConfig;
 use eCamp\Core\Entity\ScheduleEntry;
 use eCamp\Core\Hydrator\ActivityHydrator;
 use eCamp\Lib\Acl\NoAccessException;
@@ -21,11 +22,15 @@ class ActivityService extends AbstractEntityService {
     /** @var ScheduleEntryService */
     protected $scheduleEntryService;
 
+    /** @var ActivityContentService */
+    protected $activityContentService;
+
     public function __construct(
         ActivityResponsibleService $activityResponsibleService,
         ServiceUtils $serviceUtils,
         AuthenticationService $authenticationService,
-        ScheduleEntryService $scheduleEntryService
+        ScheduleEntryService $scheduleEntryService,
+        ActivityContentService $activityContentService
     ) {
         parent::__construct(
             $serviceUtils,
@@ -35,6 +40,7 @@ class ActivityService extends AbstractEntityService {
         );
         $this->scheduleEntryService = $scheduleEntryService;
         $this->activityResponsibleService = $activityResponsibleService;
+        $this->activityContentService = $activityContentService;
     }
 
     /**
@@ -54,6 +60,8 @@ class ActivityService extends AbstractEntityService {
         $this->updateActivityResponsibles($activity, $data);
 
         $this->updateScheduleEntries($activity, $data);
+
+        $this->createInitialActivityContents($activity);
 
         return $entity;
     }
@@ -191,6 +199,20 @@ class ActivityService extends AbstractEntityService {
                     $data->activityId = $activity->getId();
                     $this->scheduleEntryService->create($data);
                 }
+            }
+        }
+    }
+
+    private function createInitialActivityContents(Activity $activity) {
+        $contentTypeConfigs = $activity->getActivityCategory()->getContentTypeConfigs();
+
+        /** @var ContentTypeConfig $contentTypeConfig */
+        foreach ($contentTypeConfigs as $contentTypeConfig) {
+            if ($contentTypeConfig->getRequired()) {
+                $this->activityContentService->create((object) [
+                    'activityId' => $activity->getId(),
+                    'contentTypeId' => $contentTypeConfig->getContentType()->getId(),
+                ]);
             }
         }
     }

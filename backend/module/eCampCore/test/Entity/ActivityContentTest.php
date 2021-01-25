@@ -4,8 +4,6 @@ namespace eCamp\CoreTest\Entity;
 
 use eCamp\Core\Entity\Activity;
 use eCamp\Core\Entity\ActivityContent;
-use eCamp\Core\Entity\ActivityType;
-use eCamp\Core\Entity\ActivityTypeContentType;
 use eCamp\Core\Entity\Camp;
 use eCamp\Core\Entity\ContentType;
 use eCamp\LibTest\PHPUnit\AbstractTestCase;
@@ -18,14 +16,6 @@ class ActivityContentTest extends AbstractTestCase {
         $camp = new Camp();
 
         $contentType = new ContentType();
-
-        $activityType = new ActivityType();
-        $activityType->setDefaultColor('#FF00FF');
-        $activityType->setDefaultNumberingStyle('i');
-
-        $activityTypeContentType = new ActivityTypeContentType();
-        $activityTypeContentType->setActivityType($activityType);
-        $activityTypeContentType->setContentType($contentType);
 
         $activity = new Activity();
         $activity->setCamp($camp);

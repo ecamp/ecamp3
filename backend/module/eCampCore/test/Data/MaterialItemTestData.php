@@ -56,6 +56,6 @@ class MaterialItemTestData extends AbstractFixture implements DependentFixtureIn
     }
 
     public function getDependencies() {
-        return [ActivityTestData::class, MaterialListTestData::class];
+        return [ActivityTestData::class, MaterialListTestData::class, ContentTypeTestData::class];
     }
 }

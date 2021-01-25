@@ -4,7 +4,6 @@ namespace eCamp\Core\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use eCamp\Core\ContentType\ContentTypeStrategyProvider;
 use eCamp\Lib\Entity\BaseEntity;
 
 /**
@@ -89,13 +88,6 @@ class Activity extends BaseEntity implements BelongsToCampInterface {
         $this->activityCategory = $activityCategory;
     }
 
-    /**
-     * @return ActivityType
-     */
-    public function getActivityType() {
-        return (null !== $this->activityCategory) ? $this->activityCategory->getActivityType() : null;
-    }
-
     public function getTitle(): string {
         return $this->title;
     }
@@ -161,38 +153,5 @@ class Activity extends BaseEntity implements BelongsToCampInterface {
     public function removeActivityResponsible(ActivityResponsible $activityResponsible) {
         $activityResponsible->setActivity(null);
         $this->activityResponsibles->removeElement($activityResponsible);
-    }
-
-    /** @ORM\PrePersist */
-    public function PrePersist() {
-        parent::PrePersist();
-
-        if (null !== $this->getActivityType() && $this->getActivityContents()->isEmpty()) {
-            $this->createDefaultActivityContents();
-        }
-    }
-
-    /**
-     * Replicates the default content-type structure given by the ActivityType.
-     */
-    public function createDefaultActivityContents(ContentTypeStrategyProvider $contentTypeStrategyProvider = null) {
-        foreach ($this->getActivityType()->getActivityTypeContentTypes() as $activityTypeContentType) {
-            for ($idx = 0; $idx < $activityTypeContentType->getDefaultInstances(); ++$idx) {
-                /** @var ContentType $contentType */
-                $contentType = $activityTypeContentType->getContentType();
-                $contentTypeName = $contentType->getName().' ';
-                $contentTypeName .= str_pad($idx + 1, 2, '0');
-
-                $activityContent = new ActivityContent();
-                $activityContent->setContentType($contentType);
-                $activityContent->setInstanceName($contentTypeName);
-
-                if ($contentTypeStrategyProvider) {
-                    $activityContent->setContentTypeStrategyProvider($contentTypeStrategyProvider);
-                }
-
-                $this->addActivityContent($activityContent);
-            }
-        }
     }
 }

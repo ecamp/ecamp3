@@ -3,12 +3,11 @@
 namespace eCamp\CoreData;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
-use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use eCamp\Core\Entity\Login;
 use eCamp\Core\Entity\User;
 
-class UserData extends AbstractFixture implements DependentFixtureInterface {
+class UserData extends AbstractFixture {
     public static $USER = User::class.':USER';
 
     public function load(ObjectManager $manager) {
@@ -45,9 +44,5 @@ class UserData extends AbstractFixture implements DependentFixtureInterface {
         }
 
         $manager->flush();
-    }
-
-    public function getDependencies() {
-        return [CampTypeData::class];
     }
 }

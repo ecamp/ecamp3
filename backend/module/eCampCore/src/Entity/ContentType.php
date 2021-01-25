@@ -23,14 +23,6 @@ class ContentType extends BaseEntity {
     private $active = true;
 
     /**
-     * Allow multiple instances on a single activitiy.
-     *
-     * @var bool
-     * @ORM\Column(type="boolean", nullable=false)
-     */
-    private $allowMultiple = false;
-
-    /**
      * @var string
      * @ORM\Column(type="string", length=128, nullable=false)
      */
@@ -56,14 +48,6 @@ class ContentType extends BaseEntity {
 
     public function getActive(): bool {
         return $this->active;
-    }
-
-    public function setAllowMultiple(bool $allowMultiple): void {
-        $this->allowMultiple = $allowMultiple;
-    }
-
-    public function getAllowMultiple(): bool {
-        return $this->allowMultiple;
     }
 
     public function setActive(bool $active): void {

@@ -9,22 +9,30 @@ services:
       - '9229:9229' # jest debug 
     stdin_open: true
     tty: true
+    user: ${USER_ID:-1000}
     volumes:
       - ./frontend:/app:delegated
       - ./common:/common:delegated
-      - npm-cache:/root/.npm
-      - cypress-cache:/root/.cache/Cypress
-      - node-modules-cache:/app/node_modules/.cache
+      - ./.cache/npm:/home/node/.npm
+      - ./.cache/cypress:/home/node/.cache/Cypress
+      - ./.cache/node_modules:/app/node_modules/.cache
     working_dir: /app
     command: ./docker-setup.sh
     environment:
-      NODE_ENV: development
+      - NODE_ENV=development
+      - NPM_CONFIG_UPDATE_NOTIFIER=false
+      - NPM_CONFIG_CACHE=/home/node/.npm
+      - CYPRESS_CACHE_FOLDER=/home/node/.cache/Cypress
 
   backend:
     build: ./backend
     container_name: 'ecamp3-backend'
+    depends_on:
+      - db
+      - docker-host
     ports:
-      - '3001:80'
+      - '3001:3001'
+    user: ${USER_ID:-1000}
     volumes:
       - ./backend:/app:delegated
     entrypoint: ./docker-setup.sh
@@ -33,16 +41,20 @@ services:
     image: node:12.20
     container_name: 'ecamp3-print'
     ports:
-      - '3003:80'
+      - '3003:3003'
+    user: ${USER_ID:-1000}
     volumes:
       - ./print:/app:delegated
       - ./common:/common:delegated
-      - npm-cache:/root/.npm
-      - print-node-modules-cache:/app/node_modules/.cache
+      - ./.cache/npm:/home/node/.npm
+      - ./.cache/node_modules:/app/node_modules/.cache
     working_dir: /app
     command: ./docker-setup.sh
     environment:
-      - HOST=0.0.0.0
+      - NUXT_HOST=0.0.0.0
+      - NUXT_PORT=3003
+      - NPM_CONFIG_UPDATE_NOTIFIER=false
+      - NPM_CONFIG_CACHE=/home/node/.npm
     env_file:
       - ./print/print.env
 
@@ -51,9 +63,10 @@ services:
     container_name: 'ecamp3-composer'
     restart: 'no'
     command: bash -c "composer install --no-interaction --no-plugins --no-scripts --prefer-dist --no-suggest"
+    user: ${USER_ID:-1000}
     volumes:
       - ./backend:/app:delegated
-      - composer-cache:/tmp/cache
+      - ./.cache/composer:/tmp/cache
 
   db:
     image: mariadb:10.5
@@ -84,37 +97,39 @@ services:
   worker-print-puppeteer:
     build: ./workers/print-puppeteer
     container_name: 'ecamp3-worker-print-puppeteer'
+    user: ${USER_ID:-1000}
     volumes:
       - ./workers/print-puppeteer:/app:delegated
-      - npm-cache:/root/.npm
-      - print-output:/app/data
-    working_dir: /app
-    command: npm run print
+      - ./.cache/npm:/home/node/.npm
+      - ./.print-data:/app/data
+    command: ./docker-setup.sh
+    environment:
+      - NPM_CONFIG_UPDATE_NOTIFIER=false
+      - NPM_CONFIG_CACHE=/home/node/.npm
 
   worker-print-weasy:
     build: ./workers/print-weasy
     container_name: 'ecamp3-worker-print-weasy'
+    user: ${USER_ID:-1000}
     volumes:
       - ./workers/print-weasy:/app:delegated
-      - print-output:/app/data
-    working_dir: /app
-    command: python -u print.py
+      - ./.print-data:/app/data
 
   print-file-server:
     image: halverneus/static-file-server
     container_name: 'ecamp3-print-file-server'
     volumes:
-      - print-output:/web
+      - ./.print-data:/web
     ports:
       - '3005:8080'
     environment:
       - CORS=true
 
+  docker-host:
+    image: qoomon/docker-host
+    container_name: 'ecamp3-docker-host-forwarder'
+    cap_add: [ 'NET_ADMIN', 'NET_RAW' ]
+    restart: on-failure
+
 volumes:
-  npm-cache:
-  cypress-cache:
-  composer-cache:
-  node-modules-cache:
-  print-node-modules-cache:
   db-data:
-  print-output:

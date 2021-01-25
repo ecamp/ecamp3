@@ -25,6 +25,12 @@ class MaterialList extends BaseEntity implements BelongsToCampInterface {
 
     /**
      * @var string
+     * @ORM\Column(type="string", length=32, nullable=true)
+     */
+    private $materialListTemplateId;
+
+    /**
+     * @var string
      * @ORM\Column(type="string", length=64, nullable=false)
      */
     private $name;
@@ -49,6 +55,17 @@ class MaterialList extends BaseEntity implements BelongsToCampInterface {
      */
     public function setCamp($camp) {
         $this->camp = $camp;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMaterialListTemplateId() {
+        return $this->materialListTemplateId;
+    }
+
+    public function setMaterialListTemplateId(string $materialListTemplateId) {
+        $this->materialListTemplateId = $materialListTemplateId;
     }
 
     public function getName() {
