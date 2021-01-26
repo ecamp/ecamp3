@@ -3,9 +3,11 @@
 namespace eCamp\Lib\Mail;
 
 use Exception;
-use Laminas\Mail\Message;
+use Laminas\Mail\Message as MailMessage;
 use Laminas\Mail\Transport\TransportInterface;
+use Laminas\Mime\Message as MimeMessage;
 use Laminas\Mime\Mime;
+use Laminas\Mime\Part;
 use Laminas\View\Model\ViewModel;
 use Laminas\View\View;
 
@@ -23,7 +25,7 @@ class LaminasMail implements ProviderInterface {
     public function sendMail(MessageData $message) {
         $body = $this->createBody($message);
 
-        $mail = new Message();
+        $mail = new MailMessage();
         $mail->setFrom($message->from);
         $mail->setTo($message->to);
 
@@ -40,7 +42,7 @@ class LaminasMail implements ProviderInterface {
         $this->mailTransport->send($mail);
     }
 
-    private function createBody(MessageData $data): \Laminas\Mime\Message {
+    private function createBody(MessageData $data): MimeMessage {
         if (!array_key_exists($data->template, $this->templateConfig)) {
             throw new Exception("Config for template '".$data->template."' is missing");
         }
@@ -48,13 +50,13 @@ class LaminasMail implements ProviderInterface {
         $config = $this->templateConfig[$data->template];
         $part = $this->create($data, $config);
 
-        $message = new \Laminas\Mime\Message();
+        $message = new MimeMessage();
         $message->addPart($part);
 
         return $message;
     }
 
-    private function create(MessageData $data, array $config): \Laminas\Mime\Part {
+    private function create(MessageData $data, array $config): Part {
         $type = $config['type'];
 
         switch ($type) {
@@ -70,30 +72,30 @@ class LaminasMail implements ProviderInterface {
         }
     }
 
-    private function createMultipart(MessageData $data, array $config): \Laminas\Mime\Part {
+    private function createMultipart(MessageData $data, array $config): Part {
         $partsConfig = $config['parts'];
 
-        $partsMessage = new \Laminas\Mime\Message();
+        $partsMessage = new MimeMessage();
         foreach ($partsConfig as $partConfig) {
             $part = $this->create($data, $partConfig);
             $partsMessage->addPart($part);
         }
 
-        $multipart = new \Laminas\Mime\Part($partsMessage->generateMessage());
+        $multipart = new Part($partsMessage->generateMessage());
         $multipart->type = $config['type'];
         $multipart->boundary = $partsMessage->getMime()->boundary();
 
         return $multipart;
     }
 
-    private function createPart(MessageData $data, array $config): \Laminas\Mime\Part {
+    private function createPart(MessageData $data, array $config): Part {
         $viewModel = new ViewModel();
         $viewModel->setOption('has_parent', true);
         $viewModel->setTemplate($config['template']);
         $viewModel->setVariables($data->data);
         $content = $this->view->render($viewModel);
 
-        $part = new \Laminas\Mime\Part($content);
+        $part = new Part($content);
         $part->encoding = $config['encoding'];
         $part->type = $config['type'];
         $part->charset = $config['charset'];
