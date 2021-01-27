@@ -137,6 +137,7 @@
     },
     "invitation" : {
       "acceptCurrentAuth" : "Accept invitation with current account",
+      "backToLogin" : "Back to Login",
       "error" : "An unexpected error occurred",
       "login": "Login",
       "notFound" : "This invitation is already accepted or was deleted",

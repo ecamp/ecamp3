@@ -61,6 +61,12 @@
     <v-alert v-else type="error">
       {{ this.$tc('components.invitation.error') }}
     </v-alert>
+    <v-btn color="primary"
+           x-large
+           class="my-4" block
+           :to="backToLogin">
+      {{ this.$tc('components.invitation.backToLogin') }}
+    </v-btn>
   </auth-container>
 </template>
 
@@ -99,6 +105,9 @@ export default {
         return undefined
       }
       return this.campCollaboration().status === 'invited'
+    },
+    backToLogin () {
+      return loginRoute()
     },
     isLoggedIn () {
       return this.$auth.isLoggedIn()
