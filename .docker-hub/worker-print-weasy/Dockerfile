@@ -14,7 +14,7 @@ RUN apt-get -y update \
 
 WORKDIR /app
 
-RUN pip install WeasyPrint pika requests
+RUN pip install WeasyPrint pika requests sentry-sdk
 
 COPY workers/print-weasy .
 

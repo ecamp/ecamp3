@@ -11,6 +11,10 @@ from urllib.parse import urlencode
 
 from environment import *
 
+import sentry_sdk
+if SENTRY_WORKER_PRINT_WEASY_DSN:
+  sentry_sdk.init(SENTRY_WORKER_PRINT_WEASY_DSN)
+
 # create custom URL fetcher to include cookie
 def url_fetcher_factory(sessionId):
 

@@ -70,8 +70,28 @@ inputs:
     description: 'The location of the file server'
     required: true
 
-  sentry-dsn:
+  sentry-backend-dsn:
     description: 'DSN for reporting backend errors to sentry'
+    required: false
+    default: ''
+
+  sentry-frontend-dsn:
+    description: 'DSN for reporting frontend errors to sentry'
+    required: false
+    default: ''
+
+  sentry-print-dsn:
+    description: 'DSN for reporting errors in the print service to sentry'
+    required: false
+    default: ''
+
+  sentry-worker-print-puppeteer-dsn:
+    description: 'DSN for reporting errors in the puppeteer print worker to sentry'
+    required: false
+    default: ''
+
+  sentry-worker-print-weasy-dsn:
+    description: 'DSN for reporting errors in the weasy print worker to sentry'
     required: false
     default: ''
 
@@ -128,7 +148,11 @@ runs:
         FRONTEND_URL: ${{ inputs.frontend-url }}
         PRINT_SERVER_URL: ${{ inputs.print-server-url }}
         PRINT_FILE_SERVER_URL: ${{ inputs.print-file-server-url }}
-        SENTRY_DSN: ${{ inputs.sentry-dsn }}
+        SENTRY_BACKEND_DSN: ${{ inputs.sentry-backend-dsn }}
+        SENTRY_FRONTEND_DSN: ${{ inputs.sentry-frontend-dsn }}
+        SENTRY_PRINT_DSN: ${{ inputs.sentry-print-dsn }}
+        SENTRY_WORKER_PRINT_PUPPETEER_DSN: ${{ inputs.sentry-worker-print-puppeteer-dsn }}
+        SENTRY_WORKER_PRINT_WEASY_DSN: ${{ inputs.sentry-worker-print-weasy-dsn }}
         RABBITMQ_HOST: ${{ inputs.rabbitmq-host }}
         RABBITMQ_PORT: ${{ inputs.rabbitmq-port }}
         RABBITMQ_VHOST: ${{ inputs.rabbitmq-vhost }}
