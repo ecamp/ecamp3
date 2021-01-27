@@ -126,7 +126,7 @@ services:
       - CORS=true
 
   docker-host:
-    image: qoomon/docker-host@sha256:0836da5bad9e6415b93fae66252a84f8d433e3324a187e16d40c8b3db29271e1
+    image: qoomon/docker-host@sha256:adfead4ec2b6d45e0b8c64ec89b0168bfcd85ae110bf106ab16071d6e67ac4bb
     container_name: 'ecamp3-docker-host-forwarder'
     cap_add: [ 'NET_ADMIN', 'NET_RAW' ]
     restart: on-failure
