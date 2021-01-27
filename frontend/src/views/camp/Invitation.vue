@@ -1,6 +1,6 @@
 <template>
   <auth-container>
-    <div v-if="invitationFound !== false && campCollaborationOpen !== false">
+    <div v-if="[states.INIT,states.INVITATION_FOUND].includes(dialogState)">
       <h1 v-if="isLoggedIn" class="display-1">{{ this.$tc('components.invitation.userWelcome') }} {{ userDisplayName }}</h1>
       <h1 class="display-1">{{ this.$tc('components.invitation.title') }} {{ camp ? camp.title : '' }}</h1>
 
@@ -47,12 +47,19 @@
       </div>
       <v-btn color="red"
              x-large
-             class="my-4" block>
+             class="my-4" block
+             @click="rejectInvitation">
         {{ this.$tc('components.invitation.reject') }}
       </v-btn>
     </div>
-    <v-alert v-else type="error">
+    <v-alert v-else-if="dialogState === states.REJECTED" type="info">
+      {{ this.$tc('components.invitation.successfullyRejected') }}
+    </v-alert>
+    <v-alert v-else-if="dialogState === states.INVITATION_NOT_FOUND" type="error">
       {{ this.$tc('components.invitation.notFound') }}
+    </v-alert>
+    <v-alert v-else type="error">
+      {{ this.$tc('components.invitation.error') }}
     </v-alert>
   </auth-container>
 </template>
@@ -67,10 +74,19 @@ export default {
   props: {
     campCollaboration: { type: Function, required: true }
   },
-  data: () => ({ invitationFound: undefined }),
+  data: () => ({
+    states: {
+      INIT: {},
+      INVITATION_FOUND: {},
+      INVITATION_NOT_FOUND: {},
+      REJECTED: {},
+      ERROR: {}
+    },
+    dialogState: undefined
+  }),
   computed: {
     camp () {
-      if (!this.invitationFound) {
+      if (this.states.INIT === this.dialogState) {
         return undefined
       }
       return this.campCollaboration().camp()
@@ -79,7 +95,7 @@ export default {
       return campRoute(this.camp)
     },
     campCollaborationOpen () {
-      if (this.invitationFound === undefined) {
+      if (this.states.INIT === this.dialogState) {
         return undefined
       }
       return this.campCollaboration().status === 'invited'
@@ -91,7 +107,7 @@ export default {
       return loginRoute(this.$route.fullPath)
     },
     profile () {
-      if (this.isLoggedIn !== true) {
+      if (this.states.INIT === this.dialogState) {
         return undefined
       }
       return this.api.get().profile()
@@ -118,9 +134,10 @@ export default {
     }
   },
   mounted: function () {
+    this.dialogState = this.states.INIT
     this.campCollaboration()._meta.load.then(
-      () => { this.invitationFound = true },
-      () => { this.invitationFound = false })
+      () => { this.dialogState = this.states.INVITATION_FOUND },
+      () => { this.dialogState = this.states.INVITATION_NOT_FOUND })
     if (this.$auth.isLoggedIn() === true) {
       this.api.get().profile()
     }
@@ -132,14 +149,24 @@ export default {
       this.$auth.logout().then(__ => this.$router.push(loginLink))
     },
     acceptInvitation () {
-      if (!this.invitationFound) return
+      if (this.dialogState !== this.states.INVITATION_FOUND) return
       const me = this
       this.api.href(this.api.get()._meta.self, 'invitation', {
         action: 'accept',
         inviteKey: this.$route.params.inviteKey
       }).then(postUrl => me.api.post(postUrl, {}))
         .then(_ => { me.$router.push(me.campLink) },
-          e => console.log(e))
+          () => { me.dialogState = this.states.ERROR })
+    },
+    rejectInvitation () {
+      if (this.dialogState !== this.states.INVITATION_FOUND) return
+      const me = this
+      this.api.href(this.api.get()._meta.self, 'invitation', {
+        action: 'reject',
+        inviteKey: this.$route.params.inviteKey
+      }).then(postUrl => me.api.post(postUrl, {}))
+        .then(_ => { me.dialogState = this.states.REJECTED },
+          () => { me.dialogState = this.states.ERROR })
     }
   }
 }

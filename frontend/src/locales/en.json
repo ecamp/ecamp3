@@ -137,6 +137,7 @@
     },
     "invitation" : {
       "acceptCurrentAuth" : "Accept invitation with current account",
+      "error" : "An unexpected error occurred",
       "login": "Login",
       "notFound" : "This invitation is already accepted or was deleted",
       "register" : "Register",
@@ -145,7 +146,8 @@
       "useOtherAuth" : "Use another account",
       "userAlreadyInCamp" : "You are already part of this camp",
       "userWelcome" : "Welcome",
-      "openCamp" : "Open camp"
+      "openCamp" : "Open camp",
+      "successfullyRejected" : "The invitation was successfully rejected"
     },
     "layout": {
       "authContainer": {
