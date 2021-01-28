@@ -6,6 +6,7 @@ import pika
 import json
 import requests
 import sys
+import time
 
 from urllib.parse import urlencode
 
@@ -70,7 +71,9 @@ parameters = pika.ConnectionParameters(AMQP_HOST,
 while True:
     try:
         connection = pika.BlockingConnection(parameters)
-    except:
+    except Exception as e:
+        print('[AMQP] Connection error', e)
+        time.sleep(1)
         continue
     break
 
