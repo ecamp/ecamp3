@@ -83,7 +83,7 @@ services:
       - db-data:/var/lib/mysql
 
   phpmyadmin:
-    image: phpmyadmin/phpmyadmin@sha256:7d98bb1eaaa15289624b36cb1b0259a4d6aed4b797a5466e95d6f2e2e3d9008e
+    image: phpmyadmin/phpmyadmin@sha256:6236673255ebe2a845c9ca9f5da58e53c8b1144877330f42610c258aa106a1a6
     container_name: 'ecamp3-phpmyadmin'
     ports:
       - '3002:80'
