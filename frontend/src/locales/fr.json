@@ -1,7 +1,6 @@
 {
   "activityContent": {
     "laThematicArea": {
-      "add": "Ajouter une domain de AC",
       "entity": {
         "option": {
           "campsiteAndSurroundings": {
@@ -30,7 +29,7 @@
           }
         }
       },
-      "name": "AC domaine"
+      "name": "Domaine thématique AC"
     },
     "notes": {
       "add": "Ajouter des remarques",
