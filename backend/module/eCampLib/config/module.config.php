@@ -47,6 +47,9 @@ return [
             \eCamp\Lib\ServiceManager\EntityFilterManager::class => \eCamp\Lib\ServiceManager\EntityFilterManagerFactory::class,
             Laminas\Hydrator\HydratorPluginManager::class => Laminas\Hydrator\HydratorPluginManagerFactory::class,
             \eCamp\Lib\Amqp\AmqpService::class => \eCamp\Lib\Amqp\AmqpServiceFactory::class,
+            \Sentry\State\HubInterface::class => function () {
+                return \Sentry\SentrySdk::getCurrentHub();
+            },
         ],
         'aliases' => [
             \Symfony\Component\Console\Output\OutputInterface::class => \Symfony\Component\Console\Output\ConsoleOutput::class,

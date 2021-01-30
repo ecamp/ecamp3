@@ -2,7 +2,7 @@ version: "3"
 
 services:
   frontend:
-    image: node:12.20
+    image: node:14.15.4@sha256:04a33dac55af8d3170bffc91ca31fe8000b96ae1bab1a090deb920ca2ca2a38e
     container_name: 'ecamp3-frontend'
     ports:
       - '3000:3000'
@@ -38,7 +38,7 @@ services:
     entrypoint: ./docker-setup.sh
 
   print:
-    image: node:12.20
+    image: node:14.15.4@sha256:04a33dac55af8d3170bffc91ca31fe8000b96ae1bab1a090deb920ca2ca2a38e
     container_name: 'ecamp3-print'
     ports:
       - '3003:3003'
@@ -59,7 +59,7 @@ services:
       - ./print/print.env
 
   composer:
-    image: composer:2
+    image: composer:2@sha256:4b89f5da14e480c71a311e3bca85c93d7f9cf7f84453e15fa9048b54fc6cfd57
     container_name: 'ecamp3-composer'
     restart: 'no'
     command: bash -c "composer install --no-interaction --no-plugins --no-scripts --prefer-dist --no-suggest"
@@ -69,7 +69,7 @@ services:
       - ./.cache/composer:/tmp/cache
 
   db:
-    image: mariadb:10.5
+    image: mariadb:10.5@sha256:8040983db146f729749081c6b216a19d52e0973134e2e34c0b4fd87f48bc15b0
     container_name: 'ecamp3-db'
     environment:
       - MYSQL_DATABASE=ecamp3dev
@@ -83,13 +83,13 @@ services:
       - db-data:/var/lib/mysql
 
   phpmyadmin:
-    image: phpmyadmin/phpmyadmin
+    image: phpmyadmin/phpmyadmin@sha256:8c181ee691e4497afc72c521354e6aacab24624d1d04b8cf819a73fa37d044c2
     container_name: 'ecamp3-phpmyadmin'
     ports:
       - '3002:80'
 
   rabbitmq:
-    image: rabbitmq:3.8-management
+    image: rabbitmq:3.8-management@sha256:abcba8d2f36f3856fac601cdefeafc1e55b2d22209afd2779567cde3667b6dc8
     container_name: 'ecamp3-rabbitmq'
     ports:
       - '3004:15672'
@@ -116,7 +116,7 @@ services:
       - ./.print-data:/app/data
 
   print-file-server:
-    image: halverneus/static-file-server
+    image: halverneus/static-file-server@sha256:833cd54b12085d7321e81ebed207fe3cfdbe8414d0d060c148987a4df0eeb3e3
     container_name: 'ecamp3-print-file-server'
     volumes:
       - ./.print-data:/web
@@ -126,7 +126,7 @@ services:
       - CORS=true
 
   docker-host:
-    image: qoomon/docker-host
+    image: qoomon/docker-host@sha256:adfead4ec2b6d45e0b8c64ec89b0168bfcd85ae110bf106ab16071d6e67ac4bb
     container_name: 'ecamp3-docker-host-forwarder'
     cap_add: [ 'NET_ADMIN', 'NET_RAW' ]
     restart: on-failure

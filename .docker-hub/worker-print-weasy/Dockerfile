@@ -1,4 +1,4 @@
-FROM python:3.9
+FROM python:3.9@sha256:37a5e011a522f3ba328e1ea30d2cb22513dbbfc99d6002bf37b205fab5a4564f
 
 # install all the dependencies except libcairo2 from jessie, then install libcairo2 from stretch
 RUN apt-get -y update \
@@ -14,7 +14,7 @@ RUN apt-get -y update \
 
 WORKDIR /app
 
-RUN pip install WeasyPrint pika requests
+RUN pip install WeasyPrint pika requests sentry-sdk
 
 COPY workers/print-weasy .
 
