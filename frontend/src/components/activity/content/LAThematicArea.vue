@@ -1,16 +1,16 @@
 <template>
-  <v-list three-line>
-    <v-list-item v-for="option in activityContent.options().items" :key="option.id" class="px-0">
-      <template #default="{ active }">
+  <v-list three-line class="mx-n4">
+    <v-list-item-group>
+      <v-list-item v-for="option in activityContent.options().items" :key="option.id" tag="label">
         <v-list-item-action>
-          <api-checkbox fieldname="checked" :value="active" :uri="option._meta.self" />
+          <api-checkbox fieldname="checked" :uri="option._meta.self" />
         </v-list-item-action>
         <v-list-item-content>
           <v-list-item-title>{{ $tc(`activityContent.laThematicArea.entity.option.${option.translateKey}.name`) }}</v-list-item-title>
           <v-list-item-subtitle>{{ $tc(`activityContent.laThematicArea.entity.option.${option.translateKey}.description`) }}</v-list-item-subtitle>
         </v-list-item-content>
-      </template>
-    </v-list-item>
+      </v-list-item>
+    </v-list-item-group>
   </v-list>
 </template>
 
