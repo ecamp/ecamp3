@@ -61,7 +61,7 @@ export default {
     },
     formatPicker (val) {
       if (val !== '') {
-        return this.$date.utc(val, this.valueFormat).format('YYYY-MM-DD')
+        return this.$date.utc(val, this.valueFormat).format(this.$date.HTML5_FMT.DATE)
       }
       return ''
     },
@@ -79,8 +79,8 @@ export default {
     },
     parsePicker (val) {
       if (val) {
-        const parsedDate = this.$date.utc(val, 'YYYY-MM-DD')
-        if (parsedDate.isValid() && parsedDate.format('YYYY-MM-DD') === val) {
+        const parsedDate = this.$date.utc(val, this.$date.HTML5_FMT.DATE)
+        if (parsedDate.isValid() && parsedDate.format(this.$date.HTML5_FMT.DATE) === val) {
           return Promise.resolve(parsedDate.format(this.valueFormat))
         } else {
           return Promise.reject(new Error('invalid format'))

@@ -71,12 +71,16 @@ export default {
         return time.format(this.valueFormat)
       }
     },
-    setTime (initialDateTime, newDateTime) {
-      return initialDateTime
-        .hour(newDateTime.hour())
-        .minute(newDateTime.minute())
-        .second(newDateTime.second())
-        .millisecond(newDateTime.millisecond())
+    setTime (dateTime) {
+      if (this.dateTime && this.dateTime.isValid()) {
+        this.dateTime = this.dateTime
+          .hour(dateTime.hour())
+          .minute(dateTime.minute())
+          .second(dateTime.second())
+          .millisecond(dateTime.millisecond())
+      } else {
+        this.dateTime = dateTime
+      }
     },
     format (val) {
       if (val !== '') {
@@ -87,7 +91,7 @@ export default {
     },
     formatPicker (val) {
       if (val !== '') {
-        return this.parseTime(val).format('HH:mm')
+        return this.parseTime(val).format(this.$date.HTML5_FMT.TIME)
       }
       return ''
     },
@@ -95,7 +99,7 @@ export default {
       if (val) {
         const parsedDateTime = this.$date.utc(val, 'LT')
         if (parsedDateTime.isValid() && parsedDateTime.format('LT') === val) {
-          this.dateTime = this.setTime(this.dateTime, parsedDateTime)
+          this.setTime(parsedDateTime)
           return Promise.resolve(this.formatTime(this.dateTime))
         } else {
           return Promise.reject(new Error('invalid format'))
@@ -106,9 +110,9 @@ export default {
     },
     parsePicker (val) {
       if (val) {
-        const parsedDateTime = this.$date.utc(val, 'HH:mm')
-        if (parsedDateTime.isValid() && parsedDateTime.format('HH:mm') === val) {
-          this.dateTime = this.setTime(this.dateTime, parsedDateTime)
+        const parsedDateTime = this.$date.utc(val, this.$date.HTML5_FMT.TIME)
+        if (parsedDateTime.isValid() && parsedDateTime.format(this.$date.HTML5_FMT.TIME) === val) {
+          this.setTime(parsedDateTime)
           return Promise.resolve(this.formatTime(this.dateTime))
         } else {
           return Promise.reject(new Error('invalid format'))

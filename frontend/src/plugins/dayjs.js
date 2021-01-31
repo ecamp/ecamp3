@@ -13,6 +13,15 @@ dayjs.extend(utc)
 dayjs.extend(customParseFormat)
 dayjs.extend(localizedFormat)
 
+const formatStrings = (_option, _dayjsClass, dayjsFactory) => {
+  dayjsFactory.HTML5_FMT = {
+    DATE: 'YYYY-MM-DD',
+    TIME: 'HH:mm'
+  }
+}
+
+dayjs.extend(formatStrings)
+
 Object.defineProperties(Vue.prototype, {
   $date: {
     get () {

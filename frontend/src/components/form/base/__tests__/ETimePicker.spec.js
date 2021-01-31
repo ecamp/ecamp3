@@ -130,6 +130,21 @@ describe('An ETimePicker', () => {
       expect(wrapper.text()).toContain('invalid format')
     })
 
+    test('works with invalid initialization', async () => {
+      const wrapper = mount({
+        propsData: {
+          value: 'abc'
+        }
+      })
+      await waitForDebounce()
+      expect(wrapper.find('input[type=text]').element.value).toBe('Invalid Date')
+      expect(wrapper.text()).toContain('invalid format')
+      const input = wrapper.find('input[type=text]')
+      await input.setValue(data.time_1)
+      await waitForDebounce()
+      expect(wrapper.text()).not.toContain('invalid format')
+    })
+
     test('updates its value when a time is picked', async () => {
       const wrapper = mount({
         propsData: {
