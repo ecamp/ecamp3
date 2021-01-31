@@ -79,10 +79,10 @@ describe('An ETimePicker', () => {
         vuetify,
         i18n
       })
-      await flushPromises()
+      await waitForDebounce()
       expect(wrapper).toMatchSnapshot('pickerclosed')
       await wrapper.find('button').trigger('click')
-      expect(document.querySelector('body')).toMatchSnapshot('pickeropen')
+      expect(document.body).toMatchSnapshot('pickeropen')
     })
 
     test('allows a different valueFormat', async () => {

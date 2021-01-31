@@ -45,6 +45,11 @@ describe('An EDatePicker', () => {
 
   const waitForDebounce = () => new Promise((resolve) => setTimeout(resolve, 110))
 
+  beforeAll(() => {
+    // prevent "[Vuetify] Unable to locate target [data-app]" warnings
+    document.body.setAttribute('data-app', 'true')
+  })
+
   const mount = (options) => mountComponent(EDatePicker, { vuetify, i18n, ...options })
 
   describe.each(localeData)('in locale %s', (locale, data) => {
@@ -61,6 +66,21 @@ describe('An EDatePicker', () => {
       })
       await flushPromises()
       expect(wrapper.find('input[type=text]').element.value).toBe(data.date_1)
+    })
+
+    test('looks like a date picker', async () => {
+      const wrapper = mountComponent({
+        data: () => ({ date: DATE_1 }),
+        template: '<div><e-date-picker v-model="date"></e-date-picker></div>',
+        components: { 'e-date-picker': EDatePicker }
+      }, {
+        vuetify,
+        i18n
+      })
+      await waitForDebounce()
+      expect(wrapper).toMatchSnapshot('pickerclosed')
+      await wrapper.find('button').trigger('click')
+      expect(document.body).toMatchSnapshot('pickeropen')
     })
 
     test('updates v-model when the value changes', async () => {
@@ -99,8 +119,6 @@ describe('An EDatePicker', () => {
     })
 
     test('updates its value when a date is picked', async () => {
-      // prevent "[Vuetify] Unable to locate target [data-app]" warnings
-      document.body.setAttribute('data-app', 'true')
       const wrapper = mount({
         propsData: {
           value: DATE_1

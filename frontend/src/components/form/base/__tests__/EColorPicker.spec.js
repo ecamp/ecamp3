@@ -46,6 +46,11 @@ describe('An EColorPicker', () => {
 
   const mount = (options) => mountComponent(EColorPicker, { vuetify, i18n, ...options })
 
+  beforeAll(() => {
+    // prevent "[Vuetify] Unable to locate target [data-app]" warnings
+    document.body.setAttribute('data-app', 'true')
+  })
+
   beforeEach(() => {
     vuetify = new Vuetify()
   })
@@ -58,6 +63,21 @@ describe('An EColorPicker', () => {
     })
     await flushPromises()
     expect(wrapper.find('input[type=text]').element.value).toBe(COLOR_1)
+  })
+
+  test('looks like a color picker', async () => {
+    const wrapper = mountComponent({
+      data: () => ({ color: COLOR_1 }),
+      template: '<div><e-color-picker v-model="color"></e-color-picker></div>',
+      components: { 'e-color-picker': EColorPicker }
+    }, {
+      vuetify,
+      i18n
+    })
+    await waitForDebounce()
+    expect(wrapper).toMatchSnapshot('pickerclosed')
+    await wrapper.find('button').trigger('click')
+    expect(document.body).toMatchSnapshot('pickeropen')
   })
 
   test('updates v-model when the value changes', async () => {
@@ -118,8 +138,6 @@ describe('An EColorPicker', () => {
   })
 
   test('accepts 3-digit hex color codes', async () => {
-    // prevent "[Vuetify] Unable to locate target [data-app]" warnings
-    document.body.setAttribute('data-app', 'true')
     const wrapper = mount({
       propsData: {
         value: '#abc'
