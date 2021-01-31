@@ -3,14 +3,13 @@ import Vuetify from 'vuetify'
 
 import i18n from '@/plugins/i18n'
 import formBaseComponents from '@/plugins/formBaseComponents'
-import { vueMoment, moment } from '@/plugins/vueMoment'
+import '@/plugins/dayjs'
 
 import { mount as mountComponent } from '@vue/test-utils'
 import ETimePicker from '../ETimePicker'
 
 Vue.use(Vuetify)
 Vue.use(formBaseComponents)
-Vue.use(vueMoment, { moment })
 
 describe('An ETimePicker', () => {
   let vuetify
@@ -56,7 +55,7 @@ describe('An ETimePicker', () => {
 
   describe.each(localeData)('in locale %s', (locale, data) => {
     beforeEach(() => {
-      moment.locale(locale)
+      Vue.dayjs.locale(locale)
       vuetify = new Vuetify()
     })
 

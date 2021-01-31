@@ -57,25 +57,46 @@ export default {
   },
   methods: {
     allowedStep: m => m % 15 === 0,
+    parseTime (value) {
+      if (this.valueFormat === 'x') {
+        return this.$date.utc(value)
+      } else {
+        return this.$date.utc(value, this.valueFormat)
+      }
+    },
+    formatTime (time) {
+      if (this.valueFormat === 'x') {
+        return time.valueOf()
+      } else {
+        return time.format(this.valueFormat)
+      }
+    },
+    setTime (initialDateTime, newDateTime) {
+      return initialDateTime
+        .hour(newDateTime.hour())
+        .minute(newDateTime.minute())
+        .second(newDateTime.second())
+        .millisecond(newDateTime.millisecond())
+    },
     format (val) {
       if (val !== '') {
-        this.dateTime = this.$moment.utc(val, this.valueFormat)
+        this.dateTime = this.parseTime(val)
         return this.dateTime.format('LT')
       }
       return ''
     },
     formatPicker (val) {
       if (val !== '') {
-        return this.$moment.utc(val, this.valueFormat).format(this.$moment.HTML5_FMT.TIME)
+        return this.parseTime(val).format('HH:mm')
       }
       return ''
     },
     parse (val) {
       if (val) {
-        const m = this.$moment.utc(val, 'LT')
-        this.dateTime.hours(m.hours()).minutes(m.minutes()).seconds(m.seconds()).milliseconds(m.milliseconds())
-        if (m.isValid()) {
-          return Promise.resolve(this.dateTime.format(this.valueFormat))
+        const parsedDateTime = this.$date.utc(val, 'LT')
+        if (parsedDateTime.isValid() && parsedDateTime.format('LT') === val) {
+          this.dateTime = this.setTime(this.dateTime, parsedDateTime)
+          return Promise.resolve(this.formatTime(this.dateTime))
         } else {
           return Promise.reject(new Error('invalid format'))
         }
@@ -85,10 +106,10 @@ export default {
     },
     parsePicker (val) {
       if (val) {
-        const m = this.$moment.utc(val, this.$moment.HTML5_FMT.TIME)
-        this.dateTime.hours(m.hours()).minutes(m.minutes()).seconds(m.seconds()).milliseconds(m.milliseconds())
-        if (m.isValid()) {
-          return Promise.resolve(this.dateTime.format(this.valueFormat))
+        const parsedDateTime = this.$date.utc(val, 'HH:mm')
+        if (parsedDateTime.isValid() && parsedDateTime.format('HH:mm') === val) {
+          this.dateTime = this.setTime(this.dateTime, parsedDateTime)
+          return Promise.resolve(this.formatTime(this.dateTime))
         } else {
           return Promise.reject(new Error('invalid format'))
         }
