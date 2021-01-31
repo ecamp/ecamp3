@@ -9,10 +9,8 @@ use Laminas\Hydrator\HydratorInterface;
 class SingleTextHydrator implements HydratorInterface {
     /**
      * @param object $object
-     *
-     * @return array
      */
-    public function extract($object) {
+    public function extract($object): array {
         /** @var SingleText $singleText */
         $singleText = $object;
 
@@ -32,10 +30,8 @@ class SingleTextHydrator implements HydratorInterface {
 
     /**
      * @param object $object
-     *
-     * @return object
      */
-    public function hydrate(array $data, $object) {
+    public function hydrate(array $data, $object): SingleText {
         /** @var SingleText $singleText */
         $singleText = $object;
 

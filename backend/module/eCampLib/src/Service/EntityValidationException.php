@@ -3,16 +3,15 @@
 namespace eCamp\Lib\Service;
 
 class EntityValidationException extends \Exception {
-    /** @var array */
-    private $messages;
+    private array $messages = [];
 
-    public function setMessages(array $messages) {
+    public function setMessages(array $messages): self {
         $this->messages = $messages;
 
         return $this;
     }
 
-    public function getMessages() {
+    public function getMessages(): array {
         return $this->messages;
     }
 }

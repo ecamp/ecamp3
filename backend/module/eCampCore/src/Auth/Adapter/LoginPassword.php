@@ -42,7 +42,7 @@ class LoginPassword implements AdapterInterface {
     /**
      * Performs an authentication attempt.
      */
-    public function authenticate() {
+    public function authenticate(): Result {
         // User Not Found:
         if (is_null($this->login)) {
             return $this->authResult(
@@ -77,10 +77,8 @@ class LoginPassword implements AdapterInterface {
      * @param mixed      The Message, can be a string or array
      * @param mixed $code
      * @param mixed $messages
-     *
-     * @return \Laminas\Authentication\Result
      */
-    private function authResult($code, $messages = []) {
+    private function authResult($code, $messages = []): Result {
         if (!is_array($messages)) {
             $messages = [$messages];
         }

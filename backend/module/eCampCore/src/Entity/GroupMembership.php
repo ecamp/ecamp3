@@ -23,36 +23,31 @@ class GroupMembership extends BaseEntity {
     const STATUS_ESTABLISHED = 'established';
 
     /**
-     * @var User
      * @ORM\ManyToOne(targetEntity="User")
      * @ORM\JoinColumn(nullable=false, onDelete="cascade")
      */
-    private $user;
+    private ?User $user = null;
 
     /**
-     * @var Group
      * @ORM\ManyToOne(targetEntity="Group")
      * @ORM\JoinColumn(nullable=false, onDelete="cascade")
      */
-    private $group;
+    private ?Group $group = null;
 
     /**
-     * @var string
      * @ORM\Column(type="string", nullable=false)
      */
-    private $status;
+    private string $status;
 
     /**
-     * @var string
      * @ORM\Column(type="string", nullable=false)
      */
-    private $role;
+    private string $role;
 
     /**
-     * @var string
      * @ORM\Column(type="string", nullable=true)
      */
-    private $membershipAcceptedBy;
+    private ?string $membershipAcceptedBy = null;
 
     public function __construct() {
         parent::__construct();
@@ -61,22 +56,19 @@ class GroupMembership extends BaseEntity {
         $this->role = self::ROLE_GUEST;
     }
 
-    public function getUser(): User {
+    public function getUser(): ?User {
         return $this->user;
     }
 
-    public function setUser(User $user): void {
+    public function setUser(?User $user): void {
         $this->user = $user;
     }
 
-    /**
-     * @return Group
-     */
-    public function getGroup() {
+    public function getGroup(): ?Group {
         return $this->group;
     }
 
-    public function setGroup($group) {
+    public function setGroup(?Group $group) {
         $this->group = $group;
     }
 
@@ -132,14 +124,11 @@ class GroupMembership extends BaseEntity {
         return self::ROLE_MANAGER === $this->role;
     }
 
-    /**
-     * @return string
-     */
-    public function getMembershipAcceptedBy() {
+    public function getMembershipAcceptedBy(): ?string {
         return $this->membershipAcceptedBy;
     }
 
-    public function setMembershipAcceptedBy($membershipAcceptedBy) {
+    public function setMembershipAcceptedBy(?string $membershipAcceptedBy) {
         $this->membershipAcceptedBy = $membershipAcceptedBy;
     }
 
@@ -154,10 +143,5 @@ class GroupMembership extends BaseEntity {
         if (in_array($this->status, [self::STATUS_REQUESTED, self::STATUS_UNRELATED])) {
             $this->membershipAcceptedBy = null;
         }
-    }
-
-    /** @ORM\PreUpdate */
-    public function PreUpdate() {
-        parent::PreUpdate();
     }
 }

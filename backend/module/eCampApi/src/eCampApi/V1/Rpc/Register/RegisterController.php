@@ -9,8 +9,7 @@ use Laminas\Http\Request;
 use Laminas\Json\Json;
 
 class RegisterController extends ApiController {
-    /** @var RegisterService */
-    private $registerService;
+    private RegisterService $registerService;
 
     public function __construct(RegisterService $registerService) {
         $this->registerService = $registerService;

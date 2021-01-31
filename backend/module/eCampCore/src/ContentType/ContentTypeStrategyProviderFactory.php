@@ -8,10 +8,8 @@ use Laminas\ServiceManager\Factory\FactoryInterface;
 class ContentTypeStrategyProviderFactory implements FactoryInterface {
     /**
      * @param string $requestedName
-     *
-     * @return ContentTypeStrategyProvider
      */
-    public function __invoke(ContainerInterface $container, $requestedName, array $options = null) {
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null): ContentTypeStrategyProvider {
         return new ContentTypeStrategyProvider($container);
     }
 }

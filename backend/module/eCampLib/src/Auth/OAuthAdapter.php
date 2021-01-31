@@ -12,10 +12,7 @@ class OAuthAdapter implements AdapterInterface {
         $this->identity = $identity;
     }
 
-    /**
-     * @return Result
-     */
-    public function authenticate() {
+    public function authenticate(): Result {
         if ($this->identity) {
             return new Result(Result::SUCCESS, $this->identity);
         }

@@ -10,12 +10,12 @@ use eCamp\Lib\Acl\NoAccessException;
 use eCamp\Lib\Hydrator\Resolver\BaseResolver;
 use eCamp\Lib\Service\EntityNotFoundException;
 use eCamp\Lib\Service\ServiceUtils;
-use Exception;
 use Laminas\ApiTools\Hal\Entity;
 use Laminas\ApiTools\Hal\Link\Link;
 use Laminas\ApiTools\Hal\View\HalJsonModel;
 use Laminas\ApiTools\Rpc\RpcController;
 use Laminas\Authentication\AuthenticationService;
+use Laminas\Http\Request;
 
 class InvitationController extends RpcController {
     private AuthenticationService $authenticationService;
@@ -32,7 +32,7 @@ class InvitationController extends RpcController {
         $this->serviceUtils = $serviceUtils;
     }
 
-    public function index() {
+    public function index(): HalJsonModel {
         $data = [];
         $data['title'] = 'Invitations';
         $data['self'] = Link::factory([
@@ -84,10 +84,8 @@ class InvitationController extends RpcController {
      * @param $inviteKey
      *
      * @throws EntityNotFoundException
-     *
-     * @return HalJsonModel
      */
-    public function find($inviteKey) {
+    public function find($inviteKey): HalJsonModel {
         $campCollaboration = $this->invitationService->findInvitation($inviteKey);
         if (null == $campCollaboration) {
             throw new EntityNotFoundException('Not Found', 404);
@@ -101,14 +99,13 @@ class InvitationController extends RpcController {
      *
      * @throws EntityNotFoundException
      * @throws NoAccessException
-     *
-     * @return HalJsonModel
      */
-    public function accept($inviteKey) {
+    public function accept($inviteKey): HalJsonModel {
+        /** @var Request $request */
         $request = $this->getRequest();
 
         if (!$request->isPost()) {
-            throw new Exception('Bad Request', 400);
+            throw new \Exception('Bad Request', 400);
         }
         if (!$this->authenticationService->hasIdentity()) {
             throw new EntityNotFoundException('Not Authorized', 401);
@@ -118,7 +115,7 @@ class InvitationController extends RpcController {
         try {
             return $this->toResponse($this->invitationService->acceptInvitation($inviteKey, $userId));
         } catch (NonUniqueResultException $e) {
-            throw new Exception('Error getting CampCollaboration', 500);
+            throw new \Exception('Error getting CampCollaboration', 500);
         } catch (NoAccessException $e) {
             throw new NoAccessException('You cannot fetch your own User', 401);
         } catch (EntityNotFoundException $e) {
@@ -130,13 +127,12 @@ class InvitationController extends RpcController {
      * @param $inviteKey
      *
      * @throws EntityNotFoundException
-     *
-     * @return HalJsonModel
      */
-    public function reject($inviteKey) {
+    public function reject($inviteKey): HalJsonModel {
+        /** @var Request $request */
         $request = $this->getRequest();
         if (!$request->isPost()) {
-            throw new Exception('Bad Request', 400);
+            throw new \Exception('Bad Request', 400);
         }
 
         try {
@@ -146,7 +142,7 @@ class InvitationController extends RpcController {
         }
     }
 
-    public function toResponse(CampCollaboration $campCollaboration): HalJsonModel {
+    private function toResponse(CampCollaboration $campCollaboration): HalJsonModel {
         $hydrator = $this->serviceUtils->getHydrator(CampCollaborationHydrator::class);
 
         $data = $hydrator->extract($campCollaboration);

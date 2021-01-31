@@ -10,8 +10,7 @@ use eCamp\Lib\Acl\NoAccessException;
 use eCamp\Lib\Service\ServiceUtils;
 
 class Strategy extends ContentTypeStrategyBase {
-    /** @var SingleTextService */
-    private $singleTextService;
+    private SingleTextService $singleTextService;
 
     public function __construct(SingleTextService $singleTextService, ServiceUtils $serviceUtils) {
         parent::__construct($serviceUtils);

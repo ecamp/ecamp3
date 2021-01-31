@@ -20,7 +20,7 @@ class GroupService extends AbstractEntityService {
     }
 
     public function fetchByParentGroup(Group $group = null) {
-        $q = $this->findCollectionQueryBuilder(Group::class, 'g');
+        $q = $this->findCollectionQueryBuilder(Group::class, 'g', []);
         if (null == $group) {
             $q->where($q->expr()->isNull('g.parent'));
         } else {
@@ -32,7 +32,7 @@ class GroupService extends AbstractEntityService {
     }
 
     public function fetchByUser(User $user = null) {
-        $memQ = $this->findCollectionQueryBuilder(GroupMembership::class, 'gm');
+        $memQ = $this->findCollectionQueryBuilder(GroupMembership::class, 'gm', []);
         $memQ->join('gm.group', 'g');
         $memQ->where('gm.user = :user', 'gm.status = :status');
         $memQ->select('g');

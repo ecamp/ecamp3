@@ -12,14 +12,13 @@ use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 
 class ActivityContentHydrator implements HydratorInterface {
-    /** @var ContentTypeStrategyProvider */
-    private $contentTypeStrategyProvider;
+    private ContentTypeStrategyProvider $contentTypeStrategyProvider;
 
     public function __construct(ContentTypeStrategyProvider $contentTypeStrategyProvider) {
         $this->contentTypeStrategyProvider = $contentTypeStrategyProvider;
     }
 
-    public static function HydrateInfo() {
+    public static function HydrateInfo(): array {
         return [
         ];
     }
@@ -29,10 +28,8 @@ class ActivityContentHydrator implements HydratorInterface {
      *
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
-     *
-     * @return array
      */
-    public function extract($object) {
+    public function extract($object): array {
         /** @var ActivityContent $activityContent */
         $activityContent = $object;
         $contentType = $activityContent->getContentType();
@@ -66,10 +63,8 @@ class ActivityContentHydrator implements HydratorInterface {
 
     /**
      * @param object $object
-     *
-     * @return object
      */
-    public function hydrate(array $data, $object) {
+    public function hydrate(array $data, $object): ActivityContent {
         /** @var ActivityContent $activityContent */
         $activityContent = $object;
 

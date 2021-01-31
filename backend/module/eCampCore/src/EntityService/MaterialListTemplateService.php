@@ -2,6 +2,7 @@
 
 namespace eCamp\Core\EntityService;
 
+use Doctrine\ORM\QueryBuilder;
 use eCamp\Core\Entity\MaterialListTemplate;
 use eCamp\Core\Hydrator\MaterialListTemplateHydrator;
 use eCamp\Lib\Service\ServiceUtils;
@@ -17,7 +18,7 @@ class MaterialListTemplateService extends AbstractEntityService {
         );
     }
 
-    protected function fetchAllQueryBuilder($params = []) {
+    protected function fetchAllQueryBuilder($params = []): QueryBuilder {
         $q = parent::fetchAllQueryBuilder($params);
 
         if (isset($params['campTemplateId'])) {

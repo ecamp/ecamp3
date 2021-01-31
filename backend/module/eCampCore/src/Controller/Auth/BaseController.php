@@ -22,29 +22,14 @@ use Laminas\View\Model\ViewModel;
 abstract class BaseController extends AbstractActionController {
     public const SESSION_NAMESPACE = self::class;
 
-    /** @var EntityManager */
-    protected $entityManager;
-
-    /** @var UserIdentityService */
-    protected $userIdentityService;
-
-    /** @var UserService */
-    protected $userService;
-
-    /** @var AuthenticationService */
-    protected $laminasAuthenticationService;
-
-    /** @var string */
-    protected $providerName;
-
-    /** @var array */
-    protected $hybridAuthConfig;
-
-    /** @var Container */
-    private $sessionContainer;
-
-    /** @var AdapterInterface */
-    private $hybridAuthAdapter;
+    protected EntityManager $entityManager;
+    protected UserIdentityService $userIdentityService;
+    protected UserService $userService;
+    protected AuthenticationService $laminasAuthenticationService;
+    protected string $providerName;
+    protected array $hybridAuthConfig;
+    private ?Container $sessionContainer;
+    private ?AdapterInterface $hybridAuthAdapter;
 
     public function __construct(
         EntityManager $entityManager,
@@ -60,6 +45,8 @@ abstract class BaseController extends AbstractActionController {
         $this->laminasAuthenticationService = $laminasAuthenticationService;
         $this->providerName = $providerName;
         $this->hybridAuthConfig = $hybridAuthConfig;
+        $this->sessionContainer = null;
+        $this->hybridAuthAdapter = null;
     }
 
     /**
@@ -69,7 +56,7 @@ abstract class BaseController extends AbstractActionController {
      *
      * @return Response|ViewModel
      */
-    public function indexAction() {
+    public function indexAction(): Response {
         /** @var Request $request */
         $request = $this->getRequest();
         $this->setRedirect($request->getQuery('redirect'));
@@ -93,18 +80,14 @@ abstract class BaseController extends AbstractActionController {
      * @throws ORMException
      * @throws \Exception
      * @throws NoAccessException
-     *
-     * @return Response
      */
-    public function callbackAction() {
+    public function callbackAction(): Response {
         // Perform the second step of OAuth2 authentication
         $this->getHybridAuthAdapter()->authenticate();
 
         // Get information about the authenticated user
         $profile = $this->getHybridAuthAdapter()->getUserProfile();
-
         $user = $this->userIdentityService->findOrCreateUser($this->providerName, $profile);
-
         $result = $this->laminasAuthenticationService->authenticate(new OAuthAdapter($user->getId()));
 
         if ($result->isValid()) {
@@ -135,7 +118,7 @@ abstract class BaseController extends AbstractActionController {
         exit('logout');
     }
 
-    protected function getRedirect() {
+    protected function getRedirect(): ?string {
         if (null == $this->sessionContainer) {
             $this->sessionContainer = new Container(self::SESSION_NAMESPACE);
         }
@@ -143,14 +126,14 @@ abstract class BaseController extends AbstractActionController {
         return $this->sessionContainer->redirect;
     }
 
-    protected function setRedirect($redirect) {
+    protected function setRedirect(?string $redirect) {
         if (null == $this->sessionContainer) {
             $this->sessionContainer = new Container(self::SESSION_NAMESPACE);
         }
         $this->sessionContainer->redirect = $redirect;
     }
 
-    protected function getCallbackUri($route = null, $params = [], $options = []) {
+    protected function getCallbackUri($route = null, $params = [], $options = []): string {
         /** @var Request $request */
         $request = $this->getRequest();
 
@@ -168,10 +151,8 @@ abstract class BaseController extends AbstractActionController {
     /**
      * @throws InvalidArgumentException
      * @throws UnexpectedValueException
-     *
-     * @return AdapterInterface
      */
-    protected function getHybridAuthAdapter() {
+    protected function getHybridAuthAdapter(): AdapterInterface {
         if (null == $this->hybridAuthAdapter) {
             $this->hybridAuthAdapter = $this->createHybridAuthAdapter();
         }
@@ -182,10 +163,8 @@ abstract class BaseController extends AbstractActionController {
     /**
      * @throws InvalidArgumentException
      * @throws UnexpectedValueException
-     *
-     * @return AdapterInterface
      */
-    protected function createHybridAuthAdapter() {
+    protected function createHybridAuthAdapter(): AdapterInterface {
         $route = $this->getCallbackRoute();
         $callback = $this->getCallbackUri($route, ['action' => 'callback']);
         $config = ['provider' => $this->providerName, 'callback' => $callback];
@@ -196,6 +175,5 @@ abstract class BaseController extends AbstractActionController {
         return $hybridAuth->getAdapter($this->providerName);
     }
 
-    /** @return string */
-    abstract protected function getCallbackRoute();
+    abstract protected function getCallbackRoute(): string;
 }

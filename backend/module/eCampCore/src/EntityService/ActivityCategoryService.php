@@ -3,6 +3,7 @@
 namespace eCamp\Core\EntityService;
 
 use Doctrine\ORM\ORMException;
+use Doctrine\ORM\QueryBuilder;
 use eCamp\Core\Entity\ActivityCategory;
 use eCamp\Core\Entity\ActivityCategoryTemplate;
 use eCamp\Core\Entity\Camp;
@@ -14,8 +15,7 @@ use eCamp\Lib\Service\ServiceUtils;
 use Laminas\Authentication\AuthenticationService;
 
 class ActivityCategoryService extends AbstractEntityService {
-    /** @var ContentTypeConfigService */
-    protected $contentTypeConfigService;
+    protected ContentTypeConfigService $contentTypeConfigService;
 
     public function __construct(
         ServiceUtils $serviceUtils,
@@ -32,7 +32,7 @@ class ActivityCategoryService extends AbstractEntityService {
         $this->contentTypeConfigService = $contentTypeConfigService;
     }
 
-    public function createFromTemplate(Camp $camp, ActivityCategoryTemplate $template) {
+    public function createFromTemplate(Camp $camp, ActivityCategoryTemplate $template): ActivityCategory {
         /** @var ActivityCategory $activityCategory */
         $activityCategory = $this->create((object) [
             'campId' => $camp->getId(),
@@ -57,10 +57,8 @@ class ActivityCategoryService extends AbstractEntityService {
      * @throws EntityNotFoundException
      * @throws ORMException
      * @throws NoAccessException
-     *
-     * @return ActivityCategory
      */
-    protected function createEntity($data) {
+    protected function createEntity($data): ActivityCategory {
         /** @var ActivityCategory $activityCategory */
         $activityCategory = parent::createEntity($data);
 
@@ -71,7 +69,7 @@ class ActivityCategoryService extends AbstractEntityService {
         return $activityCategory;
     }
 
-    protected function fetchAllQueryBuilder($params = []) {
+    protected function fetchAllQueryBuilder($params = []): QueryBuilder {
         $q = parent::fetchAllQueryBuilder($params);
         $q->andWhere($this->createFilter($q, Camp::class, 'row', 'camp'));
 
@@ -83,7 +81,7 @@ class ActivityCategoryService extends AbstractEntityService {
         return $q;
     }
 
-    protected function fetchQueryBuilder($id) {
+    protected function fetchQueryBuilder($id): QueryBuilder {
         $q = parent::fetchQueryBuilder($id);
         $q->andWhere($this->createFilter($q, Camp::class, 'row', 'camp'));
 

@@ -8,11 +8,8 @@ use eCamp\Lib\Service\ServiceUtils;
 use Laminas\Authentication\AuthenticationService;
 
 abstract class AbstractService {
-    /** @var ServiceUtils */
-    private $serviceUtils;
-
-    /** @var AuthenticationService */
-    private $authenticationService;
+    private ServiceUtils $serviceUtils;
+    private AuthenticationService $authenticationService;
 
     public function __construct(
         ServiceUtils $serviceUtils,
@@ -22,26 +19,15 @@ abstract class AbstractService {
         $this->authenticationService = $authenticationService;
     }
 
-    /**
-     * @return ServiceUtils
-     */
-    protected function getServiceUtils() {
+    protected function getServiceUtils(): ServiceUtils {
         return $this->serviceUtils;
     }
 
-    /**
-     * @param BaseEntity $entity
-     *
-     * @return array
-     */
-    protected function getOrigEntityData($entity) {
+    protected function getOrigEntityData(BaseEntity $entity): array {
         return $this->serviceUtils->emGetOrigEntityData($entity);
     }
 
-    /**
-     * @return null|User
-     */
-    protected function getAuthUser() {
+    protected function getAuthUser(): ?User {
         /** @var User $user */
         $user = null;
 
@@ -57,10 +43,8 @@ abstract class AbstractService {
     /**
      * @param null $resource
      * @param null $privilege
-     *
-     * @return bool
      */
-    protected function isAllowed($resource, $privilege = null) {
+    protected function isAllowed($resource, $privilege = null): bool {
         $user = $this->getAuthUser();
 
         return $this->serviceUtils->aclIsAllowed($user, $resource, $privilege);
