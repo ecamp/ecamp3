@@ -1,4 +1,5 @@
 #!/bin/bash
+set -euo pipefail
 
 php bin/wait-for-db.php
 vendor/bin/laminas rebuild-database

@@ -16,6 +16,7 @@ class RebuildDatabaseSchemaCommandTest extends AbstractConsoleControllerTestCase
     public function testRebuildsDatabaseSchema() {
         // given
         $services = $this->getApplicationServiceLocator();
+
         $mockMetadata = [];
         $mockMetadataFactory = $this->createMock(ClassMetadataFactory::class);
         $mockMetadataFactory->method('getAllMetadata')->willReturn($mockMetadata);
