@@ -105,6 +105,9 @@
       "collaboratorListItem": {
         "remove": "Remove"
       },
+      "leftCampCollaboratorListItem": {
+        "inviteAgain": "Invite again"
+      },
       "periodMaterialLists": {
         "addNewItem": "Add new item"
       },

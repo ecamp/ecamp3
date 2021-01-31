@@ -125,14 +125,7 @@ class CampCollaborationService extends AbstractEntityService {
         }
 
         if (CampCollaboration::STATUS_INVITED == $campCollaboration->getStatus() && $campCollaboration->getInviteEmail()) {
-            $uniqid = uniqid('', true);
-            $campCollaboration->setInviteKey($uniqid);
-            $this->sendmailService->sendInviteToCampMail(
-                $authUser,
-                $camp,
-                $uniqid,
-                $campCollaboration->getInviteEmail()
-            );
+            $this->sendInviteEmail($campCollaboration, $authUser, $camp);
         }
 
         return $campCollaboration;
@@ -166,6 +159,8 @@ class CampCollaborationService extends AbstractEntityService {
             $campCollaboration = $this->updateInvitation($campCollaboration, $data);
         } elseif ($campCollaboration->isRequest()) {
             $campCollaboration = $this->updateRequest($campCollaboration, $data);
+        } elseif ($campCollaboration->isLeft()) {
+            $campCollaboration = $this->updateLeft($campCollaboration, $data);
         }
 
         return $campCollaboration;
@@ -227,6 +222,17 @@ class CampCollaborationService extends AbstractEntityService {
         }
 
         return $q;
+    }
+
+    protected function sendInviteEmail(CampCollaboration $campCollaboration, User $authUser, Camp $camp): void {
+        $uniqid = uniqid('', true);
+        $campCollaboration->setInviteKey($uniqid);
+        $this->sendmailService->sendInviteToCampMail(
+            $authUser,
+            $camp,
+            $uniqid,
+            $campCollaboration->getInviteEmail()
+        );
     }
 
     /**
@@ -347,6 +353,30 @@ class CampCollaborationService extends AbstractEntityService {
         }
 
         return $campCollaboration;
+    }
+
+    private function updateLeft(CampCollaboration $campCollaboration, object $data): CampCollaboration {
+        $authUser = $this->getAuthUser();
+        $campCollaborationUser = $campCollaboration->getUser();
+        if ($authUser === $campCollaborationUser) {
+            throw new \Exception('The authenticated user cannot edit his own left CampCollaboration');
+        }
+
+        switch ($data->status) {
+                case CampCollaboration::STATUS_INVITED:
+                    $campCollaboration->setStatus(CampCollaboration::STATUS_INVITED);
+                    $inviteEmail = $campCollaboration->getInviteEmail();
+                    if (null != $campCollaborationUser) {
+                        $inviteEmail = $campCollaborationUser->getTrustedMailAddress();
+                    }
+                    $campCollaboration->setInviteEmail($inviteEmail);
+                    $this->sendInviteEmail($campCollaboration, $authUser, $campCollaboration->getCamp());
+
+                    return $campCollaboration;
+
+                default:
+                    throw (new EntityValidationException())->setMessages(['status' => ['invalidStatus' => "A CampCollaboration with status 'left' can only be updated to status 'invited', was : {$data->status}"]]);
+            }
     }
 
     private function createMaterialList(CampCollaboration $campCollaboration) {

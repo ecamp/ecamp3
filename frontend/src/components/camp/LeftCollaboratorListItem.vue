@@ -11,14 +11,24 @@
         {{ collaborator.inviteEmail }}
       </v-list-item-subtitle>
     </v-list-item-content>
+    <v-list-item-action class="ml-5">
+      <icon-button color="normal"
+                   icon="mdi-refresh"
+                   text="inviteAgainText"
+                   @click="api.patch(collaborator, {status: 'invited'})">
+        {{ $tc("components.camp.leftCampCollaboratorListItem.inviteAgain") }}
+      </icon-button>
+    </v-list-item-action>
   </v-list-item>
 </template>
 
 <script>
 
+import IconButton from '@/components/buttons/IconButton'
+
 export default {
   name: 'LeftCollaboratorListItem',
-  components: { },
+  components: { IconButton },
   props: {
     collaborator: { type: Object, required: true }
   }

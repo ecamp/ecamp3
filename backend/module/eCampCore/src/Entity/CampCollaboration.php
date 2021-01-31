@@ -153,6 +153,10 @@ class CampCollaboration extends BaseEntity implements BelongsToCampInterface {
         return self::STATUS_INVITED === $this->status;
     }
 
+    public function isLeft(): bool {
+        return self::STATUS_LEFT === $this->status;
+    }
+
     public function getRole(): string {
         return $this->role;
     }

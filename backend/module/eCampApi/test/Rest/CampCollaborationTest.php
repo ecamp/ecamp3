@@ -18,6 +18,8 @@ class CampCollaborationTest extends AbstractApiControllerTestCase {
     /** @var CampCollaboration */
     protected $campCollaborationInvited;
 
+    protected CampCollaboration $campCollaborationLeft;
+
     /** @var User */
     protected $user;
 
@@ -37,6 +39,7 @@ class CampCollaborationTest extends AbstractApiControllerTestCase {
         $this->user = $userLoader->getReference(UserTestData::$USER1);
         $this->campCollaboration1 = $campCollaborationLoader->getReference(CampCollaborationTestData::$COLLAB1);
         $this->campCollaborationInvited = $campCollaborationLoader->getReference(CampCollaborationTestData::$COLLAB_INVITED);
+        $this->campCollaborationLeft = $campCollaborationLoader->getReference(CampCollaborationTestData::$COLLAB_LEFT);
 
         $this->authenticateUser($this->user);
     }
@@ -206,6 +209,18 @@ JSON;
 
         // TODO: this should not be posible (implement ACL & write tests for it)
         $this->assertEquals('manager', $this->getResponseContent()->role);
+    }
+
+    public function testInviteAgain() {
+        $this->setRequestContent([
+            'status' => CampCollaboration::STATUS_INVITED,
+        ]);
+
+        $this->dispatch("{$this->apiEndpoint}/{$this->campCollaborationLeft->getId()}", 'PATCH');
+
+        $this->assertResponseStatusCode(200);
+
+        $this->assertEquals(CampCollaboration::STATUS_INVITED, $this->getResponseContent()->status);
     }
 
     public function testDelete() {
