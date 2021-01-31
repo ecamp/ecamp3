@@ -21,8 +21,16 @@ Allows 15min steps only
         scrollable
         @input="picker.on.input">
         <v-spacer />
-        <v-btn text color="primary" @click="picker.on.close">Cancel</v-btn>
-        <v-btn text color="primary" @click="picker.on.save">OK</v-btn>
+        <v-btn text color="primary"
+               data-testid="action-cancel"
+               @click="picker.on.close">
+          {{ $tc('global.button.cancel') }}
+        </v-btn>
+        <v-btn text color="primary"
+               data-testid="action-ok"
+               @click="picker.on.save">
+          {{ $tc('global.button.ok') }}
+        </v-btn>
       </v-time-picker>
     </template>
 
