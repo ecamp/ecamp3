@@ -29,6 +29,14 @@ Displays collaborators of a single camp.
         </v-list>
       </content-group>
 
+      <content-group v-if="leftCollaborators.length > 0" :title="$tc('views.camp.collaborators.leftCollaborators')">
+        <v-list>
+          <left-collaborator-list-item
+            v-for="collaborator in leftCollaborators"
+            :key="collaborator._meta.self" :collaborator="collaborator" />
+        </v-list>
+      </content-group>
+
       <content-group :title="$tc('views.camp.collaborators.invite')">
         <v-form @submit.prevent="invite">
           <v-container>
@@ -76,6 +84,7 @@ import CollaboratorListItem from '@/components/camp/CollaboratorListItem'
 import ButtonAdd from '@/components/buttons/ButtonAdd'
 import ETextField from '@/components/form/base/ETextField'
 import ESelect from '@/components/form/base/ESelect'
+import LeftCollaboratorListItem from '@/components/camp/LeftCollaboratorListItem'
 
 export default {
   name: 'Collaborators',
@@ -85,7 +94,8 @@ export default {
     ContentGroup,
     ContentCard,
     ETextField,
-    ESelect
+    ESelect,
+    LeftCollaboratorListItem
   },
   props: {
     camp: { type: Function, required: true }
@@ -110,6 +120,9 @@ export default {
     },
     invitedCollaborators () {
       return this.collaborators.filter(c => c.status === 'invited')
+    },
+    leftCollaborators () {
+      return this.collaborators.filter(c => c.status === 'left')
     },
     inviteEmailMessages () {
       return this.messages.inviteEmail ? Object.values({ ...this.messages.inviteEmail }) : []
