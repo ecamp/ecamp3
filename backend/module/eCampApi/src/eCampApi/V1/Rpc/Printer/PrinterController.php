@@ -46,7 +46,7 @@ class PrinterController extends ApiController {
         $data = (null != $content) ? Json::decode($content) : [];
 
         if (!isset($data->campId)) {
-            return new ApiProblem(400, 'No campId provided');
+            return new ApiProblemModel(new ApiProblem(400, 'No campId provided'));
         }
 
         // TODO: check if user has permission to print given camp

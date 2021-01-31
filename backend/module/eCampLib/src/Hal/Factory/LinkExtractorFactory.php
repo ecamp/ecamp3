@@ -3,6 +3,7 @@
 namespace eCamp\Lib\Hal\Factory;
 
 use eCamp\Lib\Hal\Extractor\LinkExtractor;
+use Interop\Container\ContainerInterface;
 use Laminas\ApiTools\Hal\Link\LinkUrlBuilder;
 use Laminas\Mvc\Application;
 use Laminas\Router\RouteMatch;
@@ -10,7 +11,7 @@ use Laminas\View\Helper\ServerUrl;
 use Laminas\View\Helper\Url;
 
 class LinkExtractorFactory {
-    public function __invoke($container): LinkExtractor {
+    public function __invoke(ContainerInterface $container): LinkExtractor {
         /** @var Application $application */
         $application = $container->get('Application');
         /** @var RouteMatch $routeMatch */

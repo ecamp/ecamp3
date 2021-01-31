@@ -14,7 +14,6 @@ use eCamp\Lib\Entity\BaseEntity;
  */
 class CampTemplate extends BaseEntity {
     /**
-     * @var string
      * @ORM\Column(type="string", length=64, nullable=false)
      */
     private ?string $name = null;

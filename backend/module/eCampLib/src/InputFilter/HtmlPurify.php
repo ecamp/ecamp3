@@ -20,9 +20,6 @@ class HtmlPurify extends AbstractFilter {
         return $this->htmlPurifier;
     }
 
-    /**
-     * @param mixed $value
-     */
     public function filter($value): string {
         return $this->getHtmlPurifier()->purify($value);
     }

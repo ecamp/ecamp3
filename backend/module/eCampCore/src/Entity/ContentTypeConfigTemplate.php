@@ -16,7 +16,6 @@ class ContentTypeConfigTemplate extends BaseEntity {
     private ?ActivityCategoryTemplate $activityCategoryTemplate = null;
 
     /**
-     * @var ContentType
      * @ORM\ManyToOne(targetEntity="ContentType")
      * @ORM\JoinColumn(nullable=false)
      */

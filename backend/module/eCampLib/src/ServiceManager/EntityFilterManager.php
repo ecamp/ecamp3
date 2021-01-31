@@ -7,10 +7,7 @@ use eCamp\Lib\EntityFilter\EntityFilterInterface;
 use Laminas\ServiceManager\AbstractPluginManager;
 
 class EntityFilterManager extends AbstractPluginManager {
-    /**
-     * @param $className
-     */
-    public function getByEntityClass($className): ?EntityFilterInterface {
+    public function getByEntityClass(string $className): ?EntityFilterInterface {
         $filterName = AnnotationsReader::getEntityFilterAnnotation($className);
         if (null == $filterName) {
             return null;

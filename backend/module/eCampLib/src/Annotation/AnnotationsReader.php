@@ -20,8 +20,6 @@ class AnnotationsReader {
     /**
      * @param $class
      * @param $name
-     *
-     * @return object
      */
     public static function getClassAnnotation($class, $name): ?EntityFilter {
         try {

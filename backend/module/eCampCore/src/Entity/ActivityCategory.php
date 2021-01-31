@@ -61,8 +61,6 @@ class ActivityCategory extends BaseEntity implements BelongsToCampInterface {
 
     /**
      * @internal Do not set the {@link Camp} directly on the ActivityCategory. Instead use {@see Camp::addActivityCategory()}
-     *
-     * @param $camp
      */
     public function setCamp(?Camp $camp) {
         $this->camp = $camp;
@@ -126,16 +124,12 @@ class ActivityCategory extends BaseEntity implements BelongsToCampInterface {
         switch ($this->numberingStyle) {
             case 'a':
                 return strtolower($this->getAlphaNum($num));
-
             case 'A':
                 return strtoupper($this->getAlphaNum($num));
-
             case 'i':
                 return strtolower($this->getRomanNum($num));
-
             case 'I':
                 return strtoupper($this->getRomanNum($num));
-
             default:
                 return $num;
         }

@@ -11,8 +11,6 @@ abstract class BaseContentTypeServiceFactory {
     /**
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
-     *
-     * @return mixed
      */
     protected function getActivityContentId(ContainerInterface $container): ?string {
         /** @var Application $app */

@@ -198,11 +198,4 @@ class CampCollaboration extends BaseEntity implements BelongsToCampInterface {
             $this->collaborationAcceptedBy = null;
         }
     }
-
-    /**
-     * @ORM\PreUpdate
-     */
-    public function PreUpdate() {
-        parent::PreUpdate();
-    }
 }

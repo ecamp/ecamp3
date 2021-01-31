@@ -58,10 +58,7 @@ abstract class AbstractConsoleControllerTestCase extends LaminasAbstractConsoleC
         return $this->symfonyApplication;
     }
 
-    /**
-     * @param null|mixed $name
-     */
-    protected function getEntityManager($name = null): EntityManager {
+    protected function getEntityManager(?string $name = null): EntityManager {
         $name = $name ?: 'orm_default';
         $name = 'doctrine.entitymanager.'.$name;
 

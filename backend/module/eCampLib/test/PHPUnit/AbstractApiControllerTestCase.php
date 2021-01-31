@@ -39,10 +39,7 @@ abstract class AbstractApiControllerTestCase extends LaminasAbstractHttpControll
         $headers->addHeaderLine('Content-Type', 'application/json');
     }
 
-    /**
-     * @param null|mixed $name
-     */
-    protected function getEntityManager($name = null): EntityManager {
+    protected function getEntityManager(?string $name = null): EntityManager {
         $name = $name ?: 'orm_default';
         $name = 'doctrine.entitymanager.'.$name;
 

@@ -2,37 +2,26 @@
 
 namespace eCamp\Lib\Hydrator;
 
+use Closure;
 use eCamp\Lib\Hydrator\Resolver\CollectionLinkResolver;
 use eCamp\Lib\Hydrator\Resolver\CollectionResolver;
 use eCamp\Lib\Hydrator\Resolver\EntityLinkResolver;
 use eCamp\Lib\Hydrator\Resolver\EntityResolver;
 
 class Util {
-    /**
-     * @param $resolver
-     * @param array $selection
-     */
-    public static function Entity($resolver, $selection = []): EntityResolver {
+    public static function Entity(Closure $resolver, array $selection = []): EntityResolver {
         return new EntityResolver($resolver, null, $selection);
     }
 
-    /**
-     * @param $resolver
-     */
-    public static function EntityLink($resolver): EntityLinkResolver {
+    public static function EntityLink(Closure $resolver): EntityLinkResolver {
         return new EntityLinkResolver($resolver, null);
     }
 
-    /**
-     * @param $resolver
-     * @param array $selection
-     * @param mixed $linkResolver
-     */
-    public static function Collection($resolver, $linkResolver, $selection = []): CollectionResolver {
+    public static function Collection(Closure $resolver, ?Closure $linkResolver, array $selection = []): CollectionResolver {
         return new CollectionResolver($resolver, $linkResolver, $selection);
     }
 
-    public static function CollectionLink($resolver, $linkResolver): CollectionLinkResolver {
+    public static function CollectionLink(Closure $resolver, ?Closure $linkResolver): CollectionLinkResolver {
         return new CollectionLinkResolver($resolver, $linkResolver);
     }
 }
