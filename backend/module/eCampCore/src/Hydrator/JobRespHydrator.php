@@ -6,17 +6,15 @@ use eCamp\Core\Entity\JobResp;
 use Laminas\Hydrator\HydratorInterface;
 
 class JobRespHydrator implements HydratorInterface {
-    public static function HydrateInfo() {
+    public static function HydrateInfo(): array {
         return [
         ];
     }
 
     /**
      * @param object $object
-     *
-     * @return array
      */
-    public function extract($object) {
+    public function extract($object): array {
         /** @var JobResp $jobResp */
         $jobResp = $object;
 
@@ -29,10 +27,8 @@ class JobRespHydrator implements HydratorInterface {
 
     /**
      * @param object $object
-     *
-     * @return object
      */
-    public function hydrate(array $data, $object) {
+    public function hydrate(array $data, $object): JobResp {
         // @var JobResp $jobResp
         return $object;
     }

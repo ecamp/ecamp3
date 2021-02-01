@@ -9,8 +9,7 @@ use eCamp\Lib\Service\ServiceUtils;
 use Laminas\Authentication\AuthenticationService;
 
 class RegisterService extends AbstractService {
-    /** @var UserService */
-    protected $userService;
+    protected UserService $userService;
 
     public function __construct(
         ServiceUtils $serviceUtils,
@@ -22,7 +21,7 @@ class RegisterService extends AbstractService {
         $this->userService = $userService;
     }
 
-    public function register($data) {
+    public function register($data): User {
         $data->state = User::STATE_REGISTERED;
         $user = $this->userService->create($data);
 

@@ -7,18 +7,12 @@ use Laminas\Mvc\Controller\AbstractActionController;
 
 abstract class AbstractBaseController extends AbstractActionController {
     /**
-     * @param null $statusCode
-     *
-     * @return Response
+     * @param null|int $statusCode
      */
-    protected function emptyResponse($statusCode = null) {
-        if (null == $statusCode) {
-            $statusCode = Response::STATUS_CODE_204;
-        }
-
+    protected function emptyResponse($statusCode = null): Response {
         /** @var Response $response */
         $response = $this->getResponse();
-        $response->setStatusCode($statusCode);
+        $response->setStatusCode($statusCode ?? Response::STATUS_CODE_204);
 
         return $response;
     }

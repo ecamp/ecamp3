@@ -5,12 +5,12 @@ namespace eCamp\Core\Auth\Provider;
 use Hybridauth\Adapter\OAuth2;
 use Hybridauth\Data;
 use Hybridauth\Exception\UnexpectedApiResponseException;
-use Hybridauth\User;
+use Hybridauth\User\Profile;
 
 abstract class Hitobito extends OAuth2 {
     protected $scope = 'name';
 
-    public function getUserProfile() {
+    public function getUserProfile(): Profile {
         // Send a signed http request to provider API to request user's profile
         $response = $this->apiRequest('profile', 'GET', [], ['X-Scope' => $this->scope]);
         $data = new Data\Collection($response);
@@ -19,7 +19,7 @@ abstract class Hitobito extends OAuth2 {
             throw new UnexpectedApiResponseException('Provider API returned an unexpected response.');
         }
 
-        $userProfile = new User\Profile();
+        $userProfile = new Profile();
 
         $userProfile->identifier = $data->get('email');
         $userProfile->firstName = $data->get('first_name');

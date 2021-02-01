@@ -18,7 +18,7 @@ class UpdateDatabaseSchemaCommand extends Command {
         $this->schemaTool = $schemaTool;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output) {
+    protected function execute(InputInterface $input, OutputInterface $output): int {
         $allMetadata = $this->entityManager->getMetadataFactory()->getAllMetadata();
 
         $this->schemaTool->updateSchema($allMetadata);

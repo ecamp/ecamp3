@@ -15,10 +15,8 @@ class ActivityContentHydratorFactory implements FactoryInterface {
      *
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
-     *
-     * @return ActivityContentHydrator
      */
-    public function __invoke(ContainerInterface $container, $requestedName, array $options = null) {
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null): ActivityContentHydrator {
         /** @var ContentTypeStrategyProvider $contentTypeStrategyProvider */
         $contentTypeStrategyProvider = $container->get(ContentTypeStrategyProvider::class);
 

@@ -3,6 +3,7 @@
 namespace eCamp\Core\EntityService;
 
 use Doctrine\ORM\ORMException;
+use Doctrine\ORM\QueryBuilder;
 use eCamp\Core\Entity\Group;
 use eCamp\Core\Entity\GroupMembership;
 use eCamp\Core\Entity\User;
@@ -10,7 +11,6 @@ use eCamp\Core\Hydrator\GroupMembershipHydrator;
 use eCamp\Lib\Acl\Acl;
 use eCamp\Lib\Entity\BaseEntity;
 use eCamp\Lib\Service\ServiceUtils;
-use Laminas\ApiTools\ApiProblem\ApiProblem;
 use Laminas\Authentication\AuthenticationService;
 
 class GroupMembershipService extends AbstractEntityService {
@@ -23,30 +23,13 @@ class GroupMembershipService extends AbstractEntityService {
         );
     }
 
-    public function fetchAllQueryBuilder($params = []) {
-        $q = parent::fetchAllQueryBuilder($params);
-
-        if (isset($params['group'])) {
-            $q->andWhere('row.group = :group');
-            $q->setParameter('group', $params['group']);
-        }
-        if (isset($params['user'])) {
-            $q->andWhere('row.user = :user');
-            $q->setParameter('user', $params['user']);
-        }
-
-        return $q;
-    }
-
     /**
      * @param mixed $data
      *
      * @throws \Doctrine\ORM\ORMException
      * @throws \Exception
-     *
-     * @return ApiProblem|GroupMembership
      */
-    protected function createEntity($data) {
+    protected function createEntity($data): GroupMembership {
         $authUser = $this->getAuthUser();
         if (!isset($data->userId)) {
             $data->userId = $authUser->getId();
@@ -86,10 +69,8 @@ class GroupMembershipService extends AbstractEntityService {
      *
      * @throws ORMException
      * @throws \Exception
-     *
-     * @return ApiProblem|GroupMembership
      */
-    protected function updateEntity(BaseEntity $entity, $data) {
+    protected function updateEntity(BaseEntity $entity, $data): GroupMembership {
         /** @var GroupMembership $groupMembership */
         $groupMembership = parent::updateEntity($entity, $data);
 
@@ -102,6 +83,21 @@ class GroupMembershipService extends AbstractEntityService {
         }
 
         return $groupMembership;
+    }
+
+    protected function fetchAllQueryBuilder($params = []): QueryBuilder {
+        $q = parent::fetchAllQueryBuilder($params);
+
+        if (isset($params['group'])) {
+            $q->andWhere('row.group = :group');
+            $q->setParameter('group', $params['group']);
+        }
+        if (isset($params['user'])) {
+            $q->andWhere('row.user = :user');
+            $q->setParameter('user', $params['user']);
+        }
+
+        return $q;
     }
 
     /**

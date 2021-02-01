@@ -4,6 +4,7 @@ namespace eCamp\Core\EntityService;
 
 use Doctrine\ORM\ORMException;
 use Doctrine\ORM\Query\Expr;
+use Doctrine\ORM\QueryBuilder;
 use eCamp\Core\Entity\Camp;
 use eCamp\Core\Entity\CampCollaboration;
 use eCamp\Core\Entity\User;
@@ -13,12 +14,10 @@ use eCamp\Lib\Acl\Acl;
 use eCamp\Lib\Entity\BaseEntity;
 use eCamp\Lib\Service\EntityValidationException;
 use eCamp\Lib\Service\ServiceUtils;
-use Laminas\ApiTools\ApiProblem\ApiProblem;
 use Laminas\Authentication\AuthenticationService;
 
 class CampCollaborationService extends AbstractEntityService {
-    /** @var MaterialListService */
-    private $materialListService;
+    private MaterialListService $materialListService;
     private SendmailService $sendmailService;
 
     public function __construct(
@@ -43,10 +42,8 @@ class CampCollaborationService extends AbstractEntityService {
      *
      * @throws ORMException
      * @throws \Exception
-     *
-     * @return ApiProblem|CampCollaboration
      */
-    protected function createEntity($data) {
+    protected function createEntity($data): CampCollaboration {
         $this->assertAuthenticated();
 
         $authUser = $this->getAuthUser();
@@ -61,9 +58,9 @@ class CampCollaborationService extends AbstractEntityService {
         /** @var Camp $camp */
         $camp = $this->findRelatedEntity(Camp::class, $data, 'campId');
 
-        /** @var User $user */
         $user = null;
         if (null != $data->userId) {
+            /** @var User $user */
             $user = $this->findRelatedEntity(User::class, $data, 'userId');
         }
 
@@ -138,7 +135,7 @@ class CampCollaborationService extends AbstractEntityService {
         return $campCollaboration;
     }
 
-    protected function createEntityPost(BaseEntity $entity, $data) {
+    protected function createEntityPost(BaseEntity $entity, $data): CampCollaboration {
         /** @var CampCollaboration $campCollaboration */
         $campCollaboration = $entity;
 
@@ -153,10 +150,8 @@ class CampCollaborationService extends AbstractEntityService {
      * @param $data
      *
      * @throws ORMException
-     *
-     * @return CampCollaboration
      */
-    protected function patchEntity(BaseEntity $entity, $data) {
+    protected function patchEntity(BaseEntity $entity, $data): CampCollaboration {
         /** @var CampCollaboration $campCollaboration */
         $campCollaboration = $entity;
 
@@ -175,10 +170,8 @@ class CampCollaborationService extends AbstractEntityService {
      * @param mixed $data
      *
      * @throws ORMException
-     *
-     * @return CampCollaboration
      */
-    protected function updateEntity(BaseEntity $entity, $data) {
+    protected function updateEntity(BaseEntity $entity, $data): CampCollaboration {
         /** @var CampCollaboration $campCollaboration */
         $campCollaboration = parent::updateEntity($entity, $data);
 
@@ -195,8 +188,6 @@ class CampCollaborationService extends AbstractEntityService {
 
     /**
      * @throws ORMException
-     *
-     * @return bool
      */
     protected function deleteEntity(BaseEntity $entity) {
         /** @var CampCollaboration $campCollaboration */
@@ -212,7 +203,7 @@ class CampCollaborationService extends AbstractEntityService {
         }
     }
 
-    protected function fetchAllQueryBuilder($params = []) {
+    protected function fetchAllQueryBuilder($params = []): QueryBuilder {
         $q = parent::fetchAllQueryBuilder($params);
         $q->andWhere($this->createFilter($q, Camp::class, 'row', 'camp'));
 

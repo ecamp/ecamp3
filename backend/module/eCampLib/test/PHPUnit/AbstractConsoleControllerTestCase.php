@@ -10,6 +10,7 @@ use Doctrine\ORM\Tools\SchemaTool;
 use Doctrine\ORM\Tools\ToolsException;
 use Laminas\Cli\ApplicationFactory;
 use Laminas\Test\PHPUnit\Controller\AbstractConsoleControllerTestCase as LaminasAbstractConsoleControllerTestCase;
+use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\StringInput;
@@ -49,7 +50,7 @@ abstract class AbstractConsoleControllerTestCase extends LaminasAbstractConsoleC
         );
     }
 
-    public function getSymfonyApplication() {
+    public function getSymfonyApplication(): Application {
         if (!$this->symfonyApplication) {
             $this->symfonyApplication = (new ApplicationFactory())($this->getApplicationServiceLocator());
         }
@@ -57,12 +58,7 @@ abstract class AbstractConsoleControllerTestCase extends LaminasAbstractConsoleC
         return $this->symfonyApplication;
     }
 
-    /**
-     * @param null|mixed $name
-     *
-     * @return EntityManager
-     */
-    protected function getEntityManager($name = null) {
+    protected function getEntityManager(?string $name = null): EntityManager {
         $name = $name ?: 'orm_default';
         $name = 'doctrine.entitymanager.'.$name;
 

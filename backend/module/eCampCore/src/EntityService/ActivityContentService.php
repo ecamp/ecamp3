@@ -3,6 +3,7 @@
 namespace eCamp\Core\EntityService;
 
 use Doctrine\ORM\ORMException;
+use Doctrine\ORM\QueryBuilder;
 use eCamp\Core\ContentType\ContentTypeStrategyProvider;
 use eCamp\Core\ContentType\ContentTypeStrategyProviderTrait;
 use eCamp\Core\Entity\Activity;
@@ -12,7 +13,6 @@ use eCamp\Core\Entity\ContentType;
 use eCamp\Core\Hydrator\ActivityContentHydrator;
 use eCamp\Lib\Acl\NoAccessException;
 use eCamp\Lib\Service\ServiceUtils;
-use Laminas\ApiTools\ApiProblem\ApiProblem;
 use Laminas\Authentication\AuthenticationService;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
@@ -38,10 +38,8 @@ class ActivityContentService extends AbstractEntityService {
      * @throws NotFoundExceptionInterface
      * @throws ORMException
      * @throws NoAccessException
-     *
-     * @return ActivityContent|ApiProblem
      */
-    public function createEntity($data) {
+    public function createEntity($data): ActivityContent {
         /** @var ActivityContent $activityContent */
         $activityContent = parent::createEntity($data);
 
@@ -58,7 +56,7 @@ class ActivityContentService extends AbstractEntityService {
         return $activityContent;
     }
 
-    protected function fetchAllQueryBuilder($params = []) {
+    protected function fetchAllQueryBuilder($params = []): QueryBuilder {
         $q = parent::fetchAllQueryBuilder($params);
         $q->join('row.activity', 'e');
         $q->andWhere($this->createFilter($q, Camp::class, 'e', 'camp'));
@@ -71,7 +69,7 @@ class ActivityContentService extends AbstractEntityService {
         return $q;
     }
 
-    protected function fetchQueryBuilder($id) {
+    protected function fetchQueryBuilder($id): QueryBuilder {
         $q = parent::fetchQueryBuilder($id);
         $q->join('row.activity', 'e');
         $q->andWhere($this->createFilter($q, Camp::class, 'e', 'camp'));

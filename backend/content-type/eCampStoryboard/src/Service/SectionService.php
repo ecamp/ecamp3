@@ -3,6 +3,7 @@
 namespace eCamp\ContentType\Storyboard\Service;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\QueryBuilder;
 use eCamp\ContentType\Storyboard\Entity\Section;
 use eCamp\ContentType\Storyboard\Hydrator\SectionHydrator;
 use eCamp\Core\ContentType\BaseContentTypeService;
@@ -73,7 +74,7 @@ class SectionService extends BaseContentTypeService {
         }
     }
 
-    protected function fetchAllQueryBuilder($params = []) {
+    protected function fetchAllQueryBuilder($params = []): QueryBuilder {
         $q = parent::fetchAllQueryBuilder($params);
         $q->orderBy('row.pos');
 

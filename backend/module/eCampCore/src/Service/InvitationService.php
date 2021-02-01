@@ -19,9 +19,7 @@ class InvitationService {
 
     public function __construct(ServiceUtils $serviceUtils, AuthenticationService $authenticationService, UserService $userService) {
         $this->authenticationService = $authenticationService;
-        /** @var CampCollaborationRepository $campCollaborationRepository */
-        $campCollaborationRepository = $serviceUtils->emGetRepository(CampCollaboration::class);
-        $this->campCollaborationRepository = $campCollaborationRepository;
+        $this->campCollaborationRepository = $serviceUtils->emGetRepository(CampCollaboration::class);
         $this->userService = $userService;
     }
 

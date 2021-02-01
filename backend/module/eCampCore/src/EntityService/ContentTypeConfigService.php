@@ -33,7 +33,7 @@ class ContentTypeConfigService extends AbstractEntityService {
         return $contentTypeConfig;
     }
 
-    protected function createEntity($data) {
+    protected function createEntity($data): ContentTypeConfig {
         /** @var ContentTypeConfig $contentTypeConfig */
         $contentTypeConfig = parent::createEntity($data);
 

@@ -3,10 +3,7 @@
 namespace eCamp\Core\ContentType;
 
 interface ContentTypeStrategyProviderAware {
-    /**
-     * @return ContentTypeStrategyProvider
-     */
-    public function getContentTypeStrategyProvider();
+    public function getContentTypeStrategyProvider(): ContentTypeStrategyProvider;
 
     public function setContentTypeStrategyProvider(ContentTypeStrategyProvider $contentTypeStrategyProvider);
 }

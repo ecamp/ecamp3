@@ -21,6 +21,7 @@
 namespace eCamp\Core\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use eCamp\Lib\Entity\BaseEntity;
 
@@ -29,22 +30,20 @@ use eCamp\Lib\Entity\BaseEntity;
  */
 class Job extends BaseEntity implements BelongsToCampInterface {
     /**
-     * @var ArrayCollection
      * @ORM\OneToMany(targetEntity="JobResp", mappedBy="job")
      */
-    protected $jobResps;
+    protected Collection $jobResps;
 
     /**
-     * @var Camp
      * @ORM\ManyToOne(targetEntity="Camp")
      * @ORM\JoinColumn(nullable=false, onDelete="cascade")
      */
-    private $camp;
+    private ?Camp $camp = null;
 
     /**
      * @ORM\Column(type="string")
      */
-    private $name;
+    private ?string $name = null;
 
     public function __construct() {
         parent::__construct();
@@ -52,34 +51,26 @@ class Job extends BaseEntity implements BelongsToCampInterface {
         $this->jobResps = new ArrayCollection();
     }
 
-    /**
-     * @return Camp
-     */
-    public function getCamp() {
+    public function getCamp(): ?Camp {
         return $this->camp;
     }
 
-    public function setCamp($camp) {
+    public function setCamp(?Camp $camp) {
         $this->camp = $camp;
     }
 
-    /**
-     * @return string
-     */
-    public function getName() {
+    public function getName(): ?string {
         return $this->name;
     }
 
-    public function setName($name) {
+    public function setName(?string $name) {
         $this->name = $name;
     }
 
     /**
      * @param null|Day|Period $periodOrDay
-     *
-     * @return ArrayCollection
      */
-    public function getJobResps($periodOrDay = null) {
+    public function getJobResps($periodOrDay = null): Collection {
         $filter = null;
 
         if ($periodOrDay instanceof Period) {
@@ -110,10 +101,7 @@ class Job extends BaseEntity implements BelongsToCampInterface {
         $this->jobResps->removeElement($jobResp);
     }
 
-    /**
-     * @return bool
-     */
-    public function isUserResp(Day $day, User $user) {
+    public function isUserResp(Day $day, User $user): bool {
         $filter = function ($key, JobResp $jobResp) use ($user, $day) {
             return $jobResp->getUser() === $user && $jobResp->getDay() === $day;
         };

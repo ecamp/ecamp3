@@ -3,6 +3,7 @@
 namespace eCamp\Core\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use eCamp\Lib\Entity\BaseEntity;
 
@@ -13,22 +14,19 @@ use eCamp\Lib\Entity\BaseEntity;
  */
 class CampTemplate extends BaseEntity {
     /**
-     * @var string
      * @ORM\Column(type="string", length=64, nullable=false)
      */
-    private $name;
+    private ?string $name = null;
 
     /**
-     * @var ArrayCollection
      * @ORM\OneToMany(targetEntity="ActivityCategoryTemplate", mappedBy="campTemplate", orphanRemoval=true)
      */
-    private $activityCategoryTemplates;
+    private Collection $activityCategoryTemplates;
 
     /**
-     * @var ArrayCollection
      * @ORM\OneToMany(targetEntity="MaterialListTemplate", mappedBy="campTemplate", orphanRemoval=true)
      */
-    private $materialListTemplates;
+    private Collection $materialListTemplates;
 
     public function __construct() {
         parent::__construct();
@@ -37,21 +35,15 @@ class CampTemplate extends BaseEntity {
         $this->materialListTemplates = new ArrayCollection();
     }
 
-    /**
-     * @return string
-     */
-    public function getName() {
+    public function getName(): ?string {
         return $this->name;
     }
 
-    public function setName(string $name) {
+    public function setName(?string $name) {
         $this->name = $name;
     }
 
-    /**
-     * @return ArrayCollection
-     */
-    public function getActivityCategoryTemplates() {
+    public function getActivityCategoryTemplates(): Collection {
         return $this->activityCategoryTemplates;
     }
 
@@ -65,10 +57,7 @@ class CampTemplate extends BaseEntity {
         $this->activityCategoryTemplates->removeElement($activityCategoryTemplate);
     }
 
-    /**
-     * @return ArrayCollection
-     */
-    public function getMaterialListTemplates() {
+    public function getMaterialListTemplates(): Collection {
         return $this->materialListTemplates;
     }
 

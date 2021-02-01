@@ -8,17 +8,15 @@ use eCamp\Lib\Entity\EntityLinkCollection;
 use Laminas\Hydrator\HydratorInterface;
 
 class GroupHydrator implements HydratorInterface {
-    public static function HydrateInfo() {
+    public static function HydrateInfo(): array {
         return [
         ];
     }
 
     /**
      * @param object $object
-     *
-     * @return array
      */
-    public function extract($object) {
+    public function extract($object): array {
         /** @var Group $group */
         $group = $object;
 
@@ -36,10 +34,8 @@ class GroupHydrator implements HydratorInterface {
 
     /**
      * @param object $object
-     *
-     * @return object
      */
-    public function hydrate(array $data, $object) {
+    public function hydrate(array $data, $object): Group {
         /** @var Group $group */
         $group = $object;
 
