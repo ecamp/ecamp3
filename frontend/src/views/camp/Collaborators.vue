@@ -86,6 +86,8 @@ import ETextField from '@/components/form/base/ETextField'
 import ESelect from '@/components/form/base/ESelect'
 import LeftCollaboratorListItem from '@/components/camp/LeftCollaboratorListItem'
 
+const DEFAULT_INVITE_ROLE = 'member'
+
 export default {
   name: 'Collaborators',
   components: {
@@ -105,7 +107,7 @@ export default {
       editing: false,
       messages: [],
       inviteEmail: '',
-      inviteRole: 'member'
+      inviteRole: DEFAULT_INVITE_ROLE
     }
   },
   computed: {
@@ -151,6 +153,8 @@ export default {
       }
     },
     refreshCamp () {
+      this.inviteEmail = null
+      this.inviteRole = DEFAULT_INVITE_ROLE
       this.messages = []
       this.api.reload(this.camp()._meta.self)
     }
