@@ -70,6 +70,17 @@
 import { campRoute } from '@/router'
 import ActivityList from '@/components/camp/ActivityList'
 
+const anyOf = function (terms) {
+  if (!Array.isArray(terms)) {
+    throw new Error('terms must be used with an array')
+  }
+  return {
+    matches (filter) {
+      return terms.map(term => term.toLowerCase()).some(term => term.includes(filter.toLowerCase()))
+    }
+  }
+}
+
 export default {
   name: 'SearchMobile',
   components: { ActivityList },
@@ -91,9 +102,9 @@ export default {
     },
     filteredCamps () {
       return this.filter
-        ? this.camps.items.filter((camp) => {
-          return camp.title.toLowerCase().includes(this.filter.toLowerCase()) || camp.name.toLowerCase().includes(this.filter.toLowerCase()) || camp.motto.toLowerCase().includes(this.filter.toLowerCase())
-        }).slice(0, 3)
+        ? this.camps.items
+          .filter((camp) => anyOf([camp.title, camp.name, camp.motto]).matches(this.filter))
+          .slice(0, 3)
         : this.camps.items.slice(0, 3)
     },
     scheduleEntries () {
@@ -101,13 +112,14 @@ export default {
     },
     filteredScheduleEntries () {
       return this.filter
-        ? this.scheduleEntries.items.filter((scheduleEntry) => {
-          return scheduleEntry.number.toLowerCase().includes(this.filter.toLowerCase()) ||
-          scheduleEntry.activity().title.toLowerCase().includes(this.filter.toLowerCase()) ||
-          scheduleEntry.activity().activityCategory().name.toLowerCase().includes(this.filter.toLowerCase()) ||
-          scheduleEntry.activity().activityCategory().short.toLowerCase().includes(this.filter.toLowerCase()) ||
-          scheduleEntry.activity().activityCategory().short.toLowerCase().includes(this.filter.toLowerCase())
-        }).slice(0, 3)
+        ? this.scheduleEntries.items
+          .filter((scheduleEntry) => anyOf([
+            scheduleEntry.number,
+            scheduleEntry.activity().title,
+            scheduleEntry.activity().activityCategory().name,
+            scheduleEntry.activity().activityCategory().short
+          ]).matches(this.filter))
+          .slice(0, 3)
         : this.scheduleEntries.items.slice(0, 3)
     }
   },
