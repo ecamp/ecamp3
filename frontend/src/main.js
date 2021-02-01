@@ -1,10 +1,9 @@
 import Vue from 'vue'
 import App from './App.vue'
 import router from '@/router'
-import { vuetifyLoader, auth, storeLoader, filterLoading, formBaseComponents, ignoreNativeBindingWarnMessages, i18n, veeValidate } from './plugins'
+import { vuetifyLoader, auth, storeLoader, filterLoading, formBaseComponents, ignoreNativeBindingWarnMessages, i18n, veeValidate, dayjs } from './plugins'
 import { store } from './plugins/store'
 import { vuetify } from './plugins/vuetify'
-import './plugins/dayjs'
 import * as Sentry from '@sentry/vue'
 
 if (window.environment && window.environment.SENTRY_FRONTEND_DSN) {
@@ -23,6 +22,7 @@ Vue.use(ignoreNativeBindingWarnMessages)
 Vue.use(veeValidate)
 Vue.use(storeLoader)
 Vue.use(vuetifyLoader)
+Vue.use(dayjs)
 
 new Vue({
   router,

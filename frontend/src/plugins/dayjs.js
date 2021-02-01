@@ -1,4 +1,3 @@
-import Vue from 'vue'
 import dayjs from 'dayjs'
 
 import 'dayjs/locale/de'
@@ -22,12 +21,15 @@ const formatStrings = (_option, _dayjsClass, dayjsFactory) => {
 
 dayjs.extend(formatStrings)
 
-Object.defineProperties(Vue.prototype, {
-  $date: {
-    get () {
-      return dayjs
-    }
+export default {
+  install: (Vue) => {
+    Object.defineProperties(Vue.prototype, {
+      $date: {
+        get () {
+          return dayjs
+        }
+      }
+    })
+    Vue.dayjs = dayjs
   }
-})
-
-Vue.dayjs = dayjs
+}

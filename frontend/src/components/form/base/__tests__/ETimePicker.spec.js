@@ -3,13 +3,14 @@ import Vuetify from 'vuetify'
 
 import i18n from '@/plugins/i18n'
 import formBaseComponents from '@/plugins/formBaseComponents'
-import '@/plugins/dayjs'
+import dayjs from '@/plugins/dayjs'
 
 import { mount as mountComponent } from '@vue/test-utils'
 import ETimePicker from '../ETimePicker'
 
 Vue.use(Vuetify)
 Vue.use(formBaseComponents)
+Vue.use(dayjs)
 
 describe('An ETimePicker', () => {
   let vuetify
