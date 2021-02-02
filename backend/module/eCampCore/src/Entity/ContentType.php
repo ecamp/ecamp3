@@ -28,7 +28,7 @@ class ContentType extends BaseEntity {
     /**
      * @ORM\Column(type="json", nullable=true)
      */
-    private array $jsonConfig = [];
+    private ?array $jsonConfig = null;
 
     public function getName(): ?string {
         return $this->name;
@@ -54,20 +54,18 @@ class ContentType extends BaseEntity {
         $this->strategyClass = $strategyClass;
     }
 
-    public function getJsonConfig(): array {
+    public function getJsonConfig(): ?array {
         return $this->jsonConfig;
     }
 
-    public function setJsonConfig(array $jsonConfig): void {
+    public function setJsonConfig(?array $jsonConfig): void {
         $this->jsonConfig = $jsonConfig;
     }
 
     /**
-     * @param string $key
-     *
      * @return mixed
      */
-    public function getConfig($key = null) {
+    public function getConfig(?string $key = null) {
         if (null != $this->jsonConfig) {
             if (null != $key) {
                 return $this->jsonConfig[$key];
