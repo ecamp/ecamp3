@@ -55,6 +55,7 @@ class ActivityCategoryData extends AbstractFixture implements DependentFixtureIn
             $this->addContentType($manager, $activityCategory, $this->getReference(ContentTypeData::$STORYCONTEXT));
             $this->addContentType($manager, $activityCategory, $this->getReference(ContentTypeData::$NOTES));
             $this->addContentType($manager, $activityCategory, $this->getReference(ContentTypeData::$MATERIAL));
+            $this->addContentType($manager, $activityCategory, $this->getReference(ContentTypeData::$LATHEMATICAREA));
         }
         $this->addReference(self::$EVENTCATEGORY_1_LA, $activityCategory);
 
@@ -94,6 +95,7 @@ class ActivityCategoryData extends AbstractFixture implements DependentFixtureIn
             $this->addContentType($manager, $activityCategory, $this->getReference(ContentTypeData::$STORYCONTEXT));
             $this->addContentType($manager, $activityCategory, $this->getReference(ContentTypeData::$NOTES));
             $this->addContentType($manager, $activityCategory, $this->getReference(ContentTypeData::$MATERIAL));
+            $this->addContentType($manager, $activityCategory, $this->getReference(ContentTypeData::$LATHEMATICAREA));
         }
         $this->addReference(self::$EVENTCATEGORY_2_LA, $activityCategory);
 
