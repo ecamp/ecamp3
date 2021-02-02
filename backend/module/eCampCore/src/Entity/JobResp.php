@@ -28,69 +28,56 @@ use eCamp\Lib\Entity\BaseEntity;
  */
 class JobResp extends BaseEntity implements BelongsToCampInterface {
     /**
-     * @var Day
      * @ORM\ManyToOne(targetEntity="Day")
      * @ORM\JoinColumn(nullable=false, onDelete="cascade")
      */
-    private $day;
+    private ?Day $day;
 
     /**
-     * @var Job
      * @ORM\ManyToOne(targetEntity="Job")
      * @ORM\JoinColumn(nullable=false, onDelete="cascade")
      */
-    private $job;
+    private ?Job $job;
 
     /**
-     * @var CampCollaboration
      * @ORM\ManyToOne(targetEntity="CampCollaboration")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $campCollaboration;
+    private ?CampCollaboration $campCollaboration;
 
-    public function __construct() {
-        parent::__construct();
-    }
-
-    /** @return Day */
-    public function getDay() {
+    public function getDay(): ?Day {
         return $this->day;
     }
 
-    public function setDay(Day $day) {
+    public function setDay(?Day $day) {
         $this->day = $day;
     }
 
-    /** @return Period */
-    public function getPeriod() {
+    public function getPeriod(): ?Period {
         return $this->day->getPeriod();
     }
 
-    /** @return Camp */
-    public function getCamp() {
+    public function getCamp(): ?Camp {
         return $this->day->getCamp();
     }
 
-    /** @return Job */
-    public function getJob() {
+    public function getJob(): ?Job {
         return $this->job;
     }
 
-    public function setJob(Job $job) {
+    public function setJob(?Job $job) {
         $this->job = $job;
     }
 
-    /** @return CampCollaboration */
-    public function getCampCollaboration() {
+    public function getCampCollaboration(): ?CampCollaboration {
         return $this->campCollaboration;
     }
 
-    public function setCampCollaboration(CampCollaboration $collaboration) {
+    public function setCampCollaboration(?CampCollaboration $collaboration) {
         $this->campCollaboration = $collaboration;
     }
 
-    /** @return User */
-    public function getUser() {
-        return $this->campCollaboration->getUser();
+    public function getUser(): ?User {
+        return (null != $this->campCollaboration) ? $this->campCollaboration->getUser() : null;
     }
 }

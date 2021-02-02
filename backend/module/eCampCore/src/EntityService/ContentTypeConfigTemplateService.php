@@ -18,7 +18,7 @@ class ContentTypeConfigTemplateService extends AbstractEntityService {
         );
     }
 
-    protected function createEntity($data) {
+    protected function createEntity($data): ContentTypeConfigTemplate {
         /** @var ContentTypeConfigTemplate $contentTypeConfigTemplate */
         $contentTypeConfigTemplate = parent::createEntity($data);
 

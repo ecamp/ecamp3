@@ -11,38 +11,30 @@ use Laminas\Json\Json;
  */
 class ContentType extends BaseEntity {
     /**
-     * @var string
      * @ORM\Column(type="string", length=64, nullable=false)
      */
-    private $name;
+    private ?string $name = null;
 
     /**
-     * @var bool
      * @ORM\Column(type="boolean", nullable=false)
      */
-    private $active = true;
+    private bool $active = true;
 
     /**
-     * @var string
      * @ORM\Column(type="string", length=128, nullable=false)
      */
-    private $strategyClass;
+    private ?string $strategyClass = null;
 
     /**
-     * @var array
      * @ORM\Column(type="json", nullable=true)
      */
-    private $jsonConfig;
+    private array $jsonConfig = [];
 
-    public function __construct() {
-        parent::__construct();
-    }
-
-    public function getName(): string {
+    public function getName(): ?string {
         return $this->name;
     }
 
-    public function setName(string $name): void {
+    public function setName(?string $name): void {
         $this->name = $name;
     }
 
@@ -54,11 +46,11 @@ class ContentType extends BaseEntity {
         $this->active = $active;
     }
 
-    public function getStrategyClass(): string {
+    public function getStrategyClass(): ?string {
         return $this->strategyClass;
     }
 
-    public function setStrategyClass(string $strategyClass): void {
+    public function setStrategyClass(?string $strategyClass): void {
         $this->strategyClass = $strategyClass;
     }
 

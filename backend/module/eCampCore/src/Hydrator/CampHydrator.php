@@ -15,7 +15,7 @@ use Laminas\Authentication\AuthenticationService;
 use Laminas\Hydrator\HydratorInterface;
 
 class CampHydrator implements HydratorInterface {
-    public static function HydrateInfo() {
+    public static function HydrateInfo(): array {
         return [
             'periods' => Util::Collection(
                 function (Camp $c) {
@@ -51,10 +51,8 @@ class CampHydrator implements HydratorInterface {
      * @param object $object
      *
      * @throws \Exception
-     *
-     * @return array
      */
-    public function extract($object) {
+    public function extract($object): array {
         $auth = new AuthenticationService();
 
         /** @var Camp $camp */
@@ -94,10 +92,8 @@ class CampHydrator implements HydratorInterface {
 
     /**
      * @param object $object
-     *
-     * @return object
      */
-    public function hydrate(array $data, $object) {
+    public function hydrate(array $data, $object): Camp {
         /** @var Camp $camp */
         $camp = $object;
 

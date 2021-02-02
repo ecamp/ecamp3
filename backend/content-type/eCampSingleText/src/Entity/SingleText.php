@@ -13,19 +13,13 @@ class SingleText extends BaseContentTypeEntity {
     /**
      * @ORM\Column(type="text", nullable=true)
      */
-    private $text;
+    private ?string $text;
 
-    /**
-     * @return string
-     */
-    public function getText() {
+    public function getText(): ?string {
         return $this->text;
     }
 
-    /**
-     * @param string $text
-     */
-    public function setText($text) {
+    public function setText(?string $text) {
         $this->text = $text;
     }
 }

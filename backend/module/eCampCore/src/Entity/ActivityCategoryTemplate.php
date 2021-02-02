@@ -3,6 +3,7 @@
 namespace eCamp\Core\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use eCamp\Lib\Entity\BaseEntity;
 
@@ -16,37 +17,32 @@ class ActivityCategoryTemplate extends BaseEntity {
      * @ORM\ManyToOne(targetEntity="CampTemplate")
      * @ORM\JoinColumn(nullable=false, onDelete="cascade")
      */
-    protected $campTemplate;
+    protected ?CampTemplate $campTemplate = null;
 
     /**
-     * @var ArrayCollection
      * @ORM\OneToMany(targetEntity="ContentTypeConfigTemplate", mappedBy="activityCategoryTemplate", orphanRemoval=true)
      */
-    private $contentTypeConfigTemplates;
+    private Collection $contentTypeConfigTemplates;
 
     /**
-     * @var string
      * @ORM\Column(type="string", length=16, nullable=false)
      */
-    private $short;
+    private ?string $short = null;
 
     /**
-     * @var string
      * @ORM\Column(type="string", length=64, nullable=false)
      */
-    private $name;
+    private ?string $name = null;
 
     /**
-     * @var string
      * @ORM\Column(type="string", length=8, nullable=false)
      */
-    private $color;
+    private ?string $color = null;
 
     /**
-     * @var string
      * @ORM\Column(type="string", length=1, nullable=false)
      */
-    private $numberingStyle;
+    private ?string $numberingStyle = null;
 
     public function __construct() {
         parent::__construct();
@@ -54,10 +50,7 @@ class ActivityCategoryTemplate extends BaseEntity {
         $this->contentTypeConfigTemplates = new ArrayCollection();
     }
 
-    /**
-     * @return CampTemplate
-     */
-    public function getCampTemplate() {
+    public function getCampTemplate(): ?CampTemplate {
         return $this->campTemplate;
     }
 
@@ -65,54 +58,39 @@ class ActivityCategoryTemplate extends BaseEntity {
         $this->campTemplate = $campTemplate;
     }
 
-    /**
-     * @return string
-     */
-    public function getShort() {
+    public function getShort(): ?string {
         return $this->short;
     }
 
-    public function setShort($short) {
+    public function setShort(?string $short) {
         $this->short = $short;
     }
 
-    /**
-     * @return string
-     */
-    public function getName() {
+    public function getName(): ?string {
         return $this->name;
     }
 
-    public function setName($name) {
+    public function setName(?string $name) {
         $this->name = $name;
     }
 
-    /**
-     * @return string
-     */
-    public function getColor() {
+    public function getColor(): ?string {
         return $this->color;
     }
 
-    public function setColor($color) {
+    public function setColor(?string $color) {
         $this->color = $color;
     }
 
-    /**
-     * @return string
-     */
-    public function getNumberingStyle() {
+    public function getNumberingStyle(): ?string {
         return $this->numberingStyle;
     }
 
-    public function setNumberingStyle($numberingStyle) {
+    public function setNumberingStyle(?string $numberingStyle) {
         $this->numberingStyle = $numberingStyle;
     }
 
-    /**
-     * @return ArrayCollection
-     */
-    public function getContentTypeConfigTemplates() {
+    public function getContentTypeConfigTemplates(): Collection {
         return $this->contentTypeConfigTemplates;
     }
 

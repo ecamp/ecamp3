@@ -38,18 +38,15 @@ abstract class BaseEntity implements ResourceInterface {
         $this->updateTime = new DateTimeUtc();
     }
 
-    public function __toString() {
+    public function __toString(): string {
         return '['.$this->getClassname().'::'.$this->getId().']';
     }
 
-    public function getResourceId() {
+    public function getResourceId(): string {
         return ClassUtils::getClass($this);
     }
 
-    /**
-     * @return string
-     */
-    public function getId() {
+    public function getId(): string {
         return $this->id;
     }
 
@@ -68,7 +65,7 @@ abstract class BaseEntity implements ResourceInterface {
         $this->updateTime = new DateTimeUtc();
     }
 
-    private function getClassname() {
+    private function getClassname(): string {
         return ClassUtils::getClass($this);
     }
 }

@@ -6,14 +6,13 @@ use HTMLPurifier;
 use Laminas\Filter\AbstractFilter;
 
 class HtmlPurify extends AbstractFilter {
-    /** @var HTMLPurifier */
-    private $htmlPurifier;
+    private HTMLPurifier $htmlPurifier;
 
     public function __construct($options = null) {
         $this->options = $options;
     }
 
-    public function getHtmlPurifier() {
+    public function getHtmlPurifier(): HTMLPurifier {
         if (null == $this->htmlPurifier) {
             $this->htmlPurifier = new HTMLPurifier($this->options);
         }
@@ -21,12 +20,7 @@ class HtmlPurify extends AbstractFilter {
         return $this->htmlPurifier;
     }
 
-    /**
-     * @param mixed $value
-     *
-     * @return mixed
-     */
-    public function filter($value) {
+    public function filter($value): string {
         return $this->getHtmlPurifier()->purify($value);
     }
 }

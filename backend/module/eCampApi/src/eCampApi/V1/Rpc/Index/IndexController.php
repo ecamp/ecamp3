@@ -2,7 +2,6 @@
 
 namespace eCampApi\V1\Rpc\Index;
 
-use eCamp\Core\Entity\User;
 use eCamp\Core\EntityService\UserService;
 use eCamp\Lib\Hal\TemplatedLink;
 use Laminas\ApiTools\Hal\Entity;
@@ -11,16 +10,13 @@ use Laminas\ApiTools\Hal\View\HalJsonModel;
 use Laminas\Mvc\Controller\AbstractActionController;
 
 class IndexController extends AbstractActionController {
-    /** @var UserService */
-    private $userService;
+    private UserService $userService;
 
-    public function __construct(
-        UserService $userService
-    ) {
+    public function __construct(UserService $userService) {
         $this->userService = $userService;
     }
 
-    public function indexAction() {
+    public function indexAction(): HalJsonModel {
         $data = [];
         $data['title'] = 'eCamp V3';
 
@@ -65,11 +61,10 @@ class IndexController extends AbstractActionController {
         return $json;
     }
 
-    public function apiAction() {
+    public function apiAction(): HalJsonModel {
         $data = [];
         $data['title'] = 'eCamp V3 - API';
 
-        /** @var User $user */
         $user = $this->userService->findAuthenticatedUser();
 
         if (null != $user) {

@@ -3,6 +3,7 @@
 namespace eCamp\Lib\Service;
 
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\ORMException;
 use Doctrine\ORM\QueryBuilder;
 use eCamp\Lib\Acl\Acl;
@@ -62,28 +63,15 @@ class ServiceUtils {
         $this->acl->assertAllowed($role, $resource, $privilege);
     }
 
-    /**
-     * @return QueryBuilder
-     */
-    public function emCreateQueryBuilder() {
+    public function emCreateQueryBuilder(): QueryBuilder {
         return $this->entityManager->createQueryBuilder();
     }
 
-    /**
-     * @param $entityName
-     *
-     * @return \Doctrine\ORM\EntityRepository
-     */
-    public function emGetRepository($entityName) {
+    public function emGetRepository(string $entityName): EntityRepository {
         return $this->entityManager->getRepository($entityName);
     }
 
-    /**
-     * @param BaseEntity $entity
-     *
-     * @return array
-     */
-    public function emGetOrigEntityData($entity) {
+    public function emGetOrigEntityData(BaseEntity $entity): array {
         $uow = $this->entityManager->getUnitOfWork();
 
         return $uow->getOriginalEntityData($entity);
@@ -111,21 +99,11 @@ class ServiceUtils {
         $this->entityManager->flush();
     }
 
-    /**
-     * @param $className
-     *
-     * @return EntityFilterInterface
-     */
-    public function getEntityFilter($className) {
+    public function getEntityFilter(string $className): ?EntityFilterInterface {
         return $this->entityFilterManager->getByEntityClass($className);
     }
 
-    /**
-     * @param $name
-     *
-     * @return HydratorInterface
-     */
-    public function getHydrator($name, array $options = null) {
+    public function getHydrator(string $name, array $options = null): ?HydratorInterface {
         return $this->hydratorPluginManager->get($name, $options);
     }
 }

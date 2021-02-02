@@ -7,7 +7,7 @@ use eCamp\Lib\Hydrator\Util;
 use Laminas\Hydrator\HydratorInterface;
 
 class ContentTypeConfigHydrator implements HydratorInterface {
-    public static function HydrateInfo() {
+    public static function HydrateInfo(): array {
         return [
             'contentType' => Util::Entity(function (ContentTypeConfig $e) {
                 return $e->getContentType();
@@ -17,10 +17,8 @@ class ContentTypeConfigHydrator implements HydratorInterface {
 
     /**
      * @param object $object
-     *
-     * @return array
      */
-    public function extract($object) {
+    public function extract($object): array {
         /** @var ContentTypeConfig $contentTypeConfig */
         $contentTypeConfig = $object;
 
@@ -33,10 +31,8 @@ class ContentTypeConfigHydrator implements HydratorInterface {
 
     /**
      * @param object $object
-     *
-     * @return object
      */
-    public function hydrate(array $data, $object) {
+    public function hydrate(array $data, $object): ContentTypeConfig {
         /** @var ContentTypeConfig $contentTypeConfig */
         $contentTypeConfig = $object;
 

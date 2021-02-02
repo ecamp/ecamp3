@@ -2,6 +2,7 @@
 
 namespace eCamp\Core\Entity;
 
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use eCamp\Lib\Entity\BaseEntity;
 
@@ -14,44 +15,29 @@ use eCamp\Lib\Entity\BaseEntity;
  */
 class Day extends BaseEntity implements BelongsToCampInterface {
     /**
-     * @var Period
      * @ORM\ManyToOne(targetEntity="Period")
      * @ORM\JoinColumn(nullable=false, onDelete="cascade")
      */
-    private $period;
+    private ?Period $period = null;
 
     /**
-     * @var int
      * @ORM\Column(type="integer")
      */
-    private $dayOffset;
+    private int $dayOffset = 0;
 
-    public function __construct() {
-        parent::__construct();
-    }
-
-    /**
-     * @return Period
-     */
-    public function getPeriod() {
+    public function getPeriod(): ?Period {
         return $this->period;
     }
 
-    public function setPeriod($period) {
+    public function setPeriod(?Period $period) {
         $this->period = $period;
     }
 
-    /**
-     * @return Camp
-     */
-    public function getCamp() {
+    public function getCamp(): ?Camp {
         return (null != $this->period) ? $this->period->getCamp() : null;
     }
 
-    /**
-     * @return int
-     */
-    public function getDayOffset() {
+    public function getDayOffset(): int {
         return $this->dayOffset;
     }
 
@@ -59,16 +45,14 @@ class Day extends BaseEntity implements BelongsToCampInterface {
         $this->dayOffset = $dayOffset;
     }
 
-    public function getDayNumber() {
+    public function getDayNumber(): int {
         return $this->dayOffset + 1;
     }
 
     /**
      * Returns all scheduleEntries which start on the current day (using midnight as cut-time).
-     *
-     * @return ArrayCollection
      */
-    public function getScheduleEntries() {
+    public function getScheduleEntries(): Collection {
         $dayOffset = $this->getDayOffset();
 
         return $this->period->getScheduleEntries()->filter(

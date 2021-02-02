@@ -26,10 +26,8 @@ class MaterialItemService extends AbstractEntityService {
 
     /**
      * @param $data
-     *
-     * @return MaterialItem
      */
-    protected function createEntity($data) {
+    protected function createEntity($data): MaterialItem {
         /** @var MaterialItem $materialItem */
         $materialItem = parent::createEntity($data);
 
@@ -65,7 +63,7 @@ class MaterialItemService extends AbstractEntityService {
         return $materialItem;
     }
 
-    protected function patchEntity(BaseEntity $entity, $data) {
+    protected function patchEntity(BaseEntity $entity, $data): MaterialItem {
         /** @var MaterialItem $materialItem */
         $materialItem = parent::patchEntity($entity, $data);
         $camp = $materialItem->getCamp();
@@ -102,9 +100,11 @@ class MaterialItemService extends AbstractEntityService {
             }
             $materialItem->setActivityContent($activityContent);
         }
+
+        return $materialItem;
     }
 
-    protected function fetchAllQueryBuilder($params = []) {
+    protected function fetchAllQueryBuilder($params = []): QueryBuilder {
         /** @var QueryBuilder $q */
         $q = parent::fetchAllQueryBuilder($params);
         $q->join('row.materialList', 'ml');
@@ -130,7 +130,7 @@ class MaterialItemService extends AbstractEntityService {
         return $q;
     }
 
-    protected function fetchQueryBuilder($id) {
+    protected function fetchQueryBuilder($id): QueryBuilder {
         $q = parent::fetchQueryBuilder($id);
         $q->join('row.materialList', 'ml');
         $q->andWhere($this->createFilter($q, Camp::class, 'ml', 'camp'));

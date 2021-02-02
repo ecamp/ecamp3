@@ -3,6 +3,7 @@
 namespace eCamp\Core\EntityService;
 
 use Doctrine\ORM\ORMException;
+use Doctrine\ORM\QueryBuilder;
 use eCamp\Core\Entity\Activity;
 use eCamp\Core\Entity\ActivityCategory;
 use eCamp\Core\Entity\Camp;
@@ -16,14 +17,9 @@ use eCamp\Lib\Service\ServiceUtils;
 use Laminas\Authentication\AuthenticationService;
 
 class ActivityService extends AbstractEntityService {
-    /** @var ActivityResponsibleService */
-    protected $activityResponsibleService;
-
-    /** @var ScheduleEntryService */
-    protected $scheduleEntryService;
-
-    /** @var ActivityContentService */
-    protected $activityContentService;
+    protected ActivityResponsibleService $activityResponsibleService;
+    protected ScheduleEntryService $scheduleEntryService;
+    protected ActivityContentService $activityContentService;
 
     public function __construct(
         ActivityResponsibleService $activityResponsibleService,
@@ -47,23 +43,43 @@ class ActivityService extends AbstractEntityService {
      * @param mixed $data
      *
      * @throws EntityNotFoundException
+     * @throws ORMException
+     * @throws NoAccessException
+     */
+    protected function createEntity($data): Activity {
+        $data = (object) $data;
+
+        /** @var Activity $activity */
+        $activity = parent::createEntity($data);
+
+        /** @var ActivityCategory $category */
+        $category = $this->findRelatedEntity(ActivityCategory::class, $data, 'activityCategoryId');
+
+        $activity->setActivityCategory($category);
+        $activity->setCamp($category->getCamp()); // TODO meeting discus: Why do we actually need camp on activity? Redundant relationship
+
+        return $activity;
+    }
+
+    /**
+     * @param mixed $data
+     *
+     * @throws EntityNotFoundException
      * @throws NoAccessException
      * @throws ORMException
      * @throws \Doctrine\ORM\NonUniqueResultException
      *
      * @return BaseEntity
      */
-    protected function createEntityPost(BaseEntity $entity, $data) {
+    protected function createEntityPost(BaseEntity $entity, $data): Activity {
         /** @var Activity $activity */
         $activity = $entity;
 
         $this->updateActivityResponsibles($activity, $data);
-
         $this->updateScheduleEntries($activity, $data);
-
         $this->createInitialActivityContents($activity);
 
-        return $entity;
+        return $activity;
     }
 
     /**
@@ -75,7 +91,7 @@ class ActivityService extends AbstractEntityService {
      *
      * @return BaseEntity
      */
-    protected function patchEntity(BaseEntity $entity, $data) {
+    protected function patchEntity(BaseEntity $entity, $data): Activity {
         /** @var Activity $activity */
         $activity = parent::patchEntity($entity, $data);
         $this->updateActivityResponsibles($activity, $data);
@@ -89,7 +105,7 @@ class ActivityService extends AbstractEntityService {
         return $entity;
     }
 
-    protected function updateEntity(BaseEntity $entity, $data) {
+    protected function updateEntity(BaseEntity $entity, $data): Activity {
         $entity = parent::updateEntity($entity, $data);
         $this->updateActivityResponsibles($entity, $data);
         $this->updateScheduleEntries($entity, $data);
@@ -97,7 +113,7 @@ class ActivityService extends AbstractEntityService {
         return $entity;
     }
 
-    protected function fetchAllQueryBuilder($params = []) {
+    protected function fetchAllQueryBuilder($params = []): QueryBuilder {
         $q = parent::fetchAllQueryBuilder($params);
         $q->andWhere($this->createFilter($q, Camp::class, 'row', 'camp'));
 
@@ -115,35 +131,11 @@ class ActivityService extends AbstractEntityService {
         return $q;
     }
 
-    protected function fetchQueryBuilder($id) {
+    protected function fetchQueryBuilder($id): QueryBuilder {
         $q = parent::fetchQueryBuilder($id);
         $q->andWhere($this->createFilter($q, Camp::class, 'row', 'camp'));
 
         return $q;
-    }
-
-    /**
-     * @param mixed $data
-     *
-     * @throws EntityNotFoundException
-     * @throws ORMException
-     * @throws NoAccessException
-     *
-     * @return Activity
-     */
-    protected function createEntity($data) {
-        $data = (object) $data;
-
-        /** @var Activity $activity */
-        $activity = parent::createEntity($data);
-
-        /** @var ActivityCategory $category */
-        $category = $this->findRelatedEntity(ActivityCategory::class, $data, 'activityCategoryId');
-
-        $activity->setActivityCategory($category);
-        $activity->setCamp($category->getCamp()); // TODO meeting discus: Why do we actually need camp on activity? Redundant relationship
-
-        return $activity;
     }
 
     private function updateActivityResponsibles(Activity $activity, $data) {

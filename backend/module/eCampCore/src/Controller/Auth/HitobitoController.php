@@ -25,6 +25,5 @@ abstract class HitobitoController extends BaseController {
         );
     }
 
-    /** @return string */
-    abstract protected function getProviderName();
+    abstract protected function getProviderName(): string;
 }

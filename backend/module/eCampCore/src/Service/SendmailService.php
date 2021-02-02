@@ -10,12 +10,9 @@ use eCamp\Lib\Service\ServiceUtils;
 use Laminas\Authentication\AuthenticationService;
 
 class SendmailService extends AbstractService {
-    /** @var ProviderInterface */
-    private $mailProvider;
-    /** @var string */
-    private $from;
-    /** @var string */
-    private $frontendUrl;
+    private ProviderInterface $mailProvider;
+    private string $from;
+    private string $frontendUrl;
 
     public function __construct(
         ServiceUtils $serviceUtils,

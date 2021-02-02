@@ -2,6 +2,7 @@
 
 namespace eCamp\Core\EntityService;
 
+use Doctrine\ORM\QueryBuilder;
 use eCamp\Core\Entity\Activity;
 use eCamp\Core\Entity\ActivityResponsible;
 use eCamp\Core\Entity\Camp;
@@ -20,7 +21,7 @@ class ActivityResponsibleService extends AbstractEntityService {
         );
     }
 
-    protected function createEntity($data) {
+    protected function createEntity($data): ActivityResponsible {
         /** @var Activity $activity */
         $activity = $this->findRelatedEntity(Activity::class, $data, 'activityId');
 
@@ -35,7 +36,7 @@ class ActivityResponsibleService extends AbstractEntityService {
         return $activityResponsible;
     }
 
-    protected function fetchAllQueryBuilder($params = []) {
+    protected function fetchAllQueryBuilder($params = []): QueryBuilder {
         $q = parent::fetchAllQueryBuilder($params);
         $q->join('row.activity', 'a');
         $q->andWhere($this->createFilter($q, Camp::class, 'a', 'camp'));
@@ -48,7 +49,7 @@ class ActivityResponsibleService extends AbstractEntityService {
         return $q;
     }
 
-    protected function fetchQueryBuilder($id) {
+    protected function fetchQueryBuilder($id): QueryBuilder {
         $q = parent::fetchQueryBuilder($id);
         $q->join('row.activity', 'a');
         $q->andWhere($this->createFilter($q, Camp::class, 'a', 'camp'));

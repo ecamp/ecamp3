@@ -7,23 +7,18 @@ use eCamp\Core\Repository\UserRepository;
 use Laminas\Authentication\AuthenticationService;
 
 class AuthUserProvider {
-    /** @var UserRepository */
-    private $userRepository;
-
-    /** @var AuthenticationService */
-    private $authenticationService;
+    private UserRepository $userRepository;
+    private AuthenticationService $authenticationService;
 
     public function __construct(UserRepository $userRepository, AuthenticationService $authenticationService) {
         $this->userRepository = $userRepository;
         $this->authenticationService = $authenticationService;
     }
 
-    /** @return null|User */
-    public function getAuthUser() {
+    public function getAuthUser(): ?User {
         if ($this->authenticationService->hasIdentity()) {
             $userId = $this->authenticationService->getIdentity();
 
-            // @var User $user
             return $this->userRepository->find($userId);
         }
 

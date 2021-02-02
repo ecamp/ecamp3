@@ -6,16 +6,14 @@ use eCamp\Core\Entity\Organization;
 use Laminas\Hydrator\HydratorInterface;
 
 class OrganizationHydrator implements HydratorInterface {
-    public static function HydrateInfo() {
+    public static function HydrateInfo(): array {
         return [];
     }
 
     /**
      * @param object $object
-     *
-     * @return array
      */
-    public function extract($object) {
+    public function extract($object): array {
         /** @var Organization $organization */
         $organization = $object;
 
@@ -27,10 +25,8 @@ class OrganizationHydrator implements HydratorInterface {
 
     /**
      * @param object $object
-     *
-     * @return object
      */
-    public function hydrate(array $data, $object) {
+    public function hydrate(array $data, $object): Organization {
         /** @var Organization $organization */
         $organization = $object;
 

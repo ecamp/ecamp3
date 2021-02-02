@@ -10,10 +10,7 @@ use Laminas\Permissions\Acl\Resource\ResourceInterface;
 use Laminas\Permissions\Acl\Role\RoleInterface;
 
 class UserIsAuthenticatedUser implements AssertionInterface {
-    /**
-     * @var AuthenticationServiceInterface
-     */
-    private $authenticationService;
+    private AuthenticationServiceInterface $authenticationService;
 
     public function __construct(AuthenticationServiceInterface $authenticationService) {
         $this->authenticationService = $authenticationService;
@@ -24,7 +21,7 @@ class UserIsAuthenticatedUser implements AssertionInterface {
         RoleInterface $role = null,
         ResourceInterface $resource = null,
         $privilege = null
-    ) {
+    ): bool {
         if ($resource instanceof User) {
             $authUserId = $this->authenticationService->getIdentity();
 

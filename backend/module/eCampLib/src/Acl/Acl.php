@@ -18,10 +18,8 @@ class Acl extends LaminasAcl {
      * @param RoleInterface|string     $role
      * @param ResourceInterface|string $resource
      * @param string                   $privilege
-     *
-     * @return bool
      */
-    public function isAllowed($role = null, $resource = null, $privilege = null) {
+    public function isAllowed($role = null, $resource = null, $privilege = null): bool {
         if (null == $role) {
             $role = new Guest();
         }
