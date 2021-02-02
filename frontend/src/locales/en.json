@@ -105,6 +105,9 @@
       "collaboratorListItem": {
         "remove": "Remove"
       },
+      "leftCampCollaboratorListItem": {
+        "inviteAgain": "Invite again"
+      },
       "periodMaterialLists": {
         "addNewItem": "Add new item"
       },
@@ -348,6 +351,7 @@
       "collaborators": {
         "email": "Email address",
         "invite": "Invite",
+        "leftCollaborators": "Rejected invitations and collaborators which left",
         "members": "Members",
         "openInvitations": "Open invitations",
         "openRequests": "Open requests",

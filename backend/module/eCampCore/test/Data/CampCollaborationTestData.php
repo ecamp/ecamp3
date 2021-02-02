@@ -12,6 +12,7 @@ use eCamp\Core\Entity\User;
 class CampCollaborationTestData extends AbstractFixture implements DependentFixtureInterface {
     public static $COLLAB1 = CampCollaboration::class.':COLLAB1';
     public static $COLLAB_INVITED = CampCollaboration::class.':COLLAB_INVITED';
+    public static $COLLAB_LEFT = CampCollaboration::class.':COLLAB_LEFT';
 
     public function load(ObjectManager $manager) {
         /** @var Camp $camp */
@@ -42,6 +43,17 @@ class CampCollaborationTestData extends AbstractFixture implements DependentFixt
         $manager->flush();
 
         $this->addReference(self::$COLLAB_INVITED, $campCollaborationInvited);
+
+        $campCollaborationLeft = new CampCollaboration();
+        $campCollaborationLeft->setCamp($camp);
+        $campCollaborationLeft->setInviteEmail('e.mail.left@test.com');
+        $campCollaborationLeft->setRole(CampCollaboration::ROLE_GUEST);
+        $campCollaborationLeft->setStatus(CampCollaboration::STATUS_LEFT);
+
+        $manager->persist($campCollaborationLeft);
+        $manager->flush();
+
+        $this->addReference(self::$COLLAB_LEFT, $campCollaborationLeft);
     }
 
     public function getDependencies() {
