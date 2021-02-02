@@ -56,6 +56,7 @@ class ActivityCategoryTemplateData extends AbstractFixture implements DependentF
             $this->addContentType($manager, $lageraktivitaet, $this->getReference(ContentTypeData::$STORYCONTEXT));
             $this->addContentType($manager, $lageraktivitaet, $this->getReference(ContentTypeData::$NOTES));
             $this->addContentType($manager, $lageraktivitaet, $this->getReference(ContentTypeData::$MATERIAL));
+            $this->addContentType($manager, $lageraktivitaet, $this->getReference(ContentTypeData::$LATHEMATICAREA));
         }
         $this->addReference(self::$PBS_JS_KIDS_LAGERAKTIVITAET, $lageraktivitaet);
 
@@ -96,6 +97,7 @@ class ActivityCategoryTemplateData extends AbstractFixture implements DependentF
             $this->addContentType($manager, $lageraktivitaet, $this->getReference(ContentTypeData::$STORYCONTEXT));
             $this->addContentType($manager, $lageraktivitaet, $this->getReference(ContentTypeData::$NOTES));
             $this->addContentType($manager, $lageraktivitaet, $this->getReference(ContentTypeData::$MATERIAL));
+            $this->addContentType($manager, $lageraktivitaet, $this->getReference(ContentTypeData::$LATHEMATICAREA));
         }
         $this->addReference(self::$PBS_JS_TEEN_LAGERAKTIVITAET, $lageraktivitaet);
 

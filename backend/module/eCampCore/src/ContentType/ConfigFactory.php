@@ -4,10 +4,12 @@ namespace eCamp\Core\ContentType;
 
 class ConfigFactory {
     /**
-     * params String $name         Content type name is PascalCase
-     * params bool $multiple       false=single entitity per activityContent; true=multiple entities per activityContent.
-     * params String $entityName   Specify entity name if it deviates from main name
-     * params String $namePlural   Specify non-standard plural names.
+     * @param string      $name       Content type name is PascalCase
+     * @param bool        $multiple   false=single entitity per activityContent; true=multiple entities per activityContent
+     * @param null|string $entityName Specify entity name if it deviates from main name
+     * @param null|string $namePlural specify non-standard plural names
+     *
+     * @return array
      */
     public static function createConfig(string $name, bool $multiple = false, ?string $entityName = null, ?string $namePlural = null) {
         // used in class namespace (PascalCase)
@@ -20,10 +22,10 @@ class ConfigFactory {
         $route = strtolower($name);
 
         // URI (lower case) + plural
-        $apiEndpoint = !is_null($namePlural) ? strtolower($namePlural) : strtolower($name).'s';
+        $apiEndpoint = strtolower($namePlural ?? $name.'s');
 
         // name of entity ($namespace s fallback)
-        $entity = !is_null($entityName) ? $entityName : $namespace;
+        $entity = $entityName ?? $namespace;
 
         // property prefix (camelCase)
         $propertyPrefix = lcfirst($entity);

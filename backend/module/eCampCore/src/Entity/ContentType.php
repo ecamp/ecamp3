@@ -4,6 +4,7 @@ namespace eCamp\Core\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use eCamp\Lib\Entity\BaseEntity;
+use Laminas\Json\Json;
 
 /**
  * @ORM\Entity
@@ -23,6 +24,11 @@ class ContentType extends BaseEntity {
      * @ORM\Column(type="string", length=128, nullable=false)
      */
     private ?string $strategyClass = null;
+
+    /**
+     * @ORM\Column(type="json", nullable=true)
+     */
+    private ?array $jsonConfig = null;
 
     public function getName(): ?string {
         return $this->name;
@@ -46,5 +52,26 @@ class ContentType extends BaseEntity {
 
     public function setStrategyClass(?string $strategyClass): void {
         $this->strategyClass = $strategyClass;
+    }
+
+    public function getJsonConfig(): ?array {
+        return $this->jsonConfig;
+    }
+
+    public function setJsonConfig(?array $jsonConfig): void {
+        $this->jsonConfig = $jsonConfig;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getConfig(?string $key = null) {
+        if (null != $this->jsonConfig) {
+            if (null != $key) {
+                return $this->jsonConfig[$key];
+            }
+        }
+
+        return $this->jsonConfig;
     }
 }

@@ -1,7 +1,7 @@
 {
     "name": "ecamp/ecamp3",
     "description": "eCamp3",
-    "type": "library",
+    "type": "project",
     "homepage": "http://eCamp3.ch/",
     "config": {
         "process-timeout": 5000,
@@ -58,7 +58,8 @@
             "eCampApi\\": "module/eCampApi/src/eCampApi/",
             "eCamp\\ContentType\\SingleText\\": "content-type/eCampSingleText/src/",
             "eCamp\\ContentType\\Storyboard\\": "content-type/eCampStoryboard/src/",
-            "eCamp\\ContentType\\Material\\": "content-type/eCampMaterial/src/"
+            "eCamp\\ContentType\\Material\\": "content-type/eCampMaterial/src/",
+            "eCamp\\ContentType\\MultiSelect\\": "content-type/eCampMultiSelect/src/"
         },
         "files": [
             "module/eCampApp.php"
