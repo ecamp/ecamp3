@@ -1,12 +1,16 @@
 <template>
-  <auth-container>
-    <div v-if="[states.INIT,states.INVITATION_FOUND].includes(dialogState)">
-      <h1 v-if="isLoggedIn" class="display-1">{{ this.$tc('components.invitation.userWelcome') }} {{ userDisplayName }}</h1>
-      <h1 class="display-1">{{ this.$tc('components.invitation.title') }} {{ camp ? camp.title : '' }}</h1>
+  <auth-container v-if="ready">
+    <div v-if="invitationFound">
+      <h1 v-if="userDisplayName" class="display-1">
+        {{ this.$tc('components.invitation.userWelcome') }} {{ userDisplayName }}
+      </h1>
+      <h1 class="display-1">
+        {{ this.$tc('components.invitation.title') }} {{ invitation().campTitle }}
+      </h1>
 
       <v-spacer />
-      <div v-if="isLoggedIn">
-        <v-btn v-if="userAlreadyInCamp !== true" color="primary"
+      <div v-if="userDisplayName">
+        <v-btn v-if="!invitation().userAlreadyInCamp" color="primary"
                x-large
                class="my-4" block
                @click="acceptInvitation">
@@ -52,104 +56,54 @@
         {{ this.$tc('components.invitation.reject') }}
       </v-btn>
     </div>
-    <v-alert v-else-if="dialogState === states.REJECTED" type="info">
-      {{ this.$tc('components.invitation.successfullyRejected') }}
-    </v-alert>
-    <v-alert v-else-if="dialogState === states.INVITATION_NOT_FOUND" type="error">
+    <v-alert v-else-if="invitationFound === false" type="error">
       {{ this.$tc('components.invitation.notFound') }}
-    </v-alert>
-    <v-alert v-else type="error">
-      {{ this.$tc('components.invitation.error') }}
     </v-alert>
     <v-btn color="primary"
            x-large
            class="my-4" block
-           :to="backToLogin">
-      {{ this.$tc('components.invitation.backToLogin') }}
+           :to="{ name: 'home' }">
+      {{ this.$tc('components.invitation.backToHome') }}
     </v-btn>
   </auth-container>
 </template>
 
 <script>
 import AuthContainer from '@/components/layout/AuthContainer'
-import { campRoute, loginRoute } from '@/router'
+import { loginRoute } from '@/router'
 
 export default {
   name: 'Invitation',
   components: { AuthContainer },
   props: {
-    campCollaboration: { type: Function, required: true }
+    invitation: { type: Function, required: true }
   },
   data: () => ({
-    states: {
-      INIT: {},
-      INVITATION_FOUND: {},
-      INVITATION_NOT_FOUND: {},
-      REJECTED: {},
-      ERROR: {}
-    },
-    dialogState: undefined
+    invitationFound: undefined
   }),
   computed: {
-    camp () {
-      if (this.states.INIT === this.dialogState) {
-        return undefined
-      }
-      return this.campCollaboration().camp()
-    },
     campLink () {
-      return campRoute(this.camp)
-    },
-    campCollaborationOpen () {
-      if (this.states.INIT === this.dialogState) {
-        return undefined
+      return {
+        name: 'camp/program',
+        params: { campId: this.invitation().campId }
       }
-      return this.campCollaboration().status === 'invited'
-    },
-    backToLogin () {
-      return loginRoute()
-    },
-    isLoggedIn () {
-      return this.$auth.isLoggedIn()
     },
     loginLink () {
       return loginRoute(this.$route.fullPath)
     },
-    profile () {
-      if (this.states.INIT === this.dialogState) {
-        return undefined
-      }
-      return this.api.get().profile()
-    },
-    userAlreadyInCamp () {
-      if (this.isLoggedIn !== true) {
-        return undefined
-      }
-      if (this.camp === undefined) {
-        return undefined
-      }
-      const alreadyExistingCampCollaborations = this.api.get()
-        .campCollaborations({ campId: this.camp.id })
-        .items
-        .filter(campCollaboration => campCollaboration.user)
-        .filter(campCollaboration => this.profile.username === campCollaboration.user().username)
-      return alreadyExistingCampCollaborations.length > 0
+    ready () {
+      return this.invitationFound !== undefined
     },
     userDisplayName () {
-      if (this.profile === undefined) {
-        return undefined
-      }
-      return this.profile.displayName
+      return this.invitation().userDisplayName
     }
   },
-  mounted: function () {
-    this.dialogState = this.states.INIT
-    this.campCollaboration()._meta.load.then(
-      () => { this.dialogState = this.states.INVITATION_FOUND },
-      () => { this.dialogState = this.states.INVITATION_NOT_FOUND })
-    if (this.$auth.isLoggedIn() === true) {
-      this.api.get().profile()
-    }
+  mounted () {
+    this.api.reload(this.invitation())
+      .then(
+        () => { this.invitationFound = true },
+        () => { this.invitationFound = false }
+      )
   },
   methods: {
     useAnotherAccount () {
@@ -158,24 +112,24 @@ export default {
       this.$auth.logout().then(__ => this.$router.push(loginLink))
     },
     acceptInvitation () {
-      if (this.dialogState !== this.states.INVITATION_FOUND) return
-      const me = this
-      this.api.href(this.api.get()._meta.self, 'invitation', {
+      this.api.href(this.api.get(), 'invitation', {
         action: 'accept',
         inviteKey: this.$route.params.inviteKey
-      }).then(postUrl => me.api.post(postUrl, {}))
-        .then(_ => { me.$router.push(me.campLink) },
-          () => { me.dialogState = this.states.ERROR })
+      }).then(postUrl => this.api.post(postUrl, {}))
+        .then(
+          _ => { this.$router.push(this.campLink) },
+          () => { this.$router.push({ name: 'invitationUpdateError' }) }
+        )
     },
     rejectInvitation () {
-      if (this.dialogState !== this.states.INVITATION_FOUND) return
-      const me = this
-      this.api.href(this.api.get()._meta.self, 'invitation', {
+      this.api.href(this.api.get(), 'invitation', {
         action: 'reject',
         inviteKey: this.$route.params.inviteKey
-      }).then(postUrl => me.api.post(postUrl, {}))
-        .then(_ => { me.dialogState = this.states.REJECTED },
-          () => { me.dialogState = this.states.ERROR })
+      }).then(postUrl => this.api.post(postUrl, {}))
+        .then(
+          _ => { this.$router.push({ name: 'invitationRejected' }) },
+          () => { this.$router.push({ name: 'invitationUpdateError' }) }
+        )
     }
   }
 }

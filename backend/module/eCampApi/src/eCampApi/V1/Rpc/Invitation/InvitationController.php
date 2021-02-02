@@ -3,11 +3,10 @@
 namespace eCampApi\V1\Rpc\Invitation;
 
 use Doctrine\ORM\NonUniqueResultException;
-use eCamp\Core\Entity\CampCollaboration;
-use eCamp\Core\Hydrator\CampCollaborationHydrator;
+use eCamp\Core\Hydrator\InvitationHydrator;
+use eCamp\Core\Service\Invitation;
 use eCamp\Core\Service\InvitationService;
 use eCamp\Lib\Acl\NoAccessException;
-use eCamp\Lib\Hydrator\Resolver\BaseResolver;
 use eCamp\Lib\Service\EntityNotFoundException;
 use eCamp\Lib\Service\EntityValidationException;
 use eCamp\Lib\Service\ServiceUtils;
@@ -85,14 +84,16 @@ class InvitationController extends RpcController {
      * @param $inviteKey
      *
      * @throws EntityNotFoundException
+     * @throws NoAccessException
+     * @throws NonUniqueResultException
      */
     public function find($inviteKey): HalJsonModel {
-        $campCollaboration = $this->invitationService->findInvitation($inviteKey);
-        if (null == $campCollaboration) {
+        $invitation = $this->invitationService->findInvitation($inviteKey);
+        if (null == $invitation) {
             throw new EntityNotFoundException('Not Found', 404);
         }
 
-        return $this->toResponse($campCollaboration);
+        return $this->toResponse($invitation);
     }
 
     /**
@@ -101,6 +102,7 @@ class InvitationController extends RpcController {
      * @throws NoAccessException
      * @throws EntityValidationException
      * @throws EntityNotFoundException
+     * @throws \Exception
      */
     public function accept($inviteKey): HalJsonModel {
         /** @var Request $request */
@@ -123,7 +125,7 @@ class InvitationController extends RpcController {
         } catch (EntityNotFoundException $e) {
             throw new EntityNotFoundException('Not Found', 404);
         } catch (EntityValidationException $e) {
-            $entityValidationException = new EntityValidationException('Failed to update CampCollaboration', 422);
+            $entityValidationException = new EntityValidationException('Failed to update Invitation', 422);
             $entityValidationException->setMessages($e->getMessages());
 
             throw $entityValidationException;
@@ -134,6 +136,7 @@ class InvitationController extends RpcController {
      * @param $inviteKey
      *
      * @throws EntityNotFoundException
+     * @throws \Exception
      */
     public function reject($inviteKey): HalJsonModel {
         /** @var Request $request */
@@ -149,24 +152,16 @@ class InvitationController extends RpcController {
         }
     }
 
-    private function toResponse(CampCollaboration $campCollaboration): HalJsonModel {
-        $hydrator = $this->serviceUtils->getHydrator(CampCollaborationHydrator::class);
+    private function toResponse(Invitation $invitation): HalJsonModel {
+        $hydrator = $this->serviceUtils->getHydrator(InvitationHydrator::class);
 
-        $data = $hydrator->extract($campCollaboration);
-        if (method_exists($hydrator, 'HydrateInfo')) {
-            $hydrateInfo = call_user_func([$hydrator, 'HydrateInfo']);
-            foreach ($hydrateInfo as $key => $resolver) {
-                /** @var BaseResolver $resolver */
-                $value = $resolver->resolve($campCollaboration);
-                $data[$key] = $value;
-            }
-        }
+        $data = $hydrator->extract($invitation);
         $data['self'] = Link::factory([
             'rel' => 'self',
             'route' => [
-                'name' => 'e-camp-api.rest.doctrine.camp-collaboration',
+                'name' => 'e-camp-api.rpc.invitation',
                 'params' => [
-                    'campCollaborationId' => $campCollaboration->getId(),
+                    'action' => 'find',
                 ],
             ],
         ]);

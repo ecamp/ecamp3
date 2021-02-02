@@ -57,27 +57,78 @@ class InvitationControllerTest extends AbstractApiControllerTestCase {
 
         $this->assertResponseStatusCode(200);
 
+        $camp = $this->campCollaborationInvited->getCamp();
         $expectedBody = <<<JSON
             {
-                "id": "{$this->campCollaborationInvited->getId()}",
-                "role": "{$this->campCollaborationInvited->getRole()}",
-                "status": "{$this->campCollaborationInvited->getStatus()}",
-                "inviteEmail": "{$this->campCollaborationInvited->getInviteEmail()}",
-                "user": null
+                "campId": "{$camp->getId()}",
+                "campTitle": "{$camp->getTitle()}",
+                "userDisplayName": null,
+                "userAlreadyInCamp": null
             }
 JSON;
 
-        $expectedLinks = <<<JSON
+        $expectedLinks = <<<'JSON'
         {
            "self":{
-              "href":"http:///api/camp-collaborations/{$this->campCollaborationInvited->getId()}"
+              "href":"http:///api/invitation/find"
            }
         }
 JSON;
-        $expectedEmbeddedObjects = ['camp'];
+        $expectedEmbeddedObjects = [];
 
-        $responseContent = $this->getResponseContent();
-        self::assertThat($responseContent->_embedded->camp->title, self::logicalNot(self::isEmpty()));
+        $this->verifyHalResourceResponse($expectedBody, $expectedLinks, $expectedEmbeddedObjects);
+    }
+
+    public function testFindsInvitationWhenLoggedIn() {
+        $this->authenticateUser($this->newUser);
+        $this->dispatch("{$this->apiEndpoint}/find/{$this->campCollaborationInvited->getInviteKey()}", 'GET');
+
+        $this->assertResponseStatusCode(200);
+
+        $expectedBody = <<<JSON
+            {
+                "campId": "{$this->campCollaborationInvited->getCamp()->getId()}",
+                "campTitle": "{$this->campCollaborationInvited->getCamp()->getTitle()}",
+                "userDisplayName": "{$this->newUser->getDisplayName()}",
+                "userAlreadyInCamp": false
+            }
+JSON;
+
+        $expectedLinks = <<<'JSON'
+        {
+           "self":{
+              "href":"http:///api/invitation/find"
+           }
+        }
+JSON;
+        $expectedEmbeddedObjects = [];
+
+        $this->verifyHalResourceResponse($expectedBody, $expectedLinks, $expectedEmbeddedObjects);
+    }
+
+    public function testFindsInvitationWhenAlreadyInCamp() {
+        $this->authenticateUser($this->userAlreadyInCamp);
+        $this->dispatch("{$this->apiEndpoint}/find/{$this->campCollaborationInvited->getInviteKey()}", 'GET');
+
+        $this->assertResponseStatusCode(200);
+
+        $expectedBody = <<<JSON
+            {
+                "campId": "{$this->campCollaborationInvited->getCamp()->getId()}",
+                "campTitle": "{$this->campCollaborationInvited->getCamp()->getTitle()}",
+                "userDisplayName": "{$this->userAlreadyInCamp->getDisplayName()}",
+                "userAlreadyInCamp": true
+            }
+JSON;
+
+        $expectedLinks = <<<'JSON'
+        {
+           "self":{
+              "href":"http:///api/invitation/find"
+           }
+        }
+JSON;
+        $expectedEmbeddedObjects = [];
 
         $this->verifyHalResourceResponse($expectedBody, $expectedLinks, $expectedEmbeddedObjects);
     }
