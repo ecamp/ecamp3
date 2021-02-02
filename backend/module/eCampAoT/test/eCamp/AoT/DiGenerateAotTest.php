@@ -9,8 +9,7 @@ use Symfony\Component\Filesystem\Filesystem;
  * @internal
  */
 class DiGenerateAotTest extends AbstractTestCase {
-    const SCRIPT_PATH = __DIR__.'/../../../../../bin/di-generate-aot.php';
-    const GEN_DIRECTORY = __DIR__.'/../../../gen';
+    const GEN_DIRECTORY = __DIR__.'/../../../gen_tmp';
 
     public function testRunsThroughWithoutErrors() {
         // delete folder
@@ -25,7 +24,10 @@ class DiGenerateAotTest extends AbstractTestCase {
         (new Filesystem())->mkdir(self::GEN_DIRECTORY);
 
         // when
-        require self::SCRIPT_PATH;
+        // require self::SCRIPT_PATH;
+        $builder = new FactoryBuilder();
+        $builder->useTempFolder();
+        $builder->build();
 
         // then
         $this->assertDirectoryExists(self::GEN_DIRECTORY);
@@ -34,6 +36,5 @@ class DiGenerateAotTest extends AbstractTestCase {
 
         // Recreate empty folder
         (new Filesystem())->remove(self::GEN_DIRECTORY);
-        (new Filesystem())->mkdir(self::GEN_DIRECTORY);
     }
 }
