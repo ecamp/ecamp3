@@ -12,13 +12,13 @@ class DiGenerateAotTest extends AbstractTestCase {
     const GEN_DIRECTORY = __DIR__.'/../../../gen_tmp';
 
     public function testRunsThroughWithoutErrors() {
-        // delete temporary output folder is it exists
+        // delete temporary output folder if it exists
         // should not be the case
         if (file_exists(self::GEN_DIRECTORY)) {
             (new Filesystem())->remove(self::GEN_DIRECTORY);
         }
 
-        // check temporary folder does not exists
+        // check temporary folder does not exist
         $this->assertDirectoryDoesNotExist(self::GEN_DIRECTORY);
 
         // recreate temporary output folder
@@ -37,7 +37,7 @@ class DiGenerateAotTest extends AbstractTestCase {
         // delete temporary output folder
         (new Filesystem())->remove(self::GEN_DIRECTORY);
 
-        // check temporary folder does not exists
+        // check temporary folder does not exist
         $this->assertDirectoryDoesNotExist(self::GEN_DIRECTORY);
     }
 }
