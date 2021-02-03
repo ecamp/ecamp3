@@ -30,7 +30,7 @@
         "ocramius/proxy-manager": "^2.11",
         "ext-json": "*",
         "zfr/zfr-cors": "^2.0",
-        "symfony/process": "5.2.2",
+        "symfony/process": "5.2.3",
         "rwoverdijk/assetmanager": "^3.0",
         "ezyang/htmlpurifier": "^4.12",
         "sentry/sdk": "3.1.0",
@@ -47,7 +47,7 @@
         "laminas/laminas-test": "3.4.2",
         "friendsofphp/php-cs-fixer": "2.18.2",
         "filp/whoops": "2.9.2",
-        "symfony/filesystem": "5.2.2"
+        "symfony/filesystem": "5.2.3"
     },
     "autoload": {
         "psr-4": {
