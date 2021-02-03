@@ -27,9 +27,9 @@ class FactoryBuilder {
         $this->verbose = $verbose;
     }
 
-    public function useTempFolder() {
+    public function setOutputDirectory($directory) {
         $cnf = $this->app->getConfig();
-        $cnf['dependencies']['auto']['aot']['directory'] .= '_tmp';
+        $cnf['dependencies']['auto']['aot']['directory'] = $directory;
 
         $allowOverride = $this->app->getServiceManager()->getAllowOverride();
         $this->app->getServiceManager()->setAllowOverride(true);
