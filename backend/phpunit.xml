@@ -39,7 +39,6 @@
             <directory suffix=".php">module/eCampApi/src</directory>
             <directory suffix=".php">content-type/eCampStoryboard/src</directory>
             <directory suffix=".php">content-type/eCampSingleText/src</directory>
-            <file>bin/di-generate-aot.php</file>
         </include>
 
         <report>
