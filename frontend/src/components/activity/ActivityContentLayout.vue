@@ -18,6 +18,9 @@ Displays a single activity
     <content-type
       content-type-name="Material"
       :activity="activity" />
+    <content-type
+      content-type-name="LAThematicArea"
+      :activity="activity" />
   </div>
 </template>
 

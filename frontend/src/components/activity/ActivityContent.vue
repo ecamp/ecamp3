@@ -117,6 +117,7 @@ import DialogEntityDelete from '@/components/dialog/DialogEntityDelete'
 import ButtonDelete from '@/components/buttons/ButtonDelete'
 import camelCase from 'lodash/camelCase'
 import ApiTextField from '../form/api/ApiTextField'
+import LAThematicArea from '@/components/activity/content/LAThematicArea'
 
 export default {
   name: 'ActivityContent',
@@ -125,6 +126,7 @@ export default {
     SafetyConcept,
     Storycontext,
     Storyboard,
+    LAThematicArea,
     Notes,
     Material,
     DialogEntityDelete,
