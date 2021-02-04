@@ -7,8 +7,8 @@ Displays a single period as a list item including controls to edit and delete it
     <v-list-item-content class="pt-0 pb-2">
       <v-list-item-title>{{ period.description }}</v-list-item-title>
       <v-list-item-subtitle>
-        {{ $moment.utc(period.start).format($tc('global.moment.dateLong')) }} -
-        {{ $moment.utc(period.end).format($tc('global.moment.dateLong')) }}
+        {{ $date.utc(period.start).format($tc('global.datetime.dateLong')) }} -
+        {{ $date.utc(period.end).format($tc('global.datetime.dateLong')) }}
       </v-list-item-subtitle>
     </v-list-item-content>
 

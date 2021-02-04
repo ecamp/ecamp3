@@ -41,7 +41,7 @@ export default {
     }
   },
   created () {
-    this.$store.commit('setLanguage', this.$store.state.language)
+    this.$store.commit('setLanguage', this.$store.state.lang.language)
   },
   async mounted () {
     if (await this.$auth.refreshLoginStatus()) {

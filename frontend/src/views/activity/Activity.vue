@@ -65,12 +65,12 @@ Displays a single activity
                         ({{ scheduleEntryItem.number }})
                       </v-col>
                       <v-col cols="10">
-                        {{ $moment.utc(scheduleEntryItem.startTime).format($tc('global.moment.dateShort')) }} <b>
-                          {{ $moment.utc(scheduleEntryItem.startTime).format($tc('global.moment.hourShort')) }} </b> - {{
-                          $moment.utc(scheduleEntryItem.startTime).format($tc('global.moment.dateShort')) == $moment.utc(scheduleEntryItem.endTime).format($tc('global.moment.dateShort'))
+                        {{ $date.utc(scheduleEntryItem.startTime).format($tc('global.datetime.dateShort')) }} <b>
+                          {{ $date.utc(scheduleEntryItem.startTime).format($tc('global.datetime.hourShort')) }} </b> - {{
+                          $date.utc(scheduleEntryItem.startTime).format($tc('global.datetime.dateShort')) == $date.utc(scheduleEntryItem.endTime).format($tc('global.datetime.dateShort'))
                             ? ''
-                            : $moment.utc(scheduleEntryItem.endTime).format($tc('global.moment.dateShort'))
-                        }} <b> {{ $moment.utc(scheduleEntryItem.endTime).format($tc('global.moment.hourShort')) }} </b>
+                            : $date.utc(scheduleEntryItem.endTime).format($tc('global.datetime.dateShort'))
+                        }} <b> {{ $date.utc(scheduleEntryItem.endTime).format($tc('global.datetime.hourShort')) }} </b>
                       </v-col>
                     </v-row>
                   </v-col>

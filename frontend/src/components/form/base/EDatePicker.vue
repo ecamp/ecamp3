@@ -55,30 +55,22 @@ export default {
   methods: {
     format (val) {
       if (val !== '') {
-        return this.$moment.utc(val, this.valueFormat, this.$i18n.locale).format('L')
+        return this.$date.utc(val, this.valueFormat).format('L')
       }
       return ''
     },
     formatPicker (val) {
       if (val !== '') {
-        return this.$moment.utc(val, this.valueFormat).format(this.$moment.HTML5_FMT.DATE)
+        return this.$date.utc(val, this.valueFormat).format(this.$date.HTML5_FMT.DATE)
       }
       return ''
     },
     parse (val) {
       if (val) {
-        const m = this.$moment.utc(val, 'L', this.$i18n.locale)
-        if (m.isValid()) {
-          return Promise.resolve(m.format(this.valueFormat))
+        const parsedDate = this.$date.utc(val, 'L')
+        if (parsedDate.isValid() && parsedDate.format('L') === val) {
+          return Promise.resolve(parsedDate.format(this.valueFormat))
         } else {
-          switch (m.parsingFlags().overflow) {
-            case 0: // Year
-              return Promise.reject(new Error('invalid year'))
-            case 1: // Month
-              return Promise.reject(new Error('invalid month'))
-            case 2: // Day
-              return Promise.reject(new Error('invalid day'))
-          }
           return Promise.reject(new Error('invalid format'))
         }
       } else {
@@ -87,9 +79,9 @@ export default {
     },
     parsePicker (val) {
       if (val) {
-        const m = this.$moment.utc(val, this.$moment.HTML5_FMT.DATE)
-        if (m.isValid()) {
-          return Promise.resolve(m.format(this.valueFormat))
+        const parsedDate = this.$date.utc(val, this.$date.HTML5_FMT.DATE)
+        if (parsedDate.isValid() && parsedDate.format(this.$date.HTML5_FMT.DATE) === val) {
+          return Promise.resolve(parsedDate.format(this.valueFormat))
         } else {
           return Promise.reject(new Error('invalid format'))
         }

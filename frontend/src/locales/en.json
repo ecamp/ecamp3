@@ -144,7 +144,7 @@
         "addNewItem": "Add new item"
       },
       "picasso": {
-        "moment": {
+        "datetime": {
           "date": "dd. D.MM | D. MMM | DD. MMM YYYY"
         }
       },
@@ -321,7 +321,7 @@
     "language": "English",
     "loading": "Loading …",
     "lokaliseMessage": "Language switching powered by lokalise.com",
-    "moment": {
+    "datetime": {
       "dateLong": "dd L",
       "dateShort": "dd M/D",
       "hourLong": "HH:mm",

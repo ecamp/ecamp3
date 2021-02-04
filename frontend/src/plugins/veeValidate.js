@@ -27,7 +27,9 @@ class VeeValidatePlugin {
     extend('minDate', {
       params: ['min'],
       validate: (value, { min }) => {
-        return new Date(value) >= new Date(min)
+        const minDate = Vue.dayjs.utc(min, 'L')
+        const valueDate = Vue.dayjs.utc(value, 'L')
+        return valueDate.diff(minDate, 'day') >= 0
       },
       message: (field, values) => i18n.t('global.validation.minDate', values)
     })

@@ -3,14 +3,14 @@ import Vuetify from 'vuetify'
 
 import i18n from '@/plugins/i18n'
 import formBaseComponents from '@/plugins/formBaseComponents'
-import { vueMoment, moment } from '@/plugins/vueMoment'
+import dayjs from '@/plugins/dayjs'
 
 import { mount as mountComponent } from '@vue/test-utils'
 import EDatePicker from '../EDatePicker'
 
 Vue.use(Vuetify)
 Vue.use(formBaseComponents)
-Vue.use(vueMoment, { moment })
+Vue.use(dayjs)
 
 describe('An EDatePicker', () => {
   let vuetify
@@ -49,7 +49,7 @@ describe('An EDatePicker', () => {
 
   describe.each(localeData)('in locale %s', (locale, data) => {
     beforeEach(() => {
-      i18n.locale = locale
+      Vue.dayjs.locale(locale)
       vuetify = new Vuetify()
     })
 
@@ -95,7 +95,7 @@ describe('An EDatePicker', () => {
       expect(wrapper.text()).toContain('invalid format')
       await input.setValue(INVALID_DATE_2)
       await waitForDebounce()
-      expect(wrapper.text()).toContain('invalid month')
+      expect(wrapper.text()).toContain('invalid format')
     })
 
     test('updates its value when a date is picked', async () => {
