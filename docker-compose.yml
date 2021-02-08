@@ -62,7 +62,7 @@ services:
     image: composer:2@sha256:97ca3398b5f320babe8ae7fe931c6248cac42ca04919cd9b54986263819ba6a7
     container_name: 'ecamp3-composer'
     restart: 'no'
-    command: bash -c "composer install --no-interaction --no-plugins --no-scripts --prefer-dist --no-suggest"
+    command: bash -c "composer install --no-interaction --no-plugins --no-scripts --prefer-dist"
     user: ${USER_ID:-1000}
     volumes:
       - ./backend:/app:delegated
