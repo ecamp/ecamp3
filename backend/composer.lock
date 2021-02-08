@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6f1c27ca498db4be5c173ff7b5879230",
+    "content-hash": "9d8af2ecd3080803d398c46b623821b2",
     "packages": [
         {
             "name": "assetic/framework",
@@ -4839,16 +4839,16 @@
         },
         {
             "name": "laminas/laminas-mail",
-            "version": "2.12.5",
+            "version": "2.13.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-mail.git",
-                "reference": "ed5b36a0deef4ffafe6138c2ae9cafcffafab856"
+                "reference": "a259ddb091618bdcbfb1540e0fe4671a823c342b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-mail/zipball/ed5b36a0deef4ffafe6138c2ae9cafcffafab856",
-                "reference": "ed5b36a0deef4ffafe6138c2ae9cafcffafab856",
+                "url": "https://api.github.com/repos/laminas/laminas-mail/zipball/a259ddb091618bdcbfb1540e0fe4671a823c342b",
+                "reference": "a259ddb091618bdcbfb1540e0fe4671a823c342b",
                 "shasum": ""
             },
             "require": {
@@ -4858,7 +4858,7 @@
                 "laminas/laminas-stdlib": "^2.7 || ^3.0",
                 "laminas/laminas-validator": "^2.10.2",
                 "laminas/laminas-zendframework-bridge": "^1.0",
-                "php": "^7.1",
+                "php": "^7.3 || ~8.0.0",
                 "true/punycode": "^2.1"
             },
             "replace": {
@@ -4866,10 +4866,10 @@
             },
             "require-dev": {
                 "laminas/laminas-coding-standard": "~1.0.0",
-                "laminas/laminas-config": "^2.6",
+                "laminas/laminas-config": "^3.4",
                 "laminas/laminas-crypt": "^2.6 || ^3.0",
                 "laminas/laminas-servicemanager": "^3.2.1",
-                "phpunit/phpunit": "^7.5.20"
+                "phpunit/phpunit": "^9.3"
             },
             "suggest": {
                 "laminas/laminas-crypt": "Crammd5 support in SMTP Auth",
@@ -4911,7 +4911,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2020-12-31T11:41:57+00:00"
+            "time": "2021-01-26T13:40:34+00:00"
         },
         {
             "name": "laminas/laminas-math",
