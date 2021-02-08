@@ -14,7 +14,7 @@ class PeriodTestData extends AbstractFixture implements DependentFixtureInterfac
     public static $PERIOD1 = Period::class.':PERIOD1';
     public static $DAY1 = Day::class.':DAY1';
 
-    public function load(ObjectManager $manager) {
+    public function load(ObjectManager $manager): void {
         /** @var Camp $ccamp */
         $camp = $this->getReference(CampTestData::$CAMP1);
 

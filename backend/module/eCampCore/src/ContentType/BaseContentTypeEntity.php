@@ -21,7 +21,7 @@ abstract class BaseContentTypeEntity extends BaseEntity implements BelongsToActi
         return $this->activityContent;
     }
 
-    public function setActivityContent(ActivityContent $activityContent) {
+    public function setActivityContent(ActivityContent $activityContent): void {
         $this->activityContent = $activityContent;
     }
 }

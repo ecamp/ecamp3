@@ -12,7 +12,7 @@ class GroupData extends AbstractFixture implements DependentFixtureInterface {
     public static $PFADI_LUZERN = Group::class.':PBS:PfadiLuzern';
     public static $PFADI_BASEL = Group::class.':PBS:PfadiBasel';
 
-    public function load(ObjectManager $manager) {
+    public function load(ObjectManager $manager): void {
         // disable group code
         return;
         $repository = $manager->getRepository(Group::class);

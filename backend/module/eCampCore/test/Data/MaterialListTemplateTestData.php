@@ -11,7 +11,7 @@ use eCamp\Core\Entity\MaterialListTemplate;
 class MaterialListTemplateTestData extends AbstractFixture implements DependentFixtureInterface {
     public static $MATERIALLISTTEMPLATE1 = MaterialListTemplate::class.':MATERIALLISTTEMPLATE1';
 
-    public function load(ObjectManager $manager) {
+    public function load(ObjectManager $manager): void {
         /** @var CampTemplate $campTemplate */
         $campTemplate = $this->getReference(CampTemplateTestData::$TEMPLATE1);
 

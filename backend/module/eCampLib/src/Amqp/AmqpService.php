@@ -34,7 +34,7 @@ class AmqpService {
         return $queue;
     }
 
-    public function sendAsJson($topicOrQueue, $messageArrayOrObject) {
+    public function sendAsJson($topicOrQueue, $messageArrayOrObject): void {
         $message = $this->context->createMessage(json_encode($messageArrayOrObject));
         $this->context->createProducer()->send($topicOrQueue, $message);
     }

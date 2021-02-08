@@ -13,7 +13,7 @@ use eCamp\LibTest\PHPUnit\AbstractTestCase;
  * @internal
  */
 class MaterialItemTest extends AbstractTestCase {
-    public function testMaterialItem() {
+    public function testMaterialItem(): void {
         $materialItem = new MaterialItem();
         $materialList = new MaterialList();
         $camp = new Camp();
@@ -35,7 +35,7 @@ class MaterialItemTest extends AbstractTestCase {
         $this->assertEquals(null, $materialItem->getUnit());
     }
 
-    public function testMaterialItemTarget() {
+    public function testMaterialItemTarget(): void {
         $materialItem = new MaterialItem();
         $period = new Period();
         $activityContent = new ActivityContent();

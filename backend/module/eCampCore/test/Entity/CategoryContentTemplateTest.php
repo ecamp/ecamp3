@@ -12,7 +12,7 @@ use eCamp\LibTest\PHPUnit\AbstractTestCase;
  * @internal
  */
 class CategoryContentTemplateTest extends AbstractTestCase {
-    public function testCategoryContentTemplate() {
+    public function testCategoryContentTemplate(): void {
         $campTemplate = new CampTemplate();
 
         $contentType = new ContentType();
@@ -33,7 +33,7 @@ class CategoryContentTemplateTest extends AbstractTestCase {
         $this->assertEquals('position', $categoryContentTemplate->getPosition());
     }
 
-    public function testCategoryContentTemplateHierarchy() {
+    public function testCategoryContentTemplateHierarchy(): void {
         $categoryContentTemplate = new CategoryContentTemplate();
         $childCategoryContentTemplate = new CategoryContentTemplate();
 

@@ -94,7 +94,7 @@ class CampCollaboration extends BaseEntity implements BelongsToCampInterface {
         return $this->camp;
     }
 
-    public function setCamp(?Camp $camp) {
+    public function setCamp(?Camp $camp): void {
         $this->camp = $camp;
     }
 
@@ -174,7 +174,7 @@ class CampCollaboration extends BaseEntity implements BelongsToCampInterface {
         return $this->collaborationAcceptedBy;
     }
 
-    public function setCollaborationAcceptedBy(?string $collaborationAcceptedBy) {
+    public function setCollaborationAcceptedBy(?string $collaborationAcceptedBy): void {
         $this->collaborationAcceptedBy = $collaborationAcceptedBy;
     }
 
@@ -182,12 +182,12 @@ class CampCollaboration extends BaseEntity implements BelongsToCampInterface {
         return $this->activityResponsibles;
     }
 
-    public function addActivityResponsible(ActivityResponsible $activityResponsible) {
+    public function addActivityResponsible(ActivityResponsible $activityResponsible): void {
         $activityResponsible->setCampCollaboration($this);
         $this->activityResponsibles->add($activityResponsible);
     }
 
-    public function removeActivityResponsible(ActivityResponsible $activityResponsible) {
+    public function removeActivityResponsible(ActivityResponsible $activityResponsible): void {
         $activityResponsible->setCampCollaboration(null);
         $this->activityResponsibles->removeElement($activityResponsible);
     }
@@ -195,7 +195,7 @@ class CampCollaboration extends BaseEntity implements BelongsToCampInterface {
     /**
      * @ORM\PrePersist
      */
-    public function PrePersist() {
+    public function PrePersist(): void {
         parent::PrePersist();
 
         if (in_array($this->status, [self::STATUS_REQUESTED, self::STATUS_UNRELATED])) {

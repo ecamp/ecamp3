@@ -62,7 +62,7 @@ class LinkExtractorTest extends AbstractTestCase {
         $this->linkExtractor->setRouter($router);
     }
 
-    public function testFixSegmentLink() {
+    public function testFixSegmentLink(): void {
         /** @var Link $link */
         $link = Link::factory([
             'rel' => 'self',
@@ -74,7 +74,7 @@ class LinkExtractorTest extends AbstractTestCase {
         $this->assertEquals('https://ecamp3.ch/lit/fix', $res['href']);
     }
 
-    public function testEntityCollectionLink() {
+    public function testEntityCollectionLink(): void {
         /** @var Link $link */
         $link = Link::factory([
             'rel' => 'col',
@@ -86,7 +86,7 @@ class LinkExtractorTest extends AbstractTestCase {
         $this->assertEquals('https://ecamp3.ch/lit/entity', $res['href']);
     }
 
-    public function testEntityLink() {
+    public function testEntityLink(): void {
         /** @var Link $link */
         $link = Link::factory([
             'rel' => 'col',
@@ -103,7 +103,7 @@ class LinkExtractorTest extends AbstractTestCase {
         $this->assertEquals('https://ecamp3.ch/lit/entity/123', $res['href']);
     }
 
-    public function testTemplatedLink() {
+    public function testTemplatedLink(): void {
         $link = TemplatedLink::factory([
             'rel' => 'col',
             'route' => 'lit/entity',

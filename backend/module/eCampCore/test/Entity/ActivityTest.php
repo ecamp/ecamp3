@@ -13,7 +13,7 @@ use eCamp\LibTest\PHPUnit\AbstractTestCase;
  * @internal
  */
 class ActivityTest extends AbstractTestCase {
-    public function testCategory() {
+    public function testCategory(): void {
         $camp = new Camp();
         $category = new Category();
 
@@ -27,7 +27,7 @@ class ActivityTest extends AbstractTestCase {
         $this->assertEquals($category, $activity->getCategory());
     }
 
-    public function testActivityContent() {
+    public function testActivityContent(): void {
         $activity = new Activity();
         $activityContent = new ActivityContent();
 
@@ -38,7 +38,7 @@ class ActivityTest extends AbstractTestCase {
         $this->assertEquals(0, $activity->getActivityContents()->count());
     }
 
-    public function testScheduleEntry() {
+    public function testScheduleEntry(): void {
         $activity = new Activity();
         $scheduleEntry = new ScheduleEntry();
 

@@ -14,7 +14,7 @@ class CampCollaborationTestData extends AbstractFixture implements DependentFixt
     public static $COLLAB_INVITED = CampCollaboration::class.':COLLAB_INVITED';
     public static $COLLAB_LEFT = CampCollaboration::class.':COLLAB_LEFT';
 
-    public function load(ObjectManager $manager) {
+    public function load(ObjectManager $manager): void {
         /** @var Camp $camp */
         $camp = $this->getReference(CampTestData::$CAMP1);
 

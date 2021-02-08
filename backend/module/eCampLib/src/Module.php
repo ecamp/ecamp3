@@ -19,11 +19,11 @@ class Module implements InitProviderInterface {
         return include __DIR__.'/../config/module.config.php';
     }
 
-    public function init(ModuleManagerInterface $manager) {
+    public function init(ModuleManagerInterface $manager): void {
         EntityFilterManagerFactory::initModule($manager);
     }
 
-    public function onBootstrap(MvcEvent $e) {
+    public function onBootstrap(MvcEvent $e): void {
         /** @var Application $app */
         $app = $e->getApplication();
         /** @var EventManager $events */
@@ -40,7 +40,7 @@ class Module implements InitProviderInterface {
         (new CollectionRenderer())->attach($events);
     }
 
-    public function registerSentry(Application $app) {
+    public function registerSentry(Application $app): void {
         $container = $app->getServiceManager();
         $eventManager = $app->getEventManager();
 

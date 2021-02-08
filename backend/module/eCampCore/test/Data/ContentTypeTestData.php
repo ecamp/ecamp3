@@ -12,7 +12,7 @@ class ContentTypeTestData extends AbstractFixture {
     public static $TYPE1 = ContentType::class.':TYPE1';
     public static $TYPE_MATERIAL = ContentType::class.':TYPE_MATERIAL';
 
-    public function load(ObjectManager $manager) {
+    public function load(ObjectManager $manager): void {
         $contentType = new ContentType();
         $contentType->setName('Storyboard');
         $contentType->setStrategyClass(StoryboardStrategy::class);

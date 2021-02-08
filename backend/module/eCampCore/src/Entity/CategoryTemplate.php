@@ -60,7 +60,7 @@ class CategoryTemplate extends BaseEntity {
         return $this->campTemplate;
     }
 
-    public function setCampTemplate(?CampTemplate $campTemplate) {
+    public function setCampTemplate(?CampTemplate $campTemplate): void {
         $this->campTemplate = $campTemplate;
     }
 
@@ -68,7 +68,7 @@ class CategoryTemplate extends BaseEntity {
         return $this->short;
     }
 
-    public function setShort(?string $short) {
+    public function setShort(?string $short): void {
         $this->short = $short;
     }
 
@@ -76,7 +76,7 @@ class CategoryTemplate extends BaseEntity {
         return $this->name;
     }
 
-    public function setName(?string $name) {
+    public function setName(?string $name): void {
         $this->name = $name;
     }
 
@@ -84,7 +84,7 @@ class CategoryTemplate extends BaseEntity {
         return $this->color;
     }
 
-    public function setColor(?string $color) {
+    public function setColor(?string $color): void {
         $this->color = $color;
     }
 
@@ -92,7 +92,7 @@ class CategoryTemplate extends BaseEntity {
         return $this->numberingStyle;
     }
 
-    public function setNumberingStyle(?string $numberingStyle) {
+    public function setNumberingStyle(?string $numberingStyle): void {
         $this->numberingStyle = $numberingStyle;
     }
 
@@ -100,12 +100,12 @@ class CategoryTemplate extends BaseEntity {
         return $this->categoryContentTypeTemplates;
     }
 
-    public function addCategoryContentTypeTemplate(CategoryContentTypeTemplate $categoryContentTypeTemplate) {
+    public function addCategoryContentTypeTemplate(CategoryContentTypeTemplate $categoryContentTypeTemplate): void {
         $categoryContentTypeTemplate->setCategoryTemplate($this);
         $this->categoryContentTypeTemplates->add($categoryContentTypeTemplate);
     }
 
-    public function removeCategoryContentTypeTemplate(CategoryContentTypeTemplate $categoryContentTypeTemplate) {
+    public function removeCategoryContentTypeTemplate(CategoryContentTypeTemplate $categoryContentTypeTemplate): void {
         $categoryContentTypeTemplate->setCategoryTemplate(null);
         $this->categoryContentTypeTemplates->removeElement($categoryContentTypeTemplate);
     }
@@ -118,12 +118,12 @@ class CategoryTemplate extends BaseEntity {
         return $this->categoryContentTemplates->filter(fn (CategoryContentTemplate $cct) => $cct->isRoot());
     }
 
-    public function addCategoryContentTemplate(CategoryContentTemplate $categoryContentTemplate) {
+    public function addCategoryContentTemplate(CategoryContentTemplate $categoryContentTemplate): void {
         $categoryContentTemplate->setCategoryTemplate($this);
         $this->categoryContentTemplates->add($categoryContentTemplate);
     }
 
-    public function removeCategoryContentTemplate(CategoryContentTemplate $categoryContentTemplate) {
+    public function removeCategoryContentTemplate(CategoryContentTemplate $categoryContentTemplate): void {
         $categoryContentTemplate->setCategoryTemplate(null);
         $this->categoryContentTemplates->removeElement($categoryContentTemplate);
     }

@@ -44,7 +44,7 @@ class CampCollaborationTest extends AbstractApiControllerTestCase {
         $this->authenticateUser($this->user);
     }
 
-    public function testFetch() {
+    public function testFetch(): void {
         $this->dispatch("{$this->apiEndpoint}/{$this->campCollaboration1->getId()}", 'GET');
 
         $this->assertResponseStatusCode(200);
@@ -73,7 +73,7 @@ JSON;
         $this->verifyHalResourceResponse($expectedBody, $expectedLinks, $expectedEmbeddedObjects);
     }
 
-    public function testFetchOnlyEmail() {
+    public function testFetchOnlyEmail(): void {
         $this->dispatch("{$this->apiEndpoint}/{$this->campCollaborationInvited->getId()}", 'GET');
 
         $this->assertResponseStatusCode(200);
@@ -100,7 +100,7 @@ JSON;
         $this->verifyHalResourceResponse($expectedBody, $expectedLinks, $expectedEmbeddedObjects);
     }
 
-    public function testFetchAll() {
+    public function testFetchAll(): void {
         $campId = $this->campCollaboration1->getCamp()->getId();
         $userId = $this->user->getId();
         $this->dispatch("{$this->apiEndpoint}?page_size=10&userId={$userId}&campId={$campId}", 'GET');
@@ -113,7 +113,7 @@ JSON;
         $this->assertEquals($this->campCollaboration1->getId(), $this->getResponseContent()->_embedded->items[0]->id);
     }
 
-    public function testCreateWithoutRole() {
+    public function testCreateWithoutRole(): void {
         $this->setRequestContent([
             'role' => '', ]); // TODO: Validierung wär nicht zwingend notwendig. Der Service nimmt einfach 'member' als Default
 
@@ -123,7 +123,7 @@ JSON;
         $this->assertObjectHasAttribute('isEmpty', $this->getResponseContent()->validation_messages->role);
     }
 
-    public function testCreateWithoutCamp() {
+    public function testCreateWithoutCamp(): void {
         $this->setRequestContent([
             'role' => 'member',
             'campId' => 'xxx', ]);
@@ -134,7 +134,7 @@ JSON;
         $this->assertObjectHasAttribute('notFound', $this->getResponseContent()->validation_messages->campId);
     }
 
-    public function testCreateDuplicateEntry() {
+    public function testCreateDuplicateEntry(): void {
         $this->setRequestContent([
             'role' => 'member',
             'campId' => $this->campCollaboration1->getCamp()->getId(),
@@ -146,7 +146,7 @@ JSON;
         $this->assertResponseStatusCode(422);
     }
 
-    public function testCreateDuplicateEntryOnlyWithEmail() {
+    public function testCreateDuplicateEntryOnlyWithEmail(): void {
         $this->setRequestContent([
             'role' => 'member',
             'campId' => $this->campCollaborationInvited->getCamp()->getId(),
@@ -160,7 +160,7 @@ JSON;
         $this->assertResponseStatusCode(422);
     }
 
-    public function testCreateSuccess() {
+    public function testCreateSuccess(): void {
         $user2 = new User();
         $user2->setUsername('test-user2');
         $user2->setRole(User::ROLE_USER);
@@ -181,7 +181,7 @@ JSON;
         $this->assertEquals(CampCollaboration::STATUS_INVITED, $this->getResponseContent()->status);
     }
 
-    public function testCreateOnlyWithEmail() {
+    public function testCreateOnlyWithEmail(): void {
         $inviteEmail = 'my.mail@fantasy.com';
         $this->setRequestContent([
             'role' => CampCollaboration::ROLE_MEMBER,
@@ -199,7 +199,7 @@ JSON;
         $this->assertThat($this->getResponseContent()->user, self::isNull());
     }
 
-    public function testUpdateSuccess() {
+    public function testUpdateSuccess(): void {
         $this->setRequestContent([
             'role' => 'manager', ]);
 
@@ -211,7 +211,7 @@ JSON;
         $this->assertEquals('manager', $this->getResponseContent()->role);
     }
 
-    public function testInviteAgain() {
+    public function testInviteAgain(): void {
         $this->setRequestContent([
             'status' => CampCollaboration::STATUS_INVITED,
         ]);
@@ -223,7 +223,7 @@ JSON;
         $this->assertEquals(CampCollaboration::STATUS_INVITED, $this->getResponseContent()->status);
     }
 
-    public function testDelete() {
+    public function testDelete(): void {
         $collaborationToDelete = $this->campCollaborationInvited->getId();
         $this->dispatch("{$this->apiEndpoint}/{$collaborationToDelete}", 'DELETE');
 
@@ -234,7 +234,7 @@ JSON;
         self::assertThat($cc, self::isNull());
     }
 
-    public function testUpdateToLeftWhenDeleteAndStatusIsEstablished() {
+    public function testUpdateToLeftWhenDeleteAndStatusIsEstablished(): void {
         $this->dispatch("{$this->apiEndpoint}/{$this->campCollaboration1->getId()}", 'DELETE');
 
         $this->assertResponseStatusCode(204);

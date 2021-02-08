@@ -12,7 +12,7 @@ class CampData extends AbstractFixture implements DependentFixtureInterface {
     public static $CAMP_1 = Camp::class.':CAMP_1';
     public static $CAMP_2 = Camp::class.':CAMP_2';
 
-    public function load(ObjectManager $manager) {
+    public function load(ObjectManager $manager): void {
         $repository = $manager->getRepository(Camp::class);
 
         /** @var User $user */

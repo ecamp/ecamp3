@@ -27,7 +27,7 @@ class AuthTest extends AbstractApiControllerTestCase {
         $this->user = $userLoader->getReference(UserTestData::$USER1);
     }
 
-    public function testFetchAsGuest() {
+    public function testFetchAsGuest(): void {
         $this->dispatch("{$this->apiEndpoint}", 'GET');
 
         $this->assertResponseStatusCode(200);
@@ -72,7 +72,7 @@ JSON;
         $this->verifyHalResourceResponse($expectedBody, $expectedLinks, $expectedEmbeddedObjects);
     }
 
-    public function testFetchAsUser() {
+    public function testFetchAsUser(): void {
         $this->authenticateUser($this->user);
         $this->dispatch("{$this->apiEndpoint}", 'GET');
 
@@ -81,7 +81,7 @@ JSON;
         $this->assertEquals('test-user', $this->getResponseContent()->username);
     }
 
-    public function testLogin() {
+    public function testLogin(): void {
         $this->assertNull($this->getAuthenticatedUserId());
 
         $this->setRequestContent([
@@ -95,7 +95,7 @@ JSON;
         $this->assertEquals($this->user->getId(), $this->getAuthenticatedUserId());
     }
 
-    public function testLogout() {
+    public function testLogout(): void {
         $this->authenticateUser($this->user);
         $this->assertEquals($this->user->getId(), $this->getAuthenticatedUserId());
 

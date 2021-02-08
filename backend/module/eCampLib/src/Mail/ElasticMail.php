@@ -13,7 +13,7 @@ class ElasticMail implements ProviderInterface {
         $this->mailTransport = $mailTransport;
     }
 
-    public function sendMail(MessageData $data) {
+    public function sendMail(MessageData $data): void {
         $mail = new ElasticEmail();
         $mail->setFrom($data->from);
         $mail->setTo($data->to);

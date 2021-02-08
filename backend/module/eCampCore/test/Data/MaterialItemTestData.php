@@ -23,7 +23,7 @@ class MaterialItemTestData extends AbstractFixture implements DependentFixtureIn
         $this->container = $container;
     }
 
-    public function load(ObjectManager $manager) {
+    public function load(ObjectManager $manager): void {
         $contentTypeStrategyProvider = new ContentTypeStrategyProvider($this->container);
 
         /** @var Activity $activity */

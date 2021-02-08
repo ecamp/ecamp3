@@ -28,7 +28,7 @@ class CategoryContentTypeTemplate extends BaseEntity {
         return $this->categoryTemplate;
     }
 
-    public function setCategoryTemplate(?CategoryTemplate $categoryTemplate) {
+    public function setCategoryTemplate(?CategoryTemplate $categoryTemplate): void {
         $this->categoryTemplate = $categoryTemplate;
     }
 
@@ -36,7 +36,7 @@ class CategoryContentTypeTemplate extends BaseEntity {
         return $this->contentType;
     }
 
-    public function setContentType(?ContentType $contentType) {
+    public function setContentType(?ContentType $contentType): void {
         $this->contentType = $contentType;
     }
 }

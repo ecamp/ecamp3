@@ -31,7 +31,7 @@ abstract class AbstractDatabaseTestCase extends TestCase {
     /**
      * @throws ToolsException
      */
-    protected function createDatabaseSchema(EntityManager $em) {
+    protected function createDatabaseSchema(EntityManager $em): void {
         $metadatas = $em->getMetadataFactory()->getAllMetadata();
 
         $schemaTool = new SchemaTool($em);

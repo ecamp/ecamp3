@@ -37,7 +37,7 @@ class MaterialListTest extends AbstractApiControllerTestCase {
         $this->authenticateUser($this->user);
     }
 
-    public function testFetch() {
+    public function testFetch(): void {
         $this->dispatch("{$this->apiEndpoint}/{$this->materialList->getId()}", 'GET');
 
         $this->assertResponseStatusCode(200);
@@ -64,7 +64,7 @@ JSON;
         $this->verifyHalResourceResponse($expectedBody, $expectedLinks, $expectedEmbeddedObjects);
     }
 
-    public function testCreateSuccess() {
+    public function testCreateSuccess(): void {
         $this->setRequestContent([
             'name' => 'NewMaterialList',
             'campId' => $this->materialList->getCamp()->getId(),
@@ -76,7 +76,7 @@ JSON;
         $this->assertEquals('NewMaterialList', $this->getResponseContent()->name);
     }
 
-    public function testUpdateSuccess() {
+    public function testUpdateSuccess(): void {
         $this->setRequestContent([
             'name' => 'NewMaterialListName',
         ]);
@@ -87,7 +87,7 @@ JSON;
         $this->assertEquals('NewMaterialListName', $this->getResponseContent()->name);
     }
 
-    public function testDeleteSuccess() {
+    public function testDeleteSuccess(): void {
         $this->dispatch($this->apiEndpoint.'/'.$this->materialList->getId(), 'DELETE');
 
         $this->assertResponseStatusCode(204);

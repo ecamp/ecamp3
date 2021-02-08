@@ -24,8 +24,6 @@ class GroupMembershipService extends AbstractEntityService {
     }
 
     /**
-     * @param mixed $data
-     *
      * @throws \Doctrine\ORM\ORMException
      * @throws \Exception
      */
@@ -65,8 +63,6 @@ class GroupMembershipService extends AbstractEntityService {
     }
 
     /**
-     * @param mixed $data
-     *
      * @throws ORMException
      * @throws \Exception
      */
@@ -105,7 +101,7 @@ class GroupMembershipService extends AbstractEntityService {
      *
      * @throws \Exception
      */
-    private function updateMembership(GroupMembership $groupMembership, $data) {
+    private function updateMembership(GroupMembership $groupMembership, $data): void {
         // TODO: ACL-Check can update Membership
 
         if (isset($data->role)) {
@@ -123,7 +119,7 @@ class GroupMembershipService extends AbstractEntityService {
      * @throws \Doctrine\ORM\ORMException
      * @throws \Exception
      */
-    private function updateInvitation(GroupMembership $groupMembership, $data) {
+    private function updateInvitation(GroupMembership $groupMembership, $data): void {
         $authUser = $this->getAuthUser();
 
         // TODO: ACL-Check can update Invitation
@@ -151,7 +147,7 @@ class GroupMembershipService extends AbstractEntityService {
      * @throws \Doctrine\ORM\ORMException
      * @throws \Exception
      */
-    private function updateRequest(GroupMembership $groupMembership, $data) {
+    private function updateRequest(GroupMembership $groupMembership, $data): void {
         $authUser = $this->getAuthUser();
 
         // TODO: ACL-Check can update Request

@@ -11,7 +11,7 @@ class EntityFilterManagerFactory extends AbstractPluginManagerFactory {
     const CONFIG_KEY = 'entity_filter';
     const CONFIG_METHOD = 'getEntityFilterConfig';
 
-    public static function initModule(ModuleManagerInterface $manager) {
+    public static function initModule(ModuleManagerInterface $manager): void {
         /** @var \Laminas\ModuleManager\ModuleManager $manager */
         $sm = $manager->getEvent()->getParam('ServiceManager');
         /** @var \Laminas\ModuleManager\Listener\ServiceListener $serviceListener */

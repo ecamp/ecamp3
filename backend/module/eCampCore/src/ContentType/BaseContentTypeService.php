@@ -26,8 +26,6 @@ abstract class BaseContentTypeService extends AbstractEntityService {
 
     /**
      * Returns a single contentType entity attached to $activityContentId (1:1 connection).
-     *
-     * @param mixed $activityContentId
      */
     public function findOneByActivityContent($activityContentId): BaseEntity {
         return $this->getRepository()->findOneBy(['activityContent' => $activityContentId]);
@@ -45,8 +43,6 @@ abstract class BaseContentTypeService extends AbstractEntityService {
     }
 
     /**
-     * @param mixed $data
-     *
      * @throws NoAccessException
      * @throws EntityNotFoundException
      * @throws ORMException

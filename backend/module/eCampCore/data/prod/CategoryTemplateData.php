@@ -16,7 +16,7 @@ class CategoryTemplateData extends AbstractFixture implements DependentFixtureIn
     public static $PBS_JS_TEEN_LAGERSPORT = 'PBS_JS_TEEN_LAGERSPORT';
     public static $PBS_JS_TEEN_LAGERAKTIVITAET = 'PBS_JS_TEEN_LAGERAKTIVITAET';
 
-    public function load(ObjectManager $manager) {
+    public function load(ObjectManager $manager): void {
         $repository = $manager->getRepository(CategoryTemplate::class);
 
         /** @var CampTemplate $pbsJsKids */

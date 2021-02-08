@@ -11,7 +11,7 @@ use eCamp\LibTest\PHPUnit\AbstractTestCase;
  * @internal
  */
 class DayTest extends AbstractTestCase {
-    public function testDay() {
+    public function testDay(): void {
         $camp = new Camp();
 
         $period = new Period();

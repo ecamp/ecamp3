@@ -11,7 +11,7 @@ class UserTestData extends AbstractFixture {
     public static $USER1 = User::class.':USER1';
     public static $USER2 = User::class.':USER2';
 
-    public function load(ObjectManager $manager) {
+    public function load(ObjectManager $manager): void {
         $user = new User();
         $user->setUsername('test-user');
         $user->setRole(User::ROLE_USER);

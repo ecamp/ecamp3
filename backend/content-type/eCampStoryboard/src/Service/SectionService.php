@@ -20,7 +20,7 @@ class SectionService extends BaseContentTypeService {
         );
     }
 
-    public function moveUp($id) {
+    public function moveUp($id): void {
         /** @var Section $section2 */
         $section2 = $this->findEntity(Section::class, $id);
 
@@ -47,7 +47,7 @@ class SectionService extends BaseContentTypeService {
         }
     }
 
-    public function moveDown($id) {
+    public function moveDown($id): void {
         /** @var Section $section1 */
         $section1 = $this->findEntity(Section::class, $id);
 

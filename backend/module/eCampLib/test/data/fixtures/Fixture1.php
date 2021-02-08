@@ -13,7 +13,7 @@ class Fixture1 extends AbstractFixture {
         $this->output = $output;
     }
 
-    public function load(ObjectManager $manager) {
+    public function load(ObjectManager $manager): void {
         $this->output->writeln('Fixture1');
     }
 }

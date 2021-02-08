@@ -9,7 +9,7 @@ use eCamp\Core\Entity\Organization;
 class OrganizationTestData extends AbstractFixture {
     public static $ORG1 = Organization::class.':Org1';
 
-    public function load(ObjectManager $manager) {
+    public function load(ObjectManager $manager): void {
         $repository = $manager->getRepository(Organization::class);
 
         $organization = new Organization();

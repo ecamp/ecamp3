@@ -54,7 +54,7 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
     /**
      * @internal Do not set the {@link Period} directly on the ScheduleEntry. Instead use {@see Period::addScheduleEntry()}
      */
-    public function setPeriod(?Period $period) {
+    public function setPeriod(?Period $period): void {
         $this->period = $period;
     }
 
@@ -69,7 +69,7 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
     /**
      * @internal Do not set the {@see Activity} directly on the ScheduleEntry. Instead use {@see Activity::addScheduleEntry()}
      */
-    public function setActivity(?Activity $activity) {
+    public function setActivity(?Activity $activity): void {
         $this->activity = $activity;
     }
 

@@ -50,7 +50,7 @@ class CampServiceTest extends AbstractApiControllerTestCase {
         $this->authenticateUser($this->user);
     }
 
-    public function testCreateCampFromTemplate() {
+    public function testCreateCampFromTemplate(): void {
         /** @var CampService $campService */
         $campService = $this->getApplicationServiceLocator()->get(CampService::class);
 

@@ -14,7 +14,7 @@ use eCamp\LibTest\PHPUnit\AbstractTestCase;
  * @internal
  */
 class ScheduleEntryTest extends AbstractTestCase {
-    public function testScheduleEntry() {
+    public function testScheduleEntry(): void {
         $camp = new Camp();
 
         $start = new DateUtc();

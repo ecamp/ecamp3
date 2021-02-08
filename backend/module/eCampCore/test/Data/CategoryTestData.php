@@ -12,7 +12,7 @@ class CategoryTestData extends AbstractFixture implements DependentFixtureInterf
     public static $CATEGORY1 = Category::class.':CATEGORY1';
     public static $CATEGORY2 = Category::class.':CATEGORY2';
 
-    public function load(ObjectManager $manager) {
+    public function load(ObjectManager $manager): void {
         /** @var Camp $camp */
         $camp = $this->getReference(CampTestData::$CAMP1);
 

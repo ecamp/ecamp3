@@ -42,7 +42,7 @@ abstract class AbstractConsoleControllerTestCase extends LaminasAbstractConsoleC
         $this->createDatabaseSchema($em);
     }
 
-    public function runCommand(Command $command, InputInterface $input = null, OutputInterface $output = null) {
+    public function runCommand(Command $command, InputInterface $input = null, OutputInterface $output = null): void {
         $command->setApplication($this->getSymfonyApplication());
         $command->run(
             $input ?? new StringInput(''),
@@ -66,7 +66,7 @@ abstract class AbstractConsoleControllerTestCase extends LaminasAbstractConsoleC
     }
 
     /** @throws ToolsException */
-    protected function createDatabaseSchema(EntityManager $em) {
+    protected function createDatabaseSchema(EntityManager $em): void {
         $metadatas = $em->getMetadataFactory()->getAllMetadata();
 
         $schemaTool = new SchemaTool($em);
@@ -77,7 +77,7 @@ abstract class AbstractConsoleControllerTestCase extends LaminasAbstractConsoleC
     /**
      * loads data from Fixtures into ORM.
      */
-    protected function loadFixtures(Loader $loader) {
+    protected function loadFixtures(Loader $loader): void {
         $purger = new ORMPurger();
         $executor = new ORMExecutor($this->getEntityManager(), $purger);
         $executor->execute($loader->getFixtures());

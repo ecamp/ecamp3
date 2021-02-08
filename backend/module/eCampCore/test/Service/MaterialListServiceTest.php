@@ -44,7 +44,7 @@ class MaterialListServiceTest extends AbstractApiControllerTestCase {
         $this->authenticateUser($this->user);
     }
 
-    public function testCreateMaterialList() {
+    public function testCreateMaterialList(): void {
         /** @var MaterialListService $materialListService */
         $materialListService = $this->getApplicationServiceLocator()->get(MaterialListService::class);
 
@@ -72,7 +72,7 @@ class MaterialListServiceTest extends AbstractApiControllerTestCase {
         $this->assertEquals('MaterialList', $materialList->getName());
     }
 
-    public function testUpdateMaterialList() {
+    public function testUpdateMaterialList(): void {
         /** @var MaterialListService $materialListService */
         $materialListService = $this->getApplicationServiceLocator()->get(MaterialListService::class);
 
@@ -96,7 +96,7 @@ class MaterialListServiceTest extends AbstractApiControllerTestCase {
         $this->assertEquals('NewName', $materialList->getName());
     }
 
-    public function testDeleteMaterialList() {
+    public function testDeleteMaterialList(): void {
         /** @var MaterialListService $materialListService */
         $materialListService = $this->getApplicationServiceLocator()->get(MaterialListService::class);
 

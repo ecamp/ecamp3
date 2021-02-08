@@ -51,7 +51,7 @@ class ActivityTest extends AbstractApiControllerTestCase {
         $this->authenticateUser($this->user);
     }
 
-    public function testFetch() {
+    public function testFetch(): void {
         $this->dispatch("{$this->apiEndpoint}/{$this->activity->getId()}", 'GET');
 
         $this->assertResponseStatusCode(200);
@@ -76,7 +76,7 @@ JSON;
         $this->verifyHalResourceResponse($expectedBody, $expectedLinks, $expectedEmbeddedObjects);
     }
 
-    public function testFetchAll() {
+    public function testFetchAll(): void {
         $campId = $this->activity->getCamp()->getId();
         $this->dispatch("{$this->apiEndpoint}?page_size=10&campId={$campId}", 'GET');
 
@@ -88,7 +88,7 @@ JSON;
         $this->assertEquals($this->activity->getId(), $this->getResponseContent()->_embedded->items[0]->id);
     }
 
-    public function testFetchAllByPeriod() {
+    public function testFetchAllByPeriod(): void {
         $periodId = $this->activity->getCamp()->getPeriods()->get(0)->getId();
         $this->dispatch("{$this->apiEndpoint}?page_size=10&periodId={$periodId}", 'GET');
 
@@ -114,7 +114,7 @@ JSON;
     }
     */
 
-    public function testCreateWithoutCategory() {
+    public function testCreateWithoutCategory(): void {
         $this->setRequestContent([
             'title' => 'Activity2',
             'categoryId' => 'xxx', ]);
@@ -125,7 +125,7 @@ JSON;
         $this->assertObjectHasAttribute('notFound', $this->getResponseContent()->validation_messages->categoryId);
     }
 
-    public function testCreateSuccess() {
+    public function testCreateSuccess(): void {
         $this->setRequestContent([
             'title' => 'Activity2',
             'categoryId' => $this->activity->getCategory()->getId(), ]);
@@ -136,7 +136,7 @@ JSON;
         $this->assertEquals('Activity2', $this->getResponseContent()->title);
     }
 
-    public function testUpdateSuccess() {
+    public function testUpdateSuccess(): void {
         $this->setRequestContent([
             'title' => 'Activity3',
             'categoryId' => $this->category->getId(), ]);
@@ -149,7 +149,7 @@ JSON;
         $this->assertEquals($this->category->getId(), $this->getResponseContent()->_embedded->category->id);
     }
 
-    public function testDelete() {
+    public function testDelete(): void {
         $this->dispatch("{$this->apiEndpoint}/{$this->activity->getId()}", 'DELETE');
 
         $this->assertResponseStatusCode(204);

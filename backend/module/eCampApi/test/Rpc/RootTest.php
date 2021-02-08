@@ -8,7 +8,7 @@ use eCamp\LibTest\PHPUnit\AbstractApiControllerTestCase;
  * @internal
  */
 class RootTest extends AbstractApiControllerTestCase {
-    public function testRootResponse() {
+    public function testRootResponse(): void {
         $this->dispatch('/', 'GET');
 
         $host = '';
@@ -35,7 +35,7 @@ JSON;
         $this->assertEquals(json_decode($expectedResponse), $this->getResponseContent());
     }
 
-    public function testApiResponse() {
+    public function testApiResponse(): void {
         $this->dispatch('/api', 'GET');
 
         $host = '';

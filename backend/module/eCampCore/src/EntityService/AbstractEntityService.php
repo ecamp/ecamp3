@@ -54,8 +54,6 @@ abstract class AbstractEntityService extends AbstractResourceListener {
     /**
      * Dispatch an incoming event to the appropriate method
      * Catches exceptions and returns ApiProblem.
-     *
-     * @return mixed
      */
     public function dispatch(ResourceEvent $event) {
         try {
@@ -92,8 +90,6 @@ abstract class AbstractEntityService extends AbstractResourceListener {
     }
 
     /**
-     * @param mixed $id
-     *
      * @throws EntityNotFoundException
      * @throws NonUniqueResultException
      * @throws NoAccessException
@@ -123,8 +119,6 @@ abstract class AbstractEntityService extends AbstractResourceListener {
     /**
      * Calls createEntity + is responsible for permission check and persistance.
      *
-     * @param mixed $data
-     *
      * @throws NoAccessException
      * @throws ORMException
      */
@@ -141,7 +135,6 @@ abstract class AbstractEntityService extends AbstractResourceListener {
 
     /**
      * @param string $id
-     * @param mixed  $data
      *
      * @throws ORMException
      * @throws OptimisticLockException
@@ -160,9 +153,6 @@ abstract class AbstractEntityService extends AbstractResourceListener {
     }
 
     /**
-     * @param mixed $id
-     * @param mixed $data
-     *
      * @throws ORMException
      * @throws OptimisticLockException
      * @throws EntityNotFoundException
@@ -180,8 +170,6 @@ abstract class AbstractEntityService extends AbstractResourceListener {
     }
 
     /**
-     * @param mixed $id
-     *
      * @throws ORMException
      * @throws NoAccessException
      */
@@ -205,8 +193,6 @@ abstract class AbstractEntityService extends AbstractResourceListener {
      * Responsible for creation of entity + hydration of data.
      * Should be overriden by subclass for specific additional business logic during create process.
      *
-     * @param mixed $data
-     *
      * @return BaseEntity Instantiated but non-persisted entity
      */
     protected function createEntity($data): BaseEntity {
@@ -216,9 +202,6 @@ abstract class AbstractEntityService extends AbstractResourceListener {
         return $entity;
     }
 
-    /**
-     * @param mixed $data
-     */
     protected function createEntityPost(BaseEntity $entity, $data): BaseEntity {
         return $entity;
     }
@@ -243,11 +226,11 @@ abstract class AbstractEntityService extends AbstractResourceListener {
         return $entity;
     }
 
-    protected function deleteEntity(BaseEntity $entity) {
+    protected function deleteEntity(BaseEntity $entity): void {
         $this->serviceUtils->emRemove($entity);
     }
 
-    protected function validateEntity(BaseEntity $entity) {
+    protected function validateEntity(BaseEntity $entity): void {
     }
 
     protected function getServiceUtils(): ServiceUtils {
@@ -272,7 +255,7 @@ abstract class AbstractEntityService extends AbstractResourceListener {
     /**
      * @throws NotAuthenticatedException if no user is authenticated
      */
-    protected function assertAuthenticated() {
+    protected function assertAuthenticated(): void {
         if (!$this->isAuthenticated()) {
             throw new NotAuthenticatedException();
         }
@@ -312,7 +295,7 @@ abstract class AbstractEntityService extends AbstractResourceListener {
      *
      * @throws NoAccessException
      */
-    protected function assertAllowed($resource, $privilege = null) {
+    protected function assertAllowed($resource, $privilege = null): void {
         $user = $this->getAuthUser();
         $this->serviceUtils->aclAssertAllowed($user, $resource, $privilege);
     }
@@ -421,8 +404,6 @@ abstract class AbstractEntityService extends AbstractResourceListener {
     }
 
     /**
-     * @param mixed $data
-     *
      * @throws EntityValidationException
      *
      * @return mixed

@@ -12,7 +12,7 @@ use eCamp\Core\Entity\Category;
 class ActivityTestData extends AbstractFixture implements DependentFixtureInterface {
     public static $ACTIVITY1 = Activity::class.':ACTIVITY1';
 
-    public function load(ObjectManager $manager) {
+    public function load(ObjectManager $manager): void {
         /** @var Camp $ccamp */
         $camp = $this->getReference(CampTestData::$CAMP1);
 

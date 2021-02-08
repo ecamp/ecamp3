@@ -11,7 +11,7 @@ use eCamp\Core\Entity\CampCollaboration;
 class ActivityResponsibleTestData extends AbstractFixture implements DependentFixtureInterface {
     public static $RESPONSIBLE1 = ActivityResponsible::class.':RESPONSIBLE1';
 
-    public function load(ObjectManager $manager) {
+    public function load(ObjectManager $manager): void {
         /** @var Activity $activity */
         $activity = $this->getReference(ActivityTestData::$ACTIVITY1);
 

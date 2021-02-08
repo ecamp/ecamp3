@@ -68,7 +68,7 @@ class GroupMembership extends BaseEntity {
         return $this->group;
     }
 
-    public function setGroup(?Group $group) {
+    public function setGroup(?Group $group): void {
         $this->group = $group;
     }
 
@@ -128,7 +128,7 @@ class GroupMembership extends BaseEntity {
         return $this->membershipAcceptedBy;
     }
 
-    public function setMembershipAcceptedBy(?string $membershipAcceptedBy) {
+    public function setMembershipAcceptedBy(?string $membershipAcceptedBy): void {
         $this->membershipAcceptedBy = $membershipAcceptedBy;
     }
 
@@ -137,7 +137,7 @@ class GroupMembership extends BaseEntity {
      *
      * @throws \Exception
      */
-    public function PrePersist() {
+    public function PrePersist(): void {
         parent::PrePersist();
 
         if (in_array($this->status, [self::STATUS_REQUESTED, self::STATUS_UNRELATED])) {

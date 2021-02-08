@@ -10,7 +10,7 @@ use eCamp\LibTest\PHPUnit\AbstractTestCase;
  * @internal
  */
 class CategoryTemplateHydratorTest extends AbstractTestCase {
-    public function testExtract() {
+    public function testExtract(): void {
         $categoryTemplate = new CategoryTemplate();
         $categoryTemplate->setShort('n');
         $categoryTemplate->setName('name');
@@ -26,7 +26,7 @@ class CategoryTemplateHydratorTest extends AbstractTestCase {
         $this->assertEquals('i', $data['numberingStyle']);
     }
 
-    public function testHydrate() {
+    public function testHydrate(): void {
         $categoryTemplate = new CategoryTemplate();
         $data = [
             'short' => 'n',

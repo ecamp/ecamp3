@@ -109,7 +109,7 @@ abstract class BaseController extends AbstractActionController {
      * @throws InvalidArgumentException
      * @throws UnexpectedValueException
      */
-    public function logoutAction() {
+    public function logoutAction(): void {
         $this->laminasAuthenticationService->clearIdentity();
         $this->getHybridAuthAdapter()->disconnect();
 
@@ -126,7 +126,7 @@ abstract class BaseController extends AbstractActionController {
         return $this->sessionContainer->redirect;
     }
 
-    protected function setRedirect(?string $redirect) {
+    protected function setRedirect(?string $redirect): void {
         if (null == $this->sessionContainer) {
             $this->sessionContainer = new Container(self::SESSION_NAMESPACE);
         }
