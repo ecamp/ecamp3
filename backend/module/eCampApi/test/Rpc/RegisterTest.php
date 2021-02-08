@@ -24,7 +24,7 @@ class RegisterTest extends AbstractApiControllerTestCase {
         $this->dispatch('/api/register', 'POST');
 
         $this->assertResponseStatusCode(400);
-        $this->assertStringContainsString('No eMail', $this->getResponseContent()->detail);
+        $this->assertStringContainsString('No email', $this->getResponseContent()->detail);
     }
 
     public function testRegisterWithoutPassword(): void {

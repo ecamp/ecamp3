@@ -8,6 +8,7 @@ use Laminas\ApiTools\Hal\Entity;
 use Laminas\ApiTools\Hal\Link\Link;
 use Laminas\ApiTools\Hal\View\HalJsonModel;
 use Laminas\Mvc\Controller\AbstractActionController;
+use Laminas\View\Model\ViewModel;
 
 class IndexController extends AbstractActionController {
     private UserService $userService;
@@ -16,7 +17,7 @@ class IndexController extends AbstractActionController {
         $this->userService = $userService;
     }
 
-    public function indexAction(): HalJsonModel {
+    public function indexAction(): ViewModel {
         $data = [];
         $data['title'] = 'eCamp V3';
 
@@ -61,7 +62,7 @@ class IndexController extends AbstractActionController {
         return $json;
     }
 
-    public function apiAction(): HalJsonModel {
+    public function apiAction(): ViewModel {
         $data = [];
         $data['title'] = 'eCamp V3 - API';
 

@@ -103,7 +103,7 @@ class PeriodService extends AbstractEntityService {
         return $period;
     }
 
-    protected function deleteEntity(BaseEntity $entity): Period {
+    protected function deleteEntity(BaseEntity $entity): void {
         /** @var Period $period */
         $period = $entity;
         $period->getCamp()->removePeriod($period);
