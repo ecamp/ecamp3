@@ -16,7 +16,7 @@
         "laminas/laminas-cli": "1.0.0",
         "laminas/laminas-di": "3.2.1",
         "laminas/laminas-mvc": "3.2.0",
-        "laminas/laminas-mail": "2.12.5",
+        "laminas/laminas-mail": "2.13.0",
         "laminas/laminas-router": "3.4.4",
         "laminas/laminas-session": "2.10.0",
         "laminas/laminas-dependency-plugin": "^2-dev",
