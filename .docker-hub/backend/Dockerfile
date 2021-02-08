@@ -3,7 +3,7 @@ FROM composer:2@sha256:97ca3398b5f320babe8ae7fe931c6248cac42ca04919cd9b549862638
 WORKDIR /app
 ENV env=prod
 COPY backend/composer.* ./
-RUN composer install --no-interaction --no-plugins --no-scripts --prefer-dist --no-suggest
+RUN composer install --no-interaction --no-plugins --no-scripts --prefer-dist
 COPY backend .
 RUN composer di-generate-aot
 
