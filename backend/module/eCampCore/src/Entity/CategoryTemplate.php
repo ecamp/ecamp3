@@ -12,7 +12,7 @@ use eCamp\Lib\Entity\BaseEntity;
  *
  * @ORM\Entity
  */
-class ActivityCategoryTemplate extends BaseEntity {
+class CategoryTemplate extends BaseEntity {
     /**
      * @ORM\ManyToOne(targetEntity="CampTemplate")
      * @ORM\JoinColumn(nullable=false, onDelete="cascade")
@@ -20,9 +20,9 @@ class ActivityCategoryTemplate extends BaseEntity {
     protected ?CampTemplate $campTemplate = null;
 
     /**
-     * @ORM\OneToMany(targetEntity="ContentTypeConfigTemplate", mappedBy="activityCategoryTemplate", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="CategoryContentTypeTemplate", mappedBy="categoryTemplate", orphanRemoval=true)
      */
-    private Collection $contentTypeConfigTemplates;
+    private Collection $categoryContentTypeTemplates;
 
     /**
      * @ORM\Column(type="string", length=16, nullable=false)
@@ -47,7 +47,7 @@ class ActivityCategoryTemplate extends BaseEntity {
     public function __construct() {
         parent::__construct();
 
-        $this->contentTypeConfigTemplates = new ArrayCollection();
+        $this->categoryContentTypeTemplates = new ArrayCollection();
     }
 
     public function getCampTemplate(): ?CampTemplate {
@@ -90,17 +90,17 @@ class ActivityCategoryTemplate extends BaseEntity {
         $this->numberingStyle = $numberingStyle;
     }
 
-    public function getContentTypeConfigTemplates(): Collection {
-        return $this->contentTypeConfigTemplates;
+    public function getCategoryContentTypeTemplates(): Collection {
+        return $this->categoryContentTypeTemplates;
     }
 
-    public function addContentTypeConfigTemplate(ContentTypeConfigTemplate $contentTypeConfigTemplate) {
-        $contentTypeConfigTemplate->setActivityCategoryTemplate($this);
-        $this->contentTypeConfigTemplates->add($contentTypeConfigTemplate);
+    public function addCategoryContentTypeTemplate(CategoryContentTypeTemplate $categoryContentTypeTemplate) {
+        $categoryContentTypeTemplate->setCategoryTemplate($this);
+        $this->categoryContentTypeTemplates->add($categoryContentTypeTemplate);
     }
 
-    public function removeContentTypeConfigTemplate(ContentTypeConfigTemplate $contentTypeConfigTemplate) {
-        $contentTypeConfigTemplate->setActivityCategoryTemplate(null);
-        $this->contentTypeConfigTemplates->removeElement($contentTypeConfigTemplate);
+    public function removeCategoryContentTypeTemplate(CategoryContentTypeTemplate $categoryContentTypeTemplate) {
+        $categoryContentTypeTemplate->setCategoryTemplate(null);
+        $this->categoryContentTypeTemplates->removeElement($categoryContentTypeTemplate);
     }
 }

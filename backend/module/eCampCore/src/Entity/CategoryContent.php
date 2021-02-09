@@ -5,32 +5,27 @@ namespace eCamp\Core\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use eCamp\Core\ContentType\ContentTypeStrategyInterface;
-use eCamp\Core\ContentType\ContentTypeStrategyProviderAware;
-use eCamp\Core\ContentType\ContentTypeStrategyProviderTrait;
 use eCamp\Lib\Entity\BaseEntity;
 
 /**
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks
  */
-class ActivityContent extends BaseEntity implements ContentTypeStrategyProviderAware, BelongsToCampInterface {
-    use ContentTypeStrategyProviderTrait;
-
+class CategoryContent extends BaseEntity implements BelongsToCampInterface {
     /**
-     * @ORM\ManyToOne(targetEntity="Activity")
+     * @ORM\ManyToOne(targetEntity="Category")
      * @ORM\JoinColumn(nullable=false, onDelete="cascade")
      */
-    private ?Activity $activity = null;
+    private ?Category $category = null;
 
     /**
-     * @ORM\ManyToOne(targetEntity="ActivityContent")
+     * @ORM\ManyToOne(targetEntity="CategoryContent")
      * @ORM\JoinColumn(nullable=true)
      */
-    private ?ActivityContent $parent = null;
+    private ?CategoryContent $parent = null;
 
     /**
-     * @ORM\OneToMany(targetEntity="ActivityContent", mappedBy="parent")
+     * @ORM\OneToMany(targetEntity="CategoryContent", mappedBy="parent")
      */
     private Collection $children;
 
@@ -54,23 +49,23 @@ class ActivityContent extends BaseEntity implements ContentTypeStrategyProviderA
         $this->children = new ArrayCollection();
     }
 
-    public function getActivity(): ?Activity {
-        return $this->activity;
+    public function getCategory(): ?Category {
+        return $this->category;
     }
 
-    public function setActivity(?Activity $activity): void {
-        $this->activity = $activity;
+    public function setCategory(?Category $category): void {
+        $this->category = $category;
     }
 
     public function getCamp(): ?Camp {
-        return (null != $this->activity) ? $this->activity->getCamp() : null;
+        return (null != $this->category) ? $this->category->getCamp() : null;
     }
 
-    public function getParent(): ?ActivityContent {
+    public function getParent(): ?CategoryContent {
         return $this->parent;
     }
 
-    public function setParent(?ActivityContent $parent): void {
+    public function setParent(?CategoryContent $parent): void {
         $this->parent = $parent;
     }
 
@@ -94,14 +89,14 @@ class ActivityContent extends BaseEntity implements ContentTypeStrategyProviderA
         return $this->children;
     }
 
-    public function addChild(ActivityContent $activityContent): void {
-        $activityContent->setParent($this);
-        $this->children->add($activityContent);
+    public function addChild(CategoryContent $categoryContent): void {
+        $categoryContent->setParent($this);
+        $this->children->add($categoryContent);
     }
 
-    public function removeChild(ActivityContent $activityContent): void {
-        $activityContent->setParent(null);
-        $this->children->removeElement($activityContent);
+    public function removeChild(CategoryContent $categoryContent): void {
+        $categoryContent->setParent(null);
+        $this->children->removeElement($categoryContent);
     }
 
     public function getPosition() {
@@ -110,17 +105,5 @@ class ActivityContent extends BaseEntity implements ContentTypeStrategyProviderA
 
     public function setPosition($position): void {
         $this->position = $position;
-    }
-
-    /**
-     * Returns the strategy class of the content-type.
-     */
-    public function getContentTypeStrategy(): ContentTypeStrategyInterface {
-        return $this->getContentTypeStrategyProvider()->get($this->getContentType());
-    }
-
-    /** @ORM\PrePersist */
-    public function PrePersist() {
-        $this->getContentTypeStrategy()->activityContentCreated($this);
     }
 }

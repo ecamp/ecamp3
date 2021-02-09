@@ -34,9 +34,9 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
     protected Collection $periods;
 
     /**
-     * @ORM\OneToMany(targetEntity="ActivityCategory", mappedBy="camp", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="Category", mappedBy="camp", orphanRemoval=true)
      */
-    protected Collection $activityCategories;
+    protected Collection $categories;
 
     /**
      * @ORM\OneToMany(targetEntity="Activity", mappedBy="camp", orphanRemoval=true)
@@ -86,7 +86,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
         $this->collaborations = new ArrayCollection();
         $this->jobs = new ArrayCollection();
         $this->periods = new ArrayCollection();
-        $this->activityCategories = new ArrayCollection();
+        $this->categories = new ArrayCollection();
         $this->activities = new ArrayCollection();
         $this->materialLists = new ArrayCollection();
     }
@@ -233,14 +233,14 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
         return $this->activityCategories;
     }
 
-    public function addActivityCategory(ActivityCategory $activityCategory): void {
-        $activityCategory->setCamp($this);
-        $this->activityCategories->add($activityCategory);
+    public function addActivityCategory(Category $category): void {
+        $category->setCamp($this);
+        $this->activityCategories->add($category);
     }
 
-    public function removeActivityCategory(ActivityCategory $activityCategory): void {
-        $activityCategory->setCamp(null);
-        $this->activityCategories->removeElement($activityCategory);
+    public function removeActivityCategory(Category $category): void {
+        $category->setCamp(null);
+        $this->activityCategories->removeElement($category);
     }
 
     public function getActivities(): Collection {

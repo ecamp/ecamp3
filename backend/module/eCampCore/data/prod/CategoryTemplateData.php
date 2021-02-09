@@ -7,10 +7,11 @@ use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use eCamp\Core\Entity\ActivityCategoryTemplate;
 use eCamp\Core\Entity\CampTemplate;
+use eCamp\Core\Entity\CategoryContentTypeTemplate;
+use eCamp\Core\Entity\CategoryTemplate;
 use eCamp\Core\Entity\ContentType;
-use eCamp\Core\Entity\ContentTypeConfigTemplate;
 
-class ActivityCategoryTemplateData extends AbstractFixture implements DependentFixtureInterface {
+class CategoryTemplateData extends AbstractFixture implements DependentFixtureInterface {
     public static $PBS_JS_KIDS_LAGERSPORT = 'PBS_JS_KIDS_LAGERSPORT';
     public static $PBS_JS_KIDS_LAGERAKTIVITAET = 'PBS_JS_KIDS_LAGERAKTIVITAET';
     public static $PBS_JS_TEEN_LAGERSPORT = 'PBS_JS_TEEN_LAGERSPORT';
@@ -24,12 +25,12 @@ class ActivityCategoryTemplateData extends AbstractFixture implements DependentF
 
         $lagersport = $repository->findOneBy(['name' => 'Lagersport', 'campTemplate' => $pbsJsKids]);
         if (null == $lagersport) {
-            $lagersport = new ActivityCategoryTemplate();
+            $lagersport = new CategoryTemplate();
             $lagersport->setShort('LS');
             $lagersport->setName('Lagersport');
             $lagersport->setColor('#4CAF50');
             $lagersport->setNumberingStyle('1');
-            $pbsJsKids->addActivityCategoryTemplate($lagersport);
+            $pbsJsKids->addCategoryTemplate($lagersport);
             $manager->persist($lagersport);
 
             // add allowed content types
@@ -43,12 +44,12 @@ class ActivityCategoryTemplateData extends AbstractFixture implements DependentF
 
         $lageraktivitaet = $repository->findOneBy(['name' => 'Lageraktivität', 'campTemplate' => $pbsJsKids]);
         if (null == $lageraktivitaet) {
-            $lageraktivitaet = new ActivityCategoryTemplate();
+            $lageraktivitaet = new CategoryTemplate();
             $lageraktivitaet->setShort('LA');
             $lageraktivitaet->setName('Lageraktivität');
             $lageraktivitaet->setColor('#FF9800');
             $lageraktivitaet->setNumberingStyle('A');
-            $pbsJsKids->addActivityCategoryTemplate($lageraktivitaet);
+            $pbsJsKids->addCategoryTemplate($lageraktivitaet);
             $manager->persist($lageraktivitaet);
 
             // add allowed content types
@@ -65,12 +66,12 @@ class ActivityCategoryTemplateData extends AbstractFixture implements DependentF
 
         $lagersport = $repository->findOneBy(['name' => 'Lagersport', 'campTemplate' => $pbsJsTeen]);
         if (null == $lagersport) {
-            $lagersport = new ActivityCategoryTemplate();
+            $lagersport = new CategoryTemplate();
             $lagersport->setShort('LS');
             $lagersport->setName('Lagersport');
             $lagersport->setColor('#4CAF50');
             $lagersport->setNumberingStyle('1');
-            $pbsJsTeen->addActivityCategoryTemplate($lagersport);
+            $pbsJsTeen->addCategoryTemplate($lagersport);
             $manager->persist($lagersport);
 
             // add allowed content types
@@ -84,12 +85,12 @@ class ActivityCategoryTemplateData extends AbstractFixture implements DependentF
 
         $lageraktivitaet = $repository->findOneBy(['name' => 'Lageraktivität', 'campTemplate' => $pbsJsTeen]);
         if (null == $lageraktivitaet) {
-            $lageraktivitaet = new ActivityCategoryTemplate();
+            $lageraktivitaet = new CategoryTemplate();
             $lageraktivitaet->setShort('LA');
             $lageraktivitaet->setName('Lageraktivität');
             $lageraktivitaet->setColor('#FF9800');
             $lageraktivitaet->setNumberingStyle('A');
-            $pbsJsTeen->addActivityCategoryTemplate($lageraktivitaet);
+            $pbsJsTeen->addCategoryTemplate($lageraktivitaet);
             $manager->persist($lageraktivitaet);
 
             // add allowed content types
@@ -108,12 +109,12 @@ class ActivityCategoryTemplateData extends AbstractFixture implements DependentF
         return [CampTemplateData::class, ContentTypeData::class];
     }
 
-    private function addContentType(ObjectManager $manager, ActivityCategoryTemplate $activityCategoryTemplate, ContentType $contentType) {
-        $contentTypeConfigTemplate = new ContentTypeConfigTemplate();
-        $contentTypeConfigTemplate->setContentType($contentType);
-        $activityCategoryTemplate->addContentTypeConfigTemplate($contentTypeConfigTemplate);
-        $manager->persist($contentTypeConfigTemplate);
+    private function addContentType(ObjectManager $manager, CategoryTemplate $activityCategoryTemplate, ContentType $contentType) {
+        $categoryContentTypeTemplate = new CategoryContentTypeTemplate();
+        $categoryContentTypeTemplate->setContentType($contentType);
+        $activityCategoryTemplate->addCategoryContentTypeTemplate($categoryContentTypeTemplate);
+        $manager->persist($categoryContentTypeTemplate);
 
-        return $contentTypeConfigTemplate;
+        return $categoryContentTypeTemplate;
     }
 }

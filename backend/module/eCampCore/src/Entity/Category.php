@@ -8,15 +8,20 @@ use Doctrine\ORM\Mapping as ORM;
 use eCamp\Lib\Entity\BaseEntity;
 
 /**
- * ActivityCategory.
+ * Category.
  *
  * @ORM\Entity
  */
-class ActivityCategory extends BaseEntity implements BelongsToCampInterface {
+class Category extends BaseEntity implements BelongsToCampInterface {
     /**
-     * @ORM\OneToMany(targetEntity="ContentTypeConfig", mappedBy="activityCategory", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="CategoryContentType", mappedBy="category", orphanRemoval=true)
      */
-    protected Collection $contentTypeConfigs;
+    protected Collection $categoryContentTypes;
+
+    /**
+     * @ORM\OneToMany(targetEntity="CategoryContent", mappedBy="category", orphanRemoval=true)
+     */
+    protected Collection $categoryContents;
 
     /**
      * @ORM\ManyToOne(targetEntity="Camp")
@@ -27,7 +32,7 @@ class ActivityCategory extends BaseEntity implements BelongsToCampInterface {
     /**
      * @ORM\Column(type="string", length=32, nullable=true)
      */
-    private ?string $activityCategoryTemplateId = null;
+    private ?string $categoryTemplateId = null;
 
     /**
      * @ORM\Column(type="string", length=16, nullable=false)
@@ -52,7 +57,7 @@ class ActivityCategory extends BaseEntity implements BelongsToCampInterface {
     public function __construct() {
         parent::__construct();
 
-        $this->contentTypeConfigs = new ArrayCollection();
+        $this->categoryContentType = new ArrayCollection();
     }
 
     public function getCamp(): ?Camp {
@@ -66,26 +71,40 @@ class ActivityCategory extends BaseEntity implements BelongsToCampInterface {
         $this->camp = $camp;
     }
 
-    public function getContentTypeConfigs(): Collection {
-        return $this->contentTypeConfigs;
+    public function getCategoryContentTypes(): Collection {
+        return $this->categoryContentTypes;
     }
 
-    public function addContentTypeConfig(ContentTypeConfig $contentTypeConfig) {
-        $contentTypeConfig->setActivityCategory($this);
-        $this->contentTypeConfigs->add($contentTypeConfig);
+    public function addCategoryContentType(CategoryContentType $categoryContentType) {
+        $categoryContentType->setCategory($this);
+        $this->categoryContentTypes->add($categoryContentType);
     }
 
-    public function removeContentTypeConfig(ContentTypeConfig $contentTypeConfig) {
-        $contentTypeConfig->setActivityCategory(null);
-        $this->contentTypeConfigs->removeElement($contentTypeConfig);
+    public function removeCategoryContentType(CategoryContentType $categoryContentType) {
+        $categoryContentType->setCategory(null);
+        $this->categoryContentTypes->removeElement($categoryContentType);
     }
 
-    public function getActivityCategoryTemplateId(): ?string {
-        return $this->activityCategoryTemplateId;
+    public function getCategoryContents(): Collection {
+        return $this->categoryContents;
     }
 
-    public function setActivityCategoryTemplateId(?string $activityCategoryTemplateId) {
-        $this->activityCategoryTemplateId = $activityCategoryTemplateId;
+    public function addCategoryContent(CategoryContent $categoryContent) {
+        $categoryContent->setCategory($this);
+        $this->categoryContents->add($categoryContent);
+    }
+
+    public function removeCategoryContent(CategoryContent $categoryContent) {
+        $categoryContent->setCategory(null);
+        $this->categoryContents->removeElement($categoryContent);
+    }
+
+    public function getCategoryTemplateId(): ?string {
+        return $this->categoryTemplateId;
+    }
+
+    public function setCategoryTemplateId(?string $categoryTemplateId) {
+        $this->categoryTemplateId = $categoryTemplateId;
     }
 
     public function getShort(): ?string {
@@ -124,16 +143,12 @@ class ActivityCategory extends BaseEntity implements BelongsToCampInterface {
         switch ($this->numberingStyle) {
             case 'a':
                 return strtolower($this->getAlphaNum($num));
-
             case 'A':
                 return strtoupper($this->getAlphaNum($num));
-
             case 'i':
                 return strtolower($this->getRomanNum($num));
-
             case 'I':
                 return strtoupper($this->getRomanNum($num));
-
             default:
                 return $num;
         }
