@@ -2,7 +2,7 @@ version: "3"
 
 services:
   frontend:
-    image: node:14.15.4@sha256:79c6e16f88fb5539b9585e6beaee8c6f9da49aea5073f59148d2e41a277b056b
+    image: node:14.15.4@sha256:cb01e9d98a50cab46bf75357fe4843cbfd3acca5d99c5f72794acf16c5db4f5f
     container_name: 'ecamp3-frontend'
     ports:
       - '3000:3000'
@@ -38,7 +38,7 @@ services:
     entrypoint: ./docker-setup.sh
 
   print:
-    image: node:14.15.4@sha256:79c6e16f88fb5539b9585e6beaee8c6f9da49aea5073f59148d2e41a277b056b
+    image: node:14.15.4@sha256:cb01e9d98a50cab46bf75357fe4843cbfd3acca5d99c5f72794acf16c5db4f5f
     container_name: 'ecamp3-print'
     ports:
       - '3003:3003'
