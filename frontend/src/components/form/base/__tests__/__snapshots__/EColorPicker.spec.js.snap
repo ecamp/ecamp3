@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`An EColorPicker looks like a color picker: pickerclosed 1`] = `
-<div>
+<div data-app>
      <div class="e-form-container"
           vee-rules="[object Object]">
           <div class="e-form-container"
@@ -30,194 +30,129 @@ exports[`An EColorPicker looks like a color picker: pickerclosed 1`] = `
 `;
 
 exports[`An EColorPicker looks like a color picker: pickeropen 1`] = `
-<body
-  data-app="true"
->
-  <div
-    class="v-menu__content theme--light menuable__content__active "
-    role="menu"
-    style="max-height: auto; min-width: 290px; max-width: 290px; top: 12px; left: 0px; transform-origin: top left; z-index: 8; display: none;"
-  >
-     
-    <div
-      class="v-card v-sheet theme--light"
-    >
-      <div
-        class="v-color-picker v-sheet theme--light v-color-picker--flat theme--light"
-        style="max-width: 300px;"
-      >
-        <div
-          class="v-color-picker__canvas"
-          style="width: 300px; height: 150px;"
-        >
-          <canvas
-            height="150"
-            width="300"
-          />
-          <div
-            class="v-color-picker__canvas-dot"
-            style="width: 10px; height: 10px; transform: translate(295px, -5px);"
-          />
-        </div>
-        <div
-          class="v-color-picker__controls"
-        >
-          <div
-            class="v-color-picker__preview v-color-picker__preview--hide-alpha"
-          >
-            <div
-              class="v-color-picker__dot"
-            >
-              <div
-                style="background: rgb(255, 0, 0);"
-              />
-            </div>
-            <div
-              class="v-color-picker__sliders"
-            >
-              <div
-                class="v-input v-color-picker__hue v-input--hide-details theme--light v-input__slider v-color-picker__track"
-              >
-                <div
-                  class="v-input__control"
-                >
-                  <div
-                    class="v-input__slot"
-                  >
-                    <div
-                      class="v-slider v-slider--horizontal theme--light"
-                    >
-                      <input
-                        disabled="disabled"
-                        id="input-26"
-                        readonly="readonly"
-                        tabindex="-1"
-                        value="0"
-                      />
-                      <div
-                        class="v-slider__track-container"
-                      >
-                        <div
-                          class="v-slider__track-background primary lighten-3"
-                          style="right: 0px;"
-                        />
-                        <div
-                          class="v-slider__track-fill primary"
-                          style="left: 0px; width: 0%;"
-                        />
-                      </div>
-                      <div
-                        aria-orientation="horizontal"
-                        aria-readonly="false"
-                        aria-valuemax="360"
-                        aria-valuemin="0"
-                        aria-valuenow="0"
-                        class="v-slider__thumb-container grey--text text--lighten-2"
-                        role="slider"
-                        style="left: 0%;"
-                        tabindex="0"
-                      >
-                        <div
-                          class="v-slider__thumb grey lighten-2"
-                        />
-                      </div>
+<div data-app>
+     <div class="e-form-container"
+          vee-rules="[object Object]">
+          <div class="e-form-container"
+               value="#ff0000">
+               <div class="v-input v-input--hide-details v-input--is-label-active v-input--is-dirty theme--light v-text-field v-text-field--single-line v-text-field--filled v-text-field--is-booted v-text-field--enclosed">
+                    <div class="v-input__prepend-outer">
+                         <button type="button"
+                                 class="v-icon notranslate v-icon--link mdi mdi-palette theme--light"
+                                 style="color: rgb(255, 0, 0); caret-color: #ff0000;"></button>
                     </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+                    <div class="v-input__control">
+                         <div class="v-input__slot">
+                              <div class="v-text-field__slot">
+                                   <input id
+                                          type="text">
+                              </div>
+                         </div>
+                    </div>
+               </div>
           </div>
-          <div
-            class="v-color-picker__edit"
-          >
-            <div
-              class="v-color-picker__input"
-            >
-              <input
-                max="255"
-                min="0"
-                step="1"
-                type="number"
-              />
-              <span>
-                R
-              </span>
-            </div>
-            <div
-              class="v-color-picker__input"
-            >
-              <input
-                max="255"
-                min="0"
-                step="1"
-                type="number"
-              />
-              <span>
-                G
-              </span>
-            </div>
-            <div
-              class="v-color-picker__input"
-            >
-              <input
-                max="255"
-                min="0"
-                step="1"
-                type="number"
-              />
-              <span>
-                B
-              </span>
-            </div>
-            <button
-              class="v-btn v-btn--icon v-btn--round theme--light v-size--small"
-              type="button"
-            >
-              <span
-                class="v-btn__content"
-              >
-                <i
-                  aria-hidden="true"
-                  class="v-icon notranslate mdi mdi-unfold-more-horizontal theme--light"
-                />
-              </span>
-            </button>
+          <div class="v-menu">
+               <transition-stub name="scale-transition">
+                    <div role="menu"
+                         class="v-menu__content theme--light menuable__content__active "
+                         style="max-height: auto; min-width: 290px; max-width: 290px; top: 12px; left: 0px; transform-origin: top left; z-index: 8; display: none;">
+                         <div class="v-card v-sheet theme--light">
+                              <div class="v-color-picker v-sheet theme--light v-color-picker--flat theme--light"
+                                   style="max-width: 300px;">
+                                   <div class="v-color-picker__canvas"
+                                        style="width: 300px; height: 150px;">
+                                        <canvas width="300"
+                                                height="150"></canvas>
+                                        <div class="v-color-picker__canvas-dot"
+                                             style="width: 10px; height: 10px; transform: translate(295px, -5px);"></div>
+                                   </div>
+                                   <div class="v-color-picker__controls">
+                                        <div class="v-color-picker__preview v-color-picker__preview--hide-alpha">
+                                             <div class="v-color-picker__dot">
+                                                  <div style="background: rgb(255, 0, 0);"></div>
+                                             </div>
+                                             <div class="v-color-picker__sliders">
+                                                  <div class="v-input v-color-picker__hue v-input--hide-details theme--light v-input__slider v-color-picker__track">
+                                                       <div class="v-input__control">
+                                                            <div class="v-input__slot">
+                                                                 <div class="v-slider v-slider--horizontal theme--light">
+                                                                      <input value="0"
+                                                                             id
+                                                                             disabled="disabled"
+                                                                             readonly="readonly"
+                                                                             tabindex="-1">
+                                                                      <div class="v-slider__track-container">
+                                                                           <div class="v-slider__track-background primary lighten-3"
+                                                                                style="right: 0px;"></div>
+                                                                           <div class="v-slider__track-fill primary"
+                                                                                style="left: 0px; width: 0%;"></div>
+                                                                      </div>
+                                                                      <div role="slider"
+                                                                           tabindex="0"
+                                                                           aria-valuemin="0"
+                                                                           aria-valuemax="360"
+                                                                           aria-valuenow="0"
+                                                                           aria-readonly="false"
+                                                                           aria-orientation="horizontal"
+                                                                           class="v-slider__thumb-container grey--text text--lighten-2"
+                                                                           style="left: 0%;">
+                                                                           <div class="v-slider__thumb grey lighten-2"></div>
+                                                                      </div>
+                                                                 </div>
+                                                            </div>
+                                                       </div>
+                                                  </div>
+                                             </div>
+                                        </div>
+                                        <div class="v-color-picker__edit">
+                                             <div class="v-color-picker__input">
+                                                  <input type="number"
+                                                         min="0"
+                                                         max="255"
+                                                         step="1">
+                                                  <span>R</span>
+                                             </div>
+                                             <div class="v-color-picker__input">
+                                                  <input type="number"
+                                                         min="0"
+                                                         max="255"
+                                                         step="1">
+                                                  <span>G</span>
+                                             </div>
+                                             <div class="v-color-picker__input">
+                                                  <input type="number"
+                                                         min="0"
+                                                         max="255"
+                                                         step="1">
+                                                  <span>B</span>
+                                             </div>
+                                             <button type="button"
+                                                     class="v-btn v-btn--icon v-btn--round theme--light v-size--small">
+                                                  <span class="v-btn__content">
+                                                       <i aria-hidden="true"
+                                                          class="v-icon notranslate mdi mdi-unfold-more-horizontal theme--light"></i>
+                                                  </span>
+                                             </button>
+                                        </div>
+                                   </div>
+                              </div>
+                              <div class="spacer"></div>
+                              <button type="button"
+                                      class="v-btn v-btn--text theme--light v-size--default primary--text">
+                                   <span class="v-btn__content">
+                                        Abbrechen
+                                   </span>
+                              </button>
+                              <button type="button"
+                                      class="v-btn v-btn--text theme--light v-size--default primary--text">
+                                   <span class="v-btn__content">
+                                        In Ordnung
+                                   </span>
+                              </button>
+                         </div>
+                    </div>
+               </transition-stub>
           </div>
-        </div>
-      </div>
-       
-      <div
-        class="spacer"
-      />
-       
-      <button
-        class="v-btn v-btn--text theme--light v-size--default primary--text"
-        data-testid="action-cancel"
-        type="button"
-      >
-        <span
-          class="v-btn__content"
-        >
-          
-        Abbrechen
-      
-        </span>
-      </button>
-       
-      <button
-        class="v-btn v-btn--text theme--light v-size--default primary--text"
-        data-testid="action-ok"
-        type="button"
-      >
-        <span
-          class="v-btn__content"
-        >
-          
-        In Ordnung
-      
-        </span>
-      </button>
-    </div>
-  </div>
-</body>
+     </div>
+</div>
 `;

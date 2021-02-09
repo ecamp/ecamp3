@@ -49,11 +49,6 @@ describe('An ETimePicker', () => {
 
   const mount = (options) => mountComponent(ETimePicker, { vuetify, i18n, ...options })
 
-  beforeAll(() => {
-    // prevent "[Vuetify] Unable to locate target [data-app]" warnings
-    document.body.setAttribute('data-app', 'true')
-  })
-
   describe.each(localeData)('in locale %s', (locale, data) => {
     beforeEach(() => {
       Vue.dayjs.locale(locale)
@@ -73,7 +68,7 @@ describe('An ETimePicker', () => {
     test('looks like a time picker', async () => {
       const wrapper = mountComponent({
         data: () => ({ time: TIME_1 }),
-        template: '<div><e-time-picker v-model="time"></e-time-picker></div>',
+        template: '<div data-app><e-time-picker v-model="time"></e-time-picker></div>',
         components: { 'e-time-picker': ETimePicker }
       }, {
         vuetify,
@@ -82,7 +77,7 @@ describe('An ETimePicker', () => {
       await waitForDebounce()
       expect(wrapper).toMatchSnapshot('pickerclosed')
       await wrapper.find('button').trigger('click')
-      expect(document.body).toMatchSnapshot('pickeropen')
+      expect(wrapper).toMatchSnapshot('pickeropen')
     })
 
     test('allows a different valueFormat', async () => {
@@ -147,10 +142,13 @@ describe('An ETimePicker', () => {
     })
 
     test('updates its value when a time is picked', async () => {
-      const wrapper = mount({
-        propsData: {
-          value: TIME_2
-        }
+      const wrapper = mountComponent({
+        data: () => ({ time: TIME_2 }),
+        template: '<div data-app><e-time-picker v-model="time"></e-time-picker></div>',
+        components: { 'e-time-picker': ETimePicker }
+      }, {
+        vuetify,
+        i18n
       })
       await waitForDebounce()
       // open the time picker
