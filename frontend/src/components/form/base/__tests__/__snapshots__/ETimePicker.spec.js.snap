@@ -620,7 +620,7 @@ exports[`An ETimePicker in locale en looks like a time picker: pickeropen 1`] = 
             class="v-btn__content"
           >
             
-        Abbrechen
+        Cancel
       
           </span>
         </button>
@@ -634,7 +634,7 @@ exports[`An ETimePicker in locale en looks like a time picker: pickeropen 1`] = 
             class="v-btn__content"
           >
             
-        In Ordnung
+        Okay
       
           </span>
         </button>
@@ -812,7 +812,7 @@ exports[`An ETimePicker in locale en looks like a time picker: pickeropen 1`] = 
             class="v-btn__content"
           >
             
-        Abbrechen
+        Cancel
       
           </span>
         </button>
@@ -826,7 +826,7 @@ exports[`An ETimePicker in locale en looks like a time picker: pickeropen 1`] = 
             class="v-btn__content"
           >
             
-        In Ordnung
+        Okay
       
           </span>
         </button>
@@ -1100,7 +1100,7 @@ exports[`An ETimePicker in locale en looks like a time picker: pickeropen 1`] = 
             class="v-btn__content"
           >
             
-        Abbrechen
+        Cancel
       
           </span>
         </button>
@@ -1114,7 +1114,7 @@ exports[`An ETimePicker in locale en looks like a time picker: pickeropen 1`] = 
             class="v-btn__content"
           >
             
-        In Ordnung
+        Okay
       
           </span>
         </button>
