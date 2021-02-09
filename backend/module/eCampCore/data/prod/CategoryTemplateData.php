@@ -5,7 +5,6 @@ namespace eCamp\CoreData;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
-use eCamp\Core\Entity\ActivityCategoryTemplate;
 use eCamp\Core\Entity\CampTemplate;
 use eCamp\Core\Entity\CategoryContentTypeTemplate;
 use eCamp\Core\Entity\CategoryTemplate;
@@ -18,7 +17,7 @@ class CategoryTemplateData extends AbstractFixture implements DependentFixtureIn
     public static $PBS_JS_TEEN_LAGERAKTIVITAET = 'PBS_JS_TEEN_LAGERAKTIVITAET';
 
     public function load(ObjectManager $manager) {
-        $repository = $manager->getRepository(ActivityCategoryTemplate::class);
+        $repository = $manager->getRepository(CategoryTemplate::class);
 
         /** @var CampTemplate $pbsJsKids */
         $pbsJsKids = $this->getReference(CampTemplateData::$PBS_JS_KIDS);
@@ -109,10 +108,10 @@ class CategoryTemplateData extends AbstractFixture implements DependentFixtureIn
         return [CampTemplateData::class, ContentTypeData::class];
     }
 
-    private function addContentType(ObjectManager $manager, CategoryTemplate $activityCategoryTemplate, ContentType $contentType) {
+    private function addContentType(ObjectManager $manager, CategoryTemplate $categoryTemplate, ContentType $contentType): CategoryContentTypeTemplate {
         $categoryContentTypeTemplate = new CategoryContentTypeTemplate();
         $categoryContentTypeTemplate->setContentType($contentType);
-        $activityCategoryTemplate->addCategoryContentTypeTemplate($categoryContentTypeTemplate);
+        $categoryTemplate->addCategoryContentTypeTemplate($categoryContentTypeTemplate);
         $manager->persist($categoryContentTypeTemplate);
 
         return $categoryContentTypeTemplate;

@@ -16,7 +16,7 @@ class CategoryContentTemplate extends BaseEntity {
      * @ORM\ManyToOne(targetEntity="CategoryTemplate")
      * @ORM\JoinColumn(nullable=false, onDelete="cascade")
      */
-    private ?Category $categoryTemplate = null;
+    private ?CategoryTemplate $categoryTemplate = null;
 
     /**
      * @ORM\ManyToOne(targetEntity="CategoryContentTemplate")
@@ -46,6 +46,8 @@ class CategoryContentTemplate extends BaseEntity {
     private ?string $instanceName = null;
 
     public function __construct() {
+        parent::__construct();
+
         $this->children = new ArrayCollection();
     }
 

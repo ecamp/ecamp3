@@ -6,8 +6,8 @@ use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use eCamp\Core\Entity\Activity;
-use eCamp\Core\Entity\ActivityCategory;
 use eCamp\Core\Entity\Camp;
+use eCamp\Core\Entity\Category;
 
 class ActivityTestData extends AbstractFixture implements DependentFixtureInterface {
     public static $ACTIVITY1 = Activity::class.':ACTIVITY1';
@@ -16,13 +16,13 @@ class ActivityTestData extends AbstractFixture implements DependentFixtureInterf
         /** @var Camp $ccamp */
         $camp = $this->getReference(CampTestData::$CAMP1);
 
-        /** @var ActivityCategory $category */
-        $category = $this->getReference(ActivityCategoryTestData::$CATEGORY1);
+        /** @var Category $category */
+        $category = $this->getReference(CategoryTestData::$CATEGORY1);
 
         $activity = new Activity();
         $activity->setCamp($camp);
         $activity->setTitle('Activity1');
-        $activity->setActivityCategory($category);
+        $activity->setCategory($category);
 
         $manager->persist($activity);
         $manager->flush();
@@ -31,6 +31,6 @@ class ActivityTestData extends AbstractFixture implements DependentFixtureInterf
     }
 
     public function getDependencies() {
-        return [CampTestData::class, ActivityCategoryTestData::class];
+        return [CampTestData::class, CategoryTestData::class];
     }
 }

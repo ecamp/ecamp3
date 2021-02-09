@@ -229,18 +229,18 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
         $this->periods->removeElement($period);
     }
 
-    public function getActivityCategories(): Collection {
-        return $this->activityCategories;
+    public function getCategories(): Collection {
+        return $this->categories;
     }
 
-    public function addActivityCategory(Category $category): void {
+    public function addCategory(Category $category): void {
         $category->setCamp($this);
-        $this->activityCategories->add($category);
+        $this->categories->add($category);
     }
 
-    public function removeActivityCategory(Category $category): void {
+    public function removeCategory(Category $category): void {
         $category->setCamp(null);
-        $this->activityCategories->removeElement($category);
+        $this->categories->removeElement($category);
     }
 
     public function getActivities(): Collection {

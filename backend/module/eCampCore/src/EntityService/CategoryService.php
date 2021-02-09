@@ -6,7 +6,10 @@ use Doctrine\ORM\ORMException;
 use Doctrine\ORM\QueryBuilder;
 use eCamp\Core\Entity\Camp;
 use eCamp\Core\Entity\Category;
+use eCamp\Core\Entity\CategoryContentTemplate;
+use eCamp\Core\Entity\CategoryContentTypeTemplate;
 use eCamp\Core\Entity\CategoryTemplate;
+use eCamp\Core\Hydrator\CategoryHydrator;
 use eCamp\Lib\Acl\NoAccessException;
 use eCamp\Lib\Service\EntityNotFoundException;
 use eCamp\Lib\Service\ServiceUtils;
@@ -14,11 +17,13 @@ use Laminas\Authentication\AuthenticationService;
 
 class CategoryService extends AbstractEntityService {
     protected CategoryContentTypeService $categoryContentTypeService;
+    protected CategoryContentService $categoryContentService;
 
     public function __construct(
         ServiceUtils $serviceUtils,
         AuthenticationService $authenticationService,
-        CategoryContentTypeService $categoryContentTypeService
+        CategoryContentTypeService $categoryContentTypeService,
+        CategoryContentService $categoryContentService
     ) {
         parent::__construct(
             $serviceUtils,
@@ -28,6 +33,7 @@ class CategoryService extends AbstractEntityService {
         );
 
         $this->categoryContentTypeService = $categoryContentTypeService;
+        $this->categoryContentService = $categoryContentService;
     }
 
     public function createFromTemplate(Camp $camp, CategoryTemplate $template): Category {
@@ -43,7 +49,12 @@ class CategoryService extends AbstractEntityService {
 
         /** @var CategoryContentTypeTemplate $categoryContentTypeTemplate */
         foreach ($template->getCategoryContentTypeTemplates() as $categoryContentTypeTemplate) {
-            $this->contentTypeConfigService->createFromTemplate($category, $categoryContentTypeTemplate);
+            $this->categoryContentTypeService->createFromTemplate($category, $categoryContentTypeTemplate);
+        }
+
+        /** @var CategoryContentTemplate $categoryContentTemplate */
+        foreach ($template->getCategoryContentTemplates() as $categoryContentTemplate) {
+            $this->categoryContentService->createFromTemplate($category, $categoryContentTemplate);
         }
 
         return $category;
@@ -62,7 +73,7 @@ class CategoryService extends AbstractEntityService {
 
         /** @var Camp $camp */
         $camp = $this->findRelatedEntity(Camp::class, $data, 'campId');
-        $camp->addActivityCategory($category);
+        $camp->addCategory($category);
 
         return $category;
     }

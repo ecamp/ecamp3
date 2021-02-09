@@ -8,7 +8,7 @@ use eCamp\Core\Hydrator\CategoryTemplateHydrator;
 use eCamp\Lib\Service\ServiceUtils;
 use Laminas\Authentication\AuthenticationService;
 
-class ActivityCategoryTemplateService extends AbstractEntityService {
+class CategoryTemplateService extends AbstractEntityService {
     public function __construct(ServiceUtils $serviceUtils, AuthenticationService $authenticationService) {
         parent::__construct(
             $serviceUtils,

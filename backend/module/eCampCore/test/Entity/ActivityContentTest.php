@@ -29,6 +29,6 @@ class ActivityContentTest extends AbstractTestCase {
         $this->assertEquals($activity, $activityContent->getActivity());
         $this->assertEquals($contentType, $activityContent->getContentType());
         $this->assertEquals('ActivityContentName', $activityContent->getInstanceName());
-        $this->assertEquals($contentType, $activityContent->getContentType());
+        $this->assertEquals($camp, $activityContent->getCamp());
     }
 }

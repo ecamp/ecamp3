@@ -5,9 +5,9 @@ namespace eCamp\Core\EntityService;
 use Doctrine\ORM\ORMException;
 use Doctrine\ORM\QueryBuilder;
 use eCamp\Core\Entity\Activity;
-use eCamp\Core\Entity\ActivityCategory;
 use eCamp\Core\Entity\Camp;
-use eCamp\Core\Entity\ContentTypeConfig;
+use eCamp\Core\Entity\Category;
+use eCamp\Core\Entity\CategoryContent;
 use eCamp\Core\Entity\ScheduleEntry;
 use eCamp\Core\Hydrator\ActivityHydrator;
 use eCamp\Lib\Acl\NoAccessException;
@@ -52,10 +52,10 @@ class ActivityService extends AbstractEntityService {
         /** @var Activity $activity */
         $activity = parent::createEntity($data);
 
-        /** @var ActivityCategory $category */
-        $category = $this->findRelatedEntity(ActivityCategory::class, $data, 'activityCategoryId');
+        /** @var Category $category */
+        $category = $this->findRelatedEntity(Category::class, $data, 'categoryId');
 
-        $activity->setActivityCategory($category);
+        $activity->setCategory($category);
         $activity->setCamp($category->getCamp()); // TODO meeting discus: Why do we actually need camp on activity? Redundant relationship
 
         return $activity;
@@ -97,9 +97,9 @@ class ActivityService extends AbstractEntityService {
         $this->updateActivityResponsibles($activity, $data);
         $this->updateScheduleEntries($activity, $data);
 
-        if (!empty($data->activityCategoryId)) {
-            $category = $this->findRelatedEntity(ActivityCategory::class, $data, 'activityCategoryId');
-            $activity->setActivityCategory($category);
+        if (!empty($data->categoryId)) {
+            $category = $this->findRelatedEntity(Category::class, $data, 'categoryId');
+            $activity->setCategory($category);
         }
 
         return $entity;
@@ -196,16 +196,14 @@ class ActivityService extends AbstractEntityService {
     }
 
     private function createInitialActivityContents(Activity $activity) {
-        $contentTypeConfigs = $activity->getActivityCategory()->getContentTypeConfigs();
+        $categoryContents = $activity->getCategory()->getCategoryContents();
 
-        /** @var ContentTypeConfig $contentTypeConfig */
-        foreach ($contentTypeConfigs as $contentTypeConfig) {
-            if ($contentTypeConfig->getRequired()) {
-                $this->activityContentService->create((object) [
-                    'activityId' => $activity->getId(),
-                    'contentTypeId' => $contentTypeConfig->getContentType()->getId(),
-                ]);
-            }
+        /** @var CategoryContent $categoryContent */
+        foreach ($categoryContents as $categoryContent) {
+            $this->activityContentService->create((object) [
+                'activityId' => $activity->getId(),
+                'contentTypeId' => $categoryContent->getContentType()->getId(),
+            ]);
         }
     }
 }

@@ -3,7 +3,8 @@
 namespace eCamp\Core\Hydrator;
 
 use eCamp\Core\Entity\CategoryTemplate;
-use eCampApi\V1\Rest\ContentTypeConfigTemplate\ContentTypeConfigTemplateCollection;
+use eCampApi\V1\Rest\CategoryContentTemplate\CategoryContentTemplateCollection;
+use eCampApi\V1\Rest\CategoryContentTypeTemplate\CategoryContentTypeTemplateCollection;
 use Laminas\Hydrator\HydratorInterface;
 
 class CategoryTemplateHydrator implements HydratorInterface {
@@ -25,7 +26,8 @@ class CategoryTemplateHydrator implements HydratorInterface {
             'name' => $categoryTemplate->getName(),
             'color' => $categoryTemplate->getColor(),
             'numberingStyle' => $categoryTemplate->getNumberingStyle(),
-            'contentTypeConfigTemplates' => new ContentTypeConfigTemplateCollection($categoryTemplate->getContentTypeConfigTemplates()),
+            'categoryContentTypeTemplates' => new CategoryContentTypeTemplateCollection($categoryTemplate->getCategoryContentTypeTemplates()),
+            'categoryContentTemplates' => new CategoryContentTemplateCollection($categoryTemplate->getCategoryContentTemplates()),
         ];
     }
 

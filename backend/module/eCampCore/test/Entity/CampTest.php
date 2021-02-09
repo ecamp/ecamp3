@@ -3,9 +3,9 @@
 namespace eCamp\CoreTest\Entity;
 
 use eCamp\Core\Entity\Activity;
-use eCamp\Core\Entity\ActivityCategory;
 use eCamp\Core\Entity\Camp;
 use eCamp\Core\Entity\CampCollaboration;
+use eCamp\Core\Entity\Category;
 use eCamp\Core\Entity\Job;
 use eCamp\Core\Entity\Period;
 use eCamp\Core\Entity\User;
@@ -71,13 +71,13 @@ class CampTest extends AbstractTestCase {
 
     public function testActivityCategory() {
         $camp = new Camp();
-        $category = new ActivityCategory();
+        $category = new Category();
 
-        $this->assertEquals(0, $camp->getActivityCategories()->count());
-        $camp->addActivityCategory($category);
-        $this->assertContains($category, $camp->getActivityCategories());
-        $camp->removeActivityCategory($category);
-        $this->assertEquals(0, $camp->getActivityCategories()->count());
+        $this->assertEquals(0, $camp->getCategories()->count());
+        $camp->addCategory($category);
+        $this->assertContains($category, $camp->getCategories());
+        $camp->removeCategory($category);
+        $this->assertEquals(0, $camp->getCategories()->count());
     }
 
     public function testActivity() {

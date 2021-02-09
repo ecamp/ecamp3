@@ -57,7 +57,8 @@ class Category extends BaseEntity implements BelongsToCampInterface {
     public function __construct() {
         parent::__construct();
 
-        $this->categoryContentType = new ArrayCollection();
+        $this->categoryContentTypes = new ArrayCollection();
+        $this->categoryContents = new ArrayCollection();
     }
 
     public function getCamp(): ?Camp {
@@ -143,12 +144,16 @@ class Category extends BaseEntity implements BelongsToCampInterface {
         switch ($this->numberingStyle) {
             case 'a':
                 return strtolower($this->getAlphaNum($num));
+
             case 'A':
                 return strtoupper($this->getAlphaNum($num));
+
             case 'i':
                 return strtolower($this->getRomanNum($num));
+
             case 'I':
                 return strtoupper($this->getRomanNum($num));
+
             default:
                 return $num;
         }

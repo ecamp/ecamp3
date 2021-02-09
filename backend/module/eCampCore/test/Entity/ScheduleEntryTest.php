@@ -3,8 +3,8 @@
 namespace eCamp\CoreTest\Entity;
 
 use eCamp\Core\Entity\Activity;
-use eCamp\Core\Entity\ActivityCategory;
 use eCamp\Core\Entity\Camp;
+use eCamp\Core\Entity\Category;
 use eCamp\Core\Entity\Period;
 use eCamp\Core\Entity\ScheduleEntry;
 use eCamp\Lib\Types\DateUtc;
@@ -27,14 +27,14 @@ class ScheduleEntryTest extends AbstractTestCase {
         $period->setStart($start);
         $period->setEnd($end);
 
-        $activityCategory = new ActivityCategory();
-        $activityCategory->setColor('#1fa2df');
-        $activityCategory->setNumberingStyle('i');
+        $category = new Category();
+        $category->setColor('#1fa2df');
+        $category->setNumberingStyle('i');
 
         $activity = new Activity();
         $activity->setCamp($camp);
         $activity->setTitle('ActivityTitle');
-        $activity->setActivityCategory($activityCategory);
+        $activity->setCategory($category);
 
         $scheduleEntry = new ScheduleEntry();
         $scheduleEntry->setPeriod($period);
@@ -57,7 +57,7 @@ class ScheduleEntryTest extends AbstractTestCase {
         $this->assertEquals($camp, $scheduleEntry->getCamp());
         $this->assertEquals($period, $scheduleEntry->getPeriod());
         $this->assertEquals($activity, $scheduleEntry->getActivity());
-        $this->assertEquals($activityCategory, $scheduleEntry->getActivityCategory());
+        $this->assertEquals($category, $scheduleEntry->getCategory());
         $this->assertEquals(900, $scheduleEntry->getPeriodOffset());
         $this->assertEquals(120, $scheduleEntry->getLength());
         $this->assertEquals(0, $scheduleEntry->getLeft());
@@ -68,7 +68,7 @@ class ScheduleEntryTest extends AbstractTestCase {
         $this->assertEquals('1.ii', $scheduleEntry->getNumber());
 
         $this->assertEquals('#1fa2df', $scheduleEntry->getColor());
-        $activityCategory->setColor('#FF00FF');
+        $category->setColor('#FF00FF');
         $this->assertEquals('#FF00FF', $scheduleEntry->getColor());
 
         $duration = $scheduleEntry->getDuration();

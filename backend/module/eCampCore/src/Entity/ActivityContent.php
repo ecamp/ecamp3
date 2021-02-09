@@ -51,6 +51,8 @@ class ActivityContent extends BaseEntity implements ContentTypeStrategyProviderA
     private ?string $instanceName = null;
 
     public function __construct() {
+        parent::__construct();
+
         $this->children = new ArrayCollection();
     }
 

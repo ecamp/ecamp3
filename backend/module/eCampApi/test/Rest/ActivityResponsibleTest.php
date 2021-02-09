@@ -90,7 +90,7 @@ JSON;
         $activity = new Activity();
         $activity->setCamp($this->activityResponsible->getCamp());
         $activity->setTitle('Activity1');
-        $activity->setActivityCategory($this->activityResponsible->getActivity()->getActivityCategory());
+        $activity->setCategory($this->activityResponsible->getActivity()->getCategory());
 
         $this->getEntityManager()->persist($activity);
         $this->getEntityManager()->flush();

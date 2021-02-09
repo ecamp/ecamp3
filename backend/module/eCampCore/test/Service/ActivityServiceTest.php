@@ -4,14 +4,15 @@ namespace eCamp\CoreTest\Service;
 
 use Doctrine\Common\DataFixtures\Loader;
 use eCamp\Core\Entity\Activity;
-use eCamp\Core\Entity\ActivityCategory;
 use eCamp\Core\Entity\ActivityContent;
 use eCamp\Core\Entity\Camp;
+use eCamp\Core\Entity\Category;
 use eCamp\Core\Entity\User;
 use eCamp\Core\EntityService\ActivityService;
-use eCamp\CoreTest\Data\ActivityCategoryTestData;
 use eCamp\CoreTest\Data\CampTestData;
-use eCamp\CoreTest\Data\ContentTypeConfigTestData;
+use eCamp\CoreTest\Data\CategoryContentTestData;
+use eCamp\CoreTest\Data\CategoryContentTypeTestData;
+use eCamp\CoreTest\Data\CategoryTestData;
 use eCamp\CoreTest\Data\UserTestData;
 use eCamp\LibTest\PHPUnit\AbstractApiControllerTestCase;
 
@@ -25,27 +26,29 @@ class ActivityServiceTest extends AbstractApiControllerTestCase {
     /** @var Camp */
     protected $camp;
 
-    /** @var ActivityCategory */
-    protected $activityCategory;
+    /** @var Category */
+    protected $category;
 
     public function setUp(): void {
         parent::setUp();
 
         $userLoader = new UserTestData();
         $campLoader = new CampTestData();
-        $activityCategoryLoader = new ActivityCategoryTestData();
-        $contentTypeConfigLoader = new ContentTypeConfigTestData();
+        $categoryLoader = new CategoryTestData();
+        $categoryContentTypeLoader = new CategoryContentTypeTestData();
+        $categoryContentLoader = new CategoryContentTestData();
 
         $loader = new Loader();
         $loader->addFixture($userLoader);
         $loader->addFixture($campLoader);
-        $loader->addFixture($activityCategoryLoader);
-        $loader->addFixture($contentTypeConfigLoader);
+        $loader->addFixture($categoryLoader);
+        $loader->addFixture($categoryContentTypeLoader);
+        $loader->addFixture($categoryContentLoader);
         $this->loadFixtures($loader);
 
         $this->user = $userLoader->getReference(UserTestData::$USER1);
         $this->camp = $campLoader->getReference(CampTestData::$CAMP1);
-        $this->activityCategory = $activityCategoryLoader->getReference(ActivityCategoryTestData::$CATEGORY1);
+        $this->category = $categoryLoader->getReference(CategoryTestData::$CATEGORY1);
 
         $this->authenticateUser($this->user);
     }
@@ -54,13 +57,14 @@ class ActivityServiceTest extends AbstractApiControllerTestCase {
         /** @var ActivityService $activityService */
         $activityService = $this->getApplicationServiceLocator()->get(ActivityService::class);
 
-        $this->assertCount(1, $this->activityCategory->getContentTypeConfigs());
+        $this->assertCount(1, $this->category->getCategoryContents());
+        $this->assertCount(1, $this->category->getCategoryContentTypes());
 
         /** @var Activity $activity */
         $activity = $activityService->create((object) [
             'title' => 'ActivityTitle',
             'campId' => $this->camp->getId(),
-            'activityCategoryId' => $this->activityCategory->getId(),
+            'categoryId' => $this->category->getId(),
         ]);
 
         $this->assertNotNull($activity);

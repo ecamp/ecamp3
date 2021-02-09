@@ -4,7 +4,8 @@ namespace eCamp\Core\Hydrator;
 
 use eCamp\Core\Entity\Category;
 use eCamp\Lib\Entity\EntityLink;
-use eCampApi\V1\Rest\ContentTypeConfig\ContentTypeConfigCollection;
+use eCampApi\V1\Rest\CategoryContent\CategoryContentCollection;
+use eCampApi\V1\Rest\CategoryContentType\CategoryContentTypeCollection;
 use Laminas\Hydrator\HydratorInterface;
 
 class CategoryHydrator implements HydratorInterface {
@@ -28,7 +29,8 @@ class CategoryHydrator implements HydratorInterface {
             'numberingStyle' => $category->getNumberingStyle(),
 
             'camp' => EntityLink::Create($category->getCamp()),
-            'contentTypeConfigs' => new ContentTypeConfigCollection($category->getContentTypeConfigs()),
+            'categoryContentTypes' => new CategoryContentTypeCollection($category->getCategoryContentTypes()),
+            'categoryContents' => new CategoryContentCollection($category->getCategoryContents()),
         ];
     }
 

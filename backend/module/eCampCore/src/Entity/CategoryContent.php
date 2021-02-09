@@ -45,7 +45,14 @@ class CategoryContent extends BaseEntity implements BelongsToCampInterface {
      */
     private ?string $instanceName = null;
 
+    /**
+     * @ORM\Column(type="string", length=32, nullable=true)
+     */
+    private ?string $categoryContentTemplateId = null;
+
     public function __construct() {
+        parent::__construct();
+
         $this->children = new ArrayCollection();
     }
 
@@ -105,5 +112,13 @@ class CategoryContent extends BaseEntity implements BelongsToCampInterface {
 
     public function setPosition($position): void {
         $this->position = $position;
+    }
+
+    public function getCategoryContentTemplateId(): ?string {
+        return $this->categoryContentTemplateId;
+    }
+
+    public function setCategoryContentTemplateId(?string $categoryContentTemplateId): void {
+        $this->categoryContentTemplateId = $categoryContentTemplateId;
     }
 }

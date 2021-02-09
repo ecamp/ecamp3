@@ -25,6 +25,11 @@ class CategoryTemplate extends BaseEntity {
     private Collection $categoryContentTypeTemplates;
 
     /**
+     * @ORM\OneToMany(targetEntity="CategoryContentTemplate", mappedBy="categoryTemplate", orphanRemoval=true)
+     */
+    private Collection $categoryContentTemplates;
+
+    /**
      * @ORM\Column(type="string", length=16, nullable=false)
      */
     private ?string $short = null;
@@ -48,6 +53,7 @@ class CategoryTemplate extends BaseEntity {
         parent::__construct();
 
         $this->categoryContentTypeTemplates = new ArrayCollection();
+        $this->categoryContentTemplates = new ArrayCollection();
     }
 
     public function getCampTemplate(): ?CampTemplate {
@@ -102,5 +108,19 @@ class CategoryTemplate extends BaseEntity {
     public function removeCategoryContentTypeTemplate(CategoryContentTypeTemplate $categoryContentTypeTemplate) {
         $categoryContentTypeTemplate->setCategoryTemplate(null);
         $this->categoryContentTypeTemplates->removeElement($categoryContentTypeTemplate);
+    }
+
+    public function getCategoryContentTemplates(): Collection {
+        return $this->categoryContentTemplates;
+    }
+
+    public function addCategoryContentTemplate(CategoryContentTemplate $categoryContentTemplate) {
+        $categoryContentTemplate->setCategoryTemplate($this);
+        $this->categoryContentTemplates->add($categoryContentTemplate);
+    }
+
+    public function removeCategoryContentTemplate(CategoryContentTemplate $categoryContentTemplate) {
+        $categoryContentTemplate->setCategoryTemplate(null);
+        $this->categoryContentTemplates->removeElement($categoryContentTemplate);
     }
 }
