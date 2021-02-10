@@ -72,6 +72,7 @@ describe('An ETimePicker', () => {
         components: { 'e-time-picker': ETimePicker }
       }, {
         vuetify,
+        attachTo: document.body,
         i18n
       })
       await waitForDebounce()

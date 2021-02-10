@@ -70,6 +70,7 @@ describe('An EDatePicker', () => {
         components: { 'e-date-picker': EDatePicker }
       }, {
         vuetify,
+        attachTo: document.body,
         i18n
       })
       await waitForDebounce()
