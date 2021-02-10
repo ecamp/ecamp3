@@ -67,6 +67,7 @@ describe('An EColorPicker', () => {
       components: { 'e-color-picker': EColorPicker }
     }, {
       vuetify,
+      attachTo: document.body,
       i18n
     })
     await waitForDebounce()
