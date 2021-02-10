@@ -49,6 +49,7 @@ describe('An EDatePicker', () => {
 
   describe.each(localeData)('in locale %s', (locale, data) => {
     beforeEach(() => {
+      i18n.locale = locale
       Vue.dayjs.locale(locale)
       vuetify = new Vuetify()
     })
