@@ -79,6 +79,7 @@ describe('An ETimePicker', () => {
       expect(wrapper).toMatchSnapshot('pickerclosed')
       await wrapper.find('button').trigger('click')
       expect(wrapper).toMatchSnapshot('pickeropen')
+      wrapper.destroy()
     })
 
     test('allows a different valueFormat', async () => {
@@ -149,6 +150,7 @@ describe('An ETimePicker', () => {
         components: { 'e-time-picker': ETimePicker }
       }, {
         vuetify,
+        attachTo: document.body,
         i18n
       })
       await waitForDebounce()
@@ -170,6 +172,7 @@ describe('An ETimePicker', () => {
       await closeButton.trigger('click')
       await waitForDebounce()
       expect(wrapper.find('input[type=text]').element.value).toBe(data.time_3)
+      wrapper.destroy()
     })
   })
 })

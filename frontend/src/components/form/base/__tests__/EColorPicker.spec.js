@@ -74,6 +74,7 @@ describe('An EColorPicker', () => {
     expect(wrapper).toMatchSnapshot('pickerclosed')
     await wrapper.find('button').trigger('click')
     expect(wrapper).toMatchSnapshot('pickeropen')
+    wrapper.destroy()
   })
 
   test('updates v-model when the value changes', async () => {
@@ -111,13 +112,14 @@ describe('An EColorPicker', () => {
 
   test('updates its value when a color is picked', async () => {
     const wrapper = mountComponent({
-        data: () => ({ color: COLOR_2 }),
-        template: '<div data-app><e-color-picker v-model="color"></e-color-picker></div>',
-        components: { 'e-color-picker': EColorPicker }
-      }, {
-        vuetify,
-        i18n
-      })
+      data: () => ({ color: COLOR_2 }),
+      template: '<div data-app><e-color-picker v-model="color"></e-color-picker></div>',
+      components: { 'e-color-picker': EColorPicker }
+    }, {
+      vuetify,
+      attachTo: document.body,
+      i18n
+    })
     await waitForDebounce()
     // open the color picker
     const openPicker = wrapper.find('button')
@@ -132,17 +134,19 @@ describe('An EColorPicker', () => {
     await closeButton.trigger('click')
     await waitForDebounce()
     expect(wrapper.find('input[type=text]').element.value).toBe('#E6CFE6')
+    wrapper.destroy()
   })
 
   test('accepts 3-digit hex color codes', async () => {
     const wrapper = mountComponent({
-        data: () => ({ color: '#abc' }),
-        template: '<div data-app><e-color-picker v-model="color"></e-color-picker></div>',
-        components: { 'e-color-picker': EColorPicker }
-      }, {
-        vuetify,
-        i18n
-      })
+      data: () => ({ color: '#abc' }),
+      template: '<div data-app><e-color-picker v-model="color"></e-color-picker></div>',
+      components: { 'e-color-picker': EColorPicker }
+    }, {
+      vuetify,
+      attachTo: document.body,
+      i18n
+    })
     await waitForDebounce()
     // open the color picker
     const openPicker = wrapper.find('button')
@@ -152,5 +156,6 @@ describe('An EColorPicker', () => {
     await closeButton.trigger('click')
     await waitForDebounce()
     expect(wrapper.find('input[type=text]').element.value).toBe('#AABBCC')
+    wrapper.destroy()
   })
 })

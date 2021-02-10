@@ -77,6 +77,7 @@ describe('An EDatePicker', () => {
       expect(wrapper).toMatchSnapshot('pickerclosed')
       await wrapper.find('button').trigger('click')
       expect(wrapper).toMatchSnapshot('pickeropen')
+      wrapper.destroy()
     })
 
     test('updates v-model when the value changes', async () => {
@@ -121,6 +122,7 @@ describe('An EDatePicker', () => {
         components: { 'e-date-picker': EDatePicker }
       }, {
         vuetify,
+        attachTo: document.body,
         i18n
       })
       await waitForDebounce()
@@ -134,6 +136,7 @@ describe('An EDatePicker', () => {
       await closeButton.trigger('click')
       await waitForDebounce()
       expect(wrapper.find('input[type=text]').element.value).toBe(data.date_3)
+      wrapper.destroy()
     })
   })
 })
