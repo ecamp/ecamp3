@@ -41,7 +41,7 @@ class CampHydrator implements HydratorInterface {
                     }, null),
                 ]
             ),
-            'activityCategories' => Util::Collection(function (Camp $c) {
+            'categories' => Util::Collection(function (Camp $c) {
                 return new CategoryCollection($c->getCategories());
             }, null),
         ];

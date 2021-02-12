@@ -20,13 +20,23 @@ class CategoryContentService extends AbstractEntityService {
         );
     }
 
+    /**
+     * Create CategoryContent and all Child-CategoryContents.
+     */
     public function createFromTemplate(Category $category, CategoryContentTemplate $template): CategoryContent {
         /** @var CategoryContent $categoryContent */
         $categoryContent = $this->create((object) [
             'categoryId' => $category->getId(),
             'contentTypeId' => $template->getContentType()->getId(),
+            'instanceName' => $template->getInstanceName(),
+            'position' => $template->getPosition(),
         ]);
         $categoryContent->setCategoryContentTemplateId($template->getId());
+
+        foreach ($template->getChildren() as $childTemplate) {
+            $childCategoryContent = $this->createFromTemplate($category, $childTemplate);
+            $childCategoryContent->setParent($categoryContent);
+        }
 
         return $categoryContent;
     }

@@ -37,6 +37,7 @@ class ActivityContentHydrator implements HydratorInterface {
         $data = [
             'id' => $activityContent->getId(),
             'instanceName' => $activityContent->getInstanceName(),
+            'position' => $activityContent->getPosition(),
             'contentTypeName' => $contentType->getName(),
 
             'contentType' => new EntityLink($activityContent->getContentType()),
@@ -70,6 +71,9 @@ class ActivityContentHydrator implements HydratorInterface {
 
         if (isset($data['instanceName'])) {
             $activityContent->setInstanceName($data['instanceName']);
+        }
+        if (isset($data['position'])) {
+            $activityContent->setPosition($data['position']);
         }
 
         return $activityContent;

@@ -24,7 +24,7 @@ class CategoryContentTypeTemplateService extends AbstractEntityService {
         $categoryContentTypeTemplate = parent::createEntity($data);
 
         /** @var CategoryTemplate $categoryTemplate */
-        $categoryTemplate = $this->findRelatedEntity(ActivityCategoryTemplate::class, $data, 'categoryTemplateId');
+        $categoryTemplate = $this->findRelatedEntity(CategoryTemplate::class, $data, 'categoryTemplateId');
         $categoryTemplate->addCategoryContentTypeTemplate($categoryContentTypeTemplate);
 
         /** @var ContentType $contentType */

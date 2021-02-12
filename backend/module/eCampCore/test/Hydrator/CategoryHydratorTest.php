@@ -2,7 +2,6 @@
 
 namespace eCamp\CoreTest\Hydrator;
 
-use eCamp\Core\Entity\ActivityType;
 use eCamp\Core\Entity\Camp;
 use eCamp\Core\Entity\Category;
 use eCamp\Core\Hydrator\CategoryHydrator;
@@ -24,8 +23,6 @@ class CategoryHydratorTest extends AbstractTestCase {
         $hydrator = new CategoryHydrator();
         $data = $hydrator->extract($category);
 
-//        $this->assertEquals($activityType, $data['activityType']);
-//        $this->assertEquals($camp, $data['camp']);
         $this->assertEquals('sh', $data['short']);
         $this->assertEquals('name', $data['name']);
         $this->assertEquals('#ff0000', $data['color']);

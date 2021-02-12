@@ -95,7 +95,7 @@ class CampService extends AbstractEntityService {
         if (isset($data->campTemplateId)) {
             // CampTemplateId given
             // - Create MaterialLists
-            // - Create ActivityCategories + ContentTypeConfigs
+            // - Create Categories
             $camp->setCampTemplateId($data->campTemplateId);
 
             /** @var CampTemplate $campTemplate */

@@ -23,6 +23,7 @@ class CategoryContentHydrator implements HydratorInterface {
         return [
             'id' => $categoryContent->getId(),
             'instanceName' => $categoryContent->getInstanceName(),
+            'position' => $categoryContent->getPosition(),
             'contentTypeName' => $contentType->getName(),
 
             'contentType' => new EntityLink($categoryContent->getContentType()),
@@ -38,6 +39,9 @@ class CategoryContentHydrator implements HydratorInterface {
 
         if (isset($data['instanceName'])) {
             $categoryContent->setInstanceName($data['instanceName']);
+        }
+        if (isset($data['position'])) {
+            $categoryContent->setPosition($data['position']);
         }
 
         return $categoryContent;

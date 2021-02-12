@@ -68,6 +68,10 @@ class CategoryContent extends BaseEntity implements BelongsToCampInterface {
         return (null != $this->category) ? $this->category->getCamp() : null;
     }
 
+    public function isRoot(): bool {
+        return null == $this->parent;
+    }
+
     public function getParent(): ?CategoryContent {
         return $this->parent;
     }

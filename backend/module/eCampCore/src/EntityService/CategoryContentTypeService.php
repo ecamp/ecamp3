@@ -21,14 +21,14 @@ class CategoryContentTypeService extends AbstractEntityService {
     }
 
     public function createFromTemplate(Category $category, CategoryContentTypeTemplate $template) {
-        /** @var CategoryContentType $contentTypeConfig */
-        $contentTypeConfig = $this->create((object) [
+        /** @var CategoryContentType $categoryContentType */
+        $categoryContentType = $this->create((object) [
             'categoryId' => $category->getId(),
             'contentTypeId' => $template->getContentType()->getId(),
         ]);
-        $contentTypeConfig->setCategoryContentTypeTemplateId($template->getId());
+        $categoryContentType->setCategoryContentTypeTemplateId($template->getId());
 
-        return $contentTypeConfig;
+        return $categoryContentType;
     }
 
     protected function createEntity($data): CategoryContentType {

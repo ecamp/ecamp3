@@ -9,6 +9,7 @@ use eCamp\Core\ContentType\ContentTypeStrategyProviderTrait;
 use eCamp\Core\Entity\Activity;
 use eCamp\Core\Entity\ActivityContent;
 use eCamp\Core\Entity\Camp;
+use eCamp\Core\Entity\CategoryContent;
 use eCamp\Core\Entity\ContentType;
 use eCamp\Core\Hydrator\ActivityContentHydrator;
 use eCamp\Lib\Acl\NoAccessException;
@@ -29,6 +30,26 @@ class ActivityContentService extends AbstractEntityService {
         );
 
         $this->setContentTypeStrategyProvider($contentTypeStrategyProvider);
+    }
+
+    /**
+     * Create ActivityContent and all Child-ActivityContents.
+     */
+    public function createFromCategoryContent(Activity $activity, CategoryContent $categoryContent): ActivityContent {
+        /** @var ActivityContent $activityContent */
+        $activityContent = $this->create((object) [
+            'activityId' => $activity->getId(),
+            'contentTypeId' => $categoryContent->getContentType()->getId(),
+            'instanceName' => $categoryContent->getInstanceName(),
+            'position' => $categoryContent->getPosition(),
+        ]);
+
+        foreach ($categoryContent->getChildren() as $childCategoryContent) {
+            $childActivityContent = $this->createFromCategoryContent($activity, $childCategoryContent);
+            $childActivityContent->setParent($activityContent);
+        }
+
+        return $activityContent;
     }
 
     /**

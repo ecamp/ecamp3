@@ -114,6 +114,10 @@ class CategoryTemplate extends BaseEntity {
         return $this->categoryContentTemplates;
     }
 
+    public function getRootCategoryContentTemplates(): Collection {
+        return $this->categoryContentTemplates->filter(fn (CategoryContentTemplate $cct) => $cct->isRoot());
+    }
+
     public function addCategoryContentTemplate(CategoryContentTemplate $categoryContentTemplate) {
         $categoryContentTemplate->setCategoryTemplate($this);
         $this->categoryContentTemplates->add($categoryContentTemplate);

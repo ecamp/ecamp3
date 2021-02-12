@@ -17,7 +17,7 @@ class CampTemplateTest extends AbstractTestCase {
         $this->assertEquals('CampTemplate.Name', $campTemplate->getName());
     }
 
-    public function testActivityCategoryTemplate() {
+    public function testCategoryTemplate() {
         $campTemplate = new CampTemplate();
         $categoryTemplate = new CategoryTemplate();
 

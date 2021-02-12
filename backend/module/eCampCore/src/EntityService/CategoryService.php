@@ -53,7 +53,7 @@ class CategoryService extends AbstractEntityService {
         }
 
         /** @var CategoryContentTemplate $categoryContentTemplate */
-        foreach ($template->getCategoryContentTemplates() as $categoryContentTemplate) {
+        foreach ($template->getRootCategoryContentTemplates() as $categoryContentTemplate) {
             $this->categoryContentService->createFromTemplate($category, $categoryContentTemplate);
         }
 

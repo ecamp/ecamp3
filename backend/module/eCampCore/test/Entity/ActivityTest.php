@@ -13,7 +13,7 @@ use eCamp\LibTest\PHPUnit\AbstractTestCase;
  * @internal
  */
 class ActivityTest extends AbstractTestCase {
-    public function testActivityCategory() {
+    public function testCategory() {
         $camp = new Camp();
         $category = new Category();
 

@@ -196,14 +196,11 @@ class ActivityService extends AbstractEntityService {
     }
 
     private function createInitialActivityContents(Activity $activity) {
-        $categoryContents = $activity->getCategory()->getCategoryContents();
+        $categoryContents = $activity->getCategory()->getRootCategoryContents();
 
         /** @var CategoryContent $categoryContent */
         foreach ($categoryContents as $categoryContent) {
-            $this->activityContentService->create((object) [
-                'activityId' => $activity->getId(),
-                'contentTypeId' => $categoryContent->getContentType()->getId(),
-            ]);
+            $this->activityContentService->createFromCategoryContent($activity, $categoryContent);
         }
     }
 }

@@ -7,6 +7,9 @@ use eCamp\Lib\Entity\BaseEntity;
 
 /**
  * @ORM\Entity
+ * @ORM\Table(uniqueConstraints={
+ *     @ORM\UniqueConstraint(name="categoryTemplate_contentType_unique", columns={"categoryTemplateId", "contentTypeId"})
+ * })
  */
 class CategoryContentTypeTemplate extends BaseEntity {
     /**

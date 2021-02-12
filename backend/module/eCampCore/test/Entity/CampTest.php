@@ -69,7 +69,7 @@ class CampTest extends AbstractTestCase {
         $this->assertEquals(0, $camp->getJobs()->count());
     }
 
-    public function testActivityCategory() {
+    public function testCategory() {
         $camp = new Camp();
         $category = new Category();
 

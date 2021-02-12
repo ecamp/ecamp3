@@ -59,6 +59,10 @@ class CategoryContentTemplate extends BaseEntity {
         $this->categoryTemplate = $categoryTemplate;
     }
 
+    public function isRoot(): bool {
+        return null == $this->parent;
+    }
+
     public function getParent(): ?CategoryContentTemplate {
         return $this->parent;
     }

@@ -66,7 +66,7 @@ class Category extends BaseEntity implements BelongsToCampInterface {
     }
 
     /**
-     * @internal Do not set the {@link Camp} directly on the ActivityCategory. Instead use {@see Camp::addActivityCategory()}
+     * @internal Do not set the {@link Camp} directly on the Category. Instead use {@see Camp::addCategory()}
      */
     public function setCamp(?Camp $camp) {
         $this->camp = $camp;
@@ -88,6 +88,10 @@ class Category extends BaseEntity implements BelongsToCampInterface {
 
     public function getCategoryContents(): Collection {
         return $this->categoryContents;
+    }
+
+    public function getRootCategoryContents(): Collection {
+        return $this->categoryContents->filter(fn (CategoryContent $cc) => $cc->isRoot());
     }
 
     public function addCategoryContent(CategoryContent $categoryContent) {

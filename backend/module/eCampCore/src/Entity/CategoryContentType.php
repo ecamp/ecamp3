@@ -7,6 +7,9 @@ use eCamp\Lib\Entity\BaseEntity;
 
 /**
  * @ORM\Entity
+ * @ORM\Table(uniqueConstraints={
+ *     @ORM\UniqueConstraint(name="category_contentType_unique", columns={"categoryId", "contentTypeId"})
+ * })
  */
 class CategoryContentType extends BaseEntity implements BelongsToCampInterface {
     /**

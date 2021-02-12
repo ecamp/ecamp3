@@ -5,11 +5,10 @@ namespace eCamp\CoreTest\Data;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
-use eCamp\Core\Entity\ActivityCategoryTemplate;
 use eCamp\Core\Entity\CategoryTemplate;
 
 class CategoryTemplateTestData extends AbstractFixture implements DependentFixtureInterface {
-    public static $TEMPLATE1 = ActivityCategoryTemplate::class.':Template1';
+    public static $TEMPLATE1 = CategoryTemplate::class.':Template1';
 
     public function load(ObjectManager $manager) {
         $campTemplate = $this->getReference(CampTemplateTestData::$TEMPLATE1);
