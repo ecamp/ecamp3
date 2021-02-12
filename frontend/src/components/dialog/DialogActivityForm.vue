@@ -5,8 +5,8 @@
       :name="$tc('entity.activity.fields.title')"
       vee-rules="required" />
 
-    <e-select v-model="localActivity.activityCategoryId" :label="$tc('entity.activity.fields.activityCategory')"
-              :items="activityCategories.items"
+    <e-select v-model="localActivity.categoryId" :label="$tc('entity.activity.fields.category')"
+              :items="categories.items"
               item-value="id"
               item-text="name"
               vee-rules="required">
@@ -60,8 +60,8 @@ export default {
     }
   },
   computed: {
-    activityCategories () {
-      return this.camp().activityCategories()
+    categories () {
+      return this.camp().categories()
     }
   }
 }

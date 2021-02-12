@@ -14,9 +14,9 @@ Lists all activity instances in a list view.
         :key="scheduleEntry._meta.self"
         two-line
         :to="scheduleEntryLink(scheduleEntry)">
-        <v-chip class="mr-2" :color="scheduleEntry.activity().activityCategory().color.toString()">
+        <v-chip class="mr-2" :color="scheduleEntry.activity().category().color.toString()">
           {{
-            scheduleEntry.activity().activityCategory().short
+            scheduleEntry.activity().category().short
           }}
         </v-chip>
         <v-list-item-content>

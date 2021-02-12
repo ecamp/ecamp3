@@ -76,10 +76,10 @@
       }
     },
     "camp": {
-      "campActivityCategories": {
+      "CampCategories": {
         "create": "Créer une catégorie d'activité",
-        "deleteActivityCategoryNotPossibleInUse": "La catégorie d'activité ne peut pas être supprimée. Elle est utilisée par :",
-        "deleteActivityCategoryQuestion": "Voulez-vous vraiment supprimer la catégorie d'activité?",
+        "deleteCategoryNotPossibleInUse": "La catégorie d'activité ne peut pas être supprimée. Elle est utilisée par :",
+        "deleteCategoryQuestion": "Voulez-vous vraiment supprimer la catégorie d'activité?",
         "title": "Catégories d'activités"
       },
       "campInvitations": {
@@ -123,7 +123,7 @@
       }
     },
     "dialog": {
-      "dialogActivityCategoryCreate": {
+      "dialogCategoryCreate": {
         "title": "Créer une catégorie d'activité"
       },
       "dialogEntityDelete": {
@@ -157,7 +157,7 @@
   "entity": {
     "activity": {
       "fields": {
-        "activityCategory": "Catégorie d'activité",
+        "category": "Catégorie d'activité",
         "location": "Lieu",
         "responsible": "responsable",
         "title": "Titre"
@@ -165,7 +165,7 @@
       "name": "Activité",
       "new": "Nouvelle activité"
     },
-    "activityCategory": {
+    "category": {
       "fields": {
         "activityType": "Type",
         "color": "Couleur",

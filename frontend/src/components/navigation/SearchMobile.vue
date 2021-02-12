@@ -104,9 +104,9 @@ export default {
         ? this.scheduleEntries.items.filter((scheduleEntry) => {
           return scheduleEntry.number.toLowerCase().includes(this.filter.toLowerCase()) ||
           scheduleEntry.activity().title.toLowerCase().includes(this.filter.toLowerCase()) ||
-          scheduleEntry.activity().activityCategory().name.toLowerCase().includes(this.filter.toLowerCase()) ||
-          scheduleEntry.activity().activityCategory().short.toLowerCase().includes(this.filter.toLowerCase()) ||
-          scheduleEntry.activity().activityCategory().short.toLowerCase().includes(this.filter.toLowerCase())
+          scheduleEntry.activity().category().name.toLowerCase().includes(this.filter.toLowerCase()) ||
+          scheduleEntry.activity().category().short.toLowerCase().includes(this.filter.toLowerCase()) ||
+          scheduleEntry.activity().category().short.toLowerCase().includes(this.filter.toLowerCase())
         }).slice(0, 3)
         : this.scheduleEntries.items.slice(0, 3)
     }

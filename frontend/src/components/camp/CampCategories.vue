@@ -6,39 +6,39 @@ Displays all periods of a single camp and allows to edit them & create new ones
   <content-group>
     <slot name="title">
       <div class="ec-content-group__title py-1 subtitle-1">
-        {{ $tc('components.camp.campActivityCategories.title') }}
-        <dialog-activity-category-create :camp="camp()">
+        {{ $tc('components.camp.CampCategories.title') }}
+        <dialog-category-create :camp="camp()">
           <template #activator="{ on }">
             <button-add color="secondary" text
                         :hide-label="true"
                         v-on="on">
-              {{ $tc('components.camp.campActivityCategories.create') }}
+              {{ $tc('components.camp.CampCategories.create') }}
             </button-add>
           </template>
-        </dialog-activity-category-create>
+        </dialog-category-create>
       </div>
     </slot>
     <v-skeleton-loader v-if="camp()._meta.loading" type="article" />
     <v-list>
       <v-list-item
-        v-for="activityCategory in activityCategories.items"
-        :key="activityCategory.id"
+        v-for="category in categories.items"
+        :key="category.id"
         class="px-0">
         <v-list-item-content class="pt-0 pb-2">
           <v-list-item-title>
-            <v-chip dark :color="activityCategory.color">
-              (1.{{ activityCategory.numberingStyle }}) {{ activityCategory.short }}: {{ activityCategory.name }}
+            <v-chip dark :color="category.color">
+              (1.{{ category.numberingStyle }}) {{ category.short }}: {{ category.name }}
             </v-chip>
           </v-list-item-title>
         </v-list-item-content>
 
         <v-list-item-action style="display: inline">
           <v-item-group>
-            <dialog-activity-category-edit :camp="camp()" :activity-category="activityCategory">
+            <dialog-category-edit :camp="camp()" :category="category">
               <template #activator="{ on }">
                 <button-edit class="mr-1" v-on="on" />
               </template>
-            </dialog-activity-category-edit>
+            </dialog-category-edit>
           </v-item-group>
         </v-list-item-action>
 
@@ -51,20 +51,20 @@ Displays all periods of a single camp and allows to edit them & create new ones
           <v-card>
             <v-item-group>
               <v-list-item-action>
-                <dialog-entity-delete :entity="activityCategory">
-                  {{ $tc('components.camp.campActivityCategories.deleteActivityCategoryQuestion') }}
+                <dialog-entity-delete :entity="category">
+                  {{ $tc('components.camp.CampCategories.deleteCategoryQuestion') }}
                   <ul>
                     <li>
-                      {{ activityCategory.short }}: {{ activityCategory.name }}
+                      {{ category.short }}: {{ category.name }}
                     </li>
                   </ul>
                   <template #activator="{ on }">
                     <button-delete v-on="on" />
                   </template>
-                  <template v-if="findActivities(activityCategory).length > 0" #error>
-                    {{ $tc('components.camp.campActivityCategories.deleteActivityCategoryNotPossibleInUse') }}
+                  <template v-if="findActivities(category).length > 0" #error>
+                    {{ $tc('components.camp.CampCategories.deleteCategoryNotPossibleInUse') }}
                     <ul>
-                      <li v-for="activity in findActivities(activityCategory)" :key="activity.id">
+                      <li v-for="activity in findActivities(category)" :key="activity.id">
                         {{ activity.title }}
                         <ul>
                           <li v-for="scheduleEntry in activity.scheduleEntries().items" :key="scheduleEntry.id">
@@ -91,18 +91,18 @@ import ButtonAdd from '@/components/buttons/ButtonAdd'
 import ButtonEdit from '@/components/buttons/ButtonEdit'
 import ButtonDelete from '@/components/buttons/ButtonDelete'
 import ContentGroup from '@/components/layout/ContentGroup'
-import DialogActivityCategoryCreate from '@/components/dialog/DialogActivityCategoryCreate'
+import DialogCategoryEdit from '@/components/dialog/DialogCategoryEdit'
+import DialogCategoryCreate from '@/components/dialog/DialogCategoryCreate'
 import DialogEntityDelete from '@/components/dialog/DialogEntityDelete'
-import DialogActivityCategoryEdit from '@/components/dialog/DialogActivityCategoryEdit'
 
 export default {
-  name: 'CampActivityCategories',
+  name: 'CampCategories',
   components: {
     ButtonAdd,
     ButtonEdit,
     ButtonDelete,
-    DialogActivityCategoryCreate,
-    DialogActivityCategoryEdit,
+    DialogCategoryEdit,
+    DialogCategoryCreate,
     DialogEntityDelete,
     ContentGroup
   },
@@ -113,14 +113,14 @@ export default {
     return {}
   },
   computed: {
-    activityCategories () {
-      return this.camp().activityCategories()
+    categories () {
+      return this.camp().categories()
     }
   },
   methods: {
-    findActivities (activityCategory) {
+    findActivities (category) {
       const activities = this.camp().activities()
-      return activities.items.filter(a => a.activityCategory().id === activityCategory.id)
+      return activities.items.filter(a => a.category().id === category.id)
     }
   }
 }

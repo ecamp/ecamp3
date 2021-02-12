@@ -2,7 +2,7 @@
   <dialog-form
     v-model="showDialog"
     icon="mdi-calendar-edit"
-    :title="activityCategory.name"
+    :title="category.name"
     max-width="600px"
     :submit-action="update"
     :cancel-action="close">
@@ -10,29 +10,29 @@
       <slot name="activator" v-bind="scope" />
     </template>
 
-    <dialog-activity-category-form
+    <dialog-category-form
       v-if="!loading"
       :camp="camp"
       :is-new="false"
-      :activity-category="entityData" />
+      :category="entityData" />
   </dialog-form>
 </template>
 
 <script>
 import DialogBase from '@/components/dialog/DialogBase'
 import DialogForm from '@/components/dialog/DialogForm'
-import DialogActivityCategoryForm from './DialogActivityCategoryForm'
+import DialogCategoryForm from './DialogCategoryForm'
 
 export default {
-  name: 'DialogActivityCategoryEdit',
+  name: 'DialogCategoryEdit',
   components: {
-    DialogActivityCategoryForm,
+    DialogCategoryForm,
     DialogForm
   },
   extends: DialogBase,
   props: {
     camp: { type: Object, required: true },
-    activityCategory: { type: Object, required: true }
+    category: { type: Object, required: true }
   },
   data () {
     return {
@@ -48,7 +48,7 @@ export default {
     // copy data whenever dialog is opened
     showDialog: function (showDialog) {
       if (showDialog) {
-        this.loadEntityData(this.activityCategory._meta.self)
+        this.loadEntityData(this.category._meta.self)
       }
     }
   }

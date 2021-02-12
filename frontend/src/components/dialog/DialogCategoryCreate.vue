@@ -2,7 +2,7 @@
   <dialog-form
     v-model="showDialog"
     icon="mdi-calendar-plus"
-    :title="$tc('components.dialog.dialogActivityCategoryCreate.title')"
+    :title="$tc('components.dialog.dialogCategoryCreate.title')"
     max-width="600px"
     :submit-action="createPeriod"
     submit-color="success"
@@ -11,23 +11,23 @@
       <slot name="activator" v-bind="scope" />
     </template>
 
-    <dialog-activity-category-form
+    <dialog-category-form
       v-if="!loading"
       :camp="camp"
       :is-new="true"
-      :activity-category="entityData" />
+      :category="entityData" />
   </dialog-form>
 </template>
 
 <script>
 import DialogForm from './DialogForm'
 import DialogBase from './DialogBase'
-import DialogActivityCategoryForm from './DialogActivityCategoryForm'
+import DialogCategoryForm from './DialogCategoryForm'
 
 export default {
-  name: 'DialogActivityCategoryCreate',
+  name: 'DialogCategoryCreate',
   components: {
-    DialogActivityCategoryForm,
+    DialogCategoryForm,
     DialogForm
   },
   extends: DialogBase,
@@ -43,7 +43,7 @@ export default {
         'color',
         'numberingStyle'
       ],
-      entityUri: '/activity-categories'
+      entityUri: '/categories'
     }
   },
   watch: {

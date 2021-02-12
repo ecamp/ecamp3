@@ -153,7 +153,7 @@ export default {
       return this.scheduleEntry().activity()
     },
     category () {
-      return this.activity.activityCategory()
+      return this.activity.category()
     },
     scheduleEntries () {
       return this.activity.scheduleEntries().items.map((entry) => {
