@@ -25,9 +25,30 @@ class CategoryContentTemplateTest extends AbstractTestCase {
         $categoryContentTemplate->setCategoryTemplate($categoryTemplate);
         $categoryContentTemplate->setContentType($contentType);
         $categoryContentTemplate->setInstanceName('CategoryContentName');
+        $categoryContentTemplate->setPosition('position');
 
         $this->assertEquals($categoryTemplate, $categoryContentTemplate->getCategoryTemplate());
         $this->assertEquals($contentType, $categoryContentTemplate->getContentType());
         $this->assertEquals('CategoryContentName', $categoryContentTemplate->getInstanceName());
+        $this->assertEquals('position', $categoryContentTemplate->getPosition());
+    }
+
+    public function testCategoryContentTemplateHierarchy() {
+        $categoryContentTemplate = new CategoryContentTemplate();
+        $childCategoryContentTemplate = new CategoryContentTemplate();
+
+        // Add Child-CategoryContentTemplate
+        $categoryContentTemplate->addChild($childCategoryContentTemplate);
+        $this->assertCount(1, $categoryContentTemplate->getChildren());
+        $this->assertEquals($categoryContentTemplate, $childCategoryContentTemplate->getParent());
+        $this->assertTrue($categoryContentTemplate->isRoot());
+        $this->assertFalse($childCategoryContentTemplate->isRoot());
+
+        // Remove Child-CategoryContentTemplate
+        $categoryContentTemplate->removeChild($childCategoryContentTemplate);
+        $this->assertCount(0, $categoryContentTemplate->getChildren());
+        $this->assertNull($childCategoryContentTemplate->getParent());
+        $this->assertTrue($categoryContentTemplate->isRoot());
+        $this->assertTrue($childCategoryContentTemplate->isRoot());
     }
 }
