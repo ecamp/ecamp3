@@ -67,7 +67,7 @@ class ConfigFactory {
     }
 
     public function getEndpoint(): string {
-        return $this->endpoint ?? self::toKebabCase($this->namePlural);
+        return $this->endpoint ?? self::toKebabCase($this->getNamePlural());
     }
 
     public function setEndpoint(string $endpoint): ConfigFactory {
@@ -122,24 +122,14 @@ class ConfigFactory {
         return $this->inputFilterItems;
     }
 
-    public function addInputFilterItem(
-        string $name,
-        bool $required = false,
-        ?array $filters = [],
-        ?array $validators = []
-    ): ConfigFactory {
-        $this->inputFilterItems[] = [
-            'name' => $name,
-            'required' => $required,
-            'filters' => $filters,
-            'validators' => $validators,
-        ];
+    public function addInputFilterFactry(InputFilterFactory $inputFilterFactory): ConfigFactory {
+        $this->inputFilterItems[] = $inputFilterFactory->build();
 
         return $this;
     }
 
-    public function createInputFilterItem(string $name, bool $required = false): InputFilterFactory {
-        return new InputFilterFactory($this, $name, $required);
+    public function addInputFilter(string $name, bool $required = false): ConfigFactory {
+        return $this->addInputFilterFactry(InputFilterFactory::Create($name, $required));
     }
 
     public function buildConfig(): array {

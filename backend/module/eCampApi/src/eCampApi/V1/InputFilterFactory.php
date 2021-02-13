@@ -3,20 +3,30 @@
 namespace eCampApi\V1;
 
 class InputFilterFactory {
-    private $config;
     private $name;
     private $required;
     private $filters = [];
     private $validators = [];
 
     public function __construct(
-        ConfigFactory $config,
         string $name,
         bool $required
     ) {
-        $this->config = $config;
         $this->name = $name;
         $this->required = $required;
+    }
+
+    public static function Create(
+        string $name,
+        bool $required = false
+    ): InputFilterFactory {
+        return new InputFilterFactory($name, $required);
+    }
+
+    public function setRequired(bool $required = true): InputFilterFactory {
+        $this->required = $required;
+
+        return $this;
     }
 
     public function addFilters(...$filters): InputFilterFactory {
@@ -75,14 +85,12 @@ class InputFilterFactory {
         ]);
     }
 
-    public function buildInputFilter(): ConfigFactory {
-        $this->config->addInputFilterItem(
-            $this->name,
-            $this->required,
-            $this->filters,
-            $this->validators
-        );
-
-        return $this->config;
+    public function build(): array {
+        return [
+            'name' => $this->name,
+            'required' => $this->required,
+            'filters' => $this->filters,
+            'validators' => $this->validators,
+        ];
     }
 }

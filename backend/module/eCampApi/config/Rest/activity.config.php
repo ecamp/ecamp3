@@ -1,24 +1,24 @@
 <?php
 
-return
-    eCampApi\V1\ConfigFactory::Create('Activity', 'Activities')
-        ->addCollectionQueryWhitelist('campId', 'periodId')
+use eCampApi\V1\ConfigFactory;
+use eCampApi\V1\InputFilterFactory;
 
-        ->createInputFilterItem('title', true)
-        ->addFilterStringTrim()
-        ->addFilterStripTags()
-        ->addValidatorStringLength(1, 32)
-        ->buildInputFilter()
-
-        ->createInputFilterItem('location')
-        ->addFilterStringTrim()
-        ->addFilterStripTags()
-        ->buildInputFilter()
-
-        ->addInputFilterItem('progress')
-        ->addInputFilterItem('campCollaborations')
-        ->addInputFilterItem('scheduleEntries')
-        ->addInputFilterItem('activityCategoryId')
-
-        ->buildConfig()
+return ConfigFactory::Create('Activity', 'Activities')
+    ->addCollectionQueryWhitelist('campId', 'periodId')
+    ->addInputFilterFactry(
+        InputFilterFactory::Create('title', true)
+            ->addFilterStringTrim()
+            ->addFilterStripTags()
+            ->addValidatorStringLength(1, 32)
+    )
+    ->addInputFilterFactry(
+        InputFilterFactory::Create('location')
+            ->addFilterStringTrim()
+            ->addFilterStripTags()
+    )
+    ->addInputFilter('progress')
+    ->addInputFilter('campCollaborations')
+    ->addInputFilter('scheduleEntries')
+    ->addInputFilter('activityCategoryId')
+    ->buildConfig()
 ;
