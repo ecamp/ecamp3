@@ -10,9 +10,9 @@ use Doctrine\ORM\Tools\SchemaTool;
 use Doctrine\ORM\Tools\ToolsException;
 use eCamp\Core\Entity\User;
 use Laminas\Authentication\AuthenticationService;
-use Laminas\Test\PHPUnit\Controller\AbstractHttpControllerTestCase as ZendAbstractHttpControllerTestCase;
+use Laminas\Test\PHPUnit\Controller\AbstractHttpControllerTestCase as LaminasAbstractHttpControllerTestCase;
 
-abstract class AbstractApiControllerTestCase extends ZendAbstractHttpControllerTestCase {
+abstract class AbstractApiControllerTestCase extends LaminasAbstractHttpControllerTestCase {
     /**
      * Host name in URIs returned by API.
      *
@@ -39,12 +39,7 @@ abstract class AbstractApiControllerTestCase extends ZendAbstractHttpControllerT
         $headers->addHeaderLine('Content-Type', 'application/json');
     }
 
-    /**
-     * @param null|mixed $name
-     *
-     * @return EntityManager
-     */
-    protected function getEntityManager($name = null) {
+    protected function getEntityManager(?string $name = null): EntityManager {
         $name = $name ?: 'orm_default';
         $name = 'doctrine.entitymanager.'.$name;
 
@@ -80,10 +75,8 @@ abstract class AbstractApiControllerTestCase extends ZendAbstractHttpControllerT
 
     /**
      * Creates a new user and authenticates it as the current user.
-     *
-     * @return User
      */
-    protected function createAndAuthenticateUser() {
+    protected function createAndAuthenticateUser(): User {
         $user = new User();
         $user->setRole(User::ROLE_USER);
         $user->setState(User::STATE_ACTIVATED);
@@ -108,7 +101,7 @@ abstract class AbstractApiControllerTestCase extends ZendAbstractHttpControllerT
     /**
      * Returns id of authenticated user.
      */
-    protected function getAuthenticatedUserId() {
+    protected function getAuthenticatedUserId(): ?string {
         /** @var AuthenticationService $auth */
         $auth = $this->getApplicationServiceLocator()->get(AuthenticationService::class);
 

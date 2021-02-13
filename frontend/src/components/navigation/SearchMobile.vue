@@ -92,8 +92,8 @@ export default {
     filteredCamps () {
       return this.filter
         ? this.camps.items.filter((camp) => {
-            return camp.title.toLowerCase().includes(this.filter.toLowerCase()) || camp.name.toLowerCase().includes(this.filter.toLowerCase()) || camp.motto.toLowerCase().includes(this.filter.toLowerCase())
-          }).slice(0, 3)
+          return camp.title.toLowerCase().includes(this.filter.toLowerCase()) || camp.name.toLowerCase().includes(this.filter.toLowerCase()) || camp.motto.toLowerCase().includes(this.filter.toLowerCase())
+        }).slice(0, 3)
         : this.camps.items.slice(0, 3)
     },
     scheduleEntries () {
@@ -102,12 +102,12 @@ export default {
     filteredScheduleEntries () {
       return this.filter
         ? this.scheduleEntries.items.filter((scheduleEntry) => {
-            return scheduleEntry.number.toLowerCase().includes(this.filter.toLowerCase()) ||
+          return scheduleEntry.number.toLowerCase().includes(this.filter.toLowerCase()) ||
           scheduleEntry.activity().title.toLowerCase().includes(this.filter.toLowerCase()) ||
           scheduleEntry.activity().activityCategory().name.toLowerCase().includes(this.filter.toLowerCase()) ||
           scheduleEntry.activity().activityCategory().short.toLowerCase().includes(this.filter.toLowerCase()) ||
           scheduleEntry.activity().activityCategory().short.toLowerCase().includes(this.filter.toLowerCase())
-          }).slice(0, 3)
+        }).slice(0, 3)
         : this.scheduleEntries.items.slice(0, 3)
     }
   },

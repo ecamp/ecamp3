@@ -39,7 +39,7 @@ class ApiController extends AbstractActionController {
     }
 
     protected function createHalEntity($entity, $route, $routeIdentifierName) {
-        /** @var Hal $contentType */
+        /** @var Hal $plugin */
         $plugin = $this->plugin('Hal');
 
         return $plugin->createEntity($entity, $route, $routeIdentifierName);

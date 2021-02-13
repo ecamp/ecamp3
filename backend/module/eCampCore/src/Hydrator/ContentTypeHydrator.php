@@ -6,17 +6,15 @@ use eCamp\Core\Entity\ContentType;
 use Laminas\Hydrator\HydratorInterface;
 
 class ContentTypeHydrator implements HydratorInterface {
-    public static function HydrateInfo() {
+    public static function HydrateInfo(): array {
         return [
         ];
     }
 
     /**
      * @param object $object
-     *
-     * @return array
      */
-    public function extract($object) {
+    public function extract($object): array {
         /** @var ContentType $contentType */
         $contentType = $object;
 
@@ -24,16 +22,13 @@ class ContentTypeHydrator implements HydratorInterface {
             'id' => $contentType->getId(),
             'name' => $contentType->getName(),
             'active' => $contentType->getActive(),
-            'allowMultiple' => $contentType->getAllowMultiple(),
         ];
     }
 
     /**
      * @param object $object
-     *
-     * @return object
      */
-    public function hydrate(array $data, $object) {
+    public function hydrate(array $data, $object): ContentType {
         /** @var ContentType $contentType */
         $contentType = $object;
 
@@ -42,9 +37,6 @@ class ContentTypeHydrator implements HydratorInterface {
         }
         if (isset($data['active'])) {
             $contentType->setActive($data['active']);
-        }
-        if (isset($data['allowMultiple'])) {
-            $contentType->setActive($data['allowMultiple']);
         }
 
         return $contentType;

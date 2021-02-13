@@ -57,17 +57,25 @@ JSON;
                 "docu": {
                     "href": "http://{$host}/api-tools/swagger"
                 },
+                "invitation": {
+                  "href": "http://{$host}/api/invitation{/action}{/inviteKey}",
+                  "templated": true
+                },
                 "users": {
                     "href": "http://{$host}/api/users{/userId}{?page_size,search}",
                     "templated": true
                 },
-                "campTypes": {
-                    "href": "http://{$host}/api/camp-types{/campTypeId}{?page_size}",
+                "campTemplates": {
+                    "href": "http://{$host}/api/camp-templates{/campTemplateId}{?page_size}",
                     "templated": true
                 },
                 "camps": {
                     "href": "http://{$host}/api/camps{/campId}{?page_size}",
                     "templated": true
+                },
+                "campCollaborations": {
+                  "href": "http://{$host}/api/camp-collaborations{/campCollaborationId}{?page_size,campId,userId}",
+                  "templated": true
                 },
                 "scheduleEntries": {
                     "href": "http://{$host}/api/schedule-entries{/scheduleEntryId}{?page_size,activityId}",

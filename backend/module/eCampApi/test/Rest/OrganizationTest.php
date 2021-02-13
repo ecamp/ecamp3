@@ -57,7 +57,7 @@ JSON;
                 }
             }
 JSON;
-        $expectedEmbeddedObjects = ['campTypes'];
+        $expectedEmbeddedObjects = [];
 
         $this->verifyHalResourceResponse($expectedBody, $expectedLinks, $expectedEmbeddedObjects);
     }

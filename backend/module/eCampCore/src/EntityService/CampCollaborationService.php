@@ -3,24 +3,28 @@
 namespace eCamp\Core\EntityService;
 
 use Doctrine\ORM\ORMException;
+use Doctrine\ORM\Query\Expr;
+use Doctrine\ORM\QueryBuilder;
 use eCamp\Core\Entity\Camp;
 use eCamp\Core\Entity\CampCollaboration;
 use eCamp\Core\Entity\User;
 use eCamp\Core\Hydrator\CampCollaborationHydrator;
+use eCamp\Core\Service\SendmailService;
 use eCamp\Lib\Acl\Acl;
 use eCamp\Lib\Entity\BaseEntity;
+use eCamp\Lib\Service\EntityValidationException;
 use eCamp\Lib\Service\ServiceUtils;
-use Laminas\ApiTools\ApiProblem\ApiProblem;
 use Laminas\Authentication\AuthenticationService;
 
 class CampCollaborationService extends AbstractEntityService {
-    /** @var MaterialListService */
-    private $materialListService;
+    private MaterialListService $materialListService;
+    private SendmailService $sendmailService;
 
     public function __construct(
-        MaterialListService $materialListService,
         ServiceUtils $serviceUtils,
-        AuthenticationService $authenticationService
+        AuthenticationService $authenticationService,
+        MaterialListService $materialListService,
+        SendmailService $sendmailService
     ) {
         parent::__construct(
             $serviceUtils,
@@ -30,6 +34,7 @@ class CampCollaborationService extends AbstractEntityService {
         );
 
         $this->materialListService = $materialListService;
+        $this->sendmailService = $sendmailService;
     }
 
     /**
@@ -37,44 +42,64 @@ class CampCollaborationService extends AbstractEntityService {
      *
      * @throws ORMException
      * @throws \Exception
-     *
-     * @return ApiProblem|CampCollaboration
      */
-    protected function createEntity($data) {
+    protected function createEntity($data): CampCollaboration {
         $this->assertAuthenticated();
 
         $authUser = $this->getAuthUser();
         if (!isset($data->userId)) {
+            $data->userId = null;
+        }
+        $inviteEmail = isset($data->inviteEmail) ? $data->inviteEmail : null;
+        if (null == $data->userId && !$inviteEmail) {
             $data->userId = $authUser->getId();
         }
 
         /** @var Camp $camp */
         $camp = $this->findRelatedEntity(Camp::class, $data, 'campId');
 
-        /** @var User $user */
-        $user = $this->findRelatedEntity(User::class, $data, 'userId');
-
-        if (!isset($data->role)) {
-            $data->role = CampCollaboration::ROLE_MEMBER;
+        $user = null;
+        if (null != $data->userId) {
+            /** @var User $user */
+            $user = $this->findRelatedEntity(User::class, $data, 'userId');
         }
 
         $q = $this->fetchAllQueryBuilder();
-        $q->andWhere('row.camp = :campId');
-        $q->andWhere('row.user = :userId');
-        $q->andWhere('row.status = :status');
+        $expr = new Expr();
+        $q->andWhere($expr->andX(
+            $q->expr()->eq('row.camp', ':campId'),
+            $expr->orX(
+                $expr->eq('row.user', ':userId'),
+                $expr->eq('row.inviteEmail', ':inviteEmail')
+            )
+        ));
         $q->setParameter('campId', $camp->getId());
-        $q->setParameter('userId', $user->getId());
-        $q->setParameter('status', CampCollaboration::STATUS_LEFT);
+        $userForCampCollaborationAlreadyKnown = null != $user;
+        $q->setParameter('userId', $userForCampCollaborationAlreadyKnown ? $user->getId() : null);
+        $q->setParameter('inviteEmail', $inviteEmail);
         $result = $q->getQuery()->getResult();
 
         if (count($result) > 0) {
-            /** @var CampCollaboration $campCollaboration */
-            $campCollaboration = $result[0];
-        } else {
-            /** @var CampCollaboration $campCollaboration */
-            $campCollaboration = parent::createEntity($data);
-            $camp->addCampCollaboration($campCollaboration);
+            $messages = [];
+            $userId = isset($data->userId) ? $data->userId : null;
+            if ($userId) {
+                $messages['userId'] = ['duplicateCampCollaboration' => "CampCollaboration for the camp {$data->campId} and user {$userId} already exists."];
+            }
+            if ($inviteEmail) {
+                $messages['inviteEmail'] = ['duplicateCampCollaboration' => "CampCollaboration for the camp {$data->campId} and inviteEmail {$data->inviteEmail} already exists."];
+            }
+
+            throw (new EntityValidationException())->setMessages($messages);
+        }
+        /** @var CampCollaboration $campCollaboration */
+        $campCollaboration = parent::createEntity($data);
+        $camp->addCampCollaboration($campCollaboration);
+        if ($userForCampCollaborationAlreadyKnown) {
             $user->addCampCollaboration($campCollaboration);
+        }
+
+        if (!isset($data->role)) {
+            $data->role = CampCollaboration::ROLE_MEMBER;
         }
         $campCollaboration->setRole($data->role);
 
@@ -93,12 +118,17 @@ class CampCollaborationService extends AbstractEntityService {
             // Create CampCollaboration for other User
             $campCollaboration->setStatus(CampCollaboration::STATUS_INVITED);
             $campCollaboration->setCollaborationAcceptedBy($authUser->getUsername());
+            $campCollaboration->setInviteEmail($inviteEmail);
+        }
+
+        if (CampCollaboration::STATUS_INVITED == $campCollaboration->getStatus() && $campCollaboration->getInviteEmail()) {
+            $this->sendInviteEmail($campCollaboration, $authUser, $camp);
         }
 
         return $campCollaboration;
     }
 
-    protected function createEntityPost(BaseEntity $entity, $data) {
+    protected function createEntityPost(BaseEntity $entity, $data): CampCollaboration {
         /** @var CampCollaboration $campCollaboration */
         $campCollaboration = $entity;
 
@@ -113,10 +143,8 @@ class CampCollaborationService extends AbstractEntityService {
      * @param $data
      *
      * @throws ORMException
-     *
-     * @return CampCollaboration
      */
-    protected function patchEntity(BaseEntity $entity, $data) {
+    protected function patchEntity(BaseEntity $entity, $data): CampCollaboration {
         /** @var CampCollaboration $campCollaboration */
         $campCollaboration = $entity;
 
@@ -126,6 +154,8 @@ class CampCollaborationService extends AbstractEntityService {
             $campCollaboration = $this->updateInvitation($campCollaboration, $data);
         } elseif ($campCollaboration->isRequest()) {
             $campCollaboration = $this->updateRequest($campCollaboration, $data);
+        } elseif ($campCollaboration->isLeft()) {
+            $campCollaboration = $this->updateLeft($campCollaboration, $data);
         }
 
         return $campCollaboration;
@@ -135,10 +165,8 @@ class CampCollaborationService extends AbstractEntityService {
      * @param mixed $data
      *
      * @throws ORMException
-     *
-     * @return CampCollaboration
      */
-    protected function updateEntity(BaseEntity $entity, $data) {
+    protected function updateEntity(BaseEntity $entity, $data): CampCollaboration {
         /** @var CampCollaboration $campCollaboration */
         $campCollaboration = parent::updateEntity($entity, $data);
 
@@ -155,24 +183,22 @@ class CampCollaborationService extends AbstractEntityService {
 
     /**
      * @throws ORMException
-     *
-     * @return bool
      */
     protected function deleteEntity(BaseEntity $entity) {
         /** @var CampCollaboration $campCollaboration */
         $campCollaboration = $entity;
-        $data = (object) ['status' => CampCollaboration::STATUS_LEFT];
-
-        if ($campCollaboration->isEstablished()) {
-            $campCollaboration = $this->updateCollaboration($campCollaboration, $data);
-        } elseif ($campCollaboration->isInvitation()) {
-            $campCollaboration = $this->updateInvitation($campCollaboration, $data);
-        } elseif ($campCollaboration->isRequest()) {
-            $campCollaboration = $this->updateRequest($campCollaboration, $data);
+        if (in_array(
+            $campCollaboration->getStatus(),
+            [CampCollaboration::STATUS_INVITED, CampCollaboration::STATUS_REQUESTED],
+            true
+        )) {
+            parent::deleteEntity($entity);
+        } else {
+            $this->updateEntity($campCollaboration, (object) ['status' => CampCollaboration::STATUS_LEFT]);
         }
     }
 
-    protected function fetchAllQueryBuilder($params = []) {
+    protected function fetchAllQueryBuilder($params = []): QueryBuilder {
         $q = parent::fetchAllQueryBuilder($params);
         $q->andWhere($this->createFilter($q, Camp::class, 'row', 'camp'));
 
@@ -187,6 +213,17 @@ class CampCollaborationService extends AbstractEntityService {
         }
 
         return $q;
+    }
+
+    protected function sendInviteEmail(CampCollaboration $campCollaboration, User $authUser, Camp $camp): void {
+        $uniqid = uniqid('', true);
+        $campCollaboration->setInviteKey($uniqid);
+        $this->sendmailService->sendInviteToCampMail(
+            $authUser,
+            $camp,
+            $uniqid,
+            $campCollaboration->getInviteEmail()
+        );
     }
 
     /**
@@ -307,6 +344,30 @@ class CampCollaborationService extends AbstractEntityService {
         }
 
         return $campCollaboration;
+    }
+
+    private function updateLeft(CampCollaboration $campCollaboration, object $data): CampCollaboration {
+        $authUser = $this->getAuthUser();
+        $campCollaborationUser = $campCollaboration->getUser();
+        if ($authUser === $campCollaborationUser) {
+            throw new \Exception('The authenticated user cannot edit his own left CampCollaboration');
+        }
+
+        switch ($data->status) {
+                case CampCollaboration::STATUS_INVITED:
+                    $campCollaboration->setStatus(CampCollaboration::STATUS_INVITED);
+                    $inviteEmail = $campCollaboration->getInviteEmail();
+                    if (null != $campCollaborationUser) {
+                        $inviteEmail = $campCollaborationUser->getTrustedMailAddress();
+                    }
+                    $campCollaboration->setInviteEmail($inviteEmail);
+                    $this->sendInviteEmail($campCollaboration, $authUser, $campCollaboration->getCamp());
+
+                    return $campCollaboration;
+
+                default:
+                    throw (new EntityValidationException())->setMessages(['status' => ['invalidStatus' => "A CampCollaboration with status 'left' can only be updated to status 'invited', was : {$data->status}"]]);
+            }
     }
 
     private function createMaterialList(CampCollaboration $campCollaboration) {

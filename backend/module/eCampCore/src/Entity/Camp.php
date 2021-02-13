@@ -3,6 +3,7 @@
 namespace eCamp\Core\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use eCamp\Lib\Annotation\EntityFilter;
 use eCamp\Lib\Entity\BaseEntity;
@@ -17,80 +18,67 @@ use eCamp\Lib\Entity\BaseEntity;
  */
 class Camp extends BaseEntity implements BelongsToCampInterface {
     /**
-     * @var ArrayCollection
      * @ORM\OneToMany(targetEntity="CampCollaboration", mappedBy="camp", orphanRemoval=true)
      */
-    protected $collaborations;
+    protected Collection $collaborations;
 
     /**
-     * @var ArrayCollection
      * @ORM\OneToMany(targetEntity="Job", mappedBy="camp", orphanRemoval=true)
      */
-    protected $jobs;
+    protected Collection $jobs;
 
     /**
-     * @var ArrayCollection
      * @ORM\OneToMany(targetEntity="Period", mappedBy="camp", orphanRemoval=true)
      * @ORM\OrderBy({"start": "ASC"})
      */
-    protected $periods;
+    protected Collection $periods;
 
     /**
-     * @var ArrayCollection
      * @ORM\OneToMany(targetEntity="ActivityCategory", mappedBy="camp", orphanRemoval=true)
      */
-    protected $activityCategories;
+    protected Collection $activityCategories;
 
     /**
-     * @var ArrayCollection
      * @ORM\OneToMany(targetEntity="Activity", mappedBy="camp", orphanRemoval=true)
      */
-    protected $activities;
+    protected Collection $activities;
 
     /**
-     * @var ArrayCollection
      * @ORM\OneToMany(targetEntity="MaterialList", mappedBy="camp", orphanRemoval=true)
      */
-    protected $materialLists;
+    protected Collection $materialLists;
 
     /**
-     * @var CampType
-     * @ORM\ManyToOne(targetEntity="CampType")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\Column(type="string", length=32, nullable=true)
      */
-    private $campType;
+    private ?string $campTemplateId = null;
 
     /**
-     * @var string
      * @ORM\Column(type="string", length=32, nullable=false)
      */
-    private $name;
+    private ?string $name = null;
 
     /**
-     * @var string
      * @ORM\Column(type="string", length=64, nullable=false)
      */
-    private $title;
+    private ?string $title = null;
 
     /**
-     * @var string
      * @ORM\Column(type="string", length=128, nullable=false)
      */
-    private $motto;
+    private ?string $motto = null;
 
     /**
-     * @var User
      * @ORM\ManyToOne(targetEntity="User")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $creator;
+    private ?User $creator = null;
 
     /**
-     * @var AbstractCampOwner
      * @ORM\ManyToOne(targetEntity="AbstractCampOwner", inversedBy="ownedCamps")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $owner;
+    private ?AbstractCampOwner $owner = null;
 
     public function __construct() {
         parent::__construct();
@@ -103,78 +91,51 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
         $this->materialLists = new ArrayCollection();
     }
 
-    /**
-     * @return CampType
-     */
-    public function getCampType() {
-        return $this->campType;
+    public function getCampTemplateId(): ?string {
+        return $this->campTemplateId;
     }
 
-    public function setCampType(CampType $campType) {
-        $this->campType = $campType;
+    public function setCampTemplateId(?string $campTemplateId) {
+        $this->campTemplateId = $campTemplateId;
     }
 
-    /**
-     * @param null $key
-     *
-     * @return object
-     */
-    public function getConfig($key = null) {
-        return (null !== $this->campType) ? $this->campType->getConfig($key) : null;
-    }
-
-    /**
-     * @return string
-     */
-    public function getName() {
+    public function getName(): ?string {
         return $this->name;
     }
 
-    public function setName(string $name) {
+    public function setName(?string $name) {
         $this->name = $name;
     }
 
-    /**
-     * @return string
-     */
-    public function getTitle() {
+    public function getTitle(): ?string {
         return $this->title;
     }
 
-    public function setTitle(string $title) {
+    public function setTitle(?string $title) {
         $this->title = $title;
     }
 
-    /**
-     * @return string
-     */
-    public function getMotto() {
+    public function getMotto(): ?string {
         return $this->motto;
     }
 
-    public function setMotto(string $motto) {
+    public function setMotto(?string $motto) {
         $this->motto = $motto;
     }
 
-    /**
-     * @return User
-     */
-    public function getCreator() {
+    public function getCreator(): ?User {
         return $this->creator;
     }
 
-    public function setCreator(User $creator) {
+    public function setCreator(?User $creator) {
         $this->creator = $creator;
     }
 
-    /**
-     * @return AbstractCampOwner
-     */
-    public function getOwner() {
+    public function getOwner(): ?AbstractCampOwner {
         return $this->owner;
     }
 
-    public function setOwner($owner) {
+    public function setOwner(?AbstractCampOwner $owner) {
         if (!$owner instanceof User) {
             throw new \Exception('Owner must be a user. Groups are not (yet) supported.');
         }
@@ -182,24 +143,15 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
         $this->owner = $owner;
     }
 
-    /**
-     * @return bool
-     */
-    public function belongsToUser() {
+    public function belongsToUser(): bool {
         return $this->owner instanceof User;
     }
 
-    /**
-     * @return bool
-     */
-    public function belongsToGroup() {
+    public function belongsToGroup(): bool {
         return $this->owner instanceof Group;
     }
 
-    /**
-     * @return ArrayCollection
-     */
-    public function getCampCollaborations() {
+    public function getCampCollaborations(): Collection {
         return $this->collaborations;
     }
 
@@ -213,13 +165,13 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
         $this->collaborations->removeElement($collaboration);
     }
 
-    public function getRole($userId) {
+    public function getRole($userId): string {
         if ($this->getOwner() && $this->getOwner()->getId() === $userId) {
             return CampCollaboration::ROLE_MANAGER;
         }
 
         $campCollaborations = $this->collaborations->filter(function (CampCollaboration $cc) use ($userId) {
-            return $cc->getUser()->getId() == $userId;
+            return null != $cc->getUser() && $cc->getUser()->getId() == $userId;
         });
 
         if (1 == $campCollaborations->count()) {
@@ -235,10 +187,8 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
 
     /**
      * @param string $userId
-     *
-     * @return bool
      */
-    public function isCollaborator($userId) {
+    public function isCollaborator($userId): bool {
         if ($this->getCreator() && $this->getCreator()->getId() == $userId) {
             return true;
         }
@@ -247,14 +197,11 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
         }
 
         return $this->getCampCollaborations()->exists(function ($idx, CampCollaboration $cc) use ($userId) {
-            return $cc->isEstablished() && ($cc->getUser()->getId() == $userId);
+            return $cc->isEstablished() && null != $cc->getUser() && ($cc->getUser()->getId() == $userId);
         });
     }
 
-    /**
-     * @return ArrayCollection
-     */
-    public function getJobs() {
+    public function getJobs(): Collection {
         return $this->jobs;
     }
 
@@ -268,10 +215,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
         $this->jobs->removeElement($job);
     }
 
-    /**
-     * @return ArrayCollection
-     */
-    public function getPeriods() {
+    public function getPeriods(): Collection {
         return $this->periods;
     }
 
@@ -285,10 +229,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
         $this->periods->removeElement($period);
     }
 
-    /**
-     * @return ArrayCollection
-     */
-    public function getActivityCategories() {
+    public function getActivityCategories(): Collection {
         return $this->activityCategories;
     }
 
@@ -302,10 +243,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
         $this->activityCategories->removeElement($activityCategory);
     }
 
-    /**
-     * @return ArrayCollection
-     */
-    public function getActivities() {
+    public function getActivities(): Collection {
         return $this->activities;
     }
 
@@ -319,10 +257,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
         $this->activities->removeElement($activity);
     }
 
-    /**
-     * @return ArrayCollection
-     */
-    public function getMaterialLists() {
+    public function getMaterialLists(): Collection {
         return $this->materialLists;
     }
 
@@ -336,10 +271,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
         $this->materialLists->removeElement($materialList);
     }
 
-    /**
-     * @return Camp
-     */
-    public function getCamp() {
+    public function getCamp(): ?Camp {
         return $this;
     }
 }

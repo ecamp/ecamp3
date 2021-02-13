@@ -9,10 +9,8 @@ use Laminas\ServiceManager\Factory\FactoryInterface;
 class AmqpServiceFactory implements FactoryInterface {
     /**
      * @param string $requestedName
-     *
-     * @return AmqpService
      */
-    public function __invoke(ContainerInterface $container, $requestedName, array $options = null) {
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null): AmqpService {
         $config = $container->get('Config');
         $amqpConfig = $config['amqp']['connection'] ?? [];
 

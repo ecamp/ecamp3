@@ -9,30 +9,35 @@ use Symfony\Component\Filesystem\Filesystem;
  * @internal
  */
 class DiGenerateAotTest extends AbstractTestCase {
-    const SCRIPT_PATH = __DIR__.'/../../../../../bin/di-generate-aot.php';
-    const GEN_DIRECTORY = __DIR__.'/../../../gen';
-
-    protected function setUp(): void {
-        parent::setUp();
-        $this->removeDirectory(self::GEN_DIRECTORY);
-    }
+    const GEN_DIRECTORY = __DIR__.'/../../../gen_tmp';
 
     public function testRunsThroughWithoutErrors() {
-        // given
+        // delete temporary output folder if it exists
+        // should not be the case
+        if (file_exists(self::GEN_DIRECTORY)) {
+            (new Filesystem())->remove(self::GEN_DIRECTORY);
+        }
+
+        // check temporary folder does not exist
         $this->assertDirectoryDoesNotExist(self::GEN_DIRECTORY);
 
-        // when
-        require self::SCRIPT_PATH;
+        // recreate temporary output folder
+        (new Filesystem())->mkdir(self::GEN_DIRECTORY);
 
-        // then
+        // create factories
+        $builder = new FactoryBuilder();
+        $builder->setOutputDirectory(self::GEN_DIRECTORY);
+        $builder->build();
+
+        // check factories are created
         $this->assertDirectoryExists(self::GEN_DIRECTORY);
         $this->assertDirectoryExists(self::GEN_DIRECTORY.'/Factory/eCamp');
         $this->assertDirectoryExists(self::GEN_DIRECTORY.'/Factory/eCampApi');
-    }
 
-    protected function removeDirectory($dir) {
-        if (file_exists($dir)) {
-            (new Filesystem())->remove($dir);
-        }
+        // delete temporary output folder
+        (new Filesystem())->remove(self::GEN_DIRECTORY);
+
+        // check temporary folder does not exist
+        $this->assertDirectoryDoesNotExist(self::GEN_DIRECTORY);
     }
 }

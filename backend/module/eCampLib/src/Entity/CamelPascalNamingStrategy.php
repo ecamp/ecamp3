@@ -10,24 +10,20 @@ class CamelPascalNamingStrategy extends DefaultNamingStrategy {
      * PascalCase is bad practice as many DB backend are not case sensitive.
      *
      * @param string $className the fully-qualified class name
-     *
-     * @return string a table name
      */
-    public function classToTableName($className) {
+    public function classToTableName($className): string {
         return $this->classToSnakeCase($className);
     }
 
     /**
      * Returns a column name for an embedded property in camelCase.
      *
-     * @param string $propertyName
-     * @param string $embeddedColumnName
-     * @param string $className
-     * @param string $embeddedClassName
-     *
-     * @return string
+     * @param string      $propertyName
+     * @param string      $embeddedColumnName
+     * @param null|string $className
+     * @param null|string $embeddedClassName
      */
-    public function embeddedFieldToColumnName($propertyName, $embeddedColumnName, $className = null, $embeddedClassName = null) {
+    public function embeddedFieldToColumnName($propertyName, $embeddedColumnName, $className = null, $embeddedClassName = null): string {
         return $propertyName.ucfirst($embeddedColumnName);
     }
 
@@ -36,10 +32,8 @@ class CamelPascalNamingStrategy extends DefaultNamingStrategy {
      *
      * @param string     $propertyName a property name
      * @param null|mixed $className
-     *
-     * @return string a join column name
      */
-    public function joinColumnName($propertyName, $className = null) {
+    public function joinColumnName($propertyName, $className = null): string {
         return $propertyName.ucfirst($this->referenceColumnName());
     }
 
@@ -48,10 +42,8 @@ class CamelPascalNamingStrategy extends DefaultNamingStrategy {
      *
      * @param string      $entityName           an entity
      * @param null|string $referencedColumnName a property
-     *
-     * @return string a join column name
      */
-    public function joinKeyColumnName($entityName, $referencedColumnName = null) {
+    public function joinKeyColumnName($entityName, $referencedColumnName = null): string {
         return $this->classToCamelCase($entityName).
                 ucfirst(($referencedColumnName ?: $this->referenceColumnName()));
     }
@@ -60,9 +52,9 @@ class CamelPascalNamingStrategy extends DefaultNamingStrategy {
      * Returns unqualified class name (without namespace path)
      * (wihout altering case --> PascalCase).
      *
-     * @param mixed $className
+     * @param string $className
      */
-    private function unqualifiedClassName($className) {
+    private function unqualifiedClassName($className): string {
         if (false !== strpos($className, '\\')) {
             return substr($className, strrpos($className, '\\') + 1);
         }
@@ -73,18 +65,18 @@ class CamelPascalNamingStrategy extends DefaultNamingStrategy {
     /**
      * Returns ClassName in snake_case.
      *
-     * @param mixed $className
+     * @param string $className
      */
-    private function classToSnakeCase($className) {
+    private function classToSnakeCase($className): string {
         return ltrim(strtolower(preg_replace('/[A-Z]([A-Z](?![a-z]))*/', '_$0', $this->unqualifiedClassName($className))), '_');
     }
 
     /**
      * Returns ClassName in camelCase.
      *
-     * @param mixed $className
+     * @param string $className
      */
-    private function classToCamelCase($className) {
+    private function classToCamelCase($className): string {
         return lcfirst($this->unqualifiedClassName($className));
     }
 }

@@ -12,16 +12,12 @@ use eCamp\Lib\Entity\BaseEntity;
  */
 abstract class BaseContentTypeEntity extends BaseEntity implements BelongsToActivityContentInterface {
     /**
-     * @var ActivityContent
      * @ORM\ManyToOne(targetEntity="eCamp\Core\Entity\ActivityContent")
      * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      */
-    protected $activityContent;
+    protected ActivityContent $activityContent;
 
-    /**
-     * @return ActivityContent
-     */
-    public function getActivityContent() {
+    public function getActivityContent(): ActivityContent {
         return $this->activityContent;
     }
 

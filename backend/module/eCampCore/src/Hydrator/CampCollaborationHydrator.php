@@ -8,7 +8,7 @@ use eCamp\Lib\Hydrator\Util;
 use Laminas\Hydrator\HydratorInterface;
 
 class CampCollaborationHydrator implements HydratorInterface {
-    public static function HydrateInfo() {
+    public static function HydrateInfo(): array {
         return [
             'camp' => Util::Entity(function (CampCollaboration $cc) {
                 return $cc->getCamp();
@@ -21,10 +21,8 @@ class CampCollaborationHydrator implements HydratorInterface {
 
     /**
      * @param object $object
-     *
-     * @return array
      */
-    public function extract($object) {
+    public function extract($object): array {
         /** @var CampCollaboration $campCollaboration */
         $campCollaboration = $object;
 
@@ -32,6 +30,7 @@ class CampCollaborationHydrator implements HydratorInterface {
             'id' => $campCollaboration->getId(),
             'role' => $campCollaboration->getRole(),
             'status' => $campCollaboration->getStatus(),
+            'inviteEmail' => $campCollaboration->getInviteEmail(),
 
             'camp' => EntityLink::Create($campCollaboration->getCamp()),
             'user' => EntityLink::Create($campCollaboration->getUser()),
@@ -40,10 +39,8 @@ class CampCollaborationHydrator implements HydratorInterface {
 
     /**
      * @param object $object
-     *
-     * @return object
      */
-    public function hydrate(array $data, $object) {
+    public function hydrate(array $data, $object): CampCollaboration {
         // @var CampCollaboration $campCollaboration
         return $object;
     }

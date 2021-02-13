@@ -5,6 +5,7 @@ namespace eCamp\CoreData;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Persistence\ObjectManager;
 use eCamp\ContentType\Material\Strategy as MaterialStrategy;
+use eCamp\ContentType\MultiSelect\Strategy as MultiSelectStrategy;
 use eCamp\ContentType\SingleText\Strategy as SingleTextStrategy;
 use eCamp\ContentType\Storyboard\Strategy as StoryboardStrategy;
 use eCamp\Core\Entity\ContentType;
@@ -15,6 +16,7 @@ class ContentTypeData extends AbstractFixture {
     public static $SAFETYCONCEPT = ContentType::class.':SAFETYCONCEPT';
     public static $NOTES = ContentType::class.':NOTES';
     public static $MATERIAL = ContentType::class.':MATERIAL';
+    public static $LATHEMATICAREA = ContentType::class.':LATHEMATICAREA';
 
     public function load(ObjectManager $manager) {
         $repository = $manager->getRepository(ContentType::class);
@@ -24,7 +26,6 @@ class ContentTypeData extends AbstractFixture {
         if (null == $contentType) {
             $contentType = new ContentType();
             $contentType->setName('Storyboard');
-            $contentType->setAllowMultiple(true);
             $contentType->setStrategyClass(StoryboardStrategy::class);
             $manager->persist($contentType);
         }
@@ -66,11 +67,30 @@ class ContentTypeData extends AbstractFixture {
         if (null == $contentType) {
             $contentType = new ContentType();
             $contentType->setName('Material');
-            $contentType->setAllowMultiple(true);
             $contentType->setStrategyClass(MaterialStrategy::class);
             $manager->persist($contentType);
         }
         $this->addReference(self::$MATERIAL, $contentType);
+
+        // LA Thematic Area (LA Themenbereich)
+        $contentType = $repository->findOneBy(['name' => 'LAThematicArea']);
+        if (null == $contentType) {
+            $contentType = new ContentType();
+            $contentType->setName('LAThematicArea');
+            $contentType->setStrategyClass(MultiSelectStrategy::class);
+            $contentType->setJsonConfig([
+                'items' => [
+                    'outdoorTechnique',
+                    'security',
+                    'natureAndEnvironment',
+                    'pioneeringTechnique',
+                    'campsiteAndSurroundings',
+                    'preventionAndIntegration',
+                ],
+            ]);
+            $manager->persist($contentType);
+        }
+        $this->addReference(self::$LATHEMATICAREA, $contentType);
 
         $manager->flush();
     }

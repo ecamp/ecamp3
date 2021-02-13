@@ -3,6 +3,7 @@
 namespace eCamp\Core\EntityService;
 
 use Doctrine\ORM\ORMException;
+use Doctrine\ORM\QueryBuilder;
 use eCamp\Core\Entity\Camp;
 use eCamp\Core\Entity\Day;
 use eCamp\Core\Entity\Period;
@@ -29,10 +30,8 @@ class DayService extends AbstractEntityService {
      * @throws NoAccessException
      * @throws EntityNotFoundException
      * @throws ORMException
-     *
-     * @return Day
      */
-    protected function createEntity($data) {
+    protected function createEntity($data): Day {
         /** @var Period $period */
         $period = $this->findRelatedEntity(Period::class, $data, 'periodId');
 
@@ -51,7 +50,7 @@ class DayService extends AbstractEntityService {
         $day->getPeriod()->removeDay($day);
     }
 
-    protected function fetchAllQueryBuilder($params = []) {
+    protected function fetchAllQueryBuilder($params = []): QueryBuilder {
         $q = parent::fetchAllQueryBuilder($params);
         $q->join('row.period', 'p');
         $q->andWhere($this->createFilter($q, Camp::class, 'p', 'camp'));
@@ -71,7 +70,7 @@ class DayService extends AbstractEntityService {
         return $q;
     }
 
-    protected function fetchQueryBuilder($id) {
+    protected function fetchQueryBuilder($id): QueryBuilder {
         $q = parent::fetchQueryBuilder($id);
         $q->join('row.period', 'p');
         $q->andWhere($this->createFilter($q, Camp::class, 'p', 'camp'));

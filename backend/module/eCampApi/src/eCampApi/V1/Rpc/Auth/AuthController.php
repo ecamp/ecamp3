@@ -3,7 +3,6 @@
 namespace eCampApi\V1\Rpc\Auth;
 
 use eCamp\Core\Auth\Adapter\LoginPassword;
-use eCamp\Core\Entity\User;
 use eCamp\Core\EntityService\UserService;
 use eCamp\Lib\Hal\TemplatedLink;
 use Laminas\ApiTools\Hal\Entity;
@@ -16,11 +15,8 @@ use Laminas\Json\Json;
 use Laminas\Mvc\Controller\AbstractActionController;
 
 class AuthController extends AbstractActionController {
-    /** @var AuthenticationService */
-    private $authenticationService;
-
-    /** @var UserService */
-    private $userService;
+    private AuthenticationService $authenticationService;
+    private UserService $userService;
 
     public function __construct(
         AuthenticationService $authenticationService,
@@ -48,8 +44,6 @@ class AuthController extends AbstractActionController {
         }
 
         $data = [];
-
-        /** @var User $user */
         $user = $this->userService->findAuthenticatedUser();
         if (null != $user) {
             $data['user'] = $user->getDisplayName();
@@ -120,7 +114,7 @@ class AuthController extends AbstractActionController {
         return $json;
     }
 
-    public function loginAction() {
+    public function loginAction(): Response {
         /** @var Request $request */
         $request = $this->getRequest();
         $content = $request->getContent();
@@ -141,10 +135,7 @@ class AuthController extends AbstractActionController {
         return $this->redirect()->toRoute('e-camp-api.rpc.auth');
     }
 
-    /**
-     * @return Response
-     */
-    public function googleAction() {
+    public function googleAction(): Response {
         /** @var Request $request */
         $request = $this->getRequest();
         $externalCallback = $request->getQuery('callback');
@@ -158,10 +149,7 @@ class AuthController extends AbstractActionController {
         );
     }
 
-    /**
-     * @return Response
-     */
-    public function pbsMiDataAction() {
+    public function pbsMiDataAction(): Response {
         /** @var Request $request */
         $request = $this->getRequest();
         $externalCallback = $request->getQuery('callback');
@@ -177,10 +165,7 @@ class AuthController extends AbstractActionController {
         );
     }
 
-    /**
-     * @return Response
-     */
-    public function logoutAction() {
+    public function logoutAction(): Response {
         $this->authenticationService->clearIdentity();
 
         return $this->redirect()->toRoute('e-camp-api.rpc.auth');

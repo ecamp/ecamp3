@@ -64,7 +64,7 @@ export default {
   computed: {
     dayName () {
       const date = this.addDays(this.day.period().start, this.day.dayOffset)
-      return this.$moment.utc(date).format(this.$tc('global.moment.dateLong'))
+      return this.$date.utc(date).format(this.$tc('global.datetime.dateLong'))
     },
     sortedScheduleEntries () {
       return sortBy(this.day.scheduleEntries().items, scheduleEntry => scheduleEntry.periodOffset)

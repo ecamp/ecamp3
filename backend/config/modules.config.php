@@ -32,6 +32,7 @@ return [
     'eCamp\\ContentType\\SingleText',
     'eCamp\\ContentType\\Storyboard',
     'eCamp\\ContentType\\Material',
+    'eCamp\\ContentType\\MultiSelect',
     'AssetManager',
     'Laminas\DeveloperTools',
     'Laminas\\ApiTools\\Versioning',

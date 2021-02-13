@@ -8,17 +8,15 @@ use Laminas\Authentication\AuthenticationService;
 use Laminas\Hydrator\HydratorInterface;
 
 class UserHydrator implements HydratorInterface {
-    public static function HydrateInfo() {
+    public static function HydrateInfo(): array {
         return [
         ];
     }
 
     /**
      * @param object $object
-     *
-     * @return array
      */
-    public function extract($object) {
+    public function extract($object): array {
         $auth = new AuthenticationService();
         /** @var User $user */
         $user = $object;
@@ -40,10 +38,8 @@ class UserHydrator implements HydratorInterface {
      * @param object $object
      *
      * @throws \Exception
-     *
-     * @return object
      */
-    public function hydrate(array $data, $object) {
+    public function hydrate(array $data, $object): User {
         /** @var User $user */
         $user = $object;
 

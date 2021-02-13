@@ -5,8 +5,7 @@ namespace eCamp\Core\ContentType;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 
 class ContentTypeStrategyProviderInjector {
-    /** @var ContentTypeStrategyProvider */
-    protected $contentTypeStrategyProvider;
+    protected ContentTypeStrategyProvider $contentTypeStrategyProvider;
 
     public function __construct(ContentTypeStrategyProvider $contentTypeStrategyProvider) {
         $this->contentTypeStrategyProvider = $contentTypeStrategyProvider;

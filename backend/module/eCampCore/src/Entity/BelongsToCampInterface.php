@@ -3,8 +3,5 @@
 namespace eCamp\Core\Entity;
 
 interface BelongsToCampInterface {
-    /**
-     * @return Camp
-     */
-    public function getCamp();
+    public function getCamp(): ?Camp;
 }

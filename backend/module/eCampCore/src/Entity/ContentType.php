@@ -4,46 +4,37 @@ namespace eCamp\Core\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use eCamp\Lib\Entity\BaseEntity;
+use Laminas\Json\Json;
 
 /**
  * @ORM\Entity
  */
 class ContentType extends BaseEntity {
     /**
-     * @var string
      * @ORM\Column(type="string", length=64, nullable=false)
      */
-    private $name;
+    private ?string $name = null;
 
     /**
-     * @var bool
      * @ORM\Column(type="boolean", nullable=false)
      */
-    private $active = true;
+    private bool $active = true;
 
     /**
-     * Allow multiple instances on a single activitiy.
-     *
-     * @var bool
-     * @ORM\Column(type="boolean", nullable=false)
-     */
-    private $allowMultiple = false;
-
-    /**
-     * @var string
      * @ORM\Column(type="string", length=128, nullable=false)
      */
-    private $strategyClass;
+    private ?string $strategyClass = null;
 
-    public function __construct() {
-        parent::__construct();
-    }
+    /**
+     * @ORM\Column(type="json", nullable=true)
+     */
+    private ?array $jsonConfig = null;
 
-    public function getName(): string {
+    public function getName(): ?string {
         return $this->name;
     }
 
-    public function setName(string $name): void {
+    public function setName(?string $name): void {
         $this->name = $name;
     }
 
@@ -51,23 +42,36 @@ class ContentType extends BaseEntity {
         return $this->active;
     }
 
-    public function setAllowMultiple(bool $allowMultiple): void {
-        $this->allowMultiple = $allowMultiple;
-    }
-
-    public function getAllowMultiple(): bool {
-        return $this->allowMultiple;
-    }
-
     public function setActive(bool $active): void {
         $this->active = $active;
     }
 
-    public function getStrategyClass(): string {
+    public function getStrategyClass(): ?string {
         return $this->strategyClass;
     }
 
-    public function setStrategyClass(string $strategyClass): void {
+    public function setStrategyClass(?string $strategyClass): void {
         $this->strategyClass = $strategyClass;
+    }
+
+    public function getJsonConfig(): ?array {
+        return $this->jsonConfig;
+    }
+
+    public function setJsonConfig(?array $jsonConfig): void {
+        $this->jsonConfig = $jsonConfig;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getConfig(?string $key = null) {
+        if (null != $this->jsonConfig) {
+            if (null != $key) {
+                return $this->jsonConfig[$key];
+            }
+        }
+
+        return $this->jsonConfig;
     }
 }

@@ -31,6 +31,7 @@ Der entsprechende Befehl, falls du auf der Konsole arbeitest, sieht so aus:
 git clone https://github.com/ecamp/ecamp3.git && cd ecamp3
 ```
 
+Falls du auf Linux arbeitest und dein User-Account nicht die übliche ID 1000 hat (die ID findest du mit `id -u` heraus), musst du nun eine Kopie der Datei .env.ci namens .env erstellen, und darin deine Benutzer-ID eintragen. Das ist nötig, damit jegliche in den Containern erstellte Dateien deinem Benutzer gehören.
 
 ## Docker container starten
 Das eCamp3 Repository enthält ein docker-compose.yml File, welches die benötigten Docker containers beschreibt.

@@ -3,14 +3,13 @@
 namespace eCamp\Core\ContentType;
 
 trait ContentTypeStrategyProviderTrait {
-    /** @var ContentTypeStrategyProvider */
-    private $contentTypeStrategyProvider;
+    private ContentTypeStrategyProvider $contentTypeStrategyProvider;
 
     public function setContentTypeStrategyProvider(ContentTypeStrategyProvider $contentTypeStrategyProvider) {
         $this->contentTypeStrategyProvider = $contentTypeStrategyProvider;
     }
 
-    public function getContentTypeStrategyProvider() {
+    public function getContentTypeStrategyProvider(): ContentTypeStrategyProvider {
         return $this->contentTypeStrategyProvider;
     }
 }

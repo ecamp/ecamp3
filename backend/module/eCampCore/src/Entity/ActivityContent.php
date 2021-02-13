@@ -16,80 +16,54 @@ class ActivityContent extends BaseEntity implements ContentTypeStrategyProviderA
     use ContentTypeStrategyProviderTrait;
 
     /**
-     * @var Activity
      * @ORM\ManyToOne(targetEntity="Activity")
      * @ORM\JoinColumn(nullable=false, onDelete="cascade")
      */
-    public $activity;
+    public ?Activity $activity = null;
 
     /**
-     * @var ContentType
      * @ORM\ManyToOne(targetEntity="ContentType")
      * @ORM\JoinColumn(nullable=false)
      */
-    protected $contentType;
+    protected ?ContentType $contentType = null;
 
     /**
-     * @var string
      * @ORM\Column(type="string", length=64, nullable=true)
      */
-    private $instanceName;
+    private ?string $instanceName = null;
 
-    public function __construct() {
-        parent::__construct();
-    }
-
-    /**
-     * @return Activity
-     */
-    public function getActivity() {
+    public function getActivity(): ?Activity {
         return $this->activity;
     }
 
-    public function setActivity($activity) {
+    public function setActivity(?Activity $activity) {
         $this->activity = $activity;
     }
 
-    public function getCamp() {
+    public function getCamp(): ?Camp {
         return (null != $this->activity) ? $this->activity->getCamp() : null;
     }
 
-    /**
-     * @return ContentType
-     */
-    public function getContentType() {
+    public function getContentType(): ?ContentType {
         return $this->contentType;
     }
 
-    public function setContentType(ContentType $contentType): void {
+    public function setContentType(?ContentType $contentType): void {
         $this->contentType = $contentType;
     }
 
-    /**
-     * @return ActivityTypeContentType
-     */
-    /*
-    public function getActivityTypeContentType() {
-        return (null != $this->contentType) ? $this->activityTypeContentType->getContentType() : null;
-    }*/
-
-    /**
-     * @return string
-     */
-    public function getInstanceName() {
+    public function getInstanceName(): ?string {
         return $this->instanceName;
     }
 
-    public function setInstanceName($instanceName): void {
+    public function setInstanceName(?string $instanceName): void {
         $this->instanceName = $instanceName;
     }
 
     /**
      * Returns the strategy class of the content-type.
-     *
-     * @return ContentTypeStrategyInterface
      */
-    public function getContentTypeStrategy() {
+    public function getContentTypeStrategy(): ContentTypeStrategyInterface {
         return $this->getContentTypeStrategyProvider()->get($this->getContentType());
     }
 

@@ -6,10 +6,15 @@ import pika
 import json
 import requests
 import sys
+import time
 
 from urllib.parse import urlencode
 
 from environment import *
+
+import sentry_sdk
+if SENTRY_WORKER_PRINT_WEASY_DSN:
+  sentry_sdk.init(SENTRY_WORKER_PRINT_WEASY_DSN)
 
 # create custom URL fetcher to include cookie
 def url_fetcher_factory(sessionId):
@@ -66,7 +71,9 @@ parameters = pika.ConnectionParameters(AMQP_HOST,
 while True:
     try:
         connection = pika.BlockingConnection(parameters)
-    except:
+    except Exception as e:
+        print('[AMQP] Connection error', e)
+        time.sleep(1)
         continue
     break
 

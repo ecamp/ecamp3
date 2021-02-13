@@ -2,8 +2,6 @@
 
 namespace eCamp\Lib\Types\Doctrine;
 
-use DateTime;
-use DateTimeInterface;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\ConversionException;
 use Doctrine\DBAL\Types\DateType;
@@ -20,10 +18,8 @@ class DateUtcType extends DateType {
      * @param mixed $value
      *
      * @throws ConversionException
-     *
-     * @return null|mixed|string
      */
-    public function convertToDatabaseValue($value, AbstractPlatform $platform) {
+    public function convertToDatabaseValue($value, AbstractPlatform $platform): ?string {
         if ($value instanceof \DateTime) {
             $value->setTimezone(self::getUtc());
         }
@@ -36,10 +32,8 @@ class DateUtcType extends DateType {
      *
      * @throws ConversionException
      * @throws Exception
-     *
-     * @return null|DateTime|DateTimeInterface|mixed
      */
-    public function convertToPHPValue($value, AbstractPlatform $platform) {
+    public function convertToPHPValue($value, AbstractPlatform $platform): ?DateUtc {
         if (null === $value || $value instanceof DateUtc) {
             return $value;
         }

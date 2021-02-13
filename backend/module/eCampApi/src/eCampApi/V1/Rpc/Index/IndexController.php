@@ -2,7 +2,6 @@
 
 namespace eCampApi\V1\Rpc\Index;
 
-use eCamp\Core\Entity\User;
 use eCamp\Core\EntityService\UserService;
 use eCamp\Lib\Hal\TemplatedLink;
 use Laminas\ApiTools\Hal\Entity;
@@ -11,16 +10,13 @@ use Laminas\ApiTools\Hal\View\HalJsonModel;
 use Laminas\Mvc\Controller\AbstractActionController;
 
 class IndexController extends AbstractActionController {
-    /** @var UserService */
-    private $userService;
+    private UserService $userService;
 
-    public function __construct(
-        UserService $userService
-    ) {
+    public function __construct(UserService $userService) {
         $this->userService = $userService;
     }
 
-    public function indexAction() {
+    public function indexAction(): HalJsonModel {
         $data = [];
         $data['title'] = 'eCamp V3';
 
@@ -65,11 +61,10 @@ class IndexController extends AbstractActionController {
         return $json;
     }
 
-    public function apiAction() {
+    public function apiAction(): HalJsonModel {
         $data = [];
         $data['title'] = 'eCamp V3 - API';
 
-        /** @var User $user */
         $user = $this->userService->findAuthenticatedUser();
 
         if (null != $user) {
@@ -79,7 +74,6 @@ class IndexController extends AbstractActionController {
             $data['user'] = 'guest';
             $data['authenticated'] = false;
         }
-
         $data['profile'] = Link::factory([
             'rel' => 'profile',
             'route' => 'e-camp-api.rpc.profile',
@@ -105,19 +99,34 @@ class IndexController extends AbstractActionController {
             'route' => 'api-tools/swagger',
         ]);
 
+        $data['invitation'] = TemplatedLink::factory([
+            'rel' => 'invitation',
+            'route' => [
+                'name' => 'e-camp-api.rpc.invitation',
+                'params' => [
+                    'action' => 'index',
+                ],
+            ],
+        ]);
+
         $data['users'] = TemplatedLink::factory([
             'rel' => 'users',
             'route' => 'e-camp-api.rest.doctrine.user',
         ]);
 
-        $data['campTypes'] = TemplatedLink::factory([
-            'rel' => 'campTypes',
-            'route' => 'e-camp-api.rest.doctrine.camp-type',
+        $data['campTemplates'] = TemplatedLink::factory([
+            'rel' => 'campTemplates',
+            'route' => 'e-camp-api.rest.doctrine.camp-template',
         ]);
 
         $data['camps'] = TemplatedLink::factory([
             'rel' => 'camps',
             'route' => 'e-camp-api.rest.doctrine.camp',
+        ]);
+
+        $data['campCollaborations'] = TemplatedLink::factory([
+            'rel' => 'campCollaborations',
+            'route' => 'e-camp-api.rest.doctrine.camp-collaboration',
         ]);
 
         $data['scheduleEntries'] = TemplatedLink::factory([

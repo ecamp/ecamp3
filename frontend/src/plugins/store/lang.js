@@ -18,7 +18,7 @@ export const mutations = {
   setLanguage (state, lang) {
     state.language = lang
     VueI18n.locale = lang
-    Vue.moment.locale(lang)
+    Vue.dayjs.locale(lang)
     localeChanged()
     axios.defaults.headers.common['Accept-Language'] = lang
     document.querySelector('html').setAttribute('lang', lang)

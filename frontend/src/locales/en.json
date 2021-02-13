@@ -1,5 +1,37 @@
 {
   "activityContent": {
+    "laThematicArea": {
+      "entity": {
+        "option": {
+          "campsiteAndSurroundings": {
+            "description": "Construction of a camp / surroundings, dismantling / setting up of a playground and fabrication of sports equipment.",
+            "name": "Campsite and Surroundings"
+          },
+          "natureAndEnvironment": {
+            "description": "Fauna and flora, environmental protection in the camp, meteorology and astronomy, transmission techniques, preparation and making a fire.",
+            "name": "Nature and Environment"
+          },
+          "outdoorTechnique": {
+            "description": "Planning a hike, map reading (e.g. NORDA checklist), croquis, use of instruments (e.g. compass, GPS receiver, altimeter, etc.), orientation in the terrain.",
+            "name": "Outdoor Technique"
+          },
+          "pioneeringTechnique": {
+            "description": "Setting up a bivouac, building an igloo, knowledge of materials and equipment, equipment maintenance, construction and dismantling of pioneer structures, ropes and knots, zip lines, rope bridges, abseiling.",
+            "name": "Pioneering Technique"
+          },
+          "preventionAndIntegration": {
+            "description": "Activities promoting prevention and integration or developing participants' skills in this area.",
+            "name": "Prevention and Integration"
+          },
+          "security": {
+            "description": "Safety during camp activities, measures to be taken in case of accident and alert, first aid, safety considerations.",
+            "name": "Security"
+          }
+        }
+      },
+      "icon": "mdi-shape",
+      "name": "LA thematic area"
+    },
     "notes": {
       "add": "Add notes",
       "icon": "mdi-pen",
@@ -105,11 +137,14 @@
       "collaboratorListItem": {
         "remove": "Remove"
       },
+      "leftCampCollaboratorListItem": {
+        "inviteAgain": "Invite again"
+      },
       "periodMaterialLists": {
         "addNewItem": "Add new item"
       },
       "picasso": {
-        "moment": {
+        "datetime": {
           "date": "dd. D.MM | D. MMM | DD. MMM YYYY"
         }
       },
@@ -134,6 +169,15 @@
       "dialogPeriodCreate": {
         "title": "Create period"
       }
+    },
+    "invitation" : {
+      "acceptCurrentAuth" : "Accept invitation with current account",
+      "login": "Login",
+      "notFound" : "This invitation is already accepted or was deleted",
+      "register" : "Register",
+      "reject" : "Deny invitation",
+      "title" : "Invitation to Camp",
+      "useOtherAuth" : "Use another account"
     },
     "layout": {
       "authContainer": {
@@ -186,11 +230,11 @@
     },
     "camp": {
       "collaborators": {
+        "invite" : "Invite",
         "manager": "Manager",
         "member": "Member"
       },
       "fields": {
-        "campType": "Camp type",
         "motto": "Motto",
         "name": "Name",
         "title": "Title"
@@ -199,6 +243,9 @@
     },
     "campCollaboration": {
       "campLeft": "left camp"
+    },
+    "campTemplate": {
+      "name": "Camp template"
     },
     "materialItem": {
       "fields": {
@@ -274,7 +321,7 @@
     "language": "English",
     "loading": "Loading …",
     "lokaliseMessage": "Language switching powered by lokalise.com",
-    "moment": {
+    "datetime": {
       "dateLong": "dd L",
       "dateShort": "dd M/D",
       "hourLong": "HH:mm",
@@ -334,11 +381,12 @@
         "title": "Camp Admin"
       },
       "collaborators": {
+        "email": "Email address",
         "invite": "Invite",
+        "leftCollaborators": "Rejected invitations and collaborators which left",
         "members": "Members",
         "openInvitations": "Open invitations",
         "openRequests": "Open requests",
-        "search": "Search...",
         "title": "Team"
       },
       "material": {

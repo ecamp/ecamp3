@@ -9,10 +9,8 @@ use Laminas\Hydrator\HydratorInterface;
 class SectionHydrator implements HydratorInterface {
     /**
      * @param object $object
-     *
-     * @return array
      */
-    public function extract($object) {
+    public function extract($object): array {
         /** @var Section $section */
         $section = $object;
 
@@ -57,10 +55,8 @@ class SectionHydrator implements HydratorInterface {
 
     /**
      * @param object $object
-     *
-     * @return object
      */
-    public function hydrate(array $data, $object) {
+    public function hydrate(array $data, $object): Section {
         /** @var Section $section */
         $section = $object;
 

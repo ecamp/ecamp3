@@ -6,12 +6,9 @@ use eCamp\Core\Entity\ActivityContent;
 use eCamp\Lib\Service\ServiceUtils;
 
 abstract class ContentTypeStrategyBase implements ContentTypeStrategyInterface {
-    /** @var ServiceUtils */
-    private $serviceUtils;
+    private ServiceUtils $serviceUtils;
 
-    public function __construct(
-        ServiceUtils $serviceUtils
-    ) {
+    public function __construct(ServiceUtils $serviceUtils) {
         $this->serviceUtils = $serviceUtils;
     }
 
@@ -19,10 +16,7 @@ abstract class ContentTypeStrategyBase implements ContentTypeStrategyInterface {
 
     abstract public function activityContentCreated(ActivityContent $activityContent): void;
 
-    /**
-     * @return ServiceUtils
-     */
-    protected function getServiceUtils() {
+    protected function getServiceUtils(): ServiceUtils {
         return $this->serviceUtils;
     }
 }

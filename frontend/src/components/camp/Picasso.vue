@@ -37,8 +37,8 @@ Listing all given activity schedule entries in a calendar view.
       <template #day-label-header="time">
         <div class="ec-daily_head-day-label">
           <span v-if="widthPluralization > 0" class="d-block">
-            {{ $moment.utc(time.date).format('dddd') }}
-          </span> {{ $moment.utc(time.date).format($tc('components.camp.picasso.moment.date', widthPluralization)) }}
+            {{ $date.utc(time.date).format('dddd') }}
+          </span> {{ $date.utc(time.date).format($tc('components.camp.picasso.datetime.date', widthPluralization)) }}
         </div>
       </template>
       <template #day-body="{ date }">
@@ -200,13 +200,13 @@ export default {
       return this.activitiesLoading || (scheduleEntry.activity()._meta ? scheduleEntry.activity()._meta.loading : false)
     },
     intervalFormat (time) {
-      return this.$moment.utc(time.date + ' ' + time.time).format(this.$tc('global.moment.hourLong'))
+      return this.$date.utc(time.date + ' ' + time.time).format(this.$tc('global.datetime.hourLong'))
     },
     dayFormat (day) {
       if (this.$vuetify.breakpoint.smAndDown) {
-        return this.$moment.utc(day.date).format(this.$tc('global.moment.dateShort'))
+        return this.$date.utc(day.date).format(this.$tc('global.datetime.dateShort'))
       } else {
-        return this.$moment.utc(day.date).format(this.$tc('global.moment.dateLong'))
+        return this.$date.utc(day.date).format(this.$tc('global.datetime.dateLong'))
       }
     },
     scheduleEntryRoute,
@@ -397,7 +397,7 @@ export default {
       return new Date(tms.year, tms.month - 1, tms.day, tms.hour, tms.minute).getTime()
     },
     toTimeString (date) {
-      return this.$moment.utc(date).format(this.$tc('global.moment.hourLong'))
+      return this.$date.utc(date).format(this.$tc('global.datetime.hourLong'))
     },
     rnd (a, b) {
       return Math.floor((b - a + 1) * Math.random()) + a

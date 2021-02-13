@@ -60,7 +60,7 @@ JSON;
                 }
             }
 JSON;
-        $expectedEmbeddedObjects = ['camp', 'activityType'];
+        $expectedEmbeddedObjects = ['camp'];
 
         $this->verifyHalResourceResponse($expectedBody, $expectedLinks, $expectedEmbeddedObjects);
     }
@@ -78,8 +78,7 @@ JSON;
     }
 
     public function testCreateWithoutParams() {
-        $this->setRequestContent([
-            'name' => '', ]);
+        $this->setRequestContent(['name' => '']);
 
         $this->dispatch("{$this->apiEndpoint}", 'POST');
 
@@ -96,8 +95,8 @@ JSON;
             'short' => 'AC2',
             'color' => '#FFFFFF',
             'numberingStyle' => 'i',
-            'activityTypeId' => $this->activityCategory->getActivityType()->getId(),
-            'campId' => 'xxx', ]);
+            'campId' => 'xxx',
+        ]);
 
         $this->dispatch("{$this->apiEndpoint}", 'POST');
 
@@ -111,7 +110,6 @@ JSON;
             'short' => 'AC2',
             'color' => '#FFFFFF',
             'numberingStyle' => 'i',
-            'activityTypeId' => $this->activityCategory->getActivityType()->getId(),
             'campId' => $this->activityCategory->getCamp()->getId(), ]);
 
         $this->dispatch("{$this->apiEndpoint}", 'POST');

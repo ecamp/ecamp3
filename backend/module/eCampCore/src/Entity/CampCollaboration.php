@@ -3,14 +3,15 @@
 namespace eCamp\Core\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use eCamp\Lib\Entity\BaseEntity;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="eCamp\Core\Repository\CampCollaborationRepository")
  * @ORM\HasLifecycleCallbacks
  * @ORM\Table(uniqueConstraints={
- *     @ORM\UniqueConstraint(name="user_camp_unique", columns={"userId", "campId"})
+ *     @ORM\UniqueConstraint(name="inviteKey_unique", columns={"inviteKey"})
  * })
  */
 class CampCollaboration extends BaseEntity implements BelongsToCampInterface {
@@ -32,42 +33,46 @@ class CampCollaboration extends BaseEntity implements BelongsToCampInterface {
     ];
 
     /**
-     * @var ArrayCollection
      * @ORM\OneToMany(targetEntity="ActivityResponsible", mappedBy="campCollaboration", orphanRemoval=true)
      */
-    protected $activityResponsibles;
+    protected Collection $activityResponsibles;
 
     /**
-     * @var User
-     * @ORM\ManyToOne(targetEntity="User")
-     * @ORM\JoinColumn(nullable=false, onDelete="cascade")
+     * @ORM\Column(type="string", nullable=true)
      */
-    private $user;
+    private ?string $inviteEmail = null;
 
     /**
-     * @var Camp
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private ?string $inviteKey = null;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\JoinColumn(nullable=true, onDelete="cascade")
+     */
+    private ?User $user = null;
+
+    /**
      * @ORM\ManyToOne(targetEntity="Camp")
      * @ORM\JoinColumn(nullable=false, onDelete="cascade")
      */
-    private $camp;
+    private ?Camp $camp = null;
 
     /**
-     * @var string
      * @ORM\Column(type="string", nullable=false)
      */
-    private $status;
+    private string $status;
 
     /**
-     * @var string
      * @ORM\Column(type="string", nullable=false)
      */
-    private $role;
+    private string $role;
 
     /**
-     * @var string
      * @ORM\Column(type="string", nullable=true)
      */
-    private $collaborationAcceptedBy;
+    private ?string $collaborationAcceptedBy = null;
 
     public function __construct() {
         parent::__construct();
@@ -77,23 +82,36 @@ class CampCollaboration extends BaseEntity implements BelongsToCampInterface {
         $this->role = self::ROLE_GUEST;
     }
 
-    public function getUser(): User {
+    public function getUser(): ?User {
         return $this->user;
     }
 
-    public function setUser(User $user): void {
+    public function setUser(?User $user): void {
         $this->user = $user;
     }
 
-    /**
-     * @return Camp
-     */
-    public function getCamp() {
+    public function getCamp(): ?Camp {
         return $this->camp;
     }
 
-    public function setCamp($camp) {
+    public function setCamp(?Camp $camp) {
         $this->camp = $camp;
+    }
+
+    public function getInviteEmail(): ?string {
+        return $this->inviteEmail;
+    }
+
+    public function setInviteEmail(?string $inviteEmail): void {
+        $this->inviteEmail = $inviteEmail;
+    }
+
+    public function getInviteKey(): ?string {
+        return $this->inviteKey;
+    }
+
+    public function setInviteKey(?string $inviteKey): void {
+        $this->inviteKey = $inviteKey;
     }
 
     public function getStatus(): string {
@@ -122,6 +140,10 @@ class CampCollaboration extends BaseEntity implements BelongsToCampInterface {
         return self::STATUS_INVITED === $this->status;
     }
 
+    public function isLeft(): bool {
+        return self::STATUS_LEFT === $this->status;
+    }
+
     public function getRole(): string {
         return $this->role;
     }
@@ -148,21 +170,15 @@ class CampCollaboration extends BaseEntity implements BelongsToCampInterface {
         return self::ROLE_MANAGER === $this->role;
     }
 
-    /**
-     * @return string
-     */
-    public function getCollaborationAcceptedBy() {
+    public function getCollaborationAcceptedBy(): ?string {
         return $this->collaborationAcceptedBy;
     }
 
-    public function setCollaborationAcceptedBy($collaborationAcceptedBy) {
+    public function setCollaborationAcceptedBy(?string $collaborationAcceptedBy) {
         $this->collaborationAcceptedBy = $collaborationAcceptedBy;
     }
 
-    /**
-     * @return ArrayCollection
-     */
-    public function getActivityResponsibles() {
+    public function getActivityResponsibles(): Collection {
         return $this->activityResponsibles;
     }
 
@@ -178,8 +194,6 @@ class CampCollaboration extends BaseEntity implements BelongsToCampInterface {
 
     /**
      * @ORM\PrePersist
-     *
-     * @throws \Exception
      */
     public function PrePersist() {
         parent::PrePersist();
@@ -187,10 +201,5 @@ class CampCollaboration extends BaseEntity implements BelongsToCampInterface {
         if (in_array($this->status, [self::STATUS_REQUESTED, self::STATUS_UNRELATED])) {
             $this->collaborationAcceptedBy = null;
         }
-    }
-
-    /** @ORM\PreUpdate */
-    public function PreUpdate() {
-        parent::PreUpdate();
     }
 }

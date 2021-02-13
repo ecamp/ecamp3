@@ -1,5 +1,5 @@
 # build stage
-FROM node:12.20 AS build-stage
+FROM node:14.15.5@sha256:1b1bf1f5023ddd7e08774fa5fcef15f3773833b194bac4e55134fa5f156dcdd6 AS build-stage
 
 COPY common /common
 
@@ -10,13 +10,16 @@ RUN npm ci
 RUN npm run build
 
 # production stage
-FROM node:12.20 AS production-stage
+FROM node:14.15.5@sha256:1b1bf1f5023ddd7e08774fa5fcef15f3773833b194bac4e55134fa5f156dcdd6 AS production-stage
 WORKDIR /app
 
 COPY --from=build-stage /app/node_modules ./node_modules
 COPY --from=build-stage /app/.nuxt ./.nuxt
 COPY --from=build-stage /app/static ./static
 COPY print/nuxt.config.js .
+
+ENV NUXT_HOST 0.0.0.0
+ENV NUXT_PORT 80
 
 EXPOSE 80
 CMD ./node_modules/.bin/nuxt start

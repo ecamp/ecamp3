@@ -4,24 +4,18 @@ namespace eCamp\Core\Hydrator;
 
 use eCamp\Core\Entity\ActivityCategory;
 use eCamp\Lib\Entity\EntityLink;
-use eCamp\Lib\Hydrator\Util;
+use eCampApi\V1\Rest\ContentTypeConfig\ContentTypeConfigCollection;
 use Laminas\Hydrator\HydratorInterface;
 
 class ActivityCategoryHydrator implements HydratorInterface {
-    public static function HydrateInfo() {
-        return [
-            'activityType' => Util::Entity(function (ActivityCategory $ec) {
-                return $ec->getActivityType();
-            }),
-        ];
+    public static function HydrateInfo(): array {
+        return [];
     }
 
     /**
      * @param object $object
-     *
-     * @return array
      */
-    public function extract($object) {
+    public function extract($object): array {
         /** @var ActivityCategory $activityCategory */
         $activityCategory = $object;
 
@@ -34,16 +28,14 @@ class ActivityCategoryHydrator implements HydratorInterface {
             'numberingStyle' => $activityCategory->getNumberingStyle(),
 
             'camp' => EntityLink::Create($activityCategory->getCamp()),
-            'activityType' => EntityLink::Create($activityCategory->getActivityType()),
+            'contentTypeConfigs' => new ContentTypeConfigCollection($activityCategory->getContentTypeConfigs()),
         ];
     }
 
     /**
      * @param object $object
-     *
-     * @return object
      */
-    public function hydrate(array $data, $object) {
+    public function hydrate(array $data, $object): ActivityCategory {
         /** @var ActivityCategory $activityCategory */
         $activityCategory = $object;
 

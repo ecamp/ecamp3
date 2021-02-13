@@ -9,10 +9,6 @@ export default {
    ** See https://nuxtjs.org/api/configuration-target
    */
   target: 'server',
-  server: {
-    port: 80,
-    host: '0.0.0.0',
-  },
   /*
    ** Headers of the page
    ** See https://nuxtjs.org/api/configuration-head
@@ -64,6 +60,8 @@ export default {
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
+    // Doc: https://sentry.nuxtjs.org/guide/usage
+    '@nuxtjs/sentry',
   ],
 
   /**
@@ -79,18 +77,34 @@ export default {
    ** See https://axios.nuxtjs.org/options
    */
   axios: {
-    baseURL: process.env.INTERNAL_API_ROOT_URL || 'http://backend/api',
+    baseURL: process.env.INTERNAL_API_ROOT_URL || 'http://backend:3001/api',
+  },
+  /*
+   ** Sentry module configuration
+   ** See https://sentry.nuxtjs.org/sentry/options
+   */
+  sentry: {
+    // Use a dummy DSN so that the sentry module doesn't disable itself during build
+    dsn: 'test',
+    disabled: process.env.NODE_ENV === 'development',
   },
 
   publicRuntimeConfig: {
     axios: {
       browserBaseURL: process.env.API_ROOT_URL || 'http://localhost:3001/api',
     },
+    sentry: {
+      config: {
+        // The real DSN is only known at runtime, because we build a container
+        // that can be configured via environment variables at runtime.
+        dsn: process.env.SENTRY_PRINT_DSN || '',
+      },
+    },
   },
 
   privateRuntimeConfig: {
     axios: {
-      baseURL: process.env.INTERNAL_API_ROOT_URL || 'http://backend/api',
+      baseURL: process.env.INTERNAL_API_ROOT_URL || 'http://backend:3001/api',
     },
   },
 

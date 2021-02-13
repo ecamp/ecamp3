@@ -47,8 +47,7 @@ class ContentTypeTest extends AbstractApiControllerTestCase {
             {
                 "id": "{$this->contentType->getId()}",
                 "name": "Storyboard",
-                "active": true,
-                "allowMultiple": true
+                "active": true
             }
 JSON;
 

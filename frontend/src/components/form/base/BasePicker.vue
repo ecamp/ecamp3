@@ -89,7 +89,11 @@ export default {
         save: this.savePicker,
         close: this.closePicker,
         input: this.inputPicker
-      }
+      },
+      // note that it is necessary to debounce in data to have one debounced function per instance, whereas
+      // debouncing in watch or methods results in one global debounced function which has unwanted effects
+      // when there are multiple picker instances rendered at the same time
+      debouncedParseValue: debounce(this.parseValue, 500)
     }
   },
   computed: {
@@ -117,13 +121,9 @@ export default {
     }
   },
   watch: {
-    stringValue: debounce(function (val) {
-      if (this.parse != null) {
-        this.parse(val).then(this.setValue, this.setParseError)
-      } else {
-        this.setValue(val)
-      }
-    }, 500),
+    stringValue (val) {
+      this.debouncedParseValue(val)
+    },
     value (val) {
       if (this.showPicker === false) {
         this.localValue = val
@@ -150,6 +150,13 @@ export default {
         this.localValue = val
       }
       this.parseError = null
+    },
+    parseValue (val) {
+      if (this.parse != null) {
+        this.parse(val).then(this.setValue, this.setParseError)
+      } else {
+        this.setValue(val)
+      }
     },
     setValueOfPicker (val) {
       if (this.localPickerValue !== val) {
