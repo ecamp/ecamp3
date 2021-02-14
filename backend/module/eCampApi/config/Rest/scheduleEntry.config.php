@@ -5,12 +5,12 @@ use eCampApi\V1\InputFilterFactory;
 
 return ConfigFactory::Create('ScheduleEntry', 'ScheduleEntries')
     ->addCollectionQueryWhitelist('activityId')
-    ->addInputFilterFactry(
+    ->addInputFilterFactory(
         InputFilterFactory::Create('periodOffset', true)
             ->addFilterStripTags()
             ->addFilter(\Laminas\Filter\Digits::class)
     )
-    ->addInputFilterFactry(
+    ->addInputFilterFactory(
         InputFilterFactory::Create('length', true)
             ->addFilterStripTags()
             ->addFilter(\Laminas\Filter\Digits::class)

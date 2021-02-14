@@ -5,7 +5,7 @@ use eCampApi\V1\InputFilterFactory;
 
 return ConfigFactory::Create('MaterialList')
     ->addCollectionQueryWhitelist('campId')
-    ->addInputFilterFactry(
+    ->addInputFilterFactory(
         InputFilterFactory::Create('name', true)
             ->addFilterStringTrim()
             ->addFilterStripTags()

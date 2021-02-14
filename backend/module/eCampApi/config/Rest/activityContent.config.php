@@ -5,7 +5,7 @@ use eCampApi\V1\InputFilterFactory;
 
 return ConfigFactory::Create('ActivityContent')
     ->addCollectionQueryWhitelist('activityId')
-    ->addInputFilterFactry(
+    ->addInputFilterFactory(
         InputFilterFactory::Create('instanceName')
             ->addFilterStringTrim()
             ->addFilterStripTags()

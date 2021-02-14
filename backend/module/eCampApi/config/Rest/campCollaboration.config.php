@@ -5,17 +5,17 @@ use eCampApi\V1\InputFilterFactory;
 
 return ConfigFactory::Create('CampCollaboration')
     ->addCollectionQueryWhitelist('campId', 'userId')
-    ->addInputFilterFactry(
+    ->addInputFilterFactory(
         InputFilterFactory::Create('status')
             ->addFilterStringTrim()
             ->addFilterStripTags()
     )
-    ->addInputFilterFactry(
+    ->addInputFilterFactory(
         InputFilterFactory::Create('role', true)
             ->addFilterStringTrim()
             ->addFilterStripTags()
     )
-    ->addInputFilterFactry(
+    ->addInputFilterFactory(
         InputFilterFactory::Create('collaborationAcceptedBy')
             ->addFilterStringTrim()
             ->addFilterStripTags()

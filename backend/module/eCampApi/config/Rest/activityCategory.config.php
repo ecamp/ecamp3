@@ -5,26 +5,26 @@ use eCampApi\V1\InputFilterFactory;
 
 return ConfigFactory::Create('ActivityCategory', 'ActivityCategories')
     ->addCollectionQueryWhitelist('campId')
-    ->addInputFilterFactry(
+    ->addInputFilterFactory(
         InputFilterFactory::Create('short', true)
             ->addFilterStringTrim()
             ->addFilterStripTags()
             ->addValidatorStringLength(1, 16)
     )
-    ->addInputFilterFactry(
+    ->addInputFilterFactory(
         InputFilterFactory::Create('name', true)
             ->addFilterStringTrim()
             ->addFilterStripTags()
             ->addValidatorStringLength(1, 64)
     )
-    ->addInputFilterFactry(
+    ->addInputFilterFactory(
         InputFilterFactory::Create('color', true)
             ->addFilterStringTrim()
             ->addFilterStripTags()
             ->addValidatorStringLength(1, 8)
             ->addValidatorRegex('/#([a-f0-9]{3}){1,2}\b/i')
     )
-    ->addInputFilterFactry(
+    ->addInputFilterFactory(
         InputFilterFactory::Create('numberingStyle', true)
             ->addFilterStringTrim()
             ->addFilterStripTags()

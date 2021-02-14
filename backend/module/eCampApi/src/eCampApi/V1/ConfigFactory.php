@@ -122,14 +122,14 @@ class ConfigFactory {
         return $this->inputFilterItems;
     }
 
-    public function addInputFilterFactry(InputFilterFactory $inputFilterFactory): ConfigFactory {
+    public function addInputFilterFactory(InputFilterFactory $inputFilterFactory): ConfigFactory {
         $this->inputFilterItems[] = $inputFilterFactory->build();
 
         return $this;
     }
 
     public function addInputFilter(string $name, bool $required = false): ConfigFactory {
-        return $this->addInputFilterFactry(InputFilterFactory::Create($name, $required));
+        return $this->addInputFilterFactory(InputFilterFactory::Create($name, $required));
     }
 
     public function buildConfig(): array {

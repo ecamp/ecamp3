@@ -5,13 +5,13 @@ use eCampApi\V1\InputFilterFactory;
 
 return ConfigFactory::Create('User')
     ->addCollectionQueryWhitelist('search')
-    ->addInputFilterFactry(
+    ->addInputFilterFactory(
         InputFilterFactory::Create('username')
             ->addFilterStringTrim()
             ->addFilterStripTags()
             ->addValidatorStringLength(1, 32)
     )
-    ->addInputFilterFactry(
+    ->addInputFilterFactory(
         InputFilterFactory::Create('state', true)
             ->addFilterStringTrim()
             ->addFilterStripTags()

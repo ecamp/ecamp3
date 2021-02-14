@@ -5,14 +5,14 @@ use eCampApi\V1\InputFilterFactory;
 
 return ConfigFactory::Create('MaterialItem')
     ->addCollectionQueryWhitelist('campId', 'materialListId', 'activityContentId')
-    ->addInputFilterFactry(
+    ->addInputFilterFactory(
         InputFilterFactory::Create('article', true)
             ->addFilterStringTrim()
             ->addFilterStripTags()
             ->addValidatorStringLength(1, 32)
     )
     ->addInputFilter('quantity')
-    ->addInputFilterFactry(
+    ->addInputFilterFactory(
         InputFilterFactory::Create('unit')
             ->addFilterStringTrim()
             ->addFilterStripTags()

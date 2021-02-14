@@ -7,7 +7,7 @@ return ConfigFactory::Create('Period')
     ->addCollectionQueryWhitelist('campId')
     ->addInputFilter('start', true)
     ->addInputFilter('end', true)
-    ->addInputFilterFactry(
+    ->addInputFilterFactory(
         InputFilterFactory::Create('description')
             ->addFilterStringTrim()
             ->addFilterStripTags()
