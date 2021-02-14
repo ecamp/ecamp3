@@ -4,46 +4,45 @@ import Vuetify from 'vuetify'
 
 import formBaseComponents from '@/plugins/formBaseComponents'
 
-import { mount } from '@vue/test-utils'
+import { mount as mountComponent } from '@vue/test-utils'
 import ApiSelect from '../ApiSelect.vue'
 
 Vue.use(Vuetify)
 Vue.use(formBaseComponents)
 
-describe('ApiTextField.vue', () => {
+describe('An ApiSelect', () => {
   let vuetify
 
   beforeEach(() => {
     vuetify = new Vuetify()
   })
 
-  // keep this the first test --> otherwise element IDs change constantly
-  test('renders correctly', () => {
-    const props = {
-      value: 'Test Value',
-
-      /* field name and URI for saving back to API */
-      fieldname: 'test-field',
-      uri: 'test-field/123',
-
-      /* display label */
-      label: 'Test Field',
-
-      /* overrideDirty=true will reset the input if 'value' changes, even if the input is dirty. Use with caution. */
-      overrideDirty: false,
-
-      /* enable/disable auto save */
-      autoSave: true,
-
-      /* Validation criteria */
-      required: true
-    }
-
-    const wrapper = mount(ApiSelect, {
-      vuetify,
-      propsData: props
+  const mount = (options) => {
+    const app = Vue.component('App', {
+      components: { ApiSelect },
+      data: function () {
+        return {
+          data: 'Test Value'
+        }
+      },
+      template: `
+          <div data-app>
+            <api-select
+              v-model="data"
+              fieldname="test-field/123"
+              uri="test-field/123"
+              label="Test field"
+              required="true"
+            />
+          </div>
+        `
     })
+    return mountComponent(app, { vuetify, attachTo: document.body, ...options })
+  }
 
+  // keep this the first test --> otherwise element IDs change constantly
+  test('renders correctly', async () => {
+    const wrapper = mount()
     expect(wrapper.element).toMatchSnapshot()
   })
 })
