@@ -49,7 +49,7 @@ cp frontend/public/environment.dist .github/actions/deploy/dist/frontend-environ
 sed -ri "s~API_ROOT_URL: '.*'~API_ROOT_URL: '${BACKEND_URL}'~" .github/actions/deploy/dist/frontend-environment.js
 sed -ri "s~PRINT_SERVER: '.*'~PRINT_SERVER: '${PRINT_SERVER_URL}'~" .github/actions/deploy/dist/frontend-environment.js
 sed -ri "s~PRINT_FILE_SERVER: '.*'~PRINT_FILE_SERVER: '${PRINT_FILE_SERVER_URL}'~" .github/actions/deploy/dist/frontend-environment.js
-sed -ri "s~SENTRY_FRONTEND_DSN: '.*'~SENTRY_FRONTEND_DSN: '${SENTRY_FRONTEND_DSN}'~" .github/actions/deploy/dist/frontend-environment.js
+sed -ri "s~SENTRY_FRONTEND_DSN: .*~SENTRY_FRONTEND_DSN: '${SENTRY_FRONTEND_DSN}',~" .github/actions/deploy/dist/frontend-environment.js
 sed -ri "s~VERSION: '.*'~VERSION: '${COMMIT_ID}'~" .github/actions/deploy/dist/frontend-environment.js
 sed -ri "s~VERSION_LINK_TEMPLATE: '.*'~VERSION_LINK_TEMPLATE: '${VERSION_LINK_TEMPLATE}'~" .github/actions/deploy/dist/frontend-environment.js
 

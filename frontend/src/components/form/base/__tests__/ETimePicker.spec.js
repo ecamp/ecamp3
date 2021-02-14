@@ -49,13 +49,9 @@ describe('An ETimePicker', () => {
 
   const mount = (options) => mountComponent(ETimePicker, { vuetify, i18n, ...options })
 
-  beforeAll(() => {
-    // prevent "[Vuetify] Unable to locate target [data-app]" warnings
-    document.body.setAttribute('data-app', 'true')
-  })
-
   describe.each(localeData)('in locale %s', (locale, data) => {
     beforeEach(() => {
+      i18n.locale = locale
       Vue.dayjs.locale(locale)
       vuetify = new Vuetify()
     })
@@ -73,16 +69,18 @@ describe('An ETimePicker', () => {
     test('looks like a time picker', async () => {
       const wrapper = mountComponent({
         data: () => ({ time: TIME_1 }),
-        template: '<div><e-time-picker v-model="time"></e-time-picker></div>',
+        template: '<div data-app><e-time-picker v-model="time"></e-time-picker></div>',
         components: { 'e-time-picker': ETimePicker }
       }, {
         vuetify,
+        attachTo: document.body,
         i18n
       })
-      await flushPromises()
+      await waitForDebounce()
       expect(wrapper).toMatchSnapshot('pickerclosed')
       await wrapper.find('button').trigger('click')
-      expect(document.querySelector('body')).toMatchSnapshot('pickeropen')
+      expect(wrapper).toMatchSnapshot('pickeropen')
+      wrapper.destroy()
     })
 
     test('allows a different valueFormat', async () => {
@@ -147,10 +145,14 @@ describe('An ETimePicker', () => {
     })
 
     test('updates its value when a time is picked', async () => {
-      const wrapper = mount({
-        propsData: {
-          value: TIME_2
-        }
+      const wrapper = mountComponent({
+        data: () => ({ time: TIME_2 }),
+        template: '<div data-app><e-time-picker v-model="time"></e-time-picker></div>',
+        components: { 'e-time-picker': ETimePicker }
+      }, {
+        vuetify,
+        attachTo: document.body,
+        i18n
       })
       await waitForDebounce()
       // open the time picker
@@ -171,6 +173,7 @@ describe('An ETimePicker', () => {
       await closeButton.trigger('click')
       await waitForDebounce()
       expect(wrapper.find('input[type=text]').element.value).toBe(data.time_3)
+      wrapper.destroy()
     })
   })
 })

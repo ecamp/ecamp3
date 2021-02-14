@@ -49,6 +49,7 @@ describe('An EDatePicker', () => {
 
   describe.each(localeData)('in locale %s', (locale, data) => {
     beforeEach(() => {
+      i18n.locale = locale
       Vue.dayjs.locale(locale)
       vuetify = new Vuetify()
     })
@@ -61,6 +62,23 @@ describe('An EDatePicker', () => {
       })
       await flushPromises()
       expect(wrapper.find('input[type=text]').element.value).toBe(data.date_1)
+    })
+
+    test('looks like a date picker', async () => {
+      const wrapper = mountComponent({
+        data: () => ({ date: DATE_1 }),
+        template: '<div data-app><e-date-picker v-model="date"></e-date-picker></div>',
+        components: { 'e-date-picker': EDatePicker }
+      }, {
+        vuetify,
+        attachTo: document.body,
+        i18n
+      })
+      await waitForDebounce()
+      expect(wrapper).toMatchSnapshot('pickerclosed')
+      await wrapper.find('button').trigger('click')
+      expect(wrapper).toMatchSnapshot('pickeropen')
+      wrapper.destroy()
     })
 
     test('updates v-model when the value changes', async () => {
@@ -99,12 +117,14 @@ describe('An EDatePicker', () => {
     })
 
     test('updates its value when a date is picked', async () => {
-      // prevent "[Vuetify] Unable to locate target [data-app]" warnings
-      document.body.setAttribute('data-app', 'true')
-      const wrapper = mount({
-        propsData: {
-          value: DATE_1
-        }
+      const wrapper = mountComponent({
+        data: () => ({ date: DATE_1 }),
+        template: '<div data-app><e-date-picker v-model="date"></e-date-picker></div>',
+        components: { 'e-date-picker': EDatePicker }
+      }, {
+        vuetify,
+        attachTo: document.body,
+        i18n
       })
       await waitForDebounce()
       // open the date picker
@@ -117,6 +137,7 @@ describe('An EDatePicker', () => {
       await closeButton.trigger('click')
       await waitForDebounce()
       expect(wrapper.find('input[type=text]').element.value).toBe(data.date_3)
+      wrapper.destroy()
     })
   })
 })
