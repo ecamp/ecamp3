@@ -1,105 +1,60 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`An ApiSelect renders correctly 1`] = `
-<div
-  data-app=""
->
-  <form
-    class="v-form e-form-container"
-    novalidate="novalidate"
-  >
-    <div
-      class="e-form-container"
-      outlined="true"
-      required="required"
-      value="Test Value"
-    >
-      <div
-        class="v-input v-input--hide-details theme--light v-text-field v-text-field--enclosed v-text-field--outlined v-select"
-      >
-        <div
-          class="v-input__control"
-        >
-          <div
-            aria-expanded="false"
-            aria-haspopup="listbox"
-            aria-owns="list-9"
-            class="v-input__slot"
-            role="button"
-          >
-            <fieldset
-              aria-hidden="true"
-            >
-              <legend
-                style="width: 0px;"
-              >
-                <span>
-                  ​
-                </span>
-              </legend>
-            </fieldset>
-            <div
-              class="v-select__slot"
-            >
-              <label
-                class="v-label theme--light"
-                for="input-9"
-                style="left: 0px; position: absolute;"
-              >
-                Test field
-              </label>
-              <div
-                class="v-select__selections"
-              >
-                <input
-                  aria-readonly="false"
-                  autocomplete="off"
-                  id="input-9"
-                  readonly="readonly"
-                  required="required"
-                  type="text"
-                />
-              </div>
-              <div
-                class="v-input__append-inner"
-              >
-                <i
-                  aria-hidden="true"
-                  class="v-icon notranslate mdi mdi-menu-down theme--light"
-                />
-                 
-                <div
-                  class="d-flex"
-                  style="margin-top: -5px;"
-                >
-                  <div
-                    class="checkIconContainer"
-                  >
-                    <i
-                      aria-hidden="true"
-                      class="v-icon notranslate checkIcon mdi mdi-content-save theme--light green--text"
-                    />
-                  </div>
-                   
-                  <!---->
-                   
-                  <!---->
-                </div>
-              </div>
-              <input
-                type="hidden"
-                value="Test Value"
-              />
-            </div>
-            <div
-              class="v-menu"
-            >
-              <!---->
-            </div>
+<div data-app>
+     <form novalidate="novalidate"
+           class="v-form e-form-container">
+          <div class="e-form-container"
+               value="Test Value"
+               outlined="true"
+               required="required">
+               <div class="v-input v-input--hide-details theme--light v-text-field v-text-field--enclosed v-text-field--outlined v-select">
+                    <div class="v-input__control">
+                         <div role="button"
+                              aria-haspopup="listbox"
+                              aria-expanded="false"
+                              aria-owns="list-9"
+                              class="v-input__slot">
+                              <fieldset aria-hidden="true">
+                                   <legend style="width: 0px;">
+                                        <span>​</span>
+                                   </legend>
+                              </fieldset>
+                              <div class="v-select__slot">
+                                   <label for="input-9"
+                                          class="v-label theme--light"
+                                          style="left: 0px; position: absolute;">Test field</label>
+                                   <div class="v-select__selections">
+                                        <input required="required"
+                                               id
+                                               readonly="readonly"
+                                               type="text"
+                                               aria-readonly="false"
+                                               autocomplete="off">
+                                   </div>
+                                   <div class="v-input__append-inner">
+                                        <i aria-hidden="true"
+                                           class="v-icon notranslate mdi mdi-menu-down theme--light"></i>
+                                        <div class="d-flex"
+                                             style="margin-top: -5px;">
+                                             <div class="checkIconContainer">
+                                                  <i aria-hidden="true"
+                                                     class="v-icon notranslate checkIcon mdi mdi-content-save theme--light green--text"></i>
+                                             </div>
+                                             <!---->
+                                             <!---->
+                                        </div>
+                                   </div>
+                                   <input type="hidden"
+                                          value="Test Value">
+                              </div>
+                              <div class="v-menu">
+                                   <!---->
+                              </div>
+                         </div>
+                    </div>
+               </div>
           </div>
-        </div>
-      </div>
-    </div>
-  </form>
+     </form>
 </div>
 `;

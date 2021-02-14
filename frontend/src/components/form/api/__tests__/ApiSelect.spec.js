@@ -43,6 +43,6 @@ describe('An ApiSelect', () => {
   // keep this the first test --> otherwise element IDs change constantly
   test('renders correctly', async () => {
     const wrapper = mount()
-    expect(wrapper.element).toMatchSnapshot()
+    expect(wrapper).toMatchSnapshot()
   })
 })
