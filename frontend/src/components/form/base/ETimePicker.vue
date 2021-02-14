@@ -48,7 +48,7 @@ export default {
   props: {
     icon: { type: String, required: false, default: 'mdi-clock-outline' },
     value: { type: [Number, String], required: true },
-    valueFormat: { type: [String, Array], default: 'YYYY-MM-DDTHH:mmZ' }
+    valueFormat: { type: [String, Array], default: 'YYYY-MM-DDTHH:mm:ssZ' }
   },
   data () {
     return {
@@ -57,20 +57,6 @@ export default {
   },
   methods: {
     allowedStep: m => m % 15 === 0,
-    parseTime (value) {
-      if (this.valueFormat === 'x') {
-        return this.$date.utc(value)
-      } else {
-        return this.$date.utc(value, this.valueFormat)
-      }
-    },
-    formatTime (time) {
-      if (this.valueFormat === 'x') {
-        return time.valueOf()
-      } else {
-        return time.format(this.valueFormat)
-      }
-    },
     setTime (dateTime) {
       if (this.dateTime && this.dateTime.isValid()) {
         this.dateTime = this.dateTime
@@ -84,14 +70,14 @@ export default {
     },
     format (val) {
       if (val !== '') {
-        this.dateTime = this.parseTime(val)
+        this.dateTime = this.$date.utc(val, this.valueFormat)
         return this.dateTime.format('LT')
       }
       return ''
     },
     formatPicker (val) {
       if (val !== '') {
-        return this.parseTime(val).format(this.$date.HTML5_FMT.TIME)
+        return this.$date.utc(val, this.valueFormat).format(this.$date.HTML5_FMT.TIME)
       }
       return ''
     },
@@ -100,7 +86,7 @@ export default {
         const parsedDateTime = this.$date.utc(val, 'LT')
         if (parsedDateTime.isValid() && parsedDateTime.format('LT') === val) {
           this.setTime(parsedDateTime)
-          return Promise.resolve(this.formatTime(this.dateTime))
+          return Promise.resolve(this.dateTime.format(this.valueFormat))
         } else {
           return Promise.reject(new Error('invalid format'))
         }
@@ -113,7 +99,7 @@ export default {
         const parsedDateTime = this.$date.utc(val, this.$date.HTML5_FMT.TIME)
         if (parsedDateTime.isValid() && parsedDateTime.format(this.$date.HTML5_FMT.TIME) === val) {
           this.setTime(parsedDateTime)
-          return Promise.resolve(this.formatTime(this.dateTime))
+          return Promise.resolve(this.dateTime.format(this.valueFormat))
         } else {
           return Promise.reject(new Error('invalid format'))
         }

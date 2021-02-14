@@ -1,18 +1,17 @@
 function defineHelpers (dayjs, scheduleEntry, timed = false) {
-  if (!Object.prototype.hasOwnProperty.call(scheduleEntry, 'startTime')) {
+  if (!Object.prototype.hasOwnProperty.call(scheduleEntry, 'startTimeUTCFormatted')) {
     Object.defineProperties(scheduleEntry, {
-      startTime: {
+      startTimeUTCFormatted: {
         get () {
-          console.log('formatting start time')
-          return dayjs.utc(this.period().start, dayjs.HTML5_FMT.DATE).add(this.periodOffset, 'm').valueOf()
+          return dayjs.utc(this.period().start, dayjs.HTML5_FMT.DATE).add(this.periodOffset, 'm').format()
         },
         set (value) {
           this.periodOffset = dayjs.utc(value).diff(dayjs.utc(this.period().start, dayjs.HTML5_FMT.DATE), 'm')
         }
       },
-      endTime: {
+      endTimeUTCFormatted: {
         get () {
-          return dayjs.utc(this.period().start, dayjs.HTML5_FMT.DATE).add(this.periodOffset + this.length, 'm').valueOf()
+          return dayjs.utc(this.period().start, dayjs.HTML5_FMT.DATE).add(this.periodOffset + this.length, 'm').format()
         },
         set (value) {
           this.length = dayjs.utc(value).diff(dayjs.utc(this.period().start, dayjs.HTML5_FMT.DATE), 'm') - this.periodOffset

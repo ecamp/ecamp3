@@ -255,7 +255,7 @@ export default {
     },
     createNewEntry: function (mouse) {
       this.currentStartTime = this.roundTimeDown(mouse)
-      this.currentEntry = defineHelpers({
+      this.currentEntry = defineHelpers(this.$date, {
         number: null,
         period: () => (this.period)(),
         periodOffset: 0,

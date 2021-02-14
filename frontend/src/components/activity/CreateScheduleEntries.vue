@@ -14,20 +14,18 @@
              no-gutters class="mx-2 mb-2">
         <v-col>
           <e-time-picker
-            v-model="scheduleEntry.startTime"
+            v-model="scheduleEntry.startTimeUTCFormatted"
             :name="$tc('components.activity.createScheduleEntries.fields.startTime')"
-            value-format="x"
             vee-rules="required"
             :filled="false"
             required />
         </v-col>
         <v-col>
           <e-time-picker
-            v-model="scheduleEntry.endTime"
+            v-model="scheduleEntry.endTimeUTCFormatted"
             input-class="ml-2"
             :name="$tc('components.activity.createScheduleEntries.fields.endTime')"
             vee-rules="required"
-            value-format="x"
             :filled="false"
             icon=""
             required />
@@ -47,7 +45,7 @@
   </div>
 </template>
 <script>
-import { defineHelpers } from '@/components/scheduleEntry/dateHelperLocal'
+import { defineHelpers } from '@/components/scheduleEntry/dateHelperUTCFormatted'
 
 export default {
   name: 'CreateActivityScheduleEntries',
@@ -59,7 +57,7 @@ export default {
   },
   computed: {
     mappedScheduleEntries () {
-      return this.scheduleEntries.map((entry) => defineHelpers(entry))
+      return this.scheduleEntries.map((entry) => defineHelpers(this.$date, entry))
     }
   },
   methods: {

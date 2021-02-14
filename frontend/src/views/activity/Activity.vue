@@ -118,6 +118,8 @@ import ApiSelect from '@/components/form/api/ApiSelect'
 import ActivityContentLayout from '@/components/activity/ActivityContentLayout'
 import camelCase from 'lodash/camelCase'
 
+import { defineHelpers } from '@/components/scheduleEntry/dateHelperUTC'
+
 export default {
   name: 'Activity',
   components: {
@@ -156,24 +158,7 @@ export default {
       return this.activity.activityCategory()
     },
     scheduleEntries () {
-      return this.activity.scheduleEntries().items.map((entry) => {
-        return {
-          ...entry,
-          get startTime () {
-            return Date.parse(this.period().start) + (this.periodOffset * 60000)
-          },
-          set startTime (value) {
-            this.periodOffset = (value - this.period().start) / 60000
-          },
-          get endTime () {
-            return this.startTime + (this.length * 60000)
-          },
-          set endTime (value) {
-            this.length = (value - this.startTime) / 60000
-          }
-        }
-      }
-      )
+      return this.activity.scheduleEntries().items.map((entry) => defineHelpers(this.$date, entry))
     },
     activityContents () {
       return this.activity.activityContents()

@@ -15,12 +15,12 @@ Vue.use(dayjs)
 describe('An ETimePicker', () => {
   let vuetify
 
-  const TIME_1 = '2037-07-18T09:52+00:00'
+  const TIME_1 = '2037-07-18T09:52:00+00:00'
   const TIME_1_HHMM = '09:52'
-  const TIME_2 = '1989-10-27T18:33+00:00'
-  const TIME_3 = '1989-10-27T19:15+00:00'
+  const TIME_2 = '1989-10-27T18:33:00+00:00'
+  const TIME_3 = '1989-10-27T19:15:00+00:00'
   const INVALID_TIME_1 = 'some time'
-  const INVALID_TIME_2 = '1989-10-27T46:89+00:00'
+  const INVALID_TIME_2 = '1989-10-27T46:89:00+00:00'
 
   const localeData = [
     [

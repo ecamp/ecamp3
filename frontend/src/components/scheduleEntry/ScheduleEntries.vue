@@ -62,13 +62,13 @@ export default {
     apiScheduleEntries: {
       immediate: true,
       handler (value) {
-        this.scheduleEntries = value.items.map(entry => defineHelpers(entry, true))
+        this.scheduleEntries = value.items.map(entry => defineHelpers(this.$date, entry, true))
       }
     }
   },
   methods: {
     createNewActivity () {
-      const entry = defineHelpers({
+      const entry = defineHelpers(this.$date, {
         number: null,
         period: () => (this.period)(),
         periodOffset: 420,
@@ -97,7 +97,7 @@ export default {
     },
     afterCreateActivity (data) {
       this.api.reload(this.period().scheduleEntries())
-      this.scheduleEntries.push(...data.scheduleEntries().items.map(entry => defineHelpers(entry, true)))
+      this.scheduleEntries.push(...data.scheduleEntries().items.map(entry => defineHelpers(this.$date, entry, true)))
       this.deleteTempEntryCallback()
     },
     cancelNewActivity () {
