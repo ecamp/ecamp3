@@ -40,7 +40,6 @@ describe('An ApiSelect', () => {
     return mountComponent(app, { vuetify, attachTo: document.body, ...options })
   }
 
-  // keep this the first test --> otherwise element IDs change constantly
   test('renders correctly', async () => {
     const wrapper = mount()
     expect(wrapper).toMatchSnapshot()

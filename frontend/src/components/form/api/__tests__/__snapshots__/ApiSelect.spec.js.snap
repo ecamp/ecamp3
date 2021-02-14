@@ -21,7 +21,7 @@ exports[`An ApiSelect renders correctly 1`] = `
                                    </legend>
                               </fieldset>
                               <div class="v-select__slot">
-                                   <label for="input-9"
+                                   <label for
                                           class="v-label theme--light"
                                           style="left: 0px; position: absolute;">Test field</label>
                                    <div class="v-select__selections">
