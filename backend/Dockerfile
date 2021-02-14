@@ -20,7 +20,7 @@ RUN docker-php-ext-install pdo pdo_mysql
 RUN pecl install xdebug-3.0.2
 RUN docker-php-ext-enable xdebug
 RUN touch /var/log/xdebug.log && chmod a+rw /var/log/xdebug.log
-ENV XDEBUG_MODE="develop,debug"
+ENV XDEBUG_MODE="develop,debug,coverage"
 ENV XDEBUG_CONFIG="client_host=docker-host log=/var/log/xdebug.log"
 
 # Install composer for PHP dependencies
