@@ -1,30 +1,32 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`An ApiSelect renders correctly 1`] = `
+exports[`An ApiSelect renders correctly: closed 1`] = `
 <div data-app>
      <form novalidate="novalidate"
            class="v-form e-form-container">
           <div class="e-form-container"
-               value="Test Value"
                outlined="true"
-               required="required">
-               <div class="v-input v-input--hide-details theme--light v-text-field v-text-field--enclosed v-text-field--outlined v-select">
+               required="required"
+               items="[object Object],[object Object]"
+               value="1">
+               <div class="v-input v-input--hide-details v-input--is-label-active v-input--is-dirty theme--light v-text-field v-text-field--is-booted v-text-field--enclosed v-text-field--outlined v-select">
                     <div class="v-input__control">
                          <div role="button"
                               aria-haspopup="listbox"
                               aria-expanded="false"
-                              aria-owns="list-9"
+                              aria-owns="list-10"
                               class="v-input__slot">
                               <fieldset aria-hidden="true">
-                                   <legend style="width: 0px;">
+                                   <legend style="width: -24px;">
                                         <span>​</span>
                                    </legend>
                               </fieldset>
                               <div class="v-select__slot">
                                    <label for
-                                          class="v-label theme--light"
+                                          class="v-label v-label--active theme--light"
                                           style="left: 0px; position: absolute;">Test field</label>
                                    <div class="v-select__selections">
+                                        <div class="v-select__selection v-select__selection--comma">firstOption</div>
                                         <input required="required"
                                                id
                                                readonly="readonly"
@@ -46,7 +48,7 @@ exports[`An ApiSelect renders correctly 1`] = `
                                         </div>
                                    </div>
                                    <input type="hidden"
-                                          value="Test Value">
+                                          value="1">
                               </div>
                               <div class="v-menu">
                                    <!---->
@@ -56,5 +58,92 @@ exports[`An ApiSelect renders correctly 1`] = `
                </div>
           </div>
      </form>
+</div>
+`;
+
+exports[`An ApiSelect renders correctly: open 1`] = `
+<div data-app>
+     <form novalidate="novalidate"
+           class="v-form e-form-container">
+          <div class="e-form-container"
+               outlined="true"
+               required="required"
+               items="[object Object],[object Object]"
+               value="1">
+               <div class="v-input v-input--hide-details v-input--is-label-active v-input--is-dirty v-input--is-focused theme--light v-text-field v-text-field--is-booted v-text-field--enclosed v-text-field--outlined v-select v-select--is-menu-active primary--text">
+                    <div class="v-input__control">
+                         <div role="button"
+                              aria-haspopup="listbox"
+                              aria-expanded="true"
+                              aria-owns="list-10"
+                              class="v-input__slot">
+                              <fieldset aria-hidden="true">
+                                   <legend style="width: -24px;">
+                                        <span>​</span>
+                                   </legend>
+                              </fieldset>
+                              <div class="v-select__slot">
+                                   <label for
+                                          class="v-label v-label--active theme--light primary--text"
+                                          style="left: 0px; position: absolute;">Test field</label>
+                                   <div class="v-select__selections">
+                                        <div class="v-select__selection v-select__selection--comma">firstOption</div>
+                                        <input required="required"
+                                               id
+                                               readonly="readonly"
+                                               type="text"
+                                               aria-readonly="false"
+                                               autocomplete="off">
+                                   </div>
+                                   <div class="v-input__append-inner">
+                                        <i aria-hidden="true"
+                                           class="v-icon notranslate mdi mdi-menu-down theme--light"></i>
+                                        <div class="d-flex"
+                                             style="margin-top: -5px;">
+                                             <div class="checkIconContainer">
+                                                  <i aria-hidden="true"
+                                                     class="v-icon notranslate checkIcon mdi mdi-content-save theme--light green--text"></i>
+                                             </div>
+                                             <!---->
+                                             <!---->
+                                        </div>
+                                   </div>
+                                   <input type="hidden"
+                                          value="1">
+                              </div>
+                              <div class="v-menu">
+                                   <transition-stub name="v-menu-transition"></transition-stub>
+                              </div>
+                         </div>
+                    </div>
+               </div>
+          </div>
+     </form>
+     <div class="v-menu__content theme--light menuable__content__active "
+          style="max-height: 304px; min-width: 0px; max-width: auto; top: 12px; left: 0px; transform-origin: top left; z-index: 8;">
+          <div role="listbox"
+               tabindex="-1"
+               class="v-list v-select-list v-sheet theme--light theme--light"
+               id>
+               <div tabindex="0"
+                    aria-selected="true"
+                    id
+                    role="option"
+                    class="v-list-item primary--text v-list-item--active v-list-item--link theme--light">
+                    <div class="v-list-item__content">
+                         <div class="v-list-item__title">firstOption</div>
+                    </div>
+               </div>
+               <div tabindex="0"
+                    aria-selected="false"
+                    id
+                    role="option"
+                    class="v-list-item v-list-item--link theme--light">
+                    <div class="v-list-item__content">
+                         <div class="v-list-item__title">secondOption</div>
+                    </div>
+               </div>
+          </div>
+     </div>
 </div>
 `;
