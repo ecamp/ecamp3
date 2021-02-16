@@ -10,22 +10,15 @@ import flushPromises from 'flush-promises'
 import ApiWrapper from '@/components/form/api/ApiWrapper'
 import { i18n } from '@/plugins'
 import merge from 'lodash/merge'
+import { ApiMock } from '@/components/form/api/__tests__/ApiMock'
 
 Vue.use(Vuetify)
 Vue.use(formBaseComponents)
 
-function mockPromiseResolving (value) {
-  return new Promise((resolve, reject) => {
-    const timer = setTimeout(() => {
-      clearTimeout(timer)
-      resolve(value)
-    }, 100)
-  })
-}
-
 describe('An ApiSelect', () => {
   let vuetify
   let wrapper
+  let apiMock
 
   const fieldName = 'test-field/123'
 
@@ -73,20 +66,12 @@ describe('An ApiSelect', () => {
         </div>
       `
     })
+    apiMock.get().thenReturn(ApiMock.success(FIRST_OPTION.value).forFieldName(fieldName))
     const defaultOptions = {
       mocks: {
         $tc: () => {
         },
-        api: {
-          get: () => {
-            return {
-              [fieldName]: FIRST_OPTION.value,
-              _meta: {
-                load: Promise.resolve(FIRST_OPTION.value)
-              }
-            }
-          }
-        }
+        api: apiMock.getMocks()
       }
     }
     return mountComponent(app, { vuetify, i18n, attachTo: document.body, ...merge(defaultOptions, options) })
@@ -95,6 +80,7 @@ describe('An ApiSelect', () => {
   const waitForDebounce = () => new Promise((resolve) => setTimeout(resolve, 110))
 
   test('renders correctly', async () => {
+    apiMock.get().thenReturn(ApiMock.success(FIRST_OPTION.value).forFieldName(fieldName))
     wrapper = mount()
     await waitForDebounce()
     await flushPromises()
@@ -108,15 +94,9 @@ describe('An ApiSelect', () => {
   })
 
   test('triggers api.patch and status update if input changes', async () => {
-    const mock = { patch: () => mockPromiseResolving(SECOND_OPTION.value) }
-    const patch = jest.spyOn(mock, 'patch')
-    wrapper = mount({
-      mocks: {
-        api: {
-          patch
-        }
-      }
-    })
+    apiMock.patch().thenReturn(ApiMock.success(SECOND_OPTION.value))
+    wrapper = mount()
+
     await flushPromises()
 
     await wrapper.find('.v-input__slot').trigger('click')
@@ -126,7 +106,7 @@ describe('An ApiSelect', () => {
     await waitForDebounce()
     await flushPromises()
 
-    expect(patch).toBeCalledTimes(1)
+    expect(apiMock.getMocks().patch).toBeCalledTimes(1)
     expect(wrapper.findComponent(ApiWrapper).vm.localValue).toBe(SECOND_OPTION.value)
   })
 })
