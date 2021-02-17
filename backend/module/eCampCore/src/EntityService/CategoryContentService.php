@@ -35,7 +35,7 @@ class CategoryContentService extends AbstractEntityService {
 
         foreach ($template->getChildren() as $childTemplate) {
             $childCategoryContent = $this->createFromTemplate($category, $childTemplate);
-            $childCategoryContent->setParent($categoryContent);
+            $categoryContent->addChild($childCategoryContent);
         }
 
         return $categoryContent;
