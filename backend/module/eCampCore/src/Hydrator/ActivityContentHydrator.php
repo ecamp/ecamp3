@@ -40,6 +40,7 @@ class ActivityContentHydrator implements HydratorInterface {
             'position' => $activityContent->getPosition(),
             'contentTypeName' => $contentType->getName(),
 
+            'parent' => ($activityContent->isRoot() ? null : new EntityLink($activityContent->getParent())),
             'contentType' => new EntityLink($activityContent->getContentType()),
 
             'activity' => Link::factory([

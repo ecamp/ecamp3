@@ -61,7 +61,7 @@ class ActivityContentService extends AbstractEntityService {
      * @throws ORMException
      * @throws NoAccessException
      */
-    public function createEntity($data): ActivityContent {
+    protected function createEntity($data): ActivityContent {
         /** @var ActivityContent $activityContent */
         $activityContent = parent::createEntity($data);
 
@@ -78,7 +78,7 @@ class ActivityContentService extends AbstractEntityService {
         return $activityContent;
     }
 
-    public function patchEntity(BaseEntity $entity, $data): BaseEntity {
+    protected function patchEntity(BaseEntity $entity, $data): ActivityContent {
         /** @var ActivityContent $entity */
         $entity = parent::patchEntity($entity, $data);
 

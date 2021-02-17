@@ -7,6 +7,7 @@ use eCamp\Core\Entity\CategoryContent;
 use eCamp\Core\Entity\CategoryContentTemplate;
 use eCamp\Core\Entity\ContentType;
 use eCamp\Core\Hydrator\CategoryContentHydrator;
+use eCamp\Lib\Entity\BaseEntity;
 use eCamp\Lib\Service\ServiceUtils;
 use Laminas\Authentication\AuthenticationService;
 
@@ -54,5 +55,18 @@ class CategoryContentService extends AbstractEntityService {
         $categoryContent->setContentType($contentType);
 
         return $categoryContent;
+    }
+
+    protected function patchEntity(BaseEntity $entity, $data): CategoryContent {
+        /** @var CategoryContent $entity */
+        $entity = parent::patchEntity($entity, $data);
+
+        if (isset($data['parentId'])) {
+            /** @var CategoryContent $parent */
+            $parent = $this->findRelatedEntity(CategoryContent::class, $data, 'parentId');
+            $entity->setParent($parent);
+        }
+
+        return $entity;
     }
 }

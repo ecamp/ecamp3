@@ -68,6 +68,10 @@ class ActivityContent extends BaseEntity implements ContentTypeStrategyProviderA
         return (null != $this->activity) ? $this->activity->getCamp() : null;
     }
 
+    public function isRoot(): bool {
+        return null == $this->parent;
+    }
+
     public function getParent(): ?ActivityContent {
         return $this->parent;
     }
