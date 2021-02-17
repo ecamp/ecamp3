@@ -76,7 +76,7 @@
       }
     },
     "camp": {
-      "CampCategories": {
+      "campCategories": {
         "create": "Creare categoria di attività",
         "deleteCategoryNotPossibleInUse": "La categoria di attività non può essere cancellata. è utilizzata da:",
         "deleteCategoryQuestion": "Vuoi davvero cancellare la categoria Attività?",

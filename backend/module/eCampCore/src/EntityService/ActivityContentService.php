@@ -13,6 +13,7 @@ use eCamp\Core\Entity\CategoryContent;
 use eCamp\Core\Entity\ContentType;
 use eCamp\Core\Hydrator\ActivityContentHydrator;
 use eCamp\Lib\Acl\NoAccessException;
+use eCamp\Lib\Entity\BaseEntity;
 use eCamp\Lib\Service\ServiceUtils;
 use Laminas\Authentication\AuthenticationService;
 use Psr\Container\ContainerExceptionInterface;
@@ -46,7 +47,7 @@ class ActivityContentService extends AbstractEntityService {
 
         foreach ($categoryContent->getChildren() as $childCategoryContent) {
             $childActivityContent = $this->createFromCategoryContent($activity, $childCategoryContent);
-            $childActivityContent->setParent($activityContent);
+            $activityContent->addChild($childActivityContent);
         }
 
         return $activityContent;
@@ -75,6 +76,19 @@ class ActivityContentService extends AbstractEntityService {
         $activityContent->setContentTypeStrategyProvider($this->getContentTypeStrategyProvider());
 
         return $activityContent;
+    }
+
+    public function patchEntity(BaseEntity $entity, $data): BaseEntity {
+        /** @var ActivityContent $entity */
+        $entity = parent::patchEntity($entity, $data);
+
+        if (isset($data['parentId'])) {
+            /** @var ActivityContent $parent */
+            $parent = $this->findRelatedEntity(ActivityContent::class, $data, 'parentId');
+            $entity->setParent($parent);
+        }
+
+        return $entity;
     }
 
     protected function fetchAllQueryBuilder($params = []): QueryBuilder {

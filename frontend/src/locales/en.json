@@ -88,7 +88,7 @@
       }
     },
     "camp": {
-      "CampCategories": {
+      "campCategories": {
         "create": "Create activity category",
         "deleteCategoryNotPossibleInUse": "Activity category can't be deleted. It is used by:",
         "deleteCategoryQuestion": "Do you really want do delete the Activity category?",

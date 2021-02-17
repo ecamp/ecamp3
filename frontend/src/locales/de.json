@@ -78,7 +78,7 @@
       }
     },
     "camp": {
-      "CampCategories": {
+      "campCategories": {
         "create": "Block-Kategorie erstellen",
         "deleteCategoryNotPossibleInUse": "Block-Kategorie kann nicht gelöscht werden. Sie wird noch verwendet:",
         "deleteCategoryQuestion": "Möchtest du diese Block-Kategorie wirklich löschen?",

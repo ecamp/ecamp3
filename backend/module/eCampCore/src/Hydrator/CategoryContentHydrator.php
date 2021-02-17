@@ -26,6 +26,7 @@ class CategoryContentHydrator implements HydratorInterface {
             'position' => $categoryContent->getPosition(),
             'contentTypeName' => $contentType->getName(),
 
+            'parent' => ($categoryContent->isRoot() ? null : new EntityLink($categoryContent->getParent())),
             'contentType' => new EntityLink($categoryContent->getContentType()),
         ];
     }

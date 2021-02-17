@@ -6,13 +6,13 @@ Displays all periods of a single camp and allows to edit them & create new ones
   <content-group>
     <slot name="title">
       <div class="ec-content-group__title py-1 subtitle-1">
-        {{ $tc('components.camp.CampCategories.title') }}
+        {{ $tc('components.camp.campCategories.title') }}
         <dialog-category-create :camp="camp()">
           <template #activator="{ on }">
             <button-add color="secondary" text
                         :hide-label="true"
                         v-on="on">
-              {{ $tc('components.camp.CampCategories.create') }}
+              {{ $tc('components.camp.campCategories.create') }}
             </button-add>
           </template>
         </dialog-category-create>
