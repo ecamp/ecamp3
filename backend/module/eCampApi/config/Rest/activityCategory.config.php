@@ -28,7 +28,7 @@ return ConfigFactory::Create('ActivityCategory', 'ActivityCategories')
         InputFilterFactory::Create('numberingStyle', true)
             ->addFilterStringTrim()
             ->addFilterStripTags()
-            ->addValidatorStringLength(1, 1)
+            ->addValidatorInArray(['a', 'A', 'i', 'I', '1'])
     )
     ->buildConfig()
 ;

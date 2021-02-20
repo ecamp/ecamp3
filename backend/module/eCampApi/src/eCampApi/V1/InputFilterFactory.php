@@ -78,10 +78,21 @@ class InputFilterFactory {
         ]);
     }
 
+    public function addValidatorIsFloat(): InputFilterFactory {
+        return $this->addValidator(\Laminas\Validator\Digits::class);
+    }
+
     public function addValidatorRegex($pattern): InputFilterFactory {
         return $this->addValidator([
             'name' => \Laminas\Validator\Regex::class,
             'options' => ['pattern' => $pattern],
+        ]);
+    }
+
+    public function addValidatorInArray(array $haystack): InputFilterFactory {
+        return $this->addValidator([
+            'name' => \Laminas\Validator\InArray::class,
+            'options' => ['haystack' => $haystack],
         ]);
     }
 
