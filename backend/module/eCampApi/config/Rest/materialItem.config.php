@@ -1,22 +1,22 @@
 <?php
 
-use eCampApi\V1\ConfigFactory;
-use eCampApi\V1\InputFilterFactory;
+use eCampApi\V1\Factory\Config;
+use eCampApi\V1\Factory\InputFilter;
 
-return ConfigFactory::Create('MaterialItem')
+return Config::Create('MaterialItem')
     ->addCollectionQueryWhitelist('campId', 'materialListId', 'activityContentId')
     ->addInputFilterFactory(
-        InputFilterFactory::Create('article', true)
+        InputFilter::Create('article', true)
             ->addFilterStringTrim()
             ->addFilterStripTags()
             ->addValidatorStringLength(1, 64)
     )
     ->addInputFilterFactory(
-        InputFilterFactory::Create('quantity')
+        InputFilter::Create('quantity')
             ->addValidatorIsFloat()
     )
     ->addInputFilterFactory(
-        InputFilterFactory::Create('unit')
+        InputFilter::Create('unit')
             ->addFilterStringTrim()
             ->addFilterStripTags()
             ->addValidatorStringLength(1, 64)

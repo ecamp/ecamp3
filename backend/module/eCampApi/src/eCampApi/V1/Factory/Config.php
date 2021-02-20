@@ -1,8 +1,8 @@
 <?php
 
-namespace eCampApi\V1;
+namespace eCampApi\V1\Factory;
 
-class ConfigFactory {
+class Config {
     private $nameSingular;
     private $namePlural;
     private $routeName;
@@ -17,7 +17,7 @@ class ConfigFactory {
         $this->nameSingular = $nameSingular;
     }
 
-    public static function Create(string $nameSingular, ?string $namePlural = null): ConfigFactory {
+    public static function Create(string $nameSingular, ?string $namePlural = null): Config {
         $factory = new self($nameSingular);
         if (isset($namePlural)) {
             $factory->setNamePlural($namePlural);
@@ -30,7 +30,7 @@ class ConfigFactory {
         return $this->nameSingular;
     }
 
-    public function setNameSingular(string $nameSingular): ConfigFactory {
+    public function setNameSingular(string $nameSingular): Config {
         $this->nameSingular = $nameSingular;
 
         return $this;
@@ -40,7 +40,7 @@ class ConfigFactory {
         return $this->namePlural ?? ($this->nameSingular.'s');
     }
 
-    public function setNamePlural(string $namePlural): ConfigFactory {
+    public function setNamePlural(string $namePlural): Config {
         $this->namePlural = $namePlural;
 
         return $this;
@@ -50,7 +50,7 @@ class ConfigFactory {
         return $this->routeName ?? ('e-camp-api.rest.doctrine.'.self::toKebabCase($this->nameSingular));
     }
 
-    public function setRouteName(string $routeName): ConfigFactory {
+    public function setRouteName(string $routeName): Config {
         $this->routeName = $routeName;
 
         return $this;
@@ -60,7 +60,7 @@ class ConfigFactory {
         return $this->routeIdentifierName ?? (lcfirst($this->nameSingular).'Id');
     }
 
-    public function setRouteIdentifierName(string $routeIdentifierName): ConfigFactory {
+    public function setRouteIdentifierName(string $routeIdentifierName): Config {
         $this->routeIdentifierName = $routeIdentifierName;
 
         return $this;
@@ -70,7 +70,7 @@ class ConfigFactory {
         return $this->endpoint ?? self::toKebabCase($this->getNamePlural());
     }
 
-    public function setEndpoint(string $endpoint): ConfigFactory {
+    public function setEndpoint(string $endpoint): Config {
         $this->endpoint = $endpoint;
 
         return $this;
@@ -80,13 +80,13 @@ class ConfigFactory {
         return $this->entityHttpMethods ?? ['GET', 'PATCH', 'DELETE'];
     }
 
-    public function setEntityHttpMethods(array $entityHttpMethods): ConfigFactory {
+    public function setEntityHttpMethods(array $entityHttpMethods): Config {
         $this->entityHttpMethods = $entityHttpMethods;
 
         return $this;
     }
 
-    public function setEntityHttpMethodsReadonly(): ConfigFactory {
+    public function setEntityHttpMethodsReadonly(): Config {
         $this->setEntityHttpMethods(['GET']);
 
         return $this;
@@ -96,13 +96,13 @@ class ConfigFactory {
         return $this->collectionHttpMethods ?? ['GET', 'POST'];
     }
 
-    public function setCollectionHttpMethods(array $collectionHttpMethods): ConfigFactory {
+    public function setCollectionHttpMethods(array $collectionHttpMethods): Config {
         $this->collectionHttpMethods = $collectionHttpMethods;
 
         return $this;
     }
 
-    public function setCollectionHttpMethodsReadonly(): ConfigFactory {
+    public function setCollectionHttpMethodsReadonly(): Config {
         $this->setCollectionHttpMethods(['GET']);
 
         return $this;
@@ -112,7 +112,7 @@ class ConfigFactory {
         return $this->collectionQueryWhitelist;
     }
 
-    public function addCollectionQueryWhitelist(...$queries): ConfigFactory {
+    public function addCollectionQueryWhitelist(...$queries): Config {
         array_push($this->collectionQueryWhitelist, ...$queries);
 
         return $this;
@@ -122,14 +122,14 @@ class ConfigFactory {
         return $this->inputFilterItems;
     }
 
-    public function addInputFilterFactory(InputFilterFactory $inputFilterFactory): ConfigFactory {
+    public function addInputFilterFactory(InputFilter $inputFilterFactory): Config {
         $this->inputFilterItems[] = $inputFilterFactory->build();
 
         return $this;
     }
 
-    public function addInputFilter(string $name, bool $required = false): ConfigFactory {
-        return $this->addInputFilterFactory(InputFilterFactory::Create($name, $required));
+    public function addInputFilter(string $name, bool $required = false): Config {
+        return $this->addInputFilterFactory(InputFilter::Create($name, $required));
     }
 
     public function buildConfig(): array {

@@ -1,12 +1,12 @@
 <?php
 
-use eCampApi\V1\ConfigFactory;
-use eCampApi\V1\InputFilterFactory;
+use eCampApi\V1\Factory\Config;
+use eCampApi\V1\Factory\InputFilter;
 
-return ConfigFactory::Create('ActivityContent')
+return Config::Create('ActivityContent')
     ->addCollectionQueryWhitelist('activityId')
     ->addInputFilterFactory(
-        InputFilterFactory::Create('instanceName')
+        InputFilter::Create('instanceName')
             ->addFilterStringTrim()
             ->addFilterStripTags()
     )

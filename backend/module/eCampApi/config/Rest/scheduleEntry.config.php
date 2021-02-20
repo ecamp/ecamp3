@@ -1,17 +1,17 @@
 <?php
 
-use eCampApi\V1\ConfigFactory;
-use eCampApi\V1\InputFilterFactory;
+use eCampApi\V1\Factory\Config;
+use eCampApi\V1\Factory\InputFilter;
 
-return ConfigFactory::Create('ScheduleEntry', 'ScheduleEntries')
+return Config::Create('ScheduleEntry', 'ScheduleEntries')
     ->addCollectionQueryWhitelist('activityId')
     ->addInputFilterFactory(
-        InputFilterFactory::Create('periodOffset', true)
+        InputFilter::Create('periodOffset', true)
             ->addFilterStripTags()
             ->addFilter(\Laminas\Filter\Digits::class)
     )
     ->addInputFilterFactory(
-        InputFilterFactory::Create('length', true)
+        InputFilter::Create('length', true)
             ->addFilterStripTags()
             ->addFilter(\Laminas\Filter\Digits::class)
     )

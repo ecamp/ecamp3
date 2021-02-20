@@ -1,31 +1,31 @@
 <?php
 
-use eCampApi\V1\ConfigFactory;
-use eCampApi\V1\InputFilterFactory;
+use eCampApi\V1\Factory\Config;
+use eCampApi\V1\Factory\InputFilter;
 
-return ConfigFactory::Create('ActivityCategory', 'ActivityCategories')
+return Config::Create('ActivityCategory', 'ActivityCategories')
     ->addCollectionQueryWhitelist('campId')
     ->addInputFilterFactory(
-        InputFilterFactory::Create('short', true)
+        InputFilter::Create('short', true)
             ->addFilterStringTrim()
             ->addFilterStripTags()
             ->addValidatorStringLength(1, 16)
     )
     ->addInputFilterFactory(
-        InputFilterFactory::Create('name', true)
+        InputFilter::Create('name', true)
             ->addFilterStringTrim()
             ->addFilterStripTags()
             ->addValidatorStringLength(1, 64)
     )
     ->addInputFilterFactory(
-        InputFilterFactory::Create('color', true)
+        InputFilter::Create('color', true)
             ->addFilterStringTrim()
             ->addFilterStripTags()
             ->addValidatorStringLength(1, 8)
             ->addValidatorRegex('/#([a-f0-9]{3}){1,2}\b/i')
     )
     ->addInputFilterFactory(
-        InputFilterFactory::Create('numberingStyle', true)
+        InputFilter::Create('numberingStyle', true)
             ->addFilterStringTrim()
             ->addFilterStripTags()
             ->addValidatorInArray(['a', 'A', 'i', 'I', '1'])

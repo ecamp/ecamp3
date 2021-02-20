@@ -1,18 +1,18 @@
 <?php
 
-use eCampApi\V1\ConfigFactory;
-use eCampApi\V1\InputFilterFactory;
+use eCampApi\V1\Factory\Config;
+use eCampApi\V1\Factory\InputFilter;
 
-return ConfigFactory::Create('User')
+return Config::Create('User')
     ->addCollectionQueryWhitelist('search')
     ->addInputFilterFactory(
-        InputFilterFactory::Create('username')
+        InputFilter::Create('username')
             ->addFilterStringTrim()
             ->addFilterStripTags()
             ->addValidatorStringLength(1, 32)
     )
     ->addInputFilterFactory(
-        InputFilterFactory::Create('state', true)
+        InputFilter::Create('state', true)
             ->addFilterStringTrim()
             ->addFilterStripTags()
             ->addValidatorStringLength(1, 16)

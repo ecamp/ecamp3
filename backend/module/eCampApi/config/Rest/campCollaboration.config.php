@@ -1,22 +1,22 @@
 <?php
 
-use eCampApi\V1\ConfigFactory;
-use eCampApi\V1\InputFilterFactory;
+use eCampApi\V1\Factory\Config;
+use eCampApi\V1\Factory\InputFilter;
 
-return ConfigFactory::Create('CampCollaboration')
+return Config::Create('CampCollaboration')
     ->addCollectionQueryWhitelist('campId', 'userId')
     ->addInputFilterFactory(
-        InputFilterFactory::Create('status')
+        InputFilter::Create('status')
             ->addFilterStringTrim()
             ->addFilterStripTags()
     )
     ->addInputFilterFactory(
-        InputFilterFactory::Create('role', true)
+        InputFilter::Create('role', true)
             ->addFilterStringTrim()
             ->addFilterStripTags()
     )
     ->addInputFilterFactory(
-        InputFilterFactory::Create('collaborationAcceptedBy')
+        InputFilter::Create('collaborationAcceptedBy')
             ->addFilterStringTrim()
             ->addFilterStripTags()
     )

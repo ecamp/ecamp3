@@ -1,18 +1,18 @@
 <?php
 
-use eCampApi\V1\ConfigFactory;
-use eCampApi\V1\InputFilterFactory;
+use eCampApi\V1\Factory\Config;
+use eCampApi\V1\Factory\InputFilter;
 
-return ConfigFactory::Create('Activity', 'Activities')
+return Config::Create('Activity', 'Activities')
     ->addCollectionQueryWhitelist('campId', 'periodId')
     ->addInputFilterFactory(
-        InputFilterFactory::Create('title', true)
+        InputFilter::Create('title', true)
             ->addFilterStringTrim()
             ->addFilterStripTags()
             ->addValidatorStringLength(1, 32)
     )
     ->addInputFilterFactory(
-        InputFilterFactory::Create('location')
+        InputFilter::Create('location')
             ->addFilterStringTrim()
             ->addFilterStripTags()
     )

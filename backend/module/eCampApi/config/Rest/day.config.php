@@ -1,8 +1,8 @@
 <?php
 
-use eCampApi\V1\ConfigFactory;
+use eCampApi\V1\Factory\Config;
 
-return ConfigFactory::Create('Day')
+return Config::Create('Day')
     ->setEntityHttpMethods(['GET', 'PATCH'])
     ->setCollectionHttpMethodsReadonly()
     ->addCollectionQueryWhitelist('campId', 'periodId')

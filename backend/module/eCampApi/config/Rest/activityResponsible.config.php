@@ -1,8 +1,8 @@
 <?php
 
-use eCampApi\V1\ConfigFactory;
+use eCampApi\V1\Factory\Config;
 
-return ConfigFactory::Create('ActivityResponsible')
+return Config::Create('ActivityResponsible')
     ->setEntityHttpMethods(['GET', 'DELETE'])
     ->addCollectionQueryWhitelist('activityId', 'campCollaborationId')
     ->buildConfig()

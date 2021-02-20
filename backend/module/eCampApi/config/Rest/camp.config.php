@@ -1,23 +1,23 @@
 <?php
 
-use eCampApi\V1\ConfigFactory;
-use eCampApi\V1\InputFilterFactory;
+use eCampApi\V1\Factory\Config;
+use eCampApi\V1\Factory\InputFilter;
 
-return ConfigFactory::Create('Camp')
+return Config::Create('Camp')
     ->addInputFilterFactory(
-        InputFilterFactory::Create('name', true)
+        InputFilter::Create('name', true)
             ->addFilterStringTrim()
             ->addFilterStripTags()
             ->addValidatorStringLength(1, 32)
     )
     ->addInputFilterFactory(
-        InputFilterFactory::Create('title', true)
+        InputFilter::Create('title', true)
             ->addFilterStringTrim()
             ->addFilterStripTags()
             ->addValidatorStringLength(1, 64)
     )
     ->addInputFilterFactory(
-        InputFilterFactory::Create('motto', true)
+        InputFilter::Create('motto', true)
             ->addFilterStringTrim()
             ->addFilterStripTags()
             ->addValidatorStringLength(1, 128)

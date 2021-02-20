@@ -1,8 +1,8 @@
 <?php
 
-namespace eCampApi\V1;
+namespace eCampApi\V1\Factory;
 
-class InputFilterFactory {
+class InputFilter {
     private $name;
     private $required;
     private $filters = [];
@@ -19,17 +19,17 @@ class InputFilterFactory {
     public static function Create(
         string $name,
         bool $required = false
-    ): InputFilterFactory {
-        return new InputFilterFactory($name, $required);
+    ): InputFilter {
+        return new InputFilter($name, $required);
     }
 
-    public function setRequired(bool $required = true): InputFilterFactory {
+    public function setRequired(bool $required = true): InputFilter {
         $this->required = $required;
 
         return $this;
     }
 
-    public function addFilters(...$filters): InputFilterFactory {
+    public function addFilters(...$filters): InputFilter {
         foreach ($filters as $filter) {
             $this->addFilter($filter);
         }
@@ -37,7 +37,7 @@ class InputFilterFactory {
         return $this;
     }
 
-    public function addFilter($filter): InputFilterFactory {
+    public function addFilter($filter): InputFilter {
         if (is_string($filter)) {
             $filter = ['name' => $filter];
         }
@@ -46,15 +46,15 @@ class InputFilterFactory {
         return $this;
     }
 
-    public function addFilterStringTrim(): InputFilterFactory {
+    public function addFilterStringTrim(): InputFilter {
         return $this->addFilter(\Laminas\Filter\StringTrim::class);
     }
 
-    public function addFilterStripTags(): InputFilterFactory {
+    public function addFilterStripTags(): InputFilter {
         return $this->addFilter(\Laminas\Filter\StripTags::class);
     }
 
-    public function addValidators(...$validators): InputFilterFactory {
+    public function addValidators(...$validators): InputFilter {
         foreach ($validators as $validator) {
             $this->addValidator($validator);
         }
@@ -62,7 +62,7 @@ class InputFilterFactory {
         return $this;
     }
 
-    public function addValidator($validator): InputFilterFactory {
+    public function addValidator($validator): InputFilter {
         if (is_string($validator)) {
             $validator = ['name' => $validator];
         }
@@ -71,25 +71,25 @@ class InputFilterFactory {
         return $this;
     }
 
-    public function addValidatorStringLength($min, $max): InputFilterFactory {
+    public function addValidatorStringLength($min, $max): InputFilter {
         return $this->addValidator([
             'name' => \Laminas\Validator\StringLength::class,
             'options' => ['min' => $min, 'max' => $max],
         ]);
     }
 
-    public function addValidatorIsFloat(): InputFilterFactory {
+    public function addValidatorIsFloat(): InputFilter {
         return $this->addValidator(\Laminas\Validator\Digits::class);
     }
 
-    public function addValidatorRegex($pattern): InputFilterFactory {
+    public function addValidatorRegex($pattern): InputFilter {
         return $this->addValidator([
             'name' => \Laminas\Validator\Regex::class,
             'options' => ['pattern' => $pattern],
         ]);
     }
 
-    public function addValidatorInArray(array $haystack): InputFilterFactory {
+    public function addValidatorInArray(array $haystack): InputFilter {
         return $this->addValidator([
             'name' => \Laminas\Validator\InArray::class,
             'options' => ['haystack' => $haystack],

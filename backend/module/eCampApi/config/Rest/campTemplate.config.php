@@ -1,8 +1,8 @@
 <?php
 
-use eCampApi\V1\ConfigFactory;
+use eCampApi\V1\Factory\Config;
 
-return ConfigFactory::Create('CampTemplate')
+return Config::Create('CampTemplate')
     ->setEntityHttpMethodsReadonly()
     ->setCollectionHttpMethodsReadonly()
     ->buildConfig()
