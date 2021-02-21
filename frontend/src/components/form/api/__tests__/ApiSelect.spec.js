@@ -79,20 +79,6 @@ describe('An ApiSelect', () => {
 
   const waitForDebounce = () => new Promise((resolve) => setTimeout(resolve, 110))
 
-  test('renders correctly', async () => {
-    apiMock.get().thenReturn(ApiMock.success(FIRST_OPTION.value).forFieldName(fieldName))
-    wrapper = mount()
-    await waitForDebounce()
-    await flushPromises()
-
-    expect(wrapper).toMatchSnapshot('closed')
-
-    await wrapper.find('.v-input__slot').trigger('click')
-    await waitForDebounce()
-    await flushPromises()
-    expect(wrapper).toMatchSnapshot('open')
-  })
-
   test('triggers api.patch and status update if input changes', async () => {
     apiMock.patch().thenReturn(ApiMock.success(SECOND_OPTION.value))
     wrapper = mount()
