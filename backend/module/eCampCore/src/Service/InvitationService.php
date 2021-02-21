@@ -45,7 +45,7 @@ class InvitationService {
             $user = $this->userService->fetch($userId);
             $userDisplayName = $user->getDisplayName();
             $existingCampCollaboration = $this->campCollaborationRepository->findByUserAndCamp($user, $camp);
-            $userAlreadyInCamp = null != $existingCampCollaboration;
+            $userAlreadyInCamp = null != $existingCampCollaboration && $existingCampCollaboration->isEstablished();
         }
 
         return new Invitation($camp->getId(), $camp->getTitle(), $userDisplayName, $userAlreadyInCamp);
