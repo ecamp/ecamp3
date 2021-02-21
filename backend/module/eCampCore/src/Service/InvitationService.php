@@ -70,7 +70,7 @@ class InvitationService {
         }
         $camp = $campCollaboration->getCamp();
         $existingCampCollaboration = $this->campCollaborationRepository->findByUserAndCamp($user, $camp);
-        if (null != $existingCampCollaboration) {
+        if (null != $existingCampCollaboration && $existingCampCollaboration->isEstablished()) {
             throw (new EntityValidationException())->setMessages(
                 [
                     'user' => [
