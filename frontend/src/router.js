@@ -103,9 +103,25 @@ export default new Router({
       props: {
         default: route => {
           return {
-            campCollaboration: campCollaborationsFromInviteKey(route.params.inviteKey)
+            invitation: invitationFromInviteKey(route.params.inviteKey)
           }
         }
+      }
+    },
+    {
+      path: '/camps/invitation/rejected',
+      name: 'invitationRejected',
+      components: {
+        navigation: NavigationAuth,
+        default: () => import(/* webpackChunkName: "login" */ './views/camp/InvitationRejected')
+      }
+    },
+    {
+      path: '/camps/invitation/updateError',
+      name: 'invitationUpdateError',
+      components: {
+        navigation: NavigationAuth,
+        default: () => import(/* webpackChunkName: "login" */ './views/camp/InvitationUpdateError')
       }
     },
     {
@@ -241,7 +257,7 @@ export function campFromRoute (route) {
   }
 }
 
-export function campCollaborationsFromInviteKey (inviteKey) {
+export function invitationFromInviteKey (inviteKey) {
   return function () {
     return this.api.get().invitation({ action: 'find', inviteKey: inviteKey })
   }
