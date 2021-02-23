@@ -18,6 +18,6 @@ return Config::Create('Activity', 'Activities')
     )
     ->addInputFilter('campCollaborations')
     ->addInputFilter('scheduleEntries')
-    ->addInputFilter('activityCategoryId')
+    ->addInputFilter('categoryId')
     ->buildConfig()
 ;

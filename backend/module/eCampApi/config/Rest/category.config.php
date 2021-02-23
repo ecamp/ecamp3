@@ -3,7 +3,7 @@
 use eCampApi\V1\Factory\Config;
 use eCampApi\V1\Factory\InputFilter;
 
-return Config::Create('ActivityCategory', 'ActivityCategories')
+return Config::Create('Category', 'Categories')
     ->addCollectionQueryWhitelist('campId')
     ->addInputFilterFactory(
         InputFilter::Create('short', true)
