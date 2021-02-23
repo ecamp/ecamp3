@@ -4,9 +4,10 @@ namespace eCampApi\V1\Rpc\Register;
 
 use eCamp\Core\Service\RegisterService;
 use eCampApi\V1\Rpc\ApiController;
-use Laminas\ApiTools\ApiProblem\ApiProblem;
 use Laminas\Http\Request;
 use Laminas\Json\Json;
+use Laminas\Validator\Exception\InvalidArgumentException;
+use Laminas\View\Model\ViewModel;
 
 class RegisterController extends ApiController {
     private RegisterService $registerService;
@@ -15,7 +16,7 @@ class RegisterController extends ApiController {
         $this->registerService = $registerService;
     }
 
-    public function registerAction() {
+    public function registerAction(): ViewModel {
         /** @var Request $request */
         $request = $this->getRequest();
         $content = $request->getContent();
@@ -23,21 +24,17 @@ class RegisterController extends ApiController {
         $data = (null != $content) ? Json::decode($content) : [];
 
         if (empty($data->username)) {
-            return new ApiProblem(400, 'No username provided');
+            throw new InvalidArgumentException('No username provided');
         }
         if (empty($data->email)) {
-            return new ApiProblem(400, 'No eMail provided');
+            throw new InvalidArgumentException('No email provided');
         }
         if (empty($data->password)) {
-            return new ApiProblem(400, 'No password provided');
+            throw new InvalidArgumentException('No password provided');
         }
         $data->mailAddress = $data->email;
         $user = $this->registerService->register($data);
 
-        if ($user instanceof ApiProblem) {
-            return $user;
-        }
-
-        return $this->createHalEntity($user, 'e-camp-api.rest.doctrine.user', 'userId');
+        return $this->entityToHalJsonModel($this->createHalEntity($user, 'e-camp-api.rest.doctrine.user', 'userId'));
     }
 }

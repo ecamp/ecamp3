@@ -132,7 +132,7 @@ class User extends AbstractCampOwner implements RoleInterface {
         return $this->firstname;
     }
 
-    public function setFirstname(?string $firstname) {
+    public function setFirstname(?string $firstname): void {
         $this->firstname = $firstname;
     }
 
@@ -140,7 +140,7 @@ class User extends AbstractCampOwner implements RoleInterface {
         return $this->surname;
     }
 
-    public function setSurname(?string $surname) {
+    public function setSurname(?string $surname): void {
         $this->surname = $surname;
     }
 
@@ -148,7 +148,7 @@ class User extends AbstractCampOwner implements RoleInterface {
         return $this->nickname;
     }
 
-    public function setNickname(?string $nickname) {
+    public function setNickname(?string $nickname): void {
         $this->nickname = $nickname;
     }
 
@@ -207,7 +207,7 @@ class User extends AbstractCampOwner implements RoleInterface {
         return $this->trustedMailAddress->getMail();
     }
 
-    public function setTrustedMailAddress(string $mail) {
+    public function setTrustedMailAddress(string $mail): void {
         if (null == $this->trustedMailAddress) {
             $this->trustedMailAddress = new MailAddress();
         }
@@ -290,7 +290,7 @@ class User extends AbstractCampOwner implements RoleInterface {
         return $this->language;
     }
 
-    public function setLanguage(?string $language) {
+    public function setLanguage(?string $language): void {
         $this->language = $language;
     }
 
@@ -298,7 +298,7 @@ class User extends AbstractCampOwner implements RoleInterface {
         return (null !== $this->birthday) ? (clone $this->birthday) : null;
     }
 
-    public function setBirthday(?DateUtc $birthday) {
+    public function setBirthday(?DateUtc $birthday): void {
         $this->birthday = null !== $birthday ? clone $birthday : $birthday;
     }
 
@@ -306,12 +306,12 @@ class User extends AbstractCampOwner implements RoleInterface {
         return $this->memberships;
     }
 
-    public function addGroupMembership(GroupMembership $membership) {
+    public function addGroupMembership(GroupMembership $membership): void {
         $membership->setUser($this);
         $this->memberships->add($membership);
     }
 
-    public function removeGroupMembership(GroupMembership $membership) {
+    public function removeGroupMembership(GroupMembership $membership): void {
         $membership->setUser(null);
         $this->memberships->removeElement($membership);
     }
@@ -320,12 +320,12 @@ class User extends AbstractCampOwner implements RoleInterface {
         return $this->collaborations;
     }
 
-    public function addCampCollaboration(CampCollaboration $collaboration) {
+    public function addCampCollaboration(CampCollaboration $collaboration): void {
         $collaboration->setUser($this);
         $this->collaborations->add($collaboration);
     }
 
-    public function removeCampCollaboration(CampCollaboration $collaboration) {
+    public function removeCampCollaboration(CampCollaboration $collaboration): void {
         $collaboration->setUser(null);
         $this->collaborations->removeElement($collaboration);
     }
@@ -334,12 +334,12 @@ class User extends AbstractCampOwner implements RoleInterface {
         return $this->userIdentities;
     }
 
-    public function addUserIdentity(UserIdentity $userIdentity) {
+    public function addUserIdentity(UserIdentity $userIdentity): void {
         $userIdentity->setUser($this);
         $this->userIdentities->add($userIdentity);
     }
 
-    public function removeUserIdentity(UserIdentity $userIdentity) {
+    public function removeUserIdentity(UserIdentity $userIdentity): void {
         $userIdentity->setUser(null);
         $this->userIdentities->removeElement($userIdentity);
     }

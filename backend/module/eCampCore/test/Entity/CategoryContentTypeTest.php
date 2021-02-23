@@ -12,7 +12,7 @@ use eCamp\LibTest\PHPUnit\AbstractTestCase;
  * @internal
  */
 class CategoryContentTypeTest extends AbstractTestCase {
-    public function testCategoryContentType() {
+    public function testCategoryContentType(): void {
         $camp = new Camp();
 
         $contentType = new ContentType();

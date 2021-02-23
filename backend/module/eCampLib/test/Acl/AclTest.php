@@ -10,14 +10,14 @@ use eCamp\LibTest\PHPUnit\AbstractTestCase;
  * @internal
  */
 class AclTest extends AbstractTestCase {
-    public function testIsAllowed() {
+    public function testIsAllowed(): void {
         /** @var Acl $acl */
         $acl = \eCampApp::GetService(Acl::class);
 
         $this->assertFalse($acl->isAllowed());
     }
 
-    public function testAssertAllowed() {
+    public function testAssertAllowed(): void {
         /** @var Acl $acl */
         $acl = \eCampApp::GetService(Acl::class);
 

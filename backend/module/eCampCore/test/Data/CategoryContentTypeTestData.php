@@ -11,7 +11,7 @@ use eCamp\Core\Entity\CategoryContentType;
 class CategoryContentTypeTestData extends AbstractFixture implements DependentFixtureInterface {
     public static $CATEGORY_CONTENT_TYPE1 = CategoryContentTypeTestData::class.':CategoryContentType1';
 
-    public function load(ObjectManager $manager) {
+    public function load(ObjectManager $manager): void {
         /** @var Category $category */
         $category = $this->getReference(CategoryTestData::$CATEGORY1);
         $contentType = $this->getReference(ContentTypeTestData::$TYPE1);

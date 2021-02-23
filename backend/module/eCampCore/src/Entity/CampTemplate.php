@@ -39,7 +39,7 @@ class CampTemplate extends BaseEntity {
         return $this->name;
     }
 
-    public function setName(?string $name) {
+    public function setName(?string $name): void {
         $this->name = $name;
     }
 
@@ -47,12 +47,12 @@ class CampTemplate extends BaseEntity {
         return $this->categoryTemplates;
     }
 
-    public function addCategoryTemplate(CategoryTemplate $categoryTemplate) {
+    public function addCategoryTemplate(CategoryTemplate $categoryTemplate): void {
         $categoryTemplate->setCampTemplate($this);
         $this->categoryTemplates->add($categoryTemplate);
     }
 
-    public function removeCategoryTemplate(CategoryTemplate $categoryTemplate) {
+    public function removeCategoryTemplate(CategoryTemplate $categoryTemplate): void {
         $categoryTemplate->setCampTemplate(null);
         $this->categoryTemplates->removeElement($categoryTemplate);
     }
@@ -61,12 +61,12 @@ class CampTemplate extends BaseEntity {
         return $this->materialListTemplates;
     }
 
-    public function addMaterialListTemplate(MaterialListTemplate $materialListTemplate) {
+    public function addMaterialListTemplate(MaterialListTemplate $materialListTemplate): void {
         $materialListTemplate->setCampTemplate($this);
         $this->materialListTemplates->add($materialListTemplate);
     }
 
-    public function removeMaterialListTemplate(MaterialListTemplate $materialListTemplate) {
+    public function removeMaterialListTemplate(MaterialListTemplate $materialListTemplate): void {
         $materialListTemplate->setCampTemplate(null);
         $this->materialListTemplates->removeElement($materialListTemplate);
     }

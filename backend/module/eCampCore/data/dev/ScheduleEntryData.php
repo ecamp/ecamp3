@@ -17,7 +17,7 @@ class ScheduleEntryData extends AbstractFixture implements DependentFixtureInter
     public static $SCHEDULE_ENTRY_2_LS = Activity::class.':SCHEDULE_ENTRY_2_LS';
     public static $SCHEDULE_ENTRY_2_LA = Activity::class.':SCHEDULE_ENTRY_2_LA';
 
-    public function load(ObjectManager $manager) {
+    public function load(ObjectManager $manager): void {
         $repository = $manager->getRepository(ScheduleEntry::class);
 
         /** @var Period $period */

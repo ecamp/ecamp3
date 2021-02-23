@@ -12,7 +12,7 @@ use eCamp\LibTest\PHPUnit\AbstractTestCase;
  * @internal
  */
 class CategoryTest extends AbstractTestCase {
-    public function testCategory() {
+    public function testCategory(): void {
         $camp = new Camp();
 
         $category = new Category();
@@ -31,7 +31,7 @@ class CategoryTest extends AbstractTestCase {
         $this->assertEquals('i', $category->getNumberingStyle());
     }
 
-    public function testCategoryContentType() {
+    public function testCategoryContentType(): void {
         $category = new Category();
         $categoryContentType = new CategoryContentType();
 
@@ -42,7 +42,7 @@ class CategoryTest extends AbstractTestCase {
         $this->assertCount(0, $category->getCategoryContentTypes());
     }
 
-    public function testCategoryContent() {
+    public function testCategoryContent(): void {
         $category = new Category();
         $categoryContent = new CategoryContent();
 
@@ -53,7 +53,7 @@ class CategoryTest extends AbstractTestCase {
         $this->assertCount(0, $category->getCategoryContents());
     }
 
-    public function testNumberingStyle() {
+    public function testNumberingStyle(): void {
         $category = new Category();
 
         $this->assertEquals('31', $category->getStyledNumber(31));

@@ -65,8 +65,6 @@ class UserService extends AbstractEntityService {
     }
 
     /**
-     * @param mixed $data
-     *
      * @throws ORMException
      * @throws \Exception
      */

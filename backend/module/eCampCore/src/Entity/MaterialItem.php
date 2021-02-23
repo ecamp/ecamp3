@@ -46,7 +46,7 @@ class MaterialItem extends BaseEntity implements BelongsToCampInterface {
         return $this->materialList;
     }
 
-    public function setMaterialList(?MaterialList $materialList) {
+    public function setMaterialList(?MaterialList $materialList): void {
         $this->materialList = $materialList;
     }
 
@@ -58,7 +58,7 @@ class MaterialItem extends BaseEntity implements BelongsToCampInterface {
         return $this->period;
     }
 
-    public function setPeriod(?Period $period) {
+    public function setPeriod(?Period $period): void {
         $this->activityContent = null;
         $this->period = $period;
     }
@@ -67,7 +67,7 @@ class MaterialItem extends BaseEntity implements BelongsToCampInterface {
         return $this->activityContent;
     }
 
-    public function setActivityContent(?ActivityContent $activityContent) {
+    public function setActivityContent(?ActivityContent $activityContent): void {
         $this->period = null;
         $this->activityContent = $activityContent;
     }
@@ -76,7 +76,7 @@ class MaterialItem extends BaseEntity implements BelongsToCampInterface {
         return $this->article;
     }
 
-    public function setArticle(?string $article) {
+    public function setArticle(?string $article): void {
         $this->article = $article;
     }
 
@@ -84,7 +84,7 @@ class MaterialItem extends BaseEntity implements BelongsToCampInterface {
         return $this->quantity;
     }
 
-    public function setQuantity(?float $quantity) {
+    public function setQuantity(?float $quantity): void {
         $this->quantity = $quantity;
     }
 
@@ -92,7 +92,7 @@ class MaterialItem extends BaseEntity implements BelongsToCampInterface {
         return $this->unit;
     }
 
-    public function setUnit(?string $unit) {
+    public function setUnit(?string $unit): void {
         $this->unit = $unit;
     }
 }

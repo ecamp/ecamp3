@@ -40,8 +40,6 @@ class ActivityService extends AbstractEntityService {
     }
 
     /**
-     * @param mixed $data
-     *
      * @throws EntityNotFoundException
      * @throws ORMException
      * @throws NoAccessException
@@ -62,8 +60,6 @@ class ActivityService extends AbstractEntityService {
     }
 
     /**
-     * @param mixed $data
-     *
      * @throws EntityNotFoundException
      * @throws NoAccessException
      * @throws ORMException
@@ -138,7 +134,7 @@ class ActivityService extends AbstractEntityService {
         return $q;
     }
 
-    private function updateActivityResponsibles(Activity $activity, $data) {
+    private function updateActivityResponsibles(Activity $activity, $data): void {
         if (isset($data->campCollaborations)) {
             $ccIds = array_map(function ($cc) {
                 return $cc['id'];
@@ -165,7 +161,7 @@ class ActivityService extends AbstractEntityService {
         }
     }
 
-    private function updateScheduleEntries(Activity $activity, $data) {
+    private function updateScheduleEntries(Activity $activity, $data): void {
         if (isset($data->scheduleEntries) && is_array($data->scheduleEntries)) {
             $scheduleEntryIds = array_reduce($data->scheduleEntries, function ($result, $entry) {
                 if (isset($entry['id'])) {
@@ -195,7 +191,7 @@ class ActivityService extends AbstractEntityService {
         }
     }
 
-    private function createInitialActivityContents(Activity $activity) {
+    private function createInitialActivityContents(Activity $activity): void {
         $categoryContents = $activity->getCategory()->getRootCategoryContents();
 
         /** @var CategoryContent $categoryContent */

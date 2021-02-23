@@ -46,13 +46,13 @@ class InvitationControllerTest extends AbstractApiControllerTestCase {
         $this->campCollaborationInvited = $campCollaborationTestData->getReference(CampCollaborationTestData::$COLLAB_INVITED);
     }
 
-    public function testNotFoundForNotMatchingInviteKey() {
+    public function testNotFoundForNotMatchingInviteKey(): void {
         $this->dispatch("{$this->apiEndpoint}/find/doesNotExist", 'GET');
 
         $this->assertResponseStatusCode(404);
     }
 
-    public function testFindsInvitation() {
+    public function testFindsInvitation(): void {
         $this->dispatch("{$this->apiEndpoint}/find/{$this->campCollaborationInvited->getInviteKey()}", 'GET');
 
         $this->assertResponseStatusCode(200);
@@ -79,7 +79,7 @@ JSON;
         $this->verifyHalResourceResponse($expectedBody, $expectedLinks, $expectedEmbeddedObjects);
     }
 
-    public function testFindsInvitationWhenLoggedIn() {
+    public function testFindsInvitationWhenLoggedIn(): void {
         $this->authenticateUser($this->newUser);
         $this->dispatch("{$this->apiEndpoint}/find/{$this->campCollaborationInvited->getInviteKey()}", 'GET');
 
@@ -106,7 +106,7 @@ JSON;
         $this->verifyHalResourceResponse($expectedBody, $expectedLinks, $expectedEmbeddedObjects);
     }
 
-    public function testFindsInvitationWhenAlreadyInCamp() {
+    public function testFindsInvitationWhenAlreadyInCamp(): void {
         $this->authenticateUser($this->userAlreadyInCamp);
         $this->dispatch("{$this->apiEndpoint}/find/{$this->campCollaborationInvited->getInviteKey()}", 'GET');
 
@@ -133,39 +133,39 @@ JSON;
         $this->verifyHalResourceResponse($expectedBody, $expectedLinks, $expectedEmbeddedObjects);
     }
 
-    public function testAcceptFailsWhenGetRequest() {
+    public function testAcceptFailsWhenGetRequest(): void {
         $this->dispatch("{$this->apiEndpoint}/accept/{$this->campCollaborationInvited->getInviteKey()}", 'GET');
 
         $this->assertResponseStatusCode(400);
     }
 
-    public function testRejectFailsWhenGetRequest() {
+    public function testRejectFailsWhenGetRequest(): void {
         $this->dispatch("{$this->apiEndpoint}/reject/{$this->campCollaborationInvited->getInviteKey()}", 'GET');
 
         $this->assertResponseStatusCode(400);
     }
 
-    public function testAcceptFailsWhenNotAuthenticated() {
+    public function testAcceptFailsWhenNotAuthenticated(): void {
         $this->dispatch("{$this->apiEndpoint}/accept/{$this->campCollaborationInvited->getInviteKey()}", 'POST');
 
         $this->assertResponseStatusCode(401);
     }
 
-    public function testAcceptInvitationWithUserAlreadyInCamp() {
+    public function testAcceptInvitationWithUserAlreadyInCamp(): void {
         $this->authenticateUser($this->userAlreadyInCamp);
         $this->dispatch("{$this->apiEndpoint}/accept/{$this->campCollaborationInvited->getInviteKey()}", 'POST');
 
         $this->assertResponseStatusCode(422);
     }
 
-    public function testAcceptInvitation() {
+    public function testAcceptInvitation(): void {
         $this->authenticateUser($this->newUser);
         $this->dispatch("{$this->apiEndpoint}/accept/{$this->campCollaborationInvited->getInviteKey()}", 'POST');
 
         $this->assertResponseStatusCode(200);
     }
 
-    public function testRejectInvitation() {
+    public function testRejectInvitation(): void {
         $this->dispatch("{$this->apiEndpoint}/reject/{$this->campCollaborationInvited->getInviteKey()}", 'POST');
 
         $this->assertResponseStatusCode(200);

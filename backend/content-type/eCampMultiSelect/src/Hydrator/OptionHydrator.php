@@ -9,10 +9,8 @@ use Laminas\Hydrator\HydratorInterface;
 class OptionHydrator implements HydratorInterface {
     /**
      * @param object $object
-     *
-     * @return array
      */
-    public function extract($object) {
+    public function extract($object): array {
         /** @var Option $option */
         $option = $object;
 
@@ -34,10 +32,8 @@ class OptionHydrator implements HydratorInterface {
 
     /**
      * @param object $object
-     *
-     * @return object
      */
-    public function hydrate(array $data, $object) {
+    public function hydrate(array $data, $object): object {
         /** @var Option $option */
         $option = $object;
 

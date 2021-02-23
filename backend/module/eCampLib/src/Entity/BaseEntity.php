@@ -53,7 +53,7 @@ abstract class BaseEntity implements ResourceInterface {
     /**
      * @ORM\PrePersist
      */
-    public function PrePersist() {
+    public function PrePersist(): void {
         $this->createTime = new DateTimeUtc();
         $this->updateTime = new DateTimeUtc();
     }
@@ -61,7 +61,7 @@ abstract class BaseEntity implements ResourceInterface {
     /**
      * @ORM\PreUpdate
      */
-    public function PreUpdate() {
+    public function PreUpdate(): void {
         $this->updateTime = new DateTimeUtc();
     }
 

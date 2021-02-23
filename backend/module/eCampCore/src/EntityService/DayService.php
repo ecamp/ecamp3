@@ -25,8 +25,6 @@ class DayService extends AbstractEntityService {
     }
 
     /**
-     * @param mixed $data
-     *
      * @throws NoAccessException
      * @throws EntityNotFoundException
      * @throws ORMException
@@ -42,7 +40,7 @@ class DayService extends AbstractEntityService {
         return $day;
     }
 
-    protected function deleteEntity(BaseEntity $entity) {
+    protected function deleteEntity(BaseEntity $entity): void {
         parent::deleteEntity($entity);
 
         /** @var Day $day */

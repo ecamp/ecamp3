@@ -12,7 +12,7 @@ use eCamp\LibTest\PHPUnit\AbstractTestCase;
  * @internal
  */
 class ActivityContentTest extends AbstractTestCase {
-    public function testActivityContent() {
+    public function testActivityContent(): void {
         $camp = new Camp();
 
         $contentType = new ContentType();
@@ -34,7 +34,7 @@ class ActivityContentTest extends AbstractTestCase {
         $this->assertEquals($camp, $activityContent->getCamp());
     }
 
-    public function testActivityContentHierarchy() {
+    public function testActivityContentHierarchy(): void {
         $activityContent = new ActivityContent();
         $childActivityContent = new ActivityContent();
 

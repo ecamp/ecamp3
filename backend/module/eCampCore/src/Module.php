@@ -14,7 +14,7 @@ class Module {
         return include __DIR__.'/../config/module.config.php';
     }
 
-    public function onBootstrap(MvcEvent $e) {
+    public function onBootstrap(MvcEvent $e): void {
         /** @var Application $app */
         $app = $e->getApplication();
         $events = $app->getEventManager();
@@ -30,11 +30,11 @@ class Module {
         // Enable next line for Doctrine debug output
         // $em->getConfiguration()->setSQLLogger(new EchoSQLLogger());
 
-        $events->attach(MvcEvent::EVENT_DISPATCH, function (MvcEvent $e) use ($em) {
+        $events->attach(MvcEvent::EVENT_DISPATCH, function (MvcEvent $e) use ($em): void {
             $em->beginTransaction();
         }, 10);
 
-        $events->attach(MvcEvent::EVENT_FINISH, function (MvcEvent $e) use ($em) {
+        $events->attach(MvcEvent::EVENT_FINISH, function (MvcEvent $e) use ($em): void {
             if ($e->getError() || $e->getResponse() instanceof ApiProblemResponse) {
                 if ($em->getConnection()->isTransactionActive()) {
                     $em->getConnection()->rollback();

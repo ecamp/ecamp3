@@ -11,7 +11,7 @@ use eCamp\LibTest\PHPUnit\AbstractTestCase;
  * @internal
  */
 class CategoryHydratorTest extends AbstractTestCase {
-    public function testExtract() {
+    public function testExtract(): void {
         $camp = new Camp();
         $category = new Category();
         $category->setCamp($camp);
@@ -29,7 +29,7 @@ class CategoryHydratorTest extends AbstractTestCase {
         $this->assertEquals('i', $data['numberingStyle']);
     }
 
-    public function testHydrate() {
+    public function testHydrate(): void {
         $camp = new Camp();
 
         $category = new Category();

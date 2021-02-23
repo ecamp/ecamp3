@@ -12,7 +12,7 @@ use eCamp\LibTest\PHPUnit\AbstractTestCase;
  * @internal
  */
 class PeriodHydratorTest extends AbstractTestCase {
-    public function testExtract() {
+    public function testExtract(): void {
         $camp = new Camp();
         $camp->setName('name');
         $camp->setTitle('title');
@@ -33,7 +33,7 @@ class PeriodHydratorTest extends AbstractTestCase {
         $this->assertEquals('2000-01-03', $data['end']);
     }
 
-    public function testHydrate() {
+    public function testHydrate(): void {
         $camp = new Camp();
 
         $period = new Period();

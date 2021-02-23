@@ -53,7 +53,7 @@ class ActivityServiceTest extends AbstractApiControllerTestCase {
         $this->authenticateUser($this->user);
     }
 
-    public function testCreateActivity() {
+    public function testCreateActivity(): void {
         /** @var ActivityService $activityService */
         $activityService = $this->getApplicationServiceLocator()->get(ActivityService::class);
 

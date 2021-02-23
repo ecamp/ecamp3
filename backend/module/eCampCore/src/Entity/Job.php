@@ -55,7 +55,7 @@ class Job extends BaseEntity implements BelongsToCampInterface {
         return $this->camp;
     }
 
-    public function setCamp(?Camp $camp) {
+    public function setCamp(?Camp $camp): void {
         $this->camp = $camp;
     }
 
@@ -63,7 +63,7 @@ class Job extends BaseEntity implements BelongsToCampInterface {
         return $this->name;
     }
 
-    public function setName(?string $name) {
+    public function setName(?string $name): void {
         $this->name = $name;
     }
 
@@ -91,12 +91,12 @@ class Job extends BaseEntity implements BelongsToCampInterface {
         return $this->jobResps;
     }
 
-    public function addJobResp(JobResp $jobResp) {
+    public function addJobResp(JobResp $jobResp): void {
         $jobResp->setJob($this);
         $this->jobResps->add($jobResp);
     }
 
-    public function removeJobResp(JobResp $jobResp) {
+    public function removeJobResp(JobResp $jobResp): void {
         $jobResp->setJob(null);
         $this->jobResps->removeElement($jobResp);
     }

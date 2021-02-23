@@ -12,7 +12,7 @@ use eCamp\LibTest\PHPUnit\AbstractTestCase;
  * @internal
  */
 class CategoryContentHydratorTest extends AbstractTestCase {
-    public function testExtract() {
+    public function testExtract(): void {
         $category = new Category();
         $contentType = new ContentType();
         $contentType->setName('ContentTypeName');
@@ -28,7 +28,7 @@ class CategoryContentHydratorTest extends AbstractTestCase {
         $this->assertEquals('ContentTypeName', $data['contentTypeName']);
     }
 
-    public function testHydrate() {
+    public function testHydrate(): void {
         $categoryContent = new CategoryContent();
         $data = [
             'instanceName' => 'CategoryContentName',

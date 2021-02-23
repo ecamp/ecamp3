@@ -16,7 +16,7 @@ class Module {
         return ConfigFactory::createConfig('Storyboard', true, 'Section');
     }
 
-    public function onBootstrap(MvcEvent $e) {
+    public function onBootstrap(MvcEvent $e): void {
         /** @var Acl $acl */
         $acl = $e->getApplication()->getServiceManager()->get(AclInterface::class);
 

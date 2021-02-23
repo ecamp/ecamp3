@@ -13,7 +13,7 @@ use PHPUnit\Framework\Constraint\IsEqual;
  * @internal
  */
 class UpdateDatabaseSchemaCommandTest extends AbstractConsoleControllerTestCase {
-    public function testUpdatesDatabaseSchema() {
+    public function testUpdatesDatabaseSchema(): void {
         // given
         $services = $this->getApplicationServiceLocator();
 

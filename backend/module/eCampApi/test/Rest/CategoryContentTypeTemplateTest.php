@@ -45,7 +45,7 @@ class CategoryContentTypeTemplateTest extends AbstractApiControllerTestCase {
         $this->authenticateUser($this->user);
     }
 
-    public function testFetch() {
+    public function testFetch(): void {
         $this->dispatch("{$this->apiEndpoint}/{$this->categoryContentTypeTemplate->getId()}", 'GET');
 
         $this->assertResponseStatusCode(200);
@@ -68,7 +68,7 @@ JSON;
         $this->verifyHalResourceResponse($expectedBody, $expectedLinks, $expectedEmbeddedObjects);
     }
 
-    public function testFetchAll() {
+    public function testFetchAll(): void {
         $categoryTemplateId = $this->categoryTemplate->getId();
         $this->dispatch("{$this->apiEndpoint}?page_size=10&categoryTemplateId={$categoryTemplateId}", 'GET');
 
@@ -80,22 +80,22 @@ JSON;
         $this->assertEquals($this->categoryContentTypeTemplate->getId(), $this->getResponseContent()->_embedded->items[0]->id);
     }
 
-    public function testCreateForbidden() {
+    public function testCreateForbidden(): void {
         $this->dispatch("{$this->apiEndpoint}", 'POST');
         $this->assertResponseStatusCode(405);
     }
 
-    public function testPatchForbidden() {
+    public function testPatchForbidden(): void {
         $this->dispatch("{$this->apiEndpoint}/{$this->categoryContentTypeTemplate->getId()}", 'PATCH');
         $this->assertResponseStatusCode(405);
     }
 
-    public function testUpdateForbidden() {
+    public function testUpdateForbidden(): void {
         $this->dispatch("{$this->apiEndpoint}/{$this->categoryContentTypeTemplate->getId()}", 'PUT');
         $this->assertResponseStatusCode(405);
     }
 
-    public function testDeleteForbidden() {
+    public function testDeleteForbidden(): void {
         $this->dispatch("{$this->apiEndpoint}/{$this->categoryContentTypeTemplate->getId()}", 'DELETE');
         $this->assertResponseStatusCode(405);
     }

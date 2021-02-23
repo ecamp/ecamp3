@@ -12,7 +12,7 @@ use eCamp\LibTest\PHPUnit\AbstractTestCase;
  * @internal
  */
 class GroupTest extends AbstractTestCase {
-    public function testGroup() {
+    public function testGroup(): void {
         $organization = new Organization();
 
         $group = new Group();
@@ -28,7 +28,7 @@ class GroupTest extends AbstractTestCase {
         $this->assertNull($group->getParent());
     }
 
-    public function testParentGroup() {
+    public function testParentGroup(): void {
         $organization = new Organization();
 
         $group1 = new Group();
@@ -51,7 +51,7 @@ class GroupTest extends AbstractTestCase {
         $this->assertEquals(0, $group2->getChildren()->count());
     }
 
-    public function testCamp() {
+    public function testCamp(): void {
         $camp = new Camp();
         $group = new Group();
 
@@ -67,7 +67,7 @@ class GroupTest extends AbstractTestCase {
         $this->assertEquals(0, $group->getOwnedCamps()->count()); */
     }
 
-    public function testMembership() {
+    public function testMembership(): void {
         $membership = new GroupMembership();
         $group = new Group();
 

@@ -23,11 +23,11 @@ class FactoryBuilder {
         $this->services = \eCampApp::CreateServiceManagerWithoutDi();
     }
 
-    public function setVerbose(bool $verbose = true) {
+    public function setVerbose(bool $verbose = true): void {
         $this->verbose = $verbose;
     }
 
-    public function setOutputDirectory($directory) {
+    public function setOutputDirectory($directory): void {
         $cnf = $this->app->getConfig();
         $cnf['dependencies']['auto']['aot']['directory'] = $directory;
 
@@ -37,7 +37,7 @@ class FactoryBuilder {
         $this->app->getServiceManager()->setAllowOverride($allowOverride);
     }
 
-    public function build() {
+    public function build(): void {
         /** @var ContainerInterface $container */
         $container = $this->app->getServiceManager();
         $generator = $container->get(InjectorGenerator::class);

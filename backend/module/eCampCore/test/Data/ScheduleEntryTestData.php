@@ -12,7 +12,7 @@ use eCamp\Core\Entity\ScheduleEntry;
 class ScheduleEntryTestData extends AbstractFixture implements DependentFixtureInterface {
     public static $ENTRY1 = ScheduleEntry::class.':ENTRY1';
 
-    public function load(ObjectManager $manager) {
+    public function load(ObjectManager $manager): void {
         /** @var Category $category */
         $activity = $this->getReference(ActivityTestData::$ACTIVITY1);
 

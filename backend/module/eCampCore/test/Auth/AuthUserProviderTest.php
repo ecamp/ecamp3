@@ -11,7 +11,7 @@ use Laminas\Authentication\AuthenticationService;
  * @internal
  */
 class AuthUserProviderTest extends AbstractDatabaseTestCase {
-    public function testAuthUser() {
+    public function testAuthUser(): void {
         /** @var UserService $userService */
         $userService = \eCampApp::GetService(UserService::class);
 
@@ -31,7 +31,7 @@ class AuthUserProviderTest extends AbstractDatabaseTestCase {
         $this->assertEquals($user->getId(), $authUser->getId());
     }
 
-    public function testNoAuthUser() {
+    public function testNoAuthUser(): void {
         $authenticationService = new AuthenticationService();
         $authenticationService->clearIdentity();
 

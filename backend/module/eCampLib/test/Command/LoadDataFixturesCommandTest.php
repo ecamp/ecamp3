@@ -16,7 +16,7 @@ use Symfony\Component\Filesystem\Filesystem;
  * @internal
  */
 class LoadDataFixturesCommandTest extends AbstractConsoleControllerTestCase {
-    public function testLoadsFilesFromGivenPath() {
+    public function testLoadsFilesFromGivenPath(): void {
         // given
         $services = $this->getApplicationServiceLocator();
 
@@ -40,7 +40,7 @@ class LoadDataFixturesCommandTest extends AbstractConsoleControllerTestCase {
         $this->assertThat($consoleOutput, new StringContains('Fixture2'));
     }
 
-    public function testDoesNotCrashWhenGivenNonexistentLocation() {
+    public function testDoesNotCrashWhenGivenNonexistentLocation(): void {
         // given
         $services = $this->getApplicationServiceLocator();
 
@@ -66,7 +66,7 @@ class LoadDataFixturesCommandTest extends AbstractConsoleControllerTestCase {
         $this->assertThat($consoleOutput, new IsEqual(''));
     }
 
-    public function testCleansUpDoctrineProxies() {
+    public function testCleansUpDoctrineProxies(): void {
         // given
         $services = $this->getApplicationServiceLocator();
         $input = new StringInput('load-data-fixtures --path='.__DIR__.'/../data/fixtures');

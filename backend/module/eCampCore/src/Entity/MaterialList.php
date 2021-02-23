@@ -45,7 +45,7 @@ class MaterialList extends BaseEntity implements BelongsToCampInterface {
     /**
      * @internal Do not set the {@link Camp} directly on the Activity. Instead use {@see Camp::addMaterialList()}
      */
-    public function setCamp(?Camp $camp) {
+    public function setCamp(?Camp $camp): void {
         $this->camp = $camp;
     }
 
@@ -53,7 +53,7 @@ class MaterialList extends BaseEntity implements BelongsToCampInterface {
         return $this->materialListTemplateId;
     }
 
-    public function setMaterialListTemplateId(?string $materialListTemplateId) {
+    public function setMaterialListTemplateId(?string $materialListTemplateId): void {
         $this->materialListTemplateId = $materialListTemplateId;
     }
 
@@ -61,7 +61,7 @@ class MaterialList extends BaseEntity implements BelongsToCampInterface {
         return $this->name;
     }
 
-    public function setName(?string $name) {
+    public function setName(?string $name): void {
         $this->name = $name;
     }
 
@@ -69,12 +69,12 @@ class MaterialList extends BaseEntity implements BelongsToCampInterface {
         return $this->materialItems;
     }
 
-    public function addMaterialItem(MaterialItem $materialItem) {
+    public function addMaterialItem(MaterialItem $materialItem): void {
         $materialItem->setMaterialList($this);
         $this->materialItems->add($materialItem);
     }
 
-    public function removeMaterialItem(MaterialItem $materialItem) {
+    public function removeMaterialItem(MaterialItem $materialItem): void {
         $materialItem->setMaterialList(null);
         $this->materialItems->removeElement($materialItem);
     }

@@ -75,8 +75,6 @@ class LoginPassword implements AdapterInterface {
      *
      * @param int    The Result code, see Zend_Auth_Result
      * @param mixed      The Message, can be a string or array
-     * @param mixed $code
-     * @param mixed $messages
      */
     private function authResult($code, $messages = []): Result {
         if (!is_array($messages)) {

@@ -62,7 +62,7 @@ class Period extends BaseEntity implements BelongsToCampInterface {
         return $this->camp;
     }
 
-    public function setCamp(?Camp $camp) {
+    public function setCamp(?Camp $camp): void {
         $this->camp = $camp;
     }
 
@@ -127,12 +127,12 @@ class Period extends BaseEntity implements BelongsToCampInterface {
         return $this->scheduleEntries;
     }
 
-    public function addScheduleEntry(ScheduleEntry $scheduleEntry) {
+    public function addScheduleEntry(ScheduleEntry $scheduleEntry): void {
         $scheduleEntry->setPeriod($this);
         $this->scheduleEntries->add($scheduleEntry);
     }
 
-    public function removeScheduleEntry(ScheduleEntry $scheduleEntry) {
+    public function removeScheduleEntry(ScheduleEntry $scheduleEntry): void {
         $scheduleEntry->setPeriod(null);
         $this->scheduleEntries->removeElement($scheduleEntry);
     }
@@ -141,12 +141,12 @@ class Period extends BaseEntity implements BelongsToCampInterface {
         return $this->materialItems;
     }
 
-    public function addMaterialItem(MaterialItem $materialItem) {
+    public function addMaterialItem(MaterialItem $materialItem): void {
         $materialItem->setPeriod($this);
         $this->materialItems->add($materialItem);
     }
 
-    public function removeMaterialItem(MaterialItem $materialItem) {
+    public function removeMaterialItem(MaterialItem $materialItem): void {
         $materialItem->setPeriod(null);
         $this->materialItems->removeElement($materialItem);
     }

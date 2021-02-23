@@ -54,8 +54,6 @@ class ActivityContentService extends AbstractEntityService {
     }
 
     /**
-     * @param mixed $data
-     *
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      * @throws ORMException

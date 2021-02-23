@@ -126,7 +126,7 @@ class ActivityContent extends BaseEntity implements ContentTypeStrategyProviderA
     }
 
     /** @ORM\PrePersist */
-    public function PrePersist() {
+    public function PrePersist(): void {
         $this->getContentTypeStrategy()->activityContentCreated($this);
     }
 }

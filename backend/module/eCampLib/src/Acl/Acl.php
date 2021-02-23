@@ -34,7 +34,7 @@ class Acl extends LaminasAcl {
      *
      * @throws NoAccessException
      */
-    public function assertAllowed($role = null, $resource = null, $privilege = null) {
+    public function assertAllowed($role = null, $resource = null, $privilege = null): void {
         if (!$this->isAllowed($role, $resource, $privilege)) {
             throw new NoAccessException();
         }

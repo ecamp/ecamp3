@@ -68,7 +68,7 @@ class Category extends BaseEntity implements BelongsToCampInterface {
     /**
      * @internal Do not set the {@link Camp} directly on the Category. Instead use {@see Camp::addCategory()}
      */
-    public function setCamp(?Camp $camp) {
+    public function setCamp(?Camp $camp): void {
         $this->camp = $camp;
     }
 
@@ -76,12 +76,12 @@ class Category extends BaseEntity implements BelongsToCampInterface {
         return $this->categoryContentTypes;
     }
 
-    public function addCategoryContentType(CategoryContentType $categoryContentType) {
+    public function addCategoryContentType(CategoryContentType $categoryContentType): void {
         $categoryContentType->setCategory($this);
         $this->categoryContentTypes->add($categoryContentType);
     }
 
-    public function removeCategoryContentType(CategoryContentType $categoryContentType) {
+    public function removeCategoryContentType(CategoryContentType $categoryContentType): void {
         $categoryContentType->setCategory(null);
         $this->categoryContentTypes->removeElement($categoryContentType);
     }
@@ -94,12 +94,12 @@ class Category extends BaseEntity implements BelongsToCampInterface {
         return $this->categoryContents->filter(fn (CategoryContent $cc) => $cc->isRoot());
     }
 
-    public function addCategoryContent(CategoryContent $categoryContent) {
+    public function addCategoryContent(CategoryContent $categoryContent): void {
         $categoryContent->setCategory($this);
         $this->categoryContents->add($categoryContent);
     }
 
-    public function removeCategoryContent(CategoryContent $categoryContent) {
+    public function removeCategoryContent(CategoryContent $categoryContent): void {
         $categoryContent->setCategory(null);
         $this->categoryContents->removeElement($categoryContent);
     }
@@ -108,7 +108,7 @@ class Category extends BaseEntity implements BelongsToCampInterface {
         return $this->categoryTemplateId;
     }
 
-    public function setCategoryTemplateId(?string $categoryTemplateId) {
+    public function setCategoryTemplateId(?string $categoryTemplateId): void {
         $this->categoryTemplateId = $categoryTemplateId;
     }
 
@@ -116,7 +116,7 @@ class Category extends BaseEntity implements BelongsToCampInterface {
         return $this->short;
     }
 
-    public function setShort(?string $short) {
+    public function setShort(?string $short): void {
         $this->short = $short;
     }
 
@@ -124,7 +124,7 @@ class Category extends BaseEntity implements BelongsToCampInterface {
         return $this->name;
     }
 
-    public function setName(?string $name) {
+    public function setName(?string $name): void {
         $this->name = $name;
     }
 
@@ -132,7 +132,7 @@ class Category extends BaseEntity implements BelongsToCampInterface {
         return $this->color;
     }
 
-    public function setColor(?string $color) {
+    public function setColor(?string $color): void {
         $this->color = $color;
     }
 
@@ -140,7 +140,7 @@ class Category extends BaseEntity implements BelongsToCampInterface {
         return $this->numberingStyle;
     }
 
-    public function setNumberingStyle(?string $numberingStyle) {
+    public function setNumberingStyle(?string $numberingStyle): void {
         $this->numberingStyle = $numberingStyle;
     }
 

@@ -38,7 +38,7 @@ class DayTest extends AbstractApiControllerTestCase {
         $this->authenticateUser($this->user);
     }
 
-    public function testFetch() {
+    public function testFetch(): void {
         $this->dispatch("{$this->apiEndpoint}/{$this->day->getId()}", 'GET');
 
         $this->assertResponseStatusCode(200);
@@ -63,7 +63,7 @@ JSON;
         $this->verifyHalResourceResponse($expectedBody, $expectedLinks, $expectedEmbeddedObjects);
     }
 
-    public function testFetchAll() {
+    public function testFetchAll(): void {
         $periodId = $this->day->getPeriod()->getId();
         $campId = $this->day->getCamp()->getId();
         $this->dispatch("{$this->apiEndpoint}?periodId={$periodId}&campId={$campId}", 'GET');
@@ -77,7 +77,7 @@ JSON;
         $this->assertEquals($this->day->getId(), $this->getResponseContent()->_embedded->items[0]->id);
     }
 
-    public function testFetchAllPaged() {
+    public function testFetchAllPaged(): void {
         $periodId = $this->day->getPeriod()->getId();
         $campId = $this->day->getCamp()->getId();
         $this->dispatch("{$this->apiEndpoint}?page_size=10&periodId={$periodId}&campId={$campId}", 'GET');
@@ -91,7 +91,7 @@ JSON;
         $this->assertEquals($this->day->getId(), $this->getResponseContent()->_embedded->items[0]->id);
     }
 
-    public function testCreate() {
+    public function testCreate(): void {
         $this->setRequestContent([]);
 
         $this->dispatch("{$this->apiEndpoint}", 'POST');
@@ -100,7 +100,7 @@ JSON;
         $this->assertResponseStatusCode(405); //405 = Method not allowed
     }
 
-    public function testUpdateSuccess() {
+    public function testUpdateSuccess(): void {
         $this->setRequestContent([
             'dayOffset' => 15, ]);
 
@@ -111,7 +111,7 @@ JSON;
         $this->assertResponseStatusCode(400);
     }
 
-    public function testDelete() {
+    public function testDelete(): void {
         $this->dispatch("{$this->apiEndpoint}/{$this->day->getId()}", 'DELETE');
 
         // Single days should not be deleted via API directly (only by changing the parent Period)

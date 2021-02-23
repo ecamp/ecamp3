@@ -16,7 +16,7 @@ class CategoryData extends AbstractFixture implements DependentFixtureInterface 
     public static $EVENTCATEGORY_2_LS = Category::class.':EVENTCATEGORY_2_LS';
     public static $EVENTCATEGORY_2_LA = Category::class.':EVENTCATEGORY_2_LA';
 
-    public function load(ObjectManager $manager) {
+    public function load(ObjectManager $manager): void {
         $repository = $manager->getRepository(Category::class);
 
         /** @var Camp $camp */

@@ -29,7 +29,7 @@ class ActivityResponsible extends BaseEntity implements BelongsToCampInterface {
         return $this->activity;
     }
 
-    public function setActivity(?Activity $activity) {
+    public function setActivity(?Activity $activity): void {
         $this->activity = $activity;
     }
 
@@ -41,7 +41,7 @@ class ActivityResponsible extends BaseEntity implements BelongsToCampInterface {
         return $this->campCollaboration;
     }
 
-    public function setCampCollaboration(?CampCollaboration $collaboration) {
+    public function setCampCollaboration(?CampCollaboration $collaboration): void {
         $this->campCollaboration = $collaboration;
     }
 }

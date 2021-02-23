@@ -103,8 +103,6 @@ class ConfigFactory {
 
     /**
      * Returns Pascal in kebab-case.
-     *
-     * @param mixed $pascal
      */
     private static function pascalToKebabCase($pascal) {
         return ltrim(strtolower(preg_replace('/[A-Z]([A-Z](?![a-z]))*/', '-$0', $pascal)), '-');

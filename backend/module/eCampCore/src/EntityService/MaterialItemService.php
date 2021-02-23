@@ -138,7 +138,7 @@ class MaterialItemService extends AbstractEntityService {
         return $q;
     }
 
-    protected function validateEntity(BaseEntity $entity) {
+    protected function validateEntity(BaseEntity $entity): void {
         /** @var MaterialItem $materialItem */
         $materialItem = $entity;
 

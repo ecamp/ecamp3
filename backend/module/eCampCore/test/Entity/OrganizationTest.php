@@ -9,7 +9,7 @@ use eCamp\LibTest\PHPUnit\AbstractTestCase;
  * @internal
  */
 class OrganizationTest extends AbstractTestCase {
-    public function testOrganization() {
+    public function testOrganization(): void {
         $organization = new Organization();
         $organization->setName('OrganizationName');
 

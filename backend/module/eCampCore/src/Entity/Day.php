@@ -29,7 +29,7 @@ class Day extends BaseEntity implements BelongsToCampInterface {
         return $this->period;
     }
 
-    public function setPeriod(?Period $period) {
+    public function setPeriod(?Period $period): void {
         $this->period = $period;
     }
 
@@ -41,7 +41,7 @@ class Day extends BaseEntity implements BelongsToCampInterface {
         return $this->dayOffset;
     }
 
-    public function setDayOffset(int $dayOffset) {
+    public function setDayOffset(int $dayOffset): void {
         $this->dayOffset = $dayOffset;
     }
 

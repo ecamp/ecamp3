@@ -10,14 +10,14 @@ use eCamp\LibTest\PHPUnit\AbstractTestCase;
  * @internal
  */
 class CampTemplateTest extends AbstractTestCase {
-    public function testCampTemplate() {
+    public function testCampTemplate(): void {
         $campTemplate = new CampTemplate();
         $campTemplate->setName('CampTemplate.Name');
 
         $this->assertEquals('CampTemplate.Name', $campTemplate->getName());
     }
 
-    public function testCategoryTemplate() {
+    public function testCategoryTemplate(): void {
         $campTemplate = new CampTemplate();
         $categoryTemplate = new CategoryTemplate();
 

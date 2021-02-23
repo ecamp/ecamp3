@@ -23,8 +23,6 @@ class ScheduleEntryService extends AbstractEntityService {
     }
 
     /**
-     * @param mixed $data
-     *
      * @throws EntityValidationException
      */
     protected function createEntity($data): ScheduleEntry {

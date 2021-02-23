@@ -61,8 +61,6 @@ class CategoryService extends AbstractEntityService {
     }
 
     /**
-     * @param mixed $data
-     *
      * @throws EntityNotFoundException
      * @throws ORMException
      * @throws NoAccessException

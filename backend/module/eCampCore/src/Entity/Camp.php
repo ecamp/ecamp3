@@ -95,7 +95,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
         return $this->campTemplateId;
     }
 
-    public function setCampTemplateId(?string $campTemplateId) {
+    public function setCampTemplateId(?string $campTemplateId): void {
         $this->campTemplateId = $campTemplateId;
     }
 
@@ -103,7 +103,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
         return $this->name;
     }
 
-    public function setName(?string $name) {
+    public function setName(?string $name): void {
         $this->name = $name;
     }
 
@@ -111,7 +111,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
         return $this->title;
     }
 
-    public function setTitle(?string $title) {
+    public function setTitle(?string $title): void {
         $this->title = $title;
     }
 
@@ -119,7 +119,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
         return $this->motto;
     }
 
-    public function setMotto(?string $motto) {
+    public function setMotto(?string $motto): void {
         $this->motto = $motto;
     }
 
@@ -127,7 +127,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
         return $this->creator;
     }
 
-    public function setCreator(?User $creator) {
+    public function setCreator(?User $creator): void {
         $this->creator = $creator;
     }
 
@@ -135,7 +135,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
         return $this->owner;
     }
 
-    public function setOwner(?AbstractCampOwner $owner) {
+    public function setOwner(?AbstractCampOwner $owner): void {
         if (!$owner instanceof User) {
             throw new \Exception('Owner must be a user. Groups are not (yet) supported.');
         }
@@ -155,12 +155,12 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
         return $this->collaborations;
     }
 
-    public function addCampCollaboration(CampCollaboration $collaboration) {
+    public function addCampCollaboration(CampCollaboration $collaboration): void {
         $collaboration->setCamp($this);
         $this->collaborations->add($collaboration);
     }
 
-    public function removeCampCollaboration(CampCollaboration $collaboration) {
+    public function removeCampCollaboration(CampCollaboration $collaboration): void {
         $collaboration->setCamp(null);
         $this->collaborations->removeElement($collaboration);
     }
@@ -205,12 +205,12 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
         return $this->jobs;
     }
 
-    public function addJob(Job $job) {
+    public function addJob(Job $job): void {
         $job->setCamp($this);
         $this->jobs->add($job);
     }
 
-    public function removeJob(Job $job) {
+    public function removeJob(Job $job): void {
         $job->setCamp(null);
         $this->jobs->removeElement($job);
     }
@@ -261,12 +261,12 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
         return $this->materialLists;
     }
 
-    public function addMaterialList(MaterialList $materialList) {
+    public function addMaterialList(MaterialList $materialList): void {
         $materialList->setCamp($this);
         $this->materialLists->add($materialList);
     }
 
-    public function removeMaterialList(MaterialList $materialList) {
+    public function removeMaterialList(MaterialList $materialList): void {
         $materialList->setCamp(null);
         $this->materialLists->removeElement($materialList);
     }

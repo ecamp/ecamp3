@@ -12,7 +12,7 @@ use eCamp\LibTest\PHPUnit\AbstractTestCase;
  * @internal
  */
 class CategoryTemplateTest extends AbstractTestCase {
-    public function testCategoryTemplate() {
+    public function testCategoryTemplate(): void {
         $campTemplate = new CampTemplate();
         $categoryTemplate = new CategoryTemplate();
         $categoryTemplate->setName('ActivityType Name');
@@ -28,7 +28,7 @@ class CategoryTemplateTest extends AbstractTestCase {
         $this->assertInstanceOf('Doctrine\Common\Collections\ArrayCollection', $categoryTemplate->getCategoryContentTypeTemplates());
     }
 
-    public function testCategoryContentTypeTemplate() {
+    public function testCategoryContentTypeTemplate(): void {
         $categoryTemplate = new CategoryTemplate();
         $categoryContentTypeTemplate = new CategoryContentTypeTemplate();
 
@@ -39,7 +39,7 @@ class CategoryTemplateTest extends AbstractTestCase {
         $this->assertCount(0, $categoryTemplate->getCategoryContentTypeTemplates());
     }
 
-    public function testCategoryContentTemplate() {
+    public function testCategoryContentTemplate(): void {
         $categoryTemplate = new CategoryTemplate();
         $categoryContentTemplate = new CategoryContentTemplate();
 

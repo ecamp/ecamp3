@@ -29,7 +29,7 @@ class UserTest extends AbstractApiControllerTestCase {
         $this->authenticateUser($this->user);
     }
 
-    public function testFetch() {
+    public function testFetch(): void {
         $this->dispatch("{$this->apiEndpoint}/{$this->user->getId()}", 'GET');
 
         $this->assertResponseStatusCode(200);
@@ -57,7 +57,7 @@ JSON;
         $this->verifyHalResourceResponse($expectedBody, $expectedLinks, $expectedEmbeddedObjects);
     }
 
-    public function testFetchAll() {
+    public function testFetchAll(): void {
         $this->dispatch("{$this->apiEndpoint}?page_size=10", 'GET');
 
         $this->assertResponseStatusCode(200);
@@ -69,7 +69,7 @@ JSON;
     }
 
     // TODO: more tests for user creation + registration necessary to cover all variations
-    public function testCreateSuccess() {
+    public function testCreateSuccess(): void {
         $this->setRequestContent([
             'state' => 'registered',
             'mailAddress' => 'test@test.com',
@@ -83,7 +83,7 @@ JSON;
         $this->assertEquals('unrelated', $this->getResponseContent()->relation);
     }
 
-    public function testUpdateSuccess() {
+    public function testUpdateSuccess(): void {
         $this->setRequestContent([
             'username' => 'test-user5', ]);
 
@@ -94,7 +94,7 @@ JSON;
         $this->assertEquals('test-user5', $this->getResponseContent()->username);
     }
 
-    public function testDelete() {
+    public function testDelete(): void {
         $this->dispatch("{$this->apiEndpoint}/{$this->user->getId()}", 'DELETE');
 
         $this->assertResponseStatusCode(204);

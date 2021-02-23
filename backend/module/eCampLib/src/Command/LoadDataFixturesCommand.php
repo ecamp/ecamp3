@@ -22,7 +22,7 @@ class LoadDataFixturesCommand extends AbstractParamAwareCommand {
         $this->filesystem = $filesystem;
     }
 
-    protected function configure() {
+    protected function configure(): void {
         $this->addParam(new PathParam('path', PathParam::TYPE_DIR));
     }
 

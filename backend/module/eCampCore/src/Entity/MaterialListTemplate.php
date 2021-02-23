@@ -24,7 +24,7 @@ class MaterialListTemplate extends BaseEntity {
         return $this->campTemplate;
     }
 
-    public function setCampTemplate(?CampTemplate $campTemplate) {
+    public function setCampTemplate(?CampTemplate $campTemplate): void {
         $this->campTemplate = $campTemplate;
     }
 
@@ -32,7 +32,7 @@ class MaterialListTemplate extends BaseEntity {
         return $this->name;
     }
 
-    public function setName(?string $name) {
+    public function setName(?string $name): void {
         $this->name = $name;
     }
 }

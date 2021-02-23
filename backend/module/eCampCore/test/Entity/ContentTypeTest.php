@@ -9,7 +9,7 @@ use eCamp\LibTest\PHPUnit\AbstractTestCase;
  * @internal
  */
 class ContentTypeTest extends AbstractTestCase {
-    public function testContentType() {
+    public function testContentType(): void {
         $contentType = new ContentType();
         $config_key = 'test';
         $config_value = 4;

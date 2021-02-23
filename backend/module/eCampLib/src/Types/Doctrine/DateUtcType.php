@@ -15,8 +15,6 @@ class DateUtcType extends DateType {
     private static $utc;
 
     /**
-     * @param mixed $value
-     *
      * @throws ConversionException
      */
     public function convertToDatabaseValue($value, AbstractPlatform $platform): ?string {
@@ -28,8 +26,6 @@ class DateUtcType extends DateType {
     }
 
     /**
-     * @param mixed $value
-     *
      * @throws ConversionException
      * @throws Exception
      */

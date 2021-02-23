@@ -11,7 +11,7 @@ use eCamp\Core\Entity\CategoryTemplate;
 class CategoryContentTemplateTestData extends AbstractFixture implements DependentFixtureInterface {
     public static $TEMPLATE1 = CategoryContentTemplateTestData::class.':Template1';
 
-    public function load(ObjectManager $manager) {
+    public function load(ObjectManager $manager): void {
         /** @var CategoryTemplate $categoryTemplate */
         $categoryTemplate = $this->getReference(CategoryTemplateTestData::$TEMPLATE1);
         $contentType = $this->getReference(ContentTypeTestData::$TYPE1);

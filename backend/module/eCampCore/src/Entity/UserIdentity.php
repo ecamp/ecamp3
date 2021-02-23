@@ -35,7 +35,7 @@ class UserIdentity extends BaseEntity {
     /**
      * Set user.
      */
-    public function setUser(?User $user) {
+    public function setUser(?User $user): void {
         $this->user = $user;
     }
 
@@ -49,7 +49,7 @@ class UserIdentity extends BaseEntity {
     /**
      * Set provider.
      */
-    public function setProvider(?string $provider) {
+    public function setProvider(?string $provider): void {
         $this->provider = $provider;
     }
 
@@ -65,7 +65,7 @@ class UserIdentity extends BaseEntity {
      *
      * @param string $providerId
      */
-    public function setProviderId(?string $providerId) {
+    public function setProviderId(?string $providerId): void {
         $this->providerId = $providerId;
     }
 

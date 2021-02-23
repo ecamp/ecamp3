@@ -19,7 +19,7 @@ class ActivityData extends AbstractFixture implements DependentFixtureInterface,
     public static $EVENT_2_LS = Activity::class.':EVENT_2_LS';
     public static $EVENT_2_LA = Activity::class.':EVENT_2_LA';
 
-    public function load(ObjectManager $manager) {
+    public function load(ObjectManager $manager): void {
         $repository = $manager->getRepository(Activity::class);
 
         /** @var Camp $camp */

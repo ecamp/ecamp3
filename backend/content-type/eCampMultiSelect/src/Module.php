@@ -23,7 +23,7 @@ class Module {
         return $config;
     }
 
-    public function onBootstrap(MvcEvent $e) {
+    public function onBootstrap(MvcEvent $e): void {
         /** @var Acl $acl */
         $acl = $e->getApplication()->getServiceManager()->get(AclInterface::class);
 

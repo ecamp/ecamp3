@@ -42,7 +42,7 @@ class Section extends BaseContentTypeEntity {
         return $this->column1;
     }
 
-    public function setColumn1(?string $text) {
+    public function setColumn1(?string $text): void {
         $this->column1 = $text;
     }
 
@@ -50,7 +50,7 @@ class Section extends BaseContentTypeEntity {
         return $this->column2;
     }
 
-    public function setColumn2(?string $text) {
+    public function setColumn2(?string $text): void {
         $this->column2 = $text;
     }
 
@@ -58,7 +58,7 @@ class Section extends BaseContentTypeEntity {
         return $this->column3;
     }
 
-    public function setColumn3(?string $text) {
+    public function setColumn3(?string $text): void {
         $this->column3 = $text;
     }
 }

@@ -10,7 +10,7 @@ use eCamp\Core\Entity\CategoryTemplate;
 class CategoryTemplateTestData extends AbstractFixture implements DependentFixtureInterface {
     public static $TEMPLATE1 = CategoryTemplate::class.':Template1';
 
-    public function load(ObjectManager $manager) {
+    public function load(ObjectManager $manager): void {
         $campTemplate = $this->getReference(CampTemplateTestData::$TEMPLATE1);
 
         $categoryTemplate = new CategoryTemplate();

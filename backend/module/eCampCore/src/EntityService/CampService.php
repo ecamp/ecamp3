@@ -54,8 +54,6 @@ class CampService extends AbstractEntityService {
     }
 
     /**
-     * @param mixed $data
-     *
      * @throws NoAccessException
      * @throws EntityNotFoundException
      * @throws ORMException

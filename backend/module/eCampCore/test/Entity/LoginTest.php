@@ -11,7 +11,7 @@ use ReflectionClass;
  * @internal
  */
 class LoginTest extends AbstractTestCase {
-    public function testCreateLogin() {
+    public function testCreateLogin(): void {
         $user = new User();
         $login = new Login($user, 'test-password');
 
@@ -19,7 +19,7 @@ class LoginTest extends AbstractTestCase {
         $this->assertFalse($login->checkPassword('wrong-password'));
     }
 
-    public function testPwResetKey() {
+    public function testPwResetKey(): void {
         $user = new User();
         $login = new Login($user, 'test-password');
 
@@ -41,7 +41,7 @@ class LoginTest extends AbstractTestCase {
         $login->resetPassword('wrong-key', 'newer-password');
     }
 
-    public function testChangePassword() {
+    public function testChangePassword(): void {
         $user = new User();
         $login = new Login($user, 'test-password');
         $this->assertTrue($login->checkPassword('test-password'));
@@ -54,7 +54,7 @@ class LoginTest extends AbstractTestCase {
         $login->changePassword('test-password', 'new-password');
     }
 
-    public function testUpdateHashVersion() {
+    public function testUpdateHashVersion(): void {
         $password = (new ReflectionClass(Login::class))->getProperty('password');
         $password->setAccessible(true);
 

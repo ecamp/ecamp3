@@ -238,7 +238,6 @@ class LinkExtractor extends HalLinkExtractor {
 
     /**
      * @param $parts
-     * @param array $mergedParams
      * @param $isOptional
      * @param $hasChild
      */
@@ -303,7 +302,7 @@ class LinkExtractor extends HalLinkExtractor {
      *
      * @throws \ReflectionException
      */
-    protected function addChildRoutes(Part $route) {
+    protected function addChildRoutes(Part $route): void {
         $reflectionProp = new \ReflectionProperty(get_class($route), 'childRoutes');
         $reflectionProp->setAccessible(true);
         $childRoutes = $reflectionProp->getValue($route);

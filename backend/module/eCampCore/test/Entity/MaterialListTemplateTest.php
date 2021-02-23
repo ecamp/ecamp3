@@ -10,7 +10,7 @@ use eCamp\LibTest\PHPUnit\AbstractTestCase;
  * @internal
  */
 class MaterialListTemplateTest extends AbstractTestCase {
-    public function testMaterialListTemplate() {
+    public function testMaterialListTemplate(): void {
         $materialListTemplate = new MaterialListTemplate();
         $campTemplate = new CampTemplate();
 
