@@ -1,16 +1,33 @@
 <template>
-  <auth-container>
-    <div v-if="invitationFound !== false && campCollaborationOpen !== false">
-      <h1 class="display-1">{{ this.$tc('components.invitation.title') }} {{ camp ? camp.title : '' }}</h1>
+  <auth-container v-if="ready">
+    <div v-if="invitationFound">
+      <h1 v-if="userDisplayName" class="display-1">
+        {{ this.$tc('components.invitation.userWelcome') }} {{ userDisplayName }}
+      </h1>
+      <h1 class="display-1">
+        {{ this.$tc('components.invitation.title') }} {{ invitation().campTitle }}
+      </h1>
 
       <v-spacer />
-      <div v-if="isLoggedIn">
-        <v-btn color="primary"
+      <div v-if="userDisplayName">
+        <v-btn v-if="!invitation().userAlreadyInCamp" color="primary"
                x-large
                class="my-4" block
                @click="acceptInvitation">
           {{ this.$tc('components.invitation.acceptCurrentAuth') }}
         </v-btn>
+        <div v-else>
+          <v-alert type="warning">
+            {{ this.$tc('components.invitation.userAlreadyInCamp') }}
+          </v-alert>
+          <v-spacer />
+          <v-btn color="primary"
+                 x-large
+                 class="my-4" block
+                 :to="campLink">
+            {{ this.$tc('components.invitation.openCamp') }}
+          </v-btn>
+        </div>
         <v-btn color="primary"
                x-large
                class="my-4" block
@@ -34,51 +51,59 @@
       </div>
       <v-btn color="red"
              x-large
-             class="my-4" block>
+             class="my-4" block
+             @click="rejectInvitation">
         {{ this.$tc('components.invitation.reject') }}
       </v-btn>
     </div>
-    <v-alert v-else type="error">
+    <v-alert v-else-if="invitationFound === false" type="error">
       {{ this.$tc('components.invitation.notFound') }}
     </v-alert>
+    <v-btn color="primary"
+           x-large
+           class="my-4" block
+           :to="{ name: 'home' }">
+      {{ this.$tc('components.invitation.backToHome') }}
+    </v-btn>
   </auth-container>
 </template>
 
 <script>
 import AuthContainer from '@/components/layout/AuthContainer'
-import { campRoute, loginRoute } from '@/router'
+import { loginRoute } from '@/router'
 
 export default {
   name: 'Invitation',
   components: { AuthContainer },
   props: {
-    campCollaboration: { type: Function, required: true }
+    invitation: { type: Function, required: true }
   },
-  data: () => ({ invitationFound: undefined }),
+  data: () => ({
+    invitationFound: undefined
+  }),
   computed: {
-    camp () {
-      if (this.invitationFound === undefined) {
-        return undefined
+    campLink () {
+      return {
+        name: 'camp/program',
+        params: { campId: this.invitation().campId }
       }
-      return this.campCollaboration().camp()
-    },
-    campCollaborationOpen () {
-      if (this.invitationFound === undefined) {
-        return undefined
-      }
-      return this.campCollaboration().status === 'invited'
-    },
-    isLoggedIn () {
-      return this.$auth.isLoggedIn()
     },
     loginLink () {
       return loginRoute(this.$route.fullPath)
+    },
+    ready () {
+      return this.invitationFound !== undefined
+    },
+    userDisplayName () {
+      return this.invitation().userDisplayName
     }
   },
-  mounted: function () {
-    this.campCollaboration()._meta.load.then(
-      () => { this.invitationFound = true },
-      () => { this.invitationFound = false })
+  mounted () {
+    this.api.reload(this.invitation())
+      .then(
+        () => { this.invitationFound = true },
+        () => { this.invitationFound = false }
+      )
   },
   methods: {
     useAnotherAccount () {
@@ -87,14 +112,24 @@ export default {
       this.$auth.logout().then(__ => this.$router.push(loginLink))
     },
     acceptInvitation () {
-      if (!this.invitationFound) return
-      const me = this
-      this.api.href(this.api.get()._meta.self, 'invitation', {
+      this.api.href(this.api.get(), 'invitation', {
         action: 'accept',
         inviteKey: this.$route.params.inviteKey
-      }).then(postUrl => me.api.post(postUrl, {}))
-        .then(_ => { me.$router.push(campRoute(me.camp)) },
-          e => console.log(e))
+      }).then(postUrl => this.api.post(postUrl, {}))
+        .then(
+          _ => { this.$router.push(this.campLink) },
+          () => { this.$router.push({ name: 'invitationUpdateError' }) }
+        )
+    },
+    rejectInvitation () {
+      this.api.href(this.api.get(), 'invitation', {
+        action: 'reject',
+        inviteKey: this.$route.params.inviteKey
+      }).then(postUrl => this.api.post(postUrl, {}))
+        .then(
+          _ => { this.$router.push({ name: 'invitationRejected' }) },
+          () => { this.$router.push({ name: 'invitationUpdateError' }) }
+        )
     }
   }
 }

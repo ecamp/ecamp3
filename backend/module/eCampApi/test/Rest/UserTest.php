@@ -62,7 +62,7 @@ JSON;
 
         $this->assertResponseStatusCode(200);
 
-        $this->assertEquals(1, $this->getResponseContent()->total_items);
+        $this->assertEquals(2, $this->getResponseContent()->total_items);
         $this->assertEquals(10, $this->getResponseContent()->page_size);
         $this->assertEquals("http://{$this->host}{$this->apiEndpoint}?page_size=10&page=1", $this->getResponseContent()->_links->self->href);
         $this->assertEquals($this->user->getId(), $this->getResponseContent()->_embedded->items[0]->id);
