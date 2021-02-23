@@ -62,35 +62,35 @@ JSON;
                   "templated": true
                 },
                 "users": {
-                    "href": "http://{$host}/api/users{/userId}{?page_size,search}",
+                    "href": "http://{$host}/api/users{/userId}{?page_size,page,search}",
                     "templated": true
                 },
                 "campTemplates": {
-                    "href": "http://{$host}/api/camp-templates{/campTemplateId}{?page_size}",
+                    "href": "http://{$host}/api/camp-templates{/campTemplateId}{?page_size,page}",
                     "templated": true
                 },
                 "camps": {
-                    "href": "http://{$host}/api/camps{/campId}{?page_size}",
+                    "href": "http://{$host}/api/camps{/campId}{?page_size,page}",
                     "templated": true
                 },
                 "campCollaborations": {
-                  "href": "http://{$host}/api/camp-collaborations{/campCollaborationId}{?page_size,campId,userId}",
+                  "href": "http://{$host}/api/camp-collaborations{/campCollaborationId}{?page_size,page,campId,userId}",
                   "templated": true
                 },
                 "scheduleEntries": {
-                    "href": "http://{$host}/api/schedule-entries{/scheduleEntryId}{?page_size,activityId}",
+                    "href": "http://{$host}/api/schedule-entries{/scheduleEntryId}{?page_size,page,activityId}",
                     "templated": true
                 },
                 "periods": {
-                    "href": "http://{$host}/api/periods{/periodId}{?page_size,campId}",
+                    "href": "http://{$host}/api/periods{/periodId}{?page_size,page,campId}",
                     "templated": true
                 },
                 "activities": {
-                    "href": "http://{$host}/api/activities{/activityId}{?page_size,campId,periodId}",
+                    "href": "http://{$host}/api/activities{/activityId}{?page_size,page,campId,periodId}",
                     "templated": true
                 },
                 "materialItems": {
-                    "href": "http://{$host}/api/material-items{/materialItemId}{?page_size,campId,materialListId,activityContentId}",
+                    "href": "http://{$host}/api/material-items{/materialItemId}{?page_size,page,campId,materialListId,activityContentId}",
                     "templated": true
                 }
             }

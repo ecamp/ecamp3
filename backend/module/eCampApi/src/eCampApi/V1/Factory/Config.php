@@ -10,7 +10,7 @@ class Config {
     private $endpoint;
     private $entityHttpMethods;
     private $collectionHttpMethods;
-    private $collectionQueryWhitelist = ['page_size'];
+    private $collectionQueryWhitelist = ['page_size', 'page'];
     private $inputFilterItems = [];
 
     public function __construct(string $nameSingular) {
