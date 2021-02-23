@@ -49,7 +49,7 @@ class JobResp extends BaseEntity implements BelongsToCampInterface {
         return $this->day;
     }
 
-    public function setDay(?Day $day) {
+    public function setDay(?Day $day): void {
         $this->day = $day;
     }
 
@@ -65,7 +65,7 @@ class JobResp extends BaseEntity implements BelongsToCampInterface {
         return $this->job;
     }
 
-    public function setJob(?Job $job) {
+    public function setJob(?Job $job): void {
         $this->job = $job;
     }
 
@@ -73,7 +73,7 @@ class JobResp extends BaseEntity implements BelongsToCampInterface {
         return $this->campCollaboration;
     }
 
-    public function setCampCollaboration(?CampCollaboration $collaboration) {
+    public function setCampCollaboration(?CampCollaboration $collaboration): void {
         $this->campCollaboration = $collaboration;
     }
 

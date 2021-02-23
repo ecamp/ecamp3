@@ -5,15 +5,15 @@ namespace eCamp\CoreTest\Data;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
-use eCamp\Core\Entity\ActivityCategory;
+use eCamp\Core\Entity\Category;
 use eCamp\Core\Entity\Period;
 use eCamp\Core\Entity\ScheduleEntry;
 
 class ScheduleEntryTestData extends AbstractFixture implements DependentFixtureInterface {
     public static $ENTRY1 = ScheduleEntry::class.':ENTRY1';
 
-    public function load(ObjectManager $manager) {
-        /** @var ActivityCategory $category */
+    public function load(ObjectManager $manager): void {
+        /** @var Category $category */
         $activity = $this->getReference(ActivityTestData::$ACTIVITY1);
 
         /** @var Period $period */

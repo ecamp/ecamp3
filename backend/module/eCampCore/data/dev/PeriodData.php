@@ -14,7 +14,7 @@ class PeriodData extends AbstractFixture implements DependentFixtureInterface {
     public static $PERIOD_1 = Period::class.':PERIOD_1';
     public static $PERIOD_2 = Period::class.':PERIOD_2';
 
-    public function load(ObjectManager $manager) {
+    public function load(ObjectManager $manager): void {
         $repository = $manager->getRepository(Period::class);
 
         /** @var Camp $camp */

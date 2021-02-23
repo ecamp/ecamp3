@@ -28,7 +28,7 @@ class Module implements ApiToolsProviderInterface {
         ];
     }
 
-    public function onBootstrap(MvcEvent $e) {
+    public function onBootstrap(MvcEvent $e): void {
         Paginator::setDefaultItemCountPerPage(PHP_INT_MAX);
 
         /** @var Application $app */

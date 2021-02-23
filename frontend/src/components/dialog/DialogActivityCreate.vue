@@ -39,7 +39,7 @@ export default {
     return {
       entityProperties: [
         'title',
-        'activityCategoryId',
+        'categoryId',
         'scheduleEntries',
         'location'
       ],

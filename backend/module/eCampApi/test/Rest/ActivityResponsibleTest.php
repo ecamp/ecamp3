@@ -39,7 +39,7 @@ class ActivityResponsibleTest extends AbstractApiControllerTestCase {
         $this->authenticateUser($this->user);
     }
 
-    public function testFetch() {
+    public function testFetch(): void {
         $this->dispatch("{$this->apiEndpoint}/{$this->activityResponsible->getId()}", 'GET');
 
         $this->assertResponseStatusCode(200);
@@ -62,7 +62,7 @@ JSON;
         $this->verifyHalResourceResponse($expectedBody, $expectedLinks, $expectedEmbeddedObjects);
     }
 
-    public function testFetchAll() {
+    public function testFetchAll(): void {
         $activityId = $this->activityResponsible->getActivity()->getId();
         $campCollaborationId = $this->activityResponsible->getCampCollaboration()->getId();
 
@@ -76,7 +76,7 @@ JSON;
         $this->assertEquals($this->activityResponsible->getId(), $this->getResponseContent()->_embedded->items[0]->id);
     }
 
-    public function testCreateDuplicateEntry() {
+    public function testCreateDuplicateEntry(): void {
         $this->setRequestContent([
             'activityId' => $this->activityResponsible->getActivity()->getId(),
             'campCollaborationId' => $this->activityResponsible->getCampCollaboration()->getId(), ]);
@@ -86,11 +86,11 @@ JSON;
         $this->assertResponseStatusCode(500);
     }
 
-    public function testCreateSuccess() {
+    public function testCreateSuccess(): void {
         $activity = new Activity();
         $activity->setCamp($this->activityResponsible->getCamp());
         $activity->setTitle('Activity1');
-        $activity->setActivityCategory($this->activityResponsible->getActivity()->getActivityCategory());
+        $activity->setCategory($this->activityResponsible->getActivity()->getCategory());
 
         $this->getEntityManager()->persist($activity);
         $this->getEntityManager()->flush();
@@ -104,14 +104,14 @@ JSON;
         $this->assertResponseStatusCode(201);
     }
 
-    public function testUpdateSuccess() {
+    public function testUpdateSuccess(): void {
         $this->dispatch("{$this->apiEndpoint}/{$this->activityResponsible->getId()}", 'PATCH');
 
         // nothing worth updating on this entity
         $this->assertResponseStatusCode(405);
     }
 
-    public function testDelete() {
+    public function testDelete(): void {
         $this->dispatch("{$this->apiEndpoint}/{$this->activityResponsible->getId()}", 'DELETE');
 
         $this->assertResponseStatusCode(204);

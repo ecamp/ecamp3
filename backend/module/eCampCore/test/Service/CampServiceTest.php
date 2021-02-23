@@ -3,16 +3,16 @@
 namespace eCamp\CoreTest\Service;
 
 use Doctrine\Common\DataFixtures\Loader;
-use eCamp\Core\Entity\ActivityCategory;
 use eCamp\Core\Entity\Camp;
 use eCamp\Core\Entity\CampTemplate;
-use eCamp\Core\Entity\ContentTypeConfig;
+use eCamp\Core\Entity\Category;
+use eCamp\Core\Entity\CategoryContent;
 use eCamp\Core\Entity\MaterialList;
 use eCamp\Core\Entity\User;
 use eCamp\Core\EntityService\CampService;
-use eCamp\CoreTest\Data\ActivityCategoryTemplateTestData;
 use eCamp\CoreTest\Data\CampTemplateTestData;
-use eCamp\CoreTest\Data\ContentTypeConfigTemplateTestData;
+use eCamp\CoreTest\Data\CategoryContentTemplateTestData;
+use eCamp\CoreTest\Data\CategoryTemplateTestData;
 use eCamp\CoreTest\Data\MaterialListTemplateTestData;
 use eCamp\CoreTest\Data\UserTestData;
 use eCamp\LibTest\PHPUnit\AbstractApiControllerTestCase;
@@ -33,15 +33,15 @@ class CampServiceTest extends AbstractApiControllerTestCase {
         $userLoader = new UserTestData();
         $campTemplateLoader = new CampTemplateTestData();
         $materialListTemplateLoader = new MaterialListTemplateTestData();
-        $activityCategoryTemplateLoader = new ActivityCategoryTemplateTestData();
-        $contentTypeConfigTemplateLoader = new ContentTypeConfigTemplateTestData();
+        $categoryTemplateLoader = new CategoryTemplateTestData();
+        $categoryContentTemplateLoader = new CategoryContentTemplateTestData();
 
         $loader = new Loader();
         $loader->addFixture($userLoader);
         $loader->addFixture($campTemplateLoader);
         $loader->addFixture($materialListTemplateLoader);
-        $loader->addFixture($activityCategoryTemplateLoader);
-        $loader->addFixture($contentTypeConfigTemplateLoader);
+        $loader->addFixture($categoryTemplateLoader);
+        $loader->addFixture($categoryContentTemplateLoader);
         $this->loadFixtures($loader);
 
         $this->user = $userLoader->getReference(UserTestData::$USER1);
@@ -50,7 +50,7 @@ class CampServiceTest extends AbstractApiControllerTestCase {
         $this->authenticateUser($this->user);
     }
 
-    public function testCreateCampFromTemplate() {
+    public function testCreateCampFromTemplate(): void {
         /** @var CampService $campService */
         $campService = $this->getApplicationServiceLocator()->get(CampService::class);
 
@@ -75,18 +75,18 @@ class CampServiceTest extends AbstractApiControllerTestCase {
         $this->assertNotNull($materialList);
         $this->assertNotNull($materialList->getMaterialListTemplateId());
 
-        $this->assertCount(1, $camp->getActivityCategories());
-        /** @var ActivityCategory $activityCategory */
-        $activityCategory = $camp->getActivityCategories()->first();
-        $this->assertNotNull($activityCategory);
-        $this->assertNotNull($activityCategory->getActivityCategoryTemplateId());
-        $this->assertEquals('ActivityCategory1', $activityCategory->getName());
+        $this->assertCount(1, $camp->getCategories());
+        /** @var Category $category */
+        $category = $camp->getCategories()->first();
+        $this->assertNotNull($category);
+        $this->assertNotNull($category->getCategoryTemplateId());
+        $this->assertEquals('ActivityCategory1', $category->getName());
 
-        $this->assertCount(1, $activityCategory->getContentTypeConfigs());
-        /** @var ContentTypeConfig $contentTypeConfig */
-        $contentTypeConfig = $activityCategory->getContentTypeConfigs()->first();
-        $this->assertNotNull($contentTypeConfig);
-        $this->assertNotNull($contentTypeConfig->getContentTypeConfigTemplateId());
-        $this->assertEquals('Storyboard', $contentTypeConfig->getContentType()->getName());
+        $this->assertCount(1, $category->getCategoryContents());
+        /** @var CategoryContent $categoryContent */
+        $categoryContent = $category->getCategoryContents()->first();
+        $this->assertNotNull($categoryContent);
+        $this->assertNotNull($categoryContent->getCategoryContentTemplateId());
+        $this->assertEquals('Storyboard', $categoryContent->getContentType()->getName());
     }
 }

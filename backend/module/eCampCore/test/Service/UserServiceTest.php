@@ -16,7 +16,7 @@ class UserServiceTest extends AbstractDatabaseTestCase {
     const USERNAME = 'username';
     const EMAIL = 'test@eCamp3.ch';
 
-    public function testCreateUser() {
+    public function testCreateUser(): void {
         /** @var UserService $userService */
         $userService = \eCampApp::GetService(UserService::class);
 
@@ -29,7 +29,7 @@ class UserServiceTest extends AbstractDatabaseTestCase {
         $this->assertEquals(User::STATE_NONREGISTERED, $user->getState());
     }
 
-    public function testGetUser() {
+    public function testGetUser(): void {
         /** @var UserService $userService */
         $userService = \eCampApp::GetService(UserService::class);
         /** @var AuthenticationService $auth */
@@ -51,7 +51,7 @@ class UserServiceTest extends AbstractDatabaseTestCase {
         $user3 = $userService->fetch(-1);
     }
 
-    public function testGetUserByEmail() {
+    public function testGetUserByEmail(): void {
         /** @var UserService $userService */
         $userService = \eCampApp::GetService(UserService::class);
 
@@ -64,7 +64,7 @@ class UserServiceTest extends AbstractDatabaseTestCase {
         $this->assertThat($foundUser, self::isSameUserAs($user));
     }
 
-    public function testGetUserByName() {
+    public function testGetUserByName(): void {
         /** @var UserService $userService */
         $userService = \eCampApp::GetService(UserService::class);
 

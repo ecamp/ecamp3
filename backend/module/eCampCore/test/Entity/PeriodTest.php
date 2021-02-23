@@ -13,7 +13,7 @@ use eCamp\LibTest\PHPUnit\AbstractTestCase;
  * @internal
  */
 class PeriodTest extends AbstractTestCase {
-    public function testCamp() {
+    public function testCamp(): void {
         $camp = new Camp();
 
         $start = new DateUtc();
@@ -32,7 +32,7 @@ class PeriodTest extends AbstractTestCase {
         $this->assertEquals($end, $period->getEnd());
     }
 
-    public function testStartEnd() {
+    public function testStartEnd(): void {
         $start = new DateUtc();
         $end = clone $start;
         $end->add(new \DateInterval('P7D'));
@@ -48,7 +48,7 @@ class PeriodTest extends AbstractTestCase {
         $this->assertEquals($end, $period->getEnd());
     }
 
-    public function testDuration() {
+    public function testDuration(): void {
         $start = new DateUtc();
         $end = clone $start;
         $end->add(new \DateInterval('P7D'));
@@ -61,7 +61,7 @@ class PeriodTest extends AbstractTestCase {
         $this->assertEquals(8, $period->getDurationInDays());
     }
 
-    public function testDay() {
+    public function testDay(): void {
         $period = new Period();
         $day = new Day();
 
@@ -72,7 +72,7 @@ class PeriodTest extends AbstractTestCase {
         $this->assertEquals(0, $period->getDays()->count());
     }
 
-    public function testScheduleEntry() {
+    public function testScheduleEntry(): void {
         $period = new Period();
         $scheduleEntry = new ScheduleEntry();
 
@@ -83,7 +83,7 @@ class PeriodTest extends AbstractTestCase {
         $this->assertEquals(0, $period->getScheduleEntries()->count());
     }
 
-    public function testLifecycle() {
+    public function testLifecycle(): void {
         $period = new Period();
         $period->PrePersist();
         $period->PreUpdate();

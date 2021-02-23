@@ -10,7 +10,7 @@ use eCamp\LibTest\PHPUnit\AbstractTestCase;
  * @internal
  */
 class UserHydratorTest extends AbstractTestCase {
-    public function testExtract() {
+    public function testExtract(): void {
         $user = new User();
         $user->setUsername('test');
 
@@ -20,7 +20,7 @@ class UserHydratorTest extends AbstractTestCase {
         $this->assertEquals('test', $data['username']);
     }
 
-    public function testHydrate() {
+    public function testHydrate(): void {
         $user = new User();
 
         $hydrator = new UserHydrator();

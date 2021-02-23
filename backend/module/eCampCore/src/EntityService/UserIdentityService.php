@@ -89,7 +89,6 @@ class UserIdentityService extends AbstractEntityService {
 
     /**
      * @param array $data
-     * @param User  $user
      */
     protected function createEntity($data): UserIdentity {
         /** @var UserIdentity $identity */

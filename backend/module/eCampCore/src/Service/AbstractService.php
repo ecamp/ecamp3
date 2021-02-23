@@ -56,7 +56,7 @@ abstract class AbstractService {
      *
      * @throws \eCamp\Lib\Acl\NoAccessException
      */
-    protected function assertAllowed($resource, $privilege = null) {
+    protected function assertAllowed($resource, $privilege = null): void {
         $user = $this->getAuthUser();
         $this->serviceUtils->aclAssertAllowed($user, $resource, $privilege);
     }

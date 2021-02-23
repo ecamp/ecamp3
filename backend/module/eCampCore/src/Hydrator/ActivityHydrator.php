@@ -14,8 +14,8 @@ use Laminas\Hydrator\HydratorInterface;
 class ActivityHydrator implements HydratorInterface {
     public static function HydrateInfo(): array {
         return [
-            'activityCategory' => Util::Entity(function (Activity $e) {
-                return $e->getActivityCategory();
+            'category' => Util::Entity(function (Activity $e) {
+                return $e->getCategory();
             }),
             'campCollaborations' => Util::Collection(function (Activity $e) {
                 return new CampCollaborationCollection(
@@ -43,7 +43,7 @@ class ActivityHydrator implements HydratorInterface {
             'location' => $activity->getLocation(),
 
             'camp' => new EntityLink($activity->getCamp()),
-            'activityCategory' => EntityLink::Create($activity->getActivityCategory()),
+            'category' => EntityLink::Create($activity->getCategory()),
 
             'campCollaborations' => new EntityLinkCollection(new CampCollaborationCollection(
                 $activity->getActivityResponsibles()->map(function (ActivityResponsible $ar) {

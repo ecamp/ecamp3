@@ -5,10 +5,10 @@ namespace eCamp\Core\EntityService;
 use Doctrine\ORM\ORMException;
 use Doctrine\ORM\QueryBuilder;
 use eCamp\Core\Entity\AbstractCampOwner;
-use eCamp\Core\Entity\ActivityCategoryTemplate;
 use eCamp\Core\Entity\Camp;
 use eCamp\Core\Entity\CampCollaboration;
 use eCamp\Core\Entity\CampTemplate;
+use eCamp\Core\Entity\CategoryTemplate;
 use eCamp\Core\Entity\MaterialListTemplate;
 use eCamp\Core\Entity\User;
 use eCamp\Core\Hydrator\CampHydrator;
@@ -21,7 +21,7 @@ use Laminas\Authentication\AuthenticationService;
 class CampService extends AbstractEntityService {
     protected PeriodService $periodService;
     protected MaterialListService $materialListService;
-    protected ActivityCategoryService $activityCategoryService;
+    protected CategoryService $categoryService;
     protected CampCollaborationService $campCollaboratorService;
 
     public function __construct(
@@ -29,7 +29,7 @@ class CampService extends AbstractEntityService {
         AuthenticationService $authenticationService,
         PeriodService $periodService,
         MaterialListService $materialListService,
-        ActivityCategoryService $activityCategoryService,
+        CategoryService $categoryService,
         CampCollaborationService $campCollaboratorService
     ) {
         parent::__construct(
@@ -41,7 +41,7 @@ class CampService extends AbstractEntityService {
 
         $this->periodService = $periodService;
         $this->materialListService = $materialListService;
-        $this->activityCategoryService = $activityCategoryService;
+        $this->categoryService = $categoryService;
         $this->campCollaboratorService = $campCollaboratorService;
     }
 
@@ -54,8 +54,6 @@ class CampService extends AbstractEntityService {
     }
 
     /**
-     * @param mixed $data
-     *
      * @throws NoAccessException
      * @throws EntityNotFoundException
      * @throws ORMException
@@ -95,7 +93,7 @@ class CampService extends AbstractEntityService {
         if (isset($data->campTemplateId)) {
             // CampTemplateId given
             // - Create MaterialLists
-            // - Create ActivityCategories + ContentTypeConfigs
+            // - Create Categories
             $camp->setCampTemplateId($data->campTemplateId);
 
             /** @var CampTemplate $campTemplate */
@@ -106,9 +104,9 @@ class CampService extends AbstractEntityService {
                 $this->materialListService->createFromTemplate($camp, $materialListTemplate);
             }
 
-            /** @var ActivityCategoryTemplate $activityCategoryTemplate */
-            foreach ($campTemplate->getActivityCategoryTemplates() as $activityCategoryTemplate) {
-                $this->activityCategoryService->createFromTemplate($camp, $activityCategoryTemplate);
+            /** @var CategoryTemplate $categoryTemplate */
+            foreach ($campTemplate->getCategoryTemplates() as $categoryTemplate) {
+                $this->categoryService->createFromTemplate($camp, $categoryTemplate);
             }
         }
 

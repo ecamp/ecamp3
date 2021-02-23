@@ -40,7 +40,7 @@ export default {
         'location'
       ],
       embeddedEntities: [
-        'activityCategory'
+        'category'
       ],
       embeddedCollections: [
         'scheduleEntries'

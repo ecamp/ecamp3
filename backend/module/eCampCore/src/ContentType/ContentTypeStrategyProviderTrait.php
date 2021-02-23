@@ -5,7 +5,7 @@ namespace eCamp\Core\ContentType;
 trait ContentTypeStrategyProviderTrait {
     private ContentTypeStrategyProvider $contentTypeStrategyProvider;
 
-    public function setContentTypeStrategyProvider(ContentTypeStrategyProvider $contentTypeStrategyProvider) {
+    public function setContentTypeStrategyProvider(ContentTypeStrategyProvider $contentTypeStrategyProvider): void {
         $this->contentTypeStrategyProvider = $contentTypeStrategyProvider;
     }
 

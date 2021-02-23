@@ -14,7 +14,7 @@ class MaterialListTemplateData extends AbstractFixture implements DependentFixtu
 
     private ObjectManager $manager;
 
-    public function load(ObjectManager $manager) {
+    public function load(ObjectManager $manager): void {
         $this->manager = $manager;
 
         $repository = $manager->getRepository(MaterialListTemplate::class);

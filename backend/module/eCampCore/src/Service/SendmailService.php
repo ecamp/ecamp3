@@ -28,7 +28,7 @@ class SendmailService extends AbstractService {
         $this->frontendUrl = $frontendUrl;
     }
 
-    public function sendRegisterMail(User $user, $key) {
+    public function sendRegisterMail(User $user, $key): void {
         $data = new MessageData();
         $data->from = $this->from;
         $data->to = $user->getUntrustedMailAddress();
@@ -42,7 +42,7 @@ class SendmailService extends AbstractService {
         $this->mailProvider->sendMail($data);
     }
 
-    public function sendInviteToCampMail(User $byUser, Camp $camp, string $key, string $emailToInvite) {
+    public function sendInviteToCampMail(User $byUser, Camp $camp, string $key, string $emailToInvite): void {
         $data = new MessageData();
         $data->from = $this->from;
         $data->to = $emailToInvite;

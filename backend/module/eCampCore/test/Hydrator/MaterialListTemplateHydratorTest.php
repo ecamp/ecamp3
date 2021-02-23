@@ -10,7 +10,7 @@ use eCamp\LibTest\PHPUnit\AbstractTestCase;
  * @internal
  */
 class MaterialListTemplateHydratorTest extends AbstractTestCase {
-    public function testExtract() {
+    public function testExtract(): void {
         $materialListTemplate = new MaterialListTemplate();
         $materialListTemplate->setName('name');
 
@@ -20,7 +20,7 @@ class MaterialListTemplateHydratorTest extends AbstractTestCase {
         $this->assertEquals('name', $data['name']);
     }
 
-    public function testHydrate() {
+    public function testHydrate(): void {
         $materialListTemplate = new MaterialListTemplate();
         $data = [
             'name' => 'name',

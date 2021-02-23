@@ -11,15 +11,15 @@ class ContentTypeStrategyProviderInjector {
         $this->contentTypeStrategyProvider = $contentTypeStrategyProvider;
     }
 
-    public function postLoad(LifecycleEventArgs $eventArgs) {
+    public function postLoad(LifecycleEventArgs $eventArgs): void {
         $this->inject($eventArgs);
     }
 
-    public function prePersist(LifecycleEventArgs $eventArgs) {
+    public function prePersist(LifecycleEventArgs $eventArgs): void {
         $this->inject($eventArgs);
     }
 
-    private function inject(LifecycleEventArgs $eventArgs) {
+    private function inject(LifecycleEventArgs $eventArgs): void {
         $entity = $eventArgs->getEntity();
         if ($entity instanceof ContentTypeStrategyProviderAware) {
             $entity->setContentTypeStrategyProvider($this->contentTypeStrategyProvider);

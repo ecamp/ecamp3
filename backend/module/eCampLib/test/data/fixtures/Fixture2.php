@@ -14,7 +14,7 @@ class Fixture2 extends AbstractFixture implements DependentFixtureInterface {
         $this->output = $output;
     }
 
-    public function load(ObjectManager $manager) {
+    public function load(ObjectManager $manager): void {
         $this->output->writeln('Fixture2');
     }
 

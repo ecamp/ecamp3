@@ -2,29 +2,29 @@
 
 namespace eCamp\CoreTest\Entity;
 
-use eCamp\Core\Entity\ActivityCategoryTemplate;
 use eCamp\Core\Entity\CampTemplate;
+use eCamp\Core\Entity\CategoryTemplate;
 use eCamp\LibTest\PHPUnit\AbstractTestCase;
 
 /**
  * @internal
  */
 class CampTemplateTest extends AbstractTestCase {
-    public function testCampTemplate() {
+    public function testCampTemplate(): void {
         $campTemplate = new CampTemplate();
         $campTemplate->setName('CampTemplate.Name');
 
         $this->assertEquals('CampTemplate.Name', $campTemplate->getName());
     }
 
-    public function testActivityCategoryTemplate() {
+    public function testCategoryTemplate(): void {
         $campTemplate = new CampTemplate();
-        $activityCategoryTemplate = new ActivityCategoryTemplate();
+        $categoryTemplate = new CategoryTemplate();
 
-        $this->assertCount(0, $campTemplate->getActivityCategoryTemplates());
-        $campTemplate->addActivityCategoryTemplate($activityCategoryTemplate);
-        $this->assertContains($activityCategoryTemplate, $campTemplate->getActivityCategoryTemplates());
-        $campTemplate->removeActivityCategoryTemplate($activityCategoryTemplate);
-        $this->assertCount(0, $campTemplate->getActivityCategoryTemplates());
+        $this->assertCount(0, $campTemplate->getCategoryTemplates());
+        $campTemplate->addCategoryTemplate($categoryTemplate);
+        $this->assertContains($categoryTemplate, $campTemplate->getCategoryTemplates());
+        $campTemplate->removeCategoryTemplate($categoryTemplate);
+        $this->assertCount(0, $campTemplate->getCategoryTemplates());
     }
 }

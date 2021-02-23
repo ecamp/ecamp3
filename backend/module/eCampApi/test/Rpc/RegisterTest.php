@@ -8,7 +8,7 @@ use eCamp\LibTest\PHPUnit\AbstractApiControllerTestCase;
  * @internal
  */
 class RegisterTest extends AbstractApiControllerTestCase {
-    public function testRegisterWithoutUsername() {
+    public function testRegisterWithoutUsername(): void {
         $this->setRequestContent(['username' => '']);
         $this->dispatch('/api/register', 'POST');
 
@@ -16,7 +16,7 @@ class RegisterTest extends AbstractApiControllerTestCase {
         $this->assertStringContainsString('No username', $this->getResponseContent()->detail);
     }
 
-    public function testRegisterWithoutEmail() {
+    public function testRegisterWithoutEmail(): void {
         $this->setRequestContent([
             'username' => 'test',
             'email' => '',
@@ -24,10 +24,10 @@ class RegisterTest extends AbstractApiControllerTestCase {
         $this->dispatch('/api/register', 'POST');
 
         $this->assertResponseStatusCode(400);
-        $this->assertStringContainsString('No eMail', $this->getResponseContent()->detail);
+        $this->assertStringContainsString('No email', $this->getResponseContent()->detail);
     }
 
-    public function testRegisterWithoutPassword() {
+    public function testRegisterWithoutPassword(): void {
         $this->setRequestContent([
             'username' => 'test',
             'email' => 'test@test.com',
@@ -38,7 +38,7 @@ class RegisterTest extends AbstractApiControllerTestCase {
         $this->assertStringContainsString('No password', $this->getResponseContent()->detail);
     }
 
-    public function testRegisterSuccess() {
+    public function testRegisterSuccess(): void {
         $this->setRequestContent([
             'username' => 'test',
             'email' => 'test@test.com',

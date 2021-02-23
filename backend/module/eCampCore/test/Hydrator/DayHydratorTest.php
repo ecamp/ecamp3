@@ -16,7 +16,7 @@ use eCamp\LibTest\PHPUnit\AbstractTestCase;
  * @internal
  */
 class DayHydratorTest extends AbstractTestCase {
-    public function testExtract() {
+    public function testExtract(): void {
         $camp = new Camp();
         $camp->setName('name');
         $camp->setTitle('title');
@@ -58,7 +58,7 @@ class DayHydratorTest extends AbstractTestCase {
         $this->assertEquals(1, $scheduleEntries->getTotalItemCount());
     }
 
-    public function testHydrate() {
+    public function testHydrate(): void {
         $camp = new Camp();
 
         $period = new Period();

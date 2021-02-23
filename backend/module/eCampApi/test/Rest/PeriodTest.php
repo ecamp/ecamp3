@@ -36,7 +36,7 @@ class PeriodTest extends AbstractApiControllerTestCase {
         $this->authenticateUser($this->user);
     }
 
-    public function testFetch() {
+    public function testFetch(): void {
         $this->dispatch("/api/periods/{$this->period->getId()}", 'GET');
 
         $this->assertResponseStatusCode(200);
@@ -64,7 +64,7 @@ JSON;
         $this->assertCount(13, $this->getResponseContent()->_embedded->days);
     }
 
-    public function testFetchAll() {
+    public function testFetchAll(): void {
         $campId = $this->period->getCamp()->getId();
         $this->dispatch("/api/periods?page_size=10&campId={$campId}", 'GET');
 
@@ -76,7 +76,7 @@ JSON;
         $this->assertEquals($this->period->getId(), $this->getResponseContent()->_embedded->items[0]->id);
     }
 
-    public function testCreateWithoutStartAndEnd() {
+    public function testCreateWithoutStartAndEnd(): void {
         $this->setRequestContent([
             'description' => '', ]);
 
@@ -87,7 +87,7 @@ JSON;
         $this->assertObjectHasAttribute('isEmpty', $this->getResponseContent()->validation_messages->end);
     }
 
-    public function testCreateWithoutCamp() {
+    public function testCreateWithoutCamp(): void {
         $this->setRequestContent([
             'description' => '',
             'start' => '2000-07-05',
@@ -100,7 +100,7 @@ JSON;
         $this->assertObjectHasAttribute('notFound', $this->getResponseContent()->validation_messages->campId);
     }
 
-    public function testCreateSuccess() {
+    public function testCreateSuccess(): void {
         $this->setRequestContent([
             'description' => '',
             'start' => '2000-07-05',
@@ -113,7 +113,7 @@ JSON;
         $this->assertEquals('2000-07-05', $this->getResponseContent()->start);
     }
 
-    public function testUpdateSuccess() {
+    public function testUpdateSuccess(): void {
         $this->setRequestContent([
             'start' => '1999-12-15', ]);
 
@@ -125,7 +125,7 @@ JSON;
         $this->assertEquals('2000-01-13', $this->getResponseContent()->end);
     }
 
-    public function testDelete() {
+    public function testDelete(): void {
         $this->dispatch("/api/periods/{$this->period->getId()}", 'DELETE');
 
         $this->assertResponseStatusCode(204);

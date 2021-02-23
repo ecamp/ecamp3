@@ -7,7 +7,7 @@ use eCamp\Core\Entity\Period;
 use eCamp\Lib\Entity\EntityLink;
 use eCamp\Lib\Entity\EntityLinkCollection;
 use eCamp\Lib\Hydrator\Util;
-use eCampApi\V1\Rest\ActivityCategory\ActivityCategoryCollection;
+use eCampApi\V1\Rest\Category\CategoryCollection;
 use eCampApi\V1\Rest\Day\DayCollection;
 use eCampApi\V1\Rest\Period\PeriodCollection;
 use Laminas\ApiTools\Hal\Link\Link;
@@ -41,8 +41,8 @@ class CampHydrator implements HydratorInterface {
                     }, null),
                 ]
             ),
-            'activityCategories' => Util::Collection(function (Camp $c) {
-                return new ActivityCategoryCollection($c->getActivityCategories());
+            'categories' => Util::Collection(function (Camp $c) {
+                return new CategoryCollection($c->getCategories());
             }, null),
         ];
     }
@@ -72,7 +72,7 @@ class CampHydrator implements HydratorInterface {
 
             'periods' => new EntityLinkCollection($camp->getPeriods()),
 
-            'activityCategories' => new EntityLinkCollection($camp->getActivityCategories()),
+            'categories' => new EntityLinkCollection($camp->getCategories()),
             'activities' => Link::factory([
                 'rel' => 'activities',
                 'route' => [

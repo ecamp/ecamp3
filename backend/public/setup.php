@@ -131,7 +131,7 @@ if (array_key_exists('drop-data', $_GET)) {
 
 //  Schema-Validation:
 // ====================
-$schemaValidation = function () use ($schemaTool, $allMetadata) {
+$schemaValidation = function () use ($schemaTool, $allMetadata): void {
     try {
         $updateSqls = $schemaTool->getUpdateSchemaSql($allMetadata, true);
         if (0 !== count($updateSqls)) {

@@ -86,7 +86,7 @@ class Login extends BaseEntity {
      *
      * @throws \Exception
      */
-    public function resetPassword(string $pwResetKey, string $password, ?int $hashVersion = null) {
+    public function resetPassword(string $pwResetKey, string $password, ?int $hashVersion = null): void {
         if ($this->checkPwResetKey($pwResetKey)) {
             $this->setNewPassword($password, $hashVersion);
         } else {
@@ -101,7 +101,7 @@ class Login extends BaseEntity {
      *
      * @throws \Exception
      */
-    public function changePassword(string $oldPassword, string $newPassword, ?int $hashVersion = null) {
+    public function changePassword(string $oldPassword, string $newPassword, ?int $hashVersion = null): void {
         if ($this->checkPassword($oldPassword)) {
             $this->setNewPassword($newPassword, $hashVersion);
         } else {
@@ -128,13 +128,13 @@ class Login extends BaseEntity {
     /**
      * Sets a new Password. It creates a new salt and stores the salten password.
      */
-    private function setNewPassword(string $password, ?int $hashVersion = null) {
+    private function setNewPassword(string $password, ?int $hashVersion = null): void {
         $this->createSalt();
         $this->hashVersion = $hashVersion ?? self::CURRENT_HASH_VERSION;
         $this->password = $this->getHash($password);
     }
 
-    private function createSalt() {
+    private function createSalt(): void {
         $this->password = null;
         $this->pwResetKey = null;
         $this->salt = md5(microtime(true));

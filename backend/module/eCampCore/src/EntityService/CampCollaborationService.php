@@ -38,8 +38,6 @@ class CampCollaborationService extends AbstractEntityService {
     }
 
     /**
-     * @param mixed $data
-     *
      * @throws ORMException
      * @throws \Exception
      */
@@ -162,8 +160,6 @@ class CampCollaborationService extends AbstractEntityService {
     }
 
     /**
-     * @param mixed $data
-     *
      * @throws ORMException
      */
     protected function updateEntity(BaseEntity $entity, $data): CampCollaboration {
@@ -184,7 +180,7 @@ class CampCollaborationService extends AbstractEntityService {
     /**
      * @throws ORMException
      */
-    protected function deleteEntity(BaseEntity $entity) {
+    protected function deleteEntity(BaseEntity $entity): void {
         /** @var CampCollaboration $campCollaboration */
         $campCollaboration = $entity;
         if (in_array(
@@ -230,10 +226,8 @@ class CampCollaborationService extends AbstractEntityService {
      * @param $data
      *
      * @throws \Exception
-     *
-     * @return CampCollaboration
      */
-    private function updateCollaboration(CampCollaboration $campCollaboration, $data) {
+    private function updateCollaboration(CampCollaboration $campCollaboration, $data): CampCollaboration {
         // TODO: ACL-Check can update Collaboration
 
         if (isset($data->role)) {
@@ -253,10 +247,8 @@ class CampCollaborationService extends AbstractEntityService {
      * @param $data
      *
      * @throws \Exception
-     *
-     * @return CampCollaboration
      */
-    private function updateInvitation(CampCollaboration $campCollaboration, $data) {
+    private function updateInvitation(CampCollaboration $campCollaboration, $data): CampCollaboration {
         $authUser = $this->getAuthUser();
 
         // TODO: ACL-Check can update Invitation
@@ -300,10 +292,8 @@ class CampCollaborationService extends AbstractEntityService {
      *
      * @throws ORMException
      * @throws \Exception
-     *
-     * @return CampCollaboration
      */
-    private function updateRequest(CampCollaboration $campCollaboration, $data) {
+    private function updateRequest(CampCollaboration $campCollaboration, $data): CampCollaboration {
         $authUser = $this->getAuthUser();
 
         // TODO: ACL-Check can update Request
@@ -370,7 +360,7 @@ class CampCollaborationService extends AbstractEntityService {
             }
     }
 
-    private function createMaterialList(CampCollaboration $campCollaboration) {
+    private function createMaterialList(CampCollaboration $campCollaboration): void {
         $this->materialListService->create((object) [
             'campId' => $campCollaboration->getCamp()->getId(),
             'name' => $campCollaboration->getUser()->getDisplayName(),

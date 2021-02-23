@@ -13,7 +13,7 @@ use Hybridauth\User\Profile;
  * @internal
  */
 class UserRepositoryTest extends AbstractDatabaseTestCase {
-    public function testFindByUsername() {
+    public function testFindByUsername(): void {
         /** @var UserService $userService */
         $userService = \eCampApp::GetService(UserService::class);
 
@@ -36,7 +36,7 @@ class UserRepositoryTest extends AbstractDatabaseTestCase {
         $this->assertEmpty($user);
     }
 
-    public function testFindByMail() {
+    public function testFindByMail(): void {
         /** @var UserService $userService */
         $userService = \eCampApp::GetService(UserService::class);
 

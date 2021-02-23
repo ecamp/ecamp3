@@ -10,7 +10,7 @@ class CampTemplateData extends AbstractFixture {
     public static $PBS_JS_KIDS = CampTemplate::class.':PBS_JS_KIDS';
     public static $PBS_JS_TEEN = CampTemplate::class.':PBS_JS_TEEN';
 
-    public function load(ObjectManager $manager) {
+    public function load(ObjectManager $manager): void {
         $repository = $manager->getRepository(CampTemplate::class);
 
         /** @var CampTemplate $campTemplate */

@@ -52,7 +52,7 @@ class MaterialItemServiceTest extends AbstractApiControllerTestCase {
         $this->authenticateUser($this->user);
     }
 
-    public function testCreateMaterialItem() {
+    public function testCreateMaterialItem(): void {
         /** @var MaterialItemService $materialItemService */
         $materialItemService = $this->getApplicationServiceLocator()->get(MaterialItemService::class);
 
@@ -85,7 +85,7 @@ class MaterialItemServiceTest extends AbstractApiControllerTestCase {
         $this->assertEquals('kg', $materialItem->getUnit());
     }
 
-    public function testAddInvalidItem() {
+    public function testAddInvalidItem(): void {
         /** @var MaterialItemService $materialItemService */
         $materialItemService = $this->getApplicationServiceLocator()->get(MaterialItemService::class);
 

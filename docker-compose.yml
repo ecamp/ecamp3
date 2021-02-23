@@ -59,7 +59,7 @@ services:
       - ./print/print.env
 
   composer:
-    image: composer:2@sha256:97ca3398b5f320babe8ae7fe931c6248cac42ca04919cd9b54986263819ba6a7
+    image: composer:2@sha256:e1065351e7ecae54c4cceb4035b5339f0301c7f22988ea8a7ee9a2605416a5c3
     container_name: 'ecamp3-composer'
     restart: 'no'
     command: bash -c "composer install --no-interaction --no-plugins --no-scripts --prefer-dist"
@@ -69,7 +69,7 @@ services:
       - ./.cache/composer:/tmp/cache
 
   db:
-    image: mariadb:10.5@sha256:8040983db146f729749081c6b216a19d52e0973134e2e34c0b4fd87f48bc15b0
+    image: mariadb:10.5@sha256:a13b01d9af44097efeca7a3808a524c8052870e59a1eeef074857ba01e70c1f2
     container_name: 'ecamp3-db'
     environment:
       - MYSQL_DATABASE=ecamp3dev
@@ -89,7 +89,7 @@ services:
       - '3002:80'
 
   rabbitmq:
-    image: rabbitmq:3.8-management@sha256:abcba8d2f36f3856fac601cdefeafc1e55b2d22209afd2779567cde3667b6dc8
+    image: rabbitmq:3.8-management@sha256:9d340b284990eb7f465616504f3fb058948ce58065997aa54d802aab0e8e60c2
     container_name: 'ecamp3-rabbitmq'
     ports:
       - '3004:15672'

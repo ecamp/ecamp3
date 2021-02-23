@@ -77,7 +77,7 @@ export default {
           title: this.$tc('entity.activity.new'),
           location: '',
           camp: (this.period)().camp,
-          activityCategory: () => ({
+          category: () => ({
             id: null,
             short: null,
             color: 'grey elevation-4 v-event--temporary'

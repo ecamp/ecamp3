@@ -106,12 +106,12 @@ class Group extends AbstractCampOwner {
         return $this->children;
     }
 
-    public function addChild(Group $child) {
+    public function addChild(Group $child): void {
         $child->setParent($this);
         $this->children->add($child);
     }
 
-    public function removeChild(Group $child) {
+    public function removeChild(Group $child): void {
         $child->setParent(null);
         $this->children->removeElement($child);
     }
@@ -120,12 +120,12 @@ class Group extends AbstractCampOwner {
         return $this->memberships;
     }
 
-    public function addGroupMembership(GroupMembership $membership) {
+    public function addGroupMembership(GroupMembership $membership): void {
         $membership->setGroup($this);
         $this->memberships->add($membership);
     }
 
-    public function removeGroupMembership(GroupMembership $membership) {
+    public function removeGroupMembership(GroupMembership $membership): void {
         $membership->setGroup(null);
         $this->memberships->removeElement($membership);
     }

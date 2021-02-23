@@ -37,7 +37,7 @@ class CampTest extends AbstractApiControllerTestCase {
         $this->authenticateUser($this->user);
     }
 
-    public function testFetch() {
+    public function testFetch(): void {
         $this->dispatch("/api/camps/{$this->camp->getId()}", 'GET');
 
         $this->assertResponseStatusCode(200);
@@ -65,12 +65,12 @@ JSON;
                 }
             }
 JSON;
-        $expectedEmbeddedObjects = ['creator', 'campCollaborations', 'periods', 'activityCategories'];
+        $expectedEmbeddedObjects = ['creator', 'campCollaborations', 'periods', 'categories'];
 
         $this->verifyHalResourceResponse($expectedBody, $expectedLinks, $expectedEmbeddedObjects);
     }
 
-    public function testFetchAll() {
+    public function testFetchAll(): void {
         $this->dispatch('/api/camps?page_size=10', 'GET');
 
         $this->assertResponseStatusCode(200);
@@ -81,7 +81,7 @@ JSON;
         $this->assertEquals($this->camp->getId(), $this->getResponseContent()->_embedded->items[0]->id);
     }
 
-    public function testCreateWithoutName() {
+    public function testCreateWithoutName(): void {
         $this->setRequestContent([
             'name' => '', ]);
 
@@ -93,7 +93,7 @@ JSON;
         $this->assertObjectHasAttribute('isEmpty', $this->getResponseContent()->validation_messages->motto);
     }
 
-    public function testCreateSuccess() {
+    public function testCreateSuccess(): void {
         $this->setRequestContent([
             'name' => 'CampName2',
             'title' => 'CampTitle',
@@ -107,7 +107,7 @@ JSON;
         $this->assertEquals(CampCollaboration::ROLE_MANAGER, $this->getResponseContent()->role);
     }
 
-    public function testUpdateSuccess() {
+    public function testUpdateSuccess(): void {
         $this->setRequestContent([
             'name' => 'CampName3',
             'title' => 'CampTitle3',
@@ -124,7 +124,7 @@ JSON;
         $this->assertEquals('CampTitle3', $this->camp->getTitle());
     }
 
-    public function testDelete() {
+    public function testDelete(): void {
         $this->dispatch("/api/camps/{$this->camp->getId()}", 'DELETE');
 
         $this->assertResponseStatusCode(204);

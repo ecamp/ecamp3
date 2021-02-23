@@ -54,7 +54,7 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
     /**
      * @internal Do not set the {@link Period} directly on the ScheduleEntry. Instead use {@see Period::addScheduleEntry()}
      */
-    public function setPeriod(?Period $period) {
+    public function setPeriod(?Period $period): void {
         $this->period = $period;
     }
 
@@ -69,24 +69,24 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
     /**
      * @internal Do not set the {@see Activity} directly on the ScheduleEntry. Instead use {@see Activity::addScheduleEntry()}
      */
-    public function setActivity(?Activity $activity) {
+    public function setActivity(?Activity $activity): void {
         $this->activity = $activity;
     }
 
-    public function getActivityCategory(): ?ActivityCategory {
-        return (null !== $this->activity) ? $this->activity->getActivityCategory() : null;
+    public function getCategory(): ?Category {
+        return (null !== $this->activity) ? $this->activity->getCategory() : null;
     }
 
     public function getNumberingStyle(): ?string {
-        $activityCategory = $this->getActivityCategory();
+        $category = $this->getCategory();
 
-        return (null !== $activityCategory) ? $activityCategory->getNumberingStyle() : null;
+        return (null !== $category) ? $category->getNumberingStyle() : null;
     }
 
     public function getColor(): ?string {
-        $activityCategory = $this->getActivityCategory();
+        $category = $this->getCategory();
 
-        return (null !== $activityCategory) ? $activityCategory->getColor() : null;
+        return (null !== $category) ? $category->getColor() : null;
     }
 
     public function getPeriodOffset(): int {
@@ -182,7 +182,7 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
         $dayNumber = $this->getDayNumber();
         $scheduleEntryNumber = $this->getScheduleEntryNumber();
 
-        $category = $this->getActivityCategory();
+        $category = $this->getCategory();
         $scheduleEntryStyledNumber = (null !== $category) ? $category->getStyledNumber($scheduleEntryNumber) : $scheduleEntryNumber;
 
         return $dayNumber.'.'.$scheduleEntryStyledNumber;

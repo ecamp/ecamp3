@@ -22,7 +22,7 @@ class LaminasMail implements ProviderInterface {
         $this->templateConfig = $templateConfig;
     }
 
-    public function sendMail(MessageData $message) {
+    public function sendMail(MessageData $message): void {
         $body = $this->createBody($message);
 
         $mail = new MailMessage();

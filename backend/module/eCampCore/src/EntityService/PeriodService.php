@@ -36,8 +36,6 @@ class PeriodService extends AbstractEntityService {
     }
 
     /**
-     * @param mixed $data
-     *
      * @throws ORMException
      * @throws EntityNotFoundException
      * @throws NoAccessException
@@ -76,8 +74,6 @@ class PeriodService extends AbstractEntityService {
     }
 
     /**
-     * @param mixed $data
-     *
      * @throws NoAccessException
      * @throws ORMException
      */
@@ -93,9 +89,6 @@ class PeriodService extends AbstractEntityService {
     }
 
     /**
-     * @param mixed $id
-     * @param mixed $data
-     *
      * @throws ORMException
      * @throws NoAccessException
      */
@@ -110,10 +103,7 @@ class PeriodService extends AbstractEntityService {
         return $period;
     }
 
-    /**
-     * @return Period
-     */
-    protected function deleteEntity(BaseEntity $entity) {
+    protected function deleteEntity(BaseEntity $entity): void {
         /** @var Period $period */
         $period = $entity;
         $period->getCamp()->removePeriod($period);
@@ -124,7 +114,7 @@ class PeriodService extends AbstractEntityService {
     /**
      * @param $entity
      */
-    protected function validateEntity(BaseEntity $entity) {
+    protected function validateEntity(BaseEntity $entity): void {
         /** @var Period $period */
         $period = $entity;
 
@@ -172,7 +162,7 @@ class PeriodService extends AbstractEntityService {
      * @throws NoAccessException
      * @throws ORMException
      */
-    private function updatePeriodDays(Period $period) {
+    private function updatePeriodDays(Period $period): void {
         $days = $period->getDays();
         $daysCountNew = $period->getDurationInDays();
 
@@ -204,7 +194,7 @@ class PeriodService extends AbstractEntityService {
      *
      * @throws NoAccessException
      */
-    private function updateScheduleEntries(Period $period, $moveActivities = null) {
+    private function updateScheduleEntries(Period $period, $moveActivities = null): void {
         if (is_null($moveActivities)) {
             $moveActivities = true;
         }

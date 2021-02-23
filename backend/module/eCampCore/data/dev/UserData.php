@@ -10,7 +10,7 @@ use eCamp\Core\Entity\User;
 class UserData extends AbstractFixture {
     public static $USER = User::class.':USER';
 
-    public function load(ObjectManager $manager) {
+    public function load(ObjectManager $manager): void {
         $repository = $manager->getRepository(User::class);
 
         $user = $repository->findOneBy(['username' => 'test-user']);

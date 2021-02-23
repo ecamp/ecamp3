@@ -9,7 +9,7 @@ use eCamp\Core\Entity\CampTemplate;
 class CampTemplateTestData extends AbstractFixture {
     public static $TEMPLATE1 = CampTemplate::class.':Template1';
 
-    public function load(ObjectManager $manager) {
+    public function load(ObjectManager $manager): void {
         $campTemplate = new CampTemplate();
         $campTemplate->setName('CampTemplate1');
 

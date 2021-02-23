@@ -1,3 +1,5 @@
+const path = require('path')
+
 module.exports = {
   devServer: {
     useLocalIp: false,
@@ -28,6 +30,17 @@ module.exports = {
       .end()
       .use('vue-svg-loader')
       .loader('vue-svg-loader')
+
+    config.module
+      .rule('source-map-loader')
+      .test(/\.(js)$/)
+      .enforce('pre')
+      .include
+      .add(path.resolve(__dirname, 'node_modules/hal-json-vuex'))
+      .end()
+      .use('source-map-loader')
+      .loader('source-map-loader')
+      .end()
   },
 
   pluginOptions: {

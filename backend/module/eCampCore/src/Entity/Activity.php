@@ -34,10 +34,10 @@ class Activity extends BaseEntity implements BelongsToCampInterface {
     private ?Camp $camp = null;
 
     /**
-     * @ORM\ManyToOne(targetEntity="ActivityCategory")
+     * @ORM\ManyToOne(targetEntity="Category")
      * @ORM\JoinColumn(nullable=false)
      */
-    private ?ActivityCategory $activityCategory = null;
+    private ?Category $category = null;
 
     /**
      * @ORM\Column(type="text")
@@ -66,16 +66,16 @@ class Activity extends BaseEntity implements BelongsToCampInterface {
      *
      * @param $camp
      */
-    public function setCamp(?Camp $camp) {
+    public function setCamp(?Camp $camp): void {
         $this->camp = $camp;
     }
 
-    public function getActivityCategory(): ?ActivityCategory {
-        return $this->activityCategory;
+    public function getCategory(): ?Category {
+        return $this->category;
     }
 
-    public function setActivityCategory(?ActivityCategory $activityCategory): void {
-        $this->activityCategory = $activityCategory;
+    public function setCategory(?Category $category): void {
+        $this->category = $category;
     }
 
     public function getTitle(): ?string {
@@ -98,12 +98,12 @@ class Activity extends BaseEntity implements BelongsToCampInterface {
         return $this->activityContents;
     }
 
-    public function addActivityContent(ActivityContent $activityContent) {
+    public function addActivityContent(ActivityContent $activityContent): void {
         $activityContent->setActivity($this);
         $this->activityContents->add($activityContent);
     }
 
-    public function removeActivityContent(ActivityContent $activityContent) {
+    public function removeActivityContent(ActivityContent $activityContent): void {
         $activityContent->setActivity(null);
         $this->activityContents->removeElement($activityContent);
     }
@@ -112,12 +112,12 @@ class Activity extends BaseEntity implements BelongsToCampInterface {
         return $this->scheduleEntries;
     }
 
-    public function addScheduleEntry(ScheduleEntry $scheduleEntry) {
+    public function addScheduleEntry(ScheduleEntry $scheduleEntry): void {
         $scheduleEntry->setActivity($this);
         $this->scheduleEntries->add($scheduleEntry);
     }
 
-    public function removeScheduleEntry(ScheduleEntry $scheduleEntry) {
+    public function removeScheduleEntry(ScheduleEntry $scheduleEntry): void {
         $scheduleEntry->setActivity(null);
         $this->scheduleEntries->removeElement($scheduleEntry);
     }
@@ -126,12 +126,12 @@ class Activity extends BaseEntity implements BelongsToCampInterface {
         return $this->activityResponsibles;
     }
 
-    public function addActivityResponsible(ActivityResponsible $activityResponsible) {
+    public function addActivityResponsible(ActivityResponsible $activityResponsible): void {
         $activityResponsible->setActivity($this);
         $this->activityResponsibles->add($activityResponsible);
     }
 
-    public function removeActivityResponsible(ActivityResponsible $activityResponsible) {
+    public function removeActivityResponsible(ActivityResponsible $activityResponsible): void {
         $activityResponsible->setActivity(null);
         $this->activityResponsibles->removeElement($activityResponsible);
     }

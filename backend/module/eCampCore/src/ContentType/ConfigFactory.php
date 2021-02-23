@@ -8,10 +8,8 @@ class ConfigFactory {
      * @param bool        $multiple   false=single entitity per activityContent; true=multiple entities per activityContent
      * @param null|string $entityName Specify entity name if it deviates from main name
      * @param null|string $namePlural specify non-standard plural names
-     *
-     * @return array
      */
-    public static function createConfig(string $name, bool $multiple = false, ?string $entityName = null, ?string $namePlural = null) {
+    public static function createConfig(string $name, bool $multiple = false, ?string $entityName = null, ?string $namePlural = null): array {
         // used in class namespace (PascalCase)
         $namespace = $name;
 

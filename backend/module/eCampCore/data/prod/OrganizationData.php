@@ -9,7 +9,7 @@ use eCamp\Core\Entity\Organization;
 class OrganizationData extends AbstractFixture {
     public static $PBS = Organization::class.':PBS';
 
-    public function load(ObjectManager $manager) {
+    public function load(ObjectManager $manager): void {
         $repository = $manager->getRepository(Organization::class);
 
         $organization = $repository->findOneBy(['name' => 'PBS']);

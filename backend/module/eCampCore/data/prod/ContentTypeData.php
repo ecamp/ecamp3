@@ -18,7 +18,7 @@ class ContentTypeData extends AbstractFixture {
     public static $MATERIAL = ContentType::class.':MATERIAL';
     public static $LATHEMATICAREA = ContentType::class.':LATHEMATICAREA';
 
-    public function load(ObjectManager $manager) {
+    public function load(ObjectManager $manager): void {
         $repository = $manager->getRepository(ContentType::class);
 
         // Story board (Programmablauf)

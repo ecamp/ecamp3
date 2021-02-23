@@ -31,7 +31,7 @@ abstract class Hitobito extends OAuth2 {
         return $userProfile;
     }
 
-    protected function configure() {
+    protected function configure(): void {
         parent::configure();
         $this->apiBaseUrl = preg_replace('/\/(profile)?$/', '', $this->config->filter('endpoints')->get('profile'));
         $this->authorizeUrl = $this->config->filter('endpoints')->get('authorize');

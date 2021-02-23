@@ -55,7 +55,7 @@ class MaterialItemTest extends AbstractApiControllerTestCase {
         $this->authenticateUser($this->user);
     }
 
-    public function testFetch() {
+    public function testFetch(): void {
         $this->dispatch("{$this->apiEndpoint}/{$this->materialItem->getId()}", 'GET');
 
         $this->assertResponseStatusCode(200);
@@ -82,7 +82,7 @@ JSON;
         $this->verifyHalResourceResponse($expectedBody, $expectedLinks, $expectedEmbeddedObjects);
     }
 
-    public function testCreatePeriodItemSuccess() {
+    public function testCreatePeriodItemSuccess(): void {
         $this->setRequestContent([
             'quantity' => 2,
             'unit' => 'kg',
@@ -99,7 +99,7 @@ JSON;
         $this->assertEquals('water', $this->getResponseContent()->article);
     }
 
-    public function testCreateActivityItemSuccess() {
+    public function testCreateActivityItemSuccess(): void {
         $this->setRequestContent([
             'quantity' => 2,
             'unit' => 'kg',
@@ -116,7 +116,7 @@ JSON;
         $this->assertEquals('water', $this->getResponseContent()->article);
     }
 
-    public function testUpdateSuccess() {
+    public function testUpdateSuccess(): void {
         $this->setRequestContent([
             'quantity' => 10,
             'unit' => 'kg',
@@ -131,7 +131,7 @@ JSON;
         $this->assertEquals('water', $this->getResponseContent()->article);
     }
 
-    public function testDeleteSuccess() {
+    public function testDeleteSuccess(): void {
         $this->dispatch($this->apiEndpoint.'/'.$this->materialItem->getId(), 'DELETE');
 
         $this->assertResponseStatusCode(204);

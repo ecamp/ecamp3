@@ -19,9 +19,9 @@ class CampTemplate extends BaseEntity {
     private ?string $name = null;
 
     /**
-     * @ORM\OneToMany(targetEntity="ActivityCategoryTemplate", mappedBy="campTemplate", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="CategoryTemplate", mappedBy="campTemplate", orphanRemoval=true)
      */
-    private Collection $activityCategoryTemplates;
+    private Collection $categoryTemplates;
 
     /**
      * @ORM\OneToMany(targetEntity="MaterialListTemplate", mappedBy="campTemplate", orphanRemoval=true)
@@ -31,7 +31,7 @@ class CampTemplate extends BaseEntity {
     public function __construct() {
         parent::__construct();
 
-        $this->activityCategoryTemplates = new ArrayCollection();
+        $this->categoryTemplates = new ArrayCollection();
         $this->materialListTemplates = new ArrayCollection();
     }
 
@@ -39,34 +39,34 @@ class CampTemplate extends BaseEntity {
         return $this->name;
     }
 
-    public function setName(?string $name) {
+    public function setName(?string $name): void {
         $this->name = $name;
     }
 
-    public function getActivityCategoryTemplates(): Collection {
-        return $this->activityCategoryTemplates;
+    public function getCategoryTemplates(): Collection {
+        return $this->categoryTemplates;
     }
 
-    public function addActivityCategoryTemplate(ActivityCategoryTemplate $activityCategoryTemplate) {
-        $activityCategoryTemplate->setCampTemplate($this);
-        $this->activityCategoryTemplates->add($activityCategoryTemplate);
+    public function addCategoryTemplate(CategoryTemplate $categoryTemplate): void {
+        $categoryTemplate->setCampTemplate($this);
+        $this->categoryTemplates->add($categoryTemplate);
     }
 
-    public function removeActivityCategoryTemplate(ActivityCategoryTemplate $activityCategoryTemplate) {
-        $activityCategoryTemplate->setCampTemplate(null);
-        $this->activityCategoryTemplates->removeElement($activityCategoryTemplate);
+    public function removeCategoryTemplate(CategoryTemplate $categoryTemplate): void {
+        $categoryTemplate->setCampTemplate(null);
+        $this->categoryTemplates->removeElement($categoryTemplate);
     }
 
     public function getMaterialListTemplates(): Collection {
         return $this->materialListTemplates;
     }
 
-    public function addMaterialListTemplate(MaterialListTemplate $materialListTemplate) {
+    public function addMaterialListTemplate(MaterialListTemplate $materialListTemplate): void {
         $materialListTemplate->setCampTemplate($this);
         $this->materialListTemplates->add($materialListTemplate);
     }
 
-    public function removeMaterialListTemplate(MaterialListTemplate $materialListTemplate) {
+    public function removeMaterialListTemplate(MaterialListTemplate $materialListTemplate): void {
         $materialListTemplate->setCampTemplate(null);
         $this->materialListTemplates->removeElement($materialListTemplate);
     }

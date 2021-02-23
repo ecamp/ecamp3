@@ -47,7 +47,7 @@ abstract class AbstractApiControllerTestCase extends LaminasAbstractHttpControll
     }
 
     /** @throws ToolsException */
-    protected function createDatabaseSchema(EntityManager $em) {
+    protected function createDatabaseSchema(EntityManager $em): void {
         $metadatas = $em->getMetadataFactory()->getAllMetadata();
 
         $schemaTool = new SchemaTool($em);
@@ -57,17 +57,13 @@ abstract class AbstractApiControllerTestCase extends LaminasAbstractHttpControll
 
     /**
      * Set request content encoded as JSON.
-     *
-     * @param mixed $content
      */
-    protected function setRequestContent($content) {
+    protected function setRequestContent($content): void {
         $this->getRequest()->setContent(json_encode($content));
     }
 
     /**
      * Get response content decoded from JSON.
-     *
-     * @return mixed
      */
     protected function getResponseContent() {
         return json_decode($this->getResponse()->getContent());
@@ -92,7 +88,7 @@ abstract class AbstractApiControllerTestCase extends LaminasAbstractHttpControll
     /**
      * Authenticates a given $user.
      */
-    protected function authenticateUser(User $user) {
+    protected function authenticateUser(User $user): void {
         /** @var AuthenticationService $auth */
         $auth = $this->getApplicationServiceLocator()->get(AuthenticationService::class);
         $auth->getStorage()->write($user->getId());
@@ -111,7 +107,7 @@ abstract class AbstractApiControllerTestCase extends LaminasAbstractHttpControll
     /**
      * Verifies HAL response.
      */
-    protected function verifyHalResourceResponse(string $rootAsJson, string $linksAsJson, array $embeddedObjectList) {
+    protected function verifyHalResourceResponse(string $rootAsJson, string $linksAsJson, array $embeddedObjectList): void {
         $response = $this->getResponseContent();
 
         // verify correctness of links
@@ -130,7 +126,7 @@ abstract class AbstractApiControllerTestCase extends LaminasAbstractHttpControll
     /**
      * loads data from Fixtures into ORM.
      */
-    protected function loadFixtures(Loader $loader) {
+    protected function loadFixtures(Loader $loader): void {
         $purger = new ORMPurger();
         $executor = new ORMExecutor($this->getEntityManager(), $purger);
         $executor->execute($loader->getFixtures());

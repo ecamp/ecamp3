@@ -5,9 +5,9 @@ namespace eCamp\Core\EntityService;
 use Doctrine\ORM\ORMException;
 use Doctrine\ORM\QueryBuilder;
 use eCamp\Core\Entity\Activity;
-use eCamp\Core\Entity\ActivityCategory;
 use eCamp\Core\Entity\Camp;
-use eCamp\Core\Entity\ContentTypeConfig;
+use eCamp\Core\Entity\Category;
+use eCamp\Core\Entity\CategoryContent;
 use eCamp\Core\Entity\ScheduleEntry;
 use eCamp\Core\Hydrator\ActivityHydrator;
 use eCamp\Lib\Acl\NoAccessException;
@@ -40,8 +40,6 @@ class ActivityService extends AbstractEntityService {
     }
 
     /**
-     * @param mixed $data
-     *
      * @throws EntityNotFoundException
      * @throws ORMException
      * @throws NoAccessException
@@ -52,18 +50,16 @@ class ActivityService extends AbstractEntityService {
         /** @var Activity $activity */
         $activity = parent::createEntity($data);
 
-        /** @var ActivityCategory $category */
-        $category = $this->findRelatedEntity(ActivityCategory::class, $data, 'activityCategoryId');
+        /** @var Category $category */
+        $category = $this->findRelatedEntity(Category::class, $data, 'categoryId');
 
-        $activity->setActivityCategory($category);
+        $activity->setCategory($category);
         $activity->setCamp($category->getCamp()); // TODO meeting discus: Why do we actually need camp on activity? Redundant relationship
 
         return $activity;
     }
 
     /**
-     * @param mixed $data
-     *
      * @throws EntityNotFoundException
      * @throws NoAccessException
      * @throws ORMException
@@ -97,9 +93,9 @@ class ActivityService extends AbstractEntityService {
         $this->updateActivityResponsibles($activity, $data);
         $this->updateScheduleEntries($activity, $data);
 
-        if (!empty($data->activityCategoryId)) {
-            $category = $this->findRelatedEntity(ActivityCategory::class, $data, 'activityCategoryId');
-            $activity->setActivityCategory($category);
+        if (!empty($data->categoryId)) {
+            $category = $this->findRelatedEntity(Category::class, $data, 'categoryId');
+            $activity->setCategory($category);
         }
 
         return $entity;
@@ -138,7 +134,7 @@ class ActivityService extends AbstractEntityService {
         return $q;
     }
 
-    private function updateActivityResponsibles(Activity $activity, $data) {
+    private function updateActivityResponsibles(Activity $activity, $data): void {
         if (isset($data->campCollaborations)) {
             $ccIds = array_map(function ($cc) {
                 return $cc['id'];
@@ -165,7 +161,7 @@ class ActivityService extends AbstractEntityService {
         }
     }
 
-    private function updateScheduleEntries(Activity $activity, $data) {
+    private function updateScheduleEntries(Activity $activity, $data): void {
         if (isset($data->scheduleEntries) && is_array($data->scheduleEntries)) {
             $scheduleEntryIds = array_reduce($data->scheduleEntries, function ($result, $entry) {
                 if (isset($entry['id'])) {
@@ -195,17 +191,12 @@ class ActivityService extends AbstractEntityService {
         }
     }
 
-    private function createInitialActivityContents(Activity $activity) {
-        $contentTypeConfigs = $activity->getActivityCategory()->getContentTypeConfigs();
+    private function createInitialActivityContents(Activity $activity): void {
+        $categoryContents = $activity->getCategory()->getRootCategoryContents();
 
-        /** @var ContentTypeConfig $contentTypeConfig */
-        foreach ($contentTypeConfigs as $contentTypeConfig) {
-            if ($contentTypeConfig->getRequired()) {
-                $this->activityContentService->create((object) [
-                    'activityId' => $activity->getId(),
-                    'contentTypeId' => $contentTypeConfig->getContentType()->getId(),
-                ]);
-            }
+        /** @var CategoryContent $categoryContent */
+        foreach ($categoryContents as $categoryContent) {
+            $this->activityContentService->createFromCategoryContent($activity, $categoryContent);
         }
     }
 }

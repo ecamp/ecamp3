@@ -149,8 +149,8 @@ export default {
         return this.scheduleEntries
       }
     },
-    activityCategories () {
-      return this.camp.activityCategories()
+    categories () {
+      return this.camp.categories()
     },
     widthPluralization () {
       if (this.entryWidth < 81) {
@@ -188,12 +188,12 @@ export default {
     getActivityName (scheduleEntry, _) {
       if (this.isActivityLoading(scheduleEntry)) return this.$tc('global.loading')
       return (scheduleEntry.number ? scheduleEntry.number + ' ' : '') +
-        (scheduleEntry.activity().activityCategory().short ? scheduleEntry.activity().activityCategory().short + ': ' : '') +
+        (scheduleEntry.activity().category().short ? scheduleEntry.activity().category().short + ': ' : '') +
         scheduleEntry.activity().title
     },
     getActivityColor (scheduleEntry, _) {
       if (this.isActivityLoading(scheduleEntry)) return 'grey lighten-2'
-      const color = scheduleEntry.activity().activityCategory().color
+      const color = scheduleEntry.activity().category().color
       return isCssColor(color) ? color : color + ' elevation-4 v-event--temporary'
     },
     isActivityLoading (scheduleEntry) {
@@ -264,7 +264,7 @@ export default {
           title: this.$tc('entity.activity.new'),
           location: '',
           camp: (this.period)().camp,
-          activityCategory: () => ({
+          category: () => ({
             id: null,
             short: null,
             color: 'grey elevation-4 v-event--temporary'

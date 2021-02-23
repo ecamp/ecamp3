@@ -3,9 +3,9 @@
 namespace eCamp\CoreTest\Entity;
 
 use eCamp\Core\Entity\Activity;
-use eCamp\Core\Entity\ActivityCategory;
 use eCamp\Core\Entity\ActivityContent;
 use eCamp\Core\Entity\Camp;
+use eCamp\Core\Entity\Category;
 use eCamp\Core\Entity\ScheduleEntry;
 use eCamp\LibTest\PHPUnit\AbstractTestCase;
 
@@ -13,22 +13,21 @@ use eCamp\LibTest\PHPUnit\AbstractTestCase;
  * @internal
  */
 class ActivityTest extends AbstractTestCase {
-    public function testActivityCategory() {
+    public function testCategory(): void {
         $camp = new Camp();
-
-        $activityCategory = new ActivityCategory();
+        $category = new Category();
 
         $activity = new Activity();
         $activity->setCamp($camp);
         $activity->setTitle('ActivityTitle');
-        $activity->setActivityCategory($activityCategory);
+        $activity->setCategory($category);
 
         $this->assertEquals($camp, $activity->getCamp());
         $this->assertEquals('ActivityTitle', $activity->getTitle());
-        $this->assertEquals($activityCategory, $activity->getActivityCategory());
+        $this->assertEquals($category, $activity->getCategory());
     }
 
-    public function testActivityContent() {
+    public function testActivityContent(): void {
         $activity = new Activity();
         $activityContent = new ActivityContent();
 
@@ -39,7 +38,7 @@ class ActivityTest extends AbstractTestCase {
         $this->assertEquals(0, $activity->getActivityContents()->count());
     }
 
-    public function testScheduleEntry() {
+    public function testScheduleEntry(): void {
         $activity = new Activity();
         $scheduleEntry = new ScheduleEntry();
 

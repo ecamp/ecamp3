@@ -25,10 +25,7 @@ class Option extends BaseContentTypeEntity {
      */
     private bool $checked = false;
 
-    /**
-     * @return int
-     */
-    public function getPos() {
+    public function getPos(): int {
         return $this->pos;
     }
 
@@ -39,10 +36,7 @@ class Option extends BaseContentTypeEntity {
         $this->pos = $pos;
     }
 
-    /**
-     * @return string
-     */
-    public function getTranslateKey() {
+    public function getTranslateKey(): string {
         return $this->translateKey;
     }
 
@@ -53,10 +47,7 @@ class Option extends BaseContentTypeEntity {
         $this->translateKey = $translateKey;
     }
 
-    /**
-     * @return bool
-     */
-    public function getChecked() {
+    public function getChecked(): bool {
         return $this->checked;
     }
 

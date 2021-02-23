@@ -10,15 +10,13 @@ class eCampApp {
     /** @var Application */
     private static $instance;
 
-    /** @return Application */
-    public static function CreateApp() {
+    public static function CreateApp(): Application {
         $config = self::GetAppConfig();
 
         return Application::init($config);
     }
 
-    /** @return ServiceManager */
-    public static function CreateServiceManagerWithoutDi() {
+    public static function CreateServiceManagerWithoutDi(): ServiceManager {
         // remove 'Laminas\Di' config
         $configuration = self::GetAppConfig();
         unset($configuration['modules'][array_search('Laminas\Di', $configuration['modules'])]);
@@ -41,8 +39,7 @@ class eCampApp {
         return $serviceManager;
     }
 
-    /** @return Application */
-    public static function App() {
+    public static function App(): Application {
         if (null == self::$instance) {
             self::$instance = self::CreateApp();
         }
@@ -50,11 +47,11 @@ class eCampApp {
         return self::$instance;
     }
 
-    public static function Reset() {
+    public static function Reset(): void {
         self::$instance = null;
     }
 
-    public static function Run() {
+    public static function Run(): void {
         self::App()->run();
     }
 
@@ -66,23 +63,17 @@ class eCampApp {
         return self::ServiceManager()->get($name);
     }
 
-    /**
-     * @param string $name
-     *
-     * @return \Doctrine\ORM\EntityManager
-     */
-    public static function GetEntityManager($name = 'orm_default') {
+    public static function GetEntityManager(string $name = 'orm_default'): Doctrine\ORM\EntityManager {
         return self::GetService('doctrine.entitymanager.'.$name);
     }
 
-    /** @return Application */
-    public static function CreateSetup() {
+    public static function CreateSetup(): Application {
         $config = self::GetSetupConfig();
 
         return Application::init($config);
     }
 
-    public static function RegisterErrorHandler() {
+    public static function RegisterErrorHandler(): void {
         // if sentry-configuration available, use sentry
         $sentryConfig = __DIR__.'/../config/sentry.config.php';
 
@@ -93,7 +84,7 @@ class eCampApp {
         }
     }
 
-    public static function RegisterWhoops($handler = PrettyPageHandler::class) {
+    public static function RegisterWhoops($handler = PrettyPageHandler::class): void {
         $whoops = new Run();
         $whoops->pushHandler(new $handler());
         $whoops->register();

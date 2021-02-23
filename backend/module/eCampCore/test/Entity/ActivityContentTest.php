@@ -12,7 +12,7 @@ use eCamp\LibTest\PHPUnit\AbstractTestCase;
  * @internal
  */
 class ActivityContentTest extends AbstractTestCase {
-    public function testActivityContent() {
+    public function testActivityContent(): void {
         $camp = new Camp();
 
         $contentType = new ContentType();
@@ -25,10 +25,27 @@ class ActivityContentTest extends AbstractTestCase {
         $activityContent->setActivity($activity);
         $activityContent->setContentType($contentType);
         $activityContent->setInstanceName('ActivityContentName');
+        $activityContent->setPosition('position');
 
         $this->assertEquals($activity, $activityContent->getActivity());
         $this->assertEquals($contentType, $activityContent->getContentType());
         $this->assertEquals('ActivityContentName', $activityContent->getInstanceName());
-        $this->assertEquals($contentType, $activityContent->getContentType());
+        $this->assertEquals('position', $activityContent->getPosition());
+        $this->assertEquals($camp, $activityContent->getCamp());
+    }
+
+    public function testActivityContentHierarchy(): void {
+        $activityContent = new ActivityContent();
+        $childActivityContent = new ActivityContent();
+
+        // Add Child-ActivityContent
+        $activityContent->addChild($childActivityContent);
+        $this->assertCount(1, $activityContent->getChildren());
+        $this->assertEquals($activityContent, $childActivityContent->getParent());
+
+        // Remove Child-ActivityContent
+        $activityContent->removeChild($childActivityContent);
+        $this->assertCount(0, $activityContent->getChildren());
+        $this->assertNull($childActivityContent->getParent());
     }
 }

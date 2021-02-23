@@ -62,9 +62,6 @@ class ContentType extends BaseEntity {
         $this->jsonConfig = $jsonConfig;
     }
 
-    /**
-     * @return mixed
-     */
     public function getConfig(?string $key = null) {
         if (null != $this->jsonConfig) {
             if (null != $key) {

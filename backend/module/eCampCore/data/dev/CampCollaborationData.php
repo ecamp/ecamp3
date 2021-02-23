@@ -10,7 +10,7 @@ use eCamp\Core\Entity\CampCollaboration;
 use eCamp\Core\Entity\User;
 
 class CampCollaborationData extends AbstractFixture implements DependentFixtureInterface {
-    public function load(ObjectManager $manager) {
+    public function load(ObjectManager $manager): void {
         $repository = $manager->getRepository(CampCollaboration::class);
         $campRepository = $manager->getRepository(Camp::class);
         $userRepository = $manager->getRepository(User::class);

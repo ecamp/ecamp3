@@ -12,8 +12,6 @@ class DateTimeUtcType extends DateTimeType {
     private static ?DateTimeZone $utc = null;
 
     /**
-     * @param mixed $value
-     *
      * @throws ConversionException
      */
     public function convertToDatabaseValue($value, AbstractPlatform $platform): ?string {
@@ -25,8 +23,6 @@ class DateTimeUtcType extends DateTimeType {
     }
 
     /**
-     * @param mixed $value
-     *
      * @throws ConversionException
      * @throws \Exception
      */

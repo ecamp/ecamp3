@@ -3,9 +3,9 @@
 namespace eCamp\CoreTest\Entity;
 
 use eCamp\Core\Entity\Activity;
-use eCamp\Core\Entity\ActivityCategory;
 use eCamp\Core\Entity\Camp;
 use eCamp\Core\Entity\CampCollaboration;
+use eCamp\Core\Entity\Category;
 use eCamp\Core\Entity\Job;
 use eCamp\Core\Entity\Period;
 use eCamp\Core\Entity\User;
@@ -15,7 +15,7 @@ use eCamp\LibTest\PHPUnit\AbstractTestCase;
  * @internal
  */
 class CampTest extends AbstractTestCase {
-    public function testCamp() {
+    public function testCamp(): void {
         $user = new User();
         $user->setUsername('username');
 
@@ -36,7 +36,7 @@ class CampTest extends AbstractTestCase {
         $this->assertTrue($camp->belongsToUser());
     }
 
-    public function testPeriod() {
+    public function testPeriod(): void {
         $camp = new Camp();
         $period = new Period();
 
@@ -47,7 +47,7 @@ class CampTest extends AbstractTestCase {
         $this->assertEquals(0, $camp->getPeriods()->count());
     }
 
-    public function testCampCollaboration() {
+    public function testCampCollaboration(): void {
         $camp = new Camp();
         $collaboration = new CampCollaboration();
 
@@ -58,7 +58,7 @@ class CampTest extends AbstractTestCase {
         $this->assertEquals(0, $camp->getCampCollaborations()->count());
     }
 
-    public function testJob() {
+    public function testJob(): void {
         $camp = new Camp();
         $job = new Job();
 
@@ -69,18 +69,18 @@ class CampTest extends AbstractTestCase {
         $this->assertEquals(0, $camp->getJobs()->count());
     }
 
-    public function testActivityCategory() {
+    public function testCategory(): void {
         $camp = new Camp();
-        $category = new ActivityCategory();
+        $category = new Category();
 
-        $this->assertEquals(0, $camp->getActivityCategories()->count());
-        $camp->addActivityCategory($category);
-        $this->assertContains($category, $camp->getActivityCategories());
-        $camp->removeActivityCategory($category);
-        $this->assertEquals(0, $camp->getActivityCategories()->count());
+        $this->assertEquals(0, $camp->getCategories()->count());
+        $camp->addCategory($category);
+        $this->assertContains($category, $camp->getCategories());
+        $camp->removeCategory($category);
+        $this->assertEquals(0, $camp->getCategories()->count());
     }
 
-    public function testActivity() {
+    public function testActivity(): void {
         $camp = new Camp();
         $activity = new Activity();
 

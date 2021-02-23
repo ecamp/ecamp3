@@ -10,7 +10,7 @@ use eCamp\LibTest\PHPUnit\AbstractTestCase;
  * @internal
  */
 class OrganizationHydratorTest extends AbstractTestCase {
-    public function testExtract() {
+    public function testExtract(): void {
         $organization = new Organization();
         $organization->setName('name');
 
@@ -20,7 +20,7 @@ class OrganizationHydratorTest extends AbstractTestCase {
         $this->assertEquals('name', $data['name']);
     }
 
-    public function testHydrate() {
+    public function testHydrate(): void {
         $organization = new Organization();
         $data = [
             'name' => 'name',
