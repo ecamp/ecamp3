@@ -65,7 +65,7 @@ JSON;
                 }
             }
 JSON;
-        $expectedEmbeddedObjects = ['creator', 'campCollaborations', 'periods', 'activityCategories'];
+        $expectedEmbeddedObjects = ['creator', 'campCollaborations', 'periods', 'categories'];
 
         $this->verifyHalResourceResponse($expectedBody, $expectedLinks, $expectedEmbeddedObjects);
     }

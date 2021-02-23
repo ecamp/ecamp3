@@ -56,7 +56,7 @@ JSON;
                 }
             }
 JSON;
-        $expectedEmbeddedObjects = ['activityCategoryTemplates'];
+        $expectedEmbeddedObjects = ['categoryTemplates'];
 
         $this->verifyHalResourceResponse($expectedBody, $expectedLinks, $expectedEmbeddedObjects);
     }

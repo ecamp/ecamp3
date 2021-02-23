@@ -9,12 +9,12 @@
           <h4 class="mt-1 mb-2">
             <div class="d-flex">
               {{ scheduleEntry.number }}
-              <v-chip v-if="!scheduleEntry.activity().activityCategory()._meta.loading"
+              <v-chip v-if="!scheduleEntry.activity().category()._meta.loading"
                       small
                       dark
                       class="mx-1"
-                      :color="scheduleEntry.activity().activityCategory().color">
-                {{ scheduleEntry.activity().activityCategory().short }}
+                      :color="scheduleEntry.activity().category().color">
+                {{ scheduleEntry.activity().category().short }}
               </v-chip>
               {{ scheduleEntry.activity().title }}
               <template v-if="chapter.activityContent().instanceName">

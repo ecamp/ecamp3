@@ -9,9 +9,11 @@ use eCamp\Core\ContentType\ContentTypeStrategyProviderTrait;
 use eCamp\Core\Entity\Activity;
 use eCamp\Core\Entity\ActivityContent;
 use eCamp\Core\Entity\Camp;
+use eCamp\Core\Entity\CategoryContent;
 use eCamp\Core\Entity\ContentType;
 use eCamp\Core\Hydrator\ActivityContentHydrator;
 use eCamp\Lib\Acl\NoAccessException;
+use eCamp\Lib\Entity\BaseEntity;
 use eCamp\Lib\Service\ServiceUtils;
 use Laminas\Authentication\AuthenticationService;
 use Psr\Container\ContainerExceptionInterface;
@@ -32,6 +34,26 @@ class ActivityContentService extends AbstractEntityService {
     }
 
     /**
+     * Create ActivityContent and all Child-ActivityContents.
+     */
+    public function createFromCategoryContent(Activity $activity, CategoryContent $categoryContent): ActivityContent {
+        /** @var ActivityContent $activityContent */
+        $activityContent = $this->create((object) [
+            'activityId' => $activity->getId(),
+            'contentTypeId' => $categoryContent->getContentType()->getId(),
+            'instanceName' => $categoryContent->getInstanceName(),
+            'position' => $categoryContent->getPosition(),
+        ]);
+
+        foreach ($categoryContent->getChildren() as $childCategoryContent) {
+            $childActivityContent = $this->createFromCategoryContent($activity, $childCategoryContent);
+            $activityContent->addChild($childActivityContent);
+        }
+
+        return $activityContent;
+    }
+
+    /**
      * @param mixed $data
      *
      * @throws ContainerExceptionInterface
@@ -39,7 +61,7 @@ class ActivityContentService extends AbstractEntityService {
      * @throws ORMException
      * @throws NoAccessException
      */
-    public function createEntity($data): ActivityContent {
+    protected function createEntity($data): ActivityContent {
         /** @var ActivityContent $activityContent */
         $activityContent = parent::createEntity($data);
 
@@ -54,6 +76,19 @@ class ActivityContentService extends AbstractEntityService {
         $activityContent->setContentTypeStrategyProvider($this->getContentTypeStrategyProvider());
 
         return $activityContent;
+    }
+
+    protected function patchEntity(BaseEntity $entity, $data): ActivityContent {
+        /** @var ActivityContent $entity */
+        $entity = parent::patchEntity($entity, $data);
+
+        if (isset($data['parentId'])) {
+            /** @var ActivityContent $parent */
+            $parent = $this->findRelatedEntity(ActivityContent::class, $data, 'parentId');
+            $entity->setParent($parent);
+        }
+
+        return $entity;
     }
 
     protected function fetchAllQueryBuilder($params = []): QueryBuilder {

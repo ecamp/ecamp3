@@ -4,10 +4,9 @@ namespace eCamp\ApiTest\Rest;
 
 use Doctrine\Common\DataFixtures\Loader;
 use eCamp\Core\Entity\Activity;
-use eCamp\Core\Entity\ActivityCategory;
 use eCamp\Core\Entity\User;
-use eCamp\CoreTest\Data\ActivityCategoryTestData;
 use eCamp\CoreTest\Data\ActivityTestData;
+use eCamp\CoreTest\Data\CategoryTestData;
 use eCamp\CoreTest\Data\PeriodTestData;
 use eCamp\CoreTest\Data\ScheduleEntryTestData;
 use eCamp\CoreTest\Data\UserTestData;
@@ -20,8 +19,8 @@ class ActivityTest extends AbstractApiControllerTestCase {
     /** @var Activity */
     protected $activity;
 
-    /** @var ActivityCategory */
-    protected $activityCategory;
+    /** @var Category */
+    protected $category;
 
     /** @var User */
     protected $user;
@@ -32,12 +31,14 @@ class ActivityTest extends AbstractApiControllerTestCase {
         parent::setUp();
 
         $userLoader = new UserTestData();
+        $categoryLoader = new CategoryTestData();
         $activityLoader = new ActivityTestData();
         $periodLoader = new PeriodTestData();
         $scheduleEntryLoader = new ScheduleEntryTestData();
 
         $loader = new Loader();
         $loader->addFixture($userLoader);
+        $loader->addFixture($categoryLoader);
         $loader->addFixture($activityLoader);
         $loader->addFixture($periodLoader);
         $loader->addFixture($scheduleEntryLoader);
@@ -45,7 +46,7 @@ class ActivityTest extends AbstractApiControllerTestCase {
 
         $this->user = $userLoader->getReference(UserTestData::$USER1);
         $this->activity = $activityLoader->getReference(ActivityTestData::$ACTIVITY1);
-        $this->activityCategory = $activityLoader->getReference(ActivityCategoryTestData::$CATEGORY2);
+        $this->category = $categoryLoader->getReference(CategoryTestData::$CATEGORY2);
 
         $this->authenticateUser($this->user);
     }
@@ -70,7 +71,7 @@ JSON;
                 }
             }
 JSON;
-        $expectedEmbeddedObjects = ['camp', 'activityCategory', 'scheduleEntries', 'activityContents', 'campCollaborations']; // TODO discuss: wouldn't 'activityResponsibles' be more intuitive than 'campCollaborations'
+        $expectedEmbeddedObjects = ['camp', 'category', 'scheduleEntries', 'activityContents', 'campCollaborations']; // TODO discuss: wouldn't 'activityResponsibles' be more intuitive than 'campCollaborations'
 
         $this->verifyHalResourceResponse($expectedBody, $expectedLinks, $expectedEmbeddedObjects);
     }
@@ -116,18 +117,18 @@ JSON;
     public function testCreateWithoutCategory() {
         $this->setRequestContent([
             'title' => 'Activity2',
-            'activityCategoryId' => 'xxx', ]);
+            'categoryId' => 'xxx', ]);
 
         $this->dispatch("{$this->apiEndpoint}", 'POST');
 
         $this->assertResponseStatusCode(422);
-        $this->assertObjectHasAttribute('notFound', $this->getResponseContent()->validation_messages->activityCategoryId);
+        $this->assertObjectHasAttribute('notFound', $this->getResponseContent()->validation_messages->categoryId);
     }
 
     public function testCreateSuccess() {
         $this->setRequestContent([
             'title' => 'Activity2',
-            'activityCategoryId' => $this->activity->getActivityCategory()->getId(), ]);
+            'categoryId' => $this->activity->getCategory()->getId(), ]);
 
         $this->dispatch("{$this->apiEndpoint}", 'POST');
 
@@ -138,14 +139,14 @@ JSON;
     public function testUpdateSuccess() {
         $this->setRequestContent([
             'title' => 'Activity3',
-            'activityCategoryId' => $this->activityCategory->getId(), ]);
+            'categoryId' => $this->category->getId(), ]);
 
         $this->dispatch("{$this->apiEndpoint}/{$this->activity->getId()}", 'PATCH');
 
         $this->assertResponseStatusCode(200);
 
         $this->assertEquals('Activity3', $this->getResponseContent()->title);
-        $this->assertEquals($this->activityCategory->getId(), $this->getResponseContent()->_embedded->activityCategory->id);
+        $this->assertEquals($this->category->getId(), $this->getResponseContent()->_embedded->category->id);
     }
 
     public function testDelete() {

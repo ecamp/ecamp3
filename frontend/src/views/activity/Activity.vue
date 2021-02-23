@@ -153,7 +153,7 @@ export default {
       return this.scheduleEntry().activity()
     },
     category () {
-      return this.activity.activityCategory()
+      return this.activity.category()
     },
     scheduleEntries () {
       return this.activity.scheduleEntries().items.map((entry) => {
@@ -179,12 +179,12 @@ export default {
       return this.activity.activityContents()
     },
     availableContentTypes () {
-      return this.category.contentTypeConfigs().items.map(ctc => ({
-        id: ctc.id,
-        contentType: ctc.contentType(),
-        contentTypeNameKey: 'activityContent.' + camelCase(ctc.contentType().name) + '.name',
-        contentTypeIconKey: 'activityContent.' + camelCase(ctc.contentType().name) + '.icon',
-        contentTypeSort: parseInt(this.$tc('activityContent.' + camelCase(ctc.contentType().name) + '.sort')),
+      return this.category.categoryContentTypes().items.map(cct => ({
+        id: cct.id,
+        contentType: cct.contentType(),
+        contentTypeNameKey: 'activityContent.' + camelCase(cct.contentType().name) + '.name',
+        contentTypeIconKey: 'activityContent.' + camelCase(cct.contentType().name) + '.icon',
+        contentTypeSort: parseInt(this.$tc('activityContent.' + camelCase(cct.contentType().name) + '.sort')),
         enabled: true // atct.contentType().allowMultiple || this.countActivityContents(atct.contentType()) === 0
       })).sort((a, b) => a.contentTypeSort - b.contentTypeSort)
     }

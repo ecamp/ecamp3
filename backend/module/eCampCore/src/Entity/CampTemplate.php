@@ -19,9 +19,9 @@ class CampTemplate extends BaseEntity {
     private ?string $name = null;
 
     /**
-     * @ORM\OneToMany(targetEntity="ActivityCategoryTemplate", mappedBy="campTemplate", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="CategoryTemplate", mappedBy="campTemplate", orphanRemoval=true)
      */
-    private Collection $activityCategoryTemplates;
+    private Collection $categoryTemplates;
 
     /**
      * @ORM\OneToMany(targetEntity="MaterialListTemplate", mappedBy="campTemplate", orphanRemoval=true)
@@ -31,7 +31,7 @@ class CampTemplate extends BaseEntity {
     public function __construct() {
         parent::__construct();
 
-        $this->activityCategoryTemplates = new ArrayCollection();
+        $this->categoryTemplates = new ArrayCollection();
         $this->materialListTemplates = new ArrayCollection();
     }
 
@@ -43,18 +43,18 @@ class CampTemplate extends BaseEntity {
         $this->name = $name;
     }
 
-    public function getActivityCategoryTemplates(): Collection {
-        return $this->activityCategoryTemplates;
+    public function getCategoryTemplates(): Collection {
+        return $this->categoryTemplates;
     }
 
-    public function addActivityCategoryTemplate(ActivityCategoryTemplate $activityCategoryTemplate) {
-        $activityCategoryTemplate->setCampTemplate($this);
-        $this->activityCategoryTemplates->add($activityCategoryTemplate);
+    public function addCategoryTemplate(CategoryTemplate $categoryTemplate) {
+        $categoryTemplate->setCampTemplate($this);
+        $this->categoryTemplates->add($categoryTemplate);
     }
 
-    public function removeActivityCategoryTemplate(ActivityCategoryTemplate $activityCategoryTemplate) {
-        $activityCategoryTemplate->setCampTemplate(null);
-        $this->activityCategoryTemplates->removeElement($activityCategoryTemplate);
+    public function removeCategoryTemplate(CategoryTemplate $categoryTemplate) {
+        $categoryTemplate->setCampTemplate(null);
+        $this->categoryTemplates->removeElement($categoryTemplate);
     }
 
     public function getMaterialListTemplates(): Collection {

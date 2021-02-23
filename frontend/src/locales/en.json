@@ -88,10 +88,10 @@
       }
     },
     "camp": {
-      "campActivityCategories": {
+      "campCategories": {
         "create": "Create activity category",
-        "deleteActivityCategoryNotPossibleInUse": "Activity category can't be deleted. It is used by:",
-        "deleteActivityCategoryQuestion": "Do you really want do delete the Activity category?",
+        "deleteCategoryNotPossibleInUse": "Activity category can't be deleted. It is used by:",
+        "deleteCategoryQuestion": "Do you really want do delete the Activity category?",
         "title": "Activity categories"
       },
       "campInvitations": {
@@ -153,7 +153,7 @@
       }
     },
     "dialog": {
-      "dialogActivityCategoryCreate": {
+      "dialogCategoryCreate": {
         "title": "Create activity category"
       },
       "dialogEntityDelete": {
@@ -209,7 +209,7 @@
   "entity": {
     "activity": {
       "fields": {
-        "activityCategory": "Activity category",
+        "category": "Activity category",
         "location": "Location",
         "responsible": "responsible",
         "title": "Title"
@@ -217,7 +217,7 @@
       "name": "Activity | Activities",
       "new": "New activity"
     },
-    "activityCategory": {
+    "category": {
       "fields": {
         "activityType": "Type",
         "color": "Color",
@@ -236,7 +236,7 @@
     },
     "camp": {
       "collaborators": {
-        "invite" : "Invite",
+        "invite": "Invite",
         "manager": "Manager",
         "member": "Member"
       },

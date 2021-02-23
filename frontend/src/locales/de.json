@@ -78,10 +78,10 @@
       }
     },
     "camp": {
-      "campActivityCategories": {
+      "campCategories": {
         "create": "Block-Kategorie erstellen",
-        "deleteActivityCategoryNotPossibleInUse": "Block-Kategorie kann nicht gelöscht werden. Sie wird noch verwendet:",
-        "deleteActivityCategoryQuestion": "Möchtest du diese Block-Kategorie wirklich löschen?",
+        "deleteCategoryNotPossibleInUse": "Block-Kategorie kann nicht gelöscht werden. Sie wird noch verwendet:",
+        "deleteCategoryQuestion": "Möchtest du diese Block-Kategorie wirklich löschen?",
         "title": "Block-Kategorien"
       },
       "campInvitations": {
@@ -130,7 +130,7 @@
       }
     },
     "dialog": {
-      "dialogActivityCategoryCreate": {
+      "dialogCategoryCreate": {
         "title": "Block-Kategorie erstellen"
       },
       "dialogEntityDelete": {
@@ -161,7 +161,7 @@
   "entity": {
     "activity": {
       "fields": {
-        "activityCategory": "Block Kategorie",
+        "category": "Block Kategorie",
         "location": "Ort",
         "responsible": "verantwortlich",
         "title": "Titel"
@@ -169,7 +169,7 @@
       "name": "Aktivität | Aktivitäten",
       "new": "Neue Aktivität"
     },
-    "activityCategory": {
+    "category": {
       "fields": {
         "activityType": "Typ",
         "color": "Farbe",

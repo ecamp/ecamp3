@@ -49,7 +49,7 @@ $config['input_filter_specs'] = [
             'validators' => [],
         ],
         5 => [
-            'name' => 'activityCategoryId',
+            'name' => 'categoryId',
             'required' => false,
             'filters' => [],
             'validators' => [],

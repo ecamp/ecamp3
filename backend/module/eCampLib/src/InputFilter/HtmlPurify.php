@@ -6,7 +6,7 @@ use HTMLPurifier;
 use Laminas\Filter\AbstractFilter;
 
 class HtmlPurify extends AbstractFilter {
-    private HTMLPurifier $htmlPurifier;
+    private ?HTMLPurifier $htmlPurifier = null;
 
     public function __construct($options = null) {
         $this->options = $options;
