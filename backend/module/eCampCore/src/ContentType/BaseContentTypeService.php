@@ -4,8 +4,8 @@ namespace eCamp\Core\ContentType;
 
 use Doctrine\ORM\ORMException;
 use Doctrine\ORM\QueryBuilder;
-use eCamp\Core\Entity\ActivityContent;
 use eCamp\Core\Entity\Camp;
+use eCamp\Core\Entity\ContentNode;
 use eCamp\Core\EntityService\AbstractEntityService;
 use eCamp\Lib\Acl\NoAccessException;
 use eCamp\Lib\Entity\BaseEntity;
@@ -25,21 +25,21 @@ abstract class BaseContentTypeService extends AbstractEntityService {
     }
 
     /**
-     * Returns a single contentType entity attached to $activityContentId (1:1 connection).
+     * Returns a single contentType entity attached to $contentNodeId (1:1 connection).
      */
-    public function findOneByActivityContent($activityContentId): BaseEntity {
-        return $this->getRepository()->findOneBy(['activityContent' => $activityContentId]);
+    public function findOneByContentNode($contentNodeId): BaseEntity {
+        return $this->getRepository()->findOneBy(['contentNode' => $contentNodeId]);
     }
 
     /**
-     * Returns all contentType entities attached to $activityContentId (1:n connection).
+     * Returns all contentType entities attached to $contentNodeId (1:n connection).
      *
-     * @param string $activityContentId
+     * @param string $contentNodeId
      *
      * @throws NoAccessException
      */
-    public function fetchAllByActivityContent($activityContentId): Paginator {
-        return $this->fetchAll(['activityContentId' => $activityContentId]);
+    public function fetchAllByContentNode($contentNodeId): Paginator {
+        return $this->fetchAll(['contentNodeId' => $contentNodeId]);
     }
 
     /**
@@ -47,16 +47,16 @@ abstract class BaseContentTypeService extends AbstractEntityService {
      * @throws EntityNotFoundException
      * @throws ORMException
      */
-    public function createEntity($data, ?ActivityContent $activityContent = null): BaseContentTypeEntity {
+    public function createEntity($data, ?ContentNode $contentNode = null): BaseContentTypeEntity {
         /** @var BaseContentTypeEntity $entity */
         $entity = parent::createEntity($data);
 
-        if (isset($data->activityContentId)) {
-            /** @var ActivityContent $activityContent */
-            $activityContent = $this->findEntity(ActivityContent::class, $data->activityContentId);
-            $entity->setActivityContent($activityContent);
-        } elseif ($activityContent) {
-            $entity->setActivityContent($activityContent);
+        if (isset($data->contentNodeId)) {
+            /** @var ContentNode $contentNode */
+            $contentNode = $this->findEntity(ContentNode::class, $data->contentNodeId);
+            $entity->setContentNode($contentNode);
+        } elseif ($contentNode) {
+            $entity->setContentNode($contentNode);
         }
 
         return $entity;
@@ -66,13 +66,13 @@ abstract class BaseContentTypeService extends AbstractEntityService {
         $q = parent::fetchAllQueryBuilder($params);
 
         if (is_subclass_of($this->entityClass, BaseContentTypeEntity::class)) {
-            $q->join('row.activityContent', 'ac');
-            $q->join('ac.activity', 'a');
+            $q->join('row.contentNode', 'cn');
+            $q->join('cn.activity', 'a');
             $q->andWhere($this->createFilter($q, Camp::class, 'a', 'camp'));
 
-            if (isset($params['activityContentId'])) {
-                $q->andWhere('row.activityContent = :activitycontentTypeId');
-                $q->setParameter('activitycontentTypeId', $params['activityContentId']);
+            if (isset($params['contentNodeId'])) {
+                $q->andWhere('row.contentNode = :contentNodeId');
+                $q->setParameter('contentNodeId', $params['contentNodeId']);
             }
         }
 
@@ -83,8 +83,8 @@ abstract class BaseContentTypeService extends AbstractEntityService {
         $q = parent::fetchQueryBuilder($id);
 
         if (is_subclass_of($this->entityClass, BaseContentTypeEntity::class)) {
-            $q->join('row.activityContent', 'ac');
-            $q->join('ac.activity', 'a');
+            $q->join('row.contentNode', 'cn');
+            $q->join('cn.activity', 'a');
             $q->andWhere($this->createFilter($q, Camp::class, 'a', 'camp'));
         }
 

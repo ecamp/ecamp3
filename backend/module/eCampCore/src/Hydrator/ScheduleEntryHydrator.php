@@ -7,7 +7,7 @@ use eCamp\Core\Entity\Day;
 use eCamp\Core\Entity\ScheduleEntry;
 use eCamp\Lib\Entity\EntityLink;
 use eCamp\Lib\Hydrator\Util;
-use eCampApi\V1\Rest\ActivityContent\ActivityContentCollection;
+use eCampApi\V1\Rest\ContentNode\ContentNodeCollection;
 use Laminas\Hydrator\HydratorInterface;
 
 class ScheduleEntryHydrator implements HydratorInterface {
@@ -18,8 +18,8 @@ class ScheduleEntryHydrator implements HydratorInterface {
                     return $ei->getActivity();
                 },
                 [
-                    'activityContents' => Util::Collection(function (Activity $e) {
-                        return new ActivityContentCollection($e->getActivityContents());
+                    'contentNodes' => Util::Collection(function (Activity $e) {
+                        return new ContentNodeCollection($e->getContentNodes());
                     }, null),
                 ]
             ),

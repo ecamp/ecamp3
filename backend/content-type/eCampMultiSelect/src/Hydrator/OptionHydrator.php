@@ -20,11 +20,11 @@ class OptionHydrator implements HydratorInterface {
             'translateKey' => $option->getTranslateKey(),
             'checked' => $option->getChecked(),
 
-            'activityContent' => Link::factory([
-                'rel' => 'activityContent',
+            'contentNode' => Link::factory([
+                'rel' => 'contentNode',
                 'route' => [
-                    'name' => 'e-camp-api.rest.doctrine.activity-content',
-                    'params' => ['activityContentId' => $option->getActivityContent()->getId()],
+                    'name' => 'e-camp-api.rest.doctrine.content-node',
+                    'params' => ['contentNodeId' => $option->getContentNode()->getId()],
                 ],
             ]),
         ];

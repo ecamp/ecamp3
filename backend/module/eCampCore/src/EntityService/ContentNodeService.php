@@ -7,11 +7,11 @@ use Doctrine\ORM\QueryBuilder;
 use eCamp\Core\ContentType\ContentTypeStrategyProvider;
 use eCamp\Core\ContentType\ContentTypeStrategyProviderTrait;
 use eCamp\Core\Entity\Activity;
-use eCamp\Core\Entity\ActivityContent;
 use eCamp\Core\Entity\Camp;
 use eCamp\Core\Entity\CategoryContent;
+use eCamp\Core\Entity\ContentNode;
 use eCamp\Core\Entity\ContentType;
-use eCamp\Core\Hydrator\ActivityContentHydrator;
+use eCamp\Core\Hydrator\ContentNodeHydrator;
 use eCamp\Lib\Acl\NoAccessException;
 use eCamp\Lib\Entity\BaseEntity;
 use eCamp\Lib\Service\ServiceUtils;
@@ -19,14 +19,14 @@ use Laminas\Authentication\AuthenticationService;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 
-class ActivityContentService extends AbstractEntityService {
+class ContentNodeService extends AbstractEntityService {
     use ContentTypeStrategyProviderTrait;
 
     public function __construct(ServiceUtils $serviceUtils, AuthenticationService $authenticationService, ContentTypeStrategyProvider $contentTypeStrategyProvider) {
         parent::__construct(
             $serviceUtils,
-            ActivityContent::class,
-            ActivityContentHydrator::class,
+            ContentNode::class,
+            ContentNodeHydrator::class,
             $authenticationService
         );
 
@@ -34,11 +34,11 @@ class ActivityContentService extends AbstractEntityService {
     }
 
     /**
-     * Create ActivityContent and all Child-ActivityContents.
+     * Create ContentNode and all Child-ContentNodes.
      */
-    public function createFromCategoryContent(Activity $activity, CategoryContent $categoryContent): ActivityContent {
-        /** @var ActivityContent $activityContent */
-        $activityContent = $this->create((object) [
+    public function createFromCategoryContent(Activity $activity, CategoryContent $categoryContent): ContentNode {
+        /** @var ContentNode $contentNode */
+        $contentNode = $this->create((object) [
             'activityId' => $activity->getId(),
             'contentTypeId' => $categoryContent->getContentType()->getId(),
             'instanceName' => $categoryContent->getInstanceName(),
@@ -46,11 +46,11 @@ class ActivityContentService extends AbstractEntityService {
         ]);
 
         foreach ($categoryContent->getChildren() as $childCategoryContent) {
-            $childActivityContent = $this->createFromCategoryContent($activity, $childCategoryContent);
-            $activityContent->addChild($childActivityContent);
+            $childContentNode = $this->createFromCategoryContent($activity, $childCategoryContent);
+            $contentNode->addChild($childContentNode);
         }
 
-        return $activityContent;
+        return $contentNode;
     }
 
     /**
@@ -59,9 +59,9 @@ class ActivityContentService extends AbstractEntityService {
      * @throws ORMException
      * @throws NoAccessException
      */
-    protected function createEntity($data): ActivityContent {
-        /** @var ActivityContent $activityContent */
-        $activityContent = parent::createEntity($data);
+    protected function createEntity($data): ContentNode {
+        /** @var ContentNode $contentNode */
+        $contentNode = parent::createEntity($data);
 
         /** @var Activity $activity */
         $activity = $this->findRelatedEntity(Activity::class, $data, 'activityId');
@@ -69,21 +69,21 @@ class ActivityContentService extends AbstractEntityService {
         /** @var ContentType $contentType */
         $contentType = $this->findRelatedEntity(ContentType::class, $data, 'contentTypeId');
 
-        $activity->addActivityContent($activityContent);
-        $activityContent->setContentType($contentType);
-        $activityContent->setContentTypeStrategyProvider($this->getContentTypeStrategyProvider());
+        $activity->addContentNode($contentNode);
+        $contentNode->setContentType($contentType);
+        $contentNode->setContentTypeStrategyProvider($this->getContentTypeStrategyProvider());
 
-        return $activityContent;
+        return $contentNode;
     }
 
-    protected function patchEntity(BaseEntity $entity, $data): ActivityContent {
-        /** @var ActivityContent $entity */
-        $entity = parent::patchEntity($entity, $data);
+    protected function patchEntity(BaseEntity $entity, $data): ContentNode {
+        /** @var ContentNode $contentNode */
+        $contentNode = parent::patchEntity($entity, $data);
 
         if (isset($data['parentId'])) {
-            /** @var ActivityContent $parent */
-            $parent = $this->findRelatedEntity(ActivityContent::class, $data, 'parentId');
-            $entity->setParent($parent);
+            /** @var ContentNode $parent */
+            $parent = $this->findRelatedEntity(ContentNode::class, $data, 'parentId');
+            $parent->addChild($contentNode);
         }
 
         return $entity;

@@ -53,12 +53,12 @@ class ActivityHydrator implements HydratorInterface {
 
             'scheduleEntries' => new EntityLinkCollection($activity->getScheduleEntries()),
 
-            'activityContents' => new EntityLinkCollection($activity->getActivityContents()),
+            'contentNodes' => new EntityLinkCollection($activity->getContentNodes()),
 
-            //            'activityContents' => Link::factory([
-            //                'rel' => 'activityContents',
+            //            'contentNodes' => Link::factory([
+            //                'rel' => 'contentNodes',
             //                'route' => [
-            //                    'name' => 'e-camp-api.rest.doctrine.activity-content',
+            //                    'name' => 'e-camp-api.rest.doctrine.content-node',
             //                    'options' => [ 'query' => [ 'activityId' => $activity->getId() ] ]
             //                ]
             //            ]),

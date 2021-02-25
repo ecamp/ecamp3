@@ -3,7 +3,6 @@
 namespace eCamp\Core\Acl;
 
 use eCamp\Core\Entity\Activity;
-use eCamp\Core\Entity\ActivityContent;
 use eCamp\Core\Entity\ActivityResponsible;
 use eCamp\Core\Entity\Camp;
 use eCamp\Core\Entity\CampCollaboration;
@@ -14,6 +13,7 @@ use eCamp\Core\Entity\CategoryContentTemplate;
 use eCamp\Core\Entity\CategoryContentType;
 use eCamp\Core\Entity\CategoryContentTypeTemplate;
 use eCamp\Core\Entity\CategoryTemplate;
+use eCamp\Core\Entity\ContentNode;
 use eCamp\Core\Entity\ContentType;
 use eCamp\Core\Entity\Day;
 use eCamp\Core\Entity\Group;
@@ -66,7 +66,7 @@ class AclFactory implements FactoryInterface {
         $acl->addResource(Category::class, BaseEntity::class);
         $acl->addResource(CategoryContentType::class, BaseEntity::class);
         $acl->addResource(CategoryContent::class, BaseEntity::class);
-        $acl->addResource(ActivityContent::class, BaseEntity::class);
+        $acl->addResource(ContentNode::class, BaseEntity::class);
         $acl->addResource(ActivityResponsible::class, BaseEntity::class);
 
         $acl->addResource(ScheduleEntry::class, BaseEntity::class);
@@ -154,7 +154,7 @@ class AclFactory implements FactoryInterface {
                 CategoryContent::class,
                 ActivityResponsible::class,
                 ScheduleEntry::class,
-                ActivityContent::class,
+                ContentNode::class,
                 MaterialList::class,
                 MaterialItem::class,
             ],
@@ -174,7 +174,7 @@ class AclFactory implements FactoryInterface {
                 CategoryContent::class,
                 ActivityResponsible::class,
                 ScheduleEntry::class,
-                ActivityContent::class,
+                ContentNode::class,
                 MaterialList::class,
                 MaterialItem::class,
             ],

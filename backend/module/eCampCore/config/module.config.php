@@ -69,7 +69,7 @@ return [
 
     'hydrators' => [
         'factories' => [
-            \eCamp\Core\Hydrator\ActivityContentHydrator::class => \Laminas\Di\Container\ServiceManager\AutowireFactory::class,
+            \eCamp\Core\Hydrator\ContentNodeHydrator::class => \Laminas\Di\Container\ServiceManager\AutowireFactory::class,
         ],
     ],
 

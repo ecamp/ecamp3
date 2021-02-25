@@ -3,8 +3,8 @@
 namespace eCamp\Core\EntityService;
 
 use Doctrine\ORM\QueryBuilder;
-use eCamp\Core\Entity\ActivityContent;
 use eCamp\Core\Entity\Camp;
+use eCamp\Core\Entity\ContentNode;
 use eCamp\Core\Entity\MaterialItem;
 use eCamp\Core\Entity\MaterialList;
 use eCamp\Core\Entity\Period;
@@ -48,16 +48,16 @@ class MaterialItemService extends AbstractEntityService {
             $period->addMaterialItem($materialItem);
         }
 
-        if (isset($data->activityContentId)) {
-            /** @var ActivityContent $activityContent */
-            $activityContent = $this->findRelatedEntity(ActivityContent::class, $data, 'activityContentId');
-            if ($activityContent->getCamp()->getId() !== $camp->getId()) {
+        if (isset($data->contentNodeId)) {
+            /** @var ContentNode $contentNode */
+            $contentNode = $this->findRelatedEntity(ContentNode::class, $data, 'contentNodeId');
+            if ($contentNode->getCamp()->getId() !== $camp->getId()) {
                 throw (new EntityValidationException())->setMessages([
-                    'materialListId' => ['campMismatch' => 'Provided materiallist is not part of the same camp as provided activityContent'],
-                    'activityContentId' => ['campMismatch' => 'Provided materiallist is not part of the same camp as provided activityContent'],
+                    'materialListId' => ['campMismatch' => 'Provided materiallist is not part of the same camp as provided contentNode'],
+                    'contentNodeId' => ['campMismatch' => 'Provided materiallist is not part of the same camp as provided contentNode'],
                 ]);
             }
-            $materialItem->setActivityContent($activityContent);
+            $materialItem->setContentNode($contentNode);
         }
 
         return $materialItem;
@@ -90,15 +90,15 @@ class MaterialItemService extends AbstractEntityService {
             $period->addMaterialItem($materialItem);
         }
 
-        if (isset($data->activityContentId)) {
-            /** @var ActivityContent $activityContent */
-            $activityContent = $this->findRelatedEntity(ActivityContent::class, $data, 'activityContentId');
-            if ($camp->getId() !== $activityContent->getCamp()->getId()) {
+        if (isset($data->contentNodeId)) {
+            /** @var ContentNode $contentNode */
+            $contentNode = $this->findRelatedEntity(ContentNode::class, $data, 'contentNodeId');
+            if ($camp->getId() !== $contentNode->getCamp()->getId()) {
                 throw (new EntityValidationException())->setMessages([
-                    'activityContentId' => ['campMismatch' => 'Provided activityContent is not part of the same camp'],
+                    'contentNodeId' => ['campMismatch' => 'Provided contentNode is not part of the same camp'],
                 ]);
             }
-            $materialItem->setActivityContent($activityContent);
+            $materialItem->setContentNode($contentNode);
         }
 
         return $materialItem;
@@ -122,9 +122,9 @@ class MaterialItemService extends AbstractEntityService {
             $q->andWhere('row.materialList = :materialListId');
             $q->setParameter('materialListId', $params['materialListId']);
         }
-        if (isset($params['activityContentId'])) {
-            $q->andWhere('row.activityContent = :activityContentId');
-            $q->setParameter('activityContentId', $params['activityContentId']);
+        if (isset($params['contentNodeId'])) {
+            $q->andWhere('row.contentNode = :contentNodeId');
+            $q->setParameter('contentNodeId', $params['contentNodeId']);
         }
 
         return $q;
@@ -142,11 +142,11 @@ class MaterialItemService extends AbstractEntityService {
         /** @var MaterialItem $materialItem */
         $materialItem = $entity;
 
-        if (null == $materialItem->getActivityContent() && null == $materialItem->getPeriod()) {
+        if (null == $materialItem->getContentNode() && null == $materialItem->getPeriod()) {
             $ex = new EntityValidationException();
             $ex->setMessages([
-                'periodId' => ['required' => 'periodId or activityContentId is required'],
-                'activityContentId' => ['required' => 'periodId or activityContentId is required'],
+                'periodId' => ['required' => 'periodId or contentNodeId is required'],
+                'contentNodeId' => ['required' => 'periodId or contentNodeId is required'],
             ]);
 
             throw $ex;

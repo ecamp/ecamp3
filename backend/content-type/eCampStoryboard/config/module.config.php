@@ -3,7 +3,7 @@
 return [
     'router' => [
         'routes' => [
-            'e-camp-api.rest.doctrine.activity-content.storyboard' => [
+            'e-camp-api.rest.doctrine.content-node.storyboard' => [
                 'type' => 'Segment',
                 'options' => [
                     'route' => '/api/content-type/storyboards[/:sectionId]',
@@ -31,7 +31,7 @@ return [
         \eCamp\ContentType\Storyboard\Controller\SectionController::class => [
             'listener' => \eCamp\ContentType\Storyboard\Service\SectionService::class,
             'controller_class' => \eCamp\ContentType\Storyboard\Controller\SectionController::class,
-            'route_name' => 'e-camp-api.rest.doctrine.activity-content.storyboard',
+            'route_name' => 'e-camp-api.rest.doctrine.content-node.storyboard',
             'route_identifier_name' => 'sectionId',
             'entity_identifier_name' => 'id',
             'collection_name' => 'items',
@@ -46,7 +46,7 @@ return [
                 1 => 'POST',
             ],
             'collection_query_whitelist' => [
-                0 => 'activityContentId',
+                0 => 'contentNodeId',
                 1 => 'page_size',
             ],
             'page_size' => -1,
@@ -62,10 +62,10 @@ return [
             \eCamp\ContentType\Storyboard\Entity\Section::class => [
                 'route_identifier_name' => 'sectionId',
                 'entity_identifier_name' => 'id',
-                'route_name' => 'e-camp-api.rest.doctrine.activity-content.storyboard',
+                'route_name' => 'e-camp-api.rest.doctrine.content-node.storyboard',
                 'route_params' => [
-                    'activityContentId' => function ($object) {
-                        return $object->getActivityContent()->getId();
+                    'contentNodeId' => function ($object) {
+                        return $object->getContentNode()->getId();
                     },
                 ],
                 'hydrator' => eCamp\ContentType\Storyboard\Hydrator\SectionHydrator::class,
@@ -73,7 +73,7 @@ return [
             ],
             \eCamp\ContentType\Storyboard\Entity\SectionCollection::class => [
                 'entity_identifier_name' => 'id',
-                'route_name' => 'e-camp-api.rest.doctrine.activity-content.storyboard',
+                'route_name' => 'e-camp-api.rest.doctrine.content-node.storyboard',
                 'is_collection' => true,
                 'max_depth' => 0,
             ],

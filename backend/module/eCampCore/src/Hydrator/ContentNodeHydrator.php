@@ -4,14 +4,14 @@ namespace eCamp\Core\Hydrator;
 
 use eCamp\Core\ContentType\ContentTypeStrategyInterface;
 use eCamp\Core\ContentType\ContentTypeStrategyProvider;
-use eCamp\Core\Entity\ActivityContent;
+use eCamp\Core\Entity\ContentNode;
 use eCamp\Lib\Entity\EntityLink;
 use Laminas\ApiTools\Hal\Link\Link;
 use Laminas\Hydrator\HydratorInterface;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 
-class ActivityContentHydrator implements HydratorInterface {
+class ContentNodeHydrator implements HydratorInterface {
     private ContentTypeStrategyProvider $contentTypeStrategyProvider;
 
     public function __construct(ContentTypeStrategyProvider $contentTypeStrategyProvider) {
@@ -30,24 +30,24 @@ class ActivityContentHydrator implements HydratorInterface {
      * @throws NotFoundExceptionInterface
      */
     public function extract($object): array {
-        /** @var ActivityContent $activityContent */
-        $activityContent = $object;
-        $contentType = $activityContent->getContentType();
+        /** @var ContentNode $contentNode */
+        $contentNode = $object;
+        $contentType = $contentNode->getContentType();
 
         $data = [
-            'id' => $activityContent->getId(),
-            'instanceName' => $activityContent->getInstanceName(),
-            'position' => $activityContent->getPosition(),
+            'id' => $contentNode->getId(),
+            'instanceName' => $contentNode->getInstanceName(),
+            'position' => $contentNode->getPosition(),
             'contentTypeName' => $contentType->getName(),
 
-            'parent' => ($activityContent->isRoot() ? null : new EntityLink($activityContent->getParent())),
-            'contentType' => new EntityLink($activityContent->getContentType()),
+            'parent' => ($contentNode->isRoot() ? null : new EntityLink($contentNode->getParent())),
+            'contentType' => new EntityLink($contentNode->getContentType()),
 
             'activity' => Link::factory([
                 'rel' => 'activity',
                 'route' => [
                     'name' => 'e-camp-api.rest.doctrine.activity',
-                    'params' => ['activityId' => $activityContent->getActivity()->getId()],
+                    'params' => ['activityId' => $contentNode->getActivity()->getId()],
                 ],
             ]),
         ];
@@ -56,7 +56,7 @@ class ActivityContentHydrator implements HydratorInterface {
         $strategy = $this->contentTypeStrategyProvider->get($contentType);
 
         if (null != $strategy) {
-            $strategyData = $strategy->activityContentExtract($activityContent);
+            $strategyData = $strategy->contentNodeExtract($contentNode);
             $data = array_merge($data, $strategyData);
         }
 
@@ -66,17 +66,17 @@ class ActivityContentHydrator implements HydratorInterface {
     /**
      * @param object $object
      */
-    public function hydrate(array $data, $object): ActivityContent {
-        /** @var ActivityContent $activityContent */
-        $activityContent = $object;
+    public function hydrate(array $data, $object): ContentNode {
+        /** @var ContentNode $contentNode */
+        $contentNode = $object;
 
         if (isset($data['instanceName'])) {
-            $activityContent->setInstanceName($data['instanceName']);
+            $contentNode->setInstanceName($data['instanceName']);
         }
         if (isset($data['position'])) {
-            $activityContent->setPosition($data['position']);
+            $contentNode->setPosition($data['position']);
         }
 
-        return $activityContent;
+        return $contentNode;
     }
 }

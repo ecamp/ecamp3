@@ -7,7 +7,7 @@ use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use eCamp\Core\ContentType\ContentTypeStrategyProvider;
 use eCamp\Core\Entity\Activity;
-use eCamp\Core\Entity\ActivityContent;
+use eCamp\Core\Entity\ContentNode;
 use eCamp\Core\Entity\ContentType;
 use eCamp\Core\Entity\MaterialItem;
 use eCamp\Core\Entity\MaterialList;
@@ -15,7 +15,7 @@ use Interop\Container\ContainerInterface;
 
 class MaterialItemTestData extends AbstractFixture implements DependentFixtureInterface {
     public static $MATERIALITEM1 = MaterialItem::class.':MATERIALITEM1';
-    public static $ACTIVITYCONTENT1 = ActivityContent::class.':ACTIVITYCONTENT1';
+    public static $CONTENTNODE1 = ContentNode::class.':CONTENTNODE1';
 
     protected $container;
 
@@ -35,23 +35,23 @@ class MaterialItemTestData extends AbstractFixture implements DependentFixtureIn
         /** @var MaterialList $materialList */
         $materialList = $this->getReference(MaterialListTestData::$MATERIALLIST1);
 
-        $activityContent = new ActivityContent();
-        $activityContent->setActivity($activity);
-        $activityContent->setContentType($contentType);
-        $activityContent->setContentTypeStrategyProvider($contentTypeStrategyProvider);
+        $contentNode = new ContentNode();
+        $contentNode->setActivity($activity);
+        $contentNode->setContentType($contentType);
+        $contentNode->setContentTypeStrategyProvider($contentTypeStrategyProvider);
 
         $materialItem = new MaterialItem();
         $materialItem->setQuantity(2);
         $materialItem->setUnit('kg');
         $materialItem->setArticle('art');
-        $materialItem->setActivityContent($activityContent);
+        $materialItem->setContentNode($contentNode);
         $materialList->addMaterialItem($materialItem);
 
-        $manager->persist($activityContent);
+        $manager->persist($contentNode);
         $manager->persist($materialItem);
         $manager->flush();
 
-        $this->addReference(self::$ACTIVITYCONTENT1, $activityContent);
+        $this->addReference(self::$CONTENTNODE1, $contentNode);
         $this->addReference(self::$MATERIALITEM1, $materialItem);
     }
 

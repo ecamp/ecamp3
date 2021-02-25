@@ -47,7 +47,7 @@ class Module {
             }
         }, 10);
 
-        // inject ContentTypeStrategyProvider into Doctrine entities (mainly ActivityContent entity)
+        // inject ContentTypeStrategyProvider into Doctrine entities (mainly ContentNode entity)
         $em->getEventManager()->addEventListener([\Doctrine\ORM\Events::postLoad], $sm->get(ContentTypeStrategyProviderInjector::class));
         $em->getEventManager()->addEventListener([\Doctrine\ORM\Events::prePersist], $sm->get(ContentTypeStrategyProviderInjector::class));
     }

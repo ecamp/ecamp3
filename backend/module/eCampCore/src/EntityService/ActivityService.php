@@ -19,14 +19,14 @@ use Laminas\Authentication\AuthenticationService;
 class ActivityService extends AbstractEntityService {
     protected ActivityResponsibleService $activityResponsibleService;
     protected ScheduleEntryService $scheduleEntryService;
-    protected ActivityContentService $activityContentService;
+    protected ContentNodeService $contentNodeService;
 
     public function __construct(
         ActivityResponsibleService $activityResponsibleService,
         ServiceUtils $serviceUtils,
         AuthenticationService $authenticationService,
         ScheduleEntryService $scheduleEntryService,
-        ActivityContentService $activityContentService
+        ContentNodeService $contentNodeService
     ) {
         parent::__construct(
             $serviceUtils,
@@ -36,7 +36,7 @@ class ActivityService extends AbstractEntityService {
         );
         $this->scheduleEntryService = $scheduleEntryService;
         $this->activityResponsibleService = $activityResponsibleService;
-        $this->activityContentService = $activityContentService;
+        $this->contentNodeService = $contentNodeService;
     }
 
     /**
@@ -73,7 +73,7 @@ class ActivityService extends AbstractEntityService {
 
         $this->updateActivityResponsibles($activity, $data);
         $this->updateScheduleEntries($activity, $data);
-        $this->createInitialActivityContents($activity);
+        $this->createInitialContentNodes($activity);
 
         return $activity;
     }
@@ -191,12 +191,12 @@ class ActivityService extends AbstractEntityService {
         }
     }
 
-    private function createInitialActivityContents(Activity $activity): void {
+    private function createInitialContentNodes(Activity $activity): void {
         $categoryContents = $activity->getCategory()->getRootCategoryContents();
 
         /** @var CategoryContent $categoryContent */
         foreach ($categoryContents as $categoryContent) {
-            $this->activityContentService->createFromCategoryContent($activity, $categoryContent);
+            $this->contentNodeService->createFromCategoryContent($activity, $categoryContent);
         }
     }
 }

@@ -18,11 +18,11 @@ class SingleTextHydrator implements HydratorInterface {
             'id' => $singleText->getId(),
             'text' => $singleText->getText(),
 
-            'activityContent' => Link::factory([
-                'rel' => 'activityContent',
+            'contentNode' => Link::factory([
+                'rel' => 'contentNode',
                 'route' => [
-                    'name' => 'e-camp-api.rest.doctrine.activity-content',
-                    'params' => ['activityContentId' => $singleText->getActivityContent()->getId()],
+                    'name' => 'e-camp-api.rest.doctrine.content-node',
+                    'params' => ['contentNodeId' => $singleText->getContentNode()->getId()],
                 ],
             ]),
         ];

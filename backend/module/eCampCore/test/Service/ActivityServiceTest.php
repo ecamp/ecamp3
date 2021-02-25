@@ -4,9 +4,9 @@ namespace eCamp\CoreTest\Service;
 
 use Doctrine\Common\DataFixtures\Loader;
 use eCamp\Core\Entity\Activity;
-use eCamp\Core\Entity\ActivityContent;
 use eCamp\Core\Entity\Camp;
 use eCamp\Core\Entity\Category;
+use eCamp\Core\Entity\ContentNode;
 use eCamp\Core\Entity\User;
 use eCamp\Core\EntityService\ActivityService;
 use eCamp\CoreTest\Data\CampTestData;
@@ -70,9 +70,9 @@ class ActivityServiceTest extends AbstractApiControllerTestCase {
         $this->assertNotNull($activity);
         $this->assertEquals('ActivityTitle', $activity->getTitle());
 
-        $this->assertCount(1, $activity->getActivityContents());
-        /** @var ActivityContent $activityContent */
-        $activityContent = $activity->getActivityContents()->first();
-        $this->assertEquals('Storyboard', $activityContent->getContentType()->getName());
+        $this->assertCount(1, $activity->getContentNodes());
+        /** @var ContentNode $contentNode */
+        $contentNode = $activity->getContentNodes()->first();
+        $this->assertEquals('Storyboard', $contentNode->getContentType()->getName());
     }
 }
