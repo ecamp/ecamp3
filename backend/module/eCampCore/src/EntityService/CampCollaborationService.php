@@ -183,11 +183,7 @@ class CampCollaborationService extends AbstractEntityService {
     protected function deleteEntity(BaseEntity $entity): void {
         /** @var CampCollaboration $campCollaboration */
         $campCollaboration = $entity;
-        if (in_array(
-            $campCollaboration->getStatus(),
-            [CampCollaboration::STATUS_INVITED, CampCollaboration::STATUS_REQUESTED],
-            true
-        )) {
+        if ($campCollaboration->isLeft()) {
             parent::deleteEntity($entity);
         } else {
             $this->updateEntity($campCollaboration, (object) ['status' => CampCollaboration::STATUS_LEFT]);
