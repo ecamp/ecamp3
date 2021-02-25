@@ -80,7 +80,7 @@ class ContentNodeService extends AbstractEntityService {
         /** @var ContentNode $contentNode */
         $contentNode = parent::patchEntity($entity, $data);
 
-        if (isset($data['parentId'])) {
+        if (isset($data->parentId)) {
             /** @var ContentNode $parent */
             $parent = $this->findRelatedEntity(ContentNode::class, $data, 'parentId');
             $parent->addChild($contentNode);

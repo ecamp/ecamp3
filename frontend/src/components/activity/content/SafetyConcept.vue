@@ -1,9 +1,9 @@
 <template>
   <div class="mb-3">
-    <api-form :entity="activityContent.singleText()">
+    <api-form :entity="contentNode.singleText()">
       <api-richtext
         fieldname="text"
-        :placeholder="$tc('activityContent.safetyConcept.name')"
+        :placeholder="$tc('contentNode.safetyConcept.name')"
         rows="2" />
     </api-form>
   </div>
@@ -21,7 +21,7 @@ export default {
     ApiRichtext
   },
   props: {
-    activityContent: { type: Object, required: true }
+    contentNode: { type: Object, required: true }
   }
 }
 </script>

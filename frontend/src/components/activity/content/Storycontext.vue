@@ -1,9 +1,9 @@
 <template>
   <div class="mb-3">
-    <api-form :entity="activityContent.singleText()">
+    <api-form :entity="contentNode.singleText()">
       <api-textarea
         fieldname="text"
-        :placeholder="$tc('activityContent.storycontext.name')"
+        :placeholder="$tc('contentNode.storycontext.name')"
         rows="2"
         auto-grow />
     </api-form>
@@ -22,7 +22,7 @@ export default {
     ApiTextarea
   },
   props: {
-    activityContent: { type: Object, required: true }
+    contentNode: { type: Object, required: true }
   }
 }
 </script>

@@ -1,5 +1,5 @@
 {
-  "activityContent": {
+  "contentNode": {
     "laThematicArea": {
       "entity": {
         "option": {
@@ -60,7 +60,7 @@
   },
   "components": {
     "activity": {
-      "activityContent": {
+      "contentNode": {
         "delete": "Effacer",
         "editName": "Renommer",
         "moveDown": "Descendre",

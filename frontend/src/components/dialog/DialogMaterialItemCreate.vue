@@ -28,12 +28,12 @@ export default {
   props: {
     camp: { type: Object, required: true },
     period: { type: Object, required: false, default: null },
-    activityContent: { type: Object, required: false, default: null }
+    contentNode: { type: Object, required: false, default: null }
   },
   data () {
     return {
       entityProperties: [
-        'activityContentId',
+        'contentNodeId',
         'periodId',
         'quantity',
         'unit',
@@ -54,8 +54,8 @@ export default {
         if (this.period != null) {
           entityData.periodId = this.period.id
         }
-        if (this.activityContent != null) {
-          entityData.activityContentId = this.activityContent.id
+        if (this.contentNode != null) {
+          entityData.contentNodeId = this.contentNode.id
         }
         this.setEntityData(entityData)
       } else {

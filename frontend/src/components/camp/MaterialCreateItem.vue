@@ -76,7 +76,7 @@ export default {
   props: {
     camp: { type: Object, required: true },
     period: { type: Object, default: null },
-    activityContent: { type: Object, default: null }
+    contentNode: { type: Object, default: null }
   },
   data () {
     return {
@@ -100,8 +100,8 @@ export default {
         if (this.period !== null) {
           data.periodId = this.period.id
         }
-        if (this.activityContent !== null) {
-          data.activityContentId = this.activityContent.id
+        if (this.contentNode !== null) {
+          data.contentNodeId = this.contentNode.id
         }
 
         this.materialItem = {}
