@@ -58,7 +58,7 @@ JSON;
                     "href": "http://{$host}/api-tools/swagger"
                 },
                 "invitation": {
-                  "href": "http://{$host}/api/invitations{/action}{/inviteKey}",
+                  "href": "http://{$host}/api/invitations{/inviteKey}{/action}",
                   "templated": true
                 },
                 "users": {

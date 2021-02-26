@@ -46,7 +46,7 @@ return [
             'e-camp-api.rpc.invitation' => [
                 'type' => 'Segment',
                 'options' => [
-                    'route' => '/api/invitations[/:action][/:inviteKey]',
+                    'route' => '/api/invitations[/:inviteKey][/:action]',
                     'defaults' => [
                         'controller' => 'eCampApi\\V1\\Rpc\\Invitation\\InvitationController',
                         'action' => 'index',
