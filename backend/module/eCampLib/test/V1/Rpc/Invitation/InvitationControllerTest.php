@@ -20,7 +20,7 @@ class InvitationControllerTest extends AbstractApiControllerTestCase {
     /** @var User */
     private $newUser;
 
-    private $apiEndpoint = '/api/invitation';
+    private $apiEndpoint = '/api/invitations';
     private $camp;
     /**
      * @var CampCollaboration
@@ -70,7 +70,7 @@ JSON;
         $expectedLinks = <<<'JSON'
         {
            "self":{
-              "href":"http:///api/invitation/find"
+              "href":"http:///api/invitations/find"
            }
         }
 JSON;
@@ -97,7 +97,7 @@ JSON;
         $expectedLinks = <<<'JSON'
         {
            "self":{
-              "href":"http:///api/invitation/find"
+              "href":"http:///api/invitations/find"
            }
         }
 JSON;
@@ -124,7 +124,7 @@ JSON;
         $expectedLinks = <<<'JSON'
         {
            "self":{
-              "href":"http:///api/invitation/find"
+              "href":"http:///api/invitations/find"
            }
         }
 JSON;
