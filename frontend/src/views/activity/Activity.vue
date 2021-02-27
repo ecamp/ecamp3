@@ -191,8 +191,8 @@ export default {
   },
   methods: {
     countContentNodes (contentType) {
-      return this.contentNodes.items.filter(ac => {
-        return ac.contentType().id === contentType.id
+      return this.contentNodes.items.filter(cn => {
+        return cn.contentType().id === contentType.id
       }).length
     },
     async addContentNode (ctId) {

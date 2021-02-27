@@ -64,16 +64,16 @@ export default {
     this.refreshSortedContentNodeHrefs()
   },
   methods: {
-    moveUp (ac) {
-      const href = ac._meta.self
+    moveUp (cn) {
+      const href = cn._meta.self
       const idx = this.sortedContentNodeHrefs.indexOf(href)
       if (idx > 0) {
         this.sortedContentNodeHrefs.splice(idx, 1)
         this.sortedContentNodeHrefs.splice(idx - 1, 0, href)
       }
     },
-    moveDown (ac) {
-      const href = ac._meta.self
+    moveDown (cn) {
+      const href = cn._meta.self
       const idx = this.sortedContentNodeHrefs.indexOf(href)
       if (idx < this.sortedContentNodeHrefs.length - 1) {
         this.sortedContentNodeHrefs.splice(idx, 1)
@@ -81,7 +81,7 @@ export default {
       }
     },
     refreshSortedContentNodeHrefs () {
-      const contentNodeHrefs = this.contentNodes.map(ac => ac._meta.self)
+      const contentNodeHrefs = this.contentNodes.map(cn => cn._meta.self)
 
       // append new Ids:
       for (let i = contentNodeHrefs.length - 1; i >= 0; i--) {
