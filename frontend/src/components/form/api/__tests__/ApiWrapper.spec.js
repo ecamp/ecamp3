@@ -181,7 +181,7 @@ describe('Testing ApiWrapper [autoSave=true;  manual external value]', () => {
 
     // when
     vm.onInput('new value')
-    input.trigger('submit') // trigger submit evenet (simluates enter key)
+    input.trigger('submit') // trigger submit event (simulates enter key)
     jest.runAllTimers() // resolve lodash debounced
     await flushPromises() // resolve validation
 
@@ -312,8 +312,10 @@ describe('Testing ApiWrapper [autoSave=true; value from API]', () => {
 
   test('loads value from API', async () => {
     // given
+    const loadingValue = () => {}
+    loadingValue.loading = true
     apiGet.mockReturnValue({
-      [config.propsData.fieldname]: 'api value',
+      [config.propsData.fieldname]: loadingValue,
       _meta: {
         load: Promise.resolve()
       }
@@ -325,6 +327,15 @@ describe('Testing ApiWrapper [autoSave=true; value from API]', () => {
 
     // then
     expect(vm.isLoading).toBe(true)
+    expect(vm.localValue).toBe(null)
+
+    // given
+    apiGet.mockReturnValue({
+      [config.propsData.fieldname]: 'api value',
+      _meta: {
+        load: Promise.resolve()
+      }
+    })
 
     // when
     await flushPromises() // wait for load promise to resolve
@@ -337,8 +348,10 @@ describe('Testing ApiWrapper [autoSave=true; value from API]', () => {
 
   test('shows error when loading value from API fails', async () => {
     // given
+    const loadingValue = () => {}
+    loadingValue.loading = true
     apiGet.mockReturnValue({
-      [config.propsData.fieldname]: 'api value',
+      [config.propsData.fieldname]: loadingValue,
       _meta: {
         load: Promise.reject(new Error('loading error'))
       }
