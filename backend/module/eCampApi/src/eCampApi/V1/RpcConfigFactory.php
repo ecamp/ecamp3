@@ -1,6 +1,6 @@
 <?php
 
-namespace eCampApi;
+namespace eCampApi\V1;
 
 use eCamp\Lib\Entity\EntityLink;
 use eCamp\Lib\Entity\EntityLinkCollection;

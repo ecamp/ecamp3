@@ -1,8 +1,8 @@
 <?php
 
-use eCampApi\RpcConfigFactory;
 use eCampApi\V1\Rpc\Invitation\InvitationController;
 use eCampApi\V1\Rpc\Invitation\UpdateInvitationController;
+use eCampApi\V1\RpcConfigFactory;
 use Laminas\Stdlib\ArrayUtils;
 
 $indexConfig = RpcConfigFactory::forRoute('e-camp-api.rpc.invitation')

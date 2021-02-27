@@ -1,7 +1,7 @@
 <?php
 
-use eCampApi\RpcConfigFactory;
 use eCampApi\V1\Rpc\Auth\AuthController;
+use eCampApi\V1\RpcConfigFactory;
 use Laminas\Stdlib\ArrayUtils;
 
 $eCampAuth = RpcConfigFactory::forRoute('e-camp-api.rpc.auth')
