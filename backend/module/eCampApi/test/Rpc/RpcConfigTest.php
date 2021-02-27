@@ -18,6 +18,6 @@ class RpcConfigTest extends AbstractTestCase {
             )
         );
 
-        self::assertThat($after, self::equalTo($before));
+        self::assertThat(var_export($after, true), self::equalTo(var_export($before, true)));
     }
 }
