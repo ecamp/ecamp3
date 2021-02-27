@@ -15,7 +15,6 @@ use Laminas\ApiTools\Hal\Link\Link;
 use Laminas\ApiTools\Hal\View\HalJsonModel;
 use Laminas\ApiTools\Rpc\RpcController;
 use Laminas\Authentication\AuthenticationService;
-use Laminas\Http\Request;
 
 class InvitationController extends RpcController {
     private AuthenticationService $authenticationService;
@@ -105,12 +104,6 @@ class InvitationController extends RpcController {
      * @throws \Exception
      */
     public function accept($inviteKey): HalJsonModel {
-        /** @var Request $request */
-        $request = $this->getRequest();
-
-        if (!$request->isPost()) {
-            throw new \Exception('Bad Request', 400);
-        }
         if (!$this->authenticationService->hasIdentity()) {
             throw new EntityNotFoundException('Not Authorized', 401);
         }
@@ -136,15 +129,8 @@ class InvitationController extends RpcController {
      * @param $inviteKey
      *
      * @throws EntityNotFoundException
-     * @throws \Exception
      */
     public function reject($inviteKey): HalJsonModel {
-        /** @var Request $request */
-        $request = $this->getRequest();
-        if (!$request->isPost()) {
-            throw new \Exception('Bad Request', 400);
-        }
-
         try {
             return $this->toResponse($this->invitationService->rejectInvitation($inviteKey));
         } catch (EntityNotFoundException $e) {

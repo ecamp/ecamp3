@@ -136,13 +136,13 @@ JSON;
     public function testAcceptFailsWhenGetRequest(): void {
         $this->dispatch("{$this->apiEndpoint}/{$this->campCollaborationInvited->getInviteKey()}/accept", 'GET');
 
-        $this->assertResponseStatusCode(400);
+        $this->assertResponseStatusCode(405);
     }
 
     public function testRejectFailsWhenGetRequest(): void {
         $this->dispatch("{$this->apiEndpoint}/{$this->campCollaborationInvited->getInviteKey()}/reject", 'GET');
 
-        $this->assertResponseStatusCode(400);
+        $this->assertResponseStatusCode(405);
     }
 
     public function testAcceptFailsWhenNotAuthenticated(): void {

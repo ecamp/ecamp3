@@ -43,6 +43,16 @@ return [
                     ],
                 ],
             ],
+            'e-camp-api.rpc.invitation.find' => [
+                'type' => 'Segment',
+                'options' => [
+                    'route' => '/api/invitations[/:inviteKey]/find',
+                    'defaults' => [
+                        'controller' => 'eCampApi\\V1\\Rpc\\Invitation\\InvitationController',
+                        'action' => 'find',
+                    ],
+                ],
+            ],
             'e-camp-api.rpc.invitation' => [
                 'type' => 'Segment',
                 'options' => [
@@ -50,6 +60,26 @@ return [
                     'defaults' => [
                         'controller' => 'eCampApi\\V1\\Rpc\\Invitation\\InvitationController',
                         'action' => 'index',
+                    ],
+                ],
+            ],
+            'e-camp-api.rpc.invitation.reject' => [
+                'type' => 'Segment',
+                'options' => [
+                    'route' => '/api/invitations[/:inviteKey]/reject',
+                    'defaults' => [
+                        'controller' => 'eCampApi\\V1\\Rpc\\Invitation\\UpdateInvitationController',
+                        'action' => 'reject',
+                    ],
+                ],
+            ],
+            'e-camp-api.rpc.invitation.accept' => [
+                'type' => 'Segment',
+                'options' => [
+                    'route' => '/api/invitations[/:inviteKey]/accept',
+                    'defaults' => [
+                        'controller' => 'eCampApi\\V1\\Rpc\\Invitation\\UpdateInvitationController',
+                        'action' => 'accept',
                     ],
                 ],
             ],
@@ -90,6 +120,7 @@ return [
             'eCampApi\\V1\\Rpc\\Auth\\AuthController' => 'Laminas\\Di\\Container\\ServiceManager\\AutowireFactory',
             'eCampApi\\V1\\Rpc\\Index\\IndexController' => 'Laminas\\Di\\Container\\ServiceManager\\AutowireFactory',
             'eCampApi\\V1\\Rpc\\Invitation\\InvitationController' => 'Laminas\\Di\\Container\\ServiceManager\\AutowireFactory',
+            'eCampApi\\V1\\Rpc\\Invitation\\UpdateInvitationController' => 'Laminas\\Di\\Container\\ServiceManager\\AutowireFactory',
             'eCampApi\\V1\\Rpc\\Printer\\PrinterController' => 'Laminas\\Di\\Container\\ServiceManager\\AutowireFactory',
             'eCampApi\\V1\\Rpc\\Profile\\ProfileController' => 'Laminas\\Di\\Container\\ServiceManager\\AutowireFactory',
             'eCampApi\\V1\\Rpc\\Register\\RegisterController' => 'Laminas\\Di\\Container\\ServiceManager\\AutowireFactory',
@@ -100,6 +131,7 @@ return [
             'eCampApi\\V1\\Rpc\\Auth\\AuthController' => 'HalJson',
             'eCampApi\\V1\\Rpc\\Index\\IndexController' => 'HalJson',
             'eCampApi\\V1\\Rpc\\Invitation\\InvitationController' => 'HalJson',
+            'eCampApi\\V1\\Rpc\\Invitation\\UpdateInvitationController' => 'HalJson',
             'eCampApi\\V1\\Rpc\\Printer\\PrinterController' => 'HalJson',
             'eCampApi\\V1\\Rpc\\Profile\\ProfileController' => 'HalJson',
             'eCampApi\\V1\\Rpc\\Register\\RegisterController' => 'HalJson',
@@ -125,6 +157,17 @@ return [
                 0 => 'application/vnd.e-camp-api.v1+json',
                 1 => 'application/json',
                 2 => 'application/*+json',
+                3 => 'application/vnd.e-camp-api.v1+json',
+                4 => 'application/json',
+                5 => 'application/*+json',
+            ],
+            'eCampApi\\V1\\Rpc\\Invitation\\UpdateInvitationController' => [
+                0 => 'application/vnd.e-camp-api.v1+json',
+                1 => 'application/json',
+                2 => 'application/*+json',
+                3 => 'application/vnd.e-camp-api.v1+json',
+                4 => 'application/json',
+                5 => 'application/*+json',
             ],
             'eCampApi\\V1\\Rpc\\Printer\\PrinterController' => [
                 0 => 'application/vnd.e-camp-api.v1+json',
@@ -158,6 +201,14 @@ return [
             'eCampApi\\V1\\Rpc\\Invitation\\InvitationController' => [
                 0 => 'application/vnd.e-camp-api.v1+json',
                 1 => 'application/json',
+                2 => 'application/vnd.e-camp-api.v1+json',
+                3 => 'application/json',
+            ],
+            'eCampApi\\V1\\Rpc\\Invitation\\UpdateInvitationController' => [
+                0 => 'application/vnd.e-camp-api.v1+json',
+                1 => 'application/json',
+                2 => 'application/vnd.e-camp-api.v1+json',
+                3 => 'application/json',
             ],
             'eCampApi\\V1\\Rpc\\Printer\\PrinterController' => [
                 0 => 'application/vnd.e-camp-api.v1+json',
@@ -211,9 +262,16 @@ return [
         'eCampApi\\V1\\Rpc\\Invitation\\InvitationController' => [
             'http_methods' => [
                 0 => 'GET',
-                1 => 'POST',
+                1 => 'GET',
             ],
             'route_name' => 'e-camp-api.rpc.invitation',
+        ],
+        'eCampApi\\V1\\Rpc\\Invitation\\UpdateInvitationController' => [
+            'http_methods' => [
+                0 => 'POST',
+                1 => 'POST',
+            ],
+            'route_name' => 'e-camp-api.rpc.invitation.accept',
         ],
         'eCampApi\\V1\\Rpc\\Printer\\PrinterController' => [
             'http_methods' => [
