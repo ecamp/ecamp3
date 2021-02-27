@@ -3,7 +3,7 @@
 return [
     'laminas_mail' => [
         'transport' => [
-            'type' => 'file',
+            'type' => 'InMemory',
             'options' => [
                 'path' => __DIR__.'/../../data/mail',
             ],
