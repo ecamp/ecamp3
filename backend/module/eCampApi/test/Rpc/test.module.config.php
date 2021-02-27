@@ -110,15 +110,16 @@ return [
                 1 => 'application/json',
                 2 => 'application/*+json',
             ],
-            'eCampApi\\V1\\Rpc\\Index\\InvitationController' => [
-                0 => 'application/vnd.e-camp-api.v1+json',
-                1 => 'application/json',
-                2 => 'application/*+json',
-            ],
             'eCampApi\\V1\\Rpc\\Auth\\AuthController' => [
                 0 => 'application/vnd.e-camp-api.v1+json',
                 1 => 'application/json',
                 2 => 'application/*+json',
+                3 => 'application/vnd.e-camp-api.v1+json',
+                4 => 'application/json',
+                5 => 'application/*+json',
+                6 => 'application/vnd.e-camp-api.v1+json',
+                7 => 'application/json',
+                8 => 'application/*+json',
             ],
             'eCampApi\\V1\\Rpc\\Register\\RegisterController' => [
                 0 => 'application/vnd.e-camp-api.v1+json',
@@ -131,6 +132,11 @@ return [
                 2 => 'application/*+json',
             ],
             'eCampApi\\V1\\Rpc\\Printer\\PrinterController' => [
+                0 => 'application/vnd.e-camp-api.v1+json',
+                1 => 'application/json',
+                2 => 'application/*+json',
+            ],
+            'eCampApi\\V1\\Rpc\\Invitation\\InvitationController' => [
                 0 => 'application/vnd.e-camp-api.v1+json',
                 1 => 'application/json',
                 2 => 'application/*+json',
@@ -141,13 +147,13 @@ return [
                 0 => 'application/vnd.e-camp-api.v1+json',
                 1 => 'application/json',
             ],
-            'eCampApi\\V1\\Rpc\\Index\\InvitationController' => [
-                0 => 'application/vnd.e-camp-api.v1+json',
-                1 => 'application/json',
-            ],
             'eCampApi\\V1\\Rpc\\Auth\\AuthController' => [
                 0 => 'application/vnd.e-camp-api.v1+json',
                 1 => 'application/json',
+                2 => 'application/vnd.e-camp-api.v1+json',
+                3 => 'application/json',
+                4 => 'application/vnd.e-camp-api.v1+json',
+                5 => 'application/json',
             ],
             'eCampApi\\V1\\Rpc\\Register\\RegisterController' => [
                 0 => 'application/vnd.e-camp-api.v1+json',
@@ -158,6 +164,10 @@ return [
                 1 => 'application/json',
             ],
             'eCampApi\\V1\\Rpc\\Printer\\PrinterController' => [
+                0 => 'application/vnd.e-camp-api.v1+json',
+                1 => 'application/json',
+            ],
+            'eCampApi\\V1\\Rpc\\Invitation\\InvitationController' => [
                 0 => 'application/vnd.e-camp-api.v1+json',
                 1 => 'application/json',
             ],
@@ -179,10 +189,13 @@ return [
     ],
     'api-tools-rpc' => [
         'eCampApi\\V1\\Rpc\\Auth\\AuthController' => [
-            'service_name' => 'Auth',
             'http_methods' => [
                 0 => 'GET',
                 1 => 'POST',
+                2 => 'GET',
+                3 => 'POST',
+                4 => 'GET',
+                5 => 'POST',
             ],
             'route_name' => 'e-camp-api.rpc.auth',
             'collection_query_whitelist' => [
@@ -190,29 +203,18 @@ return [
             ],
         ],
         'eCampApi\\V1\\Rpc\\Index\\IndexController' => [
-            'service_name' => 'Index',
             'http_methods' => [
                 0 => 'GET',
             ],
             'route_name' => 'e-camp-api.rpc.index',
         ],
-        'eCampApi\\V1\\Rpc\\Index\\InvitationController' => [
-            'service_name' => 'Invitation',
-            'http_methods' => [
-                0 => 'GET',
-                1 => 'POST',
-            ],
-            'route_name' => 'e-camp-api.rpc.invitation',
-        ],
         'eCampApi\\V1\\Rpc\\Register\\RegisterController' => [
-            'service_name' => 'Register',
             'http_methods' => [
                 0 => 'POST',
             ],
             'route_name' => 'e-camp-api.rpc.register',
         ],
         'eCampApi\\V1\\Rpc\\Profile\\ProfileController' => [
-            'service_name' => 'Profile',
             'http_methods' => [
                 0 => 'GET',
                 1 => 'PATCH',
@@ -220,11 +222,17 @@ return [
             'route_name' => 'e-camp-api.rpc.profile',
         ],
         'eCampApi\\V1\\Rpc\\Printer\\PrinterController' => [
-            'service_name' => 'Printer',
             'http_methods' => [
                 0 => 'POST',
             ],
             'route_name' => 'e-camp-api.rpc.printer',
+        ],
+        'eCampApi\\V1\\Rpc\\Invitation\\InvitationController' => [
+            'http_methods' => [
+                0 => 'GET',
+                1 => 'POST',
+            ],
+            'route_name' => 'e-camp-api.rpc.invitation',
         ],
     ],
 ];
