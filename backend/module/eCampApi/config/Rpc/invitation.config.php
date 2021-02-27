@@ -2,10 +2,10 @@
 
 use eCampApi\V1\Rpc\Invitation\InvitationController;
 use eCampApi\V1\Rpc\Invitation\UpdateInvitationController;
-use eCampApi\V1\RpcConfigFactory;
+use eCampApi\V1\RpcConfig;
 use Laminas\Stdlib\ArrayUtils;
 
-$indexConfig = RpcConfigFactory::forRoute('e-camp-api.rpc.invitation')
+$indexConfig = RpcConfig::forRoute('e-camp-api.rpc.invitation')
     ->setController(InvitationController::class)
     ->setRoute('/api/invitations[/:inviteKey][/:action]')
     ->addParameterDefault('action', 'index')
@@ -13,7 +13,7 @@ $indexConfig = RpcConfigFactory::forRoute('e-camp-api.rpc.invitation')
     ->build()
 ;
 
-$findConfig = RpcConfigFactory::forRoute('e-camp-api.rpc.invitation.find')
+$findConfig = RpcConfig::forRoute('e-camp-api.rpc.invitation.find')
     ->setController(InvitationController::class)
     ->setRoute('/api/invitations[/:inviteKey]/find')
     ->addParameterDefault('action', 'find')
@@ -21,14 +21,14 @@ $findConfig = RpcConfigFactory::forRoute('e-camp-api.rpc.invitation.find')
     ->build()
 ;
 
-$updateConfig = RpcConfigFactory::forRoute('e-camp-api.rpc.invitation.accept')
+$updateConfig = RpcConfig::forRoute('e-camp-api.rpc.invitation.accept')
     ->setController(UpdateInvitationController::class)
     ->setRoute('/api/invitations[/:inviteKey]/accept')
     ->addParameterDefault('action', 'accept')
     ->setAllowedHttpMethods('POST')
     ->build()
 ;
-$rejectConfig = RpcConfigFactory::forRoute('e-camp-api.rpc.invitation.reject')
+$rejectConfig = RpcConfig::forRoute('e-camp-api.rpc.invitation.reject')
     ->setController(UpdateInvitationController::class)
     ->setRoute('/api/invitations[/:inviteKey]/reject')
     ->addParameterDefault('action', 'reject')

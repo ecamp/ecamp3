@@ -6,7 +6,7 @@ use eCamp\Lib\Entity\EntityLink;
 use eCamp\Lib\Entity\EntityLinkCollection;
 use Laminas\Di\Container\ServiceManager\AutowireFactory;
 
-class RpcConfigFactory {
+class RpcConfig {
     private string $routeName;
     private string $controller;
     private string $route;
@@ -18,35 +18,35 @@ class RpcConfigFactory {
         $this->routeName = $routeName;
     }
 
-    public static function forRoute($routeName): RpcConfigFactory {
-        return new RpcConfigFactory($routeName);
+    public static function forRoute($routeName): RpcConfig {
+        return new RpcConfig($routeName);
     }
 
-    public function setController(string $controller): RpcConfigFactory {
+    public function setController(string $controller): RpcConfig {
         $this->controller = $controller;
 
         return $this;
     }
 
-    public function setRoute(string $route): RpcConfigFactory {
+    public function setRoute(string $route): RpcConfig {
         $this->route = $route;
 
         return $this;
     }
 
-    public function addParameterDefault(string $parameter, string $default): RpcConfigFactory {
+    public function addParameterDefault(string $parameter, string $default): RpcConfig {
         $this->parameterDefaults[$parameter] = $default;
 
         return $this;
     }
 
-    public function setAllowedHttpMethods(string ...$allowedHttpMethods): RpcConfigFactory {
+    public function setAllowedHttpMethods(string ...$allowedHttpMethods): RpcConfig {
         $this->allowedHttpMethods = $allowedHttpMethods;
 
         return $this;
     }
 
-    public function setCollectionQueryWhiteList(string ...$collectionQueryWhiteList): RpcConfigFactory {
+    public function setCollectionQueryWhiteList(string ...$collectionQueryWhiteList): RpcConfig {
         $this->collectionQueryWhiteList = $collectionQueryWhiteList;
 
         return $this;

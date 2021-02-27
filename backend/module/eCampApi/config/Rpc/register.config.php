@@ -1,9 +1,9 @@
 <?php
 
 use eCampApi\V1\Rpc\Register\RegisterController;
-use eCampApi\V1\RpcConfigFactory;
+use eCampApi\V1\RpcConfig;
 
-return RpcConfigFactory::forRoute('e-camp-api.rpc.register')
+return RpcConfig::forRoute('e-camp-api.rpc.register')
     ->setController(RegisterController::class)
     ->setRoute('/api/register[/:action]')
     ->addParameterDefault('action', 'register')

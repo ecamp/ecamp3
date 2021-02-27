@@ -1,9 +1,9 @@
 <?php
 
 use eCampApi\V1\Rpc\Printer\PrinterController;
-use eCampApi\V1\RpcConfigFactory;
+use eCampApi\V1\RpcConfig;
 
-return RpcConfigFactory::forRoute('e-camp-api.rpc.printer')
+return RpcConfig::forRoute('e-camp-api.rpc.printer')
     ->setController(PrinterController::class)
     ->setRoute('/api/printer')
     ->addParameterDefault('action', 'index')

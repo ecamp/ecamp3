@@ -1,9 +1,9 @@
 <?php
 
 use eCampApi\V1\Rpc\Index\IndexController;
-use eCampApi\V1\RpcConfigFactory;
+use eCampApi\V1\RpcConfig;
 
-return RpcConfigFactory::forRoute('e-camp-api.rpc.index')
+return RpcConfig::forRoute('e-camp-api.rpc.index')
     ->setController(IndexController::class)
     ->setRoute('/[:action]')
     ->addParameterDefault('action', 'index')
