@@ -24,15 +24,15 @@ $findConfig = RpcConfigFactory::forRoute('e-camp-api.rpc.invitation.find')
 $updateConfig = RpcConfigFactory::forRoute('e-camp-api.rpc.invitation.accept')
     ->setController(UpdateInvitationController::class)
     ->setRoute('/api/invitations[/:inviteKey]/accept')
-    ->setAllowedHttpMethods('POST')
     ->addParameterDefault('action', 'accept')
+    ->setAllowedHttpMethods('POST')
     ->build()
 ;
 $rejectConfig = RpcConfigFactory::forRoute('e-camp-api.rpc.invitation.reject')
     ->setController(UpdateInvitationController::class)
     ->setRoute('/api/invitations[/:inviteKey]/reject')
-    ->setAllowedHttpMethods('POST')
     ->addParameterDefault('action', 'reject')
+    ->setAllowedHttpMethods('POST')
     ->build()
 ;
 $mergeGet = ArrayUtils::merge($findConfig, $indexConfig);
