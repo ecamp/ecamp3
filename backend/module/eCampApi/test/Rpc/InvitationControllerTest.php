@@ -1,6 +1,6 @@
 <?php
 
-namespace eCamp\LibTest\V1\Rpc\Invitation;
+namespace eCamp\ApiTest\V1\Rpc\Invitation;
 
 use Doctrine\Common\DataFixtures\Loader;
 use eCamp\Core\Entity\CampCollaboration;
