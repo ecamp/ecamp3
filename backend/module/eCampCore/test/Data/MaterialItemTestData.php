@@ -36,7 +36,7 @@ class MaterialItemTestData extends AbstractFixture implements DependentFixtureIn
         $materialList = $this->getReference(MaterialListTestData::$MATERIALLIST1);
 
         $contentNode = new ContentNode();
-        $contentNode->setActivity($activity);
+        $contentNode->setOwner($activity);
         $contentNode->setContentType($contentType);
         $contentNode->setContentTypeStrategyProvider($contentTypeStrategyProvider);
 

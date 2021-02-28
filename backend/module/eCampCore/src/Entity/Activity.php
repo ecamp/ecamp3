@@ -5,18 +5,12 @@ namespace eCamp\Core\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use eCamp\Lib\Entity\BaseEntity;
 
 /**
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks
  */
-class Activity extends BaseEntity implements BelongsToCampInterface {
-    /**
-     * @ORM\OneToMany(targetEntity="ContentNode", mappedBy="activity", cascade={"all"}, orphanRemoval=true)
-     */
-    protected Collection $contentNodes;
-
+class Activity extends AbstractContentNodeOwner implements BelongsToCampInterface {
     /**
      * @ORM\OneToMany(targetEntity="ScheduleEntry", mappedBy="activity", orphanRemoval=true)
      */
@@ -52,7 +46,6 @@ class Activity extends BaseEntity implements BelongsToCampInterface {
     public function __construct() {
         parent::__construct();
 
-        $this->contentNodes = new ArrayCollection();
         $this->scheduleEntries = new ArrayCollection();
         $this->activityResponsibles = new ArrayCollection();
     }
@@ -92,20 +85,6 @@ class Activity extends BaseEntity implements BelongsToCampInterface {
 
     public function setLocation(?string $location): void {
         $this->location = $location;
-    }
-
-    public function getContentNodes(): Collection {
-        return $this->contentNodes;
-    }
-
-    public function addContentNode(ContentNode $contentNode): void {
-        $contentNode->setActivity($this);
-        $this->contentNodes->add($contentNode);
-    }
-
-    public function removeContentNode(ContentNode $contentNode): void {
-        $contentNode->setActivity(null);
-        $this->contentNodes->removeElement($contentNode);
     }
 
     public function getScheduleEntries(): Collection {

@@ -7,9 +7,8 @@ use Doctrine\ORM\QueryBuilder;
 use eCamp\Core\Entity\AbstractCampOwner;
 use eCamp\Core\Entity\Camp;
 use eCamp\Core\Entity\CampCollaboration;
-use eCamp\Core\Entity\CampTemplate;
-use eCamp\Core\Entity\CategoryTemplate;
-use eCamp\Core\Entity\MaterialListTemplate;
+use eCamp\Core\Entity\Category;
+use eCamp\Core\Entity\MaterialList;
 use eCamp\Core\Entity\User;
 use eCamp\Core\Hydrator\CampHydrator;
 use eCamp\Lib\Acl\NoAccessException;
@@ -90,23 +89,22 @@ class CampService extends AbstractEntityService {
             'role' => CampCollaboration::ROLE_MANAGER,
         ]);
 
-        if (isset($data->campTemplateId)) {
-            // CampTemplateId given
-            // - Create MaterialLists
-            // - Create Categories
-            $camp->setCampTemplateId($data->campTemplateId);
+        if (isset($data->campPrototypeId)) {
+            // CampPrototypeId given
+            // Copy Entities
+            $camp->setCampPrototypeId($data->campPrototypeId);
 
-            /** @var CampTemplate $campTemplate */
-            $campTemplate = $this->findEntity(CampTemplate::class, $data->campTemplateId);
+            /** @var Camp $campPrototype */
+            $campPrototype = $this->findEntity(Camp::class, $data->campPrototypeId);
 
-            /** @var MaterialListTemplate $materialListTemplate */
-            foreach ($campTemplate->getMaterialListTemplates() as $materialListTemplate) {
-                $this->materialListService->createFromTemplate($camp, $materialListTemplate);
+            /** @var Category $category */
+            foreach ($campPrototype->getCategories() as $category) {
+                $this->categoryService->createFromPrototype($camp, $category);
             }
 
-            /** @var CategoryTemplate $categoryTemplate */
-            foreach ($campTemplate->getCategoryTemplates() as $categoryTemplate) {
-                $this->categoryService->createFromTemplate($camp, $categoryTemplate);
+            /** @var MaterialList $materialList */
+            foreach ($campPrototype->getMaterialLists() as $materialList) {
+                $this->materialListService->createFromPrototype($camp, $materialList);
             }
         }
 

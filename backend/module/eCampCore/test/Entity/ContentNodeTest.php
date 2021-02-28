@@ -22,15 +22,17 @@ class ContentNodeTest extends AbstractTestCase {
         $activity->setTitle('ActivityTitle');
 
         $contentNode = new ContentNode();
-        $contentNode->setActivity($activity);
+        $contentNode->setOwner($activity);
         $contentNode->setContentType($contentType);
         $contentNode->setInstanceName('ContentNodeName');
-        $contentNode->setPosition('position');
+        $contentNode->setSlot('slot');
+        $contentNode->setPosition(1);
 
-        $this->assertEquals($activity, $contentNode->getActivity());
+        $this->assertEquals($activity, $contentNode->getOwner());
         $this->assertEquals($contentType, $contentNode->getContentType());
         $this->assertEquals('ContentNodeName', $contentNode->getInstanceName());
-        $this->assertEquals('position', $contentNode->getPosition());
+        $this->assertEquals('slot', $contentNode->getSlot());
+        $this->assertEquals(1, $contentNode->getPosition());
         $this->assertEquals($camp, $contentNode->getCamp());
     }
 

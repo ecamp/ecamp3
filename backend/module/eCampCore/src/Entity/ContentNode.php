@@ -14,14 +14,14 @@ use eCamp\Lib\Entity\BaseEntity;
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks
  */
-class ContentNode extends BaseEntity implements ContentTypeStrategyProviderAware, BelongsToCampInterface {
+class ContentNode extends BaseEntity implements BelongsToCampInterface, ContentTypeStrategyProviderAware {
     use ContentTypeStrategyProviderTrait;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Activity")
-     * @ORM\JoinColumn(nullable=false, onDelete="cascade")
+     * @ORM\ManyToOne(targetEntity="AbstractContentNodeOwner", inversedBy="contentNodes")
+     * @ORM\JoinColumn(nullable=false)
      */
-    private ?Activity $activity = null;
+    private ?AbstractContentNodeOwner $owner = null;
 
     /**
      * @ORM\ManyToOne(targetEntity="ContentNode")
@@ -35,9 +35,19 @@ class ContentNode extends BaseEntity implements ContentTypeStrategyProviderAware
     private Collection $children;
 
     /**
+     * @ORM\Column(type="string", length=64, nullable=true)
+     */
+    private ?string $slot = null;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private ?float $position = null;
+
+    /**
      * @ORM\Column(type="json", nullable=true)
      */
-    private ?string $position = null;
+    private ?string $config = null;
 
     /**
      * @ORM\ManyToOne(targetEntity="ContentType")
@@ -56,16 +66,16 @@ class ContentNode extends BaseEntity implements ContentTypeStrategyProviderAware
         $this->children = new ArrayCollection();
     }
 
-    public function getActivity(): ?Activity {
-        return $this->activity;
+    public function getOwner(): ?AbstractContentNodeOwner {
+        return $this->owner;
     }
 
-    public function setActivity(?Activity $activity): void {
-        $this->activity = $activity;
+    public function setOwner(?AbstractContentNodeOwner $owner): void {
+        $this->owner = $owner;
     }
 
     public function getCamp(): ?Camp {
-        return (null != $this->activity) ? $this->activity->getCamp() : null;
+        return (null != $this->owner) ? $this->owner->getCamp() : null;
     }
 
     public function isRoot(): bool {
@@ -77,6 +87,12 @@ class ContentNode extends BaseEntity implements ContentTypeStrategyProviderAware
     }
 
     public function setParent(?ContentNode $parent): void {
+        $origParentOwner = isset($this->parent) ? $this->parent->getOwner() : null;
+        $newParentOwner = isset($parent) ? $parent->getOwner() : null;
+
+        if ($origParentOwner != $newParentOwner) {
+            $this->setOwner($newParentOwner);
+        }
         $this->parent = $parent;
     }
 
@@ -110,12 +126,28 @@ class ContentNode extends BaseEntity implements ContentTypeStrategyProviderAware
         $this->children->removeElement($contentNode);
     }
 
-    public function getPosition() {
+    public function getSlot(): ?string {
+        return $this->slot;
+    }
+
+    public function setSlot(?string $slot): void {
+        $this->slot = $slot;
+    }
+
+    public function getPosition(): ?int {
         return $this->position;
     }
 
-    public function setPosition($position): void {
+    public function setPosition(?int $position): void {
         $this->position = $position;
+    }
+
+    public function getConfig() {
+        return $this->config;
+    }
+
+    public function setConfig($config): void {
+        $this->config = $config;
     }
 
     /**

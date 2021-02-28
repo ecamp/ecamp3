@@ -4,7 +4,6 @@ namespace eCamp\CoreTest\Entity;
 
 use eCamp\Core\Entity\Camp;
 use eCamp\Core\Entity\Category;
-use eCamp\Core\Entity\CategoryContent;
 use eCamp\Core\Entity\CategoryContentType;
 use eCamp\LibTest\PHPUnit\AbstractTestCase;
 
@@ -40,17 +39,6 @@ class CategoryTest extends AbstractTestCase {
         $this->assertContains($categoryContentType, $category->getCategoryContentTypes());
         $category->removeCategoryContentType($categoryContentType);
         $this->assertCount(0, $category->getCategoryContentTypes());
-    }
-
-    public function testCategoryContent(): void {
-        $category = new Category();
-        $categoryContent = new CategoryContent();
-
-        $this->assertCount(0, $category->getCategoryContents());
-        $category->addCategoryContent($categoryContent);
-        $this->assertContains($categoryContent, $category->getCategoryContents());
-        $category->removeCategoryContent($categoryContent);
-        $this->assertCount(0, $category->getCategoryContents());
     }
 
     public function testNumberingStyle(): void {

@@ -6,9 +6,8 @@ use Doctrine\ORM\ORMException;
 use Doctrine\ORM\QueryBuilder;
 use eCamp\Core\ContentType\ContentTypeStrategyProvider;
 use eCamp\Core\ContentType\ContentTypeStrategyProviderTrait;
-use eCamp\Core\Entity\Activity;
+use eCamp\Core\Entity\AbstractContentNodeOwner;
 use eCamp\Core\Entity\Camp;
-use eCamp\Core\Entity\CategoryContent;
 use eCamp\Core\Entity\ContentNode;
 use eCamp\Core\Entity\ContentType;
 use eCamp\Core\Hydrator\ContentNodeHydrator;
@@ -33,20 +32,19 @@ class ContentNodeService extends AbstractEntityService {
         $this->setContentTypeStrategyProvider($contentTypeStrategyProvider);
     }
 
-    /**
-     * Create ContentNode and all Child-ContentNodes.
-     */
-    public function createFromCategoryContent(Activity $activity, CategoryContent $categoryContent): ContentNode {
+    public function createFromPrototype(AbstractContentNodeOwner $owner, ContentNode $prototype): ContentNode {
         /** @var ContentNode $contentNode */
         $contentNode = $this->create((object) [
-            'activityId' => $activity->getId(),
-            'contentTypeId' => $categoryContent->getContentType()->getId(),
-            'instanceName' => $categoryContent->getInstanceName(),
-            'position' => $categoryContent->getPosition(),
+            'ownerId' => $owner->getId(),
+            'contentTypeId' => $prototype->getContentType()->getId(),
+            'instanceName' => $prototype->getInstanceName(),
+            'slot' => $prototype->getSlot(),
+            'position' => $prototype->getPosition(),
+            'config' => $prototype->getConfig(),
         ]);
 
-        foreach ($categoryContent->getChildren() as $childCategoryContent) {
-            $childContentNode = $this->createFromCategoryContent($activity, $childCategoryContent);
+        foreach ($prototype->getChildren() as $childPrototype) {
+            $childContentNode = $this->createFromPrototype($owner, $childPrototype);
             $contentNode->addChild($childContentNode);
         }
 
@@ -63,13 +61,13 @@ class ContentNodeService extends AbstractEntityService {
         /** @var ContentNode $contentNode */
         $contentNode = parent::createEntity($data);
 
-        /** @var Activity $activity */
-        $activity = $this->findRelatedEntity(Activity::class, $data, 'activityId');
+        /** @var AbstractContentNodeOwner $owner */
+        $owner = $this->findRelatedEntity(AbstractContentNodeOwner::class, $data, 'ownerId');
 
         /** @var ContentType $contentType */
         $contentType = $this->findRelatedEntity(ContentType::class, $data, 'contentTypeId');
 
-        $activity->addContentNode($contentNode);
+        $owner->addContentNode($contentNode);
         $contentNode->setContentType($contentType);
         $contentNode->setContentTypeStrategyProvider($this->getContentTypeStrategyProvider());
 

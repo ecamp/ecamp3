@@ -4,6 +4,8 @@ namespace eCamp\Core\Hydrator;
 
 use eCamp\Core\ContentType\ContentTypeStrategyInterface;
 use eCamp\Core\ContentType\ContentTypeStrategyProvider;
+use eCamp\Core\Entity\Activity;
+use eCamp\Core\Entity\Category;
 use eCamp\Core\Entity\ContentNode;
 use eCamp\Lib\Entity\EntityLink;
 use Laminas\ApiTools\Hal\Link\Link;
@@ -33,6 +35,7 @@ class ContentNodeHydrator implements HydratorInterface {
         /** @var ContentNode $contentNode */
         $contentNode = $object;
         $contentType = $contentNode->getContentType();
+        $owner = $contentNode->getOwner();
 
         $data = [
             'id' => $contentNode->getId(),
@@ -42,15 +45,26 @@ class ContentNodeHydrator implements HydratorInterface {
 
             'parent' => ($contentNode->isRoot() ? null : new EntityLink($contentNode->getParent())),
             'contentType' => new EntityLink($contentNode->getContentType()),
+        ];
 
-            'activity' => Link::factory([
-                'rel' => 'activity',
+        if ($owner instanceof Activity) {
+            $data['owner'] = Link::factory([
+                'rel' => 'owner',
                 'route' => [
                     'name' => 'e-camp-api.rest.doctrine.activity',
-                    'params' => ['activityId' => $contentNode->getActivity()->getId()],
+                    'params' => ['activityId' => $owner->getId()],
                 ],
-            ]),
-        ];
+            ]);
+        }
+        if ($owner instanceof Category) {
+            $data['owner'] = Link::factory([
+                'rel' => 'owner',
+                'route' => [
+                    'name' => 'e-camp-api.rest.doctrine.category',
+                    'params' => ['categoryId' => $owner->getId()],
+                ],
+            ]);
+        }
 
         /** @var ContentTypeStrategyInterface $strategy */
         $strategy = $this->contentTypeStrategyProvider->get($contentType);
@@ -73,9 +87,13 @@ class ContentNodeHydrator implements HydratorInterface {
         if (isset($data['instanceName'])) {
             $contentNode->setInstanceName($data['instanceName']);
         }
+        if (isset($data['slot'])) {
+            $contentNode->setSlot($data['slot']);
+        }
         if (isset($data['position'])) {
             $contentNode->setPosition($data['position']);
         }
+        // todo config
 
         return $contentNode;
     }

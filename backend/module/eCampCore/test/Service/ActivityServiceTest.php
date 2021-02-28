@@ -10,9 +10,9 @@ use eCamp\Core\Entity\ContentNode;
 use eCamp\Core\Entity\User;
 use eCamp\Core\EntityService\ActivityService;
 use eCamp\CoreTest\Data\CampTestData;
-use eCamp\CoreTest\Data\CategoryContentTestData;
 use eCamp\CoreTest\Data\CategoryContentTypeTestData;
 use eCamp\CoreTest\Data\CategoryTestData;
+use eCamp\CoreTest\Data\ContentNodeTestData;
 use eCamp\CoreTest\Data\UserTestData;
 use eCamp\LibTest\PHPUnit\AbstractApiControllerTestCase;
 
@@ -31,19 +31,20 @@ class ActivityServiceTest extends AbstractApiControllerTestCase {
 
     public function setUp(): void {
         parent::setUp();
+        $container = $this->getApplicationServiceLocator();
 
         $userLoader = new UserTestData();
         $campLoader = new CampTestData();
         $categoryLoader = new CategoryTestData();
         $categoryContentTypeLoader = new CategoryContentTypeTestData();
-        $categoryContentLoader = new CategoryContentTestData();
+        $contentNodeLoader = new ContentNodeTestData($container);
 
         $loader = new Loader();
         $loader->addFixture($userLoader);
         $loader->addFixture($campLoader);
         $loader->addFixture($categoryLoader);
         $loader->addFixture($categoryContentTypeLoader);
-        $loader->addFixture($categoryContentLoader);
+        $loader->addFixture($contentNodeLoader);
         $this->loadFixtures($loader);
 
         $this->user = $userLoader->getReference(UserTestData::$USER1);
@@ -57,7 +58,6 @@ class ActivityServiceTest extends AbstractApiControllerTestCase {
         /** @var ActivityService $activityService */
         $activityService = $this->getApplicationServiceLocator()->get(ActivityService::class);
 
-        $this->assertCount(1, $this->category->getCategoryContents());
         $this->assertCount(1, $this->category->getCategoryContentTypes());
 
         /** @var Activity $activity */

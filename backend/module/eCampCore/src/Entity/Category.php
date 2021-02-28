@@ -5,24 +5,13 @@ namespace eCamp\Core\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use eCamp\Lib\Entity\BaseEntity;
 
 /**
  * Category.
  *
  * @ORM\Entity
  */
-class Category extends BaseEntity implements BelongsToCampInterface {
-    /**
-     * @ORM\OneToMany(targetEntity="CategoryContentType", mappedBy="category", orphanRemoval=true)
-     */
-    protected Collection $categoryContentTypes;
-
-    /**
-     * @ORM\OneToMany(targetEntity="CategoryContent", mappedBy="category", orphanRemoval=true)
-     */
-    protected Collection $categoryContents;
-
+class Category extends AbstractContentNodeOwner implements BelongsToCampInterface {
     /**
      * @ORM\ManyToOne(targetEntity="Camp")
      * @ORM\JoinColumn(nullable=false, onDelete="cascade")
@@ -30,9 +19,14 @@ class Category extends BaseEntity implements BelongsToCampInterface {
     private ?Camp $camp = null;
 
     /**
+     * @ORM\OneToMany(targetEntity="CategoryContentType", mappedBy="category", orphanRemoval=true)
+     */
+    private Collection $categoryContentTypes;
+
+    /**
      * @ORM\Column(type="string", length=32, nullable=true)
      */
-    private ?string $categoryTemplateId = null;
+    private ?string $categoryPrototypeId = null;
 
     /**
      * @ORM\Column(type="string", length=16, nullable=false)
@@ -58,7 +52,6 @@ class Category extends BaseEntity implements BelongsToCampInterface {
         parent::__construct();
 
         $this->categoryContentTypes = new ArrayCollection();
-        $this->categoryContents = new ArrayCollection();
     }
 
     public function getCamp(): ?Camp {
@@ -86,30 +79,12 @@ class Category extends BaseEntity implements BelongsToCampInterface {
         $this->categoryContentTypes->removeElement($categoryContentType);
     }
 
-    public function getCategoryContents(): Collection {
-        return $this->categoryContents;
+    public function getCategoryPrototypeId(): ?string {
+        return $this->categoryPrototypeId;
     }
 
-    public function getRootCategoryContents(): Collection {
-        return $this->categoryContents->filter(fn (CategoryContent $cc) => $cc->isRoot());
-    }
-
-    public function addCategoryContent(CategoryContent $categoryContent): void {
-        $categoryContent->setCategory($this);
-        $this->categoryContents->add($categoryContent);
-    }
-
-    public function removeCategoryContent(CategoryContent $categoryContent): void {
-        $categoryContent->setCategory(null);
-        $this->categoryContents->removeElement($categoryContent);
-    }
-
-    public function getCategoryTemplateId(): ?string {
-        return $this->categoryTemplateId;
-    }
-
-    public function setCategoryTemplateId(?string $categoryTemplateId): void {
-        $this->categoryTemplateId = $categoryTemplateId;
+    public function setCategoryPrototypeId(?string $categoryPrototypeId): void {
+        $this->categoryPrototypeId = $categoryPrototypeId;
     }
 
     public function getShort(): ?string {

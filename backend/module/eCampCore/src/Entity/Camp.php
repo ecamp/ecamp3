@@ -51,7 +51,12 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
     /**
      * @ORM\Column(type="string", length=32, nullable=true)
      */
-    private ?string $campTemplateId = null;
+    private ?string $campPrototypeId = null;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=false)
+     */
+    private bool $isTemplate = false;
 
     /**
      * @ORM\Column(type="string", length=32, nullable=false)
@@ -64,7 +69,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
     private ?string $title = null;
 
     /**
-     * @ORM\Column(type="string", length=128, nullable=false)
+     * @ORM\Column(type="string", length=128, nullable=true)
      */
     private ?string $motto = null;
 
@@ -91,12 +96,20 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
         $this->materialLists = new ArrayCollection();
     }
 
-    public function getCampTemplateId(): ?string {
-        return $this->campTemplateId;
+    public function getCampPrototypeId(): ?string {
+        return $this->campPrototypeId;
     }
 
-    public function setCampTemplateId(?string $campTemplateId): void {
-        $this->campTemplateId = $campTemplateId;
+    public function setCampPrototypeId(?string $campPrototypeId): void {
+        $this->campPrototypeId = $campPrototypeId;
+    }
+
+    public function getIsTemplate(): bool {
+        return $this->isTemplate;
+    }
+
+    public function setIsTemplate(bool $isTemplate) {
+        $this->isTemplate = $isTemplate;
     }
 
     public function getName(): ?string {
