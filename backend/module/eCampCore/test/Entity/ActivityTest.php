@@ -3,6 +3,7 @@
 namespace eCamp\CoreTest\Entity;
 
 use eCamp\Core\Entity\Activity;
+use eCamp\Core\Entity\ActivityResponsible;
 use eCamp\Core\Entity\Camp;
 use eCamp\Core\Entity\Category;
 use eCamp\Core\Entity\ContentNode;
@@ -47,5 +48,16 @@ class ActivityTest extends AbstractTestCase {
         $this->assertContains($scheduleEntry, $activity->getScheduleEntries());
         $activity->removeScheduleEntry($scheduleEntry);
         $this->assertEquals(0, $activity->getScheduleEntries()->count());
+    }
+
+    public function testActivityResponsible(): void {
+        $activity = new Activity();
+        $activityResponsible = new ActivityResponsible();
+
+        $this->assertEquals(0, $activity->getActivityResponsibles()->count());
+        $activity->addActivityResponsible($activityResponsible);
+        $this->assertContains($activityResponsible, $activity->getActivityResponsibles());
+        $activity->removeActivityResponsible($activityResponsible);
+        $this->assertEquals(0, $activity->getActivityResponsibles()->count());
     }
 }

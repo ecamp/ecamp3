@@ -22,6 +22,7 @@ use eCamp\Core\Entity\ScheduleEntry;
 use eCamp\Core\Entity\User;
 use eCamp\Core\Entity\UserIdentity;
 use eCamp\Lib\Acl\Acl;
+use eCamp\Lib\Acl\AclAssertion;
 use eCamp\Lib\Acl\Guest;
 use eCamp\Lib\Entity\BaseEntity;
 use Interop\Container\ContainerInterface;

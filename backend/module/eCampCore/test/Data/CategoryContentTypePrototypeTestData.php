@@ -7,7 +7,6 @@ use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use eCamp\Core\Entity\Category;
 use eCamp\Core\Entity\CategoryContentType;
-use eCamp\CoreData\CategoryPrototypeData;
 
 class CategoryContentTypePrototypeTestData extends AbstractFixture implements DependentFixtureInterface {
     public static $PROTOTYPE1 = CategoryContentTypePrototypeTestData::class.':Prototype1';
@@ -28,6 +27,6 @@ class CategoryContentTypePrototypeTestData extends AbstractFixture implements De
     }
 
     public function getDependencies() {
-        return [CategoryPrototypeData::class, ContentTypeTestData::class];
+        return [CategoryPrototypeTestData::class, ContentTypeTestData::class];
     }
 }

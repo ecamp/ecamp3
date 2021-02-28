@@ -1,6 +1,6 @@
 <?php
 
-namespace eCamp\Core\Acl;
+namespace eCamp\Lib\Acl;
 
 use Laminas\Permissions\Acl\Acl;
 use Laminas\Permissions\Acl\Assertion\AssertionInterface;
@@ -14,7 +14,7 @@ class AclAssertion implements AssertionInterface {
     private $operand;
     private $assertions = [];
 
-    public static function or(...$assertions): AclAssertion {
+    public static function or(AssertionInterface ...$assertions): AclAssertion {
         $assertion = new AclAssertion();
         $assertion->operand = self::OR;
         $assertion->assertions = $assertions;
@@ -22,7 +22,7 @@ class AclAssertion implements AssertionInterface {
         return $assertion;
     }
 
-    public static function and(...$assertions): AclAssertion {
+    public static function and(AssertionInterface ...$assertions): AclAssertion {
         $assertion = new AclAssertion();
         $assertion->operand = self::AND;
         $assertion->assertions = $assertions;
@@ -33,7 +33,7 @@ class AclAssertion implements AssertionInterface {
     public function assert(Acl $acl, RoleInterface $role = null, ResourceInterface $resource = null, $privilege = null): bool {
         if (self::OR == $this->operand) {
             for ($i = 0; $i < count($this->assertions); ++$i) {
-                /** @var AclAssertion $assertion */
+                /** @var AssertionInterface $assertion */
                 $assertion = $this->assertions[$i];
                 if ($assertion->assert($acl, $role, $resource, $privilege)) {
                     return true;
@@ -44,7 +44,7 @@ class AclAssertion implements AssertionInterface {
         }
         if (self::AND == $this->operand) {
             for ($i = 0; $i < count($this->assertions); ++$i) {
-                /** @var AclAssertion $assertion */
+                /** @var AssertionInterface $assertion */
                 $assertion = $this->assertions[$i];
                 if (!$assertion->assert($acl, $role, $resource, $privilege)) {
                     return false;
