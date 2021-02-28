@@ -7,6 +7,8 @@ use eCamp\Core\EntityService\UserService;
 use eCamp\Lib\Service\EntityNotFoundException;
 use eCamp\LibTest\PHPUnit\AbstractDatabaseTestCase;
 use Laminas\Authentication\AuthenticationService;
+use Laminas\Mail\Transport\InMemory;
+use Laminas\Mail\Transport\TransportInterface;
 use PHPUnit\Framework\Constraint\Constraint;
 
 /**
@@ -19,6 +21,8 @@ class UserServiceTest extends AbstractDatabaseTestCase {
     public function testCreateUser(): void {
         /** @var UserService $userService */
         $userService = \eCampApp::GetService(UserService::class);
+        /** @var InMemory $mailTransport */
+        $mailTransport = \eCampApp::GetService(TransportInterface::class);
 
         /** @var User $user */
         $user = $userService->create((object) [
@@ -27,6 +31,11 @@ class UserServiceTest extends AbstractDatabaseTestCase {
         ]);
 
         $this->assertEquals(User::STATE_NONREGISTERED, $user->getState());
+
+        $message = $mailTransport->getLastMessage();
+        $this->assertCount(1, $message->getTo());
+        $to = $message->getTo()->current();
+        $this->assertEquals(self::EMAIL, $to->getEmail());
     }
 
     public function testGetUser(): void {
