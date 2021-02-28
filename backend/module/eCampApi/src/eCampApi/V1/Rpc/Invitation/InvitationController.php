@@ -38,17 +38,13 @@ class InvitationController extends RpcController {
             'rel' => 'self',
             'route' => [
                 'name' => 'e-camp-api.rpc.invitation',
-                'params' => [
-                    'action' => 'index',
-                ],
             ],
         ]);
         $data['find'] = Link::factory([
             'rel' => 'find',
             'route' => [
-                'name' => 'e-camp-api.rpc.invitation',
+                'name' => 'e-camp-api.rpc.invitation.find',
                 'params' => [
-                    'action' => 'find',
                     'inviteKey' => 'add_inviteKey_here',
                 ],
             ],
@@ -56,9 +52,8 @@ class InvitationController extends RpcController {
         $data['accept'] = Link::factory([
             'rel' => 'accept',
             'route' => [
-                'name' => 'e-camp-api.rpc.invitation',
+                'name' => 'e-camp-api.rpc.invitation.accept',
                 'params' => [
-                    'action' => 'accept',
                     'inviteKey' => 'add_inviteKey_here',
                 ],
             ],
@@ -66,9 +61,8 @@ class InvitationController extends RpcController {
         $data['reject'] = Link::factory([
             'rel' => 'reject',
             'route' => [
-                'name' => 'e-camp-api.rpc.invitation',
+                'name' => 'e-camp-api.rpc.invitation.reject',
                 'params' => [
-                    'action' => 'reject',
                     'inviteKey' => 'add_inviteKey_here',
                 ],
             ],
@@ -145,10 +139,7 @@ class InvitationController extends RpcController {
         $data['self'] = Link::factory([
             'rel' => 'self',
             'route' => [
-                'name' => 'e-camp-api.rpc.invitation',
-                'params' => [
-                    'action' => 'find',
-                ],
+                'name' => 'e-camp-api.rpc.invitation.find',
             ],
         ]);
         $json = new HalJsonModel();
