@@ -40,6 +40,7 @@ class ContentNodeHydrator implements HydratorInterface {
         $data = [
             'id' => $contentNode->getId(),
             'instanceName' => $contentNode->getInstanceName(),
+            'slot' => $contentNode->getSlot(),
             'position' => $contentNode->getPosition(),
             'contentTypeName' => $contentType->getName(),
 

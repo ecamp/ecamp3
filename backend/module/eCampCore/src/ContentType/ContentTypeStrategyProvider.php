@@ -21,7 +21,7 @@ class ContentTypeStrategyProvider {
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
-    public function get($contentTypeOrStrategyClass): ContentTypeStrategyInterface {
+    public function get($contentTypeOrStrategyClass): ?ContentTypeStrategyInterface {
         $strategyClass = $contentTypeOrStrategyClass;
 
         if ($contentTypeOrStrategyClass instanceof ContentType) {
