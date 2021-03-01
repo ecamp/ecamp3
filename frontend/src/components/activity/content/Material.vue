@@ -108,11 +108,11 @@
     <material-create-item
       v-if="$vuetify.breakpoint.smAndUp"
       :camp="camp"
-      :activity-content="activityContent"
+      :content-node="contentNode"
       @item-adding="onItemAdding" />
 
     <div v-else style="margin-top: 20px; text-align: right">
-      <dialog-material-item-create :camp="camp" :activity-content="activityContent">
+      <dialog-material-item-create :camp="camp" :content-node="contentNode">
         <template #activator="{ on }">
           <v-btn color="success" v-on="on">
             {{ $tc('components.camp.periodMaterialLists.addNewItem') }}
@@ -140,7 +140,7 @@ export default {
     MaterialCreateItem
   },
   props: {
-    activityContent: { type: Object, required: true }
+    contentNode: { type: Object, required: true }
   },
   data () {
     return {
@@ -149,7 +149,7 @@ export default {
   },
   computed: {
     camp () {
-      return this.activityContent.activity().camp()
+      return this.contentNode.activity().camp()
     },
     materialLists () {
       return this.camp.materialLists().items.map(l => ({
@@ -158,7 +158,7 @@ export default {
       }))
     },
     materialItems () {
-      return this.api.get().materialItems({ activityContentId: this.activityContent.id })
+      return this.api.get().materialItems({ contentNodeId: this.contentNode.id })
     },
     materialItemsSorted () {
       const items = this.materialItems.items

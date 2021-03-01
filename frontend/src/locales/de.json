@@ -1,5 +1,5 @@
 {
-  "activityContent": {
+  "contentNode": {
     "laThematicArea": {
       "entity": {
         "option": {
@@ -63,7 +63,7 @@
   },
   "components": {
     "activity": {
-      "activityContent": {
+      "contentNode": {
         "editName": "Namen umbenennen",
         "moveDown": "Nach unten bewegen",
         "moveUp": "Nach oben bewegen"

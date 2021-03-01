@@ -2,8 +2,8 @@
 
 namespace eCamp\CoreTest\Entity;
 
-use eCamp\Core\Entity\ActivityContent;
 use eCamp\Core\Entity\Camp;
+use eCamp\Core\Entity\ContentNode;
 use eCamp\Core\Entity\MaterialItem;
 use eCamp\Core\Entity\MaterialList;
 use eCamp\Core\Entity\Period;
@@ -38,23 +38,23 @@ class MaterialItemTest extends AbstractTestCase {
     public function testMaterialItemTarget(): void {
         $materialItem = new MaterialItem();
         $period = new Period();
-        $activityContent = new ActivityContent();
+        $contentNode = new ContentNode();
 
         $period->addMaterialItem($materialItem);
         $this->assertCount(1, $period->getMaterialItems());
         $this->assertEquals($period, $materialItem->getPeriod());
-        $this->isNull($materialItem->getActivityContent());
+        $this->isNull($materialItem->getContentNode());
         $period->removeMaterialItem($materialItem);
 
-        $materialItem->setActivityContent($activityContent);
-        $this->assertEquals($activityContent, $materialItem->getActivityContent());
+        $materialItem->setContentNode($contentNode);
+        $this->assertEquals($contentNode, $materialItem->getContentNode());
         $this->isNull($materialItem->getPeriod());
-        $materialItem->setActivityContent(null);
+        $materialItem->setContentNode(null);
 
         $period->addMaterialItem($materialItem);
         $this->assertCount(1, $period->getMaterialItems());
         $this->assertEquals($period, $materialItem->getPeriod());
-        $this->isNull($materialItem->getActivityContent());
+        $this->isNull($materialItem->getContentNode());
         $period->removeMaterialItem($materialItem);
     }
 }

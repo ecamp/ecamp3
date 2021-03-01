@@ -5,7 +5,7 @@ namespace eCamp\ContentType\SingleText;
 use Doctrine\ORM\ORMException;
 use eCamp\ContentType\SingleText\Service\SingleTextService;
 use eCamp\Core\ContentType\ContentTypeStrategyBase;
-use eCamp\Core\Entity\ActivityContent;
+use eCamp\Core\Entity\ContentNode;
 use eCamp\Lib\Acl\NoAccessException;
 use eCamp\Lib\Service\ServiceUtils;
 
@@ -18,8 +18,8 @@ class Strategy extends ContentTypeStrategyBase {
         $this->singleTextService = $singleTextService;
     }
 
-    public function activityContentExtract(ActivityContent $activityContent): array {
-        $singleText = $this->singleTextService->findOneByActivityContent($activityContent->getId());
+    public function contentNodeExtract(ContentNode $contentNode): array {
+        $singleText = $this->singleTextService->findOneByContentNode($contentNode->getId());
 
         if (!$singleText) {
             return [];
@@ -34,8 +34,8 @@ class Strategy extends ContentTypeStrategyBase {
      * @throws NoAccessException
      * @throws ORMException
      */
-    public function activityContentCreated(ActivityContent $activityContent): void {
-        $richtext = $this->singleTextService->createEntity([], $activityContent);
+    public function contentNodeCreated(ContentNode $contentNode): void {
+        $richtext = $this->singleTextService->createEntity([], $contentNode);
         $this->getServiceUtils()->emPersist($richtext);
     }
 }

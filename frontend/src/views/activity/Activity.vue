@@ -30,7 +30,7 @@ Displays a single activity
             <v-list-item v-for="act in availableContentTypes"
                          :key="act.contentType.id"
                          :disabled="!act.enabled"
-                         @click="addActivityContent(act.contentType.id)">
+                         @click="addContentNode(act.contentType.id)">
               <v-list-item-icon>
                 <v-icon>{{ $tc(act.contentTypeIconKey) }}</v-icon>
               </v-list-item-icon>
@@ -103,7 +103,7 @@ Displays a single activity
               </div>
             </div>
           </v-card>
-          <activity-content-layout :activity="activity" />
+          <content-node-layout :activity="activity" />
         </template>
       </v-card-text>
     </content-card>
@@ -115,7 +115,7 @@ import ContentCard from '@/components/layout/ContentCard'
 import ApiTextField from '@/components/form/api/ApiTextField'
 import ApiSelect from '@/components/form/api/ApiSelect'
 
-import ActivityContentLayout from '@/components/activity/ActivityContentLayout'
+import ContentNodeLayout from '@/components/activity/ContentNodeLayout'
 import camelCase from 'lodash/camelCase'
 
 export default {
@@ -124,7 +124,7 @@ export default {
     ContentCard,
     ApiTextField,
     ApiSelect,
-    ActivityContentLayout
+    ContentNodeLayout
   },
   props: {
     scheduleEntry: {
@@ -175,28 +175,28 @@ export default {
       }
       )
     },
-    activityContents () {
-      return this.activity.activityContents()
+    contentNodes () {
+      return this.activity.contentNodes()
     },
     availableContentTypes () {
       return this.category.categoryContentTypes().items.map(cct => ({
         id: cct.id,
         contentType: cct.contentType(),
-        contentTypeNameKey: 'activityContent.' + camelCase(cct.contentType().name) + '.name',
-        contentTypeIconKey: 'activityContent.' + camelCase(cct.contentType().name) + '.icon',
-        contentTypeSort: parseInt(this.$tc('activityContent.' + camelCase(cct.contentType().name) + '.sort')),
-        enabled: true // atct.contentType().allowMultiple || this.countActivityContents(atct.contentType()) === 0
+        contentTypeNameKey: 'contentNode.' + camelCase(cct.contentType().name) + '.name',
+        contentTypeIconKey: 'contentNode.' + camelCase(cct.contentType().name) + '.icon',
+        contentTypeSort: parseInt(this.$tc('contentNode.' + camelCase(cct.contentType().name) + '.sort')),
+        enabled: true // atct.contentType().allowMultiple || this.countContentNodes(atct.contentType()) === 0
       })).sort((a, b) => a.contentTypeSort - b.contentTypeSort)
     }
   },
   methods: {
-    countActivityContents (contentType) {
-      return this.activityContents.items.filter(ac => {
-        return ac.contentType().id === contentType.id
+    countContentNodes (contentType) {
+      return this.contentNodes.items.filter(cn => {
+        return cn.contentType().id === contentType.id
       }).length
     },
-    async addActivityContent (ctId) {
-      await this.api.post('/activity-contents', {
+    async addContentNode (ctId) {
+      await this.api.post('/content-nodes', {
         activityId: this.activity.id,
         contentTypeId: ctId
       })

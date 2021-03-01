@@ -3,7 +3,7 @@
 use eCampApi\V1\Factory\Config;
 use eCampApi\V1\Factory\InputFilter;
 
-return Config::Create('ActivityContent')
+return Config::Create('ContentNode')
     ->addCollectionQueryWhitelist('activityId')
     ->addInputFilterFactory(
         InputFilter::Create('instanceName')

@@ -2,7 +2,7 @@
 
 namespace eCamp\Core\ContentType;
 
-use eCamp\Core\Entity\ActivityContent;
+use eCamp\Core\Entity\ContentNode;
 use eCamp\Lib\Service\ServiceUtils;
 
 abstract class ContentTypeStrategyBase implements ContentTypeStrategyInterface {
@@ -12,9 +12,9 @@ abstract class ContentTypeStrategyBase implements ContentTypeStrategyInterface {
         $this->serviceUtils = $serviceUtils;
     }
 
-    abstract public function activityContentExtract(ActivityContent $activityContent): array;
+    abstract public function contentNodeExtract(ContentNode $contentNode): array;
 
-    abstract public function activityContentCreated(ActivityContent $activityContent): void;
+    abstract public function contentNodeCreated(ContentNode $contentNode): void;
 
     protected function getServiceUtils(): ServiceUtils {
         return $this->serviceUtils;

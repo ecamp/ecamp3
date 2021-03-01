@@ -25,8 +25,8 @@ class SectionService extends BaseContentTypeService {
         $section2 = $this->findEntity(Section::class, $id);
 
         $q = $this->getRepository()->createQueryBuilder('row');
-        $q->andWhere('row.activityContent = :activityContentId');
-        $q->setParameter('activityContentId', $section2->getActivityContent()->getId());
+        $q->andWhere('row.contentNode = :contentNodeId');
+        $q->setParameter('contentNodeId', $section2->getContentNode()->getId());
         $q->andWhere('row.pos < :pos');
         $q->setParameter('pos', $section2->getPos());
         $q->orderBy('row.pos', 'DESC');
@@ -52,8 +52,8 @@ class SectionService extends BaseContentTypeService {
         $section1 = $this->findEntity(Section::class, $id);
 
         $q = $this->getRepository()->createQueryBuilder('row');
-        $q->andWhere('row.activityContent = :activityContentId');
-        $q->setParameter('activityContentId', $section1->getActivityContent()->getId());
+        $q->andWhere('row.contentNode = :contentNodeId');
+        $q->setParameter('contentNodeId', $section1->getContentNode()->getId());
         $q->andWhere('row.pos > :pos');
         $q->setParameter('pos', $section1->getPos());
         $q->orderBy('row.pos', 'ASC');

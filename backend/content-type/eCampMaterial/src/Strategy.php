@@ -4,11 +4,11 @@ namespace eCamp\ContentType\Material;
 
 use Doctrine\ORM\ORMException;
 use eCamp\Core\ContentType\ContentTypeStrategyBase;
-use eCamp\Core\Entity\ActivityContent;
+use eCamp\Core\Entity\ContentNode;
 use eCamp\Lib\Acl\NoAccessException;
 
 class Strategy extends ContentTypeStrategyBase {
-    public function activityContentExtract(ActivityContent $activityContent): array {
+    public function contentNodeExtract(ContentNode $contentNode): array {
         return [];
     }
 
@@ -16,6 +16,6 @@ class Strategy extends ContentTypeStrategyBase {
      * @throws NoAccessException
      * @throws ORMException
      */
-    public function activityContentCreated(ActivityContent $activityContent): void {
+    public function contentNodeCreated(ContentNode $contentNode): void {
     }
 }

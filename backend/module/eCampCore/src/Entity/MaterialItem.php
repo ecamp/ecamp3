@@ -22,10 +22,10 @@ class MaterialItem extends BaseEntity implements BelongsToCampInterface {
     protected ?Period $period = null;
 
     /**
-     * @ORM\ManyToOne(targetEntity="eCamp\Core\Entity\ActivityContent")
+     * @ORM\ManyToOne(targetEntity="eCamp\Core\Entity\ContentNode")
      * @ORM\JoinColumn(nullable=true, onDelete="CASCADE")
      */
-    protected ?ActivityContent $activityContent = null;
+    protected ?ContentNode $contentNode = null;
 
     /**
      * @ORM\Column(type="string", length=64, nullable=false)
@@ -59,17 +59,17 @@ class MaterialItem extends BaseEntity implements BelongsToCampInterface {
     }
 
     public function setPeriod(?Period $period): void {
-        $this->activityContent = null;
+        $this->contentNode = null;
         $this->period = $period;
     }
 
-    public function getActivityContent(): ?ActivityContent {
-        return $this->activityContent;
+    public function getContentNode(): ?ContentNode {
+        return $this->contentNode;
     }
 
-    public function setActivityContent(?ActivityContent $activityContent): void {
+    public function setContentNode(?ContentNode $contentNode): void {
         $this->period = null;
-        $this->activityContent = $activityContent;
+        $this->contentNode = $contentNode;
     }
 
     public function getArticle(): ?string {

@@ -89,7 +89,7 @@ class MaterialItemServiceTest extends AbstractApiControllerTestCase {
         /** @var MaterialItemService $materialItemService */
         $materialItemService = $this->getApplicationServiceLocator()->get(MaterialItemService::class);
 
-        // Period or ActivityContent is required
+        // Period or ContentNode is required
         $this->expectException(EntityValidationException::class);
 
         $materialItemService->create((object) [

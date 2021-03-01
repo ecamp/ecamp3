@@ -14,7 +14,7 @@ use eCamp\Lib\Entity\BaseEntity;
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks
  */
-class ActivityContent extends BaseEntity implements ContentTypeStrategyProviderAware, BelongsToCampInterface {
+class ContentNode extends BaseEntity implements ContentTypeStrategyProviderAware, BelongsToCampInterface {
     use ContentTypeStrategyProviderTrait;
 
     /**
@@ -24,13 +24,13 @@ class ActivityContent extends BaseEntity implements ContentTypeStrategyProviderA
     private ?Activity $activity = null;
 
     /**
-     * @ORM\ManyToOne(targetEntity="ActivityContent")
+     * @ORM\ManyToOne(targetEntity="ContentNode")
      * @ORM\JoinColumn(nullable=true)
      */
-    private ?ActivityContent $parent = null;
+    private ?ContentNode $parent = null;
 
     /**
-     * @ORM\OneToMany(targetEntity="ActivityContent", mappedBy="parent")
+     * @ORM\OneToMany(targetEntity="ContentNode", mappedBy="parent")
      */
     private Collection $children;
 
@@ -72,11 +72,11 @@ class ActivityContent extends BaseEntity implements ContentTypeStrategyProviderA
         return null == $this->parent;
     }
 
-    public function getParent(): ?ActivityContent {
+    public function getParent(): ?ContentNode {
         return $this->parent;
     }
 
-    public function setParent(?ActivityContent $parent): void {
+    public function setParent(?ContentNode $parent): void {
         $this->parent = $parent;
     }
 
@@ -100,14 +100,14 @@ class ActivityContent extends BaseEntity implements ContentTypeStrategyProviderA
         return $this->children;
     }
 
-    public function addChild(ActivityContent $activityContent): void {
-        $activityContent->setParent($this);
-        $this->children->add($activityContent);
+    public function addChild(ContentNode $contentNode): void {
+        $contentNode->setParent($this);
+        $this->children->add($contentNode);
     }
 
-    public function removeChild(ActivityContent $activityContent): void {
-        $activityContent->setParent(null);
-        $this->children->removeElement($activityContent);
+    public function removeChild(ContentNode $contentNode): void {
+        $contentNode->setParent(null);
+        $this->children->removeElement($contentNode);
     }
 
     public function getPosition() {
@@ -127,6 +127,6 @@ class ActivityContent extends BaseEntity implements ContentTypeStrategyProviderA
 
     /** @ORM\PrePersist */
     public function PrePersist(): void {
-        $this->getContentTypeStrategy()->activityContentCreated($this);
+        $this->getContentTypeStrategy()->contentNodeCreated($this);
     }
 }

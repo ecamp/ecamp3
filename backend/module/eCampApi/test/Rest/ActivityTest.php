@@ -71,7 +71,7 @@ JSON;
                 }
             }
 JSON;
-        $expectedEmbeddedObjects = ['camp', 'category', 'scheduleEntries', 'activityContents', 'campCollaborations']; // TODO discuss: wouldn't 'activityResponsibles' be more intuitive than 'campCollaborations'
+        $expectedEmbeddedObjects = ['camp', 'category', 'scheduleEntries', 'contentNodes', 'campCollaborations']; // TODO discuss: wouldn't 'activityResponsibles' be more intuitive than 'campCollaborations'
 
         $this->verifyHalResourceResponse($expectedBody, $expectedLinks, $expectedEmbeddedObjects);
     }

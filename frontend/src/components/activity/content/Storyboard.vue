@@ -3,17 +3,17 @@
     <v-container fluid>
       <v-row no-gutters class="text-subtitle-2">
         <v-col cols="2">
-          {{ $tc('activityContent.storyboard.entity.section.fields.column1') }}
+          {{ $tc('contentNode.storyboard.entity.section.fields.column1') }}
         </v-col>
         <v-col cols="7">
-          {{ $tc('activityContent.storyboard.entity.section.fields.column2') }}
+          {{ $tc('contentNode.storyboard.entity.section.fields.column2') }}
         </v-col>
         <v-col cols="2">
-          {{ $tc('activityContent.storyboard.entity.section.fields.column3') }}
+          {{ $tc('contentNode.storyboard.entity.section.fields.column3') }}
         </v-col>
         <v-col cols="1" />
       </v-row>
-      <div v-for="section in activityContent.sections().items" :key="section._meta.self">
+      <div v-for="section in contentNode.sections().items" :key="section._meta.self">
         <!-- add before -->
         <v-row no-gutters class="row-inter" justify="center">
           <v-col cols="1">
@@ -97,20 +97,20 @@ export default {
     DialogEntityDelete
   },
   props: {
-    activityContent: { type: Object, required: true }
+    contentNode: { type: Object, required: true }
   },
   methods: {
     async addSection () {
       // this.isAdding = true
       await this.api.post('/content-type/storyboards', {
-        activityContentId: this.activityContent.id,
+        contentNodeId: this.contentNode.id,
         pos: 100
       })
       await this.refreshContent()
       // this.isAdding = false
     },
     async refreshContent () {
-      await this.api.reload(this.activityContent)
+      await this.api.reload(this.contentNode)
     }
   }
 }

@@ -159,8 +159,8 @@ export default {
       // Activity-Material
       if (this.showActivityMaterial) {
         materialList.materialItems().items
-          .filter(mi => mi.activityContent !== null)
-          .forEach(mi => mi.activityContent().activity().scheduleEntries().items
+          .filter(mi => mi.contentNode !== null)
+          .forEach(mi => mi.contentNode().activity().scheduleEntries().items
             .filter(se => se.period().id === this.period.id)
             .forEach(se => items.push({
               key: mi.id + '/' + se.id,

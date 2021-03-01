@@ -13,9 +13,9 @@ use eCamp\Lib\Entity\BaseEntity;
  */
 class Activity extends BaseEntity implements BelongsToCampInterface {
     /**
-     * @ORM\OneToMany(targetEntity="ActivityContent", mappedBy="activity", cascade={"all"}, orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="ContentNode", mappedBy="activity", cascade={"all"}, orphanRemoval=true)
      */
-    protected Collection $activityContents;
+    protected Collection $contentNodes;
 
     /**
      * @ORM\OneToMany(targetEntity="ScheduleEntry", mappedBy="activity", orphanRemoval=true)
@@ -52,7 +52,7 @@ class Activity extends BaseEntity implements BelongsToCampInterface {
     public function __construct() {
         parent::__construct();
 
-        $this->activityContents = new ArrayCollection();
+        $this->contentNodes = new ArrayCollection();
         $this->scheduleEntries = new ArrayCollection();
         $this->activityResponsibles = new ArrayCollection();
     }
@@ -94,18 +94,18 @@ class Activity extends BaseEntity implements BelongsToCampInterface {
         $this->location = $location;
     }
 
-    public function getActivityContents(): Collection {
-        return $this->activityContents;
+    public function getContentNodes(): Collection {
+        return $this->contentNodes;
     }
 
-    public function addActivityContent(ActivityContent $activityContent): void {
-        $activityContent->setActivity($this);
-        $this->activityContents->add($activityContent);
+    public function addContentNode(ContentNode $contentNode): void {
+        $contentNode->setActivity($this);
+        $this->contentNodes->add($contentNode);
     }
 
-    public function removeActivityContent(ActivityContent $activityContent): void {
-        $activityContent->setActivity(null);
-        $this->activityContents->removeElement($activityContent);
+    public function removeContentNode(ContentNode $contentNode): void {
+        $contentNode->setActivity(null);
+        $this->contentNodes->removeElement($contentNode);
     }
 
     public function getScheduleEntries(): Collection {

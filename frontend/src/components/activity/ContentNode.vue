@@ -36,7 +36,7 @@
             dense
             autofocus
             :auto-save="false"
-            :uri="activityContent._meta.self"
+            :uri="contentNode._meta.self"
             fieldname="instanceName"
             @finished="editInstanceName = false" />
         </div>
@@ -64,7 +64,7 @@
                 <v-icon>mdi-pencil</v-icon>
               </v-list-item-icon>
               <v-list-item-title>
-                {{ $tc('components.activity.activityContent.editName') }}
+                {{ $tc('components.activity.contentNode.editName') }}
               </v-list-item-title>
             </v-list-item>
             <v-divider />
@@ -74,7 +74,7 @@
                   <v-icon>mdi-arrow-up-drop-circle-outline</v-icon>
                 </v-list-item-icon>
                 <v-list-item-title>
-                  {{ $tc('components.activity.activityContent.moveUp') }}
+                  {{ $tc('components.activity.contentNode.moveUp') }}
                 </v-list-item-title>
               </v-list-item>
               <v-list-item @click="() => $emit('move-down')">
@@ -82,12 +82,12 @@
                   <v-icon>mdi-arrow-down-drop-circle-outline</v-icon>
                 </v-list-item-icon>
                 <v-list-item-title>
-                  {{ $tc('components.activity.activityContent.moveDown') }}
+                  {{ $tc('components.activity.contentNode.moveDown') }}
                 </v-list-item-title>
               </v-list-item>
               <v-divider />
             </template>
-            <v-list-item @click="showDeleteActivityContentDialog">
+            <v-list-item @click="showDeleteContentNodeDialog">
               <v-list-item-icon>
                 <v-icon>mdi-delete</v-icon>
               </v-list-item-icon>
@@ -98,10 +98,10 @@
           </v-list>
         </v-menu>
       </v-toolbar>
-      <dialog-entity-delete ref="deleteActivityContentDialog" :entity="activityContent" />
+      <dialog-entity-delete ref="deleteContentNodeDialog" :entity="contentNode" />
     </v-expansion-panel-header>
     <v-expansion-panel-content>
-      <component :is="activityContent.contentTypeName" :activity-content="activityContent" />
+      <component :is="contentNode.contentTypeName" :content-node="contentNode" />
     </v-expansion-panel-content>
   </v-expansion-panel>
 </template>
@@ -120,7 +120,7 @@ import ApiTextField from '../form/api/ApiTextField'
 import LAThematicArea from '@/components/activity/content/LAThematicArea'
 
 export default {
-  name: 'ActivityContent',
+  name: 'ContentNode',
   components: {
     ApiTextField,
     SafetyConcept,
@@ -133,7 +133,7 @@ export default {
     ButtonDelete
   },
   props: {
-    activityContent: { type: Object, required: true },
+    contentNode: { type: Object, required: true },
     dragDropEnabled: { type: Boolean, required: true }
   },
   data () {
@@ -162,21 +162,21 @@ export default {
   },
   computed: {
     instanceOrContentTypeName () {
-      if (this.activityContent.instanceName) {
-        return this.activityContent.instanceName
+      if (this.contentNode.instanceName) {
+        return this.contentNode.instanceName
       }
-      return this.$tc(`activityContent.${camelCase(this.activityContent.contentTypeName)}.name`)
+      return this.$tc(`contentNode.${camelCase(this.contentNode.contentTypeName)}.name`)
     }
   },
   mounted () {
-    this.currentIcon = this.$tc(`activityContent.${camelCase(this.activityContent.contentTypeName)}.icon`)
+    this.currentIcon = this.$tc(`contentNode.${camelCase(this.contentNode.contentTypeName)}.icon`)
   },
   methods: {
     toggleEditInstanceName (e) {
       this.editInstanceName = !this.editInstanceName
     },
-    showDeleteActivityContentDialog (e) {
-      this.$refs.deleteActivityContentDialog.showDialog = true
+    showDeleteContentNodeDialog (e) {
+      this.$refs.deleteContentNodeDialog.showDialog = true
     }
   }
 }

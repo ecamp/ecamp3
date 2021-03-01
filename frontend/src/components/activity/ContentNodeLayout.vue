@@ -28,7 +28,7 @@ Displays a single activity
 import ContentType from '@/components/activity/ContentType'
 
 export default {
-  name: 'ActivityContentLayout',
+  name: 'ContentNodeLayout',
   components: {
     ContentType
   },

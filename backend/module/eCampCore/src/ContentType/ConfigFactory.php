@@ -5,7 +5,7 @@ namespace eCamp\Core\ContentType;
 class ConfigFactory {
     /**
      * @param string      $name       Content type name is PascalCase
-     * @param bool        $multiple   false=single entitity per activityContent; true=multiple entities per activityContent
+     * @param bool        $multiple   false=single entitity per contentNode; true=multiple entities per contentNode
      * @param null|string $entityName Specify entity name if it deviates from main name
      * @param null|string $namePlural specify non-standard plural names
      */
@@ -31,7 +31,7 @@ class ConfigFactory {
         $config = [
             'router' => [
                 'routes' => [
-                    "e-camp-api.rest.doctrine.activity-content.{$route}" => [
+                    "e-camp-api.rest.doctrine.content-node.{$route}" => [
                         'type' => 'Segment',
                         'options' => [
                             'route' => "/api/content-type/{$apiEndpoint}[/:{$propertyPrefix}Id]",
@@ -47,7 +47,7 @@ class ConfigFactory {
                 "eCamp\\ContentType\\{$namespace}\\Controller\\{$entity}Controller" => [
                     'listener' => "eCamp\\ContentType\\{$namespace}\\Service\\{$entity}Service",
                     'controller_class' => "eCamp\\ContentType\\{$namespace}\\Controller\\{$entity}Controller",
-                    'route_name' => "e-camp-api.rest.doctrine.activity-content.{$route}",
+                    'route_name' => "e-camp-api.rest.doctrine.content-node.{$route}",
                     'route_identifier_name' => "{$propertyPrefix}Id",
                     'entity_identifier_name' => 'id',
                     'collection_name' => 'items',
@@ -55,15 +55,15 @@ class ConfigFactory {
                         0 => 'GET',
                         1 => 'PATCH',
                         2 => 'PUT',
-                        3 => 'DELETE', // TODO: disallow deleting directly. Single entities should always be deleted via ActivityContent.
+                        3 => 'DELETE', // TODO: disallow deleting directly. Single entities should always be deleted via ContentNode.
                     ],
                     'collection_http_methods' => [
                         0 => 'GET',
-                        1 => 'POST', // TODO: disallow posting directly. Single entities should always be created via ActivityContent.
+                        1 => 'POST', // TODO: disallow posting directly. Single entities should always be created via ContentNode.
                     ],
                     'collection_query_whitelist' => [
                         0 => 'page_size',
-                        1 => 'activityContentId', // TO DO: not needed for sigle entities
+                        1 => 'contentNodeId', // TO DO: not needed for sigle entities
                     ],
                     'page_size' => -1,
                     'page_size_param' => 'page_size',
@@ -78,10 +78,10 @@ class ConfigFactory {
                     "eCamp\\ContentType\\{$namespace}\\Entity\\{$entity}" => [
                         'route_identifier_name' => "{$propertyPrefix}Id",
                         'entity_identifier_name' => 'id',
-                        'route_name' => "e-camp-api.rest.doctrine.activity-content.{$route}",
+                        'route_name' => "e-camp-api.rest.doctrine.content-node.{$route}",
                         'route_params' => [
-                            'activityContentId' => function ($object) {
-                                return $object->getActivityContent()->getId();
+                            'activityCocontentNodeIdntentId' => function ($object) {
+                                return $object->getContentNode()->getId();
                             },
                         ],
                         'hydrator' => "eCamp\\ContentType\\{$namespace}\\Hydrator\\{$entity}Hydrator",
@@ -89,7 +89,7 @@ class ConfigFactory {
                     ],
                     "eCamp\\ContentType\\{$namespace}\\Entity\\{$entity}Collection" => [
                         'entity_identifier_name' => 'id',
-                        'route_name' => "e-camp-api.rest.doctrine.activity-content.{$route}",
+                        'route_name' => "e-camp-api.rest.doctrine.content-node.{$route}",
                         'is_collection' => true,
                         'max_depth' => 0,
                     ],

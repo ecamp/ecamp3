@@ -27,7 +27,7 @@ class MaterialItemHydrator implements HydratorInterface {
 
             'materialList' => EntityLink::Create($materialItem->getMaterialList()),
             'period' => EntityLink::Create($materialItem->getPeriod()),
-            'activityContent' => EntityLink::Create($materialItem->getActivityContent()),
+            'contentNode' => EntityLink::Create($materialItem->getContentNode()),
         ];
     }
 

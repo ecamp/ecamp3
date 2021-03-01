@@ -2,10 +2,10 @@
 
 namespace eCamp\Core\ContentType;
 
-use eCamp\Core\Entity\ActivityContent;
+use eCamp\Core\Entity\ContentNode;
 
 interface ContentTypeStrategyInterface {
-    public function activityContentExtract(ActivityContent $activityContent): array;
+    public function contentNodeExtract(ContentNode $contentNode): array;
 
-    public function activityContentCreated(ActivityContent $activityContent): void;
+    public function contentNodeCreated(ContentNode $contentNode): void;
 }

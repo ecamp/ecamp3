@@ -3,9 +3,9 @@
 namespace eCamp\CoreTest\Entity;
 
 use eCamp\Core\Entity\Activity;
-use eCamp\Core\Entity\ActivityContent;
 use eCamp\Core\Entity\Camp;
 use eCamp\Core\Entity\Category;
+use eCamp\Core\Entity\ContentNode;
 use eCamp\Core\Entity\ScheduleEntry;
 use eCamp\LibTest\PHPUnit\AbstractTestCase;
 
@@ -27,15 +27,15 @@ class ActivityTest extends AbstractTestCase {
         $this->assertEquals($category, $activity->getCategory());
     }
 
-    public function testActivityContent(): void {
+    public function testContentNode(): void {
         $activity = new Activity();
-        $activityContent = new ActivityContent();
+        $contentnode = new ContentNode();
 
-        $this->assertEquals(0, $activity->getActivityContents()->count());
-        $activity->addActivityContent($activityContent);
-        $this->assertContains($activityContent, $activity->getActivityContents());
-        $activity->removeActivityContent($activityContent);
-        $this->assertEquals(0, $activity->getActivityContents()->count());
+        $this->assertEquals(0, $activity->getContentNodes()->count());
+        $activity->addContentNode($contentnode);
+        $this->assertContains($contentnode, $activity->getContentNodes());
+        $activity->removeContentNode($contentnode);
+        $this->assertEquals(0, $activity->getContentNodes()->count());
     }
 
     public function testScheduleEntry(): void {

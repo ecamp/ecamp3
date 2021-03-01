@@ -90,7 +90,7 @@ JSON;
                     "templated": true
                 },
                 "materialItems": {
-                    "href": "http://{$host}/api/material-items{/materialItemId}{?page_size,page,campId,materialListId,activityContentId}",
+                    "href": "http://{$host}/api/material-items{/materialItemId}{?page_size,page,campId,materialListId,contentNodeId}",
                     "templated": true
                 }
             }

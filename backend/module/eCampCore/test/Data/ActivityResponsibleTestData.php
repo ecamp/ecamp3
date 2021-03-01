@@ -5,6 +5,7 @@ namespace eCamp\CoreTest\Data;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
+use eCamp\Core\Entity\Activity;
 use eCamp\Core\Entity\ActivityResponsible;
 use eCamp\Core\Entity\CampCollaboration;
 

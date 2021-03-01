@@ -3,7 +3,7 @@
 namespace eCamp\ApiTest\Rest;
 
 use Doctrine\Common\DataFixtures\Loader;
-use eCamp\Core\Entity\ActivityContent;
+use eCamp\Core\Entity\ContentNode;
 use eCamp\Core\Entity\MaterialItem;
 use eCamp\Core\Entity\MaterialList;
 use eCamp\Core\Entity\Period;
@@ -19,8 +19,8 @@ class MaterialItemTest extends AbstractApiControllerTestCase {
     /** @var Period */
     protected $period;
 
-    /** @var ActivityContent */
-    protected $activityContent;
+    /** @var ContentNode */
+    protected $contentNode;
 
     /** @var MaterialList */
     protected $materialList;
@@ -48,7 +48,7 @@ class MaterialItemTest extends AbstractApiControllerTestCase {
 
         $this->user = $userLoader->getReference(UserTestData::$USER1);
         $this->period = $periodLoader->getReference(PeriodTestData::$PERIOD1);
-        $this->activityContent = $materialItemLoader->getReference(MaterialItemTestData::$ACTIVITYCONTENT1);
+        $this->contentNode = $materialItemLoader->getReference(MaterialItemTestData::$CONTENTNODE1);
         $this->materialItem = $materialItemLoader->getReference(MaterialItemTestData::$MATERIALITEM1);
         $this->materialList = $this->materialItem->getMaterialList();
 
@@ -77,7 +77,7 @@ JSON;
                 }
             }
 JSON;
-        $expectedEmbeddedObjects = ['materialList', 'activityContent'];
+        $expectedEmbeddedObjects = ['materialList', 'contentNode'];
 
         $this->verifyHalResourceResponse($expectedBody, $expectedLinks, $expectedEmbeddedObjects);
     }
@@ -105,7 +105,7 @@ JSON;
             'unit' => 'kg',
             'article' => 'water',
             'materialListId' => $this->materialList->getId(),
-            'activityContentId' => $this->activityContent->getId(),
+            'contentNodeId' => $this->contentNode->getId(),
         ]);
 
         $this->dispatch($this->apiEndpoint, 'POST');

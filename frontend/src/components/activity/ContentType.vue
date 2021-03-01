@@ -1,18 +1,18 @@
 <template>
-  <div v-if="activityContents.length > 0">
+  <div v-if="contentNodes.length > 0">
     <v-card outlined class="mt-3">
       <v-expansion-panels v-model="openPanels" multiple flat>
         <draggable
-          v-model="sortedActivityContentHrefs"
+          v-model="sortedContentNodeHrefs"
           :component-data="{ attrs: { class: 'drag-container' } }"
-          :disabled="!(sortedActivityContents.length > 1)"
+          :disabled="!(sortedContentNodes.length > 1)"
           handle=".drag-handle">
-          <activity-content v-for="activityContent in sortedActivityContents"
-                            :key="activityContent._meta.self"
-                            :activity-content="activityContent"
-                            :drag-drop-enabled="sortedActivityContents.length > 1"
-                            @move-up="() => moveUp(activityContent)"
-                            @move-down="() => moveDown(activityContent)" />
+          <content-node v-for="contentNode in sortedContentNodes"
+                        :key="contentNode._meta.self"
+                        :content-node="contentNode"
+                        :drag-drop-enabled="sortedContentNodes.length > 1"
+                        @move-up="() => moveUp(contentNode)"
+                        @move-down="() => moveDown(contentNode)" />
         </draggable>
       </v-expansion-panels>
     </v-card>
@@ -20,13 +20,13 @@
 </template>
 
 <script>
-import ActivityContent from './ActivityContent'
+import ContentNode from './ContentNode'
 import Draggable from 'vuedraggable'
 
 export default {
   name: 'ContentType',
   components: {
-    ActivityContent,
+    ContentNode,
     Draggable
   },
   props: {
@@ -36,66 +36,66 @@ export default {
   data () {
     return {
       openPanels: [0],
-      sortedActivityContentHrefs: []
+      sortedContentNodeHrefs: []
     }
   },
   computed: {
-    activityContents () {
-      return this.activity.activityContents().items.filter(ep => ep.contentTypeName === this.contentTypeName)
+    contentNodes () {
+      return this.activity.contentNodes().items.filter(ep => ep.contentTypeName === this.contentTypeName)
     },
-    sortedActivityContents () {
-      return this.sortedActivityContentHrefs.map(href => this.api.get(href))
+    sortedContentNodes () {
+      return this.sortedContentNodeHrefs.map(href => this.api.get(href))
     }
   },
   watch: {
     activity () {
       if (this.activity !== null) {
         this.activity._meta.load.then(() => {
-          this.refreshSortedActivityContentHrefs()
+          this.refreshSortedContentNodeHrefs()
           this.openPanels = [0]
         })
       }
     },
-    activityContents () {
-      this.refreshSortedActivityContentHrefs()
+    contentNodes () {
+      this.refreshSortedContentNodeHrefs()
     }
   },
   mounted () {
-    this.refreshSortedActivityContentHrefs()
+    this.refreshSortedContentNodeHrefs()
   },
   methods: {
-    moveUp (ac) {
-      const href = ac._meta.self
-      const idx = this.sortedActivityContentHrefs.indexOf(href)
+    moveUp (cn) {
+      const href = cn._meta.self
+      const idx = this.sortedContentNodeHrefs.indexOf(href)
       if (idx > 0) {
-        this.sortedActivityContentHrefs.splice(idx, 1)
-        this.sortedActivityContentHrefs.splice(idx - 1, 0, href)
+        this.sortedContentNodeHrefs.splice(idx, 1)
+        this.sortedContentNodeHrefs.splice(idx - 1, 0, href)
       }
     },
-    moveDown (ac) {
-      const href = ac._meta.self
-      const idx = this.sortedActivityContentHrefs.indexOf(href)
-      if (idx < this.sortedActivityContentHrefs.length - 1) {
-        this.sortedActivityContentHrefs.splice(idx, 1)
-        this.sortedActivityContentHrefs.splice(idx + 1, 0, href)
+    moveDown (cn) {
+      const href = cn._meta.self
+      const idx = this.sortedContentNodeHrefs.indexOf(href)
+      if (idx < this.sortedContentNodeHrefs.length - 1) {
+        this.sortedContentNodeHrefs.splice(idx, 1)
+        this.sortedContentNodeHrefs.splice(idx + 1, 0, href)
       }
     },
-    refreshSortedActivityContentHrefs () {
-      const activityContentHrefs = this.activityContents.map(ac => ac._meta.self)
+    refreshSortedContentNodeHrefs () {
+      const contentNodeHrefs = this.contentNodes.map(cn => cn._meta.self)
 
       // append new Ids:
-      for (let i = activityContentHrefs.length - 1; i >= 0; i--) {
-        const href = activityContentHrefs[i]
-        if (!this.sortedActivityContentHrefs.includes(href)) {
-          this.sortedActivityContentHrefs.push(href)
+      for (let i = contentNodeHrefs.length - 1; i >= 0; i--) {
+        const href = contentNodeHrefs[i]
+        if (!this.sortedContentNodeHrefs.includes(href)) {
+          this.sortedContentNodeHrefs.push(href)
         }
       }
 
       // remove unknown Ids:
-      for (let i = this.sortedActivityContentHrefs.length - 1; i >= 0; i--) {
-        const href = this.sortedActivityContentHrefs[i]
-        if (!activityContentHrefs.includes(href)) {
-          this.sortedActivityContentHrefs.splice(i, 1)
+      for (let i = this.sortedContentNodeHrefs.length - 1; i >= 0; i--) {
+        const href = this.sortedContentNodeHrefs[i]
+        if (!contentNodeHrefs.includes(href)) {
+          this.sortedContentNodeHrefs.splice(i, 1)
         }
       }
     }

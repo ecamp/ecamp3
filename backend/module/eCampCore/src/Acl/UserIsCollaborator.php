@@ -2,8 +2,8 @@
 
 namespace eCamp\Core\Acl;
 
-use eCamp\Core\Entity\BelongsToActivityContentInterface;
 use eCamp\Core\Entity\BelongsToCampInterface;
+use eCamp\Core\Entity\BelongsToContentNodeInterface;
 use eCamp\Core\Entity\CampCollaboration;
 use eCamp\Core\Entity\User;
 use Laminas\Permissions\Acl\Acl;
@@ -22,8 +22,8 @@ class UserIsCollaborator implements AssertionInterface {
         /** @var User $user */
         $user = $role;
 
-        if ($resource instanceof BelongsToActivityContentInterface) {
-            $resource = $resource->getActivityContent();
+        if ($resource instanceof BelongsToContentNodeInterface) {
+            $resource = $resource->getContentNode();
         }
 
         if ($resource instanceof BelongsToCampInterface) {
