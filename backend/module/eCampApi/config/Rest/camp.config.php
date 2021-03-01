@@ -1,81 +1,26 @@
 <?php
 
-use eCampApi\ConfigFactory;
+use eCampApi\V1\Factory\Config;
+use eCampApi\V1\Factory\InputFilter;
 
-$config = ConfigFactory::createConfig('Camp');
-
-$config['api-tools-content-validation'] = [
-    'eCampApi\\V1\\Rest\\Camp\\Controller' => [
-        'input_filter' => 'eCampApi\\V1\\Rest\\Camp\\Validator',
-    ],
-];
-
-$config['input_filter_specs'] = [
-    'eCampApi\\V1\\Rest\\Camp\\Validator' => [
-        0 => [
-            'name' => 'name',
-            'required' => true,
-            'filters' => [
-                0 => [
-                    'name' => 'Laminas\\Filter\\StringTrim',
-                ],
-                1 => [
-                    'name' => 'Laminas\\Filter\\StripTags',
-                ],
-            ],
-            'validators' => [
-                0 => [
-                    'name' => 'Laminas\\Validator\\StringLength',
-                    'options' => [
-                        'min' => 1,
-                        'max' => 32,
-                    ],
-                ],
-            ],
-        ],
-        1 => [
-            'name' => 'title',
-            'required' => true,
-            'filters' => [
-                0 => [
-                    'name' => 'Laminas\\Filter\\StringTrim',
-                ],
-                1 => [
-                    'name' => 'Laminas\\Filter\\StripTags',
-                ],
-            ],
-            'validators' => [
-                0 => [
-                    'name' => 'Laminas\\Validator\\StringLength',
-                    'options' => [
-                        'min' => 1,
-                        'max' => 64,
-                    ],
-                ],
-            ],
-        ],
-        2 => [
-            'name' => 'motto',
-            'required' => true,
-            'filters' => [
-                0 => [
-                    'name' => 'Laminas\\Filter\\StringTrim',
-                ],
-                1 => [
-                    'name' => 'Laminas\\Filter\\StripTags',
-                ],
-            ],
-            'validators' => [
-                0 => [
-                    'name' => 'Laminas\\Validator\\StringLength',
-                    'options' => [
-                        'min' => 1,
-                        'max' => 128,
-                    ],
-                ],
-            ],
-        ],
-    ],
-];
-
-return $config;
+return Config::Create('Camp')
+    ->addInputFilterFactory(
+        InputFilter::Create('name', true)
+            ->addFilterStringTrim()
+            ->addFilterStripTags()
+            ->addValidatorStringLength(1, 32)
+    )
+    ->addInputFilterFactory(
+        InputFilter::Create('title', true)
+            ->addFilterStringTrim()
+            ->addFilterStripTags()
+            ->addValidatorStringLength(1, 64)
+    )
+    ->addInputFilterFactory(
+        InputFilter::Create('motto', true)
+            ->addFilterStringTrim()
+            ->addFilterStripTags()
+            ->addValidatorStringLength(1, 128)
+    )
+    ->buildConfig()
+;
