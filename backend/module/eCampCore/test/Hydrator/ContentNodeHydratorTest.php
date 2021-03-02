@@ -19,17 +19,17 @@ class ContentNodeHydratorTest extends AbstractTestCase {
         $contentType = new ContentType();
         $contentType->setName('type-name');
 
+        $contentNodeParent = new ContentNode();
+        $contentNodeParent->setContentType($contentType);
+        $contentNodeParent->setOwner(new Category());
+
         $contentNode = new ContentNode();
         $contentNode->setInstanceName('my-name');
         $contentNode->setSlot('my-slot');
         $contentNode->setPosition(2);
         $contentNode->setContentType($contentType);
         $contentNode->setOwner(new Activity());
-
-        $contentNodeParent = new ContentNode();
-        $contentNodeParent->setContentType($contentType);
-        $contentNodeParent->addChild($contentNode);
-        $contentNodeParent->setOwner(new Category());
+        $contentNode->setParent($contentNodeParent);
 
         $container = new ServiceManager();
         $contentTypeStrategyProvider = new ContentTypeStrategyProvider($container);

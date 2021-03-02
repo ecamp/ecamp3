@@ -19,7 +19,7 @@ class ScheduleEntryHydrator implements HydratorInterface {
                 },
                 [
                     'contentNodes' => Util::Collection(function (Activity $e) {
-                        return new ContentNodeCollection($e->getContentNodes());
+                        return new ContentNodeCollection($e->getAllContentNodes());
                     }, null),
                 ]
             ),

@@ -29,7 +29,7 @@ class CategoryHydrator implements HydratorInterface {
             'numberingStyle' => $category->getNumberingStyle(),
 
             'camp' => EntityLink::Create($category->getCamp()),
-            'contentNodes' => new EntityLinkCollection($category->getContentNodes()),
+            'contentNodes' => new EntityLinkCollection($category->getAllContentNodes()),
             'categoryContentTypes' => new CategoryContentTypeCollection($category->getCategoryContentTypes()),
         ];
     }

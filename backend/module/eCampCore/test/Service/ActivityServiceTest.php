@@ -70,9 +70,9 @@ class ActivityServiceTest extends AbstractApiControllerTestCase {
         $this->assertNotNull($activity);
         $this->assertEquals('ActivityTitle', $activity->getTitle());
 
-        $this->assertCount(1, $activity->getContentNodes());
+        $this->assertCount(1, $activity->getAllContentNodes());
         /** @var ContentNode $contentNode */
-        $contentNode = $activity->getContentNodes()->first();
+        $contentNode = $activity->getAllContentNodes()->first();
         $this->assertEquals('Storyboard', $contentNode->getContentType()->getName());
     }
 }

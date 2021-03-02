@@ -5,27 +5,17 @@ namespace eCamp\CoreTest\Data;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
-use eCamp\Core\ContentType\ContentTypeStrategyProvider;
 use eCamp\Core\Entity\Activity;
 use eCamp\Core\Entity\ContentNode;
 use eCamp\Core\Entity\ContentType;
 use eCamp\Core\Entity\MaterialItem;
 use eCamp\Core\Entity\MaterialList;
-use Interop\Container\ContainerInterface;
 
 class MaterialItemTestData extends AbstractFixture implements DependentFixtureInterface {
     public static $MATERIALITEM1 = MaterialItem::class.':MATERIALITEM1';
     public static $CONTENTNODE1 = ContentNode::class.':CONTENTNODE1';
 
-    protected $container;
-
-    public function __construct(ContainerInterface $container) {
-        $this->container = $container;
-    }
-
     public function load(ObjectManager $manager): void {
-        $contentTypeStrategyProvider = new ContentTypeStrategyProvider($this->container);
-
         /** @var Activity $activity */
         $activity = $this->getReference(ActivityTestData::$ACTIVITY1);
 
@@ -36,9 +26,8 @@ class MaterialItemTestData extends AbstractFixture implements DependentFixtureIn
         $materialList = $this->getReference(MaterialListTestData::$MATERIALLIST1);
 
         $contentNode = new ContentNode();
-        $contentNode->setOwner($activity);
         $contentNode->setContentType($contentType);
-        $contentNode->setContentTypeStrategyProvider($contentTypeStrategyProvider);
+        $activity->setRootContentNode($contentNode);
 
         $materialItem = new MaterialItem();
         $materialItem->setQuantity(2);

@@ -30,13 +30,16 @@ class ActivityTest extends AbstractTestCase {
 
     public function testContentNode(): void {
         $activity = new Activity();
-        $contentnode = new ContentNode();
+        $root = new ContentNode();
+        $node = new ContentNode();
+        $node->setParent($root);
 
-        $this->assertEquals(0, $activity->getContentNodes()->count());
-        $activity->addContentNode($contentnode);
-        $this->assertContains($contentnode, $activity->getContentNodes());
-        $activity->removeContentNode($contentnode);
-        $this->assertEquals(0, $activity->getContentNodes()->count());
+        $this->assertCount(0, $activity->getAllContentNodes());
+        $activity->setRootContentNode($root);
+        $this->assertContains($root, $activity->getAllContentNodes());
+        $this->assertContains($node, $activity->getAllContentNodes());
+        $activity->setRootContentNode(null);
+        $this->assertCount(0, $activity->getAllContentNodes());
     }
 
     public function testScheduleEntry(): void {

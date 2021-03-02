@@ -3,11 +3,9 @@
 namespace eCamp\Core\EntityService;
 
 use Doctrine\ORM\ORMException;
-use Doctrine\ORM\QueryBuilder;
 use eCamp\Core\ContentType\ContentTypeStrategyProvider;
 use eCamp\Core\ContentType\ContentTypeStrategyProviderTrait;
 use eCamp\Core\Entity\AbstractContentNodeOwner;
-use eCamp\Core\Entity\Camp;
 use eCamp\Core\Entity\ContentNode;
 use eCamp\Core\Entity\ContentType;
 use eCamp\Core\Hydrator\ContentNodeHydrator;
@@ -43,9 +41,9 @@ class ContentNodeService extends AbstractEntityService {
             'config' => $prototype->getConfig(),
         ]);
 
-        foreach ($prototype->getChildren() as $childPrototype) {
+        foreach ($prototype->getMyChildren() as $childPrototype) {
             $childContentNode = $this->createFromPrototype($owner, $childPrototype);
-            $contentNode->addChild($childContentNode);
+            $childContentNode->setParent($contentNode);
         }
 
         return $contentNode;
@@ -67,9 +65,20 @@ class ContentNodeService extends AbstractEntityService {
         /** @var ContentType $contentType */
         $contentType = $this->findRelatedEntity(ContentType::class, $data, 'contentTypeId');
 
-        $owner->addContentNode($contentNode);
+        $owner->setRootContentNode($contentNode);
         $contentNode->setContentType($contentType);
-        $contentNode->setContentTypeStrategyProvider($this->getContentTypeStrategyProvider());
+
+        return $contentNode;
+    }
+
+    protected function createEntityPost(BaseEntity $entity, $data): BaseEntity {
+        /** @var ContentNode $contentNode */
+        $contentNode = parent::createEntityPost($entity, $data);
+
+        $strategy = $this->getContentTypeStrategyProvider()->get($contentNode);
+        if (null != $strategy) {
+            $strategy->contentNodeCreated($contentNode);
+        }
 
         return $contentNode;
     }
@@ -81,30 +90,9 @@ class ContentNodeService extends AbstractEntityService {
         if (isset($data->parentId)) {
             /** @var ContentNode $parent */
             $parent = $this->findRelatedEntity(ContentNode::class, $data, 'parentId');
-            $parent->addChild($contentNode);
+            $contentNode->setParent($parent);
         }
 
         return $entity;
-    }
-
-    protected function fetchAllQueryBuilder($params = []): QueryBuilder {
-        $q = parent::fetchAllQueryBuilder($params);
-        $q->join('row.activity', 'e');
-        $q->andWhere($this->createFilter($q, Camp::class, 'e', 'camp'));
-
-        if (isset($params['activityId'])) {
-            $q->andWhere('row.activity = :activityId');
-            $q->setParameter('activityId', $params['activityId']);
-        }
-
-        return $q;
-    }
-
-    protected function fetchQueryBuilder($id): QueryBuilder {
-        $q = parent::fetchQueryBuilder($id);
-        $q->join('row.activity', 'e');
-        $q->andWhere($this->createFilter($q, Camp::class, 'e', 'camp'));
-
-        return $q;
     }
 }

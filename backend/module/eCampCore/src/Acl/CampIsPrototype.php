@@ -4,6 +4,7 @@ namespace eCamp\Core\Acl;
 
 use eCamp\Core\Entity\BelongsToCampInterface;
 use eCamp\Core\Entity\BelongsToContentNodeInterface;
+use eCamp\Core\Entity\Camp;
 use Laminas\Permissions\Acl\Acl;
 use Laminas\Permissions\Acl\Assertion\AssertionInterface;
 use Laminas\Permissions\Acl\Resource\ResourceInterface;
@@ -16,9 +17,11 @@ class CampIsPrototype implements AssertionInterface {
         }
 
         if ($resource instanceof BelongsToCampInterface) {
-            $camp = $resource->getCamp();
+            $resource = $resource->getCamp();
+        }
 
-            return $camp->getIsTemplate();
+        if ($resource instanceof Camp) {
+            return $resource->getIsTemplate();
         }
 
         return false;

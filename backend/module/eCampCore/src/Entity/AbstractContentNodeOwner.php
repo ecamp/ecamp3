@@ -12,42 +12,37 @@ use eCamp\Lib\Entity\BaseEntity;
  * @ORM\InheritanceType("JOINED")
  * @ORM\DiscriminatorColumn(name="entityType", type="string")
  */
-abstract class AbstractContentNodeOwner extends BaseEntity implements BelongsToCampInterface {
+abstract class AbstractContentNodeOwner extends BaseEntity {
     /**
-     * @ORM\OneToOne(targetEntity="ContentNode")
+     * @ORM\OneToOne(targetEntity="ContentNode", inversedBy="owner")
+     * @ORM\JoinColumn(nullable=true)
      */
     private ?ContentNode $rootContentNode = null;
-
-    /**
-     * @ORM\OneToMany(targetEntity="ContentNode", mappedBy="owner")
-     */
-    private Collection $contentNodes;
-
-    public function __construct() {
-        parent::__construct();
-
-        $this->contentNodes = new ArrayCollection();
-    }
 
     public function getRootContentNode(): ?ContentNode {
         return $this->rootContentNode;
     }
 
     public function setRootContentNode(?ContentNode $rootContentNode) {
-        $this->rootContentNode = $rootContentNode;
+        if ($this->rootContentNode !== $rootContentNode) {
+            if (null != $this->rootContentNode) {
+                $this->rootContentNode->setOwner(null);
+            }
+            $this->rootContentNode = $rootContentNode;
+            if (null != $this->rootContentNode) {
+                $this->rootContentNode->setOwner($this);
+            }
+        }
     }
 
-    public function getContentNodes(): Collection {
-        return $this->contentNodes;
-    }
+    public function getAllContentNodes(): Collection {
+        if (null != $this->rootContentNode) {
+            return new ArrayCollection(array_merge(
+                [$this->rootContentNode],
+                $this->rootContentNode->getAllChildren()->toArray()
+            ));
+        }
 
-    public function addContentNode(ContentNode $contentNode) {
-        $contentNode->setOwner($this);
-        $this->contentNodes->add($contentNode);
-    }
-
-    public function removeContentNode(ContentNode $contentNode) {
-        $contentNode->setOwner(null);
-        $this->contentNodes->removeElement($contentNode);
+        return new ArrayCollection();
     }
 }

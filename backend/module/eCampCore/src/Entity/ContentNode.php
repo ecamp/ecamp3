@@ -5,23 +5,28 @@ namespace eCamp\Core\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use eCamp\Core\ContentType\ContentTypeStrategyInterface;
-use eCamp\Core\ContentType\ContentTypeStrategyProviderAware;
-use eCamp\Core\ContentType\ContentTypeStrategyProviderTrait;
 use eCamp\Lib\Entity\BaseEntity;
 
 /**
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks
  */
-class ContentNode extends BaseEntity implements BelongsToCampInterface, ContentTypeStrategyProviderAware {
-    use ContentTypeStrategyProviderTrait;
-
+class ContentNode extends BaseEntity implements BelongsToCampInterface {
     /**
-     * @ORM\ManyToOne(targetEntity="AbstractContentNodeOwner", inversedBy="contentNodes")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\OneToOne(targetEntity="AbstractContentNodeOwner", mappedBy="rootContentNode")
      */
     private ?AbstractContentNodeOwner $owner = null;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="ContentNode")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private ?ContentNode $root = null;
+
+    /**
+     * @ORM\OneToMany(targetEntity="ContentNode", mappedBy="root")
+     */
+    private Collection $allChildren;
 
     /**
      * @ORM\ManyToOne(targetEntity="ContentNode")
@@ -32,7 +37,7 @@ class ContentNode extends BaseEntity implements BelongsToCampInterface, ContentT
     /**
      * @ORM\OneToMany(targetEntity="ContentNode", mappedBy="parent")
      */
-    private Collection $children;
+    private Collection $myChildren;
 
     /**
      * @ORM\Column(type="string", length=64, nullable=true)
@@ -63,7 +68,9 @@ class ContentNode extends BaseEntity implements BelongsToCampInterface, ContentT
     public function __construct() {
         parent::__construct();
 
-        $this->children = new ArrayCollection();
+        $this->root = $this;
+        $this->myChildren = new ArrayCollection();
+        $this->allChildren = new ArrayCollection();
     }
 
     public function getOwner(): ?AbstractContentNodeOwner {
@@ -75,25 +82,22 @@ class ContentNode extends BaseEntity implements BelongsToCampInterface, ContentT
     }
 
     public function getCamp(): ?Camp {
-        return (null != $this->owner) ? $this->owner->getCamp() : null;
-    }
+        $root = $this->getRoot();
+        $owner = $root->getOwner();
 
-    public function isRoot(): bool {
-        return null == $this->parent;
-    }
-
-    public function getParent(): ?ContentNode {
-        return $this->parent;
-    }
-
-    public function setParent(?ContentNode $parent): void {
-        $origParentOwner = isset($this->parent) ? $this->parent->getOwner() : null;
-        $newParentOwner = isset($parent) ? $parent->getOwner() : null;
-
-        if ($origParentOwner != $newParentOwner) {
-            $this->setOwner($newParentOwner);
+        if ($owner instanceof BelongsToCampInterface) {
+            return $owner->getCamp();
         }
-        $this->parent = $parent;
+
+        return null;
+    }
+
+    public function getMyChildren(): Collection {
+        return $this->myChildren;
+    }
+
+    public function getAllChildren(): Collection {
+        return $this->allChildren;
     }
 
     public function getContentType(): ?ContentType {
@@ -110,20 +114,6 @@ class ContentNode extends BaseEntity implements BelongsToCampInterface, ContentT
 
     public function setInstanceName(?string $instanceName): void {
         $this->instanceName = $instanceName;
-    }
-
-    public function getChildren(): Collection {
-        return $this->children;
-    }
-
-    public function addChild(ContentNode $contentNode): void {
-        $contentNode->setParent($this);
-        $this->children->add($contentNode);
-    }
-
-    public function removeChild(ContentNode $contentNode): void {
-        $contentNode->setParent(null);
-        $this->children->removeElement($contentNode);
     }
 
     public function getSlot(): ?string {
@@ -150,15 +140,53 @@ class ContentNode extends BaseEntity implements BelongsToCampInterface, ContentT
         $this->config = $config;
     }
 
-    /**
-     * Returns the strategy class of the content-type.
-     */
-    public function getContentTypeStrategy(): ContentTypeStrategyInterface {
-        return $this->getContentTypeStrategyProvider()->get($this->getContentType());
+    public function isRoot(): bool {
+        return null == $this->parent;
     }
 
-    /** @ORM\PrePersist */
-    public function PrePersist(): void {
-        $this->getContentTypeStrategy()->contentNodeCreated($this);
+    public function getRoot(): ContentNode {
+        return $this->root ?? $this;
+    }
+
+    public function getParent(): ?ContentNode {
+        return $this->parent;
+    }
+
+    public function setParent(?ContentNode $newParent) {
+        if ($this->parent !== $newParent) {
+            $newRoot = (null != $newParent) ? $newParent->getRoot() : null;
+
+            // if different root, update root.
+            $this->setRoot($newRoot);
+
+            // update parent
+            if (null != $this->parent) {
+                $this->parent->myChildren->removeElement($this);
+            }
+            $this->parent = $newParent;
+            if (null != $this->parent) {
+                $this->parent->myChildren->add($this);
+            }
+        }
+    }
+
+    private function setRoot(?ContentNode $newRoot) {
+        if ($this->root !== $newRoot) {
+            // remove me from old root
+            if (null != $this->root) {
+                $this->root->allChildren->removeElement($this);
+            }
+            // update my root
+            $this->root = $newRoot;
+            // update my children
+            foreach ($this->myChildren as $child) {
+                // if my new root is null, i'm the new root of my children
+                $child->setRoot($newRoot ?? $this);
+            }
+            // add me to the new root
+            if (null != $this->root) {
+                $this->root->allChildren->add($this);
+            }
+        }
     }
 }
