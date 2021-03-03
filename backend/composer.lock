@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4b0473ab40106aa84661f42f1b3e52dd",
+    "content-hash": "4882501d57b2bb2092bd69f7abc064da",
     "packages": [
         {
             "name": "assetic/framework",
@@ -3714,7 +3714,7 @@
         },
         {
             "name": "laminas/laminas-cli",
-            "version": "1.0.1",
+            "version": "1.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-cli.git",
