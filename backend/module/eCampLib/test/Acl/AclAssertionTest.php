@@ -36,6 +36,12 @@ class AclAssertionTest extends AbstractTestCase {
         $this->assertTrue(AclAssertion::or($this->true, $this->false)->assert($this->acl));
         $this->assertFalse(AclAssertion::or($this->false, $this->false)->assert($this->acl));
     }
+
+    public function testEmptyAssertion(): void {
+        $assertion = new AclAssertion();
+
+        $this->assertFalse($assertion->assert($this->acl));
+    }
 }
 
 class AssertionMock implements AssertionInterface {
