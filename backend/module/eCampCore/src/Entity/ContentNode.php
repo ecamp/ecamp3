@@ -21,7 +21,7 @@ class ContentNode extends BaseEntity implements BelongsToCampInterface {
      * @ORM\ManyToOne(targetEntity="ContentNode")
      * @ORM\JoinColumn(nullable=true)
      */
-    private ?ContentNode $root = null;
+    private ContentNode $root;
 
     /**
      * @ORM\OneToMany(targetEntity="ContentNode", mappedBy="root")
@@ -145,48 +145,50 @@ class ContentNode extends BaseEntity implements BelongsToCampInterface {
     }
 
     public function getRoot(): ContentNode {
-        return $this->root ?? $this;
+        return $this->root;
     }
 
     public function getParent(): ?ContentNode {
         return $this->parent;
     }
 
-    public function setParent(?ContentNode $newParent) {
-        if ($this->parent !== $newParent) {
-            $newRoot = (null != $newParent) ? $newParent->getRoot() : null;
+    public function setParent(?ContentNode $parent) {
+        // if different parent, update parent
+        if ($this->parent !== $parent) {
+            $root = (null != $parent) ? $parent->getRoot() : $this;
+            $this->setRoot($root);
 
-            // if different root, update root.
-            $this->setRoot($newRoot);
-
-            // update parent
+            // remove me from old parent
             if (null != $this->parent) {
                 $this->parent->myChildren->removeElement($this);
             }
-            $this->parent = $newParent;
+
+            // update parent
+            $this->parent = $parent;
+
+            // add me to the new parent
             if (null != $this->parent) {
                 $this->parent->myChildren->add($this);
             }
         }
     }
 
-    private function setRoot(?ContentNode $newRoot) {
-        if ($this->root !== $newRoot) {
+    private function setRoot(ContentNode $root) {
+        // if different root, update root
+        if ($this->root !== $root) {
             // remove me from old root
-            if (null != $this->root) {
-                $this->root->allChildren->removeElement($this);
-            }
+            $this->root->allChildren->removeElement($this);
+
             // update my root
-            $this->root = $newRoot;
+            $this->root = $root;
             // update my children
             foreach ($this->myChildren as $child) {
                 // if my new root is null, i'm the new root of my children
-                $child->setRoot($newRoot ?? $this);
+                $child->setRoot($root);
             }
+
             // add me to the new root
-            if (null != $this->root) {
-                $this->root->allChildren->add($this);
-            }
+            $this->root->allChildren->add($this);
         }
     }
 }
