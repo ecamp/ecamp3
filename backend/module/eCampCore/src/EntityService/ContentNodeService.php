@@ -4,7 +4,6 @@ namespace eCamp\Core\EntityService;
 
 use Doctrine\ORM\ORMException;
 use eCamp\Core\ContentType\ContentTypeStrategyProvider;
-use eCamp\Core\ContentType\ContentTypeStrategyProviderTrait;
 use eCamp\Core\Entity\AbstractContentNodeOwner;
 use eCamp\Core\Entity\ContentNode;
 use eCamp\Core\Entity\ContentType;
@@ -17,9 +16,13 @@ use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 
 class ContentNodeService extends AbstractEntityService {
-    use ContentTypeStrategyProviderTrait;
+    private ContentTypeStrategyProvider $contentTypeStrategyProvider;
 
-    public function __construct(ServiceUtils $serviceUtils, AuthenticationService $authenticationService, ContentTypeStrategyProvider $contentTypeStrategyProvider) {
+    public function __construct(
+        ServiceUtils $serviceUtils,
+        AuthenticationService $authenticationService,
+        ContentTypeStrategyProvider $contentTypeStrategyProvider
+    ) {
         parent::__construct(
             $serviceUtils,
             ContentNode::class,
@@ -27,7 +30,7 @@ class ContentNodeService extends AbstractEntityService {
             $authenticationService
         );
 
-        $this->setContentTypeStrategyProvider($contentTypeStrategyProvider);
+        $this->contentTypeStrategyProvider = $contentTypeStrategyProvider;
     }
 
     public function createFromPrototype(AbstractContentNodeOwner $owner, ContentNode $prototype): ContentNode {
@@ -75,7 +78,7 @@ class ContentNodeService extends AbstractEntityService {
         /** @var ContentNode $contentNode */
         $contentNode = parent::createEntityPost($entity, $data);
 
-        $strategy = $this->getContentTypeStrategyProvider()->get($contentNode);
+        $strategy = $this->contentTypeStrategyProvider->get($contentNode);
         if (null != $strategy) {
             $strategy->contentNodeCreated($contentNode);
         }
