@@ -197,7 +197,7 @@ export default {
     },
     async addContentNode (ctId) {
       await this.api.post('/content-nodes', {
-        activityId: this.activity.id,
+        ownerId: this.activity.id,
         contentTypeId: ctId
       })
       await this.refreshActivity()

@@ -4,7 +4,6 @@ namespace eCamp\Core\ContentType;
 
 use Doctrine\ORM\ORMException;
 use Doctrine\ORM\QueryBuilder;
-use eCamp\Core\Entity\Camp;
 use eCamp\Core\Entity\ContentNode;
 use eCamp\Core\EntityService\AbstractEntityService;
 use eCamp\Lib\Acl\NoAccessException;
@@ -67,25 +66,11 @@ abstract class BaseContentTypeService extends AbstractEntityService {
 
         if (is_subclass_of($this->entityClass, BaseContentTypeEntity::class)) {
             $q->join('row.contentNode', 'cn');
-            $q->join('cn.activity', 'a');
-            $q->andWhere($this->createFilter($q, Camp::class, 'a', 'camp'));
 
             if (isset($params['contentNodeId'])) {
                 $q->andWhere('row.contentNode = :contentNodeId');
                 $q->setParameter('contentNodeId', $params['contentNodeId']);
             }
-        }
-
-        return $q;
-    }
-
-    protected function fetchQueryBuilder($id): QueryBuilder {
-        $q = parent::fetchQueryBuilder($id);
-
-        if (is_subclass_of($this->entityClass, BaseContentTypeEntity::class)) {
-            $q->join('row.contentNode', 'cn');
-            $q->join('cn.activity', 'a');
-            $q->andWhere($this->createFilter($q, Camp::class, 'a', 'camp'));
         }
 
         return $q;

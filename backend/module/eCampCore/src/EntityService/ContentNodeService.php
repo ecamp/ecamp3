@@ -71,14 +71,7 @@ class ContentNodeService extends AbstractEntityService {
         $owner->setRootContentNode($contentNode);
         $contentNode->setContentType($contentType);
 
-        return $contentNode;
-    }
-
-    protected function createEntityPost(BaseEntity $entity, $data): BaseEntity {
-        /** @var ContentNode $contentNode */
-        $contentNode = parent::createEntityPost($entity, $data);
-
-        $strategy = $this->contentTypeStrategyProvider->get($contentNode);
+        $strategy = $this->contentTypeStrategyProvider->get($contentType);
         if (null != $strategy) {
             $strategy->contentNodeCreated($contentNode);
         }
