@@ -89,7 +89,7 @@ services:
       - '3002:80'
 
   rabbitmq:
-    image: rabbitmq:3.8-management@sha256:2250f75877e1b8f53ff4a2a1951fc4462a9d96919e3ae015d9e1e89a46d01ee3
+    image: rabbitmq:3.8-management@sha256:023e88c938f53c4c29800e7044b5772707dfb8eeb54bea9a3c14d4a1c71ad574
     container_name: 'ecamp3-rabbitmq'
     ports:
       - '3004:15672'
