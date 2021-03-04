@@ -12,7 +12,7 @@
             :events="events"
             color="primary"
             type="month"
-          ></v-calendar>
+          />
         </v-sheet>
       </div>
     </v-col>

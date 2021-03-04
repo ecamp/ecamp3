@@ -59,7 +59,7 @@ services:
       - ./print/print.env
 
   composer:
-    image: composer:2@sha256:9e987509ad8a63b3875a0f905142f90e00b8894a4c601da93538e080ba4b5bea
+    image: composer:2@sha256:2bcffb25b89673c49cac529587ccf30945c03dff7c98f5cc41a0c0f0d5179c4a
     container_name: 'ecamp3-composer'
     restart: 'no'
     command: bash -c "composer install --no-interaction --no-plugins --no-scripts --prefer-dist"
@@ -69,7 +69,7 @@ services:
       - ./.cache/composer:/tmp/cache
 
   db:
-    image: mariadb:10.5@sha256:a13b01d9af44097efeca7a3808a524c8052870e59a1eeef074857ba01e70c1f2
+    image: mariadb:10.5@sha256:54b817feea3022688e49aeb70b27d4cc6aa08de0b114bd664b9194b549a1d277
     container_name: 'ecamp3-db'
     environment:
       - MYSQL_DATABASE=ecamp3dev
@@ -89,7 +89,7 @@ services:
       - '3002:80'
 
   rabbitmq:
-    image: rabbitmq:3.8-management@sha256:9d340b284990eb7f465616504f3fb058948ce58065997aa54d802aab0e8e60c2
+    image: rabbitmq:3.8-management@sha256:2250f75877e1b8f53ff4a2a1951fc4462a9d96919e3ae015d9e1e89a46d01ee3
     container_name: 'ecamp3-rabbitmq'
     ports:
       - '3004:15672'
@@ -126,7 +126,7 @@ services:
       - CORS=true
 
   docker-host:
-    image: qoomon/docker-host@sha256:cff503e4f5170b2b16b1a7d310f824a0a6dec3ffbf63ee92cace9f609ef87d69
+    image: qoomon/docker-host@sha256:b98a7ddc053c87c22ba716d23d50b7db11034c9b7bbfd41e1c68b9062cb516cc
     container_name: 'ecamp3-docker-host-forwarder'
     cap_add: [ 'NET_ADMIN', 'NET_RAW' ]
     restart: on-failure

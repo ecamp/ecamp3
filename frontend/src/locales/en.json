@@ -135,10 +135,11 @@
         "title": "Settings"
       },
       "collaboratorListItem": {
-        "remove": "Remove"
+        "deactivate": "Deactivate"
       },
       "leftCampCollaboratorListItem": {
-        "inviteAgain": "Invite again"
+        "inviteAgain": "Invite again",
+        "delete" : "Do you really want to remove this collaborator from the camp?"
       },
       "periodMaterialLists": {
         "addNewItem": "Add new item"
@@ -389,7 +390,7 @@
       "collaborators": {
         "email": "Email address",
         "invite": "Invite",
-        "leftCollaborators": "Rejected invitations and collaborators which left",
+        "leftCollaborators": "Inactive",
         "members": "Members",
         "openInvitations": "Open invitations",
         "openRequests": "Open requests",
