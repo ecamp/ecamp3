@@ -183,7 +183,6 @@ class ContentNode extends BaseEntity implements BelongsToCampInterface {
             $this->root = $root;
             // update my children
             foreach ($this->myChildren as $child) {
-                // if my new root is null, i'm the new root of my children
                 $child->setRoot($root);
             }
 

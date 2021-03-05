@@ -2,6 +2,7 @@
 
 namespace eCamp\CoreTest\Hydrator;
 
+use eCamp\Core\ContentType\ContentTypeStrategyInterface;
 use eCamp\Core\ContentType\ContentTypeStrategyProvider;
 use eCamp\Core\Entity\Activity;
 use eCamp\Core\Entity\Category;
@@ -18,6 +19,7 @@ class ContentNodeHydratorTest extends AbstractTestCase {
     public function testExtract(): void {
         $contentType = new ContentType();
         $contentType->setName('type-name');
+        $contentType->setStrategyClass(DummyContentTypeStrategy::class);
 
         $contentNodeParent = new ContentNode();
         $contentNodeParent->setContentType($contentType);
@@ -43,6 +45,7 @@ class ContentNodeHydratorTest extends AbstractTestCase {
         $this->assertNotNull($data['parent']);
         $this->assertNotNull($data['contentType']);
         $this->assertNotNull($data['owner']);
+        $this->assertEquals('test-data', $data['strategy-data']);
 
         $data = $hydrator->extract($contentNodeParent);
         $this->assertNull($data['parent']);
@@ -65,5 +68,16 @@ class ContentNodeHydratorTest extends AbstractTestCase {
         $this->assertEquals('my-name', $contentNode->getInstanceName());
         $this->assertEquals('top', $contentNode->getSlot());
         $this->assertEquals(3, $contentNode->getPosition());
+    }
+}
+
+class DummyContentTypeStrategy implements ContentTypeStrategyInterface {
+    public function contentNodeExtract(ContentNode $contentNode): array {
+        return [
+            'strategy-data' => 'test-data',
+        ];
+    }
+
+    public function contentNodeCreated(ContentNode $contentNode): void {
     }
 }

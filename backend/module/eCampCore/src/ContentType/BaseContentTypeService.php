@@ -65,8 +65,6 @@ abstract class BaseContentTypeService extends AbstractEntityService {
         $q = parent::fetchAllQueryBuilder($params);
 
         if (is_subclass_of($this->entityClass, BaseContentTypeEntity::class)) {
-            $q->join('row.contentNode', 'cn');
-
             if (isset($params['contentNodeId'])) {
                 $q->andWhere('row.contentNode = :contentNodeId');
                 $q->setParameter('contentNodeId', $params['contentNodeId']);

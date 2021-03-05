@@ -46,7 +46,7 @@ class ContentNodeTest extends AbstractTestCase {
         $this->assertCount(0, $contentNode->getAllChildren());
     }
 
-    public function testContentNodeHirarchy(): void {
+    public function testContentNodeHierarchy(): void {
         $root = new ContentNode();
         $node = new ContentNode();
         $child = new ContentNode();
@@ -122,9 +122,12 @@ class ContentNodeTest extends AbstractTestCase {
         $this->assertEquals($root, $child->getRoot());
 
         $node->setParent(null);
+        $this->assertEquals(null, $node->getParent());
+        $this->assertEquals($node, $node->getRoot());
         $this->assertEquals($node, $child->getRoot());
 
         $child->setParent(null);
         $this->assertEquals($child, $child->getRoot());
+        $this->assertEquals(null, $child->getParent());
     }
 }

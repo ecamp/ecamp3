@@ -69,13 +69,9 @@ class ContentNodeHydrator implements HydratorInterface {
 
         /** @var ContentTypeStrategyInterface $strategy */
         $strategy = $this->contentTypeStrategyProvider->get($contentType);
+        $strategyData = $strategy->contentNodeExtract($contentNode);
 
-        if (null != $strategy) {
-            $strategyData = $strategy->contentNodeExtract($contentNode);
-            $data = array_merge($data, $strategyData);
-        }
-
-        return $data;
+        return array_merge($data, $strategyData);
     }
 
     /**

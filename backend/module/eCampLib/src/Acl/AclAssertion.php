@@ -2,6 +2,7 @@
 
 namespace eCamp\Lib\Acl;
 
+use Exception;
 use Laminas\Permissions\Acl\Acl;
 use Laminas\Permissions\Acl\Assertion\AssertionInterface;
 use Laminas\Permissions\Acl\Resource\ResourceInterface;
@@ -54,6 +55,6 @@ class AclAssertion implements AssertionInterface {
             return true;
         }
 
-        return false;
+        throw new Exception('Not implemented operand: '.$this->operand);
     }
 }

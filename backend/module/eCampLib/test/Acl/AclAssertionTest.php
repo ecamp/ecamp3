@@ -40,7 +40,8 @@ class AclAssertionTest extends AbstractTestCase {
     public function testEmptyAssertion(): void {
         $assertion = new AclAssertion();
 
-        $this->assertFalse($assertion->assert($this->acl));
+        $this->expectException(\Exception::class);
+        $assertion->assert($this->acl);
     }
 }
 

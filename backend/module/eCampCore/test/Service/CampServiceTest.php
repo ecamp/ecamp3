@@ -28,14 +28,13 @@ class CampServiceTest extends AbstractApiControllerTestCase {
 
     public function setUp(): void {
         parent::setUp();
-        $container = $this->getApplicationServiceLocator();
 
         $userLoader = new UserTestData();
         $campPrototypeLoader = new CampPrototypeTestData();
         $materialListPrototypeLoader = new MaterialListPrototypeTestData();
         $categoryPrototypeLoader = new CategoryPrototypeTestData();
         $categoryContentTypePrototypeLoader = new CategoryContentTypePrototypeTestData();
-        $contentNodePrototypeLoader = new ContentNodePrototypeTestData($container);
+        $contentNodePrototypeLoader = new ContentNodePrototypeTestData();
 
         $loader = new Loader();
         $loader->addFixture($userLoader);
