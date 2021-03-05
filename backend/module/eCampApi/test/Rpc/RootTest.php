@@ -66,7 +66,7 @@ JSON;
                     "templated": true
                 },
                 "camps": {
-                    "href": "http://{$host}/api/camps{/campId}{?page_size,page}",
+                    "href": "http://{$host}/api/camps{/campId}{?page_size,page,isPrototype}",
                     "templated": true
                 },
                 "campCollaborations": {

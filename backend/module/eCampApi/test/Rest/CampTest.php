@@ -48,7 +48,8 @@ class CampTest extends AbstractApiControllerTestCase {
                 "name": "CampName",
                 "title": "CampTitle",
                 "motto": "CampMotto",
-                "role": "manager"
+                "role": "manager",
+                "isPrototype": false
             }
 JSON;
 

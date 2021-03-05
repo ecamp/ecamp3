@@ -56,7 +56,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
     /**
      * @ORM\Column(type="boolean", nullable=false)
      */
-    private bool $isTemplate = false;
+    private bool $isPrototype = false;
 
     /**
      * @ORM\Column(type="string", length=32, nullable=false)
@@ -104,12 +104,12 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
         $this->campPrototypeId = $campPrototypeId;
     }
 
-    public function getIsTemplate(): bool {
-        return $this->isTemplate;
+    public function getIsPrototype(): bool {
+        return $this->isPrototype;
     }
 
-    public function setIsTemplate(bool $isTemplate) {
-        $this->isTemplate = $isTemplate;
+    public function setIsPrototype(bool $isPrototype) {
+        $this->isPrototype = $isPrototype;
     }
 
     public function getName(): ?string {

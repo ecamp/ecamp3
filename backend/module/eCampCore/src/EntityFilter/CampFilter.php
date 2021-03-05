@@ -19,7 +19,7 @@ class CampFilter extends BaseFilter {
             //$campQ->expr()->eq('1', '1'),
             $campQ->expr()->in('c.id', $collQ->getDQL()),
             $campQ->expr()->eq('c.owner', ':f_auth_user'),
-            $campQ->expr()->eq('c.isTemplate', 1)
+            $campQ->expr()->eq('c.isPrototype', 1)
         );
 
         $authUser = $this->authUserProvider->getAuthUser();

@@ -21,7 +21,7 @@ class CampIsPrototype implements AssertionInterface {
         }
 
         if ($resource instanceof Camp) {
-            return $resource->getIsTemplate();
+            return $resource->getIsPrototype();
         }
 
         return false;

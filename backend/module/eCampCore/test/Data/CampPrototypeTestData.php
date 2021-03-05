@@ -20,7 +20,7 @@ class CampPrototypeTestData extends AbstractFixture implements DependentFixtureI
         $camp->setTitle('CampPrototype1');
         $camp->setCreator($admin);
         $camp->setOwner($admin);
-        $camp->setIsTemplate(true);
+        $camp->setIsPrototype(true);
 
         $manager->persist($camp);
         $manager->flush();

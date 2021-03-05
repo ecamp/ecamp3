@@ -123,6 +123,11 @@ class CampService extends AbstractEntityService {
     protected function fetchAllQueryBuilder($params = []): QueryBuilder {
         $q = parent::fetchAllQueryBuilder($params);
 
+        if (isset($params['isPrototype'])) {
+            $q->andWhere('row.isPrototype = :isPrototype');
+            $q->setParameter('isPrototype', (bool) $params['isPrototype']);
+        }
+
         if (isset($params['group'])) {
             $q->andWhere('row.owner = :group');
             $q->setParameter('group', $params['group']);
