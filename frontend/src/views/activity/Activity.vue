@@ -158,7 +158,7 @@ export default {
       return this.activity.activityCategory()
     },
     scheduleEntries () {
-      return this.activity.scheduleEntries().items.map((entry) => defineHelpers(this.$date, entry))
+      return this.activity.scheduleEntries().items.map((entry) => defineHelpers(entry))
     },
     activityContents () {
       return this.activity.activityContents()

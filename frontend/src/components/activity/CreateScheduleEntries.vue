@@ -57,7 +57,7 @@ export default {
   },
   computed: {
     mappedScheduleEntries () {
-      return this.scheduleEntries.map((entry) => defineHelpers(this.$date, entry))
+      return this.scheduleEntries.map((entry) => defineHelpers(entry))
     }
   },
   methods: {

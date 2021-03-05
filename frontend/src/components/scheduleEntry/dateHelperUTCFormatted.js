@@ -1,20 +1,22 @@
-function defineHelpers (dayjs, scheduleEntry, timed = false) {
+import Vue from 'vue'
+
+function defineHelpers (scheduleEntry, timed = false) {
   if (!Object.prototype.hasOwnProperty.call(scheduleEntry, 'startTimeUTCFormatted')) {
     Object.defineProperties(scheduleEntry, {
       startTimeUTCFormatted: {
         get () {
-          return dayjs.utc(this.period().start, dayjs.HTML5_FMT.DATE).add(this.periodOffset, 'm').format()
+          return Vue.dayjs.utc(this.period().start, Vue.dayjs.HTML5_FMT.DATE).add(this.periodOffset, 'm').format()
         },
         set (value) {
-          this.periodOffset = dayjs.utc(value).diff(dayjs.utc(this.period().start, dayjs.HTML5_FMT.DATE), 'm')
+          this.periodOffset = Vue.dayjs.utc(value).diff(Vue.dayjs.utc(this.period().start, Vue.dayjs.HTML5_FMT.DATE), 'm')
         }
       },
       endTimeUTCFormatted: {
         get () {
-          return dayjs.utc(this.period().start, dayjs.HTML5_FMT.DATE).add(this.periodOffset + this.length, 'm').format()
+          return Vue.dayjs.utc(this.period().start, Vue.dayjs.HTML5_FMT.DATE).add(this.periodOffset + this.length, 'm').format()
         },
         set (value) {
-          this.length = dayjs.utc(value).diff(dayjs.utc(this.period().start, dayjs.HTML5_FMT.DATE), 'm') - this.periodOffset
+          this.length = Vue.dayjs.utc(value).diff(Vue.dayjs.utc(this.period().start, Vue.dayjs.HTML5_FMT.DATE), 'm') - this.periodOffset
         }
       }
     })
