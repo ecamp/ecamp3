@@ -22,7 +22,7 @@ class CampPrototypeData extends AbstractFixture implements DependentFixtureInter
         $camp = $repository->findOneBy(['name' => 'J+S Kids']);
         if (null == $camp) {
             $camp = new Camp();
-            $camp->setIsTemplate(true);
+            $camp->setIsPrototype(true);
             $camp->setName('J+S Kids');
             $camp->setTitle('J+S Kids');
             $camp->setCreator($admin);
@@ -36,7 +36,7 @@ class CampPrototypeData extends AbstractFixture implements DependentFixtureInter
         $camp = $repository->findOneBy(['name' => 'J+S Teen']);
         if (null == $camp) {
             $camp = new Camp();
-            $camp->setIsTemplate(true);
+            $camp->setIsPrototype(true);
             $camp->setName('J+S Teen');
             $camp->setTitle('J+S Teen');
             $camp->setCreator($admin);
