@@ -15,35 +15,32 @@ class MaterialListPrototypeData extends AbstractFixture implements DependentFixt
     public function load(ObjectManager $manager): void {
         $repository = $manager->getRepository(MaterialList::class);
 
+        /** @var Camp $pbsJsKids */
+        $pbsJsKids = $this->getReference(CampPrototypeData::$PBS_JS_KIDS);
+        /** @var Camp $pbsJsTeen */
+        $pbsJsTeen = $this->getReference(CampPrototypeData::$PBS_JS_TEEN);
+
         /** @var MaterialList $migros */
-        $migros = $repository->findOneBy(['name' => 'Migros']);
+        $migros = $repository->findOneBy(['name' => 'Migros', 'camp' => $pbsJsKids->getId()]);
         if (null == $migros) {
             $migros = new MaterialList();
             $migros->setName('Migros');
             $manager->persist($migros);
+
+            $pbsJsKids->addMaterialList($migros);
         }
         $this->addReference(self::$MIGROS, $migros);
 
-        /** @var Camp $pbsJsKids */
-        $pbsJsKids = $this->getReference(CampPrototypeData::$PBS_JS_KIDS);
-        if (!$pbsJsKids->getMaterialLists()->contains($migros)) {
-            $pbsJsKids->addMaterialList($migros);
-        }
-
         /** @var MaterialList $coop */
-        $coop = $repository->findOneBy(['name' => 'Coop']);
+        $coop = $repository->findOneBy(['name' => 'Coop', 'camp' => $pbsJsTeen->getId()]);
         if (null == $coop) {
             $coop = new MaterialList();
             $coop->setName('Coop');
             $manager->persist($coop);
-        }
-        $this->addReference(self::$COOP, $coop);
 
-        /** @var Camp $pbsJsTeen */
-        $pbsJsTeen = $this->getReference(CampPrototypeData::$PBS_JS_TEEN);
-        if (!$pbsJsTeen->getMaterialLists()->contains($coop)) {
             $pbsJsTeen->addMaterialList($coop);
         }
+        $this->addReference(self::$COOP, $coop);
 
         $manager->flush();
     }
