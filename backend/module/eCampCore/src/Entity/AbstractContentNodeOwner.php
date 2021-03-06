@@ -37,10 +37,7 @@ abstract class AbstractContentNodeOwner extends BaseEntity {
 
     public function getAllContentNodes(): Collection {
         if (null != $this->rootContentNode) {
-            return new ArrayCollection(array_merge(
-                [$this->rootContentNode],
-                $this->rootContentNode->getAllChildren()->toArray()
-            ));
+            return $this->rootContentNode->getRootDescendants();
         }
 
         return new ArrayCollection();

@@ -44,7 +44,7 @@ class ContentNodeService extends AbstractEntityService {
             'config' => $prototype->getConfig(),
         ]);
 
-        foreach ($prototype->getMyChildren() as $childPrototype) {
+        foreach ($prototype->getChildren() as $childPrototype) {
             $childContentNode = $this->createFromPrototype($owner, $childPrototype);
             $childContentNode->setParent($contentNode);
         }

@@ -26,7 +26,7 @@ class ContentNode extends BaseEntity implements BelongsToCampInterface {
     /**
      * @ORM\OneToMany(targetEntity="ContentNode", mappedBy="root")
      */
-    private Collection $allChildren;
+    private Collection $rootDescendants;
 
     /**
      * @ORM\ManyToOne(targetEntity="ContentNode")
@@ -37,7 +37,7 @@ class ContentNode extends BaseEntity implements BelongsToCampInterface {
     /**
      * @ORM\OneToMany(targetEntity="ContentNode", mappedBy="parent")
      */
-    private Collection $myChildren;
+    private Collection $children;
 
     /**
      * @ORM\Column(type="string", length=64, nullable=true)
@@ -69,8 +69,9 @@ class ContentNode extends BaseEntity implements BelongsToCampInterface {
         parent::__construct();
 
         $this->root = $this;
-        $this->myChildren = new ArrayCollection();
-        $this->allChildren = new ArrayCollection();
+        $this->children = new ArrayCollection();
+        $this->rootDescendants = new ArrayCollection();
+        $this->rootDescendants->add($this);
     }
 
     public function getOwner(): ?AbstractContentNodeOwner {
@@ -92,12 +93,12 @@ class ContentNode extends BaseEntity implements BelongsToCampInterface {
         return null;
     }
 
-    public function getMyChildren(): Collection {
-        return $this->myChildren;
+    public function getChildren(): Collection {
+        return $this->children;
     }
 
-    public function getAllChildren(): Collection {
-        return $this->allChildren;
+    public function getRootDescendants(): Collection {
+        return $this->rootDescendants;
     }
 
     public function getContentType(): ?ContentType {
@@ -170,7 +171,7 @@ class ContentNode extends BaseEntity implements BelongsToCampInterface {
 
             // remove me from old parent
             if (null != $this->parent) {
-                $this->parent->myChildren->removeElement($this);
+                $this->parent->children->removeElement($this);
             }
 
             // update parent
@@ -178,7 +179,7 @@ class ContentNode extends BaseEntity implements BelongsToCampInterface {
 
             // add me to the new parent
             if (null != $this->parent) {
-                $this->parent->myChildren->add($this);
+                $this->parent->children->add($this);
             }
         }
     }
@@ -187,17 +188,17 @@ class ContentNode extends BaseEntity implements BelongsToCampInterface {
         // if different root, update root
         if ($this->root !== $root) {
             // remove me from old root
-            $this->root->allChildren->removeElement($this);
+            $this->root->rootDescendants->removeElement($this);
 
             // update my root
             $this->root = $root;
             // update my children
-            foreach ($this->myChildren as $child) {
+            foreach ($this->children as $child) {
                 $child->setRoot($root);
             }
 
             // add me to the new root
-            $this->root->allChildren->add($this);
+            $this->root->rootDescendants->add($this);
         }
     }
 }

@@ -46,8 +46,8 @@ class ContentNodeTest extends AbstractTestCase {
         $this->assertTrue($contentNode->isRoot());
         $this->assertNull($contentNode->getParent());
         $this->assertEquals($contentNode, $contentNode->getRoot());
-        $this->assertCount(0, $contentNode->getMyChildren());
-        $this->assertCount(0, $contentNode->getAllChildren());
+        $this->assertCount(0, $contentNode->getChildren());
+        $this->assertCount(1, $contentNode->getRootDescendants());
     }
 
     public function testContentNodeHierarchy(): void {
@@ -61,12 +61,12 @@ class ContentNodeTest extends AbstractTestCase {
         $this->assertTrue($root->isRoot());
 
         $this->assertNull($root->getParent());
-        $this->assertCount(1, $root->getMyChildren());
-        $this->assertContains($node, $root->getMyChildren());
+        $this->assertCount(1, $root->getChildren());
+        $this->assertContains($node, $root->getChildren());
 
-        $this->assertCount(2, $root->getAllChildren());
-        $this->assertContains($node, $root->getAllChildren());
-        $this->assertContains($child, $root->getAllChildren());
+        $this->assertCount(3, $root->getRootDescendants());
+        $this->assertContains($node, $root->getRootDescendants());
+        $this->assertContains($child, $root->getRootDescendants());
         $this->assertEquals($root, $node->getRoot());
         $this->assertEquals($root, $child->getRoot());
     }
@@ -83,15 +83,15 @@ class ContentNodeTest extends AbstractTestCase {
 
         $this->assertEquals($root, $child->getRoot());
         $this->assertEquals($node1, $child->getParent());
-        $this->assertContains($child, $node1->getMyChildren());
-        $this->assertNotContains($child, $node2->getMyChildren());
+        $this->assertContains($child, $node1->getChildren());
+        $this->assertNotContains($child, $node2->getChildren());
 
         $child->setParent($node2);
 
         $this->assertEquals($root, $child->getRoot());
         $this->assertEquals($node2, $child->getParent());
-        $this->assertNotContains($child, $node1->getMyChildren());
-        $this->assertContains($child, $node2->getMyChildren());
+        $this->assertNotContains($child, $node1->getChildren());
+        $this->assertContains($child, $node2->getChildren());
     }
 
     public function testChangeRoot(): void {
@@ -105,15 +105,15 @@ class ContentNodeTest extends AbstractTestCase {
 
         $this->assertEquals($root1, $node->getRoot());
         $this->assertEquals($root1, $child->getRoot());
-        $this->assertContains($child, $root1->getallChildren());
-        $this->assertNotContains($child, $root2->getAllChildren());
+        $this->assertContains($child, $root1->getRootDescendants());
+        $this->assertNotContains($child, $root2->getRootDescendants());
 
         $node->setParent($root2);
 
         $this->assertEquals($root2, $node->getRoot());
         $this->assertEquals($root2, $child->getRoot());
-        $this->assertNotContains($child, $root1->getallChildren());
-        $this->assertContains($child, $root2->getAllChildren());
+        $this->assertNotContains($child, $root1->getRootDescendants());
+        $this->assertContains($child, $root2->getRootDescendants());
     }
 
     public function testDetachNode(): void {
