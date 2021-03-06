@@ -111,7 +111,7 @@ export default {
 
         // while loading, value is null
         // (necessary because while loading, even normal properties are returned as functions)
-        if (val.loading) return null
+        if (val && val.loading) return null
 
         // Check if val is an embedded collection
         if (val instanceof Function) {
