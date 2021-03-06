@@ -2,7 +2,7 @@
   <dialog-form
     v-model="showDialog"
     icon="mdi-package-variant"
-    :title="this.$tc('components.dialog.dialogMaterialItemCreate.title')"
+    :title="$tc('components.dialog.dialogMaterialItemCreate.title')"
     max-width="600px"
     :submit-action="createMaterialItem"
     submit-color="success"
