@@ -30,6 +30,6 @@ class ContentNodeTestData extends AbstractFixture implements DependentFixtureInt
     }
 
     public function getDependencies() {
-        return [CategoryTestData::class, ActivityTestData::class];
+        return [CategoryTestData::class, ContentTypeTestData::class];
     }
 }

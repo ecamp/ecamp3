@@ -62,13 +62,19 @@ class ContentNodeService extends AbstractEntityService {
         /** @var ContentNode $contentNode */
         $contentNode = parent::createEntity($data);
 
-        /** @var AbstractContentNodeOwner $owner */
-        $owner = $this->findRelatedEntity(AbstractContentNodeOwner::class, $data, 'ownerId');
+        if (isset($data->ownerId)) {
+            /** @var AbstractContentNodeOwner $owner */
+            $owner = $this->findRelatedEntity(AbstractContentNodeOwner::class, $data, 'ownerId');
+            $owner->setRootContentNode($contentNode);
+        }
+        if (isset($data->parentId)) {
+            /** @var ContentNode $parent */
+            $parent = $this->findRelatedEntity(ContentNode::class, $data, 'parentId');
+            $contentNode->setParent($parent);
+        }
 
         /** @var ContentType $contentType */
         $contentType = $this->findRelatedEntity(ContentType::class, $data, 'contentTypeId');
-
-        $owner->setRootContentNode($contentNode);
         $contentNode->setContentType($contentType);
 
         $strategy = $this->contentTypeStrategyProvider->get($contentType);

@@ -52,7 +52,7 @@ class ContentNode extends BaseEntity implements BelongsToCampInterface {
     /**
      * @ORM\Column(type="json", nullable=true)
      */
-    private ?string $config = null;
+    private ?array $jsonConfig = null;
 
     /**
      * @ORM\ManyToOne(targetEntity="ContentType")
@@ -132,12 +132,22 @@ class ContentNode extends BaseEntity implements BelongsToCampInterface {
         $this->position = $position;
     }
 
-    public function getConfig() {
-        return $this->config;
+    public function getJsonConfig(): ?array {
+        return $this->jsonConfig;
     }
 
-    public function setConfig($config): void {
-        $this->config = $config;
+    public function setJsonConfig(?array $jsonConfig): void {
+        $this->jsonConfig = $jsonConfig;
+    }
+
+    public function getConfig(?string $key = null) {
+        if (null != $this->jsonConfig) {
+            if (null != $key) {
+                return $this->jsonConfig[$key];
+            }
+        }
+
+        return $this->jsonConfig;
     }
 
     public function isRoot(): bool {

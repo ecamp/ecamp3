@@ -16,6 +16,7 @@ class ContentNodeTest extends AbstractTestCase {
         $camp = new Camp();
 
         $contentType = new ContentType();
+        $jsonConfig = ['a' => 2];
 
         $activity = new Activity();
         $activity->setCamp($camp);
@@ -27,12 +28,15 @@ class ContentNodeTest extends AbstractTestCase {
         $contentNode->setInstanceName('ContentNodeName');
         $contentNode->setSlot('slot');
         $contentNode->setPosition(1);
+        $contentNode->setJsonConfig($jsonConfig);
 
         $this->assertEquals($activity, $contentNode->getOwner());
         $this->assertEquals($contentType, $contentNode->getContentType());
         $this->assertEquals('ContentNodeName', $contentNode->getInstanceName());
         $this->assertEquals('slot', $contentNode->getSlot());
         $this->assertEquals(1, $contentNode->getPosition());
+        $this->assertEquals($jsonConfig, $contentNode->getJsonConfig());
+        $this->assertEquals(2, $contentNode->getConfig('a'));
         $this->assertEquals($camp, $contentNode->getCamp());
     }
 

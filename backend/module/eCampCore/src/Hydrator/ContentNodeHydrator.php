@@ -42,6 +42,7 @@ class ContentNodeHydrator implements HydratorInterface {
             'instanceName' => $contentNode->getInstanceName(),
             'slot' => $contentNode->getSlot(),
             'position' => $contentNode->getPosition(),
+            'jsonConfig' => $contentNode->getJsonConfig(),
             'contentTypeName' => $contentType->getName(),
 
             'parent' => ($contentNode->isRoot() ? null : new EntityLink($contentNode->getParent())),
@@ -90,7 +91,10 @@ class ContentNodeHydrator implements HydratorInterface {
         if (isset($data['position'])) {
             $contentNode->setPosition($data['position']);
         }
-        // todo config
+        if (isset($data['jsonConfig'])) {
+            $jsonConfig = (array) ($data['jsonConfig']);
+            $contentNode->setJsonConfig($jsonConfig);
+        }
 
         return $contentNode;
     }
