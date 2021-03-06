@@ -2,10 +2,10 @@
   <auth-container v-if="ready">
     <div v-if="invitationFound">
       <h1 v-if="userDisplayName" class="display-1">
-        {{ this.$tc('components.invitation.userWelcome') }} {{ userDisplayName }}
+        {{ $tc('components.invitation.userWelcome') }} {{ userDisplayName }}
       </h1>
       <h1 class="display-1">
-        {{ this.$tc('components.invitation.title') }} {{ invitation().campTitle }}
+        {{ $tc('components.invitation.title') }} {{ invitation().campTitle }}
       </h1>
 
       <v-spacer />
@@ -14,25 +14,25 @@
                x-large
                class="my-4" block
                @click="acceptInvitation">
-          {{ this.$tc('components.invitation.acceptCurrentAuth') }}
+          {{ $tc('components.invitation.acceptCurrentAuth') }}
         </v-btn>
         <div v-else>
           <v-alert type="warning">
-            {{ this.$tc('components.invitation.userAlreadyInCamp') }}
+            {{ $tc('components.invitation.userAlreadyInCamp') }}
           </v-alert>
           <v-spacer />
           <v-btn color="primary"
                  x-large
                  class="my-4" block
                  :to="campLink">
-            {{ this.$tc('components.invitation.openCamp') }}
+            {{ $tc('components.invitation.openCamp') }}
           </v-btn>
         </div>
         <v-btn color="primary"
                x-large
                class="my-4" block
                @click="useAnotherAccount">
-          {{ this.$tc('components.invitation.useOtherAuth') }}
+          {{ $tc('components.invitation.useOtherAuth') }}
         </v-btn>
       </div>
       <div v-else>
@@ -40,30 +40,30 @@
                x-large
                class="my-4" block
                :to="loginLink">
-          {{ this.$tc('components.invitation.login') }}
+          {{ $tc('components.invitation.login') }}
         </v-btn>
         <v-btn color="primary"
                x-large
                class="my-4" block
                :to="{ name: 'register' }">
-          {{ this.$tc('components.invitation.register') }}
+          {{ $tc('components.invitation.register') }}
         </v-btn>
       </div>
       <v-btn color="red"
              x-large
              class="my-4" block
              @click="rejectInvitation">
-        {{ this.$tc('components.invitation.reject') }}
+        {{ $tc('components.invitation.reject') }}
       </v-btn>
     </div>
     <v-alert v-else-if="invitationFound === false" type="error">
-      {{ this.$tc('components.invitation.notFound') }}
+      {{ $tc('components.invitation.notFound') }}
     </v-alert>
     <v-btn color="primary"
            x-large
            class="my-4" block
            :to="{ name: 'home' }">
-      {{ this.$tc('components.invitation.backToHome') }}
+      {{ $tc('components.invitation.backToHome') }}
     </v-btn>
   </auth-container>
 </template>
