@@ -8,6 +8,7 @@ use eCamp\Core\Entity\AbstractContentNodeOwner;
 use eCamp\Core\Entity\ContentNode;
 use eCamp\Core\Entity\ContentType;
 use eCamp\Core\Hydrator\ContentNodeHydrator;
+use eCamp\Lib\Acl\Acl;
 use eCamp\Lib\Acl\NoAccessException;
 use eCamp\Lib\Entity\BaseEntity;
 use eCamp\Lib\Service\ServiceUtils;
@@ -65,11 +66,13 @@ class ContentNodeService extends AbstractEntityService {
         if (isset($data->ownerId)) {
             /** @var AbstractContentNodeOwner $owner */
             $owner = $this->findRelatedEntity(AbstractContentNodeOwner::class, $data, 'ownerId');
+            $this->assertAllowed($owner, Acl::REST_PRIVILEGE_PATCH);
             $owner->setRootContentNode($contentNode);
         }
         if (isset($data->parentId)) {
             /** @var ContentNode $parent */
             $parent = $this->findRelatedEntity(ContentNode::class, $data, 'parentId');
+            $this->assertAllowed($parent, Acl::REST_PRIVILEGE_PATCH);
             $contentNode->setParent($parent);
         }
 
@@ -78,9 +81,7 @@ class ContentNodeService extends AbstractEntityService {
         $contentNode->setContentType($contentType);
 
         $strategy = $this->contentTypeStrategyProvider->get($contentType);
-        if (null != $strategy) {
-            $strategy->contentNodeCreated($contentNode);
-        }
+        $strategy->contentNodeCreated($contentNode);
 
         return $contentNode;
     }
@@ -92,6 +93,7 @@ class ContentNodeService extends AbstractEntityService {
         if (isset($data->parentId)) {
             /** @var ContentNode $parent */
             $parent = $this->findRelatedEntity(ContentNode::class, $data, 'parentId');
+            $this->assertAllowed($parent, Acl::REST_PRIVILEGE_PATCH);
             $contentNode->setParent($parent);
         }
 
