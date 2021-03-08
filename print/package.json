@@ -23,7 +23,7 @@
     "hal-json-vuex": "1.2.1",
     "nuxt": "2.15.2",
     "pagedjs": "0.1.43",
-    "vue-i18n": "8.23.0"
+    "vue-i18n": "8.24.0"
   },
   "devDependencies": {
     "@babel/eslint-parser": "7.13.8",
