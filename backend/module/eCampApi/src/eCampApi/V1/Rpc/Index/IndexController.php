@@ -100,7 +100,7 @@ class IndexController extends AbstractActionController {
             'route' => 'api-tools/swagger',
         ]);
 
-        $data['invitation'] = TemplatedLink::factory([
+        $data['invitations'] = TemplatedLink::factory([
             'rel' => 'invitation',
             'route' => [
                 'name' => 'e-camp-api.rpc.invitation',

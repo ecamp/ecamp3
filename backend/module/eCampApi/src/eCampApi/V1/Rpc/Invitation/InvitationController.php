@@ -15,7 +15,6 @@ use Laminas\ApiTools\Hal\Link\Link;
 use Laminas\ApiTools\Hal\View\HalJsonModel;
 use Laminas\ApiTools\Rpc\RpcController;
 use Laminas\Authentication\AuthenticationService;
-use Laminas\Http\Request;
 
 class InvitationController extends RpcController {
     private AuthenticationService $authenticationService;
@@ -39,17 +38,13 @@ class InvitationController extends RpcController {
             'rel' => 'self',
             'route' => [
                 'name' => 'e-camp-api.rpc.invitation',
-                'params' => [
-                    'action' => 'index',
-                ],
             ],
         ]);
         $data['find'] = Link::factory([
             'rel' => 'find',
             'route' => [
-                'name' => 'e-camp-api.rpc.invitation',
+                'name' => 'e-camp-api.rpc.invitation.find',
                 'params' => [
-                    'action' => 'find',
                     'inviteKey' => 'add_inviteKey_here',
                 ],
             ],
@@ -57,9 +52,8 @@ class InvitationController extends RpcController {
         $data['accept'] = Link::factory([
             'rel' => 'accept',
             'route' => [
-                'name' => 'e-camp-api.rpc.invitation',
+                'name' => 'e-camp-api.rpc.invitation.accept',
                 'params' => [
-                    'action' => 'accept',
                     'inviteKey' => 'add_inviteKey_here',
                 ],
             ],
@@ -67,9 +61,8 @@ class InvitationController extends RpcController {
         $data['reject'] = Link::factory([
             'rel' => 'reject',
             'route' => [
-                'name' => 'e-camp-api.rpc.invitation',
+                'name' => 'e-camp-api.rpc.invitation.reject',
                 'params' => [
-                    'action' => 'reject',
                     'inviteKey' => 'add_inviteKey_here',
                 ],
             ],
@@ -105,12 +98,6 @@ class InvitationController extends RpcController {
      * @throws \Exception
      */
     public function accept($inviteKey): HalJsonModel {
-        /** @var Request $request */
-        $request = $this->getRequest();
-
-        if (!$request->isPost()) {
-            throw new \Exception('Bad Request', 400);
-        }
         if (!$this->authenticationService->hasIdentity()) {
             throw new EntityNotFoundException('Not Authorized', 401);
         }
@@ -136,15 +123,8 @@ class InvitationController extends RpcController {
      * @param $inviteKey
      *
      * @throws EntityNotFoundException
-     * @throws \Exception
      */
     public function reject($inviteKey): HalJsonModel {
-        /** @var Request $request */
-        $request = $this->getRequest();
-        if (!$request->isPost()) {
-            throw new \Exception('Bad Request', 400);
-        }
-
         try {
             return $this->toResponse($this->invitationService->rejectInvitation($inviteKey));
         } catch (EntityNotFoundException $e) {
@@ -159,10 +139,7 @@ class InvitationController extends RpcController {
         $data['self'] = Link::factory([
             'rel' => 'self',
             'route' => [
-                'name' => 'e-camp-api.rpc.invitation',
-                'params' => [
-                    'action' => 'find',
-                ],
+                'name' => 'e-camp-api.rpc.invitation.find',
             ],
         ]);
         $json = new HalJsonModel();
