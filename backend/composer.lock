@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "77f4209c8efcbc00f5c23ab1c80f4289",
+    "content-hash": "0fcc250b394c857992f9f25bf79e975a",
     "packages": [
         {
             "name": "assetic/framework",
@@ -9205,16 +9205,16 @@
         },
         {
             "name": "symfony/process",
-            "version": "v5.2.4",
+            "version": "v5.2.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/process.git",
-                "reference": "313a38f09c77fbcdc1d223e57d368cea76a2fd2f"
+                "reference": "b8d6eff26e48187fed15970799f4b605fa7242e4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/process/zipball/313a38f09c77fbcdc1d223e57d368cea76a2fd2f",
-                "reference": "313a38f09c77fbcdc1d223e57d368cea76a2fd2f",
+                "url": "https://api.github.com/repos/symfony/process/zipball/b8d6eff26e48187fed15970799f4b605fa7242e4",
+                "reference": "b8d6eff26e48187fed15970799f4b605fa7242e4",
                 "shasum": ""
             },
             "require": {
@@ -9247,7 +9247,7 @@
             "description": "Executes commands in sub-processes",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/process/tree/v5.2.4"
+                "source": "https://github.com/symfony/process/tree/v5.2.5"
             },
             "funding": [
                 {
@@ -9263,7 +9263,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-01-27T10:15:41+00:00"
+            "time": "2021-01-14T15:42:36+00:00"
         },
         {
             "name": "symfony/service-contracts",
@@ -12287,16 +12287,16 @@
         },
         {
             "name": "symfony/filesystem",
-            "version": "v5.2.4",
+            "version": "v5.2.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/filesystem.git",
-                "reference": "710d364200997a5afde34d9fe57bd52f3cc1e108"
+                "reference": "b84b3a9461a96e295e3c452caae277450f89fcbe"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/filesystem/zipball/710d364200997a5afde34d9fe57bd52f3cc1e108",
-                "reference": "710d364200997a5afde34d9fe57bd52f3cc1e108",
+                "url": "https://api.github.com/repos/symfony/filesystem/zipball/b84b3a9461a96e295e3c452caae277450f89fcbe",
+                "reference": "b84b3a9461a96e295e3c452caae277450f89fcbe",
                 "shasum": ""
             },
             "require": {
@@ -12329,7 +12329,7 @@
             "description": "Provides basic utilities for the filesystem",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/filesystem/tree/v5.2.4"
+                "source": "https://github.com/symfony/filesystem/tree/v5.2.5"
             },
             "funding": [
                 {
@@ -12345,7 +12345,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-02-12T10:38:38+00:00"
+            "time": "2021-02-12T10:47:00+00:00"
         },
         {
             "name": "symfony/finder",
