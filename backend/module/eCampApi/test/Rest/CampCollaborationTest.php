@@ -199,6 +199,33 @@ JSON;
         $this->assertThat($this->getResponseContent()->user, self::isNull());
     }
 
+    public function testCreateWithEmailOfExistingUser() {
+        $inviteEmail = 'my.mail@fantasy.com';
+        $user2 = new User();
+        $user2->setUsername('test-user2');
+        $user2->setTrustedMailAddress($inviteEmail);
+        $user2->setRole(User::ROLE_USER);
+        $user2->setState(User::STATE_ACTIVATED);
+
+        $this->getEntityManager()->persist($user2);
+        $this->getEntityManager()->flush();
+
+        $this->setRequestContent([
+            'role' => CampCollaboration::ROLE_MEMBER,
+            'campId' => $this->campCollaboration1->getCamp()->getId(),
+            'inviteEmail' => $inviteEmail,
+            'userId' => null,
+        ]);
+
+        $this->dispatch("{$this->apiEndpoint}", 'POST');
+
+        $this->assertResponseStatusCode(201);
+
+        $this->assertThat($this->getResponseContent()->status, self::equalTo(CampCollaboration::STATUS_INVITED));
+        $this->assertThat($this->getResponseContent()->inviteEmail, self::equalTo($inviteEmail));
+        $this->assertThat($this->getResponseContent()->_embedded->user->id, self::equalTo($user2->getId()));
+    }
+
     public function testUpdateSuccess(): void {
         $this->setRequestContent([
             'role' => 'manager', ]);
