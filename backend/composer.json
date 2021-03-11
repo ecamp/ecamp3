@@ -11,7 +11,7 @@
     },
     "require": {
         "php": "^7.4.2",
-        "laminas-api-tools/api-tools-hal": "1.6.0",
+        "laminas-api-tools/api-tools-hal": "1.7.0",
         "laminas-api-tools/api-tools-rest": "1.5.0",
         "laminas/laminas-cli": "1.0.2",
         "laminas/laminas-di": "3.2.1",
