@@ -196,7 +196,7 @@ JSON;
 
         $this->assertThat($this->getResponseContent()->status, self::equalTo(CampCollaboration::STATUS_INVITED));
         $this->assertThat($this->getResponseContent()->inviteEmail, self::equalTo($inviteEmail));
-        $this->assertThat($this->getResponseContent()->user, self::isNull());
+        $this->assertThat($this->getResponseContent()->_embedded, self::logicalNot(self::classHasAttribute('user')));
     }
 
     public function testCreateWithEmailOfExistingUser() {
