@@ -8,6 +8,7 @@ import dayjs from '@/plugins/dayjs'
 import { mount as mountComponent } from '@vue/test-utils'
 import ETimePicker from '../ETimePicker'
 import { waitForDebounce } from '@/test/util'
+import flushPromises from 'flush-promises'
 
 Vue.use(Vuetify)
 Vue.use(formBaseComponents)
@@ -43,8 +44,6 @@ describe('An ETimePicker', () => {
 
     ]
   ]
-
-  const flushPromises = () => new Promise((resolve) => setImmediate(resolve))
 
   const mount = (options) => mountComponent(ETimePicker, { vuetify, i18n, ...options })
 
