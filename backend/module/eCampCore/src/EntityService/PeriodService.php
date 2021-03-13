@@ -7,7 +7,6 @@ use Doctrine\ORM\QueryBuilder;
 use eCamp\Core\Entity\Camp;
 use eCamp\Core\Entity\Day;
 use eCamp\Core\Entity\Period;
-use eCamp\Core\Entity\ScheduleEntry;
 use eCamp\Core\Hydrator\PeriodHydrator;
 use eCamp\Lib\Acl\NoAccessException;
 use eCamp\Lib\Entity\BaseEntity;
@@ -17,13 +16,14 @@ use eCamp\Lib\Service\ServiceUtils;
 use Laminas\Authentication\AuthenticationService;
 
 class PeriodService extends AbstractEntityService {
-    /** @var DayService */
-    protected $dayService;
+    protected DayService $dayService;
+    protected ScheduleEntryService $scheduleEntryService;
 
     public function __construct(
-        DayService $dayService,
         ServiceUtils $serviceUtils,
-        AuthenticationService $authenticationService
+        AuthenticationService $authenticationService,
+        DayService $dayService,
+        ScheduleEntryService $scheduleEntryService
     ) {
         parent::__construct(
             $serviceUtils,
@@ -33,6 +33,7 @@ class PeriodService extends AbstractEntityService {
         );
 
         $this->dayService = $dayService;
+        $this->scheduleEntryService = $scheduleEntryService;
     }
 
     /**
@@ -79,11 +80,21 @@ class PeriodService extends AbstractEntityService {
      */
     protected function patchEntity(BaseEntity $entity, $data): Period {
         /** @var Period $period */
-        $period = parent::patchEntity($entity, $data);
+        $period = $entity;
+        $oldStart = $period->getStart();
+
+        /** @var Period $period */
+        $period = parent::patchEntity($period, $data);
         $this->updatePeriodDays($period);
 
-        // $moveActivities = isset($data->move_activities) ? $data->move_activities : null;
-        // $this->updateScheduleEntries($period, $moveActivities);
+        $moveScheduleEntries = isset($data->moveScheduleEntries) ? $data->moveScheduleEntries : false;
+        if (!$moveScheduleEntries) {
+            $newStart = $period->getStart();
+            $delta = $newStart->getTimestamp() - $oldStart->getTimestamp();
+            $delta = $delta / 60;
+
+            $this->updateScheduleEntries($period, $delta);
+        }
 
         return $period;
     }
@@ -190,33 +201,15 @@ class PeriodService extends AbstractEntityService {
     }
 
     /**
-     * @param bool $moveActivities
-     *
      * @throws NoAccessException
      */
-    private function updateScheduleEntries(Period $period, $moveActivities = null): void {
-        if (is_null($moveActivities)) {
-            $moveActivities = true;
-        }
-
-        if (!$moveActivities) {
-            $start = $period->getStart();
-
-            $origData = $this->getOrigEntityData($period);
-            if (isset($origData['start'])) {
-                $start = $origData['start'];
-            }
-
-            $delta = $period->getStart()->getTimestamp() - $start->getTimestamp();
-            $delta = $delta / 60;
-
-            $scheduleEntries = $period->getScheduleEntries();
-            foreach ($scheduleEntries as $scheduleEntry) {
-                // @var ScheduleEntry $scheduleEntry
-                $this->getScheduleEntryService()->patch($scheduleEntry->getId(), (object) [
-                    'start' => $scheduleEntry->getStart() - $delta,
-                ]);
-            }
+    private function updateScheduleEntries(Period $period, int $delta): void {
+        $scheduleEntries = $period->getScheduleEntries();
+        foreach ($scheduleEntries as $scheduleEntry) {
+            // @var ScheduleEntry $scheduleEntry
+            $this->scheduleEntryService->patch($scheduleEntry->getId(), (object) [
+                'periodOffset' => $scheduleEntry->getPeriodOffset() - $delta,
+            ]);
         }
     }
 }
