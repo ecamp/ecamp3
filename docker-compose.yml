@@ -59,7 +59,7 @@ services:
       - ./print/print.env
 
   composer:
-    image: composer:2@sha256:2bcffb25b89673c49cac529587ccf30945c03dff7c98f5cc41a0c0f0d5179c4a
+    image: composer:2@sha256:bdc3caa4c3e46665f46b7e69742e01934d74a71012412fcc396ec9a51079b9a8
     container_name: 'ecamp3-composer'
     restart: 'no'
     command: bash -c "composer install --no-interaction --no-plugins --no-scripts --prefer-dist"
@@ -87,9 +87,11 @@ services:
     container_name: 'ecamp3-phpmyadmin'
     ports:
       - '3002:80'
+    volumes:
+      - ./phpmyadmin/config.user.inc.php:/etc/phpmyadmin/config.user.inc.php
 
   rabbitmq:
-    image: rabbitmq:3.8-management@sha256:2250f75877e1b8f53ff4a2a1951fc4462a9d96919e3ae015d9e1e89a46d01ee3
+    image: rabbitmq:3.8-management@sha256:fbee70f33d6f3b7e2f413b891b567ba437e9db7b4464f606048a47165f14f58a
     container_name: 'ecamp3-rabbitmq'
     ports:
       - '3004:15672'

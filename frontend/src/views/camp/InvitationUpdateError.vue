@@ -1,13 +1,13 @@
 <template>
   <auth-container>
     <v-alert type="error">
-      {{ this.$tc('components.invitation.error') }}
+      {{ $tc('components.invitation.error') }}
     </v-alert>
     <v-btn color="primary"
            x-large
            class="my-4" block
            :to="{ name: 'home' }">
-      {{ this.$tc('components.invitation.backToHome') }}
+      {{ $tc('components.invitation.backToHome') }}
     </v-btn>
   </auth-container>
 </template>

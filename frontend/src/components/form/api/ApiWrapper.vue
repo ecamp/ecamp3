@@ -108,11 +108,19 @@ export default {
       // return value from API unless `value` is set explicitly
       } else {
         let val = this.api.get(this.uri)[this.fieldname]
+
+        // while loading, value is null
+        // (necessary because while loading, even normal properties are returned as functions)
+        if (val && val.loading) return null
+
+        // Check if val is an embedded collection
         if (val instanceof Function) {
           val = val()
-          if ('items' in val) {
-            val = val.items
+          if (!('items' in val)) {
+            console.error('You are trying to use a fieldname ' + this.fieldname + ' in an ApiFormComponent, but ' + this.fieldname + ' is a relation, not a primitive value or embedded collection.')
+            return null
           }
+          val = val.items
         }
         return val
       }

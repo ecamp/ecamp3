@@ -181,7 +181,7 @@ describe('Testing ApiWrapper [autoSave=true;  manual external value]', () => {
 
     // when
     vm.onInput('new value')
-    input.trigger('submit') // trigger submit evenet (simluates enter key)
+    input.trigger('submit') // trigger submit event (simulates enter key)
     jest.runAllTimers() // resolve lodash debounced
     await flushPromises() // resolve validation
 
@@ -312,8 +312,10 @@ describe('Testing ApiWrapper [autoSave=true; value from API]', () => {
 
   test('loads value from API', async () => {
     // given
+    const loadingValue = () => {}
+    loadingValue.loading = true
     apiGet.mockReturnValue({
-      [config.propsData.fieldname]: 'api value',
+      [config.propsData.fieldname]: loadingValue,
       _meta: {
         load: Promise.resolve()
       }
@@ -325,6 +327,15 @@ describe('Testing ApiWrapper [autoSave=true; value from API]', () => {
 
     // then
     expect(vm.isLoading).toBe(true)
+    expect(vm.localValue).toBe(null)
+
+    // given
+    apiGet.mockReturnValue({
+      [config.propsData.fieldname]: 'api value',
+      _meta: {
+        load: Promise.resolve()
+      }
+    })
 
     // when
     await flushPromises() // wait for load promise to resolve
@@ -337,8 +348,10 @@ describe('Testing ApiWrapper [autoSave=true; value from API]', () => {
 
   test('shows error when loading value from API fails', async () => {
     // given
+    const loadingValue = () => {}
+    loadingValue.loading = true
     apiGet.mockReturnValue({
-      [config.propsData.fieldname]: 'api value',
+      [config.propsData.fieldname]: loadingValue,
       _meta: {
         load: Promise.reject(new Error('loading error'))
       }
@@ -354,6 +367,40 @@ describe('Testing ApiWrapper [autoSave=true; value from API]', () => {
     expect(vm.isLoading).toBe(false)
     expect(vm.hasLoadingError).toBe(true)
     expect(vm.errorMessages[0]).toMatch('loading error')
+  })
+
+  test('shows an error when specifying a relation as fieldname', async () => {
+    // given
+    const loadingValue = () => {}
+    loadingValue.loading = true
+    apiGet.mockReturnValue({
+      [config.propsData.fieldname]: loadingValue,
+      _meta: {
+        load: Promise.resolve()
+      }
+    })
+
+    wrapper = shallowMount(ApiWrapper, config)
+    vm = wrapper.vm
+
+    apiGet.mockReturnValue({
+      [config.propsData.fieldname]: () => ({}),
+      _meta: {
+        load: Promise.resolve()
+      }
+    })
+    const errorSpy = jest.spyOn(console, 'error').mockImplementation()
+
+    // when
+    await flushPromises() // wait for load promise to resolve
+
+    // then
+    expect(vm.hasFinishedLoading).toBe(true)
+    expect(vm.isLoading).toBe(false)
+    expect(vm.localValue).toBe(null)
+    expect(errorSpy).toHaveBeenCalledWith('You are trying to use a fieldname testField in an ApiFormComponent, but testField is a relation, not a primitive value or embedded collection.')
+
+    errorSpy.mockRestore()
   })
 })
 
