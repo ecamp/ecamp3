@@ -9,6 +9,7 @@ import formBaseComponents from '@/plugins/formBaseComponents'
 import { mount as mountComponent } from '@vue/test-utils'
 import EColorPicker from '../EColorPicker'
 import { waitForDebounce } from '@/test/util'
+import flushPromises from 'flush-promises'
 
 Vue.use(Vuetify)
 Vue.use(formBaseComponents)
@@ -21,8 +22,6 @@ describe('An EColorPicker', () => {
   const COLOR_1 = '#ff0000'
   const COLOR_2 = '#ff00ff'
   const INVALID_COLOR = 'some new color'
-
-  const flushPromises = () => new Promise((resolve) => setImmediate(resolve))
 
   const createMouseEvent = (x, y) => {
     return {
