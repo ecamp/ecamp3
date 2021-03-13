@@ -20,29 +20,29 @@
 
       <rect x="0" y="15"
             width="14" height="70"
-            style="paint-order: fill; stroke: rgba(0, 0, 0, 0); fill: rgb(200, 200, 200);" />
+            style="fill: rgb(200, 200, 200);" />
       <rect x="42" y="15"
             width="28" height="70"
-            style="paint-order: fill; stroke: rgba(0, 0, 0, 0); fill: rgb(200, 200, 200);" />
+            style="fill: rgb(200, 200, 200);" />
       <rect x="98" y="15"
             width="28" height="70"
-            style="paint-order: fill; stroke: rgba(0, 0, 0, 0); fill: rgb(200, 200, 200);" />
+            style="fill: rgb(200, 200, 200);" />
       <rect x="154" y="15"
             width="28" height="70"
-            style="paint-order: fill; stroke: rgba(0, 0, 0, 0); fill: rgb(200, 200, 200);" />
+            style="fill: rgb(200, 200, 200);" />
 
       <rect x="218" y="15"
             width="28" height="70"
-            style="paint-order: fill; stroke: rgba(0, 0, 0, 0); fill: rgb(200, 200, 200);" />
+            style="fill: rgb(200, 200, 200);" />
       <rect x="274" y="15"
             width="28" height="70"
-            style="paint-order: fill; stroke: rgba(0, 0, 0, 0); fill: rgb(200, 200, 200);" />
+            style="fill: rgb(200, 200, 200);" />
       <rect x="330" y="15"
             width="28" height="70"
-            style="paint-order: fill; stroke: rgba(0, 0, 0, 0); fill: rgb(200, 200, 200);" />
+            style="fill: rgb(200, 200, 200);" />
       <rect x="386" y="15"
             width="14" height="70"
-            style="paint-order: fill; stroke: rgba(0, 0, 0, 0); fill: rgb(200, 200, 200);" />
+            style="fill: rgb(200, 200, 200);" />
 
       <g :class="{'annimation-all': entityData.moveScheduleEntries }">
         <rect x="70" y="22"
@@ -53,17 +53,17 @@
 
         <rect x="101" y="40"
               width="22" height="32"
-              style="troke: rgba(0, 0, 0, 0); fill: rgb(255, 137, 26);" />
+              style="fill: rgb(255, 137, 26);" />
         <rect x="129" y="34"
               width="22" height="32"
-              style="stroke: rgba(0, 0, 0, 0); fill: rgb(45, 172, 13);" />
+              style="fill: rgb(45, 172, 13);" />
 
         <rect x="249" y="40"
               width="22" height="32"
-              style="stroke: rgba(0, 0, 0, 0); fill: rgb(255, 137, 26);" />
+              style="fill: rgb(255, 137, 26);" />
         <rect x="277" y="34"
               width="22" height="32"
-              style="stroke: rgba(0, 0, 0, 0); fill: rgb(45, 172, 13);" />
+              style="fill: rgb(45, 172, 13);" />
       </g>
       <path style="stroke: rgb(0, 0, 0); fill: rgba(0, 0, 0, 0); stroke-width: 5px;"
             d="M 200 10 C 190 20 190 40 200 50 C 210 60 210 80 200 90" />
