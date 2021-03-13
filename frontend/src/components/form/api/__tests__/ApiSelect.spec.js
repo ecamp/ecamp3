@@ -95,4 +95,18 @@ describe('An ApiSelect', () => {
     expect(apiMock.getMocks().patch).toBeCalledTimes(1)
     expect(wrapper.findComponent(ApiWrapper).vm.localValue).toBe(SECOND_OPTION.value)
   })
+
+  test('updates state if value in store is refreshed and has new value', async () => {
+    wrapper = mount()
+    apiMock.get().thenReturn(ApiMock.success(SECOND_OPTION.value).forFieldName(fieldName))
+
+    wrapper.findComponent(ApiWrapper).vm.reload()
+
+    await waitForDebounce()
+    await flushPromises()
+
+    expect(wrapper.findComponent(ApiWrapper).vm.localValue).toBe(SECOND_OPTION.value)
+    expect(wrapper.html()).toContain(SECOND_OPTION.text)
+    expect(wrapper.html()).not.toContain(FIRST_OPTION.text)
+  })
 })
