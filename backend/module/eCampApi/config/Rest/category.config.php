@@ -15,7 +15,7 @@ return Config::Create('Category', 'Categories')
         InputFilter::Create('name', true)
             ->addFilterStringTrim()
             ->addFilterStripTags()
-            ->addValidatorStringLength(1, 64)
+            ->addValidatorStringLength(1, 32)
     )
     ->addInputFilterFactory(
         InputFilter::Create('color', true)
