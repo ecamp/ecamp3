@@ -16,3 +16,5 @@ export function touch (element) {
     end: createTrigger('touchend')
   }
 }
+
+export const waitForDebounce = () => new Promise((resolve) => setTimeout(resolve, 110))

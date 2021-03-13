@@ -8,6 +8,7 @@ import merge from 'lodash/merge'
 import { ApiMock } from '@/components/form/api/__tests__/ApiMock'
 import { i18n } from '@/plugins'
 import { mount as mountComponent } from '@vue/test-utils'
+import { waitForDebounce } from '@/test/util'
 
 Vue.use(Vuetify)
 Vue.use(formBaseComponents)
@@ -57,8 +58,6 @@ describe('An ApiCheckbox', () => {
     }
     return mountComponent(app, { vuetify, i18n, attachTo: document.body, ...merge(defaultOptions, options) })
   }
-
-  const waitForDebounce = () => new Promise((resolve) => setTimeout(resolve, 110))
 
   test('triggers api.patch and status update if input changes', async () => {
     apiMock.patch().thenReturn(ApiMock.success(false))
