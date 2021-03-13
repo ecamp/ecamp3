@@ -26,7 +26,7 @@
 import { scheduleEntryRoute } from '@/router'
 
 export default {
-  name: 'MaterialListItemActivity',
+  name: 'MaterialListItemContentNode',
   components: {
   },
   props: {

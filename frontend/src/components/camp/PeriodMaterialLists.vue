@@ -34,7 +34,7 @@
             </thead>
             <tbody>
               <template v-for="item in materialListDetail.items">
-                <material-list-item-activity
+                <material-list-item-content-node
                   v-if="item.scheduleEntry != null"
                   :key="item.key"
                   :camp="camp"
@@ -87,7 +87,7 @@
 <script>
 import DialogMaterialItemCreate from '../dialog/DialogMaterialItemCreate'
 import MaterialCreateItem from './MaterialCreateItem.vue'
-import MaterialListItemActivity from './MaterialListItemActivity'
+import MaterialListItemContentNode from './MaterialListItemContentNode'
 import MaterialListItemPeriod from './MaterialListItemPeriod'
 
 export default {
@@ -95,12 +95,12 @@ export default {
   components: {
     DialogMaterialItemCreate,
     MaterialCreateItem,
-    MaterialListItemActivity,
+    MaterialListItemContentNode,
     MaterialListItemPeriod
   },
   props: {
     period: { type: Object, required: true },
-    showActivityMaterial: { type: Boolean, required: true }
+    showContentNodeMaterial: { type: Boolean, required: true }
   },
   data () {
     return {
@@ -156,11 +156,11 @@ export default {
         }
       }
 
-      // Activity-Material
-      if (this.showActivityMaterial) {
+      // ContentNode-Material
+      if (this.showContentNodeMaterial) {
         materialList.materialItems().items
           .filter(mi => mi.contentNode !== null)
-          .forEach(mi => mi.contentNode().activity().scheduleEntries().items
+          .forEach(mi => mi.contentNode().owner().scheduleEntries().items
             .filter(se => se.period().id === this.period.id)
             .forEach(se => items.push({
               key: mi.id + '/' + se.id,
