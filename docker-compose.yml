@@ -87,6 +87,8 @@ services:
     container_name: 'ecamp3-phpmyadmin'
     ports:
       - '3002:80'
+    volumes:
+      - ./phpmyadmin/config.user.inc.php:/etc/phpmyadmin/config.user.inc.php
 
   rabbitmq:
     image: rabbitmq:3.8-management@sha256:fbee70f33d6f3b7e2f413b891b567ba437e9db7b4464f606048a47165f14f58a
