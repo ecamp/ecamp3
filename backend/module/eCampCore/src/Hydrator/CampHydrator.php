@@ -64,6 +64,7 @@ class CampHydrator implements HydratorInterface {
             'title' => $camp->getTitle(),
             'motto' => $camp->getMotto(),
             'role' => $camp->getRole($auth->getIdentity()),
+            'isPrototype' => $camp->getIsPrototype(),
 
             //            'owner' => EntityLink::Create($camp->getOwner()),
             'creator' => EntityLink::Create($camp->getCreator()),
@@ -97,6 +98,9 @@ class CampHydrator implements HydratorInterface {
         /** @var Camp $camp */
         $camp = $object;
 
+        if (isset($data['isPrototype'])) {
+            $camp->setIsPrototype($data['isPrototype']);
+        }
         if (isset($data['title'])) {
             $camp->setTitle($data['title']);
         }

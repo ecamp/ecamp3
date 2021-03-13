@@ -6,9 +6,8 @@ use Doctrine\ORM\ORMException;
 use Doctrine\ORM\QueryBuilder;
 use eCamp\Core\Entity\Camp;
 use eCamp\Core\Entity\Category;
-use eCamp\Core\Entity\CategoryContentTemplate;
-use eCamp\Core\Entity\CategoryContentTypeTemplate;
-use eCamp\Core\Entity\CategoryTemplate;
+use eCamp\Core\Entity\CategoryContentType;
+use eCamp\Core\Entity\ContentNode;
 use eCamp\Core\Hydrator\CategoryHydrator;
 use eCamp\Lib\Acl\NoAccessException;
 use eCamp\Lib\Service\EntityNotFoundException;
@@ -16,14 +15,14 @@ use eCamp\Lib\Service\ServiceUtils;
 use Laminas\Authentication\AuthenticationService;
 
 class CategoryService extends AbstractEntityService {
-    protected CategoryContentTypeService $categoryContentTypeService;
-    protected CategoryContentService $categoryContentService;
+    private ContentNodeService $contentNodeService;
+    private CategoryContentTypeService $categoryContentTypeService;
 
     public function __construct(
         ServiceUtils $serviceUtils,
         AuthenticationService $authenticationService,
-        CategoryContentTypeService $categoryContentTypeService,
-        CategoryContentService $categoryContentService
+        ContentNodeService $contentNodeService,
+        CategoryContentTypeService $categoryContentTypeService
     ) {
         parent::__construct(
             $serviceUtils,
@@ -32,29 +31,31 @@ class CategoryService extends AbstractEntityService {
             $authenticationService
         );
 
+        $this->contentNodeService = $contentNodeService;
         $this->categoryContentTypeService = $categoryContentTypeService;
-        $this->categoryContentService = $categoryContentService;
     }
 
-    public function createFromTemplate(Camp $camp, CategoryTemplate $template): Category {
+    public function createFromPrototype(Camp $camp, Category $prototype): Category {
         /** @var Category $category */
         $category = $this->create((object) [
             'campId' => $camp->getId(),
-            'short' => $template->getShort(),
-            'name' => $template->getName(),
-            'color' => $template->getColor(),
-            'numberingStyle' => $template->getNumberingStyle(),
+            'short' => $prototype->getShort(),
+            'name' => $prototype->getName(),
+            'color' => $prototype->getColor(),
+            'numberingStyle' => $prototype->getNumberingStyle(),
         ]);
-        $category->setCategoryTemplateId($template->getId());
+        $category->setCategoryPrototypeId($prototype->getId());
 
-        /** @var CategoryContentTypeTemplate $categoryContentTypeTemplate */
-        foreach ($template->getCategoryContentTypeTemplates() as $categoryContentTypeTemplate) {
-            $this->categoryContentTypeService->createFromTemplate($category, $categoryContentTypeTemplate);
+        /** @var ContentNode $contentNodePrototype */
+        $contentNodePrototype = $prototype->getRootContentNode();
+        if (isset($contentNodePrototype)) {
+            $contentNode = $this->contentNodeService->createFromPrototype($category, $contentNodePrototype);
+            $category->setRootContentNode($contentNode);
         }
 
-        /** @var CategoryContentTemplate $categoryContentTemplate */
-        foreach ($template->getRootCategoryContentTemplates() as $categoryContentTemplate) {
-            $this->categoryContentService->createFromTemplate($category, $categoryContentTemplate);
+        /** @var CategoryContentType $categoryContentType */
+        foreach ($prototype->getCategoryContentTypes() as $categoryContentType) {
+            $this->categoryContentTypeService->createFromPrototype($category, $categoryContentType);
         }
 
         return $category;

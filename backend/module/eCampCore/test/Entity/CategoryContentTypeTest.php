@@ -24,9 +24,11 @@ class CategoryContentTypeTest extends AbstractTestCase {
         $categoryContentType = new CategoryContentType();
         $categoryContentType->setCategory($category);
         $categoryContentType->setContentType($contentType);
+        $categoryContentType->setCategoryContentTypePrototypeId('prototypeId');
 
         $this->assertEquals($category, $categoryContentType->getCategory());
         $this->assertEquals($contentType, $categoryContentType->getContentType());
         $this->assertEquals($camp, $categoryContentType->getCamp());
+        $this->assertEquals('prototypeId', $categoryContentType->getCategoryContentTypePrototypeId());
     }
 }

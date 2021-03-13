@@ -30,7 +30,7 @@
         "ocramius/proxy-manager": "2.11.1",
         "ext-json": "*",
         "zfr/zfr-cors": "2.0.0",
-        "symfony/process": "5.2.4",
+        "symfony/process": "5.2.5",
         "rwoverdijk/assetmanager": "3.0.0",
         "ezyang/htmlpurifier": "4.13.0",
         "sentry/sdk": "3.1.0",
@@ -45,9 +45,9 @@
         "laminas/laminas-developer-tools": "2.1.0",
         "laminas/laminas-code": "4.0.0",
         "laminas/laminas-test": "3.4.2",
-        "friendsofphp/php-cs-fixer": "2.18.2",
+        "friendsofphp/php-cs-fixer": "2.18.3",
         "filp/whoops": "2.9.2",
-        "symfony/filesystem": "5.2.4"
+        "symfony/filesystem": "5.2.5"
     },
     "autoload": {
         "psr-4": {

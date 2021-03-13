@@ -7,7 +7,6 @@ use Doctrine\ORM\QueryBuilder;
 use eCamp\Core\Entity\Activity;
 use eCamp\Core\Entity\Camp;
 use eCamp\Core\Entity\Category;
-use eCamp\Core\Entity\CategoryContent;
 use eCamp\Core\Entity\ScheduleEntry;
 use eCamp\Core\Hydrator\ActivityHydrator;
 use eCamp\Lib\Acl\NoAccessException;
@@ -22,9 +21,9 @@ class ActivityService extends AbstractEntityService {
     protected ContentNodeService $contentNodeService;
 
     public function __construct(
-        ActivityResponsibleService $activityResponsibleService,
         ServiceUtils $serviceUtils,
         AuthenticationService $authenticationService,
+        ActivityResponsibleService $activityResponsibleService,
         ScheduleEntryService $scheduleEntryService,
         ContentNodeService $contentNodeService
     ) {
@@ -52,9 +51,11 @@ class ActivityService extends AbstractEntityService {
 
         /** @var Category $category */
         $category = $this->findRelatedEntity(Category::class, $data, 'categoryId');
+        $camp = $category->getCamp();
 
+        // Set Camp and Category
+        $camp->addActivity($activity);
         $activity->setCategory($category);
-        $activity->setCamp($category->getCamp()); // TODO meeting discus: Why do we actually need camp on activity? Redundant relationship
 
         return $activity;
     }
@@ -73,7 +74,13 @@ class ActivityService extends AbstractEntityService {
 
         $this->updateActivityResponsibles($activity, $data);
         $this->updateScheduleEntries($activity, $data);
-        $this->createInitialContentNodes($activity);
+
+        // Copy ContentNode
+        $prototype = $activity->getCategory()->getRootContentNode();
+        if (isset($prototype)) {
+            $contentNode = $this->contentNodeService->createFromPrototype($activity, $prototype);
+            $activity->setRootContentNode($contentNode);
+        }
 
         return $activity;
     }
@@ -188,15 +195,6 @@ class ActivityService extends AbstractEntityService {
                     $this->scheduleEntryService->create($data);
                 }
             }
-        }
-    }
-
-    private function createInitialContentNodes(Activity $activity): void {
-        $categoryContents = $activity->getCategory()->getRootCategoryContents();
-
-        /** @var CategoryContent $categoryContent */
-        foreach ($categoryContents as $categoryContent) {
-            $this->contentNodeService->createFromCategoryContent($activity, $categoryContent);
         }
     }
 }

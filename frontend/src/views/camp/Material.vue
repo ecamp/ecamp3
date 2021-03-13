@@ -6,7 +6,7 @@ Admin screen of a camp: Displays MaterialLists and MaterialItems
   <content-card :title="$tc('views.camp.material.title')" toolbar>
     <template #title-actions>
       <e-switch
-        v-model="showActivityMaterial"
+        v-model="showContentNodeMaterial"
         class="ml-auto"
         :label="$vuetify.breakpoint.smAndUp ?
           $tc('views.camp.material.showActivityMaterial') :
@@ -17,7 +17,7 @@ Admin screen of a camp: Displays MaterialLists and MaterialItems
       <period-material-lists v-for="period in camp().periods().items"
                              :key="period._meta.self"
                              :period="period"
-                             :show-activity-material="showActivityMaterial" />
+                             :show-content-node-material="showContentNodeMaterial" />
     </v-expansion-panels>
   </content-card>
 </template>
@@ -38,19 +38,19 @@ export default {
   data () {
     return {
       openPeriods: [],
-      showActivityMaterial: false
+      showContentNodeMaterial: false
     }
   },
   watch: {
-    showActivityMaterial (val) {
-      localStorage.viewCampMaterialShowActivityMaterial = (val ? 'true' : 'false')
+    showContentNodeMaterial (val) {
+      localStorage.viewCampMaterialShowContentNodeMaterial = (val ? 'true' : 'false')
     }
   },
   mounted () {
-    if (localStorage.viewCampMaterialShowActivityMaterial === undefined) {
-      localStorage.viewCampMaterialShowActivityMaterial = 'false'
+    if (localStorage.viewCampMaterialShowContentNodeMaterial === undefined) {
+      localStorage.viewCampMaterialShowContentNodeMaterial = 'false'
     }
-    this.showActivityMaterial = (localStorage.viewCampMaterialShowActivityMaterial === 'true')
+    this.showContentNodeMaterial = (localStorage.viewCampMaterialShowContentNodeMaterial === 'true')
 
     this.camp().periods()._meta.load.then(periods => {
       this.openPeriods = periods.items

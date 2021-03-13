@@ -22,8 +22,8 @@
               vee-rules="required"
               required />
             <e-select
-              v-model="camp.campTemplateId"
-              :name="$tc('entity.campTemplate.name')"
+              v-model="camp.campPrototypeId"
+              :name="$tc('entity.camp.prototype')"
               :items="campTemplates">
               <template #item="data">
                 <v-list-item v-bind="data.attrs" v-on="data.on">
@@ -94,7 +94,7 @@ export default {
   },
   computed: {
     campTemplates () {
-      return this.api.get().campTemplates().items.map(ct => ({
+      return this.api.get().camps({ isPrototype: 1 }).items.map(ct => ({
         value: ct.id,
         text: this.$tc(ct.name),
         object: ct

@@ -27,7 +27,7 @@ class CategoryContentType extends BaseEntity implements BelongsToCampInterface {
     /**
      * @ORM\Column(type="string", length=32, nullable=true)
      */
-    private ?string $categoryContentTypeTemplateId = null;
+    private ?string $categoryContentTypePrototypeId = null;
 
     public function getCamp(): ?Camp {
         return (null != $this->category) ? $this->category->getCamp() : null;
@@ -49,11 +49,11 @@ class CategoryContentType extends BaseEntity implements BelongsToCampInterface {
         $this->contentType = $contentType;
     }
 
-    public function getCategoryContentTypeTemplateId(): ?string {
-        return $this->categoryContentTypeTemplateId;
+    public function getCategoryContentTypePrototypeId(): ?string {
+        return $this->categoryContentTypePrototypeId;
     }
 
-    public function setCategoryContentTypeTemplateId(?string $categoryContentTypeTemplateId): void {
-        $this->categoryContentTypeTemplateId = $categoryContentTypeTemplateId;
+    public function setCategoryContentTypePrototypeId(?string $categoryContentTypePrototypeId): void {
+        $this->categoryContentTypePrototypeId = $categoryContentTypePrototypeId;
     }
 }

@@ -4,7 +4,6 @@ namespace eCamp\Core\EntityService;
 
 use eCamp\Core\Entity\Category;
 use eCamp\Core\Entity\CategoryContentType;
-use eCamp\Core\Entity\CategoryContentTypeTemplate;
 use eCamp\Core\Entity\ContentType;
 use eCamp\Core\Hydrator\CategoryContentTypeHydrator;
 use eCamp\Lib\Service\ServiceUtils;
@@ -20,13 +19,13 @@ class CategoryContentTypeService extends AbstractEntityService {
         );
     }
 
-    public function createFromTemplate(Category $category, CategoryContentTypeTemplate $template) {
+    public function createFromPrototype(Category $category, CategoryContentType $prototype) {
         /** @var CategoryContentType $categoryContentType */
         $categoryContentType = $this->create((object) [
             'categoryId' => $category->getId(),
-            'contentTypeId' => $template->getContentType()->getId(),
+            'contentTypeId' => $prototype->getContentType()->getId(),
         ]);
-        $categoryContentType->setCategoryContentTypeTemplateId($template->getId());
+        $categoryContentType->setCategoryContentTypePrototypeId($prototype->getId());
 
         return $categoryContentType;
     }

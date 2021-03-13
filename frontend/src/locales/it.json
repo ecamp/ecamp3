@@ -192,13 +192,11 @@
         "name": "Nome",
         "title": "Titolo"
       },
-      "name": "Campo"
+      "name": "Campo",
+      "prototype": "Modello di campo"
     },
     "campCollaboration": {
       "campLeft": "lasciato il campo"
-    },
-    "campTemplate": {
-      "name": "Modello di campo"
     },
     "period": {
       "defaultDescription": "Campo principale",

@@ -12,7 +12,7 @@ class Module implements ApiToolsProviderInterface {
     public function getConfig() {
         return ConfigFactory::fromFiles(
             array_merge(
-                [__DIR__.'/../../config/module.config.php'],
+                glob(__DIR__.'/../../config/Rpc/*.config.php'),
                 glob(__DIR__.'/../../config/Rest/*.config.php')
             )
         );

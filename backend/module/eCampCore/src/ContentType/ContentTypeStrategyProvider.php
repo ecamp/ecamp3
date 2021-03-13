@@ -3,6 +3,7 @@
 namespace eCamp\Core\ContentType;
 
 use eCamp\Core\Entity\ContentType;
+use Exception;
 use Interop\Container\ContainerInterface;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
@@ -16,27 +17,21 @@ class ContentTypeStrategyProvider {
     }
 
     /**
-     * @param $contentTypeOrStrategyClass
-     *
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
-    public function get($contentTypeOrStrategyClass): ContentTypeStrategyInterface {
-        $strategyClass = $contentTypeOrStrategyClass;
+    public function get(ContentType $contentType): ContentTypeStrategyInterface {
+        $strategyClass = $contentType->getStrategyClass();
 
-        if ($contentTypeOrStrategyClass instanceof ContentType) {
-            $strategyClass = $contentTypeOrStrategyClass->getStrategyClass();
-        }
-
-        $strategy = null;
         if (is_string($strategyClass)) {
             if ($this->container->has($strategyClass)) {
-                $strategy = $this->container->get($strategyClass);
-            } elseif (class_exists($strategyClass)) {
-                $strategy = new $strategyClass();
+                return $this->container->get($strategyClass);
+            }
+            if (class_exists($strategyClass)) {
+                return new $strategyClass();
             }
         }
 
-        return $strategy;
+        throw new Exception('No Strategy found for ContentType '.$contentType->getName());
     }
 }
