@@ -196,13 +196,11 @@
         "name": "Name",
         "title": "Titel"
       },
-      "name": "Lager"
+      "name": "Lager",
+      "prototype": "Lagervorlage"
     },
     "campCollaboration": {
       "campLeft": "Lager verlassen"
-    },
-    "campTemplate": {
-      "name": "Lagervorlage"
     },
     "period": {
       "defaultDescription": "Hauptlager",

@@ -4,8 +4,8 @@ namespace eCamp\CoreTest\Entity;
 
 use eCamp\Core\Entity\Camp;
 use eCamp\Core\Entity\Category;
-use eCamp\Core\Entity\CategoryContent;
 use eCamp\Core\Entity\CategoryContentType;
+use eCamp\Core\Entity\ContentNode;
 use eCamp\LibTest\PHPUnit\AbstractTestCase;
 
 /**
@@ -42,15 +42,18 @@ class CategoryTest extends AbstractTestCase {
         $this->assertCount(0, $category->getCategoryContentTypes());
     }
 
-    public function testCategoryContent(): void {
+    public function testContentNode(): void {
         $category = new Category();
-        $categoryContent = new CategoryContent();
+        $root = new ContentNode();
+        $node = new ContentNode();
+        $node->setParent($root);
 
-        $this->assertCount(0, $category->getCategoryContents());
-        $category->addCategoryContent($categoryContent);
-        $this->assertContains($categoryContent, $category->getCategoryContents());
-        $category->removeCategoryContent($categoryContent);
-        $this->assertCount(0, $category->getCategoryContents());
+        $this->assertCount(0, $category->getAllContentNodes());
+        $category->setRootContentNode($root);
+        $this->assertContains($root, $category->getAllContentNodes());
+        $this->assertContains($node, $category->getAllContentNodes());
+        $category->setRootContentNode(null);
+        $this->assertCount(0, $category->getAllContentNodes());
     }
 
     public function testNumberingStyle(): void {

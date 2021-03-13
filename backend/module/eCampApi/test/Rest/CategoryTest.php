@@ -5,6 +5,7 @@ namespace eCamp\ApiTest\Rest;
 use Doctrine\Common\DataFixtures\Loader;
 use eCamp\Core\Entity\Category;
 use eCamp\Core\Entity\User;
+use eCamp\CoreTest\Data\CategoryContentTypeTestData;
 use eCamp\CoreTest\Data\CategoryTestData;
 use eCamp\CoreTest\Data\UserTestData;
 use eCamp\LibTest\PHPUnit\AbstractApiControllerTestCase;
@@ -26,10 +27,12 @@ class CategoryTest extends AbstractApiControllerTestCase {
 
         $userLoader = new UserTestData();
         $categoryLoader = new CategoryTestData();
+        $categoryContentTypeLoader = new CategoryContentTypeTestData();
 
         $loader = new Loader();
         $loader->addFixture($userLoader);
         $loader->addFixture($categoryLoader);
+        $loader->addFixture($categoryContentTypeLoader);
         $this->loadFixtures($loader);
 
         $this->user = $userLoader->getReference(UserTestData::$USER1);
@@ -60,7 +63,7 @@ JSON;
                 }
             }
 JSON;
-        $expectedEmbeddedObjects = ['camp'];
+        $expectedEmbeddedObjects = ['camp', 'contentNodes', 'categoryContentTypes'];
 
         $this->verifyHalResourceResponse($expectedBody, $expectedLinks, $expectedEmbeddedObjects);
     }

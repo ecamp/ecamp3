@@ -4,6 +4,7 @@ namespace eCamp\Core\Acl;
 
 use eCamp\Core\Entity\BelongsToCampInterface;
 use eCamp\Core\Entity\BelongsToContentNodeInterface;
+use eCamp\Core\Entity\Camp;
 use eCamp\Core\Entity\CampCollaboration;
 use eCamp\Core\Entity\User;
 use Laminas\Permissions\Acl\Acl;
@@ -27,15 +28,17 @@ class UserIsCollaborator implements AssertionInterface {
         }
 
         if ($resource instanceof BelongsToCampInterface) {
-            $camp = $resource->getCamp();
+            $resource = $resource->getCamp();
+        }
 
-            if ($camp->getCreator() === $user) {
+        if ($resource instanceof Camp) {
+            if ($resource->getCreator() === $user) {
                 return true;
             }
-            if ($camp->getOwner() === $user) {
+            if ($resource->getOwner() === $user) {
                 return true;
             }
-            if ($camp->getCampCollaborations()->exists(function ($key, CampCollaboration $cc) use ($user) {
+            if ($resource->getCampCollaborations()->exists(function ($key, CampCollaboration $cc) use ($user) {
                 return ($cc->getUser() === $user)
                     && ($cc->isEstablished())
                     && (in_array($cc->getRole(), $this->collaborationRoles));

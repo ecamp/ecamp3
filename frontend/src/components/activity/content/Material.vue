@@ -149,7 +149,7 @@ export default {
   },
   computed: {
     camp () {
-      return this.contentNode.activity().camp()
+      return this.contentNode.owner().camp()
     },
     materialLists () {
       return this.camp.materialLists().items.map(l => ({

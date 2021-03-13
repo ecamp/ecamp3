@@ -2,17 +2,13 @@
 
 namespace eCamp\Core\Acl;
 
+use eCamp\Core\Entity\AbstractContentNodeOwner;
 use eCamp\Core\Entity\Activity;
 use eCamp\Core\Entity\ActivityResponsible;
 use eCamp\Core\Entity\Camp;
 use eCamp\Core\Entity\CampCollaboration;
-use eCamp\Core\Entity\CampTemplate;
 use eCamp\Core\Entity\Category;
-use eCamp\Core\Entity\CategoryContent;
-use eCamp\Core\Entity\CategoryContentTemplate;
 use eCamp\Core\Entity\CategoryContentType;
-use eCamp\Core\Entity\CategoryContentTypeTemplate;
-use eCamp\Core\Entity\CategoryTemplate;
 use eCamp\Core\Entity\ContentNode;
 use eCamp\Core\Entity\ContentType;
 use eCamp\Core\Entity\Day;
@@ -20,13 +16,13 @@ use eCamp\Core\Entity\Group;
 use eCamp\Core\Entity\GroupMembership;
 use eCamp\Core\Entity\MaterialItem;
 use eCamp\Core\Entity\MaterialList;
-use eCamp\Core\Entity\MaterialListTemplate;
 use eCamp\Core\Entity\Organization;
 use eCamp\Core\Entity\Period;
 use eCamp\Core\Entity\ScheduleEntry;
 use eCamp\Core\Entity\User;
 use eCamp\Core\Entity\UserIdentity;
 use eCamp\Lib\Acl\Acl;
+use eCamp\Lib\Acl\AclAssertion;
 use eCamp\Lib\Acl\Guest;
 use eCamp\Lib\Entity\BaseEntity;
 use Interop\Container\ContainerInterface;
@@ -55,18 +51,12 @@ class AclFactory implements FactoryInterface {
         $acl->addResource(Group::class, BaseEntity::class);
         $acl->addResource(GroupMembership::class, BaseEntity::class);
 
-        $acl->addResource(CampTemplate::class, BaseEntity::class);
-        $acl->addResource(MaterialListTemplate::class, BaseEntity::class);
-        $acl->addResource(CategoryTemplate::class, BaseEntity::class);
-        $acl->addResource(CategoryContentTypeTemplate::class, BaseEntity::class);
-        $acl->addResource(CategoryContentTemplate::class, BaseEntity::class);
-        $acl->addResource(ContentType::class, BaseEntity::class);
-
+        $acl->addResource(AbstractContentNodeOwner::class, BaseEntity::class);
         $acl->addResource(Activity::class, BaseEntity::class);
         $acl->addResource(Category::class, BaseEntity::class);
         $acl->addResource(CategoryContentType::class, BaseEntity::class);
-        $acl->addResource(CategoryContent::class, BaseEntity::class);
         $acl->addResource(ContentNode::class, BaseEntity::class);
+        $acl->addResource(ContentType::class, BaseEntity::class);
         $acl->addResource(ActivityResponsible::class, BaseEntity::class);
 
         $acl->addResource(ScheduleEntry::class, BaseEntity::class);
@@ -90,11 +80,6 @@ class AclFactory implements FactoryInterface {
             [
                 Organization::class,
                 Group::class,
-                CampTemplate::class,
-                MaterialListTemplate::class,
-                CategoryTemplate::class,
-                CategoryContentTypeTemplate::class,
-                CategoryContentTemplate::class,
                 ContentType::class,
             ],
             [
@@ -128,9 +113,31 @@ class AclFactory implements FactoryInterface {
         $acl->allow(User::ROLE_USER, [Camp::class], [ACL::REST_PRIVILEGE_CREATE, ACL::REST_PRIVILEGE_FETCH_ALL]);
         $acl->allow(
             User::ROLE_USER,
+            [
+                Camp::class,
+                CampCollaboration::class,
+                Period::class,
+                Day::class,
+                AbstractContentNodeOwner::class,
+                Activity::class,
+                Category::class,
+                CategoryContentType::class,
+                ActivityResponsible::class,
+                ScheduleEntry::class,
+                ContentNode::class,
+                MaterialList::class,
+                MaterialItem::class,
+            ],
+            Acl::REST_PRIVILEGE_FETCH,
+            AclAssertion::or(
+                new CampIsPrototype(),
+                new UserIsCollaborator([CampCollaboration::ROLE_MEMBER, CampCollaboration::ROLE_MANAGER])
+            )
+        );
+        $acl->allow(
+            User::ROLE_USER,
             Camp::class,
             [
-                Acl::REST_PRIVILEGE_FETCH,
                 Acl::REST_PRIVILEGE_PATCH,
                 Acl::REST_PRIVILEGE_UPDATE,
             ],
@@ -148,19 +155,17 @@ class AclFactory implements FactoryInterface {
                 CampCollaboration::class,
                 Period::class,
                 Day::class,
+                AbstractContentNodeOwner::class,
                 Activity::class,
                 Category::class,
                 CategoryContentType::class,
-                CategoryContent::class,
                 ActivityResponsible::class,
                 ScheduleEntry::class,
                 ContentNode::class,
                 MaterialList::class,
                 MaterialItem::class,
             ],
-            [
-                Acl::REST_PRIVILEGE_FETCH_ALL,
-            ]
+            Acl::REST_PRIVILEGE_FETCH_ALL,
         );
         $acl->allow(
             User::ROLE_USER,
@@ -168,10 +173,10 @@ class AclFactory implements FactoryInterface {
                 CampCollaboration::class,
                 Period::class,
                 Day::class,
+                AbstractContentNodeOwner::class,
                 Activity::class,
                 Category::class,
                 CategoryContentType::class,
-                CategoryContent::class,
                 ActivityResponsible::class,
                 ScheduleEntry::class,
                 ContentNode::class,
@@ -180,7 +185,6 @@ class AclFactory implements FactoryInterface {
             ],
             [
                 Acl::REST_PRIVILEGE_CREATE,
-                Acl::REST_PRIVILEGE_FETCH,
                 Acl::REST_PRIVILEGE_DELETE,
                 Acl::REST_PRIVILEGE_PATCH,
                 Acl::REST_PRIVILEGE_UPDATE,

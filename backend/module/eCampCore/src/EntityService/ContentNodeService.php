@@ -3,15 +3,12 @@
 namespace eCamp\Core\EntityService;
 
 use Doctrine\ORM\ORMException;
-use Doctrine\ORM\QueryBuilder;
 use eCamp\Core\ContentType\ContentTypeStrategyProvider;
-use eCamp\Core\ContentType\ContentTypeStrategyProviderTrait;
-use eCamp\Core\Entity\Activity;
-use eCamp\Core\Entity\Camp;
-use eCamp\Core\Entity\CategoryContent;
+use eCamp\Core\Entity\AbstractContentNodeOwner;
 use eCamp\Core\Entity\ContentNode;
 use eCamp\Core\Entity\ContentType;
 use eCamp\Core\Hydrator\ContentNodeHydrator;
+use eCamp\Lib\Acl\Acl;
 use eCamp\Lib\Acl\NoAccessException;
 use eCamp\Lib\Entity\BaseEntity;
 use eCamp\Lib\Service\ServiceUtils;
@@ -20,9 +17,13 @@ use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 
 class ContentNodeService extends AbstractEntityService {
-    use ContentTypeStrategyProviderTrait;
+    private ContentTypeStrategyProvider $contentTypeStrategyProvider;
 
-    public function __construct(ServiceUtils $serviceUtils, AuthenticationService $authenticationService, ContentTypeStrategyProvider $contentTypeStrategyProvider) {
+    public function __construct(
+        ServiceUtils $serviceUtils,
+        AuthenticationService $authenticationService,
+        ContentTypeStrategyProvider $contentTypeStrategyProvider
+    ) {
         parent::__construct(
             $serviceUtils,
             ContentNode::class,
@@ -30,24 +31,23 @@ class ContentNodeService extends AbstractEntityService {
             $authenticationService
         );
 
-        $this->setContentTypeStrategyProvider($contentTypeStrategyProvider);
+        $this->contentTypeStrategyProvider = $contentTypeStrategyProvider;
     }
 
-    /**
-     * Create ContentNode and all Child-ContentNodes.
-     */
-    public function createFromCategoryContent(Activity $activity, CategoryContent $categoryContent): ContentNode {
+    public function createFromPrototype(AbstractContentNodeOwner $owner, ContentNode $prototype): ContentNode {
         /** @var ContentNode $contentNode */
         $contentNode = $this->create((object) [
-            'activityId' => $activity->getId(),
-            'contentTypeId' => $categoryContent->getContentType()->getId(),
-            'instanceName' => $categoryContent->getInstanceName(),
-            'position' => $categoryContent->getPosition(),
+            'ownerId' => $owner->getId(),
+            'contentTypeId' => $prototype->getContentType()->getId(),
+            'instanceName' => $prototype->getInstanceName(),
+            'slot' => $prototype->getSlot(),
+            'position' => $prototype->getPosition(),
+            'config' => $prototype->getConfig(),
         ]);
 
-        foreach ($categoryContent->getChildren() as $childCategoryContent) {
-            $childContentNode = $this->createFromCategoryContent($activity, $childCategoryContent);
-            $contentNode->addChild($childContentNode);
+        foreach ($prototype->getChildren() as $childPrototype) {
+            $childContentNode = $this->createFromPrototype($owner, $childPrototype);
+            $childContentNode->setParent($contentNode);
         }
 
         return $contentNode;
@@ -63,15 +63,25 @@ class ContentNodeService extends AbstractEntityService {
         /** @var ContentNode $contentNode */
         $contentNode = parent::createEntity($data);
 
-        /** @var Activity $activity */
-        $activity = $this->findRelatedEntity(Activity::class, $data, 'activityId');
+        if (isset($data->ownerId)) {
+            /** @var AbstractContentNodeOwner $owner */
+            $owner = $this->findRelatedEntity(AbstractContentNodeOwner::class, $data, 'ownerId');
+            $this->assertAllowed($owner, Acl::REST_PRIVILEGE_PATCH);
+            $owner->setRootContentNode($contentNode);
+        }
+        if (isset($data->parentId)) {
+            /** @var ContentNode $parent */
+            $parent = $this->findRelatedEntity(ContentNode::class, $data, 'parentId');
+            $this->assertAllowed($parent, Acl::REST_PRIVILEGE_PATCH);
+            $contentNode->setParent($parent);
+        }
 
         /** @var ContentType $contentType */
         $contentType = $this->findRelatedEntity(ContentType::class, $data, 'contentTypeId');
-
-        $activity->addContentNode($contentNode);
         $contentNode->setContentType($contentType);
-        $contentNode->setContentTypeStrategyProvider($this->getContentTypeStrategyProvider());
+
+        $strategy = $this->contentTypeStrategyProvider->get($contentType);
+        $strategy->contentNodeCreated($contentNode);
 
         return $contentNode;
     }
@@ -83,30 +93,10 @@ class ContentNodeService extends AbstractEntityService {
         if (isset($data->parentId)) {
             /** @var ContentNode $parent */
             $parent = $this->findRelatedEntity(ContentNode::class, $data, 'parentId');
-            $parent->addChild($contentNode);
+            $this->assertAllowed($parent, Acl::REST_PRIVILEGE_PATCH);
+            $contentNode->setParent($parent);
         }
 
         return $entity;
-    }
-
-    protected function fetchAllQueryBuilder($params = []): QueryBuilder {
-        $q = parent::fetchAllQueryBuilder($params);
-        $q->join('row.activity', 'e');
-        $q->andWhere($this->createFilter($q, Camp::class, 'e', 'camp'));
-
-        if (isset($params['activityId'])) {
-            $q->andWhere('row.activity = :activityId');
-            $q->setParameter('activityId', $params['activityId']);
-        }
-
-        return $q;
-    }
-
-    protected function fetchQueryBuilder($id): QueryBuilder {
-        $q = parent::fetchQueryBuilder($id);
-        $q->join('row.activity', 'e');
-        $q->andWhere($this->createFilter($q, Camp::class, 'e', 'camp'));
-
-        return $q;
     }
 }

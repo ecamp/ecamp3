@@ -192,13 +192,11 @@
         "name": "Nom",
         "title": "Titre"
       },
-      "name": "Camp"
+      "name": "Camp",
+      "prototype": "Modèle de camp"
     },
     "campCollaboration": {
       "campLeft": "quitter le camp"
-    },
-    "campTemplate": {
-      "name": "Modèle de camp"
     },
     "period": {
       "defaultDescription": "Camp principal",

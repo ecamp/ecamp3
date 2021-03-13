@@ -3,6 +3,7 @@
 namespace eCamp\CoreTest\Entity;
 
 use eCamp\Core\Entity\Activity;
+use eCamp\Core\Entity\ActivityResponsible;
 use eCamp\Core\Entity\Camp;
 use eCamp\Core\Entity\Category;
 use eCamp\Core\Entity\ContentNode;
@@ -29,13 +30,16 @@ class ActivityTest extends AbstractTestCase {
 
     public function testContentNode(): void {
         $activity = new Activity();
-        $contentnode = new ContentNode();
+        $root = new ContentNode();
+        $node = new ContentNode();
+        $node->setParent($root);
 
-        $this->assertEquals(0, $activity->getContentNodes()->count());
-        $activity->addContentNode($contentnode);
-        $this->assertContains($contentnode, $activity->getContentNodes());
-        $activity->removeContentNode($contentnode);
-        $this->assertEquals(0, $activity->getContentNodes()->count());
+        $this->assertCount(0, $activity->getAllContentNodes());
+        $activity->setRootContentNode($root);
+        $this->assertContains($root, $activity->getAllContentNodes());
+        $this->assertContains($node, $activity->getAllContentNodes());
+        $activity->setRootContentNode(null);
+        $this->assertCount(0, $activity->getAllContentNodes());
     }
 
     public function testScheduleEntry(): void {
@@ -47,5 +51,16 @@ class ActivityTest extends AbstractTestCase {
         $this->assertContains($scheduleEntry, $activity->getScheduleEntries());
         $activity->removeScheduleEntry($scheduleEntry);
         $this->assertEquals(0, $activity->getScheduleEntries()->count());
+    }
+
+    public function testActivityResponsible(): void {
+        $activity = new Activity();
+        $activityResponsible = new ActivityResponsible();
+
+        $this->assertEquals(0, $activity->getActivityResponsibles()->count());
+        $activity->addActivityResponsible($activityResponsible);
+        $this->assertContains($activityResponsible, $activity->getActivityResponsibles());
+        $activity->removeActivityResponsible($activityResponsible);
+        $this->assertEquals(0, $activity->getActivityResponsibles()->count());
     }
 }

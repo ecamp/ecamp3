@@ -5,7 +5,7 @@
         <h2 :id="'activity_' + activity.id">
           {{ activity.id }} / {{ activity.title }}
         </h2>
-        Category: {{ activityCategory.name }}
+        Category: {{ category.name }}
       </div>
     </v-col>
   </v-row>
@@ -19,12 +19,12 @@ export default {
   data() {
     return {
       activity: null,
-      activityCategory: null,
+      category: null,
     }
   },
   async fetch() {
     this.activity = await this.scheduleEntry.activity()._meta.load
-    this.activityCategory = await this.activity.activityCategory()._meta.load
+    this.category = await this.activity.category()._meta.load
   },
 }
 </script>
