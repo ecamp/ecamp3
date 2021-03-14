@@ -19,12 +19,14 @@ use Laminas\Authentication\AuthenticationService;
 class CampCollaborationService extends AbstractEntityService {
     private MaterialListService $materialListService;
     private SendmailService $sendmailService;
+    private UserService $userService;
 
     public function __construct(
         ServiceUtils $serviceUtils,
         AuthenticationService $authenticationService,
         MaterialListService $materialListService,
-        SendmailService $sendmailService
+        SendmailService $sendmailService,
+        UserService $userService
     ) {
         parent::__construct(
             $serviceUtils,
@@ -35,6 +37,7 @@ class CampCollaborationService extends AbstractEntityService {
 
         $this->materialListService = $materialListService;
         $this->sendmailService = $sendmailService;
+        $this->userService = $userService;
     }
 
     /**
@@ -120,6 +123,10 @@ class CampCollaborationService extends AbstractEntityService {
         }
 
         if (CampCollaboration::STATUS_INVITED == $campCollaboration->getStatus() && $campCollaboration->getInviteEmail()) {
+            $userByInviteEmail = $this->userService->findByTrustedMail($inviteEmail);
+            if (null != $userByInviteEmail) {
+                $campCollaboration->setUser($userByInviteEmail);
+            }
             $this->sendInviteEmail($campCollaboration, $authUser, $camp);
         }
 
