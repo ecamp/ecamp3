@@ -65,6 +65,9 @@ export default {
       return this.api.get().camps()
     }
   },
+  created () {
+    this.api.reload(this.camps)
+  },
   methods: {
     campRoute
   }

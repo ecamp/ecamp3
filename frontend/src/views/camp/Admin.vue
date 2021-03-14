@@ -45,6 +45,9 @@ export default {
   },
   data () {
     return {}
+  },
+  created () {
+    this.api.reload(this.camp())
   }
 }
 </script>
