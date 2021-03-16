@@ -46,7 +46,7 @@
         "laminas/laminas-code": "4.0.0",
         "laminas/laminas-test": "3.4.2",
         "friendsofphp/php-cs-fixer": "2.18.3",
-        "filp/whoops": "2.9.2",
+        "filp/whoops": "2.10.0",
         "symfony/filesystem": "5.2.4"
     },
     "autoload": {
