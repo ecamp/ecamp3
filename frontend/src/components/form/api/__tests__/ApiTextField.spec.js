@@ -5,7 +5,7 @@ import flushPromises from 'flush-promises'
 
 import formBaseComponents from '@/plugins/formBaseComponents'
 
-import { shallowMount, mount, createLocalVue } from '@vue/test-utils'
+import { createLocalVue, mount } from '@vue/test-utils'
 import ApiTextField from '../ApiTextField.vue'
 import ApiWrapper from '../ApiWrapper'
 import { ValidationObserver } from 'vee-validate'
@@ -48,14 +48,6 @@ describe('ApiTextField.vue', () => {
 
   afterEach(() => {
     jest.restoreAllMocks()
-  })
-
-  // keep this the first test --> otherwise element IDs change constantly
-  test('renders correctly', () => {
-    const config = createConfig()
-    const wrapper = shallowMount(ApiTextField, config)
-
-    expect(wrapper.element).toMatchSnapshot()
   })
 
   test('input change triggers api.patch call and status update', async () => {
