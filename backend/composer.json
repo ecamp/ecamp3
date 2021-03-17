@@ -34,7 +34,7 @@
         "rwoverdijk/assetmanager": "3.0.0",
         "ezyang/htmlpurifier": "4.13.0",
         "sentry/sdk": "3.1.0",
-        "enqueue/amqp-bunny": "0.10.8",
+        "enqueue/amqp-bunny": "0.10.9",
         "slm/mail": "3.3",
         "roave/better-reflection": "4.12.2"
     },

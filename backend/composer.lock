@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3362c623a42e3f5aaa46ddde5ca111b9",
+    "content-hash": "548ded5b0a9895fc36be832a8b6d3fa3",
     "packages": [
         {
             "name": "assetic/framework",
@@ -213,26 +213,26 @@
         },
         {
             "name": "bunny/bunny",
-            "version": "v0.4.4",
+            "version": "v0.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/jakubkulhan/bunny.git",
-                "reference": "acd2b87c3889fe1cf23c01177e289b6c789e99e4"
+                "reference": "9d6be4aba9172c69925dc9d137e12dc88f6861ee"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jakubkulhan/bunny/zipball/acd2b87c3889fe1cf23c01177e289b6c789e99e4",
-                "reference": "acd2b87c3889fe1cf23c01177e289b6c789e99e4",
+                "url": "https://api.github.com/repos/jakubkulhan/bunny/zipball/9d6be4aba9172c69925dc9d137e12dc88f6861ee",
+                "reference": "9d6be4aba9172c69925dc9d137e12dc88f6861ee",
                 "shasum": ""
             },
             "require": {
-                "php": "~7.0",
+                "php": "^7.1 || ^8.0",
                 "psr/log": "~1.0",
                 "react/event-loop": "^1.0 || ^0.5 || ^0.4",
                 "react/promise": "~2.2"
             },
             "require-dev": {
-                "phpunit/phpunit": "~6.5"
+                "phpunit/phpunit": "^7.5 || ^8.5 || ^9.3"
             },
             "type": "library",
             "autoload": {
@@ -267,9 +267,9 @@
             ],
             "support": {
                 "issues": "https://github.com/jakubkulhan/bunny/issues",
-                "source": "https://github.com/jakubkulhan/bunny/tree/v0.4.4"
+                "source": "https://github.com/jakubkulhan/bunny/tree/v0.5.0"
             },
-            "time": "2020-10-17T12:32:55+00:00"
+            "time": "2020-12-10T23:46:29+00:00"
         },
         {
             "name": "clue/stream-filter",
@@ -1794,30 +1794,30 @@
         },
         {
             "name": "enqueue/amqp-bunny",
-            "version": "0.10.8",
+            "version": "0.10.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-enqueue/amqp-bunny.git",
-                "reference": "d16a245f9fa494485b55a44b84cbf9bca09a05d7"
+                "reference": "85a3ea3030d87125dff1866cbebae36798120ba7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-enqueue/amqp-bunny/zipball/d16a245f9fa494485b55a44b84cbf9bca09a05d7",
-                "reference": "d16a245f9fa494485b55a44b84cbf9bca09a05d7",
+                "url": "https://api.github.com/repos/php-enqueue/amqp-bunny/zipball/85a3ea3030d87125dff1866cbebae36798120ba7",
+                "reference": "85a3ea3030d87125dff1866cbebae36798120ba7",
                 "shasum": ""
             },
             "require": {
-                "bunny/bunny": "^0.4",
+                "bunny/bunny": "^0.4|^0.5",
                 "enqueue/amqp-tools": "^0.10",
                 "php": "^7.3|^8.0",
-                "queue-interop/amqp-interop": "^0.8",
+                "queue-interop/amqp-interop": "^0.8.2",
                 "queue-interop/queue-interop": "^0.8"
             },
             "require-dev": {
                 "enqueue/null": "0.10.x-dev",
                 "enqueue/test": "0.10.x-dev",
                 "phpunit/phpunit": "^9.5",
-                "queue-interop/queue-spec": "^0.6"
+                "queue-interop/queue-spec": "^0.6.2"
             },
             "type": "library",
             "extra": {
@@ -1852,26 +1852,26 @@
                 "issues": "https://github.com/php-enqueue/enqueue-dev/issues",
                 "source": "https://github.com/php-enqueue/enqueue-dev"
             },
-            "time": "2021-02-09T12:01:28+00:00"
+            "time": "2021-02-17T21:30:21+00:00"
         },
         {
             "name": "enqueue/amqp-tools",
-            "version": "0.10.8",
+            "version": "0.10.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-enqueue/amqp-tools.git",
-                "reference": "cd22c2d5e701023b9e5d14d85e99bbe0004dde76"
+                "reference": "1a2bdcacf0b56c677df965544baa1801d8dd95e1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-enqueue/amqp-tools/zipball/cd22c2d5e701023b9e5d14d85e99bbe0004dde76",
-                "reference": "cd22c2d5e701023b9e5d14d85e99bbe0004dde76",
+                "url": "https://api.github.com/repos/php-enqueue/amqp-tools/zipball/1a2bdcacf0b56c677df965544baa1801d8dd95e1",
+                "reference": "1a2bdcacf0b56c677df965544baa1801d8dd95e1",
                 "shasum": ""
             },
             "require": {
                 "enqueue/dsn": "^0.10",
                 "php": "^7.3|^8.0",
-                "queue-interop/amqp-interop": "^0.8",
+                "queue-interop/amqp-interop": "^0.8.2",
                 "queue-interop/queue-interop": "^0.8"
             },
             "require-dev": {
@@ -1911,7 +1911,7 @@
                 "issues": "https://github.com/php-enqueue/enqueue-dev/issues",
                 "source": "https://github.com/php-enqueue/enqueue-dev"
             },
-            "time": "2021-02-09T12:01:28+00:00"
+            "time": "2021-02-17T21:24:06+00:00"
         },
         {
             "name": "enqueue/dsn",
