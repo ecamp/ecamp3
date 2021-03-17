@@ -196,7 +196,7 @@
       "prototype": "Modèle de camp"
     },
     "campCollaboration": {
-      "campLeft": "quitter le camp"
+      "inactive": "inactif"
     },
     "period": {
       "defaultDescription": "Camp principal",

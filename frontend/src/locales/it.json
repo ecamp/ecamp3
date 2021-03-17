@@ -196,7 +196,7 @@
       "prototype": "Modello di campo"
     },
     "campCollaboration": {
-      "campLeft": "lasciato il campo"
+      "inactive": "non attivo"
     },
     "period": {
       "defaultDescription": "Campo principale",

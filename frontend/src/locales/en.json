@@ -137,7 +137,7 @@
       "collaboratorListItem": {
         "deactivate": "Deactivate"
       },
-      "leftCampCollaboratorListItem": {
+      "inactiveCampCollaboratorListItem": {
         "inviteAgain": "Invite again",
         "delete": "Do you really want to remove this collaborator from the camp?"
       },
@@ -250,7 +250,7 @@
       "prototype": "Camp prototype"
     },
     "campCollaboration": {
-      "campLeft": "left camp"
+      "inactive": "inactive"
     },
     "materialItem": {
       "fields": {
@@ -388,7 +388,7 @@
       "collaborators": {
         "email": "Email address",
         "invite": "Invite",
-        "leftCollaborators": "Inactive",
+        "inactiveCollaborators": "Inactive",
         "members": "Members",
         "openInvitations": "Open invitations",
         "openRequests": "Open requests",

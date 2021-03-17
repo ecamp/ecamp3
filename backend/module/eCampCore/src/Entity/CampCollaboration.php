@@ -23,13 +23,13 @@ class CampCollaboration extends BaseEntity implements BelongsToCampInterface {
     const STATUS_REQUESTED = 'requested';
     const STATUS_INVITED = 'invited';
     const STATUS_ESTABLISHED = 'established';
-    const STATUS_LEFT = 'left';
+    const STATUS_INACTIVE = 'inactive';
 
     const VALID_STATUS = [
         self::STATUS_INVITED,
         self::STATUS_REQUESTED,
         self::STATUS_ESTABLISHED,
-        self::STATUS_LEFT,
+        self::STATUS_INACTIVE,
     ];
 
     /**
@@ -140,8 +140,8 @@ class CampCollaboration extends BaseEntity implements BelongsToCampInterface {
         return self::STATUS_INVITED === $this->status;
     }
 
-    public function isLeft(): bool {
-        return self::STATUS_LEFT === $this->status;
+    public function isInactive(): bool {
+        return self::STATUS_INACTIVE === $this->status;
     }
 
     public function getRole(): string {
