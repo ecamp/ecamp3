@@ -27,7 +27,7 @@
     "hal-json-vuex": "1.2.1",
     "inter-ui": "3.15.1",
     "lodash": "4.17.21",
-    "slugify": "1.4.7",
+    "slugify": "1.5.0",
     "tiptap": "1.32.1",
     "tiptap-extensions": "1.35.1",
     "url-template": "2.0.8",
