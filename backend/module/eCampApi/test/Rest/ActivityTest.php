@@ -60,7 +60,8 @@ class ActivityTest extends AbstractApiControllerTestCase {
             {
                 "id": "{$this->activity->getId()}",
                 "title": "Activity1",
-                "location" : ""
+                "location" : "",
+                "rootContentNode": null
             }
 JSON;
 
