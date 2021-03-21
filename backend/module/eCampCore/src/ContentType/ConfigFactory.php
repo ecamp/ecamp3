@@ -5,7 +5,7 @@ namespace eCamp\Core\ContentType;
 class ConfigFactory {
     /**
      * @param string      $name       Content type name is PascalCase
-     * @param bool        $multiple   false=single entitity per contentNode; true=multiple entities per contentNode
+     * @param bool        $multiple   false=single entity per contentNode; true=multiple entities per contentNode
      * @param null|string $entityName Specify entity name if it deviates from main name
      * @param null|string $namePlural specify non-standard plural names
      */

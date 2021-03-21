@@ -54,6 +54,7 @@ class ActivityHydrator implements HydratorInterface {
             'scheduleEntries' => new EntityLinkCollection($activity->getScheduleEntries()),
 
             'contentNodes' => new EntityLinkCollection($activity->getAllContentNodes()),
+            'rootContentNode' => EntityLink::Create($activity->getRootContentNode()),
         ];
     }
 
