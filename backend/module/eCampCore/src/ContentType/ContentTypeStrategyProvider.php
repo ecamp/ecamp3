@@ -3,8 +3,8 @@
 namespace eCamp\Core\ContentType;
 
 use eCamp\Core\Entity\ContentType;
-use Exception;
 use Interop\Container\ContainerInterface;
+use Laminas\Crypt\Exception\NotFoundException;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 
@@ -32,6 +32,6 @@ class ContentTypeStrategyProvider {
             }
         }
 
-        throw new Exception('No Strategy found for ContentType '.$contentType->getName());
+        throw new NotFoundException('No Strategy found for ContentType '.$contentType->getName());
     }
 }

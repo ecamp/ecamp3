@@ -103,7 +103,7 @@ Displays a single activity
               </div>
             </div>
           </v-card>
-          <content-node-layout :activity="activity" />
+          <content-node :content-node="activity.rootContentNode()" />
         </template>
       </v-card-text>
     </content-card>
@@ -115,7 +115,7 @@ import ContentCard from '@/components/layout/ContentCard'
 import ApiTextField from '@/components/form/api/ApiTextField'
 import ApiSelect from '@/components/form/api/ApiSelect'
 
-import ContentNodeLayout from '@/components/activity/ContentNodeLayout'
+import ContentNode from '@/components/activity/ContentNode'
 import camelCase from 'lodash/camelCase'
 
 import { defineHelpers } from '@/components/scheduleEntry/dateHelperUTC'
@@ -126,7 +126,7 @@ export default {
     ContentCard,
     ApiTextField,
     ApiSelect,
-    ContentNodeLayout
+    ContentNode
   },
   props: {
     scheduleEntry: {

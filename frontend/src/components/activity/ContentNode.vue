@@ -1,13 +1,13 @@
 <template>
-  <v-expansion-panel>
-    <v-expansion-panel-header hide-actions class="pa-0 pr-sm-2">
+  <v-card outlined class="mt-3">
+    <v-card-title hide-actions class="pa-0 pr-sm-2">
       <v-toolbar dense flat>
         <v-menu bottom
                 right
                 offset-y>
           <template #activator="{ on, attrs }">
             <v-btn icon v-bind="attrs" v-on="on">
-              <v-icon class="drag-handle">
+              <v-icon>
                 {{ currentIcon }}
               </v-icon>
             </v-btn>
@@ -46,10 +46,6 @@
           </v-toolbar-title>
         </div>
 
-        <v-icon v-if="dragDropEnabled" class="drag-handle ml-4 mr-2 hidden-xs-only">
-          mdi-drag-horizontal-variant
-        </v-icon>
-
         <v-menu bottom
                 left
                 offset-y>
@@ -68,25 +64,6 @@
               </v-list-item-title>
             </v-list-item>
             <v-divider />
-            <template v-if="dragDropEnabled">
-              <v-list-item @click="() => $emit('move-up')">
-                <v-list-item-icon>
-                  <v-icon>mdi-arrow-up-drop-circle-outline</v-icon>
-                </v-list-item-icon>
-                <v-list-item-title>
-                  {{ $tc('components.activity.contentNode.moveUp') }}
-                </v-list-item-title>
-              </v-list-item>
-              <v-list-item @click="() => $emit('move-down')">
-                <v-list-item-icon>
-                  <v-icon>mdi-arrow-down-drop-circle-outline</v-icon>
-                </v-list-item-icon>
-                <v-list-item-title>
-                  {{ $tc('components.activity.contentNode.moveDown') }}
-                </v-list-item-title>
-              </v-list-item>
-              <v-divider />
-            </template>
             <v-list-item @click="showDeleteContentNodeDialog">
               <v-list-item-icon>
                 <v-icon>mdi-delete</v-icon>
@@ -99,11 +76,11 @@
         </v-menu>
       </v-toolbar>
       <dialog-entity-delete ref="deleteContentNodeDialog" :entity="contentNode" />
-    </v-expansion-panel-header>
-    <v-expansion-panel-content>
+    </v-card-title>
+    <v-card-text>
       <component :is="contentNode.contentTypeName" :content-node="contentNode" />
-    </v-expansion-panel-content>
-  </v-expansion-panel>
+    </v-card-text>
+  </v-card>
 </template>
 
 <script>
@@ -133,8 +110,7 @@ export default {
     ButtonDelete
   },
   props: {
-    contentNode: { type: Object, required: true },
-    dragDropEnabled: { type: Boolean, required: true }
+    contentNode: { type: Object, required: true }
   },
   data () {
     return {
