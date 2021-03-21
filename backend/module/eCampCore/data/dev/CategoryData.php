@@ -33,6 +33,7 @@ class CategoryData extends AbstractFixture implements DependentFixtureInterface 
             $manager->persist($category);
 
             // add prefered content types
+            $this->addContentType($manager, $category, $this->getReference(ContentTypeData::$COLUMNLAYOUT));
             $this->addContentType($manager, $category, $this->getReference(ContentTypeData::$STORYBOARD));
             $this->addContentType($manager, $category, $this->getReference(ContentTypeData::$STORYCONTEXT));
             $this->addContentType($manager, $category, $this->getReference(ContentTypeData::$SAFETYCONCEPT));
@@ -52,6 +53,7 @@ class CategoryData extends AbstractFixture implements DependentFixtureInterface 
             $manager->persist($category);
 
             // add prefered content types
+            $this->addContentType($manager, $category, $this->getReference(ContentTypeData::$COLUMNLAYOUT));
             $this->addContentType($manager, $category, $this->getReference(ContentTypeData::$STORYCONTEXT));
             $this->addContentType($manager, $category, $this->getReference(ContentTypeData::$NOTES));
             $this->addContentType($manager, $category, $this->getReference(ContentTypeData::$MATERIAL));
@@ -73,6 +75,7 @@ class CategoryData extends AbstractFixture implements DependentFixtureInterface 
             $manager->persist($category);
 
             // add prefered content types
+            $this->addContentType($manager, $category, $this->getReference(ContentTypeData::$COLUMNLAYOUT));
             $this->addContentType($manager, $category, $this->getReference(ContentTypeData::$STORYBOARD));
             $this->addContentType($manager, $category, $this->getReference(ContentTypeData::$STORYCONTEXT));
             $this->addContentType($manager, $category, $this->getReference(ContentTypeData::$SAFETYCONCEPT));
@@ -92,6 +95,7 @@ class CategoryData extends AbstractFixture implements DependentFixtureInterface 
             $manager->persist($category);
 
             // add prefered content types
+            $this->addContentType($manager, $category, $this->getReference(ContentTypeData::$COLUMNLAYOUT));
             $this->addContentType($manager, $category, $this->getReference(ContentTypeData::$STORYCONTEXT));
             $this->addContentType($manager, $category, $this->getReference(ContentTypeData::$NOTES));
             $this->addContentType($manager, $category, $this->getReference(ContentTypeData::$MATERIAL));

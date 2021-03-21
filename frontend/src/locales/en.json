@@ -1,5 +1,9 @@
 {
   "contentNode": {
+    "columnLayout": {
+      "icon": "mdi-format-columns",
+      "name": "Column layout"
+    },
     "laThematicArea": {
       "entity": {
         "option": {
