@@ -66,6 +66,19 @@
             </v-list-item>
           </v-list>
         </v-menu>
+        <dialog-entity-delete
+          v-else
+          :entity="contentNode">
+          <template #activator="{ on }">
+            <v-btn icon
+                   small
+                   color="error"
+                   class="float-right"
+                   v-on="on">
+              <v-icon>mdi-trash-can-outline</v-icon>
+            </v-btn>
+          </template>
+        </dialog-entity-delete>
       </v-toolbar>
     </v-card-title>
     <v-card-text>
@@ -78,11 +91,12 @@
 
 import camelCase from 'lodash/camelCase'
 import ApiTextField from '../form/api/ApiTextField'
+import DialogEntityDelete from '@/components/dialog/DialogEntityDelete'
 
 export default {
   name: 'CardContentNode',
   components: {
-    ApiTextField
+    ApiTextField, DialogEntityDelete
   },
   props: {
     contentNode: { type: Object, required: true },
