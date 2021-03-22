@@ -59,6 +59,13 @@ class ContentNodeHydrator implements HydratorInterface {
                     'params' => ['activityId' => $owner->getId()],
                 ],
             ]);
+            $data['ownerCategory'] = Link::factory([
+                'rel' => 'ownerCategory',
+                'route' => [
+                    'name' => 'e-camp-api.rest.doctrine.category',
+                    'params' => ['categoryId' => $owner->getCategory()->getId()],
+                ],
+            ]);
         }
         if ($owner instanceof Category) {
             $data['owner'] = Link::factory([
@@ -68,6 +75,7 @@ class ContentNodeHydrator implements HydratorInterface {
                     'params' => ['categoryId' => $owner->getId()],
                 ],
             ]);
+            $data['ownerCategory'] = $data['owner'];
         }
 
         /** @var ContentTypeStrategyInterface $strategy */

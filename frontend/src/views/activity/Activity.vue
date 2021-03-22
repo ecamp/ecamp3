@@ -171,16 +171,6 @@ export default {
       return this.contentNodes.items.filter(cn => {
         return cn.contentType().id === contentType.id
       }).length
-    },
-    async addContentNode (ctId) {
-      await this.api.post('/content-nodes', {
-        ownerId: this.activity.id,
-        contentTypeId: ctId
-      })
-      await this.refreshActivity()
-    },
-    async refreshActivity () {
-      await this.api.reload(this.activity._meta.self)
     }
   }
 }

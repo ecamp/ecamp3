@@ -44,8 +44,7 @@
     "safetyConcept": {
       "add": "Add safety concept",
       "icon": "mdi-security",
-      "name": "Safety concept",
-      "sort": "3"
+      "name": "Safety concept"
     },
     "storyboard": {
       "add": "Add a storyboard | Add another storyboard",
@@ -60,14 +59,12 @@
         }
       },
       "icon": "mdi-script-text-outline",
-      "name": "Storyboard",
-      "sort": "2"
+      "name": "Storyboard"
     },
     "storycontext": {
       "add": "Add story context",
       "icon": "mdi-book-open-variant",
-      "name": "Story concept",
-      "sort": "1"
+      "name": "Story concept"
     },
     "material": {
       "icon": "mdi-package-variant",

@@ -37,8 +37,7 @@
     },
     "safetyConcept": {
       "add": "Sicherheitskonzept hinzufügen",
-      "name": "Sicherheitskonzept",
-      "sort": "3"
+      "name": "Sicherheitskonzept"
     },
     "storyboard": {
       "add": "Programmabschnitt hinzufügen",
@@ -52,13 +51,11 @@
           "name": "Programmpunkt | Programmpunkte"
         }
       },
-      "name": "Programmabschnitt",
-      "sort": "2"
+      "name": "Programmabschnitt"
     },
     "storycontext": {
       "add": "Roten Faden hinzufügen",
-      "name": "Roter Faden",
-      "sort": "1"
+      "name": "Roter Faden"
     }
   },
   "components": {
