@@ -1,6 +1,6 @@
 <template>
   <v-container fluid class="px-0 py-0">
-    <v-row class="mx-0 my-0">
+    <v-row>
       <v-col v-for="(column, idx) in columns"
              :key="idx"
              cols="12"
