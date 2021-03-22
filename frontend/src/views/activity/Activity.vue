@@ -29,9 +29,9 @@ Displays a single activity
                @click="layoutMode = false">
           <template v-if="$vuetify.breakpoint.smAndUp">
             <v-icon left>mdi-check</v-icon>
-            {{ $tc('global.button.save') }}
+            {{ $tc('views.activity.activity.backToContents') }}
           </template>
-          <template v-else>{{ $tc('global.button.save') }}</template>
+          <template v-else>{{ $tc('views.activity.activity.back') }}</template>
         </v-btn>
       </template>
       <v-card-text>
