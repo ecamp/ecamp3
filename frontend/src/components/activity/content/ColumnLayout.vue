@@ -1,14 +1,16 @@
 <template>
-  <div class="d-md-flex">
-    <div v-for="(column, idx) in columns"
-         :key="idx"
-         class="flex-md-grow-1"
-         :class="{ 'mr-md-2': idx < columns.length - 1, 'ml-md-2': idx > 0 }">
-      <content-node v-for="childNode in columnContents[column.slot]"
-                    :key="childNode.id"
-                    :content-node="childNode" />
-    </div>
-  </div>
+  <v-container fluid class="px-0 py-0">
+    <v-row class="mx-0 my-0">
+      <v-col v-for="(column, idx) in columns"
+             :key="idx"
+             cols="12"
+             class="col-md">
+        <content-node v-for="childNode in columnContents[column.slot]"
+                      :key="childNode.id"
+                      :content-node="childNode" />
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
