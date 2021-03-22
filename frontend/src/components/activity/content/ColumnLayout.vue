@@ -72,7 +72,7 @@ export default {
   },
   methods: {
     async addContentNodeToSlot (contentTypeId, slot) {
-      await this.api.post('/content-nodes', {
+      await this.api.post(await this.api.href(this.api.get(), 'contentNodes'), {
         parentId: this.contentNode.id,
         contentTypeId: contentTypeId,
         slot: slot
