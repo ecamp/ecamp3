@@ -78,7 +78,7 @@
       <dialog-entity-delete ref="deleteContentNodeDialog" :entity="contentNode" />
     </v-card-title>
     <v-card-text>
-      <component :is="contentNode.contentTypeName" :content-node="contentNode" />
+      <component :is="contentNode.contentTypeName" v-if="!contentNode.loading" :content-node="contentNode" />
     </v-card-text>
   </v-card>
 </template>

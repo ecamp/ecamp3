@@ -8,6 +8,7 @@ use eCamp\Core\Entity\Activity;
 use eCamp\Core\Entity\Category;
 use eCamp\Core\Entity\ContentNode;
 use eCamp\Lib\Entity\EntityLink;
+use eCamp\Lib\Entity\EntityLinkCollection;
 use Laminas\ApiTools\Hal\Link\Link;
 use Laminas\Hydrator\HydratorInterface;
 use Psr\Container\ContainerExceptionInterface;
@@ -47,6 +48,7 @@ class ContentNodeHydrator implements HydratorInterface {
 
             'parent' => ($contentNode->isRoot() ? null : new EntityLink($contentNode->getParent())),
             'contentType' => new EntityLink($contentNode->getContentType()),
+            'children' => new EntityLinkCollection($contentNode->getChildren()),
         ];
 
         if ($owner instanceof Activity) {
