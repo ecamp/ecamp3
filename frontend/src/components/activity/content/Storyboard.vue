@@ -55,7 +55,7 @@
                 :filled="layoutMode" />
             </v-col>
             <v-col cols="1">
-              <div class="float-right section-buttons">
+              <div v-if="!layoutMode" class="float-right section-buttons">
                 <v-btn icon small class="float-right"><v-icon>mdi-arrow-up-bold</v-icon></v-btn>
                 <dialog-entity-delete :entity="section">
                   <template #activator="{ on }">

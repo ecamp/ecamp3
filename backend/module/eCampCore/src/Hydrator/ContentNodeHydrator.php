@@ -47,6 +47,7 @@ class ContentNodeHydrator implements HydratorInterface {
             'contentTypeName' => $contentType->getName(),
 
             'parent' => ($contentNode->isRoot() ? null : new EntityLink($contentNode->getParent())),
+            'root' => new EntityLink($contentNode->getRoot()),
             'contentType' => new EntityLink($contentNode->getContentType()),
             'children' => new EntityLinkCollection($contentNode->getChildren()),
         ];

@@ -106,21 +106,23 @@
         </tbody>
       </v-simple-table>
 
-      <material-create-item
-        v-if="$vuetify.breakpoint.smAndUp"
-        :camp="camp"
-        :content-node="contentNode"
-        @item-adding="onItemAdding" />
+      <template v-if="!layoutMode">
+        <material-create-item
+          v-if="$vuetify.breakpoint.smAndUp"
+          :camp="camp"
+          :content-node="contentNode"
+          @item-adding="onItemAdding" />
 
-      <div v-else style="margin-top: 20px; text-align: right">
-        <dialog-material-item-create :camp="camp" :content-node="contentNode">
-          <template #activator="{ on }">
-            <v-btn color="success" v-on="on">
-              {{ $tc('components.camp.periodMaterialLists.addNewItem') }}
-            </v-btn>
-          </template>
-        </dialog-material-item-create>
-      </div>
+        <div v-else style="margin-top: 20px; text-align: right">
+          <dialog-material-item-create :camp="camp" :content-node="contentNode">
+            <template #activator="{ on }">
+              <v-btn color="success" v-on="on">
+                {{ $tc('components.camp.periodMaterialLists.addNewItem') }}
+              </v-btn>
+            </template>
+          </dialog-material-item-create>
+        </div>
+      </template>
     </div>
   </card-content-node>
 </template>
@@ -151,9 +153,6 @@ export default {
     }
   },
   computed: {
-    camp () {
-      return this.contentNode.owner().camp()
-    },
     materialLists () {
       return this.camp.materialLists().items.map(l => ({
         value: l.id,
