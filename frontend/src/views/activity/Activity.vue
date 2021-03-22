@@ -45,64 +45,58 @@ Displays a single activity
         <v-skeleton-loader v-if="activity._meta.loading" type="article" />
         <template v-else>
           <!-- Header -->
-          <v-card outlined>
-            <div class="v-item-group v-expansion-panels">
-              <div class="v-expansion-panel px-4 py-1">
-                <v-row dense>
-                  <v-col class="col col-sm-6 col-12">
-                    <v-row v-if="$vuetify.breakpoint.smAndUp" dense>
-                      <v-col cols="2">
-                        {{ $tc('entity.scheduleEntry.fields.nr') }}
-                      </v-col>
-                      <v-col cols="10">
-                        {{ $tc('entity.scheduleEntry.fields.time') }}
-                      </v-col>
-                    </v-row>
-                    <v-row
-                      v-for="scheduleEntryItem in scheduleEntries"
-                      :key="scheduleEntryItem._meta.self" dense>
-                      <v-col cols="2">
-                        ({{ scheduleEntryItem.number }})
-                      </v-col>
-                      <v-col cols="10">
-                        {{ $date.utc(scheduleEntryItem.startTime).format($tc('global.datetime.dateShort')) }} <b>
-                          {{ $date.utc(scheduleEntryItem.startTime).format($tc('global.datetime.hourShort')) }} </b> - {{
-                          $date.utc(scheduleEntryItem.startTime).format($tc('global.datetime.dateShort')) == $date.utc(scheduleEntryItem.endTime).format($tc('global.datetime.dateShort'))
-                            ? ''
-                            : $date.utc(scheduleEntryItem.endTime).format($tc('global.datetime.dateShort'))
-                        }} <b> {{ $date.utc(scheduleEntryItem.endTime).format($tc('global.datetime.hourShort')) }} </b>
-                      </v-col>
-                    </v-row>
-                  </v-col>
-                  <v-col class="col col-sm-6 col-12">
-                    <v-row dense>
-                      <v-col>
-                        <api-text-field
-                          :name="$tc('entity.activity.fields.location')"
-                          :uri="activity._meta.self"
-                          fieldname="location"
-                          dense />
-                      </v-col>
-                    </v-row>
-                    <v-row dense>
-                      <v-col>
-                        <api-select
-                          :name="$tc('entity.activity.fields.responsible')"
-                          dense
-                          multiple
-                          chips
-                          deletable-chips
-                          small-chips
-                          :uri="activity._meta.self"
-                          fieldname="campCollaborations"
-                          :items="availableCampCollaborations" />
-                      </v-col>
-                    </v-row>
-                  </v-col>
-                </v-row>
-              </div>
-            </div>
-          </v-card>
+          <v-row dense>
+            <v-col class="col col-sm-6 col-12">
+              <v-row v-if="$vuetify.breakpoint.smAndUp" dense>
+                <v-col cols="2">
+                  {{ $tc('entity.scheduleEntry.fields.nr') }}
+                </v-col>
+                <v-col cols="10">
+                  {{ $tc('entity.scheduleEntry.fields.time') }}
+                </v-col>
+              </v-row>
+              <v-row
+                v-for="scheduleEntryItem in scheduleEntries"
+                :key="scheduleEntryItem._meta.self" dense>
+                <v-col cols="2">
+                  ({{ scheduleEntryItem.number }})
+                </v-col>
+                <v-col cols="10">
+                  {{ $date.utc(scheduleEntryItem.startTime).format($tc('global.datetime.dateShort')) }} <b>
+                    {{ $date.utc(scheduleEntryItem.startTime).format($tc('global.datetime.hourShort')) }} </b> - {{
+                    $date.utc(scheduleEntryItem.startTime).format($tc('global.datetime.dateShort')) == $date.utc(scheduleEntryItem.endTime).format($tc('global.datetime.dateShort'))
+                      ? ''
+                      : $date.utc(scheduleEntryItem.endTime).format($tc('global.datetime.dateShort'))
+                  }} <b> {{ $date.utc(scheduleEntryItem.endTime).format($tc('global.datetime.hourShort')) }} </b>
+                </v-col>
+              </v-row>
+            </v-col>
+            <v-col class="col col-sm-6 col-12">
+              <v-row dense>
+                <v-col>
+                  <api-text-field
+                    :name="$tc('entity.activity.fields.location')"
+                    :uri="activity._meta.self"
+                    fieldname="location"
+                    dense />
+                </v-col>
+              </v-row>
+              <v-row dense>
+                <v-col>
+                  <api-select
+                    :name="$tc('entity.activity.fields.responsible')"
+                    dense
+                    multiple
+                    chips
+                    deletable-chips
+                    small-chips
+                    :uri="activity._meta.self"
+                    fieldname="campCollaborations"
+                    :items="availableCampCollaborations" />
+                </v-col>
+              </v-row>
+            </v-col>
+          </v-row>
           <content-node :content-node="activity.rootContentNode()" />
         </template>
       </v-card-text>
