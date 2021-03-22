@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <card-content-node :content-node="contentNode">
     <v-container fluid>
       <v-row no-gutters class="text-subtitle-2">
         <v-col cols="2">
@@ -81,17 +81,19 @@
         </v-col>
       </v-row>
     </v-container>
-  </div>
+  </card-content-node>
 </template>
 
 <script>
 import ApiTextarea from '@/components/form/api/ApiTextarea'
 import ApiForm from '@/components/form/api/ApiForm'
 import DialogEntityDelete from '@/components/dialog/DialogEntityDelete'
+import CardContentNode from '@/components/activity/CardContentNode'
 
 export default {
   name: 'Storyboard',
   components: {
+    CardContentNode,
     ApiForm,
     ApiTextarea,
     DialogEntityDelete

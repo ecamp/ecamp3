@@ -1,6 +1,9 @@
 <template>
   <div class="d-md-flex">
-    <div v-for="(column, idx) in columns" :key="idx" class="flex-md-grow-1 mx-md-1">
+    <div v-for="(column, idx) in columns"
+         :key="idx"
+         class="flex-md-grow-1"
+         :class="{ 'mr-md-3': idx < columns.length - 1 }">
       <content-node v-for="childNode in columnContents[column.slot]"
                     :key="childNode.id"
                     :content-node="childNode" />
