@@ -13,33 +13,16 @@ Displays a single activity
         </v-toolbar-title>
       </template>
       <template #title-actions>
-        <v-menu bottom left offset-y>
-          <template #activator="{ on, attrs }">
-            <v-btn color="success"
-                   outlined
-                   v-bind="attrs"
-                   v-on="on">
-              <template v-if="$vuetify.breakpoint.smAndUp">
-                <v-icon left>mdi-plus-circle-outline</v-icon>
-                {{ $tc('global.button.addContentDesktop') }}
-              </template>
-              <template v-else>{{ $tc('global.button.add') }}</template>
-            </v-btn>
+        <v-btn color="success"
+               outlined
+               v-bind="attrs"
+               @click="layoutMode = true">
+          <template v-if="$vuetify.breakpoint.smAndUp">
+            <v-icon left>mdi-puzzle-edit-outline</v-icon>
+            {{ $tc('views.activity.activity.changeLayout') }}
           </template>
-          <v-list>
-            <v-list-item v-for="act in availableContentTypes"
-                         :key="act.contentType.id"
-                         :disabled="!act.enabled"
-                         @click="addContentNode(act.contentType.id)">
-              <v-list-item-icon>
-                <v-icon>{{ $tc(act.contentTypeIconKey) }}</v-icon>
-              </v-list-item-icon>
-              <v-list-item-title>
-                {{ $tc(act.contentTypeNameKey) }}
-              </v-list-item-title>
-            </v-list-item>
-          </v-list>
-        </v-menu>
+          <template v-else>{{ $tc('views.activity.activity.layout') }}</template>
+        </v-btn>
       </template>
       <v-card-text>
         <v-skeleton-loader v-if="activity._meta.loading" type="article" />
@@ -97,7 +80,7 @@ Displays a single activity
               </v-row>
             </v-col>
           </v-row>
-          <content-node :content-node="activity.rootContentNode()" />
+          <content-node :content-node="activity.rootContentNode()" :layout-mode="layoutMode" />
         </template>
       </v-card-text>
     </content-card>
@@ -126,6 +109,11 @@ export default {
     scheduleEntry: {
       type: Function,
       required: true
+    }
+  },
+  data () {
+    return {
+      layoutMode: false
     }
   },
   computed: {

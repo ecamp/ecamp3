@@ -237,7 +237,6 @@
   "global": {
     "button": {
       "add": "Hinzufügen",
-      "addContentDesktop": "Inhalt hinzufügen",
       "back": "Zurück",
       "cancel": "Abbrechen",
       "content": "Inhalt",
@@ -278,6 +277,10 @@
   },
   "views": {
     "activity": {
+      "activity": {
+        "changeLayout": "Layout ändern",
+        "layout": "Layout"
+      },
       "sideBarProgram": {
         "title": "Tagesübersicht"
       }

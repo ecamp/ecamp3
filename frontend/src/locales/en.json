@@ -304,7 +304,6 @@
   "global": {
     "button": {
       "add": "Add",
-      "addContentDesktop": "Add content",
       "back": "Back",
       "cancel": "Cancel",
       "content": "Content",
@@ -345,6 +344,10 @@
   },
   "views": {
     "activity": {
+      "activity": {
+        "changeLayout": "Change layout",
+        "layout": "Layout"
+      },
       "sideBarProgram": {
         "title": "Activities on this day"
       }
