@@ -1,5 +1,5 @@
 <template>
-  <card-content-node :content-node="contentNode">
+  <card-content-node :content-node="contentNode" :layout-mode="layoutMode">
     <div class="mb-3">
       <v-simple-table dense>
         <colgroup>
@@ -132,6 +132,7 @@ import DialogMaterialItemCreate from '../../dialog/DialogMaterialItemCreate.vue'
 import DialogMaterialItemEdit from '../../dialog/DialogMaterialItemEdit.vue'
 import MaterialCreateItem from '../../camp/MaterialCreateItem.vue'
 import CardContentNode from '@/components/activity/CardContentNode'
+import { contentNodeMixin } from '@/mixins/contentNodeMixin'
 
 export default {
   name: 'Material',
@@ -143,9 +144,7 @@ export default {
     DialogMaterialItemEdit,
     MaterialCreateItem
   },
-  props: {
-    contentNode: { type: Object, required: true }
-  },
+  mixins: [contentNodeMixin],
   data () {
     return {
       newMaterialItems: {}

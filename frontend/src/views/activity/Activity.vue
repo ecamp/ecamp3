@@ -13,15 +13,25 @@ Displays a single activity
         </v-toolbar-title>
       </template>
       <template #title-actions>
-        <v-btn color="success"
+        <v-btn v-if="!layoutMode"
+               color="primary"
                outlined
-               v-bind="attrs"
                @click="layoutMode = true">
           <template v-if="$vuetify.breakpoint.smAndUp">
             <v-icon left>mdi-puzzle-edit-outline</v-icon>
             {{ $tc('views.activity.activity.changeLayout') }}
           </template>
           <template v-else>{{ $tc('views.activity.activity.layout') }}</template>
+        </v-btn>
+        <v-btn v-else
+               color="success"
+               outlined
+               @click="layoutMode = false">
+          <template v-if="$vuetify.breakpoint.smAndUp">
+            <v-icon left>mdi-check</v-icon>
+            {{ $tc('global.button.save') }}
+          </template>
+          <template v-else>{{ $tc('global.button.save') }}</template>
         </v-btn>
       </template>
       <v-card-text>

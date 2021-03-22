@@ -1,5 +1,5 @@
 <template>
-  <card-content-node :content-node="contentNode">
+  <card-content-node :content-node="contentNode" :layout-mode="layoutMode">
     <v-list three-line class="mx-n4">
       <v-list-item-group>
         <v-list-item v-for="option in contentNode.options().items" :key="option.id" tag="label">
@@ -20,13 +20,12 @@
 
 import ApiCheckbox from '@/components/form/api/ApiCheckbox'
 import CardContentNode from '@/components/activity/CardContentNode'
+import { contentNodeMixin } from '@/mixins/contentNodeMixin'
 
 export default {
   name: 'LAThematicArea',
   components: { CardContentNode, ApiCheckbox },
-  props: {
-    contentNode: { type: Object, required: true }
-  },
+  mixins: [contentNodeMixin],
   methods: {
     async refreshContent () {
       await this.api.reload(this.contentNode)

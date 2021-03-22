@@ -46,7 +46,8 @@
           </v-toolbar-title>
         </div>
 
-        <v-menu bottom
+        <v-menu v-if="!layoutMode"
+                bottom
                 left
                 offset-y>
           <template #activator="{ on, attrs }">
@@ -68,7 +69,7 @@
       </v-toolbar>
     </v-card-title>
     <v-card-text>
-      <slot></slot>
+      <slot />
     </v-card-text>
   </v-card>
 </template>
@@ -84,7 +85,8 @@ export default {
     ApiTextField
   },
   props: {
-    contentNode: { type: Object, required: true }
+    contentNode: { type: Object, required: true },
+    layoutMode: { type: Boolean, required: true }
   },
   data () {
     return {

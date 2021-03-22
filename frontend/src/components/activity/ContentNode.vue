@@ -1,5 +1,8 @@
 <template>
-  <component :is="contentNode.contentTypeName" v-if="!contentNode.loading" :content-node="contentNode" />
+  <component :is="contentNode.contentTypeName"
+             v-if="!contentNode.loading"
+             :content-node="contentNode"
+             v-bind="$attrs" />
 </template>
 
 <script>

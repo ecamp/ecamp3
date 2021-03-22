@@ -1,5 +1,5 @@
 <template>
-  <card-content-node :content-node="contentNode">
+  <card-content-node :content-node="contentNode" :layout-mode="layoutMode">
     <v-container fluid>
       <v-row no-gutters class="text-subtitle-2">
         <v-col cols="2">
@@ -17,7 +17,8 @@
         <!-- add before -->
         <v-row no-gutters class="row-inter" justify="center">
           <v-col cols="1">
-            <v-btn icon
+            <v-btn v-if="!layoutMode"
+                   icon
                    small
                    class="button-add"
                    color="success"
@@ -33,19 +34,25 @@
               <api-textarea
                 fieldname="column1"
                 auto-grow
-                rows="2" />
+                rows="2"
+                :disabled="layoutMode"
+                :filled="layoutMode" />
             </v-col>
             <v-col cols="7">
               <api-textarea
                 fieldname="column2"
                 auto-grow
-                rows="4" />
+                rows="4"
+                :disabled="layoutMode"
+                :filled="layoutMode" />
             </v-col>
             <v-col cols="2">
               <api-textarea
                 fieldname="column3"
                 auto-grow
-                rows="2" />
+                rows="2"
+                :disabled="layoutMode"
+                :filled="layoutMode" />
             </v-col>
             <v-col cols="1">
               <div class="float-right section-buttons">
@@ -71,7 +78,8 @@
       <!-- add at end position -->
       <v-row no-gutters justify="center">
         <v-col cols="1">
-          <v-btn icon
+          <v-btn v-if="!layoutMode"
+                 icon
                  small
                  class="button-add"
                  color="success"
@@ -89,6 +97,7 @@ import ApiTextarea from '@/components/form/api/ApiTextarea'
 import ApiForm from '@/components/form/api/ApiForm'
 import DialogEntityDelete from '@/components/dialog/DialogEntityDelete'
 import CardContentNode from '@/components/activity/CardContentNode'
+import { contentNodeMixin } from '@/mixins/contentNodeMixin'
 
 export default {
   name: 'Storyboard',
@@ -98,9 +107,7 @@ export default {
     ApiTextarea,
     DialogEntityDelete
   },
-  props: {
-    contentNode: { type: Object, required: true }
-  },
+  mixins: [contentNodeMixin],
   methods: {
     async addSection () {
       // this.isAdding = true

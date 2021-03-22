@@ -7,7 +7,8 @@
              class="col-md">
         <content-node v-for="childNode in columnContents[column.slot]"
                       :key="childNode.id"
-                      :content-node="childNode" />
+                      :content-node="childNode"
+                      :layout-mode="layoutMode" />
       </v-col>
     </v-row>
   </v-container>
@@ -15,7 +16,8 @@
 
 <script>
 
-import { groupBy, sortBy } from 'lodash'
+import { groupBy, sortBy, camelCase } from 'lodash'
+import { contentNodeMixin } from '@/mixins/contentNodeMixin'
 
 export default {
   name: 'ColumnLayout',
