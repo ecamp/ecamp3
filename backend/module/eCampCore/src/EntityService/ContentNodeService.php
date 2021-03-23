@@ -3,6 +3,7 @@
 namespace eCamp\Core\EntityService;
 
 use Doctrine\ORM\ORMException;
+use Doctrine\ORM\QueryBuilder;
 use eCamp\Core\ContentType\ContentTypeStrategyProvider;
 use eCamp\Core\Entity\AbstractContentNodeOwner;
 use eCamp\Core\Entity\ContentNode;
@@ -84,6 +85,24 @@ class ContentNodeService extends AbstractEntityService {
         $strategy->contentNodeCreated($contentNode);
 
         return $contentNode;
+    }
+
+    protected function fetchAllQueryBuilder($params = []): QueryBuilder {
+        $q = parent::fetchAllQueryBuilder($params);
+
+        if (isset($params['parentId'])) {
+            $q->andWhere('row.parent = :parentId');
+            $q->setParameter('parentId', $params['parentId']);
+        }
+
+        if (isset($params['ownerId'])) {
+            $q->join('row.root', 'root');
+            $q->join('root.owner', 'rootOwner');
+            $q->andWhere('rootOwner.id = :ownerId');
+            $q->setParameter('ownerId', $params['ownerId']);
+        }
+
+        return $q;
     }
 
     protected function patchEntity(BaseEntity $entity, $data): ContentNode {

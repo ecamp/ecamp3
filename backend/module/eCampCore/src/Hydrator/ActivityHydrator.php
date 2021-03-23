@@ -8,7 +8,9 @@ use eCamp\Lib\Entity\EntityLink;
 use eCamp\Lib\Entity\EntityLinkCollection;
 use eCamp\Lib\Hydrator\Util;
 use eCampApi\V1\Rest\CampCollaboration\CampCollaborationCollection;
+use eCampApi\V1\Rest\ContentNode\ContentNodeCollection;
 use eCampApi\V1\Rest\ScheduleEntry\ScheduleEntryCollection;
+use Laminas\ApiTools\Hal\Link\Link;
 use Laminas\Hydrator\HydratorInterface;
 
 class ActivityHydrator implements HydratorInterface {
@@ -26,6 +28,9 @@ class ActivityHydrator implements HydratorInterface {
             }, null),
             'scheduleEntries' => Util::Collection(function (Activity $e) {
                 return new ScheduleEntryCollection($e->getScheduleEntries());
+            }, null),
+            'contentNodes' => Util::Collection(function (Activity $e) {
+                return new ContentNodeCollection($e->getAllContentNodes());
             }, null),
         ];
     }
@@ -54,6 +59,13 @@ class ActivityHydrator implements HydratorInterface {
             'scheduleEntries' => new EntityLinkCollection($activity->getScheduleEntries()),
 
             'contentNodes' => new EntityLinkCollection($activity->getAllContentNodes()),
+            'contentNodesLink' => Link::factory([
+                'rel' => 'contentNodes',
+                'route' => [
+                    'name' => 'e-camp-api.rest.doctrine.content-node',
+                    'options' => ['query' => ['ownerId' => $activity->getId()]],
+                ],
+            ]),
             'rootContentNode' => EntityLink::Create($activity->getRootContentNode()),
         ];
     }
