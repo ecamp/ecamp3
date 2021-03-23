@@ -53,7 +53,7 @@
 
 <script>
 
-import { groupBy, sortBy, camelCase } from 'lodash'
+import { groupBy, sortBy, merge, camelCase } from 'lodash'
 import { contentNodeMixin } from '@/mixins/contentNodeMixin'
 import Draggable from 'vuedraggable'
 
@@ -74,8 +74,11 @@ export default {
     columns () {
       return this.contentNode.jsonConfig?.columns || []
     },
+    emptyColumns () {
+      return Object.fromEntries(this.columns.map(column => ([column?.slot, []])))
+    },
     columnContents () {
-      return groupBy(sortBy(this.contentNode.children().items, 'position'), 'slot')
+      return merge({}, this.emptyColumns, groupBy(sortBy(this.contentNode.children().items, 'position'), 'slot'))
     },
     availableContentTypes () {
       return this.contentNode.ownerCategory().categoryContentTypes().items.map(cct => ({
