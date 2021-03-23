@@ -9,7 +9,7 @@ return Config::Create('MaterialList')
         InputFilter::Create('name', true)
             ->addFilterStringTrim()
             ->addFilterStripTags()
-            ->addValidatorStringLength(1, 64)
+            ->addValidatorStringLength(1, 32)
     )
     ->buildConfig()
 ;

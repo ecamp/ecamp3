@@ -60,17 +60,17 @@ class CampCollaboration extends BaseEntity implements BelongsToCampInterface {
     private ?Camp $camp = null;
 
     /**
-     * @ORM\Column(type="string", nullable=false)
+     * @ORM\Column(type="string", length=16, nullable=false)
      */
     private string $status;
 
     /**
-     * @ORM\Column(type="string", nullable=false)
+     * @ORM\Column(type="string", length=16, nullable=false)
      */
     private string $role;
 
     /**
-     * @ORM\Column(type="string", nullable=true)
+     * @ORM\Column(type="string", length=128, nullable=true)
      */
     private ?string $collaborationAcceptedBy = null;
 
