@@ -2,15 +2,12 @@
 
 namespace eCamp\CoreData;
 
-use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use eCamp\Core\Entity\Camp;
 use eCamp\Core\Entity\Category;
-use eCamp\Core\Entity\CategoryContentType;
-use eCamp\Core\Entity\ContentType;
 
-class CategoryData extends AbstractFixture implements DependentFixtureInterface {
+class CategoryData extends CategoryPrototypeData implements DependentFixtureInterface {
     public static $EVENTCATEGORY_1_LS = Category::class.':EVENTCATEGORY_1_LS';
     public static $EVENTCATEGORY_1_LA = Category::class.':EVENTCATEGORY_1_LA';
     public static $EVENTCATEGORY_2_LS = Category::class.':EVENTCATEGORY_2_LS';
@@ -39,6 +36,8 @@ class CategoryData extends AbstractFixture implements DependentFixtureInterface 
             $this->addContentType($manager, $category, $this->getReference(ContentTypeData::$SAFETYCONCEPT));
             $this->addContentType($manager, $category, $this->getReference(ContentTypeData::$NOTES));
             $this->addContentType($manager, $category, $this->getReference(ContentTypeData::$MATERIAL));
+
+            $category->setRootContentNode($this->createInitialRootContentNode($manager));
         }
         $this->addReference(self::$EVENTCATEGORY_1_LS, $category);
 
@@ -58,6 +57,8 @@ class CategoryData extends AbstractFixture implements DependentFixtureInterface 
             $this->addContentType($manager, $category, $this->getReference(ContentTypeData::$NOTES));
             $this->addContentType($manager, $category, $this->getReference(ContentTypeData::$MATERIAL));
             $this->addContentType($manager, $category, $this->getReference(ContentTypeData::$LATHEMATICAREA));
+
+            $category->setRootContentNode($this->createInitialRootContentNode($manager));
         }
         $this->addReference(self::$EVENTCATEGORY_1_LA, $category);
 
@@ -81,6 +82,8 @@ class CategoryData extends AbstractFixture implements DependentFixtureInterface 
             $this->addContentType($manager, $category, $this->getReference(ContentTypeData::$SAFETYCONCEPT));
             $this->addContentType($manager, $category, $this->getReference(ContentTypeData::$NOTES));
             $this->addContentType($manager, $category, $this->getReference(ContentTypeData::$MATERIAL));
+
+            $category->setRootContentNode($this->createInitialRootContentNode($manager));
         }
         $this->addReference(self::$EVENTCATEGORY_2_LS, $category);
 
@@ -100,6 +103,8 @@ class CategoryData extends AbstractFixture implements DependentFixtureInterface 
             $this->addContentType($manager, $category, $this->getReference(ContentTypeData::$NOTES));
             $this->addContentType($manager, $category, $this->getReference(ContentTypeData::$MATERIAL));
             $this->addContentType($manager, $category, $this->getReference(ContentTypeData::$LATHEMATICAREA));
+
+            $category->setRootContentNode($this->createInitialRootContentNode($manager));
         }
         $this->addReference(self::$EVENTCATEGORY_2_LA, $category);
 
@@ -108,14 +113,5 @@ class CategoryData extends AbstractFixture implements DependentFixtureInterface 
 
     public function getDependencies() {
         return [CampData::class, ContentTypeData::class];
-    }
-
-    private function addContentType(ObjectManager $manager, Category $category, ContentType $contentType) {
-        $categoryContentType = new CategoryContentType();
-        $categoryContentType->setContentType($contentType);
-        $category->addCategoryContentType($categoryContentType);
-        $manager->persist($categoryContentType);
-
-        return $categoryContentType;
     }
 }
