@@ -90,7 +90,7 @@ Displays a single activity
               </v-row>
             </v-col>
           </v-row>
-          <content-node :content-node="activity.rootContentNode()" :layout-mode="layoutMode" />
+          <content-node v-if="activity.rootContentNode" :content-node="activity.rootContentNode()" :layout-mode="layoutMode" />
         </template>
       </v-card-text>
     </content-card>
