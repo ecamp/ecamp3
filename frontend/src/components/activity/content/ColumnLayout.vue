@@ -7,6 +7,7 @@
              class="col-md">
         <draggable v-model="localColumnContents[column.slot]"
                    :disabled="!layoutMode"
+                   group="contentNodes"
                    class="d-flex flex-column"
                    :class="{ 'column-min-height': layoutMode }"
                    @end="saveReorderedChildren">
