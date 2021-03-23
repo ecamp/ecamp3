@@ -19,6 +19,7 @@ use eCamp\Lib\Entity\BaseEntity;
 use eCamp\Lib\Service\EntityNotFoundException;
 use eCamp\Lib\Service\EntityValidationException;
 use eCamp\Lib\Service\ServiceUtils;
+use eCampApi\V1\Rest\ContentNode\ContentNodeCollection;
 use Laminas\ApiTools\ApiProblem\ApiProblem;
 use Laminas\ApiTools\Rest\AbstractResourceListener;
 use Laminas\ApiTools\Rest\ResourceEvent;
@@ -27,6 +28,7 @@ use Laminas\Hydrator\HydratorInterface;
 use Laminas\Paginator\Adapter\ArrayAdapter;
 use Laminas\Paginator\Paginator;
 use Laminas\Permissions\Acl\Role\RoleInterface;
+use Laminas\Stdlib\RequestInterface;
 
 abstract class AbstractEntityService extends AbstractResourceListener {
     private ServiceUtils $serviceUtils;
@@ -150,6 +152,41 @@ abstract class AbstractEntityService extends AbstractResourceListener {
         $this->serviceUtils->emFlush();
 
         return $entity;
+    }
+
+    /**
+     * Patches a list of entities.
+     *
+     * @param mixed $data Expected in the form
+     *                    {
+     *                    id: { ***patch paylod*** },
+     *                    id2: { ***patch payload*** }
+     *                    }
+     *
+     * @throws EntityNotFoundException
+     * @throws NoAccessException
+     * @throws ORMException
+     * @throws OptimisticLockException
+     *
+     * @return Paginator
+     */
+    final public function patchList($data) {
+        $result = [];
+
+        /** @var RequestInterface $request */
+        $request = $this->getEvent()->getRequest();
+        $queryParams = $request->getQuery();
+
+        // TODO validate that the patched entities are all part of the patched collection URI
+        // /** @var ContentNodeCollection $allowedEntities */
+        // $allowedEntities = $this->fetchAll($queryParams);
+
+        foreach ($data as $key => $value) {
+            $entity = $this->patch($key, $value);
+            array_push($result, $entity);
+        }
+
+        return $this->fetchAll($queryParams);
     }
 
     /**

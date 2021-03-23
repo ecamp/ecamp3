@@ -62,8 +62,7 @@ class ContentNodeHydrator implements HydratorInterface {
 
             'parent' => ($contentNode->isRoot() ? null : new EntityLink($contentNode->getParent())),
             'root' => new EntityLink($contentNode->getRoot()),
-            'children' => new EntityLinkCollection($contentNode->getChildren()),
-            'childrenLink' => Link::factory([
+            'children' => Link::factory([
                 'rel' => 'children',
                 'route' => [
                     'name' => 'e-camp-api.rest.doctrine.content-node',

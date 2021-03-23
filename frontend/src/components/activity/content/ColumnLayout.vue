@@ -5,13 +5,21 @@
              :key="idx"
              cols="12"
              class="col-md">
-        <content-node v-for="childNode in columnContents[column.slot]"
-                      :key="childNode.id"
-                      :content-node="childNode"
-                      :layout-mode="layoutMode" />
-        <v-row no-gutters justify="center" class="my-3">
-          <v-menu v-if="layoutMode"
-                  bottom
+        <draggable v-model="localColumnContents[column.slot]"
+                   :disabled="!layoutMode"
+                   class="d-flex flex-column"
+                   :class="{ 'column-min-height': layoutMode }"
+                   @end="saveReorderedChildren">
+          <content-node v-for="childNode in localColumnContents[column.slot]"
+                        :key="childNode.id"
+                        :content-node="childNode"
+                        :layout-mode="layoutMode" />
+        </draggable>
+        <v-row v-if="layoutMode"
+               no-gutters
+               justify="center"
+               class="my-3">
+          <v-menu bottom
                   left
                   offset-y>
             <template #activator="{ on, attrs }">
@@ -46,14 +54,21 @@
 
 import { groupBy, sortBy, camelCase } from 'lodash'
 import { contentNodeMixin } from '@/mixins/contentNodeMixin'
+import Draggable from 'vuedraggable'
 
 export default {
   name: 'ColumnLayout',
   components: {
     // Lazy import necessary due to recursive component structure
-    ContentNode: () => import('@/components/activity/ContentNode')
+    ContentNode: () => import('@/components/activity/ContentNode'),
+    Draggable
   },
   mixins: [contentNodeMixin],
+  data () {
+    return {
+      localColumnContents: {}
+    }
+  },
   computed: {
     columns () {
       return this.contentNode.jsonConfig?.columns || []
@@ -70,6 +85,14 @@ export default {
       }))
     }
   },
+  watch: {
+    columnContents: {
+      immediate: true,
+      handler () {
+        this.localColumnContents = this.columnContents
+      }
+    }
+  },
   methods: {
     async addContentNodeToSlot (contentTypeId, slot) {
       await this.api.post(await this.api.href(this.api.get(), 'contentNodes'), {
@@ -78,7 +101,26 @@ export default {
         slot: slot
       })
       this.api.reload(this.contentNode)
+    },
+    async saveReorderedChildren () {
+      const payload = Object.fromEntries(Object.entries(this.localColumnContents).flatMap(([slot, columnContents]) => {
+        let position = 0
+        return columnContents.map(contentNode => {
+          return [contentNode.id, {
+            parentId: this.contentNode.id,
+            slot: slot,
+            position: position++
+          }]
+        })
+      }))
+      this.api.patch(await this.api.href(this.contentNode, 'children'), payload)
     }
   }
 }
 </script>
+
+<style scoped>
+.column-min-height {
+  min-height: 4rem;
+}
+</style>

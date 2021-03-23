@@ -1,7 +1,9 @@
 <template>
   <component :is="contentNode.contentTypeName"
              v-if="!contentNode.loading"
+             :class="{ 'draggable-cursor': layoutMode && contentNode.parent !== null }"
              :content-node="contentNode"
+             :layout-mode="layoutMode"
              v-bind="$attrs" />
 </template>
 
@@ -16,10 +18,26 @@ export default {
   name: 'ContentNode',
   components: contentNodeComponents,
   props: {
-    contentNode: { type: Object, required: true }
+    contentNode: { type: Object, required: true },
+    layoutMode: { type: Boolean, required: true }
   }
 }
 </script>
 
-<style scoped>
+<style lang="scss">
+.draggable-cursor {
+  cursor: move;
+
+  &:hover {
+    background: map-get($blue-grey, 'lighten-5');
+  }
+
+  .theme--light.v-toolbar.v-sheet {
+    background: none;
+  }
+}
+
+.draggable-cursor [disabled] {
+  cursor: move;
+}
 </style>

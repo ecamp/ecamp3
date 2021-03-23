@@ -5,6 +5,7 @@ use eCampApi\V1\Factory\InputFilter;
 
 return Config::Create('ContentNode')
     ->addCollectionQueryWhitelist('ownerId', 'parentId')
+    ->setCollectionHttpMethods(['GET', 'POST', 'PATCH'])
     ->addInputFilterFactory(
         InputFilter::Create('instanceName')
             ->addFilterStringTrim()
@@ -22,5 +23,6 @@ return Config::Create('ContentNode')
             ->addFilterDigits()
     )
     ->addInputFilter('jsonConfig')
+    ->addInputFilter('parentId')
     ->buildConfig()
 ;
