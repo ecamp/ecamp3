@@ -50,7 +50,7 @@ class ContentNodeHydrator implements HydratorInterface {
         /** @var ContentNode $contentNode */
         $contentNode = $object;
         $contentType = $contentNode->getContentType();
-        $owner = $contentNode->getOwner();
+        $owner = $contentNode->getRoot()->getOwner();
 
         $data = [
             'id' => $contentNode->getId(),
