@@ -3,6 +3,7 @@
     "description": "eCamp3",
     "type": "project",
     "homepage": "http://eCamp3.ch/",
+    "license" : "AGPL-3.0-only",
     "config": {
         "process-timeout": 5000,
         "platform": {
