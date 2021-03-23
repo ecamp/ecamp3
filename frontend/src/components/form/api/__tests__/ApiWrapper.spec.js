@@ -405,6 +405,58 @@ describe('Testing ApiWrapper [autoSave=true; value from API]', () => {
 })
 
 /**
+ * AutoSave = true
+ * Value from API
+ */
+describe('Testing ApiWrapper [autoSave=true; value from API; relation defined]', () => {
+  let wrapper
+  let vm
+  let config
+  let apiGet
+
+  const relation = 'relation'
+  const id = 'myId'
+
+  beforeEach(() => {
+    vuetify = new Vuetify()
+
+    config = createConfig({
+      propsData: {
+        value: 'Test Value',
+        fieldname: 'testField',
+        uri: '/testEntity/123',
+        label: 'Test Field',
+        relation
+      }
+    })
+    delete config.propsData.value
+
+    apiGet = jest.spyOn(config.mocks.api, 'get')
+    apiGet.mockReturnValue({
+      [relation]: () => ({
+        id
+      }),
+      _meta: {
+        load: Promise.resolve()
+      }
+    })
+  })
+
+  test('loads id of relation', async () => {
+    // when
+    wrapper = shallowMount(ApiWrapper, config)
+    vm = wrapper.vm
+
+    await flushPromises()
+
+    // then
+    expect(vm.hasFinishedLoading).toBe(true)
+    expect(vm.isLoading).toBe(false)
+    expect(vm.localValue).toBe(id)
+  })
+})
+
+/**
  * Manual mode
  */
 describe('Testing ApiWrapper [autoSave=false]', () => {
