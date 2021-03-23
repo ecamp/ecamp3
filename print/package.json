@@ -20,7 +20,7 @@
     "@nuxtjs/axios": "5.13.1",
     "@nuxtjs/sentry": "5.0.3",
     "deepmerge": "4.2.2",
-    "hal-json-vuex": "1.2.1",
+    "hal-json-vuex": "1.2.2",
     "nuxt": "2.15.3",
     "pagedjs": "0.1.43",
     "vue-i18n": "8.24.2"
