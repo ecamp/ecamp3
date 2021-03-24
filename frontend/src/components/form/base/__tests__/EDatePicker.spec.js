@@ -7,6 +7,8 @@ import dayjs from '@/plugins/dayjs'
 
 import { mount as mountComponent } from '@vue/test-utils'
 import EDatePicker from '../EDatePicker'
+import { waitForDebounce } from '@/test/util'
+import flushPromises from 'flush-promises'
 
 Vue.use(Vuetify)
 Vue.use(formBaseComponents)
@@ -40,10 +42,6 @@ describe('An EDatePicker', () => {
 
     ]
   ]
-
-  const flushPromises = () => new Promise((resolve) => setImmediate(resolve))
-
-  const waitForDebounce = () => new Promise((resolve) => setTimeout(resolve, 110))
 
   const mount = (options) => mountComponent(EDatePicker, { vuetify, i18n, ...options })
 

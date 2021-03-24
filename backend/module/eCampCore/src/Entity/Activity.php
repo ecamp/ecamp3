@@ -34,12 +34,12 @@ class Activity extends AbstractContentNodeOwner implements BelongsToCampInterfac
     private ?Category $category = null;
 
     /**
-     * @ORM\Column(type="text")
+     * @ORM\Column(type="string", length=32)
      */
     private ?string $title = null;
 
     /**
-     * @ORM\Column(type="text")
+     * @ORM\Column(type="string", length=128)
      */
     private ?string $location = '';
 
