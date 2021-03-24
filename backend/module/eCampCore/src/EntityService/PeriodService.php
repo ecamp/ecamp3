@@ -173,18 +173,18 @@ class PeriodService extends AbstractEntityService {
             // Validate length:
             $start = isset($data->start) ? new DateUtc($data->start) : $period->getStart();
             $end = isset($data->end) ? new DateUtc($data->end) : $period->getEnd();
-            // length in minutes
-            $length = $end->getTimestamp() - $start->getTimestamp();
-            $length = ($length / 60) + 60 * 24;
+            // calc period length in minutes
+            $lengthSec = $end->getTimestamp() - $start->getTimestamp();
+            $lengthMin = ($lengthSec / 60) + 60 * 24;
 
             // check if there is a ScheduleEntry out of new bounds
-            $periodToShort = $period->getScheduleEntries()->exists(function (int $idx, ScheduleEntry $se) use ($length) {
-                return ($se->getPeriodOffset() + $se->getLength()) > $length;
+            $periodToShort = $period->getScheduleEntries()->exists(function (int $idx, ScheduleEntry $se) use ($lengthMin) {
+                return ($se->getPeriodOffset() + $se->getLength()) > $lengthMin;
             });
 
             if ($periodToShort) {
                 throw (new EntityValidationException())->setMessages([
-                    'end' => ['toShort' => 'Period is to short'],
+                    'end' => ['tooShort' => 'Period is too short'],
                 ]);
             }
         } else {
@@ -206,10 +206,10 @@ class PeriodService extends AbstractEntityService {
             if ($periodEndsTooEarly || $periodStartsTooLate) {
                 $messages = [];
                 if ($periodEndsTooEarly) {
-                    $messages['end'] = ['toShort' => 'Period is ends to early.'];
+                    $messages['end'] = ['tooShort' => 'Period ends too early.'];
                 }
                 if ($periodStartsTooLate) {
-                    $messages['start'] = ['lateStart' => 'Period starts to late.'];
+                    $messages['start'] = ['lateStart' => 'Period starts too late.'];
                 }
 
                 throw (new EntityValidationException())->setMessages($messages);
