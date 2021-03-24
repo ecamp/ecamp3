@@ -93,7 +93,7 @@ export default {
       if (this.value) {
         return this.value
 
-        // while loading, value is null
+      // while loading, value is null
       } else if (this.isLoading) {
         return null
 
