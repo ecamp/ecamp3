@@ -46,7 +46,7 @@ export default {
   data () {
     return {}
   },
-  created () {
+  mounted () {
     this.api.reload(this.camp())
   }
 }

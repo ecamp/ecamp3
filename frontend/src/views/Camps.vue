@@ -65,7 +65,7 @@ export default {
       return this.api.get().camps()
     }
   },
-  created () {
+  mounted () {
     this.api.reload(this.camps)
   },
   methods: {
