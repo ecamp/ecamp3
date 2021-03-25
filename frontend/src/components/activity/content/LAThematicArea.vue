@@ -2,7 +2,10 @@
   <card-content-node :content-node="contentNode" :layout-mode="layoutMode">
     <v-list three-line class="mx-n4">
       <v-list-item-group>
-        <v-list-item v-for="option in contentNode.options().items" :key="option.id" tag="label">
+        <v-list-item v-for="option in contentNode.options().items"
+                     :key="option.id"
+                     tag="label"
+                     :disabled="layoutMode">
           <v-list-item-action>
             <api-checkbox fieldname="checked" :uri="option._meta.self" />
           </v-list-item-action>
