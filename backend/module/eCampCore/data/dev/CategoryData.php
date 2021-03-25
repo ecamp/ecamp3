@@ -29,8 +29,7 @@ class CategoryData extends CategoryPrototypeData implements DependentFixtureInte
             $category->setNumberingStyle('1');
             $manager->persist($category);
 
-            // add prefered content types
-            $this->addContentType($manager, $category, $this->getReference(ContentTypeData::$COLUMNLAYOUT));
+            // add suggested content types
             $this->addContentType($manager, $category, $this->getReference(ContentTypeData::$STORYBOARD));
             $this->addContentType($manager, $category, $this->getReference(ContentTypeData::$STORYCONTEXT));
             $this->addContentType($manager, $category, $this->getReference(ContentTypeData::$SAFETYCONCEPT));
@@ -51,8 +50,7 @@ class CategoryData extends CategoryPrototypeData implements DependentFixtureInte
             $category->setNumberingStyle('A');
             $manager->persist($category);
 
-            // add prefered content types
-            $this->addContentType($manager, $category, $this->getReference(ContentTypeData::$COLUMNLAYOUT));
+            // add suggested content types
             $this->addContentType($manager, $category, $this->getReference(ContentTypeData::$STORYCONTEXT));
             $this->addContentType($manager, $category, $this->getReference(ContentTypeData::$NOTES));
             $this->addContentType($manager, $category, $this->getReference(ContentTypeData::$MATERIAL));
@@ -75,8 +73,7 @@ class CategoryData extends CategoryPrototypeData implements DependentFixtureInte
             $category->setNumberingStyle('1');
             $manager->persist($category);
 
-            // add prefered content types
-            $this->addContentType($manager, $category, $this->getReference(ContentTypeData::$COLUMNLAYOUT));
+            // add suggested content types
             $this->addContentType($manager, $category, $this->getReference(ContentTypeData::$STORYBOARD));
             $this->addContentType($manager, $category, $this->getReference(ContentTypeData::$STORYCONTEXT));
             $this->addContentType($manager, $category, $this->getReference(ContentTypeData::$SAFETYCONCEPT));
@@ -97,8 +94,7 @@ class CategoryData extends CategoryPrototypeData implements DependentFixtureInte
             $category->setNumberingStyle('A');
             $manager->persist($category);
 
-            // add prefered content types
-            $this->addContentType($manager, $category, $this->getReference(ContentTypeData::$COLUMNLAYOUT));
+            // add suggested content types
             $this->addContentType($manager, $category, $this->getReference(ContentTypeData::$STORYCONTEXT));
             $this->addContentType($manager, $category, $this->getReference(ContentTypeData::$NOTES));
             $this->addContentType($manager, $category, $this->getReference(ContentTypeData::$MATERIAL));
