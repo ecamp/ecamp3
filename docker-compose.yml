@@ -2,7 +2,7 @@ version: "3"
 
 services:
   frontend:
-    image: node:14.16.0@sha256:fa48e06848cb619c3dcc6a9c34b13473c89c0ef52b16d275a7ad3d3aef656fd3
+    image: node:14.16.0@sha256:fe842f5b828c121514d62cbe0ace0927aec4f3130297180c3343e54e7ae97362
     container_name: 'ecamp3-frontend'
     ports:
       - '3000:3000'
@@ -38,7 +38,7 @@ services:
     entrypoint: ./docker-setup.sh
 
   print:
-    image: node:14.16.0@sha256:fa48e06848cb619c3dcc6a9c34b13473c89c0ef52b16d275a7ad3d3aef656fd3
+    image: node:14.16.0@sha256:fe842f5b828c121514d62cbe0ace0927aec4f3130297180c3343e54e7ae97362
     container_name: 'ecamp3-print'
     ports:
       - '3003:3003'
@@ -59,7 +59,7 @@ services:
       - ./print/print.env
 
   composer:
-    image: composer:2@sha256:bdc3caa4c3e46665f46b7e69742e01934d74a71012412fcc396ec9a51079b9a8
+    image: composer:2@sha256:0266775ed3851db65389b84cdd21b54734fd4053dfd7e0cd664cd24f62caf7d5
     container_name: 'ecamp3-composer'
     restart: 'no'
     command: bash -c "composer install --no-interaction --no-plugins --no-scripts --prefer-dist"
@@ -83,7 +83,7 @@ services:
       - db-data:/var/lib/mysql
 
   phpmyadmin:
-    image: phpmyadmin/phpmyadmin@sha256:b113e4326d7cf07a88cce64f2f64b5dd7852ac1abcca9369ac2d4017d02b5398
+    image: phpmyadmin/phpmyadmin@sha256:8911fb0cfef21dc9fb385ad02cc3254179cd7df87bab3d3a6fa04d1f0549463f
     container_name: 'ecamp3-phpmyadmin'
     ports:
       - '3002:80'
@@ -91,7 +91,7 @@ services:
       - ./phpmyadmin/config.user.inc.php:/etc/phpmyadmin/config.user.inc.php
 
   rabbitmq:
-    image: rabbitmq:3.8-management@sha256:fbee70f33d6f3b7e2f413b891b567ba437e9db7b4464f606048a47165f14f58a
+    image: rabbitmq:3.8-management@sha256:5d163e532a692e5a04650421e06de31d02f30399e6010451012a72bcca825a55
     container_name: 'ecamp3-rabbitmq'
     ports:
       - '3004:15672'

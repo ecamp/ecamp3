@@ -64,7 +64,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
     private ?string $name = null;
 
     /**
-     * @ORM\Column(type="string", length=64, nullable=false)
+     * @ORM\Column(type="string", length=32, nullable=false)
      */
     private ?string $title = null;
 

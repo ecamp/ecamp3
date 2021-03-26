@@ -45,7 +45,10 @@ module.exports = {
 
   pluginOptions: {
     jestSerializer: {
-      attributesToClear: ['id'],
+      attributesToClear: [
+        'id',
+        'for'
+      ],
       formatting: {
         indent_char: ' ',
         indent_inner_html: true,

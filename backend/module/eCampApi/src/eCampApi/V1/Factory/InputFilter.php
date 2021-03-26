@@ -54,6 +54,10 @@ class InputFilter {
         return $this->addFilter(\Laminas\Filter\StripTags::class);
     }
 
+    public function addFilterDigits(): InputFilter {
+        return $this->addFilter(\Laminas\Filter\Digits::class);
+    }
+
     public function addValidators(...$validators): InputFilter {
         foreach ($validators as $validator) {
             $this->addValidator($validator);

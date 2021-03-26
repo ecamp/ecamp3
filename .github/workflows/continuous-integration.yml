@@ -6,6 +6,21 @@ on:
   workflow_dispatch:
 
 jobs:
+  backend-validate-composer-lock:
+    name: "Validate Backend composer.lock"
+    runs-on: ubuntu-latest
+    steps:
+
+      - uses: actions/checkout@v2
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '7.4'
+          coverage: xdebug
+
+      - run: composer validate -n --no-check-all --no-check-publish --strict
+        working-directory: backend
+
   backend-cs-check:
     name: "Lint: Backend (php-cs-fixer)"
     runs-on: ubuntu-latest
@@ -164,7 +179,7 @@ jobs:
 
       - run: bash wait-for-container-startup.sh
 
-      - run: docker run -v $PWD:/e2e -w /e2e --network host -e CYPRESS_BASE_URL=http://localhost:3000 cypress/included:6.6.0
+      - run: docker run -v $PWD:/e2e -w /e2e --network host -e CYPRESS_BASE_URL=http://localhost:3000 cypress/included:6.8.0
         working-directory: frontend
 
   coveralls-finished:

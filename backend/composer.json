@@ -3,6 +3,7 @@
     "description": "eCamp3",
     "type": "project",
     "homepage": "http://eCamp3.ch/",
+    "license" : "AGPL-3.0-only",
     "config": {
         "process-timeout": 5000,
         "platform": {
@@ -16,7 +17,7 @@
         "laminas/laminas-cli": "1.0.2",
         "laminas/laminas-di": "3.2.1",
         "laminas/laminas-mvc": "3.2.0",
-        "laminas/laminas-mail": "2.13.1",
+        "laminas/laminas-mail": "2.14.0",
         "laminas/laminas-router": "3.4.4",
         "laminas/laminas-session": "2.10.0",
         "laminas/laminas-dependency-plugin": "^2-dev",
@@ -30,24 +31,24 @@
         "ocramius/proxy-manager": "2.11.1",
         "ext-json": "*",
         "zfr/zfr-cors": "2.0.0",
-        "symfony/process": "5.2.5",
+        "symfony/process": "5.2.4",
         "rwoverdijk/assetmanager": "3.0.0",
         "ezyang/htmlpurifier": "4.13.0",
         "sentry/sdk": "3.1.0",
-        "enqueue/amqp-bunny": "0.10.8",
+        "enqueue/amqp-bunny": "0.10.9",
         "slm/mail": "3.3",
         "roave/better-reflection": "4.12.2"
     },
     "require-dev": {
-        "phpunit/phpunit": "9.5.2",
+        "phpunit/phpunit": "9.5.4",
         "php-coveralls/php-coveralls": "2.4.3",
         "laminas/laminas-component-installer": "2.4.0",
         "laminas/laminas-developer-tools": "2.1.0",
         "laminas/laminas-code": "4.0.0",
         "laminas/laminas-test": "3.4.2",
-        "friendsofphp/php-cs-fixer": "2.18.3",
-        "filp/whoops": "2.9.2",
-        "symfony/filesystem": "5.2.5"
+        "friendsofphp/php-cs-fixer": "2.18.4",
+        "filp/whoops": "2.11.0",
+        "symfony/filesystem": "5.2.4"
     },
     "autoload": {
         "psr-4": {

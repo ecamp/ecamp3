@@ -1,5 +1,6 @@
 <?php
 
+use eCamp\Core\Entity\CampCollaboration;
 use eCampApi\V1\Factory\Config;
 use eCampApi\V1\Factory\InputFilter;
 
@@ -9,16 +10,18 @@ return Config::Create('CampCollaboration')
         InputFilter::Create('status')
             ->addFilterStringTrim()
             ->addFilterStripTags()
+            ->addValidatorInArray([
+                CampCollaboration::STATUS_INVITED,
+            ])
     )
     ->addInputFilterFactory(
         InputFilter::Create('role', true)
             ->addFilterStringTrim()
             ->addFilterStripTags()
-    )
-    ->addInputFilterFactory(
-        InputFilter::Create('collaborationAcceptedBy')
-            ->addFilterStringTrim()
-            ->addFilterStripTags()
+            ->addValidatorInArray([
+                CampCollaboration::ROLE_MEMBER,
+                CampCollaboration::ROLE_MANAGER,
+            ])
     )
     ->buildConfig()
 ;
