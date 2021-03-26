@@ -14,7 +14,6 @@ use eCamp\Lib\Entity\BaseEntity;
 use eCamp\Lib\Service\EntityNotFoundException;
 use eCamp\Lib\Service\EntityValidationException;
 use eCamp\Lib\Service\ServiceUtils;
-use eCamp\Lib\Types\DateUtc;
 use Laminas\Authentication\AuthenticationService;
 
 class PeriodService extends AbstractEntityService {
@@ -85,9 +84,6 @@ class PeriodService extends AbstractEntityService {
         $period = $entity;
         $oldStart = $period->getStart();
 
-        // Validate start/end date
-        $this->validateInput($period, $data);
-
         /** @var Period $period */
         $period = parent::patchEntity($period, $data);
         $this->updatePeriodDays($period);
@@ -97,10 +93,10 @@ class PeriodService extends AbstractEntityService {
 
         if (!$moveScheduleEntries) {
             $newStart = $period->getStart();
-            $delta = $newStart->getTimestamp() - $oldStart->getTimestamp();
-            $delta = $delta / 60;
+            $deltaSec = $newStart->getTimestamp() - $oldStart->getTimestamp();
+            $deltaMin = $deltaSec / 60;
 
-            $this->updateScheduleEntries($period, $delta);
+            $this->updateScheduleEntries($period, $deltaMin);
         }
 
         return $period;
@@ -120,6 +116,23 @@ class PeriodService extends AbstractEntityService {
     protected function validateEntity(BaseEntity $entity): void {
         /** @var Period $period */
         $period = $entity;
+        $errors = [];
+
+        // Check for any ScheduleEntry starting before period starts
+        $periodStartsTooLate = $period->getScheduleEntries()->exists(function (int $idx, ScheduleEntry $se) {
+            return $se->getPeriodOffset() < 0;
+        });
+        if ($periodStartsTooLate) {
+            $errors += ['start' => ['startsTooLate' => 'period starts too late']];
+        }
+
+        // Check for any ScheduleEntry ending after period ends
+        $periodEndsTooEarly = $period->getScheduleEntries()->exists(function (int $idx, ScheduleEntry $se) use ($period) {
+            return ($se->getPeriodOffset() + $se->getLength()) > ($period->getDurationInDays() * 60 * 24);
+        });
+        if ($periodEndsTooEarly) {
+            $errors += ['end' => ['endsTooEarly' => 'period is too short']];
+        }
 
         // Chcek for other overlapping Period
         $qb = $this->findCollectionQueryBuilder(Period::class, 'p', null)
@@ -132,13 +145,13 @@ class PeriodService extends AbstractEntityService {
             ->setParameter('start', $period->getStart())
             ->setParameter('end', $period->getEnd())
         ;
-        $rows = $qb->getQuery()->getResult();
+        $periodOverlapsOtherPeriod = count($qb->getQuery()->getResult()) > 0;
+        if ($periodOverlapsOtherPeriod) {
+            $errors += ['start' => ['noOverlap' => 'periods may not overlap']];
+        }
 
-        if (count($rows) > 0) {
-            $ex = new EntityValidationException();
-            $ex->setMessages(['start' => ['noOverlap' => 'Periods may not overlap']]);
-
-            throw $ex;
+        if (count($errors)) {
+            throw (new EntityValidationException())->setMessages($errors);
         }
     }
 
@@ -159,62 +172,6 @@ class PeriodService extends AbstractEntityService {
         $q->andWhere($this->createFilter($q, Camp::class, 'row', 'camp'));
 
         return $q;
-    }
-
-    /**
-     * @throws EntityValidationException
-     */
-    private function validateInput(Period $period, $data) {
-        /** @var bool $moveScheduleEntries */
-        $moveScheduleEntries = isset($data->moveScheduleEntries) ? $data->moveScheduleEntries : false;
-
-        // Validate Start / End
-        if ($moveScheduleEntries) {
-            // Validate length:
-            $start = isset($data->start) ? new DateUtc($data->start) : $period->getStart();
-            $end = isset($data->end) ? new DateUtc($data->end) : $period->getEnd();
-            // calc period length in minutes
-            $lengthSec = $end->getTimestamp() - $start->getTimestamp();
-            $lengthMin = ($lengthSec / 60) + 60 * 24;
-
-            // check if there is a ScheduleEntry out of new bounds
-            $periodToShort = $period->getScheduleEntries()->exists(function (int $idx, ScheduleEntry $se) use ($lengthMin) {
-                return ($se->getPeriodOffset() + $se->getLength()) > $lengthMin;
-            });
-
-            if ($periodToShort) {
-                throw (new EntityValidationException())->setMessages([
-                    'end' => ['tooShort' => 'Period is too short'],
-                ]);
-            }
-        } else {
-            $start = isset($data->start) ? new DateUtc($data->start) : $period->getStart();
-            $end = isset($data->end) ? new DateUtc($data->end) : $period->getEnd();
-
-            $periodEndsTooEarly = $period->getScheduleEntries()->exists(function (int $idx, ScheduleEntry $se) use ($period, $end) {
-                $seEndTimestamp = $period->getStart()->getTimestamp() + 60 * ($se->getPeriodOffset() + $se->getLength());
-
-                return $end->getTimestamp() <= $seEndTimestamp;
-            });
-
-            $periodStartsTooLate = $period->getScheduleEntries()->exists(function (int $idx, ScheduleEntry $se) use ($period, $start) {
-                $seStartTimestamp = $period->getStart()->getTimestamp() + 60 * $se->getPeriodOffset();
-
-                return $start->getTimestamp() >= $seStartTimestamp;
-            });
-
-            if ($periodEndsTooEarly || $periodStartsTooLate) {
-                $messages = [];
-                if ($periodEndsTooEarly) {
-                    $messages['end'] = ['tooShort' => 'Period ends too early.'];
-                }
-                if ($periodStartsTooLate) {
-                    $messages['start'] = ['lateStart' => 'Period starts too late.'];
-                }
-
-                throw (new EntityValidationException())->setMessages($messages);
-            }
-        }
     }
 
     /**

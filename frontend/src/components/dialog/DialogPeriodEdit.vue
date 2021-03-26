@@ -12,7 +12,8 @@
     <server-error :server-error="error" />
     <dialog-period-form v-if="!loading" :period="entityData" />
 
-    <e-checkbox v-model="entityData.moveScheduleEntries" name="Move events with period start" />
+    <e-checkbox v-model="entityData.moveScheduleEntries"
+                :name="$tc('components.dialog.dialogPeriodEdit.moveScheduleEntries')" />
 
     <svg viewBox="0 12 400 76" width="100%"
          height="80"
