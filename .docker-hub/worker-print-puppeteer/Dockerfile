@@ -1,4 +1,4 @@
-FROM node:14.16.0-buster-slim@sha256:ffc15488e56d99dbc9b90d496aaf47901c6a940c077bc542f675ae351e769a12
+FROM node:14.16.0-buster-slim@sha256:f87a070a47c71e7910fc3714e9ac7e22d1cd2ed642f633556777f814d0ec6f45
 
 RUN  apt-get update \
      && apt-get install -y wget gnupg \
