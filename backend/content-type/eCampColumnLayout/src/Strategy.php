@@ -8,9 +8,9 @@ use eCamp\Core\Entity\ContentNode;
 use eCamp\Lib\Acl\NoAccessException;
 
 class Strategy extends ContentTypeStrategyBase {
-    public static $DEFAULT_JSON_CONFIG = ['columns' => [
-        ['slot' => '1'],
-        ['slot' => '2'],
+    public static array $DEFAULT_JSON_CONFIG = ['columns' => [
+        ['slot' => '1', 'width' => 6],
+        ['slot' => '2', 'width' => 6],
     ]];
 
     public function contentNodeExtract(ContentNode $contentNode): array {
@@ -18,8 +18,7 @@ class Strategy extends ContentTypeStrategyBase {
     }
 
     /**
-     * @throws NoAccessException
-     * @throws ORMException
+     * @param ContentNode $contentNode
      */
     public function contentNodeCreated(ContentNode $contentNode): void {
         $contentNode->setJsonConfig(Strategy::$DEFAULT_JSON_CONFIG);
