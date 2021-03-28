@@ -44,7 +44,7 @@
         "php-coveralls/php-coveralls": "2.4.3",
         "laminas/laminas-component-installer": "2.4.0",
         "laminas/laminas-developer-tools": "2.1.0",
-        "laminas/laminas-code": "4.0.0",
+        "laminas/laminas-code": "4.1.0",
         "laminas/laminas-test": "3.4.2",
         "friendsofphp/php-cs-fixer": "2.18.4",
         "filp/whoops": "2.11.0",
