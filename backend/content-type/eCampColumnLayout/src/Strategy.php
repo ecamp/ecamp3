@@ -2,10 +2,8 @@
 
 namespace eCamp\ContentType\ColumnLayout;
 
-use Doctrine\ORM\ORMException;
 use eCamp\Core\ContentType\ContentTypeStrategyBase;
 use eCamp\Core\Entity\ContentNode;
-use eCamp\Lib\Acl\NoAccessException;
 
 class Strategy extends ContentTypeStrategyBase {
     public static array $DEFAULT_JSON_CONFIG = ['columns' => [
@@ -17,9 +15,6 @@ class Strategy extends ContentTypeStrategyBase {
         return [];
     }
 
-    /**
-     * @param ContentNode $contentNode
-     */
     public function contentNodeCreated(ContentNode $contentNode): void {
         $contentNode->setJsonConfig(Strategy::$DEFAULT_JSON_CONFIG);
     }
