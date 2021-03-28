@@ -174,6 +174,6 @@ export default {
 
 <style scoped>
 .column-min-height {
-  min-height: 4rem;
+  min-height: 10rem;
 }
 </style>

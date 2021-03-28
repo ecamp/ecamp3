@@ -6,6 +6,7 @@
              outlined
              color="primary"
              class="resize-btn"
+             :class="{ dragging }"
              @mousedown.stop.prevent="mouseDown"
              @touchstart.stop.prevent="mouseDown">
         <v-icon>
@@ -109,6 +110,25 @@ export default {
   position: absolute; right: -30px;
   z-index: 100;
   cursor: move;
+
+  &::after {
+    opacity: 0;
+    position: absolute;
+    top: 115%;
+    left: 50%;
+    display: block;
+    height: 10rem;
+    width: 2px;
+    background-image: linear-gradient(to bottom, transparent, transparent 60%, #fff 60%, #fff 100%), linear-gradient(to bottom, map-get($blue, 'lighten-2'), map-get($blue, 'lighten-2'), transparent);
+    background-size: 100% 15px, 100% 100%;
+    background-repeat: repeat, repeat;
+    content: '';
+    transition: opacity 0.2s ease;
+  }
+
+  &:hover::after, &:active::after, &:focus::after, &.dragging::after {
+    opacity: 100%;
+  }
 }
 .resizable-col {
   max-width: 100%;
