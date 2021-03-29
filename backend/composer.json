@@ -73,6 +73,7 @@
             "eCamp\\LibTest\\": "module/eCampLib/test/",
             "eCamp\\CoreTest\\": "module/eCampCore/test/",
             "eCampApiTest\\": "module/eCampApi/test",
+            "eCamp\\ContentType\\ColumnLayout\\Test\\": "content-type/eCampColumnLayout/test/",
             "eCamp\\ContentType\\SingleTextTest\\": "content-type/eCampSingleText/test/",
             "eCamp\\ContentType\\StoryboardTest\\": "content-type/eCampStoryboard/test/"
         }
