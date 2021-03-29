@@ -19,7 +19,6 @@ use eCamp\Lib\Entity\BaseEntity;
 use eCamp\Lib\Service\EntityNotFoundException;
 use eCamp\Lib\Service\EntityValidationException;
 use eCamp\Lib\Service\ServiceUtils;
-use eCampApi\V1\Rest\ContentNode\ContentNodeCollection;
 use Laminas\ApiTools\ApiProblem\ApiProblem;
 use Laminas\ApiTools\Rest\AbstractResourceListener;
 use Laminas\ApiTools\Rest\ResourceEvent;
@@ -267,6 +266,10 @@ abstract class AbstractEntityService extends AbstractResourceListener {
         $this->serviceUtils->emRemove($entity);
     }
 
+    /**
+     * @param BaseEntity $entity
+     * @throws EntityValidationException
+     */
     protected function validateEntity(BaseEntity $entity): void {
     }
 

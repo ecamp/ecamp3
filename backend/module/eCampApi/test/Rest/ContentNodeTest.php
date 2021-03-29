@@ -101,17 +101,16 @@ JSON;
         $this->assertResponseStatusCode(201);
     }
 
-    public function testPatchForbidden(): void {
+    public function testPatch(): void {
         $this->setRequestContent([
-            'jsonConfig' => ['foo' => 'bar'],
+            'jsonConfig' => null,
         ]);
 
         $this->dispatch("{$this->apiEndpoint}/{$this->contentNode->getId()}", 'PATCH');
         $this->assertResponseStatusCode(200);
 
         $this->assertObjectHasAttribute('jsonConfig', $this->getResponseContent());
-        $this->assertObjectHasAttribute('foo', $this->getResponseContent()->jsonConfig);
-        $this->assertEquals('bar', $this->getResponseContent()->jsonConfig->foo);
+        $this->assertEquals(null, $this->getResponseContent()->jsonConfig);
     }
 
     public function testDeleteForbidden(): void {

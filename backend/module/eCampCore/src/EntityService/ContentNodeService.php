@@ -12,6 +12,7 @@ use eCamp\Core\Hydrator\ContentNodeHydrator;
 use eCamp\Lib\Acl\Acl;
 use eCamp\Lib\Acl\NoAccessException;
 use eCamp\Lib\Entity\BaseEntity;
+use eCamp\Lib\Service\EntityValidationException;
 use eCamp\Lib\Service\ServiceUtils;
 use Laminas\Authentication\AuthenticationService;
 use Psr\Container\ContainerExceptionInterface;
@@ -116,6 +117,21 @@ class ContentNodeService extends AbstractEntityService {
             $contentNode->setParent($parent);
         }
 
-        return $entity;
+        return $contentNode;
+    }
+
+    /**
+     * @param BaseEntity $entity
+     * @throws EntityValidationException
+     */
+    protected function validateEntity(BaseEntity $entity): void {
+        /** @var ContentNode $contentNode */
+        $contentNode = $entity;
+
+        parent::validateEntity($contentNode);
+
+        // Also allow the strategy to define custom validation
+        $strategy = $this->contentTypeStrategyProvider->get($contentNode->getContentType());
+        $strategy->validateContentNode($contentNode);
     }
 }
