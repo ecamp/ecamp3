@@ -48,7 +48,7 @@
         "laminas/laminas-test": "3.4.2",
         "friendsofphp/php-cs-fixer": "2.18.4",
         "filp/whoops": "2.11.0",
-        "symfony/filesystem": "5.2.4"
+        "symfony/filesystem": "5.2.6"
     },
     "autoload": {
         "psr-4": {
