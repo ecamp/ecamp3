@@ -132,7 +132,7 @@ export default {
 }
 .resizable-col {
   max-width: 100%;
-  padding: 12px;
+  padding: 0 12px;
 }
 .fullwidth {
   width: 100%;
