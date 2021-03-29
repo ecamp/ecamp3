@@ -267,7 +267,6 @@ abstract class AbstractEntityService extends AbstractResourceListener {
     }
 
     /**
-     * @param BaseEntity $entity
      * @throws EntityValidationException
      */
     protected function validateEntity(BaseEntity $entity): void {

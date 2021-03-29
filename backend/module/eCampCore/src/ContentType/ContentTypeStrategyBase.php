@@ -11,8 +11,8 @@ use Swaggest\JsonSchema\Schema;
 use Swaggest\JsonSchema\SchemaContract;
 
 abstract class ContentTypeStrategyBase implements ContentTypeStrategyInterface {
-    private ServiceUtils $serviceUtils;
     protected ?SchemaContract $jsonConfigSchema = null;
+    private ServiceUtils $serviceUtils;
 
     public function __construct(ServiceUtils $serviceUtils) {
         $this->serviceUtils = $serviceUtils;
@@ -23,7 +23,6 @@ abstract class ContentTypeStrategyBase implements ContentTypeStrategyInterface {
     abstract public function contentNodeCreated(ContentNode $contentNode): void;
 
     /**
-     * @param ContentNode $contentNode
      * @throws EntityValidationException
      */
     public function validateContentNode(ContentNode $contentNode): void {
@@ -37,7 +36,6 @@ abstract class ContentTypeStrategyBase implements ContentTypeStrategyInterface {
     }
 
     /**
-     * @param ContentNode $contentNode
      * @throws EntityValidationException
      */
     protected function validateJsonConfig(ContentNode $contentNode): void {
@@ -51,9 +49,9 @@ abstract class ContentTypeStrategyBase implements ContentTypeStrategyInterface {
             // Re-encode and decode the input value, because the schema checker needs
             // objects to be represented as stdObjects
             $this->jsonConfigSchema->in(json_decode(json_encode($contentNode->getJsonConfig())));
-        } catch (InvalidValue|Exception $exception) {
+        } catch (InvalidValue | Exception $exception) {
             throw (new EntityValidationException())->setMessages([
-                'jsonConfig' => ['invalid' => $exception->getMessage()]
+                'jsonConfig' => ['invalid' => $exception->getMessage()],
             ]);
         }
     }

@@ -20,6 +20,13 @@ class Strategy extends ContentTypeStrategyBase {
         $contentNode->setJsonConfig(Strategy::$DEFAULT_JSON_CONFIG);
     }
 
+    public function validateContentNode(ContentNode $contentNode): void {
+        parent::validateContentNode($contentNode);
+
+        $this->validateColumWidthsSumTo12($contentNode);
+        $this->validateNoOrphanChildren($contentNode);
+    }
+
     protected function getJsonConfigSchema(): array {
         return [
             'type' => 'object',
@@ -35,11 +42,12 @@ class Strategy extends ContentTypeStrategyBase {
                         'properties' => [
                             'slot' => [
                                 'type' => 'string',
-                                'pattern' => '^[1-9][0-9]*$'
+                                'pattern' => '^[1-9][0-9]*$',
                             ],
                             'width' => [
                                 'type' => 'integer',
-                                'minimum' => 1, 'maximum' => 12
+                                'minimum' => 1,
+                                'maximum' => 12,
                             ],
                         ],
                     ],
@@ -48,36 +56,33 @@ class Strategy extends ContentTypeStrategyBase {
         ];
     }
 
-    public function validateContentNode(ContentNode $contentNode): void {
-        parent::validateContentNode($contentNode);
-
-        $this->validateColumWidthsSumTo12($contentNode);
-        $this->validateNoOrphanChildren($contentNode);
-    }
-
     protected function validateColumWidthsSumTo12(ContentNode $contentNode) {
         $columnWidths = array_sum(array_map(function ($col) {
             return $col['width'];
         }, $contentNode->getJsonConfig()['columns']));
-        if ($columnWidths !== 12) {
+        if (12 !== $columnWidths) {
             throw (new EntityValidationException())->setMessages([
                 'jsonConfig' => [
-                    'invalidWidths' => 'Expected column widths to sum to 12, but got a sum of ' . $columnWidths
-                ]
+                    'invalidWidths' => 'Expected column widths to sum to 12, but got a sum of '.$columnWidths,
+                ],
             ]);
         }
     }
 
     protected function validateNoOrphanChildren(ContentNode $contentNode) {
-        $slots = array_map(function ($col) { return $col['slot']; }, $contentNode->getJsonConfig()['columns']);
-        $childSlots = $contentNode->getChildren()->map(function (ContentNode $child) { return $child->getSlot(); })->toArray();
+        $slots = array_map(function ($col) {
+            return $col['slot'];
+        }, $contentNode->getJsonConfig()['columns']);
+        $childSlots = $contentNode->getChildren()->map(function (ContentNode $child) {
+            return $child->getSlot();
+        })->toArray();
         $orphans = array_diff($childSlots, $slots);
 
         if (count($orphans)) {
             throw (new EntityValidationException())->setMessages([
                 'jsonConfig' => [
-                    'orphanChildContents' => 'The following slots still have child contents and should be present in the columns: ' . join(', ', $orphans)
-                ]
+                    'orphanChildContents' => 'The following slots still have child contents and should be present in the columns: '.join(', ', $orphans),
+                ],
             ]);
         }
     }

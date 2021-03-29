@@ -27,8 +27,9 @@ class StrategyTest extends AbstractTestCase {
 
     /**
      * @dataProvider jsonExamples
+     *
      * @param $name string a short description of the test case
-     * @param string|null $key string the key in the messages array
+     * @param null|string $key string the key in the messages array
      * @param $expectedMessages string|null the expected validation message
      * @param $input array|null the jsonConfig to feed into the validator
      */
@@ -45,14 +46,14 @@ class StrategyTest extends AbstractTestCase {
             $this->strategy->validateContentNode($contentNode);
 
             // then
-            if ($expectedMessages !== null) {
-                $this->fail('expected test case ' . $name . ' to throw an EntityValidationException, but it did not');
+            if (null !== $expectedMessages) {
+                $this->fail('expected test case '.$name.' to throw an EntityValidationException, but it did not');
             } else {
                 $this->expectNotToPerformAssertions();
             }
         } catch (EntityValidationException $e) {
             $expected = ['jsonConfig' => [$key => $expectedMessages]];
-            $this->assertEquals($expected, $e->getMessages(), 'validation "' . $name . '" failed with wrong message, expected ' . var_export($expected, true) . ', got ' . var_export($e->getMessages(), true));
+            $this->assertEquals($expected, $e->getMessages(), 'validation "'.$name.'" failed with wrong message, expected '.var_export($expected, true).', got '.var_export($e->getMessages(), true));
         }
     }
 

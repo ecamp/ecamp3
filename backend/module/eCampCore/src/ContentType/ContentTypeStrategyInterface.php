@@ -11,7 +11,6 @@ interface ContentTypeStrategyInterface {
     public function contentNodeCreated(ContentNode $contentNode): void;
 
     /**
-     * @param ContentNode $contentNode
      * @throws EntityValidationException
      */
     public function validateContentNode(ContentNode $contentNode): void;

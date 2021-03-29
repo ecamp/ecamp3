@@ -121,7 +121,6 @@ class ContentNodeService extends AbstractEntityService {
     }
 
     /**
-     * @param BaseEntity $entity
      * @throws EntityValidationException
      */
     protected function validateEntity(BaseEntity $entity): void {
