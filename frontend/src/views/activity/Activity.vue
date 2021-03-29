@@ -38,7 +38,7 @@ Displays a single activity
         <v-skeleton-loader v-if="activity._meta.loading" type="article" />
         <template v-else>
           <!-- Header -->
-          <v-row dense>
+          <v-row dense class="mb-3">
             <v-col class="col col-sm-6 col-12">
               <v-row v-if="$vuetify.breakpoint.smAndUp" dense>
                 <v-col cols="2">
