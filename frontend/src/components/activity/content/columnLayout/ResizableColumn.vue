@@ -25,6 +25,7 @@ export default {
     layoutMode: { type: Boolean, required: true },
     width: { type: Number, required: true }, // the column width, in 1/12th units of the full width
     last: { type: Boolean, default: false }, // whether this is the last column
+    minWidth: { type: Number, default: 3 }, // minimum allowed width of this column
     maxWidth: { type: Number, default: 12 } // maximum allowed width of this column
   },
   data () {
@@ -101,7 +102,7 @@ export default {
       return Math.round(width)
     },
     limit (width) {
-      return Math.min(Math.max(width, 1), this.maxWidth)
+      return Math.min(Math.max(width, this.minWidth), this.maxWidth)
     }
   }
 }

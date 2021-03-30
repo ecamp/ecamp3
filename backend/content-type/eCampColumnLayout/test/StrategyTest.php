@@ -74,7 +74,7 @@ class StrategyTest extends AbstractTestCase {
             ['non-number-like slot',    'invalid',       '"01" does not match to ^[1-9][0-9]*$ at #->properties:columns->items[0]:0->properties:slot', ['columns' => [['slot' => '01', 'width' => 12]]]],
             ['missing column width',    'invalid',       'Required property missing: width, data: {"slot":"1"} at #->properties:columns->items[0]:0', ['columns' => [['slot' => '1']]]],
             ['invalid column width',    'invalid',       'Integer expected, "12" received at #->properties:columns->items[0]:0->properties:width', ['columns' => [['slot' => '1', 'width' => '12']]]],
-            ['too small column width',  'invalid',       'Value more than 1 expected, 0 received at #->properties:columns->items[0]:0->properties:width', ['columns' => [['slot' => '1', 'width' => 0], ['slot' => '2', 'width' => 12]]]],
+            ['too small column width',  'invalid',       'Value more than 3 expected, 0 received at #->properties:columns->items[0]:0->properties:width', ['columns' => [['slot' => '1', 'width' => 2], ['slot' => '2', 'width' => 10]]]],
             ['too large column width',  'invalid',       'Value less than 12 expected, 13 received at #->properties:columns->items[0]:0->properties:width', ['columns' => [['slot' => '1', 'width' => 13], ['slot' => '2', 'width' => -1]]]],
             ['widths don\'t sum to 12', 'invalidWidths', 'Expected column widths to sum to 12, but got a sum of 13', ['columns' => [['slot' => '1', 'width' => 4], ['slot' => '2', 'width' => 6], ['slot' => '2', 'width' => 3]]]],
             ['default should work',     null,            null, Strategy::$DEFAULT_JSON_CONFIG],

@@ -46,7 +46,7 @@ class Strategy extends ContentTypeStrategyBase {
                             ],
                             'width' => [
                                 'type' => 'integer',
-                                'minimum' => 1,
+                                'minimum' => 3,
                                 'maximum' => 12,
                             ],
                         ],

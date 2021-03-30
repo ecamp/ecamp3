@@ -5,6 +5,7 @@
                       :width="localColumnWidths[slot] || 1"
                       :layout-mode="layoutMode"
                       :last="slot === lastColumn"
+                      :min-width="minWidth(slot)"
                       :max-width="maxWidth(slot)"
                       @resizing="newWidth => resizeColumn(slot, newWidth)"
                       @resize-stop="saveColumnWidths">
@@ -131,10 +132,13 @@ export default {
       if (index === -1 || index === slots.length - 1) return undefined
       return slots[index + 1]
     },
+    minWidth (slot) {
+      return 3
+    },
     maxWidth (slot) {
       const nextSlot = this.next(slot)
       if (nextSlot === undefined) return this.localColumnWidths[slot]
-      return this.localColumnWidths[slot] + this.localColumnWidths[nextSlot] - 1
+      return this.localColumnWidths[slot] + this.localColumnWidths[nextSlot] - this.minWidth(nextSlot)
     },
     startDrag () {
       document.body.classList.add('dragging')
