@@ -1,5 +1,5 @@
 <template>
-  <div class="resizable-col" :style="{ width: widthPercentage }">
+  <v-col :class="widthClass">
     <div v-if="layoutMode" class="resize-spacer">
       <v-btn v-if="!last && $vuetify.breakpoint.mdAndUp"
              icon
@@ -15,7 +15,7 @@
       </v-btn>
     </div>
     <slot />
-  </div>
+  </v-col>
 </template>
 
 <script>
@@ -36,9 +36,9 @@ export default {
     }
   },
   computed: {
-    widthPercentage () {
-      if (this.$vuetify.breakpoint.smAndDown) return '100% !important'
-      return this.width / 12 * 100 + '% !important'
+    widthClass () {
+      if (this.$vuetify.breakpoint.smAndDown) return 'col-12'
+      return 'col-md-' + this.width
     }
   },
   watch: {
@@ -140,10 +140,6 @@ export default {
   &:hover::after, &:active::after, &:focus::after, &.dragging::after {
     opacity: 100%;
   }
-}
-.resizable-col {
-  max-width: 100%;
-  padding: 0 12px;
 }
 .fullwidth {
   width: 100%;

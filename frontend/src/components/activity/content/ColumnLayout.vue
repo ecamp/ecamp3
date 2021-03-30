@@ -1,5 +1,5 @@
 <template>
-  <div v-if="!contentNode.loading" :class="{ 'd-flex': $vuetify.breakpoint.mdAndUp }">
+  <v-row v-if="!contentNode.loading">
     <resizable-column v-for="(column, slot) in columns"
                       :key="slot"
                       :width="localColumnWidths[slot] || 1"
@@ -52,7 +52,7 @@
         </v-menu>
       </v-row>
     </resizable-column>
-  </div>
+  </v-row>
 </template>
 
 <script>
