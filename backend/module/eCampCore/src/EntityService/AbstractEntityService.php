@@ -157,10 +157,10 @@ abstract class AbstractEntityService extends AbstractResourceListener {
      * Patches a list of entities.
      *
      * @param \ArrayObject $data Expected in the form
-     *                    {
-     *                    id: { ***patch paylod*** },
-     *                    id2: { ***patch payload*** }
-     *                    }
+     *                           {
+     *                           id: { ***patch paylod*** },
+     *                           id2: { ***patch payload*** }
+     *                           }
      *
      * @throws EntityNotFoundException
      * @throws EntityValidationException
@@ -184,7 +184,7 @@ abstract class AbstractEntityService extends AbstractResourceListener {
         $numEntities = intval($q->select('count(row.id)')->getQuery()->getSingleScalarResult());
         if ($numEntities !== count($ids)) {
             throw (new EntityValidationException())->setMessages([
-                '' => ['invalidIds' => 'Not all of the ids in the payload are part of the patched collection.']
+                '' => ['invalidIds' => 'Not all of the ids in the payload are part of the patched collection.'],
             ]);
         }
 
