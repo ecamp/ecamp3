@@ -71,6 +71,7 @@ Displays a single activity
                     :name="$tc('entity.activity.fields.location')"
                     :uri="activity._meta.self"
                     fieldname="location"
+                    :disabled="layoutMode"
                     dense />
                 </v-col>
               </v-row>
@@ -85,6 +86,7 @@ Displays a single activity
                     small-chips
                     :uri="activity._meta.self"
                     fieldname="campCollaborations"
+                    :disabled="layoutMode"
                     :items="availableCampCollaborations" />
                 </v-col>
               </v-row>
@@ -103,7 +105,6 @@ import ApiTextField from '@/components/form/api/ApiTextField'
 import ApiSelect from '@/components/form/api/ApiSelect'
 
 import ContentNode from '@/components/activity/ContentNode'
-import camelCase from 'lodash/camelCase'
 
 import { defineHelpers } from '@/components/scheduleEntry/dateHelperUTC'
 
@@ -154,16 +155,6 @@ export default {
     },
     contentNodes () {
       return this.activity.contentNodes()
-    },
-    availableContentTypes () {
-      return this.category.categoryContentTypes().items.map(cct => ({
-        id: cct.id,
-        contentType: cct.contentType(),
-        contentTypeNameKey: 'contentNode.' + camelCase(cct.contentType().name) + '.name',
-        contentTypeIconKey: 'contentNode.' + camelCase(cct.contentType().name) + '.icon',
-        contentTypeSort: parseInt(this.$tc('contentNode.' + camelCase(cct.contentType().name) + '.sort')),
-        enabled: true // atct.contentType().allowMultiple || this.countContentNodes(atct.contentType()) === 0
-      })).sort((a, b) => a.contentTypeSort - b.contentTypeSort)
     }
   },
   methods: {
@@ -177,11 +168,5 @@ export default {
 </script>
 
 <style scoped>
-.v-card .v-list-item {
-  padding-left: 0;
-}
 
-.activity_title input {
-  font-size: 28px;
-}
 </style>
