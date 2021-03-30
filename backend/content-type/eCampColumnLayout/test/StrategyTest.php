@@ -80,6 +80,7 @@ class StrategyTest extends AbstractTestCase {
             ['default should work',     null,            null, Strategy::$DEFAULT_JSON_CONFIG],
             ['1 column should work',    null,            null, ['columns' => [['slot' => '1', 'width' => 12]]]],
             ['3 columns should work',   null,            null, ['columns' => [['slot' => '1', 'width' => 2], ['slot' => '2', 'width' => 7], ['slot' => '3', 'width' => 3]]]],
+            ['non-alphabetic order',    null,            null, ['columns' => [['slot' => '3', 'width' => 3], ['slot' => '2', 'width' => 7], ['slot' => '1', 'width' => 2]]]],
             ['non-standard slot names', null,            null, ['columns' => [['slot' => '1', 'width' => 4], ['slot' => '21', 'width' => 4], ['slot' => '300', 'width' => 4]]]],
             ['orphan children',         'orphanChildContents', 'The following slots still have child contents and should be present in the columns: 1', ['columns' => [['slot' => '2', 'width' => 4], ['slot' => '3', 'width' => 4], ['slot' => '4', 'width' => 4]]]],
         ];
