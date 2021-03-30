@@ -10,7 +10,7 @@
                       @resizing="newWidth => resizeColumn(slot, newWidth)"
                       @resize-stop="saveColumnWidths">
       <draggable v-model="localColumnContents[slot]"
-                 :disabled="!layoutMode"
+                 :disabled="!draggingEnabled"
                  group="contentNodes"
                  class="d-flex flex-column"
                  :class="{ 'column-min-height': layoutMode }"
@@ -19,7 +19,8 @@
         <content-node v-for="childNode in localColumnContents[slot]"
                       :key="childNode.id"
                       :content-node="childNode"
-                      :layout-mode="layoutMode" />
+                      :layout-mode="layoutMode"
+                      :draggable="draggingEnabled"/>
       </draggable>
       <v-row v-if="layoutMode"
              no-gutters
@@ -78,6 +79,9 @@ export default {
     }
   },
   computed: {
+    draggingEnabled () {
+      return this.layoutMode && this.$vuetify.breakpoint.mdAndUp
+    },
     columns () {
       return keyBy(this.contentNode.jsonConfig?.columns || [], 'slot')
     },

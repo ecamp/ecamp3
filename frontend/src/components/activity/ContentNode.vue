@@ -1,7 +1,7 @@
 <template>
   <component :is="contentNode.contentTypeName"
              v-if="!contentNode.loading"
-             :class="{ 'draggable-cursor': layoutMode && contentNode.parent !== null }"
+             :class="{ 'draggable-cursor': draggable && contentNode.parent !== null }"
              :content-node="contentNode"
              :layout-mode="layoutMode"
              v-bind="$attrs" />
@@ -19,7 +19,8 @@ export default {
   components: contentNodeComponents,
   props: {
     contentNode: { type: Object, required: true },
-    layoutMode: { type: Boolean, required: true }
+    layoutMode: { type: Boolean, required: true },
+    draggable: { type: Boolean, default: false }
   }
 }
 </script>
