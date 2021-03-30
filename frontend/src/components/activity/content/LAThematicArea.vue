@@ -1,5 +1,5 @@
 <template>
-  <card-content-node :content-node="contentNode" :layout-mode="layoutMode">
+  <card-content-node v-bind="$props">
     <v-list three-line class="mx-n4">
       <v-list-item-group>
         <v-list-item v-for="option in contentNode.options().items"

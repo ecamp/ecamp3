@@ -1,5 +1,5 @@
 <template>
-  <card-content-node :content-node="contentNode" :layout-mode="layoutMode">
+  <card-content-node v-bind="$props">
     <v-container fluid>
       <v-row no-gutters class="text-subtitle-2">
         <v-col cols="2">

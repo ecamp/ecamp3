@@ -34,11 +34,11 @@ Displays a single activity
           <template v-else>{{ $tc('views.activity.activity.back') }}</template>
         </v-btn>
       </template>
-      <v-card-text>
+      <v-card-text class="px-0 py-0">
         <v-skeleton-loader v-if="activity._meta.loading" type="article" />
         <template v-else>
           <!-- Header -->
-          <v-row dense class="mb-3">
+          <v-row dense class="activity-header">
             <v-col class="col col-sm-6 col-12">
               <v-row v-if="$vuetify.breakpoint.smAndUp" dense>
                 <v-col cols="2">
@@ -168,5 +168,9 @@ export default {
 </script>
 
 <style scoped>
-
+.activity-header {
+  margin-bottom: 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+  padding: 1.5rem 16px;
+}
 </style>

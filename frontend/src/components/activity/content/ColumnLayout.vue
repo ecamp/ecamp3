@@ -1,5 +1,5 @@
 <template>
-  <v-row v-if="!contentNode.loading">
+  <v-row v-if="!contentNode.loading" no-gutters>
     <resizable-column v-for="(column, slot) in columns"
                       :key="slot"
                       :width="localColumnWidths[slot] || 1"
@@ -18,9 +18,10 @@
                  @end="finishDrag">
         <content-node v-for="childNode in localColumnContents[slot]"
                       :key="childNode.id"
+                      class="content-node"
                       :content-node="childNode"
                       :layout-mode="layoutMode"
-                      :draggable="draggingEnabled"/>
+                      :draggable="draggingEnabled" />
       </draggable>
       <v-row v-if="layoutMode"
              no-gutters
@@ -191,4 +192,19 @@ export default {
 .column-min-height {
   min-height: 10rem;
 }
+</style>
+<style lang="scss">
+.resizable-col:not(.layout-mode) {
+  .content-node {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+    border-radius: 0;
+  }
+
+  @media #{map-get($display-breakpoints, 'md-and-up')} {
+    &+.resizable-col:not(.layout-mode) {
+      border-left: 1px solid rgba(0, 0, 0, 0.12);
+    }
+  }
+}
+
 </style>

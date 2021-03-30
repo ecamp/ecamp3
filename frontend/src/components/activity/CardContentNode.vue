@@ -1,5 +1,5 @@
 <template>
-  <v-card outlined class="mt-3">
+  <v-card :elevation="draggable ? 4 : 0" :class="{ 'mx-2 my-2': draggable }">
     <v-card-title hide-actions class="pa-0 pr-sm-2">
       <v-toolbar dense flat>
         <v-menu bottom
@@ -100,7 +100,8 @@ export default {
   },
   props: {
     contentNode: { type: Object, required: true },
-    layoutMode: { type: Boolean, required: true }
+    layoutMode: { type: Boolean, required: true },
+    draggable: { type: Boolean, default: false }
   },
   data () {
     return {

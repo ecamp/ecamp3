@@ -1,5 +1,5 @@
 <template>
-  <v-col :class="widthClass">
+  <v-col class="resizable-col" :class="{ [widthClass]: true, 'layout-mode': layoutMode }">
     <div v-if="layoutMode" class="resize-spacer">
       <v-btn v-if="!last && $vuetify.breakpoint.mdAndUp"
              icon
@@ -110,11 +110,17 @@ export default {
 
 <style scoped lang="scss">
 .resize-spacer {
-  height: 36px;
-  position: relative
+  height: 60px;
+  position: relative;
+
+  @media #{map-get($display-breakpoints, 'sm-and-down')} {
+    display: none;
+  }
 }
 .resize-btn {
-  position: absolute; right: -30px;
+  position: absolute;
+  right: -16px;
+  top: 13px;
   z-index: 100;
   cursor: pointer;
 

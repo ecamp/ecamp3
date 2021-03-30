@@ -4,6 +4,7 @@
              :class="{ 'draggable-cursor': draggable && contentNode.parent !== null }"
              :content-node="contentNode"
              :layout-mode="layoutMode"
+             :draggable="draggable"
              v-bind="$attrs" />
 </template>
 

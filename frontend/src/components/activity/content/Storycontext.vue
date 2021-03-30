@@ -1,5 +1,5 @@
 <template>
-  <card-content-node :content-node="contentNode" :layout-mode="layoutMode">
+  <card-content-node v-bind="$props">
     <div class="mb-3">
       <api-form :entity="contentNode.singleText()">
         <api-textarea
