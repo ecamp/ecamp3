@@ -26,7 +26,7 @@ export default {
 
 <style lang="scss">
 .draggable-cursor {
-  cursor: move;
+  cursor: pointer;
 
   &:hover {
     background: map-get($blue-grey, 'lighten-5');

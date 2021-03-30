@@ -13,7 +13,8 @@
                  group="contentNodes"
                  class="d-flex flex-column"
                  :class="{ 'column-min-height': layoutMode }"
-                 @end="saveReorderedChildren">
+                 @start="startDrag"
+                 @end="finishDrag">
         <content-node v-for="childNode in localColumnContents[slot]"
                       :key="childNode.id"
                       :content-node="childNode"
@@ -134,6 +135,13 @@ export default {
       const nextSlot = this.next(slot)
       if (nextSlot === undefined) return this.localColumnWidths[slot]
       return this.localColumnWidths[slot] + this.localColumnWidths[nextSlot] - 1
+    },
+    startDrag () {
+      document.body.classList.add('dragging')
+    },
+    finishDrag () {
+      document.body.classList.remove('dragging')
+      this.saveReorderedChildren()
     },
     async addContentNodeToSlot (contentTypeId, slot) {
       await this.api.post(await this.api.href(this.api.get(), 'contentNodes'), {

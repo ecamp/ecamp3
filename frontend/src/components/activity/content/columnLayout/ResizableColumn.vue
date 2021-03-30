@@ -40,6 +40,12 @@ export default {
       return this.width / 12 * 100 + '% !important'
     }
   },
+  watch: {
+    dragging () {
+      if (this.dragging) document.body.classList.add('dragging')
+      else document.body.classList.remove('dragging')
+    }
+  },
   mounted () {
     document.documentElement.addEventListener('mousemove', this.mouseMove)
     document.documentElement.addEventListener('mouseup', this.mouseUp)
@@ -109,7 +115,7 @@ export default {
 .resize-btn {
   position: absolute; right: -30px;
   z-index: 100;
-  cursor: move;
+  cursor: pointer;
 
   &::after {
     opacity: 0;
@@ -124,6 +130,10 @@ export default {
     background-repeat: repeat, repeat;
     content: '';
     transition: opacity 0.2s ease;
+  }
+
+  &.dragging {
+    cursor: move;
   }
 
   &:hover::after, &:active::after, &:focus::after, &.dragging::after {
