@@ -148,7 +148,6 @@ export default {
         let position = 0
         return columnContents.map(contentNode => {
           return [contentNode.id, {
-            parentId: this.contentNode.id,
             slot: slot,
             position: position++
           }]

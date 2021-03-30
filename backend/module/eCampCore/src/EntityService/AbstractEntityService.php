@@ -156,13 +156,14 @@ abstract class AbstractEntityService extends AbstractResourceListener {
     /**
      * Patches a list of entities.
      *
-     * @param mixed $data Expected in the form
+     * @param \ArrayObject $data Expected in the form
      *                    {
      *                    id: { ***patch paylod*** },
      *                    id2: { ***patch payload*** }
      *                    }
      *
      * @throws EntityNotFoundException
+     * @throws EntityValidationException
      * @throws NoAccessException
      * @throws ORMException
      * @throws OptimisticLockException
@@ -176,9 +177,16 @@ abstract class AbstractEntityService extends AbstractResourceListener {
         $request = $this->getEvent()->getRequest();
         $queryParams = $request->getQuery();
 
-        // TODO validate that the patched entities are all part of the patched collection URI
-        // /** @var ContentNodeCollection $allowedEntities */
-        // $allowedEntities = $this->fetchAll($queryParams);
+        // validate that the patched entities are all part of the patched collection URI
+        $ids = array_keys($data->getArrayCopy());
+        $q = $this->fetchAllQueryBuilder($queryParams)
+            ->andWhere('row.id IN (:ids)')->setParameter('ids', $ids);
+        $numEntities = intval($q->select('count(row.id)')->getQuery()->getSingleScalarResult());
+        if ($numEntities !== count($ids)) {
+            throw (new EntityValidationException())->setMessages([
+                '' => ['invalidIds' => 'Not all of the ids in the payload are part of the patched collection.']
+            ]);
+        }
 
         foreach ($data as $key => $value) {
             $entity = $this->patch($key, $value);
