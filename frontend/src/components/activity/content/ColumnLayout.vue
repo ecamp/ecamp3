@@ -16,7 +16,7 @@
                  :class="{ 'column-min-height': layoutMode }"
                  @start="startDrag"
                  @end="finishDrag">
-        <template v-if="layoutMode && $vuetify.breakpoint.smAndDown" #header>
+        <template v-if="layoutMode && $vuetify.breakpoint.smAndDown && numColumns > 1" #header>
           <v-subheader>
             {{ $tc('contentNode.columnLayout.entity.column.name') }}
             <v-progress-linear class="ml-3" buffer-value="100" :style="'flex-basis: ' + relativeColumnWidths[slot][0] + '0%'" />
