@@ -48,6 +48,7 @@ export default {
   },
   mounted () {
     this.api.reload(this.camp())
+    this.api.reload(this.camp().materialLists)
   }
 }
 </script>
