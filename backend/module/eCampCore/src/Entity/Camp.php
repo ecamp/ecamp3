@@ -49,7 +49,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
     protected Collection $materialLists;
 
     /**
-     * @ORM\Column(type="string", length=32, nullable=true)
+     * @ORM\Column(type="string", length=16, nullable=true)
      */
     private ?string $campPrototypeId = null;
 

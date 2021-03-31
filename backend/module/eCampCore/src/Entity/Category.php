@@ -24,7 +24,7 @@ class Category extends AbstractContentNodeOwner implements BelongsToCampInterfac
     private Collection $categoryContentTypes;
 
     /**
-     * @ORM\Column(type="string", length=32, nullable=true)
+     * @ORM\Column(type="string", length=16, nullable=true)
      */
     private ?string $categoryPrototypeId = null;
 

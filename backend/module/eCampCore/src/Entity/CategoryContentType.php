@@ -25,7 +25,7 @@ class CategoryContentType extends BaseEntity implements BelongsToCampInterface {
     private ?ContentType $contentType = null;
 
     /**
-     * @ORM\Column(type="string", length=32, nullable=true)
+     * @ORM\Column(type="string", length=16, nullable=true)
      */
     private ?string $categoryContentTypePrototypeId = null;
 
