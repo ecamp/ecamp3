@@ -35,17 +35,17 @@ class GroupMembership extends BaseEntity {
     private ?Group $group = null;
 
     /**
-     * @ORM\Column(type="string", nullable=false)
+     * @ORM\Column(type="string", length=16, nullable=false)
      */
     private string $status;
 
     /**
-     * @ORM\Column(type="string", nullable=false)
+     * @ORM\Column(type="string", length=16, nullable=false)
      */
     private string $role;
 
     /**
-     * @ORM\Column(type="string", nullable=true)
+     * @ORM\Column(type="text", nullable=true)
      */
     private ?string $membershipAcceptedBy = null;
 

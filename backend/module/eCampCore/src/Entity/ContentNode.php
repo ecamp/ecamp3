@@ -40,7 +40,7 @@ class ContentNode extends BaseEntity implements BelongsToCampInterface {
     private Collection $children;
 
     /**
-     * @ORM\Column(type="string", length=32, nullable=true)
+     * @ORM\Column(type="text", nullable=true)
      */
     private ?string $slot = null;
 
@@ -61,7 +61,7 @@ class ContentNode extends BaseEntity implements BelongsToCampInterface {
     private ?ContentType $contentType = null;
 
     /**
-     * @ORM\Column(type="string", length=32, nullable=true)
+     * @ORM\Column(type="text", nullable=true)
      */
     private ?string $instanceName = null;
 

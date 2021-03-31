@@ -29,12 +29,12 @@ class Category extends AbstractContentNodeOwner implements BelongsToCampInterfac
     private ?string $categoryPrototypeId = null;
 
     /**
-     * @ORM\Column(type="string", length=16, nullable=false)
+     * @ORM\Column(type="text", nullable=false)
      */
     private ?string $short = null;
 
     /**
-     * @ORM\Column(type="string", length=32, nullable=false)
+     * @ORM\Column(type="text", nullable=false)
      */
     private ?string $name = null;
 
