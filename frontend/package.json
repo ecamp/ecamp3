@@ -37,7 +37,7 @@
     "vue-i18n": "8.24.2",
     "vue-router": "3.5.1",
     "vuedraggable": "2.24.3",
-    "vuetify": "2.4.8",
+    "vuetify": "2.4.9",
     "vuex": "3.6.2"
   },
   "devDependencies": {
