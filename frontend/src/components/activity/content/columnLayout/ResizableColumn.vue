@@ -7,6 +7,7 @@
              color="primary"
              class="resize-btn"
              :class="{ dragging }"
+             :style="cssVariables"
              @mousedown.stop.prevent="mouseDown"
              @touchstart.stop.prevent="mouseDown">
         <v-icon>
@@ -32,13 +33,17 @@ export default {
     return {
       dragging: false,
       startWidth: 0,
-      startValue: this.width
+      startValue: this.width,
+      columnHeight: 100
     }
   },
   computed: {
     widthClass () {
       if (this.$vuetify.breakpoint.smAndDown) return 'col-12'
       return 'col-md-' + this.width
+    },
+    cssVariables () {
+      return '--column-height: ' + this.columnHeight + 'px'
     }
   },
   watch: {
@@ -55,6 +60,9 @@ export default {
     document.documentElement.addEventListener('touchend', this.mouseUp, true)
     document.documentElement.addEventListener('touchcancel', this.mouseUp, true)
     document.documentElement.addEventListener('touchstart', this.mouseUp, true)
+  },
+  updated () {
+    this.columnHeight = this.$el.clientHeight
   },
   beforeDestroy: function () {
     document.documentElement.removeEventListener('mousemove', this.mouseMove)
@@ -119,21 +127,21 @@ export default {
 }
 .resize-btn {
   position: absolute;
-  right: -16px;
+  right: -17px;
   top: 13px;
-  z-index: 100;
+  z-index: 4;
   cursor: pointer;
 
   &::after {
     opacity: 0;
     position: absolute;
-    top: 115%;
+    top: 105%;
     left: 50%;
     display: block;
-    height: 10rem;
+    height: calc(var(--column-height) - 60px);
     width: 2px;
-    background-image: linear-gradient(to bottom, transparent, transparent 60%, #fff 60%, #fff 100%), linear-gradient(to bottom, map-get($blue, 'lighten-2'), map-get($blue, 'lighten-2'), transparent);
-    background-size: 100% 15px, 100% 100%;
+    background-image: linear-gradient(to bottom, transparent, transparent 40%, map-get($blue, 'lighten-2') 40%, map-get($blue, 'lighten-2') 100%);
+    background-size: 100% 15px;
     background-repeat: repeat, repeat;
     content: '';
     transition: opacity 0.2s ease;
