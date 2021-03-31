@@ -1,6 +1,11 @@
 {
   "contentNode": {
     "columnLayout": {
+      "entity": {
+        "column": {
+          "name": "Column"
+        }
+      },
       "icon": "mdi-format-columns",
       "name": "Column layout"
     },

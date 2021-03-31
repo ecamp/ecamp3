@@ -129,7 +129,7 @@ export default {
   position: absolute;
   right: -17px;
   top: 13px;
-  z-index: 4;
+  z-index: 2;
   cursor: pointer;
 
   &::after {

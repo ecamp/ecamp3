@@ -16,6 +16,14 @@
                  :class="{ 'column-min-height': layoutMode }"
                  @start="startDrag"
                  @end="finishDrag">
+        <template v-if="layoutMode && $vuetify.breakpoint.smAndDown" #header>
+          <v-subheader>
+            {{ $tc('contentNode.columnLayout.entity.column.name') }}
+            <v-progress-linear class="ml-3" buffer-value="100" :style="'flex-basis: ' + relativeColumnWidths[slot][0] + '0%'" />
+            <v-progress-linear value="100" :style="'flex-basis: ' + relativeColumnWidths[slot][1] + '0%'" />
+            <v-progress-linear buffer-value="100" :style="'flex-basis: ' + relativeColumnWidths[slot][2] + '0%'" />
+          </v-subheader>
+        </template>
         <content-node v-for="childNode in localColumnContents[slot]"
                       :key="childNode.id"
                       class="content-node"
@@ -64,6 +72,11 @@ import { contentNodeMixin } from '@/mixins/contentNodeMixin'
 import Draggable from 'vuedraggable'
 import ResizableColumn from '@/components/activity/content/columnLayout/ResizableColumn'
 
+function cumulativeSumReducer (cumSum, nextElement) {
+  cumSum.push((cumSum[cumSum.length - 1] + nextElement))
+  return cumSum
+}
+
 export default {
   name: 'ColumnLayout',
   components: {
@@ -76,7 +89,7 @@ export default {
   data () {
     return {
       localColumnContents: {},
-      localColumnWidths: []
+      localColumnWidths: {}
     }
   },
   computed: {
@@ -98,6 +111,17 @@ export default {
     },
     columnContents () {
       return mapValues(this.columns, (_, slot) => this.groupedChildren[slot] || [])
+    },
+    relativeColumnWidths () {
+      // Cumulative sum of column widths, to know how many "width units" are to the left of each column
+      // E.g. [0, 3, 8, 12] if there are three columns of width 3, 5, 4
+      const cumSum = Object.values(this.localColumnWidths).reduce(cumulativeSumReducer, [0])
+      // Map the cumulative sum values to the slot names
+      // E.g. {'1': 0, '2': 3, '3': 8}
+      const colsLeft = Object.fromEntries(Object.entries(this.localColumnWidths).map(([slot, width], idx) => [slot, cumSum[idx]]))
+      // Also prepare the column width itself and the number of "width units" to the right of each column
+      // E.g. {'1': [0, 3, 9], '2': [3, 5, 4], '3': [8, 4, 0]}
+      return mapValues(this.localColumnWidths, (width, slot) => [colsLeft[slot], width, 12 - colsLeft[slot] - width])
     },
     availableContentTypes () {
       return this.contentNode.ownerCategory().categoryContentTypes().items.map(cct => ({
@@ -194,15 +218,21 @@ export default {
 }
 </style>
 <style lang="scss">
-.resizable-col:not(.layout-mode) {
+.resizable-col {
   .content-node {
     border-bottom: 1px solid rgba(0, 0, 0, 0.12);
     border-radius: 0;
   }
 
-  @media #{map-get($display-breakpoints, 'md-and-up')} {
-    &+.resizable-col:not(.layout-mode) {
-      border-left: 1px solid rgba(0, 0, 0, 0.12);
+  @media #{map-get($display-breakpoints, 'sm-and-down')} {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.32);
+  }
+
+  &:not(.layout-mode) {
+    @media #{map-get($display-breakpoints, 'md-and-up')} {
+      &+.resizable-col:not(.layout-mode) {
+        border-left: 1px solid rgba(0, 0, 0, 0.12);
+      }
     }
   }
 }
