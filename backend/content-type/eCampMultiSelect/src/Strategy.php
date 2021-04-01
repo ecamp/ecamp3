@@ -19,11 +19,11 @@ class Strategy extends ContentTypeStrategyBase {
         parent::__construct($serviceUtils);
 
         $this->optionService = $optionService;
+        $this->optionService->setEntityClass(Option::class);
+        $this->optionService->setCollectionClass(OptionCollection::class);
     }
 
     public function contentNodeExtract(ContentNode $contentNode): array {
-        $this->optionService->setEntityClass(Option::class);
-        $this->optionService->setCollectionClass(OptionCollection::class);
         $multiSelectItems = $this->optionService->fetchAllByContentNode($contentNode->getId());
 
         return [

@@ -3,6 +3,8 @@
 namespace eCamp\ContentType\SingleText;
 
 use Doctrine\ORM\ORMException;
+use eCamp\ContentType\SingleText\Entity\SingleText;
+use eCamp\ContentType\SingleText\Entity\SingleTextCollection;
 use eCamp\ContentType\SingleText\Service\SingleTextService;
 use eCamp\Core\ContentType\ContentTypeStrategyBase;
 use eCamp\Core\Entity\ContentNode;
@@ -16,6 +18,8 @@ class Strategy extends ContentTypeStrategyBase {
         parent::__construct($serviceUtils);
 
         $this->singleTextService = $singleTextService;
+        $this->singleTextService->setEntityClass(SingleText::class);
+        $this->singleTextService->setCollectionClass(SingleTextCollection::class);
     }
 
     public function contentNodeExtract(ContentNode $contentNode): array {
