@@ -10,7 +10,7 @@ COPY frontend .
 RUN npm run build
 
 # production stage
-FROM nginx:stable-alpine@sha256:4a1c8bf7fbab83530ae6a2d31b40b1365c4b34ccf84f2f96e7e5c162c7787fd5 as production-stage
+FROM nginx:stable-alpine@sha256:1f3762b855cc5b97ab54b57dd7f6faab42feeaf775cab53cb3e1597ea89983a5 as production-stage
 RUN mkdir /app
 WORKDIR /app
 COPY --from=build-stage /app/dist /app
