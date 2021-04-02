@@ -4,6 +4,7 @@ namespace eCamp\CoreData;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Persistence\ObjectManager;
+use eCamp\ContentType\ColumnLayout\Strategy as ColumnLayoutStrategy;
 use eCamp\ContentType\Material\Strategy as MaterialStrategy;
 use eCamp\ContentType\MultiSelect\Strategy as MultiSelectStrategy;
 use eCamp\ContentType\SingleText\Strategy as SingleTextStrategy;
@@ -17,6 +18,7 @@ class ContentTypeData extends AbstractFixture {
     public static $NOTES = ContentType::class.':NOTES';
     public static $MATERIAL = ContentType::class.':MATERIAL';
     public static $LATHEMATICAREA = ContentType::class.':LATHEMATICAREA';
+    public static $COLUMNLAYOUT = ContentType::class.':COLUMNLAYOUT';
 
     public function load(ObjectManager $manager): void {
         $repository = $manager->getRepository(ContentType::class);
@@ -91,6 +93,16 @@ class ContentTypeData extends AbstractFixture {
             $manager->persist($contentType);
         }
         $this->addReference(self::$LATHEMATICAREA, $contentType);
+
+        // Column layout
+        $contentType = $repository->findOneBy(['name' => 'ColumnLayout']);
+        if (null == $contentType) {
+            $contentType = new ContentType();
+            $contentType->setName('ColumnLayout');
+            $contentType->setStrategyClass(ColumnLayoutStrategy::class);
+            $manager->persist($contentType);
+        }
+        $this->addReference(self::$COLUMNLAYOUT, $contentType);
 
         $manager->flush();
     }

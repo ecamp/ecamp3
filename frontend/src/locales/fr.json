@@ -233,7 +233,6 @@
   "global": {
     "button": {
       "add": "Ajouter",
-      "addContentDesktop": "Ajouter du contenu",
       "back": "Retour",
       "cancel": "Annuler",
       "content": "Contenu",
