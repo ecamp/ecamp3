@@ -136,6 +136,9 @@
       },
       "dialogPeriodCreate": {
         "title": "Lagerabschnitt erstellen"
+      },
+      "dialogPeriodEdit": {
+        "moveScheduleEntries": "Aktivitäten verschieben"
       }
     },
     "layout": {
