@@ -8,6 +8,8 @@ use eCamp\Core\Entity\Activity;
 use eCamp\Core\Entity\Category;
 use eCamp\Core\Entity\ContentNode;
 use eCamp\Lib\Entity\EntityLink;
+use eCamp\Lib\Entity\EntityLinkCollection;
+use eCamp\Lib\Hydrator\Util;
 use Laminas\ApiTools\Hal\Link\Link;
 use Laminas\Hydrator\HydratorInterface;
 use Psr\Container\ContainerExceptionInterface;
@@ -22,6 +24,19 @@ class ContentNodeHydrator implements HydratorInterface {
 
     public static function HydrateInfo(): array {
         return [
+            'children' => Util::Collection(function (ContentNode $e) {
+                return new EntityLinkCollection($e->getChildren());
+            }, function (ContentNode $e) {
+                return [
+                    Link::factory([
+                        'rel' => 'children',
+                        'route' => [
+                            'name' => 'e-camp-api.rest.doctrine.content-node',
+                            'options' => ['query' => ['parentId' => $e->getId()]],
+                        ],
+                    ]),
+                ];
+            }),
         ];
     }
 
@@ -35,7 +50,7 @@ class ContentNodeHydrator implements HydratorInterface {
         /** @var ContentNode $contentNode */
         $contentNode = $object;
         $contentType = $contentNode->getContentType();
-        $owner = $contentNode->getOwner();
+        $owner = $contentNode->getRoot()->getOwner();
 
         $data = [
             'id' => $contentNode->getId(),
@@ -46,6 +61,14 @@ class ContentNodeHydrator implements HydratorInterface {
             'contentTypeName' => $contentType->getName(),
 
             'parent' => ($contentNode->isRoot() ? null : new EntityLink($contentNode->getParent())),
+            'root' => new EntityLink($contentNode->getRoot()),
+            'children' => Link::factory([
+                'rel' => 'children',
+                'route' => [
+                    'name' => 'e-camp-api.rest.doctrine.content-node',
+                    'options' => ['query' => ['parentId' => $contentNode->getId()]],
+                ],
+            ]),
             'contentType' => new EntityLink($contentNode->getContentType()),
         ];
 
@@ -57,6 +80,13 @@ class ContentNodeHydrator implements HydratorInterface {
                     'params' => ['activityId' => $owner->getId()],
                 ],
             ]);
+            $data['ownerCategory'] = Link::factory([
+                'rel' => 'ownerCategory',
+                'route' => [
+                    'name' => 'e-camp-api.rest.doctrine.category',
+                    'params' => ['categoryId' => $owner->getCategory()->getId()],
+                ],
+            ]);
         }
         if ($owner instanceof Category) {
             $data['owner'] = Link::factory([
@@ -66,6 +96,7 @@ class ContentNodeHydrator implements HydratorInterface {
                     'params' => ['categoryId' => $owner->getId()],
                 ],
             ]);
+            $data['ownerCategory'] = $data['owner'];
         }
 
         /** @var ContentTypeStrategyInterface $strategy */

@@ -24,11 +24,14 @@
             <directory suffix="Test.php">module/eCampAoT/test</directory>
         </testsuite>
 
-        <testsuite name="eCamp.ContentType.Storyboard">
-            <directory suffix="Test.php">content-type/eCampStoryboard/test</directory>
+        <testsuite name="eCamp.ContentType.ColumnLayout">
+            <directory suffix="Test.php">content-type/eCampColumnLayout/test</directory>
         </testsuite>
         <testsuite name="eCamp.ContentType.SingleText">
             <directory suffix="Test.php">content-type/eCampSingleText/test</directory>
+        </testsuite>
+        <testsuite name="eCamp.ContentType.Storyboard">
+            <directory suffix="Test.php">content-type/eCampStoryboard/test</directory>
         </testsuite>
     </testsuites>
 

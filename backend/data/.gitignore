@@ -4,3 +4,5 @@ mail/
 !mail/.gitkeep
 codeCoverage/
 DoctrineORMModule/Proxy/
+HTMLPurifier/Serializer/
+!HTMLPurifier/Serializer/.gitkeep

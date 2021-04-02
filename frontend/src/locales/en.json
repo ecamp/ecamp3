@@ -1,5 +1,14 @@
 {
   "contentNode": {
+    "columnLayout": {
+      "entity": {
+        "column": {
+          "name": "Column"
+        }
+      },
+      "icon": "mdi-format-columns",
+      "name": "Column layout"
+    },
     "laThematicArea": {
       "entity": {
         "option": {
@@ -40,8 +49,7 @@
     "safetyConcept": {
       "add": "Add safety concept",
       "icon": "mdi-security",
-      "name": "Safety concept",
-      "sort": "3"
+      "name": "Safety concept"
     },
     "storyboard": {
       "add": "Add a storyboard | Add another storyboard",
@@ -56,14 +64,12 @@
         }
       },
       "icon": "mdi-script-text-outline",
-      "name": "Storyboard",
-      "sort": "2"
+      "name": "Storyboard"
     },
     "storycontext": {
       "add": "Add story context",
       "icon": "mdi-book-open-variant",
-      "name": "Story concept",
-      "sort": "1"
+      "name": "Story concept"
     },
     "material": {
       "icon": "mdi-package-variant",
@@ -300,7 +306,6 @@
   "global": {
     "button": {
       "add": "Add",
-      "addContentDesktop": "Add content",
       "back": "Back",
       "cancel": "Cancel",
       "content": "Content",
@@ -341,6 +346,12 @@
   },
   "views": {
     "activity": {
+      "activity": {
+        "back": "Back",
+        "backToContents": "Back to editing content",
+        "changeLayout": "Change layout",
+        "layout": "Layout"
+      },
       "sideBarProgram": {
         "title": "Activities on this day"
       }
