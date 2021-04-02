@@ -21,50 +21,49 @@
 
       <rect x="0" y="15"
             width="14" height="70"
-            style="fill: rgb(200, 200, 200);" />
+            class="day-background" />
       <rect x="42" y="15"
             width="28" height="70"
-            style="fill: rgb(200, 200, 200);" />
+            class="day-background" />
       <rect x="98" y="15"
             width="28" height="70"
-            style="fill: rgb(200, 200, 200);" />
+            class="day-background" />
       <rect x="154" y="15"
             width="28" height="70"
-            style="fill: rgb(200, 200, 200);" />
+            class="day-background" />
 
       <rect x="218" y="15"
             width="28" height="70"
-            style="fill: rgb(200, 200, 200);" />
+            class="day-background" />
       <rect x="274" y="15"
             width="28" height="70"
-            style="fill: rgb(200, 200, 200);" />
+            class="day-background" />
       <rect x="330" y="15"
             width="28" height="70"
-            style="fill: rgb(200, 200, 200);" />
+            class="day-background" />
       <rect x="386" y="15"
             width="14" height="70"
-            style="fill: rgb(200, 200, 200);" />
+            class="day-background" />
 
       <g :class="{'annimation-all': entityData.moveScheduleEntries }">
         <rect x="70" y="22"
               width="260" height="56"
-              ry="1"
-              :class="{ 'annimation-period': !entityData.moveScheduleEntries, 'period': entityData.moveScheduleEntries }"
-              style="stroke: rgb(0, 0, 0); fill: rgba(30, 30, 255, 0.18);" />
+              ry="1" class="period"
+              :class="{ 'annimation-period': !entityData.moveScheduleEntries, 'period': entityData.moveScheduleEntries }" />
 
         <rect x="101" y="40"
               width="22" height="32"
-              style="fill: rgb(255, 137, 26);" />
+              class="category1" />
         <rect x="129" y="34"
               width="22" height="32"
-              style="fill: rgb(45, 172, 13);" />
+              class="category2" />
 
         <rect x="249" y="40"
               width="22" height="32"
-              style="fill: rgb(255, 137, 26);" />
+              class="category1" />
         <rect x="277" y="34"
               width="22" height="32"
-              style="fill: rgb(45, 172, 13);" />
+              class="category2" />
       </g>
       <path style="stroke: rgb(0, 0, 0); fill: rgba(0, 0, 0, 0); stroke-width: 5px;"
             d="M 200 10 C 190 20 190 40 200 50 C 210 60 210 80 200 90" />
@@ -110,6 +109,20 @@ export default {
 </script>
 
 <style scoped>
+  rect.day-background {
+    fill: rgb(200, 200, 200);
+  }
+  rect.period {
+    stroke: rgb(0, 0, 0);
+    fill: rgba(30, 30, 255, 0.18);
+  }
+  rect.category1 {
+    fill: rgb(255, 137, 26);
+  }
+  rect.category2 {
+    fill: rgb(45, 172, 13);
+  }
+
   /* Move Period + Events */
   g.annimation-all {
       animation-name: move;
