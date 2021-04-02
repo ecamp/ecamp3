@@ -78,6 +78,9 @@ export default {
         this.$store.commit('setLanguage', this.profile.language)
       }
     }
+  },
+  mounted () {
+    this.api.reload(this.profile)
   }
 }
 </script>
