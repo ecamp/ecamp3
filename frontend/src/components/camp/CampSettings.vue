@@ -7,6 +7,7 @@ Displays details on a single camp and allows to edit them.
     <v-skeleton-loader v-if="camp()._meta.loading" type="article" />
     <div v-else>
       <e-text-field
+        class="mt-2"
         :label="$tc('entity.camp.fields.name')"
         readonly
         :value="camp().name" />
@@ -28,10 +29,11 @@ Displays details on a single camp and allows to edit them.
 import ApiTextField from '@/components/form/api/ApiTextField'
 import ContentGroup from '@/components/layout/ContentGroup'
 import ApiForm from '@/components/form/api/ApiForm'
+import ETextField from '@/components/form/base/ETextField'
 
 export default {
   name: 'CampSettings',
-  components: { ContentGroup, ApiTextField, ApiForm },
+  components: { ETextField, ContentGroup, ApiTextField, ApiForm },
   props: {
     camp: {
       type: Function,
@@ -39,7 +41,9 @@ export default {
     }
   },
   data () {
-    return {}
+    return {
+      promptText: ''
+    }
   }
 }
 </script>

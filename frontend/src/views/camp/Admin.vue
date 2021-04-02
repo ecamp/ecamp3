@@ -11,13 +11,17 @@ Admin screen of a camp: Displays details & periods of a single camp and allows t
           <v-btn v-if="$vuetify.breakpoint.xsOnly" :to="{name: 'camp/collaborators', query: {isDetail: true}}">
             {{ $tc('views.camp.admin.collaborators') }}
           </v-btn>
+          <camp-periods :camp="camp" />
         </v-col>
         <v-col cols="12" lg="6">
-          <camp-periods :camp="camp" />
-
           <camp-categories :camp="camp" />
 
           <camp-material-lists :camp="camp" />
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col cols="12" lg="6">
+          <danger-zone :camp="camp" />
         </v-col>
       </v-row>
     </v-card-text>
@@ -30,10 +34,12 @@ import CampPeriods from '@/components/camp/CampPeriods'
 import CampMaterialLists from '@/components/camp/CampMaterialLists'
 import CampCategories from '@/components/camp/CampCategories'
 import ContentCard from '@/components/layout/ContentCard'
+import DangerZone from '@/views/camp/DangerZone'
 
 export default {
   name: 'Admin',
   components: {
+    DangerZone,
     ContentCard,
     CampSettings,
     CampPeriods,
