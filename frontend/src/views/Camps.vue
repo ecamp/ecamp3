@@ -65,6 +65,9 @@ export default {
       return this.api.get().camps()
     }
   },
+  mounted () {
+    this.api.reload(this.camps)
+  },
   methods: {
     campRoute
   }

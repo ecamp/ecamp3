@@ -88,6 +88,10 @@ JSON;
                 "materialItems": {
                     "href": "http://{$host}/api/material-items{/materialItemId}{?page_size,page,campId,materialListId,contentNodeId}",
                     "templated": true
+                },
+                "contentNodes": {
+                    "href": "http://{$host}/api/content-nodes{/contentNodeId}{?page_size,page,ownerId,parentId}",
+                    "templated": true
                 }
             }
         }

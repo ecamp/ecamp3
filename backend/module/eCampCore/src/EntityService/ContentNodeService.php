@@ -3,6 +3,7 @@
 namespace eCamp\Core\EntityService;
 
 use Doctrine\ORM\ORMException;
+use Doctrine\ORM\QueryBuilder;
 use eCamp\Core\ContentType\ContentTypeStrategyProvider;
 use eCamp\Core\Entity\AbstractContentNodeOwner;
 use eCamp\Core\Entity\ContentNode;
@@ -11,6 +12,7 @@ use eCamp\Core\Hydrator\ContentNodeHydrator;
 use eCamp\Lib\Acl\Acl;
 use eCamp\Lib\Acl\NoAccessException;
 use eCamp\Lib\Entity\BaseEntity;
+use eCamp\Lib\Service\EntityValidationException;
 use eCamp\Lib\Service\ServiceUtils;
 use Laminas\Authentication\AuthenticationService;
 use Psr\Container\ContainerExceptionInterface;
@@ -86,6 +88,24 @@ class ContentNodeService extends AbstractEntityService {
         return $contentNode;
     }
 
+    protected function fetchAllQueryBuilder($params = []): QueryBuilder {
+        $q = parent::fetchAllQueryBuilder($params);
+
+        if (isset($params['parentId'])) {
+            $q->andWhere('row.parent = :parentId');
+            $q->setParameter('parentId', $params['parentId']);
+        }
+
+        if (isset($params['ownerId'])) {
+            $q->join('row.root', 'root');
+            $q->join('root.owner', 'rootOwner');
+            $q->andWhere('rootOwner.id = :ownerId');
+            $q->setParameter('ownerId', $params['ownerId']);
+        }
+
+        return $q;
+    }
+
     protected function patchEntity(BaseEntity $entity, $data): ContentNode {
         /** @var ContentNode $contentNode */
         $contentNode = parent::patchEntity($entity, $data);
@@ -97,6 +117,20 @@ class ContentNodeService extends AbstractEntityService {
             $contentNode->setParent($parent);
         }
 
-        return $entity;
+        return $contentNode;
+    }
+
+    /**
+     * @throws EntityValidationException
+     */
+    protected function validateEntity(BaseEntity $entity): void {
+        /** @var ContentNode $contentNode */
+        $contentNode = $entity;
+
+        parent::validateEntity($contentNode);
+
+        // Also allow the strategy to define custom validation
+        $strategy = $this->contentTypeStrategyProvider->get($contentNode->getContentType());
+        $strategy->validateContentNode($contentNode);
     }
 }

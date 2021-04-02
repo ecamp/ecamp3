@@ -317,6 +317,7 @@ describe('Testing ApiWrapper [autoSave=true; value from API]', () => {
     apiGet.mockReturnValue({
       [config.propsData.fieldname]: loadingValue,
       _meta: {
+        loading: true,
         load: Promise.resolve()
       }
     })

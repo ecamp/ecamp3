@@ -2,7 +2,6 @@
 
 namespace eCamp\CoreData;
 
-use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use eCamp\Core\Entity\Activity;
@@ -11,7 +10,7 @@ use eCamp\Core\Entity\Category;
 use eCamp\Lib\Fixture\ContainerAwareInterface;
 use eCamp\Lib\Fixture\ContainerAwareTrait;
 
-class ActivityData extends AbstractFixture implements DependentFixtureInterface, ContainerAwareInterface {
+class ActivityData extends CategoryPrototypeData implements DependentFixtureInterface, ContainerAwareInterface {
     use ContainerAwareTrait;
 
     public static $EVENT_1_LS = Activity::class.':EVENT_1_LS';
@@ -36,6 +35,8 @@ class ActivityData extends AbstractFixture implements DependentFixtureInterface,
             $activity->setTitle('Activity LS');
             $activity->setCategory($categoryLs);
 
+            $activity->setRootContentNode($this->createInitialRootContentNode($manager));
+
             $manager->persist($activity);
         }
         $this->addReference(self::$EVENT_1_LS, $activity);
@@ -46,6 +47,8 @@ class ActivityData extends AbstractFixture implements DependentFixtureInterface,
             $activity->setCamp($camp);
             $activity->setTitle('Activity LA');
             $activity->setCategory($categoryLa);
+
+            $activity->setRootContentNode($this->createInitialRootContentNode($manager));
 
             $manager->persist($activity);
         }
@@ -65,6 +68,8 @@ class ActivityData extends AbstractFixture implements DependentFixtureInterface,
             $activity->setTitle('Activity LS');
             $activity->setCategory($categoryLs);
 
+            $activity->setRootContentNode($this->createInitialRootContentNode($manager));
+
             $manager->persist($activity);
         }
         $this->addReference(self::$EVENT_2_LS, $activity);
@@ -76,6 +81,8 @@ class ActivityData extends AbstractFixture implements DependentFixtureInterface,
             $activity->setTitle('Activity LA');
             $activity->setCategory($categoryLa);
 
+            $activity->setRootContentNode($this->createInitialRootContentNode($manager));
+
             $manager->persist($activity);
         }
         $this->addReference(self::$EVENT_2_LA, $activity);
@@ -84,6 +91,6 @@ class ActivityData extends AbstractFixture implements DependentFixtureInterface,
     }
 
     public function getDependencies() {
-        return [CampData::class, CategoryData::class];
+        return [CampData::class, CategoryData::class, ContentTypeData::class];
     }
 }
