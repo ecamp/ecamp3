@@ -21,7 +21,7 @@
     "@nuxtjs/sentry": "5.0.3",
     "deepmerge": "4.2.2",
     "hal-json-vuex": "1.2.2",
-    "nuxt": "2.15.3",
+    "nuxt": "2.15.4",
     "pagedjs": "0.1.43",
     "vue-i18n": "8.24.2"
   },

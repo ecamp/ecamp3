@@ -9,7 +9,13 @@ class HtmlPurify extends AbstractFilter {
     private ?HTMLPurifier $htmlPurifier = null;
 
     public function __construct($options = null) {
-        $this->options = $options;
+        if ($options) {
+            $this->options = $options;
+        } else {
+            $this->options = [
+                'Cache.SerializerPath' => __DIR__.'/../../../../data/HTMLPurifier/Serializer',
+            ];
+        }
     }
 
     public function getHtmlPurifier(): HTMLPurifier {
