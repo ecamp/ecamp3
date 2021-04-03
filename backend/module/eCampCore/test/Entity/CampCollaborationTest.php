@@ -31,8 +31,6 @@ class CampCollaborationTest extends AbstractTestCase {
 
     public function testStatus(): void {
         $collaboration = new CampCollaboration();
-        $collaboration->setStatus(CampCollaboration::STATUS_REQUESTED);
-        $this->assertTrue($collaboration->isRequest());
 
         $collaboration->setStatus(CampCollaboration::STATUS_INVITED);
         $this->assertTrue($collaboration->isInvitation());
@@ -57,16 +55,5 @@ class CampCollaborationTest extends AbstractTestCase {
 
         $this->expectException('Exception');
         $collaboration->setRole('test');
-    }
-
-    public function testLifecycle(): void {
-        $collaboration = new CampCollaboration();
-        $collaboration->setStatus(CampCollaboration::STATUS_REQUESTED);
-        $collaboration->setCollaborationAcceptedBy('install');
-
-        $collaboration->PrePersist();
-        $collaboration->PreUpdate();
-
-        $this->assertNull($collaboration->getCollaborationAcceptedBy());
     }
 }

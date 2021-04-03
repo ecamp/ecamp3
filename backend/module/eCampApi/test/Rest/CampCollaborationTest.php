@@ -22,6 +22,7 @@ class CampCollaborationTest extends AbstractApiControllerTestCase {
 
     /** @var User */
     protected $user;
+    protected User $user2;
 
     private $apiEndpoint = '/api/camp-collaborations';
 
@@ -37,6 +38,7 @@ class CampCollaborationTest extends AbstractApiControllerTestCase {
         $this->loadFixtures($loader);
 
         $this->user = $userLoader->getReference(UserTestData::$USER1);
+        $this->user2 = $userLoader->getReference(UserTestData::$USER2);
         $this->campCollaboration1 = $campCollaborationLoader->getReference(CampCollaborationTestData::$COLLAB1);
         $this->campCollaborationInvited = $campCollaborationLoader->getReference(CampCollaborationTestData::$COLLAB_INVITED);
         $this->campCollaborationInactive = $campCollaborationLoader->getReference(CampCollaborationTestData::$COLLAB_INACTIVE);
@@ -157,6 +159,20 @@ JSON;
         $this->dispatch("{$this->apiEndpoint}", 'POST');
 
         // user already part of the camp
+        $this->assertResponseStatusCode(422);
+    }
+
+    public function testCreateForYourselfFails() {
+        $this->logout();
+        $this->authenticateUser($this->user2);
+        $this->setRequestContent([
+            'role' => 'member',
+            'campId' => $this->campCollaboration1->getCamp()->getId(),
+            'userId' => $this->user2->getId(),
+        ]);
+
+        $this->dispatch("{$this->apiEndpoint}", 'POST');
+
         $this->assertResponseStatusCode(422);
     }
 

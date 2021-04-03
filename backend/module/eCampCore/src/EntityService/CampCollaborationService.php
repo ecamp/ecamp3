@@ -11,6 +11,7 @@ use eCamp\Core\Entity\User;
 use eCamp\Core\Hydrator\CampCollaborationHydrator;
 use eCamp\Core\Service\SendmailService;
 use eCamp\Lib\Acl\Acl;
+use eCamp\Lib\Acl\NoAccessException;
 use eCamp\Lib\Entity\BaseEntity;
 use eCamp\Lib\Service\EntityValidationException;
 use eCamp\Lib\Service\ServiceUtils;
@@ -41,8 +42,11 @@ class CampCollaborationService extends AbstractEntityService {
     }
 
     /**
-     * @throws ORMException
-     * @throws \Exception
+     * @param $data
+     *
+     * @throws EntityValidationException
+     * @throws NoAccessException
+     * @throws \eCamp\Lib\Acl\NotAuthenticatedException
      */
     protected function createEntity($data): CampCollaboration {
         $this->assertAuthenticated();
@@ -112,8 +116,7 @@ class CampCollaborationService extends AbstractEntityService {
                 $campCollaboration->setStatus(CampCollaboration::STATUS_ESTABLISHED);
                 $campCollaboration->setCollaborationAcceptedBy($authUser->getUsername());
             } else {
-                // Create CampCollaboration for AuthUser
-                $campCollaboration->setStatus(CampCollaboration::STATUS_REQUESTED);
+                throw new NoAccessException('You cannot add a CampCollaboration for yourself to an existing camp');
             }
         } else {
             // Create CampCollaboration for other User
@@ -157,8 +160,6 @@ class CampCollaborationService extends AbstractEntityService {
             $campCollaboration = $this->updateCollaboration($campCollaboration, $data);
         } elseif ($campCollaboration->isInvitation()) {
             $campCollaboration = $this->updateInvitation($campCollaboration, $data);
-        } elseif ($campCollaboration->isRequest()) {
-            $campCollaboration = $this->updateRequest($campCollaboration, $data);
         } elseif ($campCollaboration->isInactive()) {
             $campCollaboration = $this->updateInactive($campCollaboration, $data);
         }
@@ -177,8 +178,6 @@ class CampCollaborationService extends AbstractEntityService {
             $campCollaboration = $this->updateCollaboration($campCollaboration, $data);
         } elseif ($campCollaboration->isInvitation()) {
             $campCollaboration = $this->updateInvitation($campCollaboration, $data);
-        } elseif ($campCollaboration->isRequest()) {
-            $campCollaboration = $this->updateRequest($campCollaboration, $data);
         }
 
         return $campCollaboration;
@@ -279,53 +278,6 @@ class CampCollaborationService extends AbstractEntityService {
                 switch ($data->status) {
                     case CampCollaboration::STATUS_INACTIVE:
                         $campCollaboration->setStatus(CampCollaboration::STATUS_INACTIVE);
-
-                    break;
-                }
-            }
-        }
-
-        return $campCollaboration;
-    }
-
-    /**
-     * @param $data
-     *
-     * @throws ORMException
-     * @throws \Exception
-     */
-    private function updateRequest(CampCollaboration $campCollaboration, $data): CampCollaboration {
-        $authUser = $this->getAuthUser();
-
-        // TODO: ACL-Check can update Request
-
-        if ($authUser === $campCollaboration->getUser()) {
-            if (isset($data->role)) {
-                $campCollaboration->setRole($data->role);
-            }
-            if (isset($data->status)) {
-                switch ($data->status) {
-                    case CampCollaboration::STATUS_INACTIVE:
-                        $campCollaboration->setStatus(CampCollaboration::STATUS_INACTIVE);
-
-                    break;
-                }
-            }
-        } else {
-            if (isset($data->status)) {
-                switch ($data->status) {
-                    case CampCollaboration::STATUS_INACTIVE:
-                        $campCollaboration->setStatus(CampCollaboration::STATUS_INACTIVE);
-
-                    break;
-
-                    case CampCollaboration::STATUS_ESTABLISHED:
-                        if (isset($data->role)) {
-                            $campCollaboration->setRole($data->role);
-                        }
-                        $campCollaboration->setCollaborationAcceptedBy($authUser->getUsername());
-                        $campCollaboration->setStatus(CampCollaboration::STATUS_ESTABLISHED);
-                        $this->createMaterialList($campCollaboration);
 
                     break;
                 }
