@@ -136,12 +136,21 @@ class CampCollaborationService extends AbstractEntityService {
         return $campCollaboration;
     }
 
+    /**
+     * @param $data
+     *
+     * @throws NoAccessException
+     * @throws ORMException
+     */
     protected function createEntityPost(BaseEntity $entity, $data): CampCollaboration {
         /** @var CampCollaboration $campCollaboration */
         $campCollaboration = $entity;
 
         if (CampCollaboration::STATUS_ESTABLISHED === $campCollaboration->getStatus()) {
-            $this->createMaterialList($campCollaboration);
+            $this->materialListService->create((object) [
+                'campId' => $campCollaboration->getCamp()->getId(),
+                'name' => $campCollaboration->getUser()->getDisplayName(),
+            ]);
         }
 
         return $campCollaboration;
@@ -247,32 +256,19 @@ class CampCollaborationService extends AbstractEntityService {
         // TODO: ACL-Check can update Invitation
 
         if ($authUser === $campCollaboration->getUser()) {
-            if (isset($data->status)) {
-                switch ($data->status) {
-                    case CampCollaboration::STATUS_INACTIVE:
-                        $campCollaboration->setStatus(CampCollaboration::STATUS_INACTIVE);
+            throw new NoAccessException('Updating your own Invitation happens via the UpdateInvitationController');
+        }
 
-                    break;
-
-                    case CampCollaboration::STATUS_ESTABLISHED:
-                        $campCollaboration->setStatus(CampCollaboration::STATUS_ESTABLISHED);
-                        $this->createMaterialList($campCollaboration);
-
-                    break;
-                }
-            }
-        } else {
-            if (isset($data->role)) {
-                $campCollaboration->setRole($data->role);
-            }
-            if (isset($data->status)) {
-                switch ($data->status) {
+        if (isset($data->role)) {
+            $campCollaboration->setRole($data->role);
+        }
+        if (isset($data->status)) {
+            switch ($data->status) {
                     case CampCollaboration::STATUS_INACTIVE:
                         $campCollaboration->setStatus(CampCollaboration::STATUS_INACTIVE);
 
                     break;
                 }
-            }
         }
 
         return $campCollaboration;
@@ -300,12 +296,5 @@ class CampCollaborationService extends AbstractEntityService {
                 default:
                     throw (new EntityValidationException())->setMessages(['status' => ['invalidStatus' => 'A CampCollaboration with status '.CampCollaboration::STATUS_INACTIVE." can only be updated to status 'invited', was : {$data->status}"]]);
             }
-    }
-
-    private function createMaterialList(CampCollaboration $campCollaboration): void {
-        $this->materialListService->create((object) [
-            'campId' => $campCollaboration->getCamp()->getId(),
-            'name' => $campCollaboration->getUser()->getDisplayName(),
-        ]);
     }
 }
