@@ -230,8 +230,6 @@ class CampCollaborationService extends AbstractEntityService {
      * @throws \Exception
      */
     private function updateCollaboration(CampCollaboration $campCollaboration, $data): CampCollaboration {
-        // TODO: ACL-Check can update Collaboration
-
         if (isset($data->role)) {
             $campCollaboration->setRole($data->role);
         }
@@ -252,9 +250,6 @@ class CampCollaborationService extends AbstractEntityService {
      */
     private function updateInvitation(CampCollaboration $campCollaboration, $data): CampCollaboration {
         $authUser = $this->getAuthUser();
-
-        // TODO: ACL-Check can update Invitation
-
         if ($authUser === $campCollaboration->getUser()) {
             throw new NoAccessException('Updating your own Invitation happens via the UpdateInvitationController');
         }
