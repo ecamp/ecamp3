@@ -171,16 +171,7 @@ class CampCollaborationService extends AbstractEntityService {
      * @throws ORMException
      */
     protected function updateEntity(BaseEntity $entity, $data): CampCollaboration {
-        /** @var CampCollaboration $campCollaboration */
-        $campCollaboration = parent::updateEntity($entity, $data);
-
-        if ($campCollaboration->isEstablished()) {
-            $campCollaboration = $this->updateCollaboration($campCollaboration, $data);
-        } elseif ($campCollaboration->isInvitation()) {
-            $campCollaboration = $this->updateInvitation($campCollaboration, $data);
-        }
-
-        return $campCollaboration;
+        return $this->patchEntity($entity, $data);
     }
 
     /**
@@ -192,7 +183,7 @@ class CampCollaborationService extends AbstractEntityService {
         if ($campCollaboration->isInactive()) {
             parent::deleteEntity($entity);
         } else {
-            $this->updateEntity($campCollaboration, (object) ['status' => CampCollaboration::STATUS_INACTIVE]);
+            $this->patchEntity($campCollaboration, (object) ['status' => CampCollaboration::STATUS_INACTIVE]);
         }
     }
 
