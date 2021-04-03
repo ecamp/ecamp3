@@ -260,7 +260,6 @@ class CampCollaborationService extends AbstractEntityService {
             if (isset($data->status)) {
                 switch ($data->status) {
                     case CampCollaboration::STATUS_INACTIVE:
-                    case CampCollaboration::STATUS_UNRELATED:
                         $campCollaboration->setStatus(CampCollaboration::STATUS_INACTIVE);
 
                     break;
@@ -279,7 +278,6 @@ class CampCollaborationService extends AbstractEntityService {
             if (isset($data->status)) {
                 switch ($data->status) {
                     case CampCollaboration::STATUS_INACTIVE:
-                    case CampCollaboration::STATUS_UNRELATED:
                         $campCollaboration->setStatus(CampCollaboration::STATUS_INACTIVE);
 
                     break;
@@ -308,7 +306,6 @@ class CampCollaborationService extends AbstractEntityService {
             if (isset($data->status)) {
                 switch ($data->status) {
                     case CampCollaboration::STATUS_INACTIVE:
-                    case CampCollaboration::STATUS_UNRELATED:
                         $campCollaboration->setStatus(CampCollaboration::STATUS_INACTIVE);
 
                     break;
@@ -318,7 +315,6 @@ class CampCollaborationService extends AbstractEntityService {
             if (isset($data->status)) {
                 switch ($data->status) {
                     case CampCollaboration::STATUS_INACTIVE:
-                    case CampCollaboration::STATUS_UNRELATED:
                         $campCollaboration->setStatus(CampCollaboration::STATUS_INACTIVE);
 
                     break;

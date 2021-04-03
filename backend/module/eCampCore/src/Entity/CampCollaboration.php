@@ -19,7 +19,6 @@ class CampCollaboration extends BaseEntity implements BelongsToCampInterface {
     const ROLE_MEMBER = 'member';
     const ROLE_MANAGER = 'manager';
 
-    const STATUS_UNRELATED = 'unrelated';
     const STATUS_REQUESTED = 'requested';
     const STATUS_INVITED = 'invited';
     const STATUS_ESTABLISHED = 'established';
@@ -78,8 +77,6 @@ class CampCollaboration extends BaseEntity implements BelongsToCampInterface {
         parent::__construct();
 
         $this->activityResponsibles = new ArrayCollection();
-        $this->status = self::STATUS_UNRELATED;
-        $this->role = self::ROLE_GUEST;
     }
 
     public function getUser(): ?User {
@@ -198,7 +195,7 @@ class CampCollaboration extends BaseEntity implements BelongsToCampInterface {
     public function PrePersist(): void {
         parent::PrePersist();
 
-        if (in_array($this->status, [self::STATUS_REQUESTED, self::STATUS_UNRELATED])) {
+        if (in_array($this->status, [self::STATUS_REQUESTED])) {
             $this->collaborationAcceptedBy = null;
         }
     }
