@@ -14,6 +14,7 @@ use eCamp\Lib\Entity\BaseEntity;
 use eCamp\Lib\Service\EntityNotFoundException;
 use eCamp\Lib\Service\EntityValidationException;
 use eCamp\Lib\Service\ServiceUtils;
+use eCamp\Lib\Types\EDateInterval;
 use Laminas\Authentication\AuthenticationService;
 
 class PeriodService extends AbstractEntityService {
@@ -92,11 +93,8 @@ class PeriodService extends AbstractEntityService {
         $moveScheduleEntries = isset($data->moveScheduleEntries) ? $data->moveScheduleEntries : false;
 
         if (!$moveScheduleEntries) {
-            $newStart = $period->getStart();
-            $deltaSec = $newStart->getTimestamp() - $oldStart->getTimestamp();
-            $deltaMin = $deltaSec / 60;
-
-            $this->updateScheduleEntries($period, $deltaMin);
+            $delta = $oldStart->diff($period->getStart());
+            $this->updateScheduleEntries($period, EDateInterval::ofInterval($delta));
         }
 
         return $period;
@@ -128,7 +126,10 @@ class PeriodService extends AbstractEntityService {
 
         // Check for any ScheduleEntry ending after period ends
         $periodEndsTooEarly = $period->getScheduleEntries()->exists(function (int $idx, ScheduleEntry $se) use ($period) {
-            return ($se->getPeriodOffset() + $se->getLength()) > ($period->getDurationInDays() * 60 * 24);
+            $scheduleEntryEndOffsetMinutes = $se->getPeriodOffset() + $se->getLength();
+            $periodEndOffsetMinutes = EDateInterval::ofDays($period->getDurationInDays())->getTotalMinutes();
+
+            return $scheduleEntryEndOffsetMinutes > $periodEndOffsetMinutes;
         });
         if ($periodEndsTooEarly) {
             $errors += ['end' => ['endsTooEarly' => 'period is too short']];
@@ -208,12 +209,12 @@ class PeriodService extends AbstractEntityService {
     /**
      * @throws NoAccessException
      */
-    private function updateScheduleEntries(Period $period, int $delta): void {
+    private function updateScheduleEntries(Period $period, EDateInterval $eDateInterval): void {
         $scheduleEntries = $period->getScheduleEntries();
         foreach ($scheduleEntries as $scheduleEntry) {
             // @var ScheduleEntry $scheduleEntry
             $this->scheduleEntryService->patch($scheduleEntry->getId(), (object) [
-                'periodOffset' => $scheduleEntry->getPeriodOffset() - $delta,
+                'periodOffset' => $scheduleEntry->getPeriodOffset() - $eDateInterval->getTotalMinutes(),
             ]);
         }
     }
