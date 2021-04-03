@@ -6,6 +6,7 @@ use Doctrine\Common\DataFixtures\Loader;
 use eCamp\Core\Entity\Period;
 use eCamp\Core\Entity\User;
 use eCamp\CoreTest\Data\PeriodTestData;
+use eCamp\CoreTest\Data\ScheduleEntryTestData;
 use eCamp\CoreTest\Data\UserTestData;
 use eCamp\LibTest\PHPUnit\AbstractApiControllerTestCase;
 
@@ -24,10 +25,12 @@ class PeriodTest extends AbstractApiControllerTestCase {
 
         $userLoader = new UserTestData();
         $periodLoader = new PeriodTestData();
+        $scheduleEntryTestData = new ScheduleEntryTestData();
 
         $loader = new Loader();
         $loader->addFixture($userLoader);
         $loader->addFixture($periodLoader);
+        $loader->addFixture($scheduleEntryTestData);
         $this->loadFixtures($loader);
 
         $this->user = $userLoader->getReference(UserTestData::$USER1);
@@ -123,6 +126,78 @@ JSON;
 
         $this->assertEquals('1999-12-15', $this->getResponseContent()->start);
         $this->assertEquals('2000-01-13', $this->getResponseContent()->end);
+    }
+
+    public function testUpdateWithMoveSucceedsWhenMoovingToPastWithMoveScheduleEntries(): void {
+        $this->setRequestContent([
+            'start' => '1999-01-01',
+            'end' => '1999-01-13',
+            'moveScheduleEntries' => true,
+        ]);
+
+        $this->dispatch("/api/periods/{$this->period->getId()}", 'PATCH');
+
+        $this->assertResponseStatusCode(200);
+        $this->assertEquals('1999-01-01', $this->getResponseContent()->start);
+        $this->assertEquals('1999-01-13', $this->getResponseContent()->end);
+    }
+
+    public function testUpdateWithMoveSucceedsWhenMoovingToFutureWithMoveScheduleEntries(): void {
+        $this->setRequestContent([
+            'start' => '2001-01-01',
+            'end' => '2001-01-13',
+            'moveScheduleEntries' => true,
+        ]);
+
+        $this->dispatch("/api/periods/{$this->period->getId()}", 'PATCH');
+
+        $this->assertEquals('2001-01-01', $this->getResponseContent()->start);
+        $this->assertEquals('2001-01-13', $this->getResponseContent()->end);
+    }
+
+    public function testUpdateWithoutMoveFailsWhenMoovingToFarInPast(): void {
+        $this->setRequestContent([
+            'start' => '1999-01-01',
+            'end' => '1999-01-13',
+        ]);
+
+        $this->dispatch("/api/periods/{$this->period->getId()}", 'PATCH');
+
+        $this->assertResponseStatusCode(422);
+    }
+
+    public function testUpdateWithoutMoveFailsWhenMoovingToFarInFuture(): void {
+        $this->setRequestContent([
+            'start' => '2001-01-01',
+            'end' => '2001-01-13',
+        ]);
+
+        $this->dispatch("/api/periods/{$this->period->getId()}", 'PATCH');
+
+        $this->assertResponseStatusCode(422);
+    }
+
+    public function testUpdateWithoutMoveFailsWhenShorteningThePeriod(): void {
+        $this->setRequestContent([
+            'start' => '2001-01-01',
+            'end' => '2001-01-02',
+        ]);
+
+        $this->dispatch("/api/periods/{$this->period->getId()}", 'PATCH');
+
+        $this->assertResponseStatusCode(422);
+    }
+
+    public function testUpdateWithMoveFailsWhenShorteningThePeriod(): void {
+        $this->setRequestContent([
+            'start' => '2001-01-01',
+            'end' => '2001-01-02',
+            'moveScheduleEntries' => true,
+        ]);
+
+        $this->dispatch("/api/periods/{$this->period->getId()}", 'PATCH');
+
+        $this->assertResponseStatusCode(422);
     }
 
     public function testDelete(): void {
