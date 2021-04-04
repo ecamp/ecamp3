@@ -18,7 +18,7 @@ class CampCollaborationTest extends AbstractApiControllerTestCase {
     /** @var CampCollaboration */
     protected $campCollaborationInvited;
 
-    protected CampCollaboration $campCollaborationLeft;
+    protected CampCollaboration $campCollaborationInactive;
 
     /** @var User */
     protected $user;
@@ -39,7 +39,7 @@ class CampCollaborationTest extends AbstractApiControllerTestCase {
         $this->user = $userLoader->getReference(UserTestData::$USER1);
         $this->campCollaboration1 = $campCollaborationLoader->getReference(CampCollaborationTestData::$COLLAB1);
         $this->campCollaborationInvited = $campCollaborationLoader->getReference(CampCollaborationTestData::$COLLAB_INVITED);
-        $this->campCollaborationLeft = $campCollaborationLoader->getReference(CampCollaborationTestData::$COLLAB_LEFT);
+        $this->campCollaborationInactive = $campCollaborationLoader->getReference(CampCollaborationTestData::$COLLAB_INACTIVE);
 
         $this->authenticateUser($this->user);
     }
@@ -243,7 +243,7 @@ JSON;
             'status' => CampCollaboration::STATUS_INVITED,
         ]);
 
-        $this->dispatch("{$this->apiEndpoint}/{$this->campCollaborationLeft->getId()}", 'PATCH');
+        $this->dispatch("{$this->apiEndpoint}/{$this->campCollaborationInactive->getId()}", 'PATCH');
 
         $this->assertResponseStatusCode(200);
 
@@ -251,7 +251,7 @@ JSON;
     }
 
     public function testDelete(): void {
-        $collaborationToDelete = $this->campCollaborationLeft->getId();
+        $collaborationToDelete = $this->campCollaborationInactive->getId();
         $this->dispatch("{$this->apiEndpoint}/{$collaborationToDelete}", 'DELETE');
 
         $this->assertResponseStatusCode(204);
@@ -261,23 +261,23 @@ JSON;
         self::assertThat($cc, self::isNull());
     }
 
-    public function testUpdateToLeftWhenDeleteAndStatusIsInvited(): void {
+    public function testUpdateToInactiveWhenDeleteAndStatusIsInvited(): void {
         $this->dispatch("{$this->apiEndpoint}/{$this->campCollaborationInvited->getId()}", 'DELETE');
 
         $this->assertResponseStatusCode(204);
 
         /** @var CampCollaboration $cc */
         $cc = $this->getEntityManager()->find(CampCollaboration::class, $this->campCollaborationInvited->getId());
-        $this->assertEquals(CampCollaboration::STATUS_LEFT, $cc->getStatus());
+        $this->assertEquals(CampCollaboration::STATUS_INACTIVE, $cc->getStatus());
     }
 
-    public function testUpdateToLeftWhenDeleteAndStatusIsEstablished(): void {
+    public function testUpdateToInactiveWhenDeleteAndStatusIsEstablished(): void {
         $this->dispatch("{$this->apiEndpoint}/{$this->campCollaboration1->getId()}", 'DELETE');
 
         $this->assertResponseStatusCode(204);
 
         /** @var CampCollaboration $cc */
         $cc = $this->getEntityManager()->find(CampCollaboration::class, $this->campCollaboration1->getId());
-        $this->assertEquals(CampCollaboration::STATUS_LEFT, $cc->getStatus());
+        $this->assertEquals(CampCollaboration::STATUS_INACTIVE, $cc->getStatus());
     }
 }

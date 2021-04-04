@@ -133,8 +133,8 @@ export default {
       return this.campCollaborations.filter(cc => {
         return (cc.status === 'established') || (currentCampCollaborationIds.includes(cc.id))
       }).map(value => {
-        const left = value.status === 'left'
-        const text = value.user().displayName + (left ? (' (' + this.$tc('entity.campCollaboration.campLeft')) + ')' : '')
+        const inactive = value.status === 'inactive'
+        const text = value.user().displayName + (inactive ? (' (' + this.$tc('entity.campCollaboration.inactive')) + ')' : '')
         return {
           value,
           text

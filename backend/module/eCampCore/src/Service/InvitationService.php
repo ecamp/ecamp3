@@ -97,7 +97,7 @@ class InvitationService {
         if (null == $campCollaboration) {
             throw new EntityNotFoundException();
         }
-        $campCollaboration->setStatus(CampCollaboration::STATUS_LEFT);
+        $campCollaboration->setStatus(CampCollaboration::STATUS_INACTIVE);
         $campCollaboration->setInviteKey(null);
         $this->campCollaborationRepository->saveWithoutAcl($campCollaboration);
 

@@ -200,7 +200,7 @@
       "prototype": "Lagervorlage"
     },
     "campCollaboration": {
-      "campLeft": "Lager verlassen"
+      "inactive": "inaktiv"
     },
     "period": {
       "defaultDescription": "Hauptlager",

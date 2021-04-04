@@ -159,8 +159,8 @@ class CampCollaborationService extends AbstractEntityService {
             $campCollaboration = $this->updateInvitation($campCollaboration, $data);
         } elseif ($campCollaboration->isRequest()) {
             $campCollaboration = $this->updateRequest($campCollaboration, $data);
-        } elseif ($campCollaboration->isLeft()) {
-            $campCollaboration = $this->updateLeft($campCollaboration, $data);
+        } elseif ($campCollaboration->isInactive()) {
+            $campCollaboration = $this->updateInactive($campCollaboration, $data);
         }
 
         return $campCollaboration;
@@ -190,10 +190,10 @@ class CampCollaborationService extends AbstractEntityService {
     protected function deleteEntity(BaseEntity $entity): void {
         /** @var CampCollaboration $campCollaboration */
         $campCollaboration = $entity;
-        if ($campCollaboration->isLeft()) {
+        if ($campCollaboration->isInactive()) {
             parent::deleteEntity($entity);
         } else {
-            $this->updateEntity($campCollaboration, (object) ['status' => CampCollaboration::STATUS_LEFT]);
+            $this->updateEntity($campCollaboration, (object) ['status' => CampCollaboration::STATUS_INACTIVE]);
         }
     }
 
@@ -238,8 +238,8 @@ class CampCollaborationService extends AbstractEntityService {
         }
 
         if (isset($data->status)) {
-            if (CampCollaboration::STATUS_LEFT == $data->status) {
-                $campCollaboration->setStatus(CampCollaboration::STATUS_LEFT);
+            if (CampCollaboration::STATUS_INACTIVE == $data->status) {
+                $campCollaboration->setStatus(CampCollaboration::STATUS_INACTIVE);
             }
         }
 
@@ -259,9 +259,9 @@ class CampCollaborationService extends AbstractEntityService {
         if ($authUser === $campCollaboration->getUser()) {
             if (isset($data->status)) {
                 switch ($data->status) {
-                    case CampCollaboration::STATUS_LEFT:
+                    case CampCollaboration::STATUS_INACTIVE:
                     case CampCollaboration::STATUS_UNRELATED:
-                        $campCollaboration->setStatus(CampCollaboration::STATUS_LEFT);
+                        $campCollaboration->setStatus(CampCollaboration::STATUS_INACTIVE);
 
                     break;
 
@@ -278,9 +278,9 @@ class CampCollaborationService extends AbstractEntityService {
             }
             if (isset($data->status)) {
                 switch ($data->status) {
-                    case CampCollaboration::STATUS_LEFT:
+                    case CampCollaboration::STATUS_INACTIVE:
                     case CampCollaboration::STATUS_UNRELATED:
-                        $campCollaboration->setStatus(CampCollaboration::STATUS_LEFT);
+                        $campCollaboration->setStatus(CampCollaboration::STATUS_INACTIVE);
 
                     break;
                 }
@@ -307,9 +307,9 @@ class CampCollaborationService extends AbstractEntityService {
             }
             if (isset($data->status)) {
                 switch ($data->status) {
-                    case CampCollaboration::STATUS_LEFT:
+                    case CampCollaboration::STATUS_INACTIVE:
                     case CampCollaboration::STATUS_UNRELATED:
-                        $campCollaboration->setStatus(CampCollaboration::STATUS_LEFT);
+                        $campCollaboration->setStatus(CampCollaboration::STATUS_INACTIVE);
 
                     break;
                 }
@@ -317,9 +317,9 @@ class CampCollaborationService extends AbstractEntityService {
         } else {
             if (isset($data->status)) {
                 switch ($data->status) {
-                    case CampCollaboration::STATUS_LEFT:
+                    case CampCollaboration::STATUS_INACTIVE:
                     case CampCollaboration::STATUS_UNRELATED:
-                        $campCollaboration->setStatus(CampCollaboration::STATUS_LEFT);
+                        $campCollaboration->setStatus(CampCollaboration::STATUS_INACTIVE);
 
                     break;
 
@@ -339,11 +339,11 @@ class CampCollaborationService extends AbstractEntityService {
         return $campCollaboration;
     }
 
-    private function updateLeft(CampCollaboration $campCollaboration, object $data): CampCollaboration {
+    private function updateInactive(CampCollaboration $campCollaboration, object $data): CampCollaboration {
         $authUser = $this->getAuthUser();
         $campCollaborationUser = $campCollaboration->getUser();
         if ($authUser === $campCollaborationUser) {
-            throw new \Exception('The authenticated user cannot edit his own left CampCollaboration');
+            throw new \Exception('The authenticated user cannot edit his own inactive CampCollaboration');
         }
 
         switch ($data->status) {
@@ -359,7 +359,7 @@ class CampCollaborationService extends AbstractEntityService {
                     return $campCollaboration;
 
                 default:
-                    throw (new EntityValidationException())->setMessages(['status' => ['invalidStatus' => "A CampCollaboration with status 'left' can only be updated to status 'invited', was : {$data->status}"]]);
+                    throw (new EntityValidationException())->setMessages(['status' => ['invalidStatus' => 'A CampCollaboration with status '.CampCollaboration::STATUS_INACTIVE." can only be updated to status 'invited', was : {$data->status}"]]);
             }
     }
 

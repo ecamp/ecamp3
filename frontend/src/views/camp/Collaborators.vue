@@ -29,10 +29,10 @@ Displays collaborators of a single camp.
         </v-list>
       </content-group>
 
-      <content-group v-if="leftCollaborators.length > 0" :title="$tc('views.camp.collaborators.leftCollaborators')">
+      <content-group v-if="inactiveCollaborators.length > 0" :title="$tc('views.camp.collaborators.inactiveCollaborators')">
         <v-list>
-          <left-collaborator-list-item
-            v-for="collaborator in leftCollaborators"
+          <inactive-collaborator-list-item
+            v-for="collaborator in inactiveCollaborators"
             :key="collaborator._meta.self" :collaborator="collaborator" />
         </v-list>
       </content-group>
@@ -84,7 +84,7 @@ import CollaboratorListItem from '@/components/camp/CollaboratorListItem'
 import ButtonAdd from '@/components/buttons/ButtonAdd'
 import ETextField from '@/components/form/base/ETextField'
 import ESelect from '@/components/form/base/ESelect'
-import LeftCollaboratorListItem from '@/components/camp/LeftCollaboratorListItem'
+import InactiveCollaboratorListItem from '@/components/camp/InactiveCollaboratorListItem'
 
 const DEFAULT_INVITE_ROLE = 'member'
 
@@ -97,7 +97,7 @@ export default {
     ContentCard,
     ETextField,
     ESelect,
-    LeftCollaboratorListItem
+    InactiveCollaboratorListItem
   },
   props: {
     camp: { type: Function, required: true }
@@ -123,8 +123,8 @@ export default {
     invitedCollaborators () {
       return this.collaborators.filter(c => c.status === 'invited')
     },
-    leftCollaborators () {
-      return this.collaborators.filter(c => c.status === 'left')
+    inactiveCollaborators () {
+      return this.collaborators.filter(c => c.status === 'inactive')
     },
     inviteEmailMessages () {
       return this.messages.inviteEmail ? Object.values({ ...this.messages.inviteEmail }) : []
