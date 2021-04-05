@@ -38,12 +38,12 @@ class CampCollaboration extends BaseEntity implements BelongsToCampInterface {
     protected Collection $activityResponsibles;
 
     /**
-     * @ORM\Column(type="string", nullable=true)
+     * @ORM\Column(type="text", nullable=true)
      */
     private ?string $inviteEmail = null;
 
     /**
-     * @ORM\Column(type="string", nullable=true)
+     * @ORM\Column(type="string", length=64, nullable=true)
      */
     private ?string $inviteKey = null;
 
@@ -70,7 +70,7 @@ class CampCollaboration extends BaseEntity implements BelongsToCampInterface {
     private string $role;
 
     /**
-     * @ORM\Column(type="string", length=128, nullable=true)
+     * @ORM\Column(type="text", nullable=true)
      */
     private ?string $collaborationAcceptedBy = null;
 

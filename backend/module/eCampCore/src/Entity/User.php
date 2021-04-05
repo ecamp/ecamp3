@@ -43,28 +43,28 @@ class User extends AbstractCampOwner implements RoleInterface {
     /**
      * Unique username, lower alphanumeric symbols and underscores only.
      *
-     * @ORM\Column(type="string", length=32, nullable=true, unique=true)
+     * @ORM\Column(type="text", nullable=true, unique=true)
      */
     private ?string $username = null;
 
     /**
      * Users firstname.
      *
-     * @ORM\Column(type="string", length=32, nullable=true)
+     * @ORM\Column(type="text", nullable=true)
      */
     private ?string $firstname = null;
 
     /**
      * Users surname.
      *
-     * @ORM\Column(type="string", length=32, nullable=true)
+     * @ORM\Column(type="text", nullable=true)
      */
     private ?string $surname = null;
 
     /**
      * Users nickname.
      *
-     * @ORM\Column(type="string", length=32, nullable=true)
+     * @ORM\Column(type="text", nullable=true)
      */
     private ?string $nickname = null;
 

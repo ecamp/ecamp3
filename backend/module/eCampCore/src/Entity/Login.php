@@ -12,17 +12,17 @@ class Login extends BaseEntity {
     const CURRENT_HASH_VERSION = 1;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="text")
      */
     private ?string $password;
 
     /**
-     * @ORM\Column(type="string", length=64)
+     * @ORM\Column(type="text")
      */
     private ?string $salt;
 
     /**
-     * @ORM\Column(type="string", length=64, nullable=true, unique=true)
+     * @ORM\Column(type="text", nullable=true, unique=true)
      */
     private ?string $pwResetKey;
 
