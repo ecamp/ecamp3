@@ -1,4 +1,4 @@
-FROM python:3.9@sha256:dcd7ce888fb44f050d76e8faf5a910c07ed9f146c78320c29e9466fdf2b6df07
+FROM python:3.9@sha256:3ba8619c1d7314ebb509a61a73eec318b8ae5ef454cadc2d3ba10eb18991f45c
 
 # install all the dependencies except libcairo2 from jessie, then install libcairo2 from stretch
 RUN apt-get -y update \
