@@ -32,7 +32,7 @@ abstract class BaseEntity implements ResourceInterface {
     protected $updateTime;
 
     public function __construct() {
-        $this->id = base_convert(crc32(uniqid()), 10, 16);
+        $this->id = bin2hex(random_bytes(6));
 
         $this->createTime = new DateTimeUtc();
         $this->updateTime = new DateTimeUtc();
