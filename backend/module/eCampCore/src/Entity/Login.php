@@ -22,7 +22,7 @@ class Login extends BaseEntity {
     private ?string $salt;
 
     /**
-     * @ORM\Column(type="text", nullable=true, unique=true)
+     * @ORM\Column(type="string", length=64, nullable=true, unique=true)
      */
     private ?string $pwResetKey;
 

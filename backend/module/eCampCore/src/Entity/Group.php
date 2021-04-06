@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass="eCamp\Core\Repository\GroupRepository")
  * @ORM\Table(
- *     indexes={@ORM\Index(name="group_name_idx", columns={"name"}, options={"lengths": {128}})},
+ *     indexes={@ORM\Index(name="group_name_idx", columns={"name"})},
  *     uniqueConstraints={@ORM\UniqueConstraint(
  *         name="group_parent_name_unique", columns={"parentId", "name"}
  *     )}
@@ -23,12 +23,12 @@ class Group extends AbstractCampOwner {
     protected Collection $memberships;
 
     /**
-     * @ORM\Column(type="text", nullable=false)
+     * @ORM\Column(type="string", length=32, nullable=false)
      */
     private ?string $name = null;
 
     /**
-     * @ORM\Column(type="text", nullable=false)
+     * @ORM\Column(type="string", length=64, nullable=false)
      */
     private ?string $description = null;
 
