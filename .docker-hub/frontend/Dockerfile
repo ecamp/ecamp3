@@ -1,5 +1,5 @@
 # build stage
-FROM node:lts-alpine@sha256:c00a7d1764a4d9a570d85cb1d2867de2af50b71462ee8737eed52b74718478d0 AS build-stage
+FROM node:lts-alpine@sha256:bdec2d4aa13450a2e2654e562df1d8a3016b3c4ab390ccd3ed09d861cbdb0d83 AS build-stage
 
 COPY common /common
 
