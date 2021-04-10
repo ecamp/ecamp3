@@ -23,12 +23,12 @@ class MaterialList extends BaseEntity implements BelongsToCampInterface {
     private ?Camp $camp = null;
 
     /**
-     * @ORM\Column(type="string", length=32, nullable=true)
+     * @ORM\Column(type="string", length=16, nullable=true)
      */
     private ?string $materialListPrototypeId = null;
 
     /**
-     * @ORM\Column(type="string", length=32, nullable=false)
+     * @ORM\Column(type="text", nullable=false)
      */
     private ?string $name = null;
 

@@ -3,8 +3,10 @@
 namespace eCamp\Core\Service;
 
 use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\ORMException;
 use eCamp\Core\Entity\CampCollaboration;
 use eCamp\Core\Entity\User;
+use eCamp\Core\EntityService\MaterialListService;
 use eCamp\Core\EntityService\UserService;
 use eCamp\Core\Repository\CampCollaborationRepository;
 use eCamp\Lib\Acl\NoAccessException;
@@ -17,13 +19,15 @@ class InvitationService {
     private AuthenticationService $authenticationService;
     private CampCollaborationRepository $campCollaborationRepository;
     private UserService $userService;
+    private MaterialListService $materialListService;
 
-    public function __construct(ServiceUtils $serviceUtils, AuthenticationService $authenticationService, UserService $userService) {
+    public function __construct(ServiceUtils $serviceUtils, AuthenticationService $authenticationService, UserService $userService, MaterialListService $materialListService) {
         $this->authenticationService = $authenticationService;
         /** @var CampCollaborationRepository $entityRepository */
         $entityRepository = $serviceUtils->emGetRepository(CampCollaboration::class);
         $this->campCollaborationRepository = $entityRepository;
         $this->userService = $userService;
+        $this->materialListService = $materialListService;
     }
 
     /**
@@ -56,6 +60,7 @@ class InvitationService {
      * @throws NonUniqueResultException
      * @throws NoAccessException
      * @throws EntityValidationException
+     * @throws ORMException
      */
     public function acceptInvitation(string $inviteKey, string $userId): Invitation {
         /** @var CampCollaboration $campCollaboration */
@@ -84,6 +89,12 @@ class InvitationService {
         $campCollaboration->setInviteKey(null);
         $campCollaboration->setInviteEmail(null);
         $this->campCollaborationRepository->saveWithoutAcl($campCollaboration);
+        if (in_array($campCollaboration->getRole(), [CampCollaboration::ROLE_MEMBER, CampCollaboration::ROLE_MANAGER])) {
+            $this->materialListService->create((object) [
+                'campId' => $campCollaboration->getCamp()->getId(),
+                'name' => $campCollaboration->getUser()->getDisplayName(),
+            ]);
+        }
 
         return new Invitation($camp->getId(), $camp->getTitle(), $user->getDisplayName(), true);
     }
@@ -97,7 +108,7 @@ class InvitationService {
         if (null == $campCollaboration) {
             throw new EntityNotFoundException();
         }
-        $campCollaboration->setStatus(CampCollaboration::STATUS_LEFT);
+        $campCollaboration->setStatus(CampCollaboration::STATUS_INACTIVE);
         $campCollaboration->setInviteKey(null);
         $this->campCollaborationRepository->saveWithoutAcl($campCollaboration);
 

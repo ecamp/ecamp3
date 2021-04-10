@@ -28,7 +28,7 @@ class MaterialItem extends BaseEntity implements BelongsToCampInterface {
     protected ?ContentNode $contentNode = null;
 
     /**
-     * @ORM\Column(type="string", length=32, nullable=false)
+     * @ORM\Column(type="text", nullable=false)
      */
     private ?string $article = null;
 
@@ -38,7 +38,7 @@ class MaterialItem extends BaseEntity implements BelongsToCampInterface {
     private ?float $quantity = null;
 
     /**
-     * @ORM\Column(type="string", length=32, nullable=true)
+     * @ORM\Column(type="text", nullable=true)
      */
     private ?string $unit = null;
 

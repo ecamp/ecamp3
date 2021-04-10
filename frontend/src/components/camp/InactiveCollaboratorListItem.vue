@@ -15,7 +15,7 @@
       <icon-button color="normal"
                    icon="mdi-refresh"
                    @click="api.patch(collaborator, {status: 'invited'})">
-        {{ $tc('components.camp.leftCampCollaboratorListItem.inviteAgain') }}
+        {{ $tc('components.camp.inactiveCampCollaboratorListItem.inviteAgain') }}
       </icon-button>
     </v-list-item-action>
     <v-list-item-action>
@@ -23,7 +23,7 @@
         <template #activator="{ on }">
           <button-delete v-on="on" />
         </template>
-        {{ $tc('components.camp.leftCampCollaboratorListItem.delete') }} <br>
+        {{ $tc('components.camp.inactiveCampCollaboratorListItem.delete') }} <br>
         <ul>
           <li>
             <span v-if="collaborator.user">
@@ -46,7 +46,7 @@ import ButtonDelete from '@/components/buttons/ButtonDelete'
 import DialogEntityDelete from '@/components/dialog/DialogEntityDelete'
 
 export default {
-  name: 'LeftCollaboratorListItem',
+  name: 'InactiveCollaboratorListItem',
   components: { IconButton, ButtonDelete, DialogEntityDelete },
   props: {
     collaborator: { type: Object, required: true }

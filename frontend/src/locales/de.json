@@ -136,6 +136,9 @@
       },
       "dialogPeriodCreate": {
         "title": "Lagerabschnitt erstellen"
+      },
+      "dialogPeriodEdit": {
+        "moveScheduleEntries": "Aktivitäten verschieben"
       }
     },
     "layout": {
@@ -197,7 +200,7 @@
       "prototype": "Lagervorlage"
     },
     "campCollaboration": {
-      "campLeft": "Lager verlassen"
+      "inactive": "inaktiv"
     },
     "period": {
       "defaultDescription": "Hauptlager",
@@ -326,7 +329,6 @@
         "invite": "Einladen",
         "members": "Mitarbeitende",
         "openInvitations": "Offene Einladungen",
-        "openRequests": "Offene Anfragen",
         "title": "Team"
       },
       "navigationCamp": {

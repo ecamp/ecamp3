@@ -94,6 +94,12 @@ abstract class AbstractApiControllerTestCase extends LaminasAbstractHttpControll
         $auth->getStorage()->write($user->getId());
     }
 
+    protected function logout(): void {
+        /** @var AuthenticationService $auth */
+        $auth = $this->getApplicationServiceLocator()->get(AuthenticationService::class);
+        $auth->getStorage()->clear();
+    }
+
     /**
      * Returns id of authenticated user.
      */

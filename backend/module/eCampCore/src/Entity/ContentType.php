@@ -11,7 +11,7 @@ use Laminas\Json\Json;
  */
 class ContentType extends BaseEntity {
     /**
-     * @ORM\Column(type="string", length=64, nullable=false)
+     * @ORM\Column(type="text", nullable=false)
      */
     private ?string $name = null;
 
@@ -21,7 +21,7 @@ class ContentType extends BaseEntity {
     private bool $active = true;
 
     /**
-     * @ORM\Column(type="string", length=128, nullable=false)
+     * @ORM\Column(type="text", nullable=false)
      */
     private ?string $strategyClass = null;
 
