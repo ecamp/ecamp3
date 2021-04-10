@@ -15,6 +15,7 @@ use eCamp\Lib\Service\EntityNotFoundException;
 use eCamp\Lib\Service\EntityValidationException;
 use eCamp\Lib\Service\ServiceUtils;
 use eCamp\Lib\Types\EDateInterval;
+use eCampApi\V1\Rest\Period\PeriodCollection;
 use Laminas\Authentication\AuthenticationService;
 
 class PeriodService extends AbstractEntityService {
@@ -30,6 +31,7 @@ class PeriodService extends AbstractEntityService {
         parent::__construct(
             $serviceUtils,
             Period::class,
+            PeriodCollection::class,
             PeriodHydrator::class,
             $authenticationService
         );

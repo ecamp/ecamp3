@@ -12,6 +12,7 @@ class JobService extends AbstractEntityService {
         parent::__construct(
             $serviceUtils,
             Job::class,
+            null,
             JobHydrator::class,
             $authenticationService
         );
