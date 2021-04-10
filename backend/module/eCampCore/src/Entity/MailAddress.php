@@ -20,12 +20,12 @@ class MailAddress extends BaseEntity {
     private string $state;
 
     /**
-     * @ORM\Column(type="text", nullable=false, unique=true)
+     * @ORM\Column(type="string", length=64, nullable=false, unique=true)
      */
     private ?string $mail = null;
 
     /**
-     * @ORM\Column(type="text", nullable=true)
+     * @ORM\Column(type="string", length=64, nullable=true)
      */
     private ?string $verificationCode = null;
 

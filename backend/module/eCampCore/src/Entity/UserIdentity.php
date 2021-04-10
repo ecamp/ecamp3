@@ -21,14 +21,14 @@ class UserIdentity extends BaseEntity {
     /**
      * This is the identity provider (Facebook, Google, etc.).
      *
-     * @ORM\Column(type="text", nullable=false)
+     * @ORM\Column(type="string", length=255, nullable=false)
      */
     private ?string $provider = null;
 
     /**
      * This is the ID given by the identity provider.
      *
-     * @ORM\Column(type="text", nullable=false)
+     * @ORM\Column(type="string", length=255, nullable=false)
      */
     private ?string $providerId = null;
 

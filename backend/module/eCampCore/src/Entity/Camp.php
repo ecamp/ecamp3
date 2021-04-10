@@ -59,7 +59,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
     private bool $isPrototype = false;
 
     /**
-     * @ORM\Column(type="text", nullable=false)
+     * @ORM\Column(type="string", length=32, nullable=false)
      */
     private ?string $name = null;
 

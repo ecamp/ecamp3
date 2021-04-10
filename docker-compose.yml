@@ -69,7 +69,7 @@ services:
       - ./.cache/composer:/tmp/cache
 
   db:
-    image: mariadb:10.5@sha256:9c681cefe72e257c6d58f839bb504f50bf259a0221c883fcc220f0755563fa46
+    image: mysql:8.0.23@sha256:2878ca7ca986b54c948966b7103aeceb747f50b9ecf34ecf934036cca58274db
     container_name: 'ecamp3-db'
     environment:
       - MYSQL_DATABASE=ecamp3dev
