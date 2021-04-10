@@ -13,14 +13,6 @@ Displays collaborators of a single camp.
         </v-list>
       </content-group>
 
-      <content-group v-if="requestedCollaborators.length > 0" :title="$tc('views.camp.collaborators.openRequests')">
-        <v-list>
-          <collaborator-list-item
-            v-for="collaborator in requestedCollaborators"
-            :key="collaborator._meta.self" :collaborator="collaborator" />
-        </v-list>
-      </content-group>
-
       <content-group v-if="invitedCollaborators.length > 0" :title="$tc('views.camp.collaborators.openInvitations')">
         <v-list>
           <collaborator-list-item
@@ -116,9 +108,6 @@ export default {
     },
     establishedCollaborators () {
       return this.collaborators.filter(c => c.status === 'established')
-    },
-    requestedCollaborators () {
-      return this.collaborators.filter(c => c.status === 'requested')
     },
     invitedCollaborators () {
       return this.collaborators.filter(c => c.status === 'invited')

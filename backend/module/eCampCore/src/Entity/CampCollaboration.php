@@ -19,15 +19,12 @@ class CampCollaboration extends BaseEntity implements BelongsToCampInterface {
     const ROLE_MEMBER = 'member';
     const ROLE_MANAGER = 'manager';
 
-    const STATUS_UNRELATED = 'unrelated';
-    const STATUS_REQUESTED = 'requested';
     const STATUS_INVITED = 'invited';
     const STATUS_ESTABLISHED = 'established';
     const STATUS_INACTIVE = 'inactive';
 
     const VALID_STATUS = [
         self::STATUS_INVITED,
-        self::STATUS_REQUESTED,
         self::STATUS_ESTABLISHED,
         self::STATUS_INACTIVE,
     ];
@@ -78,8 +75,6 @@ class CampCollaboration extends BaseEntity implements BelongsToCampInterface {
         parent::__construct();
 
         $this->activityResponsibles = new ArrayCollection();
-        $this->status = self::STATUS_UNRELATED;
-        $this->role = self::ROLE_GUEST;
     }
 
     public function getUser(): ?User {
@@ -130,10 +125,6 @@ class CampCollaboration extends BaseEntity implements BelongsToCampInterface {
 
     public function isEstablished(): bool {
         return self::STATUS_ESTABLISHED === $this->status;
-    }
-
-    public function isRequest(): bool {
-        return self::STATUS_REQUESTED === $this->status;
     }
 
     public function isInvitation(): bool {
@@ -190,16 +181,5 @@ class CampCollaboration extends BaseEntity implements BelongsToCampInterface {
     public function removeActivityResponsible(ActivityResponsible $activityResponsible): void {
         $activityResponsible->setCampCollaboration(null);
         $this->activityResponsibles->removeElement($activityResponsible);
-    }
-
-    /**
-     * @ORM\PrePersist
-     */
-    public function PrePersist(): void {
-        parent::PrePersist();
-
-        if (in_array($this->status, [self::STATUS_REQUESTED, self::STATUS_UNRELATED])) {
-            $this->collaborationAcceptedBy = null;
-        }
     }
 }
