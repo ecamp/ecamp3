@@ -67,3 +67,7 @@ body {font-feature-settings: "ss03", "calt", "rlig", "kern", "cv05", "cv07", "cv
 .v-list-item__content {
 	align-content: flex-start;
 }
+
+.dragging {
+	cursor: move;
+}

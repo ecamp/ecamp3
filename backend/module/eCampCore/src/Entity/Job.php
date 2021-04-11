@@ -41,7 +41,7 @@ class Job extends BaseEntity implements BelongsToCampInterface {
     private ?Camp $camp = null;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="text")
      */
     private ?string $name = null;
 

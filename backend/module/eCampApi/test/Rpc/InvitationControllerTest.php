@@ -26,6 +26,7 @@ class InvitationControllerTest extends AbstractApiControllerTestCase {
      * @var CampCollaboration
      */
     private $campCollaborationInvited;
+    private CampCollaboration $campCollaborationInvitedAsGuest;
 
     public function setUp(): void {
         parent::setUp();
@@ -44,6 +45,7 @@ class InvitationControllerTest extends AbstractApiControllerTestCase {
         $this->newUser = $userLoader->getReference(UserTestData::$USER2);
         $this->camp = $campLoader->getReference(CampTestData::$CAMP1);
         $this->campCollaborationInvited = $campCollaborationTestData->getReference(CampCollaborationTestData::$COLLAB_INVITED);
+        $this->campCollaborationInvitedAsGuest = $campCollaborationTestData->getReference(CampCollaborationTestData::$COLLAB_INVITED_AS_GUEST);
     }
 
     public function testNotFoundForNotMatchingInviteKey(): void {
@@ -161,6 +163,13 @@ JSON;
     public function testAcceptInvitation(): void {
         $this->authenticateUser($this->newUser);
         $this->dispatch("{$this->apiEndpoint}/{$this->campCollaborationInvited->getInviteKey()}/accept", 'POST');
+
+        $this->assertResponseStatusCode(200);
+    }
+
+    public function testAcceptGuestInvitation(): void {
+        $this->authenticateUser($this->newUser);
+        $this->dispatch("{$this->apiEndpoint}/{$this->campCollaborationInvitedAsGuest->getInviteKey()}/accept", 'POST');
 
         $this->assertResponseStatusCode(200);
     }

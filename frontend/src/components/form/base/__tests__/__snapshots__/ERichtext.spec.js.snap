@@ -16,22 +16,22 @@ exports[`An ERichtext looks like a richtext field: empty 1`] = `
                                              <div class="v-toolbar__content"
                                                   style="height: 56px;">
                                                   <div class="v-btn-toggle v-btn-toggle--dense v-item-group theme--light">
-                                                       <button type="button"
-                                                               class="v-btn v-btn--is-elevated v-btn--has-bg theme--light v-size--default">
+                                                       <button class="v-btn v-btn--is-elevated v-btn--has-bg theme--light v-size--default"
+                                                               type="button">
                                                             <span class="v-btn__content">
                                                                  <i aria-hidden="true"
                                                                     class="v-icon notranslate mdi mdi-format-header-1 theme--light"></i>
                                                             </span>
                                                        </button>
-                                                       <button type="button"
-                                                               class="v-btn v-btn--is-elevated v-btn--has-bg theme--light v-size--default">
+                                                       <button class="v-btn v-btn--is-elevated v-btn--has-bg theme--light v-size--default"
+                                                               type="button">
                                                             <span class="v-btn__content">
                                                                  <i aria-hidden="true"
                                                                     class="v-icon notranslate mdi mdi-format-header-2 theme--light"></i>
                                                             </span>
                                                        </button>
-                                                       <button type="button"
-                                                               class="v-btn v-btn--is-elevated v-btn--has-bg theme--light v-size--default">
+                                                       <button class="v-btn v-btn--is-elevated v-btn--has-bg theme--light v-size--default"
+                                                               type="button">
                                                             <span class="v-btn__content">
                                                                  <i aria-hidden="true"
                                                                     class="v-icon notranslate mdi mdi-format-header-3 theme--light"></i>
@@ -40,29 +40,29 @@ exports[`An ERichtext looks like a richtext field: empty 1`] = `
                                                   </div>
                                                   <div class="mx-1"></div>
                                                   <div class="v-btn-toggle v-btn-toggle--dense v-item-group theme--light">
-                                                       <button type="button"
-                                                               class="v-btn v-btn--is-elevated v-btn--has-bg theme--light v-size--default">
+                                                       <button class="v-btn v-btn--is-elevated v-btn--has-bg theme--light v-size--default"
+                                                               type="button">
                                                             <span class="v-btn__content">
                                                                  <i aria-hidden="true"
                                                                     class="v-icon notranslate mdi mdi-format-bold theme--light"></i>
                                                             </span>
                                                        </button>
-                                                       <button type="button"
-                                                               class="v-btn v-btn--is-elevated v-btn--has-bg theme--light v-size--default">
+                                                       <button class="v-btn v-btn--is-elevated v-btn--has-bg theme--light v-size--default"
+                                                               type="button">
                                                             <span class="v-btn__content">
                                                                  <i aria-hidden="true"
                                                                     class="v-icon notranslate mdi mdi-format-italic theme--light"></i>
                                                             </span>
                                                        </button>
-                                                       <button type="button"
-                                                               class="v-btn v-btn--is-elevated v-btn--has-bg theme--light v-size--default">
+                                                       <button class="v-btn v-btn--is-elevated v-btn--has-bg theme--light v-size--default"
+                                                               type="button">
                                                             <span class="v-btn__content">
                                                                  <i aria-hidden="true"
                                                                     class="v-icon notranslate mdi mdi-format-underline theme--light"></i>
                                                             </span>
                                                        </button>
-                                                       <button type="button"
-                                                               class="v-btn v-btn--is-elevated v-btn--has-bg theme--light v-size--default">
+                                                       <button class="v-btn v-btn--is-elevated v-btn--has-bg theme--light v-size--default"
+                                                               type="button">
                                                             <span class="v-btn__content">
                                                                  <i aria-hidden="true"
                                                                     class="v-icon notranslate mdi mdi-format-strikethrough theme--light"></i>
@@ -101,22 +101,22 @@ exports[`An ERichtext looks like a richtext field: with text 1`] = `
                                              <div class="v-toolbar__content"
                                                   style="height: 56px;">
                                                   <div class="v-btn-toggle v-btn-toggle--dense v-item-group theme--light">
-                                                       <button type="button"
-                                                               class="v-btn v-btn--is-elevated v-btn--has-bg theme--light v-size--default">
+                                                       <button class="v-btn v-btn--is-elevated v-btn--has-bg theme--light v-size--default"
+                                                               type="button">
                                                             <span class="v-btn__content">
                                                                  <i aria-hidden="true"
                                                                     class="v-icon notranslate mdi mdi-format-header-1 theme--light"></i>
                                                             </span>
                                                        </button>
-                                                       <button type="button"
-                                                               class="v-btn v-btn--is-elevated v-btn--has-bg theme--light v-size--default">
+                                                       <button class="v-btn v-btn--is-elevated v-btn--has-bg theme--light v-size--default"
+                                                               type="button">
                                                             <span class="v-btn__content">
                                                                  <i aria-hidden="true"
                                                                     class="v-icon notranslate mdi mdi-format-header-2 theme--light"></i>
                                                             </span>
                                                        </button>
-                                                       <button type="button"
-                                                               class="v-btn v-btn--is-elevated v-btn--has-bg theme--light v-size--default">
+                                                       <button class="v-btn v-btn--is-elevated v-btn--has-bg theme--light v-size--default"
+                                                               type="button">
                                                             <span class="v-btn__content">
                                                                  <i aria-hidden="true"
                                                                     class="v-icon notranslate mdi mdi-format-header-3 theme--light"></i>
@@ -125,29 +125,29 @@ exports[`An ERichtext looks like a richtext field: with text 1`] = `
                                                   </div>
                                                   <div class="mx-1"></div>
                                                   <div class="v-btn-toggle v-btn-toggle--dense v-item-group theme--light">
-                                                       <button type="button"
-                                                               class="v-btn v-btn--is-elevated v-btn--has-bg theme--light v-size--default v-item--active v-btn--active">
+                                                       <button class="v-btn v-btn--is-elevated v-btn--has-bg theme--light v-size--default v-item--active v-btn--active"
+                                                               type="button">
                                                             <span class="v-btn__content">
                                                                  <i aria-hidden="true"
                                                                     class="v-icon notranslate mdi mdi-format-bold theme--light"></i>
                                                             </span>
                                                        </button>
-                                                       <button type="button"
-                                                               class="v-btn v-btn--is-elevated v-btn--has-bg theme--light v-size--default">
+                                                       <button class="v-btn v-btn--is-elevated v-btn--has-bg theme--light v-size--default"
+                                                               type="button">
                                                             <span class="v-btn__content">
                                                                  <i aria-hidden="true"
                                                                     class="v-icon notranslate mdi mdi-format-italic theme--light"></i>
                                                             </span>
                                                        </button>
-                                                       <button type="button"
-                                                               class="v-btn v-btn--is-elevated v-btn--has-bg theme--light v-size--default">
+                                                       <button class="v-btn v-btn--is-elevated v-btn--has-bg theme--light v-size--default"
+                                                               type="button">
                                                             <span class="v-btn__content">
                                                                  <i aria-hidden="true"
                                                                     class="v-icon notranslate mdi mdi-format-underline theme--light"></i>
                                                             </span>
                                                        </button>
-                                                       <button type="button"
-                                                               class="v-btn v-btn--is-elevated v-btn--has-bg theme--light v-size--default">
+                                                       <button class="v-btn v-btn--is-elevated v-btn--has-bg theme--light v-size--default"
+                                                               type="button">
                                                             <span class="v-btn__content">
                                                                  <i aria-hidden="true"
                                                                     class="v-icon notranslate mdi mdi-format-strikethrough theme--light"></i>
@@ -158,9 +158,9 @@ exports[`An ERichtext looks like a richtext field: with text 1`] = `
                                         </header>
                                    </div>
                                    <div class="editor__content">
-                                        <div contenteditable="true"
-                                             tabindex="0"
-                                             class="ProseMirror">
+                                        <div class="ProseMirror"
+                                             contenteditable="true"
+                                             tabindex="0">
                                              <p class>My text with newlines and <strong>bold</strong>
                                              </p>
                                         </div>

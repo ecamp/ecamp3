@@ -196,7 +196,7 @@
       "prototype": "Modello di campo"
     },
     "campCollaboration": {
-      "campLeft": "lasciato il campo"
+      "inactive": "non attivo"
     },
     "period": {
       "defaultDescription": "Campo principale",
@@ -233,7 +233,6 @@
   "global": {
     "button": {
       "add": "Aggiungere",
-      "addContentDesktop": "Aggiungi contenuto della storia",
       "back": "Indietro",
       "cancel": "Annullare",
       "content": "Contenuto",
@@ -308,7 +307,6 @@
         "invite": "Invitare",
         "members": "Membri",
         "openInvitations": "Inviti aperti",
-        "openRequests": "Richieste aperte",
         "title": "Team"
       },
       "navigationCamp": {

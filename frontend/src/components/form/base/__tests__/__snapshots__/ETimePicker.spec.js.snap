@@ -7,8 +7,8 @@ exports[`An ETimePicker in locale de looks like a time picker: pickerclosed 1`] 
                value="09:52">
                <div class="v-input v-input--hide-details v-input--is-label-active v-input--is-dirty theme--light v-text-field v-text-field--single-line v-text-field--filled v-text-field--is-booted v-text-field--enclosed">
                     <div class="v-input__prepend-outer">
-                         <button type="button"
-                                 class="v-icon notranslate v-icon--link mdi mdi-clock-outline theme--light"></button>
+                         <button class="v-icon notranslate v-icon--link mdi mdi-clock-outline theme--light"
+                                 type="button"></button>
                     </div>
                     <div class="v-input__control">
                          <div class="v-input__slot">
@@ -34,8 +34,8 @@ exports[`An ETimePicker in locale de looks like a time picker: pickeropen 1`] = 
                value="09:52">
                <div class="v-input v-input--hide-details v-input--is-label-active v-input--is-dirty theme--light v-text-field v-text-field--single-line v-text-field--filled v-text-field--is-booted v-text-field--enclosed">
                     <div class="v-input__prepend-outer">
-                         <button type="button"
-                                 class="v-icon notranslate v-icon--link mdi mdi-clock-outline theme--light"></button>
+                         <button class="v-icon notranslate v-icon--link mdi mdi-clock-outline theme--light"
+                                 type="button"></button>
                     </div>
                     <div class="v-input__control">
                          <div class="v-input__slot">
@@ -51,8 +51,8 @@ exports[`An ETimePicker in locale de looks like a time picker: pickeropen 1`] = 
                <transition-stub name="scale-transition"></transition-stub>
           </div>
      </div>
-     <div role="menu"
-          class="v-menu__content theme--light menuable__content__active "
+     <div class="v-menu__content theme--light menuable__content__active "
+          role="menu"
           style="max-height: auto; min-width: 290px; max-width: 290px; top: 12px; left: 0px; transform-origin: top left; z-index: 8; display: none;">
           <div class="v-picker v-card v-picker--time theme--light">
                <div class="v-picker__title primary">
@@ -175,14 +175,14 @@ exports[`An ETimePicker in locale de looks like a time picker: pickeropen 1`] = 
                </div>
                <div class="v-picker__actions v-card__actions">
                     <div class="spacer"></div>
-                    <button type="button"
-                            class="v-btn v-btn--text theme--light v-size--default primary--text">
+                    <button class="v-btn v-btn--text theme--light v-size--default primary--text"
+                            type="button">
                          <span class="v-btn__content">
                               Abbrechen
                          </span>
                     </button>
-                    <button type="button"
-                            class="v-btn v-btn--text theme--light v-size--default primary--text">
+                    <button class="v-btn v-btn--text theme--light v-size--default primary--text"
+                            type="button">
                          <span class="v-btn__content">
                               In Ordnung
                          </span>
@@ -200,8 +200,8 @@ exports[`An ETimePicker in locale en looks like a time picker: pickerclosed 1`] 
                value="9:52 AM">
                <div class="v-input v-input--hide-details v-input--is-label-active v-input--is-dirty theme--light v-text-field v-text-field--single-line v-text-field--filled v-text-field--is-booted v-text-field--enclosed">
                     <div class="v-input__prepend-outer">
-                         <button type="button"
-                                 class="v-icon notranslate v-icon--link mdi mdi-clock-outline theme--light"></button>
+                         <button class="v-icon notranslate v-icon--link mdi mdi-clock-outline theme--light"
+                                 type="button"></button>
                     </div>
                     <div class="v-input__control">
                          <div class="v-input__slot">
@@ -227,8 +227,8 @@ exports[`An ETimePicker in locale en looks like a time picker: pickeropen 1`] = 
                value="9:52 AM">
                <div class="v-input v-input--hide-details v-input--is-label-active v-input--is-dirty theme--light v-text-field v-text-field--single-line v-text-field--filled v-text-field--is-booted v-text-field--enclosed">
                     <div class="v-input__prepend-outer">
-                         <button type="button"
-                                 class="v-icon notranslate v-icon--link mdi mdi-clock-outline theme--light"></button>
+                         <button class="v-icon notranslate v-icon--link mdi mdi-clock-outline theme--light"
+                                 type="button"></button>
                     </div>
                     <div class="v-input__control">
                          <div class="v-input__slot">
@@ -244,8 +244,8 @@ exports[`An ETimePicker in locale en looks like a time picker: pickeropen 1`] = 
                <transition-stub name="scale-transition"></transition-stub>
           </div>
      </div>
-     <div role="menu"
-          class="v-menu__content theme--light menuable__content__active "
+     <div class="v-menu__content theme--light menuable__content__active "
+          role="menu"
           style="max-height: auto; min-width: 290px; max-width: 290px; top: 12px; left: 0px; transform-origin: top left; z-index: 8; display: none;">
           <div class="v-picker v-card v-picker--time theme--light">
                <div class="v-picker__title primary">
@@ -368,14 +368,14 @@ exports[`An ETimePicker in locale en looks like a time picker: pickeropen 1`] = 
                </div>
                <div class="v-picker__actions v-card__actions">
                     <div class="spacer"></div>
-                    <button type="button"
-                            class="v-btn v-btn--text theme--light v-size--default primary--text">
+                    <button class="v-btn v-btn--text theme--light v-size--default primary--text"
+                            type="button">
                          <span class="v-btn__content">
                               Cancel
                          </span>
                     </button>
-                    <button type="button"
-                            class="v-btn v-btn--text theme--light v-size--default primary--text">
+                    <button class="v-btn v-btn--text theme--light v-size--default primary--text"
+                            type="button">
                          <span class="v-btn__content">
                               Okay
                          </span>

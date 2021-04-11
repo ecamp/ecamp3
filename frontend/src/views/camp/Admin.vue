@@ -51,6 +51,10 @@ export default {
   },
   data () {
     return {}
+  },
+  mounted () {
+    this.api.reload(this.camp())
+    this.api.reload(this.camp().materialLists())
   }
 }
 </script>

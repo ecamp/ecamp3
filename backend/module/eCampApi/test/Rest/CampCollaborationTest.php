@@ -18,10 +18,11 @@ class CampCollaborationTest extends AbstractApiControllerTestCase {
     /** @var CampCollaboration */
     protected $campCollaborationInvited;
 
-    protected CampCollaboration $campCollaborationLeft;
+    protected CampCollaboration $campCollaborationInactive;
 
     /** @var User */
     protected $user;
+    protected User $user2;
 
     private $apiEndpoint = '/api/camp-collaborations';
 
@@ -37,9 +38,10 @@ class CampCollaborationTest extends AbstractApiControllerTestCase {
         $this->loadFixtures($loader);
 
         $this->user = $userLoader->getReference(UserTestData::$USER1);
+        $this->user2 = $userLoader->getReference(UserTestData::$USER2);
         $this->campCollaboration1 = $campCollaborationLoader->getReference(CampCollaborationTestData::$COLLAB1);
         $this->campCollaborationInvited = $campCollaborationLoader->getReference(CampCollaborationTestData::$COLLAB_INVITED);
-        $this->campCollaborationLeft = $campCollaborationLoader->getReference(CampCollaborationTestData::$COLLAB_LEFT);
+        $this->campCollaborationInactive = $campCollaborationLoader->getReference(CampCollaborationTestData::$COLLAB_INACTIVE);
 
         $this->authenticateUser($this->user);
     }
@@ -160,6 +162,43 @@ JSON;
         $this->assertResponseStatusCode(422);
     }
 
+    public function testCreateForYourselfFails() {
+        $this->logout();
+        $this->authenticateUser($this->user2);
+        $this->setRequestContent([
+            'role' => 'member',
+            'campId' => $this->campCollaboration1->getCamp()->getId(),
+            'userId' => $this->user2->getId(),
+        ]);
+
+        $this->dispatch("{$this->apiEndpoint}", 'POST');
+
+        /* It's 422 EntityValidationException because the query for the related camp
+         * does not find a camp.
+         * It does not find the related camp because the ACL is already included in the fetch query for the camp
+         */
+        $this->assertResponseStatusCode(422);
+    }
+
+    public function testCreateFailsWithoutPermissions() {
+        $this->logout();
+        $this->authenticateUser($this->user2);
+        $this->setRequestContent([
+            'role' => 'member',
+            'campId' => $this->campCollaboration1->getCamp()->getId(),
+            'inviteEmail' => 'my.mail@fantasy.com',
+            'userId' => null,
+        ]);
+
+        $this->dispatch("{$this->apiEndpoint}", 'POST');
+
+        /* It's 422 EntityValidationException because the query for the related camp
+         * does not find a camp.
+         * It does not find the related camp because the ACL is already included in the fetch query for the camp.
+         */
+        $this->assertResponseStatusCode(422);
+    }
+
     public function testCreateSuccess(): void {
         $user2 = new User();
         $user2->setUsername('test-user2');
@@ -233,9 +272,19 @@ JSON;
         $this->dispatch("{$this->apiEndpoint}/{$this->campCollaboration1->getId()}", 'PATCH');
 
         $this->assertResponseStatusCode(200);
-
-        // TODO: this should not be posible (implement ACL & write tests for it)
         $this->assertEquals('manager', $this->getResponseContent()->role);
+    }
+
+    public function testUpdateFailsWithoutPermission(): void {
+        $this->logout();
+        $this->authenticateUser($this->user2);
+        $this->setRequestContent([
+            'role' => 'manager',
+        ]);
+
+        $this->dispatch("{$this->apiEndpoint}/{$this->campCollaboration1->getId()}", 'PATCH');
+
+        $this->assertResponseStatusCode(403);
     }
 
     public function testInviteAgain(): void {
@@ -243,7 +292,7 @@ JSON;
             'status' => CampCollaboration::STATUS_INVITED,
         ]);
 
-        $this->dispatch("{$this->apiEndpoint}/{$this->campCollaborationLeft->getId()}", 'PATCH');
+        $this->dispatch("{$this->apiEndpoint}/{$this->campCollaborationInactive->getId()}", 'PATCH');
 
         $this->assertResponseStatusCode(200);
 
@@ -251,7 +300,7 @@ JSON;
     }
 
     public function testDelete(): void {
-        $collaborationToDelete = $this->campCollaborationLeft->getId();
+        $collaborationToDelete = $this->campCollaborationInactive->getId();
         $this->dispatch("{$this->apiEndpoint}/{$collaborationToDelete}", 'DELETE');
 
         $this->assertResponseStatusCode(204);
@@ -261,23 +310,31 @@ JSON;
         self::assertThat($cc, self::isNull());
     }
 
-    public function testUpdateToLeftWhenDeleteAndStatusIsInvited(): void {
+    public function testUpdateToInactiveWhenDeleteAndStatusIsInvited(): void {
         $this->dispatch("{$this->apiEndpoint}/{$this->campCollaborationInvited->getId()}", 'DELETE');
 
         $this->assertResponseStatusCode(204);
 
         /** @var CampCollaboration $cc */
         $cc = $this->getEntityManager()->find(CampCollaboration::class, $this->campCollaborationInvited->getId());
-        $this->assertEquals(CampCollaboration::STATUS_LEFT, $cc->getStatus());
+        $this->assertEquals(CampCollaboration::STATUS_INACTIVE, $cc->getStatus());
     }
 
-    public function testUpdateToLeftWhenDeleteAndStatusIsEstablished(): void {
+    public function testUpdateToInactiveWhenDeleteAndStatusIsEstablished(): void {
         $this->dispatch("{$this->apiEndpoint}/{$this->campCollaboration1->getId()}", 'DELETE');
 
         $this->assertResponseStatusCode(204);
 
         /** @var CampCollaboration $cc */
         $cc = $this->getEntityManager()->find(CampCollaboration::class, $this->campCollaboration1->getId());
-        $this->assertEquals(CampCollaboration::STATUS_LEFT, $cc->getStatus());
+        $this->assertEquals(CampCollaboration::STATUS_INACTIVE, $cc->getStatus());
+    }
+
+    public function testDeleteFailsWithoutPermissions(): void {
+        $this->logout();
+        $this->authenticateUser($this->user2);
+        $this->dispatch("{$this->apiEndpoint}/{$this->campCollaboration1->getId()}", 'DELETE');
+
+        $this->assertResponseStatusCode(403);
     }
 }

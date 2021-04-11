@@ -2,9 +2,9 @@
 
 exports[`An ETextArea looks like a textarea: mountAsInControls 1`] = `
 <div data-app>
-     <div class="e-form-container"
+     <div auto-grow
+          class="e-form-container"
           rows="3"
-          auto-grow
           value="
     Here comes a text
     with new lines
@@ -16,10 +16,10 @@ exports[`An ETextArea looks like a textarea: mountAsInControls 1`] = `
                <div class="v-input__control">
                     <div class="v-input__slot">
                          <div class="v-text-field__slot">
-                              <div class="editor"
-                                   rows="3"
-                                   auto-grow
-                                   id>
+                              <div auto-grow
+                                   class="editor"
+                                   id
+                                   rows="3">
                                    <div class="editor__content"></div>
                               </div>
                          </div>
@@ -46,8 +46,8 @@ exports[`An ETextArea looks like a textarea: multiline 1`] = `
                     <div class="v-input__slot">
                          <div class="v-text-field__slot">
                               <div class="editor"
-                                   multi-line
-                                   id>
+                                   id
+                                   multi-line>
                                    <div class="editor__content"></div>
                               </div>
                          </div>
@@ -94,9 +94,9 @@ exports[`An ETextArea looks like a textarea: withtext 1`] = `
                               <div class="editor"
                                    id>
                                    <div class="editor__content">
-                                        <div contenteditable="true"
-                                             tabindex="0"
-                                             class="ProseMirror">
+                                        <div class="ProseMirror"
+                                             contenteditable="true"
+                                             tabindex="0">
                                              <p class>Here comes a text with new lines and new lines with in them and tags a</p>
                                         </div>
                                    </div>

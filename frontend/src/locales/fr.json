@@ -196,7 +196,7 @@
       "prototype": "Modèle de camp"
     },
     "campCollaboration": {
-      "campLeft": "quitter le camp"
+      "inactive": "inactif"
     },
     "period": {
       "defaultDescription": "Camp principal",
@@ -233,7 +233,6 @@
   "global": {
     "button": {
       "add": "Ajouter",
-      "addContentDesktop": "Ajouter du contenu",
       "back": "Retour",
       "cancel": "Annuler",
       "content": "Contenu",
@@ -308,7 +307,6 @@
         "invite": "Inviter",
         "members": "Membres",
         "openInvitations": "Invitations ouvertes",
-        "openRequests": "Demandes ouvertes",
         "title": "Team"
       },
       "navigationCamp": {

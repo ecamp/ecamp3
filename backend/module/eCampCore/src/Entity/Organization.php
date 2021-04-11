@@ -10,7 +10,7 @@ use eCamp\Lib\Entity\BaseEntity;
  */
 class Organization extends BaseEntity {
     /**
-     * @ORM\Column(type="string", length=64, nullable=false)
+     * @ORM\Column(type="text", nullable=false)
      */
     private ?string $name = null;
 

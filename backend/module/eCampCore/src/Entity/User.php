@@ -50,21 +50,21 @@ class User extends AbstractCampOwner implements RoleInterface {
     /**
      * Users firstname.
      *
-     * @ORM\Column(type="string", length=32, nullable=true)
+     * @ORM\Column(type="text", nullable=true)
      */
     private ?string $firstname = null;
 
     /**
      * Users surname.
      *
-     * @ORM\Column(type="string", length=32, nullable=true)
+     * @ORM\Column(type="text", nullable=true)
      */
     private ?string $surname = null;
 
     /**
      * Users nickname.
      *
-     * @ORM\Column(type="string", length=32, nullable=true)
+     * @ORM\Column(type="text", nullable=true)
      */
     private ?string $nickname = null;
 

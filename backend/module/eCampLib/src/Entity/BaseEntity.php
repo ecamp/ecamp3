@@ -15,7 +15,7 @@ abstract class BaseEntity implements ResourceInterface {
     /**
      * @var string
      * @ORM\Id
-     * @ORM\Column(type="string", length=32, nullable=false)
+     * @ORM\Column(type="string", length=16, nullable=false)
      */
     protected $id;
 
@@ -32,7 +32,7 @@ abstract class BaseEntity implements ResourceInterface {
     protected $updateTime;
 
     public function __construct() {
-        $this->id = base_convert(crc32(uniqid()), 10, 16);
+        $this->id = bin2hex(random_bytes(6));
 
         $this->createTime = new DateTimeUtc();
         $this->updateTime = new DateTimeUtc();

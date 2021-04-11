@@ -8,9 +8,14 @@ use Doctrine\Persistence\ObjectManager;
 use eCamp\Core\Entity\Camp;
 use eCamp\Core\Entity\Category;
 use eCamp\Core\Entity\CategoryContentType;
+use eCamp\Core\Entity\ContentNode;
 use eCamp\Core\Entity\ContentType;
+use eCamp\Lib\Fixture\ContainerAwareInterface;
+use eCamp\Lib\Fixture\ContainerAwareTrait;
 
-class CategoryPrototypeData extends AbstractFixture implements DependentFixtureInterface {
+class CategoryPrototypeData extends AbstractFixture implements DependentFixtureInterface, ContainerAwareInterface {
+    use ContainerAwareTrait;
+
     public static $PBS_JS_KIDS_LAGERSPORT = 'PBS_JS_KIDS_LAGERSPORT';
     public static $PBS_JS_KIDS_LAGERAKTIVITAET = 'PBS_JS_KIDS_LAGERAKTIVITAET';
     public static $PBS_JS_TEEN_LAGERSPORT = 'PBS_JS_TEEN_LAGERSPORT';
@@ -32,7 +37,7 @@ class CategoryPrototypeData extends AbstractFixture implements DependentFixtureI
             $pbsJsKids->addCategory($lagersport);
             $manager->persist($lagersport);
 
-            // add allowed content types
+            // add recommended content types
             $this->addContentType($manager, $lagersport, $this->getReference(ContentTypeData::$STORYBOARD));
             $this->addContentType($manager, $lagersport, $this->getReference(ContentTypeData::$STORYCONTEXT));
             $this->addContentType($manager, $lagersport, $this->getReference(ContentTypeData::$SAFETYCONCEPT));
@@ -51,7 +56,7 @@ class CategoryPrototypeData extends AbstractFixture implements DependentFixtureI
             $pbsJsKids->addCategory($lageraktivitaet);
             $manager->persist($lageraktivitaet);
 
-            // add allowed content types
+            // add recommended content types
             //$this->addContentType($activityType, $this->getReference(ContentTypeData::$STORYBOARD));
             $this->addContentType($manager, $lageraktivitaet, $this->getReference(ContentTypeData::$STORYCONTEXT));
             $this->addContentType($manager, $lageraktivitaet, $this->getReference(ContentTypeData::$NOTES));
@@ -73,12 +78,14 @@ class CategoryPrototypeData extends AbstractFixture implements DependentFixtureI
             $pbsJsTeen->addCategory($lagersport);
             $manager->persist($lagersport);
 
-            // add allowed content types
+            // add recommended content types
             $this->addContentType($manager, $lagersport, $this->getReference(ContentTypeData::$STORYBOARD));
             $this->addContentType($manager, $lagersport, $this->getReference(ContentTypeData::$STORYCONTEXT));
             $this->addContentType($manager, $lagersport, $this->getReference(ContentTypeData::$SAFETYCONCEPT));
             $this->addContentType($manager, $lagersport, $this->getReference(ContentTypeData::$NOTES));
             $this->addContentType($manager, $lagersport, $this->getReference(ContentTypeData::$MATERIAL));
+
+            $lagersport->setRootContentNode($this->createInitialRootContentNode($manager));
         }
         $this->addReference(self::$PBS_JS_TEEN_LAGERSPORT, $lagersport);
 
@@ -92,12 +99,14 @@ class CategoryPrototypeData extends AbstractFixture implements DependentFixtureI
             $pbsJsTeen->addCategory($lageraktivitaet);
             $manager->persist($lageraktivitaet);
 
-            // add allowed content types
+            // add recommended content types
             //$this->addContentType($activityType, $this->getReference(ContentTypeData::$STORYBOARD));
             $this->addContentType($manager, $lageraktivitaet, $this->getReference(ContentTypeData::$STORYCONTEXT));
             $this->addContentType($manager, $lageraktivitaet, $this->getReference(ContentTypeData::$NOTES));
             $this->addContentType($manager, $lageraktivitaet, $this->getReference(ContentTypeData::$MATERIAL));
             $this->addContentType($manager, $lageraktivitaet, $this->getReference(ContentTypeData::$LATHEMATICAREA));
+
+            $lageraktivitaet->setRootContentNode($this->createInitialRootContentNode($manager));
         }
         $this->addReference(self::$PBS_JS_TEEN_LAGERAKTIVITAET, $lageraktivitaet);
 
@@ -108,12 +117,23 @@ class CategoryPrototypeData extends AbstractFixture implements DependentFixtureI
         return [CampPrototypeData::class, ContentTypeData::class];
     }
 
-    private function addContentType(ObjectManager $manager, Category $category, ContentType $contentType): CategoryContentType {
+    protected function addContentType(ObjectManager $manager, Category $category, ContentType $contentType): CategoryContentType {
         $categoryContentType = new CategoryContentType();
         $categoryContentType->setContentType($contentType);
         $category->addCategoryContentType($categoryContentType);
         $manager->persist($categoryContentType);
 
         return $categoryContentType;
+    }
+
+    protected function createInitialRootContentNode(ObjectManager $manager) {
+        $contentNode = new ContentNode();
+        /** @var ContentType $columnLayout */
+        $columnLayout = $this->getReference(ContentTypeData::$COLUMNLAYOUT);
+        $contentNode->setContentType($columnLayout);
+        $this->getContainer()->get($columnLayout->getStrategyClass())->contentNodeCreated($contentNode);
+        $manager->persist($contentNode);
+
+        return $contentNode;
     }
 }

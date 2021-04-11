@@ -27,6 +27,7 @@ use Laminas\Hydrator\HydratorInterface;
 use Laminas\Paginator\Adapter\ArrayAdapter;
 use Laminas\Paginator\Paginator;
 use Laminas\Permissions\Acl\Role\RoleInterface;
+use Laminas\Stdlib\RequestInterface;
 
 abstract class AbstractEntityService extends AbstractResourceListener {
     private ServiceUtils $serviceUtils;
@@ -153,6 +154,49 @@ abstract class AbstractEntityService extends AbstractResourceListener {
     }
 
     /**
+     * Patches a list of entities.
+     *
+     * @param \ArrayObject $data Expected in the form
+     *                           {
+     *                           id: { ***patch paylod*** },
+     *                           id2: { ***patch payload*** }
+     *                           }
+     *
+     * @throws EntityNotFoundException
+     * @throws EntityValidationException
+     * @throws NoAccessException
+     * @throws ORMException
+     * @throws OptimisticLockException
+     *
+     * @return Paginator
+     */
+    final public function patchList($data) {
+        $result = [];
+
+        /** @var RequestInterface $request */
+        $request = $this->getEvent()->getRequest();
+        $queryParams = $request->getQuery();
+
+        // validate that the patched entities are all part of the patched collection URI
+        $ids = array_keys($data->getArrayCopy());
+        $q = $this->fetchAllQueryBuilder($queryParams)
+            ->andWhere('row.id IN (:ids)')->setParameter('ids', $ids);
+        $numEntities = intval($q->select('count(row.id)')->getQuery()->getSingleScalarResult());
+        if ($numEntities !== count($ids)) {
+            throw (new EntityValidationException())->setMessages([
+                '' => ['invalidIds' => 'Not all of the ids in the payload are part of the patched collection.'],
+            ]);
+        }
+
+        foreach ($data as $key => $value) {
+            $entity = $this->patch($key, $value);
+            array_push($result, $entity);
+        }
+
+        return $this->fetchAll($queryParams);
+    }
+
+    /**
      * @throws ORMException
      * @throws OptimisticLockException
      * @throws EntityNotFoundException
@@ -230,6 +274,9 @@ abstract class AbstractEntityService extends AbstractResourceListener {
         $this->serviceUtils->emRemove($entity);
     }
 
+    /**
+     * @throws EntityValidationException
+     */
     protected function validateEntity(BaseEntity $entity): void {
     }
 

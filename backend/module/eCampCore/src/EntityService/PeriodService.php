@@ -14,16 +14,18 @@ use eCamp\Lib\Entity\BaseEntity;
 use eCamp\Lib\Service\EntityNotFoundException;
 use eCamp\Lib\Service\EntityValidationException;
 use eCamp\Lib\Service\ServiceUtils;
+use eCamp\Lib\Types\EDateInterval;
 use Laminas\Authentication\AuthenticationService;
 
 class PeriodService extends AbstractEntityService {
-    /** @var DayService */
-    protected $dayService;
+    protected DayService $dayService;
+    protected ScheduleEntryService $scheduleEntryService;
 
     public function __construct(
-        DayService $dayService,
         ServiceUtils $serviceUtils,
-        AuthenticationService $authenticationService
+        AuthenticationService $authenticationService,
+        DayService $dayService,
+        ScheduleEntryService $scheduleEntryService
     ) {
         parent::__construct(
             $serviceUtils,
@@ -33,6 +35,7 @@ class PeriodService extends AbstractEntityService {
         );
 
         $this->dayService = $dayService;
+        $this->scheduleEntryService = $scheduleEntryService;
     }
 
     /**
@@ -79,26 +82,20 @@ class PeriodService extends AbstractEntityService {
      */
     protected function patchEntity(BaseEntity $entity, $data): Period {
         /** @var Period $period */
-        $period = parent::patchEntity($entity, $data);
-        $this->updatePeriodDays($period);
+        $period = $entity;
+        $oldStart = $period->getStart();
 
-        // $moveActivities = isset($data->move_activities) ? $data->move_activities : null;
-        // $this->updateScheduleEntries($period, $moveActivities);
-
-        return $period;
-    }
-
-    /**
-     * @throws ORMException
-     * @throws NoAccessException
-     */
-    protected function updateEntity($id, $data): Period {
         /** @var Period $period */
-        $period = parent::updateEntity($id, $data);
+        $period = parent::patchEntity($period, $data);
         $this->updatePeriodDays($period);
 
-        // $moveActivities = isset($data->move_activities) ? $data->move_activities : null;
-        // $this->updateScheduleEntries($period, $moveActivities);
+        /** @var bool $moveScheduleEntries */
+        $moveScheduleEntries = isset($data->moveScheduleEntries) ? $data->moveScheduleEntries : false;
+
+        if (!$moveScheduleEntries) {
+            $delta = $oldStart->diff($period->getStart());
+            $this->updateScheduleEntries($period, EDateInterval::ofInterval($delta));
+        }
 
         return $period;
     }
@@ -117,6 +114,26 @@ class PeriodService extends AbstractEntityService {
     protected function validateEntity(BaseEntity $entity): void {
         /** @var Period $period */
         $period = $entity;
+        $errors = [];
+
+        // Check for any ScheduleEntry starting before period starts
+        $periodStartsTooLate = $period->getScheduleEntries()->exists(function (int $idx, ScheduleEntry $se) {
+            return $se->getPeriodOffset() < 0;
+        });
+        if ($periodStartsTooLate) {
+            $errors += ['start' => ['startsTooLate' => 'period starts too late']];
+        }
+
+        // Check for any ScheduleEntry ending after period ends
+        $periodEndsTooEarly = $period->getScheduleEntries()->exists(function (int $idx, ScheduleEntry $se) use ($period) {
+            $scheduleEntryEndOffsetMinutes = $se->getPeriodOffset() + $se->getLength();
+            $periodEndOffsetMinutes = EDateInterval::ofDays($period->getDurationInDays())->getTotalMinutes();
+
+            return $scheduleEntryEndOffsetMinutes > $periodEndOffsetMinutes;
+        });
+        if ($periodEndsTooEarly) {
+            $errors += ['end' => ['endsTooEarly' => 'period is too short']];
+        }
 
         // Chcek for other overlapping Period
         $qb = $this->findCollectionQueryBuilder(Period::class, 'p', null)
@@ -129,13 +146,13 @@ class PeriodService extends AbstractEntityService {
             ->setParameter('start', $period->getStart())
             ->setParameter('end', $period->getEnd())
         ;
-        $rows = $qb->getQuery()->getResult();
+        $periodOverlapsOtherPeriod = count($qb->getQuery()->getResult()) > 0;
+        if ($periodOverlapsOtherPeriod) {
+            $errors += ['start' => ['noOverlap' => 'periods may not overlap']];
+        }
 
-        if (count($rows) > 0) {
-            $ex = new EntityValidationException();
-            $ex->setMessages(['start' => ['noOverlap' => 'Periods may not overlap']]);
-
-            throw $ex;
+        if (count($errors)) {
+            throw (new EntityValidationException())->setMessages($errors);
         }
     }
 
@@ -190,33 +207,15 @@ class PeriodService extends AbstractEntityService {
     }
 
     /**
-     * @param bool $moveActivities
-     *
      * @throws NoAccessException
      */
-    private function updateScheduleEntries(Period $period, $moveActivities = null): void {
-        if (is_null($moveActivities)) {
-            $moveActivities = true;
-        }
-
-        if (!$moveActivities) {
-            $start = $period->getStart();
-
-            $origData = $this->getOrigEntityData($period);
-            if (isset($origData['start'])) {
-                $start = $origData['start'];
-            }
-
-            $delta = $period->getStart()->getTimestamp() - $start->getTimestamp();
-            $delta = $delta / 60;
-
-            $scheduleEntries = $period->getScheduleEntries();
-            foreach ($scheduleEntries as $scheduleEntry) {
-                // @var ScheduleEntry $scheduleEntry
-                $this->getScheduleEntryService()->patch($scheduleEntry->getId(), (object) [
-                    'start' => $scheduleEntry->getStart() - $delta,
-                ]);
-            }
+    private function updateScheduleEntries(Period $period, EDateInterval $eDateInterval): void {
+        $scheduleEntries = $period->getScheduleEntries();
+        foreach ($scheduleEntries as $scheduleEntry) {
+            // @var ScheduleEntry $scheduleEntry
+            $this->scheduleEntryService->patch($scheduleEntry->getId(), (object) [
+                'periodOffset' => $scheduleEntry->getPeriodOffset() - $eDateInterval->getTotalMinutes(),
+            ]);
         }
     }
 }

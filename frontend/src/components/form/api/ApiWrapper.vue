@@ -159,11 +159,12 @@ export default {
     },
     // reload data from API (doesn't force loading from server if available locally)
     reload () {
-      this.isLoading = true
       this.resetErrors()
+      const obj = this.api.get(this.uri)
+      this.isLoading = obj._meta.loading
 
       // initial data load from API
-      this.api.get(this.uri)._meta.load.then(() => {
+      obj._meta.load.then(() => {
         this.isLoading = false
       }).catch(error => {
         this.isLoading = false

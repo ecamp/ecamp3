@@ -46,7 +46,7 @@ class Period extends BaseEntity implements BelongsToCampInterface {
     private ?DateUtc $end = null;
 
     /**
-     * @ORM\Column(type="string", length=128, nullable=true)
+     * @ORM\Column(type="text", nullable=true)
      */
     private ?string $description = null;
 

@@ -37,8 +37,7 @@
     },
     "safetyConcept": {
       "add": "Sicherheitskonzept hinzufügen",
-      "name": "Sicherheitskonzept",
-      "sort": "3"
+      "name": "Sicherheitskonzept"
     },
     "storyboard": {
       "add": "Programmabschnitt hinzufügen",
@@ -52,13 +51,11 @@
           "name": "Programmpunkt | Programmpunkte"
         }
       },
-      "name": "Programmabschnitt",
-      "sort": "2"
+      "name": "Programmabschnitt"
     },
     "storycontext": {
       "add": "Roten Faden hinzufügen",
-      "name": "Roter Faden",
-      "sort": "1"
+      "name": "Roter Faden"
     }
   },
   "components": {
@@ -139,6 +136,9 @@
       },
       "dialogPeriodCreate": {
         "title": "Lagerabschnitt erstellen"
+      },
+      "dialogPeriodEdit": {
+        "moveScheduleEntries": "Aktivitäten verschieben"
       }
     },
     "layout": {
@@ -200,7 +200,7 @@
       "prototype": "Lagervorlage"
     },
     "campCollaboration": {
-      "campLeft": "Lager verlassen"
+      "inactive": "inaktiv"
     },
     "period": {
       "defaultDescription": "Hauptlager",
@@ -237,7 +237,6 @@
   "global": {
     "button": {
       "add": "Hinzufügen",
-      "addContentDesktop": "Inhalt hinzufügen",
       "back": "Zurück",
       "cancel": "Abbrechen",
       "content": "Inhalt",
@@ -278,6 +277,10 @@
   },
   "views": {
     "activity": {
+      "activity": {
+        "changeLayout": "Layout ändern",
+        "layout": "Layout"
+      },
       "sideBarProgram": {
         "title": "Tagesübersicht"
       }
@@ -326,7 +329,6 @@
         "invite": "Einladen",
         "members": "Mitarbeitende",
         "openInvitations": "Offene Einladungen",
-        "openRequests": "Offene Anfragen",
         "title": "Team"
       },
       "navigationCamp": {
