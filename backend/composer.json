@@ -55,6 +55,7 @@
         "psr-4": {
             "eCamp\\Lib\\": "module/eCampLib/src/",
             "eCamp\\Core\\": "module/eCampCore/src/",
+            "eCamp\\CoreData\\": "module/eCampCore/data/",
             "eCamp\\AoT\\": "module/eCampAoT/src/",
             "eCamp\\AoT\\Generated\\": "module/eCampAoT/gen/",
             "eCampApi\\": "module/eCampApi/src/eCampApi/",
