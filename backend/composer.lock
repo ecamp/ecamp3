@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "50b09cbec7250f7869eee8d057a6a1ae",
+    "content-hash": "b8979daba5b3bc97f2a6c9b57c915d65",
     "packages": [
         {
             "name": "assetic/framework",
@@ -4121,16 +4121,16 @@
         },
         {
             "name": "laminas/laminas-di",
-            "version": "3.2.1",
+            "version": "3.2.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-di.git",
-                "reference": "feee971d50ea327a0cac987f5de313a988203b9f"
+                "reference": "ed38ab3b066c0a1f1b087e0a664caadf1d4f8f04"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-di/zipball/feee971d50ea327a0cac987f5de313a988203b9f",
-                "reference": "feee971d50ea327a0cac987f5de313a988203b9f",
+                "url": "https://api.github.com/repos/laminas/laminas-di/zipball/ed38ab3b066c0a1f1b087e0a664caadf1d4f8f04",
+                "reference": "ed38ab3b066c0a1f1b087e0a664caadf1d4f8f04",
                 "shasum": ""
             },
             "require": {
@@ -4196,7 +4196,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2020-12-24T12:46:22+00:00"
+            "time": "2021-04-13T19:22:31+00:00"
         },
         {
             "name": "laminas/laminas-escaper",
