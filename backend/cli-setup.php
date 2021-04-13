@@ -73,7 +73,7 @@ try {
     echo PHP_EOL;
 
     $loader = $sm->get(FixtureLoader::class);
-    $paths = \Laminas\Stdlib\Glob::glob(__DIR__ . "/module/*/data/prod/*.php");
+    $paths = \Laminas\Stdlib\Glob::glob(__DIR__ . "/module/*/data/Prod/*.php");
 
     foreach ($paths as $path) {
         echo "    # " . $path . PHP_EOL;
@@ -106,7 +106,7 @@ if (in_array('dev', $argv)) {
         echo PHP_EOL;
 
         $loader = $sm->get(FixtureLoader::class);
-        $paths = \Laminas\Stdlib\Glob::glob(__DIR__ . "/module/*/data/dev/*.php");
+        $paths = \Laminas\Stdlib\Glob::glob(__DIR__ . "/module/*/data/Dev/*.php");
 
         foreach ($paths as $path) {
             echo "    # " . $path . PHP_EOL;
