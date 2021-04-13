@@ -8,6 +8,7 @@ use Doctrine\Persistence\ObjectManager;
 use eCamp\Core\Entity\Group;
 use eCamp\Core\Entity\GroupMembership;
 use eCamp\Core\Entity\User;
+use eCamp\CoreData\Prod\GroupData;
 
 class GroupMembershipData extends AbstractFixture implements DependentFixtureInterface {
     public function load(ObjectManager $manager): void {

@@ -7,6 +7,7 @@ use Doctrine\Persistence\ObjectManager;
 use eCamp\Core\Entity\Camp;
 use eCamp\Core\Entity\Category;
 use eCamp\CoreData\Prod\CategoryPrototypeData;
+use eCamp\CoreData\Prod\ContentTypeData;
 
 class CategoryData extends CategoryPrototypeData implements DependentFixtureInterface {
     public static $EVENTCATEGORY_1_LS = Category::class.':EVENTCATEGORY_1_LS';
