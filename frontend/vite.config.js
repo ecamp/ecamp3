@@ -4,8 +4,6 @@ import { defineConfig } from 'vite'
 import { createVuePlugin } from 'vite-plugin-vue2'
 import { createSvgPlugin } from 'vite-plugin-vue2-svg'
 import ViteComponents, { VuetifyResolver } from 'vite-plugin-components'
-import requireContext from 'rollup-plugin-require-context'
-
 import * as path from 'path'
 
 export default defineConfig({
@@ -42,13 +40,19 @@ export default defineConfig({
   css: {
     preprocessorOptions: {
       scss: {
-        additionalData: '@import "./node_modules/vuetify/src/styles/styles.sass";' // pre-insert vuetify sass variables for usage of variables in components
+        additionalData: [
+          '@import "./node_modules/vuetify/src/styles/styles.sass";', // original default variables from vuetify
+          '@import "@/scss/variables.scss";', // vuetify variable overrides
+          ''
+        ].join('\r\n')
+      },
+      sass: {
+        additionalData: [
+          '@import "./node_modules/vuetify/src/styles/styles.sass"', // original default variables from vuetify
+          '@import "@/scss/variables.scss"', // vuetify variable overrides
+          ''
+        ].join('\r\n')
       }
     }
-  },
-  rollupInputOptions: {
-    plugins: [
-      requireContext() // polyfill for webpack require.context
-    ]
   }
 })
