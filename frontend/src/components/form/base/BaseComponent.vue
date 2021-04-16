@@ -24,7 +24,7 @@
 
 <script>
 import { ValidationProvider } from 'vee-validate'
-import { formComponentPropsMixin } from '@/mixins/formComponentPropsMixin'
+import { formComponentPropsMixin } from '@/mixins/formComponentPropsMixin.s'
 import { VTextField } from 'vuetify/lib'
 
 export default {

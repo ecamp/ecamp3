@@ -20,9 +20,9 @@
 </template>
 
 <script>
-import DialogForm from './DialogForm'
-import DialogBase from './DialogBase'
-import DialogCategoryForm from './DialogCategoryForm'
+import DialogForm from './DialogForm.vue'
+import DialogBase from './DialogBase.vue'
+import DialogCategoryForm from './DialogCategoryForm.vue'
 
 export default {
   name: 'DialogCategoryCreate',

@@ -21,10 +21,10 @@
 </template>
 
 <script>
-import DialogForm from './DialogForm'
-import DialogBase from './DialogBase'
-import DialogActivityForm from './DialogActivityForm'
-import { scheduleEntryRoute } from '@/router'
+import DialogForm from './DialogForm.vue'
+import DialogBase from './DialogBase.vue'
+import DialogActivityForm from './DialogActivityForm.vue'
+import { scheduleEntryRoute } from '@/router.js'
 
 export default {
   name: 'DialogActivityEdit',

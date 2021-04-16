@@ -133,8 +133,8 @@ import ApiSelect from '../../form/api/ApiSelect.vue'
 import DialogMaterialItemCreate from '../../dialog/DialogMaterialItemCreate.vue'
 import DialogMaterialItemEdit from '../../dialog/DialogMaterialItemEdit.vue'
 import MaterialCreateItem from '../../camp/MaterialCreateItem.vue'
-import CardContentNode from '@/components/activity/CardContentNode'
-import { contentNodeMixin } from '@/mixins/contentNodeMixin'
+import CardContentNode from '@/components/activity/CardContentNode.vue'
+import { contentNodeMixin } from '@/mixins/contentNodeMixin.js'
 
 export default {
   name: 'Material',

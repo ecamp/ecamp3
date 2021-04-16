@@ -25,10 +25,10 @@
 </template>
 
 <script>
-import Picasso from '@/components/camp/Picasso'
-import SideBar from '@/components/navigation/SideBar'
-import ContentCard from '@/components/layout/ContentCard'
-import ScheduleEntries from '@/components/scheduleEntry/ScheduleEntries'
+import Picasso from '@/components/camp/Picasso.vue'
+import SideBar from '@/components/navigation/SideBar.vue'
+import ContentCard from '@/components/layout/ContentCard.vue'
+import ScheduleEntries from '@/components/scheduleEntry/ScheduleEntries.vue'
 
 export default {
   name: 'SideBarProgram',

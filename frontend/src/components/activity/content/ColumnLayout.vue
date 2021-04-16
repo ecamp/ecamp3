@@ -68,9 +68,9 @@
 <script>
 
 import { groupBy, keyBy, sortBy, camelCase, mapValues } from 'lodash'
-import { contentNodeMixin } from '@/mixins/contentNodeMixin'
+import { contentNodeMixin } from '@/mixins/contentNodeMixin.js'
 import Draggable from 'vuedraggable'
-import ResizableColumn from '@/components/activity/content/columnLayout/ResizableColumn'
+import ResizableColumn from '@/components/activity/content/columnLayout/ResizableColumn.vue'
 
 function cumulativeSumReducer (cumSum, nextElement) {
   cumSum.push((cumSum[cumSum.length - 1] + nextElement))

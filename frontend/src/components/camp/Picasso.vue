@@ -79,9 +79,9 @@ Listing all given activity schedule entries in a calendar view.
   </div>
 </template>
 <script>
-import { scheduleEntryRoute } from '@/router'
+import { scheduleEntryRoute } from '@/router.js'
 import { isCssColor } from 'vuetify/lib/util/colorUtils'
-import { defineHelpers } from '@/components/scheduleEntry/dateHelperLocal'
+import { defineHelpers } from '@/components/scheduleEntry/dateHelperLocal.js'
 
 export default {
   name: 'Picasso',
