@@ -6,6 +6,8 @@ import { store } from './plugins/store'
 import { vuetify } from './plugins/vuetify'
 import * as Sentry from '@sentry/vue'
 
+import { Resize } from 'vuetify/lib/directives'
+
 if (window.environment && window.environment.SENTRY_FRONTEND_DSN) {
   Sentry.init({
     Vue,
@@ -23,6 +25,9 @@ Vue.use(veeValidate)
 Vue.use(storeLoader)
 Vue.use(vuetifyLoader)
 Vue.use(dayjs)
+
+// manually importing necessary vuetify directives (there's no auomatic vuetify-loader for vitejs)
+Vue.directive('resize', Resize)
 
 new Vue({
   router,
