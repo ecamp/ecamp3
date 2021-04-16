@@ -27,7 +27,7 @@
 <script>
 import { ValidationProvider } from 'vee-validate'
 import { formComponentPropsMixin } from '@/mixins/formComponentPropsMixin'
-import VTiptapEditor from '@/components/form/tiptap/VTiptapEditor'
+import VTiptapEditor from '@/components/form/tiptap/VTiptapEditor.vue'
 
 export default {
   name: 'ERichtext',
