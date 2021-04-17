@@ -97,7 +97,7 @@
 </template>
 
 <script>
-import AuthContainer from '@/components/layout/AuthContainer'
+import AuthContainer from '@/components/layout/AuthContainer.vue'
 import VueI18n from '@/plugins/i18n'
 
 export default {

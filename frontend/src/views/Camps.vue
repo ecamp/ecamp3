@@ -46,11 +46,11 @@
 </template>
 
 <script>
-import { campRoute } from '@/router'
-import ContentCard from '@/components/layout/ContentCard'
-import ButtonAdd from '@/components/buttons/ButtonAdd'
-import ButtonDelete from '@/components/buttons/ButtonDelete'
-import DialogEntityDelete from '@/components/dialog/DialogEntityDelete'
+import { campRoute } from '@/router.js'
+import ContentCard from '@/components/layout/ContentCard.vue'
+import ButtonAdd from '@/components/buttons/ButtonAdd.vue'
+import ButtonDelete from '@/components/buttons/ButtonDelete.vue'
+import DialogEntityDelete from '@/components/dialog/DialogEntityDelete.vue'
 
 export default {
   name: 'Camps',

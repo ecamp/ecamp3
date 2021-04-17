@@ -50,9 +50,9 @@
 </template>
 <script>
 import { sortBy } from 'lodash'
-import ApiForm from '@/components/form/api/ApiForm'
-import ApiTextarea from '@/components/form/api/ApiTextarea'
-import TiptapEditor from '@/components/form/tiptap/TiptapEditor'
+import ApiForm from '@/components/form/api/ApiForm.vue'
+import ApiTextarea from '@/components/form/api/ApiTextarea.vue'
+import TiptapEditor from '@/components/form/tiptap/TiptapEditor.vue'
 
 export default {
   name: 'StoryDay',

@@ -1,4 +1,8 @@
 {
     "javascript.format.enable": false,
-    "eslint.format.enable": true
+    "eslint.format.enable": true,
+    "i18n-ally.localesPaths": [
+        "src/locales",
+        "src/plugins/i18n"
+    ]
 }

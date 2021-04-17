@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import PrintDownloader from '@/components/camp/CampPrintDownloader'
+import PrintDownloader from '@/components/camp/CampPrintDownloader.vue'
 
 const PRINT_SERVER = window.environment.PRINT_SERVER
 const PRINT_FILE_SERVER = window.environment.PRINT_FILE_SERVER

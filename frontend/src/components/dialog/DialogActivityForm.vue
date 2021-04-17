@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import CreateScheduleEntries from '@/components/activity/CreateScheduleEntries'
+import CreateScheduleEntries from '@/components/activity/CreateScheduleEntries.vue'
 
 export default {
   name: 'DialogActivityForm',

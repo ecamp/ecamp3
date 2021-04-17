@@ -42,9 +42,11 @@ Allows 15min steps only
 </template>
 
 <script>
+import BasePicker from './BasePicker.vue'
 
 export default {
   name: 'ETimePicker',
+  components: { BasePicker },
   props: {
     icon: { type: String, required: false, default: 'mdi-clock-outline' },
     value: { type: [Number, String], required: true },

@@ -64,9 +64,9 @@
 </template>
 
 <script>
-import { campRoute } from '@/router'
-import UserMeta from '@/components/navigation/UserMeta'
-import Logo from '@/components/navigation/Logo'
+import { campRoute } from '@/router.js'
+import UserMeta from '@/components/navigation/UserMeta.vue'
+import Logo from '@/components/navigation/Logo.vue'
 
 export default {
   name: 'NavigationCamp',

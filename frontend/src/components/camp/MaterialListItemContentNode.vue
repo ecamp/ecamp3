@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import { scheduleEntryRoute } from '@/router'
+import { scheduleEntryRoute } from '@/router.js'
 
 export default {
   name: 'MaterialListItemContentNode',

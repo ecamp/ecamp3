@@ -27,8 +27,8 @@
 </template>
 
 <script>
-import UserMeta from '@/components/navigation/UserMeta'
-import Logo from '@/components/navigation/Logo'
+import UserMeta from '@/components/navigation/UserMeta.vue'
+import Logo from '@/components/navigation/Logo.vue'
 
 export default {
   name: 'NavigationDefault',

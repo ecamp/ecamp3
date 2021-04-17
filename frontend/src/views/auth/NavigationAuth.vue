@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import Logo from '@/components/navigation/Logo'
+import Logo from '@/components/navigation/Logo.vue'
 
 export default {
   name: 'NavigationAuth',

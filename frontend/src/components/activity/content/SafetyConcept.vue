@@ -15,10 +15,10 @@
 
 <script>
 
-import ApiForm from '@/components/form/api/ApiForm'
-import ApiRichtext from '@/components/form/api/ApiRichtext'
-import CardContentNode from '@/components/activity/CardContentNode'
-import { contentNodeMixin } from '@/mixins/contentNodeMixin'
+import ApiForm from '@/components/form/api/ApiForm.vue'
+import ApiRichtext from '@/components/form/api/ApiRichtext.vue'
+import CardContentNode from '@/components/activity/CardContentNode.vue'
+import { contentNodeMixin } from '@/mixins/contentNodeMixin.js'
 
 export default {
   name: 'SafetyConcept',

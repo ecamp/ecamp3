@@ -51,10 +51,10 @@ Displays a single period as a list item including controls to edit and delete it
 
 <script>
 
-import DialogPeriodEdit from '@/components/dialog/DialogPeriodEdit'
-import DialogEntityDelete from '@/components/dialog/DialogEntityDelete'
-import ButtonEdit from '@/components/buttons/ButtonEdit'
-import ButtonDelete from '@/components/buttons/ButtonDelete'
+import DialogPeriodEdit from '@/components/dialog/DialogPeriodEdit.vue'
+import DialogEntityDelete from '@/components/dialog/DialogEntityDelete.vue'
+import ButtonEdit from '@/components/buttons/ButtonEdit.vue'
+import ButtonDelete from '@/components/buttons/ButtonDelete.vue'
 
 export default {
   name: 'CampPeriods',
