@@ -15,7 +15,7 @@
           :entity="entity"
           :on="eventHandlers" />
       </div>
-    </transition-group>>
+    </transition-group>
   </draggable>
 </template>
 
