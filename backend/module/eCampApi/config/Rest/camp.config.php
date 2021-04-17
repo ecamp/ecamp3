@@ -18,7 +18,7 @@ return Config::Create('Camp')
             ->addValidatorStringLength(1, 32)
     )
     ->addInputFilterFactory(
-        InputFilter::Create('motto', true)
+        InputFilter::Create('motto')
             ->addFilterStringTrim()
             ->addFilterStripTags()
             ->addValidatorStringLength(1, 128)

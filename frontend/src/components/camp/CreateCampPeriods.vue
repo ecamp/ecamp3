@@ -39,6 +39,7 @@
           <e-date-picker
             v-model="period.start"
             :name="$tc('entity.period.fields.start')"
+            vee-id="start"
             vee-rules="required"
             :my="2"
             :filled="false"
@@ -49,7 +50,7 @@
             v-model="period.end"
             input-class="ml-2"
             :name="$tc('entity.period.fields.end')"
-            vee-rules="required"
+            vee-rules="required|minDate:@start"
             :my="2"
             :filled="false"
             required />

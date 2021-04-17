@@ -451,6 +451,8 @@
     },
     "camps": {
       "create": "Create a camp",
+      "pastCamps": "Past camps",
+      "prototypeCamps": "Prototypes",
       "title": "My Camp | My Camps"
     },
     "home": {
