@@ -78,17 +78,12 @@ class ContentNodeService extends AbstractEntityService {
             $parent = $this->findRelatedEntity(ContentNode::class, $data, 'parentId');
             $this->assertAllowed($parent, Acl::REST_PRIVILEGE_PATCH);
             $contentNode->setParent($parent);
-        } else {
-            throw (new EntityValidationException())->setMessages([
-                'parentId' => [
-                    'required' => 'A parent is required for a content node.',
-                ],
-            ]);
         }
 
+        $contentNode->setPosition(0);
         if (isset($data->position)) {
             $contentNode->setPosition($data->position);
-        } else {
+        } elseif (null !== $contentNode->getParent()) {
             $position = $this->getContentNodeRepository()->getHighestChildPosition($contentNode->getParent(), $contentNode->getSlot());
             $contentNode->setPosition($position + 1);
         }

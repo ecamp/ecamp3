@@ -83,14 +83,13 @@ JSON;
         $this->assertEquals($this->contentNode->getId(), $this->getResponseContent()->_embedded->items[0]->id);
     }
 
-    public function testCreateRootNodeIsNotPossible(): void {
+    public function testCreateRootNode(): void {
         $this->setRequestContent([
             'ownerId' => $this->contentNode->getOwner()->getId(),
             'contentTypeId' => $this->contentNode->getContentType()->getId(),
         ]);
         $this->dispatch("{$this->apiEndpoint}", 'POST');
-        $this->assertResponseStatusCode(422);
-        $this->assertObjectHasAttribute('required', $this->getResponseContent()->validation_messages->parentId);
+        $this->assertResponseStatusCode(201);
     }
 
     public function testCreateChildNode(): void {
