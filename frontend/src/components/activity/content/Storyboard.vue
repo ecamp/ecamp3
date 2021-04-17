@@ -160,9 +160,17 @@ export default {
     }
   },
   computed: {
-    // retrieve all relevant entitieys from external (incl. filtering and sorting)
+    // retrieve all relevant entities from external (incl. filtering and sorting)
     sections () {
-      return this.contentNode.sections().items.sort((a, b) => a.pos - b.pos)
+      return this.contentNode.sections().items.sort((a, b) => {
+        if (a.pos !== b.pos) {
+          // firstly: sort by pos property
+          return a.pos - b.pos
+        } else {
+          // secondly: sort by id (string compare)
+          return a.id.localeCompare(b.id)
+        }
+      })
     },
 
     // locally sorted entities (sorted as per loal hrefList)

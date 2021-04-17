@@ -421,16 +421,17 @@ abstract class AbstractEntityService extends AbstractResourceListener {
 
     protected function fetchAllQueryBuilder($params = []): QueryBuilder {
         $q = $this->findCollectionQueryBuilder($this->entityClassname, 'row', $params);
+
         if (isset($params['where'])) {
             $q->andWhere($params['where']);
         }
+
         if (isset($params['order_by'])) {
             $q->orderBy($params['order_by']);
-        }
-
         // if entity is sortable, order by position property (first) and by id (second)
-        if (is_subclass_of($this->entityClass, SortableEntityInterface::class)) {
-            $q->orderBy('row.pos, row.id');
+        } elseif (is_subclass_of($this->entityClass, SortableEntityInterface::class)) {
+            $q->orderBy('row.pos');
+            $q->addOrderBy('row.id');
         }
 
         return $q;
