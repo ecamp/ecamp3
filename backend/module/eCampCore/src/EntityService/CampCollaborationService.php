@@ -15,6 +15,8 @@ use eCamp\Lib\Acl\NoAccessException;
 use eCamp\Lib\Entity\BaseEntity;
 use eCamp\Lib\Service\EntityValidationException;
 use eCamp\Lib\Service\ServiceUtils;
+use eCamp\Lib\Util\IdGenerator;
+use eCampApi\V1\Rest\CampCollaboration\CampCollaborationCollection;
 use Laminas\Authentication\AuthenticationService;
 
 class CampCollaborationService extends AbstractEntityService {
@@ -32,6 +34,7 @@ class CampCollaborationService extends AbstractEntityService {
         parent::__construct(
             $serviceUtils,
             CampCollaboration::class,
+            CampCollaborationCollection::class,
             CampCollaborationHydrator::class,
             $authenticationService
         );
@@ -214,12 +217,12 @@ class CampCollaborationService extends AbstractEntityService {
     }
 
     protected function sendInviteEmail(CampCollaboration $campCollaboration, User $authUser, Camp $camp): void {
-        $uniqid = uniqid('', true);
-        $campCollaboration->setInviteKey($uniqid);
+        $inviteKey = IdGenerator::generateRandomHexString(64);
+        $campCollaboration->setInviteKey($inviteKey);
         $this->sendmailService->sendInviteToCampMail(
             $authUser,
             $camp,
-            $uniqid,
+            $inviteKey,
             $campCollaboration->getInviteEmail()
         );
     }
