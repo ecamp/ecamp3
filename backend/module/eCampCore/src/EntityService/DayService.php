@@ -16,7 +16,13 @@ use eCampApi\V1\Rest\Day\DayCollection;
 use Laminas\Authentication\AuthenticationService;
 
 class DayService extends AbstractEntityService {
-    public function __construct(ServiceUtils $serviceUtils, AuthenticationService $authenticationService) {
+    protected DayResponsibleService $dayResponsibleService;
+
+    public function __construct(
+        ServiceUtils $serviceUtils,
+        AuthenticationService $authenticationService,
+        DayResponsibleService $dayResponsibleService
+    ) {
         parent::__construct(
             $serviceUtils,
             Day::class,
@@ -24,6 +30,8 @@ class DayService extends AbstractEntityService {
             DayHydrator::class,
             $authenticationService
         );
+
+        $this->dayResponsibleService = $dayResponsibleService;
     }
 
     /**
@@ -38,6 +46,22 @@ class DayService extends AbstractEntityService {
         /** @var Day $day */
         $day = parent::createEntity($data);
         $period->addDay($day);
+
+        return $day;
+    }
+
+    protected function createEntityPost(BaseEntity $entity, $data): BaseEntity {
+        /** @var Day $day */
+        $day = $entity;
+        $this->updateDayResponsibles($day, $data);
+
+        return $day;
+    }
+
+    protected function patchEntity(BaseEntity $entity, $data): BaseEntity {
+        /** @var Day $day */
+        $day = parent::patchEntity($entity, $data);
+        $this->updateDayResponsibles($day, $data);
 
         return $day;
     }
@@ -76,5 +100,32 @@ class DayService extends AbstractEntityService {
         $q->andWhere($this->createFilter($q, Camp::class, 'p', 'camp'));
 
         return $q;
+    }
+
+    private function updateDayResponsibles(Day $day, $data): void {
+        if (isset($data->dayResponsibles)) {
+            $ccIds = array_map(function ($cc) {
+                return $cc['id'];
+            }, $data->dayResponsibles);
+
+            foreach ($day->getDayResponsibles() as $dayResponsible) {
+                $campCollaboration = $dayResponsible->getCampCollaboration();
+                if (!in_array($campCollaboration->getId(), $ccIds)) {
+                    $this->dayResponsibleService->delete($dayResponsible->getId());
+                }
+            }
+
+            foreach ($ccIds as $ccId) {
+                $ccExists = $day->getDayResponsibles()->exists(function ($key, $dr) use ($ccId) {
+                    return $dr->getCampCollaboration()->getId() == $ccId;
+                });
+                if (!$ccExists) {
+                    $this->dayResponsibleService->create((object) [
+                        'dayId' => $day,
+                        'campCollaborationId' => $ccId,
+                    ]);
+                }
+            }
+        }
     }
 }

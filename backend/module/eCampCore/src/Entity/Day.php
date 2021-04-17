@@ -15,6 +15,11 @@ use eCamp\Lib\Entity\BaseEntity;
  */
 class Day extends BaseEntity implements BelongsToCampInterface {
     /**
+     * @ORM\OneToMany(targetEntity="DayResponsible", mappedBy="day", orphanRemoval=true)
+     */
+    protected Collection $dayResponsibles;
+
+    /**
      * @ORM\ManyToOne(targetEntity="Period")
      * @ORM\JoinColumn(nullable=false, onDelete="cascade")
      */
@@ -62,5 +67,19 @@ class Day extends BaseEntity implements BelongsToCampInterface {
                         && $scheduleEntry->getPeriodOffset() < ($dayOffset + 1) * 24 * 60;    // before midnight of next day
             }
         );
+    }
+
+    public function getDayResponsibles(): Collection {
+        return $this->dayResponsibles;
+    }
+
+    public function addDayResponsible(DayResponsible $dayResponsible): void {
+        $dayResponsible->setDay($this);
+        $this->dayResponsibles->add($dayResponsible);
+    }
+
+    public function removeDayResponsible(DayResponsible $dayResponsible): void {
+        $dayResponsible->setDay(null);
+        $this->dayResponsibles->removeElement($dayResponsible);
     }
 }

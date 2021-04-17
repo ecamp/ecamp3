@@ -6,7 +6,6 @@ use eCamp\Core\Entity\Activity;
 use eCamp\Core\Entity\Camp;
 use eCamp\Core\Entity\CampCollaboration;
 use eCamp\Core\Entity\Category;
-use eCamp\Core\Entity\Job;
 use eCamp\Core\Entity\Period;
 use eCamp\Core\Entity\User;
 use eCamp\LibTest\PHPUnit\AbstractTestCase;
@@ -56,17 +55,6 @@ class CampTest extends AbstractTestCase {
         $this->assertContains($collaboration, $camp->getCampCollaborations());
         $camp->removeCampCollaboration($collaboration);
         $this->assertEquals(0, $camp->getCampCollaborations()->count());
-    }
-
-    public function testJob(): void {
-        $camp = new Camp();
-        $job = new Job();
-
-        $this->assertEquals(0, $camp->getJobs()->count());
-        $camp->addJob($job);
-        $this->assertContains($job, $camp->getJobs());
-        $camp->removeJob($job);
-        $this->assertEquals(0, $camp->getJobs()->count());
     }
 
     public function testCategory(): void {
