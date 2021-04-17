@@ -13,7 +13,7 @@ Critical operations on camp
             <v-list-item-subtitle>{{ $tc('components.camp.campDangerzone.deleteCamp.description') }}</v-list-item-subtitle>
           </v-list-item-content>
           <v-list-item-action>
-            <dialog-entity-delete :entity="camp()" :submit-enabled="promptText === camp().name">
+            <dialog-entity-delete :entity="camp()" :submit-enabled="promptText === camp().name" icon="mdi-bomb">
               <template #activator="{ on }">
                 <button-delete icon="mdi-bomb"
                                :text="false"

@@ -1,14 +1,14 @@
 <template>
   <dialog-form
     v-model="showDialog"
-    icon="mdi-delete"
+    :icon="icon"
     :title="$tc('components.dialog.dialogEntityDelete.title')"
     max-width="600px"
     :submit-action="del"
     :submit-enabled="submitEnabled && !$slots.error"
     submit-label="global.button.delete"
     submit-color="error"
-    submit-icon="mdi-delete"
+    :submit-icon="icon"
     cancel-icon=""
     :cancel-action="close">
     <template #activator="scope">
@@ -33,7 +33,8 @@ export default {
   extends: DialogBase,
   props: {
     entity: { type: Object, required: true },
-    submitEnabled: { type: Boolean, required: false, default: true }
+    submitEnabled: { type: Boolean, required: false, default: true },
+    icon: { type: String, required: false, default: 'mdi-delete' }
   },
   created () {
     this.entityUri = this.entity._meta.self
