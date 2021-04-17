@@ -73,8 +73,10 @@ export default {
         const hrefList = entities.map(entry => entry._meta.self)
 
         // update local sorting with external sorting if not dirty
-        if (!this.sorting.dirty) {
+        // or if number of items don't match (new incoming items or deleted items)
+        if (!this.sorting.dirty || hrefList.length !== this.sorting.hrefList.length) {
           this.sorting.hrefList = hrefList
+          this.sorting.dirty = false
 
         // remove dirty flag if external sorting is equal to local sorting (e.g. saving to API was successful)
         } else if (isEqual(this.sorting.hrefList, hrefList)) {
