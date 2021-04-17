@@ -11,7 +11,7 @@
   </v-expansion-panel>
 </template>
 <script>
-import StoryDay from '@/components/camp/StoryDay'
+import StoryDay from '@/components/camp/StoryDay.vue'
 
 export default {
   name: 'StoryPeriod',

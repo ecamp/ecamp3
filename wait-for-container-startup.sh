@@ -9,7 +9,7 @@ echo "Backend container is ready."
 
 
 echo "Waiting for frontend container to start up..."
-until curl --output /dev/null --silent --head --fail http://localhost:3000
+until curl --output /dev/null --silent --fail http://localhost:3000
 do
   sleep 2
 done

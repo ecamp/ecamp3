@@ -23,8 +23,8 @@ Admin screen of a camp: Displays MaterialLists and MaterialItems
 </template>
 
 <script>
-import ContentCard from '@/components/layout/ContentCard'
-import PeriodMaterialLists from '@/components/camp/PeriodMaterialLists'
+import ContentCard from '@/components/layout/ContentCard.vue'
+import PeriodMaterialLists from '@/components/camp/PeriodMaterialLists.vue'
 
 export default {
   name: 'Material',

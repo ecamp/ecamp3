@@ -88,9 +88,9 @@
 
 <script>
 import { refreshLoginStatus } from '@/plugins/auth'
-import AuthContainer from '@/components/layout/AuthContainer'
-import HorizontalRule from '@/components/layout/HorizontalRule'
-import IconSpacer from '@/components/layout/IconSpacer'
+import AuthContainer from '@/components/layout/AuthContainer.vue'
+import HorizontalRule from '@/components/layout/HorizontalRule.vue'
+import IconSpacer from '@/components/layout/IconSpacer.vue'
 
 export default {
   name: 'Login',

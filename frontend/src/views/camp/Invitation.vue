@@ -69,7 +69,7 @@
 </template>
 
 <script>
-import AuthContainer from '@/components/layout/AuthContainer'
+import AuthContainer from '@/components/layout/AuthContainer.vue'
 import { loginRoute } from '@/router'
 
 export default {

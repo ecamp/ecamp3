@@ -29,7 +29,7 @@
   </v-toolbar-title>
 </template>
 <script>
-import { periodRoute } from '@/router'
+import { periodRoute } from '@/router.js'
 
 export default {
   name: 'PeriodSwitcher',

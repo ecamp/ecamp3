@@ -6,9 +6,9 @@ import { apiStore } from '@/plugins/store'
 
 Vue.use(Router)
 
-const NavigationAuth = () => import(/* webpackChunkName: "navigationAuth" */ './views/auth/NavigationAuth')
-const NavigationDefault = () => import(/* webpackChunkName: "navigationDefault" */ './views/NavigationDefault')
-const NavigationCamp = () => import(/* webpackChunkName: "navigationCamp" */ './views/camp/NavigationCamp')
+const NavigationAuth = () => import(/* webpackChunkName: "navigationAuth" */ './views/auth/NavigationAuth.vue')
+const NavigationDefault = () => import(/* webpackChunkName: "navigationDefault" */ './views/NavigationDefault.vue')
+const NavigationCamp = () => import(/* webpackChunkName: "navigationCamp" */ './views/camp/NavigationCamp.vue')
 
 /* istanbul ignore next */
 export default new Router({
@@ -21,7 +21,7 @@ export default new Router({
       name: 'controls',
       components: {
         navigation: NavigationDefault,
-        default: () => import(/* webpackChunkName: "register" */ './views/dev/Controls')
+        default: () => import(/* webpackChunkName: "register" */ './views/dev/Controls.vue')
       }
     },
     // Prod-Pages:
@@ -30,7 +30,7 @@ export default new Router({
       name: 'register',
       components: {
         navigation: NavigationAuth,
-        default: () => import(/* webpackChunkName: "register" */ './views/auth/Register')
+        default: () => import(/* webpackChunkName: "register" */ './views/auth/Register.vue')
       }
     },
     {
@@ -38,7 +38,7 @@ export default new Router({
       name: 'register-done',
       components: {
         navigation: NavigationAuth,
-        default: () => import(/* webpackChunkName: "register" */ './views/auth/RegisterDone')
+        default: () => import(/* webpackChunkName: "register" */ './views/auth/RegisterDone.vue')
       }
     },
     {
@@ -46,7 +46,7 @@ export default new Router({
       name: 'login',
       components: {
         navigation: NavigationAuth,
-        default: () => import(/* webpackChunkName: "login" */ './views/auth/Login')
+        default: () => import(/* webpackChunkName: "login" */ './views/auth/Login.vue')
       }
     },
     {
@@ -54,7 +54,7 @@ export default new Router({
       name: 'loginCallback',
       components: {
         navigation: NavigationAuth,
-        default: () => import(/* webpackChunkName: "login" */ './views/auth/LoginCallback')
+        default: () => import(/* webpackChunkName: "login" */ './views/auth/LoginCallback.vue')
       }
     },
     {
@@ -62,7 +62,7 @@ export default new Router({
       name: 'home',
       components: {
         navigation: NavigationDefault,
-        default: () => import(/* webpackChunkName: "about" */ './views/Home')
+        default: () => import(/* webpackChunkName: "about" */ './views/Home.vue')
       },
       beforeEnter: requireAuth
     },
@@ -71,7 +71,7 @@ export default new Router({
       name: 'profile',
       components: {
         navigation: NavigationDefault,
-        default: () => import(/* webpackChunkName: "about" */ './views/Profile')
+        default: () => import(/* webpackChunkName: "about" */ './views/Profile.vue')
       },
       beforeEnter: requireAuth
     },
@@ -80,7 +80,7 @@ export default new Router({
       name: 'camps',
       components: {
         navigation: NavigationDefault,
-        default: () => import(/* webpackChunkName: "camps" */ './views/Camps')
+        default: () => import(/* webpackChunkName: "camps" */ './views/Camps.vue')
       },
       beforeEnter: requireAuth
     },
@@ -89,7 +89,7 @@ export default new Router({
       name: 'camps/create',
       components: {
         navigation: NavigationDefault,
-        default: () => import(/* webpackChunkName: "camps" */ './views/CampCreate')
+        default: () => import(/* webpackChunkName: "camps" */ './views/CampCreate.vue')
       },
       beforeEnter: requireAuth
     },
@@ -98,7 +98,7 @@ export default new Router({
       name: 'campInvitation',
       components: {
         navigation: NavigationAuth,
-        default: () => import(/* webpackChunkName: "login" */ './views/camp/Invitation')
+        default: () => import(/* webpackChunkName: "login" */ './views/camp/Invitation.vue')
       },
       props: {
         default: route => {
@@ -113,7 +113,7 @@ export default new Router({
       name: 'invitationRejected',
       components: {
         navigation: NavigationAuth,
-        default: () => import(/* webpackChunkName: "login" */ './views/camp/InvitationRejected')
+        default: () => import(/* webpackChunkName: "login" */ './views/camp/InvitationRejected.vue')
       }
     },
     {
@@ -121,15 +121,15 @@ export default new Router({
       name: 'invitationUpdateError',
       components: {
         navigation: NavigationAuth,
-        default: () => import(/* webpackChunkName: "login" */ './views/camp/InvitationUpdateError')
+        default: () => import(/* webpackChunkName: "login" */ './views/camp/InvitationUpdateError.vue')
       }
     },
     {
       path: '/camps/:campId/:campTitle?',
       components: {
         navigation: NavigationCamp,
-        default: () => import(/* webpackChunkName: "camp" */ './views/camp/Camp'),
-        aside: () => import(/* webpackChunkName: "periods" */ './views/camp/SideBarPeriods')
+        default: () => import(/* webpackChunkName: "camp" */ './views/camp/Camp.vue'),
+        aside: () => import(/* webpackChunkName: "periods" */ './views/camp/SideBarPeriods.vue')
       },
       beforeEnter: all([requireAuth, requireCamp]),
       props: {
@@ -141,33 +141,33 @@ export default new Router({
         {
           path: 'collaborators',
           name: 'camp/collaborators',
-          component: () => import(/* webpackChunkName: "campCollaborators" */ './views/camp/Collaborators')
+          component: () => import(/* webpackChunkName: "campCollaborators" */ './views/camp/Collaborators.vue')
         },
         {
           path: 'admin',
           name: 'camp/admin',
-          component: () => import(/* webpackChunkName: "campAdmin" */ './views/camp/Admin')
+          component: () => import(/* webpackChunkName: "campAdmin" */ './views/camp/Admin.vue')
         },
         {
           path: 'period/:periodId/:periodTitle?',
           name: 'camp/period',
-          component: () => import(/* webpackChunkName: "campProgram" */ './views/camp/CampProgram'),
+          component: () => import(/* webpackChunkName: "campProgram" */ './views/camp/CampProgram.vue'),
           beforeEnter: requirePeriod
         },
         {
           path: 'print',
           name: 'camp/print',
-          component: () => import(/* webpackChunkName: "campPrint" */ './views/camp/Print')
+          component: () => import(/* webpackChunkName: "campPrint" */ './views/camp/Print.vue')
         },
         {
           path: 'story',
           name: 'camp/story',
-          component: () => import(/* webpackChunkName: "campPrint" */ './views/camp/Story')
+          component: () => import(/* webpackChunkName: "campPrint" */ './views/camp/Story.vue')
         },
         {
           path: 'material',
           name: 'camp/material',
-          component: () => import(/* webpackChunkName: "campMaterial" */ './views/camp/Material')
+          component: () => import(/* webpackChunkName: "campMaterial" */ './views/camp/Material.vue')
         },
         {
           path: '',
@@ -190,8 +190,8 @@ export default new Router({
       name: 'activity',
       components: {
         navigation: NavigationCamp,
-        default: () => import(/* webpackChunkName: "activity" */ './views/activity/Activity'),
-        aside: () => import(/* webpackChunkName: "day" */ './views/activity/SideBarProgram')
+        default: () => import(/* webpackChunkName: "activity" */ './views/activity/Activity.vue'),
+        aside: () => import(/* webpackChunkName: "day" */ './views/activity/SideBarProgram.vue')
       },
       beforeEnter: requireAuth,
       props: {

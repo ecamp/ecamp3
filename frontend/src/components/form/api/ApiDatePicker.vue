@@ -25,9 +25,9 @@ Displays a field as a date picker + write access via API wrapper
 </template>
 
 <script>
-import { apiPropsMixin } from '@/mixins/apiPropsMixin'
-import ApiWrapper from './ApiWrapper'
-import ApiWrapperAppend from './ApiWrapperAppend'
+import { apiPropsMixin } from '@/mixins/apiPropsMixin.js'
+import ApiWrapper from './ApiWrapper.vue'
+import ApiWrapperAppend from './ApiWrapperAppend.vue'
 
 export default {
   name: 'ApiDatePicker',

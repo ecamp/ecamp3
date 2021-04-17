@@ -93,11 +93,11 @@
 </template>
 
 <script>
-import ApiTextarea from '@/components/form/api/ApiTextarea'
-import ApiForm from '@/components/form/api/ApiForm'
-import DialogEntityDelete from '@/components/dialog/DialogEntityDelete'
-import CardContentNode from '@/components/activity/CardContentNode'
-import { contentNodeMixin } from '@/mixins/contentNodeMixin'
+import ApiTextarea from '@/components/form/api/ApiTextarea.vue'
+import ApiForm from '@/components/form/api/ApiForm.vue'
+import DialogEntityDelete from '@/components/dialog/DialogEntityDelete.vue'
+import CardContentNode from '@/components/activity/CardContentNode.vue'
+import { contentNodeMixin } from '@/mixins/contentNodeMixin.js'
 
 export default {
   name: 'Storyboard',

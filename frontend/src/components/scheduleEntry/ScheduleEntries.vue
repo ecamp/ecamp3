@@ -31,9 +31,9 @@
 </template>
 
 <script>
-import DialogActivityCreate from '@/components/dialog/DialogActivityCreate'
-import DialogActivityEdit from '@/components/dialog/DialogActivityEdit'
-import { defineHelpers } from '@/components/scheduleEntry/dateHelperLocal'
+import DialogActivityCreate from '@/components/dialog/DialogActivityCreate.vue'
+import DialogActivityEdit from '@/components/dialog/DialogActivityEdit.vue'
+import { defineHelpers } from '@/components/scheduleEntry/dateHelperLocal.js'
 
 export default {
   name: 'ScheduleEntries',

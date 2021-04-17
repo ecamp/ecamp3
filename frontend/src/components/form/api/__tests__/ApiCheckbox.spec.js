@@ -1,5 +1,5 @@
 import ApiCheckbox from '../ApiCheckbox.vue'
-import ApiWrapper from '@/components/form/api/ApiWrapper'
+import ApiWrapper from '@/components/form/api/ApiWrapper.vue'
 import Vue from 'vue'
 import Vuetify from 'vuetify'
 import flushPromises from 'flush-promises'
