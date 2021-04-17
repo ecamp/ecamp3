@@ -30,10 +30,11 @@
         </v-list-item>
       </v-list>
       <v-expansion-panels
+        v-if="prototypeCamps.length > 0 || pastCamps.length > 0"
         multiple
         flat
         accordion>
-        <v-expansion-panel>
+        <v-expansion-panel v-if="prototypeCamps.length > 0">
           <v-expansion-panel-header>
             <h3 class="grey--text text--darken-1">
               {{ $tc('views.camps.prototypeCamps') }}
@@ -56,7 +57,7 @@
             </v-list>
           </v-expansion-panel-content>
         </v-expansion-panel>
-        <v-expansion-panel>
+        <v-expansion-panel v-if="pastCamps.length > 0">
           <v-expansion-panel-header>
             <h3 class="grey--text text--darken-1">
               {{ $tc('views.camps.pastCamps') }}
