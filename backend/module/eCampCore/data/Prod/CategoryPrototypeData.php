@@ -7,7 +7,6 @@ use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use eCamp\Core\Entity\Camp;
 use eCamp\Core\Entity\Category;
-use eCamp\Core\Entity\CategoryContentType;
 use eCamp\Core\Entity\ContentNode;
 use eCamp\Core\Entity\ContentType;
 use eCamp\Lib\Fixture\ContainerAwareInterface;
@@ -38,11 +37,11 @@ class CategoryPrototypeData extends AbstractFixture implements DependentFixtureI
             $manager->persist($lagersport);
 
             // add recommended content types
-            $this->addContentType($manager, $lagersport, $this->getReference(ContentTypeData::$STORYBOARD));
-            $this->addContentType($manager, $lagersport, $this->getReference(ContentTypeData::$STORYCONTEXT));
-            $this->addContentType($manager, $lagersport, $this->getReference(ContentTypeData::$SAFETYCONCEPT));
-            $this->addContentType($manager, $lagersport, $this->getReference(ContentTypeData::$NOTES));
-            $this->addContentType($manager, $lagersport, $this->getReference(ContentTypeData::$MATERIAL));
+            $this->addContentType($lagersport, $this->getReference(ContentTypeData::$STORYBOARD));
+            $this->addContentType($lagersport, $this->getReference(ContentTypeData::$STORYCONTEXT));
+            $this->addContentType($lagersport, $this->getReference(ContentTypeData::$SAFETYCONCEPT));
+            $this->addContentType($lagersport, $this->getReference(ContentTypeData::$NOTES));
+            $this->addContentType($lagersport, $this->getReference(ContentTypeData::$MATERIAL));
         }
         $this->addReference(self::$PBS_JS_KIDS_LAGERSPORT, $lagersport);
 
@@ -58,10 +57,10 @@ class CategoryPrototypeData extends AbstractFixture implements DependentFixtureI
 
             // add recommended content types
             //$this->addContentType($activityType, $this->getReference(ContentTypeData::$STORYBOARD));
-            $this->addContentType($manager, $lageraktivitaet, $this->getReference(ContentTypeData::$STORYCONTEXT));
-            $this->addContentType($manager, $lageraktivitaet, $this->getReference(ContentTypeData::$NOTES));
-            $this->addContentType($manager, $lageraktivitaet, $this->getReference(ContentTypeData::$MATERIAL));
-            $this->addContentType($manager, $lageraktivitaet, $this->getReference(ContentTypeData::$LATHEMATICAREA));
+            $this->addContentType($lageraktivitaet, $this->getReference(ContentTypeData::$STORYCONTEXT));
+            $this->addContentType($lageraktivitaet, $this->getReference(ContentTypeData::$NOTES));
+            $this->addContentType($lageraktivitaet, $this->getReference(ContentTypeData::$MATERIAL));
+            $this->addContentType($lageraktivitaet, $this->getReference(ContentTypeData::$LATHEMATICAREA));
         }
         $this->addReference(self::$PBS_JS_KIDS_LAGERAKTIVITAET, $lageraktivitaet);
 
@@ -79,11 +78,11 @@ class CategoryPrototypeData extends AbstractFixture implements DependentFixtureI
             $manager->persist($lagersport);
 
             // add recommended content types
-            $this->addContentType($manager, $lagersport, $this->getReference(ContentTypeData::$STORYBOARD));
-            $this->addContentType($manager, $lagersport, $this->getReference(ContentTypeData::$STORYCONTEXT));
-            $this->addContentType($manager, $lagersport, $this->getReference(ContentTypeData::$SAFETYCONCEPT));
-            $this->addContentType($manager, $lagersport, $this->getReference(ContentTypeData::$NOTES));
-            $this->addContentType($manager, $lagersport, $this->getReference(ContentTypeData::$MATERIAL));
+            $this->addContentType($lagersport, $this->getReference(ContentTypeData::$STORYBOARD));
+            $this->addContentType($lagersport, $this->getReference(ContentTypeData::$STORYCONTEXT));
+            $this->addContentType($lagersport, $this->getReference(ContentTypeData::$SAFETYCONCEPT));
+            $this->addContentType($lagersport, $this->getReference(ContentTypeData::$NOTES));
+            $this->addContentType($lagersport, $this->getReference(ContentTypeData::$MATERIAL));
 
             $lagersport->setRootContentNode($this->createInitialRootContentNode($manager));
         }
@@ -101,10 +100,10 @@ class CategoryPrototypeData extends AbstractFixture implements DependentFixtureI
 
             // add recommended content types
             //$this->addContentType($activityType, $this->getReference(ContentTypeData::$STORYBOARD));
-            $this->addContentType($manager, $lageraktivitaet, $this->getReference(ContentTypeData::$STORYCONTEXT));
-            $this->addContentType($manager, $lageraktivitaet, $this->getReference(ContentTypeData::$NOTES));
-            $this->addContentType($manager, $lageraktivitaet, $this->getReference(ContentTypeData::$MATERIAL));
-            $this->addContentType($manager, $lageraktivitaet, $this->getReference(ContentTypeData::$LATHEMATICAREA));
+            $this->addContentType($lageraktivitaet, $this->getReference(ContentTypeData::$STORYCONTEXT));
+            $this->addContentType($lageraktivitaet, $this->getReference(ContentTypeData::$NOTES));
+            $this->addContentType($lageraktivitaet, $this->getReference(ContentTypeData::$MATERIAL));
+            $this->addContentType($lageraktivitaet, $this->getReference(ContentTypeData::$LATHEMATICAREA));
 
             $lageraktivitaet->setRootContentNode($this->createInitialRootContentNode($manager));
         }
@@ -117,13 +116,8 @@ class CategoryPrototypeData extends AbstractFixture implements DependentFixtureI
         return [CampPrototypeData::class, ContentTypeData::class];
     }
 
-    protected function addContentType(ObjectManager $manager, Category $category, ContentType $contentType): CategoryContentType {
-        $categoryContentType = new CategoryContentType();
-        $categoryContentType->setContentType($contentType);
-        $category->addCategoryContentType($categoryContentType);
-        $manager->persist($categoryContentType);
-
-        return $categoryContentType;
+    protected function addContentType(Category $category, ContentType $contentType) {
+        $category->addPreferredContentType($contentType);
     }
 
     protected function createInitialRootContentNode(ObjectManager $manager) {

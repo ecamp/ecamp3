@@ -24,12 +24,13 @@
     <e-select
       v-model="localCategory.preferredContentTypes"
       :items="contentTypes"
-      name="ContentTypes"
+      :name="$tc('entity.contentType.name', 2)"
       multiple />
   </div>
 </template>
 
 <script>
+import { camelCase } from 'lodash'
 import ESelect from '../form/base/ESelect.vue'
 export default {
   name: 'DialogCategoryForm',
@@ -55,7 +56,7 @@ export default {
     contentTypes () {
       return this.api.get().contentTypes().items.map(ct => ({
         value: ct,
-        text: ct.name
+        text: this.$tc('contentNode.' + camelCase(ct.name) + '.name')
       }))
     }
   }

@@ -15,6 +15,7 @@ import Notes from './content/Notes.vue'
 import Material from './content/Material.vue'
 import LAThematicArea from './content/LAThematicArea.vue'
 import SafetyConcept from './content/SafetyConcept.vue'
+import Storyboard from './content/Storyboard.vue'
 import Storycontext from './content/Storycontext.vue'
 
 const contentNodeComponents = {
@@ -23,6 +24,7 @@ const contentNodeComponents = {
   Material,
   LAThematicArea,
   SafetyConcept,
+  Storyboard,
   Storycontext
 }
 
