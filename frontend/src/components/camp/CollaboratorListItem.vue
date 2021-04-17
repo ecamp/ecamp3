@@ -4,8 +4,12 @@
       <v-img src="https://i.pravatar.cc/300" />
     </v-list-item-avatar>
     <v-list-item-content>
-      <v-list-item-title>{{ collaborator.user().displayName }}</v-list-item-title>
-      <v-list-item-subtitle>{{ collaborator.user().mail }}</v-list-item-subtitle>
+      <v-list-item-title v-if="collaborator.user">
+        {{ collaborator.user().displayName }}
+      </v-list-item-title>
+      <v-list-item-subtitle v-else>
+        {{ collaborator.inviteEmail }}
+      </v-list-item-subtitle>
     </v-list-item-content>
     <api-select
       :value="collaborator.role"
@@ -21,8 +25,10 @@
       dense
       vee-rules="required" />
     <v-list-item-action class="ml-2">
-      <button-delete @click="api.del(collaborator)">
-        {{ $tc("global.button.delete") }}
+      <button-delete
+        icon="mdi-cancel"
+        @click="api.del(collaborator)">
+        {{ $tc("components.camp.collaboratorListItem.deactivate") }}
       </button-delete>
     </v-list-item-action>
   </v-list-item>

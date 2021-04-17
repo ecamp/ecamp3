@@ -2,6 +2,7 @@
 
 namespace eCamp\Core\EntityService;
 
+use Doctrine\ORM\QueryBuilder;
 use eCamp\Core\Entity\Camp;
 use eCamp\Core\Entity\MaterialList;
 use eCamp\Core\Hydrator\MaterialListHydrator;
@@ -18,12 +19,21 @@ class MaterialListService extends AbstractEntityService {
         );
     }
 
+    public function createFromPrototype(Camp $camp, MaterialList $prototype): MaterialList {
+        /** @var MaterialList $materialList */
+        $materialList = $this->create((object) [
+            'campId' => $camp->getId(),
+            'name' => $prototype->getName(),
+        ]);
+        $materialList->setMaterialListPrototypeId($prototype->getId());
+
+        return $materialList;
+    }
+
     /**
      * @param $data
-     *
-     * @return MaterialList
      */
-    protected function createEntity($data) {
+    protected function createEntity($data): MaterialList {
         /** @var MaterialList $materialList */
         $materialList = parent::createEntity($data);
 
@@ -34,7 +44,7 @@ class MaterialListService extends AbstractEntityService {
         return $materialList;
     }
 
-    protected function fetchAllQueryBuilder($params = []) {
+    protected function fetchAllQueryBuilder($params = []): QueryBuilder {
         $q = parent::fetchAllQueryBuilder($params);
         $q->andWhere($this->createFilter($q, Camp::class, 'row', 'camp'));
 
@@ -46,7 +56,7 @@ class MaterialListService extends AbstractEntityService {
         return $q;
     }
 
-    protected function fetchQueryBuilder($id) {
+    protected function fetchQueryBuilder($id): QueryBuilder {
         $q = parent::fetchQueryBuilder($id);
         $q->andWhere($this->createFilter($q, Camp::class, 'row', 'camp'));
 

@@ -29,7 +29,7 @@ class ProfileTest extends AbstractApiControllerTestCase {
         $this->authenticateUser($this->user);
     }
 
-    public function testFetch() {
+    public function testFetch(): void {
         $this->dispatch("{$this->apiEndpoint}", 'GET');
 
         $this->assertResponseStatusCode(200);
@@ -61,13 +61,13 @@ JSON;
         $this->verifyHalResourceResponse($expectedBody, $expectedLinks, $expectedEmbeddedObjects);
     }
 
-    public function testCreateSuccess() {
+    public function testCreateSuccess(): void {
         $this->dispatch("{$this->apiEndpoint}", 'POST');
 
         $this->assertResponseStatusCode(405);
     }
 
-    public function testUpdateSuccess() {
+    public function testUpdateSuccess(): void {
         $this->setRequestContent([
             'username' => 'test-user5',
             'firstname' => 'firstname',
@@ -90,7 +90,7 @@ JSON;
         $this->assertEquals('1990-07-01', $this->getResponseContent()->birthday);
     }
 
-    public function testDelete() {
+    public function testDelete(): void {
         $this->dispatch("{$this->apiEndpoint}", 'DELETE');
 
         $this->assertResponseStatusCode(405);

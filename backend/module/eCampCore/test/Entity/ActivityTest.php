@@ -3,12 +3,10 @@
 namespace eCamp\CoreTest\Entity;
 
 use eCamp\Core\Entity\Activity;
-use eCamp\Core\Entity\ActivityCategory;
-use eCamp\Core\Entity\ActivityContent;
-use eCamp\Core\Entity\ActivityType;
-use eCamp\Core\Entity\ActivityTypeContentType;
+use eCamp\Core\Entity\ActivityResponsible;
 use eCamp\Core\Entity\Camp;
-use eCamp\Core\Entity\ContentType;
+use eCamp\Core\Entity\Category;
+use eCamp\Core\Entity\ContentNode;
 use eCamp\Core\Entity\ScheduleEntry;
 use eCamp\LibTest\PHPUnit\AbstractTestCase;
 
@@ -16,39 +14,35 @@ use eCamp\LibTest\PHPUnit\AbstractTestCase;
  * @internal
  */
 class ActivityTest extends AbstractTestCase {
-    public function testActivityCategory() {
+    public function testCategory(): void {
         $camp = new Camp();
-
-        $activityType = new ActivityType();
-        $activityType->setDefaultColor('#FF00FF');
-        $activityType->setDefaultNumberingStyle('i');
-
-        $activityCategory = new ActivityCategory();
-        $activityCategory->setActivityType($activityType);
+        $category = new Category();
 
         $activity = new Activity();
         $activity->setCamp($camp);
         $activity->setTitle('ActivityTitle');
-        $activity->setActivityCategory($activityCategory);
+        $activity->setCategory($category);
 
         $this->assertEquals($camp, $activity->getCamp());
         $this->assertEquals('ActivityTitle', $activity->getTitle());
-        $this->assertEquals($activityCategory, $activity->getActivityCategory());
-        $this->assertEquals($activityType, $activity->getActivityType());
+        $this->assertEquals($category, $activity->getCategory());
     }
 
-    public function testActivityContent() {
+    public function testContentNode(): void {
         $activity = new Activity();
-        $activityContent = new ActivityContent();
+        $root = new ContentNode();
+        $node = new ContentNode();
+        $node->setParent($root);
 
-        $this->assertEquals(0, $activity->getActivityContents()->count());
-        $activity->addActivityContent($activityContent);
-        $this->assertContains($activityContent, $activity->getActivityContents());
-        $activity->removeActivityContent($activityContent);
-        $this->assertEquals(0, $activity->getActivityContents()->count());
+        $this->assertCount(0, $activity->getAllContentNodes());
+        $activity->setRootContentNode($root);
+        $this->assertContains($root, $activity->getAllContentNodes());
+        $this->assertContains($node, $activity->getAllContentNodes());
+        $activity->setRootContentNode(null);
+        $this->assertCount(0, $activity->getAllContentNodes());
     }
 
-    public function testScheduleEntry() {
+    public function testScheduleEntry(): void {
         $activity = new Activity();
         $scheduleEntry = new ScheduleEntry();
 
@@ -59,31 +53,14 @@ class ActivityTest extends AbstractTestCase {
         $this->assertEquals(0, $activity->getScheduleEntries()->count());
     }
 
-    public function testCreateActivityContents() {
-        $contentType = new ContentType();
-        $contentType->setName('TestContentType');
-
-        $activityTypeContentType = new ActivityTypeContentType();
-        $activityTypeContentType->setContentType($contentType);
-        $activityTypeContentType->setDefaultInstances(1);
-
-        $camp = new Camp();
-
-        $activityType = new ActivityType();
-        $activityType->setDefaultColor('#FF00FF');
-        $activityType->setDefaultNumberingStyle('i');
-        $activityType->addActivityTypeContentType($activityTypeContentType);
-
-        $activityCategory = new ActivityCategory();
-        $activityCategory->setActivityType($activityType);
-
+    public function testActivityResponsible(): void {
         $activity = new Activity();
-        $activity->setCamp($camp);
-        $activity->setTitle('ActivityTitle');
-        $activity->setActivityCategory($activityCategory);
+        $activityResponsible = new ActivityResponsible();
 
-        $activity->PrePersist();
-
-        $this->assertCount(1, $activity->getActivityContents());
+        $this->assertEquals(0, $activity->getActivityResponsibles()->count());
+        $activity->addActivityResponsible($activityResponsible);
+        $this->assertContains($activityResponsible, $activity->getActivityResponsibles());
+        $activity->removeActivityResponsible($activityResponsible);
+        $this->assertEquals(0, $activity->getActivityResponsibles()->count());
     }
 }

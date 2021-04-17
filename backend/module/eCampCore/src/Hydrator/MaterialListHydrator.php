@@ -8,17 +8,15 @@ use Laminas\ApiTools\Hal\Link\Link;
 use Laminas\Hydrator\HydratorInterface;
 
 class MaterialListHydrator implements HydratorInterface {
-    public static function HydrateInfo() {
+    public static function HydrateInfo(): array {
         return [
         ];
     }
 
     /**
      * @param object $object
-     *
-     * @return array
      */
-    public function extract($object) {
+    public function extract($object): array {
         /** @var MaterialList $materialList */
         $materialList = $object;
 
@@ -39,10 +37,8 @@ class MaterialListHydrator implements HydratorInterface {
 
     /**
      * @param object $object
-     *
-     * @return object
      */
-    public function hydrate(array $data, $object) {
+    public function hydrate(array $data, $object): MaterialList {
         /** @var MaterialList $materialList */
         $materialList = $object;
 

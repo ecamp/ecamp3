@@ -3,7 +3,7 @@ Lists all activity instances in a list view.
 -->
 
 <template>
-  <v-list dense>
+  <v-list v-if="scheduleEntries.length > 0" dense>
     <template v-for="scheduleEntry in scheduleEntries">
       <v-skeleton-loader
         v-if="activitiesLoading || scheduleEntry.activity()._meta.loading"
@@ -14,14 +14,14 @@ Lists all activity instances in a list view.
         :key="scheduleEntry._meta.self"
         two-line
         :to="scheduleEntryLink(scheduleEntry)">
-        <v-chip class="mr-2" :color="scheduleEntry.activity().activityCategory().color.toString()">
+        <v-chip class="mr-2" :color="scheduleEntry.activity().category().color.toString()">
           {{
-            scheduleEntry.activity().activityCategory().short
+            scheduleEntry.activity().category().short
           }}
         </v-chip>
         <v-list-item-content>
-          <v-list-item-title>{{ scheduleEntry.activity().title }}</v-list-item-title>
-          <v-list-item-subtitle>{{ $moment.utc(scheduleEntry.startTime) }} - {{ $moment.utc(scheduleEntry.endTime) }}</v-list-item-subtitle>
+          <v-list-item-title>{{ scheduleEntry.number }}: {{ scheduleEntry.activity().title }}</v-list-item-title>
+          <v-list-item-subtitle>{{ $date.utc(scheduleEntry.startTime) }} - {{ $date.utc(scheduleEntry.endTime) }}</v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
     </template>

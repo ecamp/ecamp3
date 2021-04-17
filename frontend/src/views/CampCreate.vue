@@ -1,12 +1,6 @@
 <template>
   <v-container fluid>
-    <content-card max-width="800">
-      <v-toolbar>
-        <v-toolbar-title>
-          <ButtonBack />
-          {{ $tc('views.campCreate.title') }}
-        </v-toolbar-title>
-      </v-toolbar>
+    <content-card max-width="800" :title="$tc('views.campCreate.title')" toolbar>
       <ValidationObserver v-slot="{ handleSubmit }">
         <v-form ref="form" @submit.prevent="handleSubmit(createCamp)">
           <v-card-text>
@@ -28,20 +22,14 @@
               vee-rules="required"
               required />
             <e-select
-              v-model="camp.campTypeId"
-              :name="$tc('entity.camp.fields.campType')"
-              vee-rules="required"
-              :items="campTypes">
-              <template v-slot:item="data">
+              v-model="camp.campPrototypeId"
+              :name="$tc('entity.camp.prototype')"
+              :items="campTemplates">
+              <template #item="data">
                 <v-list-item v-bind="data.attrs" v-on="data.on">
                   <v-list-item-content>
                     {{ data.item.text }}
                   </v-list-item-content>
-                  <v-list-item-action-text>
-                    <v-icon v-if="data.item.object.isCourse" left>
-                      mdi-school
-                    </v-icon>
-                  </v-list-item-action-text>
                 </v-list-item>
               </template>
             </e-select>
@@ -50,9 +38,10 @@
           </v-card-text>
           <v-divider />
           <v-card-text class="text-right">
-            <ButtonAdd type="submit">
+            <button-cancel />
+            <button-add type="submit">
               {{ $tc('views.campCreate.create') }}
-            </ButtonAdd>
+            </button-add>
           </v-card-text>
         </v-form>
       </ValidationObserver>
@@ -62,7 +51,7 @@
 
 <script>
 import ButtonAdd from '@/components/buttons/ButtonAdd'
-import ButtonBack from '@/components/buttons/ButtonBack'
+import ButtonCancel from '@/components/buttons/ButtonCancel'
 import ContentCard from '@/components/layout/ContentCard'
 import ETextField from '@/components/form/base/ETextField'
 import ESelect from '@/components/form/base/ESelect'
@@ -75,8 +64,8 @@ export default {
   name: 'Camps',
   components: {
     CreateCampPeriods,
-    ButtonBack,
     ButtonAdd,
+    ButtonCancel,
     ContentCard,
     ETextField,
     ESelect,
@@ -89,7 +78,7 @@ export default {
         name: '',
         title: '',
         motto: '',
-        campTypeId: null,
+        campTemplateId: null,
         periods: [
           {
             key: 0,
@@ -104,8 +93,8 @@ export default {
     }
   },
   computed: {
-    campTypes () {
-      return this.api.get().campTypes().items.map(ct => ({
+    campTemplates () {
+      return this.api.get().camps({ isPrototype: 1 }).items.map(ct => ({
         value: ct.id,
         text: this.$tc(ct.name),
         object: ct

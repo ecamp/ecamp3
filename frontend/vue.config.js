@@ -1,4 +1,4 @@
-const MomentLocalesPlugin = require('moment-locales-webpack-plugin')
+const path = require('path')
 
 module.exports = {
   devServer: {
@@ -11,12 +11,7 @@ module.exports = {
   },
 
   configureWebpack: {
-    devtool: 'source-map',
-    plugins: [
-      new MomentLocalesPlugin({
-        localesToKeep: ['de', 'de-CH', 'en', 'fr', 'it']
-      })
-    ]
+    devtool: 'source-map'
   },
 
   transpileDependencies: [
@@ -35,14 +30,33 @@ module.exports = {
       .end()
       .use('vue-svg-loader')
       .loader('vue-svg-loader')
+
+    config.module
+      .rule('source-map-loader')
+      .test(/\.(js)$/)
+      .enforce('pre')
+      .include
+      .add(path.resolve(__dirname, 'node_modules/hal-json-vuex'))
+      .end()
+      .use('source-map-loader')
+      .loader('source-map-loader')
+      .end()
   },
 
   pluginOptions: {
-    i18n: {
-      locale: 'de',
-      fallbackLocale: 'en',
-      localeDir: 'locales',
-      enableInSFC: true
+    jestSerializer: {
+      attributesToClear: [
+        'id',
+        'for'
+      ],
+      formatting: {
+        indent_char: ' ',
+        indent_inner_html: true,
+        indent_size: 5,
+        inline: [],
+        sep: '\n',
+        wrap_attributes: 'force-aligned'
+      }
     }
   },
 

@@ -7,7 +7,7 @@ use eCamp\Core\Entity\Period;
 use eCamp\Lib\Entity\EntityLink;
 use eCamp\Lib\Entity\EntityLinkCollection;
 use eCamp\Lib\Hydrator\Util;
-use eCampApi\V1\Rest\ActivityCategory\ActivityCategoryCollection;
+use eCampApi\V1\Rest\Category\CategoryCollection;
 use eCampApi\V1\Rest\Day\DayCollection;
 use eCampApi\V1\Rest\Period\PeriodCollection;
 use Laminas\ApiTools\Hal\Link\Link;
@@ -15,11 +15,8 @@ use Laminas\Authentication\AuthenticationService;
 use Laminas\Hydrator\HydratorInterface;
 
 class CampHydrator implements HydratorInterface {
-    public static function HydrateInfo() {
+    public static function HydrateInfo(): array {
         return [
-            'campType' => Util::Entity(function (Camp $c) {
-                return $c->getCampType();
-            }),
             'periods' => Util::Collection(
                 function (Camp $c) {
                     return new PeriodCollection($c->getPeriods());
@@ -44,8 +41,8 @@ class CampHydrator implements HydratorInterface {
                     }, null),
                 ]
             ),
-            'activityCategories' => Util::Collection(function (Camp $c) {
-                return new ActivityCategoryCollection($c->getActivityCategories());
+            'categories' => Util::Collection(function (Camp $c) {
+                return new CategoryCollection($c->getCategories());
             }, null),
         ];
     }
@@ -54,10 +51,8 @@ class CampHydrator implements HydratorInterface {
      * @param object $object
      *
      * @throws \Exception
-     *
-     * @return array
      */
-    public function extract($object) {
+    public function extract($object): array {
         $auth = new AuthenticationService();
 
         /** @var Camp $camp */
@@ -69,16 +64,16 @@ class CampHydrator implements HydratorInterface {
             'title' => $camp->getTitle(),
             'motto' => $camp->getMotto(),
             'role' => $camp->getRole($auth->getIdentity()),
+            'isPrototype' => $camp->getIsPrototype(),
 
             //            'owner' => EntityLink::Create($camp->getOwner()),
             'creator' => EntityLink::Create($camp->getCreator()),
-            'campType' => EntityLink::Create($camp->getCampType()),
 
             'campCollaborations' => new EntityLinkCollection($camp->getCampCollaborations()),
 
             'periods' => new EntityLinkCollection($camp->getPeriods()),
 
-            'activityCategories' => new EntityLinkCollection($camp->getActivityCategories()),
+            'categories' => new EntityLinkCollection($camp->getCategories()),
             'activities' => Link::factory([
                 'rel' => 'activities',
                 'route' => [
@@ -98,13 +93,14 @@ class CampHydrator implements HydratorInterface {
 
     /**
      * @param object $object
-     *
-     * @return object
      */
-    public function hydrate(array $data, $object) {
+    public function hydrate(array $data, $object): Camp {
         /** @var Camp $camp */
         $camp = $object;
 
+        if (isset($data['isPrototype'])) {
+            $camp->setIsPrototype($data['isPrototype']);
+        }
         if (isset($data['title'])) {
             $camp->setTitle($data['title']);
         }

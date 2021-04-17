@@ -38,7 +38,7 @@ class OrganizationTest extends AbstractApiControllerTestCase {
         $this->authenticateUser($this->user);
     }
 
-    public function testFetch() {
+    public function testFetch(): void {
         $this->dispatch("{$this->apiEndpoint}/{$this->organization->getId()}", 'GET');
 
         $this->assertResponseStatusCode(200);
@@ -57,12 +57,12 @@ JSON;
                 }
             }
 JSON;
-        $expectedEmbeddedObjects = ['campTypes'];
+        $expectedEmbeddedObjects = [];
 
         $this->verifyHalResourceResponse($expectedBody, $expectedLinks, $expectedEmbeddedObjects);
     }
 
-    public function testFetchAll() {
+    public function testFetchAll(): void {
         $this->dispatch("{$this->apiEndpoint}?page_size=10", 'GET');
 
         $this->assertResponseStatusCode(200);
@@ -73,22 +73,22 @@ JSON;
         $this->assertEquals($this->organization->getId(), $this->getResponseContent()->_embedded->items[0]->id);
     }
 
-    public function testCreateForbidden() {
+    public function testCreateForbidden(): void {
         $this->dispatch("{$this->apiEndpoint}", 'POST');
         $this->assertResponseStatusCode(405);
     }
 
-    public function testPatchForbidden() {
+    public function testPatchForbidden(): void {
         $this->dispatch("{$this->apiEndpoint}/{$this->organization->getId()}", 'PATCH');
         $this->assertResponseStatusCode(405);
     }
 
-    public function testUpdateForbidden() {
+    public function testUpdateForbidden(): void {
         $this->dispatch("{$this->apiEndpoint}/{$this->organization->getId()}", 'PUT');
         $this->assertResponseStatusCode(405);
     }
 
-    public function testDeleteForbidden() {
+    public function testDeleteForbidden(): void {
         $this->dispatch("{$this->apiEndpoint}/{$this->organization->getId()}", 'DELETE');
         $this->assertResponseStatusCode(405);
     }

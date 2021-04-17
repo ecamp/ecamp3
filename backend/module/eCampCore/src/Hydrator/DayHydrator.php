@@ -8,17 +8,15 @@ use eCamp\Lib\Entity\EntityLinkCollection;
 use Laminas\Hydrator\HydratorInterface;
 
 class DayHydrator implements HydratorInterface {
-    public static function HydrateInfo() {
+    public static function HydrateInfo(): array {
         return [
         ];
     }
 
     /**
      * @param object $object
-     *
-     * @return array
      */
-    public function extract($object) {
+    public function extract($object): array {
         /** @var Day $day */
         $day = $object;
 
@@ -35,10 +33,8 @@ class DayHydrator implements HydratorInterface {
 
     /**
      * @param object $object
-     *
-     * @return object
      */
-    public function hydrate(array $data, $object) {
+    public function hydrate(array $data, $object): Day {
         /** @var Day $day */
         $day = $object;
 

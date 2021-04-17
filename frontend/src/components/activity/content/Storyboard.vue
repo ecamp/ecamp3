@@ -1,18 +1,19 @@
 <template>
-  <div>
+  <card-content-node v-bind="$props">
     <v-container fluid>
       <v-row no-gutters class="text-subtitle-2">
         <v-col cols="2">
-          {{ $tc('activityContent.storyboard.entity.section.fields.column1') }}
+          {{ $tc('contentNode.storyboard.entity.section.fields.column1') }}
         </v-col>
         <v-col cols="7">
-          {{ $tc('activityContent.storyboard.entity.section.fields.column2') }}
+          {{ $tc('contentNode.storyboard.entity.section.fields.column2') }}
         </v-col>
         <v-col cols="2">
-          {{ $tc('activityContent.storyboard.entity.section.fields.column3') }}
+          {{ $tc('contentNode.storyboard.entity.section.fields.column3') }}
         </v-col>
         <v-col cols="1" />
       </v-row>
+
       <draggable
         v-model="sorting.hrefList"
         ghost-class="ghost"
@@ -28,11 +29,13 @@
             <!-- add before -->
             <v-row no-gutters class="row-inter" justify="center">
               <v-col cols="1">
-                <v-btn icon
-                       small
-                       class="button-add"
-                       color="success"
-                       @click="addSection">
+                <v-btn
+                  v-if="!layoutMode"
+                  icon
+                  small
+                  class="button-add"
+                  color="success"
+                  @click="addSection">
                   <v-icon>mdi-plus</v-icon>
                 </v-btn>
               </v-col>
@@ -44,27 +47,33 @@
                   <api-textarea
                     fieldname="column1"
                     auto-grow
-                    rows="2" />
+                    rows="2"
+                    :disabled="layoutMode"
+                    :filled="layoutMode" />
                 </v-col>
                 <v-col cols="7">
                   <api-textarea
                     fieldname="column2"
                     auto-grow
-                    rows="4" />
+                    rows="4"
+                    :disabled="layoutMode"
+                    :filled="layoutMode" />
                 </v-col>
                 <v-col cols="2">
                   <api-textarea
                     fieldname="column3"
                     auto-grow
-                    rows="2" />
+                    rows="2"
+                    :disabled="layoutMode"
+                    :filled="layoutMode" />
                 </v-col>
                 <v-col cols="1">
-                  <v-container>
+                  <v-container v-if="!layoutMode">
                     <v-row no-gutters>
                       <v-col>
                         <div class="float-right section-buttons">
                           <dialog-entity-delete :entity="section">
-                            <template v-slot:activator="{ on }">
+                            <template #activator="{ on }">
                               <v-btn icon
                                      small
                                      color="error"
@@ -105,7 +114,8 @@
       <!-- add at end position -->
       <v-row no-gutters justify="center">
         <v-col cols="1">
-          <v-btn icon
+          <v-btn v-if="!layoutMode"
+                 icon
                  small
                  class="button-add"
                  color="success"
@@ -115,7 +125,7 @@
         </v-col>
       </v-row>
     </v-container>
-  </div>
+  </card-content-node>
 </template>
 
 <script>
@@ -124,17 +134,21 @@ import ApiForm from '@/components/form/api/ApiForm'
 import DialogEntityDelete from '@/components/dialog/DialogEntityDelete'
 import draggable from 'vuedraggable'
 import { isEqual } from 'lodash'
+import CardContentNode from '@/components/activity/CardContentNode'
+import { contentNodeMixin } from '@/mixins/contentNodeMixin'
 
 export default {
   name: 'Storyboard',
   components: {
+    CardContentNode,
     ApiForm,
     ApiTextarea,
     DialogEntityDelete,
     draggable
   },
+  mixins: [contentNodeMixin],
   props: {
-    activityContent: { type: Object, required: true }
+    contentNode: { type: Object, required: true }
   },
   data () {
     return {
@@ -148,7 +162,7 @@ export default {
   computed: {
     // retrieve all relevant entitieys from external (incl. filtering and sorting)
     sections () {
-      return this.activityContent.sections().items.sort((a, b) => a.pos - b.pos)
+      return this.contentNode.sections().items.sort((a, b) => a.pos - b.pos)
     },
 
     // locally sorted entities (sorted as per loal hrefList)
@@ -177,14 +191,14 @@ export default {
     async addSection () {
       // this.isAdding = true
       await this.api.post('/content-type/storyboards', {
-        activityContentId: this.activityContent.id,
+        contentNodeId: this.contentNode.id,
         pos: 100
       })
       await this.refreshContent()
       // this.isAdding = false
     },
     async refreshContent () {
-      await this.api.reload(this.activityContent)
+      await this.api.reload(this.contentNode)
     },
     async sectionUp (section) {
       const list = this.sorting.hrefList

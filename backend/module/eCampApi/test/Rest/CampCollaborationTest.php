@@ -14,10 +14,15 @@ use eCamp\LibTest\PHPUnit\AbstractApiControllerTestCase;
  */
 class CampCollaborationTest extends AbstractApiControllerTestCase {
     /** @var CampCollaboration */
-    protected $campCollaboration;
+    protected $campCollaboration1;
+    /** @var CampCollaboration */
+    protected $campCollaborationInvited;
+
+    protected CampCollaboration $campCollaborationInactive;
 
     /** @var User */
     protected $user;
+    protected User $user2;
 
     private $apiEndpoint = '/api/camp-collaborations';
 
@@ -33,38 +38,72 @@ class CampCollaborationTest extends AbstractApiControllerTestCase {
         $this->loadFixtures($loader);
 
         $this->user = $userLoader->getReference(UserTestData::$USER1);
-        $this->campCollaboration = $campCollaborationLoader->getReference(CampCollaborationTestData::$COLLAB1);
+        $this->user2 = $userLoader->getReference(UserTestData::$USER2);
+        $this->campCollaboration1 = $campCollaborationLoader->getReference(CampCollaborationTestData::$COLLAB1);
+        $this->campCollaborationInvited = $campCollaborationLoader->getReference(CampCollaborationTestData::$COLLAB_INVITED);
+        $this->campCollaborationInactive = $campCollaborationLoader->getReference(CampCollaborationTestData::$COLLAB_INACTIVE);
 
         $this->authenticateUser($this->user);
     }
 
-    public function testFetch() {
-        $this->dispatch("{$this->apiEndpoint}/{$this->campCollaboration->getId()}", 'GET');
+    public function testFetch(): void {
+        $this->dispatch("{$this->apiEndpoint}/{$this->campCollaboration1->getId()}", 'GET');
 
         $this->assertResponseStatusCode(200);
 
         $expectedBody = <<<JSON
             {
-                "id": "{$this->campCollaboration->getId()}",
+                "id": "{$this->campCollaboration1->getId()}",
                 "role": "member",
-                "status": "established"
+                "status": "established",
+                "inviteEmail": null
             }
 JSON;
 
         $expectedLinks = <<<JSON
             {
                 "self": {
-                    "href": "http://{$this->host}{$this->apiEndpoint}/{$this->campCollaboration->getId()}"
+                    "href": "http://{$this->host}{$this->apiEndpoint}/{$this->campCollaboration1->getId()}"
                 }
             }
 JSON;
-        $expectedEmbeddedObjects = ['camp', 'user']; // TODO discuss: wouldn't 'campCollaborationResponsibles' be more intuitive than 'campCollaborations'
+        $expectedEmbeddedObjects = [
+            'camp',
+            'user',
+        ];
 
         $this->verifyHalResourceResponse($expectedBody, $expectedLinks, $expectedEmbeddedObjects);
     }
 
-    public function testFetchAll() {
-        $campId = $this->campCollaboration->getCamp()->getId();
+    public function testFetchOnlyEmail(): void {
+        $this->dispatch("{$this->apiEndpoint}/{$this->campCollaborationInvited->getId()}", 'GET');
+
+        $this->assertResponseStatusCode(200);
+
+        $expectedBody = <<<JSON
+            {
+                "id": "{$this->campCollaborationInvited->getId()}",
+                "role": "{$this->campCollaborationInvited->getRole()}",
+                "status": "{$this->campCollaborationInvited->getStatus()}",
+                "inviteEmail": "{$this->campCollaborationInvited->getInviteEmail()}",
+                "user": null
+            }
+JSON;
+
+        $expectedLinks = <<<JSON
+            {
+                "self": {
+                    "href": "http://{$this->host}{$this->apiEndpoint}/{$this->campCollaborationInvited->getId()}"
+                }
+            }
+JSON;
+        $expectedEmbeddedObjects = ['camp'];
+
+        $this->verifyHalResourceResponse($expectedBody, $expectedLinks, $expectedEmbeddedObjects);
+    }
+
+    public function testFetchAll(): void {
+        $campId = $this->campCollaboration1->getCamp()->getId();
         $userId = $this->user->getId();
         $this->dispatch("{$this->apiEndpoint}?page_size=10&userId={$userId}&campId={$campId}", 'GET');
 
@@ -73,10 +112,10 @@ JSON;
         $this->assertEquals(1, $this->getResponseContent()->total_items);
         $this->assertEquals(10, $this->getResponseContent()->page_size);
         $this->assertEquals("http://{$this->host}{$this->apiEndpoint}?page_size=10&userId={$userId}&campId={$campId}&page=1", $this->getResponseContent()->_links->self->href);
-        $this->assertEquals($this->campCollaboration->getId(), $this->getResponseContent()->_embedded->items[0]->id);
+        $this->assertEquals($this->campCollaboration1->getId(), $this->getResponseContent()->_embedded->items[0]->id);
     }
 
-    public function testCreateWithoutRole() {
+    public function testCreateWithoutRole(): void {
         $this->setRequestContent([
             'role' => '', ]); // TODO: Validierung wär nicht zwingend notwendig. Der Service nimmt einfach 'member' als Default
 
@@ -86,7 +125,7 @@ JSON;
         $this->assertObjectHasAttribute('isEmpty', $this->getResponseContent()->validation_messages->role);
     }
 
-    public function testCreateWithoutCamp() {
+    public function testCreateWithoutCamp(): void {
         $this->setRequestContent([
             'role' => 'member',
             'campId' => 'xxx', ]);
@@ -97,18 +136,70 @@ JSON;
         $this->assertObjectHasAttribute('notFound', $this->getResponseContent()->validation_messages->campId);
     }
 
-    public function testCreateDuplicateEntry() {
+    public function testCreateDuplicateEntry(): void {
         $this->setRequestContent([
             'role' => 'member',
-            'campId' => $this->campCollaboration->getCamp()->getId(), ]);
+            'campId' => $this->campCollaboration1->getCamp()->getId(),
+        ]);
 
         $this->dispatch("{$this->apiEndpoint}", 'POST');
 
         // user already part of the camp
-        $this->assertResponseStatusCode(500);
+        $this->assertResponseStatusCode(422);
     }
 
-    public function testCreateSuccess() {
+    public function testCreateDuplicateEntryOnlyWithEmail(): void {
+        $this->setRequestContent([
+            'role' => 'member',
+            'campId' => $this->campCollaborationInvited->getCamp()->getId(),
+            'user' => null,
+            'inviteEmail' => $this->campCollaborationInvited->getInviteEmail(),
+        ]);
+
+        $this->dispatch("{$this->apiEndpoint}", 'POST');
+
+        // user already part of the camp
+        $this->assertResponseStatusCode(422);
+    }
+
+    public function testCreateForYourselfFails() {
+        $this->logout();
+        $this->authenticateUser($this->user2);
+        $this->setRequestContent([
+            'role' => 'member',
+            'campId' => $this->campCollaboration1->getCamp()->getId(),
+            'userId' => $this->user2->getId(),
+        ]);
+
+        $this->dispatch("{$this->apiEndpoint}", 'POST');
+
+        /* It's 422 EntityValidationException because the query for the related camp
+         * does not find a camp.
+         * It does not find the related camp because the ACL is already included in the fetch query for the camp
+         */
+        $this->assertResponseStatusCode(422);
+    }
+
+    public function testCreateFailsWithoutPermissions() {
+        $this->logout();
+        $this->authenticateUser($this->user2);
+        $this->setRequestContent([
+            'role' => 'member',
+            'campId' => $this->campCollaboration1->getCamp()->getId(),
+            'inviteEmail' => 'my.mail@fantasy.com',
+            'userId' => null,
+        ]);
+
+        $this->dispatch("{$this->apiEndpoint}", 'POST');
+
+        /* It's 422 EntityValidationException because the query for the related camp
+         * does not find a camp.
+         * It does not find the related camp because the ACL is already included in the fetch query for the camp.
+         */
+        $this->assertResponseStatusCode(422);
+    }
+
+    public function testCreateSuccess(): void {
         $user2 = new User();
         $user2->setUsername('test-user2');
         $user2->setRole(User::ROLE_USER);
@@ -119,7 +210,7 @@ JSON;
 
         $this->setRequestContent([
             'role' => 'member',
-            'campId' => $this->campCollaboration->getCamp()->getId(),
+            'campId' => $this->campCollaboration1->getCamp()->getId(),
             'userId' => $user2->getId(), ]);
 
         $this->dispatch("{$this->apiEndpoint}", 'POST');
@@ -129,25 +220,121 @@ JSON;
         $this->assertEquals(CampCollaboration::STATUS_INVITED, $this->getResponseContent()->status);
     }
 
-    public function testUpdateSuccess() {
+    public function testCreateOnlyWithEmail(): void {
+        $inviteEmail = 'my.mail@fantasy.com';
+        $this->setRequestContent([
+            'role' => CampCollaboration::ROLE_MEMBER,
+            'campId' => $this->campCollaboration1->getCamp()->getId(),
+            'inviteEmail' => $inviteEmail,
+            'userId' => null,
+        ]);
+
+        $this->dispatch("{$this->apiEndpoint}", 'POST');
+
+        $this->assertResponseStatusCode(201);
+
+        $this->assertThat($this->getResponseContent()->status, self::equalTo(CampCollaboration::STATUS_INVITED));
+        $this->assertThat($this->getResponseContent()->inviteEmail, self::equalTo($inviteEmail));
+        $this->assertThat($this->getResponseContent()->_embedded, self::logicalNot(self::classHasAttribute('user')));
+    }
+
+    public function testCreateWithEmailOfExistingUser() {
+        $inviteEmail = 'my.mail@fantasy.com';
+        $user2 = new User();
+        $user2->setUsername('test-user2');
+        $user2->setTrustedMailAddress($inviteEmail);
+        $user2->setRole(User::ROLE_USER);
+        $user2->setState(User::STATE_ACTIVATED);
+
+        $this->getEntityManager()->persist($user2);
+        $this->getEntityManager()->flush();
+
+        $this->setRequestContent([
+            'role' => CampCollaboration::ROLE_MEMBER,
+            'campId' => $this->campCollaboration1->getCamp()->getId(),
+            'inviteEmail' => $inviteEmail,
+            'userId' => null,
+        ]);
+
+        $this->dispatch("{$this->apiEndpoint}", 'POST');
+
+        $this->assertResponseStatusCode(201);
+
+        $this->assertThat($this->getResponseContent()->status, self::equalTo(CampCollaboration::STATUS_INVITED));
+        $this->assertThat($this->getResponseContent()->inviteEmail, self::equalTo($inviteEmail));
+        $this->assertThat($this->getResponseContent()->_embedded->user->id, self::equalTo($user2->getId()));
+    }
+
+    public function testUpdateSuccess(): void {
         $this->setRequestContent([
             'role' => 'manager', ]);
 
-        $this->dispatch("{$this->apiEndpoint}/{$this->campCollaboration->getId()}", 'PATCH');
+        $this->dispatch("{$this->apiEndpoint}/{$this->campCollaboration1->getId()}", 'PATCH');
 
         $this->assertResponseStatusCode(200);
-
-        // TODO: this should not be posible (implement ACL & write tests for it)
         $this->assertEquals('manager', $this->getResponseContent()->role);
     }
 
-    public function testDelete() {
-        $this->dispatch("{$this->apiEndpoint}/{$this->campCollaboration->getId()}", 'DELETE');
+    public function testUpdateFailsWithoutPermission(): void {
+        $this->logout();
+        $this->authenticateUser($this->user2);
+        $this->setRequestContent([
+            'role' => 'manager',
+        ]);
+
+        $this->dispatch("{$this->apiEndpoint}/{$this->campCollaboration1->getId()}", 'PATCH');
+
+        $this->assertResponseStatusCode(403);
+    }
+
+    public function testInviteAgain(): void {
+        $this->setRequestContent([
+            'status' => CampCollaboration::STATUS_INVITED,
+        ]);
+
+        $this->dispatch("{$this->apiEndpoint}/{$this->campCollaborationInactive->getId()}", 'PATCH');
+
+        $this->assertResponseStatusCode(200);
+
+        $this->assertEquals(CampCollaboration::STATUS_INVITED, $this->getResponseContent()->status);
+    }
+
+    public function testDelete(): void {
+        $collaborationToDelete = $this->campCollaborationInactive->getId();
+        $this->dispatch("{$this->apiEndpoint}/{$collaborationToDelete}", 'DELETE');
 
         $this->assertResponseStatusCode(204);
 
         /** @var CampCollaboration $cc */
-        $cc = $this->getEntityManager()->find(CampCollaboration::class, $this->campCollaboration->getId());
-        $this->assertEquals(CampCollaboration::STATUS_LEFT, $cc->getStatus());
+        $cc = $this->getEntityManager()->find(CampCollaboration::class, $collaborationToDelete);
+        self::assertThat($cc, self::isNull());
+    }
+
+    public function testUpdateToInactiveWhenDeleteAndStatusIsInvited(): void {
+        $this->dispatch("{$this->apiEndpoint}/{$this->campCollaborationInvited->getId()}", 'DELETE');
+
+        $this->assertResponseStatusCode(204);
+
+        /** @var CampCollaboration $cc */
+        $cc = $this->getEntityManager()->find(CampCollaboration::class, $this->campCollaborationInvited->getId());
+        $this->assertEquals(CampCollaboration::STATUS_INACTIVE, $cc->getStatus());
+    }
+
+    public function testUpdateToInactiveWhenDeleteAndStatusIsEstablished(): void {
+        $this->dispatch("{$this->apiEndpoint}/{$this->campCollaboration1->getId()}", 'DELETE');
+
+        $this->assertResponseStatusCode(204);
+
+        /** @var CampCollaboration $cc */
+        $cc = $this->getEntityManager()->find(CampCollaboration::class, $this->campCollaboration1->getId());
+        $this->assertEquals(CampCollaboration::STATUS_INACTIVE, $cc->getStatus());
+    }
+
+    public function testDeleteFailsWithoutPermissions(): void {
+        $this->logout();
+        $this->authenticateUser($this->user2);
+        $this->dispatch("{$this->apiEndpoint}/{$this->campCollaboration1->getId()}", 'DELETE');
+
+        $this->assertResponseStatusCode(403);
     }
 }

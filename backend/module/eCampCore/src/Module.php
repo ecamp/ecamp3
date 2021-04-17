@@ -4,7 +4,6 @@ namespace eCamp\Core;
 
 use Doctrine\DBAL\Logging\EchoSQLLogger;
 use Doctrine\ORM\EntityManager;
-use eCamp\Core\ContentType\ContentTypeStrategyProviderInjector;
 use Laminas\ApiTools\ApiProblem\ApiProblemResponse;
 use Laminas\Mvc\Application;
 use Laminas\Mvc\MvcEvent;
@@ -14,7 +13,7 @@ class Module {
         return include __DIR__.'/../config/module.config.php';
     }
 
-    public function onBootstrap(MvcEvent $e) {
+    public function onBootstrap(MvcEvent $e): void {
         /** @var Application $app */
         $app = $e->getApplication();
         $events = $app->getEventManager();
@@ -30,11 +29,11 @@ class Module {
         // Enable next line for Doctrine debug output
         // $em->getConfiguration()->setSQLLogger(new EchoSQLLogger());
 
-        $events->attach(MvcEvent::EVENT_DISPATCH, function (MvcEvent $e) use ($em) {
+        $events->attach(MvcEvent::EVENT_DISPATCH, function (MvcEvent $e) use ($em): void {
             $em->beginTransaction();
         }, 10);
 
-        $events->attach(MvcEvent::EVENT_FINISH, function (MvcEvent $e) use ($em) {
+        $events->attach(MvcEvent::EVENT_FINISH, function (MvcEvent $e) use ($em): void {
             if ($e->getError() || $e->getResponse() instanceof ApiProblemResponse) {
                 if ($em->getConnection()->isTransactionActive()) {
                     $em->getConnection()->rollback();
@@ -46,9 +45,5 @@ class Module {
                 }
             }
         }, 10);
-
-        // inject ContentTypeStrategyProvider into Doctrine entities (mainly ActivityContent entity)
-        $em->getEventManager()->addEventListener([\Doctrine\ORM\Events::postLoad], $sm->get(ContentTypeStrategyProviderInjector::class));
-        $em->getEventManager()->addEventListener([\Doctrine\ORM\Events::prePersist], $sm->get(ContentTypeStrategyProviderInjector::class));
     }
 }

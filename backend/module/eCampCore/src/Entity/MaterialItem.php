@@ -10,111 +10,89 @@ use eCamp\Lib\Entity\BaseEntity;
  */
 class MaterialItem extends BaseEntity implements BelongsToCampInterface {
     /**
-     * @var MaterialList
      * @ORM\ManyToOne(targetEntity="MaterialList")
      * @ORM\JoinColumn(nullable=false, onDelete="cascade")
      */
-    protected $materialList;
+    protected ?MaterialList $materialList = null;
 
     /**
-     * @var Period
      * @ORM\ManyToOne(targetEntity="Period")
      * @ORM\JoinColumn(nullable=true, onDelete="cascade")
      */
-    protected $period;
+    protected ?Period $period = null;
 
     /**
-     * @var ActivityContent
-     * @ORM\ManyToOne(targetEntity="eCamp\Core\Entity\ActivityContent")
+     * @ORM\ManyToOne(targetEntity="eCamp\Core\Entity\ContentNode")
      * @ORM\JoinColumn(nullable=true, onDelete="CASCADE")
      */
-    protected $activityContent;
+    protected ?ContentNode $contentNode = null;
 
     /**
-     * @var string
-     * @ORM\Column(type="string", length=64, nullable=false)
+     * @ORM\Column(type="text", nullable=false)
      */
-    private $article;
+    private ?string $article = null;
 
     /**
-     * @var float
      * @ORM\Column(type="float", nullable=true)
      */
-    private $quantity;
+    private ?float $quantity = null;
 
     /**
-     * @var string
-     * @ORM\Column(type="string", length=64, nullable=true)
+     * @ORM\Column(type="text", nullable=true)
      */
-    private $unit;
+    private ?string $unit = null;
 
-    public function __construct() {
-        parent::__construct();
-    }
-
-    /**
-     * @return MaterialList
-     */
-    public function getMaterialList() {
+    public function getMaterialList(): ?MaterialList {
         return $this->materialList;
     }
 
-    public function setMaterialList($materialList) {
+    public function setMaterialList(?MaterialList $materialList): void {
         $this->materialList = $materialList;
     }
 
-    /**
-     * @return Camp
-     */
-    public function getCamp() {
+    public function getCamp(): ?Camp {
         return $this->materialList->getCamp();
     }
 
-    /**
-     * @return Period
-     */
-    public function getPeriod() {
+    public function getPeriod(): ?Period {
         return $this->period;
     }
 
-    public function setPeriod(?Period $period) {
-        $this->activityContent = null;
+    public function setPeriod(?Period $period): void {
+        $this->contentNode = null;
         $this->period = $period;
     }
 
-    /**
-     * @return ActivityContent
-     */
-    public function getActivityContent() {
-        return $this->activityContent;
+    public function getContentNode(): ?ContentNode {
+        return $this->contentNode;
     }
 
-    public function setActivityContent(?ActivityContent $activityContent) {
+    public function setContentNode(?ContentNode $contentNode): void {
         $this->period = null;
-        $this->activityContent = $activityContent;
+        $this->contentNode = $contentNode;
     }
 
-    public function getArticle() {
+    public function getArticle(): ?string {
         return $this->article;
     }
 
-    public function setArticle($article) {
+    public function setArticle(?string $article): void {
         $this->article = $article;
     }
 
-    public function getQuantity() {
+    public function getQuantity(): ?float {
         return $this->quantity;
     }
 
-    public function setQuantity($quantity) {
+    public function setQuantity(?float $quantity): void {
         $this->quantity = $quantity;
     }
 
-    public function getUnit() {
+    public function getUnit(): ?string {
         return $this->unit;
     }
 
-    public function setUnit($unit) {
+    public function setUnit(?string $unit): void {
         $this->unit = $unit;
     }
 }

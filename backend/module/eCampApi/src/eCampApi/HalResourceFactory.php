@@ -29,10 +29,8 @@ class HalResourceFactory extends ResourceFactory {
 
     /**
      * @param array|Paginator|Traversable $object
-     *
-     * @return Collection
      */
-    public function createCollectionFromMetadata($object, Metadata $metadata) {
+    public function createCollectionFromMetadata($object, Metadata $metadata): Collection {
         $halCollection = parent::createCollectionFromMetadata($object, $metadata);
 
         $collection = $halCollection->getCollection();

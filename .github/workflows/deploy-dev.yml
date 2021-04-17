@@ -40,7 +40,11 @@ jobs:
           frontend-url: ${{ secrets.DEVEL_FRONTEND_URL }}
           print-server-url: ${{ secrets.DEVEL_PRINT_SERVER_URL }}
           print-file-server-url: ${{ secrets.DEVEL_PRINT_FILE_SERVER_URL }}
-          sentry-dsn: ${{ secrets.DEVEL_SENTRY_DSN }}
+          sentry-backend-dsn: ${{ secrets.DEVEL_SENTRY_BACKEND_DSN }}
+          sentry-frontend-dsn: ${{ secrets.DEVEL_SENTRY_FRONTEND_DSN }}
+          sentry-print-dsn: ${{ secrets.DEVEL_SENTRY_PRINT_DSN }}
+          sentry-worker-print-puppeteer-dsn: ${{ secrets.DEVEL_SENTRY_WORKER_PRINT_PUPPETEER_DSN }}
+          sentry-worker-print-weasy-dsn: ${{ secrets.DEVEL_SENTRY_WORKER_PRINT_WEASY_DSN }}
           rabbitmq-host: ${{ secrets.DEVEL_RABBITMQ_HOST }}
           rabbitmq-port: ${{ secrets.DEVEL_RABBITMQ_PORT }}
           rabbitmq-vhost: ${{ secrets.DEVEL_RABBITMQ_VHOST }}

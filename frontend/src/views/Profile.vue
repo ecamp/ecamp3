@@ -1,12 +1,6 @@
 <template>
   <v-container fluid>
-    <content-card max-width="800">
-      <template v-slot:title>
-        <v-card-title>
-          <button-back />
-          {{ $tc('views.profile.profile') + ': ' + profile.displayName }}
-        </v-card-title>
-      </template>
+    <content-card max-width="800" :title="$tc('views.profile.profile') + ': ' + profile.displayName" toolbar>
       <v-col>
         <api-text-field
           :name="$tc('entity.user.fields.email')"
@@ -31,13 +25,22 @@
         <api-date-picker
           :name="$tc('entity.user.fields.birthday')"
           :uri="profile._meta.self"
-          :value-format="$moment.HTML5_FMT.DATE"
+          :value-format="$date.HTML5_FMT.DATE"
           fieldname="birthday" />
         <api-select
           :name="$tc('entity.user.fields.language') + ' (' + $tc('global.lokaliseMessage') + ')'"
           :uri="profile._meta.self"
           fieldname="language"
           :items="availableLocales" />
+      </v-col>
+      <v-col>
+        <v-btn v-if="$vuetify.breakpoint.xsOnly" color="red"
+               block
+               large
+               dark
+               @click="$auth.logout()">
+          {{ $tc('global.button.logout') }}
+        </v-btn>
       </v-col>
     </content-card>
   </v-container>
@@ -48,7 +51,6 @@ import ApiSelect from '@/components/form/api/ApiSelect'
 import ApiTextField from '@/components/form/api/ApiTextField'
 import ApiDatePicker from '@/components/form/api/ApiDatePicker'
 import ContentCard from '@/components/layout/ContentCard'
-import ButtonBack from '@/components/buttons/ButtonBack'
 import VueI18n from '@/plugins/i18n'
 
 export default {
@@ -57,8 +59,7 @@ export default {
     ApiSelect,
     ApiTextField,
     ApiDatePicker,
-    ContentCard,
-    ButtonBack
+    ContentCard
   },
   computed: {
     profile () {
@@ -77,6 +78,9 @@ export default {
         this.$store.commit('setLanguage', this.profile.language)
       }
     }
+  },
+  mounted () {
+    this.api.reload(this.profile)
   }
 }
 </script>

@@ -10,7 +10,7 @@ use eCamp\LibTest\PHPUnit\AbstractTestCase;
  * @internal
  */
 class ContentTypeHydratorTest extends AbstractTestCase {
-    public function testExtract() {
+    public function testExtract(): void {
         $contentType = new ContentType();
         $contentType->setName('name');
         $contentType->setActive(true);
@@ -23,7 +23,7 @@ class ContentTypeHydratorTest extends AbstractTestCase {
         $this->assertTrue($data['active']);
     }
 
-    public function testHydrate() {
+    public function testHydrate(): void {
         $contentType = new ContentType();
         $data = [
             'name' => 'name',

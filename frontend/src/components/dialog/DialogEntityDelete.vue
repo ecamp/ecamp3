@@ -10,11 +10,11 @@
     submit-color="error"
     submit-icon="mdi-delete"
     :cancel-action="close">
-    <template v-slot:activator="scope">
+    <template #activator="scope">
       <slot name="activator" v-bind="scope" />
     </template>
     <slot>{{ $tc('components.dialog.dialogEntityDelete.warningText') }}</slot>
-    <template v-if="$slots.error || error" v-slot:error>
+    <template v-if="$slots.error || error" #error>
       <slot name="error">
         {{ error }}
       </slot>

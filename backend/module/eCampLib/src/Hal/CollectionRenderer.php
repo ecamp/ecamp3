@@ -19,32 +19,32 @@ class CollectionRenderer extends AbstractListenerAggregate {
      */
     protected $sharedListeners = [];
 
-    public function attach(EventManagerInterface $events, $priority = 1) {
+    public function attach(EventManagerInterface $events, $priority = 1): void {
         $sharedEvents = $events->getSharedManager();
         $this->attachShared($sharedEvents);
     }
 
-    public function detach(EventManagerInterface $events) {
+    public function detach(EventManagerInterface $events): void {
         parent::detach($events);
 
         $sharedEvents = $events->getSharedManager();
         $this->detachShared($sharedEvents);
     }
 
-    public function attachShared(SharedEventManagerInterface $sharedEvents) {
+    public function attachShared(SharedEventManagerInterface $sharedEvents): void {
         $this->sharedListeners[] = $sharedEvents->attach('Laminas\ApiTools\Hal\Plugin\Hal', 'renderEntity', [$this, 'renderEntity'], 100);
         $this->sharedListeners[] = $sharedEvents->attach('Laminas\ApiTools\Hal\Plugin\Hal', 'renderEntity.post', [$this, 'renderEntityPost'], 100);
         $this->sharedListeners[] = $sharedEvents->attach('Laminas\ApiTools\Hal\Plugin\Hal', 'renderCollection', [$this, 'renderCollection'], 100);
     }
 
-    public function detachShared(SharedEventManagerInterface $sharedEvents) {
+    public function detachShared(SharedEventManagerInterface $sharedEvents): void {
         foreach ($this->sharedListeners as $index => $callback) {
             $sharedEvents->detach($callback);
             unset($this->sharedListeners[$index]);
         }
     }
 
-    public function renderEntity(Event $e) {
+    public function renderEntity(Event $e): void {
         /** @var Hal $hal */
         $hal = $e->getTarget();
 
@@ -75,7 +75,7 @@ class CollectionRenderer extends AbstractListenerAggregate {
         }
     }
 
-    public function renderEntityPost(Event $e) {
+    public function renderEntityPost(Event $e): void {
         /** @var Hal $hal */
         $hal = $e->getTarget();
 
@@ -107,7 +107,7 @@ class CollectionRenderer extends AbstractListenerAggregate {
 //        );
     }
 
-    public function renderCollection(Event $e) {
+    public function renderCollection(Event $e): void {
         /** @var Hal $hal */
         $hal = $e->getTarget();
         $halCollection = $e->getParam('collection');

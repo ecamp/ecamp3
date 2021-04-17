@@ -16,10 +16,19 @@ class FixtureLoader extends BaseLoader {
         $this->container = $container;
     }
 
-    public function addFixture(FixtureInterface $fixture) {
+    public function addFixture(FixtureInterface $fixture): void {
         if ($fixture instanceof ContainerAwareInterface) {
             $fixture->setContainer($this->container);
         }
         parent::addFixture($fixture);
+    }
+
+    /**
+     * Creates the fixture object from the class.
+     *
+     * @param string $class
+     */
+    protected function createFixture($class): FixtureInterface {
+        return $this->container->get($class);
     }
 }

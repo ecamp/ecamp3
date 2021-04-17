@@ -6,19 +6,19 @@
     <template v-if="entriesWithStory.length">
       <template v-for="{ scheduleEntry, storyChapters } in entriesWithStory">
         <div v-for="chapter in storyChapters" :key="chapter._meta.uri">
-          <h4 class="mt-5">
+          <h4 class="mt-1 mb-2">
             <div class="d-flex">
               {{ scheduleEntry.number }}
-              <v-chip v-if="!scheduleEntry.activity().activityCategory()._meta.loading"
+              <v-chip v-if="!scheduleEntry.activity().category()._meta.loading"
                       small
                       dark
                       class="mx-1"
-                      :color="scheduleEntry.activity().activityCategory().color">
-                {{ scheduleEntry.activity().activityCategory().short }}
+                      :color="scheduleEntry.activity().category().color">
+                {{ scheduleEntry.activity().category().short }}
               </v-chip>
               {{ scheduleEntry.activity().title }}
-              <template v-if="chapter.activityContent().instanceName">
-                - {{ chapter.activityContent().instanceName }}
+              <template v-if="chapter.contentNode().instanceName">
+                - {{ chapter.contentNode().instanceName }}
               </template>
               <v-spacer />
               <router-link :to="{ name: 'activity', params: { campId: day.period().camp().id, scheduleEntryId: scheduleEntry.id } }">
@@ -64,7 +64,7 @@ export default {
   computed: {
     dayName () {
       const date = this.addDays(this.day.period().start, this.day.dayOffset)
-      return this.$moment.utc(date).format(this.$tc('global.moment.dateLong'))
+      return this.$date.utc(date).format(this.$tc('global.datetime.dateLong'))
     },
     sortedScheduleEntries () {
       return sortBy(this.day.scheduleEntries().items, scheduleEntry => scheduleEntry.periodOffset)
@@ -73,10 +73,10 @@ export default {
       return this.sortedScheduleEntries.map(scheduleEntry => {
         return {
           scheduleEntry: scheduleEntry,
-          storyChapters: (scheduleEntry.activity().activityContents() || { items: [] })
+          storyChapters: (scheduleEntry.activity().contentNodes() || { items: [] })
             .items
-            .filter(activityContent => activityContent.contentTypeName === 'Storycontext')
-            .map(activityContent => activityContent.singleText())
+            .filter(contentNode => contentNode.contentTypeName === 'Storycontext')
+            .map(contentNode => contentNode.singleText())
         }
       })
     },

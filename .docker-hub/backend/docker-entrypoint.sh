@@ -1,6 +1,8 @@
 #!/bin/bash
+set -euo pipefail
 
 php bin/wait-for-db.php
-vendor/bin/doctrine orm:schema-tool:update --force --complete
+vendor/bin/laminas rebuild-database
+vendor/bin/laminas load-data-fixtures --path=module/eCampCore/data/*
 
 apache2-foreground

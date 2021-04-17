@@ -1,24 +1,22 @@
+import Vue from 'vue'
+
 function defineHelpers (scheduleEntry, timed = false) {
   if (!Object.prototype.hasOwnProperty.call(scheduleEntry, 'startTime')) {
     Object.defineProperties(scheduleEntry, {
       startTime: {
         get () {
-          const periodStart = this.period().start
-
-          return Date.parse(periodStart) + (this.periodOffset * 60000)
+          return Vue.dayjs.utc(this.period().start, Vue.dayjs.HTML5_FMT.DATE).add(this.periodOffset, 'm').valueOf()
         },
         set (value) {
-          const periodStart = this.period().start
-
-          this.periodOffset = (value - Date.parse(periodStart)) / 60000
+          this.periodOffset = Vue.dayjs.utc(value).diff(Vue.dayjs.utc(this.period().start, Vue.dayjs.HTML5_FMT.DATE), 'm')
         }
       },
       endTime: {
         get () {
-          return this.startTime + (this.length * 60000)
+          return Vue.dayjs.utc(this.period().start, Vue.dayjs.HTML5_FMT.DATE).add(this.periodOffset + this.length, 'm').valueOf()
         },
         set (value) {
-          this.length = (value - this.startTime) / 60000
+          this.length = Vue.dayjs.utc(value).diff(Vue.dayjs.utc(this.period().start, Vue.dayjs.HTML5_FMT.DATE), 'm') - this.periodOffset
         }
       }
     })

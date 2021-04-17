@@ -1,63 +1,27 @@
 <?php
 
-use eCampApi\ConfigFactory;
+use eCamp\Core\Entity\CampCollaboration;
+use eCampApi\V1\Factory\Config;
+use eCampApi\V1\Factory\InputFilter;
 
-$config = ConfigFactory::createConfig('CampCollaboration');
-
-array_push(
-    $config['api-tools-rest']['eCampApi\\V1\\Rest\\CampCollaboration\\Controller']['collection_query_whitelist'],
-    'campId',
-    'userId'
-);
-
-$config['api-tools-content-validation'] = [
-    'eCampApi\\V1\\Rest\\CampCollaboration\\Controller' => [
-        'input_filter' => 'eCampApi\\V1\\Rest\\CampCollaboration\\Validator',
-    ],
-];
-
-$config['input_filter_specs'] = [
-    'eCampApi\\V1\\Rest\\CampCollaboration\\Validator' => [
-        0 => [
-            'name' => 'status',
-            'required' => false,
-            'filters' => [
-                0 => [
-                    'name' => 'Laminas\\Filter\\StringTrim',
-                ],
-                1 => [
-                    'name' => 'Laminas\\Filter\\StripTags',
-                ],
-            ],
-            'validators' => [],
-        ],
-        1 => [
-            'name' => 'role',
-            'required' => true,
-            'filters' => [
-                0 => [
-                    'name' => 'Laminas\\Filter\\StringTrim',
-                ],
-                1 => [
-                    'name' => 'Laminas\\Filter\\StripTags',
-                ],
-            ],
-            'validators' => [],
-        ],
-        2 => [
-            'name' => 'collaborationAcceptedBy',
-            'required' => false,
-            'filters' => [
-                0 => [
-                    'name' => 'Laminas\\Filter\\StringTrim',
-                ],
-                1 => [
-                    'name' => 'Laminas\\Filter\\StripTags',
-                ],
-            ],
-            'validators' => [],
-        ],
-    ],
-];
-
-return $config;
+return Config::Create('CampCollaboration')
+    ->addCollectionQueryWhitelist('campId', 'userId')
+    ->addInputFilterFactory(
+        InputFilter::Create('status')
+            ->addFilterStringTrim()
+            ->addFilterStripTags()
+            ->addValidatorInArray([
+                CampCollaboration::STATUS_INVITED,
+            ])
+    )
+    ->addInputFilterFactory(
+        InputFilter::Create('role', true)
+            ->addFilterStringTrim()
+            ->addFilterStripTags()
+            ->addValidatorInArray([
+                CampCollaboration::ROLE_MEMBER,
+                CampCollaboration::ROLE_MANAGER,
+            ])
+    )
+    ->buildConfig()
+;

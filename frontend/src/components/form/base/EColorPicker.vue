@@ -17,13 +17,21 @@ Displays a field as a color picker (can be used with v-model)
                         flat
                         @input="picker.on.input" />
         <v-spacer />
-        <v-btn text color="primary" @click="picker.on.close">{{ $tc('global.button.cancel') }}</v-btn>
-        <v-btn text color="primary" @click="picker.on.save">{{ $tc('global.button.ok') }}</v-btn>
+        <v-btn text color="primary"
+               data-testid="action-cancel"
+               @click="picker.on.close">
+          {{ $tc('global.button.cancel') }}
+        </v-btn>
+        <v-btn text color="primary"
+               data-testid="action-ok"
+               @click="picker.on.save">
+          {{ $tc('global.button.ok') }}
+        </v-btn>
       </v-card>
     </template>
 
     <!-- passing the append slot through -->
-    <template v-slot:append>
+    <template #append>
       <slot name="append" />
     </template>
   </base-picker>
@@ -40,8 +48,11 @@ export default {
   },
   methods: {
     parsePicker (val) {
-      if (typeof val === 'object') return Promise.resolve(val.hex)
-      return Promise.resolve(val)
+      if (typeof val === 'object') return Promise.resolve(this.removeAlpha(val.hex))
+      return Promise.resolve(this.removeAlpha(val))
+    },
+    removeAlpha (hex) {
+      return hex.length === 9 ? hex.substring(0, 7) : hex
     }
   }
 }

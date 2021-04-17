@@ -11,7 +11,7 @@ use eCamp\LibTest\PHPUnit\AbstractTestCase;
  * @internal
  */
 class MaterialListTest extends AbstractTestCase {
-    public function testMaterialList() {
+    public function testMaterialList(): void {
         $materialList = new MaterialList();
         $camp = new Camp();
 
@@ -22,7 +22,7 @@ class MaterialListTest extends AbstractTestCase {
         $this->assertEquals($camp, $materialList->getCamp());
     }
 
-    public function testMaterialListAddRemoveItem() {
+    public function testMaterialListAddRemoveItem(): void {
         $materialList = new MaterialList();
         $materialItem = new MaterialItem();
 

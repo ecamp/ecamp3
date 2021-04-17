@@ -10,7 +10,7 @@ abstract class BaseResolver {
     private $resolver;
     private $linkResolver;
 
-    public function __construct($resolver, $linkResolver, $selection = []) {
+    public function __construct(Closure $resolver, ?Closure $linkResolver, array $selection = []) {
         $this->resolver = $resolver;
         $this->linkResolver = $linkResolver;
         $this->selection = $selection;
@@ -19,7 +19,9 @@ abstract class BaseResolver {
     public function resolve($object) {
         $resolver = $this->resolver;
         $value = $resolver($object);
-        $value->_hydrateInfo_ = $this->selection;
+        if (null != $value) {
+            $value->_hydrateInfo_ = $this->selection;
+        }
 
         return $value;
     }

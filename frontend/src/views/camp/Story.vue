@@ -3,40 +3,69 @@ Admin screen of a camp: Displays details & periods of a single camp and allows t
 -->
 
 <template>
-  <content-card>
-    <v-toolbar>
-      <v-card-title>{{ $tc('views.camp.story.title') }}</v-card-title>
-      <v-spacer />
-      <v-btn icon
-             :href="previewUrl"
-             class="mr-4"
-             target="_blank">
-        <v-icon>mdi-printer</v-icon>
+  <content-card :title="$tc('views.camp.story.title')" toolbar>
+    <template #title-actions>
+      <template v-if="$vuetify.breakpoint.smAndUp">
+        <e-switch v-model="editing" :label="$tc('global.button.editable')"
+                  class="ec-story-editable ml-auto"
+                  @click="$event.preventDefault()" />
+      </template>
+      <v-menu v-else offset-y>
+        <template #activator="{ on, attrs }">
+          <v-btn
+            text icon
+            class="ml-auto"
+            v-bind="attrs"
+            v-on="on">
+            <v-icon>mdi-dots-vertical</v-icon>
+          </v-btn>
+        </template>
+        <v-list>
+          <v-list-item :href="previewUrl">
+            <v-list-item-icon>
+              <v-icon>mdi-printer</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+              {{ $tc('views.camp.print.title') }}
+            </v-list-item-content>
+          </v-list-item>
+          <v-list-item>
+            <e-switch v-model="editing" :label="$tc('global.button.editable')"
+                      class="ec-story-editable"
+                      @click.stop="$event.preventDefault()" />
+          </v-list-item>
+        </v-list>
+      </v-menu>
+    </template>
+    <v-expansion-panels v-model="openPeriods" multiple
+                        flat accordion>
+      <story-period v-for="period in camp().periods().items"
+                    :key="period._meta.self"
+                    :period="period"
+                    :editing="editing" />
+    </v-expansion-panels>
+    <v-card-actions v-if="$vuetify.breakpoint.smAndUp">
+      <v-btn
+        class="ml-auto"
+        color="primary"
+        :href="previewUrl"
+        target="_blank">
+        <v-icon left>mdi-printer</v-icon>
+        {{ $tc('views.camp.print.title') }}
       </v-btn>
-      <e-switch v-model="editing" :label="editing ? $tc('global.button.editModeOn') : $tc('global.button.editModeOff')" />
-    </v-toolbar>
-    <v-card-text>
-      <v-expansion-panels v-model="openPeriods" multiple>
-        <story-period v-for="period in camp().periods().items"
-                      :key="period._meta.self"
-                      :period="period"
-                      :editing="editing" />
-      </v-expansion-panels>
-    </v-card-text>
+    </v-card-actions>
   </content-card>
 </template>
 
 <script>
 import ContentCard from '@/components/layout/ContentCard'
 import StoryPeriod from '@/components/camp/StoryPeriod'
-import ESwitch from '@/components/form/base/ESwitch'
 
 const PRINT_SERVER = window.environment.PRINT_SERVER
 
 export default {
   name: 'Story',
   components: {
-    ESwitch,
     StoryPeriod,
     ContentCard
   },
@@ -67,3 +96,9 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.ec-story-editable ::v-deep .v-input--selection-controls {
+  margin-top: 0;
+}
+</style>

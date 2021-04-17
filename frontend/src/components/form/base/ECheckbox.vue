@@ -6,6 +6,7 @@
     :rules="veeRules">
     <v-checkbox
       v-bind="$attrs"
+      :id="id"
       :hide-details="hideDetails"
       :error-messages="veeErrors.concat(errorMessages)"
       :label="label || name"

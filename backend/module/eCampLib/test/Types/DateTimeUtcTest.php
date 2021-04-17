@@ -27,27 +27,27 @@ class DateTimeUtcTest extends AbstractTestCase {
         date_default_timezone_set($this->initialTimeZone);
     }
 
-    public function testParsing() {
+    public function testParsing(): void {
         $date = new DateTimeUtc(self::TEST_DATETIME);
         $this->assertThat($date->__toString(), self::equalTo(self::TEST_DATETIME));
     }
 
-    public function testParsingFail() {
+    public function testParsingFail(): void {
         $this->expectException(InvalidDateFormatException::class);
         new DateTimeUtc(self::TEST_DATE);
     }
 
-    public function testTimezoneFail() {
+    public function testTimezoneFail(): void {
         $this->expectException(InvalidZoneOffsetException::class);
         new DateTimeUtc(self::TEST_DATETIME_TIMEZONE);
     }
 
-    public function testParsingCustom() {
+    public function testParsingCustom(): void {
         $date = new DateTimeUtc(self::TEST_DATETIME_CUSTOMFORMAT, null, 'Y-m-d H:i:s');
         $this->assertThat($date->__toString(), self::equalTo(self::TEST_DATETIME));
     }
 
-    public function testTimezoneDifferent() {
+    public function testTimezoneDifferent(): void {
         date_default_timezone_set('UTC');
         $dateUTC = new DateTimeUtc();
         date_default_timezone_set('CET');
@@ -55,7 +55,7 @@ class DateTimeUtcTest extends AbstractTestCase {
         $this->assertThat($dateZurich->format('G'), self::equalTo($dateUTC->format('G')));
     }
 
-    public function testTimezoneDifferentNative() {
+    public function testTimezoneDifferentNative(): void {
         date_default_timezone_set('UTC');
         $dateUTC = new \DateTime();
         date_default_timezone_set('CET');

@@ -6,9 +6,8 @@
     <h1 v-else>
       {{ otherError }}
     </h1>
-    <NuxtLink to="/">
-      Home page
-    </NuxtLink>
+    <!-- eslint-disable-next-line vue/singleline-html-element-content-newline -->
+    <NuxtLink to="/">Home page</NuxtLink>
   </v-app>
 </template>
 

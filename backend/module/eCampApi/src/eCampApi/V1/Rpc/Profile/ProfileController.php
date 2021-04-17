@@ -14,6 +14,7 @@ use Laminas\Authentication\AuthenticationService;
 use Laminas\Http\Request;
 use Laminas\Json\Json;
 use Laminas\Mvc\Controller\AbstractActionController;
+use Laminas\View\Model\ViewModel;
 
 /**
  * ProfileController
@@ -21,11 +22,8 @@ use Laminas\Mvc\Controller\AbstractActionController;
  * Detial-Information about authenticated User.
  */
 class ProfileController extends AbstractActionController {
-    /** @var AuthenticationService */
-    private $authenticationService;
-
-    /** @var UserService */
-    private $userService;
+    private AuthenticationService $authenticationService;
+    private UserService $userService;
 
     public function __construct(
         AuthenticationService $authenticationService,
@@ -35,7 +33,7 @@ class ProfileController extends AbstractActionController {
         $this->userService = $userService;
     }
 
-    public function indexAction() {
+    public function indexAction(): ViewModel {
         if ($this->authenticationService->hasIdentity()) {
             /** @var Request $request */
             $request = $this->getRequest();
@@ -45,16 +43,14 @@ class ProfileController extends AbstractActionController {
             /** @var User $user */
             $user = $this->userService->fetch($userId);
 
-            $data = call_user_func([$this, $method], $user);
-
-            return new HalJsonModel(['payload' => new Entity($data)]);
+            return call_user_func([$this, $method], $user);
         }
 
         return new ApiProblemModel(new ApiProblem(401, null));
     }
 
-    private function getAction(User $user) {
-        return [
+    private function getAction(User $user): ViewModel {
+        return new HalJsonModel(['payload' => new Entity([
             'self' => Link::factory([
                 'rel' => 'self',
                 'route' => 'e-camp-api.rpc.profile',
@@ -69,15 +65,13 @@ class ProfileController extends AbstractActionController {
             'language' => $user->getLanguage(),
             'birthday' => $user->getBirthday(),
             'isAdmin' => (User::ROLE_ADMIN == $user->getRole()),
-        ];
+        ])]);
     }
 
     /**
      * @throws \Exception
-     *
-     * @return array
      */
-    private function patchAction(User $user) {
+    private function patchAction(User $user): ViewModel {
         /** @var Request $request */
         $request = $this->getRequest();
         $content = $request->getContent();

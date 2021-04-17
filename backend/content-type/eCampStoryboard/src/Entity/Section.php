@@ -13,60 +13,52 @@ class Section extends BaseContentTypeEntity {
     /**
      * @ORM\Column(type="integer", nullable=false)
      */
-    private $pos;
+    private int $pos = 0;
 
     /**
      * @ORM\Column(type="text", nullable=true)
      */
-    private $column1;
+    private ?string $column1 = null;
 
     /**
      * @ORM\Column(type="text", nullable=true)
      */
-    private $column2;
+    private ?string $column2 = null;
 
     /**
      * @ORM\Column(type="text", nullable=true)
      */
-    private $column3;
+    private ?string  $column3 = null;
 
-    /** @return int */
-    public function getPos() {
+    public function getPos(): int {
         return $this->pos;
     }
 
-    /** @param int $pos */
-    public function setPos($pos): void {
+    public function setPos(int $pos): void {
         $this->pos = $pos;
     }
 
-    /** @return string */
-    public function getColumn1() {
+    public function getColumn1(): ?string {
         return $this->column1;
     }
 
-    /** @param string $text */
-    public function setColumn1($text) {
+    public function setColumn1(?string $text): void {
         $this->column1 = $text;
     }
 
-    /** @return string */
-    public function getColumn2() {
+    public function getColumn2(): ?string {
         return $this->column2;
     }
 
-    /** @param string $text */
-    public function setColumn2($text) {
+    public function setColumn2(?string $text): void {
         $this->column2 = $text;
     }
 
-    /** @return string */
-    public function getColumn3() {
+    public function getColumn3(): ?string {
         return $this->column3;
     }
 
-    /** @param string $text */
-    public function setColumn3($text) {
+    public function setColumn3(?string $text): void {
         $this->column3 = $text;
     }
 }

@@ -3,6 +3,7 @@
 namespace eCamp\Core\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -17,129 +18,114 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Group extends AbstractCampOwner {
     /**
-     * @var ArrayCollection
      * @ORM\OneToMany(targetEntity="GroupMembership", mappedBy="group", orphanRemoval=true)
      */
-    protected $memberships;
+    protected Collection $memberships;
 
     /**
-     * @var string
      * @ORM\Column(type="string", length=32, nullable=false)
      */
-    private $name;
+    private ?string $name = null;
 
     /**
-     * @var string
      * @ORM\Column(type="string", length=64, nullable=false)
      */
-    private $description;
+    private ?string $description = null;
 
     /**
-     * @var Organization
      * @ORM\ManyToOne(targetEntity="Organization")
      */
-    private $organization;
+    private ?Organization $organization = null;
 
     /**
-     * @var Group
      * @ORM\ManyToOne(targetEntity="Group", inversedBy="children")
      * @ORM\JoinColumn(nullable=true, onDelete="cascade")
      */
-    private $parent;
+    private ?Group $parent = null;
 
     /**
-     * @var ArrayCollection
      * @ORM\OneToMany(targetEntity="Group", mappedBy="parent")
      * @ORM\OrderBy({"name": "ASC"})
      */
-    private $children;
+    private Collection $children;
 
     public function __construct() {
         parent::__construct();
 
-        $this->children = new ArrayCollection();
         $this->memberships = new ArrayCollection();
+        $this->children = new ArrayCollection();
     }
 
-    public function getName(): string {
+    public function getName(): ?string {
         return $this->name;
     }
 
-    public function setName(string $name): void {
+    public function setName(?string $name): void {
         $this->name = $name;
     }
 
-    /**
-     * @return string
-     */
-    public function getDisplayName() {
+    public function getDisplayName(): ?string {
         return $this->name;
     }
 
-    public function getDescription(): string {
+    public function getDescription(): ?string {
         return $this->description;
     }
 
-    public function setDescription(string $description): void {
+    public function setDescription(?string $description): void {
         $this->description = $description;
     }
 
-    public function getOrganization(): Organization {
+    public function getOrganization(): ?Organization {
         return $this->organization;
     }
 
-    public function setOrganization(Organization $organization): void {
+    public function setOrganization(?Organization $organization): void {
         $this->organization = $organization;
     }
 
-    /**
-     * @return Group
-     */
-    public function getParent() {
+    public function getParent(): ?Group {
         return $this->parent;
     }
 
-    public function setParent(Group $parent = null): void {
+    public function setParent(?Group $parent): void {
         if (null != $parent) {
             $this->organization = $parent->getOrganization();
         }
         $this->parent = $parent;
     }
 
-    public function pathAsArray() {
+    public function pathAsArray(): array {
         $path = (null != $this->parent) ? $this->parent->pathAsArray() : [];
         $path[] = $this;
 
         return $path;
     }
 
-    /**
-     * @return ArrayCollection
-     */
-    public function getChildren() {
+    public function getChildren(): Collection {
         return $this->children;
     }
 
-    public function addChild(Group $child) {
+    public function addChild(Group $child): void {
         $child->setParent($this);
         $this->children->add($child);
     }
 
-    public function removeChild(Group $child) {
+    public function removeChild(Group $child): void {
         $child->setParent(null);
         $this->children->removeElement($child);
     }
 
-    public function getGroupMemberships(): ArrayCollection {
+    public function getGroupMemberships(): Collection {
         return $this->memberships;
     }
 
-    public function addGroupMembership(GroupMembership $membership) {
+    public function addGroupMembership(GroupMembership $membership): void {
         $membership->setGroup($this);
         $this->memberships->add($membership);
     }
 
-    public function removeGroupMembership(GroupMembership $membership) {
+    public function removeGroupMembership(GroupMembership $membership): void {
         $membership->setGroup(null);
         $this->memberships->removeElement($membership);
     }

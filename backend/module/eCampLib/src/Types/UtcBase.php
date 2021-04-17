@@ -40,7 +40,7 @@ abstract class UtcBase extends \DateTime implements JsonSerializable {
         parent::__construct($time, $timezone);
     }
 
-    public function __toString() {
+    public function __toString(): string {
         return $this->format($this->FORMAT);
     }
 
@@ -54,7 +54,7 @@ abstract class UtcBase extends \DateTime implements JsonSerializable {
     /**
      * formatter used with json_encode.
      */
-    public function jsonSerialize() {
+    public function jsonSerialize(): string {
         return $this->__toString();
     }
 }

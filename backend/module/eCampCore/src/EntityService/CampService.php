@@ -3,34 +3,32 @@
 namespace eCamp\Core\EntityService;
 
 use Doctrine\ORM\ORMException;
+use Doctrine\ORM\QueryBuilder;
 use eCamp\Core\Entity\AbstractCampOwner;
 use eCamp\Core\Entity\Camp;
 use eCamp\Core\Entity\CampCollaboration;
-use eCamp\Core\Entity\CampType;
+use eCamp\Core\Entity\Category;
+use eCamp\Core\Entity\MaterialList;
 use eCamp\Core\Entity\User;
 use eCamp\Core\Hydrator\CampHydrator;
 use eCamp\Lib\Acl\NoAccessException;
 use eCamp\Lib\Entity\BaseEntity;
 use eCamp\Lib\Service\EntityNotFoundException;
 use eCamp\Lib\Service\ServiceUtils;
-use Laminas\ApiTools\ApiProblem\ApiProblem;
 use Laminas\Authentication\AuthenticationService;
 
 class CampService extends AbstractEntityService {
-    /** @var PeriodService */
-    protected $periodService;
-
-    /** @var ActivityCategoryService */
-    protected $activityCategoryService;
-
-    /** @var CampCollaborationService */
-    protected $campCollaboratorService;
+    protected PeriodService $periodService;
+    protected MaterialListService $materialListService;
+    protected CategoryService $categoryService;
+    protected CampCollaborationService $campCollaboratorService;
 
     public function __construct(
-        ActivityCategoryService $activityCategoryService,
-        PeriodService $periodService,
         ServiceUtils $serviceUtils,
         AuthenticationService $authenticationService,
+        PeriodService $periodService,
+        MaterialListService $materialListService,
+        CategoryService $categoryService,
         CampCollaborationService $campCollaboratorService
     ) {
         parent::__construct(
@@ -41,15 +39,13 @@ class CampService extends AbstractEntityService {
         );
 
         $this->periodService = $periodService;
-        $this->activityCategoryService = $activityCategoryService;
+        $this->materialListService = $materialListService;
+        $this->categoryService = $categoryService;
         $this->campCollaboratorService = $campCollaboratorService;
     }
 
-    /**
-     * @return ApiProblem|array
-     */
-    public function fetchByOwner(AbstractCampOwner $owner) {
-        $q = parent::findCollectionQueryBuilder(Camp::class, 'row');
+    public function fetchByOwner(AbstractCampOwner $owner): array {
+        $q = parent::findCollectionQueryBuilder(Camp::class, 'row', null);
         $q->where('row.owner = :owner');
         $q->setParameter('owner', $owner);
 
@@ -57,23 +53,17 @@ class CampService extends AbstractEntityService {
     }
 
     /**
-     * @param mixed $data
-     *
      * @throws NoAccessException
      * @throws EntityNotFoundException
      * @throws ORMException
-     *
-     * @return Camp
      */
-    protected function createEntity($data) {
+    protected function createEntity($data): Camp {
         $this->assertAuthenticated();
-
-        /** @var CampType $campType */
-        $campType = $this->findEntity(CampType::class, $data->campTypeId);
 
         /** @var AbstractCampOwner $owner */
         $owner = $this->getAuthUser();
         if (isset($data->ownerId)) {
+            /** @var AbstractCampOwner $owner */
             $owner = $this->findEntity(AbstractCampOwner::class, $data->ownerId);
         }
 
@@ -83,17 +73,15 @@ class CampService extends AbstractEntityService {
         /** @var Camp $camp */
         $camp = parent::createEntity($data);
         $camp->setName($data->name);
-        $camp->setCampType($campType);
         $camp->setCreator($creator);
         $owner->addOwnedCamp($camp);
 
         return $camp;
     }
 
-    protected function createEntityPost(BaseEntity $entity, $data) {
+    protected function createEntityPost(BaseEntity $entity, $data): Camp {
         /** @var Camp $camp */
         $camp = $entity;
-        $campType = $camp->getCampType();
 
         // Create CampCollaboration for Creator
         $this->campCollaboratorService->create((object) [
@@ -101,20 +89,23 @@ class CampService extends AbstractEntityService {
             'role' => CampCollaboration::ROLE_MANAGER,
         ]);
 
-        /** Create default Jobs */
-        /*
-        $jobConfigs = $campType->getConfig(CampType::CNF_JOBS) ?: [];
-        foreach ($jobConfigs as $jobConfig) {
-            $jobConfig->campId = $camp->getId();
-            $this->getJobService()->create($jobConfig);
-        }
-        */
+        if (isset($data->campPrototypeId)) {
+            // CampPrototypeId given
+            // Copy Entities
+            $camp->setCampPrototypeId($data->campPrototypeId);
 
-        // Create default ActivityCategories
-        $acConfigs = $campType->getConfig(CampType::CNF_ACTIVITY_CATEGORIES) ?: [];
-        foreach ($acConfigs as $acConfig) {
-            $acConfig->campId = $camp->getId();
-            $this->activityCategoryService->create($acConfig);
+            /** @var Camp $campPrototype */
+            $campPrototype = $this->findEntity(Camp::class, $data->campPrototypeId);
+
+            /** @var Category $category */
+            foreach ($campPrototype->getCategories() as $category) {
+                $this->categoryService->createFromPrototype($camp, $category);
+            }
+
+            /** @var MaterialList $materialList */
+            foreach ($campPrototype->getMaterialLists() as $materialList) {
+                $this->materialListService->createFromPrototype($camp, $materialList);
+            }
         }
 
         // Create Periods:
@@ -129,8 +120,13 @@ class CampService extends AbstractEntityService {
         return $camp;
     }
 
-    protected function fetchAllQueryBuilder($params = []) {
+    protected function fetchAllQueryBuilder($params = []): QueryBuilder {
         $q = parent::fetchAllQueryBuilder($params);
+
+        if (isset($params['isPrototype'])) {
+            $q->andWhere('row.isPrototype = :isPrototype');
+            $q->setParameter('isPrototype', (bool) $params['isPrototype']);
+        }
 
         if (isset($params['group'])) {
             $q->andWhere('row.owner = :group');

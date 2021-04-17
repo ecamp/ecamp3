@@ -2,61 +2,74 @@ version: "3"
 
 services:
   frontend:
-    image: node:12.18
+    image: node:14.16.1@sha256:8eb45f4677c813ad08cef8522254640aa6a1800e75a9c213a0a651f6f3564189
     container_name: 'ecamp3-frontend'
     ports:
       - '3000:3000'
       - '9229:9229' # jest debug 
     stdin_open: true
     tty: true
+    user: ${USER_ID:-1000}
     volumes:
       - ./frontend:/app:delegated
       - ./common:/common:delegated
-      - npm-cache:/root/.npm
-      - cypress-cache:/root/.cache/Cypress
-      - node-modules-cache:/app/node_modules/.cache
+      - ./.cache/npm:/home/node/.npm
+      - ./.cache/cypress:/home/node/.cache/Cypress
+      - ./.cache/node_modules:/app/node_modules/.cache
     working_dir: /app
     command: ./docker-setup.sh
     environment:
-      NODE_ENV: development
+      - NODE_ENV=development
+      - NPM_CONFIG_UPDATE_NOTIFIER=false
+      - NPM_CONFIG_CACHE=/home/node/.npm
+      - CYPRESS_CACHE_FOLDER=/home/node/.cache/Cypress
 
   backend:
     build: ./backend
     container_name: 'ecamp3-backend'
+    depends_on:
+      - db
+      - docker-host
     ports:
-      - '3001:80'
+      - '3001:3001'
+    user: ${USER_ID:-1000}
     volumes:
       - ./backend:/app:delegated
     entrypoint: ./docker-setup.sh
 
   print:
-    image: node:12.18
+    image: node:14.16.1@sha256:8eb45f4677c813ad08cef8522254640aa6a1800e75a9c213a0a651f6f3564189
     container_name: 'ecamp3-print'
     ports:
-      - '3003:80'
+      - '3003:3003'
+    user: ${USER_ID:-1000}
     volumes:
       - ./print:/app:delegated
       - ./common:/common:delegated
-      - npm-cache:/root/.npm
-      - print-node-modules-cache:/app/node_modules/.cache
+      - ./.cache/npm:/home/node/.npm
+      - ./.cache/node_modules:/app/node_modules/.cache
     working_dir: /app
     command: ./docker-setup.sh
     environment:
-      - HOST=0.0.0.0
+      - NUXT_HOST=0.0.0.0
+      - NUXT_PORT=3003
+      - NPM_CONFIG_UPDATE_NOTIFIER=false
+      - NPM_CONFIG_CACHE=/home/node/.npm
     env_file:
       - ./print/print.env
 
   composer:
-    image: composer:2
+    image: composer:2@sha256:f9aeec5f62e0f46cd92b2cfa54dff3243a9e1d05ab5ae27f034611955b14c4f2
     container_name: 'ecamp3-composer'
     restart: 'no'
-    command: bash -c "composer install --no-interaction --no-plugins --no-scripts --prefer-dist --no-suggest"
+    command: bash -c "composer install --no-interaction --no-plugins --no-scripts --prefer-dist"
+    user: ${USER_ID:-1000}
     volumes:
       - ./backend:/app:delegated
-      - composer-cache:/tmp/cache
+      - ./.cache/composer:/tmp/cache
 
   db:
-    image: mariadb:10.5
+    image: mysql:8.0.23@sha256:6e0014cdd88092545557dee5e9eb7e1a3c84c9a14ad2418d5f2231e930967a38
     container_name: 'ecamp3-db'
     environment:
       - MYSQL_DATABASE=ecamp3dev
@@ -70,13 +83,15 @@ services:
       - db-data:/var/lib/mysql
 
   phpmyadmin:
-    image: phpmyadmin/phpmyadmin
+    image: phpmyadmin/phpmyadmin@sha256:8911fb0cfef21dc9fb385ad02cc3254179cd7df87bab3d3a6fa04d1f0549463f
     container_name: 'ecamp3-phpmyadmin'
     ports:
       - '3002:80'
+    volumes:
+      - ./phpmyadmin/config.user.inc.php:/etc/phpmyadmin/config.user.inc.php
 
   rabbitmq:
-    image: rabbitmq:3.8-management
+    image: rabbitmq:3.8-management@sha256:16f1d0fcbc7d8cd743599db8e32ea10ac940943f1bf623deee83df9ec9472764
     container_name: 'ecamp3-rabbitmq'
     ports:
       - '3004:15672'
@@ -84,37 +99,39 @@ services:
   worker-print-puppeteer:
     build: ./workers/print-puppeteer
     container_name: 'ecamp3-worker-print-puppeteer'
+    user: ${USER_ID:-1000}
     volumes:
       - ./workers/print-puppeteer:/app:delegated
-      - npm-cache:/root/.npm
-      - print-output:/app/data
-    working_dir: /app
-    command: npm run print
+      - ./.cache/npm:/home/node/.npm
+      - ./.print-data:/app/data
+    command: ./docker-setup.sh
+    environment:
+      - NPM_CONFIG_UPDATE_NOTIFIER=false
+      - NPM_CONFIG_CACHE=/home/node/.npm
 
   worker-print-weasy:
     build: ./workers/print-weasy
     container_name: 'ecamp3-worker-print-weasy'
+    user: ${USER_ID:-1000}
     volumes:
       - ./workers/print-weasy:/app:delegated
-      - print-output:/app/data
-    working_dir: /app
-    command: python -u print.py
+      - ./.print-data:/app/data
 
   print-file-server:
-    image: halverneus/static-file-server
+    image: halverneus/static-file-server@sha256:833cd54b12085d7321e81ebed207fe3cfdbe8414d0d060c148987a4df0eeb3e3
     container_name: 'ecamp3-print-file-server'
     volumes:
-      - print-output:/web
+      - ./.print-data:/web
     ports:
       - '3005:8080'
     environment:
       - CORS=true
 
+  docker-host:
+    image: qoomon/docker-host@sha256:b98a7ddc053c87c22ba716d23d50b7db11034c9b7bbfd41e1c68b9062cb516cc
+    container_name: 'ecamp3-docker-host-forwarder'
+    cap_add: [ 'NET_ADMIN', 'NET_RAW' ]
+    restart: on-failure
+
 volumes:
-  npm-cache:
-  cypress-cache:
-  composer-cache:
-  node-modules-cache:
-  print-node-modules-cache:
   db-data:
-  print-output:

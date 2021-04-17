@@ -1,5 +1,46 @@
 {
-  "activityContent": {
+  "contentNode": {
+    "columnLayout": {
+      "entity": {
+        "column": {
+          "name": "Column"
+        }
+      },
+      "icon": "mdi-format-columns",
+      "name": "Column layout"
+    },
+    "laThematicArea": {
+      "entity": {
+        "option": {
+          "campsiteAndSurroundings": {
+            "description": "Construction of a camp / surroundings, dismantling / setting up of a playground and fabrication of sports equipment.",
+            "name": "Campsite and Surroundings"
+          },
+          "natureAndEnvironment": {
+            "description": "Fauna and flora, environmental protection in the camp, meteorology and astronomy, transmission techniques, preparation and making a fire.",
+            "name": "Nature and Environment"
+          },
+          "outdoorTechnique": {
+            "description": "Planning a hike, map reading (e.g. NORDA checklist), croquis, use of instruments (e.g. compass, GPS receiver, altimeter, etc.), orientation in the terrain.",
+            "name": "Outdoor Technique"
+          },
+          "pioneeringTechnique": {
+            "description": "Setting up a bivouac, building an igloo, knowledge of materials and equipment, equipment maintenance, construction and dismantling of pioneer structures, ropes and knots, zip lines, rope bridges, abseiling.",
+            "name": "Pioneering Technique"
+          },
+          "preventionAndIntegration": {
+            "description": "Activities promoting prevention and integration or developing participants' skills in this area.",
+            "name": "Prevention and Integration"
+          },
+          "security": {
+            "description": "Safety during camp activities, measures to be taken in case of accident and alert, first aid, safety considerations.",
+            "name": "Security"
+          }
+        }
+      },
+      "icon": "mdi-shape",
+      "name": "LA thematic area"
+    },
     "notes": {
       "add": "Add notes",
       "icon": "mdi-pen",
@@ -8,8 +49,7 @@
     "safetyConcept": {
       "add": "Add safety concept",
       "icon": "mdi-security",
-      "name": "Safety concept",
-      "sort": "3"
+      "name": "Safety concept"
     },
     "storyboard": {
       "add": "Add a storyboard | Add another storyboard",
@@ -24,19 +64,21 @@
         }
       },
       "icon": "mdi-script-text-outline",
-      "name": "Storyboard",
-      "sort": "2"
+      "name": "Storyboard"
     },
     "storycontext": {
       "add": "Add story context",
-      "icon": "mdi-book-open-page-variant",
-      "name": "Story concept",
-      "sort": "1"
+      "icon": "mdi-book-open-variant",
+      "name": "Story concept"
+    },
+    "material": {
+      "icon": "mdi-package-variant",
+      "name": "Material"
     }
   },
   "components": {
     "activity": {
-      "activityContent": {
+      "contentNode": {
         "delete": "Delete",
         "editName": "Rename",
         "moveDown": "Move down",
@@ -52,14 +94,21 @@
       }
     },
     "camp": {
-      "campActivityCategories": {
+      "campCategories": {
         "create": "Create activity category",
-        "deleteActivityCategoryNotPossibleInUse": "Activity category can't be deleted. It is used by:",
-        "deleteActivityCategoryQuestion": "Do you really want do delete the Activity category?",
+        "deleteCategoryNotPossibleInUse": "Activity category can't be deleted. It is used by:",
+        "deleteCategoryQuestion": "Do you really want do delete the Activity category?",
         "title": "Activity categories"
       },
       "campInvitations": {
         "title": "Invite"
+      },
+      "campMaterialLists": {
+        "createMaterialList": "Create material list",
+        "title": "Material lists"
+      },
+      "campMaterialListsItem": {
+        "deleteWarning": "Do you really want to delete this material list?"
       },
       "campMembers": {
         "title": "Members"
@@ -92,10 +141,17 @@
         "title": "Settings"
       },
       "collaboratorListItem": {
-        "remove": "Remove"
+        "deactivate": "Deactivate"
+      },
+      "inactiveCampCollaboratorListItem": {
+        "inviteAgain": "Invite again",
+        "delete": "Do you really want to remove this collaborator from the camp?"
+      },
+      "periodMaterialLists": {
+        "addNewItem": "Add new item"
       },
       "picasso": {
-        "moment": {
+        "datetime": {
           "date": "dd. D.MM | D. MMM | DD. MMM YYYY"
         }
       },
@@ -104,16 +160,37 @@
       }
     },
     "dialog": {
-      "dialogActivityCategoryCreate": {
+      "dialogCategoryCreate": {
         "title": "Create activity category"
       },
       "dialogEntityDelete": {
         "title": "Really delete?",
         "warningText": "Do you really want to delete this?"
       },
+      "dialogMaterialItemCreate": {
+        "title": "Create material item"
+      },
+      "dialogMaterialListCreate": {
+        "title": "Create material list"
+      },
       "dialogPeriodCreate": {
         "title": "Create period"
       }
+    },
+    "invitation": {
+      "acceptCurrentAuth": "Accept invitation with current account",
+      "backToHome": "Back to Home",
+      "error": "An unexpected error occurred",
+      "login": "Login",
+      "notFound": "This invitation is already accepted or was deleted",
+      "register": "Register",
+      "reject": "Deny invitation",
+      "title": "Invitation to Camp",
+      "useOtherAuth": "Use another account",
+      "userAlreadyInCamp": "You are already part of this camp",
+      "userWelcome": "Welcome",
+      "openCamp": "Open camp",
+      "successfullyRejected": "The invitation was successfully rejected"
     },
     "layout": {
       "authContainer": {
@@ -125,6 +202,7 @@
         "search": "Search"
       },
       "searchMobile": {
+        "allCamps": "All camps",
         "search": "Search",
         "searchActivitiesAndCamps": "Search for activities and camps"
       },
@@ -138,15 +216,15 @@
   "entity": {
     "activity": {
       "fields": {
-        "activityCategory": "Activity category",
+        "category": "Activity category",
         "location": "Location",
         "responsible": "responsible",
         "title": "Title"
       },
-      "name": "Activity",
+      "name": "Activity | Activities",
       "new": "New activity"
     },
-    "activityCategory": {
+    "category": {
       "fields": {
         "activityType": "Type",
         "color": "Color",
@@ -165,19 +243,33 @@
     },
     "camp": {
       "collaborators": {
+        "invite": "Invite",
         "manager": "Manager",
         "member": "Member"
       },
       "fields": {
-        "campType": "Camp type",
         "motto": "Motto",
         "name": "Name",
         "title": "Title"
       },
-      "name": "Camp"
+      "name": "Camp | Camps",
+      "prototype": "Camp prototype"
     },
     "campCollaboration": {
-      "campLeft": "left camp"
+      "inactive": "inactive"
+    },
+    "materialItem": {
+      "fields": {
+        "article": "Article",
+        "quantity": "Quantity",
+        "unit": "Unit"
+      }
+    },
+    "materialList": {
+      "fields": {
+        "name": "Name"
+      },
+      "name": "Material list"
     },
     "period": {
       "defaultDescription": "Main",
@@ -214,13 +306,14 @@
   "global": {
     "button": {
       "add": "Add",
-      "addContentDesktop": "Add content",
       "back": "Back",
       "cancel": "Cancel",
       "content": "Content",
       "create": "Create",
       "delete": "Delete",
       "edit": "Edit",
+      "editable": "Editable",
+      "logout": "Logout",
       "ok": "Okay",
       "open": "Open",
       "save": "Save",
@@ -230,10 +323,15 @@
       "update": "Update"
     },
     "changeLanguage": "Change language",
+    "empty": {
+      "list": "Empty | No {entities} yet",
+      "result": "No result | No results",
+      "resultFor": "No result for {search} | No results for {search}"
+    },
     "language": "English",
     "loading": "Loading …",
     "lokaliseMessage": "Language switching powered by lokalise.com",
-    "moment": {
+    "datetime": {
       "dateLong": "dd L",
       "dateShort": "dd M/D",
       "hourLong": "HH:mm",
@@ -248,6 +346,12 @@
   },
   "views": {
     "activity": {
+      "activity": {
+        "back": "Back",
+        "backToContents": "Back to editing content",
+        "changeLayout": "Change layout",
+        "layout": "Layout"
+      },
       "sideBarProgram": {
         "title": "Activities on this day"
       }
@@ -289,21 +393,29 @@
     },
     "camp": {
       "admin": {
-        "title": "Admin"
+        "collaborators": "Manage Team",
+        "title": "Camp Admin"
       },
       "collaborators": {
+        "email": "Email address",
         "invite": "Invite",
+        "inactiveCollaborators": "Inactive",
         "members": "Members",
         "openInvitations": "Open invitations",
-        "openRequests": "Open requests",
-        "search": "Search...",
         "title": "Team"
+      },
+      "material": {
+        "showActivityMaterial": "Show activity material",
+        "showActivityMaterialShort": "incl. Activity",
+        "title": "Material"
       },
       "navigationCamp": {
         "admin": "Admin",
+        "camp": "Camp",
         "campIsLoading": "Camp is loading",
         "material": "Materials",
         "print": "Print",
+        "program": "Program",
         "story": "Story",
         "tasks": "Tasks",
         "team": "Team"
@@ -336,7 +448,7 @@
       "welcome": "Hello {user}. Welcome on eCamp"
     },
     "navigationDefault": {
-      "home": "Homepage",
+      "home": "Home",
       "myCamps": "My camp | My camps",
       "profile": "Profile"
     },

@@ -12,53 +12,66 @@ Vue.use(formBaseComponents)
 describe('An ECheckbox', () => {
   let vuetify
 
-  const mount = (options) => mountComponent(ECheckbox, { vuetify, ...options })
+  const mount = (options) => {
+    const app = Vue.component('App', {
+      components: { ECheckbox },
+      data: function () {
+        return {
+          data: null
+        }
+      },
+      template: `
+        <div data-app>
+          <e-checkbox v-model="data"/>
+        </div>
+      `
+    })
+    return mountComponent(app, { vuetify, attachTo: document.body, ...options })
+  }
   beforeEach(() => {
     vuetify = new Vuetify()
   })
   test('looks like a checkbox', async () => {
     const wrapper = mount()
-    await wrapper.setProps({ vModel: false })
-    expect(wrapper.element).toMatchSnapshot('unchecked')
+    await wrapper.setData({ data: false })
+    expect(wrapper).toMatchSnapshot('unchecked')
 
-    await wrapper.setProps({ vModel: true })
-    expect(wrapper.element).toMatchSnapshot('checked')
+    await wrapper.setData({ data: true })
+    expect(wrapper).toMatchSnapshot('checked')
   })
 
   test('is checked when initialized checked', () => {
     const wrapper = mount({
-      propsData: {
-        vModel: true
+      data: function () {
+        return {
+          data: true
+        }
       }
     })
-    expect(wrapper.find('input[type=checkbox]').element.getAttribute('vmodel')).toBe('true')
+    expect(wrapper.find('input[type=checkbox]').element.getAttribute('aria-checked')).toBe('true')
   })
 
   test('updates checkbox when vModel changes', async () => {
     const wrapper = mount()
-    expect(wrapper.find('input[type=checkbox]').element.getAttribute('vmodel')).toBeNull()
+    await wrapper.setData({ data: false })
+    expect(wrapper.find('input[type=checkbox]').element.getAttribute('aria-checked')).toBe('false')
 
-    await wrapper.setProps({ vModel: true })
-    expect(wrapper.find('input[type=checkbox]').element.getAttribute('vmodel')).toBe('true')
+    await wrapper.setData({ data: true })
+    expect(wrapper.find('input[type=checkbox]').element.getAttribute('aria-checked')).toBe('true')
 
-    await wrapper.setProps({ vModel: false })
-    expect(wrapper.find('input[type=checkbox]').element.getAttribute('vmodel')).toBeNull()
+    await wrapper.setData({ data: false })
+    expect(wrapper.find('input[type=checkbox]').element.getAttribute('aria-checked')).toBe('false')
   })
 
   test('updates vModel when user clicks on checkbox', async () => {
     const wrapper = mount()
     const input = wrapper.find('input')
 
-    const change = jest.fn()
-    wrapper.vm.$on('input', (event) => change(event))
-
     await input.trigger('click')
-    expect(change).toBeCalledTimes(1)
-    expect(change).toBeCalledWith(true)
+    expect(wrapper.vm.data).toBe(true)
 
     jest.resetAllMocks()
     await input.trigger('click')
-    expect(change).toBeCalledTimes(1)
-    expect(change).toBeCalledWith(false)
+    expect(wrapper.vm.data).toBe(false)
   })
 })

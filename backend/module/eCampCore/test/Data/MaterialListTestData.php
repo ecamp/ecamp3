@@ -11,7 +11,7 @@ use eCamp\Core\Entity\MaterialList;
 class MaterialListTestData extends AbstractFixture implements DependentFixtureInterface {
     public static $MATERIALLIST1 = MaterialList::class.':MATERIALLIST1';
 
-    public function load(ObjectManager $manager) {
+    public function load(ObjectManager $manager): void {
         /** @var Camp $ccamp */
         $camp = $this->getReference(CampTestData::$CAMP1);
 

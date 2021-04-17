@@ -3,57 +3,40 @@
 namespace eCamp\CoreTest\Entity;
 
 use eCamp\Core\Entity\Activity;
-use eCamp\Core\Entity\ActivityCategory;
 use eCamp\Core\Entity\Camp;
 use eCamp\Core\Entity\CampCollaboration;
-use eCamp\Core\Entity\CampType;
+use eCamp\Core\Entity\Category;
 use eCamp\Core\Entity\Job;
-use eCamp\Core\Entity\Organization;
 use eCamp\Core\Entity\Period;
 use eCamp\Core\Entity\User;
 use eCamp\LibTest\PHPUnit\AbstractTestCase;
-use Laminas\Json\Json;
 
 /**
  * @internal
  */
 class CampTest extends AbstractTestCase {
-    public function testCamp() {
+    public function testCamp(): void {
         $user = new User();
         $user->setUsername('username');
 
-        $organization = new Organization();
-        $organization->setName('PBS');
-
-        $config = Json::encode(['test' => 3]);
-        $campType = new CampType();
-        $campType->setName('CampType.Name');
-        $campType->setOrganization($organization);
-        $campType->setIsJS(true);
-        $campType->setIsCourse(true);
-        $campType->setJsonConfig($config);
-
         $camp = new Camp();
-        $camp->setCampType($campType);
         $camp->setOwner($user);
         $camp->setName('TestCamp');
         $camp->setTitle('TestTitle');
         $camp->setMotto('TestMotto');
         $camp->setCreator($user);
 
-        $this->assertEquals($campType, $camp->getCampType());
         $this->assertEquals($user, $camp->getOwner());
         $this->assertEquals('TestCamp', $camp->getName());
         $this->assertEquals('TestTitle', $camp->getTitle());
         $this->assertEquals('TestMotto', $camp->getMotto());
         $this->assertEquals($user, $camp->getCreator());
-        $this->assertEquals(3, $camp->getConfig('test'));
 
         $this->assertFalse($camp->belongsToGroup());
         $this->assertTrue($camp->belongsToUser());
     }
 
-    public function testPeriod() {
+    public function testPeriod(): void {
         $camp = new Camp();
         $period = new Period();
 
@@ -64,7 +47,7 @@ class CampTest extends AbstractTestCase {
         $this->assertEquals(0, $camp->getPeriods()->count());
     }
 
-    public function testCampCollaboration() {
+    public function testCampCollaboration(): void {
         $camp = new Camp();
         $collaboration = new CampCollaboration();
 
@@ -75,7 +58,7 @@ class CampTest extends AbstractTestCase {
         $this->assertEquals(0, $camp->getCampCollaborations()->count());
     }
 
-    public function testJob() {
+    public function testJob(): void {
         $camp = new Camp();
         $job = new Job();
 
@@ -86,18 +69,18 @@ class CampTest extends AbstractTestCase {
         $this->assertEquals(0, $camp->getJobs()->count());
     }
 
-    public function testActivityCategory() {
+    public function testCategory(): void {
         $camp = new Camp();
-        $category = new ActivityCategory();
+        $category = new Category();
 
-        $this->assertEquals(0, $camp->getActivityCategories()->count());
-        $camp->addActivityCategory($category);
-        $this->assertContains($category, $camp->getActivityCategories());
-        $camp->removeActivityCategory($category);
-        $this->assertEquals(0, $camp->getActivityCategories()->count());
+        $this->assertEquals(0, $camp->getCategories()->count());
+        $camp->addCategory($category);
+        $this->assertContains($category, $camp->getCategories());
+        $camp->removeCategory($category);
+        $this->assertEquals(0, $camp->getCategories()->count());
     }
 
-    public function testActivity() {
+    public function testActivity(): void {
         $camp = new Camp();
         $activity = new Activity();
 

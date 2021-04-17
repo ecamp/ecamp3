@@ -30,19 +30,15 @@ abstract class BaseFilter implements EntityFilterInterface {
     /**
      * @param $alias
      * @param $field
-     *
-     * @return Expr\Func
      */
-    abstract public function create(QueryBuilder $q, $alias, $field);
+    abstract public function create(QueryBuilder $q, $alias, $field): Expr\Func;
 
     /**
      * @param $className
      * @param $alias
      * @param $id
-     *
-     * @return QueryBuilder
      */
-    protected function findEntityQueryBuilder($className, $alias, $id) {
+    protected function findEntityQueryBuilder($className, $alias, $id): QueryBuilder {
         $q = $this->createQueryBuilder($className, $alias);
         $q->where($alias.'.id = :entityId');
         $q->setParameter('entityId', $id);
@@ -53,10 +49,8 @@ abstract class BaseFilter implements EntityFilterInterface {
     /**
      * @param $className
      * @param string $alias
-     *
-     * @return QueryBuilder
      */
-    protected function findCollectionQueryBuilder($className, $alias) {
+    protected function findCollectionQueryBuilder($className, $alias): QueryBuilder {
         return $this->createQueryBuilder($className, $alias);
     }
 }

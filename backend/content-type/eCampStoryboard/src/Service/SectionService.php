@@ -3,6 +3,7 @@
 namespace eCamp\ContentType\Storyboard\Service;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\QueryBuilder;
 use eCamp\ContentType\Storyboard\Entity\Section;
 use eCamp\ContentType\Storyboard\Hydrator\SectionHydrator;
 use eCamp\Core\ContentType\BaseContentTypeService;
@@ -19,13 +20,13 @@ class SectionService extends BaseContentTypeService {
         );
     }
 
-    public function moveUp($id) {
+    public function moveUp($id): void {
         /** @var Section $section2 */
         $section2 = $this->findEntity(Section::class, $id);
 
         $q = $this->getRepository()->createQueryBuilder('row');
-        $q->andWhere('row.activityContent = :activityContentId');
-        $q->setParameter('activityContentId', $section2->getActivityContent()->getId());
+        $q->andWhere('row.contentNode = :contentNodeId');
+        $q->setParameter('contentNodeId', $section2->getContentNode()->getId());
         $q->andWhere('row.pos < :pos');
         $q->setParameter('pos', $section2->getPos());
         $q->orderBy('row.pos', 'DESC');
@@ -46,13 +47,13 @@ class SectionService extends BaseContentTypeService {
         }
     }
 
-    public function moveDown($id) {
+    public function moveDown($id): void {
         /** @var Section $section1 */
         $section1 = $this->findEntity(Section::class, $id);
 
         $q = $this->getRepository()->createQueryBuilder('row');
-        $q->andWhere('row.activityContent = :activityContentId');
-        $q->setParameter('activityContentId', $section1->getActivityContent()->getId());
+        $q->andWhere('row.contentNode = :contentNodeId');
+        $q->setParameter('contentNodeId', $section1->getContentNode()->getId());
         $q->andWhere('row.pos > :pos');
         $q->setParameter('pos', $section1->getPos());
         $q->orderBy('row.pos', 'ASC');
@@ -73,7 +74,7 @@ class SectionService extends BaseContentTypeService {
         }
     }
 
-    protected function fetchAllQueryBuilder($params = []) {
+    protected function fetchAllQueryBuilder($params = []): QueryBuilder {
         $q = parent::fetchAllQueryBuilder($params);
         $q->orderBy('row.pos');
 

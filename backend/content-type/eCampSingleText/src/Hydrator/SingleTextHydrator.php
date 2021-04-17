@@ -9,10 +9,8 @@ use Laminas\Hydrator\HydratorInterface;
 class SingleTextHydrator implements HydratorInterface {
     /**
      * @param object $object
-     *
-     * @return array
      */
-    public function extract($object) {
+    public function extract($object): array {
         /** @var SingleText $singleText */
         $singleText = $object;
 
@@ -20,11 +18,11 @@ class SingleTextHydrator implements HydratorInterface {
             'id' => $singleText->getId(),
             'text' => $singleText->getText(),
 
-            'activityContent' => Link::factory([
-                'rel' => 'activityContent',
+            'contentNode' => Link::factory([
+                'rel' => 'contentNode',
                 'route' => [
-                    'name' => 'e-camp-api.rest.doctrine.activity-content',
-                    'params' => ['activityContentId' => $singleText->getActivityContent()->getId()],
+                    'name' => 'e-camp-api.rest.doctrine.content-node',
+                    'params' => ['contentNodeId' => $singleText->getContentNode()->getId()],
                 ],
             ]),
         ];
@@ -32,10 +30,8 @@ class SingleTextHydrator implements HydratorInterface {
 
     /**
      * @param object $object
-     *
-     * @return object
      */
-    public function hydrate(array $data, $object) {
+    public function hydrate(array $data, $object): SingleText {
         /** @var SingleText $singleText */
         $singleText = $object;
 

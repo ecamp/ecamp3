@@ -4,15 +4,20 @@ Admin screen of a camp: Displays details & periods of a single camp and allows t
 
 <template>
   <content-card :title="$tc('views.camp.admin.title')">
-    <v-card-text>
+    <v-card-text class="py-0">
       <v-row>
         <v-col cols="12" lg="6">
           <camp-settings :camp="camp" />
+          <v-btn v-if="$vuetify.breakpoint.xsOnly" :to="{name: 'camp/collaborators', query: {isDetail: true}}">
+            {{ $tc('views.camp.admin.collaborators') }}
+          </v-btn>
         </v-col>
         <v-col cols="12" lg="6">
           <camp-periods :camp="camp" />
 
-          <camp-activity-categories :camp="camp" />
+          <camp-categories :camp="camp" />
+
+          <camp-material-lists :camp="camp" />
         </v-col>
       </v-row>
     </v-card-text>
@@ -22,7 +27,8 @@ Admin screen of a camp: Displays details & periods of a single camp and allows t
 <script>
 import CampSettings from '@/components/camp/CampSettings'
 import CampPeriods from '@/components/camp/CampPeriods'
-import CampActivityCategories from '@/components/camp/CampActivityCategories'
+import CampMaterialLists from '@/components/camp/CampMaterialLists'
+import CampCategories from '@/components/camp/CampCategories'
 import ContentCard from '@/components/layout/ContentCard'
 
 export default {
@@ -31,13 +37,18 @@ export default {
     ContentCard,
     CampSettings,
     CampPeriods,
-    CampActivityCategories
+    CampMaterialLists,
+    CampCategories
   },
   props: {
     camp: { type: Function, required: true }
   },
   data () {
     return {}
+  },
+  mounted () {
+    this.api.reload(this.camp())
+    this.api.reload(this.camp().materialLists())
   }
 }
 </script>

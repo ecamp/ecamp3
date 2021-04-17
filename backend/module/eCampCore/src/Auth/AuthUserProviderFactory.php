@@ -15,10 +15,8 @@ class AuthUserProviderFactory implements FactoryInterface {
      *
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
-     *
-     * @return AuthUserProvider
      */
-    public function __invoke(ContainerInterface $container, $requestedName, array $options = null) {
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null): AuthUserProvider {
         /** @var EntityManager $entityManager */
         $entityManager = $container->get('doctrine.entitymanager.orm_default');
 

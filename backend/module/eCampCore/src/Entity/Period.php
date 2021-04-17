@@ -3,6 +3,7 @@
 namespace eCamp\Core\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use eCamp\Lib\Entity\BaseEntity;
 use eCamp\Lib\Types\DateUtc;
@@ -13,48 +14,41 @@ use eCamp\Lib\Types\DateUtc;
  */
 class Period extends BaseEntity implements BelongsToCampInterface {
     /**
-     * @var Day[]
      * @ORM\OneToMany(targetEntity="Day", mappedBy="period", orphanRemoval=true)
      * @ORM\OrderBy({"dayOffset": "ASC"})
      */
-    protected $days;
+    protected Collection $days;
 
     /**
-     * @var ArrayCollection
      * @ORM\OneToMany(targetEntity="ScheduleEntry", mappedBy="period")
      */
-    protected $scheduleEntries;
+    protected Collection $scheduleEntries;
 
     /**
-     * @var ArrayCollection
      * @ORM\OneToMany(targetEntity="MaterialItem", mappedBy="period")
      */
-    protected $materialItems;
+    protected Collection $materialItems;
 
     /**
-     * @var Camp
      * @ORM\ManyToOne(targetEntity="Camp")
      * @ORM\JoinColumn(nullable=false, onDelete="cascade")
      */
-    private $camp;
+    private ?Camp $camp = null;
 
     /**
-     * @var DateUtc
      * @ORM\Column(type="date", nullable=false)
      */
-    private $start;
+    private ?DateUtc $start = null;
 
     /**
-     * @var DateUtc
      * @ORM\Column(type="date", nullable=false)
      */
-    private $end;
+    private ?DateUtc $end = null;
 
     /**
-     * @var string
-     * @ORM\Column(type="string", length=128, nullable=true)
+     * @ORM\Column(type="text", nullable=true)
      */
-    private $description;
+    private ?string $description = null;
 
     public function __construct() {
         parent::__construct();
@@ -64,25 +58,19 @@ class Period extends BaseEntity implements BelongsToCampInterface {
         $this->materialItems = new ArrayCollection();
     }
 
-    /**
-     * @return Camp
-     */
-    public function getCamp() {
+    public function getCamp(): ?Camp {
         return $this->camp;
     }
 
-    public function setCamp($camp) {
+    public function setCamp(?Camp $camp): void {
         $this->camp = $camp;
     }
 
-    /**
-     * @return DateUtc
-     */
-    public function getStart() {
+    public function getStart(): ?DateUtc {
         return (null !== $this->start) ? (clone $this->start) : null;
     }
 
-    public function setStart(DateUtc $start): void {
+    public function setStart(?DateUtc $start): void {
         $this->start = clone $start;
 
         if (null != $this->end && $this->end < $start) {
@@ -90,14 +78,11 @@ class Period extends BaseEntity implements BelongsToCampInterface {
         }
     }
 
-    /**
-     * @return DateUtc
-     */
-    public function getEnd() {
+    public function getEnd(): ?DateUtc {
         return (null !== $this->end) ? (clone $this->end) : null;
     }
 
-    public function setEnd(DateUtc $end): void {
+    public function setEnd(?DateUtc $end): void {
         $this->end = clone $end;
 
         if (null != $this->start && $this->start > $end) {
@@ -116,21 +101,15 @@ class Period extends BaseEntity implements BelongsToCampInterface {
         return 0;
     }
 
-    /**
-     * @return string
-     */
-    public function getDescription() {
+    public function getDescription(): ?string {
         return $this->description;
     }
 
-    public function setDescription($description): void {
+    public function setDescription(?string $description): void {
         $this->description = $description;
     }
 
-    /**
-     * @return ArrayCollection
-     */
-    public function getDays() {
+    public function getDays(): Collection {
         return $this->days;
     }
 
@@ -144,51 +123,31 @@ class Period extends BaseEntity implements BelongsToCampInterface {
         $this->days->removeElement($day);
     }
 
-    /**
-     * @return ArrayCollection
-     */
-    public function getScheduleEntries() {
+    public function getScheduleEntries(): Collection {
         return $this->scheduleEntries;
     }
 
-    public function addScheduleEntry(ScheduleEntry $scheduleEntry) {
+    public function addScheduleEntry(ScheduleEntry $scheduleEntry): void {
         $scheduleEntry->setPeriod($this);
         $this->scheduleEntries->add($scheduleEntry);
     }
 
-    public function removeScheduleEntry(ScheduleEntry $scheduleEntry) {
+    public function removeScheduleEntry(ScheduleEntry $scheduleEntry): void {
         $scheduleEntry->setPeriod(null);
         $this->scheduleEntries->removeElement($scheduleEntry);
     }
 
-    /**
-     * @return ArrayCollection
-     */
-    public function getMaterialItems() {
+    public function getMaterialItems(): Collection {
         return $this->materialItems;
     }
 
-    public function addMaterialItem(MaterialItem $materialItem) {
+    public function addMaterialItem(MaterialItem $materialItem): void {
         $materialItem->setPeriod($this);
         $this->materialItems->add($materialItem);
     }
 
-    public function removeMaterialItem(MaterialItem $materialItem) {
+    public function removeMaterialItem(MaterialItem $materialItem): void {
         $materialItem->setPeriod(null);
         $this->materialItems->removeElement($materialItem);
-    }
-
-    /** @ORM\PrePersist */
-    public function PrePersist() {
-        parent::PrePersist();
-
-        // Update Number of days
-    }
-
-    /** @ORM\PreUpdate */
-    public function PreUpdate() {
-        parent::PreUpdate();
-
-        // Update Number of days
     }
 }

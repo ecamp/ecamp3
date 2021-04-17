@@ -3,29 +3,25 @@
 namespace eCamp\Core\ContentType;
 
 use Doctrine\ORM\Mapping as ORM;
-use eCamp\Core\Entity\ActivityContent;
-use eCamp\Core\Entity\BelongsToActivityContentInterface;
+use eCamp\Core\Entity\BelongsToContentNodeInterface;
+use eCamp\Core\Entity\ContentNode;
 use eCamp\Lib\Entity\BaseEntity;
 
 /**
  * @ORM\MappedSuperclass
  */
-abstract class BaseContentTypeEntity extends BaseEntity implements BelongsToActivityContentInterface {
+abstract class BaseContentTypeEntity extends BaseEntity implements BelongsToContentNodeInterface {
     /**
-     * @var ActivityContent
-     * @ORM\ManyToOne(targetEntity="eCamp\Core\Entity\ActivityContent")
+     * @ORM\ManyToOne(targetEntity="eCamp\Core\Entity\ContentNode")
      * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      */
-    protected $activityContent;
+    protected ContentNode $contentNode;
 
-    /**
-     * @return ActivityContent
-     */
-    public function getActivityContent() {
-        return $this->activityContent;
+    public function getContentNode(): ContentNode {
+        return $this->contentNode;
     }
 
-    public function setActivityContent(ActivityContent $activityContent) {
-        $this->activityContent = $activityContent;
+    public function setContentNode(ContentNode $contentNode): void {
+        $this->contentNode = $contentNode;
     }
 }

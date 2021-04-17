@@ -15,22 +15,19 @@ class MailAddress extends BaseEntity {
     const STATE_UNTRUSTED = 'untrusted';
 
     /**
-     * @var string
      * @ORM\Column(type="string", length=16, nullable=false)
      */
-    private $state;
+    private string $state;
 
     /**
-     * @var string
      * @ORM\Column(type="string", length=64, nullable=false, unique=true)
      */
-    private $mail;
+    private ?string $mail = null;
 
     /**
-     * @var string
      * @ORM\Column(type="string", length=64, nullable=true)
      */
-    private $verificationCode;
+    private ?string $verificationCode = null;
 
     public function __construct() {
         parent::__construct();
@@ -38,21 +35,15 @@ class MailAddress extends BaseEntity {
         $this->state = self::STATE_UNTRUSTED;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getState() {
+    public function getState(): string {
         return $this->state;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getMail() {
+    public function getMail(): ?string {
         return $this->mail;
     }
 
-    public function setMail($mail): void {
+    public function setMail(?string $mail): void {
         $this->mail = $mail;
     }
 
@@ -64,11 +55,9 @@ class MailAddress extends BaseEntity {
     }
 
     /**
-     * @param $hash
-     *
      * @throws \Exception
      */
-    public function verify($hash): bool {
+    public function verify(string $hash): bool {
         if (self::STATE_TRUSTED === $this->state) {
             throw new \Exception('MailAddress already trusted');
         }

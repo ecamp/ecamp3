@@ -38,7 +38,7 @@ class ContentTypeTest extends AbstractApiControllerTestCase {
         $this->authenticateUser($this->user);
     }
 
-    public function testFetch() {
+    public function testFetch(): void {
         $this->dispatch("{$this->apiEndpoint}/{$this->contentType->getId()}", 'GET');
 
         $this->assertResponseStatusCode(200);
@@ -47,8 +47,7 @@ class ContentTypeTest extends AbstractApiControllerTestCase {
             {
                 "id": "{$this->contentType->getId()}",
                 "name": "Storyboard",
-                "active": true,
-                "allowMultiple": true
+                "active": true
             }
 JSON;
 
@@ -63,33 +62,33 @@ JSON;
         $this->verifyHalResourceResponse($expectedBody, $expectedLinks, []);
     }
 
-    public function testFetchAll() {
+    public function testFetchAll(): void {
         $this->dispatch("{$this->apiEndpoint}?page_size=10", 'GET');
 
         $this->assertResponseStatusCode(200);
 
-        $this->assertEquals(1, $this->getResponseContent()->total_items);
+        $this->assertEquals(2, $this->getResponseContent()->total_items);
         $this->assertEquals(10, $this->getResponseContent()->page_size);
         $this->assertEquals("http://{$this->host}{$this->apiEndpoint}?page_size=10&page=1", $this->getResponseContent()->_links->self->href);
         $this->assertEquals($this->contentType->getId(), $this->getResponseContent()->_embedded->items[0]->id);
     }
 
-    public function testCreateForbidden() {
+    public function testCreateForbidden(): void {
         $this->dispatch("{$this->apiEndpoint}", 'POST');
         $this->assertResponseStatusCode(405);
     }
 
-    public function testPatchForbidden() {
+    public function testPatchForbidden(): void {
         $this->dispatch("{$this->apiEndpoint}/{$this->contentType->getId()}", 'PATCH');
         $this->assertResponseStatusCode(405);
     }
 
-    public function testUpdateForbidden() {
+    public function testUpdateForbidden(): void {
         $this->dispatch("{$this->apiEndpoint}/{$this->contentType->getId()}", 'PUT');
         $this->assertResponseStatusCode(405);
     }
 
-    public function testDeleteForbidden() {
+    public function testDeleteForbidden(): void {
         $this->dispatch("{$this->apiEndpoint}/{$this->contentType->getId()}", 'DELETE');
         $this->assertResponseStatusCode(405);
     }

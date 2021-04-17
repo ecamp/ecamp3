@@ -12,7 +12,7 @@ use eCampApi\V1\Rest\ScheduleEntry\ScheduleEntryCollection;
 use Laminas\Hydrator\HydratorInterface;
 
 class PeriodHydrator implements HydratorInterface {
-    public static function HydrateInfo() {
+    public static function HydrateInfo(): array {
         return [
             'days' => Util::Collection(function (Period $p) {
                 return new DayCollection($p->getDays());
@@ -25,10 +25,8 @@ class PeriodHydrator implements HydratorInterface {
 
     /**
      * @param object $object
-     *
-     * @return array
      */
-    public function extract($object) {
+    public function extract($object): array {
         /** @var Period $period */
         $period = $object;
 
@@ -48,10 +46,8 @@ class PeriodHydrator implements HydratorInterface {
      * @param object $object
      *
      * @throws \Exception
-     *
-     * @return object
      */
-    public function hydrate(array $data, $object) {
+    public function hydrate(array $data, $object): Period {
         /** @var Period $period */
         $period = $object;
 

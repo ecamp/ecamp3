@@ -41,7 +41,7 @@ export default {
     }
   },
   created () {
-    this.$store.commit('setLanguage', this.$store.state.language)
+    this.$store.commit('setLanguage', this.$store.state.lang.language)
   },
   async mounted () {
     if (await this.$auth.refreshLoginStatus()) {
@@ -56,27 +56,26 @@ export default {
 </script>
 <style lang="scss">
   @import "src/scss/global";
-  // consider replacing with CDN for production
-  @import '../node_modules/@mdi/font/css/materialdesignicons.css';
+  @import "~@mdi/font/css/materialdesignicons.css";
 
   .v-btn.ec-drawer-collapse {
     right: 0;
   }
 
-  .v-content {
-    height: 100vh;
-    position: relative;
+  @media #{map-get($display-breakpoints, 'xs-only')}{
+    html,body,.v-application {
+      height: 100%;
+    }
+
+    .v-application--wrap {
+      min-height: 100%!important;
+    }
   }
 
   .v-app-bar .v-toolbar__content {
     padding-left: 0;
     padding-right: 0;
     width: 100%;
-  }
-
-  .v-content__wrap {
-    overflow: auto;
-    position: static;
   }
 
   .user-nav {
@@ -116,7 +115,7 @@ export default {
   }
 
   @media #{map-get($display-breakpoints, 'xs-only')}{
-    .v-content .container {
+    .v-main .container {
       min-height: 100%;
       display: flex;
 

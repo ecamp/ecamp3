@@ -2,6 +2,7 @@
 
 namespace eCamp\Core\EntityService;
 
+use Doctrine\ORM\QueryBuilder;
 use eCamp\Core\Entity\Activity;
 use eCamp\Core\Entity\Camp;
 use eCamp\Core\Entity\Period;
@@ -21,35 +22,10 @@ class ScheduleEntryService extends AbstractEntityService {
         );
     }
 
-    protected function fetchAllQueryBuilder($params = []) {
-        $q = parent::fetchAllQueryBuilder($params);
-        $q->join('row.activity', 'e');
-        $q->andWhere($this->createFilter($q, Camp::class, 'e', 'camp'));
-
-        if (isset($params['activityId'])) {
-            $q->andWhere('row.activity = :activityId');
-            $q->setParameter('activityId', $params['activityId']);
-        }
-
-        return $q;
-    }
-
-    protected function fetchQueryBuilder($id) {
-        $q = parent::fetchQueryBuilder($id);
-        $q->join('row.activity', 'e');
-        $q->andWhere($this->createFilter($q, Camp::class, 'e', 'camp'));
-
-        return $q;
-    }
-
     /**
-     * @param mixed $data
-     *
      * @throws EntityValidationException
-     *
-     * @return ScheduleEntry
      */
-    protected function createEntity($data) {
+    protected function createEntity($data): ScheduleEntry {
         /** @var ScheduleEntry $scheduleEntry */
         $scheduleEntry = parent::createEntity($data);
 
@@ -69,5 +45,26 @@ class ScheduleEntryService extends AbstractEntityService {
         }
 
         return $scheduleEntry;
+    }
+
+    protected function fetchAllQueryBuilder($params = []): QueryBuilder {
+        $q = parent::fetchAllQueryBuilder($params);
+        $q->join('row.activity', 'e');
+        $q->andWhere($this->createFilter($q, Camp::class, 'e', 'camp'));
+
+        if (isset($params['activityId'])) {
+            $q->andWhere('row.activity = :activityId');
+            $q->setParameter('activityId', $params['activityId']);
+        }
+
+        return $q;
+    }
+
+    protected function fetchQueryBuilder($id): QueryBuilder {
+        $q = parent::fetchQueryBuilder($id);
+        $q->join('row.activity', 'e');
+        $q->andWhere($this->createFilter($q, Camp::class, 'e', 'camp'));
+
+        return $q;
     }
 }

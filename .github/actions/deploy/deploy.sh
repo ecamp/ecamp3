@@ -36,7 +36,7 @@ cp backend/config/autoload/zfr_cors.global.php .github/actions/deploy/dist/zfr_c
 php $EDIT_SCRIPT .github/actions/deploy/dist/zfr_cors.global.php "zfr_cors.allowed_origins.0" "${FRONTEND_URL}"
 php $EDIT_SCRIPT .github/actions/deploy/dist/zfr_cors.global.php "zfr_cors.allowed_origins.1" "${PRINT_SERVER_URL}"
 cp backend/config/sentry.config.php.dist .github/actions/deploy/dist/sentry.config.php
-php $EDIT_SCRIPT .github/actions/deploy/dist/sentry.config.php "dsn" "${SENTRY_DSN}"
+php $EDIT_SCRIPT .github/actions/deploy/dist/sentry.config.php "dsn" "${SENTRY_BACKEND_DSN}"
 cp backend/config/autoload/amq.local.dev.dist .github/actions/deploy/dist/amq.local.prod.php
 php $EDIT_SCRIPT .github/actions/deploy/dist/amq.local.prod.php "amqp.connection.host" "${RABBITMQ_HOST}"
 php $EDIT_SCRIPT .github/actions/deploy/dist/amq.local.prod.php "amqp.connection.port" "${RABBITMQ_PORT}"
@@ -49,6 +49,7 @@ cp frontend/public/environment.dist .github/actions/deploy/dist/frontend-environ
 sed -ri "s~API_ROOT_URL: '.*'~API_ROOT_URL: '${BACKEND_URL}'~" .github/actions/deploy/dist/frontend-environment.js
 sed -ri "s~PRINT_SERVER: '.*'~PRINT_SERVER: '${PRINT_SERVER_URL}'~" .github/actions/deploy/dist/frontend-environment.js
 sed -ri "s~PRINT_FILE_SERVER: '.*'~PRINT_FILE_SERVER: '${PRINT_FILE_SERVER_URL}'~" .github/actions/deploy/dist/frontend-environment.js
+sed -ri "s~SENTRY_FRONTEND_DSN: .*~SENTRY_FRONTEND_DSN: '${SENTRY_FRONTEND_DSN}',~" .github/actions/deploy/dist/frontend-environment.js
 sed -ri "s~VERSION: '.*'~VERSION: '${COMMIT_ID}'~" .github/actions/deploy/dist/frontend-environment.js
 sed -ri "s~VERSION_LINK_TEMPLATE: '.*'~VERSION_LINK_TEMPLATE: '${VERSION_LINK_TEMPLATE}'~" .github/actions/deploy/dist/frontend-environment.js
 
@@ -56,11 +57,13 @@ sed -ri "s~VERSION_LINK_TEMPLATE: '.*'~VERSION_LINK_TEMPLATE: '${VERSION_LINK_TE
 cp print/print.env .github/actions/deploy/dist/print.env
 sed -ri "s~INTERNAL_API_ROOT_URL=.*~INTERNAL_API_ROOT_URL=${INTERNAL_BACKEND_URL}~" .github/actions/deploy/dist/print.env
 sed -ri "s~API_ROOT_URL=.*~API_ROOT_URL=${BACKEND_URL}~" .github/actions/deploy/dist/print.env
+sed -ri "s~SENTRY_PRINT_DSN=.*~SENTRY_PRINT_DSN=${SENTRY_PRINT_DSN}~" .github/actions/deploy/dist/print.env
 
 # Inject environment secrets into print-worker-puppeteer config file
 cp workers/print-puppeteer/environment.js .github/actions/deploy/dist/worker-print-puppeteer-environment.js
 sed -ri "s~PRINT_SERVER: .*$~PRINT_SERVER: '${PRINT_SERVER_URL}',~" .github/actions/deploy/dist/worker-print-puppeteer-environment.js
 sed -ri "s~SESSION_COOKIE_DOMAIN: .*$~SESSION_COOKIE_DOMAIN: '${SESSION_COOKIE_DOMAIN}',~" .github/actions/deploy/dist/worker-print-puppeteer-environment.js
+sed -ri "s~SENTRY_WORKER_PRINT_PUPPETEER_DSN: .*$~SENTRY_WORKER_PRINT_PUPPETEER_DSN: '${SENTRY_WORKER_PRINT_PUPPETEER_DSN}',~" .github/actions/deploy/dist/worker-print-puppeteer-environment.js
 sed -ri "s~AMQP_HOST: .*$~AMQP_HOST: '${RABBITMQ_HOST}',~" .github/actions/deploy/dist/worker-print-puppeteer-environment.js
 sed -ri "s~AMQP_PORT: .*$~AMQP_PORT: '${RABBITMQ_PORT}',~" .github/actions/deploy/dist/worker-print-puppeteer-environment.js
 sed -ri "s~AMQP_VHOST: .*$~AMQP_VHOST: '${RABBITMQ_VHOST}',~" .github/actions/deploy/dist/worker-print-puppeteer-environment.js
@@ -70,6 +73,7 @@ sed -ri "s~AMQP_PASS: .*$~AMQP_PASS: '${RABBITMQ_PASS}',~" .github/actions/deplo
 # Inject environment secrets into print-worker-weasy config file
 cp workers/print-weasy/environment.py .github/actions/deploy/dist/worker-print-weasy-environment.py
 sed -ri "s~PRINT_SERVER = .*$~PRINT_SERVER = '${PRINT_SERVER_URL}'~" .github/actions/deploy/dist/worker-print-weasy-environment.py
+sed -ri "s~SENTRY_WORKER_PRINT_WEASY_DSN = .*$~SENTRY_WORKER_PRINT_WEASY_DSN = '${SENTRY_WORKER_PRINT_WEASY_DSN}'~" .github/actions/deploy/dist/worker-print-weasy-environment.py
 sed -ri "s~AMQP_HOST = .*$~AMQP_HOST = '${RABBITMQ_HOST}'~" .github/actions/deploy/dist/worker-print-weasy-environment.py
 sed -ri "s~AMQP_PORT = .*$~AMQP_PORT = '${RABBITMQ_PORT}'~" .github/actions/deploy/dist/worker-print-weasy-environment.py
 sed -ri "s~AMQP_VHOST = .*$~AMQP_VHOST = '${RABBITMQ_VHOST}'~" .github/actions/deploy/dist/worker-print-weasy-environment.py
@@ -87,7 +91,7 @@ rsync -avz -e ssh --delete .github/actions/deploy/dist/ "${SSH_USERNAME}@${SSH_H
 # shellcheck disable=SC2087
 ssh -T "${SSH_USERNAME}@${SSH_HOST}" <<EOF
   cd ${SSH_DIRECTORY}
-  docker system prune -f --volumes
+  docker system prune -f -a --volumes
   docker-compose pull && docker-compose down --volumes && docker-compose up -d
 EOF
 

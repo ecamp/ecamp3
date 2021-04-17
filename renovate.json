@@ -1,0 +1,25 @@
+{
+  "extends": [
+    "config:base",
+    "docker:pinDigests"
+  ],
+  "force": {
+    "constraints": {
+      "node": "< 15.0.0",
+      "npm": ">=6.0.0 <7"
+    }
+  },
+  "packageRules": [
+    {
+      "updateTypes": ["minor", "patch", "pin", "digest"],
+      "automerge": true
+    }
+  ],
+  "regexManagers": [
+    {
+      "fileMatch": ["^.github/workflows/continuous-integration.yml$"],
+      "matchStrings": ["(?<depName>cypress/included):(?<currentValue>[0-9.]+)\n"],
+      "datasourceTemplate": "docker"
+    }
+  ]
+}

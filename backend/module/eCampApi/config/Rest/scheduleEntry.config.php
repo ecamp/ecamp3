@@ -1,61 +1,19 @@
 <?php
 
-use eCampApi\ConfigFactory;
+use eCampApi\V1\Factory\Config;
+use eCampApi\V1\Factory\InputFilter;
 
-$config = ConfigFactory::createConfig('ScheduleEntry', 'ScheduleEntries');
-
-array_push(
-    $config['api-tools-rest']['eCampApi\\V1\\Rest\\ScheduleEntry\\Controller']['collection_query_whitelist'],
-    'activityId'
-);
-
-$config['api-tools-content-validation'] = [
-    'eCampApi\\V1\\Rest\\ScheduleEntry\\Controller' => [
-        'input_filter' => 'eCampApi\\V1\\Rest\\ScheduleEntry\\Validator',
-    ],
-];
-
-$config['input_filter_specs'] = [
-    'eCampApi\\V1\\Rest\\ScheduleEntry\\Validator' => [
-        0 => [
-            'name' => 'periodOffset',
-            'required' => true,
-            'filters' => [
-                0 => [
-                    'name' => 'Laminas\\Filter\\StripTags',
-                ],
-                1 => [
-                    'name' => 'Laminas\\Filter\\Digits',
-                ],
-            ],
-            'validators' => [],
-        ],
-        1 => [
-            'name' => 'length',
-            'required' => true,
-            'filters' => [
-                0 => [
-                    'name' => 'Laminas\\Filter\\StripTags',
-                ],
-                1 => [
-                    'name' => 'Laminas\\Filter\\Digits',
-                ],
-            ],
-            'validators' => [],
-        ],
-        2 => [
-            'name' => 'left',
-            'required' => false,
-            'filters' => [],
-            'validators' => [],
-        ],
-        3 => [
-            'name' => 'width',
-            'required' => false,
-            'filters' => [],
-            'validators' => [],
-        ],
-    ],
-];
-
-return $config;
+return Config::Create('ScheduleEntry', 'ScheduleEntries')
+    ->addCollectionQueryWhitelist('activityId')
+    ->addInputFilterFactory(
+        InputFilter::Create('periodOffset', true)
+            ->addFilterDigits()
+    )
+    ->addInputFilterFactory(
+        InputFilter::Create('length', true)
+            ->addFilterDigits()
+    )
+    ->addInputFilter('left')
+    ->addInputFilter('width')
+    ->buildConfig()
+;

@@ -1,82 +1,93 @@
-// Libraries
+import ApiTextField from '../ApiTextField'
+import ApiWrapper from '@/components/form/api/ApiWrapper'
 import Vue from 'vue'
 import Vuetify from 'vuetify'
 import flushPromises from 'flush-promises'
-
 import formBaseComponents from '@/plugins/formBaseComponents'
+import merge from 'lodash/merge'
+import { ApiMock } from '@/components/form/api/__tests__/ApiMock'
+import { i18n } from '@/plugins'
+import { mount as mountComponent } from '@vue/test-utils'
+import { waitForDebounce } from '@/test/util'
 
-import { shallowMount, mount, createLocalVue } from '@vue/test-utils'
-import ApiTextField from '../ApiTextField.vue'
-import ApiWrapper from '../ApiWrapper'
-import { ValidationObserver } from 'vee-validate'
-
-jest.mock('lodash')
-const { cloneDeep } = jest.requireActual('lodash')
-
-jest.useFakeTimers()
 Vue.use(Vuetify)
 Vue.use(formBaseComponents)
 
-let vuetify
+describe('An ApiTextField', () => {
+  let vuetify
+  let wrapper
+  let apiMock
 
-// config factory
-function createConfig (overrides) {
-  const mocks = {
-    api: {
-      patch: () => Promise.resolve()
-    }
-  }
-  const propsData = {
-    value: 'Test Value',
-    fieldname: 'test-field',
-    uri: '/test-field/123',
-    label: 'Test Field'
-  }
-  const stubs = {
-    ApiWrapper,
-    ValidationObserver
-  }
-  const localVue = createLocalVue()
+  const fieldName = 'test-field/123'
+  const TEXT_1 = 'some text'
+  const TEXT_2 = 'another text'
 
-  return cloneDeep(Object.assign({ mocks, propsData, stubs, vuetify, localVue }, overrides))
-}
-
-describe('ApiTextField.vue', () => {
   beforeEach(() => {
     vuetify = new Vuetify()
+    apiMock = ApiMock.create()
   })
 
   afterEach(() => {
     jest.restoreAllMocks()
+    wrapper.destroy()
   })
 
-  // keep this the first test --> otherwise element IDs change constantly
-  test('renders correctly', () => {
-    const config = createConfig()
-    const wrapper = shallowMount(ApiTextField, config)
+  const mount = (options) => {
+    const app = Vue.component('App', {
+      components: { ApiTextField },
+      props: {
+        fieldName: { type: String, default: fieldName }
+      },
+      template: `
+        <div data-app>
+          <api-text-field
+            :auto-save="false"
+            :fieldname="fieldName"
+            uri="test-field/123"
+            label="Test field"
+            required="true"
+          />
+        </div>
+      `
+    })
+    apiMock.get().thenReturn(ApiMock.success(TEXT_1).forFieldName(fieldName))
+    const defaultOptions = {
+      mocks: {
+        $tc: () => {
+        },
+        api: apiMock.getMocks()
+      }
+    }
+    return mountComponent(app, { vuetify, i18n, attachTo: document.body, ...merge(defaultOptions, options) })
+  }
 
-    expect(wrapper.element).toMatchSnapshot()
-  })
+  test('triggers api.patch and status update if input changes', async () => {
+    apiMock.patch().thenReturn(ApiMock.success(TEXT_2))
+    wrapper = mount()
 
-  test('input change triggers api.patch call and status update', async () => {
-    const config = createConfig()
-    const patchSpy = jest.spyOn(config.mocks.api, 'patch')
-    const wrapper = mount(ApiTextField, config)
-
-    const newValue = 'new value'
-
-    // contains 1 e-text-field
-    expect(wrapper.findComponent({ name: 'ETextField' }).exists()).toBe(true)
-
-    wrapper.find('input').setValue(newValue)
-
-    // resolve lodash debounced
-    jest.runAllTimers()
-
-    // await validation Promise & api.patch Promise
     await flushPromises()
 
-    expect(patchSpy).toBeCalledTimes(1)
-    expect(patchSpy).toBeCalledWith(config.propsData.uri, { [config.propsData.fieldname]: newValue })
+    const input = wrapper.find('input')
+    await input.setValue(TEXT_2)
+    await input.trigger('submit')
+
+    await waitForDebounce()
+    await flushPromises()
+
+    expect(apiMock.getMocks().patch).toBeCalledTimes(1)
+    expect(wrapper.findComponent(ApiWrapper).vm.localValue).toBe(TEXT_2)
+  })
+
+  test('updates state if value in store is refreshed and has new value', async () => {
+    wrapper = mount()
+    apiMock.get().thenReturn(ApiMock.success(TEXT_2).forFieldName(fieldName))
+
+    wrapper.findComponent(ApiWrapper).vm.reload()
+
+    await waitForDebounce()
+    await flushPromises()
+
+    expect(wrapper.findComponent(ApiWrapper).vm.localValue).toBe(TEXT_2)
+    expect(wrapper.find('input[type=text]').element.value).toBe(TEXT_2)
   })
 })

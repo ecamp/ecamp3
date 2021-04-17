@@ -3,9 +3,10 @@
 namespace eCamp\Core\EntityService;
 
 use Doctrine\ORM\ORMException;
+use Doctrine\ORM\QueryBuilder;
 use eCamp\Core\Entity\Activity;
-use eCamp\Core\Entity\ActivityCategory;
 use eCamp\Core\Entity\Camp;
+use eCamp\Core\Entity\Category;
 use eCamp\Core\Entity\ScheduleEntry;
 use eCamp\Core\Hydrator\ActivityHydrator;
 use eCamp\Lib\Acl\NoAccessException;
@@ -15,17 +16,16 @@ use eCamp\Lib\Service\ServiceUtils;
 use Laminas\Authentication\AuthenticationService;
 
 class ActivityService extends AbstractEntityService {
-    /** @var ActivityResponsibleService */
-    protected $activityResponsibleService;
-
-    /** @var ScheduleEntryService */
-    protected $scheduleEntryService;
+    protected ActivityResponsibleService $activityResponsibleService;
+    protected ScheduleEntryService $scheduleEntryService;
+    protected ContentNodeService $contentNodeService;
 
     public function __construct(
-        ActivityResponsibleService $activityResponsibleService,
         ServiceUtils $serviceUtils,
         AuthenticationService $authenticationService,
-        ScheduleEntryService $scheduleEntryService
+        ActivityResponsibleService $activityResponsibleService,
+        ScheduleEntryService $scheduleEntryService,
+        ContentNodeService $contentNodeService
     ) {
         parent::__construct(
             $serviceUtils,
@@ -35,11 +35,32 @@ class ActivityService extends AbstractEntityService {
         );
         $this->scheduleEntryService = $scheduleEntryService;
         $this->activityResponsibleService = $activityResponsibleService;
+        $this->contentNodeService = $contentNodeService;
     }
 
     /**
-     * @param mixed $data
-     *
+     * @throws EntityNotFoundException
+     * @throws ORMException
+     * @throws NoAccessException
+     */
+    protected function createEntity($data): Activity {
+        $data = (object) $data;
+
+        /** @var Activity $activity */
+        $activity = parent::createEntity($data);
+
+        /** @var Category $category */
+        $category = $this->findRelatedEntity(Category::class, $data, 'categoryId');
+        $camp = $category->getCamp();
+
+        // Set Camp and Category
+        $camp->addActivity($activity);
+        $activity->setCategory($category);
+
+        return $activity;
+    }
+
+    /**
      * @throws EntityNotFoundException
      * @throws NoAccessException
      * @throws ORMException
@@ -47,15 +68,21 @@ class ActivityService extends AbstractEntityService {
      *
      * @return BaseEntity
      */
-    protected function createEntityPost(BaseEntity $entity, $data) {
+    protected function createEntityPost(BaseEntity $entity, $data): Activity {
         /** @var Activity $activity */
         $activity = $entity;
 
         $this->updateActivityResponsibles($activity, $data);
-
         $this->updateScheduleEntries($activity, $data);
 
-        return $entity;
+        // Copy ContentNode
+        $prototype = $activity->getCategory()->getRootContentNode();
+        if (isset($prototype)) {
+            $contentNode = $this->contentNodeService->createFromPrototype($activity, $prototype);
+            $activity->setRootContentNode($contentNode);
+        }
+
+        return $activity;
     }
 
     /**
@@ -67,21 +94,21 @@ class ActivityService extends AbstractEntityService {
      *
      * @return BaseEntity
      */
-    protected function patchEntity(BaseEntity $entity, $data) {
+    protected function patchEntity(BaseEntity $entity, $data): Activity {
         /** @var Activity $activity */
         $activity = parent::patchEntity($entity, $data);
         $this->updateActivityResponsibles($activity, $data);
         $this->updateScheduleEntries($activity, $data);
 
-        if (!empty($data->activityCategoryId)) {
-            $category = $this->findRelatedEntity(ActivityCategory::class, $data, 'activityCategoryId');
-            $activity->setActivityCategory($category);
+        if (!empty($data->categoryId)) {
+            $category = $this->findRelatedEntity(Category::class, $data, 'categoryId');
+            $activity->setCategory($category);
         }
 
         return $entity;
     }
 
-    protected function updateEntity(BaseEntity $entity, $data) {
+    protected function updateEntity(BaseEntity $entity, $data): Activity {
         $entity = parent::updateEntity($entity, $data);
         $this->updateActivityResponsibles($entity, $data);
         $this->updateScheduleEntries($entity, $data);
@@ -89,7 +116,7 @@ class ActivityService extends AbstractEntityService {
         return $entity;
     }
 
-    protected function fetchAllQueryBuilder($params = []) {
+    protected function fetchAllQueryBuilder($params = []): QueryBuilder {
         $q = parent::fetchAllQueryBuilder($params);
         $q->andWhere($this->createFilter($q, Camp::class, 'row', 'camp'));
 
@@ -107,38 +134,14 @@ class ActivityService extends AbstractEntityService {
         return $q;
     }
 
-    protected function fetchQueryBuilder($id) {
+    protected function fetchQueryBuilder($id): QueryBuilder {
         $q = parent::fetchQueryBuilder($id);
         $q->andWhere($this->createFilter($q, Camp::class, 'row', 'camp'));
 
         return $q;
     }
 
-    /**
-     * @param mixed $data
-     *
-     * @throws EntityNotFoundException
-     * @throws ORMException
-     * @throws NoAccessException
-     *
-     * @return Activity
-     */
-    protected function createEntity($data) {
-        $data = (object) $data;
-
-        /** @var Activity $activity */
-        $activity = parent::createEntity($data);
-
-        /** @var ActivityCategory $category */
-        $category = $this->findRelatedEntity(ActivityCategory::class, $data, 'activityCategoryId');
-
-        $activity->setActivityCategory($category);
-        $activity->setCamp($category->getCamp()); // TODO meeting discus: Why do we actually need camp on activity? Redundant relationship
-
-        return $activity;
-    }
-
-    private function updateActivityResponsibles(Activity $activity, $data) {
+    private function updateActivityResponsibles(Activity $activity, $data): void {
         if (isset($data->campCollaborations)) {
             $ccIds = array_map(function ($cc) {
                 return $cc['id'];
@@ -165,7 +168,7 @@ class ActivityService extends AbstractEntityService {
         }
     }
 
-    private function updateScheduleEntries(Activity $activity, $data) {
+    private function updateScheduleEntries(Activity $activity, $data): void {
         if (isset($data->scheduleEntries) && is_array($data->scheduleEntries)) {
             $scheduleEntryIds = array_reduce($data->scheduleEntries, function ($result, $entry) {
                 if (isset($entry['id'])) {

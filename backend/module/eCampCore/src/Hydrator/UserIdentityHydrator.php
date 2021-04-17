@@ -6,17 +6,15 @@ use eCamp\Core\Entity\UserIdentity;
 use Laminas\Hydrator\HydratorInterface;
 
 class UserIdentityHydrator implements HydratorInterface {
-    public static function HydrateInfo() {
+    public static function HydrateInfo(): array {
         return [
         ];
     }
 
     /**
      * @param object $object
-     *
-     * @return array
      */
-    public function extract($object) {
+    public function extract($object): array {
         /** @var UserIdentity $userIdentity */
         $userIdentity = $object;
 
@@ -27,10 +25,8 @@ class UserIdentityHydrator implements HydratorInterface {
 
     /**
      * @param object $object
-     *
-     * @return object
      */
-    public function hydrate(array $data, $object) {
+    public function hydrate(array $data, $object): UserIdentity {
         /** @var UserIdentity $userIdentity */
         $userIdentity = $object;
 

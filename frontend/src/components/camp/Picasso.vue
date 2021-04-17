@@ -14,7 +14,7 @@ Listing all given activity schedule entries in a calendar view.
       :event-color="getActivityColor"
       event-start="startTime"
       event-end="endTime"
-      :interval-height="intervalHeight"
+      :interval-height="computedIntervalHeight"
       interval-width="46"
       :interval-format="intervalFormat"
       first-interval="5"
@@ -30,7 +30,6 @@ Listing all given activity schedule entries in a calendar view.
       color="primary"
       :event-ripple="false"
       @mousedown:event="entryMouseDown"
-      @mouseup:event="entryMouseUp"
       @mousedown:time="timeMouseDown"
       @mousemove:time="timeMouseMove"
       @mouseup:time="timeMouseUp"
@@ -38,15 +37,15 @@ Listing all given activity schedule entries in a calendar view.
       <template #day-label-header="time">
         <div class="ec-daily_head-day-label">
           <span v-if="widthPluralization > 0" class="d-block">
-            {{ $moment.utc(time.date).format('dddd') }}
-          </span> {{ $moment.utc(time.date).format($tc('components.camp.picasso.moment.date', widthPluralization)) }}
+            {{ $date.utc(time.date).format('dddd') }}
+          </span> {{ $date.utc(time.date).format($tc('components.camp.picasso.datetime.date', widthPluralization)) }}
         </div>
       </template>
       <template #day-body="{ date }">
         <div v-if="dateNow === date"
              class="v-current-time" :style="{ top: nowY }" />
       </template>
-      <template #event="{event, eventParsed, timed}">
+      <template #event="{event, timed}">
         <v-btn v-if="!event.tmpEvent && dialogActivityEdit" absolute
                top
                right x-small
@@ -57,7 +56,9 @@ Listing all given activity schedule entries in a calendar view.
                @mouseup.stop="">
           <v-icon x-small>mdi-pencil</v-icon>
         </v-btn>
-        <h4>{{ getActivityName(event) }}</h4>
+        <h4 class="v-event-title">
+          {{ getActivityName(event) }}
+        </h4>
         <div
           v-if="timed"
           class="v-event-drag-bottom"
@@ -105,7 +106,7 @@ export default {
     intervalHeight: {
       type: Number,
       required: false,
-      default: 42
+      default: 0
     },
     dialogActivityCreate: {
       type: Function,
@@ -136,7 +137,6 @@ export default {
       draggedStartTime: null,
       currentStartTime: null,
       extendOriginal: null,
-      nativeTarget: null,
       openedInNewTab: false,
       activitiesLoading: true
     }
@@ -149,8 +149,8 @@ export default {
         return this.scheduleEntries
       }
     },
-    activityCategories () {
-      return this.camp.activityCategories()
+    categories () {
+      return this.camp.categories()
     },
     widthPluralization () {
       if (this.entryWidth < 81) {
@@ -172,6 +172,9 @@ export default {
     },
     camp () {
       return this.period().camp()
+    },
+    computedIntervalHeight () {
+      return this.intervalHeight !== 0 ? this.intervalHeight : this.$vuetify.breakpoint.xsOnly ? (this.$vuetify.breakpoint.height - 140) / 19 : Math.max((this.$vuetify.breakpoint.height - 174) / 19, 32)
     }
   },
   mounted () {
@@ -184,26 +187,26 @@ export default {
     },
     getActivityName (scheduleEntry, _) {
       if (this.isActivityLoading(scheduleEntry)) return this.$tc('global.loading')
-      return (scheduleEntry.number ? '(' + scheduleEntry.number + ') ' : '') +
-        (scheduleEntry.activity().activityCategory().short ? scheduleEntry.activity().activityCategory().short + ': ' : '') +
+      return (scheduleEntry.number ? scheduleEntry.number + ' ' : '') +
+        (scheduleEntry.activity().category().short ? scheduleEntry.activity().category().short + ': ' : '') +
         scheduleEntry.activity().title
     },
     getActivityColor (scheduleEntry, _) {
       if (this.isActivityLoading(scheduleEntry)) return 'grey lighten-2'
-      const color = scheduleEntry.activity().activityCategory().color
+      const color = scheduleEntry.activity().category().color
       return isCssColor(color) ? color : color + ' elevation-4 v-event--temporary'
     },
     isActivityLoading (scheduleEntry) {
       return this.activitiesLoading || (scheduleEntry.activity()._meta ? scheduleEntry.activity()._meta.loading : false)
     },
     intervalFormat (time) {
-      return this.$moment.utc(time.date + ' ' + time.time).format(this.$tc('global.moment.hourLong'))
+      return this.$date.utc(time.date + ' ' + time.time).format(this.$tc('global.datetime.hourLong'))
     },
     dayFormat (day) {
       if (this.$vuetify.breakpoint.smAndDown) {
-        return this.$moment.utc(day.date).format(this.$tc('global.moment.dateShort'))
+        return this.$date.utc(day.date).format(this.$tc('global.datetime.dateShort'))
       } else {
-        return this.$moment.utc(day.date).format(this.$tc('global.moment.dateLong'))
+        return this.$date.utc(day.date).format(this.$tc('global.datetime.dateLong'))
       }
     },
     scheduleEntryRoute,
@@ -222,6 +225,8 @@ export default {
         // Click with middle mouse button, or click while holding cmd/ctrl opens new tab
         this.showScheduleEntryInNewTab(entry)
         this.openedInNewTab = true
+      } else if (nativeEvent.button === 2) {
+        // don't move event if middle mouse button
       } else {
         if (entry && timed) {
           this.draggedEntry = entry
@@ -259,7 +264,7 @@ export default {
           title: this.$tc('entity.activity.new'),
           location: '',
           camp: (this.period)().camp,
-          activityCategory: () => ({
+          category: () => ({
             id: null,
             short: null,
             color: 'grey elevation-4 v-event--temporary'
@@ -298,11 +303,6 @@ export default {
 
       this.draggedEntry.startTime = newStart
       this.draggedEntry.endTime = newEnd
-    },
-    entryMouseUp ({ nativeEvent }) {
-      if ((this.draggedEntry && this.draggedStartTime !== null) || (this.currentEntry && this.currentStartTime !== null)) {
-        this.nativeTarget = nativeEvent.target
-      }
     },
     timeMouseUp (tms) {
       if (this.draggedEntry && this.draggedStartTime !== null) {
@@ -397,7 +397,7 @@ export default {
       return new Date(tms.year, tms.month - 1, tms.day, tms.hour, tms.minute).getTime()
     },
     toTimeString (date) {
-      return this.$moment.utc(date).format(this.$tc('global.moment.hourLong'))
+      return this.$date.utc(date).format(this.$tc('global.datetime.hourLong'))
     },
     rnd (a, b) {
       return Math.floor((b - a + 1) * Math.random()) + a
@@ -452,11 +452,26 @@ export default {
   margin-right: 5px;
 }
 
+@media #{map-get($display-breakpoints, 'sm-and-up')}{
+  .ec-event--btn {
+    display: block !important;
+  }
+}
+
 .ec-event--btn {
   padding: 0 !important;
   min-width: 20px !important;
   top: 0 !important;
   right: 0 !important;
+  display: none;
+}
+
+.v-event-title {
+  hyphens: auto;
+  hyphenate-limit-chars: 6 3 3;
+  hyphenate-limit-lines: 2;
+  hyphenate-limit-last: always;
+  hyphenate-limit-zone: 8%;
 }
 
 .ec-daily_head-day-label {
@@ -501,9 +516,11 @@ export default {
   opacity: .8;
 }
 
-.v-event-timed {
-  &:hover .v-event-drag-bottom::after {
-    display: block;
+@media #{map-get($display-breakpoints, 'sm-and-up')}{
+  .v-event-timed {
+    &:hover .v-event-drag-bottom::after {
+      display: block;
+    }
   }
 }
 

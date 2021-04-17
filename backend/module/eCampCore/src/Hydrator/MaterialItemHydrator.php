@@ -2,21 +2,20 @@
 
 namespace eCamp\Core\Hydrator;
 
+use eCamp\Core\Entity\MaterialItem;
 use eCamp\Lib\Entity\EntityLink;
 use Laminas\Hydrator\HydratorInterface;
 
 class MaterialItemHydrator implements HydratorInterface {
-    public static function HydrateInfo() {
+    public static function HydrateInfo(): array {
         return [
         ];
     }
 
     /**
      * @param object $object
-     *
-     * @return array
      */
-    public function extract($object) {
+    public function extract($object): array {
         /** @var MaterialItem $materialItem */
         $materialItem = $object;
 
@@ -28,16 +27,14 @@ class MaterialItemHydrator implements HydratorInterface {
 
             'materialList' => EntityLink::Create($materialItem->getMaterialList()),
             'period' => EntityLink::Create($materialItem->getPeriod()),
-            'activityContent' => EntityLink::Create($materialItem->getActivityContent()),
+            'contentNode' => EntityLink::Create($materialItem->getContentNode()),
         ];
     }
 
     /**
      * @param object $object
-     *
-     * @return object
      */
-    public function hydrate(array $data, $object) {
+    public function hydrate(array $data, $object): MaterialItem {
         /** @var MaterialItem $materialItem */
         $materialItem = $object;
 

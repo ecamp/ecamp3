@@ -6,19 +6,34 @@ on:
   workflow_dispatch:
 
 jobs:
-  backend-cs-check:
-    name: "Backend php-cs-fixer"
+  backend-validate-composer-lock:
+    name: "Validate Backend composer.lock"
     runs-on: ubuntu-latest
     steps:
 
       - uses: actions/checkout@v2
 
-      - uses: OskarStark/php-cs-fixer-ga@2.17.0
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '7.4'
+          coverage: xdebug
+
+      - run: composer validate -n --no-check-all --no-check-publish --strict
+        working-directory: backend
+
+  backend-cs-check:
+    name: "Lint: Backend (php-cs-fixer)"
+    runs-on: ubuntu-latest
+    steps:
+
+      - uses: actions/checkout@v2
+
+      - uses: OskarStark/php-cs-fixer-ga@2.18.5
         with:
           args: --dry-run --diff --config=backend/.php_cs
 
   frontend-eslint:
-    name: "Frontend ESLint"
+    name: "Lint: Frontend (ESLint)"
     runs-on: ubuntu-latest
     steps:
 
@@ -31,14 +46,14 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
 
-      - run: npm install
+      - run: npm ci
         working-directory: frontend
 
-      - run: npm run lint
+      - run: npm run lint-check
         working-directory: frontend
 
   print-eslint:
-    name: "Print ESLint"
+    name: "Lint: Print (ESLint)"
     runs-on: ubuntu-latest
     steps:
 
@@ -51,18 +66,23 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
 
-      - run: npm install
+      - run: npm ci
         working-directory: print
 
       - run: npm run lint
         working-directory: print
 
   backend-tests:
-    name: "Backend tests"
+    name: "Tests: Backend"
     runs-on: ubuntu-latest
     steps:
 
       - uses: actions/checkout@v2
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '7.4'
+          coverage: xdebug
 
       - name: Get Composer Cache Directory
         id: composer-cache
@@ -76,7 +96,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-composer-
 
-      - run: composer install --no-interaction
+      - run: composer install --no-interaction --no-plugins --no-scripts --prefer-dist
         working-directory: backend
 
       - run: composer test
@@ -89,7 +109,7 @@ jobs:
           COVERALLS_FLAG_NAME: backend
 
   frontend-tests:
-    name: "Frontend tests"
+    name: "Tests: Frontend"
     runs-on: ubuntu-latest
     steps:
 
@@ -102,7 +122,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
 
-      - run: npm install
+      - run: npm ci
         working-directory: frontend
 
       - run: npm run test:unit
@@ -117,18 +137,49 @@ jobs:
           COVERALLS_PARALLEL: true
           COVERALLS_FLAG_NAME: frontend
 
-  e2e-tests:
-    name: "End-to-end tests"
+  print-tests:
+    name: "Tests: Print"
     runs-on: ubuntu-latest
     steps:
 
       - uses: actions/checkout@v2
 
+      - uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - run: npm ci
+        working-directory: print
+
+      - run: npm run test
+        working-directory: print
+
+      - run: cat print/coverage/lcov.info | npx coveralls .
+        env:
+          COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          COVERALLS_SERVICE_NAME: github
+          COVERALLS_SERVICE_NUMBER: ${{ github.run_id }}
+          CI_PULL_REQUEST: ${{ github.event.number }}
+          COVERALLS_PARALLEL: true
+          COVERALLS_FLAG_NAME: print
+
+  e2e-tests:
+    name: "Tests: End-to-end"
+    runs-on: ubuntu-latest
+    steps:
+
+      - uses: actions/checkout@v2
+
+      - run: cp .env.ci .env
+
       - run: docker-compose up -d --build composer backend frontend db
 
       - run: bash wait-for-container-startup.sh
 
-      - run: docker run -v $PWD:/e2e -w /e2e --network host -e CYPRESS_BASE_URL=http://localhost:3000 cypress/included:3.4.0
+      - run: docker run -v $PWD:/e2e -w /e2e --network host -e CYPRESS_BASE_URL=http://localhost:3000 cypress/included:6.8.0
         working-directory: frontend
 
   coveralls-finished:
@@ -136,6 +187,7 @@ jobs:
     needs:
       - backend-tests
       - frontend-tests
+      - print-tests
     runs-on: ubuntu-latest
     steps:
 
@@ -146,13 +198,14 @@ jobs:
 
   ci-passed-event:
     name: "Send out CI success event"
-    if: ${{ github.event_name == 'push' }}
+    if: github.event_name == 'push' && github.repository_owner == 'ecamp'
     needs:
       - backend-cs-check
       - frontend-eslint
       - print-eslint
       - backend-tests
       - frontend-tests
+      - print-tests
       - e2e-tests
     runs-on: ubuntu-latest
     steps:

@@ -131,7 +131,7 @@ if (array_key_exists('drop-data', $_GET)) {
 
 //  Schema-Validation:
 // ====================
-$schemaValidation = function () use ($schemaTool, $allMetadata) {
+$schemaValidation = function () use ($schemaTool, $allMetadata): void {
     try {
         $updateSqls = $schemaTool->getUpdateSchemaSql($allMetadata, true);
         if (0 !== count($updateSqls)) {
@@ -184,7 +184,7 @@ echo "<a href='?prod-data'>Load Prod-Data</a>";
 if (array_key_exists('prod-data', $_GET)) {
     try {
         $loader = $sm->get(FixtureLoader::class);
-        $paths = \Laminas\Stdlib\Glob::glob(__DIR__.'/../module/*/data/prod/*.php');
+        $paths = \Laminas\Stdlib\Glob::glob(__DIR__.'/../module/*/data/Prod/*.php');
 
         foreach ($paths as $path) {
             echo '<br />';
@@ -217,14 +217,14 @@ if (array_key_exists('dev-data', $_GET)) {
     try {
         $loader = $sm->get(FixtureLoader::class);
 
-        $paths = \Laminas\Stdlib\Glob::glob(__DIR__.'/../module/*/data/prod/*.php');
+        $paths = \Laminas\Stdlib\Glob::glob(__DIR__.'/../module/*/data/Prod/*.php');
         foreach ($paths as $path) {
             echo '<br />';
             echo $path;
             $loader->loadFromFile($path);
         }
 
-        $paths = \Laminas\Stdlib\Glob::glob(__DIR__.'/../module/*/data/dev/*.php');
+        $paths = \Laminas\Stdlib\Glob::glob(__DIR__.'/../module/*/data/Dev/*.php');
         foreach ($paths as $path) {
             echo '<br />';
             echo $path;

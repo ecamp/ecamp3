@@ -1,60 +1,24 @@
 <?php
 
-use eCampApi\ConfigFactory;
+use eCampApi\V1\Factory\Config;
+use eCampApi\V1\Factory\InputFilter;
 
-$config = ConfigFactory::createConfig('Activity', 'Activities');
-
-array_push(
-    $config['api-tools-rest']['eCampApi\\V1\\Rest\\Activity\\Controller']['collection_query_whitelist'],
-    'campId',
-    'periodId'
-);
-
-$config['api-tools-content-validation'] = [
-    'eCampApi\\V1\\Rest\\Activity\\Controller' => [
-        'input_filter' => 'eCampApi\\V1\\Rest\\Activity\\Validator',
-    ],
-];
-
-$config['input_filter_specs'] = [
-    'eCampApi\\V1\\Rest\\Activity\\Validator' => [
-        0 => [
-            'name' => 'title',
-            'required' => true,
-            'filters' => [],
-            'validators' => [],
-        ],
-        1 => [
-            'name' => 'location',
-            'required' => false,
-            'filters' => [],
-            'validators' => [],
-        ],
-        2 => [
-            'name' => 'progress',
-            'required' => false,
-            'filters' => [],
-            'validators' => [],
-        ],
-        3 => [
-            'name' => 'campCollaborations',
-            'required' => false,
-            'filters' => [],
-            'validators' => [],
-        ],
-        4 => [
-            'name' => 'scheduleEntries',
-            'required' => false,
-            'filters' => [],
-            'validators' => [],
-        ],
-        5 => [
-            'name' => 'activityCategoryId',
-            'required' => false,
-            'filters' => [],
-            'validators' => [],
-        ],
-    ],
-];
-
-return $config;
+return Config::Create('Activity', 'Activities')
+    ->addCollectionQueryWhitelist('campId', 'periodId')
+    ->addInputFilterFactory(
+        InputFilter::Create('title', true)
+            ->addFilterStringTrim()
+            ->addFilterStripTags()
+            ->addValidatorStringLength(1, 32)
+    )
+    ->addInputFilterFactory(
+        InputFilter::Create('location')
+            ->addFilterStringTrim()
+            ->addFilterStripTags()
+            ->addValidatorStringLength(1, 128)
+    )
+    ->addInputFilter('campCollaborations')
+    ->addInputFilter('scheduleEntries')
+    ->addInputFilter('categoryId')
+    ->buildConfig()
+;

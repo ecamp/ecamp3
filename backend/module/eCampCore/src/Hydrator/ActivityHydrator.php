@@ -8,14 +8,16 @@ use eCamp\Lib\Entity\EntityLink;
 use eCamp\Lib\Entity\EntityLinkCollection;
 use eCamp\Lib\Hydrator\Util;
 use eCampApi\V1\Rest\CampCollaboration\CampCollaborationCollection;
+use eCampApi\V1\Rest\ContentNode\ContentNodeCollection;
 use eCampApi\V1\Rest\ScheduleEntry\ScheduleEntryCollection;
+use Laminas\ApiTools\Hal\Link\Link;
 use Laminas\Hydrator\HydratorInterface;
 
 class ActivityHydrator implements HydratorInterface {
-    public static function HydrateInfo() {
+    public static function HydrateInfo(): array {
         return [
-            'activityCategory' => Util::Entity(function (Activity $e) {
-                return $e->getActivityCategory();
+            'category' => Util::Entity(function (Activity $e) {
+                return $e->getCategory();
             }),
             'campCollaborations' => Util::Collection(function (Activity $e) {
                 return new CampCollaborationCollection(
@@ -27,15 +29,16 @@ class ActivityHydrator implements HydratorInterface {
             'scheduleEntries' => Util::Collection(function (Activity $e) {
                 return new ScheduleEntryCollection($e->getScheduleEntries());
             }, null),
+            'contentNodes' => Util::Collection(function (Activity $e) {
+                return new ContentNodeCollection($e->getAllContentNodes());
+            }, null),
         ];
     }
 
     /**
      * @param object $object
-     *
-     * @return array
      */
-    public function extract($object) {
+    public function extract($object): array {
         /** @var Activity $activity */
         $activity = $object;
 
@@ -45,7 +48,7 @@ class ActivityHydrator implements HydratorInterface {
             'location' => $activity->getLocation(),
 
             'camp' => new EntityLink($activity->getCamp()),
-            'activityCategory' => EntityLink::Create($activity->getActivityCategory()),
+            'category' => EntityLink::Create($activity->getCategory()),
 
             'campCollaborations' => new EntityLinkCollection(new CampCollaborationCollection(
                 $activity->getActivityResponsibles()->map(function (ActivityResponsible $ar) {
@@ -55,24 +58,22 @@ class ActivityHydrator implements HydratorInterface {
 
             'scheduleEntries' => new EntityLinkCollection($activity->getScheduleEntries()),
 
-            'activityContents' => new EntityLinkCollection($activity->getActivityContents()),
-
-            //            'activityContents' => Link::factory([
-            //                'rel' => 'activityContents',
-            //                'route' => [
-            //                    'name' => 'e-camp-api.rest.doctrine.activity-content',
-            //                    'options' => [ 'query' => [ 'activityId' => $activity->getId() ] ]
-            //                ]
-            //            ]),
+            'contentNodes' => new EntityLinkCollection($activity->getAllContentNodes()),
+            'contentNodesLink' => Link::factory([
+                'rel' => 'contentNodes',
+                'route' => [
+                    'name' => 'e-camp-api.rest.doctrine.content-node',
+                    'options' => ['query' => ['ownerId' => $activity->getId()]],
+                ],
+            ]),
+            'rootContentNode' => EntityLink::Create($activity->getRootContentNode()),
         ];
     }
 
     /**
      * @param object $object
-     *
-     * @return object
      */
-    public function hydrate(array $data, $object) {
+    public function hydrate(array $data, $object): Activity {
         /** @var Activity $activity */
         $activity = $object;
 

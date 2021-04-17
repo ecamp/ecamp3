@@ -7,19 +7,19 @@ use eCamp\Core\Entity\Day;
 use eCamp\Core\Entity\ScheduleEntry;
 use eCamp\Lib\Entity\EntityLink;
 use eCamp\Lib\Hydrator\Util;
-use eCampApi\V1\Rest\ActivityContent\ActivityContentCollection;
+use eCampApi\V1\Rest\ContentNode\ContentNodeCollection;
 use Laminas\Hydrator\HydratorInterface;
 
 class ScheduleEntryHydrator implements HydratorInterface {
-    public static function HydrateInfo() {
+    public static function HydrateInfo(): array {
         return [
             'activity' => Util::Entity(
                 function (ScheduleEntry $ei) {
                     return $ei->getActivity();
                 },
                 [
-                    'activityContents' => Util::Collection(function (Activity $e) {
-                        return new ActivityContentCollection($e->getActivityContents());
+                    'contentNodes' => Util::Collection(function (Activity $e) {
+                        return new ContentNodeCollection($e->getAllContentNodes());
                     }, null),
                 ]
             ),
@@ -33,10 +33,8 @@ class ScheduleEntryHydrator implements HydratorInterface {
 
     /**
      * @param object $object
-     *
-     * @return array
      */
-    public function extract($object) {
+    public function extract($object): array {
         /** @var ScheduleEntry $scheduleEntry */
         $scheduleEntry = $object;
 
@@ -66,10 +64,8 @@ class ScheduleEntryHydrator implements HydratorInterface {
 
     /**
      * @param object $object
-     *
-     * @return object
      */
-    public function hydrate(array $data, $object) {
+    public function hydrate(array $data, $object): ScheduleEntry {
         /** @var ScheduleEntry $scheduleEntry */
         $scheduleEntry = $object;
 

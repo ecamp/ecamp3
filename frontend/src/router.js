@@ -94,6 +94,37 @@ export default new Router({
       beforeEnter: requireAuth
     },
     {
+      path: '/camps/invitation/:inviteKey',
+      name: 'campInvitation',
+      components: {
+        navigation: NavigationAuth,
+        default: () => import(/* webpackChunkName: "login" */ './views/camp/Invitation')
+      },
+      props: {
+        default: route => {
+          return {
+            invitation: invitationFromInviteKey(route.params.inviteKey)
+          }
+        }
+      }
+    },
+    {
+      path: '/camps/invitation/rejected',
+      name: 'invitationRejected',
+      components: {
+        navigation: NavigationAuth,
+        default: () => import(/* webpackChunkName: "login" */ './views/camp/InvitationRejected')
+      }
+    },
+    {
+      path: '/camps/invitation/updateError',
+      name: 'invitationUpdateError',
+      components: {
+        navigation: NavigationAuth,
+        default: () => import(/* webpackChunkName: "login" */ './views/camp/InvitationUpdateError')
+      }
+    },
+    {
       path: '/camps/:campId/:campTitle?',
       components: {
         navigation: NavigationCamp,
@@ -134,16 +165,21 @@ export default new Router({
           component: () => import(/* webpackChunkName: "campPrint" */ './views/camp/Story')
         },
         {
+          path: 'material',
+          name: 'camp/material',
+          component: () => import(/* webpackChunkName: "campMaterial" */ './views/camp/Material')
+        },
+        {
           path: '',
           name: 'camp/program',
           async beforeEnter (to, from, next) {
             const period = await firstFuturePeriod(to)
             if (period) {
               await period.camp()._meta.load
-              next(periodRoute(period))
+              next(periodRoute(period, to.query))
             } else {
               const camp = await apiStore.get().camps({ campId: to.params.campId })
-              next(campRoute(camp, 'admin'))
+              next(campRoute(camp, 'admin', to.query))
             }
           }
         }
@@ -201,7 +237,7 @@ function requireAuth (to, from, next) {
 
 async function requireCamp (to, from, next) {
   await campFromRoute(to).call({ api: { get: apiStore.get } })._meta.load.then(() => {
-    next()
+    next({ query: to.query })
   }).catch(() => {
     next({ name: 'home' })
   })
@@ -218,6 +254,12 @@ async function requirePeriod (to, from, next) {
 export function campFromRoute (route) {
   return function () {
     return this.api.get().camps({ campId: route.params.campId })
+  }
+}
+
+export function invitationFromInviteKey (inviteKey) {
+  return function () {
+    return this.api.get().invitation({ action: 'find', inviteKey: inviteKey })
   }
 }
 
@@ -239,13 +281,16 @@ function dayFromScheduleEntryInRoute (route) {
   }
 }
 
-export function campRoute (camp, subroute) {
+export function campRoute (camp, subroute = 'program', query = {}) {
   if (camp._meta.loading) return {}
-  const routeName = subroute ? 'camp/' + subroute : 'camp/program'
-  return { name: routeName, params: { campId: camp.id, campTitle: slugify(camp.title) } }
+  return { name: 'camp/' + subroute, params: { campId: camp.id, campTitle: slugify(camp.title) }, query }
 }
 
-export function periodRoute (period) {
+export function loginRoute (redirectTo) {
+  return { path: '/login', query: { redirect: redirectTo } }
+}
+
+export function periodRoute (period, query = {}) {
   const camp = period.camp()
   if (camp._meta.loading || period._meta.loading) return {}
   return {
@@ -255,11 +300,12 @@ export function periodRoute (period) {
       campTitle: slugify(camp.title),
       periodId: period.id,
       periodTitle: slugify(period.description)
-    }
+    },
+    query
   }
 }
 
-export function scheduleEntryRoute (camp, scheduleEntry) {
+export function scheduleEntryRoute (camp, scheduleEntry, query = {}) {
   if (camp._meta.loading || scheduleEntry._meta.loading || scheduleEntry.activity()._meta.loading) return {}
   return {
     name: 'activity',
@@ -268,7 +314,8 @@ export function scheduleEntryRoute (camp, scheduleEntry) {
       campTitle: slugify(camp.title),
       scheduleEntryId: scheduleEntry.id,
       activityName: slugify(scheduleEntry.activity().title)
-    }
+    },
+    query
   }
 }
 

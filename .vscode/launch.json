@@ -9,7 +9,7 @@
             "type": "php",
             "request": "launch",
             "hostname": "localhost",
-            "port": 9000,
+            "port": 9003,
             "pathMappings": {
                 "/app": "${workspaceRoot}/backend"
             }
@@ -19,7 +19,7 @@
             "type": "php",
             "request": "launch",
             "hostname": "localhost",
-            "port": 9000
+            "port": 9003
         }
     ]
 }

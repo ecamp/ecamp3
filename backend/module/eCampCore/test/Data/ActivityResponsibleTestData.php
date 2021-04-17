@@ -5,13 +5,14 @@ namespace eCamp\CoreTest\Data;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
+use eCamp\Core\Entity\Activity;
 use eCamp\Core\Entity\ActivityResponsible;
 use eCamp\Core\Entity\CampCollaboration;
 
 class ActivityResponsibleTestData extends AbstractFixture implements DependentFixtureInterface {
     public static $RESPONSIBLE1 = ActivityResponsible::class.':RESPONSIBLE1';
 
-    public function load(ObjectManager $manager) {
+    public function load(ObjectManager $manager): void {
         /** @var Activity $activity */
         $activity = $this->getReference(ActivityTestData::$ACTIVITY1);
 

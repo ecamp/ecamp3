@@ -1,13 +1,43 @@
 {
-  "activityContent": {
+  "contentNode": {
+    "laThematicArea": {
+      "entity": {
+        "option": {
+          "campsiteAndSurroundings": {
+            "description": "Einrichten von Lagerplatz/Umgebung, Abbau, Erstellen von Spielplatz- einrichtungen und Sportgeräten.",
+            "name": "Lagerplatz/Umgebung"
+          },
+          "natureAndEnvironment": {
+            "description": "Tier- und Pflanzenwelt, Umweltschutz im Lager, Wetter- und Sternkunde, Übermittlungstechniken, Feuer machen.",
+            "name": "Natur und Umwelt"
+          },
+          "outdoorTechnique": {
+            "description": "Wanderplanung, Kartenlesen (z.B. NORDA), Krokieren, Hilfsmittel (z.B. Kompass, GPS, Höhenmeter usw.), orientieren im Gelände.",
+            "name": "Outdoortechniken"
+          },
+          "pioneeringTechnique": {
+            "description": "Biwakbau, Iglubau, Material- und Ausrüstungskunde, Materialpflege, Erstellen und Abbau von Pionierbauten, Seil- und Knotenkunde, Seil- bahnen, Seilbrücken, Abseilen.",
+            "name": "Pioniertechnik"
+          },
+          "preventionAndIntegration": {
+            "description": "Aktivitäten, welche der Prävention und der Integration dienen und die Kompetenzen der Teilnehmenden in diesem Bereich fördern.",
+            "name": "Prävention und Integration"
+          },
+          "security": {
+            "description": "Sicherheit bei Aktivitäten im Lager, Unfallorganisation und Alarmierung, 1. Hilfe, Sicherheitsüberlegungen.",
+            "name": "Sicherheit"
+          }
+        }
+      },
+      "name": "LA Themenbereich"
+    },
     "notes": {
       "add": "Notizen hinzufügen",
       "name": "Notizen"
     },
     "safetyConcept": {
       "add": "Sicherheitskonzept hinzufügen",
-      "name": "Sicherheitskonzept",
-      "sort": "3"
+      "name": "Sicherheitskonzept"
     },
     "storyboard": {
       "add": "Programmabschnitt hinzufügen",
@@ -21,18 +51,16 @@
           "name": "Programmpunkt | Programmpunkte"
         }
       },
-      "name": "Programmabschnitt",
-      "sort": "2"
+      "name": "Programmabschnitt"
     },
     "storycontext": {
       "add": "Roten Faden hinzufügen",
-      "name": "Roter Faden",
-      "sort": "1"
+      "name": "Roter Faden"
     }
   },
   "components": {
     "activity": {
-      "activityContent": {
+      "contentNode": {
         "editName": "Namen umbenennen",
         "moveDown": "Nach unten bewegen",
         "moveUp": "Nach oben bewegen"
@@ -47,10 +75,10 @@
       }
     },
     "camp": {
-      "campActivityCategories": {
+      "campCategories": {
         "create": "Block-Kategorie erstellen",
-        "deleteActivityCategoryNotPossibleInUse": "Block-Kategorie kann nicht gelöscht werden. Sie wird noch verwendet:",
-        "deleteActivityCategoryQuestion": "Möchtest du diese Block-Kategorie wirklich löschen?",
+        "deleteCategoryNotPossibleInUse": "Block-Kategorie kann nicht gelöscht werden. Sie wird noch verwendet:",
+        "deleteCategoryQuestion": "Möchtest du diese Block-Kategorie wirklich löschen?",
         "title": "Block-Kategorien"
       },
       "campInvitations": {
@@ -86,8 +114,11 @@
         },
         "title": "Einstellungen"
       },
+      "materialCreateItem": {
+        "noMaterialListAvailable": "Für dieses Lager sind noch keine Materiallisten erfasst. Du kannst diese unter 'Admin' erfassen."
+      },
       "picasso": {
-        "moment": {
+        "datetime": {
           "date": "dd. D.MM | D. MMM | DD. MMM YYYY"
         }
       },
@@ -96,7 +127,7 @@
       }
     },
     "dialog": {
-      "dialogActivityCategoryCreate": {
+      "dialogCategoryCreate": {
         "title": "Block-Kategorie erstellen"
       },
       "dialogEntityDelete": {
@@ -105,6 +136,9 @@
       },
       "dialogPeriodCreate": {
         "title": "Lagerabschnitt erstellen"
+      },
+      "dialogPeriodEdit": {
+        "moveScheduleEntries": "Aktivitäten verschieben"
       }
     },
     "layout": {
@@ -114,7 +148,8 @@
     },
     "navigation": {
       "searchMobile": {
-        "searchActivitiesAndCamps": "Aktivitäten und Camps suchen"
+        "allCamps": "Alle Lager",
+        "searchActivitiesAndCamps": "Aktivitäten und Lager suchen"
       },
       "userMeta": {
         "logOut": "Ausloggen",
@@ -126,15 +161,15 @@
   "entity": {
     "activity": {
       "fields": {
-        "activityCategory": "Block Kategorie",
+        "category": "Block Kategorie",
         "location": "Ort",
         "responsible": "verantwortlich",
         "title": "Titel"
       },
-      "name": "Aktivität",
+      "name": "Aktivität | Aktivitäten",
       "new": "Neue Aktivität"
     },
-    "activityCategory": {
+    "category": {
       "fields": {
         "activityType": "Typ",
         "color": "Farbe",
@@ -157,15 +192,15 @@
         "member": "Mitglied"
       },
       "fields": {
-        "campType": "Lager-Typ",
         "motto": "Motto",
         "name": "Name",
         "title": "Titel"
       },
-      "name": "Lager"
+      "name": "Lager",
+      "prototype": "Lagervorlage"
     },
     "campCollaboration": {
-      "campLeft": "Lager verlassen"
+      "inactive": "inaktiv"
     },
     "period": {
       "defaultDescription": "Hauptlager",
@@ -202,15 +237,14 @@
   "global": {
     "button": {
       "add": "Hinzufügen",
-      "addContentDesktop": "Inhalt hinzufügen",
       "back": "Zurück",
       "cancel": "Abbrechen",
       "content": "Inhalt",
       "create": "Erstellen",
       "delete": "Löschen",
       "edit": "Bearbeiten",
-      "editModeOn": "Bearbeiten an",
-      "editModeOff": "Bearbeiten aus",
+      "editable": "Bearbeitbar",
+      "logout": "Ausloggen",
       "ok": "In Ordnung",
       "open": "Öffnen",
       "save": "Speichern",
@@ -221,9 +255,14 @@
       "update": "Aktualisieren"
     },
     "changeLanguage": "Sprache ändern",
+    "empty": {
+      "list": "Leer | Noch keine {entities}",
+      "result": "Kein Resultat | Keine Resultate",
+      "resultFor": "Kein Resultat für {search} | Keine Resultate für {search}"
+    },
     "language": "Deutsch",
     "lokaliseMessage": "Übersetzungen unterstützt durch lokalise.com",
-    "moment": {
+    "datetime": {
       "dateLong": "dd L",
       "dateShort": "dd D.M.",
       "hourLong": "HH:mm",
@@ -238,6 +277,10 @@
   },
   "views": {
     "activity": {
+      "activity": {
+        "changeLayout": "Layout ändern",
+        "layout": "Layout"
+      },
       "sideBarProgram": {
         "title": "Tagesübersicht"
       }
@@ -278,13 +321,14 @@
     },
     "camp": {
       "admin": {
-        "title": "Admin"
+        "collaborators": "Team verwalten",
+        "title": "Lager Admin"
       },
       "collaborators": {
+        "email": "E-Mail-Adresse",
         "invite": "Einladen",
         "members": "Mitarbeitende",
         "openInvitations": "Offene Einladungen",
-        "openRequests": "Offene Anfragen",
         "title": "Team"
       },
       "navigationCamp": {
@@ -292,7 +336,8 @@
         "campIsLoading": "Lager wird geladen",
         "material": "Material",
         "print": "Drucken",
-        "story": "Roter Faden",
+        "program": "Programm",
+        "story": "Geschichte",
         "tasks": "Aufgaben",
         "team": "Team"
       },
@@ -324,7 +369,7 @@
       "welcome": "Hallo {user}. Herzlich willkommen auf eCamp"
     },
     "navigationDefault": {
-      "home": "Startseite",
+      "home": "Home",
       "myCamps": "Mein Lager | Meine Lager",
       "profile": "Profil"
     },

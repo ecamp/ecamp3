@@ -3,6 +3,7 @@
 namespace eCamp\ApiTest\Rest;
 
 use Doctrine\Common\DataFixtures\Loader;
+use eCamp\Core\Entity\MaterialList;
 use eCamp\CoreTest\Data\MaterialListTestData;
 use eCamp\CoreTest\Data\UserTestData;
 use eCamp\LibTest\PHPUnit\AbstractApiControllerTestCase;
@@ -36,7 +37,7 @@ class MaterialListTest extends AbstractApiControllerTestCase {
         $this->authenticateUser($this->user);
     }
 
-    public function testFetch() {
+    public function testFetch(): void {
         $this->dispatch("{$this->apiEndpoint}/{$this->materialList->getId()}", 'GET');
 
         $this->assertResponseStatusCode(200);
@@ -61,5 +62,37 @@ JSON;
         $expectedEmbeddedObjects = [];
 
         $this->verifyHalResourceResponse($expectedBody, $expectedLinks, $expectedEmbeddedObjects);
+    }
+
+    public function testCreateSuccess(): void {
+        $this->setRequestContent([
+            'name' => 'NewMaterialList',
+            'campId' => $this->materialList->getCamp()->getId(),
+        ]);
+
+        $this->dispatch($this->apiEndpoint, 'POST');
+
+        $this->assertResponseStatusCode(201);
+        $this->assertEquals('NewMaterialList', $this->getResponseContent()->name);
+    }
+
+    public function testUpdateSuccess(): void {
+        $this->setRequestContent([
+            'name' => 'NewMaterialListName',
+        ]);
+
+        $this->dispatch($this->apiEndpoint.'/'.$this->materialList->getId(), 'PATCH');
+
+        $this->assertResponseStatusCode(200);
+        $this->assertEquals('NewMaterialListName', $this->getResponseContent()->name);
+    }
+
+    public function testDeleteSuccess(): void {
+        $this->dispatch($this->apiEndpoint.'/'.$this->materialList->getId(), 'DELETE');
+
+        $this->assertResponseStatusCode(204);
+
+        $result = $this->getEntityManager()->find(MaterialList::class, $this->materialList->getId());
+        $this->assertNull($result);
     }
 }

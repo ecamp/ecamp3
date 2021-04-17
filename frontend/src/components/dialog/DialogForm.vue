@@ -1,14 +1,16 @@
 <template>
   <v-dialog
+    content-class="ec-dialog-form"
+    :fullscreen="$vuetify.breakpoint.xsOnly"
     eager
     v-bind="$attrs"
     :value="value"
     v-on="$listeners"
     @input="onInput">
-    <template v-slot:activator="scope">
+    <template #activator="scope">
       <slot name="activator" v-bind="scope" />
     </template>
-    <ValidationObserver v-if="value" v-slot="{ handleSubmit }">
+    <ValidationObserver v-if="value" ref="validation" v-slot="{ handleSubmit }">
       <!-- ValidationObserver/handleSubmit ensures that doSubmit is only called if there are no validation errors -->
       <v-form @submit.prevent="handleSubmit(doSubmit)">
         <v-card>
@@ -100,6 +102,13 @@ export default {
       isSaving: false
     }
   },
+  watch: {
+    value (visible) {
+      if (visible) {
+        this.$nextTick(() => this.$refs.validation.reset())
+      }
+    }
+  },
   methods: {
     async doSubmit () {
       this.isSaving = true
@@ -119,3 +128,13 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+@media #{map-get($display-breakpoints, 'xs-only')}{
+  .ec-dialog-form {
+    .v-form, .v-form > .v-sheet {
+      height: 100%;
+    }
+  }
+}
+</style>

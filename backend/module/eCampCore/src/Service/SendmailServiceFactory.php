@@ -14,10 +14,8 @@ class SendmailServiceFactory implements FactoryInterface {
      *
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
-     *
-     * @return ActivityContentHydrator
      */
-    public function __invoke(ContainerInterface $container, $requestedName, array $options = null) {
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null): SendmailService {
         $serviceUtil = $container->get(ServiceUtils::class);
         $authService = $container->get(AuthenticationService::class);
         $mailProvider = $container->get(ProviderInterface::class);
@@ -25,7 +23,8 @@ class SendmailServiceFactory implements FactoryInterface {
 
         $config = $container->get('config');
         $from = $config['ecamp']['mail']['from'];
+        $frontendUrl = $config['ecamp']['frontend']['url'];
 
-        return new SendmailService($serviceUtil, $authService, $mailProvider, $from);
+        return new SendmailService($serviceUtil, $authService, $mailProvider, $from, $frontendUrl);
     }
 }

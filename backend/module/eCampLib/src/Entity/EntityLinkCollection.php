@@ -18,7 +18,7 @@ class EntityLinkCollection extends Paginator {
         parent::__construct($adapter);
     }
 
-    public function getIterator() {
+    public function getIterator(): \Traversable {
         $items = parent::getIterator();
 
         foreach ($items as $item) {

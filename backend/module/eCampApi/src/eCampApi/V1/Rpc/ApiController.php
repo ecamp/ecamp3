@@ -9,11 +9,14 @@ use Laminas\ApiTools\Hal\Plugin\Hal;
 use Laminas\ApiTools\Hal\View\HalJsonModel;
 use Laminas\Mvc\Controller\AbstractActionController;
 use Laminas\Mvc\MvcEvent;
+use Laminas\Validator\Exception\InvalidArgumentException;
 
 class ApiController extends AbstractActionController {
     public function onDispatch(MvcEvent $e) {
         try {
             $return = parent::onDispatch($e);
+        } catch (InvalidArgumentException $ex) {
+            $return = new ApiProblem(400, $ex->getMessage());
         } catch (\Exception $ex) {
             $return = new ApiProblem(500, $ex->getMessage());
         }
@@ -26,20 +29,18 @@ class ApiController extends AbstractActionController {
             return $problem;
         }
 
-        if ($return instanceof Entity) {
-            $json = new HalJsonModel();
-            $json->setPayload($return);
-
-            $e->setResult($json);
-
-            return $json;
-        }
-
         return $return;
     }
 
+    protected function entityToHalJsonModel(Entity $entity): HalJsonModel {
+        $json = new HalJsonModel();
+        $json->setPayload($entity);
+
+        return $json;
+    }
+
     protected function createHalEntity($entity, $route, $routeIdentifierName) {
-        /** @var Hal $contentType */
+        /** @var Hal $plugin */
         $plugin = $this->plugin('Hal');
 
         return $plugin->createEntity($entity, $route, $routeIdentifierName);

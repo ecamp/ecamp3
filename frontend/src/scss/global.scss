@@ -50,3 +50,17 @@ body {font-feature-settings: "ss03", "calt", "rlig", "kern", "cv05", "cv07", "cv
 .flex-full {
 	flex: 1 1 0;
 }
+
+.v-sheet > .v-expansion-panels,
+.v-card > .v-expansion-panels {
+	border-top: 1px solid #eee;
+	border-bottom: 1px solid #eee;
+
+	> .v-expansion-panel + .v-expansion-panel {
+		border-top: 1px solid #eee;
+	}
+}
+
+.dragging {
+	cursor: move;
+}

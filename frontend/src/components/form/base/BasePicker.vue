@@ -1,5 +1,5 @@
 <!--
-Displays a field as a date picker (can be used with v-model)
+Displays a field as a picker (can be used with v-model)
 -->
 
 <template>
@@ -14,7 +14,7 @@ Displays a field as a date picker (can be used with v-model)
       offset-overflow
       min-width="290px"
       max-width="290px">
-      <template v-slot:activator="{on}">
+      <template #activator="{on}">
         <e-text-field
           v-model="stringValue"
           v-bind="$attrs"
@@ -23,14 +23,14 @@ Displays a field as a date picker (can be used with v-model)
           :disabled="disabled"
           @focus="textFieldIsActive = true"
           @blur="textFieldIsActive = false">
-          <template v-if="icon" v-slot:prepend>
+          <template v-if="icon" #prepend>
             <v-icon :color="iconColor" @click="on.click">
               {{ icon }}
             </v-icon>
           </template>
 
           <!-- passing the append slot through -->
-          <template v-slot:append>
+          <template #append>
             <slot name="append" />
           </template>
         </e-text-field>
@@ -89,7 +89,11 @@ export default {
         save: this.savePicker,
         close: this.closePicker,
         input: this.inputPicker
-      }
+      },
+      // note that it is necessary to debounce in data to have one debounced function per instance, whereas
+      // debouncing in watch or methods results in one global debounced function which has unwanted effects
+      // when there are multiple picker instances rendered at the same time
+      debouncedParseValue: debounce(this.parseValue, 500)
     }
   },
   computed: {
@@ -117,13 +121,9 @@ export default {
     }
   },
   watch: {
-    stringValue: debounce(function (val) {
-      if (this.parse != null) {
-        this.parse(val).then(this.setValue, this.setParseError)
-      } else {
-        this.setValue(val)
-      }
-    }, 500),
+    stringValue (val) {
+      this.debouncedParseValue(val)
+    },
     value (val) {
       if (this.showPicker === false) {
         this.localValue = val
@@ -150,6 +150,13 @@ export default {
         this.localValue = val
       }
       this.parseError = null
+    },
+    parseValue (val) {
+      if (this.parse != null) {
+        this.parse(val).then(this.setValue, this.setParseError)
+      } else {
+        this.setValue(val)
+      }
     },
     setValueOfPicker (val) {
       if (this.localPickerValue !== val) {

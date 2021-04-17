@@ -3,8 +3,8 @@
 namespace eCamp\Core\EntityService;
 
 use Doctrine\ORM\QueryBuilder;
-use eCamp\Core\Entity\ActivityContent;
 use eCamp\Core\Entity\Camp;
+use eCamp\Core\Entity\ContentNode;
 use eCamp\Core\Entity\MaterialItem;
 use eCamp\Core\Entity\MaterialList;
 use eCamp\Core\Entity\Period;
@@ -26,10 +26,8 @@ class MaterialItemService extends AbstractEntityService {
 
     /**
      * @param $data
-     *
-     * @return MaterialItem
      */
-    protected function createEntity($data) {
+    protected function createEntity($data): MaterialItem {
         /** @var MaterialItem $materialItem */
         $materialItem = parent::createEntity($data);
 
@@ -50,22 +48,22 @@ class MaterialItemService extends AbstractEntityService {
             $period->addMaterialItem($materialItem);
         }
 
-        if (isset($data->activityContentId)) {
-            /** @var ActivityContent $activityContent */
-            $activityContent = $this->findRelatedEntity(ActivityContent::class, $data, 'activityContentId');
-            if ($activityContent->getCamp()->getId() !== $camp->getId()) {
+        if (isset($data->contentNodeId)) {
+            /** @var ContentNode $contentNode */
+            $contentNode = $this->findRelatedEntity(ContentNode::class, $data, 'contentNodeId');
+            if ($contentNode->getCamp()->getId() !== $camp->getId()) {
                 throw (new EntityValidationException())->setMessages([
-                    'materialListId' => ['campMismatch' => 'Provided materiallist is not part of the same camp as provided activityContent'],
-                    'activityContentId' => ['campMismatch' => 'Provided materiallist is not part of the same camp as provided activityContent'],
+                    'materialListId' => ['campMismatch' => 'Provided materiallist is not part of the same camp as provided contentNode'],
+                    'contentNodeId' => ['campMismatch' => 'Provided materiallist is not part of the same camp as provided contentNode'],
                 ]);
             }
-            $materialItem->setActivityContent($activityContent);
+            $materialItem->setContentNode($contentNode);
         }
 
         return $materialItem;
     }
 
-    protected function patchEntity(BaseEntity $entity, $data) {
+    protected function patchEntity(BaseEntity $entity, $data): MaterialItem {
         /** @var MaterialItem $materialItem */
         $materialItem = parent::patchEntity($entity, $data);
         $camp = $materialItem->getCamp();
@@ -92,19 +90,21 @@ class MaterialItemService extends AbstractEntityService {
             $period->addMaterialItem($materialItem);
         }
 
-        if (isset($data->activityContentId)) {
-            /** @var ActivityContent $activityContent */
-            $activityContent = $this->findRelatedEntity(ActivityContent::class, $data, 'activityContentId');
-            if ($camp->getId() !== $activityContent->getCamp()->getId()) {
+        if (isset($data->contentNodeId)) {
+            /** @var ContentNode $contentNode */
+            $contentNode = $this->findRelatedEntity(ContentNode::class, $data, 'contentNodeId');
+            if ($camp->getId() !== $contentNode->getCamp()->getId()) {
                 throw (new EntityValidationException())->setMessages([
-                    'activityContentId' => ['campMismatch' => 'Provided activityContent is not part of the same camp'],
+                    'contentNodeId' => ['campMismatch' => 'Provided contentNode is not part of the same camp'],
                 ]);
             }
-            $materialItem->setActivityContent($activityContent);
+            $materialItem->setContentNode($contentNode);
         }
+
+        return $materialItem;
     }
 
-    protected function fetchAllQueryBuilder($params = []) {
+    protected function fetchAllQueryBuilder($params = []): QueryBuilder {
         /** @var QueryBuilder $q */
         $q = parent::fetchAllQueryBuilder($params);
         $q->join('row.materialList', 'ml');
@@ -122,15 +122,34 @@ class MaterialItemService extends AbstractEntityService {
             $q->andWhere('row.materialList = :materialListId');
             $q->setParameter('materialListId', $params['materialListId']);
         }
+        if (isset($params['contentNodeId'])) {
+            $q->andWhere('row.contentNode = :contentNodeId');
+            $q->setParameter('contentNodeId', $params['contentNodeId']);
+        }
 
         return $q;
     }
 
-    protected function fetchQueryBuilder($id) {
+    protected function fetchQueryBuilder($id): QueryBuilder {
         $q = parent::fetchQueryBuilder($id);
         $q->join('row.materialList', 'ml');
         $q->andWhere($this->createFilter($q, Camp::class, 'ml', 'camp'));
 
         return $q;
+    }
+
+    protected function validateEntity(BaseEntity $entity): void {
+        /** @var MaterialItem $materialItem */
+        $materialItem = $entity;
+
+        if (null == $materialItem->getContentNode() && null == $materialItem->getPeriod()) {
+            $ex = new EntityValidationException();
+            $ex->setMessages([
+                'periodId' => ['required' => 'periodId or contentNodeId is required'],
+                'contentNodeId' => ['required' => 'periodId or contentNodeId is required'],
+            ]);
+
+            throw $ex;
+        }
     }
 }

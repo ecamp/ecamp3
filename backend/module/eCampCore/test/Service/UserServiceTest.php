@@ -7,6 +7,8 @@ use eCamp\Core\EntityService\UserService;
 use eCamp\Lib\Service\EntityNotFoundException;
 use eCamp\LibTest\PHPUnit\AbstractDatabaseTestCase;
 use Laminas\Authentication\AuthenticationService;
+use Laminas\Mail\Transport\InMemory;
+use Laminas\Mail\Transport\TransportInterface;
 use PHPUnit\Framework\Constraint\Constraint;
 
 /**
@@ -16,9 +18,11 @@ class UserServiceTest extends AbstractDatabaseTestCase {
     const USERNAME = 'username';
     const EMAIL = 'test@eCamp3.ch';
 
-    public function testCreateUser() {
+    public function testCreateUser(): void {
         /** @var UserService $userService */
         $userService = \eCampApp::GetService(UserService::class);
+        /** @var InMemory $mailTransport */
+        $mailTransport = \eCampApp::GetService(TransportInterface::class);
 
         /** @var User $user */
         $user = $userService->create((object) [
@@ -27,9 +31,14 @@ class UserServiceTest extends AbstractDatabaseTestCase {
         ]);
 
         $this->assertEquals(User::STATE_NONREGISTERED, $user->getState());
+
+        $message = $mailTransport->getLastMessage();
+        $this->assertCount(1, $message->getTo());
+        $to = $message->getTo()->current();
+        $this->assertEquals(self::EMAIL, $to->getEmail());
     }
 
-    public function testGetUser() {
+    public function testGetUser(): void {
         /** @var UserService $userService */
         $userService = \eCampApp::GetService(UserService::class);
         /** @var AuthenticationService $auth */
@@ -51,7 +60,7 @@ class UserServiceTest extends AbstractDatabaseTestCase {
         $user3 = $userService->fetch(-1);
     }
 
-    public function testGetUserByEmail() {
+    public function testGetUserByEmail(): void {
         /** @var UserService $userService */
         $userService = \eCampApp::GetService(UserService::class);
 
@@ -64,7 +73,7 @@ class UserServiceTest extends AbstractDatabaseTestCase {
         $this->assertThat($foundUser, self::isSameUserAs($user));
     }
 
-    public function testGetUserByName() {
+    public function testGetUserByName(): void {
         /** @var UserService $userService */
         $userService = \eCampApp::GetService(UserService::class);
 

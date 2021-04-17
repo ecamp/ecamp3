@@ -11,7 +11,7 @@ use eCamp\LibTest\PHPUnit\AbstractTestCase;
  * @internal
  */
 class CampCollaborationTest extends AbstractTestCase {
-    public function testCampCollaboration() {
+    public function testCampCollaboration(): void {
         $camp = new Camp();
         $user = new User();
 
@@ -29,10 +29,8 @@ class CampCollaborationTest extends AbstractTestCase {
         $this->assertEquals('install', $collaboration->getCollaborationAcceptedBy());
     }
 
-    public function testStatus() {
+    public function testStatus(): void {
         $collaboration = new CampCollaboration();
-        $collaboration->setStatus(CampCollaboration::STATUS_REQUESTED);
-        $this->assertTrue($collaboration->isRequest());
 
         $collaboration->setStatus(CampCollaboration::STATUS_INVITED);
         $this->assertTrue($collaboration->isInvitation());
@@ -44,7 +42,7 @@ class CampCollaborationTest extends AbstractTestCase {
         $collaboration->setStatus('test');
     }
 
-    public function testRole() {
+    public function testRole(): void {
         $collaboration = new CampCollaboration();
         $collaboration->setRole(CampCollaboration::ROLE_GUEST);
         $this->assertTrue($collaboration->isGuest());
@@ -57,16 +55,5 @@ class CampCollaborationTest extends AbstractTestCase {
 
         $this->expectException('Exception');
         $collaboration->setRole('test');
-    }
-
-    public function testLifecycle() {
-        $collaboration = new CampCollaboration();
-        $collaboration->setStatus(CampCollaboration::STATUS_REQUESTED);
-        $collaboration->setCollaborationAcceptedBy('install');
-
-        $collaboration->PrePersist();
-        $collaboration->PreUpdate();
-
-        $this->assertNull($collaboration->getCollaborationAcceptedBy());
     }
 }

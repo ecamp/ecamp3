@@ -6,17 +6,15 @@ use eCamp\Core\Entity\GroupMembership;
 use Laminas\Hydrator\HydratorInterface;
 
 class GroupMembershipHydrator implements HydratorInterface {
-    public static function HydrateInfo() {
+    public static function HydrateInfo(): array {
         return [
         ];
     }
 
     /**
      * @param object $object
-     *
-     * @return array
      */
-    public function extract($object) {
+    public function extract($object): array {
         /** @var GroupMembership $groupMembership */
         $groupMembership = $object;
 
@@ -31,10 +29,8 @@ class GroupMembershipHydrator implements HydratorInterface {
 
     /**
      * @param object $object
-     *
-     * @return object
      */
-    public function hydrate(array $data, $object) {
+    public function hydrate(array $data, $object): GroupMembership {
         /** @var GroupMembership $groupMembership */
         $groupMembership = $object;
 

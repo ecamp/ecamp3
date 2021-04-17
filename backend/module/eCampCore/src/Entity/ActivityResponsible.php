@@ -14,49 +14,34 @@ use eCamp\Lib\Entity\BaseEntity;
  */
 class ActivityResponsible extends BaseEntity implements BelongsToCampInterface {
     /**
-     * @var Activity
      * @ORM\ManyToOne(targetEntity="Activity")
      * @ORM\JoinColumn(nullable=false, onDelete="cascade")
      */
-    private $activity;
+    private ?Activity $activity = null;
 
     /**
-     * @var CampCollaboration
      * @ORM\ManyToOne(targetEntity="CampCollaboration")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $campCollaboration;
+    private ?CampCollaboration $campCollaboration = null;
 
-    public function __construct() {
-        parent::__construct();
-    }
-
-    /**
-     * @return Activity
-     */
-    public function getActivity() {
+    public function getActivity(): ?Activity {
         return $this->activity;
     }
 
-    public function setActivity($activity) {
+    public function setActivity(?Activity $activity): void {
         $this->activity = $activity;
     }
 
-    /**
-     * @return Camp
-     */
-    public function getCamp() {
-        return $this->activity->getCamp();
+    public function getCamp(): ?Camp {
+        return (null != $this->activity) ? $this->activity->getCamp() : null;
     }
 
-    /**
-     * @return CampCollaboration
-     */
-    public function getCampCollaboration() {
+    public function getCampCollaboration(): ?CampCollaboration {
         return $this->campCollaboration;
     }
 
-    public function setCampCollaboration(CampCollaboration $collaboration) {
+    public function setCampCollaboration(?CampCollaboration $collaboration): void {
         $this->campCollaboration = $collaboration;
     }
 }

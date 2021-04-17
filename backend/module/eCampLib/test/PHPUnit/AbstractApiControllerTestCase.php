@@ -10,9 +10,9 @@ use Doctrine\ORM\Tools\SchemaTool;
 use Doctrine\ORM\Tools\ToolsException;
 use eCamp\Core\Entity\User;
 use Laminas\Authentication\AuthenticationService;
-use Laminas\Test\PHPUnit\Controller\AbstractHttpControllerTestCase as ZendAbstractHttpControllerTestCase;
+use Laminas\Test\PHPUnit\Controller\AbstractHttpControllerTestCase as LaminasAbstractHttpControllerTestCase;
 
-abstract class AbstractApiControllerTestCase extends ZendAbstractHttpControllerTestCase {
+abstract class AbstractApiControllerTestCase extends LaminasAbstractHttpControllerTestCase {
     /**
      * Host name in URIs returned by API.
      *
@@ -39,12 +39,7 @@ abstract class AbstractApiControllerTestCase extends ZendAbstractHttpControllerT
         $headers->addHeaderLine('Content-Type', 'application/json');
     }
 
-    /**
-     * @param null|mixed $name
-     *
-     * @return EntityManager
-     */
-    protected function getEntityManager($name = null) {
+    protected function getEntityManager(?string $name = null): EntityManager {
         $name = $name ?: 'orm_default';
         $name = 'doctrine.entitymanager.'.$name;
 
@@ -52,7 +47,7 @@ abstract class AbstractApiControllerTestCase extends ZendAbstractHttpControllerT
     }
 
     /** @throws ToolsException */
-    protected function createDatabaseSchema(EntityManager $em) {
+    protected function createDatabaseSchema(EntityManager $em): void {
         $metadatas = $em->getMetadataFactory()->getAllMetadata();
 
         $schemaTool = new SchemaTool($em);
@@ -62,17 +57,13 @@ abstract class AbstractApiControllerTestCase extends ZendAbstractHttpControllerT
 
     /**
      * Set request content encoded as JSON.
-     *
-     * @param mixed $content
      */
-    protected function setRequestContent($content) {
+    protected function setRequestContent($content): void {
         $this->getRequest()->setContent(json_encode($content));
     }
 
     /**
      * Get response content decoded from JSON.
-     *
-     * @return mixed
      */
     protected function getResponseContent() {
         return json_decode($this->getResponse()->getContent());
@@ -80,10 +71,8 @@ abstract class AbstractApiControllerTestCase extends ZendAbstractHttpControllerT
 
     /**
      * Creates a new user and authenticates it as the current user.
-     *
-     * @return User
      */
-    protected function createAndAuthenticateUser() {
+    protected function createAndAuthenticateUser(): User {
         $user = new User();
         $user->setRole(User::ROLE_USER);
         $user->setState(User::STATE_ACTIVATED);
@@ -99,16 +88,22 @@ abstract class AbstractApiControllerTestCase extends ZendAbstractHttpControllerT
     /**
      * Authenticates a given $user.
      */
-    protected function authenticateUser(User $user) {
+    protected function authenticateUser(User $user): void {
         /** @var AuthenticationService $auth */
         $auth = $this->getApplicationServiceLocator()->get(AuthenticationService::class);
         $auth->getStorage()->write($user->getId());
     }
 
+    protected function logout(): void {
+        /** @var AuthenticationService $auth */
+        $auth = $this->getApplicationServiceLocator()->get(AuthenticationService::class);
+        $auth->getStorage()->clear();
+    }
+
     /**
      * Returns id of authenticated user.
      */
-    protected function getAuthenticatedUserId() {
+    protected function getAuthenticatedUserId(): ?string {
         /** @var AuthenticationService $auth */
         $auth = $this->getApplicationServiceLocator()->get(AuthenticationService::class);
 
@@ -118,7 +113,7 @@ abstract class AbstractApiControllerTestCase extends ZendAbstractHttpControllerT
     /**
      * Verifies HAL response.
      */
-    protected function verifyHalResourceResponse(string $rootAsJson, string $linksAsJson, array $embeddedObjectList) {
+    protected function verifyHalResourceResponse(string $rootAsJson, string $linksAsJson, array $embeddedObjectList): void {
         $response = $this->getResponseContent();
 
         // verify correctness of links
@@ -137,7 +132,7 @@ abstract class AbstractApiControllerTestCase extends ZendAbstractHttpControllerT
     /**
      * loads data from Fixtures into ORM.
      */
-    protected function loadFixtures(Loader $loader) {
+    protected function loadFixtures(Loader $loader): void {
         $purger = new ORMPurger();
         $executor = new ORMExecutor($this->getEntityManager(), $purger);
         $executor->execute($loader->getFixtures());

@@ -24,19 +24,14 @@ abstract class AbstractDatabaseTestCase extends TestCase {
         \eCampApp::Reset();
     }
 
-    /**
-     * @param string $name
-     *
-     * @return EntityManager
-     */
-    protected function getEntityManager($name = 'orm_default') {
+    protected function getEntityManager(string $name = 'orm_default'): EntityManager {
         return \eCampApp::GetEntityManager($name);
     }
 
     /**
      * @throws ToolsException
      */
-    protected function createDatabaseSchema(EntityManager $em) {
+    protected function createDatabaseSchema(EntityManager $em): void {
         $metadatas = $em->getMetadataFactory()->getAllMetadata();
 
         $schemaTool = new SchemaTool($em);

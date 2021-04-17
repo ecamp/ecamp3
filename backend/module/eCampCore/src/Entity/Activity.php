@@ -3,72 +3,54 @@
 namespace eCamp\Core\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use eCamp\Core\ContentType\ContentTypeStrategyProvider;
-use eCamp\Lib\Entity\BaseEntity;
 
 /**
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks
  */
-class Activity extends BaseEntity implements BelongsToCampInterface {
+class Activity extends AbstractContentNodeOwner implements BelongsToCampInterface {
     /**
-     * @var ArrayCollection
-     * @ORM\OneToMany(targetEntity="ActivityContent", mappedBy="activity", cascade={"all"}, orphanRemoval=true)
-     */
-    protected $activityContents;
-
-    /**
-     * @var ArrayCollection
      * @ORM\OneToMany(targetEntity="ScheduleEntry", mappedBy="activity", orphanRemoval=true)
      */
-    protected $scheduleEntries;
+    protected Collection $scheduleEntries;
 
     /**
-     * @var ArrayCollection
      * @ORM\OneToMany(targetEntity="ActivityResponsible", mappedBy="activity", orphanRemoval=true)
      */
-    protected $activityResponsibles;
+    protected Collection $activityResponsibles;
 
     /**
-     * @var Camp
      * @ORM\ManyToOne(targetEntity="Camp")
      * @ORM\JoinColumn(nullable=false, onDelete="cascade")
      */
-    private $camp;
+    private ?Camp $camp = null;
 
     /**
-     * @var ActivityCategory
-     * @ORM\ManyToOne(targetEntity="ActivityCategory")
+     * @ORM\ManyToOne(targetEntity="Category")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $activityCategory;
+    private ?Category $category = null;
 
     /**
-     * @var string
      * @ORM\Column(type="text")
      */
-    private $title;
+    private ?string $title = null;
 
     /**
-     * @var string
      * @ORM\Column(type="text")
      */
-    private $location = '';
+    private ?string $location = '';
 
     public function __construct() {
         parent::__construct();
 
-        $this->activityContents = new ArrayCollection();
         $this->scheduleEntries = new ArrayCollection();
         $this->activityResponsibles = new ArrayCollection();
-        $this->progress = 0;
     }
 
-    /**
-     * @return Camp
-     */
-    public function getCamp() {
+    public function getCamp(): ?Camp {
         return $this->camp;
     }
 
@@ -77,122 +59,59 @@ class Activity extends BaseEntity implements BelongsToCampInterface {
      *
      * @param $camp
      */
-    public function setCamp($camp) {
+    public function setCamp(?Camp $camp): void {
         $this->camp = $camp;
     }
 
-    public function getActivityCategory(): ActivityCategory {
-        return $this->activityCategory;
+    public function getCategory(): ?Category {
+        return $this->category;
     }
 
-    public function setActivityCategory(ActivityCategory $activityCategory): void {
-        $this->activityCategory = $activityCategory;
+    public function setCategory(?Category $category): void {
+        $this->category = $category;
     }
 
-    /**
-     * @return ActivityType
-     */
-    public function getActivityType() {
-        return (null !== $this->activityCategory) ? $this->activityCategory->getActivityType() : null;
-    }
-
-    public function getTitle(): string {
+    public function getTitle(): ?string {
         return $this->title;
     }
 
-    public function setTitle(string $title): void {
+    public function setTitle(?string $title): void {
         $this->title = $title;
     }
 
-    public function getLocation(): string {
+    public function getLocation(): ?string {
         return $this->location;
     }
 
-    public function setLocation(string $location): void {
+    public function setLocation(?string $location): void {
         $this->location = $location;
     }
 
-    /**
-     * @return ArrayCollection
-     */
-    public function getActivityContents() {
-        return $this->activityContents;
-    }
-
-    public function addActivityContent(ActivityContent $activityContent) {
-        $activityContent->setActivity($this);
-        $this->activityContents->add($activityContent);
-    }
-
-    public function removeActivityContent(ActivityContent $activityContent) {
-        $activityContent->setActivity(null);
-        $this->activityContents->removeElement($activityContent);
-    }
-
-    /**
-     * @return ArrayCollection
-     */
-    public function getScheduleEntries() {
+    public function getScheduleEntries(): Collection {
         return $this->scheduleEntries;
     }
 
-    public function addScheduleEntry(ScheduleEntry $scheduleEntry) {
+    public function addScheduleEntry(ScheduleEntry $scheduleEntry): void {
         $scheduleEntry->setActivity($this);
         $this->scheduleEntries->add($scheduleEntry);
     }
 
-    public function removeScheduleEntry(ScheduleEntry $scheduleEntry) {
+    public function removeScheduleEntry(ScheduleEntry $scheduleEntry): void {
         $scheduleEntry->setActivity(null);
         $this->scheduleEntries->removeElement($scheduleEntry);
     }
 
-    /**
-     * @return ArrayCollection
-     */
-    public function getActivityResponsibles() {
+    public function getActivityResponsibles(): Collection {
         return $this->activityResponsibles;
     }
 
-    public function addActivityResponsible(ActivityResponsible $activityResponsible) {
+    public function addActivityResponsible(ActivityResponsible $activityResponsible): void {
         $activityResponsible->setActivity($this);
         $this->activityResponsibles->add($activityResponsible);
     }
 
-    public function removeActivityResponsible(ActivityResponsible $activityResponsible) {
+    public function removeActivityResponsible(ActivityResponsible $activityResponsible): void {
         $activityResponsible->setActivity(null);
         $this->activityResponsibles->removeElement($activityResponsible);
-    }
-
-    /** @ORM\PrePersist */
-    public function PrePersist() {
-        parent::PrePersist();
-
-        if (null !== $this->getActivityType() && $this->getActivityContents()->isEmpty()) {
-            $this->createDefaultActivityContents();
-        }
-    }
-
-    /**
-     * Replicates the default content-type structure given by the ActivityType.
-     */
-    public function createDefaultActivityContents(ContentTypeStrategyProvider $contentTypeStrategyProvider = null) {
-        foreach ($this->getActivityType()->getActivityTypeContentTypes() as $activityTypeContentType) {
-            for ($idx = 0; $idx < $activityTypeContentType->getDefaultInstances(); ++$idx) {
-                /** @var ContentType $contentType */
-                $contentType = $activityTypeContentType->getContentType();
-                $contentTypeName = $contentType->getName().' ';
-                $contentTypeName .= str_pad($idx + 1, 2, '0');
-
-                $activityContent = new ActivityContent();
-                $activityContent->setContentType($contentType);
-                $activityContent->setInstanceName($contentTypeName);
-
-                if ($contentTypeStrategyProvider) {
-                    $activityContent->setContentTypeStrategyProvider($contentTypeStrategyProvider);
-                }
-
-                $this->addActivityContent($activityContent);
-            }
-        }
     }
 }

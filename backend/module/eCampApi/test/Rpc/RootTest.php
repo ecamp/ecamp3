@@ -8,7 +8,7 @@ use eCamp\LibTest\PHPUnit\AbstractApiControllerTestCase;
  * @internal
  */
 class RootTest extends AbstractApiControllerTestCase {
-    public function testRootResponse() {
+    public function testRootResponse(): void {
         $this->dispatch('/', 'GET');
 
         $host = '';
@@ -35,7 +35,7 @@ JSON;
         $this->assertEquals(json_decode($expectedResponse), $this->getResponseContent());
     }
 
-    public function testApiResponse() {
+    public function testApiResponse(): void {
         $this->dispatch('/api', 'GET');
 
         $host = '';
@@ -57,31 +57,40 @@ JSON;
                 "docu": {
                     "href": "http://{$host}/api-tools/swagger"
                 },
-                "admin": {
-                    "href": "http://{$host}/api-tools/ui"
+                "invitation": {
+                  "href": "http://{$host}/api/invitations{/inviteKey}{/action}",
+                  "templated": true
                 },
                 "users": {
-                    "href": "http://{$host}/api/users{/userId}{?page_size,search}",
-                    "templated": true
-                },
-                "campTypes": {
-                    "href": "http://{$host}/api/camp-types{/campTypeId}{?page_size}",
+                    "href": "http://{$host}/api/users{/userId}{?page_size,page,search}",
                     "templated": true
                 },
                 "camps": {
-                    "href": "http://{$host}/api/camps{/campId}{?page_size}",
+                    "href": "http://{$host}/api/camps{/campId}{?page_size,page,isPrototype}",
                     "templated": true
                 },
+                "campCollaborations": {
+                  "href": "http://{$host}/api/camp-collaborations{/campCollaborationId}{?page_size,page,campId,userId}",
+                  "templated": true
+                },
                 "scheduleEntries": {
-                    "href": "http://{$host}/api/schedule-entries{/scheduleEntryId}{?page_size,activityId}",
+                    "href": "http://{$host}/api/schedule-entries{/scheduleEntryId}{?page_size,page,activityId}",
                     "templated": true
                 },
                 "periods": {
-                    "href": "http://{$host}/api/periods{/periodId}{?page_size,campId}",
+                    "href": "http://{$host}/api/periods{/periodId}{?page_size,page,campId}",
                     "templated": true
                 },
                 "activities": {
-                    "href": "http://{$host}/api/activities{/activityId}{?page_size,campId,periodId}",
+                    "href": "http://{$host}/api/activities{/activityId}{?page_size,page,campId,periodId}",
+                    "templated": true
+                },
+                "materialItems": {
+                    "href": "http://{$host}/api/material-items{/materialItemId}{?page_size,page,campId,materialListId,contentNodeId}",
+                    "templated": true
+                },
+                "contentNodes": {
+                    "href": "http://{$host}/api/content-nodes{/contentNodeId}{?page_size,page,ownerId,parentId}",
                     "templated": true
                 }
             }

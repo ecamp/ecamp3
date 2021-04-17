@@ -1,65 +1,49 @@
 <?php
 
-use eCampApi\ConfigFactory;
+use eCamp\Core\Entity\User;
+use eCampApi\V1\Factory\Config;
+use eCampApi\V1\Factory\InputFilter;
 
-$config = ConfigFactory::createConfig('User');
-
-array_push(
-    $config['api-tools-rest']['eCampApi\\V1\\Rest\\User\\Controller']['collection_query_whitelist'],
-    'search'
-);
-
-$config['api-tools-content-validation'] = [
-    'eCampApi\\V1\\Rest\\User\\Controller' => [
-        'input_filter' => 'eCampApi\\V1\\Rest\\User\\Validator',
-    ],
-];
-
-$config['input_filter_specs'] = [
-    'eCampApi\\V1\\Rest\\User\\Validator' => [
-        0 => [
-            'name' => 'username',
-            'required' => false,
-            'filters' => [
-                0 => [
-                    'name' => 'Laminas\\Filter\\StringTrim',
-                ],
-                1 => [
-                    'name' => 'Laminas\\Filter\\StripTags',
-                ],
-            ],
-            'validators' => [
-                0 => [
-                    'name' => 'Laminas\\Validator\\StringLength',
-                    'options' => [
-                        'min' => 1,
-                        'max' => 32,
-                    ],
-                ],
-            ],
-        ],
-        1 => [
-            'name' => 'state',
-            'required' => true,
-            'filters' => [
-                0 => [
-                    'name' => 'Laminas\\Filter\\StringTrim',
-                ],
-                1 => [
-                    'name' => 'Laminas\\Filter\\StripTags',
-                ],
-            ],
-            'validators' => [
-                0 => [
-                    'name' => 'Laminas\\Validator\\StringLength',
-                    'options' => [
-                        'min' => 1,
-                        'max' => 16,
-                    ],
-                ],
-            ],
-        ],
-    ],
-];
-
-return $config;
+return Config::Create('User')
+    ->addCollectionQueryWhitelist('search')
+    ->addInputFilterFactory(
+        InputFilter::Create('username')
+            ->addFilterStringTrim()
+            ->addFilterStripTags()
+            ->addValidatorStringLength(1, 32)
+    )
+    ->addInputFilterFactory(
+        InputFilter::Create('firstname')
+            ->addFilterStringTrim()
+            ->addFilterStripTags()
+            ->addValidatorStringLength(1, 32)
+    )
+    ->addInputFilterFactory(
+        InputFilter::Create('surname')
+            ->addFilterStringTrim()
+            ->addFilterStripTags()
+            ->addValidatorStringLength(1, 32)
+    )
+    ->addInputFilterFactory(
+        InputFilter::Create('nickname')
+            ->addFilterStringTrim()
+            ->addFilterStripTags()
+            ->addValidatorStringLength(1, 32)
+    )
+    ->addInputFilterFactory(
+        InputFilter::Create('role')
+            ->addFilterStringTrim()
+            ->addFilterStripTags()
+            ->addValidatorInArray([
+                User::ROLE_USER,
+                User::ROLE_ADMIN,
+            ])
+    )
+    ->addInputFilterFactory(
+        InputFilter::Create('language')
+            ->addFilterStringTrim()
+            ->addFilterStripTags()
+            ->addValidatorStringLength(1, 8)
+    )
+    ->buildConfig()
+;

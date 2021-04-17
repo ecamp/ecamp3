@@ -4,6 +4,7 @@ namespace eCamp\Core\EntityService;
 
 use Doctrine\ORM\ORMException;
 use Doctrine\ORM\Query\Expr;
+use Doctrine\ORM\QueryBuilder;
 use eCamp\Core\Entity\User;
 use eCamp\Core\Hydrator\UserHydrator;
 use eCamp\Core\Repository\UserRepository;
@@ -16,10 +17,7 @@ use Laminas\Authentication\AuthenticationService;
  * Class UserService.
  */
 class UserService extends AbstractEntityService {
-    /**
-     * @var SendmailService
-     */
-    private $sendmailService;
+    private SendmailService $sendmailService;
 
     public function __construct(
         ServiceUtils $serviceUtils,
@@ -36,10 +34,7 @@ class UserService extends AbstractEntityService {
         $this->sendmailService = $sendmailService;
     }
 
-    /**
-     * @return null|User
-     */
-    public function findAuthenticatedUser() {
+    public function findAuthenticatedUser(): ?User {
         $user = $this->getAuthUser();
         if ($user instanceof User) {
             return $user;
@@ -48,21 +43,21 @@ class UserService extends AbstractEntityService {
         return null;
     }
 
-    public function findByTrustedMail($email) {
+    public function findByTrustedMail($email): ?User {
         /** @var UserRepository $repository */
         $repository = $this->getRepository();
 
         return $repository->findByTrustedMail($email);
     }
 
-    public function findByUntrustedMail($email) {
+    public function findByUntrustedMail($email): ?User {
         /** @var UserRepository $repository */
         $repository = $this->getRepository();
 
         return $repository->findByUntrustedMail($email);
     }
 
-    public function findByUsername($username) {
+    public function findByUsername($username): ?User {
         /** @var UserRepository $userRepository */
         $userRepository = $this->getRepository();
 
@@ -70,14 +65,10 @@ class UserService extends AbstractEntityService {
     }
 
     /**
-     * @param mixed $data
-     *
      * @throws ORMException
      * @throws \Exception
-     *
-     * @return User
      */
-    protected function createEntity($data) {
+    protected function createEntity($data): User {
         /** @var Profile $profile */
         $profile = $data;
 
@@ -125,7 +116,7 @@ class UserService extends AbstractEntityService {
         return $user;
     }
 
-    protected function findCollectionQueryBuilder($className, $alias, $params) {
+    protected function findCollectionQueryBuilder($className, $alias, $params): QueryBuilder {
         $q = parent::findCollectionQueryBuilder($className, $alias, $params);
         if (isset($params['search'])) {
             $expr = new Expr();

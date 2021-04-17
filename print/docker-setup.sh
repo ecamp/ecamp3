@@ -1,5 +1,6 @@
 #!/bin/bash
+set -euo pipefail
 
-npm i
+npm ci
 
 npm run dev

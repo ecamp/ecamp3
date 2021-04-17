@@ -3,6 +3,7 @@
 namespace eCamp\Core\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use eCamp\Lib\Types\DateUtc;
 use Laminas\Permissions\Acl\Role\RoleInterface;
@@ -25,98 +26,84 @@ class User extends AbstractCampOwner implements RoleInterface {
     const RELATION_UNRELATED = 'unrelated';
 
     /**
-     * @var ArrayCollection
      * @ORM\OneToMany(targetEntity="UserIdentity", mappedBy="user", orphanRemoval=true)
      */
-    protected $userIdentities;
+    protected Collection $userIdentities;
 
     /**
-     * @var ArrayCollection
      * @ORM\OneToMany(targetEntity="GroupMembership", mappedBy="user", orphanRemoval=true)
      */
-    protected $memberships;
+    protected Collection $memberships;
 
     /**
-     * @var ArrayCollection
      * @ORM\OneToMany(targetEntity="CampCollaboration", mappedBy="user", orphanRemoval=true)
      */
-    protected $collaborations;
+    protected Collection $collaborations;
 
     /**
      * Unique username, lower alphanumeric symbols and underscores only.
      *
-     * @var string
      * @ORM\Column(type="string", length=32, nullable=true, unique=true)
      */
-    private $username;
+    private ?string $username = null;
 
     /**
      * Users firstname.
      *
-     * @var string
-     * @ORM\Column(type="string", length=32, nullable=true)
+     * @ORM\Column(type="text", nullable=true)
      */
-    private $firstname;
+    private ?string $firstname = null;
 
     /**
      * Users surname.
      *
-     * @var string
-     * @ORM\Column(type="string", length=32, nullable=true)
+     * @ORM\Column(type="text", nullable=true)
      */
-    private $surname;
+    private ?string $surname = null;
 
     /**
      * Users nickname.
      *
-     * @var string
-     * @ORM\Column(type="string", length=32, nullable=true)
+     * @ORM\Column(type="text", nullable=true)
      */
-    private $nickname;
+    private ?string $nickname = null;
 
     /**
-     * @var MailAddress
      * @ORM\OneToOne(targetEntity="MailAddress", cascade={"all"}, orphanRemoval=true)
      * @ORM\JoinColumn
      */
-    private $trustedMailAddress;
+    private ?MailAddress $trustedMailAddress = null;
 
     /**
-     * @var MailAddress
      * @ORM\OneToOne(targetEntity="MailAddress", cascade={"all"}, orphanRemoval=true)
      * @ORM\JoinColumn
      */
-    private $untrustedMailAddress;
+    private ?MailAddress $untrustedMailAddress = null;
 
     /**
-     * @var string
      * @ORM\Column(type="string", length=16, nullable=false)
      */
-    private $state;
+    private string $state;
 
     /**
-     * @var string
      * @ORM\Column(type="string", length=16, nullable=false)
      */
-    private $role;
+    private string $role;
 
     /**
-     * @var Login
      * @ORM\OneToOne(targetEntity="Login", mappedBy="user", cascade={"all"}, orphanRemoval=true)
      */
-    private $login;
+    private ?Login $login;
 
     /**
-     * @var string
-     * @ORM\Column(type="string", length=16, nullable=true)
+     * @ORM\Column(type="string", length=8, nullable=true)
      */
-    private $language;
+    private ?string $language = null;
 
     /**
-     * @var DateUtc
      * @orm\Column(type="date", nullable=true)
      */
-    private $birthday;
+    private ?DateUtc $birthday = null;
 
     public function __construct() {
         parent::__construct();
@@ -129,18 +116,15 @@ class User extends AbstractCampOwner implements RoleInterface {
         $this->userIdentities = new ArrayCollection();
     }
 
-    /**
-     * @return string
-     */
-    public function getRoleId() {
-        return $this->role ?: self::ROLE_GUEST;
+    public function getRoleId(): string {
+        return $this->role;
     }
 
-    public function getUsername(): string {
+    public function getUsername(): ?string {
         return $this->username;
     }
 
-    public function setUsername(string $username): void {
+    public function setUsername(?string $username): void {
         $this->username = $username;
     }
 
@@ -148,7 +132,7 @@ class User extends AbstractCampOwner implements RoleInterface {
         return $this->firstname;
     }
 
-    public function setFirstname(?string $firstname) {
+    public function setFirstname(?string $firstname): void {
         $this->firstname = $firstname;
     }
 
@@ -156,7 +140,7 @@ class User extends AbstractCampOwner implements RoleInterface {
         return $this->surname;
     }
 
-    public function setSurname(?string $surname) {
+    public function setSurname(?string $surname): void {
         $this->surname = $surname;
     }
 
@@ -164,14 +148,11 @@ class User extends AbstractCampOwner implements RoleInterface {
         return $this->nickname;
     }
 
-    public function setNickname(?string $nickname) {
+    public function setNickname(?string $nickname): void {
         $this->nickname = $nickname;
     }
 
-    /**
-     * @return string
-     */
-    public function getDisplayName() {
+    public function getDisplayName(): ?string {
         if (!empty($this->nickname)) {
             return $this->nickname;
         }
@@ -188,10 +169,8 @@ class User extends AbstractCampOwner implements RoleInterface {
 
     /**
      * @param $userId
-     *
-     * @return string
      */
-    public function getRelation($userId) {
+    public function getRelation($userId): string {
         if ($userId == $this->id) {
             return self::RELATION_ME;
         }
@@ -228,7 +207,7 @@ class User extends AbstractCampOwner implements RoleInterface {
         return $this->trustedMailAddress->getMail();
     }
 
-    public function setTrustedMailAddress(string $mail) {
+    public function setTrustedMailAddress(string $mail): void {
         if (null == $this->trustedMailAddress) {
             $this->trustedMailAddress = new MailAddress();
         }
@@ -303,67 +282,64 @@ class User extends AbstractCampOwner implements RoleInterface {
         $this->role = $role;
     }
 
-    /**
-     * @return Login
-     */
-    public function getLogin() {
+    public function getLogin(): ?Login {
         return $this->login;
     }
 
-    public function getLanguage() {
+    public function getLanguage(): ?string {
         return $this->language;
     }
 
-    public function setLanguage($language) {
+    public function setLanguage(?string $language): void {
         $this->language = $language;
     }
 
-    public function getBirthday() {
+    public function getBirthday(): ?DateUtc {
         return (null !== $this->birthday) ? (clone $this->birthday) : null;
     }
 
-    public function setBirthday(?DateUtc $birthday) {
+    public function setBirthday(?DateUtc $birthday): void {
         $this->birthday = null !== $birthday ? clone $birthday : $birthday;
     }
 
-    public function getGroupMemberships(): ArrayCollection {
+    public function getGroupMemberships(): Collection {
         return $this->memberships;
     }
 
-    public function addGroupMembership(GroupMembership $membership) {
+    public function addGroupMembership(GroupMembership $membership): void {
         $membership->setUser($this);
         $this->memberships->add($membership);
     }
 
-    public function removeGroupMembership(GroupMembership $membership) {
+    public function removeGroupMembership(GroupMembership $membership): void {
         $membership->setUser(null);
         $this->memberships->removeElement($membership);
     }
 
-    public function getCampCollaborations() {
+    public function getCampCollaborations(): Collection {
         return $this->collaborations;
     }
 
-    public function addCampCollaboration(CampCollaboration $collaboration) {
+    public function addCampCollaboration(CampCollaboration $collaboration): void {
         $collaboration->setUser($this);
         $this->collaborations->add($collaboration);
     }
 
-    public function removeCampCollaboration(CampCollaboration $collaboration) {
+    public function removeCampCollaboration(CampCollaboration $collaboration): void {
         $collaboration->setUser(null);
         $this->collaborations->removeElement($collaboration);
     }
 
-    public function getUserIdentities(): ArrayCollection {
+    public function getUserIdentities(): Collection {
         return $this->userIdentities;
     }
 
-    public function addUserIdentity(UserIdentity $userIdentity) {
+    public function addUserIdentity(UserIdentity $userIdentity): void {
         $userIdentity->setUser($this);
         $this->userIdentities->add($userIdentity);
     }
 
-    public function removeUserIdentity(UserIdentity $userIdentity) {
+    public function removeUserIdentity(UserIdentity $userIdentity): void {
         $userIdentity->setUser(null);
         $this->userIdentities->removeElement($userIdentity);
     }

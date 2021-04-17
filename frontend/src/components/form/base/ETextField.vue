@@ -7,6 +7,7 @@
     :rules="veeRules"
     class="e-form-container">
     <v-text-field
+      ref="textField"
       v-bind="$attrs"
       :filled="filled"
       :hide-details="hideDetails"
@@ -30,6 +31,11 @@ import { formComponentPropsMixin } from '@/mixins/formComponentPropsMixin'
 export default {
   name: 'ETextField',
   components: { ValidationProvider },
-  mixins: [formComponentPropsMixin]
+  mixins: [formComponentPropsMixin],
+  methods: {
+    focus () {
+      this.$refs.textField.focus()
+    }
+  }
 }
 </script>

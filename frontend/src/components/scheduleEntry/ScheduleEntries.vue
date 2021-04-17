@@ -77,7 +77,7 @@ export default {
           title: this.$tc('entity.activity.new'),
           location: '',
           camp: (this.period)().camp,
-          activityCategory: () => ({
+          category: () => ({
             id: null,
             short: null,
             color: 'grey elevation-4 v-event--temporary'
@@ -109,19 +109,11 @@ export default {
 </script>
 
 <style lang="scss">
-  .fab--bottom_nav {
-    position: fixed;
-    bottom: 16px + 56px !important;
-    @media #{map-get($display-breakpoints, 'sm-and-up')}{
-      bottom: 16px + 36px !important;
-    }
+.fab--bottom_nav {
+  position: fixed;
+  bottom: 16px + 56px !important;
+  @media #{map-get($display-breakpoints, 'sm-and-up')}{
+    bottom: 16px + 36px !important;
   }
-
-  .fab--top_nav {
-    position: fixed;
-    top: 16px + 105px !important;
-    @media #{map-get($display-breakpoints, 'sm-and-up')}{
-      top: 16px + 65px !important;
-    }
-  }
+}
 </style>

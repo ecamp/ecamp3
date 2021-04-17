@@ -69,7 +69,7 @@ return [
 
     'hydrators' => [
         'factories' => [
-            \eCamp\Core\Hydrator\ActivityContentHydrator::class => \Laminas\Di\Container\ServiceManager\AutowireFactory::class,
+            \eCamp\Core\Hydrator\ContentNodeHydrator::class => \Laminas\Di\Container\ServiceManager\AutowireFactory::class,
         ],
     ],
 
@@ -123,6 +123,23 @@ return [
                     [
                         'type' => \Laminas\Mime\Mime::TYPE_HTML,
                         'template' => 'mail/register-html',
+                        'encoding' => \Laminas\Mime\Mime::ENCODING_8BIT,
+                        'charset' => 'utf-8',
+                    ],
+                ],
+            ],
+            'campCollaborationInvite' => [
+                'type' => \Laminas\Mime\Mime::MULTIPART_ALTERNATIVE,
+                'parts' => [
+                    [
+                        'type' => \Laminas\Mime\Mime::TYPE_TEXT,
+                        'template' => 'mail/campCollaborationInvite-text',
+                        'encoding' => \Laminas\Mime\Mime::ENCODING_8BIT,
+                        'charset' => 'utf-8',
+                    ],
+                    [
+                        'type' => \Laminas\Mime\Mime::TYPE_HTML,
+                        'template' => 'mail/campCollaborationInvite-html',
                         'encoding' => \Laminas\Mime\Mime::ENCODING_8BIT,
                         'charset' => 'utf-8',
                     ],

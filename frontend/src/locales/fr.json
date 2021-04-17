@@ -1,5 +1,36 @@
 {
-  "activityContent": {
+  "contentNode": {
+    "laThematicArea": {
+      "entity": {
+        "option": {
+          "campsiteAndSurroundings": {
+            "description": "Aménagement d’un camp/des environs, démontage, aménagement d’une place de jeu et fabrication d’engins de sport.",
+            "name": "Campement/Environs"
+          },
+          "natureAndEnvironment": {
+            "description": "Faune et flore, protection de l’environnement dans le cadre du camp, météorologie et astronomie, techniques de transmission, préparation et allumage d’un feu.",
+            "name": "Nature et environment"
+          },
+          "outdoorTechnique": {
+            "description": "Planification d’une randonnée, lecture de carte (p. ex. check-list NORDA), croquis, utilisation d’instruments (p.ex. boussole, récepteur GPS, alti- mètre, etc.), orientation dans le terrain.",
+            "name": "Techniques de plein air"
+          },
+          "pioneeringTechnique": {
+            "description": "Aménagement d’un bivouac, construction d’un igloo, connaissance du matériel et de l’équipement, entretien du matériel, construction et démontage des installations, cordages et nœuds, tyroliennes, ponts de cordes, descentes en rappel.",
+            "name": "Technique de pionnier"
+          },
+          "preventionAndIntegration": {
+            "description": "Activités favorisant la prévention et l’intégration ou développant les compétences des participants dans ce domaine.",
+            "name": "Prévention et intégration"
+          },
+          "security": {
+            "description": "Sécurité lors des activités au camp, mesures à prendre en cas d’accident et alerte, premiers secours, réflexions sur la sécurité.",
+            "name": "Sécurité"
+          }
+        }
+      },
+      "name": "Domaine thématique AC"
+    },
     "notes": {
       "add": "Ajouter des remarques",
       "name": "Notes"
@@ -29,7 +60,7 @@
   },
   "components": {
     "activity": {
-      "activityContent": {
+      "contentNode": {
         "delete": "Effacer",
         "editName": "Renommer",
         "moveDown": "Descendre",
@@ -45,10 +76,10 @@
       }
     },
     "camp": {
-      "campActivityCategories": {
+      "campCategories": {
         "create": "Créer une catégorie d'activité",
-        "deleteActivityCategoryNotPossibleInUse": "La catégorie d'activité ne peut pas être supprimée. Elle est utilisée par :",
-        "deleteActivityCategoryQuestion": "Voulez-vous vraiment supprimer la catégorie d'activité?",
+        "deleteCategoryNotPossibleInUse": "La catégorie d'activité ne peut pas être supprimée. Elle est utilisée par :",
+        "deleteCategoryQuestion": "Voulez-vous vraiment supprimer la catégorie d'activité?",
         "title": "Catégories d'activités"
       },
       "campInvitations": {
@@ -92,7 +123,7 @@
       }
     },
     "dialog": {
-      "dialogActivityCategoryCreate": {
+      "dialogCategoryCreate": {
         "title": "Créer une catégorie d'activité"
       },
       "dialogEntityDelete": {
@@ -126,7 +157,7 @@
   "entity": {
     "activity": {
       "fields": {
-        "activityCategory": "Catégorie d'activité",
+        "category": "Catégorie d'activité",
         "location": "Lieu",
         "responsible": "responsable",
         "title": "Titre"
@@ -134,7 +165,7 @@
       "name": "Activité",
       "new": "Nouvelle activité"
     },
-    "activityCategory": {
+    "category": {
       "fields": {
         "activityType": "Type",
         "color": "Couleur",
@@ -157,15 +188,15 @@
         "member": "Membre"
       },
       "fields": {
-        "campType": "Type de camp",
         "motto": "Devise",
         "name": "Nom",
         "title": "Titre"
       },
-      "name": "Camp"
+      "name": "Camp",
+      "prototype": "Modèle de camp"
     },
     "campCollaboration": {
-      "campLeft": "quitter le camp"
+      "inactive": "inactif"
     },
     "period": {
       "defaultDescription": "Camp principal",
@@ -202,7 +233,6 @@
   "global": {
     "button": {
       "add": "Ajouter",
-      "addContentDesktop": "Ajouter du contenu",
       "back": "Retour",
       "cancel": "Annuler",
       "content": "Contenu",
@@ -273,11 +303,10 @@
         "title": "Admin"
       },
       "collaborators": {
+        "email": "Adresse de courriel",
         "invite": "Inviter",
         "members": "Membres",
         "openInvitations": "Invitations ouvertes",
-        "openRequests": "Demandes ouvertes",
-        "search": "Chercher...",
         "title": "Team"
       },
       "navigationCamp": {
@@ -319,7 +348,7 @@
       "welcome": "Bonjour {user}. Bienvenue sur eCamp"
     },
     "navigationDefault": {
-      "home": "Page d'accueil",
+      "home": "Accueil",
       "myCamps": "Mon camp | Mes camps",
       "profile": "Profil"
     },

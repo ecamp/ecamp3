@@ -9,10 +9,8 @@ use Laminas\Hydrator\HydratorInterface;
 class SectionHydrator implements HydratorInterface {
     /**
      * @param object $object
-     *
-     * @return array
      */
-    public function extract($object) {
+    public function extract($object): array {
         /** @var Section $section */
         $section = $object;
 
@@ -23,11 +21,11 @@ class SectionHydrator implements HydratorInterface {
             'column2' => $section->getColumn2(),
             'column3' => $section->getColumn3(),
 
-            'activityContent' => Link::factory([
-                'rel' => 'activityContent',
+            'contentNode' => Link::factory([
+                'rel' => 'contentNode',
                 'route' => [
-                    'name' => 'e-camp-api.rest.doctrine.activity-content',
-                    'params' => ['activityContentId' => $section->getActivityContent()->getId()],
+                    'name' => 'e-camp-api.rest.doctrine.content-node',
+                    'params' => ['contentNodeId' => $section->getContentNode()->getId()],
                 ],
             ]),
 
@@ -35,7 +33,7 @@ class SectionHydrator implements HydratorInterface {
             'move_up' => Link::factory([
                 'rel' => 'move_up',
                 'route' => [
-                    'name' => 'e-camp-api.rest.doctrine.activity-content.storyboard/move',
+                    'name' => 'e-camp-api.rest.doctrine.content-node.storyboard/move',
                     'params' => [
                         'sectionId' => $section->getId(),
                         'action' => 'move_up',
@@ -45,7 +43,7 @@ class SectionHydrator implements HydratorInterface {
             'move_down' => Link::factory([
                 'rel' => 'move_down',
                 'route' => [
-                    'name' => 'e-camp-api.rest.doctrine.activity-content.storyboard/move',
+                    'name' => 'e-camp-api.rest.doctrine.content-node.storyboard/move',
                     'params' => [
                         'sectionId' => $section->getId(),
                         'action' => 'move_down',
@@ -57,10 +55,8 @@ class SectionHydrator implements HydratorInterface {
 
     /**
      * @param object $object
-     *
-     * @return object
      */
-    public function hydrate(array $data, $object) {
+    public function hydrate(array $data, $object): Section {
         /** @var Section $section */
         $section = $object;
 

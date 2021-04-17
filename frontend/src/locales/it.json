@@ -1,5 +1,36 @@
 {
-  "activityContent": {
+  "contentNode": {
+    "laThematicArea": {
+      "entity": {
+        "option": {
+          "campsiteAndSurroundings": {
+            "description": "Allestire campo/dintorni, smontare le costruzioni, preparare le installazioni per il terreno da gioco e le attrezzature sportive.",
+            "name": "Campo/dintorni"
+          },
+          "natureAndEnvironment": {
+            "description": "Flora e fauna, tutela dell’ambiente al campo, meteorologia e astronomia, tecniche di trasmissione, accensione di un fuoco.",
+            "name": "Natura e ambiente"
+          },
+          "outdoorTechnique": {
+            "description": "Pianificazione delle escursioni, lettura delle carte topografiche (p. es. NORDA), schizzi topografici, strumenti di supporto (p.es. bussola, GPS, altimetro, ecc.), orientamento sul terreno.",
+            "name": "Tecniche outdoor"
+          },
+          "pioneeringTechnique": {
+            "description": "Installare il bivacco, costruire un igloo, tecniche relative a materiali ed equipaggiamento, effettuare la manutenzione del materiale, montare e smontare le costruzioni pionieristiche, tecniche delle corde e dei nodi, tirolese, ponti di corda, discesa in corda doppia.",
+            "name": "Tecnica pionieristica"
+          },
+          "preventionAndIntegration": {
+            "description": "Attività volte a promuovere la prevenzione e l’integrazione nonché a migliorare le competenze dei partecipanti in questo ambito.",
+            "name": "Prevenzione e integrazione"
+          },
+          "security": {
+            "description": "Sicurezza durante le attività al campo, organizzazione in caso di infortuni e sistema di allerta, primi soccorsi, riflessioni sulla sicurezza.",
+            "name": "Sicurezza"
+          }
+        }
+      },
+      "name": "Area tematica AC"
+    },
     "notes": {
       "add": "Aggiungi i noti",
       "name": "Noti"
@@ -29,7 +60,7 @@
   },
   "components": {
     "activity": {
-      "activityContent": {
+      "contentNode": {
         "delete": "Cancellare",
         "editName": "Rinominare",
         "moveDown": "Abbassati",
@@ -45,10 +76,10 @@
       }
     },
     "camp": {
-      "campActivityCategories": {
+      "campCategories": {
         "create": "Creare categoria di attività",
-        "deleteActivityCategoryNotPossibleInUse": "La categoria di attività non può essere cancellata. è utilizzata da:",
-        "deleteActivityCategoryQuestion": "Vuoi davvero cancellare la categoria Attività?",
+        "deleteCategoryNotPossibleInUse": "La categoria di attività non può essere cancellata. è utilizzata da:",
+        "deleteCategoryQuestion": "Vuoi davvero cancellare la categoria Attività?",
         "title": "Categorie di attività"
       },
       "campInvitations": {
@@ -92,7 +123,7 @@
       }
     },
     "dialog": {
-      "dialogActivityCategoryCreate": {
+      "dialogCategoryCreate": {
         "title": "Creare categoria di attività"
       },
       "dialogEntityDelete": {
@@ -126,7 +157,7 @@
   "entity": {
     "activity": {
       "fields": {
-        "activityCategory": "Categoria di attività",
+        "category": "Categoria di attività",
         "location": "Posto",
         "responsible": "responsabile",
         "title": "Titolo"
@@ -134,7 +165,7 @@
       "name": "Attività",
       "new": "Nuova attività"
     },
-    "activityCategory": {
+    "category": {
       "fields": {
         "activityType": "Stile",
         "color": "Colore",
@@ -157,15 +188,15 @@
         "member": "Membro"
       },
       "fields": {
-        "campType": "Tipo di campo",
         "motto": "Motto",
         "name": "Nome",
         "title": "Titolo"
       },
-      "name": "Campo"
+      "name": "Campo",
+      "prototype": "Modello di campo"
     },
     "campCollaboration": {
-      "campLeft": "lasciato il campo"
+      "inactive": "non attivo"
     },
     "period": {
       "defaultDescription": "Campo principale",
@@ -202,7 +233,6 @@
   "global": {
     "button": {
       "add": "Aggiungere",
-      "addContentDesktop": "Aggiungi contenuto della storia",
       "back": "Indietro",
       "cancel": "Annullare",
       "content": "Contenuto",
@@ -273,11 +303,10 @@
         "title": "Admin"
       },
       "collaborators": {
+        "email": "Indirizzo e-mail",
         "invite": "Invitare",
         "members": "Membri",
         "openInvitations": "Inviti aperti",
-        "openRequests": "Richieste aperte",
-        "search": "Cerca",
         "title": "Team"
       },
       "navigationCamp": {
@@ -319,7 +348,7 @@
       "welcome": "Salve {user}. Benvenuto su eCamp"
     },
     "navigationDefault": {
-      "home": "Homepage",
+      "home": "Home",
       "myCamps": "Il mio campo | I miei campi",
       "profile": "Profilo"
     },

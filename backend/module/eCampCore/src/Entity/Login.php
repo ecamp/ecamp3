@@ -9,65 +9,56 @@ use eCamp\Lib\Entity\BaseEntity;
  * @ORM\Entity
  */
 class Login extends BaseEntity {
-    const CURRENT_HASH_VERSION = 0;
+    const CURRENT_HASH_VERSION = 1;
 
     /**
-     * @var string
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="text")
      */
-    private $password;
+    private ?string $password;
 
     /**
-     * @var string
-     * @ORM\Column(type="string", length=64)
+     * @ORM\Column(type="text")
      */
-    private $salt;
+    private ?string $salt;
 
     /**
-     * @var string
      * @ORM\Column(type="string", length=64, nullable=true, unique=true)
      */
-    private $pwResetKey;
+    private ?string $pwResetKey;
 
     /**
-     * @var User
      * @ORM\OneToOne(targetEntity="User", mappedBy="login")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $user;
+    private User $user;
 
     /**
-     * @var int
      * @ORM\Column(type="integer", nullable=false)
      */
-    private $hashVersion;
+    private int $hashVersion = self::CURRENT_HASH_VERSION;
 
-    public function __construct(User $user, $password) {
+    public function __construct(User $user, string $password) {
         parent::__construct();
+
         $this->user = $user;
         $this->setNewPassword($password);
     }
 
     /**
      * Returns the User of this Login Entity.
-     *
-     * @return User
      */
-    public function getUser() {
+    public function getUser(): User {
         return $this->user;
     }
 
-    /**
-     * @return int
-     */
-    public function getHashVersion() {
+    public function getHashVersion(): int {
         return $this->hashVersion;
     }
 
     /**
      * Create a new PW Reset Key.
      */
-    public function createPwResetKey() {
+    public function createPwResetKey(): string {
         $pwResetKey = md5(microtime(true));
         $this->pwResetKey = $this->getHash($pwResetKey);
 
@@ -77,17 +68,15 @@ class Login extends BaseEntity {
     /**
      * Clears the pwResetKey Field.
      */
-    public function clearPwResetKey() {
+    public function clearPwResetKey(): void {
         $this->pwResetKey = null;
     }
 
     /**
      * @param $pwResetKey
-     *
-     * @return bool
      */
-    public function checkPwResetKey($pwResetKey) {
-        return $this->checkHash($pwResetKey, $this->pwResetKey);
+    public function checkPwResetKey($pwResetKey): bool {
+        return (null != $this->pwResetKey) && $this->checkHash($pwResetKey, $this->pwResetKey);
     }
 
     /**
@@ -97,7 +86,7 @@ class Login extends BaseEntity {
      *
      * @throws \Exception
      */
-    public function resetPassword($pwResetKey, $password, $hashVersion = null) {
+    public function resetPassword(string $pwResetKey, string $password, ?int $hashVersion = null): void {
         if ($this->checkPwResetKey($pwResetKey)) {
             $this->setNewPassword($password, $hashVersion);
         } else {
@@ -112,7 +101,7 @@ class Login extends BaseEntity {
      *
      * @throws \Exception
      */
-    public function changePassword($oldPassword, $newPassword, $hashVersion = null) {
+    public function changePassword(string $oldPassword, string $newPassword, ?int $hashVersion = null): void {
         if ($this->checkPassword($oldPassword)) {
             $this->setNewPassword($newPassword, $hashVersion);
         } else {
@@ -123,13 +112,8 @@ class Login extends BaseEntity {
     /**
      * Checks the given Password
      * Returns true, if the given password matches for this Login.
-     *
-     * @param string $password
-     * @param bool   $rehash
-     *
-     * @return bool
      */
-    public function checkPassword($password, $rehash = false) {
+    public function checkPassword(string $password, bool $rehash = false): bool {
         if ($this->checkHash($password, $this->password)) {
             if ($rehash) {
                 $this->setNewPassword($password);
@@ -143,28 +127,20 @@ class Login extends BaseEntity {
 
     /**
      * Sets a new Password. It creates a new salt and stores the salten password.
-     *
-     * @param string $password
-     * @param null   $hashVersion
      */
-    private function setNewPassword($password, $hashVersion = null) {
+    private function setNewPassword(string $password, ?int $hashVersion = null): void {
         $this->createSalt();
-        $this->hashVersion = (null !== $hashVersion) ? $hashVersion : self::CURRENT_HASH_VERSION;
+        $this->hashVersion = $hashVersion ?? self::CURRENT_HASH_VERSION;
         $this->password = $this->getHash($password);
     }
 
-    private function createSalt() {
+    private function createSalt(): void {
         $this->password = null;
         $this->pwResetKey = null;
         $this->salt = md5(microtime(true));
     }
 
-    /**
-     * @param $password
-     *
-     * @return string
-     */
-    private function getHash($password) {
+    private function getHash(string $password): string {
         switch ($this->hashVersion) {
             case 1:
                 return $this->getHash_v1($password);
@@ -174,13 +150,7 @@ class Login extends BaseEntity {
         }
     }
 
-    /**
-     * @param $password
-     * @param $hash
-     *
-     * @return bool
-     */
-    private function checkHash($password, $hash) {
+    private function checkHash(string $password, string $hash): bool {
         switch ($this->hashVersion) {
             case 1:
                 return $this->checkHash_v1($password, $hash);
@@ -192,31 +162,15 @@ class Login extends BaseEntity {
 
     // HASH - VERSION 1
 
-    /**
-     * @param $password
-     *
-     * @return string
-     */
-    private function getHash_v1($password) {
+    private function getHash_v1(string $password): string {
         return password_hash($this->addSalt_v1($password), PASSWORD_BCRYPT, ['cost' => 10]);
     }
 
-    /**
-     * @param $password
-     * @param $hash
-     *
-     * @return bool
-     */
-    private function checkHash_v1($password, $hash) {
+    private function checkHash_v1(string $password, string $hash): bool {
         return password_verify($this->addSalt_v1($password), $hash);
     }
 
-    /**
-     * @param $password
-     *
-     * @return string
-     */
-    private function addSalt_v1($password) {
+    private function addSalt_v1(string $password): string {
         return $this->salt.$password;
     }
 }

@@ -15,7 +15,7 @@ abstract class BaseEntity implements ResourceInterface {
     /**
      * @var string
      * @ORM\Id
-     * @ORM\Column(type="string", nullable=false)
+     * @ORM\Column(type="string", length=16, nullable=false)
      */
     protected $id;
 
@@ -32,31 +32,28 @@ abstract class BaseEntity implements ResourceInterface {
     protected $updateTime;
 
     public function __construct() {
-        $this->id = base_convert(crc32(uniqid()), 10, 16);
+        $this->id = bin2hex(random_bytes(6));
 
         $this->createTime = new DateTimeUtc();
         $this->updateTime = new DateTimeUtc();
     }
 
-    public function __toString() {
+    public function __toString(): string {
         return '['.$this->getClassname().'::'.$this->getId().']';
     }
 
-    public function getResourceId() {
+    public function getResourceId(): string {
         return ClassUtils::getClass($this);
     }
 
-    /**
-     * @return string
-     */
-    public function getId() {
+    public function getId(): string {
         return $this->id;
     }
 
     /**
      * @ORM\PrePersist
      */
-    public function PrePersist() {
+    public function PrePersist(): void {
         $this->createTime = new DateTimeUtc();
         $this->updateTime = new DateTimeUtc();
     }
@@ -64,11 +61,11 @@ abstract class BaseEntity implements ResourceInterface {
     /**
      * @ORM\PreUpdate
      */
-    public function PreUpdate() {
+    public function PreUpdate(): void {
         $this->updateTime = new DateTimeUtc();
     }
 
-    private function getClassname() {
+    private function getClassname(): string {
         return ClassUtils::getClass($this);
     }
 }

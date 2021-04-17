@@ -3,6 +3,7 @@
 namespace eCamp\Core\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use eCamp\Lib\Entity\BaseEntity;
 
@@ -11,23 +12,25 @@ use eCamp\Lib\Entity\BaseEntity;
  */
 class MaterialList extends BaseEntity implements BelongsToCampInterface {
     /**
-     * @var ArrayCollection
      * @ORM\OneToMany(targetEntity="MaterialItem", mappedBy="materialList")
      */
-    protected $materialItems;
+    protected Collection $materialItems;
 
     /**
-     * @var Camp
      * @ORM\ManyToOne(targetEntity="Camp")
      * @ORM\JoinColumn(nullable=false, onDelete="cascade")
      */
-    private $camp;
+    private ?Camp $camp = null;
 
     /**
-     * @var string
-     * @ORM\Column(type="string", length=64, nullable=false)
+     * @ORM\Column(type="string", length=16, nullable=true)
      */
-    private $name;
+    private ?string $materialListPrototypeId = null;
+
+    /**
+     * @ORM\Column(type="text", nullable=false)
+     */
+    private ?string $name = null;
 
     public function __construct() {
         parent::__construct();
@@ -35,43 +38,43 @@ class MaterialList extends BaseEntity implements BelongsToCampInterface {
         $this->materialItems = new ArrayCollection();
     }
 
-    /**
-     * @return Camp
-     */
-    public function getCamp() {
+    public function getCamp(): ?Camp {
         return $this->camp;
     }
 
     /**
      * @internal Do not set the {@link Camp} directly on the Activity. Instead use {@see Camp::addMaterialList()}
-     *
-     * @param $camp
      */
-    public function setCamp($camp) {
+    public function setCamp(?Camp $camp): void {
         $this->camp = $camp;
     }
 
-    public function getName() {
+    public function getMaterialListPrototypeId(): ?string {
+        return $this->materialListPrototypeId;
+    }
+
+    public function setMaterialListPrototypeId(?string $materialListPrototypeId): void {
+        $this->materialListPrototypeId = $materialListPrototypeId;
+    }
+
+    public function getName(): ?string {
         return $this->name;
     }
 
-    public function setName(string $name) {
+    public function setName(?string $name): void {
         $this->name = $name;
     }
 
-    /**
-     * @return ArrayCollection
-     */
-    public function getMaterialItems() {
+    public function getMaterialItems(): Collection {
         return $this->materialItems;
     }
 
-    public function addMaterialItem(MaterialItem $materialItem) {
+    public function addMaterialItem(MaterialItem $materialItem): void {
         $materialItem->setMaterialList($this);
         $this->materialItems->add($materialItem);
     }
 
-    public function removeMaterialItem(MaterialItem $materialItem) {
+    public function removeMaterialItem(MaterialItem $materialItem): void {
         $materialItem->setMaterialList(null);
         $this->materialItems->removeElement($materialItem);
     }

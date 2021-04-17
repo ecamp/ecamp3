@@ -12,7 +12,7 @@ use eCamp\LibTest\PHPUnit\AbstractTestCase;
  * @internal
  */
 class GroupMembershipHydratorTest extends AbstractTestCase {
-    public function testExtract() {
+    public function testExtract(): void {
         // Disable Test
         $this->assertTrue(true);
 
@@ -36,7 +36,7 @@ class GroupMembershipHydratorTest extends AbstractTestCase {
         $this->assertEquals(GroupMembership::STATUS_ESTABLISHED, $data['status']);
     }
 
-    public function testHydrate() {
+    public function testHydrate(): void {
         // Disable Test
         $this->assertTrue(true);
 
