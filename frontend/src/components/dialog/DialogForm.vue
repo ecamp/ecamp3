@@ -35,8 +35,8 @@
 
           <v-card-text v-if="$slots.error">
             <v-alert text outlined
-                     color="red darken-2"
-                     icon="mdi-alert-octagon">
+                     color="warning"
+                     icon="mdi-alert">
               <slot name="error" />
             </v-alert>
           </v-card-text>
