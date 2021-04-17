@@ -139,6 +139,9 @@ export default {
         this.localColumnContents = this.columnContents
         this.setLocalColumnWidths()
       }
+    },
+    columnContents () {
+      this.localColumnContents = this.columnContents
     }
   },
   mounted () {
