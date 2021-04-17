@@ -3,6 +3,7 @@
 namespace eCamp\ContentType\MultiSelect\Service;
 
 use eCamp\ContentType\MultiSelect\Entity\Option;
+use eCamp\ContentType\MultiSelect\Entity\OptionCollection;
 use eCamp\ContentType\MultiSelect\Hydrator\OptionHydrator;
 use eCamp\Core\ContentType\BaseContentTypeService;
 use eCamp\Lib\Service\ServiceUtils;
@@ -13,6 +14,7 @@ class OptionService extends BaseContentTypeService {
         parent::__construct(
             $serviceUtils,
             Option::class,
+            OptionCollection::class,
             OptionHydrator::class,
             $authenticationService
         );
