@@ -57,36 +57,34 @@
                 :filled="layoutMode" />
             </v-col>
             <v-col cols="1">
-              <v-container v-if="!layoutMode">
+              <v-container v-if="!layoutMode" ma-0 pa-0>
                 <v-row no-gutters>
-                  <v-col>
-                    <div class="float-right section-buttons">
+                  <v-col cols="6">
+                    <div class="section-buttons">
                       <dialog-entity-delete :entity="sortable.entity">
                         <template #activator="{ on }">
                           <v-btn icon
-                                 small
+                                 x-small
                                  color="error"
-                                 class="float-right"
                                  v-on="on">
                             <v-icon>mdi-delete</v-icon>
                           </v-btn>
                         </template>
                       </dialog-entity-delete>
                     </div>
+                    <v-btn icon x-small
+                           class="drag-and-drop-handle">
+                      <v-icon>mdi-drag-horizontal-variant</v-icon>
+                    </v-btn>
                   </v-col>
-                  <v-col>
-                    <div class="float-right section-buttons">
-                      <v-btn icon small
-                             class="float-right"
+                  <v-col cols="6">
+                    <div class="section-buttons">
+                      <v-btn icon x-small
                              @click="sortable.on.moveUp(sortable.entity)">
                         <v-icon>mdi-arrow-up-bold</v-icon>
                       </v-btn>
-                      <v-btn icon small
-                             class="float-right drag-and-drop-handle">
-                        <v-icon>mdi-drag-horizontal-variant</v-icon>
-                      </v-btn>
-                      <v-btn icon small
-                             class="float-right"
+
+                      <v-btn icon x-small
                              @click="sortable.on.moveDown(sortable.entity)">
                         <v-icon>mdi-arrow-down-bold</v-icon>
                       </v-btn>
