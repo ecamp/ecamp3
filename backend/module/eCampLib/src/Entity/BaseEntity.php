@@ -5,6 +5,7 @@ namespace eCamp\Lib\Entity;
 use Doctrine\Common\Util\ClassUtils;
 use Doctrine\ORM\Mapping as ORM;
 use eCamp\Lib\Types\DateTimeUtc;
+use eCamp\Lib\Util\IdGenerator;
 use Laminas\Permissions\Acl\Resource\ResourceInterface;
 
 /**
@@ -32,7 +33,7 @@ abstract class BaseEntity implements ResourceInterface {
     protected $updateTime;
 
     public function __construct() {
-        $this->id = bin2hex(random_bytes(6));
+        $this->id = IdGenerator::generateRandomHexString(12);
 
         $this->createTime = new DateTimeUtc();
         $this->updateTime = new DateTimeUtc();
