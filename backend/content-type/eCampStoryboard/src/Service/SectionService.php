@@ -2,7 +2,6 @@
 
 namespace eCamp\ContentType\Storyboard\Service;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\QueryBuilder;
 use eCamp\ContentType\Storyboard\Entity\Section;
 use eCamp\ContentType\Storyboard\Hydrator\SectionHydrator;
@@ -18,60 +17,6 @@ class SectionService extends BaseContentTypeService {
             SectionHydrator::class,
             $authenticationService
         );
-    }
-
-    public function moveUp($id): void {
-        /** @var Section $section2 */
-        $section2 = $this->findEntity(Section::class, $id);
-
-        $q = $this->getRepository()->createQueryBuilder('row');
-        $q->andWhere('row.contentNode = :contentNodeId');
-        $q->setParameter('contentNodeId', $section2->getContentNode()->getId());
-        $q->andWhere('row.pos < :pos');
-        $q->setParameter('pos', $section2->getPos());
-        $q->orderBy('row.pos', 'DESC');
-        $q->setMaxResults(1);
-
-        /** @var ArrayCollection $section1Coll */
-        $section1Coll = $q->getQuery()->getResult();
-
-        if (count($section1Coll) > 0) {
-            /** @var Section $section1 */
-            $section1 = $section1Coll[0];
-
-            $pos1 = $section1->getPos();
-            $pos2 = $section2->getPos();
-
-            $section1->setPos($pos2);
-            $section2->setPos($pos1);
-        }
-    }
-
-    public function moveDown($id): void {
-        /** @var Section $section1 */
-        $section1 = $this->findEntity(Section::class, $id);
-
-        $q = $this->getRepository()->createQueryBuilder('row');
-        $q->andWhere('row.contentNode = :contentNodeId');
-        $q->setParameter('contentNodeId', $section1->getContentNode()->getId());
-        $q->andWhere('row.pos > :pos');
-        $q->setParameter('pos', $section1->getPos());
-        $q->orderBy('row.pos', 'ASC');
-        $q->setMaxResults(1);
-
-        /** @var ArrayCollection $section2Coll */
-        $section2Coll = $q->getQuery()->getResult();
-
-        if (count($section2Coll) > 0) {
-            /** @var Section $section2 */
-            $section2 = $section2Coll[0];
-
-            $pos1 = $section1->getPos();
-            $pos2 = $section2->getPos();
-
-            $section1->setPos($pos2);
-            $section2->setPos($pos1);
-        }
     }
 
     protected function fetchAllQueryBuilder($params = []): QueryBuilder {
