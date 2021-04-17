@@ -38,7 +38,7 @@ Displays a field as a color picker (can be used with v-model)
 </template>
 
 <script>
-import BasePicker from './BasePicker'
+import BasePicker from './BasePicker.vue'
 
 export default {
   name: 'EColorPicker',

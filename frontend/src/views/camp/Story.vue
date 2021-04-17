@@ -58,8 +58,8 @@ Admin screen of a camp: Displays details & periods of a single camp and allows t
 </template>
 
 <script>
-import ContentCard from '@/components/layout/ContentCard'
-import StoryPeriod from '@/components/camp/StoryPeriod'
+import ContentCard from '@/components/layout/ContentCard.vue'
+import StoryPeriod from '@/components/camp/StoryPeriod.vue'
 
 const PRINT_SERVER = window.environment.PRINT_SERVER
 

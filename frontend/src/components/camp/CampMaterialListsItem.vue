@@ -43,10 +43,10 @@
 
 <script>
 
-import DialogMaterialListEdit from '@/components/dialog/DialogMaterialListEdit'
-import DialogEntityDelete from '@/components/dialog/DialogEntityDelete'
-import ButtonEdit from '@/components/buttons/ButtonEdit'
-import ButtonDelete from '@/components/buttons/ButtonDelete'
+import DialogMaterialListEdit from '@/components/dialog/DialogMaterialListEdit.vue'
+import DialogEntityDelete from '@/components/dialog/DialogEntityDelete.vue'
+import ButtonEdit from '@/components/buttons/ButtonEdit.vue'
+import ButtonDelete from '@/components/buttons/ButtonDelete.vue'
 
 export default {
   name: 'CampMaterialListsItem',

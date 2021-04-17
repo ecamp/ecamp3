@@ -37,12 +37,12 @@ Show all activity schedule entries of a single period.
   </content-card>
 </template>
 <script>
-import ContentCard from '@/components/layout/ContentCard'
-import Picasso from '@/components/camp/Picasso'
-import ActivityList from '@/components/camp/ActivityList'
-import ScheduleEntries from '@/components/scheduleEntry/ScheduleEntries'
-import PeriodSwitcher from '@/components/camp/PeriodSwitcher'
-import CampProgramViewModeSwitcher from '@/components/camp/CampProgramViewModeSwitcher'
+import ContentCard from '@/components/layout/ContentCard.vue'
+import Picasso from '@/components/camp/Picasso.vue'
+import ActivityList from '@/components/camp/ActivityList.vue'
+import ScheduleEntries from '@/components/scheduleEntry/ScheduleEntries.vue'
+import PeriodSwitcher from '@/components/camp/PeriodSwitcher.vue'
+import CampProgramViewModeSwitcher from '@/components/camp/CampProgramViewModeSwitcher.vue'
 
 export default {
   name: 'CampProgram',

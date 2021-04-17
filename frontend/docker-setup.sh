@@ -10,4 +10,4 @@ fi
 
 npm ci
 
-npm run serve
+npm run dev

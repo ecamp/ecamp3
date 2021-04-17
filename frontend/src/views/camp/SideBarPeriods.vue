@@ -26,9 +26,9 @@ Displays periods of a single camp.
   </side-bar>
 </template>
 <script>
-import SideBar from '@/components/navigation/SideBar'
-import ContentCard from '@/components/layout/ContentCard'
-import { periodRoute } from '@/router'
+import SideBar from '@/components/navigation/SideBar.vue'
+import ContentCard from '@/components/layout/ContentCard.vue'
+import { periodRoute } from '@/router.js'
 
 export default {
   name: 'SideBarPeriods',
