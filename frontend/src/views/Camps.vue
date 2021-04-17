@@ -1,56 +1,44 @@
 <template>
   <v-container fluid>
     <content-card :title="$tc('views.camps.title', camps.items.length)" max-width="800" toolbar>
+      <v-list class="py-0">
+        <template v-if="camps._meta.loading">
+          <v-skeleton-loader type="list-item-two-line" height="64" />
+          <v-skeleton-loader type="list-item-two-line" height="64" />
+        </template>
+        <v-list-item
+          v-for="camp in upcomingCamps"
+          :key="camp.id"
+          two-line
+          :to="campRoute(camp, 'program')">
+          <v-list-item-content>
+            <v-list-item-title>{{ camp.title }}</v-list-item-title>
+            <v-list-item-subtitle>
+              {{ camp.name }} - {{ camp.motto }}
+            </v-list-item-subtitle>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item>
+          <v-list-item-content />
+          <v-list-item-action>
+            <button-add
+              icon="mdi-plus"
+              :to="{ name: 'camps/create' }">
+              {{ $tc('views.camps.create') }}
+            </button-add>
+          </v-list-item-action>
+        </v-list-item>
+      </v-list>
       <v-expansion-panels
-        v-model="openPanels"
         multiple
         flat
         accordion>
         <v-expansion-panel>
           <v-expansion-panel-header>
             <h3 class="grey--text text--darken-1">
-              {{ $tc('views.camps.upcomingCamps') }}
-            </h3>
-          </v-expansion-panel-header>
-          <v-expansion-panel-content>
-            <v-list class="py-0">
-              <template v-if="camps._meta.loading">
-                <v-skeleton-loader type="list-item-two-line" height="64" />
-                <v-skeleton-loader type="list-item-two-line" height="64" />
-              </template>
-              <v-list-item
-                v-for="camp in upcomingCamps"
-                :key="camp.id"
-                two-line
-                :to="campRoute(camp, 'program')">
-                <v-list-item-content>
-                  <v-list-item-title>{{ camp.title }}</v-list-item-title>
-                  <v-list-item-subtitle>
-                    {{ camp.name }} - {{ camp.motto }}
-                  </v-list-item-subtitle>
-                </v-list-item-content>
-              </v-list-item>
-              <v-list-item>
-                <v-list-item-content />
-                <v-list-item-action>
-                  <button-add
-                    icon="mdi-plus"
-                    :to="{ name: 'camps/create' }">
-                    {{ $tc('views.camps.create') }}
-                  </button-add>
-                </v-list-item-action>
-              </v-list-item>
-            </v-list>
-          </v-expansion-panel-content>
-        </v-expansion-panel>
-
-        <v-expansion-panel>
-          <v-expansion-panel-header>
-            <h3 class="grey--text text--darken-1">
               {{ $tc('views.camps.prototypeCamps') }}
             </h3>
           </v-expansion-panel-header>
-
           <v-expansion-panel-content>
             <v-list class="py-0">
               <v-list-item
@@ -68,14 +56,12 @@
             </v-list>
           </v-expansion-panel-content>
         </v-expansion-panel>
-
         <v-expansion-panel>
           <v-expansion-panel-header>
             <h3 class="grey--text text--darken-1">
               {{ $tc('views.camps.pastCamps') }}
             </h3>
           </v-expansion-panel-header>
-
           <v-expansion-panel-content>
             <v-list class="py-0">
               <v-list-item
@@ -109,9 +95,6 @@ export default {
     ContentCard,
     ButtonAdd
   },
-  data: () => ({
-    openPanels: [0]
-  }),
   computed: {
     camps () {
       return this.api.get().camps()
@@ -140,5 +123,7 @@ export default {
 </script>
 
 <style scoped>
-
+  .v-expansion-panel-content >>> .v-expansion-panel-content__wrap {
+    padding: 0 !important;
+    }
 </style>
