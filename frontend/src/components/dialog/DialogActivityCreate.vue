@@ -18,9 +18,9 @@
 </template>
 
 <script>
-import DialogForm from './DialogForm'
-import DialogBase from './DialogBase'
-import DialogActivityForm from './DialogActivityForm'
+import DialogForm from './DialogForm.vue'
+import DialogBase from './DialogBase.vue'
+import DialogActivityForm from './DialogActivityForm.vue'
 
 export default {
   name: 'DialogActivityCreate',

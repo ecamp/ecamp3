@@ -29,11 +29,11 @@ Admin screen of a camp: Displays details & periods of a single camp and allows t
 </template>
 
 <script>
-import CampSettings from '@/components/camp/CampSettings'
-import CampPeriods from '@/components/camp/CampPeriods'
-import CampMaterialLists from '@/components/camp/CampMaterialLists'
-import CampCategories from '@/components/camp/CampCategories'
-import ContentCard from '@/components/layout/ContentCard'
+import CampSettings from '@/components/camp/CampSettings.vue'
+import CampPeriods from '@/components/camp/CampPeriods.vue'
+import CampMaterialLists from '@/components/camp/CampMaterialLists.vue'
+import CampCategories from '@/components/camp/CampCategories.vue'
+import ContentCard from '@/components/layout/ContentCard.vue'
 import CampDangerZone from '@/components/camp/CampDangerZone'
 
 export default {

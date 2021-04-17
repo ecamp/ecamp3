@@ -26,9 +26,9 @@ Displays details on a single camp and allows to edit them.
 </template>
 
 <script>
-import ApiTextField from '@/components/form/api/ApiTextField'
-import ContentGroup from '@/components/layout/ContentGroup'
-import ApiForm from '@/components/form/api/ApiForm'
+import ApiTextField from '@/components/form/api/ApiTextField.vue'
+import ContentGroup from '@/components/layout/ContentGroup.vue'
+import ApiForm from '@/components/form/api/ApiForm.vue'
 import ETextField from '@/components/form/base/ETextField'
 
 export default {

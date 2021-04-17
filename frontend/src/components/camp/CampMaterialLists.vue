@@ -26,10 +26,10 @@
 </template>
 
 <script>
-import ButtonAdd from '@/components/buttons/ButtonAdd'
-import CampMaterialListsItem from '@/components/camp/CampMaterialListsItem'
-import DialogMaterialListCreate from '@/components/dialog/DialogMaterialListCreate'
-import ContentGroup from '@/components/layout/ContentGroup'
+import ButtonAdd from '@/components/buttons/ButtonAdd.vue'
+import CampMaterialListsItem from '@/components/camp/CampMaterialListsItem.vue'
+import DialogMaterialListCreate from '@/components/dialog/DialogMaterialListCreate.vue'
+import ContentGroup from '@/components/layout/ContentGroup.vue'
 
 export default {
   name: 'CampMaterialLists',

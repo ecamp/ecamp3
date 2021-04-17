@@ -35,9 +35,9 @@
 </template>
 
 <script>
-import { campRoute } from '@/router'
-import ContentCard from '@/components/layout/ContentCard'
-import ButtonAdd from '@/components/buttons/ButtonAdd'
+import { campRoute } from '@/router.js'
+import ContentCard from '@/components/layout/ContentCard.vue'
+import ButtonAdd from '@/components/buttons/ButtonAdd.vue'
 
 export default {
   name: 'Camps',

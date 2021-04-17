@@ -24,8 +24,8 @@
 </template>
 
 <script>
-import DialogForm from './DialogForm'
-import DialogBase from './DialogBase'
+import DialogForm from './DialogForm.vue'
+import DialogBase from './DialogBase.vue'
 
 export default {
   name: 'DialogEntityDelete',

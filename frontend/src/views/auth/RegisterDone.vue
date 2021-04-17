@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import AuthContainer from '@/components/layout/AuthContainer'
+import AuthContainer from '@/components/layout/AuthContainer.vue'
 
 export default {
   name: 'RegisterDone',

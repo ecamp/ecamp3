@@ -75,10 +75,10 @@
 </template>
 
 <script>
-import DialogBase from '@/components/dialog/DialogBase'
-import DialogForm from '@/components/dialog/DialogForm'
-import DialogPeriodForm from './DialogPeriodForm'
-import ServerError from '@/components/form/ServerError'
+import DialogBase from '@/components/dialog/DialogBase.vue'
+import DialogForm from '@/components/dialog/DialogForm.vue'
+import DialogPeriodForm from './DialogPeriodForm.vue'
+import ServerError from '@/components/form/ServerError.vue'
 
 export default {
   name: 'DialogPeriodEdit',

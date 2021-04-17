@@ -26,7 +26,7 @@ Displays the content wrapped inside a card.
 </template>
 
 <script>
-import ButtonBack from '@/components/buttons/ButtonBack'
+import ButtonBack from '@/components/buttons/ButtonBack.vue'
 
 export default {
   name: 'ContentCard',

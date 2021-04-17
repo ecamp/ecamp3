@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import { campRoute } from '@/router'
+import { campRoute } from '@/router.js'
 
 export default {
   name: 'Logo',

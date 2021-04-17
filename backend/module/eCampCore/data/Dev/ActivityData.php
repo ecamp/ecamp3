@@ -1,12 +1,14 @@
 <?php
 
-namespace eCamp\CoreData;
+namespace eCamp\CoreData\Dev;
 
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use eCamp\Core\Entity\Activity;
 use eCamp\Core\Entity\Camp;
 use eCamp\Core\Entity\Category;
+use eCamp\CoreData\Prod\CategoryPrototypeData;
+use eCamp\CoreData\Prod\ContentTypeData;
 use eCamp\Lib\Fixture\ContainerAwareInterface;
 use eCamp\Lib\Fixture\ContainerAwareTrait;
 

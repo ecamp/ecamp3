@@ -16,10 +16,10 @@
 </template>
 
 <script>
-import DialogForm from './DialogForm'
-import DialogBase from './DialogBase'
-import DialogPeriodForm from './DialogPeriodForm'
-import ServerError from '@/components/form/ServerError'
+import DialogForm from './DialogForm.vue'
+import DialogBase from './DialogBase.vue'
+import DialogPeriodForm from './DialogPeriodForm.vue'
+import ServerError from '@/components/form/ServerError.vue'
 
 export default {
   name: 'DialogPeriodCreate',

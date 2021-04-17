@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import ContentCard from '@/components/layout/ContentCard'
+import ContentCard from '@/components/layout/ContentCard.vue'
 
 export default {
   name: 'Home',

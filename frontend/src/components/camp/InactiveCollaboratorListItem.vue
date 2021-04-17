@@ -41,9 +41,9 @@
 
 <script>
 
-import IconButton from '@/components/buttons/IconButton'
-import ButtonDelete from '@/components/buttons/ButtonDelete'
-import DialogEntityDelete from '@/components/dialog/DialogEntityDelete'
+import IconButton from '@/components/buttons/IconButton.vue'
+import ButtonDelete from '@/components/buttons/ButtonDelete.vue'
+import DialogEntityDelete from '@/components/dialog/DialogEntityDelete.vue'
 
 export default {
   name: 'InactiveCollaboratorListItem',

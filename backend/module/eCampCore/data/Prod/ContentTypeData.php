@@ -1,6 +1,6 @@
 <?php
 
-namespace eCamp\CoreData;
+namespace eCamp\CoreData\Prod;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Persistence\ObjectManager;
