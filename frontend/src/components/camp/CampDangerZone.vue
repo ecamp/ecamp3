@@ -45,7 +45,7 @@ import DialogEntityDelete from '@/components/dialog/DialogEntityDelete'
 import ETextField from '@/components/form/base/ETextField'
 
 export default {
-  name: 'DangerZone',
+  name: 'CampDangerZone',
   components: { ETextField, DialogEntityDelete, ButtonDelete, ContentGroup },
   props: {
     camp: {
