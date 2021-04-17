@@ -14,7 +14,7 @@ docker-build:
 
 run-backend:
 	docker-compose up -d db phpmyadmin
-	docker-compose run -d --name backend           --service-ports --entrypoint "./docker-setup.sh" backend 
+	docker-compose run -d --name backend           --service-ports --entrypoint "./docker-setup.sh" backend
 
 run-frontend-vuecli:
 	docker-compose run    --name frontend          --service-ports frontend npm run serve
@@ -30,7 +30,7 @@ run-printer:
 
 test:
 	docker exec -it backend composer test
-	docker exec -it forntend npm run test:unit
+	docker exec -it frontend npm run test:unit
 
 lint:
 	docker exec -it backend ./vendor/bin/php-cs-fixer fix
