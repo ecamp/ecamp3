@@ -21,6 +21,13 @@
             <v-toolbar-title>
               {{ title }}
             </v-toolbar-title>
+            <v-btn v-if="$vuetify.breakpoint.smAndUp" icon
+                   class="ml-auto"
+                   :title="$tc('global.button.cancel')"
+                   @click="doCancel">
+              <v-icon>mdi-close</v-icon>
+              <span class="d-sr-only">{{ $tc('global.button.cancel') }}</span>
+            </v-btn>
           </v-toolbar>
           <div class="pa-4">
             <slot />
