@@ -18,9 +18,7 @@
               required />
             <e-text-field
               v-model="camp.motto"
-              :name="$tc('entity.camp.fields.motto')"
-              vee-rules="required"
-              required />
+              :name="$tc('entity.camp.fields.motto')" />
             <e-select
               v-model="camp.campPrototypeId"
               :name="$tc('entity.camp.prototype')"
