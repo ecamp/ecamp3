@@ -46,7 +46,7 @@ Displays collaborators of a single camp.
                 sm="12"
                 md="3">
                 <e-select
-                  :value="inviteRole"
+                  v-model="inviteRole"
                   :items="[
                     { key: 'member', translation: $tc('entity.camp.collaborators.member') },
                     { key: 'manager', translation: $tc('entity.camp.collaborators.manager') },
