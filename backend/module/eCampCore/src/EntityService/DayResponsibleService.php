@@ -14,6 +14,7 @@ class DayResponsibleService extends AbstractEntityService {
         parent::__construct(
             $serviceUtils,
             DayResponsible::class,
+            null,
             DayResponsibleHydrator::class,
             $authenticationService
         );
