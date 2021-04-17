@@ -256,7 +256,6 @@
     },
     "changeLanguage": "Sprache ändern",
     "empty": {
-      "list": "Leer | Noch keine {entities}",
       "result": "Kein Resultat | Keine Resultate",
       "resultFor": "Kein Resultat für {search} | Keine Resultate für {search}"
     },
