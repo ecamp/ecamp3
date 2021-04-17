@@ -85,7 +85,7 @@ export default {
     }
   },
   mounted () {
-    this.day.scheduleEntries().items.map(entry => this.api.reload(entry.activity().contentNodes()))
+    this.day.scheduleEntries().items.forEach(entry => this.api.reload(entry.activity().contentNodes()))
   },
   methods: {
     addDays (date, days) {
