@@ -83,22 +83,39 @@ JSON;
         $this->assertEquals($this->contentNode->getId(), $this->getResponseContent()->_embedded->items[0]->id);
     }
 
-    public function testCreateRootNode(): void {
+    public function testCreateRootNode_isNotPossible(): void {
         $this->setRequestContent([
             'ownerId' => $this->contentNode->getOwner()->getId(),
             'contentTypeId' => $this->contentNode->getContentType()->getId(),
         ]);
         $this->dispatch("{$this->apiEndpoint}", 'POST');
-        $this->assertResponseStatusCode(201);
+        $this->assertResponseStatusCode(422);
+        $this->assertObjectHasAttribute('required', $this->getResponseContent()->validation_messages->parentId);
     }
 
     public function testCreateChildNode(): void {
         $this->setRequestContent([
             'parentId' => $this->contentNode->getId(),
             'contentTypeId' => $this->contentNode->getContentType()->getId(),
+            'slot' => '1',
+            'position' => 20
         ]);
         $this->dispatch("{$this->apiEndpoint}", 'POST');
         $this->assertResponseStatusCode(201);
+
+        $this->assertEquals(20, $this->getResponseContent()->position);
+    }
+
+    public function testCreateChildNode_automaticallySetsPosition_whenNotPassed(): void {
+        $this->setRequestContent([
+            'parentId' => $this->contentNode->getId(),
+            'contentTypeId' => $this->contentNode->getContentType()->getId(),
+            'slot' => '1'
+        ]);
+        $this->dispatch("{$this->apiEndpoint}", 'POST');
+        $this->assertResponseStatusCode(201);
+
+        $this->assertEquals(1, $this->getResponseContent()->position);
     }
 
     public function testPatch(): void {

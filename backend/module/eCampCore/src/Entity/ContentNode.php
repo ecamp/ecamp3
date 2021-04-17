@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 use eCamp\Lib\Entity\BaseEntity;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="eCamp\Core\Repository\ContentNodeRepository")
  * @ORM\HasLifecycleCallbacks
  */
 class ContentNode extends BaseEntity implements BelongsToCampInterface {
