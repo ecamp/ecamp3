@@ -1,5 +1,3 @@
-// vite.config.js
-
 import { defineConfig } from 'vite'
 import { createVuePlugin } from 'vite-plugin-vue2'
 import { createSvgPlugin } from 'vite-plugin-vue2-svg'
@@ -44,14 +42,14 @@ export default defineConfig({
           '@import "./node_modules/vuetify/src/styles/styles.sass";', // original default variables from vuetify
           '@import "@/scss/variables.scss";', // vuetify variable overrides
           ''
-        ].join('\r\n')
+        ].join('\n')
       },
       sass: {
         additionalData: [
           '@import "./node_modules/vuetify/src/styles/styles.sass"', // original default variables from vuetify
           '@import "@/scss/variables.scss"', // vuetify variable overrides
           ''
-        ].join('\r\n')
+        ].join('\n')
       }
     }
   }
