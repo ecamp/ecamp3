@@ -24,14 +24,10 @@ class AclService {
      * @throws NotAuthenticatedException
      */
     public function assertAllowed($resource, $privilege = null): void {
-        $user = $this->getAuthUser();
-        if (null == $user) {
-            throw new NotAuthenticatedException();
-        }
-        $this->serviceUtils->aclAssertAllowed($user, $resource, $privilege);
+        $this->serviceUtils->aclAssertAllowed($this->assertAuthenticated(), $resource, $privilege);
     }
 
-    private function getAuthUser(): ?User {
+    public function getAuthUser(): ?User {
         /** @var User $user */
         $user = null;
 
@@ -39,6 +35,18 @@ class AclService {
             $userRepository = $this->serviceUtils->emGetRepository(User::class);
             $userId = $this->authenticationService->getIdentity();
             $user = $userRepository->find($userId);
+        }
+
+        return $user;
+    }
+
+    /**
+     * @throws NotAuthenticatedException
+     */
+    public function assertAuthenticated(): ?User {
+        $user = $this->getAuthUser();
+        if (null == $user) {
+            throw new NotAuthenticatedException();
         }
 
         return $user;
