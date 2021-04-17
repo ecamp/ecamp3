@@ -117,8 +117,7 @@ JSON;
 
         $this->assertResponseStatusCode(200);
 
-        $this->assertEquals('CampName', $this->getResponseContent()->name); // camp name not changeable
-
+        $this->assertEquals('CampName3', $this->getResponseContent()->name);
         $this->assertEquals('CampTitle3', $this->getResponseContent()->title);
         $this->assertEquals('CampMotto3', $this->getResponseContent()->motto);
         $this->assertEquals('CampTitle3', $this->camp->getTitle());
