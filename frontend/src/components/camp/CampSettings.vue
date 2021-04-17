@@ -41,9 +41,7 @@ export default {
     }
   },
   data () {
-    return {
-      promptText: ''
-    }
+    return {}
   }
 }
 </script>
