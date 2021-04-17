@@ -34,7 +34,7 @@ import CampPeriods from '@/components/camp/CampPeriods'
 import CampMaterialLists from '@/components/camp/CampMaterialLists'
 import CampCategories from '@/components/camp/CampCategories'
 import ContentCard from '@/components/layout/ContentCard'
-import CampDangerZone from '@/views/camp/CampDangerZone'
+import CampDangerZone from '@/components/camp/CampDangerZone'
 
 export default {
   name: 'Admin',
