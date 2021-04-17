@@ -4,7 +4,7 @@
            min-width="0" rounded
            exact :to="{ name: 'home'}">
       <v-toolbar-title>
-        <!-- <v-icon>$vuetify.icons.ecamp</v-icon>️ --><span v-if="text" class="ml-4 mr-2">eCamp</span>
+        <v-icon>$vuetify.icons.ecamp</v-icon>️<span v-if="text" class="ml-4 mr-2">eCamp</span>
       </v-toolbar-title>
     </v-btn>
     <slot />
