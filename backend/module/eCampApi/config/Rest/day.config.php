@@ -6,6 +6,6 @@ return Config::Create('Day')
     ->setEntityHttpMethods(['GET', 'PATCH'])
     ->setCollectionHttpMethodsReadonly()
     ->addCollectionQueryWhitelist('campId', 'periodId')
-    ->addInputFilter('campCollaborations')
+    ->addInputFilter('dayResponsibles')
     ->buildConfig()
 ;

@@ -66,7 +66,7 @@ JSON;
                 }
             }
 JSON;
-        $expectedEmbeddedObjects = ['period', 'scheduleEntries', 'campCollaborations'];
+        $expectedEmbeddedObjects = ['period', 'scheduleEntries', 'dayResponsibles'];
 
         $this->verifyHalResourceResponse($expectedBody, $expectedLinks, $expectedEmbeddedObjects);
     }
@@ -129,29 +129,29 @@ JSON;
     public function testUpdateCampCollaborations(): void {
         // Add CampCollaboration
         $this->setRequestContent([
-            'campCollaborations' => [['id' => $this->campCollaboration->getId()]],
+            'dayResponsibles' => [['id' => $this->campCollaboration->getId()]],
         ]);
         $this->dispatch("{$this->apiEndpoint}/{$this->day->getId()}", 'PATCH');
         $this->assertResponseStatusCode(200);
 
         $resp = $this->getResponseContent();
-        $this->assertCount(1, $resp->_embedded->campCollaborations);
-        $this->assertEquals($this->campCollaboration->getId(), $resp->_embedded->campCollaborations[0]->id);
+        $this->assertCount(1, $resp->_embedded->dayResponsibles);
+        $this->assertEquals($this->campCollaboration->getId(), $resp->_embedded->dayResponsibles[0]->id);
     }
 
     public function testClearCampCollaborations(): void {
         /** @var DayService $dayService */
         $dayService = $this->getApplication()->getServiceManager()->get(DayService::class);
         $dayService->patch($this->day->getId(), (object) [
-            'campCollaborations' => [['id' => $this->campCollaboration->getId()]],
+            'dayResponsibles' => [['id' => $this->campCollaboration->getId()]],
         ]);
 
         // Set Empty List
-        $this->setRequestContent(['campCollaborations' => []]);
+        $this->setRequestContent(['dayResponsibles' => []]);
         $this->dispatch("{$this->apiEndpoint}/{$this->day->getId()}", 'PATCH');
         $this->assertResponseStatusCode(200);
 
         $resp = $this->getResponseContent();
-        $this->assertCount(0, $resp->_embedded->campCollaborations);
+        $this->assertCount(0, $resp->_embedded->dayResponsibles);
     }
 }

@@ -101,10 +101,10 @@ class DayService extends AbstractEntityService {
     }
 
     private function updateDayResponsibles(Day $day, $data): void {
-        if (isset($data->campCollaborations)) {
+        if (isset($data->dayResponsibles)) {
             $ccIds = array_map(function ($cc) {
                 return $cc['id'];
-            }, $data->campCollaborations);
+            }, $data->dayResponsibles);
 
             foreach ($day->getDayResponsibles() as $dayResponsible) {
                 $campCollaboration = $dayResponsible->getCampCollaboration();

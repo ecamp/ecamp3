@@ -13,7 +13,7 @@ use Laminas\Hydrator\HydratorInterface;
 class DayHydrator implements HydratorInterface {
     public static function HydrateInfo(): array {
         return [
-            'campCollaborations' => Util::Collection(function (Day $d) {
+            'dayResponsibles' => Util::Collection(function (Day $d) {
                 return new CampCollaborationCollection(
                     $d->getDayResponsibles()->map(function (DayResponsible $ar) {
                         return $ar->getCampCollaboration();
