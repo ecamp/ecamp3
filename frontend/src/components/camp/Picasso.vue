@@ -478,7 +478,6 @@ export default {
   font-size: 11px;
   font-feature-settings: "tnum";
   letter-spacing: -.1px;
-  white-space: break-spaces;
 
   .elipsis {
     text-overflow: ellipsis;
