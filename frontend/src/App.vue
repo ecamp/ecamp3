@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import LanguageSwitcher from '@/components/layout/LanguageSwitcher'
+import LanguageSwitcher from '@/components/layout/LanguageSwitcher.vue'
 import VueI18n from '@/plugins/i18n'
 import urltemplate from 'url-template'
 

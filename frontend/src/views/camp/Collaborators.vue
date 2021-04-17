@@ -46,7 +46,7 @@ Displays collaborators of a single camp.
                 sm="12"
                 md="3">
                 <e-select
-                  :value="inviteRole"
+                  v-model="inviteRole"
                   :items="[
                     { key: 'member', translation: $tc('entity.camp.collaborators.member') },
                     { key: 'manager', translation: $tc('entity.camp.collaborators.manager') },
@@ -70,13 +70,13 @@ Displays collaborators of a single camp.
   </content-card>
 </template>
 <script>
-import ContentCard from '@/components/layout/ContentCard'
-import ContentGroup from '@/components/layout/ContentGroup'
-import CollaboratorListItem from '@/components/camp/CollaboratorListItem'
-import ButtonAdd from '@/components/buttons/ButtonAdd'
-import ETextField from '@/components/form/base/ETextField'
-import ESelect from '@/components/form/base/ESelect'
-import InactiveCollaboratorListItem from '@/components/camp/InactiveCollaboratorListItem'
+import ContentCard from '@/components/layout/ContentCard.vue'
+import ContentGroup from '@/components/layout/ContentGroup.vue'
+import CollaboratorListItem from '@/components/camp/CollaboratorListItem.vue'
+import ButtonAdd from '@/components/buttons/ButtonAdd.vue'
+import ETextField from '@/components/form/base/ETextField.vue'
+import ESelect from '@/components/form/base/ESelect.vue'
+import InactiveCollaboratorListItem from '@/components/camp/InactiveCollaboratorListItem.vue'
 
 const DEFAULT_INVITE_ROLE = 'member'
 

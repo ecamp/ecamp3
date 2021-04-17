@@ -7,7 +7,7 @@
           <v-skeleton-loader type="list-item-two-line" height="64" />
         </template>
         <v-list-item
-          v-for="camp in camps.items"
+          v-for="camp in upcomingCamps"
           :key="camp.id"
           two-line
           :to="campRoute(camp, 'program')">
@@ -17,19 +17,7 @@
               {{ camp.name }} - {{ camp.motto }}
             </v-list-item-subtitle>
           </v-list-item-content>
-          <v-list-item-action>
-            <dialog-entity-delete :entity="camp">
-              <template #activator="{ on }">
-                <button-delete @click.prevent="on.click" />
-              </template>
-              {{ $tc('components.dialog.dialogEntityDelete.warningText') }}
-              <ul>
-                <li>{{ camp.title }}</li>
-              </ul>
-            </dialog-entity-delete>
-          </v-list-item-action>
         </v-list-item>
-        <v-divider />
         <v-list-item>
           <v-list-item-content />
           <v-list-item-action>
@@ -41,28 +29,88 @@
           </v-list-item-action>
         </v-list-item>
       </v-list>
+      <v-expansion-panels
+        multiple
+        flat
+        accordion>
+        <v-expansion-panel>
+          <v-expansion-panel-header>
+            <h3 class="grey--text text--darken-1">
+              {{ $tc('views.camps.prototypeCamps') }}
+            </h3>
+          </v-expansion-panel-header>
+          <v-expansion-panel-content>
+            <v-list class="py-0">
+              <v-list-item
+                v-for="camp in prototypeCamps"
+                :key="camp.id"
+                two-line
+                :to="campRoute(camp, 'program')">
+                <v-list-item-content>
+                  <v-list-item-title>{{ camp.title }}</v-list-item-title>
+                  <v-list-item-subtitle>
+                    {{ camp.name }} - {{ camp.motto }}
+                  </v-list-item-subtitle>
+                </v-list-item-content>
+              </v-list-item>
+            </v-list>
+          </v-expansion-panel-content>
+        </v-expansion-panel>
+        <v-expansion-panel>
+          <v-expansion-panel-header>
+            <h3 class="grey--text text--darken-1">
+              {{ $tc('views.camps.pastCamps') }}
+            </h3>
+          </v-expansion-panel-header>
+          <v-expansion-panel-content>
+            <v-list class="py-0">
+              <v-list-item
+                v-for="camp in pastCamps"
+                :key="camp.id"
+                two-line
+                :to="campRoute(camp, 'program')">
+                <v-list-item-content>
+                  <v-list-item-title>{{ camp.title }}</v-list-item-title>
+                  <v-list-item-subtitle>
+                    {{ camp.name }} - {{ camp.motto }}
+                  </v-list-item-subtitle>
+                </v-list-item-content>
+              </v-list-item>
+            </v-list>
+          </v-expansion-panel-content>
+        </v-expansion-panel>
+      </v-expansion-panels>
     </content-card>
   </v-container>
 </template>
 
 <script>
-import { campRoute } from '@/router'
-import ContentCard from '@/components/layout/ContentCard'
-import ButtonAdd from '@/components/buttons/ButtonAdd'
-import ButtonDelete from '@/components/buttons/ButtonDelete'
-import DialogEntityDelete from '@/components/dialog/DialogEntityDelete'
+import { campRoute } from '@/router.js'
+import ContentCard from '@/components/layout/ContentCard.vue'
+import ButtonAdd from '@/components/buttons/ButtonAdd.vue'
 
 export default {
   name: 'Camps',
   components: {
     ContentCard,
-    ButtonAdd,
-    ButtonDelete,
-    DialogEntityDelete
+    ButtonAdd
   },
   computed: {
     camps () {
       return this.api.get().camps()
+    },
+    prototypeCamps () {
+      return this.camps.items.filter(c => c.isPrototype)
+    },
+    upcomingCamps () {
+      return this.camps.items
+        .filter(c => !c.isPrototype)
+        .filter(c => c.periods().items.some(p => new Date(p.end) > new Date()))
+    },
+    pastCamps () {
+      return this.camps.items
+        .filter(c => !c.isPrototype)
+        .filter(c => !c.periods().items.some(p => new Date(p.end) > new Date()))
     }
   },
   mounted () {
@@ -75,5 +123,7 @@ export default {
 </script>
 
 <style scoped>
-
+  .v-expansion-panel-content >>> .v-expansion-panel-content__wrap {
+    padding: 0 !important;
+    }
 </style>

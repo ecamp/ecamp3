@@ -25,7 +25,7 @@
 
 <script>
 import { ValidationProvider } from 'vee-validate'
-import { formComponentPropsMixin } from '@/mixins/formComponentPropsMixin'
+import { formComponentPropsMixin } from '@/mixins/formComponentPropsMixin.js'
 
 export default {
   name: 'ESwitch',

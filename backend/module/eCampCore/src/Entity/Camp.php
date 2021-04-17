@@ -11,9 +11,7 @@ use eCamp\Lib\Entity\BaseEntity;
 /**
  * @ORM\Entity(repositoryClass="eCamp\Core\Repository\CampRepository")
  * @ORM\HasLifecycleCallbacks
- * @ORM\Table(uniqueConstraints={
- *     @ORM\UniqueConstraint(name="owner_name_unique", columns={"ownerId", "name"})
- * })
+ * @ORM\Table
  * @EntityFilter(filterClass="eCamp\Core\EntityFilter\CampFilter")
  */
 class Camp extends BaseEntity implements BelongsToCampInterface {

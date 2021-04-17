@@ -67,7 +67,7 @@
 </template>
 
 <script>
-import { campRoute } from '@/router'
+import { campRoute } from '@/router.js'
 import { ValidationObserver } from 'vee-validate'
 
 export default {

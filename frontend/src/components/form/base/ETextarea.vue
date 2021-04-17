@@ -26,8 +26,8 @@
 
 <script>
 import { ValidationProvider } from 'vee-validate'
-import { formComponentPropsMixin } from '@/mixins/formComponentPropsMixin'
-import VTiptapEditor from '@/components/form/tiptap/VTiptapEditor'
+import { formComponentPropsMixin } from '@/mixins/formComponentPropsMixin.js'
+import VTiptapEditor from '@/components/form/tiptap/VTiptapEditor.vue'
 
 export default {
   name: 'ETextarea',

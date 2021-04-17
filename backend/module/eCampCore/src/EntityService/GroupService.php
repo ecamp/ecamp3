@@ -14,6 +14,7 @@ class GroupService extends AbstractEntityService {
         parent::__construct(
             $serviceUtils,
             Group::class,
+            null,
             GroupHydrator::class,
             $authenticationService
         );

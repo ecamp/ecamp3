@@ -11,6 +11,7 @@ Displays all periods of a single camp and allows to edit them & create new ones
           <template #activator="{ on }">
             <button-add color="secondary" text
                         :hide-label="true"
+                        class="my-n2"
                         v-on="on">
               {{ $tc('components.camp.campCategories.create') }}
             </button-add>
@@ -87,13 +88,13 @@ Displays all periods of a single camp and allows to edit them & create new ones
 </template>
 
 <script>
-import ButtonAdd from '@/components/buttons/ButtonAdd'
-import ButtonEdit from '@/components/buttons/ButtonEdit'
-import ButtonDelete from '@/components/buttons/ButtonDelete'
-import ContentGroup from '@/components/layout/ContentGroup'
-import DialogCategoryEdit from '@/components/dialog/DialogCategoryEdit'
-import DialogCategoryCreate from '@/components/dialog/DialogCategoryCreate'
-import DialogEntityDelete from '@/components/dialog/DialogEntityDelete'
+import ButtonAdd from '@/components/buttons/ButtonAdd.vue'
+import ButtonEdit from '@/components/buttons/ButtonEdit.vue'
+import ButtonDelete from '@/components/buttons/ButtonDelete.vue'
+import ContentGroup from '@/components/layout/ContentGroup.vue'
+import DialogCategoryEdit from '@/components/dialog/DialogCategoryEdit.vue'
+import DialogCategoryCreate from '@/components/dialog/DialogCategoryCreate.vue'
+import DialogEntityDelete from '@/components/dialog/DialogEntityDelete.vue'
 
 export default {
   name: 'CampCategories',

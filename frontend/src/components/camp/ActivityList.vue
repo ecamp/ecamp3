@@ -28,7 +28,7 @@ Lists all activity instances in a list view.
   </v-list>
 </template>
 <script>
-import { scheduleEntryRoute } from '@/router'
+import { scheduleEntryRoute } from '@/router.js'
 
 export default {
   name: 'ActivityList',

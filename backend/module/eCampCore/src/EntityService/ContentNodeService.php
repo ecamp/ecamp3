@@ -14,6 +14,7 @@ use eCamp\Lib\Acl\NoAccessException;
 use eCamp\Lib\Entity\BaseEntity;
 use eCamp\Lib\Service\EntityValidationException;
 use eCamp\Lib\Service\ServiceUtils;
+use eCampApi\V1\Rest\ContentNode\ContentNodeCollection;
 use Laminas\Authentication\AuthenticationService;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
@@ -29,6 +30,7 @@ class ContentNodeService extends AbstractEntityService {
         parent::__construct(
             $serviceUtils,
             ContentNode::class,
+            ContentNodeCollection::class,
             ContentNodeHydrator::class,
             $authenticationService
         );

@@ -361,6 +361,8 @@
     },
     "camps": {
       "create": "Lager erstellen",
+      "pastCamps": "Alte Lager",
+      "prototypeCamps": "Vorlagen",
       "title": "Mein Lager | Meine Lager"
     },
     "home": {

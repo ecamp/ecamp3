@@ -38,8 +38,7 @@ class CampHydratorTest extends AbstractTestCase {
         $hydrator = new CampHydrator();
         $hydrator->hydrate($data, $camp);
 
-        // Name must not be set by hydrator
-        $this->assertEquals(null, $camp->getName());
+        $this->assertEquals('name', $camp->getName());
         $this->assertEquals('title', $camp->getTitle());
         $this->assertEquals('motto', $camp->getMotto());
         $this->assertTrue($camp->getIsPrototype());

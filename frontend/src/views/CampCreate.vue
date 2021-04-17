@@ -18,9 +18,7 @@
               required />
             <e-text-field
               v-model="camp.motto"
-              :name="$tc('entity.camp.fields.motto')"
-              vee-rules="required"
-              required />
+              :name="$tc('entity.camp.fields.motto')" />
             <e-select
               v-model="camp.campPrototypeId"
               :name="$tc('entity.camp.prototype')"
@@ -50,15 +48,15 @@
 </template>
 
 <script>
-import ButtonAdd from '@/components/buttons/ButtonAdd'
-import ButtonCancel from '@/components/buttons/ButtonCancel'
-import ContentCard from '@/components/layout/ContentCard'
-import ETextField from '@/components/form/base/ETextField'
-import ESelect from '@/components/form/base/ESelect'
-import { campRoute } from '@/router'
-import ServerError from '@/components/form/ServerError'
+import ButtonAdd from '@/components/buttons/ButtonAdd.vue'
+import ButtonCancel from '@/components/buttons/ButtonCancel.vue'
+import ContentCard from '@/components/layout/ContentCard.vue'
+import ETextField from '@/components/form/base/ETextField.vue'
+import ESelect from '@/components/form/base/ESelect.vue'
+import { campRoute } from '@/router.js'
+import ServerError from '@/components/form/ServerError.vue'
 import { ValidationObserver } from 'vee-validate'
-import CreateCampPeriods from '@/components/camp/CreateCampPeriods'
+import CreateCampPeriods from '@/components/camp/CreateCampPeriods.vue'
 
 export default {
   name: 'Camps',

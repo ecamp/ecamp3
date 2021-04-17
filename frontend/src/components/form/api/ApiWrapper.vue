@@ -28,7 +28,7 @@ Wrapper component for form components to save data back to API
 <script>
 
 import { debounce } from 'lodash'
-import { apiPropsMixin } from '@/mixins/apiPropsMixin'
+import { apiPropsMixin } from '@/mixins/apiPropsMixin.js'
 import { ValidationObserver } from 'vee-validate'
 
 export default {
