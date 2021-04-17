@@ -84,6 +84,9 @@ export default {
       return this.entries.filter(({ storyChapters }) => storyChapters.length)
     }
   },
+  mounted () {
+    this.day.scheduleEntries().items.map(entry => this.api.reload(entry.activity().contentNodes()))
+  },
   methods: {
     addDays (date, days) {
       return Date.parse(date) + days * 24 * 60 * 60 * 1000
