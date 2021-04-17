@@ -30,6 +30,11 @@ class CampCollaboration extends BaseEntity implements BelongsToCampInterface {
     ];
 
     /**
+     * @ORM\OneToMany(targetEntity="DayResponsible", mappedBy="campCollaboration", orphanRemoval=true)
+     */
+    protected Collection $dayResponsibles;
+
+    /**
      * @ORM\OneToMany(targetEntity="ActivityResponsible", mappedBy="campCollaboration", orphanRemoval=true)
      */
     protected Collection $activityResponsibles;
@@ -181,5 +186,19 @@ class CampCollaboration extends BaseEntity implements BelongsToCampInterface {
     public function removeActivityResponsible(ActivityResponsible $activityResponsible): void {
         $activityResponsible->setCampCollaboration(null);
         $this->activityResponsibles->removeElement($activityResponsible);
+    }
+
+    public function getDayResponsibles(): Collection {
+        return $this->dayResponsibles;
+    }
+
+    public function addDayResponsible(DayResponsible $dayResponsible): void {
+        $dayResponsible->setCampCollaboration($this);
+        $this->dayResponsibles->add($dayResponsible);
+    }
+
+    public function removeDayResponsible(DayResponsible $dayResponsible): void {
+        $dayResponsible->setCampCollaboration(null);
+        $this->dayResponsibles->removeElement($dayResponsible);
     }
 }

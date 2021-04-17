@@ -5,6 +5,8 @@ namespace eCamp\ApiTest\Rest;
 use Doctrine\Common\DataFixtures\Loader;
 use eCamp\Core\Entity\Day;
 use eCamp\Core\Entity\User;
+use eCamp\Core\EntityService\DayService;
+use eCamp\CoreTest\Data\CampCollaborationTestData;
 use eCamp\CoreTest\Data\PeriodTestData;
 use eCamp\CoreTest\Data\UserTestData;
 use eCamp\LibTest\PHPUnit\AbstractApiControllerTestCase;
@@ -19,21 +21,27 @@ class DayTest extends AbstractApiControllerTestCase {
     /** @var User */
     protected $user;
 
+    /** @var CampCollaboration */
+    protected $campCollaboration;
+
     private $apiEndpoint = '/api/days';
 
     public function setUp(): void {
         parent::setUp();
 
         $userLoader = new UserTestData();
+        $campCollaborationLoader = new CampCollaborationTestData();
         $periodLoader = new PeriodTestData();
 
         $loader = new Loader();
         $loader->addFixture($userLoader);
+        $loader->addFixture($campCollaborationLoader);
         $loader->addFixture($periodLoader);
         $this->loadFixtures($loader);
 
         $this->user = $userLoader->getReference(UserTestData::$USER1);
         $this->day = $periodLoader->getReference(PeriodTestData::$DAY1);
+        $this->campCollaboration = $campCollaborationLoader->getReference(CampCollaborationTestData::$COLLAB1);
 
         $this->authenticateUser($this->user);
     }
@@ -58,7 +66,7 @@ JSON;
                 }
             }
 JSON;
-        $expectedEmbeddedObjects = ['period', 'scheduleEntries'];
+        $expectedEmbeddedObjects = ['period', 'scheduleEntries', 'campCollaborations'];
 
         $this->verifyHalResourceResponse($expectedBody, $expectedLinks, $expectedEmbeddedObjects);
     }
@@ -116,5 +124,34 @@ JSON;
 
         // Single days should not be deleted via API directly (only by changing the parent Period)
         $this->assertResponseStatusCode(405); //405 = Method not allowed
+    }
+
+    public function testUpdateCampCollaborations(): void {
+        // Add CampCollaboration
+        $this->setRequestContent([
+            'campCollaborations' => [['id' => $this->campCollaboration->getId()]],
+        ]);
+        $this->dispatch("{$this->apiEndpoint}/{$this->day->getId()}", 'PATCH');
+        $this->assertResponseStatusCode(200);
+
+        $resp = $this->getResponseContent();
+        $this->assertCount(1, $resp->_embedded->campCollaborations);
+        $this->assertEquals($this->campCollaboration->getId(), $resp->_embedded->campCollaborations[0]->id);
+    }
+
+    public function testClearCampCollaborations(): void {
+        /** @var DayService $dayService */
+        $dayService = $this->getApplication()->getServiceManager()->get(DayService::class);
+        $dayService->patch($this->day->getId(), (object) [
+            'campCollaborations' => [['id' => $this->campCollaboration->getId()]],
+        ]);
+
+        // Set Empty List
+        $this->setRequestContent(['campCollaborations' => []]);
+        $this->dispatch("{$this->apiEndpoint}/{$this->day->getId()}", 'PATCH');
+        $this->assertResponseStatusCode(200);
+
+        $resp = $this->getResponseContent();
+        $this->assertCount(0, $resp->_embedded->campCollaborations);
     }
 }

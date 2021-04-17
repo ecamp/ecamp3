@@ -3,13 +3,23 @@
 namespace eCamp\Core\Hydrator;
 
 use eCamp\Core\Entity\Day;
+use eCamp\Core\Entity\DayResponsible;
 use eCamp\Lib\Entity\EntityLink;
 use eCamp\Lib\Entity\EntityLinkCollection;
+use eCamp\Lib\Hydrator\Util;
+use eCampApi\V1\Rest\CampCollaboration\CampCollaborationCollection;
 use Laminas\Hydrator\HydratorInterface;
 
 class DayHydrator implements HydratorInterface {
     public static function HydrateInfo(): array {
         return [
+            'campCollaborations' => Util::Collection(function (Day $d) {
+                return new CampCollaborationCollection(
+                    $d->getDayResponsibles()->map(function (DayResponsible $ar) {
+                        return $ar->getCampCollaboration();
+                    })
+                );
+            }, null),
         ];
     }
 

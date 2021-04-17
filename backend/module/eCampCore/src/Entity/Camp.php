@@ -23,11 +23,6 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
     protected Collection $collaborations;
 
     /**
-     * @ORM\OneToMany(targetEntity="Job", mappedBy="camp", orphanRemoval=true)
-     */
-    protected Collection $jobs;
-
-    /**
      * @ORM\OneToMany(targetEntity="Period", mappedBy="camp", orphanRemoval=true)
      * @ORM\OrderBy({"start": "ASC"})
      */
@@ -216,16 +211,6 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
 
     public function getJobs(): Collection {
         return $this->jobs;
-    }
-
-    public function addJob(Job $job): void {
-        $job->setCamp($this);
-        $this->jobs->add($job);
-    }
-
-    public function removeJob(Job $job): void {
-        $job->setCamp(null);
-        $this->jobs->removeElement($job);
     }
 
     public function getPeriods(): Collection {
