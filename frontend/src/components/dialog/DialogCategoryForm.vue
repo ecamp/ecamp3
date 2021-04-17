@@ -43,7 +43,6 @@ export default {
     return {
       updateColorAndNumberingStyle: true,
       localCategory: this.category
-      // localPreferredContentTypes: this.category.preferredContentTypes.map(ct => ct.id)
     }
   },
   computed: {

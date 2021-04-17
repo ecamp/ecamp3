@@ -149,7 +149,7 @@ JSON;
         $this->assertNull($result);
     }
 
-    public function testClearPrefferedContentTypes(): void {
+    public function testClearPreferredContentTypes(): void {
         $this->setRequestContent(['preferredContentTypes' => []]);
 
         $this->dispatch("{$this->apiEndpoint}/{$this->category->getId()}", 'PATCH');
@@ -159,7 +159,7 @@ JSON;
         $this->assertCount(0, $this->getResponseContent()->_embedded->preferredContentTypes);
     }
 
-    public function testSetPrefferedContentTypes(): void {
+    public function testSetPreferredContentTypes(): void {
         $this->setRequestContent([
             'preferredContentTypes' => [['id' => $this->contentType->getId()]],
         ]);
