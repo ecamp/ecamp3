@@ -17,26 +17,7 @@ import LAThematicArea from './content/LAThematicArea.vue'
 import SafetyConcept from './content/SafetyConcept.vue'
 import Storycontext from './content/Storycontext.vue'
 
-let contentNodeComponents = {}
-/*
-// Webpack is running (require.context needs to be available)
-const context = require.context('@/components/activity/content', false)
-contentNodeComponents = Object.fromEntries(context.keys().map(contentNodeComponent => {
-  const component = context(contentNodeComponent).default
-  return [component.name, component]
-}))
-
-// Vite is running (import.meta needs be available)
-  const context = import.meta.globEager('/src/components/activity/content/*')
-  contentNodeComponents = Object.fromEntries(Object.keys(context).map(contentNodeComponent => {
-    const component = context[contentNodeComponent].default
-    return [component.name, component]
-  }))
-}
-*/
-
-// manual import
-contentNodeComponents = {
+const contentNodeComponents = {
   ColumnLayout,
   Notes,
   Material,
