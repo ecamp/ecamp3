@@ -33,6 +33,7 @@ use Laminas\Stdlib\RequestInterface;
 abstract class AbstractEntityService extends AbstractResourceListener {
     private ServiceUtils $serviceUtils;
     private string $entityClassname;
+    private ?string $collectionClassname;
     private string $hydratorClassname;
     private AuthenticationService $authenticationService;
     private EntityRepository $repository;
@@ -41,16 +42,21 @@ abstract class AbstractEntityService extends AbstractResourceListener {
     public function __construct(
         ServiceUtils $serviceUtils,
         string $entityClassname,
+        ?string $collectionClassname,
         string $hydratorClassname,
         AuthenticationService $authenticationService
     ) {
         $this->serviceUtils = $serviceUtils;
         $this->entityClassname = $entityClassname;
+        $this->collectionClassname = $collectionClassname;
         $this->hydratorClassname = $hydratorClassname;
         $this->authenticationService = $authenticationService;
 
         $this->repository = $serviceUtils->emGetRepository($entityClassname);
-        $this->hydrator = $serviceUtils->getHydrator($hydratorClassname);
+        $this->hydrator = $serviceUtils->getHydrator($this->hydratorClassname);
+
+        $this->setEntityClass($this->entityClassname);
+        $this->setCollectionClass($this->collectionClassname);
     }
 
     /**

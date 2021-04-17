@@ -3,8 +3,6 @@
 namespace eCamp\ContentType\MultiSelect;
 
 use Doctrine\ORM\ORMException;
-use eCamp\ContentType\MultiSelect\Entity\Option;
-use eCamp\ContentType\MultiSelect\Entity\OptionCollection;
 use eCamp\ContentType\MultiSelect\Service\OptionService;
 use eCamp\Core\ContentType\ContentTypeStrategyBase;
 use eCamp\Core\Entity\ContentNode;
@@ -22,8 +20,6 @@ class Strategy extends ContentTypeStrategyBase {
     }
 
     public function contentNodeExtract(ContentNode $contentNode): array {
-        $this->optionService->setEntityClass(Option::class);
-        $this->optionService->setCollectionClass(OptionCollection::class);
         $multiSelectItems = $this->optionService->fetchAllByContentNode($contentNode->getId());
 
         return [

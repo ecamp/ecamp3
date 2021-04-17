@@ -10,6 +10,7 @@ use eCamp\Core\Entity\ScheduleEntry;
 use eCamp\Core\Hydrator\ScheduleEntryHydrator;
 use eCamp\Lib\Service\EntityValidationException;
 use eCamp\Lib\Service\ServiceUtils;
+use eCampApi\V1\Rest\ScheduleEntry\ScheduleEntryCollection;
 use Laminas\Authentication\AuthenticationService;
 
 class ScheduleEntryService extends AbstractEntityService {
@@ -17,6 +18,7 @@ class ScheduleEntryService extends AbstractEntityService {
         parent::__construct(
             $serviceUtils,
             ScheduleEntry::class,
+            ScheduleEntryCollection::class,
             ScheduleEntryHydrator::class,
             $authenticationService
         );

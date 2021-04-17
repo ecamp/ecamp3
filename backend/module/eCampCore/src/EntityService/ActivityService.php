@@ -13,6 +13,7 @@ use eCamp\Lib\Acl\NoAccessException;
 use eCamp\Lib\Entity\BaseEntity;
 use eCamp\Lib\Service\EntityNotFoundException;
 use eCamp\Lib\Service\ServiceUtils;
+use eCampApi\V1\Rest\Activity\ActivityCollection;
 use Laminas\Authentication\AuthenticationService;
 
 class ActivityService extends AbstractEntityService {
@@ -30,6 +31,7 @@ class ActivityService extends AbstractEntityService {
         parent::__construct(
             $serviceUtils,
             Activity::class,
+            ActivityCollection::class,
             ActivityHydrator::class,
             $authenticationService
         );

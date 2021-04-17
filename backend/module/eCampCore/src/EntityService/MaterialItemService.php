@@ -12,6 +12,7 @@ use eCamp\Core\Hydrator\MaterialItemHydrator;
 use eCamp\Lib\Entity\BaseEntity;
 use eCamp\Lib\Service\EntityValidationException;
 use eCamp\Lib\Service\ServiceUtils;
+use eCampApi\V1\Rest\MaterialItem\MaterialItemCollection;
 use Laminas\Authentication\AuthenticationService;
 
 class MaterialItemService extends AbstractEntityService {
@@ -19,6 +20,7 @@ class MaterialItemService extends AbstractEntityService {
         parent::__construct(
             $serviceUtils,
             MaterialItem::class,
+            MaterialItemCollection::class,
             MaterialItemHydrator::class,
             $authenticationService
         );

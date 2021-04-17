@@ -3,6 +3,7 @@
 namespace eCamp\ContentType\SingleText\Service;
 
 use eCamp\ContentType\SingleText\Entity\SingleText;
+use eCamp\ContentType\SingleText\Entity\SingleTextCollection;
 use eCamp\ContentType\SingleText\Hydrator\SingleTextHydrator;
 use eCamp\Core\ContentType\BaseContentTypeService;
 use eCamp\Lib\Service\ServiceUtils;
@@ -13,6 +14,7 @@ class SingleTextService extends BaseContentTypeService {
         parent::__construct(
             $serviceUtils,
             SingleText::class,
+            SingleTextCollection::class,
             SingleTextHydrator::class,
             $authenticationService
         );
