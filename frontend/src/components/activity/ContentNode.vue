@@ -25,7 +25,7 @@ const contentNodeComponents = {
   LAThematicArea,
   SafetyConcept,
   Storycontext,
-  Storyboard,
+  Storyboard
 }
 
 export default {

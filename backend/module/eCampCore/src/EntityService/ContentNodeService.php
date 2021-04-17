@@ -155,6 +155,7 @@ class ContentNodeService extends AbstractEntityService {
             $entityRepository = $this->getServiceUtils()->emGetRepository(ContentNode::class);
             $this->contentNodeRepository = $entityRepository;
         }
+
         return $this->contentNodeRepository;
     }
 }

@@ -83,7 +83,7 @@ JSON;
         $this->assertEquals($this->contentNode->getId(), $this->getResponseContent()->_embedded->items[0]->id);
     }
 
-    public function testCreateRootNode_isNotPossible(): void {
+    public function testCreateRootNodeIsNotPossible(): void {
         $this->setRequestContent([
             'ownerId' => $this->contentNode->getOwner()->getId(),
             'contentTypeId' => $this->contentNode->getContentType()->getId(),
@@ -98,7 +98,7 @@ JSON;
             'parentId' => $this->contentNode->getId(),
             'contentTypeId' => $this->contentNode->getContentType()->getId(),
             'slot' => '1',
-            'position' => 20
+            'position' => 20,
         ]);
         $this->dispatch("{$this->apiEndpoint}", 'POST');
         $this->assertResponseStatusCode(201);
@@ -106,11 +106,11 @@ JSON;
         $this->assertEquals(20, $this->getResponseContent()->position);
     }
 
-    public function testCreateChildNode_automaticallySetsPosition_whenNotPassed(): void {
+    public function testCreateChildNodeAutomaticallySetsPositionWhenNotPassed(): void {
         $this->setRequestContent([
             'parentId' => $this->contentNode->getId(),
             'contentTypeId' => $this->contentNode->getContentType()->getId(),
-            'slot' => '1'
+            'slot' => '1',
         ]);
         $this->dispatch("{$this->apiEndpoint}", 'POST');
         $this->assertResponseStatusCode(201);
