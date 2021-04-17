@@ -17,8 +17,8 @@ Critical operations on camp
               <template #activator="{ on }">
                 <button-delete icon="mdi-bomb"
                                :text="false"
-                               dark
-                               color="red darken-2"
+                               dark outlined
+                               color="blue-grey"
                                @click.prevent="on.click">
                   {{ $tc('components.camp.campDangerzone.deleteCamp.action') }}
                 </button-delete>
