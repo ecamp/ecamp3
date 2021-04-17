@@ -91,7 +91,6 @@ JSON;
         $this->assertResponseStatusCode(422);
         $this->assertObjectHasAttribute('isEmpty', $this->getResponseContent()->validation_messages->name);
         $this->assertObjectHasAttribute('isEmpty', $this->getResponseContent()->validation_messages->title);
-        $this->assertObjectHasAttribute('isEmpty', $this->getResponseContent()->validation_messages->motto);
     }
 
     public function testCreateSuccess(): void {
