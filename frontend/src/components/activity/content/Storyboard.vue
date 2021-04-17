@@ -15,21 +15,6 @@
       </v-row>
 
       <api-sortable v-slot="sortable" :collection="contentNode.sections" :collection-uri="'/content-type/storyboards?contentNodeId=' + contentNode.id">
-        <!-- add before -->
-        <v-row no-gutters class="row-inter" justify="center">
-          <v-col cols="1">
-            <v-btn
-              v-if="!layoutMode"
-              icon
-              small
-              class="button-add"
-              color="success"
-              @click="addSection">
-              <v-icon>mdi-plus</v-icon>
-            </v-btn>
-          </v-col>
-        </v-row>
-
         <api-form :entity="sortable.entity">
           <v-row dense>
             <v-col cols="2">
@@ -96,6 +81,7 @@
           </v-row>
         </api-form>
       </api-sortable>
+
       <!-- add at end position -->
       <v-row no-gutters justify="center">
         <v-col cols="1">
@@ -104,6 +90,7 @@
                  small
                  class="button-add"
                  color="success"
+                 :loading="isAdding"
                  @click="addSection">
             <v-icon>mdi-plus</v-icon>
           </v-btn>
@@ -136,17 +123,18 @@ export default {
   },
   data () {
     return {
+      isAdding: false
     }
   },
   methods: {
     async addSection () {
-      // this.isAdding = true
+      this.isAdding = true
       await this.api.post('/content-type/storyboards', {
         contentNodeId: this.contentNode.id,
-        pos: 100
+        pos: this.contentNode.sections().items.length // add at the end of the array
       })
-      await this.refreshContent()
-      // this.isAdding = false
+      await this.refreshContent() // refresh node content (reloading section array)
+      this.isAdding = false
     },
     async refreshContent () {
       await this.api.reload(this.contentNode)
