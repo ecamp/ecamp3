@@ -7,6 +7,7 @@ use eCamp\Core\Hydrator\InvitationHydrator;
 use eCamp\Core\Service\Invitation;
 use eCamp\Core\Service\InvitationService;
 use eCamp\Lib\Acl\NoAccessException;
+use eCamp\Lib\Acl\NotAuthenticatedException;
 use eCamp\Lib\Service\EntityNotFoundException;
 use eCamp\Lib\Service\EntityValidationException;
 use eCamp\Lib\Service\ServiceUtils;
@@ -64,6 +65,15 @@ class InvitationController extends RpcController {
                 'name' => 'e-camp-api.rpc.invitation.reject',
                 'params' => [
                     'inviteKey' => 'add_inviteKey_here',
+                ],
+            ],
+        ]);
+        $data['resend'] = Link::factory([
+            'rel' => 'resend',
+            'route' => [
+                'name' => 'e-camp-api.rpc.invitation.resend',
+                'params' => [
+                    'campCollaborationId' => 'insert_campCollaborationId_here',
                 ],
             ],
         ]);
@@ -129,6 +139,26 @@ class InvitationController extends RpcController {
             return $this->toResponse($this->invitationService->rejectInvitation($inviteKey));
         } catch (EntityNotFoundException $e) {
             throw new EntityNotFoundException('Not Found', 404);
+        }
+    }
+
+    /**
+     * @throws EntityNotFoundException
+     * @throws NotAuthenticatedException
+     * @throws NoAccessException
+     * @throws EntityValidationException
+     */
+    public function resend($campCollaborationId): HalJsonModel {
+        try {
+            return $this->toResponse($this->invitationService->resendInvitation($campCollaborationId));
+        } catch (EntityNotFoundException $e) {
+            throw new EntityNotFoundException('Not Found', 404);
+        } catch (NoAccessException $e) {
+            throw new NoAccessException('No Access', 403);
+        } catch (NotAuthenticatedException $e) {
+            throw new NotAuthenticatedException('Not Authorized', 401);
+        } catch (EntityValidationException $e) {
+            throw new EntityValidationException($e->getMessage(), 422);
         }
     }
 

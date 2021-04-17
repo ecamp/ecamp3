@@ -9,7 +9,9 @@ use eCamp\Core\Entity\User;
 use eCamp\Core\EntityService\MaterialListService;
 use eCamp\Core\EntityService\UserService;
 use eCamp\Core\Repository\CampCollaborationRepository;
+use eCamp\Lib\Acl\Acl;
 use eCamp\Lib\Acl\NoAccessException;
+use eCamp\Lib\Acl\NotAuthenticatedException;
 use eCamp\Lib\Service\EntityNotFoundException;
 use eCamp\Lib\Service\EntityValidationException;
 use eCamp\Lib\Service\ServiceUtils;
@@ -20,14 +22,18 @@ class InvitationService {
     private CampCollaborationRepository $campCollaborationRepository;
     private UserService $userService;
     private MaterialListService $materialListService;
+    private AclService $aclService;
+    private SendmailService $sendmailService;
 
-    public function __construct(ServiceUtils $serviceUtils, AuthenticationService $authenticationService, UserService $userService, MaterialListService $materialListService) {
+    public function __construct(ServiceUtils $serviceUtils, AuthenticationService $authenticationService, UserService $userService, MaterialListService $materialListService, AclService $aclService, SendmailService $sendmailService) {
         $this->authenticationService = $authenticationService;
         /** @var CampCollaborationRepository $entityRepository */
         $entityRepository = $serviceUtils->emGetRepository(CampCollaboration::class);
         $this->campCollaborationRepository = $entityRepository;
         $this->userService = $userService;
         $this->materialListService = $materialListService;
+        $this->aclService = $aclService;
+        $this->sendmailService = $sendmailService;
     }
 
     /**
@@ -114,6 +120,38 @@ class InvitationService {
 
         $camp = $campCollaboration->getCamp();
 
+        return new Invitation($camp->getId(), $camp->getTitle(), null, null);
+    }
+
+    /**
+     * @throws EntityNotFoundException
+     * @throws NoAccessException
+     * @throws NotAuthenticatedException
+     * @throws EntityValidationException
+     */
+    public function resendInvitation(string $campCollaborationId): Invitation {
+        /** @var CampCollaboration $campCollaboration */
+        $campCollaboration = $this->campCollaborationRepository->find($campCollaborationId);
+        if (null == $campCollaboration) {
+            throw new EntityNotFoundException();
+        }
+        $this->aclService->assertAllowed($campCollaboration, Acl::REST_PRIVILEGE_PATCH);
+        try {
+            /** @var User $user */
+            $user = $this->userService->fetch($this->authenticationService->getIdentity());
+        } catch (NonUniqueResultException | NoAccessException | EntityNotFoundException $e) {
+            throw new \RuntimeException("User has access but somehow does not exist");
+        }
+        if ($campCollaboration->getStatus() !== CampCollaboration::STATUS_INVITED) {
+            throw new EntityValidationException("Can only resend invitation if the status is " . CampCollaboration::STATUS_INVITED . ", was: " . $campCollaboration->getStatus());
+        }
+        $camp = $campCollaboration->getCamp();
+        $this->sendmailService->sendInviteToCampMail(
+            $user,
+            $camp,
+            $campCollaboration->getInviteKey(),
+            $campCollaboration->getInviteEmail()
+        );
         return new Invitation($camp->getId(), $camp->getTitle(), null, null);
     }
 }

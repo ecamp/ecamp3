@@ -141,7 +141,8 @@
         "title": "Settings"
       },
       "collaboratorListItem": {
-        "deactivate": "Deactivate"
+        "deactivate": "Deactivate",
+        "resendEmail": "Resend Email"
       },
       "inactiveCampCollaboratorListItem": {
         "inviteAgain": "Invite again",

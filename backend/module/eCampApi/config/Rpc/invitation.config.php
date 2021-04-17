@@ -7,7 +7,7 @@ use eCampApi\V1\RpcConfig;
 return RpcConfig::merge(
     RpcConfig::forRoute('e-camp-api.rpc.invitation')
         ->setController(InvitationController::class)
-        ->setRoute('/api/invitations[/:inviteKey][/:action]')
+        ->setRoute('/api/invitations[/:inviteKey][/:campCollaborationId][/:action]')
         ->addParameterDefault('action', 'index')
         ->setAllowedHttpMethods('GET')
         ->build(),
@@ -27,6 +27,12 @@ return RpcConfig::merge(
         ->setController(UpdateInvitationController::class)
         ->setRoute('/api/invitations[/:inviteKey]/reject')
         ->addParameterDefault('action', 'reject')
+        ->setAllowedHttpMethods('POST')
+        ->build(),
+    RpcConfig::forRoute('e-camp-api.rpc.invitation.resend')
+        ->setController(UpdateInvitationController::class)
+        ->setRoute('/api/invitations[/:campCollaborationId]/resend')
+        ->addParameterDefault('action', 'resend')
         ->setAllowedHttpMethods('POST')
         ->build()
 );

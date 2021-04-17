@@ -19,6 +19,8 @@ class InvitationControllerTest extends AbstractApiControllerTestCase {
 
     /** @var User */
     private $newUser;
+    private User $guestUser;
+    private User $managerUser;
 
     private $apiEndpoint = '/api/invitations';
     private $camp;
@@ -27,6 +29,8 @@ class InvitationControllerTest extends AbstractApiControllerTestCase {
      */
     private $campCollaborationInvited;
     private CampCollaboration $campCollaborationInvitedAsGuest;
+    private CampCollaboration $campCollaborationGuest;
+    private CampCollaboration $campCollaborationManager;
 
     public function setUp(): void {
         parent::setUp();
@@ -43,9 +47,13 @@ class InvitationControllerTest extends AbstractApiControllerTestCase {
 
         $this->userAlreadyInCamp = $userLoader->getReference(UserTestData::$USER1);
         $this->newUser = $userLoader->getReference(UserTestData::$USER2);
+        $this->guestUser = $userLoader->getReference(UserTestData::$USER3);
+        $this->managerUser = $userLoader->getReference(UserTestData::$USER4);
         $this->camp = $campLoader->getReference(CampTestData::$CAMP1);
         $this->campCollaborationInvited = $campCollaborationTestData->getReference(CampCollaborationTestData::$COLLAB_INVITED);
         $this->campCollaborationInvitedAsGuest = $campCollaborationTestData->getReference(CampCollaborationTestData::$COLLAB_INVITED_AS_GUEST);
+        $this->campCollaborationGuest = $campCollaborationTestData->getReference(CampCollaborationTestData::$COLLAB_GUEST);
+        $this->campCollaborationManager = $campCollaborationTestData->getReference(CampCollaborationTestData::$COLLAB_MANAGER);
     }
 
     public function testNotFoundForNotMatchingInviteKey(): void {
@@ -178,5 +186,46 @@ JSON;
         $this->dispatch("{$this->apiEndpoint}/{$this->campCollaborationInvited->getInviteKey()}/reject", 'POST');
 
         $this->assertResponseStatusCode(200);
+    }
+
+    public function testResendEmailFailsIfUserIsGuest() {
+        $this->authenticateUser($this->guestUser);
+        $this->dispatch("{$this->apiEndpoint}/{$this->campCollaborationInvited->getId()}/resend", 'POST');
+
+        $this->assertResponseStatusCode(403);
+    }
+
+    public function testResendEmailSucceedsWhenUserIsMember(): void {
+        $this->authenticateUser($this->userAlreadyInCamp);
+        $this->dispatch("{$this->apiEndpoint}/{$this->campCollaborationInvited->getId()}/resend", 'POST');
+
+        $this->assertResponseStatusCode(200);
+    }
+
+    public function testResendEmailSucceedsWhenUserIsManager(): void {
+        $this->authenticateUser($this->managerUser);
+        $this->dispatch("{$this->apiEndpoint}/{$this->campCollaborationInvited->getId()}/resend", 'POST');
+
+        $this->assertResponseStatusCode(200);
+    }
+
+    public function testResendEmailFailsWhenNotAuthenticated(): void {
+        $this->dispatch("{$this->apiEndpoint}/{$this->campCollaborationInvited->getId()}/resend", 'POST');
+
+        $this->assertResponseStatusCode(401);
+    }
+
+    public function testResendEmailFailsIfUserNotPartOfCamp() {
+        $this->authenticateUser($this->newUser);
+        $this->dispatch("{$this->apiEndpoint}/{$this->campCollaborationInvited->getId()}/resend", 'POST');
+
+        $this->assertResponseStatusCode(403);
+    }
+
+    public function testResendInvitationFailsIfStatusIsEstablished() {
+        $this->authenticateUser($this->managerUser);
+        $this->dispatch("{$this->apiEndpoint}/{$this->campCollaborationGuest->getId()}/resend", 'POST');
+
+        $this->assertResponseStatusCode(422);
     }
 }
