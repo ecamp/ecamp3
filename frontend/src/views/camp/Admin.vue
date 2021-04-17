@@ -34,7 +34,7 @@ import CampPeriods from '@/components/camp/CampPeriods.vue'
 import CampMaterialLists from '@/components/camp/CampMaterialLists.vue'
 import CampCategories from '@/components/camp/CampCategories.vue'
 import ContentCard from '@/components/layout/ContentCard.vue'
-import CampDangerZone from '@/components/camp/CampDangerZone'
+import CampDangerZone from '@/components/camp/CampDangerZone.vue'
 
 export default {
   name: 'Admin',

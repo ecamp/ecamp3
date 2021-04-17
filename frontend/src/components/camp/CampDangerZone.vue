@@ -39,10 +39,10 @@ Critical operations on camp
 </template>
 
 <script>
-import ContentGroup from '@/components/layout/ContentGroup'
-import ButtonDelete from '@/components/buttons/ButtonDelete'
-import DialogEntityDelete from '@/components/dialog/DialogEntityDelete'
-import ETextField from '@/components/form/base/ETextField'
+import ContentGroup from '@/components/layout/ContentGroup.vue'
+import ButtonDelete from '@/components/buttons/ButtonDelete.vue'
+import DialogEntityDelete from '@/components/dialog/DialogEntityDelete.vue'
+import ETextField from '@/components/form/base/ETextField.vue'
 
 export default {
   name: 'CampDangerZone',

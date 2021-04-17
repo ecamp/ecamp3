@@ -38,6 +38,15 @@ export default {
   },
   created () {
     this.entityUri = this.entity._meta.self
+  },
+  methods: {
+    del () {
+      this.error = null
+      return this.api.del(this.entityUri).then(() => {
+        this.$router.push({ name: 'camps' })
+        this.close()
+      }, this.onError)
+    }
   }
 }
 </script>
