@@ -361,10 +361,10 @@
     },
     "camps": {
       "create": "Lager erstellen",
-      "title": "Mein Lager | Meine Lager",
-      "upcomingCamps": "Bevorstehend",
+      "pastCamps": "Alte Lager",
       "prototypeCamps": "Prototypen",
-      "pastCamps": "Alte Lager"
+      "title": "Mein Lager | Meine Lager",
+      "upcomingCamps": "Bevorstehend"
     },
     "home": {
       "home": "Home",

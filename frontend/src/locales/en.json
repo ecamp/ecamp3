@@ -440,10 +440,10 @@
     },
     "camps": {
       "create": "Create a camp",
-      "title": "My Camp | My Camps",
-      "upcomingCamps": "Upcoming",
+      "pastCamps": "Past camps",
       "prototypeCamps": "Prototypes",
-      "pastCamps": "Past camps"
+      "title": "My Camp | My Camps",
+      "upcomingCamps": "Upcoming"
     },
     "home": {
       "home": "Home",
