@@ -2,7 +2,6 @@
 
 namespace eCamp\ContentType\Storyboard\Service;
 
-use Doctrine\ORM\QueryBuilder;
 use eCamp\ContentType\Storyboard\Entity\Section;
 use eCamp\ContentType\Storyboard\Hydrator\SectionHydrator;
 use eCamp\Core\ContentType\BaseContentTypeService;
@@ -17,12 +16,5 @@ class SectionService extends BaseContentTypeService {
             SectionHydrator::class,
             $authenticationService
         );
-    }
-
-    protected function fetchAllQueryBuilder($params = []): QueryBuilder {
-        $q = parent::fetchAllQueryBuilder($params);
-        $q->orderBy('row.pos');
-
-        return $q;
     }
 }
