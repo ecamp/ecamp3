@@ -7,6 +7,7 @@ use eCamp\Core\Entity\Camp;
 use eCamp\Core\Entity\MaterialList;
 use eCamp\Core\Hydrator\MaterialListHydrator;
 use eCamp\Lib\Service\ServiceUtils;
+use eCampApi\V1\Rest\MaterialList\MaterialListCollection;
 use Laminas\Authentication\AuthenticationService;
 
 class MaterialListService extends AbstractEntityService {
@@ -14,6 +15,7 @@ class MaterialListService extends AbstractEntityService {
         parent::__construct(
             $serviceUtils,
             MaterialList::class,
+            MaterialListCollection::class,
             MaterialListHydrator::class,
             $authenticationService
         );

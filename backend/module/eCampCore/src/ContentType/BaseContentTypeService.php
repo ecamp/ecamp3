@@ -17,10 +17,17 @@ abstract class BaseContentTypeService extends AbstractEntityService {
     public function __construct(
         ServiceUtils $serviceUtils,
         string $entityClassname,
+        string $collectionClassname,
         string $hydratorClassname,
         AuthenticationService $authenticationService
     ) {
-        parent::__construct($serviceUtils, $entityClassname, $hydratorClassname, $authenticationService);
+        parent::__construct(
+            $serviceUtils,
+            $entityClassname,
+            $collectionClassname,
+            $hydratorClassname,
+            $authenticationService
+        );
     }
 
     /**

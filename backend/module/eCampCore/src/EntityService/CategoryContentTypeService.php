@@ -7,6 +7,7 @@ use eCamp\Core\Entity\CategoryContentType;
 use eCamp\Core\Entity\ContentType;
 use eCamp\Core\Hydrator\CategoryContentTypeHydrator;
 use eCamp\Lib\Service\ServiceUtils;
+use eCampApi\V1\Rest\CategoryContentType\CategoryContentTypeCollection;
 use Laminas\Authentication\AuthenticationService;
 
 class CategoryContentTypeService extends AbstractEntityService {
@@ -14,6 +15,7 @@ class CategoryContentTypeService extends AbstractEntityService {
         parent::__construct(
             $serviceUtils,
             CategoryContentType::class,
+            CategoryContentTypeCollection::class,
             CategoryContentTypeHydrator::class,
             $authenticationService
         );

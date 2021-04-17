@@ -10,6 +10,7 @@ use eCamp\Core\Hydrator\UserHydrator;
 use eCamp\Core\Repository\UserRepository;
 use eCamp\Core\Service\SendmailService;
 use eCamp\Lib\Service\ServiceUtils;
+use eCampApi\V1\Rest\User\UserCollection;
 use Hybridauth\User\Profile;
 use Laminas\Authentication\AuthenticationService;
 
@@ -27,6 +28,7 @@ class UserService extends AbstractEntityService {
         parent::__construct(
             $serviceUtils,
             User::class,
+            UserCollection::class,
             UserHydrator::class,
             $authenticationService
         );
