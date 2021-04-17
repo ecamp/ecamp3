@@ -4,7 +4,7 @@
     icon="mdi-calendar-plus"
     :title="$tc('components.dialog.dialogCategoryCreate.title')"
     max-width="600px"
-    :submit-action="createPeriod"
+    :submit-action="createCategory"
     submit-color="success"
     :cancel-action="close">
     <template #activator="scope">
@@ -43,6 +43,9 @@ export default {
         'color',
         'numberingStyle'
       ],
+      embeddedCollections: [
+        'preferredContentTypes'
+      ],
       entityUri: '/categories'
     }
   },
@@ -63,7 +66,7 @@ export default {
     }
   },
   methods: {
-    createPeriod () {
+    createCategory () {
       return this.create().then(() => {
         this.api.reload(this.camp)
       })

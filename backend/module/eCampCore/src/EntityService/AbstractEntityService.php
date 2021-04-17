@@ -470,4 +470,24 @@ abstract class AbstractEntityService extends AbstractResourceListener {
 
         return $entity;
     }
+
+    protected function findRelatedEntities(string $className, $data, string $key): array {
+        // check if foreign key exists
+        if (!isset($data->{$key})) {
+            throw (new EntityValidationException())->setMessages([$key => ['isEmpty' => "Value is required and can't be empty"]]);
+        }
+
+        return array_map(
+            function ($element) use ($className) {
+                try {
+                    $id = $element['id'];
+
+                    return $this->findEntity($className, $id);
+                } catch (EntityNotFoundException $e) {
+                    throw (new EntityValidationException())->setMessages([$id => ['notFound' => "Entity {$className} with id {$id} not found or not accessible"]]);
+                }
+            },
+            (array) $data->{$key}
+        );
+    }
 }

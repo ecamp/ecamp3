@@ -4,8 +4,8 @@ namespace eCamp\CoreTest\Entity;
 
 use eCamp\Core\Entity\Camp;
 use eCamp\Core\Entity\Category;
-use eCamp\Core\Entity\CategoryContentType;
 use eCamp\Core\Entity\ContentNode;
+use eCamp\Core\Entity\ContentType;
 use eCamp\LibTest\PHPUnit\AbstractTestCase;
 
 /**
@@ -33,13 +33,13 @@ class CategoryTest extends AbstractTestCase {
 
     public function testCategoryContentType(): void {
         $category = new Category();
-        $categoryContentType = new CategoryContentType();
+        $contentType = new ContentType();
 
-        $this->assertCount(0, $category->getCategoryContentTypes());
-        $category->addCategoryContentType($categoryContentType);
-        $this->assertContains($categoryContentType, $category->getCategoryContentTypes());
-        $category->removeCategoryContentType($categoryContentType);
-        $this->assertCount(0, $category->getCategoryContentTypes());
+        $this->assertCount(0, $category->getPreferredContentTypes());
+        $category->addPreferredContentType($contentType);
+        $this->assertContains($contentType, $category->getPreferredContentTypes());
+        $category->removePreferredContentType($contentType);
+        $this->assertCount(0, $category->getPreferredContentTypes());
     }
 
     public function testContentNode(): void {

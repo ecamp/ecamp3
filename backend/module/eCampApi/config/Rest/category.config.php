@@ -30,5 +30,6 @@ return Config::Create('Category', 'Categories')
             ->addFilterStripTags()
             ->addValidatorInArray(['a', 'A', 'i', 'I', '1'])
     )
+    ->addInputFilter('preferredContentTypes')
     ->buildConfig()
 ;

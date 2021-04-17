@@ -19,9 +19,13 @@ class Category extends AbstractContentNodeOwner implements BelongsToCampInterfac
     private ?Camp $camp = null;
 
     /**
-     * @ORM\OneToMany(targetEntity="CategoryContentType", mappedBy="category", orphanRemoval=true)
+     * @ORM\ManyToMany(targetEntity="ContentType")
+     * @ORM\JoinTable(name="category_contenttype",
+     *     joinColumns={@ORM\JoinColumn(name="category_id", referencedColumnName="id")},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="contenttype_id", referencedColumnName="id")}
+     * )
      */
-    private Collection $categoryContentTypes;
+    private Collection $preferredContentTypes;
 
     /**
      * @ORM\Column(type="string", length=16, nullable=true)
@@ -51,7 +55,7 @@ class Category extends AbstractContentNodeOwner implements BelongsToCampInterfac
     public function __construct() {
         parent::__construct();
 
-        $this->categoryContentTypes = new ArrayCollection();
+        $this->preferredContentTypes = new ArrayCollection();
     }
 
     public function getCamp(): ?Camp {
@@ -65,18 +69,16 @@ class Category extends AbstractContentNodeOwner implements BelongsToCampInterfac
         $this->camp = $camp;
     }
 
-    public function getCategoryContentTypes(): Collection {
-        return $this->categoryContentTypes;
+    public function getPreferredContentTypes(): Collection {
+        return $this->preferredContentTypes;
     }
 
-    public function addCategoryContentType(CategoryContentType $categoryContentType): void {
-        $categoryContentType->setCategory($this);
-        $this->categoryContentTypes->add($categoryContentType);
+    public function addPreferredContentType(ContentType $contentType): void {
+        $this->preferredContentTypes->add($contentType);
     }
 
-    public function removeCategoryContentType(CategoryContentType $categoryContentType): void {
-        $categoryContentType->setCategory(null);
-        $this->categoryContentTypes->removeElement($categoryContentType);
+    public function removePreferredContentType(ContentType $contentType): void {
+        $this->preferredContentTypes->removeElement($contentType);
     }
 
     public function getCategoryPrototypeId(): ?string {

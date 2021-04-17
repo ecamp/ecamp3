@@ -41,6 +41,9 @@ export default {
         'name',
         'color',
         'numberingStyle'
+      ],
+      embeddedCollections: [
+        'preferredContentTypes'
       ]
     }
   },
