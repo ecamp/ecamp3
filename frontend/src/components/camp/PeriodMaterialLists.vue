@@ -85,10 +85,10 @@
 </template>
 
 <script>
-import DialogMaterialItemCreate from '../dialog/DialogMaterialItemCreate'
+import DialogMaterialItemCreate from '../dialog/DialogMaterialItemCreate.vue'
 import MaterialCreateItem from './MaterialCreateItem.vue'
-import MaterialListItemContentNode from './MaterialListItemContentNode'
-import MaterialListItemPeriod from './MaterialListItemPeriod'
+import MaterialListItemContentNode from './MaterialListItemContentNode.vue'
+import MaterialListItemPeriod from './MaterialListItemPeriod.vue'
 
 export default {
   name: 'PeriodMaterialLists',

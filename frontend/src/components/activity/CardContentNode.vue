@@ -90,8 +90,8 @@
 <script>
 
 import camelCase from 'lodash/camelCase'
-import ApiTextField from '../form/api/ApiTextField'
-import DialogEntityDelete from '@/components/dialog/DialogEntityDelete'
+import ApiTextField from '../form/api/ApiTextField.vue'
+import DialogEntityDelete from '@/components/dialog/DialogEntityDelete.vue'
 
 export default {
   name: 'CardContentNode',

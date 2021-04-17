@@ -47,10 +47,10 @@
 </template>
 
 <script>
-import ApiSelect from '@/components/form/api/ApiSelect'
-import ApiTextField from '@/components/form/api/ApiTextField'
-import ApiDatePicker from '@/components/form/api/ApiDatePicker'
-import ContentCard from '@/components/layout/ContentCard'
+import ApiSelect from '@/components/form/api/ApiSelect.vue'
+import ApiTextField from '@/components/form/api/ApiTextField.vue'
+import ApiDatePicker from '@/components/form/api/ApiDatePicker.vue'
+import ContentCard from '@/components/layout/ContentCard.vue'
 import VueI18n from '@/plugins/i18n'
 
 export default {

@@ -59,7 +59,7 @@
 
 <script>
 import ApiTextField from '../form/api/ApiTextField.vue'
-import DialogMaterialItemEdit from '../dialog/DialogMaterialItemEdit'
+import DialogMaterialItemEdit from '../dialog/DialogMaterialItemEdit.vue'
 
 export default {
   name: 'MaterialListItemPeriod',

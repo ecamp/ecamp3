@@ -16,10 +16,10 @@
 </template>
 
 <script>
-import DialogBase from './DialogBase'
-import DialogForm from './DialogForm'
-import DialogMaterialItemForm from './DialogMaterialItemForm'
-import ServerError from '@/components/form/ServerError'
+import DialogBase from './DialogBase.vue'
+import DialogForm from './DialogForm.vue'
+import DialogMaterialItemForm from './DialogMaterialItemForm.vue'
+import ServerError from '@/components/form/ServerError.vue'
 
 export default {
   name: 'DialogMaterialItemEdit',

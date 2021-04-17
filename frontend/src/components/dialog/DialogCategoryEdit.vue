@@ -19,9 +19,9 @@
 </template>
 
 <script>
-import DialogBase from '@/components/dialog/DialogBase'
-import DialogForm from '@/components/dialog/DialogForm'
-import DialogCategoryForm from './DialogCategoryForm'
+import DialogBase from '@/components/dialog/DialogBase.vue'
+import DialogForm from '@/components/dialog/DialogForm.vue'
+import DialogCategoryForm from './DialogCategoryForm.vue'
 
 export default {
   name: 'DialogCategoryEdit',

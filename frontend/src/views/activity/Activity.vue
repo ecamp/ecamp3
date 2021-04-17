@@ -100,13 +100,13 @@ Displays a single activity
 </template>
 
 <script>
-import ContentCard from '@/components/layout/ContentCard'
-import ApiTextField from '@/components/form/api/ApiTextField'
-import ApiSelect from '@/components/form/api/ApiSelect'
+import ContentCard from '@/components/layout/ContentCard.vue'
+import ApiTextField from '@/components/form/api/ApiTextField.vue'
+import ApiSelect from '@/components/form/api/ApiSelect.vue'
 
-import ContentNode from '@/components/activity/ContentNode'
+import ContentNode from '@/components/activity/ContentNode.vue'
 
-import { defineHelpers } from '@/components/scheduleEntry/dateHelperUTC'
+import { defineHelpers } from '@/components/scheduleEntry/dateHelperUTC.js'
 
 export default {
   name: 'Activity',

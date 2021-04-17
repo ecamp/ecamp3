@@ -5,6 +5,7 @@ namespace eCamp\ContentType\Storyboard\Service;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\QueryBuilder;
 use eCamp\ContentType\Storyboard\Entity\Section;
+use eCamp\ContentType\Storyboard\Entity\SectionCollection;
 use eCamp\ContentType\Storyboard\Hydrator\SectionHydrator;
 use eCamp\Core\ContentType\BaseContentTypeService;
 use eCamp\Lib\Service\ServiceUtils;
@@ -15,6 +16,7 @@ class SectionService extends BaseContentTypeService {
         parent::__construct(
             $serviceUtils,
             Section::class,
+            SectionCollection::class,
             SectionHydrator::class,
             $authenticationService
         );

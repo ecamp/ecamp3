@@ -12,6 +12,7 @@ use eCamp\Core\Hydrator\CategoryHydrator;
 use eCamp\Lib\Acl\NoAccessException;
 use eCamp\Lib\Service\EntityNotFoundException;
 use eCamp\Lib\Service\ServiceUtils;
+use eCampApi\V1\Rest\Category\CategoryCollection;
 use Laminas\Authentication\AuthenticationService;
 
 class CategoryService extends AbstractEntityService {
@@ -27,6 +28,7 @@ class CategoryService extends AbstractEntityService {
         parent::__construct(
             $serviceUtils,
             Category::class,
+            CategoryCollection::class,
             CategoryHydrator::class,
             $authenticationService
         );

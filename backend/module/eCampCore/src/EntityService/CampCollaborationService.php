@@ -15,6 +15,7 @@ use eCamp\Lib\Acl\NoAccessException;
 use eCamp\Lib\Entity\BaseEntity;
 use eCamp\Lib\Service\EntityValidationException;
 use eCamp\Lib\Service\ServiceUtils;
+use eCampApi\V1\Rest\CampCollaboration\CampCollaborationCollection;
 use Laminas\Authentication\AuthenticationService;
 
 class CampCollaborationService extends AbstractEntityService {
@@ -32,6 +33,7 @@ class CampCollaborationService extends AbstractEntityService {
         parent::__construct(
             $serviceUtils,
             CampCollaboration::class,
+            CampCollaborationCollection::class,
             CampCollaborationHydrator::class,
             $authenticationService
         );

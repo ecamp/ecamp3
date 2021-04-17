@@ -10,6 +10,7 @@ Displays all periods of a single camp and allows to edit them & create new ones
         <dialog-period-create :camp="camp()">
           <template #activator="{ on }">
             <button-add color="secondary" text
+                        class="my-n2"
                         :hide-label="true"
                         v-on="on">
               {{ $tc('components.camp.campPeriods.createPeriod') }}
@@ -30,10 +31,10 @@ Displays all periods of a single camp and allows to edit them & create new ones
 </template>
 
 <script>
-import ButtonAdd from '@/components/buttons/ButtonAdd'
-import PeriodItem from '@/components/camp/CampPeriodsListItem'
-import DialogPeriodCreate from '@/components/dialog/DialogPeriodCreate'
-import ContentGroup from '@/components/layout/ContentGroup'
+import ButtonAdd from '@/components/buttons/ButtonAdd.vue'
+import PeriodItem from '@/components/camp/CampPeriodsListItem.vue'
+import DialogPeriodCreate from '@/components/dialog/DialogPeriodCreate.vue'
+import ContentGroup from '@/components/layout/ContentGroup.vue'
 
 export default {
   name: 'CampPeriods',

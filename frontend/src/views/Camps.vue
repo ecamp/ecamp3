@@ -17,17 +17,6 @@
               {{ camp.name }} - {{ camp.motto }}
             </v-list-item-subtitle>
           </v-list-item-content>
-          <v-list-item-action>
-            <dialog-entity-delete :entity="camp">
-              <template #activator="{ on }">
-                <button-delete @click.prevent="on.click" />
-              </template>
-              {{ $tc('components.dialog.dialogEntityDelete.warningText') }}
-              <ul>
-                <li>{{ camp.title }}</li>
-              </ul>
-            </dialog-entity-delete>
-          </v-list-item-action>
         </v-list-item>
         <v-divider />
         <v-list-item>
@@ -46,19 +35,15 @@
 </template>
 
 <script>
-import { campRoute } from '@/router'
-import ContentCard from '@/components/layout/ContentCard'
-import ButtonAdd from '@/components/buttons/ButtonAdd'
-import ButtonDelete from '@/components/buttons/ButtonDelete'
-import DialogEntityDelete from '@/components/dialog/DialogEntityDelete'
+import { campRoute } from '@/router.js'
+import ContentCard from '@/components/layout/ContentCard.vue'
+import ButtonAdd from '@/components/buttons/ButtonAdd.vue'
 
 export default {
   name: 'Camps',
   components: {
     ContentCard,
-    ButtonAdd,
-    ButtonDelete,
-    DialogEntityDelete
+    ButtonAdd
   },
   computed: {
     camps () {

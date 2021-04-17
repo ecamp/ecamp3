@@ -35,9 +35,9 @@
 </template>
 
 <script>
-import ApiSelect from '@/components/form/api/ApiSelect'
+import ApiSelect from '@/components/form/api/ApiSelect.vue'
 
-import ButtonDelete from '@/components/buttons/ButtonDelete'
+import ButtonDelete from '@/components/buttons/ButtonDelete.vue'
 
 export default {
   name: 'CollaboratorListItem',

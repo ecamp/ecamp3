@@ -14,21 +14,29 @@
       <!-- ValidationObserver/handleSubmit ensures that doSubmit is only called if there are no validation errors -->
       <v-form @submit.prevent="handleSubmit(doSubmit)">
         <v-card>
-          <v-toolbar dense color="blue-grey lighten-5">
+          <v-toolbar dense elevation="0" class="ec-dialog-toolbar">
             <v-icon left>
               {{ icon }}
             </v-icon>
             <v-toolbar-title>
               {{ title }}
             </v-toolbar-title>
+            <v-btn v-if="$vuetify.breakpoint.smAndUp" icon
+                   class="ml-auto"
+                   :title="$tc('global.button.cancel')"
+                   @click="doCancel">
+              <v-icon>mdi-close</v-icon>
+              <span class="d-sr-only">{{ $tc('global.button.cancel') }}</span>
+            </v-btn>
           </v-toolbar>
-
-          <v-card-text>
+          <div class="pa-4">
             <slot />
-          </v-card-text>
+          </div>
 
           <v-card-text v-if="$slots.error">
-            <v-alert color="red">
+            <v-alert text outlined
+                     color="warning"
+                     icon="mdi-alert">
               <slot name="error" />
             </v-alert>
           </v-card-text>
@@ -42,11 +50,6 @@
               text
               :disabled="!cancelEnabled"
               @click="doCancel">
-              <v-icon
-                v-if="!!cancelIcon"
-                left>
-                {{ cancelIcon }}
-              </v-icon>
               {{ $tc(cancelLabel) }}
             </v-btn>
             <v-btn
@@ -136,5 +139,8 @@ export default {
       height: 100%;
     }
   }
+}
+.ec-dialog-toolbar{
+  border-bottom: 1px solid #cfd8dc!important;
 }
 </style>

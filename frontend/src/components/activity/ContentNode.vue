@@ -9,11 +9,22 @@
 </template>
 
 <script>
-const context = require.context('@/components/activity/content', false)
-const contentNodeComponents = Object.fromEntries(context.keys().map(contentNodeComponent => {
-  const component = context(contentNodeComponent).default
-  return [component.name, component]
-}))
+
+import ColumnLayout from './content/ColumnLayout.vue'
+import Notes from './content/Notes.vue'
+import Material from './content/Material.vue'
+import LAThematicArea from './content/LAThematicArea.vue'
+import SafetyConcept from './content/SafetyConcept.vue'
+import Storycontext from './content/Storycontext.vue'
+
+const contentNodeComponents = {
+  ColumnLayout,
+  Notes,
+  Material,
+  LAThematicArea,
+  SafetyConcept,
+  Storycontext
+}
 
 export default {
   name: 'ContentNode',

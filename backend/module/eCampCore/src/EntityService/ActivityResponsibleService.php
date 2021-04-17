@@ -9,6 +9,7 @@ use eCamp\Core\Entity\Camp;
 use eCamp\Core\Entity\CampCollaboration;
 use eCamp\Core\Hydrator\ActivityResponsibleHydrator;
 use eCamp\Lib\Service\ServiceUtils;
+use eCampApi\V1\Rest\ActivityResponsible\ActivityResponsibleCollection;
 use Laminas\Authentication\AuthenticationService;
 
 class ActivityResponsibleService extends AbstractEntityService {
@@ -16,6 +17,7 @@ class ActivityResponsibleService extends AbstractEntityService {
         parent::__construct(
             $serviceUtils,
             ActivityResponsible::class,
+            ActivityResponsibleCollection::class,
             ActivityResponsibleHydrator::class,
             $authenticationService
         );

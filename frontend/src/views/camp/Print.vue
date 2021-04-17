@@ -11,8 +11,8 @@ Admin screen of a camp: Displays details & periods of a single camp and allows t
 </template>
 
 <script>
-import CampPrint from '@/components/camp/CampPrint'
-import ContentCard from '@/components/layout/ContentCard'
+import CampPrint from '@/components/camp/CampPrint.vue'
+import ContentCard from '@/components/layout/ContentCard.vue'
 
 export default {
   name: 'Admin',

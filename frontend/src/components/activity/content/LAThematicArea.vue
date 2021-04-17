@@ -21,9 +21,9 @@
 
 <script>
 
-import ApiCheckbox from '@/components/form/api/ApiCheckbox'
-import CardContentNode from '@/components/activity/CardContentNode'
-import { contentNodeMixin } from '@/mixins/contentNodeMixin'
+import ApiCheckbox from '@/components/form/api/ApiCheckbox.vue'
+import CardContentNode from '@/components/activity/CardContentNode.vue'
+import { contentNodeMixin } from '@/mixins/contentNodeMixin.js'
 
 export default {
   name: 'LAThematicArea',

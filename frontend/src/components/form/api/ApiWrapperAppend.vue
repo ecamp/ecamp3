@@ -99,7 +99,7 @@
 </template>
 
 <script>
-import ButtonRetry from './ButtonRetry'
+import ButtonRetry from './ButtonRetry.vue'
 
 export default {
   name: 'ApiWrapperAppend',
