@@ -100,6 +100,16 @@
         "deleteCategoryQuestion": "Do you really want do delete the Activity category?",
         "title": "Activity categories"
       },
+      "campDangerzone": {
+        "deleteCamp": {
+          "action": "Delete",
+          "description": "Once you delete a camp, there is no going back. Please be certain.",
+          "explanation": "This action cannot be undone. This will permanently delete the \"{campName}\" camp, activities, material lists and remove all collaborator associations.",
+          "label": "Please type \"{campName}\" to confirm.",
+          "title": "Delete Camp"
+        },
+        "title": "Danger Zone"
+      },
       "campInvitations": {
         "title": "Invite"
       },
@@ -311,6 +321,7 @@
       "content": "Content",
       "create": "Create",
       "delete": "Delete",
+      "deleteEntity": "Delete {entity}",
       "edit": "Edit",
       "editable": "Editable",
       "logout": "Logout",
