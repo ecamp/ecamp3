@@ -44,7 +44,6 @@ class ProfileTest extends AbstractApiControllerTestCase {
                 "mail": "test@ecamp3.dev",
                 "role": "user",
                 "language": null,
-                "birthday": null,
                 "isAdmin": false
             }
 JSON;
@@ -74,7 +73,6 @@ JSON;
             'surname' => 'surname',
             'nickname' => 'nickname',
             'language' => 'EN',
-            'birthday' => '1990-07-01',
         ]);
 
         $this->dispatch("{$this->apiEndpoint}", 'PATCH');
@@ -87,7 +85,6 @@ JSON;
         $this->assertEquals('surname', $this->getResponseContent()->surname);
         $this->assertEquals('nickname', $this->getResponseContent()->nickname);
         $this->assertEquals('EN', $this->getResponseContent()->language);
-        $this->assertEquals('1990-07-01', $this->getResponseContent()->birthday);
     }
 
     public function testDelete(): void {
