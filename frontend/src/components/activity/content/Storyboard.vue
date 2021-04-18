@@ -42,7 +42,7 @@
                 :filled="layoutMode" />
             </v-col>
             <v-col cols="1">
-              <v-container v-if="!layoutMode" ma-0 pa-0>
+              <v-container v-if="!layoutMode" class="ma-0 pa-0">
                 <v-row no-gutters>
                   <v-col cols="6">
                     <div class="section-buttons">
