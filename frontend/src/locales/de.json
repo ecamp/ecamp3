@@ -267,6 +267,7 @@
     "datetime": {
       "dateLong": "dd L",
       "dateShort": "dd D.M.",
+      "dateTimeLong": "dd L HH:mm",
       "hourLong": "HH:mm",
       "hourShort": "H:mm"
     },
