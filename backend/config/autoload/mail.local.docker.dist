@@ -3,9 +3,10 @@
 return [
     'laminas_mail' => [
         'transport' => [
-            'type' => 'file',
+            'type' => 'smtp',
             'options' => [
-                'path' => __DIR__.'/../../data/mail',
+                'host' => 'mail',
+                'port' => '1025',
             ],
         ],
     ],
