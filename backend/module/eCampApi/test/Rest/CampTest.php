@@ -48,6 +48,10 @@ class CampTest extends AbstractApiControllerTestCase {
                 "name": "CampName",
                 "title": "CampTitle",
                 "motto": "CampMotto",
+                "addressName": "AdrName",
+                "addressStreet": "AdrStreet",
+                "addressZipcode": "AdrZipcode",
+                "addressCity": "AdrCity",
                 "role": "manager",
                 "isPrototype": false
             }

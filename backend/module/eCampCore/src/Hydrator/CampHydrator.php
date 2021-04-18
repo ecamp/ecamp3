@@ -63,6 +63,10 @@ class CampHydrator implements HydratorInterface {
             'name' => $camp->getName(),
             'title' => $camp->getTitle(),
             'motto' => $camp->getMotto(),
+            'addressName' => $camp->getAddressName(),
+            'addressStreet' => $camp->getAddressStreet(),
+            'addressZipcode' => $camp->getAddressZipcode(),
+            'addressCity' => $camp->getAddressCity(),
             'role' => $camp->getRole($auth->getIdentity()),
             'isPrototype' => $camp->getIsPrototype(),
 
@@ -109,6 +113,19 @@ class CampHydrator implements HydratorInterface {
         }
         if (isset($data['motto'])) {
             $camp->setMotto($data['motto']);
+        }
+
+        if (isset($data['addressName'])) {
+            $camp->setAddressName($data['addressName']);
+        }
+        if (isset($data['addressStreet'])) {
+            $camp->setAddressStreet($data['addressStreet']);
+        }
+        if (isset($data['addressZipcode'])) {
+            $camp->setAddressZipcode($data['addressZipcode']);
+        }
+        if (isset($data['addressCity'])) {
+            $camp->setAddressCity($data['addressCity']);
         }
 
         return $camp;
