@@ -15,8 +15,8 @@ import Notes from './content/Notes.vue'
 import Material from './content/Material.vue'
 import LAThematicArea from './content/LAThematicArea.vue'
 import SafetyConcept from './content/SafetyConcept.vue'
-import Storycontext from './content/Storycontext.vue'
 import Storyboard from './content/Storyboard.vue'
+import Storycontext from './content/Storycontext.vue'
 
 const contentNodeComponents = {
   ColumnLayout,
@@ -24,8 +24,8 @@ const contentNodeComponents = {
   Material,
   LAThematicArea,
   SafetyConcept,
-  Storycontext,
-  Storyboard
+  Storyboard,
+  Storycontext
 }
 
 export default {

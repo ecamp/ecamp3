@@ -92,6 +92,10 @@ JSON;
                 "contentNodes": {
                     "href": "http://{$host}/api/content-nodes{/contentNodeId}{?page_size,page,ownerId,parentId}",
                     "templated": true
+                },
+                "contentTypes": {
+                    "href": "http://{$host}/api/content-types{/contentTypeId}{?page_size,page}",
+                    "templated": true
                 }
             }
         }

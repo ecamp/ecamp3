@@ -20,12 +20,21 @@
       :items="numberingStyles"
       :name="$tc('entity.category.fields.numberingStyle')"
       vee-rules="required" />
+
+    <e-select
+      v-model="localCategory.preferredContentTypes"
+      :items="contentTypes"
+      :name="$tc('entity.contentType.name', 2)"
+      multiple />
   </div>
 </template>
 
 <script>
+import { camelCase } from 'lodash'
+import ESelect from '../form/base/ESelect.vue'
 export default {
   name: 'DialogCategoryForm',
+  components: { ESelect },
   props: {
     camp: { type: Object, required: true },
     isNew: { type: Boolean, required: true },
@@ -42,6 +51,12 @@ export default {
       return ['1', 'a', 'A', 'i', 'I'].map(i => ({
         value: i,
         text: this.$tc('entity.category.numberingStyles.' + i)
+      }))
+    },
+    contentTypes () {
+      return this.api.get().contentTypes().items.map(ct => ({
+        value: ct,
+        text: this.$tc('contentNode.' + camelCase(ct.name) + '.name')
       }))
     }
   }

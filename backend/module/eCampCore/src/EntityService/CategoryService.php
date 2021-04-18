@@ -6,10 +6,11 @@ use Doctrine\ORM\ORMException;
 use Doctrine\ORM\QueryBuilder;
 use eCamp\Core\Entity\Camp;
 use eCamp\Core\Entity\Category;
-use eCamp\Core\Entity\CategoryContentType;
 use eCamp\Core\Entity\ContentNode;
+use eCamp\Core\Entity\ContentType;
 use eCamp\Core\Hydrator\CategoryHydrator;
 use eCamp\Lib\Acl\NoAccessException;
+use eCamp\Lib\Entity\BaseEntity;
 use eCamp\Lib\Service\EntityNotFoundException;
 use eCamp\Lib\Service\ServiceUtils;
 use eCampApi\V1\Rest\Category\CategoryCollection;
@@ -17,13 +18,11 @@ use Laminas\Authentication\AuthenticationService;
 
 class CategoryService extends AbstractEntityService {
     private ContentNodeService $contentNodeService;
-    private CategoryContentTypeService $categoryContentTypeService;
 
     public function __construct(
         ServiceUtils $serviceUtils,
         AuthenticationService $authenticationService,
-        ContentNodeService $contentNodeService,
-        CategoryContentTypeService $categoryContentTypeService
+        ContentNodeService $contentNodeService
     ) {
         parent::__construct(
             $serviceUtils,
@@ -34,7 +33,6 @@ class CategoryService extends AbstractEntityService {
         );
 
         $this->contentNodeService = $contentNodeService;
-        $this->categoryContentTypeService = $categoryContentTypeService;
     }
 
     public function createFromPrototype(Camp $camp, Category $prototype): Category {
@@ -55,9 +53,9 @@ class CategoryService extends AbstractEntityService {
             $category->setRootContentNode($contentNode);
         }
 
-        /** @var CategoryContentType $categoryContentType */
-        foreach ($prototype->getCategoryContentTypes() as $categoryContentType) {
-            $this->categoryContentTypeService->createFromPrototype($category, $categoryContentType);
+        /** @var ContentType $contentType */
+        foreach ($prototype->getPreferredContentTypes() as $contentType) {
+            $category->addPreferredContentType($contentType);
         }
 
         return $category;
@@ -75,6 +73,32 @@ class CategoryService extends AbstractEntityService {
         /** @var Camp $camp */
         $camp = $this->findRelatedEntity(Camp::class, $data, 'campId');
         $camp->addCategory($category);
+
+        if (isset($data->preferredContentTypes)) {
+            array_map(
+                function ($contentType) use ($category) {
+                    $category->addPreferredContentType($contentType);
+                },
+                $this->findRelatedEntities(ContentType::class, $data, 'preferredContentTypes')
+            );
+        }
+
+        return $category;
+    }
+
+    protected function patchEntity(BaseEntity $entity, $data): BaseEntity {
+        /** @var Category $category */
+        $category = parent::patchEntity($entity, $data);
+
+        if (isset($data->preferredContentTypes)) {
+            $category->getPreferredContentTypes()->clear();
+            array_map(
+                function ($contentType) use ($category) {
+                    $category->addPreferredContentType($contentType);
+                },
+                $this->findRelatedEntities(ContentType::class, $data, 'preferredContentTypes')
+            );
+        }
 
         return $category;
     }

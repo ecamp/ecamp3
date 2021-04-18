@@ -150,6 +150,11 @@ class IndexController extends AbstractActionController {
             'route' => 'e-camp-api.rest.doctrine.content-node',
         ]);
 
+        $data['contentTypes'] = TemplatedLink::factory([
+            'rel' => 'contentTypes',
+            'route' => 'e-camp-api.rest.doctrine.content-type',
+        ]);
+
         $json = new HalJsonModel();
         $json->setPayload(new Entity($data));
 
