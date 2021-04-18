@@ -1,7 +1,10 @@
 // https://docs.cypress.io/api/introduction/api.html
 
-describe('My First Test', () => {
-  it('Visits the app root url', () => {
+describe('Smoke test', () => {
+  it('displays the login page', () => {
     cy.visit('/')
+    cy.contains('Login')
+    cy.contains('This is the site of the new eCamp.')
+    cy.contains('Register now')
   })
 })
