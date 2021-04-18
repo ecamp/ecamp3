@@ -14,7 +14,7 @@
               app color="grey lighten-5">
       <small>eCamp <a v-if="version" :href="versionLink" target="_blank">
         {{ version }}
-      </a></small>
+      </a> <span class="ml-1">{{ deploymentTime }}</span></small>
       <v-spacer />
       <language-switcher />
     </v-footer>
@@ -32,6 +32,11 @@ export default {
   computed: {
     profile () {
       return this.api.get().profile()
+    },
+    deploymentTime () {
+      const timestamp = window.environment.DEPLOYMENT_TIME
+      const dateTime = timestamp ? this.$date.unix(timestamp) : this.$date()
+      return dateTime.format(this.$tc('global.datetime.dateTimeLong'))
     },
     version () {
       return window.environment.VERSION || ''
