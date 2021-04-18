@@ -36,6 +36,9 @@ class CategoryService extends AbstractEntityService {
     }
 
     public function createFromPrototype(Camp $camp, Category $prototype): Category {
+        /** @var ContentNode $contentNodePrototype */
+        $contentNodePrototype = $prototype->getRootContentNode();
+
         /** @var Category $category */
         $category = $this->create((object) [
             'campId' => $camp->getId(),
@@ -43,11 +46,10 @@ class CategoryService extends AbstractEntityService {
             'name' => $prototype->getName(),
             'color' => $prototype->getColor(),
             'numberingStyle' => $prototype->getNumberingStyle(),
+            'createRootContentNode' => !isset($contentNodePrototype),
         ]);
         $category->setCategoryPrototypeId($prototype->getId());
 
-        /** @var ContentNode $contentNodePrototype */
-        $contentNodePrototype = $prototype->getRootContentNode();
         if (isset($contentNodePrototype)) {
             $contentNode = $this->contentNodeService->createFromPrototype($category, $contentNodePrototype);
             $category->setRootContentNode($contentNode);
@@ -81,6 +83,24 @@ class CategoryService extends AbstractEntityService {
                 },
                 $this->findRelatedEntities(ContentType::class, $data, 'preferredContentTypes')
             );
+        }
+
+        return $category;
+    }
+
+    protected function createEntityPost(BaseEntity $entity, $data): BaseEntity {
+        /** @var Category $category */
+        $category = parent::createEntityPost($entity, $data);
+
+        $q = $this->findCollectionQueryBuilder(ContentType::class, 'c', null)->where("c.name = 'ColumnLayout'");
+        $columnLayout = $this->getQuerySingleResult($q);
+
+        if (!isset($data->createRootContentNode) || $data->createRootContentNode) {
+            $contentNode = $this->contentNodeService->create((object) [
+                'ownerId' => $entity->getId(),
+                'contentTypeId' => $columnLayout->getId(),
+            ]);
+            $category->setRootContentNode($contentNode);
         }
 
         return $category;
