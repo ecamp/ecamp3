@@ -9,6 +9,7 @@ use eCamp\Core\Entity\AbstractContentNodeOwner;
 use eCamp\Core\Entity\ContentNode;
 use eCamp\Core\Entity\ContentType;
 use eCamp\Core\Hydrator\ContentNodeHydrator;
+use eCamp\Core\Repository\ContentNodeRepository;
 use eCamp\Lib\Acl\Acl;
 use eCamp\Lib\Acl\NoAccessException;
 use eCamp\Lib\Entity\BaseEntity;
@@ -21,6 +22,7 @@ use Psr\Container\NotFoundExceptionInterface;
 
 class ContentNodeService extends AbstractEntityService {
     private ContentTypeStrategyProvider $contentTypeStrategyProvider;
+    private ?ContentNodeRepository $contentNodeRepository = null;
 
     public function __construct(
         ServiceUtils $serviceUtils,
@@ -80,6 +82,14 @@ class ContentNodeService extends AbstractEntityService {
             $contentNode->setParent($parent);
         }
 
+        $contentNode->setPosition(0);
+        if (isset($data->position)) {
+            $contentNode->setPosition($data->position);
+        } elseif (null !== $contentNode->getParent()) {
+            $position = $this->getContentNodeRepository()->getHighestChildPosition($contentNode->getParent(), $contentNode->getSlot());
+            $contentNode->setPosition($position + 1);
+        }
+
         /** @var ContentType $contentType */
         $contentType = $this->findRelatedEntity(ContentType::class, $data, 'contentTypeId');
         $contentNode->setContentType($contentType);
@@ -134,5 +144,15 @@ class ContentNodeService extends AbstractEntityService {
         // Also allow the strategy to define custom validation
         $strategy = $this->contentTypeStrategyProvider->get($contentNode->getContentType());
         $strategy->validateContentNode($contentNode);
+    }
+
+    protected function getContentNodeRepository(): ContentNodeRepository {
+        if (!$this->contentNodeRepository) {
+            /** @var ContentNodeRepository $entityRepository */
+            $entityRepository = $this->getServiceUtils()->emGetRepository(ContentNode::class);
+            $this->contentNodeRepository = $entityRepository;
+        }
+
+        return $this->contentNodeRepository;
     }
 }

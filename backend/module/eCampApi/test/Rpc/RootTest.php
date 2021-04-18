@@ -58,7 +58,7 @@ JSON;
                     "href": "http://{$host}/api-tools/swagger"
                 },
                 "invitation": {
-                  "href": "http://{$host}/api/invitations{/inviteKey}{/action}",
+                  "href": "http://{$host}/api/invitations{/inviteKey}{/campCollaborationId}{/action}",
                   "templated": true
                 },
                 "users": {
@@ -91,6 +91,10 @@ JSON;
                 },
                 "contentNodes": {
                     "href": "http://{$host}/api/content-nodes{/contentNodeId}{?page_size,page,ownerId,parentId}",
+                    "templated": true
+                },
+                "contentTypes": {
+                    "href": "http://{$host}/api/content-types{/contentTypeId}{?page_size,page}",
                     "templated": true
                 }
             }

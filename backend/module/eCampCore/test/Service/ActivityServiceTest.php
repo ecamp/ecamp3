@@ -58,7 +58,7 @@ class ActivityServiceTest extends AbstractApiControllerTestCase {
         /** @var ActivityService $activityService */
         $activityService = $this->getApplicationServiceLocator()->get(ActivityService::class);
 
-        $this->assertCount(1, $this->category->getCategoryContentTypes());
+        $this->assertCount(1, $this->category->getPreferredContentTypes());
 
         /** @var Activity $activity */
         $activity = $activityService->create((object) [

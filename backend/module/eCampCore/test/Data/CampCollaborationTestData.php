@@ -11,6 +11,8 @@ use eCamp\Core\Entity\User;
 
 class CampCollaborationTestData extends AbstractFixture implements DependentFixtureInterface {
     public static $COLLAB1 = CampCollaboration::class.':COLLAB1';
+    public static $COLLAB_GUEST = CampCollaboration::class.':COLLAB_GUEST';
+    public static $COLLAB_MANAGER = CampCollaboration::class.':COLLAB_MANAGER';
     public static $COLLAB_INVITED = CampCollaboration::class.':COLLAB_INVITED';
     public static $COLLAB_INVITED_AS_GUEST = CampCollaboration::class.':COLLAB_INVITED_AS_GUEST';
     public static $COLLAB_INACTIVE = CampCollaboration::class.':COLLAB_INACTIVE';
@@ -32,6 +34,34 @@ class CampCollaborationTestData extends AbstractFixture implements DependentFixt
         $manager->flush();
 
         $this->addReference(self::$COLLAB1, $campCollaboration);
+
+        /** @var User $userForGuest */
+        $userForGuest = $this->getReference(UserTestData::$USER3);
+
+        $campCollaborationGuest = new CampCollaboration();
+        $campCollaborationGuest->setCamp($camp);
+        $campCollaborationGuest->setUser($userForGuest);
+        $campCollaborationGuest->setRole(CampCollaboration::ROLE_GUEST);
+        $campCollaborationGuest->setStatus(CampCollaboration::STATUS_ESTABLISHED);
+
+        $manager->persist($campCollaborationGuest);
+        $manager->flush();
+
+        $this->addReference(self::$COLLAB_GUEST, $campCollaborationGuest);
+
+        /** @var User $userForManager */
+        $userForManager = $this->getReference(UserTestData::$USER4);
+
+        $campCollaborationManager = new CampCollaboration();
+        $campCollaborationManager->setCamp($camp);
+        $campCollaborationManager->setUser($userForManager);
+        $campCollaborationManager->setRole(CampCollaboration::ROLE_MANAGER);
+        $campCollaborationManager->setStatus(CampCollaboration::STATUS_ESTABLISHED);
+
+        $manager->persist($campCollaborationManager);
+        $manager->flush();
+
+        $this->addReference(self::$COLLAB_MANAGER, $campCollaborationManager);
 
         $campCollaborationInvited = new CampCollaboration();
         $campCollaborationInvited->setCamp($camp);

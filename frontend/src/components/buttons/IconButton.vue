@@ -8,7 +8,12 @@
     <span :class="{'d-sr-only': hideLabel}">
       <slot />
     </span>
-    <v-icon :right="!hideLabel" size="150%">{{ icon }}</v-icon>
+    <v-icon
+      :right="!hideLabel"
+      size="150%"
+      :class="{'animate': animate}">
+      {{ icon }}
+    </v-icon>
   </v-btn>
 </template>
 
@@ -18,10 +23,24 @@ export default {
   props: {
     icon: { type: String, required: true },
     hideLabel: { type: Boolean, default: false },
-    color: { type: String, default: 'normal' }
+    color: { type: String, default: 'normal' },
+    animate: { type: Boolean, default: false }
   }
 }
 </script>
 
 <style scoped>
+/*noinspection CssUnusedSymbol*/
+.v-icon.animate {
+  animation: spin .5s infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
 </style>

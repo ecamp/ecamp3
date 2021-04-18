@@ -31,4 +31,14 @@ class UpdateInvitationController extends RpcController {
     public function reject($inviteKey): HalJsonModel {
         return $this->invitationController->reject($inviteKey);
     }
+
+    /**
+     * @throws \eCamp\Lib\Acl\NoAccessException
+     * @throws \eCamp\Lib\Service\EntityNotFoundException
+     * @throws \eCamp\Lib\Acl\NotAuthenticatedException
+     * @throws \eCamp\Lib\Service\EntityValidationException
+     */
+    public function resend($campCollaborationId): HalJsonModel {
+        return $this->invitationController->resend($campCollaborationId);
+    }
 }

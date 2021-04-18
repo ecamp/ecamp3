@@ -101,6 +101,9 @@ class CampHydrator implements HydratorInterface {
         if (isset($data['isPrototype'])) {
             $camp->setIsPrototype($data['isPrototype']);
         }
+        if (isset($data['name'])) {
+            $camp->setName($data['name']);
+        }
         if (isset($data['title'])) {
             $camp->setTitle($data['title']);
         }

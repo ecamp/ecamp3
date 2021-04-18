@@ -5,6 +5,7 @@ namespace eCampApi\V1;
 use eCamp\Lib\Entity\EntityLink;
 use eCamp\Lib\Entity\EntityLinkCollection;
 use Laminas\Di\Container\ServiceManager\AutowireFactory;
+use Laminas\Stdlib\ArrayUtils;
 
 class RpcConfig {
     private string $routeName;
@@ -20,6 +21,15 @@ class RpcConfig {
 
     public static function forRoute($routeName): RpcConfig {
         return new RpcConfig($routeName);
+    }
+
+    public static function merge(...$configs): array {
+        $result = [];
+        foreach ($configs as $config) {
+            $result = ArrayUtils::merge($result, $config);
+        }
+
+        return $result;
     }
 
     public function setController(string $controller): RpcConfig {

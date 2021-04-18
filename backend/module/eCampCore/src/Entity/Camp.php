@@ -11,9 +11,7 @@ use eCamp\Lib\Entity\BaseEntity;
 /**
  * @ORM\Entity(repositoryClass="eCamp\Core\Repository\CampRepository")
  * @ORM\HasLifecycleCallbacks
- * @ORM\Table(uniqueConstraints={
- *     @ORM\UniqueConstraint(name="owner_name_unique", columns={"ownerId", "name"})
- * })
+ * @ORM\Table
  * @EntityFilter(filterClass="eCamp\Core\EntityFilter\CampFilter")
  */
 class Camp extends BaseEntity implements BelongsToCampInterface {
@@ -21,11 +19,6 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
      * @ORM\OneToMany(targetEntity="CampCollaboration", mappedBy="camp", orphanRemoval=true)
      */
     protected Collection $collaborations;
-
-    /**
-     * @ORM\OneToMany(targetEntity="Job", mappedBy="camp", orphanRemoval=true)
-     */
-    protected Collection $jobs;
 
     /**
      * @ORM\OneToMany(targetEntity="Period", mappedBy="camp", orphanRemoval=true)
@@ -216,16 +209,6 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
 
     public function getJobs(): Collection {
         return $this->jobs;
-    }
-
-    public function addJob(Job $job): void {
-        $job->setCamp($this);
-        $this->jobs->add($job);
-    }
-
-    public function removeJob(Job $job): void {
-        $job->setCamp(null);
-        $this->jobs->removeElement($job);
     }
 
     public function getPeriods(): Collection {
