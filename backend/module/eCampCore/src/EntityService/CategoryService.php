@@ -91,11 +91,11 @@ class CategoryService extends AbstractEntityService {
     protected function createEntityPost(BaseEntity $entity, $data): BaseEntity {
         /** @var Category $category */
         $category = parent::createEntityPost($entity, $data);
-
-        $q = $this->findCollectionQueryBuilder(ContentType::class, 'c', null)->where("c.name = 'ColumnLayout'");
-        $columnLayout = $this->getQuerySingleResult($q);
-
+        
         if (!isset($data->createRootContentNode) || $data->createRootContentNode) {
+            $q = $this->findCollectionQueryBuilder(ContentType::class, 'c', null)->where("c.name = 'ColumnLayout'");
+            $columnLayout = $this->getQuerySingleResult($q);
+            
             $contentNode = $this->contentNodeService->create((object) [
                 'ownerId' => $entity->getId(),
                 'contentTypeId' => $columnLayout->getId(),
