@@ -8,6 +8,7 @@ use Doctrine\Persistence\ObjectManager;
 use eCamp\Core\Entity\Camp;
 use eCamp\Core\Entity\CampCollaboration;
 use eCamp\Core\Entity\User;
+use RuntimeException;
 
 class CampCollaborationTestData extends AbstractFixture implements DependentFixtureInterface {
     public static $COLLAB1 = CampCollaboration::class.':COLLAB1';
@@ -20,86 +21,114 @@ class CampCollaborationTestData extends AbstractFixture implements DependentFixt
     public function load(ObjectManager $manager): void {
         /** @var Camp $camp */
         $camp = $this->getReference(CampTestData::$CAMP1);
+        $this->addReference(
+            self::$COLLAB1,
+            $this->createCampCollaboration(
+                $manager,
+                $camp,
+                UserTestData::$USER1,
+                CampCollaboration::ROLE_MEMBER,
+                CampCollaboration::STATUS_ESTABLISHED
+            )
+        );
 
-        /** @var User $user */
-        $user = $this->getReference(UserTestData::$USER1);
+        $this->addReference(
+            self::$COLLAB_GUEST,
+            $this->createCampCollaboration(
+                $manager,
+                $camp,
+                UserTestData::$USER3,
+                CampCollaboration::ROLE_GUEST,
+                CampCollaboration::STATUS_ESTABLISHED
+            )
+        );
 
-        $campCollaboration = new CampCollaboration();
-        $campCollaboration->setCamp($camp);
-        $campCollaboration->setUser($user);
-        $campCollaboration->setRole(CampCollaboration::ROLE_MEMBER);
-        $campCollaboration->setStatus(CampCollaboration::STATUS_ESTABLISHED);
+        $this->addReference(
+            self::$COLLAB_MANAGER,
+            $this->createCampCollaboration(
+                $manager,
+                $camp,
+                UserTestData::$USER4,
+                CampCollaboration::ROLE_MANAGER,
+                CampCollaboration::STATUS_ESTABLISHED
+            )
+        );
 
-        $manager->persist($campCollaboration);
-        $manager->flush();
+        $this->addReference(
+            self::$COLLAB_INVITED,
+            $this->createCampCollaboration(
+                $manager,
+                $camp,
+                null,
+                CampCollaboration::ROLE_MEMBER,
+                CampCollaboration::STATUS_INVITED,
+                'e.mail@test.com',
+                'myInviteKey'
+            )
+        );
 
-        $this->addReference(self::$COLLAB1, $campCollaboration);
+        $this->addReference(
+            self::$COLLAB_INVITED_AS_GUEST,
+            $this->createCampCollaboration(
+                $manager,
+                $camp,
+                null,
+                CampCollaboration::ROLE_GUEST,
+                CampCollaboration::STATUS_INVITED,
+                'e.mail.guest@test.com',
+                'myInviteKeyGuest'
+            )
+        );
 
-        /** @var User $userForGuest */
-        $userForGuest = $this->getReference(UserTestData::$USER3);
-
-        $campCollaborationGuest = new CampCollaboration();
-        $campCollaborationGuest->setCamp($camp);
-        $campCollaborationGuest->setUser($userForGuest);
-        $campCollaborationGuest->setRole(CampCollaboration::ROLE_GUEST);
-        $campCollaborationGuest->setStatus(CampCollaboration::STATUS_ESTABLISHED);
-
-        $manager->persist($campCollaborationGuest);
-        $manager->flush();
-
-        $this->addReference(self::$COLLAB_GUEST, $campCollaborationGuest);
-
-        /** @var User $userForManager */
-        $userForManager = $this->getReference(UserTestData::$USER4);
-
-        $campCollaborationManager = new CampCollaboration();
-        $campCollaborationManager->setCamp($camp);
-        $campCollaborationManager->setUser($userForManager);
-        $campCollaborationManager->setRole(CampCollaboration::ROLE_MANAGER);
-        $campCollaborationManager->setStatus(CampCollaboration::STATUS_ESTABLISHED);
-
-        $manager->persist($campCollaborationManager);
-        $manager->flush();
-
-        $this->addReference(self::$COLLAB_MANAGER, $campCollaborationManager);
-
-        $campCollaborationInvited = new CampCollaboration();
-        $campCollaborationInvited->setCamp($camp);
-        $campCollaborationInvited->setInviteEmail('e.mail@test.com');
-        $campCollaborationInvited->setRole(CampCollaboration::ROLE_MEMBER);
-        $campCollaborationInvited->setStatus(CampCollaboration::STATUS_INVITED);
-        $campCollaborationInvited->setInviteKey('myInviteKey');
-
-        $manager->persist($campCollaborationInvited);
-        $manager->flush();
-
-        $this->addReference(self::$COLLAB_INVITED, $campCollaborationInvited);
-
-        $campCollaborationInvitedAsGuest = new CampCollaboration();
-        $campCollaborationInvitedAsGuest->setCamp($camp);
-        $campCollaborationInvitedAsGuest->setInviteEmail('e.mail.guest@test.com');
-        $campCollaborationInvitedAsGuest->setRole(CampCollaboration::ROLE_GUEST);
-        $campCollaborationInvitedAsGuest->setStatus(CampCollaboration::STATUS_INVITED);
-        $campCollaborationInvitedAsGuest->setInviteKey('myInviteKeyGuest');
-
-        $manager->persist($campCollaborationInvitedAsGuest);
-        $manager->flush();
-
-        $this->addReference(self::$COLLAB_INVITED_AS_GUEST, $campCollaborationInvitedAsGuest);
-
-        $campCollaborationInactive = new CampCollaboration();
-        $campCollaborationInactive->setCamp($camp);
-        $campCollaborationInactive->setInviteEmail('e.mail.inactive@test.com');
-        $campCollaborationInactive->setRole(CampCollaboration::ROLE_MEMBER);
-        $campCollaborationInactive->setStatus(CampCollaboration::STATUS_INACTIVE);
-
-        $manager->persist($campCollaborationInactive);
-        $manager->flush();
-
-        $this->addReference(self::$COLLAB_INACTIVE, $campCollaborationInactive);
+        $this->addReference(
+            self::$COLLAB_INACTIVE,
+            $this->createCampCollaboration(
+                $manager,
+                $camp,
+                null,
+                CampCollaboration::ROLE_MEMBER,
+                CampCollaboration::STATUS_INACTIVE,
+                'e.mail.inactive@test.com'
+            )
+        );
     }
 
     public function getDependencies() {
         return [CampTestData::class, UserTestData::class];
+    }
+
+    private function createCampCollaboration(
+        ObjectManager $manager,
+        Camp $camp,
+        ?string $userReference,
+        string $role,
+        string $status,
+        ?string $inviteEmail = null,
+        ?string $inviteKey = null
+    ): CampCollaboration {
+        $campCollaboration = new CampCollaboration();
+
+        if (null != $userReference) {
+            /** @var User $user */
+            $user = $this->getReference($userReference);
+
+            $campCollaboration->setUser($user);
+        }
+
+        $campCollaboration->setCamp($camp);
+
+        try {
+            $campCollaboration->setRole($role);
+            $campCollaboration->setStatus($status);
+        } catch (\Exception $e) {
+            throw new RuntimeException($e);
+        }
+        $campCollaboration->setInviteEmail($inviteEmail);
+        $campCollaboration->setInviteKey($inviteKey);
+
+        $manager->persist($campCollaboration);
+        $manager->flush();
+
+        return $campCollaboration;
     }
 }
