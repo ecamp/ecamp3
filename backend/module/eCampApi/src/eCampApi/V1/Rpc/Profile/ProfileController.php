@@ -4,7 +4,6 @@ namespace eCampApi\V1\Rpc\Profile;
 
 use eCamp\Core\Entity\User;
 use eCamp\Core\EntityService\UserService;
-use eCamp\Lib\Types\DateUtc;
 use Laminas\ApiTools\ApiProblem\ApiProblem;
 use Laminas\ApiTools\ApiProblem\View\ApiProblemModel;
 use Laminas\ApiTools\Hal\Entity;
@@ -63,7 +62,6 @@ class ProfileController extends AbstractActionController {
             'mail' => $user->getTrustedMailAddress(),
             'role' => $user->getRole(),
             'language' => $user->getLanguage(),
-            'birthday' => $user->getBirthday(),
             'isAdmin' => (User::ROLE_ADMIN == $user->getRole()),
         ])]);
     }
@@ -89,9 +87,6 @@ class ProfileController extends AbstractActionController {
         }
         if (isset($data->language)) {
             $user->setLanguage($data->language);
-        }
-        if (isset($data->birthday)) {
-            $user->setBirthday(new DateUtc($data->birthday));
         }
 
         // DEBUG-CODE
