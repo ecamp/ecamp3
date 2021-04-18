@@ -19,10 +19,13 @@ class CampCollaborationTest extends AbstractApiControllerTestCase {
     protected $campCollaborationInvited;
 
     protected CampCollaboration $campCollaborationInactive;
+    protected CampCollaboration $camp1CampCollaborationEstablishedManager;
+    protected CampCollaboration $camp2CampCollaborationEstablishedManager;
 
     /** @var User */
     protected $user;
     protected User $user2;
+    protected User $manager;
 
     private $apiEndpoint = '/api/camp-collaborations';
 
@@ -39,9 +42,12 @@ class CampCollaborationTest extends AbstractApiControllerTestCase {
 
         $this->user = $userLoader->getReference(UserTestData::$USER1);
         $this->user2 = $userLoader->getReference(UserTestData::$USER2);
+        $this->manager = $userLoader->getReference(UserTestData::$USER4);
         $this->campCollaboration1 = $campCollaborationLoader->getReference(CampCollaborationTestData::$COLLAB1);
         $this->campCollaborationInvited = $campCollaborationLoader->getReference(CampCollaborationTestData::$COLLAB_INVITED);
         $this->campCollaborationInactive = $campCollaborationLoader->getReference(CampCollaborationTestData::$COLLAB_INACTIVE);
+        $this->camp1CampCollaborationEstablishedManager = $campCollaborationLoader->getReference(CampCollaborationTestData::$COLLAB_MANAGER);
+        $this->camp2CampCollaborationEstablishedManager = $campCollaborationLoader->getReference(CampCollaborationTestData::$CAMP2_USER1_ESTABLISHED_MANAGER);
 
         $this->authenticateUser($this->user);
     }
@@ -336,5 +342,43 @@ JSON;
         $this->dispatch("{$this->apiEndpoint}/{$this->campCollaboration1->getId()}", 'DELETE');
 
         $this->assertResponseStatusCode(403);
+    }
+
+    public function testUpdateRoleToMemberFailsIfNoOtherManager() {
+        $this->logout();
+        $this->authenticateUser($this->manager);
+
+        $this->setRequestContent([
+            'role' => 'member',
+        ]);
+
+        $this->dispatch("{$this->apiEndpoint}/{$this->camp1CampCollaborationEstablishedManager->getId()}", 'PATCH');
+
+        $this->assertResponseStatusCode(422);
+    }
+
+    public function testDeleteManagerFailsIfNoOtherManager() {
+        $this->logout();
+        $this->authenticateUser($this->manager);
+
+        $this->dispatch("{$this->apiEndpoint}/{$this->camp1CampCollaborationEstablishedManager->getId()}", 'DELETE');
+
+        $this->assertResponseStatusCode(422);
+    }
+
+    public function testUpdateRoleToMemberSucceedsIfOtherManagerExists() {
+        $this->setRequestContent([
+            'role' => 'member',
+        ]);
+
+        $this->dispatch("{$this->apiEndpoint}/{$this->camp2CampCollaborationEstablishedManager->getId()}", 'PATCH');
+
+        $this->assertResponseStatusCode(200);
+    }
+
+    public function testDeleteManagerSucceedsIfOtherManagerExists() {
+        $this->dispatch("{$this->apiEndpoint}/{$this->camp2CampCollaborationEstablishedManager->getId()}", 'DELETE');
+
+        $this->assertResponseStatusCode(204);
     }
 }

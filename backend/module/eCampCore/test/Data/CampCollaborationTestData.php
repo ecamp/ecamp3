@@ -18,7 +18,19 @@ class CampCollaborationTestData extends AbstractFixture implements DependentFixt
     public static $COLLAB_INVITED_AS_GUEST = CampCollaboration::class.':COLLAB_INVITED_AS_GUEST';
     public static $COLLAB_INACTIVE = CampCollaboration::class.':COLLAB_INACTIVE';
 
+    public static $CAMP2_USER1_ESTABLISHED_MANAGER = CampCollaboration::class.':CAMP2_USER1_ESTABLISHED_MANAGER';
+    public static $CAMP2_USER2_ESTABLISHED_MANAGER = CampCollaboration::class.':CAMP2_USER2_ESTABLISHED_MANAGER';
+
     public function load(ObjectManager $manager): void {
+        $this->createCampCollaborationsForCamp1($manager);
+        $this->createCampCollaborationsForCamp2($manager);
+    }
+
+    public function getDependencies() {
+        return [CampTestData::class, UserTestData::class];
+    }
+
+    private function createCampCollaborationsForCamp1(ObjectManager $manager): void {
         /** @var Camp $camp */
         $camp = $this->getReference(CampTestData::$CAMP1);
         $this->addReference(
@@ -93,8 +105,30 @@ class CampCollaborationTestData extends AbstractFixture implements DependentFixt
         );
     }
 
-    public function getDependencies() {
-        return [CampTestData::class, UserTestData::class];
+    private function createCampCollaborationsForCamp2(ObjectManager $manager): void {
+        /** @var Camp $camp */
+        $camp = $this->getReference(CampTestData::$CAMP2);
+        $this->addReference(
+            self::$CAMP2_USER1_ESTABLISHED_MANAGER,
+            $this->createCampCollaboration(
+                $manager,
+                $camp,
+                UserTestData::$USER1,
+                CampCollaboration::ROLE_MANAGER,
+                CampCollaboration::STATUS_ESTABLISHED
+            )
+        );
+
+        $this->addReference(
+            self::$CAMP2_USER2_ESTABLISHED_MANAGER,
+            $this->createCampCollaboration(
+                $manager,
+                $camp,
+                UserTestData::$USER2,
+                CampCollaboration::ROLE_MANAGER,
+                CampCollaboration::STATUS_ESTABLISHED
+            )
+        );
     }
 
     private function createCampCollaboration(
