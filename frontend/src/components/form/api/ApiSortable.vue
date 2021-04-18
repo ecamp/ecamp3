@@ -30,10 +30,7 @@ export default {
   },
   props: {
     /* reference to sortable API collection */
-    collection: { type: Function, required: true },
-
-    /* URI to save list patches */
-    collectionUri: { type: String, required: true }
+    collection: { type: Function, required: true }
   },
   data () {
     return {
@@ -138,7 +135,7 @@ export default {
       const patchData = this.locallySortedEntities.map((entity, index) => [entity.id, { pos: index }])
       const patchDataObj = Object.fromEntries(patchData)
 
-      this.api.patch(this.collectionUri, patchDataObj)
+      this.collection().$patch(patchDataObj)
     }
   }
 }

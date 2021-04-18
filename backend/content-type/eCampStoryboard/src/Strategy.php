@@ -26,15 +26,14 @@ class Strategy extends ContentTypeStrategyBase {
         return [
             'sections' => $sections,
 
-            /*
-            // Alternatively send link only
-            'sections' => Link::factory([
+            // add link for embeedded collection
+            'sectionsLinks' => Link::factory([
                 'rel' => 'sections',
                 'route' => [
                     'name' => 'e-camp-api.rest.doctrine.content-node.storyboard',
                     'options' => ['query' => ['contentNodeId' => $contentNode->getId()]],
                 ],
-            ]),*/
+            ]),
         ];
     }
 

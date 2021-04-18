@@ -14,7 +14,7 @@
         <v-col cols="1" />
       </v-row>
 
-      <api-sortable v-slot="sortable" :collection="sections" :collection-uri="'/content-type/storyboards?contentNodeId=' + contentNode.id">
+      <api-sortable v-slot="sortable" :collection="sections">
         <api-form :entity="sortable.entity">
           <v-row dense>
             <v-col cols="2">
