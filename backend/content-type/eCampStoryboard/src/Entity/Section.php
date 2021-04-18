@@ -4,16 +4,15 @@ namespace eCamp\ContentType\Storyboard\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use eCamp\Core\ContentType\BaseContentTypeEntity;
+use eCamp\Lib\Entity\SortableEntityInterface;
+use eCamp\Lib\Entity\SortableEntityTrait;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="content_type_storyboard_section")
  */
-class Section extends BaseContentTypeEntity {
-    /**
-     * @ORM\Column(type="integer", nullable=false)
-     */
-    private int $pos = 0;
+class Section extends BaseContentTypeEntity implements SortableEntityInterface {
+    use SortableEntityTrait;
 
     /**
      * @ORM\Column(type="text", nullable=true)
@@ -29,14 +28,6 @@ class Section extends BaseContentTypeEntity {
      * @ORM\Column(type="text", nullable=true)
      */
     private ?string  $column3 = null;
-
-    public function getPos(): int {
-        return $this->pos;
-    }
-
-    public function setPos(int $pos): void {
-        $this->pos = $pos;
-    }
 
     public function getColumn1(): ?string {
         return $this->column1;

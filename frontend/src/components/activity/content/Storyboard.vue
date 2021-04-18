@@ -13,22 +13,9 @@
         </v-col>
         <v-col cols="1" />
       </v-row>
-      <div v-for="section in contentNode.sections().items" :key="section._meta.self">
-        <!-- add before -->
-        <v-row no-gutters class="row-inter" justify="center">
-          <v-col cols="1">
-            <v-btn v-if="!layoutMode"
-                   icon
-                   small
-                   class="button-add"
-                   color="success"
-                   @click="addSection">
-              <v-icon>mdi-plus</v-icon>
-            </v-btn>
-          </v-col>
-        </v-row>
 
-        <api-form :entity="section">
+      <api-sortable v-slot="sortable" :collection="sections">
+        <api-form :entity="sortable.entity">
           <v-row dense>
             <v-col cols="2">
               <api-textarea
@@ -55,25 +42,45 @@
                 :filled="layoutMode" />
             </v-col>
             <v-col cols="1">
-              <div v-if="!layoutMode" class="float-right section-buttons">
-                <v-btn icon small class="float-right"><v-icon>mdi-arrow-up-bold</v-icon></v-btn>
-                <dialog-entity-delete :entity="section">
-                  <template #activator="{ on }">
-                    <v-btn icon
-                           small
-                           color="error"
-                           class="float-right"
-                           v-on="on">
-                      <v-icon>mdi-delete</v-icon>
+              <v-container v-if="!layoutMode" class="ma-0 pa-0">
+                <v-row no-gutters>
+                  <v-col cols="6">
+                    <div class="section-buttons">
+                      <dialog-entity-delete :entity="sortable.entity">
+                        <template #activator="{ on }">
+                          <v-btn icon
+                                 x-small
+                                 color="error"
+                                 v-on="on">
+                            <v-icon>mdi-delete</v-icon>
+                          </v-btn>
+                        </template>
+                      </dialog-entity-delete>
+                    </div>
+                    <v-btn icon x-small
+                           class="drag-and-drop-handle">
+                      <v-icon>mdi-drag-horizontal-variant</v-icon>
                     </v-btn>
-                  </template>
-                </dialog-entity-delete>
-                <v-btn icon small class="float-right"><v-icon>mdi-arrow-down-bold</v-icon></v-btn>
-              </div>
+                  </v-col>
+                  <v-col cols="6">
+                    <div class="section-buttons">
+                      <v-btn icon x-small
+                             @click="sortable.on.moveUp(sortable.entity)">
+                        <v-icon>mdi-arrow-up-bold</v-icon>
+                      </v-btn>
+
+                      <v-btn icon x-small
+                             @click="sortable.on.moveDown(sortable.entity)">
+                        <v-icon>mdi-arrow-down-bold</v-icon>
+                      </v-btn>
+                    </div>
+                  </v-col>
+                </v-row>
+              </v-container>
             </v-col>
           </v-row>
         </api-form>
-      </div>
+      </api-sortable>
 
       <!-- add at end position -->
       <v-row no-gutters justify="center">
@@ -83,6 +90,7 @@
                  small
                  class="button-add"
                  color="success"
+                 :loading="isAdding"
                  @click="addSection">
             <v-icon>mdi-plus</v-icon>
           </v-btn>
@@ -98,6 +106,7 @@ import ApiForm from '@/components/form/api/ApiForm.vue'
 import DialogEntityDelete from '@/components/dialog/DialogEntityDelete.vue'
 import CardContentNode from '@/components/activity/CardContentNode.vue'
 import { contentNodeMixin } from '@/mixins/contentNodeMixin.js'
+import ApiSortable from '@/components/form/api/ApiSortable.vue'
 
 export default {
   name: 'Storyboard',
@@ -105,18 +114,32 @@ export default {
     CardContentNode,
     ApiForm,
     ApiTextarea,
-    DialogEntityDelete
+    DialogEntityDelete,
+    ApiSortable
   },
   mixins: [contentNodeMixin],
+  props: {
+    contentNode: { type: Object, required: true }
+  },
+  data () {
+    return {
+      isAdding: false
+    }
+  },
+  computed: {
+    sections () {
+      return this.api.get(this.contentNode).sections
+    }
+  },
   methods: {
     async addSection () {
-      // this.isAdding = true
+      this.isAdding = true
       await this.api.post('/content-type/storyboards', {
         contentNodeId: this.contentNode.id,
-        pos: 100
+        pos: this.contentNode.sections().items.length // add at the end of the array
       })
-      await this.refreshContent()
-      // this.isAdding = false
+      await this.refreshContent() // refresh node content (reloading section array)
+      this.isAdding = false
     },
     async refreshContent () {
       await this.api.reload(this.contentNode)
@@ -128,7 +151,6 @@ export default {
 <style scoped>
 .section-buttons{
   width:40px;
-  margin-top:10px;
 }
 
 .row-inter {
