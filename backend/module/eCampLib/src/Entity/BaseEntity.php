@@ -11,6 +11,12 @@ use Laminas\Permissions\Acl\Resource\ResourceInterface;
 /**
  * @ORM\MappedSuperclass
  * @ORM\HasLifecycleCallbacks
+ * @ORM\Table(
+ *     indexes={
+ *         @ORM\Index(name="create_time_idx", columns={"createTime"}),
+ *         @ORM\Index(name="update_time_idx", columns={"updateTime"})
+ *     }
+ * )
  */
 abstract class BaseEntity implements ResourceInterface {
     /**

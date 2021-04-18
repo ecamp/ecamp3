@@ -2,9 +2,9 @@
   <ValidationObserver v-if="materialLists.length > 0"
                       ref="validation"
                       tag="tr"
-                      style="margin-top: 10px"
+                      class="newItemRow"
                       @submit.prevent="createMaterialItem">
-    <td style="vertical-align: top;">
+    <td>
       <e-text-field
         ref="quantity"
         v-model="materialItem.quantity"
@@ -12,14 +12,14 @@
         :name="$tc('entity.materialItem.fields.quantity')"
         fieldname="quantity" />
     </td>
-    <td style="vertical-align: top;">
+    <td>
       <e-text-field
         v-model="materialItem.unit"
         dense
         :name="$tc('entity.materialItem.fields.unit')"
         fieldname="unit" />
     </td>
-    <td style="vertical-align: top;">
+    <td>
       <e-text-field
         v-model="materialItem.article"
         dense
@@ -27,7 +27,7 @@
         :name="$tc('entity.materialItem.fields.article')"
         fieldname="article" />
     </td>
-    <td style="vertical-align: top;">
+    <td>
       <e-select
         v-model="materialItem.materialListId"
         dense
@@ -36,7 +36,7 @@
         fieldname="materialListId"
         :items="materialLists" />
     </td>
-    <td style="vertical-align: top; padding-top: 7px;">
+    <td>
       <button-add hide-label @click="submitForm" />
     </td>
   </ValidationObserver>
@@ -119,5 +119,9 @@ export default {
 <style scoped>
   .v-data-table >>> .v-data-table__wrapper > table > tbody > tr > td {
     padding: 0 2px;
+  }
+
+  .newItemRow {
+    line-height: 80px;
   }
 </style>

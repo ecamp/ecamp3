@@ -429,8 +429,11 @@ abstract class AbstractEntityService extends AbstractResourceListener {
         if (isset($params['where'])) {
             $q->andWhere($params['where']);
         }
+
         if (isset($params['order_by'])) {
             $q->orderBy($params['order_by']);
+        } else {
+            $q->orderBy('row.createTime'); // by default, order by creation time
         }
 
         return $q;

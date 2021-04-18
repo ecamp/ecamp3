@@ -2,74 +2,10 @@
   <card-content-node v-bind="$props">
     <div class="mb-3">
       <!--
-      <v-simple-table dense>
-        <colgroup>
-          <col style="width: 55px;">
-          <col style="width: 15%;">
-          <col>
-          <col style="width: 20%;">
-          <col style="width: 20%;">
-        </colgroup>
-        <thead>
-          <tr>
-            <th class="text-left" colspan="2">
-              {{ $tc("entity.materialItem.fields.quantity") }}
-            </th>
-            <th class="text-left">
-              {{ $tc("entity.materialItem.fields.article") }}
-            </th>
-            <th v-if="$vuetify.breakpoint.smAndUp" class="text-left">
-              {{ $tc('entity.materialList.name') }}
-            </th>
-            <th class="text-left">
-              Option
-            </th>
-          </tr>
-        </thead>
         <tbody>
           <template v-for="materialItem in materialItemsSorted">
             <tr v-if="materialItem._meta != undefined && $vuetify.breakpoint.smAndUp" :key="materialItem.id">
-              <td class="text-align-right">
-                <api-text-field
-                  dense
-                  :outlined="false"
-                  :uri="materialItem._meta.self"
-                  fieldname="quantity" />
-              </td>
-              <td>
-                <api-text-field
-                  dense
-                  :outlined="false"
-                  :uri="materialItem._meta.self"
-                  fieldname="unit" />
-              </td>
-              <td>
-                <api-text-field
-                  dense
-                  :outlined="false"
-                  :uri="materialItem._meta.self"
-                  fieldname="article" />
-              </td>
-              <td>
-                <api-select
-                  dense
-                  :outlined="false"
-                  :uri="materialItem._meta.self"
-                  relation="materialList"
-                  fieldname="materialListId"
-                  :items="materialLists" />
-              </td>
-              <td style="text-align: center;">
-                <v-btn
-                  small
-                  class="short-button"
-                  @click="deleteMaterialItem(materialItem)">
-                  <template v-if="$vuetify.breakpoint.smAndUp">
-                    {{ $tc('global.button.delete') }}
-                  </template>
-                  <v-icon v-else>mdi-trash-can-outline</v-icon>
-                </v-btn>
-              </td>
+              // implemented
             </tr>
             <tr v-else-if="materialItem._meta != undefined" :key="materialItem.id">
               <td class="font-size-16 text-align-bottom">
@@ -112,68 +48,69 @@
         :items="materialItemsData"
         :disable-pagination="true"
         hide-default-footer>
-        <template #[`item.quantity`]="{ item }">
-          <api-text-field
-            v-if="!item.new"
-            dense
-            :uri="item.uri"
-            fieldname="quantity" />
-          <span v-if="item.new">{{ item.quanity }}</span>
-        </template>
-        <template #[`item.unit`]="{ item }">
-          <api-text-field
-            v-if="!item.new"
-            dense
-            :uri="item.uri"
-            fieldname="unit" />
-          <span v-if="item.new">{{ item.unit }}</span>
-        </template>
-        <template #[`item.article`]="{ item }">
-          <api-text-field
-            v-if="!item.new"
-            dense
-            :uri="item.uri"
-            fieldname="article" />
-          <span v-if="item.new">{{ item.article }}</span>
-        </template>
-        <template #[`item.listName`]="{ item }">
-          <api-select
-            v-if="!item.new"
-            dense
-            :uri="item.uri"
-            relation="materialList"
-            fieldname="materialListId"
-            :items="materialLists" />
-          <span v-if="item.new">{{ item.listName }}</span>
-        </template>
-        <template #[`item.actions`]="{ item }">
-          <v-icon
-            v-if="!item.new"
-            small
-            @click="deleteMaterialItem(item)">
-            mdi-delete
-          </v-icon>
-          <v-progress-circular
-            v-if="item.new"
-            size="16"
-            indeterminate
-            color="primary" />
-        </template>
-        <template #no-data>
-          <v-btn
-            color="primary">
-            No material items found
-          </v-btn>
-        </template>
+        <template #body="props">
+          <tbody is="transition-group" name="fade">
+            <tr v-for="item in props.items" :key="item.id">
+              <td>
+                <api-text-field
+                  v-if="!item.new"
+                  dense
+                  :uri="item.uri"
+                  fieldname="quantity" />
+                <span v-if="item.new">{{ item.quantity }}</span>
+              </td>
+              <td>
+                <api-text-field
+                  v-if="!item.new"
+                  dense
+                  :uri="item.uri"
+                  fieldname="unit" />
+                <span v-if="item.new">{{ item.unit }}</span>
+              </td>
+              <td>
+                <api-text-field
+                  v-if="!item.new"
+                  dense
+                  :uri="item.uri"
+                  fieldname="article" />
+                <span v-if="item.new">{{ item.article }}</span>
+              </td>
+              <td>
+                <api-select
+                  v-if="!item.new"
+                  dense
+                  :uri="item.uri"
+                  relation="materialList"
+                  fieldname="materialListId"
+                  :items="materialLists" />
+                <span v-if="item.new">{{ item.listName }}</span>
+              </td>
+              <td>
+                <v-icon
+                  v-if="!item.new"
+                  small
+                  @click="deleteMaterialItem(item)">
+                  mdi-delete
+                </v-icon>
+                <v-progress-circular
+                  v-if="item.new"
+                  size="16"
+                  indeterminate
+                  color="primary" />
+              </td>
+            </tr>
 
-        <template v-if="!layoutMode" #[`body.append`]>
-          <material-create-item
-            v-if="$vuetify.breakpoint.smAndUp"
-            :camp="camp"
-            :content-node="contentNode"
-            @item-adding="onItemAdding" />
+            <!-- add new item (desktop view) -->
+            <material-create-item
+              v-if="!layoutMode && $vuetify.breakpoint.smAndUp"
+              key="addItemRow"
+              :camp="camp"
+              :content-node="contentNode"
+              @item-adding="onItemAdding" />
+          </tbody>
 
-          <div v-else style="margin-top: 20px; text-align: right">
+          <!-- add new item (mobile view) -->
+          <div v-if="!layoutMode && !$vuetify.breakpoint.smAndUp" style="margin-top: 20px; text-align: right">
             <dialog-material-item-create :camp="camp" :content-node="contentNode">
               <template #activator="{ on }">
                 <v-btn color="success" v-on="on">
@@ -182,6 +119,13 @@
               </template>
             </dialog-material-item-create>
           </div>
+        </template>
+
+        <template #no-data>
+          <v-btn
+            color="primary">
+            No material items found
+          </v-btn>
         </template>
       </v-data-table>
     </div>
@@ -255,6 +199,7 @@ export default {
           quantity: mi.quantity,
           unit: mi.unit,
           article: mi.article,
+          listName: this.materialLists.find(listItem => listItem.value === mi.materialListId).text,
           new: true
         })
       }
@@ -323,4 +268,14 @@ export default {
   .font-size-16 {
     font-size: 16px !important;
   }
+
+  .fade-enter-active, .fade-leave-active {
+    transition: all 1s;
+    background: #c8ebfb;
+  }
+
+  .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+    opacity: 0;
+  }
+
 </style>
