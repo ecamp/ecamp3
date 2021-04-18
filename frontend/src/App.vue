@@ -34,7 +34,7 @@ export default {
       return this.api.get().profile()
     },
     deploymentTime () {
-      const timestamp = window.environment.DEPLOYMENT_TIME || ''
+      const timestamp = window.environment.DEPLOYMENT_TIME
       const dateTime = timestamp ? this.$date.unix(timestamp) : this.$date()
       return dateTime.format(this.$tc('global.datetime.dateTimeLong'))
     },
