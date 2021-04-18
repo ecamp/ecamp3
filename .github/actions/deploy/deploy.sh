@@ -8,6 +8,7 @@ FRONTEND_DOMAIN=$(echo "$FRONTEND_URL" | sed -E 's~^(.*://)?(.*@)?([^:/]*).*$~\3
 BACKEND_DOMAIN=$(echo "$BACKEND_URL" | sed -E 's~^(.*://)?(.*@)?([^:/]*).*$~\3~')
 PRINT_SERVER_DOMAIN=$(echo "$PRINT_SERVER_URL" | sed -E 's~^(.*://)?(.*@)?([^:/]*).*$~\3~')
 PRINT_FILE_SERVER_DOMAIN=$(echo "$PRINT_FILE_SERVER_URL" | sed -E 's~^(.*://)?(.*@)?([^:/]*).*$~\3~')
+MAIL_SERVER_DOMAIN=$(echo "$MAIL_SERVER_URL" | sed -E 's~^(.*://)?(.*@)?([^:/]*).*$~\3~')
 
 # Inject the container version into the .env file
 cp .github/actions/deploy/.env .github/actions/deploy/dist/.env
@@ -19,6 +20,7 @@ sed -ri "s~server_name frontend-domain;~server_name ${FRONTEND_DOMAIN};~" .githu
 sed -ri "s~server_name backend-domain;~server_name ${BACKEND_DOMAIN};~" .github/actions/deploy/dist/nginx.conf
 sed -ri "s~server_name print-server-domain;~server_name ${PRINT_SERVER_DOMAIN};~" .github/actions/deploy/dist/nginx.conf
 sed -ri "s~server_name print-file-server-domain;~server_name ${PRINT_FILE_SERVER_DOMAIN};~" .github/actions/deploy/dist/nginx.conf
+sed -ri "s~server_name mail-server-domain;~server_name ${MAIL_SERVER_DOMAIN};~" .github/actions/deploy/dist/nginx.conf
 
 # Inject environment secrets into backend config files
 EDIT_SCRIPT=".github/actions/deploy/edit_array_file.php"
