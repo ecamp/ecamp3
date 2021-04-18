@@ -4,9 +4,9 @@ namespace eCamp\CoreTest\Data;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Persistence\ObjectManager;
+use eCamp\ContentType\ColumnLayout\Strategy as ColumnLayoutStrategy;
 use eCamp\ContentType\Material\Strategy as MaterialStrategy;
 use eCamp\ContentType\Storyboard\Strategy as StoryboardStrategy;
-use eCamp\ContentType\ColumnLayout\Strategy as ColumnLayoutStrategy;
 use eCamp\Core\Entity\ContentType;
 
 class ContentTypeTestData extends AbstractFixture {
@@ -24,7 +24,6 @@ class ContentTypeTestData extends AbstractFixture {
 
         $this->addReference(self::$TYPE1, $contentType);
 
-        
         $contentType = new ContentType();
         $contentType->setName('Material');
         $contentType->setStrategyClass(MaterialStrategy::class);
@@ -33,7 +32,6 @@ class ContentTypeTestData extends AbstractFixture {
         $manager->flush();
 
         $this->addReference(self::$TYPE_MATERIAL, $contentType);
-        
 
         $contentType = new ContentType();
         $contentType->setName('ColumnLayout');
