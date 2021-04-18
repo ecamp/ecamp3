@@ -32,11 +32,11 @@ class CategoryData extends CategoryPrototypeData implements DependentFixtureInte
             $manager->persist($category);
 
             // add suggested content types
-            $this->addContentType($manager, $category, $this->getReference(ContentTypeData::$STORYBOARD));
-            $this->addContentType($manager, $category, $this->getReference(ContentTypeData::$STORYCONTEXT));
-            $this->addContentType($manager, $category, $this->getReference(ContentTypeData::$SAFETYCONCEPT));
-            $this->addContentType($manager, $category, $this->getReference(ContentTypeData::$NOTES));
-            $this->addContentType($manager, $category, $this->getReference(ContentTypeData::$MATERIAL));
+            $this->addContentType($category, $this->getReference(ContentTypeData::$STORYBOARD));
+            $this->addContentType($category, $this->getReference(ContentTypeData::$STORYCONTEXT));
+            $this->addContentType($category, $this->getReference(ContentTypeData::$SAFETYCONCEPT));
+            $this->addContentType($category, $this->getReference(ContentTypeData::$NOTES));
+            $this->addContentType($category, $this->getReference(ContentTypeData::$MATERIAL));
 
             $category->setRootContentNode($this->createInitialRootContentNode($manager));
         }
@@ -53,10 +53,10 @@ class CategoryData extends CategoryPrototypeData implements DependentFixtureInte
             $manager->persist($category);
 
             // add suggested content types
-            $this->addContentType($manager, $category, $this->getReference(ContentTypeData::$STORYCONTEXT));
-            $this->addContentType($manager, $category, $this->getReference(ContentTypeData::$NOTES));
-            $this->addContentType($manager, $category, $this->getReference(ContentTypeData::$MATERIAL));
-            $this->addContentType($manager, $category, $this->getReference(ContentTypeData::$LATHEMATICAREA));
+            $this->addContentType($category, $this->getReference(ContentTypeData::$STORYCONTEXT));
+            $this->addContentType($category, $this->getReference(ContentTypeData::$NOTES));
+            $this->addContentType($category, $this->getReference(ContentTypeData::$MATERIAL));
+            $this->addContentType($category, $this->getReference(ContentTypeData::$LATHEMATICAREA));
 
             $category->setRootContentNode($this->createInitialRootContentNode($manager));
         }
@@ -76,11 +76,11 @@ class CategoryData extends CategoryPrototypeData implements DependentFixtureInte
             $manager->persist($category);
 
             // add suggested content types
-            $this->addContentType($manager, $category, $this->getReference(ContentTypeData::$STORYBOARD));
-            $this->addContentType($manager, $category, $this->getReference(ContentTypeData::$STORYCONTEXT));
-            $this->addContentType($manager, $category, $this->getReference(ContentTypeData::$SAFETYCONCEPT));
-            $this->addContentType($manager, $category, $this->getReference(ContentTypeData::$NOTES));
-            $this->addContentType($manager, $category, $this->getReference(ContentTypeData::$MATERIAL));
+            $this->addContentType($category, $this->getReference(ContentTypeData::$STORYBOARD));
+            $this->addContentType($category, $this->getReference(ContentTypeData::$STORYCONTEXT));
+            $this->addContentType($category, $this->getReference(ContentTypeData::$SAFETYCONCEPT));
+            $this->addContentType($category, $this->getReference(ContentTypeData::$NOTES));
+            $this->addContentType($category, $this->getReference(ContentTypeData::$MATERIAL));
 
             $category->setRootContentNode($this->createInitialRootContentNode($manager));
         }
@@ -97,10 +97,10 @@ class CategoryData extends CategoryPrototypeData implements DependentFixtureInte
             $manager->persist($category);
 
             // add suggested content types
-            $this->addContentType($manager, $category, $this->getReference(ContentTypeData::$STORYCONTEXT));
-            $this->addContentType($manager, $category, $this->getReference(ContentTypeData::$NOTES));
-            $this->addContentType($manager, $category, $this->getReference(ContentTypeData::$MATERIAL));
-            $this->addContentType($manager, $category, $this->getReference(ContentTypeData::$LATHEMATICAREA));
+            $this->addContentType($category, $this->getReference(ContentTypeData::$STORYCONTEXT));
+            $this->addContentType($category, $this->getReference(ContentTypeData::$NOTES));
+            $this->addContentType($category, $this->getReference(ContentTypeData::$MATERIAL));
+            $this->addContentType($category, $this->getReference(ContentTypeData::$LATHEMATICAREA));
 
             $category->setRootContentNode($this->createInitialRootContentNode($manager));
         }
