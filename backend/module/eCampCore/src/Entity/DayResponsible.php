@@ -26,7 +26,7 @@ use eCamp\Lib\Entity\BaseEntity;
 /**
  * @ORM\Entity
  */
-class JobResp extends BaseEntity implements BelongsToCampInterface {
+class DayResponsible extends BaseEntity implements BelongsToCampInterface {
     /**
      * @ORM\ManyToOne(targetEntity="Day")
      * @ORM\JoinColumn(nullable=false, onDelete="cascade")
@@ -34,14 +34,8 @@ class JobResp extends BaseEntity implements BelongsToCampInterface {
     private ?Day $day;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Job")
-     * @ORM\JoinColumn(nullable=false, onDelete="cascade")
-     */
-    private ?Job $job;
-
-    /**
      * @ORM\ManyToOne(targetEntity="CampCollaboration")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=false, onDelete="cascade")
      */
     private ?CampCollaboration $campCollaboration;
 
@@ -59,14 +53,6 @@ class JobResp extends BaseEntity implements BelongsToCampInterface {
 
     public function getCamp(): ?Camp {
         return $this->day->getCamp();
-    }
-
-    public function getJob(): ?Job {
-        return $this->job;
-    }
-
-    public function setJob(?Job $job): void {
-        $this->job = $job;
     }
 
     public function getCampCollaboration(): ?CampCollaboration {

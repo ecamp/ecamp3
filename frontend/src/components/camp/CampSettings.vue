@@ -5,20 +5,19 @@ Displays details on a single camp and allows to edit them.
 <template>
   <content-group :title="$tc('components.camp.campSettings.title')">
     <v-skeleton-loader v-if="camp()._meta.loading" type="article" />
-    <div v-else>
-      <e-text-field
-        :label="$tc('entity.camp.fields.name')"
-        readonly
-        :value="camp().name" />
+    <div v-else class="mt-3">
       <api-form :entity="camp()">
+        <api-text-field
+          fieldname="name"
+          :label="$tc('entity.camp.fields.name')"
+          vee-rules="required" />
         <api-text-field
           fieldname="title"
           :name="$tc('entity.camp.fields.title')"
           vee-rules="required" />
         <api-text-field
           fieldname="motto"
-          :name="$tc('entity.camp.fields.motto')"
-          vee-rules="required" />
+          :name="$tc('entity.camp.fields.motto')" />
       </api-form>
     </div>
   </content-group>

@@ -5,7 +5,6 @@ namespace eCamp\Core\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use eCamp\Lib\Types\DateUtc;
 use Laminas\Permissions\Acl\Role\RoleInterface;
 
 /**
@@ -99,11 +98,6 @@ class User extends AbstractCampOwner implements RoleInterface {
      * @ORM\Column(type="string", length=8, nullable=true)
      */
     private ?string $language = null;
-
-    /**
-     * @orm\Column(type="date", nullable=true)
-     */
-    private ?DateUtc $birthday = null;
 
     public function __construct() {
         parent::__construct();
@@ -292,14 +286,6 @@ class User extends AbstractCampOwner implements RoleInterface {
 
     public function setLanguage(?string $language): void {
         $this->language = $language;
-    }
-
-    public function getBirthday(): ?DateUtc {
-        return (null !== $this->birthday) ? (clone $this->birthday) : null;
-    }
-
-    public function setBirthday(?DateUtc $birthday): void {
-        $this->birthday = null !== $birthday ? clone $birthday : $birthday;
     }
 
     public function getGroupMemberships(): Collection {

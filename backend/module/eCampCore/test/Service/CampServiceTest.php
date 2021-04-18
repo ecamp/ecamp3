@@ -84,7 +84,7 @@ class CampServiceTest extends AbstractApiControllerTestCase {
         $this->assertEquals('ActivityCategory1', $category->getName());
 
         // CategoryContentTypes have been copied
-        $this->assertCount(1, $category->getCategoryContentTypes());
+        $this->assertCount(1, $category->getPreferredContentTypes());
 
         // ContentNode have been copied
         $this->assertNotNull($category->getRootContentNode());

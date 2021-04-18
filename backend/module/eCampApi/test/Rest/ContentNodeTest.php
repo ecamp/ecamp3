@@ -96,9 +96,25 @@ JSON;
         $this->setRequestContent([
             'parentId' => $this->contentNode->getId(),
             'contentTypeId' => $this->contentNode->getContentType()->getId(),
+            'slot' => '1',
+            'position' => 20,
         ]);
         $this->dispatch("{$this->apiEndpoint}", 'POST');
         $this->assertResponseStatusCode(201);
+
+        $this->assertEquals(20, $this->getResponseContent()->position);
+    }
+
+    public function testCreateChildNodeAutomaticallySetsPositionWhenNotPassed(): void {
+        $this->setRequestContent([
+            'parentId' => $this->contentNode->getId(),
+            'contentTypeId' => $this->contentNode->getContentType()->getId(),
+            'slot' => '1',
+        ]);
+        $this->dispatch("{$this->apiEndpoint}", 'POST');
+        $this->assertResponseStatusCode(201);
+
+        $this->assertEquals(1, $this->getResponseContent()->position);
     }
 
     public function testPatch(): void {

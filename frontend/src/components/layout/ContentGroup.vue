@@ -3,7 +3,7 @@ Displays the content wrapped inside a card.
 -->
 
 <template>
-  <v-sheet class="ec-content-group mb-8">
+  <v-sheet class="ec-content-group mb-8 mt-2">
     <slot name="title">
       <div v-if="title" class="ec-content-group__title py-1 subtitle-1">
         <v-icon v-if="icon" left>{{ icon }}</v-icon>

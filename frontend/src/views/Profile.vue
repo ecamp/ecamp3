@@ -8,8 +8,6 @@
           fieldname="mail"
           :editing="false"
           required />
-      </v-col>
-      <v-col>
         <api-text-field
           :name="$tc('entity.user.fields.firstname')"
           :uri="profile._meta.self"
@@ -22,18 +20,14 @@
           :name="$tc('entity.user.fields.nickname')"
           :uri="profile._meta.self"
           fieldname="nickname" />
-        <api-date-picker
-          :name="$tc('entity.user.fields.birthday')"
-          :uri="profile._meta.self"
-          :value-format="$date.HTML5_FMT.DATE"
-          fieldname="birthday" />
         <api-select
-          :name="$tc('entity.user.fields.language') + ' (' + $tc('global.lokaliseMessage') + ')'"
+          :name="$tc('entity.user.fields.language')"
           :uri="profile._meta.self"
           fieldname="language"
           :items="availableLocales" />
-      </v-col>
-      <v-col>
+        <p class="text-caption blue-grey--text mb-0">
+          {{ $tc('global.lokaliseMessage') }}
+        </p>
         <v-btn v-if="$vuetify.breakpoint.xsOnly" color="red"
                block
                large
@@ -49,7 +43,6 @@
 <script>
 import ApiSelect from '@/components/form/api/ApiSelect.vue'
 import ApiTextField from '@/components/form/api/ApiTextField.vue'
-import ApiDatePicker from '@/components/form/api/ApiDatePicker.vue'
 import ContentCard from '@/components/layout/ContentCard.vue'
 import VueI18n from '@/plugins/i18n'
 
@@ -58,7 +51,6 @@ export default {
   components: {
     ApiSelect,
     ApiTextField,
-    ApiDatePicker,
     ContentCard
   },
   computed: {

@@ -202,6 +202,9 @@
     "campCollaboration": {
       "inactive": "inaktiv"
     },
+    "contentType": {
+      "name": "Inhalttyp | Inhalttypen"
+    },
     "period": {
       "defaultDescription": "Hauptlager",
       "fields": {
@@ -256,7 +259,6 @@
     },
     "changeLanguage": "Sprache ändern",
     "empty": {
-      "list": "Leer | Noch keine {entities}",
       "result": "Kein Resultat | Keine Resultate",
       "resultFor": "Kein Resultat für {search} | Keine Resultate für {search}"
     },
@@ -361,6 +363,8 @@
     },
     "camps": {
       "create": "Lager erstellen",
+      "pastCamps": "Alte Lager",
+      "prototypeCamps": "Vorlagen",
       "title": "Mein Lager | Meine Lager"
     },
     "home": {

@@ -9,17 +9,20 @@ use eCamp\Core\Entity\AbstractContentNodeOwner;
 use eCamp\Core\Entity\ContentNode;
 use eCamp\Core\Entity\ContentType;
 use eCamp\Core\Hydrator\ContentNodeHydrator;
+use eCamp\Core\Repository\ContentNodeRepository;
 use eCamp\Lib\Acl\Acl;
 use eCamp\Lib\Acl\NoAccessException;
 use eCamp\Lib\Entity\BaseEntity;
 use eCamp\Lib\Service\EntityValidationException;
 use eCamp\Lib\Service\ServiceUtils;
+use eCampApi\V1\Rest\ContentNode\ContentNodeCollection;
 use Laminas\Authentication\AuthenticationService;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 
 class ContentNodeService extends AbstractEntityService {
     private ContentTypeStrategyProvider $contentTypeStrategyProvider;
+    private ?ContentNodeRepository $contentNodeRepository = null;
 
     public function __construct(
         ServiceUtils $serviceUtils,
@@ -29,6 +32,7 @@ class ContentNodeService extends AbstractEntityService {
         parent::__construct(
             $serviceUtils,
             ContentNode::class,
+            ContentNodeCollection::class,
             ContentNodeHydrator::class,
             $authenticationService
         );
@@ -76,6 +80,14 @@ class ContentNodeService extends AbstractEntityService {
             $parent = $this->findRelatedEntity(ContentNode::class, $data, 'parentId');
             $this->assertAllowed($parent, Acl::REST_PRIVILEGE_PATCH);
             $contentNode->setParent($parent);
+        }
+
+        $contentNode->setPosition(0);
+        if (isset($data->position)) {
+            $contentNode->setPosition($data->position);
+        } elseif (null !== $contentNode->getParent()) {
+            $position = $this->getContentNodeRepository()->getHighestChildPosition($contentNode->getParent(), $contentNode->getSlot());
+            $contentNode->setPosition($position + 1);
         }
 
         /** @var ContentType $contentType */
@@ -132,5 +144,15 @@ class ContentNodeService extends AbstractEntityService {
         // Also allow the strategy to define custom validation
         $strategy = $this->contentTypeStrategyProvider->get($contentNode->getContentType());
         $strategy->validateContentNode($contentNode);
+    }
+
+    protected function getContentNodeRepository(): ContentNodeRepository {
+        if (!$this->contentNodeRepository) {
+            /** @var ContentNodeRepository $entityRepository */
+            $entityRepository = $this->getServiceUtils()->emGetRepository(ContentNode::class);
+            $this->contentNodeRepository = $entityRepository;
+        }
+
+        return $this->contentNodeRepository;
     }
 }

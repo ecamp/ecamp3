@@ -124,11 +124,11 @@ export default {
       return mapValues(this.localColumnWidths, (width, slot) => [colsLeft[slot], width, 12 - colsLeft[slot] - width])
     },
     availableContentTypes () {
-      return this.contentNode.ownerCategory().categoryContentTypes().items.map(cct => ({
-        id: cct.id,
-        contentType: cct.contentType(),
-        contentTypeNameKey: 'contentNode.' + camelCase(cct.contentType().name) + '.name',
-        contentTypeIconKey: 'contentNode.' + camelCase(cct.contentType().name) + '.icon'
+      return this.contentNode.ownerCategory().preferredContentTypes().items.map(ct => ({
+        id: ct.id,
+        contentType: ct,
+        contentTypeNameKey: 'contentNode.' + camelCase(ct.name) + '.name',
+        contentTypeIconKey: 'contentNode.' + camelCase(ct.name) + '.icon'
       }))
     }
   },
@@ -139,6 +139,9 @@ export default {
         this.localColumnContents = this.columnContents
         this.setLocalColumnWidths()
       }
+    },
+    columnContents () {
+      this.localColumnContents = this.columnContents
     }
   },
   mounted () {

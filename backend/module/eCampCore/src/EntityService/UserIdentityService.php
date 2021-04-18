@@ -23,6 +23,7 @@ class UserIdentityService extends AbstractEntityService {
         parent::__construct(
             $serviceUtils,
             UserIdentity::class,
+            null,
             UserIdentityHydrator::class,
             $authenticationService
         );
