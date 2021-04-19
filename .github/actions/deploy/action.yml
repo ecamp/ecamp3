@@ -62,6 +62,10 @@ inputs:
     description: 'The location of the file server'
     required: true
 
+  mail-server-url:
+    description: 'The location of the mail server'
+    required: true
+
   sentry-backend-dsn:
     description: 'DSN for reporting backend errors to sentry'
     required: false
@@ -129,6 +133,7 @@ runs:
         FRONTEND_URL: ${{ inputs.frontend-url }}
         PRINT_SERVER_URL: ${{ inputs.print-server-url }}
         PRINT_FILE_SERVER_URL: ${{ inputs.print-file-server-url }}
+        MAIL_SERVER_URL: ${{ inputs.mail-server-url }}
         SENTRY_BACKEND_DSN: ${{ inputs.sentry-backend-dsn }}
         SENTRY_FRONTEND_DSN: ${{ inputs.sentry-frontend-dsn }}
         SENTRY_PRINT_DSN: ${{ inputs.sentry-print-dsn }}

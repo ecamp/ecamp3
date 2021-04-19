@@ -65,6 +65,9 @@ JSON;
                 },
                 "children": {
                     "href": "http://{$this->host}/api/content-nodes?parentId={$this->contentNode->getId()}"
+                },
+                "sections": {
+                    "href": "http://{$this->host}/api/content-type/storyboards?contentNodeId={$this->contentNode->getId()}"
                 }
             }
 JSON;

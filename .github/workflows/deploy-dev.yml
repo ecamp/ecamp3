@@ -40,6 +40,7 @@ jobs:
           frontend-url: ${{ secrets.DEVEL_FRONTEND_URL }}
           print-server-url: ${{ secrets.DEVEL_PRINT_SERVER_URL }}
           print-file-server-url: ${{ secrets.DEVEL_PRINT_FILE_SERVER_URL }}
+          mail-server-url: ${{ secrets.DEVEL_MAIL_SERVER_URL }}
           sentry-backend-dsn: ${{ secrets.DEVEL_SENTRY_BACKEND_DSN }}
           sentry-frontend-dsn: ${{ secrets.DEVEL_SENTRY_FRONTEND_DSN }}
           sentry-print-dsn: ${{ secrets.DEVEL_SENTRY_PRINT_DSN }}

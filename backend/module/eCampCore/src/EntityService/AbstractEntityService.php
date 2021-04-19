@@ -16,6 +16,7 @@ use eCamp\Lib\Acl\Guest;
 use eCamp\Lib\Acl\NoAccessException;
 use eCamp\Lib\Acl\NotAuthenticatedException;
 use eCamp\Lib\Entity\BaseEntity;
+use eCamp\Lib\Entity\SortableEntityInterface;
 use eCamp\Lib\Service\EntityNotFoundException;
 use eCamp\Lib\Service\EntityValidationException;
 use eCamp\Lib\Service\ServiceUtils;
@@ -426,15 +427,23 @@ abstract class AbstractEntityService extends AbstractResourceListener {
 
     protected function fetchAllQueryBuilder($params = []): QueryBuilder {
         $q = $this->findCollectionQueryBuilder($this->entityClassname, 'row', $params);
+
         if (isset($params['where'])) {
             $q->andWhere($params['where']);
         }
 
+        // set order_by explicitly when given as query parameter
         if (isset($params['order_by'])) {
-            $q->orderBy($params['order_by']);
-        } else {
-            $q->orderBy('row.createTime'); // by default, order by creation time
+            $q->addOrderBy($params['order_by']);
         }
+
+        // if entity is sortable, order by position property
+        if (is_subclass_of($this->entityClass, SortableEntityInterface::class)) {
+            $q->addOrderBy('row.pos');
+        }
+
+        // by default, order by creation time (as last priority)
+        $q->addOrderBy('row.createTime');
 
         return $q;
     }
