@@ -11,7 +11,7 @@
       <slot name="activator" v-bind="scope" />
     </template>
     <server-error :server-error="error" />
-    <dialog-material-item-form :camp="camp" :material-item="entityData" />
+    <dialog-material-item-form :material-lists="camp.materialLists" :material-item="entityData" />
   </dialog-form>
 </template>
 
@@ -26,7 +26,7 @@ export default {
   components: { DialogForm, DialogMaterialItemForm, ServerError },
   extends: DialogBase,
   props: {
-    materialItem: { type: Object, required: true }
+    materialItemUri: { type: String, required: true }
   },
   data () {
     return {
@@ -41,6 +41,9 @@ export default {
     }
   },
   computed: {
+    materialItem () {
+      return this.api.get(this.materialItemUri)
+    },
     camp () {
       return this.materialItem.materialList().camp()
     },
@@ -52,7 +55,7 @@ export default {
     // copy data whenever dialog is opened
     showDialog: function (showDialog) {
       if (showDialog) {
-        this.loadEntityData(this.materialItem._meta.self)
+        this.loadEntityData(this.materialItemUri)
       }
     }
   }

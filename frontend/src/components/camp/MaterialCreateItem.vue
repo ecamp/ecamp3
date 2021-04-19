@@ -117,10 +117,6 @@ export default {
 </script>
 
 <style scoped>
-  .v-data-table >>> .v-data-table__wrapper > table > tbody > tr > td {
-    padding: 0 2px;
-  }
-
   .newItemRow {
     line-height: 80px;
   }

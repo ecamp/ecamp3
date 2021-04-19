@@ -47,13 +47,15 @@
         :headers="headers"
         :items="materialItemsData"
         :disable-pagination="true"
+        mobile-breakpoint="0"
         hide-default-footer>
         <template #body="props">
           <tbody is="transition-group" name="fade">
-            <tr v-for="item in props.items" :key="item.id">
+            <tr v-for="item in props.items" :key="item.id" :class="item.new ? 'new' : ''">
               <td>
                 <api-text-field
                   v-if="!item.new"
+                  :disabled="layoutMode"
                   dense
                   :uri="item.uri"
                   fieldname="quantity" />
@@ -62,6 +64,7 @@
               <td>
                 <api-text-field
                   v-if="!item.new"
+                  :disabled="layoutMode"
                   dense
                   :uri="item.uri"
                   fieldname="unit" />
@@ -70,14 +73,18 @@
               <td>
                 <api-text-field
                   v-if="!item.new"
+                  :disabled="layoutMode"
                   dense
                   :uri="item.uri"
                   fieldname="article" />
                 <span v-if="item.new">{{ item.article }}</span>
               </td>
-              <td>
+
+              <!-- Material list (hidden in mobile view) -->
+              <td v-if="$vuetify.breakpoint.smAndUp">
                 <api-select
                   v-if="!item.new"
+                  :disabled="layoutMode"
                   dense
                   :uri="item.uri"
                   relation="materialList"
@@ -85,13 +92,41 @@
                   :items="materialLists" />
                 <span v-if="item.new">{{ item.listName }}</span>
               </td>
+
+              <!-- Action buttons -->
               <td>
-                <v-icon
-                  v-if="!item.new"
-                  small
-                  @click="deleteMaterialItem(item)">
-                  mdi-delete
-                </v-icon>
+                <div v-if="!item.new" class="d-flex">
+                  <!-- edit dialog (mobile only) -->
+                  <dialog-material-item-edit
+                    v-if="!$vuetify.breakpoint.smAndUp"
+                    class="float-left"
+                    :material-item-uri="item.uri">
+                    <template #activator="{ on }">
+                      <button-edit v-on="on" />
+                    </template>
+                  </dialog-material-item-edit>
+
+                  <!-- delete button (behind menu) -->
+                  <v-menu v-if="!layoutMode">
+                    <template #activator="{ on, attrs }">
+                      <v-btn icon v-bind="attrs" v-on="on">
+                        <v-icon>mdi-dots-vertical</v-icon>
+                      </v-btn>
+                    </template>
+                    <v-list>
+                      <v-list-item @click="deleteMaterialItem(item)">
+                        <v-list-item-icon>
+                          <v-icon>mdi-delete</v-icon>
+                        </v-list-item-icon>
+                        <v-list-item-title>
+                          {{ $tc('global.button.delete') }}
+                        </v-list-item-title>
+                      </v-list-item>
+                    </v-list>
+                  </v-menu>
+                </div>
+
+                <!-- loading spinner for newly added items -->
                 <v-progress-circular
                   v-if="item.new"
                   size="16"
@@ -108,14 +143,16 @@
               :content-node="contentNode"
               @item-adding="onItemAdding" />
           </tbody>
+        </template>
 
+        <template #footer>
           <!-- add new item (mobile view) -->
-          <div v-if="!layoutMode && !$vuetify.breakpoint.smAndUp" style="margin-top: 20px; text-align: right">
+          <div v-if="!layoutMode && !$vuetify.breakpoint.smAndUp" class="mt-5">
             <dialog-material-item-create :camp="camp" :content-node="contentNode">
               <template #activator="{ on }">
-                <v-btn color="success" v-on="on">
+                <button-add v-on="on">
                   {{ $tc('components.camp.periodMaterialLists.addNewItem') }}
-                </v-btn>
+                </button-add>
               </template>
             </dialog-material-item-create>
           </div>
@@ -136,10 +173,12 @@
 import ApiTextField from '../../form/api/ApiTextField.vue'
 import ApiSelect from '../../form/api/ApiSelect.vue'
 import DialogMaterialItemCreate from '../../dialog/DialogMaterialItemCreate.vue'
-// import DialogMaterialItemEdit from '../../dialog/DialogMaterialItemEdit.vue'
+import DialogMaterialItemEdit from '../../dialog/DialogMaterialItemEdit.vue'
 import MaterialCreateItem from '../../camp/MaterialCreateItem.vue'
 import CardContentNode from '@/components/activity/CardContentNode.vue'
 import { contentNodeMixin } from '@/mixins/contentNodeMixin.js'
+import ButtonEdit from '@/components/buttons/ButtonEdit.vue'
+import ButtonAdd from '@/components/buttons/ButtonAdd.vue'
 
 export default {
   name: 'Material',
@@ -148,14 +187,16 @@ export default {
     ApiTextField,
     ApiSelect,
     DialogMaterialItemCreate,
-    /* DialogMaterialItemEdit, */
-    MaterialCreateItem
+    DialogMaterialItemEdit,
+    MaterialCreateItem,
+    ButtonEdit,
+    ButtonAdd
   },
   mixins: [contentNodeMixin],
   data () {
     return {
       newMaterialItems: {},
-      headers: [
+      headers2: [
         {
           text: this.$tc('entity.materialItem.fields.quantity'),
           align: 'start',
@@ -165,12 +206,42 @@ export default {
         },
         { text: this.$tc('entity.materialItem.fields.unit'), value: 'unit', sortable: false, width: '10%' },
         { text: this.$tc('entity.materialItem.fields.article'), value: 'article', width: '40%' },
-        { text: this.$tc('entity.materialList.name'), value: 'listName', width: '35%' },
-        { text: '', value: 'actions', sortable: false, width: '5%' }
+        { text: this.$tc('entity.materialList.name'), value: 'listName', width: '30%' },
+        { text: '', value: 'actions', sortable: false, width: '10%' }
       ]
     }
   },
   computed: {
+    headers () {
+      if (this.$vuetify.breakpoint.smAndUp) {
+        return [
+          {
+            text: this.$tc('entity.materialItem.fields.quantity'),
+            align: 'start',
+            sortable: false,
+            value: 'quantity',
+            width: '10%'
+          },
+          { text: this.$tc('entity.materialItem.fields.unit'), value: 'unit', sortable: false, width: '10%' },
+          { text: this.$tc('entity.materialItem.fields.article'), value: 'article', width: '40%' },
+          { text: this.$tc('entity.materialList.name'), value: 'listName', width: '30%' },
+          { text: '', value: 'actions', sortable: false, width: '10%' }
+        ]
+      } else {
+        return [
+          {
+            text: this.$tc('entity.materialItem.fields.quantity'),
+            align: 'start',
+            sortable: false,
+            value: 'quantity',
+            width: '10%'
+          },
+          { text: this.$tc('entity.materialItem.fields.unit'), value: 'unit', sortable: false, width: '10%' },
+          { text: this.$tc('entity.materialItem.fields.article'), value: 'article', width: '40%' },
+          { text: '', value: 'actions', sortable: false, width: '10%' }
+        ]
+      }
+    },
     materialLists () {
       return this.camp.materialLists().items.map(l => ({
         value: l.id,
@@ -271,6 +342,17 @@ export default {
 
   .fade-enter-active, .fade-leave-active {
     transition: all 1s;
+    background: #c8ebfb;
+  }
+
+   /* transitions for newly added items (remove instantly) */
+   .fade-enter-active.new {
+    transition: all 1s;
+    background: #c8ebfb;
+  }
+
+  .fade-leave-active.new {
+    transition: all 0s;
     background: #c8ebfb;
   }
 

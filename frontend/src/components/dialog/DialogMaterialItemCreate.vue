@@ -11,7 +11,7 @@
       <slot name="activator" v-bind="scope" />
     </template>
     <server-error :server-error="error" />
-    <dialog-material-item-form :camp="camp" :material-item="entityData" />
+    <dialog-material-item-form :material-lists="camp.materialLists" :material-item="entityData" />
   </dialog-form>
 </template>
 
