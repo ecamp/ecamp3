@@ -2,7 +2,6 @@
 
 namespace eCamp\Core\EntityService;
 
-use Cassandra\Exception\ValidationException;
 use Doctrine\ORM\ORMException;
 use Doctrine\ORM\QueryBuilder;
 use eCamp\Core\Entity\Camp;
@@ -109,7 +108,7 @@ class PeriodService extends AbstractEntityService {
 
         if (1 == $period->getCamp()->getPeriods()->count()) {
             throw (new EntityValidationException())->setMessages([
-                'id' => ['last_period_not_deletable' => 'A camp must contain at least one period']
+                'id' => ['last_period_not_deletable' => 'A camp must contain at least one period'],
             ]);
         }
         $period->getCamp()->removePeriod($period);
