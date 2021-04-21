@@ -16,7 +16,9 @@ use eCamp\LibTest\PHPUnit\AbstractApiControllerTestCase;
  */
 class PeriodServiceTest extends AbstractApiControllerTestCase {
     /** @var Period */
-    protected $period;
+    protected $period1;
+    /** @var Period */
+    protected $period2;
 
     public function setUp(): void {
         parent::setUp();
@@ -32,7 +34,8 @@ class PeriodServiceTest extends AbstractApiControllerTestCase {
         $this->loadFixtures($loader);
 
         $this->user = $userLoader->getReference(UserTestData::$USER1);
-        $this->period = $periodLoader->getReference(PeriodTestData::$PERIOD1);
+        $this->period1 = $periodLoader->getReference(PeriodTestData::$PERIOD1);
+        $this->period2 = $periodLoader->getReference(PeriodTestData::$PERIOD2);
 
         $this->authenticateUser($this->user);
     }
@@ -41,7 +44,11 @@ class PeriodServiceTest extends AbstractApiControllerTestCase {
         /** @var PeriodService $periodService */
         $periodService = $this->getApplicationServiceLocator()->get(PeriodService::class);
 
+        // Delete Period1 - allowed
+        $periodService->delete($this->period1->getId());
+
+        // delete Period2, last period - not allowed
         $this->expectException(EntityValidationException::class);
-        $periodService->delete($this->period->getId());
+        $periodService->delete($this->period2->getId());
     }
 }
