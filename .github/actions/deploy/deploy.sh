@@ -3,11 +3,13 @@ set -e
 
 # Calculate short commit id
 COMMIT_ID=$(git rev-parse --short "$COMMIT_SHA")
+DEPLOYMENT_TIME=$(date -u +%s)
 # Extract the domains from the URLs
 FRONTEND_DOMAIN=$(echo "$FRONTEND_URL" | sed -E 's~^(.*://)?(.*@)?([^:/]*).*$~\3~')
 BACKEND_DOMAIN=$(echo "$BACKEND_URL" | sed -E 's~^(.*://)?(.*@)?([^:/]*).*$~\3~')
 PRINT_SERVER_DOMAIN=$(echo "$PRINT_SERVER_URL" | sed -E 's~^(.*://)?(.*@)?([^:/]*).*$~\3~')
 PRINT_FILE_SERVER_DOMAIN=$(echo "$PRINT_FILE_SERVER_URL" | sed -E 's~^(.*://)?(.*@)?([^:/]*).*$~\3~')
+MAIL_SERVER_DOMAIN=$(echo "$MAIL_SERVER_URL" | sed -E 's~^(.*://)?(.*@)?([^:/]*).*$~\3~')
 
 # Inject the container version into the .env file
 cp .github/actions/deploy/.env .github/actions/deploy/dist/.env
@@ -19,6 +21,7 @@ sed -ri "s~server_name frontend-domain;~server_name ${FRONTEND_DOMAIN};~" .githu
 sed -ri "s~server_name backend-domain;~server_name ${BACKEND_DOMAIN};~" .github/actions/deploy/dist/nginx.conf
 sed -ri "s~server_name print-server-domain;~server_name ${PRINT_SERVER_DOMAIN};~" .github/actions/deploy/dist/nginx.conf
 sed -ri "s~server_name print-file-server-domain;~server_name ${PRINT_FILE_SERVER_DOMAIN};~" .github/actions/deploy/dist/nginx.conf
+sed -ri "s~server_name mail-server-domain;~server_name ${MAIL_SERVER_DOMAIN};~" .github/actions/deploy/dist/nginx.conf
 
 # Inject environment secrets into backend config files
 EDIT_SCRIPT=".github/actions/deploy/edit_array_file.php"
@@ -50,6 +53,7 @@ sed -ri "s~API_ROOT_URL: '.*'~API_ROOT_URL: '${BACKEND_URL}'~" .github/actions/d
 sed -ri "s~PRINT_SERVER: '.*'~PRINT_SERVER: '${PRINT_SERVER_URL}'~" .github/actions/deploy/dist/frontend-environment.js
 sed -ri "s~PRINT_FILE_SERVER: '.*'~PRINT_FILE_SERVER: '${PRINT_FILE_SERVER_URL}'~" .github/actions/deploy/dist/frontend-environment.js
 sed -ri "s~SENTRY_FRONTEND_DSN: .*~SENTRY_FRONTEND_DSN: '${SENTRY_FRONTEND_DSN}',~" .github/actions/deploy/dist/frontend-environment.js
+sed -ri "s~DEPLOYMENT_TIME: '.*'~DEPLOYMENT_TIME: '${DEPLOYMENT_TIME}'~" .github/actions/deploy/dist/frontend-environment.js
 sed -ri "s~VERSION: '.*'~VERSION: '${COMMIT_ID}'~" .github/actions/deploy/dist/frontend-environment.js
 sed -ri "s~VERSION_LINK_TEMPLATE: '.*'~VERSION_LINK_TEMPLATE: '${VERSION_LINK_TEMPLATE}'~" .github/actions/deploy/dist/frontend-environment.js
 
