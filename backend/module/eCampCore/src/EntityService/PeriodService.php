@@ -105,6 +105,12 @@ class PeriodService extends AbstractEntityService {
     protected function deleteEntity(BaseEntity $entity): void {
         /** @var Period $period */
         $period = $entity;
+
+        if (1 == $period->getCamp()->getPeriods()->count()) {
+            throw (new EntityValidationException())->setMessages([
+                'id' => ['last_period_not_deletable' => 'A camp must contain at least one period'],
+            ]);
+        }
         $period->getCamp()->removePeriod($period);
 
         parent::deleteEntity($entity);

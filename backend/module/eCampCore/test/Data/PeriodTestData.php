@@ -12,6 +12,7 @@ use eCamp\Lib\Types\DateUtc;
 
 class PeriodTestData extends AbstractFixture implements DependentFixtureInterface {
     public static $PERIOD1 = Period::class.':PERIOD1';
+    public static $PERIOD2 = Period::class.':PERIOD2';
     public static $DAY1 = Day::class.':DAY1';
 
     public function load(ObjectManager $manager): void {
@@ -36,11 +37,26 @@ class PeriodTestData extends AbstractFixture implements DependentFixtureInterfac
 
             $manager->persist($day);
         }
-
         $manager->persist($period);
-        $manager->flush();
-
         $this->addReference(self::$PERIOD1, $period);
+
+        $period = new Period();
+        $period->setCamp($camp);
+        $period->setDescription('Period2');
+        $period->setStart(new DateUtc('2000-02-01'));
+        $period->setEnd(new DateUtc('2000-02-13'));
+
+        $days = $period->getDurationInDays();
+        for ($idx = 0; $idx < $days; ++$idx) {
+            $day = new Day();
+            $day->setPeriod($period);
+            $day->setDayOffset($idx);
+            $manager->persist($day);
+        }
+        $manager->persist($period);
+        $this->addReference(self::$PERIOD2, $period);
+
+        $manager->flush();
     }
 
     public function getDependencies() {
