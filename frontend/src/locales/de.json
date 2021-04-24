@@ -92,7 +92,8 @@
         "title": "Lagerabschnitt | Lagerabschnitte"
       },
       "campPeriodsListItem": {
-        "deleteWarning": "Möchtest du diese Periode wirklich löschen?"
+        "deleteWarning": "Möchtest du diese Periode wirklich löschen?",
+        "lastPeriodNotDeletable": "Die letzte Periode kann nicht gelöscht werden."
       },
       "campPrint": {
         "activities": "Aktivitäten",

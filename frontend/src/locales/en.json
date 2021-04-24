@@ -128,7 +128,8 @@
         "title": "Period | Periods"
       },
       "campPeriodsListItem": {
-        "deleteWarning": "Do you really want to delete this period?"
+        "deleteWarning": "Do you really want to delete this period?",
+        "lastPeriodNotDeletable": "Last period is not deletable."
       },
       "campPrint": {
         "activities": "Activities",
