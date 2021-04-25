@@ -235,6 +235,9 @@
         "username": "Benutzername"
       },
       "name": "User"
+    },
+    "materialList": {
+      "name": "Materialliste"
     }
   },
   "global": {

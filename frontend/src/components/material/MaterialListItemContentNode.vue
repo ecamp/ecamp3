@@ -15,7 +15,7 @@
       <v-btn
         small
         class="short-button"
-        :to="scheduleEntryRoute(camp, item.scheduleEntry)">
+        :to="scheduleEntryRoute(item.scheduleEntry)">
         {{ scheduleEntryCaption }}
       </v-btn>
     </td>

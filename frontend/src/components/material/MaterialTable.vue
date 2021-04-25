@@ -10,48 +10,55 @@
         <tr v-for="item in props.items" :key="item.id" :class="item.new ? 'new' : ''">
           <td>
             <api-text-field
-              v-if="!item.new"
+              v-if="!item.readonly"
               :disabled="layoutMode"
               dense
               :uri="item.uri"
               fieldname="quantity" />
-            <span v-if="item.new">{{ item.quantity }}</span>
+            <span v-if="item.readonly">{{ item.quantity }}</span>
           </td>
           <td>
             <api-text-field
-              v-if="!item.new"
+              v-if="!item.readonly"
               :disabled="layoutMode"
               dense
               :uri="item.uri"
               fieldname="unit" />
-            <span v-if="item.new">{{ item.unit }}</span>
+            <span v-if="item.readonly">{{ item.unit }}</span>
           </td>
           <td>
             <api-text-field
-              v-if="!item.new"
+              v-if="!item.readonly"
               :disabled="layoutMode"
               dense
               :uri="item.uri"
               fieldname="article" />
-            <span v-if="item.new">{{ item.article }}</span>
+            <span v-if="item.readonly">{{ item.article }}</span>
           </td>
 
           <!-- Material list (hidden in mobile view) -->
           <td v-if="$vuetify.breakpoint.smAndUp">
             <api-select
-              v-if="!item.new"
+              v-if="!item.readonly"
               :disabled="layoutMode"
               dense
               :uri="item.uri"
               relation="materialList"
               fieldname="materialListId"
               :items="materialLists" />
-            <span v-if="item.new">{{ item.listName }}</span>
+            <span v-if="item.readonly">{{ item.listName }}</span>
+          </td>
+
+          <!-- Activity link (only visible in full period view) -->
+          <td v-if="period">
+            <schedule-entry-links
+              v-if="item.entityObject && item.entityObject.contentNode"
+              :activity="item.entityObject.contentNode().owner" />
           </td>
 
           <!-- Action buttons -->
           <td>
-            <div v-if="!item.new" class="d-flex">
+            <div v-if="!item.readonly" class="d-flex">
               <!-- edit dialog (mobile only) -->
               <dialog-material-item-edit
                 v-if="!$vuetify.breakpoint.smAndUp"
@@ -133,9 +140,10 @@ import ButtonAdd from '@/components/buttons/ButtonAdd.vue'
 import DialogMaterialItemCreate from './DialogMaterialItemCreate.vue'
 import DialogMaterialItemEdit from './DialogMaterialItemEdit.vue'
 import MaterialCreateItem from './MaterialCreateItem.vue'
+import ScheduleEntryLinks from './ScheduleEntryLinks.vue'
 
 export default {
-  name: 'Material',
+  name: 'MaterialTable',
   components: {
     ApiTextField,
     ApiSelect,
@@ -143,7 +151,8 @@ export default {
     DialogMaterialItemEdit,
     MaterialCreateItem,
     ButtonEdit,
-    ButtonAdd
+    ButtonAdd,
+    ScheduleEntryLinks
   },
   props: {
     // camp Entity
@@ -159,7 +168,10 @@ export default {
     contentNode: { type: Object, required: false, default: null },
 
     // contentNode Entity for displaying material tables within activitiy
-    period: { type: Object, required: false, default: null }
+    period: { type: Object, required: false, default: null },
+
+    // controls if material belonging to ContentNodes should be shown or not
+    showContentNodeMaterial: { type: Boolean, default: true }
   },
   data () {
     return {
@@ -168,34 +180,29 @@ export default {
   },
   computed: {
     headers () {
+      const headers = [{
+        text: this.$tc('entity.materialItem.fields.quantity'),
+        align: 'start',
+        sortable: false,
+        value: 'quantity',
+        width: '10%'
+      },
+      { text: this.$tc('entity.materialItem.fields.unit'), value: 'unit', sortable: false, width: '10%' },
+      { text: this.$tc('entity.materialItem.fields.article'), value: 'article' }]
+
+      // disable material list in mobile view
       if (this.$vuetify.breakpoint.smAndUp) {
-        return [
-          {
-            text: this.$tc('entity.materialItem.fields.quantity'),
-            align: 'start',
-            sortable: false,
-            value: 'quantity',
-            width: '10%'
-          },
-          { text: this.$tc('entity.materialItem.fields.unit'), value: 'unit', sortable: false, width: '10%' },
-          { text: this.$tc('entity.materialItem.fields.article'), value: 'article', width: '40%' },
-          { text: this.$tc('entity.materialList.name'), value: 'listName', width: '30%' },
-          { text: '', value: 'actions', sortable: false, width: '10%' }
-        ]
-      } else {
-        return [
-          {
-            text: this.$tc('entity.materialItem.fields.quantity'),
-            align: 'start',
-            sortable: false,
-            value: 'quantity',
-            width: '10%'
-          },
-          { text: this.$tc('entity.materialItem.fields.unit'), value: 'unit', sortable: false, width: '10%' },
-          { text: this.$tc('entity.materialItem.fields.article'), value: 'article', width: '40%' },
-          { text: '', value: 'actions', sortable: false, width: '10%' }
-        ]
+        headers.push({ text: this.$tc('entity.materialList.name'), value: 'listName', width: '20%' })
       }
+
+      // Activity column only shown in period overview
+      if (this.period) {
+        headers.push({ text: this.$tc('entity.activity.name'), value: 'activity', width: '15%' })
+      }
+
+      headers.push({ text: '', value: 'actions', sortable: false, width: '10%' })
+
+      return headers
     },
     materialLists () {
       return this.camp.materialLists().items.map(l => ({
@@ -204,15 +211,28 @@ export default {
       }))
     },
     materialItemsData () {
-      const items = this.materialItemCollection.items.map(item => ({
-        id: item.id,
-        uri: item._meta.self,
-        quantity: item.quantity,
-        unit: item.unit,
-        article: item.article,
-        listId: item.materialList().id,
-        listName: item.materialList().name
-      }))
+      const items = this.materialItemCollection.items
+        .filter(item => {
+          // filter out material items belonging to content nodes (if showContentNodeMaterial is deactivated)
+          if (!this.showContentNodeMaterial && item.contentNode !== null) {
+            return false
+          }
+
+          return true
+        })
+
+        .map(item => ({
+          id: item.id,
+          uri: item._meta.self,
+          quantity: item.quantity,
+          unit: item.unit,
+          article: item.article,
+          listId: item.materialList().id,
+          listName: item.materialList().name,
+          activity: item.contentNode ? item.contentNode().id : null,
+          entityObject: item,
+          readonly: this.period && item.contentNode // if complete component is in period overview, disable editing of material that belongs to contentNodes (Acitity material)
+        }))
 
       // eager add new Items
       for (const key in this.newMaterialItems) {
@@ -223,7 +243,8 @@ export default {
           unit: mi.unit,
           article: mi.article,
           listName: this.materialLists.find(listItem => listItem.value === mi.materialListId).text,
-          new: true
+          new: true,
+          readonly: true
         })
       }
 

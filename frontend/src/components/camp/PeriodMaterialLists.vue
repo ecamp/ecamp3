@@ -9,7 +9,8 @@
       <material-table
         :camp="camp"
         :material-item-collection="period.materialItems()"
-        :period="period" />
+        :period="period"
+        :show-content-node-material="showContentNodeMaterial" />
 
       <!--
       <div v-for="materialListDetail in materialListsDetails"
