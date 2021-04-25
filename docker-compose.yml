@@ -69,7 +69,7 @@ services:
       - ./.cache/composer:/tmp/cache
 
   db:
-    image: mysql:8.0.23@sha256:6e0014cdd88092545557dee5e9eb7e1a3c84c9a14ad2418d5f2231e930967a38
+    image: mysql:8.0.24@sha256:04ee7141256e83797ea4a84a4d31b1f1bc10111c8d1bc1879d52729ccd19e20a
     container_name: 'ecamp3-db'
     environment:
       - MYSQL_DATABASE=ecamp3dev
@@ -91,7 +91,7 @@ services:
       - ./phpmyadmin/config.user.inc.php:/etc/phpmyadmin/config.user.inc.php
 
   rabbitmq:
-    image: rabbitmq:3.8-management@sha256:16f1d0fcbc7d8cd743599db8e32ea10ac940943f1bf623deee83df9ec9472764
+    image: rabbitmq:3.8-management@sha256:448b4e9369bdd6a4f7278e730512685c6737336afc0958d18e9e1ef60ff141cf
     container_name: 'ecamp3-rabbitmq'
     ports:
       - '3004:15672'
@@ -134,7 +134,7 @@ services:
       - '8025:8025' # web UI
 
   docker-host:
-    image: qoomon/docker-host@sha256:b98a7ddc053c87c22ba716d23d50b7db11034c9b7bbfd41e1c68b9062cb516cc
+    image: qoomon/docker-host@sha256:0a82317b4c0051e9e105ff0969a19ddd2df0b9973e0be4915136e4d78923c4fb
     container_name: 'ecamp3-docker-host-forwarder'
     cap_add: [ 'NET_ADMIN', 'NET_RAW' ]
     restart: on-failure
