@@ -4,7 +4,7 @@
       <material-table :camp="camp"
                       :content-node="contentNode"
                       :layout-mode="layoutMode"
-                      :material-item-collection="materialItems" />
+                      :material-item-collection="contentNode.materialItems()" />
     </div>
   </card-content-node>
 </template>
@@ -21,12 +21,7 @@ export default {
     CardContentNode,
     MaterialTable
   },
-  mixins: [contentNodeMixin],
-  computed: {
-    materialItems () {
-      return this.api.get().materialItems({ contentNodeId: this.contentNode.id })
-    }
-  }
+  mixins: [contentNodeMixin]
 }
 </script>
 
