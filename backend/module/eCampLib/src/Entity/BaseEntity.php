@@ -13,8 +13,8 @@ use Laminas\Permissions\Acl\Resource\ResourceInterface;
  * @ORM\HasLifecycleCallbacks
  * @ORM\Table(
  *     indexes={
- *         @ORM\Index(name="create_time_idx", columns={"createTime"}),
- *         @ORM\Index(name="update_time_idx", columns={"updateTime"})
+ *         @ORM\Index(columns={"createTime"}),
+ *         @ORM\Index(columns={"updateTime"})
  *     }
  * )
  */

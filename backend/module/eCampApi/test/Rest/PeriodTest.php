@@ -57,6 +57,9 @@ JSON;
             {
                 "self": {
                     "href": "http://{$this->host}/api/periods/{$this->period->getId()}"
+                },
+                "materialItems": {
+                    "href": "http://{$this->host}/api/material-items?periodId={$this->period->getId()}"
                 }
             }
 JSON;

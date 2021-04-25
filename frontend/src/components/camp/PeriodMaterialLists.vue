@@ -6,6 +6,9 @@
       </h3>
     </v-expansion-panel-header>
     <v-expansion-panel-content>
+      <material-table :camp="camp" :material-item-collection="getPeriodMaterialitems(period)" />
+
+      <!--
       <div v-for="materialListDetail in materialListsDetails"
            :key="materialListDetail.id">
         <div v-if="materialListDetail.items.length > 0">
@@ -79,24 +82,19 @@
             </v-btn>
           </template>
         </dialog-material-item-create>
-      </div>
+      </div> -->
     </v-expansion-panel-content>
   </v-expansion-panel>
 </template>
 
 <script>
-import DialogMaterialItemCreate from '../dialog/DialogMaterialItemCreate.vue'
-import MaterialCreateItem from './MaterialCreateItem.vue'
-import MaterialListItemContentNode from './MaterialListItemContentNode.vue'
-import MaterialListItemPeriod from './MaterialListItemPeriod.vue'
+
+import MaterialTable from '@/components/material/MaterialTable.vue'
 
 export default {
   name: 'PeriodMaterialLists',
   components: {
-    DialogMaterialItemCreate,
-    MaterialCreateItem,
-    MaterialListItemContentNode,
-    MaterialListItemPeriod
+    MaterialTable
   },
   props: {
     period: { type: Object, required: true },
@@ -129,6 +127,9 @@ export default {
     }
   },
   methods: {
+    getPeriodMaterialitems (period) {
+      return this.period.materialItems()
+    },
     getMaterialItems (materialList) {
       const items = []
 

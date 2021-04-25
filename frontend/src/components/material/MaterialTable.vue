@@ -97,6 +97,7 @@
           key="addItemRow"
           :camp="camp"
           :content-node="contentNode"
+          :material-item-collection="materialItemCollection"
           @item-adding="onItemAdding" />
       </tbody>
     </template>
@@ -144,9 +145,17 @@ export default {
     ButtonAdd
   },
   props: {
-    contentNode: { type: Object, required: true },
+    // contentNode Entity for displaying material tables within activitiy
+    contentNode: { type: Object, required: false, default: null },
+
+    // camp Entity
     camp: { type: Object, required: true },
-    layoutMode: { type: Boolean, default: true }
+
+    // layoutMode=true --> data editing is disabled
+    layoutMode: { type: Boolean, required: false, default: false },
+
+    // materialItems Collection to display
+    materialItemCollection: { type: Object, required: true }
   },
   data () {
     return {
@@ -190,11 +199,8 @@ export default {
         text: l.name
       }))
     },
-    materialItems () {
-      return this.api.get().materialItems({ contentNodeId: this.contentNode.id })
-    },
     materialItemsData () {
-      const items = this.materialItems.items.map(item => ({
+      const items = this.materialItemCollection.items.map(item => ({
         id: item.id,
         uri: item._meta.self,
         quantity: item.quantity,
@@ -220,7 +226,7 @@ export default {
       return items
     },
     materialItemsSorted () {
-      const items = this.materialItems.items
+      const items = this.materialItemCollection.items
 
       // eager add new Items
       for (const key in this.newMaterialItems) {
@@ -237,9 +243,6 @@ export default {
     }
   },
   methods: {
-    materialListItems (materialList) {
-      return this.materialItems.filter(mi => mi.materialList().id === materialList.id)
-    },
     deleteMaterialItem (materialItem) {
       this.api.del(materialItem.uri)
     },
@@ -247,7 +250,7 @@ export default {
       this.$set(this.newMaterialItems, key, data)
 
       res.then(mi => {
-        this.api.reload(this.materialItems).then(() => {
+        this.api.reload(this.materialItemCollection).then(() => {
           this.$delete(this.newMaterialItems, key)
         })
       })
@@ -257,29 +260,12 @@ export default {
 </script>
 
 <style scoped>
-  .short-button {
-    min-width: 40px !important;
-    padding: 0 7px !important;
-  }
+
   .v-data-table >>> .v-data-table__wrapper > table > thead > tr > th {
     padding: 0 2px;
   }
   .v-data-table >>> .v-data-table__wrapper > table > tbody > tr > td {
     padding: 0 2px;
-  }
-  .text-align-right {
-    text-align: right;
-    padding-right: 9px !important;
-  }
-  .text-align-right >>> .v-text-field .v-input__slot input {
-    text-align: right;
-    margin-right: 5px;
-  }
-  .text-align-bottom {
-    vertical-align: bottom;
-  }
-  .font-size-16 {
-    font-size: 16px !important;
   }
 
   .fade-enter-active, .fade-leave-active {

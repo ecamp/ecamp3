@@ -1,7 +1,10 @@
 <template>
   <card-content-node v-bind="$props">
     <div class="mb-3">
-      <material-table :camp="camp" :content-node="contentNode" :layout-mode="layoutMode" />
+      <material-table :camp="camp"
+                      :content-node="contentNode"
+                      :layout-mode="layoutMode"
+                      :material-item-collection="materialItems" />
     </div>
   </card-content-node>
 </template>
@@ -18,7 +21,12 @@ export default {
     CardContentNode,
     MaterialTable
   },
-  mixins: [contentNodeMixin]
+  mixins: [contentNodeMixin],
+  computed: {
+    materialItems () {
+      return this.api.get().materialItems({ contentNodeId: this.contentNode.id })
+    }
+  }
 }
 </script>
 

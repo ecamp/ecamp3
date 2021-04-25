@@ -67,7 +67,10 @@ export default {
   props: {
     camp: { type: Object, required: true },
     period: { type: Object, default: null },
-    contentNode: { type: Object, default: null }
+    contentNode: { type: Object, default: null },
+
+    // API collection on which to post the new item
+    materialItemCollection: { type: Object, required: true }
   },
   data () {
     return {
@@ -90,26 +93,25 @@ export default {
       }
     },
     createMaterialItem () {
-      this.api.href(this.api.get(), 'materialItems').then(uri => {
-        const key = Date.now()
-        const data = this.materialItem
+      const key = Date.now()
+      const data = this.materialItem
 
-        if (this.period !== null) {
-          data.periodId = this.period.id
-        }
-        if (this.contentNode !== null) {
-          data.contentNodeId = this.contentNode.id
-        }
+      if (this.period !== null) {
+        data.periodId = this.period.id
+      }
+      if (this.contentNode !== null) {
+        data.contentNodeId = this.contentNode.id
+      }
 
-        this.materialItem = {}
-        this.$refs.quantity.focus()
-        this.$refs.validation.reset()
+      this.materialItem = {}
+      this.$refs.quantity.focus()
+      this.$refs.validation.reset()
 
-        const res = this.api.post(uri, data)
+      // post new item to the API collection
+      const res = this.materialItemCollection.$post(data)
 
-        // fire event to allow for eager adding before post has finished
-        this.$emit('item-adding', key, data, res)
-      })
+      // fire event to allow for eager adding before post has finished
+      this.$emit('item-adding', key, data, res)
     },
     campRoute
   }
