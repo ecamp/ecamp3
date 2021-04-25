@@ -96,7 +96,6 @@
           v-if="!layoutMode && $vuetify.breakpoint.smAndUp"
           key="addItemRow"
           :camp="camp"
-          :content-node="contentNode"
           :material-item-collection="materialItemCollection"
           @item-adding="onItemAdding" />
       </tbody>
@@ -105,7 +104,9 @@
     <template #footer>
       <!-- add new item (mobile view) -->
       <div v-if="!layoutMode && !$vuetify.breakpoint.smAndUp" class="mt-5">
-        <dialog-material-item-create :camp="camp" :content-node="contentNode">
+        <dialog-material-item-create
+          :camp="camp"
+          :material-item-collection="materialItemCollection">
           <template #activator="{ on }">
             <button-add v-on="on">
               {{ $tc('components.camp.periodMaterialLists.addNewItem') }}
@@ -127,11 +128,11 @@
 <script>
 import ApiTextField from '@/components/form/api/ApiTextField.vue'
 import ApiSelect from '@/components/form/api/ApiSelect.vue'
-import DialogMaterialItemCreate from '@/components/dialog/DialogMaterialItemCreate.vue'
-import DialogMaterialItemEdit from '@/components/dialog/DialogMaterialItemEdit.vue'
-import MaterialCreateItem from './MaterialCreateItem.vue'
 import ButtonEdit from '@/components/buttons/ButtonEdit.vue'
 import ButtonAdd from '@/components/buttons/ButtonAdd.vue'
+import DialogMaterialItemCreate from './DialogMaterialItemCreate.vue'
+import DialogMaterialItemEdit from './DialogMaterialItemEdit.vue'
+import MaterialCreateItem from './MaterialCreateItem.vue'
 
 export default {
   name: 'Material',
@@ -145,9 +146,6 @@ export default {
     ButtonAdd
   },
   props: {
-    // contentNode Entity for displaying material tables within activitiy
-    contentNode: { type: Object, required: false, default: null },
-
     // camp Entity
     camp: { type: Object, required: true },
 
@@ -155,7 +153,13 @@ export default {
     layoutMode: { type: Boolean, required: false, default: false },
 
     // materialItems Collection to display
-    materialItemCollection: { type: Object, required: true }
+    materialItemCollection: { type: Object, required: true },
+
+    // contentNode Entity for displaying material tables within activitiy
+    contentNode: { type: Object, required: false, default: null },
+
+    // contentNode Entity for displaying material tables within activitiy
+    period: { type: Object, required: false, default: null }
   },
   data () {
     return {

@@ -6,7 +6,10 @@
       </h3>
     </v-expansion-panel-header>
     <v-expansion-panel-content>
-      <material-table :camp="camp" :material-item-collection="getPeriodMaterialitems(period)" />
+      <material-table
+        :camp="camp"
+        :material-item-collection="period.materialItems()"
+        :period="period" />
 
       <!--
       <div v-for="materialListDetail in materialListsDetails"
@@ -127,9 +130,6 @@ export default {
     }
   },
   methods: {
-    getPeriodMaterialitems (period) {
-      return this.period.materialItems()
-    },
     getMaterialItems (materialList) {
       const items = []
 

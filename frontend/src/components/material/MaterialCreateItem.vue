@@ -66,8 +66,6 @@ export default {
   components: { ValidationObserver, ButtonAdd },
   props: {
     camp: { type: Object, required: true },
-    period: { type: Object, default: null },
-    contentNode: { type: Object, default: null },
 
     // API collection on which to post the new item
     materialItemCollection: { type: Object, required: true }
@@ -95,13 +93,6 @@ export default {
     createMaterialItem () {
       const key = Date.now()
       const data = this.materialItem
-
-      if (this.period !== null) {
-        data.periodId = this.period.id
-      }
-      if (this.contentNode !== null) {
-        data.contentNodeId = this.contentNode.id
-      }
 
       this.materialItem = {}
       this.$refs.quantity.focus()
