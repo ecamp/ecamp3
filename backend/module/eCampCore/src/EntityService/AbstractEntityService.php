@@ -130,14 +130,16 @@ abstract class AbstractEntityService extends AbstractResourceListener {
      * @throws NoAccessException
      * @throws ORMException
      */
-    final public function create($postBody): BaseEntity {
-        /** @var Request $request */
-        $request = $this->getEvent()->getRequest();
-        $queryParams = $request->getQuery();
+    final public function create($data): BaseEntity {
+        if (null !== $this->getEvent()) {
+            /** @var Request $request */
+            $request = $this->getEvent()->getRequest();
+            $queryParams = $request->getQuery();
 
-        // merge query params & post body (post body always wins)
-        // this allows to post on templated URIs, without the need to re-specify properties in the post body, if they are already included as an URI query parameter
-        $data = (object) array_merge((array) $queryParams, (array) $postBody);
+            // merge query params & post body (post body always wins)
+            // this allows to post on templated URIs, without the need to re-specify properties in the post body, if they are already included as an URI query parameter
+            $data = (object) array_merge((array) $queryParams, (array) $data);
+        }
 
         $entity = $this->createEntity($data);
         $this->assertAllowed($entity, __FUNCTION__);
