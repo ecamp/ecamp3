@@ -10,10 +10,10 @@
         <v-btn right text
                v-bind="attrs"
                :class="{ 'v-btn--open': value }" v-on="on">
-          <span class="sr-only-sm-and-down">
+          <user-avatar :value="profile" :size="40" />
+          <span class="sr-only-sm-and-down mx-3">
             {{ displayName }}
           </span>
-          <v-icon class="ma-2">mdi-account</v-icon>
         </v-btn>
       </v-toolbar-items>
     </template>
@@ -44,9 +44,11 @@
 </template>
 
 <script>
+import UserAvatar from '../user/UserAvatar.vue'
 
 export default {
   name: 'UserMeta',
+  components: { UserAvatar },
   data () {
     return {
       logoutIcon: 'mdi-logout',
@@ -54,8 +56,11 @@ export default {
     }
   },
   computed: {
+    profile () {
+      return this.api.get().profile()
+    },
     displayName () {
-      return this.api.get().profile().displayName
+      return this.profile.displayName
     }
   },
   methods: {

@@ -1,7 +1,7 @@
 <template>
   <v-list-item class="px-0" two-line>
     <v-list-item-avatar>
-      <v-img src="https://i.pravatar.cc/300" />
+      <user-avatar :value="collaborator" />
     </v-list-item-avatar>
     <v-list-item-content>
       <v-list-item-title v-if="collaborator.user">
