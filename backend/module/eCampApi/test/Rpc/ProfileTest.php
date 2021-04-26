@@ -34,8 +34,9 @@ class ProfileTest extends AbstractApiControllerTestCase {
 
         $this->assertResponseStatusCode(200);
 
-        $expectedBody = <<<'JSON'
+        $expectedBody = <<<JSON
             {
+                "id": "{$this->user->getId()}",
                 "username": "test-user",
                 "firstname": null,
                 "surname": null,
