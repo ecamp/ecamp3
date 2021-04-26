@@ -1,6 +1,6 @@
 <template>
   <v-avatar :size="size" :color="color">
-    <span class="white--text" :style="style">{{ initialen }}</span>
+    <span class="white--text" :style="style">{{ initials }}</span>
   </v-avatar>
 </template>
 <script>
@@ -26,7 +26,7 @@ export default {
       const h = (parseInt(id, 16) % 256) / 256
       return this.hsvToRgb(h, 1, 0.6)
     },
-    initialen () {
+    initials () {
       if (this.user.displayName) {
         const items = this.user.displayName.split(/[ ,._-]/)
         if (items.length === 1) {
