@@ -34,9 +34,8 @@ class AuthTest extends AbstractApiControllerTestCase {
 
         $expectedBody = <<<'JSON'
             {
-                "user": "guest",
-                "username": "guest",
-                "role": "guest"
+                "role": "guest",
+                "user": null
             }
 JSON;
 
@@ -78,7 +77,9 @@ JSON;
 
         $this->assertResponseStatusCode(200);
 
-        $this->assertEquals('test-user', $this->getResponseContent()->username);
+        $this->assertIsObject($this->getResponseContent()->_embedded);
+        $this->assertIsObject($this->getResponseContent()->_embedded->user);
+        $this->assertEquals('test-user', $this->getResponseContent()->_embedded->user->username);
     }
 
     public function testLogin(): void {
