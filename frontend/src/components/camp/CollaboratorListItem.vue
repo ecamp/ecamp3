@@ -1,7 +1,7 @@
 <template>
   <v-list-item class="px-0" two-line>
     <v-list-item-avatar>
-      <user-avatar :value="collaborator" />
+      <user-avatar :camp-collaboration="collaborator" />
     </v-list-item-avatar>
     <v-list-item-content>
       <v-list-item-title v-if="collaborator.user">

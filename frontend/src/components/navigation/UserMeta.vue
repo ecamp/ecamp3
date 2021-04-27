@@ -10,9 +10,9 @@
         <v-btn right text
                v-bind="attrs"
                :class="{ 'v-btn--open': value }" v-on="on">
-          <user-avatar :value="profile" :size="40" />
+          <user-avatar :user="authUser" :size="40" />
           <span class="sr-only-sm-and-down mx-3">
-            {{ displayName }}
+            {{ authUser.displayName }}
           </span>
         </v-btn>
       </v-toolbar-items>
@@ -56,11 +56,8 @@ export default {
     }
   },
   computed: {
-    profile () {
-      return this.api.get().profile()
-    },
-    displayName () {
-      return this.profile.displayName
+    authUser () {
+      return this.api.get().auth().user()
     }
   },
   methods: {

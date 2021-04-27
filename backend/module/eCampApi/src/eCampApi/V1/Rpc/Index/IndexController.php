@@ -67,14 +67,8 @@ class IndexController extends AbstractActionController {
         $data['title'] = 'eCamp V3 - API';
 
         $user = $this->userService->findAuthenticatedUser();
+        $data['authenticated'] = (null != $user);
 
-        if (null != $user) {
-            $data['user'] = $user->getDisplayName();
-            $data['authenticated'] = true;
-        } else {
-            $data['user'] = 'guest';
-            $data['authenticated'] = false;
-        }
         $data['profile'] = Link::factory([
             'rel' => 'profile',
             'route' => 'e-camp-api.rpc.profile',
