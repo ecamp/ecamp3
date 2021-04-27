@@ -275,7 +275,8 @@
       "hourShort": "H:mm"
     },
     "serverError": {
-      "409": "Uuuups... Diese Aktion hat zu einem Fehler auf dem Server geführt."
+      "409": "Uuuups... Diese Aktion hat zu einem Fehler auf dem Server geführt.",
+      "short": "Serverfehler"
     },
     "validation": {
       "minDate": "{_field_} darf nicht vor {min} liegen"

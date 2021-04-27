@@ -105,11 +105,28 @@
       </div>
 
       <!-- loading spinner for newly added items -->
-      <v-progress-circular
-        v-if="item.new"
-        size="16"
-        indeterminate
-        color="primary" />
+      <div v-if="item.new">
+        <v-progress-circular
+          v-if="!item.serverError"
+          size="16"
+          indeterminate
+          color="primary" />
+
+        <div v-if="item.serverError">
+          <v-tooltip top color="red darken-2">
+            <template #activator="{ on, attrs }">
+              <span
+                v-bind="attrs"
+                class="red--text text--darken-2"
+                v-on="on">{{ $tc('global.serverError.short') }}</span>
+            </template>
+            <server-error-content :server-error="item.serverError" />
+          </v-tooltip>
+
+          <button-retry small class="my-1" @click="retry(item)" />
+          <button-cancel small class="my-1" @click="cancel(item)" />
+        </div>
+      </div>
     </template>
 
     <template #[`body.append`]>
@@ -118,8 +135,7 @@
         v-if="!layoutMode && $vuetify.breakpoint.smAndUp"
         key="addItemRow"
         :camp="camp"
-        :material-item-collection="materialItemCollection"
-        @item-adding="onItemAdding" />
+        @item-adding="add" />
     </template>
 
     <template #footer>
@@ -155,6 +171,9 @@ import DialogMaterialItemCreate from './DialogMaterialItemCreate.vue'
 import DialogMaterialItemEdit from './DialogMaterialItemEdit.vue'
 import MaterialCreateItem from './MaterialCreateItem.vue'
 import ScheduleEntryLinks from './ScheduleEntryLinks.vue'
+import ServerErrorContent from '@/components/form/ServerErrorContent.vue'
+import ButtonRetry from '@/components/buttons/ButtonRetry.vue'
+import ButtonCancel from '@/components/buttons/ButtonCancel.vue'
 
 export default {
   name: 'MaterialTable',
@@ -166,7 +185,10 @@ export default {
     MaterialCreateItem,
     ButtonEdit,
     ButtonAdd,
-    ScheduleEntryLinks
+    ButtonRetry,
+    ButtonCancel,
+    ScheduleEntryLinks,
+    ServerErrorContent
   },
   props: {
     // camp Entity
@@ -263,6 +285,7 @@ export default {
           article: mi.article,
           listName: this.materialLists.find(listItem => listItem.value === mi.materialListId).text,
           new: true,
+          serverError: mi.serverError,
           readonly: true,
           class: 'new' // CSS class of new item rows
         })
@@ -288,17 +311,46 @@ export default {
     }
   },
   methods: {
+    // remove existing item
     deleteMaterialItem (materialItem) {
       this.api.del(materialItem.uri)
     },
-    onItemAdding (key, data, res) {
+
+    // add new item to list & save to API
+    add (key, data) {
+      // add item to local array
       this.$set(this.newMaterialItems, key, data)
 
-      res.then(mi => {
-        this.api.reload(this.materialItemCollection).then(() => {
-          this.$delete(this.newMaterialItems, key)
+      this.postToApi(key, data)
+    },
+
+    // retry to save to API (after server error)
+    retry (item) {
+      // reset error
+      this.$set(this.newMaterialItems[item.id], 'serverError', null)
+
+      // try to save same data again
+      this.postToApi(item.id, this.newMaterialItems[item.id])
+    },
+
+    // cancel (remove) item that is not successfully stored to API
+    cancel (item) {
+      this.$delete(this.newMaterialItems, item.id)
+    },
+
+    postToApi (key, data) {
+      // post new item to the API collection
+      this.materialItemCollection.$post(data)
+        .then(mi => {
+          // reload list after item has successfully been added
+          this.api.reload(this.materialItemCollection).then(() => {
+            this.$delete(this.newMaterialItems, key)
+          })
         })
-      })
+        // catch server error
+        .catch(error => {
+          this.$set(this.newMaterialItems[key], 'serverError', error)
+        })
     }
   }
 }

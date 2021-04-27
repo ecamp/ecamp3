@@ -3,7 +3,7 @@
     text
     color="secondary"
     v-bind="$attrs"
-    @click="$router.go(-1)">
+    v-on="$listeners">
     {{ $tc('global.button.cancel') }}
   </v-btn>
 </template>

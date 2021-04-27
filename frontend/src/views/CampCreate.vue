@@ -36,7 +36,7 @@
           </v-card-text>
           <v-divider />
           <v-card-text class="text-right">
-            <button-cancel />
+            <button-cancel @click="$router.go(-1)" />
             <button-add type="submit">
               {{ $tc('views.campCreate.create') }}
             </button-add>

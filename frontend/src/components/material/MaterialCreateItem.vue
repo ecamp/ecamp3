@@ -66,10 +66,7 @@ export default {
   name: 'MaterialCreateItem',
   components: { ValidationObserver, ButtonAdd },
   props: {
-    camp: { type: Object, required: true },
-
-    // API collection on which to post the new item
-    materialItemCollection: { type: Object, required: true }
+    camp: { type: Object, required: true }
   },
   data () {
     return {
@@ -99,11 +96,8 @@ export default {
       this.$refs.quantity.focus()
       this.$refs.validation.reset()
 
-      // post new item to the API collection
-      const res = this.materialItemCollection.$post(data)
-
       // fire event to allow for eager adding before post has finished
-      this.$emit('item-adding', key, data, res)
+      this.$emit('item-adding', key, data)
     },
     campRoute
   }

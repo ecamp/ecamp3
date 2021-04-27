@@ -94,12 +94,15 @@
     </template>
 
     <!-- Retry button if loading failed -->
-    <button-retry v-if="wrapper.hasLoadingError" type="submit" @click="wrapper.on.reload" />
+    <button-retry v-if="wrapper.hasLoadingError"
+                  text
+                  type="submit"
+                  @click="wrapper.on.reload" />
   </div>
 </template>
 
 <script>
-import ButtonRetry from './ButtonRetry.vue'
+import ButtonRetry from '@/components/buttons/ButtonRetry.vue'
 
 export default {
   name: 'ApiWrapperAppend',
