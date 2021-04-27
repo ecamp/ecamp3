@@ -19,6 +19,10 @@ class CampTestData extends AbstractFixture implements DependentFixtureInterface 
         $camp->setName('CampName');
         $camp->setTitle('CampTitle');
         $camp->setMotto('CampMotto');
+        $camp->setAddressName('AdrName');
+        $camp->setAddressStreet('AdrStreet');
+        $camp->setAddressZipcode('AdrZipcode');
+        $camp->setAddressCity('AdrCity');
         $camp->setCreator($user1);
         $camp->setOwner($user1);
 

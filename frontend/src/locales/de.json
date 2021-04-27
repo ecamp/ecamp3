@@ -75,6 +75,9 @@
       }
     },
     "camp": {
+      "campAddress": {
+        "title": "Lageradresse"
+      },
       "campCategories": {
         "create": "Block-Kategorie erstellen",
         "deleteCategoryNotPossibleInUse": "Block-Kategorie kann nicht gelöscht werden. Sie wird noch verwendet:",
@@ -193,6 +196,10 @@
         "member": "Mitglied"
       },
       "fields": {
+        "addressCity": "Ort",
+        "addressName": "Name",
+        "addressStreet": "Strasse",
+        "addressZipcode": "PLZ",
         "motto": "Motto",
         "name": "Name",
         "title": "Titel"

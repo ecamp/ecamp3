@@ -8,6 +8,8 @@ Admin screen of a camp: Displays details & periods of a single camp and allows t
       <v-row>
         <v-col cols="12" lg="6">
           <camp-settings :camp="camp" />
+          <camp-address :camp="camp" />
+
           <v-btn v-if="$vuetify.breakpoint.xsOnly" :to="{name: 'camp/collaborators', query: {isDetail: true}}">
             {{ $tc('views.camp.admin.collaborators') }}
           </v-btn>
@@ -30,6 +32,7 @@ Admin screen of a camp: Displays details & periods of a single camp and allows t
 
 <script>
 import CampSettings from '@/components/camp/CampSettings.vue'
+import CampAddress from '@/components/camp/CampAddress.vue'
 import CampPeriods from '@/components/camp/CampPeriods.vue'
 import CampMaterialLists from '@/components/camp/CampMaterialLists.vue'
 import CampCategories from '@/components/camp/CampCategories.vue'
@@ -42,6 +45,7 @@ export default {
     CampDangerZone,
     ContentCard,
     CampSettings,
+    CampAddress,
     CampPeriods,
     CampMaterialLists,
     CampCategories
