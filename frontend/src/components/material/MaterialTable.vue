@@ -8,6 +8,18 @@
     :show-group-by="enableGrouping"
     item-class="class"
     hide-default-footer>
+    <!-- skeleton loader (slot #body overrides all others) -->
+    <template v-if="materialItemCollection._meta.loading || camp.materialLists()._meta.loading" #body="{ headers }">
+      <tr v-for="row in 3" :key="row">
+        <td v-for="col in headers.length" :key="col">
+          <v-skeleton-loader
+            height="25"
+            class="pr-5 mt-1"
+            type="text" />
+        </td>
+      </tr>
+    </template>
+
     <template #[`group.header`]="{ groupBy, group, headers, isOpen, toggle, remove }">
       <td :colspan="headers.length">
         <v-btn icon small @click="toggle">

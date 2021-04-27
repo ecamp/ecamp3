@@ -55,6 +55,10 @@ export default {
       }))
     }
   },
+  // reload data every time user navigates to material table
+  mounted () {
+    this.period.materialItems().$reload()
+  },
   methods: {
     getMaterialItems (materialList) {
       const items = []
