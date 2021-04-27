@@ -17,6 +17,8 @@ use eCampApi\V1\Rest\Category\CategoryCollection;
 use Laminas\Authentication\AuthenticationService;
 
 class CategoryService extends AbstractEntityService {
+    const DEFAULT_CONTENT_TYPE_NAME = 'ColumnLayout';
+
     private ContentNodeService $contentNodeService;
 
     public function __construct(
@@ -93,12 +95,9 @@ class CategoryService extends AbstractEntityService {
         $category = parent::createEntityPost($entity, $data);
 
         if (!isset($data->createRootContentNode) || $data->createRootContentNode) {
-            $q = $this->findCollectionQueryBuilder(ContentType::class, 'c', null)->where("c.name = 'ColumnLayout'");
-            $columnLayout = $this->getQuerySingleResult($q);
-
             $contentNode = $this->contentNodeService->create((object) [
                 'ownerId' => $entity->getId(),
-                'contentTypeId' => $columnLayout->getId(),
+                'contentTypeName' => self::DEFAULT_CONTENT_TYPE_NAME,
             ]);
             $category->setRootContentNode($contentNode);
         }

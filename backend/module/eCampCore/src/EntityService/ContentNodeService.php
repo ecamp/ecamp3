@@ -2,6 +2,7 @@
 
 namespace eCamp\Core\EntityService;
 
+use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\ORMException;
 use Doctrine\ORM\QueryBuilder;
 use eCamp\Core\ContentType\ContentTypeStrategyProvider;
@@ -90,8 +91,14 @@ class ContentNodeService extends AbstractEntityService {
             $contentNode->setPosition($position + 1);
         }
 
-        /** @var ContentType $contentType */
-        $contentType = $this->findRelatedEntity(ContentType::class, $data, 'contentTypeId');
+        if (isset($data->contentTypeName)) {
+            /** @var EntityRepository $contentTypeRepository */
+            $contentTypeRepository = $this->getServiceUtils()->emGetRepository(ContentType::class);
+            /** @var ContentType $contentType */
+            $contentType = $contentTypeRepository->findOneByName($data->contentTypeName);
+        } else {
+            $contentType = $this->findRelatedEntity(ContentType::class, $data, 'contentTypeId');
+        }
         $contentNode->setContentType($contentType);
 
         $strategy = $this->contentTypeStrategyProvider->get($contentType);
