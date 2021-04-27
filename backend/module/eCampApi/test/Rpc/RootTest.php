@@ -43,6 +43,7 @@ JSON;
         {
             "title": "eCamp V3 - API",
             "user": "guest",
+            "authUser": null,
             "authenticated": false,
             "_links": {
                 "profile": {

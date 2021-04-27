@@ -3,7 +3,7 @@
              clipped-left
              color="blue-grey darken-4" dark>
     <logo>
-      <v-btn :to="campRoute(camp())" class="justify-start px-2 camp--name"
+      <v-btn :to="campRoute(camp(), 'dashboard')" class="justify-start px-2 camp--name"
              text exact
              width="216">
         <v-toolbar-title>
@@ -13,6 +13,10 @@
     </logo>
 
     <v-toolbar-items>
+      <v-btn :to="campRoute(camp())" text>
+        <v-icon :left="$vuetify.breakpoint.mdAndUp">mdi-view-dashboard-variant</v-icon>
+        <span class="sr-only-sm-and-down">{{ $tc('views.camp.navigationCamp.program') }}</span>
+      </v-btn>
       <v-btn :to="campRoute(camp(), 'story')" text>
         <v-icon :left="$vuetify.breakpoint.mdAndUp">mdi-book-open-variant</v-icon>
         <span class="sr-only-sm-and-down">{{ $tc('views.camp.navigationCamp.story') }}</span>

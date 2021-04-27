@@ -10,7 +10,7 @@
           v-for="camp in upcomingCamps"
           :key="camp.id"
           two-line
-          :to="campRoute(camp, 'program')">
+          :to="campRoute(camp, 'dashboard')">
           <v-list-item-content>
             <v-list-item-title>{{ camp.title }}</v-list-item-title>
             <v-list-item-subtitle>

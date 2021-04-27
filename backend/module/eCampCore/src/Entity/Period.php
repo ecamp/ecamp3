@@ -21,6 +21,7 @@ class Period extends BaseEntity implements BelongsToCampInterface {
 
     /**
      * @ORM\OneToMany(targetEntity="ScheduleEntry", mappedBy="period")
+     * @ORM\OrderBy({"periodOffset": "ASC"})
      */
     protected Collection $scheduleEntries;
 

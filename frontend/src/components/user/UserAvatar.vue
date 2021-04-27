@@ -22,15 +22,19 @@ export default {
       return this.value
     },
     color () {
-      const id = this.user.id
-      const h = (parseInt(id, 16) % 360)
-      return `hsl(${h}, 100%, 40%)`
+      if (!this.user._meta.loading) {
+        const id = this.user.id
+        const h = (parseInt(id, 16) % 360)
+        return `hsl(${h}, 100%, 40%)`
+      } else {
+        return 'rgba(0, 0, 0, 0)'
+      }
     },
     initials () {
       let displayName = ''
-      if (this.user.displayName) {
+      if (typeof this.user.displayName === 'string') {
         displayName = this.user.displayName
-      } else if (this.value.inviteEmail) {
+      } else if (typeof this.value.inviteEmail === 'string') {
         displayName = this.value.inviteEmail.split('@', 2).shift()
       }
       let items = displayName.split(' ', 2)
