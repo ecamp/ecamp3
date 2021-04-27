@@ -1,111 +1,125 @@
 <template>
   <v-data-table
-    :headers="headers"
+    :headers="tableHeaders"
     :items="materialItemsData"
     :disable-pagination="true"
     mobile-breakpoint="0"
+    :group-by="enableGrouping ? 'listName' : null"
+    :show-group-by="enableGrouping"
+    item-class="class"
     hide-default-footer>
-    <template #body="props">
-      <tbody is="transition-group" name="fade">
-        <tr v-for="item in props.items" :key="item.id" :class="item.new ? 'new' : ''">
-          <td>
-            <api-text-field
-              v-if="!item.readonly"
-              :disabled="layoutMode"
-              dense
-              :uri="item.uri"
-              fieldname="quantity" />
-            <span v-if="item.readonly">{{ item.quantity }}</span>
-          </td>
-          <td>
-            <api-text-field
-              v-if="!item.readonly"
-              :disabled="layoutMode"
-              dense
-              :uri="item.uri"
-              fieldname="unit" />
-            <span v-if="item.readonly">{{ item.unit }}</span>
-          </td>
-          <td>
-            <api-text-field
-              v-if="!item.readonly"
-              :disabled="layoutMode"
-              dense
-              :uri="item.uri"
-              fieldname="article" />
-            <span v-if="item.readonly">{{ item.article }}</span>
-          </td>
+    <template #[`group.header`]="{ groupBy, group, headers, isOpen, toggle, remove }">
+      <td :colspan="headers.length">
+        <v-btn icon small @click="toggle">
+          <v-icon v-if="isOpen">mdi-minus</v-icon>
+          <v-icon v-else>mdi-plus</v-icon>
+        </v-btn>
+        {{ tableHeaders.find(header => header.value === groupBy[0] ).text }}:
+        {{ group }}
+        <v-btn icon small @click="remove">
+          <v-icon>mdi-close</v-icon>
+        </v-btn>
+      </td>
+    </template>
 
-          <!-- Material list (hidden in mobile view) -->
-          <td v-if="$vuetify.breakpoint.smAndUp">
-            <api-select
-              v-if="!item.readonly"
-              :disabled="layoutMode"
-              dense
-              :uri="item.uri"
-              relation="materialList"
-              fieldname="materialListId"
-              :items="materialLists" />
-            <span v-if="item.readonly">{{ item.listName }}</span>
-          </td>
+    <template #[`item.quantity`]="{ item }">
+      <api-text-field
+        v-if="!item.readonly"
+        :disabled="layoutMode"
+        dense
+        :uri="item.uri"
+        fieldname="quantity" />
+      <span v-if="item.readonly">{{ item.quantity }}</span>
+    </template>
 
-          <!-- Activity link (only visible in full period view) -->
-          <td v-if="period">
-            <schedule-entry-links
-              v-if="item.entityObject && item.entityObject.contentNode"
-              :activity="item.entityObject.contentNode().owner" />
-          </td>
+    <template #[`item.unit`]="{ item }">
+      <api-text-field
+        v-if="!item.readonly"
+        :disabled="layoutMode"
+        dense
+        :uri="item.uri"
+        fieldname="unit" />
+      <span v-if="item.readonly">{{ item.unit }}</span>
+    </template>
 
-          <!-- Action buttons -->
-          <td>
-            <div v-if="!item.readonly" class="d-flex">
-              <!-- edit dialog (mobile only) -->
-              <dialog-material-item-edit
-                v-if="!$vuetify.breakpoint.smAndUp"
-                class="float-left"
-                :material-item-uri="item.uri">
-                <template #activator="{ on }">
-                  <button-edit v-on="on" />
-                </template>
-              </dialog-material-item-edit>
+    <template #[`item.article`]="{ item }">
+      <api-text-field
+        v-if="!item.readonly"
+        :disabled="layoutMode"
+        dense
+        :uri="item.uri"
+        fieldname="article" />
+      <span v-if="item.readonly">{{ item.article }}</span>
+    </template>
 
-              <!-- delete button (behind menu) -->
-              <v-menu v-if="!layoutMode">
-                <template #activator="{ on, attrs }">
-                  <v-btn icon v-bind="attrs" v-on="on">
-                    <v-icon>mdi-dots-vertical</v-icon>
-                  </v-btn>
-                </template>
-                <v-list>
-                  <v-list-item @click="deleteMaterialItem(item)">
-                    <v-list-item-icon>
-                      <v-icon>mdi-delete</v-icon>
-                    </v-list-item-icon>
-                    <v-list-item-title>
-                      {{ $tc('global.button.delete') }}
-                    </v-list-item-title>
-                  </v-list-item>
-                </v-list>
-              </v-menu>
-            </div>
+    <template #[`item.listName`]="{ item }">
+      <api-select
+        v-if="!item.readonly"
+        :disabled="layoutMode"
+        dense
+        :uri="item.uri"
+        relation="materialList"
+        fieldname="materialListId"
+        :items="materialLists" />
+      <span v-if="item.readonly">{{ item.listName }}</span>
+    </template>
 
-            <!-- loading spinner for newly added items -->
-            <v-progress-circular
-              v-if="item.new"
-              size="16"
-              indeterminate
-              color="primary" />
-          </td>
-        </tr>
+    <!-- Activity link (only visible in full period view) -->
+    <template #[`item.activity`]="{ item }">
+      <schedule-entry-links
+        v-if="item.entityObject && item.entityObject.contentNode"
+        :activity="item.entityObject.contentNode().owner" />
+    </template>
 
-        <!-- add new item (desktop view) -->
-        <material-create-item
-          v-if="!layoutMode && $vuetify.breakpoint.smAndUp"
-          key="addItemRow"
-          :camp="camp"
-          :material-item-collection="materialItemCollection"
-          @item-adding="onItemAdding" />
-      </tbody>
+    <!-- Action buttons -->
+    <template #[`item.actions`]="{ item }">
+      <div v-if="!item.readonly" class="d-flex">
+        <!-- edit dialog (mobile only) -->
+        <dialog-material-item-edit
+          v-if="!$vuetify.breakpoint.smAndUp"
+          class="float-left"
+          :material-item-uri="item.uri">
+          <template #activator="{ on }">
+            <button-edit v-on="on" />
+          </template>
+        </dialog-material-item-edit>
+
+        <!-- delete button (behind menu) -->
+        <v-menu v-if="!layoutMode">
+          <template #activator="{ on, attrs }">
+            <v-btn icon v-bind="attrs" v-on="on">
+              <v-icon>mdi-dots-vertical</v-icon>
+            </v-btn>
+          </template>
+          <v-list>
+            <v-list-item @click="deleteMaterialItem(item)">
+              <v-list-item-icon>
+                <v-icon>mdi-delete</v-icon>
+              </v-list-item-icon>
+              <v-list-item-title>
+                {{ $tc('global.button.delete') }}
+              </v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-menu>
+      </div>
+
+      <!-- loading spinner for newly added items -->
+      <v-progress-circular
+        v-if="item.new"
+        size="16"
+        indeterminate
+        color="primary" />
+    </template>
+
+    <template #[`body.append`]>
+      <!-- add new item (desktop view) -->
+      <material-create-item
+        v-if="!layoutMode && $vuetify.breakpoint.smAndUp"
+        key="addItemRow"
+        :camp="camp"
+        :material-item-collection="materialItemCollection"
+        @item-adding="onItemAdding" />
     </template>
 
     <template #footer>
@@ -171,7 +185,10 @@ export default {
     period: { type: Object, required: false, default: null },
 
     // controls if material belonging to ContentNodes should be shown or not
-    showContentNodeMaterial: { type: Boolean, default: true }
+    showContentNodeMaterial: { type: Boolean, default: true },
+
+    // controls if material belonging to ContentNodes should be shown or not
+    enableGrouping: { type: Boolean, default: false }
   },
   data () {
     return {
@@ -179,15 +196,16 @@ export default {
     }
   },
   computed: {
-    headers () {
+    tableHeaders () {
       const headers = [{
         text: this.$tc('entity.materialItem.fields.quantity'),
+        value: 'quantity',
         align: 'start',
         sortable: false,
-        value: 'quantity',
+        groupable: false,
         width: '10%'
       },
-      { text: this.$tc('entity.materialItem.fields.unit'), value: 'unit', sortable: false, width: '10%' },
+      { text: this.$tc('entity.materialItem.fields.unit'), value: 'unit', groupable: false, sortable: false, width: '10%' },
       { text: this.$tc('entity.materialItem.fields.article'), value: 'article' }]
 
       // disable material list in mobile view
@@ -197,10 +215,10 @@ export default {
 
       // Activity column only shown in period overview
       if (this.period) {
-        headers.push({ text: this.$tc('entity.activity.name'), value: 'activity', width: '15%' })
+        headers.push({ text: this.$tc('entity.activity.name'), value: 'activity', groupable: false, width: '15%' })
       }
 
-      headers.push({ text: '', value: 'actions', sortable: false, width: '10%' })
+      headers.push({ text: '', value: 'actions', sortable: false, groupable: false, width: '10%' })
 
       return headers
     },
@@ -231,7 +249,8 @@ export default {
           listName: item.materialList().name,
           activity: item.contentNode ? item.contentNode().id : null,
           entityObject: item,
-          readonly: this.period && item.contentNode // if complete component is in period overview, disable editing of material that belongs to contentNodes (Acitity material)
+          readonly: this.period && item.contentNode, // if complete component is in period overview, disable editing of material that belongs to contentNodes (Acitity material)
+          class: 'abcde'
         }))
 
       // eager add new Items
@@ -244,7 +263,8 @@ export default {
           article: mi.article,
           listName: this.materialLists.find(listItem => listItem.value === mi.materialListId).text,
           new: true,
-          readonly: true
+          readonly: true,
+          class: 'new' // CSS class of new item rows
         })
       }
 
@@ -293,24 +313,13 @@ export default {
     padding: 0 2px;
   }
 
-  .fade-enter-active, .fade-leave-active {
-    transition: all 1s;
-    background: #c8ebfb;
+  .v-data-table >>> tr.new {
+    animation: backgroundHighlight 2s;
   }
 
-   /* transitions for newly added items (remove instantly) */
-   .fade-enter-active.new {
-    transition: all 1s;
-    background: #c8ebfb;
-  }
-
-  .fade-leave-active.new {
-    transition: all 0s;
-    background: #c8ebfb;
-  }
-
-  .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
-    opacity: 0;
+  @keyframes backgroundHighlight {
+    from {background: #c8ebfb;}
+    to {}
   }
 
 </style>

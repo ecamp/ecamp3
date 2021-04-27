@@ -9,6 +9,7 @@
         ref="quantity"
         v-model="materialItem.quantity"
         dense
+        vee-rules="numeric"
         :name="$tc('entity.materialItem.fields.quantity')"
         fieldname="quantity" />
     </td>

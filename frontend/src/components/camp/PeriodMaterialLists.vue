@@ -10,83 +10,8 @@
         :camp="camp"
         :material-item-collection="period.materialItems()"
         :period="period"
-        :show-content-node-material="showContentNodeMaterial" />
-
-      <!--
-      <div v-for="materialListDetail in materialListsDetails"
-           :key="materialListDetail.id">
-        <div v-if="materialListDetail.items.length > 0">
-          <h2 style="padding: 0 0 6px 0">
-            {{ materialListDetail.list.name }}
-          </h2>
-          <v-simple-table dense style="padding-bottom: 24px">
-            <colgroup>
-              <col style="width: 55px;">
-              <col style="width: 15%;">
-              <col>
-              <col style="width: 20%;">
-            </colgroup>
-            <thead>
-              <tr>
-                <th colspan="2">
-                  {{ $tc('entity.materialItem.fields.quantity') }}
-                </th>
-                <th>
-                  {{ $tc('entity.materialItem.fields.article') }}
-                </th>
-                <th>
-                  Option
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <template v-for="item in materialListDetail.items">
-                <material-list-item-content-node
-                  v-if="item.scheduleEntry != null"
-                  :key="item.key"
-                  :camp="camp"
-                  :item="item" />
-                <material-list-item-period
-                  v-else-if="item.period != null"
-                  :key="item.key"
-                  :item="item" />
-                <tr v-else :key="item.key">
-                  <td class="font-size-16 text-align-right">
-                    {{ item.materialItem.quantity }}
-                  </td>
-                  <td class="font-size-16">
-                    {{ item.materialItem.unit }}
-                  </td>
-                  <td class="font-size-16">
-                    {{ item.materialItem.article }}
-                  </td>
-                  <td>
-                    <v-progress-circular
-                      indeterminate
-                      color="primary" />
-                  </td>
-                </tr>
-              </template>
-            </tbody>
-          </v-simple-table>
-        </div>
-      </div>
-
-      <material-create-item
-        v-if="$vuetify.breakpoint.smAndUp"
-        :camp="camp"
-        :period="period"
-        @item-adding="onItemAdding" />
-
-      <div v-else style="margin-top: 20px; text-align: right">
-        <dialog-material-item-create :camp="camp" :period="period">
-          <template #activator="{ on }">
-            <v-btn color="success" v-on="on">
-              {{ $tc('components.camp.periodMaterialLists.addNewItem') }}
-            </v-btn>
-          </template>
-        </dialog-material-item-create>
-      </div> -->
+        :show-content-node-material="showContentNodeMaterial"
+        enable-grouping />
     </v-expansion-panel-content>
   </v-expansion-panel>
 </template>
