@@ -17,6 +17,8 @@ use eCampApi\V1\Rest\Category\CategoryCollection;
 use Laminas\Authentication\AuthenticationService;
 
 class CategoryService extends AbstractEntityService {
+    const DEFAULT_CONTENT_TYPE_NAME = 'ColumnLayout';
+
     private ContentNodeService $contentNodeService;
 
     public function __construct(
@@ -36,6 +38,9 @@ class CategoryService extends AbstractEntityService {
     }
 
     public function createFromPrototype(Camp $camp, Category $prototype): Category {
+        /** @var ContentNode $contentNodePrototype */
+        $contentNodePrototype = $prototype->getRootContentNode();
+
         /** @var Category $category */
         $category = $this->create((object) [
             'campId' => $camp->getId(),
@@ -43,11 +48,10 @@ class CategoryService extends AbstractEntityService {
             'name' => $prototype->getName(),
             'color' => $prototype->getColor(),
             'numberingStyle' => $prototype->getNumberingStyle(),
+            'createRootContentNode' => !isset($contentNodePrototype),
         ]);
         $category->setCategoryPrototypeId($prototype->getId());
 
-        /** @var ContentNode $contentNodePrototype */
-        $contentNodePrototype = $prototype->getRootContentNode();
         if (isset($contentNodePrototype)) {
             $contentNode = $this->contentNodeService->createFromPrototype($category, $contentNodePrototype);
             $category->setRootContentNode($contentNode);
@@ -81,6 +85,21 @@ class CategoryService extends AbstractEntityService {
                 },
                 $this->findRelatedEntities(ContentType::class, $data, 'preferredContentTypes')
             );
+        }
+
+        return $category;
+    }
+
+    protected function createEntityPost(BaseEntity $entity, $data): BaseEntity {
+        /** @var Category $category */
+        $category = parent::createEntityPost($entity, $data);
+
+        if (!isset($data->createRootContentNode) || $data->createRootContentNode) {
+            $contentNode = $this->contentNodeService->create((object) [
+                'ownerId' => $entity->getId(),
+                'contentTypeName' => self::DEFAULT_CONTENT_TYPE_NAME,
+            ]);
+            $category->setRootContentNode($contentNode);
         }
 
         return $category;

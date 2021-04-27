@@ -11,7 +11,7 @@ use Laminas\Json\Json;
  */
 class ContentType extends BaseEntity {
     /**
-     * @ORM\Column(type="text", nullable=false)
+     * @ORM\Column(type="string", length=32, unique=true, nullable=false)
      */
     private ?string $name = null;
 
