@@ -39,7 +39,7 @@ Admin screen of a camp: Displays details & periods of a single camp and allows t
                           <user-avatar
                             v-for="cc in sortCampCollaborations(scheduleEntry.activity().campCollaborations().items)"
                             :key="cc._meta.self"
-                            :value="cc" :size="24"
+                            :camp-collaboration="cc" :size="24"
                             style="margin: 2px" />
                         </v-card-title>
                         <v-card-subtitle>
@@ -103,7 +103,7 @@ export default {
       return this.$date.utc(date).format(this.$tc('global.datetime.dateLong'))
     },
     showScheduleEntry (scheduleEntry) {
-      const authUser = this.api.get().authUser()
+      const authUser = this.api.get().auth().user()
       const campCollaborations = scheduleEntry.activity().campCollaborations().items
       return campCollaborations.some(cc => cc.user().id === authUser.id)
     },

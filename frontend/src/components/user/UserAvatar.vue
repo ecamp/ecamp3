@@ -9,34 +9,49 @@ export default {
   name: 'UserAvatar',
   props: {
     size: { type: Number, required: false, default: 48 },
-    value: { type: Object, required: true }
+    user: { type: Object, default: null },
+    campCollaboration: { type: Object, default: null }
   },
   computed: {
-    user () {
-      if (this.value.user instanceof Function) {
-        return this.value.user()
+    isLoading () {
+      return (this.user || this.campCollaboration)._meta.loading
+    },
+    objectId () {
+      if (this.isLoading) return null
+      if (this.user) { return this.user.id }
+      if (this.campCollaboration) {
+        if (typeof this.campCollaboration.user === 'function') {
+          return this.campCollaboration.user().id
+        }
+        return this.campCollaboration.id
       }
-      if (this.value.user instanceof Object) {
-        return this.value.user
+      return undefined
+    },
+    objectText () {
+      if (this.isLoading) {
+        return ''
       }
-      return this.value
+      if (this.user) {
+        return this.user.displayName
+      }
+      if (this.campCollaboration) {
+        if (typeof this.campCollaboration.user === 'function') {
+          return this.campCollaboration.user().displayName
+        }
+        return this.campCollaboration.inviteEmail.split('@', 2).shift()
+      }
+      return ''
     },
     color () {
-      if (!this.user._meta.loading) {
-        const id = this.user.id
-        const h = (parseInt(id, 16) % 360)
-        return `hsl(${h}, 100%, 40%)`
+      if (!this.isLoading) {
+        const h = (parseInt(this.objectId, 16) % 360)
+        return `hsl(${h}, 100%, 30%)`
       } else {
         return 'rgba(0, 0, 0, 0)'
       }
     },
     initials () {
-      let displayName = ''
-      if (typeof this.user.displayName === 'string') {
-        displayName = this.user.displayName
-      } else if (typeof this.value.inviteEmail === 'string') {
-        displayName = this.value.inviteEmail.split('@', 2).shift()
-      }
+      const displayName = this.objectText
       let items = displayName.split(' ', 2)
       if (items.length === 1) {
         items = items.shift().split(/[,._-]/, 2)
@@ -49,7 +64,10 @@ export default {
     },
     style () {
       return {
-        fontSize: (this.size / 2.5) + 'px'
+        fontSize: (this.size / 2.5) + 'px',
+        fontWeight: 400,
+        letterSpacing: '1px',
+        marginRight: '-1.5px'
       }
     }
   }
