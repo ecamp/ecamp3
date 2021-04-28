@@ -286,7 +286,7 @@ function dayFromScheduleEntryInRoute (route) {
   }
 }
 
-export function campRoute (camp, subroute = 'program', query = {}) {
+export function campRoute (camp, subroute = 'dashboard', query = {}) {
   if (camp._meta.loading) return {}
   return { name: 'camp/' + subroute, params: { campId: camp.id, campTitle: slugify(camp.title) }, query }
 }

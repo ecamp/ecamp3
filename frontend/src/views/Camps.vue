@@ -10,7 +10,7 @@
           v-for="camp in upcomingCamps"
           :key="camp.id"
           two-line
-          :to="campRoute(camp, 'dashboard')">
+          :to="campRoute(camp)">
           <v-list-item-content>
             <v-list-item-title>{{ camp.title }}</v-list-item-title>
             <v-list-item-subtitle>
@@ -46,7 +46,7 @@
                 v-for="camp in prototypeCamps"
                 :key="camp.id"
                 two-line
-                :to="campRoute(camp, 'program')">
+                :to="campRoute(camp)">
                 <v-list-item-content>
                   <v-list-item-title>{{ camp.title }}</v-list-item-title>
                   <v-list-item-subtitle>
@@ -69,7 +69,7 @@
                 v-for="camp in pastCamps"
                 :key="camp.id"
                 two-line
-                :to="campRoute(camp, 'program')">
+                :to="campRoute(camp)">
                 <v-list-item-content>
                   <v-list-item-title>{{ camp.title }}</v-list-item-title>
                   <v-list-item-subtitle>
