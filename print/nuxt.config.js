@@ -129,7 +129,8 @@ export default {
    ** See https://nuxtjs.org/api/configuration-render/
    */
   render: {
-    // deactivates injecting any Javascript on client side ==> pure HTML/CSS output only (except explicit head-scripts)
-    injectScripts: false,
+    // in production: FALSE: deactivates injecting any Javascript on client side ==> pure HTML/CSS output only (except explicit head-scripts)
+    // in development: TRUE: enable javasript injection in dev mode to support hot reloading
+    injectScripts: process.env.NODE_ENV === 'development',
   },
 }

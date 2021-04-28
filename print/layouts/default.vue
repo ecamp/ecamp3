@@ -12,25 +12,30 @@
 export default {
   data() {
     return {
-      clipped: false,
-      drawer: false,
-      fixed: false,
-      items: [
-        {
-          icon: 'mdi-apps',
-          title: 'Welcome',
-          to: '/',
-        },
-        {
-          icon: 'mdi-chart-bubble',
-          title: 'Inspire',
-          to: '/inspire',
-        },
-      ],
-      miniVariant: false,
-      right: true,
-      rightDrawer: false,
-      title: 'Vuetify.js',
+      pagedjs: false,
+    }
+  },
+
+  head() {
+    console.log(this.$route.query)
+
+    if (this.$route.query.pagedjs === 'true') {
+      return {
+        script: [
+          {
+            src: '/pagedConfig.js',
+          },
+          {
+            src: 'https://unpkg.com/pagedjs/dist/paged.polyfill.js',
+          },
+        ],
+        link: [
+          {
+            rel: 'stylesheet',
+            href: '/print-preview.css',
+          },
+        ],
+      }
     }
   },
 }
@@ -40,5 +45,22 @@ export default {
 .container {
   margin: 0;
   padding: 0;
+}
+
+@media print {
+  @page {
+    size: a4 portrait;
+
+    @top-left {
+      content: 'eCamp3';
+    }
+
+    @top-center {
+      content: 'Placeholder Lagertitel';
+    }
+    @bottom-left {
+      content: counter(page) ' of ' counter(pages);
+    }
+  }
 }
 </style>

@@ -3,7 +3,7 @@
     <v-col cols="12">
       <div class="event">
         <h2 :id="'activity_' + activity.id">
-          {{ activity.id }} / {{ activity.title }}
+          {{ activity.id }} {{ scheduleEntry.id }}/ {{ activity.title }}
         </h2>
         Category: {{ category.name }}
       </div>
