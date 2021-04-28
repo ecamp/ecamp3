@@ -19,7 +19,7 @@
       </tr>
     </template>
 
-    <template #[`group.header`]="{ groupBy, group, headers, isOpen, toggle, remove }">
+    <template #[`group.header`]="{ groupBy, group, headers, isOpen, toggle }">
       <td :colspan="headers.length">
         <v-btn icon small @click="toggle">
           <v-icon v-if="isOpen">mdi-minus</v-icon>
