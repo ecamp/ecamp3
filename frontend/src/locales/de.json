@@ -356,6 +356,9 @@
       },
       "story": {
         "title": "Roter Faden"
+      },
+      "material": {
+        "groupByList": "Nach Materialliste gruppieren"
       }
     },
     "campCreate": {

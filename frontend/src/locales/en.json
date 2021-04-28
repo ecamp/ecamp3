@@ -424,7 +424,8 @@
       "material": {
         "showActivityMaterial": "Show activity material",
         "showActivityMaterialShort": "incl. Activity",
-        "title": "Material"
+        "title": "Material",
+        "groupByList": "Group by material list"
       },
       "navigationCamp": {
         "admin": "Admin",

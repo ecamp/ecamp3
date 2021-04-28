@@ -4,7 +4,8 @@
       <material-table :camp="camp"
                       :content-node="contentNode"
                       :layout-mode="layoutMode"
-                      :material-item-collection="contentNode.materialItems()" />
+                      :material-item-collection="contentNode.materialItems()"
+                      :group-by-list="$vuetify.breakpoint.xs" />
     </div>
   </card-content-node>
 </template>

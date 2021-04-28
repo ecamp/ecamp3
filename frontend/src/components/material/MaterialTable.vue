@@ -4,8 +4,7 @@
     :items="materialItemsData"
     :disable-pagination="true"
     mobile-breakpoint="0"
-    :group-by="enableGrouping ? 'listName' : null"
-    :show-group-by="enableGrouping"
+    :group-by="groupByList ? 'listName' : null"
     item-class="class"
     hide-default-footer>
     <!-- skeleton loader (slot #body overrides all others) -->
@@ -28,9 +27,10 @@
         </v-btn>
         {{ tableHeaders.find(header => header.value === groupBy[0] ).text }}:
         {{ group }}
+        <!--
         <v-btn icon small @click="remove">
           <v-icon>mdi-close</v-icon>
-        </v-btn>
+        </v-btn> -->
       </td>
     </template>
 
@@ -88,11 +88,14 @@
       <div v-if="!item.readonly" class="d-flex">
         <!-- edit dialog (mobile only) -->
         <dialog-material-item-edit
-          v-if="!$vuetify.breakpoint.smAndUp"
+          v-if="!$vuetify.breakpoint.smAndUp && !layoutMode"
           class="float-left"
           :material-item-uri="item.uri">
           <template #activator="{ on }">
-            <button-edit v-on="on" />
+            <button-edit small
+                         fab
+                         text
+                         v-on="on" />
           </template>
         </dialog-material-item-edit>
 
@@ -141,12 +144,13 @@
       </div>
     </template>
 
-    <template #[`body.append`]>
+    <template #[`body.append`]="{ headers }">
       <!-- add new item (desktop view) -->
       <material-create-item
         v-if="!layoutMode && $vuetify.breakpoint.smAndUp"
         key="addItemRow"
         :camp="camp"
+        :columns="headers.length"
         @item-adding="add" />
     </template>
 
@@ -221,8 +225,8 @@ export default {
     // controls if material belonging to ContentNodes should be shown or not
     showContentNodeMaterial: { type: Boolean, default: true },
 
-    // controls if material belonging to ContentNodes should be shown or not
-    enableGrouping: { type: Boolean, default: false }
+    // true --> displays table grouped by material list
+    groupByList: { type: Boolean, default: false }
   },
   data () {
     return {
@@ -239,20 +243,17 @@ export default {
         groupable: false,
         width: '10%'
       },
-      { text: this.$tc('entity.materialItem.fields.unit'), value: 'unit', groupable: false, sortable: false, width: '10%' },
+      { text: this.$tc('entity.materialItem.fields.unit'), value: 'unit', groupable: false, sortable: false, width: '15%' },
       { text: this.$tc('entity.materialItem.fields.article'), value: 'article' }]
 
-      // disable material list in mobile view
-      if (this.$vuetify.breakpoint.smAndUp) {
-        headers.push({ text: this.$tc('entity.materialList.name'), value: 'listName', width: '20%' })
-      }
+      headers.push({ text: this.$tc('entity.materialList.name'), value: 'listName', width: '20%' })
 
       // Activity column only shown in period overview
-      if (this.period) {
+      if (this.period && this.showContentNodeMaterial) {
         headers.push({ text: this.$tc('entity.activity.name'), value: 'activity', groupable: false, width: '15%' })
       }
 
-      headers.push({ text: '', value: 'actions', sortable: false, groupable: false, width: '10%' })
+      headers.push({ text: '', value: 'actions', sortable: false, groupable: false, width: '5%' })
 
       return headers
     },
@@ -284,7 +285,7 @@ export default {
           activity: item.contentNode ? item.contentNode().id : null,
           entityObject: item,
           readonly: this.period && item.contentNode, // if complete component is in period overview, disable editing of material that belongs to contentNodes (Acitity material)
-          class: 'abcde'
+          class: this.period && item.contentNode ? 'readonly' : 'period'
         }))
 
       // eager add new Items
@@ -370,11 +371,16 @@ export default {
 
 <style scoped>
 
-  .v-data-table >>> .v-data-table__wrapper > table > thead > tr > th {
+  .v-data-table >>> .v-data-table__wrapper th {
     padding: 0 2px;
   }
-  .v-data-table >>> .v-data-table__wrapper > table > tbody > tr > td {
+  .v-data-table >>> .v-data-table__wrapper td {
     padding: 0 2px;
+  }
+
+  .v-data-table >>> .v-data-table__wrapper tr.readonly td,
+  .v-data-table >>> .v-data-table__wrapper tr.new td {
+    padding-left: 10px;
   }
 
   .v-data-table >>> tr.new {

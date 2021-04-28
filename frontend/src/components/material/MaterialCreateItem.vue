@@ -28,7 +28,7 @@
         :name="$tc('entity.materialItem.fields.article')"
         fieldname="article" />
     </td>
-    <td>
+    <td :colspan="columns-4">
       <e-select
         v-model="materialItem.materialListId"
         dense
@@ -43,7 +43,7 @@
   </ValidationObserver>
 
   <tr v-else>
-    <td colspan="5">
+    <td :colspan="columns">
       <div>
         <p>
           {{ $tc('components.camp.materialCreateItem.noMaterialListAvailable') }}
@@ -66,7 +66,10 @@ export default {
   name: 'MaterialCreateItem',
   components: { ValidationObserver, ButtonAdd },
   props: {
-    camp: { type: Object, required: true }
+    camp: { type: Object, required: true },
+
+    /* number of colums currently visible in table */
+    columns: { type: Number, required: true }
   },
   data () {
     return {
