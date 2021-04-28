@@ -334,6 +334,12 @@
         "openInvitations": "Offene Einladungen",
         "title": "Team"
       },
+      "dashboard": {
+        "noActivitiesLine1": "Du bist noch für keinen Block zuständig.",
+        "noActivitiesLine2": "Den ganzen Picasso kannst du dir hier ansehen.",
+        "program": "Programm",
+        "viewDescription": "Du arbeitest an \"{title}\" mit. Hier siehst du alle Blöcke, für welche du zuständig bist."
+      },
       "navigationCamp": {
         "admin": "Admin",
         "campIsLoading": "Lager wird geladen",
