@@ -186,6 +186,21 @@ export default new Router({
       ]
     },
     {
+      path: '/camps/:campId/:campTitle/category/:categoryId/:categoryName?',
+      name: 'category',
+      components: {
+        navigation: NavigationCamp,
+        default: () => import(/* webpackChunkName: "campCategory" */ './views/activity/Category.vue'),
+        aside: () => import(/* webpackChunkName: "periods" */ './views/camp/SideBarPeriods.vue')
+      },
+      beforeEnter: requireAuth,
+      props: {
+        navigation: route => ({ camp: campFromRoute(route) }),
+        default: route => ({ category: categoryFromRoute(route) }),
+        aside: route => ({ camp: campFromRoute(route), period: () => null })
+      }
+    },
+    {
       path: '/camps/:campId/:campTitle/activities/:scheduleEntryId/:activityName?',
       name: 'activity',
       components: {
@@ -275,6 +290,13 @@ function scheduleEntryFromRoute (route) {
   }
 }
 
+function categoryFromRoute (route) {
+  return function () {
+    const camp = this.api.get().camps({ campId: route.params.campId })
+    return camp.categories().items.filter(c => c.id === route.params.categoryId).shift()
+  }
+}
+
 function dayFromScheduleEntryInRoute (route) {
   return function () {
     return this.api.get().scheduleEntries({ scheduleEntryId: route.params.scheduleEntryId }).day()
@@ -314,6 +336,20 @@ export function scheduleEntryRoute (camp, scheduleEntry, query = {}) {
       campTitle: slugify(camp.title),
       scheduleEntryId: scheduleEntry.id,
       activityName: slugify(scheduleEntry.activity().title)
+    },
+    query
+  }
+}
+
+export function categoryRoute (camp, category, query = {}) {
+  if (camp._meta.loading || category._meta.loading) return {}
+  return {
+    name: 'category',
+    params: {
+      campId: camp.id,
+      campTitle: slugify(camp.title),
+      categoryId: category.id,
+      categoryName: slugify(category.name)
     },
     query
   }

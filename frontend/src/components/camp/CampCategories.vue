@@ -40,6 +40,10 @@ Displays all periods of a single camp and allows to edit them & create new ones
                 <button-edit class="mr-1" v-on="on" />
               </template>
             </dialog-category-edit>
+            <button-edit
+              class="mr-1"
+              icon="mdi-view-dashboard-variant"
+              :to="categoryRoute(camp(), category)" />
           </v-item-group>
         </v-list-item-action>
 
@@ -88,6 +92,7 @@ Displays all periods of a single camp and allows to edit them & create new ones
 </template>
 
 <script>
+import { categoryRoute } from '@/router.js'
 import ButtonAdd from '@/components/buttons/ButtonAdd.vue'
 import ButtonEdit from '@/components/buttons/ButtonEdit.vue'
 import ButtonDelete from '@/components/buttons/ButtonDelete.vue'
@@ -119,6 +124,7 @@ export default {
     }
   },
   methods: {
+    categoryRoute,
     findActivities (category) {
       const activities = this.camp().activities()
       return activities.items.filter(a => a.category().id === category.id)

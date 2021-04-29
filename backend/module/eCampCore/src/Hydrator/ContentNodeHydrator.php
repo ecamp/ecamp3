@@ -96,7 +96,13 @@ class ContentNodeHydrator implements HydratorInterface {
                     'params' => ['categoryId' => $owner->getId()],
                 ],
             ]);
-            $data['ownerCategory'] = $data['owner'];
+            $data['ownerCategory'] = Link::factory([
+                'rel' => 'ownerCategory',
+                'route' => [
+                    'name' => 'e-camp-api.rest.doctrine.category',
+                    'params' => ['categoryId' => $owner->getId()],
+                ],
+            ]);
         }
 
         /** @var ContentTypeStrategyInterface $strategy */
