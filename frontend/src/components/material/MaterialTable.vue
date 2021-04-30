@@ -79,7 +79,7 @@
     <template #[`item.lastColumn`]="{ item }">
       <!-- Activity link (only visible in full period view) -->
       <schedule-entry-links
-        v-if="item.entityObject && item.entityObject.contentNode"
+        v-if="period && showContentNodeMaterial && item.entityObject && item.entityObject.contentNode"
         :activity="item.entityObject.contentNode().owner" />
 
       <!-- Action buttons -->
@@ -157,7 +157,8 @@
       <div v-if="!layoutMode && !$vuetify.breakpoint.smAndUp" class="mt-5">
         <dialog-material-item-create
           :camp="camp"
-          :material-item-collection="materialItemCollection">
+          :material-item-collection="materialItemCollection"
+          @item-adding="add">
           <template #activator="{ on }">
             <button-add v-on="on">
               {{ $tc('components.camp.periodMaterialLists.addNewItem') }}

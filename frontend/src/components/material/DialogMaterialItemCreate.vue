@@ -60,10 +60,12 @@ export default {
   },
   methods: {
     createMaterialItem () {
-      return this.create()
-      // .then(mi => {
-      //   this.api.reload(mi.materialList())
-      // })
+      const key = Date.now()
+      const data = this.entityData
+
+      // fire event to allow for eager adding before post has finished
+      this.$emit('item-adding', key, data)
+      this.close()
     }
   }
 }
