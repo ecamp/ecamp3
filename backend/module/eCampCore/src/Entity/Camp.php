@@ -67,6 +67,26 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
     private ?string $motto = null;
 
     /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private ?string $addressName = null;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private ?string $addressStreet = null;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private ?string $addressZipcode = null;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private ?string $addressCity = null;
+
+    /**
      * @ORM\ManyToOne(targetEntity="User")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -127,6 +147,38 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
 
     public function setMotto(?string $motto): void {
         $this->motto = $motto;
+    }
+
+    public function getAddressName(): ?string {
+        return $this->addressName;
+    }
+
+    public function setAddressName(?string $addressName) {
+        $this->addressName = $addressName;
+    }
+
+    public function getAddressStreet(): ?string {
+        return $this->addressStreet;
+    }
+
+    public function setAddressStreet(?string $addressStreet) {
+        $this->addressStreet = $addressStreet;
+    }
+
+    public function getAddressZipcode(): ?string {
+        return $this->addressZipcode;
+    }
+
+    public function setAddressZipcode(?string $addressZipcode) {
+        $this->addressZipcode = $addressZipcode;
+    }
+
+    public function getAddressCity(): ?string {
+        return $this->addressCity;
+    }
+
+    public function setAddressCity(?string $addressCity) {
+        $this->addressCity = $addressCity;
     }
 
     public function getCreator(): ?User {

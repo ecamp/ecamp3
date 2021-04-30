@@ -23,12 +23,20 @@ class CampTest extends AbstractTestCase {
         $camp->setName('TestCamp');
         $camp->setTitle('TestTitle');
         $camp->setMotto('TestMotto');
+        $camp->setAddressName('AdrName');
+        $camp->setAddressStreet('AdrStreet');
+        $camp->setAddressZipcode('AdrZipcode');
+        $camp->setAddressCity('AdrCity');
         $camp->setCreator($user);
 
         $this->assertEquals($user, $camp->getOwner());
         $this->assertEquals('TestCamp', $camp->getName());
         $this->assertEquals('TestTitle', $camp->getTitle());
         $this->assertEquals('TestMotto', $camp->getMotto());
+        $this->assertEquals('AdrName', $camp->getAddressName());
+        $this->assertEquals('AdrStreet', $camp->getAddressStreet());
+        $this->assertEquals('AdrZipcode', $camp->getAddressZipcode());
+        $this->assertEquals('AdrCity', $camp->getAddressCity());
         $this->assertEquals($user, $camp->getCreator());
 
         $this->assertFalse($camp->belongsToGroup());

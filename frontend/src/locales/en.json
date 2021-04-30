@@ -94,6 +94,9 @@
       }
     },
     "camp": {
+      "campAddress": {
+        "title": "Address"
+      },
       "campCategories": {
         "create": "Create activity category",
         "deleteCategoryNotPossibleInUse": "Activity category can't be deleted. It is used by:",
@@ -128,7 +131,8 @@
         "title": "Period | Periods"
       },
       "campPeriodsListItem": {
-        "deleteWarning": "Do you really want to delete this period?"
+        "deleteWarning": "Do you really want to delete this period?",
+        "lastPeriodNotDeletable": "Last period is not deletable."
       },
       "campPrint": {
         "activities": "Activities",
@@ -259,6 +263,10 @@
         "member": "Member"
       },
       "fields": {
+        "addressCity": "City",
+        "addressName": "Name",
+        "addressStreet": "Street",
+        "addressZipcode": "Zipcode",
         "motto": "Motto",
         "name": "Name",
         "title": "Title"

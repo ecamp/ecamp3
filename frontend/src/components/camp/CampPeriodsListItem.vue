@@ -31,16 +31,21 @@ Displays a single period as a list item including controls to edit and delete it
       <v-card>
         <v-item-group>
           <v-list-item-action>
-            <dialog-entity-delete :entity="period">
+            <dialog-entity-delete :entity="period" :submit-enabled="!isLastPeriod">
               <template #activator="{ on }">
                 <button-delete v-on="on" />
               </template>
-              {{ $tc('components.camp.campPeriodsListItem.deleteWarning') }} <br>
-              <ul>
-                <li>
-                  {{ period.description }}
-                </li>
-              </ul>
+              <div v-if="isLastPeriod">
+                {{ $tc('components.camp.campPeriodsListItem.lastPeriodNotDeletable') }}
+              </div>
+              <div v-else>
+                {{ $tc('components.camp.campPeriodsListItem.deleteWarning') }} <br>
+                <ul>
+                  <li>
+                    {{ period.description }}
+                  </li>
+                </ul>
+              </div>
             </dialog-entity-delete>
           </v-list-item-action>
         </v-item-group>
@@ -61,6 +66,11 @@ export default {
   components: { DialogEntityDelete, DialogPeriodEdit, ButtonEdit, ButtonDelete },
   props: {
     period: { type: Object, required: true }
+  },
+  computed: {
+    isLastPeriod () {
+      return this.period.camp().periods().items.length === 1
+    }
   }
 }
 </script>
