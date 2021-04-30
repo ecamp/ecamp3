@@ -76,15 +76,13 @@
       <span v-if="item.readonly">{{ item.listName }}</span>
     </template>
 
-    <!-- Activity link (only visible in full period view) -->
-    <template #[`item.activity`]="{ item }">
+    <template #[`item.lastColumn`]="{ item }">
+      <!-- Activity link (only visible in full period view) -->
       <schedule-entry-links
         v-if="item.entityObject && item.entityObject.contentNode"
         :activity="item.entityObject.contentNode().owner" />
-    </template>
 
-    <!-- Action buttons -->
-    <template #[`item.actions`]="{ item }">
+      <!-- Action buttons -->
       <div v-if="!item.readonly" class="d-flex">
         <!-- edit dialog (mobile only) -->
         <dialog-material-item-edit
@@ -250,10 +248,10 @@ export default {
 
       // Activity column only shown in period overview
       if (this.period && this.showContentNodeMaterial) {
-        headers.push({ text: this.$tc('entity.activity.name'), value: 'activity', groupable: false, width: '15%' })
+        headers.push({ text: this.$tc('entity.activity.name'), value: 'lastColumn', groupable: false, width: '15%' })
+      } else {
+        headers.push({ text: '', value: 'lastColumn', sortable: false, groupable: false, width: '5%' })
       }
-
-      headers.push({ text: '', value: 'actions', sortable: false, groupable: false, width: '5%' })
 
       return headers
     },
