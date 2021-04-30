@@ -101,6 +101,7 @@
         "create": "Create activity category",
         "deleteCategoryNotPossibleInUse": "Activity category can't be deleted. It is used by:",
         "deleteCategoryQuestion": "Do you really want do delete the Activity category?",
+        "editLayout": "Edit layout",
         "title": "Activity categories"
       },
       "campDangerzone": {
