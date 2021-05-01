@@ -122,7 +122,14 @@ export default {
    ** Build configuration
    ** See https://nuxtjs.org/api/configuration-build/
    */
-  build: {},
+  build: {
+    extend(config, ctx) {
+      // include source map in development mode
+      if (ctx.isDev) {
+        config.devtool = ctx.isClient ? 'source-map' : 'inline-source-map'
+      }
+    },
+  },
 
   /*
    ** Render configuration
@@ -131,7 +138,7 @@ export default {
   render: {
     // in production: FALSE: deactivates injecting any Javascript on client side ==> pure HTML/CSS output only (except explicit head-scripts)
     // in development: TRUE: enable javasript injection in dev mode to support hot reloading
-    injectScripts: process.env.NODE_ENV === 'development',
+    // injectScripts: process.env.NODE_ENV === 'development',
 
     csp: {
       reportOnly: false,

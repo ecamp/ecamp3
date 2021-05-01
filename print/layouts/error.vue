@@ -1,19 +1,22 @@
 <template>
   <v-app dark>
-    <h1 v-if="error.statusCode === 404">
-      {{ pageNotFound }}
-    </h1>
-    <h1 v-else>
-      {{ otherError }}
-    </h1>
-    <!-- eslint-disable-next-line vue/singleline-html-element-content-newline -->
-    <NuxtLink to="/">Home page</NuxtLink>
+    <v-container>
+      <v-alert type="error">
+        <h1 v-if="error.statusCode === 404">
+          {{ pageNotFound }}
+        </h1>
+        <div v-else>
+          <h1>{{ otherError }}</h1>
+          {{ error.message }}
+        </div>
+      </v-alert>
+    </v-container>
   </v-app>
 </template>
 
 <script>
 export default {
-  layout: 'empty',
+  layout: 'error',
   props: {
     error: {
       type: Object,

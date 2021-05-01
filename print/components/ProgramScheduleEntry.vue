@@ -1,7 +1,8 @@
 <template>
-  <v-row v-if="!$fetchState.pending" no-gutters>
+  <v-row no-gutters>
     <v-col cols="12">
-      <div class="event">
+      <error v-if="$fetchState.error">{{ $fetchState.error.message }}</error>
+      <div v-else-if="!$fetchState.pending" class="event">
         <h2 :id="'activity_' + activity.id">
           {{ activity.id }} {{ scheduleEntry.id }}/ {{ activity.title }}
         </h2>
