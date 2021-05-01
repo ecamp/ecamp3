@@ -4,7 +4,7 @@ Displays a single activity
 
 <template>
   <v-container fluid>
-    <content-card toolbar>
+    <content-card toolbar :loaded="!scheduleEntry()._meta.loading && !activity.camp()._meta.loading">
       <template #title>
         <v-toolbar-title class="font-weight-bold">
           {{ scheduleEntry().number }}
@@ -13,6 +13,7 @@ Displays a single activity
         </v-toolbar-title>
       </template>
       <template #title-actions>
+        <!-- layout/content switch -->
         <v-btn v-if="!layoutMode"
                color="primary"
                outlined
@@ -33,7 +34,22 @@ Displays a single activity
           </template>
           <template v-else>{{ $tc('views.activity.activity.back') }}</template>
         </v-btn>
+
+        <!-- print preview button -->
+        <v-tooltip bottom>
+          <template #activator="{ on, attrs }">
+            <v-btn
+              class="ml-3"
+              color="primary"
+              outlined
+              :to="{ name: 'camp/print/activity', params: { campId: activity.camp().id, scheduleEntryId: scheduleEntry().id } }">
+              <v-icon>mdi-printer</v-icon>
+            </v-btn>
+          </template>
+          <span>Open print preview</span>
+        </v-tooltip>
       </template>
+
       <v-card-text class="px-0 py-0">
         <v-skeleton-loader v-if="activity._meta.loading" type="article" />
         <template v-else>
@@ -103,9 +119,7 @@ Displays a single activity
 import ContentCard from '@/components/layout/ContentCard.vue'
 import ApiTextField from '@/components/form/api/ApiTextField.vue'
 import ApiSelect from '@/components/form/api/ApiSelect.vue'
-
 import ContentNode from '@/components/activity/ContentNode.vue'
-
 import { defineHelpers } from '@/components/scheduleEntry/dateHelperUTC.js'
 
 export default {

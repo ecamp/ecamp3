@@ -3,20 +3,19 @@ Admin screen of a camp: Displays details & periods of a single camp and allows t
 -->
 
 <template>
-  <content-card :title="$tc('views.camp.print.title')" toolbar>
-    <v-card-text>
-      <router-view />
-    </v-card-text>
-  </content-card>
+  <camp-print :camp="camp" />
 </template>
 
 <script>
-import ContentCard from '@/components/layout/ContentCard.vue'
+import CampPrint from '@/components/camp/CampPrint.vue'
 
 export default {
-  name: 'Print',
+  name: 'PrintCamp',
   components: {
-    ContentCard
+    CampPrint
+  },
+  props: {
+    camp: { type: Function, required: true }
   },
   data () {
     return {}

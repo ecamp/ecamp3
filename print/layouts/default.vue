@@ -17,8 +17,6 @@ export default {
   },
 
   head() {
-    console.log(this.$route.query)
-
     if (this.$route.query.pagedjs === 'true') {
       return {
         script: [
@@ -37,6 +35,21 @@ export default {
         ],
       }
     }
+  },
+
+  mounted() {
+    /**
+     * Register event listeners to listen to iFrame ancestor postMessages
+     */
+    window.addEventListener('message', (event) => {
+      if (event.data) {
+        if (event.data.event_id === 'reload') {
+          window.location.reload()
+        } else if (event.data.event_id === 'print') {
+          window.print()
+        }
+      }
+    })
   },
 }
 </script>

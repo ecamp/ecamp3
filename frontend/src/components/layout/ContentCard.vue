@@ -10,14 +10,19 @@ Displays the content wrapped inside a card.
       <v-toolbar-items>
         <button-back v-if="back || $vuetify.breakpoint.xsOnly && !!$route.query.isDetail" class="ml-n4" />
       </v-toolbar-items>
+
       <slot name="title">
         <v-toolbar-title class="font-weight-bold">
           {{ title }}
         </v-toolbar-title>
       </slot>
       <v-spacer />
-      <slot name="title-actions" />
+
+      <v-skeleton-loader v-if="!loaded" type="actions" />
+      <slot v-else name="title-actions" />
     </v-toolbar>
+
+    <!-- main content -->
     <v-sheet class="ec-content-card__content fill-height">
       <v-skeleton-loader v-if="!loaded" type="article" />
       <slot v-else />

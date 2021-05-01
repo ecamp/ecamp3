@@ -132,5 +132,24 @@ export default {
     // in production: FALSE: deactivates injecting any Javascript on client side ==> pure HTML/CSS output only (except explicit head-scripts)
     // in development: TRUE: enable javasript injection in dev mode to support hot reloading
     injectScripts: process.env.NODE_ENV === 'development',
+
+    csp: {
+      reportOnly: false,
+      policies: {
+        // allow embedding in iFrames
+        'frame-ancestors': ['http://localhost:3000'],
+
+        // allow script loading script from Unkpg (used for PagedJS)
+        'script-src': ["'self'", 'https://unpkg.com'],
+      },
+    },
   },
+
+  /**
+   * Server middleware
+   */
+  serverMiddleware: [
+    // middleware handler to allow CORS
+    { path: '/', handler: '~/server-middleware/cors.js' },
+  ],
 }
