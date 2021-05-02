@@ -20,11 +20,19 @@ export default {
     if (this.$route.query.pagedjs === 'true') {
       return {
         script: [
+          // confiugration JS for pagedJS
           {
             src: '/pagedConfig.js',
           },
+
+          // PagedJS
           {
             src: 'https://unpkg.com/pagedjs/dist/paged.polyfill.js',
+          },
+
+          // event listener to communicate with parent when embedded in iFrame
+          {
+            src: '/iframeEvents.js',
           },
         ],
         link: [
@@ -35,21 +43,6 @@ export default {
         ],
       }
     }
-  },
-
-  mounted() {
-    /**
-     * Register event listeners to listen to iFrame ancestor postMessages
-     */
-    window.addEventListener('message', (event) => {
-      if (event.data) {
-        if (event.data.event_id === 'reload') {
-          window.location.reload()
-        } else if (event.data.event_id === 'print') {
-          window.print()
-        }
-      }
-    })
   },
 }
 </script>

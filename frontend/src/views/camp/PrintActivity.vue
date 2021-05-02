@@ -31,6 +31,13 @@ Admin screen of a camp: Displays details & periods of a single camp and allows t
       Open preview in new window
     </v-btn>
 
+    <div v-if="!done" class="my-3">
+      {{ loadedPagesThrottled }} pages loaded
+      <v-progress-linear
+        :value="progress"
+        :indeterminate="progress === 0" />
+    </div>
+
     <iframe
       v-if="!scheduleEntry()._meta.loading"
       id="previewIFrame"
@@ -45,6 +52,8 @@ Admin screen of a camp: Displays details & periods of a single camp and allows t
 </template>
 
 <script>
+import { throttle } from 'lodash'
+
 const PRINT_SERVER = window.environment.PRINT_SERVER
 
 export default {
@@ -55,9 +64,19 @@ export default {
     scheduleEntry: { type: Function, required: true }
   },
   data () {
-    return {}
+    return {
+      done: false,
+      loadedPages: 0,
+      loadedPagesThrottled: 0
+    }
   },
   computed: {
+    progress () {
+      if (this.done) {
+        return 100
+      }
+      return this.loadedPagesThrottled % 100
+    },
     previewUrl () {
       return `${PRINT_SERVER}/schedule-entry/${this.scheduleEntry().id}?pagedjs=true&lang=${this.lang}`
     },
@@ -65,7 +84,41 @@ export default {
       return this.$store.state.lang.language
     }
   },
+  watch: {
+    loadedPages: function (val) {
+      if (val === 0) {
+        this.loadedPagesThrottled = val
+      } else {
+        this.throttler()
+      }
+    }
+  },
+  mounted () {
+    // listen on messages from iFrame
+    window.addEventListener('message', this.receiveMessage)
+  },
+  beforeDestroy () {
+    window.removeEventListener('message', this.receiveMessage)
+  },
   methods: {
+
+    throttler: throttle(function () {
+      this.loadedPagesThrottled = this.loadedPages
+    }, 100),
+
+    receiveMessage (event) {
+      if (event.data) {
+        // message from iFrame: 1 more page is rendered
+        if (event.data.event_id === 'pagedjs_progress') {
+          this.loadedPages = event.data.page + 1
+
+        // message from iFrame: preview finished
+        } else if (event.data.event_id === 'pagedjs_done') {
+          console.log(`Pagedjs preview finished with ${event.data.pages} pages`)
+          this.done = true
+        }
+      }
+    },
     print () {
       // send print event to iFrame
       this.$refs.previewIFrame.contentWindow.postMessage(
@@ -76,6 +129,9 @@ export default {
       )
     },
     reload () {
+      this.done = false
+      this.loadedPages = 0
+
       // send reload event to iFrame
       this.$refs.previewIFrame.contentWindow.postMessage(
         {
