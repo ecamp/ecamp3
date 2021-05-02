@@ -16,6 +16,8 @@ export default {
     return {
       config: {},
       scheduleEntry: null,
+      activity: null,
+      camp: null,
     }
   },
   async fetch() {
@@ -23,10 +25,43 @@ export default {
       this.scheduleEntry = await this.$api
         .get()
         .scheduleEntries({ scheduleEntryId: this.$route.params.id })._meta.load
+
+      this.activity = await this.scheduleEntry.activity()._meta.load
+      this.camp = await this.activity.camp()._meta.load
     } catch (e) {
       this.$nuxt.context.res.statusCode = 404
       throw new Error('Schedule Entry not found')
     }
+  },
+  head() {
+    const header = {}
+
+    /**
+     * Footer & header for single activity view
+     */
+    header.__dangerouslyDisableSanitizers = ['style'] // disable sanitzing of below inline css
+    header.style = [
+      {
+        type: 'text/css',
+        cssText: `@media print {
+                  
+                    @page {
+
+                      @top-left {
+                        content: '${this.camp.name}';
+                        font-size: var(--ecamp-margin-font-size);
+                      }
+
+                      @top-center {
+                        content: '${this.activity.title}';
+                        font-size: var(--ecamp-margin-font-size);
+                      }
+                    }
+                  }`,
+      },
+    ]
+
+    return header
   },
 }
 </script>
