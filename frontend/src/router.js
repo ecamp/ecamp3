@@ -293,7 +293,7 @@ function scheduleEntryFromRoute (route) {
 function categoryFromRoute (route) {
   return function () {
     const camp = this.api.get().camps({ campId: route.params.campId })
-    return camp.categories().items.filter(c => c.id === route.params.categoryId).shift()
+    return camp.categories().items.find(c => c.id === route.params.categoryId)
   }
 }
 
