@@ -134,7 +134,7 @@ export default {
   methods: {
     async addSection () {
       this.isAdding = true
-      await this.api.post('/content-type/storyboards', {
+      await this.api.post(this.contentNode.sections(), {
         contentNodeId: this.contentNode.id,
         pos: this.contentNode.sections().items.length // add at the end of the array
       })
