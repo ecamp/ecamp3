@@ -134,7 +134,7 @@ services:
       - '8025:8025' # web UI
 
   docker-host:
-    image: qoomon/docker-host@sha256:cc6403286caa077e8ae054335cb81d373e76e58d8208e889f78a02c10ac71189
+    image: qoomon/docker-host@sha256:e4c68999056cc870bb7003d5d97ba8badfeea933435d2af239d3a3a6c38163ff
     container_name: 'ecamp3-docker-host-forwarder'
     cap_add: [ 'NET_ADMIN', 'NET_RAW' ]
     restart: on-failure
