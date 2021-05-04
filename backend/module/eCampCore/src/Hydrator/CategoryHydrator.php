@@ -30,6 +30,7 @@ class CategoryHydrator implements HydratorInterface {
 
             'camp' => EntityLink::Create($category->getCamp()),
             'contentNodes' => new EntityLinkCollection($category->getAllContentNodes()),
+            'rootContentNode' => EntityLink::Create($category->getRootContentNode()),
 
             'preferredContentTypes' => new ContentTypeCollection($category->getPreferredContentTypes()),
         ];
