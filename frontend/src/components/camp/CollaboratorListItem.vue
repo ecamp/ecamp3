@@ -1,7 +1,7 @@
 <template>
   <v-list-item class="px-0" two-line>
     <v-list-item-avatar>
-      <v-img src="https://i.pravatar.cc/300" />
+      <user-avatar :camp-collaboration="collaborator" />
     </v-list-item-avatar>
     <v-list-item-content>
       <v-list-item-title v-if="collaborator.user">
@@ -50,11 +50,11 @@
 <script>
 import ApiSelect from '@/components/form/api/ApiSelect.vue'
 import ButtonDelete from '@/components/buttons/ButtonDelete.vue'
-import IconButton from '@/components/buttons/IconButton.vue'
+import UserAvatar from '../user/UserAvatar.vue'
 
 export default {
   name: 'CollaboratorListItem',
-  components: { ButtonDelete, ApiSelect, IconButton },
+  components: { ButtonDelete, ApiSelect, UserAvatar },
   props: {
     collaborator: { type: Object, required: true }
   },
