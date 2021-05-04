@@ -8,7 +8,7 @@ Displays a single activity
       <template #title>
         <v-toolbar-title class="font-weight-bold">
           {{ scheduleEntry().number }}
-          <v-menu offset-y :disabled="layoutMode">
+          <v-menu v-if="!category._meta.loading" offset-y :disabled="layoutMode">
             <template #activator="{ on, attrs }">
               <v-chip
                 :color="category.color"
