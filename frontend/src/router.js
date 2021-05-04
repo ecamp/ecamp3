@@ -170,7 +170,7 @@ export default new Router({
           component: () => import(/* webpackChunkName: "campMaterial" */ './views/camp/Material.vue')
         },
         {
-          path: '',
+          path: 'program',
           name: 'camp/program',
           async beforeEnter (to, from, next) {
             const period = await firstFuturePeriod(to)
@@ -182,6 +182,11 @@ export default new Router({
               next(campRoute(camp, 'admin', to.query))
             }
           }
+        },
+        {
+          path: '',
+          name: 'camp/dashboard',
+          component: () => import(/* webpackChungName: "camp" */ './views/camp/Dashboard.vue')
         }
       ]
     },
@@ -281,7 +286,7 @@ function dayFromScheduleEntryInRoute (route) {
   }
 }
 
-export function campRoute (camp, subroute = 'program', query = {}) {
+export function campRoute (camp, subroute = 'dashboard', query = {}) {
   if (camp._meta.loading) return {}
   return { name: 'camp/' + subroute, params: { campId: camp.id, campTitle: slugify(camp.title) }, query }
 }
