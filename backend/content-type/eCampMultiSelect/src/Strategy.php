@@ -32,7 +32,7 @@ class Strategy extends ContentTypeStrategyBase {
      * @throws ORMException
      * @throws EntityNotFoundException
      */
-    public function contentNodeCreated(ContentNode $contentNode): void {
+    public function contentNodeCreated(ContentNode $contentNode, ?ContentNode $prototype = null): void {
         foreach ($contentNode->getContentType()->getJsonConfig()['items'] as $key => $configItem) {
             $option = $this->optionService->createEntity(['pos' => $key, 'translateKey' => $configItem, 'checked' => false], $contentNode);
             $this->getServiceUtils()->emPersist($option);
