@@ -60,7 +60,8 @@ class CategoryTest extends AbstractApiControllerTestCase {
                 "short": "LS",
                 "name": "ActivityCategory1",
                 "color": "#FF9800",
-                "numberingStyle": "i"
+                "numberingStyle": "i",
+                "rootContentNode": null
             }
 JSON;
 

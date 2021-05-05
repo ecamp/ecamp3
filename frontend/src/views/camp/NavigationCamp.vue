@@ -13,6 +13,10 @@
     </logo>
 
     <v-toolbar-items>
+      <v-btn :to="campRoute(camp(), 'program')" text>
+        <v-icon :left="$vuetify.breakpoint.mdAndUp">mdi-view-dashboard-variant</v-icon>
+        <span class="sr-only-sm-and-down">{{ $tc('views.camp.navigationCamp.program') }}</span>
+      </v-btn>
       <v-btn :to="campRoute(camp(), 'story')" text>
         <v-icon :left="$vuetify.breakpoint.mdAndUp">mdi-book-open-variant</v-icon>
         <span class="sr-only-sm-and-down">{{ $tc('views.camp.navigationCamp.story') }}</span>

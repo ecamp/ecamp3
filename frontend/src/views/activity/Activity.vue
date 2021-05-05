@@ -8,9 +8,46 @@ Displays a single activity
       <template #title>
         <v-toolbar-title class="font-weight-bold">
           {{ scheduleEntry().number }}
-          <v-chip v-if="!category._meta.loading" dark :color="category.color">{{ category.short }}</v-chip>
-          {{ activity.title }}
+          <v-menu v-if="!category._meta.loading" offset-y :disabled="layoutMode">
+            <template #activator="{ on, attrs }">
+              <v-chip
+                :color="category.color"
+                dark
+                v-bind="attrs"
+                v-on="on">
+                {{ category.short }}
+              </v-chip>
+            </template>
+            <v-list>
+              <v-list-item
+                v-for="cat in camp.categories().items"
+                :key="cat._meta.self"
+                @click="changeCategory(cat)">
+                <v-list-item-title>
+                  <v-chip :color="cat.color">
+                    {{ cat.short }}
+                  </v-chip>
+                  {{ cat.name }}
+                </v-list-item-title>
+              </v-list-item>
+            </v-list>
+          </v-menu>
+          <a v-if="!editActivityTitle"
+             style="color: inherit"
+             @click="editActivityTitle = true">
+            {{ activity.title }}
+          </a>
         </v-toolbar-title>
+        <div v-if="editActivityTitle" class="mx-2" style="flex-grow: 1">
+          <api-text-field
+            :uri="activity._meta.self"
+            fieldname="title"
+            :disabled="layoutMode"
+            dense
+            autofocus
+            :auto-save="false"
+            @finished="editActivityTitle = false" />
+        </div>
       </template>
       <template #title-actions>
         <!-- layout/content switch -->
@@ -140,7 +177,8 @@ export default {
   },
   data () {
     return {
-      layoutMode: false
+      layoutMode: false,
+      editActivityTitle: false
     }
   },
   computed: {
@@ -163,6 +201,9 @@ export default {
     activity () {
       return this.scheduleEntry().activity()
     },
+    camp () {
+      return this.activity.camp()
+    },
     category () {
       return this.activity.category()
     },
@@ -174,6 +215,11 @@ export default {
     }
   },
   methods: {
+    changeCategory (category) {
+      this.activity.$patch({
+        categoryId: category.id
+      })
+    },
     countContentNodes (contentType) {
       return this.contentNodes.items.filter(cn => {
         return cn.contentType().id === contentType.id

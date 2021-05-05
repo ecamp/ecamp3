@@ -63,6 +63,9 @@ JSON;
                 "owner": {
                     "href": "http://{$this->host}/api/categories/{$this->contentNode->getOwner()->getId()}"
                 },
+                "ownerCategory": {
+                    "href": "http://{$this->host}/api/categories/{$this->contentNode->getOwner()->getId()}"
+                },
                 "children": {
                     "href": "http://{$this->host}/api/content-nodes?parentId={$this->contentNode->getId()}"
                 },

@@ -42,7 +42,6 @@ JSON;
         $expectedResponse = <<<JSON
         {
             "title": "eCamp V3 - API",
-            "user": "guest",
             "authenticated": false,
             "_links": {
                 "profile": {

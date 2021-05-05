@@ -4,7 +4,7 @@ Admin screen of a camp: Displays details & periods of a single camp and allows t
 
 <template>
   <content-card :title="$tc('views.camp.admin.title')">
-    <v-card-text class="py-0">
+    <v-card-text>
       <v-row>
         <v-col cols="12" lg="6">
           <camp-settings :camp="camp" />

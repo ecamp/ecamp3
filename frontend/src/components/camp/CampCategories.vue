@@ -29,17 +29,24 @@ Displays all periods of a single camp and allows to edit them & create new ones
           <v-list-item-title>
             <v-chip dark :color="category.color">
               (1.{{ category.numberingStyle }}) {{ category.short }}: {{ category.name }}
+
+              <dialog-category-edit :camp="camp()" :category="category">
+                <template #activator="{ on }">
+                  <v-icon class="ml-2" size="150%" v-on="on">mdi-pencil</v-icon>
+                </template>
+              </dialog-category-edit>
             </v-chip>
           </v-list-item-title>
         </v-list-item-content>
 
         <v-list-item-action style="display: inline">
           <v-item-group>
-            <dialog-category-edit :camp="camp()" :category="category">
-              <template #activator="{ on }">
-                <button-edit class="mr-1" v-on="on" />
-              </template>
-            </dialog-category-edit>
+            <button-edit
+              class="mr-1"
+              icon="mdi-view-dashboard-variant"
+              :to="categoryRoute(camp(), category)">
+              {{ $tc('components.camp.campCategories.editLayout') }}
+            </button-edit>
           </v-item-group>
         </v-list-item-action>
 
@@ -88,6 +95,7 @@ Displays all periods of a single camp and allows to edit them & create new ones
 </template>
 
 <script>
+import { categoryRoute } from '@/router.js'
 import ButtonAdd from '@/components/buttons/ButtonAdd.vue'
 import ButtonEdit from '@/components/buttons/ButtonEdit.vue'
 import ButtonDelete from '@/components/buttons/ButtonDelete.vue'
@@ -119,6 +127,7 @@ export default {
     }
   },
   methods: {
+    categoryRoute,
     findActivities (category) {
       const activities = this.camp().activities()
       return activities.items.filter(a => a.category().id === category.id)
