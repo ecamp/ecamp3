@@ -142,19 +142,11 @@ export default {
       reportOnly: false,
       policies: {
         // allow embedding in iFrames
-        'frame-ancestors': ['http://localhost:3000'],
+        'frame-ancestors': [process.FRONTEND_URL || 'http://localhost:3000'],
 
         // allow script loading script from Unkpg (used for PagedJS)
         'script-src': ["'self'", 'https://unpkg.com'],
       },
     },
   },
-
-  /**
-   * Server middleware
-   */
-  serverMiddleware: [
-    // middleware handler to allow CORS
-    { path: '/', handler: '~/server-middleware/cors.js' },
-  ],
 }
