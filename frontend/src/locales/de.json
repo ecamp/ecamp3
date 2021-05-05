@@ -219,7 +219,8 @@
       },
       "sideBarProgram": {
         "title": "Tagesübersicht"
-      }
+      },
+      "printPreview": "Druckvorschau öffnen"
     },
     "auth": {
       "login": {

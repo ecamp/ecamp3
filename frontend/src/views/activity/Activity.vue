@@ -42,11 +42,13 @@ Displays a single activity
               class="ml-3"
               color="primary"
               outlined
-              :to="{ name: 'camp/print/activity', params: { campId: activity.camp().id, scheduleEntryId: scheduleEntry().id } }">
+              :to="{ name: 'camp/print/activity', params: { campId: activity.camp().id, scheduleEntryId: scheduleEntry().id } }"
+              v-bind="attrs"
+              v-on="on">
               <v-icon>mdi-printer</v-icon>
             </v-btn>
           </template>
-          <span>Open print preview</span>
+          <span>{{ $tc('views.activity.printPreview') }}</span>
         </v-tooltip>
       </template>
 
