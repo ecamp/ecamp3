@@ -33,6 +33,7 @@ export default {
   plugins: [
     { src: '~/plugins/hal-json-vuex.js' },
     { src: '~/plugins/i18n.js' },
+    { src: '~/plugins/dayjs.js' },
   ],
   /*
    ** Auto import components
@@ -134,8 +135,8 @@ export default {
   render: {
     // in production: FALSE: deactivates injecting any Javascript on client side ==> pure HTML/CSS output only (except explicit head-scripts)
     // in development: TRUE: enable javasript injection in dev mode to support hot reloading
-    // injectScripts: process.env.NODE_ENV === 'development',
-    injectScripts: false,
+    injectScripts: process.env.NODE_ENV === 'development',
+    // injectScripts: false,
 
     csp: {
       reportOnly: false,

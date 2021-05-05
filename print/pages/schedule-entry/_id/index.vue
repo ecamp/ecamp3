@@ -3,7 +3,6 @@
     <v-col cols="12">
       <error v-if="$fetchState.error">{{ $fetchState.error.message }}</error>
       <div v-else-if="!$fetchState.pending">
-        Single Schedule Entry
         <program-schedule-entry :schedule-entry="scheduleEntry" />
       </div>
     </v-col>

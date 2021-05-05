@@ -120,7 +120,7 @@ import ContentCard from '@/components/layout/ContentCard.vue'
 import ApiTextField from '@/components/form/api/ApiTextField.vue'
 import ApiSelect from '@/components/form/api/ApiSelect.vue'
 import ContentNode from '@/components/activity/ContentNode.vue'
-import { defineHelpers } from '@/components/scheduleEntry/dateHelperUTC.js'
+import { defineHelpers } from '@/../../common/helpers/scheduleEntry/dateHelperUTC.js'
 
 export default {
   name: 'Activity',

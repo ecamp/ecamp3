@@ -155,67 +155,6 @@
     }
   },
   "entity": {
-    "activity": {
-      "fields": {
-        "category": "Categoria di attività",
-        "location": "Posto",
-        "responsible": "responsabile",
-        "title": "Titolo"
-      },
-      "name": "Attività",
-      "new": "Nuova attività"
-    },
-    "category": {
-      "fields": {
-        "activityType": "Stile",
-        "color": "Colore",
-        "name": "Nome",
-        "numberingStyle": "Stile della numerazione",
-        "short": "Corte"
-      },
-      "name": "Categorie di attività",
-      "numberingStyles": {
-        "1": "1, 2, 3 - numeri",
-        "A": "A, B, C - maiuscole di blocco",
-        "a": "a, b, c - lettere minuscole",
-        "I": "I, II, III - numeri romani maiuscoli",
-        "i": "i, ii, iii - numeri romani minuscoli"
-      }
-    },
-    "camp": {
-      "collaborators": {
-        "manager": "Manager",
-        "member": "Membro"
-      },
-      "fields": {
-        "motto": "Motto",
-        "name": "Nome",
-        "title": "Titolo"
-      },
-      "name": "Campo",
-      "prototype": "Modello di campo"
-    },
-    "campCollaboration": {
-      "inactive": "non attivo"
-    },
-    "period": {
-      "defaultDescription": "Campo principale",
-      "fields": {
-        "description": "Descrizione",
-        "end": "Fine",
-        "start": "Inizio"
-      },
-      "name": "Periodo | Periodi"
-    },
-    "scheduleEntry": {
-      "fields": {
-        "length": "Lunghezza in minuti",
-        "nr": "Numero",
-        "periodOffset": "Periodo Offset",
-        "time": "Tempo"
-      },
-      "name": "Inserimento nel programma"
-    },
     "user": {
       "fields": {
         "birthday": "Compleanno",
