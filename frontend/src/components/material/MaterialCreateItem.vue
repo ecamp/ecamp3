@@ -3,7 +3,7 @@
                       ref="validation"
                       tag="tr"
                       class="newItemRow"
-                      @submit.prevent="createMaterialItem">
+                      @keyup.enter="submitForm">
     <td>
       <e-text-field
         ref="quantity"

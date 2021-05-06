@@ -444,7 +444,9 @@ abstract class AbstractEntityService extends AbstractResourceListener {
         }
 
         // by default, order by creation time (as last priority)
-        $q->addOrderBy('row.createTime');
+        if (is_subclass_of($this->entityClass, BaseEntity::class)) {
+            $q->addOrderBy('row.createTime');
+        }
 
         return $q;
     }
