@@ -138,10 +138,7 @@ abstract class AbstractEntityService extends AbstractResourceListener {
         $this->serviceUtils->emPersist($entity);
         $this->serviceUtils->emFlush();
 
-        $entity = $this->createEntityPost($entity, $data);
-        $this->serviceUtils->emFlush();
-
-        return $entity;
+        return $this->createEntityPost($entity, $data);
     }
 
     /**
