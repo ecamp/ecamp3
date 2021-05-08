@@ -54,14 +54,7 @@ class ProfileController extends AbstractActionController {
                 'rel' => 'self',
                 'route' => 'e-camp-api.rpc.profile',
             ]),
-            'id' => $user->getId(),
-            'username' => $user->getUsername(),
-            'firstname' => $user->getFirstname(),
-            'surname' => $user->getSurname(),
-            'nickname' => $user->getNickname(),
-            'displayName' => $user->getDisplayName(),
-            'mail' => $user->getTrustedMailAddress(),
-            'role' => $user->getRole(),
+            'user' => $user,
             'language' => $user->getLanguage(),
             'isAdmin' => (User::ROLE_ADMIN == $user->getRole()),
         ])]);
@@ -77,15 +70,6 @@ class ProfileController extends AbstractActionController {
 
         $data = (null != $content) ? Json::decode($content) : [];
 
-        if (isset($data->firstname)) {
-            $user->setFirstname($data->firstname);
-        }
-        if (isset($data->surname)) {
-            $user->setSurname($data->surname);
-        }
-        if (isset($data->nickname)) {
-            $user->setNickname($data->nickname);
-        }
         if (isset($data->language)) {
             $user->setLanguage($data->language);
         }

@@ -7,17 +7,24 @@ Admin screen of a camp: Displays MaterialLists and MaterialItems
     <template #title-actions>
       <e-switch
         v-model="showContentNodeMaterial"
-        class="ml-auto"
+        class="ml-15"
         :label="$vuetify.breakpoint.smAndUp ?
           $tc('views.camp.material.showActivityMaterial') :
           $tc('views.camp.material.showActivityMaterialShort')" />
+
+      <e-switch
+        v-if="$vuetify.breakpoint.smAndUp"
+        v-model="groupByList"
+        class="ml-15"
+        :label="$tc('views.camp.material.groupByList')" />
     </template>
     <v-expansion-panels v-model="openPeriods" multiple
                         flat accordion>
       <period-material-lists v-for="period in camp().periods().items"
                              :key="period._meta.self"
                              :period="period"
-                             :show-content-node-material="showContentNodeMaterial" />
+                             :show-content-node-material="showContentNodeMaterial"
+                             :group-by-list="groupByList || $vuetify.breakpoint.xs" />
     </v-expansion-panels>
   </content-card>
 </template>
@@ -38,7 +45,8 @@ export default {
   data () {
     return {
       openPeriods: [],
-      showContentNodeMaterial: false
+      showContentNodeMaterial: false,
+      groupByList: false
     }
   },
   watch: {

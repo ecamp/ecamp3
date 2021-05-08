@@ -26,6 +26,9 @@ class UserHydrator implements HydratorInterface {
         return [
             'id' => $user->getId(),
             'username' => $user->getUsername(),
+            'firstname' => $user->getFirstname(),
+            'surname' => $user->getSurname(),
+            'nickname' => $user->getNickname(),
             'displayName' => $user->getDisplayName(),
             'mail' => $showDetails ? $user->getTrustedMailAddress() : '***',
             'relation' => $relation,
@@ -50,6 +53,9 @@ class UserHydrator implements HydratorInterface {
         }
         if (isset($data['surname'])) {
             $user->setSurname($data['surname']);
+        }
+        if (isset($data['nickname'])) {
+            $user->setNickname($data['nickname']);
         }
         if (isset($data['language'])) {
             $user->setLanguage($data['language']);

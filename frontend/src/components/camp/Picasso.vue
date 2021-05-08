@@ -211,10 +211,10 @@ export default {
     },
     scheduleEntryRoute,
     showScheduleEntry (entry) {
-      this.$router.push(scheduleEntryRoute(this.camp, entry)).catch(() => {})
+      this.$router.push(scheduleEntryRoute(entry)).catch(() => {})
     },
     showScheduleEntryInNewTab (entry) {
-      const routeData = this.$router.resolve(scheduleEntryRoute(this.camp, entry))
+      const routeData = this.$router.resolve(scheduleEntryRoute(entry))
       window.open(routeData.href, '_blank')
     },
     weekdayFormat () {

@@ -4,7 +4,7 @@ use eCampApi\V1\Factory\Config;
 use eCampApi\V1\Factory\InputFilter;
 
 return Config::Create('MaterialItem')
-    ->addCollectionQueryWhitelist('campId', 'materialListId', 'contentNodeId')
+    ->addCollectionQueryWhitelist('campId', 'periodId', 'materialListId', 'contentNodeId')
     ->addInputFilterFactory(
         InputFilter::Create('article', true)
             ->addFilterStringTrim()

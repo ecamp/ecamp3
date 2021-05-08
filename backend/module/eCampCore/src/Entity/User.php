@@ -95,7 +95,7 @@ class User extends AbstractCampOwner implements RoleInterface {
     private ?Login $login;
 
     /**
-     * @ORM\Column(type="string", length=8, nullable=true)
+     * @ORM\Column(type="string", length=20, nullable=true)
      */
     private ?string $language = null;
 

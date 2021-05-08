@@ -2,6 +2,7 @@
 
 namespace eCampApi;
 
+use Laminas\ApiTools\ContentValidation\ContentValidationListener;
 use Laminas\ApiTools\Provider\ApiToolsProviderInterface;
 use Laminas\Config\Factory as ConfigFactory;
 use Laminas\Mvc\Application;
@@ -43,5 +44,9 @@ class Module implements ApiToolsProviderInterface {
 
         $halResourceFactory = new HalResourceFactory($hal->getEntityHydratorManager(), $hal->getEntityExtractor());
         $hal->setResourceFactory($halResourceFactory);
+
+        // Inject Query Params for POST requests
+        $validationEvents = $app->getServiceManager()->get(ContentValidationListener::class)->getEventManager();
+        (new PostQueryParamsInjectListener())->attach($validationEvents);
     }
 }
