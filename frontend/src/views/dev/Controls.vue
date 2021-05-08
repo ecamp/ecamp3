@@ -64,16 +64,16 @@
             </v-col>
             <v-col>
               <api-text-field
-                v-if="profileUri !== null"
-                :uri="profileUri"
+                v-if="userUri !== null"
+                :uri="userUri"
                 fieldname="nickname"
                 :placeholder="placeholder"
                 v-bind="config" />
             </v-col>
             <v-col>
               <api-text-field
-                v-if="profileUri !== null"
-                :uri="profileUri"
+                v-if="userUri !== null"
+                :uri="userUri"
                 fieldname="nickname"
                 :placeholder="placeholder"
                 :auto-save="false"
@@ -113,8 +113,8 @@
             </v-col>
             <v-col>
               <api-textarea
-                v-if="profileUri !== null"
-                :uri="profileUri"
+                v-if="userUri !== null"
+                :uri="userUri"
                 fieldname="nickname"
                 :placeholder="placeholder"
                 :rows="3"
@@ -123,8 +123,8 @@
             </v-col>
             <v-col>
               <api-textarea
-                v-if="profileUri !== null"
-                :uri="profileUri"
+                v-if="userUri !== null"
+                :uri="userUri"
                 fieldname="nickname"
                 :placeholder="placeholder"
                 :auto-save="false"
@@ -162,16 +162,16 @@
             </v-col>
             <v-col>
               <api-richtext
-                v-if="profileUri !== null"
-                :uri="profileUri"
+                v-if="userUri !== null"
+                :uri="userUri"
                 fieldname="nickname"
                 :placeholder="placeholder"
                 v-bind="config" />
             </v-col>
             <v-col>
               <api-richtext
-                v-if="profileUri !== null"
-                :uri="profileUri"
+                v-if="userUri !== null"
+                :uri="userUri"
                 fieldname="nickname"
                 :placeholder="placeholder"
                 :auto-save="false"
@@ -446,6 +446,9 @@ export default {
   computed: {
     profileUri () {
       return this.api.get().profile()._meta.self
+    },
+    userUri () {
+      return this.api.get().profile().user()._meta.self
     },
     availableLocales () {
       return VueI18n.availableLocales.map(l => ({

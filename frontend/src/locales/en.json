@@ -274,7 +274,8 @@
     "loading": "Loading …",
     "lokaliseMessage": "Language switching powered by lokalise.com",
     "serverError": {
-      "409": "Uuuups... This action caused an server-side error."
+      "409": "Uuuups... This action caused an server-side error.",
+      "short": "Server error"
     },
     "validation": {
       "minDate": "{_field_} may not be earlier than {min}"
@@ -350,7 +351,8 @@
       "material": {
         "showActivityMaterial": "Show activity material",
         "showActivityMaterialShort": "incl. Activity",
-        "title": "Material"
+        "title": "Material",
+        "groupByList": "Group by material list"
       },
       "navigationCamp": {
         "admin": "Admin",

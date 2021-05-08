@@ -351,8 +351,13 @@ export function periodRoute (period, query = {}) {
   }
 }
 
-export function scheduleEntryRoute (camp, scheduleEntry, query = {}) {
-  if (camp._meta.loading || scheduleEntry._meta.loading || scheduleEntry.activity()._meta.loading) return {}
+export function scheduleEntryRoute (scheduleEntry, query = {}) {
+  if (scheduleEntry._meta.loading || scheduleEntry.activity()._meta.loading) return {}
+
+  const camp = scheduleEntry.activity().camp()
+
+  // if (camp._meta.loading) return {}
+
   return {
     name: 'activity',
     params: {
