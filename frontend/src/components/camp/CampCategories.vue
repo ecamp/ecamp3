@@ -60,7 +60,7 @@ Displays all periods of a single camp and allows to edit them & create new ones
             <v-item-group>
               <v-list-item-action>
                 <dialog-entity-delete :entity="category">
-                  {{ $tc('components.camp.CampCategories.deleteCategoryQuestion') }}
+                  {{ $tc('components.camp.campCategories.deleteCategoryQuestion') }}
                   <ul>
                     <li>
                       {{ category.short }}: {{ category.name }}
@@ -70,14 +70,21 @@ Displays all periods of a single camp and allows to edit them & create new ones
                     <button-delete v-on="on" />
                   </template>
                   <template v-if="findActivities(category).length > 0" #error>
-                    {{ $tc('components.camp.CampCategories.deleteCategoryNotPossibleInUse') }}
+                    {{ $tc('components.camp.campCategories.deleteCategoryNotPossibleInUse') }}
                     <ul>
                       <li v-for="activity in findActivities(category)" :key="activity.id">
                         {{ activity.title }}
                         <ul>
-                          <li v-for="scheduleEntry in activity.scheduleEntries().items" :key="scheduleEntry.id">
+                          <li v-for="scheduleEntry in activity.scheduleEntries().items"
+                              :key="scheduleEntry.id"
+                              :set="scheduleEntryItem = defineHelpers(scheduleEntry)">
                             <router-link :to="{ name: 'activity', params: { campId: camp().id, scheduleEntryId: scheduleEntry.id } }">
-                              {{ scheduleEntry.startTime }} - {{ scheduleEntry.endTime }}
+                              {{ $date.utc(scheduleEntryItem.startTime).format($tc('global.datetime.dateShort')) }} <b>
+                                {{ $date.utc(scheduleEntryItem.startTime).format($tc('global.datetime.hourShort')) }} </b> - {{
+                                $date.utc(scheduleEntryItem.startTime).format($tc('global.datetime.dateShort')) == $date.utc(scheduleEntryItem.endTime).format($tc('global.datetime.dateShort'))
+                                  ? ''
+                                  : $date.utc(scheduleEntryItem.endTime).format($tc('global.datetime.dateShort'))
+                              }} <b> {{ $date.utc(scheduleEntryItem.endTime).format($tc('global.datetime.hourShort')) }} </b>
                             </router-link>
                           </li>
                         </ul>
@@ -103,6 +110,7 @@ import ContentGroup from '@/components/layout/ContentGroup.vue'
 import DialogCategoryEdit from '@/components/dialog/DialogCategoryEdit.vue'
 import DialogCategoryCreate from '@/components/dialog/DialogCategoryCreate.vue'
 import DialogEntityDelete from '@/components/dialog/DialogEntityDelete.vue'
+import { defineHelpers } from '@/components/scheduleEntry/dateHelperUTC.js'
 
 export default {
   name: 'CampCategories',
@@ -128,6 +136,7 @@ export default {
   },
   methods: {
     categoryRoute,
+    defineHelpers,
     findActivities (category) {
       const activities = this.camp().activities()
       return activities.items.filter(a => a.category().id === category.id)
