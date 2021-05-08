@@ -139,4 +139,32 @@ JSON;
         $result = $this->getEntityManager()->find(MaterialItem::class, $this->materialItem->getId());
         $this->assertNull($result);
     }
+
+    /**
+     * Special cases.
+     */
+    public function testCreateWithValidQueryParams(): void {
+        $this->setRequestContent([
+            'article' => 'water',
+            'materialListId' => $this->materialList->getId(),
+            'periodId' => $this->period->getId(),
+        ]);
+
+        $this->dispatch("{$this->apiEndpoint}?quantity=2", 'POST');
+
+        $this->assertResponseStatusCode(201);
+        $this->assertEquals(2, $this->getResponseContent()->quantity);
+    }
+
+    public function testCreateWithInvalidQueryParams(): void {
+        $this->setRequestContent([
+            'article' => 'water',
+            'materialListId' => $this->materialList->getId(),
+            'periodId' => $this->period->getId(),
+        ]);
+
+        $this->dispatch("{$this->apiEndpoint}?quantity=two", 'POST');
+
+        $this->assertResponseStatusCode(422);
+    }
 }

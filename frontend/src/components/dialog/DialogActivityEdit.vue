@@ -12,7 +12,7 @@
     </template>
     <template #moreActions>
       <v-btn v-if="!scheduleEntry.tmpEvent"
-             color="primary" :to="scheduleEntryRoute(scheduleEntry.activity().camp(), scheduleEntry)">
+             color="primary" :to="scheduleEntryRoute(scheduleEntry)">
         {{ $tc('global.button.open') }}
       </v-btn>
     </template>

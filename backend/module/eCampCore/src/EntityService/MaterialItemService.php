@@ -3,6 +3,7 @@
 namespace eCamp\Core\EntityService;
 
 use Doctrine\ORM\QueryBuilder;
+use eCamp\Core\Entity\Activity;
 use eCamp\Core\Entity\Camp;
 use eCamp\Core\Entity\ContentNode;
 use eCamp\Core\Entity\MaterialItem;
@@ -109,6 +110,7 @@ class MaterialItemService extends AbstractEntityService {
     protected function fetchAllQueryBuilder($params = []): QueryBuilder {
         /** @var QueryBuilder $q */
         $q = parent::fetchAllQueryBuilder($params);
+
         $q->join('row.materialList', 'ml');
         $q->andWhere($this->createFilter($q, Camp::class, 'ml', 'camp'));
 
@@ -117,7 +119,18 @@ class MaterialItemService extends AbstractEntityService {
             $q->setParameter('campId', $params['campId']);
         }
         if (isset($params['periodId'])) {
-            $q->andWhere('row.period = :periodId');
+            // walk from contentNode to Activitiy to ScheduleEntries
+            // this is needed to allow filtering all items from the same period
+            $q->leftJoin('row.contentNode', 'cn');
+            $q->leftJoin('cn.root', 'root');
+            $q->leftJoin('root.owner', 'owner');
+            $q->leftJoin(Activity::class, 'activity', 'WITH', 'owner.id = activity.id');
+            $q->leftJoin('activity.scheduleEntries', 'scheduleEntry');
+
+            $q->andWhere($q->expr()->orX(
+                $q->expr()->eq('row.period', ':periodId'),           // item directly attached to Period
+                $q->expr()->eq('scheduleEntry.period', ':periodId')  // item part of scheduleEntry in Period
+            ));
             $q->setParameter('periodId', $params['periodId']);
         }
         if (isset($params['materialListId'])) {
