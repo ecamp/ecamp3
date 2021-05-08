@@ -142,11 +142,20 @@ export default {
       reportOnly: false,
       policies: {
         // allow embedding in iFrames
-        'frame-ancestors': [process.FRONTEND_URL || 'http://localhost:3000'],
+        'frame-ancestors': [
+          process.env.FRONTEND_URL || 'http://localhost:3000',
+        ],
 
         // allow script loading script from Unkpg (used for PagedJS)
-        'script-src': ["'self'", 'https://unpkg.com'],
+        'script-src': ["'self'", "'unsafe-inline'", 'https://unpkg.com'],
       },
     },
+  },
+
+  /**
+   * Environment variables available in application
+   */
+  env: {
+    FRONTEND_URL: process.env.FRONTEND_URL || 'http://localhost:3000',
   },
 }

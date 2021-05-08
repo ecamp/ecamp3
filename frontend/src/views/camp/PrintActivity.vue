@@ -1,5 +1,5 @@
 <!--
-Admin screen of a camp: Displays details & periods of a single camp and allows to edit them.
+Print preview for single Activity
 -->
 
 <template>
@@ -107,6 +107,8 @@ export default {
     }, 100),
 
     receiveMessage (event) {
+      if (event.origin !== PRINT_SERVER) { return }
+
       if (event.data) {
         // message from iFrame: 1 more page is rendered
         if (event.data.event_id === 'pagedjs_progress') {
@@ -114,7 +116,6 @@ export default {
 
         // message from iFrame: preview finished
         } else if (event.data.event_id === 'pagedjs_done') {
-          console.log(`Pagedjs preview finished with ${event.data.pages} pages`)
           this.done = true
         }
       }
@@ -125,7 +126,7 @@ export default {
         {
           event_id: 'print'
         },
-        '*'
+        PRINT_SERVER
       )
     },
     reload () {
@@ -137,7 +138,7 @@ export default {
         {
           event_id: 'reload'
         },
-        '*'
+        PRINT_SERVER
       )
     }
 

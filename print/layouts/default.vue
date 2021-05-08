@@ -28,7 +28,9 @@ export default {
      * Define default footer & header
      * This can be overridden in route views
      */
-    header.__dangerouslyDisableSanitizers = ['style'] // disable sanitzing of below inline css
+    header.__dangerouslyDisableSanitizersByTagID = {
+      defaultMarginBox: ['cssText'], // disable sanitzing of below inline css
+    }
 
     const cssPageCounter = `'${this.$tc(
       'global.margin.pageCounter.page'
@@ -39,6 +41,7 @@ export default {
     header.style = [
       {
         type: 'text/css',
+        hid: 'defaultMarginBox',
         cssText: `@media print {
                     
                     :root {
@@ -61,23 +64,33 @@ export default {
       },
     ]
 
+    header.script = []
+
+    // inject FRONTEND_URL to client
+    header.__dangerouslyDisableSanitizersByTagID.environmentVariables = [
+      'innerHTML',
+    ]
+    header.script.push({
+      hid: 'environmentVariables',
+      type: 'application/javascript',
+      innerHTML: `window.FRONTEND_URL = '${process.env.FRONTEND_URL}'`,
+    })
+
     if (this.$route.query.pagedjs === 'true') {
-      header.script = [
-        // confiugration JS for pagedJS
-        {
-          src: '/pagedConfig.js',
-        },
+      // confiugration JS for pagedJS
+      header.script.push({
+        src: '/pagedConfig.js',
+      })
 
-        // PagedJS
-        {
-          src: 'https://unpkg.com/pagedjs/dist/paged.polyfill.js',
-        },
+      // PagedJS
+      header.script.push({
+        src: 'https://unpkg.com/pagedjs/dist/paged.polyfill.js',
+      })
 
-        // event listener to communicate with parent when embedded in iFrame
-        {
-          src: '/iframeEvents.js',
-        },
-      ]
+      // event listener to communicate with parent when embedded in iFrame
+      header.script.push({
+        src: '/iframeEvents.js',
+      })
 
       header.link = [
         {

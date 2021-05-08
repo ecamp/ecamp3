@@ -4,6 +4,10 @@
  * Register event listeners to listen to iFrame ancestor postMessages
  */
 window.addEventListener('message', (event) => {
+  if (event.origin !== window.FRONTEND_URL) {
+    return
+  }
+
   if (event.data) {
     if (event.data.event_id === 'reload') {
       window.location.reload()
@@ -24,14 +28,12 @@ class PagedEventHandler extends Paged.Handler {
 
   // send message to parent frame when preview has finished
   afterPreview(pages) {
-    // eslint-disable-next-line no-console
-    console.log('PagedJS: rendering preview finished')
     window.parent.postMessage(
       {
         event_id: 'pagedjs_done',
         pages: pages.length,
       },
-      '*'
+      window.FRONTEND_URL
     )
   }
 
@@ -42,7 +44,7 @@ class PagedEventHandler extends Paged.Handler {
         event_id: 'pagedjs_progress',
         page: page.position,
       },
-      '*'
+      window.FRONTEND_URL
     )
   }
 }

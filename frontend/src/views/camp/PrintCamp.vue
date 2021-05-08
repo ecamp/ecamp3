@@ -1,5 +1,5 @@
 <!--
-Admin screen of a camp: Displays details & periods of a single camp and allows to edit them.
+Print preview to print complete camp
 -->
 
 <template>

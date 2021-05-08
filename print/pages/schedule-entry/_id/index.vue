@@ -10,6 +10,8 @@
 </template>
 
 <script>
+import cssesc from 'cssesc'
+
 export default {
   data() {
     return {
@@ -38,21 +40,28 @@ export default {
     /**
      * Footer & header for single activity view
      */
-    header.__dangerouslyDisableSanitizers = ['style'] // disable sanitzing of below inline css
+    header.__dangerouslyDisableSanitizersByTagID = {
+      scheduleEntryMarginBox: ['cssText'], // disable sanitzing of below inline css
+    }
+
+    const campName = cssesc(this.camp.name)
+    const activityTitle = cssesc(this.activity.title)
+
     header.style = [
       {
         type: 'text/css',
+        hid: 'scheduleEntryMarginBox',
         cssText: `@media print {
                   
                     @page {
 
                       @top-left {
-                        content: '${this.camp.name}';
+                        content: '${campName}';
                         font-size: var(--ecamp-margin-font-size);
                       }
 
                       @top-center {
-                        content: '${this.activity.title}';
+                        content: '${activityTitle}';
                         font-size: var(--ecamp-margin-font-size);
                       }
                     }
