@@ -101,6 +101,7 @@
         "create": "Create activity category",
         "deleteCategoryNotPossibleInUse": "Activity category can't be deleted. It is used by:",
         "deleteCategoryQuestion": "Do you really want do delete the Activity category?",
+        "editLayout": "Edit layout",
         "title": "Activity categories"
       },
       "campDangerzone": {
@@ -428,6 +429,12 @@
         "members": "Members",
         "openInvitations": "Open invitations",
         "title": "Team"
+      },
+      "dashboard": {
+        "noActivitiesLine1": "You are not yet responsible for any activity.",
+        "noActivitiesLine2": "You can see the whole program here.",
+        "program": "Program",
+        "viewDescription": "You work on \"{title}\". Here you can see all the activities for which you are responsible."
       },
       "material": {
         "showActivityMaterial": "Show activity material",

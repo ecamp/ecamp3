@@ -3,7 +3,6 @@ import Vue from 'vue'
 import Vuetify from 'vuetify'
 import flushPromises from 'flush-promises'
 import { createLocalVue, shallowMount } from '@vue/test-utils'
-import { ServerException } from 'hal-json-vuex'
 import veeValidatePlugin from '@/plugins/veeValidate'
 import ApiWrapper from '../ApiWrapper.vue'
 import { VForm, VBtn } from 'vuetify/lib'
@@ -206,13 +205,8 @@ describe('Testing ApiWrapper [autoSave=true;  manual external value]', () => {
   })
 
   test('can process server validation error', async () => {
-    // given
     const validationMsg = 'The input is less than 10 characters long'
-    const response = {
-      data: { validation_messages: { testField: { stringLengthTooShort: validationMsg } } },
-      status: 422
-    }
-    apiPatch.mockRejectedValueOnce(new ServerException(response))
+    apiPatch.mockRejectedValueOnce(new Error(validationMsg))
 
     // when
     vm.onInput('new value') // Trigger patch
@@ -221,7 +215,7 @@ describe('Testing ApiWrapper [autoSave=true;  manual external value]', () => {
 
     // then
     expect(vm.hasServerError).toBe(true)
-    expect(vm.errorMessages).toContain('Validation error: ' + validationMsg + '. ')
+    expect(vm.errorMessages).toContain(validationMsg)
   })
 
   /*

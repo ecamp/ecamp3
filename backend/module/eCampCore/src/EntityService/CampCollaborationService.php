@@ -188,6 +188,7 @@ class CampCollaborationService extends AbstractEntityService {
 
     /**
      * @throws ORMException
+     * @throws EntityValidationException
      */
     protected function deleteEntity(BaseEntity $entity): void {
         /** @var CampCollaboration $campCollaboration */
@@ -196,6 +197,17 @@ class CampCollaborationService extends AbstractEntityService {
             parent::deleteEntity($entity);
         } else {
             $this->patchEntity($campCollaboration, (object) ['status' => CampCollaboration::STATUS_INACTIVE]);
+            $this->validateEntity($campCollaboration);
+        }
+    }
+
+    protected function validateEntity(BaseEntity $entity): void {
+        parent::validateEntity($entity);
+        /** @var CampCollaboration $campCollaboration */
+        $campCollaboration = $entity;
+
+        if (!self::hasAtLeastOneManager($campCollaboration->getCamp())) {
+            throw (new EntityValidationException())->setMessages(['role' => ['needsManager' => 'A camp needs at least one manager']]);
         }
     }
 
@@ -225,6 +237,15 @@ class CampCollaborationService extends AbstractEntityService {
             $inviteKey,
             $campCollaboration->getInviteEmail()
         );
+    }
+
+    private static function hasAtLeastOneManager(Camp $camp): bool {
+        return $camp->getCampCollaborations()->exists(function (int $index, CampCollaboration $campCollaboration) {
+            $established = CampCollaboration::STATUS_ESTABLISHED == $campCollaboration->getStatus();
+            $isManager = CampCollaboration::ROLE_MANAGER == $campCollaboration->getRole();
+
+            return $established && $isManager;
+        });
     }
 
     /**

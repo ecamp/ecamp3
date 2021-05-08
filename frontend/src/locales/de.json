@@ -82,6 +82,7 @@
         "create": "Block-Kategorie erstellen",
         "deleteCategoryNotPossibleInUse": "Block-Kategorie kann nicht gelöscht werden. Sie wird noch verwendet:",
         "deleteCategoryQuestion": "Möchtest du diese Block-Kategorie wirklich löschen?",
+        "editLayout": "Layout bearbeiten",
         "title": "Block-Kategorien"
       },
       "campInvitations": {
@@ -345,6 +346,12 @@
         "members": "Mitarbeitende",
         "openInvitations": "Offene Einladungen",
         "title": "Team"
+      },
+      "dashboard": {
+        "noActivitiesLine1": "Du bist noch für keinen Block zuständig.",
+        "noActivitiesLine2": "Den ganzen Picasso kannst du dir hier ansehen.",
+        "program": "Programm",
+        "viewDescription": "Du arbeitest an \"{title}\" mit. Hier siehst du alle Blöcke, für welche du zuständig bist."
       },
       "navigationCamp": {
         "admin": "Admin",

@@ -42,7 +42,7 @@ services:
       - print.env
 
   rabbitmq:
-    image: rabbitmq:3.8-management@sha256:c7e1e3c34f1a6a5c089723763f04dc4c483d12f2fabb2fe48faee6f3d3998c69
+    image: rabbitmq:3.8-management@sha256:69717038fe4af48a91bca836e9c92e5fcbd68bbe73d89097b08e6c795dd779f8
     container_name: 'ecamp3-rabbitmq'
     env_file:
       - rabbitmq.env

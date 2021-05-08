@@ -38,6 +38,9 @@ class UserTest extends AbstractApiControllerTestCase {
             {
                 "id": "{$this->user->getId()}",
                 "username": "test-user",
+                "firstname": "",
+                "surname": "",
+                "nickname": "",
                 "displayName": "test-user",
                 "mail": "test@ecamp3.dev",
                 "relation": "me",

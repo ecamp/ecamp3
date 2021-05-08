@@ -36,13 +36,6 @@ class ProfileTest extends AbstractApiControllerTestCase {
 
         $expectedBody = <<<'JSON'
             {
-                "username": "test-user",
-                "firstname": null,
-                "surname": null,
-                "nickname": null,
-                "displayName": "test-user",
-                "mail": "test@ecamp3.dev",
-                "role": "user",
                 "language": null,
                 "isAdmin": false
             }
@@ -55,7 +48,7 @@ JSON;
                 }
             }
 JSON;
-        $expectedEmbeddedObjects = [];
+        $expectedEmbeddedObjects = ['user'];
 
         $this->verifyHalResourceResponse($expectedBody, $expectedLinks, $expectedEmbeddedObjects);
     }
@@ -68,10 +61,6 @@ JSON;
 
     public function testUpdateSuccess(): void {
         $this->setRequestContent([
-            'username' => 'test-user5',
-            'firstname' => 'firstname',
-            'surname' => 'surname',
-            'nickname' => 'nickname',
             'language' => 'EN',
         ]);
 
@@ -79,11 +68,6 @@ JSON;
 
         $this->assertResponseStatusCode(200);
 
-        $this->assertEquals('test-user', $this->getResponseContent()->username); // username cannot be modified
-
-        $this->assertEquals('firstname', $this->getResponseContent()->firstname);
-        $this->assertEquals('surname', $this->getResponseContent()->surname);
-        $this->assertEquals('nickname', $this->getResponseContent()->nickname);
         $this->assertEquals('EN', $this->getResponseContent()->language);
     }
 
