@@ -75,7 +75,8 @@ export default {
       if (this.done) {
         return 100
       }
-      return this.loadedPagesThrottled % 100
+      const n = 6
+      return Math.round(Math.pow(this.loadedPagesThrottled / (this.loadedPagesThrottled + 1), n) * 100)
     },
     previewUrl () {
       return `${PRINT_SERVER}/schedule-entry/${this.scheduleEntry().id}?pagedjs=true&lang=${this.lang}`
