@@ -4,7 +4,7 @@ Displays a single activity
 
 <template>
   <v-container fluid>
-    <content-card toolbar>
+    <content-card toolbar :loaded="!scheduleEntry()._meta.loading && !activity.camp()._meta.loading">
       <template #title>
         <v-toolbar-title class="font-weight-bold">
           {{ scheduleEntry().number }}
@@ -50,6 +50,7 @@ Displays a single activity
         </div>
       </template>
       <template #title-actions>
+        <!-- layout/content switch -->
         <v-btn v-if="!layoutMode"
                color="primary"
                outlined
@@ -70,7 +71,24 @@ Displays a single activity
           </template>
           <template v-else>{{ $tc('views.activity.activity.back') }}</template>
         </v-btn>
+
+        <!-- print preview button -->
+        <v-tooltip bottom>
+          <template #activator="{ on, attrs }">
+            <v-btn
+              class="ml-3"
+              color="primary"
+              outlined
+              :to="{ name: 'camp/print/activity', params: { campId: activity.camp().id, scheduleEntryId: scheduleEntry().id } }"
+              v-bind="attrs"
+              v-on="on">
+              <v-icon>mdi-printer</v-icon>
+            </v-btn>
+          </template>
+          <span>{{ $tc('views.activity.printPreview') }}</span>
+        </v-tooltip>
       </template>
+
       <v-card-text class="px-0 py-0">
         <v-skeleton-loader v-if="activity._meta.loading" type="article" />
         <template v-else>
@@ -247,7 +265,7 @@ import DialogEntityDelete from '@/components/dialog/DialogEntityDelete.vue'
 import DialogScheduleEntryEdit from '@/components/dialog/DialogScheduleEntryEdit.vue'
 import DialogScheduleEntryCreate from '@/components/dialog/DialogScheduleEntryCreate.vue'
 import ContentNode from '@/components/activity/ContentNode.vue'
-import { defineHelpers } from '@/components/scheduleEntry/dateHelperUTC.js'
+import { defineHelpers } from '@/../../common/helpers/scheduleEntry/dateHelperUTC.js'
 
 export default {
   name: 'Activity',

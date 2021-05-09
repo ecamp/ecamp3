@@ -10,6 +10,7 @@ import { ApiMock } from '@/components/form/api/__tests__/ApiMock'
 import { i18n } from '@/plugins'
 import { mount as mountComponent } from '@vue/test-utils'
 import { waitForDebounce } from '@/test/util'
+import { HTML5_FMT } from '@/../../common/helpers/dateFormat.js'
 
 Vue.use(Vuetify)
 Vue.use(formBaseComponents)
@@ -24,7 +25,7 @@ describe('An ApiDatePicker', () => {
   const DATE_1 = '2020-03-01'
   const DATE_2 = '2020-03-24'
 
-  const format = date => Vue.dayjs.utc(date, Vue.dayjs.HTML5_FMT.DATE).format('DD.MM.YYYY')
+  const format = date => Vue.dayjs.utc(date, HTML5_FMT.DATE).format('DD.MM.YYYY')
 
   beforeEach(() => {
     i18n.locale = 'de'

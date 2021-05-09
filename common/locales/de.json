@@ -1,5 +1,81 @@
 {
-  "welcome": {
-    "common": "Willkommen zu commons"
+  "global": {
+    "datetime": {
+      "dateLong": "dd L",
+      "dateShort": "dd D.M.",
+      "dateTimeLong": "dd L HH:mm",
+      "hourLong": "HH:mm",
+      "hourShort": "H:mm"
+    }
+  },
+  "entity": {
+    "activity": {
+      "fields": {
+        "category": "Block Kategorie",
+        "location": "Ort",
+        "responsible": "verantwortlich",
+        "title": "Titel"
+      },
+      "name": "Aktivität | Aktivitäten",
+      "new": "Neue Aktivität"
+    },
+    "category": {
+      "fields": {
+        "activityType": "Typ",
+        "color": "Farbe",
+        "name": "Name",
+        "numberingStyle": "Nummerierung",
+        "short": "Kürzel"
+      },
+      "name": "Block Kategorien",
+      "numberingStyles": {
+        "1": "1, 2, 3 - Zahlen",
+        "A": "A, B, C - grosse Buchstaben",
+        "a": "a, b, c - kleine Buchstaben",
+        "I": "I, II, III - grosse römische Zahlen",
+        "i": "i, ii, iii - kleine römische Zahlen"
+      }
+    },
+    "camp": {
+      "collaborators": {
+        "manager": "Verwalter",
+        "member": "Mitglied"
+      },
+      "fields": {
+        "addressCity": "Ort",
+        "addressName": "Name",
+        "addressStreet": "Strasse",
+        "addressZipcode": "PLZ",
+        "motto": "Motto",
+        "name": "Name",
+        "title": "Titel"
+      },
+      "name": "Lager",
+      "prototype": "Lagervorlage"
+    },
+    "campCollaboration": {
+      "inactive": "inaktiv"
+    },
+    "contentType": {
+      "name": "Inhalttyp | Inhalttypen"
+    },
+    "period": {
+      "defaultDescription": "Hauptlager",
+      "fields": {
+        "description": "Beschreibung",
+        "end": "Bis",
+        "start": "Von"
+      },
+      "name": "Lagerabschnitt | Lagerabschnitte"
+    },
+    "scheduleEntry": {
+      "fields": {
+        "length": "Dauer in Minuten",
+        "nr": "Nr",
+        "periodOffset": "Minuten seit Lagerabschnittbeginn",
+        "time": "Zeitpunkt"
+      },
+      "name": "Zeitplaneintrag"
+    }
   }
 }

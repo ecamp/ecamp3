@@ -1,10 +1,5 @@
 export default {
   /*
-   ** Nuxt rendering mode
-   ** See https://nuxtjs.org/api/configuration-mode
-   */
-  mode: 'universal',
-  /*
    ** Nuxt target
    ** See https://nuxtjs.org/api/configuration-target
    */
@@ -38,6 +33,7 @@ export default {
   plugins: [
     { src: '~/plugins/hal-json-vuex.js' },
     { src: '~/plugins/i18n.js' },
+    { src: '~/plugins/dayjs.js' },
   ],
   /*
    ** Auto import components
@@ -114,6 +110,7 @@ export default {
    */
   vuetify: {
     customVariables: ['~/assets/variables.scss'],
+    treeShake: true,
     theme: {
       dark: false,
     },
@@ -122,14 +119,43 @@ export default {
    ** Build configuration
    ** See https://nuxtjs.org/api/configuration-build/
    */
-  build: {},
+  build: {
+    extend(config, ctx) {
+      // include source map in development mode
+      if (ctx.isDev) {
+        config.devtool = ctx.isClient ? 'source-map' : 'inline-source-map'
+      }
+    },
+  },
 
   /*
    ** Render configuration
    ** See https://nuxtjs.org/api/configuration-render/
    */
   render: {
-    // deactivates injecting any Javascript on client side ==> pure HTML/CSS output only (except explicit head-scripts)
-    injectScripts: false,
+    // in production: FALSE: deactivates injecting any Javascript on client side ==> pure HTML/CSS output only (except explicit head-scripts)
+    // in development: TRUE: enable javasript injection in dev mode to support hot reloading
+    injectScripts: process.env.NODE_ENV === 'development',
+    // injectScripts: false,
+
+    csp: {
+      reportOnly: false,
+      policies: {
+        // allow embedding in iFrames
+        'frame-ancestors': [
+          process.env.FRONTEND_URL || 'http://localhost:3000',
+        ],
+
+        // allow script loading script from Unkpg (used for PagedJS)
+        'script-src': ["'self'", "'unsafe-inline'", 'https://unpkg.com'],
+      },
+    },
+  },
+
+  /**
+   * Environment variables available in application
+   */
+  env: {
+    FRONTEND_URL: process.env.FRONTEND_URL || 'http://localhost:3000',
   },
 }

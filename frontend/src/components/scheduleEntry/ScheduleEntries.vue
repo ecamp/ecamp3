@@ -33,7 +33,7 @@
 <script>
 import DialogActivityCreate from '@/components/dialog/DialogActivityCreate.vue'
 import DialogActivityEdit from '@/components/dialog/DialogActivityEdit.vue'
-import { defineHelpers } from '@/components/scheduleEntry/dateHelperLocal.js'
+import { defineHelpers } from '@/../../common/helpers/scheduleEntry/dateHelperLocal.js'
 
 export default {
   name: 'ScheduleEntries',
