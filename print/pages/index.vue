@@ -32,9 +32,7 @@ export default {
     }
   },
   async fetch() {
-    const query = this.$nuxt.context.query
-
-    this.pagedjs = query.pagedjs
+    const query = this.$route.query
 
     this.config = {
       showFrontpage:
@@ -54,44 +52,5 @@ export default {
     this.camp = await this.$api.get().camps({ campId: query.camp })._meta.load
     this.activities = (await this.camp.activities()._meta.load).items
   },
-  head() {
-    if (this.pagedjs === 'true') {
-      return {
-        script: [
-          {
-            src: 'pagedConfig.js',
-          },
-          {
-            src: 'https://unpkg.com/pagedjs/dist/paged.polyfill.js',
-          },
-        ],
-        link: [
-          {
-            rel: 'stylesheet',
-            href: 'print-preview.css',
-          },
-        ],
-      }
-    }
-  },
 }
 </script>
-
-<style lang="scss" scoped>
-@media print {
-  @page {
-    size: a4 portrait;
-
-    @top-left {
-      content: 'eCamp3';
-    }
-
-    @top-center {
-      content: 'Placeholder Lagertitel';
-    }
-    @bottom-left {
-      content: counter(page) ' of ' counter(pages);
-    }
-  }
-}
-</style>

@@ -10,6 +10,7 @@ import { ApiMock } from '@/components/form/api/__tests__/ApiMock'
 import { i18n } from '@/plugins'
 import { mount as mountComponent } from '@vue/test-utils'
 import { waitForDebounce } from '@/test/util'
+import { HTML5_FMT } from '@/../../common/helpers/dateFormat.js'
 
 Vue.use(Vuetify)
 Vue.use(formBaseComponents)
@@ -26,7 +27,7 @@ describe('An ApiTimePicker', () => {
   const TIME_2_MINUTE = 15
   const TIME_2 = `2037-07-18T${TIME_2_HOUR}:${TIME_2_MINUTE}:00+00:00`
 
-  const format = date => Vue.dayjs.utc(date, Vue.dayjs.HTML5_FMT.DATETIME_LOCAL_SECONDS).format('LT')
+  const format = date => Vue.dayjs.utc(date, HTML5_FMT.DATETIME_LOCAL_SECONDS).format('LT')
 
   beforeEach(() => {
     i18n.locale = 'de'

@@ -1,22 +1,23 @@
-import Vue from 'vue'
-
+import dayjs from '../dayjs.js'
+import { HTML5_FMT } from '../dateFormat.js'
+ 
 function defineHelpers (scheduleEntry, timed = false) {
   if (!Object.prototype.hasOwnProperty.call(scheduleEntry, 'startTime')) {
     Object.defineProperties(scheduleEntry, {
       startTime: {
         get () {
-          return Vue.dayjs(this.period().start, Vue.dayjs.HTML5_FMT.DATE).add(this.periodOffset, 'm').valueOf()
+          return dayjs(this.period().start, HTML5_FMT.DATE).add(this.periodOffset, 'm').valueOf()
         },
         set (value) {
-          this.periodOffset = Vue.dayjs(value).diff(Vue.dayjs(this.period().start, Vue.dayjs.HTML5_FMT.DATE), 'm')
+          this.periodOffset = dayjs(value).diff(dayjs(this.period().start, HTML5_FMT.DATE), 'm')
         }
       },
       endTime: {
         get () {
-          return Vue.dayjs(this.period().start, Vue.dayjs.HTML5_FMT.DATE).add(this.periodOffset + this.length, 'm').valueOf()
+          return dayjs(this.period().start, HTML5_FMT.DATE).add(this.periodOffset + this.length, 'm').valueOf()
         },
         set (value) {
-          this.length = Vue.dayjs(value).diff(Vue.dayjs(this.period().start, Vue.dayjs.HTML5_FMT.DATE), 'm') - this.periodOffset
+          this.length = dayjs(value).diff(dayjs(this.period().start, HTML5_FMT.DATE), 'm') - this.periodOffset
         }
       }
     })
