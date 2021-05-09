@@ -72,6 +72,9 @@ JSON;
                 },
                 "contentNodes": {
                     "href": "http://{$this->host}/api/content-nodes?ownerId={$this->activity->getId()}"
+                },
+                "scheduleEntries": {
+                    "href": "http://{$this->host}/api/schedule-entries?activityId={$this->activity->getId()}"
                 }
             }
 JSON;
