@@ -144,6 +144,15 @@
       },
       "dialogPeriodEdit": {
         "moveScheduleEntries": "Aktivitäten verschieben"
+      },
+      "dialogScheduleEntryCreate": {
+        "title": "Zeitplaneintrag erstellen"
+      },
+      "dialogScheduleEntryForm": {
+        "endDate": "End-Datum",
+        "endTime": "End-Zeit",
+        "startDate": "Start-Datum",
+        "startTime": "Start-Zeit"
       }
     },
     "layout": {
@@ -295,7 +304,14 @@
     "activity": {
       "activity": {
         "changeLayout": "Layout ändern",
-        "layout": "Layout"
+        "copyScheduleEntry": "kopieren",
+        "copyScheduleEntryDayAfter": "am Tag danach",
+        "copyScheduleEntryAnyTime": "an neuer Zeit",
+        "copyScheduleEntryDayBefore": "am Tag zuvor",
+        "deleteScheduleEntry": "löschen",
+        "editScheduleEntry": "bearbeiten",
+        "layout": "Layout",
+        "options": "Optionen"
       },
       "sideBarProgram": {
         "title": "Tagesübersicht"

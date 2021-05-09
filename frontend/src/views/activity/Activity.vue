@@ -81,23 +81,126 @@ Displays a single activity
                 <v-col cols="2">
                   {{ $tc('entity.scheduleEntry.fields.nr') }}
                 </v-col>
-                <v-col cols="10">
+                <v-col cols="6">
                   {{ $tc('entity.scheduleEntry.fields.time') }}
+                </v-col>
+                <v-col cols="4">
+                  {{ $tc('views.activity.activity.options') }}
                 </v-col>
               </v-row>
               <v-row
                 v-for="scheduleEntryItem in scheduleEntries"
-                :key="scheduleEntryItem._meta.self" dense>
+                :key="scheduleEntryItem._meta.self" dense
+                class="mt-0">
                 <v-col cols="2">
                   ({{ scheduleEntryItem.number }})
                 </v-col>
-                <v-col cols="10">
+                <v-col cols="6">
                   {{ $date.utc(scheduleEntryItem.startTime).format($tc('global.datetime.dateShort')) }} <b>
                     {{ $date.utc(scheduleEntryItem.startTime).format($tc('global.datetime.hourShort')) }} </b> - {{
                     $date.utc(scheduleEntryItem.startTime).format($tc('global.datetime.dateShort')) == $date.utc(scheduleEntryItem.endTime).format($tc('global.datetime.dateShort'))
                       ? ''
                       : $date.utc(scheduleEntryItem.endTime).format($tc('global.datetime.dateShort'))
                   }} <b> {{ $date.utc(scheduleEntryItem.endTime).format($tc('global.datetime.hourShort')) }} </b>
+                </v-col>
+                <v-col cols="4">
+                  <dialog-schedule-entry-edit :schedule-entry="scheduleEntryItem">
+                    <template #activator="{on: dialog}">
+                      <v-tooltip bottom>
+                        <template #activator="{ on: tooltip }">
+                          <v-icon v-on="{ ...tooltip, ...dialog}">mdi-calendar-edit</v-icon>
+                        </template>
+                        {{ $tc('views.activity.activity.editScheduleEntry') }}
+                      </v-tooltip>
+                    </template>
+                  </dialog-schedule-entry-edit>
+                  <v-menu :offset-y="false" rounded :nudge-left="42">
+                    <template #activator="{ on: menu }">
+                      <v-tooltip bottom>
+                        <template #activator="{ on: tooltip }">
+                          <v-icon class="mx-2" v-on="{ ...tooltip, ...menu}">
+                            mdi-calendar-plus
+                          </v-icon>
+                        </template>
+                        {{ $tc('views.activity.activity.copyScheduleEntry') }}
+                      </v-tooltip>
+                    </template>
+                    <v-card tile>
+                      <v-tooltip bottom>
+                        <template #activator="{ on, attrs }">
+                          <v-btn :disabled="!scheduleEntryItem.copyToDayBefore"
+                                 icon
+                                 v-bind="attrs"
+                                 v-on="on"
+                                 @click="duplicateScheduleEntry(scheduleEntryItem, -24*60)">
+                            <v-icon>
+                              mdi-calendar-arrow-left
+                            </v-icon>
+                          </v-btn>
+                        </template>
+                        <span>
+                          {{ $tc('views.activity.activity.copyScheduleEntryDayBefore') }}
+                        </span>
+                      </v-tooltip>
+                      <dialog-schedule-entry-create
+                        :camp="scheduleEntryItem.period().camp"
+                        :activity="scheduleEntryItem.activity"
+                        :schedule-entry="scheduleEntryItem">
+                        <template #activator="{on: dialog}">
+                          <v-tooltip bottom>
+                            <template #activator="{ on: tooltip, attrs }">
+                              <v-btn icon v-bind="attrs" v-on="{ ...tooltip, ...dialog}">
+                                <v-icon>
+                                  mdi-calendar-clock
+                                </v-icon>
+                              </v-btn>
+                            </template>
+                            <span>
+                              {{ $tc('views.activity.activity.copyScheduleEntryAnyTime') }}
+                            </span>
+                          </v-tooltip>
+                        </template>
+                      </dialog-schedule-entry-create>
+                      <v-tooltip bottom>
+                        <template #activator="{ on, attrs }">
+                          <v-btn :disabled="!scheduleEntryItem.copyToDayAfter"
+                                 icon
+                                 v-bind="attrs"
+                                 v-on="on"
+                                 @click="duplicateScheduleEntry(scheduleEntryItem, 24*60)">
+                            <v-icon>
+                              mdi-calendar-arrow-right
+                            </v-icon>
+                          </v-btn>
+                        </template>
+                        <span>
+                          {{ $tc('views.activity.activity.copyScheduleEntryDayAfter') }}
+                        </span>
+                      </v-tooltip>
+                    </v-card>
+                  </v-menu>
+                  <dialog-entity-delete :entity="scheduleEntryItem">
+                    <template #activator="{ on: dialog }">
+                      <v-tooltip bottom>
+                        <template #activator="{ on: tooltip }">
+                          <v-icon v-on="{ ...tooltip, ...dialog}">mdi-calendar-minus</v-icon>
+                        </template>
+                        {{ $tc('views.activity.activity.deleteScheduleEntry') }}
+                      </v-tooltip>
+                    </template>
+                    ScheduleEntry wirklich löschen?
+                    <ul>
+                      <li>
+                        ({{ scheduleEntryItem.number }})
+                        {{ $date.utc(scheduleEntryItem.startTime).format($tc('global.datetime.dateShort')) }} <b>
+                          {{ $date.utc(scheduleEntryItem.startTime).format($tc('global.datetime.hourShort')) }} </b> - {{
+                          $date.utc(scheduleEntryItem.startTime).format($tc('global.datetime.dateShort')) == $date.utc(scheduleEntryItem.endTime).format($tc('global.datetime.dateShort'))
+                            ? ''
+                            : $date.utc(scheduleEntryItem.endTime).format($tc('global.datetime.dateShort'))
+                        }} <b> {{ $date.utc(scheduleEntryItem.endTime).format($tc('global.datetime.hourShort')) }} </b>
+                      </li>
+                    </ul>
+                  </dialog-entity-delete>
                 </v-col>
               </v-row>
             </v-col>
@@ -140,6 +243,9 @@ Displays a single activity
 import ContentCard from '@/components/layout/ContentCard.vue'
 import ApiTextField from '@/components/form/api/ApiTextField.vue'
 import ApiSelect from '@/components/form/api/ApiSelect.vue'
+import DialogEntityDelete from '@/components/dialog/DialogEntityDelete.vue'
+import DialogScheduleEntryEdit from '@/components/dialog/DialogScheduleEntryEdit.vue'
+import DialogScheduleEntryCreate from '@/components/dialog/DialogScheduleEntryCreate.vue'
 import ContentNode from '@/components/activity/ContentNode.vue'
 import { defineHelpers } from '@/components/scheduleEntry/dateHelperUTC.js'
 
@@ -149,6 +255,9 @@ export default {
     ContentCard,
     ApiTextField,
     ApiSelect,
+    DialogEntityDelete,
+    DialogScheduleEntryEdit,
+    DialogScheduleEntryCreate,
     ContentNode
   },
   props: {
@@ -190,7 +299,7 @@ export default {
       return this.activity.category()
     },
     scheduleEntries () {
-      return this.activity.scheduleEntries().items.map((entry) => defineHelpers(entry))
+      return this.activity.scheduleEntries().items.map((entry) => this.scheduleEntryAddProperties(entry))
     },
     contentNodes () {
       return this.activity.contentNodes()
@@ -206,6 +315,35 @@ export default {
       return this.contentNodes.items.filter(cn => {
         return cn.contentType().id === contentType.id
       }).length
+    },
+    scheduleEntryAddProperties (scheduleEntry) {
+      const scheduleEntryItem = defineHelpers(scheduleEntry)
+
+      if (!Object.prototype.hasOwnProperty.call(scheduleEntryItem, 'copyToDayBefore')) {
+        Object.defineProperty(scheduleEntry, 'copyToDayBefore', {
+          get () {
+            return this.periodOffset >= 24 * 60
+          }
+        })
+      }
+      if (!Object.prototype.hasOwnProperty.call(scheduleEntryItem, 'copyToDayAfter')) {
+        Object.defineProperty(scheduleEntry, 'copyToDayAfter', {
+          get () {
+            const scheduleEntryEnd = this.periodOffset + this.length
+            const periodEnd = (this.period().days().items.length) * 24 * 60
+            return scheduleEntryEnd + 24 * 60 <= periodEnd
+          }
+        })
+      }
+      return scheduleEntryItem
+    },
+    duplicateScheduleEntry (scheduleEntry, offset) {
+      this.activity.scheduleEntries().$post({
+        activityId: this.activity.id,
+        periodId: scheduleEntry.period().id,
+        periodOffset: scheduleEntry.periodOffset + offset,
+        length: scheduleEntry.length
+      })
     }
   }
 }

@@ -13,6 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Activity extends AbstractContentNodeOwner implements BelongsToCampInterface {
     /**
      * @ORM\OneToMany(targetEntity="ScheduleEntry", mappedBy="activity", orphanRemoval=true)
+     * @ORM\OrderBy({"periodOffset": "ASC"})
      */
     protected Collection $scheduleEntries;
 

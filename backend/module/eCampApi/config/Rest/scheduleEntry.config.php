@@ -5,6 +5,7 @@ use eCampApi\V1\Factory\InputFilter;
 
 return Config::Create('ScheduleEntry', 'ScheduleEntries')
     ->addCollectionQueryWhitelist('activityId')
+    ->addInputFilter('periodId')
     ->addInputFilterFactory(
         InputFilter::Create('periodOffset', true)
             ->addFilterDigits()

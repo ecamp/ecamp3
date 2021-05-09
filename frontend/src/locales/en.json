@@ -191,6 +191,15 @@
       },
       "dialogPeriodCreate": {
         "title": "Create period"
+      },
+      "dialogScheduleEntryCreate": {
+        "title": "Create schedule entry"
+      },
+      "dialogScheduleEntryForm": {
+        "endDate": "End date",
+        "endTime": "End time",
+        "startDate": "Start date",
+        "startTime": "Start time"
       }
     },
     "invitation": {
@@ -376,7 +385,14 @@
         "back": "Back",
         "backToContents": "Back to editing content",
         "changeLayout": "Change layout",
-        "layout": "Layout"
+        "copyScheduleEntry": "copy",
+        "copyScheduleEntryDayAfter": "to day after",
+        "copyScheduleEntryAnyTime": "to any time",
+        "copyScheduleEntryDayBefore": "to day before",
+        "deleteScheduleEntry": "delete",
+        "editScheduleEntry": "edit",
+        "layout": "Layout",
+        "options": "Option"
       },
       "sideBarProgram": {
         "title": "Activities on this day"
