@@ -63,13 +63,20 @@ export default {
     scheduleEntryStart: {
       get () { return this.localScheduleEntry.periodOffset },
       set (start) {
-        this.localScheduleEntry.length = this.scheduleEntryEnd - start
+        if (this.scheduleEntryEnd > start) {
+          this.localScheduleEntry.length = this.scheduleEntryEnd - start
+        }
         this.localScheduleEntry.periodOffset = start
       }
     },
     scheduleEntryEnd: {
       get () { return this.scheduleEntryStart + this.localScheduleEntry.length },
-      set (end) { this.localScheduleEntry.length = end - this.scheduleEntryStart }
+      set (end) {
+        if (this.scheduleEntryStart > end) {
+          this.scheduleEntryStart = end - this.localScheduleEntry.length
+        }
+        this.localScheduleEntry.length = end - this.scheduleEntryStart
+      }
     },
 
     startDayOffset: {
