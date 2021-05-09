@@ -165,6 +165,9 @@
     "moduleNameMapper": {
       "^@/(.*)$": "<rootDir>/src/$1"
     },
+    "modulePaths": [
+      "<rootDir>/node_modules/"
+    ],
     "snapshotSerializers": [
       "<rootDir>/node_modules/jest-serializer-vue-tjw"
     ],

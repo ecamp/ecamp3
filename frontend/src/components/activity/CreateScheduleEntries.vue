@@ -45,7 +45,7 @@
   </div>
 </template>
 <script>
-import { defineHelpers } from '@/components/scheduleEntry/dateHelperUTCFormatted.js'
+import { defineHelpers } from '@/../../common/helpers/scheduleEntry/dateHelperUTCFormatted.js'
 
 export default {
   name: 'CreateActivityScheduleEntries',

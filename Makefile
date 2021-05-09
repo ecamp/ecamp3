@@ -24,7 +24,7 @@ run-frontend-vite:
 
 run-printer:
 	docker-compose up -d rabbitmq print-file-server
-	docker-compose run -d --name print --service-ports print npm run dev
+	docker-compose run --name print --service-ports print npm run dev
 	docker-compose up -d worker-print-puppeteer
 	docker-compose up -d worker-print-weasy
 
