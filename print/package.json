@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "nuxt",
+    "dev-debug": "node --inspect node_modules/.bin/nuxt",
     "build": "nuxt build",
     "start": "nuxt start",
     "export": "nuxt export",
@@ -19,8 +20,10 @@
   "dependencies": {
     "@nuxtjs/axios": "5.13.1",
     "@nuxtjs/sentry": "5.0.3",
+    "cssesc": "^3.0.0",
+    "dayjs": "1.10.4",
     "deepmerge": "4.2.2",
-    "hal-json-vuex": "1.2.2",
+    "hal-json-vuex": "2.0.0-alpha.6",
     "nuxt": "2.15.4",
     "pagedjs": "0.1.43",
     "vue-i18n": "8.24.4"

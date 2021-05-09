@@ -1,27 +1,22 @@
 <!--
-Admin screen of a camp: Displays details & periods of a single camp and allows to edit them.
+Basic layout for print preview
 -->
 
 <template>
-  <content-card :title="$tc('views.camp.print.title')">
+  <content-card :title="$tc('views.camp.print.title')" toolbar>
     <v-card-text>
-      <camp-print :camp="camp" />
+      <router-view />
     </v-card-text>
   </content-card>
 </template>
 
 <script>
-import CampPrint from '@/components/camp/CampPrint.vue'
 import ContentCard from '@/components/layout/ContentCard.vue'
 
 export default {
-  name: 'Admin',
+  name: 'Print',
   components: {
-    ContentCard,
-    CampPrint
-  },
-  props: {
-    camp: { type: Function, required: true }
+    ContentCard
   },
   data () {
     return {}

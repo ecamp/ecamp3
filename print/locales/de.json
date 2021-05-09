@@ -1,5 +1,10 @@
 {
-  "welcome": {
-    "print": "Willkommen zu print"
+  "global": {
+    "margin": {
+      "pageCounter": {
+        "page": "Seite",
+        "of": "von"
+      }
+    }
   }
 }

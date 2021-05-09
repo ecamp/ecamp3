@@ -1,5 +1,13 @@
 {
-  "welcome": {
-    "print": "Welcome to print"
+  "global": {
+    "page": {
+      "counter": "Page ${index} of ${total}"
+    },
+    "margin": {
+      "pageCounter": {
+        "page": "Page",
+        "of": "of"
+      }
+    }
   }
 }
