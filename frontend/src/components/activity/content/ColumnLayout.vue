@@ -11,6 +11,7 @@
                       :last="slot === lastColumn"
                       :min-width="minWidth(slot)"
                       :max-width="maxWidth(slot)"
+                      :color="color"
                       @resizing="newWidth => resizeColumn(slot, newWidth)"
                       @resize-stop="saveColumnWidths">
       <draggable-content-nodes :slot-name="slot"
@@ -66,6 +67,10 @@ export default {
       // Also prepare the column width itself and the number of "width units" to the right of each column
       // E.g. {'1': [0, 3, 9], '2': [3, 5, 4], '3': [8, 4, 0]}
       return mapValues(this.localColumnWidths, (width, slot) => [colsLeft[slot], width, 12 - colsLeft[slot] - width])
+    },
+    color () {
+      const h = (parseInt(this.contentNode.id, 16) % 360)
+      return `hsl(${h}, 100%, 30%)`
     }
   },
   watch: {

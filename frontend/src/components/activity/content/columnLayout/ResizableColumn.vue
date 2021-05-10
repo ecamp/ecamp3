@@ -14,7 +14,8 @@
                                    :num-columns="numColumns"
                                    :width="width"
                                    :width-left="widthLeft"
-                                   :width-right="widthRight" />
+                                   :width-right="widthRight"
+                                   :color="color" />
 
     <slot />
   </v-col>
@@ -41,7 +42,8 @@ export default {
     numColumns: { type: Number, default: 1 },
     last: { type: Boolean, default: false }, // whether this is the last column
     minWidth: { type: Number, default: 3 }, // minimum allowed width of this column
-    maxWidth: { type: Number, default: 12 } // maximum allowed width of this column
+    maxWidth: { type: Number, default: 12 }, // maximum allowed width of this column
+    color: { type: String, required: true }
   },
   data () {
     return {
