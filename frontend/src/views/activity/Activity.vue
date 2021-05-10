@@ -65,7 +65,7 @@ Displays a single activity
                outlined
                @click="layoutMode = false">
           <template v-if="$vuetify.breakpoint.smAndUp">
-            <v-icon left>mdi-check</v-icon>
+            <v-icon left>mdi-file-document-edit-outline</v-icon>
             {{ $tc('views.activity.activity.backToContents') }}
           </template>
           <template v-else>{{ $tc('views.activity.activity.back') }}</template>
@@ -129,7 +129,10 @@ Displays a single activity
               </v-row>
             </v-col>
           </v-row>
-          <content-node v-if="activity.rootContentNode" :content-node="activity.rootContentNode()" :layout-mode="layoutMode" />
+          <content-node
+            v-if="activity.rootContentNode"
+            :content-node="activity.rootContentNode()"
+            :layout-mode="layoutMode" />
         </template>
       </v-card-text>
     </content-card>
@@ -211,10 +214,14 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .activity-header {
   margin-bottom: 0;
   border-bottom: 1px solid rgba(0, 0, 0, 0.12);
   padding: 1.5rem 16px;
+
+  @media #{map-get($display-breakpoints, 'sm-and-down')} {
+    border-bottom: none;
+  }
 }
 </style>

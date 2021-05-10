@@ -1,7 +1,8 @@
 <template>
   <component :is="contentNode.contentTypeName"
              v-if="!contentNode.loading"
-             :class="{ 'draggable-cursor': draggable && contentNode.parent !== null }"
+             class="content-node"
+             :class="{ 'draggable': draggable && contentNode.parent !== null }"
              :content-node="contentNode"
              :layout-mode="layoutMode"
              :draggable="draggable"
@@ -40,7 +41,12 @@ export default {
 </script>
 
 <style lang="scss">
-.draggable-cursor {
+.content-node:not(.draggable) + .content-node:not(.draggable) {
+  border-top: 1px solid rgba(0, 0, 0, 0.12) !important;
+  border-radius: 0 !important;
+}
+
+.draggable {
   cursor: pointer;
 
   &:hover {
@@ -52,7 +58,7 @@ export default {
   }
 }
 
-.draggable-cursor [disabled] {
+.draggable [disabled] {
   cursor: move;
 }
 </style>
