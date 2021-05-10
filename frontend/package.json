@@ -150,6 +150,9 @@
       "<rootDir>/.jest/environment.js",
       "jest-canvas-mock"
     ],
+    "setupFilesAfterEnv": [
+      "<rootDir>/.jest/jest-setup.js"
+    ],
     "moduleFileExtensions": [
       "js",
       "jsx",
