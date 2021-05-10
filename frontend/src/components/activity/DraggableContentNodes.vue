@@ -27,7 +27,7 @@
 <script>
 import { keyBy, sortBy } from 'lodash'
 import Draggable from 'vuedraggable'
-import ButtonNestedContentNodeAdd from '@/components/activity/content/common/ButtonNestedContentNodeAdd.vue'
+import ButtonNestedContentNodeAdd from '@/components/activity/ButtonNestedContentNodeAdd.vue'
 
 export default {
   name: 'DraggableContentNodes',

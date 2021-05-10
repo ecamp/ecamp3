@@ -1,18 +1,20 @@
 <template>
   <div class="resize-spacer">
-    <v-btn v-if="!last && $vuetify.breakpoint.mdAndUp"
-           icon
-           outlined
-           color="primary"
-           class="resize-btn"
-           :class="{ dragging }"
-           :style="cssVariables"
-           @mousedown.stop.prevent="mouseDown"
-           @touchstart.stop.prevent="mouseDown">
-      <v-icon>
-        mdi-arrow-split-vertical
-      </v-icon>
-    </v-btn>
+    <slot>
+      <v-btn v-if="$vuetify.breakpoint.mdAndUp"
+             icon
+             outlined
+             color="primary"
+             class="resize-btn"
+             :class="{ dragging }"
+             :style="cssVariables"
+             @mousedown.stop.prevent="mouseDown"
+             @touchstart.stop.prevent="mouseDown">
+        <v-icon>
+          mdi-arrow-split-vertical
+        </v-icon>
+      </v-btn>
+    </slot>
   </div>
 </template>
 <script>
@@ -21,7 +23,6 @@ export default {
   props: {
     width: { type: Number, required: true }, // the column width, in 1/12th units of the full width
     columnHeight: { type: Number, default: 200 },
-    last: { type: Boolean, default: false },
     minWidth: { type: Number, default: 3 },
     maxWidth: { type: Number, default: 12 }
   },

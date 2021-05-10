@@ -91,12 +91,11 @@
 
 import camelCase from 'lodash/camelCase'
 import ApiTextField from '../form/api/ApiTextField.vue'
-import DialogEntityDelete from '@/components/dialog/DialogEntityDelete.vue'
 
 export default {
   name: 'CardContentNode',
   components: {
-    ApiTextField, DialogEntityDelete
+    ApiTextField
   },
   props: {
     contentNode: { type: Object, required: true },
@@ -145,5 +144,3 @@ export default {
 }
 </script>
 
-<style scoped>
-</style>

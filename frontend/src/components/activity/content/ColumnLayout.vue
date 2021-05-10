@@ -2,6 +2,7 @@
   <v-row v-if="!contentNode.loading" no-gutters>
     <resizable-column v-for="(_, slot) in columns"
                       :key="slot"
+                      :parent-content-node="contentNode"
                       :layout-mode="layoutMode"
                       :width-left="relativeColumnWidths[slot][0]"
                       :width="relativeColumnWidths[slot][1]"
@@ -25,7 +26,7 @@
 import { keyBy, mapValues } from 'lodash'
 import { contentNodeMixin } from '@/mixins/contentNodeMixin.js'
 import ResizableColumn from '@/components/activity/content/columnLayout/ResizableColumn.vue'
-import DraggableContentNodes from '@/components/activity/content/common/DraggableContentNodes.vue'
+import DraggableContentNodes from '@/components/activity/DraggableContentNodes.vue'
 
 function cumulativeSumReducer (cumSum, nextElement) {
   cumSum.push((cumSum[cumSum.length - 1] + nextElement))

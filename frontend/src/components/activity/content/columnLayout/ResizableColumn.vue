@@ -6,8 +6,9 @@
                              :min-width="minWidth"
                              :max-width="maxWidth"
                              :column-height="columnHeight"
-                             :last="last"
-                             v-on="$listeners" />
+                             v-on="$listeners">
+      <menu-cardless-content-node v-if="last" :content-node="parentContentNode" />
+    </resizable-column-header>
 
     <mobile-column-width-indicator v-if="layoutMode && $vuetify.breakpoint.smAndDown && numColumns > 1"
                                    :num-columns="numColumns"
@@ -22,14 +23,17 @@
 <script>
 import ResizableColumnHeader from '@/components/activity/content/columnLayout/ResizableColumnHeader.vue'
 import MobileColumnWidthIndicator from '@/components/activity/content/columnLayout/MobileColumnWidthIndicator.vue'
+import MenuCardlessContentNode from '@/components/activity/MenuCardlessContentNode.vue'
 
 export default {
   name: 'ResizableColumn',
   components: {
+    MenuCardlessContentNode,
     MobileColumnWidthIndicator,
     ResizableColumnHeader
   },
   props: {
+    parentContentNode: { type: Object, required: true },
     layoutMode: { type: Boolean, required: true },
     widthLeft: { type: Number, required: true },
     width: { type: Number, required: true }, // the column width, in 1/12th units of the full width

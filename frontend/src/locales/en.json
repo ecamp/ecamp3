@@ -91,6 +91,10 @@
           "startTime": "Start"
         },
         "name": "Scheduled"
+      },
+      "menuCardlessContentNode": {
+        "delete": "Delete",
+        "deletingDisabled": "Must be empty to delete"
       }
     },
     "camp": {
