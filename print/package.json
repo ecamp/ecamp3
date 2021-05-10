@@ -24,7 +24,7 @@
     "dayjs": "1.10.4",
     "deepmerge": "4.2.2",
     "hal-json-vuex": "2.0.0-alpha.6",
-    "nuxt": "2.15.4",
+    "nuxt": "2.15.5",
     "pagedjs": "0.1.43",
     "vue-i18n": "8.24.4"
   },
