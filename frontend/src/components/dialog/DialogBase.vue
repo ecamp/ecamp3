@@ -50,20 +50,31 @@ export default {
     },
     create () {
       this.error = null
-      return this.api.post(this.entityUri, this.entityData).then(this.close, this.onError)
+      const promise = this.api.post(this.entityUri, this.entityData).then(this.close, this.onError)
+      this.$emit('submit')
+      return promise
     },
     update () {
       this.error = null
-      return this.api.patch(this.entityUri, this.entityData).then(this.close, this.onError)
+      const promise = this.api.patch(this.entityUri, this.entityData).then(this.close, this.onError)
+      this.$emit('submit')
+      return promise
     },
     del () {
       this.error = null
-      return this.api.del(this.entityUri).then(this.close, this.onError)
+      const promise = this.api.del(this.entityUri).then(this.close, this.onError)
+      this.$emit('submit')
+      return promise
+    },
+    onSuccess () {
+      this.$emit('success')
+      this.close()
     },
     close () {
       this.showDialog = false
     },
     onError (e) {
+      this.$emit('error', e)
       this.error = e.message
       if (e.response) {
         if (e.response.status === 409 /* Conflict */) {
