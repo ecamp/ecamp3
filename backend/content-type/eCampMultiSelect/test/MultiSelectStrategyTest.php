@@ -3,8 +3,8 @@
 namespace eCamp\ContentType\SingleText\Test;
 
 use Doctrine\Common\DataFixtures\Loader;
-use eCamp\ContentType\Storyboard\Entity\Section;
-use eCamp\ContentType\Storyboard\Service\SectionService;
+use eCamp\ContentType\MultiSelect\Entity\Option;
+use eCamp\ContentType\MultiSelect\Service\OptionService;
 use eCamp\Core\Entity\Activity;
 use eCamp\Core\Entity\Camp;
 use eCamp\Core\Entity\Category;
@@ -21,7 +21,7 @@ use eCamp\LibTest\PHPUnit\AbstractApiControllerTestCase;
 /**
  * @internal
  */
-class StoryboardStrategyTest extends AbstractApiControllerTestCase {
+class MultiSelectStrategyTest extends AbstractApiControllerTestCase {
     /** @var User */
     protected $user;
 
@@ -31,10 +31,10 @@ class StoryboardStrategyTest extends AbstractApiControllerTestCase {
     /** @var Category */
     protected $category;
 
-    /** @var Section */
-    protected $categorySection;
+    /** @var Option */
+    protected $categoryOption;
 
-    private $apiEndpoint = '/api/content-type/storyboards';
+    private $apiEndpoint = '/api/content-type/multiselects';
 
     public function setUp(): void {
         parent::setUp();
@@ -62,8 +62,8 @@ class StoryboardStrategyTest extends AbstractApiControllerTestCase {
         $categoryService = $this->getApplicationServiceLocator()->get(CategoryService::class);
         /** @var ContentNodeService $contentNodeService */
         $contentNodeService = $this->getApplicationServiceLocator()->get(ContentNodeService::class);
-        /** @var SectionService $sectionService */
-        $sectionService = $this->getApplicationServiceLocator()->get(SectionService::class);
+        /** @var OptionService $optionService */
+        $optionService = $this->getApplicationServiceLocator()->get(OptionService::class);
 
         // @var Category $category
         $this->category = $categoryService->create((object) [
@@ -78,36 +78,36 @@ class StoryboardStrategyTest extends AbstractApiControllerTestCase {
         /** @var ContentNode $categoryContentNode */
         $categoryContentNode = $contentNodeService->create((object) [
             'ownerId' => $this->category->getId(),
-            'contentTypeName' => 'Storyboard',
+            'contentTypeName' => 'MultiSelect',
         ]);
-        $this->categorySection = $sectionService->findOneByContentNode($categoryContentNode->getId());
+        /** @var Option $option */
+        $option = $optionService->findOneByContentNode($categoryContentNode->getId());
+        $this->assertFalse($option->getChecked());
+        $this->categoryOption = $option;
 
-        $sectionService->patch($this->categorySection->getId(), (object) [
-            'column1' => 'AAA',
-            'column2' => 'BBB',
-            'column3' => 'CCC',
+        $optionService->patch($this->categoryOption->getId(), (object) [
+            'checked' => true,
         ]);
     }
 
     public function testExtract(): void {
-        $this->dispatch("{$this->apiEndpoint}/{$this->categorySection->getId()}", 'GET');
+        $this->dispatch("{$this->apiEndpoint}/{$this->categoryOption->getId()}", 'GET');
 
         $this->assertResponseStatusCode(200);
 
         $expectedBody = <<<JSON
             {
-                "id": "{$this->categorySection->getId()}",
+                "id": "{$this->categoryOption->getId()}",
                 "pos": 0,
-                "column1": "AAA",
-                "column2": "BBB",
-                "column3": "CCC"
+                "translateKey": "key",
+                "checked": true
             }
         JSON;
 
         $expectedLinks = <<<JSON
             {
                 "self": { 
-                    "href": "http://{$this->host}{$this->apiEndpoint}/{$this->categorySection->getId()}"
+                    "href": "http://{$this->host}{$this->apiEndpoint}/{$this->categoryOption->getId()}"
                 },
                 "contentNode": {
                     "href": "http://{$this->host}/api/content-nodes/{$this->category->getRootContentNode()->getId()}"
@@ -123,8 +123,8 @@ class StoryboardStrategyTest extends AbstractApiControllerTestCase {
     public function testCreateFromPrototype(): void {
         /** @var ActivityService $activityService */
         $activityService = $this->getApplicationServiceLocator()->get(ActivityService::class);
-        /** @var SectionService $sectionService */
-        $sectionService = $this->getApplicationServiceLocator()->get(SectionService::class);
+        /** @var OptionService $optionService */
+        $optionService = $this->getApplicationServiceLocator()->get(OptionService::class);
 
         /// Create Activity from Category
         ///-------------------------------
@@ -140,10 +140,9 @@ class StoryboardStrategyTest extends AbstractApiControllerTestCase {
         $activityContentNode = $activity->getRootContentNode();
         $this->assertNotNull($activityContentNode);
 
-        /** @var Section $activitySection */
-        $activitySection = $sectionService->findOneByContentNode($activityContentNode);
-        $this->assertEquals('AAA', $activitySection->getColumn1());
-        $this->assertEquals('BBB', $activitySection->getColumn2());
-        $this->assertEquals('CCC', $activitySection->getColumn3());
+        /** @var Option $activityOption */
+        $activityOption = $optionService->findOneByContentNode($activityContentNode);
+        $this->assertTrue($activityOption->getChecked());
+        $this->assertEquals('key', $activityOption->getTranslateKey());
     }
 }
