@@ -133,6 +133,14 @@ class ContentNodeService extends AbstractEntityService {
             /** @var ContentNode $parent */
             $parent = $this->findRelatedEntity(ContentNode::class, $data, 'parentId');
             $this->assertAllowed($parent, Acl::REST_PRIVILEGE_PATCH);
+
+            // Disallow dragging across camps for now, because that has further implications
+            if ($parent->getCamp()->getId() !== $contentNode->getCamp()->getId()) {
+                throw (new EntityValidationException())->setMessages([
+                    'parentId' => ['notSameCamp' => "Moving ContentNodes across camps is not implemented. Trying to move from camp {$parent->getCamp()->getId()} to camp {$contentNode->getCamp()->getId()}"],
+                ]);
+            }
+
             $contentNode->setParent($parent);
         }
 
