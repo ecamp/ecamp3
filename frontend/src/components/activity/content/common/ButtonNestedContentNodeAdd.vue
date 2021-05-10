@@ -58,7 +58,6 @@ export default {
         slot: this.slotName
       })
       this.parentContentNode.owner().$reload()
-      this.parentContentNode.children().$reload()
     }
   }
 }

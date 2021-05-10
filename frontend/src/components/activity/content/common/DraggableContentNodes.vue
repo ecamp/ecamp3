@@ -56,7 +56,10 @@ export default {
     },
     contentNodeIds () {
       return sortBy(
-        this.parentContentNode.children().items.filter(child => child.slot === this.slotName),
+        // We have to work with the complete list of contentNodes instead of parentContentNode.children()
+        // in order to allow dragging a node to a new parent
+        this.parentContentNode.owner().contentNodes().items
+          .filter(child => child.slot === this.slotName && child.parent().id === this.parentContentNode.id),
         'position'
       ).map(child => child.id)
     },
@@ -79,8 +82,12 @@ export default {
     },
     async saveReorderedChildren () {
       let position = 0
-      const payload = Object.fromEntries(this.draggableContentNodeIds.map(id => [id, { slot: this.slotName, position: position++ }]))
-      this.api.patch(await this.api.href(this.parentContentNode, 'children'), payload)
+      const payload = Object.fromEntries(this.draggableContentNodeIds.map(id => [id, {
+        slot: this.slotName,
+        position: position++,
+        parentId: this.parentContentNode.id
+      }]))
+      this.api.patch(await this.api.href(this.parentContentNode.owner(), 'contentNodes'), payload)
     }
   }
 }
