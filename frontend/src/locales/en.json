@@ -78,6 +78,13 @@
   },
   "components": {
     "activity": {
+      "content": {
+        "columnLayout": {
+          "resizableColumn": {
+            "addColumn": "Add a column"
+          }
+        }
+      },
       "contentNode": {
         "delete": "Delete",
         "editName": "Rename",

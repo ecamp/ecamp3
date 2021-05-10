@@ -18,6 +18,10 @@
                                :layout-mode="layoutMode"
                                :parent-content-node="contentNode" />
 
+      <template #menu>
+        <column-operations :content-node="contentNode" :min-column-width="minWidth(slot)" :total-width="12"/>
+      </template>
+
     </resizable-column>
   </v-row>
 </template>
@@ -28,6 +32,7 @@ import { keyBy, mapValues } from 'lodash'
 import { contentNodeMixin } from '@/mixins/contentNodeMixin.js'
 import ResizableColumn from '@/components/activity/content/columnLayout/ResizableColumn.vue'
 import DraggableContentNodes from '@/components/activity/DraggableContentNodes.vue'
+import ColumnOperations from '@/components/activity/content/columnLayout/ColumnOperations.vue'
 
 function cumulativeSumReducer (cumSum, nextElement) {
   cumSum.push((cumSum[cumSum.length - 1] + nextElement))
@@ -37,6 +42,7 @@ function cumulativeSumReducer (cumSum, nextElement) {
 export default {
   name: 'ColumnLayout',
   components: {
+    ColumnOperations,
     DraggableContentNodes,
     ResizableColumn
   },

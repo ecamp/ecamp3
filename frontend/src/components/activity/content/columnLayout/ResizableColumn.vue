@@ -7,7 +7,9 @@
                              :max-width="maxWidth"
                              :column-height="columnHeight"
                              v-on="$listeners">
-      <menu-cardless-content-node v-if="last" :content-node="parentContentNode" />
+      <menu-cardless-content-node v-if="last" :content-node="parentContentNode">
+        <slot name="menu" />
+      </menu-cardless-content-node>
     </resizable-column-header>
 
     <mobile-column-width-indicator v-if="layoutMode && $vuetify.breakpoint.smAndDown && numColumns > 1"

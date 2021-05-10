@@ -11,6 +11,7 @@
       </v-btn>
     </template>
     <v-list>
+      <slot></slot>
       <dialog-entity-delete v-if="!contentNode.children()._meta.loading"
                             :entity="contentNode">
         <template #activator="{ on }">
