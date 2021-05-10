@@ -4,12 +4,12 @@
                v-model="localContentNodeIds"
                :disabled="!draggingEnabled"
                group="contentNodes"
-               class="d-flex flex-column"
+               class="draggable-area d-flex flex-column pb-10"
                :class="{ 'column-min-height': layoutMode }"
                @start="startDrag"
                @add="finishDrag"
                @update="finishDrag"
-               @remove="finishDrag(false)">
+               @end="cleanupDrag">
       <content-node v-for="id in draggableContentNodeIds"
                     :key="id"
                     class="content-node"
@@ -72,13 +72,21 @@ export default {
       this.localContentNodeIds = this.contentNodeIds
     }
   },
+  beforeDestroy () {
+    this.cleanupDrag()
+  },
   methods: {
     startDrag () {
       document.body.classList.add('dragging')
+      document.documentElement.addEventListener('mouseup', this.cleanupDrag)
     },
-    finishDrag (save = true) {
+    finishDrag () {
+      this.cleanupDrag()
+      this.saveReorderedChildren()
+    },
+    cleanupDrag () {
       document.body.classList.remove('dragging')
-      if (save) this.saveReorderedChildren()
+      document.documentElement.removeEventListener('mouseup', this.cleanupDrag)
     },
     async saveReorderedChildren () {
       let position = 0
@@ -92,8 +100,28 @@ export default {
   }
 }
 </script>
-<style scoped>
+<style scoped lang="scss">
 .column-min-height {
   min-height: 10rem;
+}
+
+.dragging .draggable-area {
+  position: relative;
+  z-index: 100;
+
+  &::after {
+    pointer-events: none;
+    display: block;
+    position: absolute;
+    top: 4px;
+    bottom: 4px;
+    left: 4px;
+    right: 4px;
+    border-radius: 5px;
+    border: 2px dashed map-get($blue-grey, 'base');
+    background: map-get($blue-grey, 'lighten-4');
+    opacity: 40%;
+    content: '';
+  }
 }
 </style>

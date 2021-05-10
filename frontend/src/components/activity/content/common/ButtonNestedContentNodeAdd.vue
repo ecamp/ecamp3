@@ -2,7 +2,7 @@
   <v-row v-if="layoutMode"
          no-gutters
          justify="center"
-         class="my-3">
+         class="mb-3">
     <v-menu bottom
             left
             offset-y>
