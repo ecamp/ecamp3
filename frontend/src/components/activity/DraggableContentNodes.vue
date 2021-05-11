@@ -5,7 +5,7 @@
                :disabled="!draggingEnabled"
                group="contentNodes"
                class="draggable-area d-flex flex-column pb-10"
-               :class="{ 'column-min-height': layoutMode }"
+               :class="{ 'min-height': layoutMode }"
                @start="startDrag"
                @add="finishDrag"
                @update="finishDrag"
@@ -104,7 +104,7 @@ export default {
 }
 </script>
 <style scoped lang="scss">
-.column-min-height {
+.min-height {
   min-height: 10rem;
 }
 
