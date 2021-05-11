@@ -1,6 +1,5 @@
 <template>
   <v-col class="resizable-col" :class="{ [widthClass]: true, 'layout-mode': layoutMode, 'top-border': showHeader }">
-
     <resizable-column-header v-if="layoutMode && $vuetify.breakpoint.mdAndUp && showHeader"
                              :width="width"
                              :min-width="minWidth"

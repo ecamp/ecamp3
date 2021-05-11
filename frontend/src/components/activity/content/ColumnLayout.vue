@@ -20,9 +20,8 @@
                                :parent-content-node="contentNode" />
 
       <template #menu>
-        <column-operations :content-node="contentNode" :min-column-width="minWidth(slot)" :total-width="12"/>
+        <column-operations :content-node="contentNode" :min-column-width="minWidth(slot)" :total-width="12" />
       </template>
-
     </resizable-column>
   </v-row>
 </template>

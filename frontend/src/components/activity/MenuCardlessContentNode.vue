@@ -11,7 +11,7 @@
       </v-btn>
     </template>
     <v-list>
-      <slot></slot>
+      <slot />
       <dialog-entity-delete v-if="showDelete"
                             :entity="contentNode"
                             @error="deletingFailed">
