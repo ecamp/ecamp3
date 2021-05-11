@@ -1,7 +1,7 @@
 <template>
-  <v-col class="resizable-col" :class="{ [widthClass]: true, 'layout-mode': layoutMode }">
+  <v-col class="resizable-col" :class="{ [widthClass]: true, 'layout-mode': layoutMode, 'top-border': showHeader }">
 
-    <resizable-column-header v-if="layoutMode && $vuetify.breakpoint.mdAndUp"
+    <resizable-column-header v-if="layoutMode && $vuetify.breakpoint.mdAndUp && showHeader"
                              :width="width"
                              :min-width="minWidth"
                              :max-width="maxWidth"
@@ -12,7 +12,7 @@
       </menu-cardless-content-node>
     </resizable-column-header>
 
-    <mobile-column-width-indicator v-if="layoutMode && $vuetify.breakpoint.smAndDown && numColumns > 1"
+    <mobile-column-width-indicator v-if="layoutMode && $vuetify.breakpoint.smAndDown && numColumns > 1 && showHeader"
                                    :num-columns="numColumns"
                                    :width="width"
                                    :width-left="widthLeft"
@@ -45,7 +45,8 @@ export default {
     last: { type: Boolean, default: false }, // whether this is the last column
     minWidth: { type: Number, default: 3 }, // minimum allowed width of this column
     maxWidth: { type: Number, default: 12 }, // maximum allowed width of this column
-    color: { type: String, required: true }
+    color: { type: String, required: true },
+    showHeader: { type: Boolean, default: true }
   },
   data () {
     return {
@@ -68,7 +69,9 @@ export default {
 .resizable-col {
 
   @media #{map-get($display-breakpoints, 'sm-and-down')} {
-    border-top: 1px solid rgba(0, 0, 0, 0.32);
+    &.top-border {
+      border-top: 1px solid rgba(0, 0, 0, 0.32);
+    }
   }
 
   &:not(.layout-mode) {

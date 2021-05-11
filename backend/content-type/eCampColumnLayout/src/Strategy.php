@@ -11,13 +11,16 @@ class Strategy extends ContentTypeStrategyBase {
         ['slot' => '1', 'width' => 6],
         ['slot' => '2', 'width' => 6],
     ]];
+    public static array $SINGLE_COLUMN_JSON_CONFIG = ['columns' => [
+        ['slot' => '1', 'width' => 12],
+    ]];
 
     public function contentNodeExtract(ContentNode $contentNode): array {
         return [];
     }
 
-    public function contentNodeCreated(ContentNode $contentNode): void {
-        $contentNode->setJsonConfig(Strategy::$DEFAULT_JSON_CONFIG);
+    public function contentNodeCreated(ContentNode $contentNode, array $jsonConfig = null): void {
+        $contentNode->setJsonConfig(null == $jsonConfig ? Strategy::$DEFAULT_JSON_CONFIG : $jsonConfig);
     }
 
     public function validateContentNode(ContentNode $contentNode): void {

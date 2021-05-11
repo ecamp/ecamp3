@@ -5,6 +5,7 @@ namespace eCamp\CoreData\Prod;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
+use eCamp\ContentType\ColumnLayout\Strategy;
 use eCamp\Core\Entity\Camp;
 use eCamp\Core\Entity\Category;
 use eCamp\Core\Entity\ContentNode;
@@ -125,7 +126,7 @@ class CategoryPrototypeData extends AbstractFixture implements DependentFixtureI
         /** @var ContentType $columnLayout */
         $columnLayout = $this->getReference(ContentTypeData::$COLUMNLAYOUT);
         $contentNode->setContentType($columnLayout);
-        $this->getContainer()->get($columnLayout->getStrategyClass())->contentNodeCreated($contentNode);
+        $this->getContainer()->get($columnLayout->getStrategyClass())->contentNodeCreated($contentNode, Strategy::$SINGLE_COLUMN_JSON_CONFIG);
         $manager->persist($contentNode);
 
         return $contentNode;

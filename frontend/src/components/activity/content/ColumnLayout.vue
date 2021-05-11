@@ -12,6 +12,7 @@
                       :min-width="minWidth(slot)"
                       :max-width="maxWidth(slot)"
                       :color="color"
+                      :show-header="!isRoot"
                       @resizing="newWidth => resizeColumn(slot, newWidth)"
                       @resize-stop="saveColumnWidths">
       <draggable-content-nodes :slot-name="slot"
@@ -77,6 +78,9 @@ export default {
     color () {
       const h = (parseInt(this.contentNode.id, 16) % 360)
       return `hsl(${h}, 100%, 30%)`
+    },
+    isRoot () {
+      return this.contentNode._meta.self === this.contentNode.root()._meta.self
     }
   },
   watch: {
