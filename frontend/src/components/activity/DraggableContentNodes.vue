@@ -59,7 +59,7 @@ export default {
         // We have to work with the complete list of contentNodes instead of parentContentNode.children()
         // in order to allow dragging a node to a new parent
         this.parentContentNode.owner().contentNodes().items
-          .filter(child => child.slot === this.slotName && child.parent().id === this.parentContentNode.id),
+          .filter(child => child.slot === this.slotName && child.parent !== null && child.parent().id === this.parentContentNode.id),
         'position'
       ).map(child => child.id)
     },
