@@ -12,8 +12,9 @@
     </template>
     <v-list>
       <slot></slot>
-      <dialog-entity-delete v-if="!contentNode.children()._meta.loading"
-                            :entity="contentNode">
+      <dialog-entity-delete v-if="showDelete"
+                            :entity="contentNode"
+                            @error="deletingFailed">
         <template #activator="{ on }">
           <v-list-item :disabled="deletingDisabled" v-on="on">
             <v-list-item-icon>
@@ -40,6 +41,12 @@ export default {
     contentNode: { type: Object, required: true }
   },
   computed: {
+    isRoot () {
+      return this.contentNode._meta.self === this.contentNode.root()._meta.self
+    },
+    showDelete () {
+      return !this.contentNode.children()._meta.loading && !this.isRoot
+    },
     deletingDisabled () {
       return this.contentNode.children().items.length > 0
     },
@@ -47,6 +54,11 @@ export default {
       return this.deletingDisabled
         ? this.$tc('components.activity.menuCardlessContentNode.deletingDisabled')
         : this.$tc('components.activity.menuCardlessContentNode.delete')
+    }
+  },
+  methods: {
+    deletingFailed () {
+      this.contentNode.owner().contentNodes().$reload()
     }
   }
 }
