@@ -6,7 +6,7 @@ class EDateInterval extends \DateInterval {
     /**
      * DateTime to calculate the intervals always from the same moment.
      */
-    const FIXED_DATE_TIME = '2021-01-01 00:00:00Z';
+    public const FIXED_DATE_TIME = '2021-01-01 00:00:00Z';
 
     public static function ofInterval(\DateInterval $dateInterval): EDateInterval {
         $intervalSeconds = self::totalSecondsOf($dateInterval);

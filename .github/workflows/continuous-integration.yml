@@ -30,7 +30,7 @@ jobs:
 
       - uses: OskarStark/php-cs-fixer-ga@3.0.0
         with:
-          args: --dry-run --diff --config=backend/.php_cs
+          args: --dry-run --diff --config=backend/.php-cs-fixer.php
 
   frontend-eslint:
     name: "Lint: Frontend (ESLint)"

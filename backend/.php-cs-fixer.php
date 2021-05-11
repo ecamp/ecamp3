@@ -7,8 +7,8 @@ $finder = PhpCsFixer\Finder::create()
     ->in(__DIR__.'/content-type')
     ->in(__DIR__.'/public')
 ;
-
-return PhpCsFixer\Config::create()
+$config = new \PhpCsFixer\Config();
+return $config
     ->setRules([
         '@PSR2' => true,
         '@DoctrineAnnotation' => true,

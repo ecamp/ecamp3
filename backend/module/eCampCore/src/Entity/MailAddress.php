@@ -11,8 +11,8 @@ use eCamp\Lib\Entity\BaseEntity;
  * @ORM\Entity
  */
 class MailAddress extends BaseEntity {
-    const STATE_TRUSTED = 'trusted';
-    const STATE_UNTRUSTED = 'untrusted';
+    public const STATE_TRUSTED = 'trusted';
+    public const STATE_UNTRUSTED = 'untrusted';
 
     /**
      * @ORM\Column(type="string", length=16, nullable=false)

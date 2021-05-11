@@ -8,10 +8,10 @@ use Laminas\Authentication\Adapter\AdapterInterface;
 use Laminas\Authentication\Result;
 
 class LoginPassword implements AdapterInterface {
-    const NOT_FOUND_MESSAGE = 'Unknown login!';
-    const CREDINTIALS_MESSAGE = 'Wrong Password!';
-    const NOT_ACTIVATED_MESSAGE = 'Account is not yet activated!';
-    const UNKNOWN_FAILURE = 'Unknown error!';
+    public const NOT_FOUND_MESSAGE = 'Unknown login!';
+    public const CREDINTIALS_MESSAGE = 'Wrong Password!';
+    public const NOT_ACTIVATED_MESSAGE = 'Account is not yet activated!';
+    public const UNKNOWN_FAILURE = 'Unknown error!';
 
     /**
      * @var User

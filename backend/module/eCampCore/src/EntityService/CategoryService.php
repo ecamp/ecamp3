@@ -17,7 +17,7 @@ use eCampApi\V1\Rest\Category\CategoryCollection;
 use Laminas\Authentication\AuthenticationService;
 
 class CategoryService extends AbstractEntityService {
-    const DEFAULT_CONTENT_TYPE_NAME = 'ColumnLayout';
+    public const DEFAULT_CONTENT_TYPE_NAME = 'ColumnLayout';
 
     private ContentNodeService $contentNodeService;
 
