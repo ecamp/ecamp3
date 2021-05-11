@@ -59,7 +59,7 @@ export default {
         // We have to work with the complete list of contentNodes instead of parentContentNode.children()
         // in order to allow dragging a node to a new parent
         this.parentContentNode.owner().contentNodes().items
-          .filter(child => child.slot === this.slotName && child.parent !== null && child.parent().id === this.parentContentNode.id),
+          .filter(child => child.slot === this.slotName && child.parent !== null && child.parent()._meta.self === this.parentContentNode._meta.self),
         'position'
       ).map(child => child.id)
     },
@@ -68,8 +68,11 @@ export default {
     }
   },
   watch: {
-    contentNodeIds () {
-      this.localContentNodeIds = this.contentNodeIds
+    contentNodeIds: {
+      immediate: true,
+      handler () {
+        this.localContentNodeIds = this.contentNodeIds
+      }
     }
   },
   beforeDestroy () {
@@ -95,7 +98,7 @@ export default {
         position: position++,
         parentId: this.parentContentNode.id
       }]))
-      this.api.patch(await this.api.href(this.parentContentNode.owner(), 'contentNodes'), payload)
+      this.parentContentNode.owner().contentNodes().$patch(payload)
     }
   }
 }

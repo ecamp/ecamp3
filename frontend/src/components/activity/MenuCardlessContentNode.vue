@@ -44,11 +44,16 @@ export default {
     isRoot () {
       return this.contentNode._meta.self === this.contentNode.root()._meta.self
     },
+    children () {
+      return this.contentNode.owner().contentNodes().items.filter(child => {
+        return child.parent !== null && child.parent()._meta.self === this.contentNode._meta.self
+      })
+    },
     showDelete () {
-      return !this.contentNode.children()._meta.loading && !this.isRoot
+      return !this.isRoot
     },
     deletingDisabled () {
-      return this.contentNode.children().items.length > 0
+      return this.children.length > 0
     },
     deleteCaption () {
       return this.deletingDisabled
