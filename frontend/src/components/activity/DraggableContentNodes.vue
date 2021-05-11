@@ -77,7 +77,7 @@ export default {
   },
   methods: {
     startDrag () {
-      document.body.classList.add('dragging')
+      document.body.classList.add('dragging', 'dragging-content-node')
       document.documentElement.addEventListener('mouseup', this.cleanupDrag)
     },
     finishDrag () {
@@ -85,7 +85,7 @@ export default {
       this.saveReorderedChildren()
     },
     cleanupDrag () {
-      document.body.classList.remove('dragging')
+      document.body.classList.remove('dragging', 'dragging-content-node')
       document.documentElement.removeEventListener('mouseup', this.cleanupDrag)
     },
     async saveReorderedChildren () {
@@ -105,7 +105,7 @@ export default {
   min-height: 10rem;
 }
 
-.dragging .draggable-area {
+.dragging-content-node .draggable-area {
   position: relative;
   z-index: 100;
 
