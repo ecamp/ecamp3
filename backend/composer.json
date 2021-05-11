@@ -47,7 +47,7 @@
         "laminas/laminas-developer-tools": "2.1.1",
         "laminas/laminas-code": "4.2.2",
         "laminas/laminas-test": "3.4.2",
-        "friendsofphp/php-cs-fixer": "2.19.0",
+        "friendsofphp/php-cs-fixer": "3.0.0",
         "filp/whoops": "2.12.1",
         "symfony/filesystem": "5.2.7"
     },
