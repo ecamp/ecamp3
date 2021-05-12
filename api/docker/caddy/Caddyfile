@@ -7,7 +7,6 @@
             experimental_http3
         }
     }
-    auto_https disable_redirects
 }
 
 {$SERVER_NAME}
