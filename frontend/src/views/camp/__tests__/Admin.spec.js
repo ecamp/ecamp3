@@ -38,8 +38,8 @@ describe('Admin view', () => {
       stubs: ['camp-settings', 'camp-address', 'camp-periods', 'camp-categories', 'camp-material-lists']
     })
 
-    getByText('components.camp.campDangerzone.title')
-    getByText('components.camp.campDangerzone.deleteCamp.title')
+    expect(getByText('components.camp.campDangerzone.title')).toBeInTheDocument()
+    expect(getByText('components.camp.campDangerzone.deleteCamp.title')).toBeInTheDocument()
   })
 
   it('doesn\'t show the danger zone when the user has a member role', async () => {
