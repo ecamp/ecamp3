@@ -137,7 +137,7 @@ class ContentNodeService extends AbstractEntityService {
             // Disallow dragging across camps for now, because that has further implications
             if ($parent->getCamp()->getId() !== $contentNode->getCamp()->getId()) {
                 throw (new EntityValidationException())->setMessages([
-                    'parentId' => ['notSameCamp' => "Moving ContentNodes across camps is not implemented. Trying to move from camp {$parent->getCamp()->getId()} to camp {$contentNode->getCamp()->getId()}"],
+                    'parentId' => ['notSameCamp' => "Moving ContentNodes across camps is not implemented. Trying to move from camp {$contentNode->getCamp()->getId()} to camp {$parent->getCamp()->getId()}"],
                 ]);
             }
 
