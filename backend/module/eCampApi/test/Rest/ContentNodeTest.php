@@ -149,7 +149,7 @@ JSON;
         $this->assertObjectHasAttribute('validation_messages', $this->getResponseContent());
         $this->assertObjectHasAttribute('parentId', $this->getResponseContent()->validation_messages);
         $this->assertObjectHasAttribute('notSameCamp', $this->getResponseContent()->validation_messages->parentId);
-        $this->assertEquals('Moving ContentNodes across camps is not implemented. Trying to move from camp ' . $this->contentNode->getCamp()->getId() . ' to camp ' . $this->contentNode1Camp2->getCamp()->getId(), $this->getResponseContent()->validation_messages->parentId->notSameCamp);
+        $this->assertEquals('Moving ContentNodes across camps is not implemented. Trying to move from camp '.$this->contentNode->getCamp()->getId().' to camp '.$this->contentNode1Camp2->getCamp()->getId(), $this->getResponseContent()->validation_messages->parentId->notSameCamp);
     }
 
     public function testDeleteForbidden(): void {
