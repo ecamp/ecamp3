@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "52c543b72688407467d6cd49696bed31",
+    "content-hash": "7697ecd58943c09719c953052aba6017",
     "packages": [
         {
             "name": "assetic/framework",
@@ -8153,16 +8153,16 @@
         },
         {
             "name": "swaggest/json-schema",
-            "version": "v0.12.31",
+            "version": "v0.12.32",
             "source": {
                 "type": "git",
                 "url": "https://github.com/swaggest/php-json-schema.git",
-                "reference": "a4adcdbb38f38a19d3f1801150822172cf1c4853"
+                "reference": "f92567a1f4fcb0296758b471654171acfdb6031b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/swaggest/php-json-schema/zipball/a4adcdbb38f38a19d3f1801150822172cf1c4853",
-                "reference": "a4adcdbb38f38a19d3f1801150822172cf1c4853",
+                "url": "https://api.github.com/repos/swaggest/php-json-schema/zipball/f92567a1f4fcb0296758b471654171acfdb6031b",
+                "reference": "f92567a1f4fcb0296758b471654171acfdb6031b",
                 "shasum": ""
             },
             "require": {
@@ -8173,8 +8173,8 @@
                 "swaggest/json-diff": "^3.5.1"
             },
             "require-dev": {
-                "phpunit/php-code-coverage": "2.2.4",
-                "phpunit/phpunit": "4.8.35"
+                "phpunit/php-code-coverage": "^4",
+                "phpunit/phpunit": "^5"
             },
             "type": "library",
             "autoload": {
@@ -8196,9 +8196,9 @@
             "support": {
                 "email": "vearutop@gmail.com",
                 "issues": "https://github.com/swaggest/php-json-schema/issues",
-                "source": "https://github.com/swaggest/php-json-schema/tree/v0.12.31"
+                "source": "https://github.com/swaggest/php-json-schema/tree/v0.12.32"
             },
-            "time": "2020-09-21T09:31:21+00:00"
+            "time": "2021-05-12T14:36:39+00:00"
         },
         {
             "name": "symfony/console",
