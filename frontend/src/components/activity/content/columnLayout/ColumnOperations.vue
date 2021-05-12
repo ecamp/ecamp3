@@ -63,7 +63,7 @@ export default {
     },
     removeColumn () {
       const jsonConfig = cloneDeep(this.contentNode.jsonConfig)
-      jsonConfig.columns = adjustColumnWidths(jsonConfig.columns.filter(col => col.slot !== this.removableColumn))
+      jsonConfig.columns = adjustColumnWidths(jsonConfig.columns.filter(col => col.slot !== this.removableColumn), this.minColumnWidth, this.totalWidth)
       this.contentNode.$patch({ jsonConfig })
     }
   }
