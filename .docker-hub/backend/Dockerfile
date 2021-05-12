@@ -8,7 +8,7 @@ COPY backend .
 RUN composer di-generate-aot
 
 # production stage
-FROM php:8.0.6-apache@sha256:851f33ebaeb9153d76b64def6b5db80c65a35c77fefb47e9c01bfd49fef1cfff AS production-stage
+FROM php:8.0.6-apache@sha256:c88af6c8d5ac897104589d98a48eb6e5db6deceb0cd129cf5c61863fda37a2c6 AS production-stage
 WORKDIR /app
 ENV env=prod
 RUN apt-get -y update && apt-get -y upgrade && apt-get -y install libxml2-dev curl unzip iproute2 libonig-dev && docker-php-ext-install pdo pdo_mysql xml
