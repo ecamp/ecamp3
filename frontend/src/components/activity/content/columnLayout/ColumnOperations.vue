@@ -38,7 +38,7 @@ export default {
     },
     children () {
       return this.contentNode.owner().contentNodes().items.filter(child => {
-        return child.parent !== null && child.parent().id === this.contentNode.id
+        return child.parent !== null && child.parent()._meta.self === this.contentNode._meta.self
       })
     },
     childrenBySlot () {
