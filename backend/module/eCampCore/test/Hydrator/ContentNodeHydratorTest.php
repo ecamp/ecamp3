@@ -78,7 +78,7 @@ class DummyContentTypeStrategy implements ContentTypeStrategyInterface {
         ];
     }
 
-    public function contentNodeCreated(ContentNode $contentNode): void {
+    public function contentNodeCreated(ContentNode $contentNode, ?ContentNode $prototype = null): void {
     }
 
     public function validateContentNode(ContentNode $contentNode): void {

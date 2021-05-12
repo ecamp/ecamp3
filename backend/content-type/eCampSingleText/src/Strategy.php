@@ -3,6 +3,7 @@
 namespace eCamp\ContentType\SingleText;
 
 use Doctrine\ORM\ORMException;
+use eCamp\ContentType\SingleText\Entity\SingleText;
 use eCamp\ContentType\SingleText\Service\SingleTextService;
 use eCamp\Core\ContentType\ContentTypeStrategyBase;
 use eCamp\Core\Entity\ContentNode;
@@ -34,8 +35,14 @@ class Strategy extends ContentTypeStrategyBase {
      * @throws NoAccessException
      * @throws ORMException
      */
-    public function contentNodeCreated(ContentNode $contentNode): void {
-        $richtext = $this->singleTextService->createEntity([], $contentNode);
+    public function contentNodeCreated(ContentNode $contentNode, ?ContentNode $prototype = null): void {
+        $data = [];
+        if (isset($prototype)) {
+            /** @var SingleText $singleText */
+            $singleText = $this->singleTextService->findOneByContentNode($prototype->getId());
+            $data = ['text' => $singleText->getText()];
+        }
+        $richtext = $this->singleTextService->createEntity($data, $contentNode);
         $this->getServiceUtils()->emPersist($richtext);
     }
 }

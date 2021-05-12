@@ -4,12 +4,13 @@ namespace eCamp\ContentType\MultiSelect\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use eCamp\Core\ContentType\BaseContentTypeEntity;
+use eCamp\Lib\Entity\SortableEntityInterface;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="content_type_multiselect_option")
  */
-class Option extends BaseContentTypeEntity {
+class Option extends BaseContentTypeEntity implements SortableEntityInterface {
     /**
      * @ORM\Column(type="integer", nullable=false)
      */

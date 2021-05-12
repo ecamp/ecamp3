@@ -16,8 +16,10 @@ class Strategy extends ContentTypeStrategyBase {
         return [];
     }
 
-    public function contentNodeCreated(ContentNode $contentNode): void {
-        $contentNode->setJsonConfig(Strategy::$DEFAULT_JSON_CONFIG);
+    public function contentNodeCreated(ContentNode $contentNode, ?ContentNode $prototype = null): void {
+        if (null == $contentNode->getConfig()) {
+            $contentNode->setJsonConfig(Strategy::$DEFAULT_JSON_CONFIG);
+        }
     }
 
     public function validateContentNode(ContentNode $contentNode): void {

@@ -45,11 +45,7 @@ class ContentNodeService extends AbstractEntityService {
         /** @var ContentNode $contentNode */
         $contentNode = $this->create((object) [
             'ownerId' => $owner->getId(),
-            'contentTypeId' => $prototype->getContentType()->getId(),
-            'instanceName' => $prototype->getInstanceName(),
-            'slot' => $prototype->getSlot(),
-            'position' => $prototype->getPosition(),
-            'config' => $prototype->getConfig(),
+            'prototypeId' => $prototype->getId(),
         ]);
 
         foreach ($prototype->getChildren() as $childPrototype) {
@@ -67,6 +63,29 @@ class ContentNodeService extends AbstractEntityService {
      * @throws NoAccessException
      */
     protected function createEntity($data): ContentNode {
+        /** @var ContentNode $prototype */
+        $prototype = null;
+
+        if (isset($data->prototypeId)) {
+            /** @var ContentNode $prototype */
+            $prototype = $this->findRelatedEntity(ContentNode::class, $data, 'prototypeId');
+            if (!isset($data->contentTypeId)) {
+                $data->contentTypeId = $prototype->getContentType()->getId();
+            }
+            if (!isset($data->instanceName)) {
+                $data->instanceName = $prototype->getInstanceName();
+            }
+            if (!isset($data->slot)) {
+                $data->slot = $prototype->getSlot();
+            }
+            if (!isset($data->position)) {
+                $data->position = $prototype->getPosition();
+            }
+            if (!isset($data->jsonConfig)) {
+                $data->jsonConfig = $prototype->getConfig();
+            }
+        }
+
         /** @var ContentNode $contentNode */
         $contentNode = parent::createEntity($data);
 
@@ -102,7 +121,7 @@ class ContentNodeService extends AbstractEntityService {
         $contentNode->setContentType($contentType);
 
         $strategy = $this->contentTypeStrategyProvider->get($contentType);
-        $strategy->contentNodeCreated($contentNode);
+        $strategy->contentNodeCreated($contentNode, $prototype);
 
         return $contentNode;
     }

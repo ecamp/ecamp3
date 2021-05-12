@@ -8,7 +8,7 @@ use eCamp\Lib\Service\EntityValidationException;
 interface ContentTypeStrategyInterface {
     public function contentNodeExtract(ContentNode $contentNode): array;
 
-    public function contentNodeCreated(ContentNode $contentNode): void;
+    public function contentNodeCreated(ContentNode $contentNode, ?ContentNode $prototype = null): void;
 
     /**
      * @throws EntityValidationException
