@@ -38,7 +38,7 @@
         "enqueue/amqp-bunny": "0.10.9",
         "slm/mail": "3.3",
         "roave/better-reflection": "4.12.2",
-        "swaggest/json-schema": "0.12.31"
+        "swaggest/json-schema": "0.12.32"
     },
     "require-dev": {
         "phpunit/phpunit": "9.5.4",
