@@ -43,7 +43,7 @@ Allows 15min steps only
 
 <script>
 import BasePicker from './BasePicker.vue'
-import { HTML5_FMT } from '@/../../common/helpers/dateFormat.js'
+import { HTML5_FMT } from '@/common/helpers/dateFormat.js'
 
 export default {
   name: 'ETimePicker',

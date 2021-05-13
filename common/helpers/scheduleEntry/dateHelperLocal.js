@@ -1,6 +1,6 @@
 import dayjs from '../dayjs.js'
 import { HTML5_FMT } from '../dateFormat.js'
- 
+
 function defineHelpers (scheduleEntry, timed = false) {
   if (!Object.prototype.hasOwnProperty.call(scheduleEntry, 'startTime')) {
     Object.defineProperties(scheduleEntry, {
