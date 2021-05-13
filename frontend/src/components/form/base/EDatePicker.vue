@@ -43,7 +43,7 @@ Displays a field as a date picker (can be used with v-model)
 
 <script>
 import BasePicker from './BasePicker.vue'
-import { HTML5_FMT } from '@/../../common/helpers/dateFormat.js'
+import { HTML5_FMT } from '@/common/helpers/dateFormat.js'
 
 export default {
   name: 'DatePicker',

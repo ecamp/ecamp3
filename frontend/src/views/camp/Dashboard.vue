@@ -92,7 +92,7 @@ Admin screen of a camp: Displays details & periods of a single camp and allows t
 import { campRoute, scheduleEntryRoute } from '@/router.js'
 import ContentCard from '@/components/layout/ContentCard.vue'
 import UserAvatar from '../../components/user/UserAvatar.vue'
-import { defineHelpers } from '@/../../common/helpers/scheduleEntry/dateHelperUTC.js'
+import { defineHelpers } from '@/common/helpers/scheduleEntry/dateHelperUTC.js'
 
 export default {
   name: 'Dashboard',
