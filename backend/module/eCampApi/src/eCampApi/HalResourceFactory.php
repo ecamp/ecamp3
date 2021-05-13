@@ -17,8 +17,7 @@ class HalResourceFactory extends ResourceFactory {
             $entity = $halEntity->getEntity();
             if (!isset($entity->_hydrateInfo_)) {
                 $hydrator = $metadata->getHydrator();
-
-                if (method_exists($hydrator, 'HydrateInfo')) {
+                if (null != $hydrator && method_exists($hydrator, 'HydrateInfo')) {
                     $entity->_hydrateInfo_ = call_user_func([$hydrator, 'HydrateInfo']);
                 }
             }
@@ -43,7 +42,7 @@ class HalResourceFactory extends ResourceFactory {
             $halCollection->_hydrateInfo_ = $object->_hydrateInfo_;
         } else {
             $hydrator = $metadata->getHydrator();
-            if (method_exists($hydrator, 'HydrateInfo')) {
+            if (null != $hydrator && method_exists($hydrator, 'HydrateInfo')) {
                 $halCollection->_hydrateInfo_ = call_user_func([$hydrator, 'HydrateInfo']);
             }
         }
