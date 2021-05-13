@@ -81,7 +81,7 @@ export default {
   name: 'ColumnLayout',
   components: {
     // Lazy import necessary due to recursive component structure
-    ContentNode: () => import('@/components/activity/ContentNode'),
+    ContentNode: () => import('@/components/activity/ContentNode.vue'),
     Draggable,
     ResizableColumn
   },
