@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7697ecd58943c09719c953052aba6017",
+    "content-hash": "5ec6798b09f15504fade0061795a4cbf",
     "packages": [
         {
             "name": "assetic/framework",
@@ -3784,16 +3784,16 @@
         },
         {
             "name": "laminas/laminas-code",
-            "version": "4.2.2",
+            "version": "4.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-code.git",
-                "reference": "3cbdf2e23e6df1d1beecb5708560c8f6a8115bf9"
+                "reference": "1beb4447f9efd26041eba7eff50614e798c353fd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-code/zipball/3cbdf2e23e6df1d1beecb5708560c8f6a8115bf9",
-                "reference": "3cbdf2e23e6df1d1beecb5708560c8f6a8115bf9",
+                "url": "https://api.github.com/repos/laminas/laminas-code/zipball/1beb4447f9efd26041eba7eff50614e798c353fd",
+                "reference": "1beb4447f9efd26041eba7eff50614e798c353fd",
                 "shasum": ""
             },
             "require": {
@@ -3851,7 +3851,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2021-05-07T14:09:12+00:00"
+            "time": "2021-05-12T12:41:03+00:00"
         },
         {
             "name": "laminas/laminas-config",
