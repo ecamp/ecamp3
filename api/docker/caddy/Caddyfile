@@ -1,6 +1,10 @@
 {
     # Debug
     {$DEBUG}
+
+    http_port 8080
+    https_port 8443
+
     # HTTP/3 support
     servers {
         protocol {
