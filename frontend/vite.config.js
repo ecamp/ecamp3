@@ -32,6 +32,12 @@ export default defineConfig({
       {
         find: '~inter-ui',
         replacement: path.resolve(__dirname, 'node_modules', 'inter-ui')
+      },
+
+      // find dayjs from commons
+      {
+        find: 'dayjs',
+        replacement: path.resolve(__dirname, 'node_modules', 'dayjs')
       }
     ]
   },

@@ -155,67 +155,6 @@
     }
   },
   "entity": {
-    "activity": {
-      "fields": {
-        "category": "Catégorie d'activité",
-        "location": "Lieu",
-        "responsible": "responsable",
-        "title": "Titre"
-      },
-      "name": "Activité",
-      "new": "Nouvelle activité"
-    },
-    "category": {
-      "fields": {
-        "activityType": "Type",
-        "color": "Couleur",
-        "name": "Nom",
-        "numberingStyle": "Style de numérotation",
-        "short": "Court"
-      },
-      "name": "Catégories d'activités",
-      "numberingStyles": {
-        "1": "1, 2, 3 - numéros",
-        "A": "A, B, C - lettres majuscules",
-        "a": "a, b, c - lettres minuscules",
-        "I": "I, II, III - chiffres romains majuscules",
-        "i": "i, ii, iii - chiffres romains minuscules"
-      }
-    },
-    "camp": {
-      "collaborators": {
-        "manager": "Directeur",
-        "member": "Membre"
-      },
-      "fields": {
-        "motto": "Devise",
-        "name": "Nom",
-        "title": "Titre"
-      },
-      "name": "Camp",
-      "prototype": "Modèle de camp"
-    },
-    "campCollaboration": {
-      "inactive": "inactif"
-    },
-    "period": {
-      "defaultDescription": "Camp principal",
-      "fields": {
-        "description": "Description",
-        "end": "Fin",
-        "start": "Début"
-      },
-      "name": "Période | Périodes"
-    },
-    "scheduleEntry": {
-      "fields": {
-        "length": "Durée en minutes",
-        "nr": "Numéro",
-        "periodOffset": "Décalage de période",
-        "time": "Heure"
-      },
-      "name": "Inscription au calendrier"
-    },
     "user": {
       "fields": {
         "birthday": "Anniversaire",
@@ -317,9 +256,6 @@
         "story": "Fil rouge",
         "tasks": "Tâches",
         "team": "Team"
-      },
-      "print": {
-        "title": "Imprimer"
       },
       "sideBarPeriods": {
         "title": "Périodes"

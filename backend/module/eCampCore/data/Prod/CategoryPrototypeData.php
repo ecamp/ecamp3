@@ -126,7 +126,7 @@ class CategoryPrototypeData extends AbstractFixture implements DependentFixtureI
         /** @var ContentType $columnLayout */
         $columnLayout = $this->getReference(ContentTypeData::$COLUMNLAYOUT);
         $contentNode->setContentType($columnLayout);
-        $this->getContainer()->get($columnLayout->getStrategyClass())->contentNodeCreated($contentNode, Strategy::$SINGLE_COLUMN_JSON_CONFIG);
+        $this->getContainer()->get($columnLayout->getStrategyClass())->contentNodeCreated($contentNode, null, Strategy::$SINGLE_COLUMN_JSON_CONFIG);
         $manager->persist($contentNode);
 
         return $contentNode;

@@ -43,6 +43,7 @@ Displays a field as a date picker (can be used with v-model)
 
 <script>
 import BasePicker from './BasePicker.vue'
+import { HTML5_FMT } from '@/common/helpers/dateFormat.js'
 
 export default {
   name: 'DatePicker',
@@ -61,7 +62,7 @@ export default {
     },
     formatPicker (val) {
       if (val !== '') {
-        return this.$date.utc(val, this.valueFormat).format(this.$date.HTML5_FMT.DATE)
+        return this.$date.utc(val, this.valueFormat).format(HTML5_FMT.DATE)
       }
       return ''
     },
@@ -79,8 +80,8 @@ export default {
     },
     parsePicker (val) {
       if (val) {
-        const parsedDate = this.$date.utc(val, this.$date.HTML5_FMT.DATE)
-        if (parsedDate.isValid() && parsedDate.format(this.$date.HTML5_FMT.DATE) === val) {
+        const parsedDate = this.$date.utc(val, HTML5_FMT.DATE)
+        if (parsedDate.isValid() && parsedDate.format(HTML5_FMT.DATE) === val) {
           return Promise.resolve(parsedDate.format(this.valueFormat))
         } else {
           return Promise.reject(new Error('invalid format'))

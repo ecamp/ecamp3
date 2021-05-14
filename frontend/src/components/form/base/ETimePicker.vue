@@ -43,6 +43,7 @@ Allows 15min steps only
 
 <script>
 import BasePicker from './BasePicker.vue'
+import { HTML5_FMT } from '@/common/helpers/dateFormat.js'
 
 export default {
   name: 'ETimePicker',
@@ -79,7 +80,7 @@ export default {
     },
     formatPicker (val) {
       if (val !== '') {
-        return this.$date.utc(val, this.valueFormat).format(this.$date.HTML5_FMT.TIME)
+        return this.$date.utc(val, this.valueFormat).format(HTML5_FMT.TIME)
       }
       return ''
     },
@@ -98,8 +99,8 @@ export default {
     },
     parsePicker (val) {
       if (val) {
-        const parsedDateTime = this.$date.utc(val, this.$date.HTML5_FMT.TIME)
-        if (parsedDateTime.isValid() && parsedDateTime.format(this.$date.HTML5_FMT.TIME) === val) {
+        const parsedDateTime = this.$date.utc(val, HTML5_FMT.TIME)
+        if (parsedDateTime.isValid() && parsedDateTime.format(HTML5_FMT.TIME) === val) {
           this.setTime(parsedDateTime)
           return Promise.resolve(this.dateTime.format(this.valueFormat))
         } else {

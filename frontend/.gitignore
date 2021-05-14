@@ -24,3 +24,7 @@ yarn-error.log*
 *.njsproj
 *.sln
 *.sw*
+
+# yalc
+.yalc
+yalc.lock

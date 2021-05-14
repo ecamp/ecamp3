@@ -9,6 +9,7 @@ use eCamp\Lib\Hydrator\Util;
 use eCamp\Lib\Types\DateUtc;
 use eCampApi\V1\Rest\Day\DayCollection;
 use eCampApi\V1\Rest\ScheduleEntry\ScheduleEntryCollection;
+use Laminas\ApiTools\Hal\Link\Link;
 use Laminas\Hydrator\HydratorInterface;
 
 class PeriodHydrator implements HydratorInterface {
@@ -39,6 +40,14 @@ class PeriodHydrator implements HydratorInterface {
             'camp' => EntityLink::Create($period->getCamp()),
             'days' => new EntityLinkCollection($period->getDays()),
             'scheduleEntries' => new EntityLinkCollection($period->getScheduleEntries()),
+
+            'materialItems' => Link::factory([
+                'rel' => 'materialItems',
+                'route' => [
+                    'name' => 'e-camp-api.rest.doctrine.material-item',
+                    'options' => ['query' => ['periodId' => $period->getId()]],
+                ],
+            ]),
         ];
     }
 

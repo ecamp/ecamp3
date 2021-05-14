@@ -17,7 +17,7 @@
       vee-rules="required"
       :name="$tc('entity.materialList.name')"
       fieldname="materialListId"
-      :items="materialLists" />
+      :items="materialListArray" />
   </div>
 </template>
 
@@ -25,15 +25,15 @@
 export default {
   name: 'DialogMaterialItemForm',
   props: {
-    camp: { type: Object, required: true },
+    materialLists: { type: Function, required: true },
     materialItem: { type: Object, required: true }
   },
   computed: {
     localMaterialItem () {
       return this.materialItem
     },
-    materialLists () {
-      return this.camp.materialLists().items.map(l => ({
+    materialListArray () {
+      return this.materialLists().items.map(l => ({
         value: l.id,
         text: l.name
       }))

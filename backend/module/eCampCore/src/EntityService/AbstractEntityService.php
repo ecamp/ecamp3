@@ -21,6 +21,7 @@ use eCamp\Lib\Service\EntityNotFoundException;
 use eCamp\Lib\Service\EntityValidationException;
 use eCamp\Lib\Service\ServiceUtils;
 use Laminas\ApiTools\ApiProblem\ApiProblem;
+use Laminas\ApiTools\ContentNegotiation\Request;
 use Laminas\ApiTools\Rest\AbstractResourceListener;
 use Laminas\ApiTools\Rest\ResourceEvent;
 use Laminas\Authentication\AuthenticationService;
@@ -28,7 +29,6 @@ use Laminas\Hydrator\HydratorInterface;
 use Laminas\Paginator\Adapter\ArrayAdapter;
 use Laminas\Paginator\Paginator;
 use Laminas\Permissions\Acl\Role\RoleInterface;
-use Laminas\Stdlib\RequestInterface;
 
 abstract class AbstractEntityService extends AbstractResourceListener {
     private ServiceUtils $serviceUtils;
@@ -180,7 +180,7 @@ abstract class AbstractEntityService extends AbstractResourceListener {
     final public function patchList($data) {
         $result = [];
 
-        /** @var RequestInterface $request */
+        /** @var Request $request */
         $request = $this->getEvent()->getRequest();
         $queryParams = $request->getQuery();
 
@@ -248,6 +248,7 @@ abstract class AbstractEntityService extends AbstractResourceListener {
      */
     protected function createEntity($data): BaseEntity {
         $entity = new $this->entityClassname();
+
         $this->getHydrator()->hydrate((array) $data, $entity);
 
         return $entity;
@@ -432,12 +433,19 @@ abstract class AbstractEntityService extends AbstractResourceListener {
             $q->andWhere($params['where']);
         }
 
+        // set order_by explicitly when given as query parameter
         if (isset($params['order_by'])) {
-            $q->orderBy($params['order_by']);
-        // if entity is sortable, order by position property (first) and by id (second)
-        } elseif (is_subclass_of($this->entityClass, SortableEntityInterface::class)) {
-            $q->orderBy('row.pos');
-            $q->addOrderBy('row.id');
+            $q->addOrderBy($params['order_by']);
+        }
+
+        // if entity is sortable, order by position property
+        if (is_subclass_of($this->entityClass, SortableEntityInterface::class)) {
+            $q->addOrderBy('row.pos');
+        }
+
+        // by default, order by creation time (as last priority)
+        if (is_subclass_of($this->entityClass, BaseEntity::class)) {
+            $q->addOrderBy('row.createTime');
         }
 
         return $q;

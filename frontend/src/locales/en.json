@@ -242,88 +242,6 @@
     }
   },
   "entity": {
-    "activity": {
-      "fields": {
-        "category": "Activity category",
-        "location": "Location",
-        "responsible": "responsible",
-        "title": "Title"
-      },
-      "name": "Activity | Activities",
-      "new": "New activity"
-    },
-    "category": {
-      "fields": {
-        "activityType": "Type",
-        "color": "Color",
-        "name": "Name",
-        "numberingStyle": "Numbering style",
-        "short": "Short"
-      },
-      "name": "Activity categories",
-      "numberingStyles": {
-        "1": "1, 2, 3 - numbers",
-        "A": "A, B, C - uppercase letters",
-        "a": "a, b, c - lowercase letters",
-        "I": "I, II, III - uppercase roman numerals",
-        "i": "i, ii, iii - lowercase roman numerals"
-      }
-    },
-    "camp": {
-      "collaborators": {
-        "invite": "Invite",
-        "manager": "Manager",
-        "member": "Member"
-      },
-      "fields": {
-        "addressCity": "City",
-        "addressName": "Name",
-        "addressStreet": "Street",
-        "addressZipcode": "Zipcode",
-        "motto": "Motto",
-        "name": "Name",
-        "title": "Title"
-      },
-      "name": "Camp | Camps",
-      "prototype": "Camp prototype"
-    },
-    "campCollaboration": {
-      "inactive": "inactive"
-    },
-    "contentType": {
-      "name": "Contenttype | Contenttypes"
-    },
-    "materialItem": {
-      "fields": {
-        "article": "Article",
-        "quantity": "Quantity",
-        "unit": "Unit"
-      }
-    },
-    "materialList": {
-      "fields": {
-        "name": "Name"
-      },
-      "name": "Material list"
-    },
-    "period": {
-      "defaultDescription": "Main",
-      "fields": {
-        "description": "Description",
-        "end": "End",
-        "start": "Start"
-      },
-      "name": "Period | Periods"
-    },
-    "scheduleEntry": {
-      "fields": {
-        "length": "Length in Minutes",
-        "nr": "Nr",
-        "periodOffset": "Period Offset",
-        "time": "Time"
-      },
-      "name": "Activity scheduled"
-    },
     "user": {
       "fields": {
         "birthday": "Birthday",
@@ -367,15 +285,9 @@
     "language": "English",
     "loading": "Loading …",
     "lokaliseMessage": "Language switching powered by lokalise.com",
-    "datetime": {
-      "dateLong": "dd L",
-      "dateShort": "dd M/D",
-      "dateTimeLong": "dd L HH:mm",
-      "hourLong": "HH:mm",
-      "hourShort": "h:mm A"
-    },
     "serverError": {
-      "409": "Uuuups... This action caused an server-side error."
+      "409": "Uuuups... This action caused an server-side error.",
+      "short": "Server error"
     },
     "validation": {
       "minDate": "{_field_} may not be earlier than {min}"
@@ -391,7 +303,8 @@
       },
       "sideBarProgram": {
         "title": "Activities on this day"
-      }
+      },
+      "printPreview": "Open print preview"
     },
     "auth": {
       "login": {
@@ -450,7 +363,8 @@
       "material": {
         "showActivityMaterial": "Show activity material",
         "showActivityMaterialShort": "incl. Activity",
-        "title": "Material"
+        "title": "Material",
+        "groupByList": "Group by material list"
       },
       "navigationCamp": {
         "admin": "Admin",
@@ -464,7 +378,7 @@
         "team": "Team"
       },
       "print": {
-        "title": "Print"
+        "title": "Print preview"
       },
       "sideBarPeriods": {
         "title": "Periods"

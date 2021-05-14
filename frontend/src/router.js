@@ -156,8 +156,27 @@ export default new Router({
         },
         {
           path: 'print',
-          name: 'camp/print',
-          component: () => import(/* webpackChunkName: "campPrint" */ './views/camp/Print.vue')
+          component: () => import(/* webpackChunkName: "campPrint" */ './views/camp/Print.vue'),
+          children: [
+            {
+              path: '',
+              name: 'camp/print',
+              component: () => import(/* webpackChunkName: "printCamp" */ './views/camp/PrintCamp.vue'),
+              props: route => ({ camp: campFromRoute(route) })
+            },
+            {
+              path: 'activity/:scheduleEntryId/:activityName?',
+              name: 'camp/print/activity',
+              component: () => import(/* webpackChunkName: "printActivity" */ './views/camp/PrintActivity.vue'),
+              props: route => ({ scheduleEntry: scheduleEntryFromRoute(route) })
+            },
+            {
+              path: 'period/:periodId/:periodTitle?',
+              name: 'camp/print/period',
+              component: () => import(/* webpackChunkName: "printActivity" */ './views/camp/PrintPeriod.vue'),
+              props: route => ({ period: periodFromRoute(route) })
+            }
+          ]
         },
         {
           path: 'story',
@@ -332,8 +351,13 @@ export function periodRoute (period, query = {}) {
   }
 }
 
-export function scheduleEntryRoute (camp, scheduleEntry, query = {}) {
-  if (camp._meta.loading || scheduleEntry._meta.loading || scheduleEntry.activity()._meta.loading) return {}
+export function scheduleEntryRoute (scheduleEntry, query = {}) {
+  if (scheduleEntry._meta.loading || scheduleEntry.activity()._meta.loading) return {}
+
+  const camp = scheduleEntry.activity().camp()
+
+  // if (camp._meta.loading) return {}
+
   return {
     name: 'activity',
     params: {
