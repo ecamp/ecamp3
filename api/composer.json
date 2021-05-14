@@ -12,6 +12,7 @@
         "doctrine/doctrine-migrations-bundle": "^3.0",
         "doctrine/orm": "^2.7",
         "guzzlehttp/guzzle": "^7.0",
+        "mtarld/symbok-bundle": "^2.2",
         "nelmio/cors-bundle": "^2.1",
         "phpdocumentor/reflection-docblock": "^5.2",
         "stof/doctrine-extensions-bundle": "^1.6",
