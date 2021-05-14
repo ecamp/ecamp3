@@ -44,10 +44,11 @@
 import IconButton from '@/components/buttons/IconButton.vue'
 import ButtonDelete from '@/components/buttons/ButtonDelete.vue'
 import DialogEntityDelete from '@/components/dialog/DialogEntityDelete.vue'
+import UserAvatar from '@/components/user/UserAvatar.vue'
 
 export default {
   name: 'InactiveCollaboratorListItem',
-  components: { IconButton, ButtonDelete, DialogEntityDelete },
+  components: { IconButton, ButtonDelete, DialogEntityDelete, UserAvatar },
   props: {
     collaborator: { type: Object, required: true }
   }
