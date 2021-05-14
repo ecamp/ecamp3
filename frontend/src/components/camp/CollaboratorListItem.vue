@@ -50,11 +50,12 @@
 <script>
 import ApiSelect from '@/components/form/api/ApiSelect.vue'
 import ButtonDelete from '@/components/buttons/ButtonDelete.vue'
-import UserAvatar from '../user/UserAvatar.vue'
+import UserAvatar from '@/components/user/UserAvatar.vue'
+import IconButton from '@/components/buttons/IconButton.vue'
 
 export default {
   name: 'CollaboratorListItem',
-  components: { ButtonDelete, ApiSelect, UserAvatar },
+  components: { ButtonDelete, ApiSelect, UserAvatar, IconButton },
   props: {
     collaborator: { type: Object, required: true }
   },
