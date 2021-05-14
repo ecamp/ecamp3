@@ -11,9 +11,9 @@ use eCamp\LibTest\PHPUnit\AbstractTestCase;
  * @internal
  */
 class DateUtcTest extends AbstractTestCase {
-    const TEST_DATE = '2020-07-01';
-    const TEST_DATETIME = '2020-07-01T00:00+00:00';
-    const TEST_DATETIME_CUSTOMFORMAT = '2020-07-01 00:00:00';
+    public const TEST_DATE = '2020-07-01';
+    public const TEST_DATETIME = '2020-07-01T00:00+00:00';
+    public const TEST_DATETIME_CUSTOMFORMAT = '2020-07-01 00:00:00';
 
     public function testParsing(): void {
         $date = new DateUtc(self::TEST_DATE);

@@ -12,10 +12,10 @@ use eCamp\LibTest\PHPUnit\AbstractTestCase;
  * @internal
  */
 class DateTimeUtcTest extends AbstractTestCase {
-    const TEST_DATE = '2020-07-01';
-    const TEST_DATETIME = '2020-07-01T00:00+00:00';
-    const TEST_DATETIME_TIMEZONE = '2020-07-01T00:00+01:00';
-    const TEST_DATETIME_CUSTOMFORMAT = '2020-07-01 00:00:00';
+    public const TEST_DATE = '2020-07-01';
+    public const TEST_DATETIME = '2020-07-01T00:00+00:00';
+    public const TEST_DATETIME_TIMEZONE = '2020-07-01T00:00+01:00';
+    public const TEST_DATETIME_CUSTOMFORMAT = '2020-07-01 00:00:00';
 
     private $initialTimeZone;
 

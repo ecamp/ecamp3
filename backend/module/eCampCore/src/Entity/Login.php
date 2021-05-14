@@ -9,7 +9,7 @@ use eCamp\Lib\Entity\BaseEntity;
  * @ORM\Entity
  */
 class Login extends BaseEntity {
-    const CURRENT_HASH_VERSION = 1;
+    public const CURRENT_HASH_VERSION = 1;
 
     /**
      * @ORM\Column(type="text")

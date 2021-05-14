@@ -15,8 +15,8 @@ use PHPUnit\Framework\Constraint\Constraint;
  * @internal
  */
 class UserServiceTest extends AbstractDatabaseTestCase {
-    const USERNAME = 'username';
-    const EMAIL = 'test@eCamp3.ch';
+    public const USERNAME = 'username';
+    public const EMAIL = 'test@eCamp3.ch';
 
     public function testCreateUser(): void {
         /** @var UserService $userService */

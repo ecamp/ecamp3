@@ -9,7 +9,7 @@ use Symfony\Component\Filesystem\Filesystem;
  * @internal
  */
 class DiGenerateAotTest extends AbstractTestCase {
-    const GEN_DIRECTORY = __DIR__.'/../../../gen_tmp';
+    public const GEN_DIRECTORY = __DIR__.'/../../../gen_tmp';
 
     public function testRunsThroughWithoutErrors(): void {
         // delete temporary output folder if it exists
