@@ -42,6 +42,7 @@ services:
       timeout: 3s
       retries: 3
       start_period: 30s
+    user: ${USER_ID:-1000}
 
   caddy:
     build:
