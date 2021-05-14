@@ -15,10 +15,6 @@ jobs:
 
       - uses: actions/checkout@v2
 
-      - uses: shivammathur/setup-php@v2
-        with:
-          php-version: '7.4'
-          coverage: xdebug
-
-      - run: composer update --lock --no-interaction --no-plugins --no-scripts --prefer-dist
-        working-directory: backend
+      - run: |
+          chmod +w backend
+          ./docker-compose-run-as-entrypoint.sh backend composer update --lock --no-interaction --no-plugins --no-scripts --prefer-dist
