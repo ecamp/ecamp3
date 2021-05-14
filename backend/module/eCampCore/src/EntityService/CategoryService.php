@@ -95,6 +95,7 @@ class CategoryService extends AbstractEntityService {
         $category = parent::createEntityPost($entity, $data);
 
         if (!isset($data->createRootContentNode) || $data->createRootContentNode) {
+            /** @var ContentNode $contentNode */
             $contentNode = $this->contentNodeService->create((object) [
                 'ownerId' => $entity->getId(),
                 'contentTypeName' => self::DEFAULT_CONTENT_TYPE_NAME,

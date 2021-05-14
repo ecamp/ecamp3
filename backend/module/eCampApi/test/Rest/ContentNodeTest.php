@@ -15,6 +15,8 @@ use eCamp\LibTest\PHPUnit\AbstractApiControllerTestCase;
 class ContentNodeTest extends AbstractApiControllerTestCase {
     /** @var ContentNode */
     protected $contentNode;
+    /** @var ContentNode */
+    protected $contentNode1Camp2;
 
     /** @var User */
     protected $user;
@@ -34,6 +36,7 @@ class ContentNodeTest extends AbstractApiControllerTestCase {
 
         $this->user = $userLoader->getReference(UserTestData::$USER1);
         $this->contentNode = $contentNodeLoader->getReference(ContentNodeTestData::$CATEGORY_CONTENT1);
+        $this->contentNode1Camp2 = $contentNodeLoader->getReference(ContentNodeTestData::$CATEGORY_CONTENT1_CAMP2);
 
         $this->authenticateUser($this->user);
     }
@@ -83,7 +86,7 @@ JSON;
 
         $this->assertResponseStatusCode(200);
 
-        $this->assertEquals(1, $this->getResponseContent()->total_items);
+        $this->assertEquals(2, $this->getResponseContent()->total_items);
         $this->assertEquals(10, $this->getResponseContent()->page_size);
         $this->assertEquals("http://{$this->host}{$this->apiEndpoint}?page_size=10&page=1", $this->getResponseContent()->_links->self->href);
         $this->assertEquals($this->contentNode->getId(), $this->getResponseContent()->_embedded->items[0]->id);
@@ -133,6 +136,20 @@ JSON;
 
         $this->assertObjectHasAttribute('jsonConfig', $this->getResponseContent());
         $this->assertEquals(null, $this->getResponseContent()->jsonConfig);
+    }
+
+    public function testPatchMovingContentNodeToADifferentCampYieldsValidationError(): void {
+        $this->setRequestContent([
+            'parentId' => $this->contentNode1Camp2->getId(),
+        ]);
+
+        $this->dispatch("{$this->apiEndpoint}/{$this->contentNode->getId()}", 'PATCH');
+        $this->assertResponseStatusCode(422);
+
+        $this->assertObjectHasAttribute('validation_messages', $this->getResponseContent());
+        $this->assertObjectHasAttribute('parentId', $this->getResponseContent()->validation_messages);
+        $this->assertObjectHasAttribute('notSameCamp', $this->getResponseContent()->validation_messages->parentId);
+        $this->assertEquals('Moving ContentNodes across camps is not implemented. Trying to move from camp '.$this->contentNode->getCamp()->getId().' to camp '.$this->contentNode1Camp2->getCamp()->getId(), $this->getResponseContent()->validation_messages->parentId->notSameCamp);
     }
 
     public function testDeleteForbidden(): void {

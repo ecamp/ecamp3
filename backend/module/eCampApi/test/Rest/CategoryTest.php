@@ -69,6 +69,9 @@ JSON;
             {
                 "self": {
                     "href": "http://{$this->host}{$this->apiEndpoint}/{$this->category->getId()}"
+                },
+                "contentNodes": {
+                    "href": "http://{$this->host}/api/content-nodes?ownerId={$this->category->getId()}"
                 }
             }
 JSON;

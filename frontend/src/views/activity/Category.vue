@@ -3,7 +3,7 @@
     <content-card toolbar>
       <template #title>
         <v-toolbar-title class="font-weight-bold">
-          <template v-if="category()">
+          <template v-if="!category()._meta.loading">
             <v-chip
               :color="category().color"
               dark>
@@ -40,8 +40,8 @@
       </template>
       <v-card-text class="px-0 py-0">
         <content-node
-          v-if="rootContentNode"
-          :content-node="rootContentNode"
+          v-if="!category().rootContentNode()._meta.loading"
+          :content-node="category().rootContentNode()"
           :layout-mode="layoutMode" />
       </v-card-text>
     </content-card>
@@ -67,14 +67,6 @@ export default {
   data () {
     return {
       layoutMode: true
-    }
-  },
-  computed: {
-    rootContentNode () {
-      if (!this.category) return null
-      if (!this.category()) return null
-      if (!this.category().rootContentNode) return null
-      return this.category().rootContentNode()
     }
   }
 }

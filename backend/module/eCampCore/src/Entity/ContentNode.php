@@ -171,7 +171,7 @@ class ContentNode extends BaseEntity implements BelongsToCampInterface {
 
             // remove me from old parent
             if (null != $this->parent) {
-                $this->parent->children->removeElement($this);
+                $this->parent->getChildren()->removeElement($this);
             }
 
             // update parent
@@ -179,7 +179,7 @@ class ContentNode extends BaseEntity implements BelongsToCampInterface {
 
             // add me to the new parent
             if (null != $this->parent) {
-                $this->parent->children->add($this);
+                $this->parent->getChildren()->add($this);
             }
         }
     }
