@@ -134,7 +134,7 @@ class AclFactory implements FactoryInterface {
             Acl::REST_PRIVILEGE_FETCH,
             AclAssertion::or(
                 new CampIsPrototype(),
-                new UserIsCollaborator([CampCollaboration::ROLE_MEMBER, CampCollaboration::ROLE_MANAGER])
+                new UserIsCollaborator([CampCollaboration::ROLE_MEMBER, CampCollaboration::ROLE_MANAGER, CampCollaboration::ROLE_GUEST])
             )
         );
         $acl->allow(

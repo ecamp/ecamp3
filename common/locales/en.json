@@ -40,7 +40,8 @@
       "collaborators": {
         "invite": "Invite",
         "manager": "Manager",
-        "member": "Member"
+        "member": "Member",
+        "guest": "Guest"
       },
       "fields": {
         "addressCity": "City",
