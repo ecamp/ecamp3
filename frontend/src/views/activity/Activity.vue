@@ -206,7 +206,7 @@ Displays a single activity
                         {{ $tc('views.activity.activity.deleteScheduleEntry') }}
                       </v-tooltip>
                     </template>
-                    ScheduleEntry wirklich löschen?
+                    {{ $tc('views.activity.activity.deleteScheduleEntryQuestion') }}
                     <ul>
                       <li>
                         ({{ scheduleEntryItem.number }})

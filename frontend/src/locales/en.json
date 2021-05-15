@@ -313,6 +313,7 @@
         "copyScheduleEntryAnyTime": "to any time",
         "copyScheduleEntryDayBefore": "to day before",
         "deleteScheduleEntry": "delete",
+        "deleteScheduleEntryQuestion": "Do you really want do delete this schedule entry?",
         "editScheduleEntry": "edit",
         "layout": "Layout",
         "options": "Option"

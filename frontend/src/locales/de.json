@@ -234,6 +234,7 @@
         "copyScheduleEntryAnyTime": "an neuer Zeit",
         "copyScheduleEntryDayBefore": "am Tag zuvor",
         "deleteScheduleEntry": "löschen",
+        "deleteScheduleEntryQuestion": "Zeitplaneintrag wirklich löschen?",
         "editScheduleEntry": "bearbeiten",
         "layout": "Layout",
         "options": "Optionen"
