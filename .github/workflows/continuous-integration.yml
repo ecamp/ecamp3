@@ -28,9 +28,9 @@ jobs:
 
       - uses: actions/checkout@v2
 
-      - uses: OskarStark/php-cs-fixer-ga@2.19.0
+      - uses: OskarStark/php-cs-fixer-ga@3.0.0
         with:
-          args: --dry-run --diff --config=backend/.php_cs
+          args: --dry-run --diff --config=backend/.php-cs-fixer.php
 
   frontend-eslint:
     name: "Lint: Frontend (ESLint)"
@@ -125,6 +125,9 @@ jobs:
       - run: npm ci
         working-directory: frontend
 
+      - run: npm run build
+        working-directory: frontend
+
       - run: npm run test:unit
         working-directory: frontend
 
@@ -154,6 +157,9 @@ jobs:
       - run: npm ci
         working-directory: print
 
+      - run: npm run build
+        working-directory: print
+
       - run: npm run test
         working-directory: print
 
@@ -179,7 +185,7 @@ jobs:
 
       - run: bash wait-for-container-startup.sh
 
-      - run: docker run -v $PWD:/e2e -w /e2e --network host -e CYPRESS_BASE_URL=http://localhost:3000 cypress/included:6.8.0
+      - run: docker run -v $PWD:/e2e -w /e2e --network host -e CYPRESS_BASE_URL=http://localhost:3000 cypress/included:7.3.0
         working-directory: frontend
 
   coveralls-finished:

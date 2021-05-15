@@ -41,8 +41,26 @@ class Strategy extends ContentTypeStrategyBase {
      * @throws NoAccessException
      * @throws ORMException
      */
-    public function contentNodeCreated(ContentNode $contentNode): void {
-        $section = $this->sectionService->createEntity(['pos' => 0], $contentNode);
-        $this->getServiceUtils()->emPersist($section);
+    public function contentNodeCreated(ContentNode $contentNode, ?ContentNode $prototype = null): void {
+        $data = [];
+        if (isset($prototype)) {
+            $sections = $this->sectionService->fetchAllByContentNode($prototype->getId());
+            foreach ($sections as $s) {
+                $data[] = [
+                    'pos' => $s->getPos(),
+                    'column1' => $s->getColumn1(),
+                    'column2' => $s->getColumn2(),
+                    'column3' => $s->getColumn3(),
+                ];
+            }
+        }
+        if (0 == count($data)) {
+            $data[] = ['pos' => 0];
+        }
+
+        foreach ($data as $d) {
+            $section = $this->sectionService->createEntity($d, $contentNode);
+            $this->getServiceUtils()->emPersist($section);
+        }
     }
 }

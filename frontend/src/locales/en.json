@@ -78,6 +78,14 @@
   },
   "components": {
     "activity": {
+      "content": {
+        "columnLayout": {
+          "resizableColumn": {
+            "addColumn": "Add a column",
+            "removeColumn": "Remove empty column"
+          }
+        }
+      },
       "contentNode": {
         "delete": "Delete",
         "editName": "Rename",
@@ -91,6 +99,10 @@
           "startTime": "Start"
         },
         "name": "Scheduled"
+      },
+      "menuCardlessContentNode": {
+        "delete": "Delete",
+        "deletingDisabled": "Must be empty to delete"
       }
     },
     "camp": {

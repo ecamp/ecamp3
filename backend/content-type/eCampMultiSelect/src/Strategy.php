@@ -3,6 +3,7 @@
 namespace eCamp\ContentType\MultiSelect;
 
 use Doctrine\ORM\ORMException;
+use eCamp\ContentType\MultiSelect\Entity\Option;
 use eCamp\ContentType\MultiSelect\Service\OptionService;
 use eCamp\Core\ContentType\ContentTypeStrategyBase;
 use eCamp\Core\Entity\ContentNode;
@@ -32,10 +33,27 @@ class Strategy extends ContentTypeStrategyBase {
      * @throws ORMException
      * @throws EntityNotFoundException
      */
-    public function contentNodeCreated(ContentNode $contentNode): void {
-        foreach ($contentNode->getContentType()->getJsonConfig()['items'] as $key => $configItem) {
-            $option = $this->optionService->createEntity(['pos' => $key, 'translateKey' => $configItem, 'checked' => false], $contentNode);
-            $this->getServiceUtils()->emPersist($option);
+    public function contentNodeCreated(ContentNode $contentNode, ?ContentNode $prototype = null): void {
+        if (null != $prototype) {
+            $prototypeOptions = $this->optionService->fetchAllByContentNode($prototype->getId());
+            foreach ($prototypeOptions as $prototypeOption) {
+                /** @var Option $prototypeOption */
+                $option = $this->optionService->createEntity([
+                    'pos' => $prototypeOption->getPos(),
+                    'translateKey' => $prototypeOption->getTranslateKey(),
+                    'checked' => $prototypeOption->getChecked(),
+                ], $contentNode);
+                $this->getServiceUtils()->emPersist($option);
+            }
+        } else {
+            foreach ($contentNode->getContentType()->getJsonConfig()['items'] as $key => $configItem) {
+                $option = $this->optionService->createEntity([
+                    'pos' => $key,
+                    'translateKey' => $configItem,
+                    'checked' => false,
+                ], $contentNode);
+                $this->getServiceUtils()->emPersist($option);
+            }
         }
     }
 }

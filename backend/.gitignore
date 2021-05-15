@@ -1,6 +1,6 @@
 .DS_Store
 */.DS_Store
-.php_cs.cache
+.php-cs-fixer.cache
 build
 .vagrant/
 .idea/

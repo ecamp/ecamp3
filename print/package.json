@@ -24,12 +24,12 @@
     "dayjs": "1.10.4",
     "deepmerge": "4.2.2",
     "hal-json-vuex": "2.0.0-alpha.6",
-    "nuxt": "2.15.4",
+    "nuxt": "2.15.6",
     "pagedjs": "0.1.43",
     "vue-i18n": "8.24.4"
   },
   "devDependencies": {
-    "@babel/eslint-parser": "7.13.14",
+    "@babel/eslint-parser": "7.14.2",
     "@nuxtjs/eslint-config": "6.0.0",
     "@nuxtjs/eslint-module": "3.0.2",
     "@nuxtjs/stylelint-module": "4.0.0",
@@ -43,10 +43,10 @@
     "eslint-plugin-prettier": "3.4.0",
     "eslint-plugin-vue": "7.9.0",
     "jest": "26.6.3",
-    "prettier": "2.2.1",
+    "prettier": "2.3.0",
     "stylelint": "13.13.1",
     "stylelint-config-prettier": "8.0.2",
-    "stylelint-config-standard": "21.0.0",
+    "stylelint-config-standard": "22.0.0",
     "vue-jest": "3.0.7"
   }
 }

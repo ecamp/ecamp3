@@ -41,6 +41,23 @@ class Strategy extends ContentTypeStrategyBase {
      * @throws NoAccessException
      * @throws ORMException
      */
-    public function contentNodeCreated(ContentNode $contentNode): void {
+    public function contentNodeCreated(ContentNode $contentNode, ?ContentNode $prototype = null): void {
+        if (isset($prototype)) {
+            // flush ContentNode, required for MaterialItemService
+            $this->getServiceUtils()->emPersist($contentNode);
+            $this->getServiceUtils()->emFlush();
+
+            $materialItems = $this->materialItemService->fetchAll(['contentNodeId' => $prototype->getId()]);
+            foreach ($materialItems as $materialItem) {
+                $materialList = $materialItem->getMaterialList();
+                $this->materialItemService->create((object) [
+                    'contentNodeId' => $contentNode->getId(),
+                    'materialListId' => $materialList->getId(),
+                    'quantity' => $materialItem->getQuantity(),
+                    'unit' => $materialItem->getUnit(),
+                    'article' => $materialItem->getArticle(),
+                ]);
+            }
+        }
     }
 }

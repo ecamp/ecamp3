@@ -37,6 +37,7 @@ class CategoryData extends CategoryPrototypeData implements DependentFixtureInte
             $this->addContentType($category, $this->getReference(ContentTypeData::$SAFETYCONCEPT));
             $this->addContentType($category, $this->getReference(ContentTypeData::$NOTES));
             $this->addContentType($category, $this->getReference(ContentTypeData::$MATERIAL));
+            $this->addContentType($category, $this->getReference(ContentTypeData::$COLUMNLAYOUT));
 
             $category->setRootContentNode($this->createInitialRootContentNode($manager));
         }
@@ -57,6 +58,7 @@ class CategoryData extends CategoryPrototypeData implements DependentFixtureInte
             $this->addContentType($category, $this->getReference(ContentTypeData::$NOTES));
             $this->addContentType($category, $this->getReference(ContentTypeData::$MATERIAL));
             $this->addContentType($category, $this->getReference(ContentTypeData::$LATHEMATICAREA));
+            $this->addContentType($category, $this->getReference(ContentTypeData::$COLUMNLAYOUT));
 
             $category->setRootContentNode($this->createInitialRootContentNode($manager));
         }
@@ -81,6 +83,7 @@ class CategoryData extends CategoryPrototypeData implements DependentFixtureInte
             $this->addContentType($category, $this->getReference(ContentTypeData::$SAFETYCONCEPT));
             $this->addContentType($category, $this->getReference(ContentTypeData::$NOTES));
             $this->addContentType($category, $this->getReference(ContentTypeData::$MATERIAL));
+            $this->addContentType($category, $this->getReference(ContentTypeData::$COLUMNLAYOUT));
 
             $category->setRootContentNode($this->createInitialRootContentNode($manager));
         }
@@ -101,6 +104,7 @@ class CategoryData extends CategoryPrototypeData implements DependentFixtureInte
             $this->addContentType($category, $this->getReference(ContentTypeData::$NOTES));
             $this->addContentType($category, $this->getReference(ContentTypeData::$MATERIAL));
             $this->addContentType($category, $this->getReference(ContentTypeData::$LATHEMATICAREA));
+            $this->addContentType($category, $this->getReference(ContentTypeData::$COLUMNLAYOUT));
 
             $category->setRootContentNode($this->createInitialRootContentNode($manager));
         }

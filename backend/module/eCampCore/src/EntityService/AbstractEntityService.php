@@ -196,7 +196,7 @@ abstract class AbstractEntityService extends AbstractResourceListener {
         }
 
         foreach ($data as $key => $value) {
-            $entity = $this->patch($key, $value);
+            $entity = $this->patch($key, (object) $value->getArrayCopy());
             array_push($result, $entity);
         }
 

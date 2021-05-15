@@ -20,7 +20,7 @@ abstract class ContentTypeStrategyBase implements ContentTypeStrategyInterface {
 
     abstract public function contentNodeExtract(ContentNode $contentNode): array;
 
-    abstract public function contentNodeCreated(ContentNode $contentNode): void;
+    abstract public function contentNodeCreated(ContentNode $contentNode, ?ContentNode $prototype = null): void;
 
     /**
      * @throws EntityValidationException

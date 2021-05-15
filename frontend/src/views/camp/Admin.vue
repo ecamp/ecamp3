@@ -23,7 +23,7 @@ Admin screen of a camp: Displays details & periods of a single camp and allows t
       </v-row>
       <v-row>
         <v-col cols="12" lg="6">
-          <camp-danger-zone :camp="camp" />
+          <camp-danger-zone v-if="isManager" :camp="camp" />
         </v-col>
       </v-row>
     </v-card-text>
@@ -55,6 +55,11 @@ export default {
   },
   data () {
     return {}
+  },
+  computed: {
+    isManager () {
+      return this.camp().role === 'manager'
+    }
   },
   mounted () {
     this.api.reload(this.camp())

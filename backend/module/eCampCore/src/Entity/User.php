@@ -11,18 +11,18 @@ use Laminas\Permissions\Acl\Role\RoleInterface;
  * @ORM\Entity(repositoryClass="eCamp\Core\Repository\UserRepository")
  */
 class User extends AbstractCampOwner implements RoleInterface {
-    const STATE_NONREGISTERED = 'non-registered';
-    const STATE_REGISTERED = 'registered';
-    const STATE_ACTIVATED = 'activated';
-    const STATE_DELETED = 'deleted';
+    public const STATE_NONREGISTERED = 'non-registered';
+    public const STATE_REGISTERED = 'registered';
+    public const STATE_ACTIVATED = 'activated';
+    public const STATE_DELETED = 'deleted';
 
-    const ROLE_GUEST = 'guest';
-    const ROLE_USER = 'user';
-    const ROLE_ADMIN = 'admin';
+    public const ROLE_GUEST = 'guest';
+    public const ROLE_USER = 'user';
+    public const ROLE_ADMIN = 'admin';
 
-    const RELATION_ME = 'me';
-    const RELATION_KNOWN = 'known';
-    const RELATION_UNRELATED = 'unrelated';
+    public const RELATION_ME = 'me';
+    public const RELATION_KNOWN = 'known';
+    public const RELATION_UNRELATED = 'unrelated';
 
     /**
      * @ORM\OneToMany(targetEntity="UserIdentity", mappedBy="user", orphanRemoval=true)

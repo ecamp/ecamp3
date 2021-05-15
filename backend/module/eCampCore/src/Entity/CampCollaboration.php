@@ -15,15 +15,15 @@ use eCamp\Lib\Entity\BaseEntity;
  * })
  */
 class CampCollaboration extends BaseEntity implements BelongsToCampInterface {
-    const ROLE_GUEST = 'guest';
-    const ROLE_MEMBER = 'member';
-    const ROLE_MANAGER = 'manager';
+    public const ROLE_GUEST = 'guest';
+    public const ROLE_MEMBER = 'member';
+    public const ROLE_MANAGER = 'manager';
 
-    const STATUS_INVITED = 'invited';
-    const STATUS_ESTABLISHED = 'established';
-    const STATUS_INACTIVE = 'inactive';
+    public const STATUS_INVITED = 'invited';
+    public const STATUS_ESTABLISHED = 'established';
+    public const STATUS_INACTIVE = 'inactive';
 
-    const VALID_STATUS = [
+    public const VALID_STATUS = [
         self::STATUS_INVITED,
         self::STATUS_ESTABLISHED,
         self::STATUS_INACTIVE,

@@ -13,14 +13,14 @@ use eCamp\Lib\Entity\BaseEntity;
  * })
  */
 class GroupMembership extends BaseEntity {
-    const ROLE_GUEST = 'guest';
-    const ROLE_MEMBER = 'member';
-    const ROLE_MANAGER = 'manager';
+    public const ROLE_GUEST = 'guest';
+    public const ROLE_MEMBER = 'member';
+    public const ROLE_MANAGER = 'manager';
 
-    const STATUS_UNRELATED = 'unrelated';
-    const STATUS_REQUESTED = 'requested';
-    const STATUS_INVITED = 'invited';
-    const STATUS_ESTABLISHED = 'established';
+    public const STATUS_UNRELATED = 'unrelated';
+    public const STATUS_REQUESTED = 'requested';
+    public const STATUS_INVITED = 'invited';
+    public const STATUS_ESTABLISHED = 'established';
 
     /**
      * @ORM\ManyToOne(targetEntity="User")

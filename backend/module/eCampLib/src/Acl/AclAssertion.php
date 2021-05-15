@@ -9,8 +9,8 @@ use Laminas\Permissions\Acl\Resource\ResourceInterface;
 use Laminas\Permissions\Acl\Role\RoleInterface;
 
 class AclAssertion implements AssertionInterface {
-    const OR = 'OR';
-    const AND = 'AND';
+    public const OR = 'OR';
+    public const AND = 'AND';
 
     private $operand;
     private $assertions = [];

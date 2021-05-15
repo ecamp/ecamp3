@@ -1,39 +1,54 @@
 <template>
-  <v-col class="resizable-col" :class="{ [widthClass]: true, 'layout-mode': layoutMode }">
-    <div v-if="layoutMode" class="resize-spacer">
-      <v-btn v-if="!last && $vuetify.breakpoint.mdAndUp"
-             icon
-             outlined
-             color="primary"
-             class="resize-btn"
-             :class="{ dragging }"
-             :style="cssVariables"
-             @mousedown.stop.prevent="mouseDown"
-             @touchstart.stop.prevent="mouseDown">
-        <v-icon>
-          mdi-arrow-split-vertical
-        </v-icon>
-      </v-btn>
-    </div>
+  <v-col class="resizable-col" :class="{ [widthClass]: true, 'layout-mode': layoutMode, 'top-border': showHeader }">
+    <resizable-column-header v-if="layoutMode && $vuetify.breakpoint.mdAndUp && showHeader"
+                             :width="width"
+                             :min-width="minWidth"
+                             :max-width="maxWidth"
+                             :column-height="columnHeight"
+                             v-on="$listeners">
+      <menu-cardless-content-node v-if="last" :content-node="parentContentNode">
+        <slot name="menu" />
+      </menu-cardless-content-node>
+    </resizable-column-header>
+
+    <mobile-column-width-indicator v-if="layoutMode && $vuetify.breakpoint.smAndDown && numColumns > 1 && showHeader"
+                                   :num-columns="numColumns"
+                                   :width="width"
+                                   :width-left="widthLeft"
+                                   :width-right="widthRight"
+                                   :color="color" />
+
     <slot />
   </v-col>
 </template>
 
 <script>
+import ResizableColumnHeader from '@/components/activity/content/columnLayout/ResizableColumnHeader.vue'
+import MobileColumnWidthIndicator from '@/components/activity/content/columnLayout/MobileColumnWidthIndicator.vue'
+import MenuCardlessContentNode from '@/components/activity/MenuCardlessContentNode.vue'
+
 export default {
   name: 'ResizableColumn',
+  components: {
+    MenuCardlessContentNode,
+    MobileColumnWidthIndicator,
+    ResizableColumnHeader
+  },
   props: {
+    parentContentNode: { type: Object, required: true },
     layoutMode: { type: Boolean, required: true },
+    widthLeft: { type: Number, required: true },
     width: { type: Number, required: true }, // the column width, in 1/12th units of the full width
+    widthRight: { type: Number, required: true },
+    numColumns: { type: Number, default: 1 },
     last: { type: Boolean, default: false }, // whether this is the last column
     minWidth: { type: Number, default: 3 }, // minimum allowed width of this column
-    maxWidth: { type: Number, default: 12 } // maximum allowed width of this column
+    maxWidth: { type: Number, default: 12 }, // maximum allowed width of this column
+    color: { type: String, required: true },
+    showHeader: { type: Boolean, default: true }
   },
   data () {
     return {
-      dragging: false,
-      startWidth: 0,
-      startValue: this.width,
       columnHeight: 100
     }
   },
@@ -41,121 +56,29 @@ export default {
     widthClass () {
       if (this.$vuetify.breakpoint.smAndDown) return 'col-12'
       return 'col-md-' + this.width
-    },
-    cssVariables () {
-      return '--column-height: ' + this.columnHeight + 'px'
     }
-  },
-  watch: {
-    dragging () {
-      if (this.dragging) document.body.classList.add('dragging')
-      else document.body.classList.remove('dragging')
-    }
-  },
-  mounted () {
-    document.documentElement.addEventListener('mousemove', this.mouseMove)
-    document.documentElement.addEventListener('mouseup', this.mouseUp)
-    document.documentElement.addEventListener('mouseleave', this.mouseUp)
-    document.documentElement.addEventListener('touchmove', this.mouseMove, true)
-    document.documentElement.addEventListener('touchend', this.mouseUp, true)
-    document.documentElement.addEventListener('touchcancel', this.mouseUp, true)
-    document.documentElement.addEventListener('touchstart', this.mouseUp, true)
   },
   updated () {
     this.columnHeight = this.$el.clientHeight
-  },
-  beforeDestroy: function () {
-    document.documentElement.removeEventListener('mousemove', this.mouseMove)
-    document.documentElement.removeEventListener('mouseup', this.mouseUp)
-    document.documentElement.removeEventListener('mouseleave', this.mouseUp)
-    document.documentElement.removeEventListener('touchmove', this.mouseMove, true)
-    document.documentElement.removeEventListener('touchend', this.mouseUp, true)
-    document.documentElement.removeEventListener('touchcancel', this.mouseUp, true)
-    document.documentElement.removeEventListener('touchstart', this.mouseUp, true)
-  },
-  methods: {
-    mouseDown: function (ev) {
-      if (!this.layoutMode) return
-      ev.stopPropagation()
-
-      this.dragging = true
-      this.startWidth = this.$el.clientWidth
-      this.startValue = this.width
-      this.$emit('resize-start')
-    },
-    mouseMove (ev) {
-      if (!this.dragging) return
-      ev.stopPropagation()
-
-      this.resizing(ev)
-    },
-    mouseUp (ev) {
-      if (!this.dragging) return
-      ev.stopPropagation()
-
-      this.resizing(ev)
-
-      this.dragging = false
-      this.startWidth = 0
-      this.startValue = this.width
-      this.$emit('resize-stop')
-    },
-    resizing (ev) {
-      const pageX = typeof ev.pageX !== 'undefined' ? ev.pageX : ev.touches[0].pageX
-      const newWidthPx = pageX - this.$el.getBoundingClientRect().left
-      const newWidth = this.limit(this.snapToGrid(newWidthPx / this.startWidth * this.startValue))
-      if (newWidth !== this.width) this.$emit('resizing', newWidth)
-    },
-    snapToGrid (width) {
-      return Math.round(width)
-    },
-    limit (width) {
-      return Math.min(Math.max(width, this.minWidth), this.maxWidth)
-    }
   }
 }
 </script>
 
 <style scoped lang="scss">
-.resize-spacer {
-  height: 60px;
-  position: relative;
+.resizable-col {
 
   @media #{map-get($display-breakpoints, 'sm-and-down')} {
-    display: none;
-  }
-}
-.resize-btn {
-  position: absolute;
-  right: -17px;
-  top: 13px;
-  z-index: 2;
-  cursor: pointer;
-
-  &::after {
-    opacity: 0;
-    position: absolute;
-    top: 105%;
-    left: 50%;
-    display: block;
-    height: calc(var(--column-height) - 60px);
-    width: 2px;
-    background-image: linear-gradient(to bottom, transparent, transparent 40%, map-get($blue, 'lighten-2') 40%, map-get($blue, 'lighten-2') 100%);
-    background-size: 100% 15px;
-    background-repeat: repeat, repeat;
-    content: '';
-    transition: opacity 0.2s ease;
+    &.top-border {
+      border-top: 1px solid rgba(0, 0, 0, 0.32);
+    }
   }
 
-  &.dragging {
-    cursor: move;
+  &:not(.layout-mode) {
+    @media #{map-get($display-breakpoints, 'md-and-up')} {
+      &+.resizable-col:not(.layout-mode) {
+        border-left: 1px solid rgba(0, 0, 0, 0.12);
+      }
+    }
   }
-
-  &:hover::after, &:active::after, &:focus::after, &.dragging::after {
-    opacity: 100%;
-  }
-}
-.fullwidth {
-  width: 100%;
 }
 </style>

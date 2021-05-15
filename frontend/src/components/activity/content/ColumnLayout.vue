@@ -1,76 +1,38 @@
 <template>
   <v-row v-if="!contentNode.loading" no-gutters>
-    <resizable-column v-for="(column, slot) in columns"
+    <resizable-column v-for="(_, slot) in columns"
                       :key="slot"
-                      :width="localColumnWidths[slot] || 1"
+                      :parent-content-node="contentNode"
                       :layout-mode="layoutMode"
+                      :width-left="relativeColumnWidths[slot][0]"
+                      :width="relativeColumnWidths[slot][1]"
+                      :width-right="relativeColumnWidths[slot][2]"
+                      :num-columns="numColumns"
                       :last="slot === lastColumn"
                       :min-width="minWidth(slot)"
                       :max-width="maxWidth(slot)"
+                      :color="color"
+                      :show-header="!isRoot"
                       @resizing="newWidth => resizeColumn(slot, newWidth)"
                       @resize-stop="saveColumnWidths">
-      <draggable v-model="localColumnContents[slot]"
-                 :disabled="!draggingEnabled"
-                 group="contentNodes"
-                 class="d-flex flex-column"
-                 :class="{ 'column-min-height': layoutMode }"
-                 @start="startDrag"
-                 @end="finishDrag">
-        <template v-if="layoutMode && $vuetify.breakpoint.smAndDown && numColumns > 1" #header>
-          <v-subheader>
-            {{ $tc('contentNode.columnLayout.entity.column.name') }}
-            <v-progress-linear class="ml-3" buffer-value="100" :style="'flex-basis: ' + relativeColumnWidths[slot][0] + '0%'" />
-            <v-progress-linear value="100" :style="'flex-basis: ' + relativeColumnWidths[slot][1] + '0%'" />
-            <v-progress-linear buffer-value="100" :style="'flex-basis: ' + relativeColumnWidths[slot][2] + '0%'" />
-          </v-subheader>
-        </template>
-        <content-node v-for="childNode in localColumnContents[slot]"
-                      :key="childNode.id"
-                      class="content-node"
-                      :content-node="childNode"
-                      :layout-mode="layoutMode"
-                      :draggable="draggingEnabled" />
-      </draggable>
-      <v-row v-if="layoutMode"
-             no-gutters
-             justify="center"
-             class="my-3">
-        <v-menu bottom
-                left
-                offset-y>
-          <template #activator="{ on, attrs }">
-            <v-btn color="primary"
-                   outlined
-                   v-bind="attrs"
-                   v-on="on">
-              <v-icon left>mdi-plus-circle-outline</v-icon>
-              {{ $tc('global.button.add') }}
-            </v-btn>
-          </template>
-          <v-list>
-            <v-list-item v-for="act in availableContentTypes"
-                         :key="act.contentType.id"
-                         @click="addContentNodeToSlot(act.contentType.id, column.slot)">
-              <v-list-item-icon>
-                <v-icon>{{ $tc(act.contentTypeIconKey) }}</v-icon>
-              </v-list-item-icon>
-              <v-list-item-title>
-                {{ $tc(act.contentTypeNameKey) }}
-              </v-list-item-title>
-            </v-list-item>
-          </v-list>
-        </v-menu>
-      </v-row>
+      <draggable-content-nodes :slot-name="slot"
+                               :layout-mode="layoutMode"
+                               :parent-content-node="contentNode" />
+
+      <template #menu>
+        <column-operations :content-node="contentNode" :min-column-width="minWidth(slot)" :total-width="12" />
+      </template>
     </resizable-column>
   </v-row>
 </template>
 
 <script>
 
-import { groupBy, keyBy, sortBy, camelCase, mapValues } from 'lodash'
+import { keyBy, mapValues } from 'lodash'
 import { contentNodeMixin } from '@/mixins/contentNodeMixin.js'
-import Draggable from 'vuedraggable'
 import ResizableColumn from '@/components/activity/content/columnLayout/ResizableColumn.vue'
+import DraggableContentNodes from '@/components/activity/DraggableContentNodes.vue'
+import ColumnOperations from '@/components/activity/content/columnLayout/ColumnOperations.vue'
 
 function cumulativeSumReducer (cumSum, nextElement) {
   cumSum.push((cumSum[cumSum.length - 1] + nextElement))
@@ -80,22 +42,17 @@ function cumulativeSumReducer (cumSum, nextElement) {
 export default {
   name: 'ColumnLayout',
   components: {
-    // Lazy import necessary due to recursive component structure
-    ContentNode: () => import('@/components/activity/ContentNode'),
-    Draggable,
+    ColumnOperations,
+    DraggableContentNodes,
     ResizableColumn
   },
   mixins: [contentNodeMixin],
   data () {
     return {
-      localColumnContents: {},
       localColumnWidths: {}
     }
   },
   computed: {
-    draggingEnabled () {
-      return this.layoutMode && this.$vuetify.breakpoint.mdAndUp
-    },
     columns () {
       return keyBy(this.contentNode.jsonConfig?.columns || [], 'slot')
     },
@@ -105,12 +62,6 @@ export default {
     lastColumn () {
       const slots = Object.keys(this.columns)
       return slots[slots.length - 1]
-    },
-    groupedChildren () {
-      return groupBy(sortBy(this.contentNode.children().items, 'position'), 'slot')
-    },
-    columnContents () {
-      return mapValues(this.columns, (_, slot) => this.groupedChildren[slot] || [])
     },
     relativeColumnWidths () {
       // Cumulative sum of column widths, to know how many "width units" are to the left of each column
@@ -123,29 +74,21 @@ export default {
       // E.g. {'1': [0, 3, 9], '2': [3, 5, 4], '3': [8, 4, 0]}
       return mapValues(this.localColumnWidths, (width, slot) => [colsLeft[slot], width, 12 - colsLeft[slot] - width])
     },
-    availableContentTypes () {
-      return this.contentNode.ownerCategory().preferredContentTypes().items.map(ct => ({
-        id: ct.id,
-        contentType: ct,
-        contentTypeNameKey: 'contentNode.' + camelCase(ct.name) + '.name',
-        contentTypeIconKey: 'contentNode.' + camelCase(ct.name) + '.icon'
-      }))
+    color () {
+      const h = (parseInt(this.contentNode.id, 16) % 360)
+      return `hsl(${h}, 100%, 30%)`
+    },
+    isRoot () {
+      return this.contentNode._meta.self === this.contentNode.root()._meta.self
     }
   },
   watch: {
     columns: {
       immediate: true,
       handler () {
-        this.localColumnContents = this.columnContents
         this.setLocalColumnWidths()
       }
-    },
-    columnContents () {
-      this.localColumnContents = this.columnContents
     }
-  },
-  mounted () {
-    this.contentNode._meta.load.then(this.setLocalColumnWidths)
   },
   methods: {
     setLocalColumnWidths () {
@@ -172,33 +115,6 @@ export default {
       if (nextSlot === undefined) return this.localColumnWidths[slot]
       return this.localColumnWidths[slot] + this.localColumnWidths[nextSlot] - this.minWidth(nextSlot)
     },
-    startDrag () {
-      document.body.classList.add('dragging')
-    },
-    finishDrag () {
-      document.body.classList.remove('dragging')
-      this.saveReorderedChildren()
-    },
-    async addContentNodeToSlot (contentTypeId, slot) {
-      await this.api.post(await this.api.href(this.api.get(), 'contentNodes'), {
-        parentId: this.contentNode.id,
-        contentTypeId: contentTypeId,
-        slot: slot
-      })
-      this.api.reload(this.contentNode)
-    },
-    async saveReorderedChildren () {
-      const payload = Object.fromEntries(Object.entries(this.localColumnContents).flatMap(([slot, columnContents]) => {
-        let position = 0
-        return columnContents.map(contentNode => {
-          return [contentNode.id, {
-            slot: slot,
-            position: position++
-          }]
-        })
-      }))
-      this.api.patch(await this.api.href(this.contentNode, 'children'), payload)
-    },
     async saveColumnWidths () {
       const payload = {
         jsonConfig: {
@@ -214,30 +130,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-.column-min-height {
-  min-height: 10rem;
-}
-</style>
-<style lang="scss">
-.resizable-col {
-  .content-node {
-    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
-    border-radius: 0;
-  }
-
-  @media #{map-get($display-breakpoints, 'sm-and-down')} {
-    border-bottom: 1px solid rgba(0, 0, 0, 0.32);
-  }
-
-  &:not(.layout-mode) {
-    @media #{map-get($display-breakpoints, 'md-and-up')} {
-      &+.resizable-col:not(.layout-mode) {
-        border-left: 1px solid rgba(0, 0, 0, 0.12);
-      }
-    }
-  }
-}
-
-</style>
