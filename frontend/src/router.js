@@ -181,6 +181,20 @@ export default new Router({
         {
           path: 'story',
           name: 'camp/story',
+          async beforeEnter (to, from, next) {
+            const period = await firstFuturePeriod(to)
+            if (period) {
+              await period.camp()._meta.load
+              next(periodRoute(period, 'camp/story/period', to.query))
+            } else {
+              const camp = await apiStore.get().camps({ campId: to.params.campId })
+              next(campRoute(camp, 'admin', to.query))
+            }
+          }
+        },
+        {
+          path: 'story/:periodId/:periodTitle?',
+          name: 'camp/story/period',
           component: () => import(/* webpackChunkName: "campPrint" */ './views/camp/Story.vue')
         },
         {
@@ -195,7 +209,7 @@ export default new Router({
             const period = await firstFuturePeriod(to)
             if (period) {
               await period.camp()._meta.load
-              next(periodRoute(period, to.query))
+              next(periodRoute(period, 'camp/period', to.query))
             } else {
               const camp = await apiStore.get().camps({ campId: to.params.campId })
               next(campRoute(camp, 'admin', to.query))
@@ -336,11 +350,11 @@ export function loginRoute (redirectTo) {
   return { path: '/login', query: { redirect: redirectTo } }
 }
 
-export function periodRoute (period, query = {}) {
+export function periodRoute (period, routeName, query = {}) {
   const camp = period.camp()
   if (camp._meta.loading || period._meta.loading) return {}
   return {
-    name: 'camp/period',
+    name: routeName,
     params: {
       campId: camp.id,
       campTitle: slugify(camp.title),
