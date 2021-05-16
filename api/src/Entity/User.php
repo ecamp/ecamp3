@@ -8,16 +8,18 @@ use Doctrine\ORM\Mapping as ORM;
 use Mtarld\SymbokBundle\Annotation\Getter;
 use Mtarld\SymbokBundle\Annotation\Setter;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
- * @ORM\Table(name="`user`",uniqueConstraints={@ORM\UniqueConstraint(columns={"email"}),@ORM\UniqueConstraint(columns={"username"})})
+ * @ORM\Table(name="`user`",uniqueConstraints={
+ * @ORM\UniqueConstraint(columns={"email"}),
+ * @ORM\UniqueConstraint(columns={"username"})})
  * @UniqueEntity("email")
  * @UniqueEntity("username")
  */
 #[ApiResource]
-class User extends BaseEntity
-{
+class User extends BaseEntity implements UserInterface {
     const STATE_NONREGISTERED = 'non-registered';
     const STATE_REGISTERED = 'registered';
     const STATE_ACTIVATED = 'activated';
@@ -67,38 +69,75 @@ class User extends BaseEntity
     public ?string $nickname = null;
 
     /**
-     * @ORM\Column(type="string", length=16, nullable=false)
-     * @Getter
-     * @Setter
-     */
-    public string $role;
-
-    /**
      * @ORM\Column(type="string", length=20, nullable=true)
      * @Getter
      * @Setter
      */
     public ?string $language = null;
 
-    public function __construct() {
-        $this->role = self::ROLE_GUEST;
+    /**
+     * @ORM\Column(type="json")
+     * @Setter
+     */
+    private array $roles = [];
+
+    /**
+     * The hashed password
+     * @ORM\Column(type="string")
+     * @Getter
+     * @Setter
+     */
+    private string $password;
+
+    /**
+     * @see UserInterface
+     */
+    public function getUsername(): string {
+        return (string)$this->username;
     }
 
     /**
-     * Displayable name of the user.
+     * @see UserInterface
      */
-    public function getDisplayName(): ?string {
-        if (!empty($this->nickname)) {
-            return $this->nickname;
-        }
-        if (!empty($this->firstname)) {
-            if (!empty($this->surname)) {
-                return $this->firstname.' '.$this->surname;
-            }
+    public function getRoles(): array {
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
+        return array_unique($roles);
+    }
 
-            return $this->firstname;
-        }
+    public function setRoles(array $roles): self {
+        $this->roles = $roles;
+        return $this;
+    }
 
-        return $this->username;
+    /**
+     * @see UserInterface
+     */
+    public function getPassword(): string {
+        return (string)$this->password;
+    }
+
+    public function setPassword(string $password): self {
+        $this->password = $password;
+        return $this;
+    }
+
+    /**
+     * Returning a salt is only needed, if you are not using a modern
+     * hashing algorithm (e.g. bcrypt or sodium) in your security.yaml.
+     *
+     * @see UserInterface
+     */
+    public function getSalt(): ?string {
+        return null;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function eraseCredentials() {
+        // If you store any temporary, sensitive data on the user, clear it here
+        // $this->plainPassword = null;
     }
 }
