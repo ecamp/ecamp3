@@ -13,7 +13,7 @@
       <slot name="activator" v-bind="scope" />
     </template>
 
-    <dialog-activity-form v-if="!loading" :activity="entityData" :camp="scheduleEntry.period().camp" />
+    <dialog-activity-form v-if="!loading" :activity="entityData" :camp="camp" />
   </dialog-form>
 </template>
 
@@ -30,18 +30,18 @@ export default {
   },
   extends: DialogBase,
   props: {
-    scheduleEntry: {
-      type: Object,
-      required: true
-    }
+    camp: { type: Function, required: true },
+    scheduleEntry: { type: Object, required: true }
   },
   data () {
     return {
       entityProperties: [
         'title',
-        'categoryId',
-        'scheduleEntries',
-        'location'
+        'location',
+        'scheduleEntries'
+      ],
+      embeddedEntities: [
+        'category'
       ],
       entityUri: '/activities'
     }
@@ -53,7 +53,12 @@ export default {
           title: this.$tc('entity.activity.new'),
           location: '',
           scheduleEntries: [
-            this.scheduleEntry
+            {
+              period: this.scheduleEntry.period,
+              periodId: this.scheduleEntry.period().id,
+              periodOffset: this.scheduleEntry.periodOffset,
+              length: this.scheduleEntry.length
+            }
           ]
         })
       } else {
