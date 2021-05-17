@@ -16,17 +16,14 @@ use Symfony\Component\Security\Core\User\UserInterface;
  */
 #[UniqueEntity('email')]
 #[UniqueEntity('username')]
-#[ApiResource]
+#[ApiResource(
+    collectionOperations: [
+        'get' => [],
+        'post' => ['security' => 'true'] // allow unauthenticated clients to create (register) users
+    ],
+    attributes: ['security' => 'is_granted("ROLE_ADMIN") or object == user']
+)]
 class User extends BaseEntity implements UserInterface {
-    const STATE_NONREGISTERED = 'non-registered';
-    const STATE_REGISTERED = 'registered';
-    const STATE_ACTIVATED = 'activated';
-    const STATE_DELETED = 'deleted';
-
-    const ROLE_GUEST = 'guest';
-    const ROLE_USER = 'user';
-    const ROLE_ADMIN = 'admin';
-
     /**
      * Unique email of the user.
      *

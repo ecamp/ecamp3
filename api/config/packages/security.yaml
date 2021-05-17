@@ -16,11 +16,14 @@ security:
             security: false
         main:
             stateless: true
+            # anonymous and lazy are necessary to make unauthenticated endpoints
+            # (such as user create) work without JWT token
             anonymous: true
+            lazy: true
             provider: app_user_provider
             json_login:
                 check_path: /authentication_token
-                username_path: email
+                username_path: username
                 password_path: password
                 success_handler: lexik_jwt_authentication.handler.authentication_success
                 failure_handler: lexik_jwt_authentication.handler.authentication_failure
@@ -31,4 +34,4 @@ security:
     access_control:
         - { path: ^/docs, roles: IS_AUTHENTICATED_ANONYMOUSLY } # Allows accessing the Swagger UI
         - { path: ^/authentication_token, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/, roles: [IS_AUTHENTICATED_FULLY, IS_AUTHENTICATED_ANONYMOUSLY] } # Some endpoints are available to unauthenticated clients
