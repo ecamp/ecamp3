@@ -27,9 +27,10 @@ services:
   php:
     build:
       context: ./api
-      target: api_platform_php
+      target: api_platform_php_dev
     depends_on:
       - database
+      - docker-host
     restart: unless-stopped
     volumes:
       - ./.caddy/php-socket:/var/run/php
@@ -37,6 +38,19 @@ services:
       - ./api/docker/php/conf.d/api-platform.dev.ini:/usr/local/etc/php/conf.d/api-platform.ini
     environment:
       APP_ENV: dev
+      # See https://docs.docker.com/docker-for-mac/networking/#i-want-to-connect-from-a-container-to-a-service-on-the-host
+      # See https://github.com/docker/for-linux/issues/264
+      # The `remote_host` below may optionally be replaced with `remote_connect_back`
+      # XDEBUG_MODE required for step debugging
+      XDEBUG_MODE: develop,debug,coverage
+      # default port for Xdebug 3 is 9003
+      # idekey=VSCODE if you are debugging with VSCode
+      XDEBUG_CONFIG: >-
+        client_host=docker-host
+        idekey=PHPSTORM
+      # This should correspond to the server declared in PHPStorm `Preferences | Languages & Frameworks | PHP | Servers`
+      # Then PHPStorm will use the corresponding path mappings
+      PHP_IDE_CONFIG: serverName=localhost
     healthcheck:
       interval: 10s
       timeout: 3s

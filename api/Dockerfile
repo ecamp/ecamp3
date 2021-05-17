@@ -132,3 +132,14 @@ COPY --from=dunglas/mercure:v0.11 /srv/public /srv/mercure-assets/
 COPY --from=api_platform_caddy_builder /usr/bin/caddy /usr/bin/caddy
 COPY --from=api_platform_php /srv/api/public public/
 COPY docker/caddy/Caddyfile /etc/caddy/Caddyfile
+
+
+# Debug stage, for using XDebug
+FROM api_platform_php as api_platform_php_dev
+
+ARG XDEBUG_VERSION=3.0.2
+RUN set -eux; \
+ apk add --no-cache --virtual .build-deps $PHPIZE_DEPS; \
+ pecl install xdebug-$XDEBUG_VERSION; \
+ docker-php-ext-enable xdebug; \
+ apk del .build-deps
