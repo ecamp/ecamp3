@@ -4,8 +4,19 @@ api_platform:
     show_webby: false
     mapping:
         paths: ['%kernel.project_dir%/src/Entity']
+    formats:
+        jsonhal: [ 'application/hal+json' ]
+        jsonld: [ 'application/ld+json' ]
+        jsonapi: [ 'application/vnd.api+json' ]
+        json: [ 'application/json' ]
+        html: [ 'text/html' ]
     patch_formats:
-        json: ['application/merge-patch+json']
+        json: [ 'application/merge-patch+json' ]
+        jsonapi: [ 'application/vnd.api+json' ]
+    error_formats:
+        jsonproblem: [ 'application/problem+json' ]
+        jsonld: [ 'application/ld+json' ]
+        jsonapi: [ 'application/vnd.api+json' ]
     swagger:
         versions: [3]
         api_keys:
@@ -15,10 +26,13 @@ api_platform:
     # Mercure integration, remove if unwanted
     mercure:
         hub_url: '%env(MERCURE_SUBSCRIBE_URL)%'
-    # Good defaults value for REST APIs
     defaults:
         stateless: true
-        # Good cache defaults
         cache_headers:
             vary: ['Content-Type', 'Authorization', 'Origin']
         pagination_enabled: false
+        itemOperations: [ 'get', 'patch', 'delete' ],
+        collection_operations:
+            get: ~,
+            post:
+                input_formats: [ 'jsonld', 'jsonapi', 'json' ]

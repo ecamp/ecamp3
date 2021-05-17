@@ -19,7 +19,10 @@ use Symfony\Component\Security\Core\User\UserInterface;
 #[ApiResource(
     collectionOperations: [
         'get' => [],
-        'post' => ['security' => 'true'] // allow unauthenticated clients to create (register) users
+        'post' => [
+            'security' => 'true', // allow unauthenticated clients to create (register) users
+            'input_formats' => [ 'jsonld', 'jsonapi', 'json' ]
+        ]
     ],
     attributes: ['security' => 'is_granted("ROLE_ADMIN") or object == user']
 )]
