@@ -21,3 +21,4 @@ api_platform:
         # Good cache defaults
         cache_headers:
             vary: ['Content-Type', 'Authorization', 'Origin']
+        pagination_enabled: false
