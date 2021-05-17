@@ -8,7 +8,7 @@
     "print": "node index.js"
   },
   "dependencies": {
-    "@sentry/node": "6.3.6",
+    "@sentry/node": "6.4.0",
     "amqplib": "0.7.1",
     "puppeteer": "9.1.1"
   }
