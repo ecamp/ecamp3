@@ -12,12 +12,10 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
- * @ORM\Table(name="`user`",uniqueConstraints={
- * @ORM\UniqueConstraint(columns={"email"}),
- * @ORM\UniqueConstraint(columns={"username"})})
- * @UniqueEntity("email")
- * @UniqueEntity("username")
+ * @ORM\Table(name="`user`")
  */
+#[UniqueEntity('email')]
+#[UniqueEntity('username')]
 #[ApiResource]
 class User extends BaseEntity implements UserInterface {
     const STATE_NONREGISTERED = 'non-registered';
@@ -32,7 +30,7 @@ class User extends BaseEntity implements UserInterface {
     /**
      * Unique email of the user.
      *
-     * @ORM\Column(type="text", nullable=true)
+     * @ORM\Column(type="text", nullable=false, unique=true)
      * @Getter
      * @Setter
      */
@@ -41,7 +39,7 @@ class User extends BaseEntity implements UserInterface {
     /**
      * Unique username, lower alphanumeric symbols and underscores only.
      *
-     * @ORM\Column(type="string", length=32, nullable=true, unique=true)
+     * @ORM\Column(type="string", length=32, nullable=false, unique=true)
      * @Getter
      * @Setter
      */
