@@ -180,18 +180,6 @@
     "monolog/monolog": {
         "version": "2.2.0"
     },
-    "mtarld/symbok-bundle": {
-        "version": "2.0",
-        "recipe": {
-            "repo": "github.com/symfony/recipes-contrib",
-            "branch": "master",
-            "version": "2.0",
-            "ref": "37e3a18bd581e09ec8a2c2a6c1f2112443b72352"
-        },
-        "files": [
-            "config/packages/symbok.yaml"
-        ]
-    },
     "namshi/jose": {
         "version": "7.2.3"
     },
@@ -381,9 +369,6 @@
         "version": "v5.2.4"
     },
     "symfony/http-kernel": {
-        "version": "v5.2.6"
-    },
-    "symfony/inflector": {
         "version": "v5.2.6"
     },
     "symfony/maker-bundle": {

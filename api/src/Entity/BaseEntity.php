@@ -6,7 +6,6 @@ use App\Util\IdGenerator;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use Mtarld\SymbokBundle\Annotation\Getter;
 
 /**
  * @ORM\MappedSuperclass
@@ -21,7 +20,6 @@ abstract class BaseEntity {
      * @ORM\Column(type="string", length=16, nullable=false)
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class=IdGenerator::class)
-     * @Getter
      */
     protected string $id;
 
@@ -36,4 +34,8 @@ abstract class BaseEntity {
      * @ORM\Column(type="datetime")
      */
     protected DateTime $updateTime;
+
+    public function getId(): string {
+        return $this->id;
+    }
 }

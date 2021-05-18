@@ -13,7 +13,6 @@
         "doctrine/orm": "^2.7",
         "guzzlehttp/guzzle": "^7.0",
         "lexik/jwt-authentication-bundle": "^2.11",
-        "mtarld/symbok-bundle": "^2.2",
         "nelmio/cors-bundle": "^2.1",
         "phpdocumentor/reflection-docblock": "^5.2",
         "stof/doctrine-extensions-bundle": "^1.6",
