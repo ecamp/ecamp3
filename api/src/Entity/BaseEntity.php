@@ -2,8 +2,8 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Core\Annotation\ApiProperty;
 use App\Util\IdGenerator;
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Mtarld\SymbokBundle\Annotation\Getter;
@@ -23,18 +23,17 @@ abstract class BaseEntity {
      * @ORM\CustomIdGenerator(class=IdGenerator::class)
      * @Getter
      */
-    #[ApiProperty(readable: true)]
     protected string $id;
 
     /**
      * @Gedmo\Timestampable(on="create")
      * @ORM\Column(type="datetime")
      */
-    protected \DateTime $createTime;
+    protected DateTime $createTime;
 
     /**
      * @Gedmo\Timestampable(on="update")
      * @ORM\Column(type="datetime")
      */
-    protected \DateTime $updateTime;
+    protected DateTime $updateTime;
 }
