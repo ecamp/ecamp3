@@ -17,13 +17,17 @@ use Symfony\Component\Security\Core\User\UserInterface;
 #[UniqueEntity('username')]
 #[ApiResource(
     collectionOperations: [
-        'get' => [],
+        'get' => [ 'security' => 'is_fully_authenticated()'],
         'post' => [
             'security' => 'true', // allow unauthenticated clients to create (register) users
             'input_formats' => [ 'jsonld', 'jsonapi', 'json' ]
         ]
     ],
-    attributes: ['security' => 'is_granted("ROLE_ADMIN") or object == user']
+    itemOperations: [
+        'get' => [ 'security' => 'is_granted("ROLE_ADMIN") or object == user' ],
+        'patch' => [ 'security' => 'is_granted("ROLE_ADMIN") or object == user' ],
+        'delete' => [ 'security' => 'is_granted("ROLE_ADMIN")' ]
+    ]
 )]
 class User extends BaseEntity implements UserInterface {
     /**

@@ -20,7 +20,7 @@ api_platform:
     swagger:
         versions: [3]
         api_keys:
-            apiKey:
+            bearerToken:
                 name: Authorization
                 type: header
     # Mercure integration, remove if unwanted
