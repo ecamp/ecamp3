@@ -2,8 +2,6 @@
 
 namespace App\Tests\Api;
 
-use App\Entity\User;
-
 class UsersTest extends ECampApiTestCase {
     public function testCreateUser() {
         static::createClient()->request('POST', '/users', ['json' => [
@@ -36,16 +34,28 @@ class UsersTest extends ECampApiTestCase {
         ]);
     }
 
-    /*
     public function testListUsersIsAllowedForLoggedInUserButFiltered() {
         static::createClientWithCredentials()->request('GET', '/users');
         $this->assertResponseStatusCodeSame(200);
-        // TODO implement and test the Doctrine extension for security filtering here
+        $userIri = $this->getIriConverter()->getIriFromItem(static::$fixtures['user_1']);
+        $this->assertJsonContains([
+            'totalItems' => 1,
+            '_embedded' => [
+                'item' => [
+                    [
+                        '_links' => [
+                            'self' => [
+                                'href' => $userIri
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ]);
     }
-    */
 
     public function testGetSingleUserIsDeniedToAnonymousUser() {
-        $user = static::$container->get('doctrine')->getRepository(User::class)->findOneBy(['username' => 'test-user']);
+        $user = static::$fixtures['user_1'];
         static::createClient()->request('GET', '/users/'.$user->getId());
         $this->assertResponseStatusCodeSame(401);
         $this->assertJsonContains([
@@ -57,7 +67,7 @@ class UsersTest extends ECampApiTestCase {
     public function testGetSingleUserIsDeniedForDifferentUser() {
         $user2 = static::$fixtures['user_2'];
         static::createClientWithCredentials()->request('GET', '/users/'.$user2->getId());
-        $this->assertResponseStatusCodeSame(403);
+        $this->assertResponseStatusCodeSame(404);
     }
 
     public function testGetSingleUserIsAllowedForSelf() {

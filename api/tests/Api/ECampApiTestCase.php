@@ -2,6 +2,7 @@
 
 namespace App\Tests\Api;
 
+use ApiPlatform\Core\Api\IriConverterInterface;
 use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\ApiTestCase;
 use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\Client;
 use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
@@ -13,6 +14,7 @@ use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 abstract class ECampApiTestCase extends ApiTestCase {
     private ?string $token = null;
     private ?Client $clientWithCredentials = null;
+    private ?IriConverterInterface $iriConverter = null;
 
     use RefreshDatabaseTrait;
 
@@ -32,7 +34,7 @@ abstract class ECampApiTestCase extends ApiTestCase {
     protected function createClientWithCredentials($token = null): Client {
         $token = $token ?: $this->getToken();
 
-        return static::createClient([], ['headers' => ['authorization' => 'Bearer ' . $token]]);
+        return static::createClient([], ['headers' => ['authorization' => 'Bearer ' . $token, 'accept' => 'application/hal+json']]);
     }
 
     /**
@@ -59,5 +61,12 @@ abstract class ECampApiTestCase extends ApiTestCase {
         $this->token = $data->token;
 
         return $this->token;
+    }
+
+    protected function getIriConverter(): IriConverterInterface {
+        if (null === $this->iriConverter) {
+            $this->iriConverter = static::$container->get(IriConverterInterface::class);
+        }
+        return $this->iriConverter;
     }
 }
