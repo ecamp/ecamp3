@@ -8,6 +8,7 @@ use eCamp\Core\Entity\Camp;
 use eCamp\Core\Entity\Period;
 use eCamp\Core\Entity\ScheduleEntry;
 use eCamp\Core\Hydrator\ScheduleEntryHydrator;
+use eCamp\Lib\Entity\BaseEntity;
 use eCamp\Lib\Service\EntityValidationException;
 use eCamp\Lib\Service\ServiceUtils;
 use eCampApi\V1\Rest\ScheduleEntry\ScheduleEntryCollection;
@@ -47,6 +48,24 @@ class ScheduleEntryService extends AbstractEntityService {
         }
 
         return $scheduleEntry;
+    }
+
+    protected function deleteEntity(BaseEntity $entity): void {
+        /** @var ScheduleEntry $scheduleEntry */
+        $scheduleEntry = $entity;
+        $scheduleEntryId = $scheduleEntry->getId();
+        $activity = $scheduleEntry->getActivity();
+
+        $otherScheduleEntryExists =
+            $activity->getScheduleEntries()->exists(function ($idx, $se) use ($scheduleEntryId) {
+                return $se->getId() !== $scheduleEntryId;
+            });
+
+        parent::deleteEntity($entity);
+
+        if (!$otherScheduleEntryExists) {
+            $this->getServiceUtils()->emRemove($activity);
+        }
     }
 
     protected function fetchAllQueryBuilder($params = []): QueryBuilder {

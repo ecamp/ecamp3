@@ -42,6 +42,9 @@ export default {
   },
   props: {
     period: { type: Function, required: true }
+  },
+  mounted () {
+    this.api.reload(this.period())
   }
 }
 </script>

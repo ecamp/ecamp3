@@ -109,6 +109,7 @@ Displays a single activity
               <v-row
                 v-for="scheduleEntryItem in scheduleEntries"
                 :key="scheduleEntryItem._meta.self" dense
+                :set="period = scheduleEntryItem.period()"
                 class="mt-0">
                 <v-col cols="2">
                   ({{ scheduleEntryItem.number }})
@@ -161,7 +162,7 @@ Displays a single activity
                         </span>
                       </v-tooltip>
                       <dialog-schedule-entry-create
-                        :camp="scheduleEntryItem.period().camp"
+                        :camp="period.camp"
                         :activity="scheduleEntryItem.activity"
                         :schedule-entry="scheduleEntryItem">
                         <template #activator="{on: dialog}">
@@ -197,7 +198,9 @@ Displays a single activity
                       </v-tooltip>
                     </v-card>
                   </v-menu>
-                  <dialog-entity-delete :entity="scheduleEntryItem">
+                  <dialog-entity-delete
+                    :entity="scheduleEntryItem"
+                    @success="scheduleEntryDeleted(period, scheduleEntryItem.id)">
                     <template #activator="{ on: dialog }">
                       <v-tooltip bottom>
                         <template #activator="{ on: tooltip }">
@@ -269,6 +272,7 @@ import DialogScheduleEntryEdit from '@/components/dialog/DialogScheduleEntryEdit
 import DialogScheduleEntryCreate from '@/components/dialog/DialogScheduleEntryCreate.vue'
 import ContentNode from '@/components/activity/ContentNode.vue'
 import { defineHelpers } from '@/common/helpers/scheduleEntry/dateHelperUTC.js'
+import router from '@/router'
 
 export default {
   name: 'Activity',
@@ -290,7 +294,8 @@ export default {
   data () {
     return {
       layoutMode: false,
-      editActivityTitle: false
+      editActivityTitle: false,
+      scheduleEntryId: null
     }
   },
   computed: {
@@ -325,6 +330,11 @@ export default {
     contentNodes () {
       return this.activity.contentNodes()
     }
+  },
+  mounted () {
+    this.scheduleEntry()._meta.load.then(se => {
+      this.scheduleEntryId = se.id
+    })
   },
   methods: {
     changeCategory (category) {
@@ -365,6 +375,14 @@ export default {
         periodOffset: scheduleEntry.periodOffset + offset,
         length: scheduleEntry.length
       })
+    },
+    scheduleEntryDeleted (period, scheduleEntryId) {
+      if (this.scheduleEntryId === scheduleEntryId) {
+        router.push({
+          name: 'camp/period',
+          params: { campId: period.camp().id, periodId: period.id }
+        })
+      }
     }
   }
 }
