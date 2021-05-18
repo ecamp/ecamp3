@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiProperty;
 use App\Util\IdGenerator;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
@@ -21,6 +22,7 @@ abstract class BaseEntity {
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class=IdGenerator::class)
      */
+    #[ApiProperty(writable: false)]
     protected string $id;
 
     /**

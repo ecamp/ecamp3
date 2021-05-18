@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
@@ -30,6 +31,7 @@ class User extends BaseEntity implements UserInterface {
      *
      * @ORM\Column(type="string", length=64, nullable=false, unique=true)
      */
+    #[ApiProperty(example: 'bi-pi@example.com')]
     public ?string $email = null;
 
     /**
@@ -37,37 +39,44 @@ class User extends BaseEntity implements UserInterface {
      *
      * @ORM\Column(type="string", length=32, nullable=false, unique=true)
      */
+    #[ApiProperty(example: 'bipi')]
     public ?string $username;
 
     /**
      * @ORM\Column(type="text", nullable=true)
      */
+    #[ApiProperty(example: 'Robert')]
     public ?string $firstname = null;
 
     /**
      * @ORM\Column(type="text", nullable=true)
      */
+    #[ApiProperty(example: 'Baden-Powell')]
     public ?string $surname = null;
 
     /**
      * @ORM\Column(type="text", nullable=true)
      */
+    #[ApiProperty(example: 'Bi-Pi')]
     public ?string $nickname = null;
 
     /**
      * @ORM\Column(type="string", length=20, nullable=true)
      */
+    #[ApiProperty(example: 'en')]
     public ?string $language = null;
 
     /**
      * @ORM\Column(type="json")
      */
+    #[ApiProperty(writable: false)]
     private array $roles = [];
 
     /**
      * The hashed password
      * @ORM\Column(type="string", length=255)
      */
+    #[ApiProperty(readable: false, example: 'learning-by-doing-101')]
     private ?string $password;
 
     /**
@@ -76,6 +85,7 @@ class User extends BaseEntity implements UserInterface {
      *
      * @see UserInterface
      */
+    #[ApiProperty(readable: false, writable: false)]
     public function getSalt(): ?string {
         return null;
     }
