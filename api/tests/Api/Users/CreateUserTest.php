@@ -117,6 +117,28 @@ class CreateUserTest extends ECampApiTestCase {
         ]);
     }
 
+    public function testCreateUserValidatesLongEmail() {
+        static::createClientWithCredentials()->request('POST', '/users', ['json' => [
+            'email' => 'test-with-a-very-long-email-address-which-is-not-really-realistic@example.com',
+            'username' => 'bipi',
+            'firstname' => 'Robert',
+            'surname' => 'Baden-Powell',
+            'nickname' => 'Bi-Pi',
+            'language' => 'en',
+            'password' => 'learning-by-doing-101'
+        ]]);
+
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [
+                    'propertyPath' => 'email',
+                    'message' => 'This value is too long. It should have 64 characters or less.'
+                ]
+            ]
+        ]);
+    }
+
     public function testCreateUserValidatesInvalidEmail() {
         static::createClientWithCredentials()->request('POST', '/users', ['json' => [
             'email' => 'test@sunrise',
@@ -199,6 +221,50 @@ class CreateUserTest extends ECampApiTestCase {
                 [
                     'propertyPath' => 'username',
                     'message' => 'This value is not valid.'
+                ]
+            ]
+        ]);
+    }
+
+    public function testCreateUserValidatesLongUsername() {
+        static::createClientWithCredentials()->request('POST', '/users', ['json' => [
+            'email' => 'bi-pi@example.com',
+            'username' => 'abcdefghijklmnopqrstuvwxyz-the-alphabet',
+            'firstname' => 'Robert',
+            'surname' => 'Baden-Powell',
+            'nickname' => 'Bi-Pi',
+            'language' => 'en',
+            'password' => 'learning-by-doing-101'
+        ]]);
+
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [
+                    'propertyPath' => 'username',
+                    'message' => 'This value is too long. It should have 32 characters or less.'
+                ]
+            ]
+        ]);
+    }
+
+    public function testCreateUserValidatesLongLanguage() {
+        static::createClientWithCredentials()->request('POST', '/users', ['json' => [
+            'email' => 'bi-pi@example.com',
+            'username' => 'bipi',
+            'firstname' => 'Robert',
+            'surname' => 'Baden-Powell',
+            'nickname' => 'Bi-Pi',
+            'language' => 'fr_CH.some-ridiculously-long-extension-which-is-technically-a-valid-ICU-locale',
+            'password' => 'learning-by-doing-101'
+        ]]);
+
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [
+                    'propertyPath' => 'language',
+                    'message' => 'This value is too long. It should have 20 characters or less.'
                 ]
             ]
         ]);

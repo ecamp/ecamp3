@@ -87,6 +87,7 @@ class User extends BaseEntity implements UserInterface {
      * The hashed password
      * @ORM\Column(type="string", length=255)
      */
+    #[Assert\DisableAutoMapping]
     #[ApiProperty(readable: false, writable: false)]
     private ?string $password = null;
 

@@ -84,6 +84,22 @@ class UpdateUserTest extends ECampApiTestCase {
         ]);
     }
 
+    public function testPatchUserValidatesLongEmail() {
+        $user = static::$fixtures['user_1'];
+        static::createClientWithCredentials()->request('PATCH', '/users/'.$user->getId(), ['json' => [
+            'email' => 'test-with-a-very-long-email-address-which-is-not-really-realistic@example.com'
+        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [
+                    'propertyPath' => 'email',
+                    'message' => 'This value is too long. It should have 64 characters or less.'
+                ]
+            ]
+        ]);
+    }
+
     public function testPatchUserValidatesBlankUsername() {
         $user = static::$fixtures['user_1'];
         static::createClientWithCredentials()->request('PATCH', '/users/'.$user->getId(), ['json' => [
@@ -111,6 +127,38 @@ class UpdateUserTest extends ECampApiTestCase {
                 [
                     'propertyPath' => 'username',
                     'message' => 'This value is not valid.'
+                ]
+            ]
+        ]);
+    }
+
+    public function testPatchUserValidatesLongUsername() {
+        $user = static::$fixtures['user_1'];
+        static::createClientWithCredentials()->request('PATCH', '/users/'.$user->getId(), ['json' => [
+            'username' => 'abcdefghijklmnopqrstuvwxyz-the-alphabet'
+        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [
+                    'propertyPath' => 'username',
+                    'message' => 'This value is too long. It should have 32 characters or less.'
+                ]
+            ]
+        ]);
+    }
+
+    public function testPatchUserValidatesLongLanguage() {
+        $user = static::$fixtures['user_1'];
+        static::createClientWithCredentials()->request('PATCH', '/users/'.$user->getId(), ['json' => [
+            'language' => 'fr_CH.some-ridiculously-long-extension-which-is-technically-a-valid-ICU-locale'
+        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [
+                    'propertyPath' => 'language',
+                    'message' => 'This value is too long. It should have 20 characters or less.'
                 ]
             ]
         ]);
