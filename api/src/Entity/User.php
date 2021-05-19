@@ -44,11 +44,12 @@ class User extends BaseEntity implements UserInterface {
     public ?string $email = null;
 
     /**
-     * Unique username, lower alphanumeric symbols and underscores only.
+     * Unique username. Lower case alphanumeric symbols, dashes, periods and underscores only.
      *
      * @ORM\Column(type="string", length=32, nullable=false, unique=true)
      */
     #[Assert\NotBlank]
+    #[Assert\Regex(pattern: '/^[a-z0-9_.-]+$/')]
     #[ApiProperty(example: 'bipi')]
     public ?string $username;
 

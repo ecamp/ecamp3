@@ -100,6 +100,22 @@ class UpdateUserTest extends ECampApiTestCase {
         ]);
     }
 
+    public function testPatchUserValidatesInvalidUsername() {
+        $user = static::$fixtures['user_1'];
+        static::createClientWithCredentials()->request('PATCH', '/users/'.$user->getId(), ['json' => [
+            'username' => 'a*b'
+        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [
+                    'propertyPath' => 'username',
+                    'message' => 'This value is not valid.'
+                ]
+            ]
+        ]);
+    }
+
     public function testPatchUserValidatesBlankPassword() {
         $user = static::$fixtures['user_1'];
         static::createClientWithCredentials()->request('PATCH', '/users/'.$user->getId(), ['json' => [

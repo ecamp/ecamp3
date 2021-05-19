@@ -182,6 +182,28 @@ class CreateUserTest extends ECampApiTestCase {
         ]);
     }
 
+    public function testCreateUserValidatesInvalidUsername() {
+        static::createClientWithCredentials()->request('POST', '/users', ['json' => [
+            'email' => 'bi-pi@example.com',
+            'username' => 'b*p',
+            'firstname' => 'Robert',
+            'surname' => 'Baden-Powell',
+            'nickname' => 'Bi-Pi',
+            'language' => 'en',
+            'password' => 'learning-by-doing-101'
+        ]]);
+
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [
+                    'propertyPath' => 'username',
+                    'message' => 'This value is not valid.'
+                ]
+            ]
+        ]);
+    }
+
     public function testCreateUserValidatesMissingPassword() {
         static::createClientWithCredentials()->request('POST', '/users', ['json' => [
             'email' => 'bi-pi@example.com',
