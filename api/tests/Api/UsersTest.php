@@ -25,6 +25,30 @@ class UsersTest extends ECampApiTestCase {
         ]);
     }
 
+    public function testLoginAfterRegistration() {
+        $client = static::createClient();
+        // Disable resetting the database between the two requests
+        $client->disableReboot();
+
+        $client->request('POST', '/users', ['json' => [
+            'email' => 'bi-pi@example.com',
+            'username' => 'bipi',
+            'firstname' => 'Robert',
+            'surname' => 'Baden-Powell',
+            'nickname' => 'Bi-Pi',
+            'language' => 'en',
+            'password' => 'learning-by-doing-101'
+        ]]);
+        $this->assertResponseStatusCodeSame(201);
+
+        $client->request('POST', '/authentication_token', ['json' => [
+            'username' => 'bipi',
+            'password' => 'learning-by-doing-101',
+        ]]);
+
+        $this->assertResponseIsSuccessful();
+    }
+
     public function testListUsersIsDeniedToAnonymousUser() {
         static::createClient()->request('GET', '/users');
         $this->assertResponseStatusCodeSame(401);

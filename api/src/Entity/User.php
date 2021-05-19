@@ -8,6 +8,7 @@ use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Annotation\SerializedName;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
@@ -80,8 +81,15 @@ class User extends BaseEntity implements UserInterface {
      * The hashed password
      * @ORM\Column(type="string", length=255)
      */
-    #[ApiProperty(readable: false, example: 'learning-by-doing-101')]
-    private ?string $password;
+    #[ApiProperty(readable: false, writable: false)]
+    private ?string $password = null;
+
+    /**
+     * The new password for this user
+     */
+    #[SerializedName('password')]
+    #[ApiProperty(readable: false, writable: true, example: 'learning-by-doing-101')]
+    private ?string $plainPassword = null;
 
     /**
      * Returning a salt is only needed, if you are not using a modern
@@ -99,7 +107,7 @@ class User extends BaseEntity implements UserInterface {
      */
     public function eraseCredentials() {
         // If you store any temporary, sensitive data on the user, clear it here
-        // $this->plainPassword = null;
+        $this->plainPassword = null;
     }
 
     public function getEmail(): ?string {
@@ -184,6 +192,16 @@ class User extends BaseEntity implements UserInterface {
 
     public function setPassword(?string $password): self {
         $this->password = $password;
+
+        return $this;
+    }
+
+    public function getPlainPassword(): ?string {
+        return $this->plainPassword;
+    }
+
+    public function setPlainPassword(?string $plainPassword): self {
+        $this->plainPassword = $plainPassword;
 
         return $this;
     }
