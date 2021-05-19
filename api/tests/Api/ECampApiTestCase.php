@@ -38,6 +38,20 @@ abstract class ECampApiTestCase extends ApiTestCase {
     }
 
     /**
+     * @param null $token
+     * @return Client
+     * @throws ClientExceptionInterface
+     * @throws RedirectionExceptionInterface
+     * @throws ServerExceptionInterface
+     * @throws TransportExceptionInterface
+     */
+    protected function createClientWithAdminCredentials($token = null): Client {
+        $token = $token ?: $this->getToken(['username' => 'admin', 'password' => 'test']);
+
+        return static::createClient([], ['headers' => ['authorization' => 'Bearer ' . $token, 'accept' => 'application/hal+json']]);
+    }
+
+    /**
      * Use other credentials if needed.
      * @param array $body
      * @return string

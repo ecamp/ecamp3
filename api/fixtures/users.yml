@@ -8,7 +8,7 @@ App\Entity\User:
     language: en
     roles: [ 'ROLE_USER' ]
     password: '\$argon2id\$v=19\$m=65536,t=4,p=1\$/RC8YWMDDXR19wB4or6bBA\$Kq5haK2SACQgo4CB7eDUibsD3QXCE32w25ZwhKg1SGw' # test
-  user_{2..10}:
+  user_{2..3}:
     email: <email()>
     username: <username(4)>
     firstname: <firstName()>
@@ -16,4 +16,13 @@ App\Entity\User:
     nickname: <word()>
     language: en
     roles: [ 'ROLE_USER' ]
+    password: '\$argon2id\$v=19\$m=65536,t=4,p=1\$/RC8YWMDDXR19wB4or6bBA\$Kq5haK2SACQgo4CB7eDUibsD3QXCE32w25ZwhKg1SGw' # test
+  admin:
+    email: admin@example.com
+    username: admin
+    firstname: Admi
+    surname: Nistrator
+    nickname: Administrator
+    language: de
+    roles: [ 'ROLE_ADMIN' ]
     password: '\$argon2id\$v=19\$m=65536,t=4,p=1\$/RC8YWMDDXR19wB4or6bBA\$Kq5haK2SACQgo4CB7eDUibsD3QXCE32w25ZwhKg1SGw' # test
