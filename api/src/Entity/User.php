@@ -39,6 +39,7 @@ class User extends BaseEntity implements UserInterface {
      * @ORM\Column(type="string", length=64, nullable=false, unique=true)
      */
     #[Assert\NotBlank]
+    #[Assert\Email]
     #[ApiProperty(example: 'bi-pi@example.com')]
     public ?string $email = null;
 
@@ -89,10 +90,11 @@ class User extends BaseEntity implements UserInterface {
     private ?string $password = null;
 
     /**
-     * The new password for this user
+     * The new password for this user. At least 8 characters.
      */
     #[SerializedName('password')]
     #[Assert\NotBlank(groups: ['create'])]
+    #[Assert\Length(min: 8)]
     #[ApiProperty(readable: false, writable: true, example: 'learning-by-doing-101')]
     private ?string $plainPassword = null;
 

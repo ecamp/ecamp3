@@ -95,9 +95,75 @@ class CreateUserTest extends ECampApiTestCase {
         ]);
     }
 
+    public function testCreateUserValidatesBlankEmail() {
+        static::createClientWithCredentials()->request('POST', '/users', ['json' => [
+            'email' => '',
+            'username' => 'bipi',
+            'firstname' => 'Robert',
+            'surname' => 'Baden-Powell',
+            'nickname' => 'Bi-Pi',
+            'language' => 'en',
+            'password' => 'learning-by-doing-101'
+        ]]);
+
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [
+                    'propertyPath' => 'email',
+                    'message' => 'This value should not be blank.'
+                ]
+            ]
+        ]);
+    }
+
+    public function testCreateUserValidatesInvalidEmail() {
+        static::createClientWithCredentials()->request('POST', '/users', ['json' => [
+            'email' => 'test@sunrise',
+            'username' => 'bipi',
+            'firstname' => 'Robert',
+            'surname' => 'Baden-Powell',
+            'nickname' => 'Bi-Pi',
+            'language' => 'en',
+            'password' => 'learning-by-doing-101'
+        ]]);
+
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [
+                    'propertyPath' => 'email',
+                    'message' => 'This value is not a valid email address.'
+                ]
+            ]
+        ]);
+    }
+
     public function testCreateUserValidatesMissingUsername() {
         static::createClientWithCredentials()->request('POST', '/users', ['json' => [
             'email' => 'bi-pi@example.com',
+            'firstname' => 'Robert',
+            'surname' => 'Baden-Powell',
+            'nickname' => 'Bi-Pi',
+            'language' => 'en',
+            'password' => 'learning-by-doing-101'
+        ]]);
+
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [
+                    'propertyPath' => 'username',
+                    'message' => 'This value should not be blank.'
+                ]
+            ]
+        ]);
+    }
+
+    public function testCreateUserValidatesBlankUsername() {
+        static::createClientWithCredentials()->request('POST', '/users', ['json' => [
+            'email' => 'bi-pi@example.com',
+            'username' => '',
             'firstname' => 'Robert',
             'surname' => 'Baden-Powell',
             'nickname' => 'Bi-Pi',
@@ -132,6 +198,28 @@ class CreateUserTest extends ECampApiTestCase {
                 [
                     'propertyPath' => 'password',
                     'message' => 'This value should not be blank.'
+                ]
+            ]
+        ]);
+    }
+
+    public function testCreateUserValidatesBlankPassword() {
+        static::createClientWithCredentials()->request('POST', '/users', ['json' => [
+            'email' => 'bi-pi@example.com',
+            'username' => 'bipi',
+            'firstname' => 'Robert',
+            'surname' => 'Baden-Powell',
+            'nickname' => 'Bi-Pi',
+            'language' => 'en',
+            'password' => ''
+        ]]);
+
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [
+                    'propertyPath' => 'password',
+                    'message' => 'This value is too short. It should have 8 characters or more.'
                 ]
             ]
         ]);

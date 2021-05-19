@@ -51,4 +51,68 @@ class UpdateUserTest extends ECampApiTestCase {
             'nickname' => 'Linux',
         ]);
     }
+
+    public function testPatchUserValidatesBlankEmail() {
+        $user = static::$fixtures['user_1'];
+        static::createClientWithCredentials()->request('PATCH', '/users/'.$user->getId(), ['json' => [
+            'email' => ''
+        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [
+                    'propertyPath' => 'email',
+                    'message' => 'This value should not be blank.'
+                ]
+            ]
+        ]);
+    }
+
+    public function testPatchUserValidatesInvalidEmail() {
+        $user = static::$fixtures['user_1'];
+        static::createClientWithCredentials()->request('PATCH', '/users/'.$user->getId(), ['json' => [
+            'email' => 'hello@sunrise'
+        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [
+                    'propertyPath' => 'email',
+                    'message' => 'This value is not a valid email address.'
+                ]
+            ]
+        ]);
+    }
+
+    public function testPatchUserValidatesBlankUsername() {
+        $user = static::$fixtures['user_1'];
+        static::createClientWithCredentials()->request('PATCH', '/users/'.$user->getId(), ['json' => [
+            'username' => ''
+        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [
+                    'propertyPath' => 'username',
+                    'message' => 'This value should not be blank.'
+                ]
+            ]
+        ]);
+    }
+
+    public function testPatchUserValidatesBlankPassword() {
+        $user = static::$fixtures['user_1'];
+        static::createClientWithCredentials()->request('PATCH', '/users/'.$user->getId(), ['json' => [
+            'password' => ''
+        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [
+                    'propertyPath' => 'password',
+                    'message' => 'This value is too short. It should have 8 characters or more.'
+                ]
+            ]
+        ]);
+    }
 }
