@@ -36,7 +36,7 @@
         "ezyang/htmlpurifier": "4.13.0",
         "sentry/sdk": "3.1.0",
         "enqueue/amqp-bunny": "0.10.9",
-        "slm/mail": "3.3",
+        "slm/mail": "3.4",
         "roave/better-reflection": "4.12.2",
         "swaggest/json-schema": "0.12.32"
     },

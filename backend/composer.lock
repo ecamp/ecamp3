@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4e95322b0ddf1099eb7baea5aa988a95",
+    "content-hash": "3311f98839c37c33820ced0c1a735b5e",
     "packages": [
         {
             "name": "assetic/framework",
@@ -8013,16 +8013,16 @@
         },
         {
             "name": "slm/mail",
-            "version": "v3.3",
+            "version": "v3.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/JouwWeb/SlmMail.git",
-                "reference": "75c050bf916d570a096586b79114e9c0efd53d6a"
+                "reference": "3ba8b0bc2ad649b72e9fec820074dfb82e1f1ca2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/JouwWeb/SlmMail/zipball/75c050bf916d570a096586b79114e9c0efd53d6a",
-                "reference": "75c050bf916d570a096586b79114e9c0efd53d6a",
+                "url": "https://api.github.com/repos/JouwWeb/SlmMail/zipball/3ba8b0bc2ad649b72e9fec820074dfb82e1f1ca2",
+                "reference": "3ba8b0bc2ad649b72e9fec820074dfb82e1f1ca2",
                 "shasum": ""
             },
             "require": {
@@ -8105,9 +8105,9 @@
             ],
             "support": {
                 "issues": "https://github.com/JouwWeb/SlmMail/issues",
-                "source": "https://github.com/JouwWeb/SlmMail/tree/v3.3"
+                "source": "https://github.com/JouwWeb/SlmMail/tree/v3.4"
             },
-            "time": "2020-07-01T12:22:12+00:00"
+            "time": "2021-05-19T07:50:42+00:00"
         },
         {
             "name": "swaggest/json-diff",
