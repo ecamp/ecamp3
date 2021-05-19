@@ -248,6 +248,28 @@ class CreateUserTest extends ECampApiTestCase {
         ]);
     }
 
+    public function testCreateUserValidatesInvalidLanguage() {
+        static::createClientWithCredentials()->request('POST', '/users', ['json' => [
+            'email' => 'bi-pi@example.com',
+            'username' => 'bipi',
+            'firstname' => 'Robert',
+            'surname' => 'Baden-Powell',
+            'nickname' => 'Bi-Pi',
+            'language' => 'französisch',
+            'password' => 'learning-by-doing-101'
+        ]]);
+
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [
+                    'propertyPath' => 'language',
+                    'message' => 'This value is not a valid locale.'
+                ]
+            ]
+        ]);
+    }
+
     public function testCreateUserValidatesLongLanguage() {
         static::createClientWithCredentials()->request('POST', '/users', ['json' => [
             'email' => 'bi-pi@example.com',

@@ -72,8 +72,11 @@ class User extends BaseEntity implements UserInterface {
     public ?string $nickname = null;
 
     /**
+     * The preferred language of the user, as an ICU language code.
+     *
      * @ORM\Column(type="string", length=20, nullable=true)
      */
+    #[Assert\Locale]
     #[ApiProperty(example: 'en')]
     public ?string $language = null;
 

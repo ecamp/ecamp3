@@ -148,6 +148,22 @@ class UpdateUserTest extends ECampApiTestCase {
         ]);
     }
 
+    public function testPatchUserValidatesInvalidLanguage() {
+        $user = static::$fixtures['user_1'];
+        static::createClientWithCredentials()->request('PATCH', '/users/'.$user->getId(), ['json' => [
+            'language' => 'französisch'
+        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [
+                    'propertyPath' => 'language',
+                    'message' => 'This value is not a valid locale.'
+                ]
+            ]
+        ]);
+    }
+
     public function testPatchUserValidatesLongLanguage() {
         $user = static::$fixtures['user_1'];
         static::createClientWithCredentials()->request('PATCH', '/users/'.$user->getId(), ['json' => [
