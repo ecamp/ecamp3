@@ -73,4 +73,67 @@ class CreateUserTest extends ECampApiTestCase {
 
         $this->assertResponseIsSuccessful();
     }
+
+    public function testCreateUserValidatesMissingEmail() {
+        static::createClientWithCredentials()->request('POST', '/users', ['json' => [
+            'username' => 'bipi',
+            'firstname' => 'Robert',
+            'surname' => 'Baden-Powell',
+            'nickname' => 'Bi-Pi',
+            'language' => 'en',
+            'password' => 'learning-by-doing-101'
+        ]]);
+
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [
+                    'propertyPath' => 'email',
+                    'message' => 'This value should not be blank.'
+                ]
+            ]
+        ]);
+    }
+
+    public function testCreateUserValidatesMissingUsername() {
+        static::createClientWithCredentials()->request('POST', '/users', ['json' => [
+            'email' => 'bi-pi@example.com',
+            'firstname' => 'Robert',
+            'surname' => 'Baden-Powell',
+            'nickname' => 'Bi-Pi',
+            'language' => 'en',
+            'password' => 'learning-by-doing-101'
+        ]]);
+
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [
+                    'propertyPath' => 'username',
+                    'message' => 'This value should not be blank.'
+                ]
+            ]
+        ]);
+    }
+
+    public function testCreateUserValidatesMissingPassword() {
+        static::createClientWithCredentials()->request('POST', '/users', ['json' => [
+            'email' => 'bi-pi@example.com',
+            'username' => 'bipi',
+            'firstname' => 'Robert',
+            'surname' => 'Baden-Powell',
+            'nickname' => 'Bi-Pi',
+            'language' => 'en'
+        ]]);
+
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [
+                    'propertyPath' => 'password',
+                    'message' => 'This value should not be blank.'
+                ]
+            ]
+        ]);
+    }
 }

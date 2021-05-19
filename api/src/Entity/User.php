@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\SerializedName;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
@@ -21,13 +22,14 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
         'get' => [ 'security' => 'is_fully_authenticated()'],
         'post' => [
             'security' => 'true', // allow unauthenticated clients to create (register) users
-            'input_formats' => [ 'jsonld', 'jsonapi', 'json' ]
+            'input_formats' => [ 'jsonld', 'jsonapi', 'json' ],
+            'validation_groups' => ['Default', 'create'],
         ]
     ],
     itemOperations: [
         'get' => [ 'security' => 'is_granted("ROLE_ADMIN") or object == user' ],
         'patch' => [ 'security' => 'is_granted("ROLE_ADMIN") or object == user' ],
-        'delete' => [ 'security' => 'is_granted("ROLE_ADMIN")' ]
+        'delete' => [ 'security' => 'is_granted("ROLE_ADMIN")' ],
     ]
 )]
 class User extends BaseEntity implements UserInterface {
@@ -36,6 +38,7 @@ class User extends BaseEntity implements UserInterface {
      *
      * @ORM\Column(type="string", length=64, nullable=false, unique=true)
      */
+    #[Assert\NotBlank]
     #[ApiProperty(example: 'bi-pi@example.com')]
     public ?string $email = null;
 
@@ -44,6 +47,7 @@ class User extends BaseEntity implements UserInterface {
      *
      * @ORM\Column(type="string", length=32, nullable=false, unique=true)
      */
+    #[Assert\NotBlank]
     #[ApiProperty(example: 'bipi')]
     public ?string $username;
 
@@ -88,6 +92,7 @@ class User extends BaseEntity implements UserInterface {
      * The new password for this user
      */
     #[SerializedName('password')]
+    #[Assert\NotBlank(groups: ['create'])]
     #[ApiProperty(readable: false, writable: true, example: 'learning-by-doing-101')]
     private ?string $plainPassword = null;
 
