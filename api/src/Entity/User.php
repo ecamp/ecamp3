@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
+use App\InputFilter;
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -35,6 +36,7 @@ class User extends BaseEntity implements UserInterface {
      *
      * @ORM\Column(type="string", length=64, nullable=false, unique=true)
      */
+    #[InputFilter\Trim]
     #[Assert\NotBlank]
     #[Assert\Email]
     #[ApiProperty(example: 'bi-pi@example.com')]
@@ -45,6 +47,7 @@ class User extends BaseEntity implements UserInterface {
      *
      * @ORM\Column(type="string", length=32, nullable=false, unique=true)
      */
+    #[InputFilter\Trim]
     #[Assert\NotBlank]
     #[Assert\Regex(pattern: '/^[a-z0-9_.-]+$/')]
     #[ApiProperty(example: 'bipi')]
@@ -53,18 +56,21 @@ class User extends BaseEntity implements UserInterface {
     /**
      * @ORM\Column(type="text", nullable=true)
      */
+    #[InputFilter\Trim]
     #[ApiProperty(example: 'Robert')]
     public ?string $firstname = null;
 
     /**
      * @ORM\Column(type="text", nullable=true)
      */
+    #[InputFilter\Trim]
     #[ApiProperty(example: 'Baden-Powell')]
     public ?string $surname = null;
 
     /**
      * @ORM\Column(type="text", nullable=true)
      */
+    #[InputFilter\Trim]
     #[ApiProperty(example: 'Bi-Pi')]
     public ?string $nickname = null;
 
@@ -73,6 +79,7 @@ class User extends BaseEntity implements UserInterface {
      *
      * @ORM\Column(type="string", length=20, nullable=true)
      */
+    #[InputFilter\Trim]
     #[Assert\Locale]
     #[ApiProperty(example: 'en')]
     public ?string $language = null;

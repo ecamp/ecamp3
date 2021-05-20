@@ -52,6 +52,17 @@ class UpdateUserTest extends ECampApiTestCase {
         ]);
     }
 
+    public function testPatchUserTrimsEmail() {
+        $user = static::$fixtures['user_1'];
+        static::createClientWithCredentials()->request('PATCH', '/users/'.$user->getId(), ['json' => [
+            'email' => ' trimmed@example.com'
+        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertJsonContains([
+            'email' => 'trimmed@example.com',
+        ]);
+    }
+
     public function testPatchUserValidatesBlankEmail() {
         $user = static::$fixtures['user_1'];
         static::createClientWithCredentials()->request('PATCH', '/users/'.$user->getId(), ['json' => [
@@ -116,6 +127,33 @@ class UpdateUserTest extends ECampApiTestCase {
         ]);
     }
 
+    public function testPatchUserTrimsFirstThenValidatesDuplicateEmail() {
+        $user = static::$fixtures['user_1'];
+        static::createClientWithCredentials()->request('PATCH', '/users/'.$user->getId(), ['json' => [
+            'email' => ' '.static::$fixtures['user_2']->getEmail()
+        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [
+                    'propertyPath' => 'email',
+                    'message' => 'This value is already used.'
+                ]
+            ]
+        ]);
+    }
+
+    public function testPatchUserTrimsUsername() {
+        $user = static::$fixtures['user_1'];
+        static::createClientWithCredentials()->request('PATCH', '/users/'.$user->getId(), ['json' => [
+            'username' => " bi-pi\t"
+        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertJsonContains([
+            'username' => 'bi-pi'
+        ]);
+    }
+
     public function testPatchUserValidatesBlankUsername() {
         $user = static::$fixtures['user_1'];
         static::createClientWithCredentials()->request('PATCH', '/users/'.$user->getId(), ['json' => [
@@ -177,6 +215,66 @@ class UpdateUserTest extends ECampApiTestCase {
                     'message' => 'This value is already used.'
                 ]
             ]
+        ]);
+    }
+
+    public function testPatchUserTrimsFirstThenValidatesDuplicateUsername() {
+        $user = static::$fixtures['user_1'];
+        static::createClientWithCredentials()->request('PATCH', '/users/'.$user->getId(), ['json' => [
+            'username' => ' '.static::$fixtures['user_2']->getUsername()
+        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [
+                    'propertyPath' => 'username',
+                    'message' => 'This value is already used.'
+                ]
+            ]
+        ]);
+    }
+
+    public function testPatchUserTrimsFirstname() {
+        $user = static::$fixtures['user_1'];
+        static::createClientWithCredentials()->request('PATCH', '/users/'.$user->getId(), ['json' => [
+            'firstname' => "\tHello "
+        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertJsonContains([
+            'firstname' => 'Hello'
+        ]);
+    }
+
+    public function testPatchUserTrimsSurname() {
+        $user = static::$fixtures['user_1'];
+        static::createClientWithCredentials()->request('PATCH', '/users/'.$user->getId(), ['json' => [
+            'surname' => "\tHello "
+        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertJsonContains([
+            'surname' => 'Hello'
+        ]);
+    }
+
+    public function testPatchUserTrimsNickname() {
+        $user = static::$fixtures['user_1'];
+        static::createClientWithCredentials()->request('PATCH', '/users/'.$user->getId(), ['json' => [
+            'nickname' => "\tHello "
+        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertJsonContains([
+            'nickname' => 'Hello'
+        ]);
+    }
+
+    public function testPatchUserTrimsLanguage() {
+        $user = static::$fixtures['user_1'];
+        static::createClientWithCredentials()->request('PATCH', '/users/'.$user->getId(), ['json' => [
+            'language' => "\tde_CH "
+        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertJsonContains([
+            'language' => 'de_CH'
         ]);
     }
 

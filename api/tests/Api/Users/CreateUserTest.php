@@ -74,6 +74,28 @@ class CreateUserTest extends ECampApiTestCase {
         $this->assertResponseIsSuccessful();
     }
 
+    public function testCreateUserTrimsEmail() {
+        static::createClient()->request('POST', '/users', ['json' => [
+            'email' => " bi-pi@example.com\t\t",
+            'username' => 'bipi',
+            'firstname' => 'Robert',
+            'surname' => 'Baden-Powell',
+            'nickname' => 'Bi-Pi',
+            'language' => 'en',
+            'password' => 'learning-by-doing-101'
+        ]]);
+
+        $this->assertResponseStatusCodeSame(201);
+        $this->assertJsonContains([
+            'email' => 'bi-pi@example.com',
+            'username' => 'bipi',
+            'firstname' => 'Robert',
+            'surname' => 'Baden-Powell',
+            'nickname' => 'Bi-Pi',
+            'language' => 'en',
+        ]);
+    }
+
     public function testCreateUserValidatesMissingEmail() {
         static::createClientWithCredentials()->request('POST', '/users', ['json' => [
             'username' => 'bipi',
@@ -184,6 +206,51 @@ class CreateUserTest extends ECampApiTestCase {
         ]);
     }
 
+    public function testCreateUserTrimsFirstThenValidatesDuplicateEmail() {
+        $client = static::createClientWithCredentials();
+        $client->request('POST', '/users', ['json' => [
+            'email' => ' '.static::$fixtures['user_1']->getEmail(),
+            'username' => 'bipi',
+            'firstname' => 'Robert',
+            'surname' => 'Baden-Powell',
+            'nickname' => 'Bi-Pi',
+            'language' => 'en',
+            'password' => 'learning-by-doing-101'
+        ]]);
+
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [
+                    'propertyPath' => 'email',
+                    'message' => 'This value is already used.'
+                ]
+            ]
+        ]);
+    }
+
+    public function testCreateUserTrimsUsername() {
+        static::createClient()->request('POST', '/users', ['json' => [
+            'email' => 'bi-pi@example.com',
+            'username' => '  bipi ',
+            'firstname' => 'Robert',
+            'surname' => 'Baden-Powell',
+            'nickname' => 'Bi-Pi',
+            'language' => 'en',
+            'password' => 'learning-by-doing-101'
+        ]]);
+
+        $this->assertResponseStatusCodeSame(201);
+        $this->assertJsonContains([
+            'email' => 'bi-pi@example.com',
+            'username' => 'bipi',
+            'firstname' => 'Robert',
+            'surname' => 'Baden-Powell',
+            'nickname' => 'Bi-Pi',
+            'language' => 'en',
+        ]);
+    }
+
     public function testCreateUserValidatesMissingUsername() {
         static::createClientWithCredentials()->request('POST', '/users', ['json' => [
             'email' => 'bi-pi@example.com',
@@ -291,6 +358,117 @@ class CreateUserTest extends ECampApiTestCase {
                     'message' => 'This value is already used.'
                 ]
             ]
+        ]);
+    }
+
+    public function testCreateUserTrimsFirstThenValidatesDuplicateUsername() {
+        $client = static::createClientWithCredentials();
+        $client->request('POST', '/users', ['json' => [
+            'email' => 'bi-pi@example.com',
+            'username' => static::$fixtures['user_1']->getUsername().'   ',
+            'firstname' => 'Robert',
+            'surname' => 'Baden-Powell',
+            'nickname' => 'Bi-Pi',
+            'language' => 'en',
+            'password' => 'learning-by-doing-101'
+        ]]);
+
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [
+                    'propertyPath' => 'username',
+                    'message' => 'This value is already used.'
+                ]
+            ]
+        ]);
+    }
+
+    public function testCreateUserTrimsFirstname() {
+        static::createClient()->request('POST', '/users', ['json' => [
+            'email' => 'bi-pi@example.com',
+            'username' => 'bipi',
+            'firstname' => " Robert\t",
+            'surname' => 'Baden-Powell',
+            'nickname' => 'Bi-Pi',
+            'language' => 'en',
+            'password' => 'learning-by-doing-101'
+        ]]);
+
+        $this->assertResponseStatusCodeSame(201);
+        $this->assertJsonContains([
+            'email' => 'bi-pi@example.com',
+            'username' => 'bipi',
+            'firstname' => 'Robert',
+            'surname' => 'Baden-Powell',
+            'nickname' => 'Bi-Pi',
+            'language' => 'en',
+        ]);
+    }
+
+    public function testCreateUserTrimsSurname() {
+        static::createClient()->request('POST', '/users', ['json' => [
+            'email' => 'bi-pi@example.com',
+            'username' => 'bipi',
+            'firstname' => 'Robert',
+            'surname' => '   Baden-Powell',
+            'nickname' => 'Bi-Pi',
+            'language' => 'en',
+            'password' => 'learning-by-doing-101'
+        ]]);
+
+        $this->assertResponseStatusCodeSame(201);
+        $this->assertJsonContains([
+            'email' => 'bi-pi@example.com',
+            'username' => 'bipi',
+            'firstname' => 'Robert',
+            'surname' => 'Baden-Powell',
+            'nickname' => 'Bi-Pi',
+            'language' => 'en',
+        ]);
+    }
+
+    public function testCreateUserTrimsNickname() {
+        static::createClient()->request('POST', '/users', ['json' => [
+            'email' => 'bi-pi@example.com',
+            'username' => 'bipi',
+            'firstname' => 'Robert',
+            'surname' => 'Baden-Powell',
+            'nickname' => "\tBi-Pi\t",
+            'language' => 'en',
+            'password' => 'learning-by-doing-101'
+        ]]);
+
+        $this->assertResponseStatusCodeSame(201);
+        $this->assertJsonContains([
+            'email' => 'bi-pi@example.com',
+            'username' => 'bipi',
+            'firstname' => 'Robert',
+            'surname' => 'Baden-Powell',
+            'nickname' => 'Bi-Pi',
+            'language' => 'en',
+        ]);
+    }
+
+    public function testCreateUserTrimsLanguage() {
+        static::createClient()->request('POST', '/users', ['json' => [
+            'email' => 'bi-pi@example.com',
+            'username' => 'bipi',
+            'firstname' => 'Robert',
+            'surname' => 'Baden-Powell',
+            'nickname' => 'Bi-Pi',
+            'language' => "\ten ",
+            'password' => 'learning-by-doing-101'
+        ]]);
+
+        $this->assertResponseStatusCodeSame(201);
+        $this->assertJsonContains([
+            'email' => 'bi-pi@example.com',
+            'username' => 'bipi',
+            'firstname' => 'Robert',
+            'surname' => 'Baden-Powell',
+            'nickname' => 'Bi-Pi',
+            'language' => 'en',
         ]);
     }
 
