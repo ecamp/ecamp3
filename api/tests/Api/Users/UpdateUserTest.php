@@ -100,6 +100,22 @@ class UpdateUserTest extends ECampApiTestCase {
         ]);
     }
 
+    public function testPatchUserValidatesDuplicateEmail() {
+        $user = static::$fixtures['user_1'];
+        static::createClientWithCredentials()->request('PATCH', '/users/'.$user->getId(), ['json' => [
+            'email' => static::$fixtures['user_2']->getEmail()
+        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [
+                    'propertyPath' => 'email',
+                    'message' => 'This value is already used.'
+                ]
+            ]
+        ]);
+    }
+
     public function testPatchUserValidatesBlankUsername() {
         $user = static::$fixtures['user_1'];
         static::createClientWithCredentials()->request('PATCH', '/users/'.$user->getId(), ['json' => [
@@ -143,6 +159,22 @@ class UpdateUserTest extends ECampApiTestCase {
                 [
                     'propertyPath' => 'username',
                     'message' => 'This value is too long. It should have 32 characters or less.'
+                ]
+            ]
+        ]);
+    }
+
+    public function testPatchUserValidatesDuplicateUsername() {
+        $user = static::$fixtures['user_1'];
+        static::createClientWithCredentials()->request('PATCH', '/users/'.$user->getId(), ['json' => [
+            'username' => static::$fixtures['user_2']->getUsername()
+        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [
+                    'propertyPath' => 'username',
+                    'message' => 'This value is already used.'
                 ]
             ]
         ]);

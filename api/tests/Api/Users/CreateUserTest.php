@@ -161,6 +161,29 @@ class CreateUserTest extends ECampApiTestCase {
         ]);
     }
 
+    public function testCreateUserValidatesDuplicateEmail() {
+        $client = static::createClientWithCredentials();
+        $client->request('POST', '/users', ['json' => [
+            'email' => static::$fixtures['user_1']->getEmail(),
+            'username' => 'bipi',
+            'firstname' => 'Robert',
+            'surname' => 'Baden-Powell',
+            'nickname' => 'Bi-Pi',
+            'language' => 'en',
+            'password' => 'learning-by-doing-101'
+        ]]);
+
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [
+                    'propertyPath' => 'email',
+                    'message' => 'This value is already used.'
+                ]
+            ]
+        ]);
+    }
+
     public function testCreateUserValidatesMissingUsername() {
         static::createClientWithCredentials()->request('POST', '/users', ['json' => [
             'email' => 'bi-pi@example.com',
@@ -243,6 +266,29 @@ class CreateUserTest extends ECampApiTestCase {
                 [
                     'propertyPath' => 'username',
                     'message' => 'This value is too long. It should have 32 characters or less.'
+                ]
+            ]
+        ]);
+    }
+
+    public function testCreateUserValidatesDuplicateUsername() {
+        $client = static::createClientWithCredentials();
+        $client->request('POST', '/users', ['json' => [
+            'email' => 'bi-pi@example.com',
+            'username' => static::$fixtures['user_1']->getUsername(),
+            'firstname' => 'Robert',
+            'surname' => 'Baden-Powell',
+            'nickname' => 'Bi-Pi',
+            'language' => 'en',
+            'password' => 'learning-by-doing-101'
+        ]]);
+
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [
+                    'propertyPath' => 'username',
+                    'message' => 'This value is already used.'
                 ]
             ]
         ]);
