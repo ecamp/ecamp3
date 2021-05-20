@@ -21,6 +21,9 @@ namespace App\InputFilter;
  * InputFilter instances are immutable and serializable.
  */
 abstract class InputFilter {
+
+    protected int $priority;
+
     /**
      * Initializes the input filter with options.
      *
@@ -29,8 +32,12 @@ abstract class InputFilter {
      * properties.
      *
      * @param array $options The options (as associative array)
+     * @param int $priority The priority of this input filter. Higher priorities are executed first.
+     *                      Priorities are evaluated for the whole entity class at once.
      */
-    public function __construct(array $options = []) {
+    public function __construct(array $options = [], int $priority = 0) {
+        $this->priority = $priority;
+
         foreach ($options as $name => $value) {
             $this->$name = $value;
         }
@@ -45,6 +52,10 @@ abstract class InputFilter {
      * @return array filtered data
      */
     abstract function applyTo(array $data, string $propertyName): array;
+
+    public function getPriority(): int {
+        return $this->priority;
+    }
 
     /**
      * @throws InvalidOptionsException This magic method is only called if

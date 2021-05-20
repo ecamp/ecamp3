@@ -28,9 +28,19 @@ class InputFilterDenormalizerTest extends TestCase {
             ->method('denormalize')
             ->willReturnArgument(0);
 
-        $result = $this->denormalizer->denormalize(['a' => 123, 'b' => 'test'], Dummy::class);
+        $result = $this->denormalizer->denormalize(['foo' => 'test'], Dummy::class);
 
         $this->assertEquals(['foo' => 'processed'], $result);
+    }
+
+    public function testPrioritizesInputFilters() {
+        $this->decoratedMock->expects($this->once())
+            ->method('denormalize')
+            ->willReturnArgument(0);
+
+        $result = $this->denormalizer->denormalize(['ab' => 'xxx', 'ba' => 'yyy'], Dummy::class);
+
+        $this->assertEquals(['ab' => 'xxxAB', 'ba' => 'yyyBA'], $result);
     }
 
     public function testSupportsValidArray() {
@@ -73,7 +83,26 @@ class InputFilterDenormalizerTest extends TestCase {
 #[\Attribute(\Attribute::TARGET_PROPERTY | \Attribute::IS_REPEATABLE)]
 class DummyInputFilter extends InputFilter {
     function applyTo(array $data, string $propertyName): array {
+        if (!isset($data[$propertyName])) return $data;
         return [$propertyName => 'processed'];
+    }
+}
+
+#[\Attribute(\Attribute::TARGET_PROPERTY | \Attribute::IS_REPEATABLE)]
+class AppendAInputFilter extends InputFilter {
+    function applyTo(array $data, string $propertyName): array {
+        if (!isset($data[$propertyName])) return $data;
+        $data[$propertyName] = $data[$propertyName].'A';
+        return $data;
+    }
+}
+
+#[\Attribute(\Attribute::TARGET_PROPERTY | \Attribute::IS_REPEATABLE)]
+class AppendBInputFilter extends InputFilter {
+    function applyTo(array $data, string $propertyName): array {
+        if (!isset($data[$propertyName])) return $data;
+        $data[$propertyName] = $data[$propertyName].'B';
+        return $data;
     }
 }
 
@@ -84,6 +113,14 @@ class Dummy {
     // other attribute which is not an input filter
     #[Valid]
     public $bar;
+
+    #[AppendAInputFilter(priority: 10)]
+    #[AppendBInputFilter(priority: 0)]
+    public $ab;
+
+    #[AppendAInputFilter(priority: 0)]
+    #[AppendBInputFilter(priority: 10)]
+    public $ba;
 
     public function __construct($foo, $bar) {
         $this->foo = $foo;

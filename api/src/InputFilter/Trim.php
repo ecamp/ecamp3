@@ -16,6 +16,11 @@ namespace App\InputFilter;
  */
 #[\Attribute(\Attribute::TARGET_PROPERTY | \Attribute::IS_REPEATABLE)]
 class Trim extends InputFilter {
+
+    public function __construct(array $options = [], int $priority = 10) {
+        parent::__construct($options, $priority);
+    }
+
     /**
      * {@inheritdoc}
      */

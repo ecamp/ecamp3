@@ -54,20 +54,32 @@ class InputFilterDenormalizer implements ContextAwareDenormalizerInterface, Deno
         }
 
         $reflClass = $this->getReflectionClass($className);
+        $inputFilters = [];
         foreach ($reflClass->getProperties() as $property) {
             if ($property->getDeclaringClass()->name === $className) {
                 foreach ($this->getInputFilterAttributes($property) as $inputFilter) {
-                    if ($inputFilter instanceof InputFilter) {
-                        $data = $inputFilter->applyTo($data, $property->name);
-                    }
+                    $inputFilters[] = [$property->name, $inputFilter];
                 }
+            }
+        }
+
+        usort($inputFilters, function ($a, $b) {
+            // Comparing B to A ensures that priorities are sorted descendingly,
+            // as opposed to comparing A to B
+            return $b[1]->getPriority() <=> $a[1]->getPriority();
+        });
+
+        foreach ($inputFilters as $tuple) {
+            $inputFilter = $tuple[1];
+            if ($inputFilter instanceof InputFilter) {
+                $data = $inputFilter->applyTo($data, $tuple[0]);
             }
         }
 
         return $data;
     }
 
-    protected function getInputFilterAttributes(object $reflection): iterable {
+    protected function getInputFilterAttributes(object $reflection): \Generator {
         foreach ($reflection->getAttributes(InputFilter::class, \ReflectionAttribute::IS_INSTANCEOF) as $attribute) {
             yield $attribute->newInstance();
         }
