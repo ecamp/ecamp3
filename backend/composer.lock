@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3a4e2b36b56abf41eaf7096d3374382f",
+    "content-hash": "70a48d225689adcf236f7c418b595f97",
     "packages": [
         {
             "name": "assetic/framework",
@@ -3709,16 +3709,16 @@
         },
         {
             "name": "laminas/laminas-cli",
-            "version": "1.1.0",
+            "version": "1.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-cli.git",
-                "reference": "2da5bcd6900e98e7926714a58437d7a039a7d768"
+                "reference": "875a174c161c84c84c43bdff1e10cfe4ecbda704"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-cli/zipball/2da5bcd6900e98e7926714a58437d7a039a7d768",
-                "reference": "2da5bcd6900e98e7926714a58437d7a039a7d768",
+                "url": "https://api.github.com/repos/laminas/laminas-cli/zipball/875a174c161c84c84c43bdff1e10cfe4ecbda704",
+                "reference": "875a174c161c84c84c43bdff1e10cfe4ecbda704",
                 "shasum": ""
             },
             "require": {
@@ -3781,7 +3781,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2021-05-18T16:13:21+00:00"
+            "time": "2021-05-20T17:32:19+00:00"
         },
         {
             "name": "laminas/laminas-code",
