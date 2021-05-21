@@ -1,47 +1,17 @@
 <?php
 
-/*
- * This file is part of the Symfony package.
- *
- * (c) Fabien Potencier <fabien@symfony.com>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
 namespace App\InputFilter;
 
 /**
  * Edits a property in the payload submitted by an API user.
  *
- * An input filter can be defined on a property.
- * The InputFilter class encapsulates all the configuration required for
- * filtering this property successfully.
- *
- * InputFilter instances are immutable and serializable.
+ * In case your derived input filter class does not match the
+ * pattern App\InputFilter\*Filter, you will need to configure
+ * it as a service and tag it with 'app.input_filter'.
  */
 abstract class InputFilter {
 
-    protected int $priority;
-
-    /**
-     * Initializes the input filter with options.
-     *
-     * You should pass an associative array. The keys should be the names of
-     * existing properties in this class. The values should be the value for these
-     * properties.
-     *
-     * @param array $options The options (as associative array)
-     * @param int $priority The priority of this input filter. Higher priorities are executed first.
-     *                      Priorities are evaluated for the whole entity class at once.
-     */
-    public function __construct(array $options = [], int $priority = 0) {
-        $this->priority = $priority;
-
-        foreach ($options as $name => $value) {
-            $this->$name = $value;
-        }
-    }
+    protected FilterAttribute $filterAttribute;
 
     /**
      * This method should filter the given property in the given array, and
@@ -53,8 +23,8 @@ abstract class InputFilter {
      */
     abstract function applyTo(array $data, string $propertyName): array;
 
-    public function getPriority(): int {
-        return $this->priority;
+    public function setFilterAttribute(FilterAttribute $filterAttribute): void {
+        $this->filterAttribute = $filterAttribute;
     }
 
     /**

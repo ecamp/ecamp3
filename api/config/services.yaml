@@ -29,5 +29,18 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
     App\DataPersister\UserDataPersister:
         decorates: 'api_platform.doctrine.orm.data_persister'
+
+    # Since the input filter classes are resolved at runtime instead
+    # of with constructor dependency injection, we create a service
+    # locator that will serve all the required classes
+    App\Serializer\Denormalizer\InputFilterDenormalizer:
+        arguments: [!tagged_locator { tag: 'app.input_filter' }]
+    App\InputFilter\:
+        resource: '../src/InputFilter/*Filter.php'
+        exclude:
+            - '../src/InputFilter/InputFilter.php'
+        tags:
+            - 'app.input_filter'

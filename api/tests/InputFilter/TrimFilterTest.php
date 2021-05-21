@@ -3,10 +3,11 @@
 namespace App\Tests\InputFilter;
 
 use App\InputFilter\Trim;
+use App\InputFilter\TrimFilter;
 use App\InputFilter\UnexpectedValueException;
 use PHPUnit\Framework\TestCase;
 
-class TrimTest extends TestCase {
+class TrimFilterTest extends TestCase {
     /**
      * @dataProvider getExamples
      */
@@ -14,7 +15,7 @@ class TrimTest extends TestCase {
         // given
         $data = ['key' => $input];
         $outputData = ['key' => $output];
-        $trim = new Trim();
+        $trim = new TrimFilter();
 
         // when
         $result = $trim->applyTo($data, 'key');
@@ -39,7 +40,7 @@ class TrimTest extends TestCase {
     public function testDoesNothingWhenKeyIsMissing() {
         // given
         $data = ['otherkey' => 'something'];
-        $trim = new Trim();
+        $trim = new TrimFilter();
 
         // when
         $result = $trim->applyTo($data, 'key');
@@ -51,7 +52,7 @@ class TrimTest extends TestCase {
     public function testDoesNothingWhenValueIsNull() {
         // given
         $data = ['key' => null];
-        $trim = new Trim();
+        $trim = new TrimFilter();
 
         // when
         $result = $trim->applyTo($data, 'key');
@@ -63,7 +64,7 @@ class TrimTest extends TestCase {
     public function testThrowsWhenValueIsNotStringable() {
         // given
         $data = ['key' => new \stdClass()];
-        $trim = new Trim();
+        $trim = new TrimFilter();
 
         // then
         $this->expectException(UnexpectedValueException::class);

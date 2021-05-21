@@ -2,8 +2,10 @@
 
 namespace App\Serializer\Denormalizer;
 
+use App\InputFilter\FilterAttribute;
 use App\InputFilter\InputFilter;
 use App\InputFilter\UnexpectedValueException;
+use Symfony\Component\DependencyInjection\ServiceLocator;
 use Symfony\Component\Serializer\Normalizer\ContextAwareDenormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
@@ -16,6 +18,12 @@ class InputFilterDenormalizer implements ContextAwareDenormalizerInterface, Deno
     use DenormalizerAwareTrait;
 
     private const ALREADY_CALLED = 'INPUT_FILTER_DENORMALIZER_ALREADY_CALLED';
+
+    private ServiceLocator $allFilters;
+
+    public function __construct(ServiceLocator $allFilters) {
+        $this->allFilters = $allFilters;
+    }
 
     /**
      * {@inheritDoc}
@@ -54,25 +62,25 @@ class InputFilterDenormalizer implements ContextAwareDenormalizerInterface, Deno
         }
 
         $reflClass = $this->getReflectionClass($className);
-        $inputFilters = [];
+        $filterAttributes = [];
         foreach ($reflClass->getProperties() as $property) {
             if ($property->getDeclaringClass()->name === $className) {
-                foreach ($this->getInputFilterAttributes($property) as $inputFilter) {
-                    $inputFilters[] = [$property->name, $inputFilter];
+                foreach ($this->getInputFilterAttributes($property) as $filterAttribute) {
+                    $filterAttributes[] = [$property->name, $filterAttribute];
                 }
             }
         }
 
-        usort($inputFilters, function ($a, $b) {
-            // Comparing B to A ensures that priorities are sorted descendingly,
+        usort($filterAttributes, function ($a, $b) {
+            // Comparing B to A ensures that priorities are sorted in descending order,
             // as opposed to comparing A to B
             return $b[1]->getPriority() <=> $a[1]->getPriority();
         });
 
-        foreach ($inputFilters as $tuple) {
-            $inputFilter = $tuple[1];
-            if ($inputFilter instanceof InputFilter) {
-                $data = $inputFilter->applyTo($data, $tuple[0]);
+        foreach ($filterAttributes as $tuple) {
+            $filterAttribute = $tuple[1];
+            if ($filterAttribute instanceof FilterAttribute) {
+                $data = $this->applyFilter($data, $tuple[0], $filterAttribute);
             }
         }
 
@@ -80,12 +88,19 @@ class InputFilterDenormalizer implements ContextAwareDenormalizerInterface, Deno
     }
 
     protected function getInputFilterAttributes(object $reflection): \Generator {
-        foreach ($reflection->getAttributes(InputFilter::class, \ReflectionAttribute::IS_INSTANCEOF) as $attribute) {
+        foreach ($reflection->getAttributes(FilterAttribute::class, \ReflectionAttribute::IS_INSTANCEOF) as $attribute) {
             yield $attribute->newInstance();
         }
     }
 
     protected function getReflectionClass($className) {
         return new \ReflectionClass($className);
+    }
+
+    protected function applyFilter($data, string $propertyName, FilterAttribute $filterAttribute): array {
+        /** @var InputFilter $filter */
+        $filter = $this->allFilters->get($filterAttribute->filteredBy());
+        $filter->setFilterAttribute($filterAttribute);
+        return $filter->applyTo($data, $propertyName);
     }
 }

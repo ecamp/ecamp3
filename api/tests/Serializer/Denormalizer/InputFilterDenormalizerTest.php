@@ -2,10 +2,12 @@
 
 namespace App\Tests\Serializer\Denormalizer;
 
+use App\InputFilter\FilterAttribute;
 use App\InputFilter\InputFilter;
 use App\Serializer\Denormalizer\InputFilterDenormalizer;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\DependencyInjection\ServiceLocator;
 use Symfony\Component\Serializer\Normalizer\ContextAwareDenormalizerInterface;
 use Symfony\Component\Validator\Constraints\Valid;
 
@@ -17,9 +19,19 @@ class InputFilterDenormalizerTest extends TestCase {
      */
     private $decoratedMock;
 
+    /**
+     * @var ServiceLocator|MockObject
+     */
+    private $filterLocatorMock;
+
     protected function setUp(): void {
+        $this->filterLocatorMock = $this->createMock(ServiceLocator::class);
+        $this->filterLocatorMock->method('get')->willReturnCallback(function ($name) {
+            return new $name();
+        });
+
         $this->decoratedMock = $this->createMock(ContextAwareDenormalizerInterface::class);
-        $this->denormalizer = new InputFilterDenormalizer();
+        $this->denormalizer = new InputFilterDenormalizer($this->filterLocatorMock);
         $this->denormalizer->setDenormalizer($this->decoratedMock);
     }
 
@@ -28,7 +40,7 @@ class InputFilterDenormalizerTest extends TestCase {
             ->method('denormalize')
             ->willReturnArgument(0);
 
-        $result = $this->denormalizer->denormalize(['foo' => 'test'], Dummy::class);
+        $result = $this->denormalizer->denormalize(['foo' => 'test'], DummyEntity::class);
 
         $this->assertEquals(['foo' => 'processed'], $result);
     }
@@ -38,7 +50,7 @@ class InputFilterDenormalizerTest extends TestCase {
             ->method('denormalize')
             ->willReturnArgument(0);
 
-        $result = $this->denormalizer->denormalize(['ab' => 'xxx', 'ba' => 'yyy'], Dummy::class);
+        $result = $this->denormalizer->denormalize(['ab' => 'xxx', 'ba' => 'yyy'], DummyEntity::class);
 
         $this->assertEquals(['ab' => 'xxxAB', 'ba' => 'yyyBA'], $result);
     }
@@ -47,7 +59,7 @@ class InputFilterDenormalizerTest extends TestCase {
         $this->assertTrue(
             $this->denormalizer->supportsDenormalization(
                 ['a' => 123],
-                Dummy::class,
+                DummyEntity::class,
                 'json',
                 ['con' => 'text']
             )
@@ -58,7 +70,7 @@ class InputFilterDenormalizerTest extends TestCase {
         $this->assertFalse(
             $this->denormalizer->supportsDenormalization(
                 new \stdClass(),
-                Dummy::class,
+                DummyEntity::class,
                 'json',
                 ['con' => 'text']
             )
@@ -74,14 +86,16 @@ class InputFilterDenormalizerTest extends TestCase {
                 return [];
             });
 
-        $this->denormalizer->denormalize([], Dummy::class, 'json', $context);
+        $this->denormalizer->denormalize([], DummyEntity::class, 'json', $context);
 
-        $this->assertFalse($this->denormalizer->supportsDenormalization([], Dummy::class, 'json', $context));
+        $this->assertFalse($this->denormalizer->supportsDenormalization([], DummyEntity::class, 'json', $context));
     }
 }
 
 #[\Attribute(\Attribute::TARGET_PROPERTY | \Attribute::IS_REPEATABLE)]
-class DummyInputFilter extends InputFilter {
+class Dummy extends FilterAttribute {}
+
+class DummyFilter extends InputFilter {
     function applyTo(array $data, string $propertyName): array {
         if (!isset($data[$propertyName])) return $data;
         return [$propertyName => 'processed'];
@@ -89,7 +103,9 @@ class DummyInputFilter extends InputFilter {
 }
 
 #[\Attribute(\Attribute::TARGET_PROPERTY | \Attribute::IS_REPEATABLE)]
-class AppendAInputFilter extends InputFilter {
+class AppendA extends FilterAttribute {}
+
+class AppendAFilter extends InputFilter {
     function applyTo(array $data, string $propertyName): array {
         if (!isset($data[$propertyName])) return $data;
         $data[$propertyName] = $data[$propertyName].'A';
@@ -98,7 +114,9 @@ class AppendAInputFilter extends InputFilter {
 }
 
 #[\Attribute(\Attribute::TARGET_PROPERTY | \Attribute::IS_REPEATABLE)]
-class AppendBInputFilter extends InputFilter {
+class AppendB extends FilterAttribute {}
+
+class AppendBFilter extends InputFilter {
     function applyTo(array $data, string $propertyName): array {
         if (!isset($data[$propertyName])) return $data;
         $data[$propertyName] = $data[$propertyName].'B';
@@ -106,20 +124,20 @@ class AppendBInputFilter extends InputFilter {
     }
 }
 
-class Dummy {
-    #[DummyInputFilter]
+class DummyEntity {
+    #[Dummy]
     public $foo;
 
     // other attribute which is not an input filter
     #[Valid]
     public $bar;
 
-    #[AppendAInputFilter(priority: 10)]
-    #[AppendBInputFilter(priority: 0)]
+    #[AppendA(priority: 10)]
+    #[AppendB(priority: 0)]
     public $ab;
 
-    #[AppendAInputFilter(priority: 0)]
-    #[AppendBInputFilter(priority: 10)]
+    #[AppendA(priority: 0)]
+    #[AppendB(priority: 10)]
     public $ba;
 
     public function __construct($foo, $bar) {
