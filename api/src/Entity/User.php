@@ -111,6 +111,26 @@ class User extends BaseEntity implements UserInterface {
     private ?string $plainPassword = null;
 
     /**
+     * A displayable name of the user.
+     * @return string|null
+     */
+    #[ApiProperty(example: 'Robert Baden-Powell')]
+    public function getDisplayName(): ?string {
+        if (!empty($this->nickname)) {
+            return $this->nickname;
+        }
+        if (!empty($this->firstname)) {
+            if (!empty($this->surname)) {
+                return $this->firstname.' '.$this->surname;
+            }
+
+            return $this->firstname;
+        }
+
+        return $this->username;
+    }
+
+    /**
      * Returning a salt is only needed, if you are not using a modern
      * hashing algorithm (e.g. bcrypt or sodium) in your security.yaml.
      *

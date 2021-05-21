@@ -31,12 +31,13 @@ class ReadUserTest extends ECampApiTestCase {
         static::createClientWithCredentials()->request('GET', '/users/'.$user->getId());
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
-            "email" => "test@example.com",
-            "username" => "test-user",
-            "firstname" => "Robert",
-            "surname" => "Baden-Powell",
-            "nickname" => "Bi-Pi",
-            "language" => "en"
+            'email' => 'test@example.com',
+            'username' => 'test-user',
+            'firstname' => 'Robert',
+            'surname' => 'Baden-Powell',
+            'nickname' => 'Bi-Pi',
+            'language' => 'en',
+            'displayName' => 'Bi-Pi',
         ]);
     }
 
@@ -50,7 +51,8 @@ class ReadUserTest extends ECampApiTestCase {
             'firstname' => 'Robert',
             'surname' => 'Baden-Powell',
             'nickname' => 'Bi-Pi',
-            'language' => 'en'
+            'language' => 'en',
+            'displayName' => 'Bi-Pi',
         ]);
     }
 }
