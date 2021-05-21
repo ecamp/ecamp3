@@ -32,6 +32,17 @@ jobs:
         with:
           args: --dry-run --diff --config=backend/.php-cs-fixer.php
 
+  api-cs-check:
+    name: "Lint: API (php-cs-fixer)"
+    runs-on: ubuntu-latest
+    steps:
+
+      - uses: actions/checkout@v2
+
+      - uses: OskarStark/php-cs-fixer-ga@2.16
+        with:
+          args: --dry-run --diff --config=backend/.php-cs-fixer.php
+
   frontend-eslint:
     name: "Lint: Frontend (ESLint)"
     runs-on: ubuntu-latest

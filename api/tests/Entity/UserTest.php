@@ -5,8 +5,10 @@ namespace App\Tests\Entity;
 use App\Entity\User;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @internal
+ */
 class UserTest extends TestCase {
-
     private User $user;
 
     public function setUp(): void {
@@ -15,7 +17,8 @@ class UserTest extends TestCase {
             ->setUsername('bi-pi')
             ->setFirstname('Robert')
             ->setSurname('Baden-Powell')
-            ->setNickname('Bi-Pi');
+            ->setNickname('Bi-Pi')
+        ;
     }
 
     public function testDisplayNameUsesNicknameIfPresent() {

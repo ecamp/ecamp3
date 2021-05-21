@@ -17,17 +17,17 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 #[ApiResource(
     collectionOperations: [
-        'get' => [ 'security' => 'is_fully_authenticated()'],
+        'get' => ['security' => 'is_fully_authenticated()'],
         'post' => [
             'security' => 'true', // allow unauthenticated clients to create (register) users
-            'input_formats' => [ 'jsonld', 'jsonapi', 'json' ],
+            'input_formats' => ['jsonld', 'jsonapi', 'json'],
             'validation_groups' => ['Default', 'create'],
-        ]
+        ],
     ],
     itemOperations: [
-        'get' => [ 'security' => 'is_granted("ROLE_ADMIN") or object == user' ],
-        'patch' => [ 'security' => 'is_granted("ROLE_ADMIN") or object == user' ],
-        'delete' => [ 'security' => 'is_granted("ROLE_ADMIN")' ],
+        'get' => ['security' => 'is_granted("ROLE_ADMIN") or object == user'],
+        'patch' => ['security' => 'is_granted("ROLE_ADMIN") or object == user'],
+        'delete' => ['security' => 'is_granted("ROLE_ADMIN")'],
     ]
 )]
 class User extends BaseEntity implements UserInterface {
@@ -94,7 +94,8 @@ class User extends BaseEntity implements UserInterface {
     private array $roles = [];
 
     /**
-     * The hashed password
+     * The hashed password.
+     *
      * @ORM\Column(type="string", length=255)
      */
     #[Assert\DisableAutoMapping]
@@ -112,7 +113,8 @@ class User extends BaseEntity implements UserInterface {
 
     /**
      * A displayable name of the user.
-     * @return string|null
+     *
+     * @return null|string
      */
     #[ApiProperty(example: 'Robert Baden-Powell')]
     public function getDisplayName(): ?string {
@@ -216,6 +218,7 @@ class User extends BaseEntity implements UserInterface {
         $roles = $this->roles;
         // guarantee every user at least has ROLE_USER
         $roles[] = 'ROLE_USER';
+
         return array_unique($roles);
     }
 

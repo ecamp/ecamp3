@@ -8,8 +8,10 @@ use App\InputFilter\UnexpectedValueException;
 use HTMLPurifier;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
+/**
+ * @internal
+ */
 class CleanHTMLFilterTest extends KernelTestCase {
-
     private ?InputFilter $inputFilter = null;
 
     public function setUp(): void {
@@ -43,13 +45,13 @@ class CleanHTMLFilterTest extends KernelTestCase {
 
     public function getExamples() {
         return [
-          ['', ''],
-          ['abc', 'abc'],
-          ['<b>abc</b>', '<b>abc</b>'],
-          ['<3', '&lt;3'],
-          ['<script>alert(1)</script>', ''],
-          ['<span onload="alert(1)">123</span>', '<span>123</span>'],
-          ['abc<li>def', 'abcdef'],
+            ['', ''],
+            ['abc', 'abc'],
+            ['<b>abc</b>', '<b>abc</b>'],
+            ['<3', '&lt;3'],
+            ['<script>alert(1)</script>', ''],
+            ['<span onload="alert(1)">123</span>', '<span>123</span>'],
+            ['abc<li>def', 'abcdef'],
         ];
     }
 

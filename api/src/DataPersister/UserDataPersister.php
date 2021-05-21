@@ -7,7 +7,6 @@ use App\Entity\User;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class UserDataPersister implements ContextAwareDataPersisterInterface {
-
     private ContextAwareDataPersisterInterface $decorated;
     private UserPasswordEncoderInterface $userPasswordEncoder;
 

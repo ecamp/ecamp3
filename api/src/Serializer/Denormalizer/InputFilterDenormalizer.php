@@ -32,6 +32,7 @@ class InputFilterDenormalizer implements ContextAwareDenormalizerInterface, Deno
         $data = $this->filterInputs($data, $type);
 
         $context[self::ALREADY_CALLED] = true;
+
         return $this->denormalizer->denormalize($data, $type, $format, $context);
     }
 
@@ -53,8 +54,6 @@ class InputFilterDenormalizer implements ContextAwareDenormalizerInterface, Deno
      * Implementation based on Symfony/Component/Validator/Mapping/Loader/AnnotationLoader.php
      *
      * @param $data
-     * @param array $context
-     * @return array
      */
     protected function filterInputs($data, string $className): array {
         if (!is_array($data)) {
@@ -101,6 +100,7 @@ class InputFilterDenormalizer implements ContextAwareDenormalizerInterface, Deno
         /** @var InputFilter $filter */
         $filter = $this->allFilters->get($filterAttribute->filteredBy());
         $filter->setFilterAttribute($filterAttribute);
+
         return $filter->applyTo($data, $propertyName);
     }
 }

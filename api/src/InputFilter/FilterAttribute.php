@@ -12,7 +12,6 @@ namespace App\InputFilter;
  * FilterAttribute instances are immutable and serializable.
  */
 abstract class FilterAttribute {
-
     protected int $priority;
 
     /**
@@ -22,16 +21,24 @@ abstract class FilterAttribute {
      * existing properties in this class. The values should be the value for these
      * properties.
      *
-     * @param array $options The options (as associative array)
-     * @param int $priority The priority of this input filter. Higher priorities are executed first.
-     *                      Priorities are evaluated for the whole entity class at once.
+     * @param array $options  The options (as associative array)
+     * @param int   $priority The priority of this input filter. Higher priorities are executed first.
+     *                        Priorities are evaluated for the whole entity class at once.
      */
     public function __construct(array $options = [], int $priority = 0) {
         $this->priority = $priority;
 
         foreach ($options as $name => $value) {
-            $this->$name = $value;
+            $this->{$name} = $value;
         }
+    }
+
+    /**
+     * @throws InvalidOptionsException This magic method is only called if
+     *                                 an invalid option name is given
+     */
+    public function __set($name, $value) {
+        throw new InvalidOptionsException(sprintf('The option "%s" does not exist in input filter "%s".', $name, static::class), [$name]);
     }
 
     public function getPriority(): int {
@@ -49,13 +56,5 @@ abstract class FilterAttribute {
      */
     public function filteredBy(): string {
         return static::class.'Filter';
-    }
-
-    /**
-     * @throws InvalidOptionsException This magic method is only called if
-     *                                 an invalid option name is given
-     */
-    public function __set($name, $value) {
-        throw new InvalidOptionsException(sprintf('The option "%s" does not exist in input filter "%s".', $name, static::class), [$name]);
     }
 }

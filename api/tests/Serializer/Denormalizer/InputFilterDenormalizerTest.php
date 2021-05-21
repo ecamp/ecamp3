@@ -11,6 +11,9 @@ use Symfony\Component\DependencyInjection\ServiceLocator;
 use Symfony\Component\Serializer\Normalizer\ContextAwareDenormalizerInterface;
 use Symfony\Component\Validator\Constraints\Valid;
 
+/**
+ * @internal
+ */
 class InputFilterDenormalizerTest extends TestCase {
     private InputFilterDenormalizer $denormalizer;
 
@@ -20,7 +23,7 @@ class InputFilterDenormalizerTest extends TestCase {
     private $decoratedMock;
 
     /**
-     * @var ServiceLocator|MockObject
+     * @var MockObject|ServiceLocator
      */
     private $filterLocatorMock;
 
@@ -38,7 +41,8 @@ class InputFilterDenormalizerTest extends TestCase {
     public function testDenormalize() {
         $this->decoratedMock->expects($this->once())
             ->method('denormalize')
-            ->willReturnArgument(0);
+            ->willReturnArgument(0)
+        ;
 
         $result = $this->denormalizer->denormalize(['foo' => 'test'], DummyEntity::class);
 
@@ -48,7 +52,8 @@ class InputFilterDenormalizerTest extends TestCase {
     public function testPrioritizesInputFilters() {
         $this->decoratedMock->expects($this->once())
             ->method('denormalize')
-            ->willReturnArgument(0);
+            ->willReturnArgument(0)
+        ;
 
         $result = $this->denormalizer->denormalize(['ab' => 'xxx', 'ba' => 'yyy'], DummyEntity::class);
 
@@ -83,8 +88,10 @@ class InputFilterDenormalizerTest extends TestCase {
             ->method('denormalize')
             ->willReturnCallback(function ($data, $type, $format, $newContext) use (&$context) {
                 $context = $newContext;
+
                 return [];
-            });
+            })
+        ;
 
         $this->denormalizer->denormalize([], DummyEntity::class, 'json', $context);
 
@@ -93,33 +100,45 @@ class InputFilterDenormalizerTest extends TestCase {
 }
 
 #[\Attribute(\Attribute::TARGET_PROPERTY | \Attribute::IS_REPEATABLE)]
-class Dummy extends FilterAttribute {}
+class Dummy extends FilterAttribute {
+}
 
 class DummyFilter extends InputFilter {
-    function applyTo(array $data, string $propertyName): array {
-        if (!isset($data[$propertyName])) return $data;
+    public function applyTo(array $data, string $propertyName): array {
+        if (!isset($data[$propertyName])) {
+            return $data;
+        }
+
         return [$propertyName => 'processed'];
     }
 }
 
 #[\Attribute(\Attribute::TARGET_PROPERTY | \Attribute::IS_REPEATABLE)]
-class AppendA extends FilterAttribute {}
+class AppendA extends FilterAttribute {
+}
 
 class AppendAFilter extends InputFilter {
-    function applyTo(array $data, string $propertyName): array {
-        if (!isset($data[$propertyName])) return $data;
+    public function applyTo(array $data, string $propertyName): array {
+        if (!isset($data[$propertyName])) {
+            return $data;
+        }
         $data[$propertyName] = $data[$propertyName].'A';
+
         return $data;
     }
 }
 
 #[\Attribute(\Attribute::TARGET_PROPERTY | \Attribute::IS_REPEATABLE)]
-class AppendB extends FilterAttribute {}
+class AppendB extends FilterAttribute {
+}
 
 class AppendBFilter extends InputFilter {
-    function applyTo(array $data, string $propertyName): array {
-        if (!isset($data[$propertyName])) return $data;
+    public function applyTo(array $data, string $propertyName): array {
+        if (!isset($data[$propertyName])) {
+            return $data;
+        }
         $data[$propertyName] = $data[$propertyName].'B';
+
         return $data;
     }
 }

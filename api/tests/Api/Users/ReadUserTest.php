@@ -4,15 +4,17 @@ namespace App\Tests\Api\Users;
 
 use App\Tests\Api\ECampApiTestCase;
 
+/**
+ * @internal
+ */
 class ReadUserTest extends ECampApiTestCase {
-
     public function testGetSingleUserIsDeniedToAnonymousUser() {
         $user = static::$fixtures['user_1'];
         static::createClient()->request('GET', '/users/'.$user->getId());
         $this->assertResponseStatusCodeSame(401);
         $this->assertJsonContains([
             'code' => 401,
-            'message' => 'JWT Token not found'
+            'message' => 'JWT Token not found',
         ]);
     }
 
@@ -22,7 +24,7 @@ class ReadUserTest extends ECampApiTestCase {
         $this->assertResponseStatusCodeSame(404);
         $this->assertJsonContains([
             'title' => 'An error occurred',
-            'detail' => 'Not Found'
+            'detail' => 'Not Found',
         ]);
     }
 

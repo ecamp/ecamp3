@@ -2,11 +2,13 @@
 
 namespace App\Tests\InputFilter;
 
-use App\InputFilter\Trim;
 use App\InputFilter\TrimFilter;
 use App\InputFilter\UnexpectedValueException;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @internal
+ */
 class TrimFilterTest extends TestCase {
     /**
      * @dataProvider getExamples
@@ -26,14 +28,14 @@ class TrimFilterTest extends TestCase {
 
     public function getExamples() {
         return [
-          ['', ''],
-          ['abc', 'abc'],
-          [' abc', 'abc'],
-          ['abc def', 'abc def'],
-          ['abc ', 'abc'],
-          ["\tabc", 'abc'],
-          ['  abc', 'abc'],
-          ["\t abc ", 'abc'],
+            ['', ''],
+            ['abc', 'abc'],
+            [' abc', 'abc'],
+            ['abc def', 'abc def'],
+            ['abc ', 'abc'],
+            ["\tabc", 'abc'],
+            ['  abc', 'abc'],
+            ["\t abc ", 'abc'],
         ];
     }
 

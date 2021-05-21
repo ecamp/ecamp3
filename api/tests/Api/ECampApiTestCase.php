@@ -12,11 +12,10 @@ use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 
 abstract class ECampApiTestCase extends ApiTestCase {
+    use RefreshDatabaseTrait;
     private ?string $token = null;
     private ?Client $clientWithCredentials = null;
     private ?IriConverterInterface $iriConverter = null;
-
-    use RefreshDatabaseTrait;
 
     public function setUp(): void {
         self::bootKernel();
@@ -25,7 +24,7 @@ abstract class ECampApiTestCase extends ApiTestCase {
 
     /**
      * @param null $token
-     * @return Client
+     *
      * @throws ClientExceptionInterface
      * @throws RedirectionExceptionInterface
      * @throws ServerExceptionInterface
@@ -34,12 +33,12 @@ abstract class ECampApiTestCase extends ApiTestCase {
     protected function createClientWithCredentials($token = null): Client {
         $token = $token ?: $this->getToken();
 
-        return static::createClient([], ['headers' => ['authorization' => 'Bearer ' . $token, 'accept' => 'application/hal+json']]);
+        return static::createClient([], ['headers' => ['authorization' => 'Bearer '.$token, 'accept' => 'application/hal+json']]);
     }
 
     /**
      * @param null $token
-     * @return Client
+     *
      * @throws ClientExceptionInterface
      * @throws RedirectionExceptionInterface
      * @throws ServerExceptionInterface
@@ -48,20 +47,21 @@ abstract class ECampApiTestCase extends ApiTestCase {
     protected function createClientWithAdminCredentials($token = null): Client {
         $token = $token ?: $this->getToken(['username' => 'admin', 'password' => 'test']);
 
-        return static::createClient([], ['headers' => ['authorization' => 'Bearer ' . $token, 'accept' => 'application/hal+json']]);
+        return static::createClient([], ['headers' => ['authorization' => 'Bearer '.$token, 'accept' => 'application/hal+json']]);
     }
 
     /**
      * Use other credentials if needed.
+     *
      * @param array $body
-     * @return string
+     *
      * @throws ClientExceptionInterface
      * @throws RedirectionExceptionInterface
      * @throws ServerExceptionInterface
      * @throws TransportExceptionInterface
      */
     protected function getToken($body = []): string {
-        if($this->token) {
+        if ($this->token) {
             return $this->token;
         }
 
@@ -81,6 +81,7 @@ abstract class ECampApiTestCase extends ApiTestCase {
         if (null === $this->iriConverter) {
             $this->iriConverter = static::$container->get(IriConverterInterface::class);
         }
+
         return $this->iriConverter;
     }
 }

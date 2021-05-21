@@ -5,14 +5,16 @@ namespace App\Tests\Api\Users;
 use App\Repository\UserRepository;
 use App\Tests\Api\ECampApiTestCase;
 
+/**
+ * @internal
+ */
 class ListUsersTest extends ECampApiTestCase {
-
     public function testListUsersIsDeniedToAnonymousUser() {
         static::createClient()->request('GET', '/users');
         $this->assertResponseStatusCodeSame(401);
         $this->assertJsonContains([
             'code' => 401,
-            'message' => 'JWT Token not found'
+            'message' => 'JWT Token not found',
         ]);
     }
 
@@ -27,12 +29,12 @@ class ListUsersTest extends ECampApiTestCase {
                     [
                         '_links' => [
                             'self' => [
-                                'href' => $userIri
-                            ]
-                        ]
-                    ]
-                ]
-            ]
+                                'href' => $userIri,
+                            ],
+                        ],
+                    ],
+                ],
+            ],
         ]);
     }
 
@@ -44,8 +46,8 @@ class ListUsersTest extends ECampApiTestCase {
         $this->assertJsonContains([
             'totalItems' => $totalUsers,
             '_embedded' => [
-                'item' => []
-            ]
+                'item' => [],
+            ],
         ]);
         $this->assertEquals($totalUsers, count($response->toArray(true)['_embedded']['item']));
     }

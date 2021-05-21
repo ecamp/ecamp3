@@ -4,8 +4,10 @@ namespace App\Tests\Api\Users;
 
 use App\Tests\Api\ECampApiTestCase;
 
+/**
+ * @internal
+ */
 class CreateUserTest extends ECampApiTestCase {
-
     public function testCreateUserWhenNotLoggedIn() {
         static::createClient()->request('POST', '/users', ['json' => [
             'email' => 'bi-pi@example.com',
@@ -14,7 +16,7 @@ class CreateUserTest extends ECampApiTestCase {
             'surname' => 'Baden-Powell',
             'nickname' => 'Bi-Pi',
             'language' => 'en',
-            'password' => 'learning-by-doing-101'
+            'password' => 'learning-by-doing-101',
         ]]);
 
         $this->assertResponseStatusCodeSame(201);
@@ -36,7 +38,7 @@ class CreateUserTest extends ECampApiTestCase {
             'surname' => 'Baden-Powell',
             'nickname' => 'Bi-Pi',
             'language' => 'en',
-            'password' => 'learning-by-doing-101'
+            'password' => 'learning-by-doing-101',
         ]]);
 
         $this->assertResponseStatusCodeSame(201);
@@ -62,7 +64,7 @@ class CreateUserTest extends ECampApiTestCase {
             'surname' => 'Baden-Powell',
             'nickname' => 'Bi-Pi',
             'language' => 'en',
-            'password' => 'learning-by-doing-101'
+            'password' => 'learning-by-doing-101',
         ]]);
         $this->assertResponseStatusCodeSame(201);
 
@@ -82,7 +84,7 @@ class CreateUserTest extends ECampApiTestCase {
             'surname' => 'Baden-Powell',
             'nickname' => 'Bi-Pi',
             'language' => 'en',
-            'password' => 'learning-by-doing-101'
+            'password' => 'learning-by-doing-101',
         ]]);
 
         $this->assertResponseStatusCodeSame(201);
@@ -103,7 +105,7 @@ class CreateUserTest extends ECampApiTestCase {
             'surname' => 'Baden-Powell',
             'nickname' => 'Bi-Pi',
             'language' => 'en',
-            'password' => 'learning-by-doing-101'
+            'password' => 'learning-by-doing-101',
         ]]);
 
         $this->assertResponseStatusCodeSame(422);
@@ -111,9 +113,9 @@ class CreateUserTest extends ECampApiTestCase {
             'violations' => [
                 [
                     'propertyPath' => 'email',
-                    'message' => 'This value should not be blank.'
-                ]
-            ]
+                    'message' => 'This value should not be blank.',
+                ],
+            ],
         ]);
     }
 
@@ -125,7 +127,7 @@ class CreateUserTest extends ECampApiTestCase {
             'surname' => 'Baden-Powell',
             'nickname' => 'Bi-Pi',
             'language' => 'en',
-            'password' => 'learning-by-doing-101'
+            'password' => 'learning-by-doing-101',
         ]]);
 
         $this->assertResponseStatusCodeSame(422);
@@ -133,9 +135,9 @@ class CreateUserTest extends ECampApiTestCase {
             'violations' => [
                 [
                     'propertyPath' => 'email',
-                    'message' => 'This value should not be blank.'
-                ]
-            ]
+                    'message' => 'This value should not be blank.',
+                ],
+            ],
         ]);
     }
 
@@ -147,7 +149,7 @@ class CreateUserTest extends ECampApiTestCase {
             'surname' => 'Baden-Powell',
             'nickname' => 'Bi-Pi',
             'language' => 'en',
-            'password' => 'learning-by-doing-101'
+            'password' => 'learning-by-doing-101',
         ]]);
 
         $this->assertResponseStatusCodeSame(422);
@@ -155,9 +157,9 @@ class CreateUserTest extends ECampApiTestCase {
             'violations' => [
                 [
                     'propertyPath' => 'email',
-                    'message' => 'This value is too long. It should have 64 characters or less.'
-                ]
-            ]
+                    'message' => 'This value is too long. It should have 64 characters or less.',
+                ],
+            ],
         ]);
     }
 
@@ -169,7 +171,7 @@ class CreateUserTest extends ECampApiTestCase {
             'surname' => 'Baden-Powell',
             'nickname' => 'Bi-Pi',
             'language' => 'en',
-            'password' => 'learning-by-doing-101'
+            'password' => 'learning-by-doing-101',
         ]]);
 
         $this->assertResponseStatusCodeSame(422);
@@ -177,9 +179,9 @@ class CreateUserTest extends ECampApiTestCase {
             'violations' => [
                 [
                     'propertyPath' => 'email',
-                    'message' => 'This value is not a valid email address.'
-                ]
-            ]
+                    'message' => 'This value is not a valid email address.',
+                ],
+            ],
         ]);
     }
 
@@ -192,7 +194,7 @@ class CreateUserTest extends ECampApiTestCase {
             'surname' => 'Baden-Powell',
             'nickname' => 'Bi-Pi',
             'language' => 'en',
-            'password' => 'learning-by-doing-101'
+            'password' => 'learning-by-doing-101',
         ]]);
 
         $this->assertResponseStatusCodeSame(422);
@@ -200,9 +202,9 @@ class CreateUserTest extends ECampApiTestCase {
             'violations' => [
                 [
                     'propertyPath' => 'email',
-                    'message' => 'This value is already used.'
-                ]
-            ]
+                    'message' => 'This value is already used.',
+                ],
+            ],
         ]);
     }
 
@@ -215,7 +217,7 @@ class CreateUserTest extends ECampApiTestCase {
             'surname' => 'Baden-Powell',
             'nickname' => 'Bi-Pi',
             'language' => 'en',
-            'password' => 'learning-by-doing-101'
+            'password' => 'learning-by-doing-101',
         ]]);
 
         $this->assertResponseStatusCodeSame(422);
@@ -223,9 +225,9 @@ class CreateUserTest extends ECampApiTestCase {
             'violations' => [
                 [
                     'propertyPath' => 'email',
-                    'message' => 'This value is already used.'
-                ]
-            ]
+                    'message' => 'This value is already used.',
+                ],
+            ],
         ]);
     }
 
@@ -237,7 +239,7 @@ class CreateUserTest extends ECampApiTestCase {
             'surname' => 'Baden-Powell',
             'nickname' => 'Bi-Pi',
             'language' => 'en',
-            'password' => 'learning-by-doing-101'
+            'password' => 'learning-by-doing-101',
         ]]);
 
         $this->assertResponseStatusCodeSame(201);
@@ -258,7 +260,7 @@ class CreateUserTest extends ECampApiTestCase {
             'surname' => 'Baden-Powell',
             'nickname' => 'Bi-Pi',
             'language' => 'en',
-            'password' => 'learning-by-doing-101'
+            'password' => 'learning-by-doing-101',
         ]]);
 
         $this->assertResponseStatusCodeSame(422);
@@ -266,9 +268,9 @@ class CreateUserTest extends ECampApiTestCase {
             'violations' => [
                 [
                     'propertyPath' => 'username',
-                    'message' => 'This value should not be blank.'
-                ]
-            ]
+                    'message' => 'This value should not be blank.',
+                ],
+            ],
         ]);
     }
 
@@ -280,7 +282,7 @@ class CreateUserTest extends ECampApiTestCase {
             'surname' => 'Baden-Powell',
             'nickname' => 'Bi-Pi',
             'language' => 'en',
-            'password' => 'learning-by-doing-101'
+            'password' => 'learning-by-doing-101',
         ]]);
 
         $this->assertResponseStatusCodeSame(422);
@@ -288,9 +290,9 @@ class CreateUserTest extends ECampApiTestCase {
             'violations' => [
                 [
                     'propertyPath' => 'username',
-                    'message' => 'This value should not be blank.'
-                ]
-            ]
+                    'message' => 'This value should not be blank.',
+                ],
+            ],
         ]);
     }
 
@@ -302,7 +304,7 @@ class CreateUserTest extends ECampApiTestCase {
             'surname' => 'Baden-Powell',
             'nickname' => 'Bi-Pi',
             'language' => 'en',
-            'password' => 'learning-by-doing-101'
+            'password' => 'learning-by-doing-101',
         ]]);
 
         $this->assertResponseStatusCodeSame(422);
@@ -310,9 +312,9 @@ class CreateUserTest extends ECampApiTestCase {
             'violations' => [
                 [
                     'propertyPath' => 'username',
-                    'message' => 'This value is not valid.'
-                ]
-            ]
+                    'message' => 'This value is not valid.',
+                ],
+            ],
         ]);
     }
 
@@ -324,7 +326,7 @@ class CreateUserTest extends ECampApiTestCase {
             'surname' => 'Baden-Powell',
             'nickname' => 'Bi-Pi',
             'language' => 'en',
-            'password' => 'learning-by-doing-101'
+            'password' => 'learning-by-doing-101',
         ]]);
 
         $this->assertResponseStatusCodeSame(422);
@@ -332,9 +334,9 @@ class CreateUserTest extends ECampApiTestCase {
             'violations' => [
                 [
                     'propertyPath' => 'username',
-                    'message' => 'This value is too long. It should have 32 characters or less.'
-                ]
-            ]
+                    'message' => 'This value is too long. It should have 32 characters or less.',
+                ],
+            ],
         ]);
     }
 
@@ -347,7 +349,7 @@ class CreateUserTest extends ECampApiTestCase {
             'surname' => 'Baden-Powell',
             'nickname' => 'Bi-Pi',
             'language' => 'en',
-            'password' => 'learning-by-doing-101'
+            'password' => 'learning-by-doing-101',
         ]]);
 
         $this->assertResponseStatusCodeSame(422);
@@ -355,9 +357,9 @@ class CreateUserTest extends ECampApiTestCase {
             'violations' => [
                 [
                     'propertyPath' => 'username',
-                    'message' => 'This value is already used.'
-                ]
-            ]
+                    'message' => 'This value is already used.',
+                ],
+            ],
         ]);
     }
 
@@ -370,7 +372,7 @@ class CreateUserTest extends ECampApiTestCase {
             'surname' => 'Baden-Powell',
             'nickname' => 'Bi-Pi',
             'language' => 'en',
-            'password' => 'learning-by-doing-101'
+            'password' => 'learning-by-doing-101',
         ]]);
 
         $this->assertResponseStatusCodeSame(422);
@@ -378,9 +380,9 @@ class CreateUserTest extends ECampApiTestCase {
             'violations' => [
                 [
                     'propertyPath' => 'username',
-                    'message' => 'This value is already used.'
-                ]
-            ]
+                    'message' => 'This value is already used.',
+                ],
+            ],
         ]);
     }
 
@@ -392,7 +394,7 @@ class CreateUserTest extends ECampApiTestCase {
             'surname' => 'Baden-Powell',
             'nickname' => 'Bi-Pi',
             'language' => 'en',
-            'password' => 'learning-by-doing-101'
+            'password' => 'learning-by-doing-101',
         ]]);
 
         $this->assertResponseStatusCodeSame(201);
@@ -414,7 +416,7 @@ class CreateUserTest extends ECampApiTestCase {
             'surname' => 'Baden-Powell',
             'nickname' => 'Bi-Pi',
             'language' => 'en',
-            'password' => 'learning-by-doing-101'
+            'password' => 'learning-by-doing-101',
         ]]);
 
         $this->assertResponseStatusCodeSame(201);
@@ -436,7 +438,7 @@ class CreateUserTest extends ECampApiTestCase {
             'surname' => '   Baden-Powell',
             'nickname' => 'Bi-Pi',
             'language' => 'en',
-            'password' => 'learning-by-doing-101'
+            'password' => 'learning-by-doing-101',
         ]]);
 
         $this->assertResponseStatusCodeSame(201);
@@ -458,7 +460,7 @@ class CreateUserTest extends ECampApiTestCase {
             'surname' => 'Baden-Powell<script>alert(1)</script>',
             'nickname' => 'Bi-Pi',
             'language' => 'en',
-            'password' => 'learning-by-doing-101'
+            'password' => 'learning-by-doing-101',
         ]]);
 
         $this->assertResponseStatusCodeSame(201);
@@ -480,7 +482,7 @@ class CreateUserTest extends ECampApiTestCase {
             'surname' => 'Baden-Powell',
             'nickname' => "\tBi-Pi\t",
             'language' => 'en',
-            'password' => 'learning-by-doing-101'
+            'password' => 'learning-by-doing-101',
         ]]);
 
         $this->assertResponseStatusCodeSame(201);
@@ -502,7 +504,7 @@ class CreateUserTest extends ECampApiTestCase {
             'surname' => 'Baden-Powell',
             'nickname' => 'Bi-Pi<script>alert(1)</script>',
             'language' => 'en',
-            'password' => 'learning-by-doing-101'
+            'password' => 'learning-by-doing-101',
         ]]);
 
         $this->assertResponseStatusCodeSame(201);
@@ -524,7 +526,7 @@ class CreateUserTest extends ECampApiTestCase {
             'surname' => 'Baden-Powell',
             'nickname' => 'Bi-Pi',
             'language' => "\ten ",
-            'password' => 'learning-by-doing-101'
+            'password' => 'learning-by-doing-101',
         ]]);
 
         $this->assertResponseStatusCodeSame(201);
@@ -546,7 +548,7 @@ class CreateUserTest extends ECampApiTestCase {
             'surname' => 'Baden-Powell',
             'nickname' => 'Bi-Pi',
             'language' => 'französisch',
-            'password' => 'learning-by-doing-101'
+            'password' => 'learning-by-doing-101',
         ]]);
 
         $this->assertResponseStatusCodeSame(422);
@@ -554,9 +556,9 @@ class CreateUserTest extends ECampApiTestCase {
             'violations' => [
                 [
                     'propertyPath' => 'language',
-                    'message' => 'This value is not a valid locale.'
-                ]
-            ]
+                    'message' => 'This value is not a valid locale.',
+                ],
+            ],
         ]);
     }
 
@@ -568,7 +570,7 @@ class CreateUserTest extends ECampApiTestCase {
             'surname' => 'Baden-Powell',
             'nickname' => 'Bi-Pi',
             'language' => 'fr_CH.some-ridiculously-long-extension-which-is-technically-a-valid-ICU-locale',
-            'password' => 'learning-by-doing-101'
+            'password' => 'learning-by-doing-101',
         ]]);
 
         $this->assertResponseStatusCodeSame(422);
@@ -576,9 +578,9 @@ class CreateUserTest extends ECampApiTestCase {
             'violations' => [
                 [
                     'propertyPath' => 'language',
-                    'message' => 'This value is too long. It should have 20 characters or less.'
-                ]
-            ]
+                    'message' => 'This value is too long. It should have 20 characters or less.',
+                ],
+            ],
         ]);
     }
 
@@ -589,7 +591,7 @@ class CreateUserTest extends ECampApiTestCase {
             'firstname' => 'Robert',
             'surname' => 'Baden-Powell',
             'nickname' => 'Bi-Pi',
-            'language' => 'en'
+            'language' => 'en',
         ]]);
 
         $this->assertResponseStatusCodeSame(422);
@@ -597,9 +599,9 @@ class CreateUserTest extends ECampApiTestCase {
             'violations' => [
                 [
                     'propertyPath' => 'password',
-                    'message' => 'This value should not be blank.'
-                ]
-            ]
+                    'message' => 'This value should not be blank.',
+                ],
+            ],
         ]);
     }
 
@@ -611,7 +613,7 @@ class CreateUserTest extends ECampApiTestCase {
             'surname' => 'Baden-Powell',
             'nickname' => 'Bi-Pi',
             'language' => 'en',
-            'password' => ''
+            'password' => '',
         ]]);
 
         $this->assertResponseStatusCodeSame(422);
@@ -619,9 +621,9 @@ class CreateUserTest extends ECampApiTestCase {
             'violations' => [
                 [
                     'propertyPath' => 'password',
-                    'message' => 'This value is too short. It should have 8 characters or more.'
-                ]
-            ]
+                    'message' => 'This value is too short. It should have 8 characters or more.',
+                ],
+            ],
         ]);
     }
 }

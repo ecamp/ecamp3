@@ -9,14 +9,15 @@ use Doctrine\DBAL\Types\ConversionException;
 use Doctrine\DBAL\Types\DateType;
 
 class UTCDateType extends DateType {
-    static private ?DateTimeZone $utc = null;
+    private static ?DateTimeZone $utc = null;
 
     /**
      * {@inheritdoc}
+     *
      * @throws ConversionException
      */
     public function convertToDatabaseValue($value, AbstractPlatform $platform): ?string {
-        if($value instanceof \DateTime) {
+        if ($value instanceof \DateTime) {
             $value->setTimezone(self::getUtc());
         }
 
@@ -25,14 +26,15 @@ class UTCDateType extends DateType {
 
     /**
      * {@inheritdoc}
+     *
      * @throws ConversionException
      */
     public function convertToPHPValue($value, AbstractPlatform $platform): ?DateTime {
-        if ($value === null) {
+        if (null === $value) {
             return $value;
         }
 
-        $val = DateTime::createFromFormat('!' . $platform->getDateFormatString(), $value, self::getUtc());
+        $val = DateTime::createFromFormat('!'.$platform->getDateFormatString(), $value, self::getUtc());
         if (!$val) {
             throw ConversionException::conversionFailedFormat(
                 $value,

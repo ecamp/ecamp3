@@ -5,7 +5,6 @@ namespace App\InputFilter;
 use HTMLPurifier;
 
 class CleanHTMLFilter extends InputFilter {
-
     private HTMLPurifier $htmlPurifier;
 
     public function __construct(HTMLPurifier $htmlPurifier) {
@@ -15,7 +14,7 @@ class CleanHTMLFilter extends InputFilter {
     /**
      * {@inheritdoc}
      */
-    function applyTo(array $data, string $propertyName): array {
+    public function applyTo(array $data, string $propertyName): array {
         if (!array_key_exists($propertyName, $data)) {
             return $data;
         }

@@ -11,8 +11,8 @@ use Gedmo\Mapping\Annotation as Gedmo;
 /**
  * @ORM\MappedSuperclass
  * @ORM\Table(indexes={
- * @ORM\Index(columns={"create_time"}),
- * @ORM\Index(columns={"update_time"})
+ *     @ORM\Index(columns={"create_time"}),
+ *     @ORM\Index(columns={"update_time"})
  * })
  */
 abstract class BaseEntity {

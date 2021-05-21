@@ -6,7 +6,7 @@ class TrimFilter extends InputFilter {
     /**
      * {@inheritdoc}
      */
-    function applyTo(array $data, string $propertyName): array {
+    public function applyTo(array $data, string $propertyName): array {
         if (!array_key_exists($propertyName, $data)) {
             return $data;
         }
