@@ -26,7 +26,7 @@ class InputFilterDenormalizer implements ContextAwareDenormalizerInterface, Deno
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function denormalize($data, $type, $format = null, array $context = []) {
         $data = $this->filterInputs($data, $type);
@@ -37,7 +37,7 @@ class InputFilterDenormalizer implements ContextAwareDenormalizerInterface, Deno
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function supportsDenormalization($data, $type, $format = null, array $context = []) {
         // Make sure we don't run this denormalizer twice.

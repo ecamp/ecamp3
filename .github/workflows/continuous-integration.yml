@@ -39,9 +39,11 @@ jobs:
 
       - uses: actions/checkout@v2
 
-      - uses: OskarStark/php-cs-fixer-ga@2.16
-        with:
-          args: --dry-run --diff --config=backend/.php-cs-fixer.php
+      - run: cp .env.ci .env
+
+      - run: docker-compose run --rm --entrypoint "composer install --no-interaction --no-plugins --no-scripts --prefer-dist" php
+
+      - run: docker-compose run --rm --entrypoint "php vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.php -v --dry-run --diff" php
 
   frontend-eslint:
     name: "Lint: Frontend (ESLint)"
@@ -118,6 +120,17 @@ jobs:
           COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           COVERALLS_PARALLEL: true
           COVERALLS_FLAG_NAME: backend
+
+  api-tests:
+    name: "Tests: API"
+    runs-on: ubuntu-latest
+    steps:
+
+      - uses: actions/checkout@v2
+
+      - run: cp .env.ci .env
+
+      - run: docker-compose run --rm php php bin/phpunit
 
   frontend-tests:
     name: "Tests: Frontend"
@@ -218,9 +231,11 @@ jobs:
     if: github.event_name == 'push' && github.repository_owner == 'ecamp'
     needs:
       - backend-cs-check
+      - api-cs-check
       - frontend-eslint
       - print-eslint
       - backend-tests
+      - api-tests
       - frontend-tests
       - print-tests
       - e2e-tests
