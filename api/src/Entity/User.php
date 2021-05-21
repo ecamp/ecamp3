@@ -57,6 +57,7 @@ class User extends BaseEntity implements UserInterface {
      * @ORM\Column(type="text", nullable=true)
      */
     #[InputFilter\Trim]
+    #[InputFilter\CleanHTML]
     #[ApiProperty(example: 'Robert')]
     public ?string $firstname = null;
 
@@ -64,6 +65,7 @@ class User extends BaseEntity implements UserInterface {
      * @ORM\Column(type="text", nullable=true)
      */
     #[InputFilter\Trim]
+    #[InputFilter\CleanHTML]
     #[ApiProperty(example: 'Baden-Powell')]
     public ?string $surname = null;
 
@@ -71,6 +73,7 @@ class User extends BaseEntity implements UserInterface {
      * @ORM\Column(type="text", nullable=true)
      */
     #[InputFilter\Trim]
+    #[InputFilter\CleanHTML]
     #[ApiProperty(example: 'Bi-Pi')]
     public ?string $nickname = null;
 

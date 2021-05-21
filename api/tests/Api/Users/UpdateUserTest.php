@@ -245,6 +245,17 @@ class UpdateUserTest extends ECampApiTestCase {
         ]);
     }
 
+    public function testPatchUserCleansHTMLFromFirstname() {
+        $user = static::$fixtures['user_1'];
+        static::createClientWithCredentials()->request('PATCH', '/users/'.$user->getId(), ['json' => [
+            'firstname' => '<script>alert(1)</script>Hello'
+        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertJsonContains([
+            'firstname' => 'Hello'
+        ]);
+    }
+
     public function testPatchUserTrimsSurname() {
         $user = static::$fixtures['user_1'];
         static::createClientWithCredentials()->request('PATCH', '/users/'.$user->getId(), ['json' => [
@@ -256,10 +267,32 @@ class UpdateUserTest extends ECampApiTestCase {
         ]);
     }
 
+    public function testPatchUserCleansHTMLFromSurname() {
+        $user = static::$fixtures['user_1'];
+        static::createClientWithCredentials()->request('PATCH', '/users/'.$user->getId(), ['json' => [
+            'surname' => '<script>alert(1)</script>Hello'
+        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertJsonContains([
+            'surname' => 'Hello'
+        ]);
+    }
+
     public function testPatchUserTrimsNickname() {
         $user = static::$fixtures['user_1'];
         static::createClientWithCredentials()->request('PATCH', '/users/'.$user->getId(), ['json' => [
             'nickname' => "\tHello "
+        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertJsonContains([
+            'nickname' => 'Hello'
+        ]);
+    }
+
+    public function testPatchUserCleansHTMLFromNickname() {
+        $user = static::$fixtures['user_1'];
+        static::createClientWithCredentials()->request('PATCH', '/users/'.$user->getId(), ['json' => [
+            'nickname' => '<script>alert(1)</script>Hello'
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([

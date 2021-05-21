@@ -120,6 +120,18 @@
     "easyrdf/easyrdf": {
         "version": "1.1.1"
     },
+    "exercise/htmlpurifier-bundle": {
+        "version": "3.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "3.0",
+            "ref": "4667fd2103dc4645d234591e1c85f727c6fe0d11"
+        },
+        "files": [
+            "config/packages/exercise_html_purifier.yaml"
+        ]
+    },
     "fakerphp/faker": {
         "version": "v1.14.1"
     },

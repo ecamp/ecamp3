@@ -406,12 +406,56 @@ class CreateUserTest extends ECampApiTestCase {
         ]);
     }
 
+    public function testCreateUserCleansHTMLFromFirstname() {
+        static::createClient()->request('POST', '/users', ['json' => [
+            'email' => 'bi-pi@example.com',
+            'username' => 'bipi',
+            'firstname' => 'Robert<script>alert(1)</script>',
+            'surname' => 'Baden-Powell',
+            'nickname' => 'Bi-Pi',
+            'language' => 'en',
+            'password' => 'learning-by-doing-101'
+        ]]);
+
+        $this->assertResponseStatusCodeSame(201);
+        $this->assertJsonContains([
+            'email' => 'bi-pi@example.com',
+            'username' => 'bipi',
+            'firstname' => 'Robert',
+            'surname' => 'Baden-Powell',
+            'nickname' => 'Bi-Pi',
+            'language' => 'en',
+        ]);
+    }
+
     public function testCreateUserTrimsSurname() {
         static::createClient()->request('POST', '/users', ['json' => [
             'email' => 'bi-pi@example.com',
             'username' => 'bipi',
             'firstname' => 'Robert',
             'surname' => '   Baden-Powell',
+            'nickname' => 'Bi-Pi',
+            'language' => 'en',
+            'password' => 'learning-by-doing-101'
+        ]]);
+
+        $this->assertResponseStatusCodeSame(201);
+        $this->assertJsonContains([
+            'email' => 'bi-pi@example.com',
+            'username' => 'bipi',
+            'firstname' => 'Robert',
+            'surname' => 'Baden-Powell',
+            'nickname' => 'Bi-Pi',
+            'language' => 'en',
+        ]);
+    }
+
+    public function testCreateUserCleansHTMLFromSurname() {
+        static::createClient()->request('POST', '/users', ['json' => [
+            'email' => 'bi-pi@example.com',
+            'username' => 'bipi',
+            'firstname' => 'Robert',
+            'surname' => 'Baden-Powell<script>alert(1)</script>',
             'nickname' => 'Bi-Pi',
             'language' => 'en',
             'password' => 'learning-by-doing-101'
@@ -435,6 +479,28 @@ class CreateUserTest extends ECampApiTestCase {
             'firstname' => 'Robert',
             'surname' => 'Baden-Powell',
             'nickname' => "\tBi-Pi\t",
+            'language' => 'en',
+            'password' => 'learning-by-doing-101'
+        ]]);
+
+        $this->assertResponseStatusCodeSame(201);
+        $this->assertJsonContains([
+            'email' => 'bi-pi@example.com',
+            'username' => 'bipi',
+            'firstname' => 'Robert',
+            'surname' => 'Baden-Powell',
+            'nickname' => 'Bi-Pi',
+            'language' => 'en',
+        ]);
+    }
+
+    public function testCreateUserCleansHTMLFromNickname() {
+        static::createClient()->request('POST', '/users', ['json' => [
+            'email' => 'bi-pi@example.com',
+            'username' => 'bipi',
+            'firstname' => 'Robert',
+            'surname' => 'Baden-Powell',
+            'nickname' => 'Bi-Pi<script>alert(1)</script>',
             'language' => 'en',
             'password' => 'learning-by-doing-101'
         ]]);
