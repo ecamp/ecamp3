@@ -7,16 +7,16 @@ use App\Entity\User;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class UserDataPersister implements ContextAwareDataPersisterInterface {
-    private ContextAwareDataPersisterInterface $decorated;
+    private ContextAwareDataPersisterInterface $dataPersister;
     private UserPasswordEncoderInterface $userPasswordEncoder;
 
-    public function __construct(ContextAwareDataPersisterInterface $decorated, UserPasswordEncoderInterface $userPasswordEncoder) {
-        $this->decorated = $decorated;
+    public function __construct(ContextAwareDataPersisterInterface $dataPersister, UserPasswordEncoderInterface $userPasswordEncoder) {
+        $this->dataPersister = $dataPersister;
         $this->userPasswordEncoder = $userPasswordEncoder;
     }
 
     public function supports($data, array $context = []): bool {
-        return ($data instanceof User) && $this->decorated->supports($data, $context);
+        return ($data instanceof User) && $this->dataPersister->supports($data, $context);
     }
 
     public function persist($data, array $context = []) {
@@ -27,10 +27,10 @@ class UserDataPersister implements ContextAwareDataPersisterInterface {
             $data->eraseCredentials();
         }
 
-        return $this->decorated->persist($data, $context);
+        return $this->dataPersister->persist($data, $context);
     }
 
     public function remove($data, array $context = []) {
-        return $this->decorated->remove($data, $context);
+        return $this->dataPersister->remove($data, $context);
     }
 }

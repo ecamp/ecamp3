@@ -6,6 +6,8 @@ use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\InputFilter;
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\SerializedName;
@@ -40,7 +42,7 @@ class User extends BaseEntity implements UserInterface {
     #[Assert\NotBlank]
     #[Assert\Email]
     #[ApiProperty(example: 'bi-pi@example.com')]
-    public ?string $email = null;
+    private ?string $email = null;
 
     /**
      * Unique username. Lower case alphanumeric symbols, dashes, periods and underscores only.
@@ -51,7 +53,7 @@ class User extends BaseEntity implements UserInterface {
     #[Assert\NotBlank]
     #[Assert\Regex(pattern: '/^[a-z0-9_.-]+$/')]
     #[ApiProperty(example: 'bipi')]
-    public ?string $username;
+    private ?string $username;
 
     /**
      * @ORM\Column(type="text", nullable=true)
@@ -59,7 +61,7 @@ class User extends BaseEntity implements UserInterface {
     #[InputFilter\Trim]
     #[InputFilter\CleanHTML]
     #[ApiProperty(example: 'Robert')]
-    public ?string $firstname = null;
+    private ?string $firstname = null;
 
     /**
      * @ORM\Column(type="text", nullable=true)
@@ -67,7 +69,7 @@ class User extends BaseEntity implements UserInterface {
     #[InputFilter\Trim]
     #[InputFilter\CleanHTML]
     #[ApiProperty(example: 'Baden-Powell')]
-    public ?string $surname = null;
+    private ?string $surname = null;
 
     /**
      * @ORM\Column(type="text", nullable=true)
@@ -75,7 +77,7 @@ class User extends BaseEntity implements UserInterface {
     #[InputFilter\Trim]
     #[InputFilter\CleanHTML]
     #[ApiProperty(example: 'Bi-Pi')]
-    public ?string $nickname = null;
+    private ?string $nickname = null;
 
     /**
      * The preferred language of the user, as an ICU language code.
@@ -85,7 +87,7 @@ class User extends BaseEntity implements UserInterface {
     #[InputFilter\Trim]
     #[Assert\Locale]
     #[ApiProperty(example: 'en')]
-    public ?string $language = null;
+    private ?string $language = null;
 
     /**
      * @ORM\Column(type="json")
@@ -110,6 +112,16 @@ class User extends BaseEntity implements UserInterface {
     #[Assert\Length(min: 8)]
     #[ApiProperty(readable: false, writable: true, example: 'learning-by-doing-101')]
     private ?string $plainPassword = null;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Camp::class, mappedBy="owner")
+     */
+    #[ApiProperty(writable: false, readableLink: false, writableLink: false)]
+    private Collection $ownedCamps;
+
+    public function __construct() {
+        $this->ownedCamps = new ArrayCollection();
+    }
 
     /**
      * A displayable name of the user.
@@ -244,6 +256,33 @@ class User extends BaseEntity implements UserInterface {
 
     public function setPlainPassword(?string $plainPassword): self {
         $this->plainPassword = $plainPassword;
+
+        return $this;
+    }
+
+    /**
+     * @return Camp[]|Collection
+     */
+    public function getOwnedCamps(): Collection {
+        return $this->ownedCamps;
+    }
+
+    public function addOwnedCamp(Camp $ownedCamp): self {
+        if (!$this->ownedCamps->contains($ownedCamp)) {
+            $this->ownedCamps[] = $ownedCamp;
+            $ownedCamp->setOwner($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOwnedCamp(Camp $ownedCamp): self {
+        if ($this->ownedCamps->removeElement($ownedCamp)) {
+            // set the owning side to null (unless already changed)
+            if ($ownedCamp->getOwner() === $this) {
+                $ownedCamp->setOwner(null);
+            }
+        }
 
         return $this;
     }

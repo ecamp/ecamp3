@@ -31,7 +31,10 @@ services:
     # please note that last definitions always *replace* previous ones
 
     App\DataPersister\UserDataPersister:
-        decorates: 'api_platform.doctrine.orm.data_persister'
+        arguments: [ '@api_platform.doctrine.orm.data_persister' ]
+
+    App\DataPersister\CampDataPersister:
+        arguments: [ '@api_platform.doctrine.orm.data_persister' ]
 
     # Since the input filter classes are resolved at runtime instead
     # of with constructor dependency injection, we create a service
