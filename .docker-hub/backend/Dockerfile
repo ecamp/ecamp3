@@ -1,5 +1,5 @@
 # composer stage
-FROM composer:2@sha256:f5b199884a4f5ea0554f482d8efc490d5b4ca17597f90ba13f7bf7ae62c08cd5 AS composer-stage
+FROM composer:2@sha256:f82598c03f32f41ce2610093068dcafb50da3fcba1f8ccab9274abeebd10698b AS composer-stage
 WORKDIR /app
 ENV env=prod
 COPY backend/composer.* ./
