@@ -38,7 +38,7 @@ Admin screen of a camp: Displays details & periods of a single camp and allows t
                           md="4" lg="3">
                           <v-card
                             :color="scheduleEntry.activity().category().color"
-                            :to="scheduleEntryRoute(camp(), scheduleEntry)">
+                            :to="scheduleEntryRoute(scheduleEntry)">
                             <v-card-title>
                               {{ scheduleEntry.activity().category().short }} {{ scheduleEntry.number }}: {{ scheduleEntry.activity().title }}
                               <v-spacer />

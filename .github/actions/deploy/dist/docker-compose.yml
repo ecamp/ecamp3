@@ -2,7 +2,7 @@ version: "3"
 
 services:
   nginx:
-    image: nginx@sha256:df13abe416e37eb3db4722840dd479b00ba193ac6606e7902331dcea50f4f1f2
+    image: nginx@sha256:6d75c99af15565a301e48297fa2d121e15d80ad526f8369c526324f0f7ccb750
     container_name: 'ecamp3-nginx'
     ports:
       - '80:80'
@@ -42,7 +42,7 @@ services:
       - print.env
 
   rabbitmq:
-    image: rabbitmq:3.8-management@sha256:ea9d5b4a6fdf8e39c56016623d2bfc6e4e79682e1bc1f71b318dc153c64dfb18
+    image: rabbitmq:3.8-management@sha256:8c3e27cac1acc8a8421e97ef2f04f62c93535c6d602b068b2b16a40d908a2d30
     container_name: 'ecamp3-rabbitmq'
     env_file:
       - rabbitmq.env
