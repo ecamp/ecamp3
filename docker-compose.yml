@@ -91,7 +91,7 @@ services:
       - ./phpmyadmin/config.user.inc.php:/etc/phpmyadmin/config.user.inc.php
 
   rabbitmq:
-    image: rabbitmq:3.8-management@sha256:8c3e27cac1acc8a8421e97ef2f04f62c93535c6d602b068b2b16a40d908a2d30
+    image: rabbitmq:3.8-management@sha256:74e3c39b19475ab3057d5f32c4a93b50855b242241cacbb85b70ecdc1c59badd
     container_name: 'ecamp3-rabbitmq'
     ports:
       - '3004:15672'
