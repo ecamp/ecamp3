@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "76bdf78b6f53050ce29d5a9aa808f000",
+    "content-hash": "16f5d03c4572f0626480235b71eb48d7",
     "packages": [
         {
             "name": "assetic/framework",
@@ -8157,16 +8157,16 @@
         },
         {
             "name": "swaggest/json-schema",
-            "version": "v0.12.32",
+            "version": "v0.12.33",
             "source": {
                 "type": "git",
                 "url": "https://github.com/swaggest/php-json-schema.git",
-                "reference": "f92567a1f4fcb0296758b471654171acfdb6031b"
+                "reference": "87919a4564b9682c4c4328d00ba28f9f631b0bbc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/swaggest/php-json-schema/zipball/f92567a1f4fcb0296758b471654171acfdb6031b",
-                "reference": "f92567a1f4fcb0296758b471654171acfdb6031b",
+                "url": "https://api.github.com/repos/swaggest/php-json-schema/zipball/87919a4564b9682c4c4328d00ba28f9f631b0bbc",
+                "reference": "87919a4564b9682c4c4328d00ba28f9f631b0bbc",
                 "shasum": ""
             },
             "require": {
@@ -8200,9 +8200,9 @@
             "support": {
                 "email": "vearutop@gmail.com",
                 "issues": "https://github.com/swaggest/php-json-schema/issues",
-                "source": "https://github.com/swaggest/php-json-schema/tree/v0.12.32"
+                "source": "https://github.com/swaggest/php-json-schema/tree/v0.12.33"
             },
-            "time": "2021-05-12T14:36:39+00:00"
+            "time": "2021-05-27T14:35:43+00:00"
         },
         {
             "name": "symfony/console",
