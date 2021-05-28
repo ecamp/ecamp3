@@ -2,8 +2,10 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\InputFilter;
 use App\Repository\CampRepository;
 use Doctrine\ORM\Mapping as ORM;
@@ -26,6 +28,7 @@ use Symfony\Component\Validator\Constraints as Assert;
         'delete' => ['security' => 'object.owner == user or is_granted("ROLE_ADMIN")'],
     ]
 )]
+#[ApiFilter(SearchFilter::class, properties: ['owner'])]
 class Camp extends BaseEntity {
     /**
      * @ORM\Column(type="string", length=32)

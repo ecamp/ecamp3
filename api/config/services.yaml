@@ -47,3 +47,10 @@ services:
             - '../src/InputFilter/InputFilter.php'
         tags:
             - 'app.input_filter'
+
+    App\Serializer\Normalizer\RelatedCollectionLinkNormalizer:
+        decorates: 'api_platform.hal.normalizer.item'
+        arguments:
+            - '@.inner'
+            - '@api_platform.route_name_resolver'
+            - '@api_platform.filter_locator'
