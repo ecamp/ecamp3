@@ -19,10 +19,10 @@ class InputFilterDenormalizer implements ContextAwareDenormalizerInterface, Deno
 
     private const ALREADY_CALLED = 'INPUT_FILTER_DENORMALIZER_ALREADY_CALLED';
 
-    private ServiceLocator $allFilters;
+    private ServiceLocator $inputFilterLocator;
 
-    public function __construct(ServiceLocator $allFilters) {
-        $this->allFilters = $allFilters;
+    public function __construct(ServiceLocator $inputFilterLocator) {
+        $this->inputFilterLocator = $inputFilterLocator;
     }
 
     /**
@@ -98,7 +98,7 @@ class InputFilterDenormalizer implements ContextAwareDenormalizerInterface, Deno
 
     protected function applyFilter($data, string $propertyName, FilterAttribute $filterAttribute): array {
         /** @var InputFilter $filter */
-        $filter = $this->allFilters->get($filterAttribute->filteredBy());
+        $filter = $this->inputFilterLocator->get($filterAttribute->filteredBy());
         $filter->setFilterAttribute($filterAttribute);
 
         return $filter->applyTo($data, $propertyName);
