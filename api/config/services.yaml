@@ -54,3 +54,6 @@ services:
             - '@.inner'
             - '@api_platform.route_name_resolver'
             - '@api_platform.filter_locator'
+
+    App\Serializer\Normalizer\CollectionItemsNormalizer:
+        decorates: 'api_platform.hal.normalizer.collection'

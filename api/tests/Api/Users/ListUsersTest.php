@@ -25,7 +25,7 @@ class ListUsersTest extends ECampApiTestCase {
         $this->assertJsonContains([
             'totalItems' => 1,
             '_embedded' => [
-                'item' => [
+                'items' => [
                     [
                         '_links' => [
                             'self' => [
@@ -46,9 +46,9 @@ class ListUsersTest extends ECampApiTestCase {
         $this->assertJsonContains([
             'totalItems' => $totalUsers,
             '_embedded' => [
-                'item' => [],
+                'items' => [],
             ],
         ]);
-        $this->assertEquals($totalUsers, count($response->toArray(true)['_embedded']['item']));
+        $this->assertEquals($totalUsers, count($response->toArray(true)['_embedded']['items']));
     }
 }
