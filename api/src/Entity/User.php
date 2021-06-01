@@ -261,10 +261,10 @@ class User extends BaseEntity implements UserInterface {
     }
 
     /**
-     * @return Camp[]|Collection
+     * @return Camp[]
      */
-    public function getOwnedCamps(): Collection {
-        return $this->ownedCamps;
+    public function getOwnedCamps(): array {
+        return $this->ownedCamps->getValues();
     }
 
     public function addOwnedCamp(Camp $ownedCamp): self {
