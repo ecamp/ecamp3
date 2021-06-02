@@ -21,7 +21,7 @@ class ListUsersTest extends ECampApiTestCase {
     public function testListUsersIsAllowedForLoggedInUserButFiltered() {
         static::createClientWithCredentials()->request('GET', '/users');
         $this->assertResponseStatusCodeSame(200);
-        $userIri = $this->getIriConverter()->getIriFromItem(static::$fixtures['user_1']);
+        $userIri = $this->getIriConverter()->getIriFromItem(static::$fixtures['user1']);
         $this->assertJsonContains([
             'totalItems' => 1,
             '_embedded' => [

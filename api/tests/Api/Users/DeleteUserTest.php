@@ -9,8 +9,8 @@ use App\Tests\Api\ECampApiTestCase;
  * @internal
  */
 class DeleteUserTest extends ECampApiTestCase {
-    public function testDeleteSingleUserIsDeniedToAnonymousUser() {
-        $user = static::$fixtures['user_1'];
+    public function testDeleteUserIsDeniedToAnonymousUser() {
+        $user = static::$fixtures['user1'];
         static::createClient()->request('DELETE', '/users/'.$user->getId());
         $this->assertResponseStatusCodeSame(401);
         $this->assertJsonContains([
@@ -19,8 +19,8 @@ class DeleteUserTest extends ECampApiTestCase {
         ]);
     }
 
-    public function testDeleteSingleUserIsDeniedForDifferentUser() {
-        $user2 = static::$fixtures['user_2'];
+    public function testDeleteUserIsDeniedForDifferentUser() {
+        $user2 = static::$fixtures['user2'];
         static::createClientWithCredentials()->request('DELETE', '/users/'.$user2->getId());
         $this->assertResponseStatusCodeSame(404);
         $this->assertJsonContains([
@@ -29,8 +29,8 @@ class DeleteUserTest extends ECampApiTestCase {
         ]);
     }
 
-    public function testGetSingleUserIsDeniedForSelf() {
-        $user = static::$fixtures['user_1'];
+    public function testDeleteUserIsDeniedForSelf() {
+        $user = static::$fixtures['user1'];
         static::createClientWithCredentials()->request('DELETE', '/users/'.$user->getId());
         $this->assertResponseStatusCodeSame(403);
         $this->assertJsonContains([
@@ -39,8 +39,8 @@ class DeleteUserTest extends ECampApiTestCase {
         ]);
     }
 
-    public function testGetSingleUserIsAllowedForAdmin() {
-        $user = static::$fixtures['user_1'];
+    public function testDeleteUserIsAllowedForAdmin() {
+        $user = static::$fixtures['user3'];
         $this->assertNotNull(static::$container->get(UserRepository::class)->findOneBy(['username' => $user->getUsername()]));
 
         static::createClientWithAdminCredentials()->request('DELETE', '/users/'.$user->getId());

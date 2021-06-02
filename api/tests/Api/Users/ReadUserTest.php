@@ -9,7 +9,7 @@ use App\Tests\Api\ECampApiTestCase;
  */
 class ReadUserTest extends ECampApiTestCase {
     public function testGetSingleUserIsDeniedToAnonymousUser() {
-        $user = static::$fixtures['user_1'];
+        $user = static::$fixtures['user1'];
         static::createClient()->request('GET', '/users/'.$user->getId());
         $this->assertResponseStatusCodeSame(401);
         $this->assertJsonContains([
@@ -19,7 +19,7 @@ class ReadUserTest extends ECampApiTestCase {
     }
 
     public function testGetSingleUserIsDeniedForDifferentUser() {
-        $user2 = static::$fixtures['user_2'];
+        $user2 = static::$fixtures['user2'];
         static::createClientWithCredentials()->request('GET', '/users/'.$user2->getId());
         $this->assertResponseStatusCodeSame(404);
         $this->assertJsonContains([
@@ -29,7 +29,7 @@ class ReadUserTest extends ECampApiTestCase {
     }
 
     public function testGetSingleUserIsAllowedForSelf() {
-        $user = static::$fixtures['user_1'];
+        $user = static::$fixtures['user1'];
         static::createClientWithCredentials()->request('GET', '/users/'.$user->getId());
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
@@ -44,7 +44,7 @@ class ReadUserTest extends ECampApiTestCase {
     }
 
     public function testGetSingleUserIsAllowedForAdmin() {
-        $user = static::$fixtures['user_1'];
+        $user = static::$fixtures['user1'];
         static::createClientWithAdminCredentials()->request('GET', '/users/'.$user->getId());
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([

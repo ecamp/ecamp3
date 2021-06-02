@@ -9,7 +9,7 @@ use App\Tests\Api\ECampApiTestCase;
  */
 class UpdateUserTest extends ECampApiTestCase {
     public function testPatchUserIsDeniedToAnonymousUser() {
-        $user = static::$fixtures['user_1'];
+        $user = static::$fixtures['user1'];
         static::createClient()->request('PATCH', '/users/'.$user->getId(), ['json' => [
             'nickname' => 'Linux',
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -21,7 +21,7 @@ class UpdateUserTest extends ECampApiTestCase {
     }
 
     public function testPatchUserIsDeniedForDifferentUser() {
-        $user2 = static::$fixtures['user_2'];
+        $user2 = static::$fixtures['user2'];
         static::createClientWithCredentials()->request('PATCH', '/users/'.$user2->getId(), ['json' => [
             'nickname' => 'Linux',
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -33,7 +33,7 @@ class UpdateUserTest extends ECampApiTestCase {
     }
 
     public function testPatchUserIsAllowedForSelf() {
-        $user = static::$fixtures['user_1'];
+        $user = static::$fixtures['user1'];
         static::createClientWithCredentials()->request('PATCH', '/users/'.$user->getId(), ['json' => [
             'nickname' => 'Linux',
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -44,7 +44,7 @@ class UpdateUserTest extends ECampApiTestCase {
     }
 
     public function testPatchUserIsAllowedForAdmin() {
-        $user = static::$fixtures['user_1'];
+        $user = static::$fixtures['user1'];
         static::createClientWithAdminCredentials()->request('PATCH', '/users/'.$user->getId(), ['json' => [
             'nickname' => 'Linux',
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -55,7 +55,7 @@ class UpdateUserTest extends ECampApiTestCase {
     }
 
     public function testPatchUserTrimsEmail() {
-        $user = static::$fixtures['user_1'];
+        $user = static::$fixtures['user1'];
         static::createClientWithCredentials()->request('PATCH', '/users/'.$user->getId(), ['json' => [
             'email' => ' trimmed@example.com',
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -66,7 +66,7 @@ class UpdateUserTest extends ECampApiTestCase {
     }
 
     public function testPatchUserValidatesBlankEmail() {
-        $user = static::$fixtures['user_1'];
+        $user = static::$fixtures['user1'];
         static::createClientWithCredentials()->request('PATCH', '/users/'.$user->getId(), ['json' => [
             'email' => '',
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -82,7 +82,7 @@ class UpdateUserTest extends ECampApiTestCase {
     }
 
     public function testPatchUserValidatesInvalidEmail() {
-        $user = static::$fixtures['user_1'];
+        $user = static::$fixtures['user1'];
         static::createClientWithCredentials()->request('PATCH', '/users/'.$user->getId(), ['json' => [
             'email' => 'hello@sunrise',
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -98,7 +98,7 @@ class UpdateUserTest extends ECampApiTestCase {
     }
 
     public function testPatchUserValidatesLongEmail() {
-        $user = static::$fixtures['user_1'];
+        $user = static::$fixtures['user1'];
         static::createClientWithCredentials()->request('PATCH', '/users/'.$user->getId(), ['json' => [
             'email' => 'test-with-a-very-long-email-address-which-is-not-really-realistic@example.com',
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -114,9 +114,9 @@ class UpdateUserTest extends ECampApiTestCase {
     }
 
     public function testPatchUserValidatesDuplicateEmail() {
-        $user = static::$fixtures['user_1'];
+        $user = static::$fixtures['user1'];
         static::createClientWithCredentials()->request('PATCH', '/users/'.$user->getId(), ['json' => [
-            'email' => static::$fixtures['user_2']->getEmail(),
+            'email' => static::$fixtures['user2']->getEmail(),
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
         $this->assertResponseStatusCodeSame(422);
         $this->assertJsonContains([
@@ -130,9 +130,9 @@ class UpdateUserTest extends ECampApiTestCase {
     }
 
     public function testPatchUserTrimsFirstThenValidatesDuplicateEmail() {
-        $user = static::$fixtures['user_1'];
+        $user = static::$fixtures['user1'];
         static::createClientWithCredentials()->request('PATCH', '/users/'.$user->getId(), ['json' => [
-            'email' => ' '.static::$fixtures['user_2']->getEmail(),
+            'email' => ' '.static::$fixtures['user2']->getEmail(),
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
         $this->assertResponseStatusCodeSame(422);
         $this->assertJsonContains([
@@ -146,7 +146,7 @@ class UpdateUserTest extends ECampApiTestCase {
     }
 
     public function testPatchUserTrimsUsername() {
-        $user = static::$fixtures['user_1'];
+        $user = static::$fixtures['user1'];
         static::createClientWithCredentials()->request('PATCH', '/users/'.$user->getId(), ['json' => [
             'username' => " bi-pi\t",
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -157,7 +157,7 @@ class UpdateUserTest extends ECampApiTestCase {
     }
 
     public function testPatchUserValidatesBlankUsername() {
-        $user = static::$fixtures['user_1'];
+        $user = static::$fixtures['user1'];
         static::createClientWithCredentials()->request('PATCH', '/users/'.$user->getId(), ['json' => [
             'username' => '',
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -173,7 +173,7 @@ class UpdateUserTest extends ECampApiTestCase {
     }
 
     public function testPatchUserValidatesInvalidUsername() {
-        $user = static::$fixtures['user_1'];
+        $user = static::$fixtures['user1'];
         static::createClientWithCredentials()->request('PATCH', '/users/'.$user->getId(), ['json' => [
             'username' => 'a*b',
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -189,7 +189,7 @@ class UpdateUserTest extends ECampApiTestCase {
     }
 
     public function testPatchUserValidatesLongUsername() {
-        $user = static::$fixtures['user_1'];
+        $user = static::$fixtures['user1'];
         static::createClientWithCredentials()->request('PATCH', '/users/'.$user->getId(), ['json' => [
             'username' => 'abcdefghijklmnopqrstuvwxyz-the-alphabet',
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -205,9 +205,9 @@ class UpdateUserTest extends ECampApiTestCase {
     }
 
     public function testPatchUserValidatesDuplicateUsername() {
-        $user = static::$fixtures['user_1'];
+        $user = static::$fixtures['user1'];
         static::createClientWithCredentials()->request('PATCH', '/users/'.$user->getId(), ['json' => [
-            'username' => static::$fixtures['user_2']->getUsername(),
+            'username' => static::$fixtures['user2']->getUsername(),
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
         $this->assertResponseStatusCodeSame(422);
         $this->assertJsonContains([
@@ -221,9 +221,9 @@ class UpdateUserTest extends ECampApiTestCase {
     }
 
     public function testPatchUserTrimsFirstThenValidatesDuplicateUsername() {
-        $user = static::$fixtures['user_1'];
+        $user = static::$fixtures['user1'];
         static::createClientWithCredentials()->request('PATCH', '/users/'.$user->getId(), ['json' => [
-            'username' => ' '.static::$fixtures['user_2']->getUsername(),
+            'username' => ' '.static::$fixtures['user2']->getUsername(),
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
         $this->assertResponseStatusCodeSame(422);
         $this->assertJsonContains([
@@ -237,7 +237,7 @@ class UpdateUserTest extends ECampApiTestCase {
     }
 
     public function testPatchUserTrimsFirstname() {
-        $user = static::$fixtures['user_1'];
+        $user = static::$fixtures['user1'];
         static::createClientWithCredentials()->request('PATCH', '/users/'.$user->getId(), ['json' => [
             'firstname' => "\tHello ",
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -248,7 +248,7 @@ class UpdateUserTest extends ECampApiTestCase {
     }
 
     public function testPatchUserCleansHTMLFromFirstname() {
-        $user = static::$fixtures['user_1'];
+        $user = static::$fixtures['user1'];
         static::createClientWithCredentials()->request('PATCH', '/users/'.$user->getId(), ['json' => [
             'firstname' => '<script>alert(1)</script>Hello',
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -259,7 +259,7 @@ class UpdateUserTest extends ECampApiTestCase {
     }
 
     public function testPatchUserTrimsSurname() {
-        $user = static::$fixtures['user_1'];
+        $user = static::$fixtures['user1'];
         static::createClientWithCredentials()->request('PATCH', '/users/'.$user->getId(), ['json' => [
             'surname' => "\tHello ",
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -270,7 +270,7 @@ class UpdateUserTest extends ECampApiTestCase {
     }
 
     public function testPatchUserCleansHTMLFromSurname() {
-        $user = static::$fixtures['user_1'];
+        $user = static::$fixtures['user1'];
         static::createClientWithCredentials()->request('PATCH', '/users/'.$user->getId(), ['json' => [
             'surname' => '<script>alert(1)</script>Hello',
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -281,7 +281,7 @@ class UpdateUserTest extends ECampApiTestCase {
     }
 
     public function testPatchUserTrimsNickname() {
-        $user = static::$fixtures['user_1'];
+        $user = static::$fixtures['user1'];
         static::createClientWithCredentials()->request('PATCH', '/users/'.$user->getId(), ['json' => [
             'nickname' => "\tHello ",
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -292,7 +292,7 @@ class UpdateUserTest extends ECampApiTestCase {
     }
 
     public function testPatchUserCleansHTMLFromNickname() {
-        $user = static::$fixtures['user_1'];
+        $user = static::$fixtures['user1'];
         static::createClientWithCredentials()->request('PATCH', '/users/'.$user->getId(), ['json' => [
             'nickname' => '<script>alert(1)</script>Hello',
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -303,7 +303,7 @@ class UpdateUserTest extends ECampApiTestCase {
     }
 
     public function testPatchUserTrimsLanguage() {
-        $user = static::$fixtures['user_1'];
+        $user = static::$fixtures['user1'];
         static::createClientWithCredentials()->request('PATCH', '/users/'.$user->getId(), ['json' => [
             'language' => "\tde_CH ",
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -314,7 +314,7 @@ class UpdateUserTest extends ECampApiTestCase {
     }
 
     public function testPatchUserValidatesInvalidLanguage() {
-        $user = static::$fixtures['user_1'];
+        $user = static::$fixtures['user1'];
         static::createClientWithCredentials()->request('PATCH', '/users/'.$user->getId(), ['json' => [
             'language' => 'französisch',
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -330,7 +330,7 @@ class UpdateUserTest extends ECampApiTestCase {
     }
 
     public function testPatchUserValidatesLongLanguage() {
-        $user = static::$fixtures['user_1'];
+        $user = static::$fixtures['user1'];
         static::createClientWithCredentials()->request('PATCH', '/users/'.$user->getId(), ['json' => [
             'language' => 'fr_CH.some-ridiculously-long-extension-which-is-technically-a-valid-ICU-locale',
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -346,7 +346,7 @@ class UpdateUserTest extends ECampApiTestCase {
     }
 
     public function testPatchUserValidatesBlankPassword() {
-        $user = static::$fixtures['user_1'];
+        $user = static::$fixtures['user1'];
         static::createClientWithCredentials()->request('PATCH', '/users/'.$user->getId(), ['json' => [
             'password' => '',
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
