@@ -23,13 +23,13 @@ use Symfony\Component\Validator\Constraints as Assert;
         ],
     ],
     itemOperations: [
-        'get' => ['security' => 'collaborates_in_camp(object) or is_granted("ROLE_ADMIN")'],
-        'patch' => ['security' => 'collaborates_in_camp(object) or is_granted("ROLE_ADMIN")'],
-        'delete' => ['security' => 'object.owner == user or is_granted("ROLE_ADMIN")'],
+        'get' => ['security' => 'object.getOwner() == user or is_granted("ROLE_ADMIN")'],
+        'patch' => ['security' => 'object.getOwner() == user or is_granted("ROLE_ADMIN")'],
+        'delete' => ['security' => 'object.getOwner() == user or is_granted("ROLE_ADMIN")'],
     ]
 )]
 #[ApiFilter(SearchFilter::class, properties: ['owner'])]
-class Camp extends BaseEntity {
+class Camp extends BaseEntity implements BelongsToCampInterface {
     /**
      * @ORM\Column(type="string", length=32)
      */
@@ -232,6 +232,10 @@ class Camp extends BaseEntity {
     public function setOwner(?User $owner): self {
         $this->owner = $owner;
 
+        return $this;
+    }
+
+    public function getCamp(): ?Camp {
         return $this;
     }
 }

@@ -63,7 +63,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     }
     */
 
-    public function filterByUser(QueryBuilder $queryBuilder, User $user) {
+    public function filterByUser(QueryBuilder $queryBuilder, User $user): void {
         $rootAlias = $queryBuilder->getRootAliases()[0];
         $queryBuilder->andWhere("{$rootAlias}.id = :current_user");
         $queryBuilder->setParameter('current_user', $user->getId());
