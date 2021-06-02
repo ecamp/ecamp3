@@ -29,7 +29,7 @@ use Symfony\Component\Validator\Constraints as Assert;
     itemOperations: [
         'get' => ['security' => 'is_granted("ROLE_ADMIN") or object == user'],
         'patch' => ['security' => 'is_granted("ROLE_ADMIN") or object == user'],
-        'delete' => ['security' => 'is_granted("ROLE_ADMIN")'],
+        'delete' => ['security' => 'is_granted("ROLE_ADMIN") and !object.ownsCamps()'],
     ]
 )]
 class User extends BaseEntity implements UserInterface {
@@ -285,5 +285,9 @@ class User extends BaseEntity implements UserInterface {
         }
 
         return $this;
+    }
+
+    public function ownsCamps(): bool {
+        return (bool) (count($this->getOwnedCamps()));
     }
 }
