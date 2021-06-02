@@ -5,6 +5,9 @@ namespace App\Tests\Api;
 use ApiPlatform\Core\Api\IriConverterInterface;
 use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\ApiTestCase;
 use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\Client;
+use ApiPlatform\Core\JsonSchema\Schema;
+use ApiPlatform\Core\JsonSchema\SchemaFactoryInterface;
+use ApiPlatform\Core\Metadata\Resource\Factory\ResourceMetadataFactoryInterface;
 use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
@@ -16,6 +19,8 @@ abstract class ECampApiTestCase extends ApiTestCase {
     private ?string $token = null;
     private ?Client $clientWithCredentials = null;
     private ?IriConverterInterface $iriConverter = null;
+    private ?SchemaFactoryInterface $schemaFactory = null;
+    private ?ResourceMetadataFactoryInterface $resourceMetadataFactory = null;
 
     public function setUp(): void {
         self::bootKernel();
@@ -83,5 +88,30 @@ abstract class ECampApiTestCase extends ApiTestCase {
         }
 
         return $this->iriConverter;
+    }
+
+    protected function getSchemaFactory(): SchemaFactoryInterface {
+        if (null === $this->schemaFactory) {
+            $this->schemaFactory = static::$container->get(SchemaFactoryInterface::class);
+        }
+
+        return $this->schemaFactory;
+    }
+
+    protected function getResourceMetadataFactory(): ResourceMetadataFactoryInterface {
+        if (null === $this->resourceMetadataFactory) {
+            $this->resourceMetadataFactory = static::$container->get(ResourceMetadataFactoryInterface::class);
+        }
+
+        return $this->resourceMetadataFactory;
+    }
+
+    protected function getExamplePayload(string $resourceClass, array $attributes = [], array $except = []): array {
+        $shortName = $this->getResourceMetadataFactory()->create($resourceClass)->getShortName();
+        $schema = $this->getSchemaFactory()->buildSchema($resourceClass, 'json', Schema::TYPE_INPUT, 'POST');
+        $properties = $schema->getDefinitions()[$shortName]['properties'];
+        $writableProperties = array_filter($properties, fn ($property) => !($property['readOnly'] ?? false));
+
+        return array_diff_key(array_merge(array_map(fn ($property) => $property['example'], $writableProperties), $attributes), array_flip($except));
     }
 }
