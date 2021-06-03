@@ -232,7 +232,7 @@ export default new Router({
         default: () => import(/* webpackChunkName: "activity" */ './views/activity/Activity.vue'),
         aside: () => import(/* webpackChunkName: "day" */ './views/activity/SideBarProgram.vue')
       },
-      beforeEnter: requireAuth,
+      beforeEnter: all([requireAuth, requireScheduleEntry]),
       props: {
         navigation: route => ({ camp: campFromRoute(route) }),
         default: route => ({ scheduleEntry: scheduleEntryFromRoute(route) }),
@@ -287,6 +287,18 @@ async function requirePeriod (to, from, next) {
     next()
   }).catch(() => {
     next(campRoute(campFromRoute(to).call({ api: { get: apiStore.get } })))
+  })
+}
+
+async function requireScheduleEntry (to, from, next) {
+  await scheduleEntryFromRoute(to).call({ api: { get: apiStore.get } })._meta.load.then(() => {
+    next()
+  }).catch(() => {
+    campFromRoute(to).call({ api: { get: apiStore.get } })._meta.load.then((camp) => {
+      next(campRoute(camp, 'program'))
+    }).catch(() => {
+      next({ name: 'home' })
+    })
   })
 }
 

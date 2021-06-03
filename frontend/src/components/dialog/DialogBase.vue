@@ -51,23 +51,30 @@ export default {
     create () {
       this.error = null
       const _events = this._events
-      this.api.post(this.entityUri, this.entityData).then(this.close, e => this.onError(_events, e))
+      this.api.post(this.entityUri, this.entityData).then(() => this.onSuccess(_events), e => this.onError(_events, e))
       this.$emit('submit')
     },
     update () {
       this.error = null
       const _events = this._events
-      this.api.patch(this.entityUri, this.entityData).then(this.close, e => this.onError(_events, e))
+      this.api.patch(this.entityUri, this.entityData).then(() => this.onSuccess(_events), e => this.onError(_events, e))
       this.$emit('submit')
     },
     del () {
       this.error = null
       const _events = this._events
-      this.api.del(this.entityUri).then(this.close, e => this.onError(_events, e))
+      this.api.del(this.entityUri).then(() => this.onSuccess(_events), e => this.onError(_events, e))
       this.$emit('submit')
     },
-    onSuccess () {
+    onSuccess (originalHandlers) {
+      // By the time we get here, the dialog might be closed because an enclosing menu might be closed.
+      // See https://github.com/vuetifyjs/vuetify/issues/7021
+      // In this case, the event handlers in here are cleared, so we need to temporarily restore them
+      // to make the $emit work correctly
+      const eventHandlers = this._events
+      this._events = originalHandlers
       this.$emit('success')
+      this._events = eventHandlers
       this.close()
     },
     close () {
