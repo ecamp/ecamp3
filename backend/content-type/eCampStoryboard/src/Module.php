@@ -34,12 +34,19 @@ class Module {
             Section::class,
             [Acl::REST_PRIVILEGE_FETCH_ALL]
         );
+
+        $acl->allow(
+            User::ROLE_USER,
+            Section::class,
+            [Acl::REST_PRIVILEGE_FETCH],
+            new UserIsCollaborator([CampCollaboration::ROLE_MEMBER, CampCollaboration::ROLE_MANAGER, CampCollaboration::ROLE_GUEST])
+        );
+
         $acl->allow(
             User::ROLE_USER,
             Section::class,
             [
                 Acl::REST_PRIVILEGE_CREATE,
-                Acl::REST_PRIVILEGE_FETCH,
                 Acl::REST_PRIVILEGE_PATCH,
                 Acl::REST_PRIVILEGE_UPDATE,
                 Acl::REST_PRIVILEGE_DELETE,
