@@ -7,7 +7,7 @@
           :placeholder="$tc('contentNode.storycontext.name')"
           rows="2"
           auto-grow
-          :disabled="layoutMode"
+          :disabled="layoutMode || disabled"
           :filled="layoutMode" />
       </api-form>
     </div>

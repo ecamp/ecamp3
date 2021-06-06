@@ -14,7 +14,7 @@
         <v-col cols="1" />
       </v-row>
 
-      <api-sortable v-slot="sortable" :collection="sections">
+      <api-sortable v-slot="sortable" :disabled="layoutMode || disabled" :collection="sections">
         <api-form :entity="sortable.entity">
           <v-row dense>
             <v-col cols="2">
@@ -22,7 +22,7 @@
                 fieldname="column1"
                 auto-grow
                 rows="2"
-                :disabled="layoutMode"
+                :disabled="layoutMode || disabled"
                 :filled="layoutMode" />
             </v-col>
             <v-col cols="7">
@@ -30,7 +30,7 @@
                 fieldname="column2"
                 auto-grow
                 rows="4"
-                :disabled="layoutMode"
+                :disabled="layoutMode || disabled"
                 :filled="layoutMode" />
             </v-col>
             <v-col cols="2">
@@ -38,11 +38,11 @@
                 fieldname="column3"
                 auto-grow
                 rows="2"
-                :disabled="layoutMode"
+                :disabled="layoutMode || disabled"
                 :filled="layoutMode" />
             </v-col>
             <v-col cols="1">
-              <v-container v-if="!layoutMode" class="ma-0 pa-0">
+              <v-container v-if="!layoutMode && !disabled" class="ma-0 pa-0">
                 <v-row no-gutters>
                   <v-col cols="6">
                     <div class="section-buttons">
@@ -85,7 +85,7 @@
       <!-- add at end position -->
       <v-row no-gutters justify="center">
         <v-col cols="1">
-          <v-btn v-if="!layoutMode"
+          <v-btn v-if="!layoutMode && !disabled"
                  icon
                  small
                  class="button-add"

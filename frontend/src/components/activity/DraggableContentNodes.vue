@@ -15,7 +15,8 @@
                     class="content-node"
                     :content-node="allContentNodesById[id]"
                     :layout-mode="layoutMode"
-                    :draggable="draggingEnabled" />
+                    :draggable="draggingEnabled"
+                    :disabled="disabled" />
     </draggable>
 
     <button-nested-content-node-add v-if="layoutMode"
@@ -40,7 +41,8 @@ export default {
   props: {
     layoutMode: { type: Boolean, default: false },
     slotName: { type: String, required: true },
-    parentContentNode: { type: Object, required: true }
+    parentContentNode: { type: Object, required: true },
+    disabled: { type: Boolean, default: false }
   },
   data () {
     return {
@@ -52,7 +54,7 @@ export default {
       return keyBy(this.parentContentNode.owner().contentNodes().items, 'id')
     },
     draggingEnabled () {
-      return this.layoutMode && this.$vuetify.breakpoint.mdAndUp
+      return this.layoutMode && this.$vuetify.breakpoint.mdAndUp && !this.disabled
     },
     contentNodeIds () {
       return sortBy(

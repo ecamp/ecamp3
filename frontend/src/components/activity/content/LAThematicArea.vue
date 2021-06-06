@@ -5,7 +5,7 @@
         <v-list-item v-for="option in contentNode.options().items"
                      :key="option.id"
                      tag="label"
-                     :disabled="layoutMode">
+                     :disabled="layoutMode || disabled">
           <v-list-item-action>
             <api-checkbox fieldname="checked" :uri="option._meta.self" />
           </v-list-item-action>

@@ -5,7 +5,8 @@
                       :content-node="contentNode"
                       :layout-mode="layoutMode"
                       :material-item-collection="contentNode.materialItems()"
-                      :group-by-list="$vuetify.breakpoint.xs" />
+                      :group-by-list="$vuetify.breakpoint.xs"
+                      :disabled="disabled" />
     </div>
   </card-content-node>
 </template>

@@ -2,7 +2,8 @@
   <v-card :elevation="draggable ? 4 : 0" :class="{ 'mx-2 my-2': draggable }">
     <v-card-title hide-actions class="pa-0 pr-sm-2">
       <v-toolbar dense flat>
-        <v-menu bottom
+        <v-menu v-if="!disabled"
+                bottom
                 right
                 offset-y>
           <template #activator="{ on, attrs }">
@@ -26,6 +27,9 @@
             </v-row>
           </v-container>
         </v-menu>
+        <v-icon v-else>
+          {{ currentIcon }}
+        </v-icon>
 
         <div
           v-if="editInstanceName"
@@ -46,7 +50,7 @@
           </v-toolbar-title>
         </div>
 
-        <v-menu v-if="!layoutMode"
+        <v-menu v-if="!layoutMode && !disabled"
                 bottom
                 left
                 offset-y>
@@ -67,7 +71,7 @@
           </v-list>
         </v-menu>
         <dialog-entity-delete
-          v-else
+          v-else-if="!disabled"
           :entity="contentNode">
           <template #activator="{ on }">
             <v-btn icon
@@ -101,7 +105,8 @@ export default {
   props: {
     contentNode: { type: Object, required: true },
     layoutMode: { type: Boolean, required: true },
-    draggable: { type: Boolean, default: false }
+    draggable: { type: Boolean, default: false },
+    disabled: { type: Boolean, default: false }
   },
   data () {
     return {
@@ -139,6 +144,9 @@ export default {
   },
   methods: {
     toggleEditInstanceName (e) {
+      if (this.disabled) {
+        return
+      }
       this.editInstanceName = !this.editInstanceName
     }
   }
