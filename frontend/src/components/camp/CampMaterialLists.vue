@@ -3,7 +3,7 @@
     <slot name="title">
       <div class="ec-content-group__title py-1 subtitle-1">
         {{ $tc('components.camp.campMaterialLists.title') }}
-        <dialog-material-list-create :camp="camp()">
+        <dialog-material-list-create v-if="!disabled" :camp="camp()">
           <template #activator="{ on }">
             <button-add color="secondary" text
                         class="my-n1"
@@ -20,7 +20,8 @@
         v-for="materialList in materialLists.items"
         :key="materialList.id"
         class="px-0"
-        :material-list="materialList" />
+        :material-list="materialList"
+        :disabled="disabled" />
     </v-list>
   </content-group>
 </template>
@@ -35,7 +36,8 @@ export default {
   name: 'CampMaterialLists',
   components: { ContentGroup, ButtonAdd, CampMaterialListsItem, DialogMaterialListCreate },
   props: {
-    camp: { type: Function, required: true }
+    camp: { type: Function, required: true },
+    disabled: { type: Boolean, default: false }
   },
   data () {
     return {

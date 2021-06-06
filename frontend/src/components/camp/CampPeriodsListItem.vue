@@ -12,7 +12,7 @@ Displays a single period as a list item including controls to edit and delete it
       </v-list-item-subtitle>
     </v-list-item-content>
 
-    <v-list-item-action style="display: inline">
+    <v-list-item-action v-if="!disabled" style="display: inline">
       <v-item-group>
         <dialog-period-edit :period="period">
           <template #activator="{ on }">
@@ -22,7 +22,7 @@ Displays a single period as a list item including controls to edit and delete it
       </v-item-group>
     </v-list-item-action>
 
-    <v-menu offset-y>
+    <v-menu v-if="!disabled" offset-y>
       <template #activator="{ on, attrs }">
         <v-btn icon v-bind="attrs" v-on="on">
           <v-icon>mdi-dots-vertical</v-icon>
@@ -65,7 +65,8 @@ export default {
   name: 'CampPeriods',
   components: { DialogEntityDelete, DialogPeriodEdit, ButtonEdit, ButtonDelete },
   props: {
-    period: { type: Object, required: true }
+    period: { type: Object, required: true },
+    disabled: { type: Boolean, default: false }
   },
   computed: {
     isLastPeriod () {
