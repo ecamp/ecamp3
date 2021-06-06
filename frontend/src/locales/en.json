@@ -168,6 +168,8 @@
         "title": "Settings"
       },
       "collaboratorListItem": {
+        "cannotAssignAnotherRoleToLastManager": "You cannot assign another role to the last manager.",
+        "cannotRemoveLastManager": "You cannot remove the last manager.",
         "deactivate": "Deactivate",
         "resendEmail": "Resend email"
       },

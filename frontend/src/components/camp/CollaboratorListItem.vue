@@ -24,29 +24,47 @@
       </icon-button>
     </v-list-item-action>
     <v-list-item-action class="ml-4">
-      <api-select
-        :value="collaborator.role"
-        :uri="collaborator._meta.self"
-        fieldname="role"
-        :items="[
-          { key: 'member', translation: $tc('entity.camp.collaborators.member') },
-          { key: 'manager', translation: $tc('entity.camp.collaborators.manager') },
-          { key: 'guest', translation: $tc('entity.camp.collaborators.guest') },
-        ]"
-        item-value="key"
-        item-text="translation"
-        :my="0"
-        dense
-        vee-rules="required"
-        :disabled="disabled || isLastManager" />
+      <v-tooltip :disabled="disabled || !isLastManager" top>
+        <template #activator="{ on, attrs }">
+          <div
+            v-bind="attrs"
+            v-on="on">
+            <api-select
+              :value="collaborator.role"
+              :uri="collaborator._meta.self"
+              fieldname="role"
+              :items="[
+                { key: 'member', translation: $tc('entity.camp.collaborators.member') },
+                { key: 'manager', translation: $tc('entity.camp.collaborators.manager') },
+                { key: 'guest', translation: $tc('entity.camp.collaborators.guest') },
+              ]"
+              item-value="key"
+              item-text="translation"
+              :my="0"
+              dense
+              vee-rules="required"
+              :disabled="disabled || isLastManager" />
+          </div>
+        </template>
+        <span>{{ $tc("components.camp.collaboratorListItem.cannotAssignAnotherRoleToLastManager") }}</span>
+      </v-tooltip>
     </v-list-item-action>
     <v-list-item-action class="ml-2">
-      <button-delete
-        :disabled="(disabled && !isOwnCampCollaboration) || isLastManager"
-        icon="mdi-cancel"
-        @click="api.del(collaborator)">
-        {{ $tc("components.camp.collaboratorListItem.deactivate") }}
-      </button-delete>
+      <v-tooltip :disabled="disabled || !isLastManager" top>
+        <template #activator="{ on, attrs }">
+          <div
+            v-bind="attrs"
+            v-on="on">
+            <button-delete
+              :disabled="(disabled && !isOwnCampCollaboration) || isLastManager"
+              icon="mdi-cancel"
+              @click="api.del(collaborator)">
+              {{ $tc("components.camp.collaboratorListItem.deactivate") }}
+            </button-delete>
+          </div>
+        </template>
+        <span>{{ $tc("components.camp.collaboratorListItem.cannotRemoveLastManager") }}</span>
+      </v-tooltip>
     </v-list-item-action>
   </v-list-item>
 </template>
