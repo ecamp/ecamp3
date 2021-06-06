@@ -8,6 +8,7 @@ Admin screen of a camp: Displays details & periods of a single camp and allows t
       <template v-if="$vuetify.breakpoint.smAndUp">
         <e-switch v-model="editing" :label="$tc('global.button.editable')"
                   class="ec-story-editable ml-auto"
+                  :disabled="!isContributor"
                   @click="$event.preventDefault()" />
       </template>
       <v-menu v-else offset-y>
@@ -60,6 +61,7 @@ Admin screen of a camp: Displays details & periods of a single camp and allows t
 <script>
 import ContentCard from '@/components/layout/ContentCard.vue'
 import StoryPeriod from '@/components/camp/StoryPeriod.vue'
+import { campRoleMixin } from '@/mixins/campRoleMixin'
 
 const PRINT_SERVER = window.environment.PRINT_SERVER
 
@@ -69,6 +71,7 @@ export default {
     StoryPeriod,
     ContentCard
   },
+  mixins: [campRoleMixin],
   props: {
     camp: { type: Function, required: true }
   },
