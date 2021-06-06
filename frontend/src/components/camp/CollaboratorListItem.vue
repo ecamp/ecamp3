@@ -18,6 +18,7 @@
         color="normal"
         icon="mdi-refresh"
         :animate="resendingEmail"
+        :disabled="disabled"
         @click="resendInvitation">
         {{ $tc('components.camp.collaboratorListItem.resendEmail') }}
       </icon-button>
@@ -36,10 +37,12 @@
         item-text="translation"
         :my="0"
         dense
-        vee-rules="required" />
+        vee-rules="required"
+        :disabled="disabled || isLastManager" />
     </v-list-item-action>
     <v-list-item-action class="ml-2">
       <button-delete
+        :disabled="(disabled && !isOwnCampCollaboration) || isLastManager"
         icon="mdi-cancel"
         @click="api.del(collaborator)">
         {{ $tc("components.camp.collaboratorListItem.deactivate") }}
@@ -58,11 +61,31 @@ export default {
   name: 'CollaboratorListItem',
   components: { ButtonDelete, ApiSelect, UserAvatar, IconButton },
   props: {
-    collaborator: { type: Object, required: true }
+    collaborator: { type: Object, required: true },
+    disabled: { type: Boolean, default: false }
   },
   data: () => ({
     resendingEmail: false
   }),
+  computed: {
+    isLastManager () {
+      const camp = this.collaborator.camp()
+      const isManager = this.collaborator.role === 'manager'
+      const lastManager = camp
+        ?.campCollaborations()
+        ?.items
+        ?.filter(collaborator => collaborator.status === 'established')
+        .filter(collaborator => collaborator.role === 'manager')
+        .length <= 1
+      return isManager && lastManager
+    },
+    isOwnCampCollaboration () {
+      if (!(typeof this.collaborator.user === 'function')) {
+        return false
+      }
+      return this.api.get().profile().user().id === this.collaborator.user().id
+    }
+  },
   methods: {
     resendInvitation () {
       this.resendingEmail = true
