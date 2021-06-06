@@ -12,7 +12,8 @@
         :period="period"
         :show-content-node-material="showContentNodeMaterial"
         :group-by-list="groupByList"
-        enable-grouping />
+        enable-grouping
+        :disabled="disabled" />
     </v-expansion-panel-content>
   </v-expansion-panel>
 </template>
@@ -29,7 +30,8 @@ export default {
   props: {
     period: { type: Object, required: true },
     showContentNodeMaterial: { type: Boolean, required: true },
-    groupByList: { type: Boolean, required: true }
+    groupByList: { type: Boolean, required: true },
+    disabled: { type: Boolean, default: false }
   },
   data () {
     return {
