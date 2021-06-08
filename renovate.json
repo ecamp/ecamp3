@@ -30,6 +30,14 @@
       "matchStrings": ["<server name=\"SYMFONY_PHPUNIT_VERSION\" value=\"(?<currentValue>[^\"]+)\" />"],
       "depNameTemplate": "phpunit/phpunit",
       "datasourceTemplate": "packagist"
+    },
+    {
+      "fileMatch": ["^renovate.json$"],
+      "matchStrings": [
+        "\"node\": \"= (?<latestVersion>.+?)"
+      ],
+      "depNameTemplate": "node",
+      "datasourceTemplate":"git-tags"
     }
   ]
 }
