@@ -83,7 +83,11 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
 
-      - run: ./docker-compose-run-as-entrypoint.sh print npm ci
+      - run: mkdir print/node_modules
+
+      - run: sudo chown -R 1000:1000 .cache print/node_modules
+
+      - run: CI=false ./docker-compose-run-as-entrypoint.sh print npm ci
 
       - run: ./docker-compose-run-as-entrypoint.sh print npm run lint
 
@@ -183,9 +187,13 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
 
-      - run: ./docker-compose-run-as-entrypoint.sh print npm ci
+      - run: mkdir print/node_modules print/.nuxt
 
-      - run: ./docker-compose-run-as-entrypoint.sh print npm run build
+      - run: sudo chown -R 1000:1000 .cache print/node_modules print/.nuxt
+
+      - run: CI=false ./docker-compose-run-as-entrypoint.sh print npm ci
+
+      - run: CI=false ./docker-compose-run-as-entrypoint.sh print npm run build
 
       - run: ./docker-compose-run-as-entrypoint.sh print npm run test
 
