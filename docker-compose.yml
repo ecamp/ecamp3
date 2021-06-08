@@ -15,7 +15,6 @@ services:
       - ./common:/common:delegated
       - ./.cache/npm:/home/node/.npm
       - ./.cache/cypress:/home/node/.cache/Cypress
-      - ./.cache/node_modules:/app/node_modules/.cache
     working_dir: /app
     command: ./docker-setup.sh
     environment:
@@ -115,7 +114,6 @@ services:
       - ./print:/app:delegated
       - ./common:/common:delegated
       - ./.cache/npm:/home/node/.npm
-      - ./.cache/node_modules:/app/node_modules/.cache
     working_dir: /app
     command: ./docker-setup.sh
     environment:
