@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f7206e07f14dcb9706d9daa97c565f57",
+    "content-hash": "cedf06bf6cd0f48ad481aa0f3d29905b",
     "packages": [
         {
             "name": "assetic/framework",
@@ -6111,26 +6111,25 @@
         },
         {
             "name": "ocramius/proxy-manager",
-            "version": "2.12.0",
+            "version": "2.13.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Ocramius/ProxyManager.git",
-                "reference": "6046a5730a8d329d7f3d9c5239bc1c806512a854"
+                "reference": "21e2b4aa7d7661e7641cc6362fc8635ddcfa8464"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Ocramius/ProxyManager/zipball/6046a5730a8d329d7f3d9c5239bc1c806512a854",
-                "reference": "6046a5730a8d329d7f3d9c5239bc1c806512a854",
+                "url": "https://api.github.com/repos/Ocramius/ProxyManager/zipball/21e2b4aa7d7661e7641cc6362fc8635ddcfa8464",
+                "reference": "21e2b4aa7d7661e7641cc6362fc8635ddcfa8464",
                 "shasum": ""
             },
             "require": {
-                "composer-runtime-api": "^2.0.0",
+                "composer-runtime-api": "^2.1.0",
                 "laminas/laminas-code": "^4.3.0",
                 "php": "~7.4.1 || ~8.0.0",
                 "webimpress/safe-writer": "^2.2.0"
             },
             "conflict": {
-                "composer/composer": "<2.0.14",
                 "doctrine/annotations": "<1.6.1",
                 "laminas/laminas-stdlib": "<3.2.1",
                 "thecodingmachine/safe": "<1.3.3",
@@ -6187,7 +6186,7 @@
             ],
             "support": {
                 "issues": "https://github.com/Ocramius/ProxyManager/issues",
-                "source": "https://github.com/Ocramius/ProxyManager/tree/2.12.0"
+                "source": "https://github.com/Ocramius/ProxyManager/tree/2.13.0"
             },
             "funding": [
                 {
@@ -6199,7 +6198,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-05-25T11:42:44+00:00"
+            "time": "2021-06-09T10:16:06+00:00"
         },
         {
             "name": "php-http/client-common",
@@ -12892,5 +12891,5 @@
     "platform-overrides": {
         "php": "7.4.2"
     },
-    "plugin-api-version": "2.0.0"
+    "plugin-api-version": "2.1.0"
 }
