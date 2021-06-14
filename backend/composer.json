@@ -24,7 +24,7 @@
         "laminas-api-tools/api-tools": "1.4.1",
         "laminas-api-tools/api-tools-documentation": "1.4.0",
         "laminas-api-tools/api-tools-doctrine": "2.3.0",
-        "laminas-api-tools/api-tools-documentation-swagger": "1.4.0",
+        "laminas-api-tools/api-tools-documentation-swagger": "1.4.1",
         "doctrine/doctrine-orm-module": "2.1.7",
         "doctrine/data-fixtures": "1.5.0",
         "hybridauth/hybridauth": "^3.0-dev",

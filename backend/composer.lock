@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3d5127ca860023d4a0d26bce032c9946",
+    "content-hash": "7527e15ebbefe905796529b8b7a9be3f",
     "packages": [
         {
             "name": "assetic/framework",
@@ -2970,16 +2970,16 @@
         },
         {
             "name": "laminas-api-tools/api-tools-documentation-swagger",
-            "version": "1.4.0",
+            "version": "1.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas-api-tools/api-tools-documentation-swagger.git",
-                "reference": "96d0bfbbb67d72e1fbb7515183dd74a9dc59c10a"
+                "reference": "c8db9b167bd4935e2fc583a63593dd7721893cab"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas-api-tools/api-tools-documentation-swagger/zipball/96d0bfbbb67d72e1fbb7515183dd74a9dc59c10a",
-                "reference": "96d0bfbbb67d72e1fbb7515183dd74a9dc59c10a",
+                "url": "https://api.github.com/repos/laminas-api-tools/api-tools-documentation-swagger/zipball/c8db9b167bd4935e2fc583a63593dd7721893cab",
+                "reference": "c8db9b167bd4935e2fc583a63593dd7721893cab",
                 "shasum": ""
             },
             "require": {
@@ -2991,7 +2991,7 @@
                 "laminas/laminas-servicemanager": "^2.7.6 || ^3.1",
                 "laminas/laminas-view": "^2.8.1",
                 "laminas/laminas-zendframework-bridge": "^1.1",
-                "php": "^7.3"
+                "php": "^7.3 || ~8.0.0"
             },
             "replace": {
                 "zfcampus/zf-apigility-documentation-swagger": "^1.3.0"
@@ -3042,7 +3042,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2021-06-10T21:16:07+00:00"
+            "time": "2021-06-14T14:00:33+00:00"
         },
         {
             "name": "laminas-api-tools/api-tools-hal",
