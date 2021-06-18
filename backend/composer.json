@@ -22,7 +22,7 @@
         "laminas/laminas-session": "2.10.0",
         "laminas/laminas-dependency-plugin": "^2-dev",
         "laminas-api-tools/api-tools": "1.4.1",
-        "laminas-api-tools/api-tools-documentation": "1.4.0",
+        "laminas-api-tools/api-tools-documentation": "1.4.1",
         "laminas-api-tools/api-tools-doctrine": "2.3.0",
         "laminas-api-tools/api-tools-documentation-swagger": "1.4.1",
         "doctrine/doctrine-orm-module": "2.1.7",

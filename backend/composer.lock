@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7527e15ebbefe905796529b8b7a9be3f",
+    "content-hash": "43a99a17a2efca1ec9e66f55b492f9fe",
     "packages": [
         {
             "name": "assetic/framework",
@@ -2898,16 +2898,16 @@
         },
         {
             "name": "laminas-api-tools/api-tools-documentation",
-            "version": "1.4.0",
+            "version": "1.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas-api-tools/api-tools-documentation.git",
-                "reference": "faab0f561c12903eee9968db49587d4609728c2b"
+                "reference": "ce2f5a4473673d67aeba1de9ea8b948bf2d4320b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas-api-tools/api-tools-documentation/zipball/faab0f561c12903eee9968db49587d4609728c2b",
-                "reference": "faab0f561c12903eee9968db49587d4609728c2b",
+                "url": "https://api.github.com/repos/laminas-api-tools/api-tools-documentation/zipball/ce2f5a4473673d67aeba1de9ea8b948bf2d4320b",
+                "reference": "ce2f5a4473673d67aeba1de9ea8b948bf2d4320b",
                 "shasum": ""
             },
             "require": {
@@ -2921,7 +2921,7 @@
                 "laminas/laminas-view": "^2.11.3",
                 "laminas/laminas-zendframework-bridge": "^1.1",
                 "michelf/php-markdown": "^1.5",
-                "php": "^7.3"
+                "php": "^7.3 || ~8.0.0"
             },
             "replace": {
                 "zfcampus/zf-apigility-documentation": "^1.3.0"
@@ -2966,7 +2966,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2021-06-10T19:56:46+00:00"
+            "time": "2021-06-16T13:22:51+00:00"
         },
         {
             "name": "laminas-api-tools/api-tools-documentation-swagger",
