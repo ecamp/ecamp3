@@ -1,4 +1,4 @@
-FROM php:7.4.19-apache@sha256:95b36612c935bde6a41a7ed11b706c8abc99d8f85e2c17854168a40167da6537
+FROM php:7.4.20-apache@sha256:a0d43c4d5ab9b063855e789043a0b65daa07beb1bdd19faba03636db1827dd16
 
 WORKDIR /app
 
