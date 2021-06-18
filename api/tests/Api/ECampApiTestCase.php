@@ -111,7 +111,8 @@ abstract class ECampApiTestCase extends ApiTestCase {
         $schema = $this->getSchemaFactory()->buildSchema($resourceClass, 'json', Schema::TYPE_INPUT, 'POST');
         $properties = $schema->getDefinitions()[$shortName]['properties'];
         $writableProperties = array_filter($properties, fn ($property) => !($property['readOnly'] ?? false));
+        $writablePropertiesWithExample = array_filter($writableProperties, fn ($property) => ($property['example'] ?? false));
 
-        return array_diff_key(array_merge(array_map(fn ($property) => $property['example'], $writableProperties), $attributes), array_flip($except));
+        return array_diff_key(array_merge(array_map(fn ($property) => $property['example'] ?? $property['default'] ?? null, $writablePropertiesWithExample), $attributes), array_flip($except));
     }
 }

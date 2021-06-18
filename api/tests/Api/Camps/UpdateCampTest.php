@@ -2,6 +2,7 @@
 
 namespace App\Tests\Api\Camps;
 
+use App\Repository\UserRepository;
 use App\Tests\Api\ECampApiTestCase;
 
 /**
@@ -32,7 +33,7 @@ class UpdateCampTest extends ECampApiTestCase {
         ]);
     }
 
-    public function testPatchCampIsAllowedForSelf() {
+    public function testPatchCampIsAllowedForOwner() {
         $camp = static::$fixtures['camp1'];
         static::createClientWithCredentials()->request('PATCH', '/camps/'.$camp->getId(), ['json' => [
             'title' => 'Hello World',
@@ -51,6 +52,43 @@ class UpdateCampTest extends ECampApiTestCase {
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
             'title' => 'Hello World',
+        ]);
+    }
+
+    /**
+     * TODO remove this test, just for demoing the nested PATCH support in API platform.
+     */
+    public function testPatchOwnerThroughCampIsAllowedForOwner() {
+        $camp = static::$fixtures['camp1'];
+        static::createClientWithCredentials()->request('PATCH', '/camps/'.$camp->getId(), ['json' => [
+            'owner' => [
+                'email' => 'nested-patch@email.com',
+            ],
+        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
+        $this->assertResponseStatusCodeSame(200);
+        $owner = static::$container->get(UserRepository::class)->findOneBy(['username' => $camp->getOwner()->getUsername()]);
+        $this->assertEquals('nested-patch@email.com', $owner->getEmail());
+    }
+
+    /**
+     * TODO remove this test, just for demoing the nested PATCH validation support in API platform.
+     */
+    public function testPatchOwnerThroughCampValidatesNestedOwnerFields() {
+        $camp = static::$fixtures['camp1'];
+        static::createClientWithCredentials()->request('PATCH', '/camps/'.$camp->getId(), ['json' => [
+            'owner' => [
+                'email' => 'something that is definitely not an email address',
+            ],
+        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
+
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [
+                    'propertyPath' => 'owner.email',
+                    'message' => 'This value is not a valid email address.',
+                ],
+            ],
         ]);
     }
 
