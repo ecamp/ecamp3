@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "43a99a17a2efca1ec9e66f55b492f9fe",
+    "content-hash": "0c36029ce0509a5c7ea15e5c3dc2cbf2",
     "packages": [
         {
             "name": "assetic/framework",
@@ -8174,16 +8174,16 @@
         },
         {
             "name": "swaggest/json-schema",
-            "version": "v0.12.33",
+            "version": "v0.12.35",
             "source": {
                 "type": "git",
                 "url": "https://github.com/swaggest/php-json-schema.git",
-                "reference": "87919a4564b9682c4c4328d00ba28f9f631b0bbc"
+                "reference": "d0126bd830c92a498691d278f01d3ce13a2c9c0a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/swaggest/php-json-schema/zipball/87919a4564b9682c4c4328d00ba28f9f631b0bbc",
-                "reference": "87919a4564b9682c4c4328d00ba28f9f631b0bbc",
+                "url": "https://api.github.com/repos/swaggest/php-json-schema/zipball/d0126bd830c92a498691d278f01d3ce13a2c9c0a",
+                "reference": "d0126bd830c92a498691d278f01d3ce13a2c9c0a",
                 "shasum": ""
             },
             "require": {
@@ -8217,9 +8217,9 @@
             "support": {
                 "email": "vearutop@gmail.com",
                 "issues": "https://github.com/swaggest/php-json-schema/issues",
-                "source": "https://github.com/swaggest/php-json-schema/tree/v0.12.33"
+                "source": "https://github.com/swaggest/php-json-schema/tree/v0.12.35"
             },
-            "time": "2021-05-27T14:35:43+00:00"
+            "time": "2021-06-17T22:28:26+00:00"
         },
         {
             "name": "symfony/console",
