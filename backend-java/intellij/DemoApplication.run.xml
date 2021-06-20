@@ -1,0 +1,13 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="DemoApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+    <module name="demo" />
+    <target name="maven:3.8.1-adoptopenjdk-11" />
+    <!--  Add this docker java target with image: maven:3.8.1-adoptopenjdk-11 and options  "--rm -p 3009:8080 --network ecamp3_default" -->
+    <option name="SPRING_BOOT_MAIN_CLASS" value="com.example.demo.DemoApplication" />
+    <option name="ALTERNATIVE_JRE_PATH" />
+    <option name="SHORTEN_COMMAND_LINE" value="NONE" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

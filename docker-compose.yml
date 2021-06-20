@@ -37,6 +37,20 @@ services:
       - ./backend:/app:delegated
     entrypoint: ./docker-setup.sh
 
+  backend-java:
+    image: maven:3.8.1-adoptopenjdk-11
+    container_name: 'ecamp3-backend-java'
+    depends_on:
+      - db
+      - docker-host
+    ports:
+      - '3008:8080'
+    user: ${USER_ID:-1000}
+    volumes:
+    - ./backend-java:/app:delegated
+    working_dir: /app
+    command: 'mvn spring-boot:run'
+
   print:
     image: node:14.17.0@sha256:af9879e7473d347048c5d5919aa9775f27c33d92e4d58058ffdc08247f4bd902
     container_name: 'ecamp3-print'
