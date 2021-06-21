@@ -8,6 +8,8 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\InputFilter;
 use App\Repository\CampRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -128,6 +130,21 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
     #[ApiProperty(writableLink: true)]
     private ?User $owner;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Period::class, mappedBy="camp", orphanRemoval=true)
+     */
+    private $periods;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Activity::class, mappedBy="camp", orphanRemoval=true)
+     */
+    private $activities;
+
+    public function __construct() {
+        $this->periods = new ArrayCollection();
+        $this->activities = new ArrayCollection();
+    }
+
     public function getName(): ?string {
         return $this->name;
     }
@@ -239,6 +256,60 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
     }
 
     public function getCamp(): ?Camp {
+        return $this;
+    }
+
+    /**
+     * @return Collection|Period[]
+     */
+    public function getPeriods(): Collection {
+        return $this->periods;
+    }
+
+    public function addPeriod(Period $period): self {
+        if (!$this->periods->contains($period)) {
+            $this->periods[] = $period;
+            $period->setCamp($this);
+        }
+
+        return $this;
+    }
+
+    public function removePeriod(Period $period): self {
+        if ($this->periods->removeElement($period)) {
+            // set the owning side to null (unless already changed)
+            if ($period->getCamp() === $this) {
+                $period->setCamp(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Activity[]|Collection
+     */
+    public function getActivities(): Collection {
+        return $this->activities;
+    }
+
+    public function addActivity(Activity $activity): self {
+        if (!$this->activities->contains($activity)) {
+            $this->activities[] = $activity;
+            $activity->setCamp($this);
+        }
+
+        return $this;
+    }
+
+    public function removeActivity(Activity $activity): self {
+        if ($this->activities->removeElement($activity)) {
+            // set the owning side to null (unless already changed)
+            if ($activity->getCamp() === $this) {
+                $activity->setCamp(null);
+            }
+        }
+
         return $this;
     }
 }

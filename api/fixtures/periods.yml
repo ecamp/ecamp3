@@ -1,0 +1,6 @@
+App\Entity\Period:
+  periods1:
+    camp: '@camp1'
+    description: Hauptlager
+    start: '<dateTimeBetween("now", "now")>'
+    end: '<dateTimeBetween("+2 days", "+14 days")>'
