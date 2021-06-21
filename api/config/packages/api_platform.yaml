@@ -31,9 +31,9 @@ api_platform:
         cache_headers:
             vary: ['Content-Type', 'Authorization', 'Origin']
         pagination_enabled: false
-        itemOperations: [ 'get', 'patch', 'delete' ],
+        itemOperations: [ 'get', 'patch', 'delete' ]
         collection_operations:
-            get: ~,
+            get: ~
             post:
                 input_formats: [ 'jsonld', 'jsonapi', 'json' ]
         normalization_context:
