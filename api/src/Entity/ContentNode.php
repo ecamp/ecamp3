@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\ContentNodeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -39,6 +40,9 @@ class ContentNode extends BaseEntity {
      * @ORM\OneToMany(targetEntity=ContentNode::class, mappedBy="parent")
      */
     private Collection $children;
+
+    #[ApiProperty(readable: false)]
+    private ?ContentNode $prototype;
 
     /**
      * @ORM\Column(type="text", nullable=true)
@@ -202,6 +206,16 @@ class ContentNode extends BaseEntity {
 
     public function setContentType(?ContentType $contentType): self {
         $this->contentType = $contentType;
+
+        return $this;
+    }
+
+    public function getPrototype(): ?self {
+        return $this->prototype;
+    }
+
+    public function setPrototype(?self $prototype): self {
+        $this->prototype = $prototype;
 
         return $this;
     }

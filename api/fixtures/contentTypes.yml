@@ -2,4 +2,4 @@ App\Entity\ContentType:
   contentType1:
     name: 'Safety concept'
     active: true
-    strategyClass: 'asdf'
+    strategyClass: 'App\ContentNodeStrategy\SingleTextStrategy'
