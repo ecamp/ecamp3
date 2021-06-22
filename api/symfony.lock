@@ -651,6 +651,9 @@
     "webmozart/assert": {
         "version": "1.10.0"
     },
+    "webonyx/graphql-php": {
+        "version": "v14.9.0"
+    },
     "willdurand/negotiation": {
         "version": "3.0.0"
     },
