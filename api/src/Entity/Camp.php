@@ -9,7 +9,6 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\InputFilter;
 use App\Repository\CampRepository;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -39,7 +38,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
     #[InputFilter\CleanHTML]
     #[Assert\NotBlank]
     #[ApiProperty(example: 'SoLa 2022')]
-    private string $name;
+    public string $name;
 
     /**
      * @ORM\Column(type="text")
@@ -49,7 +48,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
     #[Assert\NotBlank]
     #[Assert\Length(max: 32)]
     #[ApiProperty(example: 'Abteilungs-Sommerlager 2022')]
-    private string $title;
+    public string $title;
 
     /**
      * @ORM\Column(type="text", nullable=true)
@@ -58,7 +57,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
     #[InputFilter\CleanHTML]
     #[Assert\Length(max: 128)]
     #[ApiProperty(example: 'Piraten')]
-    private ?string $motto;
+    public ?string $motto;
 
     /**
      * @ORM\Column(type="text", nullable=true)
@@ -67,7 +66,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
     #[InputFilter\CleanHTML]
     #[Assert\Length(max: 128)]
     #[ApiProperty(example: 'Wiese hinter der alten Mühle')]
-    private ?string $addressName;
+    public ?string $addressName;
 
     /**
      * @ORM\Column(type="text", nullable=true)
@@ -76,7 +75,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
     #[InputFilter\CleanHTML]
     #[Assert\Length(max: 128)]
     #[ApiProperty(example: 'Schönriedweg 23')]
-    private ?string $addressStreet;
+    public ?string $addressStreet;
 
     /**
      * @ORM\Column(type="text", nullable=true)
@@ -85,7 +84,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
     #[InputFilter\CleanHTML]
     #[Assert\Length(max: 128)]
     #[ApiProperty(example: '1234')]
-    private ?string $addressZipcode;
+    public ?string $addressZipcode;
 
     /**
      * @ORM\Column(type="text", nullable=true)
@@ -94,7 +93,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
     #[InputFilter\CleanHTML]
     #[Assert\Length(max: 128)]
     #[ApiProperty(example: 'Hintertüpfingen')]
-    private ?string $addressCity;
+    public ?string $addressCity;
 
     /**
      * @ORM\Column(type="boolean")
@@ -102,14 +101,14 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
     #[Assert\Type('bool')]
     #[Assert\DisableAutoMapping]
     #[ApiProperty(example: false, writable: false)]
-    private bool $isPrototype;
+    public bool $isPrototype;
 
     /**
      * @ORM\Column(type="string", length=16, nullable=true)
      */
     #[Assert\DisableAutoMapping]
     #[ApiProperty(readable: false, writable: false)]
-    private ?string $campPrototypeId;
+    public ?string $campPrototypeId;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class)
@@ -117,7 +116,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
      */
     #[Assert\DisableAutoMapping]
     #[ApiProperty(writable: false)]
-    private ?User $creator;
+    public ?User $creator;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="ownedCamps")
@@ -125,131 +124,21 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
      */
     #[Assert\DisableAutoMapping]
     #[ApiProperty(writable: false)]
-    private ?User $owner;
+    public ?User $owner;
 
     /**
      * @ORM\OneToMany(targetEntity=Period::class, mappedBy="camp", orphanRemoval=true)
      */
-    private $periods;
+    public $periods;
 
     /**
      * @ORM\OneToMany(targetEntity=Activity::class, mappedBy="camp", orphanRemoval=true)
      */
-    private $activities;
+    public $activities;
 
     public function __construct() {
         $this->periods = new ArrayCollection();
         $this->activities = new ArrayCollection();
-    }
-
-    public function getName(): ?string {
-        return $this->name;
-    }
-
-    public function setName(string $name): self {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    public function getTitle(): ?string {
-        return $this->title;
-    }
-
-    public function setTitle(string $title): self {
-        $this->title = $title;
-
-        return $this;
-    }
-
-    public function getMotto(): ?string {
-        return $this->motto;
-    }
-
-    public function setMotto(?string $motto): self {
-        $this->motto = $motto;
-
-        return $this;
-    }
-
-    public function getAddressName(): ?string {
-        return $this->addressName;
-    }
-
-    public function setAddressName(?string $addressName): self {
-        $this->addressName = $addressName;
-
-        return $this;
-    }
-
-    public function getAddressStreet(): ?string {
-        return $this->addressStreet;
-    }
-
-    public function setAddressStreet(?string $addressStreet): self {
-        $this->addressStreet = $addressStreet;
-
-        return $this;
-    }
-
-    public function getAddressZipcode(): ?string {
-        return $this->addressZipcode;
-    }
-
-    public function setAddressZipcode(?string $addressZipcode): self {
-        $this->addressZipcode = $addressZipcode;
-
-        return $this;
-    }
-
-    public function getAddressCity(): ?string {
-        return $this->addressCity;
-    }
-
-    public function setAddressCity(?string $addressCity): self {
-        $this->addressCity = $addressCity;
-
-        return $this;
-    }
-
-    public function getIsPrototype(): ?bool {
-        return $this->isPrototype;
-    }
-
-    public function setIsPrototype(bool $isPrototype): self {
-        $this->isPrototype = $isPrototype;
-
-        return $this;
-    }
-
-    public function getCampPrototypeId(): ?string {
-        return $this->campPrototypeId;
-    }
-
-    public function setCampPrototypeId(?string $campPrototypeId): self {
-        $this->campPrototypeId = $campPrototypeId;
-
-        return $this;
-    }
-
-    public function getCreator(): ?User {
-        return $this->creator;
-    }
-
-    public function setCreator(?User $creator): self {
-        $this->creator = $creator;
-
-        return $this;
-    }
-
-    public function getOwner(): ?User {
-        return $this->owner;
-    }
-
-    public function setOwner(?User $owner): self {
-        $this->owner = $owner;
-
-        return $this;
     }
 
     public function getCamp(): ?Camp {
@@ -257,10 +146,10 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
     }
 
     /**
-     * @return Collection|Period[]
+     * @return Period[]
      */
-    public function getPeriods(): Collection {
-        return $this->periods;
+    public function getPeriods(): array {
+        return $this->periods->getValues();
     }
 
     public function addPeriod(Period $period): self {
@@ -284,10 +173,10 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
     }
 
     /**
-     * @return Activity[]|Collection
+     * @return Activity[]
      */
-    public function getActivities(): Collection {
-        return $this->activities;
+    public function getActivities(): array {
+        return $this->activities->getValues();
     }
 
     public function addActivity(Activity $activity): self {

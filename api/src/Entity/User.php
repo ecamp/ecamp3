@@ -42,7 +42,7 @@ class User extends BaseEntity implements UserInterface {
     #[Assert\NotBlank]
     #[Assert\Email]
     #[ApiProperty(example: 'bi-pi@example.com')]
-    private ?string $email = null;
+    public ?string $email = null;
 
     /**
      * Unique username. Lower case alphanumeric symbols, dashes, periods and underscores only.
@@ -53,7 +53,7 @@ class User extends BaseEntity implements UserInterface {
     #[Assert\NotBlank]
     #[Assert\Regex(pattern: '/^[a-z0-9_.-]+$/')]
     #[ApiProperty(example: 'bipi')]
-    private ?string $username;
+    public ?string $username;
 
     /**
      * @ORM\Column(type="text", nullable=true)
@@ -61,7 +61,7 @@ class User extends BaseEntity implements UserInterface {
     #[InputFilter\Trim]
     #[InputFilter\CleanHTML]
     #[ApiProperty(example: 'Robert')]
-    private ?string $firstname = null;
+    public ?string $firstname = null;
 
     /**
      * @ORM\Column(type="text", nullable=true)
@@ -69,7 +69,7 @@ class User extends BaseEntity implements UserInterface {
     #[InputFilter\Trim]
     #[InputFilter\CleanHTML]
     #[ApiProperty(example: 'Baden-Powell')]
-    private ?string $surname = null;
+    public ?string $surname = null;
 
     /**
      * @ORM\Column(type="text", nullable=true)
@@ -77,7 +77,7 @@ class User extends BaseEntity implements UserInterface {
     #[InputFilter\Trim]
     #[InputFilter\CleanHTML]
     #[ApiProperty(example: 'Bi-Pi')]
-    private ?string $nickname = null;
+    public ?string $nickname = null;
 
     /**
      * The preferred language of the user, as an ICU language code.
@@ -87,13 +87,13 @@ class User extends BaseEntity implements UserInterface {
     #[InputFilter\Trim]
     #[Assert\Locale]
     #[ApiProperty(example: 'en')]
-    private ?string $language = null;
+    public ?string $language = null;
 
     /**
      * @ORM\Column(type="json")
      */
     #[ApiProperty(writable: false)]
-    private array $roles = [];
+    public array $roles = [];
 
     /**
      * The hashed password.
@@ -102,7 +102,7 @@ class User extends BaseEntity implements UserInterface {
      */
     #[Assert\DisableAutoMapping]
     #[ApiProperty(readable: false, writable: false)]
-    private ?string $password = null;
+    public ?string $password = null;
 
     /**
      * The new password for this user. At least 8 characters.
@@ -111,13 +111,13 @@ class User extends BaseEntity implements UserInterface {
     #[Assert\NotBlank(groups: ['create'])]
     #[Assert\Length(min: 8)]
     #[ApiProperty(readable: false, writable: true, example: 'learning-by-doing-101')]
-    private ?string $plainPassword = null;
+    public ?string $plainPassword = null;
 
     /**
      * @ORM\OneToMany(targetEntity=Camp::class, mappedBy="owner")
      */
     #[ApiProperty(writable: false, readableLink: false, writableLink: false)]
-    private Collection $ownedCamps;
+    public Collection $ownedCamps;
 
     public function __construct() {
         $this->ownedCamps = new ArrayCollection();
@@ -163,64 +163,8 @@ class User extends BaseEntity implements UserInterface {
         $this->plainPassword = null;
     }
 
-    public function getEmail(): ?string {
-        return $this->email;
-    }
-
-    public function setEmail(string $email): self {
-        $this->email = $email;
-
-        return $this;
-    }
-
     public function getUsername(): ?string {
         return $this->username;
-    }
-
-    public function setUsername(string $username): self {
-        $this->username = $username;
-
-        return $this;
-    }
-
-    public function getFirstname(): ?string {
-        return $this->firstname;
-    }
-
-    public function setFirstname(string $firstname): self {
-        $this->firstname = $firstname;
-
-        return $this;
-    }
-
-    public function getSurname(): ?string {
-        return $this->surname;
-    }
-
-    public function setSurname(string $surname): self {
-        $this->surname = $surname;
-
-        return $this;
-    }
-
-    public function getNickname(): ?string {
-        return $this->nickname;
-    }
-
-    public function setNickname(string $nickname): self {
-        $this->nickname = $nickname;
-
-        return $this;
-    }
-
-    public function getLanguage(): ?string {
-        return $this->language;
-    }
-
-    public function setLanguage(?string $language): self {
-        $this->language = $language;
-
-        return $this;
     }
 
     /**
@@ -234,30 +178,8 @@ class User extends BaseEntity implements UserInterface {
         return array_unique($roles);
     }
 
-    public function setRoles(array $roles = []): self {
-        $this->roles = $roles;
-
-        return $this;
-    }
-
     public function getPassword(): ?string {
         return $this->password;
-    }
-
-    public function setPassword(?string $password): self {
-        $this->password = $password;
-
-        return $this;
-    }
-
-    public function getPlainPassword(): ?string {
-        return $this->plainPassword;
-    }
-
-    public function setPlainPassword(?string $plainPassword): self {
-        $this->plainPassword = $plainPassword;
-
-        return $this;
     }
 
     /**

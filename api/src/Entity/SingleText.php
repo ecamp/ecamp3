@@ -15,15 +15,5 @@ class SingleText extends BaseEntity {
     /**
      * @ORM\Column(type="text", nullable=true)
      */
-    private ?string $text = null;
-
-    public function getText(): ?string {
-        return $this->text;
-    }
-
-    public function setText(?string $text): self {
-        $this->text = $text;
-
-        return $this;
-    }
+    public ?string $text = null;
 }
