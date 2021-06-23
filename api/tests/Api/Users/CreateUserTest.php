@@ -115,7 +115,7 @@ class CreateUserTest extends ECampApiTestCase {
     public function testCreateUserValidatesDuplicateEmail() {
         $client = static::createClientWithCredentials();
         $client->request('POST', '/users', ['json' => $this->getExamplePayload(User::class, [
-            'email' => static::$fixtures['user1']->getEmail(),
+            'email' => static::$fixtures['user1']->email,
         ])]);
 
         $this->assertResponseStatusCodeSame(422);
@@ -132,7 +132,7 @@ class CreateUserTest extends ECampApiTestCase {
     public function testCreateUserTrimsFirstThenValidatesDuplicateEmail() {
         $client = static::createClientWithCredentials();
         $client->request('POST', '/users', ['json' => $this->getExamplePayload(User::class, [
-            'email' => ' '.static::$fixtures['user1']->getEmail(),
+            'email' => ' '.static::$fixtures['user1']->email,
         ])]);
 
         $this->assertResponseStatusCodeSame(422);
@@ -222,7 +222,7 @@ class CreateUserTest extends ECampApiTestCase {
     public function testCreateUserValidatesDuplicateUsername() {
         $client = static::createClientWithCredentials();
         $client->request('POST', '/users', ['json' => $this->getExamplePayload(User::class, [
-            'username' => static::$fixtures['user1']->getUsername(),
+            'username' => static::$fixtures['user1']->username,
         ])]);
 
         $this->assertResponseStatusCodeSame(422);
@@ -239,7 +239,7 @@ class CreateUserTest extends ECampApiTestCase {
     public function testCreateUserTrimsFirstThenValidatesDuplicateUsername() {
         $client = static::createClientWithCredentials();
         $client->request('POST', '/users', ['json' => $this->getExamplePayload(User::class, [
-            'username' => static::$fixtures['user1']->getUsername().'   ',
+            'username' => static::$fixtures['user1']->username.'   ',
         ])]);
 
         $this->assertResponseStatusCodeSame(422);

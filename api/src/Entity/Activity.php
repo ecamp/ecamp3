@@ -30,17 +30,17 @@ class Activity extends BaseEntity {
     /**
      * @ORM\OneToOne(targetEntity=ContentNode::class, mappedBy="owner", cascade={"persist", "remove"})
      */
-    public $rootContentNode;
+    public ?ContentNode $rootContentNode = null;
 
     public function setRootContentNode(?ContentNode $rootContentNode): self {
         // unset the owning side of the relation if necessary
         if (null === $rootContentNode && null !== $this->rootContentNode) {
-            $this->rootContentNode->setOwner(null);
+            $this->rootContentNode->owner = null;
         }
 
         // set the owning side of the relation if necessary
-        if (null !== $rootContentNode && $rootContentNode->getOwner() !== $this) {
-            $rootContentNode->setOwner($this);
+        if (null !== $rootContentNode && $rootContentNode->owner !== $this) {
+            $rootContentNode->owner = $this;
         }
 
         $this->rootContentNode = $rootContentNode;

@@ -37,13 +37,13 @@ class ReadCampTest extends ECampApiTestCase {
         static::createClientWithCredentials()->request('GET', '/camps/'.$camp->getId());
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
-            'name' => $camp->getName(),
-            'title' => $camp->getTitle(),
-            'motto' => $camp->getMotto(),
-            'addressName' => $camp->getAddressName(),
-            'addressStreet' => $camp->getAddressStreet(),
-            'addressZipcode' => $camp->getAddressZipcode(),
-            'addressCity' => $camp->getAddressCity(),
+            'name' => $camp->name,
+            'title' => $camp->title,
+            'motto' => $camp->motto,
+            'addressName' => $camp->addressName,
+            'addressStreet' => $camp->addressStreet,
+            'addressZipcode' => $camp->addressZipcode,
+            'addressCity' => $camp->addressCity,
             '_links' => [
                 'owner' => ['href' => $userIri],
                 'creator' => ['href' => $user2Iri],
@@ -60,19 +60,20 @@ class ReadCampTest extends ECampApiTestCase {
     }
 
     public function testGetSingleCampIsAllowedForAdmin() {
+        /** @var Camp $camp */
         $camp = static::$fixtures['camp1'];
         $userIri = $this->getIriConverter()->getIriFromItem(static::$fixtures['user1']);
         $user2Iri = $this->getIriConverter()->getIriFromItem(static::$fixtures['user2']);
         static::createClientWithAdminCredentials()->request('GET', '/camps/'.$camp->getId());
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
-            'name' => $camp->getName(),
-            'title' => $camp->getTitle(),
-            'motto' => $camp->getMotto(),
-            'addressName' => $camp->getAddressName(),
-            'addressStreet' => $camp->getAddressStreet(),
-            'addressZipcode' => $camp->getAddressZipcode(),
-            'addressCity' => $camp->getAddressCity(),
+            'name' => $camp->name,
+            'title' => $camp->title,
+            'motto' => $camp->motto,
+            'addressName' => $camp->addressName,
+            'addressStreet' => $camp->addressStreet,
+            'addressZipcode' => $camp->addressZipcode,
+            'addressCity' => $camp->addressCity,
             '_links' => [
                 'owner' => ['href' => $userIri],
                 'creator' => ['href' => $user2Iri],

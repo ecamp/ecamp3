@@ -13,12 +13,11 @@ class UserTest extends TestCase {
 
     public function setUp(): void {
         parent::setUp();
-        $this->user = (new User())
-            ->setUsername('bi-pi')
-            ->setFirstname('Robert')
-            ->setSurname('Baden-Powell')
-            ->setNickname('Bi-Pi')
-        ;
+        $this->user = new User();
+        $this->user->username = 'bi-pi';
+        $this->user->firstname = 'Robert';
+        $this->user->surname = 'Baden-Powell';
+        $this->user->nickname = 'Bi-Pi';
     }
 
     public function testDisplayNameUsesNicknameIfPresent() {
@@ -33,7 +32,7 @@ class UserTest extends TestCase {
 
     public function testDisplayNameUsesFullName() {
         // given
-        $this->user->setNickname('');
+        $this->user->nickname = '';
 
         // when
         $displayName = $this->user->getDisplayName();
@@ -44,7 +43,8 @@ class UserTest extends TestCase {
 
     public function testDisplayNameUsesFirstname() {
         // given
-        $this->user->setNickname('')->setSurname('');
+        $this->user->nickname = '';
+        $this->user->surname = '';
 
         // when
         $displayName = $this->user->getDisplayName();
@@ -55,7 +55,8 @@ class UserTest extends TestCase {
 
     public function testDisplayNameUsesUsername() {
         // given
-        $this->user->setNickname('')->setFirstname('');
+        $this->user->nickname = '';
+        $this->user->firstname = '';
 
         // when
         $displayName = $this->user->getDisplayName();

@@ -116,7 +116,7 @@ class UpdateUserTest extends ECampApiTestCase {
     public function testPatchUserValidatesDuplicateEmail() {
         $user = static::$fixtures['user1'];
         static::createClientWithCredentials()->request('PATCH', '/users/'.$user->getId(), ['json' => [
-            'email' => static::$fixtures['user2']->getEmail(),
+            'email' => static::$fixtures['user2']->email,
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
         $this->assertResponseStatusCodeSame(422);
         $this->assertJsonContains([
@@ -132,7 +132,7 @@ class UpdateUserTest extends ECampApiTestCase {
     public function testPatchUserTrimsFirstThenValidatesDuplicateEmail() {
         $user = static::$fixtures['user1'];
         static::createClientWithCredentials()->request('PATCH', '/users/'.$user->getId(), ['json' => [
-            'email' => ' '.static::$fixtures['user2']->getEmail(),
+            'email' => ' '.static::$fixtures['user2']->email,
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
         $this->assertResponseStatusCodeSame(422);
         $this->assertJsonContains([

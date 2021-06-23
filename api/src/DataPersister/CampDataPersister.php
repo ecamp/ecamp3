@@ -29,11 +29,11 @@ class CampDataPersister implements ContextAwareDataPersisterInterface {
         if ('post' === ($context['collection_operation_name'] ?? null)) {
             /** @var User $user */
             $user = $this->security->getUser();
-            $data->setCreator($user);
-            $data->setOwner($user);
+            $data->creator = $user;
+            $data->owner = $user;
 
             // TODO prototype cloning logic here? Or in a separate endpoint?
-            $data->setIsPrototype(false);
+            $data->isPrototype = false;
         }
 
         return $this->dataPersister->persist($data, $context);

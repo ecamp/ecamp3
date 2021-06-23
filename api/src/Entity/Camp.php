@@ -24,9 +24,9 @@ use Symfony\Component\Validator\Constraints as Assert;
         ],
     ],
     itemOperations: [
-        'get' => ['security' => 'object.getOwner() == user or is_granted("ROLE_ADMIN")'],
-        'patch' => ['security' => 'object.getOwner() == user or is_granted("ROLE_ADMIN")'],
-        'delete' => ['security' => 'object.getOwner() == user or is_granted("ROLE_ADMIN")'],
+        'get' => ['security' => 'object.owner == user or is_granted("ROLE_ADMIN")'],
+        'patch' => ['security' => 'object.owner == user or is_granted("ROLE_ADMIN")'],
+        'delete' => ['security' => 'object.owner == user or is_granted("ROLE_ADMIN")'],
     ]
 )]
 #[ApiFilter(SearchFilter::class, properties: ['owner'])]
