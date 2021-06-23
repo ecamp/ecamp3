@@ -200,7 +200,6 @@ class User extends BaseEntity implements UserInterface {
 
     public function removeOwnedCamp(Camp $ownedCamp): self {
         if ($this->ownedCamps->removeElement($ownedCamp)) {
-            // set the owning side to null (unless already changed)
             if ($ownedCamp->getOwner() === $this) {
                 $ownedCamp->setOwner(null);
             }

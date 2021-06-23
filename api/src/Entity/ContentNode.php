@@ -23,7 +23,7 @@ class ContentNode extends BaseEntity {
      * TODO make not null, and get fixtures to run
      * @ORM\JoinColumn(nullable=true)
      */
-    public ContentNode $root;
+    public ?ContentNode $root;
 
     /**
      * @ORM\OneToMany(targetEntity=ContentNode::class, mappedBy="root")
@@ -53,7 +53,7 @@ class ContentNode extends BaseEntity {
     /**
      * @ORM\Column(type="json", nullable=true)
      */
-    public array $jsonConfig = [];
+    public ?array $jsonConfig = null;
 
     /**
      * @ORM\Column(type="text", nullable=true)
@@ -82,7 +82,7 @@ class ContentNode extends BaseEntity {
     public function addRootDescendant(self $rootDescendant): self {
         if (!$this->rootDescendants->contains($rootDescendant)) {
             $this->rootDescendants[] = $rootDescendant;
-            $rootDescendant->setRoot($this);
+            $rootDescendant->root = $this;
         }
 
         return $this;
@@ -91,8 +91,8 @@ class ContentNode extends BaseEntity {
     public function removeRootDescendant(self $rootDescendant): self {
         if ($this->rootDescendants->removeElement($rootDescendant)) {
             // set the owning side to null (unless already changed)
-            if ($rootDescendant->getRoot() === $this) {
-                $rootDescendant->setRoot(null);
+            if ($rootDescendant->root === $this) {
+                $rootDescendant->root = null;
             }
         }
 
@@ -109,7 +109,7 @@ class ContentNode extends BaseEntity {
     public function addChild(self $child): self {
         if (!$this->children->contains($child)) {
             $this->children[] = $child;
-            $child->setParent($this);
+            $child->parent = $this;
         }
 
         return $this;
@@ -118,8 +118,8 @@ class ContentNode extends BaseEntity {
     public function removeChild(self $child): self {
         if ($this->children->removeElement($child)) {
             // set the owning side to null (unless already changed)
-            if ($child->getParent() === $this) {
-                $child->setParent(null);
+            if ($child->parent === $this) {
+                $child->parent = null;
             }
         }
 

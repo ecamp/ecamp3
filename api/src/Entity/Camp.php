@@ -116,7 +116,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
      */
     #[Assert\DisableAutoMapping]
     #[ApiProperty(writable: false)]
-    public ?User $creator;
+    public ?User $creator = null;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="ownedCamps")
@@ -124,7 +124,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
      */
     #[Assert\DisableAutoMapping]
     #[ApiProperty(writable: false)]
-    public ?User $owner;
+    public ?User $owner = null;
 
     /**
      * @ORM\OneToMany(targetEntity=Period::class, mappedBy="camp", orphanRemoval=true)
@@ -163,7 +163,6 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
 
     public function removePeriod(Period $period): self {
         if ($this->periods->removeElement($period)) {
-            // set the owning side to null (unless already changed)
             if ($period->getCamp() === $this) {
                 $period->setCamp(null);
             }
@@ -190,7 +189,6 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
 
     public function removeActivity(Activity $activity): self {
         if ($this->activities->removeElement($activity)) {
-            // set the owning side to null (unless already changed)
             if ($activity->getCamp() === $this) {
                 $activity->setCamp(null);
             }
