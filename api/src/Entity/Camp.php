@@ -124,10 +124,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
      * @ORM\JoinColumn(nullable=false)
      */
     #[Assert\DisableAutoMapping]
-    // TODO remove this validation again, this is just for demoing the nested PATCH support
-    #[Assert\Valid]
-    // TODO revert this to writable: false, this is just for demoing the nested PATCH support
-    #[ApiProperty(writableLink: true)]
+    #[ApiProperty(writable: false)]
     private ?User $owner;
 
     /**
