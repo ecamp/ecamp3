@@ -17,28 +17,12 @@ class SingleText extends BaseEntity {
      */
     private ?string $text = null;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=ContentNode::class)
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private ?ContentNode $contentNode = null;
-
     public function getText(): ?string {
         return $this->text;
     }
 
     public function setText(?string $text): self {
         $this->text = $text;
-
-        return $this;
-    }
-
-    public function getContentNode(): ?ContentNode {
-        return $this->contentNode;
-    }
-
-    public function setContentNode(?ContentNode $contentNode): self {
-        $this->contentNode = $contentNode;
 
         return $this;
     }

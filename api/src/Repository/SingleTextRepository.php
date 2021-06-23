@@ -2,7 +2,6 @@
 
 namespace App\Repository;
 
-use App\Entity\ContentNode;
 use App\Entity\SingleText;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -46,13 +45,4 @@ class SingleTextRepository extends ServiceEntityRepository {
         ;
     }
     */
-
-    public function findOneByContentNode(ContentNode $contentNode): ?SingleText {
-        return $this->createQueryBuilder('s')
-            ->andWhere('s.contentNode = :contentNode')
-            ->setParameter('contentNode', $contentNode)
-            ->getQuery()
-            ->getOneOrNullResult()
-            ;
-    }
 }
