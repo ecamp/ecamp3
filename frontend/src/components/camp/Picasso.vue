@@ -330,7 +330,7 @@ export default {
           if (!this.extendOriginal) {
             this.showEntryInfoPopup(this.currentEntry)
           }
-        } else {
+        } else if (this.currentEntry.endTime !== this.extendOriginal) {
           const patchedScheduleEntry = {
             periodOffset: this.currentEntry.periodOffset,
             length: this.currentEntry.length
