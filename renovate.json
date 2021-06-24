@@ -15,11 +15,21 @@
       "automerge": true
     }
   ],
+  "ignorePaths": [
+    "backend/",
+    ".docker-hub/backend/"
+  ],
   "regexManagers": [
     {
       "fileMatch": ["^.github/workflows/continuous-integration.yml$"],
       "matchStrings": ["(?<depName>cypress/included):(?<currentValue>[0-9.]+)\n"],
       "datasourceTemplate": "docker"
+    },
+    {
+      "fileMatch": ["^api/phpunit.xml.dist$"],
+      "matchStrings": ["<server name=\"SYMFONY_PHPUNIT_VERSION\" value=\"(?<currentValue>[^\"]+)\" />"],
+      "depNameTemplate": "phpunit/phpunit",
+      "datasourceTemplate": "packagist"
     }
   ]
 }
