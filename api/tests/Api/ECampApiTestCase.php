@@ -73,7 +73,7 @@ abstract class ECampApiTestCase extends ApiTestCase {
         $response = static::createClient()->request('POST', '/authentication_token', ['json' => $body ?: [
             'username' => 'test-user',
             'password' => 'test',
-        ]]);
+        ], 'headers' => ['Content-Type' => 'application/ld+json']]);
 
         $this->assertResponseIsSuccessful();
         $data = json_decode($response->getContent());
