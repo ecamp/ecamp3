@@ -16,8 +16,8 @@ use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 
 abstract class ECampApiTestCase extends ApiTestCase {
     use RefreshDatabaseTrait;
+
     private ?string $token = null;
-    private ?Client $clientWithCredentials = null;
     private ?IriConverterInterface $iriConverter = null;
     private ?SchemaFactoryInterface $schemaFactory = null;
     private ?ResourceMetadataFactoryInterface $resourceMetadataFactory = null;
@@ -28,58 +28,37 @@ abstract class ECampApiTestCase extends ApiTestCase {
     }
 
     /**
-     * @param null $token
-     *
      * @throws ClientExceptionInterface
      * @throws RedirectionExceptionInterface
      * @throws ServerExceptionInterface
      * @throws TransportExceptionInterface
      */
-    protected function createClientWithCredentials($token = null): Client {
-        $token = $token ?: $this->getToken();
-
-        return static::createClient([], ['headers' => ['authorization' => 'Bearer '.$token, 'accept' => 'application/hal+json']]);
-    }
-
-    /**
-     * @param null $token
-     *
-     * @throws ClientExceptionInterface
-     * @throws RedirectionExceptionInterface
-     * @throws ServerExceptionInterface
-     * @throws TransportExceptionInterface
-     */
-    protected function createClientWithAdminCredentials($token = null): Client {
-        $token = $token ?: $this->getToken(['username' => 'admin', 'password' => 'test']);
-
-        return static::createClient([], ['headers' => ['authorization' => 'Bearer '.$token, 'accept' => 'application/hal+json']]);
-    }
-
-    /**
-     * Use other credentials if needed.
-     *
-     * @param array $body
-     *
-     * @throws ClientExceptionInterface
-     * @throws RedirectionExceptionInterface
-     * @throws ServerExceptionInterface
-     * @throws TransportExceptionInterface
-     */
-    protected function getToken($body = []): string {
-        if ($this->token) {
-            return $this->token;
-        }
-
-        $response = static::createClient()->request('POST', '/authentication_token', ['json' => $body ?: [
+    protected function createClientWithCredentials(?array $credentials = null, ?array $headers = null): Client {
+        $client = static::createBasicClient($headers);
+        // Normally, the database is reset after every request. Since we already need a request to log the user in,
+        // we need to disable this behaviour here. This can be removed if this issue is ever resolved:
+        // https://github.com/api-platform/api-platform/issues/1668
+        $client->disableReboot();
+        $client->request('POST', '/authentication_token', ['json' => $credentials ?: [
             'username' => 'test-user',
             'password' => 'test',
         ], 'headers' => ['Content-Type' => 'application/ld+json']]);
 
-        $this->assertResponseIsSuccessful();
-        $data = json_decode($response->getContent());
-        $this->token = $data->token;
+        return $client;
+    }
 
-        return $this->token;
+    /**
+     * @throws ClientExceptionInterface
+     * @throws RedirectionExceptionInterface
+     * @throws ServerExceptionInterface
+     * @throws TransportExceptionInterface
+     */
+    protected function createClientWithAdminCredentials(?array $headers = null): Client {
+        return static::createClientWithCredentials(['username' => 'admin', 'password' => 'test']);
+    }
+
+    protected function createBasicClient(?array $headers = null): Client {
+        return static::createClient([], ['headers' => $headers ?: ['accept' => 'application/hal+json', 'content-type' => 'application/ld+json']]);
     }
 
     protected function getIriConverter(): IriConverterInterface {

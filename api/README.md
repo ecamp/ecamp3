@@ -2,18 +2,14 @@
 
 After starting the project using `docker-compose up -d`, you can visit the API documentation under https://localhost:4001/docs
 
-The php container will automatically output an authentication token that can be used in the API documentation to log in. You can see the instructions using `docker-compose logs php`
+To use the API, you will need to log in. You can use the "Login" endpoint offered in the Swagger UI for this.
 
-In order to get another token, you can use one of the following commands:
+### Manually using the API without a browser
+If you ever need to get an API token for manual use, you can use the following command:
 ```
-# Either use curl to make a real API request that will give you the token:
-curl -k -X POST -H "Content-Type: application/json" https://localhost/authentication_token -d '{"username":"test-user","password":"test"}'
-
 # Or use the command from the container's instructions:
-echo "Bearer $(docker-compose exec php bin/console lexik:jwt:generate-token test-user --no-debug | awk NF)"
+docker-compose exec php bin/console lexik:jwt:generate-token test-user --no-debug
 ```
 
-If you use the API manually, the JWT token (starting with `ey...`) should be sent in a bearer authorization header:
-```
-Authorization: Bearer {token}
-```
+The token must then be split and sent in two cookies to the API. The header and payload (from `ey` until before the second period `.`) must be sent in a cookie named `jwt_hp`. The signature (everything after the second period `.`) must be sent in a cookie called `jwt_s`.
+See https://jwt.io for more info on the structure of JWT tokens, and https://medium.com/lightrail/getting-token-authentication-right-in-a-stateless-single-page-application-57d0c6474e3 for more info on why this split cookie approach is a good idea for SPAs.

@@ -61,19 +61,6 @@ if [ "$1" = 'php-fpm' ] || [ "$1" = 'php' ] || [ "$1" = 'bin/console' ]; then
 
 		if ls -A fixtures/*.yml >/dev/null 2>&1; then
 			php bin/console hautelook:fixtures:load --quiet
-
-			echo ""
-      echo "*********************************"
-			echo "THE API IS READY TO USE"
-			echo "Visit the documentation at http://localhost:4001/docs"
-			echo "To log in, enter the following into the Authorize dialog:"
-			echo ""
-			echo "Bearer $(bin/console lexik:jwt:generate-token test-user --no-debug | awk NF)"
-			echo ""
-			echo "In case the token is expired, you can use the following command to generate a new one:"
-			echo "echo \"Bearer \$(docker-compose exec php bin/console lexik:jwt:generate-token test-user --no-debug | awk NF)\""
-      echo "*********************************"
-			echo ""
 		fi
 	fi
 fi

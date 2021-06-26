@@ -21,7 +21,9 @@ class DeleteCampTest extends ECampApiTestCase {
 
     public function testDeleteCampIsDeniedForUnrelatedUser() {
         $camp = static::$fixtures['camp1'];
-        static::createClientWithCredentials($this->getToken(['username' => static::$fixtures['user3']->getUsername(), 'password' => 'test']))->request('DELETE', '/camps/'.$camp->getId());
+        static::createClientWithCredentials(['username' => static::$fixtures['user3']->getUsername(), 'password' => 'test'])
+            ->request('DELETE', '/camps/'.$camp->getId())
+        ;
         $this->assertResponseStatusCodeSame(404);
         $this->assertJsonContains([
             'title' => 'An error occurred',
@@ -31,7 +33,9 @@ class DeleteCampTest extends ECampApiTestCase {
 
     public function testDeleteCampIsDeniedForOtherwiseUnrelatedCreator() {
         $camp = static::$fixtures['camp1'];
-        static::createClientWithCredentials($this->getToken(['username' => static::$fixtures['user2']->getUsername(), 'password' => 'test']))->request('DELETE', '/camps/'.$camp->getId());
+        static::createClientWithCredentials(['username' => static::$fixtures['user2']->getUsername(), 'password' => 'test'])
+            ->request('DELETE', '/camps/'.$camp->getId())
+        ;
         $this->assertResponseStatusCodeSame(404);
         $this->assertJsonContains([
             'title' => 'An error occurred',

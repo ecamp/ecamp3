@@ -22,9 +22,11 @@ class UpdateCampTest extends ECampApiTestCase {
 
     public function testPatchCampIsDeniedForUnrelatedUser() {
         $camp = static::$fixtures['camp1'];
-        static::createClientWithCredentials($this->getToken(['username' => static::$fixtures['user2']->getUsername(), 'password' => 'test']))->request('PATCH', '/camps/'.$camp->getId(), ['json' => [
-            'title' => 'Hello World',
-        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
+        static::createClientWithCredentials(['username' => static::$fixtures['user2']->getUsername(), 'password' => 'test'])
+            ->request('PATCH', '/camps/'.$camp->getId(), ['json' => [
+                'title' => 'Hello World',
+            ], 'headers' => ['Content-Type' => 'application/merge-patch+json']])
+        ;
         $this->assertResponseStatusCodeSame(404);
         $this->assertJsonContains([
             'title' => 'An error occurred',

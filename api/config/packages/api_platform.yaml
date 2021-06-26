@@ -19,10 +19,6 @@ api_platform:
         jsonapi: [ 'application/vnd.api+json' ]
     swagger:
         versions: [3]
-        api_keys:
-            bearerToken:
-                name: Authorization
-                type: header
     # Mercure integration, remove if unwanted
     mercure:
         hub_url: '%env(MERCURE_SUBSCRIBE_URL)%'
