@@ -33,7 +33,7 @@ abstract class ECampApiTestCase extends ApiTestCase {
      * @throws ServerExceptionInterface
      * @throws TransportExceptionInterface
      */
-    protected function createClientWithCredentials(?array $credentials = null, ?array $headers = null): Client {
+    protected static function createClientWithCredentials(?array $credentials = null, ?array $headers = null): Client {
         $client = static::createBasicClient($headers);
         // Normally, the database is reset after every request. Since we already need a request to log the user in,
         // we need to disable this behaviour here. This can be removed if this issue is ever resolved:
@@ -53,11 +53,11 @@ abstract class ECampApiTestCase extends ApiTestCase {
      * @throws ServerExceptionInterface
      * @throws TransportExceptionInterface
      */
-    protected function createClientWithAdminCredentials(?array $headers = null): Client {
+    protected static function createClientWithAdminCredentials(?array $headers = null): Client {
         return static::createClientWithCredentials(['username' => 'admin', 'password' => 'test']);
     }
 
-    protected function createBasicClient(?array $headers = null): Client {
+    protected static function createBasicClient(?array $headers = null): Client {
         return static::createClient([], ['headers' => $headers ?: ['accept' => 'application/hal+json', 'content-type' => 'application/ld+json']]);
     }
 
