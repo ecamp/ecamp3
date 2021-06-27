@@ -101,7 +101,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
     #[Assert\Type('bool')]
     #[Assert\DisableAutoMapping]
     #[ApiProperty(example: false, writable: false)]
-    public bool $isPrototype;
+    public bool $isPrototype = false;
 
     /**
      * @ORM\Column(type="string", length=16, nullable=true)
