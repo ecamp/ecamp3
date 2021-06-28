@@ -1,0 +1,62 @@
+# This file is the entry point to configure your own services.
+# Files in the packages/ subdirectory configure your dependencies.
+
+# Put parameters here that don't need to change on each machine where the app is deployed
+# https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
+parameters:
+
+services:
+    # default configuration for services in *this* file
+    _defaults:
+        autowire: true      # Automatically injects dependencies in your services.
+        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+
+    # makes classes in src/ available to be used as services
+    # this creates a service per class whose id is the fully-qualified class name
+    App\:
+        resource: '../src/'
+        exclude:
+            - '../src/DependencyInjection/'
+            - '../src/Entity/'
+            - '../src/Kernel.php'
+            - '../src/Tests/'
+
+    # controllers are imported separately to make sure services can be injected
+    # as action arguments even if you don't extend any base controller class
+    App\Controller\:
+        resource: '../src/Controller/'
+        tags: ['controller.service_arguments']
+
+    # add more service definitions when explicit configuration is needed
+    # please note that last definitions always *replace* previous ones
+
+    App\DataPersister\UserDataPersister:
+        arguments: [ '@api_platform.doctrine.orm.data_persister' ]
+
+    App\DataPersister\CampDataPersister:
+        arguments: [ '@api_platform.doctrine.orm.data_persister' ]
+
+    # Since the input filter classes are resolved at runtime instead
+    # of with constructor dependency injection, we create a service
+    # locator that will serve all the required classes
+    App\Serializer\Denormalizer\InputFilterDenormalizer:
+        arguments: [!tagged_locator { tag: 'app.input_filter' }]
+    App\InputFilter\:
+        resource: '../src/InputFilter/*Filter.php'
+        exclude:
+            - '../src/InputFilter/InputFilter.php'
+        tags:
+            - 'app.input_filter'
+
+    App\Serializer\Normalizer\RelatedCollectionLinkNormalizer:
+        decorates: 'api_platform.hal.normalizer.item'
+        arguments:
+            - '@.inner'
+            - '@api_platform.route_name_resolver'
+            - '@api_platform.filter_locator'
+
+    App\Serializer\Normalizer\CollectionItemsNormalizer:
+        decorates: 'api_platform.hal.normalizer.collection'
+
+    App\OpenApi\JwtDecorator:
+        decorates: 'api_platform.openapi.factory'

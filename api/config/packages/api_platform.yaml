@@ -1,0 +1,36 @@
+api_platform:
+    title: eCamp v3
+    version: 1.0.0
+    show_webby: false
+    mapping:
+        paths: ['%kernel.project_dir%/src/Entity']
+    formats:
+        jsonhal: [ 'application/hal+json' ]
+        jsonld: [ 'application/ld+json' ]
+        jsonapi: [ 'application/vnd.api+json' ]
+        json: [ 'application/json' ]
+        html: [ 'text/html' ]
+    patch_formats:
+        json: [ 'application/merge-patch+json' ]
+        jsonapi: [ 'application/vnd.api+json' ]
+    error_formats:
+        jsonproblem: [ 'application/problem+json' ]
+        jsonld: [ 'application/ld+json' ]
+        jsonapi: [ 'application/vnd.api+json' ]
+    swagger:
+        versions: [3]
+    # Mercure integration, remove if unwanted
+    mercure:
+        hub_url: '%env(MERCURE_SUBSCRIBE_URL)%'
+    defaults:
+        stateless: true
+        cache_headers:
+            vary: ['Content-Type', 'Authorization', 'Origin']
+        pagination_enabled: false
+        itemOperations: [ 'get', 'patch', 'delete' ]
+        collection_operations:
+            get: ~
+            post:
+                input_formats: [ 'jsonld', 'jsonapi', 'json' ]
+        normalization_context:
+            skip_null_values: false

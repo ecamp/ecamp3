@@ -1,0 +1,6 @@
+App\Entity\Activity:
+  activity1:
+    camp: '@camp1'
+    title: <word()>
+    location: <sentence()>
+    rootContentNode: '@contentNode1'

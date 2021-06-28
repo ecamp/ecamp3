@@ -1,0 +1,25 @@
+App\Entity\Camp:
+  camp1:
+    name: <word()>
+    title: <word()>
+    motto: <sentence()>
+    addressName: <word()>
+    addressStreet: <address()>
+    addressZipcode: <postcode()>
+    addressCity: <city()>
+    owner: '@user1'
+    creator: '@user2'
+    isPrototype: false
+    campPrototypeId: null
+  camp2:
+    name: <word()>
+    title: <word()>
+    motto: <sentence()>
+    addressName: <word()>
+    addressStreet: <address()>
+    addressZipcode: <postcode()>
+    addressCity: <city()>
+    owner: '@admin'
+    creator: '@admin'
+    isPrototype: false
+    campPrototypeId: null

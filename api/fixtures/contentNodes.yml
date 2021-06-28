@@ -1,0 +1,10 @@
+App\Entity\ContentNode:
+  contentNode1:
+    owner: '@activity1'
+    root: '@self'
+    parent: null
+    slot: ''
+    position: 0
+    jsonConfig: '[]'
+    instanceName: <word()>
+    contentType: '@contentType1'

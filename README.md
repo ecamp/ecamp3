@@ -20,7 +20,7 @@ The following commonly requested improvements over eCamp v2 are already implemen
 - Switching the user interface language, powered by [Lokalise](https://lokalise.com)
 - Formatting texts (bold, italic, etc.) - is prepared, will be activated after the initial release.
 
-eCamp v3 is made up of a backend based on the PHP framework Laminas (which offers a HAL JSON API) as well as a Vue.js frontend and some other smaller services.
+eCamp v3 is made up of a backend based on the PHP framework API Platform (Symfony), which offers an API, as well as a Vue.js frontend and some other smaller services.
 
 ### Want to help?
 
@@ -52,7 +52,7 @@ Folgende Verbesserungen, die bei eCamp v2 oft gewünscht werden, sind bereits im
 - Mehrsprachigkeit mit [Lokalise](https://lokalise.com)
 - Formatierung in Texten (fett, kursiv, etc.) - ist vorbereitet, wird aber erst nach dem ersten Release freigeschaltet.
 
-eCamp v3 besteht aus einem Backend basierend auf dem PHP-Framework Laminas (welches eine HAL JSON API anbietet), einem Vue.js-Frontend sowie einigen weiteren kleineren Services.
+eCamp v3 besteht aus einem Backend basierend auf dem PHP-Framework API Platform (Symfony), welches eine API anbietet, einem Vue.js-Frontend sowie einigen weiteren kleineren Services.
 
 ### Mithelfen
 
@@ -64,5 +64,5 @@ Danke dass du mithelfen möchtest! Es gibt ein paar verschiedene Arten wie du be
   - [VS Code als Code-Editor einrichten](https://github.com/ecamp/ecamp3/wiki/Getting-started-on-Windows#setting-up-the-ide) (nur englisch)
 - Falls du Probleme beim Einrichten oder Verständnisfragen hast - keine Sorge, du bist nicht allein. Schau bei den [Discussions](https://github.com/ecamp/ecamp3/discussions) nach ob das Problem bekannt und gelöst ist. Falls nein, eröffne eine [neue Discussion](https://github.com/ecamp/ecamp3/discussions/new).
 - Bevor du mit programmieren loslegen kannst, lies unsere [contributing guidelines](CONTRIBUTING.md)
-- Studier die [Dokumentation im wiki](https://github.com/ecamp/ecamp3/wiki)
+- Studier die [Dokumentation im Wiki](https://github.com/ecamp/ecamp3/wiki)
 - Such dir ein [einsteigertaugliches Issue](https://github.com/ecamp/ecamp3/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) aus und probiere es zu lösen

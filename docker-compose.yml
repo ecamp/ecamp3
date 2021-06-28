@@ -1,4 +1,4 @@
-version: "3"
+version: "3.4"
 
 services:
   frontend:
@@ -23,6 +23,73 @@ services:
       - NPM_CONFIG_UPDATE_NOTIFIER=false
       - NPM_CONFIG_CACHE=/home/node/.npm
       - CYPRESS_CACHE_FOLDER=/home/node/.cache/Cypress
+
+  php:
+    build:
+      context: ./api
+      target: api_platform_php_dev
+    depends_on:
+      - database
+      - docker-host
+    restart: unless-stopped
+    volumes:
+      - ./.caddy/php-socket:/var/run/php
+      - ./api:/srv/api:rw,cached
+      - ./api/docker/php/conf.d/api-platform.dev.ini:/usr/local/etc/php/conf.d/api-platform.ini
+    environment:
+      APP_ENV: dev
+      # See https://docs.docker.com/docker-for-mac/networking/#i-want-to-connect-from-a-container-to-a-service-on-the-host
+      # See https://github.com/docker/for-linux/issues/264
+      # The `remote_host` below may optionally be replaced with `remote_connect_back`
+      # XDEBUG_MODE required for step debugging
+      XDEBUG_MODE: develop,debug,coverage
+      # default port for Xdebug 3 is 9003
+      # idekey=VSCODE if you are debugging with VSCode
+      XDEBUG_CONFIG: >-
+        client_host=docker-host
+        idekey=PHPSTORM
+      # This should correspond to the server declared in PHPStorm `Preferences | Languages & Frameworks | PHP | Servers`
+      # Then PHPStorm will use the corresponding path mappings
+      PHP_IDE_CONFIG: serverName=localhost
+    healthcheck:
+      interval: 10s
+      timeout: 3s
+      retries: 3
+      start_period: 30s
+    user: ${USER_ID:-1000}
+
+  caddy:
+    build:
+      context: ./api
+      target: api_platform_caddy
+    depends_on:
+      - php
+    environment:
+      SERVER_NAME: ${SERVER_NAME:-localhost:4001, localhost:4443, caddy:4001}
+      MERCURE_PUBLISHER_JWT_KEY: ${MERCURE_PUBLISHER_JWT_KEY:-!ChangeMe!}
+      MERCURE_SUBSCRIBER_JWT_KEY: ${MERCURE_SUBSCRIBER_JWT_KEY:-!ChangeMe!}
+      MERCURE_EXTRA_DIRECTIVES: demo /srv/mercure-assets/
+    ports:
+      # HTTP
+      - target: 4001
+        published: 4001
+        protocol: tcp
+      # HTTPS
+      - target: 4443
+        published: 4443
+        protocol: tcp
+      # HTTP/3
+      - target: 4443
+        published: 4443
+        protocol: udp
+    restart: unless-stopped
+    user: ${USER_ID:-1000}
+    volumes:
+      - ./.caddy/php-socket:/var/run/php
+      - ./.caddy/data:/data
+      - ./.caddy/config-cache:/config
+      - ./api/docker/caddy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - ./api/public:/srv/api/public:ro
 
   backend:
     build: ./backend
@@ -81,6 +148,21 @@ services:
       - '3006:3306'
     volumes:
       - db-data:/var/lib/mysql
+
+  database:
+    image: postgres:13-alpine
+    environment:
+      - POSTGRES_DB=ecamp3dev
+      - POSTGRES_PASSWORD=ecamp3
+      - POSTGRES_USER=ecamp3
+    volumes:
+      - db_data:/var/lib/postgresql/data:rw
+      # you may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!
+      # - ./api/docker/db/data:/var/lib/postgresql/data:rw
+    ports:
+      - target: 5432
+        published: 5432
+        protocol: tcp
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin@sha256:382dedf6b43bf3b6c6c90f355b4dda660beb3e099de91bb3241170e54fca6d59
@@ -141,3 +223,4 @@ services:
 
 volumes:
   db-data:
+  db_data:
