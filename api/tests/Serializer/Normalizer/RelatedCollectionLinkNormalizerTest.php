@@ -120,6 +120,43 @@ class RelatedCollectionLinkNormalizerTest extends TestCase {
         $this->assertEquals($delegatedResult, $result);
     }
 
+    public function testHandlesDecoratedNormalizerReturningAnIRIString() {
+        // given
+        $resource = new ParentEntity();
+        $delegatedResult = '/parents/555';
+        $this->decoratedMock->expects($this->once())
+            ->method('normalize')
+            ->willReturn($delegatedResult)
+        ;
+
+        // when
+        $result = $this->normalizer->normalize($resource, null, ['resource_class' => ParentEntity::class]);
+
+        // then
+        $this->assertEquals($delegatedResult, $result);
+    }
+
+    public function testFallsBackToObjectClassWhenResourceClassIsMissingInContext() {
+        // given
+        $resource = new ParentEntity();
+        $delegatedResult = [
+            'hello' => 'world',
+            '_links' => [
+                'firstBorn' => ['href' => '/children/1'],
+            ],
+        ];
+        $this->decoratedMock->expects($this->once())
+            ->method('normalize')
+            ->willReturn($delegatedResult)
+        ;
+
+        // when
+        $result = $this->normalizer->normalize($resource, null, []);
+
+        // then
+        $this->assertEquals($delegatedResult, $result);
+    }
+
     public function testNormalizeReplacesLinkArrayWithSingleFilteredCollectionLink() {
         // given
         $resource = new ParentEntity();
@@ -205,6 +242,28 @@ class RelatedCollectionLinkNormalizerTest extends TestCase {
         $resource = new ParentEntity();
         $this->mockDecoratedNormalizer();
         $this->mockAssociationMetadata(['mappedBy' => 'parent']);
+        $this->mockRelatedResourceMetadata(['filters' => ['attribute_filter_something_something']]);
+        $this->mockRelatedFilterDescription(['parent' => ['strategy' => 'exact']]);
+        $this->mockGeneratedRoute();
+
+        // when
+        $result = $this->normalizer->normalize($resource, null, ['resource_class' => ParentEntity::class]);
+
+        // then
+        $this->shouldNotReplaceChildren($result);
+    }
+
+    public function testNormalizeDoesntReplaceWhenNotADoctrineAssociation() {
+        // given
+        $resource = new ParentEntity();
+        $this->mockDecoratedNormalizer();
+
+        $classMetadata = $this->createMock(ORM\ClassMetadata::class);
+        $classMetadata->method('getAssociationMapping')->willThrowException(new ORM\MappingException('test exception'));
+        $manager = $this->createMock(EntityManagerInterface::class);
+        $manager->method('getClassMetadata')->willReturn($classMetadata);
+        $this->managerRegistryMock->method('getManagerForClass')->willReturn($manager);
+
         $this->mockRelatedResourceMetadata(['filters' => ['attribute_filter_something_something']]);
         $this->mockRelatedFilterDescription(['parent' => ['strategy' => 'exact']]);
         $this->mockGeneratedRoute();
