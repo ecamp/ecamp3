@@ -5,40 +5,43 @@ namespace App\Entity;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\ContentNodeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=ContentNodeRepository::class)
  */
 #[ApiResource]
-class ContentNode extends BaseEntity {
+class ContentNode extends BaseEntity implements BelongsToCampInterface {
     /**
-     * @ORM\OneToOne(targetEntity=Activity::class, inversedBy="rootContentNode", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity="AbstractContentNodeOwner", mappedBy="rootContentNode", cascade={"persist", "remove"})
      */
-    public ?Activity $owner = null;
+    public ?AbstractContentNodeOwner $owner = null;
 
     /**
-     * @ORM\ManyToOne(targetEntity=ContentNode::class, inversedBy="rootDescendants")
+     * @ORM\ManyToOne(targetEntity="ContentNode", inversedBy="rootDescendants")
      * TODO make not null, and get fixtures to run
      * @ORM\JoinColumn(nullable=true)
      */
     public ?ContentNode $root;
 
     /**
-     * @ORM\OneToMany(targetEntity=ContentNode::class, mappedBy="root")
+     * @ORM\OneToMany(targetEntity="ContentNode", mappedBy="root")
+     *
+     * @var ContentNode[]
      */
-    public Collection $rootDescendants;
+    public $rootDescendants;
 
     /**
-     * @ORM\ManyToOne(targetEntity=ContentNode::class, inversedBy="children")
+     * @ORM\ManyToOne(targetEntity="ContentNode", inversedBy="children")
      */
     public ?ContentNode $parent = null;
 
     /**
-     * @ORM\OneToMany(targetEntity=ContentNode::class, mappedBy="parent")
+     * @ORM\OneToMany(targetEntity="ContentNode", mappedBy="parent")
+     *
+     * @var ContentNode[]
      */
-    public Collection $children;
+    public $children;
 
     /**
      * @ORM\Column(type="text", nullable=true)
@@ -61,15 +64,31 @@ class ContentNode extends BaseEntity {
     public ?string $instanceName = null;
 
     /**
-     * @ORM\ManyToOne(targetEntity=ContentType::class)
+     * @ORM\ManyToOne(targetEntity="ContentType")
      * @ORM\JoinColumn(nullable=false)
      */
     public ?ContentType $contentType = null;
+
+    /**
+     * @ORM\OneToMany(targetEntity="MaterialItem", mappedBy="contentNode")
+     */
+    public $materialItems;
 
     public function __construct() {
         $this->rootDescendants = new ArrayCollection();
         $this->children = new ArrayCollection();
         $this->addRootDescendant($this);
+    }
+
+    public function getCamp(): ?Camp {
+        $root = $this->root;
+        $owner = $root->owner;
+
+        if ($owner instanceof BelongsToCampInterface) {
+            return $owner->getCamp();
+        }
+
+        return null;
     }
 
     /**
@@ -124,5 +143,19 @@ class ContentNode extends BaseEntity {
         }
 
         return $this;
+    }
+
+    public function getMaterialItems(): array {
+        return $this->materialItems->getValues();
+    }
+
+    public function addMaterialItem(MaterialItem $materialItem): void {
+        $materialItem->contentNode = $this;
+        $this->materialItems->add($materialItem);
+    }
+
+    public function removeMaterialItem(MaterialItem $materialItem): void {
+        $materialItem->contentNode = null;
+        $this->materialItems->removeElement($materialItem);
     }
 }

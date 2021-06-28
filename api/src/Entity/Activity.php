@@ -4,13 +4,40 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\ActivityRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=ActivityRepository::class)
  */
 #[ApiResource]
-class Activity extends BaseEntity {
+class Activity extends AbstractContentNodeOwner implements BelongsToCampInterface {
+    /**
+     * @ORM\OneToMany(targetEntity="ScheduleEntry", mappedBy="activity", orphanRemoval=true)
+     *
+     * @var ScheduleEntry[]
+     */
+    public $scheduleEntries;
+
+    /**
+     * @ORM\OneToMany(targetEntity="ActivityResponsible", mappedBy="activity", orphanRemoval=true)
+     *
+     * @var ActivityResponsible[]
+     */
+    public $activityResponsibles;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Camp", inversedBy="activities")
+     * @ORM\JoinColumn(nullable=false, onDelete="cascade")
+     */
+    public ?Camp $camp = null;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Category")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    public ?Category $category = null;
+
     /**
      * @ORM\Column(type="text")
      */
@@ -21,30 +48,40 @@ class Activity extends BaseEntity {
      */
     public string $location = '';
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Camp::class, inversedBy="activities")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    public ?Camp $camp = null;
+    public function __construct() {
+        $this->scheduleEntries = new ArrayCollection();
+        $this->activityResponsibles = new ArrayCollection();
+    }
 
-    /**
-     * @ORM\OneToOne(targetEntity=ContentNode::class, mappedBy="owner", cascade={"persist", "remove"})
-     */
-    public ?ContentNode $rootContentNode = null;
+    public function getCamp(): ?Camp {
+        return $this->camp;
+    }
 
-    public function setRootContentNode(?ContentNode $rootContentNode): self {
-        // unset the owning side of the relation if necessary
-        if (null === $rootContentNode && null !== $this->rootContentNode) {
-            $this->rootContentNode->owner = null;
-        }
+    public function getScheduleEntries(): array {
+        return $this->scheduleEntries->getValues();
+    }
 
-        // set the owning side of the relation if necessary
-        if (null !== $rootContentNode && $rootContentNode->owner !== $this) {
-            $rootContentNode->owner = $this;
-        }
+    public function addScheduleEntry(ScheduleEntry $scheduleEntry): void {
+        $scheduleEntry->activity = $this;
+        $this->scheduleEntries->add($scheduleEntry);
+    }
 
-        $this->rootContentNode = $rootContentNode;
+    public function removeScheduleEntry(ScheduleEntry $scheduleEntry): void {
+        $scheduleEntry->activity = null;
+        $this->scheduleEntries->removeElement($scheduleEntry);
+    }
 
-        return $this;
+    public function getActivityResponsibles(): array {
+        return $this->activityResponsibles->getValues();
+    }
+
+    public function addActivityResponsible(ActivityResponsible $activityResponsible): void {
+        $activityResponsible->activity = $this;
+        $this->activityResponsibles->add($activityResponsible);
+    }
+
+    public function removeActivityResponsible(ActivityResponsible $activityResponsible): void {
+        $activityResponsible->activity = null;
+        $this->activityResponsibles->removeElement($activityResponsible);
     }
 }

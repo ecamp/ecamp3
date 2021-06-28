@@ -45,6 +45,13 @@ class User extends BaseEntity implements UserInterface {
     public ?string $email = null;
 
     /**
+     * @ORM\OneToMany(targetEntity="CampCollaboration", mappedBy="user", orphanRemoval=true)
+     *
+     * @var CampCollaboration[]
+     */
+    public $collaborations;
+
+    /**
      * Unique username. Lower case alphanumeric symbols, dashes, periods and underscores only.
      *
      * @ORM\Column(type="string", length=32, nullable=false, unique=true)
@@ -114,7 +121,7 @@ class User extends BaseEntity implements UserInterface {
     public ?string $plainPassword = null;
 
     /**
-     * @ORM\OneToMany(targetEntity=Camp::class, mappedBy="owner")
+     * @ORM\OneToMany(targetEntity="Camp", mappedBy="owner")
      */
     #[ApiProperty(writable: false, readableLink: false, writableLink: false)]
     public Collection $ownedCamps;
@@ -192,7 +199,7 @@ class User extends BaseEntity implements UserInterface {
     public function addOwnedCamp(Camp $ownedCamp): self {
         if (!$this->ownedCamps->contains($ownedCamp)) {
             $this->ownedCamps[] = $ownedCamp;
-            $ownedCamp->setOwner($this);
+            $ownedCamp->owner = $this;
         }
 
         return $this;
@@ -200,8 +207,8 @@ class User extends BaseEntity implements UserInterface {
 
     public function removeOwnedCamp(Camp $ownedCamp): self {
         if ($this->ownedCamps->removeElement($ownedCamp)) {
-            if ($ownedCamp->getOwner() === $this) {
-                $ownedCamp->setOwner(null);
+            if ($ownedCamp->owner === $this) {
+                $ownedCamp->owner = null;
             }
         }
 
@@ -210,5 +217,19 @@ class User extends BaseEntity implements UserInterface {
 
     public function ownsCamps(): bool {
         return (bool) (count($this->getOwnedCamps()));
+    }
+
+    public function getCampCollaborations(): array {
+        return $this->collaborations->getValues();
+    }
+
+    public function addCampCollaboration(CampCollaboration $collaboration): void {
+        $collaboration->user = $this;
+        $this->collaborations->add($collaboration);
+    }
+
+    public function removeCampCollaboration(CampCollaboration $collaboration): void {
+        $collaboration->user = null;
+        $this->collaborations->removeElement($collaboration);
     }
 }

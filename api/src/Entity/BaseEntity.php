@@ -11,11 +11,22 @@ use Gedmo\Mapping\Annotation as Gedmo;
 /**
  * @ORM\MappedSuperclass
  * @ORM\Table(indexes={
- *     @ORM\Index(columns={"create_time"}),
- *     @ORM\Index(columns={"update_time"})
+ *     @ORM\Index(columns={"createTime"}),
+ *     @ORM\Index(columns={"updateTime"})
  * })
  */
 abstract class BaseEntity {
+    /**
+     * @Gedmo\Timestampable(on="create")
+     * @ORM\Column(type="datetime")
+     */
+    public DateTime $createTime;
+
+    /**
+     * @Gedmo\Timestampable(on="update")
+     * @ORM\Column(type="datetime")
+     */
+    public DateTime $updateTime;
     /**
      * @ORM\Id
      * @ORM\Column(type="string", length=16, nullable=false)
@@ -25,19 +36,27 @@ abstract class BaseEntity {
     #[ApiProperty(writable: false)]
     protected string $id;
 
-    /**
-     * @Gedmo\Timestampable(on="create")
-     * @ORM\Column(type="datetime")
-     */
-    protected DateTime $createTime;
-
-    /**
-     * @Gedmo\Timestampable(on="update")
-     * @ORM\Column(type="datetime")
-     */
-    protected DateTime $updateTime;
-
     public function getId(): string {
         return $this->id;
+    }
+
+    public function getCreateTime(): DateTime {
+        return $this->createTime;
+    }
+
+    public function setCreateTime(DateTime $createTime): BaseEntity {
+        $this->createTime = $createTime;
+
+        return $this;
+    }
+
+    public function getUpdateTime(): DateTime {
+        return $this->updateTime;
+    }
+
+    public function setUpdateTime(DateTime $updateTime): BaseEntity {
+        $this->updateTime = $updateTime;
+
+        return $this;
     }
 }

@@ -32,6 +32,57 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ApiFilter(SearchFilter::class, properties: ['owner'])]
 class Camp extends BaseEntity implements BelongsToCampInterface {
     /**
+     * @ORM\OneToMany(targetEntity="CampCollaboration", mappedBy="camp", orphanRemoval=true)
+     *
+     * @var CampCollaboration[]
+     */
+    public $collaborations;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Period", mappedBy="camp", orphanRemoval=true)
+     * @ORM\OrderBy({"start": "ASC"})
+     *
+     * @var Period[]
+     */
+    public $periods;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Category", mappedBy="camp", orphanRemoval=true)
+     *
+     * @var Category[]
+     */
+    public $categories;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Activity", mappedBy="camp", orphanRemoval=true)
+     *
+     * @var Activity[]
+     */
+    public $activities;
+
+    /**
+     * @ORM\OneToMany(targetEntity="MaterialList", mappedBy="camp", orphanRemoval=true)
+     *
+     * @var MaterialList[]
+     */
+    public $materialLists;
+
+    /**
+     * @ORM\Column(type="string", length=16, nullable=true)
+     */
+    #[Assert\DisableAutoMapping]
+    #[ApiProperty(readable: false, writable: false)]
+    public ?string $campPrototypeId;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    #[Assert\Type('bool')]
+    #[Assert\DisableAutoMapping]
+    #[ApiProperty(example: false, writable: false)]
+    public bool $isPrototype;
+
+    /**
      * @ORM\Column(type="string", length=32)
      */
     #[InputFilter\Trim]
@@ -96,22 +147,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
     public ?string $addressCity;
 
     /**
-     * @ORM\Column(type="boolean")
-     */
-    #[Assert\Type('bool')]
-    #[Assert\DisableAutoMapping]
-    #[ApiProperty(example: false, writable: false)]
-    public bool $isPrototype;
-
-    /**
-     * @ORM\Column(type="string", length=16, nullable=true)
-     */
-    #[Assert\DisableAutoMapping]
-    #[ApiProperty(readable: false, writable: false)]
-    public ?string $campPrototypeId;
-
-    /**
-     * @ORM\ManyToOne(targetEntity=User::class)
+     * @ORM\ManyToOne(targetEntity="User")
      * @ORM\JoinColumn(nullable=false)
      */
     #[Assert\DisableAutoMapping]
@@ -119,30 +155,73 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
     public ?User $creator = null;
 
     /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="ownedCamps")
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="ownedCamps")
      * @ORM\JoinColumn(nullable=false)
      */
     #[Assert\DisableAutoMapping]
     #[ApiProperty(writable: false)]
     public ?User $owner = null;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Period::class, mappedBy="camp", orphanRemoval=true)
-     */
-    public $periods;
-
-    /**
-     * @ORM\OneToMany(targetEntity=Activity::class, mappedBy="camp", orphanRemoval=true)
-     */
-    public $activities;
-
     public function __construct() {
+        $this->collaborations = new ArrayCollection();
         $this->periods = new ArrayCollection();
+        $this->categories = new ArrayCollection();
         $this->activities = new ArrayCollection();
+        $this->materialLists = new ArrayCollection();
     }
 
     public function getCamp(): ?Camp {
         return $this;
+    }
+
+    public function getCampCollaborations(): array {
+        return $this->collaborations->getValues();
+    }
+
+    public function addCampCollaboration(CampCollaboration $collaboration): void {
+        $collaboration->camp = $this;
+        $this->collaborations->add($collaboration);
+    }
+
+    public function removeCampCollaboration(CampCollaboration $collaboration): void {
+        $collaboration->camp = null;
+        $this->collaborations->removeElement($collaboration);
+    }
+
+    public function getRole($userId): string {
+        if ($this?->owner->getId() === $userId) {
+            return CampCollaboration::ROLE_MANAGER;
+        }
+
+        $campCollaborations = $this->collaborations->filter(function (CampCollaboration $cc) use ($userId) {
+            return $cc?->user->getId() == $userId;
+        });
+
+        if (1 == $campCollaborations->count()) {
+            /** @var CampCollaboration $campCollaboration */
+            $campCollaboration = $campCollaborations->first();
+            if ($campCollaboration->isEstablished()) {
+                return $campCollaboration->role;
+            }
+        }
+
+        return CampCollaboration::ROLE_GUEST;
+    }
+
+    /**
+     * @param string $userId
+     */
+    public function isCollaborator($userId): bool {
+        if ($this?->creator->getId() == $userId) {
+            return true;
+        }
+        if ($this?->owner->getId() == $userId) {
+            return true;
+        }
+
+        return $this->cmpCollaborations->exists(function ($idx, CampCollaboration $cc) use ($userId) {
+            return $cc->isEstablished() && $cc?->user->getId() == $userId;
+        });
     }
 
     /**
@@ -155,7 +234,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
     public function addPeriod(Period $period): self {
         if (!$this->periods->contains($period)) {
             $this->periods[] = $period;
-            $period->setCamp($this);
+            $period->camp = $this;
         }
 
         return $this;
@@ -163,12 +242,26 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
 
     public function removePeriod(Period $period): self {
         if ($this->periods->removeElement($period)) {
-            if ($period->getCamp() === $this) {
-                $period->setCamp(null);
+            if ($period->camp === $this) {
+                $period->camp = null;
             }
         }
 
         return $this;
+    }
+
+    public function getCategories(): array {
+        return $this->categories->getValues();
+    }
+
+    public function addCategory(Category $category): void {
+        $category->camp = $this;
+        $this->categories->add($category);
+    }
+
+    public function removeCategory(Category $category): void {
+        $category->camp = null;
+        $this->categories->removeElement($category);
     }
 
     /**
@@ -181,7 +274,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
     public function addActivity(Activity $activity): self {
         if (!$this->activities->contains($activity)) {
             $this->activities[] = $activity;
-            $activity->setCamp($this);
+            $activity->camp = $this;
         }
 
         return $this;
@@ -189,11 +282,25 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
 
     public function removeActivity(Activity $activity): self {
         if ($this->activities->removeElement($activity)) {
-            if ($activity->getCamp() === $this) {
-                $activity->setCamp(null);
+            if ($activity->camp === $this) {
+                $activity->camp = null;
             }
         }
 
         return $this;
+    }
+
+    public function getMaterialLists(): array {
+        return $this->materialLists->getValues();
+    }
+
+    public function addMaterialList(MaterialList $materialList): void {
+        $materialList->camp = $this;
+        $this->materialLists->add($materialList);
+    }
+
+    public function removeMaterialList(MaterialList $materialList): void {
+        $materialList->camp = null;
+        $this->materialLists->removeElement($materialList);
     }
 }
