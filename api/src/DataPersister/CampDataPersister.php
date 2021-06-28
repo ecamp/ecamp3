@@ -33,7 +33,6 @@ class CampDataPersister implements ContextAwareDataPersisterInterface {
             $data->owner = $user;
 
             // TODO prototype cloning logic here? Or in a separate endpoint?
-            $data->isPrototype = false;
         }
 
         return $this->dataPersister->persist($data, $context);

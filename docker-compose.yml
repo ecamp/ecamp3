@@ -2,7 +2,7 @@ version: "3.4"
 
 services:
   frontend:
-    image: node:14.17.0@sha256:9025a77b2f37fcda3bbd367587367a9f2251d16a756ed544550b8a571e16a653
+    image: node:14.17.0@sha256:af9879e7473d347048c5d5919aa9775f27c33d92e4d58058ffdc08247f4bd902
     container_name: 'ecamp3-frontend'
     ports:
       - '3000:3000'
@@ -105,7 +105,7 @@ services:
     entrypoint: ./docker-setup.sh
 
   print:
-    image: node:14.17.0@sha256:9025a77b2f37fcda3bbd367587367a9f2251d16a756ed544550b8a571e16a653
+    image: node:14.17.0@sha256:af9879e7473d347048c5d5919aa9775f27c33d92e4d58058ffdc08247f4bd902
     container_name: 'ecamp3-print'
     ports:
       - '3003:3003'
@@ -126,7 +126,7 @@ services:
       - ./print/print.env
 
   composer:
-    image: composer:2@sha256:f5b199884a4f5ea0554f482d8efc490d5b4ca17597f90ba13f7bf7ae62c08cd5
+    image: composer:2@sha256:737ea696658b06814edfa626cd9f1482805bea4bf53feaab84aae5fdf1a07578
     container_name: 'ecamp3-composer'
     restart: 'no'
     command: bash -c "composer install --no-interaction --no-plugins --no-scripts --prefer-dist"
@@ -136,7 +136,7 @@ services:
       - ./.cache/composer:/tmp/cache
 
   db:
-    image: mysql:8.0.25@sha256:d50098d7fcb25b1fcb24e2d3247cae3fc55815d64fec640dc395840f8fa80969
+    image: mysql:8.0.25@sha256:52b8406e4c32b8cf0557f1b74517e14c5393aff5cf0384eff62d9e81f4985d4b
     container_name: 'ecamp3-db'
     environment:
       - MYSQL_DATABASE=ecamp3dev
@@ -150,7 +150,7 @@ services:
       - db-data:/var/lib/mysql
 
   database:
-    image: postgres:13-alpine
+    image: postgres:13-alpine@sha256:ff384947eb9f5939b7fc5ef2ce620fad088999590973f05e6812037d163c770e
     environment:
       - POSTGRES_DB=ecamp3dev
       - POSTGRES_PASSWORD=ecamp3
@@ -165,7 +165,7 @@ services:
         protocol: tcp
 
   phpmyadmin:
-    image: phpmyadmin/phpmyadmin@sha256:8911fb0cfef21dc9fb385ad02cc3254179cd7df87bab3d3a6fa04d1f0549463f
+    image: phpmyadmin/phpmyadmin@sha256:382dedf6b43bf3b6c6c90f355b4dda660beb3e099de91bb3241170e54fca6d59
     container_name: 'ecamp3-phpmyadmin'
     ports:
       - '3002:80'
@@ -173,7 +173,7 @@ services:
       - ./phpmyadmin/config.user.inc.php:/etc/phpmyadmin/config.user.inc.php
 
   rabbitmq:
-    image: rabbitmq:3.8-management@sha256:22ae745d6fd9d495fd2bb99c32cd67c61baabc00dba2e911d998d9e4eb4f5c66
+    image: rabbitmq:3.8-management@sha256:c4bcdb26f41021ecc6d1d0a3fe97cbf2615607276b25bc3e35d61b2f20969d11
     container_name: 'ecamp3-rabbitmq'
     ports:
       - '3004:15672'
@@ -200,7 +200,7 @@ services:
       - ./.print-data:/app/data
 
   print-file-server:
-    image: halverneus/static-file-server@sha256:833cd54b12085d7321e81ebed207fe3cfdbe8414d0d060c148987a4df0eeb3e3
+    image: halverneus/static-file-server@sha256:1f88fe3030527f1ba3ded829e85e4b1acf060036c0d184d7adba4aef874d2145
     container_name: 'ecamp3-print-file-server'
     volumes:
       - ./.print-data:/web

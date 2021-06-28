@@ -1,9 +1,12 @@
-FROM php:8.0.6-apache@sha256:d81e878f14116534fff49b2a8b4c2cc8b91da8f87ae715ce816a81b7ac8943b2
+FROM php:7.4.20-apache@sha256:132079d23d7888944b2ce581ff6777773fdf8af3ec4661fdfc3e57919ad2291e
 
 WORKDIR /app
 
 RUN apt update
-RUN apt install -y iproute2
+RUN apt install -y  iproute2 \
+                    git \
+                    unzip \
+                    zip
 
 # Copy development php.ini
 RUN mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
@@ -25,6 +28,13 @@ ENV XDEBUG_CONFIG="client_host=docker-host log=/var/log/xdebug.log"
 
 # Install composer for PHP dependencies
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+RUN adduser --disabled-password --gecos "" ecamp \
+    && usermod -a -G 33 ecamp
+
+#add user 1001 for github action
+RUN adduser --disabled-password --gecos "" --uid 1001 github-action-user \
+    && usermod -a -G 33 github-action-user
 
 # Make log directory writable for arbitrary users
 RUN chmod -R 777 /var/log/apache2

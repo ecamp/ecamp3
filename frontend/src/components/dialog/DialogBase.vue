@@ -51,20 +51,23 @@ export default {
     create () {
       this.error = null
       const _events = this._events
-      this.api.post(this.entityUri, this.entityData).then(this.close, e => this.onError(_events, e))
+      const promise = this.api.post(this.entityUri, this.entityData).then(this.close, e => this.onError(_events, e))
       this.$emit('submit')
+      return promise
     },
     update () {
       this.error = null
       const _events = this._events
-      this.api.patch(this.entityUri, this.entityData).then(this.close, e => this.onError(_events, e))
+      const promise = this.api.patch(this.entityUri, this.entityData).then(this.close, e => this.onError(_events, e))
       this.$emit('submit')
+      return promise
     },
     del () {
       this.error = null
       const _events = this._events
-      this.api.del(this.entityUri).then(this.close, e => this.onError(_events, e))
+      const promise = this.api.del(this.entityUri).then(this.close, e => this.onError(_events, e))
       this.$emit('submit')
+      return promise
     },
     onSuccess () {
       this.$emit('success')

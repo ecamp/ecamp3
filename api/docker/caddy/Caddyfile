@@ -18,7 +18,7 @@
 
 log
 
-# Matches requests for HTML documents, for static files and for Next.js files,
+# Matches requests for HTML documents, for static files,
 # except for known API paths and paths with extensions handled by API Platform
 @pwa expression `(
         {header.Accept}.matches("\\btext/html\\b")
@@ -27,7 +27,6 @@ log
     || {path} == "/favicon.ico"
     || {path} == "/manifest.json"
     || {path} == "/robots.txt"
-    || {path}.startsWith("/_next")
     || {path}.startsWith("/sitemap")`
 
 route {
