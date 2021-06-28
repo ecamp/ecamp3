@@ -3,11 +3,10 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
-use App\Repository\ContentTypeRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=ContentTypeRepository::class)
+ * @ORM\Entity()
  */
 #[ApiResource]
 class ContentType extends BaseEntity {

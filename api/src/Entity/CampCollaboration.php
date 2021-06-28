@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity(repositoryClass="eCamp\Core\Repository\CampCollaborationRepository")
+ * @ORM\Entity()
  * @ORM\HasLifecycleCallbacks
  * @ORM\Table(uniqueConstraints={
  *     @ORM\UniqueConstraint(name="inviteKey_unique", columns={"inviteKey"})

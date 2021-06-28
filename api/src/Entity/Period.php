@@ -8,7 +8,7 @@ use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=PeriodRepository::class)
+ * @ORM\Entity()
  */
 #[ApiResource]
 class Period extends BaseEntity {

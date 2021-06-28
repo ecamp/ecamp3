@@ -3,12 +3,11 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
-use App\Repository\ActivityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=ActivityRepository::class)
+ * @ORM\Entity()
  */
 #[ApiResource]
 class Activity extends AbstractContentNodeOwner implements BelongsToCampInterface {

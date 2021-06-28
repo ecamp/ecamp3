@@ -3,12 +3,11 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
-use App\Repository\ContentNodeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=ContentNodeRepository::class)
+ * @ORM\Entity()
  */
 #[ApiResource]
 class ContentNode extends BaseEntity implements BelongsToCampInterface {
