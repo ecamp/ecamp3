@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiProperty;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -30,7 +31,11 @@ abstract class AbstractContentNodeOwner extends BaseEntity {
         $this->rootContentNode = $rootContentNode;
     }
 
-    public function getAllContentNodes(): array {
+    /**
+     * @return ContentNode[]
+     */
+    #[ApiProperty(writable: false)]
+    public function getContentNodes(): array {
         if (null != $this->rootContentNode) {
             return $this->rootContentNode->getRootDescendants();
         }
