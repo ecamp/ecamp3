@@ -36,13 +36,13 @@ class User extends BaseEntity implements UserInterface {
     /**
      * @ORM\OneToMany(targetEntity="Camp", mappedBy="owner")
      */
-    #[ApiProperty(writable: false, readableLink: false, writableLink: false)]
+    #[ApiProperty(writable: false)]
     public Collection $ownedCamps;
 
     /**
      * @ORM\OneToMany(targetEntity="CampCollaboration", mappedBy="user", orphanRemoval=true)
      */
-    #[ApiProperty(writable: false, readableLink: false, writableLink: false)]
+    #[ApiProperty(writable: false)]
     public Collection $collaborations;
 
     /**
