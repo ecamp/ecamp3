@@ -26,8 +26,6 @@ class ContentNode extends BaseEntity implements BelongsToCampInterface {
 
     /**
      * @ORM\OneToMany(targetEntity="ContentNode", mappedBy="root")
-     *
-     * @var ContentNode[]
      */
     public Collection $rootDescendants;
 
@@ -38,8 +36,6 @@ class ContentNode extends BaseEntity implements BelongsToCampInterface {
 
     /**
      * @ORM\OneToMany(targetEntity="ContentNode", mappedBy="parent")
-     *
-     * @var ContentNode[]
      */
     public Collection $children;
 
@@ -72,11 +68,13 @@ class ContentNode extends BaseEntity implements BelongsToCampInterface {
     /**
      * @ORM\OneToMany(targetEntity="MaterialItem", mappedBy="contentNode")
      */
-    public $materialItems;
+    public Collection $materialItems;
 
     public function __construct() {
         $this->rootDescendants = new ArrayCollection();
         $this->children = new ArrayCollection();
+        $this->materialItems = new ArrayCollection();
+
         $this->addRootDescendant($this);
     }
 
@@ -92,7 +90,7 @@ class ContentNode extends BaseEntity implements BelongsToCampInterface {
     }
 
     /**
-     * @return self[]
+     * @return ContentNode[]
      */
     public function getRootDescendants(): array {
         return $this->rootDescendants->getValues();
@@ -119,7 +117,7 @@ class ContentNode extends BaseEntity implements BelongsToCampInterface {
     }
 
     /**
-     * @return self[]
+     * @return ContentNode[]
      */
     public function getChildren(): array {
         return $this->children->getValues();
@@ -145,6 +143,9 @@ class ContentNode extends BaseEntity implements BelongsToCampInterface {
         return $this;
     }
 
+    /**
+     * @return MaterialItem[]
+     */
     public function getMaterialItems(): array {
         return $this->materialItems->getValues();
     }

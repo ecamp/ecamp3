@@ -14,8 +14,6 @@ use Doctrine\ORM\Mapping as ORM;
 class MaterialList extends BaseEntity implements BelongsToCampInterface {
     /**
      * @ORM\OneToMany(targetEntity="MaterialItem", mappedBy="materialList")
-     *
-     * @var MaterialItem
      */
     public Collection $materialItems;
 
@@ -43,6 +41,9 @@ class MaterialList extends BaseEntity implements BelongsToCampInterface {
         return $this->camp;
     }
 
+    /**
+     * @return MaterialItem[]
+     */
     public function getMaterialItems(): array {
         return $this->materialItems->getValues();
     }

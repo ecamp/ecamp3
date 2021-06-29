@@ -33,7 +33,6 @@ use Symfony\Component\Validator\Constraints as Assert;
     ]
 )]
 class User extends BaseEntity implements UserInterface {
-
     /**
      * @ORM\OneToMany(targetEntity="Camp", mappedBy="owner")
      */
@@ -220,6 +219,9 @@ class User extends BaseEntity implements UserInterface {
         return (bool) (count($this->getOwnedCamps()));
     }
 
+    /**
+     * @return CampCollaboration[]
+     */
     public function getCampCollaborations(): array {
         return $this->collaborations->getValues();
     }

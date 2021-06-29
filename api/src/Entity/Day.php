@@ -19,8 +19,6 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
 class Day extends BaseEntity implements BelongsToCampInterface {
     /**
      * @ORM\OneToMany(targetEntity="DayResponsible", mappedBy="day", orphanRemoval=true)
-     *
-     * @var DayResponsible[]
      */
     public Collection $dayResponsibles;
 
@@ -50,12 +48,15 @@ class Day extends BaseEntity implements BelongsToCampInterface {
     }
 
     /**
-     * Returns all scheduleEntries which start on the current day (using midnight as cut-time).
+     * Returns all scheduleEntries which start on the current day (using midnight as cutoff).
+     *
+     * @return ScheduleEntry[]
      */
-    public function getScheduleEntries(): Collection {
+    public function getScheduleEntries(): array {
         $dayOffset = $this->dayOffset;
 
-        return $this->period->getScheduleEntries()->filter(
+        return array_filter(
+            $this->period->getScheduleEntries(),
             // filters all scheduleEntries which start on the current day
             function (ScheduleEntry $scheduleEntry) use ($dayOffset) {
                 return $scheduleEntry->periodOffset >= $dayOffset * 24 * 60              // after midnight of current day
@@ -64,6 +65,9 @@ class Day extends BaseEntity implements BelongsToCampInterface {
         );
     }
 
+    /**
+     * @return DayResponsible[]
+     */
     public function getDayResponsibles(): array {
         return $this->dayResponsibles->getValues();
     }

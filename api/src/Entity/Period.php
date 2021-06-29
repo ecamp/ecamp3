@@ -16,23 +16,17 @@ class Period extends BaseEntity {
     /**
      * @ORM\OneToMany(targetEntity="Day", mappedBy="period", orphanRemoval=true)
      * @ORM\OrderBy({"dayOffset": "ASC"})
-     *
-     * @var Day[]
      */
     public Collection $days;
 
     /**
      * @ORM\OneToMany(targetEntity="ScheduleEntry", mappedBy="period")
      * @ORM\OrderBy({"periodOffset": "ASC"})
-     *
-     * @var ScheduleEntry[]
      */
     public Collection $scheduleEntries;
 
     /**
      * @ORM\OneToMany(targetEntity="MaterialItem", mappedBy="period")
-     *
-     * @var MaterialItem[]
      */
     public Collection $materialItems;
 
@@ -63,6 +57,9 @@ class Period extends BaseEntity {
         $this->materialItems = new ArrayCollection();
     }
 
+    /**
+     * @return Day[]
+     */
     public function getDays(): array {
         return $this->days->getValues();
     }
@@ -86,6 +83,9 @@ class Period extends BaseEntity {
         return $this;
     }
 
+    /**
+     * @return ScheduleEntry[]
+     */
     public function getScheduleEntries(): array {
         return $this->scheduleEntries->getValues();
     }
@@ -109,6 +109,9 @@ class Period extends BaseEntity {
         return $this;
     }
 
+    /**
+     * @return MaterialItem[]
+     */
     public function getMaterialItems(): array {
         return $this->materialItems->getValues();
     }

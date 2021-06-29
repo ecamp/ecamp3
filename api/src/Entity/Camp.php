@@ -34,37 +34,27 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Camp extends BaseEntity implements BelongsToCampInterface {
     /**
      * @ORM\OneToMany(targetEntity="CampCollaboration", mappedBy="camp", orphanRemoval=true)
-     *
-     * @var CampCollaboration[]
      */
     public Collection $collaborations;
 
     /**
      * @ORM\OneToMany(targetEntity="Period", mappedBy="camp", orphanRemoval=true)
      * @ORM\OrderBy({"start": "ASC"})
-     *
-     * @var Period[]
      */
     public Collection $periods;
 
     /**
      * @ORM\OneToMany(targetEntity="Category", mappedBy="camp", orphanRemoval=true)
-     *
-     * @var Category[]
      */
     public Collection $categories;
 
     /**
      * @ORM\OneToMany(targetEntity="Activity", mappedBy="camp", orphanRemoval=true)
-     *
-     * @var Activity[]
      */
     public Collection $activities;
 
     /**
      * @ORM\OneToMany(targetEntity="MaterialList", mappedBy="camp", orphanRemoval=true)
-     *
-     * @var MaterialList[]
      */
     public Collection $materialLists;
 
@@ -175,6 +165,9 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
         return $this;
     }
 
+    /**
+     * @return CampCollaboration[]
+     */
     public function getCampCollaborations(): array {
         return $this->collaborations->getValues();
     }
@@ -244,6 +237,9 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
         return $this;
     }
 
+    /**
+     * @return Category[]
+     */
     public function getCategories(): array {
         return $this->categories->getValues();
     }
@@ -293,6 +289,9 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
         return $this;
     }
 
+    /**
+     * @return MaterialList[]
+     */
     public function getMaterialLists(): array {
         return $this->materialLists->getValues();
     }

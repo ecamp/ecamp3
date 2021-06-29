@@ -26,8 +26,6 @@ class Category extends AbstractContentNodeOwner implements BelongsToCampInterfac
      *     joinColumns={@ORM\JoinColumn(name="category_id", referencedColumnName="id")},
      *     inverseJoinColumns={@ORM\JoinColumn(name="contenttype_id", referencedColumnName="id")}
      * )
-     *
-     * @var ContentType[]
      */
     public Collection $preferredContentTypes;
 
@@ -64,6 +62,9 @@ class Category extends AbstractContentNodeOwner implements BelongsToCampInterfac
         return $this->camp;
     }
 
+    /**
+     * @return ContentType[]
+     */
     public function getPreferredContentTypes(): array {
         return $this->preferredContentTypes->getValues();
     }

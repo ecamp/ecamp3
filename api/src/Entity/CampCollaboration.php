@@ -38,15 +38,11 @@ class CampCollaboration extends BaseEntity implements BelongsToCampInterface {
 
     /**
      * @ORM\OneToMany(targetEntity="DayResponsible", mappedBy="campCollaboration", orphanRemoval=true)
-     *
-     * @var DayResponsible[]
      */
     public Collection $dayResponsibles;
 
     /**
      * @ORM\OneToMany(targetEntity="ActivityResponsible", mappedBy="campCollaboration", orphanRemoval=true)
-     *
-     * @var ActivityResponsible[]
      */
     public Collection $activityResponsibles;
 
@@ -122,6 +118,9 @@ class CampCollaboration extends BaseEntity implements BelongsToCampInterface {
         return self::ROLE_MANAGER === $this->role;
     }
 
+    /**
+     * @return ActivityResponsible[]
+     */
     public function getActivityResponsibles(): array {
         return $this->activityResponsibles->getValues();
     }
@@ -145,6 +144,9 @@ class CampCollaboration extends BaseEntity implements BelongsToCampInterface {
         return $this;
     }
 
+    /**
+     * @return DayResponsible[]
+     */
     public function getDayResponsibles(): array {
         return $this->dayResponsibles->getValues();
     }

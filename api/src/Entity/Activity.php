@@ -14,15 +14,11 @@ use Doctrine\ORM\Mapping as ORM;
 class Activity extends AbstractContentNodeOwner implements BelongsToCampInterface {
     /**
      * @ORM\OneToMany(targetEntity="ScheduleEntry", mappedBy="activity", orphanRemoval=true)
-     *
-     * @var ScheduleEntry[]
      */
     public Collection $scheduleEntries;
 
     /**
      * @ORM\OneToMany(targetEntity="ActivityResponsible", mappedBy="activity", orphanRemoval=true)
-     *
-     * @var ActivityResponsible[]
      */
     public Collection $activityResponsibles;
 
@@ -57,6 +53,9 @@ class Activity extends AbstractContentNodeOwner implements BelongsToCampInterfac
         return $this->camp;
     }
 
+    /**
+     * @return ScheduleEntry[]
+     */
     public function getScheduleEntries(): array {
         return $this->scheduleEntries->getValues();
     }
@@ -80,6 +79,9 @@ class Activity extends AbstractContentNodeOwner implements BelongsToCampInterfac
         return $this;
     }
 
+    /**
+     * @return ActivityResponsible[]
+     */
     public function getActivityResponsibles(): array {
         return $this->activityResponsibles->getValues();
     }
