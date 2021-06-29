@@ -148,13 +148,22 @@ class ContentNode extends BaseEntity implements BelongsToCampInterface {
         return $this->materialItems->getValues();
     }
 
-    public function addMaterialItem(MaterialItem $materialItem): void {
-        $materialItem->contentNode = $this;
-        $this->materialItems->add($materialItem);
+    public function addMaterialItem(MaterialItem $materialItem): self {
+        if (!$this->materialItems->contains($materialItem)) {
+            $this->materialItems[] = $materialItem;
+            $materialItem->contentNode = $this;
+        }
+
+        return $this;
     }
 
-    public function removeMaterialItem(MaterialItem $materialItem): void {
-        $materialItem->contentNode = null;
-        $this->materialItems->removeElement($materialItem);
+    public function removeMaterialItem(MaterialItem $materialItem): self {
+        if ($this->materialItems->removeElement($materialItem)) {
+            if ($materialItem->contentNode === $this) {
+                $materialItem->contentNode = null;
+            }
+        }
+
+        return $this;
     }
 }

@@ -59,41 +59,68 @@ class Period extends BaseEntity {
         return $this->days->getValues();
     }
 
-    public function addDay(Day $day): void {
-        $day->setPeriod($this);
-        $this->days->add($day);
+    public function addDay(Day $day): self {
+        if (!$this->days->contains($day)) {
+            $this->days[] = $day;
+            $day->period = $this;
+        }
+
+        return $this;
     }
 
-    public function removeDay(Day $day): void {
-        $day->period = null;
-        $this->days->removeElement($day);
+    public function removeDay(Day $day): self {
+        if ($this->days->removeElement($day)) {
+            if ($day->period === $this) {
+                $day->period = null;
+            }
+        }
+
+        return $this;
     }
 
     public function getScheduleEntries(): array {
         return $this->scheduleEntries->getValues();
     }
 
-    public function addScheduleEntry(ScheduleEntry $scheduleEntry): void {
-        $scheduleEntry->period = $this;
-        $this->scheduleEntries->add($scheduleEntry);
+    public function addScheduleEntry(ScheduleEntry $scheduleEntry): self {
+        if (!$this->scheduleEntries->contains($scheduleEntry)) {
+            $this->scheduleEntries[] = $scheduleEntry;
+            $scheduleEntry->period = $this;
+        }
+
+        return $this;
     }
 
-    public function removeScheduleEntry(ScheduleEntry $scheduleEntry): void {
-        $scheduleEntry->period = null;
-        $this->scheduleEntries->removeElement($scheduleEntry);
+    public function removeScheduleEntry(ScheduleEntry $scheduleEntry): self {
+        if ($this->scheduleEntries->removeElement($scheduleEntry)) {
+            if ($scheduleEntry->period === $this) {
+                $scheduleEntry->period = null;
+            }
+        }
+
+        return $this;
     }
 
     public function getMaterialItems(): array {
         return $this->materialItems->getValues();
     }
 
-    public function addMaterialItem(MaterialItem $materialItem): void {
-        $materialItem->period = $this;
-        $this->materialItems->add($materialItem);
+    public function addMaterialItem(MaterialItem $materialItem): self {
+        if (!$this->materialItems->contains($materialItem)) {
+            $this->materialItems[] = $materialItem;
+            $materialItem->period = $this;
+        }
+
+        return $this;
     }
 
-    public function removeMaterialItem(MaterialItem $materialItem): void {
-        $materialItem->period = null;
-        $this->materialItems->removeElement($materialItem);
+    public function removeMaterialItem(MaterialItem $materialItem): self {
+        if ($this->materialItems->removeElement($materialItem)) {
+            if ($materialItem->period === $this) {
+                $materialItem->period = null;
+            }
+        }
+
+        return $this;
     }
 }

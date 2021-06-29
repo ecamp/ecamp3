@@ -223,13 +223,22 @@ class User extends BaseEntity implements UserInterface {
         return $this->collaborations->getValues();
     }
 
-    public function addCampCollaboration(CampCollaboration $collaboration): void {
-        $collaboration->user = $this;
-        $this->collaborations->add($collaboration);
+    public function addCampCollaboration(CampCollaboration $collaboration): self {
+        if (!$this->collaborations->contains($collaboration)) {
+            $this->collaborations[] = $collaboration;
+            $collaboration->user = $this;
+        }
+
+        return $this;
     }
 
-    public function removeCampCollaboration(CampCollaboration $collaboration): void {
-        $collaboration->user = null;
-        $this->collaborations->removeElement($collaboration);
+    public function removeCampCollaboration(CampCollaboration $collaboration): self {
+        if ($this->collaborations->removeElement($collaboration)) {
+            if ($collaboration->user === $this) {
+                $collaboration->user = null;
+            }
+        }
+
+        return $this;
     }
 }

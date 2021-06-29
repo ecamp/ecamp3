@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Collections\Selectable;
@@ -9,7 +10,6 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
- * @ORM\HasLifecycleCallbacks
  */
 #[ApiResource]
 class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
@@ -49,24 +49,25 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
      */
     public float $width = 1;
 
+    #[ApiProperty(readable: false)]
     public function getCamp(): ?Camp {
-        return (null !== $this->period) ? $this->period->camp : null;
+        return $this->period?->camp;
     }
 
-    public function getCategory(): ?Category {
-        return (null !== $this->activity) ? $this->activity->category : null;
+    public function getDay(): Day {
+        $dayNumber = $this->getDayNumber();
+
+        return $this->period->days->filter(function (Day $day) use ($dayNumber) {
+            return $day->getDayNumber() === $dayNumber;
+        })->first();
     }
 
     public function getNumberingStyle(): ?string {
-        $category = $this->getCategory();
-
-        return (null !== $category) ? $category->numberingStyle : null;
+        return $this->activity?->category?->numberingStyle;
     }
 
     public function getColor(): ?string {
-        $category = $this->getCategory();
-
-        return (null !== $category) ? $category->color : null;
+        return $this->activity?->category?->color;
     }
 
     public function getDuration(): \DateInterval {
@@ -120,8 +121,7 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
         $dayNumber = $this->getDayNumber();
         $scheduleEntryNumber = $this->getScheduleEntryNumber();
 
-        $category = $this->getCategory();
-        $scheduleEntryStyledNumber = (null !== $category) ? $category->getStyledNumber($scheduleEntryNumber) : $scheduleEntryNumber;
+        $scheduleEntryStyledNumber = $this->activity?->category?->getStyledNumber($scheduleEntryNumber) ?? $scheduleEntryNumber;
 
         return $dayNumber.'.'.$scheduleEntryStyledNumber;
     }

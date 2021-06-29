@@ -60,27 +60,45 @@ class Activity extends AbstractContentNodeOwner implements BelongsToCampInterfac
         return $this->scheduleEntries->getValues();
     }
 
-    public function addScheduleEntry(ScheduleEntry $scheduleEntry): void {
-        $scheduleEntry->activity = $this;
-        $this->scheduleEntries->add($scheduleEntry);
+    public function addScheduleEntry(ScheduleEntry $scheduleEntry): self {
+        if (!$this->scheduleEntries->contains($scheduleEntry)) {
+            $this->scheduleEntries[] = $scheduleEntry;
+            $scheduleEntry->activity = $this;
+        }
+
+        return $this;
     }
 
-    public function removeScheduleEntry(ScheduleEntry $scheduleEntry): void {
-        $scheduleEntry->activity = null;
-        $this->scheduleEntries->removeElement($scheduleEntry);
+    public function removeScheduleEntry(ScheduleEntry $scheduleEntry): self {
+        if ($this->scheduleEntries->removeElement($scheduleEntry)) {
+            if ($scheduleEntry->activity === $this) {
+                $scheduleEntry->activity = null;
+            }
+        }
+
+        return $this;
     }
 
     public function getActivityResponsibles(): array {
         return $this->activityResponsibles->getValues();
     }
 
-    public function addActivityResponsible(ActivityResponsible $activityResponsible): void {
-        $activityResponsible->activity = $this;
-        $this->activityResponsibles->add($activityResponsible);
+    public function addActivityResponsible(ActivityResponsible $activityResponsible): self {
+        if (!$this->activityResponsibles->contains($activityResponsible)) {
+            $this->activityResponsibles[] = $activityResponsible;
+            $activityResponsible->activity = $this;
+        }
+
+        return $this;
     }
 
-    public function removeActivityResponsible(ActivityResponsible $activityResponsible): void {
-        $activityResponsible->activity = null;
-        $this->activityResponsibles->removeElement($activityResponsible);
+    public function removeActivityResponsible(ActivityResponsible $activityResponsible): self {
+        if ($this->activityResponsibles->removeElement($activityResponsible)) {
+            if ($activityResponsible->activity === $this) {
+                $activityResponsible->activity = null;
+            }
+        }
+
+        return $this;
     }
 }

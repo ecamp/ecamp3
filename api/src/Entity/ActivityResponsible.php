@@ -2,12 +2,12 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
- * @ORM\HasLifecycleCallbacks
  * @ORM\Table(uniqueConstraints={
  *     @ORM\UniqueConstraint(name="activity_campCollaboration_unique", columns={"activityId", "campCollaborationId"})
  * })
@@ -26,6 +26,7 @@ class ActivityResponsible extends BaseEntity implements BelongsToCampInterface {
      */
     public ?CampCollaboration $campCollaboration = null;
 
+    #[ApiProperty(readable: false)]
     public function getCamp(): ?Camp {
         return (null != $this->activity) ? $this->activity->camp : null;
     }

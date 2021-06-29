@@ -20,6 +20,7 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -42,15 +43,8 @@ class DayResponsible extends BaseEntity implements BelongsToCampInterface {
      */
     public ?CampCollaboration $campCollaboration;
 
-    public function getPeriod(): ?Period {
-        return $this->day->getPeriod();
-    }
-
+    #[ApiProperty(readable: false)]
     public function getCamp(): ?Camp {
         return $this->day->getCamp();
-    }
-
-    public function getUser(): ?User {
-        return (null != $this->campCollaboration) ? $this->campCollaboration->user : null;
     }
 }

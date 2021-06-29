@@ -2,16 +2,17 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\SerializedName;
 
 /**
  * @ORM\Entity
  * @ORM\Table(uniqueConstraints={
  *     @ORM\UniqueConstraint(name="offset_period_idx", columns={"periodId", "dayOffset"})
  * })
- * @ORM\HasLifecycleCallbacks
  */
 #[ApiResource]
 class Day extends BaseEntity implements BelongsToCampInterface {
@@ -33,18 +34,12 @@ class Day extends BaseEntity implements BelongsToCampInterface {
      */
     public int $dayOffset = 0;
 
-    public function getPeriod(): ?Period {
-        return $this->period;
-    }
-
-    public function setPeriod(?Period $period): void {
-        $this->period = $period;
-    }
-
+    #[ApiProperty(readable: false)]
     public function getCamp(): ?Camp {
         return (null != $this->period) ? $this->period->camp : null;
     }
 
+    #[SerializedName('number')]
     public function getDayNumber(): int {
         return $this->dayOffset + 1;
     }
@@ -68,13 +63,22 @@ class Day extends BaseEntity implements BelongsToCampInterface {
         return $this->dayResponsibles->getValues();
     }
 
-    public function addDayResponsible(DayResponsible $dayResponsible): void {
-        $dayResponsible->day = $this;
-        $this->dayResponsibles->add($dayResponsible);
+    public function addDayResponsible(DayResponsible $dayResponsible): self {
+        if (!$this->dayResponsibles->contains($dayResponsible)) {
+            $this->dayResponsibles[] = $dayResponsible;
+            $dayResponsible->day = $this;
+        }
+
+        return $this;
     }
 
-    public function removeDayResponsible(DayResponsible $dayResponsible): void {
-        $dayResponsible->day = null;
-        $this->dayResponsibles->removeElement($dayResponsible);
+    public function removeDayResponsible(DayResponsible $dayResponsible): self {
+        if ($this->dayResponsibles->removeElement($dayResponsible)) {
+            if ($dayResponsible->day === $this) {
+                $dayResponsible->day = null;
+            }
+        }
+
+        return $this;
     }
 }

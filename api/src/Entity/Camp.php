@@ -178,14 +178,23 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
         return $this->collaborations->getValues();
     }
 
-    public function addCampCollaboration(CampCollaboration $collaboration): void {
-        $collaboration->camp = $this;
-        $this->collaborations->add($collaboration);
+    public function addCampCollaboration(CampCollaboration $collaboration): self {
+        if (!$this->collaborations->contains($collaboration)) {
+            $this->collaborations[] = $collaboration;
+            $collaboration->camp = $this;
+        }
+
+        return $this;
     }
 
-    public function removeCampCollaboration(CampCollaboration $collaboration): void {
-        $collaboration->camp = null;
-        $this->collaborations->removeElement($collaboration);
+    public function removeCampCollaboration(CampCollaboration $collaboration): self {
+        if ($this->collaborations->removeElement($collaboration)) {
+            if ($collaboration->camp === $this) {
+                $collaboration->camp = null;
+            }
+        }
+
+        return $this;
     }
 
     public function getRole($userId): string {
@@ -206,22 +215,6 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
         }
 
         return CampCollaboration::ROLE_GUEST;
-    }
-
-    /**
-     * @param string $userId
-     */
-    public function isCollaborator($userId): bool {
-        if ($this?->creator->getId() == $userId) {
-            return true;
-        }
-        if ($this?->owner->getId() == $userId) {
-            return true;
-        }
-
-        return $this->cmpCollaborations->exists(function ($idx, CampCollaboration $cc) use ($userId) {
-            return $cc->isEstablished() && $cc?->user->getId() == $userId;
-        });
     }
 
     /**
@@ -254,14 +247,23 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
         return $this->categories->getValues();
     }
 
-    public function addCategory(Category $category): void {
-        $category->camp = $this;
-        $this->categories->add($category);
+    public function addCategory(Category $category): self {
+        if (!$this->categories->contains($category)) {
+            $this->categories[] = $category;
+            $category->camp = $this;
+        }
+
+        return $this;
     }
 
-    public function removeCategory(Category $category): void {
-        $category->camp = null;
-        $this->categories->removeElement($category);
+    public function removeCategory(Category $category): self {
+        if ($this->categories->removeElement($category)) {
+            if ($category->camp === $this) {
+                $category->camp = null;
+            }
+        }
+
+        return $this;
     }
 
     /**
@@ -294,13 +296,22 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
         return $this->materialLists->getValues();
     }
 
-    public function addMaterialList(MaterialList $materialList): void {
-        $materialList->camp = $this;
-        $this->materialLists->add($materialList);
+    public function addMaterialList(MaterialList $materialList): self {
+        if (!$this->materialLists->contains($materialList)) {
+            $this->materialLists[] = $materialList;
+            $materialList->camp = $this;
+        }
+
+        return $this;
     }
 
-    public function removeMaterialList(MaterialList $materialList): void {
-        $materialList->camp = null;
-        $this->materialLists->removeElement($materialList);
+    public function removeMaterialList(MaterialList $materialList): self {
+        if ($this->materialLists->removeElement($materialList)) {
+            if ($materialList->camp === $this) {
+                $materialList->camp = null;
+            }
+        }
+
+        return $this;
     }
 }

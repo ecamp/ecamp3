@@ -29,14 +29,4 @@ class ContentType extends BaseEntity {
      * @ORM\Column(type="json", nullable=true)
      */
     public ?array $jsonConfig = [];
-
-    public function getConfig(?string $key = null) {
-        if (null != $this->jsonConfig) {
-            if (null != $key) {
-                return $this->jsonConfig[$key];
-            }
-        }
-
-        return $this->jsonConfig;
-    }
 }

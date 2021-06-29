@@ -9,7 +9,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity()
- * @ORM\HasLifecycleCallbacks
  * @ORM\Table(uniqueConstraints={
  *     @ORM\UniqueConstraint(name="inviteKey_unique", columns={"inviteKey"})
  * })
@@ -125,27 +124,45 @@ class CampCollaboration extends BaseEntity implements BelongsToCampInterface {
         return $this->activityResponsibles->getValues();
     }
 
-    public function addActivityResponsible(ActivityResponsible $activityResponsible): void {
-        $activityResponsible->campCollaboration = $this;
-        $this->activityResponsibles->add($activityResponsible);
+    public function addActivityResponsible(ActivityResponsible $activityResponsible): self {
+        if (!$this->activityResponsibles->contains($activityResponsible)) {
+            $this->activityResponsibles[] = $activityResponsible;
+            $activityResponsible->campCollaboration = $this;
+        }
+
+        return $this;
     }
 
-    public function removeActivityResponsible(ActivityResponsible $activityResponsible): void {
-        $activityResponsible->campCollaboration = null;
-        $this->activityResponsibles->removeElement($activityResponsible);
+    public function removeActivityResponsible(ActivityResponsible $activityResponsible): self {
+        if ($this->activityResponsibles->removeElement($activityResponsible)) {
+            if ($activityResponsible->campCollaboration === $this) {
+                $activityResponsible->campCollaboration = null;
+            }
+        }
+
+        return $this;
     }
 
     public function getDayResponsibles(): array {
         return $this->dayResponsibles->getValues();
     }
 
-    public function addDayResponsible(DayResponsible $dayResponsible): void {
-        $dayResponsible->campCollaboration = $this;
-        $this->dayResponsibles->add($dayResponsible);
+    public function addDayResponsible(DayResponsible $dayResponsible): self {
+        if (!$this->dayResponsibles->contains($dayResponsible)) {
+            $this->dayResponsibles[] = $dayResponsible;
+            $dayResponsible->campCollaboration = $this;
+        }
+
+        return $this;
     }
 
-    public function removeDayResponsible(DayResponsible $dayResponsible): void {
-        $dayResponsible->campCollaboration = null;
-        $this->dayResponsibles->removeElement($dayResponsible);
+    public function removeDayResponsible(DayResponsible $dayResponsible): self {
+        if ($this->dayResponsibles->removeElement($dayResponsible)) {
+            if ($dayResponsible->campCollaboration === $this) {
+                $dayResponsible->campCollaboration = null;
+            }
+        }
+
+        return $this;
     }
 }
