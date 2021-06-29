@@ -36,10 +36,6 @@ abstract class AbstractContentNodeOwner extends BaseEntity {
      */
     #[ApiProperty(writable: false)]
     public function getContentNodes(): array {
-        if (null != $this->rootContentNode) {
-            return $this->rootContentNode->getRootDescendants();
-        }
-
-        return [];
+        return $this->rootContentNode?->getRootDescendants() ?? [];
     }
 }
