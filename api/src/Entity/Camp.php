@@ -9,6 +9,7 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\InputFilter;
 use App\Repository\CampRepository;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -36,7 +37,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
      *
      * @var CampCollaboration[]
      */
-    public $collaborations;
+    public Collection $collaborations;
 
     /**
      * @ORM\OneToMany(targetEntity="Period", mappedBy="camp", orphanRemoval=true)
@@ -44,28 +45,28 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
      *
      * @var Period[]
      */
-    public $periods;
+    public Collection $periods;
 
     /**
      * @ORM\OneToMany(targetEntity="Category", mappedBy="camp", orphanRemoval=true)
      *
      * @var Category[]
      */
-    public $categories;
+    public Collection $categories;
 
     /**
      * @ORM\OneToMany(targetEntity="Activity", mappedBy="camp", orphanRemoval=true)
      *
      * @var Activity[]
      */
-    public $activities;
+    public Collection $activities;
 
     /**
      * @ORM\OneToMany(targetEntity="MaterialList", mappedBy="camp", orphanRemoval=true)
      *
      * @var MaterialList[]
      */
-    public $materialLists;
+    public Collection $materialLists;
 
     /**
      * @ORM\Column(type="string", length=16, nullable=true)

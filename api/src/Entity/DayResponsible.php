@@ -38,8 +38,6 @@ class DayResponsible extends BaseEntity implements BelongsToCampInterface {
     /**
      * @ORM\ManyToOne(targetEntity="CampCollaboration", inversedBy="dayResponsibles")
      * @ORM\JoinColumn(nullable=false, onDelete="cascade")
-     *
-     * @var CampCollaboration[]
      */
     public ?CampCollaboration $campCollaboration;
 

@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -28,7 +29,7 @@ class Category extends AbstractContentNodeOwner implements BelongsToCampInterfac
      *
      * @var ContentType[]
      */
-    public $preferredContentTypes;
+    public Collection $preferredContentTypes;
 
     /**
      * @ORM\Column(type="string", length=16, nullable=true)

@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use DateTimeInterface;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -17,7 +19,7 @@ class Period extends BaseEntity {
      *
      * @var Day[]
      */
-    public $days;
+    public Collection $days;
 
     /**
      * @ORM\OneToMany(targetEntity="ScheduleEntry", mappedBy="period")
@@ -25,14 +27,14 @@ class Period extends BaseEntity {
      *
      * @var ScheduleEntry[]
      */
-    public $scheduleEntries;
+    public Collection $scheduleEntries;
 
     /**
      * @ORM\OneToMany(targetEntity="MaterialItem", mappedBy="period")
      *
      * @var MaterialItem[]
      */
-    public $materialItems;
+    public Collection $materialItems;
 
     /**
      * @ORM\ManyToOne(targetEntity="Camp", inversedBy="periods")
@@ -54,6 +56,12 @@ class Period extends BaseEntity {
      * @ORM\Column(name="`end`", type="date")
      */
     public ?DateTimeInterface $end = null;
+
+    public function __construct() {
+        $this->days = new ArrayCollection();
+        $this->scheduleEntries = new ArrayCollection();
+        $this->materialItems = new ArrayCollection();
+    }
 
     public function getDays(): array {
         return $this->days->getValues();

@@ -33,6 +33,19 @@ use Symfony\Component\Validator\Constraints as Assert;
     ]
 )]
 class User extends BaseEntity implements UserInterface {
+
+    /**
+     * @ORM\OneToMany(targetEntity="Camp", mappedBy="owner")
+     */
+    #[ApiProperty(writable: false, readableLink: false, writableLink: false)]
+    public Collection $ownedCamps;
+
+    /**
+     * @ORM\OneToMany(targetEntity="CampCollaboration", mappedBy="user", orphanRemoval=true)
+     */
+    #[ApiProperty(writable: false, readableLink: false, writableLink: false)]
+    public Collection $collaborations;
+
     /**
      * Unique email of the user.
      *
@@ -43,13 +56,6 @@ class User extends BaseEntity implements UserInterface {
     #[Assert\Email]
     #[ApiProperty(example: 'bi-pi@example.com')]
     public ?string $email = null;
-
-    /**
-     * @ORM\OneToMany(targetEntity="CampCollaboration", mappedBy="user", orphanRemoval=true)
-     *
-     * @var CampCollaboration[]
-     */
-    public $collaborations;
 
     /**
      * Unique username. Lower case alphanumeric symbols, dashes, periods and underscores only.
@@ -120,14 +126,9 @@ class User extends BaseEntity implements UserInterface {
     #[ApiProperty(readable: false, writable: true, example: 'learning-by-doing-101')]
     public ?string $plainPassword = null;
 
-    /**
-     * @ORM\OneToMany(targetEntity="Camp", mappedBy="owner")
-     */
-    #[ApiProperty(writable: false, readableLink: false, writableLink: false)]
-    public Collection $ownedCamps;
-
     public function __construct() {
         $this->ownedCamps = new ArrayCollection();
+        $this->collaborations = new ArrayCollection();
     }
 
     /**

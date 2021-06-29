@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\SerializedName;
@@ -21,7 +22,7 @@ class Day extends BaseEntity implements BelongsToCampInterface {
      *
      * @var DayResponsible[]
      */
-    public $dayResponsibles;
+    public Collection $dayResponsibles;
 
     /**
      * @ORM\ManyToOne(targetEntity="Period", inversedBy="days")
@@ -33,6 +34,10 @@ class Day extends BaseEntity implements BelongsToCampInterface {
      * @ORM\Column(type="integer")
      */
     public int $dayOffset = 0;
+
+    public function __construct() {
+        $this->dayResponsibles = new ArrayCollection();
+    }
 
     #[ApiProperty(readable: false)]
     public function getCamp(): ?Camp {

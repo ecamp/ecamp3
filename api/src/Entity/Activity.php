@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -16,14 +17,14 @@ class Activity extends AbstractContentNodeOwner implements BelongsToCampInterfac
      *
      * @var ScheduleEntry[]
      */
-    public $scheduleEntries;
+    public Collection $scheduleEntries;
 
     /**
      * @ORM\OneToMany(targetEntity="ActivityResponsible", mappedBy="activity", orphanRemoval=true)
      *
      * @var ActivityResponsible[]
      */
-    public $activityResponsibles;
+    public Collection $activityResponsibles;
 
     /**
      * @ORM\ManyToOne(targetEntity="Camp", inversedBy="activities")

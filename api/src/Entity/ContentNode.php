@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -28,7 +29,7 @@ class ContentNode extends BaseEntity implements BelongsToCampInterface {
      *
      * @var ContentNode[]
      */
-    public $rootDescendants;
+    public Collection $rootDescendants;
 
     /**
      * @ORM\ManyToOne(targetEntity="ContentNode", inversedBy="children")
@@ -40,7 +41,7 @@ class ContentNode extends BaseEntity implements BelongsToCampInterface {
      *
      * @var ContentNode[]
      */
-    public $children;
+    public Collection $children;
 
     /**
      * @ORM\Column(type="text", nullable=true)

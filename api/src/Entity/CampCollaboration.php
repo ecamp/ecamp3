@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -40,14 +41,14 @@ class CampCollaboration extends BaseEntity implements BelongsToCampInterface {
      *
      * @var DayResponsible[]
      */
-    public $dayResponsibles;
+    public Collection $dayResponsibles;
 
     /**
      * @ORM\OneToMany(targetEntity="ActivityResponsible", mappedBy="campCollaboration", orphanRemoval=true)
      *
      * @var ActivityResponsible[]
      */
-    public $activityResponsibles;
+    public Collection $activityResponsibles;
 
     /**
      * @ORM\Column(type="text", nullable=true)
@@ -89,6 +90,7 @@ class CampCollaboration extends BaseEntity implements BelongsToCampInterface {
     public ?string $collaborationAcceptedBy = null;
 
     public function __construct() {
+        $this->dayResponsibles = new ArrayCollection();
         $this->activityResponsibles = new ArrayCollection();
     }
 

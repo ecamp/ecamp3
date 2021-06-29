@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -16,7 +17,7 @@ class MaterialList extends BaseEntity implements BelongsToCampInterface {
      *
      * @var MaterialItem
      */
-    public $materialItems;
+    public Collection $materialItems;
 
     /**
      * @ORM\ManyToOne(targetEntity="Camp", inversedBy="materialLists")
