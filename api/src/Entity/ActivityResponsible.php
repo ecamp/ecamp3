@@ -28,6 +28,6 @@ class ActivityResponsible extends BaseEntity implements BelongsToCampInterface {
 
     #[ApiProperty(readable: false)]
     public function getCamp(): ?Camp {
-        return (null != $this->activity) ? $this->activity->camp : null;
+        return $this->activity?->camp;
     }
 }

@@ -66,10 +66,6 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
         return $this->activity?->category?->numberingStyle;
     }
 
-    public function getColor(): ?string {
-        return $this->activity?->category?->color;
-    }
-
     public function getDuration(): \DateInterval {
         return new \DateInterval('PT'.$this->length.'M');
     }
