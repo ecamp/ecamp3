@@ -161,6 +161,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
         $this->materialLists = new ArrayCollection();
     }
 
+    #[ApiProperty(readable: false)]
     public function getCamp(): ?Camp {
         return $this;
     }

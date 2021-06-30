@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -78,6 +79,7 @@ class ContentNode extends BaseEntity implements BelongsToCampInterface {
         $this->addRootDescendant($this);
     }
 
+    #[ApiProperty(readable: false)]
     public function getCamp(): ?Camp {
         $root = $this->root;
         $owner = $root->owner;

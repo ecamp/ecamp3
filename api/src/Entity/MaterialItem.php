@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -43,6 +44,7 @@ class MaterialItem extends BaseEntity implements BelongsToCampInterface {
      */
     public ?string $unit = null;
 
+    #[ApiProperty(readable: false)]
     public function getCamp(): ?Camp {
         return $this->materialList->getCamp();
     }
