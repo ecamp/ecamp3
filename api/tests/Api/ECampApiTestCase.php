@@ -8,7 +8,10 @@ use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\Client;
 use ApiPlatform\Core\JsonSchema\Schema;
 use ApiPlatform\Core\JsonSchema\SchemaFactoryInterface;
 use ApiPlatform\Core\Metadata\Resource\Factory\ResourceMetadataFactoryInterface;
+use App\Entity\User;
+use App\Repository\UserRepository;
 use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
+use Symfony\Component\BrowserKit\Cookie;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
@@ -35,14 +38,17 @@ abstract class ECampApiTestCase extends ApiTestCase {
      */
     protected static function createClientWithCredentials(?array $credentials = null, ?array $headers = null): Client {
         $client = static::createBasicClient($headers);
-        // Normally, the database is reset after every request. Since we already need a request to log the user in,
-        // we need to disable this behaviour here. This can be removed if this issue is ever resolved:
-        // https://github.com/api-platform/api-platform/issues/1668
-        $client->disableReboot();
-        $client->request('POST', '/authentication_token', ['json' => $credentials ?: [
-            'username' => 'test-user',
-            'password' => 'test',
-        ], 'headers' => ['Content-Type' => 'application/ld+json']]);
+
+        /** @var User $user */
+        $user = static::$container->get(UserRepository::class)->findBy(array_diff_key($credentials ?: ['username' => 'test-user'], ['password' => '']));
+        $jwtToken = static::$container->get('lexik_jwt_authentication.jwt_manager')->create($user[0]);
+        $lastPeriodPosition = strrpos($jwtToken, '.');
+        $jwtHeaderAndPayload = substr($jwtToken, 0, $lastPeriodPosition);
+        $jwtSignature = substr($jwtToken, $lastPeriodPosition + 1);
+
+        $cookies = $client->getCookieJar();
+        $cookies->set(new Cookie('jwt_hp', $jwtHeaderAndPayload, null, null, 'example.com', false, false, false, 'strict'));
+        $cookies->set(new Cookie('jwt_s', $jwtSignature, null, null, 'example.com', false, true, false, 'strict'));
 
         return $client;
     }
