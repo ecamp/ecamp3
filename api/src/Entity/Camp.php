@@ -63,7 +63,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
      */
     #[Assert\DisableAutoMapping]
     #[ApiProperty(readable: false, writable: false)]
-    public ?string $campPrototypeId;
+    public ?string $campPrototypeId = null;
 
     /**
      * @ORM\Column(type="boolean")
@@ -80,7 +80,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
     #[InputFilter\CleanHTML]
     #[Assert\NotBlank]
     #[ApiProperty(example: 'SoLa 2022')]
-    public string $name;
+    public string $name = null;
 
     /**
      * @ORM\Column(type="text")
@@ -90,7 +90,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
     #[Assert\NotBlank]
     #[Assert\Length(max: 32)]
     #[ApiProperty(example: 'Abteilungs-Sommerlager 2022')]
-    public string $title;
+    public string $title = null;
 
     /**
      * @ORM\Column(type="text", nullable=true)
@@ -99,7 +99,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
     #[InputFilter\CleanHTML]
     #[Assert\Length(max: 128)]
     #[ApiProperty(example: 'Piraten')]
-    public ?string $motto;
+    public ?string $motto = null;
 
     /**
      * @ORM\Column(type="text", nullable=true)
@@ -108,7 +108,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
     #[InputFilter\CleanHTML]
     #[Assert\Length(max: 128)]
     #[ApiProperty(example: 'Wiese hinter der alten Mühle')]
-    public ?string $addressName;
+    public ?string $addressName = null;
 
     /**
      * @ORM\Column(type="text", nullable=true)
@@ -117,7 +117,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
     #[InputFilter\CleanHTML]
     #[Assert\Length(max: 128)]
     #[ApiProperty(example: 'Schönriedweg 23')]
-    public ?string $addressStreet;
+    public ?string $addressStreet = null;
 
     /**
      * @ORM\Column(type="text", nullable=true)
@@ -126,7 +126,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
     #[InputFilter\CleanHTML]
     #[Assert\Length(max: 128)]
     #[ApiProperty(example: '1234')]
-    public ?string $addressZipcode;
+    public ?string $addressZipcode = null;
 
     /**
      * @ORM\Column(type="text", nullable=true)
@@ -135,7 +135,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
     #[InputFilter\CleanHTML]
     #[Assert\Length(max: 128)]
     #[ApiProperty(example: 'Hintertüpfingen')]
-    public ?string $addressCity;
+    public ?string $addressCity = null;
 
     /**
      * @ORM\ManyToOne(targetEntity="User")

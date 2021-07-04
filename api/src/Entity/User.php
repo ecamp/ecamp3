@@ -65,7 +65,7 @@ class User extends BaseEntity implements UserInterface {
     #[Assert\NotBlank]
     #[Assert\Regex(pattern: '/^[a-z0-9_.-]+$/')]
     #[ApiProperty(example: 'bipi')]
-    public ?string $username;
+    public ?string $username = null;
 
     /**
      * @ORM\Column(type="text", nullable=true)

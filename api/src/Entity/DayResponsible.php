@@ -33,13 +33,13 @@ class DayResponsible extends BaseEntity implements BelongsToCampInterface {
      * @ORM\ManyToOne(targetEntity="Day", inversedBy="dayResponsibles")
      * @ORM\JoinColumn(nullable=false, onDelete="cascade")
      */
-    public ?Day $day;
+    public ?Day $day = null;
 
     /**
      * @ORM\ManyToOne(targetEntity="CampCollaboration", inversedBy="dayResponsibles")
      * @ORM\JoinColumn(nullable=false, onDelete="cascade")
      */
-    public ?CampCollaboration $campCollaboration;
+    public ?CampCollaboration $campCollaboration = null;
 
     #[ApiProperty(readable: false)]
     public function getCamp(): ?Camp {
