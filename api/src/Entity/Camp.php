@@ -80,7 +80,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
     #[InputFilter\CleanHTML]
     #[Assert\NotBlank]
     #[ApiProperty(example: 'SoLa 2022')]
-    public string $name = null;
+    public string $name;
 
     /**
      * @ORM\Column(type="text")
@@ -90,7 +90,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
     #[Assert\NotBlank]
     #[Assert\Length(max: 32)]
     #[ApiProperty(example: 'Abteilungs-Sommerlager 2022')]
-    public string $title = null;
+    public string $title;
 
     /**
      * @ORM\Column(type="text", nullable=true)

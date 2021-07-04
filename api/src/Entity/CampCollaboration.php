@@ -72,13 +72,13 @@ class CampCollaboration extends BaseEntity implements BelongsToCampInterface {
      * @ORM\Column(type="string", length=16, nullable=false)
      */
     #[Assert\Choice(choices: self::VALID_STATUS)]
-    public string $status = null;
+    public string $status;
 
     /**
      * @ORM\Column(type="string", length=16, nullable=false)
      */
     #[Assert\Choice(choices: self::VALID_ROLES)]
-    public string $role = null;
+    public string $role;
 
     /**
      * @ORM\Column(type="text", nullable=true)
