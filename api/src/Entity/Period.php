@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -12,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity()
  */
 #[ApiResource]
-class Period extends BaseEntity {
+class Period extends BaseEntity implements BelongsToCampInterface {
     /**
      * @ORM\OneToMany(targetEntity="Day", mappedBy="period", orphanRemoval=true)
      * @ORM\OrderBy({"dayOffset": "ASC"})
@@ -55,6 +56,11 @@ class Period extends BaseEntity {
         $this->days = new ArrayCollection();
         $this->scheduleEntries = new ArrayCollection();
         $this->materialItems = new ArrayCollection();
+    }
+
+    #[ApiProperty(readable: false)]
+    public function getCamp(): ?Camp {
+        return $this->camp;
     }
 
     /**
