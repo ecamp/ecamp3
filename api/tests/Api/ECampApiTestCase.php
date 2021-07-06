@@ -10,6 +10,7 @@ use ApiPlatform\Core\JsonSchema\SchemaFactoryInterface;
 use ApiPlatform\Core\Metadata\Resource\Factory\ResourceMetadataFactoryInterface;
 use App\Entity\User;
 use App\Repository\UserRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 use Symfony\Component\BrowserKit\Cookie;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
@@ -24,6 +25,7 @@ abstract class ECampApiTestCase extends ApiTestCase {
     private ?IriConverterInterface $iriConverter = null;
     private ?SchemaFactoryInterface $schemaFactory = null;
     private ?ResourceMetadataFactoryInterface $resourceMetadataFactory = null;
+    private ?EntityManagerInterface $entityManager = null;
 
     public function setUp(): void {
         self::bootKernel();
@@ -91,13 +93,31 @@ abstract class ECampApiTestCase extends ApiTestCase {
         return $this->resourceMetadataFactory;
     }
 
+    protected function getEntityManager(): EntityManagerInterface {
+        if (null === $this->entityManager) {
+            $this->entityManager = static::$container->get('doctrine.orm.default_entity_manager');
+        }
+
+        return $this->entityManager;
+    }
+
     protected function getExamplePayload(string $resourceClass, array $attributes = [], array $except = []): array {
         $shortName = $this->getResourceMetadataFactory()->create($resourceClass)->getShortName();
         $schema = $this->getSchemaFactory()->buildSchema($resourceClass, 'json', Schema::TYPE_INPUT, 'POST');
         $properties = $schema->getDefinitions()[$shortName]['properties'];
         $writableProperties = array_filter($properties, fn ($property) => !($property['readOnly'] ?? false));
         $writablePropertiesWithExample = array_filter($writableProperties, fn ($property) => ($property['example'] ?? false));
+        $examples = array_map(fn ($property) => $property['example'] ?? $property['default'] ?? null, $writablePropertiesWithExample);
+        $examples = array_map(function ($example) {
+            try {
+                $decoded = json_decode($example, true, 512, JSON_THROW_ON_ERROR);
 
-        return array_diff_key(array_merge(array_map(fn ($property) => $property['example'] ?? $property['default'] ?? null, $writablePropertiesWithExample), $attributes), array_flip($except));
+                return is_array($decoded) || is_null($decoded) ? $decoded : $example;
+            } catch (\JsonException $e) {
+                return $example;
+            }
+        }, $examples);
+
+        return array_diff_key(array_merge($examples, $attributes), array_flip($except));
     }
 }

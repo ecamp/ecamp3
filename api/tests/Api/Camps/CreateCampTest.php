@@ -25,7 +25,7 @@ class CreateCampTest extends ECampApiTestCase {
         $this->assertResponseStatusCodeSame(201);
         $this->assertJsonContains($this->getExamplePayload(Camp::class, [
             'isPrototype' => false,
-        ]));
+        ], ['periods']));
     }
 
     public function testCreateCampDoesntExposeCampPrototypeId() {
@@ -61,7 +61,7 @@ class CreateCampTest extends ECampApiTestCase {
         $this->assertResponseStatusCodeSame(201);
         $this->assertJsonContains($this->getExamplePayload(Camp::class, [
             'name' => 'So-La',
-        ]));
+        ], ['periods']));
     }
 
     public function testCreateCampCleansHTMLFromName() {
@@ -72,7 +72,7 @@ class CreateCampTest extends ECampApiTestCase {
         $this->assertResponseStatusCodeSame(201);
         $this->assertJsonContains($this->getExamplePayload(Camp::class, [
             'name' => 'So-La',
-        ]));
+        ], ['periods']));
     }
 
     public function testCreateCampValidatesMissingName() {
@@ -129,7 +129,7 @@ class CreateCampTest extends ECampApiTestCase {
         $this->assertResponseStatusCodeSame(201);
         $this->assertJsonContains($this->getExamplePayload(Camp::class, [
             'title' => 'Sommerlager',
-        ]));
+        ], ['periods']));
     }
 
     public function testCreateCampCleansHTMLFromTitle() {
@@ -140,7 +140,7 @@ class CreateCampTest extends ECampApiTestCase {
         $this->assertResponseStatusCodeSame(201);
         $this->assertJsonContains($this->getExamplePayload(Camp::class, [
             'title' => 'Sommerlager',
-        ]));
+        ], ['periods']));
     }
 
     public function testCreateCampValidatesMissingTitle() {
@@ -197,7 +197,7 @@ class CreateCampTest extends ECampApiTestCase {
         $this->assertResponseStatusCodeSame(201);
         $this->assertJsonContains($this->getExamplePayload(Camp::class, [
             'motto' => 'Dschungelbuch',
-        ]));
+        ], ['periods']));
     }
 
     public function testCreateCampCleansHTMLFromMotto() {
@@ -208,7 +208,7 @@ class CreateCampTest extends ECampApiTestCase {
         $this->assertResponseStatusCodeSame(201);
         $this->assertJsonContains($this->getExamplePayload(Camp::class, [
             'motto' => 'Dschungelbuch',
-        ]));
+        ], ['periods']));
     }
 
     public function testCreateCampAllowsMissingMotto() {
@@ -266,7 +266,7 @@ class CreateCampTest extends ECampApiTestCase {
         $this->assertResponseStatusCodeSame(201);
         $this->assertJsonContains($this->getExamplePayload(Camp::class, [
             'addressName' => 'Auf dem Hügel',
-        ]));
+        ], ['periods']));
     }
 
     public function testCreateCampCleansHTMLFromAddressName() {
@@ -277,7 +277,7 @@ class CreateCampTest extends ECampApiTestCase {
         $this->assertResponseStatusCodeSame(201);
         $this->assertJsonContains($this->getExamplePayload(Camp::class, [
             'addressName' => 'Auf dem Hügel',
-        ]));
+        ], ['periods']));
     }
 
     public function testCreateCampAllowsMissingAddressName() {
@@ -335,7 +335,7 @@ class CreateCampTest extends ECampApiTestCase {
         $this->assertResponseStatusCodeSame(201);
         $this->assertJsonContains($this->getExamplePayload(Camp::class, [
             'addressStreet' => 'Suppenstrasse 123a',
-        ]));
+        ], ['periods']));
     }
 
     public function testCreateCampCleansHTMLFromAddressStreet() {
@@ -346,7 +346,7 @@ class CreateCampTest extends ECampApiTestCase {
         $this->assertResponseStatusCodeSame(201);
         $this->assertJsonContains($this->getExamplePayload(Camp::class, [
             'addressStreet' => 'Suppenstrasse 123a',
-        ]));
+        ], ['periods']));
     }
 
     public function testCreateCampAllowsMissingAddressStreet() {
@@ -404,7 +404,7 @@ class CreateCampTest extends ECampApiTestCase {
         $this->assertResponseStatusCodeSame(201);
         $this->assertJsonContains($this->getExamplePayload(Camp::class, [
             'addressZipcode' => '8000',
-        ]));
+        ], ['periods']));
     }
 
     public function testCreateCampCleansHTMLFromAddressZipcode() {
@@ -415,7 +415,7 @@ class CreateCampTest extends ECampApiTestCase {
         $this->assertResponseStatusCodeSame(201);
         $this->assertJsonContains($this->getExamplePayload(Camp::class, [
             'addressZipcode' => '8000',
-        ]));
+        ], ['periods']));
     }
 
     public function testCreateCampAllowsMissingAddressZipcode() {
@@ -473,7 +473,7 @@ class CreateCampTest extends ECampApiTestCase {
         $this->assertResponseStatusCodeSame(201);
         $this->assertJsonContains($this->getExamplePayload(Camp::class, [
             'addressZipcode' => 'Unterberg',
-        ]));
+        ], ['periods']));
     }
 
     public function testCreateCampCleansHTMLFromAddressCity() {
@@ -484,7 +484,7 @@ class CreateCampTest extends ECampApiTestCase {
         $this->assertResponseStatusCodeSame(201);
         $this->assertJsonContains($this->getExamplePayload(Camp::class, [
             'addressCity' => 'Unterberg',
-        ]));
+        ], ['periods']));
     }
 
     public function testCreateCampAllowsMissingAddressCity() {

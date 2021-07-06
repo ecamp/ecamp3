@@ -7,53 +7,100 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Collections\Selectable;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
+ * A calendar event in a period of the camp, at which some activity will take place. The start time
+ * is specified as an offset in minutes from the period's start time.
+ *
  * @ORM\Entity
  */
-#[ApiResource]
+#[ApiResource(
+    collectionOperations: ['get', 'post'],
+    itemOperations: [
+        'get',
+        'patch' => ['denormalization_context' => ['groups' => ['scheduleEntry:update']]],
+        'delete',
+    ]
+)]
 class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
     /**
+     * The time period which this schedule entry is part of. Must belong to the same camp as the activity.
+     *
      * @ORM\ManyToOne(targetEntity="Period", inversedBy="scheduleEntries")
      * @ORM\JoinColumn(nullable=false, onDelete="cascade")
      */
+    #[ApiProperty(example: '/periods/1a2b3c4d')]
+    #[Groups(['Default', 'scheduleEntry:create'])]
     public ?Period $period = null;
 
     /**
+     * The activity that will take place at the time defined by this schedule entry. Can not be changed
+     * once the schedule entry is created.
+     *
      * @internal Do not set the {@see Activity} directly on the ScheduleEntry. Instead use {@see Activity::addScheduleEntry()}
      * @ORM\ManyToOne(targetEntity="Activity", inversedBy="scheduleEntries")
      * @ORM\JoinColumn(nullable=false, onDelete="cascade")
      */
+    #[ApiProperty(example: '/activities/1a2b3c4d')]
+    #[Groups(['Default'])]
     public ?Activity $activity = null;
 
     /**
+     * The number of minutes that have passed since the start of the period when this schedule entry
+     * starts.
+     *
      * @var int minutes since period start
      * @ORM\Column(type="integer", nullable=false)
      */
+    #[ApiProperty(example: '1440')]
+    #[Groups(['Default', 'scheduleEntry:create'])]
     public int $periodOffset = 0;
 
     /**
-     * @var int minutes
+     * The duration in minutes that this schedule entry will take.
+     *
      * @ORM\Column(type="integer", nullable=false)
      */
+    #[ApiProperty(example: '90')]
+    #[Groups(['Default', 'scheduleEntry:create'])]
     public int $length = 0;
 
     /**
+     * When rendering a period in a calendar view: Specifies how far offset the rendered calendar event
+     * should be from the left border of the day column, as a fractional amount of the width of the whole
+     * day. This is useful to arrange multiple overlapping schedule entries such that all of them are
+     * visible. Should be a decimal number between 0 and 1, and left+width should not exceed 1, but the
+     * API currently does not enforce this.
+     *
      * @ORM\Column(name="`left`", type="float", nullable=true)
      * --> left is a MariaDB keyword, therefore escaping for column name necessary
      */
+    #[ApiProperty(default: 0, example: '0.6')]
+    #[Groups(['Default', 'scheduleEntry:create'])]
     public float $left = 0;
 
     /**
+     * When rendering a period in a calendar view: Specifies how wide the rendered calendar event should
+     * be, as a fractional amount of the width of the whole day. This is useful to arrange multiple
+     * overlapping schedule entries such that all of them are visible. Should be a decimal number
+     * between 0 and 1, and left+width should not exceed 1, but the API currently does not enforce this.
+     *
      * @ORM\Column(type="float", nullable=true)
      */
+    #[ApiProperty(example: '0.4')]
+    #[Groups(['Default', 'scheduleEntry:create'])]
     public float $width = 1;
 
     #[ApiProperty(readable: false)]
     public function getCamp(): ?Camp {
-        return $this->period?->camp;
+        return $this->activity?->camp;
     }
 
+    /**
+     * The day on which this schedule entry starts.
+     */
+    #[ApiProperty(writable: false, example: '/days/1a2b3c4d')]
     public function getDay(): Day {
         $dayNumber = $this->getDayNumber();
 
@@ -62,18 +109,25 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
         })->first();
     }
 
+    #[ApiProperty(readable: false)]
     public function getNumberingStyle(): ?string {
         return $this->activity?->category?->numberingStyle;
     }
 
-    public function getDuration(): \DateInterval {
-        return new \DateInterval('PT'.$this->length.'M');
-    }
-
+    /**
+     * The day number of the day on which this schedule entry starts.
+     */
+    #[ApiProperty(example: '1')]
     public function getDayNumber(): int {
         return 1 + floor($this->periodOffset / (24 * 60));
     }
 
+    /**
+     * The cardinal number of this schedule entry, when chronologically ordering all
+     * schedule entries that start on the same day. I.e. if the schedule entry is the
+     * second entry on a given day, its number will be 2.
+     */
+    #[ApiProperty(example: '2')]
     public function getScheduleEntryNumber(): int {
         $dayOffset = floor($this->periodOffset / (24 * 60)) * 24 * 60;
 
@@ -113,6 +167,12 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
         return $activityNumber + 1;
     }
 
+    /**
+     * Uniquely identifies this schedule entry in the period. This uses the day number, followed
+     * by a period, followed by the cardinal number of the schedule entry in the numbering scheme
+     * defined by the activity's category.
+     */
+    #[ApiProperty(example: '1.b')]
     public function getNumber(): string {
         $dayNumber = $this->getDayNumber();
         $scheduleEntryNumber = $this->getScheduleEntryNumber();

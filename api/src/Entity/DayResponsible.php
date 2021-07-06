@@ -25,20 +25,31 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
+ * A person that has some whole-day responsibility on a day in the camp.
+ *
  * @ORM\Entity
  */
-#[ApiResource]
+#[ApiResource(
+    collectionOperations: ['get', 'post'],
+    itemOperations: ['get', 'delete'],
+)]
 class DayResponsible extends BaseEntity implements BelongsToCampInterface {
     /**
+     * The day on which the person is responsible.
+     *
      * @ORM\ManyToOne(targetEntity="Day", inversedBy="dayResponsibles")
      * @ORM\JoinColumn(nullable=false, onDelete="cascade")
      */
+    #[ApiProperty(example: '/days/1a2b3c4d')]
     public ?Day $day = null;
 
     /**
+     * The person that is responsible. Must belong to the same camp as the day's period.
+     *
      * @ORM\ManyToOne(targetEntity="CampCollaboration", inversedBy="dayResponsibles")
      * @ORM\JoinColumn(nullable=false, onDelete="cascade")
      */
+    #[ApiProperty(example: '/camp_collaborations/1a2b3c4d')]
     public ?CampCollaboration $campCollaboration = null;
 
     #[ApiProperty(readable: false)]

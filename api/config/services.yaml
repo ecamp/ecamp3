@@ -36,6 +36,12 @@ services:
     App\DataPersister\CampDataPersister:
         arguments: [ '@api_platform.doctrine.orm.data_persister' ]
 
+    App\DataPersister\ActivityDataPersister:
+        arguments: [ '@api_platform.doctrine.orm.data_persister' ]
+
+    App\DataPersister\ContentNodeDataPersister:
+        arguments: [ '@api_platform.doctrine.orm.data_persister' ]
+
     # Since the input filter classes are resolved at runtime instead
     # of with constructor dependency injection, we create a service
     # locator that will serve all the required classes

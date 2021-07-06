@@ -17,12 +17,14 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 abstract class BaseEntity {
     /**
+     * An internal, unique, randomly generated identifier of this entity.
+     *
      * @ORM\Id
      * @ORM\Column(type="string", length=16, nullable=false)
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class=IdGenerator::class)
      */
-    #[ApiProperty(writable: false)]
+    #[ApiProperty(writable: false, example: '1a2b3c4d')]
     protected string $id;
 
     /**

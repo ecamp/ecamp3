@@ -14,6 +14,8 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
+ * A person using eCamp.
+ *
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @ORM\Table(name="`user`")
  */
@@ -23,7 +25,7 @@ use Symfony\Component\Validator\Constraints as Assert;
         'post' => [
             'security' => 'true', // allow unauthenticated clients to create (register) users
             'input_formats' => ['jsonld', 'jsonapi', 'json'],
-            'validation_groups' => ['Default', 'create'],
+            'validation_groups' => ['Default', 'user:create'],
         ],
     ],
     itemOperations: [
@@ -34,15 +36,19 @@ use Symfony\Component\Validator\Constraints as Assert;
 )]
 class User extends BaseEntity implements UserInterface {
     /**
+     * The camps that this user is the owner of.
+     *
      * @ORM\OneToMany(targetEntity="Camp", mappedBy="owner")
      */
-    #[ApiProperty(writable: false)]
+    #[ApiProperty(writable: false, example: '["/camps/1a2b3c4d"]')]
     public Collection $ownedCamps;
 
     /**
+     * All the camps that this user participates in.
+     *
      * @ORM\OneToMany(targetEntity="CampCollaboration", mappedBy="user", orphanRemoval=true)
      */
-    #[ApiProperty(writable: false)]
+    #[ApiProperty(readable: false, writable: false)]
     public Collection $collaborations;
 
     /**
@@ -68,6 +74,8 @@ class User extends BaseEntity implements UserInterface {
     public ?string $username = null;
 
     /**
+     * The user's (optional) first name.
+     *
      * @ORM\Column(type="text", nullable=true)
      */
     #[InputFilter\Trim]
@@ -76,6 +84,8 @@ class User extends BaseEntity implements UserInterface {
     public ?string $firstname = null;
 
     /**
+     * The user's (optional) last name.
+     *
      * @ORM\Column(type="text", nullable=true)
      */
     #[InputFilter\Trim]
@@ -84,6 +94,8 @@ class User extends BaseEntity implements UserInterface {
     public ?string $surname = null;
 
     /**
+     * The user's (optional) nickname or scout name.
+     *
      * @ORM\Column(type="text", nullable=true)
      */
     #[InputFilter\Trim]
@@ -92,7 +104,7 @@ class User extends BaseEntity implements UserInterface {
     public ?string $nickname = null;
 
     /**
-     * The preferred language of the user, as an ICU language code.
+     * The optional preferred language of the user, as an ICU language code.
      *
      * @ORM\Column(type="string", length=20, nullable=true)
      */
@@ -102,13 +114,15 @@ class User extends BaseEntity implements UserInterface {
     public ?string $language = null;
 
     /**
+     * The technical roles that this person has in the eCamp application.
+     *
      * @ORM\Column(type="json")
      */
     #[ApiProperty(writable: false)]
     public array $roles = [];
 
     /**
-     * The hashed password.
+     * The hashed password. Of course not exposed through the API.
      *
      * @ORM\Column(type="string", length=255)
      */
@@ -117,10 +131,10 @@ class User extends BaseEntity implements UserInterface {
     public ?string $password = null;
 
     /**
-     * The new password for this user. At least 8 characters.
+     * A new password for this user. At least 8 characters.
      */
     #[SerializedName('password')]
-    #[Assert\NotBlank(groups: ['create'])]
+    #[Assert\NotBlank(groups: ['user:create'])]
     #[Assert\Length(min: 8)]
     #[ApiProperty(readable: false, writable: true, example: 'learning-by-doing-101')]
     public ?string $plainPassword = null;
@@ -152,7 +166,7 @@ class User extends BaseEntity implements UserInterface {
     }
 
     /**
-     * Returning a salt is only needed, if you are not using a modern
+     * Returning a salt is only needed if you are not using a modern
      * hashing algorithm (e.g. bcrypt or sodium) in your security.yaml.
      *
      * @see UserInterface
@@ -189,6 +203,10 @@ class User extends BaseEntity implements UserInterface {
         return $this->password;
     }
 
+    public function ownsCamps(): bool {
+        return (bool) (count($this->getOwnedCamps()));
+    }
+
     /**
      * @return Camp[]
      */
@@ -215,13 +233,10 @@ class User extends BaseEntity implements UserInterface {
         return $this;
     }
 
-    public function ownsCamps(): bool {
-        return (bool) (count($this->getOwnedCamps()));
-    }
-
     /**
      * @return CampCollaboration[]
      */
+    #[ApiProperty(readable: false, writable: false)]
     public function getCampCollaborations(): array {
         return $this->collaborations->getValues();
     }
