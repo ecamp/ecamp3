@@ -4,3 +4,4 @@ App\Entity\Activity:
     title: <word()>
     location: <sentence()>
     rootContentNode: '@contentNode1'
+    category: '@category1'

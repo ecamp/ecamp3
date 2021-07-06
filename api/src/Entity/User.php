@@ -34,6 +34,18 @@ use Symfony\Component\Validator\Constraints as Assert;
 )]
 class User extends BaseEntity implements UserInterface {
     /**
+     * @ORM\OneToMany(targetEntity="Camp", mappedBy="owner")
+     */
+    #[ApiProperty(writable: false)]
+    public Collection $ownedCamps;
+
+    /**
+     * @ORM\OneToMany(targetEntity="CampCollaboration", mappedBy="user", orphanRemoval=true)
+     */
+    #[ApiProperty(writable: false)]
+    public Collection $collaborations;
+
+    /**
      * Unique email of the user.
      *
      * @ORM\Column(type="string", length=64, nullable=false, unique=true)
@@ -53,7 +65,7 @@ class User extends BaseEntity implements UserInterface {
     #[Assert\NotBlank]
     #[Assert\Regex(pattern: '/^[a-z0-9_.-]+$/')]
     #[ApiProperty(example: 'bipi')]
-    public ?string $username;
+    public ?string $username = null;
 
     /**
      * @ORM\Column(type="text", nullable=true)
@@ -113,14 +125,9 @@ class User extends BaseEntity implements UserInterface {
     #[ApiProperty(readable: false, writable: true, example: 'learning-by-doing-101')]
     public ?string $plainPassword = null;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Camp::class, mappedBy="owner")
-     */
-    #[ApiProperty(writable: false, readableLink: false, writableLink: false)]
-    public Collection $ownedCamps;
-
     public function __construct() {
         $this->ownedCamps = new ArrayCollection();
+        $this->collaborations = new ArrayCollection();
     }
 
     /**
@@ -192,7 +199,7 @@ class User extends BaseEntity implements UserInterface {
     public function addOwnedCamp(Camp $ownedCamp): self {
         if (!$this->ownedCamps->contains($ownedCamp)) {
             $this->ownedCamps[] = $ownedCamp;
-            $ownedCamp->setOwner($this);
+            $ownedCamp->owner = $this;
         }
 
         return $this;
@@ -200,8 +207,8 @@ class User extends BaseEntity implements UserInterface {
 
     public function removeOwnedCamp(Camp $ownedCamp): self {
         if ($this->ownedCamps->removeElement($ownedCamp)) {
-            if ($ownedCamp->getOwner() === $this) {
-                $ownedCamp->setOwner(null);
+            if ($ownedCamp->owner === $this) {
+                $ownedCamp->owner = null;
             }
         }
 
@@ -210,5 +217,31 @@ class User extends BaseEntity implements UserInterface {
 
     public function ownsCamps(): bool {
         return (bool) (count($this->getOwnedCamps()));
+    }
+
+    /**
+     * @return CampCollaboration[]
+     */
+    public function getCampCollaborations(): array {
+        return $this->collaborations->getValues();
+    }
+
+    public function addCampCollaboration(CampCollaboration $collaboration): self {
+        if (!$this->collaborations->contains($collaboration)) {
+            $this->collaborations[] = $collaboration;
+            $collaboration->user = $this;
+        }
+
+        return $this;
+    }
+
+    public function removeCampCollaboration(CampCollaboration $collaboration): self {
+        if ($this->collaborations->removeElement($collaboration)) {
+            if ($collaboration->user === $this) {
+                $collaboration->user = null;
+            }
+        }
+
+        return $this;
     }
 }

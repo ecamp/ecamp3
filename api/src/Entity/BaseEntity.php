@@ -11,8 +11,8 @@ use Gedmo\Mapping\Annotation as Gedmo;
 /**
  * @ORM\MappedSuperclass
  * @ORM\Table(indexes={
- *     @ORM\Index(columns={"create_time"}),
- *     @ORM\Index(columns={"update_time"})
+ *     @ORM\Index(columns={"createTime"}),
+ *     @ORM\Index(columns={"updateTime"})
  * })
  */
 abstract class BaseEntity {
@@ -29,12 +29,14 @@ abstract class BaseEntity {
      * @Gedmo\Timestampable(on="create")
      * @ORM\Column(type="datetime")
      */
+    #[ApiProperty(writable: false)]
     protected DateTime $createTime;
 
     /**
      * @Gedmo\Timestampable(on="update")
      * @ORM\Column(type="datetime")
      */
+    #[ApiProperty(writable: false)]
     protected DateTime $updateTime;
 
     public function getId(): string {

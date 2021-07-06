@@ -1,0 +1,7 @@
+App\Entity\Category:
+  category1:
+    camp: '@camp1'
+    short: LA
+    name: Lageraktivität
+    color: \#4CAF50
+    numberingStyle: 1

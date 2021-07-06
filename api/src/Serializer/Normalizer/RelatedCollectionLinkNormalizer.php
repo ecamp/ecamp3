@@ -10,6 +10,7 @@ use ApiPlatform\Core\Bridge\Doctrine\Common\PropertyHelperTrait;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Core\Bridge\Symfony\Routing\RouteNameResolverInterface;
 use ApiPlatform\Core\Metadata\Resource\Factory\ResourceMetadataFactoryInterface;
+use Doctrine\ORM\Mapping\MappingException;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\DependencyInjection\ServiceLocator;
 use Symfony\Component\Routing\RouterInterface;
@@ -79,6 +80,10 @@ class RelatedCollectionLinkNormalizer implements NormalizerInterface, Serializer
     public function normalize($object, $format = null, array $context = []) {
         $data = $this->decorated->normalize($object, $format, $context);
 
+        if (!isset($data['_links'])) {
+            return $data;
+        }
+
         foreach ($data['_links'] as $rel => $link) {
             // Only consider array rels (i.e. OneToMany and ManyToMany)
             if (isset($link['href'])) {
@@ -103,10 +108,16 @@ class RelatedCollectionLinkNormalizer implements NormalizerInterface, Serializer
     }
 
     public function getRelatedCollectionHref($object, $rel, array $context = []): string {
-        $relationMetadata = $this->getClassMetadata($context['resource_class'])->getAssociationMapping($rel);
+        $resourceClass = $context['resource_class'] ?? get_class($object);
+
+        try {
+            $relationMetadata = $this->getClassMetadata($resourceClass)->getAssociationMapping($rel);
+        } catch (MappingException) {
+            throw new UnsupportedRelationException($resourceClass.'#'.$rel.' is not a Doctrine association. Embedding non-Doctrine collections is currently not implemented.');
+        }
 
         if (!isset($relationMetadata['targetEntity']) || '' === $relationMetadata['targetEntity'] || !isset($relationMetadata['mappedBy']) || '' === $relationMetadata['mappedBy']) {
-            throw new UnsupportedRelationException('The '.$context['resource_class'].'#'.$rel.' relation does not have both a targetEntity and a mappedBy property');
+            throw new UnsupportedRelationException('The '.$resourceClass.'#'.$rel.' relation does not have both a targetEntity and a mappedBy property');
         }
 
         $relatedResourceClass = $relationMetadata['targetEntity'];

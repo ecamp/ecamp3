@@ -188,12 +188,6 @@
     "laminas/laminas-code": {
         "version": "4.1.0"
     },
-    "laminas/laminas-eventmanager": {
-        "version": "3.3.1"
-    },
-    "laminas/laminas-zendframework-bridge": {
-        "version": "1.2.0"
-    },
     "lcobucci/clock": {
         "version": "2.0.0"
     },
@@ -517,6 +511,9 @@
     },
     "symfony/polyfill-php70": {
         "version": "v1.20.0"
+    },
+    "symfony/polyfill-php81": {
+        "version": "v1.23.0"
     },
     "symfony/process": {
         "version": "v5.2.4"
