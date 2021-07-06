@@ -4,15 +4,12 @@ namespace App\DataPersister;
 
 use ApiPlatform\Core\DataPersister\ContextAwareDataPersisterInterface;
 use App\Entity\ContentNode;
-use Symfony\Component\Security\Core\Security;
 
 class ContentNodeDataPersister implements ContextAwareDataPersisterInterface {
     private ContextAwareDataPersisterInterface $dataPersister;
-    private Security $security;
 
-    public function __construct(ContextAwareDataPersisterInterface $dataPersister, Security $security) {
+    public function __construct(ContextAwareDataPersisterInterface $dataPersister) {
         $this->dataPersister = $dataPersister;
-        $this->security = $security;
     }
 
     public function supports($data, array $context = []): bool {
