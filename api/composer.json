@@ -10,7 +10,7 @@
         "doctrine/annotations": "1.13.1",
         "doctrine/doctrine-bundle": "2.3.2",
         "doctrine/doctrine-migrations-bundle": "3.1.1",
-        "doctrine/orm": "2.8.5",
+        "doctrine/orm": "2.9.3",
         "exercise/htmlpurifier-bundle": "3.1.0",
         "guzzlehttp/guzzle": "7.3.0",
         "lexik/jwt-authentication-bundle": "2.11.3",
