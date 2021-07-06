@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * A type of programme, such as sports activities or meal times, is called a category. A category
@@ -82,6 +83,7 @@ class Category extends AbstractContentNodeOwner implements BelongsToCampInterfac
      *
      * @ORM\Column(type="string", length=8, nullable=false)
      */
+    #[Assert\Regex(pattern: '^#[0-9a-zA-Z]{6}$')]
     #[ApiProperty(example: '#4CAF50')]
     #[Groups(['Default', 'category:update'])]
     public ?string $color = null;
@@ -92,6 +94,7 @@ class Category extends AbstractContentNodeOwner implements BelongsToCampInterfac
      *
      * @ORM\Column(type="string", length=1, nullable=false)
      */
+    #[Assert\Choice(choices: ['a', 'A', 'i', 'I', '1'])]
     #[ApiProperty(default: '1', example: 'a')]
     #[Groups(['Default', 'category:update'])]
     public string $numberingStyle = '1';

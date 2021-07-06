@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
+use App\Validator\AssertBelongsToSameCamp;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -35,6 +36,7 @@ class ActivityResponsible extends BaseEntity implements BelongsToCampInterface {
      * @ORM\JoinColumn(nullable=false)
      */
     #[ApiProperty(example: '/camp_collaborations/1a2b3c4d')]
+    #[AssertBelongsToSameCamp]
     public ?CampCollaboration $campCollaboration = null;
 
     #[ApiProperty(readable: false)]

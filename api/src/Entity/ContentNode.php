@@ -4,6 +4,9 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
+use App\Validator\AssertBelongsToSameCamp;
+use App\Validator\ContentNode\AssertIsNullIffRoot;
+use App\Validator\ContentNode\AssertNoLoop;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -26,6 +29,7 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
         'get',
         'patch' => [
             'denormalization_context' => ['groups' => ['contentNode:update']],
+            'validation_groups' => ['Default', 'contentNode:update'],
         ],
         'delete',
     ]
@@ -64,6 +68,9 @@ class ContentNode extends BaseEntity implements BelongsToCampInterface {
      *
      * @ORM\ManyToOne(targetEntity="ContentNode", inversedBy="children")
      */
+    #[AssertIsNullIffRoot]
+    #[AssertBelongsToSameCamp(groups: ['contentNode:update'])]
+    #[AssertNoLoop(groups: ['contentNode:update'])]
     #[ApiProperty(example: '/content_nodes/1a2b3c4d')]
     #[Groups(['Default', 'contentNode:update'])]
     public ?ContentNode $parent = null;

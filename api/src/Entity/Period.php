@@ -9,6 +9,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * A time period in which the programme of a camp will take place. There may be multiple
@@ -83,6 +84,7 @@ class Period extends BaseEntity implements BelongsToCampInterface {
      *
      * @ORM\Column(type="date")
      */
+    #[Assert\LessThanOrEqual(propertyPath: 'end')]
     #[ApiProperty(example: '2022-01-01')]
     #[Groups(['Default', 'period:update'])]
     public ?DateTimeInterface $start = null;
@@ -93,6 +95,7 @@ class Period extends BaseEntity implements BelongsToCampInterface {
      *
      * @ORM\Column(name="`end`", type="date")
      */
+    #[Assert\GreaterThanOrEqual(propertyPath: 'start')]
     #[ApiProperty(example: '2022-01-08')]
     #[Groups(['Default', 'period:update'])]
     public ?DateTimeInterface $end = null;

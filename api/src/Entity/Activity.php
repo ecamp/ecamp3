@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
+use App\Validator\AssertBelongsToSameCamp;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -50,6 +51,7 @@ class Activity extends AbstractContentNodeOwner implements BelongsToCampInterfac
      * @ORM\JoinColumn(nullable=false)
      */
     #[ApiProperty(example: '/categories/1a2b3c4d')]
+    #[AssertBelongsToSameCamp]
     public ?Category $category = null;
 
     /**

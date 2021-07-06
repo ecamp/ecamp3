@@ -4,10 +4,12 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
+use App\Validator\AssertBelongsToSameCamp;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Collections\Selectable;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * A calendar event in a period of the camp, at which some activity will take place. The start time
@@ -30,6 +32,7 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
      * @ORM\ManyToOne(targetEntity="Period", inversedBy="scheduleEntries")
      * @ORM\JoinColumn(nullable=false, onDelete="cascade")
      */
+    #[AssertBelongsToSameCamp]
     #[ApiProperty(example: '/periods/1a2b3c4d')]
     #[Groups(['Default', 'scheduleEntry:create'])]
     public ?Period $period = null;
@@ -53,6 +56,7 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
      * @var int minutes since period start
      * @ORM\Column(type="integer", nullable=false)
      */
+    #[Assert\GreaterThanOrEqual(value: 0)]
     #[ApiProperty(example: '1440')]
     #[Groups(['Default', 'scheduleEntry:create'])]
     public int $periodOffset = 0;
@@ -62,6 +66,7 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
      *
      * @ORM\Column(type="integer", nullable=false)
      */
+    #[Assert\GreaterThan(value: 0)]
     #[ApiProperty(example: '90')]
     #[Groups(['Default', 'scheduleEntry:create'])]
     public int $length = 0;

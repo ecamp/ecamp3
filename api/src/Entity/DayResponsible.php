@@ -22,6 +22,7 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
+use App\Validator\AssertBelongsToSameCamp;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -49,6 +50,7 @@ class DayResponsible extends BaseEntity implements BelongsToCampInterface {
      * @ORM\ManyToOne(targetEntity="CampCollaboration", inversedBy="dayResponsibles")
      * @ORM\JoinColumn(nullable=false, onDelete="cascade")
      */
+    #[AssertBelongsToSameCamp]
     #[ApiProperty(example: '/camp_collaborations/1a2b3c4d')]
     public ?CampCollaboration $campCollaboration = null;
 

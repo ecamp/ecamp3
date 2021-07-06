@@ -4,6 +4,9 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
+use App\Validator\AssertBelongsToSameCamp;
+use App\Validator\AssertEitherIsNull;
+use App\Validator\MaterialItemUpdateGroupSequence;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -11,7 +14,14 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Entity
  */
-#[ApiResource]
+#[ApiResource(
+    collectionOperations: ['get', 'post'],
+    itemOperations: [
+        'get',
+        'patch' => ['validation_groups' => MaterialItemUpdateGroupSequence::class],
+        'delete',
+    ]
+)]
 class MaterialItem extends BaseEntity implements BelongsToCampInterface {
     /**
      * The list to which this item belongs. Lists are used to keep track of who is
@@ -20,6 +30,7 @@ class MaterialItem extends BaseEntity implements BelongsToCampInterface {
      * @ORM\ManyToOne(targetEntity="MaterialList", inversedBy="materialItems")
      * @ORM\JoinColumn(nullable=false, onDelete="cascade")
      */
+    #[AssertBelongsToSameCamp(compareToPrevious: true, groups: ['materialItem:update'])]
     #[ApiProperty(example: '/material_lists/1a2b3c4d')]
     public ?MaterialList $materialList = null;
 
@@ -29,6 +40,8 @@ class MaterialItem extends BaseEntity implements BelongsToCampInterface {
      * @ORM\ManyToOne(targetEntity="Period", inversedBy="materialItems")
      * @ORM\JoinColumn(nullable=true, onDelete="cascade")
      */
+    #[AssertBelongsToSameCamp]
+    #[AssertEitherIsNull(other: 'contentNode')]
     #[ApiProperty(example: '/periods/1a2b3c4d')]
     public ?Period $period = null;
 
@@ -38,6 +51,8 @@ class MaterialItem extends BaseEntity implements BelongsToCampInterface {
      * @ORM\ManyToOne(targetEntity="ContentNode", inversedBy="materialItems")
      * @ORM\JoinColumn(nullable=true, onDelete="CASCADE")
      */
+    #[AssertBelongsToSameCamp]
+    #[AssertEitherisNull(other: 'period')]
     #[ApiProperty(example: '/content_nodes/1a2b3c4d')]
     public ?ContentNode $contentNode = null;
 
