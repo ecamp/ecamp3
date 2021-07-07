@@ -2,6 +2,7 @@
 
 namespace App\Tests\Api\Users;
 
+use App\Entity\User;
 use App\Tests\Api\ECampApiTestCase;
 
 /**
@@ -145,94 +146,15 @@ class UpdateUserTest extends ECampApiTestCase {
         ]);
     }
 
-    public function testPatchUserTrimsUsername() {
+    public function testPatchUserDoesntAllowChangingUsername() {
+        /** @var User $user */
         $user = static::$fixtures['user1'];
         static::createClientWithCredentials()->request('PATCH', '/users/'.$user->getId(), ['json' => [
             'username' => " bi-pi\t",
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
-            'username' => 'bi-pi',
-        ]);
-    }
-
-    public function testPatchUserValidatesBlankUsername() {
-        $user = static::$fixtures['user1'];
-        static::createClientWithCredentials()->request('PATCH', '/users/'.$user->getId(), ['json' => [
-            'username' => '',
-        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
-        $this->assertResponseStatusCodeSame(422);
-        $this->assertJsonContains([
-            'violations' => [
-                [
-                    'propertyPath' => 'username',
-                    'message' => 'This value should not be blank.',
-                ],
-            ],
-        ]);
-    }
-
-    public function testPatchUserValidatesInvalidUsername() {
-        $user = static::$fixtures['user1'];
-        static::createClientWithCredentials()->request('PATCH', '/users/'.$user->getId(), ['json' => [
-            'username' => 'a*b',
-        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
-        $this->assertResponseStatusCodeSame(422);
-        $this->assertJsonContains([
-            'violations' => [
-                [
-                    'propertyPath' => 'username',
-                    'message' => 'This value is not valid.',
-                ],
-            ],
-        ]);
-    }
-
-    public function testPatchUserValidatesLongUsername() {
-        $user = static::$fixtures['user1'];
-        static::createClientWithCredentials()->request('PATCH', '/users/'.$user->getId(), ['json' => [
-            'username' => 'abcdefghijklmnopqrstuvwxyz-the-alphabet',
-        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
-        $this->assertResponseStatusCodeSame(422);
-        $this->assertJsonContains([
-            'violations' => [
-                [
-                    'propertyPath' => 'username',
-                    'message' => 'This value is too long. It should have 32 characters or less.',
-                ],
-            ],
-        ]);
-    }
-
-    public function testPatchUserValidatesDuplicateUsername() {
-        $user = static::$fixtures['user1'];
-        static::createClientWithCredentials()->request('PATCH', '/users/'.$user->getId(), ['json' => [
-            'username' => static::$fixtures['user2']->getUsername(),
-        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
-        $this->assertResponseStatusCodeSame(422);
-        $this->assertJsonContains([
-            'violations' => [
-                [
-                    'propertyPath' => 'username',
-                    'message' => 'This value is already used.',
-                ],
-            ],
-        ]);
-    }
-
-    public function testPatchUserTrimsFirstThenValidatesDuplicateUsername() {
-        $user = static::$fixtures['user1'];
-        static::createClientWithCredentials()->request('PATCH', '/users/'.$user->getId(), ['json' => [
-            'username' => ' '.static::$fixtures['user2']->getUsername(),
-        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
-        $this->assertResponseStatusCodeSame(422);
-        $this->assertJsonContains([
-            'violations' => [
-                [
-                    'propertyPath' => 'username',
-                    'message' => 'This value is already used.',
-                ],
-            ],
+            'username' => $user->username,
         ]);
     }
 

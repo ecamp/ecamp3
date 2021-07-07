@@ -10,6 +10,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Annotation\SerializedName;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -30,9 +31,13 @@ use Symfony\Component\Validator\Constraints as Assert;
     ],
     itemOperations: [
         'get' => ['security' => 'is_granted("ROLE_ADMIN") or object == user'],
-        'patch' => ['security' => 'is_granted("ROLE_ADMIN") or object == user'],
+        'patch' => [
+            'security' => 'is_granted("ROLE_ADMIN") or object == user',
+            'denormalization_context' => ['groups' => 'user:update'],
+        ],
         'delete' => ['security' => 'is_granted("ROLE_ADMIN") and !object.ownsCamps()'],
-    ]
+    ],
+    denormalizationContext: ['groups' => ['Default']],
 )]
 class User extends BaseEntity implements UserInterface {
     /**
@@ -60,6 +65,7 @@ class User extends BaseEntity implements UserInterface {
     #[Assert\NotBlank]
     #[Assert\Email]
     #[ApiProperty(example: 'bi-pi@example.com')]
+    #[Groups(['Default', 'user:update'])]
     public ?string $email = null;
 
     /**
@@ -71,6 +77,7 @@ class User extends BaseEntity implements UserInterface {
     #[Assert\NotBlank]
     #[Assert\Regex(pattern: '/^[a-z0-9_.-]+$/')]
     #[ApiProperty(example: 'bipi')]
+    #[Groups(['Default'])]
     public ?string $username = null;
 
     /**
@@ -81,6 +88,7 @@ class User extends BaseEntity implements UserInterface {
     #[InputFilter\Trim]
     #[InputFilter\CleanHTML]
     #[ApiProperty(example: 'Robert')]
+    #[Groups(['Default', 'user:update'])]
     public ?string $firstname = null;
 
     /**
@@ -91,6 +99,7 @@ class User extends BaseEntity implements UserInterface {
     #[InputFilter\Trim]
     #[InputFilter\CleanHTML]
     #[ApiProperty(example: 'Baden-Powell')]
+    #[Groups(['Default', 'user:update'])]
     public ?string $surname = null;
 
     /**
@@ -101,6 +110,7 @@ class User extends BaseEntity implements UserInterface {
     #[InputFilter\Trim]
     #[InputFilter\CleanHTML]
     #[ApiProperty(example: 'Bi-Pi')]
+    #[Groups(['Default', 'user:update'])]
     public ?string $nickname = null;
 
     /**
@@ -111,6 +121,7 @@ class User extends BaseEntity implements UserInterface {
     #[InputFilter\Trim]
     #[Assert\Locale]
     #[ApiProperty(example: 'en')]
+    #[Groups(['Default', 'user:update'])]
     public ?string $language = null;
 
     /**
@@ -137,6 +148,7 @@ class User extends BaseEntity implements UserInterface {
     #[Assert\NotBlank(groups: ['user:create'])]
     #[Assert\Length(min: 8)]
     #[ApiProperty(readable: false, writable: true, example: 'learning-by-doing-101')]
+    #[Groups(['Default', 'user:update'])]
     public ?string $plainPassword = null;
 
     public function __construct() {
