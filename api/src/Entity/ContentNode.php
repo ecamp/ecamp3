@@ -5,7 +5,7 @@ namespace App\Entity;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Validator\AssertBelongsToSameCamp;
-use App\Validator\ContentNode\AssertIsNullIffRoot;
+use App\Validator\AssertEitherIsNull;
 use App\Validator\ContentNode\AssertNoLoop;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -64,11 +64,16 @@ class ContentNode extends BaseEntity implements BelongsToCampInterface {
     /**
      * The parent to which this content node belongs. Is null in case this content node is the
      * root of a content node tree. For non-root content nodes, the parent can be changed, as long
-     * as the new parent is in the same camp as the old one.
+     * as the new parent is in the same camp as the old one. A content node is defined as root when
+     * it has an owner.
      *
      * @ORM\ManyToOne(targetEntity="ContentNode", inversedBy="children")
      */
-    #[AssertIsNullIffRoot]
+    #[AssertEitherIsNull(
+        other: 'owner',
+        messageBothNull: 'Must not be null on non-root content nodes',
+        messageNoneNull: 'Must be null on root content nodes'
+    )]
     #[AssertBelongsToSameCamp(groups: ['contentNode:update'])]
     #[AssertNoLoop(groups: ['contentNode:update'])]
     #[ApiProperty(example: '/content_nodes/1a2b3c4d')]

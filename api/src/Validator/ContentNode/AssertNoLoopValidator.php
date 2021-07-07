@@ -22,7 +22,11 @@ class AssertNoLoopValidator extends ConstraintValidator {
         /** @var ContentNode $parent */
         $parent = $value;
 
-        while (null !== $parent) {
+        // $seen keeps track of all parents that we have visited. This is for a safety
+        // bailout mechanism to avoid an infinite loop in case there is flawed data in the DB
+        $seen = [];
+
+        while (null !== $parent && !in_array($parent->getId(), $seen)) {
             if ($parent->getId() === $object->getId()) {
                 $this->context->buildViolation($constraint->message)
                     ->addViolation()
@@ -31,10 +35,7 @@ class AssertNoLoopValidator extends ConstraintValidator {
                 return;
             }
 
-            if ($parent->getId() === $parent->parent?->getId()) {
-                // Safety bailout to avoid an infinite loop in case there is flawed data in the DB
-                return;
-            }
+            $seen[] = $parent->getId();
             $parent = $parent->parent;
         }
     }

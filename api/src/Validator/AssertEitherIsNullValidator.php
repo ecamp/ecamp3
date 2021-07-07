@@ -18,7 +18,7 @@ class AssertEitherIsNullValidator extends ConstraintValidator {
 
         try {
             $otherValue = $object->{$other};
-        } catch (\Exception $e) {
+        } catch (\RuntimeException $e) {
             throw new InvalidArgumentException(sprintf('The "other" option must be the name of another property ("%s" given).', $other));
         }
 
