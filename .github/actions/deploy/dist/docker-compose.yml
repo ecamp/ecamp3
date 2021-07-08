@@ -2,7 +2,7 @@ version: "3"
 
 services:
   nginx:
-    image: nginx@sha256:3ca76089b14cf7db77cc5d4f3e9c9eb73768b9c85a0eabde1046435a6aa41c06
+    image: nginx@sha256:01c2e84120e8c48c32d71f8e3ec15961962c6739e71fe5b95353c4fb0ba5c820
     container_name: 'ecamp3-nginx'
     ports:
       - '80:80'
