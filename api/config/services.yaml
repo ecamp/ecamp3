@@ -39,6 +39,9 @@ services:
     App\DataPersister\ActivityDataPersister:
         arguments: [ '@api_platform.doctrine.orm.data_persister' ]
 
+    App\DataPersister\CategoryDataPersister:
+        arguments: [ '@api_platform.doctrine.orm.data_persister' ]
+
     App\DataPersister\ContentNodeDataPersister:
         arguments: [ '@api_platform.doctrine.orm.data_persister' ]
 

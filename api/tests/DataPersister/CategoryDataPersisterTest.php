@@ -3,9 +3,7 @@
 namespace App\Tests\DataPersister;
 
 use ApiPlatform\Core\DataPersister\ContextAwareDataPersisterInterface;
-use App\DataPersister\ActivityDataPersister;
-use App\Entity\Activity;
-use App\Entity\Camp;
+use App\DataPersister\CategoryDataPersister;
 use App\Entity\Category;
 use App\Entity\ContentType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -16,19 +14,19 @@ use PHPUnit\Framework\TestCase;
 /**
  * @internal
  */
-class ActivityDataPersisterTest extends TestCase {
-    private ActivityDataPersister $dataPersister;
+class CategoryDataPersisterTest extends TestCase {
+    private CategoryDataPersister $dataPersister;
     private MockObject | ContextAwareDataPersisterInterface $decoratedMock;
     private MockObject | EntityManagerInterface $entityManagerMock;
-    private Activity $activity;
+    private Category $category;
 
     protected function setUp(): void {
         $this->decoratedMock = $this->createMock(ContextAwareDataPersisterInterface::class);
         $this->entityManagerMock = $this->createMock(EntityManagerInterface::class);
-        $this->activity = new Activity();
-        $this->activity->category = new Category();
+        $this->category = new Category();
+        $this->category->category = new Category();
 
-        $this->dataPersister = new ActivityDataPersister($this->decoratedMock, $this->entityManagerMock);
+        $this->dataPersister = new CategoryDataPersister($this->decoratedMock, $this->entityManagerMock);
     }
 
     public function testDelegatesSupportCheckToDecorated() {
@@ -38,11 +36,11 @@ class ActivityDataPersisterTest extends TestCase {
             ->willReturnOnConsecutiveCalls(true, false)
         ;
 
-        $this->assertTrue($this->dataPersister->supports($this->activity, []));
-        $this->assertFalse($this->dataPersister->supports($this->activity, []));
+        $this->assertTrue($this->dataPersister->supports($this->category, []));
+        $this->assertFalse($this->dataPersister->supports($this->category, []));
     }
 
-    public function testDoesNotSupportNonActivity() {
+    public function testDoesNotSupportNonCategory() {
         $this->decoratedMock
             ->method('supports')
             ->willReturn(true)
@@ -58,24 +56,9 @@ class ActivityDataPersisterTest extends TestCase {
         ;
 
         // when
-        $this->dataPersister->persist($this->activity, []);
+        $this->dataPersister->persist($this->category, []);
 
         // then
-    }
-
-    public function testSetsCampFromCategory() {
-        // given
-        $camp = $this->createMock(Camp::class);
-        $this->activity->category = new Category();
-        $this->activity->category->camp = $camp;
-        $this->decoratedMock->expects($this->once())->method('persist')->willReturnArgument(0);
-
-        // when
-        /** @var Activity $data */
-        $data = $this->dataPersister->persist($this->activity, []);
-
-        // then
-        $this->assertEquals($camp, $data->getCamp());
     }
 
     public function testPostCreatesANewRootContentNode() {
@@ -91,8 +74,8 @@ class ActivityDataPersisterTest extends TestCase {
         $this->entityManagerMock->method('getRepository')->willReturn($repositoryMock);
 
         // when
-        /** @var Activity $data */
-        $data = $this->dataPersister->persist($this->activity, ['collection_operation_name' => 'post']);
+        /** @var Category $data */
+        $data = $this->dataPersister->persist($this->category, ['collection_operation_name' => 'post']);
 
         // then
         $this->assertNotNull($data->getRootContentNode());
@@ -104,8 +87,8 @@ class ActivityDataPersisterTest extends TestCase {
         $this->decoratedMock->expects($this->once())->method('persist')->willReturnArgument(0);
 
         // when
-        /** @var Activity $data */
-        $data = $this->dataPersister->persist($this->activity, ['item_operation_name' => 'patch']);
+        /** @var Category $data */
+        $data = $this->dataPersister->persist($this->category, ['item_operation_name' => 'patch']);
 
         // then
         $this->assertNull($data->getRootContentNode());
