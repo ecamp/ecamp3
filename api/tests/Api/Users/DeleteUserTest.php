@@ -41,16 +41,16 @@ class DeleteUserTest extends ECampApiTestCase {
 
     public function testDeleteUserIsAllowedForAdmin() {
         $user = static::$fixtures['user3'];
-        $this->assertNotNull(static::$container->get(UserRepository::class)->findOneBy(['username' => $user->getUsername()]));
+        $this->assertNotNull(static::getContainer()->get(UserRepository::class)->findOneBy(['username' => $user->getUsername()]));
 
         static::createClientWithAdminCredentials()->request('DELETE', '/users/'.$user->getId());
         $this->assertResponseStatusCodeSame(204);
-        $this->assertNull(static::$container->get(UserRepository::class)->findOneBy(['username' => $user->getUsername()]));
+        $this->assertNull(static::getContainer()->get(UserRepository::class)->findOneBy(['username' => $user->getUsername()]));
     }
 
     public function testDeleteUserIsNotAllowedForAdminIfUserStillOwnsCamps() {
         $user = static::$fixtures['user1'];
-        $this->assertNotNull(static::$container->get(UserRepository::class)->findOneBy(['username' => $user->getUsername()]));
+        $this->assertNotNull(static::getContainer()->get(UserRepository::class)->findOneBy(['username' => $user->getUsername()]));
         static::createClientWithAdminCredentials()->request('DELETE', '/users/'.$user->getId());
         $this->assertResponseStatusCodeSame(403);
         $this->assertJsonContains([

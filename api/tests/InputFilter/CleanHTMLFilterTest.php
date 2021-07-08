@@ -34,7 +34,7 @@ class CleanHTMLFilterTest extends KernelTestCase {
         // For this test, use a real purifier, so we can check that the
         // purifier is configured correctly
         static::bootKernel();
-        $this->inputFilter = static::$container->get(CleanHTMLFilter::class);
+        $this->inputFilter = static::getContainer()->get(CleanHTMLFilter::class);
 
         // when
         $result = $this->inputFilter->applyTo($data, 'key');
