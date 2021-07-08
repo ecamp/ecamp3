@@ -47,15 +47,15 @@ class DeleteCampTest extends ECampApiTestCase {
         $camp = static::$fixtures['camp1'];
         static::createClientWithCredentials()->request('DELETE', '/camps/'.$camp->getId());
         $this->assertResponseStatusCodeSame(204);
-        $this->assertNull(static::$container->get(CampRepository::class)->findOneBy(['id' => $camp->getId()]));
+        $this->assertNull(static::getContainer()->get(CampRepository::class)->findOneBy(['id' => $camp->getId()]));
     }
 
     public function testDeleteCampIsAllowedForAdmin() {
         $camp = static::$fixtures['camp1'];
-        $this->assertNotNull(static::$container->get(CampRepository::class)->findOneBy(['id' => $camp->getId()]));
+        $this->assertNotNull(static::getContainer()->get(CampRepository::class)->findOneBy(['id' => $camp->getId()]));
 
         static::createClientWithAdminCredentials()->request('DELETE', '/camps/'.$camp->getId());
         $this->assertResponseStatusCodeSame(204);
-        $this->assertNull(static::$container->get(CampRepository::class)->findOneBy(['id' => $camp->getId()]));
+        $this->assertNull(static::getContainer()->get(CampRepository::class)->findOneBy(['id' => $camp->getId()]));
     }
 }

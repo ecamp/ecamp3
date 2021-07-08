@@ -63,7 +63,7 @@ abstract class ECampApiTestCase extends ApiTestCase {
 
     protected function getIriConverter(): IriConverterInterface {
         if (null === $this->iriConverter) {
-            $this->iriConverter = static::$container->get(IriConverterInterface::class);
+            $this->iriConverter = static::getContainer()->get(IriConverterInterface::class);
         }
 
         return $this->iriConverter;
@@ -71,7 +71,7 @@ abstract class ECampApiTestCase extends ApiTestCase {
 
     protected function getSchemaFactory(): SchemaFactoryInterface {
         if (null === $this->schemaFactory) {
-            $this->schemaFactory = static::$container->get(SchemaFactoryInterface::class);
+            $this->schemaFactory = static::getContainer()->get(SchemaFactoryInterface::class);
         }
 
         return $this->schemaFactory;
@@ -79,7 +79,7 @@ abstract class ECampApiTestCase extends ApiTestCase {
 
     protected function getResourceMetadataFactory(): ResourceMetadataFactoryInterface {
         if (null === $this->resourceMetadataFactory) {
-            $this->resourceMetadataFactory = static::$container->get(ResourceMetadataFactoryInterface::class);
+            $this->resourceMetadataFactory = static::getContainer()->get(ResourceMetadataFactoryInterface::class);
         }
 
         return $this->resourceMetadataFactory;
