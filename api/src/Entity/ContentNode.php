@@ -4,8 +4,8 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
-use App\Validator\AssertBelongsToSameCamp;
 use App\Validator\AssertEitherIsNull;
+use App\Validator\ContentNode\AssertBelongsToSameOwner;
 use App\Validator\ContentNode\AssertNoLoop;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -74,7 +74,7 @@ class ContentNode extends BaseEntity implements BelongsToCampInterface {
         messageBothNull: 'Must not be null on non-root content nodes',
         messageNoneNull: 'Must be null on root content nodes'
     )]
-    #[AssertBelongsToSameCamp(groups: ['contentNode:update'])]
+    #[AssertBelongsToSameOwner(groups: ['contentNode:update'])]
     #[AssertNoLoop(groups: ['contentNode:update'])]
     #[ApiProperty(example: '/content_nodes/1a2b3c4d')]
     #[Groups(['Default', 'contentNode:update'])]
