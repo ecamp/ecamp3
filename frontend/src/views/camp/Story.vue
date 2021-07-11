@@ -9,6 +9,16 @@ Admin screen of a camp: Displays details & periods of a single camp and allows t
         <e-switch v-model="editing" :label="$tc('global.button.editable')"
                   class="ec-story-editable ml-auto"
                   @click="$event.preventDefault()" />
+        <v-btn
+          icon
+          @click="expandAll">
+          <v-icon>mdi-arrow-expand-vertical</v-icon>
+        </v-btn>
+        <v-btn
+          icon
+          @click="collapseAll">
+          <v-icon>mdi-arrow-collapse-vertical</v-icon>
+        </v-btn>
       </template>
       <v-menu v-else offset-y>
         <template #activator="{ on, attrs }">
@@ -37,12 +47,11 @@ Admin screen of a camp: Displays details & periods of a single camp and allows t
         </v-list>
       </v-menu>
     </template>
-    <v-expansion-panels v-model="openPeriods" multiple
+    <v-expansion-panels v-model="expandedDays" multiple
                         flat accordion>
-      <story-period v-for="period in camp().periods().items"
-                    :key="period._meta.self"
-                    :period="period"
-                    :editing="editing" />
+      <story-day v-for="day in period().days().items" :key="day._meta.self"
+                 :day="day"
+                 :editing="editing" />
     </v-expansion-panels>
     <v-card-actions v-if="$vuetify.breakpoint.smAndUp">
       <v-btn
@@ -59,23 +68,24 @@ Admin screen of a camp: Displays details & periods of a single camp and allows t
 
 <script>
 import ContentCard from '@/components/layout/ContentCard.vue'
-import StoryPeriod from '@/components/camp/StoryPeriod.vue'
+import StoryDay from '@/components/camp/StoryDay.vue'
 
 const PRINT_SERVER = window.environment.PRINT_SERVER
 
 export default {
   name: 'Story',
   components: {
-    StoryPeriod,
+    StoryDay,
     ContentCard
   },
   props: {
-    camp: { type: Function, required: true }
+    camp: { type: Function, required: true },
+    period: { type: Function, required: true }
   },
   data () {
     return {
       editing: false,
-      openPeriods: []
+      expandedDays: []
     }
   },
   computed: {
@@ -87,12 +97,29 @@ export default {
       return `${PRINT_SERVER}/?camp=${this.camp().id}&pagedjs=true&${configGetParams}`
     }
   },
+  watch: {
+    period () {
+      this.setInitialExpandedDays()
+    }
+  },
   mounted () {
-    this.camp().periods()._meta.load.then(periods => {
-      this.openPeriods = periods.items
-        .map((period, idx) => Date.parse(period.end) >= new Date() ? idx : null)
-        .filter(idx => idx !== null)
-    })
+    this.setInitialExpandedDays()
+  },
+  methods: {
+    expandAll () {
+      this.expandedDays = [...Array(this.period().days().items.length).keys()]
+    },
+    collapseAll () {
+      this.expandedDays = []
+    },
+    setInitialExpandedDays () {
+      this.period().days()._meta.load.then(days => {
+        this.expandedDays = days.items
+          .map((day, idx) => this.$date((this.period().start)).add(day.dayOffset + 1, 'd').isAfter(this.$date()) ? idx : null)
+          .filter(idx => idx !== null)
+        console.log('expanded days: ', this.expandedDays)
+      })
+    }
   }
 }
 </script>

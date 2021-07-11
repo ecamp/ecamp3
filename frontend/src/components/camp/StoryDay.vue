@@ -1,52 +1,59 @@
 <template>
-  <v-expansion-panel-content>
-    <h3 class="grey--text">
-      {{ dayName }}
-    </h3>
-    <template v-if="entriesWithStory.length">
-      <template v-for="{ scheduleEntry, storyChapters } in entriesWithStory">
-        <div v-for="chapter in storyChapters" :key="chapter._meta.uri">
-          <h4 class="mt-1 mb-2">
-            <div class="d-flex">
-              {{ scheduleEntry.number }}
-              <v-chip v-if="!scheduleEntry.activity().category()._meta.loading"
-                      small
-                      dark
-                      class="mx-1"
-                      :color="scheduleEntry.activity().category().color">
-                {{ scheduleEntry.activity().category().short }}
-              </v-chip>
-              {{ scheduleEntry.activity().title }}
-              <template v-if="chapter.contentNode().instanceName">
-                - {{ chapter.contentNode().instanceName }}
-              </template>
-              <v-spacer />
-              <router-link :to="{ name: 'activity', params: { campId: day.period().camp().id, scheduleEntryId: scheduleEntry.id } }">
-                <v-icon small>mdi-open-in-new</v-icon>
-              </router-link>
+  <v-expansion-panel>
+    <v-expansion-panel-header>
+      <h3 class="grey--text">
+        {{ dayName }}
+      </h3>
+    </v-expansion-panel-header>
+    <v-expansion-panel-content>
+      <v-skeleton-loader v-if="isLoading" />
+      <template v-else>
+        <template v-if="entriesWithStory.length">
+          <template v-for="{ scheduleEntry, storyChapters } in entriesWithStory">
+            <div v-for="chapter in storyChapters" :key="chapter._meta.uri">
+              <h4 class="mt-1 mb-2">
+                <div class="d-flex">
+                  {{ scheduleEntry.number }}
+                  <v-chip v-if="!scheduleEntry.activity().category()._meta.loading"
+                          small
+                          dark
+                          class="mx-1"
+                          :color="scheduleEntry.activity().category().color">
+                    {{ scheduleEntry.activity().category().short }}
+                  </v-chip>
+                  {{ scheduleEntry.activity().title }}
+                  <template v-if="chapter.contentNode().instanceName">
+                    - {{ chapter.contentNode().instanceName }}
+                  </template>
+                  <v-spacer />
+                  <router-link :to="{ name: 'activity', params: { campId: day.period().camp().id, scheduleEntryId: scheduleEntry.id } }">
+                    <v-icon small>mdi-open-in-new</v-icon>
+                  </router-link>
+                </div>
+              </h4>
+              <api-form v-show="editing"
+                        :entity="chapter">
+                <api-textarea
+                  fieldname="text"
+                  label=""
+                  auto-grow
+                  :outlined="false"
+                  :solo="false"
+                  dense />
+              </api-form>
+              <tiptap-editor v-show="!editing"
+                             :value="chapter.text"
+                             :editable="false"
+                             class="mt-1 v-input" />
             </div>
-          </h4>
-          <api-form v-show="editing"
-                    :entity="chapter">
-            <api-textarea
-              fieldname="text"
-              label=""
-              auto-grow
-              :outlined="false"
-              :solo="false"
-              dense />
-          </api-form>
-          <tiptap-editor v-show="!editing"
-                         :value="chapter.text"
-                         :editable="false"
-                         class="mt-1 v-input" />
+          </template>
+        </template>
+        <div v-else class="grey--text">
+          {{ $tc('components.camp.storyDay.noStory') }}
         </div>
       </template>
-    </template>
-    <div v-else class="grey--text">
-      {{ $tc('components.camp.storyDay.noStory') }}
-    </div>
-  </v-expansion-panel-content>
+    </v-expansion-panel-content>
+  </v-expansion-panel>
 </template>
 <script>
 import { sortBy } from 'lodash'
@@ -63,8 +70,7 @@ export default {
   },
   computed: {
     dayName () {
-      const date = this.addDays(this.day.period().start, this.day.dayOffset)
-      return this.$date.utc(date).format(this.$tc('global.datetime.dateLong'))
+      return this.$date.utc(this.day.period().start).add(this.day.dayOffset, 'd').format(this.$tc('global.datetime.dateLong'))
     },
     sortedScheduleEntries () {
       return sortBy(this.day.scheduleEntries().items, scheduleEntry => scheduleEntry.periodOffset)
@@ -82,15 +88,17 @@ export default {
     },
     entriesWithStory () {
       return this.entries.filter(({ storyChapters }) => storyChapters.length)
+    },
+    isLoading () {
+      if (this.day.scheduleEntries()._meta.loading ||
+        this.day.scheduleEntries().items.some(entry => entry._meta.loading)) {
+        return true
+      }
+      return false
     }
   },
   mounted () {
     this.day.scheduleEntries().items.forEach(entry => this.api.reload(entry.activity().contentNodes()))
-  },
-  methods: {
-    addDays (date, days) {
-      return Date.parse(date) + days * 24 * 60 * 60 * 1000
-    }
   }
 }
 </script>
