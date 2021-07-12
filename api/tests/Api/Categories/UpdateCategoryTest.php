@@ -40,6 +40,18 @@ class UpdateCategoryTest extends ECampApiTestCase {
         ], $response->toArray()['_links']['preferredContentTypes']);
     }
 
+    public function testPatchCategoryDisallowsChangingCamp() {
+        $category = static::$fixtures['category1'];
+        static::createClientWithCredentials()->request('PATCH', '/categories/'.$category->getId(), ['json' => [
+            'camp' => $this->getIriFor('camp2'),
+        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
+
+        $this->assertResponseStatusCodeSame(400);
+        $this->assertJsonContains([
+            'detail' => 'Extra attributes are not allowed ("camp" is unknown).',
+        ]);
+    }
+
     public function testPatchCategoryValidatesInvalidColor() {
         $category = static::$fixtures['category1'];
         static::createClientWithCredentials()->request('PATCH', '/categories/'.$category->getId(), ['json' => [

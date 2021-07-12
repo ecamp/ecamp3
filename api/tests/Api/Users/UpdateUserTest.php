@@ -146,11 +146,11 @@ class UpdateUserTest extends ECampApiTestCase {
         ]);
     }
 
-    public function testPatchUserDoesntAllowChangingUsername() {
+    public function testPatchUserDisallowsChangingUsername() {
         /** @var User $user */
         $user = static::$fixtures['user1'];
         static::createClientWithCredentials()->request('PATCH', '/users/'.$user->getId(), ['json' => [
-            'username' => " bi-pi\t",
+            'username' => 'bi-pi',
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
         $this->assertResponseStatusCodeSame(400);
         $this->assertJsonContains([

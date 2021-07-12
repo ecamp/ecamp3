@@ -101,6 +101,18 @@ class UpdateContentNodeTest extends ECampApiTestCase {
         ]);
     }
 
+    public function testPatchContentNodeDisallowsChangingContentType() {
+        $contentNode = static::$fixtures['contentNodeChild1'];
+        static::createClientWithCredentials()->request('PATCH', '/content_nodes/'.$contentNode->getId(), ['json' => [
+            'contentType' => $this->getIriFor('contentType2'),
+        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
+
+        $this->assertResponseStatusCodeSame(400);
+        $this->assertJsonContains([
+            'detail' => 'Extra attributes are not allowed ("contentType" is unknown).',
+        ]);
+    }
+
     public function testPatchContentNodeAcceptsEmptySlot() {
         $contentNode = static::$fixtures['contentNodeChild1'];
         static::createClientWithCredentials()->request('PATCH', '/content_nodes/'.$contentNode->getId(), ['json' => [

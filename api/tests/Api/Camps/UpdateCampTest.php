@@ -56,6 +56,18 @@ class UpdateCampTest extends ECampApiTestCase {
         ]);
     }
 
+    public function testPatchCampDisallowsEditingPeriods() {
+        $camp = static::$fixtures['camp1'];
+        static::createClientWithCredentials()->request('PATCH', '/camps/'.$camp->getId(), ['json' => [
+            'periods' => [],
+        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
+
+        $this->assertResponseStatusCodeSame(400);
+        $this->assertJsonContains([
+            'detail' => 'Extra attributes are not allowed ("periods" is unknown).',
+        ]);
+    }
+
     public function testPatchCampTrimsName() {
         $camp = static::$fixtures['camp1'];
         static::createClientWithCredentials()->request('PATCH', '/camps/'.$camp->getId(), ['json' => [

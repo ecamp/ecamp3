@@ -86,6 +86,17 @@ class CreateCampCollaborationTest extends ECampApiTestCase {
         ]);
     }
 
+    public function testCreateCampCollaborationDisallowsSettingStatus() {
+        static::createClientWithCredentials()->request('POST', '/camp_collaborations', ['json' => $this->getExampleWritePayload([
+            'status' => 'established',
+        ])]);
+
+        $this->assertResponseStatusCodeSame(400);
+        $this->assertJsonContains([
+            'detail' => 'Extra attributes are not allowed ("status" is unknown).',
+        ]);
+    }
+
     public function testCreateCampCollaborationValidatesMissingRole() {
         static::createClientWithCredentials()->request('POST', '/camp_collaborations', ['json' => $this->getExampleWritePayload([], ['role'])]);
 

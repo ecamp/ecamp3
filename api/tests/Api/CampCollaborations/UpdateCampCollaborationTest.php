@@ -25,6 +25,42 @@ class UpdateCampCollaborationTest extends ECampApiTestCase {
         ]);
     }
 
+    public function testPatchCampCollaborationDisallowsChangingInviteEmail() {
+        $campCollaboration = static::$fixtures['campCollaboration1'];
+        static::createClientWithCredentials()->request('PATCH', '/camp_collaborations/'.$campCollaboration->getId(), ['json' => [
+            'inviteEmail' => 'some@thing.com',
+        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
+
+        $this->assertResponseStatusCodeSame(400);
+        $this->assertJsonContains([
+            'detail' => 'Extra attributes are not allowed ("inviteEmail" is unknown).',
+        ]);
+    }
+
+    public function testPatchCampCollaborationDisallowsChangingUser() {
+        $campCollaboration = static::$fixtures['campCollaboration1'];
+        static::createClientWithCredentials()->request('PATCH', '/camp_collaborations/'.$campCollaboration->getId(), ['json' => [
+            'user' => $this->getIriFor('user2'),
+        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
+
+        $this->assertResponseStatusCodeSame(400);
+        $this->assertJsonContains([
+            'detail' => 'Extra attributes are not allowed ("user" is unknown).',
+        ]);
+    }
+
+    public function testPatchCampCollaborationDisallowsChangingCamp() {
+        $campCollaboration = static::$fixtures['campCollaboration1'];
+        static::createClientWithCredentials()->request('PATCH', '/camp_collaborations/'.$campCollaboration->getId(), ['json' => [
+            'camp' => $this->getIriFor('camp2'),
+        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
+
+        $this->assertResponseStatusCodeSame(400);
+        $this->assertJsonContains([
+            'detail' => 'Extra attributes are not allowed ("camp" is unknown).',
+        ]);
+    }
+
     public function testPatchCampCollaborationValidatesInvalidStatus() {
         $campCollaboration = static::$fixtures['campCollaboration1'];
         static::createClientWithCredentials()->request('PATCH', '/camp_collaborations/'.$campCollaboration->getId(), ['json' => [
