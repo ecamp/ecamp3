@@ -2,8 +2,10 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -22,10 +24,14 @@ use Symfony\Component\Validator\Constraints as Assert;
     collectionOperations: ['get', 'post'],
     itemOperations: [
         'get',
-        'patch' => ['denormalization_context' => ['groups' => ['category:update']]],
+        'patch' => ['denormalization_context' => [
+            'groups' => ['category:update'],
+            'allow_extra_attributes' => false,
+        ]],
         'delete',
     ]
 )]
+#[ApiFilter(SearchFilter::class, properties: ['camp'])]
 class Category extends AbstractContentNodeOwner implements BelongsToCampInterface {
     /**
      * The camp to which this category belongs. May not be changed once the category is created.
@@ -49,6 +55,15 @@ class Category extends AbstractContentNodeOwner implements BelongsToCampInterfac
     #[ApiProperty(example: '["/content_types/1a2b3c4d"]')]
     #[Groups(['Default', 'category:update'])]
     public Collection $preferredContentTypes;
+
+    /**
+     * All the programme that is planned in this category.
+     *
+     * @ORM\OneToMany(targetEntity="Activity", mappedBy="category", orphanRemoval=true)
+     */
+    #[Assert\DisableAutoMapping]
+    #[ApiProperty(readable: false, writable: false)]
+    public Collection $activities;
 
     /**
      * The id of the category that was used as a template for creating this category. Internal for now, is
@@ -83,7 +98,7 @@ class Category extends AbstractContentNodeOwner implements BelongsToCampInterfac
      *
      * @ORM\Column(type="string", length=8, nullable=false)
      */
-    #[Assert\Regex(pattern: '^#[0-9a-zA-Z]{6}$')]
+    #[Assert\Regex(pattern: '/^#[0-9a-zA-Z]{6}$/')]
     #[ApiProperty(example: '#4CAF50')]
     #[Groups(['Default', 'category:update'])]
     public ?string $color = null;
@@ -122,10 +137,31 @@ class Category extends AbstractContentNodeOwner implements BelongsToCampInterfac
         $this->preferredContentTypes->removeElement($contentType);
     }
 
+    /**
+     * @return Activity[]
+     */
+    public function getActivities(): array {
+        return $this->activities->getValues();
+    }
+
+    public function addActivity(Activity $activity): void {
+        $this->activities->add($activity);
+    }
+
+    public function removeActivity(Activity $activity): void {
+        $this->activities->removeElement($activity);
+    }
+
     #[ApiProperty(writable: false)]
     public function setRootContentNode(?ContentNode $rootContentNode) {
         // Overridden to add annotations
         parent::setRootContentNode($rootContentNode);
+    }
+
+    #[Assert\DisableAutoMapping]
+    public function getRootContentNode(): ?ContentNode {
+        // Getter is here to add annotations to parent class property
+        return $this->rootContentNode;
     }
 
     public function getStyledNumber(int $num): string {

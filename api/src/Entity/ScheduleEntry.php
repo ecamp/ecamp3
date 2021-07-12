@@ -2,8 +2,10 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Validator\AssertBelongsToSameCamp;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Collections\Selectable;
@@ -21,10 +23,14 @@ use Symfony\Component\Validator\Constraints as Assert;
     collectionOperations: ['get', 'post'],
     itemOperations: [
         'get',
-        'patch' => ['denormalization_context' => ['groups' => ['scheduleEntry:update']]],
+        'patch' => ['denormalization_context' => [
+            'groups' => ['scheduleEntry:update'],
+            'allow_extra_attributes' => false,
+        ]],
         'delete',
     ]
 )]
+#[ApiFilter(SearchFilter::class, properties: ['period', 'activity'])]
 class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
     /**
      * The time period which this schedule entry is part of. Must belong to the same camp as the activity.
@@ -34,7 +40,7 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
      */
     #[AssertBelongsToSameCamp]
     #[ApiProperty(example: '/periods/1a2b3c4d')]
-    #[Groups(['Default', 'scheduleEntry:create'])]
+    #[Groups(['Default', 'scheduleEntry:update'])]
     public ?Period $period = null;
 
     /**
@@ -57,8 +63,8 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
      * @ORM\Column(type="integer", nullable=false)
      */
     #[Assert\GreaterThanOrEqual(value: 0)]
-    #[ApiProperty(example: '1440')]
-    #[Groups(['Default', 'scheduleEntry:create'])]
+    #[ApiProperty(example: 1440)]
+    #[Groups(['Default', 'scheduleEntry:update'])]
     public int $periodOffset = 0;
 
     /**
@@ -67,8 +73,8 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
      * @ORM\Column(type="integer", nullable=false)
      */
     #[Assert\GreaterThan(value: 0)]
-    #[ApiProperty(example: '90')]
-    #[Groups(['Default', 'scheduleEntry:create'])]
+    #[ApiProperty(example: 90)]
+    #[Groups(['Default', 'scheduleEntry:update'])]
     public int $length = 0;
 
     /**
@@ -81,9 +87,9 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
      * @ORM\Column(name="`left`", type="float", nullable=true)
      * --> left is a MariaDB keyword, therefore escaping for column name necessary
      */
-    #[ApiProperty(default: 0, example: '0.6')]
-    #[Groups(['Default', 'scheduleEntry:create'])]
-    public float $left = 0;
+    #[ApiProperty(default: 0, example: 0.6)]
+    #[Groups(['Default', 'scheduleEntry:update'])]
+    public ?float $left = 0;
 
     /**
      * When rendering a period in a calendar view: Specifies how wide the rendered calendar event should
@@ -93,9 +99,9 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
      *
      * @ORM\Column(type="float", nullable=true)
      */
-    #[ApiProperty(example: '0.4')]
-    #[Groups(['Default', 'scheduleEntry:create'])]
-    public float $width = 1;
+    #[ApiProperty(example: 0.4)]
+    #[Groups(['Default', 'scheduleEntry:update'])]
+    public ?float $width = 1;
 
     #[ApiProperty(readable: false)]
     public function getCamp(): ?Camp {

@@ -2,8 +2,10 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Validator\AssertBelongsToSameCamp;
 use App\Validator\AssertEitherIsNull;
 use App\Validator\MaterialItemUpdateGroupSequence;
@@ -22,6 +24,7 @@ use Doctrine\ORM\Mapping as ORM;
         'delete',
     ]
 )]
+#[ApiFilter(SearchFilter::class, properties: ['materialList', 'period'])]
 class MaterialItem extends BaseEntity implements BelongsToCampInterface {
     /**
      * The list to which this item belongs. Lists are used to keep track of who is
@@ -69,7 +72,7 @@ class MaterialItem extends BaseEntity implements BelongsToCampInterface {
      *
      * @ORM\Column(type="float", nullable=true)
      */
-    #[ApiProperty(example: '2')]
+    #[ApiProperty(example: 1.5)]
     public ?float $quantity = null;
 
     /**

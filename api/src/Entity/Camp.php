@@ -2,10 +2,8 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\InputFilter;
 use App\Repository\CampRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -27,18 +25,21 @@ use Symfony\Component\Validator\Constraints as Assert;
         'post' => [
             'security' => 'is_fully_authenticated()',
             'input_formats' => ['jsonld', 'jsonapi', 'json'],
+            'validation_groups' => ['Default', 'camp:create'],
         ],
     ],
     itemOperations: [
         'get' => ['security' => 'object.owner == user or is_granted("ROLE_ADMIN")'],
         'patch' => [
             'security' => 'object.owner == user or is_granted("ROLE_ADMIN")',
-            'denormalization_context' => ['groups' => ['camp:update']],
+            'denormalization_context' => [
+                'groups' => ['camp:update'],
+                'allow_extra_attributes' => false,
+            ],
         ],
         'delete' => ['security' => 'object.owner == user or is_granted("ROLE_ADMIN")'],
     ]
 )]
-#[ApiFilter(SearchFilter::class, properties: ['owner'])]
 class Camp extends BaseEntity implements BelongsToCampInterface {
     /**
      * @ORM\OneToMany(targetEntity="CampCollaboration", mappedBy="camp", orphanRemoval=true)
@@ -55,6 +56,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
      * @ORM\OrderBy({"start": "ASC"})
      */
     #[Assert\Valid]
+    #[Assert\Count(min: 1, groups: ['camp:create'])]
     #[ApiProperty(writableLink: true, example: '[{ "description": "Hauptlager", "start": "2022-01-01", "end": "2022-01-08" }]')]
     #[Groups(['Default'])]
     public Collection $periods;
@@ -209,7 +211,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
      * @ORM\JoinColumn(nullable=false)
      */
     #[Assert\DisableAutoMapping]
-    #[ApiProperty(writable: false)]
+    #[ApiProperty(readable: false, writable: false)]
     public ?User $owner = null;
 
     public function __construct() {

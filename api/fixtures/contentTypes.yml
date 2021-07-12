@@ -3,3 +3,11 @@ App\Entity\ContentType:
     name: 'SafetyConcept'
     active: true
     strategyClass: 'App\ContentNodeStrategy\SingleTextStrategy'
+  contentType2:
+    name: 'Notes'
+    active: true
+    strategyClass: 'App\ContentNodeStrategy\SingleTextStrategy'
+  contentTypeColumnLayout:
+    name: 'ColumnLayout'
+    active: true
+    strategyClass: 'App\ContentNodeStrategy\ColumnLayoutStrategy'

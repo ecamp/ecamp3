@@ -19,23 +19,20 @@ class ListUsersTest extends ECampApiTestCase {
     }
 
     public function testListUsersIsAllowedForLoggedInUserButFiltered() {
-        static::createClientWithCredentials()->request('GET', '/users');
+        $response = static::createClientWithCredentials()->request('GET', '/users');
         $this->assertResponseStatusCodeSame(200);
-        $userIri = $this->getIriConverter()->getIriFromItem(static::$fixtures['user1']);
         $this->assertJsonContains([
             'totalItems' => 1,
+            '_links' => [
+                'items' => [],
+            ],
             '_embedded' => [
-                'items' => [
-                    [
-                        '_links' => [
-                            'self' => [
-                                'href' => $userIri,
-                            ],
-                        ],
-                    ],
-                ],
+                'items' => [],
             ],
         ]);
+        $this->assertEqualsCanonicalizing([
+            ['href' => $this->getIriFor('user1')],
+        ], $response->toArray()['_links']['items']);
     }
 
     public function testListUsersListsAllUsersForAdmin() {

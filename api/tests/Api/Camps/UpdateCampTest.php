@@ -22,7 +22,7 @@ class UpdateCampTest extends ECampApiTestCase {
 
     public function testPatchCampIsDeniedForUnrelatedUser() {
         $camp = static::$fixtures['camp1'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user2']->getUsername(), 'password' => 'test'])
+        static::createClientWithCredentials(['username' => static::$fixtures['user2']->getUsername()])
             ->request('PATCH', '/camps/'.$camp->getId(), ['json' => [
                 'title' => 'Hello World',
             ], 'headers' => ['Content-Type' => 'application/merge-patch+json']])
@@ -34,7 +34,7 @@ class UpdateCampTest extends ECampApiTestCase {
         ]);
     }
 
-    public function testPatchCampIsAllowedForSelf() {
+    public function testPatchCampIsAllowedForCollaborator() {
         $camp = static::$fixtures['camp1'];
         static::createClientWithCredentials()->request('PATCH', '/camps/'.$camp->getId(), ['json' => [
             'title' => 'Hello World',

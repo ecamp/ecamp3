@@ -2,10 +2,7 @@
 
 namespace App\Validator\ContentNode;
 
-use App\Entity\BaseEntity;
-use App\Entity\BelongsToCampInterface;
 use App\Entity\ContentNode;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;

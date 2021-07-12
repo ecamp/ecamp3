@@ -2,8 +2,10 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Validator\AssertEitherIsNull;
 use App\Validator\ContentNode\AssertBelongsToSameOwner;
 use App\Validator\ContentNode\AssertNoLoop;
@@ -28,12 +30,16 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
     itemOperations: [
         'get',
         'patch' => [
-            'denormalization_context' => ['groups' => ['contentNode:update']],
+            'denormalization_context' => [
+                'groups' => ['contentNode:update'],
+                'allow_extra_attributes' => false,
+            ],
             'validation_groups' => ['Default', 'contentNode:update'],
         ],
-        'delete',
+        'delete' => ['security' => 'object.owner === null'],
     ]
 )]
+#[ApiFilter(SearchFilter::class, properties: ['parent'])]
 class ContentNode extends BaseEntity implements BelongsToCampInterface {
     /**
      * @ORM\OneToOne(targetEntity="AbstractContentNodeOwner", mappedBy="rootContentNode", cascade={"persist", "remove"})
@@ -71,8 +77,8 @@ class ContentNode extends BaseEntity implements BelongsToCampInterface {
      */
     #[AssertEitherIsNull(
         other: 'owner',
-        messageBothNull: 'Must not be null on non-root content nodes',
-        messageNoneNull: 'Must be null on root content nodes'
+        messageBothNull: 'Must not be null on non-root content nodes.',
+        messageNoneNull: 'Must be null on root content nodes.'
     )]
     #[AssertBelongsToSameOwner(groups: ['contentNode:update'])]
     #[AssertNoLoop(groups: ['contentNode:update'])]
@@ -83,7 +89,7 @@ class ContentNode extends BaseEntity implements BelongsToCampInterface {
     /**
      * All content nodes that are direct children of this content node.
      *
-     * @ORM\OneToMany(targetEntity="ContentNode", mappedBy="parent")
+     * @ORM\OneToMany(targetEntity="ContentNode", mappedBy="parent", cascade={"remove"})
      */
     #[ApiProperty(writable: false, example: '["/content_nodes/1a2b3c4d"]')]
     public Collection $children;

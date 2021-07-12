@@ -5,3 +5,14 @@ App\Entity\Activity:
     location: <sentence()>
     rootContentNode: '@contentNode1'
     category: '@category1'
+  activity2:
+    camp: '@camp1'
+    title: <word()>
+    location: <sentence()>
+    category: '@category2'
+  activity1camp2:
+    camp: '@camp2'
+    title: <word()>
+    location: <sentence()>
+    rootContentNode: '@contentNode1camp2'
+    category: '@category1camp2'

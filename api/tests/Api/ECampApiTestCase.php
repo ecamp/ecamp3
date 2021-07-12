@@ -62,7 +62,7 @@ abstract class ECampApiTestCase extends ApiTestCase {
      * @throws TransportExceptionInterface
      */
     protected static function createClientWithAdminCredentials(?array $headers = null): Client {
-        return static::createClientWithCredentials(['username' => 'admin', 'password' => 'test']);
+        return static::createClientWithCredentials(['username' => 'admin']);
     }
 
     protected static function createBasicClient(?array $headers = null): Client {
@@ -75,6 +75,15 @@ abstract class ECampApiTestCase extends ApiTestCase {
         }
 
         return $this->iriConverter;
+    }
+
+    protected function getIriFor($entityOrFixtureName): string {
+        if (is_string($entityOrFixtureName)) {
+            // Assume we want to get the IRI for a fixture
+            $entityOrFixtureName = static::$fixtures[$entityOrFixtureName];
+        }
+
+        return $this->getIriConverter()->getIriFromItem($entityOrFixtureName);
     }
 
     protected function getSchemaFactory(): SchemaFactoryInterface {

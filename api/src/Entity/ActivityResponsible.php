@@ -6,6 +6,8 @@ use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Validator\AssertBelongsToSameCamp;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * A person that is responsible for planning or carrying out an activity.
@@ -19,6 +21,7 @@ use Doctrine\ORM\Mapping as ORM;
     collectionOperations: ['get', 'post'],
     itemOperations: ['get', 'delete'],
 )]
+#[UniqueEntity(fields: ['activity', 'campCollaboration'])]
 class ActivityResponsible extends BaseEntity implements BelongsToCampInterface {
     /**
      * The activity that the person is responsible for.
@@ -26,6 +29,7 @@ class ActivityResponsible extends BaseEntity implements BelongsToCampInterface {
      * @ORM\ManyToOne(targetEntity="Activity", inversedBy="activityResponsibles")
      * @ORM\JoinColumn(nullable=false, onDelete="cascade")
      */
+    #[Assert\NotNull]
     #[ApiProperty(example: '/activities/1a2b3c4d')]
     public ?Activity $activity = null;
 

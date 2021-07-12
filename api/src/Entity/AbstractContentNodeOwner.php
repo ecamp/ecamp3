@@ -16,7 +16,7 @@ abstract class AbstractContentNodeOwner extends BaseEntity {
      * The programme contents, organized as a tree of content nodes. The root content node cannot be
      * exchanged, but all the contents attached to it can.
      *
-     * @ORM\OneToOne(targetEntity="ContentNode", inversedBy="owner")
+     * @ORM\OneToOne(targetEntity="ContentNode", inversedBy="owner", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false, unique=true)
      */
     #[Assert\DisableAutoMapping]

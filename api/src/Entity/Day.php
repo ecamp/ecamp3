@@ -2,11 +2,14 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Serializer\Annotation\SerializedName;
 
 /**
@@ -24,6 +27,8 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
     collectionOperations: ['get'],
     itemOperations: ['get'],
 )]
+#[ApiFilter(SearchFilter::class, properties: ['period'])]
+#[UniqueEntity(fields: ['period', 'dayOffset'])]
 class Day extends BaseEntity implements BelongsToCampInterface {
     /**
      * The list of people who have a whole-day responsibility on this day.

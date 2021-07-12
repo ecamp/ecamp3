@@ -1,0 +1,11 @@
+App\Entity\CampCollaboration:
+  campCollaboration1:
+    user: '@user1'
+    camp: '@camp1'
+    status: established
+    role: manager
+  campCollaboration1camp2:
+    user: '@user1'
+    camp: '@camp2'
+    status: established
+    role: member

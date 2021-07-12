@@ -152,9 +152,9 @@ class UpdateUserTest extends ECampApiTestCase {
         static::createClientWithCredentials()->request('PATCH', '/users/'.$user->getId(), ['json' => [
             'username' => " bi-pi\t",
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
-        $this->assertResponseStatusCodeSame(200);
+        $this->assertResponseStatusCodeSame(400);
         $this->assertJsonContains([
-            'username' => $user->username,
+            'detail' => 'Extra attributes are not allowed ("username" are unknown).',
         ]);
     }
 

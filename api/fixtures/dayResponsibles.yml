@@ -1,0 +1,7 @@
+App\Entity\DayResponsible:
+  dayResponsible1:
+    campCollaboration: '@campCollaboration1'
+    day: '@day1period1'
+  dayResponsible1day2period1:
+    campCollaboration: '@campCollaboration1'
+    day: '@day2period1'

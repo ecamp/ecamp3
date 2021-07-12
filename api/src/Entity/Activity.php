@@ -2,8 +2,10 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Validator\AssertBelongsToSameCamp;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -15,7 +17,17 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Entity()
  */
-#[ApiResource]
+#[ApiResource(
+    collectionOperations: ['get', 'post'],
+    itemOperations: [
+        'get',
+        'patch' => [
+            'validation_groups' => ['Default', 'activity:update'],
+        ],
+        'delete',
+    ],
+)]
+#[ApiFilter(SearchFilter::class, properties: ['camp'])]
 class Activity extends AbstractContentNodeOwner implements BelongsToCampInterface {
     /**
      * The list of points in time when this activity's programme will be carried out.
@@ -47,11 +59,11 @@ class Activity extends AbstractContentNodeOwner implements BelongsToCampInterfac
      * The category to which this activity belongs. The category determines color and numbering scheme
      * of the activity, and is used for marking similar activities. Must be in the same camp as the activity.
      *
-     * @ORM\ManyToOne(targetEntity="Category")
+     * @ORM\ManyToOne(targetEntity="Category", inversedBy="activities")
      * @ORM\JoinColumn(nullable=false)
      */
     #[ApiProperty(example: '/categories/1a2b3c4d')]
-    #[AssertBelongsToSameCamp]
+    #[AssertBelongsToSameCamp(groups: ['activity:update'])]
     public ?Category $category = null;
 
     /**

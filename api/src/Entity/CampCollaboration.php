@@ -2,8 +2,11 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use App\Validator\AssertEitherIsNull;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -21,14 +24,22 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ApiResource(
     collectionOperations: [
         'get',
-        'post' => ['denormalization_context' => ['groups' => ['campCollaboration:create']]],
+        'post' => ['denormalization_context' => [
+            'groups' => ['campCollaboration:create'],
+            'allow_extra_attributes' => false,
+        ]],
     ],
     itemOperations: [
         'get',
-        'patch' => ['denormalization_context' => ['groups' => ['campCollaboration:update']]],
+        'patch' => ['denormalization_context' => [
+            'groups' => ['campCollaboration:update'],
+            'allow_extra_attributes' => false,
+        ]],
         'delete',
-    ]
+    ],
+    normalizationContext: ['skip_null_values' => false],
 )]
+#[ApiFilter(SearchFilter::class, properties: ['camp'])]
 class CampCollaboration extends BaseEntity implements BelongsToCampInterface {
     public const ROLE_GUEST = 'guest';
     public const ROLE_MEMBER = 'member';
@@ -67,9 +78,14 @@ class CampCollaboration extends BaseEntity implements BelongsToCampInterface {
     public Collection $activityResponsibles;
 
     /**
+     * The receiver email address of the invitation email, in case the collaboration does not yet have
+     * a user account. Either this field or the user field should be null.
+     *
      * @ORM\Column(type="text", nullable=true)
      */
-    #[ApiProperty(readable: false, writable: false)]
+    #[AssertEitherIsNull(other: 'user')]
+    #[ApiProperty(example: 'some-email@example.com')]
+    #[Groups(['Default', 'campCollaboration:create'])]
     public ?string $inviteEmail = null;
 
     /**
@@ -80,10 +96,12 @@ class CampCollaboration extends BaseEntity implements BelongsToCampInterface {
 
     /**
      * The person that is collaborating in the camp. Cannot be changed once the campCollaboration is created.
+     * Either this field or the inviteEmail field should be null.
      *
      * @ORM\ManyToOne(targetEntity="User", inversedBy="collaborations")
      * @ORM\JoinColumn(nullable=true, onDelete="cascade")
      */
+    #[AssertEitherIsNull(other: 'inviteEmail')]
     #[ApiProperty(example: '/users/1a2b3c4d')]
     #[Groups(['Default', 'campCollaboration:create'])]
     public ?User $user = null;

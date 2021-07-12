@@ -20,20 +20,29 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Validator\AssertBelongsToSameCamp;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * A person that has some whole-day responsibility on a day in the camp.
  *
  * @ORM\Entity
+ * @ORM\Table(uniqueConstraints={
+ *     @ORM\UniqueConstraint(name="day_campCollaboration_unique", columns={"dayId", "campCollaborationId"})
+ * })
  */
 #[ApiResource(
     collectionOperations: ['get', 'post'],
     itemOperations: ['get', 'delete'],
 )]
+#[ApiFilter(SearchFilter::class, properties: ['day'])]
+#[UniqueEntity(fields: ['day', 'campCollaboration'])]
 class DayResponsible extends BaseEntity implements BelongsToCampInterface {
     /**
      * The day on which the person is responsible.
@@ -41,6 +50,7 @@ class DayResponsible extends BaseEntity implements BelongsToCampInterface {
      * @ORM\ManyToOne(targetEntity="Day", inversedBy="dayResponsibles")
      * @ORM\JoinColumn(nullable=false, onDelete="cascade")
      */
+    #[Assert\NotNull]
     #[ApiProperty(example: '/days/1a2b3c4d')]
     public ?Day $day = null;
 
@@ -56,6 +66,6 @@ class DayResponsible extends BaseEntity implements BelongsToCampInterface {
 
     #[ApiProperty(readable: false)]
     public function getCamp(): ?Camp {
-        return $this->day->getCamp();
+        return $this->day?->getCamp();
     }
 }

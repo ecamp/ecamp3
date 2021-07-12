@@ -33,7 +33,10 @@ use Symfony\Component\Validator\Constraints as Assert;
         'get' => ['security' => 'is_granted("ROLE_ADMIN") or object == user'],
         'patch' => [
             'security' => 'is_granted("ROLE_ADMIN") or object == user',
-            'denormalization_context' => ['groups' => 'user:update'],
+            'denormalization_context' => [
+                'groups' => 'user:update',
+                'allow_extra_attributes' => false,
+            ],
         ],
         'delete' => ['security' => 'is_granted("ROLE_ADMIN") and !object.ownsCamps()'],
     ],
@@ -45,7 +48,7 @@ class User extends BaseEntity implements UserInterface {
      *
      * @ORM\OneToMany(targetEntity="Camp", mappedBy="owner")
      */
-    #[ApiProperty(writable: false, example: '["/camps/1a2b3c4d"]')]
+    #[ApiProperty(readable: false, writable: false)]
     public Collection $ownedCamps;
 
     /**

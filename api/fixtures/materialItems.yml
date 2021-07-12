@@ -1,0 +1,22 @@
+App\Entity\MaterialItem:
+  materialItem1:
+    materialList: '@materialList1'
+    period: null
+    contentNode: '@contentNode1'
+    article: Mehl
+    quantity: 1
+    unit: kg
+  materialItem1period1:
+    materialList: '@materialList1'
+    period: '@period1'
+    contentNode: null
+    article: Blachen
+    quantity: 3
+    unit: Bünde
+  materialItem1period1camp2:
+    materialList: '@materialList1camp2'
+    period: '@period1camp2'
+    contentNode: null
+    article: Zucker
+    quantity: 1
+    unit: kg

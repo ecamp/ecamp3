@@ -19,7 +19,6 @@ use Symfony\Component\Validator\Test\ConstraintValidatorTestCase;
  * @internal
  */
 class AssertBelongsToSameOwnerValidatorTest extends ConstraintValidatorTestCase {
-
     public function testExpectsMatchingAnnotation() {
         $this->expectException(UnexpectedTypeException::class);
         $this->validator->validate(null, new Email());

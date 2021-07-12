@@ -19,23 +19,20 @@ class ListCampsTest extends ECampApiTestCase {
     }
 
     public function testListCampsIsAllowedForLoggedInUserButFiltered() {
-        static::createClientWithCredentials()->request('GET', '/camps');
+        $response = static::createClientWithCredentials()->request('GET', '/camps');
         $this->assertResponseStatusCodeSame(200);
-        $campIri = $this->getIriConverter()->getIriFromItem(static::$fixtures['camp1']);
         $this->assertJsonContains([
             'totalItems' => 1,
+            '_links' => [
+                'items' => [],
+            ],
             '_embedded' => [
-                'items' => [
-                    [
-                        '_links' => [
-                            'self' => [
-                                'href' => $campIri,
-                            ],
-                        ],
-                    ],
-                ],
+                'items' => [],
             ],
         ]);
+        $this->assertEqualsCanonicalizing([
+            ['href' => $this->getIriFor('camp1')],
+        ], $response->toArray()['_links']['items']);
     }
 
     public function testListCampsListsAllCampsForAdmin() {

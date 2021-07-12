@@ -2,8 +2,10 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -21,10 +23,14 @@ use Symfony\Component\Validator\Constraints as Assert;
     collectionOperations: ['get', 'post'],
     itemOperations: [
         'get',
-        'patch' => ['denormalization_context' => ['groups' => ['period:update']]],
+        'patch' => ['denormalization_context' => [
+            'groups' => ['period:update'],
+            'allow_extra_attributes' => false,
+        ]],
         'delete',
     ]
 )]
+#[ApiFilter(SearchFilter::class, properties: ['camp'])]
 class Period extends BaseEntity implements BelongsToCampInterface {
     /**
      * The days in this time period. These are generated automatically.
@@ -67,8 +73,11 @@ class Period extends BaseEntity implements BelongsToCampInterface {
     /**
      * A free text name for the period. Useful to distinguish multiple periods in the same camp.
      *
+     * TODO: Make non-nullable in the DB
+     *
      * @ORM\Column(type="text", nullable=true)
      */
+    #[Assert\NotBlank]
     #[ApiProperty(example: 'Hauptlager')]
     #[Groups(['Default', 'period:update'])]
     public ?string $description = null;
