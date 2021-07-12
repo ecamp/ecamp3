@@ -34,3 +34,5 @@ api_platform:
                 input_formats: [ 'jsonld', 'jsonapi', 'json' ]
         normalization_context:
             skip_null_values: false
+        order:
+            createTime: DESC
