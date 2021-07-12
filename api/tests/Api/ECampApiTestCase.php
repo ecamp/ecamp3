@@ -110,7 +110,7 @@ abstract class ECampApiTestCase extends ApiTestCase {
         return $this->entityManager;
     }
 
-    protected function getExamplePayload(string $resourceClass, array $attributes = [], array $except = []): array {
+    protected function getExamplePayload(string $resourceClass, array $attributes = [], array $exceptExamples = [], array $exceptAttributes = []): array {
         $shortName = $this->getResourceMetadataFactory()->create($resourceClass)->getShortName();
         $schema = $this->getSchemaFactory()->buildSchema($resourceClass, 'json', Schema::TYPE_INPUT, 'POST');
         $properties = ($schema->getDefinitions()[$shortName] ?? $schema->getDefinitions()[$shortName.'-Default'])['properties'];
@@ -127,6 +127,6 @@ abstract class ECampApiTestCase extends ApiTestCase {
             }
         }, $examples);
 
-        return array_diff_key(array_merge($examples, $attributes), array_flip($except));
+        return array_diff_key(array_merge(array_diff_key($examples, array_flip($exceptExamples)), $attributes), array_flip($exceptAttributes));
     }
 }

@@ -72,6 +72,7 @@ class CreateDayResponsibleTest extends ECampApiTestCase {
                 'day' => $this->getIriFor('day3period1'),
                 'campCollaboration' => $this->getIriFor('campCollaboration1'),
             ], $attributes),
+            [],
             $except
         );
     }
@@ -80,7 +81,8 @@ class CreateDayResponsibleTest extends ECampApiTestCase {
         return $this->getExamplePayload(
             DayResponsible::class,
             $attributes,
-            array_merge(['day', 'campCollaboration'], $except)
+            ['day', 'campCollaboration'],
+            $except
         );
     }
 }

@@ -147,6 +147,7 @@ class CreateCategoryTest extends ECampApiTestCase {
                 'camp' => $this->getIriFor('camp1'),
                 'preferredContentTypes' => [$this->getIriFor('contentType1')],
             ], $attributes),
+            [],
             $except
         );
     }
@@ -159,7 +160,8 @@ class CreateCategoryTest extends ECampApiTestCase {
                     'contentNodes' => [],
                 ],
             ], $attributes),
-            array_merge(['camp', 'preferredContentTypes'], $except)
+            ['camp', 'preferredContentTypes'],
+            $except
         );
     }
 }

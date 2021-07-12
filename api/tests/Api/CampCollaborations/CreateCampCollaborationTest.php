@@ -108,7 +108,8 @@ class CreateCampCollaborationTest extends ECampApiTestCase {
                 'user' => $this->getIriFor('user1'),
                 'camp' => $this->getIriFor('camp1'),
             ], $attributes),
-            array_merge(['status'], $except)
+            ['status'],
+            $except
         );
     }
 
@@ -123,7 +124,8 @@ class CreateCampCollaborationTest extends ECampApiTestCase {
                 'status' => 'invited',
                 'inviteEmail' => null,
             ], $attributes),
-            array_merge(['user', 'camp'], $except)
+            ['user', 'camp'],
+            $except
         );
     }
 }

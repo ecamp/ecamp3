@@ -52,6 +52,7 @@ class CreateMaterialListTest extends ECampApiTestCase {
         return $this->getExamplePayload(
             MaterialList::class,
             array_merge(['camp' => $this->getIriFor('camp1')], $attributes),
+            [],
             $except
         );
     }
@@ -60,7 +61,8 @@ class CreateMaterialListTest extends ECampApiTestCase {
         return $this->getExamplePayload(
             MaterialList::class,
             $attributes,
-            array_merge(['camp'], $except)
+            ['camp'],
+            $except
         );
     }
 }

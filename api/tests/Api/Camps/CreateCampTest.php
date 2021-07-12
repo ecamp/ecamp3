@@ -588,14 +588,15 @@ class CreateCampTest extends ECampApiTestCase {
     }
 
     public function getExampleWritePayload($attributes = [], $except = []) {
-        return $this->getExamplePayload(Camp::class, $attributes, $except);
+        return $this->getExamplePayload(Camp::class, $attributes, [], $except);
     }
 
     public function getExampleReadPayload($attributes = [], $except = []) {
         return $this->getExamplePayload(
             Camp::class,
             $attributes,
-            array_merge(['periods'], $except)
+            ['periods'],
+            $except
         );
     }
 }

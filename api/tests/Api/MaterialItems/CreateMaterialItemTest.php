@@ -169,6 +169,7 @@ class CreateMaterialItemTest extends ECampApiTestCase {
                 'period' => $this->getIriFor('period1'),
                 'contentNode' => null,
             ], $attributes),
+            [],
             $except
         );
     }
@@ -177,7 +178,8 @@ class CreateMaterialItemTest extends ECampApiTestCase {
         return $this->getExamplePayload(
             MaterialItem::class,
             $attributes,
-            array_merge(['materialList', 'period', 'contentNode'], $except)
+            ['materialList', 'period', 'contentNode'],
+            $except
         );
     }
 }

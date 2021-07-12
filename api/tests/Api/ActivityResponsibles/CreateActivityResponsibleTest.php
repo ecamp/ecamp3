@@ -72,6 +72,7 @@ class CreateActivityResponsibleTest extends ECampApiTestCase {
                 'activity' => $this->getIriFor('activity2'),
                 'campCollaboration' => $this->getIriFor('campCollaboration1'),
             ], $attributes),
+            [],
             $except
         );
     }
@@ -80,7 +81,8 @@ class CreateActivityResponsibleTest extends ECampApiTestCase {
         return $this->getExamplePayload(
             ActivityResponsible::class,
             $attributes,
-            array_merge(['activity', 'campCollaboration'], $except)
+            ['activity', 'campCollaboration'],
+            $except
         );
     }
 }

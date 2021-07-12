@@ -145,6 +145,7 @@ class CreateScheduleEntryTest extends ECampApiTestCase {
                 'period' => $this->getIriFor('period1'),
                 'activity' => $this->getIriFor('activity1'),
             ], $attributes),
+            [],
             $except
         );
     }
@@ -153,7 +154,8 @@ class CreateScheduleEntryTest extends ECampApiTestCase {
         return $this->getExamplePayload(
             ScheduleEntry::class,
             $attributes,
-            array_merge(['period', 'activity'], $except)
+            ['period', 'activity'],
+            $except
         );
     }
 }

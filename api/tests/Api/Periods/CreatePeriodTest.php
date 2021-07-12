@@ -151,6 +151,7 @@ class CreatePeriodTest extends ECampApiTestCase {
         return $this->getExamplePayload(
             Period::class,
             array_merge(['camp' => $this->getIriFor('camp1')], $attributes),
+            [],
             $except
         );
     }
@@ -159,7 +160,8 @@ class CreatePeriodTest extends ECampApiTestCase {
         return $this->getExamplePayload(
             Period::class,
             $attributes,
-            array_merge(['camp'], $except)
+            ['camp'],
+            $except
         );
     }
 }

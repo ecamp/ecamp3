@@ -68,6 +68,7 @@ class CreateActivityTest extends ECampApiTestCase {
         return $this->getExamplePayload(
             Activity::class,
             array_merge(['category' => $this->getIriFor('category1')], $attributes),
+            [],
             $except
         );
     }
@@ -76,7 +77,8 @@ class CreateActivityTest extends ECampApiTestCase {
         return $this->getExamplePayload(
             Activity::class,
             $attributes,
-            array_merge(['category'], $except)
+            ['category'],
+            $except
         );
     }
 }

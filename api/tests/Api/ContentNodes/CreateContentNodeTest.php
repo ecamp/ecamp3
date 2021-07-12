@@ -92,6 +92,7 @@ class CreateContentNodeTest extends ECampApiTestCase {
                 'parent' => $this->getIriFor('contentNode1'),
                 'contentType' => $this->getIriFor('contentTypeColumnLayout'),
             ], $attributes),
+            [],
             $except
         );
     }
@@ -100,7 +101,8 @@ class CreateContentNodeTest extends ECampApiTestCase {
         return $this->getExamplePayload(
             ContentNode::class,
             $attributes,
-            array_merge(['parent', 'contentType'], $except)
+            ['parent', 'contentType'],
+            $except
         );
     }
 }
