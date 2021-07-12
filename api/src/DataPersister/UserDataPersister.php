@@ -4,15 +4,15 @@ namespace App\DataPersister;
 
 use ApiPlatform\Core\DataPersister\ContextAwareDataPersisterInterface;
 use App\Entity\User;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class UserDataPersister implements ContextAwareDataPersisterInterface {
     private ContextAwareDataPersisterInterface $dataPersister;
-    private UserPasswordEncoderInterface $userPasswordEncoder;
+    private UserPasswordHasherInterface $userPasswordHasher;
 
-    public function __construct(ContextAwareDataPersisterInterface $dataPersister, UserPasswordEncoderInterface $userPasswordEncoder) {
+    public function __construct(ContextAwareDataPersisterInterface $dataPersister, UserPasswordHasherInterface $userPasswordEncoder) {
         $this->dataPersister = $dataPersister;
-        $this->userPasswordEncoder = $userPasswordEncoder;
+        $this->userPasswordHasher = $userPasswordEncoder;
     }
 
     public function supports($data, array $context = []): bool {
@@ -21,7 +21,7 @@ class UserDataPersister implements ContextAwareDataPersisterInterface {
 
     public function persist($data, array $context = []) {
         if ($data->plainPassword) {
-            $data->password = $this->userPasswordEncoder->encodePassword($data, $data->plainPassword);
+            $data->password = $this->userPasswordHasher->hashPassword($data, $data->plainPassword);
             $data->eraseCredentials();
         }
 

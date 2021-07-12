@@ -38,7 +38,7 @@ class ListCampsTest extends ECampApiTestCase {
     public function testListCampsListsAllCampsForAdmin() {
         $client = static::createClientWithAdminCredentials();
         $response = $client->request('GET', '/camps');
-        $totalCamps = count(static::$container->get(CampRepository::class)->findAll());
+        $totalCamps = count(static::getContainer()->get(CampRepository::class)->findAll());
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
             'totalItems' => $totalCamps,

@@ -1,5 +1,6 @@
 security:
-    encoders:
+    enable_authenticator_manager: true
+    password_hashers:
         App\Entity\User:
             algorithm: auto
 
@@ -15,10 +16,8 @@ security:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
-            stateless: true
-            # anonymous and lazy are necessary to make unauthenticated endpoints
+            # lazy is necessary to make unauthenticated endpoints
             # (such as user create) work without JWT token
-            anonymous: true
             lazy: true
             provider: app_user_provider
             json_login:
@@ -27,11 +26,9 @@ security:
                 password_path: password
                 success_handler: lexik_jwt_authentication.handler.authentication_success
                 failure_handler: lexik_jwt_authentication.handler.authentication_failure
-            guard:
-                authenticators:
-                    - lexik_jwt_authentication.jwt_token_authenticator
+            jwt: ~
 
     access_control:
-        - { path: ^/docs, roles: IS_AUTHENTICATED_ANONYMOUSLY } # Allows accessing the Swagger UI
-        - { path: ^/authentication_token, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/, roles: [IS_AUTHENTICATED_FULLY, IS_AUTHENTICATED_ANONYMOUSLY] } # Some endpoints are available to unauthenticated clients
+        - { path: ^/docs, roles: PUBLIC_ACCESS } # Allows accessing the Swagger UI
+        - { path: ^/authentication_token, roles: PUBLIC_ACCESS }
+        - { path: ^/, roles: PUBLIC_ACCESS } # Some endpoints are available to unauthenticated clients

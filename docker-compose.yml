@@ -2,7 +2,7 @@ version: "3.4"
 
 services:
   frontend:
-    image: node:14.17.0@sha256:af9879e7473d347048c5d5919aa9775f27c33d92e4d58058ffdc08247f4bd902
+    image: node:14.17.3@sha256:0c558991de47e614588a61f9cc90afdcf034c6fc641d3ab650c9570a98b37605
     container_name: 'ecamp3-frontend'
     ports:
       - '3000:3000'
@@ -105,7 +105,7 @@ services:
     entrypoint: ./docker-setup.sh
 
   print:
-    image: node:14.17.0@sha256:af9879e7473d347048c5d5919aa9775f27c33d92e4d58058ffdc08247f4bd902
+    image: node:14.17.3@sha256:0c558991de47e614588a61f9cc90afdcf034c6fc641d3ab650c9570a98b37605
     container_name: 'ecamp3-print'
     ports:
       - '3003:3003'
@@ -126,7 +126,7 @@ services:
       - ./print/print.env
 
   composer:
-    image: composer:2@sha256:737ea696658b06814edfa626cd9f1482805bea4bf53feaab84aae5fdf1a07578
+    image: composer:2@sha256:e9f3f3d5ade248dc094b971e3d25381b8986b636662234019c5b0048d2000bd3
     container_name: 'ecamp3-composer'
     restart: 'no'
     command: bash -c "composer install --no-interaction --no-plugins --no-scripts --prefer-dist"
@@ -156,7 +156,7 @@ services:
       - POSTGRES_PASSWORD=ecamp3
       - POSTGRES_USER=ecamp3
     volumes:
-      - db_data:/var/lib/postgresql/data:rw
+      - db-data-postgres:/var/lib/postgresql/data:rw
       # you may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!
       # - ./api/docker/db/data:/var/lib/postgresql/data:rw
     ports:
@@ -173,7 +173,7 @@ services:
       - ./phpmyadmin/config.user.inc.php:/etc/phpmyadmin/config.user.inc.php
 
   rabbitmq:
-    image: rabbitmq:3.8-management@sha256:c4bcdb26f41021ecc6d1d0a3fe97cbf2615607276b25bc3e35d61b2f20969d11
+    image: rabbitmq:3.8-management@sha256:6216cff12643ef4e1805a3b1fa36ce1a55a87dee17ca1836007e4bdb02dcd54c
     container_name: 'ecamp3-rabbitmq'
     ports:
       - '3004:15672'
@@ -223,4 +223,4 @@ services:
 
 volumes:
   db-data:
-  db_data:
+  db-data-postgres:

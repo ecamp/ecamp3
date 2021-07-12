@@ -482,6 +482,9 @@
     "symfony/options-resolver": {
         "version": "v5.2.4"
     },
+    "symfony/password-hasher": {
+        "version": "v5.3.3"
+    },
     "symfony/phpunit-bridge": {
         "version": "5.1",
         "recipe": {
@@ -498,9 +501,6 @@
         ]
     },
     "symfony/polyfill-intl-grapheme": {
-        "version": "v1.22.1"
-    },
-    "symfony/polyfill-intl-icu": {
         "version": "v1.22.1"
     },
     "symfony/polyfill-intl-normalizer": {
@@ -540,6 +540,9 @@
             "config/packages/routing.yaml",
             "config/routes.yaml"
         ]
+    },
+    "symfony/runtime": {
+        "version": "v5.3.3"
     },
     "symfony/security-bundle": {
         "version": "5.1",

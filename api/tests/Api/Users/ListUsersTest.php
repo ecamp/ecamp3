@@ -38,7 +38,7 @@ class ListUsersTest extends ECampApiTestCase {
     public function testListUsersListsAllUsersForAdmin() {
         $client = static::createClientWithAdminCredentials();
         $response = $client->request('GET', '/users');
-        $totalUsers = count(static::$container->get(UserRepository::class)->findAll());
+        $totalUsers = count(static::getContainer()->get(UserRepository::class)->findAll());
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
             'totalItems' => $totalUsers,
