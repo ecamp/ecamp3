@@ -14,6 +14,8 @@ use Doctrine\ORM\Mapping\MappingException;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\DependencyInjection\ServiceLocator;
 use Symfony\Component\Routing\RouterInterface;
+use Symfony\Component\Serializer\NameConverter\AdvancedNameConverterInterface;
+use Symfony\Component\Serializer\NameConverter\NameConverterInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Serializer\SerializerAwareInterface;
 use Symfony\Component\Serializer\SerializerInterface;
@@ -62,8 +64,9 @@ class RelatedCollectionLinkNormalizer implements NormalizerInterface, Serializer
     private IriConverterInterface $iriConverter;
     private ManagerRegistry $managerRegistry;
     private ResourceMetadataFactoryInterface $resourceMetadataFactory;
+    private NameConverterInterface $nameConverter;
 
-    public function __construct(NormalizerInterface $decorated, RouteNameResolverInterface $routeNameResolver, ServiceLocator $filterLocator, RouterInterface $router, IriConverterInterface $iriConverter, ManagerRegistry $managerRegistry, ResourceMetadataFactoryInterface $resourceMetadataFactory) {
+    public function __construct(NormalizerInterface $decorated, RouteNameResolverInterface $routeNameResolver, ServiceLocator $filterLocator, NameConverterInterface $nameConverter, RouterInterface $router, IriConverterInterface $iriConverter, ManagerRegistry $managerRegistry, ResourceMetadataFactoryInterface $resourceMetadataFactory) {
         $this->decorated = $decorated;
         $this->router = $router;
         $this->routeNameResolver = $routeNameResolver;
@@ -71,6 +74,7 @@ class RelatedCollectionLinkNormalizer implements NormalizerInterface, Serializer
         $this->iriConverter = $iriConverter;
         $this->managerRegistry = $managerRegistry;
         $this->resourceMetadataFactory = $resourceMetadataFactory;
+        $this->nameConverter = $nameConverter;
     }
 
     public function supportsNormalization($data, $format = null) {
@@ -109,6 +113,10 @@ class RelatedCollectionLinkNormalizer implements NormalizerInterface, Serializer
 
     public function getRelatedCollectionHref($object, $rel, array $context = []): string {
         $resourceClass = $context['resource_class'] ?? get_class($object);
+
+        if ($this->nameConverter instanceof AdvancedNameConverterInterface) {
+            $rel = $this->nameConverter->denormalize($rel, $resourceClass, null, $context);
+        }
 
         try {
             $relationMetadata = $this->getClassMetadata($resourceClass)->getAssociationMapping($rel);
