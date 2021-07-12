@@ -85,7 +85,7 @@ class Period extends BaseEntity implements BelongsToCampInterface {
      * @ORM\Column(type="date")
      */
     #[Assert\LessThanOrEqual(propertyPath: 'end')]
-    #[ApiProperty(example: '2022-01-01')]
+    #[ApiProperty(example: '2022-01-01', openapiContext: ['format' => 'date'])]
     #[Groups(['Default', 'period:update'])]
     public ?DateTimeInterface $start = null;
 
@@ -96,7 +96,7 @@ class Period extends BaseEntity implements BelongsToCampInterface {
      * @ORM\Column(name="`end`", type="date")
      */
     #[Assert\GreaterThanOrEqual(propertyPath: 'start')]
-    #[ApiProperty(example: '2022-01-08')]
+    #[ApiProperty(example: '2022-01-08', openapiContext: ['format' => 'date'])]
     #[Groups(['Default', 'period:update'])]
     public ?DateTimeInterface $end = null;
 
