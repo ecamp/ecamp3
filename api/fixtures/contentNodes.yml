@@ -39,7 +39,31 @@ App\Entity\ContentNode:
     jsonConfig: null
     instanceName: <word()>
     contentType: '@contentType2'
+  contentNode3:
+    root: '@self'
+    parent: null
+    slot: ''
+    position: 0
+    jsonConfig: { columns: [ { slot: 1, width: 12 } ] }
+    instanceName: <word()>
+    contentType: '@contentTypeColumnLayout'
+  contentNode4:
+    root: '@self'
+    parent: null
+    slot: ''
+    position: 0
+    jsonConfig: { columns: [ { slot: 1, width: 12 } ] }
+    instanceName: <word()>
+    contentType: '@contentTypeColumnLayout'
   contentNode1camp2:
+    root: '@self'
+    parent: null
+    slot: ''
+    position: 0
+    jsonConfig: {columns: [{slot: 1, width: 12}]}
+    instanceName: <word()>
+    contentType: '@contentTypeColumnLayout'
+  contentNode2camp2:
     root: '@self'
     parent: null
     slot: ''

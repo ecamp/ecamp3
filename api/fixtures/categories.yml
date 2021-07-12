@@ -14,9 +14,11 @@ App\Entity\Category:
     name: Lagerprogramm
     color: '#99CCFF'
     numberingStyle: 1
+    rootContentNode: '@contentNode4'
   category1camp2:
     camp: '@camp2'
     short: LS
     name: Lagersport
     color: '#4CAF50'
     numberingStyle: 1
+    rootContentNode: '@contentNode2camp2'
