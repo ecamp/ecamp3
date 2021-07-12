@@ -67,7 +67,7 @@ class UpdateCampCollaborationTest extends ECampApiTestCase {
 
         $this->assertResponseStatusCodeSame(400);
         $this->assertJsonContains([
-            'detail' => 'Extra attributes are not allowed ("user" are unknown).',
+            'detail' => 'Extra attributes are not allowed ("user" is unknown).',
         ]);
     }
 
@@ -79,7 +79,7 @@ class UpdateCampCollaborationTest extends ECampApiTestCase {
 
         $this->assertResponseStatusCodeSame(400);
         $this->assertJsonContains([
-            'detail' => 'Extra attributes are not allowed ("camp" are unknown).',
+            'detail' => 'Extra attributes are not allowed ("camp" is unknown).',
         ]);
     }
 }

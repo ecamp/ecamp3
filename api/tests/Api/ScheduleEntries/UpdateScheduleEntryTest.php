@@ -41,7 +41,7 @@ class UpdateScheduleEntryTest extends ECampApiTestCase {
 
         $this->assertResponseStatusCodeSame(400);
         $this->assertJsonContains([
-            'detail' => 'Extra attributes are not allowed ("activity" are unknown).',
+            'detail' => 'Extra attributes are not allowed ("activity" is unknown).',
         ]);
     }
 

@@ -7,7 +7,8 @@ use App\DataPersister\UserDataPersister;
 use App\Entity\User;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasher;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 /**
  * @internal
@@ -15,15 +16,15 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 class UserDataPersisterTest extends TestCase {
     private UserDataPersister $dataPersister;
     private MockObject | ContextAwareDataPersisterInterface $decoratedMock;
-    private MockObject | UserPasswordEncoderInterface $userPasswordEncoder;
+    private MockObject | UserPasswordHasherInterface $userPasswordHasher;
     private User $user;
 
     protected function setUp(): void {
         $this->decoratedMock = $this->createMock(ContextAwareDataPersisterInterface::class);
-        $this->userPasswordEncoder = $this->createMock(UserPasswordEncoderInterface::class);
+        $this->userPasswordHasher = $this->createMock(UserPasswordHasher::class);
         $this->user = new User();
 
-        $this->dataPersister = new UserDataPersister($this->decoratedMock, $this->userPasswordEncoder);
+        $this->dataPersister = new UserDataPersister($this->decoratedMock, $this->userPasswordHasher);
     }
 
     public function testDelegatesSupportCheckToDecorated() {
@@ -60,7 +61,7 @@ class UserDataPersisterTest extends TestCase {
 
     public function testDoesNothingNormally() {
         // given
-        $this->userPasswordEncoder->expects($this->never())->method('encodePassword');
+        $this->userPasswordHasher->expects($this->never())->method('hashPassword');
         $this->decoratedMock->expects($this->once())->method('persist')->willReturnArgument(0);
 
         // when
@@ -75,7 +76,7 @@ class UserDataPersisterTest extends TestCase {
     public function testHashesPasswordWhenPlainPasswordIsSet() {
         // given
         $this->user->plainPassword = 'test plain password';
-        $this->userPasswordEncoder->expects($this->once())->method('encodePassword')->willReturn('test hash');
+        $this->userPasswordHasher->expects($this->once())->method('hashPassword')->willReturn('test hash');
         $this->decoratedMock->expects($this->once())->method('persist')->willReturnArgument(0);
 
         // when

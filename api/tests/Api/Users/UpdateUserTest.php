@@ -154,7 +154,7 @@ class UpdateUserTest extends ECampApiTestCase {
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
         $this->assertResponseStatusCodeSame(400);
         $this->assertJsonContains([
-            'detail' => 'Extra attributes are not allowed ("username" are unknown).',
+            'detail' => 'Extra attributes are not allowed ("username" is unknown).',
         ]);
     }
 

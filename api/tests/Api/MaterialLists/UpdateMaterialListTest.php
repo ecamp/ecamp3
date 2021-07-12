@@ -31,7 +31,7 @@ class UpdateMaterialListTest extends ECampApiTestCase {
 
         $this->assertResponseStatusCodeSame(400);
         $this->assertJsonContains([
-            'detail' => 'Extra attributes are not allowed ("camp" are unknown).',
+            'detail' => 'Extra attributes are not allowed ("camp" is unknown).',
         ]);
     }
 
