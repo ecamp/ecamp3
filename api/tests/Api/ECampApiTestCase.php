@@ -42,8 +42,8 @@ abstract class ECampApiTestCase extends ApiTestCase {
         $client = static::createBasicClient($headers);
 
         /** @var User $user */
-        $user = static::$container->get(UserRepository::class)->findBy(array_diff_key($credentials ?: ['username' => 'test-user'], ['password' => '']));
-        $jwtToken = static::$container->get('lexik_jwt_authentication.jwt_manager')->create($user[0]);
+        $user = static::getContainer()->get(UserRepository::class)->findBy(array_diff_key($credentials ?: ['username' => 'test-user'], ['password' => '']));
+        $jwtToken = static::getContainer()->get('lexik_jwt_authentication.jwt_manager')->create($user[0]);
         $lastPeriodPosition = strrpos($jwtToken, '.');
         $jwtHeaderAndPayload = substr($jwtToken, 0, $lastPeriodPosition);
         $jwtSignature = substr($jwtToken, $lastPeriodPosition + 1);
@@ -104,7 +104,7 @@ abstract class ECampApiTestCase extends ApiTestCase {
 
     protected function getEntityManager(): EntityManagerInterface {
         if (null === $this->entityManager) {
-            $this->entityManager = static::$container->get('doctrine.orm.default_entity_manager');
+            $this->entityManager = static::getContainer()->get('doctrine.orm.default_entity_manager');
         }
 
         return $this->entityManager;
