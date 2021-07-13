@@ -60,7 +60,7 @@ if [ "$1" = 'php-fpm' ] || [ "$1" = 'php' ] || [ "$1" = 'bin/console' ] || [ "$1
 		fi
 
 		if ls -A fixtures/*.yml >/dev/null 2>&1; then
-		  php bin/console hautelook:fixtures:load --quiet
+			php bin/console hautelook:fixtures:load --quiet
 		fi
 	fi
 fi
