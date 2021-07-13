@@ -42,7 +42,7 @@ class Activity extends AbstractContentNodeOwner implements BelongsToCampInterfac
      *
      * @ORM\OneToMany(targetEntity="ActivityResponsible", mappedBy="activity", orphanRemoval=true)
      */
-    #[ApiProperty(writable: false, example: '["/activity_responsibles/1a2b3c4d"]')]
+    #[ApiProperty(readable: false, writable: false)]
     public Collection $activityResponsibles;
 
     /**
@@ -101,6 +101,20 @@ class Activity extends AbstractContentNodeOwner implements BelongsToCampInterfac
     public function getRootContentNode(): ?ContentNode {
         // Getter is here to add annotations to parent class property
         return $this->rootContentNode;
+    }
+
+    /**
+     * The list of people that are responsible for planning or carrying out this activity.
+     *
+     * @return CampCollaboration[]
+     */
+    #[ApiProperty(writable: false, example: '["/camp_collaborations/1a2b3c4d"]')]
+    public function getCampCollaborations(): array {
+        return $this
+            ->activityResponsibles
+            ->map(fn (ActivityResponsible $activityResponsible) => $activityResponsible->campCollaboration)
+            ->getValues()
+        ;
     }
 
     /**
