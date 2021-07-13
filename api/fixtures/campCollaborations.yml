@@ -4,8 +4,20 @@ App\Entity\CampCollaboration:
     camp: '@camp1'
     status: established
     role: manager
+  campCollaboration1invited:
+    camp: '@camp1'
+    inviteKey: "myInviteKey"
+    inviteEmail: "e.mail@test.com"
+    status: invited
+    role: member
   campCollaboration1camp2:
     user: '@user1'
     camp: '@camp2'
     status: established
+    role: member
+  campCollaboration2invitedCampUnrelated:
+    camp: '@campUnrelated'
+    inviteKey: "myInviteKey2"
+    inviteEmail: "e.mail2@test.com"
+    status: invited
     role: member
