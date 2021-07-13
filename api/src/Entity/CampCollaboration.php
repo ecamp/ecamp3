@@ -95,7 +95,7 @@ class CampCollaboration extends BaseEntity implements BelongsToCampInterface {
     public ?string $inviteKey = null;
 
     /**
-     * The person that is collaborating in the camp. Cannot be changed once the campCollaboration is created.
+     * The person that is collaborating in the camp. Cannot be changed once the campCollaboration is established.
      * Either this field or the inviteEmail field should be null.
      *
      * @ORM\ManyToOne(targetEntity="User", inversedBy="collaborations")
