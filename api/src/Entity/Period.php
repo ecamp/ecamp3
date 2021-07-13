@@ -17,7 +17,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * A time period in which the programme of a camp will take place. There may be multiple
  * periods in a camp, but they may not overlap. A period is made up of one or more full days.
  *
- * @ORM\Entity()
+ * @ORM\Entity
  */
 #[ApiResource(
     collectionOperations: ['get', 'post'],

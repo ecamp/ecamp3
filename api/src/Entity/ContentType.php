@@ -11,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  * determines what data can be stored in content nodes of this type, as well as validation,
  * available slots and jsonConfig settings.
  *
- * @ORM\Entity()
+ * @ORM\Entity
  */
 #[ApiResource(
     collectionOperations: ['get'],

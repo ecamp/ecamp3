@@ -15,7 +15,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * A piece of programme that will be carried out once or multiple times in a camp.
  *
- * @ORM\Entity()
+ * @ORM\Entity
  */
 #[ApiResource(
     collectionOperations: ['get', 'post'],

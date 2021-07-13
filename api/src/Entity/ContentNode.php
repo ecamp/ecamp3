@@ -23,7 +23,7 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
  * content nodes may be inserted. In return, a content node may be nested inside a slot in a parent
  * container content node. This way, a tree of content nodes makes up a complete programme.
  *
- * @ORM\Entity()
+ * @ORM\Entity
  */
 #[ApiResource(
     collectionOperations: ['get', 'post'],

@@ -16,7 +16,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * A user participating in some way in the planning or realization of a camp.
  *
- * @ORM\Entity()
+ * @ORM\Entity
  * @ORM\Table(uniqueConstraints={
  *     @ORM\UniqueConstraint(name="inviteKey_unique", columns={"inviteKey"})
  * })
