@@ -12,16 +12,18 @@
       </v-list-item-subtitle>
     </v-list-item-content>
     <v-list-item-action class="ml-5">
-      <icon-button color="normal"
-                   icon="mdi-refresh"
-                   @click="api.patch(collaborator, {status: 'invited'})">
+      <icon-button
+        color="normal"
+        icon="mdi-refresh"
+        :disabled="disabled"
+        @click="api.patch(collaborator, {status: 'invited'})">
         {{ $tc('components.camp.inactiveCampCollaboratorListItem.inviteAgain') }}
       </icon-button>
     </v-list-item-action>
     <v-list-item-action>
       <dialog-entity-delete :entity="collaborator">
         <template #activator="{ on }">
-          <button-delete v-on="on" />
+          <button-delete :disabled="disabled" v-on="on" />
         </template>
         {{ $tc('components.camp.inactiveCampCollaboratorListItem.delete') }} <br>
         <ul>
@@ -44,12 +46,14 @@
 import IconButton from '@/components/buttons/IconButton.vue'
 import ButtonDelete from '@/components/buttons/ButtonDelete.vue'
 import DialogEntityDelete from '@/components/dialog/DialogEntityDelete.vue'
+import UserAvatar from '@/components/user/UserAvatar.vue'
 
 export default {
   name: 'InactiveCollaboratorListItem',
-  components: { IconButton, ButtonDelete, DialogEntityDelete },
+  components: { IconButton, ButtonDelete, DialogEntityDelete, UserAvatar },
   props: {
-    collaborator: { type: Object, required: true }
+    collaborator: { type: Object, required: true },
+    disabled: { type: Boolean, default: false }
   }
 }
 </script>

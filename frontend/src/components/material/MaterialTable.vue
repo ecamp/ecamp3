@@ -37,7 +37,7 @@
     <template #[`item.quantity`]="{ item }">
       <api-text-field
         v-if="!item.readonly"
-        :disabled="layoutMode"
+        :disabled="layoutMode || disabled"
         dense
         :uri="item.uri"
         fieldname="quantity" />
@@ -47,7 +47,7 @@
     <template #[`item.unit`]="{ item }">
       <api-text-field
         v-if="!item.readonly"
-        :disabled="layoutMode"
+        :disabled="layoutMode || disabled"
         dense
         :uri="item.uri"
         fieldname="unit" />
@@ -57,7 +57,7 @@
     <template #[`item.article`]="{ item }">
       <api-text-field
         v-if="!item.readonly"
-        :disabled="layoutMode"
+        :disabled="layoutMode || disabled"
         dense
         :uri="item.uri"
         fieldname="article" />
@@ -67,7 +67,7 @@
     <template #[`item.listName`]="{ item }">
       <api-select
         v-if="!item.readonly"
-        :disabled="layoutMode"
+        :disabled="layoutMode || disabled"
         dense
         :uri="item.uri"
         relation="materialList"
@@ -86,7 +86,7 @@
       <div v-if="!item.readonly" class="d-flex">
         <!-- edit dialog (mobile only) -->
         <dialog-material-item-edit
-          v-if="!$vuetify.breakpoint.smAndUp && !layoutMode"
+          v-if="!$vuetify.breakpoint.smAndUp && !layoutMode && !disabled"
           class="float-left"
           :material-item-uri="item.uri">
           <template #activator="{ on }">
@@ -98,7 +98,7 @@
         </dialog-material-item-edit>
 
         <!-- delete button (behind menu) -->
-        <v-menu v-if="!layoutMode">
+        <v-menu v-if="!layoutMode && !disabled">
           <template #activator="{ on, attrs }">
             <v-btn icon v-bind="attrs" v-on="on">
               <v-icon>mdi-dots-vertical</v-icon>
@@ -145,7 +145,7 @@
     <template #[`body.append`]="{ headers }">
       <!-- add new item (desktop view) -->
       <material-create-item
-        v-if="!layoutMode && $vuetify.breakpoint.smAndUp"
+        v-if="!layoutMode && $vuetify.breakpoint.smAndUp && !disabled"
         key="addItemRow"
         :camp="camp"
         :columns="headers.length"
@@ -154,7 +154,7 @@
 
     <template #footer>
       <!-- add new item (mobile view) -->
-      <div v-if="!layoutMode && !$vuetify.breakpoint.smAndUp" class="mt-5">
+      <div v-if="!layoutMode && !$vuetify.breakpoint.smAndUp && !disabled" class="mt-5">
         <dialog-material-item-create
           :camp="camp"
           :material-item-collection="materialItemCollection"
@@ -208,6 +208,8 @@ export default {
   props: {
     // camp Entity
     camp: { type: Object, required: true },
+
+    disabled: { type: Boolean, default: false },
 
     // layoutMode=true --> data editing is disabled
     layoutMode: { type: Boolean, required: false, default: false },
@@ -283,7 +285,7 @@ export default {
           listName: item.materialList().name,
           activity: item.contentNode ? item.contentNode().id : null,
           entityObject: item,
-          readonly: this.period && item.contentNode, // if complete component is in period overview, disable editing of material that belongs to contentNodes (Acitity material)
+          readonly: (this.period && item.contentNode), // if complete component is in period overview, disable editing of material that belongs to contentNodes (Acitity material)
           class: this.period && item.contentNode ? 'readonly' : 'period'
         }))
 

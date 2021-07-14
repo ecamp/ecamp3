@@ -6,6 +6,7 @@
              :content-node="contentNode"
              :layout-mode="layoutMode"
              :draggable="draggable"
+             :disabled="disabled"
              v-bind="$attrs" />
 </template>
 
@@ -35,7 +36,8 @@ export default {
   props: {
     contentNode: { type: Object, required: true },
     layoutMode: { type: Boolean, required: true },
-    draggable: { type: Boolean, default: false }
+    draggable: { type: Boolean, default: false },
+    disabled: { type: Boolean, default: false }
   }
 }
 </script>

@@ -4,7 +4,7 @@
       <v-list-item-title>{{ materialList.name }}</v-list-item-title>
     </v-list-item-content>
 
-    <v-list-item-action style="display: inline">
+    <v-list-item-action v-if="!disabled" style="display: inline">
       <v-item-group>
         <dialog-material-list-edit :material-list="materialList">
           <template #activator="{ on }">
@@ -14,7 +14,7 @@
       </v-item-group>
     </v-list-item-action>
 
-    <v-menu offset-y>
+    <v-menu v-if="!disabled" offset-y>
       <template #activator="{ on, attrs }">
         <v-btn icon v-bind="attrs" v-on="on">
           <v-icon>mdi-dots-vertical</v-icon>
@@ -52,7 +52,8 @@ export default {
   name: 'CampMaterialListsItem',
   components: { DialogEntityDelete, DialogMaterialListEdit, ButtonEdit, ButtonDelete },
   props: {
-    materialList: { type: Object, required: true }
+    materialList: { type: Object, required: true },
+    disabled: { type: Boolean, default: false }
   }
 }
 </script>

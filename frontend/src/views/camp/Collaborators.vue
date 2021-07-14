@@ -9,7 +9,8 @@ Displays collaborators of a single camp.
           <v-skeleton-loader v-if="collaborators.length <= 0" type="list-item-avatar-two-line@3" class="px-0" />
           <collaborator-list-item
             v-for="collaborator in establishedCollaborators"
-            :key="collaborator._meta.self" :collaborator="collaborator" />
+            :key="collaborator._meta.self" :collaborator="collaborator"
+            :disabled="!isManager" />
         </v-list>
       </content-group>
 
@@ -17,7 +18,8 @@ Displays collaborators of a single camp.
         <v-list>
           <collaborator-list-item
             v-for="collaborator in invitedCollaborators"
-            :key="collaborator._meta.self" :collaborator="collaborator" />
+            :key="collaborator._meta.self" :collaborator="collaborator"
+            :disabled="!isManager" />
         </v-list>
       </content-group>
 
@@ -25,11 +27,12 @@ Displays collaborators of a single camp.
         <v-list>
           <inactive-collaborator-list-item
             v-for="collaborator in inactiveCollaborators"
-            :key="collaborator._meta.self" :collaborator="collaborator" />
+            :key="collaborator._meta.self" :collaborator="collaborator"
+            :disabled="!isManager" />
         </v-list>
       </content-group>
 
-      <content-group :title="$tc('views.camp.collaborators.invite')">
+      <content-group v-if="isManager" :title="$tc('views.camp.collaborators.invite')">
         <v-form @submit.prevent="invite">
           <v-container>
             <v-row
@@ -50,6 +53,7 @@ Displays collaborators of a single camp.
                   :items="[
                     { key: 'member', translation: $tc('entity.camp.collaborators.member') },
                     { key: 'manager', translation: $tc('entity.camp.collaborators.manager') },
+                    { key: 'guest', translation: $tc('entity.camp.collaborators.guest') },
                   ]"
                   item-value="key"
                   item-text="translation"
@@ -77,6 +81,7 @@ import ButtonAdd from '@/components/buttons/ButtonAdd.vue'
 import ETextField from '@/components/form/base/ETextField.vue'
 import ESelect from '@/components/form/base/ESelect.vue'
 import InactiveCollaboratorListItem from '@/components/camp/InactiveCollaboratorListItem.vue'
+import { campRoleMixin } from '@/mixins/campRoleMixin'
 
 const DEFAULT_INVITE_ROLE = 'member'
 
@@ -91,6 +96,7 @@ export default {
     ESelect,
     InactiveCollaboratorListItem
   },
+  mixins: [campRoleMixin],
   props: {
     camp: { type: Function, required: true }
   },

@@ -226,10 +226,13 @@ JSON;
         $this->assertEquals(CampCollaboration::STATUS_INVITED, $this->getResponseContent()->status);
     }
 
-    public function testCreateOnlyWithEmail(): void {
+    /**
+     * @dataProvider getRoles
+     */
+    public function testCreateOnlyWithEmail(string $role): void {
         $inviteEmail = 'my.mail@fantasy.com';
         $this->setRequestContent([
-            'role' => CampCollaboration::ROLE_MEMBER,
+            'role' => $role,
             'campId' => $this->campCollaboration1->getCamp()->getId(),
             'inviteEmail' => $inviteEmail,
             'userId' => null,
@@ -242,6 +245,10 @@ JSON;
         $this->assertThat($this->getResponseContent()->status, self::equalTo(CampCollaboration::STATUS_INVITED));
         $this->assertThat($this->getResponseContent()->inviteEmail, self::equalTo($inviteEmail));
         $this->assertThat($this->getResponseContent()->_embedded, self::logicalNot(self::classHasAttribute('user')));
+    }
+
+    public static function getRoles(): array {
+        return [[CampCollaboration::ROLE_GUEST], [CampCollaboration::ROLE_MANAGER], [CampCollaboration::ROLE_MEMBER]];
     }
 
     public function testCreateWithEmailOfExistingUser() {

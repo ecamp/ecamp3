@@ -7,7 +7,7 @@
           :label="$tc('contentNode.notes.name')"
           rows="4"
           auto-grow
-          :disabled="layoutMode"
+          :disabled="layoutMode || disabled"
           :filled="layoutMode" />
       </api-form>
     </div>
