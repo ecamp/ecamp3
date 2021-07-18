@@ -152,6 +152,19 @@ jobs:
       - run: cp .env.ci .env
 
       - run: docker-compose run --rm php composer test
+        
+      - name: send coveralls report
+        run: |
+          # coveralls saves absolute paths and needs them to match again when running without docker
+          sed -i "s|/srv/api/|$(pwd)/api/|g" api/build/logs/clover.xml
+          api/vendor/bin/php-coveralls  -r api \
+                                            -v \
+                                            --coverage_clover build/logs/clover.xml \
+                                            --json_path build/logs/coveralls-upload.json
+        env:
+          COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          COVERALLS_PARALLEL: true
+          COVERALLS_FLAG_NAME: api
 
   frontend-tests:
     name: "Tests: Frontend"
@@ -237,6 +250,7 @@ jobs:
   coveralls-finished:
     name: "Finish coveralls report"
     needs:
+      - api-tests
       - backend-tests
       - frontend-tests
       - print-tests
