@@ -3,6 +3,7 @@
 namespace App\Tests\Api\Camps;
 
 use App\Entity\Camp;
+use App\Entity\User;
 use App\Tests\Api\ECampApiTestCase;
 
 /**
@@ -10,7 +11,7 @@ use App\Tests\Api\ECampApiTestCase;
  */
 class CreateCampTest extends ECampApiTestCase {
     public function testCreateCampWhenNotLoggedIn() {
-        static::createClient()->request('POST', '/camps', ['json' => $this->getExamplePayload(Camp::class)]);
+        static::createClient()->request('POST', '/camps', ['json' => $this->getExampleWritePayload()]);
 
         $this->assertResponseStatusCodeSame(401);
         $this->assertJsonContains([
@@ -20,23 +21,23 @@ class CreateCampTest extends ECampApiTestCase {
     }
 
     public function testCreateCampWhenLoggedIn() {
-        static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExamplePayload(Camp::class)]);
+        static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExampleWritePayload()]);
 
         $this->assertResponseStatusCodeSame(201);
-        $this->assertJsonContains($this->getExamplePayload(Camp::class, [
+        $this->assertJsonContains($this->getExampleReadPayload([
             'isPrototype' => false,
         ]));
     }
 
     public function testCreateCampDoesntExposeCampPrototypeId() {
-        $response = static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExamplePayload(Camp::class)]);
+        $response = static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExampleWritePayload()]);
 
         $this->assertResponseStatusCodeSame(201);
         $this->assertArrayNotHasKey('campPrototypeId', $response->toArray());
     }
 
     public function testCreateCampSetsCreatorToAuthenticatedUser() {
-        static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExamplePayload(Camp::class)]);
+        static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExampleWritePayload()]);
 
         $this->assertResponseStatusCodeSame(201);
         $this->assertJsonContains(['_links' => [
@@ -45,38 +46,90 @@ class CreateCampTest extends ECampApiTestCase {
     }
 
     public function testCreateCampSetsOwnerToAuthenticatedUser() {
-        static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExamplePayload(Camp::class)]);
+        $response = static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExampleWritePayload()]);
+        $user = $this->getEntityManager()->getRepository(User::class)->findOneBy(['username' => 'test-user']);
 
         $this->assertResponseStatusCodeSame(201);
-        $this->assertJsonContains(['_links' => [
-            'owner' => ['href' => '/users/'.static::$fixtures['user1']->getId()],
-        ]]);
+        $camp = $this->getEntityManager()->getRepository(Camp::class)->find($response->toArray()['id']);
+        $this->assertEquals($user->getId(), $camp->owner->getId());
+    }
+
+    public function testCreateCampValidatesMissingPeriods() {
+        static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExampleWritePayload([], ['periods'])]);
+
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [
+                    'propertyPath' => 'periods',
+                    'message' => 'This collection should contain 1 element or more.',
+                ],
+            ],
+        ]);
+    }
+
+    public function testCreateCampValidatesEmptyPeriods() {
+        static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExampleWritePayload([
+            'periods' => [],
+        ])]);
+
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [
+                    'propertyPath' => 'periods',
+                    'message' => 'This collection should contain 1 element or more.',
+                ],
+            ],
+        ]);
+    }
+
+    public function testCreateCampValidatesInvalidPeriods() {
+        static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExampleWritePayload([
+            'periods' => [
+                [
+                    'description' => 'Hauptlager',
+                    'start' => '2022-01-10', // start date after end date is invalid
+                    'end' => '2022-01-08',
+                ],
+            ],
+        ])]);
+
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [
+                    'propertyPath' => 'periods[0].start',
+                    'message' => 'This value should be less than or equal to Jan 8, 2022, 12:00 AM.',
+                ],
+            ],
+        ]);
     }
 
     public function testCreateCampTrimsName() {
-        static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExamplePayload(Camp::class, [
+        static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExampleWritePayload([
             'name' => " So-La\t ",
         ])]);
 
         $this->assertResponseStatusCodeSame(201);
-        $this->assertJsonContains($this->getExamplePayload(Camp::class, [
+        $this->assertJsonContains($this->getExampleReadPayload([
             'name' => 'So-La',
         ]));
     }
 
     public function testCreateCampCleansHTMLFromName() {
-        static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExamplePayload(Camp::class, [
+        static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExampleWritePayload([
             'name' => 'So-<script>alert(1)</script>La',
         ])]);
 
         $this->assertResponseStatusCodeSame(201);
-        $this->assertJsonContains($this->getExamplePayload(Camp::class, [
+        $this->assertJsonContains($this->getExampleReadPayload([
             'name' => 'So-La',
         ]));
     }
 
     public function testCreateCampValidatesMissingName() {
-        static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExamplePayload(Camp::class, [], ['name'])]);
+        static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExampleWritePayload([], ['name'])]);
 
         $this->assertResponseStatusCodeSame(422);
         $this->assertJsonContains([
@@ -90,7 +143,7 @@ class CreateCampTest extends ECampApiTestCase {
     }
 
     public function testCreateCampValidatesBlankName() {
-        static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExamplePayload(Camp::class, [
+        static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExampleWritePayload([
             'name' => '',
         ])]);
 
@@ -106,7 +159,7 @@ class CreateCampTest extends ECampApiTestCase {
     }
 
     public function testCreateCampValidatesLongName() {
-        static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExamplePayload(Camp::class, [
+        static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExampleWritePayload([
             'name' => 'A very long camp name which is not really useful',
         ])]);
 
@@ -122,29 +175,29 @@ class CreateCampTest extends ECampApiTestCase {
     }
 
     public function testCreateCampTrimsTitle() {
-        static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExamplePayload(Camp::class, [
+        static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExampleWritePayload([
             'title' => " Sommerlager\t ",
         ])]);
 
         $this->assertResponseStatusCodeSame(201);
-        $this->assertJsonContains($this->getExamplePayload(Camp::class, [
+        $this->assertJsonContains($this->getExampleReadPayload([
             'title' => 'Sommerlager',
         ]));
     }
 
     public function testCreateCampCleansHTMLFromTitle() {
-        static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExamplePayload(Camp::class, [
+        static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExampleWritePayload([
             'title' => 'Sommer<script>alert(1)</script>lager',
         ])]);
 
         $this->assertResponseStatusCodeSame(201);
-        $this->assertJsonContains($this->getExamplePayload(Camp::class, [
+        $this->assertJsonContains($this->getExampleReadPayload([
             'title' => 'Sommerlager',
         ]));
     }
 
     public function testCreateCampValidatesMissingTitle() {
-        static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExamplePayload(Camp::class, [], ['title'])]);
+        static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExampleWritePayload([], ['title'])]);
 
         $this->assertResponseStatusCodeSame(422);
         $this->assertJsonContains([
@@ -158,7 +211,7 @@ class CreateCampTest extends ECampApiTestCase {
     }
 
     public function testCreateCampValidatesBlankTitle() {
-        static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExamplePayload(Camp::class, [
+        static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExampleWritePayload([
             'title' => '',
         ])]);
 
@@ -174,7 +227,7 @@ class CreateCampTest extends ECampApiTestCase {
     }
 
     public function testCreateCampValidatesLongTitle() {
-        static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExamplePayload(Camp::class, [
+        static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExampleWritePayload([
             'title' => 'A very long camp title which is not really useful',
         ])]);
 
@@ -190,29 +243,29 @@ class CreateCampTest extends ECampApiTestCase {
     }
 
     public function testCreateCampTrimsMotto() {
-        static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExamplePayload(Camp::class, [
+        static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExampleWritePayload([
             'motto' => " Dschungelbuch\t ",
         ])]);
 
         $this->assertResponseStatusCodeSame(201);
-        $this->assertJsonContains($this->getExamplePayload(Camp::class, [
+        $this->assertJsonContains($this->getExampleReadPayload([
             'motto' => 'Dschungelbuch',
         ]));
     }
 
     public function testCreateCampCleansHTMLFromMotto() {
-        static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExamplePayload(Camp::class, [
+        static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExampleWritePayload([
             'motto' => 'Dschungel<script>alert(1)</script>buch',
         ])]);
 
         $this->assertResponseStatusCodeSame(201);
-        $this->assertJsonContains($this->getExamplePayload(Camp::class, [
+        $this->assertJsonContains($this->getExampleReadPayload([
             'motto' => 'Dschungelbuch',
         ]));
     }
 
     public function testCreateCampAllowsMissingMotto() {
-        static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExamplePayload(Camp::class, [], ['motto'])]);
+        static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExampleWritePayload([], ['motto'])]);
 
         $this->assertResponseIsSuccessful();
         $this->assertJsonContains([
@@ -221,7 +274,7 @@ class CreateCampTest extends ECampApiTestCase {
     }
 
     public function testCreateCampAllowsNullMotto() {
-        static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExamplePayload(Camp::class, [
+        static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExampleWritePayload([
             'motto' => null,
         ])]);
 
@@ -232,7 +285,7 @@ class CreateCampTest extends ECampApiTestCase {
     }
 
     public function testCreateCampAllowsEmptyMotto() {
-        static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExamplePayload(Camp::class, [
+        static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExampleWritePayload([
             'motto' => '',
         ])]);
 
@@ -243,7 +296,7 @@ class CreateCampTest extends ECampApiTestCase {
     }
 
     public function testCreateCampValidatesLongMotto() {
-        static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExamplePayload(Camp::class, [
+        static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExampleWritePayload([
             'motto' => 'This camp has an extremely long motto. This camp has an extremely long motto. This camp has an extremely long motto. This camp ha',
         ])]);
 
@@ -259,29 +312,29 @@ class CreateCampTest extends ECampApiTestCase {
     }
 
     public function testCreateCampTrimsAddressName() {
-        static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExamplePayload(Camp::class, [
+        static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExampleWritePayload([
             'addressName' => " Auf dem Hügel\t ",
         ])]);
 
         $this->assertResponseStatusCodeSame(201);
-        $this->assertJsonContains($this->getExamplePayload(Camp::class, [
+        $this->assertJsonContains($this->getExampleReadPayload([
             'addressName' => 'Auf dem Hügel',
         ]));
     }
 
     public function testCreateCampCleansHTMLFromAddressName() {
-        static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExamplePayload(Camp::class, [
+        static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExampleWritePayload([
             'addressName' => 'Auf dem Hügel<script>alert(1)</script>',
         ])]);
 
         $this->assertResponseStatusCodeSame(201);
-        $this->assertJsonContains($this->getExamplePayload(Camp::class, [
+        $this->assertJsonContains($this->getExampleReadPayload([
             'addressName' => 'Auf dem Hügel',
         ]));
     }
 
     public function testCreateCampAllowsMissingAddressName() {
-        static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExamplePayload(Camp::class, [], ['addressName'])]);
+        static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExampleWritePayload([], ['addressName'])]);
 
         $this->assertResponseIsSuccessful();
         $this->assertJsonContains([
@@ -290,7 +343,7 @@ class CreateCampTest extends ECampApiTestCase {
     }
 
     public function testCreateCampAllowsNullAddressName() {
-        static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExamplePayload(Camp::class, [
+        static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExampleWritePayload([
             'addressName' => null,
         ])]);
 
@@ -301,7 +354,7 @@ class CreateCampTest extends ECampApiTestCase {
     }
 
     public function testCreateCampAllowsEmptyAddressName() {
-        static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExamplePayload(Camp::class, [
+        static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExampleWritePayload([
             'addressName' => '',
         ])]);
 
@@ -312,7 +365,7 @@ class CreateCampTest extends ECampApiTestCase {
     }
 
     public function testCreateCampValidatesLongAddressName() {
-        static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExamplePayload(Camp::class, [
+        static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExampleWritePayload([
             'addressName' => 'This camp has an extremely long address. This camp has an extremely long address. This camp has an extremely long address. This!!',
         ])]);
 
@@ -328,29 +381,29 @@ class CreateCampTest extends ECampApiTestCase {
     }
 
     public function testCreateCampTrimsAddressStreet() {
-        static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExamplePayload(Camp::class, [
+        static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExampleWritePayload([
             'addressStreet' => " Suppenstrasse 123a\t ",
         ])]);
 
         $this->assertResponseStatusCodeSame(201);
-        $this->assertJsonContains($this->getExamplePayload(Camp::class, [
+        $this->assertJsonContains($this->getExampleReadPayload([
             'addressStreet' => 'Suppenstrasse 123a',
         ]));
     }
 
     public function testCreateCampCleansHTMLFromAddressStreet() {
-        static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExamplePayload(Camp::class, [
+        static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExampleWritePayload([
             'addressStreet' => 'Suppenstrasse <script>alert(1)</script>123a',
         ])]);
 
         $this->assertResponseStatusCodeSame(201);
-        $this->assertJsonContains($this->getExamplePayload(Camp::class, [
+        $this->assertJsonContains($this->getExampleReadPayload([
             'addressStreet' => 'Suppenstrasse 123a',
         ]));
     }
 
     public function testCreateCampAllowsMissingAddressStreet() {
-        static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExamplePayload(Camp::class, [], ['addressStreet'])]);
+        static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExampleWritePayload([], ['addressStreet'])]);
 
         $this->assertResponseIsSuccessful();
         $this->assertJsonContains([
@@ -359,7 +412,7 @@ class CreateCampTest extends ECampApiTestCase {
     }
 
     public function testCreateCampAllowsNullAddressStreet() {
-        static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExamplePayload(Camp::class, [
+        static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExampleWritePayload([
             'addressStreet' => null,
         ])]);
 
@@ -370,7 +423,7 @@ class CreateCampTest extends ECampApiTestCase {
     }
 
     public function testCreateCampAllowsEmptyAddressStreet() {
-        static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExamplePayload(Camp::class, [
+        static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExampleWritePayload([
             'addressStreet' => '',
         ])]);
 
@@ -381,7 +434,7 @@ class CreateCampTest extends ECampApiTestCase {
     }
 
     public function testCreateCampValidatesLongAddressStreet() {
-        static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExamplePayload(Camp::class, [
+        static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExampleWritePayload([
             'addressStreet' => 'This camp has an extremely long address. This camp has an extremely long address. This camp has an extremely long address. This!!',
         ])]);
 
@@ -397,29 +450,29 @@ class CreateCampTest extends ECampApiTestCase {
     }
 
     public function testCreateCampTrimsAddressZipcode() {
-        static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExamplePayload(Camp::class, [
+        static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExampleWritePayload([
             'addressZipcode' => " 8000\t ",
         ])]);
 
         $this->assertResponseStatusCodeSame(201);
-        $this->assertJsonContains($this->getExamplePayload(Camp::class, [
+        $this->assertJsonContains($this->getExampleReadPayload([
             'addressZipcode' => '8000',
         ]));
     }
 
     public function testCreateCampCleansHTMLFromAddressZipcode() {
-        static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExamplePayload(Camp::class, [
+        static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExampleWritePayload([
             'addressZipcode' => '800<script>alert(1)</script>0',
         ])]);
 
         $this->assertResponseStatusCodeSame(201);
-        $this->assertJsonContains($this->getExamplePayload(Camp::class, [
+        $this->assertJsonContains($this->getExampleReadPayload([
             'addressZipcode' => '8000',
         ]));
     }
 
     public function testCreateCampAllowsMissingAddressZipcode() {
-        static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExamplePayload(Camp::class, [], ['addressZipcode'])]);
+        static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExampleWritePayload([], ['addressZipcode'])]);
 
         $this->assertResponseIsSuccessful();
         $this->assertJsonContains([
@@ -428,7 +481,7 @@ class CreateCampTest extends ECampApiTestCase {
     }
 
     public function testCreateCampAllowsNullAddressZipcode() {
-        static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExamplePayload(Camp::class, [
+        static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExampleWritePayload([
             'addressZipcode' => null,
         ])]);
 
@@ -439,7 +492,7 @@ class CreateCampTest extends ECampApiTestCase {
     }
 
     public function testCreateCampAllowsEmptyAddressZipcode() {
-        static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExamplePayload(Camp::class, [
+        static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExampleWritePayload([
             'addressZipcode' => '',
         ])]);
 
@@ -450,7 +503,7 @@ class CreateCampTest extends ECampApiTestCase {
     }
 
     public function testCreateCampValidatesLongAddressZipcode() {
-        static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExamplePayload(Camp::class, [
+        static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExampleWritePayload([
             'addressZipcode' => 'This camp has an extremely long zipcode. This camp has an extremely long zipcode. This camp has an extremely long zipcode. This!!',
         ])]);
 
@@ -466,29 +519,29 @@ class CreateCampTest extends ECampApiTestCase {
     }
 
     public function testCreateCampTrimsAddressCity() {
-        static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExamplePayload(Camp::class, [
+        static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExampleWritePayload([
             'addressZipcode' => " Unterberg\t ",
         ])]);
 
         $this->assertResponseStatusCodeSame(201);
-        $this->assertJsonContains($this->getExamplePayload(Camp::class, [
+        $this->assertJsonContains($this->getExampleReadPayload([
             'addressZipcode' => 'Unterberg',
         ]));
     }
 
     public function testCreateCampCleansHTMLFromAddressCity() {
-        static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExamplePayload(Camp::class, [
+        static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExampleWritePayload([
             'addressCity' => 'Unter<script>alert(1)</script>berg',
         ])]);
 
         $this->assertResponseStatusCodeSame(201);
-        $this->assertJsonContains($this->getExamplePayload(Camp::class, [
+        $this->assertJsonContains($this->getExampleReadPayload([
             'addressCity' => 'Unterberg',
         ]));
     }
 
     public function testCreateCampAllowsMissingAddressCity() {
-        static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExamplePayload(Camp::class, [], ['addressCity'])]);
+        static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExampleWritePayload([], ['addressCity'])]);
 
         $this->assertResponseIsSuccessful();
         $this->assertJsonContains([
@@ -497,7 +550,7 @@ class CreateCampTest extends ECampApiTestCase {
     }
 
     public function testCreateCampAllowsNullAddressCity() {
-        static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExamplePayload(Camp::class, [
+        static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExampleWritePayload([
             'addressCity' => null,
         ])]);
 
@@ -508,7 +561,7 @@ class CreateCampTest extends ECampApiTestCase {
     }
 
     public function testCreateCampAllowsEmptyAddressCity() {
-        static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExamplePayload(Camp::class, [
+        static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExampleWritePayload([
             'addressCity' => '',
         ])]);
 
@@ -519,7 +572,7 @@ class CreateCampTest extends ECampApiTestCase {
     }
 
     public function testCreateCampValidatesLongAddressCity() {
-        static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExamplePayload(Camp::class, [
+        static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExampleWritePayload([
             'addressCity' => 'This camp has an extremely long city. This camp has an extremely long city. This camp has an extremely long city. This camp, I\'m telling you!',
         ])]);
 
@@ -532,5 +585,18 @@ class CreateCampTest extends ECampApiTestCase {
                 ],
             ],
         ]);
+    }
+
+    public function getExampleWritePayload($attributes = [], $except = []) {
+        return $this->getExamplePayload(Camp::class, $attributes, [], $except);
+    }
+
+    public function getExampleReadPayload($attributes = [], $except = []) {
+        return $this->getExamplePayload(
+            Camp::class,
+            $attributes,
+            ['periods'],
+            $except
+        );
     }
 }

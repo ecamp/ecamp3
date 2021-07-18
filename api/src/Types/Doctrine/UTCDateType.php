@@ -2,6 +2,7 @@
 
 namespace App\Types\Doctrine;
 
+use App\Types\Date;
 use DateTime;
 use DateTimeZone;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
@@ -34,7 +35,7 @@ class UTCDateType extends DateType {
             return $value;
         }
 
-        $val = DateTime::createFromFormat('!'.$platform->getDateFormatString(), $value, self::getUtc());
+        $val = Date::createFromFormat('!'.$platform->getDateFormatString(), $value, self::getUtc());
         if (!$val) {
             throw ConversionException::conversionFailedFormat(
                 $value,

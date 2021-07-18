@@ -10,17 +10,17 @@ use App\Tests\Api\ECampApiTestCase;
  */
 class CreateUserTest extends ECampApiTestCase {
     public function testCreateUserWhenNotLoggedIn() {
-        static::createClient()->request('POST', '/users', ['json' => $this->getExamplePayload(User::class)]);
+        static::createClient()->request('POST', '/users', ['json' => $this->getExampleWritePayload()]);
 
         $this->assertResponseStatusCodeSame(201);
-        $this->assertJsonContains($this->getExamplePayload(User::class, [], ['password']));
+        $this->assertJsonContains($this->getExampleReadPayload([], ['password']));
     }
 
     public function testCreateUserWhenLoggedIn() {
-        static::createClientWithCredentials()->request('POST', '/users', ['json' => $this->getExamplePayload(User::class)]);
+        static::createClientWithCredentials()->request('POST', '/users', ['json' => $this->getExampleWritePayload()]);
 
         $this->assertResponseStatusCodeSame(201);
-        $this->assertJsonContains($this->getExamplePayload(User::class, [], ['password']));
+        $this->assertJsonContains($this->getExampleReadPayload([], ['password']));
     }
 
     public function testLoginAfterRegistration() {
@@ -28,7 +28,7 @@ class CreateUserTest extends ECampApiTestCase {
         // Disable resetting the database between the two requests
         $client->disableReboot();
 
-        $client->request('POST', '/users', ['json' => $this->getExamplePayload(User::class)]);
+        $client->request('POST', '/users', ['json' => $this->getExampleWritePayload()]);
         $this->assertResponseStatusCodeSame(201);
 
         $client->request('POST', '/authentication_token', ['json' => [
@@ -40,18 +40,18 @@ class CreateUserTest extends ECampApiTestCase {
     }
 
     public function testCreateUserTrimsEmail() {
-        static::createClient()->request('POST', '/users', ['json' => $this->getExamplePayload(User::class, [
+        static::createClient()->request('POST', '/users', ['json' => $this->getExampleWritePayload([
             'email' => " bi-pi@example.com\t\t",
         ])]);
 
         $this->assertResponseStatusCodeSame(201);
-        $this->assertJsonContains($this->getExamplePayload(User::class, [
+        $this->assertJsonContains($this->getExampleReadPayload([
             'email' => 'bi-pi@example.com',
         ], ['password']));
     }
 
     public function testCreateUserValidatesMissingEmail() {
-        static::createClientWithCredentials()->request('POST', '/users', ['json' => $this->getExamplePayload(User::class, [], ['email'])]);
+        static::createClientWithCredentials()->request('POST', '/users', ['json' => $this->getExampleWritePayload([], ['email'])]);
 
         $this->assertResponseStatusCodeSame(422);
         $this->assertJsonContains([
@@ -65,7 +65,7 @@ class CreateUserTest extends ECampApiTestCase {
     }
 
     public function testCreateUserValidatesBlankEmail() {
-        static::createClientWithCredentials()->request('POST', '/users', ['json' => $this->getExamplePayload(User::class, [
+        static::createClientWithCredentials()->request('POST', '/users', ['json' => $this->getExampleWritePayload([
             'email' => '',
         ])]);
 
@@ -81,7 +81,7 @@ class CreateUserTest extends ECampApiTestCase {
     }
 
     public function testCreateUserValidatesLongEmail() {
-        static::createClientWithCredentials()->request('POST', '/users', ['json' => $this->getExamplePayload(User::class, [
+        static::createClientWithCredentials()->request('POST', '/users', ['json' => $this->getExampleWritePayload([
             'email' => 'test-with-a-very-long-email-address-which-is-not-really-realistic@example.com',
         ])]);
 
@@ -97,7 +97,7 @@ class CreateUserTest extends ECampApiTestCase {
     }
 
     public function testCreateUserValidatesInvalidEmail() {
-        static::createClientWithCredentials()->request('POST', '/users', ['json' => $this->getExamplePayload(User::class, [
+        static::createClientWithCredentials()->request('POST', '/users', ['json' => $this->getExampleWritePayload([
             'email' => 'test@sunrise',
         ])]);
 
@@ -114,7 +114,7 @@ class CreateUserTest extends ECampApiTestCase {
 
     public function testCreateUserValidatesDuplicateEmail() {
         $client = static::createClientWithCredentials();
-        $client->request('POST', '/users', ['json' => $this->getExamplePayload(User::class, [
+        $client->request('POST', '/users', ['json' => $this->getExampleWritePayload([
             'email' => static::$fixtures['user1']->email,
         ])]);
 
@@ -131,7 +131,7 @@ class CreateUserTest extends ECampApiTestCase {
 
     public function testCreateUserTrimsFirstThenValidatesDuplicateEmail() {
         $client = static::createClientWithCredentials();
-        $client->request('POST', '/users', ['json' => $this->getExamplePayload(User::class, [
+        $client->request('POST', '/users', ['json' => $this->getExampleWritePayload([
             'email' => ' '.static::$fixtures['user1']->email,
         ])]);
 
@@ -147,18 +147,18 @@ class CreateUserTest extends ECampApiTestCase {
     }
 
     public function testCreateUserTrimsUsername() {
-        static::createClient()->request('POST', '/users', ['json' => $this->getExamplePayload(User::class, [
+        static::createClient()->request('POST', '/users', ['json' => $this->getExampleWritePayload([
             'username' => '  bipi ',
         ])]);
 
         $this->assertResponseStatusCodeSame(201);
-        $this->assertJsonContains($this->getExamplePayload(User::class, [
+        $this->assertJsonContains($this->getExampleReadPayload([
             'username' => 'bipi',
         ], ['password']));
     }
 
     public function testCreateUserValidatesMissingUsername() {
-        static::createClientWithCredentials()->request('POST', '/users', ['json' => $this->getExamplePayload(User::class, [], ['username'])]);
+        static::createClientWithCredentials()->request('POST', '/users', ['json' => $this->getExampleWritePayload([], ['username'])]);
 
         $this->assertResponseStatusCodeSame(422);
         $this->assertJsonContains([
@@ -172,7 +172,7 @@ class CreateUserTest extends ECampApiTestCase {
     }
 
     public function testCreateUserValidatesBlankUsername() {
-        static::createClientWithCredentials()->request('POST', '/users', ['json' => $this->getExamplePayload(User::class, [
+        static::createClientWithCredentials()->request('POST', '/users', ['json' => $this->getExampleWritePayload([
             'username' => '',
         ])]);
 
@@ -188,7 +188,7 @@ class CreateUserTest extends ECampApiTestCase {
     }
 
     public function testCreateUserValidatesInvalidUsername() {
-        static::createClientWithCredentials()->request('POST', '/users', ['json' => $this->getExamplePayload(User::class, [
+        static::createClientWithCredentials()->request('POST', '/users', ['json' => $this->getExampleWritePayload([
             'username' => 'b*p',
         ])]);
 
@@ -204,7 +204,7 @@ class CreateUserTest extends ECampApiTestCase {
     }
 
     public function testCreateUserValidatesLongUsername() {
-        static::createClientWithCredentials()->request('POST', '/users', ['json' => $this->getExamplePayload(User::class, [
+        static::createClientWithCredentials()->request('POST', '/users', ['json' => $this->getExampleWritePayload([
             'username' => 'abcdefghijklmnopqrstuvwxyz-the-alphabet',
         ])]);
 
@@ -221,7 +221,7 @@ class CreateUserTest extends ECampApiTestCase {
 
     public function testCreateUserValidatesDuplicateUsername() {
         $client = static::createClientWithCredentials();
-        $client->request('POST', '/users', ['json' => $this->getExamplePayload(User::class, [
+        $client->request('POST', '/users', ['json' => $this->getExampleWritePayload([
             'username' => static::$fixtures['user1']->username,
         ])]);
 
@@ -238,7 +238,7 @@ class CreateUserTest extends ECampApiTestCase {
 
     public function testCreateUserTrimsFirstThenValidatesDuplicateUsername() {
         $client = static::createClientWithCredentials();
-        $client->request('POST', '/users', ['json' => $this->getExamplePayload(User::class, [
+        $client->request('POST', '/users', ['json' => $this->getExampleWritePayload([
             'username' => static::$fixtures['user1']->username.'   ',
         ])]);
 
@@ -254,84 +254,84 @@ class CreateUserTest extends ECampApiTestCase {
     }
 
     public function testCreateUserTrimsFirstname() {
-        static::createClient()->request('POST', '/users', ['json' => $this->getExamplePayload(User::class, [
+        static::createClient()->request('POST', '/users', ['json' => $this->getExampleWritePayload([
             'firstname' => " Robert\t",
         ])]);
 
         $this->assertResponseStatusCodeSame(201);
-        $this->assertJsonContains($this->getExamplePayload(User::class, [
+        $this->assertJsonContains($this->getExampleReadPayload([
             'firstname' => 'Robert',
         ], ['password']));
     }
 
     public function testCreateUserCleansHTMLFromFirstname() {
-        static::createClient()->request('POST', '/users', ['json' => $this->getExamplePayload(User::class, [
+        static::createClient()->request('POST', '/users', ['json' => $this->getExampleWritePayload([
             'firstname' => 'Robert<script>alert(1)</script>',
         ])]);
 
         $this->assertResponseStatusCodeSame(201);
-        $this->assertJsonContains($this->getExamplePayload(User::class, [
+        $this->assertJsonContains($this->getExampleReadPayload([
             'firstname' => 'Robert',
         ], ['password']));
     }
 
     public function testCreateUserTrimsSurname() {
-        static::createClient()->request('POST', '/users', ['json' => $this->getExamplePayload(User::class, [
+        static::createClient()->request('POST', '/users', ['json' => $this->getExampleWritePayload([
             'surname' => '   Baden-Powell',
         ])]);
 
         $this->assertResponseStatusCodeSame(201);
-        $this->assertJsonContains($this->getExamplePayload(User::class, [
+        $this->assertJsonContains($this->getExampleReadPayload([
             'surname' => 'Baden-Powell',
         ], ['password']));
     }
 
     public function testCreateUserCleansHTMLFromSurname() {
-        static::createClient()->request('POST', '/users', ['json' => $this->getExamplePayload(User::class, [
+        static::createClient()->request('POST', '/users', ['json' => $this->getExampleWritePayload([
             'surname' => 'Baden-Powell<script>alert(1)</script>',
         ])]);
 
         $this->assertResponseStatusCodeSame(201);
-        $this->assertJsonContains($this->getExamplePayload(User::class, [
+        $this->assertJsonContains($this->getExampleReadPayload([
             'surname' => 'Baden-Powell',
         ], ['password']));
     }
 
     public function testCreateUserTrimsNickname() {
-        static::createClient()->request('POST', '/users', ['json' => $this->getExamplePayload(User::class, [
+        static::createClient()->request('POST', '/users', ['json' => $this->getExampleWritePayload([
             'nickname' => "\tBi-Pi\t",
         ])]);
 
         $this->assertResponseStatusCodeSame(201);
-        $this->assertJsonContains($this->getExamplePayload(User::class, [
+        $this->assertJsonContains($this->getExampleReadPayload([
             'nickname' => 'Bi-Pi',
         ], ['password']));
     }
 
     public function testCreateUserCleansHTMLFromNickname() {
-        static::createClient()->request('POST', '/users', ['json' => $this->getExamplePayload(User::class, [
+        static::createClient()->request('POST', '/users', ['json' => $this->getExampleWritePayload([
             'nickname' => 'Bi-Pi<script>alert(1)</script>',
         ])]);
 
         $this->assertResponseStatusCodeSame(201);
-        $this->assertJsonContains($this->getExamplePayload(User::class, [
+        $this->assertJsonContains($this->getExampleReadPayload([
             'nickname' => 'Bi-Pi',
         ], ['password']));
     }
 
     public function testCreateUserTrimsLanguage() {
-        static::createClient()->request('POST', '/users', ['json' => $this->getExamplePayload(User::class, [
+        static::createClient()->request('POST', '/users', ['json' => $this->getExampleWritePayload([
             'language' => "\ten ",
         ])]);
 
         $this->assertResponseStatusCodeSame(201);
-        $this->assertJsonContains($this->getExamplePayload(User::class, [
+        $this->assertJsonContains($this->getExampleReadPayload([
             'language' => 'en',
         ], ['password']));
     }
 
     public function testCreateUserValidatesInvalidLanguage() {
-        static::createClientWithCredentials()->request('POST', '/users', ['json' => $this->getExamplePayload(User::class, [
+        static::createClientWithCredentials()->request('POST', '/users', ['json' => $this->getExampleWritePayload([
             'language' => 'französisch',
         ])]);
 
@@ -347,7 +347,7 @@ class CreateUserTest extends ECampApiTestCase {
     }
 
     public function testCreateUserValidatesLongLanguage() {
-        static::createClientWithCredentials()->request('POST', '/users', ['json' => $this->getExamplePayload(User::class, [
+        static::createClientWithCredentials()->request('POST', '/users', ['json' => $this->getExampleWritePayload([
             'language' => 'fr_CH.some-ridiculously-long-extension-which-is-technically-a-valid-ICU-locale',
         ])]);
 
@@ -363,7 +363,7 @@ class CreateUserTest extends ECampApiTestCase {
     }
 
     public function testCreateUserValidatesMissingPassword() {
-        static::createClientWithCredentials()->request('POST', '/users', ['json' => $this->getExamplePayload(User::class, [], ['password'])]);
+        static::createClientWithCredentials()->request('POST', '/users', ['json' => $this->getExampleWritePayload([], ['password'])]);
 
         $this->assertResponseStatusCodeSame(422);
         $this->assertJsonContains([
@@ -377,7 +377,7 @@ class CreateUserTest extends ECampApiTestCase {
     }
 
     public function testCreateUserValidatesBlankPassword() {
-        static::createClientWithCredentials()->request('POST', '/users', ['json' => $this->getExamplePayload(User::class, [
+        static::createClientWithCredentials()->request('POST', '/users', ['json' => $this->getExampleWritePayload([
             'password' => '',
         ])]);
 
@@ -390,5 +390,13 @@ class CreateUserTest extends ECampApiTestCase {
                 ],
             ],
         ]);
+    }
+
+    public function getExampleWritePayload($attributes = [], $except = []) {
+        return $this->getExamplePayload(User::class, $attributes, [], $except);
+    }
+
+    public function getExampleReadPayload($attributes = [], $except = []) {
+        return $this->getExamplePayload(User::class, $attributes, [], $except);
     }
 }

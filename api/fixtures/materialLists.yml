@@ -1,0 +1,10 @@
+App\Entity\MaterialList:
+  materialList1:
+    camp: '@camp1'
+    name: Baumarkt
+  materialList2:
+    camp: '@camp1'
+    name: Packliste
+  materialList1camp2:
+    camp: '@camp2'
+    name: Baumarkt

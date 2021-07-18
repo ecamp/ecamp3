@@ -1,0 +1,16 @@
+App\Entity\Day:
+  day1period1:
+    period: '@period1'
+    dayOffset: 0
+  day2period1:
+    period: '@period1'
+    dayOffset: 1
+  day3period1:
+    period: '@period1'
+    dayOffset: 2
+  day1period2:
+    period: '@period2'
+    dayOffset: 0
+  day1period1camp2:
+    period: '@period1camp2'
+    dayOffset: 0

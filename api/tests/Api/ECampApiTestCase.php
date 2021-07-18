@@ -8,7 +8,11 @@ use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\Client;
 use ApiPlatform\Core\JsonSchema\Schema;
 use ApiPlatform\Core\JsonSchema\SchemaFactoryInterface;
 use ApiPlatform\Core\Metadata\Resource\Factory\ResourceMetadataFactoryInterface;
+use App\Entity\User;
+use App\Repository\UserRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
+use Symfony\Component\BrowserKit\Cookie;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
@@ -21,6 +25,7 @@ abstract class ECampApiTestCase extends ApiTestCase {
     private ?IriConverterInterface $iriConverter = null;
     private ?SchemaFactoryInterface $schemaFactory = null;
     private ?ResourceMetadataFactoryInterface $resourceMetadataFactory = null;
+    private ?EntityManagerInterface $entityManager = null;
 
     public function setUp(): void {
         self::bootKernel();
@@ -35,14 +40,17 @@ abstract class ECampApiTestCase extends ApiTestCase {
      */
     protected static function createClientWithCredentials(?array $credentials = null, ?array $headers = null): Client {
         $client = static::createBasicClient($headers);
-        // Normally, the database is reset after every request. Since we already need a request to log the user in,
-        // we need to disable this behaviour here. This can be removed if this issue is ever resolved:
-        // https://github.com/api-platform/api-platform/issues/1668
-        $client->disableReboot();
-        $client->request('POST', '/authentication_token', ['json' => $credentials ?: [
-            'username' => 'test-user',
-            'password' => 'test',
-        ], 'headers' => ['Content-Type' => 'application/ld+json']]);
+
+        /** @var User $user */
+        $user = static::getContainer()->get(UserRepository::class)->findBy(array_diff_key($credentials ?: ['username' => 'test-user'], ['password' => '']));
+        $jwtToken = static::getContainer()->get('lexik_jwt_authentication.jwt_manager')->create($user[0]);
+        $lastPeriodPosition = strrpos($jwtToken, '.');
+        $jwtHeaderAndPayload = substr($jwtToken, 0, $lastPeriodPosition);
+        $jwtSignature = substr($jwtToken, $lastPeriodPosition + 1);
+
+        $cookies = $client->getCookieJar();
+        $cookies->set(new Cookie('jwt_hp', $jwtHeaderAndPayload, null, null, 'example.com', false, false, false, 'strict'));
+        $cookies->set(new Cookie('jwt_s', $jwtSignature, null, null, 'example.com', false, true, false, 'strict'));
 
         return $client;
     }
@@ -54,7 +62,7 @@ abstract class ECampApiTestCase extends ApiTestCase {
      * @throws TransportExceptionInterface
      */
     protected static function createClientWithAdminCredentials(?array $headers = null): Client {
-        return static::createClientWithCredentials(['username' => 'admin', 'password' => 'test']);
+        return static::createClientWithCredentials(['username' => 'admin']);
     }
 
     protected static function createBasicClient(?array $headers = null): Client {
@@ -67,6 +75,15 @@ abstract class ECampApiTestCase extends ApiTestCase {
         }
 
         return $this->iriConverter;
+    }
+
+    protected function getIriFor($entityOrFixtureName): string {
+        if (is_string($entityOrFixtureName)) {
+            // Assume we want to get the IRI for a fixture
+            $entityOrFixtureName = static::$fixtures[$entityOrFixtureName];
+        }
+
+        return $this->getIriConverter()->getIriFromItem($entityOrFixtureName);
     }
 
     protected function getSchemaFactory(): SchemaFactoryInterface {
@@ -85,13 +102,31 @@ abstract class ECampApiTestCase extends ApiTestCase {
         return $this->resourceMetadataFactory;
     }
 
-    protected function getExamplePayload(string $resourceClass, array $attributes = [], array $except = []): array {
+    protected function getEntityManager(): EntityManagerInterface {
+        if (null === $this->entityManager) {
+            $this->entityManager = static::getContainer()->get('doctrine.orm.default_entity_manager');
+        }
+
+        return $this->entityManager;
+    }
+
+    protected function getExamplePayload(string $resourceClass, array $attributes = [], array $exceptExamples = [], array $exceptAttributes = []): array {
         $shortName = $this->getResourceMetadataFactory()->create($resourceClass)->getShortName();
         $schema = $this->getSchemaFactory()->buildSchema($resourceClass, 'json', Schema::TYPE_INPUT, 'POST');
-        $properties = $schema->getDefinitions()[$shortName]['properties'];
+        $properties = ($schema->getDefinitions()[$shortName] ?? $schema->getDefinitions()[$shortName.'-Default'])['properties'];
         $writableProperties = array_filter($properties, fn ($property) => !($property['readOnly'] ?? false));
         $writablePropertiesWithExample = array_filter($writableProperties, fn ($property) => ($property['example'] ?? false));
+        $examples = array_map(fn ($property) => $property['example'] ?? $property['default'] ?? null, $writablePropertiesWithExample);
+        $examples = array_map(function ($example) {
+            try {
+                $decoded = json_decode($example, true, 512, JSON_THROW_ON_ERROR);
 
-        return array_diff_key(array_merge(array_map(fn ($property) => $property['example'] ?? $property['default'] ?? null, $writablePropertiesWithExample), $attributes), array_flip($except));
+                return is_array($decoded) || is_null($decoded) ? $decoded : $example;
+            } catch (\JsonException $e) {
+                return $example;
+            }
+        }, $examples);
+
+        return array_diff_key(array_merge(array_diff_key($examples, array_flip($exceptExamples)), $attributes), array_flip($exceptAttributes));
     }
 }

@@ -2,73 +2,155 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use App\Validator\AssertEitherIsNull;
+use App\Validator\ContentNode\AssertBelongsToSameOwner;
+use App\Validator\ContentNode\AssertNoLoop;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Exception;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Annotation\SerializedName;
 
 /**
- * @ORM\Entity()
+ * A piece of information that is part of a programme. ContentNodes may store content such as
+ * one or multiple free text fields, or any other necessary data. Content nodes may also be used
+ * to define layouts. For this purpose, a content node may offer so-called slots, into which other
+ * content nodes may be inserted. In return, a content node may be nested inside a slot in a parent
+ * container content node. This way, a tree of content nodes makes up a complete programme.
+ *
+ * @ORM\Entity
  */
-#[ApiResource]
+#[ApiResource(
+    collectionOperations: ['get', 'post'],
+    itemOperations: [
+        'get',
+        'patch' => [
+            'denormalization_context' => [
+                'groups' => ['contentNode:update'],
+                'allow_extra_attributes' => false,
+            ],
+            'validation_groups' => ['Default', 'contentNode:update'],
+        ],
+        'delete' => ['security' => 'object.owner === null'],
+    ]
+)]
+#[ApiFilter(SearchFilter::class, properties: ['parent'])]
 class ContentNode extends BaseEntity implements BelongsToCampInterface {
     /**
      * @ORM\OneToOne(targetEntity="AbstractContentNodeOwner", mappedBy="rootContentNode", cascade={"persist", "remove"})
      */
+    #[SerializedName('_owner')]
+    #[ApiProperty(readable: false, writable: false)]
     public ?AbstractContentNodeOwner $owner = null;
 
     /**
+     * The content node that is the root of the content node tree. Refers to itself in case this
+     * content node is the root.
+     *
      * @ORM\ManyToOne(targetEntity="ContentNode", inversedBy="rootDescendants")
-     * TODO make not null, and get fixtures to run
+     * TODO make not null in the DB using a migration, and get fixtures to run
      * @ORM\JoinColumn(nullable=true)
      */
-    public ?ContentNode $root;
+    #[ApiProperty(writable: false, example: '/content_nodes/1a2b3c4d')]
+    public ContentNode $root;
 
     /**
+     * All content nodes that are part of this content node tree.
+     *
      * @ORM\OneToMany(targetEntity="ContentNode", mappedBy="root")
      */
+    #[ApiProperty(readable: false, writable: false)]
     public Collection $rootDescendants;
 
     /**
+     * The parent to which this content node belongs. Is null in case this content node is the
+     * root of a content node tree. For non-root content nodes, the parent can be changed, as long
+     * as the new parent is in the same camp as the old one. A content node is defined as root when
+     * it has an owner.
+     *
      * @ORM\ManyToOne(targetEntity="ContentNode", inversedBy="children")
      */
+    #[AssertEitherIsNull(
+        other: 'owner',
+        messageBothNull: 'Must not be null on non-root content nodes.',
+        messageNoneNull: 'Must be null on root content nodes.'
+    )]
+    #[AssertBelongsToSameOwner(groups: ['contentNode:update'])]
+    #[AssertNoLoop(groups: ['contentNode:update'])]
+    #[ApiProperty(example: '/content_nodes/1a2b3c4d')]
+    #[Groups(['Default', 'contentNode:update'])]
     public ?ContentNode $parent = null;
 
     /**
-     * @ORM\OneToMany(targetEntity="ContentNode", mappedBy="parent")
+     * All content nodes that are direct children of this content node.
+     *
+     * @ORM\OneToMany(targetEntity="ContentNode", mappedBy="parent", cascade={"remove"})
      */
+    #[ApiProperty(writable: false, example: '["/content_nodes/1a2b3c4d"]')]
     public Collection $children;
 
     /**
+     * The name of the slot in the parent in which this content node resides. The valid slot names
+     * are defined by the content type of the parent.
+     *
      * @ORM\Column(type="text", nullable=true)
      */
+    #[ApiProperty(example: 'footer')]
+    #[Groups(['Default', 'contentNode:update'])]
     public ?string $slot = null;
 
     /**
+     * A whole number used for ordering multiple content nodes that are in the same slot of the
+     * same parent. The API does not guarantee the uniqueness of parent+slot+position.
+     *
      * @ORM\Column(type="integer", nullable=true)
      */
+    #[ApiProperty(example: '0')]
+    #[Groups(['Default', 'contentNode:update'])]
     public ?int $position = null;
 
     /**
+     * Allows the content node to store some minimal configuration about its slots, in case the
+     * slots are dynamically changeable (such as the number of columns in a column layout).
+     * Depending on the content node's content type, different validation rules will apply.
+     *
      * @ORM\Column(type="json", nullable=true)
      */
+    #[ApiProperty(example: '{}')]
+    #[Groups(['Default', 'contentNode:update'])]
     public ?array $jsonConfig = null;
 
     /**
+     * An optional name for this content node. This is useful when planning e.g. an alternative
+     * version of the programme suited for bad weather, in addition to the normal version.
+     *
      * @ORM\Column(type="text", nullable=true)
      */
+    #[ApiProperty(example: 'Schlechtwetterprogramm')]
+    #[Groups(['Default', 'contentNode:update'])]
     public ?string $instanceName = null;
 
     /**
+     * Defines the type of this content node. There is a fixed list of types that are implemented
+     * in eCamp. Depending on the type, different content data and different slots may be allowed
+     * in a content node. The content type may not be changed once the content node is created.
+     *
      * @ORM\ManyToOne(targetEntity="ContentType")
      * @ORM\JoinColumn(nullable=false)
      */
+    #[ApiProperty(example: '/content_types/1a2b3c4d')]
+    #[Groups(['Default'])]
     public ?ContentType $contentType = null;
 
     /**
      * @ORM\OneToMany(targetEntity="MaterialItem", mappedBy="contentNode")
      */
+    #[ApiProperty(readable: false, writable: false)]
     public Collection $materialItems;
 
     public function __construct() {
@@ -79,11 +161,47 @@ class ContentNode extends BaseEntity implements BelongsToCampInterface {
         $this->addRootDescendant($this);
     }
 
+    /**
+     * The name of the content type of this content node. Read-only, for convenience.
+     */
+    #[ApiProperty(example: 'SafetyConcept')]
+    public function getContentTypeName(): string {
+        return $this->contentType?->name;
+    }
+
+    /**
+     * The entity that owns the content node tree that this content node resides in.
+     */
+    #[SerializedName('owner')]
+    #[ApiProperty(writable: false, example: '/activities/1a2b3c4d')]
+    public function getRootOwner(): Activity | Category | AbstractContentNodeOwner {
+        return $this->root->owner;
+    }
+
+    /**
+     * The category that owns this content node's content tree, or the category of the
+     * activity that owns this content node's content tree.
+     *
+     * @throws Exception when the owner is neither an activity nor a category
+     */
+    #[ApiProperty(example: '/categories/1a2b3c4d')]
+    public function getOwnerCategory(): Category {
+        $owner = $this->getRootOwner();
+
+        if ($owner instanceof Activity) {
+            $owner = $owner->category;
+        }
+
+        if ($owner instanceof Category) {
+            return $owner;
+        }
+
+        throw new Exception('Unexpected owner type '.get_debug_type($owner));
+    }
+
     #[ApiProperty(readable: false)]
     public function getCamp(): ?Camp {
-        $root = $this->root;
-        $owner = $root->owner;
-
+        $owner = $this->getRootOwner();
         if ($owner instanceof BelongsToCampInterface) {
             return $owner->getCamp();
         }
@@ -109,9 +227,9 @@ class ContentNode extends BaseEntity implements BelongsToCampInterface {
 
     public function removeRootDescendant(self $rootDescendant): self {
         if ($this->rootDescendants->removeElement($rootDescendant)) {
-            // set the owning side to null (unless already changed)
+            // reset the owning side (unless already changed)
             if ($rootDescendant->root === $this) {
-                $rootDescendant->root = null;
+                $rootDescendant->root = $rootDescendant;
             }
         }
 

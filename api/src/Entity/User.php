@@ -11,10 +11,13 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Annotation\SerializedName;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
+ * A person using eCamp.
+ *
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @ORM\Table(name="`user`")
  */
@@ -24,26 +27,37 @@ use Symfony\Component\Validator\Constraints as Assert;
         'post' => [
             'security' => 'true', // allow unauthenticated clients to create (register) users
             'input_formats' => ['jsonld', 'jsonapi', 'json'],
-            'validation_groups' => ['Default', 'create'],
+            'validation_groups' => ['Default', 'user:create'],
         ],
     ],
     itemOperations: [
         'get' => ['security' => 'is_granted("ROLE_ADMIN") or object == user'],
-        'patch' => ['security' => 'is_granted("ROLE_ADMIN") or object == user'],
+        'patch' => [
+            'security' => 'is_granted("ROLE_ADMIN") or object == user',
+            'denormalization_context' => [
+                'groups' => 'user:update',
+                'allow_extra_attributes' => false,
+            ],
+        ],
         'delete' => ['security' => 'is_granted("ROLE_ADMIN") and !object.ownsCamps()'],
-    ]
+    ],
+    denormalizationContext: ['groups' => ['Default']],
 )]
 class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUserInterface {
     /**
+     * The camps that this user is the owner of.
+     *
      * @ORM\OneToMany(targetEntity="Camp", mappedBy="owner")
      */
-    #[ApiProperty(writable: false)]
+    #[ApiProperty(readable: false, writable: false)]
     public Collection $ownedCamps;
 
     /**
+     * All the camps that this user participates in.
+     *
      * @ORM\OneToMany(targetEntity="CampCollaboration", mappedBy="user", orphanRemoval=true)
      */
-    #[ApiProperty(writable: false)]
+    #[ApiProperty(readable: false, writable: false)]
     public Collection $collaborations;
 
     /**
@@ -55,6 +69,7 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
     #[Assert\NotBlank]
     #[Assert\Email]
     #[ApiProperty(example: 'bi-pi@example.com')]
+    #[Groups(['Default', 'user:update'])]
     public ?string $email = null;
 
     /**
@@ -66,50 +81,63 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
     #[Assert\NotBlank]
     #[Assert\Regex(pattern: '/^[a-z0-9_.-]+$/')]
     #[ApiProperty(example: 'bipi')]
+    #[Groups(['Default'])]
     public ?string $username = null;
 
     /**
+     * The user's (optional) first name.
+     *
      * @ORM\Column(type="text", nullable=true)
      */
     #[InputFilter\Trim]
     #[InputFilter\CleanHTML]
     #[ApiProperty(example: 'Robert')]
+    #[Groups(['Default', 'user:update'])]
     public ?string $firstname = null;
 
     /**
+     * The user's (optional) last name.
+     *
      * @ORM\Column(type="text", nullable=true)
      */
     #[InputFilter\Trim]
     #[InputFilter\CleanHTML]
     #[ApiProperty(example: 'Baden-Powell')]
+    #[Groups(['Default', 'user:update'])]
     public ?string $surname = null;
 
     /**
+     * The user's (optional) nickname or scout name.
+     *
      * @ORM\Column(type="text", nullable=true)
      */
     #[InputFilter\Trim]
     #[InputFilter\CleanHTML]
     #[ApiProperty(example: 'Bi-Pi')]
+    #[Groups(['Default', 'user:update'])]
     public ?string $nickname = null;
 
     /**
-     * The preferred language of the user, as an ICU language code.
+     * The optional preferred language of the user, as an ICU language code.
      *
      * @ORM\Column(type="string", length=20, nullable=true)
      */
     #[InputFilter\Trim]
     #[Assert\Locale]
     #[ApiProperty(example: 'en')]
+    #[Groups(['Default', 'user:update'])]
     public ?string $language = null;
 
     /**
+     * The technical roles that this person has in the eCamp application.
+     *
      * @ORM\Column(type="json")
      */
     #[ApiProperty(writable: false)]
     public array $roles = [];
 
     /**
-     * The hashed password.
+     * The hashed password. Of course not exposed through the API.
      *
      * @ORM\Column(type="string", length=255)
      */
@@ -118,12 +146,13 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
     public ?string $password = null;
 
     /**
-     * The new password for this user. At least 8 characters.
+     * A new password for this user. At least 8 characters.
      */
     #[SerializedName('password')]
-    #[Assert\NotBlank(groups: ['create'])]
+    #[Assert\NotBlank(groups: ['user:create'])]
     #[Assert\Length(min: 8)]
     #[ApiProperty(readable: false, writable: true, example: 'learning-by-doing-101')]
+    #[Groups(['Default', 'user:update'])]
     public ?string $plainPassword = null;
 
     public function __construct() {
@@ -153,7 +182,7 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
     }
 
     /**
-     * Returning a salt is only needed, if you are not using a modern
+     * Returning a salt is only needed if you are not using a modern
      * hashing algorithm (e.g. bcrypt or sodium) in your security.yaml.
      *
      * @see UserInterface
@@ -194,6 +223,10 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
         return $this->password;
     }
 
+    public function ownsCamps(): bool {
+        return (bool) (count($this->getOwnedCamps()));
+    }
+
     /**
      * @return Camp[]
      */
@@ -220,13 +253,10 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
         return $this;
     }
 
-    public function ownsCamps(): bool {
-        return (bool) (count($this->getOwnedCamps()));
-    }
-
     /**
      * @return CampCollaboration[]
      */
+    #[ApiProperty(readable: false, writable: false)]
     public function getCampCollaborations(): array {
         return $this->collaborations->getValues();
     }

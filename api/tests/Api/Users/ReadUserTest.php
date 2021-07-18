@@ -2,6 +2,7 @@
 
 namespace App\Tests\Api\Users;
 
+use App\Entity\User;
 use App\Tests\Api\ECampApiTestCase;
 
 /**
@@ -29,31 +30,35 @@ class ReadUserTest extends ECampApiTestCase {
     }
 
     public function testGetSingleUserIsAllowedForSelf() {
+        /** @var User $user */
         $user = static::$fixtures['user1'];
         static::createClientWithCredentials()->request('GET', '/users/'.$user->getId());
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
-            'email' => 'test@example.com',
-            'username' => 'test-user',
-            'firstname' => 'Robert',
-            'surname' => 'Baden-Powell',
-            'nickname' => 'Bi-Pi',
-            'language' => 'en',
+            'id' => $user->getId(),
+            'email' => $user->email,
+            'username' => $user->username,
+            'firstname' => $user->firstname,
+            'surname' => $user->surname,
+            'nickname' => $user->nickname,
+            'language' => $user->language,
             'displayName' => 'Bi-Pi',
         ]);
     }
 
     public function testGetSingleUserIsAllowedForAdmin() {
+        /** @var User $user */
         $user = static::$fixtures['user1'];
         static::createClientWithAdminCredentials()->request('GET', '/users/'.$user->getId());
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
-            'email' => 'test@example.com',
-            'username' => 'test-user',
-            'firstname' => 'Robert',
-            'surname' => 'Baden-Powell',
-            'nickname' => 'Bi-Pi',
-            'language' => 'en',
+            'id' => $user->getId(),
+            'email' => $user->email,
+            'username' => $user->username,
+            'firstname' => $user->firstname,
+            'surname' => $user->surname,
+            'nickname' => $user->nickname,
+            'language' => $user->language,
             'displayName' => 'Bi-Pi',
         ]);
     }

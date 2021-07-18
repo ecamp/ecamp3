@@ -23,3 +23,15 @@ App\Entity\Camp:
     creator: '@admin'
     isPrototype: false
     campPrototypeId: null
+  campUnrelated:
+    name: <word()>
+    title: <word()>
+    motto: <sentence()>
+    addressName: <word()>
+    addressStreet: <address()>
+    addressZipcode: <postcode()>
+    addressCity: <city()>
+    owner: '@admin'
+    creator: '@admin'
+    isPrototype: false
+    campPrototypeId: null

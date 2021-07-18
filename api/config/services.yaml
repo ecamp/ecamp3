@@ -30,6 +30,18 @@ services:
     App\DataPersister\CampDataPersister:
         arguments: [ '@api_platform.doctrine.orm.data_persister' ]
 
+    App\DataPersister\ActivityDataPersister:
+        arguments: [ '@api_platform.doctrine.orm.data_persister' ]
+
+    App\DataPersister\CategoryDataPersister:
+        arguments: [ '@api_platform.doctrine.orm.data_persister' ]
+
+    App\DataPersister\ContentNodeDataPersister:
+        arguments: [ '@api_platform.doctrine.orm.data_persister' ]
+
+    App\Validator\MaterialItemUpdateGroupSequence:
+        public: true
+
     # Since the input filter classes are resolved at runtime instead
     # of with constructor dependency injection, we create a service
     # locator that will serve all the required classes
@@ -48,6 +60,7 @@ services:
             - '@.inner'
             - '@api_platform.route_name_resolver'
             - '@api_platform.filter_locator'
+            - '@serializer.name_converter.metadata_aware'
 
     App\Serializer\Normalizer\CollectionItemsNormalizer:
         decorates: 'api_platform.hal.normalizer.collection'

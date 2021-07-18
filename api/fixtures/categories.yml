@@ -3,5 +3,22 @@ App\Entity\Category:
     camp: '@camp1'
     short: LA
     name: Lageraktivität
-    color: \#4CAF50
+    color: '#FF9800'
     numberingStyle: 1
+    rootContentNode: '@contentNode2'
+    preferredContentTypes:
+      - '@contentType1'
+  category2:
+    camp: '@camp1'
+    short: LP
+    name: Lagerprogramm
+    color: '#99CCFF'
+    numberingStyle: 1
+    rootContentNode: '@contentNode4'
+  category1camp2:
+    camp: '@camp2'
+    short: LS
+    name: Lagersport
+    color: '#4CAF50'
+    numberingStyle: 1
+    rootContentNode: '@contentNode2camp2'

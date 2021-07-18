@@ -36,6 +36,7 @@ services:
       - ./.caddy/php-socket:/var/run/php
       - ./api:/srv/api:rw,cached
       - ./api/docker/php/conf.d/api-platform.dev.ini:/usr/local/etc/php/conf.d/api-platform.ini
+      - ./api/docker/php/docker-entrypoint.sh:/usr/local/bin/docker-entrypoint
     environment:
       APP_ENV: dev
       # See https://docs.docker.com/docker-for-mac/networking/#i-want-to-connect-from-a-container-to-a-service-on-the-host

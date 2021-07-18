@@ -32,11 +32,10 @@ class ReadCampTest extends ECampApiTestCase {
     public function testGetSingleCampIsAllowedForOwnedCamp() {
         /** @var Camp $camp */
         $camp = static::$fixtures['camp1'];
-        $userIri = $this->getIriConverter()->getIriFromItem(static::$fixtures['user1']);
-        $user2Iri = $this->getIriConverter()->getIriFromItem(static::$fixtures['user2']);
         static::createClientWithCredentials()->request('GET', '/camps/'.$camp->getId());
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
+            'id' => $camp->getId(),
             'name' => $camp->name,
             'title' => $camp->title,
             'motto' => $camp->motto,
@@ -44,9 +43,15 @@ class ReadCampTest extends ECampApiTestCase {
             'addressStreet' => $camp->addressStreet,
             'addressZipcode' => $camp->addressZipcode,
             'addressCity' => $camp->addressCity,
+            //'role' => 'manager',
+            'isPrototype' => false,
             '_links' => [
-                'owner' => ['href' => $userIri],
-                'creator' => ['href' => $user2Iri],
+                'creator' => ['href' => $this->getIriFor('user2')],
+                'activities' => ['href' => '/activities?camp=/camps/'.$camp->getId()],
+                'materialLists' => ['href' => '/material_lists?camp=/camps/'.$camp->getId()],
+                'campCollaborations' => ['href' => '/camp_collaborations?camp=/camps/'.$camp->getId()],
+                'periods' => ['href' => '/periods?camp=/camps/'.$camp->getId()],
+                'categories' => ['href' => '/categories?camp=/camps/'.$camp->getId()],
             ],
         ]);
     }
@@ -62,11 +67,10 @@ class ReadCampTest extends ECampApiTestCase {
     public function testGetSingleCampIsAllowedForAdmin() {
         /** @var Camp $camp */
         $camp = static::$fixtures['camp1'];
-        $userIri = $this->getIriConverter()->getIriFromItem(static::$fixtures['user1']);
-        $user2Iri = $this->getIriConverter()->getIriFromItem(static::$fixtures['user2']);
         static::createClientWithAdminCredentials()->request('GET', '/camps/'.$camp->getId());
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
+            'id' => $camp->getId(),
             'name' => $camp->name,
             'title' => $camp->title,
             'motto' => $camp->motto,
@@ -74,9 +78,15 @@ class ReadCampTest extends ECampApiTestCase {
             'addressStreet' => $camp->addressStreet,
             'addressZipcode' => $camp->addressZipcode,
             'addressCity' => $camp->addressCity,
+            //'role' => 'manager',
+            'isPrototype' => false,
             '_links' => [
-                'owner' => ['href' => $userIri],
-                'creator' => ['href' => $user2Iri],
+                'creator' => ['href' => $this->getIriFor('user2')],
+                'activities' => ['href' => '/activities?camp=/camps/'.$camp->getId()],
+                'materialLists' => ['href' => '/material_lists?camp=/camps/'.$camp->getId()],
+                'campCollaborations' => ['href' => '/camp_collaborations?camp=/camps/'.$camp->getId()],
+                'periods' => ['href' => '/periods?camp=/camps/'.$camp->getId()],
+                'categories' => ['href' => '/categories?camp=/camps/'.$camp->getId()],
             ],
         ]);
     }

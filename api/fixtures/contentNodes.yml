@@ -1,10 +1,73 @@
 App\Entity\ContentNode:
   contentNode1:
-    owner: '@activity1'
     root: '@self'
     parent: null
     slot: ''
     position: 0
-    jsonConfig: '[]'
+    jsonConfig: {columns: [{slot: 1, width: 12}]}
     instanceName: <word()>
-    contentType: '@contentType1'
+    contentType: '@contentTypeColumnLayout'
+  contentNode2:
+    root: '@self'
+    parent: null
+    slot: ''
+    position: 0
+    jsonConfig: {columns: [{slot: 1, width: 12}]}
+    instanceName: <word()>
+    contentType: '@contentTypeColumnLayout'
+  contentNodeChild1:
+    root: '@contentNode1'
+    parent: '@contentNode1'
+    slot: '1'
+    position: 0
+    jsonConfig: null
+    instanceName: <word()>
+    contentType: '@contentTypeColumnLayout'
+  contentNodeChild2:
+    root: '@contentNode1'
+    parent: '@contentNode1'
+    slot: '1'
+    position: 1
+    jsonConfig: null
+    instanceName: <word()>
+    contentType: '@contentType2'
+  contentNodeGrandchild1:
+    root: '@contentNode1'
+    parent: '@contentNodeChild1'
+    slot: '1'
+    position: 1
+    jsonConfig: null
+    instanceName: <word()>
+    contentType: '@contentType2'
+  contentNode3:
+    root: '@self'
+    parent: null
+    slot: ''
+    position: 0
+    jsonConfig: { columns: [ { slot: 1, width: 12 } ] }
+    instanceName: <word()>
+    contentType: '@contentTypeColumnLayout'
+  contentNode4:
+    root: '@self'
+    parent: null
+    slot: ''
+    position: 0
+    jsonConfig: { columns: [ { slot: 1, width: 12 } ] }
+    instanceName: <word()>
+    contentType: '@contentTypeColumnLayout'
+  contentNode1camp2:
+    root: '@self'
+    parent: null
+    slot: ''
+    position: 0
+    jsonConfig: {columns: [{slot: 1, width: 12}]}
+    instanceName: <word()>
+    contentType: '@contentTypeColumnLayout'
+  contentNode2camp2:
+    root: '@self'
+    parent: null
+    slot: ''
+    position: 0
+    jsonConfig: {columns: [{slot: 1, width: 12}]}
+    instanceName: <word()>
+    contentType: '@contentTypeColumnLayout'

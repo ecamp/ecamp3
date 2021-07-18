@@ -10,14 +10,14 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20210628114757 extends AbstractMigration {
+final class Version20210712182029 extends AbstractMigration {
     public function getDescription(): string {
         return '';
     }
 
     public function up(Schema $schema): void {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('CREATE TABLE abstract_content_node_owner (id VARCHAR(16) NOT NULL, createTime TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, updateTime TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, rootContentNodeId VARCHAR(16) DEFAULT NULL, entityType VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE abstract_content_node_owner (id VARCHAR(16) NOT NULL, createTime TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, updateTime TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, rootContentNodeId VARCHAR(16) NOT NULL, entityType VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_8E710AB4F886581C ON abstract_content_node_owner (rootContentNodeId)');
         $this->addSql('CREATE INDEX IDX_8E710AB49D468A55 ON abstract_content_node_owner (createTime)');
         $this->addSql('CREATE INDEX IDX_8E710AB455AA53E2 ON abstract_content_node_owner (updateTime)');
@@ -69,6 +69,7 @@ final class Version20210628114757 extends AbstractMigration {
         $this->addSql('CREATE INDEX IDX_81AC6A2D56778C5C ON day_responsible (campCollaborationId)');
         $this->addSql('CREATE INDEX IDX_81AC6A2D9D468A55 ON day_responsible (createTime)');
         $this->addSql('CREATE INDEX IDX_81AC6A2D55AA53E2 ON day_responsible (updateTime)');
+        $this->addSql('CREATE UNIQUE INDEX day_campCollaboration_unique ON day_responsible (dayId, campCollaborationId)');
         $this->addSql('CREATE TABLE material_item (id VARCHAR(16) NOT NULL, article TEXT NOT NULL, quantity DOUBLE PRECISION DEFAULT NULL, unit TEXT DEFAULT NULL, createTime TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, updateTime TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, materialListId VARCHAR(16) NOT NULL, periodId VARCHAR(16) DEFAULT NULL, contentNodeId VARCHAR(16) DEFAULT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_4B73482BC0B3A0A9 ON material_item (materialListId)');
         $this->addSql('CREATE INDEX IDX_4B73482B85CB41E9 ON material_item (periodId)');
@@ -79,9 +80,6 @@ final class Version20210628114757 extends AbstractMigration {
         $this->addSql('CREATE INDEX IDX_10A0952D6D299429 ON material_list (campId)');
         $this->addSql('CREATE INDEX IDX_10A0952D9D468A55 ON material_list (createTime)');
         $this->addSql('CREATE INDEX IDX_10A0952D55AA53E2 ON material_list (updateTime)');
-        $this->addSql('CREATE TABLE organization (id VARCHAR(16) NOT NULL, name TEXT NOT NULL, createTime TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, updateTime TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, PRIMARY KEY(id))');
-        $this->addSql('CREATE INDEX IDX_C1EE637C9D468A55 ON organization (createTime)');
-        $this->addSql('CREATE INDEX IDX_C1EE637C55AA53E2 ON organization (updateTime)');
         $this->addSql('CREATE TABLE period (id VARCHAR(16) NOT NULL, description TEXT DEFAULT NULL, start DATE NOT NULL, "end" DATE NOT NULL, createTime TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, updateTime TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, campId VARCHAR(16) NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_C5B81ECE6D299429 ON period (campId)');
         $this->addSql('CREATE INDEX IDX_C5B81ECE9D468A55 ON period (createTime)');
@@ -169,7 +167,6 @@ final class Version20210628114757 extends AbstractMigration {
         $this->addSql('DROP TABLE day_responsible');
         $this->addSql('DROP TABLE material_item');
         $this->addSql('DROP TABLE material_list');
-        $this->addSql('DROP TABLE organization');
         $this->addSql('DROP TABLE period');
         $this->addSql('DROP TABLE schedule_entry');
         $this->addSql('DROP TABLE "user"');

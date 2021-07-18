@@ -1,5 +1,13 @@
 App\Entity\ContentType:
   contentType1:
-    name: 'Safety concept'
+    name: 'SafetyConcept'
     active: true
     strategyClass: 'App\ContentNodeStrategy\SingleTextStrategy'
+  contentType2:
+    name: 'Notes'
+    active: true
+    strategyClass: 'App\ContentNodeStrategy\SingleTextStrategy'
+  contentTypeColumnLayout:
+    name: 'ColumnLayout'
+    active: true
+    strategyClass: 'App\ContentNodeStrategy\ColumnLayoutStrategy'
