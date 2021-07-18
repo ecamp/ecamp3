@@ -10,14 +10,17 @@ Displays details on a single camp and allows to edit them.
         <api-text-field
           fieldname="name"
           :label="$tc('entity.camp.fields.name')"
-          vee-rules="required" />
+          vee-rules="required"
+          :disabled="disabled" />
         <api-text-field
           fieldname="title"
           :name="$tc('entity.camp.fields.title')"
-          vee-rules="required" />
+          vee-rules="required"
+          :disabled="disabled" />
         <api-text-field
           fieldname="motto"
-          :name="$tc('entity.camp.fields.motto')" />
+          :name="$tc('entity.camp.fields.motto')"
+          :disabled="disabled" />
       </api-form>
     </div>
   </content-group>
@@ -35,6 +38,10 @@ export default {
     camp: {
       type: Function,
       required: true
+    },
+    disabled: {
+      type: Boolean,
+      default: false
     }
   },
   data () {

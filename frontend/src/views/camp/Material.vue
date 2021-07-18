@@ -24,7 +24,8 @@ Admin screen of a camp: Displays MaterialLists and MaterialItems
                              :key="period._meta.self"
                              :period="period"
                              :show-content-node-material="showContentNodeMaterial"
-                             :group-by-list="groupByList || $vuetify.breakpoint.xs" />
+                             :group-by-list="groupByList || $vuetify.breakpoint.xs"
+                             :disabled="!isContributor" />
     </v-expansion-panels>
   </content-card>
 </template>
@@ -32,6 +33,7 @@ Admin screen of a camp: Displays MaterialLists and MaterialItems
 <script>
 import ContentCard from '@/components/layout/ContentCard.vue'
 import PeriodMaterialLists from '@/components/camp/PeriodMaterialLists.vue'
+import { campRoleMixin } from '@/mixins/campRoleMixin'
 
 export default {
   name: 'Material',
@@ -39,6 +41,7 @@ export default {
     ContentCard,
     PeriodMaterialLists
   },
+  mixins: [campRoleMixin],
   props: {
     camp: { type: Function, required: true }
   },

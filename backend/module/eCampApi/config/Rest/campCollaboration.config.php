@@ -21,6 +21,7 @@ return Config::Create('CampCollaboration')
             ->addValidatorInArray([
                 CampCollaboration::ROLE_MEMBER,
                 CampCollaboration::ROLE_MANAGER,
+                CampCollaboration::ROLE_GUEST,
             ])
     )
     ->buildConfig()

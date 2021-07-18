@@ -49,7 +49,7 @@ class Day extends BaseEntity implements BelongsToCampInterface {
      * @ORM\ManyToOne(targetEntity="Period", inversedBy="days")
      * @ORM\JoinColumn(nullable=false, onDelete="cascade")
      */
-    #[ApiProperty(readableLink:false, writable: false, example: '/periods/1a2b3c4d')]
+    #[ApiProperty(readableLink: false, writable: false, example: '/periods/1a2b3c4d')]
     #[Groups(['Properties:read'])]
     public ?Period $period = null;
 
@@ -66,7 +66,7 @@ class Day extends BaseEntity implements BelongsToCampInterface {
         $this->dayResponsibles = new ArrayCollection();
     }
 
-    #[ApiProperty(readableLink:false, writable: false, example: '/camps/1a2b3c4d')]
+    #[ApiProperty(readableLink: false, writable: false, example: '/camps/1a2b3c4d')]
     #[Groups(['Properties:read'])]
     public function getCamp(): ?Camp {
         return $this->period?->camp;

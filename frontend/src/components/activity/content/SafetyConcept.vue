@@ -6,7 +6,7 @@
           fieldname="text"
           :placeholder="$tc('contentNode.safetyConcept.name')"
           rows="2"
-          :disabled="layoutMode"
+          :disabled="layoutMode || disabled"
           :filled="layoutMode" />
       </api-form>
     </div>

@@ -6,7 +6,6 @@ use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
-use ApiPlatform\Core\Annotation\ApiSubresource;
 use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -18,12 +17,12 @@ use Symfony\Component\Validator\Constraints as Assert;
  * A time period in which the programme of a camp will take place. There may be multiple
  * periods in a camp, but they may not overlap. A period is made up of one or more full days.
  *
- * @ORM\Entity()
+ * @ORM\Entity
  */
 #[ApiResource(
     collectionOperations: [
-        'get', 
-        'post'
+        'get',
+        'post',
     ],
     itemOperations: [
         'get',
@@ -47,7 +46,7 @@ class Period extends BaseEntity implements BelongsToCampInterface {
      * @ORM\OneToMany(targetEntity="Day", mappedBy="period", orphanRemoval=true)
      * @ORM\OrderBy({"dayOffset": "ASC"})
      */
-    #[ApiProperty(readableLink:true, writable: false, example: '["/days/1a2b3c4d"]')]
+    #[ApiProperty(readableLink: true, writable: false, example: '["/days/1a2b3c4d"]')]
     #[Groups(['Camp:read', 'Period:read'])]
     public Collection $days;
 
@@ -76,7 +75,7 @@ class Period extends BaseEntity implements BelongsToCampInterface {
      * @ORM\ManyToOne(targetEntity="Camp", inversedBy="periods")
      * @ORM\JoinColumn(nullable=false)
      */
-    #[ApiProperty(readableLink:false, example: '/camps/1a2b3c4d')]
+    #[ApiProperty(readableLink: false, example: '/camps/1a2b3c4d')]
     #[Groups(['Properties:read'])]
     public ?Camp $camp = null;
 

@@ -7,18 +7,18 @@ Admin screen of a camp: Displays details & periods of a single camp and allows t
     <v-card-text>
       <v-row>
         <v-col cols="12" lg="6">
-          <camp-settings :camp="camp" />
-          <camp-address :camp="camp" />
+          <camp-settings :camp="camp" :disabled="!isManager" />
+          <camp-address :camp="camp" :disabled="!isManager" />
 
           <v-btn v-if="$vuetify.breakpoint.xsOnly" :to="{name: 'camp/collaborators', query: {isDetail: true}}">
             {{ $tc('views.camp.admin.collaborators') }}
           </v-btn>
-          <camp-periods :camp="camp" />
+          <camp-periods :camp="camp" :disabled="!isManager" />
         </v-col>
         <v-col cols="12" lg="6">
-          <camp-categories :camp="camp" />
+          <camp-categories :camp="camp" :disabled="!isManager" />
 
-          <camp-material-lists :camp="camp" />
+          <camp-material-lists :camp="camp" :disabled="!isManager" />
         </v-col>
       </v-row>
       <v-row>
@@ -38,6 +38,7 @@ import CampMaterialLists from '@/components/camp/CampMaterialLists.vue'
 import CampCategories from '@/components/camp/CampCategories.vue'
 import ContentCard from '@/components/layout/ContentCard.vue'
 import CampDangerZone from '@/components/camp/CampDangerZone.vue'
+import { campRoleMixin } from '@/mixins/campRoleMixin'
 
 export default {
   name: 'Admin',
@@ -50,16 +51,12 @@ export default {
     CampMaterialLists,
     CampCategories
   },
+  mixins: [campRoleMixin],
   props: {
     camp: { type: Function, required: true }
   },
   data () {
     return {}
-  },
-  computed: {
-    isManager () {
-      return this.camp().role === 'manager'
-    }
   },
   mounted () {
     this.api.reload(this.camp())

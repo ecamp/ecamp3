@@ -23,7 +23,7 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
  * content nodes may be inserted. In return, a content node may be nested inside a slot in a parent
  * container content node. This way, a tree of content nodes makes up a complete programme.
  *
- * @ORM\Entity()
+ * @ORM\Entity
  */
 #[ApiResource(
     collectionOperations: ['get', 'post'],
@@ -171,36 +171,34 @@ class ContentNode extends BaseEntity implements BelongsToCampInterface {
 
     /**
      * The entity that owns the content node tree that this content node resides in.
-     *
-     * @throws Exception when the owner is neither an activity nor a category
      */
     #[SerializedName('owner')]
     #[ApiProperty(writable: false, example: '/activities/1a2b3c4d')]
-    public function getRootOwner(): Activity | Category {
-        $owner = $this->root->owner;
-        if ($owner instanceof Activity || $owner instanceof Category) {
-            return $owner;
-        }
-
-        throw new Exception('Unexpected owner type '.get_debug_type($owner));
+    public function getRootOwner(): Activity | Category | AbstractContentNodeOwner {
+        return $this->root->owner;
     }
 
     /**
      * The category that owns this content node's content tree, or the category of the
      * activity that owns this content node's content tree.
      *
-     * @throws Exception
+     * @throws Exception when the owner is neither an activity nor a category
      */
     #[ApiProperty(example: '/categories/1a2b3c4d')]
     public function getOwnerCategory(): Category {
         $owner = $this->getRootOwner();
 
-        return ($owner instanceof Activity) ? $owner->category : $owner;
+        if ($owner instanceof Activity) {
+            $owner = $owner->category;
+        }
+
+        if ($owner instanceof Category) {
+            return $owner;
+        }
+
+        throw new Exception('Unexpected owner type '.get_debug_type($owner));
     }
 
-    /**
-     * @throws Exception
-     */
     #[ApiProperty(readable: false)]
     public function getCamp(): ?Camp {
         $owner = $this->getRootOwner();

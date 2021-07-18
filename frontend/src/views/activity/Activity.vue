@@ -8,7 +8,7 @@ Displays a single activity
       <template #title>
         <v-toolbar-title class="font-weight-bold">
           {{ scheduleEntry().number }}
-          <v-menu v-if="!category._meta.loading" offset-y :disabled="layoutMode">
+          <v-menu v-if="!category._meta.loading" offset-y :disabled="layoutMode || !isContributor">
             <template #activator="{ on, attrs }">
               <v-chip
                 :color="category.color"
@@ -34,7 +34,7 @@ Displays a single activity
           </v-menu>
           <a v-if="!editActivityTitle"
              style="color: inherit"
-             @click="editActivityTitle = true">
+             @click="makeTitleEditable();">
             {{ activity.title }}
           </a>
         </v-toolbar-title>
@@ -54,6 +54,7 @@ Displays a single activity
         <v-btn v-if="!layoutMode"
                color="primary"
                outlined
+               :disabled="!isContributor"
                @click="layoutMode = true">
           <template v-if="$vuetify.breakpoint.smAndUp">
             <v-icon left>mdi-puzzle-edit-outline</v-icon>
@@ -61,7 +62,7 @@ Displays a single activity
           </template>
           <template v-else>{{ $tc('views.activity.activity.layout') }}</template>
         </v-btn>
-        <v-btn v-else
+        <v-btn v-else-if="isContributor"
                color="success"
                outlined
                @click="layoutMode = false">
@@ -126,7 +127,7 @@ Displays a single activity
                     :name="$tc('entity.activity.fields.location')"
                     :uri="activity._meta.self"
                     fieldname="location"
-                    :disabled="layoutMode"
+                    :disabled="layoutMode || !isContributor"
                     dense />
                 </v-col>
               </v-row>
@@ -141,7 +142,7 @@ Displays a single activity
                     small-chips
                     :uri="activity._meta.self"
                     fieldname="campCollaborations"
-                    :disabled="layoutMode"
+                    :disabled="layoutMode || !isContributor"
                     :items="availableCampCollaborations" />
                 </v-col>
               </v-row>
@@ -150,7 +151,8 @@ Displays a single activity
           <content-node
             v-if="activity.rootContentNode"
             :content-node="activity.rootContentNode()"
-            :layout-mode="layoutMode" />
+            :layout-mode="layoutMode"
+            :disabled="isContributor === false" />
         </template>
       </v-card-text>
     </content-card>
@@ -163,6 +165,7 @@ import ApiTextField from '@/components/form/api/ApiTextField.vue'
 import ApiSelect from '@/components/form/api/ApiSelect.vue'
 import ContentNode from '@/components/activity/ContentNode.vue'
 import { defineHelpers } from '@/common/helpers/scheduleEntry/dateHelperUTC.js'
+import { campRoleMixin } from '@/mixins/campRoleMixin'
 
 export default {
   name: 'Activity',
@@ -172,6 +175,7 @@ export default {
     ApiSelect,
     ContentNode
   },
+  mixins: [campRoleMixin],
   props: {
     scheduleEntry: {
       type: Function,
@@ -227,6 +231,11 @@ export default {
       return this.contentNodes.items.filter(cn => {
         return cn.contentType().id === contentType.id
       }).length
+    },
+    makeTitleEditable () {
+      if (this.isContributor) {
+        this.editActivityTitle = true
+      }
     }
   }
 }

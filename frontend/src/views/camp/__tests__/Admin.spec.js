@@ -62,4 +62,25 @@ describe('Admin view', () => {
     expect(queryByText('components.camp.campDangerzone.title')).not.toBeInTheDocument()
     expect(queryByText('components.camp.campDangerzone.deleteCamp.title')).not.toBeInTheDocument()
   })
+
+  it('doesn\'t show the danger zone when the user has the guest role', async () => {
+    const { queryByText } = renderWithVuetify(Admin, {
+      props: {
+        camp: () => ({
+          role: 'guest',
+          materialLists: () => {},
+          _meta: { loading: false }
+        })
+      },
+      routes: [],
+      mocks: {
+        api: { reload: () => Promise.resolve() },
+        $tc: key => key
+      },
+      stubs: ['camp-settings', 'camp-address', 'camp-periods', 'camp-categories', 'camp-material-lists']
+    })
+
+    expect(queryByText('components.camp.campDangerzone.title')).not.toBeInTheDocument()
+    expect(queryByText('components.camp.campDangerzone.deleteCamp.title')).not.toBeInTheDocument()
+  })
 })

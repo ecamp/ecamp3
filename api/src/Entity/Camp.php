@@ -70,8 +70,8 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
     #[Assert\Valid]
     #[Assert\Count(min: 1, groups: ['Camp:create'])]
     #[ApiProperty(
-        readableLink: true, 
-        writableLink: true, 
+        readableLink: true,
+        writableLink: true,
         example: '[{ "description": "Hauptlager", "start": "2022-01-01", "end": "2022-01-08" }]'
     )]
     #[Groups(['Camp:read', 'Camp:create'])]

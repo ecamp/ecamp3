@@ -61,7 +61,6 @@ class Category extends AbstractContentNodeOwner implements BelongsToCampInterfac
      *
      * @ORM\OneToMany(targetEntity="Activity", mappedBy="category", orphanRemoval=true)
      */
-    #[Assert\DisableAutoMapping]
     #[ApiProperty(readable: false, writable: false)]
     public Collection $activities;
 
@@ -116,6 +115,7 @@ class Category extends AbstractContentNodeOwner implements BelongsToCampInterfac
 
     public function __construct() {
         $this->preferredContentTypes = new ArrayCollection();
+        $this->activities = new ArrayCollection();
     }
 
     public function getCamp(): ?Camp {

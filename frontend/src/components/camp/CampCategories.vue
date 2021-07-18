@@ -7,7 +7,7 @@ Displays all periods of a single camp and allows to edit them & create new ones
     <slot name="title">
       <div class="ec-content-group__title py-1 subtitle-1">
         {{ $tc('components.camp.campCategories.title') }}
-        <dialog-category-create :camp="camp()">
+        <dialog-category-create v-if="!disabled" :camp="camp()">
           <template #activator="{ on }">
             <button-add color="secondary" text
                         :hide-label="true"
@@ -30,7 +30,7 @@ Displays all periods of a single camp and allows to edit them & create new ones
             <v-chip dark :color="category.color">
               (1.{{ category.numberingStyle }}) {{ category.short }}: {{ category.name }}
 
-              <dialog-category-edit :camp="camp()" :category="category">
+              <dialog-category-edit v-if="!disabled" :camp="camp()" :category="category">
                 <template #activator="{ on }">
                   <v-icon class="ml-2" size="150%" v-on="on">mdi-pencil</v-icon>
                 </template>
@@ -39,7 +39,7 @@ Displays all periods of a single camp and allows to edit them & create new ones
           </v-list-item-title>
         </v-list-item-content>
 
-        <v-list-item-action style="display: inline">
+        <v-list-item-action v-if="!disabled" style="display: inline">
           <v-item-group>
             <button-edit
               class="mr-1"
@@ -50,7 +50,7 @@ Displays all periods of a single camp and allows to edit them & create new ones
           </v-item-group>
         </v-list-item-action>
 
-        <v-menu offset-y>
+        <v-menu v-if="!disabled" offset-y>
           <template #activator="{ on, attrs }">
             <v-btn icon v-bind="attrs" v-on="on">
               <v-icon>mdi-dots-vertical</v-icon>
@@ -116,7 +116,8 @@ export default {
     ContentGroup
   },
   props: {
-    camp: { type: Function, required: true }
+    camp: { type: Function, required: true },
+    disabled: { type: Boolean, default: false }
   },
   data () {
     return {}

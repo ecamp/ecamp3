@@ -9,16 +9,20 @@ Displays address and allows to edit
       <api-form :entity="camp()">
         <api-text-field
           fieldname="addressName"
-          :name="$tc('entity.camp.fields.addressName')" />
+          :name="$tc('entity.camp.fields.addressName')"
+          :disabled="disabled" />
         <api-text-field
           fieldname="addressStreet"
-          :name="$tc('entity.camp.fields.addressStreet')" />
+          :name="$tc('entity.camp.fields.addressStreet')"
+          :disabled="disabled" />
         <api-text-field
           fieldname="addressZipcode"
-          :name="$tc('entity.camp.fields.addressZipcode')" />
+          :name="$tc('entity.camp.fields.addressZipcode')"
+          :disabled="disabled" />
         <api-text-field
           fieldname="addressCity"
-          :name="$tc('entity.camp.fields.addressCity')" />
+          :name="$tc('entity.camp.fields.addressCity')"
+          :disabled="disabled" />
       </api-form>
     </div>
   </content-group>
@@ -36,6 +40,10 @@ export default {
     camp: {
       type: Function,
       required: true
+    },
+    disabled: {
+      type: Boolean,
+      default: false
     }
   }
 }

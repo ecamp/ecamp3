@@ -5,6 +5,7 @@
     handle=".drag-and-drop-handle"
     :animation="200"
     :force-fallback="true"
+    :disabled="disabled"
     @sort="onSort"
     @start="dragging = true"
     @end="dragging = false">
@@ -30,7 +31,8 @@ export default {
   },
   props: {
     /* reference to sortable API collection */
-    collection: { type: Function, required: true }
+    collection: { type: Function, required: true },
+    disabled: { type: Boolean, default: false }
   },
   data () {
     return {

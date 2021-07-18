@@ -7,7 +7,7 @@ Displays all periods of a single camp and allows to edit them & create new ones
     <slot name="title">
       <div class="ec-content-group__title py-1 subtitle-1">
         {{ $tc('components.camp.campPeriods.title', api.get().camps().items.length) }}
-        <dialog-period-create :camp="camp()">
+        <dialog-period-create v-if="!disabled" :camp="camp()">
           <template #activator="{ on }">
             <button-add color="secondary" text
                         class="my-n2"
@@ -25,7 +25,8 @@ Displays all periods of a single camp and allows to edit them & create new ones
         v-for="period in periods.items"
         :key="period.id"
         class="px-0"
-        :period="period" />
+        :period="period"
+        :disabled="disabled" />
     </v-list>
   </content-group>
 </template>
@@ -40,7 +41,8 @@ export default {
   name: 'CampPeriods',
   components: { ContentGroup, ButtonAdd, PeriodItem, DialogPeriodCreate },
   props: {
-    camp: { type: Function, required: true }
+    camp: { type: Function, required: true },
+    disabled: { type: Boolean, default: false }
   },
   data () {
     return {}
