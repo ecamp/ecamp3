@@ -6,6 +6,7 @@ use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Core\Annotation\ApiSubresource;
 use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -20,15 +21,23 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity()
  */
 #[ApiResource(
-    collectionOperations: ['get', 'post'],
+    collectionOperations: [
+        'get', 
+        'post'
+    ],
     itemOperations: [
         'get',
-        'patch' => ['denormalization_context' => [
-            'groups' => ['period:update'],
-            'allow_extra_attributes' => false,
-        ]],
+        'patch',
         'delete',
-    ]
+    ],
+    normalizationContext: [
+        'groups' => ['Properties:read', 'Period:read'],
+        'allow_extra_attributes' => false,
+    ],
+    denormalizationContext: [
+        'groups' => ['Properties:write', 'Period:write'],
+        'allow_extra_attributes' => false,
+    ],
 )]
 #[ApiFilter(SearchFilter::class, properties: ['camp'])]
 class Period extends BaseEntity implements BelongsToCampInterface {
@@ -38,7 +47,8 @@ class Period extends BaseEntity implements BelongsToCampInterface {
      * @ORM\OneToMany(targetEntity="Day", mappedBy="period", orphanRemoval=true)
      * @ORM\OrderBy({"dayOffset": "ASC"})
      */
-    #[ApiProperty(writable: false, example: '["/days/1a2b3c4d"]')]
+    #[ApiProperty(readableLink:true, writable: false, example: '["/days/1a2b3c4d"]')]
+    #[Groups(['Camp:read', 'Period:read'])]
     public Collection $days;
 
     /**
@@ -66,8 +76,8 @@ class Period extends BaseEntity implements BelongsToCampInterface {
      * @ORM\ManyToOne(targetEntity="Camp", inversedBy="periods")
      * @ORM\JoinColumn(nullable=false)
      */
-    #[ApiProperty(example: '/camps/1a2b3c4d')]
-    #[Groups(['Default'])]
+    #[ApiProperty(readableLink:false, example: '/camps/1a2b3c4d')]
+    #[Groups(['Properties:read'])]
     public ?Camp $camp = null;
 
     /**
@@ -79,7 +89,7 @@ class Period extends BaseEntity implements BelongsToCampInterface {
      */
     #[Assert\NotBlank]
     #[ApiProperty(example: 'Hauptlager')]
-    #[Groups(['Default', 'period:update'])]
+    #[Groups(['Properties:read', 'Properties:write'])]
     public ?string $description = null;
 
     /**
@@ -95,7 +105,7 @@ class Period extends BaseEntity implements BelongsToCampInterface {
      */
     #[Assert\LessThanOrEqual(propertyPath: 'end')]
     #[ApiProperty(example: '2022-01-01', openapiContext: ['format' => 'date'])]
-    #[Groups(['Default', 'period:update'])]
+    #[Groups(['Properties:read', 'Properties:write'])]
     public ?DateTimeInterface $start = null;
 
     /**
@@ -106,7 +116,7 @@ class Period extends BaseEntity implements BelongsToCampInterface {
      */
     #[Assert\GreaterThanOrEqual(propertyPath: 'start')]
     #[ApiProperty(example: '2022-01-08', openapiContext: ['format' => 'date'])]
-    #[Groups(['Default', 'period:update'])]
+    #[Groups(['Properties:read', 'Properties:write'])]
     public ?DateTimeInterface $end = null;
 
     public function __construct() {

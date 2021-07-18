@@ -25,7 +25,11 @@ use Symfony\Component\Validator\Constraints as Assert;
         'post' => [
             'security' => 'is_fully_authenticated()',
             'input_formats' => ['jsonld', 'jsonapi', 'json'],
-            'validation_groups' => ['Default', 'camp:create'],
+            'validation_groups' => ['Default', 'Camp:create'],
+            'denormalization_context' => [
+                'groups' => ['Properties:write', 'Camp:create'],
+                'allow_extra_attributes' => false,
+            ],
         ],
     ],
     itemOperations: [
@@ -33,12 +37,20 @@ use Symfony\Component\Validator\Constraints as Assert;
         'patch' => [
             'security' => 'object.owner == user or is_granted("ROLE_ADMIN")',
             'denormalization_context' => [
-                'groups' => ['camp:update'],
+                'groups' => ['Properties:write', 'Camp:update'],
                 'allow_extra_attributes' => false,
             ],
         ],
         'delete' => ['security' => 'object.owner == user or is_granted("ROLE_ADMIN")'],
-    ]
+    ],
+    normalizationContext: [
+        'groups' => ['Properties:read', 'Camp:read'],
+        'allow_extra_attributes' => false,
+    ],
+    denormalizationContext: [
+        'groups' => ['Properties:write', 'Camp:write'],
+        'allow_extra_attributes' => false,
+    ],
 )]
 class Camp extends BaseEntity implements BelongsToCampInterface {
     /**
@@ -56,9 +68,13 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
      * @ORM\OrderBy({"start": "ASC"})
      */
     #[Assert\Valid]
-    #[Assert\Count(min: 1, groups: ['camp:create'])]
-    #[ApiProperty(writableLink: true, example: '[{ "description": "Hauptlager", "start": "2022-01-01", "end": "2022-01-08" }]')]
-    #[Groups(['Default'])]
+    #[Assert\Count(min: 1, groups: ['Camp:create'])]
+    #[ApiProperty(
+        readableLink: true, 
+        writableLink: true, 
+        example: '[{ "description": "Hauptlager", "start": "2022-01-01", "end": "2022-01-08" }]'
+    )]
+    #[Groups(['Camp:read', 'Camp:create'])]
     public Collection $periods;
 
     /**
@@ -116,7 +132,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
     #[InputFilter\CleanHTML]
     #[Assert\NotBlank]
     #[ApiProperty(example: 'SoLa 2022')]
-    #[Groups(['Default', 'camp:update'])]
+    #[Groups(['Properties:read', 'Camp:create'])]
     public string $name;
 
     /**
@@ -128,8 +144,8 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
     #[InputFilter\CleanHTML]
     #[Assert\NotBlank]
     #[Assert\Length(max: 32)]
-    #[ApiProperty(example: 'Abteilungs-Sommerlager 2022')]
-    #[Groups(['Default', 'camp:update'])]
+    #[ApiProperty(writable: true, example: 'Abteilungs-Sommerlager 2022')]
+    #[Groups(['Properties:read', 'Properties:write'])]
     public string $title;
 
     /**
@@ -141,7 +157,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
     #[InputFilter\CleanHTML]
     #[Assert\Length(max: 128)]
     #[ApiProperty(example: 'Piraten')]
-    #[Groups(['Default', 'camp:update'])]
+    #[Groups(['Properties:read', 'Properties:write'])]
     public ?string $motto = null;
 
     /**
@@ -153,7 +169,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
     #[InputFilter\CleanHTML]
     #[Assert\Length(max: 128)]
     #[ApiProperty(example: 'Wiese hinter der alten Mühle')]
-    #[Groups(['Default', 'camp:update'])]
+    #[Groups(['Properties:read', 'Properties:write'])]
     public ?string $addressName = null;
 
     /**
@@ -165,7 +181,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
     #[InputFilter\CleanHTML]
     #[Assert\Length(max: 128)]
     #[ApiProperty(example: 'Schönriedweg 23')]
-    #[Groups(['Default', 'camp:update'])]
+    #[Groups(['Properties:read', 'Properties:write'])]
     public ?string $addressStreet = null;
 
     /**
@@ -177,7 +193,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
     #[InputFilter\CleanHTML]
     #[Assert\Length(max: 128)]
     #[ApiProperty(example: '1234')]
-    #[Groups(['Default', 'camp:update'])]
+    #[Groups(['Properties:read', 'Properties:write'])]
     public ?string $addressZipcode = null;
 
     /**
@@ -189,7 +205,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
     #[InputFilter\CleanHTML]
     #[Assert\Length(max: 128)]
     #[ApiProperty(example: 'Hintertüpfingen')]
-    #[Groups(['Default', 'camp:update'])]
+    #[Groups(['Properties:read', 'Properties:write'])]
     public ?string $addressCity = null;
 
     /**
