@@ -5,6 +5,9 @@ on:
   pull_request:
   workflow_dispatch:
 
+env:
+  USER_ID: 1001
+
 jobs:
   backend-validate-composer-lock:
     name: "Validate Backend composer.lock"
@@ -83,7 +86,11 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
 
-      - run: ./docker-compose-run-as-entrypoint.sh print npm ci
+      - run: mkdir print/node_modules
+
+      - run: sudo chown -R 1000:1000 .cache print/node_modules
+
+      - run: USER_ID=1000 ./docker-compose-run-as-entrypoint.sh print npm ci
 
       - run: ./docker-compose-run-as-entrypoint.sh print npm run lint
 
@@ -183,9 +190,13 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
 
-      - run: ./docker-compose-run-as-entrypoint.sh print npm ci
+      - run: mkdir print/node_modules print/.nuxt
 
-      - run: ./docker-compose-run-as-entrypoint.sh print npm run build
+      - run: sudo chown -R 1000:1000 .cache print/node_modules print/.nuxt
+
+      - run: USER_ID=1000 ./docker-compose-run-as-entrypoint.sh print npm ci
+
+      - run: USER_ID=1000 ./docker-compose-run-as-entrypoint.sh print npm run build
 
       - run: ./docker-compose-run-as-entrypoint.sh print npm run test
 
