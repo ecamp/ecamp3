@@ -21,15 +21,20 @@
         </testsuite>
     </testsuites>
 
-    <filter>
-        <whitelist processUncoveredFilesFromWhitelist="true">
-            <directory suffix=".php">src</directory>
-        </whitelist>
-    </filter>
-
     <listeners>
         <listener class="Symfony\Bridge\PhpUnit\SymfonyTestsListener" />
     </listeners>
+
+    <coverage processUncoveredFiles="true">
+        <include>
+            <directory suffix=".php">src</directory>
+        </include>
+
+        <report>
+            <clover outputFile="build/logs/clover.xml"/>
+        </report>
+
+    </coverage>
 
     <!-- Run `composer require symfony/panther` before enabling this extension -->
     <!--
