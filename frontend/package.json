@@ -62,7 +62,7 @@
     "flush-promises": "1.0.2",
     "jest-canvas-mock": "2.3.1",
     "jest-serializer-vue-tjw": "3.18.0",
-    "lint-staged": "11.1.0",
+    "lint-staged": "11.1.1",
     "sass": "1.36.0",
     "sass-loader": "10.2.0",
     "source-map-loader": "1.1.3",
