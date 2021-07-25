@@ -24,6 +24,7 @@
         "symfony/flex": "1.13.3",
         "symfony/framework-bundle": "5.3.4",
         "symfony/intl": "5.3.4",
+        "symfony/mailer": "v5.3.4",
         "symfony/mercure-bundle": "0.3.2",
         "symfony/monolog-bundle": "3.7.0",
         "symfony/property-access": "5.3.4",
