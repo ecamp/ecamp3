@@ -2,7 +2,7 @@ version: "3.4"
 
 services:
   frontend:
-    image: node:14.17.3@sha256:976c9107158a1c85ab0702aec5b1d56bbb85de493ca50794e545a0271421e028
+    image: node:16.3.0@sha256:e36cf1bb8719551220ba8c3ee1583881e79ad040803570e0849b00b8fe009153
     container_name: 'ecamp3-frontend'
     ports:
       - '3000:3000'
@@ -15,7 +15,6 @@ services:
       - ./common:/common:delegated
       - ./.cache/npm:/home/node/.npm
       - ./.cache/cypress:/home/node/.cache/Cypress
-      - ./.cache/node_modules:/app/node_modules/.cache
     working_dir: /app
     command: ./docker-setup.sh
     environment:
@@ -106,7 +105,7 @@ services:
     entrypoint: ./docker-setup.sh
 
   print:
-    image: node:14.17.3@sha256:976c9107158a1c85ab0702aec5b1d56bbb85de493ca50794e545a0271421e028
+    image: node:16.3.0@sha256:e36cf1bb8719551220ba8c3ee1583881e79ad040803570e0849b00b8fe009153
     container_name: 'ecamp3-print'
     ports:
       - '3003:3003'
@@ -115,7 +114,6 @@ services:
       - ./print:/app:delegated
       - ./common:/common:delegated
       - ./.cache/npm:/home/node/.npm
-      - ./.cache/node_modules:/app/node_modules/.cache
     working_dir: /app
     command: ./docker-setup.sh
     environment:

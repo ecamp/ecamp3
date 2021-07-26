@@ -7,8 +7,4 @@ fi
 service=$1
 shift
 entrypoint=$@
-switch_user=
-if [ "$CI" = "true" ]; then
-  switch_user="--user 1001"
-fi
-docker-compose run --rm --no-deps $switch_user --entrypoint="$entrypoint" $service
+docker-compose run --rm --no-deps --entrypoint="$entrypoint" $service
