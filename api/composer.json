@@ -49,7 +49,7 @@
         "symfony/phpunit-bridge": "5.3.4",
         "symfony/stopwatch": "5.3.4",
         "symfony/var-dumper": "5.3.4",
-        "symfony/web-profiler-bundle": "5.3.4"
+        "symfony/web-profiler-bundle": "5.3.5"
     },
     "config": {
         "optimize-autoloader": true,
