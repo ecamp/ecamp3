@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c4d9cb4bac3f62ed31c5b67f3cb28f46",
+    "content-hash": "d34bb8ee5eb524eec84f23469858b204",
     "packages": [
         {
             "name": "api-platform/core",
@@ -5110,16 +5110,16 @@
         },
         {
             "name": "symfony/http-kernel",
-            "version": "v5.3.4",
+            "version": "v5.3.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/http-kernel.git",
-                "reference": "38a768f2946a7261dfc399873dda2c115dd6ac17"
+                "reference": "9eb3ee3cb6c69e12ba5770665b89fe82f0b99033"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/http-kernel/zipball/38a768f2946a7261dfc399873dda2c115dd6ac17",
-                "reference": "38a768f2946a7261dfc399873dda2c115dd6ac17",
+                "url": "https://api.github.com/repos/symfony/http-kernel/zipball/9eb3ee3cb6c69e12ba5770665b89fe82f0b99033",
+                "reference": "9eb3ee3cb6c69e12ba5770665b89fe82f0b99033",
                 "shasum": ""
             },
             "require": {
@@ -5202,7 +5202,7 @@
             "description": "Provides a structured process for converting a Request into a Response",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/http-kernel/tree/v5.3.4"
+                "source": "https://github.com/symfony/http-kernel/tree/v5.3.5"
             },
             "funding": [
                 {
@@ -5218,7 +5218,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-07-26T17:36:49+00:00"
+            "time": "2021-07-27T04:39:22+00:00"
         },
         {
             "name": "symfony/intl",
@@ -10144,16 +10144,16 @@
         },
         {
             "name": "symfony/web-profiler-bundle",
-            "version": "v5.3.4",
+            "version": "v5.3.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/web-profiler-bundle.git",
-                "reference": "ab43f9d9bc5a73b0a8af0a486c34fcb1a8871461"
+                "reference": "95fb24b09551688a09cffac95a2ddbb907833f07"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/web-profiler-bundle/zipball/ab43f9d9bc5a73b0a8af0a486c34fcb1a8871461",
-                "reference": "ab43f9d9bc5a73b0a8af0a486c34fcb1a8871461",
+                "url": "https://api.github.com/repos/symfony/web-profiler-bundle/zipball/95fb24b09551688a09cffac95a2ddbb907833f07",
+                "reference": "95fb24b09551688a09cffac95a2ddbb907833f07",
                 "shasum": ""
             },
             "require": {
@@ -10203,7 +10203,7 @@
             "description": "Provides a development tool that gives detailed information about the execution of any request",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/web-profiler-bundle/tree/v5.3.4"
+                "source": "https://github.com/symfony/web-profiler-bundle/tree/v5.3.5"
             },
             "funding": [
                 {
@@ -10219,7 +10219,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-07-26T16:33:26+00:00"
+            "time": "2021-07-27T04:28:53+00:00"
         },
         {
             "name": "theofidry/alice-data-fixtures",
