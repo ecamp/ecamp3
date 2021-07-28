@@ -27,7 +27,7 @@ use Symfony\Component\Validator\Constraints as Assert;
             'input_formats' => ['jsonld', 'jsonapi', 'json'],
             'validation_groups' => ['Default', 'Camp:create'],
             'denormalization_context' => [
-                'groups' => ['Properties:write', 'Camp:create'],
+                'groups' => ['Properties:write', 'Camp:write', 'Camp:create'],
                 'allow_extra_attributes' => false,
             ],
         ],
@@ -37,7 +37,7 @@ use Symfony\Component\Validator\Constraints as Assert;
         'patch' => [
             'security' => 'object.owner == user or is_granted("ROLE_ADMIN")',
             'denormalization_context' => [
-                'groups' => ['Properties:write', 'Camp:update'],
+                'groups' => ['Properties:write', 'Camp:write', 'Camp:update'],
                 'allow_extra_attributes' => false,
             ],
         ],
