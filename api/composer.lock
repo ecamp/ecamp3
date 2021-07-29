@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "54169314479d712e2a57c7d254fedcdf",
+    "content-hash": "7550cec3a1826afb064d8eb118142a28",
     "packages": [
         {
             "name": "api-platform/core",
@@ -2445,16 +2445,16 @@
         },
         {
             "name": "lexik/jwt-authentication-bundle",
-            "version": "v2.12.5",
+            "version": "v2.12.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/lexik/LexikJWTAuthenticationBundle.git",
-                "reference": "578e804e90932bdc22c5227c0ed76f69b20bb3f6"
+                "reference": "f2df9f7a371a99a05e5bfe65c634a7e0cdf1c539"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lexik/LexikJWTAuthenticationBundle/zipball/578e804e90932bdc22c5227c0ed76f69b20bb3f6",
-                "reference": "578e804e90932bdc22c5227c0ed76f69b20bb3f6",
+                "url": "https://api.github.com/repos/lexik/LexikJWTAuthenticationBundle/zipball/f2df9f7a371a99a05e5bfe65c634a7e0cdf1c539",
+                "reference": "f2df9f7a371a99a05e5bfe65c634a7e0cdf1c539",
                 "shasum": ""
             },
             "require": {
@@ -2540,7 +2540,7 @@
             ],
             "support": {
                 "issues": "https://github.com/lexik/LexikJWTAuthenticationBundle/issues",
-                "source": "https://github.com/lexik/LexikJWTAuthenticationBundle/tree/v2.12.5"
+                "source": "https://github.com/lexik/LexikJWTAuthenticationBundle/tree/v2.12.6"
             },
             "funding": [
                 {
@@ -2552,7 +2552,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-07-28T23:01:34+00:00"
+            "time": "2021-07-29T11:25:22+00:00"
         },
         {
             "name": "monolog/monolog",
