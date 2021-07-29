@@ -55,7 +55,7 @@ class Period extends BaseEntity implements BelongsToCampInterface {
     #[ApiProperty(
         readableLink: false,
         writable: false,
-        example: '{ "href": "/days?period=/periods/1a2b3c4d" }'
+        example: '/days?period=/periods/1a2b3c4d'
     )]
     #[Groups(['read'])]
     public Collection $days;

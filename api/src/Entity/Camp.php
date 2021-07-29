@@ -78,7 +78,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
     #[ApiProperty(
         readableLink: false,
         writableLink: true,
-        example: '{ "href": "/periods?camp=/camps/1a2b3c4d" }',
+        example: '/periods?camp=/camps/1a2b3c4d',
     )]
     #[Groups(['read', 'create'])]
     public Collection $periods;
