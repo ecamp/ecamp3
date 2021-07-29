@@ -12,7 +12,7 @@ env:
 
 jobs:
   backend-check-dependencies:
-    name: "Check dependencies"
+    name: "Backend check dependencies"
     runs-on: ubuntu-latest
     steps:
 
@@ -21,3 +21,12 @@ jobs:
       - run: |
           chmod +w backend
           ./docker-compose-run-as-entrypoint.sh backend composer update --lock --no-interaction --no-plugins --no-scripts --prefer-dist
+          
+  api-check-dependencies:
+    name: "Api Platform check dependencies"
+    runs-on: ubuntu-latest
+    steps:
+
+      - uses: actions/checkout@5a4ac9002d0be2fb38bd78e4b4dbde5606d7042f # renovate: tag=v2
+
+      - run: ./docker-compose-run-as-entrypoint.sh php composer update --lock --no-interaction --no-plugins --no-scripts --prefer-dist

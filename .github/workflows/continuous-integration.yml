@@ -17,6 +17,15 @@ jobs:
       - uses: actions/checkout@5a4ac9002d0be2fb38bd78e4b4dbde5606d7042f # renovate: tag=v2
 
       - run: sh ./docker-compose-run-as-entrypoint.sh backend composer validate -n --no-check-all --no-check-publish --strict
+        
+  api-validate-composer-lock:
+    name: "Validate Api Platform composer.lock"
+    runs-on: ubuntu-latest
+    steps:
+
+      - uses: actions/checkout@5a4ac9002d0be2fb38bd78e4b4dbde5606d7042f # renovate: tag=v2
+
+      - run: sh ./docker-compose-run-as-entrypoint.sh php composer validate -n --no-check-all --no-check-publish --strict
 
   backend-cs-check:
     name: "Lint: Backend (php-cs-fixer)"
@@ -47,6 +56,18 @@ jobs:
     steps:
 
       - uses: actions/checkout@5a4ac9002d0be2fb38bd78e4b4dbde5606d7042f # renovate: tag=v2
+
+      - name: Get Composer Cache Directory
+        id: composer-cache
+        run: 'echo "::set-output name=dir::$(composer config cache-files-dir)"'
+        working-directory: api
+
+      - uses: actions/cache@c64c572235d810460d0d6876e9c705ad5002b353 # renovate: tag=v2
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
 
       - run: cp .env.ci .env
 
@@ -139,10 +160,35 @@ jobs:
     steps:
 
       - uses: actions/checkout@5a4ac9002d0be2fb38bd78e4b4dbde5606d7042f # renovate: tag=v2
+          
+      - name: Get Composer Cache Directory
+        id: composer-cache
+        run: 'echo "::set-output name=dir::$(composer config cache-files-dir)"'
+        working-directory: api
+
+      - uses: actions/cache@c64c572235d810460d0d6876e9c705ad5002b353 # renovate: tag=v2
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
 
       - run: cp .env.ci .env
 
       - run: docker-compose run --rm php composer test
+        
+      - name: send coveralls report
+        run: |
+          # coveralls saves absolute paths and needs them to match again when running without docker
+          sed -i "s|/srv/api/|$(pwd)/api/|g" api/build/logs/clover.xml
+          api/vendor/bin/php-coveralls  -r api \
+                                            -v \
+                                            --coverage_clover build/logs/clover.xml \
+                                            --json_path build/logs/coveralls-upload.json
+        env:
+          COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          COVERALLS_PARALLEL: true
+          COVERALLS_FLAG_NAME: api
 
   frontend-tests:
     name: "Tests: Frontend"
@@ -228,6 +274,7 @@ jobs:
   coveralls-finished:
     name: "Finish coveralls report"
     needs:
+      - api-tests
       - backend-tests
       - frontend-tests
       - print-tests
