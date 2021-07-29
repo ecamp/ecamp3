@@ -14,7 +14,7 @@ class ListCampCollaborationsTest extends ECampApiTestCase {
         $response = static::createClientWithCredentials()->request('GET', '/camp_collaborations');
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
-            'totalItems' => 2,
+            'totalItems' => 4,
             '_links' => [
                 'items' => [],
             ],
@@ -25,6 +25,8 @@ class ListCampCollaborationsTest extends ECampApiTestCase {
         $this->assertEqualsCanonicalizing([
             ['href' => $this->getIriFor('campCollaboration1')],
             ['href' => $this->getIriFor('campCollaboration1camp2')],
+            ['href' => $this->getIriFor('campCollaboration1invited')],
+            ['href' => $this->getIriFor('campCollaboration2invitedCampUnrelated')],
         ], $response->toArray()['_links']['items']);
     }
 
@@ -33,7 +35,7 @@ class ListCampCollaborationsTest extends ECampApiTestCase {
         $response = static::createClientWithCredentials()->request('GET', '/camp_collaborations?camp=/camps/'.$camp->getId());
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
-            'totalItems' => 1,
+            'totalItems' => 2,
             '_links' => [
                 'items' => [],
             ],
@@ -43,6 +45,7 @@ class ListCampCollaborationsTest extends ECampApiTestCase {
         ]);
         $this->assertEqualsCanonicalizing([
             ['href' => $this->getIriFor('campCollaboration1')],
+            ['href' => $this->getIriFor('campCollaboration1invited')],
         ], $response->toArray()['_links']['items']);
     }
 }

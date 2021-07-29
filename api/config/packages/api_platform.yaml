@@ -3,7 +3,9 @@ api_platform:
     version: 1.0.0
     show_webby: false
     mapping:
-        paths: ['%kernel.project_dir%/src/Entity']
+        paths:
+            - '%kernel.project_dir%/src/Entity'
+            - '%kernel.project_dir%/src/DTO'
     formats:
         jsonhal: [ 'application/hal+json' ]
         jsonld: [ 'application/ld+json' ]
