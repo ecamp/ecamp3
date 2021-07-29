@@ -98,7 +98,7 @@ class Period extends BaseEntity implements BelongsToCampInterface {
      */
     #[Assert\NotBlank]
     #[ApiProperty(example: 'Hauptlager')]
-    #[Groups(['Properties:read', 'Properties:write'])]
+    #[Groups(['read', 'write'])]
     public ?string $description = null;
 
     /**
@@ -114,7 +114,7 @@ class Period extends BaseEntity implements BelongsToCampInterface {
      */
     #[Assert\LessThanOrEqual(propertyPath: 'end')]
     #[ApiProperty(example: '2022-01-01', openapiContext: ['format' => 'date'])]
-    #[Groups(['Properties:read', 'Properties:write'])]
+    #[Groups(['read', 'write'])]
     public ?DateTimeInterface $start = null;
 
     /**
@@ -125,7 +125,7 @@ class Period extends BaseEntity implements BelongsToCampInterface {
      */
     #[Assert\GreaterThanOrEqual(propertyPath: 'start')]
     #[ApiProperty(example: '2022-01-08', openapiContext: ['format' => 'date'])]
-    #[Groups(['Properties:read', 'Properties:write'])]
+    #[Groups(['read', 'write'])]
     public ?DateTimeInterface $end = null;
 
     public function __construct() {

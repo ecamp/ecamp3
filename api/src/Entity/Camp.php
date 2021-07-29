@@ -27,7 +27,7 @@ use Symfony\Component\Validator\Constraints as Assert;
             'input_formats' => ['jsonld', 'jsonapi', 'json'],
             'validation_groups' => ['Default', 'Camp:create'],
             'denormalization_context' => [
-                'groups' => ['write', 'create', 'Camp:Periods'],
+                'groups' => ['write', 'create'],
                 'allow_extra_attributes' => false,
             ],
         ],
@@ -78,7 +78,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
     #[ApiProperty(
         readableLink: false,
         writableLink: true,
-        example: '/periods?camp=/camps/1a2b3c4d',
+        example: '[{ "description": "Hauptlager", "start": "2022-01-01", "end": "2022-01-08" }]',
     )]
     #[Groups(['read', 'create'])]
     public Collection $periods;
