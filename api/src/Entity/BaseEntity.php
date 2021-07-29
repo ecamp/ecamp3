@@ -26,7 +26,7 @@ abstract class BaseEntity {
      * @ORM\CustomIdGenerator(class=IdGenerator::class)
      */
     #[ApiProperty(writable: false, example: '1a2b3c4d')]
-    #[Groups(['Properties:read'])]
+    #[Groups(['read'])]
     protected string $id;
 
     /**

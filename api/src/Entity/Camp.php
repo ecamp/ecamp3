@@ -27,28 +27,34 @@ use Symfony\Component\Validator\Constraints as Assert;
             'input_formats' => ['jsonld', 'jsonapi', 'json'],
             'validation_groups' => ['Default', 'Camp:create'],
             'denormalization_context' => [
-                'groups' => ['Properties:write', 'Camp:write', 'Camp:create'],
+                'groups' => ['write', 'create', 'Camp:Periods'],
                 'allow_extra_attributes' => false,
             ],
         ],
     ],
     itemOperations: [
-        'get' => ['security' => 'object.owner == user or is_granted("ROLE_ADMIN")'],
+        'get' => [
+            'security' => 'object.owner == user or is_granted("ROLE_ADMIN")',
+            'normalization_context' => [
+                'groups' => ['read', 'Camp:Periods', 'Period:Days'],
+                'allow_extra_attributes' => false,
+            ],
+        ],
         'patch' => [
             'security' => 'object.owner == user or is_granted("ROLE_ADMIN")',
             'denormalization_context' => [
-                'groups' => ['Properties:write', 'Camp:write', 'Camp:update'],
+                'groups' => ['write', 'update'],
                 'allow_extra_attributes' => false,
             ],
         ],
         'delete' => ['security' => 'object.owner == user or is_granted("ROLE_ADMIN")'],
     ],
     normalizationContext: [
-        'groups' => ['Properties:read', 'Camp:read'],
+        'groups' => ['read'],
         'allow_extra_attributes' => false,
     ],
     denormalizationContext: [
-        'groups' => ['Properties:write', 'Camp:write'],
+        'groups' => ['write'],
         'allow_extra_attributes' => false,
     ],
 )]
@@ -70,11 +76,11 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
     #[Assert\Valid]
     #[Assert\Count(min: 1, groups: ['Camp:create'])]
     #[ApiProperty(
-        readableLink: true,
+        readableLink: false,
         writableLink: true,
-        example: '[{ "description": "Hauptlager", "start": "2022-01-01", "end": "2022-01-08" }]'
+        example: '{ "href": "/periods?camp=/camps/1a2b3c4d" }',
     )]
-    #[Groups(['Camp:read', 'Camp:create'])]
+    #[Groups(['read', 'create'])]
     public Collection $periods;
 
     /**
@@ -132,7 +138,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
     #[InputFilter\CleanHTML]
     #[Assert\NotBlank]
     #[ApiProperty(example: 'SoLa 2022')]
-    #[Groups(['Properties:read', 'Camp:create'])]
+    #[Groups(['read', 'create'])]
     public string $name;
 
     /**
@@ -145,7 +151,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
     #[Assert\NotBlank]
     #[Assert\Length(max: 32)]
     #[ApiProperty(writable: true, example: 'Abteilungs-Sommerlager 2022')]
-    #[Groups(['Properties:read', 'Properties:write'])]
+    #[Groups(['read', 'write'])]
     public string $title;
 
     /**
@@ -157,7 +163,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
     #[InputFilter\CleanHTML]
     #[Assert\Length(max: 128)]
     #[ApiProperty(example: 'Piraten')]
-    #[Groups(['Properties:read', 'Properties:write'])]
+    #[Groups(['read', 'write'])]
     public ?string $motto = null;
 
     /**
@@ -169,7 +175,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
     #[InputFilter\CleanHTML]
     #[Assert\Length(max: 128)]
     #[ApiProperty(example: 'Wiese hinter der alten Mühle')]
-    #[Groups(['Properties:read', 'Properties:write'])]
+    #[Groups(['read', 'write'])]
     public ?string $addressName = null;
 
     /**
@@ -181,7 +187,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
     #[InputFilter\CleanHTML]
     #[Assert\Length(max: 128)]
     #[ApiProperty(example: 'Schönriedweg 23')]
-    #[Groups(['Properties:read', 'Properties:write'])]
+    #[Groups(['read', 'write'])]
     public ?string $addressStreet = null;
 
     /**
@@ -193,7 +199,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
     #[InputFilter\CleanHTML]
     #[Assert\Length(max: 128)]
     #[ApiProperty(example: '1234')]
-    #[Groups(['Properties:read', 'Properties:write'])]
+    #[Groups(['read', 'write'])]
     public ?string $addressZipcode = null;
 
     /**
@@ -205,7 +211,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
     #[InputFilter\CleanHTML]
     #[Assert\Length(max: 128)]
     #[ApiProperty(example: 'Hintertüpfingen')]
-    #[Groups(['Properties:read', 'Properties:write'])]
+    #[Groups(['read', 'write'])]
     public ?string $addressCity = null;
 
     /**
@@ -236,6 +242,16 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
         $this->categories = new ArrayCollection();
         $this->activities = new ArrayCollection();
         $this->materialLists = new ArrayCollection();
+    }
+
+    #[ApiProperty(
+        readableLink: true,
+        example: '[{ "description": "Hauptlager", "start": "2022-01-01", "end": "2022-01-08" }]'
+    )]
+    #[SerializedName('periods')]
+    #[Groups(['Camp:Periods'])]
+    public function getEmbeddedPeriods(): Collection {
+        return $this->periods;
     }
 
     #[ApiProperty(readable: false)]

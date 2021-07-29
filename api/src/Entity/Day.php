@@ -28,7 +28,11 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
     collectionOperations: ['get'],
     itemOperations: ['get'],
     normalizationContext: [
-        'groups' => ['Properties:read', 'Day:read'],
+        'groups' => ['read'],
+        'allow_extra_attributes' => false,
+    ],
+    denormalizationContext: [
+        'groups' => ['write'],
         'allow_extra_attributes' => false,
     ],
 )]
@@ -50,7 +54,7 @@ class Day extends BaseEntity implements BelongsToCampInterface {
      * @ORM\JoinColumn(nullable=false, onDelete="cascade")
      */
     #[ApiProperty(readableLink: false, writable: false, example: '/periods/1a2b3c4d')]
-    #[Groups(['Properties:read'])]
+    #[Groups(['read'])]
     public ?Period $period = null;
 
     /**
@@ -59,7 +63,7 @@ class Day extends BaseEntity implements BelongsToCampInterface {
      * @ORM\Column(type="integer")
      */
     #[ApiProperty(writable: false, example: '1')]
-    #[Groups(['Properties:read'])]
+    #[Groups(['read'])]
     public int $dayOffset = 0;
 
     public function __construct() {
@@ -67,7 +71,7 @@ class Day extends BaseEntity implements BelongsToCampInterface {
     }
 
     #[ApiProperty(readableLink: false, writable: false, example: '/camps/1a2b3c4d')]
-    #[Groups(['Properties:read'])]
+    #[Groups(['read'])]
     public function getCamp(): ?Camp {
         return $this->period?->camp;
     }
@@ -77,7 +81,7 @@ class Day extends BaseEntity implements BelongsToCampInterface {
      */
     #[ApiProperty(example: '2')]
     #[SerializedName('number')]
-    #[Groups(['Properties:read'])]
+    #[Groups(['read'])]
     public function getDayNumber(): int {
         return $this->dayOffset + 1;
     }
