@@ -27,6 +27,9 @@ services:
     App\DataPersister\UserDataPersister:
         arguments: [ '@api_platform.doctrine.orm.data_persister' ]
 
+    App\DataPersister\CampCollaborationDataPersister:
+        arguments: [ '@api_platform.doctrine.orm.data_persister' ]
+
     App\DataPersister\CampDataPersister:
         arguments: [ '@api_platform.doctrine.orm.data_persister' ]
 
@@ -67,3 +70,6 @@ services:
 
     App\OpenApi\JwtDecorator:
         decorates: 'api_platform.openapi.factory'
+
+    App\Service\MailService:
+        public: true
