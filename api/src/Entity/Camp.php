@@ -30,6 +30,10 @@ use Symfony\Component\Validator\Constraints as Assert;
                 'groups' => ['write', 'create'],
                 'allow_extra_attributes' => false,
             ],
+            'normalization_context' => [
+                'groups' => ['read', 'Camp:Periods', 'Period:Days'],
+                'allow_extra_attributes' => false,
+            ],
         ],
     ],
     itemOperations: [
@@ -44,6 +48,10 @@ use Symfony\Component\Validator\Constraints as Assert;
             'security' => 'object.owner == user or is_granted("ROLE_ADMIN")',
             'denormalization_context' => [
                 'groups' => ['write', 'update'],
+                'allow_extra_attributes' => false,
+            ],
+            'normalization_context' => [
+                'groups' => ['read', 'Camp:Periods', 'Period:Days'],
                 'allow_extra_attributes' => false,
             ],
         ],
@@ -76,7 +84,6 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
     #[Assert\Valid]
     #[Assert\Count(min: 1, groups: ['Camp:create'])]
     #[ApiProperty(
-        readableLink: false,
         writableLink: true,
         example: '[{ "description": "Hauptlager", "start": "2022-01-01", "end": "2022-01-08" }]',
     )]
@@ -150,7 +157,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
     #[InputFilter\CleanHTML]
     #[Assert\NotBlank]
     #[Assert\Length(max: 32)]
-    #[ApiProperty(writable: true, example: 'Abteilungs-Sommerlager 2022')]
+    #[ApiProperty(example: 'Abteilungs-Sommerlager 2022')]
     #[Groups(['read', 'write'])]
     public string $title;
 

@@ -53,7 +53,6 @@ class Period extends BaseEntity implements BelongsToCampInterface {
      * @ORM\OrderBy({"dayOffset": "ASC"})
      */
     #[ApiProperty(
-        readableLink: false,
         writable: false,
         example: '/days?period=/periods/1a2b3c4d'
     )]
