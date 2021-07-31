@@ -125,7 +125,7 @@ services:
       - ./print/print.env
 
   composer:
-    image: composer:2@sha256:38016cd453deb504a97e5feb1606951e690af8e3f7fb9ed10bd1d9ae853a4c2b
+    image: composer:2@sha256:4d0583505a6e8b3ef83b62e12eaed25376ac64be5acff89a6d2e169f7621186e
     container_name: 'ecamp3-composer'
     restart: 'no'
     command: bash -c "composer install --no-interaction --no-plugins --no-scripts --prefer-dist"
