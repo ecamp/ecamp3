@@ -62,7 +62,7 @@ RUN set -eux; \
 ###> recipes ###
 ###< recipes ###
 
-COPY --from=composer:2.1@sha256:1fdd58aedf0e449902c353599f7166320fd376b6abe5686e46d08581d541e642 /usr/bin/composer /usr/bin/composer
+COPY --from=composer:2.1@sha256:38016cd453deb504a97e5feb1606951e690af8e3f7fb9ed10bd1d9ae853a4c2b /usr/bin/composer /usr/bin/composer
 
 # Copy development php.ini
 RUN cp "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
