@@ -11,8 +11,8 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
  * @internal
  */
 class MailServiceTest extends KernelTestCase {
-    const INVITE_MAIL = 'invite@mail.com';
-    const INVITE_KEY = 'key';
+    public const INVITE_MAIL = 'invite@mail.com';
+    public const INVITE_KEY = 'key';
 
     private Camp $camp;
     private User $user;
