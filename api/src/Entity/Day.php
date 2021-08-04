@@ -71,8 +71,7 @@ class Day extends BaseEntity implements BelongsToCampInterface {
         $this->dayResponsibles = new ArrayCollection();
     }
 
-    #[ApiProperty(readableLink: false, writable: false, example: '/camps/1a2b3c4d')]
-    #[Groups(['read'])]
+    #[ApiProperty(readable: false)]
     public function getCamp(): ?Camp {
         return $this->period?->camp;
     }
