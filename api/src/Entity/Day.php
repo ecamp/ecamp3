@@ -45,6 +45,7 @@ class Day extends BaseEntity implements BelongsToCampInterface {
      * @ORM\OneToMany(targetEntity="DayResponsible", mappedBy="day", orphanRemoval=true)
      */
     #[ApiProperty(writable: false, example: '["/day_responsibles/1a2b3c4d"]')]
+    #[Groups(['read'])]
     public Collection $dayResponsibles;
 
     /**
