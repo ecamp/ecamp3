@@ -52,10 +52,7 @@ class Period extends BaseEntity implements BelongsToCampInterface {
      * @ORM\OneToMany(targetEntity="Day", mappedBy="period", orphanRemoval=true)
      * @ORM\OrderBy({"dayOffset": "ASC"})
      */
-    #[ApiProperty(
-        writable: false,
-        example: '/days?period=/periods/1a2b3c4d'
-    )]
+    #[ApiProperty(writable: false, example: '["/days?period=/periods/1a2b3c4d"]')]
     #[Groups(['read'])]
     public Collection $days;
 
@@ -133,14 +130,14 @@ class Period extends BaseEntity implements BelongsToCampInterface {
         $this->materialItems = new ArrayCollection();
     }
 
-    #[ApiProperty(
-        readableLink: true,
-        example: '[{ "dayOffset": 0, "number": 1 }]'
-    )]
+    /**
+     * @return Day[]
+     */
+    #[ApiProperty(readableLink: true)]
     #[SerializedName('days')]
     #[Groups('Period:Days')]
-    public function getEmbeddedDays(): Collection {
-        return $this->days;
+    public function getEmbeddedDays(): array {
+        return $this->days->getValues();
     }
 
     #[ApiProperty(readableLink: true)]

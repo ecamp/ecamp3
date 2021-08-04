@@ -251,14 +251,14 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
         $this->materialLists = new ArrayCollection();
     }
 
-    #[ApiProperty(
-        readableLink: true,
-        example: '[{ "description": "Hauptlager", "start": "2022-01-01", "end": "2022-01-08" }]'
-    )]
+    /**
+     * @return Period[]
+     */
+    #[ApiProperty(readableLink: true)]
     #[SerializedName('periods')]
     #[Groups(['Camp:Periods'])]
-    public function getEmbeddedPeriods(): Collection {
-        return $this->periods;
+    public function getEmbeddedPeriods(): array {
+        return $this->periods->getValues();
     }
 
     #[ApiProperty(readable: false)]
