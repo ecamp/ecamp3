@@ -145,7 +145,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
     #[InputFilter\CleanHTML]
     #[Assert\NotBlank]
     #[ApiProperty(example: 'SoLa 2022')]
-    #[Groups(['read', 'create'])]
+    #[Groups(['read', 'write'])]
     public string $name;
 
     /**
