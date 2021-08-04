@@ -35,12 +35,12 @@ use Symfony\Component\Validator\Constraints as Assert;
         'patch',
         'delete',
     ],
-    normalizationContext: [
-        'groups' => ['read'],
-        'allow_extra_attributes' => false,
-    ],
     denormalizationContext: [
         'groups' => ['write'],
+        'allow_extra_attributes' => false,
+    ],
+    normalizationContext: [
+        'groups' => ['read'],
         'allow_extra_attributes' => false,
     ],
 )]

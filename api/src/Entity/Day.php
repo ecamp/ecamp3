@@ -27,12 +27,12 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
 #[ApiResource(
     collectionOperations: ['get'],
     itemOperations: ['get'],
-    normalizationContext: [
-        'groups' => ['read'],
-        'allow_extra_attributes' => false,
-    ],
     denormalizationContext: [
         'groups' => ['write'],
+        'allow_extra_attributes' => false,
+    ],
+    normalizationContext: [
+        'groups' => ['read'],
         'allow_extra_attributes' => false,
     ],
 )]

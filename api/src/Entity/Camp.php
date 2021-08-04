@@ -57,12 +57,12 @@ use Symfony\Component\Validator\Constraints as Assert;
         ],
         'delete' => ['security' => 'object.owner == user or is_granted("ROLE_ADMIN")'],
     ],
-    normalizationContext: [
-        'groups' => ['read'],
-        'allow_extra_attributes' => false,
-    ],
     denormalizationContext: [
         'groups' => ['write'],
+        'allow_extra_attributes' => false,
+    ],
+    normalizationContext: [
+        'groups' => ['read'],
         'allow_extra_attributes' => false,
     ],
 )]
