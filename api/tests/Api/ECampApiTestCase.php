@@ -110,10 +110,11 @@ abstract class ECampApiTestCase extends ApiTestCase {
         return $this->entityManager;
     }
 
-    protected function getExamplePayload(string $resourceClass, array $attributes = [], array $exceptExamples = [], array $exceptAttributes = []): array {
-        $shortName = $this->getResourceMetadataFactory()->create($resourceClass)->getShortName();
-        $schema = $this->getSchemaFactory()->buildSchema($resourceClass, 'json', Schema::TYPE_INPUT, 'POST');
-        $properties = ($schema->getDefinitions()[$shortName] ?? $schema->getDefinitions()[$shortName.'-Default'])['properties'];
+    protected function getExamplePayload(string $resourceClass, string $operationType, string $operationName, array $attributes = [], array $exceptExamples = [], array $exceptAttributes = []): array {
+        $schema = $this->getSchemaFactory()->buildSchema($resourceClass, 'json', 'get' === $operationName ? Schema::TYPE_OUTPUT : Schema::TYPE_INPUT, $operationType, $operationName);
+        preg_match('/\/([^\/]+)$/', $schema['$ref'], $matches);
+        $schemaName = $matches[1];
+        $properties = $schema->getDefinitions()[$schemaName]['properties'];
         $writableProperties = array_filter($properties, fn ($property) => !($property['readOnly'] ?? false));
         $writablePropertiesWithExample = array_filter($writableProperties, fn ($property) => ($property['example'] ?? false));
         $examples = array_map(fn ($property) => $property['example'] ?? $property['default'] ?? null, $writablePropertiesWithExample);
