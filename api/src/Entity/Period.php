@@ -27,22 +27,13 @@ use Symfony\Component\Validator\Constraints as Assert;
     ],
     itemOperations: [
         'get' => [
-            'normalization_context' => [
-                'groups' => ['read', 'Period:Camp', 'Period:Days'],
-                'allow_extra_attributes' => false,
-            ],
+            'normalization_context' => ['groups' => ['read', 'Period:Camp', 'Period:Days']],
         ],
         'patch',
         'delete',
     ],
-    denormalizationContext: [
-        'groups' => ['write'],
-        'allow_extra_attributes' => false,
-    ],
-    normalizationContext: [
-        'groups' => ['read'],
-        'allow_extra_attributes' => false,
-    ],
+    denormalizationContext: ['groups' => ['write']],
+    normalizationContext: ['groups' => ['read']],
 )]
 #[ApiFilter(SearchFilter::class, properties: ['camp'])]
 class Period extends BaseEntity implements BelongsToCampInterface {

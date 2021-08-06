@@ -30,10 +30,7 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
     itemOperations: [
         'get',
         'patch' => [
-            'denormalization_context' => [
-                'groups' => ['contentNode:update'],
-                'allow_extra_attributes' => false,
-            ],
+            'denormalization_context' => ['groups' => ['contentNode:update']],
             'validation_groups' => ['Default', 'contentNode:update'],
         ],
         'delete' => ['security' => 'object.owner === null'],

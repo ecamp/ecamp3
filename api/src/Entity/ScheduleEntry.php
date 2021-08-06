@@ -23,10 +23,7 @@ use Symfony\Component\Validator\Constraints as Assert;
     collectionOperations: ['get', 'post'],
     itemOperations: [
         'get',
-        'patch' => ['denormalization_context' => [
-            'groups' => ['scheduleEntry:update'],
-            'allow_extra_attributes' => false,
-        ]],
+        'patch' => ['denormalization_context' => ['groups' => ['scheduleEntry:update']]],
         'delete',
     ]
 )]

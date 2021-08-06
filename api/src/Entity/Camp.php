@@ -26,45 +26,24 @@ use Symfony\Component\Validator\Constraints as Assert;
             'security' => 'is_fully_authenticated()',
             'input_formats' => ['jsonld', 'jsonapi', 'json'],
             'validation_groups' => ['Default', 'Camp:create'],
-            'denormalization_context' => [
-                'groups' => ['write', 'create'],
-                'allow_extra_attributes' => false,
-            ],
-            'normalization_context' => [
-                'groups' => ['read', 'Camp:Periods', 'Period:Days'],
-                'allow_extra_attributes' => false,
-            ],
+            'denormalization_context' => ['groups' => ['write', 'create']],
+            'normalization_context' => ['groups' => ['read', 'Camp:Periods', 'Period:Days']],
         ],
     ],
     itemOperations: [
         'get' => [
             'security' => 'object.owner == user or is_granted("ROLE_ADMIN")',
-            'normalization_context' => [
-                'groups' => ['read', 'Camp:Periods', 'Period:Days'],
-                'allow_extra_attributes' => false,
-            ],
+            'normalization_context' => ['groups' => ['read', 'Camp:Periods', 'Period:Days']],
         ],
         'patch' => [
             'security' => 'object.owner == user or is_granted("ROLE_ADMIN")',
-            'denormalization_context' => [
-                'groups' => ['write', 'update'],
-                'allow_extra_attributes' => false,
-            ],
-            'normalization_context' => [
-                'groups' => ['read', 'Camp:Periods', 'Period:Days'],
-                'allow_extra_attributes' => false,
-            ],
+            'denormalization_context' => ['groups' => ['write', 'update']],
+            'normalization_context' => ['groups' => ['read', 'Camp:Periods', 'Period:Days']],
         ],
         'delete' => ['security' => 'object.owner == user or is_granted("ROLE_ADMIN")'],
     ],
-    denormalizationContext: [
-        'groups' => ['write'],
-        'allow_extra_attributes' => false,
-    ],
-    normalizationContext: [
-        'groups' => ['read'],
-        'allow_extra_attributes' => false,
-    ],
+    denormalizationContext: ['groups' => ['write']],
+    normalizationContext: ['groups' => ['read']],
 )]
 class Camp extends BaseEntity implements BelongsToCampInterface {
     /**

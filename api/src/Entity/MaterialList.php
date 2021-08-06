@@ -21,10 +21,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
     collectionOperations: ['get', 'post'],
     itemOperations: [
         'get',
-        'patch' => ['denormalization_context' => [
-            'groups' => ['materialList:update'],
-            'allow_extra_attributes' => false,
-        ]],
+        'patch' => ['denormalization_context' => ['groups' => ['materialList:update']]],
         'delete',
     ]
 )]

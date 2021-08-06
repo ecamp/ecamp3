@@ -65,5 +65,8 @@ services:
     App\Serializer\Normalizer\CollectionItemsNormalizer:
         decorates: 'api_platform.hal.normalizer.collection'
 
+    App\Serializer\SerializerContextBuilder:
+        decorates: 'api_platform.serializer.context_builder'
+
     App\OpenApi\JwtDecorator:
         decorates: 'api_platform.openapi.factory'

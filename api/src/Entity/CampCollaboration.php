@@ -24,20 +24,13 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ApiResource(
     collectionOperations: [
         'get',
-        'post' => ['denormalization_context' => [
-            'groups' => ['campCollaboration:create'],
-            'allow_extra_attributes' => false,
-        ]],
+        'post' => ['denormalization_context' => ['groups' => ['campCollaboration:create']]],
     ],
     itemOperations: [
         'get',
-        'patch' => ['denormalization_context' => [
-            'groups' => ['campCollaboration:update'],
-            'allow_extra_attributes' => false,
-        ]],
+        'patch' => ['denormalization_context' => ['groups' => ['campCollaboration:update']]],
         'delete',
     ],
-    normalizationContext: ['skip_null_values' => false],
 )]
 #[ApiFilter(SearchFilter::class, properties: ['camp'])]
 class CampCollaboration extends BaseEntity implements BelongsToCampInterface {

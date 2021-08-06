@@ -27,14 +27,8 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
 #[ApiResource(
     collectionOperations: ['get'],
     itemOperations: ['get'],
-    denormalizationContext: [
-        'groups' => ['write'],
-        'allow_extra_attributes' => false,
-    ],
-    normalizationContext: [
-        'groups' => ['read'],
-        'allow_extra_attributes' => false,
-    ],
+    denormalizationContext: ['groups' => ['write']],
+    normalizationContext: ['groups' => ['read']],
 )]
 #[ApiFilter(SearchFilter::class, properties: ['period'])]
 #[UniqueEntity(fields: ['period', 'dayOffset'])]

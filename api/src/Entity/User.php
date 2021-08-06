@@ -34,10 +34,7 @@ use Symfony\Component\Validator\Constraints as Assert;
         'get' => ['security' => 'is_granted("ROLE_ADMIN") or object == user'],
         'patch' => [
             'security' => 'is_granted("ROLE_ADMIN") or object == user',
-            'denormalization_context' => [
-                'groups' => 'user:update',
-                'allow_extra_attributes' => false,
-            ],
+            'denormalization_context' => ['groups' => 'user:update'],
         ],
         'delete' => ['security' => 'is_granted("ROLE_ADMIN") and !object.ownsCamps()'],
     ],
