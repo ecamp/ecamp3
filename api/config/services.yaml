@@ -62,6 +62,9 @@ services:
             - '@api_platform.filter_locator'
             - '@serializer.name_converter.metadata_aware'
 
+    App\Serializer\Normalizer\CircularReferenceDetectingHalItemNormalizer:
+        decorates: 'api_platform.hal.normalizer.item'
+
     App\Serializer\Normalizer\CollectionItemsNormalizer:
         decorates: 'api_platform.hal.normalizer.collection'
 
