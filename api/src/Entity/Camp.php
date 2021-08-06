@@ -50,6 +50,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
      * @ORM\OneToMany(targetEntity="CampCollaboration", mappedBy="camp", orphanRemoval=true)
      */
     #[SerializedName('campCollaborations')]
+    #[Groups(['read'])]
     public Collection $collaborations;
 
     /**
@@ -75,6 +76,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
      * @ORM\OneToMany(targetEntity="Category", mappedBy="camp", orphanRemoval=true)
      */
     #[ApiProperty(writable: false, example: '["/categories/1a2b3c4d"]')]
+    #[Groups(['read'])]
     public Collection $categories;
 
     /**
@@ -84,6 +86,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
      * @ORM\OneToMany(targetEntity="Activity", mappedBy="camp", orphanRemoval=true)
      */
     #[ApiProperty(writable: false, example: '["/activities/1a2b3c4d"]')]
+    #[Groups(['read'])]
     public Collection $activities;
 
     /**
@@ -93,6 +96,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
      * @ORM\OneToMany(targetEntity="MaterialList", mappedBy="camp", orphanRemoval=true)
      */
     #[ApiProperty(writable: false, example: '["/material_lists/1a2b3c4d"]')]
+    #[Groups(['read'])]
     public Collection $materialLists;
 
     /**
@@ -112,7 +116,8 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
      */
     #[Assert\Type('bool')]
     #[Assert\DisableAutoMapping]
-    #[ApiProperty(example: false, writable: false)]
+    #[ApiProperty(example: true, writable: false)]
+    #[Groups(['read'])]
     public bool $isPrototype = false;
 
     /**
@@ -209,6 +214,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
      */
     #[Assert\DisableAutoMapping]
     #[ApiProperty(writable: false)]
+    #[Groups(['read'])]
     public ?User $creator = null;
 
     /**

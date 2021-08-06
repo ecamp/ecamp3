@@ -23,7 +23,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ApiResource(
     collectionOperations: [
         'get',
-        'post',
+        'post' => ['denormalization_context' => ['groups' => ['write', 'create']]],
     ],
     itemOperations: [
         'get' => [
@@ -55,6 +55,7 @@ class Period extends BaseEntity implements BelongsToCampInterface {
      * @ORM\OrderBy({"periodOffset": "ASC"})
      */
     #[ApiProperty(writable: false, example: '["/schedule_entries/1a2b3c4d"]')]
+    #[Groups(['read'])]
     public Collection $scheduleEntries;
 
     /**
@@ -64,6 +65,7 @@ class Period extends BaseEntity implements BelongsToCampInterface {
      * @ORM\OneToMany(targetEntity="MaterialItem", mappedBy="period")
      */
     #[ApiProperty(writable: false, example: '["/material_items/1a2b3c4d"]')]
+    #[Groups(['read'])]
     public Collection $materialItems;
 
     /**
@@ -73,7 +75,7 @@ class Period extends BaseEntity implements BelongsToCampInterface {
      * @ORM\JoinColumn(nullable=false)
      */
     #[ApiProperty(readableLink: false, example: '/camps/1a2b3c4d')]
-    #[Groups(['read'])]
+    #[Groups(['read', 'create'])]
     public ?Camp $camp = null;
 
     /**
