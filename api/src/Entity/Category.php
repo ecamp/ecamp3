@@ -21,12 +21,17 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity
  */
 #[ApiResource(
-    collectionOperations: ['get', 'post'],
+    collectionOperations: [
+        'get',
+        'post' => ['denormalization_context' => ['groups' => ['write', 'create']]],
+    ],
     itemOperations: [
         'get',
-        'patch' => ['denormalization_context' => ['groups' => ['category:update']]],
+        'patch' => ['denormalization_context' => ['groups' => ['write', 'update']]],
         'delete',
-    ]
+    ],
+    denormalizationContext: ['groups' => ['write']],
+    normalizationContext: ['groups' => ['read']],
 )]
 #[ApiFilter(SearchFilter::class, properties: ['camp'])]
 class Category extends AbstractContentNodeOwner implements BelongsToCampInterface {
@@ -37,7 +42,7 @@ class Category extends AbstractContentNodeOwner implements BelongsToCampInterfac
      * @ORM\JoinColumn(nullable=false, onDelete="cascade")
      */
     #[ApiProperty(example: '/camps/1a2b3c4d')]
-    #[Groups(['Default'])]
+    #[Groups(['read', 'create'])]
     public ?Camp $camp = null;
 
     /**
@@ -50,7 +55,7 @@ class Category extends AbstractContentNodeOwner implements BelongsToCampInterfac
      * )
      */
     #[ApiProperty(example: '["/content_types/1a2b3c4d"]')]
-    #[Groups(['Default', 'category:update'])]
+    #[Groups(['read', 'write'])]
     public Collection $preferredContentTypes;
 
     /**
@@ -77,7 +82,7 @@ class Category extends AbstractContentNodeOwner implements BelongsToCampInterfac
      * @ORM\Column(type="text", nullable=false)
      */
     #[ApiProperty(example: 'LS')]
-    #[Groups(['Default', 'category:update'])]
+    #[Groups(['read', 'write'])]
     public ?string $short = null;
 
     /**
@@ -86,7 +91,7 @@ class Category extends AbstractContentNodeOwner implements BelongsToCampInterfac
      * @ORM\Column(type="text", nullable=false)
      */
     #[ApiProperty(example: 'Lagersport')]
-    #[Groups(['Default', 'category:update'])]
+    #[Groups(['read', 'write'])]
     public ?string $name = null;
 
     /**
@@ -96,7 +101,7 @@ class Category extends AbstractContentNodeOwner implements BelongsToCampInterfac
      */
     #[Assert\Regex(pattern: '/^#[0-9a-zA-Z]{6}$/')]
     #[ApiProperty(example: '#4CAF50')]
-    #[Groups(['Default', 'category:update'])]
+    #[Groups(['read', 'write'])]
     public ?string $color = null;
 
     /**
@@ -106,8 +111,8 @@ class Category extends AbstractContentNodeOwner implements BelongsToCampInterfac
      * @ORM\Column(type="string", length=1, nullable=false)
      */
     #[Assert\Choice(choices: ['a', 'A', 'i', 'I', '1'])]
-    #[ApiProperty(default: '1', example: 'a')]
-    #[Groups(['Default', 'category:update'])]
+    #[ApiProperty(default: '1', example: '1')]
+    #[Groups(['read', 'write'])]
     public string $numberingStyle = '1';
 
     public function __construct() {
@@ -156,9 +161,22 @@ class Category extends AbstractContentNodeOwner implements BelongsToCampInterfac
     }
 
     #[Assert\DisableAutoMapping]
+    #[Groups(['read'])]
     public function getRootContentNode(): ?ContentNode {
         // Getter is here to add annotations to parent class property
         return $this->rootContentNode;
+    }
+
+    /**
+     * Overridden in order to add annotations.
+     *
+     * {@inheritdoc}
+     *
+     * @return ContentNode[]
+     */
+    #[Groups(['read'])]
+    public function getContentNodes(): array {
+        return parent::getContentNodes();
     }
 
     public function getStyledNumber(int $num): string {

@@ -10,6 +10,7 @@ use App\Validator\AssertBelongsToSameCamp;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -22,10 +23,12 @@ use Symfony\Component\Validator\Constraints as Assert;
     itemOperations: [
         'get',
         'patch' => [
-            'validation_groups' => ['Default', 'activity:update'],
+            'validation_groups' => ['Default', 'update'],
         ],
         'delete',
     ],
+    denormalizationContext: ['groups' => ['write']],
+    normalizationContext: ['groups' => ['read']],
 )]
 #[ApiFilter(SearchFilter::class, properties: ['camp'])]
 class Activity extends AbstractContentNodeOwner implements BelongsToCampInterface {
@@ -35,6 +38,7 @@ class Activity extends AbstractContentNodeOwner implements BelongsToCampInterfac
      * @ORM\OneToMany(targetEntity="ScheduleEntry", mappedBy="activity", orphanRemoval=true)
      */
     #[ApiProperty(writable: false, example: '["/schedule_entries/1a2b3c4d"]')]
+    #[Groups(['read'])]
     public Collection $scheduleEntries;
 
     /**
@@ -53,6 +57,7 @@ class Activity extends AbstractContentNodeOwner implements BelongsToCampInterfac
      */
     #[Assert\DisableAutoMapping] // camp is set in the DataPersister
     #[ApiProperty(writable: false, example: '/camps/1a2b3c4d')]
+    #[Groups(['read'])]
     public ?Camp $camp = null;
 
     /**
@@ -63,7 +68,8 @@ class Activity extends AbstractContentNodeOwner implements BelongsToCampInterfac
      * @ORM\JoinColumn(nullable=false)
      */
     #[ApiProperty(example: '/categories/1a2b3c4d')]
-    #[AssertBelongsToSameCamp(groups: ['activity:update'])]
+    #[AssertBelongsToSameCamp(groups: ['update'])]
+    #[Groups(['read', 'write'])]
     public ?Category $category = null;
 
     /**
@@ -72,6 +78,7 @@ class Activity extends AbstractContentNodeOwner implements BelongsToCampInterfac
      * @ORM\Column(type="text")
      */
     #[ApiProperty(example: 'Sportolympiade')]
+    #[Groups(['read', 'write'])]
     public ?string $title = null;
 
     /**
@@ -80,6 +87,7 @@ class Activity extends AbstractContentNodeOwner implements BelongsToCampInterfac
      * @ORM\Column(type="text")
      */
     #[ApiProperty(example: 'Spielwiese')]
+    #[Groups(['read', 'write'])]
     public string $location = '';
 
     public function __construct() {
@@ -98,9 +106,22 @@ class Activity extends AbstractContentNodeOwner implements BelongsToCampInterfac
     }
 
     #[Assert\DisableAutoMapping]
+    #[Groups(['read'])]
     public function getRootContentNode(): ?ContentNode {
         // Getter is here to add annotations to parent class property
         return $this->rootContentNode;
+    }
+
+    /**
+     * Overridden in order to add annotations.
+     *
+     * {@inheritdoc}
+     *
+     * @return ContentNode[]
+     */
+    #[Groups(['read'])]
+    public function getContentNodes(): array {
+        return parent::getContentNodes();
     }
 
     /**

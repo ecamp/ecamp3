@@ -18,12 +18,13 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @ORM\Entity
  */
 #[ApiResource(
-    collectionOperations: ['get', 'post'],
-    itemOperations: [
+    collectionOperations: [
         'get',
-        'patch' => ['denormalization_context' => ['groups' => ['materialList:update']]],
-        'delete',
-    ]
+        'post' => ['denormalization_context' => ['groups' => ['write', 'create']]],
+    ],
+    itemOperations: ['get', 'patch', 'delete'],
+    denormalizationContext: ['groups' => ['write']],
+    normalizationContext: ['groups' => ['read']],
 )]
 #[ApiFilter(SearchFilter::class, properties: ['camp'])]
 class MaterialList extends BaseEntity implements BelongsToCampInterface {
@@ -33,6 +34,7 @@ class MaterialList extends BaseEntity implements BelongsToCampInterface {
      * @ORM\OneToMany(targetEntity="MaterialItem", mappedBy="materialList")
      */
     #[ApiProperty(writable: false, example: '["/material_items/1a2b3c4d"]')]
+    #[Groups(['read'])]
     public Collection $materialItems;
 
     /**
@@ -42,7 +44,7 @@ class MaterialList extends BaseEntity implements BelongsToCampInterface {
      * @ORM\JoinColumn(nullable=false, onDelete="cascade")
      */
     #[ApiProperty(example: '/camps/1a2b3c4d')]
-    #[Groups(['Default'])]
+    #[Groups(['read', 'create'])]
     public ?Camp $camp = null;
 
     /**
@@ -60,7 +62,7 @@ class MaterialList extends BaseEntity implements BelongsToCampInterface {
      * @ORM\Column(type="text", nullable=false)
      */
     #[ApiProperty(example: 'Lebensmittel')]
-    #[Groups(['Default', 'materialList:update'])]
+    #[Groups(['read', 'write'])]
     public ?string $name = null;
 
     public function __construct() {

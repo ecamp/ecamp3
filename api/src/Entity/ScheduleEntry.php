@@ -20,12 +20,13 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity
  */
 #[ApiResource(
-    collectionOperations: ['get', 'post'],
-    itemOperations: [
+    collectionOperations: [
         'get',
-        'patch' => ['denormalization_context' => ['groups' => ['scheduleEntry:update']]],
-        'delete',
-    ]
+        'post' => ['denormalization_context' => ['groups' => ['write', 'create']]],
+    ],
+    itemOperations: ['get', 'patch', 'delete'],
+    denormalizationContext: ['groups' => ['write']],
+    normalizationContext: ['groups' => ['read']],
 )]
 #[ApiFilter(SearchFilter::class, properties: ['period', 'activity'])]
 class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
@@ -37,7 +38,7 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
      */
     #[AssertBelongsToSameCamp]
     #[ApiProperty(example: '/periods/1a2b3c4d')]
-    #[Groups(['Default', 'scheduleEntry:update'])]
+    #[Groups(['read', 'write'])]
     public ?Period $period = null;
 
     /**
@@ -49,7 +50,7 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
      * @ORM\JoinColumn(nullable=false, onDelete="cascade")
      */
     #[ApiProperty(example: '/activities/1a2b3c4d')]
-    #[Groups(['Default'])]
+    #[Groups(['read', 'create'])]
     public ?Activity $activity = null;
 
     /**
@@ -61,7 +62,7 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
      */
     #[Assert\GreaterThanOrEqual(value: 0)]
     #[ApiProperty(example: 1440)]
-    #[Groups(['Default', 'scheduleEntry:update'])]
+    #[Groups(['read', 'write'])]
     public int $periodOffset = 0;
 
     /**
@@ -71,7 +72,7 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
      */
     #[Assert\GreaterThan(value: 0)]
     #[ApiProperty(example: 90)]
-    #[Groups(['Default', 'scheduleEntry:update'])]
+    #[Groups(['read', 'write'])]
     public int $length = 0;
 
     /**
@@ -85,7 +86,7 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
      * --> left is a MariaDB keyword, therefore escaping for column name necessary
      */
     #[ApiProperty(default: 0, example: 0.6)]
-    #[Groups(['Default', 'scheduleEntry:update'])]
+    #[Groups(['read', 'write'])]
     public ?float $left = 0;
 
     /**
@@ -97,7 +98,7 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
      * @ORM\Column(type="float", nullable=true)
      */
     #[ApiProperty(example: 0.4)]
-    #[Groups(['Default', 'scheduleEntry:update'])]
+    #[Groups(['read', 'write'])]
     public ?float $width = 1;
 
     #[ApiProperty(readable: false)]
@@ -109,6 +110,7 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
      * The day on which this schedule entry starts.
      */
     #[ApiProperty(writable: false, example: '/days/1a2b3c4d')]
+    #[Groups(['read'])]
     public function getDay(): Day {
         $dayNumber = $this->getDayNumber();
 
@@ -126,6 +128,7 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
      * The day number of the day on which this schedule entry starts.
      */
     #[ApiProperty(example: '1')]
+    #[Groups(['read'])]
     public function getDayNumber(): int {
         return 1 + floor($this->periodOffset / (24 * 60));
     }
@@ -136,6 +139,7 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
      * second entry on a given day, its number will be 2.
      */
     #[ApiProperty(example: '2')]
+    #[Groups(['read'])]
     public function getScheduleEntryNumber(): int {
         $dayOffset = floor($this->periodOffset / (24 * 60)) * 24 * 60;
 
@@ -181,6 +185,7 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
      * defined by the activity's category.
      */
     #[ApiProperty(example: '1.b')]
+    #[Groups(['read'])]
     public function getNumber(): string {
         $dayNumber = $this->getDayNumber();
         $scheduleEntryNumber = $this->getScheduleEntryNumber();

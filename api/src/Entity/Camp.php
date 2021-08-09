@@ -25,7 +25,7 @@ use Symfony\Component\Validator\Constraints as Assert;
         'post' => [
             'security' => 'is_fully_authenticated()',
             'input_formats' => ['jsonld', 'jsonapi', 'json'],
-            'validation_groups' => ['Default', 'Camp:create'],
+            'validation_groups' => ['Default', 'create'],
             'denormalization_context' => ['groups' => ['write', 'create']],
             'normalization_context' => ['groups' => ['read', 'Camp:Periods', 'Period:Days']],
         ],
@@ -62,7 +62,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
      * @ORM\OrderBy({"start": "ASC"})
      */
     #[Assert\Valid]
-    #[Assert\Count(min: 1, groups: ['Camp:create'])]
+    #[Assert\Count(min: 1, groups: ['create'])]
     #[ApiProperty(
         writableLink: true,
         example: '[{ "description": "Hauptlager", "start": "2022-01-01", "end": "2022-01-08" }]',
