@@ -2,7 +2,7 @@ version: "3.4"
 
 services:
   frontend:
-    image: node:14.17.3@sha256:0c558991de47e614588a61f9cc90afdcf034c6fc641d3ab650c9570a98b37605
+    image: node:16.6.1@sha256:f71e36d6dcc304ade813e89d3b585d6b4c57b95cc8b27da04e3c25b1b50981a5
     container_name: 'ecamp3-frontend'
     ports:
       - '3000:3000'
@@ -15,7 +15,6 @@ services:
       - ./common:/common:delegated
       - ./.cache/npm:/home/node/.npm
       - ./.cache/cypress:/home/node/.cache/Cypress
-      - ./.cache/node_modules:/app/node_modules/.cache
     working_dir: /app
     command: ./docker-setup.sh
     environment:
@@ -106,7 +105,7 @@ services:
     entrypoint: ./docker-setup.sh
 
   print:
-    image: node:14.17.3@sha256:0c558991de47e614588a61f9cc90afdcf034c6fc641d3ab650c9570a98b37605
+    image: node:16.6.1@sha256:f71e36d6dcc304ade813e89d3b585d6b4c57b95cc8b27da04e3c25b1b50981a5
     container_name: 'ecamp3-print'
     ports:
       - '3003:3003'
@@ -115,7 +114,6 @@ services:
       - ./print:/app:delegated
       - ./common:/common:delegated
       - ./.cache/npm:/home/node/.npm
-      - ./.cache/node_modules:/app/node_modules/.cache
     working_dir: /app
     command: ./docker-setup.sh
     environment:
@@ -127,7 +125,7 @@ services:
       - ./print/print.env
 
   composer:
-    image: composer:2@sha256:e9f3f3d5ade248dc094b971e3d25381b8986b636662234019c5b0048d2000bd3
+    image: composer:2@sha256:4d0583505a6e8b3ef83b62e12eaed25376ac64be5acff89a6d2e169f7621186e
     container_name: 'ecamp3-composer'
     restart: 'no'
     command: bash -c "composer install --no-interaction --no-plugins --no-scripts --prefer-dist"
@@ -137,7 +135,7 @@ services:
       - ./.cache/composer:/tmp/cache
 
   db:
-    image: mysql:8.0.25@sha256:52b8406e4c32b8cf0557f1b74517e14c5393aff5cf0384eff62d9e81f4985d4b
+    image: mysql:8.0.26@sha256:8b928a5117cf5c2238c7a09cd28c2e801ac98f91c3f8203a8938ae51f14700fd
     container_name: 'ecamp3-db'
     environment:
       - MYSQL_DATABASE=ecamp3dev
@@ -151,7 +149,7 @@ services:
       - db-data:/var/lib/mysql
 
   database:
-    image: postgres:13-alpine@sha256:ff384947eb9f5939b7fc5ef2ce620fad088999590973f05e6812037d163c770e
+    image: postgres:13-alpine@sha256:e98a69a836391fe94d889a6ccfbb21257b93f47b2794da114a82ef23e342342f
     environment:
       - POSTGRES_DB=ecamp3dev
       - POSTGRES_PASSWORD=ecamp3
@@ -174,7 +172,7 @@ services:
       - ./phpmyadmin/config.user.inc.php:/etc/phpmyadmin/config.user.inc.php
 
   rabbitmq:
-    image: rabbitmq:3.8-management@sha256:7f0fe23cf3a859298adacebec85c23a1127c1a0515220ed126dae61379096936
+    image: rabbitmq:3.9-management@sha256:b29faeb169f3488b3ccfee7ac889c1c804c7102be83cb439e24bddabe5e6bdfb
     container_name: 'ecamp3-rabbitmq'
     ports:
       - '3004:15672'

@@ -24,7 +24,14 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ApiResource(
     collectionOperations: [
         'get',
-        'post' => ['denormalization_context' => ['groups' => ['write', 'create']]],
+        'post' => [
+            'denormalization_context' => [
+                'groups' => ['write', 'create'],
+            ],
+            'openapi_context' => [
+                'description' => 'Also sends an invitation email to the inviteEmail address, if specified.',
+            ],
+        ],
     ],
     itemOperations: [
         'get',

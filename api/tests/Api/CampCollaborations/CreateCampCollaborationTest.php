@@ -34,6 +34,15 @@ class CreateCampCollaborationTest extends ECampApiTestCase {
         ]));
     }
 
+    public function testCreateCampCollaborationSendsInviteEmail() {
+        static::createClientWithCredentials()->request('POST', '/camp_collaborations', ['json' => $this->getExampleWritePayload([
+            'inviteEmail' => 'someone@example.com',
+        ], ['user'])]);
+
+        $this->assertResponseStatusCodeSame(201);
+        self::assertEmailCount(1);
+    }
+
     public function testCreateCampCollaborationValidatesMissingUserAndInviteEmail() {
         static::createClientWithCredentials()->request('POST', '/camp_collaborations', ['json' => $this->getExampleWritePayload([], ['user'])]);
 

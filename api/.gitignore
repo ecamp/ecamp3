@@ -1,3 +1,4 @@
+/build
 /docker/db/data
 /helm/api/charts
 /helm/api/Chart.lock
@@ -13,8 +14,7 @@
 ###< symfony/framework-bundle ###
 
 ###> friendsofphp/php-cs-fixer ###
-/.php_cs
-/.php_cs.cache
+/.php-cs-fixer.cache
 ###< friendsofphp/php-cs-fixer ###
 
 ###> symfony/phpunit-bridge ###

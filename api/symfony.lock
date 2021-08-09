@@ -13,9 +13,6 @@
             "src/Entity/.gitignore"
         ]
     },
-    "api-platform/schema-generator": {
-        "version": "v3.0.0"
-    },
     "behat/transliterator": {
         "version": "v1.3.0"
     },
@@ -117,9 +114,6 @@
     "doctrine/sql-formatter": {
         "version": "1.1.1"
     },
-    "easyrdf/easyrdf": {
-        "version": "1.1.1"
-    },
     "exercise/htmlpurifier-bundle": {
         "version": "3.0",
         "recipe": {
@@ -194,9 +188,6 @@
     "lcobucci/jwt": {
         "version": "4.1.4"
     },
-    "league/html-to-markdown": {
-        "version": "4.10.0"
-    },
     "lexik/jwt-authentication-bundle": {
         "version": "2.5",
         "recipe": {
@@ -251,6 +242,9 @@
     },
     "php": {
         "version": "7.4"
+    },
+    "php-coveralls/php-coveralls": {
+        "version": "v2.4.3"
     },
     "php-cs-fixer/diff": {
         "version": "v1.3.1"
@@ -437,6 +431,18 @@
     "symfony/intl": {
         "version": "v5.2.7"
     },
+    "symfony/mailer": {
+        "version": "4.3",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "4.3",
+            "ref": "15658c2a0176cda2e7dba66276a2030b52bd81b2"
+        },
+        "files": [
+            "config/packages/mailer.yaml"
+        ]
+    },
     "symfony/maker-bundle": {
         "version": "1.0",
         "recipe": {
@@ -460,6 +466,9 @@
         "files": [
             "config/packages/mercure.yaml"
         ]
+    },
+    "symfony/mime": {
+        "version": "v5.3.2"
     },
     "symfony/monolog-bridge": {
         "version": "v5.2.5"
@@ -503,6 +512,9 @@
     "symfony/polyfill-intl-grapheme": {
         "version": "v1.22.1"
     },
+    "symfony/polyfill-intl-idn": {
+        "version": "v1.23.0"
+    },
     "symfony/polyfill-intl-normalizer": {
         "version": "v1.22.1"
     },
@@ -510,9 +522,6 @@
         "version": "v1.22.1"
     },
     "symfony/polyfill-php56": {
-        "version": "v1.20.0"
-    },
-    "symfony/polyfill-php70": {
         "version": "v1.20.0"
     },
     "symfony/polyfill-php81": {

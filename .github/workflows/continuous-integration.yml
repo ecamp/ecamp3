@@ -5,6 +5,9 @@ on:
   pull_request:
   workflow_dispatch:
 
+env:
+  USER_ID: 1001
+
 jobs:
   backend-validate-composer-lock:
     name: "Validate Backend composer.lock"
@@ -14,6 +17,15 @@ jobs:
       - uses: actions/checkout@5a4ac9002d0be2fb38bd78e4b4dbde5606d7042f # renovate: tag=v2
 
       - run: sh ./docker-compose-run-as-entrypoint.sh backend composer validate -n --no-check-all --no-check-publish --strict
+        
+  api-validate-composer-lock:
+    name: "Validate Api Platform composer.lock"
+    runs-on: ubuntu-latest
+    steps:
+
+      - uses: actions/checkout@5a4ac9002d0be2fb38bd78e4b4dbde5606d7042f # renovate: tag=v2
+
+      - run: sh ./docker-compose-run-as-entrypoint.sh php composer validate -n --no-check-all --no-check-publish --strict
 
   backend-cs-check:
     name: "Lint: Backend (php-cs-fixer)"
@@ -44,6 +56,18 @@ jobs:
     steps:
 
       - uses: actions/checkout@5a4ac9002d0be2fb38bd78e4b4dbde5606d7042f # renovate: tag=v2
+
+      - name: Get Composer Cache Directory
+        id: composer-cache
+        run: 'echo "::set-output name=dir::$(composer config cache-files-dir)"'
+        working-directory: api
+
+      - uses: actions/cache@c64c572235d810460d0d6876e9c705ad5002b353 # renovate: tag=v2
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
 
       - run: cp .env.ci .env
 
@@ -83,7 +107,11 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
 
-      - run: ./docker-compose-run-as-entrypoint.sh print npm ci
+      - run: mkdir print/node_modules
+
+      - run: sudo chown -R 1000:1000 .cache print/node_modules
+
+      - run: USER_ID=1000 ./docker-compose-run-as-entrypoint.sh print npm ci
 
       - run: ./docker-compose-run-as-entrypoint.sh print npm run lint
 
@@ -132,10 +160,35 @@ jobs:
     steps:
 
       - uses: actions/checkout@5a4ac9002d0be2fb38bd78e4b4dbde5606d7042f # renovate: tag=v2
+          
+      - name: Get Composer Cache Directory
+        id: composer-cache
+        run: 'echo "::set-output name=dir::$(composer config cache-files-dir)"'
+        working-directory: api
+
+      - uses: actions/cache@c64c572235d810460d0d6876e9c705ad5002b353 # renovate: tag=v2
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
 
       - run: cp .env.ci .env
 
       - run: docker-compose run --rm php composer test
+        
+      - name: send coveralls report
+        run: |
+          # coveralls saves absolute paths and needs them to match again when running without docker
+          sed -i "s|/srv/api/|$(pwd)/api/|g" api/build/logs/clover.xml
+          api/vendor/bin/php-coveralls  -r api \
+                                            -v \
+                                            --coverage_clover build/logs/clover.xml \
+                                            --json_path build/logs/coveralls-upload.json
+        env:
+          COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          COVERALLS_PARALLEL: true
+          COVERALLS_FLAG_NAME: api
 
   frontend-tests:
     name: "Tests: Frontend"
@@ -183,9 +236,13 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
 
-      - run: ./docker-compose-run-as-entrypoint.sh print npm ci
+      - run: mkdir print/node_modules print/.nuxt
 
-      - run: ./docker-compose-run-as-entrypoint.sh print npm run build
+      - run: sudo chown -R 1000:1000 .cache print/node_modules print/.nuxt
+
+      - run: USER_ID=1000 ./docker-compose-run-as-entrypoint.sh print npm ci
+
+      - run: USER_ID=1000 ./docker-compose-run-as-entrypoint.sh print npm run build
 
       - run: ./docker-compose-run-as-entrypoint.sh print npm run test
 
@@ -211,12 +268,13 @@ jobs:
 
       - run: bash wait-for-container-startup.sh
 
-      - run: docker run -v $PWD:/e2e -w /e2e --network host -e CYPRESS_BASE_URL=http://localhost:3000 cypress/included:7.7.0
+      - run: docker run -v $PWD:/e2e -w /e2e --network host -e CYPRESS_BASE_URL=http://localhost:3000 cypress/included:8.2.0
         working-directory: frontend
 
   coveralls-finished:
     name: "Finish coveralls report"
     needs:
+      - api-tests
       - backend-tests
       - frontend-tests
       - print-tests

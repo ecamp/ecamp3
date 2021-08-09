@@ -27,6 +27,9 @@ services:
     App\DataPersister\UserDataPersister:
         arguments: [ '@api_platform.doctrine.orm.data_persister' ]
 
+    App\DataPersister\CampCollaborationDataPersister:
+        arguments: [ '@api_platform.doctrine.orm.data_persister' ]
+
     App\DataPersister\CampDataPersister:
         arguments: [ '@api_platform.doctrine.orm.data_persister' ]
 
@@ -86,3 +89,6 @@ services:
         class: App\Doctrine\EagerLoadingExtension
     App\Doctrine\EagerLoadingExtension:
         public: false
+        
+    App\Service\MailService:
+        public: true
