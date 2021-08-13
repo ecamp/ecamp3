@@ -149,7 +149,7 @@ services:
       - db-data:/var/lib/mysql
 
   database:
-    image: postgres:13-alpine@sha256:c1784a7388ed2e11b4a72336858841498b3df61f81fb7b3bdac6db626471fb0c
+    image: postgres:13-alpine@sha256:c5adb1979fb334713fb79c8a168387cc765b2bb23167a2d5d4cdc49af45fcfcf
     environment:
       - POSTGRES_DB=ecamp3dev
       - POSTGRES_PASSWORD=ecamp3
