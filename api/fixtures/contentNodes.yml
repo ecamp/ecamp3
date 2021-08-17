@@ -1,4 +1,4 @@
-App\Entity\ContentNode:
+App\Entity\SingleText:
   contentNode1:
     root: '@self'
     parent: null

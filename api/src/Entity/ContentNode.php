@@ -24,6 +24,8 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
  * container content node. This way, a tree of content nodes makes up a complete programme.
  *
  * @ORM\Entity
+ * @ORM\InheritanceType("JOINED")
+ * @ORM\DiscriminatorColumn(name="strategy", type="string")
  */
 #[ApiResource(
     collectionOperations: ['get', 'post'],
@@ -40,7 +42,7 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
     ]
 )]
 #[ApiFilter(SearchFilter::class, properties: ['parent'])]
-class ContentNode extends BaseEntity implements BelongsToCampInterface {
+abstract class ContentNode extends BaseEntity implements BelongsToCampInterface {
     /**
      * @ORM\OneToOne(targetEntity="AbstractContentNodeOwner", mappedBy="rootContentNode", cascade={"persist", "remove"})
      */
@@ -152,12 +154,6 @@ class ContentNode extends BaseEntity implements BelongsToCampInterface {
      */
     #[ApiProperty(readable: false, writable: false)]
     public Collection $materialItems;
-
-
-    /**
-     * @ORM\OneToMany(targetEntity="BaseContentTypeEntity", mappedBy="contentNode")
-     */
-    public Collection $content;
 
     public function __construct() {
         $this->rootDescendants = new ArrayCollection();
