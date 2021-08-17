@@ -1,5 +1,5 @@
 # build stage
-FROM node:16.6.2@sha256:678cad87833f51615213547acb719e951569816db7bb0e2bb7da10cbfccc976c AS build-stage
+FROM node:16.6.2@sha256:0876c7500f27f949c601f1ef6d961fe5b9e26d959e0625b2cffec7185c10a98d AS build-stage
 
 COPY common /common
 
@@ -10,7 +10,7 @@ RUN npm ci
 RUN npm run build
 
 # production stage
-FROM node:16.6.2@sha256:678cad87833f51615213547acb719e951569816db7bb0e2bb7da10cbfccc976c AS production-stage
+FROM node:16.6.2@sha256:0876c7500f27f949c601f1ef6d961fe5b9e26d959e0625b2cffec7185c10a98d AS production-stage
 WORKDIR /app
 
 COPY --from=build-stage /app/node_modules ./node_modules
