@@ -16,6 +16,7 @@
         "lexik/jwt-authentication-bundle": "2.12.6",
         "nelmio/cors-bundle": "2.1.1",
         "phpdocumentor/reflection-docblock": "5.2.2",
+        "sentry/sentry-symfony": "^4.2",
         "stof/doctrine-extensions-bundle": "1.6.0",
         "symfony/asset": "5.3.4",
         "symfony/console": "5.3.6",
