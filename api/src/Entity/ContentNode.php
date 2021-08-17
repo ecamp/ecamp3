@@ -153,10 +153,17 @@ class ContentNode extends BaseEntity implements BelongsToCampInterface {
     #[ApiProperty(readable: false, writable: false)]
     public Collection $materialItems;
 
+
+    /**
+     * @ORM\OneToMany(targetEntity="BaseContentTypeEntity", mappedBy="contentNode")
+     */
+    public Collection $content;
+
     public function __construct() {
         $this->rootDescendants = new ArrayCollection();
         $this->children = new ArrayCollection();
         $this->materialItems = new ArrayCollection();
+        $this->content = new ArrayCollection();
 
         $this->addRootDescendant($this);
     }
