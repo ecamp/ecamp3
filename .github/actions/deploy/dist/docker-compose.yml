@@ -14,7 +14,7 @@ services:
       - frontend
       - print
       - worker-print-puppeteer
-      - worker-print-weasy
+#      - worker-print-weasy
       - mail
 
   frontend:
