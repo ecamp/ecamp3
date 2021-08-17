@@ -26,9 +26,7 @@ use Symfony\Component\Validator\Constraints as Assert;
         'post' => ['denormalization_context' => ['groups' => ['write', 'create']]],
     ],
     itemOperations: [
-        'get' => [
-            'normalization_context' => ['groups' => ['read', 'Period:Camp', 'Period:Days']],
-        ],
+        'get' => ['normalization_context' => Period::ITEM_NORMALIZATION_CONTEXT],
         'patch',
         'delete',
     ],
@@ -37,6 +35,11 @@ use Symfony\Component\Validator\Constraints as Assert;
 )]
 #[ApiFilter(SearchFilter::class, properties: ['camp'])]
 class Period extends BaseEntity implements BelongsToCampInterface {
+    public const ITEM_NORMALIZATION_CONTEXT = [
+        'groups' => ['read', 'Period:Camp', 'Period:Days'],
+        'swagger_definition_name' => 'read',
+    ];
+
     /**
      * The days in this time period. These are generated automatically.
      *

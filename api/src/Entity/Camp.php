@@ -27,18 +27,18 @@ use Symfony\Component\Validator\Constraints as Assert;
             'input_formats' => ['jsonld', 'jsonapi', 'json'],
             'validation_groups' => ['Default', 'create'],
             'denormalization_context' => ['groups' => ['write', 'create']],
-            'normalization_context' => ['groups' => ['read', 'Camp:Periods', 'Period:Days']],
+            'normalization_context' => Camp::ITEM_NORMALIZATION_CONTEXT,
         ],
     ],
     itemOperations: [
         'get' => [
             'security' => 'object.owner == user or is_granted("ROLE_ADMIN")',
-            'normalization_context' => ['groups' => ['read', 'Camp:Periods', 'Period:Days']],
+            'normalization_context' => Camp::ITEM_NORMALIZATION_CONTEXT,
         ],
         'patch' => [
             'security' => 'object.owner == user or is_granted("ROLE_ADMIN")',
             'denormalization_context' => ['groups' => ['write', 'update']],
-            'normalization_context' => ['groups' => ['read', 'Camp:Periods', 'Period:Days']],
+            'normalization_context' => Camp::ITEM_NORMALIZATION_CONTEXT,
         ],
         'delete' => ['security' => 'object.owner == user or is_granted("ROLE_ADMIN")'],
     ],
@@ -46,6 +46,11 @@ use Symfony\Component\Validator\Constraints as Assert;
     normalizationContext: ['groups' => ['read']],
 )]
 class Camp extends BaseEntity implements BelongsToCampInterface {
+    public const ITEM_NORMALIZATION_CONTEXT = [
+        'groups' => ['read', 'Camp:Periods', 'Period:Days'],
+        'swagger_definition_name' => 'read',
+    ];
+
     /**
      * @ORM\OneToMany(targetEntity="CampCollaboration", mappedBy="camp", orphanRemoval=true)
      */
