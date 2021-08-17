@@ -68,6 +68,9 @@ services:
     App\Serializer\Normalizer\CollectionItemsNormalizer:
         decorates: 'api_platform.hal.normalizer.collection'
 
+    App\Serializer\Normalizer\ContentNodeStrategyNormalizer:
+        decorates: 'api_platform.hal.normalizer.item'
+
     App\OpenApi\JwtDecorator:
         decorates: 'api_platform.openapi.factory'
 
