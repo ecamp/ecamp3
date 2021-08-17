@@ -11,3 +11,7 @@ App\Entity\ContentType:
     name: 'ColumnLayout'
     active: true
     strategyClass: 'App\ContentNodeStrategy\ColumnLayoutStrategy'
+  contentTypeStoryboard:
+    name: 'Storyboard'
+    active: true
+    strategyClass: 'App\ContentNodeStrategy\StoryboardStrategy'

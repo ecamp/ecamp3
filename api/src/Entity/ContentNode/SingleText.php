@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Entity;
+namespace App\Entity\ContentNode;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use App\Entity\ContentNode;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
