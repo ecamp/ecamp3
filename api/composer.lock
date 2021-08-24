@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "613194bd64127074e9f33073d5a0e404",
+    "content-hash": "0333259d8831c298d6de2e7af1f7e093",
     "packages": [
         {
             "name": "api-platform/core",
@@ -4722,16 +4722,16 @@
         },
         {
             "name": "symfony/flex",
-            "version": "v1.14.1",
+            "version": "v1.14.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/flex.git",
-                "reference": "d81196c3f3b544e32997b67e955fb8291fdfe770"
+                "reference": "de054be4de2cda91bcb7e6ca403a817135fe9021"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/flex/zipball/d81196c3f3b544e32997b67e955fb8291fdfe770",
-                "reference": "d81196c3f3b544e32997b67e955fb8291fdfe770",
+                "url": "https://api.github.com/repos/symfony/flex/zipball/de054be4de2cda91bcb7e6ca403a817135fe9021",
+                "reference": "de054be4de2cda91bcb7e6ca403a817135fe9021",
                 "shasum": ""
             },
             "require": {
@@ -4770,7 +4770,7 @@
             "description": "Composer plugin for Symfony",
             "support": {
                 "issues": "https://github.com/symfony/flex/issues",
-                "source": "https://github.com/symfony/flex/tree/v1.14.1"
+                "source": "https://github.com/symfony/flex/tree/v1.14.3"
             },
             "funding": [
                 {
@@ -4786,7 +4786,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-08-03T08:14:48+00:00"
+            "time": "2021-08-24T15:22:30+00:00"
         },
         {
             "name": "symfony/framework-bundle",
