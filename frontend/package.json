@@ -55,7 +55,7 @@
     "babel-plugin-require-context-hook": "1.0.0",
     "coveralls": "3.1.1",
     "eslint": "7.32.0",
-    "eslint-plugin-import": "2.24.1",
+    "eslint-plugin-import": "2.24.2",
     "eslint-plugin-node": "11.1.0",
     "eslint-plugin-promise": "5.1.0",
     "eslint-plugin-vue": "7.16.0",
