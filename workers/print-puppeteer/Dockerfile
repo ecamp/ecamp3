@@ -3,7 +3,7 @@
 # Initially based upon:
 # https://github.com/GoogleChrome/puppeteer/blob/master/docs/troubleshooting.md#running-puppeteer-in-docker
 
-FROM node:16.7.0-buster-slim@sha256:9bafc78bbf0532721a30730961d96f6c4c57b4c0b16ea5bfe7db4ae2b8fc8e34
+FROM node:16.8.0-buster-slim@sha256:7afe59c39c833c17cdbab9fb82b4ef75a971d7b86bbb3204c827679c2e6d9757
 
 RUN  apt-get update \
      && apt-get install -y wget gnupg \
