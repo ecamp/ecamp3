@@ -4,6 +4,8 @@ namespace App\DTO;
 
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * An invitation for a person to collaborate in a camp. The person may or may not
@@ -15,14 +17,35 @@ use ApiPlatform\Core\Annotation\ApiResource;
         'find' => [
             'method' => 'GET',
             'path' => '/{inviteKey}/find',
+            'normalization_context' => self::ITEM_NORMALIZATION_CONTEXT,
             'openapi_context' => [
                 'description' => 'Use myInviteKey to find an invitation in the dev environment.',
             ],
+        ],
+        self::ACCEPT => [
+            'security' => 'is_fully_authenticated()',
+            'method' => 'PATCH',
+            'path' => '/{inviteKey}/'.self::ACCEPT,
+            'denormalization_context' => [
+                'groups' => ['write'],
+            ],
+            'normalization_context' => self::ITEM_NORMALIZATION_CONTEXT,
+            'openapi_context' => [
+                'summary' => 'Accept an Invitation.',
+                'description' => 'Use myInviteKey2 to accept an invitation in dev environment.',
+            ],
+            'validation_groups' => ['Default', 'accept'],
         ],
     ],
     routePrefix: '/invitations'
 )]
 class Invitation {
+    public const ACCEPT = 'accept';
+    public const ITEM_NORMALIZATION_CONTEXT = [
+        'groups' => ['read'],
+        'swagger_definition_name' => 'read',
+    ];
+
     #[ApiProperty(readable: false, writable: false, identifier: true, example: 'myInviteKey')]
     public string $inviteKey;
 
@@ -31,6 +54,7 @@ class Invitation {
      * redirecting the user to the correct place after they accept.
      */
     #[ApiProperty(writable: false, example: '1a2b3c4d')]
+    #[Groups('read')]
     public string $campId;
 
     /**
@@ -38,6 +62,7 @@ class Invitation {
      * the user to decide whether to accept or reject the invitation.
      */
     #[ApiProperty(writable: false, example: 'Abteilungs-Sommerlager 2022')]
+    #[Groups('read')]
     public string $campTitle;
 
     /**
@@ -45,13 +70,16 @@ class Invitation {
      * not already have an account.
      */
     #[ApiProperty(writable: false, example: 'Robert Baden-Powell')]
+    #[Groups('read')]
     public ?string $userDisplayName;
 
     /**
      * Indicates whether the logged in user is already collaborating in the camp, and
      * can therefore not accept the invitation.
      */
-    #[ApiProperty(writable: false, example: true)]
+    #[ApiProperty(writable: false, example: false)]
+    #[Groups('read')]
+    #[Assert\IsFalse(message: 'This user is already associated with the camp.', groups: ['accept'])]
     public ?bool $userAlreadyInCamp;
 
     public function __construct(string $inviteKey, string $campId, string $campTitle, ?string $userDisplayName, ?bool $userAlreadyInCamp) {
