@@ -28,6 +28,7 @@ use ApiPlatform\Core\Metadata\Resource\Factory\ResourceMetadataFactoryInterface;
 use ApiPlatform\Core\Serializer\SerializerContextBuilderInterface;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
+use Doctrine\ORM\Query\Expr;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -221,7 +222,23 @@ final class EagerLoadingExtension implements ContextAwareQueryCollectionExtensio
                     continue;
                 }
             } else {
-                $queryBuilder->addSelect($associationAlias);
+                $addSelect = true;
+
+                $dqlSelects = $queryBuilder->getDQLPart('select');
+                foreach ($dqlSelects as $dqlSelect) {
+                    if ($dqlSelect instanceof Expr\Select) {
+                        $parts = $dqlSelect->getParts();
+                        if (in_array($associationAlias, $parts)) {
+                            $addSelect = false;
+
+                            break;
+                        }
+                    }
+                }
+
+                if ($addSelect) {
+                    $queryBuilder->addSelect($associationAlias);
+                }
             }
 
             // Avoid recursive joins for self-referencing relations
