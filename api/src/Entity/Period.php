@@ -26,7 +26,7 @@ use Symfony\Component\Validator\Constraints as Assert;
         'post' => ['denormalization_context' => ['groups' => ['write', 'create']]],
     ],
     itemOperations: [
-        'get' => ['normalization_context' => Period::ITEM_NORMALIZATION_CONTEXT],
+        'get' => ['normalization_context' => self::ITEM_NORMALIZATION_CONTEXT],
         'patch',
         'delete',
     ],

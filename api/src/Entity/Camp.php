@@ -27,18 +27,18 @@ use Symfony\Component\Validator\Constraints as Assert;
             'input_formats' => ['jsonld', 'jsonapi', 'json'],
             'validation_groups' => ['Default', 'create'],
             'denormalization_context' => ['groups' => ['write', 'create']],
-            'normalization_context' => Camp::ITEM_NORMALIZATION_CONTEXT,
+            'normalization_context' => self::ITEM_NORMALIZATION_CONTEXT,
         ],
     ],
     itemOperations: [
         'get' => [
             'security' => 'object.owner == user or is_granted("ROLE_ADMIN")',
-            'normalization_context' => Camp::ITEM_NORMALIZATION_CONTEXT,
+            'normalization_context' => self::ITEM_NORMALIZATION_CONTEXT,
         ],
         'patch' => [
             'security' => 'object.owner == user or is_granted("ROLE_ADMIN")',
             'denormalization_context' => ['groups' => ['write', 'update']],
-            'normalization_context' => Camp::ITEM_NORMALIZATION_CONTEXT,
+            'normalization_context' => self::ITEM_NORMALIZATION_CONTEXT,
         ],
         'delete' => ['security' => 'object.owner == user or is_granted("ROLE_ADMIN")'],
     ],
