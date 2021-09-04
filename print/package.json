@@ -15,7 +15,7 @@
     "test": "jest"
   },
   "engines": {
-    "npm": "~7.21.0"
+    "npm": "~7.22.0"
   },
   "dependencies": {
     "@nuxtjs/axios": "5.13.6",
@@ -29,7 +29,7 @@
     "vue-i18n": "8.25.0"
   },
   "devDependencies": {
-    "@babel/eslint-parser": "7.15.0",
+    "@babel/eslint-parser": "7.15.4",
     "@nuxtjs/eslint-config": "6.0.1",
     "@nuxtjs/eslint-module": "3.0.2",
     "@nuxtjs/stylelint-module": "4.0.0",

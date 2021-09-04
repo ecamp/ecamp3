@@ -2,7 +2,7 @@ version: "3.4"
 
 services:
   frontend:
-    image: node:16.8.0@sha256:987be0a7ca165b6b19bf77ca812e980f603a10c1000bf25095cd89e2b146f9ad
+    image: node:16.8.0@sha256:e2b2080429cb9b23ba3b50cac53772cdc78bcd21c0d5cede4caf8259ac367aac
     container_name: 'ecamp3-frontend'
     ports:
       - '3000:3000'
@@ -105,7 +105,7 @@ services:
     entrypoint: ./docker-setup.sh
 
   print:
-    image: node:16.8.0@sha256:987be0a7ca165b6b19bf77ca812e980f603a10c1000bf25095cd89e2b146f9ad
+    image: node:16.8.0@sha256:e2b2080429cb9b23ba3b50cac53772cdc78bcd21c0d5cede4caf8259ac367aac
     container_name: 'ecamp3-print'
     ports:
       - '3003:3003'
@@ -135,7 +135,7 @@ services:
       - ./.cache/composer:/tmp/cache
 
   db:
-    image: mysql:8.0.26@sha256:d45561a65aba6edac77be36e0a53f0c1fba67b951cb728348522b671ad63f926
+    image: mysql:8.0.26@sha256:99e0989e7e3797cfbdb8d51a19d32c8d286dd8862794d01a547651a896bcf00c
     container_name: 'ecamp3-db'
     environment:
       - MYSQL_DATABASE=ecamp3dev
@@ -172,7 +172,7 @@ services:
       - ./phpmyadmin/config.user.inc.php:/etc/phpmyadmin/config.user.inc.php
 
   rabbitmq:
-    image: rabbitmq:3.9-management@sha256:87cad55fdc727f68bb158c3cd64f27c7ded996f19f988fef4c7f5734c6cb2af3
+    image: rabbitmq:3.9-management@sha256:84ce7b2aca72448ba136c5d881195a8765104fc7630851ca424a546a5fde0ba5
     container_name: 'ecamp3-rabbitmq'
     ports:
       - '3004:15672'
