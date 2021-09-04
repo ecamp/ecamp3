@@ -29,7 +29,7 @@ class ReadCampTest extends ECampApiTestCase {
         ]);
     }
 
-    public function testGetSingleCampIsAllowedForOwnedCamp() {
+    public function testGetSingleCampIsAllowedForCollaborator() {
         /** @var Camp $camp */
         $camp = static::$fixtures['camp1'];
         static::createClientWithCredentials()->request('GET', '/camps/'.$camp->getId());
