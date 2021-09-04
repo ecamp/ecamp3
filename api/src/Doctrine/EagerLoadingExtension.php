@@ -28,8 +28,8 @@ use ApiPlatform\Core\Metadata\Resource\Factory\ResourceMetadataFactoryInterface;
 use ApiPlatform\Core\Serializer\SerializerContextBuilderInterface;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
-use Doctrine\ORM\Query\Expr;
 use Doctrine\ORM\Query\Expr\Join;
+use Doctrine\ORM\Query\Expr\Select;
 use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Serializer\Mapping\Factory\ClassMetadataFactoryInterface;
@@ -222,23 +222,7 @@ final class EagerLoadingExtension implements ContextAwareQueryCollectionExtensio
                     continue;
                 }
             } else {
-                $addSelect = true;
-
-                $dqlSelects = $queryBuilder->getDQLPart('select');
-                foreach ($dqlSelects as $dqlSelect) {
-                    if ($dqlSelect instanceof Expr\Select) {
-                        $parts = $dqlSelect->getParts();
-                        if (in_array($associationAlias, $parts)) {
-                            $addSelect = false;
-
-                            break;
-                        }
-                    }
-                }
-
-                if ($addSelect) {
-                    $queryBuilder->addSelect($associationAlias);
-                }
+                $this->addSelectOnce($queryBuilder, $associationAlias);
             }
 
             // Avoid recursive joins for self-referencing relations
@@ -269,7 +253,7 @@ final class EagerLoadingExtension implements ContextAwareQueryCollectionExtensio
         $entityManager = $queryBuilder->getEntityManager();
         $targetClassMetadata = $entityManager->getClassMetadata($entity);
         if (!empty($targetClassMetadata->subClasses)) {
-            $queryBuilder->addSelect($associationAlias);
+            $this->addSelectOnce($queryBuilder, $associationAlias);
 
             return;
         }
@@ -304,6 +288,16 @@ final class EagerLoadingExtension implements ContextAwareQueryCollectionExtensio
         }
 
         $queryBuilder->addSelect(sprintf('partial %s.{%s}', $associationAlias, implode(',', $select)));
+    }
+
+    private function addSelectOnce(QueryBuilder $queryBuilder, string $alias) {
+        $existingSelects = array_reduce($queryBuilder->getDQLPart('select') ?? [], function ($existing, $dqlSelect) {
+            return ($dqlSelect instanceof Select) ? array_merge($existing, $dqlSelect->getParts()) : $existing;
+        }, []);
+
+        if (!\in_array($alias, $existingSelects, true)) {
+            $queryBuilder->addSelect($alias);
+        }
     }
 
     /**
