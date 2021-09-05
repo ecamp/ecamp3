@@ -34,6 +34,12 @@ class InvitationDataPersister implements ContextAwareDataPersisterInterface {
             $this->dataPersister->persist($campCollaboration);
 
             $data->userAlreadyInCamp = true;
+        } elseif (Invitation::REJECT === ($context['item_operation_name'] ?? null)) {
+            $campCollaboration = $this->campCollaborationRepository->findByInviteKey($data->inviteKey);
+            $campCollaboration->user = $this->security->getUser();
+            $campCollaboration->status = CampCollaboration::STATUS_INACTIVE;
+            $campCollaboration->inviteKey = null;
+            $this->dataPersister->persist($campCollaboration);
         }
     }
 

@@ -36,11 +36,24 @@ use Symfony\Component\Validator\Constraints as Assert;
             ],
             'validation_groups' => ['Default', 'accept'],
         ],
+        self::REJECT => [
+            'method' => 'PATCH',
+            'path' => '/{inviteKey}/'.self::REJECT,
+            'denormalization_context' => [
+                'groups' => ['write'],
+            ],
+            'normalization_context' => self::ITEM_NORMALIZATION_CONTEXT,
+            'openapi_context' => [
+                'summary' => 'Reject an Invitation.',
+                'description' => 'Use myInviteKey to reject an invitation in dev environment.',
+            ],
+        ],
     ],
     routePrefix: '/invitations'
 )]
 class Invitation {
     public const ACCEPT = 'accept';
+    public const REJECT = 'reject';
     public const ITEM_NORMALIZATION_CONTEXT = [
         'groups' => ['read'],
         'swagger_definition_name' => 'read',
