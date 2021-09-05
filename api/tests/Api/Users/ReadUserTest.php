@@ -45,21 +45,4 @@ class ReadUserTest extends ECampApiTestCase {
             'displayName' => 'Bi-Pi',
         ]);
     }
-
-    public function testGetSingleUserIsAllowedForAdmin() {
-        /** @var User $user */
-        $user = static::$fixtures['user1manager'];
-        static::createClientWithAdminCredentials()->request('GET', '/users/'.$user->getId());
-        $this->assertResponseStatusCodeSame(200);
-        $this->assertJsonContains([
-            'id' => $user->getId(),
-            'email' => $user->email,
-            'username' => $user->username,
-            'firstname' => $user->firstname,
-            'surname' => $user->surname,
-            'nickname' => $user->nickname,
-            'language' => $user->language,
-            'displayName' => 'Bi-Pi',
-        ]);
-    }
 }

@@ -44,17 +44,6 @@ class UpdateUserTest extends ECampApiTestCase {
         ]);
     }
 
-    public function testPatchUserIsAllowedForAdmin() {
-        $user = static::$fixtures['user1manager'];
-        static::createClientWithAdminCredentials()->request('PATCH', '/users/'.$user->getId(), ['json' => [
-            'nickname' => 'Linux',
-        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
-        $this->assertResponseStatusCodeSame(200);
-        $this->assertJsonContains([
-            'nickname' => 'Linux',
-        ]);
-    }
-
     public function testPatchUserTrimsEmail() {
         $user = static::$fixtures['user1manager'];
         static::createClientWithCredentials()->request('PATCH', '/users/'.$user->getId(), ['json' => [
