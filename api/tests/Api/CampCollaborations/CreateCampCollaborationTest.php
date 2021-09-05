@@ -64,7 +64,7 @@ class CreateCampCollaborationTest extends ECampApiTestCase {
     public function testCreateCampCollaborationValidatesConflictingUserAndInviteEmail() {
         static::createClientWithCredentials()->request('POST', '/camp_collaborations', ['json' => $this->getExampleWritePayload([
             'inviteEmail' => 'someone@example.com',
-            'user' => $this->getIriFor('user1'),
+            'user' => $this->getIriFor('user1manager'),
         ])]);
 
         $this->assertResponseStatusCodeSame(422);
@@ -128,7 +128,7 @@ class CreateCampCollaborationTest extends ECampApiTestCase {
             'post',
             array_merge([
                 'inviteEmail' => null,
-                'user' => $this->getIriFor('user1'),
+                'user' => $this->getIriFor('user1manager'),
                 'camp' => $this->getIriFor('camp1'),
             ], $attributes),
             ['status'],
@@ -143,7 +143,7 @@ class CreateCampCollaborationTest extends ECampApiTestCase {
             'get',
             array_merge([
                 '_links' => [
-                    'user' => ['href' => $this->getIriFor('user1')],
+                    'user' => ['href' => $this->getIriFor('user1manager')],
                     'camp' => ['href' => $this->getIriFor('camp1')],
                 ],
                 'status' => 'invited',

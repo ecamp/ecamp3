@@ -23,7 +23,7 @@ class ReadCampCollaborationTest extends ECampApiTestCase {
             'inviteEmail' => null,
             '_links' => [
                 'camp' => ['href' => $this->getIriFor('camp1')],
-                'user' => ['href' => $this->getIriFor('user1')],
+                'user' => ['href' => $this->getIriFor('user1manager')],
             ],
         ]);
     }

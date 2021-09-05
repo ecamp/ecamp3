@@ -40,7 +40,7 @@ class UpdateCampCollaborationTest extends ECampApiTestCase {
     public function testPatchCampCollaborationDisallowsChangingUser() {
         $campCollaboration = static::$fixtures['campCollaboration1manager'];
         static::createClientWithCredentials()->request('PATCH', '/camp_collaborations/'.$campCollaboration->getId(), ['json' => [
-            'user' => $this->getIriFor('user2'),
+            'user' => $this->getIriFor('user2member'),
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
 
         $this->assertResponseStatusCodeSame(400);

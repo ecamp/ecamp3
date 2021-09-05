@@ -31,7 +31,7 @@ class ListUsersTest extends ECampApiTestCase {
             ],
         ]);
         $this->assertEqualsCanonicalizing([
-            ['href' => $this->getIriFor('user1')],
+            ['href' => $this->getIriFor('user1manager')],
         ], $response->toArray()['_links']['items']);
     }
 

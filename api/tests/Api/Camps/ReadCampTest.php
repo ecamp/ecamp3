@@ -32,7 +32,7 @@ class ReadCampTest extends ECampApiTestCase {
     public function testGetSingleCampIsAllowedForGuest() {
         /** @var Camp $camp */
         $camp = static::$fixtures['camp1'];
-        $user = static::$fixtures['user3'];
+        $user = static::$fixtures['user3guest'];
         static::createClientWithCredentials(['username' => $user->username])->request('GET', '/camps/'.$camp->getId());
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
@@ -47,7 +47,7 @@ class ReadCampTest extends ECampApiTestCase {
             //'role' => 'guest',
             'isPrototype' => false,
             '_links' => [
-                'creator' => ['href' => $this->getIriFor('user2')],
+                'creator' => ['href' => $this->getIriFor('user2member')],
                 'activities' => ['href' => '/activities?camp=/camps/'.$camp->getId()],
                 'materialLists' => ['href' => '/material_lists?camp=/camps/'.$camp->getId()],
                 'campCollaborations' => ['href' => '/camp_collaborations?camp=/camps/'.$camp->getId()],
@@ -60,7 +60,7 @@ class ReadCampTest extends ECampApiTestCase {
     public function testGetSingleCampIsAllowedForMember() {
         /** @var Camp $camp */
         $camp = static::$fixtures['camp1'];
-        $user = static::$fixtures['user2'];
+        $user = static::$fixtures['user2member'];
         static::createClientWithCredentials(['username' => $user->username])->request('GET', '/camps/'.$camp->getId());
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
@@ -75,7 +75,7 @@ class ReadCampTest extends ECampApiTestCase {
             //'role' => 'member',
             'isPrototype' => false,
             '_links' => [
-                'creator' => ['href' => $this->getIriFor('user2')],
+                'creator' => ['href' => $this->getIriFor('user2member')],
                 'activities' => ['href' => '/activities?camp=/camps/'.$camp->getId()],
                 'materialLists' => ['href' => '/material_lists?camp=/camps/'.$camp->getId()],
                 'campCollaborations' => ['href' => '/camp_collaborations?camp=/camps/'.$camp->getId()],
@@ -102,7 +102,7 @@ class ReadCampTest extends ECampApiTestCase {
             //'role' => 'manager',
             'isPrototype' => false,
             '_links' => [
-                'creator' => ['href' => $this->getIriFor('user2')],
+                'creator' => ['href' => $this->getIriFor('user2member')],
                 'activities' => ['href' => '/activities?camp=/camps/'.$camp->getId()],
                 'materialLists' => ['href' => '/material_lists?camp=/camps/'.$camp->getId()],
                 'campCollaborations' => ['href' => '/camp_collaborations?camp=/camps/'.$camp->getId()],

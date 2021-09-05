@@ -10,7 +10,7 @@ use App\Tests\Api\ECampApiTestCase;
  */
 class DeleteUserTest extends ECampApiTestCase {
     public function testDeleteUserIsDeniedToAnonymousUser() {
-        $user = static::$fixtures['user1'];
+        $user = static::$fixtures['user1manager'];
         static::createClient()->request('DELETE', '/users/'.$user->getId());
         $this->assertResponseStatusCodeSame(401);
         $this->assertJsonContains([
@@ -20,7 +20,7 @@ class DeleteUserTest extends ECampApiTestCase {
     }
 
     public function testDeleteUserIsDeniedForDifferentUser() {
-        $user2 = static::$fixtures['user2'];
+        $user2 = static::$fixtures['user2member'];
         static::createClientWithCredentials()->request('DELETE', '/users/'.$user2->getId());
         $this->assertResponseStatusCodeSame(404);
         $this->assertJsonContains([
@@ -30,7 +30,7 @@ class DeleteUserTest extends ECampApiTestCase {
     }
 
     public function testDeleteUserIsDeniedForSelf() {
-        $user = static::$fixtures['user1'];
+        $user = static::$fixtures['user1manager'];
         static::createClientWithCredentials()->request('DELETE', '/users/'.$user->getId());
         $this->assertResponseStatusCodeSame(403);
         $this->assertJsonContains([
@@ -40,7 +40,7 @@ class DeleteUserTest extends ECampApiTestCase {
     }
 
     public function testDeleteUserIsAllowedForAdmin() {
-        $user = static::$fixtures['user3'];
+        $user = static::$fixtures['user3guest'];
         $this->assertNotNull(static::getContainer()->get(UserRepository::class)->findOneBy(['username' => $user->getUsername()]));
 
         static::createClientWithAdminCredentials()->request('DELETE', '/users/'.$user->getId());
@@ -49,7 +49,7 @@ class DeleteUserTest extends ECampApiTestCase {
     }
 
     public function testDeleteUserIsNotAllowedForAdminIfUserStillOwnsCamps() {
-        $user = static::$fixtures['user1'];
+        $user = static::$fixtures['user1manager'];
         $this->assertNotNull(static::getContainer()->get(UserRepository::class)->findOneBy(['username' => $user->getUsername()]));
         static::createClientWithAdminCredentials()->request('DELETE', '/users/'.$user->getId());
         $this->assertResponseStatusCodeSame(403);

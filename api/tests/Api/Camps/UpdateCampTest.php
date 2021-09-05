@@ -22,7 +22,7 @@ class UpdateCampTest extends ECampApiTestCase {
 
     public function testPatchCampIsDeniedForUnrelatedUser() {
         $camp = static::$fixtures['camp1'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user4']->getUsername()])
+        static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->getUsername()])
             ->request('PATCH', '/camps/'.$camp->getId(), ['json' => [
                 'title' => 'Hello World',
             ], 'headers' => ['Content-Type' => 'application/merge-patch+json']])
@@ -36,7 +36,7 @@ class UpdateCampTest extends ECampApiTestCase {
 
     public function testPatchCampIsDeniedForGuest() {
         $camp = static::$fixtures['camp1'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user3']->username])->request('PATCH', '/camps/'.$camp->getId(), ['json' => [
+        static::createClientWithCredentials(['username' => static::$fixtures['user3guest']->username])->request('PATCH', '/camps/'.$camp->getId(), ['json' => [
             'title' => 'Hello World',
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
         $this->assertResponseStatusCodeSame(403);
@@ -48,7 +48,7 @@ class UpdateCampTest extends ECampApiTestCase {
 
     public function testPatchCampIsAllowedForMember() {
         $camp = static::$fixtures['camp1'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user2']->username])->request('PATCH', '/camps/'.$camp->getId(), ['json' => [
+        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->username])->request('PATCH', '/camps/'.$camp->getId(), ['json' => [
             'title' => 'Hello World',
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
         $this->assertResponseStatusCodeSame(200);

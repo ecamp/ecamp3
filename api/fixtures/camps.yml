@@ -7,8 +7,8 @@ App\Entity\Camp:
     addressStreet: <address()>
     addressZipcode: <postcode()>
     addressCity: <city()>
-    owner: '@user1'
-    creator: '@user2'
+    owner: '@user1manager'
+    creator: '@user2member'
     isPrototype: false
     campPrototypeId: null
   camp2:
@@ -20,7 +20,7 @@ App\Entity\Camp:
     addressZipcode: <postcode()>
     addressCity: <city()>
     owner: '@admin'
-    creator: '@user2'
+    creator: '@user2member'
     isPrototype: false
     campPrototypeId: null
   campUnrelated:

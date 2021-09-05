@@ -42,7 +42,7 @@ class CreateCampTest extends ECampApiTestCase {
 
         $this->assertResponseStatusCodeSame(201);
         $this->assertJsonContains(['_links' => [
-            'creator' => ['href' => '/users/'.static::$fixtures['user1']->getId()],
+            'creator' => ['href' => '/users/'.static::$fixtures['user1manager']->getId()],
         ]]);
     }
 
