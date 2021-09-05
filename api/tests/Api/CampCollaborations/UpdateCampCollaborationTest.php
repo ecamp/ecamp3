@@ -94,28 +94,4 @@ class UpdateCampCollaborationTest extends ECampApiTestCase {
             ],
         ]);
     }
-
-    public function testPatchCampCollaborationDoesNotAllowChangingUser() {
-        $campCollaboration = static::$fixtures['campCollaboration1'];
-        static::createClientWithCredentials()->request('PATCH', '/camp_collaborations/'.$campCollaboration->getId(), ['json' => [
-            'user' => $this->getIriFor('user2'),
-        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
-
-        $this->assertResponseStatusCodeSame(400);
-        $this->assertJsonContains([
-            'detail' => 'Extra attributes are not allowed ("user" is unknown).',
-        ]);
-    }
-
-    public function testPatchCampCollaborationDoesNotAllowChangingCamp() {
-        $campCollaboration = static::$fixtures['campCollaboration1'];
-        static::createClientWithCredentials()->request('PATCH', '/camp_collaborations/'.$campCollaboration->getId(), ['json' => [
-            'camp' => $this->getIriFor('camp2'),
-        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
-
-        $this->assertResponseStatusCodeSame(400);
-        $this->assertJsonContains([
-            'detail' => 'Extra attributes are not allowed ("camp" is unknown).',
-        ]);
-    }
 }
