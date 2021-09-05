@@ -1,4 +1,4 @@
 App\Entity\ActivityResponsible:
   activityResponsible1:
-    campCollaboration: '@campCollaboration1'
+    campCollaboration: '@campCollaboration1manager'
     activity: '@activity1'

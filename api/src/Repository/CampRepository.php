@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Camp;
+use App\Entity\CampCollaboration;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
@@ -21,8 +22,10 @@ class CampRepository extends ServiceEntityRepository implements CanFilterByUserI
 
     public function filterByUser(QueryBuilder $queryBuilder, User $user): void {
         $rootAlias = $queryBuilder->getRootAliases()[0];
-        // TODO extend this by a check for active campCollaborations once those are implemented
-        $queryBuilder->andWhere("{$rootAlias}.owner = :current_user");
+        $queryBuilder->leftJoin("{$rootAlias}.collaborations", 'campCollaboration');
+        $queryBuilder->andWhere("(campCollaboration.user = :current_user and campCollaboration.status = :established) or {$rootAlias}.isPrototype = :true");
         $queryBuilder->setParameter('current_user', $user->getId());
+        $queryBuilder->setParameter('established', CampCollaboration::STATUS_ESTABLISHED);
+        $queryBuilder->setParameter('true', true);
     }
 }

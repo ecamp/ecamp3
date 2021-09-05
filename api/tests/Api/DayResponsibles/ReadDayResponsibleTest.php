@@ -20,7 +20,7 @@ class ReadDayResponsibleTest extends ECampApiTestCase {
             'id' => $dayResponsible->getId(),
             '_links' => [
                 'day' => ['href' => $this->getIriFor('day1period1')],
-                'campCollaboration' => ['href' => $this->getIriFor('campCollaboration1')],
+                'campCollaboration' => ['href' => $this->getIriFor('campCollaboration1manager')],
             ],
         ]);
     }

@@ -73,7 +73,7 @@ class CreateActivityResponsibleTest extends ECampApiTestCase {
             'post',
             array_merge([
                 'activity' => $this->getIriFor('activity2'),
-                'campCollaboration' => $this->getIriFor('campCollaboration1'),
+                'campCollaboration' => $this->getIriFor('campCollaboration1manager'),
             ], $attributes),
             [],
             $except

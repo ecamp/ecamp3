@@ -20,7 +20,7 @@ class ReadActivityResponsibleTest extends ECampApiTestCase {
             'id' => $activityResponsible->getId(),
             '_links' => [
                 'activity' => ['href' => $this->getIriFor('activity1')],
-                'campCollaboration' => ['href' => $this->getIriFor('campCollaboration1')],
+                'campCollaboration' => ['href' => $this->getIriFor('campCollaboration1manager')],
             ],
         ]);
     }

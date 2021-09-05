@@ -33,7 +33,7 @@ final class FilterByCurrentUserExtension implements QueryCollectionExtensionInte
         /** @var User $user */
         $user = $this->security->getUser();
 
-        if (!($repository instanceof CanFilterByUserInterface) || $this->security->isGranted('ROLE_ADMIN') || null === $user) {
+        if (!($repository instanceof CanFilterByUserInterface) || null === $user) {
             return;
         }
 

@@ -21,7 +21,7 @@ class DeleteCampTest extends ECampApiTestCase {
 
     public function testDeleteCampIsDeniedForUnrelatedUser() {
         $camp = static::$fixtures['camp1'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user3']->getUsername()])
+        static::createClientWithCredentials(['username' => static::$fixtures['user4']->getUsername()])
             ->request('DELETE', '/camps/'.$camp->getId())
         ;
         $this->assertResponseStatusCodeSame(404);
@@ -32,7 +32,7 @@ class DeleteCampTest extends ECampApiTestCase {
     }
 
     public function testDeleteCampIsDeniedForOtherwiseUnrelatedCreator() {
-        $camp = static::$fixtures['camp1'];
+        $camp = static::$fixtures['camp2'];
         static::createClientWithCredentials(['username' => static::$fixtures['user2']->getUsername()])
             ->request('DELETE', '/camps/'.$camp->getId())
         ;
@@ -43,18 +43,20 @@ class DeleteCampTest extends ECampApiTestCase {
         ]);
     }
 
+    public function testDeleteCampIsDeniedForCollaboratorThatIsNotOwner() {
+        $camp = static::$fixtures['camp2'];
+        static::createClientWithCredentials()->request('DELETE', '/camps/'.$camp->getId())
+        ;
+        $this->assertResponseStatusCodeSame(403);
+        $this->assertJsonContains([
+            'title' => 'An error occurred',
+            'detail' => 'Access Denied.',
+        ]);
+    }
+
     public function testDeleteCampIsAllowedForCampOwner() {
         $camp = static::$fixtures['camp1'];
         static::createClientWithCredentials()->request('DELETE', '/camps/'.$camp->getId());
-        $this->assertResponseStatusCodeSame(204);
-        $this->assertNull(static::getContainer()->get(CampRepository::class)->findOneBy(['id' => $camp->getId()]));
-    }
-
-    public function testDeleteCampIsAllowedForAdmin() {
-        $camp = static::$fixtures['camp1'];
-        $this->assertNotNull(static::getContainer()->get(CampRepository::class)->findOneBy(['id' => $camp->getId()]));
-
-        static::createClientWithAdminCredentials()->request('DELETE', '/camps/'.$camp->getId());
         $this->assertResponseStatusCodeSame(204);
         $this->assertNull(static::getContainer()->get(CampRepository::class)->findOneBy(['id' => $camp->getId()]));
     }

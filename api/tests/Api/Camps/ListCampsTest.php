@@ -2,7 +2,6 @@
 
 namespace App\Tests\Api\Camps;
 
-use App\Repository\CampRepository;
 use App\Tests\Api\ECampApiTestCase;
 
 /**
@@ -22,7 +21,7 @@ class ListCampsTest extends ECampApiTestCase {
         $response = static::createClientWithCredentials()->request('GET', '/camps');
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
-            'totalItems' => 1,
+            'totalItems' => 3,
             '_links' => [
                 'items' => [],
             ],
@@ -32,20 +31,8 @@ class ListCampsTest extends ECampApiTestCase {
         ]);
         $this->assertEqualsCanonicalizing([
             ['href' => $this->getIriFor('camp1')],
+            ['href' => $this->getIriFor('camp2')],
+            ['href' => $this->getIriFor('campPrototype')],
         ], $response->toArray()['_links']['items']);
-    }
-
-    public function testListCampsListsAllCampsForAdmin() {
-        $client = static::createClientWithAdminCredentials();
-        $response = $client->request('GET', '/camps');
-        $totalCamps = count(static::getContainer()->get(CampRepository::class)->findAll());
-        $this->assertResponseStatusCodeSame(200);
-        $this->assertJsonContains([
-            'totalItems' => $totalCamps,
-            '_embedded' => [
-                'items' => [],
-            ],
-        ]);
-        $this->assertEquals($totalCamps, count($response->toArray(true)['_embedded']['items']));
     }
 }

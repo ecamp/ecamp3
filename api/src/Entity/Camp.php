@@ -32,15 +32,15 @@ use Symfony\Component\Validator\Constraints as Assert;
     ],
     itemOperations: [
         'get' => [
-            'security' => 'object.hasCollaborator(user) or is_granted("ROLE_ADMIN")',
+            'security' => 'object.hasCollaborator(user) or object.isPrototype',
             'normalization_context' => self::ITEM_NORMALIZATION_CONTEXT,
         ],
         'patch' => [
-            'security' => 'object.hasCollaborator(user) or is_granted("ROLE_ADMIN")',
+            'security' => 'object.hasCollaborator(user, ["member", "manager"])',
             'denormalization_context' => ['groups' => ['write', 'update']],
             'normalization_context' => self::ITEM_NORMALIZATION_CONTEXT,
         ],
-        'delete' => ['security' => 'object.owner == user or is_granted("ROLE_ADMIN")'],
+        'delete' => ['security' => 'object.owner == user'],
     ],
     denormalizationContext: ['groups' => ['write']],
     normalizationContext: ['groups' => ['read']],
@@ -241,13 +241,15 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
         $this->materialLists = new ArrayCollection();
     }
 
-    public function hasCollaborator($user): bool {
+    public function hasCollaborator($user, $roles = CampCollaboration::VALID_ROLES): bool {
         if (!$user instanceof User) {
             return false;
         }
 
-        return $this->collaborations->exists(function ($idx, CampCollaboration $collaboration) use ($user) {
-            return CampCollaboration::STATUS_ESTABLISHED === $collaboration->status && $collaboration->user->id === $user->id;
+        return $this->collaborations->exists(function ($idx, CampCollaboration $collaboration) use ($user, $roles) {
+            return CampCollaboration::STATUS_ESTABLISHED === $collaboration->status
+                && $collaboration->user->getId() === $user->getId()
+                && in_array($collaboration->role, $roles, true);
         });
     }
 

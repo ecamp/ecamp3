@@ -1,9 +1,19 @@
 App\Entity\CampCollaboration:
-  campCollaboration1:
+  campCollaboration1manager:
     user: '@user1'
     camp: '@camp1'
     status: established
     role: manager
+  campCollaboration1member:
+    user: '@user2'
+    camp: '@camp1'
+    status: established
+    role: member
+  campCollaboration1guest:
+    user: '@user3'
+    camp: '@camp1'
+    status: established
+    role: guest
   campCollaboration1invited:
     camp: '@camp1'
     inviteKey: "myInviteKey"

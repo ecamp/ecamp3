@@ -14,7 +14,7 @@ class ListCampCollaborationsTest extends ECampApiTestCase {
         $response = static::createClientWithCredentials()->request('GET', '/camp_collaborations');
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
-            'totalItems' => 4,
+            'totalItems' => 6,
             '_links' => [
                 'items' => [],
             ],
@@ -23,7 +23,9 @@ class ListCampCollaborationsTest extends ECampApiTestCase {
             ],
         ]);
         $this->assertEqualsCanonicalizing([
-            ['href' => $this->getIriFor('campCollaboration1')],
+            ['href' => $this->getIriFor('campCollaboration1manager')],
+            ['href' => $this->getIriFor('campCollaboration1member')],
+            ['href' => $this->getIriFor('campCollaboration1guest')],
             ['href' => $this->getIriFor('campCollaboration1camp2')],
             ['href' => $this->getIriFor('campCollaboration1invited')],
             ['href' => $this->getIriFor('campCollaboration2invitedCampUnrelated')],
@@ -35,7 +37,7 @@ class ListCampCollaborationsTest extends ECampApiTestCase {
         $response = static::createClientWithCredentials()->request('GET', '/camp_collaborations?camp=/camps/'.$camp->getId());
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
-            'totalItems' => 2,
+            'totalItems' => 4,
             '_links' => [
                 'items' => [],
             ],
@@ -44,7 +46,9 @@ class ListCampCollaborationsTest extends ECampApiTestCase {
             ],
         ]);
         $this->assertEqualsCanonicalizing([
-            ['href' => $this->getIriFor('campCollaboration1')],
+            ['href' => $this->getIriFor('campCollaboration1manager')],
+            ['href' => $this->getIriFor('campCollaboration1member')],
+            ['href' => $this->getIriFor('campCollaboration1guest')],
             ['href' => $this->getIriFor('campCollaboration1invited')],
         ], $response->toArray()['_links']['items']);
     }

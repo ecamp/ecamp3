@@ -13,7 +13,7 @@ class ReadCampCollaborationTest extends ECampApiTestCase {
 
     public function testGetSingleCampCollaborationIsAllowedForCollaborator() {
         /** @var CampCollaboration $campCollaboration */
-        $campCollaboration = static::$fixtures['campCollaboration1'];
+        $campCollaboration = static::$fixtures['campCollaboration1manager'];
         static::createClientWithCredentials()->request('GET', '/camp_collaborations/'.$campCollaboration->getId());
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([

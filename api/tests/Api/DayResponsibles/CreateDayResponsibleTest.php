@@ -73,7 +73,7 @@ class CreateDayResponsibleTest extends ECampApiTestCase {
             'post',
             array_merge([
                 'day' => $this->getIriFor('day3period1'),
-                'campCollaboration' => $this->getIriFor('campCollaboration1'),
+                'campCollaboration' => $this->getIriFor('campCollaboration1manager'),
             ], $attributes),
             [],
             $except

@@ -13,7 +13,7 @@ class UpdateCampCollaborationTest extends ECampApiTestCase {
     // TODO validation tests
 
     public function testPatchCampCollaborationIsAllowedForCollaborator() {
-        $campCollaboration = static::$fixtures['campCollaboration1'];
+        $campCollaboration = static::$fixtures['campCollaboration1manager'];
         static::createClientWithCredentials()->request('PATCH', '/camp_collaborations/'.$campCollaboration->getId(), ['json' => [
             'status' => 'inactive',
             'role' => 'guest',
@@ -26,7 +26,7 @@ class UpdateCampCollaborationTest extends ECampApiTestCase {
     }
 
     public function testPatchCampCollaborationDisallowsChangingInviteEmail() {
-        $campCollaboration = static::$fixtures['campCollaboration1'];
+        $campCollaboration = static::$fixtures['campCollaboration1manager'];
         static::createClientWithCredentials()->request('PATCH', '/camp_collaborations/'.$campCollaboration->getId(), ['json' => [
             'inviteEmail' => 'some@thing.com',
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -38,7 +38,7 @@ class UpdateCampCollaborationTest extends ECampApiTestCase {
     }
 
     public function testPatchCampCollaborationDisallowsChangingUser() {
-        $campCollaboration = static::$fixtures['campCollaboration1'];
+        $campCollaboration = static::$fixtures['campCollaboration1manager'];
         static::createClientWithCredentials()->request('PATCH', '/camp_collaborations/'.$campCollaboration->getId(), ['json' => [
             'user' => $this->getIriFor('user2'),
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -50,7 +50,7 @@ class UpdateCampCollaborationTest extends ECampApiTestCase {
     }
 
     public function testPatchCampCollaborationDisallowsChangingCamp() {
-        $campCollaboration = static::$fixtures['campCollaboration1'];
+        $campCollaboration = static::$fixtures['campCollaboration1manager'];
         static::createClientWithCredentials()->request('PATCH', '/camp_collaborations/'.$campCollaboration->getId(), ['json' => [
             'camp' => $this->getIriFor('camp2'),
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -62,7 +62,7 @@ class UpdateCampCollaborationTest extends ECampApiTestCase {
     }
 
     public function testPatchCampCollaborationValidatesInvalidStatus() {
-        $campCollaboration = static::$fixtures['campCollaboration1'];
+        $campCollaboration = static::$fixtures['campCollaboration1manager'];
         static::createClientWithCredentials()->request('PATCH', '/camp_collaborations/'.$campCollaboration->getId(), ['json' => [
             'status' => 'expelled',
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -79,7 +79,7 @@ class UpdateCampCollaborationTest extends ECampApiTestCase {
     }
 
     public function testPatchCampCollaborationValidatesInvalidRole() {
-        $campCollaboration = static::$fixtures['campCollaboration1'];
+        $campCollaboration = static::$fixtures['campCollaboration1manager'];
         static::createClientWithCredentials()->request('PATCH', '/camp_collaborations/'.$campCollaboration->getId(), ['json' => [
             'role' => 'admin',
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
