@@ -32,11 +32,11 @@ use Symfony\Component\Validator\Constraints as Assert;
     ],
     itemOperations: [
         'get' => [
-            'security' => 'object.hasCollaborator(user) or object.isPrototype',
+            'security' => 'is_granted("CAMP_COLLABORATOR", object) or is_granted("CAMP_IS_PROTOTYPE", object)',
             'normalization_context' => self::ITEM_NORMALIZATION_CONTEXT,
         ],
         'patch' => [
-            'security' => 'object.hasCollaborator(user, ["member", "manager"])',
+            'security' => 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)',
             'denormalization_context' => ['groups' => ['write', 'update']],
             'normalization_context' => self::ITEM_NORMALIZATION_CONTEXT,
         ],
@@ -239,18 +239,6 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
         $this->categories = new ArrayCollection();
         $this->activities = new ArrayCollection();
         $this->materialLists = new ArrayCollection();
-    }
-
-    public function hasCollaborator($user, $roles = CampCollaboration::VALID_ROLES): bool {
-        if (!$user instanceof User) {
-            return false;
-        }
-
-        return $this->collaborations->exists(function ($idx, CampCollaboration $collaboration) use ($user, $roles) {
-            return CampCollaboration::STATUS_ESTABLISHED === $collaboration->status
-                && $collaboration->user->getId() === $user->getId()
-                && in_array($collaboration->role, $roles, true);
-        });
     }
 
     /**
