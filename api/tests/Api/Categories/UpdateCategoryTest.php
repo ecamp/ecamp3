@@ -8,11 +8,101 @@ use App\Tests\Api\ECampApiTestCase;
  * @internal
  */
 class UpdateCategoryTest extends ECampApiTestCase {
-    // TODO security tests when not logged in or not collaborator
     // TODO input filter tests
     // TODO validation tests
 
-    public function testPatchCategoryIsAllowedForCollaborator() {
+    public function testPatchCategoryIsDeniedForAnonymousUser() {
+        $category = static::$fixtures['category1'];
+        static::createClient()->request('PATCH', '/categories/'.$category->getId(), ['json' => [
+            'short' => 'LP',
+            'name' => 'Lagerprogramm',
+            'color' => '#FFFF00',
+            'numberingStyle' => 'I',
+            'preferredContentTypes' => [
+                $this->getIriFor('contentTypeColumnLayout'),
+                $this->getIriFor('contentType1'),
+            ],
+        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
+        $this->assertResponseStatusCodeSame(401);
+        $this->assertJsonContains([
+            'code' => 401,
+            'message' => 'JWT Token not found',
+        ]);
+    }
+
+    public function testPatchCategoryIsDeniedForUnrelatedUser() {
+        $category = static::$fixtures['category1'];
+        static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->username])
+            ->request('PATCH', '/categories/'.$category->getId(), ['json' => [
+                'short' => 'LP',
+                'name' => 'Lagerprogramm',
+                'color' => '#FFFF00',
+                'numberingStyle' => 'I',
+                'preferredContentTypes' => [
+                    $this->getIriFor('contentTypeColumnLayout'),
+                    $this->getIriFor('contentType1'),
+                ],
+            ], 'headers' => ['Content-Type' => 'application/merge-patch+json']])
+        ;
+        $this->assertResponseStatusCodeSame(404);
+        $this->assertJsonContains([
+            'title' => 'An error occurred',
+            'detail' => 'Not Found',
+        ]);
+    }
+
+    public function testPatchCategoryIsDeniedForGuest() {
+        $category = static::$fixtures['category1'];
+        static::createClientWithCredentials(['username' => static::$fixtures['user3guest']->username])
+            ->request('PATCH', '/categories/'.$category->getId(), ['json' => [
+                'short' => 'LP',
+                'name' => 'Lagerprogramm',
+                'color' => '#FFFF00',
+                'numberingStyle' => 'I',
+                'preferredContentTypes' => [
+                    $this->getIriFor('contentTypeColumnLayout'),
+                    $this->getIriFor('contentType1'),
+                ],
+            ], 'headers' => ['Content-Type' => 'application/merge-patch+json']])
+        ;
+        $this->assertResponseStatusCodeSame(403);
+        $this->assertJsonContains([
+            'title' => 'An error occurred',
+            'detail' => 'Access Denied.',
+        ]);
+    }
+
+    public function testPatchCategoryIsAllowedForMember() {
+        $category = static::$fixtures['category1'];
+        $response = static::createClientWithCredentials(['username' => static::$fixtures['user2member']->username])
+            ->request('PATCH', '/categories/'.$category->getId(), ['json' => [
+                'short' => 'LP',
+                'name' => 'Lagerprogramm',
+                'color' => '#FFFF00',
+                'numberingStyle' => 'I',
+                'preferredContentTypes' => [
+                    $this->getIriFor('contentTypeColumnLayout'),
+                    $this->getIriFor('contentType1'),
+                ],
+            ], 'headers' => ['Content-Type' => 'application/merge-patch+json']])
+        ;
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertJsonContains([
+            'short' => 'LP',
+            'name' => 'Lagerprogramm',
+            'color' => '#FFFF00',
+            'numberingStyle' => 'I',
+            '_links' => [
+                'preferredContentTypes' => [],
+            ],
+        ]);
+        $this->assertEqualsCanonicalizing([
+            ['href' => $this->getIriFor('contentTypeColumnLayout')],
+            ['href' => $this->getIriFor('contentType1')],
+        ], $response->toArray()['_links']['preferredContentTypes']);
+    }
+
+    public function testPatchCategoryIsAllowedForManager() {
         $category = static::$fixtures['category1'];
         $response = static::createClientWithCredentials()->request('PATCH', '/categories/'.$category->getId(), ['json' => [
             'short' => 'LP',
@@ -38,6 +128,25 @@ class UpdateCategoryTest extends ECampApiTestCase {
             ['href' => $this->getIriFor('contentTypeColumnLayout')],
             ['href' => $this->getIriFor('contentType1')],
         ], $response->toArray()['_links']['preferredContentTypes']);
+    }
+
+    public function testPatchCategoryInPrototypeCampIsDeniedForUnrelatedUser() {
+        $category = static::$fixtures['category1campPrototype'];
+        $response = static::createClientWithCredentials()->request('PATCH', '/categories/'.$category->getId(), ['json' => [
+            'short' => 'LP',
+            'name' => 'Lagerprogramm',
+            'color' => '#FFFF00',
+            'numberingStyle' => 'I',
+            'preferredContentTypes' => [
+                $this->getIriFor('contentTypeColumnLayout'),
+                $this->getIriFor('contentType1'),
+            ],
+        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
+        $this->assertResponseStatusCodeSame(403);
+        $this->assertJsonContains([
+            'title' => 'An error occurred',
+            'detail' => 'Access Denied.',
+        ]);
     }
 
     public function testPatchCategoryDisallowsChangingCamp() {

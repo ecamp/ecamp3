@@ -6,6 +6,7 @@ use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use App\Repository\CategoryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -18,17 +19,23 @@ use Symfony\Component\Validator\Constraints as Assert;
  * "similar" activities. A category may contain some skeleton programme which is used as a blueprint
  * when creating a new activity in the category.
  *
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass=CategoryRepository::class)
  */
 #[ApiResource(
     collectionOperations: [
-        'get',
-        'post' => ['denormalization_context' => ['groups' => ['write', 'create']]],
+        'get' => ['security' => 'is_fully_authenticated()'],
+        'post' => [
+            'denormalization_context' => ['groups' => ['write', 'create']],
+            'security_post_denormalize' => 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)',
+        ],
     ],
     itemOperations: [
-        'get',
-        'patch' => ['denormalization_context' => ['groups' => ['write', 'update']]],
-        'delete',
+        'get' => ['security' => 'is_granted("CAMP_COLLABORATOR", object) or is_granted("CAMP_IS_PROTOTYPE", object)'],
+        'patch' => [
+            'denormalization_context' => ['groups' => ['write', 'update']],
+            'security' => 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)',
+        ],
+        'delete' => ['security' => 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)'],
     ],
     denormalizationContext: ['groups' => ['write']],
     normalizationContext: ['groups' => ['read']],

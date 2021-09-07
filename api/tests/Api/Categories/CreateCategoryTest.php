@@ -11,15 +11,69 @@ use App\Tests\Api\ECampApiTestCase;
  * @internal
  */
 class CreateCategoryTest extends ECampApiTestCase {
-    // TODO security tests when not logged in or not collaborator
     // TODO input filter tests
     // TODO validation tests
 
-    public function testCreateCategoryIsAllowedForCollaborator() {
+    public function testCreateCategoryIsDeniedForAnonymousUser() {
+        static::createClient()->request('POST', '/categories', ['json' => $this->getExampleWritePayload()]);
+
+        $this->assertResponseStatusCodeSame(401);
+        $this->assertJsonContains([
+            'code' => 401,
+            'message' => 'JWT Token not found',
+        ]);
+    }
+
+    public function testCreateCategoryIsNotPossibleForUnrelatedUserBecauseCampIsNotReadable() {
+        static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->username])
+            ->request('POST', '/categories', ['json' => $this->getExampleWritePayload()])
+    ;
+
+        $this->assertResponseStatusCodeSame(400);
+        $this->assertJsonContains([
+            'title' => 'An error occurred',
+            'detail' => 'Item not found for "'.$this->getIriFor('camp1').'".',
+        ]);
+    }
+
+    public function testCreateCategoryIsDeniedForGuest() {
+        static::createClientWithCredentials(['username' => static::$fixtures['user3guest']->username])
+            ->request('POST', '/categories', ['json' => $this->getExampleWritePayload()])
+    ;
+
+        $this->assertResponseStatusCodeSame(403);
+        $this->assertJsonContains([
+            'title' => 'An error occurred',
+            'detail' => 'Access Denied.',
+        ]);
+    }
+
+    public function testCreateCategoryIsAllowedForMember() {
+        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->username])
+            ->request('POST', '/categories', ['json' => $this->getExampleWritePayload()])
+    ;
+
+        $this->assertResponseStatusCodeSame(201);
+        $this->assertJsonContains($this->getExampleReadPayload());
+    }
+
+    public function testCreateCategoryIsAllowedForManager() {
         static::createClientWithCredentials()->request('POST', '/categories', ['json' => $this->getExampleWritePayload()]);
 
         $this->assertResponseStatusCodeSame(201);
         $this->assertJsonContains($this->getExampleReadPayload());
+    }
+
+    public function testCreateCategoryInPrototypeCampIsDeniedForUnrelatedUser() {
+        static::createClientWithCredentials()->request('POST', '/categories', ['json' => $this->getExampleWritePayload([
+            'camp' => $this->getIriFor('campPrototype'),
+        ])]);
+
+        $this->assertResponseStatusCodeSame(403);
+        $this->assertJsonContains([
+            'title' => 'An error occurred',
+            'detail' => 'Access Denied.',
+        ]);
     }
 
     public function testCreateCategoryCreatesNewColumnLayoutAsRootContentNode() {
