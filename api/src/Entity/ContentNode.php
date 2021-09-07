@@ -89,6 +89,13 @@ abstract class ContentNode extends BaseEntity implements BelongsToCampInterface 
     public ?ContentNode $parent = null;
 
     /**
+     * The prototype ContentNode from which the content is copied during creation.
+     */
+    #[ApiProperty(example: '/content_nodes/1a2b3c4d')]
+    #[Groups(['Default', 'contentNode:update'])] // TODO: allow in create schema only
+    public ?ContentNode $prototype = null;
+
+    /**
      * All content nodes that are direct children of this content node.
      *
      * @ORM\OneToMany(targetEntity="ContentNode", mappedBy="parent", cascade={"remove"})
@@ -259,29 +266,4 @@ abstract class ContentNode extends BaseEntity implements BelongsToCampInterface 
         return $this;
     }
 
-    /**
-     * @return MaterialItem[]
-     */
-    public function getMaterialItems(): array {
-        return $this->materialItems->getValues();
-    }
-
-    public function addMaterialItem(MaterialItem $materialItem): self {
-        if (!$this->materialItems->contains($materialItem)) {
-            $this->materialItems[] = $materialItem;
-            $materialItem->contentNode = $this;
-        }
-
-        return $this;
-    }
-
-    public function removeMaterialItem(MaterialItem $materialItem): self {
-        if ($this->materialItems->removeElement($materialItem)) {
-            if ($materialItem->contentNode === $this) {
-                $materialItem->contentNode = null;
-            }
-        }
-
-        return $this;
-    }
 }
