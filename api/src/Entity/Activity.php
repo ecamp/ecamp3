@@ -11,6 +11,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Annotation\SerializedName;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -19,9 +20,12 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity
  */
 #[ApiResource(
-    collectionOperations: ['get', 'post'],
-    itemOperations: [
+    collectionOperations: [
         'get',
+        'post' => ['denormalization_context' => ['groups' => ['write', 'create']]],
+    ],
+    itemOperations: [
+        'get' => ['normalization_context' => self::ITEM_NORMALIZATION_CONTEXT],
         'patch' => [
             'validation_groups' => ['Default', 'update'],
         ],
@@ -32,6 +36,17 @@ use Symfony\Component\Validator\Constraints as Assert;
 )]
 #[ApiFilter(SearchFilter::class, properties: ['camp'])]
 class Activity extends AbstractContentNodeOwner implements BelongsToCampInterface {
+    public const ITEM_NORMALIZATION_CONTEXT = [
+        'groups' => [
+            'read',
+            'Activity:Category',
+            'Activity:CampCollaborations',
+            'Activity:ScheduleEntries',
+            'Activity:ContentNodes',
+        ],
+        'swagger_definition_name' => 'read',
+    ];
+
     /**
      * The list of points in time when this activity's programme will be carried out.
      *
@@ -99,6 +114,16 @@ class Activity extends AbstractContentNodeOwner implements BelongsToCampInterfac
         return $this->camp;
     }
 
+    /**
+     * @return Category
+     */
+    #[ApiProperty(readableLink: true)]
+    #[SerializedName('category')]
+    #[Groups('Activity:Category')]
+    public function getEmbeddedCategory(): ?Category {
+        return $this->category;
+    }
+
     #[ApiProperty(writable: false)]
     public function setRootContentNode(?ContentNode $rootContentNode) {
         // Overridden to add annotations
@@ -110,6 +135,16 @@ class Activity extends AbstractContentNodeOwner implements BelongsToCampInterfac
     public function getRootContentNode(): ?ContentNode {
         // Getter is here to add annotations to parent class property
         return $this->rootContentNode;
+    }
+
+    /**
+     * @return ContentNode[]
+     */
+    #[ApiProperty(readableLink: true)]
+    #[SerializedName('contentNodes')]
+    #[Groups(['Activity:ContentNodes'])]
+    public function getEmbeddedContentNodes(): array {
+        return parent::getContentNodes();
     }
 
     /**
@@ -125,17 +160,38 @@ class Activity extends AbstractContentNodeOwner implements BelongsToCampInterfac
     }
 
     /**
+     * @return CampCollaboration[]
+     */
+    #[ApiProperty(readableLink: true)]
+    #[SerializedName('campCollaborations')]
+    #[Groups(['Activity:CampCollaborations'])]
+    public function getEmbeddedCampCollaborations(): array {
+        return $this->getCampCollaborations();
+    }
+
+    /**
      * The list of people that are responsible for planning or carrying out this activity.
      *
      * @return CampCollaboration[]
      */
     #[ApiProperty(writable: false, example: '["/camp_collaborations/1a2b3c4d"]')]
+    #[Groups(['read'])]
     public function getCampCollaborations(): array {
         return $this
             ->activityResponsibles
             ->map(fn (ActivityResponsible $activityResponsible) => $activityResponsible->campCollaboration)
             ->getValues()
         ;
+    }
+
+    /**
+     * @return ScheduleEntry[]
+     */
+    #[ApiProperty(readableLink: true)]
+    #[SerializedName('scheduleEntries')]
+    #[Groups(['Activity:ScheduleEntries'])]
+    public function getEmbeddedScheduleEntries(): array {
+        return $this->scheduleEntries->getValues();
     }
 
     /**

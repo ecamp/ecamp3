@@ -11,6 +11,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Annotation\SerializedName;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -34,7 +35,7 @@ use Symfony\Component\Validator\Constraints as Assert;
         ],
     ],
     itemOperations: [
-        'get',
+        'get' => ['normalization_context' => self::ITEM_NORMALIZATION_CONTEXT],
         'patch' => ['denormalization_context' => ['groups' => ['write', 'update']]],
         'delete',
     ],
@@ -43,6 +44,11 @@ use Symfony\Component\Validator\Constraints as Assert;
 )]
 #[ApiFilter(SearchFilter::class, properties: ['camp'])]
 class CampCollaboration extends BaseEntity implements BelongsToCampInterface {
+    public const ITEM_NORMALIZATION_CONTEXT = [
+        'groups' => ['read', 'CampCollaboration:Camp', 'CampCollaboration:User'],
+        'swagger_definition_name' => 'read',
+    ];
+
     public const ROLE_GUEST = 'guest';
     public const ROLE_MEMBER = 'member';
     public const ROLE_MANAGER = 'manager';
@@ -154,6 +160,26 @@ class CampCollaboration extends BaseEntity implements BelongsToCampInterface {
 
     public function getCamp(): ?Camp {
         return $this->camp;
+    }
+
+    /**
+     * @return Camp
+     */
+    #[ApiProperty(readableLink: true)]
+    #[SerializedName('camp')]
+    #[Groups('CampCollaboration:Camp')]
+    public function getEmbeddedCamp(): ?Camp {
+        return $this->camp;
+    }
+
+    /**
+     * @return User
+     */
+    #[ApiProperty(readableLink: true)]
+    #[SerializedName('user')]
+    #[Groups('CampCollaboration:User')]
+    public function getEmbeddedUser(): ?User {
+        return $this->user;
     }
 
     #[ApiProperty(readable: false, writable: false)]

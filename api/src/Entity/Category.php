@@ -10,6 +10,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Annotation\SerializedName;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -26,7 +27,7 @@ use Symfony\Component\Validator\Constraints as Assert;
         'post' => ['denormalization_context' => ['groups' => ['write', 'create']]],
     ],
     itemOperations: [
-        'get',
+        'get' => ['normalization_context' => self::ITEM_NORMALIZATION_CONTEXT],
         'patch' => ['denormalization_context' => ['groups' => ['write', 'update']]],
         'delete',
     ],
@@ -35,6 +36,11 @@ use Symfony\Component\Validator\Constraints as Assert;
 )]
 #[ApiFilter(SearchFilter::class, properties: ['camp'])]
 class Category extends AbstractContentNodeOwner implements BelongsToCampInterface {
+    public const ITEM_NORMALIZATION_CONTEXT = [
+        'groups' => ['read', 'Category:PreferredContentTypes'],
+        'swagger_definition_name' => 'read',
+    ];
+
     /**
      * The camp to which this category belongs. May not be changed once the category is created.
      *
@@ -122,6 +128,16 @@ class Category extends AbstractContentNodeOwner implements BelongsToCampInterfac
 
     public function getCamp(): ?Camp {
         return $this->camp;
+    }
+
+    /**
+     * @return ContentType[]
+     */
+    #[ApiProperty(readableLink: true)]
+    #[SerializedName('preferredContentTypes')]
+    #[Groups('Category:PreferredContentTypes')]
+    public function getEmbeddedPreferredContentTypes(): array {
+        return $this->preferredContentTypes->getValues();
     }
 
     /**
