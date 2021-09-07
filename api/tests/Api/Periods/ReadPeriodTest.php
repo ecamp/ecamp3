@@ -96,7 +96,7 @@ class ReadPeriodTest extends ECampApiTestCase {
         ]);
     }
 
-    public function testGetSinglePeriodFromCampPrototypeIsAllowedForLoggedInUser() {
+    public function testGetSinglePeriodFromCampPrototypeIsAllowedForUnrelatedUser() {
         /** @var Period $period */
         $period = static::$fixtures['period1campPrototype'];
 

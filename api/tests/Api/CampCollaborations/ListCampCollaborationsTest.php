@@ -14,7 +14,7 @@ class ListCampCollaborationsTest extends ECampApiTestCase {
         $response = static::createClientWithCredentials()->request('GET', '/camp_collaborations');
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
-            'totalItems' => 6,
+            'totalItems' => 9,
             '_links' => [
                 'items' => [],
             ],
@@ -24,11 +24,14 @@ class ListCampCollaborationsTest extends ECampApiTestCase {
         ]);
         $this->assertEqualsCanonicalizing([
             ['href' => $this->getIriFor('campCollaboration1manager')],
-            ['href' => $this->getIriFor('campCollaboration1member')],
-            ['href' => $this->getIriFor('campCollaboration1guest')],
+            ['href' => $this->getIriFor('campCollaboration2member')],
+            ['href' => $this->getIriFor('campCollaboration3guest')],
             ['href' => $this->getIriFor('campCollaboration1camp2')],
-            ['href' => $this->getIriFor('campCollaboration1invited')],
+            ['href' => $this->getIriFor('campCollaboration4invited')],
+            ['href' => $this->getIriFor('campCollaboration5inactive')],
             ['href' => $this->getIriFor('campCollaboration2invitedCampUnrelated')],
+            ['href' => $this->getIriFor('campCollaboration1campUnrelated')],
+            ['href' => $this->getIriFor('campCollaboration1campPrototype')],
         ], $response->toArray()['_links']['items']);
     }
 
@@ -37,7 +40,7 @@ class ListCampCollaborationsTest extends ECampApiTestCase {
         $response = static::createClientWithCredentials()->request('GET', '/camp_collaborations?camp=/camps/'.$camp->getId());
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
-            'totalItems' => 4,
+            'totalItems' => 5,
             '_links' => [
                 'items' => [],
             ],
@@ -47,9 +50,10 @@ class ListCampCollaborationsTest extends ECampApiTestCase {
         ]);
         $this->assertEqualsCanonicalizing([
             ['href' => $this->getIriFor('campCollaboration1manager')],
-            ['href' => $this->getIriFor('campCollaboration1member')],
-            ['href' => $this->getIriFor('campCollaboration1guest')],
-            ['href' => $this->getIriFor('campCollaboration1invited')],
+            ['href' => $this->getIriFor('campCollaboration2member')],
+            ['href' => $this->getIriFor('campCollaboration3guest')],
+            ['href' => $this->getIriFor('campCollaboration4invited')],
+            ['href' => $this->getIriFor('campCollaboration5inactive')],
         ], $response->toArray()['_links']['items']);
     }
 }

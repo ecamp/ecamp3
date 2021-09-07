@@ -18,7 +18,7 @@ class FindInvitationTest extends ECampApiTestCase {
      */
     public function testFindInvitationWhenNotLoggedIn() {
         /** @var CampCollaboration $campCollaboration */
-        $campCollaboration = static::$fixtures['campCollaboration1invited'];
+        $campCollaboration = static::$fixtures['campCollaboration4invited'];
         static::createBasicClient()->request('GET', "/invitations/{$campCollaboration->inviteKey}/find");
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
@@ -64,7 +64,7 @@ class FindInvitationTest extends ECampApiTestCase {
      */
     public function testUserAlreadyInCampTrueWhenUserAlreadyInCamp() {
         /** @var CampCollaboration $campCollaboration */
-        $campCollaboration = static::$fixtures['campCollaboration1invited'];
+        $campCollaboration = static::$fixtures['campCollaboration4invited'];
         static::createClientWithCredentials()->request('GET', "/invitations/{$campCollaboration->inviteKey}/find");
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([

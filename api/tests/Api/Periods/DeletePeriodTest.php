@@ -9,7 +9,7 @@ use App\Tests\Api\ECampApiTestCase;
  * @internal
  */
 class DeletePeriodTest extends ECampApiTestCase {
-    public function testDeletePeriodIsDeniedToAnonymousUser() {
+    public function testDeletePeriodIsDeniedForAnonymousUser() {
         $period = static::$fixtures['period1'];
         static::createClient()->request('DELETE', '/periods/'.$period->getId());
         $this->assertResponseStatusCodeSame(401);

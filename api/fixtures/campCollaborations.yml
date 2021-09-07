@@ -4,22 +4,27 @@ App\Entity\CampCollaboration:
     camp: '@camp1'
     status: established
     role: manager
-  campCollaboration1member:
+  campCollaboration2member:
     user: '@user2member'
     camp: '@camp1'
     status: established
     role: member
-  campCollaboration1guest:
+  campCollaboration3guest:
     user: '@user3guest'
     camp: '@camp1'
     status: established
     role: guest
-  campCollaboration1invited:
+  campCollaboration4invited:
     camp: '@camp1'
     inviteKey: "myInviteKey"
     inviteEmail: "e.mail@test.com"
     status: invited
     role: member
+  campCollaboration5inactive:
+    user: '@user5inactive'
+    camp: '@camp1'
+    status: inactive
+    role: manager
   campCollaboration1camp2:
     user: '@user1manager'
     camp: '@camp2'
@@ -31,3 +36,13 @@ App\Entity\CampCollaboration:
     inviteEmail: "e.mail2@test.com"
     status: invited
     role: member
+  campCollaboration1campUnrelated:
+    user: '@user4unrelated'
+    camp: '@campUnrelated'
+    status: established
+    role: manager
+  campCollaboration1campPrototype:
+    user: '@admin'
+    camp: '@campPrototype'
+    status: established
+    role: manager

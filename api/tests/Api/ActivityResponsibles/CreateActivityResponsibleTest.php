@@ -10,15 +10,68 @@ use App\Tests\Api\ECampApiTestCase;
  * @internal
  */
 class CreateActivityResponsibleTest extends ECampApiTestCase {
-    // TODO security tests when not logged in or not collaborator
     // TODO input filter tests
     // TODO validation tests
 
-    public function testCreateActivityResponsibleIsAllowedForCollaborator() {
+    public function testCreateActivityResponsibleIsDeniedForAnonymousUser() {
+        static::createClient()->request('POST', '/activity_responsibles', ['json' => $this->getExampleWritePayload()]);
+
+        $this->assertResponseStatusCodeSame(401);
+        $this->assertJsonContains([
+            'code' => 401,
+            'message' => 'JWT Token not found',
+        ]);
+    }
+
+    public function testCreateActivityResponsibleIsNotPossibleForUnrelatedUserBecauseActivityIsNotReadable() {
+        static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->username])
+            ->request('POST', '/activity_responsibles', ['json' => $this->getExampleWritePayload()])
+        ;
+        $this->assertResponseStatusCodeSame(400);
+        $this->assertJsonContains([
+            'title' => 'An error occurred',
+            'detail' => 'Item not found for "'.$this->getIriFor('activity2').'".',
+        ]);
+    }
+
+    public function testCreateActivityResponsibleIsDeniedForGuest() {
+        static::createClientWithCredentials(['username' => static::$fixtures['user3guest']->username])
+            ->request('POST', '/activity_responsibles', ['json' => $this->getExampleWritePayload()])
+    ;
+
+        $this->assertResponseStatusCodeSame(403);
+        $this->assertJsonContains([
+            'title' => 'An error occurred',
+            'detail' => 'Access Denied.',
+        ]);
+    }
+
+    public function testCreateActivityResponsibleIsAllowedForMember() {
+        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->username])
+            ->request('POST', '/activity_responsibles', ['json' => $this->getExampleWritePayload()])
+    ;
+
+        $this->assertResponseStatusCodeSame(201);
+        $this->assertJsonContains($this->getExampleReadPayload());
+    }
+
+    public function testCreateActivityResponsibleIsAllowedForManager() {
         static::createClientWithCredentials()->request('POST', '/activity_responsibles', ['json' => $this->getExampleWritePayload()]);
 
         $this->assertResponseStatusCodeSame(201);
         $this->assertJsonContains($this->getExampleReadPayload());
+    }
+
+    public function testCreateActivityResponsibleInCampPrototypeIsDeniedForUnrelatedUser() {
+        static::createClientWithCredentials()->request('POST', '/activity_responsibles', ['json' => $this->getExampleWritePayload([
+            'activity' => $this->getIriFor('activity1campPrototype'),
+        ])]);
+
+        $this->assertResponseStatusCodeSame(403);
+        $this->assertJsonContains([
+            'title' => 'An error occurred',
+            'detail' => 'Access Denied.',
+        ]);
     }
 
     public function testCreateActivityResponsibleValidatesMissingActivity() {
