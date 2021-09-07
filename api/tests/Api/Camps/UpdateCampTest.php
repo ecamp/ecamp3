@@ -36,9 +36,11 @@ class UpdateCampTest extends ECampApiTestCase {
 
     public function testPatchCampIsDeniedForGuest() {
         $camp = static::$fixtures['camp1'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user3guest']->username])->request('PATCH', '/camps/'.$camp->getId(), ['json' => [
-            'title' => 'Hello World',
-        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
+        static::createClientWithCredentials(['username' => static::$fixtures['user3guest']->username])
+            ->request('PATCH', '/camps/'.$camp->getId(), ['json' => [
+                'title' => 'Hello World',
+            ], 'headers' => ['Content-Type' => 'application/merge-patch+json']])
+        ;
         $this->assertResponseStatusCodeSame(403);
         $this->assertJsonContains([
             'title' => 'An error occurred',
@@ -48,9 +50,11 @@ class UpdateCampTest extends ECampApiTestCase {
 
     public function testPatchCampIsAllowedForMember() {
         $camp = static::$fixtures['camp1'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->username])->request('PATCH', '/camps/'.$camp->getId(), ['json' => [
-            'title' => 'Hello World',
-        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
+        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->username])
+            ->request('PATCH', '/camps/'.$camp->getId(), ['json' => [
+                'title' => 'Hello World',
+            ], 'headers' => ['Content-Type' => 'application/merge-patch+json']])
+        ;
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
             'title' => 'Hello World',
@@ -65,6 +69,19 @@ class UpdateCampTest extends ECampApiTestCase {
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
             'title' => 'Hello World',
+        ]);
+    }
+
+    public function testPatchPrototypeCampIsDeniedForUnrelatedUser() {
+        $camp = static::$fixtures['campPrototype'];
+        static::createClientWithCredentials()->request('PATCH', '/camps/'.$camp->getId(), ['json' => [
+            'title' => 'Hello World',
+        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']])
+        ;
+        $this->assertResponseStatusCodeSame(403);
+        $this->assertJsonContains([
+            'title' => 'An error occurred',
+            'detail' => 'Access Denied.',
         ]);
     }
 

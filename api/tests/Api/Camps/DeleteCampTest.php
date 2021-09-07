@@ -60,4 +60,14 @@ class DeleteCampTest extends ECampApiTestCase {
         $this->assertResponseStatusCodeSame(204);
         $this->assertNull(static::getContainer()->get(CampRepository::class)->findOneBy(['id' => $camp->getId()]));
     }
+
+    public function testDeletePrototypeCampIsDeniedForUnrelatedUser() {
+        $camp = static::$fixtures['campPrototype'];
+        static::createClientWithCredentials()->request('DELETE', '/camps/'.$camp->getId());
+        $this->assertResponseStatusCodeSame(403);
+        $this->assertJsonContains([
+            'title' => 'An error occurred',
+            'detail' => 'Access Denied.',
+        ]);
+    }
 }
