@@ -23,7 +23,7 @@ class CampCollaborationsDataPersisterTest extends TestCase {
     private UserRepository|MockObject $userRepository;
     private MockObject|MailService $mailService;
     private CampCollaboration $campCollaboration;
-    private $user;
+    private User $user;
 
     protected function setUp(): void {
         $this->decoratedMock = $this->createMock(ContextAwareDataPersisterInterface::class);
@@ -127,6 +127,19 @@ class CampCollaborationsDataPersisterTest extends TestCase {
 
         $this->dataPersister->persist($this->campCollaboration, [
             'collection_operation_name' => 'post',
+        ]);
+    }
+
+    public function testSendsEmailWhenResendInvitation() {
+        $this->campCollaboration->inviteKey = 'myInviteKey';
+        $this->security->method('getUser')->willReturn($this->user);
+
+        $this->mailService->expects(self::once())
+            ->method('sendInviteToCampMail')
+        ;
+
+        $this->dataPersister->persist($this->campCollaboration, [
+            'item_operation_name' => CampCollaboration::RESEND_INVITATION,
         ]);
     }
 }

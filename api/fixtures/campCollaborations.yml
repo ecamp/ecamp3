@@ -41,6 +41,13 @@ App\Entity\CampCollaboration:
     camp: '@campUnrelated'
     status: established
     role: manager
+  campCollaboration6invitedWithUser:
+    user: '@user6invited'
+    camp: '@camp2'
+    inviteKey: "myInviteKeyCamp2"
+    inviteEmail: '@user6invited->email'
+    status: invited
+    role: member
   campCollaboration1campPrototype:
     user: '@admin'
     camp: '@campPrototype'

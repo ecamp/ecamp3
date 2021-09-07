@@ -41,6 +41,10 @@ class CampCollaborationDataPersister implements ContextAwareDataPersisterInterfa
                 $data->inviteKey = IdGenerator::generateRandomHexString(64);
                 $this->mailService->sendInviteToCampMail($user, $data->camp, $data->inviteKey, $data->inviteEmail);
             }
+        } elseif (CampCollaboration::RESEND_INVITATION === ($context['item_operation_name'] ?? null)) {
+            /** @var User $user */
+            $user = $this->security->getUser();
+            $this->mailService->sendInviteToCampMail($user, $data->camp, $data->inviteKey, $data->inviteEmail);
         }
 
         return $this->dataPersister->persist($data, $context);
