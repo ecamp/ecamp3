@@ -34,6 +34,17 @@ class CreateActivityResponsibleTest extends ECampApiTestCase {
         ]);
     }
 
+    public function testCreateActivityResponsibleIsNotPossibleForInactiveCollaboratorBecauseActivityIsNotReadable() {
+        static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->username])
+            ->request('POST', '/activity_responsibles', ['json' => $this->getExampleWritePayload()])
+        ;
+        $this->assertResponseStatusCodeSame(400);
+        $this->assertJsonContains([
+            'title' => 'An error occurred',
+            'detail' => 'Item not found for "'.$this->getIriFor('activity2').'".',
+        ]);
+    }
+
     public function testCreateActivityResponsibleIsDeniedForGuest() {
         static::createClientWithCredentials(['username' => static::$fixtures['user3guest']->username])
             ->request('POST', '/activity_responsibles', ['json' => $this->getExampleWritePayload()])

@@ -72,6 +72,19 @@ class ListPeriodsTest extends ECampApiTestCase {
         $this->assertStringNotContainsString($this->getIriFor('period2'), $response->getContent());
     }
 
+    public function testListPeriodsFilteredByCampIsDeniedForInactiveCollaborator() {
+        $camp = static::$fixtures['camp1'];
+        $response = static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->username])
+            ->request('GET', '/periods?camp=/camps/'.$camp->getId())
+        ;
+
+        $this->assertResponseStatusCodeSame(200);
+
+        $this->assertJsonContains(['totalItems' => 0]);
+        $this->assertStringNotContainsString($this->getIriFor('period1'), $response->getContent());
+        $this->assertStringNotContainsString($this->getIriFor('period2'), $response->getContent());
+    }
+
     public function testListPeriodsFilteredByPrototypeCampCampIsAllowedForUnrelatedUser() {
         $camp = static::$fixtures['campPrototype'];
         $response = static::createClientWithCredentials()->request('GET', '/periods?camp=/camps/'.$camp->getId());

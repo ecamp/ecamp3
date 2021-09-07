@@ -33,6 +33,19 @@ class ReadActivityTest extends ECampApiTestCase {
         ]);
     }
 
+    public function testGetSingleActivityIsDeniedForInactiveCollaborator() {
+        /** @var Activity $activity */
+        $activity = static::$fixtures['activity1'];
+        static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->username])
+            ->request('GET', '/activities/'.$activity->getId())
+        ;
+        $this->assertResponseStatusCodeSame(404);
+        $this->assertJsonContains([
+            'title' => 'An error occurred',
+            'detail' => 'Not Found',
+        ]);
+    }
+
     public function testGetSingleActivityIsAllowedForGuest() {
         /** @var Activity $activity */
         $activity = static::$fixtures['activity1'];

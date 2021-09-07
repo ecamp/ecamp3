@@ -26,7 +26,19 @@ class CreateActivityTest extends ECampApiTestCase {
     public function testCreateActivityIsNotPossibleForUnrelatedUserBecauseCategoryIsNotReadable() {
         static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->username])
             ->request('POST', '/activities', ['json' => $this->getExampleWritePayload()])
-    ;
+        ;
+
+        $this->assertResponseStatusCodeSame(400);
+        $this->assertJsonContains([
+            'title' => 'An error occurred',
+            'detail' => 'Item not found for "'.$this->getIriFor('category1').'".',
+        ]);
+    }
+
+    public function testCreateActivityIsNotPossibleForInactiveCollaboratorBecauseCategoryIsNotReadable() {
+        static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->username])
+            ->request('POST', '/activities', ['json' => $this->getExampleWritePayload()])
+        ;
 
         $this->assertResponseStatusCodeSame(400);
         $this->assertJsonContains([

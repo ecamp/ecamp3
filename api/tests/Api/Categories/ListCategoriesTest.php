@@ -72,6 +72,19 @@ class ListCategoriesTest extends ECampApiTestCase {
         $this->assertStringNotContainsString($this->getIriFor('category2'), $response->getContent());
     }
 
+    public function testListCategoriesFilteredByCampIsDeniedForInactiveCollaborator() {
+        $camp = static::$fixtures['camp1'];
+        $response = static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->username])
+            ->request('GET', '/categories?camp=/camps/'.$camp->getId())
+        ;
+
+        $this->assertResponseStatusCodeSame(200);
+
+        $this->assertJsonContains(['totalItems' => 0]);
+        $this->assertStringNotContainsString($this->getIriFor('category1'), $response->getContent());
+        $this->assertStringNotContainsString($this->getIriFor('category2'), $response->getContent());
+    }
+
     public function testListCategoriesFilteredByPrototypeCampIsAllowedForUnrelatedUser() {
         $camp = static::$fixtures['campPrototype'];
         $response = static::createClientWithCredentials()->request('GET', '/categories?camp=/camps/'.$camp->getId());

@@ -42,6 +42,22 @@ class UpdatePeriodTest extends ECampApiTestCase {
         ]);
     }
 
+    public function testPatchPeriodIsDeniedForInactiveUser() {
+        $period = static::$fixtures['period1'];
+        static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->username])
+            ->request('PATCH', '/periods/'.$period->getId(), ['json' => [
+                'description' => 'Vorweekend',
+                'start' => '2023-01-01',
+                'end' => '2023-01-02',
+            ], 'headers' => ['Content-Type' => 'application/merge-patch+json']])
+        ;
+        $this->assertResponseStatusCodeSame(404);
+        $this->assertJsonContains([
+            'title' => 'An error occurred',
+            'detail' => 'Not Found',
+        ]);
+    }
+
     public function testPatchPeriodIsDeniedForGuest() {
         $period = static::$fixtures['period1'];
         static::createClientWithCredentials(['username' => static::$fixtures['user3guest']->username])

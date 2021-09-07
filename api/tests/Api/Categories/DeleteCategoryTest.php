@@ -32,6 +32,19 @@ class DeleteCategoryTest extends ECampApiTestCase {
         ]);
     }
 
+    public function testDeleteCategoryIsDeniedForInactiveCollaborator() {
+        $category = static::$fixtures['category1'];
+        static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->username])
+            ->request('DELETE', '/categories/'.$category->getId())
+        ;
+
+        $this->assertResponseStatusCodeSame(404);
+        $this->assertJsonContains([
+            'title' => 'An error occurred',
+            'detail' => 'Not Found',
+        ]);
+    }
+
     public function testDeleteCategoryIsDeniedForGuest() {
         $category = static::$fixtures['category1'];
         static::createClientWithCredentials(['username' => static::$fixtures['user3guest']->username])

@@ -32,6 +32,19 @@ class DeletePeriodTest extends ECampApiTestCase {
         ]);
     }
 
+    public function testDeletePeriodIsDeniedForInactiveCollaborator() {
+        $period = static::$fixtures['period1'];
+        static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->getUsername()])
+            ->request('DELETE', '/periods/'.$period->getId())
+        ;
+
+        $this->assertResponseStatusCodeSame(404);
+        $this->assertJsonContains([
+            'title' => 'An error occurred',
+            'detail' => 'Not Found',
+        ]);
+    }
+
     public function testDeletePeriodIsDeniedForGuest() {
         $period = static::$fixtures['period1'];
         static::createClientWithCredentials(['username' => static::$fixtures['user3guest']->getUsername()])

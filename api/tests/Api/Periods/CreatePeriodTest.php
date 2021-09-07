@@ -26,9 +26,19 @@ class CreatePeriodTest extends ECampApiTestCase {
 
     public function testCreatePeriodIsNotPossibleForUnrelatedUserBecauseCampIsNotReadable() {
         static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->username])
-            ->request('POST', '/periods', ['json' => $this->getExampleWritePayload([
-            ])])
-    ;
+            ->request('POST', '/periods', ['json' => $this->getExampleWritePayload()])
+        ;
+        $this->assertResponseStatusCodeSame(400);
+        $this->assertJsonContains([
+            'title' => 'An error occurred',
+            'detail' => 'Item not found for "'.$this->getIriFor('camp1').'".',
+        ]);
+    }
+
+    public function testCreatePeriodIsNotPossibleForInactiveCollaboratorBecauseCampIsNotReadable() {
+        static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->username])
+            ->request('POST', '/periods', ['json' => $this->getExampleWritePayload()])
+        ;
         $this->assertResponseStatusCodeSame(400);
         $this->assertJsonContains([
             'title' => 'An error occurred',
@@ -39,7 +49,7 @@ class CreatePeriodTest extends ECampApiTestCase {
     public function testCreatePeriodIsDeniedForGuest() {
         static::createClientWithCredentials(['username' => static::$fixtures['user3guest']->username])
             ->request('POST', '/periods', ['json' => $this->getExampleWritePayload()])
-    ;
+        ;
 
         $this->assertResponseStatusCodeSame(403);
         $this->assertJsonContains([
@@ -51,7 +61,7 @@ class CreatePeriodTest extends ECampApiTestCase {
     public function testCreatePeriodIsAllowedForMember() {
         static::createClientWithCredentials(['username' => static::$fixtures['user2member']->username])
             ->request('POST', '/periods', ['json' => $this->getExampleWritePayload()])
-    ;
+        ;
 
         $this->assertResponseStatusCodeSame(201);
         $this->assertJsonContains($this->getExampleReadPayload());

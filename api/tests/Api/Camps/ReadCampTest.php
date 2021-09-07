@@ -29,6 +29,18 @@ class ReadCampTest extends ECampApiTestCase {
         ]);
     }
 
+    public function testGetSingleCampIsDeniedForInactiveCollaborator() {
+        $camp = static::$fixtures['campUnrelated'];
+        static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->username])
+            ->request('GET', '/camps/'.$camp->getId())
+        ;
+        $this->assertResponseStatusCodeSame(404);
+        $this->assertJsonContains([
+            'title' => 'An error occurred',
+            'detail' => 'Not Found',
+        ]);
+    }
+
     public function testGetSingleCampIsAllowedForGuest() {
         /** @var Camp $camp */
         $camp = static::$fixtures['camp1'];

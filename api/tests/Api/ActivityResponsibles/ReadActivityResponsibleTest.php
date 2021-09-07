@@ -33,6 +33,19 @@ class ReadActivityResponsibleTest extends ECampApiTestCase {
         ]);
     }
 
+    public function testGetSingleActivityResponsibleIsDeniedForInactiveCollaborator() {
+        /** @var ActivityResponsible $activityResponsible */
+        $activityResponsible = static::$fixtures['activityResponsible1'];
+        static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->username])
+            ->request('GET', '/activity_responsibles/'.$activityResponsible->getId())
+        ;
+        $this->assertResponseStatusCodeSame(404);
+        $this->assertJsonContains([
+            'title' => 'An error occurred',
+            'detail' => 'Not Found',
+        ]);
+    }
+
     public function testGetSingleActivityResponsibleIsAllowedForGuest() {
         /** @var ActivityResponsible $activityResponsible */
         $activityResponsible = static::$fixtures['activityResponsible1'];

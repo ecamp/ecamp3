@@ -33,6 +33,19 @@ class ReadCategoryTest extends ECampApiTestCase {
         ]);
     }
 
+    public function testGetSingleCategoryIsDeniedForInactiveCollaborator() {
+        /** @var Category $category */
+        $category = static::$fixtures['category1'];
+        static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->username])
+            ->request('GET', '/categories/'.$category->getId())
+        ;
+        $this->assertResponseStatusCodeSame(404);
+        $this->assertJsonContains([
+            'title' => 'An error occurred',
+            'detail' => 'Not Found',
+        ]);
+    }
+
     public function testGetSingleCategoryIsAllowedForGuest() {
         /** @var Category $category */
         $category = static::$fixtures['category1'];

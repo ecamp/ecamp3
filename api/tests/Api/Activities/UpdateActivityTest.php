@@ -41,6 +41,22 @@ class UpdateActivityTest extends ECampApiTestCase {
         ]);
     }
 
+    public function testPatchActivityIsDeniedForInactiveCollaborator() {
+        $activity = static::$fixtures['activity1'];
+        static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->username])
+            ->request('PATCH', '/activities/'.$activity->getId(), ['json' => [
+                'title' => 'Hello World',
+                'location' => 'Stoos',
+                'category' => $this->getIriFor('category2'),
+            ], 'headers' => ['Content-Type' => 'application/merge-patch+json']])
+        ;
+        $this->assertResponseStatusCodeSame(404);
+        $this->assertJsonContains([
+            'title' => 'An error occurred',
+            'detail' => 'Not Found',
+        ]);
+    }
+
     public function testPatchActivityIsDeniedForGuest() {
         $activity = static::$fixtures['activity1'];
         static::createClientWithCredentials(['username' => static::$fixtures['user3guest']->username])

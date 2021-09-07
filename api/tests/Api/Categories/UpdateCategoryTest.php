@@ -51,6 +51,27 @@ class UpdateCategoryTest extends ECampApiTestCase {
         ]);
     }
 
+    public function testPatchCategoryIsDeniedForInactiveCollaborator() {
+        $category = static::$fixtures['category1'];
+        static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->username])
+            ->request('PATCH', '/categories/'.$category->getId(), ['json' => [
+                'short' => 'LP',
+                'name' => 'Lagerprogramm',
+                'color' => '#FFFF00',
+                'numberingStyle' => 'I',
+                'preferredContentTypes' => [
+                    $this->getIriFor('contentTypeColumnLayout'),
+                    $this->getIriFor('contentType1'),
+                ],
+            ], 'headers' => ['Content-Type' => 'application/merge-patch+json']])
+        ;
+        $this->assertResponseStatusCodeSame(404);
+        $this->assertJsonContains([
+            'title' => 'An error occurred',
+            'detail' => 'Not Found',
+        ]);
+    }
+
     public function testPatchCategoryIsDeniedForGuest() {
         $category = static::$fixtures['category1'];
         static::createClientWithCredentials(['username' => static::$fixtures['user3guest']->username])

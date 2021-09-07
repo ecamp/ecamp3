@@ -33,6 +33,19 @@ class ReadPeriodTest extends ECampApiTestCase {
         ]);
     }
 
+    public function testGetSinglePeriodIsDeniedForInactiveCollaborator() {
+        /** @var Period $period */
+        $period = static::$fixtures['period1'];
+        static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->username])
+            ->request('GET', '/periods/'.$period->getId())
+        ;
+        $this->assertResponseStatusCodeSame(404);
+        $this->assertJsonContains([
+            'title' => 'An error occurred',
+            'detail' => 'Not Found',
+        ]);
+    }
+
     public function testGetSinglePeriodIsAllowedForGuest() {
         /** @var Period $period */
         $period = static::$fixtures['period1'];

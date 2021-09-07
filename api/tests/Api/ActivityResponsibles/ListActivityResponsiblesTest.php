@@ -69,6 +69,18 @@ class ListActivityResponsiblesTest extends ECampApiTestCase {
         $this->assertStringNotContainsString($this->getIriFor('activityResponsible1'), $response->getContent());
     }
 
+    public function testListActivityResponsiblesFilteredByActivityIsDeniedForInactiveCollaborator() {
+        $activity = static::$fixtures['activity1'];
+        $response = static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->username])
+            ->request('GET', '/activity_responsibles?activity=/activities/'.$activity->getId())
+        ;
+
+        $this->assertResponseStatusCodeSame(200);
+
+        $this->assertJsonContains(['totalItems' => 0]);
+        $this->assertStringNotContainsString($this->getIriFor('activityResponsible1'), $response->getContent());
+    }
+
     public function testListActivityResponsiblesFilteredByActivityInCampPrototypeIsAllowedForUnrelatedUser() {
         $activity = static::$fixtures['activity1campPrototype'];
         $response = static::createClientWithCredentials()->request('GET', '/activity_responsibles?activity=/activities/'.$activity->getId());

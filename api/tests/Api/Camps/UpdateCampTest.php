@@ -34,6 +34,20 @@ class UpdateCampTest extends ECampApiTestCase {
         ]);
     }
 
+    public function testPatchCampIsDeniedForInactiveCollaborator() {
+        $camp = static::$fixtures['camp1'];
+        static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->getUsername()])
+            ->request('PATCH', '/camps/'.$camp->getId(), ['json' => [
+                'title' => 'Hello World',
+            ], 'headers' => ['Content-Type' => 'application/merge-patch+json']])
+        ;
+        $this->assertResponseStatusCodeSame(404);
+        $this->assertJsonContains([
+            'title' => 'An error occurred',
+            'detail' => 'Not Found',
+        ]);
+    }
+
     public function testPatchCampIsDeniedForGuest() {
         $camp = static::$fixtures['camp1'];
         static::createClientWithCredentials(['username' => static::$fixtures['user3guest']->username])

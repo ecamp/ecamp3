@@ -32,6 +32,19 @@ class DeleteActivityResponsibleTest extends ECampApiTestCase {
         ]);
     }
 
+    public function testDeleteActivityResponsibleIsDeniedForInactiveCollaborator() {
+        $activityResponsible = static::$fixtures['activityResponsible1'];
+        static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->getUsername()])
+            ->request('DELETE', '/activity_responsibles/'.$activityResponsible->getId())
+        ;
+
+        $this->assertResponseStatusCodeSame(404);
+        $this->assertJsonContains([
+            'title' => 'An error occurred',
+            'detail' => 'Not Found',
+        ]);
+    }
+
     public function testDeleteActivityResponsibleIsDeniedForGuest() {
         $activityResponsible = static::$fixtures['activityResponsible1'];
         static::createClientWithCredentials(['username' => static::$fixtures['user3guest']->getUsername()])
