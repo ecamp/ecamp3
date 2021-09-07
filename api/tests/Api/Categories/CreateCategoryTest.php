@@ -145,7 +145,7 @@ class CreateCategoryTest extends ECampApiTestCase {
             Category::class,
             array_merge([
                 'camp' => $this->getIriFor('camp1'),
-                'preferredContentTypes' => [$this->getIriFor('contentType1')],
+                'preferredContentTypes' => [$this->getIriFor('contentTypeSafetyConcept')],
             ], $attributes),
             [],
             $except

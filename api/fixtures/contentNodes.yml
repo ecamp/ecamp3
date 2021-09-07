@@ -1,4 +1,4 @@
-App\Entity\ContentNode\SingleText:
+App\Entity\ContentNode\ColumnLayout:
   contentNode1:
     root: '@self'
     parent: null
@@ -23,22 +23,6 @@ App\Entity\ContentNode\SingleText:
     jsonConfig: null
     instanceName: <word()>
     contentType: '@contentTypeColumnLayout'
-  contentNodeChild2:
-    root: '@contentNode1'
-    parent: '@contentNode1'
-    slot: '1'
-    position: 1
-    jsonConfig: null
-    instanceName: <word()>
-    contentType: '@contentType2'
-  contentNodeGrandchild1:
-    root: '@contentNode1'
-    parent: '@contentNodeChild1'
-    slot: '1'
-    position: 1
-    jsonConfig: null
-    instanceName: <word()>
-    contentType: '@contentType2'
   contentNode3:
     root: '@self'
     parent: null
@@ -71,3 +55,31 @@ App\Entity\ContentNode\SingleText:
     jsonConfig: {columns: [{slot: 1, width: 12}]}
     instanceName: <word()>
     contentType: '@contentTypeColumnLayout'
+
+App\Entity\ContentNode\SingleText:
+  contentNodeChild2:
+    root: '@contentNode1'
+    parent: '@contentNode1'
+    slot: '1'
+    position: 1
+    jsonConfig: null
+    instanceName: <word()>
+    contentType: '@contentTypeNotes'
+  contentNodeGrandchild1:
+    root: '@contentNode1'
+    parent: '@contentNodeChild1'
+    slot: '1'
+    position: 1
+    jsonConfig: null
+    instanceName: <word()>
+    contentType: '@contentTypeNotes'
+
+App\Entity\ContentNode\MaterialNode:
+  contentNodeChild3:
+    root: '@contentNode1'
+    parent: '@contentNode1'
+    slot: '1'
+    position: 1
+    jsonConfig: null
+    instanceName: <word()>
+    contentType: '@contentTypeMaterial'

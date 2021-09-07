@@ -41,15 +41,15 @@ class ContentType extends BaseEntity {
      *
      * @ORM\Column(type="text")
      */
-    #[ApiProperty(readable: false, writable: false)]
-    public ?string $strategyClass = null;
+    #[ApiProperty(writable: false)]
+    public ?string $entityClass = null;
 
     /**
-     * Internal configuration for the strategyClass, in case the same strategyClass is reused
+     * Internal configuration for the entityClass, in case the same entityClass is reused
      * for different content types.
      *
      * @ORM\Column(type="json", nullable=true)
      */
-    #[ApiProperty(readable: false, writable: false)]
+    #[ApiProperty(writable: false)]
     public ?array $jsonConfig = [];
 }

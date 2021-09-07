@@ -1,17 +1,30 @@
 App\Entity\ContentType:
-  contentType1:
+  contentTypeSafetyConcept:
     name: 'SafetyConcept'
     active: true
-    strategyClass: 'App\ContentNodeStrategy\SingleTextStrategy'
-  contentType2:
+    entityClass: 'App\Entity\ContentNode\SingleText'
+  contentTypeStoryContext:
+    name: 'Storycontext'
+    active: true
+    entityClass: 'App\Entity\ContentNode\SingleText'
+  contentTypeNotes:
     name: 'Notes'
     active: true
-    strategyClass: 'App\ContentNodeStrategy\SingleTextStrategy'
+    entityClass: 'App\Entity\ContentNode\SingleText'
   contentTypeColumnLayout:
     name: 'ColumnLayout'
     active: true
-    strategyClass: 'App\ContentNodeStrategy\ColumnLayoutStrategy'
+    entityClass: 'App\Entity\ContentNode\ColumnLayout'
   contentTypeStoryboard:
     name: 'Storyboard'
     active: true
-    strategyClass: 'App\ContentNodeStrategy\StoryboardStrategy'
+    entityClass: 'App\Entity\ContentNode\Storyboard'
+  contentTypeMaterial:
+    name: 'Material'
+    active: true
+    entityClass: 'App\Entity\ContentNode\MaterialNode'
+  contentTypeMultiSelect:
+    name: 'LAThematicArea'
+    active: true
+    entityClass: 'App\Entity\ContentNode\MultiSelect'
+    jsonConfig: { items: [ 'outdoorTechnique', 'security', 'natureAndEnvironment', 'pioneeringTechnique', 'campsiteAndSurroundings', 'preventionAndIntegration' ] }

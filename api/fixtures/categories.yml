@@ -7,7 +7,7 @@ App\Entity\Category:
     numberingStyle: 1
     rootContentNode: '@contentNode2'
     preferredContentTypes:
-      - '@contentType1'
+      - '@contentTypeSafetyConcept'
   category2:
     camp: '@camp1'
     short: LP

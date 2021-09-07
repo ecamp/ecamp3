@@ -13,7 +13,7 @@ class UpdateContentTypeTest extends ECampApiTestCase {
     // TODO validation tests
 
     public function testPatchContentTypeIsAllowedForCollaborator() {
-        $contentType = static::$fixtures['contentType1'];
+        $contentType = static::$fixtures['contentTypeSafetyConcept'];
         static::createClientWithCredentials()->request('PATCH', '/content_types/'.$contentType->getId(), ['json' => [
             'title' => 'Hello World',
             'location' => 'Stoos',

@@ -45,14 +45,14 @@ class MaterialItem extends BaseEntity implements BelongsToCampInterface {
      * @ORM\JoinColumn(nullable=true, onDelete="cascade")
      */
     #[AssertBelongsToSameCamp]
-    #[AssertEitherIsNull(other: 'contentNode')]
+    #[AssertEitherIsNull(other: 'materialNode')]
     #[ApiProperty(example: '/periods/1a2b3c4d')]
     public ?Period $period = null;
 
     /**
      * The content node to which this item belongs, if it does not belong to a period.
      *
-     * @ORM\ManyToOne(targetEntity="ContentNode", inversedBy="materialItems")
+     * @ORM\ManyToOne(targetEntity="App\Entity\ContentNode\MaterialNode", inversedBy="materialItems")
      * @ORM\JoinColumn(nullable=true, onDelete="CASCADE")
      */
     #[AssertBelongsToSameCamp]

@@ -104,7 +104,7 @@ class UpdateContentNodeTest extends ECampApiTestCase {
     public function testPatchContentNodeDisallowsChangingContentType() {
         $contentNode = static::$fixtures['contentNodeChild1'];
         static::createClientWithCredentials()->request('PATCH', '/content_nodes/'.$contentNode->getId(), ['json' => [
-            'contentType' => $this->getIriFor('contentType2'),
+            'contentType' => $this->getIriFor('contentTypeNotes'),
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
 
         $this->assertResponseStatusCodeSame(400);

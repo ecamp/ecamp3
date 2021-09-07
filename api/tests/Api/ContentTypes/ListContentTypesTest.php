@@ -23,8 +23,8 @@ class ListContentTypesTest extends ECampApiTestCase {
             ],
         ]);
         $this->assertEqualsCanonicalizing([
-            ['href' => $this->getIriFor('contentType1')],
-            ['href' => $this->getIriFor('contentType2')],
+            ['href' => $this->getIriFor('contentTypeSafetyConcept')],
+            ['href' => $this->getIriFor('contentTypeNotes')],
             ['href' => $this->getIriFor('contentTypeColumnLayout')],
         ], $response->toArray()['_links']['items']);
     }
