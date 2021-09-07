@@ -2,6 +2,7 @@
 
 namespace App\Tests\Api\DayResponsibles;
 
+use ApiPlatform\Core\Api\OperationType;
 use App\Entity\DayResponsible;
 use App\Tests\Api\ECampApiTestCase;
 
@@ -68,6 +69,8 @@ class CreateDayResponsibleTest extends ECampApiTestCase {
     public function getExampleWritePayload($attributes = [], $except = []) {
         return $this->getExamplePayload(
             DayResponsible::class,
+            OperationType::COLLECTION,
+            'post',
             array_merge([
                 'day' => $this->getIriFor('day3period1'),
                 'campCollaboration' => $this->getIriFor('campCollaboration1'),
@@ -80,6 +83,8 @@ class CreateDayResponsibleTest extends ECampApiTestCase {
     public function getExampleReadPayload($attributes = [], $except = []) {
         return $this->getExamplePayload(
             DayResponsible::class,
+            OperationType::ITEM,
+            'get',
             $attributes,
             ['day', 'campCollaboration'],
             $except

@@ -25,26 +25,37 @@ use Symfony\Component\Validator\Constraints as Assert;
         'post' => [
             'security' => 'is_fully_authenticated()',
             'input_formats' => ['jsonld', 'jsonapi', 'json'],
-            'validation_groups' => ['Default', 'camp:create'],
+            'validation_groups' => ['Default', 'create'],
+            'denormalization_context' => ['groups' => ['write', 'create']],
+            'normalization_context' => self::ITEM_NORMALIZATION_CONTEXT,
         ],
     ],
     itemOperations: [
-        'get' => ['security' => 'object.owner == user or is_granted("ROLE_ADMIN")'],
+        'get' => [
+            'security' => 'object.owner == user or is_granted("ROLE_ADMIN")',
+            'normalization_context' => self::ITEM_NORMALIZATION_CONTEXT,
+        ],
         'patch' => [
             'security' => 'object.owner == user or is_granted("ROLE_ADMIN")',
-            'denormalization_context' => [
-                'groups' => ['camp:update'],
-                'allow_extra_attributes' => false,
-            ],
+            'denormalization_context' => ['groups' => ['write', 'update']],
+            'normalization_context' => self::ITEM_NORMALIZATION_CONTEXT,
         ],
         'delete' => ['security' => 'object.owner == user or is_granted("ROLE_ADMIN")'],
-    ]
+    ],
+    denormalizationContext: ['groups' => ['write']],
+    normalizationContext: ['groups' => ['read']],
 )]
 class Camp extends BaseEntity implements BelongsToCampInterface {
+    public const ITEM_NORMALIZATION_CONTEXT = [
+        'groups' => ['read', 'Camp:Periods', 'Period:Days'],
+        'swagger_definition_name' => 'read',
+    ];
+
     /**
      * @ORM\OneToMany(targetEntity="CampCollaboration", mappedBy="camp", orphanRemoval=true)
      */
     #[SerializedName('campCollaborations')]
+    #[Groups(['read'])]
     public Collection $collaborations;
 
     /**
@@ -56,9 +67,12 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
      * @ORM\OrderBy({"start": "ASC"})
      */
     #[Assert\Valid]
-    #[Assert\Count(min: 1, groups: ['camp:create'])]
-    #[ApiProperty(writableLink: true, example: '[{ "description": "Hauptlager", "start": "2022-01-01", "end": "2022-01-08" }]')]
-    #[Groups(['Default'])]
+    #[Assert\Count(min: 1, groups: ['create'])]
+    #[ApiProperty(
+        writableLink: true,
+        example: '[{ "description": "Hauptlager", "start": "2022-01-01", "end": "2022-01-08" }]',
+    )]
+    #[Groups(['read', 'create'])]
     public Collection $periods;
 
     /**
@@ -67,6 +81,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
      * @ORM\OneToMany(targetEntity="Category", mappedBy="camp", orphanRemoval=true)
      */
     #[ApiProperty(writable: false, example: '["/categories/1a2b3c4d"]')]
+    #[Groups(['read'])]
     public Collection $categories;
 
     /**
@@ -76,6 +91,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
      * @ORM\OneToMany(targetEntity="Activity", mappedBy="camp", orphanRemoval=true)
      */
     #[ApiProperty(writable: false, example: '["/activities/1a2b3c4d"]')]
+    #[Groups(['read'])]
     public Collection $activities;
 
     /**
@@ -85,6 +101,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
      * @ORM\OneToMany(targetEntity="MaterialList", mappedBy="camp", orphanRemoval=true)
      */
     #[ApiProperty(writable: false, example: '["/material_lists/1a2b3c4d"]')]
+    #[Groups(['read'])]
     public Collection $materialLists;
 
     /**
@@ -104,7 +121,8 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
      */
     #[Assert\Type('bool')]
     #[Assert\DisableAutoMapping]
-    #[ApiProperty(example: false, writable: false)]
+    #[ApiProperty(example: true, writable: false)]
+    #[Groups(['read'])]
     public bool $isPrototype = false;
 
     /**
@@ -116,7 +134,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
     #[InputFilter\CleanHTML]
     #[Assert\NotBlank]
     #[ApiProperty(example: 'SoLa 2022')]
-    #[Groups(['Default', 'camp:update'])]
+    #[Groups(['read', 'write'])]
     public string $name;
 
     /**
@@ -129,7 +147,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
     #[Assert\NotBlank]
     #[Assert\Length(max: 32)]
     #[ApiProperty(example: 'Abteilungs-Sommerlager 2022')]
-    #[Groups(['Default', 'camp:update'])]
+    #[Groups(['read', 'write'])]
     public string $title;
 
     /**
@@ -141,7 +159,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
     #[InputFilter\CleanHTML]
     #[Assert\Length(max: 128)]
     #[ApiProperty(example: 'Piraten')]
-    #[Groups(['Default', 'camp:update'])]
+    #[Groups(['read', 'write'])]
     public ?string $motto = null;
 
     /**
@@ -153,7 +171,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
     #[InputFilter\CleanHTML]
     #[Assert\Length(max: 128)]
     #[ApiProperty(example: 'Wiese hinter der alten Mühle')]
-    #[Groups(['Default', 'camp:update'])]
+    #[Groups(['read', 'write'])]
     public ?string $addressName = null;
 
     /**
@@ -165,7 +183,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
     #[InputFilter\CleanHTML]
     #[Assert\Length(max: 128)]
     #[ApiProperty(example: 'Schönriedweg 23')]
-    #[Groups(['Default', 'camp:update'])]
+    #[Groups(['read', 'write'])]
     public ?string $addressStreet = null;
 
     /**
@@ -177,7 +195,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
     #[InputFilter\CleanHTML]
     #[Assert\Length(max: 128)]
     #[ApiProperty(example: '1234')]
-    #[Groups(['Default', 'camp:update'])]
+    #[Groups(['read', 'write'])]
     public ?string $addressZipcode = null;
 
     /**
@@ -189,7 +207,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
     #[InputFilter\CleanHTML]
     #[Assert\Length(max: 128)]
     #[ApiProperty(example: 'Hintertüpfingen')]
-    #[Groups(['Default', 'camp:update'])]
+    #[Groups(['read', 'write'])]
     public ?string $addressCity = null;
 
     /**
@@ -201,6 +219,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
      */
     #[Assert\DisableAutoMapping]
     #[ApiProperty(writable: false)]
+    #[Groups(['read'])]
     public ?User $creator = null;
 
     /**
@@ -220,6 +239,16 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
         $this->categories = new ArrayCollection();
         $this->activities = new ArrayCollection();
         $this->materialLists = new ArrayCollection();
+    }
+
+    /**
+     * @return Period[]
+     */
+    #[ApiProperty(readableLink: true)]
+    #[SerializedName('periods')]
+    #[Groups(['Camp:Periods'])]
+    public function getEmbeddedPeriods(): array {
+        return $this->periods->getValues();
     }
 
     #[ApiProperty(readable: false)]

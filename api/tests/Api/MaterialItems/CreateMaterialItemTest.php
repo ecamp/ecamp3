@@ -2,6 +2,7 @@
 
 namespace App\Tests\Api\MaterialItems;
 
+use ApiPlatform\Core\Api\OperationType;
 use App\Entity\MaterialItem;
 use App\Tests\Api\ECampApiTestCase;
 
@@ -164,6 +165,8 @@ class CreateMaterialItemTest extends ECampApiTestCase {
     public function getExampleWritePayload($attributes = [], $except = []) {
         return $this->getExamplePayload(
             MaterialItem::class,
+            OperationType::COLLECTION,
+            'post',
             array_merge([
                 'materialList' => $this->getIriFor('materialList1'),
                 'period' => $this->getIriFor('period1'),
@@ -177,6 +180,8 @@ class CreateMaterialItemTest extends ECampApiTestCase {
     public function getExampleReadPayload($attributes = [], $except = []) {
         return $this->getExamplePayload(
             MaterialItem::class,
+            OperationType::ITEM,
+            'get',
             $attributes,
             ['materialList', 'period', 'contentNode'],
             $except

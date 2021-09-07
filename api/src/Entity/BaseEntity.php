@@ -7,6 +7,7 @@ use App\Util\IdGenerator;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\MappedSuperclass
@@ -25,6 +26,7 @@ abstract class BaseEntity {
      * @ORM\CustomIdGenerator(class=IdGenerator::class)
      */
     #[ApiProperty(writable: false, example: '1a2b3c4d')]
+    #[Groups(['read'])]
     protected string $id;
 
     /**

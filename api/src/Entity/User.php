@@ -27,21 +27,19 @@ use Symfony\Component\Validator\Constraints as Assert;
         'post' => [
             'security' => 'true', // allow unauthenticated clients to create (register) users
             'input_formats' => ['jsonld', 'jsonapi', 'json'],
-            'validation_groups' => ['Default', 'user:create'],
+            'validation_groups' => ['Default', 'create'],
+            'denormalization_context' => ['groups' => ['write', 'create']],
         ],
     ],
     itemOperations: [
         'get' => ['security' => 'is_granted("ROLE_ADMIN") or object == user'],
         'patch' => [
             'security' => 'is_granted("ROLE_ADMIN") or object == user',
-            'denormalization_context' => [
-                'groups' => 'user:update',
-                'allow_extra_attributes' => false,
-            ],
         ],
         'delete' => ['security' => 'is_granted("ROLE_ADMIN") and !object.ownsCamps()'],
     ],
-    denormalizationContext: ['groups' => ['Default']],
+    denormalizationContext: ['groups' => ['write']],
+    normalizationContext: ['groups' => ['read']],
 )]
 class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUserInterface {
     /**
@@ -69,7 +67,7 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
     #[Assert\NotBlank]
     #[Assert\Email]
     #[ApiProperty(example: 'bi-pi@example.com')]
-    #[Groups(['Default', 'user:update'])]
+    #[Groups(['read', 'write'])]
     public ?string $email = null;
 
     /**
@@ -81,7 +79,7 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
     #[Assert\NotBlank]
     #[Assert\Regex(pattern: '/^[a-z0-9_.-]+$/')]
     #[ApiProperty(example: 'bipi')]
-    #[Groups(['Default'])]
+    #[Groups(['read', 'create'])]
     public ?string $username = null;
 
     /**
@@ -92,7 +90,7 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
     #[InputFilter\Trim]
     #[InputFilter\CleanHTML]
     #[ApiProperty(example: 'Robert')]
-    #[Groups(['Default', 'user:update'])]
+    #[Groups(['read', 'write'])]
     public ?string $firstname = null;
 
     /**
@@ -103,7 +101,7 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
     #[InputFilter\Trim]
     #[InputFilter\CleanHTML]
     #[ApiProperty(example: 'Baden-Powell')]
-    #[Groups(['Default', 'user:update'])]
+    #[Groups(['read', 'write'])]
     public ?string $surname = null;
 
     /**
@@ -114,7 +112,7 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
     #[InputFilter\Trim]
     #[InputFilter\CleanHTML]
     #[ApiProperty(example: 'Bi-Pi')]
-    #[Groups(['Default', 'user:update'])]
+    #[Groups(['read', 'write'])]
     public ?string $nickname = null;
 
     /**
@@ -125,7 +123,7 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
     #[InputFilter\Trim]
     #[Assert\Locale]
     #[ApiProperty(example: 'en')]
-    #[Groups(['Default', 'user:update'])]
+    #[Groups(['read', 'write'])]
     public ?string $language = null;
 
     /**
@@ -149,10 +147,10 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
      * A new password for this user. At least 8 characters.
      */
     #[SerializedName('password')]
-    #[Assert\NotBlank(groups: ['user:create'])]
+    #[Assert\NotBlank(groups: ['create'])]
     #[Assert\Length(min: 8)]
     #[ApiProperty(readable: false, writable: true, example: 'learning-by-doing-101')]
-    #[Groups(['Default', 'user:update'])]
+    #[Groups(['read', 'write'])]
     public ?string $plainPassword = null;
 
     public function __construct() {
@@ -166,6 +164,7 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
      * @return null|string
      */
     #[ApiProperty(example: 'Robert Baden-Powell')]
+    #[Groups(['read'])]
     public function getDisplayName(): ?string {
         if (!empty($this->nickname)) {
             return $this->nickname;

@@ -10,6 +10,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Annotation\SerializedName;
 
 /**
@@ -26,6 +27,8 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
 #[ApiResource(
     collectionOperations: ['get'],
     itemOperations: ['get'],
+    denormalizationContext: ['groups' => ['write']],
+    normalizationContext: ['groups' => ['read']],
 )]
 #[ApiFilter(SearchFilter::class, properties: ['period'])]
 #[UniqueEntity(fields: ['period', 'dayOffset'])]
@@ -36,6 +39,7 @@ class Day extends BaseEntity implements BelongsToCampInterface {
      * @ORM\OneToMany(targetEntity="DayResponsible", mappedBy="day", orphanRemoval=true)
      */
     #[ApiProperty(writable: false, example: '["/day_responsibles/1a2b3c4d"]')]
+    #[Groups(['read'])]
     public Collection $dayResponsibles;
 
     /**
@@ -44,7 +48,8 @@ class Day extends BaseEntity implements BelongsToCampInterface {
      * @ORM\ManyToOne(targetEntity="Period", inversedBy="days")
      * @ORM\JoinColumn(nullable=false, onDelete="cascade")
      */
-    #[ApiProperty(writable: false, example: '/periods/1a2b3c4d')]
+    #[ApiProperty(example: '/periods/1a2b3c4d')]
+    #[Groups(['read'])]
     public ?Period $period = null;
 
     /**
@@ -53,6 +58,7 @@ class Day extends BaseEntity implements BelongsToCampInterface {
      * @ORM\Column(type="integer")
      */
     #[ApiProperty(writable: false, example: '1')]
+    #[Groups(['read'])]
     public int $dayOffset = 0;
 
     public function __construct() {
@@ -69,6 +75,7 @@ class Day extends BaseEntity implements BelongsToCampInterface {
      */
     #[ApiProperty(example: '2')]
     #[SerializedName('number')]
+    #[Groups(['read'])]
     public function getDayNumber(): int {
         return $this->dayOffset + 1;
     }

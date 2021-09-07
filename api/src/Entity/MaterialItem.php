@@ -10,6 +10,7 @@ use App\Validator\AssertBelongsToSameCamp;
 use App\Validator\AssertEitherIsNull;
 use App\Validator\MaterialItemUpdateGroupSequence;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * A physical item that is needed for carrying out a programme or camp.
@@ -22,7 +23,9 @@ use Doctrine\ORM\Mapping as ORM;
         'get',
         'patch' => ['validation_groups' => MaterialItemUpdateGroupSequence::class],
         'delete',
-    ]
+    ],
+    denormalizationContext: ['groups' => ['write']],
+    normalizationContext: ['groups' => ['read']],
 )]
 #[ApiFilter(SearchFilter::class, properties: ['materialList', 'period'])]
 class MaterialItem extends BaseEntity implements BelongsToCampInterface {
@@ -33,8 +36,9 @@ class MaterialItem extends BaseEntity implements BelongsToCampInterface {
      * @ORM\ManyToOne(targetEntity="MaterialList", inversedBy="materialItems")
      * @ORM\JoinColumn(nullable=false, onDelete="cascade")
      */
-    #[AssertBelongsToSameCamp(compareToPrevious: true, groups: ['materialItem:update'])]
+    #[AssertBelongsToSameCamp(compareToPrevious: true, groups: ['update'])]
     #[ApiProperty(example: '/material_lists/1a2b3c4d')]
+    #[Groups(['read', 'write'])]
     public ?MaterialList $materialList = null;
 
     /**
@@ -46,6 +50,7 @@ class MaterialItem extends BaseEntity implements BelongsToCampInterface {
     #[AssertBelongsToSameCamp]
     #[AssertEitherIsNull(other: 'contentNode')]
     #[ApiProperty(example: '/periods/1a2b3c4d')]
+    #[Groups(['read', 'write'])]
     public ?Period $period = null;
 
     /**
@@ -57,6 +62,7 @@ class MaterialItem extends BaseEntity implements BelongsToCampInterface {
     #[AssertBelongsToSameCamp]
     #[AssertEitherisNull(other: 'period')]
     #[ApiProperty(example: '/content_nodes/1a2b3c4d')]
+    #[Groups(['read', 'write'])]
     public ?ContentNode $contentNode = null;
 
     /**
@@ -65,6 +71,7 @@ class MaterialItem extends BaseEntity implements BelongsToCampInterface {
      * @ORM\Column(type="text", nullable=false)
      */
     #[ApiProperty(example: 'Volleyball')]
+    #[Groups(['read', 'write'])]
     public ?string $article = null;
 
     /**
@@ -73,6 +80,7 @@ class MaterialItem extends BaseEntity implements BelongsToCampInterface {
      * @ORM\Column(type="float", nullable=true)
      */
     #[ApiProperty(example: 1.5)]
+    #[Groups(['read', 'write'])]
     public ?float $quantity = null;
 
     /**
@@ -81,6 +89,7 @@ class MaterialItem extends BaseEntity implements BelongsToCampInterface {
      * @ORM\Column(type="text", nullable=true)
      */
     #[ApiProperty(example: 'kg')]
+    #[Groups(['read', 'write'])]
     public ?string $unit = null;
 
     #[ApiProperty(readable: false)]

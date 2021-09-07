@@ -2,6 +2,7 @@
 
 namespace App\Tests\Api\CampCollaborations;
 
+use ApiPlatform\Core\Api\OperationType;
 use App\Entity\CampCollaboration;
 use App\Tests\Api\ECampApiTestCase;
 
@@ -123,6 +124,8 @@ class CreateCampCollaborationTest extends ECampApiTestCase {
     public function getExampleWritePayload($attributes = [], $except = []) {
         return $this->getExamplePayload(
             CampCollaboration::class,
+            OperationType::COLLECTION,
+            'post',
             array_merge([
                 'inviteEmail' => null,
                 'user' => $this->getIriFor('user1'),
@@ -136,6 +139,8 @@ class CreateCampCollaborationTest extends ECampApiTestCase {
     public function getExampleReadPayload($attributes = [], $except = []) {
         return $this->getExamplePayload(
             CampCollaboration::class,
+            OperationType::ITEM,
+            'get',
             array_merge([
                 '_links' => [
                     'user' => ['href' => $this->getIriFor('user1')],

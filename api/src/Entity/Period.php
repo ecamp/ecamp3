@@ -11,6 +11,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Annotation\SerializedName;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -20,25 +21,33 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity
  */
 #[ApiResource(
-    collectionOperations: ['get', 'post'],
-    itemOperations: [
+    collectionOperations: [
         'get',
-        'patch' => ['denormalization_context' => [
-            'groups' => ['period:update'],
-            'allow_extra_attributes' => false,
-        ]],
+        'post' => ['denormalization_context' => ['groups' => ['write', 'create']]],
+    ],
+    itemOperations: [
+        'get' => ['normalization_context' => self::ITEM_NORMALIZATION_CONTEXT],
+        'patch',
         'delete',
-    ]
+    ],
+    denormalizationContext: ['groups' => ['write']],
+    normalizationContext: ['groups' => ['read']],
 )]
 #[ApiFilter(SearchFilter::class, properties: ['camp'])]
 class Period extends BaseEntity implements BelongsToCampInterface {
+    public const ITEM_NORMALIZATION_CONTEXT = [
+        'groups' => ['read', 'Period:Camp', 'Period:Days'],
+        'swagger_definition_name' => 'read',
+    ];
+
     /**
      * The days in this time period. These are generated automatically.
      *
      * @ORM\OneToMany(targetEntity="Day", mappedBy="period", orphanRemoval=true)
      * @ORM\OrderBy({"dayOffset": "ASC"})
      */
-    #[ApiProperty(writable: false, example: '["/days/1a2b3c4d"]')]
+    #[ApiProperty(writable: false, example: '["/days?period=/periods/1a2b3c4d"]')]
+    #[Groups(['read'])]
     public Collection $days;
 
     /**
@@ -49,6 +58,7 @@ class Period extends BaseEntity implements BelongsToCampInterface {
      * @ORM\OrderBy({"periodOffset": "ASC"})
      */
     #[ApiProperty(writable: false, example: '["/schedule_entries/1a2b3c4d"]')]
+    #[Groups(['read'])]
     public Collection $scheduleEntries;
 
     /**
@@ -58,6 +68,7 @@ class Period extends BaseEntity implements BelongsToCampInterface {
      * @ORM\OneToMany(targetEntity="MaterialItem", mappedBy="period")
      */
     #[ApiProperty(writable: false, example: '["/material_items/1a2b3c4d"]')]
+    #[Groups(['read'])]
     public Collection $materialItems;
 
     /**
@@ -67,7 +78,7 @@ class Period extends BaseEntity implements BelongsToCampInterface {
      * @ORM\JoinColumn(nullable=false)
      */
     #[ApiProperty(example: '/camps/1a2b3c4d')]
-    #[Groups(['Default'])]
+    #[Groups(['read', 'create'])]
     public ?Camp $camp = null;
 
     /**
@@ -79,7 +90,7 @@ class Period extends BaseEntity implements BelongsToCampInterface {
      */
     #[Assert\NotBlank]
     #[ApiProperty(example: 'Hauptlager')]
-    #[Groups(['Default', 'period:update'])]
+    #[Groups(['read', 'write'])]
     public ?string $description = null;
 
     /**
@@ -95,7 +106,7 @@ class Period extends BaseEntity implements BelongsToCampInterface {
      */
     #[Assert\LessThanOrEqual(propertyPath: 'end')]
     #[ApiProperty(example: '2022-01-01', openapiContext: ['format' => 'date'])]
-    #[Groups(['Default', 'period:update'])]
+    #[Groups(['read', 'write'])]
     public ?DateTimeInterface $start = null;
 
     /**
@@ -106,13 +117,30 @@ class Period extends BaseEntity implements BelongsToCampInterface {
      */
     #[Assert\GreaterThanOrEqual(propertyPath: 'start')]
     #[ApiProperty(example: '2022-01-08', openapiContext: ['format' => 'date'])]
-    #[Groups(['Default', 'period:update'])]
+    #[Groups(['read', 'write'])]
     public ?DateTimeInterface $end = null;
 
     public function __construct() {
         $this->days = new ArrayCollection();
         $this->scheduleEntries = new ArrayCollection();
         $this->materialItems = new ArrayCollection();
+    }
+
+    /**
+     * @return Day[]
+     */
+    #[ApiProperty(readableLink: true)]
+    #[SerializedName('days')]
+    #[Groups('Period:Days')]
+    public function getEmbeddedDays(): array {
+        return $this->days->getValues();
+    }
+
+    #[ApiProperty(readableLink: true)]
+    #[SerializedName('camp')]
+    #[Groups(['Period:Camp'])]
+    public function getEmbeddedCamp(): ?Camp {
+        return $this->camp;
     }
 
     public function getCamp(): ?Camp {

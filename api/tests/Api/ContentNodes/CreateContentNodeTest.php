@@ -2,6 +2,7 @@
 
 namespace App\Tests\Api\ContentNodes;
 
+use ApiPlatform\Core\Api\OperationType;
 use App\Entity\ContentNode;
 use App\Tests\Api\ECampApiTestCase;
 
@@ -88,6 +89,8 @@ class CreateContentNodeTest extends ECampApiTestCase {
     public function getExampleWritePayload($attributes = [], $except = []) {
         return $this->getExamplePayload(
             ContentNode::class,
+            OperationType::COLLECTION,
+            'post',
             array_merge([
                 'parent' => $this->getIriFor('contentNode1'),
                 'contentType' => $this->getIriFor('contentTypeColumnLayout'),
@@ -100,6 +103,8 @@ class CreateContentNodeTest extends ECampApiTestCase {
     public function getExampleReadPayload($attributes = [], $except = []) {
         return $this->getExamplePayload(
             ContentNode::class,
+            OperationType::ITEM,
+            'get',
             $attributes,
             ['parent', 'contentType'],
             $except

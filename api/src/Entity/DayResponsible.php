@@ -27,6 +27,7 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Validator\AssertBelongsToSameCamp;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -40,6 +41,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ApiResource(
     collectionOperations: ['get', 'post'],
     itemOperations: ['get', 'delete'],
+    denormalizationContext: ['groups' => ['write']],
+    normalizationContext: ['groups' => ['read']],
 )]
 #[ApiFilter(SearchFilter::class, properties: ['day'])]
 #[UniqueEntity(fields: ['day', 'campCollaboration'])]
@@ -52,6 +55,7 @@ class DayResponsible extends BaseEntity implements BelongsToCampInterface {
      */
     #[Assert\NotNull]
     #[ApiProperty(example: '/days/1a2b3c4d')]
+    #[Groups(['read', 'write'])]
     public ?Day $day = null;
 
     /**
@@ -62,6 +66,7 @@ class DayResponsible extends BaseEntity implements BelongsToCampInterface {
      */
     #[AssertBelongsToSameCamp]
     #[ApiProperty(example: '/camp_collaborations/1a2b3c4d')]
+    #[Groups(['read', 'write'])]
     public ?CampCollaboration $campCollaboration = null;
 
     #[ApiProperty(readable: false)]

@@ -26,8 +26,7 @@ use Symfony\Component\Validator\Constraints as Assert;
         'get',
         'post' => [
             'denormalization_context' => [
-                'groups' => ['campCollaboration:create'],
-                'allow_extra_attributes' => false,
+                'groups' => ['write', 'create'],
             ],
             'openapi_context' => [
                 'description' => 'Also sends an invitation email to the inviteEmail address, if specified.',
@@ -36,13 +35,11 @@ use Symfony\Component\Validator\Constraints as Assert;
     ],
     itemOperations: [
         'get',
-        'patch' => ['denormalization_context' => [
-            'groups' => ['campCollaboration:update'],
-            'allow_extra_attributes' => false,
-        ]],
+        'patch' => ['denormalization_context' => ['groups' => ['write', 'update']]],
         'delete',
     ],
-    normalizationContext: ['skip_null_values' => false],
+    denormalizationContext: ['groups' => ['write']],
+    normalizationContext: ['groups' => ['read']],
 )]
 #[ApiFilter(SearchFilter::class, properties: ['camp'])]
 class CampCollaboration extends BaseEntity implements BelongsToCampInterface {
@@ -90,7 +87,7 @@ class CampCollaboration extends BaseEntity implements BelongsToCampInterface {
      */
     #[AssertEitherIsNull(other: 'user')]
     #[ApiProperty(example: 'some-email@example.com')]
-    #[Groups(['Default', 'campCollaboration:create'])]
+    #[Groups(['read', 'create'])]
     public ?string $inviteEmail = null;
 
     /**
@@ -108,7 +105,7 @@ class CampCollaboration extends BaseEntity implements BelongsToCampInterface {
      */
     #[AssertEitherIsNull(other: 'inviteEmail')]
     #[ApiProperty(example: '/users/1a2b3c4d')]
-    #[Groups(['Default', 'campCollaboration:create'])]
+    #[Groups(['read', 'create'])]
     public ?User $user = null;
 
     /**
@@ -118,7 +115,7 @@ class CampCollaboration extends BaseEntity implements BelongsToCampInterface {
      * @ORM\JoinColumn(nullable=false, onDelete="cascade")
      */
     #[ApiProperty(example: '/camps/1a2b3c4d')]
-    #[Groups(['Default', 'campCollaboration:create'])]
+    #[Groups(['read', 'create'])]
     public ?Camp $camp = null;
 
     /**
@@ -130,7 +127,7 @@ class CampCollaboration extends BaseEntity implements BelongsToCampInterface {
      */
     #[Assert\Choice(choices: self::VALID_STATUS)]
     #[ApiProperty(default: self::STATUS_INVITED, example: self::STATUS_INACTIVE)]
-    #[Groups(['Default', 'campCollaboration:update'])]
+    #[Groups(['read', 'update'])]
     public string $status = self::STATUS_INVITED;
 
     /**
@@ -141,7 +138,7 @@ class CampCollaboration extends BaseEntity implements BelongsToCampInterface {
      */
     #[Assert\Choice(choices: self::VALID_ROLES)]
     #[ApiProperty(example: self::ROLE_MEMBER)]
-    #[Groups(['Default', 'campCollaboration:create', 'campCollaboration:update'])]
+    #[Groups(['read', 'write'])]
     public string $role;
 
     /**
