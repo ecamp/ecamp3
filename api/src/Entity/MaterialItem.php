@@ -6,6 +6,7 @@ use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use App\Entity\ContentNode\MaterialNode;
 use App\Validator\AssertBelongsToSameCamp;
 use App\Validator\AssertEitherIsNull;
 use App\Validator\MaterialItemUpdateGroupSequence;
@@ -56,8 +57,8 @@ class MaterialItem extends BaseEntity implements BelongsToCampInterface {
      */
     #[AssertBelongsToSameCamp]
     #[AssertEitherisNull(other: 'period')]
-    #[ApiProperty(example: '/content_nodes/1a2b3c4d')]
-    public ?ContentNode $contentNode = null;
+    #[ApiProperty(example: '/content_node/material_nodes/1a2b3c4d')]
+    public ?MaterialNode $materialNode = null;
 
     /**
      * The name of the item that is required.
