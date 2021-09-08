@@ -17,7 +17,7 @@ class ListDayResponsiblesTest extends ECampApiTestCase {
         ]);
     }
 
-    public function testListDayResponsiblesIsAllowedForCollaboratorButFiltered() {
+    public function testListDayResponsiblesIsAllowedForLoggedInUserButFiltered() {
         // precondition: There is a day responsible that the user doesn't have access to
         $this->assertNotEmpty(static::$fixtures['dayResponsible1day1period1campUnrelated']);
 

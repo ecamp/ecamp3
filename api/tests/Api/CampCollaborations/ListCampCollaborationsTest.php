@@ -17,7 +17,7 @@ class ListCampCollaborationsTest extends ECampApiTestCase {
         ]);
     }
 
-    public function testListCampCollaborationsIsAllowedForCollaboratorButFiltered() {
+    public function testListCampCollaborationsIsAllowedForLoggedInUserButFiltered() {
         // precondition: There is a camp collaboration that the user doesn't have access to
         $this->assertNotEmpty(static::$fixtures['campCollaboration1campUnrelated']);
 

@@ -8,11 +8,103 @@ use App\Tests\Api\ECampApiTestCase;
  * @internal
  */
 class UpdateScheduleEntryTest extends ECampApiTestCase {
-    // TODO security tests when not logged in or not collaborator
     // TODO input filter tests
     // TODO validation tests
 
-    public function testPatchScheduleEntryIsAllowedForCollaborator() {
+    public function testPatchScheduleEntryIsDeniedForAnonymousUser() {
+        $scheduleEntry = static::$fixtures['scheduleEntry1'];
+        static::createBasicClient()->request('PATCH', '/schedule_entries/'.$scheduleEntry->getId(), ['json' => [
+            'period' => $this->getIriFor('period2'),
+            'periodOffset' => 10,
+            'length' => 30,
+            'left' => 0.3,
+            'width' => 0.7,
+        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
+        $this->assertResponseStatusCodeSame(401);
+        $this->assertJsonContains([
+            'code' => 401,
+            'message' => 'JWT Token not found',
+        ]);
+    }
+
+    public function testPatchScheduleEntryIsDeniedForUnrelatedUser() {
+        $scheduleEntry = static::$fixtures['scheduleEntry1'];
+        static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->username])
+            ->request('PATCH', '/schedule_entries/'.$scheduleEntry->getId(), ['json' => [
+                'period' => $this->getIriFor('period2'),
+                'periodOffset' => 10,
+                'length' => 30,
+                'left' => 0.3,
+                'width' => 0.7,
+            ], 'headers' => ['Content-Type' => 'application/merge-patch+json']])
+        ;
+        $this->assertResponseStatusCodeSame(404);
+        $this->assertJsonContains([
+            'title' => 'An error occurred',
+            'detail' => 'Not Found',
+        ]);
+    }
+
+    public function testPatchScheduleEntryIsDeniedForInactiveCollaborator() {
+        $scheduleEntry = static::$fixtures['scheduleEntry1'];
+        static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->username])
+            ->request('PATCH', '/schedule_entries/'.$scheduleEntry->getId(), ['json' => [
+                'period' => $this->getIriFor('period2'),
+                'periodOffset' => 10,
+                'length' => 30,
+                'left' => 0.3,
+                'width' => 0.7,
+            ], 'headers' => ['Content-Type' => 'application/merge-patch+json']])
+        ;
+        $this->assertResponseStatusCodeSame(404);
+        $this->assertJsonContains([
+            'title' => 'An error occurred',
+            'detail' => 'Not Found',
+        ]);
+    }
+
+    public function testPatchScheduleEntryIsDeniedForGuest() {
+        $scheduleEntry = static::$fixtures['scheduleEntry1'];
+        static::createClientWithCredentials(['username' => static::$fixtures['user3guest']->username])
+            ->request('PATCH', '/schedule_entries/'.$scheduleEntry->getId(), ['json' => [
+                'period' => $this->getIriFor('period2'),
+                'periodOffset' => 10,
+                'length' => 30,
+                'left' => 0.3,
+                'width' => 0.7,
+            ], 'headers' => ['Content-Type' => 'application/merge-patch+json']])
+        ;
+        $this->assertResponseStatusCodeSame(403);
+        $this->assertJsonContains([
+            'title' => 'An error occurred',
+            'detail' => 'Access Denied.',
+        ]);
+    }
+
+    public function testPatchScheduleEntryIsAllowedForMember() {
+        $scheduleEntry = static::$fixtures['scheduleEntry1'];
+        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->username])
+            ->request('PATCH', '/schedule_entries/'.$scheduleEntry->getId(), ['json' => [
+                'period' => $this->getIriFor('period2'),
+                'periodOffset' => 10,
+                'length' => 30,
+                'left' => 0.3,
+                'width' => 0.7,
+            ], 'headers' => ['Content-Type' => 'application/merge-patch+json']])
+        ;
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertJsonContains([
+            'periodOffset' => 10,
+            'length' => 30,
+            'left' => 0.3,
+            'width' => 0.7,
+            '_links' => [
+                'period' => ['href' => $this->getIriFor('period2')],
+            ],
+        ]);
+    }
+
+    public function testPatchScheduleEntryIsAllowedForManager() {
         $scheduleEntry = static::$fixtures['scheduleEntry1'];
         static::createClientWithCredentials()->request('PATCH', '/schedule_entries/'.$scheduleEntry->getId(), ['json' => [
             'period' => $this->getIriFor('period2'),
@@ -30,6 +122,22 @@ class UpdateScheduleEntryTest extends ECampApiTestCase {
             '_links' => [
                 'period' => ['href' => $this->getIriFor('period2')],
             ],
+        ]);
+    }
+
+    public function testPatchScheduleEntryInCampPrototypeIsDeniedForUnrelatedUser() {
+        $scheduleEntry = static::$fixtures['scheduleEntry1period1campPrototype'];
+        static::createClientWithCredentials()->request('PATCH', '/schedule_entries/'.$scheduleEntry->getId(), ['json' => [
+            'period' => $this->getIriFor('period2'),
+            'periodOffset' => 10,
+            'length' => 30,
+            'left' => 0.3,
+            'width' => 0.7,
+        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
+        $this->assertResponseStatusCodeSame(403);
+        $this->assertJsonContains([
+            'title' => 'An error occurred',
+            'detail' => 'Access Denied.',
         ]);
     }
 

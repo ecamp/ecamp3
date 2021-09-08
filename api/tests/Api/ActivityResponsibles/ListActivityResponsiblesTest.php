@@ -17,7 +17,7 @@ class ListActivityResponsiblesTest extends ECampApiTestCase {
         ]);
     }
 
-    public function testListActivityResponsiblesIsAllowedForCollaboratorButFiltered() {
+    public function testListActivityResponsiblesIsAllowedForLoggedInUserButFiltered() {
         // precondition: There is an activity responsible that the user doesn't have access to
         $this->assertNotEmpty(static::$fixtures['activityResponsible1campUnrelated']);
 

@@ -17,7 +17,7 @@ class ListDaysTest extends ECampApiTestCase {
         ]);
     }
 
-    public function testListDaysIsAllowedForCollaboratorButFiltered() {
+    public function testListDaysIsAllowedForLoggedInUserButFiltered() {
         // precondition: There is a day that the user doesn't have access to
         $this->assertNotEmpty(static::$fixtures['day1period1campUnrelated']);
 

@@ -17,7 +17,7 @@ class ListMaterialItemsTest extends ECampApiTestCase {
         ]);
     }
 
-    public function testListMaterialItemsIsAllowedForCollaboratorButFiltered() {
+    public function testListMaterialItemsIsAllowedForLoggedInUserButFiltered() {
         // precondition: There is a material item that the user doesn't have access to
         $this->assertNotEmpty(static::$fixtures['materialItem1period1campUnrelated']);
 
