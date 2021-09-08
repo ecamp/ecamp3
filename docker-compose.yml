@@ -2,7 +2,7 @@ version: "3.4"
 
 services:
   frontend:
-    image: node:16.8.0@sha256:e2b2080429cb9b23ba3b50cac53772cdc78bcd21c0d5cede4caf8259ac367aac
+    image: node:16.8.0@sha256:ba82c1fd24e2b735ca0e980f1d227e48b2debb641315c3e9ad72d220a5a534e4
     container_name: 'ecamp3-frontend'
     ports:
       - '3000:3000'
@@ -105,7 +105,7 @@ services:
     entrypoint: ./docker-setup.sh
 
   print:
-    image: node:16.8.0@sha256:e2b2080429cb9b23ba3b50cac53772cdc78bcd21c0d5cede4caf8259ac367aac
+    image: node:16.8.0@sha256:ba82c1fd24e2b735ca0e980f1d227e48b2debb641315c3e9ad72d220a5a534e4
     container_name: 'ecamp3-print'
     ports:
       - '3003:3003'
@@ -125,7 +125,7 @@ services:
       - ./print/print.env
 
   composer:
-    image: composer:2@sha256:4d0583505a6e8b3ef83b62e12eaed25376ac64be5acff89a6d2e169f7621186e
+    image: composer:2@sha256:4db2fff43161d0b00ac48b839a37fc2f6f6449741bc196b2726431097a86da97
     container_name: 'ecamp3-composer'
     restart: 'no'
     command: bash -c "composer install --no-interaction --no-plugins --no-scripts --prefer-dist"

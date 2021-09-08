@@ -7,9 +7,10 @@ use App\Entity\BelongsToCampInterface;
 use App\Entity\Camp;
 use App\Validator\AssertBelongsToSameCamp;
 use App\Validator\AssertBelongsToSameCampValidator;
-use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\UnitOfWork;
 use PHPUnit\Framework\MockObject\MockObject;
+use Symfony\Component\HttpFoundation\ParameterBag;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 use Symfony\Component\Validator\Exception\UnexpectedValueException;
@@ -19,7 +20,7 @@ use Symfony\Component\Validator\Test\ConstraintValidatorTestCase;
  * @internal
  */
 class AssertBelongsToSameCampValidatorTest extends ConstraintValidatorTestCase {
-    private MockObject | EntityManagerInterface $entityManagerInterface;
+    private MockObject|RequestStack $requestStack;
 
     public function testExpectsMatchingAnnotation() {
         $this->expectException(UnexpectedTypeException::class);
@@ -44,21 +45,6 @@ class AssertBelongsToSameCampValidatorTest extends ConstraintValidatorTestCase {
 
         // when
         $this->validator->validate($child, new AssertBelongsToSameCamp());
-    }
-
-    public function testCompareToPreviousExpectsBaseEntityObject() {
-        // given
-        $camp = $this->createMock(Camp::class);
-        $camp->method('getId')->willReturn('idfromtest');
-        $child = new ChildTestClass($camp);
-
-        $this->setObject($child);
-
-        // then
-        $this->expectException(UnexpectedValueException::class);
-
-        // when
-        $this->validator->validate($child, new AssertBelongsToSameCamp(null, true));
     }
 
     public function testNullIsValid() {
@@ -111,9 +97,9 @@ class AssertBelongsToSameCampValidatorTest extends ConstraintValidatorTestCase {
         $parent = new ParentTestClass($camp2, $child);
         $this->setObject($parent);
 
-        $uow = $this->createMock(UnitOfWork::class);
-        $uow->method('createEntity')->willReturn(new ParentTestClass($camp, $child));
-        $this->entityManagerInterface->method('getUnitOfWork')->willReturn($uow);
+        $request = $this->createMock(Request::class);
+        $request->attributes = new ParameterBag(['previous_data' => new ParentTestClass($camp, $child)]);
+        $this->requestStack->method('getCurrentRequest')->willReturn($request);
 
         // when
         $this->validator->validate($child, new AssertBelongsToSameCamp(null, true));
@@ -131,9 +117,9 @@ class AssertBelongsToSameCampValidatorTest extends ConstraintValidatorTestCase {
         $parent = new ParentTestClass($camp, $child);
         $this->setObject($parent);
 
-        $uow = $this->createMock(UnitOfWork::class);
-        $uow->method('createEntity')->willReturn(new ParentTestClass($camp2, $child));
-        $this->entityManagerInterface->method('getUnitOfWork')->willReturn($uow);
+        $request = $this->createMock(Request::class);
+        $request->attributes = new ParameterBag(['previous_data' => new ParentTestClass($camp2, $child)]);
+        $this->requestStack->method('getCurrentRequest')->willReturn($request);
 
         // when
         $this->validator->validate($child, new AssertBelongsToSameCamp(null, true));
@@ -143,9 +129,9 @@ class AssertBelongsToSameCampValidatorTest extends ConstraintValidatorTestCase {
     }
 
     protected function createValidator() {
-        $this->entityManagerInterface = $this->createMock(EntityManagerInterface::class);
+        $this->requestStack = $this->createMock(RequestStack::class);
 
-        return new AssertBelongsToSameCampValidator($this->entityManagerInterface);
+        return new AssertBelongsToSameCampValidator($this->requestStack);
     }
 }
 

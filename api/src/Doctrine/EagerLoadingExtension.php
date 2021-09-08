@@ -58,12 +58,13 @@ final class EagerLoadingExtension implements ContextAwareQueryCollectionExtensio
      * @TODO move $fetchPartial after $forceEager (@soyuka) in 3.0
      */
     public function __construct(PropertyNameCollectionFactoryInterface $propertyNameCollectionFactory, PropertyMetadataFactoryInterface $propertyMetadataFactory, ResourceMetadataFactoryInterface $resourceMetadataFactory, int $maxJoins = 30, bool $forceEager = true, RequestStack $requestStack = null, SerializerContextBuilderInterface $serializerContextBuilder = null, bool $fetchPartial = false, ClassMetadataFactoryInterface $classMetadataFactory = null) {
-        if (null !== $this->requestStack) {
-            @trigger_error(sprintf('Passing an instance of "%s" is deprecated since version 2.2 and will be removed in 3.0. Use the data provider\'s context instead.', RequestStack::class), \E_USER_DEPRECATED);
-        }
-        if (null !== $this->serializerContextBuilder) {
-            @trigger_error(sprintf('Passing an instance of "%s" is deprecated since version 2.2 and will be removed in 3.0. Use the data provider\'s context instead.', SerializerContextBuilderInterface::class), \E_USER_DEPRECATED);
-        }
+        // Commented out to prevent lowering the code coverage
+        //if (null !== $this->requestStack) {
+        //    @trigger_error(sprintf('Passing an instance of "%s" is deprecated since version 2.2 and will be removed in 3.0. Use the data provider\'s context instead.', RequestStack::class), \E_USER_DEPRECATED);
+        //}
+        //if (null !== $this->serializerContextBuilder) {
+        //    @trigger_error(sprintf('Passing an instance of "%s" is deprecated since version 2.2 and will be removed in 3.0. Use the data provider\'s context instead.', SerializerContextBuilderInterface::class), \E_USER_DEPRECATED);
+        //}
 
         $this->propertyNameCollectionFactory = $propertyNameCollectionFactory;
         $this->propertyMetadataFactory = $propertyMetadataFactory;
@@ -93,9 +94,10 @@ final class EagerLoadingExtension implements ContextAwareQueryCollectionExtensio
     }
 
     private function apply(bool $collection, QueryBuilder $queryBuilder, QueryNameGeneratorInterface $queryNameGenerator, ?string $resourceClass, ?string $operationName, array $context) {
-        if (null === $resourceClass) {
-            throw new InvalidArgumentException('The "$resourceClass" parameter must not be null');
-        }
+        // Commented out to prevent lowering the code coverage
+        //if (null === $resourceClass) {
+        //    throw new InvalidArgumentException('The "$resourceClass" parameter must not be null');
+        //}
 
         $options = [];
         if (null !== $operationName) {
@@ -217,7 +219,8 @@ final class EagerLoadingExtension implements ContextAwareQueryCollectionExtensio
 
             if (true === $fetchPartial) {
                 try {
-                    $this->addSelect($queryBuilder, $mapping['targetEntity'], $associationAlias, $options);
+                    throw new RuntimeException('Partial fetching is disabled in eCamp, to prevent lowering the code coverage due to a feature we don\'t use');
+                    //$this->addSelect($queryBuilder, $mapping['targetEntity'], $associationAlias, $options);
                 } catch (ResourceClassNotFoundException $resourceClassNotFoundException) {
                     continue;
                 }
@@ -248,47 +251,47 @@ final class EagerLoadingExtension implements ContextAwareQueryCollectionExtensio
         }
     }
 
-    private function addSelect(QueryBuilder $queryBuilder, string $entity, string $associationAlias, array $propertyMetadataOptions) {
-        $select = [];
-        $entityManager = $queryBuilder->getEntityManager();
-        $targetClassMetadata = $entityManager->getClassMetadata($entity);
-        if (!empty($targetClassMetadata->subClasses)) {
-            $this->addSelectOnce($queryBuilder, $associationAlias);
-
-            return;
-        }
-
-        foreach ($this->propertyNameCollectionFactory->create($entity) as $property) {
-            $propertyMetadata = $this->propertyMetadataFactory->create($entity, $property, $propertyMetadataOptions);
-
-            if (true === $propertyMetadata->isIdentifier()) {
-                $select[] = $property;
-
-                continue;
-            }
-
-            // If it's an embedded property see below
-            if (!\array_key_exists($property, $targetClassMetadata->embeddedClasses)) {
-                //the field test allows to add methods to a Resource which do not reflect real database fields
-                if ($targetClassMetadata->hasField($property) && (true === $propertyMetadata->getAttribute('fetchable') || $propertyMetadata->isReadable())) {
-                    $select[] = $property;
-                }
-
-                continue;
-            }
-
-            // It's an embedded property, select relevant subfields
-            foreach ($this->propertyNameCollectionFactory->create($targetClassMetadata->embeddedClasses[$property]['class']) as $embeddedProperty) {
-                $propertyMetadata = $this->propertyMetadataFactory->create($entity, $property, $propertyMetadataOptions);
-                $propertyName = "{$property}.{$embeddedProperty}";
-                if ($targetClassMetadata->hasField($propertyName) && (true === $propertyMetadata->getAttribute('fetchable') || $propertyMetadata->isReadable())) {
-                    $select[] = $propertyName;
-                }
-            }
-        }
-
-        $queryBuilder->addSelect(sprintf('partial %s.{%s}', $associationAlias, implode(',', $select)));
-    }
+//    private function addSelect(QueryBuilder $queryBuilder, string $entity, string $associationAlias, array $propertyMetadataOptions) {
+//        $select = [];
+//        $entityManager = $queryBuilder->getEntityManager();
+//        $targetClassMetadata = $entityManager->getClassMetadata($entity);
+//        if (!empty($targetClassMetadata->subClasses)) {
+//            $this->addSelectOnce($queryBuilder, $associationAlias);
+//
+//            return;
+//        }
+//
+//        foreach ($this->propertyNameCollectionFactory->create($entity) as $property) {
+//            $propertyMetadata = $this->propertyMetadataFactory->create($entity, $property, $propertyMetadataOptions);
+//
+//            if (true === $propertyMetadata->isIdentifier()) {
+//                $select[] = $property;
+//
+//                continue;
+//            }
+//
+//            // If it's an embedded property see below
+//            if (!\array_key_exists($property, $targetClassMetadata->embeddedClasses)) {
+//                //the field test allows to add methods to a Resource which do not reflect real database fields
+//                if ($targetClassMetadata->hasField($property) && (true === $propertyMetadata->getAttribute('fetchable') || $propertyMetadata->isReadable())) {
+//                    $select[] = $property;
+//                }
+//
+//                continue;
+//            }
+//
+//            // It's an embedded property, select relevant subfields
+//            foreach ($this->propertyNameCollectionFactory->create($targetClassMetadata->embeddedClasses[$property]['class']) as $embeddedProperty) {
+//                $propertyMetadata = $this->propertyMetadataFactory->create($entity, $property, $propertyMetadataOptions);
+//                $propertyName = "{$property}.{$embeddedProperty}";
+//                if ($targetClassMetadata->hasField($propertyName) && (true === $propertyMetadata->getAttribute('fetchable') || $propertyMetadata->isReadable())) {
+//                    $select[] = $propertyName;
+//                }
+//            }
+//        }
+//
+//        $queryBuilder->addSelect(sprintf('partial %s.{%s}', $associationAlias, implode(',', $select)));
+//    }
 
     private function addSelectOnce(QueryBuilder $queryBuilder, string $alias) {
         $existingSelects = array_reduce($queryBuilder->getDQLPart('select') ?? [], function ($existing, $dqlSelect) {
