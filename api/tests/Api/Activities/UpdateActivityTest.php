@@ -13,7 +13,7 @@ class UpdateActivityTest extends ECampApiTestCase {
 
     public function testPatchActivityIsDeniedForAnonymousUser() {
         $activity = static::$fixtures['activity1'];
-        static::createClient()->request('PATCH', '/activities/'.$activity->getId(), ['json' => [
+        static::createBasicClient()->request('PATCH', '/activities/'.$activity->getId(), ['json' => [
             'title' => 'Hello World',
             'location' => 'Stoos',
             'category' => $this->getIriFor('category2'),

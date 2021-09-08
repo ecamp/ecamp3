@@ -11,7 +11,7 @@ use App\Tests\Api\ECampApiTestCase;
 class DeleteCampCollaborationTest extends ECampApiTestCase {
     public function testDeleteCampCollaborationIsDeniedForAnonymousUser() {
         $campCollaboration = static::$fixtures['campCollaboration1manager'];
-        static::createClient()->request('DELETE', '/camp_collaborations/'.$campCollaboration->getId());
+        static::createBasicClient()->request('DELETE', '/camp_collaborations/'.$campCollaboration->getId());
         $this->assertResponseStatusCodeSame(401);
         $this->assertJsonContains([
             'code' => 401,

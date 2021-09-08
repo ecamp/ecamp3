@@ -13,7 +13,7 @@ class UpdateCampCollaborationTest extends ECampApiTestCase {
 
     public function testPatchCampCollaborationIsDeniedForAnonymousUser() {
         $campCollaboration = static::$fixtures['campCollaboration1manager'];
-        static::createClient()->request('PATCH', '/camp_collaborations/'.$campCollaboration->getId(), ['json' => [
+        static::createBasicClient()->request('PATCH', '/camp_collaborations/'.$campCollaboration->getId(), ['json' => [
             'status' => 'inactive',
             'role' => 'guest',
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);

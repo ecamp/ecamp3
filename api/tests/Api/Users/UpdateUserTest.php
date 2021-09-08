@@ -9,9 +9,9 @@ use App\Tests\Api\ECampApiTestCase;
  * @internal
  */
 class UpdateUserTest extends ECampApiTestCase {
-    public function testPatchUserIsDeniedToAnonymousUser() {
+    public function testPatchUserIsDeniedForAnonymousUser() {
         $user = static::$fixtures['user1manager'];
-        static::createClient()->request('PATCH', '/users/'.$user->getId(), ['json' => [
+        static::createBasicClient()->request('PATCH', '/users/'.$user->getId(), ['json' => [
             'nickname' => 'Linux',
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
         $this->assertResponseStatusCodeSame(401);

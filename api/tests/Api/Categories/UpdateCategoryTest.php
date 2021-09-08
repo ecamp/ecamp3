@@ -13,7 +13,7 @@ class UpdateCategoryTest extends ECampApiTestCase {
 
     public function testPatchCategoryIsDeniedForAnonymousUser() {
         $category = static::$fixtures['category1'];
-        static::createClient()->request('PATCH', '/categories/'.$category->getId(), ['json' => [
+        static::createBasicClient()->request('PATCH', '/categories/'.$category->getId(), ['json' => [
             'short' => 'LP',
             'name' => 'Lagerprogramm',
             'color' => '#FFFF00',

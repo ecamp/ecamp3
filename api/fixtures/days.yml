@@ -14,3 +14,9 @@ App\Entity\Day:
   day1period1camp2:
     period: '@period1camp2'
     dayOffset: 0
+  day1period1campUnrelated:
+    period: '@period1campUnrelated'
+    dayOffset: 0
+  day1period1campPrototype:
+    period: '@period1campPrototype'
+    dayOffset: 0

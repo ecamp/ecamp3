@@ -9,10 +9,10 @@ use App\Tests\Api\ECampApiTestCase;
  * @internal
  */
 class ReadPeriodTest extends ECampApiTestCase {
-    public function testGetSinglePeriodIsDeniedToAnonymousUser() {
+    public function testGetSinglePeriodIsDeniedForAnonymousUser() {
         /** @var Period $period */
         $period = static::$fixtures['period1'];
-        static::createClient()->request('GET', '/periods/'.$period->getId());
+        static::createBasicClient()->request('GET', '/periods/'.$period->getId());
         $this->assertResponseStatusCodeSame(401);
         $this->assertJsonContains([
             'code' => 401,

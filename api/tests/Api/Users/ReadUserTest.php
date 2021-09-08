@@ -9,9 +9,9 @@ use App\Tests\Api\ECampApiTestCase;
  * @internal
  */
 class ReadUserTest extends ECampApiTestCase {
-    public function testGetSingleUserIsDeniedToAnonymousUser() {
+    public function testGetSingleUserIsDeniedForAnonymousUser() {
         $user = static::$fixtures['user1manager'];
-        static::createClient()->request('GET', '/users/'.$user->getId());
+        static::createBasicClient()->request('GET', '/users/'.$user->getId());
         $this->assertResponseStatusCodeSame(401);
         $this->assertJsonContains([
             'code' => 401,

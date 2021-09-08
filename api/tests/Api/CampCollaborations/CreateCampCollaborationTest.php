@@ -15,7 +15,7 @@ class CreateCampCollaborationTest extends ECampApiTestCase {
     // TODO create a camp collaboration for someone else
 
     public function testCreateCampCollaborationIsDeniedForAnonymousUser() {
-        static::createClient()->request('POST', '/camp_collaborations', ['json' => $this->getExampleWritePayload([
+        static::createBasicClient()->request('POST', '/camp_collaborations', ['json' => $this->getExampleWritePayload([
             'user' => $this->getIriFor('user4unrelated'),
         ])]);
 

@@ -11,7 +11,7 @@ use App\Tests\Api\ECampApiTestCase;
 class DeleteActivityResponsibleTest extends ECampApiTestCase {
     public function testDeleteActivityResponsibleIsDeniedForAnonymousUser() {
         $activityResponsible = static::$fixtures['activityResponsible1'];
-        static::createClient()->request('DELETE', '/activity_responsibles/'.$activityResponsible->getId());
+        static::createBasicClient()->request('DELETE', '/activity_responsibles/'.$activityResponsible->getId());
         $this->assertResponseStatusCodeSame(401);
         $this->assertJsonContains([
             'code' => 401,

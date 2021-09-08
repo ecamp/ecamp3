@@ -12,7 +12,7 @@ class ReadCategoryTest extends ECampApiTestCase {
     public function testGetSingleCategoryIsDeniedForAnonymousUser() {
         /** @var Category $category */
         $category = static::$fixtures['category1'];
-        static::createClient()->request('GET', '/categories/'.$category->getId());
+        static::createBasicClient()->request('GET', '/categories/'.$category->getId());
         $this->assertResponseStatusCodeSame(401);
         $this->assertJsonContains([
             'code' => 401,

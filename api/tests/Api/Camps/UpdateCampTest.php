@@ -8,9 +8,9 @@ use App\Tests\Api\ECampApiTestCase;
  * @internal
  */
 class UpdateCampTest extends ECampApiTestCase {
-    public function testPatchCampIsDeniedToAnonymousUser() {
+    public function testPatchCampIsDeniedForAnonymousUser() {
         $camp = static::$fixtures['camp1'];
-        static::createClient()->request('PATCH', '/camps/'.$camp->getId(), ['json' => [
+        static::createBasicClient()->request('PATCH', '/camps/'.$camp->getId(), ['json' => [
             'title' => 'Hello World',
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
         $this->assertResponseStatusCodeSame(401);

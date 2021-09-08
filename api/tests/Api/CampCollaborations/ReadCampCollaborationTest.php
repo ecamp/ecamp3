@@ -12,7 +12,7 @@ class ReadCampCollaborationTest extends ECampApiTestCase {
     public function testGetSingleCampCollaborationIsDeniedForAnonymousUser() {
         /** @var CampCollaboration $campCollaboration */
         $campCollaboration = static::$fixtures['campCollaboration1manager'];
-        static::createClient()->request('GET', '/camp_collaborations/'.$campCollaboration->getId());
+        static::createBasicClient()->request('GET', '/camp_collaborations/'.$campCollaboration->getId());
         $this->assertResponseStatusCodeSame(401);
         $this->assertJsonContains([
             'code' => 401,

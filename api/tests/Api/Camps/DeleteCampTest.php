@@ -9,9 +9,9 @@ use App\Tests\Api\ECampApiTestCase;
  * @internal
  */
 class DeleteCampTest extends ECampApiTestCase {
-    public function testDeleteCampIsDeniedToAnonymousUser() {
+    public function testDeleteCampIsDeniedForAnonymousUser() {
         $camp = static::$fixtures['camp1'];
-        static::createClient()->request('DELETE', '/camps/'.$camp->getId());
+        static::createBasicClient()->request('DELETE', '/camps/'.$camp->getId());
         $this->assertResponseStatusCodeSame(401);
         $this->assertJsonContains([
             'code' => 401,

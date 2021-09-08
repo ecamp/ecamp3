@@ -12,7 +12,7 @@ class ReadActivityResponsibleTest extends ECampApiTestCase {
     public function testGetSingleActivityResponsibleIsDeniedForAnonymousUser() {
         /** @var ActivityResponsible $activityResponsible */
         $activityResponsible = static::$fixtures['activityResponsible1'];
-        static::createClient()->request('GET', '/activity_responsibles/'.$activityResponsible->getId());
+        static::createBasicClient()->request('GET', '/activity_responsibles/'.$activityResponsible->getId());
         $this->assertResponseStatusCodeSame(401);
         $this->assertJsonContains([
             'code' => 401,

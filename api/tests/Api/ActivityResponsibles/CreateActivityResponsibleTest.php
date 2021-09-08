@@ -14,7 +14,7 @@ class CreateActivityResponsibleTest extends ECampApiTestCase {
     // TODO validation tests
 
     public function testCreateActivityResponsibleIsDeniedForAnonymousUser() {
-        static::createClient()->request('POST', '/activity_responsibles', ['json' => $this->getExampleWritePayload()]);
+        static::createBasicClient()->request('POST', '/activity_responsibles', ['json' => $this->getExampleWritePayload()]);
 
         $this->assertResponseStatusCodeSame(401);
         $this->assertJsonContains([

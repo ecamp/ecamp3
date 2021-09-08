@@ -12,7 +12,7 @@ use App\Tests\Api\ECampApiTestCase;
  */
 class CreateCampTest extends ECampApiTestCase {
     public function testCreateCampWhenNotLoggedIn() {
-        static::createClient()->request('POST', '/camps', ['json' => $this->getExampleWritePayload()]);
+        static::createBasicClient()->request('POST', '/camps', ['json' => $this->getExampleWritePayload()]);
 
         $this->assertResponseStatusCodeSame(401);
         $this->assertJsonContains([

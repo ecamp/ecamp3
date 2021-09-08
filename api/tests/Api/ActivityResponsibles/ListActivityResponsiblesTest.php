@@ -9,7 +9,7 @@ use App\Tests\Api\ECampApiTestCase;
  */
 class ListActivityResponsiblesTest extends ECampApiTestCase {
     public function testListActivityResponsiblesIsDeniedForAnonymousUser() {
-        static::createClient()->request('GET', '/activity_responsibles');
+        static::createBasicClient()->request('GET', '/activity_responsibles');
         $this->assertResponseStatusCodeSame(401);
         $this->assertJsonContains([
             'code' => 401,

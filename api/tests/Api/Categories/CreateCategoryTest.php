@@ -15,7 +15,7 @@ class CreateCategoryTest extends ECampApiTestCase {
     // TODO validation tests
 
     public function testCreateCategoryIsDeniedForAnonymousUser() {
-        static::createClient()->request('POST', '/categories', ['json' => $this->getExampleWritePayload()]);
+        static::createBasicClient()->request('POST', '/categories', ['json' => $this->getExampleWritePayload()]);
 
         $this->assertResponseStatusCodeSame(401);
         $this->assertJsonContains([

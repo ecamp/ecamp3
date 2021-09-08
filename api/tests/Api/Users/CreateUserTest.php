@@ -11,7 +11,7 @@ use App\Tests\Api\ECampApiTestCase;
  */
 class CreateUserTest extends ECampApiTestCase {
     public function testCreateUserWhenNotLoggedIn() {
-        static::createClient()->request('POST', '/users', ['json' => $this->getExampleWritePayload()]);
+        static::createBasicClient()->request('POST', '/users', ['json' => $this->getExampleWritePayload()]);
 
         $this->assertResponseStatusCodeSame(201);
         $this->assertJsonContains($this->getExampleReadPayload([], ['password']));
@@ -25,7 +25,7 @@ class CreateUserTest extends ECampApiTestCase {
     }
 
     public function testLoginAfterRegistration() {
-        $client = static::createClient();
+        $client = static::createBasicClient();
         // Disable resetting the database between the two requests
         $client->disableReboot();
 
@@ -41,7 +41,7 @@ class CreateUserTest extends ECampApiTestCase {
     }
 
     public function testCreateUserTrimsEmail() {
-        static::createClient()->request('POST', '/users', ['json' => $this->getExampleWritePayload([
+        static::createBasicClient()->request('POST', '/users', ['json' => $this->getExampleWritePayload([
             'email' => " bi-pi@example.com\t\t",
         ])]);
 
@@ -148,7 +148,7 @@ class CreateUserTest extends ECampApiTestCase {
     }
 
     public function testCreateUserTrimsUsername() {
-        static::createClient()->request('POST', '/users', ['json' => $this->getExampleWritePayload([
+        static::createBasicClient()->request('POST', '/users', ['json' => $this->getExampleWritePayload([
             'username' => '  bipi ',
         ])]);
 
@@ -255,7 +255,7 @@ class CreateUserTest extends ECampApiTestCase {
     }
 
     public function testCreateUserTrimsFirstname() {
-        static::createClient()->request('POST', '/users', ['json' => $this->getExampleWritePayload([
+        static::createBasicClient()->request('POST', '/users', ['json' => $this->getExampleWritePayload([
             'firstname' => " Robert\t",
         ])]);
 
@@ -266,7 +266,7 @@ class CreateUserTest extends ECampApiTestCase {
     }
 
     public function testCreateUserCleansHTMLFromFirstname() {
-        static::createClient()->request('POST', '/users', ['json' => $this->getExampleWritePayload([
+        static::createBasicClient()->request('POST', '/users', ['json' => $this->getExampleWritePayload([
             'firstname' => 'Robert<script>alert(1)</script>',
         ])]);
 
@@ -277,7 +277,7 @@ class CreateUserTest extends ECampApiTestCase {
     }
 
     public function testCreateUserTrimsSurname() {
-        static::createClient()->request('POST', '/users', ['json' => $this->getExampleWritePayload([
+        static::createBasicClient()->request('POST', '/users', ['json' => $this->getExampleWritePayload([
             'surname' => '   Baden-Powell',
         ])]);
 
@@ -288,7 +288,7 @@ class CreateUserTest extends ECampApiTestCase {
     }
 
     public function testCreateUserCleansHTMLFromSurname() {
-        static::createClient()->request('POST', '/users', ['json' => $this->getExampleWritePayload([
+        static::createBasicClient()->request('POST', '/users', ['json' => $this->getExampleWritePayload([
             'surname' => 'Baden-Powell<script>alert(1)</script>',
         ])]);
 
@@ -299,7 +299,7 @@ class CreateUserTest extends ECampApiTestCase {
     }
 
     public function testCreateUserTrimsNickname() {
-        static::createClient()->request('POST', '/users', ['json' => $this->getExampleWritePayload([
+        static::createBasicClient()->request('POST', '/users', ['json' => $this->getExampleWritePayload([
             'nickname' => "\tBi-Pi\t",
         ])]);
 
@@ -310,7 +310,7 @@ class CreateUserTest extends ECampApiTestCase {
     }
 
     public function testCreateUserCleansHTMLFromNickname() {
-        static::createClient()->request('POST', '/users', ['json' => $this->getExampleWritePayload([
+        static::createBasicClient()->request('POST', '/users', ['json' => $this->getExampleWritePayload([
             'nickname' => 'Bi-Pi<script>alert(1)</script>',
         ])]);
 
@@ -321,7 +321,7 @@ class CreateUserTest extends ECampApiTestCase {
     }
 
     public function testCreateUserTrimsLanguage() {
-        static::createClient()->request('POST', '/users', ['json' => $this->getExampleWritePayload([
+        static::createBasicClient()->request('POST', '/users', ['json' => $this->getExampleWritePayload([
             'language' => "\ten ",
         ])]);
 

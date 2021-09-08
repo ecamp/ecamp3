@@ -9,7 +9,7 @@ use App\Tests\Api\ECampApiTestCase;
  */
 class ListCampCollaborationsTest extends ECampApiTestCase {
     public function testListCampCollaborationsIsDeniedForAnonymousUser() {
-        static::createClient()->request('GET', '/camp_collaborations');
+        static::createBasicClient()->request('GET', '/camp_collaborations');
         $this->assertResponseStatusCodeSame(401);
         $this->assertJsonContains([
             'code' => 401,

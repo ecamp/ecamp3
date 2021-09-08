@@ -12,7 +12,7 @@ class ReadActivityTest extends ECampApiTestCase {
     public function testGetSingleActivityIsDeniedForAnonymousUser() {
         /** @var Activity $activity */
         $activity = static::$fixtures['activity1'];
-        static::createClient()->request('GET', '/activities/'.$activity->getId());
+        static::createBasicClient()->request('GET', '/activities/'.$activity->getId());
         $this->assertResponseStatusCodeSame(401);
         $this->assertJsonContains([
             'code' => 401,

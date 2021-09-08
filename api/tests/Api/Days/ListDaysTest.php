@@ -8,13 +8,23 @@ use App\Tests\Api\ECampApiTestCase;
  * @internal
  */
 class ListDaysTest extends ECampApiTestCase {
-    // TODO security tests when not logged in or not collaborator
+    public function testListDaysIsDeniedForAnonymousUser() {
+        static::createBasicClient()->request('GET', '/days');
+        $this->assertResponseStatusCodeSame(401);
+        $this->assertJsonContains([
+            'code' => 401,
+            'message' => 'JWT Token not found',
+        ]);
+    }
 
-    public function testListDaysIsAllowedForCollaborator() {
+    public function testListDaysIsAllowedForCollaboratorButFiltered() {
+        // precondition: There is a day that the user doesn't have access to
+        $this->assertNotEmpty(static::$fixtures['day1period1campUnrelated']);
+
         $response = static::createClientWithCredentials()->request('GET', '/days');
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
-            'totalItems' => 5,
+            'totalItems' => 6,
             '_links' => [
                 'items' => [],
             ],
@@ -28,10 +38,11 @@ class ListDaysTest extends ECampApiTestCase {
             ['href' => $this->getIriFor('day3period1')],
             ['href' => $this->getIriFor('day1period2')],
             ['href' => $this->getIriFor('day1period1camp2')],
+            ['href' => $this->getIriFor('day1period1campPrototype')],
         ], $response->toArray()['_links']['items']);
     }
 
-    public function testListMaterialItemsFilteredByPeriodIsAllowedForCollaborator() {
+    public function testListDaysFilteredByPeriodIsAllowedForCollaborator() {
         $period = static::$fixtures['period1'];
         $response = static::createClientWithCredentials()->request('GET', '/days?period=/periods/'.$period->getId());
         $this->assertResponseStatusCodeSame(200);
@@ -48,6 +59,52 @@ class ListDaysTest extends ECampApiTestCase {
             ['href' => $this->getIriFor('day1period1')],
             ['href' => $this->getIriFor('day2period1')],
             ['href' => $this->getIriFor('day3period1')],
+        ], $response->toArray()['_links']['items']);
+    }
+
+    public function testListDaysFilteredByPeriodIsDeniedForUnrelatedUser() {
+        $period = static::$fixtures['period1'];
+        $response = static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->username])
+            ->request('GET', '/days?period=/periods/'.$period->getId())
+        ;
+
+        $this->assertResponseStatusCodeSame(200);
+
+        $this->assertJsonContains(['totalItems' => 0]);
+        $this->assertStringNotContainsString($this->getIriFor('day1period1'), $response->getContent());
+        $this->assertStringNotContainsString($this->getIriFor('day2period1'), $response->getContent());
+        $this->assertStringNotContainsString($this->getIriFor('day3period1'), $response->getContent());
+    }
+
+    public function testListDaysFilteredByPeriodIsDeniedForInactiveCollaborator() {
+        $period = static::$fixtures['period1'];
+        $response = static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->username])
+            ->request('GET', '/days?period=/periods/'.$period->getId())
+        ;
+
+        $this->assertResponseStatusCodeSame(200);
+
+        $this->assertJsonContains(['totalItems' => 0]);
+        $this->assertStringNotContainsString($this->getIriFor('day1period1'), $response->getContent());
+        $this->assertStringNotContainsString($this->getIriFor('day2period1'), $response->getContent());
+        $this->assertStringNotContainsString($this->getIriFor('day3period1'), $response->getContent());
+    }
+
+    public function testListDaysFilteredByPeriodInCampPrototypeIsAllowedForCollaborator() {
+        $period = static::$fixtures['period1campPrototype'];
+        $response = static::createClientWithCredentials()->request('GET', '/days?period=/periods/'.$period->getId());
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertJsonContains([
+            'totalItems' => 1,
+            '_links' => [
+                'items' => [],
+            ],
+            '_embedded' => [
+                'items' => [],
+            ],
+        ]);
+        $this->assertEqualsCanonicalizing([
+            ['href' => $this->getIriFor('day1period1campPrototype')],
         ], $response->toArray()['_links']['items']);
     }
 }

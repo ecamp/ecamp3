@@ -11,7 +11,7 @@ use App\Tests\Api\ECampApiTestCase;
 class DeleteCategoryTest extends ECampApiTestCase {
     public function testDeleteCategoryIsDeniedForAnonymousUser() {
         $category = static::$fixtures['category1'];
-        static::createClient()->request('DELETE', '/categories/'.$category->getId());
+        static::createBasicClient()->request('DELETE', '/categories/'.$category->getId());
         $this->assertResponseStatusCodeSame(401);
         $this->assertJsonContains([
             'code' => 401,

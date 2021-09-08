@@ -8,8 +8,8 @@ use App\Tests\Api\ECampApiTestCase;
  * @internal
  */
 class ListUsersTest extends ECampApiTestCase {
-    public function testListUsersIsDeniedToAnonymousUser() {
-        static::createClient()->request('GET', '/users');
+    public function testListUsersIsDeniedForAnonymousUser() {
+        static::createBasicClient()->request('GET', '/users');
         $this->assertResponseStatusCodeSame(401);
         $this->assertJsonContains([
             'code' => 401,

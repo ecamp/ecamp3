@@ -14,7 +14,7 @@ class UpdatePeriodTest extends ECampApiTestCase {
 
     public function testPatchPeriodIsDeniedForAnonymousUser() {
         $period = static::$fixtures['period1'];
-        static::createClient()->request('PATCH', '/periods/'.$period->getId(), ['json' => [
+        static::createBasicClient()->request('PATCH', '/periods/'.$period->getId(), ['json' => [
             'description' => 'Vorweekend',
             'start' => '2023-01-01',
             'end' => '2023-01-02',
