@@ -25,8 +25,8 @@ use Symfony\Component\Validator\Constraints as Assert;
     collectionOperations: [
         'get' => ['security' => 'is_fully_authenticated()'],
         'post' => [
-            'security_post_denormalize' => 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)',
             'denormalization_context' => ['groups' => ['write', 'create']],
+            'security_post_denormalize' => 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)',
         ],
     ],
     itemOperations: [

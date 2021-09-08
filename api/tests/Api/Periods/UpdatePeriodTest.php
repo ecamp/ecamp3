@@ -42,7 +42,7 @@ class UpdatePeriodTest extends ECampApiTestCase {
         ]);
     }
 
-    public function testPatchPeriodIsDeniedForInactiveUser() {
+    public function testPatchPeriodIsDeniedForInactiveCollaborator() {
         $period = static::$fixtures['period1'];
         static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->username])
             ->request('PATCH', '/periods/'.$period->getId(), ['json' => [

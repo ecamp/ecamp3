@@ -20,3 +20,10 @@ App\Entity\MaterialItem:
     article: Zucker
     quantity: 1
     unit: kg
+  materialItem1period1campPrototype:
+    materialList: '@materialList1campPrototype'
+    period: '@period1campPrototype'
+    contentNode: null
+    article: Lagerapotheke
+    quantity: 1
+    unit: null
