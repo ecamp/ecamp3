@@ -6,6 +6,7 @@ use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use App\Repository\CampCollaborationRepository;
 use App\Validator\AssertEitherIsNull;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -16,14 +17,14 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * A user participating in some way in the planning or realization of a camp.
  *
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass=CampCollaborationRepository::class)
  * @ORM\Table(uniqueConstraints={
  *     @ORM\UniqueConstraint(name="inviteKey_unique", columns={"inviteKey"})
  * })
  */
 #[ApiResource(
     collectionOperations: [
-        'get',
+        'get' => ['security' => 'is_fully_authenticated()'],
         'post' => [
             'denormalization_context' => [
                 'groups' => ['write', 'create'],
@@ -31,12 +32,16 @@ use Symfony\Component\Validator\Constraints as Assert;
             'openapi_context' => [
                 'description' => 'Also sends an invitation email to the inviteEmail address, if specified.',
             ],
+            'security_post_denormalize' => 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)',
         ],
     ],
     itemOperations: [
-        'get',
-        'patch' => ['denormalization_context' => ['groups' => ['write', 'update']]],
-        'delete',
+        'get' => ['security' => 'is_granted("CAMP_COLLABORATOR", object) or is_granted("CAMP_IS_PROTOTYPE", object)'],
+        'patch' => [
+            'denormalization_context' => ['groups' => ['write', 'update']],
+            'security' => 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)',
+        ],
+        'delete' => ['security' => 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)'],
     ],
     denormalizationContext: ['groups' => ['write']],
     normalizationContext: ['groups' => ['read']],

@@ -74,7 +74,7 @@ class CreatePeriodTest extends ECampApiTestCase {
         $this->assertJsonContains($this->getExampleReadPayload());
     }
 
-    public function testCreatePeriodInPrototypeCampIsDeniedForUnrelateduser() {
+    public function testCreatePeriodInCampPrototypeIsDeniedForUnrelateduser() {
         static::createClientWithCredentials()->request('POST', '/periods', ['json' => $this->getExampleWritePayload([
             'camp' => $this->getIriFor('campPrototype'),
         ])]);

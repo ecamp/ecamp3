@@ -74,7 +74,7 @@ class DeletePeriodTest extends ECampApiTestCase {
         $this->assertNull($this->getEntityManager()->getRepository(Period::class)->find($period->getId()));
     }
 
-    public function testDeletePeriodFromPrototypeCampIsDeniedForUnrelatedUser() {
+    public function testDeletePeriodFromCampPrototypeIsDeniedForUnrelatedUser() {
         $period = static::$fixtures['period1campPrototype'];
         static::createClientWithCredentials()->request('DELETE', '/periods/'.$period->getId());
 

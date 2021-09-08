@@ -106,7 +106,7 @@ class UpdatePeriodTest extends ECampApiTestCase {
         ]);
     }
 
-    public function testPatchPeriodInPrototypeCampIsDeniedForUnrelatedUser() {
+    public function testPatchPeriodInCampPrototypeIsDeniedForUnrelatedUser() {
         $period = static::$fixtures['period1campPrototype'];
         static::createClientWithCredentials()->request('PATCH', '/periods/'.$period->getId(), ['json' => [
             'description' => 'Vorweekend',

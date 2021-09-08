@@ -151,7 +151,7 @@ class UpdateCategoryTest extends ECampApiTestCase {
         ], $response->toArray()['_links']['preferredContentTypes']);
     }
 
-    public function testPatchCategoryInPrototypeCampIsDeniedForUnrelatedUser() {
+    public function testPatchCategoryInCampPrototypeIsDeniedForUnrelatedUser() {
         $category = static::$fixtures['category1campPrototype'];
         $response = static::createClientWithCredentials()->request('PATCH', '/categories/'.$category->getId(), ['json' => [
             'short' => 'LP',

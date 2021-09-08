@@ -81,7 +81,7 @@ class ListActivitiesTest extends ECampApiTestCase {
         $this->assertStringNotContainsString($this->getIriFor('activity2'), $response->getContent());
     }
 
-    public function testListActivitiesFilteredByPrototypeCampIsAllowedForUnrelatedUser() {
+    public function testListActivitiesFilteredByCampPrototypeIsAllowedForUnrelatedUser() {
         $camp = static::$fixtures['campPrototype'];
         $response = static::createClientWithCredentials()->request('GET', '/activities?camp=/camps/'.$camp->getId());
         $this->assertResponseStatusCodeSame(200);

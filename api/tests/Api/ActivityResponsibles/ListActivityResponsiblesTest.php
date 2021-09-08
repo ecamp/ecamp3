@@ -124,7 +124,7 @@ class ListActivityResponsiblesTest extends ECampApiTestCase {
         $this->assertStringNotContainsString($this->getIriFor('activityResponsible1'), $response->getContent());
     }
 
-    public function testListActivityResponsiblesFilteredByPrototypeCampIsAllowedForUnrelatedUser() {
+    public function testListActivityResponsiblesFilteredByCampPrototypeIsAllowedForUnrelatedUser() {
         $camp = static::$fixtures['campPrototype'];
         $response = static::createClientWithCredentials()->request('GET', '/activity_responsibles?activity.camp=/camps/'.$camp->getId());
 

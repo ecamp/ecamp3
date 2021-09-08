@@ -74,7 +74,7 @@ class DeleteActivityTest extends ECampApiTestCase {
         $this->assertNull($this->getEntityManager()->getRepository(Activity::class)->find($activity->getId()));
     }
 
-    public function testDeleteActivityFromPrototypeCampIsDeniedForUnrelatedUser() {
+    public function testDeleteActivityFromCampPrototypeIsDeniedForUnrelatedUser() {
         $activity = static::$fixtures['activity1campPrototype'];
         static::createClientWithCredentials()->request('DELETE', '/activities/'.$activity->getId());
 

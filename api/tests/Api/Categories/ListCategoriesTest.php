@@ -85,7 +85,7 @@ class ListCategoriesTest extends ECampApiTestCase {
         $this->assertStringNotContainsString($this->getIriFor('category2'), $response->getContent());
     }
 
-    public function testListCategoriesFilteredByPrototypeCampIsAllowedForUnrelatedUser() {
+    public function testListCategoriesFilteredByCampPrototypeIsAllowedForUnrelatedUser() {
         $camp = static::$fixtures['campPrototype'];
         $response = static::createClientWithCredentials()->request('GET', '/categories?camp=/camps/'.$camp->getId());
 

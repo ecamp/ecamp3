@@ -85,7 +85,7 @@ class ListPeriodsTest extends ECampApiTestCase {
         $this->assertStringNotContainsString($this->getIriFor('period2'), $response->getContent());
     }
 
-    public function testListPeriodsFilteredByPrototypeCampCampIsAllowedForUnrelatedUser() {
+    public function testListPeriodsFilteredByCampPrototypeIsAllowedForUnrelatedUser() {
         $camp = static::$fixtures['campPrototype'];
         $response = static::createClientWithCredentials()->request('GET', '/periods?camp=/camps/'.$camp->getId());
 

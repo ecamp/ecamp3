@@ -76,7 +76,7 @@ class CreateCategoryTest extends ECampApiTestCase {
         $this->assertJsonContains($this->getExampleReadPayload());
     }
 
-    public function testCreateCategoryInPrototypeCampIsDeniedForUnrelatedUser() {
+    public function testCreateCategoryInCampPrototypeIsDeniedForUnrelatedUser() {
         static::createClientWithCredentials()->request('POST', '/categories', ['json' => $this->getExampleWritePayload([
             'camp' => $this->getIriFor('campPrototype'),
         ])]);

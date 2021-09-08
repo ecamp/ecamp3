@@ -8,11 +8,83 @@ use App\Tests\Api\ECampApiTestCase;
  * @internal
  */
 class UpdateCampCollaborationTest extends ECampApiTestCase {
-    // TODO security tests when not logged in or not collaborator
     // TODO input filter tests
     // TODO validation tests
 
-    public function testPatchCampCollaborationIsAllowedForCollaborator() {
+    public function testPatchCampCollaborationIsDeniedForAnonymousUser() {
+        $campCollaboration = static::$fixtures['campCollaboration1manager'];
+        static::createClient()->request('PATCH', '/camp_collaborations/'.$campCollaboration->getId(), ['json' => [
+            'status' => 'inactive',
+            'role' => 'guest',
+        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
+        $this->assertResponseStatusCodeSame(401);
+        $this->assertJsonContains([
+            'code' => 401,
+            'message' => 'JWT Token not found',
+        ]);
+    }
+
+    public function testPatchCampCollaborationIsDeniedForUnrelatedUser() {
+        $campCollaboration = static::$fixtures['campCollaboration1manager'];
+        static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->username])
+            ->request('PATCH', '/camp_collaborations/'.$campCollaboration->getId(), ['json' => [
+                'status' => 'inactive',
+                'role' => 'guest',
+            ], 'headers' => ['Content-Type' => 'application/merge-patch+json']])
+        ;
+        $this->assertResponseStatusCodeSame(404);
+        $this->assertJsonContains([
+            'title' => 'An error occurred',
+            'detail' => 'Not Found',
+        ]);
+    }
+
+    public function testPatchCampCollaborationIsDeniedForInactiveCollaborator() {
+        $campCollaboration = static::$fixtures['campCollaboration1manager'];
+        static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->username])
+            ->request('PATCH', '/camp_collaborations/'.$campCollaboration->getId(), ['json' => [
+                'status' => 'inactive',
+                'role' => 'guest',
+            ], 'headers' => ['Content-Type' => 'application/merge-patch+json']])
+        ;
+        $this->assertResponseStatusCodeSame(404);
+        $this->assertJsonContains([
+            'title' => 'An error occurred',
+            'detail' => 'Not Found',
+        ]);
+    }
+
+    public function testPatchCampCollaborationIsDeniedForGuest() {
+        $campCollaboration = static::$fixtures['campCollaboration1manager'];
+        static::createClientWithCredentials(['username' => static::$fixtures['user3guest']->username])
+            ->request('PATCH', '/camp_collaborations/'.$campCollaboration->getId(), ['json' => [
+                'status' => 'inactive',
+                'role' => 'guest',
+            ], 'headers' => ['Content-Type' => 'application/merge-patch+json']])
+        ;
+        $this->assertResponseStatusCodeSame(403);
+        $this->assertJsonContains([
+            'title' => 'An error occurred',
+            'detail' => 'Access Denied.',
+        ]);
+    }
+
+    public function testPatchCampCollaborationIsAllowedForMember() {
+        $campCollaboration = static::$fixtures['campCollaboration1manager'];
+        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->username])
+            ->request('PATCH', '/camp_collaborations/'.$campCollaboration->getId(), ['json' => [
+                'status' => 'inactive',
+                'role' => 'guest',
+            ], 'headers' => ['Content-Type' => 'application/merge-patch+json']])
+        ;
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertJsonContains([
+            'status' => 'inactive',
+            'role' => 'guest',
+        ]);
+    }
+
+    public function testPatchCampCollaborationIsAllowedForManager() {
         $campCollaboration = static::$fixtures['campCollaboration1manager'];
         static::createClientWithCredentials()->request('PATCH', '/camp_collaborations/'.$campCollaboration->getId(), ['json' => [
             'status' => 'inactive',
@@ -22,6 +94,19 @@ class UpdateCampCollaborationTest extends ECampApiTestCase {
         $this->assertJsonContains([
             'status' => 'inactive',
             'role' => 'guest',
+        ]);
+    }
+
+    public function testPatchCampCollaborationInCampPrototypeIsDeniedForUnrelatedUser() {
+        $campCollaboration = static::$fixtures['campCollaboration1campPrototype'];
+        static::createClientWithCredentials()->request('PATCH', '/camp_collaborations/'.$campCollaboration->getId(), ['json' => [
+            'status' => 'inactive',
+            'role' => 'guest',
+        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
+        $this->assertResponseStatusCodeSame(403);
+        $this->assertJsonContains([
+            'title' => 'An error occurred',
+            'detail' => 'Access Denied.',
         ]);
     }
 

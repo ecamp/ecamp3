@@ -74,7 +74,7 @@ class DeleteCategoryTest extends ECampApiTestCase {
         $this->assertNull($this->getEntityManager()->getRepository(Category::class)->find($category->getId()));
     }
 
-    public function testDeleteCategoryFromPrototypeCampIsDeniedForUnrelatedUser() {
+    public function testDeleteCategoryFromCampPrototypeIsDeniedForUnrelatedUser() {
         $category = static::$fixtures['category1campPrototype'];
         static::createClientWithCredentials()->request('DELETE', '/categories/'.$category->getId());
 
