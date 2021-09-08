@@ -72,11 +72,7 @@ class ListCampCollaborationsTest extends ECampApiTestCase {
         ;
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains(['totalItems' => 0]);
-        $this->assertStringNotContainsString($this->getIriFor('campCollaboration1manager'), $response->getContent());
-        $this->assertStringNotContainsString($this->getIriFor('campCollaboration2member'), $response->getContent());
-        $this->assertStringNotContainsString($this->getIriFor('campCollaboration3guest'), $response->getContent());
-        $this->assertStringNotContainsString($this->getIriFor('campCollaboration4invited'), $response->getContent());
-        $this->assertStringNotContainsString($this->getIriFor('campCollaboration5inactive'), $response->getContent());
+        $this->assertArrayNotHasKey('items', $response->toArray()['_links']);
     }
 
     public function testListCampCollaborationsFilteredByCampIsDeniedForInactiveCollaborator() {
@@ -86,11 +82,7 @@ class ListCampCollaborationsTest extends ECampApiTestCase {
         ;
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains(['totalItems' => 0]);
-        $this->assertStringNotContainsString($this->getIriFor('campCollaboration1manager'), $response->getContent());
-        $this->assertStringNotContainsString($this->getIriFor('campCollaboration2member'), $response->getContent());
-        $this->assertStringNotContainsString($this->getIriFor('campCollaboration3guest'), $response->getContent());
-        $this->assertStringNotContainsString($this->getIriFor('campCollaboration4invited'), $response->getContent());
-        $this->assertStringNotContainsString($this->getIriFor('campCollaboration5inactive'), $response->getContent());
+        $this->assertArrayNotHasKey('items', $response->toArray()['_links']);
     }
 
     public function testListCampCollaborationsFilteredByCampPrototypeIsAllowedForUnrelatedUser() {

@@ -65,7 +65,7 @@ class ListDayResponsiblesTest extends ECampApiTestCase {
         $this->assertResponseStatusCodeSame(200);
 
         $this->assertJsonContains(['totalItems' => 0]);
-        $this->assertStringNotContainsString($this->getIriFor('dayResponsible1'), $response->getContent());
+        $this->assertArrayNotHasKey('items', $response->toArray()['_links']);
     }
 
     public function testListDayResponsiblesFilteredByDayIsDeniedForInactiveCollaborator() {
@@ -77,7 +77,7 @@ class ListDayResponsiblesTest extends ECampApiTestCase {
         $this->assertResponseStatusCodeSame(200);
 
         $this->assertJsonContains(['totalItems' => 0]);
-        $this->assertStringNotContainsString($this->getIriFor('dayResponsible1'), $response->getContent());
+        $this->assertArrayNotHasKey('items', $response->toArray()['_links']);
     }
 
     public function testListDayResponsiblesFilteredByDayInCampPrototypeIsAllowedForUnrelatedUser() {

@@ -68,8 +68,7 @@ class ListPeriodsTest extends ECampApiTestCase {
         $this->assertResponseStatusCodeSame(200);
 
         $this->assertJsonContains(['totalItems' => 0]);
-        $this->assertStringNotContainsString($this->getIriFor('period1'), $response->getContent());
-        $this->assertStringNotContainsString($this->getIriFor('period2'), $response->getContent());
+        $this->assertArrayNotHasKey('items', $response->toArray()['_links']);
     }
 
     public function testListPeriodsFilteredByCampIsDeniedForInactiveCollaborator() {
@@ -81,8 +80,7 @@ class ListPeriodsTest extends ECampApiTestCase {
         $this->assertResponseStatusCodeSame(200);
 
         $this->assertJsonContains(['totalItems' => 0]);
-        $this->assertStringNotContainsString($this->getIriFor('period1'), $response->getContent());
-        $this->assertStringNotContainsString($this->getIriFor('period2'), $response->getContent());
+        $this->assertArrayNotHasKey('items', $response->toArray()['_links']);
     }
 
     public function testListPeriodsFilteredByCampPrototypeIsAllowedForUnrelatedUser() {

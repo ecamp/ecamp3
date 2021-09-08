@@ -71,9 +71,7 @@ class ListDaysTest extends ECampApiTestCase {
         $this->assertResponseStatusCodeSame(200);
 
         $this->assertJsonContains(['totalItems' => 0]);
-        $this->assertStringNotContainsString($this->getIriFor('day1period1'), $response->getContent());
-        $this->assertStringNotContainsString($this->getIriFor('day2period1'), $response->getContent());
-        $this->assertStringNotContainsString($this->getIriFor('day3period1'), $response->getContent());
+        $this->assertArrayNotHasKey('items', $response->toArray()['_links']);
     }
 
     public function testListDaysFilteredByPeriodIsDeniedForInactiveCollaborator() {
@@ -85,9 +83,7 @@ class ListDaysTest extends ECampApiTestCase {
         $this->assertResponseStatusCodeSame(200);
 
         $this->assertJsonContains(['totalItems' => 0]);
-        $this->assertStringNotContainsString($this->getIriFor('day1period1'), $response->getContent());
-        $this->assertStringNotContainsString($this->getIriFor('day2period1'), $response->getContent());
-        $this->assertStringNotContainsString($this->getIriFor('day3period1'), $response->getContent());
+        $this->assertArrayNotHasKey('items', $response->toArray()['_links']);
     }
 
     public function testListDaysFilteredByPeriodInCampPrototypeIsAllowedForCollaborator() {

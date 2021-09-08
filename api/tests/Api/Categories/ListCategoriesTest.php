@@ -68,8 +68,7 @@ class ListCategoriesTest extends ECampApiTestCase {
         $this->assertResponseStatusCodeSame(200);
 
         $this->assertJsonContains(['totalItems' => 0]);
-        $this->assertStringNotContainsString($this->getIriFor('category1'), $response->getContent());
-        $this->assertStringNotContainsString($this->getIriFor('category2'), $response->getContent());
+        $this->assertArrayNotHasKey('items', $response->toArray()['_links']);
     }
 
     public function testListCategoriesFilteredByCampIsDeniedForInactiveCollaborator() {
@@ -81,8 +80,7 @@ class ListCategoriesTest extends ECampApiTestCase {
         $this->assertResponseStatusCodeSame(200);
 
         $this->assertJsonContains(['totalItems' => 0]);
-        $this->assertStringNotContainsString($this->getIriFor('category1'), $response->getContent());
-        $this->assertStringNotContainsString($this->getIriFor('category2'), $response->getContent());
+        $this->assertArrayNotHasKey('items', $response->toArray()['_links']);
     }
 
     public function testListCategoriesFilteredByCampPrototypeIsAllowedForUnrelatedUser() {

@@ -10,11 +10,63 @@ use App\Tests\Api\ECampApiTestCase;
  * @internal
  */
 class CreateMaterialItemTest extends ECampApiTestCase {
-    // TODO security tests when not logged in or not collaborator
     // TODO input filter tests
     // TODO validation tests
 
-    public function testCreateMaterialItemIsAllowedForCollaborator() {
+    public function testCreateMaterialItemIsDeniedForAnonymousUser() {
+        static::createBasicClient()->request('POST', '/material_items', ['json' => $this->getExampleWritePayload()]);
+
+        $this->assertResponseStatusCodeSame(401);
+        $this->assertJsonContains([
+            'code' => 401,
+            'message' => 'JWT Token not found',
+        ]);
+    }
+
+    public function testCreateMaterialItemIsNotPossibleForUnrelatedUserBecauseMaterialListIsNotReadable() {
+        static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->username])
+            ->request('POST', '/material_items', ['json' => $this->getExampleWritePayload()])
+        ;
+        $this->assertResponseStatusCodeSame(400);
+        $this->assertJsonContains([
+            'title' => 'An error occurred',
+            'detail' => 'Item not found for "'.$this->getIriFor('materialList1').'".',
+        ]);
+    }
+
+    public function testCreateMaterialItemIsNotPossibleForInactiveCollaboratorBecauseMaterialListIsNotReadable() {
+        static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->username])
+            ->request('POST', '/material_items', ['json' => $this->getExampleWritePayload()])
+        ;
+        $this->assertResponseStatusCodeSame(400);
+        $this->assertJsonContains([
+            'title' => 'An error occurred',
+            'detail' => 'Item not found for "'.$this->getIriFor('materialList1').'".',
+        ]);
+    }
+
+    public function testCreateMaterialItemIsDeniedForGuest() {
+        static::createClientWithCredentials(['username' => static::$fixtures['user3guest']->username])
+            ->request('POST', '/material_items', ['json' => $this->getExampleWritePayload()])
+        ;
+
+        $this->assertResponseStatusCodeSame(403);
+        $this->assertJsonContains([
+            'title' => 'An error occurred',
+            'detail' => 'Access Denied.',
+        ]);
+    }
+
+    public function testCreateMaterialItemIsAllowedForMember() {
+        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->username])
+            ->request('POST', '/material_items', ['json' => $this->getExampleWritePayload()])
+        ;
+
+        $this->assertResponseStatusCodeSame(201);
+        $this->assertJsonContains($this->getExampleReadPayload());
+    }
+
+    public function testCreateMaterialItemIsAllowedForManager() {
         static::createClientWithCredentials()->request('POST', '/material_items', ['json' => $this->getExampleWritePayload()]);
 
         $this->assertResponseStatusCodeSame(201);
@@ -32,6 +84,19 @@ class CreateMaterialItemTest extends ECampApiTestCase {
                     'message' => 'This value should not be null.',
                 ],
             ],
+        ]);
+    }
+
+    public function testCreateMaterialItemInCampPrototypeIsDeniedForUnrelatedUser() {
+        static::createClientWithCredentials()->request('POST', '/material_items', ['json' => $this->getExampleWritePayload([
+            'materialList' => $this->getIriFor('materialList1campPrototype'),
+            'period' => $this->getIriFor('period1campPrototype'),
+        ])]);
+
+        $this->assertResponseStatusCodeSame(403);
+        $this->assertJsonContains([
+            'title' => 'An error occurred',
+            'detail' => 'Access Denied.',
         ]);
     }
 

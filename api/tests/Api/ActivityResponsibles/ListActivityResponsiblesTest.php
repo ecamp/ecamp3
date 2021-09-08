@@ -18,7 +18,7 @@ class ListActivityResponsiblesTest extends ECampApiTestCase {
     }
 
     public function testListActivityResponsiblesIsAllowedForCollaboratorButFiltered() {
-        // precondition: There is a period that the user doesn't have access to
+        // precondition: There is an activity responsible that the user doesn't have access to
         $this->assertNotEmpty(static::$fixtures['activityResponsible1campUnrelated']);
 
         $response = static::createClientWithCredentials()->request('GET', '/activity_responsibles');
@@ -66,7 +66,7 @@ class ListActivityResponsiblesTest extends ECampApiTestCase {
         $this->assertResponseStatusCodeSame(200);
 
         $this->assertJsonContains(['totalItems' => 0]);
-        $this->assertStringNotContainsString($this->getIriFor('activityResponsible1'), $response->getContent());
+        $this->assertArrayNotHasKey('items', $response->toArray()['_links']);
     }
 
     public function testListActivityResponsiblesFilteredByActivityIsDeniedForInactiveCollaborator() {
@@ -78,7 +78,7 @@ class ListActivityResponsiblesTest extends ECampApiTestCase {
         $this->assertResponseStatusCodeSame(200);
 
         $this->assertJsonContains(['totalItems' => 0]);
-        $this->assertStringNotContainsString($this->getIriFor('activityResponsible1'), $response->getContent());
+        $this->assertArrayNotHasKey('items', $response->toArray()['_links']);
     }
 
     public function testListActivityResponsiblesFilteredByActivityInCampPrototypeIsAllowedForUnrelatedUser() {
@@ -121,7 +121,7 @@ class ListActivityResponsiblesTest extends ECampApiTestCase {
         $this->assertResponseStatusCodeSame(200);
 
         $this->assertJsonContains(['totalItems' => 0]);
-        $this->assertStringNotContainsString($this->getIriFor('activityResponsible1'), $response->getContent());
+        $this->assertArrayNotHasKey('items', $response->toArray()['_links']);
     }
 
     public function testListActivityResponsiblesFilteredByCampPrototypeIsAllowedForUnrelatedUser() {
