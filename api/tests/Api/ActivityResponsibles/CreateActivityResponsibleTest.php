@@ -48,7 +48,7 @@ class CreateActivityResponsibleTest extends ECampApiTestCase {
     public function testCreateActivityResponsibleIsDeniedForGuest() {
         static::createClientWithCredentials(['username' => static::$fixtures['user3guest']->username])
             ->request('POST', '/activity_responsibles', ['json' => $this->getExampleWritePayload()])
-    ;
+        ;
 
         $this->assertResponseStatusCodeSame(403);
         $this->assertJsonContains([
@@ -60,7 +60,7 @@ class CreateActivityResponsibleTest extends ECampApiTestCase {
     public function testCreateActivityResponsibleIsAllowedForMember() {
         static::createClientWithCredentials(['username' => static::$fixtures['user2member']->username])
             ->request('POST', '/activity_responsibles', ['json' => $this->getExampleWritePayload()])
-    ;
+        ;
 
         $this->assertResponseStatusCodeSame(201);
         $this->assertJsonContains($this->getExampleReadPayload());

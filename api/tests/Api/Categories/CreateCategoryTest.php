@@ -51,7 +51,7 @@ class CreateCategoryTest extends ECampApiTestCase {
     public function testCreateCategoryIsDeniedForGuest() {
         static::createClientWithCredentials(['username' => static::$fixtures['user3guest']->username])
             ->request('POST', '/categories', ['json' => $this->getExampleWritePayload()])
-    ;
+        ;
 
         $this->assertResponseStatusCodeSame(403);
         $this->assertJsonContains([
@@ -63,7 +63,7 @@ class CreateCategoryTest extends ECampApiTestCase {
     public function testCreateCategoryIsAllowedForMember() {
         static::createClientWithCredentials(['username' => static::$fixtures['user2member']->username])
             ->request('POST', '/categories', ['json' => $this->getExampleWritePayload()])
-    ;
+        ;
 
         $this->assertResponseStatusCodeSame(201);
         $this->assertJsonContains($this->getExampleReadPayload());
