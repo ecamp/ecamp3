@@ -18,10 +18,38 @@ class ResendInvitationCampCollaborationTest extends ECampApiTestCase {
      * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
      * @throws \Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface
      */
-    public function testResendInvitationSuccessful() {
+    public function testResendInvitationSuccessfulWhenUserIsManager() {
         /** @var CampCollaboration $campCollaboration */
         $campCollaboration = static::$fixtures['campCollaboration4invited'];
-        static::createClientWithCredentials()->request(
+        static::createClientWithCredentials(['username' => static::$fixtures['user1manager']->username])->request(
+            'PATCH',
+            '/camp_collaborations/'.$campCollaboration->getId().'/'.self::RESEND_INVITATION,
+            [
+                'json' => [],
+                'headers' => ['Content-Type' => 'application/merge-patch+json'],
+            ]
+        );
+
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertJsonContains([
+            'inviteEmail' => $campCollaboration->inviteEmail,
+            'status' => $campCollaboration->status,
+            'role' => $campCollaboration->role,
+        ]);
+        self::assertEmailCount(1);
+    }
+
+    /**
+     * @throws \Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface
+     */
+    public function testResendInvitationSuccessfulWhenUserIsMember() {
+        /** @var CampCollaboration $campCollaboration */
+        $campCollaboration = static::$fixtures['campCollaboration4invited'];
+        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->username])->request(
             'PATCH',
             '/camp_collaborations/'.$campCollaboration->getId().'/'.self::RESEND_INVITATION,
             [
@@ -124,6 +152,29 @@ class ResendInvitationCampCollaborationTest extends ECampApiTestCase {
         ;
 
         $this->assertResponseStatusCodeSame(404);
+    }
+
+    /**
+     * @throws \Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
+     */
+    public function testResendInvitationFailsWhenUserIsGuest() {
+        /** @var CampCollaboration $campCollaboration */
+        $campCollaboration = static::$fixtures['campCollaboration4invited'];
+        static::createClientWithCredentials(['username' => static::$fixtures['user3guest']->username])
+            ->request(
+                'PATCH',
+                '/camp_collaborations/'.$campCollaboration->getId().'/'.self::RESEND_INVITATION,
+                [
+                    'json' => [],
+                    'headers' => ['Content-Type' => 'application/merge-patch+json'],
+                ]
+            )
+        ;
+
+        $this->assertResponseStatusCodeSame(403);
     }
 
     /**
