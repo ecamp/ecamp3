@@ -97,5 +97,8 @@
       },
       "name": "Activity scheduled"
     }
+  },
+  "welcome": {
+    "common": "Welcome from the common translations"
   }
 }

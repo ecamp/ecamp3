@@ -426,5 +426,8 @@
     "profile": {
       "profile": "Profile"
     }
+  },
+  "welcome": {
+    "frontend": "Welcome from the frontend translations"
   }
 }
