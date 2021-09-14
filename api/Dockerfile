@@ -129,7 +129,7 @@ FROM caddy:${CADDY_VERSION} AS api_platform_caddy
 
 WORKDIR /srv/api
 
-COPY --from=dunglas/mercure:v0.11@sha256:85a985a8dd6c4db2a6023285699d1f323da6b0e2e15bc26838fbc55fda7b5191 /srv/public /srv/mercure-assets/
+COPY --from=dunglas/mercure:v0.12@sha256:f9b636808ba85d3e6a18d20dca60f1c86e55fd5ec58e1568c7556521c0910922 /srv/public /srv/mercure-assets/
 COPY --from=api_platform_caddy_builder /usr/bin/caddy /usr/bin/caddy
 COPY --from=api_platform_php /srv/api/public public/
 COPY docker/caddy/Caddyfile /etc/caddy/Caddyfile
