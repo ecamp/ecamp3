@@ -29,7 +29,7 @@
         :title="result.title"
         class="mt-2" />
     </div>
-    <ecamp3-print-preview ref="reactPrintPreview"></ecamp3-print-preview>
+    <ecamp3-print-preview ref="reactPrintPreview" />
   </div>
 </template>
 
