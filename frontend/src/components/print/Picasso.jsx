@@ -6,7 +6,7 @@ import Footer from '@/components/print/Footer.jsx'
 
 function Picasso ({ camp }) {
   return <Page size="A4" orientation="landscape" style={styles.page}>
-    <View style={styles.section}>
+    <View id="picasso" style={styles.section}>
       <Text style={styles.h1}>Grobprogramm {camp.name} im Querformat</Text>
     </View>
     <Footer/>

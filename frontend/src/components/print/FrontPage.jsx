@@ -1,6 +1,6 @@
 // eslint-disable-next-line no-unused-vars
 import React from 'react'
-import { Page, Text, View } from '@react-pdf/renderer'
+import { Link, Page, Text, View } from '@react-pdf/renderer'
 import styles from '@/components/print/styles.js'
 import Header from '@/components/print/Header.jsx'
 import Footer from '@/components/print/Footer.jsx'
@@ -24,6 +24,7 @@ function FrontPage ({ camp, $tc }) {
       </View>
     })}
     <View style={styles.section}>
+      <Link href="#picasso">Direktlink zum Grobprogramm</Link>
       <Text>Und nun zu einer Demonstration der Seitenumbruchsfähigkeiten von react-pdf.</Text>
     </View>
     <View style={styles.section}>
