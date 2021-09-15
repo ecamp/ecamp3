@@ -119,6 +119,7 @@ CMD ["php-fpm"]
 # depends on the "php" stage above
 FROM caddy:${CADDY_VERSION}-builder-alpine AS api_platform_caddy_builder
 
+# install Mercure and Vulcain modules
 RUN xcaddy build \
     --with github.com/dunglas/mercure \
     --with github.com/dunglas/mercure/caddy \
@@ -129,7 +130,6 @@ FROM caddy:${CADDY_VERSION} AS api_platform_caddy
 
 WORKDIR /srv/api
 
-COPY --from=dunglas/mercure:v0.11@sha256:85a985a8dd6c4db2a6023285699d1f323da6b0e2e15bc26838fbc55fda7b5191 /srv/public /srv/mercure-assets/
 COPY --from=api_platform_caddy_builder /usr/bin/caddy /usr/bin/caddy
 COPY --from=api_platform_php /srv/api/public public/
 COPY docker/caddy/Caddyfile /etc/caddy/Caddyfile

@@ -68,7 +68,7 @@ services:
       SERVER_NAME: ${SERVER_NAME:-localhost:4001, localhost:4443, caddy:4001}
       MERCURE_PUBLISHER_JWT_KEY: ${MERCURE_PUBLISHER_JWT_KEY:-!ChangeMe!}
       MERCURE_SUBSCRIBER_JWT_KEY: ${MERCURE_SUBSCRIBER_JWT_KEY:-!ChangeMe!}
-      MERCURE_EXTRA_DIRECTIVES: demo /srv/mercure-assets/
+      MERCURE_EXTRA_DIRECTIVES: demo
     ports:
       # HTTP
       - target: 4001
