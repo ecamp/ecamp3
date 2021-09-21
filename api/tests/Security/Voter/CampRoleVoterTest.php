@@ -11,6 +11,7 @@ use App\Security\Voter\CampRoleVoter;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 
 /**
  * @internal
@@ -32,7 +33,7 @@ class CampRoleVoterTest extends TestCase {
         $result = $this->voter->vote($this->token, new Period(), ['CAMP_SUPPORTER']);
 
         // then
-        $this->assertEquals(CampRoleVoter::ACCESS_ABSTAIN, $result);
+        $this->assertEquals(VoterInterface::ACCESS_ABSTAIN, $result);
     }
 
     public function testDoesntVoteWhenSubjectDoesNotBelongToCamp() {
@@ -42,7 +43,7 @@ class CampRoleVoterTest extends TestCase {
         $result = $this->voter->vote($this->token, new CampRoleVoterTestDummy(), ['CAMP_COLLABORATOR']);
 
         // then
-        $this->assertEquals(CampRoleVoter::ACCESS_ABSTAIN, $result);
+        $this->assertEquals(VoterInterface::ACCESS_ABSTAIN, $result);
     }
 
     public function testDeniesAccessWhenSubjectIsNull() {
@@ -52,7 +53,7 @@ class CampRoleVoterTest extends TestCase {
         $result = $this->voter->vote($this->token, null, ['CAMP_COLLABORATOR']);
 
         // then
-        $this->assertEquals(CampRoleVoter::ACCESS_DENIED, $result);
+        $this->assertEquals(VoterInterface::ACCESS_DENIED, $result);
     }
 
     public function testDeniesAccessWhenNotLoggedIn() {
@@ -63,7 +64,7 @@ class CampRoleVoterTest extends TestCase {
         $result = $this->voter->vote($this->token, new Period(), ['CAMP_COLLABORATOR']);
 
         // then
-        $this->assertEquals(CampRoleVoter::ACCESS_DENIED, $result);
+        $this->assertEquals(VoterInterface::ACCESS_DENIED, $result);
     }
 
     /**
@@ -83,7 +84,7 @@ class CampRoleVoterTest extends TestCase {
         $result = $this->voter->vote($this->token, $subject, ['CAMP_COLLABORATOR']);
 
         // then
-        $this->assertEquals(CampRoleVoter::ACCESS_GRANTED, $result);
+        $this->assertEquals(VoterInterface::ACCESS_GRANTED, $result);
     }
 
     public function testDeniesAccessWhenGetCampYieldsNullAndNotLoggedIn() {
@@ -96,7 +97,7 @@ class CampRoleVoterTest extends TestCase {
         $result = $this->voter->vote($this->token, $subject, ['CAMP_COLLABORATOR']);
 
         // then
-        $this->assertEquals(CampRoleVoter::ACCESS_DENIED, $result);
+        $this->assertEquals(VoterInterface::ACCESS_DENIED, $result);
     }
 
     public function testDeniesAccessWhenNoCampCollaborations() {
@@ -112,7 +113,7 @@ class CampRoleVoterTest extends TestCase {
         $result = $this->voter->vote($this->token, $subject, ['CAMP_COLLABORATOR']);
 
         // then
-        $this->assertEquals(CampRoleVoter::ACCESS_DENIED, $result);
+        $this->assertEquals(VoterInterface::ACCESS_DENIED, $result);
     }
 
     public function testDeniesAccessWhenNoMatchingCampCollaboration() {
@@ -135,7 +136,7 @@ class CampRoleVoterTest extends TestCase {
         $result = $this->voter->vote($this->token, $subject, ['CAMP_COLLABORATOR']);
 
         // then
-        $this->assertEquals(CampRoleVoter::ACCESS_DENIED, $result);
+        $this->assertEquals(VoterInterface::ACCESS_DENIED, $result);
     }
 
     public function testDeniesAccessWhenMatchingCampCollaborationIsInvitation() {
@@ -158,7 +159,7 @@ class CampRoleVoterTest extends TestCase {
         $result = $this->voter->vote($this->token, $subject, ['CAMP_COLLABORATOR']);
 
         // then
-        $this->assertEquals(CampRoleVoter::ACCESS_DENIED, $result);
+        $this->assertEquals(VoterInterface::ACCESS_DENIED, $result);
     }
 
     public function testDeniesAccessWhenMatchingCampCollaborationIsInactive() {
@@ -181,7 +182,7 @@ class CampRoleVoterTest extends TestCase {
         $result = $this->voter->vote($this->token, $subject, ['CAMP_COLLABORATOR']);
 
         // then
-        $this->assertEquals(CampRoleVoter::ACCESS_DENIED, $result);
+        $this->assertEquals(VoterInterface::ACCESS_DENIED, $result);
     }
 
     public function testDeniesAccessWhenRolesDontMatch() {
@@ -204,7 +205,7 @@ class CampRoleVoterTest extends TestCase {
         $result = $this->voter->vote($this->token, $subject, ['CAMP_MANAGER']);
 
         // then
-        $this->assertEquals(CampRoleVoter::ACCESS_DENIED, $result);
+        $this->assertEquals(VoterInterface::ACCESS_DENIED, $result);
     }
 
     public function testGrantsAccess() {
@@ -227,7 +228,7 @@ class CampRoleVoterTest extends TestCase {
         $result = $this->voter->vote($this->token, $subject, ['CAMP_COLLABORATOR']);
 
         // then
-        $this->assertEquals(CampRoleVoter::ACCESS_GRANTED, $result);
+        $this->assertEquals(VoterInterface::ACCESS_GRANTED, $result);
     }
 }
 
