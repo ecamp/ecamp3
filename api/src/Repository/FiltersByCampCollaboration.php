@@ -16,7 +16,7 @@ trait FiltersByCampCollaboration {
     public function filterByCampCollaboration(QueryBuilder $queryBuilder, User $user, string $campAlias = 'camp'): void {
         $queryBuilder->leftJoin("{$campAlias}.collaborations", 'filter_campCollaboration');
         $queryBuilder->andWhere("(filter_campCollaboration.user = :current_user and filter_campCollaboration.status = :established) or {$campAlias}.isPrototype = :true");
-        $queryBuilder->setParameter('current_user', $user->getId());
+        $queryBuilder->setParameter('current_user', $user);
         $queryBuilder->setParameter('established', CampCollaboration::STATUS_ESTABLISHED);
         $queryBuilder->setParameter('true', true);
     }
