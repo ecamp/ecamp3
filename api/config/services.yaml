@@ -44,8 +44,8 @@ services:
 
     App\DataPersister\ContentNode\ColumnLayoutDataPersister:
         arguments: [ '@api_platform.doctrine.orm.data_persister' ]
-        
-    App\DataPersister\InvitationDataPersister:
+
+    App\DataPersister\Util\DataPersisterObservable:
         arguments: [ '@api_platform.doctrine.orm.data_persister' ]
 
     App\Validator\MaterialItemUpdateGroupSequence:

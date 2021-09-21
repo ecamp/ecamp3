@@ -2,46 +2,64 @@
 
 namespace App\DataPersister;
 
-use ApiPlatform\Core\DataPersister\ContextAwareDataPersisterInterface;
+use App\DataPersister\Util\AbstractDataPersister;
+use App\DataPersister\Util\CustomActionListener;
+use App\DataPersister\Util\DataPersisterObservable;
 use App\DTO\Invitation;
 use App\Entity\CampCollaboration;
 use App\Repository\CampCollaborationRepository;
 use Symfony\Component\Security\Core\Security;
 
-class InvitationDataPersister implements ContextAwareDataPersisterInterface {
+class InvitationDataPersister extends AbstractDataPersister {
+    /**
+     * @throws \ReflectionException
+     */
     public function __construct(
-        private ContextAwareDataPersisterInterface $dataPersister,
+        DataPersisterObservable $dataPersisterObservable,
         private CampCollaborationRepository $campCollaborationRepository,
         private Security $security
     ) {
+        $acceptListener = CustomActionListener::of(Invitation::ACCEPT, fn ($data) => $this->onAccept($data));
+        $rejectListener = CustomActionListener::of(Invitation::REJECT, fn ($data) => $this->onReject($data));
+        parent::__construct(
+            Invitation::class,
+            $dataPersisterObservable,
+            customActionListeners: [$acceptListener, $rejectListener]
+        );
     }
 
+    /**
+     * Override supports to omit check if Invitation is a managed Entity (which it's not).
+     */
     public function supports($data, array $context = []): bool {
         return $data instanceof Invitation;
     }
 
-    /**
-     * @param Invitation $data
-     */
-    public function persist($data, array $context = []) {
-        if (Invitation::ACCEPT === ($context['item_operation_name'] ?? null)) {
-            $campCollaboration = $this->campCollaborationRepository->findByInviteKey($data->inviteKey);
-            $campCollaboration->user = $this->security->getUser();
-            $campCollaboration->status = CampCollaboration::STATUS_ESTABLISHED;
-            $campCollaboration->inviteKey = null;
-            $campCollaboration->inviteEmail = null;
-            //TODO: add MaterialList for User
-            $this->dataPersister->persist($campCollaboration);
-        } elseif (Invitation::REJECT === ($context['item_operation_name'] ?? null)) {
-            $campCollaboration = $this->campCollaborationRepository->findByInviteKey($data->inviteKey);
-            $campCollaboration->user = $this->security->getUser();
-            $campCollaboration->status = CampCollaboration::STATUS_INACTIVE;
-            $campCollaboration->inviteKey = null;
-            $this->dataPersister->persist($campCollaboration);
-        }
+    public function onAccept($data): CampCollaboration {
+        $campCollaboration = $this->campCollaborationRepository->findByInviteKey($data->inviteKey);
+        $campCollaboration->user = $this->security->getUser();
+        $campCollaboration->status = CampCollaboration::STATUS_ESTABLISHED;
+        $campCollaboration->inviteKey = null;
+        $campCollaboration->inviteEmail = null;
+
+        return $campCollaboration;
     }
 
-    public function remove($data, array $context = []) {
-        throw new \RuntimeException('remove is not supported for '.Invitation::class);
+    public function onReject($data): CampCollaboration {
+        $campCollaboration = $this->campCollaborationRepository->findByInviteKey($data->inviteKey);
+        $campCollaboration->user = $this->security->getUser();
+        $campCollaboration->status = CampCollaboration::STATUS_INACTIVE;
+        $campCollaboration->inviteKey = null;
+
+        return $campCollaboration;
+    }
+
+    /**
+     * Override persist method to return Invitation instead of the persisted CampCollaboration.
+     */
+    public function persist($data, array $context = []) {
+        parent::persist($data, $context);
+
+        return $data;
     }
 }
