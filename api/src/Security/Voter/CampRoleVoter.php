@@ -38,10 +38,29 @@ class CampRoleVoter extends Voter {
             return true;
         }
 
-        return $camp->collaborations->exists(function ($idx, CampCollaboration $collaboration) use ($user, $attribute) {
-            return CampCollaboration::STATUS_ESTABLISHED === $collaboration->status
-                && $collaboration->user->getId() === $user->getId()
-                && in_array($collaboration->role, self::RULE_MAPPING[$attribute], true);
-        });
+        return $camp->collaborations
+            ->filter(self::withStatus(CampCollaboration::STATUS_ESTABLISHED))
+            ->filter(self::ofUser($user))
+            ->filter(self::withRole($attribute))
+            ->exists(fn () => true)
+        ;
+    }
+
+    private static function withStatus($status) {
+        return function (CampCollaboration $collaboration) use ($status) {
+            return $status === $collaboration->status;
+        };
+    }
+
+    private static function ofUser($user) {
+        return function (CampCollaboration $collaboration) use ($user) {
+            return $collaboration->user->getId() === $user->getId();
+        };
+    }
+
+    private static function withRole($attribute) {
+        return function (CampCollaboration $collaboration) use ($attribute) {
+            return in_array($collaboration->role, self::RULE_MAPPING[$attribute], true);
+        };
     }
 }
