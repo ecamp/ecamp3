@@ -12,10 +12,8 @@ trait FiltersByCampCollaboration {
      * the camp is a prototype.
      * Assumes the queryBuilder already knows how to get to the corresponding camp. You can pass
      * the alias of the camp as the third argument if it's anything other than "camp".
-     *
-     * @param string $campAlias
      */
-    public function filterByCampCollaboration(QueryBuilder $queryBuilder, User $user, $campAlias = 'camp'): void {
+    public function filterByCampCollaboration(QueryBuilder $queryBuilder, User $user, string $campAlias = 'camp'): void {
         $queryBuilder->leftJoin("{$campAlias}.collaborations", 'filter_campCollaboration');
         $queryBuilder->andWhere("(filter_campCollaboration.user = :current_user and filter_campCollaboration.status = :established) or {$campAlias}.isPrototype = :true");
         $queryBuilder->setParameter('current_user', $user->getId());

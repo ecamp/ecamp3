@@ -22,6 +22,7 @@ class CampRepository extends ServiceEntityRepository implements CanFilterByUserI
     }
 
     public function filterByUser(QueryBuilder $queryBuilder, User $user): void {
+        /** @var string $rootAlias */
         $rootAlias = $queryBuilder->getRootAliases()[0];
         $this->filterByCampCollaboration($queryBuilder, $user, $rootAlias);
     }
