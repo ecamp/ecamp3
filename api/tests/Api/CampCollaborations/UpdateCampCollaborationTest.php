@@ -69,6 +69,21 @@ class UpdateCampCollaborationTest extends ECampApiTestCase {
         ]);
     }
 
+    public function testOwnPatchCampCollaborationIsAllowedForGuest() {
+        $campCollaboration = static::$fixtures['campCollaboration3guest'];
+        static::createClientWithCredentials(['username' => static::$fixtures['user3guest']->username])
+            ->request('PATCH', '/camp_collaborations/'.$campCollaboration->getId(), ['json' => [
+                'status' => 'inactive',
+                'role' => 'guest',
+            ], 'headers' => ['Content-Type' => 'application/merge-patch+json']])
+        ;
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertJsonContains([
+            'status' => 'inactive',
+            'role' => 'guest',
+        ]);
+    }
+
     public function testPatchCampCollaborationIsAllowedForMember() {
         $campCollaboration = static::$fixtures['campCollaboration1manager'];
         static::createClientWithCredentials(['username' => static::$fixtures['user2member']->username])
