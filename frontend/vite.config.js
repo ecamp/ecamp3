@@ -39,7 +39,8 @@ export default defineConfig({
         find: 'dayjs',
         replacement: path.resolve(__dirname, 'node_modules', 'dayjs')
       }
-    ]
+    ],
+    preserveSymlinks: true
   },
   css: {
     preprocessorOptions: {
