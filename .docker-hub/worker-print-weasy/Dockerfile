@@ -8,7 +8,7 @@ RUN apt-get -y update \
         libgdk-pixbuf2.0-0 \
         libpango1.0-0 \
         python-dev \
-        python-lxml \
+        python3-lxml \
         shared-mime-info \
         libcairo2 
 
