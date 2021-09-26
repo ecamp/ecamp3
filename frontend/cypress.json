@@ -1,5 +1,6 @@
 {
   "pluginsFile": "tests/e2e/plugins/index.js",
   "video": false,
-  "pageLoadTimeout": 120000
+  "pageLoadTimeout": 120000,
+  "defaultCommandTimeout": 8000
 }
