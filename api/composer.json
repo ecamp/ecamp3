@@ -95,6 +95,7 @@
         ]
     },
     "conflict": {
+        "symfony/dependency-injection": "5.3.7",
         "symfony/symfony": "*"
     }
 }
