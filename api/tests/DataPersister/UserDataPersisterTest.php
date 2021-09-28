@@ -15,8 +15,8 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
  */
 class UserDataPersisterTest extends TestCase {
     private UserDataPersister $dataPersister;
-    private MockObject | ContextAwareDataPersisterInterface $decoratedMock;
-    private MockObject | UserPasswordHasherInterface $userPasswordHasher;
+    private MockObject|ContextAwareDataPersisterInterface $decoratedMock;
+    private MockObject|UserPasswordHasherInterface $userPasswordHasher;
     private User $user;
 
     protected function setUp(): void {
