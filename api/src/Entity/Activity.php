@@ -6,6 +6,7 @@ use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use App\Repository\ActivityRepository;
 use App\Validator\AssertBelongsToSameCamp;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -16,16 +17,20 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * A piece of programme that will be carried out once or multiple times in a camp.
  *
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass=ActivityRepository::class)
  */
 #[ApiResource(
-    collectionOperations: ['get', 'post'],
+    collectionOperations: [
+        'get' => ['security' => 'is_fully_authenticated()'],
+        'post' => ['security_post_denormalize' => 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)'],
+    ],
     itemOperations: [
-        'get',
+        'get' => ['security' => 'is_granted("CAMP_COLLABORATOR", object) or is_granted("CAMP_IS_PROTOTYPE", object)'],
         'patch' => [
+            'security' => 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)',
             'validation_groups' => ['Default', 'update'],
         ],
-        'delete',
+        'delete' => ['security' => 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)'],
     ],
     denormalizationContext: ['groups' => ['write']],
     normalizationContext: ['groups' => ['read']],
@@ -96,7 +101,7 @@ class Activity extends AbstractContentNodeOwner implements BelongsToCampInterfac
     }
 
     public function getCamp(): ?Camp {
-        return $this->camp;
+        return $this->camp ?? $this->category?->camp;
     }
 
     #[ApiProperty(writable: false)]

@@ -22,3 +22,17 @@ App\Entity\Category:
     color: '#4CAF50'
     numberingStyle: 1
     rootContentNode: '@contentNode2camp2'
+  category1campUnrelated:
+    camp: '@campUnrelated'
+    short: LS
+    name: Lagersport
+    color: '#4CAF50'
+    numberingStyle: 1
+    rootContentNode: '@contentNode2campUnrelated'
+  category1campPrototype:
+    camp: '@campPrototype'
+    short: LS
+    name: Lagersport
+    color: '#4CAF50'
+    numberingStyle: 1
+    rootContentNode: '@contentNode2campPrototype'

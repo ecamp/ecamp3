@@ -6,6 +6,7 @@ use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use App\Repository\DayRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -19,14 +20,18 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
  * easier to move the whole periods to different dates. Days are created automatically when
  * creating or updating periods, and are not writable through the API directly.
  *
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass=DayRepository::class)
  * @ORM\Table(uniqueConstraints={
  *     @ORM\UniqueConstraint(name="offset_period_idx", columns={"periodId", "dayOffset"})
  * })
  */
 #[ApiResource(
-    collectionOperations: ['get'],
-    itemOperations: ['get'],
+    collectionOperations: [
+        'get' => ['security' => 'is_fully_authenticated()'],
+    ],
+    itemOperations: [
+        'get' => ['security' => 'is_granted("CAMP_COLLABORATOR", object) or is_granted("CAMP_IS_PROTOTYPE", object)'],
+    ],
     denormalizationContext: ['groups' => ['write']],
     normalizationContext: ['groups' => ['read']],
 )]

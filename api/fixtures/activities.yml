@@ -17,3 +17,15 @@ App\Entity\Activity:
     location: <sentence()>
     rootContentNode: '@contentNode1camp2'
     category: '@category1camp2'
+  activity1campUnrelated:
+    camp: '@campUnrelated'
+    title: <word()>
+    location: <sentence()>
+    rootContentNode: '@contentNode1campUnrelated'
+    category: '@category1campUnrelated'
+  activity1campPrototype:
+    camp: '@campPrototype'
+    title: <word()>
+    location: <sentence()>
+    rootContentNode: '@contentNode1campPrototype'
+    category: '@category1campPrototype'

@@ -14,3 +14,13 @@ App\Entity\Period:
     description: Vorweekend
     start: '<dateTimeBetween("now", "now")>'
     end: '<dateTimeBetween("+2 days", "+14 days")>'
+  period1campUnrelated:
+    camp: '@campUnrelated'
+    description: Hauptlager
+    start: '<dateTimeBetween("now", "now")>'
+    end: '<dateTimeBetween("+2 days", "+14 days")>'
+  period1campPrototype:
+    camp: '@campPrototype'
+    description: Hauptlager
+    start: '<dateTimeBetween("now", "now")>'
+    end: '<dateTimeBetween("+2 days", "+14 days")>'

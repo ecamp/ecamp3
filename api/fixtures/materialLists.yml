@@ -8,3 +8,9 @@ App\Entity\MaterialList:
   materialList1camp2:
     camp: '@camp2'
     name: Baumarkt
+  materialList1campUnrelated:
+    camp: '@campUnrelated'
+    name: Einkaufsliste
+  materialList1campPrototype:
+    camp: '@campPrototype'
+    name: Einkaufsliste

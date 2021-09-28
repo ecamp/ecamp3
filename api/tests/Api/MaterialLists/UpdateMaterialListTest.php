@@ -8,11 +8,77 @@ use App\Tests\Api\ECampApiTestCase;
  * @internal
  */
 class UpdateMaterialListTest extends ECampApiTestCase {
-    // TODO security tests when not logged in or not collaborator
     // TODO input filter tests
     // TODO validation tests
 
-    public function testPatchMaterialListIsAllowedForCollaborator() {
+    public function testPatchMaterialListIsDeniedForAnonymousUser() {
+        $materialList = static::$fixtures['materialList1'];
+        static::createBasicClient()->request('PATCH', '/material_lists/'.$materialList->getId(), ['json' => [
+            'name' => 'Something',
+        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
+        $this->assertResponseStatusCodeSame(401);
+        $this->assertJsonContains([
+            'code' => 401,
+            'message' => 'JWT Token not found',
+        ]);
+    }
+
+    public function testPatchMaterialListIsDeniedForUnrelatedUser() {
+        $materialList = static::$fixtures['materialList1'];
+        static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->username])
+            ->request('PATCH', '/material_lists/'.$materialList->getId(), ['json' => [
+                'name' => 'Something',
+            ], 'headers' => ['Content-Type' => 'application/merge-patch+json']])
+        ;
+        $this->assertResponseStatusCodeSame(404);
+        $this->assertJsonContains([
+            'title' => 'An error occurred',
+            'detail' => 'Not Found',
+        ]);
+    }
+
+    public function testPatchMaterialListIsDeniedForInactiveCollaborator() {
+        $materialList = static::$fixtures['materialList1'];
+        static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->username])
+            ->request('PATCH', '/material_lists/'.$materialList->getId(), ['json' => [
+                'name' => 'Something',
+            ], 'headers' => ['Content-Type' => 'application/merge-patch+json']])
+        ;
+        $this->assertResponseStatusCodeSame(404);
+        $this->assertJsonContains([
+            'title' => 'An error occurred',
+            'detail' => 'Not Found',
+        ]);
+    }
+
+    public function testPatchMaterialListIsDeniedForGuest() {
+        $materialList = static::$fixtures['materialList1'];
+        static::createClientWithCredentials(['username' => static::$fixtures['user3guest']->username])
+            ->request('PATCH', '/material_lists/'.$materialList->getId(), ['json' => [
+                'name' => 'Something',
+            ], 'headers' => ['Content-Type' => 'application/merge-patch+json']])
+        ;
+        $this->assertResponseStatusCodeSame(403);
+        $this->assertJsonContains([
+            'title' => 'An error occurred',
+            'detail' => 'Access Denied.',
+        ]);
+    }
+
+    public function testPatchMaterialListIsAllowedForMember() {
+        $materialList = static::$fixtures['materialList1'];
+        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->username])
+            ->request('PATCH', '/material_lists/'.$materialList->getId(), ['json' => [
+                'name' => 'Something',
+            ], 'headers' => ['Content-Type' => 'application/merge-patch+json']])
+        ;
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertJsonContains([
+            'name' => 'Something',
+        ]);
+    }
+
+    public function testPatchMaterialListIsAllowedForManager() {
         $materialList = static::$fixtures['materialList1'];
         static::createClientWithCredentials()->request('PATCH', '/material_lists/'.$materialList->getId(), ['json' => [
             'name' => 'Something',
@@ -20,6 +86,18 @@ class UpdateMaterialListTest extends ECampApiTestCase {
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
             'name' => 'Something',
+        ]);
+    }
+
+    public function testPatchMaterialListInCampPrototypeIsDeniedForUnrelatedUser() {
+        $materialList = static::$fixtures['materialList1campPrototype'];
+        static::createClientWithCredentials()->request('PATCH', '/material_lists/'.$materialList->getId(), ['json' => [
+            'name' => 'Something',
+        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
+        $this->assertResponseStatusCodeSame(403);
+        $this->assertJsonContains([
+            'title' => 'An error occurred',
+            'detail' => 'Access Denied.',
         ]);
     }
 
