@@ -18,8 +18,8 @@ use PHPUnit\Framework\TestCase;
  */
 class ActivityDataPersisterTest extends TestCase {
     private ActivityDataPersister $dataPersister;
-    private MockObject | ContextAwareDataPersisterInterface $decoratedMock;
-    private MockObject | EntityManagerInterface $entityManagerMock;
+    private MockObject|ContextAwareDataPersisterInterface $decoratedMock;
+    private MockObject|EntityManagerInterface $entityManagerMock;
     private Activity $activity;
 
     protected function setUp(): void {

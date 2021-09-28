@@ -16,8 +16,8 @@ use PHPUnit\Framework\TestCase;
  */
 class CategoryDataPersisterTest extends TestCase {
     private CategoryDataPersister $dataPersister;
-    private MockObject | ContextAwareDataPersisterInterface $decoratedMock;
-    private MockObject | EntityManagerInterface $entityManagerMock;
+    private MockObject|ContextAwareDataPersisterInterface $decoratedMock;
+    private MockObject|EntityManagerInterface $entityManagerMock;
     private Category $category;
 
     protected function setUp(): void {
