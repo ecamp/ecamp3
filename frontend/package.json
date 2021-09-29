@@ -65,7 +65,7 @@
     "jest": "26.6.3",
     "lint-staged": "11.1.2",
     "sass": "1.42.1",
-    "vite": "2.5.10",
+    "vite": "2.6.1",
     "vite-plugin-components": "0.13.3",
     "vite-plugin-vue2": "1.8.2",
     "vite-plugin-vue2-svg": "0.1.8",
