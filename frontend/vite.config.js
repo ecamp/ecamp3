@@ -12,6 +12,9 @@ export default defineConfig({
     }),
     createSvgPlugin()
   ],
+  build: {
+    sourcemap: true
+  },
   resolve: {
     alias: [
       // webpack alias @ (import in Vue files)
