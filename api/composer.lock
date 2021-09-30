@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ad1169477bb7d8a9ccb5f5e38a8bc956",
+    "content-hash": "fe58858b99ab12d2792917b059cd6d88",
     "packages": [
         {
             "name": "api-platform/core",
-            "version": "v2.6.5",
+            "version": "v2.6.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/api-platform/core.git",
-                "reference": "4e22a289e474db454480020ff37d20472668c11c"
+                "reference": "25c71b216473844cdbe5bf284ccbeeb26acd76e7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/api-platform/core/zipball/4e22a289e474db454480020ff37d20472668c11c",
-                "reference": "4e22a289e474db454480020ff37d20472668c11c",
+                "url": "https://api.github.com/repos/api-platform/core/zipball/25c71b216473844cdbe5bf284ccbeeb26acd76e7",
+                "reference": "25c71b216473844cdbe5bf284ccbeeb26acd76e7",
                 "shasum": ""
             },
             "require": {
@@ -36,6 +36,7 @@
             },
             "conflict": {
                 "doctrine/common": "<2.7",
+                "doctrine/dbal": "<2.10",
                 "doctrine/mongodb-odm": "<2.2",
                 "doctrine/persistence": "<1.3"
             },
@@ -155,7 +156,7 @@
             ],
             "support": {
                 "issues": "https://github.com/api-platform/core/issues",
-                "source": "https://github.com/api-platform/core/tree/v2.6.5"
+                "source": "https://github.com/api-platform/core/tree/v2.6.6"
             },
             "funding": [
                 {
@@ -163,7 +164,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-06-15T16:53:33+00:00"
+            "time": "2021-09-29T19:11:04+00:00"
         },
         {
             "name": "behat/transliterator",
