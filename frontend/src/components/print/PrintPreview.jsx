@@ -1,10 +1,12 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import { Font, PDFViewer, PDFDownloadLink } from '@react-pdf/renderer'
+import pdf from '@react-pdf/renderer'
 import PDFDocument from '@/components/print/PDFDocument.jsx'
 import InterRegular from '../../assets/fonts/Inter-Regular.ttf'
 import InterSemiBold from '../../assets/fonts/Inter-SemiBold.ttf'
+
+const { Font, PDFViewer, PDFDownloadLink } = pdf
 
 Font.register({
   family: 'Inter',
