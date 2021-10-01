@@ -49,7 +49,7 @@ export default {
     this.$store.commit('setLanguage', this.$store.state.lang.language)
   },
   async mounted () {
-    if (await this.$auth.refreshLoginStatus()) {
+    if (this.$auth.isLoggedIn()) {
       this.profile._meta.load.then(profile => {
         if (VueI18n.availableLocales.includes(profile.language)) {
           this.$store.commit('setLanguage', profile.language)
