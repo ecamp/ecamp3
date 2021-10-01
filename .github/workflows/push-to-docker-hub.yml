@@ -19,14 +19,6 @@ jobs:
     steps:
       - run: 'echo ${{ github.event.client_payload.ref }}'
 
-  only-api-add-deployment:
-    name: Only on the main branch
-    if: ${{ 'refs/heads/api-add-deployment' == github.event.client_payload.ref }}
-    runs-on: ubuntu-latest
-    steps:
-
-      - run: 'echo ${{ github.event.client_payload.ref }}'
-
   push-frontend-to-docker-hub:
     name: "Push frontend to Docker Hub"
     needs: only-on-main-branch
@@ -65,7 +57,6 @@ jobs:
 
   push-api-to-docker-hub:
     name: "Push api to Docker Hub"
-    needs: only-api-add-deployment
     runs-on: ubuntu-latest
     steps:
 
@@ -85,7 +76,6 @@ jobs:
 
   push-caddy-to-docker-hub:
     name: "Push caddy to Docker Hub"
-    needs: only-api-add-deployment
     runs-on: ubuntu-latest
     steps:
 
