@@ -30,6 +30,7 @@ use Symfony\Component\Validator\Constraints as Assert;
             'denormalization_context' => [
                 'groups' => ['write', 'create'],
             ],
+            'normalization_context' => self::ITEM_NORMALIZATION_CONTEXT,
             'openapi_context' => [
                 'description' => 'Also sends an invitation email to the inviteEmail address, if specified.',
             ],
@@ -43,6 +44,7 @@ use Symfony\Component\Validator\Constraints as Assert;
         ],
         'patch' => [
             'denormalization_context' => ['groups' => ['write', 'update']],
+            'normalization_context' => self::ITEM_NORMALIZATION_CONTEXT,
             'security' => '(user === object.user) or is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)',
         ],
         'delete' => ['security' => 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)'],

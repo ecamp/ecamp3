@@ -26,6 +26,7 @@ use Symfony\Component\Validator\Constraints as Assert;
         'get' => ['security' => 'is_fully_authenticated()'],
         'post' => [
             'denormalization_context' => ['groups' => ['write', 'create']],
+            'normalization_context' => self::ITEM_NORMALIZATION_CONTEXT,
             'security_post_denormalize' => 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)',
         ],
     ],
@@ -34,7 +35,10 @@ use Symfony\Component\Validator\Constraints as Assert;
             'normalization_context' => self::ITEM_NORMALIZATION_CONTEXT,
             'security' => 'is_granted("CAMP_COLLABORATOR", object) or is_granted("CAMP_IS_PROTOTYPE", object)'
         ],
-        'patch' => ['security' => 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)'],
+        'patch' => [
+            'normalization_context' => self::ITEM_NORMALIZATION_CONTEXT,
+            'security' => 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)'
+        ],
         'delete' => ['security' => 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)'],
     ],
     denormalizationContext: ['groups' => ['write']],
