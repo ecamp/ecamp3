@@ -154,7 +154,7 @@ class Activity extends AbstractContentNodeOwner implements BelongsToCampInterfac
     #[SerializedName('contentNodes')]
     #[Groups(['Activity:ContentNodes'])]
     public function getEmbeddedContentNodes(): array {
-        return parent::getContentNodes();
+        return $this->getContentNodes();
     }
 
     /**
