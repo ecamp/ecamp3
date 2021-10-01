@@ -24,7 +24,7 @@ class ListCampCollaborationsTest extends ECampApiTestCase {
         $response = static::createClientWithCredentials()->request('GET', '/camp_collaborations');
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
-            'totalItems' => 7,
+            'totalItems' => 8,
             '_links' => [
                 'items' => [],
             ],
@@ -35,6 +35,7 @@ class ListCampCollaborationsTest extends ECampApiTestCase {
         $this->assertEqualsCanonicalizing([
             ['href' => $this->getIriFor('campCollaboration1manager')],
             ['href' => $this->getIriFor('campCollaboration2member')],
+            ['href' => $this->getIriFor('campCollaboration6invitedWithUser')],
             ['href' => $this->getIriFor('campCollaboration3guest')],
             ['href' => $this->getIriFor('campCollaboration4invited')],
             ['href' => $this->getIriFor('campCollaboration5inactive')],

@@ -2,6 +2,7 @@
 
 namespace App\Tests\Api\CampCollaborations;
 
+use App\Entity\CampCollaboration;
 use App\Tests\Api\ECampApiTestCase;
 
 /**
@@ -178,6 +179,63 @@ class UpdateCampCollaborationTest extends ECampApiTestCase {
         ]);
     }
 
+    public function testAllowPatchStatusFromInvitedToInactive() {
+        $campCollaboration = static::$fixtures['campCollaboration4invited'];
+        static::createClientWithCredentials()->request('PATCH', '/camp_collaborations/'.$campCollaboration->getId(), ['json' => [
+            'status' => CampCollaboration::STATUS_INACTIVE,
+        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertJsonContains([
+            'status' => CampCollaboration::STATUS_INACTIVE,
+        ]);
+    }
+
+    public function testRejectsPatchStatusFromInvitedToEstablished() {
+        $campCollaboration = static::$fixtures['campCollaboration4invited'];
+        static::createClientWithCredentials()->request('PATCH', '/camp_collaborations/'.$campCollaboration->getId(), ['json' => [
+            'status' => CampCollaboration::STATUS_ESTABLISHED,
+        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
+        $this->assertResponseStatusCodeSame(422);
+    }
+
+    public function testAllowPatchStatusFromEstablishedToInactive() {
+        $campCollaboration = static::$fixtures['campCollaboration2member'];
+        static::createClientWithCredentials()->request('PATCH', '/camp_collaborations/'.$campCollaboration->getId(), ['json' => [
+            'status' => CampCollaboration::STATUS_INACTIVE,
+        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertJsonContains([
+            'status' => CampCollaboration::STATUS_INACTIVE,
+        ]);
+    }
+
+    public function testRejectsPatchStatusFromEstablishedToInvited() {
+        $campCollaboration = static::$fixtures['campCollaboration2member'];
+        static::createClientWithCredentials()->request('PATCH', '/camp_collaborations/'.$campCollaboration->getId(), ['json' => [
+            'status' => CampCollaboration::STATUS_INVITED,
+        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
+        $this->assertResponseStatusCodeSame(422);
+    }
+
+    public function testAllowPatchStatusFromInactiveToInvited() {
+        $campCollaboration = static::$fixtures['campCollaboration5inactive'];
+        static::createClientWithCredentials()->request('PATCH', '/camp_collaborations/'.$campCollaboration->getId(), ['json' => [
+            'status' => CampCollaboration::STATUS_INVITED,
+        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertJsonContains([
+            'status' => CampCollaboration::STATUS_INVITED,
+        ]);
+    }
+
+    public function testRejectsPatchStatusFromInactiveToEstablished() {
+        $campCollaboration = static::$fixtures['campCollaboration5inactive'];
+        static::createClientWithCredentials()->request('PATCH', '/camp_collaborations/'.$campCollaboration->getId(), ['json' => [
+            'status' => CampCollaboration::STATUS_ESTABLISHED,
+        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
+        $this->assertResponseStatusCodeSame(422);
+    }
+
     public function testPatchCampCollaborationValidatesInvalidRole() {
         $campCollaboration = static::$fixtures['campCollaboration1manager'];
         static::createClientWithCredentials()->request('PATCH', '/camp_collaborations/'.$campCollaboration->getId(), ['json' => [
@@ -193,5 +251,18 @@ class UpdateCampCollaborationTest extends ECampApiTestCase {
                 ],
             ],
         ]);
+    }
+
+    public function testPatchStatusFromInactiveToInvitedSendsInviteEmail() {
+        $campCollaboration = static::$fixtures['campCollaboration5inactive'];
+        static::createClientWithCredentials()->request('PATCH', '/camp_collaborations/'.$campCollaboration->getId(), ['json' => [
+            'status' => CampCollaboration::STATUS_INVITED,
+        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
+
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertJsonContains([
+            'status' => 'invited',
+        ]);
+        $this->assertEmailCount(1);
     }
 }

@@ -44,6 +44,15 @@ App\Entity\User:
     language: en
     roles: [ 'ROLE_USER' ]
     password: '\$argon2id\$v=19\$m=65536,t=4,p=1\$/RC8YWMDDXR19wB4or6bBA\$Kq5haK2SACQgo4CB7eDUibsD3QXCE32w25ZwhKg1SGw' # test
+  user6invited:
+    email: <email()>
+    username: user6invited
+    firstname: <firstName()>
+    surname: <lastName()>
+    nickname: <word()>
+    language: en
+    roles: [ 'ROLE_USER' ]
+    password: '\$argon2id\$v=19\$m=65536,t=4,p=1\$/RC8YWMDDXR19wB4or6bBA\$Kq5haK2SACQgo4CB7eDUibsD3QXCE32w25ZwhKg1SGw' # test
   admin:
     email: admin@example.com
     username: admin
