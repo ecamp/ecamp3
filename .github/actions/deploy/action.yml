@@ -110,6 +110,18 @@ inputs:
     description: 'An URL template that is used to render the version link in the application'
     required: false
 
+  api-app-secret:
+    description: 'app secret for api'
+    required: false
+
+  api-database-url:
+    description: 'api database url'
+    required: false
+
+  api-jwt-passphrase:
+    description: 'api jwt passphrase'
+    required: false
+
 runs:
   using: "composite"
   steps:
