@@ -47,6 +47,13 @@ php $EDIT_SCRIPT .github/actions/deploy/dist/amq.local.prod.php "amqp.connection
 php $EDIT_SCRIPT .github/actions/deploy/dist/amq.local.prod.php "amqp.connection.user" "${RABBITMQ_USER}"
 php $EDIT_SCRIPT .github/actions/deploy/dist/amq.local.prod.php "amqp.connection.pass" "${RABBITMQ_PASS}"
 
+# Inject environment variables into print env file
+cp api/.env .github/actions/deploy/dist/api.env
+sed -ri "s~APP_ENV=.*~APP_ENV=dev~" .github/actions/deploy/dist/api.env
+sed -ri "s~APP_SECRET=.*~APP_SECRET=${API_APP_SECRET}~" .github/actions/deploy/dist/api.env
+sed -ri "s~DATABASE_URL=.*~DATABASE_URL=${API_DATABASE_URL}~" .github/actions/deploy/dist/api.env
+sed -ri "s~JWT_PASSPHRASE=.*~JWT_PASSPHRASE=${API_JWT_PASSPHRASE}~" .github/actions/deploy/dist/api.env
+
 # Inject environment variables into frontend config file
 cp frontend/public/environment.dist .github/actions/deploy/dist/frontend-environment.js
 sed -ri "s~API_ROOT_URL: '.*'~API_ROOT_URL: '${BACKEND_URL}'~" .github/actions/deploy/dist/frontend-environment.js

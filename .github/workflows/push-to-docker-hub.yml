@@ -3,11 +3,20 @@ name: Push devel to Docker Hub
 on:
   repository_dispatch:
     types: [ ci-passed ]
+  pull_request:
 
 jobs:
   only-on-main-branch:
     name: Only on the main branch
     if: ${{ 'refs/heads/devel' == github.event.client_payload.ref }}
+    runs-on: ubuntu-latest
+    steps:
+
+      - run: 'echo ${{ github.event.client_payload.ref }}'
+
+  only-api-add-deployment:
+    name: Only on the main branch
+    if: ${{ 'refs/heads/api-add-deployment' == github.event.client_payload.ref }}
     runs-on: ubuntu-latest
     steps:
 
@@ -48,6 +57,46 @@ jobs:
           repository: ecamp/ecamp3-backend
           dockerfile: .docker-hub/backend/Dockerfile
           tags: 'latest,${{ github.event.client_payload.sha }}'
+
+  push-api-to-docker-hub:
+    name: "Push api to Docker Hub"
+    needs: only-api-add-deployment
+    runs-on: ubuntu-latest
+    steps:
+
+      - uses: actions/checkout@5a4ac9002d0be2fb38bd78e4b4dbde5606d7042f # renovate: tag=v2
+        with:
+          ref: ${{ github.event.client_payload.sha }}
+
+      - uses: docker/build-push-action@3e7a4f6646880c6f63758d73ac32392d323eaf8f # renovate: tag=v1
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_PASSWORD }}
+          repository: ecamp/ecamp3-api
+          dockerfile: api/Dockerfile
+          tags: 'latest,${{ github.event.client_payload.sha }}'
+          context: api
+          target: api_platform_php
+
+  push-caddy-to-docker-hub:
+    name: "Push caddy to Docker Hub"
+    needs: only-api-add-deployment
+    runs-on: ubuntu-latest
+    steps:
+
+      - uses: actions/checkout@5a4ac9002d0be2fb38bd78e4b4dbde5606d7042f # renovate: tag=v2
+        with:
+          ref: ${{ github.event.client_payload.sha }}
+
+      - uses: docker/build-push-action@3e7a4f6646880c6f63758d73ac32392d323eaf8f # renovate: tag=v1
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_PASSWORD }}
+          repository: ecamp/ecamp3-caddy
+          dockerfile: api/Dockerfile
+          tags: 'latest,${{ github.event.client_payload.sha }}'
+          context: api
+          target: api_platform_caddy
 
   push-print-to-docker-hub:
     name: "Push print to Docker Hub"

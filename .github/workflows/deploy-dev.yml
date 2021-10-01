@@ -3,11 +3,12 @@ name: Deploy to dev.ecamp3.ch
 on:
   repository_dispatch:
     types: [ images-pushed ]
+  workflow_dispatch:
 
 jobs:
   only-on-main-branch:
     name: Only on the main branch
-    if: ${{ 'refs/heads/devel' == github.event.client_payload.ref }}
+    if: ${{ 'refs/heads/devel' == github.event.client_payload.ref }} || ${{ 'refs/heads/api-add-deployment' == github.event.client_payload.ref }}
     runs-on: ubuntu-latest
     steps:
 
