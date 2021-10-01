@@ -17,6 +17,7 @@ class StorePlugin {
 
     axios.defaults.withCredentials = true
     axios.defaults.baseURL = window.environment.API_ROOT_URL
+    axios.defaults.headers.common.Accept = 'application/hal+json'
     Vue.use(VueAxios, axios)
 
     let halJsonVuex = HalJsonVuex
