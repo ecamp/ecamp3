@@ -7,6 +7,7 @@ use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Repository\CampCollaborationRepository;
+use App\Validator\AllowTransition\AssertAllowTransitions;
 use App\Validator\AssertEitherIsNull;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -40,14 +41,29 @@ use Symfony\Component\Validator\Constraints as Assert;
         'patch' => [
             'denormalization_context' => ['groups' => ['write', 'update']],
             'security' => '(user === object.user) or is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)',
+            'validation_groups' => ['Default', 'update'],
         ],
         'delete' => ['security' => 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)'],
+        self::RESEND_INVITATION => [
+            'security' => '(user === object.user) or is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)',
+            'method' => 'PATCH',
+            'path' => 'camp_collaborations/{id}/'.self::RESEND_INVITATION,
+            'denormalization_context' => [
+                'groups' => ['resend_invitation'],
+            ],
+            'openapi_context' => [
+                'summary' => 'Send the invitation email for this CampCollaboration again. Only possible, if the status is already '.self::STATUS_INVITED.'.',
+            ],
+            'validation_groups' => ['Default', 'resend_invitation'],
+        ],
     ],
     denormalizationContext: ['groups' => ['write']],
     normalizationContext: ['groups' => ['read']],
 )]
 #[ApiFilter(SearchFilter::class, properties: ['camp'])]
 class CampCollaboration extends BaseEntity implements BelongsToCampInterface {
+    public const RESEND_INVITATION = 'resend_invitation';
+
     public const ROLE_GUEST = 'guest';
     public const ROLE_MEMBER = 'member';
     public const ROLE_MANAGER = 'manager';
@@ -128,9 +144,20 @@ class CampCollaboration extends BaseEntity implements BelongsToCampInterface {
      * Cannot be set when creating a campCollaboration, but can be updated depending on the current status
      * and the updater's access rights.
      *
+     * The status ESTABLISHED can only be reached via the /invitations endpoint.
+     *
      * @ORM\Column(type="string", length=16, nullable=false)
      */
     #[Assert\Choice(choices: self::VALID_STATUS)]
+    #[Assert\EqualTo(value: self::STATUS_INVITED, groups: ['resend_invitation'])]
+    #[AssertAllowTransitions(
+        [
+            ['from' => self::STATUS_INVITED, 'to' => [self::STATUS_INACTIVE]],
+            ['from' => self::STATUS_INACTIVE, 'to' => [self::STATUS_INVITED]],
+            ['from' => self::STATUS_ESTABLISHED, 'to' => [self::STATUS_INACTIVE]],
+        ],
+        groups: ['update']
+    )]
     #[ApiProperty(default: self::STATUS_INVITED, example: self::STATUS_INACTIVE)]
     #[Groups(['read', 'update'])]
     public string $status = self::STATUS_INVITED;
