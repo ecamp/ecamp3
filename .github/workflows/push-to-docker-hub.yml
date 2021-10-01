@@ -14,11 +14,6 @@ jobs:
 
       - run: 'echo ${{ github.event.client_payload.ref }}'
 
-  echo-ref:
-    runs-on: ubuntu-latest
-    steps:
-      - run: 'echo ${{ github.event.client_payload.ref }}'
-
   push-frontend-to-docker-hub:
     name: "Push frontend to Docker Hub"
     needs: only-on-main-branch
@@ -35,7 +30,7 @@ jobs:
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
           repository: ecamp/ecamp3-frontend
           dockerfile: .docker-hub/frontend/Dockerfile
-          tags: 'bacluc'
+          tags: 'latest,${{ github.event.client_payload.sha }}'
 
   push-backend-to-docker-hub:
     name: "Push backend to Docker Hub"
@@ -53,7 +48,7 @@ jobs:
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
           repository: ecamp/ecamp3-backend
           dockerfile: .docker-hub/backend/Dockerfile
-          tags: 'bacluc'
+          tags: 'latest,${{ github.event.client_payload.sha }}'
 
   push-api-to-docker-hub:
     name: "Push api to Docker Hub"
@@ -70,7 +65,7 @@ jobs:
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
           repository: ecamp/ecamp3-api
           dockerfile: api/Dockerfile
-          tags: 'latest,${{ github.event.client_payload.sha }}'
+          tags: 'bacluc'
           context: api
           target: api_platform_php
 
@@ -89,7 +84,7 @@ jobs:
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
           repository: ecamp/ecamp3-caddy
           dockerfile: api/Dockerfile
-          tags: 'latest,${{ github.event.client_payload.sha }}'
+          tags: 'bacluc'
           context: api
           target: api_platform_caddy
 
