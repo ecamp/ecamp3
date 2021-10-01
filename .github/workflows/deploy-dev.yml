@@ -1,9 +1,9 @@
 name: Deploy to dev.ecamp3.ch
 
 on:
-  repository_dispatch:
-    types: [ images-pushed ]
-  workflow_dispatch:
+  push:
+    branches:
+      - api-add-deployment
 
 jobs:
   only-on-main-branch:
