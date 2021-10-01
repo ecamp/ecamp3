@@ -16,7 +16,6 @@ jobs:
 
   deploy-to-dev-ecamp3-ch:
     name: "Deploy to dev.ecamp3.ch"
-    needs: only-on-main-branch
     runs-on: ubuntu-latest
     steps:
 
