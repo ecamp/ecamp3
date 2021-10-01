@@ -78,6 +78,8 @@ jobs:
         with:
           ref: ${{ github.event.client_payload.sha }}
 
+      - run: ls -lah api/docker/php/conf.d/api-platform.prod.ini
+
       - uses: docker/build-push-action@3e7a4f6646880c6f63758d73ac32392d323eaf8f # renovate: tag=v1
         with:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
