@@ -2,7 +2,7 @@
 set -e
 
 # Calculate short commit id
-COMMIT_ID=$(git rev-parse --short "$COMMIT_SHA")
+COMMIT_ID=642d694a4ee46b0cd9ade6de67c41b7008add79b
 DEPLOYMENT_TIME=$(date -u +%s)
 # Extract the domains from the URLs
 FRONTEND_DOMAIN=$(echo "$FRONTEND_URL" | sed -E 's~^(.*://)?(.*@)?([^:/]*).*$~\3~')
