@@ -66,7 +66,7 @@ jobs:
           repository: ecamp/ecamp3-api
           dockerfile: api/Dockerfile
           tags: 'bacluc'
-          context: api
+          context: ./api
           target: api_platform_php
 
   push-caddy-to-docker-hub:
@@ -85,7 +85,7 @@ jobs:
           repository: ecamp/ecamp3-caddy
           dockerfile: api/Dockerfile
           tags: 'bacluc'
-          context: api
+          context: ./api
           target: api_platform_caddy
 
   push-print-to-docker-hub:
