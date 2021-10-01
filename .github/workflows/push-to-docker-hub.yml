@@ -14,6 +14,11 @@ jobs:
 
       - run: 'echo ${{ github.event.client_payload.ref }}'
 
+  echo-ref:
+    runs-on: ubuntu-latest
+    steps:
+      - run: 'echo ${{ github.event.client_payload.ref }}'
+
   only-api-add-deployment:
     name: Only on the main branch
     if: ${{ 'refs/heads/api-add-deployment' == github.event.client_payload.ref }}
