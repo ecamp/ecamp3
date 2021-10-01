@@ -132,7 +132,7 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
      * @ORM\Column(type="json")
      */
     #[ApiProperty(writable: false)]
-    public array $roles = [];
+    public array $roles = ['ROLE_USER'];
 
     /**
      * The hashed password. Of course not exposed through the API.
