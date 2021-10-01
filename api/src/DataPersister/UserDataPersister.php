@@ -4,15 +4,16 @@ namespace App\DataPersister;
 
 use ApiPlatform\Core\DataPersister\ContextAwareDataPersisterInterface;
 use App\Entity\User;
+use App\Service\MailService;
+use App\Util\IdGenerator;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class UserDataPersister implements ContextAwareDataPersisterInterface {
-    private ContextAwareDataPersisterInterface $dataPersister;
-    private UserPasswordHasherInterface $userPasswordHasher;
-
-    public function __construct(ContextAwareDataPersisterInterface $dataPersister, UserPasswordHasherInterface $userPasswordEncoder) {
-        $this->dataPersister = $dataPersister;
-        $this->userPasswordHasher = $userPasswordEncoder;
+    public function __construct(
+        private ContextAwareDataPersisterInterface $dataPersister,
+        private UserPasswordHasherInterface $userPasswordHasher,
+        private MailService $mailService
+    ) {
     }
 
     public function supports($data, array $context = []): bool {
@@ -24,6 +25,14 @@ class UserDataPersister implements ContextAwareDataPersisterInterface {
             $data->password = $this->userPasswordHasher->hashPassword($data, $data->plainPassword);
             $data->eraseCredentials();
         }
+
+        $data->state = User::STATE_REGISTERED;
+
+        $activationKey = IdGenerator::generateRandomHexString(64);
+        $data->activationKeyHash = md5($activationKey);
+
+        // TODO: Send Activation-Mail
+        // $this->mailService->
 
         return $this->dataPersister->persist($data, $context);
     }

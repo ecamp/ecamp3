@@ -42,6 +42,11 @@ use Symfony\Component\Validator\Constraints as Assert;
     normalizationContext: ['groups' => ['read']],
 )]
 class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUserInterface {
+    public const STATE_NONREGISTERED = 'non-registered';
+    public const STATE_REGISTERED = 'registered';
+    public const STATE_ACTIVATED = 'activated';
+    public const STATE_DELETED = 'deleted';
+
     /**
      * The camps that this user is the owner of.
      *
@@ -125,6 +130,24 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
     #[ApiProperty(example: 'en')]
     #[Groups(['read', 'write'])]
     public ?string $language = null;
+
+    /**
+     * The state of this user.
+     *
+     * @ORM\Column(type="string", length=16, nullable=false)
+     */
+    #[Assert\DisableAutoMapping]
+    #[ApiProperty(readable: false, writable: false)]
+    public string $state = self::STATE_NONREGISTERED;
+
+    /**
+     * InvitationKey for new user.
+     *
+     * @ORM\Column(type="string", length=255)
+     */
+    #[Assert\DisableAutoMapping]
+    #[ApiProperty(readable: false, writable: false)]
+    public ?string $activationKeyHash = null;
 
     /**
      * The technical roles that this person has in the eCamp application.
