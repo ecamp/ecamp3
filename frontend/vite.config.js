@@ -12,6 +12,9 @@ export default defineConfig({
     }),
     createSvgPlugin()
   ],
+  build: {
+    sourcemap: true
+  },
   resolve: {
     alias: [
       // webpack alias @ (import in Vue files)
@@ -39,7 +42,8 @@ export default defineConfig({
         find: 'dayjs',
         replacement: path.resolve(__dirname, 'node_modules', 'dayjs')
       }
-    ]
+    ],
+    preserveSymlinks: true
   },
   css: {
     preprocessorOptions: {

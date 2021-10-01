@@ -6,6 +6,7 @@ use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use App\Repository\ScheduleEntryRepository;
 use App\Validator\AssertBelongsToSameCamp;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Collections\Selectable;
@@ -18,17 +19,23 @@ use Symfony\Component\Validator\Constraints as Assert;
  * A calendar event in a period of the camp, at which some activity will take place. The start time
  * is specified as an offset in minutes from the period's start time.
  *
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass=ScheduleEntryRepository::class)
  */
 #[ApiResource(
     collectionOperations: [
-        'get',
-        'post' => ['denormalization_context' => ['groups' => ['write', 'create']]],
+        'get' => ['security' => 'is_fully_authenticated()'],
+        'post' => [
+            'denormalization_context' => ['groups' => ['write', 'create']],
+            'security_post_denormalize' => 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)',
+        ],
     ],
     itemOperations: [
-        'get' => ['normalization_context' => self::ITEM_NORMALIZATION_CONTEXT],
-        'patch',
-        'delete',
+        'get' => [
+            'normalization_context' => self::ITEM_NORMALIZATION_CONTEXT,
+            'security' => 'is_granted("CAMP_COLLABORATOR", object) or is_granted("CAMP_IS_PROTOTYPE", object)'
+        ],
+        'patch' => ['security' => 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)'],
+        'delete' => ['security' => 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)'],
     ],
     denormalizationContext: ['groups' => ['write']],
     normalizationContext: ['groups' => ['read']],

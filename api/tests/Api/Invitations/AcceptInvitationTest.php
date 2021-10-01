@@ -127,7 +127,7 @@ class AcceptInvitationTest extends ECampApiTestCase {
      */
     public function testAcceptInvitationFailsWhenUserAlreadyInCamp() {
         /** @var CampCollaboration $campCollaboration */
-        $campCollaboration = static::$fixtures['campCollaboration1invited'];
+        $campCollaboration = static::$fixtures['campCollaboration4invited'];
         static::createClientWithCredentials()->request(
             'PATCH',
             "/invitations/{$campCollaboration->inviteKey}/".Invitation::ACCEPT,

@@ -32,11 +32,11 @@ use Symfony\Component\Validator\Constraints as Assert;
         ],
     ],
     itemOperations: [
-        'get' => ['security' => 'is_granted("ROLE_ADMIN") or object == user'],
+        'get' => ['security' => 'object == user'],
         'patch' => [
-            'security' => 'is_granted("ROLE_ADMIN") or object == user',
+            'security' => 'object == user',
         ],
-        'delete' => ['security' => 'is_granted("ROLE_ADMIN") and !object.ownsCamps()'],
+        'delete' => ['security' => 'false'],
     ],
     denormalizationContext: ['groups' => ['write']],
     normalizationContext: ['groups' => ['read']],

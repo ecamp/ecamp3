@@ -60,6 +60,9 @@ services:
         tags:
             - 'app.input_filter'
 
+    App\Metadata\Resource\Factory\GraphQLSecurityResourceMetadataFactory:
+        decorates: 'api_platform.metadata.resource.metadata_factory'
+
     App\Serializer\Normalizer\RelatedCollectionLinkNormalizer:
         decorates: 'api_platform.hal.normalizer.item'
         arguments:

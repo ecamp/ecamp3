@@ -6,6 +6,7 @@ use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use App\Repository\PeriodRepository;
 use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -18,17 +19,23 @@ use Symfony\Component\Validator\Constraints as Assert;
  * A time period in which the programme of a camp will take place. There may be multiple
  * periods in a camp, but they may not overlap. A period is made up of one or more full days.
  *
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass=PeriodRepository::class)
  */
 #[ApiResource(
     collectionOperations: [
-        'get',
-        'post' => ['denormalization_context' => ['groups' => ['write', 'create']]],
+        'get' => ['security' => 'is_fully_authenticated()'],
+        'post' => [
+            'denormalization_context' => ['groups' => ['write', 'create']],
+            'security_post_denormalize' => 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)',
+        ],
     ],
     itemOperations: [
-        'get' => ['normalization_context' => self::ITEM_NORMALIZATION_CONTEXT],
-        'patch',
-        'delete',
+        'get' => [
+            'security' => 'is_granted("CAMP_COLLABORATOR", object) or is_granted("CAMP_IS_PROTOTYPE", object)',
+            'normalization_context' => self::ITEM_NORMALIZATION_CONTEXT,
+        ],
+        'patch' => ['security' => 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)'],
+        'delete' => ['security' => 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)'],
     ],
     denormalizationContext: ['groups' => ['write']],
     normalizationContext: ['groups' => ['read']],

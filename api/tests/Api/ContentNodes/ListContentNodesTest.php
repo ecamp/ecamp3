@@ -14,7 +14,7 @@ class ListContentNodesTest extends ECampApiTestCase {
         $response = static::createClientWithCredentials()->request('GET', '/content_nodes');
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
-            'totalItems' => 9,
+            'totalItems' => 13,
             '_links' => [
                 'items' => [],
             ],
@@ -32,6 +32,11 @@ class ListContentNodesTest extends ECampApiTestCase {
             ['href' => $this->getIriFor('contentNode4')],
             ['href' => $this->getIriFor('contentNode1camp2')],
             ['href' => $this->getIriFor('contentNode2camp2')],
+            ['href' => $this->getIriFor('contentNode1campPrototype')],
+            ['href' => $this->getIriFor('contentNode2campPrototype')],
+            // The next two should not be visible once we implement proper entity filtering for content nodes
+            ['href' => $this->getIriFor('contentNode1campUnrelated')],
+            ['href' => $this->getIriFor('contentNode2campUnrelated')],
         ], $response->toArray()['_links']['items']);
     }
 

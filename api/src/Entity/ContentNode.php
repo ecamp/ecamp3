@@ -180,7 +180,7 @@ class ContentNode extends BaseEntity implements BelongsToCampInterface {
     #[SerializedName('owner')]
     #[ApiProperty(writable: false, example: '/activities/1a2b3c4d')]
     #[Groups(['read'])]
-    public function getRootOwner(): Activity | Category | AbstractContentNodeOwner {
+    public function getRootOwner(): Activity|Category|AbstractContentNodeOwner {
         return $this->root->owner;
     }
 

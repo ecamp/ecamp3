@@ -8,12 +8,90 @@ use App\Tests\Api\ECampApiTestCase;
  * @internal
  */
 class UpdatePeriodTest extends ECampApiTestCase {
-    // TODO security tests when not logged in or not collaborator
     // TODO input filter tests
     // TODO validation tests
     // TODO moving a period vs changing the time window
 
-    public function testPatchPeriodIsAllowedForCollaborator() {
+    public function testPatchPeriodIsDeniedForAnonymousUser() {
+        $period = static::$fixtures['period1'];
+        static::createBasicClient()->request('PATCH', '/periods/'.$period->getId(), ['json' => [
+            'description' => 'Vorweekend',
+            'start' => '2023-01-01',
+            'end' => '2023-01-02',
+        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
+        $this->assertResponseStatusCodeSame(401);
+        $this->assertJsonContains([
+            'code' => 401,
+            'message' => 'JWT Token not found',
+        ]);
+    }
+
+    public function testPatchPeriodIsDeniedForUnrelatedUser() {
+        $period = static::$fixtures['period1'];
+        static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->username])
+            ->request('PATCH', '/periods/'.$period->getId(), ['json' => [
+                'description' => 'Vorweekend',
+                'start' => '2023-01-01',
+                'end' => '2023-01-02',
+            ], 'headers' => ['Content-Type' => 'application/merge-patch+json']])
+        ;
+        $this->assertResponseStatusCodeSame(404);
+        $this->assertJsonContains([
+            'title' => 'An error occurred',
+            'detail' => 'Not Found',
+        ]);
+    }
+
+    public function testPatchPeriodIsDeniedForInactiveCollaborator() {
+        $period = static::$fixtures['period1'];
+        static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->username])
+            ->request('PATCH', '/periods/'.$period->getId(), ['json' => [
+                'description' => 'Vorweekend',
+                'start' => '2023-01-01',
+                'end' => '2023-01-02',
+            ], 'headers' => ['Content-Type' => 'application/merge-patch+json']])
+        ;
+        $this->assertResponseStatusCodeSame(404);
+        $this->assertJsonContains([
+            'title' => 'An error occurred',
+            'detail' => 'Not Found',
+        ]);
+    }
+
+    public function testPatchPeriodIsDeniedForGuest() {
+        $period = static::$fixtures['period1'];
+        static::createClientWithCredentials(['username' => static::$fixtures['user3guest']->username])
+            ->request('PATCH', '/periods/'.$period->getId(), ['json' => [
+                'description' => 'Vorweekend',
+                'start' => '2023-01-01',
+                'end' => '2023-01-02',
+            ], 'headers' => ['Content-Type' => 'application/merge-patch+json']])
+        ;
+        $this->assertResponseStatusCodeSame(403);
+        $this->assertJsonContains([
+            'title' => 'An error occurred',
+            'detail' => 'Access Denied.',
+        ]);
+    }
+
+    public function testPatchPeriodIsAllowedForMember() {
+        $period = static::$fixtures['period1'];
+        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->username])
+            ->request('PATCH', '/periods/'.$period->getId(), ['json' => [
+                'description' => 'Vorweekend',
+                'start' => '2023-01-01',
+                'end' => '2023-01-02',
+            ], 'headers' => ['Content-Type' => 'application/merge-patch+json']])
+        ;
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertJsonContains([
+            'description' => 'Vorweekend',
+            'start' => '2023-01-01',
+            'end' => '2023-01-02',
+        ]);
+    }
+
+    public function testPatchPeriodIsAllowedForManager() {
         $period = static::$fixtures['period1'];
         static::createClientWithCredentials()->request('PATCH', '/periods/'.$period->getId(), ['json' => [
             'description' => 'Vorweekend',
@@ -25,6 +103,20 @@ class UpdatePeriodTest extends ECampApiTestCase {
             'description' => 'Vorweekend',
             'start' => '2023-01-01',
             'end' => '2023-01-02',
+        ]);
+    }
+
+    public function testPatchPeriodInCampPrototypeIsDeniedForUnrelatedUser() {
+        $period = static::$fixtures['period1campPrototype'];
+        static::createClientWithCredentials()->request('PATCH', '/periods/'.$period->getId(), ['json' => [
+            'description' => 'Vorweekend',
+            'start' => '2023-01-01',
+            'end' => '2023-01-02',
+        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
+        $this->assertResponseStatusCodeSame(403);
+        $this->assertJsonContains([
+            'title' => 'An error occurred',
+            'detail' => 'Access Denied.',
         ]);
     }
 

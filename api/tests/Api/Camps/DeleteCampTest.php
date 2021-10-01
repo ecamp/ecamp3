@@ -9,9 +9,9 @@ use App\Tests\Api\ECampApiTestCase;
  * @internal
  */
 class DeleteCampTest extends ECampApiTestCase {
-    public function testDeleteCampIsDeniedToAnonymousUser() {
+    public function testDeleteCampIsDeniedForAnonymousUser() {
         $camp = static::$fixtures['camp1'];
-        static::createClient()->request('DELETE', '/camps/'.$camp->getId());
+        static::createBasicClient()->request('DELETE', '/camps/'.$camp->getId());
         $this->assertResponseStatusCodeSame(401);
         $this->assertJsonContains([
             'code' => 401,
@@ -21,7 +21,7 @@ class DeleteCampTest extends ECampApiTestCase {
 
     public function testDeleteCampIsDeniedForUnrelatedUser() {
         $camp = static::$fixtures['camp1'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user3']->getUsername()])
+        static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->getUsername()])
             ->request('DELETE', '/camps/'.$camp->getId())
         ;
         $this->assertResponseStatusCodeSame(404);
@@ -32,14 +32,25 @@ class DeleteCampTest extends ECampApiTestCase {
     }
 
     public function testDeleteCampIsDeniedForOtherwiseUnrelatedCreator() {
-        $camp = static::$fixtures['camp1'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user2']->getUsername()])
+        $camp = static::$fixtures['camp2'];
+        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->getUsername()])
             ->request('DELETE', '/camps/'.$camp->getId())
         ;
         $this->assertResponseStatusCodeSame(404);
         $this->assertJsonContains([
             'title' => 'An error occurred',
             'detail' => 'Not Found',
+        ]);
+    }
+
+    public function testDeleteCampIsDeniedForCollaboratorThatIsNotOwner() {
+        $camp = static::$fixtures['camp2'];
+        static::createClientWithCredentials()->request('DELETE', '/camps/'.$camp->getId())
+        ;
+        $this->assertResponseStatusCodeSame(403);
+        $this->assertJsonContains([
+            'title' => 'An error occurred',
+            'detail' => 'Access Denied.',
         ]);
     }
 
@@ -50,12 +61,13 @@ class DeleteCampTest extends ECampApiTestCase {
         $this->assertNull(static::getContainer()->get(CampRepository::class)->findOneBy(['id' => $camp->getId()]));
     }
 
-    public function testDeleteCampIsAllowedForAdmin() {
-        $camp = static::$fixtures['camp1'];
-        $this->assertNotNull(static::getContainer()->get(CampRepository::class)->findOneBy(['id' => $camp->getId()]));
-
-        static::createClientWithAdminCredentials()->request('DELETE', '/camps/'.$camp->getId());
-        $this->assertResponseStatusCodeSame(204);
-        $this->assertNull(static::getContainer()->get(CampRepository::class)->findOneBy(['id' => $camp->getId()]));
+    public function testDeletePrototypeCampIsDeniedForUnrelatedUser() {
+        $camp = static::$fixtures['campPrototype'];
+        static::createClientWithCredentials()->request('DELETE', '/camps/'.$camp->getId());
+        $this->assertResponseStatusCodeSame(403);
+        $this->assertJsonContains([
+            'title' => 'An error occurred',
+            'detail' => 'Access Denied.',
+        ]);
     }
 }

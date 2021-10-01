@@ -1,22 +1,4 @@
 <?php
-/*
- * Copyright (C) 2011 Urban Suppiger
- *
- * This file is part of eCamp.
- *
- * eCamp is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * eCamp is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with eCamp.  If not, see <http://www.gnu.org/licenses/>.
- */
 
 namespace App\Entity;
 
@@ -24,6 +6,7 @@ use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use App\Repository\DayResponsibleRepository;
 use App\Validator\AssertBelongsToSameCamp;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -33,14 +16,20 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * A person that has some whole-day responsibility on a day in the camp.
  *
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass=DayResponsibleRepository::class)
  * @ORM\Table(uniqueConstraints={
  *     @ORM\UniqueConstraint(name="day_campCollaboration_unique", columns={"dayId", "campCollaborationId"})
  * })
  */
 #[ApiResource(
-    collectionOperations: ['get', 'post'],
-    itemOperations: ['get', 'delete'],
+    collectionOperations: [
+        'get' => ['security' => 'is_fully_authenticated()'],
+        'post' => ['security_post_denormalize' => 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)'],
+    ],
+    itemOperations: [
+        'get' => ['security' => 'is_granted("CAMP_COLLABORATOR", object) or is_granted("CAMP_IS_PROTOTYPE", object)'],
+        'delete' => ['security' => 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)'],
+    ],
     denormalizationContext: ['groups' => ['write']],
     normalizationContext: ['groups' => ['read']],
 )]

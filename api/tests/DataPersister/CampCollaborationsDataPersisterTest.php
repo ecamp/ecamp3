@@ -18,10 +18,10 @@ use Symfony\Component\Security\Core\Security;
  */
 class CampCollaborationsDataPersisterTest extends TestCase {
     private CampCollaborationDataPersister $dataPersister;
-    private MockObject | ContextAwareDataPersisterInterface $decoratedMock;
-    private Security | MockObject $security;
-    private UserRepository | MockObject $userRepository;
-    private MockObject | MailService $mailService;
+    private MockObject|ContextAwareDataPersisterInterface $decoratedMock;
+    private Security|MockObject $security;
+    private UserRepository|MockObject $userRepository;
+    private MockObject|MailService $mailService;
     private CampCollaboration $campCollaboration;
     private $user;
 

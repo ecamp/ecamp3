@@ -15,8 +15,8 @@ use Symfony\Component\Security\Core\Security;
  */
 class CampDataPersisterTest extends TestCase {
     private CampDataPersister $dataPersister;
-    private MockObject | ContextAwareDataPersisterInterface $decoratedMock;
-    private Security | MockObject $security;
+    private MockObject|ContextAwareDataPersisterInterface $decoratedMock;
+    private Security|MockObject $security;
     private Camp $camp;
 
     protected function setUp(): void {

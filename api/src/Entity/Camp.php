@@ -32,15 +32,15 @@ use Symfony\Component\Validator\Constraints as Assert;
     ],
     itemOperations: [
         'get' => [
-            'security' => 'object.owner == user or is_granted("ROLE_ADMIN")',
+            'security' => 'is_granted("CAMP_COLLABORATOR", object) or is_granted("CAMP_IS_PROTOTYPE", object)',
             'normalization_context' => self::ITEM_NORMALIZATION_CONTEXT,
         ],
         'patch' => [
-            'security' => 'object.owner == user or is_granted("ROLE_ADMIN")',
+            'security' => 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)',
             'denormalization_context' => ['groups' => ['write', 'update']],
             'normalization_context' => self::ITEM_NORMALIZATION_CONTEXT,
         ],
-        'delete' => ['security' => 'object.owner == user or is_granted("ROLE_ADMIN")'],
+        'delete' => ['security' => 'object.owner == user'],
     ],
     denormalizationContext: ['groups' => ['write']],
     normalizationContext: ['groups' => ['read']],

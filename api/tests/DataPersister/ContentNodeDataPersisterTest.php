@@ -13,7 +13,7 @@ use PHPUnit\Framework\TestCase;
  */
 class ContentNodeDataPersisterTest extends TestCase {
     private ContentNodeDataPersister $dataPersister;
-    private MockObject | ContextAwareDataPersisterInterface $decoratedMock;
+    private MockObject|ContextAwareDataPersisterInterface $decoratedMock;
     private ContentNode $contentNode;
 
     protected function setUp(): void {
