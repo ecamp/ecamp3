@@ -35,7 +35,7 @@ jobs:
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
           repository: ecamp/ecamp3-frontend
           dockerfile: .docker-hub/frontend/Dockerfile
-          tags: 'latest,${{ github.event.client_payload.sha }}'
+          tags: 'bacluc'
 
   push-backend-to-docker-hub:
     name: "Push backend to Docker Hub"
@@ -53,7 +53,7 @@ jobs:
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
           repository: ecamp/ecamp3-backend
           dockerfile: .docker-hub/backend/Dockerfile
-          tags: 'latest,${{ github.event.client_payload.sha }}'
+          tags: 'bacluc'
 
   push-api-to-docker-hub:
     name: "Push api to Docker Hub"
