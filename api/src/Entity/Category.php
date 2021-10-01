@@ -11,6 +11,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Annotation\SerializedName;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -26,13 +27,18 @@ use Symfony\Component\Validator\Constraints as Assert;
         'get' => ['security' => 'is_fully_authenticated()'],
         'post' => [
             'denormalization_context' => ['groups' => ['write', 'create']],
+            'normalization_context' => self::ITEM_NORMALIZATION_CONTEXT,
             'security_post_denormalize' => 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)',
         ],
     ],
     itemOperations: [
-        'get' => ['security' => 'is_granted("CAMP_COLLABORATOR", object) or is_granted("CAMP_IS_PROTOTYPE", object)'],
+        'get' => [
+            'normalization_context' => self::ITEM_NORMALIZATION_CONTEXT,
+            'security' => 'is_granted("CAMP_COLLABORATOR", object) or is_granted("CAMP_IS_PROTOTYPE", object)',
+        ],
         'patch' => [
             'denormalization_context' => ['groups' => ['write', 'update']],
+            'normalization_context' => self::ITEM_NORMALIZATION_CONTEXT,
             'security' => 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)',
         ],
         'delete' => ['security' => 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)'],
@@ -42,6 +48,11 @@ use Symfony\Component\Validator\Constraints as Assert;
 )]
 #[ApiFilter(SearchFilter::class, properties: ['camp'])]
 class Category extends AbstractContentNodeOwner implements BelongsToCampInterface {
+    public const ITEM_NORMALIZATION_CONTEXT = [
+        'groups' => ['read', 'Category:PreferredContentTypes'],
+        'swagger_definition_name' => 'read',
+    ];
+
     /**
      * The camp to which this category belongs. May not be changed once the category is created.
      *
@@ -129,6 +140,16 @@ class Category extends AbstractContentNodeOwner implements BelongsToCampInterfac
 
     public function getCamp(): ?Camp {
         return $this->camp;
+    }
+
+    /**
+     * @return ContentType[]
+     */
+    #[ApiProperty(readableLink: true)]
+    #[SerializedName('preferredContentTypes')]
+    #[Groups('Category:PreferredContentTypes')]
+    public function getEmbeddedPreferredContentTypes(): array {
+        return $this->preferredContentTypes->getValues();
     }
 
     /**

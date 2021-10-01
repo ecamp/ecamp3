@@ -12,6 +12,7 @@ use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Collections\Selectable;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Annotation\SerializedName;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -25,12 +26,19 @@ use Symfony\Component\Validator\Constraints as Assert;
         'get' => ['security' => 'is_fully_authenticated()'],
         'post' => [
             'denormalization_context' => ['groups' => ['write', 'create']],
+            'normalization_context' => self::ITEM_NORMALIZATION_CONTEXT,
             'security_post_denormalize' => 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)',
         ],
     ],
     itemOperations: [
-        'get' => ['security' => 'is_granted("CAMP_COLLABORATOR", object) or is_granted("CAMP_IS_PROTOTYPE", object)'],
-        'patch' => ['security' => 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)'],
+        'get' => [
+            'normalization_context' => self::ITEM_NORMALIZATION_CONTEXT,
+            'security' => 'is_granted("CAMP_COLLABORATOR", object) or is_granted("CAMP_IS_PROTOTYPE", object)',
+        ],
+        'patch' => [
+            'normalization_context' => self::ITEM_NORMALIZATION_CONTEXT,
+            'security' => 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)',
+        ],
         'delete' => ['security' => 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)'],
     ],
     denormalizationContext: ['groups' => ['write']],
@@ -38,6 +46,11 @@ use Symfony\Component\Validator\Constraints as Assert;
 )]
 #[ApiFilter(SearchFilter::class, properties: ['period', 'activity'])]
 class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
+    public const ITEM_NORMALIZATION_CONTEXT = [
+        'groups' => ['read', 'ScheduleEntry:Activity'],
+        'swagger_definition_name' => 'read',
+    ];
+
     /**
      * The time period which this schedule entry is part of. Must belong to the same camp as the activity.
      *
@@ -112,6 +125,16 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
     #[ApiProperty(readable: false)]
     public function getCamp(): ?Camp {
         return $this->activity?->camp;
+    }
+
+    /**
+     * @return Activity
+     */
+    #[ApiProperty(readableLink: true)]
+    #[SerializedName('activity')]
+    #[Groups('ScheduleEntry:Activity')]
+    public function getEmbeddedActivity(): ?Activity {
+        return $this->activity;
     }
 
     /**

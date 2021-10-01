@@ -13,6 +13,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Annotation\SerializedName;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -30,6 +31,7 @@ use Symfony\Component\Validator\Constraints as Assert;
             'denormalization_context' => [
                 'groups' => ['write', 'create'],
             ],
+            'normalization_context' => self::ITEM_NORMALIZATION_CONTEXT,
             'openapi_context' => [
                 'description' => 'Also sends an invitation email to the inviteEmail address, if specified.',
             ],
@@ -37,9 +39,13 @@ use Symfony\Component\Validator\Constraints as Assert;
         ],
     ],
     itemOperations: [
-        'get' => ['security' => 'is_granted("CAMP_COLLABORATOR", object) or is_granted("CAMP_IS_PROTOTYPE", object)'],
+        'get' => [
+            'normalization_context' => self::ITEM_NORMALIZATION_CONTEXT,
+            'security' => 'is_granted("CAMP_COLLABORATOR", object) or is_granted("CAMP_IS_PROTOTYPE", object)',
+        ],
         'patch' => [
             'denormalization_context' => ['groups' => ['write', 'update']],
+            'normalization_context' => self::ITEM_NORMALIZATION_CONTEXT,
             'security' => '(user === object.user) or is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)',
             'validation_groups' => ['Default', 'update'],
         ],
@@ -62,6 +68,10 @@ use Symfony\Component\Validator\Constraints as Assert;
 )]
 #[ApiFilter(SearchFilter::class, properties: ['camp'])]
 class CampCollaboration extends BaseEntity implements BelongsToCampInterface {
+    public const ITEM_NORMALIZATION_CONTEXT = [
+        'groups' => ['read', 'CampCollaboration:Camp', 'CampCollaboration:User'],
+        'swagger_definition_name' => 'read',
+    ];
     public const RESEND_INVITATION = 'resend_invitation';
 
     public const ROLE_GUEST = 'guest';
@@ -186,6 +196,26 @@ class CampCollaboration extends BaseEntity implements BelongsToCampInterface {
 
     public function getCamp(): ?Camp {
         return $this->camp;
+    }
+
+    /**
+     * @return Camp
+     */
+    #[ApiProperty(readableLink: true)]
+    #[SerializedName('camp')]
+    #[Groups('CampCollaboration:Camp')]
+    public function getEmbeddedCamp(): ?Camp {
+        return $this->camp;
+    }
+
+    /**
+     * @return User
+     */
+    #[ApiProperty(readableLink: true)]
+    #[SerializedName('user')]
+    #[Groups('CampCollaboration:User')]
+    public function getEmbeddedUser(): ?User {
+        return $this->user;
     }
 
     #[ApiProperty(readable: false, writable: false)]
