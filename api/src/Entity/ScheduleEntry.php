@@ -33,11 +33,11 @@ use Symfony\Component\Validator\Constraints as Assert;
     itemOperations: [
         'get' => [
             'normalization_context' => self::ITEM_NORMALIZATION_CONTEXT,
-            'security' => 'is_granted("CAMP_COLLABORATOR", object) or is_granted("CAMP_IS_PROTOTYPE", object)'
+            'security' => 'is_granted("CAMP_COLLABORATOR", object) or is_granted("CAMP_IS_PROTOTYPE", object)',
         ],
         'patch' => [
             'normalization_context' => self::ITEM_NORMALIZATION_CONTEXT,
-            'security' => 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)'
+            'security' => 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)',
         ],
         'delete' => ['security' => 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)'],
     ],

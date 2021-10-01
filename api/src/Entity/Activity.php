@@ -26,13 +26,13 @@ use Symfony\Component\Validator\Constraints as Assert;
         'post' => [
             'denormalization_context' => ['groups' => ['write', 'create']],
             'normalization_context' => self::ITEM_NORMALIZATION_CONTEXT,
-            'security_post_denormalize' => 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)'
+            'security_post_denormalize' => 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)',
         ],
     ],
     itemOperations: [
         'get' => [
             'normalization_context' => self::ITEM_NORMALIZATION_CONTEXT,
-            'security' => 'is_granted("CAMP_COLLABORATOR", object) or is_granted("CAMP_IS_PROTOTYPE", object)'
+            'security' => 'is_granted("CAMP_COLLABORATOR", object) or is_granted("CAMP_IS_PROTOTYPE", object)',
         ],
         'patch' => [
             'normalization_context' => self::ITEM_NORMALIZATION_CONTEXT,

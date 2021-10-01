@@ -34,7 +34,7 @@ use Symfony\Component\Validator\Constraints as Assert;
     itemOperations: [
         'get' => [
             'normalization_context' => self::ITEM_NORMALIZATION_CONTEXT,
-            'security' => 'is_granted("CAMP_COLLABORATOR", object) or is_granted("CAMP_IS_PROTOTYPE", object)'
+            'security' => 'is_granted("CAMP_COLLABORATOR", object) or is_granted("CAMP_IS_PROTOTYPE", object)',
         ],
         'patch' => [
             'denormalization_context' => ['groups' => ['write', 'update']],
