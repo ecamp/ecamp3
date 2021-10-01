@@ -13,7 +13,8 @@ MAIL_SERVER_DOMAIN=$(echo "$MAIL_SERVER_URL" | sed -E 's~^(.*://)?(.*@)?([^:/]*)
 
 # Inject the container version into the .env file
 cp .github/actions/deploy/.env .github/actions/deploy/dist/.env
-sed -ri "s~DOCKER_IMAGE_TAG=.*~DOCKER_IMAGE_TAG=${COMMIT_SHA}~" .github/actions/deploy/dist/.env
+# TODO: revert back to commit sha
+sed -ri "s~DOCKER_IMAGE_TAG=.*~DOCKER_IMAGE_TAG=latest~" .github/actions/deploy/dist/.env
 
 # Inject environment secrets into nginx config file
 cp .github/actions/deploy/nginx.conf .github/actions/deploy/dist/nginx.conf

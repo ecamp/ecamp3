@@ -36,7 +36,7 @@ services:
       - rabbitmq
 
   php:
-    image: ecamp/ecamp3-api:${DOCKER_IMAGE_TAG}
+    image: ecamp/ecamp3-api:bacluc
     volumes:
       - caddy-socket:/var/run/php
       - api-keys:/srv/api/config/jwt
@@ -52,6 +52,7 @@ services:
       - api.env
 
   caddy:
+    image: ecamp/ecamp3-caddy:bacluc
     depends_on:
       - php
     environment:
