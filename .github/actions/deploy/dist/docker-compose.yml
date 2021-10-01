@@ -55,25 +55,11 @@ services:
     depends_on:
       - php
     environment:
-      SERVER_NAME: ${SERVER_NAME:-localhost:4001, localhost:4443, caddy:4001}
+      SERVER_NAME: caddy
       MERCURE_PUBLISHER_JWT_KEY: ${MERCURE_PUBLISHER_JWT_KEY:-!ChangeMe!}
       MERCURE_SUBSCRIBER_JWT_KEY: ${MERCURE_SUBSCRIBER_JWT_KEY:-!ChangeMe!}
       MERCURE_EXTRA_DIRECTIVES: demo
-    ports:
-      # HTTP
-      - target: 4001
-        published: 4001
-        protocol: tcp
-      # HTTPS
-      - target: 4443
-        published: 4443
-        protocol: tcp
-      # HTTP/3
-      - target: 4443
-        published: 4443
-        protocol: udp
-    restart: unless-stopped
-    user: ${USER_ID:-1000}
+    user: 1000
     volumes:
       - caddy-socket:/var/run/php
       - caddy-data:/data
