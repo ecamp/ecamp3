@@ -147,11 +147,8 @@ jobs:
   images-pushed-event:
     name: "Send out image push success event"
     needs:
-      - push-frontend-to-docker-hub
-      - push-backend-to-docker-hub
-      - push-print-to-docker-hub
-      - push-worker-print-puppeteer-to-docker-hub
-      - push-worker-print-weasy-to-docker-hub
+      - push-api-to-docker-hub
+      - push-caddy-to-docker-hub
     runs-on: ubuntu-latest
     steps:
 
