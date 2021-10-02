@@ -31,7 +31,7 @@ export default {
   components: { LanguageSwitcher },
   computed: {
     profile () {
-      return this.api.get().profile()
+      return this.$auth.user()
     },
     deploymentTime () {
       const timestamp = window.environment.DEPLOYMENT_TIME

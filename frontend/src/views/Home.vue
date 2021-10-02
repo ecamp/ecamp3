@@ -28,11 +28,8 @@ export default {
   components: { ContentCard },
   computed: {
     user () {
-      return this.api.get().profile().user()
+      return this.$auth.user()
     }
-  },
-  mounted () {
-    this.api.get().profile()
   }
 }
 </script>

@@ -20,7 +20,6 @@ function getJWTPayloadFromCookie () {
 function parseJWTPayload (payload) {
   if (!payload) return {}
   const base64 = payload.replace(/-/g, '+').replace(/_/g, '/')
-  console.log(base64)
   const jsonPayload = decodeURIComponent(atob(base64).split('').map(function (c) {
     return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
   }).join(''))
@@ -41,6 +40,10 @@ async function login (username, password) {
   //   instead of hardcoding it here
   // const url = await apiStore.href(apiStore.get(), 'login')
   return apiStore.post('/authentication_token', { username: username, password: password })
+}
+
+function user () {
+  return apiStore.get(parseJWTPayload(getJWTPayloadFromCookie()).user)
 }
 
 async function register (data) {
@@ -77,7 +80,7 @@ export async function logout () {
     .then(() => isLoggedIn())
 }
 
-export const auth = { isLoggedIn, login, register, loginGoogle, loginPbsMiData, logout }
+export const auth = { isLoggedIn, login, register, loginGoogle, loginPbsMiData, logout, user }
 
 class AuthPlugin {
   install (Vue) {
