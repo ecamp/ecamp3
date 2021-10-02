@@ -4,7 +4,11 @@ framework:
     #csrf_protection: true
     http_method_override: false
     trusted_proxies: '%env(TRUSTED_PROXIES)%'
-    trusted_hosts: '%env(TRUSTED_HOSTS)%'
+    trusted_hosts:
+        - localhost
+        - caddy
+        - example.com
+        - '%env(API_DOMAIN)%'
     # See https://caddyserver.com/docs/caddyfile/directives/reverse_proxy#headers
     trusted_headers: ['x-forwarded-for', 'x-forwarded-proto']
 

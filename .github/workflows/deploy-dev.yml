@@ -51,3 +51,7 @@ jobs:
           rabbitmq-vhost: ${{ secrets.DEVEL_RABBITMQ_VHOST }}
           rabbitmq-user: ${{ secrets.DEVEL_RABBITMQ_USER }}
           rabbitmq-pass: ${{ secrets.DEVEL_RABBITMQ_PASS }}
+          api-domain: ${{ secrets.DEVEL_API_URL }}
+          api-app-secret: ${{ secrets.DEVEL_API_APP_SECRET }}
+          api-database-url: ${{ secrets.DEVEL_API_DATABASE_URL }}
+          api-jwt-passphrase: ${{ secrets.DEVEL_API_JWT_PASSPHRASE }}

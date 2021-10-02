@@ -19,6 +19,7 @@ sed -ri "s~DOCKER_IMAGE_TAG=.*~DOCKER_IMAGE_TAG=${COMMIT_SHA}~" .github/actions/
 cp .github/actions/deploy/nginx.conf .github/actions/deploy/dist/nginx.conf
 sed -ri "s~server_name frontend-domain;~server_name ${FRONTEND_DOMAIN};~" .github/actions/deploy/dist/nginx.conf
 sed -ri "s~server_name backend-domain;~server_name ${BACKEND_DOMAIN};~" .github/actions/deploy/dist/nginx.conf
+sed -ri "s~server_name api-domain;~server_name ${API_DOMAIN};~" .github/actions/deploy/dist/nginx.conf
 sed -ri "s~server_name print-server-domain;~server_name ${PRINT_SERVER_DOMAIN};~" .github/actions/deploy/dist/nginx.conf
 sed -ri "s~server_name print-file-server-domain;~server_name ${PRINT_FILE_SERVER_DOMAIN};~" .github/actions/deploy/dist/nginx.conf
 sed -ri "s~server_name mail-server-domain;~server_name ${MAIL_SERVER_DOMAIN};~" .github/actions/deploy/dist/nginx.conf
@@ -46,6 +47,17 @@ php $EDIT_SCRIPT .github/actions/deploy/dist/amq.local.prod.php "amqp.connection
 php $EDIT_SCRIPT .github/actions/deploy/dist/amq.local.prod.php "amqp.connection.vhost" "${RABBITMQ_VHOST}"
 php $EDIT_SCRIPT .github/actions/deploy/dist/amq.local.prod.php "amqp.connection.user" "${RABBITMQ_USER}"
 php $EDIT_SCRIPT .github/actions/deploy/dist/amq.local.prod.php "amqp.connection.pass" "${RABBITMQ_PASS}"
+
+# Inject environment variables into api env file
+cp api/.env .github/actions/deploy/dist/api.env
+sed -ri "s~API_DOMAIN=.*~API_DOMAIN=${API_DOMAIN}~" .github/actions/deploy/dist/api.env
+sed -ri "s~APP_ENV=.*~APP_ENV=dev~" .github/actions/deploy/dist/api.env
+sed -ri "s~APP_SECRET=.*~APP_SECRET=${API_APP_SECRET}~" .github/actions/deploy/dist/api.env
+sed -ri "s~DATABASE_URL=.*~DATABASE_URL=${API_DATABASE_URL}~" .github/actions/deploy/dist/api.env
+sed -ri "s~JWT_PASSPHRASE=.*~JWT_PASSPHRASE=${API_JWT_PASSPHRASE}~" .github/actions/deploy/dist/api.env
+
+# Add API_DOMAIN to .env, that caddy listens for this host
+echo "API_DOMAIN=\"${API_DOMAIN}\"" >> .github/actions/deploy/dist/.env
 
 # Inject environment variables into frontend config file
 cp frontend/public/environment.dist .github/actions/deploy/dist/frontend-environment.js
