@@ -23,5 +23,7 @@ class MultiSelect extends ContentNode {
 
     public function __construct() {
         $this->options = new ArrayCollection();
+
+        parent::__construct();
     }
 }

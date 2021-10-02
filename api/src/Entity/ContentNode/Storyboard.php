@@ -23,5 +23,7 @@ class Storyboard extends ContentNode {
 
     public function __construct() {
         $this->sections = new ArrayCollection();
+
+        parent::__construct();
     }
 }

@@ -163,7 +163,6 @@ abstract class ContentNode extends BaseEntity implements BelongsToCampInterface 
     public function __construct() {
         $this->rootDescendants = new ArrayCollection();
         $this->children = new ArrayCollection();
-        $this->content = new ArrayCollection();
 
         $this->addRootDescendant($this);
     }

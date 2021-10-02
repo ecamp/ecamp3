@@ -23,5 +23,7 @@ class MaterialNode extends ContentNode {
 
     public function __construct() {
         $this->materialItems = new ArrayCollection();
+
+        parent::__construct();
     }
 }
