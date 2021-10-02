@@ -2,11 +2,9 @@
 
 namespace App\DataPersister\ContentNode;
 
-use Doctrine\ORM\EntityManagerInterface;
-use App\Entity\ContentType;
-use App\Entity\ContentNode\SingleText;
-use App\Entity\ContentNode;
 use ApiPlatform\Core\DataPersister\ContextAwareDataPersisterInterface;
+use App\Entity\ContentNode\SingleText;
+use Doctrine\ORM\EntityManagerInterface;
 
 class SingleTextDataPersister implements ContextAwareDataPersisterInterface {
     public function __construct(private ContextAwareDataPersisterInterface $dataPersister, private EntityManagerInterface $entityManager) {
@@ -23,15 +21,13 @@ class SingleTextDataPersister implements ContextAwareDataPersisterInterface {
      */
     public function persist($data, array $context = []) {
         if (
-                'post' === ($context['collection_operation_name'] ?? null) ||
-                'create' === ($context['graphql_operation_name'] ?? null) 
+                'post' === ($context['collection_operation_name'] ?? null)
+                || 'create' === ($context['graphql_operation_name'] ?? null)
             ) {
-
             $data->root = $data->parent->root;
 
             // TODO: Check if it's actually allowed to read/copy from this prototype (user access check)
             if (isset($data->prototype) && $data->prototype instanceof SingleText) {
-
                 /** @var SingleText $prototype */
                 $prototype = $data->prototype;
 

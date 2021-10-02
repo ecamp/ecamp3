@@ -23,14 +23,14 @@ App\Entity\MaterialItem:
   materialItem1period1campUnrelated:
     materialList: '@materialList1campUnrelated'
     period: '@period1campUnrelated'
-    contentNode: null
+    materialNode: null
     article: Lagerapotheke
     quantity: 1
     unit: null
   materialItem1period1campPrototype:
     materialList: '@materialList1campPrototype'
     period: '@period1campPrototype'
-    contentNode: null
+    materialNode: null
     article: Lagerapotheke
     quantity: 1
     unit: null

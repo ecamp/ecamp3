@@ -14,8 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="content_node_multiselect_option")
  * @ApiResource(routePrefix="/content_node")]
  */
-class MultiSelectOption extends BaseEntity implements SortableEntityInterface
-{
+class MultiSelectOption extends BaseEntity implements SortableEntityInterface {
     use SortableEntityTrait;
 
     /**

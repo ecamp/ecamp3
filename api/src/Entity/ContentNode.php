@@ -272,5 +272,4 @@ abstract class ContentNode extends BaseEntity implements BelongsToCampInterface 
 
         return $this;
     }
-
 }

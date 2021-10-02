@@ -11,6 +11,5 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="content_node_columnlayout")
  * @ApiResource(routePrefix="/content_node")]
  */
-class ColumnLayout extends ContentNode
-{
+class ColumnLayout extends ContentNode {
 }
