@@ -58,7 +58,7 @@ sed -ri "s~DATABASE_URL=.*~DATABASE_URL=${API_DATABASE_URL}~" .github/actions/de
 sed -ri "s~JWT_PASSPHRASE=.*~JWT_PASSPHRASE=${API_JWT_PASSPHRASE}~" .github/actions/deploy/dist/api.env
 
 # Create caddy env file
-echo "API_DOMAIN=${API_DOMAIN}" >> .github/actions/deploy/dist/caddy.env
+echo "API_DOMAIN=\"${API_DOMAIN}\"" >> .github/actions/deploy/dist/.env
 
 # Inject environment variables into frontend config file
 cp frontend/public/environment.dist .github/actions/deploy/dist/frontend-environment.js
