@@ -90,4 +90,17 @@ class UserDataPersisterTest extends TestCase {
         $this->assertEquals('test hash', $data->password);
         $this->assertNull($data->plainPassword);
     }
+
+    public function testCreateAndSendActivationKey() {
+        // given
+        $this->mailService->expects($this->once())->method('sendUserActivationMail');
+        $this->decoratedMock->expects($this->once())->method('persist')->willReturnArgument(0);
+
+        // when
+        /** @var User $data */
+        $data = $this->dataPersister->persist($this->user, ['collection_operation_name' => 'post']);
+
+        // then
+        $this->assertNotNull($data->activationKeyHash);
+    }
 }
