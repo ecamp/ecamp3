@@ -89,6 +89,7 @@ App\Entity\ContentNode\SingleText:
     jsonConfig: null
     instanceName: <word()>
     contentType: '@contentTypeNotes'
+    text: <word()>
   contentNodeGrandchild1:
     root: '@contentNode1'
     parent: '@contentNodeChild1'
@@ -97,6 +98,7 @@ App\Entity\ContentNode\SingleText:
     jsonConfig: null
     instanceName: <word()>
     contentType: '@contentTypeNotes'
+    text: <word()>
 
 App\Entity\ContentNode\MaterialNode:
   contentNodeChild3:

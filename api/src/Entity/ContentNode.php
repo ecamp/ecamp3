@@ -29,16 +29,23 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
  */
 #[ApiResource(
     collectionOperations: [
-        'get',
-        'post' => ['denormalization_context' => ['groups' => ['write', 'create']]],
+        'get' => ['security' => 'is_fully_authenticated()'],
+        'post' => [
+            'denormalization_context' => ['groups' => ['write', 'create']],
+            'security_post_denormalize' => 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)',
+        ],
     ],
     itemOperations: [
-        'get',
+        'get' => ['security' => 'is_granted("CAMP_COLLABORATOR", object) or is_granted("CAMP_IS_PROTOTYPE", object)'],
         'patch' => [
             'denormalization_context' => ['groups' => ['write', 'update']],
             'validation_groups' => ['Default', 'update'],
+            'security' => 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)',
         ],
-        'delete' => ['security' => 'object.owner === null'],
+        'delete' => [
+            //'security' => 'object.owner === null'],
+            'security' => 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)',
+        ],
     ],
     denormalizationContext: ['groups' => ['write']],
     normalizationContext: ['groups' => ['read']],
@@ -62,7 +69,7 @@ abstract class ContentNode extends BaseEntity implements BelongsToCampInterface 
      */
     #[ApiProperty(writable: false, example: '/content_nodes/1a2b3c4d')]
     #[Groups(['read'])]
-    public ContentNode $root;
+    public ?ContentNode $root = null;
 
     /**
      * All content nodes that are part of this content node tree.
@@ -95,7 +102,7 @@ abstract class ContentNode extends BaseEntity implements BelongsToCampInterface 
      * The prototype ContentNode from which the content is copied during creation.
      */
     #[ApiProperty(example: '/content_nodes/1a2b3c4d')]
-    #[Groups(['Default', 'contentNode:update'])] // TODO: allow in create schema only
+    #[Groups(['create'])]
     public ?ContentNode $prototype = null;
 
     /**
@@ -163,8 +170,6 @@ abstract class ContentNode extends BaseEntity implements BelongsToCampInterface 
     public function __construct() {
         $this->rootDescendants = new ArrayCollection();
         $this->children = new ArrayCollection();
-
-        $this->addRootDescendant($this);
     }
 
     /**
@@ -183,7 +188,12 @@ abstract class ContentNode extends BaseEntity implements BelongsToCampInterface 
     #[ApiProperty(writable: false, example: '/activities/1a2b3c4d')]
     #[Groups(['read'])]
     public function getRootOwner(): Activity|Category|AbstractContentNodeOwner {
-        return $this->root->owner;
+        if (null !== $this->root) {
+            return $this->root->owner;
+        }
+
+        // this line is used during create process when $this->root is not yet set
+        return $this->parent->root->owner;
     }
 
     /**
