@@ -1,8 +1,10 @@
 {
-    "php-cs-fixer.config": "./backend/.php_cs",
+    "php-cs-fixer.config": "./api/.php-cs-fixer.php",
     "javascript.format.enable": false,
     "eslint.format.enable": true,
-    "phpunit.files": "backend/{module,content-type}/**/test/**/*Test.php",
-    "phpunit.args": [ "-cbackend/phpunit.xml" ],
+    "phpunit.files": "api/tests/**/*Test.php",
+    "phpunit.args": [
+     
+     "-capi/phpunit.nodocker.xml" ],
     "eslint.workingDirectories": [ "./frontend", "./print" ]
 }

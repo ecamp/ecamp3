@@ -10,6 +10,10 @@ use App\Tests\Api\ECampApiTestCase;
 class ListContentNodesTest extends ECampApiTestCase {
     // TODO security tests when not logged in or not collaborator
 
+    public function setUp(): void {
+        $this->markTestSkipped('Tests temporarily inactive (rewritings tests TBD)');
+    }
+
     public function testListContentNodesIsAllowedForCollaborator() {
         $response = static::createClientWithCredentials()->request('GET', '/content_nodes');
         $this->assertResponseStatusCodeSame(200);

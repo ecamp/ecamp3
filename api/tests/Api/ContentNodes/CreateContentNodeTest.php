@@ -14,6 +14,10 @@ class CreateContentNodeTest extends ECampApiTestCase {
     // TODO input filter tests
     // TODO validation tests
 
+    public function setUp(): void {
+        $this->markTestSkipped('Tests temporarily inactive (rewritings tests TBD)');
+    }
+
     public function testCreateContentNodeIsAllowedForCollaborator() {
         static::createClientWithCredentials()->request('POST', '/content_nodes', ['json' => $this->getExampleWritePayload()]);
 

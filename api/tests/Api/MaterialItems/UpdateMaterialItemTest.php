@@ -16,7 +16,7 @@ class UpdateMaterialItemTest extends ECampApiTestCase {
         static::createBasicClient()->request('PATCH', '/material_items/'.$materialItem->getId(), ['json' => [
             'materialList' => $this->getIriFor('materialList2'),
             'period' => $this->getIriFor('period1'),
-            'contentNode' => null,
+            'materialNode' => null,
             'article' => 'Mehl',
             'quantity' => 1500,
             'unit' => 'g',
@@ -33,7 +33,7 @@ class UpdateMaterialItemTest extends ECampApiTestCase {
             ->request('PATCH', '/material_items/'.$materialItem->getId(), ['json' => [
                 'materialList' => $this->getIriFor('materialList2'),
                 'period' => $this->getIriFor('period1'),
-                'contentNode' => null,
+                'materialNode' => null,
                 'article' => 'Mehl',
                 'quantity' => 1500,
                 'unit' => 'g',
@@ -52,7 +52,7 @@ class UpdateMaterialItemTest extends ECampApiTestCase {
             ->request('PATCH', '/material_items/'.$materialItem->getId(), ['json' => [
                 'materialList' => $this->getIriFor('materialList2'),
                 'period' => $this->getIriFor('period1'),
-                'contentNode' => null,
+                'materialNode' => null,
                 'article' => 'Mehl',
                 'quantity' => 1500,
                 'unit' => 'g',
@@ -71,7 +71,7 @@ class UpdateMaterialItemTest extends ECampApiTestCase {
             ->request('PATCH', '/material_items/'.$materialItem->getId(), ['json' => [
                 'materialList' => $this->getIriFor('materialList2'),
                 'period' => $this->getIriFor('period1'),
-                'contentNode' => null,
+                'materialNode' => null,
                 'article' => 'Mehl',
                 'quantity' => 1500,
                 'unit' => 'g',
@@ -90,7 +90,7 @@ class UpdateMaterialItemTest extends ECampApiTestCase {
             ->request('PATCH', '/material_items/'.$materialItem->getId(), ['json' => [
                 'materialList' => $this->getIriFor('materialList2'),
                 'period' => $this->getIriFor('period1'),
-                'contentNode' => null,
+                'materialNode' => null,
                 'article' => 'Mehl',
                 'quantity' => 1500,
                 'unit' => 'g',
@@ -104,7 +104,7 @@ class UpdateMaterialItemTest extends ECampApiTestCase {
             '_links' => [
                 'materialList' => ['href' => $this->getIriFor('materialList2')],
                 'period' => ['href' => $this->getIriFor('period1')],
-                //'contentNode' => null,
+                //'materialNode' => null,
             ],
         ]);
     }
@@ -114,7 +114,7 @@ class UpdateMaterialItemTest extends ECampApiTestCase {
         static::createClientWithCredentials()->request('PATCH', '/material_items/'.$materialItem->getId(), ['json' => [
             'materialList' => $this->getIriFor('materialList2'),
             'period' => $this->getIriFor('period1'),
-            'contentNode' => null,
+            'materialNode' => null,
             'article' => 'Mehl',
             'quantity' => 1500,
             'unit' => 'g',
@@ -127,7 +127,7 @@ class UpdateMaterialItemTest extends ECampApiTestCase {
             '_links' => [
                 'materialList' => ['href' => $this->getIriFor('materialList2')],
                 'period' => ['href' => $this->getIriFor('period1')],
-                //'contentNode' => null,
+                //'materialNode' => null,
             ],
         ]);
     }
@@ -135,7 +135,7 @@ class UpdateMaterialItemTest extends ECampApiTestCase {
     public function testPatchMaterialItemInCampPrototypeIsDeniedForUnrelatedUser() {
         $materialItem = static::$fixtures['materialItem1period1campPrototype'];
         static::createClientWithCredentials()->request('PATCH', '/material_items/'.$materialItem->getId(), ['json' => [
-            'contentNode' => null,
+            'materialNode' => null,
             'article' => 'Mehl',
             'quantity' => 1500,
             'unit' => 'g',
@@ -176,27 +176,27 @@ class UpdateMaterialItemTest extends ECampApiTestCase {
         ]);
     }
 
-    public function testPatchMaterialItemAllowsPeriodInsteadOfContentNode() {
+    public function testPatchMaterialItemAllowsPeriodInsteadOfMaterialNode() {
         $materialItem = static::$fixtures['materialItem1'];
         static::createClientWithCredentials()->request('PATCH', '/material_items/'.$materialItem->getId(), ['json' => [
             'period' => $this->getIriFor('period1'),
-            'contentNode' => null,
+            'materialNode' => null,
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
 
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
             '_links' => [
                 'period' => ['href' => $this->getIriFor('period1')],
-                //'contentNode' => null,
+                //'materialNode' => null,
             ],
         ]);
     }
 
-    public function testPatchMaterialItemValidatesMissingPeriodAndContentNode() {
+    public function testPatchMaterialItemValidatesMissingPeriodAndMaterialNode() {
         $materialItem = static::$fixtures['materialItem1'];
         static::createClientWithCredentials()->request('PATCH', '/material_items/'.$materialItem->getId(), ['json' => [
             'period' => null,
-            'contentNode' => null,
+            'materialNode' => null,
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
 
         $this->assertResponseStatusCodeSame(422);
@@ -204,21 +204,21 @@ class UpdateMaterialItemTest extends ECampApiTestCase {
             'violations' => [
                 [
                     'propertyPath' => 'period',
-                    'message' => 'Either this value or contentNode should not be null.',
+                    'message' => 'Either this value or materialNode should not be null.',
                 ],
                 [
-                    'propertyPath' => 'contentNode',
+                    'propertyPath' => 'materialNode',
                     'message' => 'Either this value or period should not be null.',
                 ],
             ],
         ]);
     }
 
-    public function testPatchMaterialItemValidatesConflictingPeriodAndContentNode() {
+    public function testPatchMaterialItemValidatesConflictingPeriodAndMaterialNode() {
         $materialItem = static::$fixtures['materialItem1'];
         static::createClientWithCredentials()->request('PATCH', '/material_items/'.$materialItem->getId(), ['json' => [
             'period' => $this->getIriFor('period1'),
-            'contentNode' => $this->getIriFor('contentNode1'),
+            'materialNode' => $this->getIriFor('contentNodeChild3'),
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
 
         $this->assertResponseStatusCodeSame(422);
@@ -226,10 +226,10 @@ class UpdateMaterialItemTest extends ECampApiTestCase {
             'violations' => [
                 [
                     'propertyPath' => 'period',
-                    'message' => 'Either this value or contentNode should be null.',
+                    'message' => 'Either this value or materialNode should be null.',
                 ],
                 [
-                    'propertyPath' => 'contentNode',
+                    'propertyPath' => 'materialNode',
                     'message' => 'Either this value or period should be null.',
                 ],
             ],
@@ -253,17 +253,17 @@ class UpdateMaterialItemTest extends ECampApiTestCase {
         ]);
     }
 
-    public function testPatchMaterialItemValidatesContentNodeFromDifferentCamp() {
+    public function testPatchMaterialItemValidatesMaterialNodeFromDifferentCamp() {
         $materialItem = static::$fixtures['materialItem1'];
         static::createClientWithCredentials()->request('PATCH', '/material_items/'.$materialItem->getId(), ['json' => [
-            'contentNode' => $this->getIriFor('contentNode1camp2'),
+            'materialNode' => $this->getIriFor('contentNode1camp2'),
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
 
         $this->assertResponseStatusCodeSame(422);
         $this->assertJsonContains([
             'violations' => [
                 [
-                    'propertyPath' => 'contentNode',
+                    'propertyPath' => 'materialNode',
                     'message' => 'Must belong to the same camp.',
                 ],
             ],
