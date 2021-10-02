@@ -264,7 +264,7 @@ jobs:
 
       - run: cp .env.ci .env
 
-      - run: docker-compose up -d --build composer backend frontend db
+      - run: docker-compose up -d --build composer database php caddy frontend
 
       - run: bash wait-for-container-startup.sh
 

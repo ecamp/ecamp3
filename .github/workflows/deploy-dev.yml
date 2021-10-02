@@ -36,12 +36,10 @@ jobs:
           db-pass: ${{ secrets.DEVEL_DB_PASS }}
           db-name: ${{ secrets.DEVEL_DB_NAME }}
           session-cookie-domain: ${{ secrets.DEVEL_SESSION_COOKIE_DOMAIN }}
-          backend-url: ${{ secrets.DEVEL_BACKEND_URL }}
           frontend-url: ${{ secrets.DEVEL_FRONTEND_URL }}
           print-server-url: ${{ secrets.DEVEL_PRINT_SERVER_URL }}
           print-file-server-url: ${{ secrets.DEVEL_PRINT_FILE_SERVER_URL }}
           mail-server-url: ${{ secrets.DEVEL_MAIL_SERVER_URL }}
-          sentry-backend-dsn: ${{ secrets.DEVEL_SENTRY_BACKEND_DSN }}
           sentry-frontend-dsn: ${{ secrets.DEVEL_SENTRY_FRONTEND_DSN }}
           sentry-print-dsn: ${{ secrets.DEVEL_SENTRY_PRINT_DSN }}
           sentry-worker-print-puppeteer-dsn: ${{ secrets.DEVEL_SENTRY_WORKER_PRINT_PUPPETEER_DSN }}
@@ -51,7 +49,7 @@ jobs:
           rabbitmq-vhost: ${{ secrets.DEVEL_RABBITMQ_VHOST }}
           rabbitmq-user: ${{ secrets.DEVEL_RABBITMQ_USER }}
           rabbitmq-pass: ${{ secrets.DEVEL_RABBITMQ_PASS }}
-          api-domain: ${{ secrets.DEVEL_API_URL }}
+          api-url: ${{ secrets.DEVEL_API_URL }}
           api-app-secret: ${{ secrets.DEVEL_API_APP_SECRET }}
           api-database-url: ${{ secrets.DEVEL_API_DATABASE_URL }}
           api-jwt-passphrase: ${{ secrets.DEVEL_API_JWT_PASSPHRASE }}
