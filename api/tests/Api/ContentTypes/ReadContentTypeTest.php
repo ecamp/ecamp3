@@ -11,7 +11,7 @@ use App\Tests\Api\ECampApiTestCase;
 class ReadContentTypeTest extends ECampApiTestCase {
     public function testGetSingleContentTypeIsAllowedForAnonymousUser() {
         /** @var ContentType $contentType */
-        $contentType = static::$fixtures['contentType1'];
+        $contentType = static::$fixtures['contentTypeSafetyConcept'];
         static::createBasicClient()->request('GET', '/content_types/'.$contentType->getId());
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
@@ -23,7 +23,7 @@ class ReadContentTypeTest extends ECampApiTestCase {
 
     public function testGetSingleContentTypeIsAllowedForLoggedInUser() {
         /** @var ContentType $contentType */
-        $contentType = static::$fixtures['contentType1'];
+        $contentType = static::$fixtures['contentTypeSafetyConcept'];
         static::createClientWithCredentials()->request('GET', '/content_types/'.$contentType->getId());
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([

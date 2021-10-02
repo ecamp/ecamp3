@@ -62,7 +62,7 @@ class ReadMaterialItemTest extends ECampApiTestCase {
             '_links' => [
                 //'period' => null,
                 'materialList' => ['href' => $this->getIriFor('materialList1')],
-                'contentNode' => ['href' => $this->getIriFor('contentNode1')],
+                'materialNode' => ['href' => $this->getIriFor('contentNodeChild3')],
             ],
         ]);
     }
@@ -82,7 +82,7 @@ class ReadMaterialItemTest extends ECampApiTestCase {
             '_links' => [
                 //'period' => null,
                 'materialList' => ['href' => $this->getIriFor('materialList1')],
-                'contentNode' => ['href' => $this->getIriFor('contentNode1')],
+                'materialNode' => ['href' => $this->getIriFor('contentNodeChild3')],
             ],
         ]);
     }
@@ -100,7 +100,7 @@ class ReadMaterialItemTest extends ECampApiTestCase {
             '_links' => [
                 //'period' => null,
                 'materialList' => ['href' => $this->getIriFor('materialList1')],
-                'contentNode' => ['href' => $this->getIriFor('contentNode1')],
+                'materialNode' => ['href' => $this->getIriFor('contentNodeChild3')],
             ],
         ]);
     }

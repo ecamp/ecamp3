@@ -1,0 +1,7 @@
+# App\Entity\SingleText:
+#   singleText1:
+#     text: 'Test 1'
+#     contentNode: '@contentNodeChild2'
+#   singleText2:
+#     text: 'Test 2'
+#     contentNode: '@contentNodeGrandchild1'

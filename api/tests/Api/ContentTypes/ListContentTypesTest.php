@@ -12,7 +12,7 @@ class ListContentTypesTest extends ECampApiTestCase {
         $response = static::createBasicClient()->request('GET', '/content_types');
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
-            'totalItems' => 3,
+            'totalItems' => 7,
             '_links' => [
                 'items' => [],
             ],
@@ -20,18 +20,15 @@ class ListContentTypesTest extends ECampApiTestCase {
                 'items' => [],
             ],
         ]);
-        $this->assertEqualsCanonicalizing([
-            ['href' => $this->getIriFor('contentType1')],
-            ['href' => $this->getIriFor('contentType2')],
-            ['href' => $this->getIriFor('contentTypeColumnLayout')],
-        ], $response->toArray()['_links']['items']);
+
+        $this->assertCount(7, $response->toArray()['_links']['items']);
     }
 
     public function testListContentTypesIsAllowedForLoggedInUser() {
         $response = static::createClientWithCredentials()->request('GET', '/content_types');
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
-            'totalItems' => 3,
+            'totalItems' => 7,
             '_links' => [
                 'items' => [],
             ],
@@ -39,10 +36,6 @@ class ListContentTypesTest extends ECampApiTestCase {
                 'items' => [],
             ],
         ]);
-        $this->assertEqualsCanonicalizing([
-            ['href' => $this->getIriFor('contentType1')],
-            ['href' => $this->getIriFor('contentType2')],
-            ['href' => $this->getIriFor('contentTypeColumnLayout')],
-        ], $response->toArray()['_links']['items']);
+        $this->assertCount(7, $response->toArray()['_links']['items']);
     }
 }

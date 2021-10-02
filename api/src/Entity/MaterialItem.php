@@ -6,6 +6,7 @@ use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use App\Entity\ContentNode\MaterialNode;
 use App\Repository\MaterialItemRepository;
 use App\Validator\AssertBelongsToSameCamp;
 use App\Validator\AssertEitherIsNull;
@@ -55,7 +56,7 @@ class MaterialItem extends BaseEntity implements BelongsToCampInterface {
      * @ORM\JoinColumn(nullable=true, onDelete="cascade")
      */
     #[AssertBelongsToSameCamp]
-    #[AssertEitherIsNull(other: 'contentNode')]
+    #[AssertEitherIsNull(other: 'materialNode')]
     #[ApiProperty(example: '/periods/1a2b3c4d')]
     #[Groups(['read', 'write'])]
     public ?Period $period = null;
@@ -63,14 +64,14 @@ class MaterialItem extends BaseEntity implements BelongsToCampInterface {
     /**
      * The content node to which this item belongs, if it does not belong to a period.
      *
-     * @ORM\ManyToOne(targetEntity="ContentNode", inversedBy="materialItems")
+     * @ORM\ManyToOne(targetEntity="App\Entity\ContentNode\MaterialNode", inversedBy="materialItems")
      * @ORM\JoinColumn(nullable=true, onDelete="CASCADE")
      */
     #[AssertBelongsToSameCamp]
     #[AssertEitherisNull(other: 'period')]
-    #[ApiProperty(example: '/content_nodes/1a2b3c4d')]
+    #[ApiProperty(example: '/content_node/material_nodes/1a2b3c4d')]
     #[Groups(['read', 'write'])]
-    public ?ContentNode $contentNode = null;
+    public ?MaterialNode $materialNode = null;
 
     /**
      * The name of the item that is required.

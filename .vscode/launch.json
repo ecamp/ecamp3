@@ -10,8 +10,9 @@
             "request": "launch",
             "hostname": "localhost",
             "port": 9003,
+            "log": true,
             "pathMappings": {
-                "/app": "${workspaceRoot}/backend"
+                "/srv/api": "${workspaceRoot}/api"
             }
         },
         {

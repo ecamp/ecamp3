@@ -1,0 +1,12 @@
+App\Entity\ContentNode\Storyboard:
+  storyboard1:
+    root: '@contentNode1'
+    parent: '@contentNode1'
+    slot: ''
+    position: 0
+    instanceName: <word()>
+    contentType: '@contentTypeStoryboard'
+
+App\Entity\ContentNode\StoryboardSection:
+  storyboardSection1:
+    storyboard: '@storyboard1'

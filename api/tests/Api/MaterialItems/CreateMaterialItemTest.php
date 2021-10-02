@@ -100,43 +100,43 @@ class CreateMaterialItemTest extends ECampApiTestCase {
         ]);
     }
 
-    public function testCreateMaterialItemWithContentNodeInsteadOfPeriodIsPossible() {
+    public function testCreateMaterialItemWithMaterialNodeInsteadOfPeriodIsPossible() {
         static::createClientWithCredentials()->request('POST', '/material_items', ['json' => $this->getExampleWritePayload([
-            'contentNode' => $this->getIriFor('contentNode1'),
+            'materialNode' => $this->getIriFor('contentNodeChild3'),
             'period' => null,
         ])]);
 
         $this->assertResponseStatusCodeSame(201);
         $this->assertJsonContains($this->getExampleReadPayload([
             '_links' => [
-                'contentNode' => ['href' => $this->getIriFor('contentNode1')],
+                'materialNode' => ['href' => $this->getIriFor('contentNodeChild3')],
                 //'period' => null,
             ],
         ]));
     }
 
-    public function testCreateMaterialItemValidatesMissingPeriodAndContentNode() {
-        static::createClientWithCredentials()->request('POST', '/material_items', ['json' => $this->getExampleWritePayload([], ['period', 'contentNode'])]);
+    public function testCreateMaterialItemValidatesMissingPeriodAndMaterialNode() {
+        static::createClientWithCredentials()->request('POST', '/material_items', ['json' => $this->getExampleWritePayload([], ['period', 'materialNode'])]);
 
         $this->assertResponseStatusCodeSame(422);
         $this->assertJsonContains([
             'violations' => [
                 [
                     'propertyPath' => 'period',
-                    'message' => 'Either this value or contentNode should not be null.',
+                    'message' => 'Either this value or materialNode should not be null.',
                 ],
                 [
-                    'propertyPath' => 'contentNode',
+                    'propertyPath' => 'materialNode',
                     'message' => 'Either this value or period should not be null.',
                 ],
             ],
         ]);
     }
 
-    public function testCreateMaterialItemValidatesConflictingPeriodAndContentNode() {
+    public function testCreateMaterialItemValidatesConflictingPeriodAndMaterialNode() {
         static::createClientWithCredentials()->request('POST', '/material_items', ['json' => $this->getExampleWritePayload([
             'period' => $this->getIriFor('period1'),
-            'contentNode' => $this->getIriFor('contentNode1'),
+            'materialNode' => $this->getIriFor('contentNodeChild3'),
         ])]);
 
         $this->assertResponseStatusCodeSame(422);
@@ -144,10 +144,10 @@ class CreateMaterialItemTest extends ECampApiTestCase {
             'violations' => [
                 [
                     'propertyPath' => 'period',
-                    'message' => 'Either this value or contentNode should be null.',
+                    'message' => 'Either this value or materialNode should be null.',
                 ],
                 [
-                    'propertyPath' => 'contentNode',
+                    'propertyPath' => 'materialNode',
                     'message' => 'Either this value or period should be null.',
                 ],
             ],
@@ -157,7 +157,7 @@ class CreateMaterialItemTest extends ECampApiTestCase {
     public function testCreateMaterialItemValidatesPeriodFromDifferentCamp() {
         static::createClientWithCredentials()->request('POST', '/material_items', ['json' => $this->getExampleWritePayload([
             'period' => $this->getIriFor('period1camp2'),
-            'contentNode' => null,
+            'materialNode' => null,
         ])]);
 
         $this->assertResponseStatusCodeSame(422);
@@ -171,17 +171,17 @@ class CreateMaterialItemTest extends ECampApiTestCase {
         ]);
     }
 
-    public function testCreateMaterialItemValidatesContentNodeFromDifferentCamp() {
+    public function testCreateMaterialItemValidatesMaterialNodeFromDifferentCamp() {
         static::createClientWithCredentials()->request('POST', '/material_items', ['json' => $this->getExampleWritePayload([
             'period' => null,
-            'contentNode' => $this->getIriFor('contentNode1camp2'),
+            'materialNode' => $this->getIriFor('contentNode1camp2'),
         ])]);
 
         $this->assertResponseStatusCodeSame(422);
         $this->assertJsonContains([
             'violations' => [
                 [
-                    'propertyPath' => 'contentNode',
+                    'propertyPath' => 'materialNode',
                     'message' => 'Must belong to the same camp.',
                 ],
             ],
@@ -235,7 +235,7 @@ class CreateMaterialItemTest extends ECampApiTestCase {
             array_merge([
                 'materialList' => $this->getIriFor('materialList1'),
                 'period' => $this->getIriFor('period1'),
-                'contentNode' => null,
+                'materialNode' => null,
             ], $attributes),
             [],
             $except
@@ -248,7 +248,7 @@ class CreateMaterialItemTest extends ECampApiTestCase {
             OperationType::ITEM,
             'get',
             $attributes,
-            ['materialList', 'period', 'contentNode'],
+            ['materialList', 'period', 'materialNode'],
             $except
         );
     }
