@@ -108,6 +108,7 @@ class CampDataPersisterTest extends TestCase {
             $this->assertEquals($this->camp, $campCollaboration->camp);
             $this->assertEquals(CampCollaboration::STATUS_ESTABLISHED, $campCollaboration->status);
             $this->assertEquals(CampCollaboration::ROLE_MANAGER, $campCollaboration->role);
+            $this->assertContains($campCollaboration, $this->camp->collaborations);
         }));
 
         // when
@@ -115,7 +116,7 @@ class CampDataPersisterTest extends TestCase {
         $data = $this->dataPersister->persist($this->camp, ['collection_operation_name' => 'post']);
     }
 
-    public function testDoesNotCreateCampCollaborationOnCreate() {
+    public function testDoesNotCreateCampCollaborationOnUpdate() {
         // given
         $user = new User();
         $this->security->method('getUser')->willReturn($user);

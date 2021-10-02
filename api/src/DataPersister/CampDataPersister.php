@@ -40,9 +40,9 @@ class CampDataPersister implements ContextAwareDataPersisterInterface {
         if ('post' === ($context['collection_operation_name'] ?? null)) {
             $collaboration = new CampCollaboration();
             $collaboration->user = $user;
-            $collaboration->camp = $camp;
             $collaboration->role = CampCollaboration::ROLE_MANAGER;
             $collaboration->status = CampCollaboration::STATUS_ESTABLISHED;
+            $camp->addCampCollaboration($collaboration);
             $this->em->persist($collaboration);
             $this->em->flush();
         }
