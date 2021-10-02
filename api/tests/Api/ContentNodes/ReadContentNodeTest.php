@@ -27,7 +27,7 @@ class ReadContentNodeTest extends ECampApiTestCase {
                 'parent' => ['href' => $this->getIriFor($contentNode->parent)],
                 'owner' => ['href' => $this->getIriFor('activity1')],
                 'ownerCategory' => ['href' => $this->getIriFor('category1')],
-                'children' => ['href' => '/content_nodes?parent=/content_nodes/'.$contentNode->getId()],
+                'children' => ['href' => '/content_nodes?parent='.$this->getIriFor('columnLayoutChild1')],
                 'self' => ['href' => $this->getIriFor('columnLayoutChild1')],
             ],
         ]);

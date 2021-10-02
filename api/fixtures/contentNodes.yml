@@ -92,7 +92,7 @@ App\Entity\ContentNode\SingleText:
     text: <word()>
   singleText2:
     root: '@columnLayout1'
-    parent: '@singleText1'
+    parent: '@columnLayoutChild1'
     slot: '1'
     position: 1
     jsonConfig: null

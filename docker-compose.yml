@@ -42,12 +42,12 @@ services:
       # See https://github.com/docker/for-linux/issues/264
       # The `remote_host` below may optionally be replaced with `remote_connect_back`
       # XDEBUG_MODE required for step debugging
-      XDEBUG_MODE: develop
+      XDEBUG_MODE: develop,debug,coverage
       # default port for Xdebug 3 is 9003
       # idekey=VSCODE if you are debugging with VSCode
       XDEBUG_CONFIG: >-
         client_host=docker-host
-        idekey=VSCODE
+        idekey=PHPSTORM
       # This should correspond to the server declared in PHPStorm `Preferences | Languages & Frameworks | PHP | Servers`
       # Then PHPStorm will use the corresponding path mappings
       PHP_IDE_CONFIG: serverName=localhost
