@@ -268,7 +268,6 @@ function requireAuth (to, from, next) {
   if (isLoggedIn()) {
     next()
   } else {
-    console.log('not logged in from the router')
     next({ name: 'login', query: to.path === '/' ? {} : { redirect: to.fullPath } })
   }
 }
