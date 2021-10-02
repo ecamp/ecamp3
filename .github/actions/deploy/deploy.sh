@@ -1,6 +1,5 @@
 #!/bin/bash
 set -e
-set -x
 
 # Calculate short commit id
 COMMIT_ID=642d694a4ee46b0cd9ade6de67c41b7008add79b
