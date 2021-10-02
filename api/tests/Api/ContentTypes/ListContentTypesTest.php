@@ -20,11 +20,8 @@ class ListContentTypesTest extends ECampApiTestCase {
                 'items' => [],
             ],
         ]);
-        $this->assertEqualsCanonicalizing([
-            ['href' => $this->getIriFor('contentTypeSafetyConcept')],
-            ['href' => $this->getIriFor('contentTypeNotes')],
-            ['href' => $this->getIriFor('contentTypeColumnLayout')],
-        ], $response->toArray()['_links']['items']);
+
+        $this->assertCount(7, $response->toArray()['_links']['items']);
     }
 
     public function testListContentTypesIsAllowedForLoggedInUser() {
@@ -39,10 +36,6 @@ class ListContentTypesTest extends ECampApiTestCase {
                 'items' => [],
             ],
         ]);
-        $this->assertEqualsCanonicalizing([
-            ['href' => $this->getIriFor('contentTypeSafetyConcept')],
-            ['href' => $this->getIriFor('contentTypeNotes')],
-            ['href' => $this->getIriFor('contentTypeColumnLayout')],
-        ], $response->toArray()['_links']['items']);
+        $this->assertCount(7, $response->toArray()['_links']['items']);
     }
 }
