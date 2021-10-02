@@ -134,6 +134,9 @@ COPY --from=api_platform_caddy_builder /usr/bin/caddy /usr/bin/caddy
 COPY --from=api_platform_php /srv/api/public public/
 COPY docker/caddy/Caddyfile /etc/caddy/Caddyfile
 
+FROM api_platform_caddy AS api_platform_caddy_prod
+COPY docker/caddy/Caddyfile.prod /etc/caddy/Caddyfile
+
 
 # Debug stage, for using XDebug
 FROM api_platform_php as api_platform_php_dev
