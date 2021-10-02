@@ -2,10 +2,10 @@
 
 namespace App\Serializer\Normalizer;
 
-use Symfony\Component\Serializer\Normalizer\NormalizerAwareInterface;
-use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use ApiPlatform\Core\Metadata\Resource\Factory\ResourceMetadataFactoryInterface;
 use ApiPlatform\Core\OpenApi\Factory\OpenApiFactoryInterface;
+use Symfony\Component\Serializer\Normalizer\NormalizerAwareInterface;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 /**
  * This class modifies the API platform HAL EntrypointNormalizer to generate URI templates`.
@@ -34,9 +34,9 @@ class URITemplateNormalizer implements NormalizerInterface, NormalizerAwareInter
         $paths = $openApi->getPaths()->getPaths();
 
         $collectedPaths = [];
-        foreach($paths as $pathName => $pathItem) {
+        foreach ($paths as $pathName => $pathItem) {
             // only care about GET actions
-            if($pathItem->getGet() !== null) {
+            if (null !== $pathItem->getGet()) {
                 $resourceName = $this->snakeToCamel(explode('/', $pathName)[1]);
                 $parameters = $pathItem->getGet()->getParameters();
                 $hasId = false;
@@ -44,13 +44,13 @@ class URITemplateNormalizer implements NormalizerInterface, NormalizerAwareInter
                 $queryParameters = [];
                 // check if route has path parameters and collect query parameters
                 while ($index < count($parameters)) {
-                    if ($parameters[$index]->getIn() === 'path') {
+                    if ('path' === $parameters[$index]->getIn()) {
                         $hasId = true;
                     }
-                    if ($parameters[$index]->getIn() === 'query') {
+                    if ('query' === $parameters[$index]->getIn()) {
                         array_push($queryParameters, $parameters[$index]->getName());
                     }
-                    $index++;
+                    ++$index;
                 }
                 if ($hasId) {
                     $collectedPaths[$resourceName]['itemUrl'] = $pathName;
@@ -68,16 +68,16 @@ class URITemplateNormalizer implements NormalizerInterface, NormalizerAwareInter
             }
         }
         // merge item and collection routes
-        foreach($collectedPaths as $resourceName => $path) {
+        foreach ($collectedPaths as $resourceName => $path) {
             $url = isset($path['itemUrl']) ? $path['itemUrl'] : $path['collectionUrl'];
             // replace '/{id}' with '{/id}'
             $fullPath = preg_replace('/\/{(.+?)}/', '{/$1}', $url);
-            $queryParameters = array_merge($path['itemQueryParams'] ?? [] , $path['collectionQueryParams'] ?? []);
+            $queryParameters = array_merge($path['itemQueryParams'] ?? [], $path['collectionQueryParams'] ?? []);
             if (count($queryParameters) > 0) {
-                $fullPath .= '{?' . join(',', $queryParameters) . '}';
+                $fullPath .= '{?'.join(',', $queryParameters).'}';
             }
             $links[$resourceName]['href'] = $fullPath;
-            if(isset($path['templated'])) {
+            if (isset($path['templated'])) {
                 $links[$resourceName]['templated'] = true;
             }
         }
