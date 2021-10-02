@@ -1,4 +1,4 @@
-version: "3"
+version: "3.4"
 
 services:
   nginx:
@@ -11,6 +11,7 @@ services:
       - print-output:/static-files
     depends_on:
       - backend
+      - caddy
       - frontend
       - print
       - worker-print-puppeteer
@@ -34,6 +35,35 @@ services:
       - ./sentry.config.php:/app/config/sentry.config.php
     depends_on:
       - rabbitmq
+
+  php:
+    image: ecamp/ecamp3-api:${DOCKER_IMAGE_TAG}
+    volumes:
+      - caddy-socket:/var/run/php
+      - api-keys:/srv/api/config/jwt
+    environment:
+      APP_ENV: dev
+    healthcheck:
+      interval: 10s
+      timeout: 3s
+      retries: 3
+      start_period: 30s
+    env_file:
+      - api.env
+
+  caddy:
+    image: ecamp/ecamp3-caddy:${DOCKER_IMAGE_TAG}
+    depends_on:
+      - php
+    environment:
+      SERVER_NAME: localhost:4001, caddy:4001, ${API_DOMAIN}:4001
+      MERCURE_PUBLISHER_JWT_KEY: ${MERCURE_PUBLISHER_JWT_KEY:-!ChangeMe!}
+      MERCURE_SUBSCRIBER_JWT_KEY: ${MERCURE_SUBSCRIBER_JWT_KEY:-!ChangeMe!}
+      MERCURE_EXTRA_DIRECTIVES: demo
+    volumes:
+      - caddy-socket:/var/run/php
+      - caddy-data:/data
+      - caddy-config-cache:/config
 
   print:
     image: ecamp/ecamp3-print:${DOCKER_IMAGE_TAG}
@@ -70,4 +100,8 @@ services:
     container_name: 'ecamp3-mail'
 
 volumes:
+  api-keys:
+  caddy-socket:
+  caddy-data:
+  caddy-config-cache:
   print-output:
