@@ -10,15 +10,12 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20211002102059 extends AbstractMigration
-{
-    public function getDescription(): string
-    {
+final class Version20211002102059 extends AbstractMigration {
+    public function getDescription(): string {
         return '';
     }
 
-    public function up(Schema $schema): void
-    {
+    public function up(Schema $schema): void {
         // this up() migration is auto-generated, please modify it to your needs
         $this->addSql('CREATE TABLE abstract_content_node_owner (id VARCHAR(16) NOT NULL, createTime TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, updateTime TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, rootContentNodeId VARCHAR(16) NOT NULL, entityType VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_8E710AB4F886581C ON abstract_content_node_owner (rootContentNodeId)');
@@ -143,8 +140,7 @@ final class Version20211002102059 extends AbstractMigration
         $this->addSql('ALTER TABLE schedule_entry ADD CONSTRAINT FK_D7785D2C1335E2FC FOREIGN KEY (activityId) REFERENCES activity (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
     }
 
-    public function down(Schema $schema): void
-    {
+    public function down(Schema $schema): void {
         // this down() migration is auto-generated, please modify it to your needs
         $this->addSql('CREATE SCHEMA public');
         $this->addSql('ALTER TABLE activity DROP CONSTRAINT FK_AC74095ABF396750');
