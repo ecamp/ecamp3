@@ -94,7 +94,7 @@ describe('authentication logic', () => {
       })
 
       // when
-      const result = await auth.login('foo', 'bar')
+      /* const result = */await auth.login('foo', 'bar')
 
       // then
       // TODO hal-json-vuex can't handle "204 No Content" yet

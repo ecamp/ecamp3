@@ -52,7 +52,6 @@ import ButtonAdd from '@/components/buttons/ButtonAdd.vue'
 import ButtonCancel from '@/components/buttons/ButtonCancel.vue'
 import ContentCard from '@/components/layout/ContentCard.vue'
 import ETextField from '@/components/form/base/ETextField.vue'
-import ESelect from '@/components/form/base/ESelect.vue'
 import { campRoute } from '@/router.js'
 import ServerError from '@/components/form/ServerError.vue'
 import { ValidationObserver } from 'vee-validate'
@@ -66,7 +65,6 @@ export default {
     ButtonCancel,
     ContentCard,
     ETextField,
-    ESelect,
     ValidationObserver,
     ServerError
   },
