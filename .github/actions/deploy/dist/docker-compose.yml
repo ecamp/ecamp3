@@ -10,7 +10,6 @@ services:
       - ./nginx.conf:/etc/nginx/nginx.conf
       - print-output:/static-files
     depends_on:
-      - backend
       - caddy
       - frontend
       - print
@@ -23,18 +22,6 @@ services:
     container_name: 'ecamp3-frontend'
     volumes:
       - ./frontend-environment.js:/app/environment.js
-
-  backend:
-    image: ecamp/ecamp3-backend:${DOCKER_IMAGE_TAG}
-    container_name: 'ecamp3-backend'
-    volumes:
-      - ./doctrine.local.prod.php:/app/config/autoload/doctrine.local.prod.php
-      - ./mail.local.prod.php:/app/config/autoload/mail.local.prod.php
-      - ./sessions.local.prod.php:/app/config/autoload/sessions.local.prod.php
-      - ./zfr_cors.global.php:/app/config/autoload/zfr_cors.global.php
-      - ./sentry.config.php:/app/config/sentry.config.php
-    depends_on:
-      - rabbitmq
 
   php:
     image: ecamp/ecamp3-api:${DOCKER_IMAGE_TAG}

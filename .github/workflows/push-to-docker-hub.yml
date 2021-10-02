@@ -31,24 +31,6 @@ jobs:
           dockerfile: .docker-hub/frontend/Dockerfile
           tags: 'latest,${{ github.event.client_payload.sha }}'
 
-  push-backend-to-docker-hub:
-    name: "Push backend to Docker Hub"
-    needs: only-on-main-branch
-    runs-on: ubuntu-latest
-    steps:
-
-      - uses: actions/checkout@5a4ac9002d0be2fb38bd78e4b4dbde5606d7042f # renovate: tag=v2
-        with:
-          ref: ${{ github.event.client_payload.sha }}
-
-      - uses: docker/build-push-action@3e7a4f6646880c6f63758d73ac32392d323eaf8f # renovate: tag=v1
-        with:
-          username: ${{ secrets.DOCKER_HUB_USERNAME }}
-          password: ${{ secrets.DOCKER_HUB_PASSWORD }}
-          repository: ecamp/ecamp3-backend
-          dockerfile: .docker-hub/backend/Dockerfile
-          tags: 'latest,${{ github.event.client_payload.sha }}'
-
   push-api-to-docker-hub:
     name: "Push api to Docker Hub"
     needs: only-on-main-branch
@@ -147,7 +129,6 @@ jobs:
     name: "Send out image push success event"
     needs:
       - push-frontend-to-docker-hub
-      - push-backend-to-docker-hub
       - push-api-to-docker-hub
       - push-caddy-to-docker-hub
       - push-print-to-docker-hub
