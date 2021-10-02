@@ -5,6 +5,7 @@ namespace App\Tests\DataPersister;
 use ApiPlatform\Core\DataPersister\ContextAwareDataPersisterInterface;
 use App\DataPersister\UserDataPersister;
 use App\Entity\User;
+use App\Service\MailService;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasher;
@@ -17,14 +18,16 @@ class UserDataPersisterTest extends TestCase {
     private UserDataPersister $dataPersister;
     private MockObject|ContextAwareDataPersisterInterface $decoratedMock;
     private MockObject|UserPasswordHasherInterface $userPasswordHasher;
+    private MockObject|MailService $mailService;
     private User $user;
 
     protected function setUp(): void {
         $this->decoratedMock = $this->createMock(ContextAwareDataPersisterInterface::class);
         $this->userPasswordHasher = $this->createMock(UserPasswordHasher::class);
+        $this->mailService = $this->createMock(MailService::class);
         $this->user = new User();
 
-        $this->dataPersister = new UserDataPersister($this->decoratedMock, $this->userPasswordHasher);
+        $this->dataPersister = new UserDataPersister($this->decoratedMock, $this->userPasswordHasher, $this->mailService);
     }
 
     public function testDelegatesSupportCheckToDecorated() {
