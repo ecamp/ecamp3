@@ -88,7 +88,7 @@ jobs:
           dockerfile: api/Dockerfile
           tags: 'bacluc'
           path: './api'
-          target: api_platform_caddy
+          target: api_platform_caddy_prod
 
   push-print-to-docker-hub:
     name: "Push print to Docker Hub"
