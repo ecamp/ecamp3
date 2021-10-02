@@ -4,10 +4,9 @@ namespace App\DataPersister\ContentNode;
 
 use ApiPlatform\Core\DataPersister\ContextAwareDataPersisterInterface;
 use App\Entity\ContentNode;
-use Doctrine\ORM\EntityManagerInterface;
 
 class ContentNodeBaseDataPersister {
-    public function __construct(protected ContextAwareDataPersisterInterface $dataPersister, protected EntityManagerInterface $entityManager) {
+    public function __construct(protected ContextAwareDataPersisterInterface $dataPersister) {
     }
 
     public function remove($data, array $context = []) {

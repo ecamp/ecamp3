@@ -39,9 +39,6 @@ services:
     App\DataPersister\CategoryDataPersister:
         arguments: [ '@api_platform.doctrine.orm.data_persister' ]
 
-    App\DataPersister\ContentNodeDataPersister:
-        arguments: [ '@api_platform.doctrine.orm.data_persister' ]
-
     App\DataPersister\ContentNode\SingleTextDataPersister:
         arguments: [ '@api_platform.doctrine.orm.data_persister' ]
 

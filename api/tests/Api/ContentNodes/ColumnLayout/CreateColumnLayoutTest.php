@@ -52,7 +52,7 @@ class CreateColumnLayoutTest extends ECampApiTestCase {
     }
 
     public function testCreateColumnLayoutValidatesMissingParent() {
-        $this->markTestSkipped('To be properly implemented. Currently throws a 500 error.');
+        $this->markTestSkipped('To be properly implemented. Currently throws a 500 error. This is caused by security_post_denormalize running before validation.');
 
         static::createClientWithCredentials()->request('POST', '/content_node/column_layouts', ['json' => $this->getExampleWritePayload([], ['parent'])]);
 
