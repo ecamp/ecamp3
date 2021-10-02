@@ -226,7 +226,7 @@ class CreateCategoryTest extends ECampApiTestCase {
             Category::class,
             OperationType::ITEM,
             'get',
-            array_merge([], $attributes),
+            $attributes,
             ['camp', 'preferredContentTypes'],
             $except
         );
