@@ -2,22 +2,19 @@
 
 namespace App\Serializer\Normalizer;
 
-use ApiPlatform\Core\Metadata\Resource\Factory\ResourceMetadataFactoryInterface;
 use ApiPlatform\Core\OpenApi\Factory\OpenApiFactoryInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 /**
- * This class modifies the API platform HAL EntrypointNormalizer to generate URI templates`.
+ * This class modifies the API platform HAL EntrypointNormalizer to generate URI templates.
  */
 class URITemplateNormalizer implements NormalizerInterface, NormalizerAwareInterface {
     private NormalizerInterface $decorated;
+    private OpenApiFactoryInterface $openApiFactory;
 
-    private $resourceMetadataFactory;
-
-    public function __construct(NormalizerInterface $decorated, ResourceMetadataFactoryInterface $resourceMetadataFactory, OpenApiFactoryInterface $openApiFactory) {
+    public function __construct(NormalizerInterface $decorated, OpenApiFactoryInterface $openApiFactory) {
         $this->decorated = $decorated;
-        $this->resourceMetadataFactory = $resourceMetadataFactory;
         $this->openApiFactory = $openApiFactory;
     }
 
