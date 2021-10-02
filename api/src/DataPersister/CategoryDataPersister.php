@@ -4,7 +4,7 @@ namespace App\DataPersister;
 
 use ApiPlatform\Core\DataPersister\ContextAwareDataPersisterInterface;
 use App\Entity\Category;
-use App\Entity\ContentNode;
+use App\Entity\ContentNode\ColumnLayout;
 use App\Entity\ContentType;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -25,7 +25,7 @@ class CategoryDataPersister implements ContextAwareDataPersisterInterface {
         if ('post' === ($context['collection_operation_name'] ?? null)) {
             // TODO implement actual prototype cloning and strategy classes, this is just a dummy implementation to
             //      fill the non-nullable field for Doctrine
-            $rootContentNode = new ContentNode();
+            $rootContentNode = new ColumnLayout();
             $rootContentNode->contentType = $this->entityManager
                 ->getRepository(ContentType::class)
                 ->findOneBy(['name' => 'ColumnLayout'])

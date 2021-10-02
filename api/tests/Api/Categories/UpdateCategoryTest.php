@@ -20,7 +20,7 @@ class UpdateCategoryTest extends ECampApiTestCase {
             'numberingStyle' => 'I',
             'preferredContentTypes' => [
                 $this->getIriFor('contentTypeColumnLayout'),
-                $this->getIriFor('contentType1'),
+                $this->getIriFor('contentTypeSafetyConcept'),
             ],
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
         $this->assertResponseStatusCodeSame(401);
@@ -40,7 +40,7 @@ class UpdateCategoryTest extends ECampApiTestCase {
                 'numberingStyle' => 'I',
                 'preferredContentTypes' => [
                     $this->getIriFor('contentTypeColumnLayout'),
-                    $this->getIriFor('contentType1'),
+                    $this->getIriFor('contentTypeSafetyConcept'),
                 ],
             ], 'headers' => ['Content-Type' => 'application/merge-patch+json']])
         ;
@@ -61,7 +61,7 @@ class UpdateCategoryTest extends ECampApiTestCase {
                 'numberingStyle' => 'I',
                 'preferredContentTypes' => [
                     $this->getIriFor('contentTypeColumnLayout'),
-                    $this->getIriFor('contentType1'),
+                    $this->getIriFor('contentTypeSafetyConcept'),
                 ],
             ], 'headers' => ['Content-Type' => 'application/merge-patch+json']])
         ;
@@ -82,7 +82,7 @@ class UpdateCategoryTest extends ECampApiTestCase {
                 'numberingStyle' => 'I',
                 'preferredContentTypes' => [
                     $this->getIriFor('contentTypeColumnLayout'),
-                    $this->getIriFor('contentType1'),
+                    $this->getIriFor('contentTypeSafetyConcept'),
                 ],
             ], 'headers' => ['Content-Type' => 'application/merge-patch+json']])
         ;
@@ -103,7 +103,7 @@ class UpdateCategoryTest extends ECampApiTestCase {
                 'numberingStyle' => 'I',
                 'preferredContentTypes' => [
                     $this->getIriFor('contentTypeColumnLayout'),
-                    $this->getIriFor('contentType1'),
+                    $this->getIriFor('contentTypeSafetyConcept'),
                 ],
             ], 'headers' => ['Content-Type' => 'application/merge-patch+json']])
         ;
@@ -119,7 +119,7 @@ class UpdateCategoryTest extends ECampApiTestCase {
         ]);
         $this->assertEqualsCanonicalizing([
             ['href' => $this->getIriFor('contentTypeColumnLayout')],
-            ['href' => $this->getIriFor('contentType1')],
+            ['href' => $this->getIriFor('contentTypeSafetyConcept')],
         ], $response->toArray()['_links']['preferredContentTypes']);
     }
 
@@ -160,7 +160,7 @@ class UpdateCategoryTest extends ECampApiTestCase {
             'numberingStyle' => 'I',
             'preferredContentTypes' => [
                 $this->getIriFor('contentTypeColumnLayout'),
-                $this->getIriFor('contentType1'),
+                $this->getIriFor('contentTypeSafetyConcept'),
             ],
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
         $this->assertResponseStatusCodeSame(403);
