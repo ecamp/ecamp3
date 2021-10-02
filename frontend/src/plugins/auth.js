@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { apiStore } from '@/plugins/store'
 import router from '@/router'
+import Cookies from 'js-cookie'
 
 axios.interceptors.response.use(null, error => {
   if (error.status === 401) {
@@ -10,12 +11,7 @@ axios.interceptors.response.use(null, error => {
 })
 
 function getJWTPayloadFromCookie () {
-  const cookies = document.cookie.split(';')
-  if (!cookies) return ''
-
-  const jwtHeaderAndPayload = cookies.find(c => {
-    return c.trim().startsWith('jwt_hp=')
-  })
+  const jwtHeaderAndPayload = Cookies.get('jwt_hp')
   if (!jwtHeaderAndPayload) return ''
 
   return jwtHeaderAndPayload.split('.')[1]
@@ -48,7 +44,7 @@ async function login (username, password) {
 }
 
 async function register (data) {
-  const url = await apiStore.href(apiStore.get(), 'user')
+  const url = await apiStore.href(apiStore.get(), 'users')
   return apiStore.post(url, data)
 }
 
@@ -75,9 +71,10 @@ async function loginPbsMiData () {
 }
 
 export async function logout () {
-  document.cookie = 'jwt_hp=;expires=Thu, 01 Jan 1970 00:00:01 GMT'
+  Cookies.remove('jwt_hp')
   return router.push({ name: 'login' })
     .then(() => apiStore.purgeAll())
+    .then(() => isLoggedIn())
 }
 
 export const auth = { isLoggedIn, login, register, loginGoogle, loginPbsMiData, logout }
