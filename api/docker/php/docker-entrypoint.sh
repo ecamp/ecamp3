@@ -18,7 +18,7 @@ if [ "$1" = 'php-fpm' ] || [ "$1" = 'php' ] || [ "$1" = 'bin/console' ] || [ "$1
 	#setfacl -dR -m u:www-data:rwX -m u:"$(whoami)":rwX var
 
 	if [ "$APP_ENV" != 'prod' ] && [ ! -f config/jwt/private.pem ]; then
-		jwt_passphrase=$(grep '^JWT_PASSPHRASE=' .env | cut -f 2 -d '=')
+		jwt_passphrase=${JWT_PASSPHRASE:-$(grep ''^JWT_PASSPHRASE='' .env | cut -f 2 -d ''='')}
 		if ! echo "$jwt_passphrase" | openssl pkey -in config/jwt/private.pem -passin stdin -noout > /dev/null 2>&1; then
 			echo "Generating public / private keys for JWT"
 			mkdir -p config/jwt
