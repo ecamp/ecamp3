@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { apiStore } from '@/plugins/store'
 import router from '@/router'
+import Cookies from 'js-cookie'
 
 axios.interceptors.response.use(null, error => {
   if (error.status === 401) {
@@ -9,23 +10,44 @@ axios.interceptors.response.use(null, error => {
   return Promise.reject(error)
 })
 
-function isLoggedIn () {
-  return apiStore.get().authenticated
+function getJWTPayloadFromCookie () {
+  const jwtHeaderAndPayload = Cookies.get('jwt_hp')
+  if (!jwtHeaderAndPayload) return ''
+
+  return jwtHeaderAndPayload.split('.')[1]
 }
 
-export async function refreshLoginStatus (forceReload = true) {
-  if (forceReload) apiStore.reload(apiStore.get())
-  await apiStore.get()._meta.load
-  return isLoggedIn()
+function parseJWTPayload (payload) {
+  if (!payload) return {}
+  const base64 = payload.replace(/-/g, '+').replace(/_/g, '/')
+  const jsonPayload = decodeURIComponent(atob(base64).split('').map(function (c) {
+    return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
+  }).join(''))
+
+  return JSON.parse(jsonPayload)
+}
+
+function getJWTExpirationTimestamp () {
+  return (parseJWTPayload(getJWTPayloadFromCookie()).exp ?? 0) * 1000
+}
+
+export function isLoggedIn () {
+  return Date.now() < getJWTExpirationTimestamp()
 }
 
 async function login (username, password) {
-  const url = await apiStore.href(apiStore.get().auth(), 'login')
-  return apiStore.post(url, { username: username, password: password }).then(() => refreshLoginStatus())
+  // TODO add the login endpoint to the list of endpoints that is returned at the API root,
+  //   instead of hardcoding it here
+  // const url = await apiStore.href(apiStore.get(), 'login')
+  return apiStore.post('/authentication_token', { username: username, password: password })
+}
+
+function user () {
+  return apiStore.get(parseJWTPayload(getJWTPayloadFromCookie()).user)
 }
 
 async function register (data) {
-  const url = await apiStore.href(apiStore.get().auth(), 'register')
+  const url = await apiStore.href(apiStore.get(), 'users')
   return apiStore.post(url, data)
 }
 
@@ -37,6 +59,7 @@ async function redirectToOAuthLogin (provider) {
     returnUrl += '?redirect=' + params.get('redirect')
   }
 
+  // TODO the auth endpoint doesn't exist anymore
   return apiStore.href(apiStore.get().auth(), provider, { callback: encodeURI(returnUrl) }).then(url => {
     window.location.href = url
   })
@@ -51,13 +74,13 @@ async function loginPbsMiData () {
 }
 
 export async function logout () {
-  return apiStore.reload(apiStore.get().auth().logout())
-    .then(() => refreshLoginStatus())
-    .then(() => router.push({ name: 'login' }))
+  Cookies.remove('jwt_hp')
+  return router.push({ name: 'login' })
     .then(() => apiStore.purgeAll())
+    .then(() => isLoggedIn())
 }
 
-export const auth = { isLoggedIn, refreshLoginStatus, login, register, loginGoogle, loginPbsMiData, logout }
+export const auth = { isLoggedIn, login, register, loginGoogle, loginPbsMiData, logout, user }
 
 class AuthPlugin {
   install (Vue) {

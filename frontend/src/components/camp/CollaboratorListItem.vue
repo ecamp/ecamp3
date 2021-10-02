@@ -101,7 +101,7 @@ export default {
       if (!(typeof this.collaborator.user === 'function')) {
         return false
       }
-      return this.api.get().profile().user().id === this.collaborator.user().id
+      return this.$auth.user().id === this.collaborator.user().id
     }
   },
   methods: {

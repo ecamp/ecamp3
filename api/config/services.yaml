@@ -63,6 +63,9 @@ services:
     App\Metadata\Resource\Factory\GraphQLSecurityResourceMetadataFactory:
         decorates: 'api_platform.metadata.resource.metadata_factory'
 
+    App\Serializer\Normalizer\PluralHalEntrypointNormalizer:
+       decorates: 'api_platform.hal.normalizer.entrypoint'
+
     App\Serializer\Normalizer\RelatedCollectionLinkNormalizer:
         decorates: 'api_platform.hal.normalizer.item'
         arguments:
@@ -98,3 +101,10 @@ services:
         
     App\Service\MailService:
         public: true
+
+    Symfony\Component\String\Inflector\EnglishInflector:
+        public: false
+
+    App\EventListener\JWTCreatedListener:
+        tags:
+            - { name: kernel.event_listener, event: lexik_jwt_authentication.on_jwt_created, method: onJWTCreated }
