@@ -30,7 +30,7 @@ class ListSingleTextTest extends ECampApiTestCase {
 
     public function testListSingleTextsFilteredByParentIsAllowedForCollaborator() {
         $parent = static::$fixtures['columnLayout1'];
-        $response = static::createClientWithCredentials()->request('GET', '/content_node/single_texts?parent=/content_nodes/'.$parent->getId());
+        $response = static::createClientWithCredentials()->request('GET', '/content_node/single_texts?parent='.$this->getIriFor('columnLayout1'));
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
             'totalItems' => 1,

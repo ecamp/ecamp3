@@ -15,7 +15,7 @@ App\Entity\ContentNode\ColumnLayout:
     jsonConfig: {columns: [{slot: 1, width: 12}]}
     instanceName: <word()>
     contentType: '@contentTypeColumnLayout'
-  contentNodeChild1:
+  columnLayoutChild1:
     root: '@columnLayout1'
     parent: '@columnLayout1'
     slot: '1'
@@ -92,7 +92,7 @@ App\Entity\ContentNode\SingleText:
     text: <word()>
   singleText2:
     root: '@columnLayout1'
-    parent: '@contentNodeChild1'
+    parent: '@columnLayoutChild1'
     slot: '1'
     position: 1
     jsonConfig: null

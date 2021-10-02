@@ -30,22 +30,9 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
 #[ApiResource(
     collectionOperations: [
         'get' => ['security' => 'is_fully_authenticated()'],
-        'post' => [
-            'denormalization_context' => ['groups' => ['write', 'create']],
-            'security_post_denormalize' => 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)',
-        ],
     ],
     itemOperations: [
         'get' => ['security' => 'is_granted("CAMP_COLLABORATOR", object) or is_granted("CAMP_IS_PROTOTYPE", object)'],
-        'patch' => [
-            'denormalization_context' => ['groups' => ['write', 'update']],
-            'validation_groups' => ['Default', 'update'],
-            'security' => 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)',
-        ],
-        'delete' => [
-            //'security' => 'object.owner === null'],
-            'security' => 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)',
-        ],
     ],
     denormalizationContext: ['groups' => ['write']],
     normalizationContext: ['groups' => ['read']],

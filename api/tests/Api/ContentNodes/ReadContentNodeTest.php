@@ -11,13 +11,9 @@ use App\Tests\Api\ECampApiTestCase;
 class ReadContentNodeTest extends ECampApiTestCase {
     // TODO security tests when not logged in or not collaborator
 
-    public function setUp(): void {
-        $this->markTestSkipped('Tests temporarily inactive (rewritings tests TBD)');
-    }
-
     public function testGetSingleContentNodeIsAllowedForCollaborator() {
         /** @var ContentNode $contentNode */
-        $contentNode = static::$fixtures['contentNodeChild1'];
+        $contentNode = static::$fixtures['columnLayoutChild1'];
         static::createClientWithCredentials()->request('GET', '/content_nodes/'.$contentNode->getId());
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
@@ -32,6 +28,7 @@ class ReadContentNodeTest extends ECampApiTestCase {
                 'owner' => ['href' => $this->getIriFor('activity1')],
                 'ownerCategory' => ['href' => $this->getIriFor('category1')],
                 'children' => ['href' => '/content_nodes?parent=/content_nodes/'.$contentNode->getId()],
+                'self' => ['href' => $this->getIriFor('columnLayoutChild1')],
             ],
         ]);
     }
