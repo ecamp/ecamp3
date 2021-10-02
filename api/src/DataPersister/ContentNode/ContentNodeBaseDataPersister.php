@@ -23,8 +23,6 @@ class ContentNodeBaseDataPersister {
                 'post' === ($context['collection_operation_name'] ?? null)
                 || 'create' === ($context['graphql_operation_name'] ?? null)
             ) {
-            //var_dump($data);
-            //var_dump($context);
             $this->onCreate($data);
         }
 

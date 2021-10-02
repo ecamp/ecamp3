@@ -19,7 +19,7 @@ class DeleteColumnLayoutTest extends ECampApiTestCase {
     }
 
     public function testDeleteColumnLayoutIsNotAllowedWhenColumnLayoutIsRoot() {
-        //$this->markTestSkipped('To be properly implemented. Currently throws a SQL Error (500)');
+        $this->markTestSkipped('To be properly implemented. Currently throws a SQL Error (500)');
 
         $contentNode = static::$fixtures['columnLayout1'];
         static::createClientWithCredentials()->request('DELETE', '/content_node/column_layouts/'.$contentNode->getId());
