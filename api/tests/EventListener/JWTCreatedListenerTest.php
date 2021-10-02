@@ -3,6 +3,7 @@
 namespace App\Tests\EventListener;
 
 use ApiPlatform\Core\Api\IriConverterInterface;
+use App\Entity\User;
 use App\EventListener\JWTCreatedListener;
 use Lexik\Bundle\JWTAuthenticationBundle\Event\JWTCreatedEvent;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -38,6 +39,7 @@ class JWTCreatedListenerTest extends TestCase {
     public function testOnJWTCreatedAddsUserURIToPayload() {
         // given
         $event = $this->createMock(JWTCreatedEvent::class);
+        $this->security->expects($this->once())->method('getUser')->willReturn(new User());
         $this->iriConverter->expects($this->once())->method('getIriFromItem')->willReturn('/users/1a2b3c4dtest');
 
         // then
@@ -45,6 +47,18 @@ class JWTCreatedListenerTest extends TestCase {
             ->method('setData')
             ->with(['user' => '/users/1a2b3c4dtest'])
         ;
+
+        // when
+        $this->jwtCreatedListener->onJWTCreated($event);
+    }
+
+    public function testOnJWTCreatedDoesNothingIfNoUserIsFound() {
+        // given
+        $event = $this->createMock(JWTCreatedEvent::class);
+        $this->security->expects($this->once())->method('getUser')->willReturn(null);
+
+        // then
+        $event->expects($this->never())->method('setData');
 
         // when
         $this->jwtCreatedListener->onJWTCreated($event);

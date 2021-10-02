@@ -16,7 +16,13 @@ class JWTCreatedListener {
 
     public function onJWTCreated(JWTCreatedEvent $event) {
         $payload = $event->getData();
-        $payload['user'] = $this->iriConverter->getIriFromItem($this->security->getUser());
+
+        $user = $this->security->getUser();
+        if (!$user) {
+            return;
+        }
+
+        $payload['user'] = $this->iriConverter->getIriFromItem($user);
         $event->setData($payload);
     }
 }
