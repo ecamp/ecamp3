@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import slugify from 'slugify'
-import { refreshLoginStatus } from '@/plugins/auth'
+import { isLoggedIn } from '@/plugins/auth'
 import { apiStore } from '@/plugins/store'
 
 Vue.use(Router)
@@ -281,13 +281,11 @@ function all (guards) {
 }
 
 function requireAuth (to, from, next) {
-  refreshLoginStatus(false).then(loggedIn => {
-    if (loggedIn) {
-      next()
-    } else {
-      next({ name: 'login', query: to.path === '/' ? {} : { redirect: to.fullPath } })
-    }
-  })
+  if (isLoggedIn()) {
+    next()
+  } else {
+    next({ name: 'login', query: to.path === '/' ? {} : { redirect: to.fullPath } })
+  }
 }
 
 async function requireCamp (to, from, next) {
@@ -308,6 +306,7 @@ async function requirePeriod (to, from, next) {
 
 export function campFromRoute (route) {
   return function () {
+    // TODO add another decorator for EntrypointNormalizer and add our templated URIs there
     return this.api.get().camps({ campId: route.params.campId })
   }
 }

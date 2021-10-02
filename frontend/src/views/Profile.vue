@@ -6,7 +6,7 @@
           <api-text-field
             :name="$tc('entity.user.fields.email')"
             :uri="user._meta.self"
-            fieldname="mail"
+            fieldname="email"
             :editing="false"
             required />
           <api-text-field
@@ -23,7 +23,7 @@
             fieldname="nickname" />
           <api-select
             :name="$tc('entity.user.fields.language')"
-            :uri="profile._meta.self"
+            :uri="user._meta.self"
             fieldname="language"
             :items="availableLocales" />
           <p class="text-caption blue-grey--text mb-0">
@@ -56,11 +56,8 @@ export default {
     ContentCard
   },
   computed: {
-    profile () {
-      return this.api.get().profile()
-    },
     user () {
-      return this.profile.user()
+      return this.$auth.user()
     },
     availableLocales () {
       return VueI18n.availableLocales.map(l => ({
@@ -70,14 +67,14 @@ export default {
     }
   },
   watch: {
-    profile () {
-      if (VueI18n.availableLocales.includes(this.profile.language)) {
-        this.$store.commit('setLanguage', this.profile.language)
+    user () {
+      if (VueI18n.availableLocales.includes(this.user.language)) {
+        this.$store.commit('setLanguage', this.user.language)
       }
     }
   },
   mounted () {
-    this.api.reload(this.profile)
+    this.api.reload(this.user)
   }
 }
 </script>

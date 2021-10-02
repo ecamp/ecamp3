@@ -134,7 +134,7 @@ export default {
       return this.$date.utc(date).format(this.$tc('global.datetime.dateLong'))
     },
     showScheduleEntry (scheduleEntry) {
-      const authUser = this.api.get().auth().user()
+      const authUser = this.$auth.user()
       const campCollaborations = scheduleEntry.activity().campCollaborations().items
       return campCollaborations.some(cc => cc.user().id === authUser.id)
     },
