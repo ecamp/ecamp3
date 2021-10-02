@@ -72,7 +72,7 @@ services:
     ports:
       # HTTP
       - target: 4001
-        published: 4001
+        published: 3001
         protocol: tcp
       # HTTPS
       - target: 4443
@@ -98,7 +98,7 @@ services:
       - db
       - docker-host
     ports:
-      - '3001:3001'
+      - '4001:4001'
     user: ${USER_ID:-1000}
     volumes:
       - ./backend:/app:delegated
