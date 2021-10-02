@@ -115,7 +115,7 @@ class RelatedCollectionLinkNormalizer implements NormalizerInterface, Serializer
         $resourceClass = $context['resource_class'] ?? get_class($object);
 
         if ($this->nameConverter instanceof AdvancedNameConverterInterface) {
-            $rel = $this->nameConverter->denormalize($rel, $resourceClass, null, $context);
+            $rel = $this->nameConverter->denormalize($rel, $resourceClass, null, array_merge($context, ['groups' => ['read']]));
         }
 
         try {

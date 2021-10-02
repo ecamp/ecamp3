@@ -6,35 +6,64 @@ use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use App\Repository\ActivityRepository;
 use App\Validator\AssertBelongsToSameCamp;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Annotation\SerializedName;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * A piece of programme that will be carried out once or multiple times in a camp.
  *
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass=ActivityRepository::class)
  */
 #[ApiResource(
-    collectionOperations: ['get', 'post'],
-    itemOperations: [
-        'get',
-        'patch' => [
-            'validation_groups' => ['Default', 'activity:update'],
+    collectionOperations: [
+        'get' => ['security' => 'is_fully_authenticated()'],
+        'post' => [
+            'denormalization_context' => ['groups' => ['write', 'create']],
+            'normalization_context' => self::ITEM_NORMALIZATION_CONTEXT,
+            'security_post_denormalize' => 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)',
         ],
-        'delete',
     ],
+    itemOperations: [
+        'get' => [
+            'normalization_context' => self::ITEM_NORMALIZATION_CONTEXT,
+            'security' => 'is_granted("CAMP_COLLABORATOR", object) or is_granted("CAMP_IS_PROTOTYPE", object)',
+        ],
+        'patch' => [
+            'normalization_context' => self::ITEM_NORMALIZATION_CONTEXT,
+            'security' => 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)',
+            'validation_groups' => ['Default', 'update'],
+        ],
+        'delete' => ['security' => 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)'],
+    ],
+    denormalizationContext: ['groups' => ['write']],
+    normalizationContext: ['groups' => ['read']],
 )]
 #[ApiFilter(SearchFilter::class, properties: ['camp'])]
 class Activity extends AbstractContentNodeOwner implements BelongsToCampInterface {
+    public const ITEM_NORMALIZATION_CONTEXT = [
+        'groups' => [
+            'read',
+            'Activity:Category',
+            'Activity:CampCollaborations',
+            'Activity:ScheduleEntries',
+            'Activity:ContentNodes',
+        ],
+        'swagger_definition_name' => 'read',
+    ];
+
     /**
      * The list of points in time when this activity's programme will be carried out.
      *
      * @ORM\OneToMany(targetEntity="ScheduleEntry", mappedBy="activity", orphanRemoval=true)
      */
     #[ApiProperty(writable: false, example: '["/schedule_entries/1a2b3c4d"]')]
+    #[Groups(['read'])]
     public Collection $scheduleEntries;
 
     /**
@@ -53,6 +82,7 @@ class Activity extends AbstractContentNodeOwner implements BelongsToCampInterfac
      */
     #[Assert\DisableAutoMapping] // camp is set in the DataPersister
     #[ApiProperty(writable: false, example: '/camps/1a2b3c4d')]
+    #[Groups(['read'])]
     public ?Camp $camp = null;
 
     /**
@@ -63,7 +93,8 @@ class Activity extends AbstractContentNodeOwner implements BelongsToCampInterfac
      * @ORM\JoinColumn(nullable=false)
      */
     #[ApiProperty(example: '/categories/1a2b3c4d')]
-    #[AssertBelongsToSameCamp(groups: ['activity:update'])]
+    #[AssertBelongsToSameCamp(groups: ['update'])]
+    #[Groups(['read', 'write'])]
     public ?Category $category = null;
 
     /**
@@ -72,6 +103,7 @@ class Activity extends AbstractContentNodeOwner implements BelongsToCampInterfac
      * @ORM\Column(type="text")
      */
     #[ApiProperty(example: 'Sportolympiade')]
+    #[Groups(['read', 'write'])]
     public ?string $title = null;
 
     /**
@@ -80,6 +112,7 @@ class Activity extends AbstractContentNodeOwner implements BelongsToCampInterfac
      * @ORM\Column(type="text")
      */
     #[ApiProperty(example: 'Spielwiese')]
+    #[Groups(['read', 'write'])]
     public string $location = '';
 
     public function __construct() {
@@ -88,7 +121,17 @@ class Activity extends AbstractContentNodeOwner implements BelongsToCampInterfac
     }
 
     public function getCamp(): ?Camp {
-        return $this->camp;
+        return $this->camp ?? $this->category?->camp;
+    }
+
+    /**
+     * @return Category
+     */
+    #[ApiProperty(readableLink: true)]
+    #[SerializedName('category')]
+    #[Groups('Activity:Category')]
+    public function getEmbeddedCategory(): ?Category {
+        return $this->category;
     }
 
     #[ApiProperty(writable: false)]
@@ -98,9 +141,42 @@ class Activity extends AbstractContentNodeOwner implements BelongsToCampInterfac
     }
 
     #[Assert\DisableAutoMapping]
+    #[Groups(['read'])]
     public function getRootContentNode(): ?ContentNode {
         // Getter is here to add annotations to parent class property
         return $this->rootContentNode;
+    }
+
+    /**
+     * @return ContentNode[]
+     */
+    #[ApiProperty(readableLink: true)]
+    #[SerializedName('contentNodes')]
+    #[Groups(['Activity:ContentNodes'])]
+    public function getEmbeddedContentNodes(): array {
+        return $this->getContentNodes();
+    }
+
+    /**
+     * Overridden in order to add annotations.
+     *
+     * {@inheritdoc}
+     *
+     * @return ContentNode[]
+     */
+    #[Groups(['read'])]
+    public function getContentNodes(): array {
+        return parent::getContentNodes();
+    }
+
+    /**
+     * @return CampCollaboration[]
+     */
+    #[ApiProperty(readableLink: true)]
+    #[SerializedName('campCollaborations')]
+    #[Groups(['Activity:CampCollaborations'])]
+    public function getEmbeddedCampCollaborations(): array {
+        return $this->getCampCollaborations();
     }
 
     /**
@@ -109,12 +185,23 @@ class Activity extends AbstractContentNodeOwner implements BelongsToCampInterfac
      * @return CampCollaboration[]
      */
     #[ApiProperty(writable: false, example: '["/camp_collaborations/1a2b3c4d"]')]
+    #[Groups(['read'])]
     public function getCampCollaborations(): array {
         return $this
             ->activityResponsibles
             ->map(fn (ActivityResponsible $activityResponsible) => $activityResponsible->campCollaboration)
             ->getValues()
         ;
+    }
+
+    /**
+     * @return ScheduleEntry[]
+     */
+    #[ApiProperty(readableLink: true)]
+    #[SerializedName('scheduleEntries')]
+    #[Groups(['Activity:ScheduleEntries'])]
+    public function getEmbeddedScheduleEntries(): array {
+        return $this->scheduleEntries->getValues();
     }
 
     /**

@@ -9,9 +9,93 @@ use App\Tests\Api\ECampApiTestCase;
  * @internal
  */
 class ReadScheduleEntryTest extends ECampApiTestCase {
-    // TODO security tests when not logged in or not collaborator
+    public function testGetSingleScheduleEntryIsDeniedForAnonymousUser() {
+        /** @var ScheduleEntry $scheduleEntry */
+        $scheduleEntry = static::$fixtures['scheduleEntry1'];
+        static::createBasicClient()->request('GET', '/schedule_entries/'.$scheduleEntry->getId())
+        ;
+        $this->assertResponseStatusCodeSame(401);
+        $this->assertJsonContains([
+            'code' => 401,
+            'message' => 'JWT Token not found',
+        ]);
+    }
 
-    public function testGetSingleScheduleEntryIsAllowedForCollaborator() {
+    public function testGetSingleScheduleEntryIsDeniedForUnrelatedUser() {
+        /** @var ScheduleEntry $scheduleEntry */
+        $scheduleEntry = static::$fixtures['scheduleEntry1'];
+        static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->username])
+            ->request('GET', '/schedule_entries/'.$scheduleEntry->getId())
+        ;
+        $this->assertResponseStatusCodeSame(404);
+        $this->assertJsonContains([
+            'title' => 'An error occurred',
+            'detail' => 'Not Found',
+        ]);
+    }
+
+    public function testGetSingleScheduleEntryIsDeniedForInactiveCollaborator() {
+        /** @var ScheduleEntry $scheduleEntry */
+        $scheduleEntry = static::$fixtures['scheduleEntry1'];
+        static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->username])
+            ->request('GET', '/schedule_entries/'.$scheduleEntry->getId())
+        ;
+        $this->assertResponseStatusCodeSame(404);
+        $this->assertJsonContains([
+            'title' => 'An error occurred',
+            'detail' => 'Not Found',
+        ]);
+    }
+
+    public function testGetSingleScheduleEntryIsAllowedForGuest() {
+        /** @var ScheduleEntry $scheduleEntry */
+        $scheduleEntry = static::$fixtures['scheduleEntry1'];
+        static::createClientWithCredentials(['username' => static::$fixtures['user3guest']->username])
+            ->request('GET', '/schedule_entries/'.$scheduleEntry->getId())
+        ;
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertJsonContains([
+            'id' => $scheduleEntry->getId(),
+            'periodOffset' => $scheduleEntry->periodOffset,
+            'length' => $scheduleEntry->length,
+            'left' => 0,
+            'width' => 1,
+            'dayNumber' => 1,
+            'scheduleEntryNumber' => 1,
+            'number' => '1.1',
+            '_links' => [
+                'activity' => ['href' => $this->getIriFor('activity1')],
+                'period' => ['href' => $this->getIriFor('period1')],
+                'day' => ['href' => $this->getIriFor('day1period1')],
+            ],
+        ]);
+    }
+
+    public function testGetSingleScheduleEntryIsAllowedForMember() {
+        /** @var ScheduleEntry $scheduleEntry */
+        $scheduleEntry = static::$fixtures['scheduleEntry1'];
+        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->username])
+            ->request('GET', '/schedule_entries/'.$scheduleEntry->getId())
+        ;
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertJsonContains([
+            'id' => $scheduleEntry->getId(),
+            'periodOffset' => $scheduleEntry->periodOffset,
+            'length' => $scheduleEntry->length,
+            'left' => 0,
+            'width' => 1,
+            'dayNumber' => 1,
+            'scheduleEntryNumber' => 1,
+            'number' => '1.1',
+            '_links' => [
+                'activity' => ['href' => $this->getIriFor('activity1')],
+                'period' => ['href' => $this->getIriFor('period1')],
+                'day' => ['href' => $this->getIriFor('day1period1')],
+            ],
+        ]);
+    }
+
+    public function testGetSingleScheduleEntryIsAllowedForManager() {
         /** @var ScheduleEntry $scheduleEntry */
         $scheduleEntry = static::$fixtures['scheduleEntry1'];
         static::createClientWithCredentials()->request('GET', '/schedule_entries/'.$scheduleEntry->getId());
@@ -29,6 +113,28 @@ class ReadScheduleEntryTest extends ECampApiTestCase {
                 'activity' => ['href' => $this->getIriFor('activity1')],
                 'period' => ['href' => $this->getIriFor('period1')],
                 'day' => ['href' => $this->getIriFor('day1period1')],
+            ],
+        ]);
+    }
+
+    public function testGetSingleScheduleEntryInCampPrototypeIsAllowedForUnrelatedUser() {
+        /** @var ScheduleEntry $scheduleEntry */
+        $scheduleEntry = static::$fixtures['scheduleEntry1period1campPrototype'];
+        static::createClientWithCredentials()->request('GET', '/schedule_entries/'.$scheduleEntry->getId());
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertJsonContains([
+            'id' => $scheduleEntry->getId(),
+            'periodOffset' => $scheduleEntry->periodOffset,
+            'length' => $scheduleEntry->length,
+            'left' => 0,
+            'width' => 1,
+            'dayNumber' => 1,
+            'scheduleEntryNumber' => 1,
+            'number' => '1.1',
+            '_links' => [
+                'activity' => ['href' => $this->getIriFor('activity1campPrototype')],
+                'period' => ['href' => $this->getIriFor('period1campPrototype')],
+                'day' => ['href' => $this->getIriFor('day1period1campPrototype')],
             ],
         ]);
     }

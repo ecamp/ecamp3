@@ -11,6 +11,9 @@ use App\Repository\UserRepository;
 use App\Service\MailService;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\HttpFoundation\ParameterBag;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Core\Security;
 
 /**
@@ -18,18 +21,25 @@ use Symfony\Component\Security\Core\Security;
  */
 class CampCollaborationsDataPersisterTest extends TestCase {
     private CampCollaborationDataPersister $dataPersister;
-    private MockObject | ContextAwareDataPersisterInterface $decoratedMock;
-    private Security | MockObject $security;
-    private UserRepository | MockObject $userRepository;
-    private MockObject | MailService $mailService;
+    private MockObject|ContextAwareDataPersisterInterface $decoratedMock;
+    private Security|MockObject $security;
+    private UserRepository|MockObject $userRepository;
+    private MockObject|MailService $mailService;
     private CampCollaboration $campCollaboration;
-    private $user;
+    private CampCollaboration $campCollaborationBefore;
+    private User $user;
 
     protected function setUp(): void {
         $this->decoratedMock = $this->createMock(ContextAwareDataPersisterInterface::class);
         $this->security = $this->createMock(Security::class);
         $this->userRepository = $this->createMock(UserRepository::class);
         $this->mailService = $this->createMock(MailService::class);
+
+        $this->campCollaborationBefore = new CampCollaboration();
+        $requestStack = $this->createMock(RequestStack::class);
+        $request = $this->createMock(Request::class);
+        $request->attributes = new ParameterBag(['previous_data' => $this->campCollaborationBefore]);
+        $requestStack->method('getCurrentRequest')->willReturn($request);
 
         $this->campCollaboration = new CampCollaboration();
         $this->campCollaboration->status = CampCollaboration::STATUS_INVITED;
@@ -38,7 +48,13 @@ class CampCollaborationsDataPersisterTest extends TestCase {
 
         $this->user = new User();
 
-        $this->dataPersister = new CampCollaborationDataPersister($this->decoratedMock, $this->security, $this->userRepository, $this->mailService);
+        $this->dataPersister = new CampCollaborationDataPersister(
+            $this->decoratedMock,
+            $this->security,
+            $this->userRepository,
+            $this->mailService,
+            $requestStack
+        );
     }
 
     public function testDelegatesSupportCheckToDecorated() {
@@ -127,6 +143,56 @@ class CampCollaborationsDataPersisterTest extends TestCase {
 
         $this->dataPersister->persist($this->campCollaboration, [
             'collection_operation_name' => 'post',
+        ]);
+    }
+
+    public function testSendsEmailWhenPatchFromInactiveToInvitedWhenCampCollaborationHasInviteEmail() {
+        $this->campCollaborationBefore->status = CampCollaboration::STATUS_INACTIVE;
+        $this->campCollaborationBefore->camp = $this->campCollaboration->camp;
+        $this->campCollaborationBefore->inviteEmail = $this->campCollaboration->inviteEmail;
+
+        $this->campCollaboration->status = CampCollaboration::STATUS_INVITED;
+
+        $this->security->method('getUser')->willReturn($this->user);
+
+        $this->mailService->expects(self::once())
+            ->method('sendInviteToCampMail')
+        ;
+
+        $this->dataPersister->persist($this->campCollaboration, [
+            'item_operation_name' => 'patch',
+        ]);
+    }
+
+    public function testSendsEmailWhenPatchFromInactiveToInvitedWhenCampCollaborationHasUser() {
+        $this->campCollaborationBefore->status = CampCollaboration::STATUS_INACTIVE;
+        $this->campCollaborationBefore->camp = $this->campCollaboration->camp;
+        $this->campCollaborationBefore->user = $this->user;
+        $this->user->email = 'e@mail.ch';
+
+        $this->campCollaboration->status = CampCollaboration::STATUS_INVITED;
+
+        $this->security->method('getUser')->willReturn($this->user);
+
+        $this->mailService->expects(self::once())
+            ->method('sendInviteToCampMail')
+        ;
+
+        $this->dataPersister->persist($this->campCollaboration, [
+            'item_operation_name' => 'patch',
+        ]);
+    }
+
+    public function testSendsEmailWhenResendInvitation() {
+        $this->campCollaboration->inviteKey = 'myInviteKey';
+        $this->security->method('getUser')->willReturn($this->user);
+
+        $this->mailService->expects(self::once())
+            ->method('sendInviteToCampMail')
+        ;
+
+        $this->dataPersister->persist($this->campCollaboration, [
+            'item_operation_name' => CampCollaboration::RESEND_INVITATION,
         ]);
     }
 }

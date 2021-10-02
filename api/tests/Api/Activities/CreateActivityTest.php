@@ -2,6 +2,7 @@
 
 namespace App\Tests\Api\Activities;
 
+use ApiPlatform\Core\Api\OperationType;
 use App\Entity\Activity;
 use App\Tests\Api\ECampApiTestCase;
 
@@ -9,15 +10,81 @@ use App\Tests\Api\ECampApiTestCase;
  * @internal
  */
 class CreateActivityTest extends ECampApiTestCase {
-    // TODO security tests when not logged in or not collaborator
     // TODO input filter tests
     // TODO validation tests
 
-    public function testCreateActivityIsAllowedForCollaborator() {
+    public function testCreateActivityIsDeniedForAnonymousUser() {
+        static::createBasicClient()->request('POST', '/activities', ['json' => $this->getExampleWritePayload()]);
+
+        $this->assertResponseStatusCodeSame(401);
+        $this->assertJsonContains([
+            'code' => 401,
+            'message' => 'JWT Token not found',
+        ]);
+    }
+
+    public function testCreateActivityIsNotPossibleForUnrelatedUserBecauseCategoryIsNotReadable() {
+        static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->username])
+            ->request('POST', '/activities', ['json' => $this->getExampleWritePayload()])
+        ;
+
+        $this->assertResponseStatusCodeSame(400);
+        $this->assertJsonContains([
+            'title' => 'An error occurred',
+            'detail' => 'Item not found for "'.$this->getIriFor('category1').'".',
+        ]);
+    }
+
+    public function testCreateActivityIsNotPossibleForInactiveCollaboratorBecauseCategoryIsNotReadable() {
+        static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->username])
+            ->request('POST', '/activities', ['json' => $this->getExampleWritePayload()])
+        ;
+
+        $this->assertResponseStatusCodeSame(400);
+        $this->assertJsonContains([
+            'title' => 'An error occurred',
+            'detail' => 'Item not found for "'.$this->getIriFor('category1').'".',
+        ]);
+    }
+
+    public function testCreateActivityIsDeniedForGuest() {
+        static::createClientWithCredentials(['username' => static::$fixtures['user3guest']->username])
+            ->request('POST', '/activities', ['json' => $this->getExampleWritePayload()])
+        ;
+
+        $this->assertResponseStatusCodeSame(403);
+        $this->assertJsonContains([
+            'title' => 'An error occurred',
+            'detail' => 'Access Denied.',
+        ]);
+    }
+
+    public function testCreateActivityIsAllowedForMember() {
+        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->username])
+            ->request('POST', '/activities', ['json' => $this->getExampleWritePayload()])
+        ;
+
+        $this->assertResponseStatusCodeSame(201);
+        $this->assertJsonContains($this->getExampleReadPayload());
+    }
+
+    public function testCreateActivityIsAllowedForManager() {
         static::createClientWithCredentials()->request('POST', '/activities', ['json' => $this->getExampleWritePayload()]);
 
         $this->assertResponseStatusCodeSame(201);
         $this->assertJsonContains($this->getExampleReadPayload());
+    }
+
+    public function testCreateActivityInCampPrototypeIsDeniedForUnrelatedUser() {
+        static::createClientWithCredentials()->request('POST', '/activities', ['json' => $this->getExampleWritePayload([
+            'category' => $this->getIriFor('category1campPrototype'),
+        ])]);
+
+        $this->assertResponseStatusCodeSame(403);
+        $this->assertJsonContains([
+            'title' => 'An error occurred',
+            'detail' => 'Access Denied.',
+        ]);
     }
 
     public function testCreateActivitySetsCampToCategorysCamp() {
@@ -67,6 +134,8 @@ class CreateActivityTest extends ECampApiTestCase {
     public function getExampleWritePayload($attributes = [], $except = []) {
         return $this->getExamplePayload(
             Activity::class,
+            OperationType::COLLECTION,
+            'post',
             array_merge(['category' => $this->getIriFor('category1')], $attributes),
             [],
             $except
@@ -76,7 +145,13 @@ class CreateActivityTest extends ECampApiTestCase {
     public function getExampleReadPayload($attributes = [], $except = []) {
         return $this->getExamplePayload(
             Activity::class,
-            $attributes,
+            OperationType::ITEM,
+            'get',
+            array_merge([
+                '_links' => [
+                    'contentNodes' => [],
+                ],
+            ], $attributes),
             ['category'],
             $except
         );

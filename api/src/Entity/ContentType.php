@@ -5,6 +5,7 @@ namespace App\Entity;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Defines a type of content that can be present in a content node tree. A content type
@@ -16,6 +17,7 @@ use Doctrine\ORM\Mapping as ORM;
 #[ApiResource(
     collectionOperations: ['get'],
     itemOperations: ['get'],
+    normalizationContext: ['groups' => ['read']],
 )]
 class ContentType extends BaseEntity {
     /**
@@ -25,6 +27,7 @@ class ContentType extends BaseEntity {
      * @ORM\Column(type="string", length=32, unique=true)
      */
     #[ApiProperty(writable: false, example: 'SafetyConcept')]
+    #[Groups(['read'])]
     public ?string $name = null;
 
     /**
@@ -33,6 +36,7 @@ class ContentType extends BaseEntity {
      * @ORM\Column(type="boolean")
      */
     #[ApiProperty(writable: false, example: 'true')]
+    #[Groups(['read'])]
     public bool $active = true;
 
     /**

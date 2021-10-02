@@ -2,6 +2,7 @@
 
 namespace App\Tests\Api\CampCollaborations;
 
+use ApiPlatform\Core\Api\OperationType;
 use App\Entity\CampCollaboration;
 use App\Tests\Api\ECampApiTestCase;
 
@@ -9,15 +10,94 @@ use App\Tests\Api\ECampApiTestCase;
  * @internal
  */
 class CreateCampCollaborationTest extends ECampApiTestCase {
-    // TODO security tests when not logged in or not collaborator
     // TODO input filter tests
     // TODO validation tests
+    // TODO create a camp collaboration for someone else
 
-    public function testCreateCampCollaborationIsAllowedForCollaborator() {
+    public function testCreateCampCollaborationIsDeniedForAnonymousUser() {
+        static::createBasicClient()->request('POST', '/camp_collaborations', ['json' => $this->getExampleWritePayload([
+            'user' => $this->getIriFor('user4unrelated'),
+        ])]);
+
+        $this->assertResponseStatusCodeSame(401);
+        $this->assertJsonContains([
+            'code' => 401,
+            'message' => 'JWT Token not found',
+        ]);
+    }
+
+    public function testCreateCampCollaborationIsNotPossibleForUnrelatedUserBecauseCampIsNotReadable() {
+        static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->username])
+            ->request('POST', '/camp_collaborations', ['json' => $this->getExampleWritePayload([
+                'user' => $this->getIriFor('user4unrelated'),
+            ])])
+        ;
+        $this->assertResponseStatusCodeSame(400);
+        $this->assertJsonContains([
+            'title' => 'An error occurred',
+            'detail' => 'Item not found for "'.$this->getIriFor('camp1').'".',
+        ]);
+    }
+
+    public function testCreateCampCollaborationIsNotPossibleForInactiveCollaboratorBecauseCampIsNotReadable() {
+        static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->username])
+            ->request('POST', '/camp_collaborations', ['json' => $this->getExampleWritePayload([
+                'user' => $this->getIriFor('user5inactive'),
+            ])])
+        ;
+        $this->assertResponseStatusCodeSame(400);
+        $this->assertJsonContains([
+            'title' => 'An error occurred',
+            'detail' => 'Item not found for "'.$this->getIriFor('camp1').'".',
+        ]);
+    }
+
+    public function testCreateCampCollaborationIsDeniedForGuest() {
+        static::createClientWithCredentials(['username' => static::$fixtures['user3guest']->username])
+            ->request('POST', '/camp_collaborations', ['json' => $this->getExampleWritePayload([
+                'user' => $this->getIriFor('user3guest'),
+            ])])
+        ;
+
+        $this->assertResponseStatusCodeSame(403);
+        $this->assertJsonContains([
+            'title' => 'An error occurred',
+            'detail' => 'Access Denied.',
+        ]);
+    }
+
+    public function testCreateCampCollaborationIsAllowedForMember() {
+        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->username])
+            ->request('POST', '/camp_collaborations', ['json' => $this->getExampleWritePayload([
+                'user' => $this->getIriFor('user2member'),
+            ])])
+        ;
+
+        $this->assertResponseStatusCodeSame(201);
+        $this->assertJsonContains($this->getExampleReadPayload([
+            '_links' => [
+                'user' => ['href' => $this->getIriFor('user2member')],
+            ],
+        ]));
+    }
+
+    public function testCreateCampCollaborationIsAllowedForManager() {
         static::createClientWithCredentials()->request('POST', '/camp_collaborations', ['json' => $this->getExampleWritePayload()]);
 
         $this->assertResponseStatusCodeSame(201);
         $this->assertJsonContains($this->getExampleReadPayload());
+    }
+
+    public function testCreateCampCollaborationInCampPrototypeIsDeniedForUnrelatedUser() {
+        static::createClientWithCredentials()->request('POST', '/camp_collaborations', ['json' => $this->getExampleWritePayload([
+            'camp' => $this->getIriFor('campPrototype'),
+        ])]);
+
+        $this->assertResponseStatusCodeSame(403);
+        $this->assertJsonContains([
+            'title' => 'An error occurred',
+            'detail' => 'Access Denied.',
+        ]);
     }
 
     public function testCreateCampCollaborationWithInviteEmailInsteadOfUserIsPossible() {
@@ -63,7 +143,7 @@ class CreateCampCollaborationTest extends ECampApiTestCase {
     public function testCreateCampCollaborationValidatesConflictingUserAndInviteEmail() {
         static::createClientWithCredentials()->request('POST', '/camp_collaborations', ['json' => $this->getExampleWritePayload([
             'inviteEmail' => 'someone@example.com',
-            'user' => $this->getIriFor('user1'),
+            'user' => $this->getIriFor('user1manager'),
         ])]);
 
         $this->assertResponseStatusCodeSame(422);
@@ -123,9 +203,11 @@ class CreateCampCollaborationTest extends ECampApiTestCase {
     public function getExampleWritePayload($attributes = [], $except = []) {
         return $this->getExamplePayload(
             CampCollaboration::class,
+            OperationType::COLLECTION,
+            'post',
             array_merge([
                 'inviteEmail' => null,
-                'user' => $this->getIriFor('user1'),
+                'user' => $this->getIriFor('user1manager'),
                 'camp' => $this->getIriFor('camp1'),
             ], $attributes),
             ['status'],
@@ -136,9 +218,11 @@ class CreateCampCollaborationTest extends ECampApiTestCase {
     public function getExampleReadPayload($attributes = [], $except = []) {
         return $this->getExamplePayload(
             CampCollaboration::class,
+            OperationType::ITEM,
+            'get',
             array_merge([
                 '_links' => [
-                    'user' => ['href' => $this->getIriFor('user1')],
+                    'user' => ['href' => $this->getIriFor('user1manager')],
                     'camp' => ['href' => $this->getIriFor('camp1')],
                 ],
                 'status' => 'invited',

@@ -62,7 +62,7 @@ RUN set -eux; \
 ###> recipes ###
 ###< recipes ###
 
-COPY --from=composer:2.1@sha256:4d0583505a6e8b3ef83b62e12eaed25376ac64be5acff89a6d2e169f7621186e /usr/bin/composer /usr/bin/composer
+COPY --from=composer:2.1@sha256:33d2c1d9fb7311cb8f215a8f52669894ef534292ac5d331347f929c27e317bb1 /usr/bin/composer /usr/bin/composer
 
 # Copy development php.ini
 RUN cp "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
@@ -119,6 +119,7 @@ CMD ["php-fpm"]
 # depends on the "php" stage above
 FROM caddy:${CADDY_VERSION}-builder-alpine AS api_platform_caddy_builder
 
+# install Mercure and Vulcain modules
 RUN xcaddy build \
     --with github.com/dunglas/mercure \
     --with github.com/dunglas/mercure/caddy \
@@ -129,7 +130,6 @@ FROM caddy:${CADDY_VERSION} AS api_platform_caddy
 
 WORKDIR /srv/api
 
-COPY --from=dunglas/mercure:v0.11@sha256:85a985a8dd6c4db2a6023285699d1f323da6b0e2e15bc26838fbc55fda7b5191 /srv/public /srv/mercure-assets/
 COPY --from=api_platform_caddy_builder /usr/bin/caddy /usr/bin/caddy
 COPY --from=api_platform_php /srv/api/public public/
 COPY docker/caddy/Caddyfile /etc/caddy/Caddyfile

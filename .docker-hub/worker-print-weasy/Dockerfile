@@ -1,4 +1,4 @@
-FROM python:3.9@sha256:ec3fd3c3585160da037d2b01908ee7837a802be8984f449e65d3d80065d6d23a
+FROM python:3.9@sha256:b35af9960cf515d9ad0070a0c7981addd000298f0d39e82ea287f7060480c219
 
 # install all the dependencies except libcairo2 from jessie, then install libcairo2 from stretch
 RUN apt-get -y update \
@@ -8,7 +8,7 @@ RUN apt-get -y update \
         libgdk-pixbuf2.0-0 \
         libpango1.0-0 \
         python-dev \
-        python-lxml \
+        python3-lxml \
         shared-mime-info \
         libcairo2 
 

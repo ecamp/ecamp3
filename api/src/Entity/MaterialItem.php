@@ -7,23 +7,33 @@ use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Entity\ContentNode\MaterialNode;
+use App\Repository\MaterialItemRepository;
 use App\Validator\AssertBelongsToSameCamp;
 use App\Validator\AssertEitherIsNull;
 use App\Validator\MaterialItemUpdateGroupSequence;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * A physical item that is needed for carrying out a programme or camp.
  *
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass=MaterialItemRepository::class)
  */
 #[ApiResource(
-    collectionOperations: ['get', 'post'],
+    collectionOperations: [
+        'get' => ['security' => 'is_fully_authenticated()'],
+        'post' => ['security_post_denormalize' => 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)'],
+    ],
     itemOperations: [
-        'get',
-        'patch' => ['validation_groups' => MaterialItemUpdateGroupSequence::class],
-        'delete',
-    ]
+        'get' => ['security' => 'is_granted("CAMP_COLLABORATOR", object) or is_granted("CAMP_IS_PROTOTYPE", object)'],
+        'patch' => [
+            'validation_groups' => MaterialItemUpdateGroupSequence::class,
+            'security' => 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)',
+        ],
+        'delete' => ['security' => 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)'],
+    ],
+    denormalizationContext: ['groups' => ['write']],
+    normalizationContext: ['groups' => ['read']],
 )]
 #[ApiFilter(SearchFilter::class, properties: ['materialList', 'period'])]
 class MaterialItem extends BaseEntity implements BelongsToCampInterface {
@@ -34,8 +44,9 @@ class MaterialItem extends BaseEntity implements BelongsToCampInterface {
      * @ORM\ManyToOne(targetEntity="MaterialList", inversedBy="materialItems")
      * @ORM\JoinColumn(nullable=false, onDelete="cascade")
      */
-    #[AssertBelongsToSameCamp(compareToPrevious: true, groups: ['materialItem:update'])]
+    #[AssertBelongsToSameCamp(compareToPrevious: true, groups: ['update'])]
     #[ApiProperty(example: '/material_lists/1a2b3c4d')]
+    #[Groups(['read', 'write'])]
     public ?MaterialList $materialList = null;
 
     /**
@@ -47,6 +58,7 @@ class MaterialItem extends BaseEntity implements BelongsToCampInterface {
     #[AssertBelongsToSameCamp]
     #[AssertEitherIsNull(other: 'materialNode')]
     #[ApiProperty(example: '/periods/1a2b3c4d')]
+    #[Groups(['read', 'write'])]
     public ?Period $period = null;
 
     /**
@@ -58,6 +70,7 @@ class MaterialItem extends BaseEntity implements BelongsToCampInterface {
     #[AssertBelongsToSameCamp]
     #[AssertEitherisNull(other: 'period')]
     #[ApiProperty(example: '/content_node/material_nodes/1a2b3c4d')]
+    #[Groups(['read', 'write'])]
     public ?MaterialNode $materialNode = null;
 
     /**
@@ -66,6 +79,7 @@ class MaterialItem extends BaseEntity implements BelongsToCampInterface {
      * @ORM\Column(type="text", nullable=false)
      */
     #[ApiProperty(example: 'Volleyball')]
+    #[Groups(['read', 'write'])]
     public ?string $article = null;
 
     /**
@@ -74,6 +88,7 @@ class MaterialItem extends BaseEntity implements BelongsToCampInterface {
      * @ORM\Column(type="float", nullable=true)
      */
     #[ApiProperty(example: 1.5)]
+    #[Groups(['read', 'write'])]
     public ?float $quantity = null;
 
     /**
@@ -82,6 +97,7 @@ class MaterialItem extends BaseEntity implements BelongsToCampInterface {
      * @ORM\Column(type="text", nullable=true)
      */
     #[ApiProperty(example: 'kg')]
+    #[Groups(['read', 'write'])]
     public ?string $unit = null;
 
     #[ApiProperty(readable: false)]

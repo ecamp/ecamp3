@@ -6,32 +6,51 @@ use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use App\Repository\ScheduleEntryRepository;
 use App\Validator\AssertBelongsToSameCamp;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Collections\Selectable;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Annotation\SerializedName;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * A calendar event in a period of the camp, at which some activity will take place. The start time
  * is specified as an offset in minutes from the period's start time.
  *
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass=ScheduleEntryRepository::class)
  */
 #[ApiResource(
-    collectionOperations: ['get', 'post'],
+    collectionOperations: [
+        'get' => ['security' => 'is_fully_authenticated()'],
+        'post' => [
+            'denormalization_context' => ['groups' => ['write', 'create']],
+            'normalization_context' => self::ITEM_NORMALIZATION_CONTEXT,
+            'security_post_denormalize' => 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)',
+        ],
+    ],
     itemOperations: [
-        'get',
-        'patch' => ['denormalization_context' => [
-            'groups' => ['scheduleEntry:update'],
-            'allow_extra_attributes' => false,
-        ]],
-        'delete',
-    ]
+        'get' => [
+            'normalization_context' => self::ITEM_NORMALIZATION_CONTEXT,
+            'security' => 'is_granted("CAMP_COLLABORATOR", object) or is_granted("CAMP_IS_PROTOTYPE", object)',
+        ],
+        'patch' => [
+            'normalization_context' => self::ITEM_NORMALIZATION_CONTEXT,
+            'security' => 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)',
+        ],
+        'delete' => ['security' => 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)'],
+    ],
+    denormalizationContext: ['groups' => ['write']],
+    normalizationContext: ['groups' => ['read']],
 )]
 #[ApiFilter(SearchFilter::class, properties: ['period', 'activity'])]
 class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
+    public const ITEM_NORMALIZATION_CONTEXT = [
+        'groups' => ['read', 'ScheduleEntry:Activity'],
+        'swagger_definition_name' => 'read',
+    ];
+
     /**
      * The time period which this schedule entry is part of. Must belong to the same camp as the activity.
      *
@@ -40,7 +59,7 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
      */
     #[AssertBelongsToSameCamp]
     #[ApiProperty(example: '/periods/1a2b3c4d')]
-    #[Groups(['Default', 'scheduleEntry:update'])]
+    #[Groups(['read', 'write'])]
     public ?Period $period = null;
 
     /**
@@ -52,7 +71,7 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
      * @ORM\JoinColumn(nullable=false, onDelete="cascade")
      */
     #[ApiProperty(example: '/activities/1a2b3c4d')]
-    #[Groups(['Default'])]
+    #[Groups(['read', 'create'])]
     public ?Activity $activity = null;
 
     /**
@@ -64,7 +83,7 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
      */
     #[Assert\GreaterThanOrEqual(value: 0)]
     #[ApiProperty(example: 1440)]
-    #[Groups(['Default', 'scheduleEntry:update'])]
+    #[Groups(['read', 'write'])]
     public int $periodOffset = 0;
 
     /**
@@ -74,7 +93,7 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
      */
     #[Assert\GreaterThan(value: 0)]
     #[ApiProperty(example: 90)]
-    #[Groups(['Default', 'scheduleEntry:update'])]
+    #[Groups(['read', 'write'])]
     public int $length = 0;
 
     /**
@@ -88,7 +107,7 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
      * --> left is a MariaDB keyword, therefore escaping for column name necessary
      */
     #[ApiProperty(default: 0, example: 0.6)]
-    #[Groups(['Default', 'scheduleEntry:update'])]
+    #[Groups(['read', 'write'])]
     public ?float $left = 0;
 
     /**
@@ -100,7 +119,7 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
      * @ORM\Column(type="float", nullable=true)
      */
     #[ApiProperty(example: 0.4)]
-    #[Groups(['Default', 'scheduleEntry:update'])]
+    #[Groups(['read', 'write'])]
     public ?float $width = 1;
 
     #[ApiProperty(readable: false)]
@@ -109,9 +128,20 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
     }
 
     /**
+     * @return Activity
+     */
+    #[ApiProperty(readableLink: true)]
+    #[SerializedName('activity')]
+    #[Groups('ScheduleEntry:Activity')]
+    public function getEmbeddedActivity(): ?Activity {
+        return $this->activity;
+    }
+
+    /**
      * The day on which this schedule entry starts.
      */
     #[ApiProperty(writable: false, example: '/days/1a2b3c4d')]
+    #[Groups(['read'])]
     public function getDay(): Day {
         $dayNumber = $this->getDayNumber();
 
@@ -129,6 +159,7 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
      * The day number of the day on which this schedule entry starts.
      */
     #[ApiProperty(example: '1')]
+    #[Groups(['read'])]
     public function getDayNumber(): int {
         return 1 + floor($this->periodOffset / (24 * 60));
     }
@@ -139,6 +170,7 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
      * second entry on a given day, its number will be 2.
      */
     #[ApiProperty(example: '2')]
+    #[Groups(['read'])]
     public function getScheduleEntryNumber(): int {
         $dayOffset = floor($this->periodOffset / (24 * 60)) * 24 * 60;
 
@@ -184,6 +216,7 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
      * defined by the activity's category.
      */
     #[ApiProperty(example: '1.b')]
+    #[Groups(['read'])]
     public function getNumber(): string {
         $dayNumber = $this->getDayNumber();
         $scheduleEntryNumber = $this->getScheduleEntryNumber();

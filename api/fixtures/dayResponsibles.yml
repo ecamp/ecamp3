@@ -1,7 +1,13 @@
 App\Entity\DayResponsible:
   dayResponsible1:
-    campCollaboration: '@campCollaboration1'
+    campCollaboration: '@campCollaboration1manager'
     day: '@day1period1'
   dayResponsible1day2period1:
-    campCollaboration: '@campCollaboration1'
+    campCollaboration: '@campCollaboration1manager'
     day: '@day2period1'
+  dayResponsible1day1period1campUnrelated:
+    campCollaboration: '@campCollaboration1campUnrelated'
+    day: '@day1period1campUnrelated'
+  dayResponsible1day1period1campPrototype:
+    campCollaboration: '@campCollaboration1campPrototype'
+    day: '@day1period1campPrototype'

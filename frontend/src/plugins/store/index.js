@@ -19,7 +19,11 @@ class StorePlugin {
     axios.defaults.baseURL = window.environment.API_ROOT_URL
     Vue.use(VueAxios, axios)
 
-    apiStore = HalJsonVuex(store, axios, { forceRequestedSelfLink: true })
+    let halJsonVuex = HalJsonVuex
+    if (typeof halJsonVuex !== 'function') {
+      halJsonVuex = HalJsonVuex.default
+    }
+    apiStore = halJsonVuex(store, axios, { forceRequestedSelfLink: true })
     Vue.use(apiStore)
   }
 }

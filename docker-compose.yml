@@ -2,7 +2,7 @@ version: "3.4"
 
 services:
   frontend:
-    image: node:16.6.2@sha256:678cad87833f51615213547acb719e951569816db7bb0e2bb7da10cbfccc976c
+    image: node:16.10.0@sha256:c33a8221330d87a2113fb6cdbb8fbb243592c62f89de923e9ef5bb8b627c2b9d
     container_name: 'ecamp3-frontend'
     ports:
       - '3000:3000'
@@ -68,7 +68,7 @@ services:
       SERVER_NAME: ${SERVER_NAME:-localhost:4001, localhost:4443, caddy:4001}
       MERCURE_PUBLISHER_JWT_KEY: ${MERCURE_PUBLISHER_JWT_KEY:-!ChangeMe!}
       MERCURE_SUBSCRIBER_JWT_KEY: ${MERCURE_SUBSCRIBER_JWT_KEY:-!ChangeMe!}
-      MERCURE_EXTRA_DIRECTIVES: demo /srv/mercure-assets/
+      MERCURE_EXTRA_DIRECTIVES: demo
     ports:
       # HTTP
       - target: 4001
@@ -105,7 +105,7 @@ services:
     entrypoint: ./docker-setup.sh
 
   print:
-    image: node:16.6.2@sha256:678cad87833f51615213547acb719e951569816db7bb0e2bb7da10cbfccc976c
+    image: node:16.10.0@sha256:c33a8221330d87a2113fb6cdbb8fbb243592c62f89de923e9ef5bb8b627c2b9d
     container_name: 'ecamp3-print'
     ports:
       - '3003:3003'
@@ -125,7 +125,7 @@ services:
       - ./print/print.env
 
   composer:
-    image: composer:2@sha256:4d0583505a6e8b3ef83b62e12eaed25376ac64be5acff89a6d2e169f7621186e
+    image: composer:2@sha256:33d2c1d9fb7311cb8f215a8f52669894ef534292ac5d331347f929c27e317bb1
     container_name: 'ecamp3-composer'
     restart: 'no'
     command: bash -c "composer install --no-interaction --no-plugins --no-scripts --prefer-dist"
@@ -135,7 +135,7 @@ services:
       - ./.cache/composer:/tmp/cache
 
   db:
-    image: mysql:8.0.26@sha256:8b928a5117cf5c2238c7a09cd28c2e801ac98f91c3f8203a8938ae51f14700fd
+    image: mysql:8.0.26@sha256:4fcf5df6c46c80db19675a5c067e737c1bc8b0e78e94e816a778ae2c6577213d
     container_name: 'ecamp3-db'
     environment:
       - MYSQL_DATABASE=ecamp3dev
@@ -149,7 +149,7 @@ services:
       - db-data:/var/lib/mysql
 
   database:
-    image: postgres:13-alpine@sha256:c5adb1979fb334713fb79c8a168387cc765b2bb23167a2d5d4cdc49af45fcfcf
+    image: postgres:13-alpine@sha256:8eb076b8bcd3d12ce6e9c64e47723f1a328afd5aec5863cff73900d5aa407f7c
     environment:
       - POSTGRES_DB=ecamp3dev
       - POSTGRES_PASSWORD=ecamp3
@@ -172,7 +172,7 @@ services:
       - ./phpmyadmin/config.user.inc.php:/etc/phpmyadmin/config.user.inc.php
 
   rabbitmq:
-    image: rabbitmq:3.9-management@sha256:26a83c0bd8f81c65a592d9e945eafdd75eccd25c81aaa8155814b91da59f56d5
+    image: rabbitmq:3.9-management@sha256:c3b9826c219162d03c7b652001fb0cc564bf1124b74b04d7e5de79dd5b9dc2fd
     container_name: 'ecamp3-rabbitmq'
     ports:
       - '3004:15672'

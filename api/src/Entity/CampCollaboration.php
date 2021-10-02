@@ -6,46 +6,74 @@ use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use App\Repository\CampCollaborationRepository;
+use App\Validator\AllowTransition\AssertAllowTransitions;
 use App\Validator\AssertEitherIsNull;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Annotation\SerializedName;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * A user participating in some way in the planning or realization of a camp.
  *
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass=CampCollaborationRepository::class)
  * @ORM\Table(uniqueConstraints={
  *     @ORM\UniqueConstraint(name="inviteKey_unique", columns={"inviteKey"})
  * })
  */
 #[ApiResource(
     collectionOperations: [
-        'get',
+        'get' => ['security' => 'is_fully_authenticated()'],
         'post' => [
             'denormalization_context' => [
-                'groups' => ['campCollaboration:create'],
-                'allow_extra_attributes' => false,
+                'groups' => ['write', 'create'],
             ],
+            'normalization_context' => self::ITEM_NORMALIZATION_CONTEXT,
             'openapi_context' => [
                 'description' => 'Also sends an invitation email to the inviteEmail address, if specified.',
             ],
+            'security_post_denormalize' => 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)',
         ],
     ],
     itemOperations: [
-        'get',
-        'patch' => ['denormalization_context' => [
-            'groups' => ['campCollaboration:update'],
-            'allow_extra_attributes' => false,
-        ]],
-        'delete',
+        'get' => [
+            'normalization_context' => self::ITEM_NORMALIZATION_CONTEXT,
+            'security' => 'is_granted("CAMP_COLLABORATOR", object) or is_granted("CAMP_IS_PROTOTYPE", object)',
+        ],
+        'patch' => [
+            'denormalization_context' => ['groups' => ['write', 'update']],
+            'normalization_context' => self::ITEM_NORMALIZATION_CONTEXT,
+            'security' => '(user === object.user) or is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)',
+            'validation_groups' => ['Default', 'update'],
+        ],
+        'delete' => ['security' => 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)'],
+        self::RESEND_INVITATION => [
+            'security' => '(user === object.user) or is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)',
+            'method' => 'PATCH',
+            'path' => 'camp_collaborations/{id}/'.self::RESEND_INVITATION,
+            'denormalization_context' => [
+                'groups' => ['resend_invitation'],
+            ],
+            'openapi_context' => [
+                'summary' => 'Send the invitation email for this CampCollaboration again. Only possible, if the status is already '.self::STATUS_INVITED.'.',
+            ],
+            'validation_groups' => ['Default', 'resend_invitation'],
+        ],
     ],
-    normalizationContext: ['skip_null_values' => false],
+    denormalizationContext: ['groups' => ['write']],
+    normalizationContext: ['groups' => ['read']],
 )]
 #[ApiFilter(SearchFilter::class, properties: ['camp'])]
 class CampCollaboration extends BaseEntity implements BelongsToCampInterface {
+    public const ITEM_NORMALIZATION_CONTEXT = [
+        'groups' => ['read', 'CampCollaboration:Camp', 'CampCollaboration:User'],
+        'swagger_definition_name' => 'read',
+    ];
+    public const RESEND_INVITATION = 'resend_invitation';
+
     public const ROLE_GUEST = 'guest';
     public const ROLE_MEMBER = 'member';
     public const ROLE_MANAGER = 'manager';
@@ -90,7 +118,7 @@ class CampCollaboration extends BaseEntity implements BelongsToCampInterface {
      */
     #[AssertEitherIsNull(other: 'user')]
     #[ApiProperty(example: 'some-email@example.com')]
-    #[Groups(['Default', 'campCollaboration:create'])]
+    #[Groups(['read', 'create'])]
     public ?string $inviteEmail = null;
 
     /**
@@ -108,7 +136,7 @@ class CampCollaboration extends BaseEntity implements BelongsToCampInterface {
      */
     #[AssertEitherIsNull(other: 'inviteEmail')]
     #[ApiProperty(example: '/users/1a2b3c4d')]
-    #[Groups(['Default', 'campCollaboration:create'])]
+    #[Groups(['read', 'create'])]
     public ?User $user = null;
 
     /**
@@ -118,7 +146,7 @@ class CampCollaboration extends BaseEntity implements BelongsToCampInterface {
      * @ORM\JoinColumn(nullable=false, onDelete="cascade")
      */
     #[ApiProperty(example: '/camps/1a2b3c4d')]
-    #[Groups(['Default', 'campCollaboration:create'])]
+    #[Groups(['read', 'create'])]
     public ?Camp $camp = null;
 
     /**
@@ -126,11 +154,22 @@ class CampCollaboration extends BaseEntity implements BelongsToCampInterface {
      * Cannot be set when creating a campCollaboration, but can be updated depending on the current status
      * and the updater's access rights.
      *
+     * The status ESTABLISHED can only be reached via the /invitations endpoint.
+     *
      * @ORM\Column(type="string", length=16, nullable=false)
      */
     #[Assert\Choice(choices: self::VALID_STATUS)]
+    #[Assert\EqualTo(value: self::STATUS_INVITED, groups: ['resend_invitation'])]
+    #[AssertAllowTransitions(
+        [
+            ['from' => self::STATUS_INVITED, 'to' => [self::STATUS_INACTIVE]],
+            ['from' => self::STATUS_INACTIVE, 'to' => [self::STATUS_INVITED]],
+            ['from' => self::STATUS_ESTABLISHED, 'to' => [self::STATUS_INACTIVE]],
+        ],
+        groups: ['update']
+    )]
     #[ApiProperty(default: self::STATUS_INVITED, example: self::STATUS_INACTIVE)]
-    #[Groups(['Default', 'campCollaboration:update'])]
+    #[Groups(['read', 'update'])]
     public string $status = self::STATUS_INVITED;
 
     /**
@@ -141,7 +180,7 @@ class CampCollaboration extends BaseEntity implements BelongsToCampInterface {
      */
     #[Assert\Choice(choices: self::VALID_ROLES)]
     #[ApiProperty(example: self::ROLE_MEMBER)]
-    #[Groups(['Default', 'campCollaboration:create', 'campCollaboration:update'])]
+    #[Groups(['read', 'write'])]
     public string $role;
 
     /**
@@ -157,6 +196,26 @@ class CampCollaboration extends BaseEntity implements BelongsToCampInterface {
 
     public function getCamp(): ?Camp {
         return $this->camp;
+    }
+
+    /**
+     * @return Camp
+     */
+    #[ApiProperty(readableLink: true)]
+    #[SerializedName('camp')]
+    #[Groups('CampCollaboration:Camp')]
+    public function getEmbeddedCamp(): ?Camp {
+        return $this->camp;
+    }
+
+    /**
+     * @return User
+     */
+    #[ApiProperty(readableLink: true)]
+    #[SerializedName('user')]
+    #[Groups('CampCollaboration:User')]
+    public function getEmbeddedUser(): ?User {
+        return $this->user;
     }
 
     #[ApiProperty(readable: false, writable: false)]

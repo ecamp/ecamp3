@@ -55,6 +55,38 @@ App\Entity\ContentNode\ColumnLayout:
     jsonConfig: {columns: [{slot: 1, width: 12}]}
     instanceName: <word()>
     contentType: '@contentTypeColumnLayout'
+  contentNode1campUnrelated:
+    root: '@self'
+    parent: null
+    slot: ''
+    position: 0
+    jsonConfig: { columns: [ { slot: 1, width: 12 } ] }
+    instanceName: <word()>
+    contentType: '@contentTypeColumnLayout'
+  contentNode2campUnrelated:
+    root: '@self'
+    parent: null
+    slot: ''
+    position: 0
+    jsonConfig: {columns: [{slot: 1, width: 12}]}
+    instanceName: <word()>
+    contentType: '@contentTypeColumnLayout'
+  contentNode1campPrototype:
+    root: '@self'
+    parent: null
+    slot: ''
+    position: 0
+    jsonConfig: { columns: [ { slot: 1, width: 12 } ] }
+    instanceName: <word()>
+    contentType: '@contentTypeColumnLayout'
+  contentNode2campPrototype:
+    root: '@self'
+    parent: null
+    slot: ''
+    position: 0
+    jsonConfig: {columns: [{slot: 1, width: 12}]}
+    instanceName: <word()>
+    contentType: '@contentTypeColumnLayout'
 
 App\Entity\ContentNode\SingleText:
   contentNodeChild2:

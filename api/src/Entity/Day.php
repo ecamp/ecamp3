@@ -6,10 +6,12 @@ use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use App\Repository\DayRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Annotation\SerializedName;
 
 /**
@@ -18,14 +20,20 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
  * easier to move the whole periods to different dates. Days are created automatically when
  * creating or updating periods, and are not writable through the API directly.
  *
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass=DayRepository::class)
  * @ORM\Table(uniqueConstraints={
  *     @ORM\UniqueConstraint(name="offset_period_idx", columns={"periodId", "dayOffset"})
  * })
  */
 #[ApiResource(
-    collectionOperations: ['get'],
-    itemOperations: ['get'],
+    collectionOperations: [
+        'get' => ['security' => 'is_fully_authenticated()'],
+    ],
+    itemOperations: [
+        'get' => ['security' => 'is_granted("CAMP_COLLABORATOR", object) or is_granted("CAMP_IS_PROTOTYPE", object)'],
+    ],
+    denormalizationContext: ['groups' => ['write']],
+    normalizationContext: ['groups' => ['read']],
 )]
 #[ApiFilter(SearchFilter::class, properties: ['period'])]
 #[UniqueEntity(fields: ['period', 'dayOffset'])]
@@ -36,6 +44,7 @@ class Day extends BaseEntity implements BelongsToCampInterface {
      * @ORM\OneToMany(targetEntity="DayResponsible", mappedBy="day", orphanRemoval=true)
      */
     #[ApiProperty(writable: false, example: '["/day_responsibles/1a2b3c4d"]')]
+    #[Groups(['read'])]
     public Collection $dayResponsibles;
 
     /**
@@ -44,7 +53,8 @@ class Day extends BaseEntity implements BelongsToCampInterface {
      * @ORM\ManyToOne(targetEntity="Period", inversedBy="days")
      * @ORM\JoinColumn(nullable=false, onDelete="cascade")
      */
-    #[ApiProperty(writable: false, example: '/periods/1a2b3c4d')]
+    #[ApiProperty(example: '/periods/1a2b3c4d')]
+    #[Groups(['read'])]
     public ?Period $period = null;
 
     /**
@@ -53,6 +63,7 @@ class Day extends BaseEntity implements BelongsToCampInterface {
      * @ORM\Column(type="integer")
      */
     #[ApiProperty(writable: false, example: '1')]
+    #[Groups(['read'])]
     public int $dayOffset = 0;
 
     public function __construct() {
@@ -69,6 +80,7 @@ class Day extends BaseEntity implements BelongsToCampInterface {
      */
     #[ApiProperty(example: '2')]
     #[SerializedName('number')]
+    #[Groups(['read'])]
     public function getDayNumber(): int {
         return $this->dayOffset + 1;
     }

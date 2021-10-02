@@ -2,6 +2,7 @@
 
 namespace App\Tests\Api\Camps;
 
+use ApiPlatform\Core\Api\OperationType;
 use App\Entity\Camp;
 use App\Entity\User;
 use App\Tests\Api\ECampApiTestCase;
@@ -11,7 +12,7 @@ use App\Tests\Api\ECampApiTestCase;
  */
 class CreateCampTest extends ECampApiTestCase {
     public function testCreateCampWhenNotLoggedIn() {
-        static::createClient()->request('POST', '/camps', ['json' => $this->getExampleWritePayload()]);
+        static::createBasicClient()->request('POST', '/camps', ['json' => $this->getExampleWritePayload()]);
 
         $this->assertResponseStatusCodeSame(401);
         $this->assertJsonContains([
@@ -41,7 +42,7 @@ class CreateCampTest extends ECampApiTestCase {
 
         $this->assertResponseStatusCodeSame(201);
         $this->assertJsonContains(['_links' => [
-            'creator' => ['href' => '/users/'.static::$fixtures['user1']->getId()],
+            'creator' => ['href' => '/users/'.static::$fixtures['user1manager']->getId()],
         ]]);
     }
 
@@ -588,12 +589,14 @@ class CreateCampTest extends ECampApiTestCase {
     }
 
     public function getExampleWritePayload($attributes = [], $except = []) {
-        return $this->getExamplePayload(Camp::class, $attributes, [], $except);
+        return $this->getExamplePayload(Camp::class, OperationType::COLLECTION, 'post', $attributes, [], $except);
     }
 
     public function getExampleReadPayload($attributes = [], $except = []) {
         return $this->getExamplePayload(
             Camp::class,
+            OperationType::ITEM,
+            'get',
             $attributes,
             ['periods'],
             $except

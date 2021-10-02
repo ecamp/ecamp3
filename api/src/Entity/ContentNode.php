@@ -28,18 +28,20 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
  * @ORM\DiscriminatorColumn(name="strategy", type="string")
  */
 #[ApiResource(
-    collectionOperations: ['get', 'post'],
+    collectionOperations: [
+        'get',
+        'post' => ['denormalization_context' => ['groups' => ['write', 'create']]],
+    ],
     itemOperations: [
         'get',
         'patch' => [
-            'denormalization_context' => [
-                'groups' => ['contentNode:update'],
-                'allow_extra_attributes' => false,
-            ],
-            'validation_groups' => ['Default', 'contentNode:update'],
+            'denormalization_context' => ['groups' => ['write', 'update']],
+            'validation_groups' => ['Default', 'update'],
         ],
         'delete' => ['security' => 'object.owner === null'],
-    ]
+    ],
+    denormalizationContext: ['groups' => ['write']],
+    normalizationContext: ['groups' => ['read']],
 )]
 #[ApiFilter(SearchFilter::class, properties: ['parent'])]
 abstract class ContentNode extends BaseEntity implements BelongsToCampInterface {
@@ -59,6 +61,7 @@ abstract class ContentNode extends BaseEntity implements BelongsToCampInterface 
      * @ORM\JoinColumn(nullable=true)
      */
     #[ApiProperty(writable: false, example: '/content_nodes/1a2b3c4d')]
+    #[Groups(['read'])]
     public ContentNode $root;
 
     /**
@@ -82,10 +85,10 @@ abstract class ContentNode extends BaseEntity implements BelongsToCampInterface 
         messageBothNull: 'Must not be null on non-root content nodes.',
         messageNoneNull: 'Must be null on root content nodes.'
     )]
-    #[AssertBelongsToSameOwner(groups: ['contentNode:update'])]
-    #[AssertNoLoop(groups: ['contentNode:update'])]
+    #[AssertBelongsToSameOwner(groups: ['update'])]
+    #[AssertNoLoop(groups: ['update'])]
     #[ApiProperty(example: '/content_nodes/1a2b3c4d')]
-    #[Groups(['Default', 'contentNode:update'])]
+    #[Groups(['read', 'write'])]
     public ?ContentNode $parent = null;
 
     /**
@@ -101,6 +104,7 @@ abstract class ContentNode extends BaseEntity implements BelongsToCampInterface 
      * @ORM\OneToMany(targetEntity="ContentNode", mappedBy="parent", cascade={"remove"})
      */
     #[ApiProperty(writable: false, example: '["/content_nodes/1a2b3c4d"]')]
+    #[Groups(['read'])]
     public Collection $children;
 
     /**
@@ -110,7 +114,7 @@ abstract class ContentNode extends BaseEntity implements BelongsToCampInterface 
      * @ORM\Column(type="text", nullable=true)
      */
     #[ApiProperty(example: 'footer')]
-    #[Groups(['Default', 'contentNode:update'])]
+    #[Groups(['read', 'write'])]
     public ?string $slot = null;
 
     /**
@@ -120,7 +124,7 @@ abstract class ContentNode extends BaseEntity implements BelongsToCampInterface 
      * @ORM\Column(type="integer", nullable=true)
      */
     #[ApiProperty(example: '0')]
-    #[Groups(['Default', 'contentNode:update'])]
+    #[Groups(['read', 'write'])]
     public ?int $position = null;
 
     /**
@@ -131,7 +135,7 @@ abstract class ContentNode extends BaseEntity implements BelongsToCampInterface 
      * @ORM\Column(type="json", nullable=true)
      */
     #[ApiProperty(example: '{}')]
-    #[Groups(['Default', 'contentNode:update'])]
+    #[Groups(['read', 'write'])]
     public ?array $jsonConfig = null;
 
     /**
@@ -141,7 +145,7 @@ abstract class ContentNode extends BaseEntity implements BelongsToCampInterface 
      * @ORM\Column(type="text", nullable=true)
      */
     #[ApiProperty(example: 'Schlechtwetterprogramm')]
-    #[Groups(['Default', 'contentNode:update'])]
+    #[Groups(['read', 'write'])]
     public ?string $instanceName = null;
 
     /**
@@ -153,7 +157,7 @@ abstract class ContentNode extends BaseEntity implements BelongsToCampInterface 
      * @ORM\JoinColumn(nullable=false)
      */
     #[ApiProperty(example: '/content_types/1a2b3c4d')]
-    #[Groups(['Default'])]
+    #[Groups(['read', 'create'])]
     public ?ContentType $contentType = null;
 
     public function __construct() {
@@ -168,6 +172,7 @@ abstract class ContentNode extends BaseEntity implements BelongsToCampInterface 
      * The name of the content type of this content node. Read-only, for convenience.
      */
     #[ApiProperty(example: 'SafetyConcept')]
+    #[Groups(['read'])]
     public function getContentTypeName(): string {
         return $this->contentType?->name;
     }
@@ -177,7 +182,8 @@ abstract class ContentNode extends BaseEntity implements BelongsToCampInterface 
      */
     #[SerializedName('owner')]
     #[ApiProperty(writable: false, example: '/activities/1a2b3c4d')]
-    public function getRootOwner(): Activity | Category | AbstractContentNodeOwner {
+    #[Groups(['read'])]
+    public function getRootOwner(): Activity|Category|AbstractContentNodeOwner {
         return $this->root->owner;
     }
 
@@ -188,6 +194,7 @@ abstract class ContentNode extends BaseEntity implements BelongsToCampInterface 
      * @throws Exception when the owner is neither an activity nor a category
      */
     #[ApiProperty(example: '/categories/1a2b3c4d')]
+    #[Groups(['read'])]
     public function getOwnerCategory(): Category {
         $owner = $this->getRootOwner();
 
