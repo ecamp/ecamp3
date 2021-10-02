@@ -64,8 +64,6 @@ services:
       - caddy-socket:/var/run/php
       - caddy-data:/data
       - caddy-config-cache:/config
-    env_file:
-      - caddy.env
 
   print:
     image: ecamp/ecamp3-print:${DOCKER_IMAGE_TAG}
