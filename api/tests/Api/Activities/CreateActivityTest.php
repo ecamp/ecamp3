@@ -148,9 +148,6 @@ class CreateActivityTest extends ECampApiTestCase {
             OperationType::ITEM,
             'get',
             array_merge([
-                '_links' => [
-                    'contentNodes' => [],
-                ],
             ], $attributes),
             ['category'],
             $except

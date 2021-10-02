@@ -218,7 +218,7 @@ class UpdateMaterialItemTest extends ECampApiTestCase {
         $materialItem = static::$fixtures['materialItem1'];
         static::createClientWithCredentials()->request('PATCH', '/material_items/'.$materialItem->getId(), ['json' => [
             'period' => $this->getIriFor('period1'),
-            'materialNode' => $this->getIriFor('contentNodeChild3'),
+            'materialNode' => $this->getIriFor('materialNode1'),
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
 
         $this->assertResponseStatusCodeSame(422);
@@ -256,7 +256,7 @@ class UpdateMaterialItemTest extends ECampApiTestCase {
     public function testPatchMaterialItemValidatesMaterialNodeFromDifferentCamp() {
         $materialItem = static::$fixtures['materialItem1'];
         static::createClientWithCredentials()->request('PATCH', '/material_items/'.$materialItem->getId(), ['json' => [
-            'materialNode' => $this->getIriFor('contentNode1camp2'),
+            'materialNode' => $this->getIriFor('materialNode2'),
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
 
         $this->assertResponseStatusCodeSame(422);

@@ -102,14 +102,14 @@ class CreateMaterialItemTest extends ECampApiTestCase {
 
     public function testCreateMaterialItemWithMaterialNodeInsteadOfPeriodIsPossible() {
         static::createClientWithCredentials()->request('POST', '/material_items', ['json' => $this->getExampleWritePayload([
-            'materialNode' => $this->getIriFor('contentNodeChild3'),
+            'materialNode' => $this->getIriFor('materialNode1'),
             'period' => null,
         ])]);
 
         $this->assertResponseStatusCodeSame(201);
         $this->assertJsonContains($this->getExampleReadPayload([
             '_links' => [
-                'materialNode' => ['href' => $this->getIriFor('contentNodeChild3')],
+                'materialNode' => ['href' => $this->getIriFor('materialNode1')],
                 //'period' => null,
             ],
         ]));
@@ -136,7 +136,7 @@ class CreateMaterialItemTest extends ECampApiTestCase {
     public function testCreateMaterialItemValidatesConflictingPeriodAndMaterialNode() {
         static::createClientWithCredentials()->request('POST', '/material_items', ['json' => $this->getExampleWritePayload([
             'period' => $this->getIriFor('period1'),
-            'materialNode' => $this->getIriFor('contentNodeChild3'),
+            'materialNode' => $this->getIriFor('materialNode1'),
         ])]);
 
         $this->assertResponseStatusCodeSame(422);
@@ -174,7 +174,7 @@ class CreateMaterialItemTest extends ECampApiTestCase {
     public function testCreateMaterialItemValidatesMaterialNodeFromDifferentCamp() {
         static::createClientWithCredentials()->request('POST', '/material_items', ['json' => $this->getExampleWritePayload([
             'period' => null,
-            'materialNode' => $this->getIriFor('contentNode1camp2'),
+            'materialNode' => $this->getIriFor('materialNode2'),
         ])]);
 
         $this->assertResponseStatusCodeSame(422);

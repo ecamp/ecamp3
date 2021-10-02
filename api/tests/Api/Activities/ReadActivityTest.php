@@ -58,7 +58,7 @@ class ReadActivityTest extends ECampApiTestCase {
             'title' => $activity->title,
             'location' => $activity->location,
             '_links' => [
-                'rootContentNode' => ['href' => $this->getIriFor('contentNode1')],
+                'rootContentNode' => ['href' => $this->getIriFor('columnLayout1')],
                 //'contentNodes' => ['href' => '/content_nodes?owner=/activities/'.$activity->getId()],
                 'category' => ['href' => $this->getIriFor('category1')],
                 'camp' => ['href' => $this->getIriFor('camp1')],
@@ -80,7 +80,7 @@ class ReadActivityTest extends ECampApiTestCase {
             'title' => $activity->title,
             'location' => $activity->location,
             '_links' => [
-                'rootContentNode' => ['href' => $this->getIriFor('contentNode1')],
+                'rootContentNode' => ['href' => $this->getIriFor('columnLayout1')],
                 //'contentNodes' => ['href' => '/content_nodes?owner=/activities/'.$activity->getId()],
                 'category' => ['href' => $this->getIriFor('category1')],
                 'camp' => ['href' => $this->getIriFor('camp1')],
@@ -100,7 +100,7 @@ class ReadActivityTest extends ECampApiTestCase {
             'title' => $activity->title,
             'location' => $activity->location,
             '_links' => [
-                'rootContentNode' => ['href' => $this->getIriFor('contentNode1')],
+                'rootContentNode' => ['href' => $this->getIriFor('columnLayout1')],
                 //'contentNodes' => ['href' => '/content_nodes?owner=/activities/'.$activity->getId()],
                 'category' => ['href' => $this->getIriFor('category1')],
                 'camp' => ['href' => $this->getIriFor('camp1')],
@@ -120,7 +120,7 @@ class ReadActivityTest extends ECampApiTestCase {
             'title' => $activity->title,
             'location' => $activity->location,
             '_links' => [
-                'rootContentNode' => ['href' => $this->getIriFor('contentNode1campPrototype')],
+                'rootContentNode' => ['href' => $this->getIriFor('columnLayout1campPrototype')],
                 'category' => ['href' => $this->getIriFor('category1campPrototype')],
                 'camp' => ['href' => $this->getIriFor('campPrototype')],
             ],

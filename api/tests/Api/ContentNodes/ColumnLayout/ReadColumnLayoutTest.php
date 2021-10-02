@@ -1,18 +1,18 @@
 <?php
 
-namespace App\Tests\Api\ContentNodes;
+namespace App\Tests\Api\ColumnLayouts;
 
-use App\Entity\ContentNode;
+use App\Entity\ColumnLayout;
 use App\Tests\Api\ECampApiTestCase;
 
 /**
  * @internal
  */
-class ReadContentNodeTest extends ECampApiTestCase {
+class ReadColumnLayoutTest extends ECampApiTestCase {
     // TODO security tests when not logged in or not collaborator
 
-    public function testGetSingleContentNodeIsAllowedForCollaborator() {
-        /** @var ContentNode $contentNode */
+    public function testGetSingleColumnLayoutIsAllowedForCollaborator() {
+        /** @var ColumnLayout $contentNode */
         $contentNode = static::$fixtures['columnLayoutChild1'];
         static::createClientWithCredentials()->request('GET', '/content_nodes/'.$contentNode->getId());
         $this->assertResponseStatusCodeSame(200);
@@ -28,7 +28,6 @@ class ReadContentNodeTest extends ECampApiTestCase {
                 'owner' => ['href' => $this->getIriFor('activity1')],
                 'ownerCategory' => ['href' => $this->getIriFor('category1')],
                 'children' => ['href' => '/content_nodes?parent='.$this->getIriFor('columnLayoutChild1')],
-                'self' => ['href' => $this->getIriFor('columnLayoutChild1')],
             ],
         ]);
     }

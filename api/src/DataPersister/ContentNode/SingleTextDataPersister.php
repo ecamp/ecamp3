@@ -25,6 +25,7 @@ class SingleTextDataPersister implements ContextAwareDataPersisterInterface {
                 || 'create' === ($context['graphql_operation_name'] ?? null)
             ) {
             $data->root = $data->parent->root;
+            $data->root->addRootDescendant($data);
 
             // TODO: Check if it's actually allowed to read/copy from this prototype (user access check)
             if (isset($data->prototype) && $data->prototype instanceof SingleText) {
