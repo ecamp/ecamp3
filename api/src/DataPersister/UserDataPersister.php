@@ -26,16 +26,13 @@ class UserDataPersister implements ContextAwareDataPersisterInterface {
 
             $activationKey = IdGenerator::generateRandomHexString(64);
             $data->activationKeyHash = md5($activationKey);
-
-        // TODO
-            // Send Activation-Mail with $activationKey
-            // $this->mailService->
         } elseif (User::ACTIVATE === ($context['item_operation_name'] ?? null)) {
             if ($data->activationKeyHash === md5($data->activationKey)) {
                 $data->state = User::STATE_ACTIVATED;
                 $data->activationKey = null;
                 $data->activationKeyHash = null;
             }
+            //todo throw error
         }
 
         if ($data->plainPassword) {
@@ -43,7 +40,14 @@ class UserDataPersister implements ContextAwareDataPersisterInterface {
             $data->eraseCredentials();
         }
 
-        return $this->dataPersister->persist($data, $context);
+        $user = $this->dataPersister->persist($data, $context);
+
+        if ('post' === ($context['collection_operation_name'] ?? null)) {
+            // Send Activation-Mail with $activationKey
+            $this->mailService->sendUserActivationMail($user, $activationKey);
+        }
+
+        return $user;
     }
 
     public function remove($data, array $context = []) {

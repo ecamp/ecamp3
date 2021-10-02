@@ -37,4 +37,25 @@ class MailService {
             throw new \RuntimeException($e);
         }
     }
+
+    public function sendUserActivationMail(User $user, string $key): void {
+        $frontendUrl = 'http://localhost:3000';
+        $email = (new TemplatedEmail())
+            ->from('info@ecamp3.ch')
+            ->to(new Address($user->email))
+            ->subject('Welcome to eCamp3')
+            ->htmlTemplate('emails/userActivation.html.twig')
+            ->textTemplate('emails/userActivation.text.twig')
+            ->context([
+                'name' => $user->getDisplayName(),
+                'url' => "{$frontendUrl}/activate/{$user->getId()}/{$key}",
+            ])
+        ;
+
+        try {
+            $this->mailer->send($email);
+        } catch (TransportExceptionInterface $e) {
+            throw new \RuntimeException($e);
+        }
+    }
 }

@@ -25,7 +25,7 @@ async function login (username, password) {
 }
 
 async function register (data) {
-  const url = await apiStore.href(apiStore.get().auth(), 'register')
+  const url = await apiStore.href(apiStore.get(), 'user')
   return apiStore.post(url, data)
 }
 
