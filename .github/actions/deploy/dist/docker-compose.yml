@@ -11,6 +11,7 @@ services:
       - print-output:/static-files
     depends_on:
       - backend
+      - caddy
       - frontend
       - print
       - worker-print-puppeteer
@@ -55,7 +56,7 @@ services:
     depends_on:
       - php
     environment:
-      SERVER_NAME: localhost:4001, caddy:4001
+      SERVER_NAME: localhost:4001, caddy:4001, ${API_DOMAIN}:4001
       MERCURE_PUBLISHER_JWT_KEY: ${MERCURE_PUBLISHER_JWT_KEY:-!ChangeMe!}
       MERCURE_SUBSCRIBER_JWT_KEY: ${MERCURE_SUBSCRIBER_JWT_KEY:-!ChangeMe!}
       MERCURE_EXTRA_DIRECTIVES: demo
@@ -63,6 +64,8 @@ services:
       - caddy-socket:/var/run/php
       - caddy-data:/data
       - caddy-config-cache:/config
+    env_file:
+      - caddy.env
 
   print:
     image: ecamp/ecamp3-print:${DOCKER_IMAGE_TAG}
