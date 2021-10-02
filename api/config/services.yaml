@@ -80,6 +80,9 @@ services:
     App\Serializer\Normalizer\CircularReferenceDetectingHalItemNormalizer:
         decorates: 'api_platform.hal.normalizer.item'
 
+    App\Serializer\Normalizer\URITemplateNormalizer:
+        decorates: 'api_platform.hal.normalizer.entrypoint'
+
     App\Serializer\Normalizer\CollectionItemsNormalizer:
         decorates: 'api_platform.hal.normalizer.collection'
 
