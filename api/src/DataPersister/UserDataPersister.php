@@ -21,18 +21,27 @@ class UserDataPersister implements ContextAwareDataPersisterInterface {
     }
 
     public function persist($data, array $context = []) {
+        if ('post' === ($context['collection_operation_name'] ?? null)) {
+            $data->state = User::STATE_REGISTERED;
+
+            $activationKey = IdGenerator::generateRandomHexString(64);
+            $data->activationKeyHash = md5($activationKey);
+
+        // TODO
+            // Send Activation-Mail with $activationKey
+            // $this->mailService->
+        } elseif (User::ACTIVATE === ($context['item_operation_name'] ?? null)) {
+            if ($data->activationKeyHash === md5($data->activationKey)) {
+                $data->state = User::STATE_ACTIVATED;
+                $data->activationKey = null;
+                $data->activationKeyHash = null;
+            }
+        }
+
         if ($data->plainPassword) {
             $data->password = $this->userPasswordHasher->hashPassword($data, $data->plainPassword);
             $data->eraseCredentials();
         }
-
-        $data->state = User::STATE_REGISTERED;
-
-        $activationKey = IdGenerator::generateRandomHexString(64);
-        $data->activationKeyHash = md5($activationKey);
-
-        // TODO: Send Activation-Mail
-        // $this->mailService->
 
         return $this->dataPersister->persist($data, $context);
     }

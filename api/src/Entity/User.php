@@ -32,6 +32,11 @@ use Symfony\Component\Validator\Constraints as Assert;
         ],
     ],
     itemOperations: [
+        self::ACTIVATE => [
+            'method' => 'PATCH',
+            'path' => 'users/{id}/activate.{_format}',
+            'denormalization_context' => ['groups' => ['activate']],
+        ],
         'get' => ['security' => 'object == user'],
         'patch' => [
             'security' => 'object == user',
@@ -42,6 +47,8 @@ use Symfony\Component\Validator\Constraints as Assert;
     normalizationContext: ['groups' => ['read']],
 )]
 class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUserInterface {
+    public const ACTIVATE = 'activate';
+
     public const STATE_NONREGISTERED = 'non-registered';
     public const STATE_REGISTERED = 'registered';
     public const STATE_ACTIVATED = 'activated';
@@ -139,6 +146,13 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
     #[Assert\DisableAutoMapping]
     #[ApiProperty(readable: false, writable: false)]
     public string $state = self::STATE_NONREGISTERED;
+
+    /**
+     * User-Input for activation.
+     */
+    #[ApiProperty(readable: false, writable: true)]
+    #[Groups(['activate'])]
+    public ?string $activationKey = null;
 
     /**
      * InvitationKey for new user.
