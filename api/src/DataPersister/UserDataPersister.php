@@ -31,8 +31,9 @@ class UserDataPersister implements ContextAwareDataPersisterInterface {
                 $data->state = User::STATE_ACTIVATED;
                 $data->activationKey = null;
                 $data->activationKeyHash = null;
+            } else {
+                throw new \Exception('Invalid ActivationKey');
             }
-            //todo throw error
         }
 
         if ($data->plainPassword) {

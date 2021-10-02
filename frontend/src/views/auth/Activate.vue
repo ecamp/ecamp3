@@ -10,17 +10,22 @@
         color="green" />
     </div>
 
-    <v-alert v-if="activated" type="success" class="my-4 text--green text--darken-2">
-      {{ $tc('views.auth.activate.success') }}
-    </v-alert>
-    <v-spacer />
+    <div v-if="activated == true">
+      <v-alert type="success" class="my-4 text--green text--darken-2">
+        {{ $tc('views.auth.activate.success') }}
+      </v-alert>
+      <v-spacer />
+      <v-btn v-if="!loading" color="primary"
+             :to="{name: 'login'}"
+             x-large
+             class="my-4" block>
+        {{ $tc('views.auth.registerDone.login') }}
+      </v-btn>
+    </div>
 
-    <v-btn v-if="!loading" color="primary"
-           :to="{name: 'login'}"
-           x-large
-           class="my-4" block>
-      {{ $tc('views.auth.registerDone.login') }}
-    </v-btn>
+    <v-alert v-if="activated == false" type="error" class="my-4 text--red text--darken-2">
+      {{ $tc('views.auth.activate.error') }}
+    </v-alert>
   </auth-container>
 </template>
 
@@ -41,11 +46,12 @@ export default {
     }
   },
   mounted () {
+    // TODO: Change, when templated links are available
     // this.api.href(this.api.get(), 'users', { userId: this.userId }).then(url => {
     //  this.api.patch(url, { activationKey: this.activationKey })
     // })
 
-    this.api.href(this.api.get(), 'user').then(url => {
+    this.api.href(this.api.get(), 'users').then(url => {
       this.api.patch(url + '/' + this.userId + '/activate.jsonhal', { activationKey: this.activationKey }).then(() => {
         this.loading = false
         this.activated = true
