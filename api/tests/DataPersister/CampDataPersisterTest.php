@@ -5,7 +5,9 @@ namespace App\Tests\DataPersister;
 use ApiPlatform\Core\DataPersister\ContextAwareDataPersisterInterface;
 use App\DataPersister\CampDataPersister;
 use App\Entity\Camp;
+use App\Entity\CampCollaboration;
 use App\Entity\User;
+use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Security\Core\Security;
@@ -16,15 +18,17 @@ use Symfony\Component\Security\Core\Security;
 class CampDataPersisterTest extends TestCase {
     private CampDataPersister $dataPersister;
     private MockObject|ContextAwareDataPersisterInterface $decoratedMock;
-    private Security|MockObject $security;
+    private MockObject|Security $security;
+    private MockObject|EntityManagerInterface $em;
     private Camp $camp;
 
     protected function setUp(): void {
         $this->decoratedMock = $this->createMock(ContextAwareDataPersisterInterface::class);
         $this->security = $this->createMock(Security::class);
+        $this->em = $this->createMock(EntityManagerInterface::class);
         $this->camp = new Camp();
 
-        $this->dataPersister = new CampDataPersister($this->decoratedMock, $this->security);
+        $this->dataPersister = new CampDataPersister($this->decoratedMock, $this->security, $this->em);
     }
 
     public function testDelegatesSupportCheckToDecorated() {
@@ -87,5 +91,41 @@ class CampDataPersisterTest extends TestCase {
         // then
         $this->assertNotEquals($user, $data->creator);
         $this->assertNotEquals($user, $data->owner);
+    }
+
+    public function testCreatesCampCollaborationOnCreate() {
+        // given
+        $user = new User();
+        $this->security->method('getUser')->willReturn($user);
+        $this->decoratedMock->expects($this->once())->method('persist')->willReturnArgument(0);
+
+        // then
+        $this->em->expects($this->once())->method('persist')->will($this->returnCallback(function ($object) use ($user) {
+            $this->assertInstanceOf(CampCollaboration::class, $object);
+            /** @var CampCollaboration $campCollaboration */
+            $campCollaboration = $object;
+            $this->assertEquals($user, $campCollaboration->user);
+            $this->assertEquals($this->camp, $campCollaboration->camp);
+            $this->assertEquals(CampCollaboration::STATUS_ESTABLISHED, $campCollaboration->status);
+            $this->assertEquals(CampCollaboration::ROLE_MANAGER, $campCollaboration->role);
+        }));
+
+        // when
+        /** @var Camp $data */
+        $data = $this->dataPersister->persist($this->camp, ['collection_operation_name' => 'post']);
+    }
+
+    public function testDoesNotCreateCampCollaborationOnCreate() {
+        // given
+        $user = new User();
+        $this->security->method('getUser')->willReturn($user);
+        $this->decoratedMock->expects($this->once())->method('persist')->willReturnArgument(0);
+
+        // then
+        $this->em->expects($this->never())->method('persist');
+
+        // when
+        /** @var Camp $data */
+        $data = $this->dataPersister->persist($this->camp, ['item_operation_name' => 'patch']);
     }
 }

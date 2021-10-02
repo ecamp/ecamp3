@@ -4,16 +4,13 @@ namespace App\DataPersister;
 
 use ApiPlatform\Core\DataPersister\ContextAwareDataPersisterInterface;
 use App\Entity\Camp;
+use App\Entity\CampCollaboration;
 use App\Entity\User;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\Security;
 
 class CampDataPersister implements ContextAwareDataPersisterInterface {
-    private ContextAwareDataPersisterInterface $dataPersister;
-    private Security $security;
-
-    public function __construct(ContextAwareDataPersisterInterface $dataPersister, Security $security) {
-        $this->dataPersister = $dataPersister;
-        $this->security = $security;
+    public function __construct(private ContextAwareDataPersisterInterface $dataPersister, private Security $security, private EntityManagerInterface $em) {
     }
 
     public function supports($data, array $context = []): bool {
@@ -26,6 +23,8 @@ class CampDataPersister implements ContextAwareDataPersisterInterface {
      * @return object|void
      */
     public function persist($data, array $context = []) {
+        /** @var User $user */
+        $user = null;
         if ('post' === ($context['collection_operation_name'] ?? null)) {
             /** @var User $user */
             $user = $this->security->getUser();
@@ -35,7 +34,20 @@ class CampDataPersister implements ContextAwareDataPersisterInterface {
             // TODO prototype cloning logic here? Or in a separate endpoint?
         }
 
-        return $this->dataPersister->persist($data, $context);
+        /** @var Camp $camp */
+        $camp = $this->dataPersister->persist($data, $context);
+
+        if ('post' === ($context['collection_operation_name'] ?? null)) {
+            $collaboration = new CampCollaboration();
+            $collaboration->user = $user;
+            $collaboration->camp = $camp;
+            $collaboration->role = CampCollaboration::ROLE_MANAGER;
+            $collaboration->status = CampCollaboration::STATUS_ESTABLISHED;
+            $this->em->persist($collaboration);
+            $this->em->flush();
+        }
+
+        return $camp;
     }
 
     public function remove($data, array $context = []) {
