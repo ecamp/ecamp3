@@ -143,7 +143,6 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
      *
      * @ORM\Column(type="string", length=16, nullable=false)
      */
-    #[Assert\DisableAutoMapping]
     #[ApiProperty(readable: false, writable: false)]
     public string $state = self::STATE_NONREGISTERED;
 
@@ -155,7 +154,7 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
     public ?string $activationKey = null;
 
     /**
-     * InvitationKey for new user.
+     * InvitationKey hashed for new user.
      *
      * @ORM\Column(type="string", length=255)
      */

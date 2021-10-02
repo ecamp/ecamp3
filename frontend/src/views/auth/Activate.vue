@@ -10,7 +10,7 @@
         color="green" />
     </div>
 
-    <div v-if="activated == true">
+    <div v-if="activated === true">
       <v-alert type="success" class="my-4 text--green text--darken-2">
         {{ $tc('views.auth.activate.success') }}
       </v-alert>
@@ -23,9 +23,11 @@
       </v-btn>
     </div>
 
-    <v-alert v-if="activated == false" type="error" class="my-4 text--red text--darken-2">
-      {{ $tc('views.auth.activate.error') }}
-    </v-alert>
+    <div v-if="activated === false">
+      <v-alert type="error" class="my-4 text--red text--darken-2">
+        {{ $tc('views.auth.activate.error') }}
+      </v-alert>
+    </div>
   </auth-container>
 </template>
 
@@ -52,7 +54,7 @@ export default {
     // })
 
     this.api.href(this.api.get(), 'users').then(url => {
-      this.api.patch(url + '/' + this.userId + '/activate.jsonhal', { activationKey: this.activationKey }).then(() => {
+      this.api.patch(url + '/' + this.userId + '/activate', { activationKey: this.activationKey }).then(() => {
         this.loading = false
         this.activated = true
       }, () => {
