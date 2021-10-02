@@ -12,9 +12,6 @@ lexik_jwt_authentication:
     token_extractors:
         split_cookie:
             enabled: true
-            cookies:
-                - jwt_hp
-                - jwt_s
 
     # When logging in, set the two cookies. The header and payload cookie jwt_hp is available in JavaScript,
     # while the signature jwt_s is HttpOnly. This is considered safer than handing the whole token to JavaScript:
