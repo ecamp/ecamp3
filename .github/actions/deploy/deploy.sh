@@ -20,6 +20,7 @@ sed -ri "s~DOCKER_IMAGE_TAG=.*~DOCKER_IMAGE_TAG=latest~" .github/actions/deploy/
 cp .github/actions/deploy/nginx.conf .github/actions/deploy/dist/nginx.conf
 sed -ri "s~server_name frontend-domain;~server_name ${FRONTEND_DOMAIN};~" .github/actions/deploy/dist/nginx.conf
 sed -ri "s~server_name backend-domain;~server_name ${BACKEND_DOMAIN};~" .github/actions/deploy/dist/nginx.conf
+sed -ri "s~server_name api-domain;~server_name ${API_DOMAIN};~" .github/actions/deploy/dist/nginx.conf
 sed -ri "s~server_name print-server-domain;~server_name ${PRINT_SERVER_DOMAIN};~" .github/actions/deploy/dist/nginx.conf
 sed -ri "s~server_name print-file-server-domain;~server_name ${PRINT_FILE_SERVER_DOMAIN};~" .github/actions/deploy/dist/nginx.conf
 sed -ri "s~server_name mail-server-domain;~server_name ${MAIL_SERVER_DOMAIN};~" .github/actions/deploy/dist/nginx.conf
