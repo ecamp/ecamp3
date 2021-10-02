@@ -23,7 +23,7 @@ class DeleteContentNodeTest extends ECampApiTestCase {
     }
 
     public function testDeleteContentNodeIsNotAllowedWhenContentNodeIsRoot() {
-        $contentNode = static::$fixtures['contentNode1'];
+        $contentNode = static::$fixtures['columnLayout1'];
         static::createClientWithCredentials()->request('DELETE', '/content_nodes/'.$contentNode->getId());
         $this->assertResponseStatusCodeSame(403);
         $this->assertJsonContains([

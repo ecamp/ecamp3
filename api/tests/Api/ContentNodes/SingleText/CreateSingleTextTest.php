@@ -32,8 +32,8 @@ class CreateSingleTextTest extends ECampApiTestCase {
     }
 
     public function testCreateSingleTextFromPrototype() {
-        $prototype = static::$fixtures['contentNodeGrandchild1'];
-        static::createClientWithCredentials()->request('POST', '/content_node/single_texts', ['json' => $this->getExampleWritePayload(['prototype' => $this->getIriFor('contentNodeGrandchild1')])]);
+        $prototype = static::$fixtures['singleText2'];
+        static::createClientWithCredentials()->request('POST', '/content_node/single_texts', ['json' => $this->getExampleWritePayload(['prototype' => $this->getIriFor('singleText2')])]);
 
         $this->assertResponseStatusCodeSame(201);
         $this->assertJsonContains($this->getExampleReadPayload());
@@ -46,7 +46,7 @@ class CreateSingleTextTest extends ECampApiTestCase {
 
         $this->assertResponseStatusCodeSame(201);
         $this->assertJsonContains(['_links' => [
-            'root' => ['href' => '/content_nodes/'.static::$fixtures['contentNode1']->root->getId()],
+            'root' => ['href' => '/content_nodes/'.static::$fixtures['columnLayout1']->root->getId()],
         ]]);
     }
 
@@ -112,7 +112,7 @@ class CreateSingleTextTest extends ECampApiTestCase {
             OperationType::COLLECTION,
             'post',
             array_merge([
-                'parent' => $this->getIriFor('contentNode1'),
+                'parent' => $this->getIriFor('columnLayout1'),
                 'contentType' => $this->getIriFor('contentTypeNotes'),
                 'prototype' => null,
             ], $attributes),

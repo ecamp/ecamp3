@@ -61,7 +61,7 @@ class ReadCategoryTest extends ECampApiTestCase {
             'numberingStyle' => $category->numberingStyle,
             '_links' => [
                 'camp' => ['href' => $this->getIriFor('camp1')],
-                'rootContentNode' => ['href' => $this->getIriFor('contentNode2')],
+                'rootContentNode' => ['href' => $this->getIriFor('columnLayout2')],
                 'preferredContentTypes' => [],
                 //'contentNodes' => ['href' => '/content_nodes?owner=/categories/'.$category->getId()],
             ],
@@ -83,7 +83,7 @@ class ReadCategoryTest extends ECampApiTestCase {
             'numberingStyle' => $category->numberingStyle,
             '_links' => [
                 'camp' => ['href' => $this->getIriFor('camp1')],
-                'rootContentNode' => ['href' => $this->getIriFor('contentNode2')],
+                'rootContentNode' => ['href' => $this->getIriFor('columnLayout2')],
                 'preferredContentTypes' => [],
                 //'contentNodes' => ['href' => '/content_nodes?owner=/categories/'.$category->getId()],
             ],
@@ -103,7 +103,7 @@ class ReadCategoryTest extends ECampApiTestCase {
             'numberingStyle' => $category->numberingStyle,
             '_links' => [
                 'camp' => ['href' => $this->getIriFor('camp1')],
-                'rootContentNode' => ['href' => $this->getIriFor('contentNode2')],
+                'rootContentNode' => ['href' => $this->getIriFor('columnLayout2')],
                 'preferredContentTypes' => [],
                 //'contentNodes' => ['href' => '/content_nodes?owner=/categories/'.$category->getId()],
             ],
@@ -123,7 +123,7 @@ class ReadCategoryTest extends ECampApiTestCase {
             'numberingStyle' => $category->numberingStyle,
             '_links' => [
                 'camp' => ['href' => $this->getIriFor('campPrototype')],
-                'rootContentNode' => ['href' => $this->getIriFor('contentNode2campPrototype')],
+                'rootContentNode' => ['href' => $this->getIriFor('columnLayout2campPrototype')],
                 //'contentNodes' => ['href' => '/content_nodes?owner=/categories/'.$category->getId()],
             ],
         ]);

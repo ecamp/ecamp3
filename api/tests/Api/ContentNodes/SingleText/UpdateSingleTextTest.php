@@ -14,7 +14,7 @@ class UpdateSingleTextTest extends ECampApiTestCase {
 
     public function testPatchSingleText() {
         $testText = 'TEST_TEXT';
-        $contentNode = static::$fixtures['contentNodeChild2'];
+        $contentNode = static::$fixtures['singleText1'];
         static::createClientWithCredentials()->request('PATCH', '/content_node/single_texts/'.$contentNode->getId(), ['json' => [
             'text' => $testText,
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);

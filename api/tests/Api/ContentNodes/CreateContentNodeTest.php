@@ -30,7 +30,7 @@ class CreateContentNodeTest extends ECampApiTestCase {
 
         $this->assertResponseStatusCodeSame(201);
         $this->assertJsonContains(['_links' => [
-            'root' => ['href' => '/content_nodes/'.static::$fixtures['contentNode1']->root->getId()],
+            'root' => ['href' => '/content_nodes/'.static::$fixtures['columnLayout1']->root->getId()],
         ]]);
     }
 
@@ -96,7 +96,7 @@ class CreateContentNodeTest extends ECampApiTestCase {
             OperationType::COLLECTION,
             'post',
             array_merge([
-                'parent' => $this->getIriFor('contentNode1'),
+                'parent' => $this->getIriFor('columnLayout1'),
                 'contentType' => $this->getIriFor('contentTypeColumnLayout'),
             ], $attributes),
             [],

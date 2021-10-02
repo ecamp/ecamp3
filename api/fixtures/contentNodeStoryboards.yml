@@ -1,7 +1,7 @@
 App\Entity\ContentNode\Storyboard:
   storyboard1:
-    root: '@contentNode1'
-    parent: '@contentNode1'
+    root: '@columnLayout1'
+    parent: '@columnLayout1'
     slot: ''
     position: 0
     instanceName: <word()>

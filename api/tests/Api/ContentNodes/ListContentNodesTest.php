@@ -27,25 +27,25 @@ class ListContentNodesTest extends ECampApiTestCase {
             ],
         ]);
         $this->assertEqualsCanonicalizing([
-            ['href' => $this->getIriFor('contentNode1')],
-            ['href' => $this->getIriFor('contentNode2')],
+            ['href' => $this->getIriFor('columnLayout1')],
+            ['href' => $this->getIriFor('columnLayout2')],
             ['href' => $this->getIriFor('contentNodeChild1')],
-            ['href' => $this->getIriFor('contentNodeChild2')],
-            ['href' => $this->getIriFor('contentNodeGrandchild1')],
-            ['href' => $this->getIriFor('contentNode3')],
-            ['href' => $this->getIriFor('contentNode4')],
-            ['href' => $this->getIriFor('contentNode1camp2')],
-            ['href' => $this->getIriFor('contentNode2camp2')],
-            ['href' => $this->getIriFor('contentNode1campPrototype')],
-            ['href' => $this->getIriFor('contentNode2campPrototype')],
+            ['href' => $this->getIriFor('singleText1')],
+            ['href' => $this->getIriFor('singleText2')],
+            ['href' => $this->getIriFor('columnLayout3')],
+            ['href' => $this->getIriFor('columnLayout4')],
+            ['href' => $this->getIriFor('materialNode2')],
+            ['href' => $this->getIriFor('columnLayout2camp2')],
+            ['href' => $this->getIriFor('columnLayout1campPrototype')],
+            ['href' => $this->getIriFor('columnLayout2campPrototype')],
             // The next two should not be visible once we implement proper entity filtering for content nodes
-            ['href' => $this->getIriFor('contentNode1campUnrelated')],
-            ['href' => $this->getIriFor('contentNode2campUnrelated')],
+            ['href' => $this->getIriFor('columnLayout1campUnrelated')],
+            ['href' => $this->getIriFor('columnLayout2campUnrelated')],
         ], $response->toArray()['_links']['items']);
     }
 
     public function testListContentNodesFilteredByParentIsAllowedForCollaborator() {
-        $parent = static::$fixtures['contentNode1'];
+        $parent = static::$fixtures['columnLayout1'];
         $response = static::createClientWithCredentials()->request('GET', '/content_nodes?parent=/content_nodes/'.$parent->getId());
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
@@ -59,7 +59,7 @@ class ListContentNodesTest extends ECampApiTestCase {
         ]);
         $this->assertEqualsCanonicalizing([
             ['href' => $this->getIriFor('contentNodeChild1')],
-            ['href' => $this->getIriFor('contentNodeChild2')],
+            ['href' => $this->getIriFor('singleText1')],
         ], $response->toArray()['_links']['items']);
     }
 }

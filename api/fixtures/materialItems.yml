@@ -2,7 +2,7 @@ App\Entity\MaterialItem:
   materialItem1:
     materialList: '@materialList1'
     period: null
-    materialNode: '@contentNodeChild3'
+    materialNode: '@materialNode1'
     article: Mehl
     quantity: 1
     unit: kg

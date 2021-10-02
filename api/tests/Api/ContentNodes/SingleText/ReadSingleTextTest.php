@@ -13,7 +13,7 @@ class ReadSingleTextTest extends ECampApiTestCase {
 
     public function testGetSingleTextIsAllowedForCollaborator() {
         /** @var ContentNode $contentNode */
-        $contentNode = static::$fixtures['contentNodeChild2'];
+        $contentNode = static::$fixtures['singleText1'];
         static::createClientWithCredentials()->request('GET', '/content_node/single_texts/'.$contentNode->getId());
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([

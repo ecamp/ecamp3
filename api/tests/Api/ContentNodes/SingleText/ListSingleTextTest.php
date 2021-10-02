@@ -23,13 +23,13 @@ class ListSingleTextTest extends ECampApiTestCase {
             ],
         ]);
         $this->assertEqualsCanonicalizing([
-            ['href' => $this->getIriFor('contentNodeChild2')],
-            ['href' => $this->getIriFor('contentNodeGrandchild1')],
+            ['href' => $this->getIriFor('singleText1')],
+            ['href' => $this->getIriFor('singleText2')],
         ], $response->toArray()['_links']['items']);
     }
 
     public function testListSingleTextsFilteredByParentIsAllowedForCollaborator() {
-        $parent = static::$fixtures['contentNode1'];
+        $parent = static::$fixtures['columnLayout1'];
         $response = static::createClientWithCredentials()->request('GET', '/content_node/single_texts?parent=/content_nodes/'.$parent->getId());
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
@@ -42,7 +42,7 @@ class ListSingleTextTest extends ECampApiTestCase {
             ],
         ]);
         $this->assertEqualsCanonicalizing([
-            ['href' => $this->getIriFor('contentNodeChild2')],
+            ['href' => $this->getIriFor('singleText1')],
         ], $response->toArray()['_links']['items']);
     }
 }

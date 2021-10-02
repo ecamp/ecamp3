@@ -19,7 +19,7 @@ class UpdateContentNodeTest extends ECampApiTestCase {
     public function testPatchContentNodeIsAllowedForCollaborator() {
         $contentNode = static::$fixtures['contentNodeChild1'];
         static::createClientWithCredentials()->request('PATCH', '/content_nodes/'.$contentNode->getId(), ['json' => [
-            'parent' => $this->getIriFor('contentNodeChild2'),
+            'parent' => $this->getIriFor('singleText1'),
             'slot' => '2',
             'position' => 1,
             'jsonConfig' => [],
@@ -32,7 +32,7 @@ class UpdateContentNodeTest extends ECampApiTestCase {
             'jsonConfig' => [],
             'instanceName' => 'Schlechtwetterprogramm',
             '_links' => [
-                'parent' => ['href' => $this->getIriFor('contentNodeChild2')],
+                'parent' => ['href' => $this->getIriFor('singleText1')],
             ],
         ]);
     }
@@ -40,7 +40,7 @@ class UpdateContentNodeTest extends ECampApiTestCase {
     public function testPatchContentNodeValidatesParentBelongsToSameOwner() {
         $contentNode = static::$fixtures['contentNodeChild1'];
         static::createClientWithCredentials()->request('PATCH', '/content_nodes/'.$contentNode->getId(), ['json' => [
-            'parent' => $this->getIriFor('contentNode2'),
+            'parent' => $this->getIriFor('columnLayout2'),
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
 
         $this->assertResponseStatusCodeSame(422);
@@ -57,7 +57,7 @@ class UpdateContentNodeTest extends ECampApiTestCase {
     public function testPatchContentNodeValidatesNoParentLoop() {
         $contentNode = static::$fixtures['contentNodeChild1'];
         static::createClientWithCredentials()->request('PATCH', '/content_nodes/'.$contentNode->getId(), ['json' => [
-            'parent' => $this->getIriFor('contentNodeGrandchild1'),
+            'parent' => $this->getIriFor('singleText2'),
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
 
         $this->assertResponseStatusCodeSame(422);
@@ -89,9 +89,9 @@ class UpdateContentNodeTest extends ECampApiTestCase {
     }
 
     public function testPatchContentNodeDoesNotAllowParentOnRootContentNode() {
-        $contentNode = static::$fixtures['contentNode1'];
+        $contentNode = static::$fixtures['columnLayout1'];
         static::createClientWithCredentials()->request('PATCH', '/content_nodes/'.$contentNode->getId(), ['json' => [
-            'parent' => $this->getIriFor('contentNode2'),
+            'parent' => $this->getIriFor('columnLayout2'),
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
 
         $this->assertResponseStatusCodeSame(422);
