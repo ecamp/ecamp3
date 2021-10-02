@@ -6,7 +6,7 @@
           <api-text-field
             :name="$tc('entity.user.fields.email')"
             :uri="user._meta.self"
-            fieldname="mail"
+            fieldname="email"
             :editing="false"
             required />
           <api-text-field
