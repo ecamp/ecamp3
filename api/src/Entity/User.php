@@ -83,9 +83,25 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
     public ?string $email = null;
 
     /**
+     * Google id of the user.
+     *
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    #[ApiProperty(readable: false, writable: false)]
+    public ?string $googleId = null;
+
+    /**
+     * Hitobito id of the user.
+     *
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    #[ApiProperty(readable: false, writable: false)]
+    public ?string $hitobitoId = null;
+
+    /**
      * Unique username. Lower case alphanumeric symbols, dashes, periods and underscores only.
      *
-     * @ORM\Column(type="string", length=32, nullable=false, unique=true)
+     * @ORM\Column(type="string", length=64, nullable=false, unique=true)
      */
     #[InputFilter\Trim]
     #[Assert\NotBlank]
@@ -173,7 +189,7 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
     /**
      * The hashed password. Of course not exposed through the API.
      *
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     #[Assert\DisableAutoMapping]
     #[ApiProperty(readable: false, writable: false)]
