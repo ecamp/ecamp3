@@ -14,6 +14,8 @@
         "doctrine/orm": "2.9.5",
         "exercise/htmlpurifier-bundle": "3.1.0",
         "guzzlehttp/guzzle": "7.3.0",
+        "knpuniversity/oauth2-client-bundle": "^2.8",
+        "league/oauth2-google": "^4.0",
         "lexik/jwt-authentication-bundle": "2.13.0",
         "nelmio/cors-bundle": "2.1.1",
         "phpdocumentor/reflection-docblock": "5.2.2",
