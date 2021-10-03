@@ -66,9 +66,6 @@ services:
     App\Metadata\Resource\Factory\GraphQLSecurityResourceMetadataFactory:
         decorates: 'api_platform.metadata.resource.metadata_factory'
 
-    App\Serializer\Normalizer\PluralHalEntrypointNormalizer:
-       decorates: 'api_platform.hal.normalizer.entrypoint'
-
     App\Serializer\Normalizer\RelatedCollectionLinkNormalizer:
         decorates: 'api_platform.hal.normalizer.item'
         arguments:
@@ -79,6 +76,9 @@ services:
 
     App\Serializer\Normalizer\CircularReferenceDetectingHalItemNormalizer:
         decorates: 'api_platform.hal.normalizer.item'
+
+    App\Serializer\Normalizer\URITemplateNormalizer:
+        decorates: 'api_platform.hal.normalizer.entrypoint'
 
     App\Serializer\Normalizer\CollectionItemsNormalizer:
         decorates: 'api_platform.hal.normalizer.collection'
