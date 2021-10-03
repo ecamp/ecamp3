@@ -38,36 +38,4 @@ class AssertJsonSchemaValidator extends ConstraintValidator {
             $this->context->buildViolation($constraint->message)->addViolation();
         }
     }
-
-    /*
-    protected function validateColumWidthsSumTo12(ContentNode $contentNode) {
-        $columnWidths = array_sum(array_map(function ($col) {
-            return $col['width'];
-        }, $contentNode->getJsonConfig()['columns']));
-        if (12 !== $columnWidths) {
-            throw (new EntityValidationException())->setMessages([
-                'jsonConfig' => [
-                    'invalidWidths' => 'Expected column widths to sum to 12, but got a sum of '.$columnWidths,
-                ],
-            ]);
-        }
-    }
-
-    protected function validateNoOrphanChildren(ContentNode $contentNode) {
-        $slots = array_map(function ($col) {
-            return $col['slot'];
-        }, $contentNode->getJsonConfig()['columns']);
-        $childSlots = $contentNode->getChildren()->map(function (ContentNode $child) {
-            return $child->getSlot();
-        })->toArray();
-        $orphans = array_diff($childSlots, $slots);
-
-        if (count($orphans)) {
-            throw (new EntityValidationException())->setMessages([
-                'jsonConfig' => [
-                    'orphanChildContents' => 'The following slots still have child contents and should be present in the columns: '.join(', ', $orphans),
-                ],
-            ]);
-        }
-    }*/
 }
