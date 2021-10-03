@@ -15,7 +15,13 @@ use Symfony\Component\String\Inflector\EnglishInflector;
  * makes sure that the relation names of the _links are in plural rather than the default singular of API platform.
  */
 class URITemplateNormalizer implements NormalizerInterface, CacheableSupportsMethodInterface {
-    public function __construct(private NormalizerInterface $decorated, private ResourceMetadataFactoryInterface $resourceMetadataFactory, private IriConverterInterface $iriConverter, private UrlGeneratorInterface $urlGenerator, private OpenApiFactoryInterface $openApiFactory, private EnglishInflector $inflector, ) {
+    public function __construct(
+        private NormalizerInterface $decorated,
+        private ResourceMetadataFactoryInterface $resourceMetadataFactory,
+        private UrlGeneratorInterface $urlGenerator,
+        private OpenApiFactoryInterface $openApiFactory,
+        private EnglishInflector $inflector
+    ) {
     }
 
     public function supportsNormalization($data, $format = null) {
