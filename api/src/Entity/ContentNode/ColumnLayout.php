@@ -8,6 +8,7 @@ use App\Entity\ContentNode;
 use App\Validator\ColumnLayout\AssertColumWidthsSumTo12;
 use App\Validator\ColumnLayout\AssertJsonSchema;
 use App\Validator\ColumnLayout\AssertNoOrphanChildren;
+use App\Validator\ColumnLayout\ColumnLayoutGroupSequence;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
@@ -23,13 +24,16 @@ use Symfony\Component\Serializer\Annotation\Groups;
         ],
         'post' => [
             'denormalization_context' => ['groups' => ['write', 'create']],
-            'security_post_denormalize' => 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)', ],
+            'security_post_denormalize' => 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)',
+            'validation_groups' => ColumnLayoutGroupSequence::class,
+        ],
     ],
     itemOperations: [
         'get' => ['security' => 'is_granted("CAMP_COLLABORATOR", object) or is_granted("CAMP_IS_PROTOTYPE", object)'],
         'patch' => [
             'denormalization_context' => ['groups' => ['write', 'update']],
             'security' => 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)',
+            'validation_groups' => ColumnLayoutGroupSequence::class,
         ],
         'delete' => ['security' => 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)'],
     ],
@@ -43,7 +47,7 @@ class ColumnLayout extends ContentNode {
      * @ORM\Column(type="json", nullable=true)
      */
     #[ApiProperty(example: "[['slot' => '1', 'width' => 12]]")]
-    #[AssertJsonSchema]
+    #[AssertJsonSchema(groups: ['columns_schema'])]
     #[AssertColumWidthsSumTo12]
     #[AssertNoOrphanChildren]
     #[Groups(['read', 'write'])]
