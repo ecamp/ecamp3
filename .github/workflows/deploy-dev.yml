@@ -30,12 +30,7 @@ jobs:
         with:
           commit-sha: ${{ github.event.client_payload.sha }}
           ssh-host: ${{ secrets.DEVEL_SSH_HOST }}
-          db-host: ${{ secrets.DEVEL_DB_HOST }}
-          db-port: ${{ secrets.DEVEL_DB_PORT }}
-          db-user: ${{ secrets.DEVEL_DB_USER }}
-          db-pass: ${{ secrets.DEVEL_DB_PASS }}
-          db-name: ${{ secrets.DEVEL_DB_NAME }}
-          session-cookie-domain: ${{ secrets.DEVEL_SESSION_COOKIE_DOMAIN }}
+          shared-cookie-domain: ${{ secrets.DEVEL_SHARED_COOKIE_DOMAIN }}
           frontend-url: ${{ secrets.DEVEL_FRONTEND_URL }}
           print-server-url: ${{ secrets.DEVEL_PRINT_SERVER_URL }}
           print-file-server-url: ${{ secrets.DEVEL_PRINT_FILE_SERVER_URL }}
