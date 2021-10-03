@@ -100,7 +100,7 @@ describe('authentication logic', () => {
       // TODO hal-json-vuex can't handle "204 No Content" yet
       // expect(result).toBeTruthy()
       expect(apiStore.post).toHaveBeenCalledTimes(1)
-      expect(apiStore.post).toHaveBeenCalledWith('/authentication_token', { username: 'foo', password: 'bar' })
+      expect(apiStore.post).toHaveBeenCalledWith('http://localhost/authentication_token', { username: 'foo', password: 'bar' })
       done()
     })
 
@@ -122,7 +122,7 @@ describe('authentication logic', () => {
       // then
       expect(result).toBeFalsy()
       expect(apiStore.post).toHaveBeenCalledTimes(1)
-      expect(apiStore.post).toHaveBeenCalledWith('/authentication_token', { username: 'foo', password: 'barrrr' })
+      expect(apiStore.post).toHaveBeenCalledWith('http://localhost/authentication_token', { username: 'foo', password: 'barrrr' })
       done()
     })
   })
@@ -207,12 +207,15 @@ function createState (authState = {}) {
         register: {
           href: '/auth/register'
         },
+        login: {
+          href: '/authentication_token'
+        },
         google: {
-          href: 'http://localhost/auth/google{?callback}',
+          href: '/auth/google{?callback}',
           templated: true
         },
         pbsmidata: {
-          href: 'http://localhost/auth/pbsmidata{?callback}',
+          href: '/auth/pbsmidata{?callback}',
           templated: true
         },
         _meta: {
