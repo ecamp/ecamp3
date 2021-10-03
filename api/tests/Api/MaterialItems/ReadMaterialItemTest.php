@@ -60,7 +60,7 @@ class ReadMaterialItemTest extends ECampApiTestCase {
             'unit' => $materialItem->unit,
             'article' => $materialItem->article,
             '_links' => [
-                //'period' => null,
+                'period' => null,
                 'materialList' => ['href' => $this->getIriFor('materialList1')],
                 'materialNode' => ['href' => $this->getIriFor('materialNode1')],
             ],
@@ -80,7 +80,7 @@ class ReadMaterialItemTest extends ECampApiTestCase {
             'unit' => $materialItem->unit,
             'article' => $materialItem->article,
             '_links' => [
-                //'period' => null,
+                'period' => null,
                 'materialList' => ['href' => $this->getIriFor('materialList1')],
                 'materialNode' => ['href' => $this->getIriFor('materialNode1')],
             ],
@@ -98,7 +98,7 @@ class ReadMaterialItemTest extends ECampApiTestCase {
             'unit' => $materialItem->unit,
             'article' => $materialItem->article,
             '_links' => [
-                //'period' => null,
+                'period' => null,
                 'materialList' => ['href' => $this->getIriFor('materialList1')],
                 'materialNode' => ['href' => $this->getIriFor('materialNode1')],
             ],
@@ -118,6 +118,7 @@ class ReadMaterialItemTest extends ECampApiTestCase {
             '_links' => [
                 'period' => ['href' => $this->getIriFor('period1campPrototype')],
                 'materialList' => ['href' => $this->getIriFor('materialList1campPrototype')],
+                'materialNode' => null,
             ],
         ]);
     }
