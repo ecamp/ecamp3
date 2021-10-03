@@ -26,6 +26,7 @@ sed -ri "s~server_name mail-server-domain;~server_name ${MAIL_SERVER_DOMAIN};~" 
 # Inject environment variables into api env file
 cp api/.env .github/actions/deploy/dist/api.env
 sed -ri "s~API_DOMAIN=.*~API_DOMAIN=${API_DOMAIN}~" .github/actions/deploy/dist/api.env
+sed -ri "s~SHARED_COOKIE_DOMAIN=.*~SHARED_COOKIE_DOMAIN=${SHARED_COOKIE_DOMAIN}~" .github/actions/deploy/dist/api.env
 sed -ri "s~APP_ENV=.*~APP_ENV=dev~" .github/actions/deploy/dist/api.env
 sed -ri "s~APP_SECRET=.*~APP_SECRET=${API_APP_SECRET}~" .github/actions/deploy/dist/api.env
 sed -ri "s~DATABASE_URL=.*~DATABASE_URL=${API_DATABASE_URL}~" .github/actions/deploy/dist/api.env
@@ -55,7 +56,7 @@ sed -ri "s~SENTRY_PRINT_DSN=.*~SENTRY_PRINT_DSN=${SENTRY_PRINT_DSN}~" .github/ac
 # Inject environment secrets into print-worker-puppeteer config file
 cp workers/print-puppeteer/environment.js .github/actions/deploy/dist/worker-print-puppeteer-environment.js
 sed -ri "s~PRINT_SERVER: .*$~PRINT_SERVER: '${PRINT_SERVER_URL}',~" .github/actions/deploy/dist/worker-print-puppeteer-environment.js
-sed -ri "s~SESSION_COOKIE_DOMAIN: .*$~SESSION_COOKIE_DOMAIN: '${SESSION_COOKIE_DOMAIN}',~" .github/actions/deploy/dist/worker-print-puppeteer-environment.js
+sed -ri "s~SHARED_COOKIE_DOMAIN: .*$~SHARED_COOKIE_DOMAIN: '${SHARED_COOKIE_DOMAIN}',~" .github/actions/deploy/dist/worker-print-puppeteer-environment.js
 sed -ri "s~SENTRY_WORKER_PRINT_PUPPETEER_DSN: .*$~SENTRY_WORKER_PRINT_PUPPETEER_DSN: '${SENTRY_WORKER_PRINT_PUPPETEER_DSN}',~" .github/actions/deploy/dist/worker-print-puppeteer-environment.js
 sed -ri "s~AMQP_HOST: .*$~AMQP_HOST: '${RABBITMQ_HOST}',~" .github/actions/deploy/dist/worker-print-puppeteer-environment.js
 sed -ri "s~AMQP_PORT: .*$~AMQP_PORT: '${RABBITMQ_PORT}',~" .github/actions/deploy/dist/worker-print-puppeteer-environment.js

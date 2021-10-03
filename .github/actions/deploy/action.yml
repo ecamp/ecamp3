@@ -18,32 +18,12 @@ inputs:
     description: 'The directory on the SSH server where to deploy'
     required: false
 
-  db-host:
-    description: 'The URL of the database server'
-    required: false
-
-  db-port:
-    description: 'The port on which the database server listens'
-    required: false
-
-  db-user:
-    description: 'The username that will be used to log in to the database'
-    required: false
-
-  db-pass:
-    description: 'The password that will be used to log in to the database'
-    required: false
-
-  db-name:
-    description: 'The database name in the database server'
-    required: false
-
-  session-cookie-domain:
-    description: 'The domain that will be used for the session cookie. All services should be on subdomains of this domain.'
+  shared-cookie-domain:
+    description: 'The domain that will be used for the cookie that is available to javascript. All javascript-based services that need to read the JWT token must be on subdomains of this domain.'
     required: true
 
   internal-api-url:
-    description: 'Domain under which the api is reachable inside the docker network'
+    description: 'The location under which the api is reachable inside the docker network'
     required: false
 
   frontend-url:
@@ -103,7 +83,7 @@ inputs:
     required: false
 
   api-url:
-    description: 'Domain under which the api is reachable'
+    description: 'The location under which the api is reachable'
     required: false
 
   api-app-secret:
@@ -130,12 +110,7 @@ runs:
         SSH_USERNAME: ${{ inputs.ssh-username || 'root' }}
         SSH_HOST: ${{ inputs.ssh-host }}
         SSH_DIRECTORY: ${{ inputs.ssh-directory || 'ecamp3' }}
-        DB_HOST: ${{ inputs.db-host || 'db' }}
-        DB_PORT: ${{ inputs.db-port || '3306' }}
-        DB_USER: ${{ inputs.db-user || 'ecamp3' }}
-        DB_PASS: ${{ inputs.db-pass || 'ecamp3' }}
-        DB_NAME: ${{ inputs.db-name || 'ecamp3dev' }}
-        SESSION_COOKIE_DOMAIN: ${{ inputs.session-cookie-domain }}
+        SHARED_COOKIE_DOMAIN: ${{ inputs.shared-cookie-domain }}
         INTERNAL_API_URL: ${{ inputs.internal-api-url || 'http://caddy:4001' }}
         FRONTEND_URL: ${{ inputs.frontend-url }}
         PRINT_SERVER_URL: ${{ inputs.print-server-url }}

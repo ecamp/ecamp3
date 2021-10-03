@@ -2,7 +2,7 @@ const puppeteer = require('puppeteer');
 const amqp = require('amqplib/callback_api');
 const Sentry = require("@sentry/node");
 
-const { PRINT_SERVER, SESSION_COOKIE_DOMAIN, SENTRY_WORKER_PRINT_PUPPETEER_DSN, AMQP_HOST, AMQP_PORT, AMQP_VHOST, AMQP_USER, AMQP_PASS } = require('./environment.js');
+const { PRINT_SERVER, SHARED_COOKIE_DOMAIN, SENTRY_WORKER_PRINT_PUPPETEER_DSN, AMQP_HOST, AMQP_PORT, AMQP_VHOST, AMQP_USER, AMQP_PASS } = require('./environment.js');
 
 if (SENTRY_WORKER_PRINT_PUPPETEER_DSN) {
     Sentry.init({ dsn: SENTRY_WORKER_PRINT_PUPPETEER_DSN })
@@ -23,7 +23,7 @@ async function html2pdf(url, filename, sessionId) {
 
     const cookies = [
         {
-            "domain": SESSION_COOKIE_DOMAIN,
+            "domain": SHARED_COOKIE_DOMAIN,
             "hostOnly": true,
             "httpOnly": false,
             "name": "PHPSESSID",
