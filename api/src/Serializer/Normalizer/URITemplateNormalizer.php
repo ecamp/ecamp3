@@ -2,20 +2,20 @@
 
 namespace App\Serializer\Normalizer;
 
+use ApiPlatform\Core\Api\IriConverterInterface;
+use ApiPlatform\Core\Api\UrlGeneratorInterface;
+use ApiPlatform\Core\Metadata\Resource\Factory\ResourceMetadataFactoryInterface;
 use ApiPlatform\Core\OpenApi\Factory\OpenApiFactoryInterface;
-use Symfony\Component\Serializer\Normalizer\NormalizerAwareInterface;
+use Symfony\Component\Serializer\Normalizer\CacheableSupportsMethodInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
+use Symfony\Component\String\Inflector\EnglishInflector;
 
 /**
- * This class modifies the API platform HAL EntrypointNormalizer to generate URI templates.
+ * This class modifies the API entrypoint when retrieved in HAL JSON format (/index.jsonhal) to include URI templates, and additionally
+ * makes sure that the relation names of the _links are in plural rather than the default singular of API platform.
  */
-class URITemplateNormalizer implements NormalizerInterface, NormalizerAwareInterface {
-    private NormalizerInterface $decorated;
-    private OpenApiFactoryInterface $openApiFactory;
-
-    public function __construct(NormalizerInterface $decorated, OpenApiFactoryInterface $openApiFactory) {
-        $this->decorated = $decorated;
-        $this->openApiFactory = $openApiFactory;
+class URITemplateNormalizer implements NormalizerInterface, CacheableSupportsMethodInterface {
+    public function __construct(private NormalizerInterface $decorated, private ResourceMetadataFactoryInterface $resourceMetadataFactory, private IriConverterInterface $iriConverter, private UrlGeneratorInterface $urlGenerator, private OpenApiFactoryInterface $openApiFactory, private EnglishInflector $inflector, ) {
     }
 
     public function supportsNormalization($data, $format = null) {
@@ -24,7 +24,8 @@ class URITemplateNormalizer implements NormalizerInterface, NormalizerAwareInter
 
     public function normalize($object, $format = null, array $context = []) {
         $data = $this->decorated->normalize($object, $format, $context);
-        $links['self'] = $data['_links']['self'];
+        $links['self']['href'] = $this->urlGenerator->generate('api_entrypoint');
+        $links['auth']['href'] = $this->urlGenerator->generate('index_auth');
 
         // retrieve all paths from openapi spec
         $openApi = $this->openApiFactory->__invoke($context ?? []);
@@ -34,20 +35,19 @@ class URITemplateNormalizer implements NormalizerInterface, NormalizerAwareInter
         foreach ($paths as $pathName => $pathItem) {
             // only care about GET actions
             if (null !== $pathItem->getGet()) {
-                $resourceName = $this->snakeToCamel(explode('/', $pathName)[1]);
+                // tags includes the resource shortname by default
+                $resourceName = $pathItem->getGet()->getTags()[0];
                 $parameters = $pathItem->getGet()->getParameters();
                 $hasId = false;
-                $index = 0;
                 $queryParameters = [];
                 // check if route has path parameters and collect query parameters
-                while ($index < count($parameters)) {
-                    if ('path' === $parameters[$index]->getIn()) {
+                foreach ($parameters as $parameter) {
+                    if ('path' === $parameter->getIn()) {
                         $hasId = true;
                     }
-                    if ('query' === $parameters[$index]->getIn()) {
-                        array_push($queryParameters, $parameters[$index]->getName());
+                    if ('query' === $parameter->getIn()) {
+                        array_push($queryParameters, $parameter->getName());
                     }
-                    ++$index;
                 }
                 if ($hasId) {
                     $collectedPaths[$resourceName]['itemUrl'] = $pathName;
@@ -66,29 +66,51 @@ class URITemplateNormalizer implements NormalizerInterface, NormalizerAwareInter
         }
         // merge item and collection routes
         foreach ($collectedPaths as $resourceName => $path) {
-            $url = isset($path['itemUrl']) ? $path['itemUrl'] : $path['collectionUrl'];
+            $url = $path['itemUrl'] ?? $path['collectionUrl'];
             // replace '/{id}' with '{/id}'
             $fullPath = preg_replace('/\/{(.+?)}/', '{/$1}', $url);
             $queryParameters = array_merge($path['itemQueryParams'] ?? [], $path['collectionQueryParams'] ?? []);
             if (count($queryParameters) > 0) {
                 $fullPath .= '{?'.join(',', $queryParameters).'}';
             }
-            $links[$resourceName]['href'] = $fullPath;
+            $collectedPaths[$resourceName]['href'] = $fullPath;
             if (isset($path['templated'])) {
-                $links[$resourceName]['templated'] = true;
+                $collectedPaths[$resourceName]['templated'] = true;
+            }
+        }
+
+        foreach ($object->getResourceNameCollection() as $resourceClass) {
+            $resourceMetadata = $this->resourceMetadataFactory->create($resourceClass);
+
+            if (empty($resourceMetadata->getCollectionOperations())) {
+                continue;
+            }
+
+            try {
+                $shortName = $resourceMetadata->getShortName();
+
+                // pluralize will never return an empty array
+                $pluralName = $this->inflector->pluralize(lcfirst($shortName))[0];
+
+                if (isset($collectedPaths[$shortName])) {
+                    $links[$pluralName]['href'] = $collectedPaths[$shortName]['href'];
+                    if (isset($collectedPaths[$shortName]['templated'])) {
+                        $links[$pluralName]['templated'] = true;
+                    }
+                }
+            } catch (InvalidArgumentException $ex) {
+                // Ignore resources without GET operations
             }
         }
 
         return ['_links' => $links];
     }
 
-    public function setNormalizer(NormalizerInterface $normalizer) {
-        if ($this->decorated instanceof NormalizerAwareInterface) {
-            $this->decorated->setNormalizer($normalizer);
+    public function hasCacheableSupportsMethod(): bool {
+        if (!$this->decorated instanceof CacheableSupportsMethodInterface) {
+            return false;
         }
-    }
 
-    private function snakeToCamel($input) {
-        return lcfirst(str_replace(' ', '', ucwords(str_replace('_', ' ', $input))));
+        return $this->decorated->hasCacheableSupportsMethod();
     }
 }
