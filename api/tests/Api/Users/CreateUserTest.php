@@ -206,7 +206,7 @@ class CreateUserTest extends ECampApiTestCase {
 
     public function testCreateUserValidatesLongUsername() {
         static::createClientWithCredentials()->request('POST', '/users', ['json' => $this->getExampleWritePayload([
-            'username' => 'abcdefghijklmnopqrstuvwxyz-the-alphabet',
+            'username' => 'daenerys_targaryen_also_known_as_daenerys_stormborn_queen_of_the_andals_and_the_first_men',
         ])]);
 
         $this->assertResponseStatusCodeSame(422);
@@ -214,7 +214,7 @@ class CreateUserTest extends ECampApiTestCase {
             'violations' => [
                 [
                     'propertyPath' => 'username',
-                    'message' => 'This value is too long. It should have 32 characters or less.',
+                    'message' => 'This value is too long. It should have 64 characters or less.',
                 ],
             ],
         ]);
