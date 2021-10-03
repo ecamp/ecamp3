@@ -29,6 +29,7 @@ class URITemplateNormalizer implements NormalizerInterface, CacheableSupportsMet
 
     public function normalize($object, $format = null, array $context = []) {
         $links['self']['href'] = $this->urlGenerator->generate('api_entrypoint');
+        $links['auth']['href'] = $this->urlGenerator->generate('index_auth');
 
         // retrieve all paths from openapi spec
         $openApi = $this->openApiFactory->__invoke($context ?? []);

@@ -92,6 +92,9 @@ class URITemplateNormalizerTest extends TestCase {
                     'self' => [
                         'href' => '/',
                     ],
+                    'auth' => [
+                        'href' => '/auth',
+                    ],
                     'camps' => [
                         'href' => '/camps',
                     ],
@@ -118,6 +121,9 @@ class URITemplateNormalizerTest extends TestCase {
                 '_links' => [
                     'self' => [
                         'href' => '/',
+                    ],
+                    'auth' => [
+                        'href' => '/auth',
                     ],
                     'camps' => [
                         'href' => '/camps{/id}',
@@ -147,6 +153,9 @@ class URITemplateNormalizerTest extends TestCase {
                     'self' => [
                         'href' => '/',
                     ],
+                    'auth' => [
+                        'href' => '/auth',
+                    ],
                     'activities' => [
                         'href' => '/activities{?camp,camp[]}',
                         'templated' => true,
@@ -174,6 +183,9 @@ class URITemplateNormalizerTest extends TestCase {
                 '_links' => [
                     'self' => [
                         'href' => '/',
+                    ],
+                    'auth' => [
+                        'href' => '/auth',
                     ],
                     'activities' => [
                         'href' => '/activities{/id}{?camp,camp[]}',
