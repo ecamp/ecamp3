@@ -1,0 +1,44 @@
+knpu_oauth2_client:
+    clients:
+        # configure your clients as described here: https://github.com/knpuniversity/oauth2-client-bundle#configuration
+
+        # will create service: "knpu.oauth2.client.google"
+        # an instance of: KnpU\OAuth2ClientBundle\Client\Provider\GoogleClient
+        # composer require league/oauth2-google
+        google:
+            # must be "google" - it activates that type!
+            type: google
+            # add and set these environment variables in your .env files
+            client_id: '%env(OAUTH_GOOGLE_CLIENT_ID)%'
+            client_secret: '%env(OAUTH_GOOGLE_CLIENT_SECRET)%'
+            # a route name you'll create
+            redirect_route: connect_google_check
+            redirect_params: {}
+            # Optional value for sending access_type parameter. More detail: https://developers.google.com/identity/protocols/OpenIDConnect#authenticationuriparameters
+            # access_type: null
+            # Optional value for sending hd parameter. More detail: https://developers.google.com/identity/protocols/OpenIDConnect#hd-param
+            # hosted_domain: null
+            # Optional value for additional fields to be requested from the user profile. If set, these values will be included with the defaults. More details: https://developers.google.com/+/web/api/rest/latest/people
+            # user_fields: {}
+            # Optional value if you don't want or need to enable Google+ API access.
+            # use_oidc_mode: false
+            # whether to check OAuth2 "state": defaults to true
+            # use_state: true
+
+        hitobito:
+            type: generic
+            provider_class: App\OAuth\Hitobito
+
+            # optional: a class that extends OAuth2Client
+            # client_class: Some\Custom\Client
+
+            # optional: if your provider has custom constructor options
+            # provider_options: {}
+
+            # now, all the normal options!
+            client_id: '%env(OAUTH_HITOBITO_CLIENT_ID)%'
+            client_secret: '%env(OAUTH_HITOBITO_CLIENT_SECRET)%'
+            redirect_route: connect_hitobito_check
+            redirect_params: {}
+            # whether to check OAuth2 "state": defaults to true
+            # use_state: true
