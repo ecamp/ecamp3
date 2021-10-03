@@ -25,6 +25,9 @@
     "composer/xdebug-handler": {
         "version": "1.4.6"
     },
+    "cweagans/composer-patches": {
+        "version": "1.7.1"
+    },
     "doctrine/annotations": {
         "version": "1.0",
         "recipe": {
