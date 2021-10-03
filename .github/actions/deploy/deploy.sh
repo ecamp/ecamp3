@@ -30,7 +30,7 @@ sed -ri "s~APP_ENV=.*~APP_ENV=dev~" .github/actions/deploy/dist/api.env
 sed -ri "s~APP_SECRET=.*~APP_SECRET=${API_APP_SECRET}~" .github/actions/deploy/dist/api.env
 sed -ri "s~DATABASE_URL=.*~DATABASE_URL=${API_DATABASE_URL}~" .github/actions/deploy/dist/api.env
 sed -ri "s~JWT_PASSPHRASE=.*~JWT_PASSPHRASE=${API_JWT_PASSPHRASE}~" .github/actions/deploy/dist/api.env
-sed -ri "s~CORS_ALLOW_ORIGIN=.*~CORS_ALLOW_ORIGIN=${API_DOMAIN}~"  .github/actions/deploy/dist/api.env
+sed -ri "s~CORS_ALLOW_ORIGIN=.*~CORS_ALLOW_ORIGIN=${FRONTEND_DOMAIN}~"  .github/actions/deploy/dist/api.env
 
 # Add API_DOMAIN to .env, that caddy listens for this host
 echo "API_DOMAIN=\"${API_DOMAIN}\"" >> .github/actions/deploy/dist/.env

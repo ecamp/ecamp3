@@ -122,12 +122,12 @@ export default {
     async login () {
       this.normalLoggingIn = true
       this.error = false
-      if (await this.$auth.login(this.username, this.password)) {
+      this.$auth.login(this.username, this.password).then(() => {
         this.$router.replace(this.$route.query.redirect || '/')
-      } else {
+      }).catch(() => {
         this.normalLoggingIn = false
         this.error = true
-      }
+      })
     },
     async loginGoogle () {
       await this.$auth.loginGoogle()
