@@ -51,6 +51,8 @@ class URITemplateNormalizerTest extends TestCase {
         $urlGenerator->method('generate')->willReturnCallback(function (string $arg) {
             if ('api_entrypoint' === $arg) {
                 return '/';
+            } else if ('index_auth' === $arg) {
+                return '/auth';
             }
 
             return null;
