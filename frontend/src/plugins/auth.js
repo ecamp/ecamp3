@@ -57,7 +57,6 @@ async function redirectToOAuthLogin (provider) {
     returnUrl += '?redirect=' + params.get('redirect')
   }
 
-  // TODO the auth endpoint doesn't exist anymore
   return apiStore.href(apiStore.get().auth(), provider, { callback: encodeURI(returnUrl) }).then(url => {
     window.location.href = window.environment.API_ROOT_URL + url
   })
