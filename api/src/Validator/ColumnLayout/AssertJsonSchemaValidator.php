@@ -19,12 +19,14 @@ class AssertJsonSchemaValidator extends ConstraintValidator {
 
         $schema = $constraint->schema;
 
-        /*
         $object = $this->context->getObject();
+
+        // validate prototype if provided (and $value empty)
+        $columns = $value ?? $object->prototype->columns;
 
         if (!($object instanceof ColumnLayout)) {
             throw new InvalidArgumentException('AssertJsonSchemaValidator is only valid inside a ColumnLayout object');
-        }*/
+        }
 
         try {
             // Re-encode and decode the schema value, because the schema checker needs
@@ -33,7 +35,7 @@ class AssertJsonSchemaValidator extends ConstraintValidator {
 
             // Re-encode and decode the input value, because the schema checker needs
             // objects to be represented as stdObjects
-            $schemaChecker->in(json_decode(json_encode($value)));
+            $schemaChecker->in(json_decode(json_encode($columns)));
         } catch (InvalidValue|Exception $exception) {
             $this->context->buildViolation($constraint->message)->addViolation();
         }

@@ -22,9 +22,12 @@ class AssertNoOrphanChildrenValidator extends ConstraintValidator {
             throw new InvalidArgumentException('AssertNoOrphanChildrenValidator is only valid inside a ColumnLayout object');
         }
 
+        // validate prototype if provided (and $value empty)
+        $columns = $value ?? $columnLayout->prototype->columns;
+
         $slots = array_map(function ($col) {
             return $col['slot'];
-        }, $columnLayout->columns);
+        }, $columns);
 
         $childSlots = $columnLayout->children->map(function (ContentNode $child) {
             return $child->slot;

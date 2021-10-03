@@ -31,6 +31,7 @@ class CreateColumnLayoutTest extends ECampApiTestCase {
 
         $this->assertResponseStatusCodeSame(201);
         $this->assertJsonContains([
+            'columns' => $prototype->columns,
             'instanceName' => $prototype->instanceName,
             'slot' => $prototype->slot,
             'position' => $prototype->position,
@@ -117,6 +118,7 @@ class CreateColumnLayoutTest extends ECampApiTestCase {
             array_merge([
                 'parent' => $this->getIriFor('columnLayout1'),
                 'contentType' => $this->getIriFor('contentTypeColumnLayout'),
+                'columns' => [['slot' => '1', 'width' => 12]],
                 'prototype' => null,
             ], $attributes),
             [],
@@ -129,7 +131,9 @@ class CreateColumnLayoutTest extends ECampApiTestCase {
             ColumnLayout::class,
             OperationType::ITEM,
             'get',
-            $attributes,
+            array_merge([
+                'columns' => [['slot' => '1', 'width' => 12]],
+            ], $attributes),
             ['parent', 'contentType'],
             $except
         );
