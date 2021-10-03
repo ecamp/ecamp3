@@ -28,7 +28,7 @@ class SplitCookieExtractor implements TokenExtractorInterface {
             }
         }
 
-        if (count($this->cookies) != count($jwtCookies)) {
+        if (count($this->cookies) !== count($jwtCookies)) {
             return false;
         }
 
