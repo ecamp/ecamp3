@@ -42,6 +42,22 @@ export default new Router({
       }
     },
     {
+      path: '/activate/:userId/:activationKey',
+      name: 'activate',
+      components: {
+        navigation: NavigationAuth,
+        default: () => import(/* webpackChunkName: "register" */ './views/auth/Activate.vue')
+      },
+      props: {
+        default: route => {
+          return {
+            userId: route.params.userId,
+            activationKey: route.params.activationKey
+          }
+        }
+      }
+    },
+    {
       path: '/login',
       name: 'login',
       components: {
