@@ -39,10 +39,10 @@ services:
     App\DataPersister\CategoryDataPersister:
         arguments: [ '@api_platform.doctrine.orm.data_persister' ]
 
-    App\DataPersister\ContentNodeDataPersister:
+    App\DataPersister\ContentNode\SingleTextDataPersister:
         arguments: [ '@api_platform.doctrine.orm.data_persister' ]
 
-    App\DataPersister\ContentNode\SingleTextDataPersister:
+    App\DataPersister\ContentNode\ColumnLayoutDataPersister:
         arguments: [ '@api_platform.doctrine.orm.data_persister' ]
         
     App\DataPersister\InvitationDataPersister:

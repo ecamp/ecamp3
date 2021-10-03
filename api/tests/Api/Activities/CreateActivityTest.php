@@ -147,8 +147,7 @@ class CreateActivityTest extends ECampApiTestCase {
             Activity::class,
             OperationType::ITEM,
             'get',
-            array_merge([
-            ], $attributes),
+            $attributes,
             ['category'],
             $except
         );

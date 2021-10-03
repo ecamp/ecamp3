@@ -14,11 +14,32 @@ class CreateColumnLayoutTest extends ECampApiTestCase {
     // TODO input filter tests
     // TODO validation tests
 
-    public function testCreateColumnLayoutIsAllowedForCollaborator() {
+    public function testCreateColumnLayout() {
         static::createClientWithCredentials()->request('POST', '/content_node/column_layouts', ['json' => $this->getExampleWritePayload()]);
 
         $this->assertResponseStatusCodeSame(201);
         $this->assertJsonContains($this->getExampleReadPayload());
+    }
+
+    public function testCreateColumnLayoutFromPrototype() {
+        $prototype = static::$fixtures['columnLayout1'];
+        static::createClientWithCredentials()->request('POST', '/content_node/column_layouts', ['json' => [
+            'prototype' => $this->getIriFor('columnLayout1'),
+            'parent' => $this->getIriFor('columnLayout1'),
+            'contentType' => $this->getIriFor('contentTypeColumnLayout'),
+        ]]);
+
+        $this->assertResponseStatusCodeSame(201);
+        $this->assertJsonContains([
+            'instanceName' => $prototype->instanceName,
+            'slot' => $prototype->slot,
+            'position' => $prototype->position,
+            'contentTypeName' => $prototype->getContentTypeName(),
+            'jsonConfig' => $prototype->jsonConfig,
+            '_links' => [
+                'contentType' => ['href' => $this->getIriFor($prototype->contentType)],
+            ],
+        ]);
     }
 
     public function testCreateColumnLayoutSetsRootToParentsRoot() {
@@ -31,7 +52,7 @@ class CreateColumnLayoutTest extends ECampApiTestCase {
     }
 
     public function testCreateColumnLayoutValidatesMissingParent() {
-        $this->markTestSkipped('To be properly implemented. Currently throws a 500 error.');
+        $this->markTestSkipped('To be properly implemented. Currently throws a 500 error. This is caused by security_post_denormalize running before validation.');
 
         static::createClientWithCredentials()->request('POST', '/content_node/column_layouts', ['json' => $this->getExampleWritePayload([], ['parent'])]);
 

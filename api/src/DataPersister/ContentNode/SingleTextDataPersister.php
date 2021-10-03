@@ -4,42 +4,29 @@ namespace App\DataPersister\ContentNode;
 
 use ApiPlatform\Core\DataPersister\ContextAwareDataPersisterInterface;
 use App\Entity\ContentNode\SingleText;
-use Doctrine\ORM\EntityManagerInterface;
 
-class SingleTextDataPersister implements ContextAwareDataPersisterInterface {
-    public function __construct(private ContextAwareDataPersisterInterface $dataPersister, private EntityManagerInterface $entityManager) {
-    }
-
+class SingleTextDataPersister extends ContentNodeBaseDataPersister implements ContextAwareDataPersisterInterface {
     public function supports($data, array $context = []): bool {
         return ($data instanceof SingleText) && $this->dataPersister->supports($data, $context);
     }
 
     /**
      * @param SingleText $data
-     *
-     * @return object|void
      */
-    public function persist($data, array $context = []) {
-        if (
-                'post' === ($context['collection_operation_name'] ?? null)
-                || 'create' === ($context['graphql_operation_name'] ?? null)
-            ) {
-            $data->root = $data->parent->root;
-            $data->root->addRootDescendant($data);
+    public function onCreate($data) {
+        if (isset($data->prototype)) {
+            if (!($data->prototype instanceof SingleText)) {
+                throw new \Exception('Prototype must be of type SingleText');
+            }
 
-            // TODO: Check if it's actually allowed to read/copy from this prototype (user access check)
-            if (isset($data->prototype) && $data->prototype instanceof SingleText) {
-                /** @var SingleText $prototype */
-                $prototype = $data->prototype;
+            /** @var SingleText $prototype */
+            $prototype = $data->prototype;
 
+            if (!isset($data->text)) {
                 $data->text = $prototype->text;
             }
         }
 
-        return $this->dataPersister->persist($data, $context);
-    }
-
-    public function remove($data, array $context = []) {
-        return $this->dataPersister->remove($data, $context);
+        parent::onCreate($data);
     }
 }
