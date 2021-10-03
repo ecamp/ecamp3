@@ -2,7 +2,6 @@
 
 namespace App\Serializer\Normalizer;
 
-use ApiPlatform\Core\Api\IriConverterInterface;
 use ApiPlatform\Core\Api\UrlGeneratorInterface;
 use ApiPlatform\Core\Metadata\Resource\Factory\ResourceMetadataFactoryInterface;
 use ApiPlatform\Core\OpenApi\Factory\OpenApiFactoryInterface;
