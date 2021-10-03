@@ -29,7 +29,6 @@ class URITemplateNormalizer implements NormalizerInterface, CacheableSupportsMet
     }
 
     public function normalize($object, $format = null, array $context = []) {
-        $data = $this->decorated->normalize($object, $format, $context);
         $links['self']['href'] = $this->urlGenerator->generate('api_entrypoint');
         $links['auth']['href'] = $this->urlGenerator->generate('index_auth');
 
@@ -92,20 +91,16 @@ class URITemplateNormalizer implements NormalizerInterface, CacheableSupportsMet
                 continue;
             }
 
-            try {
-                $shortName = $resourceMetadata->getShortName();
+            $shortName = $resourceMetadata->getShortName();
 
-                // pluralize will never return an empty array
-                $pluralName = $this->inflector->pluralize(lcfirst($shortName))[0];
+            // pluralize will never return an empty array
+            $pluralName = $this->inflector->pluralize(lcfirst($shortName))[0];
 
-                if (isset($collectedPaths[$shortName])) {
-                    $links[$pluralName]['href'] = $collectedPaths[$shortName]['href'];
-                    if (isset($collectedPaths[$shortName]['templated'])) {
-                        $links[$pluralName]['templated'] = true;
-                    }
+            if (isset($collectedPaths[$shortName])) {
+                $links[$pluralName]['href'] = $collectedPaths[$shortName]['href'];
+                if (isset($collectedPaths[$shortName]['templated'])) {
+                    $links[$pluralName]['templated'] = true;
                 }
-            } catch (InvalidArgumentException $ex) {
-                // Ignore resources without GET operations
             }
         }
 
