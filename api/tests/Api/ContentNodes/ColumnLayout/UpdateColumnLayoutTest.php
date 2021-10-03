@@ -33,6 +33,46 @@ class UpdateColumnLayoutTest extends ECampApiTestCase {
         ]);
     }
 
+    public function testPatchColumnLayoutAcceptsValidJson() {
+        $SINGLE_COLUMN_JSON_CONFIG = [
+            ['slot' => '1', 'width' => 12],
+        ];
+
+        $contentNode = static::$fixtures['columnLayout1'];
+        static::createClientWithCredentials()->request('PATCH', '/content_node/column_layouts/'.$contentNode->getId(), ['json' => [
+            'columns' => $SINGLE_COLUMN_JSON_CONFIG,
+        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
+
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertJsonContains([
+            'columns' => $SINGLE_COLUMN_JSON_CONFIG,
+        ]);
+    }
+
+    public function testPatchColumnLayoutRejectsInvalidJson() {
+        $INVALID_JSON_CONFIG = [
+            'data' => 'value',
+        ];
+
+        $contentNode = static::$fixtures['columnLayout1'];
+        static::createClientWithCredentials()->request('PATCH', '/content_node/column_layouts/'.$contentNode->getId(), ['json' => [
+            'columns' => $INVALID_JSON_CONFIG,
+        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
+
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [
+                    'propertyPath' => 'columns',
+                    'message' => "Provided JSON doesn't match required schema.",
+                ],
+            ],
+        ]);
+    }
+
+    /**
+     * From here: testing functionality of ContentNode base class.
+     */
     public function testPatchColumnLayoutValidatesParentBelongsToSameOwner() {
         $this->markTestSkipped('To be properly implemented. Currently returns 200 OK by mistake.');
 
