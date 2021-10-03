@@ -36,10 +36,8 @@ export function isLoggedIn () {
 }
 
 async function login (username, password) {
-  // TODO add the login endpoint to the list of endpoints that is returned at the API root,
-  //   instead of hardcoding it here
-  // const url = await apiStore.href(apiStore.get(), 'login')
-  return apiStore.post('/authentication_token', { username: username, password: password })
+  const url = await apiStore.href(apiStore.get().auth(), 'login')
+  return apiStore.post(url, { username: username, password: password })
 }
 
 function user () {
@@ -61,7 +59,7 @@ async function redirectToOAuthLogin (provider) {
 
   // TODO the auth endpoint doesn't exist anymore
   return apiStore.href(apiStore.get().auth(), provider, { callback: encodeURI(returnUrl) }).then(url => {
-    window.location.href = url
+    window.location.href = window.environment.API_ROOT_URL + url
   })
 }
 
