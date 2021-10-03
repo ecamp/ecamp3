@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-echo "Waiting for backend container to start up and migrate DB..."
-until curl --output /dev/null --silent --fail http://localhost:3001/api
+echo "Waiting for api container to start up and migrate DB..."
+until curl --output /dev/null --silent --fail http://localhost:3001
 do
   sleep 2
 done

@@ -57,7 +57,7 @@ export default {
   },
   computed: {
     authUser () {
-      return this.api.get().auth().user()
+      return this.$auth.user()
     }
   },
   methods: {

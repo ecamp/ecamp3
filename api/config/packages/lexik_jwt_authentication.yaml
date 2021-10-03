@@ -24,7 +24,7 @@ lexik_jwt_authentication:
             lifetime: null
             samesite: strict
             path: /
-            domain: null
+            domain: '%env(resolve:SHARED_COOKIE_DOMAIN)'
             httpOnly: false
             split:
                 - header

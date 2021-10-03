@@ -2,7 +2,12 @@ nelmio_cors:
     defaults:
         origin_regex: true
         allow_credentials: true
-        allow_origin: ['%env(CORS_ALLOW_ORIGIN)%']
+        allow_origin: 
+            - http://localhost:3000
+            - https://localhost:3000
+            - http://127.0.0.1:3000
+            - https://127.0.0.1:3000
+            - '%env(CORS_ALLOW_ORIGIN)%'
         allow_methods: ['GET', 'OPTIONS', 'POST', 'PUT', 'PATCH', 'DELETE']
         allow_headers: ['Content-Type', 'Authorization', 'Accept']
         expose_headers: []

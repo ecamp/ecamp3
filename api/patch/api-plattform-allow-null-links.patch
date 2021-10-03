@@ -1,0 +1,36 @@
+From 93b2e9a549901da364a116eb13639ff016be12a9 Mon Sep 17 00:00:00 2001
+From: Pirmin Mattmann <pimattmann@gmail.com>
+Date: Sun, 3 Oct 2021 02:41:17 +0200
+Subject: [PATCH] hal allow null links
+
+---
+ src/Hal/Serializer/ItemNormalizer.php | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
+
+diff --git a/src/Hal/Serializer/ItemNormalizer.php b/src/Hal/Serializer/ItemNormalizer.php
+index a6e485d178..824679ee6b 100644
+--- a/src/Hal/Serializer/ItemNormalizer.php
++++ b/src/Hal/Serializer/ItemNormalizer.php
+@@ -189,9 +189,6 @@ private function populateRelation(array $data, $object, ?string $format, array $
+             }
+ 
+             $attributeValue = $this->getAttributeValue($object, $relation['name'], $format, $context);
+-            if (empty($attributeValue)) {
+-                continue;
+-            }
+ 
+             $relationName = $relation['name'];
+             if ($this->nameConverter) {
+@@ -200,8 +197,10 @@ private function populateRelation(array $data, $object, ?string $format, array $
+ 
+             if ('one' === $relation['cardinality']) {
+                 if ('links' === $type) {
+-                    $data[$key][$relationName]['href'] = $this->getRelationIri($attributeValue);
+-                    continue;
++                    if ($attributeValue !== null) {
++                        $data[$key][$relationName]['href'] = $this->getRelationIri($attributeValue);
++                        continue;
++                    }
+                 }
+ 
+                 $data[$key][$relationName] = $attributeValue;

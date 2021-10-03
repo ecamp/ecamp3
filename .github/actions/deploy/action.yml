@@ -18,36 +18,12 @@ inputs:
     description: 'The directory on the SSH server where to deploy'
     required: false
 
-  db-host:
-    description: 'The URL of the database server'
-    required: false
-
-  db-port:
-    description: 'The port on which the database server listens'
-    required: false
-
-  db-user:
-    description: 'The username that will be used to log in to the database'
-    required: false
-
-  db-pass:
-    description: 'The password that will be used to log in to the database'
-    required: false
-
-  db-name:
-    description: 'The database name in the database server'
-    required: false
-
-  session-cookie-domain:
-    description: 'The domain that will be used for the session cookie. All services should be on subdomains of this domain.'
+  shared-cookie-domain:
+    description: 'The domain that will be used for the cookie that is available to javascript. All javascript-based services that need to read the JWT token must be on subdomains of this domain.'
     required: true
 
-  backend-url:
-    description: 'The location of the API server'
-    required: true
-
-  internal-backend-url:
-    description: 'The internal address via which the API server can be reached'
+  internal-api-url:
+    description: 'The location under which the api is reachable inside the docker network'
     required: false
 
   frontend-url:
@@ -65,10 +41,6 @@ inputs:
   mail-server-url:
     description: 'The location of the mail server'
     required: true
-
-  sentry-backend-dsn:
-    description: 'DSN for reporting backend errors to sentry'
-    required: false
 
   sentry-frontend-dsn:
     description: 'DSN for reporting frontend errors to sentry'
@@ -110,6 +82,22 @@ inputs:
     description: 'An URL template that is used to render the version link in the application'
     required: false
 
+  api-url:
+    description: 'The location under which the api is reachable'
+    required: false
+
+  api-app-secret:
+    description: 'app secret for api'
+    required: false
+
+  api-database-url:
+    description: 'api database url'
+    required: false
+
+  api-jwt-passphrase:
+    description: 'api jwt passphrase'
+    required: false
+
 runs:
   using: "composite"
   steps:
@@ -122,19 +110,12 @@ runs:
         SSH_USERNAME: ${{ inputs.ssh-username || 'root' }}
         SSH_HOST: ${{ inputs.ssh-host }}
         SSH_DIRECTORY: ${{ inputs.ssh-directory || 'ecamp3' }}
-        DB_HOST: ${{ inputs.db-host || 'db' }}
-        DB_PORT: ${{ inputs.db-port || '3306' }}
-        DB_USER: ${{ inputs.db-user || 'ecamp3' }}
-        DB_PASS: ${{ inputs.db-pass || 'ecamp3' }}
-        DB_NAME: ${{ inputs.db-name || 'ecamp3dev' }}
-        SESSION_COOKIE_DOMAIN: ${{ inputs.session-cookie-domain }}
-        BACKEND_URL: ${{ inputs.backend-url }}
-        INTERNAL_BACKEND_URL: ${{ inputs.internal-backend-url || 'http://backend/api' }}
+        SHARED_COOKIE_DOMAIN: ${{ inputs.shared-cookie-domain }}
+        INTERNAL_API_URL: ${{ inputs.internal-api-url || 'http://caddy:4001' }}
         FRONTEND_URL: ${{ inputs.frontend-url }}
         PRINT_SERVER_URL: ${{ inputs.print-server-url }}
         PRINT_FILE_SERVER_URL: ${{ inputs.print-file-server-url }}
         MAIL_SERVER_URL: ${{ inputs.mail-server-url }}
-        SENTRY_BACKEND_DSN: ${{ inputs.sentry-backend-dsn }}
         SENTRY_FRONTEND_DSN: ${{ inputs.sentry-frontend-dsn }}
         SENTRY_PRINT_DSN: ${{ inputs.sentry-print-dsn }}
         SENTRY_WORKER_PRINT_PUPPETEER_DSN: ${{ inputs.sentry-worker-print-puppeteer-dsn }}
@@ -145,3 +126,7 @@ runs:
         RABBITMQ_USER: ${{ inputs.rabbitmq-user || 'guest' }}
         RABBITMQ_PASS: ${{ inputs.rabbitmq-pass || 'guest' }}
         VERSION_LINK_TEMPLATE: ${{ inputs.version-link-template || 'https://github.com/ecamp/ecamp3/commits/{version}' }}
+        API_URL: ${{ inputs.api-url }}
+        API_APP_SECRET: ${{ inputs.api-app-secret }}
+        API_DATABASE_URL: ${{ inputs.api-database-url }}
+        API_JWT_PASSPHRASE: ${{ inputs.api-jwt-passphrase }}

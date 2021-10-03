@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import slugify from 'slugify'
-import { refreshLoginStatus } from '@/plugins/auth'
+import { isLoggedIn } from '@/plugins/auth'
 import { apiStore } from '@/plugins/store'
 
 Vue.use(Router)
@@ -39,6 +39,22 @@ export default new Router({
       components: {
         navigation: NavigationAuth,
         default: () => import(/* webpackChunkName: "register" */ './views/auth/RegisterDone.vue')
+      }
+    },
+    {
+      path: '/activate/:userId/:activationKey',
+      name: 'activate',
+      components: {
+        navigation: NavigationAuth,
+        default: () => import(/* webpackChunkName: "register" */ './views/auth/Activate.vue')
+      },
+      props: {
+        default: route => {
+          return {
+            userId: route.params.userId,
+            activationKey: route.params.activationKey
+          }
+        }
       }
     },
     {
@@ -265,13 +281,11 @@ function all (guards) {
 }
 
 function requireAuth (to, from, next) {
-  refreshLoginStatus(false).then(loggedIn => {
-    if (loggedIn) {
-      next()
-    } else {
-      next({ name: 'login', query: to.path === '/' ? {} : { redirect: to.fullPath } })
-    }
-  })
+  if (isLoggedIn()) {
+    next()
+  } else {
+    next({ name: 'login', query: to.path === '/' ? {} : { redirect: to.fullPath } })
+  }
 }
 
 async function requireCamp (to, from, next) {
@@ -292,7 +306,8 @@ async function requirePeriod (to, from, next) {
 
 export function campFromRoute (route) {
   return function () {
-    return this.api.get().camps({ campId: route.params.campId })
+    // TODO add another decorator for EntrypointNormalizer and add our templated URIs there
+    return this.api.get().camps({ id: route.params.campId })
   }
 }
 
@@ -304,32 +319,32 @@ export function invitationFromInviteKey (inviteKey) {
 
 export function periodFromRoute (route) {
   return function () {
-    return this.api.get().periods({ periodId: route.params.periodId })
+    return this.api.get().periods({ id: route.params.periodId })
   }
 }
 
 function scheduleEntryFromRoute (route) {
   return function () {
-    return this.api.get().scheduleEntries({ scheduleEntryId: route.params.scheduleEntryId })
+    return this.api.get().scheduleEntries({ id: route.params.scheduleEntryId })
   }
 }
 
 function categoryFromRoute (route) {
   return function () {
-    const camp = this.api.get().camps({ campId: route.params.campId })
+    const camp = this.api.get().camps({ id: route.params.campId })
     return camp.categories().items.find(c => c.id === route.params.categoryId)
   }
 }
 
 function dayFromScheduleEntryInRoute (route) {
   return function () {
-    return this.api.get().scheduleEntries({ scheduleEntryId: route.params.scheduleEntryId }).day()
+    return this.api.get().scheduleEntries({ id: route.params.scheduleEntryId }).day()
   }
 }
 
 export function campRoute (camp, subroute = 'dashboard', query = {}) {
   if (camp._meta.loading) return {}
-  return { name: 'camp/' + subroute, params: { campId: camp.id, campTitle: slugify(camp.title) }, query }
+  return { name: 'camp/' + subroute, params: { id: camp.id, campTitle: slugify(camp.title) }, query }
 }
 
 export function loginRoute (redirectTo) {
@@ -385,7 +400,7 @@ export function categoryRoute (camp, category, query = {}) {
 }
 
 async function firstFuturePeriod (route) {
-  const periods = await apiStore.get().camps({ campId: route.params.campId }).periods()._meta.load
+  const periods = await apiStore.get().camps({ id: route.params.campId }).periods()._meta.load
   // Return the first period that hasn't ended, or if no such period exists, return the first period
   return periods.items.find(period => new Date(period.end) >= new Date()) || periods.items.find(_ => true)
 }

@@ -10,12 +10,10 @@
   </v-sheet>
 </template>
 <script>
-import { refreshLoginStatus } from '@/plugins/auth'
 
 export default {
   name: 'LoginCallback',
   beforeRouteEnter (to, from, next) {
-    refreshLoginStatus()
     next(decodeURI(to.query.redirect || '/'))
   }
 }

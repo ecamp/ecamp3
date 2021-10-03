@@ -17,6 +17,14 @@ class StorePlugin {
 
     axios.defaults.withCredentials = true
     axios.defaults.baseURL = window.environment.API_ROOT_URL
+    axios.defaults.headers.common.Accept = 'application/hal+json'
+    axios.interceptors.request.use(function (config) {
+      if (config.method === 'patch') {
+        config.headers['Content-Type'] = 'application/merge-patch+json'
+      }
+      return config
+    })
+
     Vue.use(VueAxios, axios)
 
     let halJsonVuex = HalJsonVuex

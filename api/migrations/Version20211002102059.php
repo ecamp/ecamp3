@@ -99,7 +99,7 @@ final class Version20211002102059 extends AbstractMigration {
         $this->addSql('CREATE INDEX IDX_D7785D2C1335E2FC ON schedule_entry (activityId)');
         $this->addSql('CREATE INDEX IDX_D7785D2C9D468A55 ON schedule_entry (createTime)');
         $this->addSql('CREATE INDEX IDX_D7785D2C55AA53E2 ON schedule_entry (updateTime)');
-        $this->addSql('CREATE TABLE "user" (id VARCHAR(16) NOT NULL, email VARCHAR(64) NOT NULL, username VARCHAR(32) NOT NULL, firstname TEXT DEFAULT NULL, surname TEXT DEFAULT NULL, nickname TEXT DEFAULT NULL, language VARCHAR(20) DEFAULT NULL, roles JSON NOT NULL, password VARCHAR(255) NOT NULL, createTime TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, updateTime TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE "user" (id VARCHAR(16) NOT NULL, email VARCHAR(64) NOT NULL, username VARCHAR(32) NOT NULL, firstname TEXT DEFAULT NULL, surname TEXT DEFAULT NULL, nickname TEXT DEFAULT NULL, language VARCHAR(20) DEFAULT NULL, state VARCHAR(255) DEFAULT NULL, activationKeyHash VARCHAR(255) DEFAULT NULL, roles JSON NOT NULL, password VARCHAR(255) NOT NULL, createTime TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, updateTime TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_8D93D649E7927C74 ON "user" (email)');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_8D93D649F85E0677 ON "user" (username)');
         $this->addSql('CREATE INDEX IDX_8D93D6499D468A55 ON "user" (createTime)');

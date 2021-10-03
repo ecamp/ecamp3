@@ -1,4 +1,4 @@
-version: "3"
+version: "3.4"
 
 services:
   nginx:
@@ -10,7 +10,7 @@ services:
       - ./nginx.conf:/etc/nginx/nginx.conf
       - print-output:/static-files
     depends_on:
-      - backend
+      - caddy
       - frontend
       - print
       - worker-print-puppeteer
@@ -23,17 +23,34 @@ services:
     volumes:
       - ./frontend-environment.js:/app/environment.js
 
-  backend:
-    image: ecamp/ecamp3-backend:${DOCKER_IMAGE_TAG}
-    container_name: 'ecamp3-backend'
+  php:
+    image: ecamp/ecamp3-api:${DOCKER_IMAGE_TAG}
     volumes:
-      - ./doctrine.local.prod.php:/app/config/autoload/doctrine.local.prod.php
-      - ./mail.local.prod.php:/app/config/autoload/mail.local.prod.php
-      - ./sessions.local.prod.php:/app/config/autoload/sessions.local.prod.php
-      - ./zfr_cors.global.php:/app/config/autoload/zfr_cors.global.php
-      - ./sentry.config.php:/app/config/sentry.config.php
+      - caddy-socket:/var/run/php
+      - api-keys:/srv/api/config/jwt
+    environment:
+      APP_ENV: dev
+    healthcheck:
+      interval: 10s
+      timeout: 3s
+      retries: 3
+      start_period: 30s
+    env_file:
+      - api.env
+
+  caddy:
+    image: ecamp/ecamp3-caddy:${DOCKER_IMAGE_TAG}
     depends_on:
-      - rabbitmq
+      - php
+    environment:
+      SERVER_NAME: localhost:4001, caddy:4001, ${API_DOMAIN}:4001
+      MERCURE_PUBLISHER_JWT_KEY: ${MERCURE_PUBLISHER_JWT_KEY:-!ChangeMe!}
+      MERCURE_SUBSCRIBER_JWT_KEY: ${MERCURE_SUBSCRIBER_JWT_KEY:-!ChangeMe!}
+      MERCURE_EXTRA_DIRECTIVES: demo
+    volumes:
+      - caddy-socket:/var/run/php
+      - caddy-data:/data
+      - caddy-config-cache:/config
 
   print:
     image: ecamp/ecamp3-print:${DOCKER_IMAGE_TAG}
@@ -42,7 +59,7 @@ services:
       - print.env
 
   rabbitmq:
-    image: rabbitmq:3.9-management@sha256:c3b9826c219162d03c7b652001fb0cc564bf1124b74b04d7e5de79dd5b9dc2fd
+    image: rabbitmq:3.9-management@sha256:e65c880a794cf01f5e83cb80ebca282413e10a73f060fc81122866e42ed4afc0
     container_name: 'ecamp3-rabbitmq'
     env_file:
       - rabbitmq.env
@@ -70,4 +87,8 @@ services:
     container_name: 'ecamp3-mail'
 
 volumes:
+  api-keys:
+  caddy-socket:
+  caddy-data:
+  caddy-config-cache:
   print-output:

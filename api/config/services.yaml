@@ -80,6 +80,9 @@ services:
     App\Serializer\Normalizer\CircularReferenceDetectingHalItemNormalizer:
         decorates: 'api_platform.hal.normalizer.item'
 
+    App\Serializer\Normalizer\URITemplateNormalizer:
+        decorates: 'api_platform.hal.normalizer.entrypoint'
+
     App\Serializer\Normalizer\CollectionItemsNormalizer:
         decorates: 'api_platform.hal.normalizer.collection'
 
@@ -104,3 +107,10 @@ services:
         
     App\Service\MailService:
         public: true
+
+    Symfony\Component\String\Inflector\EnglishInflector:
+        public: false
+
+    App\EventListener\JWTCreatedListener:
+        tags:
+            - { name: kernel.event_listener, event: lexik_jwt_authentication.on_jwt_created, method: onJWTCreated }

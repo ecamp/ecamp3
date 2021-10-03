@@ -87,7 +87,7 @@
 </template>
 
 <script>
-import { refreshLoginStatus } from '@/plugins/auth'
+import { isLoggedIn } from '@/plugins/auth'
 import AuthContainer from '@/components/layout/AuthContainer.vue'
 import HorizontalRule from '@/components/layout/HorizontalRule.vue'
 import IconSpacer from '@/components/layout/IconSpacer.vue'
@@ -100,13 +100,11 @@ export default {
     AuthContainer
   },
   beforeRouteEnter (to, from, next) {
-    refreshLoginStatus(false).then(loggedIn => {
-      if (loggedIn) {
-        next(to.query.redirect || '/')
-      } else {
-        next()
-      }
-    })
+    if (isLoggedIn()) {
+      next(to.query.redirect || '/')
+    } else {
+      next()
+    }
   },
   data () {
     return {
@@ -124,12 +122,12 @@ export default {
     async login () {
       this.normalLoggingIn = true
       this.error = false
-      if (await this.$auth.login(this.username, this.password)) {
+      this.$auth.login(this.username, this.password).then(() => {
         this.$router.replace(this.$route.query.redirect || '/')
-      } else {
+      }).catch(() => {
         this.normalLoggingIn = false
         this.error = true
-      }
+      })
     },
     async loginGoogle () {
       await this.$auth.loginGoogle()

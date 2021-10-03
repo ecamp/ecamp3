@@ -7,6 +7,7 @@
         "ext-iconv": "*",
         "api-platform/core": "2.6.6",
         "composer/package-versions-deprecated": "1.11.99",
+        "cweagans/composer-patches": "1.7.1",
         "doctrine/annotations": "1.13.2",
         "doctrine/doctrine-bundle": "2.4.2",
         "doctrine/doctrine-migrations-bundle": "3.1.1",
@@ -43,7 +44,7 @@
         "hautelook/alice-bundle": "2.9.0",
         "justinrainbow/json-schema": "5.2.11",
         "php-coveralls/php-coveralls": "2.4.3",
-        "phpunit/phpunit": "^9.5",
+        "phpunit/phpunit": "9.5.10",
         "symfony/browser-kit": "5.3.4",
         "symfony/css-selector": "5.3.4",
         "symfony/debug-bundle": "5.3.4",
@@ -99,5 +100,13 @@
     "conflict": {
         "symfony/dependency-injection": "5.3.7",
         "symfony/symfony": "*"
+    },
+    "extra": {
+        "composer-exit-on-patch-failure": true,
+        "patches": {
+            "api-platform/core": {
+                "Allow NULL-Links": "patch/api-plattform-allow-null-links.patch"
+            }
+        }
     }
 }

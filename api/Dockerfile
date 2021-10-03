@@ -18,6 +18,7 @@ RUN apk add --no-cache \
 		gettext \
 		git \
 		gnu-libiconv \
+		patch \
 	;
 
 # install gnu-libiconv and set LD_PRELOAD env to make iconv work fully on Alpine image.
@@ -83,6 +84,7 @@ ARG APP_ENV=prod
 
 # prevent the reinstallation of vendors at every changes in the source code
 COPY composer.json composer.lock symfony.lock ./
+COPY patch patch/
 RUN set -eux; \
 	composer install --prefer-dist --no-dev --no-scripts --no-progress; \
 	composer clear-cache
@@ -92,6 +94,7 @@ COPY .env ./
 COPY bin bin/
 COPY config config/
 COPY migrations migrations/
+COPY fixtures fixtures/
 COPY public public/
 COPY src src/
 
@@ -121,10 +124,10 @@ FROM caddy:${CADDY_VERSION}-builder-alpine AS api_platform_caddy_builder
 
 # install Mercure and Vulcain modules
 RUN xcaddy build \
-    --with github.com/dunglas/mercure \
-    --with github.com/dunglas/mercure/caddy \
-    --with github.com/dunglas/vulcain \
-    --with github.com/dunglas/vulcain/caddy
+	--with github.com/dunglas/mercure \
+	--with github.com/dunglas/mercure/caddy \
+	--with github.com/dunglas/vulcain \
+	--with github.com/dunglas/vulcain/caddy
 
 FROM caddy:${CADDY_VERSION} AS api_platform_caddy
 
@@ -134,13 +137,16 @@ COPY --from=api_platform_caddy_builder /usr/bin/caddy /usr/bin/caddy
 COPY --from=api_platform_php /srv/api/public public/
 COPY docker/caddy/Caddyfile /etc/caddy/Caddyfile
 
+FROM api_platform_caddy AS api_platform_caddy_prod
+COPY docker/caddy/Caddyfile.prod /etc/caddy/Caddyfile
+
 
 # Debug stage, for using XDebug
 FROM api_platform_php as api_platform_php_dev
 
 ARG XDEBUG_VERSION=3.0.2
 RUN set -eux; \
- apk add --no-cache --virtual .build-deps $PHPIZE_DEPS; \
- pecl install xdebug-$XDEBUG_VERSION; \
- docker-php-ext-enable xdebug; \
- apk del .build-deps
+	apk add --no-cache --virtual .build-deps $PHPIZE_DEPS; \
+	pecl install xdebug-$XDEBUG_VERSION; \
+	docker-php-ext-enable xdebug; \
+	apk del .build-deps

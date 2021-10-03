@@ -309,6 +309,11 @@
       "printPreview": "Open print preview"
     },
     "auth": {
+      "activate": {
+        "title": "Your account will be activated",
+        "success": "Account successfully activated",
+        "error": "Activation failed"
+      },
       "login": {
         "accountless": "Don't have an account yet?",
         "beta": {

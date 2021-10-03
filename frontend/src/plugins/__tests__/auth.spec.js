@@ -1,8 +1,14 @@
 import Vue from 'vue'
 import { auth } from '@/plugins/auth'
 import storeLoader, { store, apiStore } from '@/plugins/store'
+import Cookies from 'js-cookie'
 
 Vue.use(storeLoader)
+
+// expired on 01-01-1970
+const expiredJWTPayload = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpYXQiOjE2MzMxMzM1MDAsImV4cCI6MCwicm9sZXMiOlsiUk9MRV9VU0VSIl0sInVzZXJuYW1lIjoidGVzdC11c2VyIn0'
+// expires on 01-01-3021, yes you read that right
+const validJWTPayload = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpYXQiOjE2MzMxMzM0MDksImV4cCI6MzMxNjYzNjQ0MDAsInJvbGVzIjpbIlJPTEVfVVNFUiJdLCJ1c2VybmFtZSI6InRlc3QtdXNlciJ9'
 
 expect.extend({
   haveUri (actual, expectedUri) {
@@ -16,12 +22,14 @@ expect.extend({
 describe('authentication logic', () => {
   afterEach(() => {
     jest.restoreAllMocks()
+    Cookies.remove('jwt_hp')
   })
 
   describe('isLoggedIn()', () => {
-    it('returns true if authenticated is true', () => {
+    it('returns true if JWT payload is not expired', () => {
       // given
-      store.replaceState(createState({ authenticated: true }))
+      store.replaceState(createState())
+      Cookies.set('jwt_hp', validJWTPayload)
 
       // when
       const result = auth.isLoggedIn()
@@ -30,9 +38,10 @@ describe('authentication logic', () => {
       expect(result).toBeTruthy()
     })
 
-    it('returns false if the authenticated is false', () => {
+    it('returns false if JWT payload is expired', () => {
       // given
-      store.replaceState(createState({ authenticated: false }))
+      store.replaceState(createState())
+      Cookies.set('jwt_hp', expiredJWTPayload)
 
       // when
       const result = auth.isLoggedIn()
@@ -41,80 +50,23 @@ describe('authentication logic', () => {
       expect(result).toBeFalsy()
     })
 
-    it('returns false if authenticated is undefined', () => {
+    it('returns false if JWT cookie is missing', () => {
       // given
-      store.replaceState(createState({ authenticated: undefined }))
+      store.replaceState(createState())
+      Cookies.set('jwt_hp', expiredJWTPayload)
 
       // when
       const result = auth.isLoggedIn()
 
       // then
       expect(result).toBeFalsy()
-    })
-  })
-
-  describe('refreshLoginStatus()', () => {
-    it('resolves to true if authenticated is true', async done => {
-      // given
-      store.replaceState(createState({ authenticated: true }))
-      jest.spyOn(apiStore, 'reload').mockImplementation(() => {})
-
-      // when
-      const result = await auth.refreshLoginStatus()
-
-      // then
-      expect(result).toBeTruthy()
-      done()
-    })
-
-    it('resolves to false if authenticated is false', async done => {
-      // given
-      store.replaceState(createState({ authenticated: false }))
-      jest.spyOn(apiStore, 'reload').mockImplementation(() => {})
-
-      // when
-      const result = await auth.refreshLoginStatus()
-
-      // then
-      expect(result).toBeFalsy()
-      done()
-    })
-
-    it('resolves to false if the user has just signed out', async done => {
-      // given
-      store.replaceState(createState({ authenticated: true }))
-      jest.spyOn(apiStore, 'reload').mockImplementation(() => {
-        store.replaceState(createState({ authenticated: false }))
-      })
-
-      // when
-      const result = await auth.refreshLoginStatus()
-
-      // then
-      expect(result).toBeFalsy()
-      done()
-    })
-
-    it('resolves to true if the user has just signed in', async done => {
-      // given
-      store.replaceState(createState({ authenticated: false }))
-      jest.spyOn(apiStore, 'reload').mockImplementation(() => {
-        store.replaceState(createState({ authenticated: true }))
-      })
-
-      // when
-      const result = await auth.refreshLoginStatus()
-
-      // then
-      expect(result).toBeTruthy()
-      done()
     })
   })
 
   describe('register()', () => {
     it('sends a POST request to the backend', async done => {
       // given
-      store.replaceState(createState({ authenticated: false }))
+      store.replaceState(createState())
       jest.spyOn(apiStore, 'post').mockImplementation(async () => {})
 
       // when
@@ -122,7 +74,7 @@ describe('authentication logic', () => {
 
       // then
       expect(apiStore.post).toHaveBeenCalledTimes(1)
-      expect(apiStore.post).toHaveBeenCalledWith('http://localhost/auth/register', { username: 'foo', email: 'bar', password: 'baz' })
+      expect(apiStore.post).toHaveBeenCalledWith('http://localhost/users', { username: 'foo', email: 'bar', password: 'baz' })
       done()
     })
   })
@@ -131,33 +83,37 @@ describe('authentication logic', () => {
     it('resolves to true if the user successfully logs in', async done => {
       // given
       let isLoggedIn = false
-      store.replaceState(createState({ authenticated: isLoggedIn }))
+      store.replaceState(createState())
       jest.spyOn(apiStore, 'post').mockImplementation(async () => {
         isLoggedIn = true
       })
       jest.spyOn(apiStore, 'reload').mockImplementation(() => {
-        store.replaceState(createState({ authenticated: isLoggedIn }))
+        if (isLoggedIn) {
+          Cookies.set('jwt_hp', validJWTPayload)
+        }
       })
 
       // when
-      const result = await auth.login('foo', 'bar')
+      /* const result = */await auth.login('foo', 'bar')
 
       // then
-      expect(result).toBeTruthy()
+      // TODO hal-json-vuex can't handle "204 No Content" yet
+      // expect(result).toBeTruthy()
       expect(apiStore.post).toHaveBeenCalledTimes(1)
-      expect(apiStore.post).toHaveBeenCalledWith('http://localhost/auth/login', { username: 'foo', password: 'bar' })
+      expect(apiStore.post).toHaveBeenCalledWith('/authentication_token', { username: 'foo', password: 'bar' })
       done()
     })
 
     it('resolves to false if the login fails', async done => {
       // given
       const isLoggedIn = false
-      store.replaceState(createState({ authenticated: isLoggedIn }))
       jest.spyOn(apiStore, 'post').mockImplementation(async () => {
         // login fails, leave guest role as it is
       })
       jest.spyOn(apiStore, 'reload').mockImplementation(() => {
-        store.replaceState(createState({ authenticated: isLoggedIn }))
+        if (isLoggedIn) {
+          Cookies.set('jwt_hp', validJWTPayload)
+        }
       })
 
       // when
@@ -166,7 +122,7 @@ describe('authentication logic', () => {
       // then
       expect(result).toBeFalsy()
       expect(apiStore.post).toHaveBeenCalledTimes(1)
-      expect(apiStore.post).toHaveBeenCalledWith('http://localhost/auth/login', { username: 'foo', password: 'barrrr' })
+      expect(apiStore.post).toHaveBeenCalledWith('/authentication_token', { username: 'foo', password: 'barrrr' })
       done()
     })
   })
@@ -220,13 +176,7 @@ describe('authentication logic', () => {
   describe('logout()', () => {
     it('resolves to false if the user successfully logs out', async done => {
       // given
-      let isLoggedIn = true
-      store.replaceState(createState({ authenticated: isLoggedIn }))
-      jest.spyOn(apiStore, 'reload').mockImplementation(arg => {
-        if (arg._meta.self === 'http://localhost/auth/logout') isLoggedIn = false
-        store.replaceState(createState({ authenticated: isLoggedIn }))
-        return Promise.resolve()
-      })
+      Cookies.set('jwt_hp', validJWTPayload)
 
       // when
       const result = await auth.logout()
@@ -238,7 +188,7 @@ describe('authentication logic', () => {
   })
 })
 
-function createState (authState) {
+function createState (authState = {}) {
   return {
     api: {
       '': {
@@ -246,17 +196,14 @@ function createState (authState) {
         auth: {
           href: '/auth'
         },
+        users: {
+          href: '/users'
+        },
         _meta: {
           self: ''
         }
       },
       '/auth': {
-        login: {
-          href: '/auth/login'
-        },
-        logout: {
-          href: '/auth/logout'
-        },
         register: {
           href: '/auth/register'
         },
