@@ -33,7 +33,8 @@ knpu_oauth2_client:
             # client_class: Some\Custom\Client
 
             # optional: if your provider has custom constructor options
-            # provider_options: {}
+            provider_options:
+                base_url: 'https://pbs.puzzle.ch'
 
             # now, all the normal options!
             client_id: '%env(OAUTH_HITOBITO_CLIENT_ID)%'

@@ -11,17 +11,18 @@ use UnexpectedValueException;
 
 class Hitobito extends AbstractProvider {
     use BearerAuthorizationTrait;
+    protected $base_url;
 
     public function getBaseAuthorizationUrl(): string {
-        return 'https://pbs.puzzle.ch/oauth/authorize';
+        return $this->base_url.'/oauth/authorize';
     }
 
     public function getBaseAccessTokenUrl(array $params): string {
-        return 'https://pbs.puzzle.ch/oauth/token';
+        return $this->base_url.'/oauth/token';
     }
 
     public function getResourceOwnerDetailsUrl(AccessToken $token): string {
-        return 'https://pbs.puzzle.ch/de/oauth/profile';
+        return $this->base_url.'/oauth/profile';
     }
 
     protected function getDefaultScopes(): array {
