@@ -1,0 +1,7 @@
+{
+    "php-cs-fixer.config": "./.php-cs-fixer.php",
+    "phpunit.files": "tests/**/*Test.php",
+    "phpunit.args": [
+        "-cphpunit.nodocker.xml"
+    ],
+}
