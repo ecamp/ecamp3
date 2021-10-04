@@ -5,6 +5,10 @@ namespace App\Security\JWT;
 use Lexik\Bundle\JWTAuthenticationBundle\TokenExtractor\TokenExtractorInterface;
 use Symfony\Component\HttpFoundation\Request;
 
+/**
+ * Applies the fix from https://github.com/lexik/LexikJWTAuthenticationBundle/pull/931 early for us.
+ * This allows us to delete just the accessible of the two cookies via JavaScript when logging out.
+ */
 class SplitCookieExtractor implements TokenExtractorInterface {
     /**
      * @var array
@@ -22,13 +26,10 @@ class SplitCookieExtractor implements TokenExtractorInterface {
         $jwtCookies = [];
 
         foreach ($this->cookies as $cookie) {
-            $inputBag = $request->cookies->get($cookie, false);
-            if ($inputBag) {
-                $jwtCookies[] = $inputBag;
-            }
+            $jwtCookies[] = $request->cookies->get($cookie, false);
         }
 
-        if (count($this->cookies) !== count($jwtCookies)) {
+        if (count($this->cookies) !== count(array_filter($jwtCookies))) {
             return false;
         }
 
