@@ -59,7 +59,7 @@
     "eslint-plugin-import": "2.24.2",
     "eslint-plugin-node": "11.1.0",
     "eslint-plugin-promise": "5.1.0",
-    "eslint-plugin-vue": "7.19.0",
+    "eslint-plugin-vue": "7.19.1",
     "flush-promises": "1.0.2",
     "jest": "26.6.3",
     "jest-canvas-mock": "2.3.1",
