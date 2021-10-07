@@ -17,6 +17,7 @@
         "lexik/jwt-authentication-bundle": "2.13.0",
         "nelmio/cors-bundle": "2.1.1",
         "phpdocumentor/reflection-docblock": "5.3.0",
+        "rize/uri-template": "^0.3.3",
         "stof/doctrine-extensions-bundle": "1.6.0",
         "swaggest/json-schema": "0.12.39",
         "symfony/asset": "5.3.4",
