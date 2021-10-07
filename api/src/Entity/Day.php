@@ -95,7 +95,7 @@ class Day extends BaseEntity implements BelongsToCampInterface {
      * @return ScheduleEntry[]
      */
     #[ApiProperty(example: '/schedule_entries?period=%2Fperiods%2F1a2b3c4d&start%5Bstrictly_before%5D=2022-01-03T00%3A00%3A00%2B00%3A00&end%5Bafter%5D=2022-01-02T00%3A00%3A00%2B00%3A00')]
-    #[RelatedCollectionLink('/schedule_entries{?period,start[strictly_before],end[after]}', ['period' => 'period', 'start[strictly_before]' => 'end', 'end[after]' => 'start'])]
+    #[RelatedCollectionLink('scheduleEntry', ['period' => 'period', 'start[strictly_before]' => 'end', 'end[after]' => 'start'])]
     #[Groups(['read'])]
     public function getScheduleEntries(): array {
         return array_filter(

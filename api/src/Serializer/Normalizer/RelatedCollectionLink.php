@@ -6,11 +6,11 @@ use Attribute;
 
 #[Attribute(Attribute::TARGET_METHOD)]
 class RelatedCollectionLink {
-    public function __construct(protected string $uriTemplate, protected array $params = []) {
+    public function __construct(protected string $relatedEntity, protected array $params = []) {
     }
 
-    public function getUriTemplate(): string {
-        return $this->uriTemplate;
+    public function getRelatedEntity(): string {
+        return $this->relatedEntity;
     }
 
     public function getParams(): array {

@@ -12,6 +12,7 @@ use ApiPlatform\Core\Bridge\Symfony\Routing\RouteNameResolverInterface;
 use ApiPlatform\Core\Exception\ResourceClassNotFoundException;
 use ApiPlatform\Core\Metadata\Resource\Factory\ResourceMetadataFactoryInterface;
 use App\Entity\BaseEntity;
+use App\Metadata\Resource\Factory\UriTemplateFactory;
 use Doctrine\ORM\Mapping\MappingException;
 use Doctrine\Persistence\ManagerRegistry;
 use ReflectionClass;
@@ -59,11 +60,21 @@ use Symfony\Component\Serializer\SerializerInterface;
  *   ...
  * }
  *
- * Alternatively, you can manually set the link by using the #[RelatedCollectionLink()] attribute:
- * #[RelatedCollectionLink('/children?parent={self}')]
  *
- * Other properties and getters can be used as parameters as well:
- * #[RelatedCollectionLink('/children?created_at[before]={created_at}')]
+ * Alternatively, you can manually set the link by using the #[RelatedCollectionLink()] attribute:
+ *
+ * public string myParam;
+ *
+ * #[RelatedCollectionLink('child', ['before' => 'myParam'])]
+ * public function getChildren(): array { ... }
+ *
+ *
+ * You can also use getters for filling parameters:
+ *
+ * public function getSomeGetterParam(): string { return 'something'; }
+ *
+ * #[RelatedCollectionLink('child', ['before' => 'someGetterParam'])]
+ * public function getChildren(): array { ... }
  */
 class RelatedCollectionLinkNormalizer implements NormalizerInterface, SerializerAwareInterface {
     use PropertyHelperTrait;
@@ -74,6 +85,7 @@ class RelatedCollectionLinkNormalizer implements NormalizerInterface, Serializer
         private ServiceLocator $filterLocator,
         private NameConverterInterface $nameConverter,
         private UriTemplate $uriTemplate,
+        private UriTemplateFactory $uriTemplateFactory,
         private RouterInterface $router,
         private IriConverterInterface $iriConverter,
         private ManagerRegistry $managerRegistry,
@@ -125,7 +137,10 @@ class RelatedCollectionLinkNormalizer implements NormalizerInterface, Serializer
 
         if ($annotation = $this->getRelatedCollectionLinkAnnotation($resourceClass, $rel)) {
             // If there is an explicit annotation, there is no need to inspect the Doctrine metadata
-            return $this->uriTemplate->expand($annotation->getUriTemplate(), $this->extractUriParams($object, $annotation->getParams()));
+            $params = $this->extractUriParams($object, $annotation->getParams());
+            [$uriTemplate] = $this->uriTemplateFactory->create($annotation->getRelatedEntity());
+
+            return $this->uriTemplate->expand($uriTemplate, $params);
         }
 
         try {
@@ -154,7 +169,7 @@ class RelatedCollectionLinkNormalizer implements NormalizerInterface, Serializer
             $reflClass = $this->getReflectionClass($className);
             $method = $reflClass->getMethod('get'.ucfirst($propertyName));
             $attributes = $method->getAttributes(RelatedCollectionLink::class);
-            /** @var null|RelatedCollectionLink $attribute */
+
             return ($attributes[0] ?? null)?->newInstance();
         } catch (\ReflectionException $e) {
             return null;
