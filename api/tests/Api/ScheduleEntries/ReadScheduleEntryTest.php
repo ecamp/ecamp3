@@ -4,6 +4,8 @@ namespace App\Tests\Api\ScheduleEntries;
 
 use App\Entity\ScheduleEntry;
 use App\Tests\Api\ECampApiTestCase;
+use DateInterval;
+use DateTime;
 
 /**
  * @internal
@@ -50,6 +52,8 @@ class ReadScheduleEntryTest extends ECampApiTestCase {
     public function testGetSingleScheduleEntryIsAllowedForGuest() {
         /** @var ScheduleEntry $scheduleEntry */
         $scheduleEntry = static::$fixtures['scheduleEntry1'];
+        $start = DateTime::createFromInterface($scheduleEntry->period->start)->add(new DateInterval('PT'.$scheduleEntry->periodOffset.'M'));
+        $end = DateTime::createFromInterface($start)->add(new DateInterval('PT'.$scheduleEntry->length.'M'));
         static::createClientWithCredentials(['username' => static::$fixtures['user3guest']->username])
             ->request('GET', '/schedule_entries/'.$scheduleEntry->getId())
         ;
@@ -63,6 +67,8 @@ class ReadScheduleEntryTest extends ECampApiTestCase {
             'dayNumber' => 1,
             'scheduleEntryNumber' => 1,
             'number' => '1.1',
+            'start' => $start->format(DateTime::W3C),
+            'end' => $end->format(DateTime::W3C),
             '_links' => [
                 'activity' => ['href' => $this->getIriFor('activity1')],
                 'period' => ['href' => $this->getIriFor('period1')],
@@ -74,6 +80,8 @@ class ReadScheduleEntryTest extends ECampApiTestCase {
     public function testGetSingleScheduleEntryIsAllowedForMember() {
         /** @var ScheduleEntry $scheduleEntry */
         $scheduleEntry = static::$fixtures['scheduleEntry1'];
+        $start = DateTime::createFromInterface($scheduleEntry->period->start)->add(new DateInterval('PT'.$scheduleEntry->periodOffset.'M'));
+        $end = DateTime::createFromInterface($start)->add(new DateInterval('PT'.$scheduleEntry->length.'M'));
         static::createClientWithCredentials(['username' => static::$fixtures['user2member']->username])
             ->request('GET', '/schedule_entries/'.$scheduleEntry->getId())
         ;
@@ -87,6 +95,8 @@ class ReadScheduleEntryTest extends ECampApiTestCase {
             'dayNumber' => 1,
             'scheduleEntryNumber' => 1,
             'number' => '1.1',
+            'start' => $start->format(DateTime::W3C),
+            'end' => $end->format(DateTime::W3C),
             '_links' => [
                 'activity' => ['href' => $this->getIriFor('activity1')],
                 'period' => ['href' => $this->getIriFor('period1')],
@@ -98,6 +108,8 @@ class ReadScheduleEntryTest extends ECampApiTestCase {
     public function testGetSingleScheduleEntryIsAllowedForManager() {
         /** @var ScheduleEntry $scheduleEntry */
         $scheduleEntry = static::$fixtures['scheduleEntry1'];
+        $start = DateTime::createFromInterface($scheduleEntry->period->start)->add(new DateInterval('PT'.$scheduleEntry->periodOffset.'M'));
+        $end = DateTime::createFromInterface($start)->add(new DateInterval('PT'.$scheduleEntry->length.'M'));
         static::createClientWithCredentials()->request('GET', '/schedule_entries/'.$scheduleEntry->getId());
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
@@ -109,6 +121,8 @@ class ReadScheduleEntryTest extends ECampApiTestCase {
             'dayNumber' => 1,
             'scheduleEntryNumber' => 1,
             'number' => '1.1',
+            'start' => $start->format(DateTime::W3C),
+            'end' => $end->format(DateTime::W3C),
             '_links' => [
                 'activity' => ['href' => $this->getIriFor('activity1')],
                 'period' => ['href' => $this->getIriFor('period1')],
@@ -120,6 +134,8 @@ class ReadScheduleEntryTest extends ECampApiTestCase {
     public function testGetSingleScheduleEntryInCampPrototypeIsAllowedForUnrelatedUser() {
         /** @var ScheduleEntry $scheduleEntry */
         $scheduleEntry = static::$fixtures['scheduleEntry1period1campPrototype'];
+        $start = DateTime::createFromInterface($scheduleEntry->period->start)->add(new DateInterval('PT'.$scheduleEntry->periodOffset.'M'));
+        $end = DateTime::createFromInterface($start)->add(new DateInterval('PT'.$scheduleEntry->length.'M'));
         static::createClientWithCredentials()->request('GET', '/schedule_entries/'.$scheduleEntry->getId());
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
@@ -131,6 +147,8 @@ class ReadScheduleEntryTest extends ECampApiTestCase {
             'dayNumber' => 1,
             'scheduleEntryNumber' => 1,
             'number' => '1.1',
+            'start' => $start->format(DateTime::W3C),
+            'end' => $end->format(DateTime::W3C),
             '_links' => [
                 'activity' => ['href' => $this->getIriFor('activity1campPrototype')],
                 'period' => ['href' => $this->getIriFor('period1campPrototype')],
