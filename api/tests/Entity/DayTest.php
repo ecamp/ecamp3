@@ -33,8 +33,20 @@ class DayTest extends TestCase {
         $this->assertEquals(new DateTime('2020-07-15T00:00:00+00:00'), $this->day2->getStart());
     }
 
+    public function testGetStartReturnsNullOnError() {
+        $this->period->start = null;
+        $this->assertNull($this->day1->getStart());
+        $this->assertNull($this->day2->getStart());
+    }
+
     public function testGetEnd() {
         $this->assertEquals(new DateTime('2020-07-15T00:00:00+00:00'), $this->day1->getEnd());
         $this->assertEquals(new DateTime('2020-07-16T00:00:00+00:00'), $this->day2->getEnd());
+    }
+
+    public function testGetEndReturnsNullOnError() {
+        $this->period->start = null;
+        $this->assertNull($this->day1->getEnd());
+        $this->assertNull($this->day2->getEnd());
     }
 }

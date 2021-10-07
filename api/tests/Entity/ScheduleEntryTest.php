@@ -55,9 +55,21 @@ class ScheduleEntryTest extends TestCase {
         $this->assertEquals(new DateTime('2020-07-15T16:00:00+00:00'), $this->scheduleEntry3->getStart());
     }
 
+    public function testGetStartReturnsNullOnError() {
+        $this->period->start = null;
+        $this->assertNull($this->scheduleEntry2->getStart());
+        $this->assertNull($this->scheduleEntry3->getStart());
+    }
+
     public function testGetEnd() {
         $this->assertEquals(new DateTime('2020-07-14T17:30:00+00:00'), $this->scheduleEntry2->getEnd());
         $this->assertEquals(new DateTime('2020-07-15T17:30:00+00:00'), $this->scheduleEntry3->getEnd());
+    }
+
+    public function testGetEndReturnsNullOnError() {
+        $this->period->start = null;
+        $this->assertNull($this->scheduleEntry2->getEnd());
+        $this->assertNull($this->scheduleEntry3->getEnd());
     }
 
     public function testGetDayNumber() {

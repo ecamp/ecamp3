@@ -9,6 +9,8 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Doctrine\Filter\ExpressionDateFilter;
 use App\Repository\ScheduleEntryRepository;
 use App\Validator\AssertBelongsToSameCamp;
+use DateInterval;
+use DateTime;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Collections\Selectable;
 use Doctrine\ORM\Mapping as ORM;
@@ -135,33 +137,37 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
     /**
      * The start date and time of the schedule entry. This is a read-only convenience property.
      *
-     * @throws \Exception
-     *
-     * @return null|\DateTime
+     * @return null|DateTime
      */
     #[ApiProperty(example: '2022-01-02T00:00:00+00:00', openapiContext: ['format' => 'date'])]
     #[Groups(['read'])]
-    public function getStart(): ?\DateTime {
-        $start = $this->period?->start ? \DateTime::createFromInterface($this->period->start) : null;
-        $start?->add(new \DateInterval('PT'.$this->periodOffset.'M'));
+    public function getStart(): ?DateTime {
+        try {
+            $start = $this->period?->start ? DateTime::createFromInterface($this->period->start) : null;
+            $start?->add(new DateInterval('PT'.$this->periodOffset.'M'));
 
-        return $start;
+            return $start;
+        } catch (\Exception $e) {
+            return null;
+        }
     }
 
     /**
      * The end date and time of the schedule entry. This is a read-only convenience property.
      *
-     * @throws \Exception
-     *
-     * @return null|\DateTime
+     * @return null|DateTime
      */
     #[ApiProperty(example: '2022-01-02T01:30:00+00:00', openapiContext: ['format' => 'date'])]
     #[Groups(['read'])]
-    public function getEnd(): ?\DateTime {
-        $end = $this->period?->start ? \DateTime::createFromInterface($this->period->start) : null;
-        $end?->add(new \DateInterval('PT'.($this->periodOffset + $this->length).'M'));
+    public function getEnd(): ?DateTime {
+        try {
+            $end = $this->period?->start ? DateTime::createFromInterface($this->period->start) : null;
+            $end?->add(new DateInterval('PT'.($this->periodOffset + $this->length).'M'));
 
-        return $end;
+            return $end;
+        } catch (\Exception $e) {
+            return null;
+        }
     }
 
     /**
