@@ -221,7 +221,11 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
         /** @var Selectable $scheduleEntriesCollection */
         $scheduleEntriesCollection = $this->period->scheduleEntries;
         $scheduleEntries = $scheduleEntriesCollection->matching($crit);
-        $activityNumber = $scheduleEntries->filter(function (ScheduleEntry $scheduleEntry) {
+
+        return $scheduleEntries->filter(function (ScheduleEntry $scheduleEntry) {
+            if ($scheduleEntry === $this) {
+                return true;
+            }
             if ($scheduleEntry->getNumberingStyle() === $this->getNumberingStyle()) {
                 if ($scheduleEntry->periodOffset < $this->periodOffset) {
                     return true;
@@ -243,8 +247,6 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
 
             return false;
         })->count();
-
-        return $activityNumber + 1;
     }
 
     /**
