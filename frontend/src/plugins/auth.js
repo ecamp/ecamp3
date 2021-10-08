@@ -39,14 +39,27 @@ async function login (username, password) {
   // TODO add the login endpoint to the list of endpoints that is returned at the API root,
   //   instead of hardcoding it here
   // const url = await apiStore.href(apiStore.get(), 'login')
-  return apiStore.post('/authentication_token', { username: username, password: password })
+  return await apiStore.post('/authentication_token', { username: username, password: password }).then(() => {
+    return isLoggedIn()
+  })
 }
 
 function user () {
+  if (!getJWTPayloadFromCookie()) {
+    return null
+  }
   const user = apiStore.get(parseJWTPayload(getJWTPayloadFromCookie()).user)
-  user._meta.load.catch(() => {
-    // Any error when fetching the logged in user must mean we are not actually logged in
-    logout()
+  user._meta.load = user._meta.load.catch(e => {
+    if (e.response && [401, 403, 404].includes(e.response.status)) {
+      // 401 means no complete token was submitted, so we may be missing the JWT signature cookie
+      // 403 means we can theoretically interact in some way with the user, but apparently not read it
+      // 404 means the user doesn't exist or we don't have access to it
+      // Either way, we aren't allowed to access the user from the token, so it's best to ask the user
+      // to log in again.
+      auth.logout()
+      return
+    }
+    throw e
   })
   return user
 }
