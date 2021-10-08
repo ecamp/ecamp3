@@ -43,7 +43,12 @@ async function login (username, password) {
 }
 
 function user () {
-  return apiStore.get(parseJWTPayload(getJWTPayloadFromCookie()).user)
+  const user = apiStore.get(parseJWTPayload(getJWTPayloadFromCookie()).user)
+  user._meta.load.catch(() => {
+    // Any error when fetching the logged in user must mean we are not actually logged in
+    logout()
+  })
+  return user
 }
 
 async function register (data) {
