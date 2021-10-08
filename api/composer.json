@@ -85,7 +85,10 @@
     "scripts": {
         "cs-check": "php-cs-fixer fix --dry-run",
         "cs-fix": "php-cs-fixer fix",
-        "test": "bin/phpunit -d memory_limit=-1",
+        "test": [
+            "Composer\\Config::disableProcessTimeout",
+            "bin/phpunit -d memory_limit=-1"
+        ],
         "auto-scripts": {
             "cache:clear": "symfony-cmd",
             "assets:install %PUBLIC_DIR%": "symfony-cmd"
