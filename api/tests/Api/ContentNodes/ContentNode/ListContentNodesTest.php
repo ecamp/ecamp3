@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Api\ContentNodes;
+namespace App\Tests\Api\ContentNodes\ContentNode;
 
 use App\Tests\Api\ECampApiTestCase;
 

@@ -4,6 +4,7 @@ namespace App\Entity\ContentNode;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Entity\ContentNode;
+use App\InputFilter;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
@@ -36,6 +37,7 @@ class SingleText extends ContentNode {
     /**
      * @ORM\Column(type="text", nullable=true)
      */
+    #[InputFilter\CleanHTML]
     #[Groups(['read', 'write'])]
     public ?string $text = null;
 }

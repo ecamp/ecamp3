@@ -1,26 +1,43 @@
 <?php
 
-namespace App\Tests\Api\SingleTexts;
+namespace App\Tests\Api\ContentNodes\SingleText;
 
-use App\Tests\Api\ECampApiTestCase;
+use App\Tests\Api\ContentNodes\UpdateContentNodeTestCase;
 
 /**
  * @internal
  */
-class UpdateSingleTextTest extends ECampApiTestCase {
-    // TODO security tests when not logged in or not collaborator
-    // TODO input filter tests
-    // TODO validation tests
+class UpdateSingleTextTest extends UpdateContentNodeTestCase {
+    public function setUp(): void {
+        parent::setUp();
 
-    public function testPatchSingleText() {
-        $testText = 'TEST_TEXT';
+        $this->endpoint = 'single_texts';
+        $this->defaultContentNode = static::$fixtures['singleText1'];
+    }
+
+    public function testPatchText() {
         $contentNode = static::$fixtures['singleText1'];
-        static::createClientWithCredentials()->request('PATCH', '/content_node/single_texts/'.$contentNode->getId(), ['json' => [
-            'text' => $testText,
-        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
+
+        // when
+        $this->patch($contentNode, ['text' => 'testText']);
+
+        // then
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
-            'text' => $testText,
+            'text' => 'testText',
+        ]);
+    }
+
+    public function testPatchCleansHTMLFromText() {
+        $contentNode = static::$fixtures['singleText1'];
+
+        // when
+        $this->patch($contentNode, ['text' => ' testText<script>alert(1)</script>']);
+
+        // then
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertJsonContains([
+            'text' => ' testText',
         ]);
     }
 }
