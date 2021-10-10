@@ -29,7 +29,8 @@
         :title="result.title"
         class="mt-2" />
     </div>
-    <print-react-pdf v-if="!dataLoading" :tc="boundTc" :camp="camp()" />
+    <v-btn @click="refreshPreview">Refresh</v-btn>
+    <print-react-pdf v-if="!dataLoading && !refreshing" ref="printPreview" :tc="boundTc" :camp="camp()" />
   </div>
 </template>
 
@@ -60,7 +61,8 @@ export default {
         showDailySummary: true,
         showStoryline: true,
         showActivities: true
-      }
+      },
+      refreshing: false
     }
   },
   computed: {
@@ -101,6 +103,10 @@ export default {
         filename: `${PRINT_FILE_SERVER}/${result.filename}-puppeteer.pdf`,
         title: 'ecamp3-puppeteer.pdf'
       })
+    },
+    refreshPreview () {
+      this.refreshing = true
+      this.$nextTick(() => (this.refreshing = false))
     }
   }
 }

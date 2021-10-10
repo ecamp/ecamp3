@@ -2,11 +2,11 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import pdf from '@react-pdf/renderer'
-import PDFDocument from '@/components/print/PDFDocument.jsx'
+import PDFDocument from './PDFDocument.jsx'
 import InterRegular from '../../assets/fonts/Inter-Regular.ttf'
 import InterSemiBold from '../../assets/fonts/Inter-SemiBold.ttf'
 
-const { Font, PDFViewer, PDFDownloadLink } = pdf
+const { Font, PDFViewer } = pdf
 
 if (import.meta.hot) {
   import.meta.hot.accept((newExports) => {
@@ -45,12 +45,12 @@ function PrintPreview (props) {
     return <div/>
   }
   return <div>
-    <PDFDownloadLink document={<PDFDocument {...props} />} fileName={props.camp.name + '.pdf'}>
+    {/* <PDFDownloadLink document={<PDFDocument {...props} $tc={props.tc} />} fileName={props.camp.name + '.pdf'}>
       {({ blob, url, loading, error }) =>
         loading ? 'Loading document...' : 'Download now!'
       }
-    </PDFDownloadLink>
-    <PDFViewer width="100%" height="500">
+    </PDFDownloadLink> */}
+    <PDFViewer width="100%" height="1000">
       <PDFDocument {...props} $tc={props.tc} />
     </PDFViewer>
   </div>

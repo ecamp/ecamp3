@@ -1,6 +1,6 @@
-import PrintPreview from '@/components/print/PrintPreview'
 import React from 'react'
 import ReactDOM from 'react-dom'
+import PrintPreview from './PrintPreview.jsx'
 
 let PrintPreviewReactComponent = PrintPreview
 
