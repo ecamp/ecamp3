@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Validator\ColumnLayout;
+namespace App\Validator;
 
 use Attribute;
 use Symfony\Component\Validator\Constraint;

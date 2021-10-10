@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Validator\ColumnLayout;
+namespace App\Validator;
 
 use Swaggest\JsonSchema\Exception;
 use Swaggest\JsonSchema\InvalidValue;
