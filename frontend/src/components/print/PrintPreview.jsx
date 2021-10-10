@@ -8,6 +8,12 @@ import InterSemiBold from '../../assets/fonts/Inter-SemiBold.ttf'
 
 const { Font, PDFViewer, PDFDownloadLink } = pdf
 
+if (import.meta.hot) {
+  import.meta.hot.accept((newExports) => {
+    window.dispatchEvent(new CustomEvent('hotReloadPrintPreview', { detail: newExports.default }))
+  })
+}
+
 Font.register({
   family: 'Inter',
   fonts: [
@@ -45,14 +51,14 @@ function PrintPreview (props) {
       }
     </PDFDownloadLink>
     <PDFViewer width="100%" height="500">
-      <PDFDocument {...props} />
+      <PDFDocument {...props} $tc={props.tc} />
     </PDFViewer>
   </div>
 }
 
 PrintPreview.propTypes = {
   camp: PropTypes.object,
-  $tc: PropTypes.func
+  tc: PropTypes.func
 }
 
 export default PrintPreview

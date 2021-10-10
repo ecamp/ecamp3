@@ -29,20 +29,20 @@
         :title="result.title"
         class="mt-2" />
     </div>
-    <ecamp3-print-preview ref="reactPrintPreview" />
+    <print-react-pdf v-if="!dataLoading" :tc="boundTc" :camp="camp()" />
   </div>
 </template>
 
 <script>
 import PrintDownloader from '@/components/camp/CampPrintDownloader.vue'
-import '@/components/print/index.js'
+import PrintReactPdf from '@/components/print/PrintReactPdf.js'
 
 const PRINT_SERVER = window.environment.PRINT_SERVER
 const PRINT_FILE_SERVER = window.environment.PRINT_FILE_SERVER
 
 export default {
   name: 'CampPrint',
-  components: { PrintDownloader },
+  components: { PrintDownloader, PrintReactPdf },
   props: {
     camp: {
       type: Function,
@@ -60,8 +60,7 @@ export default {
         showDailySummary: true,
         showStoryline: true,
         showActivities: true
-      },
-      dataLoaded: false
+      }
     }
   },
   computed: {
@@ -71,13 +70,20 @@ export default {
     },
     lang () {
       return this.$store.state.lang.language
+    },
+    dataLoading () {
+      return this.camp()._meta.loading ||
+        this.camp().periods().items.some(period => {
+          return period._meta.loading ||
+            period.scheduleEntries().items.some(scheduleEntry => {
+              return scheduleEntry._meta.loading ||
+                scheduleEntry.activity()._meta.loading
+            })
+        })
+    },
+    boundTc () {
+      return this.$tc.bind(this)
     }
-  },
-  mounted () {
-    this.camp()._meta.load.then(() => {
-      this.$refs.reactPrintPreview.$tc = this.$tc.bind(this)
-      this.$refs.reactPrintPreview.camp = this.camp()
-    })
   },
   methods: {
     async print () {
