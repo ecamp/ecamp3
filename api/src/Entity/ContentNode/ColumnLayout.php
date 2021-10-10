@@ -5,8 +5,8 @@ namespace App\Entity\ContentNode;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Entity\ContentNode;
+use App\Validator\AssertJsonSchema;
 use App\Validator\ColumnLayout\AssertColumWidthsSumTo12;
-use App\Validator\ColumnLayout\AssertJsonSchema;
 use App\Validator\ColumnLayout\AssertNoOrphanChildren;
 use App\Validator\ColumnLayout\ColumnLayoutGroupSequence;
 use Doctrine\ORM\Mapping as ORM;
@@ -41,6 +41,26 @@ use Symfony\Component\Serializer\Annotation\Groups;
     normalizationContext: ['groups' => ['read']],
 )]
 class ColumnLayout extends ContentNode {
+    public const COLUMNS_SCHEMA = [
+        'type' => 'array',
+        'items' => [
+            'type' => 'object',
+            'additionalProperties' => false,
+            'required' => ['slot', 'width'],
+            'properties' => [
+                'slot' => [
+                    'type' => 'string',
+                    'pattern' => '^[1-9][0-9]*$',
+                ],
+                'width' => [
+                    'type' => 'integer',
+                    'minimum' => 3,
+                    'maximum' => 12,
+                ],
+            ],
+        ],
+    ];
+
     /**
      * JSON configuration for columns.
      *
@@ -50,7 +70,7 @@ class ColumnLayout extends ContentNode {
     #[Groups(['read', 'write'])]
     private ?array $columns = null;
 
-    #[AssertJsonSchema(groups: ['columns_schema'])]
+    #[AssertJsonSchema(schema: ColumnLayout::COLUMNS_SCHEMA, groups: ['columns_schema'])]
     #[AssertColumWidthsSumTo12]
     #[AssertNoOrphanChildren]
     public function getColumns(): ?array {
