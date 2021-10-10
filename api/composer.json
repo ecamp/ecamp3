@@ -9,9 +9,9 @@
         "composer/package-versions-deprecated": "1.11.99",
         "cweagans/composer-patches": "1.7.1",
         "doctrine/annotations": "1.13.2",
-        "doctrine/doctrine-bundle": "2.4.2",
+        "doctrine/doctrine-bundle": "2.4.3",
         "doctrine/doctrine-migrations-bundle": "3.1.1",
-        "doctrine/orm": "2.9.5",
+        "doctrine/orm": "2.10.1",
         "exercise/htmlpurifier-bundle": "3.1.0",
         "guzzlehttp/guzzle": "7.3.0",
         "lexik/jwt-authentication-bundle": "2.13.0",
@@ -40,7 +40,7 @@
         "webonyx/graphql-php": "14.9.0"
     },
     "require-dev": {
-        "friendsofphp/php-cs-fixer": "3.1.0",
+        "friendsofphp/php-cs-fixer": "3.2.1",
         "hautelook/alice-bundle": "2.9.0",
         "justinrainbow/json-schema": "5.2.11",
         "php-coveralls/php-coveralls": "2.4.3",

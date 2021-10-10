@@ -2,7 +2,7 @@ version: "3.4"
 
 services:
   frontend:
-    image: node:16.10.0@sha256:a1118930ecc77da1ce4b19ac8c17adf386b7bb36b348111437f1cfca5a5c9fd7
+    image: node:16.10.0@sha256:543c034446e58fb3991842e22db7a404f5feb1050cf6126cb551e03cae0e7ac1
     container_name: 'ecamp3-frontend'
     ports:
       - '3000:3000'
@@ -105,7 +105,7 @@ services:
     entrypoint: ./docker-setup.sh
 
   print:
-    image: node:16.10.0@sha256:a1118930ecc77da1ce4b19ac8c17adf386b7bb36b348111437f1cfca5a5c9fd7
+    image: node:16.10.0@sha256:543c034446e58fb3991842e22db7a404f5feb1050cf6126cb551e03cae0e7ac1
     container_name: 'ecamp3-print'
     ports:
       - '3003:3003'
@@ -125,7 +125,7 @@ services:
       - ./print/print.env
 
   composer:
-    image: composer:2@sha256:33d2c1d9fb7311cb8f215a8f52669894ef534292ac5d331347f929c27e317bb1
+    image: composer:2@sha256:a8c3288614390957084035386b77ffe332f4634f99c3b091f512bdb914e155eb
     container_name: 'ecamp3-composer'
     restart: 'no'
     command: bash -c "composer install --no-interaction --no-plugins --no-scripts --prefer-dist"
@@ -149,7 +149,7 @@ services:
       - db-data:/var/lib/mysql
 
   database:
-    image: postgres:13-alpine@sha256:8eb076b8bcd3d12ce6e9c64e47723f1a328afd5aec5863cff73900d5aa407f7c
+    image: postgres:14-alpine@sha256:70955afb994d96daf06a9fe581a06b78294f67cc80a9f14fbd37f55c2985bfff
     environment:
       - POSTGRES_DB=ecamp3dev
       - POSTGRES_PASSWORD=ecamp3
@@ -171,42 +171,42 @@ services:
     volumes:
       - ./phpmyadmin/config.user.inc.php:/etc/phpmyadmin/config.user.inc.php
 
-  rabbitmq:
-    image: rabbitmq:3.9-management@sha256:e65c880a794cf01f5e83cb80ebca282413e10a73f060fc81122866e42ed4afc0
-    container_name: 'ecamp3-rabbitmq'
-    ports:
-      - '3004:15672'
-
-  worker-print-puppeteer:
-    build: ./workers/print-puppeteer
-    container_name: 'ecamp3-worker-print-puppeteer'
-    user: ${USER_ID:-1000}
-    volumes:
-      - ./workers/print-puppeteer:/app:delegated
-      - ./.cache/npm:/home/node/.npm
-      - ./.print-data:/app/data
-    command: ./docker-setup.sh
-    environment:
-      - NPM_CONFIG_UPDATE_NOTIFIER=false
-      - NPM_CONFIG_CACHE=/home/node/.npm
-
-  worker-print-weasy:
-    build: ./workers/print-weasy
-    container_name: 'ecamp3-worker-print-weasy'
-    user: ${USER_ID:-1000}
-    volumes:
-      - ./workers/print-weasy:/app:delegated
-      - ./.print-data:/app/data
-
-  print-file-server:
-    image: halverneus/static-file-server@sha256:1f88fe3030527f1ba3ded829e85e4b1acf060036c0d184d7adba4aef874d2145
-    container_name: 'ecamp3-print-file-server'
-    volumes:
-      - ./.print-data:/web
-    ports:
-      - '3005:8080'
-    environment:
-      - CORS=true
+#  rabbitmq:
+#    image: rabbitmq:3.9-management@sha256:e65c880a794cf01f5e83cb80ebca282413e10a73f060fc81122866e42ed4afc0
+#    container_name: 'ecamp3-rabbitmq'
+#    ports:
+#      - '3004:15672'
+#
+#  worker-print-puppeteer:
+#    build: ./workers/print-puppeteer
+#    container_name: 'ecamp3-worker-print-puppeteer'
+#    user: ${USER_ID:-1000}
+#    volumes:
+#      - ./workers/print-puppeteer:/app:delegated
+#      - ./.cache/npm:/home/node/.npm
+#      - ./.print-data:/app/data
+#    command: ./docker-setup.sh
+#    environment:
+#      - NPM_CONFIG_UPDATE_NOTIFIER=false
+#      - NPM_CONFIG_CACHE=/home/node/.npm
+#
+#  worker-print-weasy:
+#    build: ./workers/print-weasy
+#    container_name: 'ecamp3-worker-print-weasy'
+#    user: ${USER_ID:-1000}
+#    volumes:
+#      - ./workers/print-weasy:/app:delegated
+#      - ./.print-data:/app/data
+#
+#  print-file-server:
+#    image: halverneus/static-file-server@sha256:1f88fe3030527f1ba3ded829e85e4b1acf060036c0d184d7adba4aef874d2145
+#    container_name: 'ecamp3-print-file-server'
+#    volumes:
+#      - ./.print-data:/web
+#    ports:
+#      - '3005:8080'
+#    environment:
+#      - CORS=true
 
   mail:
     image: mailhog/mailhog@sha256:8d76a3d4ffa32a3661311944007a415332c4bb855657f4f6c57996405c009bea
