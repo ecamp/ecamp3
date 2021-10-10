@@ -19,15 +19,12 @@ class AssertNoOrphanChildrenValidator extends ConstraintValidator {
         $columnLayout = $this->context->getObject();
 
         if (!($columnLayout instanceof ColumnLayout)) {
-            throw new InvalidArgumentException('AssertNoOrphanChildrenValidator is only valid inside a ColumnLayout object');
+            throw new InvalidArgumentException('AssertNoOrphanChildren is only valid inside a ColumnLayout object');
         }
-
-        // validate prototype if provided (and $value empty)
-        $columns = $value ?? $columnLayout->prototype->columns;
 
         $slots = array_map(function ($col) {
             return $col['slot'];
-        }, $columns);
+        }, $value);
 
         $childSlots = $columnLayout->children->map(function (ContentNode $child) {
             return $child->slot;
@@ -36,7 +33,10 @@ class AssertNoOrphanChildrenValidator extends ConstraintValidator {
         $orphans = array_diff($childSlots, $slots);
 
         if (count($orphans)) {
-            $this->context->buildViolation(sprintf($constraint->message, join(', ', $orphans)))->addViolation();
+            $this->context->buildViolation($constraint->message)
+                ->setParameter('{{ slots }}', join(', ', $orphans))
+                ->addViolation()
+            ;
         }
     }
 }

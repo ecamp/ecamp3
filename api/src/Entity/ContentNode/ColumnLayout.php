@@ -47,9 +47,27 @@ class ColumnLayout extends ContentNode {
      * @ORM\Column(type="json", nullable=true)
      */
     #[ApiProperty(example: "[['slot' => '1', 'width' => 12]]")]
+    #[Groups(['read', 'write'])]
+    private ?array $columns = null;
+
     #[AssertJsonSchema(groups: ['columns_schema'])]
     #[AssertColumWidthsSumTo12]
     #[AssertNoOrphanChildren]
-    #[Groups(['read', 'write'])]
-    public ?array $columns = null;
+    public function getColumns(): ?array {
+        if (null !== $this->prototype && null === $this->columns) {
+            return $this->prototype->columns;
+        }
+
+        return $this->columns;
+    }
+
+    public function setColumns(?array $columns) {
+        $this->columns = $columns;
+    }
+
+    public function copyFromPrototype(ColumnLayout $prototype) {
+        if (!isset($this->columns)) {
+            $this->columns = $prototype->getColumns();
+        }
+    }
 }

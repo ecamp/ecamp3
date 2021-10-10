@@ -31,7 +31,7 @@ class CreateColumnLayoutTest extends ECampApiTestCase {
 
         $this->assertResponseStatusCodeSame(201);
         $this->assertJsonContains([
-            'columns' => $prototype->columns,
+            'columns' => $prototype->getColumns(),
             'instanceName' => $prototype->instanceName,
             'slot' => $prototype->slot,
             'position' => $prototype->position,

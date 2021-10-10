@@ -12,17 +12,15 @@ class AssertColumWidthsSumTo12Validator extends ConstraintValidator {
             throw new UnexpectedTypeException($constraint, AssertColumWidthsSumTo12::class);
         }
 
-        $object = $this->context->getObject();
-
-        // validate prototype if provided (and $value empty)
-        $columns = $value ?? $object->prototype->columns;
-
         $columnWidths = array_sum(array_map(function ($col) {
             return $col['width'];
-        }, $columns));
+        }, $value));
 
         if (12 !== $columnWidths) {
-            $this->context->buildViolation(sprintf($constraint->message, $columnWidths))->addViolation();
+            $this->context->buildViolation($constraint->message)
+                ->setParameter('{{ sum }}', $columnWidths)
+                ->addViolation()
+            ;
         }
     }
 }
