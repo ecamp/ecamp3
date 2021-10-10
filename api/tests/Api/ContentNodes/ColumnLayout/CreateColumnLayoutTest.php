@@ -31,11 +31,12 @@ class CreateColumnLayoutTest extends ECampApiTestCase {
 
         $this->assertResponseStatusCodeSame(201);
         $this->assertJsonContains([
+            'columns' => $prototype->getColumns(),
             'instanceName' => $prototype->instanceName,
             'slot' => $prototype->slot,
             'position' => $prototype->position,
             'contentTypeName' => $prototype->getContentTypeName(),
-            'jsonConfig' => $prototype->jsonConfig,
+
             '_links' => [
                 'contentType' => ['href' => $this->getIriFor($prototype->contentType)],
             ],
@@ -81,13 +82,6 @@ class CreateColumnLayoutTest extends ECampApiTestCase {
         $this->assertJsonContains(['position' => null]);
     }
 
-    public function testCreateColumnLayoutAllowsMissingJsonConfig() {
-        static::createClientWithCredentials()->request('POST', '/content_node/column_layouts', ['json' => $this->getExampleWritePayload([], ['jsonConfig'])]);
-
-        $this->assertResponseStatusCodeSame(201);
-        $this->assertJsonContains(['jsonConfig' => null]);
-    }
-
     public function testCreateColumnLayoutAllowsMissingInstanceName() {
         static::createClientWithCredentials()->request('POST', '/content_node/column_layouts', ['json' => $this->getExampleWritePayload([], ['instanceName'])]);
 
@@ -117,6 +111,7 @@ class CreateColumnLayoutTest extends ECampApiTestCase {
             array_merge([
                 'parent' => $this->getIriFor('columnLayout1'),
                 'contentType' => $this->getIriFor('contentTypeColumnLayout'),
+                'columns' => [['slot' => '1', 'width' => 12]],
                 'prototype' => null,
             ], $attributes),
             [],
@@ -129,7 +124,9 @@ class CreateColumnLayoutTest extends ECampApiTestCase {
             ColumnLayout::class,
             OperationType::ITEM,
             'get',
-            $attributes,
+            array_merge([
+                'columns' => [['slot' => '1', 'width' => 12]],
+            ], $attributes),
             ['parent', 'contentType'],
             $except
         );

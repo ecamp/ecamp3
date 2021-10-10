@@ -18,6 +18,8 @@ class ColumnLayoutDataPersister extends ContentNodeBaseDataPersister implements 
             if (!($data->prototype instanceof ColumnLayout)) {
                 throw new \Exception('Prototype must be of type ColumnLayout');
             }
+
+            $data->copyFromPrototype($data->prototype);
         }
 
         parent::onCreate($data);

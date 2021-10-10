@@ -51,6 +51,9 @@ services:
     App\Validator\MaterialItemUpdateGroupSequence:
         public: true
 
+    App\Validator\ColumnLayout\ColumnLayoutGroupSequence:
+        public: true
+
     # Since the input filter classes are resolved at runtime instead
     # of with constructor dependency injection, we create a service
     # locator that will serve all the required classes

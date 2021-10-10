@@ -12,7 +12,7 @@
             "port": 9003,
             "log": true,
             "pathMappings": {
-                "/srv/api": "${workspaceRoot}/api"
+                "/srv/api": "${workspaceRoot}"
             }
         },
         {
