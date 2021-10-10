@@ -224,19 +224,6 @@ class UpdateColumnLayoutTest extends ECampApiTestCase {
         ]);
     }
 
-    /*
-    public function testPatchColumnLayoutAcceptsNullJsonConfig() {
-        $contentNode = static::$fixtures['columnLayoutChild1'];
-        static::createClientWithCredentials()->request('PATCH', '/content_node/column_layouts/'.$contentNode->getId(), ['json' => [
-            'jsonConfig' => null,
-        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
-
-        $this->assertResponseStatusCodeSame(200);
-        $this->assertJsonContains([
-            'jsonConfig' => null,
-        ]);
-    }*/
-
     public function testPatchColumnLayoutAcceptsNullInstanceName() {
         $contentNode = static::$fixtures['columnLayoutChild1'];
         static::createClientWithCredentials()->request('PATCH', '/content_node/column_layouts/'.$contentNode->getId(), ['json' => [

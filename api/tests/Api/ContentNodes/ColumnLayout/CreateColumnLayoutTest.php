@@ -36,7 +36,7 @@ class CreateColumnLayoutTest extends ECampApiTestCase {
             'slot' => $prototype->slot,
             'position' => $prototype->position,
             'contentTypeName' => $prototype->getContentTypeName(),
-            'jsonConfig' => $prototype->jsonConfig,
+
             '_links' => [
                 'contentType' => ['href' => $this->getIriFor($prototype->contentType)],
             ],
@@ -80,13 +80,6 @@ class CreateColumnLayoutTest extends ECampApiTestCase {
 
         $this->assertResponseStatusCodeSame(201);
         $this->assertJsonContains(['position' => null]);
-    }
-
-    public function testCreateColumnLayoutAllowsMissingJsonConfig() {
-        static::createClientWithCredentials()->request('POST', '/content_node/column_layouts', ['json' => $this->getExampleWritePayload([], ['jsonConfig'])]);
-
-        $this->assertResponseStatusCodeSame(201);
-        $this->assertJsonContains(['jsonConfig' => null]);
     }
 
     public function testCreateColumnLayoutAllowsMissingInstanceName() {

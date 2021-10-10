@@ -22,7 +22,6 @@ class ReadSingleTextTest extends ECampApiTestCase {
             'slot' => $contentNode->slot,
             'position' => $contentNode->position,
             'contentTypeName' => $contentNode->getContentTypeName(),
-            'jsonConfig' => $contentNode->jsonConfig,
             'text' => $contentNode->text,
             '_links' => [
                 'parent' => ['href' => $this->getIriFor($contentNode->parent)],

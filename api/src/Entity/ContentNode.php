@@ -122,17 +122,6 @@ abstract class ContentNode extends BaseEntity implements BelongsToCampInterface 
     public ?int $position = null;
 
     /**
-     * Allows the content node to store some minimal configuration about its slots, in case the
-     * slots are dynamically changeable (such as the number of columns in a column layout).
-     * Depending on the content node's content type, different validation rules will apply.
-     *
-     * @ORM\Column(type="json", nullable=true)
-     */
-    #[ApiProperty(example: '{}')]
-    #[Groups(['read', 'write'])]
-    public ?array $jsonConfig = null;
-
-    /**
      * An optional name for this content node. This is useful when planning e.g. an alternative
      * version of the programme suited for bad weather, in addition to the normal version.
      *
