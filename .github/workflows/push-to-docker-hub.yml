@@ -89,41 +89,41 @@ jobs:
           dockerfile: .docker-hub/print/Dockerfile
           tags: 'latest,${{ github.event.client_payload.sha }}'
 
-  push-worker-print-puppeteer-to-docker-hub:
-    name: "Push worker-print-puppeteer to Docker Hub"
-    needs: only-on-main-branch
-    runs-on: ubuntu-latest
-    steps:
-
-      - uses: actions/checkout@5a4ac9002d0be2fb38bd78e4b4dbde5606d7042f # renovate: tag=v2
-        with:
-          ref: ${{ github.event.client_payload.sha }}
-
-      - uses: docker/build-push-action@3e7a4f6646880c6f63758d73ac32392d323eaf8f # renovate: tag=v1
-        with:
-          username: ${{ secrets.DOCKER_HUB_USERNAME }}
-          password: ${{ secrets.DOCKER_HUB_PASSWORD }}
-          repository: ecamp/ecamp3-worker-print-puppeteer
-          dockerfile: .docker-hub/worker-print-puppeteer/Dockerfile
-          tags: 'latest,${{ github.event.client_payload.sha }}'
-
-  push-worker-print-weasy-to-docker-hub:
-    name: "Push worker-print-weasy to Docker Hub"
-    needs: only-on-main-branch
-    runs-on: ubuntu-latest
-    steps:
-
-      - uses: actions/checkout@5a4ac9002d0be2fb38bd78e4b4dbde5606d7042f # renovate: tag=v2
-        with:
-          ref: ${{ github.event.client_payload.sha }}
-
-      - uses: docker/build-push-action@3e7a4f6646880c6f63758d73ac32392d323eaf8f # renovate: tag=v1
-        with:
-          username: ${{ secrets.DOCKER_HUB_USERNAME }}
-          password: ${{ secrets.DOCKER_HUB_PASSWORD }}
-          repository: ecamp/ecamp3-worker-print-weasy
-          dockerfile: .docker-hub/worker-print-weasy/Dockerfile
-          tags: 'latest,${{ github.event.client_payload.sha }}'
+#  push-worker-print-puppeteer-to-docker-hub:
+#    name: "Push worker-print-puppeteer to Docker Hub"
+#    needs: only-on-main-branch
+#    runs-on: ubuntu-latest
+#    steps:
+#
+#      - uses: actions/checkout@5a4ac9002d0be2fb38bd78e4b4dbde5606d7042f # renovate: tag=v2
+#        with:
+#          ref: ${{ github.event.client_payload.sha }}
+#
+#      - uses: docker/build-push-action@3e7a4f6646880c6f63758d73ac32392d323eaf8f # renovate: tag=v1
+#        with:
+#          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+#          password: ${{ secrets.DOCKER_HUB_PASSWORD }}
+#          repository: ecamp/ecamp3-worker-print-puppeteer
+#          dockerfile: .docker-hub/worker-print-puppeteer/Dockerfile
+#          tags: 'latest,${{ github.event.client_payload.sha }}'
+#
+#  push-worker-print-weasy-to-docker-hub:
+#    name: "Push worker-print-weasy to Docker Hub"
+#    needs: only-on-main-branch
+#    runs-on: ubuntu-latest
+#    steps:
+#
+#      - uses: actions/checkout@5a4ac9002d0be2fb38bd78e4b4dbde5606d7042f # renovate: tag=v2
+#        with:
+#          ref: ${{ github.event.client_payload.sha }}
+#
+#      - uses: docker/build-push-action@3e7a4f6646880c6f63758d73ac32392d323eaf8f # renovate: tag=v1
+#        with:
+#          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+#          password: ${{ secrets.DOCKER_HUB_PASSWORD }}
+#          repository: ecamp/ecamp3-worker-print-weasy
+#          dockerfile: .docker-hub/worker-print-weasy/Dockerfile
+#          tags: 'latest,${{ github.event.client_payload.sha }}'
 
   images-pushed-event:
     name: "Send out image push success event"
@@ -132,8 +132,8 @@ jobs:
       - push-api-to-docker-hub
       - push-caddy-to-docker-hub
       - push-print-to-docker-hub
-      - push-worker-print-puppeteer-to-docker-hub
-      - push-worker-print-weasy-to-docker-hub
+#      - push-worker-print-puppeteer-to-docker-hub
+#      - push-worker-print-weasy-to-docker-hub
     runs-on: ubuntu-latest
     steps:
 

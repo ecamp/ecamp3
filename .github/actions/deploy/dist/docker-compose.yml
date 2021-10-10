@@ -13,7 +13,7 @@ services:
       - caddy
       - frontend
       - print
-      - worker-print-puppeteer
+#      - worker-print-puppeteer
 #      - worker-print-weasy
       - mail
 
@@ -58,21 +58,27 @@ services:
     env_file:
       - print.env
 
-  rabbitmq:
-    image: rabbitmq:3.9-management@sha256:e65c880a794cf01f5e83cb80ebca282413e10a73f060fc81122866e42ed4afc0
-    container_name: 'ecamp3-rabbitmq'
-    env_file:
-      - rabbitmq.env
-
-  worker-print-puppeteer:
-    image: ecamp/ecamp3-worker-print-puppeteer:${DOCKER_IMAGE_TAG}
-    container_name: 'ecamp3-worker-print-puppeteer'
-    volumes:
-      - ./worker-print-puppeteer-environment.js:/app/environment.js
-      - print-output:/app/data
-    depends_on:
-      - rabbitmq
-
+#  print:
+#    image: ecamp/ecamp3-print:${DOCKER_IMAGE_TAG}
+#    container_name: 'ecamp3-print'
+#    env_file:
+#      - print.env
+#
+#  rabbitmq:
+#    image: rabbitmq:3.9-management@sha256:e65c880a794cf01f5e83cb80ebca282413e10a73f060fc81122866e42ed4afc0
+#    container_name: 'ecamp3-rabbitmq'
+#    env_file:
+#      - rabbitmq.env
+#
+#  worker-print-puppeteer:
+#    image: ecamp/ecamp3-worker-print-puppeteer:${DOCKER_IMAGE_TAG}
+#    container_name: 'ecamp3-worker-print-puppeteer'
+#    volumes:
+#      - ./worker-print-puppeteer-environment.js:/app/environment.js
+#      - print-output:/app/data
+#    depends_on:
+#      - rabbitmq
+#
 #  worker-print-weasy:
 #    image: ecamp/ecamp3-worker-print-weasy:${DOCKER_IMAGE_TAG}
 #    container_name: 'ecamp3-worker-print-weasy'
