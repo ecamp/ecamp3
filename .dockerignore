@@ -2,6 +2,7 @@
 # This file does not affect the development builds, because the contexts for those are the
 # backend and frontend directories, respectively.
 
+.cache/
 /backend/config/autoload/doctrine.local.dev.php
 /backend/config/autoload/doctrine.local.prod.php
 /frontend/data
