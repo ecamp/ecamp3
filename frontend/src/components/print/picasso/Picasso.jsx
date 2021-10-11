@@ -54,14 +54,15 @@ function Picasso ({ camp, period }) {
     [20, 2],
     [21, 2],
     [22, 2],
-    [23, 1]
+    [23, 1],
+    [24, 0] // this last hour is only needed for defining the length of the day, the weight should be 0
   ]
 
   return <React.Fragment>
     <Page size="A4" orientation={period.days().items.length > 1 ? 'landscape' : 'portrait'} style={ pageStyles }>
       <Text id="picasso" style={styles.h1}>Grobprogramm {period.description}</Text>
       <View style={ columnWrapperStyles }>
-        <TimeColumn times={times} />
+        <TimeColumn times={times.slice(0, times.length - 1)} />
         {period.days().items.map(day => {
           return <DayColumn key={day.id}
                             styles={{ borderLeft: (day.id === period.days().items[0].id) ? '1px solid grey' : '', borderRight: '1px solid grey' }}
@@ -69,7 +70,7 @@ function Picasso ({ camp, period }) {
                             day={day}
                             scheduleEntries={period.scheduleEntries().items}/>
         })}
-        <TimeColumn times={times} />
+        <TimeColumn times={times.slice(0, times.length - 1)} />
       </View>
     </Page>
   </React.Fragment>

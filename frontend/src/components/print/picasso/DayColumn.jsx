@@ -21,9 +21,15 @@ function percentage (minutes, times) {
   return Math.max(0, Math.min(100, result))
 }
 
-function filterScheduleEntriesByDay (scheduleEntries, dayNumber, times) {
-  // TODO take times into account
-  return scheduleEntries.filter(se => (se.periodOffset < (dayNumber * 60 * 24)) && ((se.periodOffset + se.length) > ((dayNumber - 1) * 60 * 24)))
+function filterScheduleEntriesByDay (scheduleEntries, dayOffset, times) {
+  const [dayStart] = times[0]
+  const [dayEnd] = times[times.length - 1]
+  const dayStartMinutes = (dayOffset * 24 + dayStart) * 60
+  const dayEndMinutes = (dayOffset * 24 + dayEnd) * 60
+  return scheduleEntries.filter(se => {
+    return (se.periodOffset < dayEndMinutes) &&
+      ((se.periodOffset + se.length) > dayStartMinutes)
+  })
 }
 
 const columnStyles = {
@@ -48,7 +54,7 @@ const scheduleEntryStyles = {
 
 function DayColumn ({ times, scheduleEntries, day, styles }) {
   return <View style={{ ...columnStyles, ...styles }}>
-    {filterScheduleEntriesByDay(scheduleEntries, day.number, times).map(scheduleEntry => {
+    {filterScheduleEntriesByDay(scheduleEntries, day.dayOffset, times).map(scheduleEntry => {
       return <View key={scheduleEntry.id} style={{
         scheduleEntryStyles,
         top: percentage(scheduleEntry.periodOffset - (day.dayOffset * 24 * 60), times) + '%',
@@ -58,7 +64,7 @@ function DayColumn ({ times, scheduleEntries, day, styles }) {
       </View>
     })}
     <View style={ dayGridStyles }>
-      {times.map(([time, weight]) => <View key={time} style={{ ...rowStyles, flexGrow: weight }} />)}
+      {times.slice(0, times.length - 1).map(([time, weight]) => <View key={time} style={{ ...rowStyles, flexGrow: weight }} />)}
     </View>
   </View>
 }
