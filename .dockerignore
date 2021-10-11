@@ -3,6 +3,7 @@
 # backend and frontend directories, respectively.
 
 .cache/
+.git/
 /backend/config/autoload/doctrine.local.dev.php
 /backend/config/autoload/doctrine.local.prod.php
 /frontend/data
