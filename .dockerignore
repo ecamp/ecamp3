@@ -4,9 +4,9 @@
 
 /backend/config/autoload/doctrine.local.dev.php
 /backend/config/autoload/doctrine.local.prod.php
-/backend/vendor
 /frontend/data
 /frontend/dist
-/frontend/node_modules
 /frontend/.env.*
 /frontend/public/environment.*
+**/vendor/
+**/node_modules/
