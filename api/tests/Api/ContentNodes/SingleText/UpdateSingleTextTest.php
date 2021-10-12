@@ -16,10 +16,8 @@ class UpdateSingleTextTest extends UpdateContentNodeTestCase {
     }
 
     public function testPatchText() {
-        $contentNode = static::$fixtures['singleText1'];
-
         // when
-        $this->patch($contentNode, ['text' => 'testText']);
+        $this->patch($this->defaultContentNode, ['text' => 'testText']);
 
         // then
         $this->assertResponseStatusCodeSame(200);
@@ -29,10 +27,8 @@ class UpdateSingleTextTest extends UpdateContentNodeTestCase {
     }
 
     public function testPatchCleansHTMLFromText() {
-        $contentNode = static::$fixtures['singleText1'];
-
         // when
-        $this->patch($contentNode, ['text' => ' testText<script>alert(1)</script>']);
+        $this->patch($this->defaultContentNode, ['text' => ' testText<script>alert(1)</script>']);
 
         // then
         $this->assertResponseStatusCodeSame(200);

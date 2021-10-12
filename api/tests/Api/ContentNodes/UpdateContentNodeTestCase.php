@@ -2,6 +2,8 @@
 
 namespace App\Tests\Api\ContentNodes;
 
+use App\Entity\ContentNode;
+use App\Entity\User;
 use App\Tests\Api\ECampApiTestCase;
 
 /**
@@ -26,37 +28,43 @@ abstract class UpdateContentNodeTestCase extends ECampApiTestCase {
     }
 
     public function testPatchIsDeniedForInvitedCollaborator() {
-        $this->patch($this->defaultContentNode, [], static::$fixtures['user6invited']);
+        $this->patch(user: static::$fixtures['user6invited']);
         $this->assertResponseStatusCodeSame(403);
     }
 
     public function testPatchIsDeniedForInactiveCollaborator() {
-        $this->patch($this->defaultContentNode, [], static::$fixtures['user5inactive']);
+        $this->patch(user: static::$fixtures['user5inactive']);
         $this->assertResponseStatusCodeSame(403);
     }
 
     public function testPatchIsDeniedForUnrelatedUser() {
-        $this->patch($this->defaultContentNode, [], static::$fixtures['user4unrelated']);
+        $this->patch(user: static::$fixtures['user4unrelated']);
         $this->assertResponseStatusCodeSame(403);
     }
 
     public function testPatchIsDeniedForGuest() {
-        $this->patch($this->defaultContentNode, [], static::$fixtures['user3guest']);
+        $this->patch(user: static::$fixtures['user3guest']);
         $this->assertResponseStatusCodeSame(403);
     }
 
     public function testPatchIsAllowedForMember() {
-        $this->patch($this->defaultContentNode, [], static::$fixtures['user2member']);
+        $this->patch(user: static::$fixtures['user2member']);
         $this->assertResponseStatusCodeSame(200);
     }
 
     public function testPatchIsAllowedForManager() {
-        $this->patch($this->defaultContentNode, [], static::$fixtures['user1manager']);
+        $this->patch(user: static::$fixtures['user1manager']);
         $this->assertResponseStatusCodeSame(200);
     }
 
-    protected function patch($contentNode, $payload = [], $user = null) {
-        $credentials = null !== $user ? ['username' => $user->getUsername()] : null;
+    protected function patch(?ContentNode $contentNode = null, array $payload = [], ?User $user = null) {
+        $credentials = null;
+        if (null !== $user) {
+            $credentials = ['username' => $user->getUsername()];
+        }
+
+        $contentNode ??= $this->defaultContentNode;
+
         static::createClientWithCredentials($credentials)->request('PATCH', "/content_node/{$this->endpoint}/".$this->defaultContentNode->getId(), ['json' => $payload, 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
     }
 }
