@@ -35,19 +35,13 @@ abstract class ListContentNodeTestCase extends ECampApiTestCase {
     public function testListForInvitedCollaborator() {
         $response = $this->list(user: static::$fixtures['user6invited']);
         $this->assertResponseStatusCodeSame(200);
-        $this->assertJsonContainsItems($response, $this->contentNodesCamp1);
-
-        // TODO: The next line should be the correct assertion once we implement proper entity filtering for content nodes
-        // $this->assertJsonContainsItems($response, []);
+        $this->assertJsonContainsItems($response, []);
     }
 
     public function testListForInactiveCollaborator() {
         $response = $this->list(user: static::$fixtures['user5inactive']);
         $this->assertResponseStatusCodeSame(200);
-        $this->assertJsonContainsItems($response, $this->contentNodesCamp1);
-
-        // TODO: The next line should be the correct assertion once we implement proper entity filtering for content nodes
-        // $this->assertJsonContainsItems($response, []);
+        $this->assertJsonContainsItems($response, []);
     }
 
     public function testListForUnrelatedUser() {
@@ -90,16 +84,22 @@ abstract class ListContentNodeTestCase extends ECampApiTestCase {
     protected function assertJsonContainsItems(ResponseInterface $response, array $items = []) {
         $this->assertJsonContains([
             'totalItems' => count($items),
-            '_links' => [
-                'items' => [],
-            ],
-            '_embedded' => [
-                'items' => [],
-            ],
         ]);
-        $this->assertEqualsCanonicalizing(
-            array_map(fn ($iri): array => ['href' => $iri], $items),
-            $response->toArray()['_links']['items']
-        );
+
+        if (!empty($items)) {
+            $this->assertJsonContains([
+                '_links' => [
+                    'items' => [],
+                ],
+                '_embedded' => [
+                    'items' => [],
+                ],
+            ]);
+
+            $this->assertEqualsCanonicalizing(
+                array_map(fn ($iri): array => ['href' => $iri], $items),
+                $response->toArray()['_links']['items']
+            );
+        }
     }
 }

@@ -67,7 +67,7 @@ abstract class CreateContentNodeTestCase extends ECampApiTestCase {
     public function testCreateIsAllowedForManager() {
         // when
         $response = $this->create(user: static::$fixtures['user1manager']);
-        $id = json_decode($response->getContent())->id;
+        $id = $response->toArray()['id'];
         $newContentNode = $this->getEntityManager()->getRepository($this->contentNodeClass)->find($id);
 
         // then
@@ -140,16 +140,5 @@ abstract class CreateContentNodeTestCase extends ECampApiTestCase {
                 ],
             ],
         ];
-
-        /*
-        return $this->getExamplePayload(
-            $this->contentNodeClass,
-            OperationType::ITEM,
-            'get',
-            array_merge([
-            ], $attributes),
-            [],
-            $except
-        );*/
     }
 }

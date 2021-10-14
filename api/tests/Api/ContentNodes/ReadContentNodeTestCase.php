@@ -29,17 +29,17 @@ abstract class ReadContentNodeTestCase extends ECampApiTestCase {
 
     public function testGetIsDeniedForInvitedCollaborator() {
         $this->get(user: static::$fixtures['user6invited']);
-        $this->assertResponseStatusCodeSame(403);
+        $this->assertResponseStatusCodeSame(404);
     }
 
     public function testGetIsDeniedForInactiveCollaborator() {
         $this->get(user: static::$fixtures['user5inactive']);
-        $this->assertResponseStatusCodeSame(403);
+        $this->assertResponseStatusCodeSame(404);
     }
 
     public function testGetIsDeniedForUnrelatedUser() {
         $this->get(user: static::$fixtures['user4unrelated']);
-        $this->assertResponseStatusCodeSame(403);
+        $this->assertResponseStatusCodeSame(404);
     }
 
     public function testGetIsAllowedForGuest() {

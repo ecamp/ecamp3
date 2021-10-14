@@ -5,11 +5,12 @@ namespace App\Entity\ContentNode;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Entity\ContentNode;
 use App\InputFilter;
+use App\Repository\SingleTextRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass=SingleTextRepository::class)
  * @ORM\Table(name="content_node_singletext")
  */
 #[ApiResource(

@@ -18,15 +18,10 @@ class ListSingleTextTest extends ListContentNodeTestCase {
         $this->contentNodesCamp1 = [
             $this->getIriFor('singleText1'),
             $this->getIriFor('singleText2'),
-            // TODO: The next two should not be visible once we implement proper entity filtering for content nodes
-            $this->getIriFor('singleTextCampUnrelated'),
         ];
 
         $this->contentNodesCampUnrelated = [
             $this->getIriFor('singleTextCampUnrelated'),
-            // TODO: The next two should not be visible once we implement proper entity filtering for content nodes
-            $this->getIriFor('singleText1'),
-            $this->getIriFor('singleText2'),
         ];
     }
 

@@ -29,17 +29,17 @@ abstract class UpdateContentNodeTestCase extends ECampApiTestCase {
 
     public function testPatchIsDeniedForInvitedCollaborator() {
         $this->patch(user: static::$fixtures['user6invited']);
-        $this->assertResponseStatusCodeSame(403);
+        $this->assertResponseStatusCodeSame(404);
     }
 
     public function testPatchIsDeniedForInactiveCollaborator() {
         $this->patch(user: static::$fixtures['user5inactive']);
-        $this->assertResponseStatusCodeSame(403);
+        $this->assertResponseStatusCodeSame(404);
     }
 
     public function testPatchIsDeniedForUnrelatedUser() {
         $this->patch(user: static::$fixtures['user4unrelated']);
-        $this->assertResponseStatusCodeSame(403);
+        $this->assertResponseStatusCodeSame(404);
     }
 
     public function testPatchIsDeniedForGuest() {

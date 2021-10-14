@@ -31,19 +31,19 @@ abstract class DeleteContentNodeTestCase extends ECampApiTestCase {
 
     public function testDeleteIsDeniedForInvitedCollaborator() {
         $this->delete(user: static::$fixtures['user6invited']);
-        $this->assertResponseStatusCodeSame(403);
+        $this->assertResponseStatusCodeSame(404);
         $this->assertEntityStillExists();
     }
 
     public function testDeleteIsDeniedForInactiveCollaborator() {
         $this->delete(user: static::$fixtures['user5inactive']);
-        $this->assertResponseStatusCodeSame(403);
+        $this->assertResponseStatusCodeSame(404);
         $this->assertEntityStillExists();
     }
 
     public function testDeleteIsDeniedForUnrelatedUser() {
         $this->delete(user: static::$fixtures['user4unrelated']);
-        $this->assertResponseStatusCodeSame(403);
+        $this->assertResponseStatusCodeSame(404);
         $this->assertEntityStillExists();
     }
 
