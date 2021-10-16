@@ -75,8 +75,10 @@ export default {
     },
     dataLoading () {
       return this.camp()._meta.loading ||
+        this.camp().periods()._meta.loading ||
         this.camp().periods().items.some(period => {
           return period._meta.loading ||
+            period.scheduleEntries()._meta.loading ||
             period.scheduleEntries().items.some(scheduleEntry => {
               return scheduleEntry._meta.loading ||
                 scheduleEntry.activity()._meta.loading
