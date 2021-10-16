@@ -43,7 +43,14 @@ class ExpressionDateFilter extends AbstractContextAwareFilter implements DateFil
     /**
      * {@inheritdoc}
      */
-    protected function filterProperty(string $property, $values, QueryBuilder $queryBuilder, QueryNameGeneratorInterface $queryNameGenerator, string $resourceClass, string $operationName = null) {
+    protected function filterProperty(
+        string $property,
+        $values,
+        QueryBuilder $queryBuilder,
+        QueryNameGeneratorInterface $queryNameGenerator,
+        string $resourceClass,
+        string $operationName = null
+    ) {
         if (
             !\is_array($values)
             || !$this->isPropertyEnabled($property, $resourceClass)
@@ -108,7 +115,15 @@ class ExpressionDateFilter extends AbstractContextAwareFilter implements DateFil
     /**
      * Adds the where clause based on the chosen expression.
      */
-    protected function addWhere(QueryBuilder $queryBuilder, QueryNameGeneratorInterface $queryNameGenerator, string $alias, string $field, string $operator, string $value, string $expression) {
+    protected function addWhere(
+        QueryBuilder $queryBuilder,
+        QueryNameGeneratorInterface $queryNameGenerator,
+        string $alias,
+        string $field,
+        string $operator,
+        string $value,
+        string $expression
+    ) {
         try {
             $value = new \DateTime($value);
         } catch (\Exception $e) {
@@ -138,7 +153,12 @@ class ExpressionDateFilter extends AbstractContextAwareFilter implements DateFil
     /**
      * Replaces placeholders in the given expression and adds joins for them.
      */
-    protected function compileExpression(QueryBuilder $queryBuilder, QueryNameGeneratorInterface $queryNameGenerator, string $alias, string $expression): string {
+    protected function compileExpression(
+        QueryBuilder $queryBuilder,
+        QueryNameGeneratorInterface $queryNameGenerator,
+        string $alias,
+        string $expression
+    ): string {
         // Replace {} with the alias of the current entity
         $expression = preg_replace('/\{\}/', $alias, $expression);
 
