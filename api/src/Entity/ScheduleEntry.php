@@ -139,7 +139,7 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
      *
      * @return null|DateTime
      */
-    #[ApiProperty(example: '2022-01-02T00:00:00+00:00', openapiContext: ['format' => 'date'])]
+    #[ApiProperty(writable: false, example: '2022-01-02T00:00:00+00:00', openapiContext: ['format' => 'date'])]
     #[Groups(['read'])]
     public function getStart(): ?DateTime {
         try {
@@ -157,7 +157,7 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
      *
      * @return null|DateTime
      */
-    #[ApiProperty(example: '2022-01-02T01:30:00+00:00', openapiContext: ['format' => 'date'])]
+    #[ApiProperty(writable: false, example: '2022-01-02T01:30:00+00:00', openapiContext: ['format' => 'date'])]
     #[Groups(['read'])]
     public function getEnd(): ?DateTime {
         try {
