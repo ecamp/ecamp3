@@ -114,11 +114,8 @@ class ScheduleEntryTest extends TestCase {
         $this->scheduleEntry1->periodOffset = $this->scheduleEntry2->periodOffset;
         $this->scheduleEntry1->left = 0;
         $this->scheduleEntry2->left = 0;
-        $createTimeProperty = (new ReflectionClass(ScheduleEntry::class))->getProperty('createTime');
-        $createTimeProperty->setAccessible(true);
-        $createTimeProperty->setValue($this->scheduleEntry1, new DateTime('yesterday'));
-        $createTimeProperty->setValue($this->scheduleEntry2, new DateTime('now'));
-        $createTimeProperty->setAccessible(false);
+        $this->setCreateTime($this->scheduleEntry1, new DateTime('yesterday'));
+        $this->setCreateTime($this->scheduleEntry2, new DateTime('now'));
 
         $this->assertEquals('1.1', $this->scheduleEntry1->getNumber());
         $this->assertEquals('1.2', $this->scheduleEntry2->getNumber());
@@ -127,5 +124,12 @@ class ScheduleEntryTest extends TestCase {
     public function testGetDay() {
         $this->assertEquals($this->day1, $this->scheduleEntry2->getDay());
         $this->assertEquals($this->day2, $this->scheduleEntry3->getDay());
+    }
+
+    protected function setCreateTime(ScheduleEntry $scheduleEntry, DateTime $createTime) {
+        $createTimeProperty = (new ReflectionClass(ScheduleEntry::class))->getProperty('createTime');
+        $createTimeProperty->setAccessible(true);
+        $createTimeProperty->setValue($scheduleEntry, $createTime);
+        $createTimeProperty->setAccessible(false);
     }
 }
