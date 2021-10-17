@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Api\ColumnLayouts;
+namespace App\Tests\Api\ContentNodes\ColumnLayout;
 
 use ApiPlatform\Core\Api\OperationType;
 use App\Entity\ContentNode\ColumnLayout;

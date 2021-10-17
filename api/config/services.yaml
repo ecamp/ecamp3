@@ -114,3 +114,10 @@ services:
     App\EventListener\JWTCreatedListener:
         tags:
             - { name: kernel.event_listener, event: lexik_jwt_authentication.on_jwt_created, method: onJWTCreated }
+
+    # Entity Filter
+    App\Doctrine\FilterByCurrentUserExtension:
+        tags:
+            # FilterEagerLoadingExtension has Priority -17 and breaks the DQL generated in ContentNodeRepository => Priority -20 ensures this runs after FilterEagerLoadingExtension
+            - { name: api_platform.doctrine.orm.query_extension.collection, priority: -20 } 
+            - { name: api_platform.doctrine.orm.query_extension.item }

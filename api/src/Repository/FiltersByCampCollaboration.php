@@ -14,8 +14,22 @@ trait FiltersByCampCollaboration {
      * the alias of the camp as the third argument if it's anything other than "camp".
      */
     public function filterByCampCollaboration(QueryBuilder $queryBuilder, User $user, string $campAlias = 'camp'): void {
-        $queryBuilder->leftJoin("{$campAlias}.collaborations", 'filter_campCollaboration');
-        $queryBuilder->andWhere("(filter_campCollaboration.user = :current_user and filter_campCollaboration.status = :established) or {$campAlias}.isPrototype = :true");
+        $queryBuilder->leftJoin("{$campAlias}.collaborations", "filter_{$campAlias}_campCollaboration");
+        $queryBuilder->andWhere(
+            $queryBuilder->expr()->orX(
+                // user is established collaborator in the camp
+                $queryBuilder->expr()->andX(
+                    $queryBuilder->expr()->eq("filter_{$campAlias}_campCollaboration.user", ':current_user'),
+                    $queryBuilder->expr()->eq("filter_{$campAlias}_campCollaboration.status", ':established'),
+                ),
+
+                // camp is a Prototype = all Prototypes are readable
+                $queryBuilder->expr()->eq("{$campAlias}.isPrototype", ':true'),
+
+                // property $campAlias is not loaded in current DQL (needed for AbstractContentNodeOwner, where the camp is loaded twice - once via category and once via activity)
+                $queryBuilder->expr()->isNull("{$campAlias}")
+            )
+        );
         $queryBuilder->setParameter('current_user', $user);
         $queryBuilder->setParameter('established', CampCollaboration::STATUS_ESTABLISHED);
         $queryBuilder->setParameter('true', true);
