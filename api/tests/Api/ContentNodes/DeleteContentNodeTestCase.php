@@ -7,7 +7,7 @@ use App\Entity\User;
 use App\Tests\Api\ECampApiTestCase;
 
 /**
- * Base UPDATE (patch) test case to be used for various ContentNode types.
+ * Base DELETE test case to be used for various ContentNode types.
  *
  * This test class covers all tests that are the same across all content node implementations
  *

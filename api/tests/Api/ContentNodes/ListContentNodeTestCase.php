@@ -86,6 +86,7 @@ abstract class ListContentNodeTestCase extends ECampApiTestCase {
             'totalItems' => count($items),
         ]);
 
+        // TODO: remove if once PR #2062 is merged
         if (!empty($items)) {
             $this->assertJsonContains([
                 '_links' => [

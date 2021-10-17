@@ -20,12 +20,8 @@ use Doctrine\Persistence\ManagerRegistry;
 class ContentNodeRepository extends ServiceEntityRepository implements CanFilterByUserInterface {
     use FiltersByCampCollaboration;
 
-    public function __construct(ManagerRegistry $registry, string $entityClass = null) {
-        if (null === $entityClass) {
-            parent::__construct($registry, ContentNode::class);
-        } else {
-            parent::__construct($registry, $entityClass);
-        }
+    public function __construct(ManagerRegistry $registry, string $entityClass = ContentNode::class) {
+        parent::__construct($registry, $entityClass);
     }
 
     public function filterByUser(QueryBuilder $queryBuilder, User $user): void {
