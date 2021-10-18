@@ -178,4 +178,37 @@ class ReadCampTest extends ECampApiTestCase {
         $this->assertResponseStatusCodeSame(200);
         $this->assertArrayNotHasKey('campPrototypeId', $response->toArray());
     }
+
+    public function testGetSingleCampEmbedsCampCollaborationsAndItsUser() {
+        /** @var Camp $camp */
+        $camp = static::$fixtures['camp1'];
+        $user = static::$fixtures['user2member'];
+        static::createClientWithCredentials(['username' => $user->username])->request('GET', '/camps/'.$camp->getId());
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertMatchesJsonSchema([
+            'type' => 'object',
+            'required' => ['_embedded'],
+            'properties' => [
+                '_embedded' => [
+                    'type' => 'object',
+                    'required' => ['campCollaborations'],
+                    'properties' => [
+                        'campCollaborations' => [
+                            'type' => 'array',
+                            'items' => [
+                                'type' => 'object',
+                                'required' => ['_embedded'],
+                                'properties' => [
+                                    '_embedded' => [
+                                        'type' => 'object',
+                                        'required' => ['user'],
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ]);
+    }
 }

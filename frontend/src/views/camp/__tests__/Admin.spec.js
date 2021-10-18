@@ -2,6 +2,7 @@ import { render } from '@testing-library/vue'
 import Admin from '../Admin.vue'
 import Vue from 'vue'
 import Vuetify from 'vuetify'
+import flushPromises from 'flush-promises'
 
 Vue.use(Vuetify)
 
@@ -25,18 +26,28 @@ describe('Admin view', () => {
     const { getByText } = renderWithVuetify(Admin, {
       props: {
         camp: () => ({
-          role: 'manager',
+          campCollaborations: () => ({
+            items: [
+              {
+                role: 'manager',
+                ...USER
+              }
+            ]
+          }),
           materialLists: () => {},
-          _meta: { loading: false }
+          _meta: { load: Promise.resolve() }
         })
       },
       routes: [],
       mocks: {
+        $auth: USER,
         api: { reload: () => Promise.resolve() },
         $tc: key => key
       },
       stubs: ['camp-settings', 'camp-address', 'camp-periods', 'camp-categories', 'camp-material-lists']
     })
+
+    await flushPromises()
 
     expect(getByText('components.camp.campDangerzone.title')).toBeInTheDocument()
     expect(getByText('components.camp.campDangerzone.deleteCamp.title')).toBeInTheDocument()
@@ -46,18 +57,28 @@ describe('Admin view', () => {
     const { queryByText } = renderWithVuetify(Admin, {
       props: {
         camp: () => ({
-          role: 'member',
+          campCollaborations: () => ({
+            items: [
+              {
+                role: 'member',
+                ...USER
+              }
+            ]
+          }),
           materialLists: () => {},
-          _meta: { loading: false }
+          _meta: { load: Promise.resolve() }
         })
       },
       routes: [],
       mocks: {
+        $auth: USER,
         api: { reload: () => Promise.resolve() },
         $tc: key => key
       },
       stubs: ['camp-settings', 'camp-address', 'camp-periods', 'camp-categories', 'camp-material-lists']
     })
+
+    await flushPromises()
 
     expect(queryByText('components.camp.campDangerzone.title')).not.toBeInTheDocument()
     expect(queryByText('components.camp.campDangerzone.deleteCamp.title')).not.toBeInTheDocument()
@@ -67,20 +88,39 @@ describe('Admin view', () => {
     const { queryByText } = renderWithVuetify(Admin, {
       props: {
         camp: () => ({
-          role: 'guest',
+          campCollaborations: () => ({
+            items: [
+              {
+                role: 'guest',
+                ...USER
+              }
+            ]
+          }),
           materialLists: () => {},
-          _meta: { loading: false }
+          _meta: { load: Promise.resolve() }
         })
       },
       routes: [],
       mocks: {
+        $auth: USER,
         api: { reload: () => Promise.resolve() },
         $tc: key => key
       },
       stubs: ['camp-settings', 'camp-address', 'camp-periods', 'camp-categories', 'camp-material-lists']
     })
 
+    await flushPromises()
+
     expect(queryByText('components.camp.campDangerzone.title')).not.toBeInTheDocument()
     expect(queryByText('components.camp.campDangerzone.deleteCamp.title')).not.toBeInTheDocument()
   })
 })
+
+const USER_URL = '/users/17d341a80579'
+const USER = {
+  user: () => ({
+    _meta: {
+      self: USER_URL
+    }
+  })
+}
