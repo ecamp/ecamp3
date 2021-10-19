@@ -68,7 +68,7 @@
     "sass": "1.43.2",
     "vite": "2.6.10",
     "vite-plugin-components": "0.13.3",
-    "vite-plugin-vue2": "1.8.2",
+    "vite-plugin-vue2": "1.9.0",
     "vite-plugin-vue2-svg": "0.1.8",
     "vue-cli-plugin-vuetify": "2.4.3",
     "vue-template-compiler": "2.6.14"
