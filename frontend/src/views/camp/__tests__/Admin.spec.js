@@ -25,18 +25,7 @@ describe('Admin view', () => {
   it('shows the danger zone when the user has a manager role', async () => {
     const { getByText } = renderWithVuetify(Admin, {
       props: {
-        camp: () => ({
-          campCollaborations: () => ({
-            items: [
-              {
-                role: 'manager',
-                ...USER
-              }
-            ]
-          }),
-          materialLists: () => {},
-          _meta: { load: Promise.resolve() }
-        })
+        camp: createCampWithRole('manager')
       },
       routes: [],
       mocks: {
@@ -56,18 +45,7 @@ describe('Admin view', () => {
   it('doesn\'t show the danger zone when the user has a member role', async () => {
     const { queryByText } = renderWithVuetify(Admin, {
       props: {
-        camp: () => ({
-          campCollaborations: () => ({
-            items: [
-              {
-                role: 'member',
-                ...USER
-              }
-            ]
-          }),
-          materialLists: () => {},
-          _meta: { load: Promise.resolve() }
-        })
+        camp: createCampWithRole('member')
       },
       routes: [],
       mocks: {
@@ -87,18 +65,7 @@ describe('Admin view', () => {
   it('doesn\'t show the danger zone when the user has the guest role', async () => {
     const { queryByText } = renderWithVuetify(Admin, {
       props: {
-        camp: () => ({
-          campCollaborations: () => ({
-            items: [
-              {
-                role: 'guest',
-                ...USER
-              }
-            ]
-          }),
-          materialLists: () => {},
-          _meta: { load: Promise.resolve() }
-        })
+        camp: createCampWithRole('guest')
       },
       routes: [],
       mocks: {
@@ -122,5 +89,21 @@ const USER = {
     _meta: {
       self: USER_URL
     }
+  })
+}
+
+function createCampWithRole (role) {
+  return () => ({
+    campCollaborations: () => ({
+      items: [
+        {
+          role: role,
+          ...USER
+        }
+      ]
+    }),
+    materialLists: () => {
+    },
+    _meta: { load: Promise.resolve() }
   })
 }
