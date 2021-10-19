@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "608b7a8e5a92df88c4fbbb309061fb13",
+    "content-hash": "dd79e71c517f2184986e22515b8d9658",
     "packages": [
         {
             "name": "api-platform/core",
@@ -3683,27 +3683,30 @@
         },
         {
             "name": "swaggest/json-schema",
-            "version": "v0.12.38",
+            "version": "v0.12.39",
             "source": {
                 "type": "git",
                 "url": "https://github.com/swaggest/php-json-schema.git",
-                "reference": "ab7cca149a5822acc5be538dd6c008a348f6cb89"
+                "reference": "193ba39cce1ffa2d55ddd5445315e945a63298a2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/swaggest/php-json-schema/zipball/ab7cca149a5822acc5be538dd6c008a348f6cb89",
-                "reference": "ab7cca149a5822acc5be538dd6c008a348f6cb89",
+                "url": "https://api.github.com/repos/swaggest/php-json-schema/zipball/193ba39cce1ffa2d55ddd5445315e945a63298a2",
+                "reference": "193ba39cce1ffa2d55ddd5445315e945a63298a2",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
-                "ext-mbstring": "*",
                 "php": ">=5.4",
                 "phplang/scope-exit": "^1.0",
-                "swaggest/json-diff": "^3.8.2"
+                "swaggest/json-diff": "^3.8.2",
+                "symfony/polyfill-mbstring": "^1.19"
             },
             "require-dev": {
                 "phpunit/phpunit": "^4.8.23"
+            },
+            "suggest": {
+                "ext-mbstring": "For better performance"
             },
             "type": "library",
             "autoload": {
@@ -3725,9 +3728,9 @@
             "support": {
                 "email": "vearutop@gmail.com",
                 "issues": "https://github.com/swaggest/php-json-schema/issues",
-                "source": "https://github.com/swaggest/php-json-schema/tree/v0.12.38"
+                "source": "https://github.com/swaggest/php-json-schema/tree/v0.12.39"
             },
-            "time": "2021-09-17T13:54:01+00:00"
+            "time": "2021-10-15T18:12:27+00:00"
         },
         {
             "name": "symfony/asset",
