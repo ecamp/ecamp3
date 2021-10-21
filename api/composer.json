@@ -23,7 +23,7 @@
         "symfony/console": "5.3.7",
         "symfony/dotenv": "5.3.8",
         "symfony/expression-language": "5.3.7",
-        "symfony/flex": "1.17.1",
+        "symfony/flex": "1.17.2",
         "symfony/framework-bundle": "5.3.8",
         "symfony/intl": "5.3.8",
         "symfony/mailer": "5.3.9",
