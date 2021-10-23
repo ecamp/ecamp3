@@ -68,7 +68,7 @@ export default {
   methods: {
     createCategory () {
       return this.create().then(() => {
-        this.api.reload(this.camp)
+        this.api.reload(this.camp.categories())
       })
     }
   }
