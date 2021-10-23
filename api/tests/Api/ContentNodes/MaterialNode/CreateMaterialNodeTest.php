@@ -33,9 +33,12 @@ class CreateMaterialNodeTest extends CreateContentNodeTestCase {
                 'materialItems' => [
                     [
                         'article' => $prototypeItem->article,
-                        'quantity' => $prototypeItem->quantity,
+                        'quantity' => (int) $prototypeItem->quantity,
                         'unit' => $prototypeItem->unit,
-                        'materialList' => $prototypeItem->materialList,
+                        '_links' => [
+                            'period' => null,
+                            'materialList' => ['href' => $this->getIriFor($prototypeItem->materialList)],
+                        ],
                     ],
                 ],
             ],

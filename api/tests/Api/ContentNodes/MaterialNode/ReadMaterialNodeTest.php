@@ -3,6 +3,7 @@
 namespace App\Tests\Api\ContentNodes\MaterialNode;
 
 use App\Entity\ContentNode\MaterialNode;
+use App\Entity\MaterialItem;
 use App\Tests\Api\ContentNodes\ReadContentNodeTestCase;
 
 /**
@@ -21,6 +22,9 @@ class ReadMaterialNodeTest extends ReadContentNodeTestCase {
         /** @var MaterialNode $contentNode */
         $contentNode = $this->defaultContentNode;
 
+        /** @var MaterialItem $materialItem */
+        $materialItem = static::$fixtures['materialItem1'];
+
         // when
         $this->get($contentNode);
 
@@ -30,12 +34,22 @@ class ReadMaterialNodeTest extends ReadContentNodeTestCase {
         $this->assertJsonContains([
             '_links' => [
                 'materialItems' => [
-                    ['href' => $this->getIriFor('materialItem1')],
+                    ['href' => $this->getIriFor($materialItem)],
                 ],
             ],
             '_embedded' => [
                 'materialItems' => [
-                    ['href' => $this->getIriFor('materialItem1')],
+                    [
+                        'article' => $materialItem->article,
+                        'quantity' => (int) $materialItem->quantity,
+                        'unit' => $materialItem->unit,
+                        'id' => $materialItem->getId(),
+                        '_links' => [
+                            'period' => null,
+                            'materialList' => ['href' => $this->getIriFor($materialItem->materialList)],
+                            'materialNode' => ['href' => $this->getIriFor($contentNode)],
+                        ],
+                    ],
                 ],
             ],
         ]);
