@@ -46,7 +46,7 @@ export default {
       embeddedCollections: [
         'preferredContentTypes'
       ],
-      entityUri: '/categories'
+      entityUri: this.api.get().categories
     }
   },
   watch: {
