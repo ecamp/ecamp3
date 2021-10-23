@@ -34,7 +34,7 @@ export default {
         'campId',
         'name'
       ],
-      entityUri: '/material-lists'
+      entityUri: this.api.get().materialList
     }
   },
   watch: {
