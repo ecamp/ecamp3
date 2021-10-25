@@ -25,8 +25,11 @@ class ContentNodeRepository extends ServiceEntityRepository implements CanFilter
     }
 
     public function filterByUser(QueryBuilder $queryBuilder, User $user): void {
-        $rootAlias = $queryBuilder->getRootAliases()[0];
-        $queryBuilder->innerJoin("{$rootAlias}.root", 'root');
+        $this->buildContentNodeFilter($queryBuilder, $user, $queryBuilder->getRootAliases()[0]);
+    }
+
+    protected function buildContentNodeFilter(QueryBuilder $queryBuilder, User $user, string $contentNodeAlias): void {
+        $queryBuilder->innerJoin("{$contentNodeAlias}.root", 'root');
         $queryBuilder->innerJoin('root.owner', 'owner');
 
         // add camp filter in case the ContentNode owner is an Activity

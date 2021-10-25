@@ -5,14 +5,17 @@ namespace App\Entity\ContentNode;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Entity\BaseEntity;
+use App\Entity\BelongsToCampInterface;
+use App\Entity\Camp;
 use App\Entity\SortableEntityInterface;
 use App\Entity\SortableEntityTrait;
 use App\InputFilter;
+use App\Repository\StoryboardSectionRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass=StoryboardSectionRepository::class)
  * @ORM\Table(name="content_node_storyboard_section")
  */
 #[ApiResource(
@@ -36,7 +39,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
     denormalizationContext: ['groups' => ['write']],
     normalizationContext: ['groups' => ['read']],
 )]
-class StoryboardSection extends BaseEntity implements SortableEntityInterface {
+class StoryboardSection extends BaseEntity implements BelongsToCampInterface, SortableEntityInterface {
     use SortableEntityTrait;
 
     /**
@@ -67,4 +70,9 @@ class StoryboardSection extends BaseEntity implements SortableEntityInterface {
     #[InputFilter\CleanHTML]
     #[Groups(['read', 'write'])]
     public ?string  $column3 = null;
+
+    #[ApiProperty(readable: false)]
+    public function getCamp(): ?Camp {
+        return $this->storyboard?->getCamp();
+    }
 }
