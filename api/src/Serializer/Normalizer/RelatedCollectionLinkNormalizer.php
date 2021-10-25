@@ -9,10 +9,16 @@ use ApiPlatform\Core\Api\UrlGeneratorInterface;
 use ApiPlatform\Core\Bridge\Doctrine\Common\PropertyHelperTrait;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Core\Bridge\Symfony\Routing\RouteNameResolverInterface;
+use ApiPlatform\Core\Exception\ResourceClassNotFoundException;
 use ApiPlatform\Core\Metadata\Resource\Factory\ResourceMetadataFactoryInterface;
+use App\Entity\BaseEntity;
+use App\Metadata\Resource\Factory\UriTemplateFactory;
 use Doctrine\ORM\Mapping\MappingException;
 use Doctrine\Persistence\ManagerRegistry;
+use ReflectionClass;
+use Rize\UriTemplate;
 use Symfony\Component\DependencyInjection\ServiceLocator;
+use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Serializer\NameConverter\AdvancedNameConverterInterface;
 use Symfony\Component\Serializer\NameConverter\NameConverterInterface;
@@ -53,28 +59,39 @@ use Symfony\Component\Serializer\SerializerInterface;
  * class Child {
  *   ...
  * }
+ *
+ *
+ * Alternatively, you can manually set the link by using the #[RelatedCollectionLink()] attribute:
+ *
+ * public string myParam;
+ *
+ * #[RelatedCollectionLink('child', ['before' => 'myParam'])]
+ * public function getChildren(): array { ... }
+ *
+ *
+ * You can also use getters for filling parameters:
+ *
+ * public function getSomeGetterParam(): string { return 'something'; }
+ *
+ * #[RelatedCollectionLink('child', ['before' => 'someGetterParam'])]
+ * public function getChildren(): array { ... }
  */
 class RelatedCollectionLinkNormalizer implements NormalizerInterface, SerializerAwareInterface {
     use PropertyHelperTrait;
 
-    private NormalizerInterface $decorated;
-    private RouterInterface $router;
-    private RouteNameResolverInterface $routeNameResolver;
-    private ServiceLocator $filterLocator;
-    private IriConverterInterface $iriConverter;
-    private ManagerRegistry $managerRegistry;
-    private ResourceMetadataFactoryInterface $resourceMetadataFactory;
-    private NameConverterInterface $nameConverter;
-
-    public function __construct(NormalizerInterface $decorated, RouteNameResolverInterface $routeNameResolver, ServiceLocator $filterLocator, NameConverterInterface $nameConverter, RouterInterface $router, IriConverterInterface $iriConverter, ManagerRegistry $managerRegistry, ResourceMetadataFactoryInterface $resourceMetadataFactory) {
-        $this->decorated = $decorated;
-        $this->router = $router;
-        $this->routeNameResolver = $routeNameResolver;
-        $this->filterLocator = $filterLocator;
-        $this->iriConverter = $iriConverter;
-        $this->managerRegistry = $managerRegistry;
-        $this->resourceMetadataFactory = $resourceMetadataFactory;
-        $this->nameConverter = $nameConverter;
+    public function __construct(
+        private NormalizerInterface $decorated,
+        private RouteNameResolverInterface $routeNameResolver,
+        private ServiceLocator $filterLocator,
+        private NameConverterInterface $nameConverter,
+        private UriTemplate $uriTemplate,
+        private UriTemplateFactory $uriTemplateFactory,
+        private RouterInterface $router,
+        private IriConverterInterface $iriConverter,
+        private ManagerRegistry $managerRegistry,
+        private ResourceMetadataFactoryInterface $resourceMetadataFactory,
+        private PropertyAccessorInterface $propertyAccessor
+    ) {
     }
 
     public function supportsNormalization($data, $format = null) {
@@ -118,6 +135,14 @@ class RelatedCollectionLinkNormalizer implements NormalizerInterface, Serializer
             $rel = $this->nameConverter->denormalize($rel, $resourceClass, null, array_merge($context, ['groups' => ['read']]));
         }
 
+        if ($annotation = $this->getRelatedCollectionLinkAnnotation($resourceClass, $rel)) {
+            // If there is an explicit annotation, there is no need to inspect the Doctrine metadata
+            $params = $this->extractUriParams($object, $annotation->getParams());
+            [$uriTemplate] = $this->uriTemplateFactory->create($annotation->getRelatedEntity());
+
+            return $this->uriTemplate->expand($uriTemplate, $params);
+        }
+
         try {
             $relationMetadata = $this->getClassMetadata($resourceClass)->getAssociationMapping($rel);
         } catch (MappingException) {
@@ -139,12 +164,48 @@ class RelatedCollectionLinkNormalizer implements NormalizerInterface, Serializer
         return $this->router->generate($this->routeNameResolver->getRouteName($relatedResourceClass, OperationType::COLLECTION), [$relatedFilterName => $this->iriConverter->getIriFromItem($object)], UrlGeneratorInterface::ABS_PATH);
     }
 
+    protected function getRelatedCollectionLinkAnnotation(string $className, string $propertyName): ?RelatedCollectionLink {
+        try {
+            $reflClass = $this->getReflectionClass($className);
+            $method = $reflClass->getMethod('get'.ucfirst($propertyName));
+            $attributes = $method->getAttributes(RelatedCollectionLink::class);
+
+            return ($attributes[0] ?? null)?->newInstance();
+        } catch (\ReflectionException $e) {
+            return null;
+        }
+    }
+
+    protected function getReflectionClass($className): ReflectionClass {
+        return new ReflectionClass($className);
+    }
+
+    protected function extractUriParams($object, array $params): array {
+        $result = [];
+        foreach ($params as $param => $value) {
+            $result[$param] = $this->normalizeUriParam($this->propertyAccessor->getValue($object, $value));
+        }
+
+        return $result;
+    }
+
+    protected function normalizeUriParam($param): string {
+        if ($param instanceof \DateTimeInterface) {
+            $param = $param->format(\DateTime::W3C);
+        }
+        if ($param instanceof BaseEntity) {
+            $param = $this->iriConverter->getIriFromItem($param);
+        }
+
+        return $param;
+    }
+
     protected function getManagerRegistry(): ManagerRegistry {
         return $this->managerRegistry;
     }
 
     /**
-     * @throws \ApiPlatform\Core\Exception\ResourceClassNotFoundException
+     * @throws ResourceClassNotFoundException
      */
     private function exactSearchFilterExists(string $resourceClass, mixed $propertyName): bool {
         $resourceMetadata = $this->resourceMetadataFactory->create($resourceClass);

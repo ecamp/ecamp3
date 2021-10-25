@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Validator;
+namespace App\Tests\Validator\ColumnLayout;
 
 use App\Entity\ContentNode\ColumnLayout;
 use App\Validator\ColumnLayout\AssertNoOrphanChildren;

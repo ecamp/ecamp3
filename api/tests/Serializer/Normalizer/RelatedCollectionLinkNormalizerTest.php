@@ -10,6 +10,8 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Core\Bridge\Symfony\Routing\RouteNameResolverInterface;
 use ApiPlatform\Core\Metadata\Resource\Factory\ResourceMetadataFactoryInterface;
 use ApiPlatform\Core\Metadata\Resource\ResourceMetadata;
+use App\Metadata\Resource\Factory\UriTemplateFactory;
+use App\Serializer\Normalizer\RelatedCollectionLink;
 use App\Serializer\Normalizer\RelatedCollectionLinkNormalizer;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;
@@ -17,7 +19,9 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Persistence\ManagerRegistry;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Rize\UriTemplate;
 use Symfony\Component\DependencyInjection\ServiceLocator;
+use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Serializer\Annotation\SerializedName;
 use Symfony\Component\Serializer\NameConverter\AdvancedNameConverterInterface;
@@ -32,44 +36,17 @@ use Symfony\Component\Serializer\SerializerInterface;
 class RelatedCollectionLinkNormalizerTest extends TestCase {
     private RelatedCollectionLinkNormalizer $normalizer;
 
-    /**
-     * @var MockObject|NormalizerInterface
-     */
-    private $decoratedMock;
+    private MockObject|NormalizerInterface $decoratedMock;
+    private MockObject|ServiceLocator $filterLocatorMock;
+    private MockObject|NameConverterInterface $nameConverterMock;
+    private MockObject|UriTemplate $uriTemplate;
+    private MockObject|UriTemplateFactory $uriTemplateFactory;
+    private MockObject|RouterInterface $routerMock;
+    private IriConverterInterface|MockObject $iriConverterMock;
+    private ManagerRegistry|MockObject $managerRegistryMock;
+    private MockObject|ResourceMetadataFactoryInterface $resourceMetadataFactoryMock;
+    private MockObject|PropertyAccessorInterface $propertyAccessor;
 
-    /**
-     * @var MockObject|ServiceLocator
-     */
-    private $filterLocatorMock;
-
-    /**
-     * @var MockObject|NameConverterInterface
-     */
-    private $nameConverterMock;
-
-    /**
-     * @var MockObject|RouterInterface
-     */
-    private $routerMock;
-
-    /**
-     * @var IriConverterInterface|MockObject
-     */
-    private $iriConverterMock;
-
-    /**
-     * @var ManagerRegistry|MockObject
-     */
-    private $managerRegistryMock;
-
-    /**
-     * @var MockObject|ResourceMetadataFactoryInterface
-     */
-    private $resourceMetadataFactoryMock;
-
-    /**
-     * @var FilterInterface
-     */
     private ?FilterInterface $filterInstance;
 
     protected function setUp(): void {
@@ -80,20 +57,26 @@ class RelatedCollectionLinkNormalizerTest extends TestCase {
 
         $this->decoratedMock = $this->createMock(ContextAwareNormalizerInterface::class);
         $this->nameConverterMock = $this->createMock(AdvancedNameConverterInterface::class);
+        $this->uriTemplate = $this->createMock(UriTemplate::class);
+        $this->uriTemplateFactory = $this->createMock(UriTemplateFactory::class);
         $this->routerMock = $this->createMock(RouterInterface::class);
         $this->iriConverterMock = $this->createMock(IriConverterInterface::class);
         $this->managerRegistryMock = $this->createMock(ManagerRegistry::class);
         $this->resourceMetadataFactoryMock = $this->createMock(ResourceMetadataFactoryInterface::class);
+        $this->propertyAccessor = $this->createMock(PropertyAccessorInterface::class);
 
         $this->normalizer = new RelatedCollectionLinkNormalizer(
             $this->decoratedMock,
             $this->createMock(RouteNameResolverInterface::class),
             $this->filterLocatorMock,
             $this->nameConverterMock,
+            $this->uriTemplate,
+            $this->uriTemplateFactory,
             $this->routerMock,
             $this->iriConverterMock,
             $this->managerRegistryMock,
-            $this->resourceMetadataFactoryMock
+            $this->resourceMetadataFactoryMock,
+            $this->propertyAccessor,
         );
         $this->normalizer->setSerializer($this->createMock(SerializerInterface::class));
     }
@@ -182,6 +165,47 @@ class RelatedCollectionLinkNormalizerTest extends TestCase {
 
         // then
         $this->shouldReplaceChildrenWithLink($result);
+    }
+
+    public function testNormalizeReplacesLinkArrayWithSingleFilteredCollectionLinkBasedOnAttribute() {
+        // given
+        $resource = new ParentEntity();
+        $this->decoratedMock->method('normalize')->willReturn([
+            'hello' => 'world',
+            '_links' => [
+                'relatedEntities' => [
+                    ['href' => '/schedule_entries/1'],
+                    ['href' => '/schedule_entries/2'],
+                ],
+                'firstBorn' => ['href' => '/children/1'],
+            ],
+        ]);
+        $this->mockNameConverter();
+        $this->propertyAccessor->method('getValue')->willReturn('value');
+        $this->uriTemplateFactory
+            ->expects($this->once())
+            ->method('create')
+            ->with('scheduleEntry')
+            ->willReturn(['/relatedEntities{/id}{?test_param}', true])
+        ;
+        $this->uriTemplate
+            ->expects($this->once())
+            ->method('expand')
+            ->with('/relatedEntities{/id}{?test_param}', ['test_param' => 'value'])
+            ->willReturn('/relatedEntities?test_param=value')
+        ;
+
+        // when
+        $result = $this->normalizer->normalize($resource, null, ['resource_class' => ParentEntity::class]);
+
+        // then
+        $this->assertEquals([
+            'hello' => 'world',
+            '_links' => [
+                'relatedEntities' => ['href' => '/relatedEntities?test_param=value'],
+                'firstBorn' => ['href' => '/children/1'],
+            ],
+        ], $result);
     }
 
     public function testNormalizeReplacesSerializedNameLinkArray() {
@@ -468,6 +492,15 @@ class ParentEntity {
      */
     #[SerializedName('childrenWithSerializedName')]
     private Collection $renamedChildren;
+
+    public function getFilterValue(): string {
+        return '';
+    }
+
+    #[RelatedCollectionLink('scheduleEntry', ['test_param' => 'filterValue'])]
+    public function getRelatedEntities(): array {
+        return [];
+    }
 }
 
 #[ApiFilter(SearchFilter::class, properties: ['parent'])]

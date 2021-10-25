@@ -332,6 +332,9 @@
     "ralouphie/getallheaders": {
         "version": "3.0.3"
     },
+    "rize/uri-template": {
+        "version": "0.3.3"
+    },
     "sebastian/cli-parser": {
         "version": "1.0.1"
     },

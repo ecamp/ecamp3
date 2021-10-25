@@ -6,8 +6,11 @@ use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use App\Doctrine\Filter\ExpressionDateFilter;
 use App\Repository\ScheduleEntryRepository;
 use App\Validator\AssertBelongsToSameCamp;
+use DateInterval;
+use DateTime;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Collections\Selectable;
 use Doctrine\ORM\Mapping as ORM;
@@ -45,6 +48,10 @@ use Symfony\Component\Validator\Constraints as Assert;
     normalizationContext: ['groups' => ['read']],
 )]
 #[ApiFilter(SearchFilter::class, properties: ['period', 'activity'])]
+#[ApiFilter(ExpressionDateFilter::class, properties: [
+    'start' => 'DATE_ADD({period.start}, {}.periodOffset, \'minute\')',
+    'end' => 'DATE_ADD(DATE_ADD({period.start}, {}.periodOffset, \'minute\'), {}.length, \'minute\')',
+])]
 class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
     public const ITEM_NORMALIZATION_CONTEXT = [
         'groups' => ['read', 'ScheduleEntry:Activity'],
@@ -128,6 +135,42 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
     }
 
     /**
+     * The start date and time of the schedule entry. This is a read-only convenience property.
+     *
+     * @return null|DateTime
+     */
+    #[ApiProperty(writable: false, example: '2022-01-02T00:00:00+00:00', openapiContext: ['format' => 'date'])]
+    #[Groups(['read'])]
+    public function getStart(): ?DateTime {
+        try {
+            $start = $this->period?->start ? DateTime::createFromInterface($this->period->start) : null;
+            $start?->add(new DateInterval('PT'.$this->periodOffset.'M'));
+
+            return $start;
+        } catch (\Exception $e) {
+            return null;
+        }
+    }
+
+    /**
+     * The end date and time of the schedule entry. This is a read-only convenience property.
+     *
+     * @return null|DateTime
+     */
+    #[ApiProperty(writable: false, example: '2022-01-02T01:30:00+00:00', openapiContext: ['format' => 'date'])]
+    #[Groups(['read'])]
+    public function getEnd(): ?DateTime {
+        try {
+            $end = $this->period?->start ? DateTime::createFromInterface($this->period->start) : null;
+            $end?->add(new DateInterval('PT'.($this->periodOffset + $this->length).'M'));
+
+            return $end;
+        } catch (\Exception $e) {
+            return null;
+        }
+    }
+
+    /**
      * @return Activity
      */
     #[ApiProperty(readableLink: true)]
@@ -184,7 +227,11 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
         /** @var Selectable $scheduleEntriesCollection */
         $scheduleEntriesCollection = $this->period->scheduleEntries;
         $scheduleEntries = $scheduleEntriesCollection->matching($crit);
-        $activityNumber = $scheduleEntries->filter(function (ScheduleEntry $scheduleEntry) {
+
+        return $scheduleEntries->filter(function (ScheduleEntry $scheduleEntry) {
+            if ($scheduleEntry === $this) {
+                return true;
+            }
             if ($scheduleEntry->getNumberingStyle() === $this->getNumberingStyle()) {
                 if ($scheduleEntry->periodOffset < $this->periodOffset) {
                     return true;
@@ -206,8 +253,6 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
 
             return false;
         })->count();
-
-        return $activityNumber + 1;
     }
 
     /**
