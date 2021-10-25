@@ -20,7 +20,7 @@ App\Entity\Camp:
     addressZipcode: <postcode()>
     addressCity: <city()>
     owner: '@admin'
-    creator: '@user2member'
+    creator: '@user4unrelated'
     isPrototype: false
     campPrototypeId: null
   campUnrelated:
