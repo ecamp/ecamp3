@@ -29,7 +29,7 @@ App\Entity\CampCollaboration:
     user: '@user1manager'
     camp: '@camp2'
     status: established
-    role: member
+    role: manager
   campCollaboration2camp2member:
     user: '@user2member'
     camp: '@camp2'

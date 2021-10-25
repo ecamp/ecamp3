@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\DataPersister;
+namespace App\Tests\DataPersister\ContentNodes;
 
 use ApiPlatform\Core\DataPersister\ContextAwareDataPersisterInterface;
 use App\DataPersister\ContentNode\MaterialNodeDataPersister;

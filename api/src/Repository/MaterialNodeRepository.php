@@ -6,10 +6,10 @@ use App\Entity\ContentNode\MaterialNode;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method null|SingleText find($id, $lockMode = null, $lockVersion = null)
- * @method null|SingleText findOneBy(array $criteria, array $orderBy = null)
- * @method SingleText[]    findAll()
- * @method SingleText[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method null|MaterialNode find($id, $lockMode = null, $lockVersion = null)
+ * @method null|MaterialNode findOneBy(array $criteria, array $orderBy = null)
+ * @method MaterialNode[]    findAll()
+ * @method MaterialNode[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class MaterialNodeRepository extends ContentNodeRepository {
     public function __construct(ManagerRegistry $registry) {
