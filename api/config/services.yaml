@@ -76,11 +76,12 @@ services:
             - '@api_platform.route_name_resolver'
             - '@api_platform.filter_locator'
             - '@serializer.name_converter.metadata_aware'
+            - '@Rize\UriTemplate'
 
     App\Serializer\Normalizer\CircularReferenceDetectingHalItemNormalizer:
         decorates: 'api_platform.hal.normalizer.item'
 
-    App\Serializer\Normalizer\URITemplateNormalizer:
+    App\Serializer\Normalizer\UriTemplateNormalizer:
         decorates: 'api_platform.hal.normalizer.entrypoint'
 
     App\Serializer\Normalizer\CollectionItemsNormalizer:
@@ -108,9 +109,6 @@ services:
     App\Service\MailService:
         public: true
 
-    Symfony\Component\String\Inflector\EnglishInflector:
-        public: false
-
     App\EventListener\JWTCreatedListener:
         tags:
             - { name: kernel.event_listener, event: lexik_jwt_authentication.on_jwt_created, method: onJWTCreated }
@@ -119,5 +117,15 @@ services:
     App\Doctrine\FilterByCurrentUserExtension:
         tags:
             # FilterEagerLoadingExtension has Priority -17 and breaks the DQL generated in ContentNodeRepository => Priority -20 ensures this runs after FilterEagerLoadingExtension
-            - { name: api_platform.doctrine.orm.query_extension.collection, priority: -20 } 
+            - { name: api_platform.doctrine.orm.query_extension.collection, priority: -20 }
             - { name: api_platform.doctrine.orm.query_extension.item }
+
+    App\Metadata\Resource\Factory\UriTemplateFactory:
+        arguments:
+            - '@api_platform.filter_locator'
+
+    Symfony\Component\String\Inflector\EnglishInflector:
+        public: false
+
+    Rize\UriTemplate:
+        public: false
