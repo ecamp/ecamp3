@@ -47,7 +47,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 )]
 class Camp extends BaseEntity implements BelongsToCampInterface {
     public const ITEM_NORMALIZATION_CONTEXT = [
-        'groups' => ['read', 'Camp:Periods', 'Period:Days'],
+        'groups' => ['read', 'Camp:Periods', 'Period:Days', 'Camp:CampCollaborations', 'CampCollaboration:User'],
         'swagger_definition_name' => 'read',
     ];
 
@@ -264,6 +264,19 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
      */
     #[ApiProperty(writable: false, example: '["/camp_collaborations/1a2b3c4d"]')]
     public function getCampCollaborations(): array {
+        return $this->collaborations->getValues();
+    }
+
+    /**
+     * The people working on planning and carrying out the camp. Only collaborators have access
+     * to the camp's contents.
+     *
+     * @return CampCollaboration[]
+     */
+    #[ApiProperty(writable: false, readableLink: true)]
+    #[SerializedName('campCollaborations')]
+    #[Groups('Camp:CampCollaborations')]
+    public function getEmbeddedCampCollaborations(): array {
         return $this->collaborations->getValues();
     }
 
