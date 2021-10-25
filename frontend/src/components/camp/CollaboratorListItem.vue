@@ -107,10 +107,9 @@ export default {
   methods: {
     resendInvitation () {
       this.resendingEmail = true
-      this.api.href(this.api.get(), 'invitation', {
-        action: 'resend',
-        campCollaborationId: this.collaborator.id
-      }).then(postUrl => this.api.post(postUrl, {}))
+      this.api.href(this.api.get(), 'campCollaborations', {
+        id: this.collaborator.id
+      }).then(postUrl => this.api.patch(postUrl + '/resend_invitation', {}))
         .finally(() => { this.resendingEmail = false })
     }
   }
