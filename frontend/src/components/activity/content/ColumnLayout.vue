@@ -1,5 +1,5 @@
 <template>
-  <v-row v-if="!contentNode.loading" no-gutters>
+  <v-row v-if="columns" no-gutters>
     <resizable-column v-for="(_, slot) in columns"
                       :key="slot"
                       :parent-content-node="contentNode"
@@ -55,10 +55,13 @@ export default {
   },
   computed: {
     columns () {
-      return keyBy(this.contentNode.jsonConfig?.columns || [], 'slot')
+      return keyBy(this.contentNode?.columns()._storeData.items || [], 'slot')
     },
     numColumns () {
-      return this.contentNode.jsonConfig?.columns?.length || 0
+      if (!this.columns) {
+        return 0
+      }
+      return Object.keys(this.columns).length
     },
     lastColumn () {
       const slots = Object.keys(this.columns)
@@ -118,13 +121,10 @@ export default {
     },
     async saveColumnWidths () {
       const payload = {
-        jsonConfig: {
-          ...this.contentNode.jsonConfig,
-          columns: this.contentNode.jsonConfig.columns.map(column => ({
-            ...column,
-            width: this.localColumnWidths[column.slot]
-          }))
-        }
+        columns: this.contentNode?.columns()._storeData.items.map(column => ({
+          ...column,
+          width: this.localColumnWidths[column.slot]
+        }))
       }
       this.api.patch(this.contentNode, payload)
     }

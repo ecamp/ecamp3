@@ -18,7 +18,7 @@
       <v-list>
         <v-list-item v-for="act in availableContentTypes"
                      :key="act.contentType.id"
-                     @click="addContentNode(act.contentType.id)">
+                     @click="addContentNode(act.contentType)">
           <v-list-item-icon>
             <v-icon>{{ $tc(act.contentTypeIconKey) }}</v-icon>
           </v-list-item-icon>
@@ -51,13 +51,43 @@ export default {
     }
   },
   methods: {
-    async addContentNode (contentTypeId) {
-      await this.api.post(await this.api.href(this.api.get(), 'contentNodes'), {
-        parentId: this.parentContentNode.id,
-        contentTypeId: contentTypeId,
-        slot: this.slotName
+    async addContentNode (contentType) {
+      const path = this.apiNameByContentType(contentType)
+      let additionalFields = {}
+      if (contentType.name === 'ColumnLayout') {
+        additionalFields = {
+          columns: [
+            {
+              slot: '1',
+              width: 12
+            }
+          ]
+        }
+      }
+      await this.api.post(await this.api.href(this.api.get(), path), {
+        parent: this.parentContentNode._meta.self,
+        contentType: contentType._meta.self,
+        slot: this.slotName,
+        ...additionalFields
       })
       this.parentContentNode.owner().$reload()
+    },
+
+    apiNameByContentType (contentType) {
+      switch (contentType.name) {
+        case 'ColumnLayout':
+          return 'columnLayouts'
+        case 'SafetyConcept':
+        case 'Notes':
+        case 'Storycontext':
+          return 'singleTexts'
+        case 'Storyboard':
+          return 'storyboards'
+        case 'Material':
+          return 'materialNodes'
+        case 'LAThematicArea':
+          return 'multiSelects'
+      }
     }
   }
 }

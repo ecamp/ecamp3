@@ -30,11 +30,14 @@ export default {
     totalWidth: { type: Number, default: 12 }
   },
   computed: {
+    columns () {
+      return this.contentNode?.columns()._storeData.items || []
+    },
     addingColumnEnabled () {
-      return (this.contentNode.jsonConfig.columns.length + 1) * this.minColumnWidth <= this.totalWidth
+      return (this.columns?.length + 1) * this.minColumnWidth <= this.totalWidth
     },
     removingColumnEnabled () {
-      return this.contentNode.jsonConfig.columns.length > 2 && this.removableColumn !== undefined
+      return this.columns?.length > 2 && this.removableColumn !== undefined
     },
     children () {
       return this.contentNode.owner().contentNodes().items.filter(child => {
@@ -45,26 +48,25 @@ export default {
       return groupBy(this.children, 'slot')
     },
     removableColumn () {
-      return this.contentNode.jsonConfig.columns.map(col => col.slot).reverse().find(slot => {
+      return this.columns?.map(col => col.slot).reverse().find(slot => {
         return !Object.keys(this.childrenBySlot).includes(slot)
       })
     }
   },
   methods: {
     addColumn () {
-      const jsonConfig = cloneDeep(this.contentNode.jsonConfig)
-      const newSlotName = calculateNextSlotName(jsonConfig.columns.map(col => col.slot))
-      jsonConfig.columns.push({
+      let columns = cloneDeep(this.columns)
+      const newSlotName = calculateNextSlotName(columns?.map(col => col.slot))
+      columns?.push({
         slot: newSlotName,
         width: this.minColumnWidth
       })
-      jsonConfig.columns = adjustColumnWidths(jsonConfig.columns, this.minColumnWidth, this.totalWidth)
-      this.contentNode.$patch({ jsonConfig })
+      columns = adjustColumnWidths(columns, this.minColumnWidth, this.totalWidth)
+      this.contentNode.$patch({ columns })
     },
     removeColumn () {
-      const jsonConfig = cloneDeep(this.contentNode.jsonConfig)
-      jsonConfig.columns = adjustColumnWidths(jsonConfig.columns.filter(col => col.slot !== this.removableColumn), this.minColumnWidth, this.totalWidth)
-      this.contentNode.$patch({ jsonConfig })
+      const columns = adjustColumnWidths(this.columns?.filter(col => col.slot !== this.removableColumn), this.minColumnWidth, this.totalWidth)
+      this.contentNode.$patch({ columns })
     }
   }
 }
