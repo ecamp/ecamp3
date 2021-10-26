@@ -65,7 +65,7 @@
     "jest-canvas-mock": "2.3.1",
     "jest-serializer-vue-tjw": "3.19.0",
     "lint-staged": "11.2.6",
-    "sass": "1.43.3",
+    "sass": "1.43.4",
     "vite": "2.6.12",
     "vite-plugin-components": "0.13.3",
     "vite-plugin-vue2": "1.9.0",
