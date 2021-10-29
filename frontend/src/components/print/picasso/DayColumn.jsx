@@ -1,8 +1,9 @@
 // eslint-disable-next-line no-unused-vars
 import React from 'react'
 import pdf from '@react-pdf/renderer'
+import ScheduleEntry from './ScheduleEntry.jsx'
 
-const { View, Text } = pdf
+const { View } = pdf
 
 function getWeightsSum (times) {
   return times.reduce((sum, [_, weight]) => sum + weight, 0)
@@ -45,11 +46,6 @@ const dayGridStyles = {
 const rowStyles = {
   display: 'flex'
 }
-const scheduleEntryStyles = {
-  position: 'absolute',
-  backgroundColor: 'blue',
-  opacity: '0.5'
-}
 
 function DayColumn ({ times, scheduleEntries, day, styles }) {
   return <View style={{ ...columnStyles, ...styles }}>
@@ -61,15 +57,11 @@ function DayColumn ({ times, scheduleEntries, day, styles }) {
       }} />)}
     </View>
     {filterScheduleEntriesByDay(scheduleEntries, day.dayOffset, times).map(scheduleEntry => {
-      return <View key={scheduleEntry.id} style={{
-        ...scheduleEntryStyles,
+      return <ScheduleEntry key={scheduleEntry.id} scheduleEntry={scheduleEntry} styles={{
         top: percentage(scheduleEntry.periodOffset - (day.dayOffset * 24 * 60), times) + '%',
-        bottom: (100 - percentage(scheduleEntry.periodOffset + scheduleEntry.length - (day.dayOffset * 24 * 60), times)) + '%',
-        left: scheduleEntry.left * 100 + '%',
-        right: (1.0 - scheduleEntry.left - scheduleEntry.width) * 100 + '%'
+        bottom: (100 - percentage(scheduleEntry.periodOffset + scheduleEntry.length - (day.dayOffset * 24 * 60), times)) + '%'
       }}>
-        <Text>{scheduleEntry.activity().title}</Text>
-      </View>
+      </ScheduleEntry>
     })}
   </View>
 }
