@@ -12,8 +12,9 @@ function getWeightsSum (times) {
 function percentage (minutes, times) {
   const hours = minutes / 60.0
   let matchingTimeIndex = times.findIndex(([time, _]) => time >= hours)
-  matchingTimeIndex = matchingTimeIndex < 0 ? times.length : matchingTimeIndex
-  const weightsSum = getWeightsSum(times.slice(0, matchingTimeIndex))
+  matchingTimeIndex = Math.min(matchingTimeIndex < 0 ? times.length : matchingTimeIndex, times.length - 1)
+  const remainder = hours - times[matchingTimeIndex][0]
+  const weightsSum = getWeightsSum(times.slice(0, matchingTimeIndex)) + remainder * times[Math.min(matchingTimeIndex, times.length)][1]
   const totalWeightsSum = getWeightsSum(times)
   if (totalWeightsSum === 0) {
     return 0
