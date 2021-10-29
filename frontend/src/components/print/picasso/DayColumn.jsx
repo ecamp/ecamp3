@@ -22,15 +22,44 @@ function percentage (minutes, times) {
   return Math.max(0, Math.min(100, result))
 }
 
-function filterScheduleEntriesByDay (scheduleEntries, dayOffset, times) {
+function dayBoundariesInMinutes (day, times) {
   const [dayStart] = times[0]
   const [dayEnd] = times[times.length - 1]
-  const dayStartMinutes = (dayOffset * 24 + dayStart) * 60
-  const dayEndMinutes = (dayOffset * 24 + dayEnd) * 60
-  return scheduleEntries.filter(se => {
-    return (se.periodOffset < dayEndMinutes) &&
-      ((se.periodOffset + se.length) > dayStartMinutes)
+  const dayStartMinutes = (day.dayOffset * 24 + dayStart) * 60
+  const dayEndMinutes = (day.dayOffset * 24 + dayEnd) * 60
+
+  return [dayStartMinutes, dayEndMinutes]
+}
+
+function filterScheduleEntriesByDay (scheduleEntries, day, times) {
+  const [dayStart, dayEnd] = dayBoundariesInMinutes(day, times)
+
+  return scheduleEntries.filter(scheduleEntry => {
+    return (scheduleEntry.periodOffset < dayEnd) &&
+      ((scheduleEntry.periodOffset + scheduleEntry.length) > dayStart)
   })
+}
+
+function scheduleEntryBorderRadiusStyles (scheduleEntry, day, times) {
+  const [dayStart, dayEnd] = dayBoundariesInMinutes(day, times)
+
+  const start = scheduleEntry.periodOffset
+  const startsOnThisDay = start >= dayStart && start <= dayEnd
+
+  const end = scheduleEntry.periodOffset + scheduleEntry.length
+  const endsOnThisDay = end >= dayStart && end <= dayEnd
+
+  return {
+    ...(endsOnThisDay ? {} : { borderBottomRightRadius: '0', borderBottomLeftRadius: '0' }),
+    ...(startsOnThisDay ? {} : { borderTopRightRadius: '0', borderTopLeftRadius: '0' })
+  }
+}
+
+function scheduleEntryPositionStyles (scheduleEntry, day, times) {
+  return {
+    top: percentage(scheduleEntry.periodOffset - (day.dayOffset * 24 * 60), times) + '%',
+    bottom: (100 - percentage(scheduleEntry.periodOffset + scheduleEntry.length - (day.dayOffset * 24 * 60), times)) + '%'
+  }
 }
 
 const columnStyles = {
@@ -65,12 +94,11 @@ function DayColumn ({ times, scheduleEntries, day, styles }) {
       }} />)}
     </View>
     <View style={ scheduleEntryColumnStyles }>
-      {filterScheduleEntriesByDay(scheduleEntries, day.dayOffset, times).map(scheduleEntry => {
+      {filterScheduleEntriesByDay(scheduleEntries, day, times).map(scheduleEntry => {
         return <ScheduleEntry key={scheduleEntry.id} scheduleEntry={scheduleEntry} styles={{
-          top: percentage(scheduleEntry.periodOffset - (day.dayOffset * 24 * 60), times) + '%',
-          bottom: (100 - percentage(scheduleEntry.periodOffset + scheduleEntry.length - (day.dayOffset * 24 * 60), times)) + '%'
-        }}>
-        </ScheduleEntry>
+          ...scheduleEntryPositionStyles(scheduleEntry, day, times),
+          ...scheduleEntryBorderRadiusStyles(scheduleEntry, day, times)
+        }}/>
       })}
     </View>
   </View>

@@ -5,7 +5,8 @@ import pdf from '@react-pdf/renderer'
 const { View, Text } = pdf
 
 const scheduleEntryStyles = {
-  position: 'absolute'
+  position: 'absolute',
+  borderRadius: '2px'
 }
 
 function DayColumn ({ scheduleEntry, styles }) {
