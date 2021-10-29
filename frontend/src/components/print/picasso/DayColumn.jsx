@@ -46,6 +46,14 @@ const dayGridStyles = {
 const rowStyles = {
   display: 'flex'
 }
+const scheduleEntryColumnStyles = {
+  margin: '0 0.5%',
+  position: 'absolute',
+  top: '0',
+  bottom: '0',
+  left: '0',
+  right: '0'
+}
 
 function DayColumn ({ times, scheduleEntries, day, styles }) {
   return <View style={{ ...columnStyles, ...styles }}>
@@ -56,13 +64,15 @@ function DayColumn ({ times, scheduleEntries, day, styles }) {
         ...(time % 2 === 0 ? { backgroundColor: 'lightgrey' } : {})
       }} />)}
     </View>
-    {filterScheduleEntriesByDay(scheduleEntries, day.dayOffset, times).map(scheduleEntry => {
-      return <ScheduleEntry key={scheduleEntry.id} scheduleEntry={scheduleEntry} styles={{
-        top: percentage(scheduleEntry.periodOffset - (day.dayOffset * 24 * 60), times) + '%',
-        bottom: (100 - percentage(scheduleEntry.periodOffset + scheduleEntry.length - (day.dayOffset * 24 * 60), times)) + '%'
-      }}>
-      </ScheduleEntry>
-    })}
+    <View style={ scheduleEntryColumnStyles }>
+      {filterScheduleEntriesByDay(scheduleEntries, day.dayOffset, times).map(scheduleEntry => {
+        return <ScheduleEntry key={scheduleEntry.id} scheduleEntry={scheduleEntry} styles={{
+          top: percentage(scheduleEntry.periodOffset - (day.dayOffset * 24 * 60), times) + '%',
+          bottom: (100 - percentage(scheduleEntry.periodOffset + scheduleEntry.length - (day.dayOffset * 24 * 60), times)) + '%'
+        }}>
+        </ScheduleEntry>
+      })}
+    </View>
   </View>
 }
 
