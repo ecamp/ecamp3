@@ -38,7 +38,7 @@
         "symfony/twig-bundle": "5.3.10",
         "symfony/validator": "5.3.10",
         "symfony/yaml": "5.3.6",
-        "webonyx/graphql-php": "14.10.0"
+        "webonyx/graphql-php": "14.11.0"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "3.2.1",
