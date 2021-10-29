@@ -21,7 +21,9 @@ function DayColumn ({ scheduleEntry, styles }) {
     ...scheduleEntryStyles,
     ...styles
   }}>
-    <Text>{scheduleEntryTitle(scheduleEntry)}</Text>
+    <View style={{ margin: '5px' }}>
+      <Text>{scheduleEntryTitle(scheduleEntry)}</Text>
+    </View>
   </View>
 }
 
