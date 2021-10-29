@@ -46,9 +46,9 @@ const rowStyles = {
   display: 'flex'
 }
 const scheduleEntryStyles = {
-  // TODO debug why this absolute positioned view always has full width and 0 height
   position: 'absolute',
-  backgroundColor: 'red'
+  backgroundColor: 'blue',
+  opacity: '0.5'
 }
 
 function DayColumn ({ times, scheduleEntries, day, styles }) {
@@ -62,10 +62,12 @@ function DayColumn ({ times, scheduleEntries, day, styles }) {
     </View>
     {filterScheduleEntriesByDay(scheduleEntries, day.dayOffset, times).map(scheduleEntry => {
       return <View key={scheduleEntry.id} style={{
-        scheduleEntryStyles,
+        ...scheduleEntryStyles,
         top: percentage(scheduleEntry.periodOffset - (day.dayOffset * 24 * 60), times) + '%',
-        bottom: (100 - percentage(scheduleEntry.periodOffset + scheduleEntry.length - (day.dayOffset * 24 * 60), times)) + '%'
-      }} debug={true}>
+        bottom: (100 - percentage(scheduleEntry.periodOffset + scheduleEntry.length - (day.dayOffset * 24 * 60), times)) + '%',
+        left: scheduleEntry.left * 100 + '%',
+        right: (1.0 - scheduleEntry.left - scheduleEntry.width) * 100 + '%'
+      }}>
         <Text>{scheduleEntry.activity().title}</Text>
       </View>
     })}
