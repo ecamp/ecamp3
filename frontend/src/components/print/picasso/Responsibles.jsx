@@ -5,6 +5,7 @@ import pdf from '@react-pdf/renderer'
 const { View, Text } = pdf
 
 const fontSize = 8
+const initialFontSize = fontSize * 0.75
 
 function color (campCollaboration) {
   const h = (parseInt(campCollaboration.user()?.id || campCollaboration.id, 16) % 360)
@@ -26,25 +27,25 @@ function initials (campCollaboration) {
 
 const avatarsStyles = {
   flexDirection: 'row',
-  justifyContent: 'flex-end'
+  alignItems: 'flex-end'
 }
 
 const avatarStyles = {
   borderRadius: '50%',
-  width: fontSize * 2 + 'pt',
-  height: fontSize * 2 + 'pt',
+  width: initialFontSize * 2 + 'pt',
+  height: initialFontSize * 2 + 'pt',
   flexDirection: 'column',
   justifyContent: 'center'
 }
 
 const initialsStyles = {
-  fontSize: fontSize + 'pt',
+  fontSize: initialFontSize + 'pt',
   textAlign: 'center',
   color: 'white'
 }
 
-function Responsibles ({ scheduleEntry }) {
-  return <View style={avatarsStyles}>
+function Responsibles ({ scheduleEntry, styles }) {
+  return <View style={{ ...avatarsStyles, ...styles }}>
     {scheduleEntry.activity().activityResponsibles().items.map(activityResponsible => {
       return <View key={activityResponsible.campCollaboration().id} style={{
         ...avatarStyles,

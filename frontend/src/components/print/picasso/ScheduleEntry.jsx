@@ -17,20 +17,23 @@ const scheduleEntryStyles = {
 }
 
 const contentStyles = {
-  margin: '5px',
+  margin: '3px',
   flexDirection: 'column',
   height: '100%',
-  justifyContent: 'space-between'
+  justifyContent: 'flex-start'
 }
 
 const titleStyles = {
-  fontSize: fontSize + 'pt'
+  fontSize: fontSize + 'pt',
+  overflow: 'hidden',
+  minHeight: '100%'
 }
 
 const responsiblesStyle = {
-  bottom: '5px',
-  right: '5px',
-  flexGrow: '1'
+  position: 'absolute',
+  top: '0',
+  bottom: '2px',
+  right: '4px'
 }
 
 function ScheduleEntry ({ scheduleEntry, styles }) {
@@ -43,8 +46,8 @@ function ScheduleEntry ({ scheduleEntry, styles }) {
   }}>
     <View style={contentStyles}>
       <Text style={titleStyles}>{scheduleEntryTitle(scheduleEntry)}</Text>
-      <Responsibles styles={responsiblesStyle} scheduleEntry={scheduleEntry} />
     </View>
+    <Responsibles styles={responsiblesStyle} scheduleEntry={scheduleEntry} />
   </View>
 }
 
