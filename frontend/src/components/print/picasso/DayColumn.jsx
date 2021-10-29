@@ -33,7 +33,7 @@ function filterScheduleEntriesByDay (scheduleEntries, dayOffset, times) {
 }
 
 const columnStyles = {
-  flexGrow: '0',
+  flexGrow: '1',
   display: 'flex',
   flexDirection: 'column'
 }
