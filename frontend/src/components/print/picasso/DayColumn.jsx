@@ -43,8 +43,7 @@ const dayGridStyles = {
   display: 'flex'
 }
 const rowStyles = {
-  display: 'flex',
-  borderBottom: '1px dashed grey'
+  display: 'flex'
 }
 const scheduleEntryStyles = {
   // TODO debug why this absolute positioned view always has full width and 0 height
@@ -54,6 +53,13 @@ const scheduleEntryStyles = {
 
 function DayColumn ({ times, scheduleEntries, day, styles }) {
   return <View style={{ ...columnStyles, ...styles }}>
+    <View style={ dayGridStyles }>
+      {times.slice(0, times.length - 1).map(([time, weight]) => <View key={time} style={{
+        ...rowStyles,
+        flexGrow: weight,
+        ...(time % 2 === 0 ? { backgroundColor: 'lightgrey' } : {})
+      }} />)}
+    </View>
     {filterScheduleEntriesByDay(scheduleEntries, day.dayOffset, times).map(scheduleEntry => {
       return <View key={scheduleEntry.id} style={{
         scheduleEntryStyles,
@@ -63,9 +69,6 @@ function DayColumn ({ times, scheduleEntries, day, styles }) {
         <Text>{scheduleEntry.activity().title}</Text>
       </View>
     })}
-    <View style={ dayGridStyles }>
-      {times.slice(0, times.length - 1).map(([time, weight]) => <View key={time} style={{ ...rowStyles, flexGrow: weight }} />)}
-    </View>
   </View>
 }
 
