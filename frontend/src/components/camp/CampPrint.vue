@@ -81,7 +81,8 @@ export default {
             period.scheduleEntries()._meta.loading ||
             period.scheduleEntries().items.some(scheduleEntry => {
               return scheduleEntry._meta.loading ||
-                scheduleEntry.activity()._meta.loading
+                scheduleEntry.activity()._meta.loading ||
+                scheduleEntry.activity().category()._meta.loading
             })
         })
     },

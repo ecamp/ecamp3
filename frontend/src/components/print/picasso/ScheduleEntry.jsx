@@ -5,15 +5,14 @@ import pdf from '@react-pdf/renderer'
 const { View, Text } = pdf
 
 const scheduleEntryStyles = {
-  position: 'absolute',
-  backgroundColor: 'blue',
-  opacity: '0.5'
+  position: 'absolute'
 }
 
 function DayColumn ({ scheduleEntry, styles }) {
   return <View key={scheduleEntry.id} style={{
     left: scheduleEntry.left * 100 + '%',
     right: (1.0 - scheduleEntry.left - scheduleEntry.width) * 100 + '%',
+    backgroundColor: scheduleEntry.activity().category().color,
     ...scheduleEntryStyles,
     ...styles
   }}>
