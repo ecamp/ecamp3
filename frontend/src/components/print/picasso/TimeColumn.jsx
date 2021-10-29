@@ -5,7 +5,7 @@ import dayjs from '../../../../../common/helpers/dayjs.js'
 
 const { Text, View } = pdf
 
-const fontSize = 9
+const fontSize = 8
 
 const columnStyles = {
   flexGrow: 0,

@@ -82,7 +82,12 @@ export default {
             period.scheduleEntries().items.some(scheduleEntry => {
               return scheduleEntry._meta.loading ||
                 scheduleEntry.activity()._meta.loading ||
-                scheduleEntry.activity().category()._meta.loading
+                scheduleEntry.activity().category()._meta.loading ||
+                scheduleEntry.activity().campCollaborations()._meta.loading ||
+                scheduleEntry.activity().campCollaborations().items.some(responsible => {
+                  return responsible._meta.loading ||
+                    (responsible.user() !== null && responsible.user()._meta.loading)
+                })
             })
         })
     },

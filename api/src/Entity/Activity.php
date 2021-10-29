@@ -53,6 +53,8 @@ class Activity extends AbstractContentNodeOwner implements BelongsToCampInterfac
             'read',
             'Activity:Category',
             'Activity:ActivityResponsibles',
+            'ActivityResponsible:CampCollaboration',
+            'CampCollaboration:User',
             'Activity:ScheduleEntries',
             'Activity:ContentNodes',
         ],
