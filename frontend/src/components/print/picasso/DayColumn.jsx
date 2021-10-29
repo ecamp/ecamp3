@@ -87,10 +87,10 @@ const scheduleEntryColumnStyles = {
 function DayColumn ({ times, scheduleEntries, day, styles }) {
   return <View style={{ ...columnStyles, ...styles }}>
     <View style={ dayGridStyles }>
-      {times.slice(0, times.length - 1).map(([time, weight]) => <View key={time} style={{
+      {times.slice(0, times.length - 1).map(([time, weight], index) => <View key={time} style={{
         ...rowStyles,
         flexGrow: weight,
-        ...(time % 2 === 0 ? { backgroundColor: 'lightgrey' } : {})
+        ...(index % 2 === 0 ? { backgroundColor: 'lightgrey' } : {})
       }} />)}
     </View>
     <View style={ scheduleEntryColumnStyles }>

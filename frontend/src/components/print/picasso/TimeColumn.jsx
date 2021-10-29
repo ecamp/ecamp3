@@ -25,7 +25,7 @@ const rowStyles = {
 function TimeColumn ({ times, styles }) {
   return <View style={{ ...styles, ...columnStyles }}>
     {times.map(([time, weight]) => {
-      return <Text key={time} style={{ flexGrow: weight, ...rowStyles }}>{(time !== times[0][0]) ? dayjs().hour(time).minute(0).second(0).format('LT') : ' '}</Text>
+      return <Text key={time} style={{ flexGrow: weight, ...rowStyles }}>{(time !== times[0][0]) ? dayjs().hour(0).minute(time * 60).second(0).format('LT') : ' '}</Text>
     })}
   </View>
 }
