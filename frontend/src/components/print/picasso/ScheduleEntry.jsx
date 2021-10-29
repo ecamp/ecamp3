@@ -4,6 +4,10 @@ import pdf from '@react-pdf/renderer'
 
 const { View, Text } = pdf
 
+function scheduleEntryTitle (scheduleEntry) {
+  return scheduleEntry.activity().category().short + ' ' + scheduleEntry.number + ' ' + scheduleEntry.activity().title
+}
+
 const scheduleEntryStyles = {
   position: 'absolute',
   borderRadius: '2px'
@@ -17,7 +21,7 @@ function DayColumn ({ scheduleEntry, styles }) {
     ...scheduleEntryStyles,
     ...styles
   }}>
-    <Text>{scheduleEntry.activity().title}</Text>
+    <Text>{scheduleEntryTitle(scheduleEntry)}</Text>
   </View>
 }
 
