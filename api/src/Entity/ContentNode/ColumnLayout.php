@@ -5,15 +5,17 @@ namespace App\Entity\ContentNode;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Entity\ContentNode;
+use App\Repository\ColumnLayoutRepository;
 use App\Validator\AssertJsonSchema;
 use App\Validator\ColumnLayout\AssertColumWidthsSumTo12;
 use App\Validator\ColumnLayout\AssertNoOrphanChildren;
-use App\Validator\ColumnLayout\ColumnLayoutGroupSequence;
+use App\Validator\ColumnLayout\ColumnLayoutPatchGroupSequence;
+use App\Validator\ColumnLayout\ColumnLayoutPostGroupSequence;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass=ColumnLayoutRepository::class)
  * @ORM\Table(name="content_node_columnlayout")
  */
 #[ApiResource(
@@ -25,7 +27,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
         'post' => [
             'denormalization_context' => ['groups' => ['write', 'create']],
             'security_post_denormalize' => 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)',
-            'validation_groups' => ColumnLayoutGroupSequence::class,
+            'validation_groups' => ColumnLayoutPostGroupSequence::class,
         ],
     ],
     itemOperations: [
@@ -33,9 +35,9 @@ use Symfony\Component\Serializer\Annotation\Groups;
         'patch' => [
             'denormalization_context' => ['groups' => ['write', 'update']],
             'security' => 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)',
-            'validation_groups' => ColumnLayoutGroupSequence::class,
+            'validation_groups' => ColumnLayoutPatchGroupSequence::class,
         ],
-        'delete' => ['security' => 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)'],
+        'delete' => ['security' => '(is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)) and object.owner === null'], // disallow delete when contentNode is a root node
     ],
     denormalizationContext: ['groups' => ['write']],
     normalizationContext: ['groups' => ['read']],

@@ -41,7 +41,7 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
 #[ApiFilter(SearchFilter::class, properties: ['parent'])]
 abstract class ContentNode extends BaseEntity implements BelongsToCampInterface {
     /**
-     * @ORM\OneToOne(targetEntity="AbstractContentNodeOwner", mappedBy="rootContentNode", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity="AbstractContentNodeOwner", mappedBy="rootContentNode", cascade={"persist"})
      */
     #[SerializedName('_owner')]
     #[ApiProperty(readable: false, writable: false)]
@@ -74,6 +74,7 @@ abstract class ContentNode extends BaseEntity implements BelongsToCampInterface 
      * it has an owner.
      *
      * @ORM\ManyToOne(targetEntity="ContentNode", inversedBy="children")
+     * @ORM\JoinColumn(onDelete="CASCADE")
      */
     #[AssertEitherIsNull(
         other: 'owner',
@@ -164,13 +165,14 @@ abstract class ContentNode extends BaseEntity implements BelongsToCampInterface 
     #[SerializedName('owner')]
     #[ApiProperty(writable: false, example: '/activities/1a2b3c4d')]
     #[Groups(['read'])]
-    public function getRootOwner(): Activity|Category|AbstractContentNodeOwner {
+    public function getRootOwner(): null|Activity|Category|AbstractContentNodeOwner {
         if (null !== $this->root) {
             return $this->root->owner;
         }
 
         // this line is used during create process when $this->root is not yet set
-        return $this->parent->root->owner;
+        // returns null if parent is not set
+        return $this->parent?->root->owner;
     }
 
     /**

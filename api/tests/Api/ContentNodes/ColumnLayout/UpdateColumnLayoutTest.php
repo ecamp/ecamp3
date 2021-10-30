@@ -2,35 +2,17 @@
 
 namespace App\Tests\Api\ContentNodes\ColumnLayout;
 
-use App\Tests\Api\ECampApiTestCase;
+use App\Tests\Api\ContentNodes\UpdateContentNodeTestCase;
 
 /**
  * @internal
  */
-class UpdateColumnLayoutTest extends ECampApiTestCase {
-    // TODO security tests when not logged in or not collaborator
-    // TODO input filter tests
-    // TODO validation tests
+class UpdateColumnLayoutTest extends UpdateContentNodeTestCase {
+    public function setUp(): void {
+        parent::setUp();
 
-    public function testPatchColumnLayoutIsAllowedForCollaborator() {
-        $contentNode = static::$fixtures['columnLayoutChild1'];
-        static::createClientWithCredentials()->request('PATCH', '/content_node/column_layouts/'.$contentNode->getId(), ['json' => [
-            'parent' => $this->getIriFor('singleText1'),
-            'slot' => '2',
-            'position' => 1,
-            'columns' => [['slot' => '1', 'width' => 12]],
-            'instanceName' => 'Schlechtwetterprogramm',
-        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
-        $this->assertResponseStatusCodeSame(200);
-        $this->assertJsonContains([
-            'slot' => '2',
-            'position' => 1,
-            'columns' => [['slot' => '1', 'width' => 12]],
-            'instanceName' => 'Schlechtwetterprogramm',
-            '_links' => [
-                'parent' => ['href' => $this->getIriFor('singleText1')],
-            ],
-        ]);
+        $this->endpoint = '/content_node/column_layouts';
+        $this->defaultEntity = static::$fixtures['columnLayout1'];
     }
 
     public function testPatchColumnLayoutAcceptsValidJson() {
@@ -39,7 +21,7 @@ class UpdateColumnLayoutTest extends ECampApiTestCase {
         ];
 
         $contentNode = static::$fixtures['columnLayout2'];
-        static::createClientWithCredentials()->request('PATCH', '/content_node/column_layouts/'.$contentNode->getId(), ['json' => [
+        static::createClientWithCredentials()->request('PATCH', $this->endpoint.'/'.$contentNode->getId(), ['json' => [
             'columns' => $SINGLE_COLUMN_JSON_CONFIG,
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
 
@@ -55,7 +37,7 @@ class UpdateColumnLayoutTest extends ECampApiTestCase {
         ];
 
         $contentNode = static::$fixtures['columnLayout2'];
-        static::createClientWithCredentials()->request('PATCH', '/content_node/column_layouts/'.$contentNode->getId(), ['json' => [
+        static::createClientWithCredentials()->request('PATCH', $this->endpoint.'/'.$contentNode->getId(), ['json' => [
             'columns' => $INVALID_JSON_CONFIG,
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
 
@@ -77,7 +59,7 @@ class UpdateColumnLayoutTest extends ECampApiTestCase {
         ];
 
         $contentNode = static::$fixtures['columnLayout1'];
-        static::createClientWithCredentials()->request('PATCH', '/content_node/column_layouts/'.$contentNode->getId(), ['json' => [
+        static::createClientWithCredentials()->request('PATCH', $this->endpoint.'/'.$contentNode->getId(), ['json' => [
             'columns' => $JSON_CONFIG,
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
 
@@ -98,7 +80,7 @@ class UpdateColumnLayoutTest extends ECampApiTestCase {
         ];
 
         $contentNode = static::$fixtures['columnLayout1'];
-        static::createClientWithCredentials()->request('PATCH', '/content_node/column_layouts/'.$contentNode->getId(), ['json' => [
+        static::createClientWithCredentials()->request('PATCH', $this->endpoint.'/'.$contentNode->getId(), ['json' => [
             'columns' => $JSON_CONFIG,
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
 
@@ -117,10 +99,8 @@ class UpdateColumnLayoutTest extends ECampApiTestCase {
      * From here: testing functionality of ContentNode base class.
      */
     public function testPatchColumnLayoutValidatesParentBelongsToSameOwner() {
-        $this->markTestSkipped('To be properly implemented. Currently returns 200 OK by mistake.');
-
         $contentNode = static::$fixtures['columnLayoutChild1'];
-        static::createClientWithCredentials()->request('PATCH', '/content_node/column_layouts/'.$contentNode->getId(), ['json' => [
+        static::createClientWithCredentials()->request('PATCH', $this->endpoint.'/'.$contentNode->getId(), ['json' => [
             'parent' => $this->getIriFor('columnLayout2'),
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
 
@@ -136,10 +116,8 @@ class UpdateColumnLayoutTest extends ECampApiTestCase {
     }
 
     public function testPatchColumnLayoutValidatesNoParentLoop() {
-        $this->markTestSkipped('To be properly implemented. Currently returns a 200 OK by mistake.');
-
         $contentNode = static::$fixtures['columnLayoutChild1'];
-        static::createClientWithCredentials()->request('PATCH', '/content_node/column_layouts/'.$contentNode->getId(), ['json' => [
+        static::createClientWithCredentials()->request('PATCH', $this->endpoint.'/'.$contentNode->getId(), ['json' => [
             'parent' => $this->getIriFor('singleText2'),
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
 
@@ -156,7 +134,7 @@ class UpdateColumnLayoutTest extends ECampApiTestCase {
 
     public function testPatchColumnLayoutValidatesMissingParent() {
         $contentNode = static::$fixtures['columnLayoutChild1'];
-        static::createClientWithCredentials()->request('PATCH', '/content_node/column_layouts/'.$contentNode->getId(), ['json' => [
+        static::createClientWithCredentials()->request('PATCH', $this->endpoint.'/'.$contentNode->getId(), ['json' => [
             'parent' => null,
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
 
@@ -173,7 +151,7 @@ class UpdateColumnLayoutTest extends ECampApiTestCase {
 
     public function testPatchColumnLayoutDoesNotAllowParentOnRootColumnLayout() {
         $contentNode = static::$fixtures['columnLayout1'];
-        static::createClientWithCredentials()->request('PATCH', '/content_node/column_layouts/'.$contentNode->getId(), ['json' => [
+        static::createClientWithCredentials()->request('PATCH', $this->endpoint.'/'.$contentNode->getId(), ['json' => [
             'parent' => $this->getIriFor('columnLayout2'),
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
 
@@ -190,7 +168,7 @@ class UpdateColumnLayoutTest extends ECampApiTestCase {
 
     public function testPatchColumnLayoutDisallowsChangingContentType() {
         $contentNode = static::$fixtures['columnLayoutChild1'];
-        static::createClientWithCredentials()->request('PATCH', '/content_node/column_layouts/'.$contentNode->getId(), ['json' => [
+        static::createClientWithCredentials()->request('PATCH', $this->endpoint.'/'.$contentNode->getId(), ['json' => [
             'contentType' => $this->getIriFor('contentTypeNotes'),
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
 
@@ -202,7 +180,7 @@ class UpdateColumnLayoutTest extends ECampApiTestCase {
 
     public function testPatchColumnLayoutAcceptsEmptySlot() {
         $contentNode = static::$fixtures['columnLayoutChild1'];
-        static::createClientWithCredentials()->request('PATCH', '/content_node/column_layouts/'.$contentNode->getId(), ['json' => [
+        static::createClientWithCredentials()->request('PATCH', $this->endpoint.'/'.$contentNode->getId(), ['json' => [
             'slot' => null,
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
 
@@ -214,7 +192,7 @@ class UpdateColumnLayoutTest extends ECampApiTestCase {
 
     public function testPatchColumnLayoutAcceptsNullPosition() {
         $contentNode = static::$fixtures['columnLayoutChild1'];
-        static::createClientWithCredentials()->request('PATCH', '/content_node/column_layouts/'.$contentNode->getId(), ['json' => [
+        static::createClientWithCredentials()->request('PATCH', $this->endpoint.'/'.$contentNode->getId(), ['json' => [
             'position' => null,
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
 
@@ -226,7 +204,7 @@ class UpdateColumnLayoutTest extends ECampApiTestCase {
 
     public function testPatchColumnLayoutAcceptsNullInstanceName() {
         $contentNode = static::$fixtures['columnLayoutChild1'];
-        static::createClientWithCredentials()->request('PATCH', '/content_node/column_layouts/'.$contentNode->getId(), ['json' => [
+        static::createClientWithCredentials()->request('PATCH', $this->endpoint.'/'.$contentNode->getId(), ['json' => [
             'instanceName' => null,
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
 

@@ -1,6 +1,6 @@
 App\Entity\Camp:
   camp1:
-    name: <word()>
+    name: Camp1
     title: <word()>
     motto: <sentence()>
     addressName: <word()>
@@ -12,7 +12,7 @@ App\Entity\Camp:
     isPrototype: false
     campPrototypeId: null
   camp2:
-    name: <word()>
+    name: Camp2
     title: <word()>
     motto: <sentence()>
     addressName: <word()>
@@ -24,7 +24,7 @@ App\Entity\Camp:
     isPrototype: false
     campPrototypeId: null
   campUnrelated:
-    name: <word()>
+    name: CampUnrelated
     title: <word()>
     motto: <sentence()>
     addressName: <word()>
@@ -36,7 +36,7 @@ App\Entity\Camp:
     isPrototype: false
     campPrototypeId: null
   campPrototype:
-    name: <word()>
+    name: CampPrototype
     title: <word()>
     motto: <sentence()>
     addressName: <word()>

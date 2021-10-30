@@ -2,27 +2,24 @@
 
 namespace App\Tests\Api\ContentNodes\ColumnLayout;
 
-use App\Entity\ContentNode\ColumnLayout;
-use App\Tests\Api\ECampApiTestCase;
+use App\Tests\Api\ContentNodes\DeleteContentNodeTestCase;
 
 /**
  * @internal
  */
-class DeleteColumnLayoutTest extends ECampApiTestCase {
-    // TODO security tests when not logged in or not collaborator
+class DeleteColumnLayoutTest extends DeleteContentNodeTestCase {
+    public function setUp(): void {
+        parent::setUp();
 
-    public function testDeleteColumnLayoutIsAllowedForCollaborator() {
-        $contentNode = static::$fixtures['columnLayout2'];
-        static::createClientWithCredentials()->request('DELETE', '/content_node/column_layouts/'.$contentNode->getId());
-        $this->assertResponseStatusCodeSame(204);
-        $this->assertNull($this->getEntityManager()->getRepository(ColumnLayout::class)->find($contentNode->getId()));
+        $this->endpoint = '/content_node/column_layouts';
+        $this->defaultEntity = static::$fixtures['columnLayoutChild1'];
     }
 
     public function testDeleteColumnLayoutIsNotAllowedWhenColumnLayoutIsRoot() {
-        $this->markTestSkipped('To be properly implemented. Currently throws a SQL Error (500)');
+        // when
+        $this->delete(entity: static::$fixtures['columnLayout1']);
 
-        $contentNode = static::$fixtures['columnLayout1'];
-        static::createClientWithCredentials()->request('DELETE', '/content_node/column_layouts/'.$contentNode->getId());
+        // then
         $this->assertResponseStatusCodeSame(403);
         $this->assertJsonContains([
             'title' => 'An error occurred',

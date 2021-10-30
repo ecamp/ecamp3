@@ -166,7 +166,7 @@ abstract class ECampApiTestCase extends ApiTestCase {
 
         $entity ??= $this->defaultEntity;
 
-        static::createClientWithCredentials($credentials)->request('DELETE', "{$this->endpoint}/".$this->defaultEntity->getId());
+        static::createClientWithCredentials($credentials)->request('DELETE', "{$this->endpoint}/".$entity->getId());
     }
 
     protected function create(array $payload = null, ?User $user = null) {
@@ -190,7 +190,7 @@ abstract class ECampApiTestCase extends ApiTestCase {
 
         $entity ??= $this->defaultEntity;
 
-        static::createClientWithCredentials($credentials)->request('PATCH', "{$this->endpoint}/".$this->defaultEntity->getId(), ['json' => $payload, 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
+        static::createClientWithCredentials($credentials)->request('PATCH', "{$this->endpoint}/".$entity->getId(), ['json' => $payload, 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
     }
 
     protected function getExampleWritePayload($attributes = [], $except = []) {

@@ -17,7 +17,7 @@ abstract class AbstractContentNodeOwner extends BaseEntity {
      * exchanged, but all the contents attached to it can.
      *
      * @ORM\OneToOne(targetEntity="ContentNode", inversedBy="owner", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=false, unique=true)
+     * @ORM\JoinColumn(nullable=false, unique=true, onDelete="cascade")
      */
     #[Assert\DisableAutoMapping]
     #[ApiProperty(writable: false, example: '/content_nodes/1a2b3c4d')]

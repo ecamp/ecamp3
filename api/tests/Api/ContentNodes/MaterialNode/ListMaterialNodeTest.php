@@ -13,7 +13,7 @@ class ListMaterialNodeTest extends ListContentNodeTestCase {
 
         $this->endpoint = '/content_node/material_nodes';
 
-        $this->contentNodesCamp1 = [
+        $this->contentNodesCamp1and2 = [
             $this->getIriFor('materialNode1'),
             $this->getIriFor('materialNode2'),
         ];
