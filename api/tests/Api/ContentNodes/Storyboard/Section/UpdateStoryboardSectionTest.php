@@ -36,6 +36,19 @@ class UpdateStoryboardSectionTest extends ECampApiTestCase {
         ]);
     }
 
+    public function testPatchStoryboardNotAllowed() {
+        // when
+        $this->patch($this->defaultEntity, [
+            'storyboard' => $this->getIriFor(static::$fixtures['storyboard2']),
+        ]);
+
+        $this->assertResponseStatusCodeSame(400);
+        $this->assertJsonContains([
+            'title' => 'An error occurred',
+            'detail' => 'Extra attributes are not allowed ("storyboard" is unknown).',
+        ]);
+    }
+
     /**
      * Standard security checks.
      */
