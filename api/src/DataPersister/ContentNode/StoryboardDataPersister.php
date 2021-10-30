@@ -23,7 +23,7 @@ class StoryboardDataPersister extends ContentNodeBaseDataPersister implements Co
             /** @var Storyboard $prototype */
             $prototype = $storyboard->prototype;
 
-            // copy all material items
+            // copy all storyboard sections
             foreach ($prototype->sections as $prototypeSection) {
                 $section = new StoryboardSection();
 
