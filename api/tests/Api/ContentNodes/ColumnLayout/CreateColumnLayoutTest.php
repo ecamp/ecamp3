@@ -21,12 +21,54 @@ class CreateColumnLayoutTest extends CreateContentNodeTestCase {
     /**
      * tests specific for Columnlayout.
      */
-    public function testCreateColumnLayout() {
-        // when
-        $this->create($this->getExampleWritePayload(['columns' => [['slot' => '1', 'width' => 5], ['slot' => '2', 'width' => 7]]]));
+    public function testCreateColumnLayoutAcceptsValidJson() {
+        $SINGLE_COLUMN_JSON_CONFIG = [
+            ['slot' => '1', 'width' => 12],
+        ];
+
+        $this->create($this->getExampleWritePayload(['columns' => $SINGLE_COLUMN_JSON_CONFIG]));
 
         $this->assertResponseStatusCodeSame(201);
-        $this->assertJsonContains(['columns' => [['slot' => '1', 'width' => 5], ['slot' => '2', 'width' => 7]]]);
+        $this->assertJsonContains([
+            'columns' => $SINGLE_COLUMN_JSON_CONFIG,
+        ]);
+    }
+
+    public function testCreateColumnLayoutRejectsInvalidJson() {
+        $INVALID_JSON_CONFIG = [
+            'data' => 'value',
+        ];
+
+        $this->create($this->getExampleWritePayload(['columns' => $INVALID_JSON_CONFIG]));
+
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [
+                    'propertyPath' => 'columns',
+                    'message' => "Provided JSON doesn't match required schema.",
+                ],
+            ],
+        ]);
+    }
+
+    public function testCreateColumnLayoutRejectsInvalidWidth() {
+        $JSON_CONFIG = [
+            ['slot' => '1', 'width' => 6],
+            ['slot' => '2', 'width' => 5],
+        ];
+
+        $this->create($this->getExampleWritePayload(['columns' => $JSON_CONFIG]));
+
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [
+                    'propertyPath' => 'columns',
+                    'message' => 'Expected column widths to sum to 12, but got a sum of 11',
+                ],
+            ],
+        ]);
     }
 
     public function testCreateColumnLayoutFromPrototype() {
