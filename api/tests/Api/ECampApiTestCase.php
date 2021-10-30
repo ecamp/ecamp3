@@ -3,11 +3,13 @@
 namespace App\Tests\Api;
 
 use ApiPlatform\Core\Api\IriConverterInterface;
+use ApiPlatform\Core\Api\OperationType;
 use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\ApiTestCase;
 use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\Client;
 use ApiPlatform\Core\JsonSchema\Schema;
 use ApiPlatform\Core\JsonSchema\SchemaFactoryInterface;
 use ApiPlatform\Core\Metadata\Resource\Factory\ResourceMetadataFactoryInterface;
+use App\Entity\BaseEntity;
 use App\Entity\User;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -17,9 +19,14 @@ use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
+use Symfony\Contracts\HttpClient\ResponseInterface;
 
 abstract class ECampApiTestCase extends ApiTestCase {
     use RefreshDatabaseTrait;
+
+    protected string $endpoint = '';
+    protected BaseEntity $defaultEntity;
+    protected string $entityClass;
 
     private ?string $token = null;
     private ?IriConverterInterface $iriConverter = null;
@@ -129,5 +136,110 @@ abstract class ECampApiTestCase extends ApiTestCase {
         }, $examples);
 
         return array_diff_key(array_merge(array_diff_key($examples, array_flip($exceptExamples)), $attributes), array_flip($exceptAttributes));
+    }
+
+    protected function get(?BaseEntity $entity = null, ?User $user = null) {
+        $credentials = null;
+        if (null !== $user) {
+            $credentials = ['username' => $user->getUsername()];
+        }
+
+        $entity ??= $this->defaultEntity;
+
+        static::createClientWithCredentials($credentials)->request('GET', "{$this->endpoint}/".$entity->getId());
+    }
+
+    protected function list(?User $user = null) {
+        $credentials = null;
+        if (null !== $user) {
+            $credentials = ['username' => $user->getUsername()];
+        }
+
+        return static::createClientWithCredentials($credentials)->request('GET', $this->endpoint);
+    }
+
+    protected function delete(?BaseEntity $entity = null, ?User $user = null) {
+        $credentials = null;
+        if (null !== $user) {
+            $credentials = ['username' => $user->getUsername()];
+        }
+
+        $entity ??= $this->defaultEntity;
+
+        static::createClientWithCredentials($credentials)->request('DELETE', "{$this->endpoint}/".$this->defaultEntity->getId());
+    }
+
+    protected function create(array $payload = null, ?User $user = null) {
+        $credentials = null;
+        if (null !== $user) {
+            $credentials = ['username' => $user->getUsername()];
+        }
+
+        if (null === $payload) {
+            $payload = $this->getExampleWritePayload();
+        }
+
+        return static::createClientWithCredentials($credentials)->request('POST', $this->endpoint, ['json' => $payload]);
+    }
+
+    protected function patch(?BaseEntity $entity = null, array $payload = [], ?User $user = null) {
+        $credentials = null;
+        if (null !== $user) {
+            $credentials = ['username' => $user->getUsername()];
+        }
+
+        $entity ??= $this->defaultEntity;
+
+        static::createClientWithCredentials($credentials)->request('PATCH', "{$this->endpoint}/".$this->defaultEntity->getId(), ['json' => $payload, 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
+    }
+
+    protected function getExampleWritePayload($attributes = [], $except = []) {
+        return $this->getExamplePayload(
+            $this->entityClass,
+            OperationType::COLLECTION,
+            'post',
+            $attributes,
+            [],
+            $except
+        );
+    }
+
+    protected function assertEntityWasRemoved(?BaseEntity $entity = null) {
+        $entity ??= $this->defaultEntity;
+
+        $this->assertNull($this->getEntityManager()->getRepository(get_class($entity))->find($entity->getId()));
+    }
+
+    protected function assertEntityStillExists(?BaseEntity $entity = null) {
+        $entity ??= $this->defaultEntity;
+
+        $this->assertNotNull($this->getEntityManager()->getRepository(get_class($entity))->find($entity->getId()));
+    }
+
+    /**
+     * @param ResponseInterface $response Response from API
+     * @param array             $items    array of IRIs
+     */
+    protected function assertJsonContainsItems(ResponseInterface $response, array $items = []) {
+        $this->assertJsonContains([
+            'totalItems' => count($items),
+        ]);
+
+        // TODO: remove if once PR #2062 is merged
+        if (!empty($items)) {
+            $this->assertJsonContains([
+                '_links' => [
+                    'items' => [],
+                ],
+                '_embedded' => [
+                    'items' => [],
+                ],
+            ]);
+
+            $this->assertEqualsCanonicalizing(
+                array_map(fn ($iri): array => ['href' => $iri], $items),
+                $response->toArray()['_links']['items']
+            );
+        }
     }
 }

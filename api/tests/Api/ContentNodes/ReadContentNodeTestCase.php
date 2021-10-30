@@ -3,7 +3,6 @@
 namespace App\Tests\Api\ContentNodes;
 
 use App\Entity\ContentNode;
-use App\Entity\User;
 use App\Tests\Api\ECampApiTestCase;
 
 /**
@@ -14,12 +13,8 @@ use App\Tests\Api\ECampApiTestCase;
  * @internal
  */
 abstract class ReadContentNodeTestCase extends ECampApiTestCase {
-    protected $defaultContentNode;
-
-    protected $endpoint = '';
-
     public function testGetIsDeniedForAnonymousUser() {
-        static::createBasicClient()->request('GET', "/content_node/{$this->endpoint}/".$this->defaultContentNode->getId());
+        static::createBasicClient()->request('GET', "{$this->endpoint}/".$this->defaultEntity->getId());
         $this->assertResponseStatusCodeSame(401);
         $this->assertJsonContains([
             'code' => 401,
@@ -57,28 +52,17 @@ abstract class ReadContentNodeTestCase extends ECampApiTestCase {
         $this->assertResponseStatusCodeSame(200);
 
         $this->assertJsonContains([
-            'id' => $this->defaultContentNode->getId(),
-            'instanceName' => $this->defaultContentNode->instanceName,
-            'slot' => $this->defaultContentNode->slot,
-            'position' => $this->defaultContentNode->position,
-            'contentTypeName' => $this->defaultContentNode->getContentTypeName(),
+            'id' => $this->defaultEntity->getId(),
+            'instanceName' => $this->defaultEntity->instanceName,
+            'slot' => $this->defaultEntity->slot,
+            'position' => $this->defaultEntity->position,
+            'contentTypeName' => $this->defaultEntity->getContentTypeName(),
 
             '_links' => [
-                'parent' => ['href' => $this->getIriFor($this->defaultContentNode->parent)],
+                'parent' => ['href' => $this->getIriFor($this->defaultEntity->parent)],
                 'owner' => ['href' => $this->getIriFor('activity1')],
                 'ownerCategory' => ['href' => $this->getIriFor('category1')],
             ],
         ]);
-    }
-
-    protected function get(?ContentNode $contentNode = null, ?User $user = null) {
-        $credentials = null;
-        if (null !== $user) {
-            $credentials = ['username' => $user->getUsername()];
-        }
-
-        $contentNode ??= $this->defaultContentNode;
-
-        static::createClientWithCredentials($credentials)->request('GET', "/content_node/{$this->endpoint}/".$contentNode->getId());
     }
 }

@@ -11,7 +11,7 @@ class DeleteSingleTextTest extends DeleteContentNodeTestCase {
     public function setUp(): void {
         parent::setUp();
 
-        $this->endpoint = 'single_texts';
-        $this->defaultContentNode = static::$fixtures['singleText1'];
+        $this->endpoint = '/content_node/single_texts';
+        $this->defaultEntity = static::$fixtures['singleText1'];
     }
 }

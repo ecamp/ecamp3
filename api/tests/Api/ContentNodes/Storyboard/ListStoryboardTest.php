@@ -11,12 +11,11 @@ class ListStoryboardTest extends ListContentNodeTestCase {
     public function setUp(): void {
         parent::setUp();
 
-        $this->endpoint = 'storyboards';
-        $this->contentNodeClass = Storyboard::class;
-        $this->defaultContentType = static::$fixtures['contentTypeStoryboard'];
+        $this->endpoint = '/content_node/storyboards';
 
         $this->contentNodesCamp1 = [
             $this->getIriFor('storyboard1'),
+            $this->getIriFor('storyboard2'),
         ];
 
         $this->contentNodesCampUnrelated = [
@@ -25,8 +24,7 @@ class ListStoryboardTest extends ListContentNodeTestCase {
     }
 
     public function testListStoryboardsFilteredByParent() {
-        $parent = static::$fixtures['columnLayout1'];
-        $response = static::createClientWithCredentials()->request('GET', "/content_node/{$this->endpoint}?parent=".$this->getIriFor('columnLayout1'));
+        $response = static::createClientWithCredentials()->request('GET', "{$this->endpoint}?parent=".$this->getIriFor('columnLayout1'));
         $this->assertResponseStatusCodeSame(200);
 
         $this->assertJsonContainsItems($response, [$this->getIriFor('storyboard1')]);

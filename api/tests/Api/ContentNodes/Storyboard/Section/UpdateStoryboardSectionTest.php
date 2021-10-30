@@ -1,18 +1,23 @@
 <?php
 
-namespace App\Tests\Api\ContentNodes;
+namespace App\Tests\Api\ContentNodes\Storyboard\Section;
 
-use App\Entity\ContentNode;
 use App\Tests\Api\ECampApiTestCase;
 
 /**
- * Base UPDATE (patch) test case to be used for various ContentNode types.
- *
- * This test class covers all tests that are the same across all content node implementations
- *
  * @internal
  */
-abstract class UpdateContentNodeTestCase extends ECampApiTestCase {
+class UpdateStoryboardSectionTest extends ECampApiTestCase {
+    public function setUp(): void {
+        parent::setUp();
+
+        $this->endpoint = '/content_node/storyboard_sections';
+        $this->defaultEntity = static::$fixtures['storyboardSection1'];
+    }
+
+    /**
+     * Standard security checks.
+     */
     public function testPatchIsDeniedForAnonymousUser() {
         static::createBasicClient()->request('PATCH', "{$this->endpoint}/".$this->defaultEntity->getId(), ['json' => [], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
         $this->assertResponseStatusCodeSame(401);

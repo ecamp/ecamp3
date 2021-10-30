@@ -12,8 +12,8 @@ class CreateStoryboardTest extends CreateContentNodeTestCase {
     public function setUp(): void {
         parent::setUp();
 
-        $this->endpoint = 'storyboards';
-        $this->contentNodeClass = Storyboard::class;
+        $this->endpoint = '/content_node/storyboards';
+        $this->entityClass = Storyboard::class;
         $this->defaultContentType = static::$fixtures['contentTypeStoryboard'];
     }
 

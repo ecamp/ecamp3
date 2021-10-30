@@ -1,24 +1,18 @@
 <?php
 
-namespace App\Tests\Api\ContentNodes\Storyboard\Section;
+namespace App\Tests\Api\ContentNodes\Storyboard\Section\Storyboard\Section;
 
-use App\Entity\BaseEntity;
 use App\Entity\ContentNode\StoryboardSection;
-use App\Entity\User;
 use App\Tests\Api\ECampApiTestCase;
 
 /**
  * @internal
  */
 class ReadStoryboardSectionTest extends ECampApiTestCase {
-    protected StoryboardSection $defaultEntity;
-
-    protected string $endpoint = '';
-
     public function setUp(): void {
         parent::setUp();
 
-        $this->endpoint = 'storyboard_sections';
+        $this->endpoint = '/content_node/storyboard_sections';
         $this->defaultEntity = static::$fixtures['storyboardSection1'];
     }
 
@@ -49,7 +43,7 @@ class ReadStoryboardSectionTest extends ECampApiTestCase {
      * Standard security checks.
      */
     public function testGetIsDeniedForAnonymousUser() {
-        static::createBasicClient()->request('GET', "/content_node/{$this->endpoint}/".$this->defaultEntity->getId());
+        static::createBasicClient()->request('GET', "{$this->endpoint}/".$this->defaultEntity->getId());
         $this->assertResponseStatusCodeSame(401);
         $this->assertJsonContains([
             'code' => 401,
@@ -85,16 +79,5 @@ class ReadStoryboardSectionTest extends ECampApiTestCase {
     public function testGetIsAllowedForManager() {
         $this->get(user: static::$fixtures['user1manager']);
         $this->assertResponseStatusCodeSame(200);
-    }
-
-    protected function get(?BaseEntity $entity = null, ?User $user = null) {
-        $credentials = null;
-        if (null !== $user) {
-            $credentials = ['username' => $user->getUsername()];
-        }
-
-        $entity ??= $this->defaultEntity;
-
-        static::createClientWithCredentials($credentials)->request('GET', "/content_node/{$this->endpoint}/".$entity->getId());
     }
 }

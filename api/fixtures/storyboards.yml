@@ -7,9 +7,9 @@ App\Entity\ContentNode\Storyboard:
     instanceName: <word()>
     contentType: '@contentTypeStoryboard'
   storyboard2:
-    root: '@self'
-    parent: null
-    slot: ''
+    root: '@columnLayout1'
+    parent: '@columnLayoutChild1'
+    slot: '1'
     position: 0
     instanceName: <word()>
     contentType: '@contentTypeStoryboard'
@@ -27,3 +27,14 @@ App\Entity\ContentNode\StoryboardSection:
     column1: <word()>
     column2: <word()>
     column3: <word()>
+  storyboardSection2:
+    storyboard: '@storyboard2'
+    column1: <word()>
+    column2: <word()>
+    column3: <word()>
+  storyboardSectionCampUnrelated:
+    storyboard: '@storyboardCampUnrelated'
+    column1: <word()>
+    column2: <word()>
+    column3: <word()>
+

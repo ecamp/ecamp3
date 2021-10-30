@@ -39,7 +39,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 )]
 class MaterialNode extends ContentNode {
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\MaterialItem", mappedBy="materialNode", orphanRemoval=true, cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="App\Entity\MaterialItem", mappedBy="materialNode", orphanRemoval=true, cascade={"persist", "remove"})
      */
     #[ApiProperty(readableLink: true, writableLink: false)]
     #[Groups(['read'])]

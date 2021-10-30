@@ -11,7 +11,7 @@ class DeleteStoryboardTest extends DeleteContentNodeTestCase {
     public function setUp(): void {
         parent::setUp();
 
-        $this->endpoint = 'storyboards';
-        $this->defaultContentNode = static::$fixtures['storyboard1'];
+        $this->endpoint = '/content_node/storyboards';
+        $this->defaultEntity = static::$fixtures['storyboard1'];
     }
 }

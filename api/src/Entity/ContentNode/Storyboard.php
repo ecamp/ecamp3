@@ -38,7 +38,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 )]
 class Storyboard extends ContentNode {
     /**
-     * @ORM\OneToMany(targetEntity="StoryboardSection", mappedBy="storyboard", orphanRemoval=true, cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="StoryboardSection", mappedBy="storyboard", orphanRemoval=true, cascade={"persist", "remove"})
      */
     #[ApiProperty(readableLink: true, writableLink: false)]
     #[Groups(['read'])]

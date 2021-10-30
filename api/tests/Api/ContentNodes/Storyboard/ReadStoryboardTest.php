@@ -13,29 +13,27 @@ class ReadStoryboardTest extends ReadContentNodeTestCase {
     public function setUp(): void {
         parent::setUp();
 
-        $this->endpoint = 'storyboards';
-        $this->defaultContentNode = static::$fixtures['storyboard1'];
+        $this->endpoint = '/content_node/storyboards';
+        $this->defaultEntity = static::$fixtures['storyboard1'];
     }
 
     public function testGetStoryboard() {
         // given
         /** @var Storyboard $contentNode */
-        $contentNode = $this->defaultContentNode;
+        $storyboard = $this->defaultEntity;
 
         /** @var StoryboardSection $storyboardSection */
         $storyboardSection = static::$fixtures['storyboardSection1'];
 
         // when
-        $this->get($contentNode);
+        $this->get($storyboard);
 
         // then
         $this->assertResponseStatusCodeSame(200);
 
         $this->assertJsonContains([
             '_links' => [
-                'sections' => [
-                    ['href' => $this->getIriFor($storyboardSection)],
-                ],
+                'sections' => ['href' => '/content_node/storyboard_sections?storyboard='.$this->getIriFor($storyboard)],
             ],
             '_embedded' => [
                 'sections' => [
@@ -45,7 +43,7 @@ class ReadStoryboardTest extends ReadContentNodeTestCase {
                         'column3' => $storyboardSection->column3,
                         'id' => $storyboardSection->getId(),
                         '_links' => [
-                            'storyboard' => ['href' => $this->getIriFor($contentNode)],
+                            'storyboard' => ['href' => $this->getIriFor($storyboard)],
                         ],
                     ],
                 ],

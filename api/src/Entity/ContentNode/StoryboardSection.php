@@ -2,8 +2,10 @@
 
 namespace App\Entity\ContentNode;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Entity\BaseEntity;
 use App\Entity\BelongsToCampInterface;
 use App\Entity\Camp;
@@ -39,6 +41,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
     denormalizationContext: ['groups' => ['write']],
     normalizationContext: ['groups' => ['read']],
 )]
+#[ApiFilter(SearchFilter::class, properties: ['storyboard'])]
 class StoryboardSection extends BaseEntity implements BelongsToCampInterface, SortableEntityInterface {
     use SortableEntityTrait;
 
