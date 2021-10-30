@@ -15,6 +15,27 @@ class UpdateStoryboardSectionTest extends ECampApiTestCase {
         $this->defaultEntity = static::$fixtures['storyboardSection1'];
     }
 
+    public function testPatchCleansHTMLFromText() {
+        // given
+        $text = ' testText<script>alert(1)</script>';
+
+        // when
+        $this->patch($this->defaultEntity, [
+            'column1' => $text,
+            'column2' => $text,
+            'column3' => $text,
+        ]);
+
+        // then
+        $textSanitized = ' testText';
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertJsonContains([
+            'column1' => $textSanitized,
+            'column2' => $textSanitized,
+            'column3' => $textSanitized,
+        ]);
+    }
+
     /**
      * Standard security checks.
      */

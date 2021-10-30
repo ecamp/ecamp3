@@ -21,6 +21,27 @@ class CreateStoryboardSectionTest extends ECampApiTestCase {
         $this->defaultStorybord = static::$fixtures['storyboard1'];
     }
 
+    public function testCreateCleansHTMLFromText() {
+        // given
+        $text = ' testText<script>alert(1)</script>';
+
+        // when
+        $this->create($this->getExampleWritePayload([
+            'column1' => $text,
+            'column2' => $text,
+            'column3' => $text,
+        ]));
+
+        // then
+        $textSanitized = ' testText';
+        $this->assertResponseStatusCodeSame(201);
+        $this->assertJsonContains([
+            'column1' => $textSanitized,
+            'column2' => $textSanitized,
+            'column3' => $textSanitized,
+        ]);
+    }
+
     /**
      * Standard security checks.
      */
