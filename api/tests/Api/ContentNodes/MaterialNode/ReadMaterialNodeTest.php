@@ -13,14 +13,14 @@ class ReadMaterialNodeTest extends ReadContentNodeTestCase {
     public function setUp(): void {
         parent::setUp();
 
-        $this->endpoint = 'material_nodes';
-        $this->defaultContentNode = static::$fixtures['materialNode1'];
+        $this->endpoint = '/content_node/material_nodes';
+        $this->defaultEntity = static::$fixtures['materialNode1'];
     }
 
     public function testGetMaterialNode() {
         // given
         /** @var MaterialNode $contentNode */
-        $contentNode = $this->defaultContentNode;
+        $contentNode = $this->defaultEntity;
 
         /** @var MaterialItem $materialItem */
         $materialItem = static::$fixtures['materialItem1'];

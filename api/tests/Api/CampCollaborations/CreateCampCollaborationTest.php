@@ -4,6 +4,7 @@ namespace App\Tests\Api\CampCollaborations;
 
 use ApiPlatform\Core\Api\OperationType;
 use App\Entity\CampCollaboration;
+use App\Entity\User;
 use App\Tests\Api\ECampApiTestCase;
 
 /**
@@ -110,6 +111,26 @@ class CreateCampCollaborationTest extends ECampApiTestCase {
             'status' => 'invited',
             'inviteEmail' => 'someone@example.com',
             '_links' => [],
+        ]));
+    }
+
+    public function testCreateCampCollaborationWithInviteEmailOfExistingUserAttachesUser() {
+        /** @var User $userunrelated */
+        $userunrelated = static::$fixtures['user4unrelated'];
+        static::createClientWithCredentials()->request('POST', '/camp_collaborations', ['json' => $this->getExampleWritePayload([
+            'inviteEmail' => $userunrelated->email,
+        ], ['user'])]);
+
+        $this->assertResponseStatusCodeSame(201);
+        $this->assertJsonContains($this->getExampleReadPayload([
+            'status' => 'invited',
+            'inviteEmail' => $userunrelated->email,
+            '_links' => [],
+            '_embedded' => [
+                'user' => [
+                    'username' => $userunrelated->username,
+                ],
+            ],
         ]));
     }
 

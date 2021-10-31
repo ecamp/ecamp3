@@ -27,9 +27,6 @@ services:
     App\DataPersister\UserDataPersister:
         arguments: [ '@api_platform.doctrine.orm.data_persister' ]
 
-    App\DataPersister\CampCollaborationDataPersister:
-        arguments: [ '@api_platform.doctrine.orm.data_persister' ]
-
     App\DataPersister\CampDataPersister:
         arguments: [ '@api_platform.doctrine.orm.data_persister' ]
 
@@ -47,8 +44,11 @@ services:
 
     App\DataPersister\ContentNode\MaterialNodeDataPersister:
         arguments: [ '@api_platform.doctrine.orm.data_persister' ]
-        
-    App\DataPersister\InvitationDataPersister:
+
+    App\DataPersister\ContentNode\StoryboardDataPersister:
+        arguments: [ '@api_platform.doctrine.orm.data_persister' ]
+
+    App\DataPersister\Util\DataPersisterObservable:
         arguments: [ '@api_platform.doctrine.orm.data_persister' ]
 
     App\Validator\MaterialItemUpdateGroupSequence:

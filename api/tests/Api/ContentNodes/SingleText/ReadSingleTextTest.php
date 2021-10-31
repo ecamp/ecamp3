@@ -12,14 +12,14 @@ class ReadSingleTextTest extends ReadContentNodeTestCase {
     public function setUp(): void {
         parent::setUp();
 
-        $this->endpoint = 'single_texts';
-        $this->defaultContentNode = static::$fixtures['singleText1'];
+        $this->endpoint = '/content_node/single_texts';
+        $this->defaultEntity = static::$fixtures['singleText1'];
     }
 
     public function testGetSingleText() {
         // given
         /** @var SingleText $contentNode */
-        $contentNode = $this->defaultContentNode;
+        $contentNode = $this->defaultEntity;
 
         // when
         $this->get($contentNode);

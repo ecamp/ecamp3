@@ -37,7 +37,7 @@ export default {
   data () {
     return {
       entityProperties: [
-        'campId',
+        'camp',
         'short',
         'name',
         'color',
@@ -53,7 +53,7 @@ export default {
     showDialog: function (showDialog) {
       if (showDialog) {
         this.setEntityData({
-          campId: this.camp.id,
+          camp: this.camp._meta.self,
           short: '',
           name: '',
           color: '#000000',
@@ -68,7 +68,7 @@ export default {
   methods: {
     createCategory () {
       return this.create().then(() => {
-        this.api.reload(this.camp)
+        this.api.reload(this.camp.categories())
       })
     }
   }
