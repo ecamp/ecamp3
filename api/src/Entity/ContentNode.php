@@ -9,6 +9,7 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Repository\ContentNodeRepository;
 use App\Validator\AssertEitherIsNull;
 use App\Validator\ContentNode\AssertBelongsToSameOwner;
+use App\Validator\ContentNode\AssertCompatibleWithEntity;
 use App\Validator\ContentNode\AssertNoLoop;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -142,6 +143,7 @@ abstract class ContentNode extends BaseEntity implements BelongsToCampInterface 
      */
     #[ApiProperty(example: '/content_types/1a2b3c4d')]
     #[Groups(['read', 'create'])]
+    #[AssertCompatibleWithEntity]
     public ?ContentType $contentType = null;
 
     public function __construct() {
