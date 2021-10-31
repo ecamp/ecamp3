@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\ContentNode\StoryboardSection;
 use App\Entity\User;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -13,7 +14,9 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method StoryboardSection[]    findAll()
  * @method StoryboardSection[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class StoryboardSectionRepository extends ContentNodeRepository {
+class StoryboardSectionRepository extends ServiceEntityRepository implements CanFilterByUserInterface {
+    use FiltersByContentNode;
+
     public function __construct(ManagerRegistry $registry) {
         parent::__construct($registry, StoryboardSection::class);
     }
@@ -22,6 +25,6 @@ class StoryboardSectionRepository extends ContentNodeRepository {
         $rootAlias = $queryBuilder->getRootAliases()[0];
         $queryBuilder->innerJoin("{$rootAlias}.storyboard", 'contentNode');
 
-        $this->buildContentNodeFilter($queryBuilder, $user, 'contentNode');
+        $this->filterByContentNode($queryBuilder, $user, 'contentNode');
     }
 }
