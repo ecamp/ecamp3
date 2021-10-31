@@ -57,9 +57,6 @@ class ContentNodeBaseDataPersister {
             if (!isset($data->position)) {
                 $data->position = $prototype->position;
             }
-            if (!isset($data->jsonConfig)) {
-                $data->jsonConfig = $prototype->jsonConfig;
-            }
         }
     }
 }

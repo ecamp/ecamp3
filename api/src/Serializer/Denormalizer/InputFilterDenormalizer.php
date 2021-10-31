@@ -5,6 +5,9 @@ namespace App\Serializer\Denormalizer;
 use App\InputFilter\FilterAttribute;
 use App\InputFilter\InputFilter;
 use App\InputFilter\UnexpectedValueException;
+use Generator;
+use ReflectionAttribute;
+use ReflectionClass;
 use Symfony\Component\DependencyInjection\ServiceLocator;
 use Symfony\Component\Serializer\Normalizer\ContextAwareDenormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
@@ -86,14 +89,14 @@ class InputFilterDenormalizer implements ContextAwareDenormalizerInterface, Deno
         return $data;
     }
 
-    protected function getInputFilterAttributes(object $reflection): \Generator {
-        foreach ($reflection->getAttributes(FilterAttribute::class, \ReflectionAttribute::IS_INSTANCEOF) as $attribute) {
+    protected function getInputFilterAttributes(object $reflection): Generator {
+        foreach ($reflection->getAttributes(FilterAttribute::class, ReflectionAttribute::IS_INSTANCEOF) as $attribute) {
             yield $attribute->newInstance();
         }
     }
 
-    protected function getReflectionClass($className) {
-        return new \ReflectionClass($className);
+    protected function getReflectionClass($className): ReflectionClass {
+        return new ReflectionClass($className);
     }
 
     protected function applyFilter($data, string $propertyName, FilterAttribute $filterAttribute): array {

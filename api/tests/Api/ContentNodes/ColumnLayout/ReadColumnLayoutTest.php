@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Api\ColumnLayouts;
+namespace App\Tests\Api\ContentNodes\ColumnLayout;
 
 use App\Entity\ColumnLayout;
 use App\Tests\Api\ECampApiTestCase;
@@ -22,7 +22,7 @@ class ReadColumnLayoutTest extends ECampApiTestCase {
             'slot' => $contentNode->slot,
             'position' => $contentNode->position,
             'contentTypeName' => $contentNode->getContentTypeName(),
-            'jsonConfig' => $contentNode->jsonConfig,
+            'columns' => $contentNode->getColumns(),
             '_links' => [
                 'parent' => ['href' => $this->getIriFor($contentNode->parent)],
                 'owner' => ['href' => $this->getIriFor('activity1')],

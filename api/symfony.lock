@@ -270,6 +270,9 @@
     "phpdocumentor/type-resolver": {
         "version": "1.4.0"
     },
+    "phplang/scope-exit": {
+        "version": "1.0.0"
+    },
     "phpspec/prophecy": {
         "version": "1.14.0"
     },
@@ -328,6 +331,9 @@
     },
     "ralouphie/getallheaders": {
         "version": "3.0.3"
+    },
+    "rize/uri-template": {
+        "version": "0.3.3"
     },
     "sebastian/cli-parser": {
         "version": "1.0.1"
@@ -388,6 +394,12 @@
         "files": [
             "config/packages/stof_doctrine_extensions.yaml"
         ]
+    },
+    "swaggest/json-diff": {
+        "version": "v3.8.3"
+    },
+    "swaggest/json-schema": {
+        "version": "v0.12.38"
     },
     "symfony/asset": {
         "version": "v5.2.4"

@@ -1,0 +1,22 @@
+App\Entity\ContentNode\MaterialNode:
+  materialNode1:
+    root: '@columnLayout1'
+    parent: '@columnLayout1'
+    slot: '1'
+    position: 1
+    instanceName: <word()>
+    contentType: '@contentTypeMaterial'
+  materialNode2:
+    root: '@self'
+    parent: null
+    slot: ''
+    position: 0
+    instanceName: <word()>
+    contentType: '@contentTypeMaterial'
+  materialNodeCampUnrelated:
+    root: '@columnLayout1campUnrelated'
+    parent: '@columnLayout1campUnrelated'
+    slot: '1'
+    position: 1
+    instanceName: <word()>
+    contentType: '@contentTypeMaterial'

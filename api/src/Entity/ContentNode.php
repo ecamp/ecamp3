@@ -6,8 +6,10 @@ use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use App\Repository\ContentNodeRepository;
 use App\Validator\AssertEitherIsNull;
 use App\Validator\ContentNode\AssertBelongsToSameOwner;
+use App\Validator\ContentNode\AssertCompatibleWithEntity;
 use App\Validator\ContentNode\AssertNoLoop;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -23,7 +25,7 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
  * content nodes may be inserted. In return, a content node may be nested inside a slot in a parent
  * container content node. This way, a tree of content nodes makes up a complete programme.
  *
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass=ContentNodeRepository::class)
  * @ORM\InheritanceType("JOINED")
  * @ORM\DiscriminatorColumn(name="strategy", type="string")
  */
@@ -122,17 +124,6 @@ abstract class ContentNode extends BaseEntity implements BelongsToCampInterface 
     public ?int $position = null;
 
     /**
-     * Allows the content node to store some minimal configuration about its slots, in case the
-     * slots are dynamically changeable (such as the number of columns in a column layout).
-     * Depending on the content node's content type, different validation rules will apply.
-     *
-     * @ORM\Column(type="json", nullable=true)
-     */
-    #[ApiProperty(example: '{}')]
-    #[Groups(['read', 'write'])]
-    public ?array $jsonConfig = null;
-
-    /**
      * An optional name for this content node. This is useful when planning e.g. an alternative
      * version of the programme suited for bad weather, in addition to the normal version.
      *
@@ -152,6 +143,7 @@ abstract class ContentNode extends BaseEntity implements BelongsToCampInterface 
      */
     #[ApiProperty(example: '/content_types/1a2b3c4d')]
     #[Groups(['read', 'create'])]
+    #[AssertCompatibleWithEntity]
     public ?ContentType $contentType = null;
 
     public function __construct() {

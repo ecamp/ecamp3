@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Api\ContentNodes;
+namespace App\Tests\Api\ContentNodes\ContentNode;
 
 use App\Entity\ContentNode;
 use App\Tests\Api\ECampApiTestCase;
@@ -22,7 +22,6 @@ class ReadContentNodeTest extends ECampApiTestCase {
             'slot' => $contentNode->slot,
             'position' => $contentNode->position,
             'contentTypeName' => $contentNode->getContentTypeName(),
-            'jsonConfig' => $contentNode->jsonConfig,
             '_links' => [
                 'parent' => ['href' => $this->getIriFor($contentNode->parent)],
                 'owner' => ['href' => $this->getIriFor('activity1')],

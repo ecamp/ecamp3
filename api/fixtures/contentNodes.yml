@@ -4,7 +4,7 @@ App\Entity\ContentNode\ColumnLayout:
     parent: null
     slot: ''
     position: 0
-    jsonConfig: {columns: [{slot: 1, width: 12}]}
+    columns: [{slot: '1', width: 6}, {slot: '2', width: 6}]
     instanceName: <word()>
     contentType: '@contentTypeColumnLayout'
   columnLayout2:
@@ -12,15 +12,15 @@ App\Entity\ContentNode\ColumnLayout:
     parent: null
     slot: ''
     position: 0
-    jsonConfig: {columns: [{slot: 1, width: 12}]}
+    columns: [{slot: '1', width: 12}]
     instanceName: <word()>
     contentType: '@contentTypeColumnLayout'
   columnLayoutChild1:
     root: '@columnLayout1'
     parent: '@columnLayout1'
-    slot: '1'
+    slot: '2'
     position: 0
-    jsonConfig: null
+    columns: [{slot: '1', width: 12}]
     instanceName: <word()>
     contentType: '@contentTypeColumnLayout'
   columnLayout3:
@@ -28,7 +28,7 @@ App\Entity\ContentNode\ColumnLayout:
     parent: null
     slot: ''
     position: 0
-    jsonConfig: { columns: [ { slot: 1, width: 12 } ] }
+    columns: [{slot: '1', width: 12}]
     instanceName: <word()>
     contentType: '@contentTypeColumnLayout'
   columnLayout4:
@@ -36,7 +36,7 @@ App\Entity\ContentNode\ColumnLayout:
     parent: null
     slot: ''
     position: 0
-    jsonConfig: { columns: [ { slot: 1, width: 12 } ] }
+    columns: [{slot: '1', width: 12}]
     instanceName: <word()>
     contentType: '@contentTypeColumnLayout'
   columnLayout2camp2:
@@ -44,7 +44,7 @@ App\Entity\ContentNode\ColumnLayout:
     parent: null
     slot: ''
     position: 0
-    jsonConfig: {columns: [{slot: 1, width: 12}]}
+    columns: [{slot: '1', width: 12}]
     instanceName: <word()>
     contentType: '@contentTypeColumnLayout'
   columnLayout1campUnrelated:
@@ -52,7 +52,7 @@ App\Entity\ContentNode\ColumnLayout:
     parent: null
     slot: ''
     position: 0
-    jsonConfig: { columns: [ { slot: 1, width: 12 } ] }
+    columns: [{slot: '1', width: 12}]
     instanceName: <word()>
     contentType: '@contentTypeColumnLayout'
   columnLayout2campUnrelated:
@@ -60,7 +60,7 @@ App\Entity\ContentNode\ColumnLayout:
     parent: null
     slot: ''
     position: 0
-    jsonConfig: {columns: [{slot: 1, width: 12}]}
+    columns: [{slot: '1', width: 12}]
     instanceName: <word()>
     contentType: '@contentTypeColumnLayout'
   columnLayout1campPrototype:
@@ -68,7 +68,7 @@ App\Entity\ContentNode\ColumnLayout:
     parent: null
     slot: ''
     position: 0
-    jsonConfig: { columns: [ { slot: 1, width: 12 } ] }
+    columns: [{slot: '1', width: 12}]
     instanceName: <word()>
     contentType: '@contentTypeColumnLayout'
   columnLayout2campPrototype:
@@ -76,44 +76,6 @@ App\Entity\ContentNode\ColumnLayout:
     parent: null
     slot: ''
     position: 0
-    jsonConfig: {columns: [{slot: 1, width: 12}]}
+    columns: [{slot: '1', width: 12}]
     instanceName: <word()>
     contentType: '@contentTypeColumnLayout'
-
-App\Entity\ContentNode\SingleText:
-  singleText1:
-    root: '@columnLayout1'
-    parent: '@columnLayout1'
-    slot: '1'
-    position: 1
-    jsonConfig: null
-    instanceName: <word()>
-    contentType: '@contentTypeNotes'
-    text: <word()>
-  singleText2:
-    root: '@columnLayout1'
-    parent: '@columnLayoutChild1'
-    slot: '1'
-    position: 1
-    jsonConfig: null
-    instanceName: <word()>
-    contentType: '@contentTypeNotes'
-    text: <word()>
-
-App\Entity\ContentNode\MaterialNode:
-  materialNode1:
-    root: '@columnLayout1'
-    parent: '@columnLayout1'
-    slot: '1'
-    position: 1
-    jsonConfig: null
-    instanceName: <word()>
-    contentType: '@contentTypeMaterial'
-  materialNode2:
-    root: '@self'
-    parent: null
-    slot: ''
-    position: 0
-    jsonConfig: {columns: [{slot: 1, width: 12}]}
-    instanceName: <word()>
-    contentType: '@contentTypeMaterial'

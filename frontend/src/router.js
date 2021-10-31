@@ -344,7 +344,7 @@ function dayFromScheduleEntryInRoute (route) {
 
 export function campRoute (camp, subroute = 'dashboard', query = {}) {
   if (camp._meta.loading) return {}
-  return { name: 'camp/' + subroute, params: { id: camp.id, campTitle: slugify(camp.title) }, query }
+  return { name: 'camp/' + subroute, params: { campId: camp.id, campTitle: slugify(camp.title) }, query }
 }
 
 export function loginRoute (redirectTo) {

@@ -155,7 +155,7 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
     /**
      * InvitationKey hashed for new user.
      *
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     #[Assert\DisableAutoMapping]
     #[ApiProperty(readable: false, writable: false)]
