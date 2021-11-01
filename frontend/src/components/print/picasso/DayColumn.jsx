@@ -66,7 +66,8 @@ function scheduleEntryPositionStyles (scheduleEntry, day, times) {
 const columnStyles = {
   flexGrow: '1',
   display: 'flex',
-  flexDirection: 'column'
+  flexDirection: 'column',
+  overflow: 'hidden'
 }
 const dayGridStyles = {
   minWidth: '100%',
