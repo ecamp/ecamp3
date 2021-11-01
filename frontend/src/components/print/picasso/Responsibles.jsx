@@ -45,12 +45,13 @@ const initialsStyles = {
 }
 
 function Responsibles ({ scheduleEntry, styles }) {
+  const last = scheduleEntry.activity().campCollaborations().items.length - 1
   return <View style={{ ...avatarsStyles, ...styles }}>
-    {scheduleEntry.activity().activityResponsibles().items.map(activityResponsible => {
+    {scheduleEntry.activity().activityResponsibles().items.map((activityResponsible, index) => {
       return <View key={activityResponsible.campCollaboration().id} style={{
         ...avatarStyles,
         backgroundColor: color(activityResponsible.campCollaboration()),
-        marginRight: '-' + fontSize / 4 + 'px'
+        ...(index === last ? {} : { marginRight: '-' + fontSize / 4 + 'px' })
       }}>
         <Text style={initialsStyles}>{initials(activityResponsible.campCollaboration())}</Text>
       </View>

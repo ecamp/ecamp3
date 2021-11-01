@@ -13,27 +13,36 @@ function scheduleEntryTitle (scheduleEntry) {
 
 const scheduleEntryStyles = {
   position: 'absolute',
-  borderRadius: '2px'
-}
-
-const contentStyles = {
-  margin: '3px',
+  borderRadius: '2px',
+  padding: '0 4px',
   flexDirection: 'column',
-  height: '100%',
   justifyContent: 'flex-start'
 }
 
 const titleStyles = {
   fontSize: fontSize + 'pt',
-  overflow: 'hidden',
-  minHeight: '100%'
+  flexShrink: '0'
+}
+
+const responsiblesContainerStyle = {
+  position: 'absolute',
+  top: '0',
+  bottom: '0',
+  right: '0',
+  left: '0',
+  flexDirection: 'column',
+  alignItems: 'flex-end',
+  justifyContent: 'flex-end',
+  padding: '0 4px'
 }
 
 const responsiblesStyle = {
-  position: 'absolute',
-  top: '0',
-  bottom: '2px',
-  right: '4px'
+  flexShrink: '0'
+}
+
+const spacerStyles = {
+  height: '4px',
+  flexShrink: '1'
 }
 
 function ScheduleEntry ({ scheduleEntry, styles }) {
@@ -44,10 +53,14 @@ function ScheduleEntry ({ scheduleEntry, styles }) {
     ...scheduleEntryStyles,
     ...styles
   }}>
-    <View style={contentStyles}>
-      <Text style={titleStyles}>{scheduleEntryTitle(scheduleEntry)}</Text>
+    <View style={spacerStyles} />
+    <Text style={titleStyles}>{scheduleEntryTitle(scheduleEntry)}</Text>
+    <View style={spacerStyles} />
+    <View style={responsiblesContainerStyle}>
+      <View style={spacerStyles} />
+      <Responsibles styles={responsiblesStyle} scheduleEntry={scheduleEntry} />
+      <View style={spacerStyles} />
     </View>
-    <Responsibles styles={responsiblesStyle} scheduleEntry={scheduleEntry} />
   </View>
 }
 
