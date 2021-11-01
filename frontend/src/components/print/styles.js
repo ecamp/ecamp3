@@ -8,8 +8,10 @@ const marginFontSize = 10
 const styles = StyleSheet.create({
   page: {
     fontFamily: 'Inter',
+    padding: pageBorder,
     fontSize: 12,
-    padding: pageBorder
+    display: 'flex',
+    flexDirection: 'column'
   },
   section: {
     margin: 10,
