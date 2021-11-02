@@ -1,18 +1,47 @@
 <?php
 
-namespace App\Tests\Api\ContentNodes;
+namespace App\Tests\Api\ContentNodes\Storyboard\Section\Storyboard\Section;
 
-use App\Entity\ContentNode;
+use App\Entity\ContentNode\StoryboardSection;
 use App\Tests\Api\ECampApiTestCase;
 
 /**
- * Base READ (get) test case to be used for various ContentNode types.
- *
- * This test class covers all tests that are the same across all content node implementations
- *
  * @internal
  */
-abstract class ReadContentNodeTestCase extends ECampApiTestCase {
+class ReadStoryboardSectionTest extends ECampApiTestCase {
+    public function setUp(): void {
+        parent::setUp();
+
+        $this->endpoint = '/content_node/storyboard_sections';
+        $this->defaultEntity = static::$fixtures['storyboardSection1'];
+    }
+
+    public function testGetSection() {
+        // given
+        /** @var StoryboardSection $entity */
+        $section = $this->defaultEntity;
+
+        // when
+        $this->get($section);
+
+        // then
+        $this->assertResponseStatusCodeSame(200);
+
+        $this->assertJsonContains([
+            'id' => $section->getId(),
+            'column1' => $section->column1,
+            'column2' => $section->column2,
+            'column3' => $section->column3,
+
+            '_links' => [
+                'storyboard' => ['href' => $this->getIriFor($section->storyboard)],
+            ],
+        ]);
+    }
+
+    /**
+     * Standard security checks.
+     */
     public function testGetIsDeniedForAnonymousUser() {
         static::createBasicClient()->request('GET', "{$this->endpoint}/".$this->defaultEntity->getId());
         $this->assertResponseStatusCodeSame(401);
@@ -50,19 +79,5 @@ abstract class ReadContentNodeTestCase extends ECampApiTestCase {
     public function testGetIsAllowedForManager() {
         $this->get(user: static::$fixtures['user1manager']);
         $this->assertResponseStatusCodeSame(200);
-
-        $this->assertJsonContains([
-            'id' => $this->defaultEntity->getId(),
-            'instanceName' => $this->defaultEntity->instanceName,
-            'slot' => $this->defaultEntity->slot,
-            'position' => $this->defaultEntity->position,
-            'contentTypeName' => $this->defaultEntity->getContentTypeName(),
-
-            '_links' => [
-                'parent' => ['href' => $this->getIriFor($this->defaultEntity->parent)],
-                'owner' => ['href' => $this->getIriFor('activity1')],
-                'ownerCategory' => ['href' => $this->getIriFor('category1')],
-            ],
-        ]);
     }
 }
