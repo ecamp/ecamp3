@@ -55,7 +55,7 @@ class AcceptInvitationTest extends ECampApiTestCase {
             'campId' => $campCollaboration->camp->getId(),
             'campTitle' => $campCollaboration->camp->title,
             'userDisplayName' => 'Bi-Pi',
-            'userAlreadyInCamp' => true,
+            'userAlreadyInCamp' => false,
             '_links' => [
                 'self' => ['href' => "/invitations/{$campCollaboration->inviteKey}/find"],
             ],
@@ -87,7 +87,7 @@ class AcceptInvitationTest extends ECampApiTestCase {
             'campId' => $campCollaboration->camp->getId(),
             'campTitle' => $campCollaboration->camp->title,
             'userDisplayName' => 'Bi-Pi',
-            'userAlreadyInCamp' => true,
+            'userAlreadyInCamp' => false,
             '_links' => [
                 'self' => ['href' => "/invitations/{$campCollaboration->inviteKey}/find"],
             ],
