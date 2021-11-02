@@ -55,7 +55,7 @@ export default {
     },
     contentTypes () {
       return this.api.get().contentTypes().items.map(ct => ({
-        value: ct,
+        value: ct._meta.self,
         text: this.$tc('contentNode.' + camelCase(ct.name) + '.name')
       }))
     }

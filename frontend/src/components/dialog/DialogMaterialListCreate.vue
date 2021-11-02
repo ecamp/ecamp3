@@ -31,17 +31,17 @@ export default {
   data () {
     return {
       entityProperties: [
-        'campId',
+        'camp',
         'name'
       ],
-      entityUri: '/material-lists'
+      entityUri: '/material_lists'
     }
   },
   watch: {
     showDialog: function (showDialog) {
       if (showDialog) {
         this.setEntityData({
-          campId: this.camp.id,
+          camp: this.camp._meta.self,
           name: ''
         })
       } else {

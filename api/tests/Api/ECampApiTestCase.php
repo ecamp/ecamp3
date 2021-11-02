@@ -190,7 +190,10 @@ abstract class ECampApiTestCase extends ApiTestCase {
 
         $entity ??= $this->defaultEntity;
 
-        static::createClientWithCredentials($credentials)->request('PATCH', "{$this->endpoint}/".$entity->getId(), ['json' => $payload, 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
+        static::createClientWithCredentials($credentials)->request('PATCH', "{$this->endpoint}/".$entity->getId(), [
+            'json' => $payload,
+            'headers' => ['Content-Type' => 'application/merge-patch+json'],
+        ]);
     }
 
     protected function getExampleWritePayload($attributes = [], $except = []) {
