@@ -54,7 +54,7 @@ class AssertCompatibleWithEntityValidatorTest extends ConstraintValidatorTestCas
     public function testValid() {
         // given
         $contentType = $this->createMock(ContentType::class);
-        $contentType->entityClass = 'App\Entity\ContentNode\ColumnLayout';
+        $contentType->entityClass = ColumnLayout::class;
 
         $contentNode = new ColumnLayout();
 
@@ -83,7 +83,7 @@ class AssertCompatibleWithEntityValidatorTest extends ConstraintValidatorTestCas
         // then
         $this->buildViolation('Selected contentType {{ contentTypeName }} is incompatible with entity of type {{ givenEntityClass }} (expected {{ expectedEntityClass }}).')
             ->setParameter('{{ contentTypeName }}', 'DummyContentType')
-            ->setParameter('{{ givenEntityClass }}', 'App\Entity\ContentNode\ColumnLayout')
+            ->setParameter('{{ givenEntityClass }}', ColumnLayout::class)
             ->setParameter('{{ expectedEntityClass }}', 'App\Entity\DummyEntity')
             ->assertRaised()
         ;
