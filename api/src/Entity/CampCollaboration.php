@@ -160,6 +160,7 @@ class CampCollaboration extends BaseEntity implements BelongsToCampInterface {
      */
     #[Assert\Choice(choices: self::VALID_STATUS)]
     #[Assert\EqualTo(value: self::STATUS_INVITED, groups: ['resend_invitation'])]
+    #[Assert\EqualTo(value: self::STATUS_INACTIVE, groups: ['delete'])]
     #[AssertAllowTransitions(
         [
             ['from' => self::STATUS_INVITED, 'to' => [self::STATUS_INACTIVE]],

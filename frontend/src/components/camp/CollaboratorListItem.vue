@@ -58,7 +58,7 @@
             <button-delete
               :disabled="(disabled && !isOwnCampCollaboration) || isLastManager"
               icon="mdi-cancel"
-              @click="api.del(collaborator)">
+              @click="api.patch(collaborator, {status: 'inactive'})">
               {{ $tc("components.camp.collaboratorListItem.deactivate") }}
             </button-delete>
           </div>
