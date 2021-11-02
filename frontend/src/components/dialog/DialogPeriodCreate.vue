@@ -31,7 +31,7 @@ export default {
   data () {
     return {
       entityProperties: [
-        'campId',
+        'camp',
         'description',
         'start',
         'end'
@@ -43,7 +43,7 @@ export default {
     showDialog: function (showDialog) {
       if (showDialog) {
         this.setEntityData({
-          campId: this.camp.id,
+          camp: this.camp._meta.self,
           description: '',
           start: '',
           end: ''
