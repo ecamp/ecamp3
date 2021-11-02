@@ -46,6 +46,7 @@ class ContentType extends BaseEntity {
      * @ORM\Column(type="text")
      */
     #[ApiProperty(writable: false)]
+    #[Groups(['read'])]
     public ?string $entityClass = null;
 
     /**
@@ -56,4 +57,12 @@ class ContentType extends BaseEntity {
      */
     #[ApiProperty(writable: false)]
     public ?array $jsonConfig = [];
+
+    /**
+     * API endpoint path for creating new entities of type entityClass.
+     */
+    #[Groups(['read'])]
+    public function getEntityPath(): string {
+        return ''; // empty here; actual content of this property is filled/decorated in ContentTypeNormalizer
+    }
 }
