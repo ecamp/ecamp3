@@ -2,10 +2,8 @@
 
 namespace App\Tests\Api\ContentNodes;
 
-use ApiPlatform\Core\Api\OperationType;
 use App\Entity\ContentNode;
 use App\Entity\ContentType;
-use App\Entity\User;
 use App\Tests\Api\ECampApiTestCase;
 
 /**
@@ -16,10 +14,6 @@ use App\Tests\Api\ECampApiTestCase;
  * @internal
  */
 abstract class CreateContentNodeTestCase extends ECampApiTestCase {
-    protected string $contentNodeClass;
-
-    protected string $endpoint;
-
     protected ContentType $defaultContentType;
 
     protected ContentNode $defaultParent;
@@ -31,7 +25,7 @@ abstract class CreateContentNodeTestCase extends ECampApiTestCase {
     }
 
     public function testCreateIsDeniedForAnonymousUser() {
-        static::createBasicClient()->request('POST', "/content_node/{$this->endpoint}", ['json' => $this->getExampleWritePayload()]);
+        static::createBasicClient()->request('POST', $this->endpoint, ['json' => $this->getExampleWritePayload()]);
         $this->assertResponseStatusCodeSame(401);
         $this->assertJsonContains([
             'code' => 401,
@@ -68,42 +62,28 @@ abstract class CreateContentNodeTestCase extends ECampApiTestCase {
         // when
         $response = $this->create(user: static::$fixtures['user1manager']);
         $id = $response->toArray()['id'];
-        $newContentNode = $this->getEntityManager()->getRepository($this->contentNodeClass)->find($id);
+        $newContentNode = $this->getEntityManager()->getRepository($this->entityClass)->find($id);
 
         // then
         $this->assertResponseStatusCodeSame(201);
         $this->assertJsonContains($this->getExampleReadPayload($newContentNode), true);
     }
 
-    protected function create(array $payload = null, ?User $user = null) {
-        $credentials = null;
-        if (null !== $user) {
-            $credentials = ['username' => $user->getUsername()];
-        }
-
-        if (null === $payload) {
-            $payload = $this->getExampleWritePayload();
-        }
-
-        return static::createClientWithCredentials($credentials)->request('POST', "/content_node/{$this->endpoint}", ['json' => $payload]);
-    }
-
     protected function getExampleWritePayload($attributes = [], $except = []) {
-        return $this->getExamplePayload(
-            $this->contentNodeClass,
-            OperationType::COLLECTION,
-            'post',
+        return parent::getExampleWritePayload(
             array_merge([
                 'parent' => $this->getIriFor($this->defaultParent),
                 'contentType' => $this->getIriFor($this->defaultContentType),
                 'position' => 10,
                 'prototype' => null,
             ], $attributes),
-            [],
             $except
         );
     }
 
+    /**
+     * Payload setup.
+     */
     protected function getExampleReadPayload(ContentNode $self, $attributes = [], $except = []) {
         /** @var ContentNode $parent */
         $parent = $this->defaultParent;

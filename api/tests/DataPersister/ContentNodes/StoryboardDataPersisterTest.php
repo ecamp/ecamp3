@@ -3,44 +3,40 @@
 namespace App\Tests\DataPersister\ContentNodes;
 
 use ApiPlatform\Core\DataPersister\ContextAwareDataPersisterInterface;
-use App\DataPersister\ContentNode\MaterialNodeDataPersister;
+use App\DataPersister\ContentNode\StoryboardDataPersister;
 use App\Entity\ContentNode\ColumnLayout;
-use App\Entity\ContentNode\MaterialNode;
-use App\Entity\MaterialItem;
-use App\Entity\MaterialList;
+use App\Entity\ContentNode\Storyboard;
+use App\Entity\ContentNode\StoryboardSection;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @internal
  */
-class MaterialNodeDataPersisterTest extends TestCase {
-    private MaterialNodeDataPersister $dataPersister;
+class StoryboardDataPersisterTest extends TestCase {
+    private StoryboardDataPersister $dataPersister;
     private MockObject|ContextAwareDataPersisterInterface $decoratedMock;
-    private MaterialNode $contentNode;
+    private Storyboard $contentNode;
 
     protected function setUp(): void {
         $this->decoratedMock = $this->createMock(ContextAwareDataPersisterInterface::class);
-        $this->contentNode = new MaterialNode();
+        $this->contentNode = new Storyboard();
 
         $this->root = $this->createMock(ColumnLayout::class);
         $this->contentNode->parent = new ColumnLayout();
         $this->contentNode->parent->root = $this->root;
 
-        $prototype = new MaterialNode();
+        $prototype = new Storyboard();
         $this->contentNode->prototype = $prototype;
 
-        $materialList = new MaterialList();
+        $section = new StoryboardSection();
+        $section->column1 = 'Column 1';
+        $section->column2 = 'Column 2';
+        $section->column3 = 'Column 3';
 
-        $materialItem = new MaterialItem();
-        $materialItem->article = 'Milk';
-        $materialItem->unit = 'liter';
-        $materialItem->quantity = '5';
-        $materialItem->materialList = $materialList;
+        $prototype->addSection($section);
 
-        $prototype->addMaterialItem($materialItem);
-
-        $this->dataPersister = new MaterialNodeDataPersister($this->decoratedMock);
+        $this->dataPersister = new StoryboardDataPersister($this->decoratedMock);
     }
 
     public function testDelegatesSupportCheckToDecorated() {
@@ -54,7 +50,7 @@ class MaterialNodeDataPersisterTest extends TestCase {
         $this->assertFalse($this->dataPersister->supports($this->contentNode, []));
     }
 
-    public function testDoesNotSupportNonMaterialNode() {
+    public function testDoesNotSupportNonStoryboard() {
         $this->decoratedMock
             ->method('supports')
             ->willReturn(true)
@@ -80,26 +76,25 @@ class MaterialNodeDataPersisterTest extends TestCase {
         $this->decoratedMock->expects($this->once())->method('persist')->willReturnArgument(0);
 
         // when
-        /** @var MaterialNode $data */
+        /** @var Storyboard $data */
         $data = $this->dataPersister->persist($this->contentNode, ['collection_operation_name' => 'post']);
 
         // then
         $this->assertEquals($this->root, $data->root);
     }
 
-    public function testCopyMaterialItemsFromPrototypeOnCreate() {
+    public function testCopyStoryboardSectionsFromPrototypeOnCreate() {
         // given
         $this->decoratedMock->expects($this->once())->method('persist')->willReturnArgument(0);
 
         // when
-        /** @var MaterialNode $data */
+        /** @var Storyboard $data */
         $data = $this->dataPersister->persist($this->contentNode, ['collection_operation_name' => 'post']);
 
         // then
-        $this->assertEquals($data->materialItems[0]->article, $this->contentNode->prototype->materialItems[0]->article);
-        $this->assertEquals($data->materialItems[0]->quantity, $this->contentNode->prototype->materialItems[0]->quantity);
-        $this->assertEquals($data->materialItems[0]->unit, $this->contentNode->prototype->materialItems[0]->unit);
-        $this->assertEquals($data->materialItems[0]->materialList, $this->contentNode->prototype->materialItems[0]->materialList);
+        $this->assertEquals($data->sections[0]->column1, $this->contentNode->prototype->sections[0]->column1);
+        $this->assertEquals($data->sections[0]->column2, $this->contentNode->prototype->sections[0]->column2);
+        $this->assertEquals($data->sections[0]->column3, $this->contentNode->prototype->sections[0]->column3);
     }
 
     public function testDoesNotSetRootFromParentOnUpdate() {
@@ -107,22 +102,22 @@ class MaterialNodeDataPersisterTest extends TestCase {
         $this->decoratedMock->expects($this->once())->method('persist')->willReturnArgument(0);
 
         // when
-        /** @var MaterialNode $data */
+        /** @var Storyboard $data */
         $data = $this->dataPersister->persist($this->contentNode, ['item_operation_name' => 'patch']);
 
         // then
         $this->assertNotEquals($this->root, $data->root);
     }
 
-    public function testDoesNotCopyMaterialItemsFromPrototypeOnUpdate() {
+    public function testDoesNotCopyStoryboardSectionsFromPrototypeOnUpdate() {
         // given
         $this->decoratedMock->expects($this->once())->method('persist')->willReturnArgument(0);
 
         // when
-        /** @var MaterialNode $data */
+        /** @var Storyboard $data */
         $data = $this->dataPersister->persist($this->contentNode, ['item_operation_name' => 'patch']);
 
         // then
-        $this->assertEquals(count($data->materialItems), 0);
+        $this->assertEquals(count($data->sections), 0);
     }
 }

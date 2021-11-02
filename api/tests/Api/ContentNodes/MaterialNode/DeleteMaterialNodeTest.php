@@ -11,7 +11,7 @@ class DeleteMaterialNodeTest extends DeleteContentNodeTestCase {
     public function setUp(): void {
         parent::setUp();
 
-        $this->endpoint = 'material_nodes';
-        $this->defaultContentNode = static::$fixtures['materialNode1'];
+        $this->endpoint = '/content_node/material_nodes';
+        $this->defaultEntity = static::$fixtures['materialNode1'];
     }
 }

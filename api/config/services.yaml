@@ -45,6 +45,9 @@ services:
     App\DataPersister\ContentNode\MaterialNodeDataPersister:
         arguments: [ '@api_platform.doctrine.orm.data_persister' ]
 
+    App\DataPersister\ContentNode\StoryboardDataPersister:
+        arguments: [ '@api_platform.doctrine.orm.data_persister' ]
+
     App\DataPersister\Util\DataPersisterObservable:
         arguments: [ '@api_platform.doctrine.orm.data_persister' ]
 
