@@ -2,7 +2,6 @@
 
 namespace App\Tests\Api\ContentNodes\ColumnLayout;
 
-use ApiPlatform\Core\Api\OperationType;
 use App\Entity\ContentNode\ColumnLayout;
 use App\Tests\Api\ContentNodes\CreateContentNodeTestCase;
 
@@ -168,18 +167,4 @@ class CreateColumnLayoutTest extends CreateContentNodeTestCase {
             $except
         );
     }
-
-    /*
-    public function getExampleReadPayload($attributes = [], $except = []) {
-        return $this->getExamplePayload(
-            ColumnLayout::class,
-            OperationType::ITEM,
-            'get',
-            array_merge([
-                'columns' => [['slot' => '1', 'width' => 12]],
-            ], $attributes),
-            ['parent', 'contentType'],
-            $except
-        );
-    }*/
 }
