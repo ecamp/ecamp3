@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Api\ColumnLayouts;
+namespace App\Tests\Api\ContentNodes\ColumnLayout;
 
 use App\Entity\ColumnLayout;
 use App\Tests\Api\ECampApiTestCase;

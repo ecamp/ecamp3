@@ -1,11 +1,13 @@
 # build stage
-FROM node:lts-alpine@sha256:a251de4db0e0632446c0ba62adbe1e37ff148a53732e4574d2ed0f5462cc4407 AS build-stage
+FROM node:lts-alpine@sha256:8f1827381eb7fca5a79ad21cb42e935546bedf67d9f668519a7db69d77d812bf AS build-stage
 
 COPY common /common
 
 WORKDIR /app
 COPY frontend/package*.json ./
-RUN npm ci
+# install and uninstall the native dependencies in one single docker RUN instruction,
+# so they do not increase the image layer size
+RUN apk --no-cache add --virtual native-deps g++ make python3 && npm ci && apk del native-deps
 COPY frontend .
 RUN npm run build
 

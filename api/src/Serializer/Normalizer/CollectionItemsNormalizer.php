@@ -29,6 +29,8 @@ class CollectionItemsNormalizer implements NormalizerInterface, NormalizerAwareI
 
             $data['_links']['items'] = $data['_links']['item'];
             unset($data['_links']['item']);
+        } elseif (isset($data['totalItems']) && 0 === $data['totalItems']) {
+            $data['_embedded']['items'] = [];
         }
 
         return $data;

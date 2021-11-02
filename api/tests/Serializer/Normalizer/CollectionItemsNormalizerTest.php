@@ -84,6 +84,33 @@ class CollectionItemsNormalizerTest extends TestCase {
         ], $result);
     }
 
+    public function testNormalizeAddsEmptyEmbeddedItemsIfTotalItemsIsZero() {
+        // given
+        $resource = [];
+        $this->decoratedMock->method('normalize')->willReturn([
+            'hello' => 'world',
+            'totalItems' => 0,
+            '_links' => [
+            ],
+            '_embedded' => [
+            ],
+        ]);
+
+        // when
+        $result = $this->normalizer->normalize($resource, null, []);
+
+        // then
+        $this->assertEquals([
+            'hello' => 'world',
+            'totalItems' => 0,
+            '_links' => [
+            ],
+            '_embedded' => [
+                'items' => [],
+            ],
+        ], $result);
+    }
+
     protected function mockDecoratedNormalizer() {
         $this->decoratedMock->method('normalize')->willReturn([
             'hello' => 'world',

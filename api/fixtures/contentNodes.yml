@@ -79,37 +79,3 @@ App\Entity\ContentNode\ColumnLayout:
     columns: [{slot: '1', width: 12}]
     instanceName: <word()>
     contentType: '@contentTypeColumnLayout'
-
-App\Entity\ContentNode\SingleText:
-  singleText1:
-    root: '@columnLayout1'
-    parent: '@columnLayout1'
-    slot: '1'
-    position: 1
-    instanceName: <word()>
-    contentType: '@contentTypeNotes'
-    text: <word()>
-  singleText2:
-    root: '@columnLayout1'
-    parent: '@columnLayoutChild1'
-    slot: '1'
-    position: 1
-    instanceName: <word()>
-    contentType: '@contentTypeNotes'
-    text: <word()>
-
-App\Entity\ContentNode\MaterialNode:
-  materialNode1:
-    root: '@columnLayout1'
-    parent: '@columnLayout1'
-    slot: '1'
-    position: 1
-    instanceName: <word()>
-    contentType: '@contentTypeMaterial'
-  materialNode2:
-    root: '@self'
-    parent: null
-    slot: ''
-    position: 0
-    instanceName: <word()>
-    contentType: '@contentTypeMaterial'

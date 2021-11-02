@@ -2,7 +2,7 @@ version: "3.4"
 
 services:
   frontend:
-    image: node:16.11.1@sha256:fec9ab31c9d46ad952abed8119b71e01e995975bd7b580f07b249e803d306dbe
+    image: node:16.13.0@sha256:683b8ea4ebc033a0f9060501fc31c1481d3f7232cc032851abbd8cc8d91fdff7
     container_name: 'ecamp3-frontend'
     ports:
       - '3000:3000'
@@ -105,7 +105,7 @@ services:
     entrypoint: ./docker-setup.sh
 
   print:
-    image: node:16.11.1@sha256:fec9ab31c9d46ad952abed8119b71e01e995975bd7b580f07b249e803d306dbe
+    image: node:16.13.0@sha256:683b8ea4ebc033a0f9060501fc31c1481d3f7232cc032851abbd8cc8d91fdff7
     container_name: 'ecamp3-print'
     ports:
       - '3003:3003'
@@ -125,7 +125,7 @@ services:
       - ./print/print.env
 
   composer:
-    image: composer:2@sha256:ab24624ff0cbc9296917bfac46cd9e4f9f4800f4265e343d986653d3d5698f32
+    image: composer:2@sha256:0571e40f49f0b1b65c51d297b292d127584d299bb0fde3cc9015be7349ac734b
     container_name: 'ecamp3-composer'
     restart: 'no'
     command: bash -c "composer install --no-interaction --no-plugins --no-scripts --prefer-dist"
@@ -135,7 +135,7 @@ services:
       - ./.cache/composer:/tmp/cache
 
   db:
-    image: mysql:8.0.26@sha256:5d52dc010398db422949f079c76e98f6b62230e5b59c0bf7582409d2c85abacb
+    image: mysql:8.0.27@sha256:6d7d4524463fe6e2b893ffc2b89543c81dec7ef82fb2020a1b27606666464d87
     container_name: 'ecamp3-db'
     environment:
       - MYSQL_DATABASE=ecamp3dev
@@ -149,7 +149,7 @@ services:
       - db-data:/var/lib/mysql
 
   database:
-    image: postgres:14-alpine@sha256:3908426c31b425eceee65541c320ed5e9ad921ea4f30eebff8f9129062bebd28
+    image: postgres:14-alpine@sha256:1cf551de75fd602ebc94ccda93305a4e411f941bf9465f59d850bdcfd474ca52
     environment:
       - POSTGRES_DB=ecamp3dev
       - POSTGRES_PASSWORD=ecamp3
