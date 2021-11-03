@@ -10,6 +10,6 @@
   "dependencies": {
     "@sentry/node": "6.13.3",
     "amqplib": "0.8.0",
-    "puppeteer": "10.4.0"
+    "puppeteer": "11.0.0"
   }
 }
