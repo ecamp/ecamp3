@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-      - uses: actions/checkout@1e204e9a9253d643386038d443f96446fa156a97 # renovate: tag=v2
+      - uses: actions/checkout@ec3a7ce113134d7a93b817d10a8272cb61118579 # renovate: tag=v2
 
       - run: |
           chmod +w backend
@@ -27,6 +27,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-      - uses: actions/checkout@1e204e9a9253d643386038d443f96446fa156a97 # renovate: tag=v2
+      - uses: actions/checkout@ec3a7ce113134d7a93b817d10a8272cb61118579 # renovate: tag=v2
 
       - run: ./docker-compose-run-as-entrypoint.sh php composer update --lock --no-interaction --no-plugins --no-scripts --prefer-dist
