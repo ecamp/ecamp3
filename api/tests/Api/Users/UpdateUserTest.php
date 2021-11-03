@@ -216,11 +216,11 @@ class UpdateUserTest extends ECampApiTestCase {
     public function testPatchUserTrimsLanguage() {
         $user = static::$fixtures['user1manager'];
         static::createClientWithCredentials()->request('PATCH', '/users/'.$user->getId(), ['json' => [
-            'language' => "\tde_CH ",
+            'language' => "\tde ",
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
-            'language' => 'de_CH',
+            'language' => 'de',
         ]);
     }
 
