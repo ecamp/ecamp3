@@ -341,23 +341,7 @@ class CreateUserTest extends ECampApiTestCase {
             'violations' => [
                 [
                     'propertyPath' => 'language',
-                    'message' => 'This value is not a valid locale.',
-                ],
-            ],
-        ]);
-    }
-
-    public function testCreateUserValidatesLongLanguage() {
-        static::createClientWithCredentials()->request('POST', '/users', ['json' => $this->getExampleWritePayload([
-            'language' => 'fr_CH.some-ridiculously-long-extension-which-is-technically-a-valid-ICU-locale',
-        ])]);
-
-        $this->assertResponseStatusCodeSame(422);
-        $this->assertJsonContains([
-            'violations' => [
-                [
-                    'propertyPath' => 'language',
-                    'message' => 'This value is too long. It should have 20 characters or less.',
+                    'message' => 'The value you selected is not a valid choice.',
                 ],
             ],
         ]);
