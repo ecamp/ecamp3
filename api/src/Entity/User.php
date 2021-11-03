@@ -133,8 +133,8 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
      * @ORM\Column(type="string", length=20, nullable=true)
      */
     #[InputFilter\Trim]
-    #[Assert\Locale]
     #[ApiProperty(example: 'en')]
+    #[Assert\Choice(['en', 'en-CH-scout', 'de', 'de-CH-scout', 'fr', 'fr-CH-scout', 'it', 'it-CH-scout'])]
     #[Groups(['read', 'write'])]
     public ?string $language = null;
 

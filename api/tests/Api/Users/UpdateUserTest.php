@@ -216,11 +216,11 @@ class UpdateUserTest extends ECampApiTestCase {
     public function testPatchUserTrimsLanguage() {
         $user = static::$fixtures['user1manager'];
         static::createClientWithCredentials()->request('PATCH', '/users/'.$user->getId(), ['json' => [
-            'language' => "\tde_CH ",
+            'language' => "\tde ",
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
-            'language' => 'de_CH',
+            'language' => 'de',
         ]);
     }
 
@@ -234,23 +234,7 @@ class UpdateUserTest extends ECampApiTestCase {
             'violations' => [
                 [
                     'propertyPath' => 'language',
-                    'message' => 'This value is not a valid locale.',
-                ],
-            ],
-        ]);
-    }
-
-    public function testPatchUserValidatesLongLanguage() {
-        $user = static::$fixtures['user1manager'];
-        static::createClientWithCredentials()->request('PATCH', '/users/'.$user->getId(), ['json' => [
-            'language' => 'fr_CH.some-ridiculously-long-extension-which-is-technically-a-valid-ICU-locale',
-        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
-        $this->assertResponseStatusCodeSame(422);
-        $this->assertJsonContains([
-            'violations' => [
-                [
-                    'propertyPath' => 'language',
-                    'message' => 'This value is too long. It should have 20 characters or less.',
+                    'message' => 'The value you selected is not a valid choice.',
                 ],
             ],
         ]);
