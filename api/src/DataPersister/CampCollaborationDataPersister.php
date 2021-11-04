@@ -48,6 +48,8 @@ class CampCollaborationDataPersister extends AbstractDataPersister {
             $userByInviteEmail = $this->userRepository->findOneBy(['email' => $data->inviteEmail]);
             if (null != $userByInviteEmail) {
                 $data->user = $userByInviteEmail;
+            } else {
+                $data->inviteKey = IdGenerator::generateRandomHexString(64);
             }
         }
 
@@ -58,7 +60,6 @@ class CampCollaborationDataPersister extends AbstractDataPersister {
         /** @var User $user */
         $user = $this->security->getUser();
         if (CampCollaboration::STATUS_INVITED == $data->status && $data->inviteEmail) {
-            $data->inviteKey = IdGenerator::generateRandomHexString(64);
             $this->mailService->sendInviteToCampMail($user, $data->camp, $data->inviteKey, $data->inviteEmail);
         }
     }
