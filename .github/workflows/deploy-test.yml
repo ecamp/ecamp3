@@ -1,0 +1,51 @@
+name: Deploy to test.ecamp3.ch
+
+on:
+  workflow_dispatch:
+    inputs:
+      devel_commit_hash:
+        description: 'Commit hash of the commit on devel that should be deployed. Only works with commits for which the push-to-docker-hub action has run.'
+        required: true
+
+jobs:
+  deploy:
+    name: "Deploy to test.ecamp3.ch"
+    runs-on: ubuntu-latest
+    environment: test.ecamp3.ch
+    steps:
+
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.inputs.devel_commit_hash }}
+
+      - uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          known_hosts: ${{ secrets.SSH_KNOWN_HOSTS }}
+
+      - uses: ./.github/actions/deploy
+        with:
+          commit-sha: ${{ github.event.inputs.devel_commit_hash }}
+          ssh-host: ${{ secrets.SSH_HOST }}
+          ssh-directory: ${{ secrets.SSH_DIRECTORY }}
+          db-host: ${{ secrets.DB_HOST }}
+          db-port: ${{ secrets.DB_PORT }}
+          db-user: ${{ secrets.DB_USER }}
+          db-pass: ${{ secrets.DB_PASS }}
+          db-name: ${{ secrets.DB_NAME }}
+          session-cookie-domain: ${{ secrets.SESSION_COOKIE_DOMAIN }}
+          backend-url: ${{ secrets.BACKEND_URL }}
+          frontend-url: ${{ secrets.FRONTEND_URL }}
+          print-server-url: ${{ secrets.PRINT_SERVER_URL }}
+          print-file-server-url: ${{ secrets.PRINT_FILE_SERVER_URL }}
+          mail-server-url: ${{ secrets.MAIL_SERVER_URL }}
+          sentry-backend-dsn: ${{ secrets.SENTRY_BACKEND_DSN }}
+          sentry-frontend-dsn: ${{ secrets.SENTRY_FRONTEND_DSN }}
+          sentry-print-dsn: ${{ secrets.SENTRY_PRINT_DSN }}
+          sentry-worker-print-puppeteer-dsn: ${{ secrets.SENTRY_WORKER_PRINT_PUPPETEER_DSN }}
+          sentry-worker-print-weasy-dsn: ${{ secrets.SENTRY_WORKER_PRINT_WEASY_DSN }}
+          rabbitmq-host: ${{ secrets.RABBITMQ_HOST }}
+          rabbitmq-port: ${{ secrets.RABBITMQ_PORT }}
+          rabbitmq-vhost: ${{ secrets.RABBITMQ_VHOST }}
+          rabbitmq-user: ${{ secrets.RABBITMQ_USER }}
+          rabbitmq-pass: ${{ secrets.RABBITMQ_PASS }}

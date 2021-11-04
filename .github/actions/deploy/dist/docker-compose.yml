@@ -3,7 +3,6 @@ version: "3.4"
 services:
   nginx:
     image: nginx@sha256:644a70516a26004c97d0d85c7fe1d0c3a67ea8ab7ddf4aff193d9f301670cf36
-    container_name: 'ecamp3-nginx'
     ports:
       - '80:80'
     volumes:
@@ -19,7 +18,6 @@ services:
 
   frontend:
     image: ecamp/ecamp3-frontend:${DOCKER_IMAGE_TAG}
-    container_name: 'ecamp3-frontend'
     volumes:
       - ./frontend-environment.js:/app/environment.js
 
@@ -54,7 +52,6 @@ services:
 
   print:
     image: ecamp/ecamp3-print:${DOCKER_IMAGE_TAG}
-    container_name: 'ecamp3-print'
     env_file:
       - print.env
 
@@ -90,7 +87,6 @@ services:
 
   mail:
     image: mailhog/mailhog@sha256:8d76a3d4ffa32a3661311944007a415332c4bb855657f4f6c57996405c009bea
-    container_name: 'ecamp3-mail'
 
 volumes:
   api-keys:
