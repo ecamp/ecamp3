@@ -18,8 +18,11 @@ class ReadContentTypeTest extends ECampApiTestCase {
             'id' => $contentType->getId(),
             'name' => $contentType->name,
             'active' => $contentType->active,
-            'entityClass' => 'App\\Entity\\ContentNode\\SingleText',
-            'entityPath' => '/content_node/single_texts',
+            '_links' => [
+                'contentNodes' => [
+                    'href' => '/content_node/single_texts?contentType='.urlencode($this->getIriFor($contentType)),
+                ],
+            ],
         ]);
     }
 
@@ -32,8 +35,11 @@ class ReadContentTypeTest extends ECampApiTestCase {
             'id' => $contentType->getId(),
             'name' => $contentType->name,
             'active' => $contentType->active,
-            'entityClass' => 'App\\Entity\\ContentNode\\SingleText',
-            'entityPath' => '/content_node/single_texts',
+            '_links' => [
+                'contentNodes' => [
+                    'href' => '/content_node/single_texts?contentType='.urlencode($this->getIriFor($contentType)),
+                ],
+            ],
         ]);
     }
 }

@@ -38,6 +38,10 @@ class UriTemplateFactory {
     public function createFromShortname(string $shortName): array {
         $resourceClass = $this->resourceNameMapping[lcfirst($shortName)] ?? null;
 
+        if (!$resourceClass) {
+            return [null, false];
+        }
+
         return $this->createFromResourceClass($resourceClass);
     }
 
@@ -50,9 +54,6 @@ class UriTemplateFactory {
      *               indicates whether any template parameters are present in the URI
      */
     public function createFromResourceClass(string $resourceClass): array {
-        if (!$resourceClass) {
-            return [null, false];
-        }
         $resourceMetadata = $this->resourceMetadataFactory->create($resourceClass);
 
         $baseUri = $this->iriConverter->getIriFromResourceClass($resourceClass);
