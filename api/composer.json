@@ -29,7 +29,7 @@
         "symfony/intl": "5.3.8",
         "symfony/mailer": "5.3.9",
         "symfony/mercure-bundle": "0.3.3",
-        "symfony/monolog-bundle": "3.7.0",
+        "symfony/monolog-bundle": "3.7.1",
         "symfony/property-access": "5.3.8",
         "symfony/property-info": "5.3.8",
         "symfony/runtime": "5.3.10",
