@@ -2,28 +2,77 @@
 
 namespace App\Tests\Api\ContentNodes\ColumnLayout;
 
-use ApiPlatform\Core\Api\OperationType;
 use App\Entity\ContentNode\ColumnLayout;
-use App\Tests\Api\ECampApiTestCase;
+use App\Tests\Api\ContentNodes\CreateContentNodeTestCase;
 
 /**
  * @internal
  */
-class CreateColumnLayoutTest extends ECampApiTestCase {
-    // TODO security tests when not logged in or not collaborator
-    // TODO input filter tests
-    // TODO validation tests
+class CreateColumnLayoutTest extends CreateContentNodeTestCase {
+    public function setUp(): void {
+        parent::setUp();
 
-    public function testCreateColumnLayout() {
-        static::createClientWithCredentials()->request('POST', '/content_node/column_layouts', ['json' => $this->getExampleWritePayload()]);
+        $this->endpoint = '/content_node/column_layouts';
+        $this->entityClass = ColumnLayout::class;
+        $this->defaultContentType = static::$fixtures['contentTypeColumnLayout'];
+    }
+
+    /**
+     * tests specific for Columnlayout.
+     */
+    public function testCreateColumnLayoutAcceptsValidJson() {
+        $SINGLE_COLUMN_JSON_CONFIG = [
+            ['slot' => '1', 'width' => 12],
+        ];
+
+        $this->create($this->getExampleWritePayload(['columns' => $SINGLE_COLUMN_JSON_CONFIG]));
 
         $this->assertResponseStatusCodeSame(201);
-        $this->assertJsonContains($this->getExampleReadPayload());
+        $this->assertJsonContains([
+            'columns' => $SINGLE_COLUMN_JSON_CONFIG,
+        ]);
+    }
+
+    public function testCreateColumnLayoutRejectsInvalidJson() {
+        $INVALID_JSON_CONFIG = [
+            'data' => 'value',
+        ];
+
+        $this->create($this->getExampleWritePayload(['columns' => $INVALID_JSON_CONFIG]));
+
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [
+                    'propertyPath' => 'columns',
+                    'message' => "Provided JSON doesn't match required schema.",
+                ],
+            ],
+        ]);
+    }
+
+    public function testCreateColumnLayoutRejectsInvalidWidth() {
+        $JSON_CONFIG = [
+            ['slot' => '1', 'width' => 6],
+            ['slot' => '2', 'width' => 5],
+        ];
+
+        $this->create($this->getExampleWritePayload(['columns' => $JSON_CONFIG]));
+
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [
+                    'propertyPath' => 'columns',
+                    'message' => 'Expected column widths to sum to 12, but got a sum of 11',
+                ],
+            ],
+        ]);
     }
 
     public function testCreateColumnLayoutFromPrototype() {
         $prototype = static::$fixtures['columnLayout1'];
-        static::createClientWithCredentials()->request('POST', '/content_node/column_layouts', ['json' => [
+        static::createClientWithCredentials()->request('POST', $this->endpoint, ['json' => [
             'prototype' => $this->getIriFor('columnLayout1'),
             'parent' => $this->getIriFor('columnLayout1'),
             'contentType' => $this->getIriFor('contentTypeColumnLayout'),
@@ -43,19 +92,20 @@ class CreateColumnLayoutTest extends ECampApiTestCase {
         ]);
     }
 
+    /**
+     * tests common to all ContentNodes (tested only here).
+     */
     public function testCreateColumnLayoutSetsRootToParentsRoot() {
-        static::createClientWithCredentials()->request('POST', '/content_node/column_layouts', ['json' => $this->getExampleWritePayload()]);
+        static::createClientWithCredentials()->request('POST', $this->endpoint, ['json' => $this->getExampleWritePayload()]);
 
         $this->assertResponseStatusCodeSame(201);
         $this->assertJsonContains(['_links' => [
-            'root' => ['href' => '/content_node/column_layouts/'.static::$fixtures['columnLayout1']->root->getId()],
+            'root' => ['href' => $this->getIriFor(static::$fixtures['columnLayout1'])],
         ]]);
     }
 
     public function testCreateColumnLayoutValidatesMissingParent() {
-        $this->markTestSkipped('To be properly implemented. Currently throws a 500 error. This is caused by security_post_denormalize running before validation.');
-
-        static::createClientWithCredentials()->request('POST', '/content_node/column_layouts', ['json' => $this->getExampleWritePayload([], ['parent'])]);
+        static::createClientWithCredentials()->request('POST', $this->endpoint, ['json' => $this->getExampleWritePayload([], ['parent'])]);
 
         $this->assertResponseStatusCodeSame(422);
         $this->assertJsonContains([
@@ -69,28 +119,28 @@ class CreateColumnLayoutTest extends ECampApiTestCase {
     }
 
     public function testCreateColumnLayoutAllowsMissingSlot() {
-        static::createClientWithCredentials()->request('POST', '/content_node/column_layouts', ['json' => $this->getExampleWritePayload([], ['slot'])]);
+        static::createClientWithCredentials()->request('POST', $this->endpoint, ['json' => $this->getExampleWritePayload([], ['slot'])]);
 
         $this->assertResponseStatusCodeSame(201);
         $this->assertJsonContains(['slot' => null]);
     }
 
     public function testCreateColumnLayoutAllowsMissingPosition() {
-        static::createClientWithCredentials()->request('POST', '/content_node/column_layouts', ['json' => $this->getExampleWritePayload([], ['position'])]);
+        static::createClientWithCredentials()->request('POST', $this->endpoint, ['json' => $this->getExampleWritePayload([], ['position'])]);
 
         $this->assertResponseStatusCodeSame(201);
         $this->assertJsonContains(['position' => null]);
     }
 
     public function testCreateColumnLayoutAllowsMissingInstanceName() {
-        static::createClientWithCredentials()->request('POST', '/content_node/column_layouts', ['json' => $this->getExampleWritePayload([], ['instanceName'])]);
+        static::createClientWithCredentials()->request('POST', $this->endpoint, ['json' => $this->getExampleWritePayload([], ['instanceName'])]);
 
         $this->assertResponseStatusCodeSame(201);
         $this->assertJsonContains(['instanceName' => null]);
     }
 
     public function testCreateColumnLayoutValidatesMissingContentType() {
-        static::createClientWithCredentials()->request('POST', '/content_node/column_layouts', ['json' => $this->getExampleWritePayload([], ['contentType'])]);
+        static::createClientWithCredentials()->request('POST', $this->endpoint, ['json' => $this->getExampleWritePayload([], ['contentType'])]);
 
         $this->assertResponseStatusCodeSame(422);
         $this->assertJsonContains([
@@ -103,31 +153,17 @@ class CreateColumnLayoutTest extends ECampApiTestCase {
         ]);
     }
 
+    /**
+     * payload set up.
+     */
     public function getExampleWritePayload($attributes = [], $except = []) {
-        return $this->getExamplePayload(
-            ColumnLayout::class,
-            OperationType::COLLECTION,
-            'post',
-            array_merge([
-                'parent' => $this->getIriFor('columnLayout1'),
-                'contentType' => $this->getIriFor('contentTypeColumnLayout'),
-                'columns' => [['slot' => '1', 'width' => 12]],
-                'prototype' => null,
-            ], $attributes),
-            [],
-            $except
-        );
-    }
-
-    public function getExampleReadPayload($attributes = [], $except = []) {
-        return $this->getExamplePayload(
-            ColumnLayout::class,
-            OperationType::ITEM,
-            'get',
-            array_merge([
-                'columns' => [['slot' => '1', 'width' => 12]],
-            ], $attributes),
-            ['parent', 'contentType'],
+        return parent::getExampleWritePayload(
+            array_merge(
+                [
+                    'columns' => [['slot' => '1', 'width' => 12]],
+                ],
+                $attributes
+            ),
             $except
         );
     }

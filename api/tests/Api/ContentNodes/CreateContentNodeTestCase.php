@@ -35,17 +35,29 @@ abstract class CreateContentNodeTestCase extends ECampApiTestCase {
 
     public function testCreateIsDeniedForInvitedCollaborator() {
         $this->create(user: static::$fixtures['user6invited']);
-        $this->assertResponseStatusCodeSame(403);
+        $this->assertResponseStatusCodeSame(400);
+        $this->assertJsonContains([
+            'title' => 'An error occurred',
+            'detail' => "Item not found for \"{$this->getIriFor($this->defaultParent)}\".",
+        ]);
     }
 
     public function testCreateIsDeniedForInactiveCollaborator() {
         $this->create(user: static::$fixtures['user5inactive']);
-        $this->assertResponseStatusCodeSame(403);
+        $this->assertResponseStatusCodeSame(400);
+        $this->assertJsonContains([
+            'title' => 'An error occurred',
+            'detail' => "Item not found for \"{$this->getIriFor($this->defaultParent)}\".",
+        ]);
     }
 
     public function testCreateIsDeniedForUnrelatedUser() {
         $this->create(user: static::$fixtures['user4unrelated']);
-        $this->assertResponseStatusCodeSame(403);
+        $this->assertResponseStatusCodeSame(400);
+        $this->assertJsonContains([
+            'title' => 'An error occurred',
+            'detail' => "Item not found for \"{$this->getIriFor($this->defaultParent)}\".",
+        ]);
     }
 
     public function testCreateIsDeniedForGuest() {

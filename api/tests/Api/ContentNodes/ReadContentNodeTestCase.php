@@ -51,17 +51,20 @@ abstract class ReadContentNodeTestCase extends ECampApiTestCase {
         $this->get(user: static::$fixtures['user1manager']);
         $this->assertResponseStatusCodeSame(200);
 
+        /** @var ContentNode $contentNode */
+        $contentNode = $this->defaultEntity;
+
         $this->assertJsonContains([
-            'id' => $this->defaultEntity->getId(),
-            'instanceName' => $this->defaultEntity->instanceName,
-            'slot' => $this->defaultEntity->slot,
-            'position' => $this->defaultEntity->position,
-            'contentTypeName' => $this->defaultEntity->getContentTypeName(),
+            'id' => $contentNode->getId(),
+            'instanceName' => $contentNode->instanceName,
+            'slot' => $contentNode->slot,
+            'position' => $contentNode->position,
+            'contentTypeName' => $contentNode->getContentTypeName(),
 
             '_links' => [
-                'parent' => ['href' => $this->getIriFor($this->defaultEntity->parent)],
-                'owner' => ['href' => $this->getIriFor('activity1')],
-                'ownerCategory' => ['href' => $this->getIriFor('category1')],
+                'parent' => ['href' => $this->getIriFor($contentNode->parent)],
+                'owner' => ['href' => $this->getIriFor($contentNode->getRootOwner())],
+                'ownerCategory' => ['href' => $this->getIriFor($contentNode->getOwnerCategory())],
             ],
         ]);
     }

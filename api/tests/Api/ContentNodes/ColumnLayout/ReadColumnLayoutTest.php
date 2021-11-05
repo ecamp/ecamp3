@@ -2,31 +2,33 @@
 
 namespace App\Tests\Api\ContentNodes\ColumnLayout;
 
-use App\Entity\ColumnLayout;
-use App\Tests\Api\ECampApiTestCase;
+use App\Entity\ContentNode\ColumnLayout;
+use App\Tests\Api\ContentNodes\ReadContentNodeTestCase;
 
 /**
  * @internal
  */
-class ReadColumnLayoutTest extends ECampApiTestCase {
-    // TODO security tests when not logged in or not collaborator
+class ReadColumnLayoutTest extends ReadContentNodeTestCase {
+    public function setUp(): void {
+        parent::setUp();
 
-    public function testGetSingleColumnLayoutIsAllowedForCollaborator() {
+        $this->endpoint = '/content_node/column_layouts';
+        $this->defaultEntity = static::$fixtures['columnLayoutChild1'];
+    }
+
+    public function testGetColumnLayout() {
+        // given
         /** @var ColumnLayout $contentNode */
-        $contentNode = static::$fixtures['columnLayoutChild1'];
-        static::createClientWithCredentials()->request('GET', '/content_nodes/'.$contentNode->getId());
+        $contentNode = $this->defaultEntity;
+
+        // when
+        $this->get($contentNode);
+
+        // then
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
-            'id' => $contentNode->getId(),
-            'instanceName' => $contentNode->instanceName,
-            'slot' => $contentNode->slot,
-            'position' => $contentNode->position,
-            'contentTypeName' => $contentNode->getContentTypeName(),
             'columns' => $contentNode->getColumns(),
             '_links' => [
-                'parent' => ['href' => $this->getIriFor($contentNode->parent)],
-                'owner' => ['href' => $this->getIriFor('activity1')],
-                'ownerCategory' => ['href' => $this->getIriFor('category1')],
                 'children' => ['href' => '/content_nodes?parent='.$this->getIriFor('columnLayoutChild1')],
             ],
         ]);

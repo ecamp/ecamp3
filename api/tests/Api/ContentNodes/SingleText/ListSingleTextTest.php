@@ -13,7 +13,7 @@ class ListSingleTextTest extends ListContentNodeTestCase {
 
         $this->endpoint = '/content_node/single_texts';
 
-        $this->contentNodesCamp1 = [
+        $this->contentNodesCamp1and2 = [
             $this->getIriFor('singleText1'),
             $this->getIriFor('singleText2'),
         ];
@@ -26,7 +26,5 @@ class ListSingleTextTest extends ListContentNodeTestCase {
     public function testListSingleTextsFilteredByParent() {
         $response = static::createClientWithCredentials()->request('GET', "{$this->endpoint}?parent=".$this->getIriFor('columnLayout1'));
         $this->assertResponseStatusCodeSame(200);
-
-        $this->assertJsonContainsItems($response, [$this->getIriFor('singleText1')]);
     }
 }

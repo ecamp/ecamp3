@@ -13,7 +13,7 @@ class ListStoryboardTest extends ListContentNodeTestCase {
 
         $this->endpoint = '/content_node/storyboards';
 
-        $this->contentNodesCamp1 = [
+        $this->contentNodesCamp1and2 = [
             $this->getIriFor('storyboard1'),
             $this->getIriFor('storyboard2'),
         ];
