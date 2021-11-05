@@ -2,11 +2,8 @@
 
 namespace App\Serializer\Normalizer;
 
-use ApiPlatform\Core\Api\OperationType;
-use ApiPlatform\Core\Api\UrlGeneratorInterface;
-use ApiPlatform\Core\Bridge\Symfony\Routing\RouteNameResolverInterface;
 use App\Entity\ContentType;
-use Symfony\Component\Routing\RouterInterface;
+use App\Metadata\Resource\Factory\UriTemplateFactory;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Serializer\SerializerAwareInterface;
 use Symfony\Component\Serializer\SerializerInterface;
@@ -17,8 +14,7 @@ use Symfony\Component\Serializer\SerializerInterface;
 class ContentTypeNormalizer implements NormalizerInterface, SerializerAwareInterface {
     public function __construct(
         private NormalizerInterface $decorated,
-        private RouteNameResolverInterface $routeNameResolver,
-        private RouterInterface $router,
+        private UriTemplateFactory $uriTemplateFactory,
     ) {
     }
 
@@ -30,7 +26,11 @@ class ContentTypeNormalizer implements NormalizerInterface, SerializerAwareInter
         $data = $this->decorated->normalize($object, $format, $context);
 
         if ($object instanceof ContentType && isset($data['entityClass'])) {
-            $data['entityPath'] = $this->router->generate($this->routeNameResolver->getRouteName($data['entityClass'], OperationType::COLLECTION), [], UrlGeneratorInterface::ABS_PATH);
+            [$uriTemplate, $templated] = $this->uriTemplateFactory->createFromResourceClass($data['entityClass']);
+            $data['_links']['contentNodes']['href'] = $uriTemplate;
+            $data['_links']['contentNodes']['templated'] = $templated;
+
+            unset($data['entityClass']);
         }
 
         return $data;

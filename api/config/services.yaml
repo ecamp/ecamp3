@@ -86,9 +86,6 @@ services:
 
     App\Serializer\Normalizer\ContentTypeNormalizer:
         decorates: 'api_platform.hal.normalizer.item'
-        arguments:
-            - '@.inner'
-            - '@api_platform.route_name_resolver'
 
     App\Serializer\Normalizer\UriTemplateNormalizer:
         decorates: 'api_platform.hal.normalizer.entrypoint'
