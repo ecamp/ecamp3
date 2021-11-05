@@ -2,11 +2,14 @@
 
 namespace App\Tests\Serializer\Normalizer;
 
+use ApiPlatform\Core\Api\IriConverterInterface;
 use ApiPlatform\Core\Bridge\Symfony\Routing\RouteNameResolverInterface;
 use App\Entity\ContentType;
+use App\Metadata\Resource\Factory\UriTemplateFactory;
 use App\Serializer\Normalizer\ContentTypeNormalizer;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Rize\UriTemplate;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Serializer\Normalizer\ContextAwareNormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
@@ -21,16 +24,22 @@ class ContentTypeNormalizerTest extends TestCase {
     private MockObject|NormalizerInterface $decoratedMock;
     private MockObject|RouteNameResolverInterface $routeNameResolver;
     private MockObject|RouterInterface $routerMock;
+    private MockObject|IriConverterInterface $iriConverter;
+    private MockObject|UriTemplate $uriTemplate;
+    private MockObject|UriTemplateFactory $uriTemplateFactory;
 
     protected function setUp(): void {
         $this->decoratedMock = $this->createMock(ContextAwareNormalizerInterface::class);
-        $this->routeNameResolver = $this->createMock(RouteNameResolverInterface::class);
-        $this->routerMock = $this->createMock(RouterInterface::class);
+
+        $this->iriConverter = $this->createMock(IriConverterInterface::class);
+        $this->uriTemplate = $this->createMock(UriTemplate::class);
+        $this->uriTemplateFactory = $this->createMock(UriTemplateFactory::class);
 
         $this->normalizer = new ContentTypeNormalizer(
             $this->decoratedMock,
-            $this->routeNameResolver,
-            $this->routerMock,
+            $this->uriTemplate,
+            $this->uriTemplateFactory,
+            $this->iriConverter,
         );
         $this->normalizer->setSerializer($this->createMock(SerializerInterface::class));
     }
@@ -58,7 +67,7 @@ class ContentTypeNormalizerTest extends TestCase {
         ;
 
         // when
-        $result = $this->normalizer->normalize($resource, null, ['resource_class' => DummyEntity::class]);
+        $result = $this->normalizer->normalize($resource, null, ['resource_class' => \stdClass::class]);
 
         // then
         $this->assertEquals($delegatedResult, $result);
@@ -66,31 +75,37 @@ class ContentTypeNormalizerTest extends TestCase {
 
     public function testNormalizeAddsEntityPath() {
         // given
-        $resource = new ContentType();
+        $contentType = new ContentType();
+        $contentType->entityClass = 'App\Entity\ContentNode\DummyContentNode';
+
         $delegatedResult = [
             'hello' => 'world',
-            'entityClass' => 'DummyClass',
         ];
         $this->decoratedMock->expects($this->once())
             ->method('normalize')
             ->willReturn($delegatedResult)
          ;
-        $this->routerMock->expects($this->once())
-            ->method('generate')
-            ->willReturn('/path')
+        $this->uriTemplateFactory->expects($this->once())
+            ->method('createFromResourceClass')
+            ->willReturn(['/templatedUri', 'true'])
         ;
-        $this->routeNameResolver->expects($this->once())
-            ->method('getRouteName')
+
+        $this->uriTemplate->expects($this->once())
+            ->method('expand')
+            ->willReturn('/expandedUri')
         ;
 
         // when
-        $result = $this->normalizer->normalize($resource, null, ['resource_class' => DummyEntity::class]);
+        $result = $this->normalizer->normalize($contentType, null, ['resource_class' => ContentType::class]);
 
         // then
         $expectedResult = [
             'hello' => 'world',
-            'entityClass' => 'DummyClass',
-            'entityPath' => '/path',
+            '_links' => [
+                'contentNodes' => [
+                    'href' => '/expandedUri',
+                ],
+            ],
         ];
         $this->assertEquals($expectedResult, $result);
     }
