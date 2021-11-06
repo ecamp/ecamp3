@@ -24,11 +24,17 @@ App\Entity\ContentNode\Storyboard:
 App\Entity\ContentNode\StoryboardSection:
   storyboardSection1:
     storyboard: '@storyboard1'
-    column1: <word()>
-    column2: <word()>
-    column3: <word()>
+    column1: 'section1.column1'
+    column2: 'section1.column2'
+    column3: 'section1.column3'
     pos: 0
   storyboardSection2:
+    storyboard: '@storyboard1'
+    column1: 'section2.column1'
+    column2: 'section2.column2'
+    column3: 'section2.column3'
+    pos: 1
+  storyboardSection3:
     storyboard: '@storyboard2'
     column1: <word()>
     column2: <word()>

@@ -43,8 +43,8 @@ class Storyboard extends ContentNode {
     /**
      * @ORM\OneToMany(targetEntity="StoryboardSection", mappedBy="storyboard", orphanRemoval=true, cascade={"persist"})
      */
-    #[ApiProperty(readableLink: true, writableLink: false)]
-    #[Groups(['read'])]
+    #[ApiProperty(readableLink: true, writableLink: true)]
+    #[Groups(['read', 'write'])]
     public Collection $sections;
 
     public function __construct() {

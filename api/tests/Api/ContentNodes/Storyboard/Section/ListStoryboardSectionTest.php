@@ -20,6 +20,7 @@ class ListStoryboardSectionTest extends ECampApiTestCase {
         $this->entitiesCamp1 = [
             $this->getIriFor('storyboardSection1'),
             $this->getIriFor('storyboardSection2'),
+            $this->getIriFor('storyboardSection3'),
         ];
 
         $this->entitiesCampUnrelated = [

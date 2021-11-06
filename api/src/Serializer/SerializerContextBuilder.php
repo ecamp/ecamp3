@@ -30,7 +30,8 @@ final class SerializerContextBuilder implements SerializerContextBuilderInterfac
         }
 
         if (!$normalization) {
-            $context['allow_extra_attributes'] = false;
+            // temporarily disabled: otherwise patch with id attribute doesn't work
+            // $context['allow_extra_attributes'] = false;
         }
 
         return $context;

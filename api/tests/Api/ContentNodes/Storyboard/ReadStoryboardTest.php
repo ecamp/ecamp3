@@ -22,8 +22,11 @@ class ReadStoryboardTest extends ReadContentNodeTestCase {
         /** @var Storyboard $contentNode */
         $storyboard = $this->defaultEntity;
 
-        /** @var StoryboardSection $storyboardSection */
-        $storyboardSection = static::$fixtures['storyboardSection1'];
+        /** @var StoryboardSection $storyboardSection1 */
+        $storyboardSection1 = static::$fixtures['storyboardSection1'];
+
+        /** @var StoryboardSection $storyboardSection2 */
+        $storyboardSection2 = static::$fixtures['storyboardSection2'];
 
         // when
         $this->get($storyboard);
@@ -38,11 +41,21 @@ class ReadStoryboardTest extends ReadContentNodeTestCase {
             '_embedded' => [
                 'sections' => [
                     [
-                        'column1' => $storyboardSection->column1,
-                        'column2' => $storyboardSection->column2,
-                        'column3' => $storyboardSection->column3,
-                        'pos' => $storyboardSection->getPos(),
-                        'id' => $storyboardSection->getId(),
+                        'column1' => $storyboardSection1->column1,
+                        'column2' => $storyboardSection1->column2,
+                        'column3' => $storyboardSection1->column3,
+                        'pos' => $storyboardSection1->getPos(),
+                        'id' => $storyboardSection1->getId(),
+                        '_links' => [
+                            'storyboard' => ['href' => $this->getIriFor($storyboard)],
+                        ],
+                    ],
+                    [
+                        'column1' => $storyboardSection2->column1,
+                        'column2' => $storyboardSection2->column2,
+                        'column3' => $storyboardSection2->column3,
+                        'pos' => $storyboardSection2->getPos(),
+                        'id' => $storyboardSection2->getId(),
                         '_links' => [
                             'storyboard' => ['href' => $this->getIriFor($storyboard)],
                         ],

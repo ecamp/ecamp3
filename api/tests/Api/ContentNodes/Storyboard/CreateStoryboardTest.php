@@ -41,4 +41,25 @@ class CreateStoryboardTest extends CreateContentNodeTestCase {
             ],
         ]);
     }
+
+    public function testCreateStoryboardWithEmbeddedSections() {
+        // when
+        $response = $this->create($this->getExampleWritePayload(['sections' => [['column1' => 'Column 1']]]));
+
+        // then
+        $this->assertResponseStatusCodeSame(201);
+        $this->assertCount(1, $response->toArray()['_links']['sections']);
+        $this->assertJsonContains([
+            '_embedded' => [
+                'sections' => [
+                    [
+                        'column1' => 'Column 1',
+                        'column2' => null,
+                        'column3' => null,
+                        'pos' => 0,
+                    ],
+                ],
+            ],
+        ]);
+    }
 }
