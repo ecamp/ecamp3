@@ -1,0 +1,37 @@
+App\Entity\ContentNode\MultiSelect:
+  multiSelect1:
+    root: '@columnLayout1'
+    parent: '@columnLayout1'
+    slot: '1'
+    position: 0
+    instanceName: <word()>
+    contentType: '@contentTypeMultiSelect'
+  multiSelect2:
+    root: '@columnLayout1'
+    parent: '@columnLayoutChild1'
+    slot: '1'
+    position: 0
+    instanceName: <word()>
+    contentType: '@contentTypeMultiSelect'
+  multiSelectCampUnrelated:
+    root: '@columnLayout1campUnrelated'
+    parent: '@columnLayout1campUnrelated'
+    slot: '1'
+    position: 1
+    instanceName: <word()>
+    contentType: '@contentTypeMultiSelect'
+
+App\Entity\ContentNode\MultiSelectOption:
+  multiSelectOption1:
+    multiSelect: '@multiSelect1'
+    translateKey: <word()>
+    checked: true
+  multiSelectOption2:
+    multiSelect: '@multiSelect2'
+    translateKey: <word()>
+    checked: true
+  multiSelectOptionCampUnrelated:
+    multiSelect: '@multiSelectCampUnrelated'
+    translateKey: <word()>
+    checked: true
+
