@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Serializer;
+namespace App\Serializer\Denormalizer;
 
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -15,7 +15,7 @@ use Symfony\Component\Serializer\SerializerInterface;
  * Copied from here: https://github.com/api-platform/core/issues/4293#issuecomment-831252083
  * Not 100% compliant with JSON Merge Patch specification.
  */
-final class PatchAwareItemNormalizer implements NormalizerInterface, DenormalizerInterface, SerializerAwareInterface {
+final class PatchAwareItemDenormalizer implements NormalizerInterface, DenormalizerInterface, SerializerAwareInterface {
     private const OPERATION_NAME = 'patch';
 
     public function __construct(

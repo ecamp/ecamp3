@@ -25,37 +25,45 @@ class UpdateStoryboardTest extends UpdateContentNodeTestCase {
         $storyboardSection2 = static::$fixtures['storyboardSection2'];
 
         // when
-        $this->patch($this->defaultEntity, [
+        $result = $this->patch($this->defaultEntity, [
             'sections' => [
                 [
                     'id' => $this->getIriFor($storyboardSection1),
                     'column1' => 'test123',
+                    'pos' => 2,
                 ],
                 [
                     'id' => $this->getIriFor($storyboardSection2),
                     'column1' => 'testABC',
+                    'pos' => 0,
                 ],
+                /*
                 [
                     'column1' => 'newSection.column1',
-                ],
+                    'pos' => 1,
+                ],*/
             ],
         ]);
+
+        $resultArrray = $result->toArray();
 
         // then
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
             '_embedded' => [
                 'sections' => [
+                    /*
                     [
                         'column1' => 'newSection.column1',
                         'column2' => null,
                         'column3' => null,
-                    ],
+                        'pos' => 1,
+                    ],*/
                     [
                         'column1' => 'test123',
                         'column2' => $storyboardSection1->column2,
                         'column3' => $storyboardSection1->column3,
-                        'pos' => $storyboardSection1->getPos(),
+                        'pos' => 1,
                         'id' => $storyboardSection1->getId(),
                         '_links' => [
                             'storyboard' => ['href' => $this->getIriFor($this->defaultEntity)],
@@ -65,7 +73,7 @@ class UpdateStoryboardTest extends UpdateContentNodeTestCase {
                         'column1' => 'testABC',
                         'column2' => $storyboardSection2->column2,
                         'column3' => $storyboardSection2->column3,
-                        'pos' => $storyboardSection2->getPos(),
+                        'pos' => 0,
                         'id' => $storyboardSection2->getId(),
                         '_links' => [
                             'storyboard' => ['href' => $this->getIriFor($this->defaultEntity)],
