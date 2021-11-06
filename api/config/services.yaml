@@ -48,6 +48,9 @@ services:
     App\DataPersister\ContentNode\StoryboardDataPersister:
         arguments: [ '@api_platform.doctrine.orm.data_persister' ]
 
+    App\DataPersister\ContentNode\MultiSelectDataPersister:
+        arguments: [ '@api_platform.doctrine.orm.data_persister' ]
+
     App\DataPersister\Util\DataPersisterObservable:
         arguments: [ '@api_platform.doctrine.orm.data_persister' ]
 

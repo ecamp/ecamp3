@@ -15,6 +15,15 @@ class DeleteMultiSelectOptionTest extends ECampApiTestCase {
         $this->defaultEntity = static::$fixtures['multiSelectOption1'];
     }
 
+    public function testCreateMethodIsNotAllowed() {
+        // when
+        $this->delete(user: static::$fixtures['user1manager']);
+
+        // then
+        $this->assertResponseStatusCodeSame(405);
+    }
+
+    /*
     public function testDeleteIsDeniedForAnonymousUser() {
         static::createBasicClient()->request('DELETE', "{$this->endpoint}/".$this->defaultEntity->getId());
         $this->assertResponseStatusCodeSame(401);
@@ -60,5 +69,5 @@ class DeleteMultiSelectOptionTest extends ECampApiTestCase {
         $this->delete(user: static::$fixtures['user1manager']);
         $this->assertResponseStatusCodeSame(403);
         $this->assertEntityStillExists();
-    }
+    }*/
 }

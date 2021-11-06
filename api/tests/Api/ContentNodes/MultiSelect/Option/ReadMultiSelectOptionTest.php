@@ -18,7 +18,7 @@ class ReadMultiSelectOptionTest extends ECampApiTestCase {
 
     public function testGetOption() {
         // given
-        /** @var MultiSelectOption $entity */
+        /** @var MultiSelectOption $option */
         $option = $this->defaultEntity;
 
         // when
@@ -31,6 +31,7 @@ class ReadMultiSelectOptionTest extends ECampApiTestCase {
             'id' => $option->getId(),
             'translateKey' => $option->translateKey,
             'checked' => $option->checked,
+            'pos' => $option->getPos(),
 
             '_links' => [
                 'multiSelect' => ['href' => $this->getIriFor($option->multiSelect)],

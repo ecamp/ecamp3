@@ -18,7 +18,7 @@ class ReadStoryboardSectionTest extends ECampApiTestCase {
 
     public function testGetSection() {
         // given
-        /** @var StoryboardSection $entity */
+        /** @var StoryboardSection $section */
         $section = $this->defaultEntity;
 
         // when
@@ -32,6 +32,7 @@ class ReadStoryboardSectionTest extends ECampApiTestCase {
             'column1' => $section->column1,
             'column2' => $section->column2,
             'column3' => $section->column3,
+            'pos' => $section->getPos(),
 
             '_links' => [
                 'storyboard' => ['href' => $this->getIriFor($section->storyboard)],

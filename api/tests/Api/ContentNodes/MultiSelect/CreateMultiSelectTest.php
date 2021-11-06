@@ -30,14 +30,17 @@ class CreateMultiSelectTest extends CreateContentNodeTestCase {
                     [
                         'translateKey' => 'outdoorTechnique',
                         'checked' => false,
+                        'pos' => 0,
                     ],
                     [
                         'translateKey' => 'security',
                         'checked' => false,
+                        'pos' => 1,
                     ],
                     [
                         'translateKey' => 'natureAndEnvironment',
                         'checked' => false,
+                        'pos' => 2,
                     ],
                 ],
             ],
@@ -61,6 +64,7 @@ class CreateMultiSelectTest extends CreateContentNodeTestCase {
                     [
                         'translateKey' => $prototypeOption->translateKey,
                         'checked' => $prototypeOption->checked,
+                        'pos' => $prototypeOption->getPos(),
                     ],
                 ],
             ],

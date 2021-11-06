@@ -40,6 +40,7 @@ class ReadMultiSelectTest extends ReadContentNodeTestCase {
                     [
                         'translateKey' => $multiSelectOption->translateKey,
                         'checked' => $multiSelectOption->checked,
+                        'pos' => $multiSelectOption->getPos(),
                         'id' => $multiSelectOption->getId(),
                         '_links' => [
                             'multiSelect' => ['href' => $this->getIriFor($multiSelect)],
