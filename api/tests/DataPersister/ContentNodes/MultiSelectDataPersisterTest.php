@@ -2,8 +2,8 @@
 
 namespace App\Tests\DataPersister\ContentNodes;
 
-use ApiPlatform\Core\DataPersister\ContextAwareDataPersisterInterface;
 use App\DataPersister\ContentNode\MultiSelectDataPersister;
+use App\DataPersister\Util\DataPersisterObservable;
 use App\Entity\ContentNode\ColumnLayout;
 use App\Entity\ContentNode\MultiSelect;
 use App\Entity\ContentNode\MultiSelectOption;
@@ -16,11 +16,11 @@ use PHPUnit\Framework\TestCase;
  */
 class MultiSelectDataPersisterTest extends TestCase {
     private MultiSelectDataPersister $dataPersister;
-    private MockObject|ContextAwareDataPersisterInterface $decoratedMock;
+    private MockObject|DataPersisterObservable $dataPersisterObservable;
     private MultiSelect $contentNode;
 
     protected function setUp(): void {
-        $this->decoratedMock = $this->createMock(ContextAwareDataPersisterInterface::class);
+        $this->dataPersisterObservable = $this->createMock(DataPersisterObservable::class);
         $this->contentNode = new MultiSelect();
 
         $this->root = $this->createMock(ColumnLayout::class);
@@ -36,22 +36,11 @@ class MultiSelectDataPersisterTest extends TestCase {
         ];
         $this->contentNode->contentType = $contentType;
 
-        $this->dataPersister = new MultiSelectDataPersister($this->decoratedMock);
-    }
-
-    public function testDelegatesSupportCheckToDecorated() {
-        $this->decoratedMock
-            ->expects($this->exactly(2))
-            ->method('supports')
-            ->willReturnOnConsecutiveCalls(true, false)
-        ;
-
-        $this->assertTrue($this->dataPersister->supports($this->contentNode, []));
-        $this->assertFalse($this->dataPersister->supports($this->contentNode, []));
+        $this->dataPersister = new MultiSelectDataPersister($this->dataPersisterObservable);
     }
 
     public function testDoesNotSupportNonMultiSelect() {
-        $this->decoratedMock
+        $this->dataPersisterObservable
             ->method('supports')
             ->willReturn(true)
         ;
@@ -59,37 +48,19 @@ class MultiSelectDataPersisterTest extends TestCase {
         $this->assertFalse($this->dataPersister->supports([], []));
     }
 
-    public function testDelegatesPersistToDecorated() {
-        // given
-        $this->decoratedMock->expects($this->once())
-            ->method('persist')
-        ;
-
-        // when
-        $this->dataPersister->persist($this->contentNode, []);
-
-        // then
-    }
-
     public function testSetsRootFromParentOnCreate() {
-        // given
-        $this->decoratedMock->expects($this->once())->method('persist')->willReturnArgument(0);
-
         // when
         /** @var MultiSelect $data */
-        $data = $this->dataPersister->persist($this->contentNode, ['collection_operation_name' => 'post']);
+        $data = $this->dataPersister->beforeCreate($this->contentNode);
 
         // then
         $this->assertEquals($this->root, $data->root);
     }
 
     public function testCopyMultiSelectOptionsFromContentTypeOnCreate() {
-        // given
-        $this->decoratedMock->expects($this->once())->method('persist')->willReturnArgument(0);
-
         // when
         /** @var MultiSelect $data */
-        $data = $this->dataPersister->persist($this->contentNode, ['collection_operation_name' => 'post']);
+        $data = $this->dataPersister->beforeCreate($this->contentNode);
 
         // then
         $this->assertEquals($data->options[0]->translateKey, 'key1');
@@ -104,11 +75,10 @@ class MultiSelectDataPersisterTest extends TestCase {
     public function testCopyMultiSelectOptionsFromPrototypeOnCreate() {
         // given
         $this->addPrototype();
-        $this->decoratedMock->expects($this->once())->method('persist')->willReturnArgument(0);
 
         // when
         /** @var MultiSelect $data */
-        $data = $this->dataPersister->persist($this->contentNode, ['collection_operation_name' => 'post']);
+        $data = $this->dataPersister->beforeCreate($this->contentNode);
 
         // then
         $this->assertEquals($data->options[0]->translateKey, $this->contentNode->prototype->options[0]->translateKey);
@@ -117,24 +87,18 @@ class MultiSelectDataPersisterTest extends TestCase {
     }
 
     public function testDoesNotSetRootFromParentOnUpdate() {
-        // given
-        $this->decoratedMock->expects($this->once())->method('persist')->willReturnArgument(0);
-
         // when
         /** @var MultiSelect $data */
-        $data = $this->dataPersister->persist($this->contentNode, ['item_operation_name' => 'patch']);
+        $data = $this->dataPersister->beforeUpdate($this->contentNode);
 
         // then
         $this->assertNotEquals($this->root, $data->root);
     }
 
     public function testDoesNotCopyMultiSelectOptionsOnUpdate() {
-        // given
-        $this->decoratedMock->expects($this->once())->method('persist')->willReturnArgument(0);
-
         // when
         /** @var MultiSelect $data */
-        $data = $this->dataPersister->persist($this->contentNode, ['item_operation_name' => 'patch']);
+        $data = $this->dataPersister->beforeUpdate($this->contentNode);
 
         // then
         $this->assertEquals(count($data->options), 0);

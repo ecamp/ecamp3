@@ -2,18 +2,26 @@
 
 namespace App\DataPersister\ContentNode;
 
-use ApiPlatform\Core\DataPersister\ContextAwareDataPersisterInterface;
+use App\DataPersister\Util\DataPersisterObservable;
 use App\Entity\ContentNode\ColumnLayout;
 
-class ColumnLayoutDataPersister extends ContentNodeBaseDataPersister implements ContextAwareDataPersisterInterface {
-    public function supports($data, array $context = []): bool {
-        return ($data instanceof ColumnLayout) && $this->dataPersister->supports($data, $context);
+class ColumnLayoutDataPersister extends ContentNodeAbstractDataPersister {
+    /**
+     * @throws \ReflectionException
+     */
+    public function __construct(
+        DataPersisterObservable $dataPersisterObservable
+    ) {
+        parent::__construct(
+            ColumnLayout::class,
+            $dataPersisterObservable
+        );
     }
 
     /**
      * @param ColumnLayout $data
      */
-    public function onCreate($data) {
+    public function beforeCreate($data): ColumnLayout {
         if (isset($data->prototype)) {
             if (!($data->prototype instanceof ColumnLayout)) {
                 throw new \Exception('Prototype must be of type ColumnLayout');
@@ -22,6 +30,6 @@ class ColumnLayoutDataPersister extends ContentNodeBaseDataPersister implements 
             $data->copyFromPrototype($data->prototype);
         }
 
-        parent::onCreate($data);
+        return parent::beforeCreate($data);
     }
 }

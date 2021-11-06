@@ -2,8 +2,8 @@
 
 namespace App\Tests\DataPersister\ContentNodes;
 
-use ApiPlatform\Core\DataPersister\ContextAwareDataPersisterInterface;
 use App\DataPersister\ContentNode\MaterialNodeDataPersister;
+use App\DataPersister\Util\DataPersisterObservable;
 use App\Entity\ContentNode\ColumnLayout;
 use App\Entity\ContentNode\MaterialNode;
 use App\Entity\MaterialItem;
@@ -16,11 +16,11 @@ use PHPUnit\Framework\TestCase;
  */
 class MaterialNodeDataPersisterTest extends TestCase {
     private MaterialNodeDataPersister $dataPersister;
-    private MockObject|ContextAwareDataPersisterInterface $decoratedMock;
+    private MockObject|DataPersisterObservable $dataPersisterObservable;
     private MaterialNode $contentNode;
 
     protected function setUp(): void {
-        $this->decoratedMock = $this->createMock(ContextAwareDataPersisterInterface::class);
+        $this->dataPersisterObservable = $this->createMock(DataPersisterObservable::class);
         $this->contentNode = new MaterialNode();
 
         $this->root = $this->createMock(ColumnLayout::class);
@@ -40,22 +40,11 @@ class MaterialNodeDataPersisterTest extends TestCase {
 
         $prototype->addMaterialItem($materialItem);
 
-        $this->dataPersister = new MaterialNodeDataPersister($this->decoratedMock);
-    }
-
-    public function testDelegatesSupportCheckToDecorated() {
-        $this->decoratedMock
-            ->expects($this->exactly(2))
-            ->method('supports')
-            ->willReturnOnConsecutiveCalls(true, false)
-        ;
-
-        $this->assertTrue($this->dataPersister->supports($this->contentNode, []));
-        $this->assertFalse($this->dataPersister->supports($this->contentNode, []));
+        $this->dataPersister = new MaterialNodeDataPersister($this->dataPersisterObservable);
     }
 
     public function testDoesNotSupportNonMaterialNode() {
-        $this->decoratedMock
+        $this->dataPersisterObservable
             ->method('supports')
             ->willReturn(true)
         ;
@@ -63,37 +52,19 @@ class MaterialNodeDataPersisterTest extends TestCase {
         $this->assertFalse($this->dataPersister->supports([], []));
     }
 
-    public function testDelegatesPersistToDecorated() {
-        // given
-        $this->decoratedMock->expects($this->once())
-            ->method('persist')
-        ;
-
-        // when
-        $this->dataPersister->persist($this->contentNode, []);
-
-        // then
-    }
-
     public function testSetsRootFromParentOnCreate() {
-        // given
-        $this->decoratedMock->expects($this->once())->method('persist')->willReturnArgument(0);
-
         // when
         /** @var MaterialNode $data */
-        $data = $this->dataPersister->persist($this->contentNode, ['collection_operation_name' => 'post']);
+        $data = $this->dataPersister->beforeCreate($this->contentNode);
 
         // then
         $this->assertEquals($this->root, $data->root);
     }
 
     public function testCopyMaterialItemsFromPrototypeOnCreate() {
-        // given
-        $this->decoratedMock->expects($this->once())->method('persist')->willReturnArgument(0);
-
         // when
         /** @var MaterialNode $data */
-        $data = $this->dataPersister->persist($this->contentNode, ['collection_operation_name' => 'post']);
+        $data = $this->dataPersister->beforeCreate($this->contentNode);
 
         // then
         $this->assertEquals($data->materialItems[0]->article, $this->contentNode->prototype->materialItems[0]->article);
@@ -103,24 +74,18 @@ class MaterialNodeDataPersisterTest extends TestCase {
     }
 
     public function testDoesNotSetRootFromParentOnUpdate() {
-        // given
-        $this->decoratedMock->expects($this->once())->method('persist')->willReturnArgument(0);
-
         // when
         /** @var MaterialNode $data */
-        $data = $this->dataPersister->persist($this->contentNode, ['item_operation_name' => 'patch']);
+        $data = $this->dataPersister->beforeUpdate($this->contentNode);
 
         // then
         $this->assertNotEquals($this->root, $data->root);
     }
 
     public function testDoesNotCopyMaterialItemsFromPrototypeOnUpdate() {
-        // given
-        $this->decoratedMock->expects($this->once())->method('persist')->willReturnArgument(0);
-
         // when
         /** @var MaterialNode $data */
-        $data = $this->dataPersister->persist($this->contentNode, ['item_operation_name' => 'patch']);
+        $data = $this->dataPersister->beforeUpdate($this->contentNode);
 
         // then
         $this->assertEquals(count($data->materialItems), 0);

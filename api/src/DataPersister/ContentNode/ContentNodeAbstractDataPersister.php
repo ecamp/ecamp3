@@ -2,37 +2,14 @@
 
 namespace App\DataPersister\ContentNode;
 
-use ApiPlatform\Core\DataPersister\ContextAwareDataPersisterInterface;
+use App\DataPersister\Util\AbstractDataPersister;
 use App\Entity\ContentNode;
 
-class ContentNodeBaseDataPersister {
-    public function __construct(protected ContextAwareDataPersisterInterface $dataPersister) {
-    }
-
-    public function remove($data, array $context = []) {
-        return $this->dataPersister->remove($data, $context);
-    }
-
-    /**
-     * @param ContentNode $data
-     *
-     * @return object|void
-     */
-    public function persist($data, array $context = []) {
-        if (
-                'post' === ($context['collection_operation_name'] ?? null)
-                || 'create' === ($context['graphql_operation_name'] ?? null)
-            ) {
-            $this->onCreate($data);
-        }
-
-        return $this->dataPersister->persist($data, $context);
-    }
-
+abstract class ContentNodeAbstractDataPersister extends AbstractDataPersister {
     /**
      * @param ContentNode $data
      */
-    public function onCreate($data) {
+    public function beforeCreate($data): ContentNode {
         $data->root = $data->parent->root;
         $data->root->addRootDescendant($data);
 
@@ -58,5 +35,7 @@ class ContentNodeBaseDataPersister {
                 $data->position = $prototype->position;
             }
         }
+
+        return $data;
     }
 }
