@@ -15,26 +15,34 @@ class UpdateMultiSelectOptionTest extends ECampApiTestCase {
         $this->defaultEntity = static::$fixtures['multiSelectOption1'];
     }
 
-    public function testPatchCleansHTMLFromText() {
-        // given
-        $text = ' testText<script>alert(1)</script>';
-
+    public function testPatchCheckedIsAllowed() {
         // when
         $this->patch($this->defaultEntity, [
-            'translateKey' => $text,
-            'checked' => true,
+            'checked' => false,
         ]);
 
         // then
-        $textSanitized = ' testText';
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
-            'translateKey' => $textSanitized,
-            'checked' => true,
+            'checked' => false,
         ]);
     }
 
-    public function testPatchMultiSelectNotAllowed() {
+    public function testPatchTranslateKeyIsDenied() {
+        // when
+        $this->patch($this->defaultEntity, [
+            'translateKey' => 'newTranslateKey',
+        ]);
+
+        // then
+        $this->assertResponseStatusCodeSame(400);
+        $this->assertJsonContains([
+            'title' => 'An error occurred',
+            'detail' => 'Extra attributes are not allowed ("translateKey" is unknown).',
+        ]);
+    }
+
+    public function testPatchMultiSelectIsDenied() {
         // when
         $this->patch($this->defaultEntity, [
             'multiSelect' => $this->getIriFor(static::$fixtures['multiSelect2']),

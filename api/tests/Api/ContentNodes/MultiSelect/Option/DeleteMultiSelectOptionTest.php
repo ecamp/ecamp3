@@ -50,15 +50,15 @@ class DeleteMultiSelectOptionTest extends ECampApiTestCase {
         $this->assertEntityStillExists();
     }
 
-    public function testDeleteIsAllowedForMember() {
+    public function testDeleteIsDeniedForMember() {
         $this->delete(user: static::$fixtures['user2member']);
-        $this->assertResponseStatusCodeSame(204);
-        $this->assertEntityWasRemoved();
+        $this->assertResponseStatusCodeSame(403);
+        $this->assertEntityStillExists();
     }
 
-    public function testDeleteIsAllowedForManager() {
+    public function testDeleteIsDeniedForManager() {
         $this->delete(user: static::$fixtures['user1manager']);
-        $this->assertResponseStatusCodeSame(204);
-        $this->assertEntityWasRemoved();
+        $this->assertResponseStatusCodeSame(403);
+        $this->assertEntityStillExists();
     }
 }

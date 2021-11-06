@@ -17,6 +17,33 @@ class CreateMultiSelectTest extends CreateContentNodeTestCase {
         $this->defaultContentType = static::$fixtures['contentTypeMultiSelect'];
     }
 
+    public function testCreateMultiSelectCopiesOptionsFromContentType() {
+        // when
+        $response = $this->create($this->getExampleWritePayload());
+
+        // then
+        $this->assertResponseStatusCodeSame(201);
+        $this->assertCount(1, $response->toArray()['_links']['options']);
+        $this->assertJsonContains([
+            '_embedded' => [
+                'options' => [
+                    [
+                        'translateKey' => 'outdoorTechnique',
+                        'checked' => false,
+                    ],
+                    [
+                        'translateKey' => 'security',
+                        'checked' => false,
+                    ],
+                    [
+                        'translateKey' => 'natureAndEnvironment',
+                        'checked' => false,
+                    ],
+                ],
+            ],
+        ]);
+    }
+
     public function testCreateMultiSelectFromPrototype() {
         // given
         $prototype = static::$fixtures['multiSelect1'];
