@@ -10,9 +10,6 @@ const { Page, View, Text } = pdf
 function Picasso ({ period }) {
   const columnWrapperStyles = {
     flexGrow: '1',
-    // must use height: 0 together with vertical flexGrow, because otherwise the height will be
-    // set based on the children, which we don't want
-    height: 0,
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'stretch',
