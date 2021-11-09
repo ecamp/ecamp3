@@ -1,41 +1,40 @@
 <?php
 
-namespace App\Tests\Api\ContentNodes\Storyboard\Section\Storyboard\Section;
+namespace App\Tests\Api\ContentNodes\MultiSelect\Option\MultiSelect\Option;
 
-use App\Entity\ContentNode\StoryboardSection;
+use App\Entity\ContentNode\MultiSelectOption;
 use App\Tests\Api\ECampApiTestCase;
 
 /**
  * @internal
  */
-class ReadStoryboardSectionTest extends ECampApiTestCase {
+class ReadMultiSelectOptionTest extends ECampApiTestCase {
     public function setUp(): void {
         parent::setUp();
 
-        $this->endpoint = '/content_node/storyboard_sections';
-        $this->defaultEntity = static::$fixtures['storyboardSection1'];
+        $this->endpoint = '/content_node/multi_select_options';
+        $this->defaultEntity = static::$fixtures['multiSelectOption1'];
     }
 
-    public function testGetSection() {
+    public function testGetOption() {
         // given
-        /** @var StoryboardSection $section */
-        $section = $this->defaultEntity;
+        /** @var MultiSelectOption $option */
+        $option = $this->defaultEntity;
 
         // when
-        $this->get($section);
+        $this->get($option);
 
         // then
         $this->assertResponseStatusCodeSame(200);
 
         $this->assertJsonContains([
-            'id' => $section->getId(),
-            'column1' => $section->column1,
-            'column2' => $section->column2,
-            'column3' => $section->column3,
-            'pos' => $section->getPos(),
+            'id' => $option->getId(),
+            'translateKey' => $option->translateKey,
+            'checked' => $option->checked,
+            'pos' => $option->getPos(),
 
             '_links' => [
-                'storyboard' => ['href' => $this->getIriFor($section->storyboard)],
+                'multiSelect' => ['href' => $this->getIriFor($option->multiSelect)],
             ],
         ]);
     }
