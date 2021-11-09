@@ -45,6 +45,7 @@
         "hautelook/alice-bundle": "2.9.0",
         "justinrainbow/json-schema": "5.2.11",
         "php-coveralls/php-coveralls": "2.4.3",
+        "phpstan/phpstan": "^1.1",
         "phpunit/phpunit": "9.5.10",
         "symfony/browser-kit": "5.3.4",
         "symfony/css-selector": "5.3.4",
@@ -54,7 +55,8 @@
         "symfony/phpunit-bridge": "5.3.10",
         "symfony/stopwatch": "5.3.4",
         "symfony/var-dumper": "5.3.10",
-        "symfony/web-profiler-bundle": "5.3.8"
+        "symfony/web-profiler-bundle": "5.3.8",
+        "vimeo/psalm": "^4.12"
     },
     "config": {
         "optimize-autoloader": true,
