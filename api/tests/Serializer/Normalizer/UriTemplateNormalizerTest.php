@@ -41,7 +41,7 @@ class UriTemplateNormalizerTest extends TestCase {
             'camp' => ['href' => '/camps'],
         ]]);
         $resource = new Entrypoint(new ResourceNameCollection([Camp::class]));
-        $this->uriTemplateFactory->expects($this->once())->method('create')->willReturn(['/camps', false]);
+        $this->uriTemplateFactory->expects($this->once())->method('createFromShortname')->willReturn(['/camps', false]);
 
         // when
         $normalize = $this->uriTemplateNormalizer->normalize($resource);
@@ -68,7 +68,7 @@ class UriTemplateNormalizerTest extends TestCase {
             'camp' => ['href' => '/camps'],
         ]]);
         $resource = new Entrypoint(new ResourceNameCollection([Camp::class]));
-        $this->uriTemplateFactory->expects($this->once())->method('create')->willReturn(['/camps{/id}', true]);
+        $this->uriTemplateFactory->expects($this->once())->method('createFromShortname')->willReturn(['/camps{/id}', true]);
 
         // when
         $normalize = $this->uriTemplateNormalizer->normalize($resource);
@@ -96,7 +96,7 @@ class UriTemplateNormalizerTest extends TestCase {
             'activity' => ['href' => '/activities'],
         ]]);
         $resource = new Entrypoint(new ResourceNameCollection([Activity::class]));
-        $this->uriTemplateFactory->expects($this->once())->method('create')->willReturn(['/activities{?camp,camp[]}', true]);
+        $this->uriTemplateFactory->expects($this->once())->method('createFromShortname')->willReturn(['/activities{?camp,camp[]}', true]);
 
         // when
         $normalize = $this->uriTemplateNormalizer->normalize($resource);
@@ -124,7 +124,7 @@ class UriTemplateNormalizerTest extends TestCase {
             'activity' => ['href' => '/activities'],
         ]]);
         $resource = new Entrypoint(new ResourceNameCollection([Activity::class]));
-        $this->uriTemplateFactory->expects($this->once())->method('create')->willReturn(['/activities{/id}{?camp,camp[]}', true]);
+        $this->uriTemplateFactory->expects($this->once())->method('createFromShortname')->willReturn(['/activities{/id}{?camp,camp[]}', true]);
 
         // when
         $normalize = $this->uriTemplateNormalizer->normalize($resource);
