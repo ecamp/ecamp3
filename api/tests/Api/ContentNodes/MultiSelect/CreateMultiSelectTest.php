@@ -28,17 +28,17 @@ class CreateMultiSelectTest extends CreateContentNodeTestCase {
             '_embedded' => [
                 'options' => [
                     [
-                        'translateKey' => 'outdoorTechnique',
+                        'translateKey' => 'option1',
                         'checked' => false,
                         'pos' => 0,
                     ],
                     [
-                        'translateKey' => 'security',
+                        'translateKey' => 'option2',
                         'checked' => false,
                         'pos' => 1,
                     ],
                     [
-                        'translateKey' => 'natureAndEnvironment',
+                        'translateKey' => 'option3',
                         'checked' => false,
                         'pos' => 2,
                     ],

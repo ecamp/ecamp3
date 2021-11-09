@@ -25,7 +25,6 @@ use Symfony\Component\Serializer\Annotation\Groups;
         'get' => [
             'security' => 'is_fully_authenticated()',
         ],
-        // 'post' => creating new options is not allowed
     ],
     itemOperations: [
         'get' => ['security' => 'is_granted("CAMP_COLLABORATOR", object) or is_granted("CAMP_IS_PROTOTYPE", object)'],
@@ -33,7 +32,6 @@ use Symfony\Component\Serializer\Annotation\Groups;
             'denormalization_context' => ['groups' => ['write', 'update']],
             'security' => 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)',
         ],
-        // 'delete' => deleting single option is not allowed
     ],
     denormalizationContext: ['groups' => ['write']],
     normalizationContext: ['groups' => ['read']],
