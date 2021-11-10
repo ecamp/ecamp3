@@ -44,7 +44,7 @@
         "friendsofphp/php-cs-fixer": "3.2.1",
         "hautelook/alice-bundle": "2.9.0",
         "justinrainbow/json-schema": "5.2.11",
-        "php-coveralls/php-coveralls": "2.4.3",
+        "php-coveralls/php-coveralls": "2.5.1",
         "phpunit/phpunit": "9.5.10",
         "symfony/browser-kit": "5.3.4",
         "symfony/css-selector": "5.3.4",
