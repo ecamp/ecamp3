@@ -27,7 +27,7 @@ class ColumnLayoutDataPersisterTest extends TestCase {
         $this->contentNode->parent->root = $this->root;
 
         $this->contentNode->prototype = new ColumnLayout();
-        $this->contentNode->prototype->setColumns([['width' => 12, 'slot' => 'footer']]);
+        $this->contentNode->prototype->columns = [['width' => 12, 'slot' => 'footer']];
 
         $this->contentNode->prototype->instanceName = 'instance';
         $this->contentNode->prototype->slot = 'left';
@@ -62,7 +62,7 @@ class ColumnLayoutDataPersisterTest extends TestCase {
         $data = $this->dataPersister->beforeCreate($this->contentNode);
 
         // then
-        $this->assertEquals($data->getColumns(), $this->contentNode->prototype->getColumns());
+        $this->assertEquals($data->columns, $this->contentNode->prototype->columns);
 
         $this->assertEquals($data->instanceName, $this->contentNode->prototype->instanceName);
         $this->assertEquals($data->slot, $this->contentNode->prototype->slot);
@@ -72,7 +72,7 @@ class ColumnLayoutDataPersisterTest extends TestCase {
 
     public function testDoesNotOverrideDataOnCreate() {
         // given
-        $this->contentNode->setColumns([['width' => 12, 'slot' => 'header']]);
+        $this->contentNode->columns = [['width' => 12, 'slot' => 'header']];
         $this->contentNode->instanceName = 'testInstance';
         $this->contentNode->slot = 'right';
         $this->contentNode->position = 51;
@@ -83,7 +83,7 @@ class ColumnLayoutDataPersisterTest extends TestCase {
         $data = $this->dataPersister->beforeCreate($this->contentNode);
 
         // then
-        $this->assertNotEquals($data->getColumns(), $this->contentNode->prototype->getColumns());
+        $this->assertNotEquals($data->columns, $this->contentNode->prototype->columns);
 
         $this->assertNotEquals($data->instanceName, $this->contentNode->prototype->instanceName);
         $this->assertNotEquals($data->slot, $this->contentNode->prototype->slot);

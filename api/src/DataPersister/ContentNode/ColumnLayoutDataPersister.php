@@ -27,7 +27,9 @@ class ColumnLayoutDataPersister extends ContentNodeAbstractDataPersister {
                 throw new \Exception('Prototype must be of type ColumnLayout');
             }
 
-            $data->copyFromPrototype($data->prototype);
+            if (!isset($data->columns)) {
+                $data->columns = $data->prototype->columns;
+            }
         }
 
         return parent::beforeCreate($data);
