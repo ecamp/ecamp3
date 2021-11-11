@@ -6,6 +6,7 @@ use App\DataPersister\ContentNode\MaterialNodeDataPersister;
 use App\DataPersister\Util\DataPersisterObservable;
 use App\Entity\ContentNode\ColumnLayout;
 use App\Entity\ContentNode\MaterialNode;
+use App\Entity\ContentType;
 use App\Entity\MaterialItem;
 use App\Entity\MaterialList;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -28,6 +29,11 @@ class MaterialNodeDataPersisterTest extends TestCase {
         $this->contentNode->parent->root = $this->root;
 
         $prototype = new MaterialNode();
+        $prototype->instanceName = 'instance';
+        $prototype->slot = 'left';
+        $prototype->position = 99;
+        $prototype->contentType = new ContentType();
+        $prototype->contentType->name = 'test';
         $this->contentNode->prototype = $prototype;
 
         $materialList = new MaterialList();
@@ -71,6 +77,11 @@ class MaterialNodeDataPersisterTest extends TestCase {
         $this->assertEquals($data->materialItems[0]->quantity, $this->contentNode->prototype->materialItems[0]->quantity);
         $this->assertEquals($data->materialItems[0]->unit, $this->contentNode->prototype->materialItems[0]->unit);
         $this->assertEquals($data->materialItems[0]->materialList, $this->contentNode->prototype->materialItems[0]->materialList);
+
+        $this->assertEquals($data->instanceName, $this->contentNode->prototype->instanceName);
+        $this->assertEquals($data->slot, $this->contentNode->prototype->slot);
+        $this->assertEquals($data->position, $this->contentNode->prototype->position);
+        $this->assertEquals($data->contentType, $this->contentNode->prototype->contentType);
     }
 
     public function testDoesNotSetRootFromParentOnUpdate() {
@@ -89,5 +100,10 @@ class MaterialNodeDataPersisterTest extends TestCase {
 
         // then
         $this->assertEquals(count($data->materialItems), 0);
+
+        $this->assertNotEquals($data->instanceName, $this->contentNode->prototype->instanceName);
+        $this->assertNotEquals($data->slot, $this->contentNode->prototype->slot);
+        $this->assertNotEquals($data->position, $this->contentNode->prototype->position);
+        $this->assertNotEquals($data->contentType, $this->contentNode->prototype->contentType);
     }
 }

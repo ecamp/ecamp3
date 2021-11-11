@@ -84,6 +84,12 @@ class MultiSelectDataPersisterTest extends TestCase {
         $this->assertEquals($data->options[0]->translateKey, $this->contentNode->prototype->options[0]->translateKey);
         $this->assertEquals($data->options[0]->checked, $this->contentNode->prototype->options[0]->checked);
         $this->assertEquals($data->options[0]->getPos(), $this->contentNode->prototype->options[0]->getPos());
+
+        $this->assertEquals($data->instanceName, $this->contentNode->prototype->instanceName);
+        $this->assertEquals($data->slot, $this->contentNode->prototype->slot);
+        $this->assertEquals($data->position, $this->contentNode->prototype->position);
+
+        $this->assertNotEquals($data->contentType, $this->contentNode->prototype->contentType);
     }
 
     public function testDoesNotSetRootFromParentOnUpdate() {
@@ -113,6 +119,12 @@ class MultiSelectDataPersisterTest extends TestCase {
         $option->setPos(51);
 
         $prototype->addOption($option);
+
+        $prototype->instanceName = 'instance';
+        $prototype->slot = 'left';
+        $prototype->position = 99;
+        $prototype->contentType = new ContentType();
+        $prototype->contentType->name = 'test';
 
         $this->contentNode->prototype = $prototype;
     }
