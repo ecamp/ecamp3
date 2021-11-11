@@ -80,7 +80,7 @@ class CreateColumnLayoutTest extends CreateContentNodeTestCase {
 
         $this->assertResponseStatusCodeSame(201);
         $this->assertJsonContains([
-            'columns' => $prototype->getColumns(),
+            'columns' => $prototype->columns,
             'instanceName' => $prototype->instanceName,
             'slot' => $prototype->slot,
             'position' => $prototype->position,
