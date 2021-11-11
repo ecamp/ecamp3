@@ -28,11 +28,8 @@ class StoryboardDataPersister extends ContentNodeAbstractDataPersister {
                 throw new \Exception('Prototype must be of type Storyboard');
             }
 
-            /** @var Storyboard $prototype */
-            $prototype = $storyboard->prototype;
-
             // copy all storyboard sections
-            foreach ($prototype->sections as $prototypeSection) {
+            foreach ($storyboard->prototype->sections as $prototypeSection) {
                 $section = new StoryboardSection();
 
                 $section->column1 = $prototypeSection->column1;
