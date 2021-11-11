@@ -8,13 +8,11 @@ use App\Entity\ContentNode;
 use App\Repository\MultiSelectRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\OneToMany;
+use Doctrine\ORM\Mapping\Table;
 use Symfony\Component\Serializer\Annotation\Groups;
 
-/**
- * @ORM\Entity(repositoryClass=MultiSelectRepository::class)
- * @ORM\Table(name="content_node_multiselect")
- */
 #[ApiResource(
     routePrefix: '/content_node',
     collectionOperations: [
@@ -39,12 +37,12 @@ use Symfony\Component\Serializer\Annotation\Groups;
     denormalizationContext: ['groups' => ['write']],
     normalizationContext: ['groups' => ['read']],
 )]
+#[Entity(repositoryClass: MultiSelectRepository::class)]
+#[Table(name: 'content_node_multiselect')]
 class MultiSelect extends ContentNode {
-    /**
-     * @ORM\OneToMany(targetEntity="MultiSelectOption", mappedBy="multiSelect", orphanRemoval=true, cascade={"persist"})
-     */
     #[ApiProperty(readableLink: true, writableLink: false)]
     #[Groups(['read'])]
+    #[OneToMany(targetEntity: 'MultiSelectOption', mappedBy: 'multiSelect', orphanRemoval: true, cascade: ['persist'])]
     public Collection $options;
 
     public function __construct() {

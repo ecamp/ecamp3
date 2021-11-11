@@ -13,7 +13,14 @@ use App\Validator\ContentNode\AssertCompatibleWithEntity;
 use App\Validator\ContentNode\AssertNoLoop;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\Column;
+use Doctrine\ORM\Mapping\DiscriminatorColumn;
+use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\InheritanceType;
+use Doctrine\ORM\Mapping\JoinColumn;
+use Doctrine\ORM\Mapping\ManyToOne;
+use Doctrine\ORM\Mapping\OneToMany;
+use Doctrine\ORM\Mapping\OneToOne;
 use Exception;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Annotation\SerializedName;
@@ -24,10 +31,6 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
  * to define layouts. For this purpose, a content node may offer so-called slots, into which other
  * content nodes may be inserted. In return, a content node may be nested inside a slot in a parent
  * container content node. This way, a tree of content nodes makes up a complete programme.
- *
- * @ORM\Entity(repositoryClass=ContentNodeRepository::class)
- * @ORM\InheritanceType("JOINED")
- * @ORM\DiscriminatorColumn(name="strategy", type="string")
  */
 #[ApiResource(
     collectionOperations: [
@@ -40,32 +43,30 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
     normalizationContext: ['groups' => ['read']],
 )]
 #[ApiFilter(SearchFilter::class, properties: ['parent', 'contentType'])]
+#[Entity(repositoryClass: ContentNodeRepository::class)]
+#[InheritanceType(value: 'JOINED')]
+#[DiscriminatorColumn(name: 'strategy', type: 'string')]
 abstract class ContentNode extends BaseEntity implements BelongsToCampInterface {
-    /**
-     * @ORM\OneToOne(targetEntity="AbstractContentNodeOwner", mappedBy="rootContentNode", cascade={"persist"})
-     */
     #[SerializedName('_owner')]
     #[ApiProperty(readable: false, writable: false)]
+    #[OneToOne(targetEntity: 'AbstractContentNodeOwner', mappedBy: 'rootContentNode', cascade: ['persist'])]
     public ?AbstractContentNodeOwner $owner = null;
 
     /**
      * The content node that is the root of the content node tree. Refers to itself in case this
      * content node is the root.
-     *
-     * @ORM\ManyToOne(targetEntity="ContentNode", inversedBy="rootDescendants")
-     * TODO make not null in the DB using a migration, and get fixtures to run
-     * @ORM\JoinColumn(nullable=true)
      */
     #[ApiProperty(writable: false, example: '/content_nodes/1a2b3c4d')]
     #[Groups(['read'])]
+    #[ManyToOne(targetEntity: 'ContentNode', inversedBy: 'rootDescendants')]
+    #[JoinColumn(nullable: true)]
     public ?ContentNode $root = null;
 
     /**
      * All content nodes that are part of this content node tree.
-     *
-     * @ORM\OneToMany(targetEntity="ContentNode", mappedBy="root")
      */
     #[ApiProperty(readable: false, writable: false)]
+    #[OneToMany(targetEntity: 'ContentNode', mappedBy: 'root')]
     public Collection $rootDescendants;
 
     /**
@@ -73,9 +74,6 @@ abstract class ContentNode extends BaseEntity implements BelongsToCampInterface 
      * root of a content node tree. For non-root content nodes, the parent can be changed, as long
      * as the new parent is in the same camp as the old one. A content node is defined as root when
      * it has an owner.
-     *
-     * @ORM\ManyToOne(targetEntity="ContentNode", inversedBy="children")
-     * @ORM\JoinColumn(onDelete="CASCADE")
      */
     #[AssertEitherIsNull(
         other: 'owner',
@@ -86,6 +84,8 @@ abstract class ContentNode extends BaseEntity implements BelongsToCampInterface 
     #[AssertNoLoop(groups: ['update'])]
     #[ApiProperty(example: '/content_nodes/1a2b3c4d')]
     #[Groups(['read', 'write'])]
+    #[ManyToOne(targetEntity: 'ContentNode', inversedBy: 'children')]
+    #[JoinColumn(onDelete: 'CASCADE')]
     public ?ContentNode $parent = null;
 
     /**
@@ -97,54 +97,49 @@ abstract class ContentNode extends BaseEntity implements BelongsToCampInterface 
 
     /**
      * All content nodes that are direct children of this content node.
-     *
-     * @ORM\OneToMany(targetEntity="ContentNode", mappedBy="parent", cascade={"remove"})
      */
     #[ApiProperty(writable: false, example: '["/content_nodes/1a2b3c4d"]')]
     #[Groups(['read'])]
+    #[OneToMany(targetEntity: 'ContentNode', mappedBy: 'parent', cascade: ['remove'])]
     public Collection $children;
 
     /**
      * The name of the slot in the parent in which this content node resides. The valid slot names
      * are defined by the content type of the parent.
-     *
-     * @ORM\Column(type="text", nullable=true)
      */
     #[ApiProperty(example: 'footer')]
     #[Groups(['read', 'write'])]
+    #[Column(type: 'text', nullable: true)]
     public ?string $slot = null;
 
     /**
      * A whole number used for ordering multiple content nodes that are in the same slot of the
      * same parent. The API does not guarantee the uniqueness of parent+slot+position.
-     *
-     * @ORM\Column(type="integer", nullable=true)
      */
     #[ApiProperty(example: '0')]
     #[Groups(['read', 'write'])]
+    #[Column(type: 'integer', nullable: true)]
     public ?int $position = null;
 
     /**
      * An optional name for this content node. This is useful when planning e.g. an alternative
      * version of the programme suited for bad weather, in addition to the normal version.
-     *
-     * @ORM\Column(type="text", nullable=true)
      */
     #[ApiProperty(example: 'Schlechtwetterprogramm')]
     #[Groups(['read', 'write'])]
+    #[Column(type: 'text', nullable: true)]
     public ?string $instanceName = null;
 
     /**
      * Defines the type of this content node. There is a fixed list of types that are implemented
      * in eCamp. Depending on the type, different content data and different slots may be allowed
      * in a content node. The content type may not be changed once the content node is created.
-     *
-     * @ORM\ManyToOne(targetEntity="ContentType")
-     * @ORM\JoinColumn(nullable=false)
      */
     #[ApiProperty(example: '/content_types/1a2b3c4d')]
     #[Groups(['read', 'create'])]
     #[AssertCompatibleWithEntity]
+    #[ManyToOne(targetEntity: 'ContentType')]
+    #[JoinColumn(nullable: false)]
     public ?ContentType $contentType = null;
 
     public function __construct() {

@@ -11,13 +11,14 @@ use App\Repository\MaterialItemRepository;
 use App\Validator\AssertBelongsToSameCamp;
 use App\Validator\AssertEitherIsNull;
 use App\Validator\MaterialItemUpdateGroupSequence;
-use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\Column;
+use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\JoinColumn;
+use Doctrine\ORM\Mapping\ManyToOne;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * A physical item that is needed for carrying out a programme or camp.
- *
- * @ORM\Entity(repositoryClass=MaterialItemRepository::class)
  */
 #[ApiResource(
     collectionOperations: [
@@ -36,68 +37,63 @@ use Symfony\Component\Serializer\Annotation\Groups;
     normalizationContext: ['groups' => ['read']],
 )]
 #[ApiFilter(SearchFilter::class, properties: ['materialList', 'period'])]
+#[Entity(repositoryClass: MaterialItemRepository::class)]
 class MaterialItem extends BaseEntity implements BelongsToCampInterface {
     /**
      * The list to which this item belongs. Lists are used to keep track of who is
      * responsible to prepare and bring the item to the camp.
-     *
-     * @ORM\ManyToOne(targetEntity="MaterialList", inversedBy="materialItems")
-     * @ORM\JoinColumn(nullable=false, onDelete="cascade")
      */
     #[AssertBelongsToSameCamp(compareToPrevious: true, groups: ['update'])]
     #[ApiProperty(example: '/material_lists/1a2b3c4d')]
     #[Groups(['read', 'write'])]
+    #[ManyToOne(targetEntity: 'MaterialList', inversedBy: 'materialItems')]
+    #[JoinColumn(nullable: false, onDelete: 'cascade')]
     public ?MaterialList $materialList = null;
 
     /**
      * The period to which this item belongs, if it does not belong to a content node.
-     *
-     * @ORM\ManyToOne(targetEntity="Period", inversedBy="materialItems")
-     * @ORM\JoinColumn(nullable=true, onDelete="cascade")
      */
     #[AssertBelongsToSameCamp]
     #[AssertEitherIsNull(other: 'materialNode')]
     #[ApiProperty(example: '/periods/1a2b3c4d')]
     #[Groups(['read', 'write'])]
+    #[ManyToOne(targetEntity: 'Period', inversedBy: 'materialItems')]
+    #[JoinColumn(nullable: true, onDelete: 'cascade')]
     public ?Period $period = null;
 
     /**
      * The content node to which this item belongs, if it does not belong to a period.
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\ContentNode\MaterialNode", inversedBy="materialItems")
-     * @ORM\JoinColumn(nullable=true, onDelete="CASCADE")
      */
     #[AssertBelongsToSameCamp]
     #[AssertEitherisNull(other: 'period')]
     #[ApiProperty(example: '/content_node/material_nodes/1a2b3c4d')]
     #[Groups(['read', 'write'])]
+    #[ManyToOne(targetEntity: 'App\Entity\ContentNode\MaterialNode', inversedBy: 'materialItems')]
+    #[JoinColumn(nullable: true, onDelete: 'CASCADE')]
     public ?MaterialNode $materialNode = null;
 
     /**
      * The name of the item that is required.
-     *
-     * @ORM\Column(type="text", nullable=false)
      */
     #[ApiProperty(example: 'Volleyball')]
     #[Groups(['read', 'write'])]
+    #[Column(type: 'text', nullable: false)]
     public ?string $article = null;
 
     /**
      * The number of items or the amount in the unit of items that are required.
-     *
-     * @ORM\Column(type="float", nullable=true)
      */
     #[ApiProperty(example: 1.5)]
     #[Groups(['read', 'write'])]
+    #[Column(type: 'float', nullable: true)]
     public ?float $quantity = null;
 
     /**
      * An optional unit for measuring the amount of items required.
-     *
-     * @ORM\Column(type="text", nullable=true)
      */
     #[ApiProperty(example: 'kg')]
     #[Groups(['read', 'write'])]
+    #[Column(type: 'text', nullable: true)]
     public ?string $unit = null;
 
     #[ApiProperty(readable: false)]

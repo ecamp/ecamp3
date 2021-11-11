@@ -9,7 +9,14 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Repository\CategoryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\Column;
+use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\InverseJoinColumn;
+use Doctrine\ORM\Mapping\JoinColumn;
+use Doctrine\ORM\Mapping\JoinTable;
+use Doctrine\ORM\Mapping\ManyToMany;
+use Doctrine\ORM\Mapping\ManyToOne;
+use Doctrine\ORM\Mapping\OneToMany;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Annotation\SerializedName;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -19,8 +26,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  * determines color and numbering scheme of the associated activities, and is used for marking
  * "similar" activities. A category may contain some skeleton programme which is used as a blueprint
  * when creating a new activity in the category.
- *
- * @ORM\Entity(repositoryClass=CategoryRepository::class)
  */
 #[ApiResource(
     collectionOperations: [
@@ -47,6 +52,7 @@ use Symfony\Component\Validator\Constraints as Assert;
     normalizationContext: ['groups' => ['read']],
 )]
 #[ApiFilter(SearchFilter::class, properties: ['camp'])]
+#[Entity(repositoryClass: CategoryRepository::class)]
 class Category extends AbstractContentNodeOwner implements BelongsToCampInterface {
     public const ITEM_NORMALIZATION_CONTEXT = [
         'groups' => ['read', 'Category:PreferredContentTypes'],
@@ -55,82 +61,73 @@ class Category extends AbstractContentNodeOwner implements BelongsToCampInterfac
 
     /**
      * The camp to which this category belongs. May not be changed once the category is created.
-     *
-     * @ORM\ManyToOne(targetEntity="Camp", inversedBy="categories")
-     * @ORM\JoinColumn(nullable=false, onDelete="cascade")
      */
     #[ApiProperty(example: '/camps/1a2b3c4d')]
     #[Groups(['read', 'create'])]
+    #[ManyToOne(targetEntity: 'Camp', inversedBy: 'categories')]
+    #[JoinColumn(nullable: false, onDelete: 'cascade')]
     public ?Camp $camp = null;
 
     /**
      * The content types that are most likely to be useful for planning programme of this category.
-     *
-     * @ORM\ManyToMany(targetEntity="ContentType")
-     * @ORM\JoinTable(name="category_contenttype",
-     *     joinColumns={@ORM\JoinColumn(name="category_id", referencedColumnName="id")},
-     *     inverseJoinColumns={@ORM\JoinColumn(name="contenttype_id", referencedColumnName="id")}
-     * )
      */
     #[ApiProperty(example: '["/content_types/1a2b3c4d"]')]
     #[Groups(['read', 'write'])]
+    #[ManyToMany(targetEntity: 'ContentType')]
+    #[JoinTable(name: 'category_contenttype')]
+    #[JoinColumn(name: 'category_id', referencedColumnName: 'id')]
+    #[InverseJoinColumn(name: 'contenttype_id', referencedColumnName: 'id')]
     public Collection $preferredContentTypes;
 
     /**
      * All the programme that is planned in this category.
-     *
-     * @ORM\OneToMany(targetEntity="Activity", mappedBy="category", orphanRemoval=true)
      */
     #[ApiProperty(readable: false, writable: false)]
+    #[OneToMany(targetEntity: 'Activity', mappedBy: 'category', orphanRemoval: true)]
     public Collection $activities;
 
     /**
      * The id of the category that was used as a template for creating this category. Internal for now, is
      * not published through the API.
-     *
-     * @ORM\Column(type="string", length=16, nullable=true)
      */
     #[ApiProperty(readable: false, writable: false)]
+    #[Column(type: 'string', length: 16, nullable: true)]
     public ?string $categoryPrototypeId = null;
 
     /**
      * An abbreviated name of the category, for display in tight spaces, often together with the day and
      * schedule entry number, e.g. LS 3.a, where LS is the category's short name.
-     *
-     * @ORM\Column(type="text", nullable=false)
      */
     #[ApiProperty(example: 'LS')]
     #[Groups(['read', 'write'])]
+    #[Column(type: 'text', nullable: false)]
     public ?string $short = null;
 
     /**
      * The full name of the category.
-     *
-     * @ORM\Column(type="text", nullable=false)
      */
     #[ApiProperty(example: 'Lagersport')]
     #[Groups(['read', 'write'])]
+    #[Column(type: 'text', nullable: false)]
     public ?string $name = null;
 
     /**
      * The color of the activities in this category, as a hex color string.
-     *
-     * @ORM\Column(type="string", length=8, nullable=false)
      */
     #[Assert\Regex(pattern: '/^#[0-9a-zA-Z]{6}$/')]
     #[ApiProperty(example: '#4CAF50')]
     #[Groups(['read', 'write'])]
+    #[Column(type: 'string', length: 8, nullable: false)]
     public ?string $color = null;
 
     /**
      * Specifies whether the schedule entries of the activities in this category should be numbered
      * using arabic numbers, roman numerals or letters.
-     *
-     * @ORM\Column(type="string", length=1, nullable=false)
      */
     #[Assert\Choice(choices: ['a', 'A', 'i', 'I', '1'])]
     #[ApiProperty(default: '1', example: '1')]
     #[Groups(['read', 'write'])]
+    #[Column(type: 'string', length: 1, nullable: false)]
     public string $numberingStyle = '1';
 
     public function __construct() {

@@ -12,13 +12,13 @@ use App\Entity\Camp;
 use App\Entity\SortableEntityInterface;
 use App\Entity\SortableEntityTrait;
 use App\Repository\MultiSelectOptionRepository;
-use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\Column;
+use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\JoinColumn;
+use Doctrine\ORM\Mapping\ManyToOne;
+use Doctrine\ORM\Mapping\Table;
 use Symfony\Component\Serializer\Annotation\Groups;
 
-/**
- * @ORM\Entity(repositoryClass=MultiSelectOptionRepository::class)
- * @ORM\Table(name="content_node_multiselect_option")
- */
 #[ApiResource(
     routePrefix: '/content_node',
     collectionOperations: [
@@ -37,27 +37,23 @@ use Symfony\Component\Serializer\Annotation\Groups;
     normalizationContext: ['groups' => ['read']],
 )]
 #[ApiFilter(SearchFilter::class, properties: ['multiSelect'])]
+#[Entity(repositoryClass: MultiSelectOptionRepository::class)]
+#[Table(name: 'content_node_multiselect_option')]
 class MultiSelectOption extends BaseEntity implements BelongsToCampInterface, SortableEntityInterface {
     use SortableEntityTrait;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="MultiSelect", inversedBy="options")
-     * @ORM\JoinColumn(nullable=false, onDelete="cascade")
-     */
     #[ApiProperty(readableLink: false, writableLink: false)]
     #[Groups(['read'])]
+    #[ManyToOne(targetEntity: 'MultiSelect', inversedBy: 'options')]
+    #[JoinColumn(nullable: false, onDelete: 'cascade')]
     public MultiSelect $multiSelect;
 
-    /**
-     * @ORM\Column(type="text", nullable=false)
-     */
     #[Groups(['read'])]
+    #[Column(type: 'text', nullable: false)]
     public string $translateKey;
 
-    /**
-     * @ORM\Column(type="boolean", nullable=false)
-     */
     #[Groups(['read', 'update'])]
+    #[Column(type: 'boolean', nullable: false)]
     public bool $checked = false;
 
     #[ApiProperty(readable: false)]

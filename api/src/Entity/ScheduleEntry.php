@@ -13,7 +13,10 @@ use DateInterval;
 use DateTime;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Collections\Selectable;
-use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\Column;
+use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\JoinColumn;
+use Doctrine\ORM\Mapping\ManyToOne;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Annotation\SerializedName;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -21,8 +24,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * A calendar event in a period of the camp, at which some activity will take place. The start time
  * is specified as an offset in minutes from the period's start time.
- *
- * @ORM\Entity(repositoryClass=ScheduleEntryRepository::class)
  */
 #[ApiResource(
     collectionOperations: [
@@ -52,6 +53,7 @@ use Symfony\Component\Validator\Constraints as Assert;
     'start' => 'DATE_ADD({period.start}, {}.periodOffset, \'minute\')',
     'end' => 'DATE_ADD(DATE_ADD({period.start}, {}.periodOffset, \'minute\'), {}.length, \'minute\')',
 ])]
+#[Entity(repositoryClass: ScheduleEntryRepository::class)]
 class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
     public const ITEM_NORMALIZATION_CONTEXT = [
         'groups' => ['read', 'ScheduleEntry:Activity'],
@@ -60,13 +62,12 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
 
     /**
      * The time period which this schedule entry is part of. Must belong to the same camp as the activity.
-     *
-     * @ORM\ManyToOne(targetEntity="Period", inversedBy="scheduleEntries")
-     * @ORM\JoinColumn(nullable=false, onDelete="cascade")
      */
     #[AssertBelongsToSameCamp]
     #[ApiProperty(example: '/periods/1a2b3c4d')]
     #[Groups(['read', 'write'])]
+    #[ManyToOne(targetEntity: 'Period', inversedBy: 'scheduleEntries')]
+    #[JoinColumn(nullable: false, onDelete: 'cascade')]
     public ?Period $period = null;
 
     /**
@@ -74,11 +75,11 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
      * once the schedule entry is created.
      *
      * @internal Do not set the {@see Activity} directly on the ScheduleEntry. Instead use {@see Activity::addScheduleEntry()}
-     * @ORM\ManyToOne(targetEntity="Activity", inversedBy="scheduleEntries")
-     * @ORM\JoinColumn(nullable=false, onDelete="cascade")
      */
     #[ApiProperty(example: '/activities/1a2b3c4d')]
     #[Groups(['read', 'create'])]
+    #[ManyToOne(targetEntity: 'Activity', inversedBy: 'scheduleEntries')]
+    #[JoinColumn(nullable: false, onDelete: 'cascade')]
     public ?Activity $activity = null;
 
     /**
@@ -86,21 +87,20 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
      * starts.
      *
      * @var int minutes since period start
-     * @ORM\Column(type="integer", nullable=false)
      */
     #[Assert\GreaterThanOrEqual(value: 0)]
     #[ApiProperty(example: 1440)]
     #[Groups(['read', 'write'])]
+    #[Column(type: 'integer', nullable: false)]
     public int $periodOffset = 0;
 
     /**
      * The duration in minutes that this schedule entry will take.
-     *
-     * @ORM\Column(type="integer", nullable=false)
      */
     #[Assert\GreaterThan(value: 0)]
     #[ApiProperty(example: 90)]
     #[Groups(['read', 'write'])]
+    #[Column(type: 'integer', nullable: false)]
     public int $length = 0;
 
     /**
@@ -109,12 +109,10 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
      * day. This is useful to arrange multiple overlapping schedule entries such that all of them are
      * visible. Should be a decimal number between 0 and 1, and left+width should not exceed 1, but the
      * API currently does not enforce this.
-     *
-     * @ORM\Column(name="`left`", type="float", nullable=true)
-     * --> left is a MariaDB keyword, therefore escaping for column name necessary
      */
     #[ApiProperty(default: 0, example: 0.6)]
     #[Groups(['read', 'write'])]
+    #[Column(name: '`left`', type: 'float', nullable: true)]
     public ?float $left = 0;
 
     /**
@@ -122,11 +120,10 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
      * be, as a fractional amount of the width of the whole day. This is useful to arrange multiple
      * overlapping schedule entries such that all of them are visible. Should be a decimal number
      * between 0 and 1, and left+width should not exceed 1, but the API currently does not enforce this.
-     *
-     * @ORM\Column(type="float", nullable=true)
      */
     #[ApiProperty(example: 0.4)]
     #[Groups(['read', 'write'])]
+    #[Column(type: 'float', nullable: true)]
     public ?float $width = 1;
 
     #[ApiProperty(readable: false)]

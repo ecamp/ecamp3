@@ -477,19 +477,10 @@ class ParentEntity {
 
     private string $hello = 'world';
 
-    /**
-     * @ORM\OneToMany(targetEntity=Child::class, mappedBy="parent")
-     */
     private Collection $children;
 
-    /**
-     * @ORM\OneToOne(targetEntity=Child::class)
-     */
     private ?Child $firstBorn;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Child::class, mappedBy="parent")
-     */
     #[SerializedName('childrenWithSerializedName')]
     private Collection $renamedChildren;
 
@@ -505,8 +496,5 @@ class ParentEntity {
 
 #[ApiFilter(SearchFilter::class, properties: ['parent'])]
 class Child {
-    /**
-     * @ORM\ManyToOne(targetEntity=ParentEntity::class, inversedBy="children")
-     */
     private ?ParentEntity $parent;
 }

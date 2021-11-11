@@ -4,11 +4,14 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
-use App\InputFilter;
+use App\InputFilter\CleanHTML;
+use App\InputFilter\Trim;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\Column;
+use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\OneToMany;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -17,9 +20,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * A person using eCamp.
- *
- * @ORM\Entity(repositoryClass=UserRepository::class)
- * @ORM\Table(name="`user`")
  */
 #[ApiResource(
     collectionOperations: [
@@ -46,6 +46,7 @@ use Symfony\Component\Validator\Constraints as Assert;
     denormalizationContext: ['groups' => ['write']],
     normalizationContext: ['groups' => ['read']],
 )]
+#[Entity(repositoryClass: UserRepository::class)]
 class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUserInterface {
     public const ACTIVATE = 'activate';
 
@@ -56,94 +57,85 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
 
     /**
      * The camps that this user is the owner of.
-     *
-     * @ORM\OneToMany(targetEntity="Camp", mappedBy="owner")
      */
     #[ApiProperty(readable: false, writable: false)]
+    #[OneToMany(targetEntity: 'Camp', mappedBy: 'owner')]
     public Collection $ownedCamps;
 
     /**
      * All the camps that this user participates in.
-     *
-     * @ORM\OneToMany(targetEntity="CampCollaboration", mappedBy="user", orphanRemoval=true)
      */
     #[ApiProperty(readable: false, writable: false)]
+    #[OneToMany(targetEntity: 'CampCollaboration', mappedBy: 'user', orphanRemoval: true)]
     public Collection $collaborations;
 
     /**
      * Unique email of the user.
-     *
-     * @ORM\Column(type="string", length=64, nullable=false, unique=true)
      */
-    #[InputFilter\Trim]
+    #[Trim]
     #[Assert\NotBlank]
     #[Assert\Email]
     #[ApiProperty(example: 'bi-pi@example.com')]
     #[Groups(['read', 'write'])]
+    #[Column(type: 'string', length: 64, nullable: false, unique: true)]
     public ?string $email = null;
 
     /**
      * Unique username. Lower case alphanumeric symbols, dashes, periods and underscores only.
-     *
-     * @ORM\Column(type="string", length=32, nullable=false, unique=true)
      */
-    #[InputFilter\Trim]
+    #[Trim]
     #[Assert\NotBlank]
     #[Assert\Regex(pattern: '/^[a-z0-9_.-]+$/')]
     #[ApiProperty(example: 'bipi')]
     #[Groups(['read', 'create'])]
+    #[Column(type: 'string', length: 32, nullable: false, unique: true)]
     public ?string $username = null;
 
     /**
      * The user's (optional) first name.
-     *
-     * @ORM\Column(type="text", nullable=true)
      */
-    #[InputFilter\Trim]
-    #[InputFilter\CleanHTML]
+    #[Trim]
+    #[CleanHTML]
     #[ApiProperty(example: 'Robert')]
     #[Groups(['read', 'write'])]
+    #[Column(type: 'text', nullable: true)]
     public ?string $firstname = null;
 
     /**
      * The user's (optional) last name.
-     *
-     * @ORM\Column(type="text", nullable=true)
      */
-    #[InputFilter\Trim]
-    #[InputFilter\CleanHTML]
+    #[Trim]
+    #[CleanHTML]
     #[ApiProperty(example: 'Baden-Powell')]
     #[Groups(['read', 'write'])]
+    #[Column(type: 'text', nullable: true)]
     public ?string $surname = null;
 
     /**
      * The user's (optional) nickname or scout name.
-     *
-     * @ORM\Column(type="text", nullable=true)
      */
-    #[InputFilter\Trim]
-    #[InputFilter\CleanHTML]
+    #[Trim]
+    #[CleanHTML]
     #[ApiProperty(example: 'Bi-Pi')]
     #[Groups(['read', 'write'])]
+    #[Column(type: 'text', nullable: true)]
     public ?string $nickname = null;
 
     /**
      * The optional preferred language of the user, as an ICU language code.
-     *
-     * @ORM\Column(type="string", length=20, nullable=true)
      */
-    #[InputFilter\Trim]
+    #[Trim]
     #[ApiProperty(example: 'en')]
     #[Assert\Choice(['en', 'en-CH-scout', 'de', 'de-CH-scout', 'fr', 'fr-CH-scout', 'it', 'it-CH-scout'])]
     #[Groups(['read', 'write'])]
+    #[Column(type: 'string', length: 20, nullable: true)]
     public ?string $language = null;
 
     /**
      * The state of this user.
-     *
-     * @ORM\Column(type="string", length=16, nullable=false)
      */
     #[ApiProperty(readable: false, writable: false)]
+    #[Column(type: 'string', length: 16, nullable: false)]
     public string $state = self::STATE_NONREGISTERED;
 
     /**
@@ -155,28 +147,25 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
 
     /**
      * InvitationKey hashed for new user.
-     *
-     * @ORM\Column(type="string", length=255, nullable=true)
      */
     #[Assert\DisableAutoMapping]
     #[ApiProperty(readable: false, writable: false)]
+    #[Column(type: 'string', length: 255, nullable: true)]
     public ?string $activationKeyHash = null;
 
     /**
      * The technical roles that this person has in the eCamp application.
-     *
-     * @ORM\Column(type="json")
      */
     #[ApiProperty(writable: false)]
+    #[Column(type: 'json')]
     public array $roles = ['ROLE_USER'];
 
     /**
      * The hashed password. Of course not exposed through the API.
-     *
-     * @ORM\Column(type="string", length=255)
      */
     #[Assert\DisableAutoMapping]
     #[ApiProperty(readable: false, writable: false)]
+    #[Column(type: 'string', length: 255)]
     public ?string $password = null;
 
     /**

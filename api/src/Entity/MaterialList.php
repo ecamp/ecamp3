@@ -9,14 +9,16 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Repository\MaterialListRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\Column;
+use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\JoinColumn;
+use Doctrine\ORM\Mapping\ManyToOne;
+use Doctrine\ORM\Mapping\OneToMany;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * A list of material items that someone needs to bring to the camp. A material list
  * is automatically created for each person collaborating on the camp.
- *
- * @ORM\Entity(repositoryClass=MaterialListRepository::class)
  */
 #[ApiResource(
     collectionOperations: [
@@ -35,42 +37,39 @@ use Symfony\Component\Serializer\Annotation\Groups;
     normalizationContext: ['groups' => ['read']],
 )]
 #[ApiFilter(SearchFilter::class, properties: ['camp'])]
+#[Entity(repositoryClass: MaterialListRepository::class)]
 class MaterialList extends BaseEntity implements BelongsToCampInterface {
     /**
      * The items that are part of this list.
-     *
-     * @ORM\OneToMany(targetEntity="MaterialItem", mappedBy="materialList")
      */
     #[ApiProperty(writable: false, example: '["/material_items/1a2b3c4d"]')]
     #[Groups(['read'])]
+    #[OneToMany(targetEntity: 'MaterialItem', mappedBy: 'materialList')]
     public Collection $materialItems;
 
     /**
      * The camp this material list belongs to.
-     *
-     * @ORM\ManyToOne(targetEntity="Camp", inversedBy="materialLists")
-     * @ORM\JoinColumn(nullable=false, onDelete="cascade")
      */
     #[ApiProperty(example: '/camps/1a2b3c4d')]
     #[Groups(['read', 'create'])]
+    #[ManyToOne(targetEntity: 'Camp', inversedBy: 'materialLists')]
+    #[JoinColumn(nullable: false, onDelete: 'cascade')]
     public ?Camp $camp = null;
 
     /**
      * The id of the material list that was used as a template for creating this camp. Internal
      * for now, is not published through the API.
-     *
-     * @ORM\Column(type="string", length=16, nullable=true)
      */
     #[ApiProperty(readable: false, writable: false)]
+    #[Column(type: 'string', length: 16, nullable: true)]
     public ?string $materialListPrototypeId = null;
 
     /**
      * The human readable name of the material list.
-     *
-     * @ORM\Column(type="text", nullable=false)
      */
     #[ApiProperty(example: 'Lebensmittel')]
     #[Groups(['read', 'write'])]
+    #[Column(type: 'text', nullable: false)]
     public ?string $name = null;
 
     public function __construct() {

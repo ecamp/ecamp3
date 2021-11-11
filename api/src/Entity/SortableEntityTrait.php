@@ -2,12 +2,11 @@
 
 namespace App\Entity;
 
+use Doctrine\ORM\Mapping\Column;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 trait SortableEntityTrait {
-    /**
-     * @ORM\Column(type="integer", nullable=false)
-     */
+    #[Column(type: 'integer', nullable: false)]
     private int $pos = 0;
 
     #[Groups(['read'])]

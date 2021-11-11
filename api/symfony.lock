@@ -332,6 +332,9 @@
     "ralouphie/getallheaders": {
         "version": "3.0.3"
     },
+    "rector/rector": {
+        "version": "0.12.3"
+    },
     "rize/uri-template": {
         "version": "0.3.3"
     },

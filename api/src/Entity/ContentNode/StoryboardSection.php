@@ -11,15 +11,15 @@ use App\Entity\BelongsToCampInterface;
 use App\Entity\Camp;
 use App\Entity\SortableEntityInterface;
 use App\Entity\SortableEntityTrait;
-use App\InputFilter;
+use App\InputFilter\CleanHTML;
 use App\Repository\StoryboardSectionRepository;
-use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\Column;
+use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\JoinColumn;
+use Doctrine\ORM\Mapping\ManyToOne;
+use Doctrine\ORM\Mapping\Table;
 use Symfony\Component\Serializer\Annotation\Groups;
 
-/**
- * @ORM\Entity(repositoryClass=StoryboardSectionRepository::class)
- * @ORM\Table(name="content_node_storyboard_section")
- */
 #[ApiResource(
     routePrefix: '/content_node',
     collectionOperations: [
@@ -42,36 +42,30 @@ use Symfony\Component\Serializer\Annotation\Groups;
     normalizationContext: ['groups' => ['read']],
 )]
 #[ApiFilter(SearchFilter::class, properties: ['storyboard'])]
+#[Entity(repositoryClass: StoryboardSectionRepository::class)]
+#[Table(name: 'content_node_storyboard_section')]
 class StoryboardSection extends BaseEntity implements BelongsToCampInterface, SortableEntityInterface {
     use SortableEntityTrait;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="Storyboard", inversedBy="sections")
-     * @ORM\JoinColumn(nullable=false, onDelete="cascade")
-     */
     #[ApiProperty(readableLink: false, writableLink: false)]
     #[Groups(['read', 'create'])]
+    #[ManyToOne(targetEntity: 'Storyboard', inversedBy: 'sections')]
+    #[JoinColumn(nullable: false, onDelete: 'cascade')]
     public Storyboard $storyboard;
 
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
-    #[InputFilter\CleanHTML]
+    #[CleanHTML]
     #[Groups(['read', 'write'])]
+    #[Column(type: 'text', nullable: true)]
     public ?string $column1 = null;
 
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
-    #[InputFilter\CleanHTML]
+    #[CleanHTML]
     #[Groups(['read', 'write'])]
+    #[Column(type: 'text', nullable: true)]
     public ?string $column2 = null;
 
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
-    #[InputFilter\CleanHTML]
+    #[CleanHTML]
     #[Groups(['read', 'write'])]
+    #[Column(type: 'text', nullable: true)]
     public ?string  $column3 = null;
 
     #[ApiProperty(readable: false)]

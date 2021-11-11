@@ -10,15 +10,17 @@ use App\Repository\ActivityRepository;
 use App\Validator\AssertBelongsToSameCamp;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\Column;
+use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\JoinColumn;
+use Doctrine\ORM\Mapping\ManyToOne;
+use Doctrine\ORM\Mapping\OneToMany;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Annotation\SerializedName;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * A piece of programme that will be carried out once or multiple times in a camp.
- *
- * @ORM\Entity(repositoryClass=ActivityRepository::class)
  */
 #[ApiResource(
     collectionOperations: [
@@ -45,6 +47,7 @@ use Symfony\Component\Validator\Constraints as Assert;
     normalizationContext: ['groups' => ['read']],
 )]
 #[ApiFilter(SearchFilter::class, properties: ['camp'])]
+#[Entity(repositoryClass: ActivityRepository::class)]
 class Activity extends AbstractContentNodeOwner implements BelongsToCampInterface {
     public const ITEM_NORMALIZATION_CONTEXT = [
         'groups' => [
@@ -59,60 +62,54 @@ class Activity extends AbstractContentNodeOwner implements BelongsToCampInterfac
 
     /**
      * The list of points in time when this activity's programme will be carried out.
-     *
-     * @ORM\OneToMany(targetEntity="ScheduleEntry", mappedBy="activity", orphanRemoval=true)
      */
     #[ApiProperty(writable: false, example: '["/schedule_entries/1a2b3c4d"]')]
     #[Groups(['read'])]
+    #[OneToMany(targetEntity: 'ScheduleEntry', mappedBy: 'activity', orphanRemoval: true)]
     public Collection $scheduleEntries;
 
     /**
      * The list of people that are responsible for planning or carrying out this activity.
-     *
-     * @ORM\OneToMany(targetEntity="ActivityResponsible", mappedBy="activity", orphanRemoval=true)
      */
     #[ApiProperty(readable: false, writable: false)]
+    #[OneToMany(targetEntity: 'ActivityResponsible', mappedBy: 'activity', orphanRemoval: true)]
     public Collection $activityResponsibles;
 
     /**
      * The camp to which this activity belongs.
-     *
-     * @ORM\ManyToOne(targetEntity="Camp", inversedBy="activities")
-     * @ORM\JoinColumn(nullable=false, onDelete="cascade")
      */
     #[Assert\DisableAutoMapping] // camp is set in the DataPersister
     #[ApiProperty(writable: false, example: '/camps/1a2b3c4d')]
     #[Groups(['read'])]
+    #[ManyToOne(targetEntity: 'Camp', inversedBy: 'activities')]
+    #[JoinColumn(nullable: false, onDelete: 'cascade')]
     public ?Camp $camp = null;
 
     /**
      * The category to which this activity belongs. The category determines color and numbering scheme
      * of the activity, and is used for marking similar activities. Must be in the same camp as the activity.
-     *
-     * @ORM\ManyToOne(targetEntity="Category", inversedBy="activities")
-     * @ORM\JoinColumn(nullable=false)
      */
     #[ApiProperty(example: '/categories/1a2b3c4d')]
     #[AssertBelongsToSameCamp(groups: ['update'])]
     #[Groups(['read', 'write'])]
+    #[ManyToOne(targetEntity: 'Category', inversedBy: 'activities')]
+    #[JoinColumn(nullable: false)]
     public ?Category $category = null;
 
     /**
      * The title of this activity that is shown in the picasso.
-     *
-     * @ORM\Column(type="text")
      */
     #[ApiProperty(example: 'Sportolympiade')]
     #[Groups(['read', 'write'])]
+    #[Column(type: 'text')]
     public ?string $title = null;
 
     /**
      * The physical location where this activity's programme will be carried out.
-     *
-     * @ORM\Column(type="text")
      */
     #[ApiProperty(example: 'Spielwiese')]
     #[Groups(['read', 'write'])]
+    #[Column(type: 'text')]
     public string $location = '';
 
     public function __construct() {

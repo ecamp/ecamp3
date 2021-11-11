@@ -11,18 +11,18 @@ use App\Validator\AllowTransition\AssertAllowTransitions;
 use App\Validator\AssertEitherIsNull;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\Column;
+use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\JoinColumn;
+use Doctrine\ORM\Mapping\ManyToOne;
+use Doctrine\ORM\Mapping\OneToMany;
+use Doctrine\ORM\Mapping\UniqueConstraint;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Annotation\SerializedName;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * A user participating in some way in the planning or realization of a camp.
- *
- * @ORM\Entity(repositoryClass=CampCollaborationRepository::class)
- * @ORM\Table(uniqueConstraints={
- *     @ORM\UniqueConstraint(name="inviteKey_unique", columns={"inviteKey"})
- * })
  */
 #[ApiResource(
     collectionOperations: [
@@ -67,6 +67,8 @@ use Symfony\Component\Validator\Constraints as Assert;
     normalizationContext: ['groups' => ['read']],
 )]
 #[ApiFilter(SearchFilter::class, properties: ['camp'])]
+#[Entity(repositoryClass: CampCollaborationRepository::class)]
+#[UniqueConstraint(name: 'inviteKey_unique', columns: ['inviteKey'])]
 class CampCollaboration extends BaseEntity implements BelongsToCampInterface {
     public const ITEM_NORMALIZATION_CONTEXT = [
         'groups' => ['read', 'CampCollaboration:Camp', 'CampCollaboration:User'],
@@ -96,57 +98,50 @@ class CampCollaboration extends BaseEntity implements BelongsToCampInterface {
 
     /**
      * List of whole-day responsibilities that the collaborator has in the camp.
-     *
-     * @ORM\OneToMany(targetEntity="DayResponsible", mappedBy="campCollaboration", orphanRemoval=true)
      */
     #[ApiProperty(writable: false, example: '["/day_responsibles/1a2b3c4d"]')]
+    #[OneToMany(targetEntity: 'DayResponsible', mappedBy: 'campCollaboration', orphanRemoval: true)]
     public Collection $dayResponsibles;
 
     /**
      * List of activities in the camp that the collaborator is responsible for planning or carrying out.
-     *
-     * @ORM\OneToMany(targetEntity="ActivityResponsible", mappedBy="campCollaboration", orphanRemoval=true)
      */
     #[ApiProperty(writable: false, example: '["/activity_responsibles/1a2b3c4d"]')]
+    #[OneToMany(targetEntity: 'ActivityResponsible', mappedBy: 'campCollaboration', orphanRemoval: true)]
     public Collection $activityResponsibles;
 
     /**
      * The receiver email address of the invitation email, in case the collaboration does not yet have
      * a user account. Either this field or the user field should be null.
-     *
-     * @ORM\Column(type="text", nullable=true)
      */
     #[AssertEitherIsNull(other: 'user')]
     #[ApiProperty(example: 'some-email@example.com')]
     #[Groups(['read', 'create'])]
+    #[Column(type: 'text', nullable: true)]
     public ?string $inviteEmail = null;
 
-    /**
-     * @ORM\Column(type="string", length=64, nullable=true)
-     */
     #[ApiProperty(readable: false, writable: false)]
+    #[Column(type: 'string', length: 64, nullable: true)]
     public ?string $inviteKey = null;
 
     /**
      * The person that is collaborating in the camp. Cannot be changed once the campCollaboration is established.
      * Either this field or the inviteEmail field should be null.
-     *
-     * @ORM\ManyToOne(targetEntity="User", inversedBy="collaborations")
-     * @ORM\JoinColumn(nullable=true, onDelete="cascade")
      */
     #[AssertEitherIsNull(other: 'inviteEmail')]
     #[ApiProperty(example: '/users/1a2b3c4d')]
     #[Groups(['read', 'create'])]
+    #[ManyToOne(targetEntity: 'User', inversedBy: 'collaborations')]
+    #[JoinColumn(nullable: true, onDelete: 'cascade')]
     public ?User $user = null;
 
     /**
      * The camp that the collaborator is part of. Cannot be changed once the campCollaboration is created.
-     *
-     * @ORM\ManyToOne(targetEntity="Camp", inversedBy="collaborations")
-     * @ORM\JoinColumn(nullable=false, onDelete="cascade")
      */
     #[ApiProperty(example: '/camps/1a2b3c4d')]
     #[Groups(['read', 'create'])]
+    #[ManyToOne(targetEntity: 'Camp', inversedBy: 'collaborations')]
+    #[JoinColumn(nullable: false, onDelete: 'cascade')]
     public ?Camp $camp = null;
 
     /**
@@ -155,8 +150,6 @@ class CampCollaboration extends BaseEntity implements BelongsToCampInterface {
      * and the updater's access rights.
      *
      * The status ESTABLISHED can only be reached via the /invitations endpoint.
-     *
-     * @ORM\Column(type="string", length=16, nullable=false)
      */
     #[Assert\Choice(choices: self::VALID_STATUS)]
     #[Assert\EqualTo(value: self::STATUS_INVITED, groups: ['resend_invitation'])]
@@ -171,23 +164,21 @@ class CampCollaboration extends BaseEntity implements BelongsToCampInterface {
     )]
     #[ApiProperty(default: self::STATUS_INVITED, example: self::STATUS_INACTIVE)]
     #[Groups(['read', 'update'])]
+    #[Column(type: 'string', length: 16, nullable: false)]
     public string $status = self::STATUS_INVITED;
 
     /**
      * The role that this person has in the camp. Depending on the role, the collaborator might have
      * different access rights. There must always be at least one manager in a camp.
-     *
-     * @ORM\Column(type="string", length=16, nullable=false)
      */
     #[Assert\Choice(choices: self::VALID_ROLES)]
     #[ApiProperty(example: self::ROLE_MEMBER)]
     #[Groups(['read', 'write'])]
+    #[Column(type: 'string', length: 16, nullable: false)]
     public string $role;
 
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
     #[ApiProperty(readable: false, writable: false)]
+    #[Column(type: 'text', nullable: true)]
     public ?string $collaborationAcceptedBy = null;
 
     public function __construct() {

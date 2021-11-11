@@ -9,13 +9,11 @@ use App\Entity\MaterialItem;
 use App\Repository\MaterialNodeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\OneToMany;
+use Doctrine\ORM\Mapping\Table;
 use Symfony\Component\Serializer\Annotation\Groups;
 
-/**
- * @ORM\Entity(repositoryClass=MaterialNodeRepository::class)
- * @ORM\Table(name="content_node_materialnode")
- */
 #[ApiResource(
     routePrefix: '/content_node',
     collectionOperations: [
@@ -40,12 +38,12 @@ use Symfony\Component\Serializer\Annotation\Groups;
     denormalizationContext: ['groups' => ['write']],
     normalizationContext: ['groups' => ['read']],
 )]
+#[Entity(repositoryClass: MaterialNodeRepository::class)]
+#[Table(name: 'content_node_materialnode')]
 class MaterialNode extends ContentNode {
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\MaterialItem", mappedBy="materialNode", orphanRemoval=true, cascade={"persist", "remove"})
-     */
     #[ApiProperty(readableLink: true, writableLink: false)]
     #[Groups(['read'])]
+    #[OneToMany(targetEntity: 'App\Entity\MaterialItem', mappedBy: 'materialNode', orphanRemoval: true, cascade: ['persist', 'remove'])]
     public Collection $materialItems;
 
     public function __construct() {

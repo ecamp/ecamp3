@@ -4,15 +4,13 @@ namespace App\Entity\ContentNode;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Entity\ContentNode;
-use App\InputFilter;
+use App\InputFilter\CleanHTML;
 use App\Repository\SingleTextRepository;
-use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\Column;
+use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\Table;
 use Symfony\Component\Serializer\Annotation\Groups;
 
-/**
- * @ORM\Entity(repositoryClass=SingleTextRepository::class)
- * @ORM\Table(name="content_node_singletext")
- */
 #[ApiResource(
     routePrefix: '/content_node',
     collectionOperations: [
@@ -37,11 +35,11 @@ use Symfony\Component\Serializer\Annotation\Groups;
     denormalizationContext: ['groups' => ['write']],
     normalizationContext: ['groups' => ['read']],
 )]
+#[Entity(repositoryClass: SingleTextRepository::class)]
+#[Table(name: 'content_node_singletext')]
 class SingleText extends ContentNode {
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
-    #[InputFilter\CleanHTML]
+    #[CleanHTML]
     #[Groups(['read', 'write'])]
+    #[Column(type: 'text', nullable: true)]
     public ?string $text = null;
 }
