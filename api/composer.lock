@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6317bb81df6ec25831557e24a9c8e148",
+    "content-hash": "056edc81363506c26d2de9167123e3a4",
     "packages": [
         {
             "name": "api-platform/core",
@@ -9680,16 +9680,16 @@
         },
         {
             "name": "php-coveralls/php-coveralls",
-            "version": "v2.4.3",
+            "version": "v2.5.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-coveralls/php-coveralls.git",
-                "reference": "909381bd40a17ae6e9076051f0d73293c1c091af"
+                "reference": "a54881adfb9bb3a01ca72e2832131b33f02da4e4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-coveralls/php-coveralls/zipball/909381bd40a17ae6e9076051f0d73293c1c091af",
-                "reference": "909381bd40a17ae6e9076051f0d73293c1c091af",
+                "url": "https://api.github.com/repos/php-coveralls/php-coveralls/zipball/a54881adfb9bb3a01ca72e2832131b33f02da4e4",
+                "reference": "a54881adfb9bb3a01ca72e2832131b33f02da4e4",
                 "shasum": ""
             },
             "require": {
@@ -9697,11 +9697,11 @@
                 "ext-simplexml": "*",
                 "guzzlehttp/guzzle": "^6.0 || ^7.0",
                 "php": "^5.5 || ^7.0 || ^8.0",
-                "psr/log": "^1.0",
-                "symfony/config": "^2.1 || ^3.0 || ^4.0 || ^5.0",
-                "symfony/console": "^2.1 || ^3.0 || ^4.0 || ^5.0",
-                "symfony/stopwatch": "^2.0 || ^3.0 || ^4.0 || ^5.0",
-                "symfony/yaml": "^2.0.5 || ^3.0 || ^4.0 || ^5.0"
+                "psr/log": "^1.0 || ^2.0",
+                "symfony/config": "^2.1 || ^3.0 || ^4.0 || ^5.0 || ^6.0",
+                "symfony/console": "^2.1 || ^3.0 || ^4.0 || ^5.0 || ^6.0",
+                "symfony/stopwatch": "^2.0 || ^3.0 || ^4.0 || ^5.0 || ^6.0",
+                "symfony/yaml": "^2.0.5 || ^3.0 || ^4.0 || ^5.0 || ^6.0"
             },
             "require-dev": {
                 "phpunit/phpunit": "^4.8.35 || ^5.4.3 || ^6.0 || ^7.0 || ^8.0 || ^9.0",
@@ -9757,9 +9757,9 @@
             ],
             "support": {
                 "issues": "https://github.com/php-coveralls/php-coveralls/issues",
-                "source": "https://github.com/php-coveralls/php-coveralls/tree/v2.4.3"
+                "source": "https://github.com/php-coveralls/php-coveralls/tree/v2.5.1"
             },
-            "time": "2020-12-24T09:17:03+00:00"
+            "time": "2021-11-10T16:53:56+00:00"
         },
         {
             "name": "php-cs-fixer/diff",

@@ -27,4 +27,4 @@ App\Entity\ContentType:
     name: 'LAThematicArea'
     active: true
     entityClass: 'App\Entity\ContentNode\MultiSelect'
-    jsonConfig: { items: [ 'outdoorTechnique', 'security', 'natureAndEnvironment' ] }
+    jsonConfig: { items: [ 'option1', 'option2', 'option3' ] }

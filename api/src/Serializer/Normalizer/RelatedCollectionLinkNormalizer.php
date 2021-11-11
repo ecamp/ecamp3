@@ -138,7 +138,7 @@ class RelatedCollectionLinkNormalizer implements NormalizerInterface, Serializer
         if ($annotation = $this->getRelatedCollectionLinkAnnotation($resourceClass, $rel)) {
             // If there is an explicit annotation, there is no need to inspect the Doctrine metadata
             $params = $this->extractUriParams($object, $annotation->getParams());
-            [$uriTemplate] = $this->uriTemplateFactory->create($annotation->getRelatedEntity());
+            [$uriTemplate] = $this->uriTemplateFactory->createFromResourceClass($annotation->getRelatedEntity());
 
             return $this->uriTemplate->expand($uriTemplate, $params);
         }

@@ -51,7 +51,7 @@ class UriTemplateFactoryTest extends TestCase {
         $this->createFactory();
 
         // when
-        [$uri, $templated] = $this->uriTemplateFactory->create($resource);
+        [$uri, $templated] = $this->uriTemplateFactory->createFromShortname($resource);
 
         // then
         self::assertThat($uri, self::equalTo(null));
@@ -68,7 +68,7 @@ class UriTemplateFactoryTest extends TestCase {
         $this->createFactory();
 
         // when
-        [$uri, $templated] = $this->uriTemplateFactory->create($resource);
+        [$uri, $templated] = $this->uriTemplateFactory->createFromShortname($resource);
 
         // then
         self::assertThat($uri, self::equalTo('/dummys'));
@@ -81,7 +81,7 @@ class UriTemplateFactoryTest extends TestCase {
         $this->createFactory();
 
         // when
-        [$uri, $templated] = $this->uriTemplateFactory->create($resource);
+        [$uri, $templated] = $this->uriTemplateFactory->createFromShortname($resource);
 
         // then
         self::assertThat($uri, self::equalTo('/dummys{/id}'));
@@ -100,7 +100,7 @@ class UriTemplateFactoryTest extends TestCase {
         $this->createFactory();
 
         // when
-        [$uri, $templated] = $this->uriTemplateFactory->create($resource);
+        [$uri, $templated] = $this->uriTemplateFactory->createFromShortname($resource);
 
         // then
         self::assertThat($uri, self::equalTo('/dummys{/id}{?some_filter}'));
@@ -114,7 +114,7 @@ class UriTemplateFactoryTest extends TestCase {
         $this->createFactory();
 
         // when
-        [$uri, $templated] = $this->uriTemplateFactory->create($resource);
+        [$uri, $templated] = $this->uriTemplateFactory->createFromShortname($resource);
 
         // then
         self::assertThat($uri, self::equalTo('/dummys{/id}{?page}'));
@@ -132,7 +132,7 @@ class UriTemplateFactoryTest extends TestCase {
         $this->createFactory();
 
         // when
-        [$uri, $templated] = $this->uriTemplateFactory->create($resource);
+        [$uri, $templated] = $this->uriTemplateFactory->createFromShortname($resource);
 
         // then
         self::assertThat($uri, self::equalTo('/dummys{/id}{?page,itemsPerPage,pagination}'));

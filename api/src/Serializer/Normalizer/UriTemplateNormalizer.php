@@ -31,7 +31,7 @@ class UriTemplateNormalizer implements NormalizerInterface, CacheableSupportsMet
                 continue;
             }
 
-            [$uriTemplate, $templated] = $this->uriTemplateFactory->create($rel);
+            [$uriTemplate, $templated] = $this->uriTemplateFactory->createFromShortname($rel);
             if (!$uriTemplate) {
                 continue;
             }
