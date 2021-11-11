@@ -9,8 +9,9 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Repository\ContentNodeRepository;
 use App\Validator\AssertEitherIsNull;
 use App\Validator\ContentNode\AssertBelongsToSameOwner;
-use App\Validator\ContentNode\AssertCompatibleWithEntity;
+use App\Validator\ContentNode\AssertContentTypeCompatible;
 use App\Validator\ContentNode\AssertNoLoop;
+use App\Validator\ContentNode\AssertPrototypeCompatible;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -91,6 +92,7 @@ abstract class ContentNode extends BaseEntity implements BelongsToCampInterface 
     /**
      * The prototype ContentNode from which the content is copied during creation.
      */
+    #[AssertPrototypeCompatible]
     #[ApiProperty(example: '/content_nodes/1a2b3c4d')]
     #[Groups(['create'])]
     public ?ContentNode $prototype = null;
@@ -144,7 +146,7 @@ abstract class ContentNode extends BaseEntity implements BelongsToCampInterface 
      */
     #[ApiProperty(example: '/content_types/1a2b3c4d')]
     #[Groups(['read', 'create'])]
-    #[AssertCompatibleWithEntity]
+    #[AssertContentTypeCompatible]
     public ?ContentType $contentType = null;
 
     public function __construct() {

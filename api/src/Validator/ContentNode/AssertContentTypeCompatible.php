@@ -6,6 +6,6 @@ use Attribute;
 use Symfony\Component\Validator\Constraint;
 
 #[Attribute]
-class AssertCompatibleWithEntity extends Constraint {
+class AssertContentTypeCompatible extends Constraint {
     public string $message = 'Selected contentType {{ contentTypeName }} is incompatible with entity of type {{ givenEntityClass }} (expected {{ expectedEntityClass }}).';
 }

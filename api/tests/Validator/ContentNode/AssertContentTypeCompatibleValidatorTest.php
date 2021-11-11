@@ -5,8 +5,8 @@ namespace App\Tests\Validator\ContentNode;
 use App\Entity\Camp;
 use App\Entity\ContentNode\ColumnLayout;
 use App\Entity\ContentType;
-use App\Validator\ContentNode\AssertCompatibleWithEntity;
-use App\Validator\ContentNode\AssertCompatibleWithEntityValidator;
+use App\Validator\ContentNode\AssertContentTypeCompatible;
+use App\Validator\ContentNode\AssertContentTypeCompatibleValidator;
 use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 use Symfony\Component\Validator\Exception\UnexpectedValueException;
@@ -15,15 +15,10 @@ use Symfony\Component\Validator\Test\ConstraintValidatorTestCase;
 /**
  * @internal
  */
-class AssertCompatibleWithEntityValidatorTest extends ConstraintValidatorTestCase {
+class AssertContentTypeCompatibleValidatorTest extends ConstraintValidatorTestCase {
     public function testExpectsMatchingAnnotation() {
         $this->expectException(UnexpectedTypeException::class);
         $this->validator->validate(null, new Email());
-    }
-
-    public function testExpectsContentNodeValue() {
-        $this->expectException(UnexpectedValueException::class);
-        $this->validator->validate(new \stdClass(), new AssertCompatibleWithEntity());
     }
 
     public function testExpectsContentNodeObject() {
@@ -35,7 +30,7 @@ class AssertCompatibleWithEntityValidatorTest extends ConstraintValidatorTestCas
         $this->expectException(UnexpectedValueException::class);
 
         // when
-        $this->validator->validate($contentType, new AssertCompatibleWithEntity());
+        $this->validator->validate($contentType, new AssertContentTypeCompatible());
     }
 
     public function testExpectsContentTypeValue() {
@@ -48,7 +43,7 @@ class AssertCompatibleWithEntityValidatorTest extends ConstraintValidatorTestCas
         $this->expectException(UnexpectedValueException::class);
 
         // when
-        $this->validator->validate($contentType, new AssertCompatibleWithEntity());
+        $this->validator->validate($contentType, new AssertContentTypeCompatible());
     }
 
     public function testValid() {
@@ -61,7 +56,7 @@ class AssertCompatibleWithEntityValidatorTest extends ConstraintValidatorTestCas
         $this->setObject($contentNode);
 
         // when
-        $this->validator->validate($contentType, new AssertCompatibleWithEntity());
+        $this->validator->validate($contentType, new AssertContentTypeCompatible());
 
         // then
         $this->assertNoViolation();
@@ -78,7 +73,7 @@ class AssertCompatibleWithEntityValidatorTest extends ConstraintValidatorTestCas
         $this->setObject($contentNode);
 
         // when
-        $this->validator->validate($contentType, new AssertCompatibleWithEntity());
+        $this->validator->validate($contentType, new AssertContentTypeCompatible());
 
         // then
         $this->buildViolation('Selected contentType {{ contentTypeName }} is incompatible with entity of type {{ givenEntityClass }} (expected {{ expectedEntityClass }}).')
@@ -90,6 +85,6 @@ class AssertCompatibleWithEntityValidatorTest extends ConstraintValidatorTestCas
     }
 
     protected function createValidator() {
-        return new AssertCompatibleWithEntityValidator();
+        return new AssertContentTypeCompatibleValidator();
     }
 }

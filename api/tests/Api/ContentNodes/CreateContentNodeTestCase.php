@@ -81,6 +81,30 @@ abstract class CreateContentNodeTestCase extends ECampApiTestCase {
         $this->assertJsonContains($this->getExampleReadPayload($newContentNode), true);
     }
 
+    public function testCreateFromPrototypeValidatesWrongPrototypeType() {
+        // given
+        // Use a prototype that does not match the current entity class
+        $prototype = (ContentNode\ColumnLayout::class === $this->entityClass) ? 'multiSelect1' : 'columnLayout1';
+        $prototypeClass = get_class(static::$fixtures[$prototype]);
+        $entityClass = $this->entityClass;
+
+        // when
+        $this->create($this->getExampleWritePayload([
+            'prototype' => $this->getIriFor($prototype),
+        ]), static::$fixtures['user2member']);
+
+        // then
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [
+                    'propertyPath' => 'prototype',
+                    'message' => "This value must be an instance of {$entityClass} or a subclass, but was {$prototypeClass}.",
+                ],
+            ],
+        ]);
+    }
+
     protected function getExampleWritePayload($attributes = [], $except = []) {
         return parent::getExampleWritePayload(
             array_merge([
