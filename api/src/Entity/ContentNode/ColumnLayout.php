@@ -15,6 +15,7 @@ use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\Table;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Annotation\SerializedName;
 
 #[ApiResource(
     routePrefix: '/content_node',
@@ -66,29 +67,20 @@ class ColumnLayout extends ContentNode {
     /**
      * JSON configuration for columns.
      */
-    #[ApiProperty(example: "[['slot' => '1', 'width' => 12]]")]
+    #[ApiProperty(example: [['slot' => '1', 'width' => 12]])]
     #[Groups(['read', 'write'])]
     #[Column(type: 'json', nullable: true)]
-    private ?array $columns = null;
+    public ?array $columns = null;
 
     #[AssertJsonSchema(schema: ColumnLayout::COLUMNS_SCHEMA, groups: ['columns_schema'])]
     #[AssertColumWidthsSumTo12]
     #[AssertNoOrphanChildren]
-    public function getColumns(): ?array {
+    #[SerializedName('columns')]
+    public function getColumnsFromThisOrPrototype(): ?array {
         if (null !== $this->prototype && null === $this->columns) {
             return $this->prototype->columns;
         }
 
         return $this->columns;
-    }
-
-    public function setColumns(?array $columns) {
-        $this->columns = $columns;
-    }
-
-    public function copyFromPrototype(ColumnLayout $prototype) {
-        if (!isset($this->columns)) {
-            $this->columns = $prototype->getColumns();
-        }
     }
 }

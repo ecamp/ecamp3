@@ -2,9 +2,10 @@
 
 namespace App\Tests\DataPersister\ContentNodes;
 
-use ApiPlatform\Core\DataPersister\ContextAwareDataPersisterInterface;
 use App\DataPersister\ContentNode\SingleTextDataPersister;
+use App\DataPersister\Util\DataPersisterObservable;
 use App\Entity\ContentNode\SingleText;
+use App\Entity\ContentType;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -13,11 +14,11 @@ use PHPUnit\Framework\TestCase;
  */
 class SingleTextDataPersisterTest extends TestCase {
     private SingleTextDataPersister $dataPersister;
-    private MockObject|ContextAwareDataPersisterInterface $decoratedMock;
+    private MockObject|DataPersisterObservable $dataPersisterObservable;
     private SingleText $contentNode;
 
     protected function setUp(): void {
-        $this->decoratedMock = $this->createMock(ContextAwareDataPersisterInterface::class);
+        $this->dataPersisterObservable = $this->createMock(DataPersisterObservable::class);
         $this->contentNode = new SingleText();
 
         $this->root = $this->createMock(SingleText::class);
@@ -27,22 +28,17 @@ class SingleTextDataPersisterTest extends TestCase {
         $this->contentNode->prototype = new SingleText();
         $this->contentNode->prototype->text = 'Test';
 
-        $this->dataPersister = new SingleTextDataPersister($this->decoratedMock);
-    }
+        $this->contentNode->prototype->instanceName = 'instance';
+        $this->contentNode->prototype->slot = 'left';
+        $this->contentNode->prototype->position = 99;
+        $this->contentNode->prototype->contentType = new ContentType();
+        $this->contentNode->prototype->contentType->name = 'test';
 
-    public function testDelegatesSupportCheckToDecorated() {
-        $this->decoratedMock
-            ->expects($this->exactly(2))
-            ->method('supports')
-            ->willReturnOnConsecutiveCalls(true, false)
-        ;
-
-        $this->assertTrue($this->dataPersister->supports($this->contentNode, []));
-        $this->assertFalse($this->dataPersister->supports($this->contentNode, []));
+        $this->dataPersister = new SingleTextDataPersister($this->dataPersisterObservable);
     }
 
     public function testDoesNotSupportNonSingleText() {
-        $this->decoratedMock
+        $this->dataPersisterObservable
             ->method('supports')
             ->willReturn(true)
         ;
@@ -50,50 +46,36 @@ class SingleTextDataPersisterTest extends TestCase {
         $this->assertFalse($this->dataPersister->supports([], []));
     }
 
-    public function testDelegatesPersistToDecorated() {
-        // given
-        $this->decoratedMock->expects($this->once())
-            ->method('persist')
-        ;
-
-        // when
-        $this->dataPersister->persist($this->contentNode, []);
-
-        // then
-    }
-
     public function testSetsRootFromParentOnCreate() {
-        // given
-        $this->decoratedMock->expects($this->once())->method('persist')->willReturnArgument(0);
-
         // when
         /** @var SingleText $data */
-        $data = $this->dataPersister->persist($this->contentNode, ['collection_operation_name' => 'post']);
+        $data = $this->dataPersister->beforeCreate($this->contentNode);
 
         // then
         $this->assertEquals($this->root, $data->root);
     }
 
     public function testCopyTextFromPrototypeOnCreate() {
-        // given
-        $this->decoratedMock->expects($this->once())->method('persist')->willReturnArgument(0);
-
         // when
         /** @var SingleText $data */
-        $data = $this->dataPersister->persist($this->contentNode, ['collection_operation_name' => 'post']);
+        $data = $this->dataPersister->beforeCreate($this->contentNode);
 
         // then
         $this->assertEquals($data->text, $this->contentNode->prototype->text);
+
+        $this->assertEquals($data->instanceName, $this->contentNode->prototype->instanceName);
+        $this->assertEquals($data->slot, $this->contentNode->prototype->slot);
+        $this->assertEquals($data->position, $this->contentNode->prototype->position);
+        $this->assertEquals($data->contentType, $this->contentNode->prototype->contentType);
     }
 
     public function testDoesNotOverrideTextOnCreate() {
         // given
         $this->contentNode->text = 'test111';
-        $this->decoratedMock->expects($this->once())->method('persist')->willReturnArgument(0);
 
         // when
         /** @var SingleText $data */
-        $data = $this->dataPersister->persist($this->contentNode, ['collection_operation_name' => 'post']);
+        $data = $this->dataPersister->beforeCreate($this->contentNode);
 
         // then
         $this->assertNotEquals($data->text, $this->contentNode->prototype->text);
@@ -101,26 +83,25 @@ class SingleTextDataPersisterTest extends TestCase {
     }
 
     public function testDoesNotSetRootFromParentOnUpdate() {
-        // given
-        $this->decoratedMock->expects($this->once())->method('persist')->willReturnArgument(0);
-
         // when
         /** @var SingleText $data */
-        $data = $this->dataPersister->persist($this->contentNode, ['item_operation_name' => 'patch']);
+        $data = $this->dataPersister->beforeUpdate($this->contentNode);
 
         // then
         $this->assertNotEquals($this->root, $data->root);
     }
 
     public function testDoesNotCopyTextFromPrototypeOnUpdate() {
-        // given
-        $this->decoratedMock->expects($this->once())->method('persist')->willReturnArgument(0);
-
         // when
         /** @var SingleText $data */
-        $data = $this->dataPersister->persist($this->contentNode, ['item_operation_name' => 'patch']);
+        $data = $this->dataPersister->beforeUpdate($this->contentNode);
 
         // then
         $this->assertNotEquals($data->text, $this->contentNode->prototype->text);
+
+        $this->assertNotEquals($data->instanceName, $this->contentNode->prototype->instanceName);
+        $this->assertNotEquals($data->slot, $this->contentNode->prototype->slot);
+        $this->assertNotEquals($data->position, $this->contentNode->prototype->position);
+        $this->assertNotEquals($data->contentType, $this->contentNode->prototype->contentType);
     }
 }

@@ -2,19 +2,27 @@
 
 namespace App\DataPersister\ContentNode;
 
-use ApiPlatform\Core\DataPersister\ContextAwareDataPersisterInterface;
+use App\DataPersister\Util\DataPersisterObservable;
 use App\Entity\ContentNode\MultiSelect;
 use App\Entity\ContentNode\MultiSelectOption;
 
-class MultiSelectDataPersister extends ContentNodeBaseDataPersister implements ContextAwareDataPersisterInterface {
-    public function supports($multiSelect, array $context = []): bool {
-        return ($multiSelect instanceof MultiSelect) && $this->dataPersister->supports($multiSelect, $context);
+class MultiSelectDataPersister extends ContentNodeAbstractDataPersister {
+    /**
+     * @throws \ReflectionException
+     */
+    public function __construct(
+        DataPersisterObservable $dataPersisterObservable
+    ) {
+        parent::__construct(
+            MultiSelect::class,
+            $dataPersisterObservable
+        );
     }
 
     /**
      * @param MultiSelect $multiSelect
      */
-    public function onCreate($multiSelect) {
+    public function beforeCreate($multiSelect): MultiSelect {
         if (isset($multiSelect->prototype)) {
             // copy from Prototype
 
@@ -48,6 +56,6 @@ class MultiSelectDataPersister extends ContentNodeBaseDataPersister implements C
             }
         }
 
-        parent::onCreate($multiSelect);
+        return parent::beforeCreate($multiSelect);
     }
 }

@@ -2,11 +2,12 @@
 
 namespace App\Tests\DataPersister\ContentNodes;
 
-use ApiPlatform\Core\DataPersister\ContextAwareDataPersisterInterface;
 use App\DataPersister\ContentNode\StoryboardDataPersister;
+use App\DataPersister\Util\DataPersisterObservable;
 use App\Entity\ContentNode\ColumnLayout;
 use App\Entity\ContentNode\Storyboard;
 use App\Entity\ContentNode\StoryboardSection;
+use App\Entity\ContentType;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -15,11 +16,11 @@ use PHPUnit\Framework\TestCase;
  */
 class StoryboardDataPersisterTest extends TestCase {
     private StoryboardDataPersister $dataPersister;
-    private MockObject|ContextAwareDataPersisterInterface $decoratedMock;
+    private MockObject|DataPersisterObservable $dataPersisterObservable;
     private Storyboard $contentNode;
 
     protected function setUp(): void {
-        $this->decoratedMock = $this->createMock(ContextAwareDataPersisterInterface::class);
+        $this->dataPersisterObservable = $this->createMock(DataPersisterObservable::class);
         $this->contentNode = new Storyboard();
 
         $this->root = $this->createMock(ColumnLayout::class);
@@ -27,6 +28,11 @@ class StoryboardDataPersisterTest extends TestCase {
         $this->contentNode->parent->root = $this->root;
 
         $prototype = new Storyboard();
+        $prototype->instanceName = 'instance';
+        $prototype->slot = 'left';
+        $prototype->position = 99;
+        $prototype->contentType = new ContentType();
+        $prototype->contentType->name = 'test';
         $this->contentNode->prototype = $prototype;
 
         $section = new StoryboardSection();
@@ -36,22 +42,11 @@ class StoryboardDataPersisterTest extends TestCase {
 
         $prototype->addSection($section);
 
-        $this->dataPersister = new StoryboardDataPersister($this->decoratedMock);
-    }
-
-    public function testDelegatesSupportCheckToDecorated() {
-        $this->decoratedMock
-            ->expects($this->exactly(2))
-            ->method('supports')
-            ->willReturnOnConsecutiveCalls(true, false)
-        ;
-
-        $this->assertTrue($this->dataPersister->supports($this->contentNode, []));
-        $this->assertFalse($this->dataPersister->supports($this->contentNode, []));
+        $this->dataPersister = new StoryboardDataPersister($this->dataPersisterObservable);
     }
 
     public function testDoesNotSupportNonStoryboard() {
-        $this->decoratedMock
+        $this->dataPersisterObservable
             ->method('supports')
             ->willReturn(true)
         ;
@@ -59,65 +54,51 @@ class StoryboardDataPersisterTest extends TestCase {
         $this->assertFalse($this->dataPersister->supports([], []));
     }
 
-    public function testDelegatesPersistToDecorated() {
-        // given
-        $this->decoratedMock->expects($this->once())
-            ->method('persist')
-        ;
-
-        // when
-        $this->dataPersister->persist($this->contentNode, []);
-
-        // then
-    }
-
     public function testSetsRootFromParentOnCreate() {
-        // given
-        $this->decoratedMock->expects($this->once())->method('persist')->willReturnArgument(0);
-
         // when
         /** @var Storyboard $data */
-        $data = $this->dataPersister->persist($this->contentNode, ['collection_operation_name' => 'post']);
+        $data = $this->dataPersister->beforeCreate($this->contentNode);
 
         // then
         $this->assertEquals($this->root, $data->root);
     }
 
     public function testCopyStoryboardSectionsFromPrototypeOnCreate() {
-        // given
-        $this->decoratedMock->expects($this->once())->method('persist')->willReturnArgument(0);
-
         // when
         /** @var Storyboard $data */
-        $data = $this->dataPersister->persist($this->contentNode, ['collection_operation_name' => 'post']);
+        $data = $this->dataPersister->beforeCreate($this->contentNode);
 
         // then
         $this->assertEquals($data->sections[0]->column1, $this->contentNode->prototype->sections[0]->column1);
         $this->assertEquals($data->sections[0]->column2, $this->contentNode->prototype->sections[0]->column2);
         $this->assertEquals($data->sections[0]->column3, $this->contentNode->prototype->sections[0]->column3);
+
+        $this->assertEquals($data->instanceName, $this->contentNode->prototype->instanceName);
+        $this->assertEquals($data->slot, $this->contentNode->prototype->slot);
+        $this->assertEquals($data->position, $this->contentNode->prototype->position);
+        $this->assertEquals($data->contentType, $this->contentNode->prototype->contentType);
     }
 
     public function testDoesNotSetRootFromParentOnUpdate() {
-        // given
-        $this->decoratedMock->expects($this->once())->method('persist')->willReturnArgument(0);
-
         // when
         /** @var Storyboard $data */
-        $data = $this->dataPersister->persist($this->contentNode, ['item_operation_name' => 'patch']);
+        $data = $this->dataPersister->beforeUpdate($this->contentNode);
 
         // then
         $this->assertNotEquals($this->root, $data->root);
     }
 
     public function testDoesNotCopyStoryboardSectionsFromPrototypeOnUpdate() {
-        // given
-        $this->decoratedMock->expects($this->once())->method('persist')->willReturnArgument(0);
-
         // when
         /** @var Storyboard $data */
-        $data = $this->dataPersister->persist($this->contentNode, ['item_operation_name' => 'patch']);
+        $data = $this->dataPersister->beforeUpdate($this->contentNode);
 
         // then
         $this->assertEquals(count($data->sections), 0);
+
+        $this->assertNotEquals($data->instanceName, $this->contentNode->prototype->instanceName);
+        $this->assertNotEquals($data->slot, $this->contentNode->prototype->slot);
+        $this->assertNotEquals($data->position, $this->contentNode->prototype->position);
+        $this->assertNotEquals($data->contentType, $this->contentNode->prototype->contentType);
     }
 }

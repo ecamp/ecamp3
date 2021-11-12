@@ -2,19 +2,27 @@
 
 namespace App\DataPersister\ContentNode;
 
-use ApiPlatform\Core\DataPersister\ContextAwareDataPersisterInterface;
+use App\DataPersister\Util\DataPersisterObservable;
 use App\Entity\ContentNode\MaterialNode;
 use App\Entity\MaterialItem;
 
-class MaterialNodeDataPersister extends ContentNodeBaseDataPersister implements ContextAwareDataPersisterInterface {
-    public function supports($materialNode, array $context = []): bool {
-        return ($materialNode instanceof MaterialNode) && $this->dataPersister->supports($materialNode, $context);
+class MaterialNodeDataPersister extends ContentNodeAbstractDataPersister {
+    /**
+     * @throws \ReflectionException
+     */
+    public function __construct(
+        DataPersisterObservable $dataPersisterObservable
+    ) {
+        parent::__construct(
+            MaterialNode::class,
+            $dataPersisterObservable
+        );
     }
 
     /**
      * @param MaterialNode $materialNode
      */
-    public function onCreate($materialNode) {
+    public function beforeCreate($materialNode): MaterialNode {
         if (isset($materialNode->prototype)) {
             if (!($materialNode->prototype instanceof MaterialNode)) {
                 throw new \Exception('Prototype must be of type MaterialNode');
@@ -36,6 +44,6 @@ class MaterialNodeDataPersister extends ContentNodeBaseDataPersister implements 
             }
         }
 
-        parent::onCreate($materialNode);
+        return parent::beforeCreate($materialNode);
     }
 }
