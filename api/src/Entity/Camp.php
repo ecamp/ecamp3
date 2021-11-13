@@ -311,7 +311,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
         if (1 == $campCollaborations->count()) {
             /** @var CampCollaboration $campCollaboration */
             $campCollaboration = $campCollaborations->first();
-            if ($campCollaboration->isEstablished()) {
+            if (CampCollaboration::STATUS_ESTABLISHED === $campCollaboration->status) {
                 return $campCollaboration->role;
             }
         }
