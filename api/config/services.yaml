@@ -36,18 +36,6 @@ services:
     App\DataPersister\CategoryDataPersister:
         arguments: [ '@api_platform.doctrine.orm.data_persister' ]
 
-    App\DataPersister\ContentNode\SingleTextDataPersister:
-        arguments: [ '@api_platform.doctrine.orm.data_persister' ]
-
-    App\DataPersister\ContentNode\ColumnLayoutDataPersister:
-        arguments: [ '@api_platform.doctrine.orm.data_persister' ]
-
-    App\DataPersister\ContentNode\MaterialNodeDataPersister:
-        arguments: [ '@api_platform.doctrine.orm.data_persister' ]
-
-    App\DataPersister\ContentNode\StoryboardDataPersister:
-        arguments: [ '@api_platform.doctrine.orm.data_persister' ]
-
     App\DataPersister\Util\DataPersisterObservable:
         arguments: [ '@api_platform.doctrine.orm.data_persister' ]
 
@@ -82,6 +70,9 @@ services:
             - '@Rize\UriTemplate'
 
     App\Serializer\Normalizer\CircularReferenceDetectingHalItemNormalizer:
+        decorates: 'api_platform.hal.normalizer.item'
+
+    App\Serializer\Normalizer\ContentTypeNormalizer:
         decorates: 'api_platform.hal.normalizer.item'
 
     App\Serializer\Normalizer\UriTemplateNormalizer:

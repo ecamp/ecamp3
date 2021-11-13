@@ -35,6 +35,7 @@ class CreateStoryboardTest extends CreateContentNodeTestCase {
                         'column1' => $prototypeSection->column1,
                         'column2' => $prototypeSection->column2,
                         'column3' => $prototypeSection->column3,
+                        'pos' => $prototypeSection->getPos(),
                     ],
                 ],
             ],

@@ -56,4 +56,19 @@ class ContentType extends BaseEntity {
      */
     #[ApiProperty(writable: false)]
     public ?array $jsonConfig = [];
+
+    /**
+     * API endpoint link for creating new entities of type entityClass.
+     */
+    #[Groups(['read'])]
+    #[ApiProperty(
+        example: '/content_node/column_layouts?contentType=%2Fcontent_types%2F1a2b3c4d',
+        openapiContext: [
+            'type' => 'array',
+            'format' => 'iri-reference',
+        ]
+    )]
+    public function getContentNodes(): array {
+        return []; // empty here; actual content is filled/decorated in ContentTypeNormalizer
+    }
 }

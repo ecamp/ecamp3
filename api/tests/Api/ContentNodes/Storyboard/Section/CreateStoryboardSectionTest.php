@@ -10,7 +10,7 @@ use App\Tests\Api\ECampApiTestCase;
  * @internal
  */
 class CreateStoryboardSectionTest extends ECampApiTestCase {
-    protected Storyboard $defaultStorybord;
+    protected Storyboard $defaultStoryboard;
 
     public function setUp(): void {
         parent::setUp();
@@ -18,7 +18,7 @@ class CreateStoryboardSectionTest extends ECampApiTestCase {
         $this->endpoint = '/content_node/storyboard_sections';
         $this->entityClass = StoryboardSection::class;
 
-        $this->defaultStorybord = static::$fixtures['storyboard1'];
+        $this->defaultStoryboard = static::$fixtures['storyboard1'];
     }
 
     public function testCreateCleansHTMLFromText() {
@@ -62,7 +62,7 @@ class CreateStoryboardSectionTest extends ECampApiTestCase {
         $this->assertResponseStatusCodeSame(400);
         $this->assertJsonContains([
             'title' => 'An error occurred',
-            'detail' => 'Item not found for "'.$this->getIriFor($this->defaultStorybord).'".',
+            'detail' => 'Item not found for "'.$this->getIriFor($this->defaultStoryboard).'".',
         ]);
     }
 
@@ -74,7 +74,7 @@ class CreateStoryboardSectionTest extends ECampApiTestCase {
         $this->assertResponseStatusCodeSame(400);
         $this->assertJsonContains([
             'title' => 'An error occurred',
-            'detail' => 'Item not found for "'.$this->getIriFor($this->defaultStorybord).'".',
+            'detail' => 'Item not found for "'.$this->getIriFor($this->defaultStoryboard).'".',
         ]);
     }
 
@@ -86,7 +86,7 @@ class CreateStoryboardSectionTest extends ECampApiTestCase {
         $this->assertResponseStatusCodeSame(400);
         $this->assertJsonContains([
             'title' => 'An error occurred',
-            'detail' => 'Item not found for "'.$this->getIriFor($this->defaultStorybord).'".',
+            'detail' => 'Item not found for "'.$this->getIriFor($this->defaultStoryboard).'".',
         ]);
     }
 
@@ -124,7 +124,7 @@ class CreateStoryboardSectionTest extends ECampApiTestCase {
     protected function getExampleWritePayload($attributes = [], $except = []) {
         return parent::getExampleWritePayload(
             array_merge([
-                'storyboard' => $this->getIriFor($this->defaultStorybord),
+                'storyboard' => $this->getIriFor($this->defaultStoryboard),
                 'column1' => 'Column 1',
                 'column2' => 'Column 2',
                 'column3' => 'Column 3',
@@ -135,7 +135,7 @@ class CreateStoryboardSectionTest extends ECampApiTestCase {
 
     protected function getExampleReadPayload(StoryboardSection $self, $attributes = [], $except = []) {
         /** @var Storyboard $storyboard */
-        $storyboard = $this->defaultStorybord;
+        $storyboard = $this->defaultStoryboard;
 
         return [
             'column1' => 'Column 1',

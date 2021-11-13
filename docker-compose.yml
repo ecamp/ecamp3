@@ -125,7 +125,7 @@ services:
       - ./print/print.env
 
   composer:
-    image: composer:2@sha256:305ffcedd28efb7432457ef8440f19972a32c20d7c88a7defa4ccbd5b008f9b4
+    image: composer:2@sha256:94a1ae63d2aca7c3069a53e679cfa415a12f9dad146eef4cae1e53a7d2776479
     container_name: 'ecamp3-composer'
     restart: 'no'
     command: bash -c "composer install --no-interaction --no-plugins --no-scripts --prefer-dist"
@@ -149,7 +149,7 @@ services:
       - db-data:/var/lib/mysql
 
   database:
-    image: postgres:14-alpine@sha256:1cf551de75fd602ebc94ccda93305a4e411f941bf9465f59d850bdcfd474ca52
+    image: postgres:14-alpine@sha256:09934e38fd74716ed3a68bfc9b7b34f1c5fa0fbb18e00ee61a0b74d4c57456ca
     environment:
       - POSTGRES_DB=ecamp3dev
       - POSTGRES_PASSWORD=ecamp3

@@ -130,12 +130,14 @@ export default {
   },
   methods: {
     invite () {
-      this.api.post('/camp-collaborations', {
-        campId: this.camp().id,
-        inviteEmail: this.inviteEmail,
-        role: this.inviteRole
-      }).then(this.refreshCamp,
-        this.handleError)
+      this.api.href(this.api.get(), 'campCollaborations')
+        .then(url => this.api.post(url, {
+          camp: this.camp()._meta.self,
+          inviteEmail: this.inviteEmail,
+          role: this.inviteRole
+        }))
+        .then(this.refreshCamp,
+          this.handleError)
     },
     handleError (e) {
       if (e.response) {
