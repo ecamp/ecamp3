@@ -222,7 +222,7 @@ class Category extends AbstractContentNodeOwner implements BelongsToCampInterfac
                 return strtoupper($this->getRomanNum($num));
 
             default:
-                return $num;
+                return strval($num);
         }
     }
 

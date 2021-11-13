@@ -204,7 +204,7 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
     #[ApiProperty(example: '1')]
     #[Groups(['read'])]
     public function getDayNumber(): int {
-        return 1 + floor($this->periodOffset / (24 * 60));
+        return 1 + (int) floor($this->periodOffset / (24 * 60));
     }
 
     /**

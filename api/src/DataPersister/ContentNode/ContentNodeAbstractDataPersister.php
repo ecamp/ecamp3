@@ -9,7 +9,7 @@ abstract class ContentNodeAbstractDataPersister extends AbstractDataPersister {
     /**
      * @param ContentNode $data
      */
-    public function beforeCreate($data): ContentNode {
+    public function beforeCreateContentNode($data): ContentNode {
         $data->root = $data->parent->root;
         $data->root->addRootDescendant($data);
 

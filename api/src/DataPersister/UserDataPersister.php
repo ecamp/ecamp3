@@ -21,6 +21,8 @@ class UserDataPersister implements ContextAwareDataPersisterInterface {
     }
 
     public function persist($data, array $context = []) {
+        $activationKey = '';
+
         if ('post' === ($context['collection_operation_name'] ?? null)) {
             $data->state = User::STATE_REGISTERED;
 

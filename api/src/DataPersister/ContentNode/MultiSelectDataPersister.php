@@ -19,10 +19,10 @@ class MultiSelectDataPersister extends ContentNodeAbstractDataPersister {
         );
     }
 
-    /**
-     * @param MultiSelect $multiSelect
-     */
-    public function beforeCreate($multiSelect): MultiSelect {
+    public function beforeCreate($data): MultiSelect {
+        /** @var MultiSelect $multiSelect */
+        $multiSelect = $data;
+
         if (isset($multiSelect->prototype)) {
             // copy from Prototype
 
@@ -56,6 +56,6 @@ class MultiSelectDataPersister extends ContentNodeAbstractDataPersister {
             }
         }
 
-        return parent::beforeCreate($multiSelect);
+        return parent::beforeCreateContentNode($multiSelect);
     }
 }

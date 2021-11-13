@@ -19,10 +19,10 @@ class StoryboardDataPersister extends ContentNodeAbstractDataPersister {
         );
     }
 
-    /**
-     * @param Storyboard $storyboard
-     */
-    public function beforeCreate($storyboard): Storyboard {
+    public function beforeCreate($data): Storyboard {
+        /** @var Storyboard $storyboard */
+        $storyboard = $data;
+
         if (isset($storyboard->prototype)) {
             if (!($storyboard->prototype instanceof Storyboard)) {
                 throw new \Exception('Prototype must be of type Storyboard');
@@ -41,6 +41,6 @@ class StoryboardDataPersister extends ContentNodeAbstractDataPersister {
             }
         }
 
-        return parent::beforeCreate($storyboard);
+        return parent::beforeCreateContentNode($storyboard);
     }
 }

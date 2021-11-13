@@ -19,10 +19,10 @@ class MaterialNodeDataPersister extends ContentNodeAbstractDataPersister {
         );
     }
 
-    /**
-     * @param MaterialNode $materialNode
-     */
-    public function beforeCreate($materialNode): MaterialNode {
+    public function beforeCreate($data): MaterialNode {
+        /** @var MaterialNode $materialNode */
+        $materialNode = $data;
+
         if (isset($materialNode->prototype)) {
             if (!($materialNode->prototype instanceof MaterialNode)) {
                 throw new \Exception('Prototype must be of type MaterialNode');
@@ -44,6 +44,6 @@ class MaterialNodeDataPersister extends ContentNodeAbstractDataPersister {
             }
         }
 
-        return parent::beforeCreate($materialNode);
+        return parent::beforeCreateContentNode($materialNode);
     }
 }

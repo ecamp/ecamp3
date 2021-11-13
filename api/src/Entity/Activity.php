@@ -187,11 +187,13 @@ class Activity extends AbstractContentNodeOwner implements BelongsToCampInterfac
     #[ApiProperty(writable: false, example: '["/camp_collaborations/1a2b3c4d"]')]
     #[Groups(['read'])]
     public function getCampCollaborations(): array {
-        return $this
-            ->activityResponsibles
-            ->map(fn (ActivityResponsible $activityResponsible) => $activityResponsible->campCollaboration)
-            ->getValues()
-        ;
+        return array_filter(
+            $this
+                ->activityResponsibles
+                ->map(fn (ActivityResponsible $activityResponsible) => $activityResponsible->campCollaboration)
+                ->getValues(),
+            fn ($cc) => !is_null($cc)
+        );
     }
 
     /**

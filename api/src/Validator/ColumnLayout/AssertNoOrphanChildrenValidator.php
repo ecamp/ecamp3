@@ -15,7 +15,7 @@ class AssertNoOrphanChildrenValidator extends ConstraintValidator {
             throw new UnexpectedTypeException($constraint, AssertNoOrphanChildren::class);
         }
 
-        /** @var ColumnLayout $object */
+        /** @var ColumnLayout $columnLayout */
         $columnLayout = $this->context->getObject();
 
         if (!($columnLayout instanceof ColumnLayout)) {

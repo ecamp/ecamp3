@@ -32,6 +32,6 @@ class ColumnLayoutDataPersister extends ContentNodeAbstractDataPersister {
             }
         }
 
-        return parent::beforeCreate($data);
+        return parent::beforeCreateContentNode($data);
     }
 }

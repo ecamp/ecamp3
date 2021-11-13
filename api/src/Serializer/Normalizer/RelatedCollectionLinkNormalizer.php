@@ -13,10 +13,12 @@ use ApiPlatform\Core\Exception\ResourceClassNotFoundException;
 use ApiPlatform\Core\Metadata\Resource\Factory\ResourceMetadataFactoryInterface;
 use App\Entity\BaseEntity;
 use App\Metadata\Resource\Factory\UriTemplateFactory;
+use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use Doctrine\ORM\Mapping\MappingException;
 use Doctrine\Persistence\ManagerRegistry;
 use ReflectionClass;
 use Rize\UriTemplate;
+use RuntimeException;
 use Symfony\Component\DependencyInjection\ServiceLocator;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 use Symfony\Component\Routing\RouterInterface;
@@ -144,7 +146,13 @@ class RelatedCollectionLinkNormalizer implements NormalizerInterface, Serializer
         }
 
         try {
-            $relationMetadata = $this->getClassMetadata($resourceClass)->getAssociationMapping($rel);
+            $classMetadata = $this->getClassMetadata($resourceClass);
+
+            if (!$classMetadata instanceof ClassMetadataInfo) {
+                throw new RuntimeException("The class metadata for {$resourceClass} must be an instance of ClassMetadataInfo.");
+            }
+
+            $relationMetadata = $classMetadata->getAssociationMapping($rel);
         } catch (MappingException) {
             throw new UnsupportedRelationException($resourceClass.'#'.$rel.' is not a Doctrine association. Embedding non-Doctrine collections is currently not implemented.');
         }
@@ -211,9 +219,9 @@ class RelatedCollectionLinkNormalizer implements NormalizerInterface, Serializer
         $resourceMetadata = $this->resourceMetadataFactory->create($resourceClass);
         $filterIds = $resourceMetadata->getAttribute('filters') ?? [];
 
-        return count(array_filter($filterIds, function ($filter) use ($resourceClass, $propertyName) {
+        return 0 < count(array_filter($filterIds, function ($filterId) use ($resourceClass, $propertyName) {
             /** @var FilterInterface $filter */
-            $filter = $this->filterLocator->get($filter);
+            $filter = $this->filterLocator->get($filterId);
             if (!($filter instanceof SearchFilter)) {
                 return false;
             }
