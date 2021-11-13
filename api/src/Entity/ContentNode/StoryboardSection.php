@@ -51,7 +51,7 @@ class StoryboardSection extends BaseEntity implements BelongsToCampInterface, So
      */
     #[ApiProperty(readableLink: false, writableLink: false)]
     #[Groups(['read', 'create'])]
-    public Storyboard $storyboard;
+    public ?Storyboard $storyboard = null;
 
     /**
      * @ORM\Column(type="text", nullable=true)

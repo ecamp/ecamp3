@@ -7,9 +7,13 @@ use App\Entity\ContentNode;
 
 abstract class ContentNodeAbstractDataPersister extends AbstractDataPersister {
     /**
-     * @param ContentNode $data
+     * @template T of ContentNode
+     *
+     * @param T $data
+     *
+     * @return T
      */
-    public function beforeCreateContentNode($data): ContentNode {
+    public function beforeCreateContentNode($data) {
         $data->root = $data->parent->root;
         $data->root->addRootDescendant($data);
 
