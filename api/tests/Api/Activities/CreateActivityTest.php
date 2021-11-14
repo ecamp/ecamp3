@@ -131,6 +131,72 @@ class CreateActivityTest extends ECampApiTestCase {
         $this->assertJsonContains(['location' => '']);
     }
 
+    public function testCreateActivityCopiesContentFromCategory() {
+        $response = static::createClientWithCredentials()->request('POST', '/activities', ['json' => $this->getExampleWritePayload()]);
+
+        $id = $response->toArray()['id'];
+        $newActivity = $this->getEntityManager()->getRepository(Activity::class)->find($id);
+
+        $this->assertResponseStatusCodeSame(201);
+        $this->assertJsonContains(['_embedded' => [
+            'contentNodes' => [
+                // copy of columnLayout1
+                [
+                    '_links' => [
+                        'contentType' => [
+                            'href' => $this->getIriFor('contentTypeColumnLayout'),
+                        ],
+                        'owner' => [
+                            'href' => $this->getIriFor($newActivity),
+                        ],
+                        'ownerCategory' => [
+                            'href' => $this->getIriFor('category1'),
+                        ],
+                    ],
+                    'columns' => [
+                        [
+                            'slot' => '1',
+                            'width' => 6,
+                        ],
+                        [
+                            'slot' => '2',
+                            'width' => 6,
+                        ],
+                    ],
+                    'slot' => '',
+                    'position' => 0,
+                    'instanceName' => 'columnLayout1',
+                    'contentTypeName' => 'ColumnLayout',
+                ],
+
+                // copy of columnLayoutChild1
+                [
+                    '_links' => [
+                        'contentType' => [
+                            'href' => $this->getIriFor('contentTypeColumnLayout'),
+                        ],
+                        'owner' => [
+                            'href' => $this->getIriFor($newActivity),
+                        ],
+                        'ownerCategory' => [
+                            'href' => $this->getIriFor('category1'),
+                        ],
+                    ],
+                    'columns' => [
+                        [
+                            'slot' => '1',
+                            'width' => 12,
+                        ],
+                    ],
+                    'slot' => '2',
+                    'position' => 0,
+                    'instanceName' => 'columnLayoutChild1',
+                    'contentTypeName' => 'ColumnLayout',
+                ],
+            ],
+        ]]);
+    }
+
     public function getExampleWritePayload($attributes = [], $except = []) {
         return $this->getExamplePayload(
             Activity::class,

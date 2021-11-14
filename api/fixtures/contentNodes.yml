@@ -5,7 +5,7 @@ App\Entity\ContentNode\ColumnLayout:
     slot: ''
     position: 0
     columns: [{slot: '1', width: 6}, {slot: '2', width: 6}]
-    instanceName: <word()>
+    instanceName: 'columnLayout1'
     contentType: '@contentTypeColumnLayout'
   columnLayout2:
     root: '@self'
@@ -21,7 +21,7 @@ App\Entity\ContentNode\ColumnLayout:
     slot: '2'
     position: 0
     columns: [{slot: '1', width: 12}]
-    instanceName: <word()>
+    instanceName: 'columnLayoutChild1'
     contentType: '@contentTypeColumnLayout'
   columnLayout3:
     root: '@self'
