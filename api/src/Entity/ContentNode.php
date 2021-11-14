@@ -59,7 +59,7 @@ abstract class ContentNode extends BaseEntity implements BelongsToCampInterface 
     #[ApiProperty(writable: false, example: '/content_nodes/1a2b3c4d')]
     #[Groups(['read'])]
     #[ManyToOne(targetEntity: 'ContentNode', inversedBy: 'rootDescendants')]
-    #[JoinColumn(nullable: true)]
+    #[JoinColumn(nullable: true)] // TODO make not null in the DB using a migration, and get fixtures to run
     public ?ContentNode $root = null;
 
     /**
