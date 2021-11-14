@@ -50,7 +50,7 @@
         "symfony/css-selector": "5.3.4",
         "symfony/debug-bundle": "5.3.4",
         "symfony/http-client": "5.3.10",
-        "symfony/maker-bundle": "1.34.1",
+        "symfony/maker-bundle": "1.35.0",
         "symfony/phpunit-bridge": "5.3.10",
         "symfony/stopwatch": "5.3.4",
         "symfony/var-dumper": "5.3.10",
