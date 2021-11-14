@@ -84,4 +84,15 @@ class ColumnLayout extends ContentNode {
 
         return $this->columns;
     }
+
+    /**
+     * @param ColumnLayout $prototype
+     */
+    public function copyFromPrototype($prototype) {
+        if (!isset($this->columns)) {
+            $this->columns = $prototype->columns;
+        }
+
+        parent::copyFromPrototype($prototype);
+    }
 }

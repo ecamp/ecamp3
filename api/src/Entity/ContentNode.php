@@ -98,7 +98,7 @@ abstract class ContentNode extends BaseEntity implements BelongsToCampInterface 
     /**
      * All content nodes that are direct children of this content node.
      *
-     * @ORM\OneToMany(targetEntity="ContentNode", mappedBy="parent", cascade={"remove"})
+     * @ORM\OneToMany(targetEntity="ContentNode", mappedBy="parent", cascade={"persist"})
      */
     #[ApiProperty(writable: false, example: '["/content_nodes/1a2b3c4d"]')]
     #[Groups(['read'])]
@@ -261,5 +261,38 @@ abstract class ContentNode extends BaseEntity implements BelongsToCampInterface 
         }
 
         return $this;
+    }
+
+    /**
+     * @param ContentNode $prototype
+     */
+    public function copyFromPrototype($prototype) {
+        // copy ContentNode base properties
+        if (!isset($this->contentType)) {
+            $this->contentType = $prototype->contentType;
+        }
+        if (!isset($this->instanceName)) {
+            $this->instanceName = $prototype->instanceName;
+        }
+        if (!isset($this->slot)) {
+            $this->slot = $prototype->slot;
+        }
+        if (!isset($this->position)) {
+            $this->position = $prototype->position;
+        }
+
+        // copy children
+        $children = $prototype->getChildren();
+        foreach ($prototype->getChildren() as $childPrototype) {
+            $childClass = $childPrototype::class;
+
+            // @var ContentNode $childContentNode
+            $childContentNode = new $childClass();
+
+            $this->addChild($childContentNode);
+            $this->root->addRootDescendant($childContentNode);
+
+            $childContentNode->copyFromPrototype($childPrototype);
+        }
     }
 }

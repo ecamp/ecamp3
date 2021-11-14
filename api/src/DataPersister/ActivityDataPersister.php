@@ -5,7 +5,6 @@ namespace App\DataPersister;
 use ApiPlatform\Core\DataPersister\ContextAwareDataPersisterInterface;
 use App\Entity\Activity;
 use App\Entity\ContentNode\ColumnLayout;
-use App\Entity\ContentType;
 use Doctrine\ORM\EntityManagerInterface;
 
 class ActivityDataPersister implements ContextAwareDataPersisterInterface {
@@ -25,13 +24,13 @@ class ActivityDataPersister implements ContextAwareDataPersisterInterface {
         $data->camp = $data->category->camp;
 
         if ('post' === ($context['collection_operation_name'] ?? null)) {
-            // TODO implement actual prototype cloning and strategy classes, this is just a dummy implementation to
-            //      fill the non-nullable field for Doctrine
             $rootContentNode = new ColumnLayout();
-            $rootContentNode->contentType = $this->entityManager
-                ->getRepository(ContentType::class)
-                ->findOneBy(['name' => 'ColumnLayout'])
-            ;
+
+            // make content node a root node
+            $rootContentNode->addRootDescendant($rootContentNode);
+
+            // deep copy from category root node
+            $rootContentNode->copyFromPrototype($data->category->rootContentNode);
 
             $data->setRootContentNode($rootContentNode);
         }

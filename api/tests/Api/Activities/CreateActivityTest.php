@@ -156,16 +156,12 @@ class CreateActivityTest extends ECampApiTestCase {
                     'columns' => [
                         [
                             'slot' => '1',
-                            'width' => 6,
-                        ],
-                        [
-                            'slot' => '2',
-                            'width' => 6,
+                            'width' => 12,
                         ],
                     ],
                     'slot' => '',
                     'position' => 0,
-                    'instanceName' => 'columnLayout1',
+                    'instanceName' => 'columnLayout2',
                     'contentTypeName' => 'ColumnLayout',
                 ],
 
@@ -190,7 +186,7 @@ class CreateActivityTest extends ECampApiTestCase {
                     ],
                     'slot' => '2',
                     'position' => 0,
-                    'instanceName' => 'columnLayoutChild1',
+                    'instanceName' => 'columnLayout2Child',
                     'contentTypeName' => 'ColumnLayout',
                 ],
             ],

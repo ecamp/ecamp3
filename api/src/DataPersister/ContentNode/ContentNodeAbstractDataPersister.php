@@ -15,25 +15,12 @@ abstract class ContentNodeAbstractDataPersister extends AbstractDataPersister {
 
         // TODO: Check if it's actually allowed to read/copy from this prototype (user access check)
         if (isset($data->prototype)) {
-            if (!($data->prototype instanceof ContentNode)) {
-                throw new \Exception('Prototype must be of type ContentNode');
+            if (!is_a($data->prototype, $data::class)) {
+                throw new \Exception('Prototype must be of type '.$data::class);
             }
 
-            /** @var ContentNode $prototype */
-            $prototype = $data->prototype;
-
-            if (!isset($data->contentType)) {
-                $data->contentType = $prototype->contentType;
-            }
-            if (!isset($data->instanceName)) {
-                $data->instanceName = $prototype->instanceName;
-            }
-            if (!isset($data->slot)) {
-                $data->slot = $prototype->slot;
-            }
-            if (!isset($data->position)) {
-                $data->position = $prototype->position;
-            }
+            // deep copy from prototype
+            $data->copyFromPrototype($data->prototype);
         }
 
         return $data;
