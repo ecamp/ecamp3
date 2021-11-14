@@ -23,6 +23,8 @@ class MultiSelectDataPersister extends ContentNodeAbstractDataPersister {
      * @param MultiSelect $multiSelect
      */
     public function beforeCreate($multiSelect): MultiSelect {
+        $this->setRootFromParent($multiSelect);
+
         if (isset($multiSelect->prototype)) {
             // copy from Prototype
 
@@ -30,19 +32,7 @@ class MultiSelectDataPersister extends ContentNodeAbstractDataPersister {
                 throw new \Exception('Prototype must be of type MultiSelect');
             }
 
-            /** @var MultiSelect $prototype */
-            $prototype = $multiSelect->prototype;
-
-            // copy all multiSelect options
-            foreach ($prototype->options as $prototypeOption) {
-                $option = new MultiSelectOption();
-
-                $option->translateKey = $prototypeOption->translateKey;
-                $option->checked = $prototypeOption->checked;
-                $option->setPos($prototypeOption->getPos());
-
-                $multiSelect->addOption($option);
-            }
+            $multiSelect->copyFromPrototype($multiSelect->prototype);
         } else {
             // no prototype given --> copy from ContentType config
 
@@ -56,6 +46,6 @@ class MultiSelectDataPersister extends ContentNodeAbstractDataPersister {
             }
         }
 
-        return parent::beforeCreate($multiSelect);
+        return $multiSelect;
     }
 }

@@ -25,14 +25,18 @@ class ActivityDataPersister implements ContextAwareDataPersisterInterface {
 
         if ('post' === ($context['collection_operation_name'] ?? null)) {
             $rootContentNode = new ColumnLayout();
-
-            // make content node a root node
-            $rootContentNode->addRootDescendant($rootContentNode);
-
-            // deep copy from category root node
-            $rootContentNode->copyFromPrototype($data->category->rootContentNode);
-
             $data->setRootContentNode($rootContentNode);
+
+            if (isset($data->category->rootContentNode)) {
+                // deep copy from category root node
+                $rootContentNode->copyFromPrototype($data->category->rootContentNode);
+            } else {
+                // set default contentType
+                $rootContentNode->contentType = $this->entityManager
+                    ->getRepository(ContentType::class)
+                    ->findOneBy(['name' => 'ColumnLayout'])
+                ;
+            }
         }
 
         return $this->dataPersister->persist($data, $context);

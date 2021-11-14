@@ -44,4 +44,15 @@ class SingleText extends ContentNode {
     #[InputFilter\CleanHTML]
     #[Groups(['read', 'write'])]
     public ?string $text = null;
+
+    /**
+     * @param SingleText $prototype
+     */
+    public function copyFromPrototype($prototype) {
+        if (!isset($this->text)) {
+            $this->text = $prototype->text;
+        }
+
+        parent::copyFromPrototype($prototype);
+    }
 }

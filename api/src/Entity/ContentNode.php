@@ -281,8 +281,7 @@ abstract class ContentNode extends BaseEntity implements BelongsToCampInterface 
             $this->position = $prototype->position;
         }
 
-        // copy children
-        $children = $prototype->getChildren();
+        // deep copy children
         foreach ($prototype->getChildren() as $childPrototype) {
             $childClass = $childPrototype::class;
 

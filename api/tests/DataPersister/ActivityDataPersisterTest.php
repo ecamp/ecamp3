@@ -7,6 +7,7 @@ use App\DataPersister\ActivityDataPersister;
 use App\Entity\Activity;
 use App\Entity\Camp;
 use App\Entity\Category;
+use App\Entity\ContentNode\ColumnLayout;
 use App\Entity\ContentType;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
@@ -96,6 +97,27 @@ class ActivityDataPersisterTest extends TestCase {
 
         // then
         $this->assertNotNull($data->getRootContentNode());
+        $this->assertEquals('ColumnLayout', $data->getRootContentNode()->contentType->name);
+    }
+
+    public function testPostCopiesContentFromCategory() {
+        // given
+        $this->decoratedMock->expects($this->once())->method('persist')->willReturnArgument(0);
+
+        $categoryRoot = new ColumnLayout();
+        $categoryRoot->instanceName = 'category root';
+        $categoryRoot->contentType = new ContentType();
+        $categoryRoot->contentType->name = 'ColumnLayout';
+        $this->activity->category->setRootContentNode($categoryRoot);
+
+        // when
+        /** @var Activity $data */
+        $data = $this->dataPersister->persist($this->activity, ['collection_operation_name' => 'post']);
+
+        // then
+        $this->assertNotNull($data->getRootContentNode());
+        $this->assertNotEquals($categoryRoot, $data->getRootContentNode());
+        $this->assertEquals('category root', $data->getRootContentNode()->instanceName);
         $this->assertEquals('ColumnLayout', $data->getRootContentNode()->contentType->name);
     }
 

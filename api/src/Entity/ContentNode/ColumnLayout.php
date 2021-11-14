@@ -57,7 +57,7 @@ class ColumnLayout extends ContentNode {
                 ],
                 'width' => [
                     'type' => 'integer',
-                    'minimum' => 3,
+                    'minimum' => 1,
                     'maximum' => 12,
                 ],
             ],

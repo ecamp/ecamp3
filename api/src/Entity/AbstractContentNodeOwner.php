@@ -29,9 +29,12 @@ abstract class AbstractContentNodeOwner extends BaseEntity {
             $this->rootContentNode->owner = null;
         }
 
-        // set the owning side of the relation if necessary
-        if (null !== $rootContentNode && $rootContentNode->owner !== $this) {
+        if (null !== $rootContentNode) {
+            // set the owning side of the relation if necessary
             $rootContentNode->owner = $this;
+
+            // make content node a root node
+            $rootContentNode->addRootDescendant($rootContentNode);
         }
 
         $this->rootContentNode = $rootContentNode;
