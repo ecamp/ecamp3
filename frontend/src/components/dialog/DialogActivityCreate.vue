@@ -55,7 +55,6 @@ export default {
           scheduleEntries: [
             {
               period: this.scheduleEntry.period,
-              periodId: this.scheduleEntry.period().id,
               periodOffset: this.scheduleEntry.periodOffset,
               length: this.scheduleEntry.length
             }
@@ -77,7 +76,15 @@ export default {
     },
     create () {
       this.error = null
-      return this.api.post(this.entityUri, this.entityData).then(this.createSuccessful, this.onError)
+      const entityData = {
+        ...this.entityData,
+        scheduleEntries: this.entityData.scheduleEntries?.map(entry => ({
+          period: entry.period()._meta.self,
+          periodOffset: entry.periodOffset,
+          length: entry.length
+        })) || []
+      }
+      return this.api.post(this.entityUri, entityData).then(this.createSuccessful, this.onError)
     },
     createSuccessful (data) {
       data.scheduleEntries()._meta.load.then(() => {
