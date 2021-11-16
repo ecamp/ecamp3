@@ -25,9 +25,6 @@ trait FiltersByCampCollaboration {
 
                 // camp is a Prototype = all Prototypes are readable
                 $queryBuilder->expr()->eq("{$campAlias}.isPrototype", ':true'),
-
-                // property $campAlias is not loaded in current DQL (needed for AbstractContentNodeOwner, where the camp is loaded twice - once via category and once via activity)
-                $queryBuilder->expr()->isNull("{$campAlias}")
             )
         );
         $queryBuilder->setParameter('current_user', $user);

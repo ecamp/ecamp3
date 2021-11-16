@@ -23,14 +23,20 @@ trait FiltersByContentNode {
         $queryBuilder->innerJoin("{$contentNodeAlias}.root", 'root');
         $queryBuilder->innerJoin('root.owner', 'owner');
 
-        // add camp filter in case the ContentNode owner is an Activity
-        $queryBuilder->leftJoin(Activity::class, 'activity', Join::WITH, 'activity.id = owner.id');
-        $queryBuilder->leftJoin('activity.camp', 'camp_via_activity');
-        $this->filterByCampCollaboration($queryBuilder, $user, 'camp_via_activity');
+        // assuming owner is an Activity
+        $queryBuilder->leftJoin(Activity::class, 'cn_activity', Join::WITH, 'cn_activity.id = owner.id');
+        $queryBuilder->leftJoin('cn_activity.category', 'cn_activity_category');
 
-        // add camp filter in case the ContentNode owner is a category
-        $queryBuilder->leftJoin(Category::class, 'category', Join::WITH, 'category.id = owner.id');
-        $queryBuilder->leftJoin('category.camp', 'camp_via_category');
-        $this->filterByCampCollaboration($queryBuilder, $user, 'camp_via_category');
+        /*
+         * COALESCE:
+         *   If owner is an Activity --> cn_activity_category.id is properly loaded (not null)
+         *   If owner is a Category --> cn_activity_category.id is null --> category is loaded via owner.id
+         */
+        $queryBuilder->join(Category::class, 'cn_category', Join::WITH, 'cn_category.id = COALESCE(cn_activity_category.id, owner.id)');
+
+        // load owning camp via category
+        $queryBuilder->join('cn_category.camp', 'cn_camp');
+
+        $this->filterByCampCollaboration($queryBuilder, $user, 'cn_camp');
     }
 }
