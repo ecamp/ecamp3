@@ -76,7 +76,7 @@ class AssertContentTypeCompatibleValidatorTest extends ConstraintValidatorTestCa
         $this->validator->validate($contentType, new AssertContentTypeCompatible());
 
         // then
-        $this->buildViolation('Selected contentType {{ contentTypeName }} is incompatible with entity of type {{ givenEntityClass }} (expected {{ expectedEntityClass }}).')
+        $this->buildViolation('Selected contentType {{ contentTypeName }} is incompatible with entity of type {{ givenEntityClass }} (it can only be used with entities of type {{ expectedEntityClass }}).')
             ->setParameter('{{ contentTypeName }}', 'DummyContentType')
             ->setParameter('{{ givenEntityClass }}', ColumnLayout::class)
             ->setParameter('{{ expectedEntityClass }}', 'App\Entity\DummyEntity')

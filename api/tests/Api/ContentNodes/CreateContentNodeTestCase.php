@@ -73,10 +73,84 @@ abstract class CreateContentNodeTestCase extends ECampApiTestCase {
     public function testCreateIsAllowedForManager() {
         // when
         $response = $this->create(user: static::$fixtures['user1manager']);
-        $id = $response->toArray()['id'];
-        $newContentNode = $this->getEntityManager()->getRepository($this->entityClass)->find($id);
 
         // then
+        $id = $response->toArray()['id'];
+        $newContentNode = $this->getEntityManager()->getRepository($this->entityClass)->find($id);
+        $this->assertResponseStatusCodeSame(201);
+        $this->assertJsonContains($this->getExampleReadPayload($newContentNode), true);
+    }
+
+    public function testCreateValidatesIncompatibleContentType() {
+        // given
+        /** @var ContentType $contentType */
+        $contentType = static::$fixtures[ContentNode\ColumnLayout::class === $this->entityClass ? 'contentTypeSafetyConcept' : 'contentTypeColumnLayout'];
+
+        // when sending no prototype, but a content type that does not fit the entity class
+        $this->create($this->getExampleWritePayload(['contentType' => $this->getIriFor($contentType)]));
+
+        // then
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [
+                    'propertyPath' => 'contentType',
+                    'message' => "Selected contentType {$contentType->name} is incompatible with entity of type {$this->entityClass} (it can only be used with entities of type {$contentType->entityClass}).",
+                ],
+            ],
+        ]);
+    }
+
+    public function testCreateValidatesIncompatibleContentTypeFromPrototype() {
+        // given
+        // Create the client at the beginning of the test, because creating the client resets the DB
+        $client = static::createClientWithCredentials(['username' => static::$fixtures['user2member']->getUsername()]);
+
+        $prototypeContentType = static::$fixtures[(ContentNode\ColumnLayout::class == $this->entityClass) ? 'contentTypeSafetyConcept' : 'contentTypeColumnLayout'];
+        // Re-fetch the content type from the db, so Doctrine isn't confused
+        /** @var ContentType $prototypeContentType */
+        $prototypeContentType = $this->getEntityManager()->getRepository(ContentType::class)->find($prototypeContentType->getId());
+
+        // Use a prototype that matches the current entity class, but has a different content type
+        /** @var ContentNode $prototype */
+        $prototype = $this->getEntityManager()->getRepository($this->entityClass)->findOneBy([]);
+        $prototype->contentType = $prototypeContentType;
+        $this->getEntityManager()->persist($prototype);
+        $this->getEntityManager()->flush();
+
+        // when sending no content type, but a prototype with a content type that does not fit the entity class (inconsistent prototype)
+        $client->request('POST', $this->endpoint, ['json' => $this->getExampleWritePayload([
+            'prototype' => $this->getIriFor($prototype),
+        ], ['contentType'])]);
+
+        // then
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [], // remove this line once https://github.com/symfony/symfony/issues/35399 is fixed
+                [
+                    'propertyPath' => 'contentType',
+                    'message' => "Selected contentType {$prototypeContentType->name} is incompatible with entity of type {$this->entityClass} (it can only be used with entities of type {$prototypeContentType->entityClass}).",
+                ],
+            ],
+        ]);
+    }
+
+    public function testCreateWithoutContentTypeUsesContentTypeFromPrototype() {
+        $this->markTestSkipped('This does not work as long as DisableAutoMapping is not inherited in subclasses, see https://github.com/symfony/symfony/issues/35399. Workaround would be to manually add DisableAutoMapping on the contentType property on all child classes of ContentNode.');
+
+        // given
+
+        // Use a prototype that matches the current entity class
+        /** @var ContentNode $prototype */
+        $prototype = $this->getEntityManager()->getRepository($this->entityClass)->findOneBy([]);
+
+        // when sending no content type, but a prototype with a content type
+        $response = $this->create($this->getExampleWritePayload(['prototype' => $this->getIriFor($prototype)], ['contentType']));
+
+        // then
+        $id = $response->toArray()['id'];
+        $newContentNode = $this->getEntityManager()->getRepository($this->entityClass)->find($id);
         $this->assertResponseStatusCodeSame(201);
         $this->assertJsonContains($this->getExampleReadPayload($newContentNode), true);
     }
@@ -88,7 +162,7 @@ abstract class CreateContentNodeTestCase extends ECampApiTestCase {
         $prototypeClass = get_class(static::$fixtures[$prototype]);
         $entityClass = $this->entityClass;
 
-        // when
+        // when sending a prototype of a different type (e.g. SingleText vs. MultiSelect)
         $this->create($this->getExampleWritePayload([
             'prototype' => $this->getIriFor($prototype),
         ]), static::$fixtures['user2member']);
@@ -100,6 +174,41 @@ abstract class CreateContentNodeTestCase extends ECampApiTestCase {
                 [
                     'propertyPath' => 'prototype',
                     'message' => "This value must be an instance of {$entityClass} or a subclass, but was {$prototypeClass}.",
+                ],
+            ],
+        ]);
+    }
+
+    public function testCreateFromPrototypeValidatesWrongPrototypeContentType() {
+        // given
+        // Create the client at the beginning of the test, because creating the client resets the DB
+        $client = static::createClientWithCredentials(['username' => static::$fixtures['user2member']->getUsername()]);
+
+        $prototypeContentType = static::$fixtures[(ContentNode\ColumnLayout::class == $this->entityClass) ? 'contentTypeSafetyConcept' : 'contentTypeColumnLayout'];
+        // Re-fetch the content type from the db, so Doctrine isn't confused
+        /** @var ContentType $prototypeContentType */
+        $prototypeContentType = $this->getEntityManager()->getRepository(ContentType::class)->find($prototypeContentType->getId());
+
+        // Use a prototype that matches the current entity class, but has a different content type
+        /** @var ContentNode $prototype */
+        $prototype = $this->getEntityManager()->getRepository($this->entityClass)->findOneBy([]);
+        $prototype->contentType = $prototypeContentType;
+        $this->getEntityManager()->persist($prototype);
+        $this->getEntityManager()->flush();
+
+        // when sending a prototype of a matching type but with conflicting contentType
+        // E.g. SingleText with contentType Notes vs. SingleText with contentType SafetyConcept
+        $client->request('POST', $this->endpoint, ['json' => $this->getExampleWritePayload([
+            'prototype' => $this->getIriFor($prototype),
+        ])]);
+
+        // then
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [
+                    'propertyPath' => 'prototype',
+                    'message' => "This value must have the content type {$this->defaultContentType->name}, but was {$prototypeContentType->name}.",
                 ],
             ],
         ]);

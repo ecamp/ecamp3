@@ -38,7 +38,7 @@ class AssertPrototypeCompatibleValidator extends ConstraintValidator {
         }
 
         $actualContentType = $value->getContentTypeName();
-        $expectedContentType = $this->context->getObject()->getContentTypeName();
+        $expectedContentType = $object->getContentTypeFromThisOrPrototype()->name;
 
         if ($expectedContentType !== $actualContentType) {
             $this->context->buildViolation($constraint->messageContentTypeMismatch)
