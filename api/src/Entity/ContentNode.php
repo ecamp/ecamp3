@@ -268,18 +268,10 @@ abstract class ContentNode extends BaseEntity implements BelongsToCampInterface 
      */
     public function copyFromPrototype($prototype) {
         // copy ContentNode base properties
-        if (!isset($this->contentType)) {
-            $this->contentType = $prototype->contentType;
-        }
-        if (!isset($this->instanceName)) {
-            $this->instanceName = $prototype->instanceName;
-        }
-        if (!isset($this->slot)) {
-            $this->slot = $prototype->slot;
-        }
-        if (!isset($this->position)) {
-            $this->position = $prototype->position;
-        }
+        $this->contentType ??= $prototype->contentType;
+        $this->instanceName ??= $prototype->instanceName;
+        $this->slot ??= $prototype->slot;
+        $this->position ??= $prototype->position;
 
         // deep copy children
         foreach ($prototype->getChildren() as $childPrototype) {

@@ -49,9 +49,7 @@ class SingleText extends ContentNode {
      * @param SingleText $prototype
      */
     public function copyFromPrototype($prototype) {
-        if (!isset($this->text)) {
-            $this->text = $prototype->text;
-        }
+        $this->text ??= $prototype->text;
 
         parent::copyFromPrototype($prototype);
     }

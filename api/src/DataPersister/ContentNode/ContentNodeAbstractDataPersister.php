@@ -10,9 +10,10 @@ abstract class ContentNodeAbstractDataPersister extends AbstractDataPersister {
      * @param ContentNode $data
      */
     public function beforeCreate($data): ContentNode {
-        $this->setRootFromParent($data);
+        // set root from parent
+        $data->root = $data->parent->root;
+        $data->root->addRootDescendant($data);
 
-        // TODO: Check if it's actually allowed to read/copy from this prototype (user access check)
         if (isset($data->prototype)) {
             if (!is_a($data->prototype, $data::class)) {
                 throw new \Exception('Prototype must be of type '.$data::class);
@@ -23,10 +24,5 @@ abstract class ContentNodeAbstractDataPersister extends AbstractDataPersister {
         }
 
         return $data;
-    }
-
-    protected function setRootFromParent(ContentNode $data): void {
-        $data->root = $data->parent->root;
-        $data->root->addRootDescendant($data);
     }
 }
