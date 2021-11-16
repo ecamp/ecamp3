@@ -111,7 +111,7 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
     #[Assert\NotBlank(groups: ['create'])]
     #[Assert\Length(min: 8)]
     #[ApiProperty(readable: false, writable: true, example: 'learning-by-doing-101')]
-    #[Groups(['read', 'write'])]
+    #[Groups(['write'])]
     public ?string $plainPassword = null;
 
     /**
