@@ -27,9 +27,6 @@ services:
     App\DataPersister\UserDataPersister:
         arguments: [ '@api_platform.doctrine.orm.data_persister' ]
 
-    App\DataPersister\CampDataPersister:
-        arguments: [ '@api_platform.doctrine.orm.data_persister' ]
-
     App\DataPersister\ActivityDataPersister:
         arguments: [ '@api_platform.doctrine.orm.data_persister' ]
 
