@@ -38,7 +38,7 @@ export default {
       })
       this.embeddedEntities.forEach(key => {
         if (data[key]) {
-          data[key]()._meta.load.then(obj => this.$set(this.entityData, key + 'Id', obj.id))
+          data[key]()._meta.load.then(obj => this.$set(this.entityData, key, obj._meta.self))
         }
       })
       this.embeddedCollections.forEach(key => {

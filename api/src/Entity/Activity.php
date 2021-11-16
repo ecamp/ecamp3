@@ -26,6 +26,7 @@ use Symfony\Component\Validator\Constraints as Assert;
     collectionOperations: [
         'get' => ['security' => 'is_fully_authenticated()'],
         'post' => [
+            'validation_groups' => ['Default', 'create'],
             'denormalization_context' => ['groups' => ['write', 'create']],
             'normalization_context' => self::ITEM_NORMALIZATION_CONTEXT,
             'security_post_denormalize' => 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)',
@@ -63,9 +64,14 @@ class Activity extends AbstractContentNodeOwner implements BelongsToCampInterfac
     /**
      * The list of points in time when this activity's programme will be carried out.
      */
-    #[ApiProperty(writable: false, example: '["/schedule_entries/1a2b3c4d"]')]
-    #[Groups(['read'])]
-    #[OneToMany(targetEntity: 'ScheduleEntry', mappedBy: 'activity', orphanRemoval: true)]
+    #[Assert\Valid]
+    #[Assert\Count(min: 1, groups: ['create'])]
+    #[ApiProperty(
+        writableLink: true,
+        example: '[{ "period": "/periods/1a2b3c4a", "length": 100, "periodOffset": 1000 }]',
+    )]
+    #[Groups(['read', 'create'])]
+    #[OneToMany(targetEntity: 'ScheduleEntry', mappedBy: 'activity', orphanRemoval: true, cascade: ['persist'])]
     public Collection $scheduleEntries;
 
     /**
