@@ -29,7 +29,7 @@ class UpdateScheduleEntryTest extends ECampApiTestCase {
 
     public function testPatchScheduleEntryIsDeniedForUnrelatedUser() {
         $scheduleEntry = static::$fixtures['scheduleEntry1'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->username])
+        static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->getUsername()])
             ->request('PATCH', '/schedule_entries/'.$scheduleEntry->getId(), ['json' => [
                 'period' => $this->getIriFor('period2'),
                 'periodOffset' => 10,
@@ -47,7 +47,7 @@ class UpdateScheduleEntryTest extends ECampApiTestCase {
 
     public function testPatchScheduleEntryIsDeniedForInactiveCollaborator() {
         $scheduleEntry = static::$fixtures['scheduleEntry1'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->username])
+        static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->getUsername()])
             ->request('PATCH', '/schedule_entries/'.$scheduleEntry->getId(), ['json' => [
                 'period' => $this->getIriFor('period2'),
                 'periodOffset' => 10,
@@ -65,7 +65,7 @@ class UpdateScheduleEntryTest extends ECampApiTestCase {
 
     public function testPatchScheduleEntryIsDeniedForGuest() {
         $scheduleEntry = static::$fixtures['scheduleEntry1'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user3guest']->username])
+        static::createClientWithCredentials(['username' => static::$fixtures['user3guest']->getUsername()])
             ->request('PATCH', '/schedule_entries/'.$scheduleEntry->getId(), ['json' => [
                 'period' => $this->getIriFor('period2'),
                 'periodOffset' => 10,
@@ -83,7 +83,7 @@ class UpdateScheduleEntryTest extends ECampApiTestCase {
 
     public function testPatchScheduleEntryIsAllowedForMember() {
         $scheduleEntry = static::$fixtures['scheduleEntry1'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->username])
+        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->getUsername()])
             ->request('PATCH', '/schedule_entries/'.$scheduleEntry->getId(), ['json' => [
                 'period' => $this->getIriFor('period2'),
                 'periodOffset' => 10,

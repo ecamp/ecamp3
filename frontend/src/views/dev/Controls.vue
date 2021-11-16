@@ -64,16 +64,16 @@
             </v-col>
             <v-col>
               <api-text-field
-                v-if="userUri !== null"
-                :uri="userUri"
+                v-if="profileUri !== null"
+                :uri="profileUri"
                 fieldname="nickname"
                 :placeholder="placeholder"
                 v-bind="config" />
             </v-col>
             <v-col>
               <api-text-field
-                v-if="userUri !== null"
-                :uri="userUri"
+                v-if="profileUri !== null"
+                :uri="profileUri"
                 fieldname="nickname"
                 :placeholder="placeholder"
                 :auto-save="false"
@@ -113,8 +113,8 @@
             </v-col>
             <v-col>
               <api-textarea
-                v-if="userUri !== null"
-                :uri="userUri"
+                v-if="profileUri !== null"
+                :uri="profileUri"
                 fieldname="nickname"
                 :placeholder="placeholder"
                 :rows="3"
@@ -123,8 +123,8 @@
             </v-col>
             <v-col>
               <api-textarea
-                v-if="userUri !== null"
-                :uri="userUri"
+                v-if="profileUri !== null"
+                :uri="profileUri"
                 fieldname="nickname"
                 :placeholder="placeholder"
                 :auto-save="false"
@@ -162,16 +162,16 @@
             </v-col>
             <v-col>
               <api-richtext
-                v-if="userUri !== null"
-                :uri="userUri"
+                v-if="profileUri !== null"
+                :uri="profileUri"
                 fieldname="nickname"
                 :placeholder="placeholder"
                 v-bind="config" />
             </v-col>
             <v-col>
               <api-richtext
-                v-if="userUri !== null"
-                :uri="userUri"
+                v-if="profileUri !== null"
+                :uri="profileUri"
                 fieldname="nickname"
                 :placeholder="placeholder"
                 :auto-save="false"
@@ -203,14 +203,14 @@
             </v-col>
             <v-col>
               <api-checkbox
-                v-if="userUri !== null"
-                :uri="userUri"
+                v-if="profileUri !== null"
+                :uri="profileUri"
                 fieldname="isAdmin" />
             </v-col>
             <v-col>
               <api-checkbox
-                v-if="userUri !== null"
-                :uri="userUri"
+                v-if="profileUri !== null"
+                :uri="profileUri"
                 fieldname="isAdmin"
                 :auto-save="false" />
             </v-col>
@@ -240,14 +240,14 @@
             </v-col>
             <v-col>
               <api-switch
-                v-if="userUri !== null"
-                :uri="userUri"
+                v-if="profileUri !== null"
+                :uri="profileUri"
                 fieldname="isAdmin" />
             </v-col>
             <v-col>
               <api-switch
-                v-if="userUri !== null"
-                :uri="userUri"
+                v-if="profileUri !== null"
+                :uri="profileUri"
                 fieldname="isAdmin"
                 :auto-save="false" />
             </v-col>
@@ -281,16 +281,16 @@
             </v-col>
             <v-col>
               <api-select
-                v-if="userUri !== null"
-                :uri="userUri"
+                v-if="profileUri !== null"
+                :uri="profileUri"
                 fieldname="language"
                 :items="availableLocales"
                 v-bind="config" />
             </v-col>
             <v-col>
               <api-select
-                v-if="userUri !== null"
-                :uri="userUri"
+                v-if="profileUri !== null"
+                :uri="profileUri"
                 fieldname="language"
                 :auto-save="false"
                 :items="availableLocales"
@@ -322,15 +322,15 @@
             </v-col>
             <v-col>
               <api-date-picker
-                v-if="userUri !== null"
-                :uri="userUri"
+                v-if="profileUri !== null"
+                :uri="profileUri"
                 fieldname="birthday"
                 v-bind="config" />
             </v-col>
             <v-col>
               <api-date-picker
-                v-if="userUri !== null"
-                :uri="userUri"
+                v-if="profileUri !== null"
+                :uri="profileUri"
                 fieldname="birthday"
                 :auto-save="false"
                 v-bind="config" />
@@ -361,15 +361,15 @@
             </v-col>
             <v-col>
               <api-time-picker
-                v-if="userUri !== null"
-                :uri="userUri"
+                v-if="profileUri !== null"
+                :uri="profileUri"
                 fieldname="nickname"
                 v-bind="config" />
             </v-col>
             <v-col>
               <api-time-picker
-                v-if="userUri !== null"
-                :uri="userUri"
+                v-if="profileUri !== null"
+                :uri="profileUri"
                 fieldname="nickname"
                 :auto-save="false"
                 v-bind="config" />
@@ -444,8 +444,8 @@ export default {
     timeValue: '2020-01-01T14:45+00:00'
   }),
   computed: {
-    userUri () {
-      return this.$auth.user()._meta.self
+    profileUri () {
+      return this.$auth.user().profile()._meta.self
     },
     availableLocales () {
       return VueI18n.availableLocales.map(l => ({

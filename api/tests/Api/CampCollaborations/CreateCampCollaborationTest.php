@@ -29,7 +29,7 @@ class CreateCampCollaborationTest extends ECampApiTestCase {
     }
 
     public function testCreateCampCollaborationIsNotPossibleForUnrelatedUserBecauseCampIsNotReadable() {
-        static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->username])
+        static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->getUsername()])
             ->request('POST', '/camp_collaborations', ['json' => $this->getExampleWritePayload([
                 'user' => $this->getIriFor('user4unrelated'),
             ])])
@@ -42,7 +42,7 @@ class CreateCampCollaborationTest extends ECampApiTestCase {
     }
 
     public function testCreateCampCollaborationIsNotPossibleForInactiveCollaboratorBecauseCampIsNotReadable() {
-        static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->username])
+        static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->getUsername()])
             ->request('POST', '/camp_collaborations', ['json' => $this->getExampleWritePayload([
                 'user' => $this->getIriFor('user5inactive'),
             ])])
@@ -55,7 +55,7 @@ class CreateCampCollaborationTest extends ECampApiTestCase {
     }
 
     public function testCreateCampCollaborationIsDeniedForGuest() {
-        static::createClientWithCredentials(['username' => static::$fixtures['user3guest']->username])
+        static::createClientWithCredentials(['username' => static::$fixtures['user3guest']->getUsername()])
             ->request('POST', '/camp_collaborations', ['json' => $this->getExampleWritePayload([
                 'user' => $this->getIriFor('user3guest'),
             ])])
@@ -69,7 +69,7 @@ class CreateCampCollaborationTest extends ECampApiTestCase {
     }
 
     public function testCreateCampCollaborationIsAllowedForMember() {
-        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->username])
+        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->getUsername()])
             ->request(
                 'POST',
                 '/camp_collaborations',
@@ -192,7 +192,7 @@ class CreateCampCollaborationTest extends ECampApiTestCase {
         /** @var User $userunrelated */
         $userunrelated = static::$fixtures['user4unrelated'];
         static::createClientWithCredentials()->request('POST', '/camp_collaborations', ['json' => $this->getExampleWritePayload([
-            'inviteEmail' => $userunrelated->email,
+            'inviteEmail' => $userunrelated->getEmail(),
         ], ['user'])]);
 
         $this->assertResponseStatusCodeSame(201);
@@ -202,7 +202,7 @@ class CreateCampCollaborationTest extends ECampApiTestCase {
             '_links' => [],
             '_embedded' => [
                 'user' => [
-                    'username' => $userunrelated->username,
+                    'displayName' => $userunrelated->getDisplayName(),
                 ],
             ],
         ]));
@@ -212,7 +212,7 @@ class CreateCampCollaborationTest extends ECampApiTestCase {
         /** @var User $user2member */
         $user2member = static::$fixtures['user2member'];
         static::createClientWithCredentials()->request('POST', '/camp_collaborations', ['json' => $this->getExampleWritePayload([
-            'inviteEmail' => $user2member->email,
+            'inviteEmail' => $user2member->getEmail(),
         ], ['user'])]);
 
         $this->assertResponseStatusCodeSame(422);

@@ -25,7 +25,7 @@ class CreatePeriodTest extends ECampApiTestCase {
     }
 
     public function testCreatePeriodIsNotPossibleForUnrelatedUserBecauseCampIsNotReadable() {
-        static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->username])
+        static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->getUsername()])
             ->request('POST', '/periods', ['json' => $this->getExampleWritePayload()])
         ;
         $this->assertResponseStatusCodeSame(400);
@@ -36,7 +36,7 @@ class CreatePeriodTest extends ECampApiTestCase {
     }
 
     public function testCreatePeriodIsNotPossibleForInactiveCollaboratorBecauseCampIsNotReadable() {
-        static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->username])
+        static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->getUsername()])
             ->request('POST', '/periods', ['json' => $this->getExampleWritePayload()])
         ;
         $this->assertResponseStatusCodeSame(400);
@@ -47,7 +47,7 @@ class CreatePeriodTest extends ECampApiTestCase {
     }
 
     public function testCreatePeriodIsDeniedForGuest() {
-        static::createClientWithCredentials(['username' => static::$fixtures['user3guest']->username])
+        static::createClientWithCredentials(['username' => static::$fixtures['user3guest']->getUsername()])
             ->request('POST', '/periods', ['json' => $this->getExampleWritePayload()])
         ;
 
@@ -59,7 +59,7 @@ class CreatePeriodTest extends ECampApiTestCase {
     }
 
     public function testCreatePeriodIsAllowedForMember() {
-        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->username])
+        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->getUsername()])
             ->request('POST', '/periods', ['json' => $this->getExampleWritePayload()])
         ;
 

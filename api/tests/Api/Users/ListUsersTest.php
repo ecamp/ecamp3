@@ -21,7 +21,7 @@ class ListUsersTest extends ECampApiTestCase {
         $response = static::createClientWithCredentials()->request('GET', '/users');
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
-            'totalItems' => 1,
+            'totalItems' => 8,
             '_links' => [
                 'items' => [],
             ],
@@ -31,6 +31,13 @@ class ListUsersTest extends ECampApiTestCase {
         ]);
         $this->assertEqualsCanonicalizing([
             ['href' => $this->getIriFor('user1manager')],
+            ['href' => $this->getIriFor('user2member')],
+            ['href' => $this->getIriFor('user3guest')],
+            ['href' => $this->getIriFor('user4unrelated')],
+            ['href' => $this->getIriFor('user5inactive')],
+            ['href' => $this->getIriFor('user6invited')],
+            ['href' => $this->getIriFor('admin')],
+            ['href' => $this->getIriFor('userWithoutCampCollaborations')],
         ], $response->toArray()['_links']['items']);
     }
 }

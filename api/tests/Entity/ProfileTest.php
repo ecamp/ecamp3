@@ -2,29 +2,29 @@
 
 namespace App\Tests\Entity;
 
-use App\Entity\User;
+use App\Entity\Profile;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @internal
  */
-class UserTest extends TestCase {
-    private User $user;
+class ProfileTest extends TestCase {
+    private Profile $profile;
 
     public function setUp(): void {
         parent::setUp();
-        $this->user = new User();
-        $this->user->username = 'bi-pi';
-        $this->user->firstname = 'Robert';
-        $this->user->surname = 'Baden-Powell';
-        $this->user->nickname = 'Bi-Pi';
+        $this->profile = new Profile();
+        $this->profile->username = 'bi-pi';
+        $this->profile->firstname = 'Robert';
+        $this->profile->surname = 'Baden-Powell';
+        $this->profile->nickname = 'Bi-Pi';
     }
 
     public function testDisplayNameUsesNicknameIfPresent() {
         // given
 
         // when
-        $displayName = $this->user->getDisplayName();
+        $displayName = $this->profile->getDisplayName();
 
         // then
         $this->assertEquals('Bi-Pi', $displayName);
@@ -32,10 +32,10 @@ class UserTest extends TestCase {
 
     public function testDisplayNameUsesFullName() {
         // given
-        $this->user->nickname = '';
+        $this->profile->nickname = '';
 
         // when
-        $displayName = $this->user->getDisplayName();
+        $displayName = $this->profile->getDisplayName();
 
         // then
         $this->assertEquals('Robert Baden-Powell', $displayName);
@@ -43,11 +43,11 @@ class UserTest extends TestCase {
 
     public function testDisplayNameUsesFirstname() {
         // given
-        $this->user->nickname = '';
-        $this->user->surname = '';
+        $this->profile->nickname = '';
+        $this->profile->surname = '';
 
         // when
-        $displayName = $this->user->getDisplayName();
+        $displayName = $this->profile->getDisplayName();
 
         // then
         $this->assertEquals('Robert', $displayName);
@@ -55,11 +55,11 @@ class UserTest extends TestCase {
 
     public function testDisplayNameUsesUsername() {
         // given
-        $this->user->nickname = '';
-        $this->user->firstname = '';
+        $this->profile->nickname = '';
+        $this->profile->firstname = '';
 
         // when
-        $displayName = $this->user->getDisplayName();
+        $displayName = $this->profile->getDisplayName();
 
         // then
         $this->assertEquals('bi-pi', $displayName);

@@ -24,7 +24,7 @@ class CreateMaterialListTest extends ECampApiTestCase {
     }
 
     public function testCreateMaterialListIsNotPossibleForUnrelatedUserBecauseCampIsNotReadable() {
-        static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->username])
+        static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->getUsername()])
             ->request('POST', '/material_lists', ['json' => $this->getExampleWritePayload()])
         ;
         $this->assertResponseStatusCodeSame(400);
@@ -35,7 +35,7 @@ class CreateMaterialListTest extends ECampApiTestCase {
     }
 
     public function testCreateMaterialListIsNotPossibleForInactiveCollaboratorBecauseCampIsNotReadable() {
-        static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->username])
+        static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->getUsername()])
             ->request('POST', '/material_lists', ['json' => $this->getExampleWritePayload()])
         ;
         $this->assertResponseStatusCodeSame(400);
@@ -46,7 +46,7 @@ class CreateMaterialListTest extends ECampApiTestCase {
     }
 
     public function testCreateMaterialListIsDeniedForGuest() {
-        static::createClientWithCredentials(['username' => static::$fixtures['user3guest']->username])
+        static::createClientWithCredentials(['username' => static::$fixtures['user3guest']->getUsername()])
             ->request('POST', '/material_lists', ['json' => $this->getExampleWritePayload()])
         ;
 
@@ -58,7 +58,7 @@ class CreateMaterialListTest extends ECampApiTestCase {
     }
 
     public function testCreateMaterialListIsAllowedForMember() {
-        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->username])
+        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->getUsername()])
             ->request('POST', '/material_lists', ['json' => $this->getExampleWritePayload()])
         ;
 
