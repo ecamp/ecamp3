@@ -4,6 +4,7 @@ namespace App\DataPersister;
 
 use ApiPlatform\Core\DataPersister\ContextAwareDataPersisterInterface;
 use App\Entity\Activity;
+use App\Entity\ContentNode;
 use App\Entity\ContentNode\ColumnLayout;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -24,19 +25,15 @@ class ActivityDataPersister implements ContextAwareDataPersisterInterface {
         $data->camp = $data->category->camp;
 
         if ('post' === ($context['collection_operation_name'] ?? null)) {
+            if (!isset($data->category?->rootContentNode)) {
+                throw new \UnexpectedValueException('Property rootContentNode of provided category is null. Object of type '.ContentNode::class.' expected.');
+            }
+
             $rootContentNode = new ColumnLayout();
             $data->setRootContentNode($rootContentNode);
 
-            if (isset($data->category->rootContentNode)) {
-                // deep copy from category root node
-                $rootContentNode->copyFromPrototype($data->category->rootContentNode);
-            } else {
-                // set default contentType
-                $rootContentNode->contentType = $this->entityManager
-                    ->getRepository(ContentType::class)
-                    ->findOneBy(['name' => 'ColumnLayout'])
-                ;
-            }
+            // deep copy from category root node
+            $rootContentNode->copyFromPrototype($data->category->rootContentNode);
         }
 
         return $this->dataPersister->persist($data, $context);

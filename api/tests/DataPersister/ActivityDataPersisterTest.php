@@ -10,7 +10,6 @@ use App\Entity\Category;
 use App\Entity\ContentNode\ColumnLayout;
 use App\Entity\ContentType;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\EntityRepository;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -79,27 +78,6 @@ class ActivityDataPersisterTest extends TestCase {
         $this->assertEquals($camp, $data->getCamp());
     }
 
-    public function testPostCreatesANewRootContentNode() {
-        // given
-        $this->decoratedMock->expects($this->once())->method('persist')->willReturnArgument(0);
-        $repositoryMock = $this->createMock(EntityRepository::class);
-        $repositoryMock->method('findOneBy')->willReturnCallback(function ($criteria) {
-            $result = new ContentType();
-            $result->name = $criteria['name'];
-
-            return $result;
-        });
-        $this->entityManagerMock->method('getRepository')->willReturn($repositoryMock);
-
-        // when
-        /** @var Activity $data */
-        $data = $this->dataPersister->persist($this->activity, ['collection_operation_name' => 'post']);
-
-        // then
-        $this->assertNotNull($data->getRootContentNode());
-        $this->assertEquals('ColumnLayout', $data->getRootContentNode()->contentType->name);
-    }
-
     public function testPostCopiesContentFromCategory() {
         // given
         $this->decoratedMock->expects($this->once())->method('persist')->willReturnArgument(0);
@@ -119,6 +97,18 @@ class ActivityDataPersisterTest extends TestCase {
         $this->assertNotEquals($categoryRoot, $data->getRootContentNode());
         $this->assertEquals('category root', $data->getRootContentNode()->instanceName);
         $this->assertEquals('ColumnLayout', $data->getRootContentNode()->contentType->name);
+    }
+
+    public function testPostFailsForMissingCategoryRootContentNode() {
+        // given
+        $this->activity->category->setRootContentNode(null);
+
+        // then
+        $this->expectException(\UnexpectedValueException::class);
+
+        // when
+        /** @var Activity $data */
+        $data = $this->dataPersister->persist($this->activity, ['collection_operation_name' => 'post']);
     }
 
     public function testUpdateDoesNotChangeRootContentNode() {
