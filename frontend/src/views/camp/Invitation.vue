@@ -112,20 +112,20 @@ export default {
       this.$auth.logout().then(__ => this.$router.push(loginLink))
     },
     acceptInvitation () {
-      this.api.href(this.api.get(), 'invitation', {
+      this.api.href(this.api.get(), 'invitations', {
         action: 'accept',
-        inviteKey: this.$route.params.inviteKey
-      }).then(postUrl => this.api.post(postUrl, {}))
+        id: this.$route.params.inviteKey
+      }).then(postUrl => this.api.patch(postUrl, {}))
         .then(
           _ => { this.$router.push(this.campLink) },
           () => { this.$router.push({ name: 'invitationUpdateError' }) }
         )
     },
     rejectInvitation () {
-      this.api.href(this.api.get(), 'invitation', {
+      this.api.href(this.api.get(), 'invitations', {
         action: 'reject',
-        inviteKey: this.$route.params.inviteKey
-      }).then(postUrl => this.api.post(postUrl, {}))
+        id: this.$route.params.inviteKey
+      }).then(postUrl => this.api.patch(postUrl, {}))
         .then(
           _ => { this.$router.push({ name: 'invitationRejected' }) },
           () => { this.$router.push({ name: 'invitationUpdateError' }) }
