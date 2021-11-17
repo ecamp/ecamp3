@@ -24,16 +24,7 @@ services:
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
 
-    App\DataPersister\UserDataPersister:
-        arguments: [ '@api_platform.doctrine.orm.data_persister' ]
-
-    App\DataPersister\CampDataPersister:
-        arguments: [ '@api_platform.doctrine.orm.data_persister' ]
-
     App\DataPersister\ActivityDataPersister:
-        arguments: [ '@api_platform.doctrine.orm.data_persister' ]
-
-    App\DataPersister\CategoryDataPersister:
         arguments: [ '@api_platform.doctrine.orm.data_persister' ]
 
     App\DataPersister\Util\DataPersisterObservable:
@@ -70,6 +61,9 @@ services:
             - '@Rize\UriTemplate'
 
     App\Serializer\Normalizer\CircularReferenceDetectingHalItemNormalizer:
+        decorates: 'api_platform.hal.normalizer.item'
+
+    App\Serializer\Normalizer\ContentTypeNormalizer:
         decorates: 'api_platform.hal.normalizer.item'
 
     App\Serializer\Normalizer\UriTemplateNormalizer:

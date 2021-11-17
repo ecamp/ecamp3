@@ -60,7 +60,19 @@ export default {
     },
     update () {
       this.error = null
-      return this.api.patch(this.entityUri, this.entityData).then(this.updatedSuccessful, this.onError)
+      const patchScheduleEntries = this.entityData.scheduleEntries
+        .map(entry => this.api.patch(entry._meta.self, {
+          periodOffset: entry.periodOffset,
+          length: entry.length
+        }))
+      Promise.all(patchScheduleEntries)
+        .then(__ => ({ ...this.entityData }))
+        .then(entityData => {
+          delete entityData.scheduleEntries
+          return entityData
+        })
+        .then(entityData => this.api.patch(this.entityUri, entityData))
+        .then(this.updatedSuccessful, this.onError)
     },
     updatedSuccessful (data) {
       this.api.reload(this.scheduleEntry).then(() => {

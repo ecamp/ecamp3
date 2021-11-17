@@ -27,11 +27,8 @@ class SingleTextDataPersister extends ContentNodeAbstractDataPersister {
                 throw new \Exception('Prototype must be of type SingleText');
             }
 
-            /** @var SingleText $prototype */
-            $prototype = $data->prototype;
-
             if (!isset($data->text)) {
-                $data->text = $prototype->text;
+                $data->text = $data->prototype->text;
             }
         }
 

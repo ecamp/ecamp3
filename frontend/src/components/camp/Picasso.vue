@@ -178,7 +178,7 @@ export default {
     }
   },
   mounted () {
-    this.api.get().activities({ periodId: this.period().id })._meta.load.then(() => { this.activitiesLoading = false })
+    this.api.get().activities({ period: this.period()._meta.self })._meta.load.then(() => { this.activitiesLoading = false })
   },
   methods: {
     resize () {

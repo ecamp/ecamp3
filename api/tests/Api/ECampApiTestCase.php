@@ -130,7 +130,7 @@ abstract class ECampApiTestCase extends ApiTestCase {
                 $decoded = json_decode($example, true, 512, JSON_THROW_ON_ERROR);
 
                 return is_array($decoded) || is_null($decoded) ? $decoded : $example;
-            } catch (\JsonException $e) {
+            } catch (\JsonException|\TypeError $e) {
                 return $example;
             }
         }, $examples);
