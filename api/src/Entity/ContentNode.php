@@ -9,14 +9,16 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Repository\ContentNodeRepository;
 use App\Validator\AssertEitherIsNull;
 use App\Validator\ContentNode\AssertBelongsToSameOwner;
-use App\Validator\ContentNode\AssertCompatibleWithEntity;
+use App\Validator\ContentNode\AssertContentTypeCompatible;
 use App\Validator\ContentNode\AssertNoLoop;
+use App\Validator\ContentNode\AssertPrototypeCompatible;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Exception;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Annotation\SerializedName;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * A piece of information that is part of a programme. ContentNodes may store content such as
@@ -91,6 +93,7 @@ abstract class ContentNode extends BaseEntity implements BelongsToCampInterface 
     /**
      * The prototype ContentNode from which the content is copied during creation.
      */
+    #[AssertPrototypeCompatible]
     #[ApiProperty(example: '/content_nodes/1a2b3c4d')]
     #[Groups(['create'])]
     public ?ContentNode $prototype = null;
@@ -144,7 +147,7 @@ abstract class ContentNode extends BaseEntity implements BelongsToCampInterface 
      */
     #[ApiProperty(example: '/content_types/1a2b3c4d')]
     #[Groups(['read', 'create'])]
-    #[AssertCompatibleWithEntity]
+    #[Assert\DisableAutoMapping] // validation is on getContentTypeFromThisOrPrototype()
     public ?ContentType $contentType = null;
 
     public function __construct() {
@@ -159,6 +162,17 @@ abstract class ContentNode extends BaseEntity implements BelongsToCampInterface 
     #[Groups(['read'])]
     public function getContentTypeName(): string {
         return $this->contentType?->name;
+    }
+
+    #[AssertContentTypeCompatible]
+    #[Assert\NotNull]
+    #[SerializedName('contentType')]
+    public function getContentTypeFromThisOrPrototype(): ?ContentType {
+        if ($this->prototype instanceof ContentNode && null === $this->contentType) {
+            return $this->prototype->contentType;
+        }
+
+        return $this->contentType;
     }
 
     /**

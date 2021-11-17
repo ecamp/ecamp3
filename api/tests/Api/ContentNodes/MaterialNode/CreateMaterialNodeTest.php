@@ -44,20 +44,4 @@ class CreateMaterialNodeTest extends CreateContentNodeTestCase {
             ],
         ]);
     }
-
-    public function testCreateFailsWithIncompatibleContentType() {
-        // when
-        $this->create($this->getExampleWritePayload(['contentType' => $this->getIriFor(static::$fixtures['contentTypeColumnLayout'])]));
-
-        // then
-        $this->assertResponseStatusCodeSame(422);
-        $this->assertJsonContains([
-            'violations' => [
-                [
-                    'propertyPath' => 'contentType',
-                    'message' => 'Selected contentType ColumnLayout is incompatible with entity of type App\Entity\ContentNode\MaterialNode (expected App\Entity\ContentNode\ColumnLayout).',
-                ],
-            ],
-        ]);
-    }
 }

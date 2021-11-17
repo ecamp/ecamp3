@@ -15,6 +15,14 @@ App\Entity\ContentNode\SingleText:
     instanceName: <word()>
     contentType: '@contentTypeNotes'
     text: <word()>
+  safetyConcept1:
+    root: '@columnLayout1'
+    parent: '@columnLayout1'
+    slot: '1'
+    position: 1
+    instanceName: <word()>
+    contentType: '@contentTypeSafetyConcept'
+    text: <sentence()>
   singleTextCampUnrelated:
     root: '@columnLayout1campUnrelated'
     parent: '@columnLayout1campUnrelated'

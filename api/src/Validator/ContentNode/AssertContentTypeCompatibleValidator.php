@@ -9,13 +9,13 @@ use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 use Symfony\Component\Validator\Exception\UnexpectedValueException;
 
-class AssertCompatibleWithEntityValidator extends ConstraintValidator {
+class AssertContentTypeCompatibleValidator extends ConstraintValidator {
     public function __construct() {
     }
 
     public function validate($value, Constraint $constraint) {
-        if (!$constraint instanceof AssertCompatibleWithEntity) {
-            throw new UnexpectedTypeException($constraint, AssertCompatibleWithEntity::class);
+        if (!$constraint instanceof AssertContentTypeCompatible) {
+            throw new UnexpectedTypeException($constraint, AssertContentTypeCompatible::class);
         }
 
         $object = $this->context->getObject();
@@ -24,7 +24,7 @@ class AssertCompatibleWithEntityValidator extends ConstraintValidator {
         }
 
         if (!$value instanceof ContentType) {
-            throw new UnexpectedValueException($value, ContentNode::class);
+            throw new UnexpectedValueException($value, ContentType::class);
         }
 
         if ($value->entityClass !== get_class($object)) {

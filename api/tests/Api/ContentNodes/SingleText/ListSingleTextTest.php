@@ -16,6 +16,7 @@ class ListSingleTextTest extends ListContentNodeTestCase {
         $this->contentNodesCamp1and2 = [
             $this->getIriFor('singleText1'),
             $this->getIriFor('singleText2'),
+            $this->getIriFor('safetyConcept1'),
         ];
 
         $this->contentNodesCampUnrelated = [
