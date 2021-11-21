@@ -192,12 +192,15 @@ export default {
         scheduleEntry.activity().title
     },
     getActivityColor (scheduleEntry, _) {
-      if (this.isActivityLoading(scheduleEntry)) return 'grey lighten-2'
+      if (this.isCategoryLoading(scheduleEntry)) return 'grey lighten-1'
       const color = scheduleEntry.activity().category().color
       return isCssColor(color) ? color : color + ' elevation-4 v-event--temporary'
     },
     isActivityLoading (scheduleEntry) {
-      return this.activitiesLoading || (scheduleEntry.activity()._meta ? scheduleEntry.activity()._meta.loading : false)
+      return this.activitiesLoading || (scheduleEntry.activity()?._meta.loading ?? false)
+    },
+    isCategoryLoading (scheduleEntry) {
+      return scheduleEntry.activity().category()._meta?.loading ?? false
     },
     intervalFormat (time) {
       return this.$date.utc(time.date + ' ' + time.time).format(this.$tc('global.datetime.hourLong'))
