@@ -206,7 +206,7 @@ export default {
       return this.activitiesLoading || (scheduleEntry.activity()?._meta.loading ?? false)
     },
     isCategoryLoading (scheduleEntry) {
-      return scheduleEntry.activity().category()._meta?.loading ?? false
+      return scheduleEntry.activity().category()?._meta.loading ?? false
     },
     intervalFormat (time) {
       return this.$date.utc(time.date + ' ' + time.time).format(this.$tc('global.datetime.hourLong'))
