@@ -1,6 +1,6 @@
 <template>
   <v-avatar :size="size" :color="color">
-    <span class="white--text" :style="style">{{ initials }}</span>
+    <span class="white--text font-weight-medium" :style="style">{{ initials }}</span>
   </v-avatar>
 </template>
 <script>
