@@ -18,7 +18,7 @@
         "nelmio/cors-bundle": "2.1.1",
         "phpdocumentor/reflection-docblock": "5.3.0",
         "rize/uri-template": "0.3.4",
-        "stof/doctrine-extensions-bundle": "1.6.0",
+        "stof/doctrine-extensions-bundle": "1.7.0",
         "swaggest/json-schema": "0.12.39",
         "symfony/asset": "5.3.11",
         "symfony/console": "5.3.11",
