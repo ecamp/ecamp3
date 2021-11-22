@@ -107,7 +107,7 @@ export default {
     }
   },
   mounted () {
-    this.api.reload(this.invitation())
+    this.invitation()._meta.load
       .then(
         () => { this.invitationFound = true },
         () => { this.invitationFound = false }
