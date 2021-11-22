@@ -45,10 +45,12 @@ class CampCollaborationDataPersister extends AbstractDataPersister {
 
     public function beforeCreate($data): BaseEntity {
         /** @var CampCollaboration $data */
-        if (CampCollaboration::STATUS_INVITED == $data->status && $data->inviteEmail) {
-            $userByInviteEmail = $this->userRepository->findOneBy(['email' => $data->inviteEmail]);
+        $inviteEmail = $data->user?->email ?? $data->inviteEmail;
+        if (CampCollaboration::STATUS_INVITED == $data->status && $inviteEmail) {
+            $userByInviteEmail = $this->userRepository->findOneBy(['email' => $inviteEmail]);
             if (null != $userByInviteEmail) {
                 $data->user = $userByInviteEmail;
+                $data->inviteEmail = null;
             }
             $data->inviteKey = IdGenerator::generateRandomHexString(64);
         }
@@ -59,8 +61,9 @@ class CampCollaborationDataPersister extends AbstractDataPersister {
     public function afterCreate($data): void {
         /** @var User $user */
         $user = $this->security->getUser();
-        if (CampCollaboration::STATUS_INVITED == $data->status && $data->inviteEmail) {
-            $this->mailService->sendInviteToCampMail($user, $data->camp, $data->inviteKey, $data->inviteEmail);
+        $emailToInvite = $data->user?->email ?? $data->inviteEmail;
+        if (CampCollaboration::STATUS_INVITED == $data->status && $emailToInvite) {
+            $this->mailService->sendInviteToCampMail($user, $data->camp, $data->inviteKey, $emailToInvite);
         }
     }
 
