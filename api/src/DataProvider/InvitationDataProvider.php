@@ -38,7 +38,12 @@ class InvitationDataProvider implements ItemDataProviderInterface, RestrictedDat
             $username = $this->security->getUser()->getUserIdentifier();
             $user = $this->userRepository->findOneBy(['username' => $username]);
             $userDisplayName = $user->getDisplayName();
-            $userAlreadyInCamp = null !== $this->campCollaborationRepository->findByUserAndCamp($user, $camp);
+            $existingCampCollaboration = $this->campCollaborationRepository->findByUserAndCamp($user, $camp);
+            if ($existingCampCollaboration === $campCollaboration) {
+                $userAlreadyInCamp = false;
+            } else {
+                $userAlreadyInCamp = null !== $existingCampCollaboration;
+            }
         }
 
         return new Invitation($id, $camp->getId(), $camp->title, $userDisplayName, $userAlreadyInCamp);
