@@ -150,8 +150,8 @@ export default new Router({
       beforeEnter: all([requireAuth, requireCamp]),
       props: {
         navigation: route => ({ camp: campFromRoute(route) }),
-        default: route => ({ camp: campFromRoute(route), period: periodFromRoute(route) }),
-        aside: route => ({ camp: campFromRoute(route), period: periodFromRoute(route) })
+        default: route => ({ camp: campFromRoute(route), period: periodFromRoute(route), layout: getContentLayout(route) }),
+        aside: route => ({ camp: campFromRoute(route), period: periodFromRoute(route), show: showAside(route) })
       },
       children: [
         {
@@ -334,6 +334,18 @@ function categoryFromRoute (route) {
     const camp = this.api.get().camps({ id: route.params.campId })
     return camp.categories().items.find(c => c.id === route.params.categoryId)
   }
+}
+
+function getContentLayout (route) {
+  switch (route.name) {
+    case 'camp/period': return 'full'
+    case 'camp/admin': return 'wide'
+    default: return 'normal'
+  }
+}
+
+function showAside (route) {
+  return ['camp/period'].includes(route.name)
 }
 
 function dayFromScheduleEntryInRoute (route) {
