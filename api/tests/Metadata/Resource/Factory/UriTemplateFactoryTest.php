@@ -139,6 +139,86 @@ class UriTemplateFactoryTest extends TestCase {
         self::assertThat($templated, self::isTrue());
     }
 
+    public function testCreatesTemplatedUriWithActionPathParameters() {
+        // given
+        $resource = 'Dummy';
+        $this->resourceMetadata = new ResourceMetadata(
+            'Dummy',
+            null,
+            null,
+            [
+                'get' => [],
+                'find' => [
+                    'path' => '{/inviteKey}/find',
+                ],
+                'accept' => [
+                    'path' => '/{inviteKey}/accept',
+                ],
+            ]
+        );
+        $this->createFactory();
+
+        // when
+        [$uri, $templated] = $this->uriTemplateFactory->createFromShortname($resource);
+
+        // then
+        self::assertThat($uri, self::equalTo('/dummys{/id}{/action}'));
+        self::assertThat($templated, self::isTrue());
+    }
+
+    public function testIgnoresRoutesWithNoSlashAtEnd() {
+        // given
+        $resource = 'Dummy';
+        $this->resourceMetadata = new ResourceMetadata(
+            'Dummy',
+            null,
+            null,
+            [
+                'get' => [],
+                'profiles1' => [
+                    'path' => 'profiles{/id}',
+                ],
+            ]
+        );
+        $this->createFactory();
+
+        // when
+        [$uri, $templated] = $this->uriTemplateFactory->createFromShortname($resource);
+
+        // then
+        self::assertThat($uri, self::equalTo('/dummys{/id}'));
+        self::assertThat($templated, self::isTrue());
+    }
+
+    /**
+     * This behaviour was not yet implemented, because we don't have the use case yet.
+     *
+     * @throws \ApiPlatform\Core\Exception\ResourceClassNotFoundException
+     */
+    public function testDoesNotYetIgnoreActionPathsOfOtherRouteStarts() {
+        // given
+        $resource = 'Dummy';
+        $this->resourceMetadata = new ResourceMetadata(
+            'Dummy',
+            null,
+            null,
+            [
+                'get' => [],
+                'profiles1' => [
+                    'path' => 'profiles{/id}/ignoreThis',
+                ],
+            ],
+        );
+        $this->createFactory();
+
+        // when
+        [$uri, $templated] = $this->uriTemplateFactory->createFromShortname($resource);
+
+        // then
+        self::assertThat($uri, self::equalTo('/dummys{/id}{/action}'));
+        self::assertThat($templated, self::isTrue());
+    }
+
     protected function createFactory() {
         $this->uriTemplateFactory = new UriTemplateFactory(
             $this->filterLocator,

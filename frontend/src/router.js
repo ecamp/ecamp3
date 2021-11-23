@@ -313,7 +313,7 @@ export function campFromRoute (route) {
 
 export function invitationFromInviteKey (inviteKey) {
   return function () {
-    return this.api.get().invitation({ action: 'find', inviteKey: inviteKey })
+    return this.api.get().invitations({ action: 'find', id: inviteKey })
   }
 }
 

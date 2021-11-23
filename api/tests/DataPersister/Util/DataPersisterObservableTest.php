@@ -196,8 +196,9 @@ class DataPersisterObservableTest extends TestCase {
 
         $this->parameterBag = new ParameterBag(['previous_data' => null]);
         $propertyChangeListener = PropertyChangeListener::of(
-            fn ($data) => $data->name,
-            fn ($data) => $this->closure->call($data)
+            extractProperty: fn ($data) => $data->name,
+            beforeAction: fn ($data) => $this->closure->call($data),
+            afterAction: fn ($data) => $this->closure->call($data),
         );
         $this->closure->expects(self::never())->method('call');
         $this->dataPersisterObservable->onPropertyChange($propertyChangeListener);
@@ -210,8 +211,8 @@ class DataPersisterObservableTest extends TestCase {
 
         $this->parameterBag = new ParameterBag(['previous_data' => $toPersist]);
         $propertyChangeListener = PropertyChangeListener::of(
-            fn ($data) => $data->name,
-            fn ($data) => $this->closure->call($data)
+            extractProperty: fn ($data) => $data->name,
+            afterAction: fn ($data) => $this->closure->call($data)
         );
         $this->closure->expects(self::never())->method('call');
         $this->dataPersisterObservable->onPropertyChange($propertyChangeListener);
@@ -226,8 +227,9 @@ class DataPersisterObservableTest extends TestCase {
 
         $this->parameterBag = new ParameterBag(['previous_data' => $toPersist]);
         $propertyChangeListener = PropertyChangeListener::of(
-            fn ($data) => $data->name,
-            fn ($data) => $this->closure->call($data)
+            extractProperty: fn ($data) => $data->name,
+            beforeAction: fn ($data) => $this->closure->call($data),
+            afterAction: fn ($data) => $this->closure->call($data),
         );
         $this->closure->expects(self::never())->method('call');
         $this->dataPersisterObservable->onPropertyChange($propertyChangeListener);
@@ -243,10 +245,18 @@ class DataPersisterObservableTest extends TestCase {
 
         $this->parameterBag = new ParameterBag(['previous_data' => $oldData]);
         $propertyChangeListener = PropertyChangeListener::of(
-            fn ($data) => $data->name,
-            fn ($data) => $this->closure->call($data)
+            extractProperty: fn ($data) => $data->name,
+            beforeAction: fn ($data) => $this->closure->call($data),
+            afterAction: fn ($data) => $this->closure->call($data),
         );
-        $this->closure->expects(self::once())->method('call');
+        $this->contextAwareDataPersister->expects(self::exactly(1))
+            ->method('persist')
+            ->willReturnArgument(0)
+        ;
+        $this->closure->expects(self::exactly(2))
+            ->method('call')
+            ->willReturnOnConsecutiveCalls($newData, null)
+        ;
         $this->dataPersisterObservable->onPropertyChange($propertyChangeListener);
 
         $this->dataPersisterObservable->persist($newData, []);
