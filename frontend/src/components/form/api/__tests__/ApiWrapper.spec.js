@@ -410,7 +410,7 @@ describe('Testing ApiWrapper [autoSave=true; value from API; relation defined]',
   let apiGet
 
   const relation = 'relation'
-  const id = 'myId'
+  const relationUri = 'http://localhost/relation/1'
 
   beforeEach(() => {
     vuetify = new Vuetify()
@@ -429,7 +429,9 @@ describe('Testing ApiWrapper [autoSave=true; value from API; relation defined]',
     apiGet = jest.spyOn(config.mocks.api, 'get')
     apiGet.mockReturnValue({
       [relation]: () => ({
-        id
+        _meta: {
+          self: relationUri
+        }
       }),
       _meta: {
         load: Promise.resolve()
@@ -437,7 +439,7 @@ describe('Testing ApiWrapper [autoSave=true; value from API; relation defined]',
     })
   })
 
-  test('loads id of relation', async () => {
+  test.only('loads id of relation', async () => {
     // when
     wrapper = shallowMount(ApiWrapper, config)
     vm = wrapper.vm
@@ -447,7 +449,7 @@ describe('Testing ApiWrapper [autoSave=true; value from API; relation defined]',
     // then
     expect(vm.hasFinishedLoading).toBe(true)
     expect(vm.isLoading).toBe(false)
-    expect(vm.localValue).toBe(id)
+    expect(vm.localValue).toBe(relationUri)
   })
 })
 
