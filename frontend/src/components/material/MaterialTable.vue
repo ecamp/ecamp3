@@ -361,17 +361,19 @@ export default {
 
     postToApi (key, data) {
       // post new item to the API collection
-      this.materialItemCollection.$post(data)
-        .then(mi => {
-          // reload list after item has successfully been added
-          this.api.reload(this.materialItemCollection).then(() => {
-            this.$delete(this.newMaterialItems, key)
-          })
-        })
-        // catch server error
-        .catch(error => {
-          this.$set(this.newMaterialItems[key], 'serverError', error)
-        })
+      this.api.href(this.api.get(), 'materialItems')
+        .then(postUrl =>
+          this.api.post(postUrl, data)
+            .then(mi => {
+              // reload list after item has successfully been added
+              this.api.reload(this.materialItemCollection).then(() => {
+                this.$delete(this.newMaterialItems, key)
+              })
+            })
+            // catch server error
+            .catch(error => {
+              this.$set(this.newMaterialItems[key], 'serverError', error)
+            }))
     }
   }
 }
