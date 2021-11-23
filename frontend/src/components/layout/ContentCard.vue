@@ -3,7 +3,9 @@ Displays the content wrapped inside a card.
 -->
 
 <template>
-  <v-card :max-width="maxWidth" :tile="$vuetify.breakpoint.xsOnly" class="mx-auto py-1">
+  <v-card :max-width="maxWidth" width="100%"
+          :tile="$vuetify.breakpoint.xsOnly"
+          class="mx-auto py-1">
     <v-toolbar v-if="back || $vuetify.breakpoint.xsOnly || toolbar" class="ec-content-card__toolbar"
                elevation="0"
                dense>

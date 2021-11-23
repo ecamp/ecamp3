@@ -36,7 +36,7 @@
         accordion>
         <v-expansion-panel v-if="prototypeCamps.length > 0">
           <v-expansion-panel-header>
-            <h3 class="grey--text text--darken-1">
+            <h3>
               {{ $tc('views.camps.prototypeCamps') }}
             </h3>
           </v-expansion-panel-header>
@@ -59,7 +59,7 @@
         </v-expansion-panel>
         <v-expansion-panel v-if="pastCamps.length > 0">
           <v-expansion-panel-header>
-            <h3 class="grey--text text--darken-1">
+            <h3>
               {{ $tc('views.camps.pastCamps') }}
             </h3>
           </v-expansion-panel-header>
