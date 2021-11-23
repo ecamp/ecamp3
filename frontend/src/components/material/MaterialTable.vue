@@ -40,7 +40,8 @@
         :disabled="layoutMode || disabled"
         dense
         :uri="item.uri"
-        fieldname="quantity" />
+        fieldname="quantity"
+        type="number" />
       <span v-if="item.readonly">{{ item.quantity }}</span>
     </template>
 
@@ -71,7 +72,7 @@
         dense
         :uri="item.uri"
         relation="materialList"
-        fieldname="materialListId"
+        fieldname="materialList"
         :items="materialLists" />
       <span v-if="item.readonly">{{ item.listName }}</span>
     </template>
@@ -260,7 +261,7 @@ export default {
     },
     materialLists () {
       return this.camp.materialLists().items.map(l => ({
-        value: l.id,
+        value: l._meta.self,
         text: l.name
       }))
     },
@@ -281,7 +282,6 @@ export default {
           quantity: item.quantity,
           unit: item.unit,
           article: item.article,
-          listId: item.materialList().id,
           listName: item.materialList().name,
           activity: item.contentNode ? item.contentNode().id : null,
           entityObject: item,
@@ -297,7 +297,7 @@ export default {
           quantity: mi.quantity,
           unit: mi.unit,
           article: mi.article,
-          listName: this.materialLists.find(listItem => listItem.value === mi.materialListId).text,
+          listName: this.materialLists.find(listItem => listItem.value === mi.materialList).text,
           new: true,
           serverError: mi.serverError,
           readonly: true,
@@ -332,6 +332,13 @@ export default {
 
     // add new item to list & save to API
     add (key, data) {
+      // add owning entity
+      if (this.period) {
+        data.period = this.period._meta.self
+      } else {
+        data.materialNode = this.contentNode._meta.self
+      }
+
       // add item to local array
       this.$set(this.newMaterialItems, key, data)
 

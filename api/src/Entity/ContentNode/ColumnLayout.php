@@ -71,7 +71,7 @@ class ColumnLayout extends ContentNode {
      */
     #[ApiProperty(example: [['slot' => '1', 'width' => 12]])]
     #[Groups(['read', 'write'])]
-    public ?array $columns = null;
+    public ?array $columns = [['slot' => '1', 'width' => 12]];
 
     #[AssertJsonSchema(schema: ColumnLayout::COLUMNS_SCHEMA, groups: ['columns_schema'])]
     #[AssertColumWidthsSumTo12]

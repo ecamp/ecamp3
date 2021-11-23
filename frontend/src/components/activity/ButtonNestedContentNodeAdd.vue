@@ -19,7 +19,7 @@
         <!-- preferred content types -->
         <v-list-item v-for="act in preferredContentTypes"
                      :key="act.contentType.id"
-                     @click="addContentNode(act.contentType.id)">
+                     @click="addContentNode(act.contentType)">
           <v-list-item-icon>
             <v-icon>{{ $tc(act.contentTypeIconKey) }}</v-icon>
           </v-list-item-icon>
@@ -33,7 +33,7 @@
         <!-- all other content types -->
         <v-list-item v-for="act in allContentTypes"
                      :key="act.contentType.id"
-                     @click="addContentNode(act.contentType.id)">
+                     @click="addContentNode(act.contentType)">
           <v-list-item-icon>
             <v-icon>{{ $tc(act.contentTypeIconKey) }}</v-icon>
           </v-list-item-icon>
@@ -74,10 +74,10 @@ export default {
         contentTypeIconKey: 'contentNode.' + camelCase(ct.name) + '.icon'
       }
     },
-    async addContentNode (contentTypeId) {
-      await this.api.post(await this.api.href(this.api.get(), 'contentNodes'), {
-        parentId: this.parentContentNode.id,
-        contentTypeId: contentTypeId,
+    async addContentNode (contentType) {
+      await this.api.post(await this.api.href(contentType, 'contentNodes'), { // this.api.href resolves to the correct endpoint for this contentType (e.g. '/content_node/single_texts?contentType=...')
+        parent: this.parentContentNode._meta.self,
+        contentType: contentType._meta.self,
         slot: this.slotName
       })
       this.parentContentNode.owner().$reload()
