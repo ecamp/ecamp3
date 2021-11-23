@@ -63,8 +63,11 @@ export default {
   @import "src/scss/global";
   @import "~@mdi/font/css/materialdesignicons.css";
 
+  .v-btn.ec-drawer-open,
   .v-btn.ec-drawer-collapse {
+    position: absolute;
     right: 0;
+    bottom: 0;
   }
 
   @media #{map-get($display-breakpoints, 'xs-only')}{
