@@ -49,7 +49,11 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ApiFilter(SearchFilter::class, properties: ['camp'])]
 class Category extends AbstractContentNodeOwner implements BelongsToCampInterface {
     public const ITEM_NORMALIZATION_CONTEXT = [
-        'groups' => ['read', 'Category:PreferredContentTypes'],
+        'groups' => [
+            'read',
+            'Category:PreferredContentTypes',
+            'Category:ContentNodes',
+        ],
         'swagger_definition_name' => 'read',
     ];
 
@@ -193,6 +197,16 @@ class Category extends AbstractContentNodeOwner implements BelongsToCampInterfac
     public function getRootContentNode(): ?ContentNode {
         // Getter is here to add annotations to parent class property
         return $this->rootContentNode;
+    }
+
+    /**
+     * @return ContentNode[]
+     */
+    #[ApiProperty(readableLink: true)]
+    #[SerializedName('contentNodes')]
+    #[Groups(['Category:ContentNodes'])]
+    public function getEmbeddedContentNodes(): array {
+        return $this->getContentNodes();
     }
 
     /**
