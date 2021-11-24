@@ -189,7 +189,11 @@ class RelatedCollectionLinkNormalizer implements NormalizerInterface, Serializer
     protected function extractUriParams($object, array $params): array {
         $result = [];
         foreach ($params as $param => $value) {
-            $result[$param] = $this->normalizeUriParam($this->propertyAccessor->getValue($object, $value));
+            if ('$this' === $value) {
+                $result[$param] = $this->normalizeUriParam($object);
+            } else {
+                $result[$param] = $this->normalizeUriParam($this->propertyAccessor->getValue($object, $value));
+            }
         }
 
         return $result;

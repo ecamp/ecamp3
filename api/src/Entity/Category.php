@@ -203,7 +203,6 @@ class Category extends AbstractContentNodeOwner implements BelongsToCampInterfac
         parent::setRootContentNode($rootContentNode);
     }
 
-    #[ApiProperty(readableLink: true)]
     #[Assert\DisableAutoMapping]
     #[Groups(['read'])]
     public function getRootContentNode(): ?ContentNode {
