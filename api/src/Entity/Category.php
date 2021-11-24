@@ -7,6 +7,7 @@ use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Repository\CategoryRepository;
+use App\Serializer\Normalizer\RelatedCollectionLink;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -70,7 +71,7 @@ class Category extends AbstractContentNodeOwner implements BelongsToCampInterfac
     /**
      * The content types that are most likely to be useful for planning programme of this category.
      *
-     * @ORM\ManyToMany(targetEntity="ContentType")
+     * @ORM\ManyToMany(targetEntity="ContentType", inversedBy="categories")
      * @ORM\JoinTable(name="category_contenttype",
      *     joinColumns={@ORM\JoinColumn(name="category_id", referencedColumnName="id")},
      *     inverseJoinColumns={@ORM\JoinColumn(name="contenttype_id", referencedColumnName="id")}
@@ -142,6 +143,16 @@ class Category extends AbstractContentNodeOwner implements BelongsToCampInterfac
         $this->activities = new ArrayCollection();
     }
 
+    /**
+     * @return ContentNode[]
+     */
+    #[ApiProperty(readableLink: true)]
+    #[SerializedName('contentNodes')]
+    #[Groups(['Category:ContentNodes'])]
+    public function getEmbeddedContentNodes(): array {
+        return $this->getContentNodes();
+    }
+
     public function getCamp(): ?Camp {
         return $this->camp;
     }
@@ -192,6 +203,7 @@ class Category extends AbstractContentNodeOwner implements BelongsToCampInterfac
         parent::setRootContentNode($rootContentNode);
     }
 
+    #[ApiProperty(readableLink: true)]
     #[Assert\DisableAutoMapping]
     #[Groups(['read'])]
     public function getRootContentNode(): ?ContentNode {
@@ -200,16 +212,7 @@ class Category extends AbstractContentNodeOwner implements BelongsToCampInterfac
     }
 
     /**
-     * @return ContentNode[]
-     */
-    #[ApiProperty(readableLink: true)]
-    #[SerializedName('contentNodes')]
-    #[Groups(['Category:ContentNodes'])]
-    public function getEmbeddedContentNodes(): array {
-        return $this->getContentNodes();
-    }
-
-    /**
+     * All content nodes of this category
      * Overridden in order to add annotations.
      *
      * {@inheritdoc}
@@ -217,6 +220,7 @@ class Category extends AbstractContentNodeOwner implements BelongsToCampInterfac
      * @return ContentNode[]
      */
     #[Groups(['read'])]
+    #[RelatedCollectionLink(ContentNode::class, ['root' => 'rootContentNode'])]
     public function getContentNodes(): array {
         return parent::getContentNodes();
     }

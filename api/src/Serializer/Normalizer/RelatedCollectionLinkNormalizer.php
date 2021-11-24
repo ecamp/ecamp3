@@ -149,19 +149,25 @@ class RelatedCollectionLinkNormalizer implements NormalizerInterface, Serializer
             throw new UnsupportedRelationException($resourceClass.'#'.$rel.' is not a Doctrine association. Embedding non-Doctrine collections is currently not implemented.');
         }
 
-        if (!isset($relationMetadata['targetEntity']) || '' === $relationMetadata['targetEntity'] || !isset($relationMetadata['mappedBy']) || '' === $relationMetadata['mappedBy']) {
-            throw new UnsupportedRelationException('The '.$resourceClass.'#'.$rel.' relation does not have both a targetEntity and a mappedBy property');
+        if (!isset($relationMetadata['targetEntity']) || '' === $relationMetadata['targetEntity']
+                || (
+                    (!isset($relationMetadata['mappedBy']) || '' === $relationMetadata['mappedBy'])
+                    && (!isset($relationMetadata['inversedBy']) || '' === $relationMetadata['inversedBy'])
+                )
+        ) {
+            throw new UnsupportedRelationException('The '.$resourceClass.'#'.$rel.' relation does not have both a targetEntity and a mappedBy or inversedBy property');
         }
 
         $relatedResourceClass = $relationMetadata['targetEntity'];
         /** @var string $relatedFilterName */
         $relatedFilterName = $relationMetadata['mappedBy'];
+        $relatedFilterName ??= $relationMetadata['inversedBy'];
 
         if (!$this->exactSearchFilterExists($relatedResourceClass, $relatedFilterName)) {
             throw new UnsupportedRelationException('The resource '.$relatedResourceClass.' does not have a search filter for the relation '.$relatedFilterName.'.');
         }
 
-        return $this->router->generate($this->routeNameResolver->getRouteName($relatedResourceClass, OperationType::COLLECTION), [$relatedFilterName => $this->iriConverter->getIriFromItem($object)], UrlGeneratorInterface::ABS_PATH);
+        return $this->router->generate($this->routeNameResolver->getRouteName($relatedResourceClass, OperationType::COLLECTION), [$relatedFilterName => urlencode($this->iriConverter->getIriFromItem($object))], UrlGeneratorInterface::ABS_PATH);
     }
 
     protected function getRelatedCollectionLinkAnnotation(string $className, string $propertyName): ?RelatedCollectionLink {
