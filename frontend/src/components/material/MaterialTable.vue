@@ -80,8 +80,8 @@
     <template #[`item.lastColumn`]="{ item }">
       <!-- Activity link (only visible in full period view) -->
       <schedule-entry-links
-        v-if="period && showContentNodeMaterial && item.entityObject && item.entityObject.contentNode"
-        :activity="item.entityObject.contentNode().owner" />
+        v-if="period && showActivityMaterial && item.entityObject && item.entityObject.materialNode"
+        :activity="item.entityObject.materialNode().owner" />
 
       <!-- Action buttons -->
       <div v-if="!item.readonly" class="d-flex">
@@ -218,14 +218,14 @@ export default {
     // materialItems Collection to display
     materialItemCollection: { type: Object, required: true },
 
-    // contentNode Entity for displaying material tables within activitiy
-    contentNode: { type: Object, required: false, default: null },
+    // materialNode Entity for displaying material tables within activitiy
+    materialNode: { type: Object, required: false, default: null },
 
-    // contentNode Entity for displaying material tables within activitiy
+    // materialNode Entity for displaying material tables within activitiy
     period: { type: Object, required: false, default: null },
 
     // controls if material belonging to ContentNodes should be shown or not
-    showContentNodeMaterial: { type: Boolean, default: true },
+    showActivityMaterial: { type: Boolean, default: true },
 
     // true --> displays table grouped by material list
     groupByList: { type: Boolean, default: false }
@@ -251,7 +251,7 @@ export default {
       headers.push({ text: this.$tc('entity.materialList.name'), value: 'listName', width: '20%' })
 
       // Activity column only shown in period overview
-      if (this.period && this.showContentNodeMaterial) {
+      if (this.period && this.showActivityMaterial) {
         headers.push({ text: this.$tc('entity.activity.name'), value: 'lastColumn', groupable: false, width: '15%' })
       } else {
         headers.push({ text: '', value: 'lastColumn', sortable: false, groupable: false, width: '5%' })
@@ -268,8 +268,8 @@ export default {
     materialItemsData () {
       const items = this.materialItemCollection.items
         .filter(item => {
-          // filter out material items belonging to content nodes (if showContentNodeMaterial is deactivated)
-          if (!this.showContentNodeMaterial && item.contentNode !== null) {
+          // filter out material items belonging to content nodes (if showActivityMaterial is deactivated)
+          if (!this.showActivityMaterial && item.materialNode !== null) {
             return false
           }
 
@@ -283,10 +283,10 @@ export default {
           unit: item.unit,
           article: item.article,
           listName: item.materialList().name,
-          activity: item.contentNode ? item.contentNode().id : null,
+          activity: item.materialNode ? item.materialNode().id : null,
           entityObject: item,
-          readonly: (this.period && item.contentNode), // if complete component is in period overview, disable editing of material that belongs to contentNodes (Acitity material)
-          class: this.period && item.contentNode ? 'readonly' : 'period'
+          readonly: (this.period && item.materialNode), // if complete component is in period overview, disable editing of material that belongs to materialNodes (Acitity material)
+          class: this.period && item.materialNode ? 'readonly' : 'period'
         }))
 
       // eager add new Items
@@ -332,13 +332,6 @@ export default {
 
     // add new item to list & save to API
     add (key, data) {
-      // add owning entity
-      if (this.period) {
-        data.period = this.period._meta.self
-      } else {
-        data.materialNode = this.contentNode._meta.self
-      }
-
       // add item to local array
       this.$set(this.newMaterialItems, key, data)
 
@@ -361,19 +354,17 @@ export default {
 
     postToApi (key, data) {
       // post new item to the API collection
-      this.api.href(this.api.get(), 'materialItems')
-        .then(postUrl =>
-          this.api.post(postUrl, data)
-            .then(mi => {
-              // reload list after item has successfully been added
-              this.api.reload(this.materialItemCollection).then(() => {
-                this.$delete(this.newMaterialItems, key)
-              })
-            })
-            // catch server error
-            .catch(error => {
-              this.$set(this.newMaterialItems[key], 'serverError', error)
-            }))
+      this.materialItemCollection.$post(data)
+        .then(mi => {
+          // reload list after item has successfully been added
+          this.api.reload(this.materialItemCollection).then(() => {
+            this.$delete(this.newMaterialItems, key)
+          })
+        })
+      // catch server error
+        .catch(error => {
+          this.$set(this.newMaterialItems[key], 'serverError', error)
+        })
     }
   }
 }

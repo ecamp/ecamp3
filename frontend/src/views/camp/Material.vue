@@ -6,7 +6,7 @@ Admin screen of a camp: Displays MaterialLists and MaterialItems
   <content-card :title="$tc('views.camp.material.title')" toolbar>
     <template #title-actions>
       <e-switch
-        v-model="showContentNodeMaterial"
+        v-model="showActivityMaterial"
         class="ml-15"
         :label="$vuetify.breakpoint.smAndUp ?
           $tc('views.camp.material.showActivityMaterial') :
@@ -23,7 +23,7 @@ Admin screen of a camp: Displays MaterialLists and MaterialItems
       <period-material-lists v-for="period in camp().periods().items"
                              :key="period._meta.self"
                              :period="period"
-                             :show-content-node-material="showContentNodeMaterial"
+                             :show-activity-material="showActivityMaterial"
                              :group-by-list="groupByList || $vuetify.breakpoint.xs"
                              :disabled="!isContributor" />
     </v-expansion-panels>
@@ -48,20 +48,20 @@ export default {
   data () {
     return {
       openPeriods: [],
-      showContentNodeMaterial: false,
+      showActivityMaterial: false,
       groupByList: false
     }
   },
   watch: {
-    showContentNodeMaterial (val) {
-      localStorage.viewCampMaterialShowContentNodeMaterial = (val ? 'true' : 'false')
+    showActivityMaterial (val) {
+      localStorage.viewCampMaterialShowActivityMaterial = (val ? 'true' : 'false')
     }
   },
   mounted () {
-    if (localStorage.viewCampMaterialShowContentNodeMaterial === undefined) {
-      localStorage.viewCampMaterialShowContentNodeMaterial = 'false'
+    if (localStorage.viewCampMaterialShowActivityMaterial === undefined) {
+      localStorage.viewCampMaterialShowActivityMaterial = 'false'
     }
-    this.showContentNodeMaterial = (localStorage.viewCampMaterialShowContentNodeMaterial === 'true')
+    this.showActivityMaterial = (localStorage.viewCampMaterialShowActivityMaterial === 'true')
 
     this.camp().periods()._meta.load.then(periods => {
       this.openPeriods = periods.items

@@ -10,7 +10,7 @@
         :camp="camp"
         :material-item-collection="period.materialItems()"
         :period="period"
-        :show-content-node-material="showContentNodeMaterial"
+        :show-activity-material="showActivityMaterial"
         :group-by-list="groupByList"
         enable-grouping
         :disabled="disabled" />
@@ -29,7 +29,7 @@ export default {
   },
   props: {
     period: { type: Object, required: true },
-    showContentNodeMaterial: { type: Boolean, required: true },
+    showActivityMaterial: { type: Boolean, required: true },
     groupByList: { type: Boolean, required: true },
     disabled: { type: Boolean, default: false }
   },

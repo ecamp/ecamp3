@@ -133,6 +133,10 @@ Displays a single activity
               </v-row>
               <v-row dense>
                 <v-col>
+                  <!--
+                    TO DO: Needs to be fixed (empty colleciton array issue)
+                    TypeError: this.activity.campCollaborations is not a function
+
                   <api-select
                     :name="$tc('entity.activity.fields.responsible')"
                     dense
@@ -143,7 +147,7 @@ Displays a single activity
                     :uri="activity._meta.self"
                     fieldname="campCollaborations"
                     :disabled="layoutMode || !isContributor"
-                    :items="availableCampCollaborations" />
+                    :items="availableCampCollaborations" /> -->
                 </v-col>
               </v-row>
             </v-col>
