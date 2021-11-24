@@ -2,7 +2,7 @@ version: "3.4"
 
 services:
   nginx:
-    image: nginx@sha256:dfef797ddddfc01645503cef9036369f03ae920cac82d344d58b637ee861fda1
+    image: nginx@sha256:097c3a0913d7e3a5b01b6c685a60c03632fc7a2b50bc8e35bcaa3691d788226e
     ports:
       - '80:80'
     volumes:

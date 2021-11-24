@@ -31,8 +31,9 @@ class CampCollaborationDataPersister extends AbstractDataPersister {
             afterAction: fn (CampCollaboration $data) => $this->onResendInvitation($data)
         );
         $statusChangeListener = PropertyChangeListener::of(
-            fn (CampCollaboration $data) => $data->status,
-            fn (CampCollaboration $data) => $this->onStatusChange($data)
+            extractProperty: fn (CampCollaboration $data) => $data->status,
+            beforeAction: fn (CampCollaboration $data) => $this->onBeforeStatusChange($data),
+            afterAction: fn (CampCollaboration $data) => $this->onAfterStatusChange($data)
         );
         parent::__construct(
             CampCollaboration::class,
@@ -44,10 +45,12 @@ class CampCollaborationDataPersister extends AbstractDataPersister {
 
     public function beforeCreate($data): BaseEntity {
         /** @var CampCollaboration $data */
-        if (CampCollaboration::STATUS_INVITED == $data->status && $data->inviteEmail) {
-            $userByInviteEmail = $this->userRepository->findOneBy(['email' => $data->inviteEmail]);
+        $inviteEmail = $data->user?->email ?? $data->inviteEmail;
+        if (CampCollaboration::STATUS_INVITED == $data->status && $inviteEmail) {
+            $userByInviteEmail = $this->userRepository->findOneBy(['email' => $inviteEmail]);
             if (null != $userByInviteEmail) {
                 $data->user = $userByInviteEmail;
+                $data->inviteEmail = null;
             }
             $data->inviteKey = IdGenerator::generateRandomHexString(64);
         }
@@ -58,8 +61,9 @@ class CampCollaborationDataPersister extends AbstractDataPersister {
     public function afterCreate($data): void {
         /** @var User $user */
         $user = $this->security->getUser();
-        if (CampCollaboration::STATUS_INVITED == $data->status && $data->inviteEmail) {
-            $this->mailService->sendInviteToCampMail($user, $data->camp, $data->inviteKey, $data->inviteEmail);
+        $emailToInvite = $data->user?->email ?? $data->inviteEmail;
+        if (CampCollaboration::STATUS_INVITED == $data->status && $emailToInvite) {
+            $this->mailService->sendInviteToCampMail($user, $data->camp, $data->inviteKey, $emailToInvite);
         }
     }
 
@@ -69,7 +73,15 @@ class CampCollaborationDataPersister extends AbstractDataPersister {
         return null;
     }
 
-    public function onStatusChange(CampCollaboration $data) {
+    public function onBeforeStatusChange(CampCollaboration $data): CampCollaboration {
+        if (CampCollaboration::STATUS_INVITED == $data->status && ($data->inviteEmail || $data->user)) {
+            $data->inviteKey = IdGenerator::generateRandomHexString(64);
+        }
+
+        return $data;
+    }
+
+    public function onAfterStatusChange(CampCollaboration $data): void {
         /** @var User $user */
         $user = $this->security->getUser();
         if (CampCollaboration::STATUS_INVITED == $data->status && ($data->inviteEmail || $data->user)) {
@@ -78,7 +90,6 @@ class CampCollaborationDataPersister extends AbstractDataPersister {
             if (null != $campCollaborationUser) {
                 $inviteEmail = $campCollaborationUser->email;
             }
-            $data->inviteKey = IdGenerator::generateRandomHexString(64);
             $this->mailService->sendInviteToCampMail(
                 $user,
                 $data->camp,

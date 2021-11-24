@@ -20,7 +20,8 @@ Show all activity schedule entries of a single period.
             :start="Date.parse(period().start)"
             :end="Date.parse(period().end)"
             :dialog-activity-create="slotProps.showActivityCreateDialog"
-            :dialog-activity-edit="slotProps.showActivityEditDialog" />
+            :dialog-activity-edit="slotProps.showActivityEditDialog"
+            editable />
         </template>
       </template>
     </schedule-entries>

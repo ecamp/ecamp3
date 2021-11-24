@@ -235,7 +235,7 @@ export default {
   methods: {
     changeCategory (category) {
       this.activity.$patch({
-        categoryId: category.id
+        category: category._meta.self
       })
     },
     countContentNodes (contentType) {

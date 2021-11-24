@@ -1,6 +1,6 @@
 <template>
-  <v-expansion-panel-content>
-    <h3 class="grey--text">
+  <v-expansion-panel-content class="e-story-day">
+    <h3 class="body-2 grey--text text--darken-2 e-story-day-title">
       {{ dayName }}
     </h3>
     <template v-if="entriesWithStory.length">
@@ -94,3 +94,10 @@ export default {
   }
 }
 </script>
+
+<style>
+.e-story-day + .e-story-day .e-story-day-title {
+  border-top: 1px solid #eee;
+  padding-top: 5px;
+}
+</style>

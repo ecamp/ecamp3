@@ -4,6 +4,7 @@ namespace App\Tests\DataPersister;
 
 use ApiPlatform\Core\DataPersister\ContextAwareDataPersisterInterface;
 use App\DataPersister\CampDataPersister;
+use App\DataPersister\Util\DataPersisterObservable;
 use App\Entity\Camp;
 use App\Entity\CampCollaboration;
 use App\Entity\User;
@@ -28,7 +29,10 @@ class CampDataPersisterTest extends TestCase {
         $this->em = $this->createMock(EntityManagerInterface::class);
         $this->camp = new Camp();
 
-        $this->dataPersister = new CampDataPersister($this->decoratedMock, $this->security, $this->em);
+        $requestStack = RequestStackMockFactory::create(fn (string $className) => $this->createMock($className));
+        $dataPersisterObservable = new DataPersisterObservable($this->decoratedMock, $requestStack);
+
+        $this->dataPersister = new CampDataPersister($dataPersisterObservable, $this->security, $this->em);
     }
 
     public function testDelegatesSupportCheckToDecorated() {
@@ -55,6 +59,7 @@ class CampDataPersisterTest extends TestCase {
         // given
         $this->decoratedMock->expects($this->once())
             ->method('persist')
+            ->willReturnArgument(0)
         ;
 
         // when

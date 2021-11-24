@@ -104,6 +104,17 @@ class DataPersisterObservable {
             }
         }
 
+        $dataBefore = $this->requestStack->getCurrentRequest()->attributes->get('previous_data');
+        if (null != $dataBefore) {
+            foreach ($this->propertyChangedListeners as $listener) {
+                $propertyBefore = call_user_func($listener->getExtractProperty(), $dataBefore);
+                $propertyNow = call_user_func($listener->getExtractProperty(), $data);
+                if ($propertyBefore !== $propertyNow) {
+                    $data = call_user_func($listener->getBeforeAction(), $data);
+                }
+            }
+        }
+
         $data = $this->dataPersister->persist($data, $context);
 
         if ('post' === ($context['collection_operation_name'] ?? null)) {
@@ -120,7 +131,6 @@ class DataPersisterObservable {
             }
         }
 
-        $dataBefore = $this->requestStack->getCurrentRequest()->attributes->get('previous_data');
         if (null != $dataBefore) {
             foreach ($this->propertyChangedListeners as $listener) {
                 $propertyBefore = call_user_func($listener->getExtractProperty(), $dataBefore);

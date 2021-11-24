@@ -61,28 +61,4 @@ class CreateMultiSelectTest extends CreateContentNodeTestCase {
             ],
         ]);
     }
-
-    public function testCreateMultiSelectFromPrototype() {
-        // given
-        $prototype = static::$fixtures['multiSelect1'];
-        $prototypeOption = static::$fixtures['multiSelectOption1'];
-
-        // when
-        $response = $this->create($this->getExampleWritePayload(['prototype' => $this->getIriFor('multiSelect1')]));
-
-        // then
-        $this->assertResponseStatusCodeSame(201);
-        $this->assertCount(1, $response->toArray()['_links']['options']);
-        $this->assertJsonContains([
-            '_embedded' => [
-                'options' => [
-                    [
-                        'translateKey' => $prototypeOption->translateKey,
-                        'checked' => $prototypeOption->checked,
-                        'pos' => $prototypeOption->getPos(),
-                    ],
-                ],
-            ],
-        ]);
-    }
 }

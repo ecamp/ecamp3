@@ -4,6 +4,7 @@ namespace App\Tests\DataPersister;
 
 use ApiPlatform\Core\DataPersister\ContextAwareDataPersisterInterface;
 use App\DataPersister\UserDataPersister;
+use App\DataPersister\Util\DataPersisterObservable;
 use App\Entity\User;
 use App\Service\MailService;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -21,13 +22,19 @@ class UserDataPersisterTest extends TestCase {
     private MockObject|MailService $mailService;
     private User $user;
 
+    /**
+     * @throws \ReflectionException
+     */
     protected function setUp(): void {
         $this->decoratedMock = $this->createMock(ContextAwareDataPersisterInterface::class);
         $this->userPasswordHasher = $this->createMock(UserPasswordHasher::class);
         $this->mailService = $this->createMock(MailService::class);
         $this->user = new User();
 
-        $this->dataPersister = new UserDataPersister($this->decoratedMock, $this->userPasswordHasher, $this->mailService);
+        $requestStack = RequestStackMockFactory::create(fn (string $className) => $this->createMock($className));
+        $dataPersisterObservable = new DataPersisterObservable($this->decoratedMock, $requestStack);
+
+        $this->dataPersister = new UserDataPersister($dataPersisterObservable, $this->userPasswordHasher, $this->mailService);
     }
 
     public function testDelegatesSupportCheckToDecorated() {
@@ -54,6 +61,7 @@ class UserDataPersisterTest extends TestCase {
         // given
         $this->decoratedMock->expects($this->once())
             ->method('persist')
+            ->willReturnArgument(0)
         ;
 
         // when

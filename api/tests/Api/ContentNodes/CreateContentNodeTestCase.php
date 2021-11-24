@@ -73,12 +73,32 @@ abstract class CreateContentNodeTestCase extends ECampApiTestCase {
     public function testCreateIsAllowedForManager() {
         // when
         $response = $this->create(user: static::$fixtures['user1manager']);
-        $id = $response->toArray()['id'];
-        $newContentNode = $this->getEntityManager()->getRepository($this->entityClass)->find($id);
 
         // then
+        $id = $response->toArray()['id'];
+        $newContentNode = $this->getEntityManager()->getRepository($this->entityClass)->find($id);
         $this->assertResponseStatusCodeSame(201);
         $this->assertJsonContains($this->getExampleReadPayload($newContentNode), true);
+    }
+
+    public function testCreateValidatesIncompatibleContentType() {
+        // given
+        /** @var ContentType $contentType */
+        $contentType = static::$fixtures[ContentNode\ColumnLayout::class === $this->entityClass ? 'contentTypeSafetyConcept' : 'contentTypeColumnLayout'];
+
+        // when
+        $this->create($this->getExampleWritePayload(['contentType' => $this->getIriFor($contentType)]));
+
+        // then
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [
+                    'propertyPath' => 'contentType',
+                    'message' => "Selected contentType {$contentType->name} is incompatible with entity of type {$this->entityClass} (it can only be used with entities of type {$contentType->entityClass}).",
+                ],
+            ],
+        ]);
     }
 
     protected function getExampleWritePayload($attributes = [], $except = []) {
@@ -87,7 +107,6 @@ abstract class CreateContentNodeTestCase extends ECampApiTestCase {
                 'parent' => $this->getIriFor($this->defaultParent),
                 'contentType' => $this->getIriFor($this->defaultContentType),
                 'position' => 10,
-                'prototype' => null,
             ], $attributes),
             $except
         );

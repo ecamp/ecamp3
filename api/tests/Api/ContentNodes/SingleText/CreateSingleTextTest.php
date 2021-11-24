@@ -51,32 +51,4 @@ class CreateSingleTextTest extends CreateContentNodeTestCase {
             'text' => ' testText',
         ]);
     }
-
-    public function testCreateSingleTextFromPrototype() {
-        // given
-        $prototype = static::$fixtures['singleText2'];
-
-        // when
-        $this->create($this->getExampleWritePayload(['prototype' => $this->getIriFor('singleText2')]));
-
-        // then
-        $this->assertResponseStatusCodeSame(201);
-        $this->assertJsonContains(['text' => $prototype->text]);
-    }
-
-    public function testCreateFailsWithIncompatibleContentType() {
-        // when
-        $this->create($this->getExampleWritePayload(['contentType' => $this->getIriFor(static::$fixtures['contentTypeColumnLayout'])]));
-
-        // then
-        $this->assertResponseStatusCodeSame(422);
-        $this->assertJsonContains([
-            'violations' => [
-                [
-                    'propertyPath' => 'contentType',
-                    'message' => 'Selected contentType ColumnLayout is incompatible with entity of type App\Entity\ContentNode\SingleText (expected App\Entity\ContentNode\ColumnLayout).',
-                ],
-            ],
-        ]);
-    }
 }
