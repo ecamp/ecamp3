@@ -9,6 +9,7 @@
       <template #activator="{ on, attrs }">
         <v-btn color="primary"
                outlined
+               :loading="isAdding"
                v-bind="attrs"
                v-on="on">
           <v-icon left>mdi-plus-circle-outline</v-icon>
@@ -55,6 +56,11 @@ export default {
     parentContentNode: { type: Object, required: true },
     slotName: { type: String, required: true }
   },
+  data () {
+    return {
+      isAdding: false
+    }
+  },
   computed: {
     preferredContentTypes () {
       return this.parentContentNode.ownerCategory().preferredContentTypes().items.map(this.contentTypeMap)
@@ -75,12 +81,19 @@ export default {
       }
     },
     async addContentNode (contentType) {
-      await this.api.post(await this.api.href(contentType, 'contentNodes'), { // this.api.href resolves to the correct endpoint for this contentType (e.g. '/content_node/single_texts?contentType=...')
-        parent: this.parentContentNode._meta.self,
-        contentType: contentType._meta.self,
-        slot: this.slotName
-      })
-      this.parentContentNode.owner().$reload()
+      this.isAdding = true
+      try {
+        await this.api.post(await this.api.href(contentType, 'contentNodes'), { // this.api.href resolves to the correct endpoint for this contentType (e.g. '/content_node/single_texts?contentType=...')
+          parent: this.parentContentNode._meta.self,
+          contentType: contentType._meta.self,
+          slot: this.slotName
+        })
+
+        await this.parentContentNode.owner().$reload()
+      } catch (error) {
+        console.log(error) // TO DO: display error message in error snackbar/toast
+      }
+      this.isAdding = false
     }
   }
 }
