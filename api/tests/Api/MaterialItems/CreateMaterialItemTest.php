@@ -115,6 +115,36 @@ class CreateMaterialItemTest extends ECampApiTestCase {
         ]));
     }
 
+    public function testCreateMaterialItemWithMaterialNodeFromQueryParameter() {
+        static::createClientWithCredentials()->request('POST', '/material_items?materialNode='.urlencode($this->getIriFor('materialNode1')), ['json' => $this->getExampleWritePayload([
+            'materialNode' => null,
+            'period' => null,
+        ])]);
+
+        $this->assertResponseStatusCodeSame(201);
+        $this->assertJsonContains($this->getExampleReadPayload([
+            '_links' => [
+                'materialNode' => ['href' => $this->getIriFor('materialNode1')],
+                //'period' => null,
+            ],
+        ]));
+    }
+
+    public function testCreateMaterialItemWithPeriodFromQueryParameter() {
+        static::createClientWithCredentials()->request('POST', '/material_items?period='.urlencode($this->getIriFor('period1')), ['json' => $this->getExampleWritePayload([
+            'materialNode' => null,
+            'period' => null,
+        ])]);
+
+        $this->assertResponseStatusCodeSame(201);
+        $this->assertJsonContains($this->getExampleReadPayload([
+            '_links' => [
+                // 'materialNode' => null ,
+                'period' => ['href' => $this->getIriFor('period1')],
+            ],
+        ]));
+    }
+
     public function testCreateMaterialItemValidatesMissingPeriodAndMaterialNode() {
         static::createClientWithCredentials()->request('POST', '/material_items', ['json' => $this->getExampleWritePayload([], ['period', 'materialNode'])]);
 

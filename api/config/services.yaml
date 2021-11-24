@@ -78,6 +78,10 @@ services:
         # https://github.com/api-platform/core/blob/main/src/Bridge/Symfony/Bundle/Resources/config/metadata/metadata.xml#L65
         decoration_priority: 29
 
+    App\Serializer\Denormalizer\MaterialItemDenormalizer:
+        tags:
+            - { name: 'serializer.denormalizer', priority: 64 }
+
     App\OpenApi\JwtDecorator:
         decorates: 'api_platform.openapi.factory'
 
