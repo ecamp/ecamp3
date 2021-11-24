@@ -129,7 +129,7 @@ class RelatedCollectionLinkNormalizer implements NormalizerInterface, Serializer
     }
 
     public function getRelatedCollectionHref($object, $rel, array $context = []): string {
-        $resourceClass = $context['resource_class'] ?? get_class($object);
+        $resourceClass = get_class($object);
 
         if ($this->nameConverter instanceof AdvancedNameConverterInterface) {
             $rel = $this->nameConverter->denormalize($rel, $resourceClass, null, array_merge($context, ['groups' => ['read']]));
