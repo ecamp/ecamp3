@@ -1,6 +1,7 @@
 <template>
   <dialog-form
     v-model="showDialog"
+    :loading="loading"
     icon="mdi-calendar-plus"
     :title="$tc('components.dialog.dialogPeriodCreate.title')"
     max-width="600px"
@@ -11,7 +12,7 @@
       <slot name="activator" v-bind="scope" />
     </template>
     <server-error :server-error="error" />
-    <dialog-period-form v-if="!loading" :period="entityData" />
+    <dialog-period-form :period="entityData" />
   </dialog-form>
 </template>
 
