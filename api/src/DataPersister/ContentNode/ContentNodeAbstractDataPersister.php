@@ -14,15 +14,6 @@ abstract class ContentNodeAbstractDataPersister extends AbstractDataPersister {
         $data->root = $data->parent->root;
         $data->root->addRootDescendant($data);
 
-        if (isset($data->prototype)) {
-            if (!is_a($data->prototype, $data::class)) {
-                throw new \Exception('Prototype must be of type '.$data::class);
-            }
-
-            // deep copy from prototype
-            $data->copyFromPrototype($data->prototype);
-        }
-
         return $data;
     }
 }

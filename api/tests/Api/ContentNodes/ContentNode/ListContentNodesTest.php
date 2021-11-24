@@ -14,7 +14,7 @@ class ListContentNodesTest extends ECampApiTestCase {
         $response = static::createClientWithCredentials()->request('GET', '/content_nodes');
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
-            'totalItems' => 17,
+            'totalItems' => 18,
             '_links' => [
                 'items' => [],
             ],

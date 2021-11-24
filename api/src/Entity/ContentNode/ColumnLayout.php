@@ -13,7 +13,6 @@ use App\Validator\ColumnLayout\ColumnLayoutPatchGroupSequence;
 use App\Validator\ColumnLayout\ColumnLayoutPostGroupSequence;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
-use Symfony\Component\Serializer\Annotation\SerializedName;
 
 /**
  * @ORM\Entity(repositoryClass=ColumnLayoutRepository::class)
@@ -71,25 +70,16 @@ class ColumnLayout extends ContentNode {
      */
     #[ApiProperty(example: [['slot' => '1', 'width' => 12]])]
     #[Groups(['read', 'write'])]
-    public ?array $columns = null;
-
     #[AssertJsonSchema(schema: ColumnLayout::COLUMNS_SCHEMA, groups: ['columns_schema'])]
     #[AssertColumWidthsSumTo12]
     #[AssertNoOrphanChildren]
-    #[SerializedName('columns')]
-    public function getColumnsFromThisOrPrototype(): ?array {
-        if ($this->prototype instanceof ColumnLayout && null === $this->columns) {
-            return $this->prototype->columns;
-        }
-
-        return $this->columns;
-    }
+    public ?array $columns = null;
 
     /**
      * @param ColumnLayout $prototype
      */
     public function copyFromPrototype($prototype) {
-        $this->columns ??= $prototype->columns;
+        $this->columns = $prototype->columns;
 
         parent::copyFromPrototype($prototype);
     }

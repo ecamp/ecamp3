@@ -70,28 +70,6 @@ class CreateColumnLayoutTest extends CreateContentNodeTestCase {
         ]);
     }
 
-    public function testCreateColumnLayoutFromPrototype() {
-        $prototype = static::$fixtures['columnLayout1'];
-        static::createClientWithCredentials()->request('POST', $this->endpoint, ['json' => [
-            'prototype' => $this->getIriFor('columnLayout1'),
-            'parent' => $this->getIriFor('columnLayout1'),
-            'contentType' => $this->getIriFor('contentTypeColumnLayout'),
-        ]]);
-
-        $this->assertResponseStatusCodeSame(201);
-        $this->assertJsonContains([
-            'columns' => $prototype->columns,
-            'instanceName' => $prototype->instanceName,
-            'slot' => $prototype->slot,
-            'position' => $prototype->position,
-            'contentTypeName' => $prototype->getContentTypeName(),
-
-            '_links' => [
-                'contentType' => ['href' => $this->getIriFor($prototype->contentType)],
-            ],
-        ]);
-    }
-
     /**
      * tests common to all ContentNodes (tested only here).
      */
