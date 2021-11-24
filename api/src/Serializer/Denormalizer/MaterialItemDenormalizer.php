@@ -44,6 +44,6 @@ class MaterialItemDenormalizer implements ContextAwareDenormalizerInterface, Den
             return false;
         }
 
-        return MaterialItem::class === $context['resource_class'];
+        return MaterialItem::class === ($context['resource_class'] ?? null);
     }
 }
