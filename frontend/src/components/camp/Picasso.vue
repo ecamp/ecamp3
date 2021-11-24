@@ -30,6 +30,7 @@ Listing all given activity schedule entries in a calendar view.
       color="primary"
       :event-ripple="false"
       @mousedown:event="entryMouseDown"
+      @click:event="entryClick"
       @mousedown:time="timeMouseDown"
       @mousemove:time="timeMouseMove"
       @mouseup:time="timeMouseUp"
@@ -60,7 +61,7 @@ Listing all given activity schedule entries in a calendar view.
           {{ getActivityName(event) }}
         </h4>
         <div
-          v-if="timed"
+          v-if="editable && timed"
           class="v-event-drag-bottom"
           @mousedown.stop="extendBottom(event)" />
       </template>
@@ -121,6 +122,11 @@ export default {
     scheduleEntries: {
       type: Array,
       required: true
+    },
+    editable: {
+      type: Boolean,
+      required: false,
+      default: false
     }
   },
   data () {
@@ -174,7 +180,7 @@ export default {
       return this.period().camp()
     },
     computedIntervalHeight () {
-      return this.intervalHeight !== 0 ? this.intervalHeight : this.$vuetify.breakpoint.xsOnly ? (this.$vuetify.breakpoint.height - 140) / 19 : Math.max((this.$vuetify.breakpoint.height - 174) / 19, 32)
+      return this.intervalHeight !== 0 ? this.intervalHeight : this.$vuetify.breakpoint.xsOnly ? (this.$vuetify.breakpoint.height - 140) / 19 : Math.max((this.$vuetify.breakpoint.height - 204) / 19, 32)
     }
   },
   mounted () {
@@ -192,12 +198,15 @@ export default {
         scheduleEntry.activity().title
     },
     getActivityColor (scheduleEntry, _) {
-      if (this.isActivityLoading(scheduleEntry)) return 'grey lighten-2'
+      if (this.isCategoryLoading(scheduleEntry)) return 'grey lighten-1'
       const color = scheduleEntry.activity().category().color
       return isCssColor(color) ? color : color + ' elevation-4 v-event--temporary'
     },
     isActivityLoading (scheduleEntry) {
-      return this.activitiesLoading || (scheduleEntry.activity()._meta ? scheduleEntry.activity()._meta.loading : false)
+      return this.activitiesLoading || (scheduleEntry.activity()?._meta.loading ?? false)
+    },
+    isCategoryLoading (scheduleEntry) {
+      return scheduleEntry.activity().category()?._meta.loading ?? false
     },
     intervalFormat (time) {
       return this.$date.utc(time.date + ' ' + time.time).format(this.$tc('global.datetime.hourLong'))
@@ -227,7 +236,7 @@ export default {
         this.openedInNewTab = true
       } else if (nativeEvent.button === 2) {
         // don't move event if middle mouse button
-      } else {
+      } else if (this.editable) {
         if (entry && timed) {
           this.draggedEntry = entry
           this.draggedStartTime = null
@@ -235,22 +244,29 @@ export default {
         }
       }
     },
+    entryClick ({ event: entry }) {
+      if (!this.editable) {
+        this.showScheduleEntry(entry)
+      }
+    },
     timeMouseDown (tms) {
-      const mouse = this.toTime(tms)
-      if (this.openedInNewTab) {
-        this.openedInNewTab = false
-        return
-      }
+      if (this.editable) {
+        const mouse = this.toTime(tms)
+        if (this.openedInNewTab) {
+          this.openedInNewTab = false
+          return
+        }
 
-      if (this.mouseStartTime === null) {
-        this.mouseStartTime = mouse
-      }
+        if (this.mouseStartTime === null) {
+          this.mouseStartTime = mouse
+        }
 
-      if (this.draggedEntry && this.draggedStartTime === null) {
-        const start = this.draggedEntry.startTime
-        this.draggedStartTime = mouse - start
-      } else {
-        this.createNewEntry(mouse)
+        if (this.draggedEntry && this.draggedStartTime === null) {
+          const start = this.draggedEntry.startTime
+          this.draggedStartTime = mouse - start
+        } else {
+          this.createNewEntry(mouse)
+        }
       }
     },
     createNewEntry: function (mouse) {
@@ -277,12 +293,14 @@ export default {
       this.tempScheduleEntry = this.currentEntry
     },
     timeMouseMove (tms) {
-      const mouse = this.toTime(tms)
+      if (this.editable) {
+        const mouse = this.toTime(tms)
 
-      if (this.draggedEntry && this.draggedStartTime !== null) {
-        this.moveEntryTime(mouse)
-      } else if (this.currentEntry && this.currentStartTime !== null) {
-        this.changeEntryTime(mouse)
+        if (this.draggedEntry && this.draggedStartTime !== null) {
+          this.moveEntryTime(mouse)
+        } else if (this.currentEntry && this.currentStartTime !== null) {
+          this.changeEntryTime(mouse)
+        }
       }
     },
     changeEntryTime: function (mouse) {
@@ -305,56 +323,60 @@ export default {
       this.draggedEntry.endTime = newEnd
     },
     timeMouseUp (tms) {
-      if (this.draggedEntry && this.draggedStartTime !== null) {
-        const minuteThreshold = 15
-        const threshold = minuteThreshold * 60 * 1000
-        const now = this.toTime(tms)
-        if (Math.abs(now - this.mouseStartTime) < threshold) {
-          this.showScheduleEntry(this.draggedEntry)
-        } else if (!this.draggedEntry.tmpEvent) {
-          const patchedScheduleEntry = {
-            periodOffset: this.draggedEntry.periodOffset,
-            length: this.draggedEntry.length
+      if (this.editable) {
+        if (this.draggedEntry && this.draggedStartTime !== null) {
+          const minuteThreshold = 15
+          const threshold = minuteThreshold * 60 * 1000
+          const now = this.toTime(tms)
+          if (Math.abs(now - this.mouseStartTime) < threshold) {
+            this.showScheduleEntry(this.draggedEntry)
+          } else if (!this.draggedEntry.tmpEvent) {
+            const patchedScheduleEntry = {
+              periodOffset: this.draggedEntry.periodOffset,
+              length: this.draggedEntry.length
+            }
+            this.isSaving = true
+            this.api.patch(this.draggedEntry._meta.self, patchedScheduleEntry).then(() => {
+              this.patchError = false
+              this.isSaving = false
+            }).catch((error) => {
+              this.patchError = error
+            })
           }
-          this.isSaving = true
-          this.api.patch(this.draggedEntry._meta.self, patchedScheduleEntry).then(() => {
-            this.patchError = false
-            this.isSaving = false
-          }).catch((error) => {
-            this.patchError = error
-          })
+          this.clearDraggedEntry()
+        } else if (this.currentEntry && this.currentStartTime !== null) {
+          if (this.currentEntry.tmpEvent) {
+            if (!this.extendOriginal) {
+              this.showEntryInfoPopup(this.currentEntry)
+            }
+          } else if (this.currentEntry.endTime !== this.extendOriginal) {
+            const patchedScheduleEntry = {
+              periodOffset: this.currentEntry.periodOffset,
+              length: this.currentEntry.length
+            }
+            this.isSaving = true
+            this.api.patch(this.currentEntry._meta.self, patchedScheduleEntry).then(() => {
+              this.patchError = false
+              this.isSaving = false
+            }).catch((error) => {
+              this.patchError = error
+            })
+          }
+          this.clearCurrentEntry()
         }
-        this.clearDraggedEntry()
-      } else if (this.currentEntry && this.currentStartTime !== null) {
-        if (this.currentEntry.tmpEvent) {
-          if (!this.extendOriginal) {
-            this.showEntryInfoPopup(this.currentEntry)
-          }
-        } else if (this.currentEntry.endTime !== this.extendOriginal) {
-          const patchedScheduleEntry = {
-            periodOffset: this.currentEntry.periodOffset,
-            length: this.currentEntry.length
-          }
-          this.isSaving = true
-          this.api.patch(this.currentEntry._meta.self, patchedScheduleEntry).then(() => {
-            this.patchError = false
-            this.isSaving = false
-          }).catch((error) => {
-            this.patchError = error
-          })
-        }
-        this.clearCurrentEntry()
+        this.mouseStartTime = null
       }
-      this.mouseStartTime = null
     },
     nativeMouseUp () {
-      if (this.currentEntry) {
-        if (this.extendOriginal) {
-          this.currentEntry.endTime = this.extendOriginal
+      if (this.editable) {
+        if (this.currentEntry) {
+          if (this.extendOriginal) {
+            this.currentEntry.endTime = this.extendOriginal
+          }
         }
+        this.clearDraggedEntry()
+        this.clearCurrentEntry()
       }
-      this.clearDraggedEntry()
-      this.clearCurrentEntry()
     },
     extendBottom (event) {
       this.currentEntry = event

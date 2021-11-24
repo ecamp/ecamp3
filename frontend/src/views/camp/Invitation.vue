@@ -71,6 +71,14 @@
 <script>
 import AuthContainer from '@/components/layout/AuthContainer.vue'
 import { loginRoute } from '@/router'
+import VueRouter from 'vue-router'
+
+const { isNavigationFailure, NavigationFailureType } = VueRouter
+const ignoreNavigationFailure = e => {
+  if (!isNavigationFailure(e, NavigationFailureType.redirected)) {
+    return Promise.reject(e)
+  }
+}
 
 export default {
   name: 'Invitation',
@@ -99,7 +107,7 @@ export default {
     }
   },
   mounted () {
-    this.api.reload(this.invitation())
+    this.invitation()._meta.load
       .then(
         () => { this.invitationFound = true },
         () => { this.invitationFound = false }
@@ -112,23 +120,35 @@ export default {
       this.$auth.logout().then(__ => this.$router.push(loginLink))
     },
     acceptInvitation () {
-      this.api.href(this.api.get(), 'invitation', {
+      this.api.href(this.api.get(), 'invitations', {
         action: 'accept',
-        inviteKey: this.$route.params.inviteKey
-      }).then(postUrl => this.api.post(postUrl, {}))
+        id: this.$route.params.inviteKey
+      }).then(postUrl => this.api.patch(postUrl, {}))
         .then(
-          _ => { this.$router.push(this.campLink) },
-          () => { this.$router.push({ name: 'invitationUpdateError' }) }
+          _ => {
+            this.$router.push(this.campLink)
+              .catch(ignoreNavigationFailure)
+          },
+          () => {
+            this.$router.push({ name: 'invitationUpdateError' })
+              .catch(ignoreNavigationFailure)
+          }
         )
     },
     rejectInvitation () {
-      this.api.href(this.api.get(), 'invitation', {
+      this.api.href(this.api.get(), 'invitations', {
         action: 'reject',
-        inviteKey: this.$route.params.inviteKey
-      }).then(postUrl => this.api.post(postUrl, {}))
+        id: this.$route.params.inviteKey
+      }).then(postUrl => this.api.patch(postUrl, {}))
         .then(
-          _ => { this.$router.push({ name: 'invitationRejected' }) },
-          () => { this.$router.push({ name: 'invitationUpdateError' }) }
+          _ => {
+            this.$router.push({ name: 'invitationRejected' })
+              .catch(ignoreNavigationFailure)
+          },
+          () => {
+            this.$router.push({ name: 'invitationUpdateError' })
+              .catch(ignoreNavigationFailure)
+          }
         )
     }
   }

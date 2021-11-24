@@ -78,7 +78,7 @@ class ColumnLayout extends ContentNode {
     #[AssertNoOrphanChildren]
     #[SerializedName('columns')]
     public function getColumnsFromThisOrPrototype(): ?array {
-        if (null !== $this->prototype && null === $this->columns) {
+        if ($this->prototype instanceof ColumnLayout && null === $this->columns) {
             return $this->prototype->columns;
         }
 

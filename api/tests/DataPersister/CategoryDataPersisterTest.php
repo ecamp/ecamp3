@@ -4,6 +4,7 @@ namespace App\Tests\DataPersister;
 
 use ApiPlatform\Core\DataPersister\ContextAwareDataPersisterInterface;
 use App\DataPersister\CategoryDataPersister;
+use App\DataPersister\Util\DataPersisterObservable;
 use App\Entity\Category;
 use App\Entity\ContentType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -26,7 +27,10 @@ class CategoryDataPersisterTest extends TestCase {
         $this->category = new Category();
         $this->category->category = new Category();
 
-        $this->dataPersister = new CategoryDataPersister($this->decoratedMock, $this->entityManagerMock);
+        $requestStack = RequestStackMockFactory::create(fn (string $className) => $this->createMock($className));
+        $dataPersisterObservable = new DataPersisterObservable($this->decoratedMock, $requestStack);
+
+        $this->dataPersister = new CategoryDataPersister($dataPersisterObservable, $this->entityManagerMock);
     }
 
     public function testDelegatesSupportCheckToDecorated() {
@@ -53,6 +57,7 @@ class CategoryDataPersisterTest extends TestCase {
         // given
         $this->decoratedMock->expects($this->once())
             ->method('persist')
+            ->willReturnArgument(0)
         ;
 
         // when

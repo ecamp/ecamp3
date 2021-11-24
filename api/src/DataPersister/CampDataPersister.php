@@ -2,55 +2,47 @@
 
 namespace App\DataPersister;
 
-use ApiPlatform\Core\DataPersister\ContextAwareDataPersisterInterface;
+use App\DataPersister\Util\AbstractDataPersister;
+use App\DataPersister\Util\DataPersisterObservable;
+use App\Entity\BaseEntity;
 use App\Entity\Camp;
 use App\Entity\CampCollaboration;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\Security;
 
-class CampDataPersister implements ContextAwareDataPersisterInterface {
-    public function __construct(private ContextAwareDataPersisterInterface $dataPersister, private Security $security, private EntityManagerInterface $em) {
+class CampDataPersister extends AbstractDataPersister {
+    public function __construct(
+        DataPersisterObservable $dataPersisterObservable,
+        private Security $security,
+        private EntityManagerInterface $em,
+    ) {
+        parent::__construct(
+            Camp::class,
+            $dataPersisterObservable,
+        );
     }
 
-    public function supports($data, array $context = []): bool {
-        return ($data instanceof Camp) && $this->dataPersister->supports($data, $context);
-    }
-
-    /**
-     * @param Camp $data
-     *
-     * @return object|void
-     */
-    public function persist($data, array $context = []) {
+    public function beforeCreate($data): BaseEntity {
         /** @var User $user */
-        $user = null;
-        if ('post' === ($context['collection_operation_name'] ?? null)) {
-            /** @var User $user */
-            $user = $this->security->getUser();
-            $data->creator = $user;
-            $data->owner = $user;
+        $user = $this->security->getUser();
+        $data->creator = $user;
+        $data->owner = $user;
 
-            // TODO prototype cloning logic here? Or in a separate endpoint?
-        }
+        // TODO prototype cloning logic here? Or in a separate endpoint?
 
-        /** @var Camp $camp */
-        $camp = $this->dataPersister->persist($data, $context);
-
-        if ('post' === ($context['collection_operation_name'] ?? null)) {
-            $collaboration = new CampCollaboration();
-            $collaboration->user = $user;
-            $collaboration->role = CampCollaboration::ROLE_MANAGER;
-            $collaboration->status = CampCollaboration::STATUS_ESTABLISHED;
-            $camp->addCampCollaboration($collaboration);
-            $this->em->persist($collaboration);
-            $this->em->flush();
-        }
-
-        return $camp;
+        return $data;
     }
 
-    public function remove($data, array $context = []) {
-        return $this->dataPersister->remove($data, $context);
+    public function afterCreate($data): void {
+        /** @var User $user */
+        $user = $this->security->getUser();
+        $collaboration = new CampCollaboration();
+        $collaboration->user = $user;
+        $collaboration->role = CampCollaboration::ROLE_MANAGER;
+        $collaboration->status = CampCollaboration::STATUS_ESTABLISHED;
+        $data->addCampCollaboration($collaboration);
+        $this->em->persist($collaboration);
+        $this->em->flush();
     }
 }

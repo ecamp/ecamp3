@@ -76,6 +76,7 @@ class CreateCampCollaborationTest extends ECampApiTestCase {
 
         $this->assertResponseStatusCodeSame(201);
         $this->assertJsonContains($this->getExampleReadPayload([
+            'inviteEmail' => null,
             '_links' => [
                 'user' => ['href' => $this->getIriFor('user2member')],
             ],
@@ -110,7 +111,12 @@ class CreateCampCollaborationTest extends ECampApiTestCase {
         $this->assertJsonContains($this->getExampleReadPayload([
             'status' => 'invited',
             'inviteEmail' => 'someone@example.com',
-            '_links' => [],
+            '_links' => [
+                'user' => null,
+            ],
+            '_embedded' => [
+                'user' => null,
+            ],
         ]));
     }
 
@@ -124,7 +130,7 @@ class CreateCampCollaborationTest extends ECampApiTestCase {
         $this->assertResponseStatusCodeSame(201);
         $this->assertJsonContains($this->getExampleReadPayload([
             'status' => 'invited',
-            'inviteEmail' => $userunrelated->email,
+            'inviteEmail' => null,
             '_links' => [],
             '_embedded' => [
                 'user' => [
