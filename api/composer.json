@@ -33,10 +33,10 @@
         "symfony/property-access": "5.3.8",
         "symfony/property-info": "5.3.8",
         "symfony/runtime": "5.3.11",
-        "symfony/security-bundle": "5.3.11",
-        "symfony/serializer": "5.3.11",
+        "symfony/security-bundle": "5.3.12",
+        "symfony/serializer": "5.3.12",
         "symfony/twig-bundle": "5.3.10",
-        "symfony/validator": "5.3.11",
+        "symfony/validator": "5.3.12",
         "symfony/yaml": "5.3.11",
         "webonyx/graphql-php": "14.11.3"
     },
