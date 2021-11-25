@@ -56,6 +56,8 @@ abstract class ContentNode extends BaseEntity implements BelongsToCampInterface 
      * @ORM\ManyToOne(targetEntity="ContentNode", inversedBy="rootDescendants")
      * TODO make not null in the DB using a migration, and get fixtures to run
      * @ORM\JoinColumn(nullable=true)
+     *
+     * @Gedmo\SortableGroup - this is needed to avoid that all root nodes are in the same sort group (parent:null, slot: '')
      */
     #[ApiProperty(writable: false, example: '/content_nodes/1a2b3c4d')]
     #[Groups(['read'])]
