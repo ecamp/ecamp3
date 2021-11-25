@@ -43,31 +43,10 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end }}
 
 {{/*
-Common labels PWA
-*/}}
-{{- define "api-platform.labelsPWA" -}}
-helm.sh/chart: {{ include "api-platform.chart" . }}
-{{ include "api-platform.selectorLabelsPWA" . }}
-{{- if .Chart.AppVersion }}
-app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
-{{- end }}
-app.kubernetes.io/managed-by: {{ .Release.Service }}
-{{- end }}
-
-{{/*
 Selector labels
 */}}
 {{- define "api-platform.selectorLabels" -}}
 app.kubernetes.io/name: {{ include "api-platform.name" . }}
-app.kubernetes.io/instance: {{ .Release.Name }}
-app.kubernetes.io/part-of: {{ include "api-platform.name" . }}
-{{- end }}
-
-{{/*
-Selector labels PWA
-*/}}
-{{- define "api-platform.selectorLabelsPWA" -}}
-app.kubernetes.io/name: {{ include "api-platform.name" . }}-pwa
 app.kubernetes.io/instance: {{ .Release.Name }}
 app.kubernetes.io/part-of: {{ include "api-platform.name" . }}
 {{- end }}
