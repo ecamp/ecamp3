@@ -2,6 +2,8 @@
   <div>
     <draggable v-if="contentNodeIds"
                v-model="localContentNodeIds"
+               :data-parent="parentContentNode._meta.self"
+               :data-slot="slotName"
                :disabled="!draggingEnabled"
                group="contentNodes"
                class="draggable-area d-flex flex-column pb-10"
@@ -12,6 +14,7 @@
                @end="cleanupDrag">
       <content-node v-for="id in draggableContentNodeIds"
                     :key="id"
+                    :data-href="allContentNodesById[id]._meta.self"
                     class="content-node"
                     :content-node="allContentNodesById[id]"
                     :layout-mode="layoutMode"
@@ -85,22 +88,21 @@ export default {
       document.body.classList.add('dragging', 'dragging-content-node')
       document.documentElement.addEventListener('mouseup', this.cleanupDrag)
     },
-    finishDrag () {
+    async finishDrag (event) {
       this.cleanupDrag()
-      this.saveReorderedChildren()
+
+      await this.api.patch(event.item.dataset.href, {
+        slot: event.to.dataset.slot, // data-slot attribute on <draggable /> tag
+        parent: event.to.dataset.parent, // data-parent attribute on <draggable /> tag
+        position: event.newDraggableIndex
+      })
+
+      // reload all contentNodes to update position properties
+      this.api.reload(this.parentContentNode.owner().contentNodes())
     },
     cleanupDrag () {
       document.body.classList.remove('dragging', 'dragging-content-node')
       document.documentElement.removeEventListener('mouseup', this.cleanupDrag)
-    },
-    async saveReorderedChildren () {
-      let position = 0
-      const payload = Object.fromEntries(this.draggableContentNodeIds.map(id => [id, {
-        slot: this.slotName,
-        position: position++,
-        parentId: this.parentContentNode.id
-      }]))
-      this.parentContentNode.owner().contentNodes().$patch(payload)
     }
   }
 }

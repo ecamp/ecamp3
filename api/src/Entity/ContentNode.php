@@ -15,6 +15,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Exception;
+use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Annotation\SerializedName;
 
@@ -76,6 +77,7 @@ abstract class ContentNode extends BaseEntity implements BelongsToCampInterface 
      *
      * @ORM\ManyToOne(targetEntity="ContentNode", inversedBy="children")
      * @ORM\JoinColumn(onDelete="CASCADE")
+     * @Gedmo\SortableGroup
      */
     #[AssertEitherIsNull(
         other: 'owner',
@@ -102,6 +104,7 @@ abstract class ContentNode extends BaseEntity implements BelongsToCampInterface 
      * are defined by the content type of the parent.
      *
      * @ORM\Column(type="text", nullable=true)
+     * @Gedmo\SortableGroup
      */
     #[ApiProperty(example: 'footer')]
     #[Groups(['read', 'write'])]
@@ -112,10 +115,11 @@ abstract class ContentNode extends BaseEntity implements BelongsToCampInterface 
      * same parent. The API does not guarantee the uniqueness of parent+slot+position.
      *
      * @ORM\Column(type="integer", nullable=true)
+     * @Gedmo\SortablePosition
      */
     #[ApiProperty(example: '0')]
     #[Groups(['read', 'write'])]
-    public ?int $position = null;
+    public ?int $position = -1;
 
     /**
      * An optional name for this content node. This is useful when planning e.g. an alternative
