@@ -4,14 +4,18 @@
       <div class="picasso">
         <h1>Picasso</h1>
 
-        <v-sheet height="500">
+        <v-sheet>
           <v-calendar
             ref="calendar"
             :now="today"
             :value="today"
             :events="events"
             color="primary"
-            type="month"
+            type="4day"
+            event-overlap-mode="column"
+            first-interval="6"
+            interval-count="18"
+            interval-height="25"
           />
         </v-sheet>
       </div>
@@ -38,6 +42,11 @@ export default {
         start: '2019-01-09 12:30',
         end: '2019-01-09 15:30',
       },
+      {
+        name: 'Spielenachmittag',
+        start: '2019-01-09 13:00',
+        end: '2019-01-09 17:30',
+      },
     ],
   }),
 }
@@ -60,5 +69,13 @@ export default {
     page-break-after: always;
     page: picasso;
   }
+}
+
+.v-calendar-daily__pane {
+  overflow-y: visible;
+}
+
+.v-calendar-daily__scroll-area {
+  overflow-y: visible;
 }
 </style>
