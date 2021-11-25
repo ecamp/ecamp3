@@ -27,17 +27,17 @@ App\Entity\ContentNode\StoryboardSection:
     column1: <word()>
     column2: <word()>
     column3: <word()>
-    pos: 0
+    position: 0
   storyboardSection2:
     storyboard: '@storyboard2'
     column1: <word()>
     column2: <word()>
     column3: <word()>
-    pos: 0
+    position: 0
   storyboardSectionCampUnrelated:
     storyboard: '@storyboardCampUnrelated'
     column1: <word()>
     column2: <word()>
     column3: <word()>
-    pos: 0
+    position: 0
 

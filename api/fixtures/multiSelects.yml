@@ -26,15 +26,15 @@ App\Entity\ContentNode\MultiSelectOption:
     multiSelect: '@multiSelect1'
     translateKey: <word()>
     checked: true
-    pos: 0
+    position: 0
   multiSelectOption2:
     multiSelect: '@multiSelect2'
     translateKey: <word()>
     checked: true
-    pos: 0
+    position: 0
   multiSelectOptionCampUnrelated:
     multiSelect: '@multiSelectCampUnrelated'
     translateKey: <word()>
     checked: true
-    pos: 0
+    position: 0
 

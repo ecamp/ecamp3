@@ -32,7 +32,7 @@ class ReadStoryboardSectionTest extends ECampApiTestCase {
             'column1' => $section->column1,
             'column2' => $section->column2,
             'column3' => $section->column3,
-            'pos' => $section->getPos(),
+            'position' => $section->getPosition(),
 
             '_links' => [
                 'storyboard' => ['href' => $this->getIriFor($section->storyboard)],

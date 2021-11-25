@@ -51,9 +51,9 @@ export default {
     // retrieve all relevant entities from external (incl. filtering and sorting)
     entities () {
       return this.collection().items.sort((a, b) => {
-        if (a.pos !== b.pos) {
-          // firstly: sort by pos property
-          return a.pos - b.pos
+        if (a.position !== b.position) {
+          // firstly: sort by position property
+          return a.position - b.position
         } else {
           // secondly: sort by id (string compare)
           return a.id.localeCompare(b.id)
@@ -70,7 +70,7 @@ export default {
     entities: {
       handler: function (entities) {
         const hrefList = entities.map(entry => entry._meta.self)
-        // const hrefList = entities.map(entry => ({ href: entry._meta.self, pos: entry.pos, id: entry.id }))
+        // const hrefList = entities.map(entry => ({ href: entry._meta.self, position: entry.position, id: entry.id }))
 
         // update local sorting with external sorting if not dirty
         // or if number of items don't match (new incoming items or deleted items)
@@ -129,7 +129,7 @@ export default {
       this.sorting.dirty = true
 
       await entity.$patch({
-        pos: newPosition
+        position: newPosition
       })
       this.collection().$reload() // TODO: should $reload kill the last load ind issue a new reload? */
     }

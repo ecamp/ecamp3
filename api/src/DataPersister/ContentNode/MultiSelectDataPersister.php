@@ -30,7 +30,7 @@ class MultiSelectDataPersister extends ContentNodeAbstractDataPersister {
             $option = new MultiSelectOption();
 
             $option->translateKey = $item;
-            $option->setPos($key);
+            $option->setPosition($key);
 
             $multiSelect->addOption($option);
         }
