@@ -5,7 +5,10 @@
         <front-page v-if="config.showFrontpage" :camp="camp" />
       </div>
 
-      <table-of-content v-if="config.showToc" :activities="activities" />
+      <table-of-content
+        v-if="config.showToc"
+        :schedule-entries="scheduleEntries"
+      />
 
       <picasso v-if="config.showPicasso" :camp="camp" />
 
@@ -103,8 +106,9 @@ export default {
               dayOffset: 1,
               scheduleEntries: collection([
                 {
-                  id: '/schedule_entry/1',
+                  id: 'scheduleEntry1',
                   activity: entity({
+                    title: 'Activity 1',
                     location: 'Lagerplatz',
                     category: entity({
                       short: 'LA',
@@ -112,7 +116,7 @@ export default {
                     }),
                     scheduleEntries: collection([
                       {
-                        id: '/schedule_entry/1',
+                        id: 'scheduleEntry1',
                         number: '1.1',
                         periodOffset: 510,
                         length: 45,
@@ -130,14 +134,10 @@ export default {
       ]),
     }
 
-    this.activities = [
+    this.scheduleEntries = [
       {
-        id: 'activity1',
+        id: 'scheduleEntry1',
         title: 'Activity 1',
-      },
-      {
-        id: 'activity2',
-        title: 'Activity 2',
       },
     ]
   },

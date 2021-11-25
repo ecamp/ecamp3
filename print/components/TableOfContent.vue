@@ -3,9 +3,12 @@
     <v-col cols="12">
       <div class="TOC">
         <h1>Table of content</h1>
-        <p v-for="activity in activities" :key="'toc_' + activity.id">
-          <a class="link" :href="'#activity_' + activity.id">{{
-            activity.title
+        <p
+          v-for="scheduleEntry in scheduleEntries"
+          :key="'toc_' + scheduleEntry.id"
+        >
+          <a class="toclink" :href="'#scheduleEntry_' + scheduleEntry.id">{{
+            scheduleEntry.title
           }}</a>
         </p>
       </div>
@@ -16,7 +19,7 @@
 <script>
 export default {
   props: {
-    activities: { type: Array, required: true },
+    scheduleEntries: { type: Array, required: true },
   },
 }
 </script>
@@ -25,10 +28,6 @@ export default {
 @media print {
   .TOC {
     page-break-after: always;
-  }
-
-  .link::after {
-    content: ', page ' target-counter(attr(href url), page);
   }
 }
 </style>

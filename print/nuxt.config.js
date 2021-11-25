@@ -136,7 +136,7 @@ export default {
     // in production: FALSE: deactivates injecting any Javascript on client side ==> pure HTML/CSS output only (except explicit head-scripts)
     // in development: TRUE: enable javasript injection in dev mode to support hot reloading
     // injectScripts: process.env.NODE_ENV === 'development',
-    injectScripts: false,
+    injectScripts: true,
 
     csp: {
       reportOnly: false,

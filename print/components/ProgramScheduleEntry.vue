@@ -3,7 +3,7 @@
     <v-col cols="12">
       <error v-if="$fetchState.error">{{ $fetchState.error.message }}</error>
       <div v-else-if="!$fetchState.pending" class="event">
-        <h2 :id="'activity_' + activity.id">
+        <h2 :id="'scheduleEntry_' + scheduleEntry.id">
           {{ scheduleEntry.number }}
           <v-chip dark :color="category.color">{{ category.short }}</v-chip>
           {{ activity.title }}
