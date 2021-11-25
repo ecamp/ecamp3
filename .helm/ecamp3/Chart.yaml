@@ -1,7 +1,7 @@
 apiVersion: v2
-name: api-platform
-description: A Helm chart for an API Platform project
-home: https://api-platform.com
+name: ecamp3
+description: Helm chart for deploying ecamp3 on Kubernetes
+home: https://github.com/ecamp/ecamp3
 icon: https://api-platform.com/logo-250x250.png
 
 # A chart can be either an 'application' or a 'library' chart.

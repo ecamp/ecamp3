@@ -1,10 +1,9 @@
-# Default values for api-platform.
-# This is a YAML-formatted file.
-# Declare variables to be passed into your templates.
+# Default values for ecamp3.
+# Declare configuration values to be passed into the templates.
 
 php:
   image:
-    repository: "chart-example.local/api-platform/php"
+    repository: "docker.io/ecamp/ecamp3-api"
     pullPolicy: IfNotPresent
     # Overrides the image tag whose default is the chart appVersion.
     tag: ""
@@ -28,7 +27,7 @@ pwa:
 
 caddy:
   image:
-    repository: "chart-example.local/api-platform/caddy"
+    repository: "docker.io/ecamp/ecamp3-caddy"
     pullPolicy: IfNotPresent
     # Overrides the image tag whose default is the chart appVersion.
     tag: ""
