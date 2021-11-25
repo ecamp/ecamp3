@@ -59,8 +59,10 @@ if [ "$1" = 'php-fpm' ] || [ "$1" = 'php' ] || [ "$1" = 'bin/console' ] || [ "$1
 			php bin/console doctrine:migrations:migrate --no-interaction
 		fi
 
-		if ls -A fixtures/*.yml >/dev/null 2>&1; then
-			php bin/console hautelook:fixtures:load --quiet
+		if [ "$APP_ENV" != 'prod' ]; then
+			if ls -A fixtures/*.yml >/dev/null 2>&1; then
+				php bin/console hautelook:fixtures:load --quiet
+			fi
 		fi
 	fi
 fi
