@@ -50,6 +50,8 @@ export default {
 
                     @page {
                       font-family: "Roboto", sans-serif;
+                      size: A4 portrait;
+                      margin: 15mm 15mm 15mm 15mm;
                       
                       @top-center {
                         content: 'eCamp3';
@@ -115,9 +117,9 @@ export default {
   padding: 0;
 }
 
-@media print {
-  @page {
-    size: a4 portrait;
-  }
-}
+// @media print {
+//   @page {
+//     size: a4 portrait;
+//   }
+// }
 </style>
