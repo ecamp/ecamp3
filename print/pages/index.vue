@@ -5,7 +5,7 @@
         <front-page v-if="config.showFrontpage" :camp="camp" />
       </div>
 
-      <toc v-if="config.showToc" :activities="activities" />
+      <table-of-content v-if="config.showToc" :activities="activities" />
 
       <picasso v-if="config.showPicasso" :camp="camp" />
 
@@ -22,6 +22,32 @@
 </template>
 
 <script>
+function collection(items) {
+  const entityArray = items.map((item) => entity(item)())
+
+  return () => ({
+    items: entityArray,
+    _meta: {
+      load: Promise.resolve({
+        items: entityArray,
+      }),
+    },
+  })
+}
+
+function entity(item) {
+  return () =>
+    Object.assign(
+      { ...item },
+      {
+        _meta: {
+          load: Promise.resolve({ ...item }),
+          self: item.id,
+        },
+      }
+    )
+}
+
 export default {
   data() {
     return {
@@ -31,7 +57,8 @@ export default {
       activities: null,
     }
   },
-  async fetch() {
+  fetch() {
+    /*
     const query = this.$route.query
 
     this.config = {
@@ -51,6 +78,68 @@ export default {
 
     this.camp = await this.$api.get().camps({ campId: query.camp })._meta.load
     this.activities = (await this.camp.activities()._meta.load).items
+    */
+
+    this.config = {
+      showFrontpage: true,
+      showToc: true,
+      showPicasso: true,
+      showStoryline: true,
+      showDailySummary: true,
+      showActivities: true,
+    }
+
+    this.camp = {
+      name: 'Camp Name',
+      title: 'camp title',
+      motto: 'camp motto',
+      periods: collection([
+        {
+          id: '/camp/1',
+          description: 'Vorlager',
+          days: collection([
+            {
+              id: '/day/1',
+              dayOffset: 1,
+              scheduleEntries: collection([
+                {
+                  id: '/schedule_entry/1',
+                  activity: entity({
+                    location: 'Lagerplatz',
+                    category: entity({
+                      short: 'LA',
+                      color: '#55AAAA',
+                    }),
+                    scheduleEntries: collection([
+                      {
+                        id: '/schedule_entry/1',
+                        number: '1.1',
+                        periodOffset: 510,
+                        length: 45,
+                        period: entity({
+                          start: '2021-11-25',
+                        }),
+                      },
+                    ]),
+                  }),
+                },
+              ]),
+            },
+          ]),
+        },
+      ]),
+    }
+
+    this.activities = [
+      {
+        id: 'activity1',
+        title: 'Activity 1',
+      },
+      {
+        id: 'activity2',
+        title: 'Activity 2',
+      },
+    ]
   },
 }
 </script>

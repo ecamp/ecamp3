@@ -3,12 +3,11 @@
     <v-col cols="12">
       <div class="TOC">
         <h1>Table of content</h1>
-        <!--
         <p v-for="activity in activities" :key="'toc_' + activity.id">
           <a class="link" :href="'#activity_' + activity.id">{{
             activity.title
-          }}</a> 
-        </p>-->
+          }}</a>
+        </p>
       </div>
     </v-col>
   </v-row>

@@ -105,7 +105,7 @@ export default {
     this.category = await this.activity.category()._meta.load
 
     /** TODO: something is not yet working here with loading scheduleEntries() from hal-json-vuex. Needs some further debugging */
-    await this.activity.scheduleEntries()._meta.load
+    // await this.activity.scheduleEntries()._meta.load
   },
   computed: {
     scheduleEntries() {
