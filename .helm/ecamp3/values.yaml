@@ -6,7 +6,7 @@ php:
     repository: "docker.io/ecamp/ecamp3-api"
     pullPolicy: IfNotPresent
     # Overrides the image tag whose default is the chart appVersion.
-    tag: ""
+    tag: "latest"
   appEnv: prod
   appDebug: "0"
   appSecret: ""
@@ -23,7 +23,7 @@ caddy:
     repository: "docker.io/ecamp/ecamp3-caddy"
     pullPolicy: IfNotPresent
     # Overrides the image tag whose default is the chart appVersion.
-    tag: ""
+    tag: "latest"
 
 # You may prefer using the managed version in production: https://mercure.rocks
 mercure:
