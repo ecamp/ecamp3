@@ -49,7 +49,7 @@ export default {
           quantity: '',
           unit: '',
           article: '',
-          materialListId: null
+          materialList: null
         }
 
         this.setEntityData(entityData)
