@@ -111,7 +111,7 @@ runs:
         SSH_HOST: ${{ inputs.ssh-host }}
         SSH_DIRECTORY: ${{ inputs.ssh-directory || 'ecamp3' }}
         SHARED_COOKIE_DOMAIN: ${{ inputs.shared-cookie-domain }}
-        INTERNAL_API_URL: ${{ inputs.internal-api-url || 'http://caddy:4001' }}
+        INTERNAL_API_URL: ${{ inputs.internal-api-url || 'http://caddy:3001' }}
         FRONTEND_URL: ${{ inputs.frontend-url }}
         PRINT_SERVER_URL: ${{ inputs.print-server-url }}
         PRINT_FILE_SERVER_URL: ${{ inputs.print-file-server-url }}

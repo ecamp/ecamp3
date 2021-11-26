@@ -41,7 +41,7 @@ services:
     depends_on:
       - php
     environment:
-      SERVER_NAME: localhost:4001, caddy:4001, ${API_DOMAIN}:4001
+      SERVER_NAME: localhost:3001, caddy:3001, ${API_DOMAIN}:3001
       MERCURE_PUBLISHER_JWT_KEY: ${MERCURE_PUBLISHER_JWT_KEY:-!ChangeMe!}
       MERCURE_SUBSCRIBER_JWT_KEY: ${MERCURE_SUBSCRIBER_JWT_KEY:-!ChangeMe!}
       MERCURE_EXTRA_DIRECTIVES: demo

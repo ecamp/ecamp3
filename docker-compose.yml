@@ -65,22 +65,22 @@ services:
     depends_on:
       - php
     environment:
-      SERVER_NAME: ${SERVER_NAME:-localhost:4001, localhost:4443, caddy:4001}
+      SERVER_NAME: ${SERVER_NAME:-localhost:3001, localhost:3443, caddy:3001}
       MERCURE_PUBLISHER_JWT_KEY: ${MERCURE_PUBLISHER_JWT_KEY:-!ChangeMe!}
       MERCURE_SUBSCRIBER_JWT_KEY: ${MERCURE_SUBSCRIBER_JWT_KEY:-!ChangeMe!}
       MERCURE_EXTRA_DIRECTIVES: demo
     ports:
       # HTTP
-      - target: 4001
+      - target: 3001
         published: 3001
         protocol: tcp
       # HTTPS
-      - target: 4443
-        published: 4443
+      - target: 3443
+        published: 3443
         protocol: tcp
       # HTTP/3
-      - target: 4443
-        published: 4443
+      - target: 3443
+        published: 3443
         protocol: udp
     restart: unless-stopped
     user: ${USER_ID:-1000}
