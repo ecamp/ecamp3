@@ -54,7 +54,7 @@ Print preview for single Activity
 <script>
 import { throttle } from 'lodash'
 
-const PRINT_SERVER = window.environment.PRINT_SERVER
+const PRINT_SERVER = window.environment?.PRINT_SERVER
 
 export default {
   name: 'PrintActivity',

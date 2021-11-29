@@ -13,7 +13,7 @@ const NavigationCamp = () => import(/* webpackChunkName: "navigationCamp" */ './
 /* istanbul ignore next */
 export default new Router({
   mode: 'history',
-  base: window.environment.BASE_URL || '/',
+  base: window.environment?.BASE_URL || '/',
   routes: [
     // Dev-Pages:
     {
@@ -24,6 +24,15 @@ export default new Router({
         default: () => import(/* webpackChunkName: "register" */ './views/dev/Controls.vue')
       }
     },
+
+    {
+      path: '/print',
+      name: 'print',
+      components: {
+        default: () => import(/* webpackChunkName: "register" */ './views/dev/Print.vue')
+      }
+    },
+
     // Prod-Pages:
     {
       path: '/register',

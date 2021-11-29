@@ -45,9 +45,9 @@
 import PrintDownloader from '@/components/camp/CampPrintDownloader.vue'
 import axios from 'axios'
 
-const PRINT_SERVER = window.environment.PRINT_SERVER
-const PRINT_FILE_SERVER = window.environment.PRINT_FILE_SERVER
-const BROWSERLESS_TOKEN = window.environment.BROWSERLESS_TOKEN
+const PRINT_SERVER = window.environment?.PRINT_SERVER
+const PRINT_FILE_SERVER = window.environment?.PRINT_FILE_SERVER
+const BROWSERLESS_TOKEN = window.environment?.BROWSERLESS_TOKEN
 
 export default {
   name: 'CampPrint',

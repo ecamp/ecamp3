@@ -63,7 +63,7 @@ import ContentCard from '@/components/layout/ContentCard.vue'
 import StoryPeriod from '@/components/camp/StoryPeriod.vue'
 import { campRoleMixin } from '@/mixins/campRoleMixin'
 
-const PRINT_SERVER = window.environment.PRINT_SERVER
+const PRINT_SERVER = window.environment?.PRINT_SERVER
 
 export default {
   name: 'Story',
