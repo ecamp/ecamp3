@@ -60,6 +60,11 @@ export default {
     '@nuxtjs/sentry',
   ],
 
+  /*
+   ** Server Middleware
+   */
+  serverMiddleware: [{ path: '/pdf', handler: '~/server-middleware' }],
+
   /**
    * Router config
    * See https://nuxtjs.org/api/configuration-router/
