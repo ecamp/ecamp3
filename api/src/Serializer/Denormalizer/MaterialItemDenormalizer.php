@@ -3,6 +3,7 @@
 namespace App\Serializer\Denormalizer;
 
 use App\Entity\MaterialItem;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Serializer\Normalizer\ContextAwareDenormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
@@ -16,7 +17,7 @@ class MaterialItemDenormalizer implements ContextAwareDenormalizerInterface, Den
 
     private const ALREADY_CALLED = 'MATERIAL_ITEM_DENORMALIZER_ALREADY_CALLED';
 
-    public function __construct() {
+    public function __construct(public RequestStack $requestStack) {
     }
 
     /**
@@ -26,8 +27,8 @@ class MaterialItemDenormalizer implements ContextAwareDenormalizerInterface, Den
         if ('post' === ($context['collection_operation_name'] ?? null)) {
             // copy query parameters to POST payload
             // this allows e.g. posting on /material_items?materialNode=/content_node/material_node/123 without explicitly providing materialNode in POST payload
-            $data['period'] ??= $context['request']?->query->get('period');
-            $data['materialNode'] ??= $context['request']?->query->get('materialNode');
+            $data['period'] ??= $this->requestStack->getCurrentRequest()->query->get('period');
+            $data['materialNode'] ??= $this->requestStack->getCurrentRequest()->query->get('materialNode');
         }
 
         $context[self::ALREADY_CALLED] = true;

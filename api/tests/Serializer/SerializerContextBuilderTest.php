@@ -64,7 +64,7 @@ class SerializerContextBuilderTest extends TestCase {
         $this->assertNotEquals(['allow_extra_attributes' => false], $result);
     }
 
-    public function testAddsAllowExtraAttributesFalseAndRequestObjectWhenDenormalizing() {
+    public function testAddsAllowExtraAttributesFalseWhenDenormalizing() {
         $request = $this->createMock(Request::class);
         $this->decoratedMock
             ->expects($this->exactly(1))
@@ -74,6 +74,6 @@ class SerializerContextBuilderTest extends TestCase {
 
         $result = $this->contextBuilder->createFromRequest($request, false);
 
-        $this->assertEquals(['allow_extra_attributes' => false, 'request' => $request], $result);
+        $this->assertEquals(['allow_extra_attributes' => false], $result);
     }
 }

@@ -31,7 +31,6 @@ final class SerializerContextBuilder implements SerializerContextBuilderInterfac
 
         if (!$normalization) {
             $context['allow_extra_attributes'] = false;
-            $context['request'] = $request;
         }
 
         return $context;
