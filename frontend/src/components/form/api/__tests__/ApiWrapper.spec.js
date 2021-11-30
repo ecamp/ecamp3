@@ -35,7 +35,7 @@ function mockPromiseResolving (value) {
   })
 }
 
-// createa a mock Promise which rejects within 100ms with value
+// creates a mock Promise which rejects within 100ms with value
 /*
 function mockPromiseRejecting (value) {
   return new Promise((resolve, reject) => {
@@ -439,7 +439,7 @@ describe('Testing ApiWrapper [autoSave=true; value from API; relation defined]',
     })
   })
 
-  test.only('loads id of relation', async () => {
+  test('loads id of relation', async () => {
     // when
     wrapper = shallowMount(ApiWrapper, config)
     vm = wrapper.vm

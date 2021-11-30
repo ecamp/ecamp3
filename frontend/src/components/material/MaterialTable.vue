@@ -218,10 +218,10 @@ export default {
     // materialItems Collection to display
     materialItemCollection: { type: Object, required: true },
 
-    // materialNode Entity for displaying material tables within activitiy
+    // materialNode Entity for displaying material item within an activity (should be null if period is provided)
     materialNode: { type: Object, required: false, default: null },
 
-    // materialNode Entity for displaying material tables within activitiy
+    // period Entity for displaying material items within a period (should be null if materialNode is provided)
     period: { type: Object, required: false, default: null },
 
     // controls if material belonging to ContentNodes should be shown or not
@@ -283,9 +283,8 @@ export default {
           unit: item.unit,
           article: item.article,
           listName: item.materialList().name,
-          activity: item.materialNode ? item.materialNode().id : null,
           entityObject: item,
-          readonly: (this.period && item.materialNode), // if complete component is in period overview, disable editing of material that belongs to materialNodes (Acitity material)
+          readonly: (this.period && item.materialNode), // if complete component is in period overview, disable editing of material that belongs to materialNodes (Activity material)
           class: this.period && item.materialNode ? 'readonly' : 'period'
         }))
 

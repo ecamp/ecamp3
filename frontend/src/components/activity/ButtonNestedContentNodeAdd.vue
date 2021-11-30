@@ -32,7 +32,7 @@
         <v-divider />
 
         <!-- all other content types -->
-        <v-list-item v-for="act in allContentTypes"
+        <v-list-item v-for="act in nonpreferredContentTypes"
                      :key="act.contentType.id"
                      @click="addContentNode(act.contentType)">
           <v-list-item-icon>
@@ -65,7 +65,7 @@ export default {
     preferredContentTypes () {
       return this.parentContentNode.ownerCategory().preferredContentTypes().items.map(this.contentTypeMap)
     },
-    allContentTypes () {
+    nonpreferredContentTypes () {
       return this.api.get().contentTypes().items
         .filter(ct => !this.parentContentNode.ownerCategory().preferredContentTypes().items.map(ct => ct.id).includes(ct.id)) // remove contentTypes already included in preferredContentTypes
         .map(this.contentTypeMap)

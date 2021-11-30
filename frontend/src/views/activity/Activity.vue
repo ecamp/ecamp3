@@ -227,6 +227,7 @@ export default {
 
   // reload data every time user navigates to Activity view
   async mounted () {
+    this.loading = true
     await this.scheduleEntry().activity()._meta.load // wait if activity is being loaded as part of a collection
     await this.scheduleEntry().activity().$reload() // reload as single entity to ensure all embedded entities are included in a single network request
     this.loading = false
