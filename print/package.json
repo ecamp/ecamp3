@@ -42,7 +42,7 @@
     "eslint-plugin-nuxt": "2.0.0",
     "eslint-plugin-prettier": "4.0.0",
     "eslint-plugin-vue": "7.20.0",
-    "jest": "27.4.2",
+    "jest": "27.4.3",
     "prettier": "2.5.0",
     "stylelint": "13.13.1",
     "stylelint-config-prettier": "8.0.2",
