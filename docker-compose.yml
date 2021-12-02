@@ -135,7 +135,7 @@ services:
       - ./.cache/composer:/tmp/cache
 
   db:
-    image: mysql:8.0.27@sha256:aeecae58035f3868bf4f00e5fc623630d8b438db9d05f4d8c6538deb14d4c31b
+    image: mysql:8.0.27@sha256:ff9a288d1ecf4397967989b5d1ec269f7d9042a46fc8bc2c3ae35458c1a26727
     container_name: 'ecamp3-db'
     environment:
       - MYSQL_DATABASE=ecamp3dev
