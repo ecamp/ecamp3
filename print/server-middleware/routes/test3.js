@@ -10,6 +10,9 @@ const router = Router()
 
 // Test route
 router.use('/test3', async (req, res) => {
+  // Launch own puppeteer + Chromium
+  // const browser = await puppeteer.launch()
+
   // Connect to browserless.io (puppeteer websocket)
   const browser = await puppeteer.connect({
     browserWSEndpoint: `wss://chrome.browserless.io/?token=${process.env.BROWSERLESS_TOKEN}`,

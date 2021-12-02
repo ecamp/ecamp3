@@ -115,7 +115,7 @@ export default {
    */
   vuetify: {
     customVariables: ['~/assets/variables.scss'],
-    treeShake: true,
+    treeShake: false /** tree shaking somehow doesn't work well with injectScript=false */,
     theme: {
       dark: false,
     },
@@ -139,9 +139,9 @@ export default {
    */
   render: {
     // in production: FALSE: deactivates injecting any Javascript on client side ==> pure HTML/CSS output only (except explicit head-scripts)
-    // in development: TRUE: enable javasript injection in dev mode to support hot reloading
+    // in development: TRUE: enable javascript injection in dev mode to support hot reloading
     // injectScripts: process.env.NODE_ENV === 'development',
-    injectScripts: true,
+    injectScripts: false,
 
     csp: {
       reportOnly: false,

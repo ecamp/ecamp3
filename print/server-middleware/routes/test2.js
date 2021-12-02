@@ -18,7 +18,7 @@ router.use('/test2', async (req, res) => {
 
     // Capture HTML via internal Nuxt render call
     // TODO: needs some extra work to ensure pagedJs or all other dependencies are already included in generated HTML (not just as links). Browserless.io will not try to fetch additionals links.
-    // TODO: check if authentication needs to be providfed (or if Nuxt is already aware)
+    // TODO: check if authentication needs to be provided (or if Nuxt is already aware)
     const { html } = await nuxt.renderRoute('/')
 
     // REST call to browserless.io
