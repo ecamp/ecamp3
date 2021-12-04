@@ -4,7 +4,7 @@ import { i18n } from '@/plugins'
 
 import { defineHelpers } from '@/common/helpers/scheduleEntry/dateHelperLocal.js'
 
-export default function useDragAndDrop (editable, period, dialogActivityCreate) {
+export default function useDragAndDrop (editable, period, dialogActivityCreate, showScheduleEntry) {
   // internal data
   const draggedEntry = ref(null)
   const currentEntry = ref(null)
@@ -102,7 +102,7 @@ export default function useDragAndDrop (editable, period, dialogActivityCreate) 
   const entryMouseDown = ({ event: entry, timed, nativeEvent }) => {
     if (!entry.tmpEvent && (nativeEvent.button === 1 || nativeEvent.metaKey || nativeEvent.ctrlKey)) {
       // Click with middle mouse button, or click while holding cmd/ctrl opens new tab
-      // this.showScheduleEntryInNewTab(entry) // TODO: fix
+      showScheduleEntry(entry, true)
       openedInNewTab.value = true
     } else if (nativeEvent.button === 2) {
       // don't move event if middle mouse button
@@ -155,7 +155,7 @@ export default function useDragAndDrop (editable, period, dialogActivityCreate) 
         const threshold = minuteThreshold * 60 * 1000
         const now = toTime(tms)
         if (Math.abs(now - mouseStartTime.value) < threshold) {
-          // this.showScheduleEntry(draggedEntry.value) // TODO: fix
+          showScheduleEntry(draggedEntry.value)
         } else if (!draggedEntry.value.tmpEvent) {
           const patchedScheduleEntry = {
             periodOffset: draggedEntry.value.periodOffset,

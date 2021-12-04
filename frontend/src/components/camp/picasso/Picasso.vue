@@ -95,7 +95,7 @@ Listing all given activity schedule entries in a calendar view.
 import { toRefs, computed } from '@vue/composition-api'
 import useDragAndDrop from './useDragAndDrop.js'
 
-import { scheduleEntryRoute } from '@/router.js'
+import router, { scheduleEntryRoute } from '@/router.js'
 import { isCssColor } from 'vuetify/lib/util/colorUtils'
 
 import DialogActivityEdit from '@/components/dialog/DialogActivityEdit.vue'
@@ -147,6 +147,16 @@ export default {
   setup (props) {
     const { editable, period } = toRefs(props)
 
+    // own methods
+    const showScheduleEntry = (entry, newTab = false) => {
+      if (newTab) {
+        const routeData = router.resolve(scheduleEntryRoute(entry))
+        window.open(routeData.href, '_blank')
+      } else {
+        router.push(scheduleEntryRoute(entry)).catch(() => {})
+      }
+    }
+
     const {
       entryMouseDown,
       timeMouseDown,
@@ -157,7 +167,7 @@ export default {
       isSaving,
       patchError,
       tempScheduleEntry
-    } = useDragAndDrop(editable, period, props.dialogActivityCreate)
+    } = useDragAndDrop(editable, period, props.dialogActivityCreate, showScheduleEntry)
 
     // own computed
     const scheduleEntriesWithTemporary = computed(() => {
@@ -176,6 +186,7 @@ export default {
       timeMouseUp,
       nativeMouseUp,
       extendBottom,
+      showScheduleEntry,
 
       // data
       isSaving,
@@ -188,7 +199,6 @@ export default {
   },
   data () {
     return {
-
       maxDays: 100,
       entryWidth: 80,
       value: '',
@@ -259,14 +269,6 @@ export default {
       } else {
         return this.$date.utc(day.date).format(this.$tc('global.datetime.dateLong'))
       }
-    },
-    scheduleEntryRoute,
-    showScheduleEntry (entry) {
-      this.$router.push(scheduleEntryRoute(entry)).catch(() => {})
-    },
-    showScheduleEntryInNewTab (entry) {
-      const routeData = this.$router.resolve(scheduleEntryRoute(entry))
-      window.open(routeData.href, '_blank')
     },
     weekdayFormat () {
       return ''
