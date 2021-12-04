@@ -3,17 +3,14 @@
     <slot
       :scheduleEntries="scheduleEntries"
       :loading="apiScheduleEntries._meta.loading"
-      :showActivityCreateDialog="showActivityCreateDialog"
-      :showActivityEditDialog="showActivityEditDialog" />
+      :showActivityCreateDialog="showActivityCreateDialog" />
     <dialog-activity-create
       ref="dialogActivityCreate"
       :camp="period().camp"
       :schedule-entry="popupEntry"
       @activityCreated="afterCreateActivity($event)"
       @creationCanceled="cancelNewActivity" />
-    <dialog-activity-edit
-      ref="dialogActivityEdit"
-      :schedule-entry="popupEntry" />
+
     <v-btn
       v-if="showButton"
       :fixed="$vuetify.breakpoint.xs"
@@ -33,14 +30,13 @@
 
 <script>
 import DialogActivityCreate from '@/components/dialog/DialogActivityCreate.vue'
-import DialogActivityEdit from '@/components/dialog/DialogActivityEdit.vue'
+
 import { defineHelpers } from '@/common/helpers/scheduleEntry/dateHelperLocal.js'
 
 export default {
   name: 'ScheduleEntries',
   components: {
-    DialogActivityCreate,
-    DialogActivityEdit
+    DialogActivityCreate
   },
   props: {
     period: { type: Function, required: true },
@@ -91,10 +87,6 @@ export default {
       this.popupEntry = entry
       this.deleteTempEntryCallback = deleteTempEntryCallback
       this.$refs.dialogActivityCreate.showDialog = true
-    },
-    showActivityEditDialog (entry) {
-      this.popupEntry = entry
-      this.$refs.dialogActivityEdit.showDialog = true
     },
     afterCreateActivity (data) {
       this.api.reload(this.period().scheduleEntries())

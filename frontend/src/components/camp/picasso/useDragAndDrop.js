@@ -4,7 +4,7 @@ import { i18n } from '@/plugins'
 
 import { defineHelpers } from '@/common/helpers/scheduleEntry/dateHelperLocal.js'
 
-export default function useDragAndDrop (editable, period) {
+export default function useDragAndDrop (editable, period, dialogActivityCreate) {
   // internal data
   const draggedEntry = ref(null)
   const currentEntry = ref(null)
@@ -173,7 +173,7 @@ export default function useDragAndDrop (editable, period) {
       } else if (currentEntry.value && currentStartTime.value !== null) {
         if (currentEntry.value.tmpEvent) {
           if (!extendOriginal.value) {
-            // this.showEntryInfoPopup(currentEntry.value) // TODO: fix
+            dialogActivityCreate(currentEntry.value, () => { tempScheduleEntry.value = null })
           }
         } else if (currentEntry.value.endTime !== extendOriginal.value) {
           const patchedScheduleEntry = {

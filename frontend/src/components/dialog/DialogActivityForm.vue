@@ -34,6 +34,7 @@
       v-model="localActivity.location"
       :name="$tc('entity.activity.fields.location')" />
 
+    <!-- TO DO: doesn't work in edit mode -->
     <create-schedule-entries v-if="activity.scheduleEntries" :schedule-entries="activity.scheduleEntries" />
   </div>
 </template>

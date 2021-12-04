@@ -46,20 +46,32 @@ Listing all given activity schedule entries in a calendar view.
         <div v-if="dateNow === date"
              class="v-current-time" :style="{ top: nowY }" />
       </template>
+
+      <!-- template for single scheduleEntry -->
       <template #event="{event, timed}">
-        <v-btn v-if="!event.tmpEvent && dialogActivityEdit" absolute
-               top
-               right x-small
-               dark text
-               class="ec-event--btn rounded-sm"
-               @click.stop="showEntryInfoPopup(event)"
-               @mousedown.stop=""
-               @mouseup.stop="">
-          <v-icon x-small>mdi-pencil</v-icon>
-        </v-btn>
+        <!-- edit button & dialog -->
+        <dialog-activity-edit
+          v-if="editable && !event.tmpEvent"
+          :schedule-entry="event">
+          <template #activator="{ on }">
+            <v-btn absolute
+                   top
+                   right x-small
+                   dark text
+                   class="ec-event--btn rounded-sm"
+                   @click.prevent="on.click"
+                   @mousedown.stop=""
+                   @mouseup.stop="">
+              <v-icon x-small>mdi-pencil</v-icon>
+            </v-btn>
+          </template>
+        </dialog-activity-edit>
+
         <h4 class="v-event-title">
           {{ getActivityName(event) }}
         </h4>
+
+        <!-- extendBottom: used for resizing -->
         <div
           v-if="editable && timed"
           class="v-event-drag-bottom"
@@ -86,8 +98,14 @@ import useDragAndDrop from './useDragAndDrop.js'
 import { scheduleEntryRoute } from '@/router.js'
 import { isCssColor } from 'vuetify/lib/util/colorUtils'
 
+import DialogActivityEdit from '@/components/dialog/DialogActivityEdit.vue'
+
 export default {
   name: 'Picasso',
+  components: {
+
+    DialogActivityEdit
+  },
   props: {
     period: {
       type: Object,
@@ -116,11 +134,6 @@ export default {
       required: false,
       default: () => {}
     },
-    dialogActivityEdit: {
-      type: Function,
-      required: false,
-      default: () => {}
-    },
     scheduleEntries: {
       type: Array,
       required: true
@@ -144,7 +157,7 @@ export default {
       isSaving,
       patchError,
       tempScheduleEntry
-    } = useDragAndDrop(editable, period)
+    } = useDragAndDrop(editable, period, props.dialogActivityCreate)
 
     // own computed
     const scheduleEntriesWithTemporary = computed(() => {
@@ -262,14 +275,6 @@ export default {
     entryClick ({ event: entry }) {
       if (!this.editable) {
         this.showScheduleEntry(entry)
-      }
-    },
-
-    showEntryInfoPopup (entry) {
-      if (entry._meta) {
-        this.dialogActivityEdit(entry)
-      } else {
-        this.dialogActivityCreate(entry, () => { this.tempScheduleEntry.value = null })
       }
     },
 
