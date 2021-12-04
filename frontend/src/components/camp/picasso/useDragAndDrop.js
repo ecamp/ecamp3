@@ -1,5 +1,6 @@
 import { ref } from '@vue/composition-api'
 import { apiStore as api } from '@/plugins/store'
+import { i18n } from '@/plugins'
 
 import { defineHelpers } from '@/common/helpers/scheduleEntry/dateHelperLocal.js'
 
@@ -64,7 +65,7 @@ export default function useDragAndDrop (editable, period) {
       periodOffset: 0,
       length: 0,
       activity: () => ({
-        title: 'test Title', // this.$tc('entity.activity.new'), // TODO: fix
+        title: i18n.tc('entity.activity.new'),
         location: '',
         camp: period.value.camp,
         category: () => ({
