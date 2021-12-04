@@ -16,7 +16,7 @@ Show all activity schedule entries of a single period.
           <picasso
             class="mx-2 ma-sm-0 pa-sm-2"
             :schedule-entries="slotProps.scheduleEntries"
-            :period="period"
+            :period="period()"
             :start="Date.parse(period().start)"
             :end="Date.parse(period().end)"
             :dialog-activity-create="slotProps.showActivityCreateDialog"
@@ -29,7 +29,7 @@ Show all activity schedule entries of a single period.
 </template>
 <script>
 import ContentCard from '@/components/layout/ContentCard.vue'
-import Picasso from '@/components/camp/Picasso.vue'
+import Picasso from '@/components/camp/picasso/Picasso.vue'
 import ScheduleEntries from '@/components/scheduleEntry/ScheduleEntries.vue'
 import PeriodSwitcher from '@/components/camp/PeriodSwitcher.vue'
 

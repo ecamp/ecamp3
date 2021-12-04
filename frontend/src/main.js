@@ -4,6 +4,7 @@ import router from '@/router.js'
 import { vuetifyLoader, auth, storeLoader, filterLoading, formBaseComponents, ignoreNativeBindingWarnMessages, i18n, veeValidate, dayjs } from './plugins'
 import { store } from './plugins/store'
 import { vuetify } from './plugins/vuetify'
+import VueCompositionAPI from '@vue/composition-api'
 import * as Sentry from '@sentry/vue'
 
 import { Resize } from 'vuetify/lib/directives'
@@ -25,6 +26,7 @@ Vue.use(veeValidate)
 Vue.use(storeLoader)
 Vue.use(vuetifyLoader)
 Vue.use(dayjs)
+Vue.use(VueCompositionAPI)
 
 // manually importing necessary vuetify directives (there's no auomatic vuetify-loader for vitejs)
 Vue.directive('resize', Resize)

@@ -185,12 +185,18 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
      */
     #[ApiProperty(writable: false, example: '/days/1a2b3c4d')]
     #[Groups(['read'])]
-    public function getDay(): Day {
+    public function getDay(): Day | null {
         $dayNumber = $this->getDayNumber();
 
-        return $this->period->days->filter(function (Day $day) use ($dayNumber) {
+        $filteredDays = $this->period->days->filter(function (Day $day) use ($dayNumber) {
             return $day->getDayNumber() === $dayNumber;
-        })->first();
+        });
+
+        if ($filteredDays->isEmpty()) {
+            return null;
+        }
+
+        return $filteredDays->first();
     }
 
     #[ApiProperty(readable: false)]

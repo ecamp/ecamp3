@@ -80,15 +80,17 @@ Listing all given activity schedule entries in a calendar view.
   </div>
 </template>
 <script>
+import { toRefs } from '@vue/composition-api'
+import useDragAndDrop from './useDragAndDrop.js'
+
 import { scheduleEntryRoute } from '@/router.js'
 import { isCssColor } from 'vuetify/lib/util/colorUtils'
-import { defineHelpers } from '@/common/helpers/scheduleEntry/dateHelperLocal.js'
 
 export default {
   name: 'Picasso',
   props: {
     period: {
-      type: Function,
+      type: Object,
       required: true
     },
     start: {
@@ -129,28 +131,46 @@ export default {
       default: false
     }
   },
+  setup (props) {
+    const { editable, period } = toRefs(props)
+
+    const {
+      entryMouseDown,
+      timeMouseDown,
+      timeMouseMove,
+      timeMouseUp,
+      nativeMouseUp,
+      extendBottom,
+      isSaving,
+      patchError,
+      tempScheduleEntry
+    } = useDragAndDrop(editable, period)
+
+    return {
+      entryMouseDown,
+      timeMouseDown,
+      timeMouseMove,
+      timeMouseUp,
+      nativeMouseUp,
+      extendBottom,
+      isSaving,
+      patchError,
+      tempScheduleEntry
+    }
+  },
   data () {
     return {
-      tempScheduleEntry: {},
+
       maxDays: 100,
       entryWidth: 80,
       value: '',
-      isSaving: false,
-      patchError: false,
-      draggedEntry: null,
-      currentEntry: null,
-      mouseStartTime: null,
-      draggedStartTime: null,
-      currentStartTime: null,
-      extendOriginal: null,
-      openedInNewTab: false,
       activitiesLoading: true
     }
   },
   computed: {
     scheduleEntriesWithTemporary () {
-      if (this.tempScheduleEntry && this.tempScheduleEntry.tmpEvent) {
-        return this.scheduleEntries.concat(this.tempScheduleEntry)
+      if (this.tempScheduleEntry.value && this.tempScheduleEntry.value.tmpEvent) {
+        return this.scheduleEntries.concat(this.tempScheduleEntry.value)
       } else {
         return this.scheduleEntries
       }
@@ -177,14 +197,14 @@ export default {
       return this.$refs.calendar ? this.$refs.calendar.timeToY(this.now) + 'px' : '-10px'
     },
     camp () {
-      return this.period().camp()
+      return this.period.camp()
     },
     computedIntervalHeight () {
       return this.intervalHeight !== 0 ? this.intervalHeight : this.$vuetify.breakpoint.xsOnly ? (this.$vuetify.breakpoint.height - 140) / 19 : Math.max((this.$vuetify.breakpoint.height - 204) / 19, 32)
     }
   },
   mounted () {
-    this.api.get().activities({ period: this.period()._meta.self })._meta.load.then(() => { this.activitiesLoading = false })
+    this.api.get().activities({ period: this.period._meta.self })._meta.load.then(() => { this.activitiesLoading = false })
   },
   methods: {
     resize () {
@@ -229,202 +249,29 @@ export default {
     weekdayFormat () {
       return ''
     },
-    entryMouseDown ({ event: entry, timed, nativeEvent }) {
-      if (!entry.tmpEvent && (nativeEvent.button === 1 || nativeEvent.metaKey || nativeEvent.ctrlKey)) {
-        // Click with middle mouse button, or click while holding cmd/ctrl opens new tab
-        this.showScheduleEntryInNewTab(entry)
-        this.openedInNewTab = true
-      } else if (nativeEvent.button === 2) {
-        // don't move event if middle mouse button
-      } else if (this.editable) {
-        if (entry && timed) {
-          this.draggedEntry = entry
-          this.draggedStartTime = null
-          this.extendOriginal = null
-        }
-      }
-    },
+
     entryClick ({ event: entry }) {
       if (!this.editable) {
         this.showScheduleEntry(entry)
       }
     },
-    timeMouseDown (tms) {
-      if (this.editable) {
-        const mouse = this.toTime(tms)
-        if (this.openedInNewTab) {
-          this.openedInNewTab = false
-          return
-        }
 
-        if (this.mouseStartTime === null) {
-          this.mouseStartTime = mouse
-        }
-
-        if (this.draggedEntry && this.draggedStartTime === null) {
-          const start = this.draggedEntry.startTime
-          this.draggedStartTime = mouse - start
-        } else {
-          this.createNewEntry(mouse)
-        }
-      }
-    },
-    createNewEntry: function (mouse) {
-      this.currentStartTime = this.roundTimeDown(mouse)
-      this.currentEntry = defineHelpers({
-        number: null,
-        period: () => (this.period)(),
-        periodOffset: 0,
-        length: 0,
-        activity: () => ({
-          title: this.$tc('entity.activity.new'),
-          location: '',
-          camp: (this.period)().camp,
-          category: () => ({
-            id: null,
-            short: null,
-            color: 'grey elevation-4 v-event--temporary'
-          })
-        }),
-        tmpEvent: true
-      }, true)
-      this.currentEntry.startTime = this.currentStartTime
-      this.currentEntry.endTime = this.currentStartTime
-      this.tempScheduleEntry = this.currentEntry
-    },
-    timeMouseMove (tms) {
-      if (this.editable) {
-        const mouse = this.toTime(tms)
-
-        if (this.draggedEntry && this.draggedStartTime !== null) {
-          this.moveEntryTime(mouse)
-        } else if (this.currentEntry && this.currentStartTime !== null) {
-          this.changeEntryTime(mouse)
-        }
-      }
-    },
-    changeEntryTime: function (mouse) {
-      const mouseRounded = this.roundTimeUp(mouse)
-      const min = Math.min(mouseRounded, this.currentStartTime)
-      const max = Math.max(mouseRounded, this.currentStartTime)
-
-      this.currentEntry.startTime = min
-      this.currentEntry.endTime = max
-    },
-    moveEntryTime: function (mouse) {
-      const start = this.draggedEntry.startTime
-      const end = this.draggedEntry.endTime
-      const duration = end - start
-      const newStartTime = mouse - this.draggedStartTime
-      const newStart = this.roundTimeDown(newStartTime)
-      const newEnd = newStart + duration
-
-      this.draggedEntry.startTime = newStart
-      this.draggedEntry.endTime = newEnd
-    },
-    timeMouseUp (tms) {
-      if (this.editable) {
-        if (this.draggedEntry && this.draggedStartTime !== null) {
-          const minuteThreshold = 15
-          const threshold = minuteThreshold * 60 * 1000
-          const now = this.toTime(tms)
-          if (Math.abs(now - this.mouseStartTime) < threshold) {
-            this.showScheduleEntry(this.draggedEntry)
-          } else if (!this.draggedEntry.tmpEvent) {
-            const patchedScheduleEntry = {
-              periodOffset: this.draggedEntry.periodOffset,
-              length: this.draggedEntry.length
-            }
-            this.isSaving = true
-            this.api.patch(this.draggedEntry._meta.self, patchedScheduleEntry).then(() => {
-              this.patchError = false
-              this.isSaving = false
-            }).catch((error) => {
-              this.patchError = error
-            })
-          }
-          this.clearDraggedEntry()
-        } else if (this.currentEntry && this.currentStartTime !== null) {
-          if (this.currentEntry.tmpEvent) {
-            if (!this.extendOriginal) {
-              this.showEntryInfoPopup(this.currentEntry)
-            }
-          } else if (this.currentEntry.endTime !== this.extendOriginal) {
-            const patchedScheduleEntry = {
-              periodOffset: this.currentEntry.periodOffset,
-              length: this.currentEntry.length
-            }
-            this.isSaving = true
-            this.api.patch(this.currentEntry._meta.self, patchedScheduleEntry).then(() => {
-              this.patchError = false
-              this.isSaving = false
-            }).catch((error) => {
-              this.patchError = error
-            })
-          }
-          this.clearCurrentEntry()
-        }
-        this.mouseStartTime = null
-      }
-    },
-    nativeMouseUp () {
-      if (this.editable) {
-        if (this.currentEntry) {
-          if (this.extendOriginal) {
-            this.currentEntry.endTime = this.extendOriginal
-          }
-        }
-        this.clearDraggedEntry()
-        this.clearCurrentEntry()
-      }
-    },
-    extendBottom (event) {
-      this.currentEntry = event
-      this.currentStartTime = event.startTime
-      this.extendOriginal = event.endTime
-    },
-    clearCurrentEntry () {
-      this.currentEntry = null
-      this.currentStartTime = null
-      this.extendOriginal = null
-    },
-    clearDraggedEntry () {
-      this.draggedStartTime = null
-      this.draggedEntry = null
-    },
-    clearEntry () {
-      this.clearCurrentEntry()
-      this.clearDraggedEntry()
-    },
     showEntryInfoPopup (entry) {
       if (entry._meta) {
         this.dialogActivityEdit(entry)
       } else {
-        this.dialogActivityCreate(entry, () => { this.tempScheduleEntry = null })
+        this.dialogActivityCreate(entry, () => { this.tempScheduleEntry.value = null })
       }
     },
-    roundTimeDown (time) {
-      const roundTo = 15 // minutes
-      const roundDownTime = roundTo * 60 * 1000
 
-      return time - time % roundDownTime
-    },
-    roundTimeUp (time) {
-      const roundTo = 15 // minutes
-      const roundDownTime = roundTo * 60 * 1000
-
-      return time + (roundDownTime - (time % roundDownTime))
-    },
-    toTime (tms) {
-      return new Date(tms.year, tms.month - 1, tms.day, tms.hour, tms.minute).getTime()
-    },
+    /*
     toTimeString (date) {
       return this.$date.utc(date).format(this.$tc('global.datetime.hourLong'))
-    },
+    }, */
     rnd (a, b) {
       return Math.floor((b - a + 1) * Math.random()) + a
-    },
-    defineHelpers
+    }
+
   }
 }
 </script>
