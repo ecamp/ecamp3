@@ -5,8 +5,7 @@ namespace App\DataPersister\ContentNode;
 use App\DataPersister\Util\DataPersisterObservable;
 use App\Entity\ContentNode\ColumnLayout;
 
-class ColumnLayoutDataPersister extends ContentNodeAbstractDataPersister
-{
+class ColumnLayoutDataPersister extends ContentNodeAbstractDataPersister {
     /**
      * @throws \ReflectionException
      */

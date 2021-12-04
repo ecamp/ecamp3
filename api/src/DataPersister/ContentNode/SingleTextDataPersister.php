@@ -5,8 +5,7 @@ namespace App\DataPersister\ContentNode;
 use App\DataPersister\Util\DataPersisterObservable;
 use App\Entity\ContentNode\SingleText;
 
-class SingleTextDataPersister extends ContentNodeAbstractDataPersister
-{
+class SingleTextDataPersister extends ContentNodeAbstractDataPersister {
     /**
      * @throws \ReflectionException
      */

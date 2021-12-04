@@ -5,8 +5,7 @@ namespace App\DataPersister\ContentNode;
 use App\DataPersister\Util\DataPersisterObservable;
 use App\Entity\ContentNode\Storyboard;
 
-class StoryboardDataPersister extends ContentNodeAbstractDataPersister
-{
+class StoryboardDataPersister extends ContentNodeAbstractDataPersister {
     /**
      * @throws \ReflectionException
      */

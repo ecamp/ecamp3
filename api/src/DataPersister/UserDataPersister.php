@@ -11,8 +11,7 @@ use App\Service\MailService;
 use App\Util\IdGenerator;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
-class UserDataPersister extends AbstractDataPersister
-{
+class UserDataPersister extends AbstractDataPersister {
     /**
      * @throws \ReflectionException
      */
@@ -29,8 +28,7 @@ class UserDataPersister extends AbstractDataPersister
         );
     }
 
-    public function beforeCreate($data): BaseEntity
-    {
+    public function beforeCreate($data): BaseEntity {
         $data->state = User::STATE_REGISTERED;
         if ($data->plainPassword) {
             $data->password = $this->userPasswordHasher->hashPassword($data, $data->plainPassword);
@@ -42,13 +40,11 @@ class UserDataPersister extends AbstractDataPersister
         return $data;
     }
 
-    public function afterCreate($data): void
-    {
+    public function afterCreate($data): void {
         $this->mailService->sendUserActivationMail($data, $data->activationKey);
     }
 
-    public function beforeUpdate($data): BaseEntity
-    {
+    public function beforeUpdate($data): BaseEntity {
         if ($data->plainPassword) {
             $data->password = $this->userPasswordHasher->hashPassword($data, $data->plainPassword);
             $data->eraseCredentials();
@@ -60,8 +56,7 @@ class UserDataPersister extends AbstractDataPersister
     /**
      * @throws \Exception
      */
-    public function onActivate($data): BaseEntity
-    {
+    public function onActivate($data): BaseEntity {
         if ($data->activationKeyHash === md5($data->activationKey)) {
             $data->state = User::STATE_ACTIVATED;
             $data->activationKey = null;

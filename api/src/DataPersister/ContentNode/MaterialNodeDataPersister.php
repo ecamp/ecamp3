@@ -5,8 +5,7 @@ namespace App\DataPersister\ContentNode;
 use App\DataPersister\Util\DataPersisterObservable;
 use App\Entity\ContentNode\MaterialNode;
 
-class MaterialNodeDataPersister extends ContentNodeAbstractDataPersister
-{
+class MaterialNodeDataPersister extends ContentNodeAbstractDataPersister {
     /**
      * @throws \ReflectionException
      */

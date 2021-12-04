@@ -42,8 +42,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
     denormalizationContext: ['groups' => ['write']],
     normalizationContext: ['groups' => ['read']],
 )]
-class ColumnLayout extends ContentNode
-{
+class ColumnLayout extends ContentNode {
     public const COLUMNS_SCHEMA = [
         'type' => 'array',
         'items' => [
@@ -79,8 +78,7 @@ class ColumnLayout extends ContentNode
     /**
      * @param ColumnLayout $prototype
      */
-    public function copyFromPrototype($prototype)
-    {
+    public function copyFromPrototype($prototype) {
         $this->columns = $prototype->columns;
 
         parent::copyFromPrototype($prototype);
