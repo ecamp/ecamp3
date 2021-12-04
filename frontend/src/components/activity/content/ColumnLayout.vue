@@ -54,9 +54,6 @@ export default {
     }
   },
   computed: {
-    columnsProperty () {
-      return this.contentNode.columns()
-    },
     columns () {
       return keyBy(this.contentNode.columns || [], 'slot')
     },

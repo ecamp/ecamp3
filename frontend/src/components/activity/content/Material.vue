@@ -2,7 +2,7 @@
   <card-content-node v-bind="$props">
     <div class="mb-3">
       <material-table :camp="camp"
-                      :content-node="contentNode"
+                      :material-node="contentNode"
                       :layout-mode="layoutMode"
                       :material-item-collection="materialItemCollection"
                       :group-by-list="$vuetify.breakpoint.xs"
