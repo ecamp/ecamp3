@@ -80,7 +80,7 @@ Listing all given activity schedule entries in a calendar view.
   </div>
 </template>
 <script>
-import { toRefs } from '@vue/composition-api'
+import { toRefs, computed } from '@vue/composition-api'
 import useDragAndDrop from './useDragAndDrop.js'
 
 import { scheduleEntryRoute } from '@/router.js'
@@ -146,16 +146,31 @@ export default {
       tempScheduleEntry
     } = useDragAndDrop(editable, period)
 
+    // own computed
+    const scheduleEntriesWithTemporary = computed(() => {
+      if (tempScheduleEntry.value && tempScheduleEntry.value.tmpEvent) {
+        return props.scheduleEntries.concat(tempScheduleEntry.value)
+      } else {
+        return props.scheduleEntries
+      }
+    })
+
     return {
+      // methods
       entryMouseDown,
       timeMouseDown,
       timeMouseMove,
       timeMouseUp,
       nativeMouseUp,
       extendBottom,
+
+      // data
       isSaving,
       patchError,
-      tempScheduleEntry
+      tempScheduleEntry,
+
+      // computed
+      scheduleEntriesWithTemporary
     }
   },
   data () {
@@ -168,13 +183,7 @@ export default {
     }
   },
   computed: {
-    scheduleEntriesWithTemporary () {
-      if (this.tempScheduleEntry.value && this.tempScheduleEntry.value.tmpEvent) {
-        return this.scheduleEntries.concat(this.tempScheduleEntry.value)
-      } else {
-        return this.scheduleEntries
-      }
-    },
+
     categories () {
       return this.camp.categories()
     },
@@ -223,10 +232,10 @@ export default {
       return isCssColor(color) ? color : color + ' elevation-4 v-event--temporary'
     },
     isActivityLoading (scheduleEntry) {
-      return this.activitiesLoading || (scheduleEntry.activity()?._meta.loading ?? false)
+      return this.activitiesLoading || (scheduleEntry.activity()?._meta?.loading ?? false)
     },
     isCategoryLoading (scheduleEntry) {
-      return scheduleEntry.activity().category()?._meta.loading ?? false
+      return scheduleEntry.activity().category()?._meta?.loading ?? false
     },
     intervalFormat (time) {
       return this.$date.utc(time.date + ' ' + time.time).format(this.$tc('global.datetime.hourLong'))
