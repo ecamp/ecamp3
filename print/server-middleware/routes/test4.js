@@ -65,9 +65,7 @@ router.use('/test4', async (req, res) => {
     const nuxt = await loadNuxt({ for: 'start' })
 
     // Capture HTML via internal Nuxt render call
-    // TODO: needs some extra work to ensure pagedJs or all other dependencies are already included in generated HTML (not just as links). Browserless.io will not try to fetch additionals links.
-    // TODO: check if authentication needs to be provided (or if Nuxt is already aware)
-    const { html } = await nuxt.renderRoute('/')
+    const { html } = await nuxt.renderRoute('/', { req }) // pass `req` object to Nuxt will also pass authentication cookies automatically
 
     // set HTML content of current page
     measurePerformance('Puppeteer set HTML content & load resources...')

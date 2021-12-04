@@ -1,6 +1,17 @@
 <template>
   <v-row no-gutters>
     <v-col cols="12">
+      <hr />
+      <h1>API connection test</h1>
+      Loading all camps from API to check API connection &amp; authentication
+      <ul>
+        <li v-for="camp in camps" :key="camp.id">
+          {{ camp.id }} / {{ camp.name }} / {{ camp.title }}
+        </li>
+      </ul>
+      <hr />
+      test
+
       <div v-if="true">
         <front-page v-if="config.showFrontpage" :camp="camp" />
       </div>
@@ -57,10 +68,11 @@ export default {
       config: {},
       pagedjs: '',
       camp: null,
+      camps: [],
       activities: null,
     }
   },
-  fetch() {
+  async fetch() {
     /*
     const query = this.$route.query
 
@@ -82,6 +94,12 @@ export default {
     this.camp = await this.$api.get().camps({ campId: query.camp })._meta.load
     this.activities = (await this.camp.activities()._meta.load).items
     */
+
+    try {
+      this.camps = (await this.$api.get().camps()._meta.load).items
+    } catch (error) {
+      console.log(error)
+    }
 
     this.config = {
       showFrontpage: true,

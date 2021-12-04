@@ -39,6 +39,18 @@ router.use('/test1', (req, res) => {
           top: '0px',
         },
       },
+      // pass JWT cookie
+      /*
+      cookies: [
+        {
+          name: 'jwt_hp',
+          value: req.cookies.jwt_hp,
+        },
+        {
+          name: 'jwt_s',
+          value: req.cookies.jwt_s,
+        },
+      ], */
     },
   })
     .then((response) => {

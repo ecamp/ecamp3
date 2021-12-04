@@ -17,9 +17,7 @@ router.use('/test2', async (req, res) => {
     const nuxt = await loadNuxt({ for: 'start' })
 
     // Capture HTML via internal Nuxt render call
-    // TODO: needs some extra work to ensure pagedJs or all other dependencies are already included in generated HTML (not just as links). Browserless.io will not try to fetch additionals links.
-    // TODO: check if authentication needs to be provided (or if Nuxt is already aware)
-    const { html } = await nuxt.renderRoute('/')
+    const { html } = await nuxt.renderRoute('/', { req }) // pass `req` object to Nuxt will also pass authentication cookies automatically
 
     // REST call to browserless.io
     const response = await axios({
@@ -35,6 +33,7 @@ router.use('/test2', async (req, res) => {
       },
       data: {
         html,
+        waitFor: 1000, // this is guess-work, as we don't really know how long rendering pagedJS will take. Test4 (waiting for event) is much more robust
         options: {
           displayHeaderFooter: false,
           printBackground: true,

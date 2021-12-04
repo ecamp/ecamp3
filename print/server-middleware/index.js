@@ -1,4 +1,5 @@
 const express = require('express')
+const cookieParser = require('cookie-parser')
 
 // Create express instance
 const app = express()
@@ -8,6 +9,8 @@ const test1 = require('./routes/test1.js')
 const test2 = require('./routes/test2.js')
 const test3 = require('./routes/test3.js')
 const test4 = require('./routes/test4.js')
+
+app.use(cookieParser())
 
 // Import API Routes
 app.use(test1)
