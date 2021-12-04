@@ -8,32 +8,48 @@
  */
 
 import puppeteer from 'puppeteer'
+const { performance } = require('perf_hooks')
 const { loadNuxt } = require('nuxt')
 const { Router } = require('express')
 
 const router = Router()
 
+let lastTime = null
+function measurePerformance(msg) {
+  const now = performance.now()
+  if (lastTime !== null) {
+    console.log(`(took ${Math.round(now - lastTime)} millisecons)`)
+  }
+  lastTime = now
+
+  console.log('\n')
+  console.log(msg)
+}
+
 // Test route
 router.use('/test4', async (req, res) => {
+  measurePerformance('Connecting to puppeteer...')
+
   // Launch own puppeteer + Chromium
-  const browser = await puppeteer.launch()
+  // const browser = await puppeteer.launch()
 
   // Connect to browserless.io (puppeteer websocket)
-  /* const browser = await puppeteer.connect({
+  const browser = await puppeteer.connect({
     browserWSEndpoint: `wss://chrome.browserless.io/?token=${process.env.BROWSERLESS_TOKEN}`,
-  }) */
+  })
 
   const page = await browser.newPage()
 
   /**
    * Debugging puppeteer
    */
+  /*
   page.on('request', (request) =>
     console.log('>>', request.method(), request.url())
   )
   page.on('response', (response) =>
     console.log('<<', response.status(), response.url())
-  )
+  ) */
   page.on('error', (err) => {
     console.log('error happen at the page: ', err)
   })
@@ -42,6 +58,8 @@ router.use('/test4', async (req, res) => {
   })
 
   try {
+    measurePerformance('Rendering page in Nuxt...')
+
     // Get nuxt instance for start (production mode)
     // Make sure to have run `nuxt build` before running this script
     const nuxt = await loadNuxt({ for: 'start' })
@@ -52,53 +70,54 @@ router.use('/test4', async (req, res) => {
     const { html } = await nuxt.renderRoute('/')
 
     // set HTML content of current page
-    await page.setContent(html)
+    measurePerformance('Puppeteer set HTML content & load resources...')
+    page.setContent(html)
 
     /**
      * Following code snippets copied mostly from https://gitlab.pagedmedia.org/tools/pagedjs-cli/-/blob/master/src/printer.js
      */
 
-    // add local pagedjs
-    /* const pagedjsLocation = require.resolve('pagedjs/dist/paged.polyfill.js')
-    const paths = pagedjsLocation.split('node_modules')
-    const scriptPath = paths[0] + 'node_modules' + paths[paths.length - 1] */
-    await page.addScriptTag({
-      // path: scriptPath,
+    measurePerformance('Setup hooks...')
+
+    // create Promise to wait for PagedJS 'after'
+    let resolver
+    const pagedjsRendered = new Promise(function (resolve, reject) {
+      resolver = resolve
+    })
+    await page.exposeFunction('onRendered', () => {
+      resolver() // resolve promise
+    })
+
+    // autostart of PagedJS and after-event
+    page.evaluate(() => {
+      window.PagedConfig = window.PagedConfig || {}
+      window.PagedConfig.auto = true
+      window.PagedConfig.after = () => {
+        window.onRendered()
+      }
+    })
+
+    // add PagedJS
+    measurePerformance('Add PagedJS...')
+    page.addScriptTag({
       url: 'https://unpkg.com/pagedjs/dist/paged.polyfill.js',
     })
 
-    // create Promise to wait for rendered
-    let resolver
-    const rendered = new Promise(function (resolve, reject) {
-      resolver = resolve
-    })
+    // alternative: add local pagedjs package
+    /*
+    const pagedjsLocation = require.resolve('pagedjs/dist/paged.polyfill.js')
+    const paths = pagedjsLocation.split('node_modules')
+    const scriptPath = paths[0] + 'node_modules' + paths[paths.length - 1]
+    page.addScriptTag({
+      path: scriptPath,
+    }) */
 
-    // onRendered function and attach to 'rendered' event from PagedJS
-    await page.exposeFunction(
-      'onRendered',
-      (msg, width, height, orientation) => {
-        console.log(msg)
-        resolver({ msg, width, height, orientation }) // resolve promise
-      }
-    )
-    await page.evaluate(() => {
-      window.PagedPolyfill.on('rendered', (flow) => {
-        const msg =
-          'Rendering ' +
-          flow.total +
-          ' pages took ' +
-          flow.performance +
-          ' milliseconds.'
-        window.onRendered(msg, flow.width, flow.height, flow.orientation)
-      })
-    })
-
-    console.log('awaiting rendered')
     // wait for Promise to fire
-    await rendered
-    console.log('rendered')
+    measurePerformance('Wait for PagedJS to render...')
+    await pagedjsRendered
 
     // print pdf
+    measurePerformance('Generate PDf...')
     const pdf = await page.pdf({
       displayHeaderFooter: false,
       printBackground: true,
@@ -110,6 +129,8 @@ router.use('/test4', async (req, res) => {
         top: '0px',
       },
     })
+
+    measurePerformance()
     browser.close()
 
     res.contentType('application/pdf')
