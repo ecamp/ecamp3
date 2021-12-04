@@ -167,7 +167,7 @@ class RelatedCollectionLinkNormalizer implements NormalizerInterface, Serializer
         }
 
         $relatedResourceClass = $relationMetadata['targetEntity'];
-        /** @var string $relatedFilterName */
+
         $relatedFilterName = $relationMetadata['mappedBy'];
         $relatedFilterName ??= $relationMetadata['inversedBy'];
 

@@ -6,8 +6,7 @@ use App\DataPersister\Util\DataPersisterObservable;
 use App\Entity\ContentNode\MultiSelect;
 use App\Entity\ContentNode\MultiSelectOption;
 
-class MultiSelectDataPersister extends ContentNodeAbstractDataPersister
-{
+class MultiSelectDataPersister extends ContentNodeAbstractDataPersister {
     /**
      * @throws \ReflectionException
      */
@@ -21,22 +20,21 @@ class MultiSelectDataPersister extends ContentNodeAbstractDataPersister
     }
 
     /**
-     * @param MultiSelect $multiSelect
+     * @param MultiSelect $data
      */
-    public function beforeCreate($multiSelect): MultiSelect
-    {
-        parent::beforeCreate($multiSelect);
+    public function beforeCreate($data): MultiSelect {
+        parent::beforeCreate($data);
 
         // copy options from ContentType config
-        foreach ($multiSelect->contentType->jsonConfig['items'] as $key => $item) {
+        foreach ($data->contentType->jsonConfig['items'] as $key => $item) {
             $option = new MultiSelectOption();
 
             $option->translateKey = $item;
             $option->setPos($key);
 
-            $multiSelect->addOption($option);
+            $data->addOption($option);
         }
 
-        return $multiSelect;
+        return $data;
     }
 }

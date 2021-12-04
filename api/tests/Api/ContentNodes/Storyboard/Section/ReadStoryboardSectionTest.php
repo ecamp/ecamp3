@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Api\ContentNodes\Storyboard\Section\Storyboard\Section;
+namespace App\Tests\Api\ContentNodes\Storyboard\Section;
 
 use App\Entity\ContentNode\StoryboardSection;
 use App\Tests\Api\ECampApiTestCase;
