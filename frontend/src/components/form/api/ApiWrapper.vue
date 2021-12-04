@@ -103,7 +103,7 @@ export default {
 
       // load relation, use id
       } else if (this.relation) {
-        return this.api.get(this.uri)[this.relation]().id
+        return this.api.get(this.uri)[this.relation]()._meta.self
 
       // return value from API unless `value` is set explicitly
       } else {

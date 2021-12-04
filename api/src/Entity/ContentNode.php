@@ -9,7 +9,7 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Repository\ContentNodeRepository;
 use App\Validator\AssertEitherIsNull;
 use App\Validator\ContentNode\AssertBelongsToSameOwner;
-use App\Validator\ContentNode\AssertCompatibleWithEntity;
+use App\Validator\ContentNode\AssertContentTypeCompatible;
 use App\Validator\ContentNode\AssertNoLoop;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -39,7 +39,7 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
     denormalizationContext: ['groups' => ['write']],
     normalizationContext: ['groups' => ['read']],
 )]
-#[ApiFilter(SearchFilter::class, properties: ['parent', 'contentType'])]
+#[ApiFilter(SearchFilter::class, properties: ['parent', 'contentType', 'root'])]
 abstract class ContentNode extends BaseEntity implements BelongsToCampInterface {
     /**
      * @ORM\OneToOne(targetEntity="AbstractContentNodeOwner", mappedBy="rootContentNode", cascade={"persist"})
@@ -89,16 +89,9 @@ abstract class ContentNode extends BaseEntity implements BelongsToCampInterface 
     public ?ContentNode $parent = null;
 
     /**
-     * The prototype ContentNode from which the content is copied during creation.
-     */
-    #[ApiProperty(example: '/content_nodes/1a2b3c4d')]
-    #[Groups(['create'])]
-    public ?ContentNode $prototype = null;
-
-    /**
      * All content nodes that are direct children of this content node.
      *
-     * @ORM\OneToMany(targetEntity="ContentNode", mappedBy="parent", cascade={"remove"})
+     * @ORM\OneToMany(targetEntity="ContentNode", mappedBy="parent", cascade={"persist"})
      */
     #[ApiProperty(writable: false, example: '["/content_nodes/1a2b3c4d"]')]
     #[Groups(['read'])]
@@ -144,7 +137,7 @@ abstract class ContentNode extends BaseEntity implements BelongsToCampInterface 
      */
     #[ApiProperty(example: '/content_types/1a2b3c4d')]
     #[Groups(['read', 'create'])]
-    #[AssertCompatibleWithEntity]
+    #[AssertContentTypeCompatible]
     public ?ContentType $contentType = null;
 
     public function __construct() {
@@ -261,5 +254,29 @@ abstract class ContentNode extends BaseEntity implements BelongsToCampInterface 
         }
 
         return $this;
+    }
+
+    /**
+     * @param ContentNode $prototype
+     */
+    public function copyFromPrototype($prototype) {
+        // copy ContentNode base properties
+        $this->contentType = $prototype->contentType;
+        $this->instanceName = $prototype->instanceName;
+        $this->slot = $prototype->slot;
+        $this->position = $prototype->position;
+
+        // deep copy children
+        foreach ($prototype->getChildren() as $childPrototype) {
+            $childClass = $childPrototype::class;
+
+            // @var ContentNode $childContentNode
+            $childContentNode = new $childClass();
+
+            $this->addChild($childContentNode);
+            $this->root->addRootDescendant($childContentNode);
+
+            $childContentNode->copyFromPrototype($childPrototype);
+        }
     }
 }

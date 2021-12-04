@@ -24,18 +24,6 @@ services:
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
 
-    App\DataPersister\UserDataPersister:
-        arguments: [ '@api_platform.doctrine.orm.data_persister' ]
-
-    App\DataPersister\CampDataPersister:
-        arguments: [ '@api_platform.doctrine.orm.data_persister' ]
-
-    App\DataPersister\ActivityDataPersister:
-        arguments: [ '@api_platform.doctrine.orm.data_persister' ]
-
-    App\DataPersister\CategoryDataPersister:
-        arguments: [ '@api_platform.doctrine.orm.data_persister' ]
-
     App\DataPersister\Util\DataPersisterObservable:
         arguments: [ '@api_platform.doctrine.orm.data_persister' ]
 
@@ -89,6 +77,10 @@ services:
         # Priority should be 1 lower than the one of SerializerPropertyMetadataFactory, see
         # https://github.com/api-platform/core/blob/main/src/Bridge/Symfony/Bundle/Resources/config/metadata/metadata.xml#L65
         decoration_priority: 29
+
+    App\Serializer\Denormalizer\MaterialItemDenormalizer:
+        tags:
+            - { name: 'serializer.denormalizer', priority: 64 }
 
     App\OpenApi\JwtDecorator:
         decorates: 'api_platform.openapi.factory'

@@ -1,6 +1,6 @@
 <template>
-  <v-expansion-panel-content>
-    <h3 class="grey--text">
+  <v-expansion-panel-content class="e-story-day">
+    <h3 class="body-2 grey--text text--darken-2 e-story-day-title">
       {{ dayName }}
     </h3>
     <template v-if="entriesWithStory.length">
@@ -17,8 +17,8 @@
                 {{ scheduleEntry.activity().category().short }}
               </v-chip>
               {{ scheduleEntry.activity().title }}
-              <template v-if="chapter.contentNode().instanceName">
-                - {{ chapter.contentNode().instanceName }}
+              <template v-if="chapter.instanceName">
+                - {{ chapter.instanceName }}
               </template>
               <v-spacer />
               <router-link :to="{ name: 'activity', params: { campId: day.period().camp().id, scheduleEntryId: scheduleEntry.id } }">
@@ -76,7 +76,6 @@ export default {
           storyChapters: (scheduleEntry.activity().contentNodes() || { items: [] })
             .items
             .filter(contentNode => contentNode.contentTypeName === 'Storycontext')
-            .map(contentNode => contentNode.singleText())
         }
       })
     },
@@ -94,3 +93,10 @@ export default {
   }
 }
 </script>
+
+<style>
+.e-story-day + .e-story-day .e-story-day-title {
+  border-top: 1px solid #eee;
+  padding-top: 5px;
+}
+</style>

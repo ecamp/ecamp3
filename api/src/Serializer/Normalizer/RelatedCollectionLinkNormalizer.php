@@ -131,7 +131,7 @@ class RelatedCollectionLinkNormalizer implements NormalizerInterface, Serializer
     }
 
     public function getRelatedCollectionHref($object, $rel, array $context = []): string {
-        $resourceClass = $context['resource_class'] ?? get_class($object);
+        $resourceClass = get_class($object);
 
         if ($this->nameConverter instanceof AdvancedNameConverterInterface) {
             $rel = $this->nameConverter->denormalize($rel, $resourceClass, null, array_merge($context, ['groups' => ['read']]));
@@ -157,13 +157,19 @@ class RelatedCollectionLinkNormalizer implements NormalizerInterface, Serializer
             throw new UnsupportedRelationException($resourceClass.'#'.$rel.' is not a Doctrine association. Embedding non-Doctrine collections is currently not implemented.');
         }
 
-        if (!isset($relationMetadata['targetEntity']) || '' === $relationMetadata['targetEntity'] || !isset($relationMetadata['mappedBy']) || '' === $relationMetadata['mappedBy']) {
-            throw new UnsupportedRelationException('The '.$resourceClass.'#'.$rel.' relation does not have both a targetEntity and a mappedBy property');
+        if (!isset($relationMetadata['targetEntity']) || '' === $relationMetadata['targetEntity']
+                || (
+                    (!isset($relationMetadata['mappedBy']) || '' === $relationMetadata['mappedBy'])
+                    && (!isset($relationMetadata['inversedBy']) || '' === $relationMetadata['inversedBy'])
+                )
+        ) {
+            throw new UnsupportedRelationException('The '.$resourceClass.'#'.$rel.' relation does not have both a targetEntity and a mappedBy or inversedBy property');
         }
 
         $relatedResourceClass = $relationMetadata['targetEntity'];
         /** @var string $relatedFilterName */
         $relatedFilterName = $relationMetadata['mappedBy'];
+        $relatedFilterName ??= $relationMetadata['inversedBy'];
 
         if (!$this->exactSearchFilterExists($relatedResourceClass, $relatedFilterName)) {
             throw new UnsupportedRelationException('The resource '.$relatedResourceClass.' does not have a search filter for the relation '.$relatedFilterName.'.');
@@ -191,7 +197,11 @@ class RelatedCollectionLinkNormalizer implements NormalizerInterface, Serializer
     protected function extractUriParams($object, array $params): array {
         $result = [];
         foreach ($params as $param => $value) {
-            $result[$param] = $this->normalizeUriParam($this->propertyAccessor->getValue($object, $value));
+            if ('$this' === $value) {
+                $result[$param] = $this->normalizeUriParam($object);
+            } else {
+                $result[$param] = $this->normalizeUriParam($this->propertyAccessor->getValue($object, $value));
+            }
         }
 
         return $result;

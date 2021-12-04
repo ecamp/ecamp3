@@ -1,6 +1,7 @@
 <template>
   <dialog-form
     v-model="showDialog"
+    :loading="loading"
     icon="mdi-package-variant"
     :title="materialList.name"
     max-width="600px"

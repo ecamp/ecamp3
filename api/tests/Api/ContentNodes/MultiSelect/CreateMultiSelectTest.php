@@ -28,43 +28,34 @@ class CreateMultiSelectTest extends CreateContentNodeTestCase {
             '_embedded' => [
                 'options' => [
                     [
-                        'translateKey' => 'option1',
+                        'translateKey' => 'outdoorTechnique',
                         'checked' => false,
                         'pos' => 0,
                     ],
                     [
-                        'translateKey' => 'option2',
+                        'translateKey' => 'security',
                         'checked' => false,
                         'pos' => 1,
                     ],
                     [
-                        'translateKey' => 'option3',
+                        'translateKey' => 'natureAndEnvironment',
                         'checked' => false,
                         'pos' => 2,
                     ],
-                ],
-            ],
-        ]);
-    }
-
-    public function testCreateMultiSelectFromPrototype() {
-        // given
-        $prototype = static::$fixtures['multiSelect1'];
-        $prototypeOption = static::$fixtures['multiSelectOption1'];
-
-        // when
-        $response = $this->create($this->getExampleWritePayload(['prototype' => $this->getIriFor('multiSelect1')]));
-
-        // then
-        $this->assertResponseStatusCodeSame(201);
-        $this->assertCount(1, $response->toArray()['_links']['options']);
-        $this->assertJsonContains([
-            '_embedded' => [
-                'options' => [
                     [
-                        'translateKey' => $prototypeOption->translateKey,
-                        'checked' => $prototypeOption->checked,
-                        'pos' => $prototypeOption->getPos(),
+                        'translateKey' => 'pioneeringTechnique',
+                        'checked' => false,
+                        'pos' => 3,
+                    ],
+                    [
+                        'translateKey' => 'campsiteAndSurroundings',
+                        'checked' => false,
+                        'pos' => 4,
+                    ],
+                    [
+                        'translateKey' => 'preventionAndIntegration',
+                        'checked' => false,
+                        'pos' => 5,
                     ],
                 ],
             ],

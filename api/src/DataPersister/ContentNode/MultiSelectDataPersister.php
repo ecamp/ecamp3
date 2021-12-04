@@ -6,7 +6,8 @@ use App\DataPersister\Util\DataPersisterObservable;
 use App\Entity\ContentNode\MultiSelect;
 use App\Entity\ContentNode\MultiSelectOption;
 
-class MultiSelectDataPersister extends ContentNodeAbstractDataPersister {
+class MultiSelectDataPersister extends ContentNodeAbstractDataPersister
+{
     /**
      * @throws \ReflectionException
      */
@@ -19,43 +20,23 @@ class MultiSelectDataPersister extends ContentNodeAbstractDataPersister {
         );
     }
 
-    public function beforeCreate($data): MultiSelect {
-        /** @var MultiSelect $multiSelect */
-        $multiSelect = $data;
+    /**
+     * @param MultiSelect $multiSelect
+     */
+    public function beforeCreate($multiSelect): MultiSelect
+    {
+        parent::beforeCreate($multiSelect);
 
-        if (isset($multiSelect->prototype)) {
-            // copy from Prototype
+        // copy options from ContentType config
+        foreach ($multiSelect->contentType->jsonConfig['items'] as $key => $item) {
+            $option = new MultiSelectOption();
 
-            if (!($multiSelect->prototype instanceof MultiSelect)) {
-                throw new \Exception('Prototype must be of type MultiSelect');
-            }
+            $option->translateKey = $item;
+            $option->setPos($key);
 
-            /** @var MultiSelect $prototype */
-            $prototype = $multiSelect->prototype;
-
-            // copy all multiSelect options
-            foreach ($prototype->options as $prototypeOption) {
-                $option = new MultiSelectOption();
-
-                $option->translateKey = $prototypeOption->translateKey;
-                $option->checked = $prototypeOption->checked;
-                $option->setPos($prototypeOption->getPos());
-
-                $multiSelect->addOption($option);
-            }
-        } else {
-            // no prototype given --> copy from ContentType config
-
-            foreach ($multiSelect->contentType->jsonConfig['items'] as $key => $item) {
-                $option = new MultiSelectOption();
-
-                $option->translateKey = $item;
-                $option->setPos($key);
-
-                $multiSelect->addOption($option);
-            }
+            $multiSelect->addOption($option);
         }
 
-        return parent::beforeCreateContentNode($multiSelect);
+        return $multiSelect;
     }
 }

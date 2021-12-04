@@ -14,7 +14,7 @@
         </dialog-material-list-create>
       </div>
     </slot>
-    <v-skeleton-loader v-if="camp()._meta.loading" type="article" />
+    <v-skeleton-loader v-if="camp().materialLists()._meta.loading" type="article" />
     <v-list>
       <camp-material-lists-item
         v-for="materialList in materialLists.items"

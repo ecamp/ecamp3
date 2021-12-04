@@ -2,58 +2,74 @@
 
 namespace App\DataPersister;
 
-use ApiPlatform\Core\DataPersister\ContextAwareDataPersisterInterface;
+use App\DataPersister\Util\AbstractDataPersister;
+use App\DataPersister\Util\CustomActionListener;
+use App\DataPersister\Util\DataPersisterObservable;
+use App\Entity\BaseEntity;
 use App\Entity\User;
 use App\Service\MailService;
 use App\Util\IdGenerator;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
-class UserDataPersister implements ContextAwareDataPersisterInterface {
+class UserDataPersister extends AbstractDataPersister
+{
+    /**
+     * @throws \ReflectionException
+     */
     public function __construct(
-        private ContextAwareDataPersisterInterface $dataPersister,
+        DataPersisterObservable $dataPersisterObservable,
         private UserPasswordHasherInterface $userPasswordHasher,
         private MailService $mailService
     ) {
+        $onActivateListener = CustomActionListener::of(User::ACTIVATE, beforeAction: fn ($data) => $this->onActivate($data));
+        parent::__construct(
+            User::class,
+            $dataPersisterObservable,
+            customActionListeners: [$onActivateListener]
+        );
     }
 
-    public function supports($data, array $context = []): bool {
-        return ($data instanceof User) && $this->dataPersister->supports($data, $context);
-    }
-
-    public function persist($data, array $context = []) {
-        $activationKey = '';
-
-        if ('post' === ($context['collection_operation_name'] ?? null)) {
-            $data->state = User::STATE_REGISTERED;
-
-            $activationKey = IdGenerator::generateRandomHexString(64);
-            $data->activationKeyHash = md5($activationKey);
-        } elseif (User::ACTIVATE === ($context['item_operation_name'] ?? null)) {
-            if ($data->activationKeyHash === md5($data->activationKey)) {
-                $data->state = User::STATE_ACTIVATED;
-                $data->activationKey = null;
-                $data->activationKeyHash = null;
-            } else {
-                throw new \Exception('Invalid ActivationKey');
-            }
+    public function beforeCreate($data): BaseEntity
+    {
+        $data->state = User::STATE_REGISTERED;
+        if ($data->plainPassword) {
+            $data->password = $this->userPasswordHasher->hashPassword($data, $data->plainPassword);
+            $data->eraseCredentials();
         }
+        $data->activationKey = IdGenerator::generateRandomHexString(64);
+        $data->activationKeyHash = md5($data->activationKey);
 
+        return $data;
+    }
+
+    public function afterCreate($data): void
+    {
+        $this->mailService->sendUserActivationMail($data, $data->activationKey);
+    }
+
+    public function beforeUpdate($data): BaseEntity
+    {
         if ($data->plainPassword) {
             $data->password = $this->userPasswordHasher->hashPassword($data, $data->plainPassword);
             $data->eraseCredentials();
         }
 
-        $user = $this->dataPersister->persist($data, $context);
-
-        if ('post' === ($context['collection_operation_name'] ?? null)) {
-            // Send Activation-Mail with $activationKey
-            $this->mailService->sendUserActivationMail($user, $activationKey);
-        }
-
-        return $user;
+        return $data;
     }
 
-    public function remove($data, array $context = []) {
-        return $this->dataPersister->remove($data, $context);
+    /**
+     * @throws \Exception
+     */
+    public function onActivate($data): BaseEntity
+    {
+        if ($data->activationKeyHash === md5($data->activationKey)) {
+            $data->state = User::STATE_ACTIVATED;
+            $data->activationKey = null;
+            $data->activationKeyHash = null;
+        } else {
+            throw new \Exception('Invalid ActivationKey');
+        }
+
+        return $data;
     }
 }

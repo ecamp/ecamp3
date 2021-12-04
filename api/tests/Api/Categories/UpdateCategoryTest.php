@@ -114,13 +114,11 @@ class UpdateCategoryTest extends ECampApiTestCase {
             'color' => '#FFFF00',
             'numberingStyle' => 'I',
             '_links' => [
-                'preferredContentTypes' => [],
+                'preferredContentTypes' => [
+                    'href' => '/content_types?categories='.$this->getIriFor($category),
+                ],
             ],
         ]);
-        $this->assertEqualsCanonicalizing([
-            ['href' => $this->getIriFor('contentTypeColumnLayout')],
-            ['href' => $this->getIriFor('contentTypeSafetyConcept')],
-        ], $response->toArray()['_links']['preferredContentTypes']);
     }
 
     public function testPatchCategoryIsAllowedForManager() {
@@ -142,13 +140,11 @@ class UpdateCategoryTest extends ECampApiTestCase {
             'color' => '#FFFF00',
             'numberingStyle' => 'I',
             '_links' => [
-                'preferredContentTypes' => [],
+                'preferredContentTypes' => [
+                    'href' => '/content_types?categories='.$this->getIriFor($category),
+                ],
             ],
         ]);
-        $this->assertEqualsCanonicalizing([
-            ['href' => $this->getIriFor('contentTypeColumnLayout')],
-            ['href' => $this->getIriFor('contentTypeSafetyConcept')],
-        ], $response->toArray()['_links']['preferredContentTypes']);
     }
 
     public function testPatchCategoryInCampPrototypeIsDeniedForUnrelatedUser() {

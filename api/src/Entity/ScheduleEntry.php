@@ -131,7 +131,7 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
 
     #[ApiProperty(readable: false)]
     public function getCamp(): ?Camp {
-        return $this->activity?->camp;
+        return $this->activity?->getCamp();
     }
 
     /**

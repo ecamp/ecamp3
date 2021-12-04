@@ -1,6 +1,7 @@
 <template>
   <dialog-form
     v-model="showDialog"
+    :loading="loading"
     icon="mdi-calendar-plus"
     :title="$tc('components.dialog.dialogCategoryCreate.title')"
     max-width="600px"
@@ -12,7 +13,6 @@
     </template>
 
     <dialog-category-form
-      v-if="!loading"
       :camp="camp"
       :is-new="true"
       :category="entityData" />

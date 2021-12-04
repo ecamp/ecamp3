@@ -78,4 +78,22 @@ class MultiSelect extends ContentNode {
 
         return $this;
     }
+
+    /**
+     * @param MultiSelect $prototype
+     */
+    public function copyFromPrototype($prototype) {
+        // copy all multiSelect options
+        foreach ($prototype->options as $prototypeOption) {
+            $option = new MultiSelectOption();
+
+            $option->translateKey = $prototypeOption->translateKey;
+            $option->checked = $prototypeOption->checked;
+            $option->setPos($prototypeOption->getPos());
+
+            $this->addOption($option);
+        }
+
+        parent::copyFromPrototype($prototype);
+    }
 }

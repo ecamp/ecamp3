@@ -78,4 +78,23 @@ class Storyboard extends ContentNode {
 
         return $this;
     }
+
+    /**
+     * @param Storyboard $prototype
+     */
+    public function copyFromPrototype($prototype) {
+        // copy all storyboard sections
+        foreach ($prototype->sections as $prototypeSection) {
+            $section = new StoryboardSection();
+
+            $section->column1 = $prototypeSection->column1;
+            $section->column2 = $prototypeSection->column2;
+            $section->column3 = $prototypeSection->column3;
+            $section->setPos($prototypeSection->getPos());
+
+            $this->addSection($section);
+        }
+
+        parent::copyFromPrototype($prototype);
+    }
 }

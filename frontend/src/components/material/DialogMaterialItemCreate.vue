@@ -1,6 +1,7 @@
 <template>
   <dialog-form
     v-model="showDialog"
+    :loading="loading"
     icon="mdi-package-variant"
     :title="$tc('components.dialog.dialogMaterialItemCreate.title')"
     max-width="600px"
@@ -48,7 +49,7 @@ export default {
           quantity: '',
           unit: '',
           article: '',
-          materialListId: null
+          materialList: null
         }
 
         this.setEntityData(entityData)

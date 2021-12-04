@@ -59,11 +59,12 @@ class UriTemplateFactory {
         $baseUri = $this->iriConverter->getIriFromResourceClass($resourceClass);
         $idParameter = $this->getIdParameter($resourceMetadata);
         $queryParameters = $this->getQueryParameters($resourceClass, $resourceMetadata);
+        $additionalPathParameter = $this->allowsActionParameter($resourceMetadata) ? '{/action}' : '';
 
         return [
-            $baseUri.$idParameter.$queryParameters,
+            $baseUri.$idParameter.$additionalPathParameter.$queryParameters,
             // The link is templated as soon as either idParameter or queryParameters is not empty
-            $idParameter || $queryParameters,
+            $idParameter || $queryParameters || $additionalPathParameter,
         ];
     }
 
@@ -131,5 +132,23 @@ class UriTemplateFactory {
         }
 
         return $parameters;
+    }
+
+    protected function allowsActionParameter(ResourceMetadata $resourceMetadata): bool {
+        foreach ($resourceMetadata->getItemOperations() as $itemOperation) {
+            /*
+             * Matches:
+             * {/inviteKey}/find
+             * users{/id}/activate
+             *
+             * Does not match:
+             * profiles{/id}
+             */
+            if (preg_match('/^.*\\/?{.*}\\/.+$/', $itemOperation['path'] ?? null)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
