@@ -17,9 +17,9 @@ class UpdateColumnLayoutTest extends UpdateContentNodeTestCase {
 
     public function testPatchColumnLayoutAcceptsValidJson() {
         $VALID_JSON_CONFIG = [
-            ['slot' => '1', 'width' => 6],
-            ['slot' => '2', 'width' => 5],
-            ['slot' => '3', 'width' => 1],
+            ['slot' => '1', 'width' => 5],
+            ['slot' => '2', 'width' => 4],
+            ['slot' => '3', 'width' => 3],
         ];
 
         $contentNode = static::$fixtures['columnLayout2'];
