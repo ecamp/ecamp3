@@ -51,12 +51,6 @@ export default function useDragAndDrop (editable, period, dialogActivityCreate, 
     draggedEntry.value = null
   }
 
-  /*
-  const clearEntry = () => {
-    clearCurrentEntry()
-    clearDraggedEntry()
-  } */
-
   const createNewEntry = (mouse) => {
     currentStartTime.value = roundTimeDown(mouse)
     currentEntry.value = defineHelpers({

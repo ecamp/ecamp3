@@ -206,10 +206,6 @@ export default {
     }
   },
   computed: {
-
-    categories () {
-      return this.camp.categories()
-    },
     widthPluralization () {
       if (this.entryWidth < 81) {
         return 0
@@ -278,14 +274,6 @@ export default {
       if (!this.editable) {
         this.showScheduleEntry(entry)
       }
-    },
-
-    /*
-    toTimeString (date) {
-      return this.$date.utc(date).format(this.$tc('global.datetime.hourLong'))
-    }, */
-    rnd (a, b) {
-      return Math.floor((b - a + 1) * Math.random()) + a
     }
 
   }
