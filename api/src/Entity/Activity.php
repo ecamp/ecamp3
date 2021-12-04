@@ -7,6 +7,7 @@ use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Repository\ActivityRepository;
+use App\Serializer\Normalizer\RelatedCollectionLink;
 use App\Validator\AssertBelongsToSameCamp;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -171,6 +172,7 @@ class Activity extends AbstractContentNodeOwner implements BelongsToCampInterfac
      * @return ContentNode[]
      */
     #[Groups(['read'])]
+    #[RelatedCollectionLink(ContentNode::class, ['root' => 'rootContentNode'])]
     public function getContentNodes(): array {
         return parent::getContentNodes();
     }
@@ -191,6 +193,7 @@ class Activity extends AbstractContentNodeOwner implements BelongsToCampInterfac
      * @return CampCollaboration[]
      */
     #[ApiProperty(writable: false, example: '["/camp_collaborations/1a2b3c4d"]')]
+    #[RelatedCollectionLink(CampCollaboration::class, ['activityResponsibles.activity' => '$this'])]
     #[Groups(['read'])]
     public function getCampCollaborations(): array {
         return $this

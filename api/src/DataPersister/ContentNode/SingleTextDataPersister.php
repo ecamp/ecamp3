@@ -17,21 +17,4 @@ class SingleTextDataPersister extends ContentNodeAbstractDataPersister {
             $dataPersisterObservable
         );
     }
-
-    /**
-     * @param SingleText $data
-     */
-    public function beforeCreate($data): SingleText {
-        if (isset($data->prototype)) {
-            if (!($data->prototype instanceof SingleText)) {
-                throw new \Exception('Prototype must be of type SingleText');
-            }
-
-            if (!isset($data->text)) {
-                $data->text = $data->prototype->text;
-            }
-        }
-
-        return parent::beforeCreate($data);
-    }
 }

@@ -91,7 +91,7 @@ Displays a single activity
       </template>
 
       <v-card-text class="px-0 py-0">
-        <v-skeleton-loader v-if="activity._meta.loading" type="article" />
+        <v-skeleton-loader v-if="loading" type="article" />
         <template v-else>
           <!-- Header -->
           <v-row dense class="activity-header">
@@ -148,8 +148,10 @@ Displays a single activity
               </v-row>
             </v-col>
           </v-row>
+
+          <v-skeleton-loader v-if="loading" type="article" />
           <content-node
-            v-if="activity.rootContentNode"
+            v-else
             :content-node="activity.rootContentNode()"
             :layout-mode="layoutMode"
             :disabled="isContributor === false" />
@@ -185,7 +187,8 @@ export default {
   data () {
     return {
       layoutMode: false,
-      editActivityTitle: false
+      editActivityTitle: false,
+      loading: true
     }
   },
   computed: {
@@ -221,6 +224,15 @@ export default {
       return this.activity.contentNodes()
     }
   },
+
+  // reload data every time user navigates to Activity view
+  async mounted () {
+    this.loading = true
+    await this.scheduleEntry().activity()._meta.load // wait if activity is being loaded as part of a collection
+    await this.scheduleEntry().activity().$reload() // reload as single entity to ensure all embedded entities are included in a single network request
+    this.loading = false
+  },
+
   methods: {
     changeCategory (category) {
       this.activity.$patch({

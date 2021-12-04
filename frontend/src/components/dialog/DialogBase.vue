@@ -33,20 +33,28 @@ export default {
       }
     },
     setEntityData (data) {
+      const loadingPromises = []
+
       this.entityProperties.forEach(key => {
         this.$set(this.entityData, key, data[key])
       })
       this.embeddedEntities.forEach(key => {
         if (data[key]) {
+          loadingPromises.push(data[key]()._meta.load)
           data[key]()._meta.load.then(obj => this.$set(this.entityData, key, obj._meta.self))
         }
       })
       this.embeddedCollections.forEach(key => {
         if (data[key]) {
-          data[key]()._meta.load.then(obj => this.$set(this.entityData, key, obj.items))
+          loadingPromises.push(data[key]().$loadItems())
+          data[key]().$loadItems().then(obj => {
+            this.$set(this.entityData, key, obj.items.map(entity => entity._meta.self))
+          })
         }
       })
-      this.loading = false
+
+      // wait for all loading promises to finish before showing any content
+      Promise.all(loadingPromises).then(() => { this.loading = false })
     },
     create () {
       this.error = null

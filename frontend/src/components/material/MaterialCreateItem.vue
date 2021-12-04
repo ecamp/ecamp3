@@ -10,6 +10,7 @@
         v-model="materialItem.quantity"
         dense
         vee-rules="numeric"
+        type="number"
         :name="$tc('entity.materialItem.fields.quantity')"
         fieldname="quantity" />
     </td>
@@ -30,11 +31,11 @@
     </td>
     <td :colspan="columns-4">
       <e-select
-        v-model="materialItem.materialListId"
+        v-model="materialItem.materialList"
         dense
         vee-rules="required"
         :name="$tc('entity.materialList.name')"
-        fieldname="materialListId"
+        fieldname="materialList"
         :items="materialLists" />
     </td>
     <td>
@@ -79,7 +80,7 @@ export default {
   computed: {
     materialLists () {
       return this.camp.materialLists().items.map(l => ({
-        value: l.id,
+        value: l._meta.self,
         text: l.name
       }))
     }

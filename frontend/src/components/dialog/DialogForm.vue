@@ -30,7 +30,8 @@
             </v-btn>
           </v-toolbar>
           <div class="pa-4">
-            <slot />
+            <v-skeleton-loader v-if="loading" type="article" />
+            <slot v-else />
           </div>
 
           <v-card-text v-if="$slots.error">
@@ -98,6 +99,7 @@ export default {
     cancelColor: { type: String, default: 'secondary', required: false },
     cancelEnabled: { type: Boolean, default: true, required: false },
 
+    loading: { type: Boolean, default: false, required: false },
     error: { type: String, default: '', required: false }
   },
   data () {

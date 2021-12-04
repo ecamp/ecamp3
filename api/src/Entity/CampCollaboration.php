@@ -66,7 +66,7 @@ use Symfony\Component\Validator\Constraints as Assert;
     denormalizationContext: ['groups' => ['write']],
     normalizationContext: ['groups' => ['read']],
 )]
-#[ApiFilter(SearchFilter::class, properties: ['camp'])]
+#[ApiFilter(SearchFilter::class, properties: ['camp', 'activityResponsibles.activity'])]
 class CampCollaboration extends BaseEntity implements BelongsToCampInterface {
     public const ITEM_NORMALIZATION_CONTEXT = [
         'groups' => ['read', 'CampCollaboration:Camp', 'CampCollaboration:User'],

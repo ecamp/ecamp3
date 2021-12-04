@@ -79,4 +79,23 @@ class MaterialNode extends ContentNode {
 
         return $this;
     }
+
+    /**
+     * @param MaterialNode $prototype
+     */
+    public function copyFromPrototype($prototype) {
+        // copy all material items
+        foreach ($prototype->materialItems as $prototypeItem) {
+            $materialItem = new MaterialItem();
+
+            $materialItem->article = $prototypeItem->article;
+            $materialItem->quantity = $prototypeItem->quantity;
+            $materialItem->unit = $prototypeItem->unit;
+            $materialItem->materialList = $prototypeItem->materialList;
+
+            $this->addMaterialItem($materialItem);
+        }
+
+        parent::copyFromPrototype($prototype);
+    }
 }

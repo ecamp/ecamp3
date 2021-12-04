@@ -1,6 +1,7 @@
 <template>
   <dialog-form
     v-model="showDialog"
+    :loading="loading"
     icon="mdi-calendar-edit"
     :title="period.description"
     max-width="600px"
@@ -10,7 +11,7 @@
       <slot name="activator" v-bind="scope" />
     </template>
     <server-error :server-error="error" />
-    <dialog-period-form v-if="!loading" :period="entityData" />
+    <dialog-period-form :period="entityData" />
 
     <e-checkbox v-model="entityData.moveScheduleEntries"
                 :name="$tc('components.dialog.dialogPeriodEdit.moveScheduleEntries')" />

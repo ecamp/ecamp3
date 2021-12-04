@@ -17,21 +17,4 @@ class ColumnLayoutDataPersister extends ContentNodeAbstractDataPersister {
             $dataPersisterObservable
         );
     }
-
-    /**
-     * @param ColumnLayout $data
-     */
-    public function beforeCreate($data): ColumnLayout {
-        if (isset($data->prototype)) {
-            if (!($data->prototype instanceof ColumnLayout)) {
-                throw new \Exception('Prototype must be of type ColumnLayout');
-            }
-
-            if (!isset($data->columns)) {
-                $data->columns = $data->prototype->columns;
-            }
-        }
-
-        return parent::beforeCreate($data);
-    }
 }

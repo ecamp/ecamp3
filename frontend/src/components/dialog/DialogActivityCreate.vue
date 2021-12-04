@@ -1,6 +1,7 @@
 <template>
   <dialog-form
     v-model="showDialog"
+    :loading="loading"
     icon="mdi-calendar-plus"
     :title="$tc('entity.activity.new')"
     max-width="600px"
@@ -13,7 +14,7 @@
       <slot name="activator" v-bind="scope" />
     </template>
 
-    <dialog-activity-form v-if="!loading" :activity="entityData" :camp="camp" />
+    <dialog-activity-form :activity="entityData" :camp="camp" />
   </dialog-form>
 </template>
 
