@@ -166,13 +166,13 @@ export default {
       extendBottom,
       isSaving,
       patchError,
-      tempScheduleEntry
+      newEntry
     } = useDragAndDrop(editable, period, props.dialogActivityCreate, showScheduleEntry)
 
     // own computed
     const scheduleEntriesWithTemporary = computed(() => {
-      if (tempScheduleEntry.value && tempScheduleEntry.value.tmpEvent) {
-        return props.scheduleEntries.concat(tempScheduleEntry.value)
+      if (newEntry.value && newEntry.value.tmpEvent) {
+        return props.scheduleEntries.concat(newEntry.value)
       } else {
         return props.scheduleEntries
       }
@@ -191,7 +191,6 @@ export default {
       // data
       isSaving,
       patchError,
-      tempScheduleEntry,
 
       // computed
       scheduleEntriesWithTemporary
