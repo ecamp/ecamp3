@@ -57,24 +57,14 @@ export default function useDragAndDrop (editable, period, dialogActivityCreate, 
     draggedEntry.endTime = newEnd
   }
 
-  // resize an entry (existing or placeholder)
-  const resizeExistingEntry = (mouse) => {
+  // resize an entry (existing or new placeholder)
+  const resizeEntry = (entry, mouse) => {
     const mouseRounded = roundTimeUp(mouse)
     const min = Math.min(mouseRounded, roundTimeDown(mouseStartTime))
     const max = Math.max(mouseRounded, roundTimeDown(mouseStartTime))
 
-    resizedEntry.startTime = min
-    resizedEntry.endTime = max
-  }
-
-  // resize the placeholder for new entry
-  const resizeNewEntry = (mouse) => {
-    const mouseRounded = roundTimeUp(mouse)
-    const min = Math.min(mouseRounded, roundTimeDown(mouseStartTime))
-    const max = Math.max(mouseRounded, roundTimeDown(mouseStartTime))
-
-    newEntry.value.startTime = min
-    newEntry.value.endTime = max
+    entry.startTime = min
+    entry.endTime = max
   }
 
   const clearResizedEntry = () => {
@@ -191,9 +181,9 @@ export default function useDragAndDrop (editable, period, dialogActivityCreate, 
       if (draggedEntry) {
         moveDraggedEntry(mouse)
       } else if (resizedEntry) {
-        resizeExistingEntry(mouse)
+        resizeEntry(resizedEntry, mouse)
       } else if (newEntry.value) {
-        resizeNewEntry(mouse)
+        resizeEntry(newEntry.value, mouse)
       }
     }
   }
