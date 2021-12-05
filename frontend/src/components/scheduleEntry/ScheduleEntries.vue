@@ -8,7 +8,7 @@
     <dialog-activity-create
       ref="dialogActivityCreate"
       :camp="period().camp"
-      :schedule-entry="popupEntry"
+      :schedule-entry="newEntryPlaceholder"
       @activityCreated="afterCreateActivity($event)"
       @creationCanceled="cancelNewActivity" />
 
@@ -47,11 +47,28 @@ export default {
   data () {
     return {
       scheduleEntries: [],
-      deleteTempEntryCallback: () => {},
-      popupEntry: {},
       eventHandlers: {
-        openEntry: this.openEntry
-      }
+        openEntry: this.openEntry,
+        changePlaceholder: this.changePlaceholder,
+        newEntry: this.newEntry
+      },
+      newEntryPlaceholder: defineHelpers({
+        number: null,
+        period: () => (this.period)(),
+        periodOffset: -100, // hidden from view
+        length: 60,
+        activity: () => ({
+          title: this.$tc('entity.activity.new'),
+          location: '',
+          camp: (this.period)().camp,
+          category: () => ({
+            id: null,
+            short: null,
+            color: 'grey elevation-4 v-event--temporary'
+          })
+        }),
+        tmpEvent: true
+      }, true)
     }
   },
   computed: {
@@ -64,45 +81,34 @@ export default {
     apiScheduleEntries: {
       immediate: true,
       handler (value) {
-        this.scheduleEntries = value.items.map(entry => defineHelpers(entry, true))
+        this.scheduleEntries = value.items.map(entry => defineHelpers(entry, true)).concat(this.newEntryPlaceholder)
       }
     }
   },
+
   methods: {
-    createNewActivity () {
-      const entry = defineHelpers({
-        number: null,
-        period: () => (this.period)(),
-        periodOffset: 420,
-        length: 60,
-        activity: () => ({
-          title: this.$tc('entity.activity.new'),
-          location: '',
-          camp: (this.period)().camp,
-          category: () => ({
-            id: null,
-            short: null,
-            color: 'grey elevation-4 v-event--temporary'
-          })
-        })
-      }, true)
-      this.showActivityCreateDialog(entry, () => {})
+    resetPlaceholder () {
+      this.newEntryPlaceholder.periodOffset = -100
+      this.newEntryPlaceholder.length = 60
     },
-    showActivityCreateDialog (entry, deleteTempEntryCallback) {
-      this.popupEntry = entry
-      this.deleteTempEntryCallback = deleteTempEntryCallback
+
+    createNewActivity () {
+      this.resetPlaceholder()
+      this.newEntryPlaceholder.periodOffset = 8 * 60
+      this.showActivityCreateDialog()
+    },
+    showActivityCreateDialog () {
       this.$refs.dialogActivityCreate.showDialog = true
     },
     afterCreateActivity (data) {
+      this.resetPlaceholder()
       this.api.reload(this.period().scheduleEntries())
-      this.scheduleEntries.push(...data.scheduleEntries().items.map(entry => defineHelpers(entry, true)))
-      this.deleteTempEntryCallback()
     },
     cancelNewActivity () {
-      this.deleteTempEntryCallback()
+      this.resetPlaceholder()
     },
 
-    // navigate to scheduleEntry `entry` (opens in new tab if newTab=true)
+    // Event Handler on.openEntry: navigate to scheduleEntry `entry` (opens in new tab if newTab=true)
     openEntry (entry, newTab = false) {
       if (newTab) {
         const routeData = this.$router.resolve(scheduleEntryRoute(entry))
@@ -110,6 +116,18 @@ export default {
       } else {
         this.$router.push(scheduleEntryRoute(entry)).catch(() => {})
       }
+    },
+
+    // Event Handler on.changePlaceholder: change position of the current placeholder
+    changePlaceholder (start, end) {
+      this.newEntryPlaceholder.startTime = start
+      this.newEntryPlaceholder.endTime = end
+    },
+
+    // Event Handler on.newEntry: update position of placeholder & open create dialog
+    newEntry (start, end) {
+      this.changePlaceholder(start, end)
+      this.showActivityCreateDialog()
     },
     defineHelpers
   }

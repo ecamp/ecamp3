@@ -9,7 +9,7 @@ Listing all given activity schedule entries in a calendar view.
       v-model="value"
       v-resize="resize"
       class="ec-picasso"
-      :events="scheduleEntriesWithTemporary"
+      :events="scheduleEntries"
       :event-name="getActivityName"
       :event-color="getActivityColor"
       event-start="startTime"
@@ -92,7 +92,7 @@ Listing all given activity schedule entries in a calendar view.
   </div>
 </template>
 <script>
-import { toRefs, computed } from '@vue/composition-api'
+import { toRefs } from '@vue/composition-api'
 import useDragAndDrop from './useDragAndDrop.js'
 import { isCssColor } from 'vuetify/lib/util/colorUtils'
 
@@ -126,11 +126,6 @@ export default {
       required: false,
       default: 0
     },
-    dialogActivityCreate: {
-      type: Function,
-      required: false,
-      default: () => {}
-    },
     scheduleEntries: {
       type: Array,
       required: true
@@ -142,14 +137,14 @@ export default {
     }
   },
   emits: [
-    'newPlaceholder', // triggered continuously while a new entry is being dragged
+    'changePlaceholder', // triggered continuously while a new entry is being dragged (parameters: startTime, endTime)
 
-    'newEntry', // triggered once when a new entry was created (via drag & drop)
+    'newEntry', // triggered once when a new entry was created via drag & drop (parameters: startTime, endTime)
 
-    'openEntry' // triggered when an entry is clicked on
+    'openEntry' // triggered when an existing entry is clicked on (parameters: entry, newTab)
   ],
   setup (props, { emit }) {
-    const { editable, period } = toRefs(props)
+    const { editable } = toRefs(props)
 
     const {
       entryMouseDown,
@@ -159,18 +154,8 @@ export default {
       nativeMouseUp,
       extendBottom,
       isSaving,
-      patchError,
-      newEntry
-    } = useDragAndDrop(editable, period, emit, props.dialogActivityCreate)
-
-    // own computed
-    const scheduleEntriesWithTemporary = computed(() => {
-      if (newEntry.value && newEntry.value.tmpEvent) {
-        return props.scheduleEntries.concat(newEntry.value)
-      } else {
-        return props.scheduleEntries
-      }
-    })
+      patchError
+    } = useDragAndDrop(editable, emit)
 
     return {
       // methods
@@ -183,10 +168,7 @@ export default {
 
       // data
       isSaving,
-      patchError,
-
-      // computed
-      scheduleEntriesWithTemporary
+      patchError
     }
   },
   data () {

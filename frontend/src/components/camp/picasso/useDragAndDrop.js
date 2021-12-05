@@ -1,10 +1,7 @@
 import { ref } from '@vue/composition-api'
 import { apiStore as api } from '@/plugins/store'
-import { i18n } from '@/plugins'
 
-import { defineHelpers } from '@/common/helpers/scheduleEntry/dateHelperLocal.js'
-
-export default function useDragAndDrop (editable, period, emit, dialogActivityCreate) {
+export default function useDragAndDrop (editable, emit) {
   /**
    * internal data (not exposed)
    */
@@ -27,6 +24,9 @@ export default function useDragAndDrop (editable, period, emit, dialogActivityCr
   // used to detect mouse down events that were interpreted as clicks
   let openedInNewTab = false
 
+  // temporary placeholder for new schedule entry, when created via drag & drop
+  let newEntry = null
+
   /**
    * external data
    */
@@ -36,9 +36,6 @@ export default function useDragAndDrop (editable, period, emit, dialogActivityCr
 
   // contains error message if API patch was unsuccessful
   const patchError = ref(null)
-
-  // temporary placeholder for new schedule entry, when created via drag & drop
-  const newEntry = ref(null)
 
   /**
    * internal methods
@@ -53,6 +50,7 @@ export default function useDragAndDrop (editable, period, emit, dialogActivityCr
     const newStart = roundTimeDown((mouse - draggedEntryMouseOffset))
     const newEnd = newStart + duration
 
+    // TODO review: Here we're changing the store value directly.
     draggedEntry.startTime = newStart
     draggedEntry.endTime = newEnd
   }
@@ -63,6 +61,7 @@ export default function useDragAndDrop (editable, period, emit, dialogActivityCr
     const min = Math.min(mouseRounded, roundTimeDown(mouseStartTime))
     const max = Math.max(mouseRounded, roundTimeDown(mouseStartTime))
 
+    // TODO review: Here we're changing the store value directly.
     entry.startTime = min
     entry.endTime = max
   }
@@ -80,31 +79,16 @@ export default function useDragAndDrop (editable, period, emit, dialogActivityCr
   }
 
   const clearNewEntry = () => {
-    newEntry.value = null
+    newEntry = null
     mouseStartTime = null
   }
 
   // this creates a placeholder for a new schedule entry and make it resizable
   const createNewEntry = (mouse) => {
-    newEntry.value = defineHelpers({
-      number: null,
-      period: () => period.value,
-      periodOffset: 0,
-      length: 0,
-      activity: () => ({
-        title: i18n.tc('entity.activity.new'),
-        location: '',
-        camp: period.value.camp,
-        category: () => ({
-          id: null,
-          short: null,
-          color: 'grey elevation-4 v-event--temporary'
-        })
-      }),
-      tmpEvent: true
-    }, true)
-    newEntry.value.startTime = roundTimeDown(mouse)
-    newEntry.value.endTime = newEntry.value.startTime + 15
+    newEntry = {
+      startTime: roundTimeDown(mouse),
+      endTime: roundTimeDown(mouse) + 15
+    }
   }
 
   // helper function to convert Vuetify day & time object into timestamp
@@ -179,11 +163,15 @@ export default function useDragAndDrop (editable, period, emit, dialogActivityCr
       const mouse = toTime(tms)
 
       if (draggedEntry) {
+        // move existing
         moveDraggedEntry(mouse)
       } else if (resizedEntry) {
+        // resize existing
         resizeEntry(resizedEntry, mouse)
-      } else if (newEntry.value) {
-        resizeEntry(newEntry.value, mouse)
+      } else if (newEntry) {
+        // resize placeholder
+        resizeEntry(newEntry, mouse)
+        emit('changePlaceholder', newEntry.startTime, newEntry.endTime)
       }
     }
   }
@@ -221,9 +209,10 @@ export default function useDragAndDrop (editable, period, emit, dialogActivityCr
 
       // reset draggedEntry
       clearDraggedEntry()
-    } else if (newEntry.value) {
+    } else if (newEntry) {
       // placeholder for new schedule entry was created --> open dialog to create new activity
-      dialogActivityCreate(newEntry.value, clearNewEntry)
+      emit('newEntry', newEntry.startTime, newEntry.endTime)
+      clearNewEntry()
     } else if (resizedEntry) {
       if (resizedEntry.endTime !== resizedEntryOldEndTime) {
       // existing entry was resized --> save to API
@@ -271,7 +260,6 @@ export default function useDragAndDrop (editable, period, emit, dialogActivityCr
     nativeMouseUp,
     extendBottom,
     isSaving,
-    patchError,
-    newEntry
+    patchError
   }
 }
