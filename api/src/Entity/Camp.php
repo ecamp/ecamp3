@@ -72,7 +72,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
         writableLink: true,
         example: '[{ "description": "Hauptlager", "start": "2022-01-01", "end": "2022-01-08" }]',
     )]
-    #[Groups(['create'])]
+    #[Groups(['read', 'create'])]
     public Collection $periods;
 
     /**
@@ -246,7 +246,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
      */
     #[ApiProperty(readableLink: true)]
     #[SerializedName('periods')]
-    #[Groups(['read'])]
+    #[Groups(['Camp:Periods'])]
     public function getEmbeddedPeriods(): array {
         return $this->periods->getValues();
     }
