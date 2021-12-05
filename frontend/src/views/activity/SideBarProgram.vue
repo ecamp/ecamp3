@@ -17,7 +17,8 @@
             :start="startOfDay"
             :interval-height="36"
             :end="endOfDay"
-            type="day" />
+            type="day"
+            @openEntry="slotProps.on.openEntry" />
         </template>
       </schedule-entries>
     </content-card>

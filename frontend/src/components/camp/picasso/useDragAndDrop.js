@@ -4,7 +4,7 @@ import { i18n } from '@/plugins'
 
 import { defineHelpers } from '@/common/helpers/scheduleEntry/dateHelperLocal.js'
 
-export default function useDragAndDrop (editable, period, dialogActivityCreate, showScheduleEntry) {
+export default function useDragAndDrop (editable, period, emit, dialogActivityCreate) {
   /**
    * internal data (not exposed)
    */
@@ -134,7 +134,7 @@ export default function useDragAndDrop (editable, period, dialogActivityCreate, 
   const entryMouseDown = ({ event: entry, timed, nativeEvent }) => {
     if (!entry.tmpEvent && (nativeEvent.button === 1 || nativeEvent.metaKey || nativeEvent.ctrlKey)) {
       // Click with middle mouse button, or click while holding cmd/ctrl opens new tab
-      showScheduleEntry(entry, true)
+      emit('openEntry', entry, true)
       openedInNewTab = true
     } else if (nativeEvent.button === 2) {
       // don't move event if middle mouse button
@@ -202,7 +202,7 @@ export default function useDragAndDrop (editable, period, dialogActivityCreate, 
 
       // interpret shifts below 15min as a click event
       if (Math.abs(now - mouseStartTime) < threshold) {
-        showScheduleEntry(draggedEntry)
+        emit('openEntry', draggedEntry) // TODO FIX: this is triggered when an entry is moved a lot but then put back at the original place
         return
       }
 

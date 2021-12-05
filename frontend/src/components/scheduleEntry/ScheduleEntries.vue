@@ -3,7 +3,8 @@
     <slot
       :scheduleEntries="scheduleEntries"
       :loading="apiScheduleEntries._meta.loading"
-      :showActivityCreateDialog="showActivityCreateDialog" />
+      :showActivityCreateDialog="showActivityCreateDialog"
+      :on="eventHandlers" />
     <dialog-activity-create
       ref="dialogActivityCreate"
       :camp="period().camp"
@@ -32,6 +33,7 @@
 import DialogActivityCreate from '@/components/dialog/DialogActivityCreate.vue'
 
 import { defineHelpers } from '@/common/helpers/scheduleEntry/dateHelperLocal.js'
+import { scheduleEntryRoute } from '@/router.js'
 
 export default {
   name: 'ScheduleEntries',
@@ -46,7 +48,10 @@ export default {
     return {
       scheduleEntries: [],
       deleteTempEntryCallback: () => {},
-      popupEntry: {}
+      popupEntry: {},
+      eventHandlers: {
+        openEntry: this.openEntry
+      }
     }
   },
   computed: {
@@ -95,6 +100,16 @@ export default {
     },
     cancelNewActivity () {
       this.deleteTempEntryCallback()
+    },
+
+    // navigate to scheduleEntry `entry` (opens in new tab if newTab=true)
+    openEntry (entry, newTab = false) {
+      if (newTab) {
+        const routeData = this.$router.resolve(scheduleEntryRoute(entry))
+        window.open(routeData.href, '_blank')
+      } else {
+        this.$router.push(scheduleEntryRoute(entry)).catch(() => {})
+      }
     },
     defineHelpers
   }

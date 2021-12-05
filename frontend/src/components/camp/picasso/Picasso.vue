@@ -94,8 +94,6 @@ Listing all given activity schedule entries in a calendar view.
 <script>
 import { toRefs, computed } from '@vue/composition-api'
 import useDragAndDrop from './useDragAndDrop.js'
-
-import router, { scheduleEntryRoute } from '@/router.js'
 import { isCssColor } from 'vuetify/lib/util/colorUtils'
 
 import DialogActivityEdit from '@/components/dialog/DialogActivityEdit.vue'
@@ -103,7 +101,6 @@ import DialogActivityEdit from '@/components/dialog/DialogActivityEdit.vue'
 export default {
   name: 'Picasso',
   components: {
-
     DialogActivityEdit
   },
   props: {
@@ -144,18 +141,15 @@ export default {
       default: false
     }
   },
-  setup (props) {
-    const { editable, period } = toRefs(props)
+  emits: [
+    'newPlaceholder', // triggered continuously while a new entry is being dragged
 
-    // own methods
-    const showScheduleEntry = (entry, newTab = false) => {
-      if (newTab) {
-        const routeData = router.resolve(scheduleEntryRoute(entry))
-        window.open(routeData.href, '_blank')
-      } else {
-        router.push(scheduleEntryRoute(entry)).catch(() => {})
-      }
-    }
+    'newEntry', // triggered once when a new entry was created (via drag & drop)
+
+    'openEntry' // triggered when an entry is clicked on
+  ],
+  setup (props, { emit }) {
+    const { editable, period } = toRefs(props)
 
     const {
       entryMouseDown,
@@ -167,7 +161,7 @@ export default {
       isSaving,
       patchError,
       newEntry
-    } = useDragAndDrop(editable, period, props.dialogActivityCreate, showScheduleEntry)
+    } = useDragAndDrop(editable, period, emit, props.dialogActivityCreate)
 
     // own computed
     const scheduleEntriesWithTemporary = computed(() => {
@@ -186,7 +180,6 @@ export default {
       timeMouseUp,
       nativeMouseUp,
       extendBottom,
-      showScheduleEntry,
 
       // data
       isSaving,
@@ -270,8 +263,10 @@ export default {
     },
 
     entryClick ({ event: entry }) {
+      // if in read-only mode --> fire openEntry event
+      // in edit mode, the event is already fired by drag & drop logic
       if (!this.editable) {
-        this.showScheduleEntry(entry)
+        this.$emit('openEntry', entry)
       }
     }
 
