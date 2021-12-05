@@ -21,7 +21,14 @@
         :schedule-entries="scheduleEntries"
       />
 
-      <picasso v-if="config.showPicasso" :camp="camp" />
+      <picasso v-if="config.showPicasso" :camp="camp" type="4day" />
+
+      <picasso
+        v-if="config.showPicasso"
+        :camp="camp"
+        :rotate="true"
+        type="week"
+      />
 
       <storyline v-if="config.showStoryline" :camp="camp" />
 

@@ -1,21 +1,21 @@
 <template>
   <v-row no-gutters class="picasso">
     <v-col cols="12">
-      <div class="picasso">
-        <h1>Picasso</h1>
-
+      <div :class="rotate ? 'rotate' : ''">
         <v-sheet>
+          <h1>Picasso</h1>
+
           <v-calendar
             ref="calendar"
             :now="today"
             :value="today"
             :events="events"
             color="primary"
-            type="4day"
             event-overlap-mode="column"
             first-interval="6"
             interval-count="18"
-            interval-height="25"
+            interval-height="29"
+            v-bind="$attrs"
           />
         </v-sheet>
       </div>
@@ -25,6 +25,14 @@
 
 <script>
 export default {
+  inheritAttrs: false,
+  props: {
+    rotate: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+  },
   data: () => ({
     today: '2019-01-08',
     events: [
@@ -52,16 +60,32 @@ export default {
 }
 </script>
 
+<style lang="scss" scoped>
+.rotate {
+  -webkit-transform: rotate(-90deg);
+  -moz-transform: rotate(-90deg);
+  -o-transform: rotate(-90deg);
+  -ms-transform: rotate(-90deg);
+  transform: rotate(-90deg);
+
+  .v-sheet {
+    width: 1000px;
+    position: relative;
+    left: -320px;
+  }
+}
+</style>
 <style lang="scss">
 @media print {
   @page picasso {
     /* changing page orientation currently not working in pagedJS/chrome
        https://github.com/pagedjs/pagedjs/issues/6 */
     size: a4 landscape;
-    margin: 15mm 15mm;
+    margin: 10mm 10mm 10mm 10mm;
 
     @top-center {
       content: 'Picasso';
+      z-index: 100;
     }
   }
 
