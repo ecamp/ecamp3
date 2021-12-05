@@ -5,7 +5,8 @@
       :name="$tc('entity.activity.fields.title')"
       vee-rules="required" />
 
-    <e-select v-model="localActivity.category" :label="$tc('entity.activity.fields.category')"
+    <e-select v-model="localActivity.category"
+              :name="$tc('entity.activity.fields.category')"
               :items="categories.items"
               item-value="_meta.self"
               item-text="name"

@@ -2,7 +2,7 @@ import dayjs from '../dayjs.js'
 import { HTML5_FMT } from '../dateFormat.js'
 
 /**
- * 
+ *
  * @param scheduleEntry entry to decorate
  * @param timed ??
  */
