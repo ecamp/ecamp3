@@ -104,38 +104,54 @@ export default {
     DialogActivityEdit
   },
   props: {
+    // period for which to schow picasso
     period: {
       type: Object,
       required: true
     },
+
+    // list of scheduleEntries
+    scheduleEntries: {
+      type: Array,
+      required: true
+    },
+
+    // false disables drag & drop and disabled edit dialogs
+    editable: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
+
+    // v-calendar start: starting date (first day)
     start: {
       type: Number,
       required: true
     },
+
+    // v-calender end: end date (last day)
     end: {
       type: Number,
       required: true
     },
+
+    // v-calendar type
     type: {
       type: String,
       required: false,
       default: 'custom-daily'
     },
+
+    // v-calendar intervalHeight
     intervalHeight: {
       type: Number,
       required: false,
       default: 0
-    },
-    scheduleEntries: {
-      type: Array,
-      required: true
-    },
-    editable: {
-      type: Boolean,
-      required: false,
-      default: false
     }
+
   },
+
+  // emitted events
   emits: [
     'changePlaceholder', // triggered continuously while a new entry is being dragged (parameters: startTime, endTime)
 
@@ -143,6 +159,8 @@ export default {
 
     'openEntry' // triggered when an existing entry is clicked on (parameters: entry, newTab)
   ],
+
+  // composition API setup
   setup (props, { emit }) {
     const { editable } = toRefs(props)
 
