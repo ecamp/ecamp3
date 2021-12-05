@@ -14,7 +14,7 @@
         "doctrine/orm": "2.10.3",
         "exercise/htmlpurifier-bundle": "3.1.0",
         "guzzlehttp/guzzle": "7.4.0",
-        "lexik/jwt-authentication-bundle": "2.14.1",
+        "lexik/jwt-authentication-bundle": "2.14.2",
         "nelmio/cors-bundle": "2.2.0",
         "phpdocumentor/reflection-docblock": "5.3.0",
         "rize/uri-template": "0.3.4",
