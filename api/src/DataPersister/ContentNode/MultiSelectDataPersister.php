@@ -23,7 +23,7 @@ class MultiSelectDataPersister extends ContentNodeAbstractDataPersister {
      * @param MultiSelect $data
      */
     public function beforeCreate($data): MultiSelect {
-        parent::beforeCreate($data);
+        $data = parent::beforeCreate($data);
 
         // copy options from ContentType config
         foreach ($data->contentType->jsonConfig['items'] as $key => $item) {
