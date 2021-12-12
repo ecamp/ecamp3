@@ -1,7 +1,13 @@
 import { ref } from '@vue/composition-api'
 import { apiStore as api } from '@/plugins/store'
 
-export default function useDragAndDrop (editable, emit) {
+/**
+ *
+ * @param bool editable     drag & drop is disabled if editable=false
+ * @param int threshold     min. mouse movement needed to detect drag & drop
+ * @returns
+ */
+export default function useDragAndDrop (editable, threshold, emit) {
   /**
    * internal data (not exposed)
    */
@@ -21,11 +27,15 @@ export default function useDragAndDrop (editable, emit) {
   // original end time of entry which is being resized
   let resizedEntryOldEndTime = null
 
-  // used to detect mouse down events that were interpreted as clicks
-  let openedInNewTab = false
-
   // temporary placeholder for new schedule entry, when created via drag & drop
   let newEntry = null
+
+  // coordinates of mouse down event
+  let startX = null
+  let startY = null
+
+  // true while drag & drop action is ongoing
+  let dragging = false
 
   /**
    * external data
@@ -40,6 +50,11 @@ export default function useDragAndDrop (editable, emit) {
   /**
    * internal methods
    */
+
+  // returns true if still within defined threshold
+  function withinThreshold (nativeEvent) {
+    return (Math.abs(nativeEvent.x - startX) < threshold) && (Math.abs(nativeEvent.y - startY) < threshold)
+  }
 
   // move an existing entry
   const moveDraggedEntry = (mouse) => {
@@ -76,6 +91,9 @@ export default function useDragAndDrop (editable, emit) {
     draggedEntryMouseOffset = null
     draggedEntry = null
     mouseStartTime = null
+    startX = null
+    startY = null
+    dragging = false
   }
 
   const clearNewEntry = () => {
@@ -116,28 +134,22 @@ export default function useDragAndDrop (editable, emit) {
 
   // triggered with MouseDown event on a calendar entry
   const entryMouseDown = ({ event: entry, timed, nativeEvent }) => {
-    if (!entry.tmpEvent && (nativeEvent.button === 1 || nativeEvent.metaKey || nativeEvent.ctrlKey)) {
-      // Click with middle mouse button, or click while holding cmd/ctrl opens new tab
-      emit('openEntry', entry, true)
-      openedInNewTab = true
-    } else if (nativeEvent.button === 2) {
-      // don't move event if middle mouse button
-    } else if (editable.value) {
-      if (entry && timed) {
-        // start Drag & Drop
-        draggedEntry = entry
-        draggedEntryMouseOffset = null // not know yet: will be populated by timeMouseDown event
-      }
+    // cancel drag & drop if button is not left button
+    if (nativeEvent.button !== 0) { return }
+
+    if (editable.value && entry && timed) {
+      // start Drag & Drop
+      startX = nativeEvent.x
+      startY = nativeEvent.y
+      draggedEntry = entry
+      draggedEntryMouseOffset = null // not know yet: will be populated by timeMouseDown event
     }
   }
 
   // triggered with MouseDown event anywhere on the calendar (independent of clicking on entry or not)
-  const timeMouseDown = (tms) => {
-    // if entryMouseDown was interpreted as click event --> cancel drag & drop and return early
-    if (openedInNewTab) {
-      openedInNewTab = false
-      return
-    }
+  const timeMouseDown = (tms, nativeEvent) => {
+    // cancel drag & drop if button is not left button
+    if (nativeEvent.button !== 0) { return }
 
     if (editable.value) {
       const mouse = toTime(tms)
@@ -158,12 +170,15 @@ export default function useDragAndDrop (editable, emit) {
   }
 
   // triggered when mouse is being moved in calendar (independent whether drag & drop is ongoing or not)
-  const timeMouseMove = (tms) => {
+  const timeMouseMove = (tms, nativeEvent) => {
     if (editable.value) {
       const mouse = toTime(tms)
 
       if (draggedEntry) {
+        if (withinThreshold(nativeEvent)) { return }
+
         // move existing
+        dragging = true
         moveDraggedEntry(mouse)
       } else if (resizedEntry) {
         // resize existing
@@ -183,17 +198,7 @@ export default function useDragAndDrop (editable, emit) {
     }
 
     // Drag & Drop
-    if (draggedEntry) {
-      const minuteThreshold = 15
-      const threshold = minuteThreshold * 60 * 1000
-      const now = toTime(tms)
-
-      // interpret shifts below 15min as a click event
-      if (Math.abs(now - mouseStartTime) < threshold) {
-        emit('openEntry', draggedEntry) // TODO FIX: this is triggered when an entry is moved a lot but then put back at the original place
-        return
-      }
-
+    if (dragging) {
       // save to API
       const patchedScheduleEntry = {
         periodOffset: draggedEntry.periodOffset,
@@ -206,13 +211,9 @@ export default function useDragAndDrop (editable, emit) {
       }).catch((error) => {
         patchError.value = error
       })
-
-      // reset draggedEntry
-      clearDraggedEntry()
     } else if (newEntry) {
       // placeholder for new schedule entry was created --> open dialog to create new activity
       emit('newEntry', newEntry.startTime, newEntry.endTime)
-      clearNewEntry()
     } else if (resizedEntry) {
       if (resizedEntry.endTime !== resizedEntryOldEndTime) {
       // existing entry was resized --> save to API
@@ -228,9 +229,11 @@ export default function useDragAndDrop (editable, emit) {
           patchError.value = error
         })
       }
-
-      clearResizedEntry()
     }
+
+    clearDraggedEntry()
+    clearNewEntry()
+    clearResizedEntry()
   }
 
   // TODO docu: for which use case is this needed??
@@ -253,12 +256,14 @@ export default function useDragAndDrop (editable, emit) {
   }
 
   return {
-    entryMouseDown,
-    timeMouseDown,
-    timeMouseMove,
-    timeMouseUp,
-    nativeMouseUp,
-    extendBottom,
+    listeners: {
+      'mousedown:event': entryMouseDown,
+      'mousedown:time': timeMouseDown,
+      'mousemove:time': timeMouseMove,
+      'mouseup:time': timeMouseUp,
+      'mouseleave.native': nativeMouseUp,
+      extendBottom
+    },
     isSaving,
     patchError
   }

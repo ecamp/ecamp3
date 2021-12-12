@@ -110,6 +110,10 @@ export default {
 
     // Event Handler on.openEntry: navigate to scheduleEntry `entry` (opens in new tab if newTab=true)
     openEntry (entry, newTab = false) {
+      if (entry.tmpEvent) {
+        return
+      }
+
       if (newTab) {
         const routeData = this.$router.resolve(scheduleEntryRoute(entry))
         window.open(routeData.href, '_blank')

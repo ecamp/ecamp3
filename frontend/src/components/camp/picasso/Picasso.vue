@@ -29,12 +29,19 @@ Listing all given activity schedule entries in a calendar view.
       :weekdays="[1, 2, 3, 4, 5, 6, 0]"
       color="primary"
       :event-ripple="false"
-      @mousedown:event="entryMouseDown"
-      @click:event="entryClick"
-      @mousedown:time="timeMouseDown"
-      @mousemove:time="timeMouseMove"
-      @mouseup:time="timeMouseUp"
-      @mouseleave.native="nativeMouseUp">
+      v-on="{
+        'mousedown:event': [
+          clickDetector.listeners['mousedown:event'],
+          dragAndDrop.listeners['mousedown:event'],
+        ],
+        'mouseup:event': clickDetector.listeners['mouseup:event'],
+        'mousemove:event': clickDetector.listeners['mousemove:event'],
+        'mousedown:time': dragAndDrop.listeners['mousedown:time'],
+        'mousemove:time': dragAndDrop.listeners['mousemove:time'],
+        'mouseup:time': dragAndDrop.listeners['mouseup:time'],
+        'mouseleave.native': dragAndDrop.listeners['mouseleave.native'],
+      }"
+      @mousedown.native.prevent="/*this prevents from middle button to start scroll behavior*/">
       <template #day-label-header="time">
         <div class="ec-daily_head-day-label">
           <span v-if="widthPluralization > 0" class="d-block">
@@ -75,7 +82,7 @@ Listing all given activity schedule entries in a calendar view.
         <div
           v-if="editable && timed"
           class="v-event-drag-bottom"
-          @mousedown.stop="extendBottom(event)" />
+          @mousedown.stop="dragAndDrop.listeners.extendBottom(event)" />
       </template>
     </v-calendar>
 
@@ -94,6 +101,7 @@ Listing all given activity schedule entries in a calendar view.
 <script>
 import { toRefs } from '@vue/composition-api'
 import useDragAndDrop from './useDragAndDrop.js'
+import useClickDetector from './useClickDetector.js'
 import { isCssColor } from 'vuetify/lib/util/colorUtils'
 
 import DialogActivityEdit from '@/components/dialog/DialogActivityEdit.vue'
@@ -165,26 +173,21 @@ export default {
     const { editable } = toRefs(props)
 
     const {
-      entryMouseDown,
-      timeMouseDown,
-      timeMouseMove,
-      timeMouseUp,
-      nativeMouseUp,
-      extendBottom,
+      listeners,
       isSaving,
       patchError
-    } = useDragAndDrop(editable, emit)
+    } = useDragAndDrop(editable, 5, emit)
+
+    const dragAndDrop = {
+      listeners
+    }
+
+    const clickDetector = useClickDetector(5, emit)
 
     return {
-      // methods
-      entryMouseDown,
-      timeMouseDown,
-      timeMouseMove,
-      timeMouseUp,
-      nativeMouseUp,
-      extendBottom,
+      dragAndDrop,
+      clickDetector,
 
-      // data
       isSaving,
       patchError
     }
@@ -260,16 +263,7 @@ export default {
     },
     weekdayFormat () {
       return ''
-    },
-
-    entryClick ({ event: entry }) {
-      // if in read-only mode --> fire openEntry event
-      // in edit mode, the event is already fired by drag & drop logic
-      if (!this.editable) {
-        this.$emit('openEntry', entry)
-      }
     }
-
   }
 }
 </script>
