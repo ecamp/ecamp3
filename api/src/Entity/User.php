@@ -40,7 +40,7 @@ use Symfony\Component\Validator\Constraints as Assert;
         ],
         'get' => ['security' => 'is_fully_authenticated()'],
         'patch' => [
-            'security' => 'object == user',
+            'security' => 'object === user',
         ],
         'delete' => ['security' => 'false'],
     ],
