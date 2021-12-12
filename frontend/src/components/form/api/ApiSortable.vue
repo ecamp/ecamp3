@@ -70,7 +70,6 @@ export default {
     entities: {
       handler: function (entities) {
         const hrefList = entities.map(entry => entry._meta.self)
-        // const hrefList = entities.map(entry => ({ href: entry._meta.self, position: entry.position, id: entry.id }))
 
         // update local sorting with external sorting if not dirty
         // or if number of items don't match (new incoming items or deleted items)
