@@ -31,7 +31,7 @@ spec:
         - name: {{ .Chart.Name }}-caddy
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.caddy.image.repository }}:{{ .Values.caddy.image.tag | default .Chart.AppVersion }}"
+          image: "{{ .Values.caddy.image.repository }}:{{ .Values.caddy.image.tag | default .Values.imageTag }}"
           imagePullPolicy: {{ .Values.caddy.image.pullPolicy }}
           env:
             - name: SERVER_NAME
@@ -75,7 +75,7 @@ spec:
         - name: {{ .Chart.Name }}-php
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.php.image.repository }}:{{ .Values.php.image.tag | default .Chart.AppVersion }}"
+          image: "{{ .Values.php.image.repository }}:{{ .Values.php.image.tag | default .Values.imageTag }}"
           imagePullPolicy: {{ .Values.php.image.pullPolicy }}
           envFrom:
             - configMapRef:
