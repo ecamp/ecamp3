@@ -208,7 +208,8 @@ export default {
       maxDays: 100,
       entryWidth: 80,
       value: '',
-      activitiesLoading: true
+      activitiesLoading: true,
+      categoriesLoading: true
     }
   },
   computed: {
@@ -238,7 +239,8 @@ export default {
     }
   },
   mounted () {
-    this.api.get().activities({ period: this.period._meta.self })._meta.load.then(() => { this.activitiesLoading = false })
+    this.period.camp().activities()._meta.load.then(() => { this.activitiesLoading = false })
+    this.period.camp().categories()._meta.load.then(() => { this.categoriesLoading = false })
   },
   methods: {
     resize () {
@@ -257,10 +259,10 @@ export default {
       return isCssColor(color) ? color : color + ' elevation-4 v-event--temporary'
     },
     isActivityLoading (scheduleEntry) {
-      return this.activitiesLoading || (scheduleEntry.activity()?._meta?.loading ?? false)
+      return this.activitiesLoading || this.categoriesLoading || scheduleEntry.activity()._meta.loading
     },
     isCategoryLoading (scheduleEntry) {
-      return scheduleEntry.activity().category()?._meta?.loading ?? false
+      return this.categoriesLoading || this.activitiesLoading || scheduleEntry.activity()._meta.loading || scheduleEntry.activity().category()._meta.loading
     },
     intervalFormat (time) {
       return this.$date.utc(time.date + ' ' + time.time).format(this.$tc('global.datetime.hourLong'))

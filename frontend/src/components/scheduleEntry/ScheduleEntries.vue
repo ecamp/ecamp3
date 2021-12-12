@@ -84,6 +84,11 @@ export default {
       }
     }
   },
+  mounted () {
+    this.period().scheduleEntries().$reload()
+    this.period().camp().activities().$reload()
+    this.period().camp().categories().$reload()
+  },
 
   methods: {
     resetPlaceholder () {
