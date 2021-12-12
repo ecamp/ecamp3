@@ -179,7 +179,7 @@ export default function useDragAndDrop (editable, threshold, update, emit) {
   }
 
   // triggered with MouseUp Event anywhere in the calendar
-  const timeMouseUp = (tms) => {
+  const timeMouseUp = () => {
     if (!editable.value) {
       return
     }
@@ -202,20 +202,13 @@ export default function useDragAndDrop (editable, threshold, update, emit) {
     clearResizedEntry()
   }
 
-  // TODO docu: for which use case is this needed??
-  const nativeMouseUp = () => {
-    if (editable.value) {
-      if (resizedEntry) {
-        if (resizedEntryOldEndTime) {
-          resizedEntry.endTime = resizedEntryOldEndTime
-        }
-      }
-      clearDraggedEntry()
-      clearResizedEntry()
-    }
+  // treat mouseleave as a mouseUp event (finish operation and save last known status)
+  const nativeMouseLeave = () => {
+    timeMouseUp()
   }
 
-  const extendBottom = (event) => {
+  // start resize operation (needs to be called manually from resize handle)
+  const startResize = (event) => {
     resizedEntry = event
     mouseStartTime = event.startTime
     resizedEntryOldEndTime = event.endTime
@@ -227,8 +220,8 @@ export default function useDragAndDrop (editable, threshold, update, emit) {
       'mousedown:time': timeMouseDown,
       'mousemove:time': timeMouseMove,
       'mouseup:time': timeMouseUp,
-      'mouseleave.native': nativeMouseUp,
-      extendBottom
-    }
+      'mouseleave.native': nativeMouseLeave
+    },
+    startResize
   }
 }

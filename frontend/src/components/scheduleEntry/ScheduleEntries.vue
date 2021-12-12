@@ -3,7 +3,6 @@
     <slot
       :scheduleEntries="scheduleEntries"
       :loading="apiScheduleEntries._meta.loading"
-      :showActivityCreateDialog="showActivityCreateDialog"
       :on="eventHandlers" />
     <dialog-activity-create
       ref="dialogActivityCreate"

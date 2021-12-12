@@ -39,8 +39,8 @@ Listing all given activity schedule entries in a calendar view.
         'mousedown:time': dragAndDrop.listeners['mousedown:time'],
         'mousemove:time': dragAndDrop.listeners['mousemove:time'],
         'mouseup:time': dragAndDrop.listeners['mouseup:time'],
-        'mouseleave.native': dragAndDrop.listeners['mouseleave.native'],
       }"
+      @mouseleave.native="dragAndDrop.listeners['mouseleave.native']"
       @mousedown.native.prevent="/*this prevents from middle button to start scroll behavior*/">
       <template #day-label-header="time">
         <div class="ec-daily_head-day-label">
@@ -78,11 +78,11 @@ Listing all given activity schedule entries in a calendar view.
           {{ getActivityName(event) }}
         </h4>
 
-        <!-- extendBottom: used for resizing -->
+        <!-- resize handle -->
         <div
           v-if="editable && timed"
           class="v-event-drag-bottom"
-          @mousedown.stop="dragAndDrop.listeners.extendBottom(event)" />
+          @mousedown.stop="dragAndDrop.startResize(event)" />
       </template>
     </v-calendar>
 
