@@ -51,8 +51,7 @@ postgresql:
     tag: 13
 
 imagePullSecrets: []
-nameOverride: ""
-fullnameOverride: ""
+chartNameOverride: ""
 
 serviceAccount:
   # Specifies whether a service account should be created

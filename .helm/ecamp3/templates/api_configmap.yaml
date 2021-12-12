@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ include "api-platform.fullname" . }}-configmap
+  name: {{ include "api-platform.api-name" . }}-configmap
   labels:
     {{- include "api-platform.labels" . | nindent 4 }}
 data:
@@ -10,5 +10,5 @@ data:
   APP_DEBUG: {{ .Values.php.appDebug | quote }}
   CORS_ALLOW_ORIGIN: {{ .Values.php.corsAllowOrigin | quote }}
   TRUSTED_PROXIES: "{{ join "," .Values.php.trustedProxies }}"
-  MERCURE_URL: "http://{{ include "api-platform.fullname" . }}/.well-known/mercure"
+  MERCURE_URL: "http://{{ include "api-platform.api-name" . }}/.well-known/mercure"
   MERCURE_PUBLIC_URL: {{ .Values.mercure.publicUrl | default "http://127.0.0.1/.well-known/mercure" | quote }}
