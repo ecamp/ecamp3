@@ -24,7 +24,7 @@ use Symfony\Component\Validator\Constraints as Assert;
     ],
     itemOperations: [
         'get' => ['security' => 'is_fully_authenticated()'],
-        'patch' => ['security' => 'object.user == user'],
+        'patch' => ['security' => 'object.user === user'],
     ],
     denormalizationContext: ['groups' => ['write']],
     normalizationContext: ['groups' => ['read']],
