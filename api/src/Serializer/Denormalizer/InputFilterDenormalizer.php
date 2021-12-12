@@ -2,12 +2,14 @@
 
 namespace App\Serializer\Denormalizer;
 
+use App\Entity\BaseEntity;
 use App\InputFilter\FilterAttribute;
 use App\InputFilter\InputFilter;
 use App\InputFilter\UnexpectedValueException;
 use Generator;
 use ReflectionAttribute;
 use ReflectionClass;
+use ReflectionProperty;
 use Symfony\Component\DependencyInjection\ServiceLocator;
 use Symfony\Component\Serializer\Normalizer\ContextAwareDenormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
@@ -61,15 +63,8 @@ class InputFilterDenormalizer implements ContextAwareDenormalizerInterface, Deno
             throw new UnexpectedValueException($data);
         }
 
-        $reflClass = $this->getReflectionClass($className);
-        $filterAttributes = [];
-        foreach ($reflClass->getProperties() as $property) {
-            if ($property->getDeclaringClass()->name === $className) {
-                foreach ($this->getInputFilterAttributes($property) as $filterAttribute) {
-                    $filterAttributes[] = [$property->name, $filterAttribute];
-                }
-            }
-        }
+        $reflectionClass = $this->getReflectionClass($className);
+        $filterAttributes = $this->getFilterAttributes($reflectionClass);
 
         usort($filterAttributes, function ($a, $b) {
             // Comparing B to A ensures that priorities are sorted in descending order,
@@ -84,10 +79,56 @@ class InputFilterDenormalizer implements ContextAwareDenormalizerInterface, Deno
             }
         }
 
+        $relatedEntityPropertiesToFilter = $this->getRelatedEntityPropertiesToFilter($reflectionClass);
+
+        foreach ($relatedEntityPropertiesToFilter as $tuple) {
+            $propertyName = $tuple[0];
+            if (isset($data[$propertyName]) && is_array($data[$propertyName])) {
+                $data[$propertyName] = $this->filterInputs($data[$propertyName], $tuple[1]);
+            }
+        }
+
         return $data;
     }
 
-    protected function getInputFilterAttributes(object $reflection): Generator {
+    protected function getFilterAttributes(ReflectionClass $reflectionClass): array {
+        $filterAttributes = [];
+        foreach ($reflectionClass->getProperties() as $property) {
+            if ($property->getDeclaringClass()->name === $reflectionClass->name) {
+                foreach ($this->createInputFilterAttributesFrom($property) as $filterAttribute) {
+                    $filterAttributes[] = [$property->name, $filterAttribute];
+                }
+            }
+        }
+
+        return $filterAttributes;
+    }
+
+    protected function getRelatedEntityPropertiesToFilter(ReflectionClass $reflectionClass): array {
+        $relatedEntityPropertiesToFilter = [];
+        foreach ($reflectionClass->getProperties() as $property) {
+            $propertyName = $property->name;
+            $reflectionUnionType = $property->getType();
+            if ($reflectionUnionType instanceof \ReflectionNamedType) {
+                $propertyClassName = $reflectionUnionType->getName();
+                if (is_a($propertyClassName, BaseEntity::class, true)) {
+                    $relatedEntityPropertiesToFilter[] = [$propertyName, $propertyClassName];
+                }
+            } elseif ($reflectionUnionType instanceof \ReflectionUnionType) {
+                foreach ($reflectionUnionType->getTypes() as $type) {
+                    if (is_a($type->getName(), BaseEntity::class, true)) {
+                        $relatedEntityPropertiesToFilter[] = [$propertyName, $type];
+
+                        break;
+                    }
+                }
+            }
+        }
+
+        return $relatedEntityPropertiesToFilter;
+    }
+
+    protected function createInputFilterAttributesFrom(ReflectionProperty $reflection): Generator {
         foreach ($reflection->getAttributes(FilterAttribute::class, ReflectionAttribute::IS_INSTANCEOF) as $attribute) {
             yield $attribute->newInstance();
         }
