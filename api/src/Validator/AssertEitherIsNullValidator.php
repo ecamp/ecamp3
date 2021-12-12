@@ -16,11 +16,11 @@ class AssertEitherIsNullValidator extends ConstraintValidator {
         $other = $constraint->other;
         $object = $this->context->getObject();
 
-        try {
-            $otherValue = $object->{$other};
-        } catch (\RuntimeException $e) {
+        if (!property_exists($object, $other)) {
             throw new InvalidArgumentException(sprintf('The "other" option must be the name of another property ("%s" given).', $other));
         }
+
+        $otherValue = $object->{$other};
 
         $valueIsNull = (null === $value);
         $otherIsNull = (null === $otherValue);
