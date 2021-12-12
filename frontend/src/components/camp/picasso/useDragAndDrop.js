@@ -1,13 +1,10 @@
-import { ref } from '@vue/composition-api'
-import { apiStore as api } from '@/plugins/store'
-
 /**
  *
  * @param bool editable     drag & drop is disabled if editable=false
  * @param int threshold     min. mouse movement needed to detect drag & drop
  * @returns
  */
-export default function useDragAndDrop (editable, threshold, emit) {
+export default function useDragAndDrop (editable, threshold, update, emit) {
   /**
    * internal data (not exposed)
    */
@@ -36,16 +33,6 @@ export default function useDragAndDrop (editable, threshold, emit) {
 
   // true while drag & drop action is ongoing
   let dragging = false
-
-  /**
-   * external data
-   */
-
-  // true if API patch is being performed
-  const isSaving = ref(false)
-
-  // contains error message if API patch was unsuccessful
-  const patchError = ref(null)
 
   /**
    * internal methods
@@ -199,35 +186,14 @@ export default function useDragAndDrop (editable, threshold, emit) {
 
     // Drag & Drop
     if (dragging) {
-      // save to API
-      const patchedScheduleEntry = {
-        periodOffset: draggedEntry.periodOffset,
-        length: draggedEntry.length
-      }
-      isSaving.value = true
-      api.patch(draggedEntry._meta.self, patchedScheduleEntry).then(() => {
-        patchError.value = null
-        isSaving.value = false
-      }).catch((error) => {
-        patchError.value = error
-      })
+      update(draggedEntry, draggedEntry.periodOffset, draggedEntry.length)
     } else if (newEntry) {
       // placeholder for new schedule entry was created --> open dialog to create new activity
       emit('newEntry', newEntry.startTime, newEntry.endTime)
     } else if (resizedEntry) {
       if (resizedEntry.endTime !== resizedEntryOldEndTime) {
       // existing entry was resized --> save to API
-        const patchedScheduleEntry = {
-          periodOffset: resizedEntry.periodOffset,
-          length: resizedEntry.length
-        }
-        isSaving.value = true
-        api.patch(resizedEntry._meta.self, patchedScheduleEntry).then(() => {
-          patchError.value = null
-          isSaving.value = false
-        }).catch((error) => {
-          patchError.value = error
-        })
+        update(resizedEntry, resizedEntry.periodOffset, resizedEntry.length)
       }
     }
 
@@ -263,8 +229,6 @@ export default function useDragAndDrop (editable, threshold, emit) {
       'mouseup:time': timeMouseUp,
       'mouseleave.native': nativeMouseUp,
       extendBottom
-    },
-    isSaving,
-    patchError
+    }
   }
 }

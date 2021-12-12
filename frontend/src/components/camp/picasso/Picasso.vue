@@ -99,10 +99,11 @@ Listing all given activity schedule entries in a calendar view.
   </div>
 </template>
 <script>
-import { toRefs } from '@vue/composition-api'
+import { toRefs, ref } from '@vue/composition-api'
 import useDragAndDrop from './useDragAndDrop.js'
 import useClickDetector from './useClickDetector.js'
 import { isCssColor } from 'vuetify/lib/util/colorUtils'
+import { apiStore as api } from '@/plugins/store'
 
 import DialogActivityEdit from '@/components/dialog/DialogActivityEdit.vue'
 
@@ -172,15 +173,25 @@ export default {
   setup (props, { emit }) {
     const { editable } = toRefs(props)
 
-    const {
-      listeners,
-      isSaving,
-      patchError
-    } = useDragAndDrop(editable, 5, emit)
+    const isSaving = ref(false)
+    const patchError = ref(null)
 
-    const dragAndDrop = {
-      listeners
+    // callback used to save entry to API
+    const updateEntry = (scheduleEntry, periodOffset, length) => {
+      const patchData = {
+        periodOffset,
+        length
+      }
+      isSaving.value = true
+      api.patch(scheduleEntry._meta.self, patchData).then(() => {
+        patchError.value = null
+        isSaving.value = false
+      }).catch((error) => {
+        patchError.value = error
+      })
     }
+
+    const dragAndDrop = useDragAndDrop(editable, 5, updateEntry, emit)
 
     const clickDetector = useClickDetector(5, emit)
 
