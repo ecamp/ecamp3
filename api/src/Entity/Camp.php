@@ -299,26 +299,6 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
         return $this;
     }
 
-    public function getRole($userId): string {
-        if ($this?->owner->getId() === $userId) {
-            return CampCollaboration::ROLE_MANAGER;
-        }
-
-        $campCollaborations = $this->collaborations->filter(function (CampCollaboration $cc) use ($userId) {
-            return $cc?->user->getId() == $userId;
-        });
-
-        if (1 == $campCollaborations->count()) {
-            /** @var CampCollaboration $campCollaboration */
-            $campCollaboration = $campCollaborations->first();
-            if ($campCollaboration->isEstablished()) {
-                return $campCollaboration->role;
-            }
-        }
-
-        return CampCollaboration::ROLE_GUEST;
-    }
-
     /**
      * @return Period[]
      */

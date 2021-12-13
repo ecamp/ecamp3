@@ -48,7 +48,7 @@ class MultiSelectOption extends BaseEntity implements BelongsToCampInterface, So
      */
     #[ApiProperty(readableLink: false, writableLink: false)]
     #[Groups(['read'])]
-    public MultiSelect $multiSelect;
+    public ?MultiSelect $multiSelect = null;
 
     /**
      * @ORM\Column(type="text", nullable=false)

@@ -19,6 +19,7 @@ class AssertEitherIsNullValidatorTest extends ConstraintValidatorTestCase {
     }
 
     public function testExpectsRealPropertyName() {
+        $this->setObject(new \stdClass());
         $this->expectException(InvalidArgumentException::class);
         $this->validator->validate(null, new AssertEitherIsNull(null, 'something'));
     }

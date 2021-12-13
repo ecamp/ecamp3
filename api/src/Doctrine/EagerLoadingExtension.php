@@ -47,7 +47,7 @@ use Symfony\Component\Serializer\Normalizer\AbstractObjectNormalizer;
 final class EagerLoadingExtension implements ContextAwareQueryCollectionExtensionInterface, QueryItemExtensionInterface {
     use EagerLoadingTrait;
 
-    private $propertyNameCollectionFactory;
+    // private $propertyNameCollectionFactory;
     private $propertyMetadataFactory;
     private $classMetadataFactory;
     private $maxJoins;
@@ -57,7 +57,7 @@ final class EagerLoadingExtension implements ContextAwareQueryCollectionExtensio
     /**
      * @TODO move $fetchPartial after $forceEager (@soyuka) in 3.0
      */
-    public function __construct(PropertyNameCollectionFactoryInterface $propertyNameCollectionFactory, PropertyMetadataFactoryInterface $propertyMetadataFactory, ResourceMetadataFactoryInterface $resourceMetadataFactory, int $maxJoins = 30, bool $forceEager = true, RequestStack $requestStack = null, SerializerContextBuilderInterface $serializerContextBuilder = null, bool $fetchPartial = false, ClassMetadataFactoryInterface $classMetadataFactory = null) {
+    public function __construct(/*PropertyNameCollectionFactoryInterface $propertyNameCollectionFactory,*/ PropertyMetadataFactoryInterface $propertyMetadataFactory, ResourceMetadataFactoryInterface $resourceMetadataFactory, int $maxJoins = 30, bool $forceEager = true, RequestStack $requestStack = null, SerializerContextBuilderInterface $serializerContextBuilder = null, bool $fetchPartial = false, ClassMetadataFactoryInterface $classMetadataFactory = null) {
         // Commented out to prevent lowering the code coverage
         //if (null !== $this->requestStack) {
         //    @trigger_error(sprintf('Passing an instance of "%s" is deprecated since version 2.2 and will be removed in 3.0. Use the data provider\'s context instead.', RequestStack::class), \E_USER_DEPRECATED);
@@ -66,7 +66,7 @@ final class EagerLoadingExtension implements ContextAwareQueryCollectionExtensio
         //    @trigger_error(sprintf('Passing an instance of "%s" is deprecated since version 2.2 and will be removed in 3.0. Use the data provider\'s context instead.', SerializerContextBuilderInterface::class), \E_USER_DEPRECATED);
         //}
 
-        $this->propertyNameCollectionFactory = $propertyNameCollectionFactory;
+        // $this->propertyNameCollectionFactory = $propertyNameCollectionFactory;
         $this->propertyMetadataFactory = $propertyMetadataFactory;
         $this->resourceMetadataFactory = $resourceMetadataFactory;
         $this->classMetadataFactory = $classMetadataFactory;
@@ -218,15 +218,15 @@ final class EagerLoadingExtension implements ContextAwareQueryCollectionExtensio
             }
 
             if (true === $fetchPartial) {
+                throw new RuntimeException('Partial fetching is disabled in eCamp, to prevent lowering the code coverage due to a feature we don\'t use');
+                /*
                 try {
-                    throw new RuntimeException('Partial fetching is disabled in eCamp, to prevent lowering the code coverage due to a feature we don\'t use');
                     //$this->addSelect($queryBuilder, $mapping['targetEntity'], $associationAlias, $options);
                 } catch (ResourceClassNotFoundException $resourceClassNotFoundException) {
                     continue;
-                }
-            } else {
-                $this->addSelectOnce($queryBuilder, $associationAlias);
+                }*/
             }
+            $this->addSelectOnce($queryBuilder, $associationAlias);
 
             // Avoid recursive joins for self-referencing relations
             if ($mapping['targetEntity'] === $resourceClass) {

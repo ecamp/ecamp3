@@ -7,7 +7,11 @@ use App\Entity\ContentNode;
 
 abstract class ContentNodeAbstractDataPersister extends AbstractDataPersister {
     /**
-     * @param ContentNode $data
+     * @template T of ContentNode
+     *
+     * @param T $data
+     *
+     * @return T
      */
     public function beforeCreate($data): ContentNode {
         // set root from parent

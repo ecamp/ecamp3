@@ -22,7 +22,7 @@ class AssertColumWidthsSumTo12Validator extends ConstraintValidator {
 
         if (12 !== $columnWidths) {
             $this->context->buildViolation($constraint->message)
-                ->setParameter('{{ sum }}', $columnWidths)
+                ->setParameter('{{ sum }}', strval($columnWidths))
                 ->addViolation()
             ;
         }

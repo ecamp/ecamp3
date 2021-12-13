@@ -10,11 +10,11 @@
         "cweagans/composer-patches": "1.7.1",
         "doctrine/annotations": "1.13.2",
         "doctrine/doctrine-bundle": "2.5.2",
-        "doctrine/doctrine-migrations-bundle": "3.1.1",
+        "doctrine/doctrine-migrations-bundle": "3.2.1",
         "doctrine/orm": "2.10.3",
         "exercise/htmlpurifier-bundle": "3.1.0",
-        "guzzlehttp/guzzle": "7.4.0",
-        "lexik/jwt-authentication-bundle": "2.14.1",
+        "guzzlehttp/guzzle": "7.4.1",
+        "lexik/jwt-authentication-bundle": "2.14.2",
         "nelmio/cors-bundle": "2.2.0",
         "phpdocumentor/reflection-docblock": "5.3.0",
         "rize/uri-template": "0.3.4",
@@ -44,7 +44,8 @@
         "friendsofphp/php-cs-fixer": "3.3.2",
         "hautelook/alice-bundle": "2.9.0",
         "justinrainbow/json-schema": "5.2.11",
-        "php-coveralls/php-coveralls": "2.5.1",
+        "php-coveralls/php-coveralls": "2.5.2",
+        "phpstan/phpstan": "1.2.0",
         "phpunit/phpunit": "9.5.10",
         "symfony/browser-kit": "5.3.4",
         "symfony/css-selector": "5.3.4",
@@ -54,7 +55,8 @@
         "symfony/phpunit-bridge": "5.3.11",
         "symfony/stopwatch": "5.3.4",
         "symfony/var-dumper": "5.3.11",
-        "symfony/web-profiler-bundle": "5.3.8"
+        "symfony/web-profiler-bundle": "5.3.8",
+        "vimeo/psalm": "4.13.1"
     },
     "config": {
         "optimize-autoloader": true,
@@ -99,6 +101,12 @@
         ],
         "post-update-cmd": [
             "@auto-scripts"
+        ],
+        "phpstan": [
+            "phpstan"
+        ],
+        "psalm": [
+            "psalm"
         ]
     },
     "conflict": {

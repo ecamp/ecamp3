@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Api\ContentNodes\MultiSelect\Option\MultiSelect\Option;
+namespace App\Tests\Api\ContentNodes\MultiSelect\Option;
 
 use App\Entity\ContentNode\MultiSelectOption;
 use App\Tests\Api\ECampApiTestCase;

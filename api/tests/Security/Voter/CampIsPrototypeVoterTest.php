@@ -45,14 +45,14 @@ class CampIsPrototypeVoterTest extends TestCase {
         $this->assertEquals(CampRoleVoter::ACCESS_ABSTAIN, $result);
     }
 
-    public function testGrantsAccessWhenSubjectIsNull() {
+    public function testDoesntVoteWhenSubjectIsNull() {
         // given
 
         // when
         $result = $this->voter->vote($this->token, null, ['CAMP_IS_PROTOTYPE']);
 
         // then
-        $this->assertEquals(CampRoleVoter::ACCESS_GRANTED, $result);
+        $this->assertEquals(CampRoleVoter::ACCESS_ABSTAIN, $result);
     }
 
     /**
