@@ -39,6 +39,13 @@ Create chart name and version as used by the chart label.
 {{- end }}
 
 {{/*
+The full URL where the frontend will be available.
+*/}}
+{{- define "frontend.url" -}}
+{{- printf "https://%s" .Values.frontend.domain }}
+{{- end }}
+
+{{/*
 Common labels
 */}}
 {{- define "api-platform.labels" -}}

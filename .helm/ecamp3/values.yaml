@@ -2,7 +2,10 @@
 # Declare configuration values to be passed into the templates.
 
 imageTag: "latest"
-apiDomain:
+sharedCookieDomain:
+
+api:
+  domain:
 
 php:
   image:
@@ -26,6 +29,9 @@ caddy:
     pullPolicy: IfNotPresent
     # Overrides the image tag whose default is imageTag
     # tag:
+
+frontend:
+  domain:
 
 # You may prefer using the managed version in production: https://mercure.rocks
 mercure:
