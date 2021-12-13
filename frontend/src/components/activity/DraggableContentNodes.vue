@@ -2,8 +2,6 @@
   <div>
     <draggable v-if="contentNodeIds"
                v-model="localContentNodeIds"
-               :data-parent="parentContentNode._meta.self"
-               :data-slot="slotName"
                :disabled="!draggingEnabled"
                group="contentNodes"
                class="draggable-area d-flex flex-column pb-10"
@@ -25,7 +23,8 @@
     <button-nested-content-node-add v-if="layoutMode"
                                     :layout-mode="layoutMode"
                                     :parent-content-node="parentContentNode"
-                                    :slot-name="slotName" />
+                                    :slot-name="slotName"
+                                    @clearDirty="$emit('clearDirty', null)" />
   </div>
 </template>
 <script>
@@ -41,6 +40,7 @@ export default {
     // Lazy import necessary due to recursive component structure
     ContentNode: () => import('@/components/activity/ContentNode.vue')
   },
+  inject: ['draggableDirty'],
   props: {
     layoutMode: { type: Boolean, default: false },
     slotName: { type: String, required: true },
@@ -76,7 +76,10 @@ export default {
     contentNodeIds: {
       immediate: true,
       handler () {
-        this.localContentNodeIds = this.contentNodeIds
+        // update local sorting with external sorting if not dirty
+        if (!this.draggableDirty.flag) {
+          this.localContentNodeIds = this.contentNodeIds
+        }
       }
     }
   },
@@ -91,14 +94,22 @@ export default {
     async finishDrag (event) {
       this.cleanupDrag()
 
+      // set dirty flag
+      const timestamp = Date.now()
+      this.$emit('setDirty', timestamp)
+
+      // patch content node location
       await this.api.patch(event.item.dataset.href, {
-        slot: event.to.dataset.slot, // data-slot attribute on <draggable /> tag
-        parent: event.to.dataset.parent, // data-parent attribute on <draggable /> tag
+        slot: this.slotName,
+        parent: this.parentContentNode._meta.self,
         position: event.newDraggableIndex
       })
 
       // reload all contentNodes to update position properties
-      this.api.reload(this.parentContentNode.owner().contentNodes())
+      await this.api.reload(this.parentContentNode.owner().contentNodes())
+
+      // clear dirty flag (unless a new change happened in the meantime)
+      this.$emit('clearDirty', timestamp)
     },
     cleanupDrag () {
       document.body.classList.remove('dragging', 'dragging-content-node')

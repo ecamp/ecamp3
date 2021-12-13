@@ -89,6 +89,9 @@ export default {
           slot: this.slotName
         })
 
+        // need to clear dirty flag to ensure new content node is visible in case same Patch-calls are still ongoing
+        this.$emit('clearDirty')
+
         await this.parentContentNode.owner().$reload()
       } catch (error) {
         console.log(error) // TO DO: display error message in error snackbar/toast

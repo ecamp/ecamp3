@@ -150,7 +150,7 @@ Displays a single activity
           </v-row>
 
           <v-skeleton-loader v-if="loading" type="article" />
-          <content-node
+          <root-node
             v-else
             :content-node="activity.rootContentNode()"
             :layout-mode="layoutMode"
@@ -165,7 +165,7 @@ Displays a single activity
 import ContentCard from '@/components/layout/ContentCard.vue'
 import ApiTextField from '@/components/form/api/ApiTextField.vue'
 import ApiSelect from '@/components/form/api/ApiSelect.vue'
-import ContentNode from '@/components/activity/ContentNode.vue'
+import RootNode from '@/components/activity/ContentNode.vue'
 import { defineHelpers } from '@/common/helpers/scheduleEntry/dateHelperUTC.js'
 import { campRoleMixin } from '@/mixins/campRoleMixin'
 
@@ -175,7 +175,7 @@ export default {
     ContentCard,
     ApiTextField,
     ApiSelect,
-    ContentNode
+    RootNode
   },
   mixins: [campRoleMixin],
   props: {

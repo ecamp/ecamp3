@@ -7,7 +7,8 @@
              :layout-mode="layoutMode"
              :draggable="draggable"
              :disabled="disabled"
-             v-bind="$attrs" />
+             v-bind="$attrs"
+             v-on="$listeners" />
 </template>
 
 <script>
@@ -49,7 +50,7 @@ export default {
 }
 
 .draggable {
-  cursor: pointer;
+  cursor: move;
 
   &:hover {
     background: map-get($blue-grey, 'lighten-5');
@@ -60,7 +61,4 @@ export default {
   }
 }
 
-.draggable [disabled] {
-  cursor: move;
-}
 </style>
