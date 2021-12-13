@@ -1,12 +1,4 @@
 App\Entity\ContentNode\ColumnLayout:
-  columnLayout1:
-    root: '@self'
-    parent: null
-    slot: ''
-    position: 0
-    columns: [{slot: '1', width: 6}, {slot: '2', width: 6}]
-    instanceName: 'columnLayout1'
-    contentType: '@contentTypeColumnLayout'
   columnLayout2:
     root: '@self'
     parent: null
@@ -14,14 +6,6 @@ App\Entity\ContentNode\ColumnLayout:
     position: 0
     columns: [{slot: '1', width: 12}]
     instanceName: 'columnLayout2'
-    contentType: '@contentTypeColumnLayout'
-  columnLayoutChild1:
-    root: '@columnLayout1'
-    parent: '@columnLayout1'
-    slot: '2'
-    position: 0
-    columns: [{slot: '1', width: 12}]
-    instanceName: 'columnLayoutChild1'
     contentType: '@contentTypeColumnLayout'
   columnLayout2Child1:
     root: '@columnLayout2'

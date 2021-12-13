@@ -116,12 +116,12 @@ abstract class ContentNode extends BaseEntity implements BelongsToCampInterface 
      * A whole number used for ordering multiple content nodes that are in the same slot of the
      * same parent. The API does not guarantee the uniqueness of parent+slot+position.
      *
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="integer", nullable=false)
      * @Gedmo\SortablePosition
      */
     #[ApiProperty(example: '0')]
     #[Groups(['read', 'write'])]
-    public ?int $position = -1;
+    public int $position = -1;
 
     /**
      * An optional name for this content node. This is useful when planning e.g. an alternative

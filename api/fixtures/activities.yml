@@ -1,10 +1,4 @@
 App\Entity\Activity:
-  activity1:
-    camp: '@camp1'
-    title: 'Activity 1'
-    location: <sentence()>
-    rootContentNode: '@columnLayout1'
-    category: '@category1'
   activity2:
     camp: '@camp1'
     title: 'Activity 2'
