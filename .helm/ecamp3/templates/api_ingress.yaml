@@ -31,10 +31,20 @@ spec:
       http:
         paths:
           {{- range .paths }}
-          - path: {{ .path }}
+          - path: {{- default "/" .path }}
             {{- if .pathType }}
             pathType: {{ .pathType }}
+            {{- else }}
+            pathType: Prefix
             {{- end }}
+            backend:
+              service:
+                name: {{ $apiName }}
+                port:
+                  number: {{ $svcPort }}
+          {{- else }}
+          - path: /
+            pathType: Prefix
             backend:
               service:
                 name: {{ $apiName }}
