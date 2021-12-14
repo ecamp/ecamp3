@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "api-platform.api-name" . }}
+  name: {{ include "api.name" . }}
   labels:
-    {{- include "api-platform.labels" . | nindent 4 }}
+    {{- include "app.labels" . | nindent 4 }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
-      {{- include "api-platform.selectorLabels" . | nindent 6 }}
+      {{- include "app.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       {{- with .Values.podAnnotations }}
@@ -18,13 +18,13 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        {{- include "api-platform.selectorLabels" . | nindent 8 }}
+        {{- include "app.selectorLabels" . | nindent 8 }}
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ include "api-platform.serviceAccountName" . }}
+      serviceAccountName: {{ include "app.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
@@ -39,12 +39,12 @@ spec:
             - name: MERCURE_PUBLISHER_JWT_KEY
               valueFrom:
                 secretKeyRef:
-                  name: {{ include "api-platform.api-name" . }}
+                  name: {{ include "api.name" . }}
                   key: mercure-jwt-secret
             - name: MERCURE_SUBSCRIBER_JWT_KEY
               valueFrom:
                 secretKeyRef:
-                  name: {{ include "api-platform.api-name" . }}
+                  name: {{ include "api.name" . }}
                   key: mercure-jwt-secret
           ports:
             - name: http
@@ -79,22 +79,22 @@ spec:
           imagePullPolicy: {{ .Values.php.image.pullPolicy }}
           envFrom:
             - configMapRef:
-                name: {{ include "api-platform.api-name" . }}-configmap
+                name: {{ include "api.name" . }}-configmap
           env:
             - name: APP_SECRET
               valueFrom:
                 secretKeyRef:
-                  name: {{ include "api-platform.api-name" . }}
+                  name: {{ include "api.name" . }}
                   key: php-app-secret
             - name: DATABASE_URL
               valueFrom:
                 secretKeyRef:
-                  name: {{ include "api-platform.api-name" . }}
+                  name: {{ include "api.name" . }}
                   key: database-url
             - name: MERCURE_JWT_SECRET
               valueFrom:
                 secretKeyRef:
-                  name: {{ include "api-platform.api-name" . }}
+                  name: {{ include "api.name" . }}
                   key: mercure-jwt-secret
           volumeMounts:
             - mountPath: /var/run/php

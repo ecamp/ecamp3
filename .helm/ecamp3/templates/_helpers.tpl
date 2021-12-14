@@ -1,20 +1,19 @@
 {{/*
 Expand the name of the chart.
 */}}
-{{- define "api-platform.name" -}}
-{{- default .Chart.Name .Values.chartNameOverride | trunc 63 | trimSuffix "-" }}
+{{- define "chart.name" -}}
+{{- default .Chart.Name .Values.chartNameOverride }}
 {{- end }}
 
 {{/*
 Create a default fully qualified app name.
 If release name contains chart name it will be used as a full name.
 */}}
-{{- define "api-platform.fullname" -}}
-{{- $name := default .Chart.Name .Values.chartNameOverride }}
-{{- if contains $name .Release.Name }}
+{{- define "app.name" -}}
+{{- if contains (include "chart.name" .) .Release.Name }}
 {{- .Release.Name | trimSuffix "-" }}
 {{- else }}
-{{- printf "%s-%s" .Release.Name $name | trimSuffix "-" }}
+{{- printf "%s-%s" .Release.Name (include "chart.name" .) | trimSuffix "-" }}
 {{- end }}
 {{- end }}
 
@@ -22,19 +21,19 @@ If release name contains chart name it will be used as a full name.
 Name for all api-related resources.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 */}}
-{{- define "api-platform.api-name" -}}
+{{- define "api.name" -}}
 {{- $name := default .Chart.Name .Values.chartNameOverride }}
-{{- if contains $name (include "api-platform.fullname" .) }}
-{{- printf "%s-api" (include "api-platform.fullname" .) | trunc 63 | trimSuffix "-" }}
+{{- if contains $name (include "app.name" .) }}
+{{- printf "%s-api" (include "app.name" .) | trunc 63 | trimSuffix "-" }}
 {{- else }}
-{{- printf "%s-%s-api" (include "api-platform.fullname" .) $name | trunc 63 | trimSuffix "-" }}
+{{- printf "%s-%s-api" (include "app.name" .) $name | trunc 63 | trimSuffix "-" }}
 {{- end }}
 {{- end }}
 
 {{/*
 Create chart name and version as used by the chart label.
 */}}
-{{- define "api-platform.chart" -}}
+{{- define "chart.fullname" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
@@ -48,9 +47,9 @@ The full URL where the frontend will be available.
 {{/*
 Common labels
 */}}
-{{- define "api-platform.labels" -}}
-helm.sh/chart: {{ include "api-platform.chart" . }}
-{{ include "api-platform.selectorLabels" . }}
+{{- define "app.labels" -}}
+helm.sh/chart: {{ include "chart.fullname" . }}
+{{ include "app.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
@@ -60,18 +59,18 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{/*
 Selector labels
 */}}
-{{- define "api-platform.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "api-platform.name" . }}
+{{- define "app.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "chart.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
-app.kubernetes.io/part-of: {{ include "api-platform.name" . }}
+app.kubernetes.io/part-of: {{ include "chart.name" . }}
 {{- end }}
 
 {{/*
 Create the name of the service account to use
 */}}
-{{- define "api-platform.serviceAccountName" -}}
+{{- define "app.serviceAccountName" -}}
 {{- if .Values.serviceAccount.create }}
-{{- default (include "api-platform.fullname" .) .Values.serviceAccount.name }}
+{{- default (include "app.name" .) .Values.serviceAccount.name }}
 {{- else }}
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}
