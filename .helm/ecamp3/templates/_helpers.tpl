@@ -31,6 +31,19 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
 {{- end }}
 
 {{/*
+Name for all frontend-related resources.
+We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
+*/}}
+{{- define "frontend.name" -}}
+{{- $name := default .Chart.Name .Values.chartNameOverride }}
+{{- if contains $name (include "app.name" .) }}
+{{- printf "%s-frontend" (include "app.name" .) | trunc 63 | trimSuffix "-" }}
+{{- else }}
+{{- printf "%s-%s-frontend" (include "app.name" .) $name | trunc 63 | trimSuffix "-" }}
+{{- end }}
+{{- end }}
+
+{{/*
 Create chart name and version as used by the chart label.
 */}}
 {{- define "chart.fullname" -}}
@@ -38,10 +51,31 @@ Create chart name and version as used by the chart label.
 {{- end }}
 
 {{/*
+The full URL where the API root will be available.
+*/}}
+{{- define "api.url" -}}
+{{- printf "https://%s" .Values.api.domain }}
+{{- end }}
+
+{{/*
 The full URL where the frontend will be available.
 */}}
 {{- define "frontend.url" -}}
 {{- printf "https://%s" .Values.frontend.domain }}
+{{- end }}
+
+{{/*
+The full URL where the print service will be available.
+*/}}
+{{- define "print.url" -}}
+{{- printf "https://%s" .Values.print.domain }}
+{{- end }}
+
+{{/*
+The full URL where the static file server will be available.
+*/}}
+{{- define "files.url" -}}
+{{- printf "https://%s" .Values.files.domain }}
 {{- end }}
 
 {{/*

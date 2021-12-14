@@ -4,6 +4,9 @@
 chartNameOverride: ""
 imageTag: "latest"
 imagePullSecrets: []
+deploymentTime: ""
+deployedVersion: "devel"
+versionLinkTemplate: 'https://github.com/ecamp/ecamp3/commit/{version}'
 
 sharedCookieDomain:
 
@@ -39,6 +42,22 @@ caddy:
     # tag:
 
 frontend:
+  domain:
+  image:
+    repository: "docker.io/ecamp/ecamp3-frontend"
+    pullPolicy: IfNotPresent
+    # Overrides the image tag whose default is imageTag
+    # tag:
+  sentryDsn:
+  service:
+    type: ClusterIP
+    port: 3000
+  replicaCount: 1
+
+print:
+  domain:
+
+files:
   domain:
 
 # You may prefer using the managed version in production: https://mercure.rocks
