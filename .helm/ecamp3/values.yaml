@@ -12,6 +12,8 @@ api:
   service:
     type: ClusterIP
     port: 3001
+  # If you use Mercure, you need the managed or the On Premise version to deploy more than one pod: https://mercure.rocks/docs/hub/cluster
+  replicaCount: 1
 
 php:
   image:
@@ -84,14 +86,11 @@ securityContext: {}
   # runAsUser: 1000
 
 ingress:
-  enabled: false
-  annotations: {}
-    # kubernetes.io/ingress.class: nginx
+  enabled: true
+  annotations:
     # kubernetes.io/tls-acme: "true"
-  hosts:
-    - host:
-      paths: []
-  tls: []
+  className: nginx
+  tls:
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
@@ -104,9 +103,6 @@ resources: {}
   # requests:
   #   cpu: 100m
   #   memory: 128Mi
-
-# If you use Mercure, you need the managed or the On Premise version to deploy more than one pod: https://mercure.rocks/docs/hub/cluster
-replicaCount: 1
 
 autoscaling:
   enabled: false
