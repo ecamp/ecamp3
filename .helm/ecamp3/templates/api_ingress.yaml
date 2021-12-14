@@ -1,6 +1,6 @@
 {{- if .Values.ingress.enabled -}}
 {{- $apiName := include "api.name" . -}}
-{{- $svcPort := .Values.service.port -}}
+{{- $svcPort := .Values.api.service.port -}}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:

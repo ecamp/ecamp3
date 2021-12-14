@@ -13,10 +13,6 @@ spec:
       {{- include "app.selectorLabels" . | nindent 6 }}
   template:
     metadata:
-      {{- with .Values.podAnnotations }}
-      annotations:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
       labels:
         {{- include "app.selectorLabels" . | nindent 8 }}
     spec:
@@ -47,11 +43,8 @@ spec:
                   name: {{ include "api.name" . }}
                   key: mercure-jwt-secret
           ports:
-            - name: http
+            - name: api-http
               containerPort: 3001
-              protocol: TCP
-            - name: admin
-              containerPort: 2019
               protocol: TCP
           volumeMounts:
             - mountPath: /var/run/php
@@ -120,15 +113,3 @@ spec:
       volumes:
       - name: php-socket
         emptyDir: {}
-      {{- with .Values.nodeSelector }}
-      nodeSelector:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      {{- with .Values.affinity }}
-      affinity:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      {{- with .Values.tolerations }}
-      tolerations:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}

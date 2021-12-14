@@ -1,11 +1,17 @@
 # Default values for ecamp3.
 # Declare configuration values to be passed into the templates.
 
+chartNameOverride: ""
 imageTag: "latest"
+imagePullSecrets: []
+
 sharedCookieDomain:
 
 api:
   domain:
+  service:
+    type: ClusterIP
+    port: 3001
 
 php:
   image:
@@ -57,9 +63,6 @@ postgresql:
     repository: bitnami/postgresql
     tag: 13
 
-imagePullSecrets: []
-chartNameOverride: ""
-
 serviceAccount:
   # Specifies whether a service account should be created
   create: true
@@ -68,8 +71,6 @@ serviceAccount:
   # The name of the service account to use.
   # If not set and create is true, a name is generated using the fullname template
   name: ""
-
-podAnnotations: {}
 
 podSecurityContext: {}
   # fsGroup: 2000
@@ -81,10 +82,6 @@ securityContext: {}
   # readOnlyRootFilesystem: true
   # runAsNonRoot: true
   # runAsUser: 1000
-
-service:
-  type: ClusterIP
-  port: 3001
 
 ingress:
   enabled: false
@@ -114,12 +111,6 @@ replicaCount: 1
 autoscaling:
   enabled: false
   minReplicas: 1
-  maxReplicas: 100
+  maxReplicas: 5
   targetCPUUtilizationPercentage: 80
   # targetMemoryUtilizationPercentage: 80
-
-nodeSelector: {}
-
-tolerations: []
-
-affinity: {}
