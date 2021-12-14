@@ -84,6 +84,11 @@ spec:
                 secretKeyRef:
                   name: {{ include "api.name" . }}
                   key: database-url
+            - name: JWT_PASSPHRASE
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "api.name" . }}
+                  key: php-jwt-passphrase
             - name: MERCURE_JWT_SECRET
               valueFrom:
                 secretKeyRef:
@@ -92,6 +97,12 @@ spec:
           volumeMounts:
             - mountPath: /var/run/php
               name: php-socket
+            - mountPath: /srv/api/config/jwt/public.pem
+              name: jwt-keypair
+              subPath: public.pem
+            - mountPath: /srv/api/config/jwt/private.pem
+              name: jwt-keypair
+              subPath: private.pem
           lifecycle:
             preStop:
               exec:
@@ -113,3 +124,11 @@ spec:
       volumes:
       - name: php-socket
         emptyDir: {}
+      - name: jwt-keypair
+        secret:
+          secretName: {{ include "api.name" . }}
+          items:
+            - key: jwt-public-key
+              path: public.pem
+            - key: jwt-private-key
+              path: private.pem
