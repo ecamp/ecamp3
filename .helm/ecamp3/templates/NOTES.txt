@@ -1,12 +1,7 @@
 {{- if .Values.ingress.enabled }}
 Access the application at one of these URLs:
-{{- range $host := .Values.ingress.hosts }}
-  {{- range .paths }}
-  http{{ if $.Values.ingress.tls }}s{{ end }}://{{ $host.host }}{{ .path }}
-  {{- else }}
-  http{{ if $.Values.ingress.tls }}s{{ end }}://{{ $host.host }}/
-  {{- end }}
-{{- end }}
+  Frontend: {{ include "frontend.url" . }}
+  API docs: {{ include "api.url" . }}
 {{- else if contains "NodePort" .Values.api.service.type }}
 Get the application URL by running these commands:
   export NODE_PORT=$(kubectl get --namespace {{ .Release.Namespace }} -o jsonpath="{.spec.ports[0].nodePort}" services {{ include "api.name" . }})
