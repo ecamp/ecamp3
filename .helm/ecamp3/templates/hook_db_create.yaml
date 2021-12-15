@@ -1,13 +1,14 @@
-{{- if not .Values.postgresql.enabled }} # only create the database if using an external PostgreSQL server
+#
+# Automatically creates the database in an external PostgreSQL when installing the chart for the first time.
+#
+{{- if not .Values.postgresql.enabled }}
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: "{{ include "app.name" . }}-pre-install"
+  name: "{{ include "app.name" . }}-db-create"
   labels:
     {{- include "app.labels" . | nindent 4 }}
   annotations:
-    # This is what defines this resource as a hook. Without this line, the
-    # job is considered part of the release.
     "helm.sh/hook": pre-install
     "helm.sh/hook-weight": "-5"
     "helm.sh/hook-delete-policy": hook-succeeded
@@ -20,7 +21,7 @@ spec:
     spec:
       restartPolicy: Never
       containers:
-        - name: pre-install-job
+        - name: db-create-job
           image: "{{ .Values.php.image.repository }}:{{ .Values.php.image.tag | default .Values.imageTag }}"
           command: ["php", "bin/console", "doctrine:database:create", "--if-not-exists"]
           env:

@@ -66,6 +66,8 @@ spec:
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
         - name: {{ .Chart.Name }}-php
+          {{/* Define the php container as a template, so it can be reused in other places */}}
+          {{- define "api.phpContainer" }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.php.image.repository }}:{{ .Values.php.image.tag | default .Values.imageTag }}"
@@ -121,6 +123,9 @@ spec:
             periodSeconds: 3
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+          {{- end }}
+          {{- template "api.phpContainer" . }}
+
       volumes:
       - name: php-socket
         emptyDir: {}
