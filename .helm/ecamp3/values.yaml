@@ -76,6 +76,9 @@ postgresql:
   enabled: true
   # If bringing your own PostgreSQL, the full uri to use
   url: postgresql://api-platform:!ChangeMe!@database:5432/api?serverVersion=13&charset=utf8
+  dropDBOnUninstall: false
+  # If bringing your own PostgreSQL, an uri with privileges to create and drop a database for the application
+  adminUrl:
   postgresqlUsername: "example"
   postgresqlPassword: "!ChangeMe!"
   postgresqlDatabase: "api"
