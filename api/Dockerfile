@@ -107,6 +107,8 @@ RUN set -eux; \
 
 COPY docker/php/docker-healthcheck.sh /usr/local/bin/docker-healthcheck
 RUN chmod +x /usr/local/bin/docker-healthcheck
+COPY docker/php/migrate-database.sh /usr/local/bin/migrate-database
+RUN chmod +x /usr/local/bin/migrate-database
 
 HEALTHCHECK --interval=10s --timeout=3s --retries=3 CMD ["docker-healthcheck"]
 

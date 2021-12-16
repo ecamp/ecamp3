@@ -9,6 +9,7 @@ metadata:
     {{- include "app.labels" . | nindent 4 }}
   annotations:
     "helm.sh/hook": post-install,post-upgrade
+    "helm.sh/hook-delete-policy": hook-succeeded
 spec:
   template:
     metadata:
@@ -20,10 +21,7 @@ spec:
       containers:
         - name: db-migrate-job
           {{ template "api.phpContainer" . }}
-          command:
-            - "/bin/sh"
-            - "-c"
-            - "php bin/console dbal:run-sql -q \"SELECT 1\" 2>&1 && php bin/console doctrine:migrations:migrate --no-interaction"
+          command: ["migrate-database"]
       volumes:
       - name: php-socket
         emptyDir: {}

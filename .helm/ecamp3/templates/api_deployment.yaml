@@ -109,6 +109,10 @@ spec:
             preStop:
               exec:
                 command: ["/bin/sh", "-c", "/bin/sleep 1; kill -QUIT 1"]
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          {{- end }}
+          {{- template "api.phpContainer" . }}
           readinessProbe:
             exec:
               command:
@@ -119,12 +123,13 @@ spec:
             exec:
               command:
                 - docker-healthcheck
-            initialDelaySeconds: 3
             periodSeconds: 3
-          resources:
-            {{- toYaml .Values.resources | nindent 12 }}
-          {{- end }}
-          {{- template "api.phpContainer" . }}
+          startupProbe:
+            exec:
+              command:
+                - docker-healthcheck
+            failureThreshold: 40
+            periodSeconds: 3
 
       volumes:
       - name: php-socket
