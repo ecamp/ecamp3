@@ -8,7 +8,7 @@ Listing all given activity schedule entries in a calendar view.
       ref="calendar"
       v-model="value"
       v-resize="resize"
-      class="ec-picasso"
+      :class="editable ? 'ec-picasso-editable' : 'ec-picasso'"
       :events="scheduleEntries"
       :event-name="getActivityName"
       :event-color="getActivityColor"
@@ -313,6 +313,9 @@ export default {
   cursor: grab;
   cursor: -moz-grab;
   cursor: -webkit-grab;
+  border: 1px black dashed;
+  border-radius: 4px;
+
 }
 
 .editableEntry:active {
@@ -321,9 +324,19 @@ export default {
   cursor: -webkit-grabbing;
 }
 </style>
-
 <style lang="scss">
-.ec-picasso {
+.ec-picasso-editable {
+  .v-event-timed {
+    transition: transform .1s; /* Animation */
+  }
+
+  .v-event-timed:hover{
+    transform: scale(1.02); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+  }
+
+}
+
+.ec-picasso, .ec-picasso-editable {
 
   .v-calendar-daily_head-day,
   .v-calendar-daily__day {
@@ -331,7 +344,7 @@ export default {
   }
 
   .v-event-timed {
-    padding: 1px;
+    padding: 0px;
     font-size: 11px !important;
     white-space: normal;
     line-height: 1.15;
