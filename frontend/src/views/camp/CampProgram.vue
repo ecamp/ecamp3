@@ -3,9 +3,13 @@ Show all activity schedule entries of a single period.
 -->
 
 <template>
-  <content-card>
-    <template #title>
+  <content-card :title="$tc('views.camp.picasso.title')" toolbar>
+    <template #title-actions>
       <period-switcher v-if="$vuetify.breakpoint.xsOnly" :period="period" />
+      <e-switch
+        v-model="editMode"
+        class="ml-5"
+        :label="$tc('views.camp.picasso.editMode')" />
     </template>
     <schedule-entries :period="period" :show-button="true">
       <template #default="slotProps">
@@ -19,8 +23,7 @@ Show all activity schedule entries of a single period.
             :period="period()"
             :start="Date.parse(period().start)"
             :end="Date.parse(period().end)"
-            editable
-            @openEntry="slotProps.on.openEntry"
+            :editable="editMode"
             @changePlaceholder="slotProps.on.changePlaceholder"
             @newEntry="slotProps.on.newEntry" />
         </template>
@@ -44,6 +47,11 @@ export default {
   },
   props: {
     period: { type: Function, required: true }
+  },
+  data () {
+    return {
+      editMode: false
+    }
   }
 }
 </script>

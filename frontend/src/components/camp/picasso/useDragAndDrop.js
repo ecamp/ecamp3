@@ -1,10 +1,10 @@
 /**
  *
- * @param bool editable     drag & drop is disabled if editable=false
- * @param int threshold     min. mouse movement needed to detect drag & drop
+ * @param ref(bool) enabled   drag & drop is disabled if enabled=false
+ * @param int threshold       min. mouse movement needed to detect drag & drop
  * @returns
  */
-export default function useDragAndDrop (editable, threshold, update, emit) {
+export default function useDragAndDrop (enabled, threshold, update, emit) {
   /**
    * internal data (not exposed)
    */
@@ -124,7 +124,7 @@ export default function useDragAndDrop (editable, threshold, update, emit) {
     // cancel drag & drop if button is not left button
     if (nativeEvent.button !== 0) { return }
 
-    if (editable.value && entry && timed) {
+    if (enabled.value && entry && timed) {
       // start Drag & Drop
       startX = nativeEvent.x
       startY = nativeEvent.y
@@ -138,7 +138,7 @@ export default function useDragAndDrop (editable, threshold, update, emit) {
     // cancel drag & drop if button is not left button
     if (nativeEvent.button !== 0) { return }
 
-    if (editable.value) {
+    if (enabled.value) {
       const mouse = toTime(tms)
 
       if (mouseStartTime === null) {
@@ -158,7 +158,7 @@ export default function useDragAndDrop (editable, threshold, update, emit) {
 
   // triggered when mouse is being moved in calendar (independent whether drag & drop is ongoing or not)
   const timeMouseMove = (tms, nativeEvent) => {
-    if (editable.value) {
+    if (enabled.value) {
       const mouse = toTime(tms)
 
       if (draggedEntry) {
@@ -180,7 +180,7 @@ export default function useDragAndDrop (editable, threshold, update, emit) {
 
   // triggered with MouseUp Event anywhere in the calendar
   const timeMouseUp = () => {
-    if (!editable.value) {
+    if (!enabled.value) {
       return
     }
 

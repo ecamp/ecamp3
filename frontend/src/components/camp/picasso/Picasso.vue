@@ -59,6 +59,7 @@ Listing all given activity schedule entries in a calendar view.
         <!-- edit button & dialog -->
         <dialog-activity-edit
           v-if="editable && !event.tmpEvent"
+          :ref="`editDialog-${event.id}`"
           :schedule-entry="event">
           <template #activator="{ on }">
             <v-btn absolute
@@ -74,15 +75,27 @@ Listing all given activity schedule entries in a calendar view.
           </template>
         </dialog-activity-edit>
 
-        <h4 class="v-event-title">
-          {{ getActivityName(event) }}
-        </h4>
+        <!-- readonly mode: complete div is a HTML link -->
+        <router-link v-if="!editable" :to="scheduleEntryRoute(event)">
+          <div class="readonlyEntry">
+            <h4 class="v-event-title">
+              {{ getActivityName(event) }}
+            </h4>
+          </div>
+        </router-link>
 
-        <!-- resize handle -->
-        <div
-          v-if="editable && timed"
-          class="v-event-drag-bottom"
-          @mousedown.stop="dragAndDrop.startResize(event)" />
+        <!-- edit mode: normal div with drag & drop -->
+        <div v-if="editable" class="editableEntry">
+          <h4 class="v-event-title">
+            {{ getActivityName(event) }}
+          </h4>
+
+          <!-- resize handle -->
+          <div
+            v-if="editable && timed"
+            class="v-event-drag-bottom"
+            @mousedown.stop="dragAndDrop.startResize(event)" />
+        </div>
       </template>
     </v-calendar>
 
@@ -104,6 +117,7 @@ import useDragAndDrop from './useDragAndDrop.js'
 import useClickDetector from './useClickDetector.js'
 import { isCssColor } from 'vuetify/lib/util/colorUtils'
 import { apiStore as api } from '@/plugins/store'
+import { scheduleEntryRoute } from '@/router.js'
 
 import DialogActivityEdit from '@/components/dialog/DialogActivityEdit.vue'
 
@@ -164,13 +178,11 @@ export default {
   emits: [
     'changePlaceholder', // triggered continuously while a new entry is being dragged (parameters: startTime, endTime)
 
-    'newEntry', // triggered once when a new entry was created via drag & drop (parameters: startTime, endTime)
-
-    'openEntry' // triggered when an existing entry is clicked on (parameters: entry, newTab)
+    'newEntry' // triggered once when a new entry was created via drag & drop (parameters: startTime, endTime)
   ],
 
   // composition API setup
-  setup (props, { emit }) {
+  setup (props, { emit, refs }) {
     const { editable } = toRefs(props)
 
     const isSaving = ref(false)
@@ -191,9 +203,14 @@ export default {
       })
     }
 
+    // open edit dialog
+    const onClick = (scheduleEntry) => {
+      refs[`editDialog-${scheduleEntry.id}`].open()
+    }
+
     const dragAndDrop = useDragAndDrop(editable, 5, updateEntry, emit)
 
-    const clickDetector = useClickDetector(5, emit)
+    const clickDetector = useClickDetector(editable, 5, onClick)
 
     return {
       dragAndDrop,
@@ -259,10 +276,10 @@ export default {
       return isCssColor(color) ? color : color + ' elevation-4 v-event--temporary'
     },
     isActivityLoading (scheduleEntry) {
-      return this.activitiesLoading || this.categoriesLoading || scheduleEntry.activity()._meta.loading
+      return !scheduleEntry.tmpEvent && (this.activitiesLoading || this.categoriesLoading || scheduleEntry.activity()._meta.loading)
     },
     isCategoryLoading (scheduleEntry) {
-      return this.categoriesLoading || this.activitiesLoading || scheduleEntry.activity()._meta.loading || scheduleEntry.activity().category()._meta.loading
+      return !scheduleEntry.tmpEvent && (this.categoriesLoading || this.activitiesLoading || scheduleEntry.activity()._meta.loading || scheduleEntry.activity().category()._meta.loading)
     },
     intervalFormat (time) {
       return this.$date.utc(time.date + ' ' + time.time).format(this.$tc('global.datetime.hourLong'))
@@ -276,10 +293,35 @@ export default {
     },
     weekdayFormat () {
       return ''
-    }
+    },
+    scheduleEntryRoute
   }
 }
 </script>
+
+<style scoped lang="scss">
+.readonlyEntry, .editableEntry {
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    padding:3px;
+}
+
+.editableEntry {
+  cursor: move; /* fallback if grab cursor is unsupported */
+  cursor: grab;
+  cursor: -moz-grab;
+  cursor: -webkit-grab;
+}
+
+.editableEntry:active {
+  cursor: move;
+  cursor: -moz-grabbing;
+  cursor: -webkit-grabbing;
+}
+</style>
+
 <style lang="scss">
 .ec-picasso {
 

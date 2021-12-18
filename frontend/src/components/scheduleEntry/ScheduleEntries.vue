@@ -30,9 +30,7 @@
 
 <script>
 import DialogActivityCreate from '@/components/dialog/DialogActivityCreate.vue'
-
 import { defineHelpers } from '@/common/helpers/scheduleEntry/dateHelperLocal.js'
-import { scheduleEntryRoute } from '@/router.js'
 
 export default {
   name: 'ScheduleEntries',
@@ -47,7 +45,6 @@ export default {
     return {
       scheduleEntries: [],
       eventHandlers: {
-        openEntry: this.openEntry,
         changePlaceholder: this.changePlaceholder,
         newEntry: this.newEntry
       },
@@ -110,20 +107,6 @@ export default {
     },
     cancelNewActivity () {
       this.resetPlaceholder()
-    },
-
-    // Event Handler on.openEntry: navigate to scheduleEntry `entry` (opens in new tab if newTab=true)
-    openEntry (entry, newTab = false) {
-      if (entry.tmpEvent) {
-        return
-      }
-
-      if (newTab) {
-        const routeData = this.$router.resolve(scheduleEntryRoute(entry))
-        window.open(routeData.href, '_blank')
-      } else {
-        this.$router.push(scheduleEntryRoute(entry)).catch(() => {})
-      }
     },
 
     // Event Handler on.changePlaceholder: change position of the current placeholder
