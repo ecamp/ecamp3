@@ -6,6 +6,7 @@ use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\InputFilter;
 use App\Repository\CampRepository;
+use App\Util\EntityMap;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -234,6 +235,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
     public ?User $owner = null;
 
     public function __construct() {
+        parent::__construct();
         $this->collaborations = new ArrayCollection();
         $this->periods = new ArrayCollection();
         $this->categories = new ArrayCollection();
@@ -401,5 +403,38 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
         }
 
         return $this;
+    }
+
+    /**
+     * @param Camp      $prototype
+     * @param EntityMap $entityMap
+     */
+    public function copyFromPrototype($prototype, &$entityMap = null) {
+        parent::copyFromPrototype($prototype, $entityMap);
+
+        $this->campPrototypeId = $prototype->getId();
+        $this->name ??= $prototype->name;
+        $this->title ??= $prototype->title;
+        $this->motto ??= $prototype->motto;
+        $this->addressName ??= $prototype->addressName;
+        $this->addressStreet ??= $prototype->addressStreet;
+        $this->addressZipcode ??= $prototype->addressZipcode;
+        $this->addressCity ??= $prototype->addressCity;
+
+        // copy MaterialList
+        foreach ($prototype->getMaterialLists() as $materialListPrototype) {
+            $materialList = new MaterialList();
+            $this->addMaterialList($materialList);
+
+            $materialList->copyFromPrototype($materialListPrototype, $entityMap);
+        }
+
+        // copy Categories
+        foreach ($prototype->getCategories() as $categoryPrototype) {
+            $category = new Category();
+            $this->addCategory($category);
+
+            $category->copyFromPrototype($categoryPrototype, $entityMap);
+        }
     }
 }

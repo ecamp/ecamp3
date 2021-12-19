@@ -7,6 +7,7 @@ use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Repository\MaterialListRepository;
+use App\Util\EntityMap;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -74,6 +75,7 @@ class MaterialList extends BaseEntity implements BelongsToCampInterface {
     public ?string $name = null;
 
     public function __construct() {
+        parent::__construct();
         $this->materialItems = new ArrayCollection();
     }
 
@@ -105,5 +107,16 @@ class MaterialList extends BaseEntity implements BelongsToCampInterface {
         }
 
         return $this;
+    }
+
+    /**
+     * @param MaterialList $prototype
+     * @param EntityMap    $entityMap
+     */
+    public function copyFromPrototype($prototype, &$entityMap = null) {
+        parent::copyFromPrototype($prototype, $entityMap);
+
+        $this->materialListPrototypeId = $prototype->getId();
+        $this->name = $prototype->name;
     }
 }

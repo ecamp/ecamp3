@@ -6,6 +6,7 @@ use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Entity\ContentNode;
 use App\Repository\MultiSelectRepository;
+use App\Util\EntityMap;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -48,6 +49,7 @@ class MultiSelect extends ContentNode {
     public Collection $options;
 
     public function __construct() {
+        parent::__construct();
         $this->options = new ArrayCollection();
 
         parent::__construct();
@@ -81,19 +83,17 @@ class MultiSelect extends ContentNode {
 
     /**
      * @param MultiSelect $prototype
+     * @param EntityMap   $entityMap
      */
-    public function copyFromPrototype($prototype) {
+    public function copyFromPrototype($prototype, &$entityMap = null) {
+        parent::copyFromPrototype($prototype, $entityMap);
+
         // copy all multiSelect options
-        foreach ($prototype->options as $prototypeOption) {
+        foreach ($prototype->options as $optionPrototype) {
             $option = new MultiSelectOption();
-
-            $option->translateKey = $prototypeOption->translateKey;
-            $option->checked = $prototypeOption->checked;
-            $option->setPos($prototypeOption->getPos());
-
             $this->addOption($option);
-        }
 
-        parent::copyFromPrototype($prototype);
+            $option->copyFromPrototype($optionPrototype, $entityMap);
+        }
     }
 }

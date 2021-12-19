@@ -13,6 +13,7 @@ use App\Entity\SortableEntityInterface;
 use App\Entity\SortableEntityTrait;
 use App\InputFilter;
 use App\Repository\StoryboardSectionRepository;
+use App\Util\EntityMap;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
@@ -77,5 +78,18 @@ class StoryboardSection extends BaseEntity implements BelongsToCampInterface, So
     #[ApiProperty(readable: false)]
     public function getCamp(): ?Camp {
         return $this->storyboard?->getCamp();
+    }
+
+    /**
+     * @param StoryboardSection $prototype
+     * @param EntityMap         $entityMap
+     */
+    public function copyFromPrototype($prototype, &$entityMap = null) {
+        parent::copyFromPrototype($prototype, $entityMap);
+
+        $this->column1 = $prototype->column1;
+        $this->column2 = $prototype->column2;
+        $this->column3 = $prototype->column3;
+        $this->setPos($prototype->getPos());
     }
 }

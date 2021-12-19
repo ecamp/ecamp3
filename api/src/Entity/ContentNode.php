@@ -7,6 +7,7 @@ use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Repository\ContentNodeRepository;
+use App\Util\EntityMap;
 use App\Validator\AssertEitherIsNull;
 use App\Validator\ContentNode\AssertBelongsToSameOwner;
 use App\Validator\ContentNode\AssertContentTypeCompatible;
@@ -141,6 +142,7 @@ abstract class ContentNode extends BaseEntity implements BelongsToCampInterface 
     public ?ContentType $contentType = null;
 
     public function __construct() {
+        parent::__construct();
         $this->rootDescendants = new ArrayCollection();
         $this->children = new ArrayCollection();
     }
@@ -258,8 +260,11 @@ abstract class ContentNode extends BaseEntity implements BelongsToCampInterface 
 
     /**
      * @param ContentNode $prototype
+     * @param EntityMap   $entityMap
      */
-    public function copyFromPrototype($prototype) {
+    public function copyFromPrototype($prototype, &$entityMap = null) {
+        parent::copyFromPrototype($prototype, $entityMap);
+
         // copy ContentNode base properties
         $this->contentType = $prototype->contentType;
         $this->instanceName = $prototype->instanceName;
@@ -270,13 +275,13 @@ abstract class ContentNode extends BaseEntity implements BelongsToCampInterface 
         foreach ($prototype->getChildren() as $childPrototype) {
             $childClass = $childPrototype::class;
 
-            // @var ContentNode $childContentNode
+            /** @var ContentNode $childContentNode */
             $childContentNode = new $childClass();
 
             $this->addChild($childContentNode);
             $this->root->addRootDescendant($childContentNode);
 
-            $childContentNode->copyFromPrototype($childPrototype);
+            $childContentNode->copyFromPrototype($childPrototype, $entityMap);
         }
     }
 }

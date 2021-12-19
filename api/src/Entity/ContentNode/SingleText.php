@@ -6,6 +6,7 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use App\Entity\ContentNode;
 use App\InputFilter;
 use App\Repository\SingleTextRepository;
+use App\Util\EntityMap;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
@@ -47,10 +48,11 @@ class SingleText extends ContentNode {
 
     /**
      * @param SingleText $prototype
+     * @param EntityMap  $entityMap
      */
-    public function copyFromPrototype($prototype) {
-        $this->text = $prototype->text;
+    public function copyFromPrototype($prototype, &$entityMap = null) {
+        parent::copyFromPrototype($prototype, $entityMap);
 
-        parent::copyFromPrototype($prototype);
+        $this->text = $prototype->text;
     }
 }

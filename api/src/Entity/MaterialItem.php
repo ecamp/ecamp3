@@ -8,6 +8,7 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Entity\ContentNode\MaterialNode;
 use App\Repository\MaterialItemRepository;
+use App\Util\EntityMap;
 use App\Validator\AssertBelongsToSameCamp;
 use App\Validator\AssertEitherIsNull;
 use App\Validator\MaterialItemUpdateGroupSequence;
@@ -103,5 +104,18 @@ class MaterialItem extends BaseEntity implements BelongsToCampInterface {
     #[ApiProperty(readable: false)]
     public function getCamp(): ?Camp {
         return $this->materialList?->getCamp();
+    }
+
+    /**
+     * @param MaterialItem $prototype
+     * @param EntityMap    $entityMap
+     */
+    public function copyFromPrototype($prototype, &$entityMap = null) {
+        parent::copyFromPrototype($prototype, $entityMap);
+
+        $this->materialList = $entityMap->get($prototype->materialList);
+        $this->article = $prototype->article;
+        $this->quantity = $prototype->quantity;
+        $this->unit = $prototype->unit;
     }
 }

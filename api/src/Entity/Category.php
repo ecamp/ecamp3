@@ -8,6 +8,7 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Repository\CategoryRepository;
 use App\Serializer\Normalizer\RelatedCollectionLink;
+use App\Util\EntityMap;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -139,6 +140,7 @@ class Category extends AbstractContentNodeOwner implements BelongsToCampInterfac
     public string $numberingStyle = '1';
 
     public function __construct() {
+        parent::__construct();
         $this->preferredContentTypes = new ArrayCollection();
         $this->activities = new ArrayCollection();
     }
@@ -240,6 +242,35 @@ class Category extends AbstractContentNodeOwner implements BelongsToCampInterfac
 
             default:
                 return strval($num);
+        }
+    }
+
+    /**
+     * @param Category  $prototype
+     * @param EntityMap $entityMap
+     */
+    public function copyFromPrototype($prototype, &$entityMap = null) {
+        parent::copyFromPrototype($prototype, $entityMap);
+
+        $this->categoryPrototypeId = $prototype->getId();
+        $this->short = $prototype->short;
+        $this->name = $prototype->name;
+        $this->color = $prototype->color;
+        $this->numberingStyle = $prototype->numberingStyle;
+
+        // copy preferredContentTypes
+        foreach ($prototype->getPreferredContentTypes() as $contentType) {
+            $this->addPreferredContentType($contentType);
+        }
+
+        // copy rootContentNode
+        $rootContentNodePrototype = $prototype->getRootContentNode();
+        if (null != $rootContentNodePrototype) {
+            $rootContentNodeClass = $rootContentNodePrototype::class;
+            $rootContentNode = new $rootContentNodeClass();
+
+            $this->setRootContentNode($rootContentNode);
+            $rootContentNode->copyFromPrototype($rootContentNodePrototype, $entityMap);
         }
     }
 

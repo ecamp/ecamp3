@@ -128,6 +128,7 @@ class Period extends BaseEntity implements BelongsToCampInterface {
     public ?DateTimeInterface $end = null;
 
     public function __construct() {
+        parent::__construct();
         $this->days = new ArrayCollection();
         $this->scheduleEntries = new ArrayCollection();
         $this->materialItems = new ArrayCollection();

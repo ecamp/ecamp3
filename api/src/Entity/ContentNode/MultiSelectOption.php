@@ -12,6 +12,7 @@ use App\Entity\Camp;
 use App\Entity\SortableEntityInterface;
 use App\Entity\SortableEntityTrait;
 use App\Repository\MultiSelectOptionRepository;
+use App\Util\EntityMap;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
@@ -63,5 +64,17 @@ class MultiSelectOption extends BaseEntity implements BelongsToCampInterface, So
     #[ApiProperty(readable: false)]
     public function getCamp(): ?Camp {
         return $this->multiSelect?->getCamp();
+    }
+
+    /**
+     * @param MultiSelectOption $prototype
+     * @param EntityMap         $entityMap
+     */
+    public function copyFromPrototype($prototype, &$entityMap = null) {
+        parent::copyFromPrototype($prototype, $entityMap);
+
+        $this->translateKey = $prototype->translateKey;
+        $this->checked = $prototype->checked;
+        $this->setPos($prototype->getPos());
     }
 }

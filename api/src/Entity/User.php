@@ -190,6 +190,7 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
     public ?string $plainPassword = null;
 
     public function __construct() {
+        parent::__construct();
         $this->ownedCamps = new ArrayCollection();
         $this->collaborations = new ArrayCollection();
     }
