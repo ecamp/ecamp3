@@ -29,17 +29,7 @@ Listing all given activity schedule entries in a calendar view.
       :weekdays="[1, 2, 3, 4, 5, 6, 0]"
       color="primary"
       :event-ripple="false"
-      v-on="{
-        'mousedown:event': [
-          clickDetector.listeners['mousedown:event'],
-          dragAndDrop.listeners['mousedown:event'],
-        ],
-        'mouseup:event': clickDetector.listeners['mouseup:event'],
-        'mousemove:event': clickDetector.listeners['mousemove:event'],
-        'mousedown:time': dragAndDrop.listeners['mousedown:time'],
-        'mousemove:time': dragAndDrop.listeners['mousemove:time'],
-        'mouseup:time': dragAndDrop.listeners['mouseup:time'],
-      }"
+      v-on="vCalendarListeners"
       @mouseleave.native="dragAndDrop.listeners['mouseleave.native']"
       @mousedown.native.prevent="/*this prevents from middle button to start scroll behavior*/">
       <template #day-label-header="time">
@@ -118,6 +108,7 @@ import useClickDetector from './useClickDetector.js'
 import { isCssColor } from 'vuetify/lib/util/colorUtils'
 import { apiStore as api } from '@/plugins/store'
 import { scheduleEntryRoute } from '@/router.js'
+import mergeListeners from '@/helpers/mergeListeners.js'
 
 import DialogActivityEdit from '@/components/dialog/DialogActivityEdit.vue'
 
@@ -212,10 +203,14 @@ export default {
 
     const clickDetector = useClickDetector(editable, 5, onClick)
 
+    const vCalendarListeners = mergeListeners([
+      dragAndDrop.listeners,
+      clickDetector.listeners
+    ])
+
     return {
       dragAndDrop,
-      clickDetector,
-
+      vCalendarListeners,
       isSaving,
       patchError
     }
