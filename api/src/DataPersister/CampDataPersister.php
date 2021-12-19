@@ -23,13 +23,20 @@ class CampDataPersister extends AbstractDataPersister {
         );
     }
 
+    /**
+     * @param Camp $data
+     */
     public function beforeCreate($data): BaseEntity {
         /** @var User $user */
         $user = $this->security->getUser();
         $data->creator = $user;
         $data->owner = $user;
 
-        // TODO prototype cloning logic here? Or in a separate endpoint?
+        // copy from prototype, if given
+        if (isset($data->campPrototypeId)) {
+            $campPrototype = $this->em->find(Camp::class, $data->campPrototypeId);
+            $data->copyFromPrototype($campPrototype);
+        }
 
         return $data;
     }

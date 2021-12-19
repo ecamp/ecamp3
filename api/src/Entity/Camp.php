@@ -79,7 +79,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
     /**
      * Types of programme, such as sports activities or meal times.
      *
-     * @ORM\OneToMany(targetEntity="Category", mappedBy="camp", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="Category", mappedBy="camp", orphanRemoval=true, cascade={"persist"})
      */
     #[ApiProperty(writable: false, example: '["/categories/1a2b3c4d"]')]
     #[Groups(['read'])]
@@ -99,7 +99,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
      * Lists for collecting the required materials needed for carrying out the programme. Each collaborator
      * has a material list, and there may be more, such as shopping lists.
      *
-     * @ORM\OneToMany(targetEntity="MaterialList", mappedBy="camp", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="MaterialList", mappedBy="camp", orphanRemoval=true, cascade={"persist"})
      */
     #[ApiProperty(writable: false, example: '["/material_lists/1a2b3c4d"]')]
     #[Groups(['read'])]
@@ -112,7 +112,8 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
      * @ORM\Column(type="string", length=16, nullable=true)
      */
     #[Assert\DisableAutoMapping]
-    #[ApiProperty(readable: false, writable: false)]
+    #[ApiProperty(readable: false)]
+    #[Groups(['create'])]
     public ?string $campPrototypeId = null;
 
     /**
@@ -413,13 +414,6 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
         parent::copyFromPrototype($prototype, $entityMap);
 
         $this->campPrototypeId = $prototype->getId();
-        $this->name ??= $prototype->name;
-        $this->title ??= $prototype->title;
-        $this->motto ??= $prototype->motto;
-        $this->addressName ??= $prototype->addressName;
-        $this->addressStreet ??= $prototype->addressStreet;
-        $this->addressZipcode ??= $prototype->addressZipcode;
-        $this->addressCity ??= $prototype->addressCity;
 
         // copy MaterialList
         foreach ($prototype->getMaterialLists() as $materialListPrototype) {

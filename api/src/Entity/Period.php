@@ -50,7 +50,7 @@ class Period extends BaseEntity implements BelongsToCampInterface {
     /**
      * The days in this time period. These are generated automatically.
      *
-     * @ORM\OneToMany(targetEntity="Day", mappedBy="period", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="Day", mappedBy="period", orphanRemoval=true, cascade={"persist"})
      * @ORM\OrderBy({"dayOffset": "ASC"})
      */
     #[ApiProperty(writable: false, example: '["/days?period=/periods/1a2b3c4d"]')]

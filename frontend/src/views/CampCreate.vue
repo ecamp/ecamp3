@@ -19,7 +19,7 @@
             <e-text-field
               v-model="camp.motto"
               :name="$tc('entity.camp.fields.motto')" />
-            <!--<e-select
+            <e-select
               v-model="camp.campPrototypeId"
               :name="$tc('entity.camp.prototype')"
               :items="campTemplates">
@@ -30,7 +30,7 @@
                   </v-list-item-content>
                 </v-list-item>
               </template>
-            </e-select>-->
+            </e-select>
             <create-camp-periods :add-period="addPeriod" :periods="camp.periods"
                                  :delete-period="deletePeriod" :period-deletable="periodDeletable" />
           </v-card-text>
