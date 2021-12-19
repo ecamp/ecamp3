@@ -37,8 +37,7 @@ class CampTest extends TestCase {
         $camp = new Camp();
         $camp->copyFromPrototype($this->campPrototype);
 
-        $this->assertEquals($this->campPrototype->title, $camp->title);
-        $this->assertEquals($this->campPrototype->motto, $camp->motto);
+        $this->assertEquals($this->campPrototype->getId(), $camp->campPrototypeId);
 
         $this->assertCount(1, $camp->categories);
         $category = $camp->categories->first();
