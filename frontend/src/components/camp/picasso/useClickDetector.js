@@ -74,7 +74,7 @@ export default function useClickDetector (enabled = true, threshold = 5, onClick
   }
 
   return {
-    listeners: {
+    vCalendarListeners: {
       'mousedown:event': entryMouseDown,
       'mousemove:event': entryMouseMove,
       'mouseup:event': entryMouseUp

@@ -30,7 +30,7 @@ Listing all given activity schedule entries in a calendar view.
       color="primary"
       :event-ripple="false"
       v-on="vCalendarListeners"
-      @mouseleave.native="dragAndDrop.listeners['mouseleave.native']"
+      @mouseleave.native="onMouseleave"
       @mousedown.native.prevent="/*this prevents from middle button to start scroll behavior*/">
       <template #day-label-header="time">
         <div class="ec-daily_head-day-label">
@@ -84,7 +84,7 @@ Listing all given activity schedule entries in a calendar view.
           <div
             v-if="editable && timed"
             class="v-event-drag-bottom"
-            @mousedown.stop="dragAndDrop.startResize(event)" />
+            @mousedown.stop="startResize(event)" />
         </div>
       </template>
     </v-calendar>
@@ -103,7 +103,9 @@ Listing all given activity schedule entries in a calendar view.
 </template>
 <script>
 import { toRefs, ref } from '@vue/composition-api'
-import useDragAndDrop from './useDragAndDrop.js'
+import useDragAndDropMove from './useDragAndDropMove.js'
+import useDragAndDropResize from './useDragAndDropResize.js'
+import useDragAndDropNew from './useDragAndDropNew.js'
 import useClickDetector from './useClickDetector.js'
 import { isCssColor } from 'vuetify/lib/util/colorUtils'
 import { apiStore as api } from '@/plugins/store'
@@ -199,18 +201,32 @@ export default {
       refs[`editDialog-${scheduleEntry.id}`].open()
     }
 
-    const dragAndDrop = useDragAndDrop(editable, 5, updateEntry, emit)
-
+    const dragAndDropMove = useDragAndDropMove(editable, 5, updateEntry)
+    const dragAndDropResize = useDragAndDropResize(editable, updateEntry)
+    const dragAndDropNew = useDragAndDropNew(editable, emit)
     const clickDetector = useClickDetector(editable, 5, onClick)
 
+    // merge mouseleave handlers
+    // this is needed, because .native modifiers doesn't work with v-on property
+    // https://github.com/vuejs/vue/issues/5578#issuecomment-516932359
+    const onMouseleave = () => {
+      dragAndDropMove.nativeMouseLeave()
+      dragAndDropResize.nativeMouseLeave()
+      dragAndDropNew.nativeMouseLeave()
+    }
+
+    // merge v-calendar listeners
     const vCalendarListeners = mergeListeners([
-      dragAndDrop.listeners,
-      clickDetector.listeners
+      dragAndDropMove.vCalendarListeners,
+      dragAndDropResize.vCalendarListeners,
+      dragAndDropNew.vCalendarListeners,
+      clickDetector.vCalendarListeners
     ])
 
     return {
-      dragAndDrop,
       vCalendarListeners,
+      startResize: dragAndDropResize.startResize,
+      onMouseleave,
       isSaving,
       patchError
     }
