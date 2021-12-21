@@ -140,6 +140,26 @@ class AcceptInvitationTest extends ECampApiTestCase {
     }
 
     /**
+     * @throws TransportExceptionInterface
+     * @throws ServerExceptionInterface
+     * @throws RedirectionExceptionInterface
+     * @throws ClientExceptionInterface
+     */
+    public function testAcceptInvitationFailsWhenUserAlreadyInCampAndUserIsAttachedToInvitation() {
+        /** @var CampCollaboration $campCollaboration */
+        $campCollaboration = static::$fixtures['campCollaboration6invitedWithUser'];
+        static::createClientWithCredentials()->request(
+            'PATCH',
+            "/invitations/{$campCollaboration->inviteKey}/".Invitation::ACCEPT,
+            [
+                'json' => [],
+                'headers' => ['Content-Type' => 'application/merge-patch+json'],
+            ]
+        );
+        $this->assertResponseStatusCodeSame(422);
+    }
+
+    /**
      * @dataProvider invalidMethods
      *
      * @throws ClientExceptionInterface

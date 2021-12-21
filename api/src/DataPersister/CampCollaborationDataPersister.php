@@ -51,6 +51,7 @@ class CampCollaborationDataPersister extends AbstractDataPersister {
             if (null != $userByInviteEmail) {
                 $data->user = $userByInviteEmail;
                 $data->inviteEmail = null;
+                $this->validator->validate($data, ['groups' => ['Default', 'create']]);
             }
             $data->inviteKey = IdGenerator::generateRandomHexString(64);
         }

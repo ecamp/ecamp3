@@ -47,7 +47,6 @@ class InvitationDataPersister extends AbstractDataPersister {
 
     public function onReject($data): CampCollaboration {
         $campCollaboration = $this->campCollaborationRepository->findByInviteKey($data->inviteKey);
-        $campCollaboration->user = $this->security->getUser();
         $campCollaboration->status = CampCollaboration::STATUS_INACTIVE;
         $campCollaboration->inviteKey = null;
 
