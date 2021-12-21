@@ -9,6 +9,7 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Repository\CampCollaborationRepository;
 use App\Validator\AllowTransition\AssertAllowTransitions;
 use App\Validator\AssertEitherIsNull;
+use App\Validator\AssertHasAtLeastOneManager;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -158,6 +159,7 @@ class CampCollaboration extends BaseEntity implements BelongsToCampInterface {
      * @ORM\ManyToOne(targetEntity="Camp", inversedBy="collaborations")
      * @ORM\JoinColumn(nullable=false, onDelete="cascade")
      */
+    #[AssertHasAtLeastOneManager]
     #[ApiProperty(example: '/camps/1a2b3c4d')]
     #[Groups(['read', 'create'])]
     public ?Camp $camp = null;
