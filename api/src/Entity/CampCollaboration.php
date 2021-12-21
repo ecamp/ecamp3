@@ -12,6 +12,7 @@ use App\Validator\AssertEitherIsNull;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Annotation\SerializedName;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -21,7 +22,9 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Entity(repositoryClass=CampCollaborationRepository::class)
  * @ORM\Table(uniqueConstraints={
- *     @ORM\UniqueConstraint(name="inviteKey_unique", columns={"inviteKey"})
+ *     @ORM\UniqueConstraint(name="inviteKey_unique", columns={"inviteKey"}),
+ *     @ORM\UniqueConstraint(name="user_camp_unique", fields={"user", "camp"}),
+ *     @ORM\UniqueConstraint(name="inviteEmail_camp_unique", fields={"inviteEmail", "camp"})
  * })
  */
 #[ApiResource(
@@ -67,6 +70,16 @@ use Symfony\Component\Validator\Constraints as Assert;
     normalizationContext: ['groups' => ['read']],
 )]
 #[ApiFilter(SearchFilter::class, properties: ['camp', 'activityResponsibles.activity'])]
+#[UniqueEntity(
+    fields: ['user', 'camp'],
+    message: 'This user is already present in the camp.',
+    ignoreNull: true
+)]
+#[UniqueEntity(
+    fields: ['inviteEmail', 'camp'],
+    message: 'This inviteEmail is already present in the camp.',
+    ignoreNull: true
+)]
 class CampCollaboration extends BaseEntity implements BelongsToCampInterface {
     public const ITEM_NORMALIZATION_CONTEXT = [
         'groups' => ['read', 'CampCollaboration:Camp', 'CampCollaboration:User'],

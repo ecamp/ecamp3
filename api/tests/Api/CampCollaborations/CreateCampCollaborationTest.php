@@ -14,6 +14,7 @@ class CreateCampCollaborationTest extends ECampApiTestCase {
     // TODO input filter tests
     // TODO validation tests
     // TODO create a camp collaboration for someone else
+    // TODO add test creating a collaboration with user reference once a user can see other users (https://github.com/ecamp/ecamp3/pull/2241)
 
     public function testCreateCampCollaborationIsDeniedForAnonymousUser() {
         static::createBasicClient()->request('POST', '/camp_collaborations', ['json' => $this->getExampleWritePayload([
@@ -69,25 +70,50 @@ class CreateCampCollaborationTest extends ECampApiTestCase {
 
     public function testCreateCampCollaborationIsAllowedForMember() {
         static::createClientWithCredentials(['username' => static::$fixtures['user2member']->username])
-            ->request('POST', '/camp_collaborations', ['json' => $this->getExampleWritePayload([
-                'user' => $this->getIriFor('user2member'),
-            ])])
-        ;
+            ->request(
+                'POST',
+                '/camp_collaborations',
+                [
+                    'json' => $this->getExampleWritePayload(
+                        [
+                            'inviteEmail' => 'someone@example.com',
+                        ],
+                        ['user']
+                    ),
+                ]
+            )
+    ;
 
         $this->assertResponseStatusCodeSame(201);
         $this->assertJsonContains($this->getExampleReadPayload([
-            'inviteEmail' => null,
+            'inviteEmail' => 'someone@example.com',
             '_links' => [
-                'user' => ['href' => $this->getIriFor('user2member')],
+                'user' => null,
             ],
         ]));
     }
 
     public function testCreateCampCollaborationIsAllowedForManager() {
-        static::createClientWithCredentials()->request('POST', '/camp_collaborations', ['json' => $this->getExampleWritePayload()]);
+        static::createClientWithCredentials()->request(
+            'POST',
+            '/camp_collaborations',
+            [
+                'json' => $this->getExampleWritePayload(
+                    [
+                        'inviteEmail' => 'someone@example.com',
+                    ],
+                    ['user']
+                ),
+            ]
+        );
 
         $this->assertResponseStatusCodeSame(201);
-        $this->assertJsonContains($this->getExampleReadPayload());
+        $this->assertJsonContains($this->getExampleReadPayload([
+            'inviteEmail' => 'someone@example.com',
+            '_links' => [
+                'user' => null,
+            ],
+        ]));
     }
 
     public function testCreateCampCollaborationInCampPrototypeIsDeniedForUnrelatedUser() {
@@ -120,6 +146,48 @@ class CreateCampCollaborationTest extends ECampApiTestCase {
         ]));
     }
 
+    public function testCreateCampCollaborationWithDuplicateInviteEmailForSameCampFails() {
+        $inviteEmail = static::$fixtures['campCollaboration4invited']->inviteEmail;
+        static::createClientWithCredentials()->request('POST', '/camp_collaborations', ['json' => $this->getExampleWritePayload([
+            'inviteEmail' => $inviteEmail,
+        ], ['user'])]);
+
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'title' => 'An error occurred',
+            'detail' => 'inviteEmail: This inviteEmail is already present in the camp.',
+        ]);
+    }
+
+    public function testCreateCampCollaborationWithSameInviteEmailForAnotherCampSucceeds() {
+        $inviteEmail = static::$fixtures['campCollaboration4invited']->inviteEmail;
+        static::createClientWithCredentials()->request(
+            'POST',
+            '/camp_collaborations',
+            [
+                'json' => $this->getExampleWritePayload(
+                    [
+                        'inviteEmail' => $inviteEmail,
+                        'camp' => $this->getIriFor('camp2'),
+                    ],
+                    ['user']
+                ),
+            ]
+        );
+
+        $this->assertResponseStatusCodeSame(201);
+        $this->assertJsonContains($this->getExampleReadPayload([
+            'status' => 'invited',
+            'inviteEmail' => $inviteEmail,
+            '_links' => [
+                'user' => null,
+            ],
+            '_embedded' => [
+                'user' => null,
+            ],
+        ]));
+    }
+
     public function testCreateCampCollaborationWithInviteEmailOfExistingUserAttachesUser() {
         /** @var User $userunrelated */
         $userunrelated = static::$fixtures['user4unrelated'];
@@ -138,6 +206,20 @@ class CreateCampCollaborationTest extends ECampApiTestCase {
                 ],
             ],
         ]));
+    }
+
+    public function testCreateCampCollaborationWithInviteEmailOfExistingUserWhichIsAlreadyInCampFails() {
+        /** @var User $user2member */
+        $user2member = static::$fixtures['user2member'];
+        static::createClientWithCredentials()->request('POST', '/camp_collaborations', ['json' => $this->getExampleWritePayload([
+            'inviteEmail' => $user2member->email,
+        ], ['user'])]);
+
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'title' => 'An error occurred',
+            'detail' => 'user: This user is already present in the camp.',
+        ]);
     }
 
     public function testCreateCampCollaborationSendsInviteEmail() {
@@ -168,9 +250,10 @@ class CreateCampCollaborationTest extends ECampApiTestCase {
     }
 
     public function testCreateCampCollaborationValidatesConflictingUserAndInviteEmail() {
+        $this->markTestIncomplete('This test needs https://github.com/ecamp/ecamp3/pull/2241');
         static::createClientWithCredentials()->request('POST', '/camp_collaborations', ['json' => $this->getExampleWritePayload([
             'inviteEmail' => 'someone@example.com',
-            'user' => $this->getIriFor('user1manager'),
+            'user' => $this->getIriFor('user4unrelated'),
         ])]);
 
         $this->assertResponseStatusCodeSame(422);
@@ -214,7 +297,18 @@ class CreateCampCollaborationTest extends ECampApiTestCase {
     }
 
     public function testCreateCampCollaborationValidatesMissingRole() {
-        static::createClientWithCredentials()->request('POST', '/camp_collaborations', ['json' => $this->getExampleWritePayload([], ['role'])]);
+        static::createClientWithCredentials()->request(
+            'POST',
+            '/camp_collaborations',
+            [
+                'json' => $this->getExampleWritePayload(
+                    [
+                        'inviteEmail' => 'someone@example.com',
+                    ],
+                    ['role', 'user']
+                ),
+            ]
+        );
 
         $this->assertResponseStatusCodeSame(422);
         $this->assertJsonContains([
