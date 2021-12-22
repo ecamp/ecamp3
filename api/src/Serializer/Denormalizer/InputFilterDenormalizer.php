@@ -55,8 +55,6 @@ class InputFilterDenormalizer implements ContextAwareDenormalizerInterface, Deno
      * Iterates over all properties of the entity class and applies any filter attributes.
      *
      * Implementation based on Symfony/Component/Validator/Mapping/Loader/AnnotationLoader.php
-     *
-     * @param $data
      */
     protected function filterInputs($data, string $className): array {
         if (!is_array($data)) {

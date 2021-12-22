@@ -196,11 +196,13 @@ class Activity extends AbstractContentNodeOwner implements BelongsToCampInterfac
     #[RelatedCollectionLink(CampCollaboration::class, ['activityResponsibles.activity' => '$this'])]
     #[Groups(['read'])]
     public function getCampCollaborations(): array {
-        return $this
-            ->activityResponsibles
-            ->map(fn (ActivityResponsible $activityResponsible) => $activityResponsible->campCollaboration)
-            ->getValues()
-        ;
+        return array_filter(
+            $this
+                ->activityResponsibles
+                ->map(fn (ActivityResponsible $activityResponsible) => $activityResponsible->campCollaboration)
+                ->getValues(),
+            fn ($cc) => !is_null($cc)
+        );
     }
 
     /**

@@ -23,7 +23,7 @@ class InvitationDataProvider implements ItemDataProviderInterface, RestrictedDat
     }
 
     public function getItem(string $resourceClass, $id, string $operationName = null, array $context = []): ?Invitation {
-        if (null === $id) {
+        if (null == $id) {
             return null;
         }
         $campCollaboration = $this->campCollaborationRepository->findByInviteKey($id);

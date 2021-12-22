@@ -45,14 +45,14 @@ class ExpressionDateFilter extends AbstractContextAwareFilter implements DateFil
      */
     protected function filterProperty(
         string $property,
-        $values,
+        $value,
         QueryBuilder $queryBuilder,
         QueryNameGeneratorInterface $queryNameGenerator,
         string $resourceClass,
         string $operationName = null
     ) {
         if (
-            !\is_array($values)
+            !\is_array($value)
             || !$this->isPropertyEnabled($property, $resourceClass)
         ) {
             return;
@@ -63,50 +63,50 @@ class ExpressionDateFilter extends AbstractContextAwareFilter implements DateFil
 
         $expression = $this->properties[$property] ?? null;
 
-        if (isset($values[DateFilterInterface::PARAMETER_BEFORE])) {
+        if (isset($value[DateFilterInterface::PARAMETER_BEFORE])) {
             $this->addWhere(
                 $queryBuilder,
                 $queryNameGenerator,
                 $alias,
                 $field,
                 DateFilterInterface::PARAMETER_BEFORE,
-                $values[DateFilterInterface::PARAMETER_BEFORE],
+                $value[DateFilterInterface::PARAMETER_BEFORE],
                 $expression
             );
         }
 
-        if (isset($values[DateFilterInterface::PARAMETER_STRICTLY_BEFORE])) {
+        if (isset($value[DateFilterInterface::PARAMETER_STRICTLY_BEFORE])) {
             $this->addWhere(
                 $queryBuilder,
                 $queryNameGenerator,
                 $alias,
                 $field,
                 DateFilterInterface::PARAMETER_STRICTLY_BEFORE,
-                $values[DateFilterInterface::PARAMETER_STRICTLY_BEFORE],
+                $value[DateFilterInterface::PARAMETER_STRICTLY_BEFORE],
                 $expression
             );
         }
 
-        if (isset($values[DateFilterInterface::PARAMETER_AFTER])) {
+        if (isset($value[DateFilterInterface::PARAMETER_AFTER])) {
             $this->addWhere(
                 $queryBuilder,
                 $queryNameGenerator,
                 $alias,
                 $field,
                 DateFilterInterface::PARAMETER_AFTER,
-                $values[DateFilterInterface::PARAMETER_AFTER],
+                $value[DateFilterInterface::PARAMETER_AFTER],
                 $expression
             );
         }
 
-        if (isset($values[DateFilterInterface::PARAMETER_STRICTLY_AFTER])) {
+        if (isset($value[DateFilterInterface::PARAMETER_STRICTLY_AFTER])) {
             $this->addWhere(
                 $queryBuilder,
                 $queryNameGenerator,
                 $alias,
                 $field,
                 DateFilterInterface::PARAMETER_STRICTLY_AFTER,
-                $values[DateFilterInterface::PARAMETER_STRICTLY_AFTER],
+                $value[DateFilterInterface::PARAMETER_STRICTLY_AFTER],
                 $expression
             );
         }
