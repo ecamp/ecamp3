@@ -18,8 +18,7 @@
       <draggable-content-nodes :slot-name="slot"
                                :layout-mode="layoutMode"
                                :parent-content-node="contentNode"
-                               :disabled="disabled"
-                               v-on="$listeners" />
+                               :disabled="disabled" />
 
       <template #menu>
         <column-operations :content-node="contentNode" :min-column-width="minWidth(slot)" :total-width="12" />

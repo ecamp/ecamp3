@@ -51,6 +51,7 @@ import { camelCase } from 'lodash'
 
 export default {
   name: 'ButtonNestedContentNodeAdd',
+  inject: ['draggableDirty'],
   props: {
     layoutMode: { type: Boolean, default: false },
     parentContentNode: { type: Object, required: true },
@@ -90,7 +91,7 @@ export default {
         })
 
         // need to clear dirty flag to ensure new content node is visible in case same Patch-calls are still ongoing
-        this.$emit('clearDirty')
+        this.draggableDirty.clearDirty(null)
 
         await this.parentContentNode.owner().$reload()
       } catch (error) {

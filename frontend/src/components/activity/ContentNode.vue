@@ -7,8 +7,7 @@
              :layout-mode="layoutMode"
              :draggable="draggable"
              :disabled="disabled"
-             v-bind="$attrs"
-             v-on="$listeners" />
+             v-bind="$attrs" />
 </template>
 
 <script>

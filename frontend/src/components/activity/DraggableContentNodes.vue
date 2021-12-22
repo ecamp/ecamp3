@@ -23,8 +23,7 @@
     <button-nested-content-node-add v-if="layoutMode"
                                     :layout-mode="layoutMode"
                                     :parent-content-node="parentContentNode"
-                                    :slot-name="slotName"
-                                    @clearDirty="$emit('clearDirty', null)" />
+                                    :slot-name="slotName" />
   </div>
 </template>
 <script>
@@ -77,7 +76,7 @@ export default {
       immediate: true,
       handler () {
         // update local sorting with external sorting if not dirty
-        if (!this.draggableDirty.flag) {
+        if (!this.draggableDirty.isDirty()) {
           this.localContentNodeIds = this.contentNodeIds
         }
       }
@@ -96,7 +95,7 @@ export default {
 
       // set dirty flag
       const timestamp = Date.now()
-      this.$emit('setDirty', timestamp)
+      this.draggableDirty.setDirty(timestamp)
 
       // patch content node location
       await this.api.patch(event.item.dataset.href, {
@@ -109,7 +108,7 @@ export default {
       await this.api.reload(this.parentContentNode.owner().contentNodes())
 
       // clear dirty flag (unless a new change happened in the meantime)
-      this.$emit('clearDirty', timestamp)
+      this.draggableDirty.clearDirty(timestamp)
     },
     cleanupDrag () {
       document.body.classList.remove('dragging', 'dragging-content-node')

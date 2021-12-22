@@ -2,9 +2,7 @@
   <content-node
     :content-node="contentNode"
     :layout-mode="layoutMode"
-    :disable="disabled"
-    @setDirty="setDirty"
-    @clearDirty="clearDirty" />
+    :disable="disabled" />
 </template>
 
 <script>
@@ -17,7 +15,11 @@ export default {
   },
   provide () {
     return {
-      draggableDirty: this.draggableDirty
+      draggableDirty: {
+        isDirty: this.isDirty,
+        setDirty: this.setDirty,
+        clearDirty: this.clearDirty
+      }
     }
   },
   props: {
@@ -27,22 +29,21 @@ export default {
   },
   data () {
     return {
-      draggableDirty: {
-        flag: false, // if true, all DraggableContentNodes behave as if dirty
-        timestamp: null
-      }
+      dirtyTimestamp: null // if not null, all DraggableContentNodes behave as if dirty
     }
   },
   methods: {
     setDirty (timestamp) {
-      this.draggableDirty.flag = true
-      this.draggableDirty.timestamp = timestamp
+      this.dirtyTimestamp = timestamp
     },
     clearDirty (timestamp) {
-      // only clear dirty flag if it was set by the same timestamp (or override if timestamp is null)
-      if (this.draggableDirty.timestamp === timestamp || timestamp === null) {
-        this.draggableDirty.flag = false
+      // only clear dirty flag if it was set by the same timestamp (or override if timestamp parameter is null)
+      if (this.dirtyTimestamp === timestamp || timestamp === null) {
+        this.dirtyTimestamp = null
       }
+    },
+    isDirty () {
+      return this.dirtyTimestamp !== null
     }
   }
 }
