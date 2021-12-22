@@ -105,7 +105,7 @@ class ListMaterialItemsTest extends ECampApiTestCase {
         $response = static::createClientWithCredentials()->request('GET', '/material_items?period=/periods/'.$period->getId());
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
-            'totalItems' => 1,
+            'totalItems' => 2,
             '_links' => [
                 'items' => [],
             ],
@@ -115,6 +115,7 @@ class ListMaterialItemsTest extends ECampApiTestCase {
         ]);
         $this->assertEqualsCanonicalizing([
             ['href' => $this->getIriFor('materialItem1period1')],
+            ['href' => $this->getIriFor('materialItem1')],
         ], $response->toArray()['_links']['items']);
     }
 
@@ -124,10 +125,12 @@ class ListMaterialItemsTest extends ECampApiTestCase {
             ->request('GET', '/material_items?period=/periods/'.$period->getId())
         ;
 
-        $this->assertResponseStatusCodeSame(200);
+        $this->assertResponseStatusCodeSame(400);
 
-        $this->assertJsonContains(['totalItems' => 0]);
-        $this->assertArrayNotHasKey('items', $response->toArray()['_links']);
+        $this->assertJsonContains([
+            'title' => 'An error occurred',
+            'detail' => 'Item not found for "'.$this->getIriFor('period1').'".',
+        ]);
     }
 
     public function testListMaterialItemsFilteredByPeriodIsDeniedForInactiveCollaborator() {
@@ -136,10 +139,12 @@ class ListMaterialItemsTest extends ECampApiTestCase {
             ->request('GET', '/material_items?period=/periods/'.$period->getId())
         ;
 
-        $this->assertResponseStatusCodeSame(200);
+        $this->assertResponseStatusCodeSame(400);
 
-        $this->assertJsonContains(['totalItems' => 0]);
-        $this->assertArrayNotHasKey('items', $response->toArray()['_links']);
+        $this->assertJsonContains([
+            'title' => 'An error occurred',
+            'detail' => 'Item not found for "'.$this->getIriFor('period1').'".',
+        ]);
     }
 
     public function testListMaterialItemsFilteredByPeriodInCampPrototypeIsAllowedForUnrelatedUser() {
