@@ -32,16 +32,13 @@ Listing all given activity schedule entries in a calendar view.
       v-on="vCalendarListeners"
       @mouseleave.native="onMouseleave"
       @mousedown.native.prevent="/*this prevents from middle button to start scroll behavior*/">
+      <!-- day header -->
       <template #day-label-header="time">
         <div class="ec-daily_head-day-label">
           <span v-if="widthPluralization > 0" class="d-block">
             {{ $date.utc(time.date).format('dddd') }}
           </span> {{ $date.utc(time.date).format($tc('components.camp.picasso.datetime.date', widthPluralization)) }}
         </div>
-      </template>
-      <template #day-body="{ date }">
-        <div v-if="dateNow === date"
-             class="v-current-time" :style="{ top: nowY }" />
       </template>
 
       <!-- template for single scheduleEntry -->
@@ -250,15 +247,6 @@ export default {
         return 2
       }
     },
-    now () {
-      return this.$refs.calendar ? this.$refs.calendar.times.now : null
-    },
-    dateNow () {
-      return this.$refs.calendar ? this.$refs.calendar.times.now.date : null
-    },
-    nowY () {
-      return this.$refs.calendar ? this.$refs.calendar.timeToY(this.now) + 'px' : '-10px'
-    },
     camp () {
       return this.period.camp()
     },
@@ -311,14 +299,55 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.readonlyEntry, .editableEntry {
-    width: 100%;
-    height: 100%;
-    left: 0;
-    top: 0;
-    padding:3px;
+
+.ec-picasso, .ec-picasso-editable {
+  ::v-deep {
+    .v-calendar-daily_head-day,
+    .v-calendar-daily__day {
+      min-width: 80px;
+    }
+
+    .v-calendar-daily__pane, .v-calendar-daily__scroll-area {
+      overflow-y: visible;
+    }
+
+    .v-calendar-daily {
+      border-top: 0;
+      border-left: 0;
+      overflow-x: scroll;
+    }
+
+    .v-calendar-daily__body {
+      overflow: visible;
+    }
+
+    .v-event-timed-container {
+      margin-right: 5px;
+    }
+
+    .v-event-timed {
+      padding: 0px;
+      font-size: 11px !important;
+      white-space: normal;
+      line-height: 1.15;
+      user-select: none;
+      -webkit-user-select: none;
+
+      // full size div within v-calendar event
+      div.readonlyEntry, div.editableEntry {
+          width: 100%;
+          height: 100%;
+          left: 0;
+          top: 0;
+          padding:3px;
+      }
+    }
+  }
 }
 
+/**
+ * entry styling in edit mode
+ */
 .editableEntry {
   cursor: move; /* fallback if grab cursor is unsupported */
   cursor: grab;
@@ -327,85 +356,34 @@ export default {
   border: 1px black dashed;
   border-radius: 4px;
 
+  &:active {
+    cursor: move;
+    cursor: -moz-grabbing;
+    cursor: -webkit-grabbing;
+  }
 }
 
-.editableEntry:active {
-  cursor: move;
-  cursor: -moz-grabbing;
-  cursor: -webkit-grabbing;
-}
-</style>
-<style lang="scss">
 .ec-picasso-editable {
-  .v-event-timed {
+  ::v-deep .v-event-timed {
     transition: transform .1s; /* Animation */
   }
 
-  .v-event-timed:hover{
+  ::v-deep .v-event-timed:hover{
     transform: scale(1.02); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
   }
 
 }
 
-.ec-picasso, .ec-picasso-editable {
-
-  .v-calendar-daily_head-day,
-  .v-calendar-daily__day {
-    min-width: 80px;
-  }
-
-  .v-event-timed {
-    padding: 0px;
-    font-size: 11px !important;
-    white-space: normal;
-    line-height: 1.15;
-    user-select: none;
-    -webkit-user-select: none;
-
-    .pl-1 {
-      padding-left: 2px !important;
-    }
-  }
-}
-
-.v-current-time {
-  height: 2px;
-  background-color: #ea4335;
-  position: absolute;
-  left: -1px;
-  right: 0;
-  pointer-events: none;
-
-  &::before {
-    content: '';
-    position: absolute;
-    background-color: #ea4335;
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    margin-top: -5px;
-    margin-left: -6.5px;
-  }
-}
-
-.v-calendar .v-event-timed-container {
-  margin-right: 5px;
-}
-
-@media #{map-get($display-breakpoints, 'sm-and-up')}{
-  .ec-event--btn {
-    display: block !important;
-  }
-}
-
+// entry edit button
 .ec-event--btn {
   padding: 0 !important;
   min-width: 20px !important;
   top: 0 !important;
   right: 0 !important;
-  display: none;
+  display: block;
 }
 
+// event title text
 .v-event-title {
   hyphens: auto;
   hyphenate-limit-chars: 6 3 3;
@@ -414,55 +392,20 @@ export default {
   hyphenate-limit-zone: 8%;
 }
 
+// day title
 .ec-daily_head-day-label {
   font-size: 11px;
   font-feature-settings: "tnum";
   letter-spacing: -.1px;
-
-  .elipsis {
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
-    display: block;
-  }
-}
-</style>
-<style lang="scss" scoped>
-.v-card {
-  overflow: hidden;
 }
 
-::v-deep .v-calendar-daily__pane {
-  overflow-y: visible;
-}
-
-::v-deep .v-calendar-daily__scroll-area {
-  overflow-y: visible;
-}
-
-::v-deep .v-calendar-daily {
-  border-top: 0;
-  border-left: 0;
-  overflow-x: scroll;
-}
-
-::v-deep .v-calendar-daily__body {
-  overflow: visible;
-}
-
+// temporary placeholder (crate new event)
 ::v-deep .v-event-timed.v-event--temporary {
   border-style: dashed !important;
   opacity: .8;
 }
 
-@media #{map-get($display-breakpoints, 'sm-and-up')}{
-  .v-event-timed {
-    &:hover .v-event-drag-bottom::after {
-      display: block;
-    }
-  }
-}
-
+// resize handle
 .v-event-drag-bottom {
   position: absolute;
   left: 0;
@@ -484,4 +427,13 @@ export default {
     content: '';
   }
 }
+
+@media #{map-get($display-breakpoints, 'sm-and-up')}{
+  .v-event-timed {
+    &:hover .v-event-drag-bottom::after {
+      display: block; // resize handle not visible on mobile
+    }
+  }
+}
+
 </style>
