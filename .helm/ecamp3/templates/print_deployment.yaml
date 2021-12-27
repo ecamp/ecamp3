@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "print.name" . }}
+  labels:
+    {{- include "app.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.print.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "app.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "app.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "app.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}-print
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.print.image.repository }}:{{ .Values.print.image.tag | default .Values.imageTag }}"
+          imagePullPolicy: {{ .Values.print.image.pullPolicy }}
+          ports:
+            - name: print-http
+              containerPort: 3003
+              protocol: TCP
+          readinessProbe:
+            httpGet:
+              scheme: HTTP
+              path: /
+              port: 3003
+            initialDelaySeconds: 10
+            periodSeconds: 5
+          livenessProbe:
+            httpGet:
+              scheme: HTTP
+              path: /
+              port: 3003
+            initialDelaySeconds: 10
+            periodSeconds: 5
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          envFrom:
+            - configMapRef:
+                name: {{ include "print.name" . }}-configmap
+          env:
+            - name: SENTRY_PRINT_DSN
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "print.name" . }}
+                  key: sentry-dsn
+            - name: NUXT_PORT
+              value: "3003"

@@ -22,8 +22,8 @@ php:
   image:
     repository: "docker.io/ecamp/ecamp3-api"
     pullPolicy: IfNotPresent
-    # Overrides the image tag whose default is imageTag
-    # tag:
+    # Overrides the image tag whose shared default is .Values.imageTag
+    tag:
   appEnv: prod
   appDebug: "0"
   appSecret: ""
@@ -42,16 +42,16 @@ caddy:
   image:
     repository: "docker.io/ecamp/ecamp3-caddy"
     pullPolicy: IfNotPresent
-    # Overrides the image tag whose default is imageTag
-    # tag:
+    # Overrides the image tag whose shared default is .Values.imageTag
+    tag:
 
 frontend:
   domain:
   image:
     repository: "docker.io/ecamp/ecamp3-frontend"
     pullPolicy: IfNotPresent
-    # Overrides the image tag whose default is imageTag
-    # tag:
+    # Overrides the image tag whose shared default is .Values.imageTag
+    tag:
   sentryDsn:
   service:
     type: ClusterIP
@@ -60,6 +60,16 @@ frontend:
 
 print:
   domain:
+  image:
+    repository: "docker.io/ecamp/ecamp3-print"
+    pullPolicy: IfNotPresent
+    # Overrides the image tag whose shared default is .Values.imageTag
+    tag:
+  sentryDsn:
+  service:
+    type: ClusterIP
+    port: 3003
+  replicaCount: 1
 
 files:
   domain:
