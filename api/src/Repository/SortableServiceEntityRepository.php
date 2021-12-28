@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * This class is a 1:1 copy of Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository with the only change that it
+ * extends from Gedmo\Sortable\Entity\Repository\SortableRepository instead of the default Doctrine\ORM\EntityRepository in
+ * order to make this work with Sortable Doctrine extension.
+ */
+
 namespace App\Repository;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface;

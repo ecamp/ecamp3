@@ -165,7 +165,7 @@ Displays a single activity
 import ContentCard from '@/components/layout/ContentCard.vue'
 import ApiTextField from '@/components/form/api/ApiTextField.vue'
 import ApiSelect from '@/components/form/api/ApiSelect.vue'
-import RootNode from '@/components/activity/ContentNode.vue'
+import RootNode from '@/components/activity/RootNode.vue'
 import { defineHelpers } from '@/common/helpers/scheduleEntry/dateHelperUTC.js'
 import { campRoleMixin } from '@/mixins/campRoleMixin'
 

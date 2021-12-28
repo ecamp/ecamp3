@@ -53,7 +53,7 @@
 
 <script>
 import ContentCard from '@/components/layout/ContentCard.vue'
-import RootNode from '@/components/activity/ContentNode.vue'
+import RootNode from '@/components/activity/RootNode.vue'
 
 export default {
   name: 'Category',

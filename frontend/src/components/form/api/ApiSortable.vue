@@ -130,7 +130,7 @@ export default {
       await entity.$patch({
         position: newPosition
       })
-      this.collection().$reload() // TODO: should $reload kill the last load ind issue a new reload? */
+      this.collection().$reload() // TODO: should $reload kill the last load and issue a new reload?
     }
   }
 }
