@@ -93,7 +93,7 @@ class Storyboard extends ContentNode {
             $section = new StoryboardSection();
             $this->addSection($section);
 
-            $this->copyFromPrototype($sectionPrototype, $entityMap);
+            $section->copyFromPrototype($sectionPrototype, $entityMap);
         }
     }
 }
