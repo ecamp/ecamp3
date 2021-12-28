@@ -5,22 +5,41 @@ on:
     types: [ images-pushed ]
 
 jobs:
-  only-on-main-branch:
-    name: Only on the main branch
-    if: ${{ 'refs/heads/devel' == github.event.client_payload.ref }}
+  only-on-deployment-branches:
+    name: Only on deployment branches
+    if: ${{ github.event.client_payload.deployment_name != null }}
     runs-on: ubuntu-latest
     steps:
 
-      - run: 'echo ${{ github.event.client_payload.ref }}'
+      - run: 'echo "Ref: ${{ github.event.client_payload.ref }}"'
 
-  deploy-to-dev-ecamp3-ch:
-    name: "Deploy to dev.ecamp3.ch"
-    needs: only-on-main-branch
+      - run: 'echo "SHA: ${{ github.event.client_payload.sha }}"'
+
+      - run: 'echo "Deployment name: ${{ github.event.client_payload.deployment_name }}"'
+
+  deploy:
+    name: "Deploy"
+    needs: only-on-deployment-branches
     runs-on: ubuntu-latest
     steps:
 
       - uses: actions/checkout@ec3a7ce113134d7a93b817d10a8272cb61118579 # renovate: tag=v2
 
+      # TODO actually install the feature branch deployment, using `helm upgrade --install xyz`
+
+      # TODO if not dev.ecamp3.ch, write a comment on the PR, containing the URL of the feature branch deployment
+      - name: Create comment
+        if: ${{ github.event.client }}
+        uses: peter-evans/create-or-update-comment@v1
+        with:
+          issue-number: 1
+          body: |
+            This is a multi-line test comment
+            - With GitHub **Markdown** :sparkles:
+            - Created by [create-or-update-comment][1]
+            [1]: https://github.com/peter-evans/create-or-update-comment
+
+      # TODO remove the old deployment logic
       - uses: shimataro/ssh-key-action@v2
         with:
           key: ${{ secrets.DEVEL_SSH_PRIVATE_KEY }}
