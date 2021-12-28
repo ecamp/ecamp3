@@ -96,7 +96,7 @@ postgresql:
   pullPolicy: IfNotPresent
   image:
     repository: bitnami/postgresql
-    tag: 13
+    tag: 14
 
 serviceAccount:
   # Specifies whether a service account should be created
