@@ -57,6 +57,19 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
 {{- end }}
 
 {{/*
+Name for all dummy-mailserver-related resources.
+We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
+*/}}
+{{- define "mail.name" -}}
+{{- $name := default .Chart.Name .Values.chartNameOverride }}
+{{- if contains $name (include "app.name" .) }}
+{{- printf "%s-mail" (include "app.name" .) | trunc 63 | trimSuffix "-" }}
+{{- else }}
+{{- printf "%s-%s-mail" (include "app.name" .) $name | trunc 63 | trimSuffix "-" }}
+{{- end }}
+{{- end }}
+
+{{/*
 Create chart name and version as used by the chart label.
 */}}
 {{- define "chart.fullname" -}}
@@ -82,6 +95,13 @@ The full URL where the print service will be available.
 */}}
 {{- define "print.url" -}}
 {{- printf "https://%s" .Values.print.domain }}
+{{- end }}
+
+{{/*
+The full URL where the dummy mail catcher service will be available.
+*/}}
+{{- define "mail.url" -}}
+{{- printf "https://%s" .Values.mail.domain }}
 {{- end }}
 
 {{/*

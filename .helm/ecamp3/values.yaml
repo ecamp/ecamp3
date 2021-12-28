@@ -71,6 +71,21 @@ print:
     port: 3003
   replicaCount: 1
 
+mail:
+  dummyEnabled: true
+  # If using a real mail server, the connection uri to send emails to
+  dsn: # smtp://myuser:mypass@mymailserver:1025
+  # If the dummy mail server is enabled, the domain where the web interface is available
+  domain:
+  image:
+    repository: "docker.io/mailhog/mailhog"
+    pullPolicy: IfNotPresent
+    # Overrides the image tag whose shared default is .Values.imageTag
+    tag: "latest"
+  service:
+    type: ClusterIP
+    port: 8025
+
 # You may prefer using the managed version in production: https://mercure.rocks
 mercure:
   publicUrl: https://chart-example.local/.well-known/mercure

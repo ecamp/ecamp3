@@ -86,6 +86,11 @@ spec:
                 secretKeyRef:
                   name: {{ include "api.name" . }}
                   key: database-url
+            - name: MAILER_DSN
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "api.name" . }}
+                  key: mailer-dsn
             - name: JWT_PASSPHRASE
               valueFrom:
                 secretKeyRef:

@@ -2,6 +2,9 @@
 Access the application at one of these URLs:
   Frontend: {{ include "frontend.url" . }}
   API docs: {{ include "api.url" . }}
+  {{- if .Values.mail.dummyEnabled }}
+  View all mails sent out by eCamp: {{ include "mail.url" . }}
+  {{- end }}
 {{- else if contains "NodePort" .Values.api.service.type }}
 Get the application URL by running these commands:
   export NODE_PORT=$(kubectl get --namespace {{ .Release.Namespace }} -o jsonpath="{.spec.ports[0].nodePort}" services {{ include "api.name" . }})
