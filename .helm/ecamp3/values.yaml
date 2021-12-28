@@ -71,9 +71,6 @@ print:
     port: 3003
   replicaCount: 1
 
-files:
-  domain:
-
 # You may prefer using the managed version in production: https://mercure.rocks
 mercure:
   publicUrl: https://chart-example.local/.well-known/mercure

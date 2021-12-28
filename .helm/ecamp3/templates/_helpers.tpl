@@ -85,13 +85,6 @@ The full URL where the print service will be available.
 {{- end }}
 
 {{/*
-The full URL where the static file server will be available.
-*/}}
-{{- define "files.url" -}}
-{{- printf "https://%s" .Values.files.domain }}
-{{- end }}
-
-{{/*
 Common labels
 */}}
 {{- define "app.labels" -}}

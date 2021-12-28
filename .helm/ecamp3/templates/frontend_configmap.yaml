@@ -9,7 +9,7 @@ data:
     window.environment = {
       API_ROOT_URL: '{{ include "api.url" . }}',
       PRINT_SERVER: '{{ include "print.url" . }}',
-      PRINT_FILE_SERVER: '{{ include "files.url" . }}',
+      PRINT_FILE_SERVER: '',
     {{- if .Values.frontend.sentryDsn }}
       SENTRY_FRONTEND_DSN: '{{ .Values.frontend.sentryDsn }}',
     {{- else }}
