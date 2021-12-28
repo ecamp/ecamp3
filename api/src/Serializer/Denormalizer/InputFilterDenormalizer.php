@@ -58,7 +58,7 @@ class InputFilterDenormalizer implements ContextAwareDenormalizerInterface, Deno
      *
      * Implementation based on Symfony/Component/Validator/Mapping/Loader/AnnotationLoader.php
      */
-    protected function filterInputs($data, string $className): array {
+    private function filterInputs($data, string $className): array {
         if (!is_array($data)) {
             throw new UnexpectedValueException($data);
         }
@@ -91,7 +91,7 @@ class InputFilterDenormalizer implements ContextAwareDenormalizerInterface, Deno
         return $data;
     }
 
-    protected function getFilterAttributes(ReflectionClass $reflectionClass): array {
+    private function getFilterAttributes(ReflectionClass $reflectionClass): array {
         $filterAttributes = [];
         foreach ($reflectionClass->getProperties() as $property) {
             if ($property->getDeclaringClass()->name === $reflectionClass->name) {
@@ -104,7 +104,7 @@ class InputFilterDenormalizer implements ContextAwareDenormalizerInterface, Deno
         return $filterAttributes;
     }
 
-    protected function getRelatedEntityPropertiesToFilter(ReflectionClass $reflectionClass): array {
+    private function getRelatedEntityPropertiesToFilter(ReflectionClass $reflectionClass): array {
         $relatedEntityPropertiesToFilter = [];
         foreach ($reflectionClass->getProperties() as $property) {
             $propertyName = $property->name;
@@ -128,17 +128,17 @@ class InputFilterDenormalizer implements ContextAwareDenormalizerInterface, Deno
         return $relatedEntityPropertiesToFilter;
     }
 
-    protected function createInputFilterAttributesFrom(ReflectionProperty $reflection): Generator {
+    private function createInputFilterAttributesFrom(ReflectionProperty $reflection): Generator {
         foreach ($reflection->getAttributes(FilterAttribute::class, ReflectionAttribute::IS_INSTANCEOF) as $attribute) {
             yield $attribute->newInstance();
         }
     }
 
-    protected function getReflectionClass($className): ReflectionClass {
+    private function getReflectionClass($className): ReflectionClass {
         return new ReflectionClass($className);
     }
 
-    protected function applyFilter($data, string $propertyName, FilterAttribute $filterAttribute): array {
+    private function applyFilter($data, string $propertyName, FilterAttribute $filterAttribute): array {
         /** @var InputFilter $filter */
         $filter = $this->inputFilterLocator->get($filterAttribute->filteredBy());
         $filter->setFilterAttribute($filterAttribute);
