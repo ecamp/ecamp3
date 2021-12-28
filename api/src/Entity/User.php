@@ -23,7 +23,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 #[ApiResource(
     collectionOperations: [
-        'get' => ['security' => 'is_fully_authenticated()'],
+        'get' => ['security' => 'false'],
         'post' => [
             'security' => 'true', // allow unauthenticated clients to create (register) users
             'input_formats' => ['jsonld', 'jsonapi', 'json'],
