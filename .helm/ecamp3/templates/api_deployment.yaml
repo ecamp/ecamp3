@@ -15,6 +15,11 @@ spec:
     metadata:
       labels:
         {{- include "app.selectorLabels" . | nindent 8 }}
+      annotations:
+        # This deployment should be restarted whenever either the configmap or the secrets change
+        # because the containers depend on environment variables from these places during startup
+        checksum/config: {{ include (print $.Template.BasePath "/api_configmap.yaml") . | sha256sum }}
+        checksum/secrets: {{ include (print $.Template.BasePath "/api_secrets.yaml") . | sha256sum }}
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
