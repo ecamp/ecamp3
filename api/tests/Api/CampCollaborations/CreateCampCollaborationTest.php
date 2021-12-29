@@ -250,7 +250,6 @@ class CreateCampCollaborationTest extends ECampApiTestCase {
     }
 
     public function testCreateCampCollaborationValidatesConflictingUserAndInviteEmail() {
-        $this->markTestIncomplete('This test needs https://github.com/ecamp/ecamp3/pull/2241');
         static::createClientWithCredentials()->request('POST', '/camp_collaborations', ['json' => $this->getExampleWritePayload([
             'inviteEmail' => 'someone@example.com',
             'user' => $this->getIriFor('user4unrelated'),
