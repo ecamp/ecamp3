@@ -34,7 +34,10 @@
       v-model="localActivity.location"
       :name="$tc('entity.activity.fields.location')" />
 
-    <create-schedule-entries v-if="activity.scheduleEntries" :schedule-entries="activity.scheduleEntries" />
+    <create-schedule-entries
+      v-if="activity.scheduleEntries"
+      :schedule-entries="activity.scheduleEntries"
+      :periods="camp().periods().items" />
   </div>
 </template>
 

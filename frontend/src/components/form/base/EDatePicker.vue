@@ -17,6 +17,7 @@ Displays a field as a date picker (can be used with v-model)
         :value="picker.value || ''"
         :locale="$i18n.locale"
         first-day-of-week="1"
+        :allowed-dates="allowedDates"
         no-title
         scrollable
         @input="picker.on.input">
@@ -51,7 +52,10 @@ export default {
   props: {
     value: { type: [String, Number], required: true },
     icon: { type: String, required: false, default: 'mdi-calendar' },
-    valueFormat: { type: [String, Array], default: 'YYYY-MM-DD' }
+    valueFormat: { type: [String, Array], default: 'YYYY-MM-DD' },
+
+    // v-date-picker allowedDates
+    allowedDates: { type: Function, default: null }
   },
   data () {
     return {
