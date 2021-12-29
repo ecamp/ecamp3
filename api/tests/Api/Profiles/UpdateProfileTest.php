@@ -78,94 +78,15 @@ class UpdateProfileTest extends ECampApiTestCase {
         ]);
     }
 
-    public function testPatchProfileTrimsEmail() {
+    public function testPatchProfileDisallowsChangingEmail() {
+        /** @var Profile $profile */
         $profile = static::$fixtures['profile1manager'];
         static::createClientWithCredentials()->request('PATCH', '/profiles/'.$profile->getId(), ['json' => [
-            'email' => ' trimmed@example.com',
+            'email' => 'e@mail.com',
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
-        $this->assertResponseStatusCodeSame(200);
+        $this->assertResponseStatusCodeSame(400);
         $this->assertJsonContains([
-            'email' => 'trimmed@example.com',
-        ]);
-    }
-
-    public function testPatchProfileValidatesBlankEmail() {
-        $profile = static::$fixtures['profile1manager'];
-        static::createClientWithCredentials()->request('PATCH', '/profiles/'.$profile->getId(), ['json' => [
-            'email' => '',
-        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
-        $this->assertResponseStatusCodeSame(422);
-        $this->assertJsonContains([
-            'violations' => [
-                [
-                    'propertyPath' => 'email',
-                    'message' => 'This value should not be blank.',
-                ],
-            ],
-        ]);
-    }
-
-    public function testPatchProfileValidatesInvalidEmail() {
-        $profile = static::$fixtures['profile1manager'];
-        static::createClientWithCredentials()->request('PATCH', '/profiles/'.$profile->getId(), ['json' => [
-            'email' => 'hello@sunrise',
-        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
-        $this->assertResponseStatusCodeSame(422);
-        $this->assertJsonContains([
-            'violations' => [
-                [
-                    'propertyPath' => 'email',
-                    'message' => 'This value is not a valid email address.',
-                ],
-            ],
-        ]);
-    }
-
-    public function testPatchProfileValidatesLongEmail() {
-        $profile = static::$fixtures['profile1manager'];
-        static::createClientWithCredentials()->request('PATCH', '/profiles/'.$profile->getId(), ['json' => [
-            'email' => 'test-with-a-very-long-email-address-which-is-not-really-realistic@example.com',
-        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
-        $this->assertResponseStatusCodeSame(422);
-        $this->assertJsonContains([
-            'violations' => [
-                [
-                    'propertyPath' => 'email',
-                    'message' => 'This value is too long. It should have 64 characters or less.',
-                ],
-            ],
-        ]);
-    }
-
-    public function testPatchProfileValidatesDuplicateEmail() {
-        $profile = static::$fixtures['profile1manager'];
-        static::createClientWithCredentials()->request('PATCH', '/profiles/'.$profile->getId(), ['json' => [
-            'email' => static::$fixtures['user2member']->getEmail(),
-        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
-        $this->assertResponseStatusCodeSame(422);
-        $this->assertJsonContains([
-            'violations' => [
-                [
-                    'propertyPath' => 'email',
-                    'message' => 'This value is already used.',
-                ],
-            ],
-        ]);
-    }
-
-    public function testPatchProfileTrimsFirstThenValidatesDuplicateEmail() {
-        $profile = static::$fixtures['profile1manager'];
-        static::createClientWithCredentials()->request('PATCH', '/profiles/'.$profile->getId(), ['json' => [
-            'email' => ' '.static::$fixtures['user2member']->getEmail(),
-        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
-        $this->assertResponseStatusCodeSame(422);
-        $this->assertJsonContains([
-            'violations' => [
-                [
-                    'propertyPath' => 'email',
-                    'message' => 'This value is already used.',
-                ],
-            ],
+            'detail' => 'Extra attributes are not allowed ("email" is unknown).',
         ]);
     }
 
