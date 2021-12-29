@@ -54,18 +54,29 @@ export default {
     valueFormat: { type: [String, Array], default: 'YYYY-MM-DD' }
   },
   methods: {
+    /**
+     * Format internal value for display in the UI
+     */
     format (val) {
       if (val !== '') {
         return this.$date.utc(val, this.valueFormat).format('L')
       }
       return ''
     },
+
+    /**
+     * Format internal value for the popup component. If omitted, uses format instead.
+     */
     formatPicker (val) {
       if (val !== '') {
         return this.$date.utc(val, this.valueFormat).format(HTML5_FMT.DATE)
       }
       return ''
     },
+
+    /**
+     * Parse a user-supplied value into the internal format
+     */
     parse (val) {
       if (val) {
         const parsedDate = this.$date.utc(val, 'L')
@@ -78,6 +89,10 @@ export default {
         return Promise.resolve('')
       }
     },
+
+    /**
+     * Parse the value from the popup component into the internal format. If omitted, uses parse instead.
+     */
     parsePicker (val) {
       if (val) {
         const parsedDate = this.$date.utc(val, HTML5_FMT.DATE)

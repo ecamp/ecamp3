@@ -51,6 +51,8 @@ export default {
   props: {
     icon: { type: String, required: false, default: 'mdi-clock-outline' },
     value: { type: [Number, String], required: true },
+
+    // format in which value is presented
     valueFormat: { type: [String, Array], default: 'YYYY-MM-DDTHH:mm:ssZ' }
   },
   data () {
@@ -71,6 +73,10 @@ export default {
         this.dateTime = dateTime
       }
     },
+
+    /**
+     * Format internal value for display in the UI
+     */
     format (val) {
       if (val !== '') {
         this.dateTime = this.$date.utc(val, this.valueFormat)
@@ -78,12 +84,20 @@ export default {
       }
       return ''
     },
+
+    /**
+     * Format internal value for the popup component
+     */
     formatPicker (val) {
       if (val !== '') {
         return this.$date.utc(val, this.valueFormat).format(HTML5_FMT.TIME)
       }
       return ''
     },
+
+    /**
+     * Parse a user-supplied value into the internal format
+     */
     parse (val) {
       if (val) {
         const parsedDateTime = this.$date.utc(val, 'LT')
@@ -97,6 +111,10 @@ export default {
         return Promise.resolve('')
       }
     },
+
+    /**
+     * Parse the value from the popup component into the internal format
+     */
     parsePicker (val) {
       if (val) {
         const parsedDateTime = this.$date.utc(val, HTML5_FMT.TIME)
