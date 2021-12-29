@@ -4,6 +4,7 @@ namespace App\Tests\Api\Activities;
 
 use ApiPlatform\Core\Api\OperationType;
 use App\Entity\Activity;
+use App\Entity\User;
 use App\Tests\Api\ECampApiTestCase;
 
 /**
@@ -24,7 +25,9 @@ class CreateActivityTest extends ECampApiTestCase {
     }
 
     public function testCreateActivityIsNotPossibleForUnrelatedUserBecausePeriodIsNotReadable() {
-        static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->username])
+        /** @var User $user */
+        $user = static::$fixtures['user4unrelated'];
+        static::createClientWithCredentials(['username' => $user->getUsername()])
             ->request('POST', '/activities', ['json' => $this->getExampleWritePayload()])
         ;
 
@@ -36,7 +39,7 @@ class CreateActivityTest extends ECampApiTestCase {
     }
 
     public function testCreateActivityIsNotPossibleForInactiveCollaboratorBecausePeriodIsNotReadable() {
-        static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->username])
+        static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->getUsername()])
             ->request('POST', '/activities', ['json' => $this->getExampleWritePayload()])
         ;
 
@@ -48,7 +51,7 @@ class CreateActivityTest extends ECampApiTestCase {
     }
 
     public function testCreateActivityIsDeniedForGuest() {
-        static::createClientWithCredentials(['username' => static::$fixtures['user3guest']->username])
+        static::createClientWithCredentials(['username' => static::$fixtures['user3guest']->getUsername()])
             ->request('POST', '/activities', ['json' => $this->getExampleWritePayload()])
         ;
 
@@ -60,7 +63,7 @@ class CreateActivityTest extends ECampApiTestCase {
     }
 
     public function testCreateActivityIsAllowedForMember() {
-        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->username])
+        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->getUsername()])
             ->request('POST', '/activities', ['json' => $this->getExampleWritePayload()])
         ;
 

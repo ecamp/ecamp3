@@ -32,7 +32,7 @@ class UpdateCategoryTest extends ECampApiTestCase {
 
     public function testPatchCategoryIsDeniedForUnrelatedUser() {
         $category = static::$fixtures['category1'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->username])
+        static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->getUsername()])
             ->request('PATCH', '/categories/'.$category->getId(), ['json' => [
                 'short' => 'LP',
                 'name' => 'Lagerprogramm',
@@ -53,7 +53,7 @@ class UpdateCategoryTest extends ECampApiTestCase {
 
     public function testPatchCategoryIsDeniedForInactiveCollaborator() {
         $category = static::$fixtures['category1'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->username])
+        static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->getUsername()])
             ->request('PATCH', '/categories/'.$category->getId(), ['json' => [
                 'short' => 'LP',
                 'name' => 'Lagerprogramm',
@@ -74,7 +74,7 @@ class UpdateCategoryTest extends ECampApiTestCase {
 
     public function testPatchCategoryIsDeniedForGuest() {
         $category = static::$fixtures['category1'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user3guest']->username])
+        static::createClientWithCredentials(['username' => static::$fixtures['user3guest']->getUsername()])
             ->request('PATCH', '/categories/'.$category->getId(), ['json' => [
                 'short' => 'LP',
                 'name' => 'Lagerprogramm',
@@ -95,7 +95,7 @@ class UpdateCategoryTest extends ECampApiTestCase {
 
     public function testPatchCategoryIsAllowedForMember() {
         $category = static::$fixtures['category1'];
-        $response = static::createClientWithCredentials(['username' => static::$fixtures['user2member']->username])
+        $response = static::createClientWithCredentials(['username' => static::$fixtures['user2member']->getUsername()])
             ->request('PATCH', '/categories/'.$category->getId(), ['json' => [
                 'short' => 'LP',
                 'name' => 'Lagerprogramm',

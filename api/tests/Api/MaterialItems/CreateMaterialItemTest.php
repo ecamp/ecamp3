@@ -24,7 +24,7 @@ class CreateMaterialItemTest extends ECampApiTestCase {
     }
 
     public function testCreateMaterialItemIsNotPossibleForUnrelatedUserBecauseMaterialListIsNotReadable() {
-        static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->username])
+        static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->getUsername()])
             ->request('POST', '/material_items', ['json' => $this->getExampleWritePayload()])
         ;
         $this->assertResponseStatusCodeSame(400);
@@ -35,7 +35,7 @@ class CreateMaterialItemTest extends ECampApiTestCase {
     }
 
     public function testCreateMaterialItemIsNotPossibleForInactiveCollaboratorBecauseMaterialListIsNotReadable() {
-        static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->username])
+        static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->getUsername()])
             ->request('POST', '/material_items', ['json' => $this->getExampleWritePayload()])
         ;
         $this->assertResponseStatusCodeSame(400);
@@ -46,7 +46,7 @@ class CreateMaterialItemTest extends ECampApiTestCase {
     }
 
     public function testCreateMaterialItemIsDeniedForGuest() {
-        static::createClientWithCredentials(['username' => static::$fixtures['user3guest']->username])
+        static::createClientWithCredentials(['username' => static::$fixtures['user3guest']->getUsername()])
             ->request('POST', '/material_items', ['json' => $this->getExampleWritePayload()])
         ;
 
@@ -58,7 +58,7 @@ class CreateMaterialItemTest extends ECampApiTestCase {
     }
 
     public function testCreateMaterialItemIsAllowedForMember() {
-        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->username])
+        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->getUsername()])
             ->request('POST', '/material_items', ['json' => $this->getExampleWritePayload()])
         ;
 

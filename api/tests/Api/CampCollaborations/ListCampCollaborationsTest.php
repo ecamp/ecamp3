@@ -70,7 +70,7 @@ class ListCampCollaborationsTest extends ECampApiTestCase {
 
     public function testListCampCollaborationsFilteredByCampIsDeniedForUnrelatedUser() {
         $camp = static::$fixtures['camp1'];
-        $response = static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->username])
+        $response = static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->getUsername()])
             ->request('GET', '/camp_collaborations?camp=/camps/'.$camp->getId())
         ;
         $this->assertResponseStatusCodeSame(200);
@@ -80,7 +80,7 @@ class ListCampCollaborationsTest extends ECampApiTestCase {
 
     public function testListCampCollaborationsFilteredByCampIsDeniedForInactiveCollaborator() {
         $camp = static::$fixtures['camp1'];
-        $response = static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->username])
+        $response = static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->getUsername()])
             ->request('GET', '/camp_collaborations?camp=/camps/'.$camp->getId())
         ;
         $this->assertResponseStatusCodeSame(200);

@@ -3,6 +3,7 @@
 namespace App\Tests\Service;
 
 use App\Entity\Camp;
+use App\Entity\Profile;
 use App\Entity\User;
 use App\Service\MailService;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -26,7 +27,9 @@ class MailServiceTest extends KernelTestCase {
         $this->mailer = $mailer;
 
         $this->user = new User();
-        $this->user->nickname = 'coolScoutName';
+        $profile = new Profile();
+        $profile->nickname = 'coolScoutName';
+        $this->user->profile = $profile;
 
         $this->camp = new Camp();
         $this->camp->name = 'some camp';

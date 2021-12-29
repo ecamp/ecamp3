@@ -55,7 +55,7 @@ App\Entity\CampCollaboration:
     user: '@user6invited'
     camp: '@camp2'
     inviteKey: "myInviteKeyCamp2"
-    inviteEmail: '@user6invited->email'
+    inviteEmail: '@profile6invited->email'
     status: invited
     role: member
   campCollaboration1campPrototype:
