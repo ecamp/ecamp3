@@ -23,6 +23,10 @@ App\Entity\User:
     profile: '@profile6invited'
     state: activated
     password: '\$argon2id\$v=19\$m=65536,t=4,p=1\$/RC8YWMDDXR19wB4or6bBA\$Kq5haK2SACQgo4CB7eDUibsD3QXCE32w25ZwhKg1SGw' # test
+  user7manager:
+    profile: '@profile7manager'
+    state: activated
+    password: '\$argon2id\$v=19\$m=65536,t=4,p=1\$/RC8YWMDDXR19wB4or6bBA\$Kq5haK2SACQgo4CB7eDUibsD3QXCE32w25ZwhKg1SGw' # test
   admin:
     profile: '@profileAdmin'
     state: activated
