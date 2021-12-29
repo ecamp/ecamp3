@@ -355,6 +355,11 @@
               {{ timeValue }}
             </v-col>
             <v-col>
+              <e-date-picker
+                v-model="timeValue"
+                value-format="YYYY-MM-DDTHH:mm:ssZ"
+                v-bind="config" />
+
               <e-time-picker
                 v-model="timeValue"
                 v-bind="config" />
@@ -441,7 +446,7 @@ export default {
     colorValue: '#FFFFFF',
     selectValue: null,
     dateValue: '2020-01-01',
-    timeValue: '2020-01-01T14:45+00:00'
+    timeValue: '2020-01-01T14:45:00+00:00'
   }),
   computed: {
     userUri () {

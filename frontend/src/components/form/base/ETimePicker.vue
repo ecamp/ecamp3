@@ -57,11 +57,24 @@ export default {
   },
   data () {
     return {
+      // Day.js object of parsed value
       dateTime: null
+    }
+  },
+  watch: {
+    value: {
+      immediate: true,
+      handler (val) {
+        this.dateTime = this.$date.utc(val, this.valueFormat)
+      }
     }
   },
   methods: {
     allowedStep: m => m % 15 === 0,
+
+    /**
+     * override time but keep date
+     */
     setTime (dateTime) {
       if (this.dateTime && this.dateTime.isValid()) {
         this.dateTime = this.dateTime

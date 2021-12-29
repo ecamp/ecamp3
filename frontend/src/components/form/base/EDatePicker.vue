@@ -53,7 +53,36 @@ export default {
     icon: { type: String, required: false, default: 'mdi-calendar' },
     valueFormat: { type: [String, Array], default: 'YYYY-MM-DD' }
   },
+  data () {
+    return {
+      // Day.js object of parsed value
+      dateTime: null
+    }
+  },
+  watch: {
+    value: {
+      immediate: true,
+      handler (val) {
+        this.dateTime = this.$date.utc(val, this.valueFormat)
+      }
+    }
+  },
   methods: {
+
+    /**
+     * override date but keep time
+     */
+    setDate (dateTime) {
+      if (this.dateTime && this.dateTime.isValid()) {
+        this.dateTime = this.dateTime
+          .year(dateTime.year())
+          .month(dateTime.month())
+          .date(dateTime.date())
+      } else {
+        this.dateTime = dateTime
+      }
+    },
+
     /**
      * Format internal value for display in the UI
      */
@@ -81,7 +110,8 @@ export default {
       if (val) {
         const parsedDate = this.$date.utc(val, 'L')
         if (parsedDate.isValid() && parsedDate.format('L') === val) {
-          return Promise.resolve(parsedDate.format(this.valueFormat))
+          this.setDate(parsedDate)
+          return Promise.resolve(this.dateTime.format(this.valueFormat))
         } else {
           return Promise.reject(new Error('invalid format'))
         }
@@ -97,7 +127,8 @@ export default {
       if (val) {
         const parsedDate = this.$date.utc(val, HTML5_FMT.DATE)
         if (parsedDate.isValid() && parsedDate.format(HTML5_FMT.DATE) === val) {
-          return Promise.resolve(parsedDate.format(this.valueFormat))
+          this.setDate(parsedDate)
+          return Promise.resolve(this.dateTime.format(this.valueFormat))
         } else {
           return Promise.reject(new Error('invalid format'))
         }
