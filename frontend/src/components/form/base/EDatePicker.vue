@@ -52,6 +52,8 @@ export default {
   props: {
     value: { type: [String, Number], required: true },
     icon: { type: String, required: false, default: 'mdi-calendar' },
+
+    // format in which the `value` property is being provided & input events are triggered
     valueFormat: { type: [String, Array], default: 'YYYY-MM-DD' },
 
     // v-date-picker allowedDates

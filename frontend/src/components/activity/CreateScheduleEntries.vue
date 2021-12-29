@@ -9,68 +9,19 @@
           </legend>
         </v-col>
       </v-row>
-      <v-row v-for="scheduleEntry in mappedScheduleEntries"
-             :key="scheduleEntry.id"
-             no-gutters class="mx-2 mb-2">
-        <v-col>
-          <e-date-picker
-            v-model="scheduleEntry.startTimeUTCFormatted"
-            value-format="YYYY-MM-DDTHH:mm:ssZ"
-            :name="$tc('components.activity.createScheduleEntries.fields.startTime')"
-            vee-rules="required"
-            :allowed-dates="allowedStartDates"
-            :filled="false"
-            required />
-        </v-col>
-        <v-col>
-          <e-time-picker
-            v-model="scheduleEntry.startTimeUTCFormatted"
-            :name="$tc('components.activity.createScheduleEntries.fields.startTime')"
-            vee-rules="required"
-            :filled="false"
-            required />
-        </v-col>
-        <v-col class="ml-4">
-          <e-date-picker
-            v-model="scheduleEntry.endTimeUTCFormatted"
-            value-format="YYYY-MM-DDTHH:mm:ssZ"
-            input-class="ml-2"
-            :name="$tc('components.activity.createScheduleEntries.fields.endTime')"
-            vee-rules="required"
-            :allowed-dates="allowedEndDates"
-            :filled="false"
-            required />
-        </v-col>
-        <v-col>
-          <e-time-picker
-            v-model="scheduleEntry.endTimeUTCFormatted"
-            input-class="ml-2"
-            :name="$tc('components.activity.createScheduleEntries.fields.endTime')"
-            vee-rules="required"
-            :filled="false"
-            required />
-        </v-col>
-        <!--
-        <v-col>
-          <e-text-field
-            :value="duration(scheduleEntry.length)"
-            readonly
-            input-class="ml-2"
-            :name="$tc('components.activity.createScheduleEntries.fields.duration')"
-            :filled="false"
-            icon=""
-            required />
-        </v-col> -->
-      </v-row>
+      <create-schedule-entries-item v-for="scheduleEntry in scheduleEntries"
+                                    :key="scheduleEntry.id"
+                                    :schedule-entry="scheduleEntry"
+                                    :periods="periods" />
     </v-card>
   </div>
 </template>
 <script>
-import { defineHelpers } from '@/common/helpers/scheduleEntry/dateHelperUTCFormatted.js'
-import dayjs from '@/common/helpers/dayjs.js'
+import CreateScheduleEntriesItem from './CreateScheduleEntriesItem.vue'
 
 export default {
   name: 'CreateActivityScheduleEntries',
+  components: { CreateScheduleEntriesItem },
   props: {
     scheduleEntries: {
       type: Array,
@@ -80,36 +31,6 @@ export default {
       type: Array,
       required: true
     }
-  },
-  computed: {
-    mappedScheduleEntries () {
-      return this.scheduleEntries.map((entry) => defineHelpers(entry))
-    },
-
-    // detect selected period based on start date
-    period () {
-      const startDate = dayjs.utc(this.mappedScheduleEntries[0].startTimeUTCFormatted)
-
-      return this.periods.find((period) => {
-        return startDate.isBetween(period.start, period.end, 'date', '[]')
-      })
-    }
-  },
-  methods: {
-    allowedStartDates: function (val) {
-      const calendarDate = dayjs.utc(val)
-
-      return this.periods.some((period) => {
-        return calendarDate.isBetween(period.start, period.end, 'date', '[]')
-      })
-    },
-    allowedEndDates: val => parseInt(val.split('-')[2], 10) % 2 === 0,
-    duration (length) {
-      const hours = Math.floor(length / 60)
-      const minutes = length % 60
-      return `${hours}h` + (minutes === 0 ? '' : ` ${minutes}min`)
-    },
-    defineHelpers
   }
 }
 </script>

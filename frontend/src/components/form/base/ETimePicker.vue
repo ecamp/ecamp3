@@ -52,7 +52,7 @@ export default {
     icon: { type: String, required: false, default: 'mdi-clock-outline' },
     value: { type: [Number, String], required: true },
 
-    // format in which value is presented
+    // format in which the `value` property is being provided & input events are triggered
     valueFormat: { type: [String, Array], default: 'YYYY-MM-DDTHH:mm:ssZ' }
   },
   data () {
