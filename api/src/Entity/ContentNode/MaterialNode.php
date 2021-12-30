@@ -94,10 +94,6 @@ class MaterialNode extends ContentNode {
             $materialItem = new MaterialItem();
             $this->addMaterialItem($materialItem);
 
-            /** @var MaterialList $materialList */
-            $materialList = $entityMap->get($itemPrototype->materialList);
-            $materialList->addMaterialItem($materialItem);
-
             $materialItem->copyFromPrototype($itemPrototype, $entityMap);
         }
     }

@@ -113,7 +113,10 @@ class MaterialItem extends BaseEntity implements BelongsToCampInterface {
     public function copyFromPrototype($prototype, &$entityMap = null) {
         parent::copyFromPrototype($prototype, $entityMap);
 
-        $this->materialList = $entityMap->get($prototype->materialList);
+        /** @var MaterialList $materialList */
+        $materialList = $entityMap->get($prototype->materialList);
+        $materialList->addMaterialItem($this);
+
         $this->article = $prototype->article;
         $this->quantity = $prototype->quantity;
         $this->unit = $prototype->unit;
