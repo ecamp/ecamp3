@@ -1,69 +1,194 @@
-name: Deploy to dev.ecamp3.ch
+name: Deploy dev and feature branches
 
 on:
-  repository_dispatch:
-    types: [ images-pushed ]
+  schedule:
+    - cron: '30 * * * *' # Run once every hour, at xx:30
+  workflow_dispatch:     # Allow triggering manually
 
 jobs:
-  only-on-deployment-branches:
-    name: Only on deployment branches
-    if: ${{ github.event.client_payload.deployment_name != null }}
+  find-prs-to-deploy:
+    name: Find PRs and branches to deploy or uninstall
     runs-on: ubuntu-latest
-    steps:
-
-      - run: 'echo "Ref: ${{ github.event.client_payload.ref }}"'
-
-      - run: 'echo "SHA: ${{ github.event.client_payload.sha }}"'
-
-      - run: 'echo "Deployment name: ${{ github.event.client_payload.deployment_name }}"'
-
-  deploy:
-    name: "Deploy"
-    needs: only-on-deployment-branches
-    runs-on: ubuntu-latest
+    outputs:
+      to-uninstall: ${{ steps.to-uninstall.outputs.list }}
+      to-deploy: ${{ steps.to-deploy.outputs.mapping }}
     steps:
 
       - uses: actions/checkout@ec3a7ce113134d7a93b817d10a8272cb61118579 # renovate: tag=v2
 
-      # TODO actually install the feature branch deployment, using `helm upgrade --install xyz`
+      - name: Find all open PRs that have a "deploy!" label, plus devel
+        id: to-deploy
+        # create a JSON map like:
+        # {
+        #  "pr1234": {"name": "pr1234", "env": "feature-branch", "sha": "... commit sha ..."},
+        #  "dev": {"name": "dev", "env": "dev", "sha": "..."}
+        # }
+        run: |
+          DEVEL=$(printf '{"dev":{"name":"dev","env":"dev","sha":"%s"}}' $(git rev-parse devel))
+          PULL_REQUESTS=$(curl -X POST --location "https://api.github.com/graphql" \
+            -H "Accept: application/vnd.github.v3+json" \
+            -H "Authorization: Bearer ${{ secrets.REPO_ACCESS_TOKEN }}" \
+            -d "{\"query\": \"query { search(query: \\\"is:open is:pr label:deploy! repo:ecamp/ecamp3\\\", type: ISSUE, first: 100) { edges { node { ... on PullRequest { number headRefOid } } } } }\"}")
+          MAPPING=$(printf "$PULL_REQUESTS" | jq '.data.search.edges' \
+            | jq 'map({("pr"+(.node.number|tostring)):{"name":("pr"+(.node.number|tostring)),env:"feature-branch",sha:.node.headRefOid}})|add' \
+            | jq ".+$DEVEL")
+          echo ::set-output name=mapping::${MAPPING}
 
-      # TODO if not dev.ecamp3.ch, write a comment on the PR, containing the URL of the feature branch deployment
-      - name: Create comment
-        if: ${{ github.event.client }}
-        uses: peter-evans/create-or-update-comment@v1
-        with:
-          issue-number: 1
-          body: |
-            This is a multi-line test comment
-            - With GitHub **Markdown** :sparkles:
-            - Created by [create-or-update-comment][1]
-            [1]: https://github.com/peter-evans/create-or-update-comment
+      - name: Read the list of all currently active deployments
+        id: current-deployments
+        run: |
+          # Setup authentication
+          mkdir ~/.kube && echo '${{ secrets.KUBECONFIG }}' > ~/.kube/config && chmod go-r ~/.kube/config
+          # Convert lines to JSON list
+          LIST=$(helm list -q | sed 's/^ecamp3\-//g' | sed 's/[[:space:]]$//g' | jq  --raw-input . | jq --slurp .)
+          echo ::set-output name=list::$LIST
 
-      # TODO remove the old deployment logic
-      - uses: shimataro/ssh-key-action@v2
-        with:
-          key: ${{ secrets.DEVEL_SSH_PRIVATE_KEY }}
-          known_hosts: ${{ secrets.DEVEL_SSH_KNOWN_HOSTS }}
+      - name: List the deployments that do not have a corresponding labeled open PR
+        id: to-uninstall
+        run: |
+          TO_UNINSTALL=$(printf '{
+            "currently_deployed": ${{ steps.current-deployments.outputs.list }},
+            "should_be_deployed":${{ toJSON(fromJSON(steps.to-deploy.outputs.mapping).*.name) }}
+          }' | jq '.currently_deployed-.should_be_deployed')
+          echo ::set-output name=list::$TO_UNINSTALL
 
-      - uses: ./.github/actions/deploy
+  uninstall-old-deployments:
+    name: Uninstall old deployments
+    runs-on: ubuntu-latest
+    needs:
+      - find-prs-to-deploy
+    if: fromJSON(needs.find-prs-to-deploy.outputs.to-uninstall)[0] != null
+    strategy:
+      fail-fast: false
+      matrix:
+        deployment-name: ${{ fromJSON(needs.find-prs-to-deploy.outputs.to-uninstall) }}
+    steps:
+
+      - name: Uninstall helm release
+        run: |
+          # Setup authentication
+          mkdir ~/.kube && echo '${{ secrets.KUBECONFIG }}' > ~/.kube/config && chmod go-r ~/.kube/config
+          # Uninstall the release
+          helm delete ecamp3-${{ matrix.deployment-name }}
+
+      - name: Remove GitHub deployment
+        uses: bobheadxi/deployments@v0.6.2
         with:
-          commit-sha: ${{ github.event.client_payload.sha }}
-          ssh-host: ${{ secrets.DEVEL_SSH_HOST }}
-          shared-cookie-domain: ${{ secrets.DEVEL_SHARED_COOKIE_DOMAIN }}
-          frontend-url: ${{ secrets.DEVEL_FRONTEND_URL }}
-          print-server-url: ${{ secrets.DEVEL_PRINT_SERVER_URL }}
-          print-file-server-url: ${{ secrets.DEVEL_PRINT_FILE_SERVER_URL }}
-          mail-server-url: ${{ secrets.DEVEL_MAIL_SERVER_URL }}
-          sentry-frontend-dsn: ${{ secrets.DEVEL_SENTRY_FRONTEND_DSN }}
-          sentry-print-dsn: ${{ secrets.DEVEL_SENTRY_PRINT_DSN }}
-          sentry-worker-print-puppeteer-dsn: ${{ secrets.DEVEL_SENTRY_WORKER_PRINT_PUPPETEER_DSN }}
-          sentry-worker-print-weasy-dsn: ${{ secrets.DEVEL_SENTRY_WORKER_PRINT_WEASY_DSN }}
-          rabbitmq-host: ${{ secrets.DEVEL_RABBITMQ_HOST }}
-          rabbitmq-port: ${{ secrets.DEVEL_RABBITMQ_PORT }}
-          rabbitmq-vhost: ${{ secrets.DEVEL_RABBITMQ_VHOST }}
-          rabbitmq-user: ${{ secrets.DEVEL_RABBITMQ_USER }}
-          rabbitmq-pass: ${{ secrets.DEVEL_RABBITMQ_PASS }}
-          api-url: ${{ secrets.DEVEL_API_URL }}
-          api-app-secret: ${{ secrets.DEVEL_API_APP_SECRET }}
-          api-database-url: ${{ secrets.DEVEL_API_DATABASE_URL }}
-          api-jwt-passphrase: ${{ secrets.DEVEL_API_JWT_PASSPHRASE }}
+          step: deactivate-env
+          token: ${{ secrets.REPO_ACCESS_TOKEN }}
+          env: ${{ matrix.deployment-name }}
+
+  upgrade-or-install-deployments:
+    name: Upgrade or install deployments
+    runs-on: ubuntu-latest
+    needs:
+      - find-prs-to-deploy
+    if: (fromJSON(needs.find-prs-to-deploy.outputs.to-deploy).*)[0] != null
+    strategy:
+      fail-fast: false
+      matrix:
+        deployment: ${{ fromJSON(needs.find-prs-to-deploy.outputs.to-deploy).* }}
+    environment:
+      name: ${{ matrix.deployment.env }}
+    steps:
+      # TODO skip deploying dev if CI on the corresponding commit was not successful
+      # TODO skip deploying if there have been no changes since the last deployment
+
+      - name: Create a pending GitHub deployment
+        uses: bobheadxi/deployments@v0.6.2
+        id: deployment
+        with:
+          step: start
+          token: ${{ secrets.REPO_ACCESS_TOKEN }}
+          env: ${{ matrix.deployment.name }}
+
+      - uses: actions/checkout@ec3a7ce113134d7a93b817d10a8272cb61118579 # renovate: tag=v2
+        with:
+          ref: ${{ matrix.deployment.sha }}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_PASSWORD }}
+
+      - name: Build and push frontend docker image
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          file: .docker-hub/frontend/Dockerfile
+          tags: 'ecamp/ecamp3-frontend:latest,ecamp/ecamp3-frontend:${{ matrix.deployment.sha }}'
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Build and push api docker image
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          file: api/Dockerfile
+          tags: 'ecamp/ecamp3-api:latest,ecamp/ecamp3-api:${{ matrix.deployment.sha }}'
+          context: './api'
+          target: api_platform_php
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Build and push caddy docker image
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          file: api/Dockerfile
+          tags: 'ecamp/ecamp3-caddy:latest,ecamp/ecamp3-caddy:${{ matrix.deployment.sha }}'
+          context: './api'
+          target: api_platform_caddy_prod
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Build and push print docker image
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          file: .docker-hub/print/Dockerfile
+          tags: 'ecamp/ecamp3-print:latest,ecamp/ecamp3-print:${{ matrix.deployment.sha }}'
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Upgrade or install helm release
+        run: |
+          # Setup authentication
+          mkdir ~/.kube && echo '${{ secrets.KUBECONFIG }}' > ~/.kube/config && chmod go-r ~/.kube/config
+          # Switch to the helm chart directory
+          cd .helm/ecamp3
+          # Install dependency charts
+          helm dependency update
+          # Install or upgrade the release
+          helm upgrade --install ecamp3-${{ matrix.deployment.name }} . \
+            --set imageTag=${{ matrix.deployment.sha }} \
+            --set sharedCookieDomain=.ecamp3.ch \
+            --set api.domain=api-${{ matrix.deployment.name }}.ecamp3.ch \
+            --set frontend.domain=${{ matrix.deployment.name }}.ecamp3.ch \
+            --set print.domain=print-${{ matrix.deployment.name }}.ecamp3.ch \
+            --set mail.domain=mail-${{ matrix.deployment.name }}.ecamp3.ch \
+            --set postgresql.enabled=false \
+            --set postgresql.url='${{ format(secrets.POSTGRES_URL, matrix.deployment.name) }}' \
+            --set postgresql.adminUrl='${{ format(secrets.POSTGRES_ADMIN_URL, matrix.deployment.name) }}' \
+            --set php.appSecret='${{ secrets.API_APP_SECRET }}' \
+            --set php.jwt.passphrase='${{ secrets.JWT_PASSPHRASE }}' \
+            --set php.jwt.publicKey='${{ secrets.JWT_PUBLIC_KEY }}' \
+            --set php.jwt.privateKey='${{ secrets.JWT_PRIVATE_KEY }}' \
+            --set frontend.sentryDsn='${{ secrets.FRONTEND_SENTRY_DSN }}' \
+            --set print.sentryDsn='${{ secrets.PRINT_SENTRY_DSN }}' \
+            --set deploymentTime="$(date -u +%s)" \
+            --set deployedVersion="$(git rev-parse --short '${{ matrix.deployment.sha }}')"
+
+      - name: Finish the GitHub deployment
+        uses: bobheadxi/deployments@v0.6.2
+        if: always()
+        with:
+          step: finish
+          token: ${{ secrets.REPO_ACCESS_TOKEN }}
+          status: ${{ job.status }}
+          deployment_id: ${{ steps.deployment.outputs.deployment_id }}
+          env_url: https://${{ matrix.deployment.name }}.ecamp3.ch
