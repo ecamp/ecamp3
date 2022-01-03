@@ -1,7 +1,7 @@
 <template>
   <v-row
     no-gutters class="mx-2 mb-2">
-    <v-col>
+    <v-col cols="5">
       <e-date-picker
         v-model="mappedScheduleEntry.startTimeUTCFormatted"
         value-format="YYYY-MM-DDTHH:mm:ssZ"
@@ -9,36 +9,41 @@
         vee-rules="required"
         :allowed-dates="allowedStartDates"
         :filled="false"
+        class="float-left date-picker"
         required />
-    </v-col>
-    <v-col>
+
       <e-time-picker
         v-model="mappedScheduleEntry.startTimeUTCFormatted"
         :name="$tc('components.activity.createScheduleEntries.fields.startTime')"
         vee-rules="required"
         :filled="false"
+        class="float-left mt-0 ml-1 time-picker"
         required />
     </v-col>
-    <v-col class="ml-4">
+    <v-col cols="1" class="text-center pt-4">
+      -
+    </v-col>
+    <v-col cols="5">
       <e-date-picker
         v-model="mappedScheduleEntry.endTimeUTCFormatted"
         value-format="YYYY-MM-DDTHH:mm:ssZ"
-        input-class="ml-2"
         :name="$tc('components.activity.createScheduleEntries.fields.endTime')"
         vee-rules="required"
         :allowed-dates="allowedEndDates"
         :filled="false"
+        class="float-left date-picker"
         required />
-    </v-col>
-    <v-col>
+
       <e-time-picker
         v-model="mappedScheduleEntry.endTimeUTCFormatted"
-        input-class="ml-2"
+
         :name="$tc('components.activity.createScheduleEntries.fields.endTime')"
         vee-rules="required"
         :filled="false"
+        class="float-left mt-0 ml-1 time-picker"
         required />
     </v-col>
+
     <!--
         <v-col>
           <e-text-field
@@ -50,14 +55,21 @@
             icon=""
             required />
         </v-col> -->
+
+    <v-col cols="1" class="pt-3 text-center">
+      <button-delete v-if="!isLastItem" icon-only @click="$emit('delete')" />
+    </v-col>
   </v-row>
 </template>
 <script>
 import { defineHelpers } from '@/common/helpers/scheduleEntry/dateHelperUTCFormatted.js'
 import dayjs from '@/common/helpers/dayjs.js'
 
+import ButtonDelete from '@/components/buttons/ButtonDelete.vue'
+
 export default {
   name: 'CreateActivityScheduleEntriesItem',
+  components: { ButtonDelete },
   props: {
     // scheduleEntry to display
     scheduleEntry: {
@@ -68,6 +80,12 @@ export default {
     // List of available periods
     periods: {
       type: Array,
+      required: true
+    },
+
+    // true if current item is the last scheduleEntry
+    isLastItem: {
+      type: Boolean,
       required: true
     }
   },
@@ -115,5 +133,11 @@ export default {
 }
 </script>
 <style scoped lang="scss">
+.date-picker{
+  width: 125px;
+}
 
+.time-picker{
+  width: 100px;
+}
 </style>

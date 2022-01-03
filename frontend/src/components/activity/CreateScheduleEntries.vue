@@ -9,19 +9,28 @@
           </legend>
         </v-col>
       </v-row>
-      <create-schedule-entries-item v-for="scheduleEntry in scheduleEntries"
-                                    :key="scheduleEntry.id"
+      <create-schedule-entries-item v-for="(scheduleEntry, index) in scheduleEntries"
+                                    :key="index"
                                     :schedule-entry="scheduleEntry"
-                                    :periods="periods" />
+                                    :periods="periods"
+                                    :is-last-item="scheduleEntries.length === 1"
+                                    @delete="deleteEntry(index)" />
+
+      <v-row>
+        <v-col cols="12" class="text-center">
+          <button-add class="mb-2" @click="addScheduleEntry" />
+        </v-col>
+      </v-row>
     </v-card>
   </div>
 </template>
 <script>
 import CreateScheduleEntriesItem from './CreateScheduleEntriesItem.vue'
+import ButtonAdd from '@/components/buttons/ButtonAdd.vue'
 
 export default {
   name: 'CreateActivityScheduleEntries',
-  components: { CreateScheduleEntriesItem },
+  components: { CreateScheduleEntriesItem, ButtonAdd },
   props: {
     scheduleEntries: {
       type: Array,
@@ -30,6 +39,29 @@ export default {
     periods: {
       type: Array,
       required: true
+    },
+
+    // currently visible period
+    period: {
+      type: Function,
+      required: true
+    }
+  },
+  data () {
+    return {
+      localScheduleEntries: this.scheduleEntries
+    }
+  },
+  methods: {
+    addScheduleEntry () {
+      this.localScheduleEntries.push({
+        period: () => (this.period)(),
+        periodOffset: 420, // 7am
+        length: 60 // 1 hours
+      })
+    },
+    deleteEntry (index) {
+      this.localScheduleEntries.splice(index, 1)
     }
   }
 }

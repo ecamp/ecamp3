@@ -37,6 +37,7 @@
     <create-schedule-entries
       v-if="activity.scheduleEntries"
       :schedule-entries="activity.scheduleEntries"
+      :period="period"
       :periods="camp().periods().items" />
   </div>
 </template>
@@ -53,6 +54,12 @@ export default {
       required: true
     },
     camp: {
+      type: Function,
+      required: true
+    },
+
+    // currently visible period
+    period: {
       type: Function,
       required: true
     }

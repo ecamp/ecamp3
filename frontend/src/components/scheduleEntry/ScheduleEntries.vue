@@ -8,6 +8,7 @@
     <dialog-activity-create
       ref="dialogActivityCreate"
       :camp="period().camp"
+      :period="period"
       :schedule-entry="popupEntry"
       @activityCreated="afterCreateActivity($event)"
       @creationCanceled="cancelNewActivity" />

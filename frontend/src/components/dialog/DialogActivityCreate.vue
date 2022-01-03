@@ -14,7 +14,7 @@
       <slot name="activator" v-bind="scope" />
     </template>
 
-    <dialog-activity-form :activity="entityData" :camp="camp" />
+    <dialog-activity-form :activity="entityData" :camp="camp" :period="period" />
   </dialog-form>
 </template>
 
@@ -32,7 +32,10 @@ export default {
   extends: DialogBase,
   props: {
     camp: { type: Function, required: true },
-    scheduleEntry: { type: Object, required: true }
+    scheduleEntry: { type: Object, required: true },
+
+    // currently visible period
+    period: { type: Function, required: true }
   },
   data () {
     return {
