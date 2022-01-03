@@ -89,9 +89,14 @@ export default {
       required: true
     }
   },
+  data () {
+    return {
+      localScheduleEntry: this.scheduleEntry
+    }
+  },
   computed: {
     mappedScheduleEntry () {
-      return defineHelpers(this.scheduleEntry)
+      return defineHelpers(this.localScheduleEntry)
     },
 
     // detect selected period based on start date
@@ -102,6 +107,19 @@ export default {
         return startDate.isBetween(dayjs.utc(period.start), dayjs.utc(period.end), 'date', '[]')
       })
     }
+  },
+  watch: {
+    'period._meta.self': function () {
+      const startTimeUTCFormatted = this.mappedScheduleEntry.startTimeUTCFormatted
+      const period = this.period
+
+      // change period in object
+      this.localScheduleEntry.period = () => period
+
+      // set startTime again --> recalculates periodOffset based on new period (dateHelperUTCFormatted.js)
+      this.mappedScheduleEntry.startTimeUTCFormatted = startTimeUTCFormatted
+    }
+
   },
   methods: {
     // returns true for any date that is within any available period
