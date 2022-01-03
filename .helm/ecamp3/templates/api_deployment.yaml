@@ -29,7 +29,7 @@ spec:
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
-        - name: {{ .Chart.Name }}-caddy
+        - name: caddy
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.caddy.image.repository }}:{{ .Values.caddy.image.tag | default .Values.imageTag }}"
@@ -70,7 +70,7 @@ spec:
             periodSeconds: 3
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
-        - name: {{ .Chart.Name }}-php
+        - name: php
           {{/* Define the php container as a template, so it can be reused in other places */}}
           {{- define "api.phpContainer" }}
           securityContext:
