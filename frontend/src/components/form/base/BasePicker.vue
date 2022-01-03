@@ -135,6 +135,9 @@ export default {
       }
     }
   },
+  mounted () {
+    this.parseValue(this.fieldValue)
+  },
   methods: {
     setValue (val) {
       if (this.localValue !== val) {
