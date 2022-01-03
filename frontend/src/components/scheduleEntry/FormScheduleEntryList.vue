@@ -9,12 +9,12 @@
           </legend>
         </v-col>
       </v-row>
-      <create-schedule-entries-item v-for="(scheduleEntry, index) in scheduleEntries"
-                                    :key="index"
-                                    :schedule-entry="scheduleEntry"
-                                    :periods="periods"
-                                    :is-last-item="scheduleEntries.length === 1"
-                                    @delete="deleteEntry(index)" />
+      <form-schedule-entry-item v-for="(scheduleEntry, index) in scheduleEntries"
+                                :key="index"
+                                :schedule-entry="scheduleEntry"
+                                :periods="periods"
+                                :is-last-item="scheduleEntries.length === 1"
+                                @delete="deleteEntry(index)" />
 
       <v-row>
         <v-col cols="12" class="text-center">
@@ -25,12 +25,12 @@
   </div>
 </template>
 <script>
-import CreateScheduleEntriesItem from './CreateScheduleEntriesItem.vue'
+import FormScheduleEntryItem from './FormScheduleEntryItem.vue'
 import ButtonAdd from '@/components/buttons/ButtonAdd.vue'
 
 export default {
   name: 'CreateActivityScheduleEntries',
-  components: { CreateScheduleEntriesItem, ButtonAdd },
+  components: { FormScheduleEntryItem, ButtonAdd },
   props: {
     scheduleEntries: {
       type: Array,

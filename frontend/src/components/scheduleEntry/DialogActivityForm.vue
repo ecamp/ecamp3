@@ -34,7 +34,7 @@
       v-model="localActivity.location"
       :name="$tc('entity.activity.fields.location')" />
 
-    <create-schedule-entries
+    <form-schedule-entry-list
       v-if="activity.scheduleEntries"
       :schedule-entries="activity.scheduleEntries"
       :period="period"
@@ -43,11 +43,11 @@
 </template>
 
 <script>
-import CreateScheduleEntries from '@/components/activity/CreateScheduleEntries.vue'
+import FormScheduleEntryList from './FormScheduleEntryList.vue'
 
 export default {
   name: 'DialogActivityForm',
-  components: { CreateScheduleEntries },
+  components: { FormScheduleEntryList },
   props: {
     activity: {
       type: Object,
