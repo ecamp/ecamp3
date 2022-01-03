@@ -44,18 +44,6 @@
         required />
     </v-col>
 
-    <!--
-        <v-col>
-          <e-text-field
-            :value="duration(scheduleEntry.length)"
-            readonly
-            input-class="ml-2"
-            :name="$tc('components.activity.createScheduleEntries.fields.duration')"
-            :filled="false"
-            icon=""
-            required />
-        </v-col> -->
-
     <v-col cols="1" class="pt-3 text-center">
       <button-delete v-if="!isLastItem" icon-only @click="$emit('delete')" />
     </v-col>
@@ -139,12 +127,6 @@ export default {
 
       const calendarDate = dayjs.utc(val)
       return calendarDate.isBetween(dayjs.utc(this.period.start), dayjs.utc(this.period.end), 'date', '[]')
-    },
-
-    duration (length) {
-      const hours = Math.floor(length / 60)
-      const minutes = length % 60
-      return `${hours}h` + (minutes === 0 ? '' : ` ${minutes}min`)
     },
     defineHelpers
   }
