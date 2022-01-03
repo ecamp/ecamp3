@@ -17,9 +17,8 @@ jobs:
       - uses: actions/checkout@ec3a7ce113134d7a93b817d10a8272cb61118579 # renovate: tag=v2
 
       # TODO skip deploying dev if CI on the corresponding commit was not successful
-      # TODO skip deploying if there have been no changes since the last deployment
       - name: Find all open PRs that have a "deploy!" label, plus devel
-        id: to-deploy
+        id: deployment-candidates
         # create a JSON map like:
         # {
         #  "pr1234": {"name": "pr1234", "env": "feature-branch", "sha": "... commit sha ..."},
@@ -34,28 +33,43 @@ jobs:
           MAPPING=$(printf "$PULL_REQUESTS" | jq '.data.search.edges' \
             | jq 'map({("pr"+(.node.number|tostring)):{"name":("pr"+(.node.number|tostring)),env:"feature-branch",sha:.node.headRefOid}})|add' \
             | jq ".+$DEVEL")
-          echo ::set-output name=mapping::${MAPPING}
+          echo "Deployment candidates: $MAPPING"
+          echo ::set-output name=mapping::$MAPPING
 
       - name: Read the list of all currently active deployments
         id: current-deployments
         run: |
           # Setup authentication
           mkdir ~/.kube && echo '${{ secrets.KUBECONFIG }}' > ~/.kube/config && chmod go-r ~/.kube/config
-          # Read list of deployments using helm, and remove the leading ecamp3- from each of the names
-          LIST=$(helm list -q -o json | jq 'map(sub("^ecamp3-";""))')
+          # Read list of deployments using helm, and remove the leading ecamp3- from each of the names.
+          # Creates a list of objects like [{"name": "pr1234", "sha": "... commit sha ..."}, {"name": "dev", "sha": "..."}]
+          LIST=$(helm list -o json | jq 'map(.name|=sub("^ecamp3-";""))' | jq 'map({name:.name,sha:.app_version})')
+          echo "Currently active deployments: $LIST"
           echo ::set-output name=list::$LIST
 
-      - name: List the deployments that do not have a corresponding labeled open PR
+      - name: List deployments without PR
         id: to-uninstall
+        env:
+          deployments: ${{ toJSON(fromJSON(steps.current-deployments.outputs.list).*.name) }}
+          prs: ${{ toJSON(fromJSON(steps.deployment-candidates.outputs.mapping).*.name) }}
         run: |
-          TO_UNINSTALL=$(printf '{
-            "currently_deployed": ${{ steps.current-deployments.outputs.list }},
-            "should_be_deployed":${{ toJSON(fromJSON(steps.to-deploy.outputs.mapping).*.name) }}
-          }' | jq '.currently_deployed-.should_be_deployed')
+          TO_UNINSTALL=$(printf '{}' | jq --argjson prs '${{ env.prs }}' --argjson deployments '${{ env.deployments }}' '$deployments-$prs')
+          echo "Will uninstall: $TO_UNINSTALL"
           echo ::set-output name=list::$TO_UNINSTALL
 
-  uninstall-old-deployments:
-    name: Uninstall old deployments
+      - name: List PRs without up-to-date deployment
+        id: to-deploy
+        env:
+          deployments: ${{ steps.current-deployments.outputs.list }}
+          prs: ${{ steps.deployment-candidates.outputs.mapping }}
+        run: |
+          TO_INSTALL=$(printf '{}' | jq --argjson prs '${{ env.prs }}' --argjson deployments '${{ env.deployments }}' \
+            '$prs|with_entries(select([{name:.value.name,sha:.value.sha}]|inside($deployments)|not))')
+          echo "Will install the following candidates, because they either aren't deployed or their deployment is out of date: $TO_INSTALL"
+          echo ::set-output name=mapping::$TO_INSTALL
+
+  uninstall-old-deployment:
+    name: Uninstall old deployment
     runs-on: ubuntu-latest
     needs:
       - find-prs-to-deploy
@@ -80,8 +94,8 @@ jobs:
           token: ${{ secrets.REPO_ACCESS_TOKEN }}
           env: ${{ matrix.deployment-name }}
 
-  upgrade-or-install-deployments:
-    name: Upgrade or install deployments
+  upgrade-or-install-deployment:
+    name: Upgrade or install deployment
     runs-on: ubuntu-latest
     needs:
       - find-prs-to-deploy
