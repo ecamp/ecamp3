@@ -16,6 +16,8 @@ jobs:
 
       - uses: actions/checkout@ec3a7ce113134d7a93b817d10a8272cb61118579 # renovate: tag=v2
 
+      # TODO skip deploying dev if CI on the corresponding commit was not successful
+      # TODO skip deploying if there have been no changes since the last deployment
       - name: Find all open PRs that have a "deploy!" label, plus devel
         id: to-deploy
         # create a JSON map like:
@@ -39,8 +41,8 @@ jobs:
         run: |
           # Setup authentication
           mkdir ~/.kube && echo '${{ secrets.KUBECONFIG }}' > ~/.kube/config && chmod go-r ~/.kube/config
-          # Convert lines to JSON list
-          LIST=$(helm list -q | sed 's/^ecamp3\-//g' | sed 's/[[:space:]]$//g' | jq  --raw-input . | jq --slurp .)
+          # Read list of deployments using helm, and remove the leading ecamp3- from each of the names
+          LIST=$(helm list -q -o json | jq 'map(sub("^ecamp3-";""))')
           echo ::set-output name=list::$LIST
 
       - name: List the deployments that do not have a corresponding labeled open PR
@@ -91,8 +93,6 @@ jobs:
     environment:
       name: ${{ matrix.deployment.env }}
     steps:
-      # TODO skip deploying dev if CI on the corresponding commit was not successful
-      # TODO skip deploying if there have been no changes since the last deployment
 
       - name: Create a pending GitHub deployment
         uses: bobheadxi/deployments@v0.6.2
@@ -163,6 +163,9 @@ jobs:
           cd .helm/ecamp3
           # Install dependency charts
           helm dependency update
+          # Set the appVersion, workaround from https://github.com/helm/helm/issues/8194 so that we can
+          # later find out which deployments need to be upgraded
+          sed -i 's/^appVersion:.*$/appVersion: "${{ matrix.deployment.sha }}"/' Chart.yaml
           # Install or upgrade the release
           helm upgrade --install ecamp3-${{ matrix.deployment.name }} . \
             --set imageTag=${{ matrix.deployment.sha }} \
