@@ -142,6 +142,7 @@ Displays a single activity
                     small-chips
                     :uri="activity._meta.self"
                     fieldname="campCollaborations"
+                    :value="currentCampCollaborationIRIs"
                     :disabled="layoutMode || !isContributor"
                     :items="availableCampCollaborations" />
                 </v-col>
@@ -193,17 +194,22 @@ export default {
   },
   computed: {
     availableCampCollaborations () {
-      const currentCampCollaborationIds = this.activity.campCollaborations().items.map(cc => cc.id)
+      const currentCampCollaborationIRIs = this.currentCampCollaborationIRIs
       return this.campCollaborations.filter(cc => {
-        return (cc.status === 'established') || (currentCampCollaborationIds.includes(cc.id))
+        return (cc.status === 'established') || (currentCampCollaborationIRIs.includes(cc._meta.self))
       }).map(value => {
         const inactive = value.status === 'inactive'
         const text = value.user().displayName + (inactive ? (' (' + this.$tc('entity.campCollaboration.inactive')) + ')' : '')
+
+        // following structure is defined by vuetify v-select items property
         return {
-          value,
+          value: value._meta.self,
           text
         }
       })
+    },
+    currentCampCollaborationIRIs () {
+      return this.activity.campCollaborations().items.map(cc => cc._meta.self)
     },
     campCollaborations () {
       return this.activity.camp().campCollaborations().items

@@ -122,6 +122,15 @@ class Activity extends AbstractContentNodeOwner implements BelongsToCampInterfac
     #[Groups(['read', 'write'])]
     public string $location = '';
 
+    /**
+     * The list of people that are responsible for planning or carrying out this activity.
+     * This is an API property only (not stored in DB) in order to update activityResponsibles based on a list of CampCollaborations
+     * (logic to add/remove in ActivityDataPersister).
+     */
+    #[ApiProperty]
+    #[Groups(['write'])]
+    public array $campCollaborations = [];
+
     public function __construct() {
         $this->scheduleEntries = new ArrayCollection();
         $this->activityResponsibles = new ArrayCollection();
@@ -203,6 +212,21 @@ class Activity extends AbstractContentNodeOwner implements BelongsToCampInterfac
                 ->getValues(),
             fn ($cc) => !is_null($cc)
         );
+    }
+
+    /**
+     * Adds a campCollaboration to activityResponsibles list, unless a list item already exists for this campCollaboration.
+     */
+    public function addCampCollaboration(CampCollaboration $campCollaboration): self {
+        if (!$this->activityResponsibles->exists(function ($key, ActivityResponsible $activityResponsible) use ($campCollaboration) {
+            return $activityResponsible->campCollaboration === $campCollaboration;
+        })) {
+            $activityResponsible = new ActivityResponsible();
+            $this->addActivityResponsible($activityResponsible);
+            $campCollaboration->addActivityResponsible($activityResponsible);
+        }
+
+        return $this;
     }
 
     /**

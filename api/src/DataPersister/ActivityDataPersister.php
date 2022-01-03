@@ -5,6 +5,8 @@ namespace App\DataPersister;
 use App\DataPersister\Util\AbstractDataPersister;
 use App\DataPersister\Util\DataPersisterObservable;
 use App\Entity\Activity;
+use App\Entity\ActivityResponsible;
+use App\Entity\CampCollaboration;
 use App\Entity\ContentNode\ColumnLayout;
 
 class ActivityDataPersister extends AbstractDataPersister {
@@ -37,6 +39,42 @@ class ActivityDataPersister extends AbstractDataPersister {
         // deep copy from category root node
         $rootContentNode->copyFromPrototype($data->category->rootContentNode);
 
+        $this->updateCampCollaborations($data);
+
         return $data;
+    }
+
+    /**
+     * @param Activity $data
+     */
+    public function beforeUpdate($data): Activity {
+        $this->updateCampCollaborations($data);
+
+        return $data;
+    }
+
+    /**
+     * add and removes acitivityResponsibles based on $data->campCollaborations
+     * assumes $data->campCollaborations to be an array of valid CampCollaboration IRIs
+     * API platform automatically replaces the IRIs with entities before calling the data persister.
+     */
+    private function updateCampCollaborations(Activity $activity) {
+        // add new camp collaborations
+        foreach ($activity->campCollaborations as $campCollaboration) {
+            $activity->addCampCollaboration($campCollaboration);
+        }
+
+        // remove old/existing camp collaborations
+        $listOfNewCampCollaborationIds = array_map(function (CampCollaboration $campCollaboration) {
+            return $campCollaboration->getId();
+        }, $activity->campCollaborations);
+
+        $activityResponsiblesToRemove = $activity->activityResponsibles->filter(function (ActivityResponsible $activityResponsible) use ($listOfNewCampCollaborationIds) {
+            return !in_array($activityResponsible->campCollaboration?->getId(), $listOfNewCampCollaborationIds);
+        });
+
+        foreach ($activityResponsiblesToRemove as $activityResponsible) {
+            $activity->removeActivityResponsible($activityResponsible);
+        }
     }
 }
