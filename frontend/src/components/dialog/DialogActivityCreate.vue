@@ -2,6 +2,7 @@
   <dialog-form
     v-model="showDialog"
     :loading="loading"
+    :error="error"
     icon="mdi-calendar-plus"
     :title="$tc('entity.activity.new')"
     max-width="600px"
@@ -71,16 +72,12 @@ export default {
     }
   },
   methods: {
-    createActivity () {
-      return this.create()
-    },
     cancelCreate () {
       this.close()
       this.$emit('creationCanceled')
     },
-    create () {
-      this.error = null
-      const entityData = {
+    createActivity () {
+      const payloadData = {
         ...this.entityData,
         scheduleEntries: this.entityData.scheduleEntries?.map(entry => ({
           period: entry.period()._meta.self,
@@ -88,12 +85,13 @@ export default {
           length: entry.length
         })) || []
       }
-      return this.api.post(this.entityUri, entityData).then(this.createSuccessful, this.onError)
+
+      return this.create(payloadData)
     },
-    createSuccessful (data) {
-      data.scheduleEntries()._meta.load.then(() => {
+    onSuccess (activity) {
+      activity.scheduleEntries()._meta.load.then(() => {
         this.close()
-        this.$emit('activityCreated', data)
+        this.$emit('activityCreated', activity)
       })
     }
   }

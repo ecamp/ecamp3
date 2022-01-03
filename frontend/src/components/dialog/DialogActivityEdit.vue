@@ -2,6 +2,7 @@
   <dialog-form
     v-model="showDialog"
     :loading="loading"
+    :error="error"
     icon="mdi-calendar-plus"
     max-width="600px"
     :submit-action="update"

@@ -36,6 +36,8 @@ export default {
       type: Array,
       required: true
     },
+
+    // all available periods
     periods: {
       type: Array,
       required: true
