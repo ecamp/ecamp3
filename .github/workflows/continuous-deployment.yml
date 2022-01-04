@@ -16,7 +16,18 @@ jobs:
 
       - uses: actions/checkout@ec3a7ce113134d7a93b817d10a8272cb61118579 # renovate: tag=v2
 
-      # TODO skip deploying dev if CI on the corresponding commit was not successful
+      - name: Get CI status of the devel branch
+        id: devel-ci
+        run: |
+          DEVEL=$(git rev-parse devel)
+          REQUIRED_WORKFLOW="continuous-integration.yml"
+          RUNS_URL="https://api.github.com/repos/ecamp/ecamp3/actions/workflows/$REQUIRED_WORKFLOW/runs?branch=devel&per_page=100"
+          # Check if all the required status checks passed
+          RUN_PASSED=$(curl -X GET --location "$RUNS_URL" -H "Authorization: Bearer ${{ secrets.REPO_ACCESS_TOKEN }}" \
+           | jq ".workflow_runs|map(select(.head_sha=='$DEVEL'))|map(select(.conclusion=='success'))|length>0")
+          echo "Devel CI has passed (within the last 100 CI workflow runs across all forks): $RUN_PASSED"
+          echo ::set-output name=passed::$RUN_PASSED
+
       - name: Find all open PRs that have a "deploy!" label, plus devel
         id: deployment-candidates
         # create a list of JSON objects like:
@@ -53,7 +64,7 @@ jobs:
           deployments: ${{ toJSON(fromJSON(steps.current-deployments.outputs.list).*.name) }}
           prs: ${{ toJSON(fromJSON(steps.deployment-candidates.outputs.list).*.name) }}
         run: |
-          TO_UNINSTALL=$(printf '{}' | jq --argjson prs '${{ env.prs }}' --argjson deployments '${{ env.deployments }}' '$deployments-$prs')
+          TO_UNINSTALL=$(jq --null-input --argjson prs '${{ env.prs }}' --argjson deployments '${{ env.deployments }}' '$deployments-$prs')
           echo "Will uninstall: $TO_UNINSTALL"
           echo ::set-output name=list::$TO_UNINSTALL
 
@@ -62,9 +73,11 @@ jobs:
         env:
           deployments: ${{ steps.current-deployments.outputs.list }}
           prs: ${{ steps.deployment-candidates.outputs.list }}
+          allow_dev: ${{ steps.devel-ci.outputs.passed }}
         run: |
-          TO_INSTALL=$(printf '{}' | jq --argjson prs '${{ env.prs }}' --argjson deployments '${{ env.deployments }}' \
-            '$prs|map(select([{name:.name,sha:.sha}]|inside($deployments)|not))')
+          TO_INSTALL=$(jq --null-input --argjson prs '${{ env.prs }}' --argjson deployments '${{ env.deployments }}' \
+            '$prs|map(select([{name:.name,sha:.sha}]|inside($deployments)|not))' \
+            | jq --argjson allow_dev "${{ env.allow_dev }}" 'map(select((.name!="dev")or($allow_dev==true)))')
           echo "Will install the following candidates, because they either aren't deployed or their deployment is out of date: $TO_INSTALL"
           echo ::set-output name=list::$TO_INSTALL
 
