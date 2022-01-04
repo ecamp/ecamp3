@@ -142,7 +142,6 @@ Displays a single activity
                     small-chips
                     :uri="activity._meta.self"
                     fieldname="campCollaborations"
-                    :value="currentCampCollaborationIRIs"
                     :disabled="layoutMode || !isContributor"
                     :items="availableCampCollaborations" />
                 </v-col>
@@ -194,7 +193,7 @@ export default {
   },
   computed: {
     availableCampCollaborations () {
-      const currentCampCollaborationIRIs = this.currentCampCollaborationIRIs
+      const currentCampCollaborationIRIs = this.activity.campCollaborations().items.map(cc => cc._meta.self)
       return this.campCollaborations.filter(cc => {
         return (cc.status === 'established') || (currentCampCollaborationIRIs.includes(cc._meta.self))
       }).map(value => {

@@ -5,7 +5,6 @@ Displays a field as a e-select + write access via API wrapper
 <template>
   <api-wrapper
     v-slot="wrapper"
-    :relation="relation"
     v-bind="$props"
     v-on="$listeners">
     <e-select
@@ -38,8 +37,7 @@ export default {
   mixins: [apiPropsMixin],
   props: {
     // disable delay per default
-    autoSaveDelay: { type: Number, default: 0, required: false },
-    relation: { type: String, default: '' }
+    autoSaveDelay: { type: Number, default: 0, required: false }
   },
   data () {
     return {
