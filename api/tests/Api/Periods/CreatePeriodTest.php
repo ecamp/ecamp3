@@ -151,7 +151,7 @@ class CreatePeriodTest extends ECampApiTestCase {
 
         $this->assertResponseStatusCodeSame(400);
         $this->assertJsonContains([
-            'detail' => 'DateTime::__construct(): Failed to parse time string (20201-01) at position 4 (1): Unexpected character',
+            'detail' => 'Failed to parse time string (20201-01) at position 4 (1): Unexpected character',
         ]);
     }
 
@@ -176,7 +176,7 @@ class CreatePeriodTest extends ECampApiTestCase {
 
         $this->assertResponseStatusCodeSame(400);
         $this->assertJsonContains([
-            'detail' => 'DateTime::__construct(): Failed to parse time string (20201-01) at position 4 (1): Unexpected character',
+            'detail' => 'Failed to parse time string (20201-01) at position 4 (1): Unexpected character',
         ]);
     }
 
