@@ -59,7 +59,7 @@ class Profile extends BaseEntity {
     #[Assert\Regex(pattern: '/^[a-z0-9_.-]+$/')]
     #[ApiProperty(example: self::EXAMPLE_USERNAME)]
     #[Groups(['read', 'create'])]
-    public ?string $username = null;
+    public string $username = '';
 
     /**
      * The user's (optional) first name.

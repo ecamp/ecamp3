@@ -44,7 +44,7 @@ class InputFilterDenormalizer implements ContextAwareDenormalizerInterface, Deno
     /**
      * {@inheritdoc}
      */
-    public function supportsDenormalization($data, $type, $format = null, array $context = []) {
+    public function supportsDenormalization(mixed $data, string $type, string $format = null, array $context = []): bool {
         // Make sure we don't run this denormalizer twice.
         if (isset($context[self::ALREADY_CALLED])) {
             return false;

@@ -191,7 +191,7 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
         return $this->profile->email;
     }
 
-    public function getUserIdentifier(): ?string {
+    public function getUserIdentifier(): string {
         return $this->profile->username;
     }
 

@@ -5,7 +5,7 @@
         "php": ">=8.0.2",
         "ext-ctype": "*",
         "ext-iconv": "*",
-        "api-platform/core": "2.6.6",
+        "api-platform/core": "2.6.7",
         "composer/package-versions-deprecated": "1.11.99",
         "cweagans/composer-patches": "1.7.1",
         "doctrine/annotations": "1.13.2",
@@ -41,8 +41,8 @@
         "webonyx/graphql-php": "14.11.3"
     },
     "require-dev": {
-        "friendsofphp/php-cs-fixer": "3.3.2",
-        "hautelook/alice-bundle": "2.9.0",
+        "friendsofphp/php-cs-fixer": "3.4.0",
+        "hautelook/alice-bundle": "2.10.0",
         "justinrainbow/json-schema": "5.2.11",
         "php-coveralls/php-coveralls": "2.5.2",
         "phpstan/phpstan": "1.2.0",
