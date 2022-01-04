@@ -23,7 +23,7 @@ class MaterialItemDenormalizer implements ContextAwareDenormalizerInterface, Den
     /**
      * {@inheritdoc}
      */
-    public function denormalize($data, $type, $format = null, array $context = []) {
+    public function denormalize($data, $type, $format = null, array $context = []): mixed {
         if ('post' === ($context['collection_operation_name'] ?? null)) {
             // copy query parameters to POST payload
             // this allows e.g. posting on /material_items?materialNode=/content_node/material_node/123 without explicitly providing materialNode in POST payload
