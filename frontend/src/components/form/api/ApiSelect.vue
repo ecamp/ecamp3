@@ -6,6 +6,7 @@ Displays a field as a e-select + write access via API wrapper
   <api-wrapper
     v-slot="wrapper"
     v-bind="$props"
+    :auto-save-delay="autoSaveDelayComputed"
     v-on="$listeners">
     <e-select
       :value="wrapper.localValue"
@@ -17,6 +18,7 @@ Displays a field as a e-select + write access via API wrapper
       :outlined="outlined"
       :filled="filled"
       :dense="dense"
+      :multiple="multiple"
       @input="wrapper.on.input">
       <template #append>
         <v-icon>mdi-menu-down</v-icon>
@@ -37,10 +39,21 @@ export default {
   mixins: [apiPropsMixin],
   props: {
     // disable delay per default
-    autoSaveDelay: { type: Number, default: 0, required: false }
+    autoSaveDelay: { type: Number, default: null, required: false },
+
+    // v-select multiple property
+    multiple: { type: Boolean, default: false, required: false }
   },
   data () {
     return {
+    }
+  },
+  computed: {
+    autoSaveDelayComputed () {
+      return this.autoSaveDelay ?? // manual override
+        (this.multiple
+          ? 800 // default: 800ms save delay for multiple selection
+          : 0) // default: immediate save for single selection
     }
   }
 }
