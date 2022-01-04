@@ -19,14 +19,13 @@ jobs:
       - name: Get CI status of the devel branch
         id: devel-ci
         run: |
-          DEVEL=$(git rev-parse devel)
-          REQUIRED_WORKFLOW="continuous-integration.yml"
-          RUNS_URL="https://api.github.com/repos/ecamp/ecamp3/actions/workflows/$REQUIRED_WORKFLOW/runs?branch=devel&per_page=100"
-          # Check if all the required status checks passed
-          RUN_PASSED=$(curl -X GET --location "$RUNS_URL" -H "Authorization: Bearer ${{ secrets.REPO_ACCESS_TOKEN }}" \
-           | jq ".workflow_runs|map(select(.head_sha=='$DEVEL'))|map(select(.conclusion=='success'))|length>0")
-          echo "Devel CI has passed (within the last 100 CI workflow runs across all forks): $RUN_PASSED"
-          echo ::set-output name=passed::$RUN_PASSED
+          DEVEL_GREEN=$(curl -X POST --location "https://api.github.com/graphql" \
+              -H "Accept: application/vnd.github.v3+json" \
+              -H "Authorization: Bearer ${{ secrets.REPO_ACCESS_TOKEN }}" \
+              -d "{\"query\": \"query { repository(owner: \\\"ecamp\\\", name: \\\"ecamp3\\\") { ref(qualifiedName: \\\"devel\\\") { target { ... on Commit { statusCheckRollup { state } } } } } }\"}" \
+            | jq '.data.repository.ref.target.statusCheckRollup.state=="SUCCESS"')
+          echo "Devel CI has passed (within the last 100 CI workflow runs across all forks): $DEVEL_GREEN"
+          echo ::set-output name=passed::$DEVEL_GREEN
 
       - name: Find all open PRs that have a "deploy!" label, plus devel
         id: deployment-candidates
