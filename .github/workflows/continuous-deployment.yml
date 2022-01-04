@@ -134,7 +134,7 @@ jobs:
         with:
           push: true
           file: .docker-hub/frontend/Dockerfile
-          tags: 'ecamp/ecamp3-frontend:latest,ecamp/ecamp3-frontend:${{ matrix.deployment.sha }}'
+          tags: ${{ ((matrix.deployment.name == 'dev') && 'ecamp/ecamp3-frontend:latest,' || '') }}ecamp/ecamp3-frontend:${{ matrix.deployment.sha }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
@@ -143,7 +143,7 @@ jobs:
         with:
           push: true
           file: api/Dockerfile
-          tags: 'ecamp/ecamp3-api:latest,ecamp/ecamp3-api:${{ matrix.deployment.sha }}'
+          tags: ${{ ((matrix.deployment.name == 'dev') && 'ecamp/ecamp3-api:latest,' || '') }}ecamp/ecamp3-api:${{ matrix.deployment.sha }}
           context: './api'
           target: api_platform_php
           cache-from: type=gha
@@ -154,7 +154,7 @@ jobs:
         with:
           push: true
           file: api/Dockerfile
-          tags: 'ecamp/ecamp3-caddy:latest,ecamp/ecamp3-caddy:${{ matrix.deployment.sha }}'
+          tags: ${{ ((matrix.deployment.name == 'dev') && 'ecamp/ecamp3-caddy:latest,' || '') }}ecamp/ecamp3-caddy:${{ matrix.deployment.sha }}
           context: './api'
           target: api_platform_caddy_prod
           cache-from: type=gha
@@ -165,7 +165,7 @@ jobs:
         with:
           push: true
           file: .docker-hub/print/Dockerfile
-          tags: 'ecamp/ecamp3-print:latest,ecamp/ecamp3-print:${{ matrix.deployment.sha }}'
+          tags: ${{ ((matrix.deployment.name == 'dev') && 'ecamp/ecamp3-print:latest,' || '') }}ecamp/ecamp3-print:${{ matrix.deployment.sha }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
