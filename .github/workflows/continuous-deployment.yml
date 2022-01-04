@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       to-uninstall: ${{ steps.to-uninstall.outputs.list }}
-      to-deploy: ${{ steps.to-deploy.outputs.mapping }}
+      to-deploy: ${{ steps.to-deploy.outputs.list }}
     steps:
 
       - uses: actions/checkout@ec3a7ce113134d7a93b817d10a8272cb61118579 # renovate: tag=v2
@@ -19,22 +19,22 @@ jobs:
       # TODO skip deploying dev if CI on the corresponding commit was not successful
       - name: Find all open PRs that have a "deploy!" label, plus devel
         id: deployment-candidates
-        # create a JSON map like:
-        # {
-        #  "pr1234": {"name": "pr1234", "env": "feature-branch", "sha": "... commit sha ..."},
-        #  "dev": {"name": "dev", "env": "dev", "sha": "..."}
-        # }
+        # create a list of JSON objects like:
+        # [
+        #  {"name": "pr1234", "env": "feature-branch", "sha": "... commit sha ..."},
+        #  {"name": "dev", "env": "dev", "sha": "..."}
+        # ]
         run: |
-          DEVEL=$(printf '{"dev":{"name":"dev","env":"dev","sha":"%s"}}' $(git rev-parse devel))
+          DEVEL=$(printf '{"name":"dev","env":"dev","sha":"%s"}' $(git rev-parse devel))
           PULL_REQUESTS=$(curl -X POST --location "https://api.github.com/graphql" \
             -H "Accept: application/vnd.github.v3+json" \
             -H "Authorization: Bearer ${{ secrets.REPO_ACCESS_TOKEN }}" \
             -d "{\"query\": \"query { search(query: \\\"is:open is:pr label:deploy! repo:ecamp/ecamp3\\\", type: ISSUE, first: 100) { edges { node { ... on PullRequest { number headRefOid } } } } }\"}")
-          MAPPING=$(printf "$PULL_REQUESTS" | jq '.data.search.edges' \
-            | jq 'map({("pr"+(.node.number|tostring)):{"name":("pr"+(.node.number|tostring)),env:"feature-branch",sha:.node.headRefOid}})|add' \
-            | jq ".+$DEVEL")
-          echo "Deployment candidates: $MAPPING"
-          echo ::set-output name=mapping::$MAPPING
+          LIST=$(printf "$PULL_REQUESTS" | jq '.data.search.edges' \
+            | jq 'map({"name":("pr"+(.node.number|tostring)),env:"feature-branch",sha:.node.headRefOid})' \
+            | jq ".+[$DEVEL]")
+          echo "Deployment candidates: $LIST"
+          echo ::set-output name=list::$LIST
 
       - name: Read the list of all currently active deployments
         id: current-deployments
@@ -51,7 +51,7 @@ jobs:
         id: to-uninstall
         env:
           deployments: ${{ toJSON(fromJSON(steps.current-deployments.outputs.list).*.name) }}
-          prs: ${{ toJSON(fromJSON(steps.deployment-candidates.outputs.mapping).*.name) }}
+          prs: ${{ toJSON(fromJSON(steps.deployment-candidates.outputs.list).*.name) }}
         run: |
           TO_UNINSTALL=$(printf '{}' | jq --argjson prs '${{ env.prs }}' --argjson deployments '${{ env.deployments }}' '$deployments-$prs')
           echo "Will uninstall: $TO_UNINSTALL"
@@ -61,12 +61,12 @@ jobs:
         id: to-deploy
         env:
           deployments: ${{ steps.current-deployments.outputs.list }}
-          prs: ${{ steps.deployment-candidates.outputs.mapping }}
+          prs: ${{ steps.deployment-candidates.outputs.list }}
         run: |
           TO_INSTALL=$(printf '{}' | jq --argjson prs '${{ env.prs }}' --argjson deployments '${{ env.deployments }}' \
-            '$prs|with_entries(select([{name:.value.name,sha:.value.sha}]|inside($deployments)|not))')
+            '$prs|map(select([{name:.name,sha:.sha}]|inside($deployments)|not))')
           echo "Will install the following candidates, because they either aren't deployed or their deployment is out of date: $TO_INSTALL"
-          echo ::set-output name=mapping::$TO_INSTALL
+          echo ::set-output name=list::$TO_INSTALL
 
   uninstall-old-deployment:
     name: Uninstall old deployment
@@ -99,11 +99,11 @@ jobs:
     runs-on: ubuntu-latest
     needs:
       - find-prs-to-deploy
-    if: (fromJSON(needs.find-prs-to-deploy.outputs.to-deploy).*)[0] != null
+    if: fromJSON(needs.find-prs-to-deploy.outputs.to-deploy)[0] != null
     strategy:
       fail-fast: false
       matrix:
-        deployment: ${{ fromJSON(needs.find-prs-to-deploy.outputs.to-deploy).* }}
+        deployment: ${{ fromJSON(needs.find-prs-to-deploy.outputs.to-deploy) }}
     environment:
       name: ${{ matrix.deployment.env }}
     steps:
