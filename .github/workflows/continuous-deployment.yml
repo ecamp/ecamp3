@@ -2,8 +2,8 @@ name: Deploy dev and feature branches
 
 on:
   schedule:
-    - cron: '30 * * * *' # Run once every hour, at xx:30
-  workflow_dispatch:     # Allow triggering manually
+    - cron: '*/30 * * * *' # Run every 30 minutes
+  workflow_dispatch:       # Allow triggering manually
 
 jobs:
   find-prs-to-deploy:
