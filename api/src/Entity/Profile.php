@@ -23,7 +23,7 @@ use Symfony\Component\Validator\Constraints as Assert;
         'get' => ['security' => 'false'],
     ],
     itemOperations: [
-        'get' => ['security' => 'is_fully_authenticated()'],
+        'get' => ['security' => 'is_authenticated()'],
         'patch' => ['security' => 'object.user === user'],
     ],
     denormalizationContext: ['groups' => ['write']],

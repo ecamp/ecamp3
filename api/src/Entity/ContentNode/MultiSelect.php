@@ -19,7 +19,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
     routePrefix: '/content_node',
     collectionOperations: [
         'get' => [
-            'security' => 'is_fully_authenticated()',
+            'security' => 'is_authenticated()',
         ],
         'post' => [
             'denormalization_context' => ['groups' => ['write', 'create']],

@@ -38,7 +38,7 @@ use Symfony\Component\Validator\Constraints as Assert;
             'path' => 'users/{id}/activate.{_format}',
             'denormalization_context' => ['groups' => ['activate']],
         ],
-        'get' => ['security' => 'is_fully_authenticated()'],
+        'get' => ['security' => 'is_authenticated()'],
         'patch' => [
             'security' => 'object === user',
         ],
