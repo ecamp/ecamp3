@@ -1,0 +1,25 @@
+App\Entity\Activity:
+  activity1:
+    camp: '@camp1'
+    title: 'Activity 1'
+    location: <sentence()>
+    rootContentNode: '@columnLayout1'
+    category: '@category1'
+
+App\Entity\ScheduleEntry:
+  scheduleEntry1:
+    period: '@period1'
+    activity: '@activity1'
+    periodOffset: 480
+    length: 60
+
+# Root node
+App\Entity\ContentNode\ColumnLayout:
+  columnLayout1:
+    root: '@self'
+    parent: null
+    slot: ''
+    position: 0
+    columns: [{slot: '1', width: 6}, {slot: '2', width: 6}]
+    instanceName: 'columnLayout1'
+    contentType: '@contentTypeColumnLayout'

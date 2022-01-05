@@ -12,6 +12,7 @@
                @end="cleanupDrag">
       <content-node v-for="id in draggableContentNodeIds"
                     :key="id"
+                    :data-href="allContentNodesById[id]._meta.self"
                     class="content-node"
                     :content-node="allContentNodesById[id]"
                     :layout-mode="layoutMode"
@@ -38,6 +39,7 @@ export default {
     // Lazy import necessary due to recursive component structure
     ContentNode: () => import('@/components/activity/ContentNode.vue')
   },
+  inject: ['draggableDirty'],
   props: {
     layoutMode: { type: Boolean, default: false },
     slotName: { type: String, required: true },
@@ -73,7 +75,10 @@ export default {
     contentNodeIds: {
       immediate: true,
       handler () {
-        this.localContentNodeIds = this.contentNodeIds
+        // update local sorting with external sorting if not dirty
+        if (!this.draggableDirty.isDirty()) {
+          this.localContentNodeIds = this.contentNodeIds
+        }
       }
     }
   },
@@ -85,22 +90,29 @@ export default {
       document.body.classList.add('dragging', 'dragging-content-node')
       document.documentElement.addEventListener('mouseup', this.cleanupDrag)
     },
-    finishDrag () {
+    async finishDrag (event) {
       this.cleanupDrag()
-      this.saveReorderedChildren()
+
+      // set dirty flag
+      const timestamp = Date.now()
+      this.draggableDirty.setDirty(timestamp)
+
+      // patch content node location
+      await this.api.patch(event.item.dataset.href, {
+        slot: this.slotName,
+        parent: this.parentContentNode._meta.self,
+        position: event.newDraggableIndex
+      })
+
+      // reload all contentNodes to update position properties
+      await this.api.reload(this.parentContentNode.owner().contentNodes())
+
+      // clear dirty flag (unless a new change happened in the meantime)
+      this.draggableDirty.clearDirty(timestamp)
     },
     cleanupDrag () {
       document.body.classList.remove('dragging', 'dragging-content-node')
       document.documentElement.removeEventListener('mouseup', this.cleanupDrag)
-    },
-    async saveReorderedChildren () {
-      let position = 0
-      const payload = Object.fromEntries(this.draggableContentNodeIds.map(id => [id, {
-        slot: this.slotName,
-        position: position++,
-        parentId: this.parentContentNode.id
-      }]))
-      this.parentContentNode.owner().contentNodes().$patch(payload)
     }
   }
 }
