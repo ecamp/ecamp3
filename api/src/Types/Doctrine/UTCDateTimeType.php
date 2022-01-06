@@ -3,6 +3,7 @@
 namespace App\Types\Doctrine;
 
 use DateTime;
+use DateTimeImmutable;
 use DateTimeInterface;
 use DateTimeZone;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
@@ -15,15 +16,15 @@ class UTCDateTimeType extends DateTimeType {
     /**
      * {@inheritdoc}
      */
-    public function convertToDatabaseValue($value, AbstractPlatform $platform) {
+    public function convertToDatabaseValue($value, AbstractPlatform $platform): ?string {
         if (null === $value) {
             return null;
         }
 
-        if ($value instanceof DateTime) {
-            $value->setTimeZone(self::getUtc());
+        if ($value instanceof DateTime || $value instanceof DateTimeImmutable) {
+            $value = $value->setTimeZone(self::getUtc());
 
-            return $value->format($platform->getDateTimeFormatString());
+            return parent::convertToDatabaseValue($value, $platform);
         }
 
         throw ConversionException::conversionFailedInvalidType($value, $this->getName(), ['null', 'DateTime']);
@@ -34,7 +35,7 @@ class UTCDateTimeType extends DateTimeType {
      *
      * @throws ConversionException
      */
-    public function convertToPHPValue($value, AbstractPlatform $platform) {
+    public function convertToPHPValue($value, AbstractPlatform $platform): ?DateTimeInterface {
         if (null === $value || $value instanceof DateTimeInterface) {
             return $value;
         }
