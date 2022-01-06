@@ -3,6 +3,7 @@
 namespace App\Types\Doctrine;
 
 use DateTime;
+use DateTimeInterface;
 use DateTimeZone;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\ConversionException;
@@ -19,9 +20,13 @@ class UTCDateTimeType extends DateTimeType {
             return null;
         }
 
-        $value->setTimeZone(self::getUtc());
+        if ($value instanceof DateTime) {
+            $value->setTimeZone(self::getUtc());
 
-        return $value->format($platform->getDateTimeFormatString());
+            return $value->format($platform->getDateTimeFormatString());
+        }
+
+        throw ConversionException::conversionFailedInvalidType($value, $this->getName(), ['null', 'DateTime']);
     }
 
     /**
@@ -30,8 +35,8 @@ class UTCDateTimeType extends DateTimeType {
      * @throws ConversionException
      */
     public function convertToPHPValue($value, AbstractPlatform $platform) {
-        if (null === $value) {
-            return null;
+        if (null === $value || $value instanceof DateTimeInterface) {
+            return $value;
         }
 
         $val = DateTime::createFromFormat($platform->getDateTimeFormatString(), $value, self::getUtc());
