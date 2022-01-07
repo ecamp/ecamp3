@@ -201,8 +201,8 @@ jobs:
             --set print.domain=print-${{ matrix.deployment.name }}.ecamp3.ch \
             --set mail.domain=mail-${{ matrix.deployment.name }}.ecamp3.ch \
             --set postgresql.enabled=false \
-            --set postgresql.url='${{ format(secrets.POSTGRES_URL, matrix.deployment.name) }}' \
-            --set postgresql.adminUrl='${{ format(secrets.POSTGRES_ADMIN_URL, matrix.deployment.name) }}' \
+            --set postgresql.url='${{ secrets.POSTGRES_URL }}/ecamp3${{ matrix.deployment.name }}?sslmode=require' \
+            --set postgresql.adminUrl='${{ secrets.POSTGRES_ADMIN_URL }}/ecamp3${{ matrix.deployment.name }}?sslmode=require' \
             --set php.appSecret='${{ secrets.API_APP_SECRET }}' \
             --set php.jwt.passphrase='${{ secrets.JWT_PASSPHRASE }}' \
             --set php.jwt.publicKey='${{ secrets.JWT_PUBLIC_KEY }}' \
