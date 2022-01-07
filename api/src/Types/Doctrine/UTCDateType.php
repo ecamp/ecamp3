@@ -2,7 +2,6 @@
 
 namespace App\Types\Doctrine;
 
-use App\Types\Date;
 use DateTime;
 use DateTimeImmutable;
 use DateTimeInterface;
@@ -37,7 +36,7 @@ class UTCDateType extends DateType {
             return $value;
         }
 
-        $val = Date::createFromFormat('!'.$platform->getDateFormatString(), $value, self::getUtc());
+        $val = DateTime::createFromFormat('!'.$platform->getDateFormatString(), $value, self::getUtc());
         if (!$val) {
             throw ConversionException::conversionFailedFormat(
                 $value,

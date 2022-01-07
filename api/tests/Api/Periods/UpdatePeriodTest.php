@@ -157,7 +157,9 @@ class UpdatePeriodTest extends ECampApiTestCase {
 
         $this->assertResponseStatusCodeSame(400);
         $this->assertJsonContains([
-            'detail' => 'DateTime::__construct(): Failed to parse time string (something) at position 0 (s): The timezone could not be found in the database',
+            'detail' => 'Parsing datetime string "something" using format "!Y-m-d" resulted in 3 errors: 
+at position 0: A four digit year could not be found
+at position 9: Data missing',
         ]);
     }
 
@@ -169,7 +171,9 @@ class UpdatePeriodTest extends ECampApiTestCase {
 
         $this->assertResponseStatusCodeSame(400);
         $this->assertJsonContains([
-            'detail' => 'DateTime::__construct(): Failed to parse time string (something) at position 0 (s): The timezone could not be found in the database',
+            'detail' => 'Parsing datetime string "something" using format "!Y-m-d" resulted in 3 errors: 
+at position 0: A four digit year could not be found
+at position 9: Data missing',
         ]);
     }
 
