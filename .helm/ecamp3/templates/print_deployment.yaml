@@ -44,14 +44,16 @@ spec:
               path: /
               port: 3003
             initialDelaySeconds: 10
-            periodSeconds: 5
+            periodSeconds: 30
+            timeoutSeconds: 10 # TODO introduce a faster health check and lower period and timeout
           livenessProbe:
             httpGet:
               scheme: HTTP
               path: /
               port: 3003
             initialDelaySeconds: 10
-            periodSeconds: 5
+            periodSeconds: 30
+            timeoutSeconds: 10 # TODO introduce a faster health check and lower period and timeout
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           envFrom:
