@@ -12,6 +12,7 @@ jobs:
     outputs:
       to-uninstall: ${{ steps.to-uninstall.outputs.list }}
       to-deploy: ${{ steps.to-deploy.outputs.list }}
+      never-uninstall: ${{ steps.to-uninstall.outputs.never-uninstall }}
     steps:
 
       - uses: actions/checkout@ec3a7ce113134d7a93b817d10a8272cb61118579 # renovate: tag=v2
@@ -62,10 +63,12 @@ jobs:
         env:
           deployments: ${{ toJSON(fromJSON(steps.current-deployments.outputs.list).*.name) }}
           prs: ${{ toJSON(fromJSON(steps.deployment-candidates.outputs.list).*.name) }}
+          never_uninstall: '["dev", "stage", "staging", "prod"]'
         run: |
-          TO_UNINSTALL=$(jq --null-input --argjson prs '${{ env.prs }}' --argjson deployments '${{ env.deployments }}' '$deployments-$prs')
+          TO_UNINSTALL=$(jq --null-input --argjson prs '${{ env.prs }}' --argjson deployments '${{ env.deployments }}' --argjson never_uninstall '${{ env.never_uninstall }}' '$deployments-$prs-$never_uninstall')
           echo "Will uninstall: $TO_UNINSTALL"
           echo ::set-output name=list::$TO_UNINSTALL
+          echo ::set-output name=never-uninstall::$never_uninstall
 
       - name: List PRs without up-to-date deployment
         id: to-deploy
@@ -182,6 +185,8 @@ jobs:
           cache-to: type=gha,mode=max
 
       - name: Upgrade or install helm release
+        env:
+          never_uninstall: ${{ needs.find-prs-to-deploy.outputs.never-uninstall }}
         run: |
           # Setup authentication
           mkdir ~/.kube && echo '${{ secrets.KUBECONFIG }}' > ~/.kube/config && chmod go-r ~/.kube/config
@@ -203,6 +208,7 @@ jobs:
             --set postgresql.enabled=false \
             --set postgresql.url='${{ secrets.POSTGRES_URL }}/ecamp3${{ matrix.deployment.name }}?sslmode=require' \
             --set postgresql.adminUrl='${{ secrets.POSTGRES_ADMIN_URL }}/ecamp3${{ matrix.deployment.name }}?sslmode=require' \
+            --set postgresql.dropDBOnUninstall=${{ contains(fromJson(env.never_uninstall), matrix.deployment.name) && 'false' || 'true' }} \
             --set php.appSecret='${{ secrets.API_APP_SECRET }}' \
             --set php.jwt.passphrase='${{ secrets.JWT_PASSPHRASE }}' \
             --set php.jwt.publicKey='${{ secrets.JWT_PUBLIC_KEY }}' \
