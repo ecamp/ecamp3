@@ -14,6 +14,7 @@ use DateTime;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Collections\Selectable;
 use Doctrine\ORM\Mapping as ORM;
+use RuntimeException;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Annotation\SerializedName;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -193,7 +194,7 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
         });
 
         if ($filteredDays->isEmpty()) {
-            return null;
+            throw new RuntimeException("Could not find Day entity for dayNumber {$dayNumber}");
         }
 
         return $filteredDays->first();
