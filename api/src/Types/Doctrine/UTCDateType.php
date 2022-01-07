@@ -3,6 +3,8 @@
 namespace App\Types\Doctrine;
 
 use App\Types\Date;
+use DateTime;
+use DateTimeImmutable;
 use DateTimeInterface;
 use DateTimeZone;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
@@ -18,7 +20,7 @@ class UTCDateType extends DateType {
      * @throws ConversionException
      */
     public function convertToDatabaseValue($value, AbstractPlatform $platform): ?string {
-        if ($value instanceof \DateTime || $value instanceof \DateTimeImmutable) {
+        if ($value instanceof DateTime || $value instanceof DateTimeImmutable) {
             $value = $value->setTimezone(self::getUtc());
         }
 

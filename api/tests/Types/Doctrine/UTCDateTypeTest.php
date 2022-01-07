@@ -5,6 +5,7 @@
 
 namespace App\Tests\Types\Doctrine;
 
+use App\Types\Date;
 use App\Types\Doctrine\UTCDateType;
 use function date_default_timezone_set;
 use DateTime;
@@ -71,7 +72,7 @@ class UTCDateTypeTest extends BaseDateTypeTestCase {
 
         $date = $this->type->convertToPHPValue('1985-09-01', $this->platform);
 
-        self::assertInstanceOf(DateTime::class, $date);
+        self::assertInstanceOf(Date::class, $date);
         self::assertEquals('1985-09-01T00:00:00+00:00', $date->format('c'));
     }
 }

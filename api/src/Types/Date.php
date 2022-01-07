@@ -5,6 +5,12 @@ namespace App\Types;
 use DateTimeZone;
 use JsonSerializable;
 
+/**
+ * Type used by API to encode date values.
+ *
+ * Ensures date values are always encoded in ISO date format (YYYY-MM-DD)
+ * without time or timezone portion
+ */
 class Date extends \DateTime implements JsonSerializable {
     protected string $FORMAT = 'Y-m-d';
 

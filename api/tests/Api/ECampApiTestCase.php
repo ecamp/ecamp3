@@ -25,6 +25,13 @@ use Symfony\Contracts\HttpClient\ResponseInterface;
 abstract class ECampApiTestCase extends ApiTestCase {
     use RefreshDatabaseTrait;
 
+    // ensure tests are not run with the assumption, that the server runs on UTC
+    //
+    // can't enable this by default as this breaks several validation messages, however
+    // nothing wrong with enabling this from time to time to ensure we don't mess anything
+    // serious up with DateTime conversion
+    private const USE_NONUTC_TIMEZONE = false;
+
     protected string $endpoint = '';
     protected BaseEntity $defaultEntity;
     protected string $entityClass;
@@ -35,9 +42,25 @@ abstract class ECampApiTestCase extends ApiTestCase {
     private ?ResourceMetadataFactoryInterface $resourceMetadataFactory = null;
     private ?EntityManagerInterface $entityManager = null;
 
+    /** @var string */
+    private $currentTimezone;
+
     public function setUp(): void {
         self::bootKernel();
         parent::setUp();
+
+        if (self::USE_NONUTC_TIMEZONE) {
+            $this->currentTimezone = date_default_timezone_get();
+            date_default_timezone_set('Asia/Singapore');
+        }
+    }
+
+    protected function tearDown(): void {
+        if (self::USE_NONUTC_TIMEZONE) {
+            date_default_timezone_set($this->currentTimezone);
+        }
+
+        parent::tearDown();
     }
 
     /**
