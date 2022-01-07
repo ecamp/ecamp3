@@ -591,6 +591,56 @@ class CreateCampTest extends ECampApiTestCase {
         ]);
     }
 
+    public function testCreateCampReturnsProperDatesInTimezoneAheadOfUTC() {
+        date_default_timezone_set('Asia/Singapore');
+        static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExampleWritePayload([
+            'periods' => [
+                [
+                    'description' => 'Hauptlager',
+                    'start' => '2022-01-08',
+                    'end' => '2022-01-10',
+                ],
+            ],
+        ])]);
+
+        $this->assertResponseStatusCodeSame(201);
+        $this->assertJsonContains([
+            '_embedded' => [
+                'periods' => [
+                    [
+                        'start' => '2022-01-08',
+                        'end' => '2022-01-10',
+                    ],
+                ],
+            ],
+        ]);
+    }
+
+    public function testCreateCampReturnsProperDatesInTimezoneBehindUTC() {
+        date_default_timezone_set('America/New_York');
+        static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExampleWritePayload([
+            'periods' => [
+                [
+                    'description' => 'Hauptlager',
+                    'start' => '2022-01-08',
+                    'end' => '2022-01-10',
+                ],
+            ],
+        ])]);
+
+        $this->assertResponseStatusCodeSame(201);
+        $this->assertJsonContains([
+            '_embedded' => [
+                'periods' => [
+                    [
+                        'start' => '2022-01-08',
+                        'end' => '2022-01-10',
+                    ],
+                ],
+            ],
+        ]);
+    }
+
     public function getExampleWritePayload($attributes = [], $except = []) {
         return $this->getExamplePayload(Camp::class, OperationType::COLLECTION, 'post', $attributes, [], $except);
     }

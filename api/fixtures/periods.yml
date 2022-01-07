@@ -2,25 +2,25 @@ App\Entity\Period:
   period1:
     camp: '@camp1'
     description: Hauptlager
-    start: '<(new DateTime((date("Y")+1)."-05-01"))>'
-    end: '<(new DateTime((date("Y")+1)."-05-03"))>'
+    start: '<(new DateTime("2023-05-01"))>'
+    end: '<(new DateTime("2023-05-03"))>'
   period2:
     camp: '@camp1'
     description: Vorabend
-    start: '<(new DateTime((date("Y")+1)."-04-15"))>'
-    end: '<(new DateTime((date("Y")+1)."-04-15"))>'
+    start: '<(new DateTime("2023-04-15"))>'
+    end: '<(new DateTime("2023-04-15"))>'
   period1camp2:
     camp: '@camp2'
     description: Vorweekend
-    start: '<(new DateTime((date("Y")+1)."-11-10"))>'
-    end: '<(new DateTime((date("Y")+1)."-11-11"))>'
+    start: '<(new DateTime("2023-11-10"))>'
+    end: '<(new DateTime("2023-11-11"))>'
   period1campUnrelated:
     camp: '@campUnrelated'
     description: Hauptlager
-    start: '<(new DateTime((date("Y")+2)."-02-20"))>'
-    end: '<(new DateTime((date("Y")+2)."-03-03"))>'
+    start: '<(new DateTime("2024-02-20"))>'
+    end: '<(new DateTime("2024-03-03"))>'
   period1campPrototype:
     camp: '@campPrototype'
     description: Hauptlager
-    start: '<(new DateTime((date("Y")-1)."-01-01"))>'
-    end: '<(new DateTime((date("Y")-1)."-01-15"))>'
+    start: '<(new DateTime("2021-01-01"))>'
+    end: '<(new DateTime("2021-01-15"))>'

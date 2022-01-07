@@ -76,6 +76,7 @@ class UpdatePeriodTest extends ECampApiTestCase {
 
     public function testPatchPeriodIsAllowedForMember() {
         $period = static::$fixtures['period1'];
+
         static::createClientWithCredentials(['username' => static::$fixtures['user2member']->getUsername()])
             ->request('PATCH', '/periods/'.$period->getId(), ['json' => [
                 'description' => 'Vorweekend',
@@ -196,6 +197,40 @@ at position 9: Data missing',
                     'message' => 'This value should be greater than or equal to Jan 10, 2021, 12:00 AM.',
                 ],
             ],
+        ]);
+    }
+
+    public function testPatchPeriodReturnsProperDatesInTimezoneAheadOfUTC() {
+        $period = static::$fixtures['period1'];
+        date_default_timezone_set('Asia/Singapore');
+
+        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->getUsername()])
+            ->request('PATCH', '/periods/'.$period->getId(), ['json' => [
+                'start' => '2023-01-01',
+                'end' => '2023-01-02',
+            ], 'headers' => ['Content-Type' => 'application/merge-patch+json']])
+        ;
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertJsonContains([
+            'start' => '2023-01-01',
+            'end' => '2023-01-02',
+        ]);
+    }
+
+    public function testPatchPeriodReturnsProperDatesInTimezoneBehindUTC() {
+        $period = static::$fixtures['period1'];
+        date_default_timezone_set('America/New_York');
+
+        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->getUsername()])
+            ->request('PATCH', '/periods/'.$period->getId(), ['json' => [
+                'start' => '2023-01-01',
+                'end' => '2023-01-02',
+            ], 'headers' => ['Content-Type' => 'application/merge-patch+json']])
+        ;
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertJsonContains([
+            'start' => '2023-01-01',
+            'end' => '2023-01-02',
         ]);
     }
 }
