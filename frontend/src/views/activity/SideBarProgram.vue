@@ -13,7 +13,7 @@
           <picasso
             v-else
             :schedule-entries="slotProps.scheduleEntries"
-            :period="period"
+            :period="period()"
             :start="startOfDay"
             :interval-height="36"
             :end="endOfDay"
@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import Picasso from '@/components/camp/Picasso.vue'
+import Picasso from '@/components/camp/picasso/Picasso.vue'
 import SideBar from '@/components/navigation/SideBar.vue'
 import ContentCard from '@/components/layout/ContentCard.vue'
 import ScheduleEntries from '@/components/scheduleEntry/ScheduleEntries.vue'

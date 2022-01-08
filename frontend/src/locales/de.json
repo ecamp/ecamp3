@@ -300,6 +300,9 @@
       },
       "material": {
         "groupByList": "Nach Materialliste gruppieren"
+      },
+      "picasso": {
+        "editMode": "Editiermodus"
       }
     },
     "campCreate": {

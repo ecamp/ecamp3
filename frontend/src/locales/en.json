@@ -392,6 +392,10 @@
       },
       "story": {
         "title": "Story"
+      },
+      "picasso": {
+        "editMode": "Edit mode",
+        "title": "Picasso"
       }
     },
     "campCreate": {

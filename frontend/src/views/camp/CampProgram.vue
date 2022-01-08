@@ -3,9 +3,13 @@ Show all activity schedule entries of a single period.
 -->
 
 <template>
-  <content-card>
-    <template #title>
+  <content-card :title="$tc('views.camp.picasso.title')" toolbar>
+    <template #title-actions>
       <period-switcher v-if="$vuetify.breakpoint.xsOnly" :period="period" />
+      <e-switch
+        v-model="editMode"
+        class="ml-5"
+        :label="$tc('views.camp.picasso.editMode')" />
     </template>
     <schedule-entries :period="period" :show-button="true">
       <template #default="slotProps">
@@ -16,12 +20,12 @@ Show all activity schedule entries of a single period.
           <picasso
             class="mx-2 ma-sm-0 pa-sm-2"
             :schedule-entries="slotProps.scheduleEntries"
-            :period="period"
+            :period="period()"
             :start="Date.parse(period().start)"
             :end="Date.parse(period().end)"
-            :dialog-activity-create="slotProps.showActivityCreateDialog"
-            :dialog-activity-edit="slotProps.showActivityEditDialog"
-            editable />
+            :editable="editMode"
+            @changePlaceholder="slotProps.on.changePlaceholder"
+            @newEntry="slotProps.on.newEntry" />
         </template>
       </template>
     </schedule-entries>
@@ -29,7 +33,7 @@ Show all activity schedule entries of a single period.
 </template>
 <script>
 import ContentCard from '@/components/layout/ContentCard.vue'
-import Picasso from '@/components/camp/Picasso.vue'
+import Picasso from '@/components/camp/picasso/Picasso.vue'
 import ScheduleEntries from '@/components/scheduleEntry/ScheduleEntries.vue'
 import PeriodSwitcher from '@/components/camp/PeriodSwitcher.vue'
 
@@ -43,6 +47,11 @@ export default {
   },
   props: {
     period: { type: Function, required: true }
+  },
+  data () {
+    return {
+      editMode: false
+    }
   }
 }
 </script>
