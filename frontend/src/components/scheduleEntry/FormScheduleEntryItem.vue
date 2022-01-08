@@ -97,7 +97,9 @@ export default {
     }
   },
   watch: {
-    'period._meta.self': function () {
+    'period._meta.self': function (value) {
+      if (value === undefined || this.period === undefined) return
+
       const startTimeUTCFormatted = this.mappedScheduleEntry.startTimeUTCFormatted
       const period = this.period
 
