@@ -395,7 +395,8 @@
       },
       "picasso": {
         "editMode": "Edit mode",
-        "title": "Picasso"
+        "title": "Picasso",
+        "guestsCannotEdit": "A guest cannot edit the picasso"
       }
     },
     "campCreate": {
