@@ -21,7 +21,6 @@ class CategoryDataPersisterTest extends TestCase {
 
     protected function setUp(): void {
         $this->category = new Category();
-        $this->category->category = new Category();
 
         $this->entityManagerMock = $this->createMock(EntityManagerInterface::class);
         $dataPersisterObservable = $this->createMock(DataPersisterObservable::class);
