@@ -296,8 +296,3 @@ class DataPersisterObservableTest extends TestCase {
         $this->dataPersisterObservable->persist($newData, []);
     }
 }
-
-/** @noinspection PhpMultipleClassDeclarationsInspection */
-interface MyClosure {
-    public function call($data): mixed;
-}
