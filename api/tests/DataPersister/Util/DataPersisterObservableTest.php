@@ -17,7 +17,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
  * @internal
  */
 class DataPersisterObservableTest extends TestCase {
-    public const ACTIONNAME = 'myaction';
+    public const ACTION_NAME = 'myAction';
 
     private MockObject|ContextAwareDataPersisterInterface $contextAwareDataPersister;
     private DataPersisterObservable $dataPersisterObservable;
@@ -25,6 +25,9 @@ class DataPersisterObservableTest extends TestCase {
     private CustomActionListener $actionListener;
     private ParameterBag $parameterBag;
 
+    /**
+     * @throws \ReflectionException
+     */
     protected function setUp(): void {
         $this->contextAwareDataPersister = $this->createMock(ContextAwareDataPersisterInterface::class);
         $this->contextAwareDataPersister->method('persist')->willReturnArgument(0);
@@ -40,7 +43,7 @@ class DataPersisterObservableTest extends TestCase {
         $this->closure = $this->createMock(MyClosure::class);
 
         $this->actionListener = CustomActionListener::of(
-            self::ACTIONNAME,
+            self::ACTION_NAME,
             fn ($data) => $this->closure->call($data),
             fn ($data) => $this->closure->call($data)
         );
@@ -148,7 +151,7 @@ class DataPersisterObservableTest extends TestCase {
         ;
         $this->dataPersisterObservable->onCustomAction($this->actionListener);
 
-        $this->dataPersisterObservable->persist($toPersist, ['item_operation_name' => self::ACTIONNAME]);
+        $this->dataPersisterObservable->persist($toPersist, ['item_operation_name' => self::ACTION_NAME]);
     }
 
     public function testCallCustomActionListenersForItemOperationTwiceIfRegisteredTwice() {
@@ -167,7 +170,7 @@ class DataPersisterObservableTest extends TestCase {
         $this->dataPersisterObservable->onCustomAction($this->actionListener);
         $this->dataPersisterObservable->onCustomAction($this->actionListener);
 
-        $this->dataPersisterObservable->persist($toPersist, ['item_operation_name' => self::ACTIONNAME]);
+        $this->dataPersisterObservable->persist($toPersist, ['item_operation_name' => self::ACTION_NAME]);
     }
 
     public function testCallCustomActionListenersForCollectionOperation() {
@@ -185,7 +188,7 @@ class DataPersisterObservableTest extends TestCase {
         ;
         $this->dataPersisterObservable->onCustomAction($this->actionListener);
 
-        $this->dataPersisterObservable->persist($toPersist, ['collection_operation_name' => self::ACTIONNAME]);
+        $this->dataPersisterObservable->persist($toPersist, ['collection_operation_name' => self::ACTION_NAME]);
     }
 
     public function testCallNoOperationCallbacksIfOperationNameDoesNotMatch() {
@@ -206,10 +209,13 @@ class DataPersisterObservableTest extends TestCase {
         $this->dataPersisterObservable->onCustomAction($this->actionListener);
 
         $this->dataPersisterObservable->persist($toPersist, []);
-        $this->dataPersisterObservable->persist($toPersist, ['item_operation_name' => self::ACTIONNAME.'2']);
-        $this->dataPersisterObservable->persist($toPersist, ['collection_operation_name' => self::ACTIONNAME.'2']);
+        $this->dataPersisterObservable->persist($toPersist, ['item_operation_name' => self::ACTION_NAME.'2']);
+        $this->dataPersisterObservable->persist($toPersist, ['collection_operation_name' => self::ACTION_NAME.'2']);
     }
 
+    /**
+     * @throws \ReflectionException
+     */
     public function testNotCallPropertyChangeListenerIfDataWasNullBefore() {
         $toPersist = new stdClass();
 
@@ -225,6 +231,9 @@ class DataPersisterObservableTest extends TestCase {
         $this->dataPersisterObservable->persist($toPersist, []);
     }
 
+    /**
+     * @throws \ReflectionException
+     */
     public function testThrowErrorIfExtractPropertyFails() {
         $toPersist = new stdClass();
 
@@ -240,6 +249,9 @@ class DataPersisterObservableTest extends TestCase {
         $this->dataPersisterObservable->persist($toPersist, []);
     }
 
+    /**
+     * @throws \ReflectionException
+     */
     public function testNotCallPropertyChangeListenerIfPropertyDidNotChange() {
         $toPersist = new stdClass();
         $toPersist->name = null;
@@ -256,6 +268,9 @@ class DataPersisterObservableTest extends TestCase {
         $this->dataPersisterObservable->persist($toPersist, []);
     }
 
+    /**
+     * @throws \ReflectionException
+     */
     public function testCallPropertyChangeListenerIfPropertyDidChange() {
         $oldData = new stdClass();
         $oldData->name = null;
@@ -282,6 +297,7 @@ class DataPersisterObservableTest extends TestCase {
     }
 }
 
+/** @noinspection PhpMultipleClassDeclarationsInspection */
 interface MyClosure {
     public function call($data): mixed;
 }
