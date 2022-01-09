@@ -6,6 +6,7 @@ use App\DataPersister\UserDataPersister;
 use App\DataPersister\Util\DataPersisterObservable;
 use App\Entity\User;
 use App\Service\MailService;
+use Exception;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasher;
@@ -74,5 +75,50 @@ class UserDataPersisterTest extends TestCase {
 
         // then
         $this->assertNotNull($data->activationKeyHash);
+    }
+
+    public function testSetsStateToRegisteredBeforeCreate() {
+        // when
+        /** @var User $data */
+        $data = $this->dataPersister->beforeCreate($this->user);
+
+        // then
+        self::assertThat($data->state, self::equalTo(User::STATE_REGISTERED));
+    }
+
+    public function testHashesPasswordBeforeUpdate() {
+        // given
+        $this->user->plainPassword = 'test plain password';
+        $this->userPasswordHasher->expects($this->once())->method('hashPassword')->willReturn('test hash');
+
+        // when
+        /** @var User $result */
+        $data = $this->dataPersister->beforeUpdate($this->user);
+
+        // then
+        $this->assertEquals('test hash', $data->password);
+        $this->assertNull($data->plainPassword);
+    }
+
+    public function testThrowsIfActivationKeyIsWrongForOnActivate() {
+        $this->user->activationKey = 'activation key';
+        $this->user->activationKeyHash = 'wrong hash';
+
+        $this->expectException(Exception::class);
+        $this->dataPersister->onActivate($this->user);
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function testActivatesUserIfActivationKeyIsCorrect() {
+        $this->user->activationKey = 'activation key';
+        $this->user->activationKeyHash = md5($this->user->activationKey);
+
+        /** @var User $activatedUser */
+        $activatedUser = $this->dataPersister->onActivate($this->user);
+        self::assertThat($activatedUser->state, self::equalTo(User::STATE_ACTIVATED));
+        self::assertThat($activatedUser->activationKeyHash, self::isNull());
+        self::assertThat($activatedUser->activationKey, self::isNull());
     }
 }
