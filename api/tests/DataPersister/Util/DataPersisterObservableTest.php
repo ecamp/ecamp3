@@ -151,6 +151,25 @@ class DataPersisterObservableTest extends TestCase {
         $this->dataPersisterObservable->persist($toPersist, ['item_operation_name' => self::ACTIONNAME]);
     }
 
+    public function testCallCustomActionListenersForItemOperationTwiceIfRegisteredTwice() {
+        $toPersist = new stdClass();
+
+        $this->closure->expects(self::exactly(4))
+            ->method('call')
+            ->with($toPersist)
+            ->willReturnArgument(0)
+        ;
+        $this->contextAwareDataPersister->expects(self::once())
+            ->method('persist')
+            ->with($toPersist)
+            ->willReturnArgument(0)
+        ;
+        $this->dataPersisterObservable->onCustomAction($this->actionListener);
+        $this->dataPersisterObservable->onCustomAction($this->actionListener);
+
+        $this->dataPersisterObservable->persist($toPersist, ['item_operation_name' => self::ACTIONNAME]);
+    }
+
     public function testCallCustomActionListenersForCollectionOperation() {
         $toPersist = new stdClass();
 
