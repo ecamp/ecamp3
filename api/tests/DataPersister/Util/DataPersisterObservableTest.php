@@ -21,7 +21,7 @@ class DataPersisterObservableTest extends TestCase {
 
     private MockObject|ContextAwareDataPersisterInterface $contextAwareDataPersister;
     private DataPersisterObservable $dataPersisterObservable;
-    private MockObject|MyClosure $closure;
+    private MockObject|MockableClosure $closure;
     private CustomActionListener $actionListener;
     private ParameterBag $parameterBag;
 
@@ -40,7 +40,7 @@ class DataPersisterObservableTest extends TestCase {
 
         $this->dataPersisterObservable = new DataPersisterObservable($this->contextAwareDataPersister, $requestStack);
 
-        $this->closure = $this->createMock(MyClosure::class);
+        $this->closure = $this->createMock(MockableClosure::class);
 
         $this->actionListener = CustomActionListener::of(
             self::ACTION_NAME,
