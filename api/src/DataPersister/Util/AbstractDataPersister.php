@@ -33,6 +33,9 @@ abstract class AbstractDataPersister implements ContextAwareDataPersisterInterfa
         return ($data instanceof $this->classname) && $this->dataPersisterObservable->supports($data, $context);
     }
 
+    /**
+     * @return object
+     */
     public function persist($data, array $context = []) {
         $observable = $this->dataPersisterObservable
             ->onBeforeCreate(fn ($data) => $this->beforeCreate($data))

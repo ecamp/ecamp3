@@ -8,6 +8,7 @@ use Doctrine\Persistence\ManagerRegistry;
 use RuntimeException;
 use Symfony\Bridge\Doctrine\Security\User\UserLoaderInterface;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -25,7 +26,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     /**
      * Used to upgrade (rehash) the user's password automatically over time.
      */
-    public function upgradePassword(UserInterface $user, string $newEncodedPassword): void {
+    public function upgradePassword(PasswordAuthenticatedUserInterface $user, string $newEncodedPassword): void {
         if (!$user instanceof User) {
             throw new UnsupportedUserException(sprintf('Instances of "%s" are not supported.', \get_class($user)));
         }
@@ -39,7 +40,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
      * @throws \Doctrine\ORM\NonUniqueResultException
      * @throws \Doctrine\ORM\NoResultException
      */
-    public function loadUserByIdentifier(string $identifier) {
+    public function loadUserByIdentifier(string $identifier): User {
         $queryBuilder = $this->_em->createQueryBuilder();
         $queryBuilder->select('user');
         $queryBuilder->from(User::class, 'user');
