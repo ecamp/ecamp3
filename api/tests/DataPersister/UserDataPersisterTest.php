@@ -42,7 +42,7 @@ class UserDataPersisterTest extends TestCase {
         $this->userPasswordHasher->expects($this->never())->method('hashPassword');
 
         // when
-        /** @var User $result */
+        /** @var User $data */
         $data = $this->dataPersister->beforeCreate($this->user);
 
         // then
@@ -56,7 +56,7 @@ class UserDataPersisterTest extends TestCase {
         $this->userPasswordHasher->expects($this->once())->method('hashPassword')->willReturn('test hash');
 
         // when
-        /** @var User $result */
+        /** @var User $data */
         $data = $this->dataPersister->beforeCreate($this->user);
 
         // then
@@ -92,7 +92,7 @@ class UserDataPersisterTest extends TestCase {
         $this->userPasswordHasher->expects($this->once())->method('hashPassword')->willReturn('test hash');
 
         // when
-        /** @var User $result */
+        /** @var User $data */
         $data = $this->dataPersister->beforeUpdate($this->user);
 
         // then
