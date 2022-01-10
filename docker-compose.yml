@@ -65,22 +65,22 @@ services:
     depends_on:
       - php
     environment:
-      SERVER_NAME: ${SERVER_NAME:-localhost:4001, localhost:4443, caddy:4001}
+      SERVER_NAME: ${SERVER_NAME:-localhost:3001, localhost:3443, caddy:3001}
       MERCURE_PUBLISHER_JWT_KEY: ${MERCURE_PUBLISHER_JWT_KEY:-!ChangeMe!}
       MERCURE_SUBSCRIBER_JWT_KEY: ${MERCURE_SUBSCRIBER_JWT_KEY:-!ChangeMe!}
       MERCURE_EXTRA_DIRECTIVES: demo
     ports:
       # HTTP
-      - target: 4001
+      - target: 3001
         published: 3001
         protocol: tcp
       # HTTPS
-      - target: 4443
-        published: 4443
+      - target: 3443
+        published: 3443
         protocol: tcp
       # HTTP/3
-      - target: 4443
-        published: 4443
+      - target: 3443
+        published: 3443
         protocol: udp
     restart: unless-stopped
     user: ${USER_ID:-1000}
@@ -125,7 +125,7 @@ services:
       - ./print/print.env
 
   composer:
-    image: composer:2@sha256:d0eac5654489070d26e46205da0afee1371b4feae10f7ebbb1c754ca04240fb5
+    image: composer:2@sha256:39457c302c61ce2842a8988d1a3fa5f5eec17c3717bb5a7a6c3cc5f9cafeb740
     container_name: 'ecamp3-composer'
     restart: 'no'
     command: bash -c "composer install --no-interaction --no-plugins --no-scripts --prefer-dist"

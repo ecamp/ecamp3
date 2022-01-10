@@ -59,7 +59,7 @@ class ListActivityResponsiblesTest extends ECampApiTestCase {
 
     public function testListActivityResponsiblesFilteredByActivityIsDeniedForUnrelatedUser() {
         $activity = static::$fixtures['activity1'];
-        $response = static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->username])
+        $response = static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->getUsername()])
             ->request('GET', '/activity_responsibles?activity=/activities/'.$activity->getId())
         ;
 
@@ -71,7 +71,7 @@ class ListActivityResponsiblesTest extends ECampApiTestCase {
 
     public function testListActivityResponsiblesFilteredByActivityIsDeniedForInactiveCollaborator() {
         $activity = static::$fixtures['activity1'];
-        $response = static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->username])
+        $response = static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->getUsername()])
             ->request('GET', '/activity_responsibles?activity=/activities/'.$activity->getId())
         ;
 
@@ -114,7 +114,7 @@ class ListActivityResponsiblesTest extends ECampApiTestCase {
 
     public function testListActivityResponsiblesFilteredByCampIsDeniedForUnrelatedUser() {
         $camp = static::$fixtures['camp1'];
-        $response = static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->username])
+        $response = static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->getUsername()])
             ->request('GET', '/activity_responsibles?activity.camp=/camps/'.$camp->getId())
         ;
 

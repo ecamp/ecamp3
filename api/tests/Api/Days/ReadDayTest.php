@@ -24,7 +24,7 @@ class ReadDayTest extends ECampApiTestCase {
     public function testGetSingleDayIsDeniedForUnrelatedUser() {
         /** @var Day $day */
         $day = static::$fixtures['day1period1'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->username])
+        static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->getUsername()])
             ->request('GET', '/days/'.$day->getId())
         ;
         $this->assertResponseStatusCodeSame(404);
@@ -37,7 +37,7 @@ class ReadDayTest extends ECampApiTestCase {
     public function testGetSingleDayIsDeniedForInactiveCollaborator() {
         /** @var Day $day */
         $day = static::$fixtures['day1period1'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->username])
+        static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->getUsername()])
             ->request('GET', '/days/'.$day->getId())
         ;
         $this->assertResponseStatusCodeSame(404);
@@ -52,7 +52,7 @@ class ReadDayTest extends ECampApiTestCase {
         $day = static::$fixtures['day1period1'];
         $start = $day->getStart()->format(DateTime::W3C);
         $end = $day->getEnd()->format(DateTime::W3C);
-        static::createClientWithCredentials(['username' => static::$fixtures['user3guest']->username])
+        static::createClientWithCredentials(['username' => static::$fixtures['user3guest']->getUsername()])
             ->request('GET', '/days/'.$day->getId())
         ;
         $this->assertResponseStatusCodeSame(200);
@@ -73,7 +73,7 @@ class ReadDayTest extends ECampApiTestCase {
         $day = static::$fixtures['day1period1'];
         $start = $day->getStart()->format(DateTime::W3C);
         $end = $day->getEnd()->format(DateTime::W3C);
-        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->username])
+        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->getUsername()])
             ->request('GET', '/days/'.$day->getId())
         ;
         $this->assertResponseStatusCodeSame(200);

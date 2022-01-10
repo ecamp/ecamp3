@@ -25,7 +25,7 @@ class CreateCategoryTest extends ECampApiTestCase {
     }
 
     public function testCreateCategoryIsNotPossibleForUnrelatedUserBecauseCampIsNotReadable() {
-        static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->username])
+        static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->getUsername()])
             ->request('POST', '/categories', ['json' => $this->getExampleWritePayload()])
         ;
 
@@ -37,7 +37,7 @@ class CreateCategoryTest extends ECampApiTestCase {
     }
 
     public function testCreateCategoryIsNotPossibleForInactiveCollaboratorBecauseCampIsNotReadable() {
-        static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->username])
+        static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->getUsername()])
             ->request('POST', '/categories', ['json' => $this->getExampleWritePayload()])
         ;
 
@@ -49,7 +49,7 @@ class CreateCategoryTest extends ECampApiTestCase {
     }
 
     public function testCreateCategoryIsDeniedForGuest() {
-        static::createClientWithCredentials(['username' => static::$fixtures['user3guest']->username])
+        static::createClientWithCredentials(['username' => static::$fixtures['user3guest']->getUsername()])
             ->request('POST', '/categories', ['json' => $this->getExampleWritePayload()])
         ;
 
@@ -61,7 +61,7 @@ class CreateCategoryTest extends ECampApiTestCase {
     }
 
     public function testCreateCategoryIsAllowedForMember() {
-        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->username])
+        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->getUsername()])
             ->request('POST', '/categories', ['json' => $this->getExampleWritePayload()])
         ;
 

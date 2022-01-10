@@ -1,0 +1,29 @@
+# nested column - slot1
+App\Entity\ContentNode\MultiSelect:
+  multiSelect2:
+    root: '@columnLayout1'
+    parent: '@columnLayoutChild1'
+    slot: '1'
+    position: 0
+    instanceName: 'multiSelect2'
+    contentType: '@contentTypeMultiSelect'
+
+App\Entity\ContentNode\SingleText:
+  singleText2:
+    root: '@columnLayout1'
+    parent: '@columnLayoutChild1'
+    slot: '1'
+    position: 1
+    instanceName: 'singleText2'
+    contentType: '@contentTypeNotes'
+    text: <word()>
+  
+# nested column - slot2
+App\Entity\ContentNode\Storyboard:
+  storyboard2:
+    root: '@columnLayout1'
+    parent: '@columnLayoutChild1'
+    slot: '2'
+    position: 0
+    instanceName: 'Storyboard2'
+    contentType: '@contentTypeStoryboard'

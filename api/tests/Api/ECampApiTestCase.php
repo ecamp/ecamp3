@@ -10,8 +10,9 @@ use ApiPlatform\Core\JsonSchema\Schema;
 use ApiPlatform\Core\JsonSchema\SchemaFactoryInterface;
 use ApiPlatform\Core\Metadata\Resource\Factory\ResourceMetadataFactoryInterface;
 use App\Entity\BaseEntity;
+use App\Entity\Profile;
 use App\Entity\User;
-use App\Repository\UserRepository;
+use App\Repository\ProfileRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
 use Symfony\Component\BrowserKit\Cookie;
@@ -48,9 +49,14 @@ abstract class ECampApiTestCase extends ApiTestCase {
     protected static function createClientWithCredentials(?array $credentials = null, ?array $headers = null): Client {
         $client = static::createBasicClient($headers);
 
-        /** @var User $user */
-        $user = static::getContainer()->get(UserRepository::class)->findBy(array_diff_key($credentials ?: ['username' => 'test-user'], ['password' => '']));
-        $jwtToken = static::getContainer()->get('lexik_jwt_authentication.jwt_manager')->create($user[0]);
+        /** @var Profile $profile */
+        $profile = static::getContainer()->get(ProfileRepository::class)
+            ->findOneBy(
+                array_diff_key($credentials ?: ['username' => 'test-user'], ['password' => ''])
+            )
+        ;
+        $user = $profile->user;
+        $jwtToken = static::getContainer()->get('lexik_jwt_authentication.jwt_manager')->create($user);
         $lastPeriodPosition = strrpos($jwtToken, '.');
         $jwtHeaderAndPayload = substr($jwtToken, 0, $lastPeriodPosition);
         $jwtSignature = substr($jwtToken, $lastPeriodPosition + 1);
@@ -190,7 +196,7 @@ abstract class ECampApiTestCase extends ApiTestCase {
 
         $entity ??= $this->defaultEntity;
 
-        static::createClientWithCredentials($credentials)->request('PATCH', "{$this->endpoint}/".$entity->getId(), [
+        return static::createClientWithCredentials($credentials)->request('PATCH', "{$this->endpoint}/".$entity->getId(), [
             'json' => $payload,
             'headers' => ['Content-Type' => 'application/merge-patch+json'],
         ]);

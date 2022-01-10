@@ -136,8 +136,7 @@ export default {
       this.isAdding = true
       try {
         await this.api.post(this.contentNode.sections(), {
-          storyboard: this.contentNode._meta.self,
-          pos: this.contentNode.sections().items.length // add at the end of the array
+          storyboard: this.contentNode._meta.self
         })
 
         await this.refreshContent() // refresh node content (reloading section array)

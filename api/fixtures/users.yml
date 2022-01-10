@@ -1,71 +1,33 @@
 App\Entity\User:
   user1manager:
-    email: test@example.com
-    username: test-user
-    firstname: Robert
-    surname: Baden-Powell
-    nickname: Bi-Pi
-    language: en
+    profile: '@profile1manager'
     state: activated
-    roles: [ 'ROLE_USER' ]
     password: '\$argon2id\$v=19\$m=65536,t=4,p=1\$/RC8YWMDDXR19wB4or6bBA\$Kq5haK2SACQgo4CB7eDUibsD3QXCE32w25ZwhKg1SGw' # test
   user2member:
-    email: <email()>
-    username: member-user
-    firstname: <firstName()>
-    surname: <lastName()>
-    nickname: <word()>
-    language: en
+    profile: '@profile2member'
     state: activated
-    roles: [ 'ROLE_USER' ]
     password: '\$argon2id\$v=19\$m=65536,t=4,p=1\$/RC8YWMDDXR19wB4or6bBA\$Kq5haK2SACQgo4CB7eDUibsD3QXCE32w25ZwhKg1SGw' # test
   user3guest:
-    email: <email()>
-    username: guest-user
-    firstname: <firstName()>
-    surname: <lastName()>
-    nickname: <word()>
-    language: en
+    profile: '@profile3guest'
     state: activated
-    roles: [ 'ROLE_USER' ]
     password: '\$argon2id\$v=19\$m=65536,t=4,p=1\$/RC8YWMDDXR19wB4or6bBA\$Kq5haK2SACQgo4CB7eDUibsD3QXCE32w25ZwhKg1SGw' # test
   user4unrelated:
-    email: <email()>
-    username: unrelated-user
-    firstname: <firstName()>
-    surname: <lastName()>
-    nickname: <word()>
-    language: en
+    profile: '@profile4unrelated'
     state: activated
-    roles: [ 'ROLE_USER' ]
     password: '\$argon2id\$v=19\$m=65536,t=4,p=1\$/RC8YWMDDXR19wB4or6bBA\$Kq5haK2SACQgo4CB7eDUibsD3QXCE32w25ZwhKg1SGw' # test
   user5inactive:
-    email: <email()>
-    username: inactive-user
-    firstname: <firstName()>
-    surname: <lastName()>
-    nickname: <word()>
-    language: en
+    profile: '@profile5inactive'
     state: activated
-    roles: [ 'ROLE_USER' ]
     password: '\$argon2id\$v=19\$m=65536,t=4,p=1\$/RC8YWMDDXR19wB4or6bBA\$Kq5haK2SACQgo4CB7eDUibsD3QXCE32w25ZwhKg1SGw' # test
   user6invited:
-    email: <email()>
-    username: user6invited
-    firstname: <firstName()>
-    surname: <lastName()>
-    nickname: <word()>
-    language: en
+    profile: '@profile6invited'
     state: activated
-    roles: [ 'ROLE_USER' ]
     password: '\$argon2id\$v=19\$m=65536,t=4,p=1\$/RC8YWMDDXR19wB4or6bBA\$Kq5haK2SACQgo4CB7eDUibsD3QXCE32w25ZwhKg1SGw' # test
   admin:
-    email: admin@example.com
-    username: admin
-    firstname: Admi
-    surname: Nistrator
-    nickname: Administrator
-    language: de
+    profile: '@profileAdmin'
     state: activated
-    roles: [ 'ROLE_ADMIN' ]
+    password: '\$argon2id\$v=19\$m=65536,t=4,p=1\$/RC8YWMDDXR19wB4or6bBA\$Kq5haK2SACQgo4CB7eDUibsD3QXCE32w25ZwhKg1SGw' # test
+  userWithoutCampCollaborations:
+    profile: '@profileWithoutCampCollaborations'
+    state: activated
     password: '\$argon2id\$v=19\$m=65536,t=4,p=1\$/RC8YWMDDXR19wB4or6bBA\$Kq5haK2SACQgo4CB7eDUibsD3QXCE32w25ZwhKg1SGw' # test

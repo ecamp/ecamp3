@@ -10,7 +10,7 @@ use App\DataPersister\Util\PropertyChangeListener;
 use App\Entity\BaseEntity;
 use App\Entity\CampCollaboration;
 use App\Entity\User;
-use App\Repository\UserRepository;
+use App\Repository\ProfileRepository;
 use App\Service\MailService;
 use App\Util\IdGenerator;
 use Symfony\Component\Security\Core\Security;
@@ -22,7 +22,7 @@ class CampCollaborationDataPersister extends AbstractDataPersister {
     public function __construct(
         DataPersisterObservable $dataPersisterObservable,
         private Security $security,
-        private UserRepository $userRepository,
+        private ProfileRepository $profileRepository,
         private MailService $mailService,
         private ValidatorInterface $validator
     ) {
@@ -45,11 +45,11 @@ class CampCollaborationDataPersister extends AbstractDataPersister {
 
     public function beforeCreate($data): BaseEntity {
         /** @var CampCollaboration $data */
-        $inviteEmail = $data->user?->email ?? $data->inviteEmail;
+        $inviteEmail = $data->user?->getEmail() ?? $data->inviteEmail;
         if (CampCollaboration::STATUS_INVITED == $data->status && $inviteEmail) {
-            $userByInviteEmail = $this->userRepository->findOneBy(['email' => $inviteEmail]);
-            if (null != $userByInviteEmail) {
-                $data->user = $userByInviteEmail;
+            $profileByInviteEmail = $this->profileRepository->findOneBy(['email' => $inviteEmail]);
+            if (null != $profileByInviteEmail) {
+                $data->user = $profileByInviteEmail->user;
                 $data->inviteEmail = null;
                 $this->validator->validate($data, ['groups' => ['Default', 'create']]);
             }
@@ -62,7 +62,7 @@ class CampCollaborationDataPersister extends AbstractDataPersister {
     public function afterCreate($data): void {
         /** @var User $user */
         $user = $this->security->getUser();
-        $emailToInvite = $data->user?->email ?? $data->inviteEmail;
+        $emailToInvite = $data->user?->getEmail() ?? $data->inviteEmail;
         if (CampCollaboration::STATUS_INVITED == $data->status && $emailToInvite) {
             $this->mailService->sendInviteToCampMail($user, $data->camp, $data->inviteKey, $emailToInvite);
         }
@@ -89,7 +89,7 @@ class CampCollaborationDataPersister extends AbstractDataPersister {
             $campCollaborationUser = $data->user;
             $inviteEmail = $data->inviteEmail;
             if (null != $campCollaborationUser) {
-                $inviteEmail = $campCollaborationUser->email;
+                $inviteEmail = $campCollaborationUser->getEmail();
             }
             $this->mailService->sendInviteToCampMail(
                 $user,

@@ -61,7 +61,7 @@ class ListCategoriesTest extends ECampApiTestCase {
 
     public function testListCategoriesFilteredByCampIsDeniedForUnrelatedUser() {
         $camp = static::$fixtures['camp1'];
-        $response = static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->username])
+        $response = static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->getUsername()])
             ->request('GET', '/categories?camp=/camps/'.$camp->getId())
         ;
 
@@ -73,7 +73,7 @@ class ListCategoriesTest extends ECampApiTestCase {
 
     public function testListCategoriesFilteredByCampIsDeniedForInactiveCollaborator() {
         $camp = static::$fixtures['camp1'];
-        $response = static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->username])
+        $response = static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->getUsername()])
             ->request('GET', '/categories?camp=/camps/'.$camp->getId())
         ;
 

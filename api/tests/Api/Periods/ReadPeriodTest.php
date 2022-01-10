@@ -23,7 +23,7 @@ class ReadPeriodTest extends ECampApiTestCase {
     public function testGetSinglePeriodIsDeniedForUnrelatedUser() {
         /** @var Period $period */
         $period = static::$fixtures['period1'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->username])
+        static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->getUsername()])
             ->request('GET', '/periods/'.$period->getId())
         ;
         $this->assertResponseStatusCodeSame(404);
@@ -36,7 +36,7 @@ class ReadPeriodTest extends ECampApiTestCase {
     public function testGetSinglePeriodIsDeniedForInactiveCollaborator() {
         /** @var Period $period */
         $period = static::$fixtures['period1'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->username])
+        static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->getUsername()])
             ->request('GET', '/periods/'.$period->getId())
         ;
         $this->assertResponseStatusCodeSame(404);
@@ -49,7 +49,7 @@ class ReadPeriodTest extends ECampApiTestCase {
     public function testGetSinglePeriodIsAllowedForGuest() {
         /** @var Period $period */
         $period = static::$fixtures['period1'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user3guest']->username])
+        static::createClientWithCredentials(['username' => static::$fixtures['user3guest']->getUsername()])
             ->request('GET', '/periods/'.$period->getId())
         ;
 
@@ -71,7 +71,7 @@ class ReadPeriodTest extends ECampApiTestCase {
     public function testGetSinglePeriodIsAllowedForMember() {
         /** @var Period $period */
         $period = static::$fixtures['period1'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->username])
+        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->getUsername()])
             ->request('GET', '/periods/'.$period->getId())
         ;
 
