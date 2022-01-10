@@ -30,32 +30,32 @@ class CreateMultiSelectTest extends CreateContentNodeTestCase {
                     [
                         'translateKey' => 'outdoorTechnique',
                         'checked' => false,
-                        'pos' => 0,
+                        'position' => 0,
                     ],
                     [
                         'translateKey' => 'security',
                         'checked' => false,
-                        'pos' => 1,
+                        'position' => 1,
                     ],
                     [
                         'translateKey' => 'natureAndEnvironment',
                         'checked' => false,
-                        'pos' => 2,
+                        'position' => 2,
                     ],
                     [
                         'translateKey' => 'pioneeringTechnique',
                         'checked' => false,
-                        'pos' => 3,
+                        'position' => 3,
                     ],
                     [
                         'translateKey' => 'campsiteAndSurroundings',
                         'checked' => false,
-                        'pos' => 4,
+                        'position' => 4,
                     ],
                     [
                         'translateKey' => 'preventionAndIntegration',
                         'checked' => false,
-                        'pos' => 5,
+                        'position' => 5,
                     ],
                 ],
             ],

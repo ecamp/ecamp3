@@ -28,7 +28,7 @@ class UpdatePeriodTest extends ECampApiTestCase {
 
     public function testPatchPeriodIsDeniedForUnrelatedUser() {
         $period = static::$fixtures['period1'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->username])
+        static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->getUsername()])
             ->request('PATCH', '/periods/'.$period->getId(), ['json' => [
                 'description' => 'Vorweekend',
                 'start' => '2023-01-01',
@@ -44,7 +44,7 @@ class UpdatePeriodTest extends ECampApiTestCase {
 
     public function testPatchPeriodIsDeniedForInactiveCollaborator() {
         $period = static::$fixtures['period1'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->username])
+        static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->getUsername()])
             ->request('PATCH', '/periods/'.$period->getId(), ['json' => [
                 'description' => 'Vorweekend',
                 'start' => '2023-01-01',
@@ -60,7 +60,7 @@ class UpdatePeriodTest extends ECampApiTestCase {
 
     public function testPatchPeriodIsDeniedForGuest() {
         $period = static::$fixtures['period1'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user3guest']->username])
+        static::createClientWithCredentials(['username' => static::$fixtures['user3guest']->getUsername()])
             ->request('PATCH', '/periods/'.$period->getId(), ['json' => [
                 'description' => 'Vorweekend',
                 'start' => '2023-01-01',
@@ -76,7 +76,7 @@ class UpdatePeriodTest extends ECampApiTestCase {
 
     public function testPatchPeriodIsAllowedForMember() {
         $period = static::$fixtures['period1'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->username])
+        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->getUsername()])
             ->request('PATCH', '/periods/'.$period->getId(), ['json' => [
                 'description' => 'Vorweekend',
                 'start' => '2023-01-01',

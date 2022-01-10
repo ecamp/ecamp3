@@ -1,7 +1,4 @@
 export const campRoleMixin = {
-  data: () => ({
-    campRoleMixin_loading: true
-  }),
   computed: {
     isContributor () {
       return this.isMember || this.isManager
@@ -23,9 +20,6 @@ export const campRoleMixin = {
       return result?.role
     },
     _campCollaborations () {
-      if (this.campRoleMixin_loading) {
-        return []
-      }
       const campCollaborations = this._camp?.campCollaborations()
       return campCollaborations?.items
     },
@@ -40,7 +34,5 @@ export const campRoleMixin = {
     if (typeof this.camp !== 'object' && typeof this.camp !== 'function') {
       throw new Error('User of the campRoleMixin must expose a camp as object proxy or function')
     }
-    this._camp._meta.load
-      .finally(() => { this.campRoleMixin_loading = false })
   }
 }

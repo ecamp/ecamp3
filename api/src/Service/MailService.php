@@ -42,7 +42,7 @@ class MailService {
         $frontendUrl = 'http://localhost:3000';
         $email = (new TemplatedEmail())
             ->from('info@ecamp3.ch')
-            ->to(new Address($user->email))
+            ->to(new Address($user->getEmail()))
             ->subject('Welcome to eCamp3')
             ->htmlTemplate('emails/userActivation.html.twig')
             ->textTemplate('emails/userActivation.text.twig')

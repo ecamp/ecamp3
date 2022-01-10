@@ -4,7 +4,6 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
-use App\InputFilter;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -17,17 +16,19 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * A person using eCamp.
+ * The properties available for all other eCamp users are here.
  *
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @ORM\Table(name="`user`")
  */
 #[ApiResource(
     collectionOperations: [
-        'get' => ['security' => 'is_fully_authenticated()'],
+        'get' => ['security' => 'false'],
         'post' => [
             'security' => 'true', // allow unauthenticated clients to create (register) users
             'input_formats' => ['jsonld', 'jsonapi', 'json'],
             'validation_groups' => ['Default', 'create'],
+            'normalization_context' => ['groups' => ['read', 'User:create']],
             'denormalization_context' => ['groups' => ['write', 'create']],
         ],
     ],
@@ -37,9 +38,9 @@ use Symfony\Component\Validator\Constraints as Assert;
             'path' => 'users/{id}/activate.{_format}',
             'denormalization_context' => ['groups' => ['activate']],
         ],
-        'get' => ['security' => 'object == user'],
+        'get' => ['security' => 'is_authenticated()'],
         'patch' => [
-            'security' => 'object == user',
+            'security' => 'object === user',
         ],
         'delete' => ['security' => 'false'],
     ],
@@ -71,74 +72,6 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
     public Collection $collaborations;
 
     /**
-     * Unique email of the user.
-     *
-     * @ORM\Column(type="string", length=64, nullable=false, unique=true)
-     */
-    #[InputFilter\Trim]
-    #[Assert\NotBlank]
-    #[Assert\Email]
-    #[ApiProperty(example: 'bi-pi@example.com')]
-    #[Groups(['read', 'write'])]
-    public ?string $email = null;
-
-    /**
-     * Unique username. Lower case alphanumeric symbols, dashes, periods and underscores only.
-     *
-     * @ORM\Column(type="string", length=32, nullable=false, unique=true)
-     */
-    #[InputFilter\Trim]
-    #[Assert\NotBlank]
-    #[Assert\Regex(pattern: '/^[a-z0-9_.-]+$/')]
-    #[ApiProperty(example: 'bipi')]
-    #[Groups(['read', 'create'])]
-    public ?string $username = null;
-
-    /**
-     * The user's (optional) first name.
-     *
-     * @ORM\Column(type="text", nullable=true)
-     */
-    #[InputFilter\Trim]
-    #[InputFilter\CleanHTML]
-    #[ApiProperty(example: 'Robert')]
-    #[Groups(['read', 'write'])]
-    public ?string $firstname = null;
-
-    /**
-     * The user's (optional) last name.
-     *
-     * @ORM\Column(type="text", nullable=true)
-     */
-    #[InputFilter\Trim]
-    #[InputFilter\CleanHTML]
-    #[ApiProperty(example: 'Baden-Powell')]
-    #[Groups(['read', 'write'])]
-    public ?string $surname = null;
-
-    /**
-     * The user's (optional) nickname or scout name.
-     *
-     * @ORM\Column(type="text", nullable=true)
-     */
-    #[InputFilter\Trim]
-    #[InputFilter\CleanHTML]
-    #[ApiProperty(example: 'Bi-Pi')]
-    #[Groups(['read', 'write'])]
-    public ?string $nickname = null;
-
-    /**
-     * The optional preferred language of the user, as an ICU language code.
-     *
-     * @ORM\Column(type="string", length=20, nullable=true)
-     */
-    #[InputFilter\Trim]
-    #[ApiProperty(example: 'en')]
-    #[Assert\Choice(['en', 'en-CH-scout', 'de', 'de-CH-scout', 'fr', 'fr-CH-scout', 'it', 'it-CH-scout'])]
-    #[Groups(['read', 'write'])]
-    public ?string $language = null;
-
-    /**
      * The state of this user.
      *
      * @ORM\Column(type="string", length=16, nullable=false)
@@ -163,14 +96,6 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
     public ?string $activationKeyHash = null;
 
     /**
-     * The technical roles that this person has in the eCamp application.
-     *
-     * @ORM\Column(type="json")
-     */
-    #[ApiProperty(writable: false)]
-    public array $roles = ['ROLE_USER'];
-
-    /**
      * The hashed password. Of course not exposed through the API.
      *
      * @ORM\Column(type="string", length=255)
@@ -186,8 +111,28 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
     #[Assert\NotBlank(groups: ['create'])]
     #[Assert\Length(min: 8)]
     #[ApiProperty(readable: false, writable: true, example: 'learning-by-doing-101')]
-    #[Groups(['read', 'write'])]
+    #[Groups(['write'])]
     public ?string $plainPassword = null;
+
+    /**
+     * @ORM\OneToOne(targetEntity="Profile", inversedBy="user", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=false, unique=true, onDelete="restrict")
+     */
+    #[Assert\Valid]
+    #[Assert\NotNull(groups: ['create'])]
+    #[ApiProperty(
+        writableLink: true,
+        example: [
+            'email' => Profile::EXAMPLE_EMAIL,
+            'username' => Profile::EXAMPLE_USERNAME,
+            'firstname' => Profile::EXAMPLE_FIRSTNAME,
+            'surname' => Profile::EXAMPLE_SURNAME,
+            'nickname' => Profile::EXAMPLE_NICKNAME,
+            'language' => Profile::EXAMPLE_LANGUAGE,
+        ]
+    )]
+    #[Groups(['create'])]
+    public Profile $profile;
 
     public function __construct() {
         $this->ownedCamps = new ArrayCollection();
@@ -202,18 +147,21 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
     #[ApiProperty(example: 'Robert Baden-Powell')]
     #[Groups(['read'])]
     public function getDisplayName(): ?string {
-        if (!empty($this->nickname)) {
-            return $this->nickname;
-        }
-        if (!empty($this->firstname)) {
-            if (!empty($this->surname)) {
-                return $this->firstname.' '.$this->surname;
-            }
+        return $this->profile->getDisplayName();
+    }
 
-            return $this->firstname;
-        }
+    #[ApiProperty]
+    #[SerializedName('profile')]
+    #[Groups(['read'])]
+    public function getProfile(): Profile {
+        return $this->profile;
+    }
 
-        return $this->username;
+    #[ApiProperty(readableLink: true)]
+    #[SerializedName('profile')]
+    #[Groups(['User:create'])]
+    public function getEmbeddedProfile(): Profile {
+        return $this->profile;
     }
 
     /**
@@ -236,18 +184,22 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
     }
 
     public function getUsername(): ?string {
-        return $this->username;
+        return $this->profile->username;
     }
 
-    public function getUserIdentifier(): ?string {
-        return $this->username;
+    public function getEmail(): ?string {
+        return $this->profile->email;
+    }
+
+    public function getUserIdentifier(): string {
+        return $this->profile->username;
     }
 
     /**
      * @see UserInterface
      */
     public function getRoles(): array {
-        $roles = $this->roles;
+        $roles = $this->profile->roles;
         // guarantee every user at least has ROLE_USER
         $roles[] = 'ROLE_USER';
 

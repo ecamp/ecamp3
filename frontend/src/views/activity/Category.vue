@@ -42,7 +42,7 @@
       <v-card-text class="px-0 py-0">
         <v-skeleton-loader v-if="loading" type="article" />
 
-        <content-node
+        <root-node
           v-if="!loading"
           :content-node="category().rootContentNode()"
           :layout-mode="layoutMode" />
@@ -53,13 +53,13 @@
 
 <script>
 import ContentCard from '@/components/layout/ContentCard.vue'
-import ContentNode from '@/components/activity/ContentNode.vue'
+import RootNode from '@/components/activity/RootNode.vue'
 
 export default {
   name: 'Category',
   components: {
     ContentCard,
-    ContentNode
+    RootNode
   },
   props: {
     category: {

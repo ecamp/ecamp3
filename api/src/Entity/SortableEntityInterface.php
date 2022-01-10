@@ -3,7 +3,7 @@
 namespace App\Entity;
 
 interface SortableEntityInterface {
-    public function getPos(): int;
+    public function getPosition(): int;
 
-    public function setPos(int $pos): void;
+    public function setPosition(int $position): void;
 }

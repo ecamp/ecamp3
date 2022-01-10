@@ -27,7 +27,7 @@ class UpdateCampCollaborationTest extends ECampApiTestCase {
 
     public function testPatchCampCollaborationIsDeniedForUnrelatedUser() {
         $campCollaboration = static::$fixtures['campCollaboration1manager'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->username])
+        static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->getUsername()])
             ->request('PATCH', '/camp_collaborations/'.$campCollaboration->getId(), ['json' => [
                 'status' => 'inactive',
                 'role' => 'guest',
@@ -42,7 +42,7 @@ class UpdateCampCollaborationTest extends ECampApiTestCase {
 
     public function testPatchCampCollaborationIsDeniedForInactiveCollaborator() {
         $campCollaboration = static::$fixtures['campCollaboration1manager'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->username])
+        static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->getUsername()])
             ->request('PATCH', '/camp_collaborations/'.$campCollaboration->getId(), ['json' => [
                 'status' => 'inactive',
                 'role' => 'guest',
@@ -57,7 +57,7 @@ class UpdateCampCollaborationTest extends ECampApiTestCase {
 
     public function testPatchCampCollaborationIsDeniedForGuest() {
         $campCollaboration = static::$fixtures['campCollaboration1manager'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user3guest']->username])
+        static::createClientWithCredentials(['username' => static::$fixtures['user3guest']->getUsername()])
             ->request('PATCH', '/camp_collaborations/'.$campCollaboration->getId(), ['json' => [
                 'status' => 'inactive',
                 'role' => 'guest',
@@ -72,7 +72,7 @@ class UpdateCampCollaborationTest extends ECampApiTestCase {
 
     public function testOwnPatchCampCollaborationIsAllowedForGuest() {
         $campCollaboration = static::$fixtures['campCollaboration3guest'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user3guest']->username])
+        static::createClientWithCredentials(['username' => static::$fixtures['user3guest']->getUsername()])
             ->request('PATCH', '/camp_collaborations/'.$campCollaboration->getId(), ['json' => [
                 'status' => 'inactive',
                 'role' => 'guest',
@@ -87,7 +87,7 @@ class UpdateCampCollaborationTest extends ECampApiTestCase {
 
     public function testPatchCampCollaborationIsAllowedForMember() {
         $campCollaboration = static::$fixtures['campCollaboration1manager'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->username])
+        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->getUsername()])
             ->request('PATCH', '/camp_collaborations/'.$campCollaboration->getId(), ['json' => [
                 'status' => 'inactive',
                 'role' => 'guest',

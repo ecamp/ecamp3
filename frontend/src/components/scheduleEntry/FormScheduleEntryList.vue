@@ -3,10 +3,15 @@
     <v-card outlined
             color="grey lighten-3" class="period mb-2 rounded-b-0">
       <v-row no-gutters>
-        <v-col>
-          <legend class="pa-2">
+        <v-col class="header mb-3">
+          <legend class="pa-2 float-left">
             {{ $tc('components.activity.createScheduleEntries.name') }}
           </legend>
+
+          <button-add color="secondary"
+                      text
+                      class="ma-1 float-right"
+                      @click="addScheduleEntry" />
         </v-col>
       </v-row>
       <form-schedule-entry-item v-for="(scheduleEntry, index) in scheduleEntries"
@@ -17,9 +22,7 @@
                                 @delete="deleteEntry(index)" />
 
       <v-row>
-        <v-col cols="12" class="text-center">
-          <button-add class="mb-2" @click="addScheduleEntry" />
-        </v-col>
+        <v-col cols="12" class="text-center" />
       </v-row>
     </v-card>
   </div>
@@ -73,5 +76,10 @@ export default {
   border-bottom-width: 1px !important;
   border-bottom-style: solid !important;
   border-bottom-color: rgba(0, 0, 0, 0.42) !important;
+}
+
+.header {
+  border-bottom: 1px solid map-get($blue-grey, 'lighten-4');
+
 }
 </style>

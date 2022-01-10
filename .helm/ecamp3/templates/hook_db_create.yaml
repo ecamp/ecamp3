@@ -1,0 +1,33 @@
+#
+# Automatically creates the database in an external PostgreSQL when installing the chart for the first time.
+#
+{{- if not .Values.postgresql.enabled }}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: "{{ include "app.name" . }}-db-create"
+  labels:
+    {{- include "app.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": pre-install
+    "helm.sh/hook-weight": "-5"
+    "helm.sh/hook-delete-policy": hook-succeeded
+spec:
+  template:
+    metadata:
+      name: "{{ include "app.name" . }}-pre-install"
+      labels:
+        {{- include "app.selectorLabels" . | nindent 8 }}
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: db-create-job
+          image: "{{ .Values.php.image.repository }}:{{ .Values.php.image.tag | default .Values.imageTag }}"
+          command: ["php", "bin/console", "doctrine:database:create", "--if-not-exists"]
+          env:
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  key: admin-database-url
+                  name: {{ include "app.name" . }}-hooks
+{{- end }}

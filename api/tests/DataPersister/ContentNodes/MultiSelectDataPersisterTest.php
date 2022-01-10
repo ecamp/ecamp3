@@ -64,11 +64,11 @@ class MultiSelectDataPersisterTest extends TestCase {
         // then
         $this->assertEquals($data->options[0]->translateKey, 'key1');
         $this->assertEquals($data->options[0]->checked, false);
-        $this->assertEquals($data->options[0]->getPos(), 0);
+        $this->assertEquals($data->options[0]->getPosition(), 0);
 
         $this->assertEquals($data->options[1]->translateKey, 'key2');
         $this->assertEquals($data->options[1]->checked, false);
-        $this->assertEquals($data->options[1]->getPos(), 1);
+        $this->assertEquals($data->options[1]->getPosition(), 1);
     }
 
     public function testDoesNotSetRootFromParentOnUpdate() {

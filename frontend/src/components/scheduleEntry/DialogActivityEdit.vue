@@ -43,10 +43,11 @@ export default {
       ],
       embeddedEntities: [
         'category'
-      ],
+      ]
+      /*
       embeddedCollections: [
         'scheduleEntries'
-      ]
+      ] */
     }
   },
   watch: {
@@ -57,6 +58,7 @@ export default {
     }
   },
   methods: {
+    /*
     updateActivity () {
       return this.update()
     },
@@ -81,7 +83,7 @@ export default {
         this.close()
         this.$emit('scheduleEntryUpdated', data)
       })
-    },
+    }, */
     scheduleEntryRoute
   }
 }

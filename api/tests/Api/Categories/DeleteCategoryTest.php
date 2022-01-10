@@ -21,7 +21,7 @@ class DeleteCategoryTest extends ECampApiTestCase {
 
     public function testDeleteCategoryIsDeniedForUnrelatedUser() {
         $category = static::$fixtures['category1'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->username])
+        static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->getUsername()])
             ->request('DELETE', '/categories/'.$category->getId())
         ;
 
@@ -34,7 +34,7 @@ class DeleteCategoryTest extends ECampApiTestCase {
 
     public function testDeleteCategoryIsDeniedForInactiveCollaborator() {
         $category = static::$fixtures['category1'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->username])
+        static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->getUsername()])
             ->request('DELETE', '/categories/'.$category->getId())
         ;
 
@@ -47,7 +47,7 @@ class DeleteCategoryTest extends ECampApiTestCase {
 
     public function testDeleteCategoryIsDeniedForGuest() {
         $category = static::$fixtures['category1'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user3guest']->username])
+        static::createClientWithCredentials(['username' => static::$fixtures['user3guest']->getUsername()])
             ->request('DELETE', '/categories/'.$category->getId())
         ;
 
@@ -60,7 +60,7 @@ class DeleteCategoryTest extends ECampApiTestCase {
 
     public function testDeleteCategoryIsAllowedForMember() {
         $category = static::$fixtures['category1'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->username])
+        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->getUsername()])
             ->request('DELETE', '/categories/'.$category->getId())
         ;
         $this->assertResponseStatusCodeSame(204);

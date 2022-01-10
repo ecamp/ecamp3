@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "print.name" . }}
+  labels:
+    {{- include "app.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.print.service.type }}
+  ports:
+    - port: {{ .Values.print.service.port }}
+      targetPort: print-http
+      protocol: TCP
+      name: print-http
+  selector:
+    {{- include "app.selectorLabels" . | nindent 4 }}
