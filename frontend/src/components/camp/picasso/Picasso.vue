@@ -63,7 +63,7 @@ Listing all given activity schedule entries in a calendar view.
         </dialog-activity-edit>
 
         <!-- readonly mode: complete div is a HTML link -->
-        <router-link v-if="!editable" :to="scheduleEntryRoute(event)">
+        <router-link v-if="!editable && !event.tmpEvent" :to="scheduleEntryRoute(event)">
           <div class="readonlyEntry">
             <h4 class="v-event-title">
               {{ getActivityName(event) }}
@@ -109,7 +109,7 @@ import { apiStore as api } from '@/plugins/store'
 import { scheduleEntryRoute } from '@/router.js'
 import mergeListeners from '@/helpers/mergeListeners.js'
 
-import DialogActivityEdit from '@/components/dialog/DialogActivityEdit.vue'
+import DialogActivityEdit from '@/components/scheduleEntry/DialogActivityEdit.vue'
 
 export default {
   name: 'Picasso',
