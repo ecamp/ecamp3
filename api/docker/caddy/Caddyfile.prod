@@ -2,8 +2,8 @@
     # Debug
     {$DEBUG}
 
-    http_port 4001
-    https_port 4443
+    http_port 3001
+    https_port 3443
     auto_https off
 
     # HTTP/3 support

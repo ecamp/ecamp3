@@ -288,7 +288,7 @@ jobs:
 
   ci-passed-event:
     name: "Send out CI success event"
-    if: github.event_name == 'push' && github.repository_owner == 'ecamp'
+    if: github.event_name == 'push' && (github.repository_owner == 'ecamp' || (github.event.pull_request && github.event.pull_request.number))
     needs:
       - backend-cs-check
       - api-cs-check
