@@ -6,12 +6,22 @@ Show all activity schedule entries of a single period.
   <content-card :title="$tc('views.camp.picasso.title')" toolbar>
     <template #title-actions>
       <period-switcher v-if="$vuetify.breakpoint.xsOnly" :period="period" />
-      <e-switch
-        v-model="editMode"
-        class="ml-5"
-        :label="$tc('views.camp.picasso.editMode')" />
+      <v-tooltip :disabled="isContributor" bottom>
+        <template #activator="{ on, attrs }">
+          <div
+            v-bind="attrs"
+            v-on="on">
+            <e-switch
+              v-model="editMode"
+              class="ml-5"
+              :disabled="!isContributor"
+              :label="$tc('views.camp.picasso.editMode')" />
+          </div>
+        </template>
+        <span>{{ $tc('views.camp.picasso.guestsCannotEdit') }}</span>
+      </v-tooltip>
     </template>
-    <schedule-entries :period="period" :show-button="true">
+    <schedule-entries :period="period" :show-button="isContributor">
       <template #default="slotProps">
         <template v-if="slotProps.loading">
           <v-skeleton-loader type="table" />
@@ -32,6 +42,7 @@ Show all activity schedule entries of a single period.
   </content-card>
 </template>
 <script>
+import { campRoleMixin } from '@/mixins/campRoleMixin'
 import ContentCard from '@/components/layout/ContentCard.vue'
 import Picasso from '@/components/camp/picasso/Picasso.vue'
 import ScheduleEntries from '@/components/scheduleEntry/ScheduleEntries.vue'
@@ -45,12 +56,18 @@ export default {
     Picasso,
     ScheduleEntries
   },
+  mixins: [campRoleMixin],
   props: {
     period: { type: Function, required: true }
   },
   data () {
     return {
       editMode: false
+    }
+  },
+  computed: {
+    camp () {
+      return this.period().camp()
     }
   }
 }
