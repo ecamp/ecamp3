@@ -25,7 +25,14 @@ jobs:
 
       - uses: actions/checkout@ec3a7ce113134d7a93b817d10a8272cb61118579 # renovate: tag=v2
 
-      - run: sh ./docker-compose-run-as-entrypoint.sh php composer validate -n --no-check-all --no-check-publish --strict
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1.1'
+          tools: composer:2.1
+          coverage: xdebug
+
+      - run: composer validate -n --no-check-all --no-check-publish --strict
+        working-directory: api
 
   backend-cs-check:
     name: "Lint: Backend (php-cs-fixer)"
@@ -57,6 +64,12 @@ jobs:
 
       - uses: actions/checkout@ec3a7ce113134d7a93b817d10a8272cb61118579 # renovate: tag=v2
 
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1.1'
+          tools: composer:2.1
+          coverage: xdebug
+
       - name: Get Composer Cache Directory
         id: composer-cache
         run: 'echo "::set-output name=dir::$(composer config cache-files-dir)"'
@@ -69,11 +82,11 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-composer-
 
-      - run: cp .env.ci .env
+      - run: composer install --no-interaction --no-plugins --no-scripts --prefer-dist
+        working-directory: api
 
-      - run: docker-compose run --rm --entrypoint "composer install --no-interaction --no-plugins --no-scripts --prefer-dist" php
-
-      - run: docker-compose run --rm --entrypoint "php vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.php -v --dry-run --diff" php
+      - run: php vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.php -v --dry-run --diff
+        working-directory: api
 
   frontend-eslint:
     name: "Lint: Frontend (ESLint)"
@@ -82,6 +95,10 @@ jobs:
 
       - uses: actions/checkout@ec3a7ce113134d7a93b817d10a8272cb61118579 # renovate: tag=v2
 
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '16.13.1'
+
       - uses: actions/cache@937d24475381cd9c75ae6db12cb4e79714b926ed # renovate: tag=v2
         with:
           path: ~/.npm
@@ -89,9 +106,11 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
 
-      - run: ./docker-compose-run-as-entrypoint.sh frontend npm ci
+      - run: npm ci
+        working-directory: frontend
 
-      - run: ./docker-compose-run-as-entrypoint.sh frontend npm run lint-check
+      - run: npm run lint-check
+        working-directory: frontend
 
   print-eslint:
     name: "Lint: Print (ESLint)"
@@ -100,6 +119,10 @@ jobs:
 
       - uses: actions/checkout@ec3a7ce113134d7a93b817d10a8272cb61118579 # renovate: tag=v2
 
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '16.13.1'
+
       - uses: actions/cache@937d24475381cd9c75ae6db12cb4e79714b926ed # renovate: tag=v2
         with:
           path: ~/.npm
@@ -107,13 +130,11 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
 
-      - run: mkdir print/node_modules
+      - run: npm ci
+        working-directory: print
 
-      - run: sudo chown -R 1000:1000 .cache print/node_modules
-
-      - run: USER_ID=1000 ./docker-compose-run-as-entrypoint.sh print npm ci
-
-      - run: ./docker-compose-run-as-entrypoint.sh print npm run lint
+      - run: npm run lint
+        working-directory: print
 
   backend-tests:
     name: "Tests: Backend"
@@ -157,10 +178,34 @@ jobs:
   api-tests:
     name: "Tests: API"
     runs-on: ubuntu-latest
+    env:
+      DATABASE_URL: postgresql://ecamp3:ecamp3@localhost:5432/ecamp3dev?serverVersion=13&charset=utf8
+
+    services:
+      postgres:
+        image: 'postgres:14-alpine@sha256:28e8ac42048c31694d443039d5adfe293f24eec7d8c0b4f88aaefcc8df1e5b72'
+        env:
+          POSTGRES_DB: 'ecamp3dev'
+          POSTGRES_PASSWORD: 'ecamp3'
+          POSTGRES_USER: 'ecamp3'
+        ports:
+          - '5432:5432'
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
     steps:
 
       - uses: actions/checkout@ec3a7ce113134d7a93b817d10a8272cb61118579 # renovate: tag=v2
-          
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1.1'
+          tools: composer:2.1
+          coverage: xdebug
+
       - name: Get Composer Cache Directory
         id: composer-cache
         run: 'echo "::set-output name=dir::$(composer config cache-files-dir)"'
@@ -173,14 +218,31 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-composer-
 
-      - run: cp .env.ci .env
+      - run: composer install --prefer-dist --no-progress --no-interaction
+        working-directory: api
 
-      - run: docker-compose run --rm php composer test
-        
+      - run: |
+          mkdir -p var/cache var/log
+          jwt_passphrase=${JWT_PASSPHRASE:-$(grep ''^JWT_PASSPHRASE='' .env | cut -f 2 -d ''='')}
+          echo "Generating public / private keys for JWT"
+          mkdir -p config/jwt
+          echo "$jwt_passphrase" | openssl genpkey -out config/jwt/private.pem -pass stdin -aes256 -algorithm rsa -pkeyopt rsa_keygen_bits:4096
+          echo "$jwt_passphrase" | openssl pkey -in config/jwt/private.pem -passin stdin -out config/jwt/public.pem -pubout
+          setfacl -R -m u:www-data:rX -m u:"$(whoami)":rwX config/jwt
+          setfacl -dR -m u:www-data:rX -m u:"$(whoami)":rwX config/jwt
+        working-directory: api
+
+      - run: php bin/console doctrine:migrations:migrate --no-interaction
+        working-directory: api
+
+      - run: php bin/console hautelook:fixtures:load --quiet
+        working-directory: api
+
+      - run: composer test
+        working-directory: api
+
       - name: send coveralls report
         run: |
-          # coveralls saves absolute paths and needs them to match again when running without docker
-          sed -i "s|/srv/api/|$(pwd)/api/|g" api/build/logs/clover.xml
           api/vendor/bin/php-coveralls  -r api \
                                             -v \
                                             --coverage_clover build/logs/clover.xml \
@@ -197,6 +259,10 @@ jobs:
 
       - uses: actions/checkout@ec3a7ce113134d7a93b817d10a8272cb61118579 # renovate: tag=v2
 
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '16.13.1'
+
       - uses: actions/cache@937d24475381cd9c75ae6db12cb4e79714b926ed # renovate: tag=v2
         with:
           path: ~/.npm
@@ -204,16 +270,17 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
 
-      - run: ./docker-compose-run-as-entrypoint.sh frontend npm ci
+      - run: npm ci
+        working-directory: frontend
 
-      - run: ./docker-compose-run-as-entrypoint.sh frontend npm run build
+      - run: npm run build
+        working-directory: frontend
 
-      - run: ./docker-compose-run-as-entrypoint.sh frontend npm run test:unit
+      - run: npm run test:unit
+        working-directory: frontend
 
       - name: send coverage info
-        run: |
-          sed -i "s|/app/|$(pwd)/frontend/|g" frontend/data/coverage/lcov.info
-          cat frontend/data/coverage/lcov.info | npx coveralls .
+        run: cat frontend/data/coverage/lcov.info | npx coveralls .
         env:
           COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           COVERALLS_SERVICE_NAME: github
@@ -229,6 +296,10 @@ jobs:
 
       - uses: actions/checkout@ec3a7ce113134d7a93b817d10a8272cb61118579 # renovate: tag=v2
 
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '16.13.1'
+
       - uses: actions/cache@937d24475381cd9c75ae6db12cb4e79714b926ed # renovate: tag=v2
         with:
           path: ~/.npm
@@ -236,15 +307,14 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
 
-      - run: mkdir print/node_modules print/.nuxt
+      - run: npm ci
+        working-directory: print
 
-      - run: sudo chown -R 1000:1000 .cache print/node_modules print/.nuxt
+      - run: npm run build
+        working-directory: print
 
-      - run: USER_ID=1000 ./docker-compose-run-as-entrypoint.sh print npm ci
-
-      - run: USER_ID=1000 ./docker-compose-run-as-entrypoint.sh print npm run build
-
-      - run: ./docker-compose-run-as-entrypoint.sh print npm run test
+      - run: npm run test
+        working-directory: print
 
       - run: cat print/coverage/lcov.info | npx coveralls .
         env:
