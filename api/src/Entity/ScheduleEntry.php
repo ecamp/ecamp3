@@ -6,7 +6,7 @@ use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
-use App\Doctrine\Filter\ExpressionDateFilter;
+use App\Doctrine\Filter\ExpressionDateTimeFilter;
 use App\Repository\ScheduleEntryRepository;
 use App\Validator\AssertBelongsToSameCamp;
 use DateInterval;
@@ -49,7 +49,7 @@ use Symfony\Component\Validator\Constraints as Assert;
     normalizationContext: ['groups' => ['read']],
 )]
 #[ApiFilter(SearchFilter::class, properties: ['period', 'activity'])]
-#[ApiFilter(ExpressionDateFilter::class, properties: [
+#[ApiFilter(ExpressionDateTimeFilter::class, properties: [
     'start' => 'DATE_ADD({period.start}, {}.periodOffset, \'minute\')',
     'end' => 'DATE_ADD(DATE_ADD({period.start}, {}.periodOffset, \'minute\'), {}.length, \'minute\')',
 ])]
