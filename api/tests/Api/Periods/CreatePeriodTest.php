@@ -144,7 +144,7 @@ class CreatePeriodTest extends ECampApiTestCase {
         ]);
     }
 
-    public function testCreatePeriodValidatesInvalidStart() {
+    public function testCreatePeriodValidatesInvalidStartDateFormat() {
         static::createClientWithCredentials()->request('POST', '/periods', ['json' => $this->getExampleWritePayload([
             'start' => '20201-01',
         ])]);
@@ -152,6 +152,21 @@ class CreatePeriodTest extends ECampApiTestCase {
         $this->assertResponseStatusCodeSame(400);
         $this->assertJsonContains([
             'detail' => 'DateTime::__construct(): Failed to parse time string (20201-01) at position 4 (1): Unexpected character',
+        ]);
+    }
+
+    public function testCreatePeriodValidatesInvalidStartDateTime() {
+        $this->markTestSkipped(
+            'FIXME: DateTime format is currenctly accepted by mistake.'
+        );
+
+        static::createClientWithCredentials()->request('POST', '/periods', ['json' => $this->getExampleWritePayload([
+            'start' => '2021-01-01T05:31+01:00',
+        ])]);
+
+        $this->assertResponseStatusCodeSame(400);
+        $this->assertJsonContains([
+            'detail' => 'Parsing datetime string "2021-01-01T05:31+01:00" using format "Y-m-d" resulted in 1 errors: at position 10: Trailing data',
         ]);
     }
 
