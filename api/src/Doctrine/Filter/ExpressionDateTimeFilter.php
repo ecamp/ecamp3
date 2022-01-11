@@ -12,7 +12,7 @@ use Doctrine\ORM\QueryBuilder;
 /**
  * Filters a computed property on the collection by date intervals.
  */
-class ExpressionDateFilter extends AbstractContextAwareFilter implements DateFilterInterface {
+class ExpressionDateTimeFilter extends AbstractContextAwareFilter implements DateFilterInterface {
     use DateFilterTrait;
 
     /**
