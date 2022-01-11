@@ -90,7 +90,7 @@ class Storyboard extends ContentNode {
             $section->column1 = $prototypeSection->column1;
             $section->column2 = $prototypeSection->column2;
             $section->column3 = $prototypeSection->column3;
-            $section->setPos($prototypeSection->getPos());
+            $section->setPosition($prototypeSection->getPosition());
 
             $this->addSection($section);
         }

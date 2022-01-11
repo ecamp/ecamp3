@@ -63,7 +63,7 @@ RUN set -eux; \
 ###> recipes ###
 ###< recipes ###
 
-COPY --from=composer:2.1@sha256:d0eac5654489070d26e46205da0afee1371b4feae10f7ebbb1c754ca04240fb5 /usr/bin/composer /usr/bin/composer
+COPY --from=composer:2.1@sha256:4fcde2d9bff5a4446c59925ee5cfa74846b309163eca24c205360dc77efab1b3 /usr/bin/composer /usr/bin/composer
 
 # Copy development php.ini
 RUN cp "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
@@ -97,6 +97,7 @@ COPY migrations migrations/
 COPY fixtures fixtures/
 COPY public public/
 COPY src src/
+COPY templates templates/
 
 RUN set -eux; \
 	mkdir -p var/cache var/log; \
@@ -107,6 +108,8 @@ RUN set -eux; \
 
 COPY docker/php/docker-healthcheck.sh /usr/local/bin/docker-healthcheck
 RUN chmod +x /usr/local/bin/docker-healthcheck
+COPY docker/php/migrate-database.sh /usr/local/bin/migrate-database
+RUN chmod +x /usr/local/bin/migrate-database
 
 HEALTHCHECK --interval=10s --timeout=3s --retries=3 CMD ["docker-healthcheck"]
 

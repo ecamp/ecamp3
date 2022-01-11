@@ -1,0 +1,36 @@
+# Left column (slot 1)
+App\Entity\ContentNode\MultiSelect:
+  multiSelect1:
+    root: '@columnLayout1'
+    parent: '@columnLayout1'
+    slot: '1'
+    position: 0
+    instanceName: 'multiSelect1'
+    contentType: '@contentTypeMultiSelect'
+
+App\Entity\ContentNode\MaterialNode:
+  materialNode1:
+    root: '@columnLayout1'
+    parent: '@columnLayout1'
+    slot: '1'
+    position: 1
+    instanceName: 'materialNode1'
+    contentType: '@contentTypeMaterial'
+
+App\Entity\ContentNode\SingleText:
+  singleText1:
+    root: '@columnLayout1'
+    parent: '@columnLayout1'
+    slot: '1'
+    position: 2
+    instanceName: 'singleText1'
+    contentType: '@contentTypeNotes'
+    text: <word()>
+  safetyConcept1:
+    root: '@columnLayout1'
+    parent: '@columnLayout1'
+    slot: '1'
+    position: 3
+    instanceName: 'safetyConcept1'
+    contentType: '@contentTypeSafetyConcept'
+    text: <sentence()>

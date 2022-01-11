@@ -107,7 +107,7 @@ class CreateColumnLayoutTest extends CreateContentNodeTestCase {
         static::createClientWithCredentials()->request('POST', $this->endpoint, ['json' => $this->getExampleWritePayload([], ['position'])]);
 
         $this->assertResponseStatusCodeSame(201);
-        $this->assertJsonContains(['position' => null]);
+        $this->assertJsonContains(['position' => 0]);
     }
 
     public function testCreateColumnLayoutAllowsMissingInstanceName() {

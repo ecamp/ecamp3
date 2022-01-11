@@ -89,7 +89,7 @@ class MultiSelect extends ContentNode {
 
             $option->translateKey = $prototypeOption->translateKey;
             $option->checked = $prototypeOption->checked;
-            $option->setPos($prototypeOption->getPos());
+            $option->setPosition($prototypeOption->getPosition());
 
             $this->addOption($option);
         }

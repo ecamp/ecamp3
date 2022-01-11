@@ -39,6 +39,7 @@ class Profile extends BaseEntity {
 
     /**
      * Unique email of the user.
+     * Cannot be changed until we have a workflow where the changed email is validated again.
      *
      * @ORM\Column(type="string", length=64, nullable=false, unique=true)
      */
@@ -46,7 +47,7 @@ class Profile extends BaseEntity {
     #[Assert\NotBlank]
     #[Assert\Email]
     #[ApiProperty(example: self::EXAMPLE_EMAIL)]
-    #[Groups(['read', 'write'])]
+    #[Groups(['read', 'create'])]
     public ?string $email = null;
 
     /**

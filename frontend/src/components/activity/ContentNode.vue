@@ -49,7 +49,7 @@ export default {
 }
 
 .draggable {
-  cursor: pointer;
+  cursor: move;
 
   &:hover {
     background: map-get($blue-grey, 'lighten-5');
@@ -60,7 +60,4 @@ export default {
   }
 }
 
-.draggable [disabled] {
-  cursor: move;
-}
 </style>

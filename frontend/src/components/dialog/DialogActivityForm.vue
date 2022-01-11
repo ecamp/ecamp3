@@ -5,7 +5,8 @@
       :name="$tc('entity.activity.fields.title')"
       vee-rules="required" />
 
-    <e-select v-model="localActivity.category" :label="$tc('entity.activity.fields.category')"
+    <e-select v-model="localActivity.category"
+              :name="$tc('entity.activity.fields.category')"
               :items="categories.items"
               item-value="_meta.self"
               item-text="name"
@@ -34,6 +35,7 @@
       v-model="localActivity.location"
       :name="$tc('entity.activity.fields.location')" />
 
+    <!-- TO DO: doesn't work in edit mode -->
     <create-schedule-entries v-if="activity.scheduleEntries" :schedule-entries="activity.scheduleEntries" />
   </div>
 </template>
