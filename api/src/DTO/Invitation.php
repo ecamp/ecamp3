@@ -30,7 +30,7 @@ use Symfony\Component\Validator\Constraints as Assert;
             ],
         ],
         self::ACCEPT => [
-            'security' => 'is_fully_authenticated()',
+            'security' => 'is_authenticated()',
             'method' => 'PATCH',
             'path' => '/{inviteKey}/'.self::ACCEPT.'.{_format}',
             'denormalization_context' => [

@@ -13,14 +13,14 @@ App\Entity\Period:
     camp: '@camp2'
     description: Vorweekend
     start: '<(new DateTime("2023-11-10"))>'
-    end: '<(new DateTime("2023-11-11"))>'
+    end: '<(new DateTime("2023-11-10"))>'
   period1campUnrelated:
     camp: '@campUnrelated'
     description: Hauptlager
     start: '<(new DateTime("2024-02-20"))>'
-    end: '<(new DateTime("2024-03-03"))>'
+    end: '<(new DateTime("2024-02-20"))>'
   period1campPrototype:
     camp: '@campPrototype'
     description: Hauptlager
     start: '<(new DateTime("2021-01-01"))>'
-    end: '<(new DateTime("2021-01-15"))>'
+    end: '<(new DateTime("2021-01-01"))>'

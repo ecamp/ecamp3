@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "print.name" . }}-configmap
+  labels:
+    {{- include "app.labels" . | nindent 4 }}
+data:
+  INTERNAL_API_ROOT_URL: {{ include "api.url" . | quote }}
+  API_ROOT_URL: {{ include "api.url" . | quote }}
+  FRONTEND_URL: {{ include "frontend.url" . | quote }}

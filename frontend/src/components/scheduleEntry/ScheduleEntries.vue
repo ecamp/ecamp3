@@ -3,17 +3,14 @@
     <slot
       :scheduleEntries="scheduleEntries"
       :loading="apiScheduleEntries._meta.loading"
-      :showActivityCreateDialog="showActivityCreateDialog"
-      :showActivityEditDialog="showActivityEditDialog" />
+      :on="eventHandlers" />
     <dialog-activity-create
       ref="dialogActivityCreate"
       :camp="period().camp"
-      :schedule-entry="popupEntry"
+      :schedule-entry="newEntryPlaceholder"
       @activityCreated="afterCreateActivity($event)"
       @creationCanceled="cancelNewActivity" />
-    <dialog-activity-edit
-      ref="dialogActivityEdit"
-      :schedule-entry="popupEntry" />
+
     <v-btn
       v-if="showButton"
       :fixed="$vuetify.breakpoint.xs"
@@ -33,14 +30,12 @@
 
 <script>
 import DialogActivityCreate from '@/components/dialog/DialogActivityCreate.vue'
-import DialogActivityEdit from '@/components/dialog/DialogActivityEdit.vue'
 import { defineHelpers } from '@/common/helpers/scheduleEntry/dateHelperLocal.js'
 
 export default {
   name: 'ScheduleEntries',
   components: {
-    DialogActivityCreate,
-    DialogActivityEdit
+    DialogActivityCreate
   },
   props: {
     period: { type: Function, required: true },
@@ -49,8 +44,27 @@ export default {
   data () {
     return {
       scheduleEntries: [],
-      deleteTempEntryCallback: () => {},
-      popupEntry: {}
+      eventHandlers: {
+        changePlaceholder: this.changePlaceholder,
+        newEntry: this.newEntry
+      },
+      newEntryPlaceholder: defineHelpers({
+        number: null,
+        period: () => (this.period)(),
+        periodOffset: -100, // hidden from view
+        length: 60,
+        activity: () => ({
+          title: this.$tc('entity.activity.new'),
+          location: '',
+          camp: (this.period)().camp,
+          category: () => ({
+            id: null,
+            short: null,
+            color: 'grey elevation-4 v-event--temporary'
+          })
+        }),
+        tmpEvent: true
+      }, true)
     }
   },
   computed: {
@@ -63,46 +77,48 @@ export default {
     apiScheduleEntries: {
       immediate: true,
       handler (value) {
-        this.scheduleEntries = value.items.map(entry => defineHelpers(entry, true))
+        this.scheduleEntries = value.items.map(entry => defineHelpers(entry, true)).concat(this.newEntryPlaceholder)
       }
     }
   },
+  mounted () {
+    this.period().scheduleEntries().$reload()
+    this.period().camp().activities().$reload()
+    this.period().camp().categories().$reload()
+  },
+
   methods: {
-    createNewActivity () {
-      const entry = defineHelpers({
-        number: null,
-        period: () => (this.period)(),
-        periodOffset: 420,
-        length: 60,
-        activity: () => ({
-          title: this.$tc('entity.activity.new'),
-          location: '',
-          camp: (this.period)().camp,
-          category: () => ({
-            id: null,
-            short: null,
-            color: 'grey elevation-4 v-event--temporary'
-          })
-        })
-      }, true)
-      this.showActivityCreateDialog(entry, () => {})
+    resetPlaceholder () {
+      this.newEntryPlaceholder.periodOffset = -100
+      this.newEntryPlaceholder.length = 60
     },
-    showActivityCreateDialog (entry, deleteTempEntryCallback) {
-      this.popupEntry = entry
-      this.deleteTempEntryCallback = deleteTempEntryCallback
+
+    createNewActivity () {
+      this.resetPlaceholder()
+      this.newEntryPlaceholder.periodOffset = 8 * 60
+      this.showActivityCreateDialog()
+    },
+    showActivityCreateDialog () {
       this.$refs.dialogActivityCreate.showDialog = true
     },
-    showActivityEditDialog (entry) {
-      this.popupEntry = entry
-      this.$refs.dialogActivityEdit.showDialog = true
-    },
     afterCreateActivity (data) {
+      this.resetPlaceholder()
       this.api.reload(this.period().scheduleEntries())
-      this.scheduleEntries.push(...data.scheduleEntries().items.map(entry => defineHelpers(entry, true)))
-      this.deleteTempEntryCallback()
     },
     cancelNewActivity () {
-      this.deleteTempEntryCallback()
+      this.resetPlaceholder()
+    },
+
+    // Event Handler on.changePlaceholder: change position of the current placeholder
+    changePlaceholder (start, end) {
+      this.newEntryPlaceholder.startTime = start
+      this.newEntryPlaceholder.endTime = end
+    },
+
+    // Event Handler on.newEntry: update position of placeholder & open create dialog
+    newEntry (start, end) {
+      this.changePlaceholder(start, end)
+      this.showActivityCreateDialog()
     },
     defineHelpers
   }

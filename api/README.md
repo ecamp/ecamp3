@@ -1,6 +1,6 @@
 # eCamp v3 API
 
-After starting the project using `docker-compose up -d`, you can visit the API documentation in the browser at http://localhost:4001
+After starting the project using `docker-compose up -d`, you can visit the API documentation in the browser at http://localhost:3001
 
 To use the API, you will need to log in. You can use the "Login" endpoint offered in the Swagger UI for this. The example credentials should work fine in development.
 

@@ -42,7 +42,7 @@ final class CircularReferenceDetectingHalItemNormalizer extends AbstractItemNorm
     /**
      * {@inheritdoc}
      */
-    public function normalize($object, $format = null, array $context = []) {
+    public function normalize($object, $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null {
         if ($this->isHalCircularReference($object, $context)) {
             return $this->handleHalCircularReference($object, $format, $context);
         }

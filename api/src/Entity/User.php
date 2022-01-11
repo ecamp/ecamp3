@@ -38,7 +38,7 @@ use Symfony\Component\Validator\Constraints as Assert;
             'path' => 'users/{id}/activate.{_format}',
             'denormalization_context' => ['groups' => ['activate']],
         ],
-        'get' => ['security' => 'is_fully_authenticated()'],
+        'get' => ['security' => 'is_authenticated()'],
         'patch' => [
             'security' => 'object === user',
         ],
@@ -191,7 +191,7 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
         return $this->profile->email;
     }
 
-    public function getUserIdentifier(): ?string {
+    public function getUserIdentifier(): string {
         return $this->profile->username;
     }
 
