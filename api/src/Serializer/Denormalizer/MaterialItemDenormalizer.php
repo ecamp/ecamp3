@@ -23,7 +23,7 @@ class MaterialItemDenormalizer implements ContextAwareDenormalizerInterface, Den
     /**
      * {@inheritdoc}
      */
-    public function denormalize($data, $type, $format = null, array $context = []) {
+    public function denormalize($data, $type, $format = null, array $context = []): mixed {
         if ('post' === ($context['collection_operation_name'] ?? null)) {
             // copy query parameters to POST payload
             // this allows e.g. posting on /material_items?materialNode=/content_node/material_node/123 without explicitly providing materialNode in POST payload
@@ -39,7 +39,7 @@ class MaterialItemDenormalizer implements ContextAwareDenormalizerInterface, Den
     /**
      * {@inheritdoc}
      */
-    public function supportsDenormalization($data, string $type, $format = null, array $context = []) {
+    public function supportsDenormalization(mixed $data, string $type, string $format = null, array $context = []): bool {
         // Make sure we don't run this denormalizer twice.
         if (isset($context[self::ALREADY_CALLED])) {
             return false;

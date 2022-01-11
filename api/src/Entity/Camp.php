@@ -21,9 +21,9 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 #[ApiResource(
     collectionOperations: [
-        'get' => ['security' => 'is_fully_authenticated()'],
+        'get' => ['security' => 'is_authenticated()'],
         'post' => [
-            'security' => 'is_fully_authenticated()',
+            'security' => 'is_authenticated()',
             'input_formats' => ['jsonld', 'jsonapi', 'json'],
             'validation_groups' => ['Default', 'create'],
             'denormalization_context' => ['groups' => ['write', 'create']],

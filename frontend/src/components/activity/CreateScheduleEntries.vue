@@ -12,6 +12,8 @@
       <v-row v-for="scheduleEntry in mappedScheduleEntries"
              :key="scheduleEntry.id"
              no-gutters class="mx-2 mb-2">
+        <!-- TODO: add selector for day -->
+
         <v-col>
           <e-time-picker
             v-model="scheduleEntry.startTimeUTCFormatted"

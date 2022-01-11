@@ -392,6 +392,11 @@
       },
       "story": {
         "title": "Story"
+      },
+      "picasso": {
+        "editMode": "Edit mode",
+        "title": "Picasso",
+        "guestsCannotEdit": "A guest cannot edit the picasso"
       }
     },
     "campCreate": {

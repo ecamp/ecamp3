@@ -10,6 +10,7 @@ use App\Entity\ScheduleEntry;
 use DateTime;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
+use RuntimeException;
 
 /**
  * @internal
@@ -124,6 +125,17 @@ class ScheduleEntryTest extends TestCase {
     public function testGetDay() {
         $this->assertEquals($this->day1, $this->scheduleEntry2->getDay());
         $this->assertEquals($this->day2, $this->scheduleEntry3->getDay());
+    }
+
+    public function testGetDayThrowsErrorIfDayEntityIsMissing() {
+        // given
+        $this->period->removeDay($this->day1);
+
+        // then
+        $this->expectException(RuntimeException::class);
+
+        // when
+        $this->scheduleEntry1->getDay();
     }
 
     protected function setCreateTime(ScheduleEntry $scheduleEntry, DateTime $createTime) {

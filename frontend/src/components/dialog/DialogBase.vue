@@ -84,6 +84,9 @@ export default {
     close () {
       this.showDialog = false
     },
+    open () {
+      this.showDialog = true
+    },
     onError (originalHandlers, e) {
       // By the time we get here, the dialog might be closed because an enclosing menu might be closed.
       // See https://github.com/vuetifyjs/vuetify/issues/7021
