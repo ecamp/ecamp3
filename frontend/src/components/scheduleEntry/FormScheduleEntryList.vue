@@ -15,7 +15,7 @@
         </v-col>
       </v-row>
       <form-schedule-entry-item v-for="(scheduleEntry, index) in scheduleEntries"
-                                :key="index"
+                                :key="scheduleEntry.key"
                                 :schedule-entry="scheduleEntry"
                                 :periods="periods"
                                 :is-last-item="scheduleEntries.length === 1"
@@ -30,6 +30,7 @@
 <script>
 import FormScheduleEntryItem from './FormScheduleEntryItem.vue'
 import ButtonAdd from '@/components/buttons/ButtonAdd.vue'
+import { uniqueId } from 'lodash'
 
 export default {
   name: 'FormScheduleEntryList',
@@ -62,7 +63,8 @@ export default {
       this.localScheduleEntries.push({
         period: () => (this.period)(),
         periodOffset: 420, // 7am
-        length: 60 // 1 hours
+        length: 60, // 1 hours
+        key: uniqueId()
       })
     },
     deleteEntry (index) {

@@ -23,6 +23,7 @@
 import DialogForm from '@/components/dialog/DialogForm.vue'
 import DialogBase from '@/components/dialog/DialogBase.vue'
 import DialogActivityForm from './DialogActivityForm.vue'
+import { uniqueId } from 'lodash'
 
 export default {
   name: 'DialogActivityCreate',
@@ -61,7 +62,8 @@ export default {
             {
               period: this.scheduleEntry.period,
               periodOffset: this.scheduleEntry.periodOffset,
-              length: this.scheduleEntry.length
+              length: this.scheduleEntry.length,
+              key: uniqueId()
             }
           ]
         })
