@@ -14,13 +14,15 @@
                       @click="addScheduleEntry" />
         </v-col>
       </v-row>
-      <form-schedule-entry-item v-for="(scheduleEntry, index) in scheduleEntries"
-                                :key="scheduleEntry.key"
-                                :schedule-entry="scheduleEntry"
-                                :periods="periods"
-                                :is-last-item="scheduleEntries.length === 1"
-                                @delete="deleteEntry(index)" />
-
+      <transition-group name="transition-list" tag="div" class="row no-gutters">
+        <form-schedule-entry-item v-for="(scheduleEntry, index) in scheduleEntries"
+                                  :key="scheduleEntry.key"
+                                  class="transition-list-item pa-0 mb-4"
+                                  :schedule-entry="scheduleEntry"
+                                  :periods="periods"
+                                  :is-last-item="scheduleEntries.length === 1"
+                                  @delete="deleteEntry(index)" />
+      </transition-group>
       <v-row>
         <v-col cols="12" class="text-center" />
       </v-row>
@@ -84,4 +86,12 @@ export default {
   border-bottom: 1px solid map-get($blue-grey, 'lighten-4');
 
 }
+.transition-list-item {
+  transition: all 0.5s;
+  display: inline-block;
+}
+.transition-list-enter, .transition-list-leave-to {
+  opacity: 0;
+}
+
 </style>

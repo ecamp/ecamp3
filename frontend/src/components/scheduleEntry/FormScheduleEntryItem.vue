@@ -1,53 +1,55 @@
 <template>
-  <v-row
-    no-gutters class="mx-2 mb-2">
-    <v-col cols="5">
-      <e-date-picker
-        v-model="mappedScheduleEntry.startTimeUTCFormatted"
-        value-format="YYYY-MM-DDTHH:mm:ssZ"
-        :name="$tc('components.activity.createScheduleEntries.fields.startTime')"
-        vee-rules="required"
-        :allowed-dates="allowedStartDates"
-        :filled="false"
-        class="float-left date-picker"
-        required />
+  <v-container>
+    <v-row
+      no-gutters class="mx-2 mb-2">
+      <v-col cols="5">
+        <e-date-picker
+          v-model="mappedScheduleEntry.startTimeUTCFormatted"
+          value-format="YYYY-MM-DDTHH:mm:ssZ"
+          :name="$tc('components.activity.createScheduleEntries.fields.startTime')"
+          vee-rules="required"
+          :allowed-dates="allowedStartDates"
+          :filled="false"
+          class="float-left date-picker"
+          required />
 
-      <e-time-picker
-        v-model="mappedScheduleEntry.startTimeUTCFormatted"
-        :name="$tc('components.activity.createScheduleEntries.fields.startTime')"
-        vee-rules="required"
-        :filled="false"
-        class="float-left mt-0 ml-1 time-picker"
-        required />
-    </v-col>
-    <v-col cols="1" class="text-center pt-4">
-      -
-    </v-col>
-    <v-col cols="5">
-      <e-date-picker
-        v-model="mappedScheduleEntry.endTimeUTCFormatted"
-        value-format="YYYY-MM-DDTHH:mm:ssZ"
-        :name="$tc('components.activity.createScheduleEntries.fields.endTime')"
-        vee-rules="required"
-        :allowed-dates="allowedEndDates"
-        :filled="false"
-        class="float-left date-picker"
-        required />
+        <e-time-picker
+          v-model="mappedScheduleEntry.startTimeUTCFormatted"
+          :name="$tc('components.activity.createScheduleEntries.fields.startTime')"
+          vee-rules="required"
+          :filled="false"
+          class="float-left mt-0 ml-3 time-picker"
+          required />
+      </v-col>
+      <v-col cols="1" class="text-center pt-4">
+        -
+      </v-col>
+      <v-col cols="5">
+        <e-date-picker
+          v-model="mappedScheduleEntry.endTimeUTCFormatted"
+          value-format="YYYY-MM-DDTHH:mm:ssZ"
+          :name="$tc('components.activity.createScheduleEntries.fields.endTime')"
+          vee-rules="required"
+          :allowed-dates="allowedEndDates"
+          :filled="false"
+          class="float-left date-picker"
+          required />
 
-      <e-time-picker
-        v-model="mappedScheduleEntry.endTimeUTCFormatted"
+        <e-time-picker
+          v-model="mappedScheduleEntry.endTimeUTCFormatted"
 
-        :name="$tc('components.activity.createScheduleEntries.fields.endTime')"
-        vee-rules="required"
-        :filled="false"
-        class="float-left mt-0 ml-1 time-picker"
-        required />
-    </v-col>
+          :name="$tc('components.activity.createScheduleEntries.fields.endTime')"
+          vee-rules="required"
+          :filled="false"
+          class="float-left mt-0 ml-3 time-picker"
+          required />
+      </v-col>
 
-    <v-col cols="1" class="pt-3 text-center">
-      <button-delete v-if="!isLastItem" icon-only @click="$emit('delete')" />
-    </v-col>
-  </v-row>
+      <v-col cols="1" class="pt-3 text-center">
+        <button-delete v-if="!isLastItem" icon-only @click="$emit('delete')" />
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 <script>
 import { defineHelpers } from '@/common/helpers/scheduleEntry/dateHelperUTCFormatted.js'
@@ -136,10 +138,10 @@ export default {
 </script>
 <style scoped lang="scss">
 .date-picker{
-  width: 125px;
+  width: 120px;
 }
 
 .time-picker{
-  width: 100px;
+  width: 80px;
 }
 </style>
