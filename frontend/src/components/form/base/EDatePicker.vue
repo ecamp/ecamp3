@@ -59,34 +59,34 @@ export default {
     // v-date-picker allowedDates
     allowedDates: { type: Function, default: null }
   },
-  data () {
-    return {
-      // Day.js object of parsed value
-      dateTime: null
-    }
-  },
-  watch: {
-    value: {
-      immediate: true,
-      handler (val) {
-        this.dateTime = this.$date.utc(val, this.valueFormat)
-      }
-    }
-  },
   methods: {
 
     /**
      * override date but keep time
      */
-    setDate (dateTime) {
-      if (this.dateTime && this.dateTime.isValid()) {
-        this.dateTime = this.dateTime
-          .year(dateTime.year())
-          .month(dateTime.month())
-          .date(dateTime.date())
+    setDateOnValue (date) {
+      // current value as DayJS
+      let valueDateTime = this.getValueAsDateTime(this.value)
+
+      // override date
+      if (valueDateTime && valueDateTime.isValid()) {
+        valueDateTime = valueDateTime
+          .year(date.year())
+          .month(date.month())
+          .date(date.date())
       } else {
-        this.dateTime = dateTime
+        valueDateTime = date
       }
+
+      // return in value format
+      return valueDateTime.format(this.valueFormat)
+    },
+
+    /**
+     * returns val as DayJS object
+     */
+    getValueAsDateTime (val) {
+      return this.$date.utc(val, this.valueFormat)
     },
 
     /**
@@ -94,7 +94,7 @@ export default {
      */
     format (val) {
       if (val !== '') {
-        return this.$date.utc(val, this.valueFormat).format('L')
+        return this.getValueAsDateTime(val).format('L')
       }
       return ''
     },
@@ -104,7 +104,7 @@ export default {
      */
     formatPicker (val) {
       if (val !== '') {
-        return this.$date.utc(val, this.valueFormat).format(HTML5_FMT.DATE)
+        return this.getValueAsDateTime(val).format(HTML5_FMT.DATE)
       }
       return ''
     },
@@ -116,8 +116,8 @@ export default {
       if (val) {
         const parsedDate = this.$date.utc(val, 'L')
         if (parsedDate.isValid() && parsedDate.format('L') === val) {
-          this.setDate(parsedDate)
-          return Promise.resolve(this.dateTime.format(this.valueFormat))
+          const newValue = this.setDateOnValue(parsedDate)
+          return Promise.resolve(newValue)
         } else {
           return Promise.reject(new Error('invalid format'))
         }
@@ -133,8 +133,8 @@ export default {
       if (val) {
         const parsedDate = this.$date.utc(val, HTML5_FMT.DATE)
         if (parsedDate.isValid() && parsedDate.format(HTML5_FMT.DATE) === val) {
-          this.setDate(parsedDate)
-          return Promise.resolve(this.dateTime.format(this.valueFormat))
+          const newValue = this.setDateOnValue(parsedDate)
+          return Promise.resolve(newValue)
         } else {
           return Promise.reject(new Error('invalid format'))
         }
