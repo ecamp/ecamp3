@@ -32,7 +32,7 @@ import FormScheduleEntryItem from './FormScheduleEntryItem.vue'
 import ButtonAdd from '@/components/buttons/ButtonAdd.vue'
 
 export default {
-  name: 'CreateActivityScheduleEntries',
+  name: 'FormScheduleEntryList',
   components: { FormScheduleEntryItem, ButtonAdd },
   props: {
     scheduleEntries: {

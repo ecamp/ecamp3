@@ -56,7 +56,7 @@ import dayjs from '@/common/helpers/dayjs.js'
 import ButtonDelete from '@/components/buttons/ButtonDelete.vue'
 
 export default {
-  name: 'CreateActivityScheduleEntriesItem',
+  name: 'FormScheduleEntryItem',
   components: { ButtonDelete },
   props: {
     // scheduleEntry to display
