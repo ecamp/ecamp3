@@ -110,7 +110,7 @@ class CampCollaboration extends BaseEntity implements BelongsToCampInterface {
     /**
      * List of whole-day responsibilities that the collaborator has in the camp.
      *
-     * @ORM\OneToMany(targetEntity="DayResponsible", mappedBy="campCollaboration", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="DayResponsible", mappedBy="campCollaboration", orphanRemoval=true, cascade={"persist"})
      */
     #[ApiProperty(writable: false, example: '["/day_responsibles/1a2b3c4d"]')]
     public Collection $dayResponsibles;
@@ -118,7 +118,7 @@ class CampCollaboration extends BaseEntity implements BelongsToCampInterface {
     /**
      * List of activities in the camp that the collaborator is responsible for planning or carrying out.
      *
-     * @ORM\OneToMany(targetEntity="ActivityResponsible", mappedBy="campCollaboration", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="ActivityResponsible", mappedBy="campCollaboration", orphanRemoval=true, cascade={"persist"})
      */
     #[ApiProperty(writable: false, example: '["/activity_responsibles/1a2b3c4d"]')]
     public Collection $activityResponsibles;

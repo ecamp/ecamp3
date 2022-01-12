@@ -45,7 +45,7 @@ class Day extends BaseEntity implements BelongsToCampInterface {
     /**
      * The list of people who have a whole-day responsibility on this day.
      *
-     * @ORM\OneToMany(targetEntity="DayResponsible", mappedBy="day", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="DayResponsible", mappedBy="day", orphanRemoval=true, cascade={"persist"})
      */
     #[ApiProperty(writable: false, example: '["/day_responsibles/1a2b3c4d"]')]
     #[Groups(['read'])]

@@ -50,7 +50,7 @@ class DayResponsible extends BaseEntity implements BelongsToCampInterface {
     /**
      * The person that is responsible. Must belong to the same camp as the day's period.
      *
-     * @ORM\ManyToOne(targetEntity="CampCollaboration", inversedBy="dayResponsibles")
+     * @ORM\ManyToOne(targetEntity="CampCollaboration", inversedBy="dayResponsibles", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false, onDelete="cascade")
      */
     #[AssertBelongsToSameCamp]

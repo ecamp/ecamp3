@@ -52,7 +52,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
     ];
 
     /**
-     * @ORM\OneToMany(targetEntity="CampCollaboration", mappedBy="camp", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="CampCollaboration", mappedBy="camp", orphanRemoval=true, cascade={"persist"})
      */
     #[SerializedName('campCollaborations')]
     #[Groups(['read'])]
@@ -98,7 +98,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
      * Lists for collecting the required materials needed for carrying out the programme. Each collaborator
      * has a material list, and there may be more, such as shopping lists.
      *
-     * @ORM\OneToMany(targetEntity="MaterialList", mappedBy="camp", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="MaterialList", mappedBy="camp", orphanRemoval=true, cascade={"persist"})
      */
     #[ApiProperty(writable: false, example: '["/material_lists/1a2b3c4d"]')]
     #[Groups(['read'])]

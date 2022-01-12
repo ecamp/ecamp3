@@ -76,7 +76,7 @@ class Activity extends AbstractContentNodeOwner implements BelongsToCampInterfac
     /**
      * The list of people that are responsible for planning or carrying out this activity.
      *
-     * @ORM\OneToMany(targetEntity="ActivityResponsible", mappedBy="activity", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="ActivityResponsible", mappedBy="activity", orphanRemoval=true, cascade={"persist"})
      */
     #[ApiProperty(readable: false, writable: false)]
     public Collection $activityResponsibles;
