@@ -2,6 +2,7 @@
   <dialog-form
     v-model="showDialog"
     :loading="loading"
+    :error="error"
     icon="mdi-calendar-edit"
     :title="period.description"
     max-width="600px"
@@ -10,7 +11,6 @@
     <template #activator="scope">
       <slot name="activator" v-bind="scope" />
     </template>
-    <server-error :server-error="error" />
     <dialog-period-form :period="entityData" />
 
     <e-checkbox v-model="entityData.moveScheduleEntries"
@@ -79,11 +79,10 @@
 import DialogBase from '@/components/dialog/DialogBase.vue'
 import DialogForm from '@/components/dialog/DialogForm.vue'
 import DialogPeriodForm from './DialogPeriodForm.vue'
-import ServerError from '@/components/form/ServerError.vue'
 
 export default {
   name: 'DialogPeriodEdit',
-  components: { DialogForm, DialogPeriodForm, ServerError },
+  components: { DialogForm, DialogPeriodForm },
   extends: DialogBase,
   props: {
     period: { type: Object, required: true }

@@ -2,6 +2,7 @@
   <dialog-form
     v-model="showDialog"
     :loading="loading"
+    :error="error"
     icon="mdi-package-variant"
     :title="title"
     max-width="600px"
@@ -11,7 +12,7 @@
     <template #activator="scope">
       <slot name="activator" v-bind="scope" />
     </template>
-    <server-error :server-error="error" />
+
     <dialog-material-item-form :material-lists="camp.materialLists" :material-item="entityData" />
   </dialog-form>
 </template>
@@ -20,11 +21,10 @@
 import DialogBase from '@/components/dialog/DialogBase.vue'
 import DialogForm from '@/components/dialog/DialogForm.vue'
 import DialogMaterialItemForm from './DialogMaterialItemForm.vue'
-import ServerError from '@/components/form/ServerError.vue'
 
 export default {
   name: 'DialogMaterialItemEdit',
-  components: { DialogForm, DialogMaterialItemForm, ServerError },
+  components: { DialogForm, DialogMaterialItemForm },
   extends: DialogBase,
   props: {
     materialItemUri: { type: String, required: true }

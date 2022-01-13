@@ -35,23 +35,32 @@
       v-model="localActivity.location"
       :name="$tc('entity.activity.fields.location')" />
 
-    <!-- TO DO: doesn't work in edit mode -->
-    <create-schedule-entries v-if="activity.scheduleEntries" :schedule-entries="activity.scheduleEntries" />
+    <form-schedule-entry-list
+      v-if="activity.scheduleEntries"
+      :schedule-entries="activity.scheduleEntries"
+      :period="period"
+      :periods="camp().periods().items" />
   </div>
 </template>
 
 <script>
-import CreateScheduleEntries from '@/components/activity/CreateScheduleEntries.vue'
+import FormScheduleEntryList from './FormScheduleEntryList.vue'
 
 export default {
   name: 'DialogActivityForm',
-  components: { CreateScheduleEntries },
+  components: { FormScheduleEntryList },
   props: {
     activity: {
       type: Object,
       required: true
     },
     camp: {
+      type: Function,
+      required: true
+    },
+
+    // currently visible period
+    period: {
       type: Function,
       required: true
     }
