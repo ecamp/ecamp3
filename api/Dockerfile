@@ -4,7 +4,11 @@
 
 
 # https://docs.docker.com/engine/reference/builder/#understand-how-arg-and-from-interact
-ARG PHP_VERSION=8.1
+
+# renovate: datasource=docker depName=php
+ARG PHP_VERSION=8.1.1
+
+# renovate: datasource=docker depName=caddy
 ARG CADDY_VERSION=2.4.6
 
 # "php" stage
@@ -25,6 +29,7 @@ RUN apk add --no-cache \
 # see https://github.com/docker-library/php/issues/240#issuecomment-763112749
 ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so
 
+# renovate: datasource=github-releases depName=krakjoe/apcu
 ARG APCU_VERSION=5.1.21
 RUN set -eux; \
 	apk add --no-cache --virtual .build-deps \
@@ -147,6 +152,7 @@ COPY docker/caddy/Caddyfile.prod /etc/caddy/Caddyfile
 # Debug stage, for using XDebug
 FROM api_platform_php as api_platform_php_dev
 
+# renovate: datasource=github-tags depName=xdebug/xdebug
 ARG XDEBUG_VERSION=3.1.2
 RUN set -eux; \
 	apk add --no-cache --virtual .build-deps $PHPIZE_DEPS; \
