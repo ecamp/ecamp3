@@ -13,7 +13,6 @@ Show all activity schedule entries of a single period.
             v-on="on">
             <e-switch
               v-model="editMode"
-              class="ml-5"
               :disabled="!isContributor"
               :label="$tc('views.camp.picasso.editMode')" />
           </div>

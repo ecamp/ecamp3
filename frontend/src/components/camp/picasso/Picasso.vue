@@ -17,8 +17,9 @@ Listing all given activity schedule entries in a calendar view.
       :interval-height="computedIntervalHeight"
       interval-width="46"
       :interval-format="intervalFormat"
-      first-interval="5"
-      interval-count="19"
+      :first-interval="firstInterval"
+      :interval-count="intervalCount"
+      :interval-minutes="intervalMinutes"
       :start="start"
       :end="end"
       :locale="$i18n.locale"
@@ -159,7 +160,7 @@ export default {
     intervalHeight: {
       type: Number,
       required: false,
-      default: 0
+      default: null
     }
 
   },
@@ -234,7 +235,13 @@ export default {
       entryWidth: 80,
       value: '',
       activitiesLoading: true,
-      categoriesLoading: true
+      categoriesLoading: true,
+
+      // interval configuration for v-calendar
+      // only 0-24 supported at the moment, until https://github.com/vuetifyjs/vuetify/issues/14603 is resolved
+      intervalMinutes: 60,
+      firstInterval: 0,
+      intervalCount: 24
     }
   },
   computed: {
@@ -251,12 +258,19 @@ export default {
       return this.period.camp()
     },
     computedIntervalHeight () {
-      return this.intervalHeight !== 0 ? this.intervalHeight : this.$vuetify.breakpoint.xsOnly ? (this.$vuetify.breakpoint.height - 140) / 19 : Math.max((this.$vuetify.breakpoint.height - 204) / 19, 32)
+      return this.intervalHeight ??
+        this.$vuetify.breakpoint.xsOnly
+        ? 1.3 * (this.$vuetify.breakpoint.height - 140) / this.intervalCount
+        : 1.3 * Math.max((this.$vuetify.breakpoint.height - 204) / this.intervalCount, 32)
     }
   },
   mounted () {
     this.period.camp().activities()._meta.load.then(() => { this.activitiesLoading = false })
     this.period.camp().categories()._meta.load.then(() => { this.categoriesLoading = false })
+
+    // scroll a bit down to hide the night hours
+    const scroller = this.$el.querySelector('.v-calendar-daily__scroll-area')
+    scroller.scrollTo({ top: 250 })
   },
   methods: {
     resize () {
@@ -299,30 +313,17 @@ export default {
 </script>
 
 <style scoped lang="scss">
-
 .ec-picasso, .ec-picasso-editable {
+  height:calc(100vh - 200px);
+
+  @media #{map-get($display-breakpoints, 'xs-only')}{
+      height:calc(100vh - 120px);
+  }
+
   ::v-deep {
     .v-calendar-daily_head-day,
     .v-calendar-daily__day {
       min-width: 80px;
-    }
-
-    .v-calendar-daily__pane, .v-calendar-daily__scroll-area {
-      overflow-y: visible;
-    }
-
-    .v-calendar-daily {
-      border-top: 0;
-      border-left: 0;
-      overflow-x: scroll;
-    }
-
-    .v-calendar-daily__body {
-      overflow: visible;
-    }
-
-    .v-event-timed-container {
-      margin-right: 5px;
     }
 
     .v-event-timed {
