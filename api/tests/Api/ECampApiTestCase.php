@@ -35,9 +35,21 @@ abstract class ECampApiTestCase extends ApiTestCase {
     private ?ResourceMetadataFactoryInterface $resourceMetadataFactory = null;
     private ?EntityManagerInterface $entityManager = null;
 
+    /** @var string */
+    private $currentTimezone;
+
     public function setUp(): void {
         self::bootKernel();
         parent::setUp();
+
+        // backup current timezone, in case it's change in one of the tests
+        $this->currentTimezone = date_default_timezone_get();
+    }
+
+    protected function tearDown(): void {
+        date_default_timezone_set($this->currentTimezone);
+
+        parent::tearDown();
     }
 
     /**

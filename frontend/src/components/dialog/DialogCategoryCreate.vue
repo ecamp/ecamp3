@@ -2,6 +2,7 @@
   <dialog-form
     v-model="showDialog"
     :loading="loading"
+    :error="error"
     icon="mdi-calendar-plus"
     :title="$tc('components.dialog.dialogCategoryCreate.title')"
     max-width="600px"

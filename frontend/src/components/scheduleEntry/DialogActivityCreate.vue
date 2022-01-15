@@ -2,6 +2,7 @@
   <dialog-form
     v-model="showDialog"
     :loading="loading"
+    :error="error"
     icon="mdi-calendar-plus"
     :title="$tc('entity.activity.new')"
     max-width="600px"
@@ -14,14 +15,15 @@
       <slot name="activator" v-bind="scope" />
     </template>
 
-    <dialog-activity-form :activity="entityData" :camp="camp" />
+    <dialog-activity-form :activity="entityData" :camp="camp" :period="period" />
   </dialog-form>
 </template>
 
 <script>
-import DialogForm from './DialogForm.vue'
-import DialogBase from './DialogBase.vue'
+import DialogForm from '@/components/dialog/DialogForm.vue'
+import DialogBase from '@/components/dialog/DialogBase.vue'
 import DialogActivityForm from './DialogActivityForm.vue'
+import { uniqueId } from 'lodash'
 
 export default {
   name: 'DialogActivityCreate',
@@ -32,7 +34,10 @@ export default {
   extends: DialogBase,
   props: {
     camp: { type: Function, required: true },
-    scheduleEntry: { type: Object, required: true }
+    scheduleEntry: { type: Object, required: true },
+
+    // currently visible period
+    period: { type: Function, required: true }
   },
   data () {
     return {
@@ -57,7 +62,8 @@ export default {
             {
               period: this.scheduleEntry.period,
               periodOffset: this.scheduleEntry.periodOffset,
-              length: this.scheduleEntry.length
+              length: this.scheduleEntry.length,
+              key: uniqueId()
             }
           ]
         })
@@ -68,16 +74,12 @@ export default {
     }
   },
   methods: {
-    createActivity () {
-      return this.create()
-    },
     cancelCreate () {
       this.close()
       this.$emit('creationCanceled')
     },
-    create () {
-      this.error = null
-      const entityData = {
+    createActivity () {
+      const payloadData = {
         ...this.entityData,
         scheduleEntries: this.entityData.scheduleEntries?.map(entry => ({
           period: entry.period()._meta.self,
@@ -85,12 +87,13 @@ export default {
           length: entry.length
         })) || []
       }
-      return this.api.post(this.entityUri, entityData).then(this.createSuccessful, this.onError)
+
+      return this.create(payloadData)
     },
-    createSuccessful (data) {
-      data.scheduleEntries()._meta.load.then(() => {
+    onSuccess (activity) {
+      activity.scheduleEntries()._meta.load.then(() => {
         this.close()
-        this.$emit('activityCreated', data)
+        this.$emit('activityCreated', activity)
       })
     }
   }

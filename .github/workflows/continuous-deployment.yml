@@ -150,6 +150,7 @@ jobs:
           push: true
           file: .docker-hub/frontend/Dockerfile
           tags: ${{ ((matrix.deployment.name == 'dev') && 'ecamp/ecamp3-frontend:latest,' || '') }}ecamp/ecamp3-frontend:${{ matrix.deployment.sha }}
+          context: .
           cache-from: type=gha,scope=frontend
           cache-to: type=gha,scope=frontend,mode=max
 
@@ -181,6 +182,7 @@ jobs:
           push: true
           file: .docker-hub/print/Dockerfile
           tags: ${{ ((matrix.deployment.name == 'dev') && 'ecamp/ecamp3-print:latest,' || '') }}ecamp/ecamp3-print:${{ matrix.deployment.sha }}
+          context: .
           cache-from: type=gha,scope=print
           cache-to: type=gha,scope=print,mode=max
 

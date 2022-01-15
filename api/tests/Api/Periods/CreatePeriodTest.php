@@ -144,14 +144,25 @@ class CreatePeriodTest extends ECampApiTestCase {
         ]);
     }
 
-    public function testCreatePeriodValidatesInvalidStart() {
+    public function testCreatePeriodValidatesInvalidStartDateFormat() {
         static::createClientWithCredentials()->request('POST', '/periods', ['json' => $this->getExampleWritePayload([
             'start' => '20201-01',
         ])]);
 
         $this->assertResponseStatusCodeSame(400);
         $this->assertJsonContains([
-            'detail' => 'Failed to parse time string (20201-01) at position 4 (1): Unexpected character',
+            'detail' => "Parsing datetime string \"20201-01\" using format \"!Y-m-d\" resulted in 1 errors: \nat position 4: The separation symbol could not be found",
+        ]);
+    }
+
+    public function testCreatePeriodValidatesInvalidStartDateTime() {
+        static::createClientWithCredentials()->request('POST', '/periods', ['json' => $this->getExampleWritePayload([
+            'start' => '2021-01-01T05:31+01:00',
+        ])]);
+
+        $this->assertResponseStatusCodeSame(400);
+        $this->assertJsonContains([
+            'detail' => "Parsing datetime string \"2021-01-01T05:31+01:00\" using format \"!Y-m-d\" resulted in 1 errors: \nat position 10: Trailing data",
         ]);
     }
 
@@ -176,7 +187,7 @@ class CreatePeriodTest extends ECampApiTestCase {
 
         $this->assertResponseStatusCodeSame(400);
         $this->assertJsonContains([
-            'detail' => 'Failed to parse time string (20201-01) at position 4 (1): Unexpected character',
+            'detail' => "Parsing datetime string \"20201-01\" using format \"!Y-m-d\" resulted in 1 errors: \nat position 4: The separation symbol could not be found",
         ]);
     }
 

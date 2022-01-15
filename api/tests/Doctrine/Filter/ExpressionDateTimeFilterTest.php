@@ -3,7 +3,7 @@
 namespace App\Tests\Doctrine\Filter;
 
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Util\QueryNameGeneratorInterface;
-use App\Doctrine\Filter\ExpressionDateFilter;
+use App\Doctrine\Filter\ExpressionDateTimeFilter;
 use DateTime;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
@@ -13,7 +13,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * @internal
  */
-class ExpressionDateFilterTest extends TestCase {
+class ExpressionDateTimeFilterTest extends TestCase {
     private MockObject|ManagerRegistry $managerRegistryMock;
     private MockObject|QueryBuilder $queryBuilderMock;
     private MockObject|QueryNameGeneratorInterface $queryNameGeneratorInterfaceMock;
@@ -46,7 +46,7 @@ class ExpressionDateFilterTest extends TestCase {
 
     public function testGetDescriptionDoesNothingWhenNoPropertiesDefined() {
         // given
-        $filter = new ExpressionDateFilter($this->managerRegistryMock, null, null, null);
+        $filter = new ExpressionDateTimeFilter($this->managerRegistryMock, null, null, null);
 
         // when
         $description = $filter->getDescription('Dummy');
@@ -57,7 +57,7 @@ class ExpressionDateFilterTest extends TestCase {
 
     public function testGetDescription() {
         // given
-        $filter = new ExpressionDateFilter($this->managerRegistryMock, null, null, ['incrementedSomething' => 'something + 1']);
+        $filter = new ExpressionDateTimeFilter($this->managerRegistryMock, null, null, ['incrementedSomething' => 'something + 1']);
 
         // when
         $description = $filter->getDescription('Dummy');
@@ -89,7 +89,7 @@ class ExpressionDateFilterTest extends TestCase {
 
     public function testGetDescriptionDisallowsEmptyExpression() {
         // given
-        $filter = new ExpressionDateFilter($this->managerRegistryMock, null, null, ['incrementedSomething' => '']);
+        $filter = new ExpressionDateTimeFilter($this->managerRegistryMock, null, null, ['incrementedSomething' => '']);
 
         // when
         $description = $filter->getDescription('Dummy');
@@ -100,7 +100,7 @@ class ExpressionDateFilterTest extends TestCase {
 
     public function testApplyChecksForDefinedFilters() {
         // given
-        $filter = new ExpressionDateFilter($this->managerRegistryMock, null, null, [/* this array intentionally left blank */]);
+        $filter = new ExpressionDateTimeFilter($this->managerRegistryMock, null, null, [/* this array intentionally left blank */]);
 
         // then
         $this->queryBuilderMock
@@ -116,7 +116,7 @@ class ExpressionDateFilterTest extends TestCase {
 
     public function testApplyChecksForInvalidFilterState() {
         // given
-        $filter = new ExpressionDateFilter($this->managerRegistryMock, null, null, ['incrementedSomething' => '']);
+        $filter = new ExpressionDateTimeFilter($this->managerRegistryMock, null, null, ['incrementedSomething' => '']);
 
         // then
         $this->queryBuilderMock
@@ -132,7 +132,7 @@ class ExpressionDateFilterTest extends TestCase {
 
     public function testApplyChecksForInvalidDate() {
         // given
-        $filter = new ExpressionDateFilter($this->managerRegistryMock, null, null, ['incrementedSomething' => '']);
+        $filter = new ExpressionDateTimeFilter($this->managerRegistryMock, null, null, ['incrementedSomething' => '']);
 
         // then
         $this->queryBuilderMock
@@ -151,7 +151,7 @@ class ExpressionDateFilterTest extends TestCase {
      */
     public function testApplyFiltersByExpression($filterOperator, $operator) {
         // given
-        $filter = new ExpressionDateFilter($this->managerRegistryMock, null, null, ['incrementedSomething' => 'something + 1']);
+        $filter = new ExpressionDateTimeFilter($this->managerRegistryMock, null, null, ['incrementedSomething' => 'something + 1']);
 
         // then
         $this->queryBuilderMock
@@ -177,7 +177,7 @@ class ExpressionDateFilterTest extends TestCase {
      */
     public function testApplyReplacesSelfAlias($filterOperator, $operator) {
         // given
-        $filter = new ExpressionDateFilter($this->managerRegistryMock, null, null, ['incrementedSomething' => '{}.something + 1']);
+        $filter = new ExpressionDateTimeFilter($this->managerRegistryMock, null, null, ['incrementedSomething' => '{}.something + 1']);
 
         // then
         $this->queryBuilderMock
@@ -203,7 +203,7 @@ class ExpressionDateFilterTest extends TestCase {
      */
     public function testApplyReplacesRelationAlias($filterOperator, $operator) {
         // given
-        $filter = new ExpressionDateFilter($this->managerRegistryMock, null, null, ['incrementedSomething' => '{parent.something} + 1']);
+        $filter = new ExpressionDateTimeFilter($this->managerRegistryMock, null, null, ['incrementedSomething' => '{parent.something} + 1']);
 
         // then
         $this->queryBuilderMock
@@ -235,7 +235,7 @@ class ExpressionDateFilterTest extends TestCase {
      */
     public function testApplyReplacesMultipleRelationAliases($filterOperator, $operator) {
         // given
-        $filter = new ExpressionDateFilter($this->managerRegistryMock, null, null, ['incrementedSomething' => '{}.something + {parent.something} + {parent2.something}']);
+        $filter = new ExpressionDateTimeFilter($this->managerRegistryMock, null, null, ['incrementedSomething' => '{}.something + {parent.something} + {parent2.something}']);
 
         // then
         $this->queryBuilderMock
@@ -266,7 +266,7 @@ class ExpressionDateFilterTest extends TestCase {
      */
     public function testApplyReplacesMultipleInstancesOfTheSameRelationAlias($filterOperator, $operator) {
         // given
-        $filter = new ExpressionDateFilter($this->managerRegistryMock, null, null, ['incrementedSomething' => '{parent.something} + {parent.something}']);
+        $filter = new ExpressionDateTimeFilter($this->managerRegistryMock, null, null, ['incrementedSomething' => '{parent.something} + {parent.something}']);
 
         // then
         $this->queryBuilderMock

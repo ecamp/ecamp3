@@ -7,6 +7,7 @@
     <dialog-activity-create
       ref="dialogActivityCreate"
       :camp="period().camp"
+      :period="period"
       :schedule-entry="newEntryPlaceholder"
       @activityCreated="afterCreateActivity($event)"
       @creationCanceled="cancelNewActivity" />
@@ -29,7 +30,7 @@
 </template>
 
 <script>
-import DialogActivityCreate from '@/components/dialog/DialogActivityCreate.vue'
+import DialogActivityCreate from '@/components/scheduleEntry/DialogActivityCreate.vue'
 import { defineHelpers } from '@/common/helpers/scheduleEntry/dateHelperLocal.js'
 
 export default {
