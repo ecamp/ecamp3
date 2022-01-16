@@ -62,7 +62,8 @@ export default {
               period: this.scheduleEntry.period,
               periodOffset: this.scheduleEntry.periodOffset,
               length: this.scheduleEntry.length,
-              key: uniqueId()
+              key: uniqueId(),
+              deleted: false
             }
           ]
         })
@@ -81,7 +82,7 @@ export default {
       const payloadData = {
         ...this.entityData,
 
-        scheduleEntries: this.entityData.scheduleEntries?.map(entry => ({
+        scheduleEntries: this.entityData.scheduleEntries?.filter(entry => !entry.deleted).map(entry => ({
           period: entry.period()._meta.self,
           periodOffset: entry.periodOffset,
           length: entry.length

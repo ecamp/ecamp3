@@ -66,7 +66,8 @@ export default {
             periodOffset: scheduleEntry.periodOffset,
             length: scheduleEntry.length,
             key: scheduleEntry._meta.self,
-            '@id': scheduleEntry._meta.self
+            deleted: false,
+            self: scheduleEntry._meta.self
           }
         }))
       }
@@ -74,7 +75,8 @@ export default {
   },
   methods: {
     /**
-     * Following code only works, if embedded collection patch is enabled
+     * Following code only works, if embedded collection patch is enabled & is working
+     * Blocked by https://github.com/api-platform/core/issues/4630
      */
     /*
     updateActivity () {
@@ -85,7 +87,7 @@ export default {
           period: entry.period()._meta.self,
           periodOffset: entry.periodOffset,
           length: entry.length,
-          id: entry['@id']
+          '@id': entry.self
         })) || []
       }
 
@@ -98,20 +100,32 @@ export default {
 
       const scheduleEntryPromises = this.entityData.scheduleEntries
         .map(entry => {
-          if (entry['@id']) {
-            return this.api.patch(entry['@id'], {
+          // deleted local entry: do nothing
+          if (!entry.self && entry.deleted) {
+            return Promise.resolve()
+          }
+
+          // delete existing
+          if (entry.self && entry.deleted) {
+            return this.api.del(entry.self)
+          }
+
+          // update existing
+          if (entry.self) {
+            return this.api.patch(entry.self, {
               period: entry.period()._meta.self,
               periodOffset: entry.periodOffset,
               length: entry.length
             })
-          } else {
-            return this.scheduleEntries.$post({
-              period: entry.period()._meta.self,
-              periodOffset: entry.periodOffset,
-              length: entry.length,
-              activity: this.activity._meta.self
-            })
           }
+
+          // else: create new entry
+          return this.scheduleEntries.$post({
+            period: entry.period()._meta.self,
+            periodOffset: entry.periodOffset,
+            length: entry.length,
+            activity: this.activity._meta.self
+          })
         })
 
       // patch activity entity
