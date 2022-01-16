@@ -23,7 +23,7 @@ class ReadDayResponsibleTest extends ECampApiTestCase {
     public function testGetSingleDayResponsibleIsDeniedForUnrelatedUser() {
         /** @var DayResponsible $dayResponsible */
         $dayResponsible = static::$fixtures['dayResponsible1'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->username])
+        static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->getUsername()])
             ->request('GET', '/day_responsibles/'.$dayResponsible->getId())
         ;
         $this->assertResponseStatusCodeSame(404);
@@ -36,7 +36,7 @@ class ReadDayResponsibleTest extends ECampApiTestCase {
     public function testGetSingleDayResponsibleIsDeniedForInactiveCollaborator() {
         /** @var DayResponsible $dayResponsible */
         $dayResponsible = static::$fixtures['dayResponsible1'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->username])
+        static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->getUsername()])
             ->request('GET', '/day_responsibles/'.$dayResponsible->getId())
         ;
         $this->assertResponseStatusCodeSame(404);
@@ -49,7 +49,7 @@ class ReadDayResponsibleTest extends ECampApiTestCase {
     public function testGetSingleDayResponsibleIsAllowedForGuest() {
         /** @var DayResponsible $dayResponsible */
         $dayResponsible = static::$fixtures['dayResponsible1'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user3guest']->username])
+        static::createClientWithCredentials(['username' => static::$fixtures['user3guest']->getUsername()])
             ->request('GET', '/day_responsibles/'.$dayResponsible->getId())
         ;
         $this->assertResponseStatusCodeSame(200);
@@ -65,7 +65,7 @@ class ReadDayResponsibleTest extends ECampApiTestCase {
     public function testGetSingleDayResponsibleIsAllowedForMember() {
         /** @var DayResponsible $dayResponsible */
         $dayResponsible = static::$fixtures['dayResponsible1'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->username])
+        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->getUsername()])
             ->request('GET', '/day_responsibles/'.$dayResponsible->getId())
         ;
         $this->assertResponseStatusCodeSame(200);

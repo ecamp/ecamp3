@@ -12,6 +12,7 @@ use App\Validator\AssertEitherIsNull;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Annotation\SerializedName;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -21,12 +22,14 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Entity(repositoryClass=CampCollaborationRepository::class)
  * @ORM\Table(uniqueConstraints={
- *     @ORM\UniqueConstraint(name="inviteKey_unique", columns={"inviteKey"})
+ *     @ORM\UniqueConstraint(name="inviteKey_unique", columns={"inviteKey"}),
+ *     @ORM\UniqueConstraint(name="user_camp_unique", fields={"user", "camp"}),
+ *     @ORM\UniqueConstraint(name="inviteEmail_camp_unique", fields={"inviteEmail", "camp"})
  * })
  */
 #[ApiResource(
     collectionOperations: [
-        'get' => ['security' => 'is_fully_authenticated()'],
+        'get' => ['security' => 'is_authenticated()'],
         'post' => [
             'denormalization_context' => [
                 'groups' => ['write', 'create'],
@@ -46,12 +49,12 @@ use Symfony\Component\Validator\Constraints as Assert;
         'patch' => [
             'denormalization_context' => ['groups' => ['write', 'update']],
             'normalization_context' => self::ITEM_NORMALIZATION_CONTEXT,
-            'security' => '(user === object.user) or is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)',
+            'security' => '(is_authenticated() && user === object.user) or is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)',
             'validation_groups' => ['Default', 'update'],
         ],
         'delete' => ['security' => 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)'],
         self::RESEND_INVITATION => [
-            'security' => '(user === object.user) or is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)',
+            'security' => '(is_authenticated() && user === object.user) or is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)',
             'method' => 'PATCH',
             'path' => 'camp_collaborations/{id}/'.self::RESEND_INVITATION,
             'denormalization_context' => [
@@ -67,6 +70,16 @@ use Symfony\Component\Validator\Constraints as Assert;
     normalizationContext: ['groups' => ['read']],
 )]
 #[ApiFilter(SearchFilter::class, properties: ['camp', 'activityResponsibles.activity'])]
+#[UniqueEntity(
+    fields: ['user', 'camp'],
+    message: 'This user is already present in the camp.',
+    ignoreNull: true
+)]
+#[UniqueEntity(
+    fields: ['inviteEmail', 'camp'],
+    message: 'This inviteEmail is already present in the camp.',
+    ignoreNull: true
+)]
 class CampCollaboration extends BaseEntity implements BelongsToCampInterface {
     public const ITEM_NORMALIZATION_CONTEXT = [
         'groups' => ['read', 'CampCollaboration:Camp', 'CampCollaboration:User'],

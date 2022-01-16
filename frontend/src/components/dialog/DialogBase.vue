@@ -56,24 +56,26 @@ export default {
       // wait for all loading promises to finish before showing any content
       Promise.all(loadingPromises).then(() => { this.loading = false })
     },
-    create () {
+    create (payloadData = null) {
       this.error = null
       const _events = this._events
-      const promise = this.api.post(this.entityUri, this.entityData).then(this.close, e => this.onError(_events, e))
+      payloadData ??= this.entityData
+      const promise = this.api.post(this.entityUri, payloadData).then(this.onSuccess, e => this.onError(_events, e))
       this.$emit('submit')
       return promise
     },
-    update () {
+    update (payloadData = null) {
       this.error = null
       const _events = this._events
-      const promise = this.api.patch(this.entityUri, this.entityData).then(this.close, e => this.onError(_events, e))
+      payloadData ??= this.entityData
+      const promise = this.api.patch(this.entityUri, payloadData).then(this.onSuccess, e => this.onError(_events, e))
       this.$emit('submit')
       return promise
     },
     del () {
       this.error = null
       const _events = this._events
-      const promise = this.api.del(this.entityUri).then(this.close, e => this.onError(_events, e))
+      const promise = this.api.del(this.entityUri).then(this.onSuccess, e => this.onError(_events, e))
       this.$emit('submit')
       return promise
     },
@@ -83,6 +85,9 @@ export default {
     },
     close () {
       this.showDialog = false
+    },
+    open () {
+      this.showDialog = true
     },
     onError (originalHandlers, e) {
       // By the time we get here, the dialog might be closed because an enclosing menu might be closed.

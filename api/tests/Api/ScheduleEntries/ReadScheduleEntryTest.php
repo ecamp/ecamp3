@@ -26,7 +26,7 @@ class ReadScheduleEntryTest extends ECampApiTestCase {
     public function testGetSingleScheduleEntryIsDeniedForUnrelatedUser() {
         /** @var ScheduleEntry $scheduleEntry */
         $scheduleEntry = static::$fixtures['scheduleEntry1'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->username])
+        static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->getUsername()])
             ->request('GET', '/schedule_entries/'.$scheduleEntry->getId())
         ;
         $this->assertResponseStatusCodeSame(404);
@@ -39,7 +39,7 @@ class ReadScheduleEntryTest extends ECampApiTestCase {
     public function testGetSingleScheduleEntryIsDeniedForInactiveCollaborator() {
         /** @var ScheduleEntry $scheduleEntry */
         $scheduleEntry = static::$fixtures['scheduleEntry1'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->username])
+        static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->getUsername()])
             ->request('GET', '/schedule_entries/'.$scheduleEntry->getId())
         ;
         $this->assertResponseStatusCodeSame(404);
@@ -54,7 +54,7 @@ class ReadScheduleEntryTest extends ECampApiTestCase {
         $scheduleEntry = static::$fixtures['scheduleEntry1'];
         $start = DateTime::createFromInterface($scheduleEntry->period->start)->add(new DateInterval('PT'.$scheduleEntry->periodOffset.'M'));
         $end = DateTime::createFromInterface($start)->add(new DateInterval('PT'.$scheduleEntry->length.'M'));
-        static::createClientWithCredentials(['username' => static::$fixtures['user3guest']->username])
+        static::createClientWithCredentials(['username' => static::$fixtures['user3guest']->getUsername()])
             ->request('GET', '/schedule_entries/'.$scheduleEntry->getId())
         ;
         $this->assertResponseStatusCodeSame(200);
@@ -82,7 +82,7 @@ class ReadScheduleEntryTest extends ECampApiTestCase {
         $scheduleEntry = static::$fixtures['scheduleEntry1'];
         $start = DateTime::createFromInterface($scheduleEntry->period->start)->add(new DateInterval('PT'.$scheduleEntry->periodOffset.'M'));
         $end = DateTime::createFromInterface($start)->add(new DateInterval('PT'.$scheduleEntry->length.'M'));
-        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->username])
+        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->getUsername()])
             ->request('GET', '/schedule_entries/'.$scheduleEntry->getId())
         ;
         $this->assertResponseStatusCodeSame(200);

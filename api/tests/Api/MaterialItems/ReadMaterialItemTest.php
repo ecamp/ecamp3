@@ -24,7 +24,7 @@ class ReadMaterialItemTest extends ECampApiTestCase {
     public function testGetSingleMaterialItemIsDeniedForUnrelatedUser() {
         /** @var MaterialItem $materialItem */
         $materialItem = static::$fixtures['materialItem1'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->username])
+        static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->getUsername()])
             ->request('GET', '/material_items/'.$materialItem->getId())
         ;
         $this->assertResponseStatusCodeSame(404);
@@ -37,7 +37,7 @@ class ReadMaterialItemTest extends ECampApiTestCase {
     public function testGetSingleMaterialItemIsDeniedForInactiveCollaborator() {
         /** @var MaterialItem $materialItem */
         $materialItem = static::$fixtures['materialItem1'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->username])
+        static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->getUsername()])
             ->request('GET', '/material_items/'.$materialItem->getId())
         ;
         $this->assertResponseStatusCodeSame(404);
@@ -50,7 +50,7 @@ class ReadMaterialItemTest extends ECampApiTestCase {
     public function testGetSingleMaterialItemIsAllowedForGuest() {
         /** @var MaterialItem $materialItem */
         $materialItem = static::$fixtures['materialItem1'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user3guest']->username])
+        static::createClientWithCredentials(['username' => static::$fixtures['user3guest']->getUsername()])
             ->request('GET', '/material_items/'.$materialItem->getId())
         ;
         $this->assertResponseStatusCodeSame(200);
@@ -70,7 +70,7 @@ class ReadMaterialItemTest extends ECampApiTestCase {
     public function testGetSingleMaterialItemIsAllowedForMember() {
         /** @var MaterialItem $materialItem */
         $materialItem = static::$fixtures['materialItem1'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->username])
+        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->getUsername()])
             ->request('GET', '/material_items/'.$materialItem->getId())
         ;
         $this->assertResponseStatusCodeSame(200);

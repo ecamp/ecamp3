@@ -34,12 +34,18 @@
             <slot v-else />
           </div>
 
-          <v-card-text v-if="$slots.error">
-            <v-alert text outlined
+          <v-card-text>
+            <!-- error message via slot -->
+            <v-alert v-if="$slots.error"
+                     text
+                     outlined
                      color="warning"
                      icon="mdi-alert">
               <slot name="error" />
             </v-alert>
+
+            <!-- error message via props -->
+            <server-error v-else :server-error="error" />
           </v-card-text>
 
           <v-card-actions>
@@ -77,10 +83,11 @@
 <script>
 
 import { ValidationObserver } from 'vee-validate'
+import ServerError from '@/components/form/ServerError.vue'
 
 export default {
   name: 'DialogForm',
-  components: { ValidationObserver },
+  components: { ValidationObserver, ServerError },
   props: {
     value: { type: Boolean, required: true },
 
@@ -100,7 +107,7 @@ export default {
     cancelEnabled: { type: Boolean, default: true, required: false },
 
     loading: { type: Boolean, default: false, required: false },
-    error: { type: String, default: '', required: false }
+    error: { type: [Object, String, Error], default: null, required: false }
   },
   data () {
     return {

@@ -9,7 +9,6 @@ use App\Entity\Camp;
 use App\Entity\Category;
 use App\Entity\ContentNode\ColumnLayout;
 use App\Entity\ContentType;
-use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -17,11 +16,10 @@ use PHPUnit\Framework\TestCase;
  */
 class ActivityDataPersisterTest extends TestCase {
     private ActivityDataPersister $dataPersister;
-    private MockObject|DataPersisterObservable $dataPersisterObservable;
     private Activity $activity;
 
     protected function setUp(): void {
-        $this->dataPersisterObservable = $this->createMock(DataPersisterObservable::class);
+        $dataPersisterObservable = $this->createMock(DataPersisterObservable::class);
 
         $this->activity = new Activity();
         $this->activity->category = new Category();
@@ -35,27 +33,7 @@ class ActivityDataPersisterTest extends TestCase {
         $categoryRoot->contentType->name = 'ColumnLayout';
         $this->activity->category->setRootContentNode($categoryRoot);
 
-        $this->dataPersister = new ActivityDataPersister($this->dataPersisterObservable);
-    }
-
-    public function testDelegatesSupportCheckToDecorated() {
-        $this->dataPersisterObservable
-            ->expects($this->exactly(2))
-            ->method('supports')
-            ->willReturnOnConsecutiveCalls(true, false)
-        ;
-
-        $this->assertTrue($this->dataPersister->supports($this->activity, []));
-        $this->assertFalse($this->dataPersister->supports($this->activity, []));
-    }
-
-    public function testDoesNotSupportNonActivity() {
-        $this->dataPersisterObservable
-            ->method('supports')
-            ->willReturn(true)
-        ;
-
-        $this->assertFalse($this->dataPersister->supports([], []));
+        $this->dataPersister = new ActivityDataPersister($dataPersisterObservable);
     }
 
     public function testSetsCampFromCategory() {

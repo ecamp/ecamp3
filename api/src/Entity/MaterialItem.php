@@ -22,7 +22,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  */
 #[ApiResource(
     collectionOperations: [
-        'get' => ['security' => 'is_fully_authenticated()'],
+        'get' => ['security' => 'is_authenticated()'],
         'post' => ['security_post_denormalize' => 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)'],
     ],
     itemOperations: [

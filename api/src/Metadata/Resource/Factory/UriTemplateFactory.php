@@ -144,7 +144,7 @@ class UriTemplateFactory {
              * Does not match:
              * profiles{/id}
              */
-            if (preg_match('/^.*\\/?{.*}\\/.+$/', $itemOperation['path'] ?? null)) {
+            if (preg_match('/^.*\\/?{.*}\\/.+$/', $itemOperation['path'] ?? '')) {
                 return true;
             }
         }

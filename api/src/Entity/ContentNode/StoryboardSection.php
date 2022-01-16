@@ -15,6 +15,7 @@ use App\InputFilter;
 use App\Repository\StoryboardSectionRepository;
 use App\Util\EntityMap;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
@@ -25,7 +26,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
     routePrefix: '/content_node',
     collectionOperations: [
         'get' => [
-            'security' => 'is_fully_authenticated()',
+            'security' => 'is_authenticated()',
         ],
         'post' => [
             'denormalization_context' => ['groups' => ['write', 'create']],
@@ -40,7 +41,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
         'delete' => ['security' => 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)'],
     ],
     denormalizationContext: ['groups' => ['write']],
-    normalizationContext: ['groups' => ['read']],
+    normalizationContext: ['groups' => ['read']]
 )]
 #[ApiFilter(SearchFilter::class, properties: ['storyboard'])]
 class StoryboardSection extends BaseEntity implements BelongsToCampInterface, SortableEntityInterface {
@@ -49,6 +50,7 @@ class StoryboardSection extends BaseEntity implements BelongsToCampInterface, So
     /**
      * @ORM\ManyToOne(targetEntity="Storyboard", inversedBy="sections")
      * @ORM\JoinColumn(nullable=false, onDelete="cascade")
+     * @Gedmo\SortableGroup
      */
     #[ApiProperty(readableLink: false, writableLink: false)]
     #[Groups(['read', 'create'])]
@@ -90,6 +92,6 @@ class StoryboardSection extends BaseEntity implements BelongsToCampInterface, So
         $this->column1 = $prototype->column1;
         $this->column2 = $prototype->column2;
         $this->column3 = $prototype->column3;
-        $this->setPos($prototype->getPos());
+        $this->setPosition($prototype->getPosition());
     }
 }

@@ -24,7 +24,7 @@ class ReadDayTest extends ECampApiTestCase {
     public function testGetSingleDayIsDeniedForUnrelatedUser() {
         /** @var Day $day */
         $day = static::$fixtures['day1period1'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->username])
+        static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->getUsername()])
             ->request('GET', '/days/'.$day->getId())
         ;
         $this->assertResponseStatusCodeSame(404);
@@ -37,7 +37,7 @@ class ReadDayTest extends ECampApiTestCase {
     public function testGetSingleDayIsDeniedForInactiveCollaborator() {
         /** @var Day $day */
         $day = static::$fixtures['day1period1'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->username])
+        static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->getUsername()])
             ->request('GET', '/days/'.$day->getId())
         ;
         $this->assertResponseStatusCodeSame(404);
@@ -52,7 +52,7 @@ class ReadDayTest extends ECampApiTestCase {
         $day = static::$fixtures['day1period1'];
         $start = $day->getStart()->format(DateTime::W3C);
         $end = $day->getEnd()->format(DateTime::W3C);
-        static::createClientWithCredentials(['username' => static::$fixtures['user3guest']->username])
+        static::createClientWithCredentials(['username' => static::$fixtures['user3guest']->getUsername()])
             ->request('GET', '/days/'.$day->getId())
         ;
         $this->assertResponseStatusCodeSame(200);
@@ -73,7 +73,7 @@ class ReadDayTest extends ECampApiTestCase {
         $day = static::$fixtures['day1period1'];
         $start = $day->getStart()->format(DateTime::W3C);
         $end = $day->getEnd()->format(DateTime::W3C);
-        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->username])
+        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->getUsername()])
             ->request('GET', '/days/'.$day->getId())
         ;
         $this->assertResponseStatusCodeSame(200);
@@ -124,6 +124,44 @@ class ReadDayTest extends ECampApiTestCase {
                 'scheduleEntries' => ['href' => '/schedule_entries?period=%2Fperiods%2F'.$day->period->getId().'&start%5Bstrictly_before%5D='.urlencode($end).'&end%5Bafter%5D='.urlencode($start)],
                 'dayResponsibles' => ['href' => '/day_responsibles?day=/days/'.$day->getId()],
             ],
+        ]);
+    }
+
+    public function testDatesFormatProperlyInTimezoneAheadOfUTC() {
+        //given
+        date_default_timezone_set('Asia/Singapore');
+        /** @var Day $day */
+        $day = static::$fixtures['day1period1'];
+
+        // when
+        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->getUsername()])
+            ->request('GET', '/days/'.$day->getId())
+        ;
+
+        //then
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertJsonContains([
+            'start' => '2023-05-01T00:00:00+00:00',
+            'end' => '2023-05-02T00:00:00+00:00',
+        ]);
+    }
+
+    public function testDatesFormatProperlyInTimezoneBehindUTC() {
+        //given
+        date_default_timezone_set('America/New_York');
+        /** @var Day $day */
+        $day = static::$fixtures['day1period1'];
+
+        // when
+        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->getUsername()])
+            ->request('GET', '/days/'.$day->getId())
+        ;
+
+        //then
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertJsonContains([
+            'start' => '2023-05-01T00:00:00+00:00',
+            'end' => '2023-05-02T00:00:00+00:00',
         ]);
     }
 }

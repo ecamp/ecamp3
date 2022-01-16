@@ -192,15 +192,15 @@ class UpdateColumnLayoutTest extends UpdateContentNodeTestCase {
         ]);
     }
 
-    public function testPatchColumnLayoutAcceptsNullPosition() {
+    public function testPatchColumnLayoutDisallowsNullPosition() {
         $contentNode = static::$fixtures['columnLayoutChild1'];
         static::createClientWithCredentials()->request('PATCH', $this->endpoint.'/'.$contentNode->getId(), ['json' => [
             'position' => null,
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
 
-        $this->assertResponseStatusCodeSame(200);
+        $this->assertResponseStatusCodeSame(400);
         $this->assertJsonContains([
-            'position' => null,
+            'detail' => 'The type of the "position" attribute must be "int", "NULL" given.',
         ]);
     }
 
