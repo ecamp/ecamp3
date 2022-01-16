@@ -11,17 +11,6 @@ env:
   USER_ID: 1001
 
 jobs:
-  backend-check-dependencies:
-    name: "Backend check dependencies"
-    runs-on: ubuntu-latest
-    steps:
-
-      - uses: actions/checkout@ec3a7ce113134d7a93b817d10a8272cb61118579 # renovate: tag=v2
-
-      - run: |
-          chmod +w backend
-          ./docker-compose-run-as-entrypoint.sh backend composer update --lock --no-interaction --no-plugins --no-scripts --prefer-dist
-          
   api-check-dependencies:
     name: "Api Platform check dependencies"
     runs-on: ubuntu-latest

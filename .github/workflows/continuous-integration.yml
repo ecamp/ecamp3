@@ -9,15 +9,6 @@ env:
   USER_ID: 1001
 
 jobs:
-  backend-validate-composer-lock:
-    name: "Validate Backend composer.lock"
-    runs-on: ubuntu-latest
-    steps:
-
-      - uses: actions/checkout@ec3a7ce113134d7a93b817d10a8272cb61118579 # renovate: tag=v2
-
-      - run: sh ./docker-compose-run-as-entrypoint.sh backend composer validate -n --no-check-all --no-check-publish --strict
-        
   api-validate-composer-lock:
     name: "Validate Api Platform composer.lock"
     runs-on: ubuntu-latest
@@ -33,29 +24,6 @@ jobs:
 
       - run: composer validate -n --no-check-all --no-check-publish --strict
         working-directory: api
-
-  backend-cs-check:
-    name: "Lint: Backend (php-cs-fixer)"
-    runs-on: ubuntu-latest
-    steps:
-
-      - uses: actions/checkout@ec3a7ce113134d7a93b817d10a8272cb61118579 # renovate: tag=v2
-
-      - name: Get Composer Cache Directory
-        id: composer-cache
-        run: 'echo "::set-output name=dir::$(composer config cache-files-dir)"'
-        working-directory: backend
-
-      - uses: actions/cache@937d24475381cd9c75ae6db12cb4e79714b926ed # renovate: tag=v2
-        with:
-          path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-composer-
-
-      - run: ./docker-compose-run-as-entrypoint.sh backend composer install --no-interaction --no-plugins --no-scripts --prefer-dist
-
-      - run: ./docker-compose-run-as-entrypoint.sh backend composer cs-check
 
   api-cs-check:
     name: "Lint: API (php-cs-fixer)"
@@ -135,45 +103,6 @@ jobs:
 
       - run: npm run lint
         working-directory: print
-
-  backend-tests:
-    name: "Tests: Backend"
-    runs-on: ubuntu-latest
-    steps:
-
-      - uses: actions/checkout@ec3a7ce113134d7a93b817d10a8272cb61118579 # renovate: tag=v2
-
-      - name: Get Composer Cache Directory
-        id: composer-cache
-        run: 'echo "::set-output name=dir::$(composer config cache-files-dir)"'
-        working-directory: backend
-
-      - uses: actions/cache@937d24475381cd9c75ae6db12cb4e79714b926ed # renovate: tag=v2
-        with:
-          path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-composer-
-
-      - run: ./docker-compose-run-as-entrypoint.sh backend composer install --no-interaction --no-plugins --no-scripts --prefer-dist
-
-      - name: run tests
-        run: |
-          chmod +w backend
-          ./docker-compose-run-as-entrypoint.sh backend composer test
-
-      - name: send coveralls report
-        run: |
-          # coveralls saves absolute paths and needs them to match again when running without docker
-          sed -i "s|/app/|$(pwd)/backend/|g" backend/build/logs/clover.xml
-          backend/vendor/bin/php-coveralls  -r backend \
-                                            -v \
-                                            --coverage_clover build/logs/clover.xml \
-                                            --json_path build/logs/coveralls-upload.json
-        env:
-          COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          COVERALLS_PARALLEL: true
-          COVERALLS_FLAG_NAME: backend
 
   api-tests:
     name: "Tests: API"
@@ -345,7 +274,6 @@ jobs:
     name: "Finish coveralls report"
     needs:
       - api-tests
-      - backend-tests
       - frontend-tests
       - print-tests
     runs-on: ubuntu-latest
@@ -360,11 +288,9 @@ jobs:
     name: "Send out CI success event"
     if: github.event_name == 'push' && (github.repository_owner == 'ecamp' || (github.event.pull_request && github.event.pull_request.number))
     needs:
-      - backend-cs-check
       - api-cs-check
       - frontend-eslint
       - print-eslint
-      - backend-tests
       - api-tests
       - frontend-tests
       - print-tests
