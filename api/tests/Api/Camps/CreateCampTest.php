@@ -593,16 +593,16 @@ class CreateCampTest extends ECampApiTestCase {
 
     public function testCreateCampFromPrototype() {
         /** @var Camp $campPrototype */
-        $campPrototypeId = self::$fixtures['campPrototype']->getId();
+        $campPrototype = self::$fixtures['campPrototype'];
 
         $response = static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExampleWritePayload([
-            'campPrototypeId' => $campPrototypeId,
+            'campPrototype' => $this->getIriFor($campPrototype),
         ])]);
 
         $this->assertResponseStatusCodeSame(201);
 
         $camp = $this->getEntityManager()->getRepository(Camp::class)->find($response->toArray()['id']);
-        $this->assertEquals($campPrototypeId, $camp->campPrototypeId);
+        $this->assertEquals($campPrototype->getId(), $camp->campPrototypeId);
         $this->assertCount(1, $camp->categories);
         $this->assertCount(1, $camp->materialLists);
     }

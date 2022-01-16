@@ -20,7 +20,7 @@
               v-model="camp.motto"
               :name="$tc('entity.camp.fields.motto')" />
             <e-select
-              v-model="camp.campPrototypeId"
+              v-model="camp.campPrototype"
               :name="$tc('entity.camp.prototype')"
               :items="campTemplates">
               <template #item="data">
@@ -88,7 +88,7 @@ export default {
   computed: {
     campTemplates () {
       return this.api.get().camps({ isPrototype: 1 }).items.map(ct => ({
-        value: ct.id,
+        value: ct._meta.self,
         text: this.$tc(ct.name),
         object: ct
       }))

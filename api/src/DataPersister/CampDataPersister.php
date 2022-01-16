@@ -33,9 +33,8 @@ class CampDataPersister extends AbstractDataPersister {
         $data->owner = $user;
 
         // copy from prototype, if given
-        if (isset($data->campPrototypeId)) {
-            $campPrototype = $this->em->find(Camp::class, $data->campPrototypeId);
-            $data->copyFromPrototype($campPrototype);
+        if (isset($data->campPrototype)) {
+            $data->copyFromPrototype($data->campPrototype);
         }
 
         return $data;

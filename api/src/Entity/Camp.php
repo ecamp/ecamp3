@@ -113,8 +113,15 @@ class Camp extends BaseEntity implements BelongsToCampInterface, CopyFromPrototy
      */
     #[Assert\DisableAutoMapping]
     #[ApiProperty(readable: false)]
-    #[Groups(['create'])]
     public ?string $campPrototypeId = null;
+
+    /**
+     * The prototype camp that will be used as a template to create this camp.
+     * Only the ID will be persisted.
+     */
+    #[ApiProperty(readable: false, example: '/camps/1a2b3c4d')]
+    #[Groups(['create'])]
+    public ?Camp $campPrototype = null;
 
     /**
      * Whether this camp may serve as a template for creating other camps.
