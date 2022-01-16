@@ -5,7 +5,7 @@
     :error="error"
     icon="mdi-calendar-plus"
     max-width="600px"
-    :submit-action="update"
+    :submit-action="updateActivity"
     submit-label="global.button.update"
     submit-color="success"
     :cancel-action="close">
@@ -18,7 +18,7 @@
         {{ $tc('global.button.open') }}
       </v-btn>
     </template>
-    <dialog-activity-form :activity="entityData" :camp="scheduleEntry.period().camp" />
+    <dialog-activity-form :activity="entityData" :period="scheduleEntry.period" />
   </dialog-form>
 </template>
 
@@ -44,46 +44,94 @@ export default {
       embeddedEntities: [
         'category'
       ]
-      /*
-      embeddedCollections: [
-        'scheduleEntries'
-      ] */
+    }
+  },
+  computed: {
+    scheduleEntries () {
+      return this.activity.scheduleEntries()
+    },
+    activity () {
+      return this.scheduleEntry.activity()
     }
   },
   watch: {
-    showDialog: function (showDialog) {
+    showDialog: async function (showDialog) {
       if (showDialog) {
-        this.loadEntityData(this.scheduleEntry.activity()._meta.self)
+        this.loadEntityData(this.activity._meta.self)
+
+        const scheduleEntries = await this.scheduleEntries.$loadItems()
+        this.$set(this.entityData, 'scheduleEntries', scheduleEntries.items.map((scheduleEntry) => {
+          return {
+            period: scheduleEntry.period,
+            periodOffset: scheduleEntry.periodOffset,
+            length: scheduleEntry.length,
+            key: scheduleEntry._meta.self,
+            '@id': scheduleEntry._meta.self
+          }
+        }))
       }
     }
   },
   methods: {
+    /**
+     * Following code only works, if embedded collection patch is enabled
+     */
     /*
     updateActivity () {
-      return this.update()
-    },
-    update () {
-      this.error = null
-      const patchScheduleEntries = this.entityData.scheduleEntries
-        .map(entry => this.api.patch(entry._meta.self, {
+      const payloadData = {
+        ...this.entityData,
+
+        scheduleEntries: this.entityData.scheduleEntries?.map(entry => ({
+          period: entry.period()._meta.self,
           periodOffset: entry.periodOffset,
-          length: entry.length
-        }))
-      Promise.all(patchScheduleEntries)
-        .then(__ => ({ ...this.entityData }))
-        .then(entityData => {
-          delete entityData.scheduleEntries
-          return entityData
+          length: entry.length,
+          id: entry['@id']
+        })) || []
+      }
+
+      return this.update(payloadData)
+    }, */
+
+    updateActivity () {
+      this.error = null
+      const _events = this._events
+
+      const scheduleEntryPromises = this.entityData.scheduleEntries
+        .map(entry => {
+          if (entry['@id']) {
+            return this.api.patch(entry['@id'], {
+              period: entry.period()._meta.self,
+              periodOffset: entry.periodOffset,
+              length: entry.length
+            })
+          } else {
+            return this.scheduleEntries.$post({
+              period: entry.period()._meta.self,
+              periodOffset: entry.periodOffset,
+              length: entry.length,
+              activity: this.activity._meta.self
+            })
+          }
         })
-        .then(entityData => this.api.patch(this.entityUri, entityData))
-        .then(this.updatedSuccessful, this.onError)
+
+      // patch activity entity
+      const activityPayload = { ...this.entityData }
+      delete activityPayload.scheduleEntries
+
+      // first patch + post + delete all schedule entries
+      const promise = Promise.all(scheduleEntryPromises)
+
+        // then patch the activity itself (ensures after return we have a valid & complete activity in the local store)
+        .then(() => this.api.patch(this.entityUri, activityPayload))
+        .then(this.updatedSuccessful, e => this.onError(_events, e))
+
+      this.$emit('submit')
+      return promise
     },
     updatedSuccessful (data) {
-      this.api.reload(this.scheduleEntry).then(() => {
-        this.close()
-        this.$emit('scheduleEntryUpdated', data)
-      })
-    }, */
+      this.close()
+      this.$emit('activityUpdated', data)
+    },
     scheduleEntryRoute
   }
 }
