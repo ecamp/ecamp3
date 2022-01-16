@@ -42,7 +42,7 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
     normalizationContext: ['groups' => ['read']],
 )]
 #[ApiFilter(SearchFilter::class, properties: ['parent', 'contentType', 'root'])]
-abstract class ContentNode extends BaseEntity implements BelongsToCampInterface {
+abstract class ContentNode extends BaseEntity implements BelongsToCampInterface, CopyFromPrototypeInterface {
     /**
      * @ORM\OneToOne(targetEntity="AbstractContentNodeOwner", mappedBy="rootContentNode", cascade={"persist"})
      */
@@ -268,8 +268,8 @@ abstract class ContentNode extends BaseEntity implements BelongsToCampInterface 
      * @param ContentNode $prototype
      * @param EntityMap   $entityMap
      */
-    public function copyFromPrototype($prototype, &$entityMap = null) {
-        parent::copyFromPrototype($prototype, $entityMap);
+    public function copyFromPrototype($prototype, &$entityMap = null): void {
+        CopyFromPrototype::add($this, $prototype, $entityMap);
 
         // copy ContentNode base properties
         $this->contentType = $prototype->contentType;

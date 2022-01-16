@@ -85,7 +85,7 @@ class MultiSelect extends ContentNode {
      * @param MultiSelect $prototype
      * @param EntityMap   $entityMap
      */
-    public function copyFromPrototype($prototype, &$entityMap = null) {
+    public function copyFromPrototype($prototype, &$entityMap = null): void {
         parent::copyFromPrototype($prototype, $entityMap);
 
         // copy all multiSelect options

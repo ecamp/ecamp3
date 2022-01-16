@@ -3,7 +3,6 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiProperty;
-use App\Util\EntityMap;
 use App\Util\IdGenerator;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
@@ -48,14 +47,5 @@ abstract class BaseEntity {
 
     public function getId(): string {
         return $this->id;
-    }
-
-    /**
-     * @param BaseEntity $prototype
-     * @param EntityMap  $entityMap
-     */
-    public function copyFromPrototype($prototype, &$entityMap = null) {
-        $entityMap ??= new EntityMap();
-        $entityMap->add($prototype, $this);
     }
 }

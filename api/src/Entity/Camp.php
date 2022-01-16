@@ -46,7 +46,7 @@ use Symfony\Component\Validator\Constraints as Assert;
     denormalizationContext: ['groups' => ['write']],
     normalizationContext: ['groups' => ['read']],
 )]
-class Camp extends BaseEntity implements BelongsToCampInterface {
+class Camp extends BaseEntity implements BelongsToCampInterface, CopyFromPrototypeInterface {
     public const ITEM_NORMALIZATION_CONTEXT = [
         'groups' => ['read', 'Camp:Periods', 'Period:Days', 'Camp:CampCollaborations', 'CampCollaboration:User'],
         'swagger_definition_name' => 'read',
@@ -410,12 +410,12 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
      * @param Camp      $prototype
      * @param EntityMap $entityMap
      */
-    public function copyFromPrototype($prototype, &$entityMap = null) {
-        parent::copyFromPrototype($prototype, $entityMap);
+    public function copyFromPrototype($prototype, &$entityMap = null): void {
+        CopyFromPrototype::add($this, $prototype, $entityMap);
 
         $this->campPrototypeId = $prototype->getId();
 
-        // copy MaterialList
+        // copy MaterialLists
         foreach ($prototype->getMaterialLists() as $materialListPrototype) {
             $materialList = new MaterialList();
             $this->addMaterialList($materialList);

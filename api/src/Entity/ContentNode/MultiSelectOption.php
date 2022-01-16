@@ -9,6 +9,8 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Entity\BaseEntity;
 use App\Entity\BelongsToCampInterface;
 use App\Entity\Camp;
+use App\Entity\CopyFromPrototype;
+use App\Entity\CopyFromPrototypeInterface;
 use App\Entity\SortableEntityInterface;
 use App\Entity\SortableEntityTrait;
 use App\Repository\MultiSelectOptionRepository;
@@ -39,7 +41,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
     normalizationContext: ['groups' => ['read']],
 )]
 #[ApiFilter(SearchFilter::class, properties: ['multiSelect'])]
-class MultiSelectOption extends BaseEntity implements BelongsToCampInterface, SortableEntityInterface {
+class MultiSelectOption extends BaseEntity implements BelongsToCampInterface, SortableEntityInterface, CopyFromPrototypeInterface {
     use SortableEntityTrait;
 
     /**
@@ -72,8 +74,8 @@ class MultiSelectOption extends BaseEntity implements BelongsToCampInterface, So
      * @param MultiSelectOption $prototype
      * @param EntityMap         $entityMap
      */
-    public function copyFromPrototype($prototype, &$entityMap = null) {
-        parent::copyFromPrototype($prototype, $entityMap);
+    public function copyFromPrototype($prototype, &$entityMap = null): void {
+        CopyFromPrototype::add($this, $prototype, $entityMap);
 
         $this->translateKey = $prototype->translateKey;
         $this->checked = $prototype->checked;

@@ -37,7 +37,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
     normalizationContext: ['groups' => ['read']],
 )]
 #[ApiFilter(SearchFilter::class, properties: ['materialList', 'period', 'materialNode'])]
-class MaterialItem extends BaseEntity implements BelongsToCampInterface {
+class MaterialItem extends BaseEntity implements BelongsToCampInterface, CopyFromPrototypeInterface {
     /**
      * The list to which this item belongs. Lists are used to keep track of who is
      * responsible to prepare and bring the item to the camp.
@@ -110,8 +110,8 @@ class MaterialItem extends BaseEntity implements BelongsToCampInterface {
      * @param MaterialItem $prototype
      * @param EntityMap    $entityMap
      */
-    public function copyFromPrototype($prototype, &$entityMap = null) {
-        parent::copyFromPrototype($prototype, $entityMap);
+    public function copyFromPrototype($prototype, &$entityMap = null): void {
+        CopyFromPrototype::add($this, $prototype, $entityMap);
 
         /** @var MaterialList $materialList */
         $materialList = $entityMap->get($prototype->materialList);

@@ -49,7 +49,7 @@ use Symfony\Component\Validator\Constraints as Assert;
     normalizationContext: ['groups' => ['read']],
 )]
 #[ApiFilter(SearchFilter::class, properties: ['camp'])]
-class Category extends AbstractContentNodeOwner implements BelongsToCampInterface {
+class Category extends AbstractContentNodeOwner implements BelongsToCampInterface, CopyFromPrototypeInterface {
     public const ITEM_NORMALIZATION_CONTEXT = [
         'groups' => [
             'read',
@@ -249,8 +249,8 @@ class Category extends AbstractContentNodeOwner implements BelongsToCampInterfac
      * @param Category  $prototype
      * @param EntityMap $entityMap
      */
-    public function copyFromPrototype($prototype, &$entityMap = null) {
-        parent::copyFromPrototype($prototype, $entityMap);
+    public function copyFromPrototype($prototype, &$entityMap = null): void {
+        CopyFromPrototype::add($this, $prototype, $entityMap);
 
         $this->categoryPrototypeId = $prototype->getId();
         $this->short = $prototype->short;

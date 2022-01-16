@@ -9,6 +9,8 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Entity\BaseEntity;
 use App\Entity\BelongsToCampInterface;
 use App\Entity\Camp;
+use App\Entity\CopyFromPrototype;
+use App\Entity\CopyFromPrototypeInterface;
 use App\Entity\SortableEntityInterface;
 use App\Entity\SortableEntityTrait;
 use App\InputFilter;
@@ -44,7 +46,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
     normalizationContext: ['groups' => ['read']]
 )]
 #[ApiFilter(SearchFilter::class, properties: ['storyboard'])]
-class StoryboardSection extends BaseEntity implements BelongsToCampInterface, SortableEntityInterface {
+class StoryboardSection extends BaseEntity implements BelongsToCampInterface, SortableEntityInterface, CopyFromPrototypeInterface {
     use SortableEntityTrait;
 
     /**
@@ -86,8 +88,8 @@ class StoryboardSection extends BaseEntity implements BelongsToCampInterface, So
      * @param StoryboardSection $prototype
      * @param EntityMap         $entityMap
      */
-    public function copyFromPrototype($prototype, &$entityMap = null) {
-        parent::copyFromPrototype($prototype, $entityMap);
+    public function copyFromPrototype($prototype, &$entityMap = null): void {
+        CopyFromPrototype::add($this, $prototype, $entityMap);
 
         $this->column1 = $prototype->column1;
         $this->column2 = $prototype->column2;
