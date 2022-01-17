@@ -76,13 +76,12 @@ export default {
       pagedjs: '',
       camp: null,
       camps: [],
-      activities: null,
+      scheduleEntries: [],
     }
   },
   async fetch() {
-    /*
     const query = this.$route.query
-
+    /*
     this.config = {
       showFrontpage:
         query.showFrontpage && query.showFrontpage.toLowerCase() === 'true',
@@ -97,9 +96,6 @@ export default {
       showActivities:
         query.showActivities && query.showActivities.toLowerCase() === 'true',
     }
-
-    this.camp = await this.$api.get().camps({ campId: query.camp })._meta.load
-    this.activities = (await this.camp.activities()._meta.load).items
     */
 
     try {
@@ -117,54 +113,69 @@ export default {
       showActivities: true,
     }
 
-    this.camp = {
-      name: 'Camp Name',
-      title: 'camp title',
-      motto: 'camp motto',
-      periods: collection([
-        {
-          id: '/camp/1',
-          description: 'Vorlager',
-          days: collection([
-            {
-              id: '/day/1',
-              dayOffset: 1,
-              scheduleEntries: collection([
-                {
-                  id: 'scheduleEntry1',
-                  activity: entity({
-                    title: 'Activity 1',
-                    location: 'Lagerplatz',
-                    category: entity({
-                      short: 'LA',
-                      color: '#55AAAA',
-                    }),
-                    scheduleEntries: collection([
-                      {
-                        id: 'scheduleEntry1',
-                        number: '1.1',
-                        periodOffset: 510,
-                        length: 45,
-                        period: entity({
-                          start: '2021-11-25',
-                        }),
-                      },
-                    ]),
-                  }),
-                },
-              ]),
-            },
-          ]),
-        },
-      ]),
-    }
+    if (query.period) {
+      this.period = await this.$api.get(query.period)._meta.load
+      this.camp = await this.period.camp()._meta.load
 
-    this.scheduleEntries = [
-      {
-        id: 'scheduleEntry1',
-        title: 'Activity 1',
-      },
-    ]
+      const [scheduleEntries, activities, categories] = await Promise.all([
+        this.period.scheduleEntries().$loadItems(),
+        this.camp.activities().$loadItems(),
+        this.camp.categories().$loadItems(),
+      ])
+
+      this.scheduleEntries = scheduleEntries.items
+    } else {
+      this.camp = {
+        name: 'Camp Name',
+        title: 'camp title',
+        motto: 'camp motto',
+        periods: collection([
+          {
+            id: '/camp/1',
+            description: 'Vorlager',
+            days: collection([
+              {
+                id: '/day/1',
+                dayOffset: 1,
+                scheduleEntries: collection([
+                  {
+                    id: 'scheduleEntry1',
+                    activity: entity({
+                      title: 'Activity 1',
+                      location: 'Lagerplatz',
+                      category: entity({
+                        short: 'LA',
+                        color: '#55AAAA',
+                      }),
+                      scheduleEntries: collection([
+                        {
+                          id: 'scheduleEntry1',
+                          number: '1.1',
+                          periodOffset: 510,
+                          length: 45,
+                          period: entity({
+                            start: '2021-11-25',
+                          }),
+                        },
+                      ]),
+                    }),
+                  },
+                ]),
+              },
+            ]),
+          },
+        ]),
+      }
+
+      this.scheduleEntries = [
+        {
+          id: 'scheduleEntry1',
+          activity: entity({
+            title: 'Activity 1',
+          }),
+        },
+      ]
+    }
   },
 }
 </script>

@@ -2,29 +2,33 @@
   <v-row no-gutters class="picasso">
     <v-col cols="12">
       <div class="picasso">
-        <h1>Picasso</h1>
+        <h1>Picasso {{ period.description }}</h1>
 
         <v-sheet>
           <v-calendar
             ref="calendar"
             :value="today"
             :events="events"
-            event-color="blue lighten-4"
-            type="week"
+            event-start="startTime"
+            event-end="endTime"
+            :event-color="getActivityColor"
+            :start="period.start"
+            :end="period.end"
+            type="custom-daily"
             event-overlap-mode="column"
             first-interval="6"
             interval-count="18"
             interval-height="45"
             interval-width="100"
             event-text-color="black"
-            event-color:
           >
             <template #event="{ event }">
               <div class="font-weight-medium mb-1">
-                ({{ event.number }})&nbsp; {{ event.categoryShort }}:&nbsp;
-                {{ event.name }}
+                ({{ event.number }})&nbsp;
+                {{ event.activity().category().short }}:&nbsp;
+                {{ event.activity().title }}
               </div>
-              <span>[{{ event.responsibles }}]</span>
+              <span>[smiley, forte]</span>
             </template>
           </v-calendar>
         </v-sheet>
@@ -34,40 +38,71 @@
 </template>
 
 <script>
+import { defineHelpers } from '~/../common/helpers/scheduleEntry/dateHelperLocal.js'
+
 export default {
+  props: {
+    period: { type: Object, required: true },
+  },
   data: () => ({
     today: '2019-01-08',
     events: [
       {
         number: '2.1',
-        name: 'Weekly Meeting',
-        start: '2019-01-07 09:00',
-        end: '2019-01-07 10:00',
-        categoryShort: 'LA',
-        responsibles: 'smiley, forte',
-      },
-      {
-        name: "Thomas' Birthday",
-        start: '2019-01-10',
+        startTime: '2019-01-07 09:00',
+        endTime: '2019-01-07 10:00',
+        activity: () => ({
+          title: 'Dummy activity',
+          category: () => ({
+            short: 'LA',
+            color: '#4CAF50',
+          }),
+        }),
       },
       {
         number: '4.1',
-        name: 'Mash Potatoes',
-        start: '2019-01-09 12:30',
-        end: '2019-01-09 15:30',
-        categoryShort: 'LA',
-        responsibles: 'smiley, forte',
+        startTime: '2019-01-09 12:30',
+        endTime: '2019-01-09 15:30',
+        activity: () => ({
+          title: 'Dummy activity',
+          category: () => ({
+            short: 'LS',
+            color: '#99CCFF',
+          }),
+        }),
       },
       {
         number: '4.2',
-        name: 'Spielenachmittag',
-        start: '2019-01-09 13:00',
-        end: '2019-01-09 17:30',
-        categoryShort: 'LA',
-        responsibles: 'smiley, forte',
+        startTime: '2019-01-09 13:00',
+        endTime: '2019-01-09 17:30',
+        activity: () => ({
+          title: 'Dummy activity',
+          category: () => ({
+            short: 'LS',
+            color: '#99CCFF',
+          }),
+        }),
       },
     ],
   }),
+  async fetch() {
+    this.camp = await this.period.camp()._meta.load
+
+    const [scheduleEntries, activities, categories] = await Promise.all([
+      this.period.scheduleEntries().$loadItems(),
+      this.camp.activities().$loadItems(),
+      this.camp.categories().$loadItems(),
+    ])
+
+    this.events = scheduleEntries.items.map((entry) =>
+      defineHelpers(entry, true)
+    )
+  },
+  methods: {
+    getActivityColor(scheduleEntry) {
+      return scheduleEntry.activity().category().color
+    },
+  },
 }
 </script>
 

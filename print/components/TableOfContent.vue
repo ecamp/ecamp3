@@ -8,7 +8,7 @@
           :key="'toc_' + scheduleEntry.id"
         >
           <a class="toclink" :href="'#scheduleEntry_' + scheduleEntry.id">{{
-            scheduleEntry.title
+            scheduleEntry.activity().title
           }}</a>
         </p>
       </div>
