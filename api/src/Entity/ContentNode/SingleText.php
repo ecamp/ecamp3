@@ -17,7 +17,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
     routePrefix: '/content_node',
     collectionOperations: [
         'get' => [
-            'security' => 'is_fully_authenticated()',
+            'security' => 'is_authenticated()',
         ],
         'post' => [
             'denormalization_context' => ['groups' => ['write', 'create']],
@@ -44,4 +44,13 @@ class SingleText extends ContentNode {
     #[InputFilter\CleanHTML]
     #[Groups(['read', 'write'])]
     public ?string $text = null;
+
+    /**
+     * @param SingleText $prototype
+     */
+    public function copyFromPrototype($prototype) {
+        $this->text = $prototype->text;
+
+        parent::copyFromPrototype($prototype);
+    }
 }

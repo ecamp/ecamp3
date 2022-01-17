@@ -7,6 +7,7 @@ use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Repository\ActivityRepository;
+use App\Serializer\Normalizer\RelatedCollectionLink;
 use App\Validator\AssertBelongsToSameCamp;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -22,7 +23,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 #[ApiResource(
     collectionOperations: [
-        'get' => ['security' => 'is_fully_authenticated()'],
+        'get' => ['security' => 'is_authenticated()'],
         'post' => [
             'validation_groups' => ['Default', 'create'],
             'denormalization_context' => ['groups' => ['write', 'create']],
@@ -171,6 +172,7 @@ class Activity extends AbstractContentNodeOwner implements BelongsToCampInterfac
      * @return ContentNode[]
      */
     #[Groups(['read'])]
+    #[RelatedCollectionLink(ContentNode::class, ['root' => 'rootContentNode'])]
     public function getContentNodes(): array {
         return parent::getContentNodes();
     }
@@ -191,13 +193,16 @@ class Activity extends AbstractContentNodeOwner implements BelongsToCampInterfac
      * @return CampCollaboration[]
      */
     #[ApiProperty(writable: false, example: '["/camp_collaborations/1a2b3c4d"]')]
+    #[RelatedCollectionLink(CampCollaboration::class, ['activityResponsibles.activity' => '$this'])]
     #[Groups(['read'])]
     public function getCampCollaborations(): array {
-        return $this
-            ->activityResponsibles
-            ->map(fn (ActivityResponsible $activityResponsible) => $activityResponsible->campCollaboration)
-            ->getValues()
-        ;
+        return array_filter(
+            $this
+                ->activityResponsibles
+                ->map(fn (ActivityResponsible $activityResponsible) => $activityResponsible->campCollaboration)
+                ->getValues(),
+            fn ($cc) => !is_null($cc)
+        );
     }
 
     /**

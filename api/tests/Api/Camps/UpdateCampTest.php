@@ -50,7 +50,7 @@ class UpdateCampTest extends ECampApiTestCase {
 
     public function testPatchCampIsDeniedForGuest() {
         $camp = static::$fixtures['camp1'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user3guest']->username])
+        static::createClientWithCredentials(['username' => static::$fixtures['user3guest']->getUsername()])
             ->request('PATCH', '/camps/'.$camp->getId(), ['json' => [
                 'title' => 'Hello World',
             ], 'headers' => ['Content-Type' => 'application/merge-patch+json']])
@@ -64,7 +64,7 @@ class UpdateCampTest extends ECampApiTestCase {
 
     public function testPatchCampIsAllowedForMember() {
         $camp = static::$fixtures['camp1'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->username])
+        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->getUsername()])
             ->request('PATCH', '/camps/'.$camp->getId(), ['json' => [
                 'title' => 'Hello World',
             ], 'headers' => ['Content-Type' => 'application/merge-patch+json']])

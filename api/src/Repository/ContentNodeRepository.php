@@ -4,7 +4,6 @@ namespace App\Repository;
 
 use App\Entity\ContentNode;
 use App\Entity\User;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -14,7 +13,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method ContentNode[]    findAll()
  * @method ContentNode[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class ContentNodeRepository extends ServiceEntityRepository implements CanFilterByUserInterface {
+class ContentNodeRepository extends SortableServiceEntityRepository implements CanFilterByUserInterface {
     use FiltersByContentNode;
 
     public function __construct(ManagerRegistry $registry, string $entityClass = ContentNode::class) {

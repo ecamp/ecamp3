@@ -19,7 +19,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
     routePrefix: '/content_node',
     collectionOperations: [
         'get' => [
-            'security' => 'is_fully_authenticated()',
+            'security' => 'is_authenticated()',
         ],
         'post' => [
             'denormalization_context' => ['groups' => ['write', 'create']],
@@ -77,5 +77,24 @@ class Storyboard extends ContentNode {
         }
 
         return $this;
+    }
+
+    /**
+     * @param Storyboard $prototype
+     */
+    public function copyFromPrototype($prototype) {
+        // copy all storyboard sections
+        foreach ($prototype->sections as $prototypeSection) {
+            $section = new StoryboardSection();
+
+            $section->column1 = $prototypeSection->column1;
+            $section->column2 = $prototypeSection->column2;
+            $section->column3 = $prototypeSection->column3;
+            $section->setPosition($prototypeSection->getPosition());
+
+            $this->addSection($section);
+        }
+
+        parent::copyFromPrototype($prototype);
     }
 }

@@ -1,4 +1,5 @@
 {
+    "php-cs-fixer.executablePath": "${workspaceFolder}/vendor/bin/php-cs-fixer",
     "php-cs-fixer.config": "./.php-cs-fixer.php",
     "phpunit.files": "tests/**/*Test.php",
     "phpunit.args": [

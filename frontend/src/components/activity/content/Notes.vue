@@ -1,7 +1,7 @@
 <template>
   <card-content-node v-bind="$props">
     <div class="mb-3">
-      <api-form :entity="contentNode.singleText()">
+      <api-form :entity="contentNode">
         <api-textarea
           fieldname="text"
           :label="$tc('contentNode.notes.name')"

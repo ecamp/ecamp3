@@ -27,7 +27,7 @@ class UpdateActivityTest extends ECampApiTestCase {
 
     public function testPatchActivityIsDeniedForUnrelatedUser() {
         $activity = static::$fixtures['activity1'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->username])
+        static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->getUsername()])
             ->request('PATCH', '/activities/'.$activity->getId(), ['json' => [
                 'title' => 'Hello World',
                 'location' => 'Stoos',
@@ -43,7 +43,7 @@ class UpdateActivityTest extends ECampApiTestCase {
 
     public function testPatchActivityIsDeniedForInactiveCollaborator() {
         $activity = static::$fixtures['activity1'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->username])
+        static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->getUsername()])
             ->request('PATCH', '/activities/'.$activity->getId(), ['json' => [
                 'title' => 'Hello World',
                 'location' => 'Stoos',
@@ -59,7 +59,7 @@ class UpdateActivityTest extends ECampApiTestCase {
 
     public function testPatchActivityIsDeniedForGuest() {
         $activity = static::$fixtures['activity1'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user3guest']->username])
+        static::createClientWithCredentials(['username' => static::$fixtures['user3guest']->getUsername()])
             ->request('PATCH', '/activities/'.$activity->getId(), ['json' => [
                 'title' => 'Hello World',
                 'location' => 'Stoos',
@@ -75,7 +75,7 @@ class UpdateActivityTest extends ECampApiTestCase {
 
     public function testPatchActivityIsAllowedForMember() {
         $activity = static::$fixtures['activity1'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->username])
+        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->getUsername()])
             ->request('PATCH', '/activities/'.$activity->getId(), ['json' => [
                 'title' => 'Hello World',
                 'location' => 'Stoos',

@@ -4,6 +4,7 @@ namespace App\Tests\Api\Activities;
 
 use ApiPlatform\Core\Api\OperationType;
 use App\Entity\Activity;
+use App\Entity\User;
 use App\Tests\Api\ECampApiTestCase;
 
 /**
@@ -24,7 +25,9 @@ class CreateActivityTest extends ECampApiTestCase {
     }
 
     public function testCreateActivityIsNotPossibleForUnrelatedUserBecausePeriodIsNotReadable() {
-        static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->username])
+        /** @var User $user */
+        $user = static::$fixtures['user4unrelated'];
+        static::createClientWithCredentials(['username' => $user->getUsername()])
             ->request('POST', '/activities', ['json' => $this->getExampleWritePayload()])
         ;
 
@@ -36,7 +39,7 @@ class CreateActivityTest extends ECampApiTestCase {
     }
 
     public function testCreateActivityIsNotPossibleForInactiveCollaboratorBecausePeriodIsNotReadable() {
-        static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->username])
+        static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->getUsername()])
             ->request('POST', '/activities', ['json' => $this->getExampleWritePayload()])
         ;
 
@@ -48,7 +51,7 @@ class CreateActivityTest extends ECampApiTestCase {
     }
 
     public function testCreateActivityIsDeniedForGuest() {
-        static::createClientWithCredentials(['username' => static::$fixtures['user3guest']->username])
+        static::createClientWithCredentials(['username' => static::$fixtures['user3guest']->getUsername()])
             ->request('POST', '/activities', ['json' => $this->getExampleWritePayload()])
         ;
 
@@ -60,7 +63,7 @@ class CreateActivityTest extends ECampApiTestCase {
     }
 
     public function testCreateActivityIsAllowedForMember() {
-        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->username])
+        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->getUsername()])
             ->request('POST', '/activities', ['json' => $this->getExampleWritePayload()])
         ;
 
@@ -133,6 +136,68 @@ class CreateActivityTest extends ECampApiTestCase {
 
         $this->assertResponseStatusCodeSame(201);
         $this->assertJsonContains(['location' => '']);
+    }
+
+    public function testCreateActivityCopiesContentFromCategory() {
+        $response = static::createClientWithCredentials()->request('POST', '/activities', ['json' => $this->getExampleWritePayload()]);
+
+        $id = $response->toArray()['id'];
+        $newActivity = $this->getEntityManager()->getRepository(Activity::class)->find($id);
+
+        $this->assertResponseStatusCodeSame(201);
+        $this->assertJsonContains(['_embedded' => [
+            'contentNodes' => [
+                // copy of columnLayout1
+                [
+                    '_links' => [
+                        'contentType' => [
+                            'href' => $this->getIriFor('contentTypeColumnLayout'),
+                        ],
+                        'owner' => [
+                            'href' => $this->getIriFor($newActivity),
+                        ],
+                        'ownerCategory' => [
+                            'href' => $this->getIriFor('category1'),
+                        ],
+                    ],
+                    'columns' => [
+                        [
+                            'slot' => '1',
+                            'width' => 12,
+                        ],
+                    ],
+                    'slot' => '',
+                    'position' => 0,
+                    'instanceName' => 'columnLayout2',
+                    'contentTypeName' => 'ColumnLayout',
+                ],
+
+                // copy of columnLayoutChild1
+                [
+                    '_links' => [
+                        'contentType' => [
+                            'href' => $this->getIriFor('contentTypeColumnLayout'),
+                        ],
+                        'owner' => [
+                            'href' => $this->getIriFor($newActivity),
+                        ],
+                        'ownerCategory' => [
+                            'href' => $this->getIriFor('category1'),
+                        ],
+                    ],
+                    'columns' => [
+                        [
+                            'slot' => '1',
+                            'width' => 12,
+                        ],
+                    ],
+                    'slot' => '2',
+                    'position' => 0,
+                    'instanceName' => 'columnLayout2Child',
+                    'contentTypeName' => 'ColumnLayout',
+                ],
+            ],
+        ]]);
     }
 
     public function testCreateActivityAllowsEmbeddingScheduleEntries() {

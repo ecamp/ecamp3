@@ -1,27 +1,19 @@
 App\Entity\ContentNode\ColumnLayout:
-  columnLayout1:
-    root: '@self'
-    parent: null
-    slot: ''
-    position: 0
-    columns: [{slot: '1', width: 6}, {slot: '2', width: 6}]
-    instanceName: <word()>
-    contentType: '@contentTypeColumnLayout'
   columnLayout2:
     root: '@self'
     parent: null
     slot: ''
     position: 0
     columns: [{slot: '1', width: 12}]
-    instanceName: <word()>
+    instanceName: 'columnLayout2'
     contentType: '@contentTypeColumnLayout'
-  columnLayoutChild1:
-    root: '@columnLayout1'
-    parent: '@columnLayout1'
+  columnLayout2Child1:
+    root: '@columnLayout2'
+    parent: '@columnLayout2'
     slot: '2'
     position: 0
     columns: [{slot: '1', width: 12}]
-    instanceName: <word()>
+    instanceName: 'columnLayout2Child'
     contentType: '@contentTypeColumnLayout'
   columnLayout3:
     root: '@self'

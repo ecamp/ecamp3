@@ -3,6 +3,7 @@
     <e-text-field
       v-model="localMaterialItem.quantity"
       :name="$tc('entity.materialItem.fields.quantity')"
+      type="number"
       autofocus />
     <e-text-field
       v-model="localMaterialItem.unit"
@@ -12,11 +13,11 @@
       :name="$tc('entity.materialItem.fields.article')"
       vee-rules="required" />
     <e-select
-      v-model="localMaterialItem.materialListId"
+      v-model="localMaterialItem.materialList"
       dense
       vee-rules="required"
       :name="$tc('entity.materialList.name')"
-      fieldname="materialListId"
+      fieldname="materialList"
       :items="materialListArray" />
   </div>
 </template>
@@ -34,7 +35,7 @@ export default {
     },
     materialListArray () {
       return this.materialLists().items.map(l => ({
-        value: l.id,
+        value: l._meta.self,
         text: l.name
       }))
     }

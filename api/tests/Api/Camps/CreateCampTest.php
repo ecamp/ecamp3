@@ -5,6 +5,7 @@ namespace App\Tests\Api\Camps;
 use ApiPlatform\Core\Api\OperationType;
 use App\Entity\Camp;
 use App\Entity\User;
+use App\Repository\UserRepository;
 use App\Tests\Api\ECampApiTestCase;
 
 /**
@@ -48,7 +49,9 @@ class CreateCampTest extends ECampApiTestCase {
 
     public function testCreateCampSetsOwnerToAuthenticatedUser() {
         $response = static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExampleWritePayload()]);
-        $user = $this->getEntityManager()->getRepository(User::class)->findOneBy(['username' => 'test-user']);
+        /** @var UserRepository $userRepository */
+        $userRepository = $this->getEntityManager()->getRepository(User::class);
+        $user = $userRepository->loadUserByIdentifier('test-user');
 
         $this->assertResponseStatusCodeSame(201);
         $camp = $this->getEntityManager()->getRepository(Camp::class)->find($response->toArray()['id']);
@@ -583,6 +586,56 @@ class CreateCampTest extends ECampApiTestCase {
                 [
                     'propertyPath' => 'addressCity',
                     'message' => 'This value is too long. It should have 128 characters or less.',
+                ],
+            ],
+        ]);
+    }
+
+    public function testCreateCampReturnsProperDatesInTimezoneAheadOfUTC() {
+        date_default_timezone_set('Asia/Singapore');
+        static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExampleWritePayload([
+            'periods' => [
+                [
+                    'description' => 'Hauptlager',
+                    'start' => '2022-01-08',
+                    'end' => '2022-01-10',
+                ],
+            ],
+        ])]);
+
+        $this->assertResponseStatusCodeSame(201);
+        $this->assertJsonContains([
+            '_embedded' => [
+                'periods' => [
+                    [
+                        'start' => '2022-01-08',
+                        'end' => '2022-01-10',
+                    ],
+                ],
+            ],
+        ]);
+    }
+
+    public function testCreateCampReturnsProperDatesInTimezoneBehindUTC() {
+        date_default_timezone_set('America/New_York');
+        static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExampleWritePayload([
+            'periods' => [
+                [
+                    'description' => 'Hauptlager',
+                    'start' => '2022-01-08',
+                    'end' => '2022-01-10',
+                ],
+            ],
+        ])]);
+
+        $this->assertResponseStatusCodeSame(201);
+        $this->assertJsonContains([
+            '_embedded' => [
+                'periods' => [
+                    [
+                        'start' => '2022-01-08',
+                        'end' => '2022-01-10',
+                    ],
                 ],
             ],
         ]);

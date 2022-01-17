@@ -15,7 +15,7 @@ class AssertNoOrphanChildrenValidator extends ConstraintValidator {
             throw new UnexpectedTypeException($constraint, AssertNoOrphanChildren::class);
         }
 
-        /** @var ColumnLayout $object */
+        /** @var ColumnLayout $columnLayout */
         $columnLayout = $this->context->getObject();
 
         if (!($columnLayout instanceof ColumnLayout)) {
@@ -34,7 +34,7 @@ class AssertNoOrphanChildrenValidator extends ConstraintValidator {
             return $child->slot;
         })->toArray();
 
-        $orphans = array_diff($childSlots, $slots);
+        $orphans = array_unique(array_diff($childSlots, $slots));
 
         if (count($orphans)) {
             $this->context->buildViolation($constraint->message)

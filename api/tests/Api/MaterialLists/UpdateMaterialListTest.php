@@ -25,7 +25,7 @@ class UpdateMaterialListTest extends ECampApiTestCase {
 
     public function testPatchMaterialListIsDeniedForUnrelatedUser() {
         $materialList = static::$fixtures['materialList1'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->username])
+        static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->getUsername()])
             ->request('PATCH', '/material_lists/'.$materialList->getId(), ['json' => [
                 'name' => 'Something',
             ], 'headers' => ['Content-Type' => 'application/merge-patch+json']])
@@ -39,7 +39,7 @@ class UpdateMaterialListTest extends ECampApiTestCase {
 
     public function testPatchMaterialListIsDeniedForInactiveCollaborator() {
         $materialList = static::$fixtures['materialList1'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->username])
+        static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->getUsername()])
             ->request('PATCH', '/material_lists/'.$materialList->getId(), ['json' => [
                 'name' => 'Something',
             ], 'headers' => ['Content-Type' => 'application/merge-patch+json']])
@@ -53,7 +53,7 @@ class UpdateMaterialListTest extends ECampApiTestCase {
 
     public function testPatchMaterialListIsDeniedForGuest() {
         $materialList = static::$fixtures['materialList1'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user3guest']->username])
+        static::createClientWithCredentials(['username' => static::$fixtures['user3guest']->getUsername()])
             ->request('PATCH', '/material_lists/'.$materialList->getId(), ['json' => [
                 'name' => 'Something',
             ], 'headers' => ['Content-Type' => 'application/merge-patch+json']])
@@ -67,7 +67,7 @@ class UpdateMaterialListTest extends ECampApiTestCase {
 
     public function testPatchMaterialListIsAllowedForMember() {
         $materialList = static::$fixtures['materialList1'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->username])
+        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->getUsername()])
             ->request('PATCH', '/material_lists/'.$materialList->getId(), ['json' => [
                 'name' => 'Something',
             ], 'headers' => ['Content-Type' => 'application/merge-patch+json']])

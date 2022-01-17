@@ -1,6 +1,8 @@
 <template>
   <dialog-form
     v-model="showDialog"
+    :loading="loading"
+    :error="error"
     icon="mdi-calendar-plus"
     :title="$tc('components.dialog.dialogPeriodCreate.title')"
     max-width="600px"
@@ -10,8 +12,7 @@
     <template #activator="scope">
       <slot name="activator" v-bind="scope" />
     </template>
-    <server-error :server-error="error" />
-    <dialog-period-form v-if="!loading" :period="entityData" />
+    <dialog-period-form :period="entityData" />
   </dialog-form>
 </template>
 
@@ -19,11 +20,10 @@
 import DialogForm from './DialogForm.vue'
 import DialogBase from './DialogBase.vue'
 import DialogPeriodForm from './DialogPeriodForm.vue'
-import ServerError from '@/components/form/ServerError.vue'
 
 export default {
   name: 'DialogPeriodCreate',
-  components: { DialogForm, DialogPeriodForm, ServerError },
+  components: { DialogForm, DialogPeriodForm },
   extends: DialogBase,
   props: {
     camp: { type: Object, required: true }

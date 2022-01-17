@@ -51,35 +51,4 @@ class CreateSingleTextTest extends CreateContentNodeTestCase {
             'text' => ' testText',
         ]);
     }
-
-    public function testCreateSingleTextFromPrototype() {
-        // given
-        $prototype = static::$fixtures['singleText2'];
-
-        // when
-        $this->create($this->getExampleWritePayload(['prototype' => $this->getIriFor('singleText2')]));
-
-        // then
-        $this->assertResponseStatusCodeSame(201);
-        $this->assertJsonContains(['text' => $prototype->text]);
-    }
-
-    public function testCreateFromPrototypeValidatesWrongPrototypeContentType() {
-        // when
-        $this->create($this->getExampleWritePayload([
-            'contentType' => $this->getIriFor('contentTypeNotes'),
-            'prototype' => $this->getIriFor('safetyConcept1'), // content type: safety concept
-        ]), static::$fixtures['user2member']);
-
-        // then
-        $this->assertResponseStatusCodeSame(422);
-        $this->assertJsonContains([
-            'violations' => [
-                [
-                    'propertyPath' => 'prototype',
-                    'message' => 'This value must have the content type Notes, but was SafetyConcept.',
-                ],
-            ],
-        ]);
-    }
 }

@@ -18,13 +18,23 @@ class DeleteUserTest extends ECampApiTestCase {
         ]);
     }
 
-    public function testDeleteUserIsDeniedForDifferentUser() {
+    public function testDeleteUserIsDeniedForRelatedUser() {
         $user2 = static::$fixtures['user2member'];
         static::createClientWithCredentials()->request('DELETE', '/users/'.$user2->getId());
-        $this->assertResponseStatusCodeSame(404);
+        $this->assertResponseStatusCodeSame(403);
         $this->assertJsonContains([
             'title' => 'An error occurred',
-            'detail' => 'Not Found',
+            'detail' => 'Access Denied.',
+        ]);
+    }
+
+    public function testDeleteUserIsDeniedForDifferentUser() {
+        $user2 = static::$fixtures['user4unrelated'];
+        static::createClientWithCredentials()->request('DELETE', '/users/'.$user2->getId());
+        $this->assertResponseStatusCodeSame(403);
+        $this->assertJsonContains([
+            'title' => 'An error occurred',
+            'detail' => 'Access Denied.',
         ]);
     }
 

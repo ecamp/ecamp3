@@ -11,8 +11,10 @@ use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Context;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Annotation\SerializedName;
+use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -23,7 +25,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 #[ApiResource(
     collectionOperations: [
-        'get' => ['security' => 'is_fully_authenticated()'],
+        'get' => ['security' => 'is_authenticated()'],
         'post' => [
             'denormalization_context' => ['groups' => ['write', 'create']],
             'security_post_denormalize' => 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)',
@@ -113,6 +115,10 @@ class Period extends BaseEntity implements BelongsToCampInterface {
      */
     #[Assert\LessThanOrEqual(propertyPath: 'end')]
     #[ApiProperty(example: '2022-01-01', openapiContext: ['format' => 'date'])]
+    #[Context(
+        normalizationContext: [DateTimeNormalizer::FORMAT_KEY => 'Y-m-d'],
+        denormalizationContext: [DateTimeNormalizer::FORMAT_KEY => '!Y-m-d']
+    )]
     #[Groups(['read', 'write'])]
     public ?DateTimeInterface $start = null;
 
@@ -124,6 +130,11 @@ class Period extends BaseEntity implements BelongsToCampInterface {
      */
     #[Assert\GreaterThanOrEqual(propertyPath: 'start')]
     #[ApiProperty(example: '2022-01-08', openapiContext: ['format' => 'date'])]
+    #[Context([DateTimeNormalizer::FORMAT_KEY => '!Y-m-d'])]
+    #[Context(
+        normalizationContext: [DateTimeNormalizer::FORMAT_KEY => 'Y-m-d'],
+        denormalizationContext: [DateTimeNormalizer::FORMAT_KEY => '!Y-m-d']
+    )]
     #[Groups(['read', 'write'])]
     public ?DateTimeInterface $end = null;
 

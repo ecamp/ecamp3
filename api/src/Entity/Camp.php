@@ -21,9 +21,9 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 #[ApiResource(
     collectionOperations: [
-        'get' => ['security' => 'is_fully_authenticated()'],
+        'get' => ['security' => 'is_authenticated()'],
         'post' => [
-            'security' => 'is_fully_authenticated()',
+            'security' => 'is_authenticated()',
             'input_formats' => ['jsonld', 'jsonapi', 'json'],
             'validation_groups' => ['Default', 'create'],
             'denormalization_context' => ['groups' => ['write', 'create']],
@@ -297,26 +297,6 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
         }
 
         return $this;
-    }
-
-    public function getRole($userId): string {
-        if ($this?->owner->getId() === $userId) {
-            return CampCollaboration::ROLE_MANAGER;
-        }
-
-        $campCollaborations = $this->collaborations->filter(function (CampCollaboration $cc) use ($userId) {
-            return $cc?->user->getId() == $userId;
-        });
-
-        if (1 == $campCollaborations->count()) {
-            /** @var CampCollaboration $campCollaboration */
-            $campCollaboration = $campCollaborations->first();
-            if ($campCollaboration->isEstablished()) {
-                return $campCollaboration->role;
-            }
-        }
-
-        return CampCollaboration::ROLE_GUEST;
     }
 
     /**

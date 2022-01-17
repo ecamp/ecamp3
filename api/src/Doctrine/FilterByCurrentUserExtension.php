@@ -30,7 +30,8 @@ final class FilterByCurrentUserExtension implements QueryCollectionExtensionInte
 
     private function addWhere(QueryBuilder $queryBuilder, string $resourceClass): void {
         $repository = $this->entityManager->getRepository($resourceClass);
-        /** @var User $user */
+
+        /** @var null|User $user */
         $user = $this->security->getUser();
 
         if (!($repository instanceof CanFilterByUserInterface) || null === $user) {

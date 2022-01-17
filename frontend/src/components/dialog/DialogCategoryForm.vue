@@ -24,6 +24,8 @@
     <e-select
       v-model="localCategory.preferredContentTypes"
       :items="contentTypes"
+      :disabled="contentTypesLoading"
+      :loading="contentTypesLoading"
       :name="$tc('entity.contentType.name', 2)"
       multiple />
   </div>
@@ -58,6 +60,9 @@ export default {
         value: ct._meta.self,
         text: this.$tc('contentNode.' + camelCase(ct.name) + '.name')
       }))
+    },
+    contentTypesLoading () {
+      return this.api.get().contentTypes()._meta.loading
     }
   }
 }

@@ -24,9 +24,6 @@ services:
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
 
-    App\DataPersister\ActivityDataPersister:
-        arguments: [ '@api_platform.doctrine.orm.data_persister' ]
-
     App\DataPersister\Util\DataPersisterObservable:
         arguments: [ '@api_platform.doctrine.orm.data_persister' ]
 
@@ -81,6 +78,10 @@ services:
         # https://github.com/api-platform/core/blob/main/src/Bridge/Symfony/Bundle/Resources/config/metadata/metadata.xml#L65
         decoration_priority: 29
 
+    App\Serializer\Denormalizer\MaterialItemDenormalizer:
+        tags:
+            - { name: 'serializer.denormalizer', priority: 64 }
+
     App\OpenApi\JwtDecorator:
         decorates: 'api_platform.openapi.factory'
 
@@ -114,3 +115,10 @@ services:
 
     Rize\UriTemplate:
         public: false
+
+    Symfony\Component\Serializer\Normalizer\DateTimeNormalizer:
+        arguments:
+            $defaultContext:
+                # ensure, data coming from API without timezone information is interpreted as UTC
+                # (e.g. period start '2021-01-01' in POST payload)
+                datetime_timezone: 'UTC'

@@ -16,11 +16,12 @@ Displays a field as a picker (can be used with v-model)
       max-width="290px">
       <template #activator="{on}">
         <e-text-field
-          v-model="stringValue"
+          :value="fieldValue"
           v-bind="$attrs"
           :error-messages="combinedErrorMessages"
           :filled="filled"
           :disabled="disabled"
+          @input="debouncedParseValue"
           @focus="textFieldIsActive = true"
           @blur="textFieldIsActive = false">
           <template v-if="icon" #prepend>
@@ -79,9 +80,12 @@ export default {
   },
   data () {
     return {
+      // internal value
       localValue: this.value,
+
+      // value used to pass to picker component
       localPickerValue: this.value,
-      stringValue: '',
+
       showPicker: false,
       textFieldIsActive: false,
       parseError: null,
@@ -97,6 +101,8 @@ export default {
     }
   },
   computed: {
+
+    // value formatted for text field
     fieldValue () {
       if (this.format !== null) {
         return this.format(this.localValue)
@@ -104,6 +110,8 @@ export default {
         return this.localValue
       }
     },
+
+    // value formatted for picker component
     pickerValue () {
       if (this.formatPicker !== null) {
         return this.formatPicker(this.localValue)
@@ -121,27 +129,14 @@ export default {
     }
   },
   watch: {
-    stringValue (val) {
-      this.debouncedParseValue(val)
-    },
     value (val) {
       if (this.showPicker === false) {
         this.localValue = val
       }
-    },
-    fieldValue (val) {
-      if (this.textFieldIsActive === false) {
-        this.stringValue = val
-      }
-    },
-    textFieldIsActive (val) {
-      if (val === false) {
-        this.stringValue = this.fieldValue
-      }
     }
   },
   mounted () {
-    this.stringValue = this.fieldValue
+    this.parseValue(this.fieldValue)
   },
   methods: {
     setValue (val) {

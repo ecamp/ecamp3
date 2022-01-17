@@ -11,8 +11,19 @@
   },
   "packageRules": [
     {
-      "updateTypes": ["minor", "patch", "pin", "digest"],
+      "updateTypes": [
+        "minor",
+        "patch",
+        "pin",
+        "digest"
+      ],
       "automerge": true
+    },
+    {
+      "matchPackageNames": [
+        "sass"
+      ],
+      "dependencyDashboardApproval": true
     }
   ],
   "ignorePaths": [
@@ -21,15 +32,32 @@
   ],
   "regexManagers": [
     {
-      "fileMatch": ["^.github/workflows/continuous-integration.yml$"],
-      "matchStrings": ["(?<depName>cypress/included):(?<currentValue>[0-9.]+)\n"],
+      "fileMatch": [
+        "^.github/workflows/continuous-integration.yml$"
+      ],
+      "matchStrings": [
+        "(?<depName>cypress/included):(?<currentValue>[0-9.]+)\n"
+      ],
       "datasourceTemplate": "docker"
     },
     {
-      "fileMatch": ["^api/phpunit.xml.dist$"],
-      "matchStrings": ["<server name=\"SYMFONY_PHPUNIT_VERSION\" value=\"(?<currentValue>[^\"]+)\" />"],
+      "fileMatch": [
+        "^api/phpunit.xml.dist$"
+      ],
+      "matchStrings": [
+        "<server name=\"SYMFONY_PHPUNIT_VERSION\" value=\"(?<currentValue>[^\"]+)\" />"
+      ],
       "depNameTemplate": "phpunit/phpunit",
       "datasourceTemplate": "packagist"
-    }
+    },
+    {
+      "fileMatch": [
+        "^api/Dockerfile$"
+      ],
+      "matchStrings": [
+        "datasource=(?<datasource>.*?) depName=(?<depName>.*?)( versioning=(?<versioning>.*?))?\\s(ENV|ARG) .*?_VERSION=(?<currentValue>.*)\\s"
+      ],
+      "versioningTemplate": "{{#if versioning}}{{{versioning}}}{{else}}semver{{/if}}"
+    },
   ]
 }

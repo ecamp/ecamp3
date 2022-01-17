@@ -13,6 +13,7 @@ use App\Entity\SortableEntityInterface;
 use App\Entity\SortableEntityTrait;
 use App\Repository\MultiSelectOptionRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
@@ -23,7 +24,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
     routePrefix: '/content_node',
     collectionOperations: [
         'get' => [
-            'security' => 'is_fully_authenticated()',
+            'security' => 'is_authenticated()',
         ],
     ],
     itemOperations: [
@@ -43,10 +44,11 @@ class MultiSelectOption extends BaseEntity implements BelongsToCampInterface, So
     /**
      * @ORM\ManyToOne(targetEntity="MultiSelect", inversedBy="options")
      * @ORM\JoinColumn(nullable=false, onDelete="cascade")
+     * @Gedmo\SortableGroup
      */
     #[ApiProperty(readableLink: false, writableLink: false)]
     #[Groups(['read'])]
-    public MultiSelect $multiSelect;
+    public ?MultiSelect $multiSelect = null;
 
     /**
      * @ORM\Column(type="text", nullable=false)

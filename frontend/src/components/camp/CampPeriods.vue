@@ -19,7 +19,7 @@ Displays all periods of a single camp and allows to edit them & create new ones
         </dialog-period-create>
       </div>
     </slot>
-    <v-skeleton-loader v-if="camp()._meta.loading" type="article" />
+    <v-skeleton-loader v-if="camp().periods()._meta.loading" type="article" />
     <v-list>
       <period-item
         v-for="period in periods.items"

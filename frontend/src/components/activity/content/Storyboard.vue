@@ -134,11 +134,16 @@ export default {
   methods: {
     async addSection () {
       this.isAdding = true
-      await this.api.post(this.contentNode.sections(), {
-        contentNodeId: this.contentNode.id,
-        pos: this.contentNode.sections().items.length // add at the end of the array
-      })
-      await this.refreshContent() // refresh node content (reloading section array)
+      try {
+        await this.api.post(this.contentNode.sections(), {
+          storyboard: this.contentNode._meta.self
+        })
+
+        await this.refreshContent() // refresh node content (reloading section array)
+      } catch (error) {
+        console.log(error) // TO DO: display error message in error snackbar/toast
+      }
+
       this.isAdding = false
     },
     async refreshContent () {

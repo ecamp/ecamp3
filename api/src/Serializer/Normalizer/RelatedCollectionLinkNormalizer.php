@@ -13,10 +13,12 @@ use ApiPlatform\Core\Exception\ResourceClassNotFoundException;
 use ApiPlatform\Core\Metadata\Resource\Factory\ResourceMetadataFactoryInterface;
 use App\Entity\BaseEntity;
 use App\Metadata\Resource\Factory\UriTemplateFactory;
+use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use Doctrine\ORM\Mapping\MappingException;
 use Doctrine\Persistence\ManagerRegistry;
 use ReflectionClass;
 use Rize\UriTemplate;
+use RuntimeException;
 use Symfony\Component\DependencyInjection\ServiceLocator;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 use Symfony\Component\Routing\RouterInterface;
@@ -94,11 +96,11 @@ class RelatedCollectionLinkNormalizer implements NormalizerInterface, Serializer
     ) {
     }
 
-    public function supportsNormalization($data, $format = null) {
+    public function supportsNormalization($data, $format = null): bool {
         return $this->decorated->supportsNormalization($data, $format);
     }
 
-    public function normalize($object, $format = null, array $context = []) {
+    public function normalize($object, $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null {
         $data = $this->decorated->normalize($object, $format, $context);
 
         if (!isset($data['_links'])) {
@@ -129,7 +131,7 @@ class RelatedCollectionLinkNormalizer implements NormalizerInterface, Serializer
     }
 
     public function getRelatedCollectionHref($object, $rel, array $context = []): string {
-        $resourceClass = $context['resource_class'] ?? get_class($object);
+        $resourceClass = get_class($object);
 
         if ($this->nameConverter instanceof AdvancedNameConverterInterface) {
             $rel = $this->nameConverter->denormalize($rel, $resourceClass, null, array_merge($context, ['groups' => ['read']]));
@@ -144,18 +146,30 @@ class RelatedCollectionLinkNormalizer implements NormalizerInterface, Serializer
         }
 
         try {
-            $relationMetadata = $this->getClassMetadata($resourceClass)->getAssociationMapping($rel);
+            $classMetadata = $this->getClassMetadata($resourceClass);
+
+            if (!$classMetadata instanceof ClassMetadataInfo) {
+                throw new RuntimeException("The class metadata for {$resourceClass} must be an instance of ClassMetadataInfo.");
+            }
+
+            $relationMetadata = $classMetadata->getAssociationMapping($rel);
         } catch (MappingException) {
             throw new UnsupportedRelationException($resourceClass.'#'.$rel.' is not a Doctrine association. Embedding non-Doctrine collections is currently not implemented.');
         }
 
-        if (!isset($relationMetadata['targetEntity']) || '' === $relationMetadata['targetEntity'] || !isset($relationMetadata['mappedBy']) || '' === $relationMetadata['mappedBy']) {
-            throw new UnsupportedRelationException('The '.$resourceClass.'#'.$rel.' relation does not have both a targetEntity and a mappedBy property');
+        if (!isset($relationMetadata['targetEntity']) || '' === $relationMetadata['targetEntity']
+                || (
+                    (!isset($relationMetadata['mappedBy']) || '' === $relationMetadata['mappedBy'])
+                    && (!isset($relationMetadata['inversedBy']) || '' === $relationMetadata['inversedBy'])
+                )
+        ) {
+            throw new UnsupportedRelationException('The '.$resourceClass.'#'.$rel.' relation does not have both a targetEntity and a mappedBy or inversedBy property');
         }
 
         $relatedResourceClass = $relationMetadata['targetEntity'];
-        /** @var string $relatedFilterName */
+
         $relatedFilterName = $relationMetadata['mappedBy'];
+        $relatedFilterName ??= $relationMetadata['inversedBy'];
 
         if (!$this->exactSearchFilterExists($relatedResourceClass, $relatedFilterName)) {
             throw new UnsupportedRelationException('The resource '.$relatedResourceClass.' does not have a search filter for the relation '.$relatedFilterName.'.');
@@ -183,7 +197,11 @@ class RelatedCollectionLinkNormalizer implements NormalizerInterface, Serializer
     protected function extractUriParams($object, array $params): array {
         $result = [];
         foreach ($params as $param => $value) {
-            $result[$param] = $this->normalizeUriParam($this->propertyAccessor->getValue($object, $value));
+            if ('$this' === $value) {
+                $result[$param] = $this->normalizeUriParam($object);
+            } else {
+                $result[$param] = $this->normalizeUriParam($this->propertyAccessor->getValue($object, $value));
+            }
         }
 
         return $result;
@@ -211,9 +229,9 @@ class RelatedCollectionLinkNormalizer implements NormalizerInterface, Serializer
         $resourceMetadata = $this->resourceMetadataFactory->create($resourceClass);
         $filterIds = $resourceMetadata->getAttribute('filters') ?? [];
 
-        return count(array_filter($filterIds, function ($filter) use ($resourceClass, $propertyName) {
+        return 0 < count(array_filter($filterIds, function ($filterId) use ($resourceClass, $propertyName) {
             /** @var FilterInterface $filter */
-            $filter = $this->filterLocator->get($filter);
+            $filter = $this->filterLocator->get($filterId);
             if (!($filter instanceof SearchFilter)) {
                 return false;
             }

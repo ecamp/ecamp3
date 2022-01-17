@@ -20,7 +20,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
     routePrefix: '/content_node',
     collectionOperations: [
         'get' => [
-            'security' => 'is_fully_authenticated()',
+            'security' => 'is_authenticated()',
         ],
         'post' => [
             'denormalization_context' => ['groups' => ['write', 'create']],
@@ -78,5 +78,24 @@ class MaterialNode extends ContentNode {
         }
 
         return $this;
+    }
+
+    /**
+     * @param MaterialNode $prototype
+     */
+    public function copyFromPrototype($prototype) {
+        // copy all material items
+        foreach ($prototype->materialItems as $prototypeItem) {
+            $materialItem = new MaterialItem();
+
+            $materialItem->article = $prototypeItem->article;
+            $materialItem->quantity = $prototypeItem->quantity;
+            $materialItem->unit = $prototypeItem->unit;
+            $materialItem->materialList = $prototypeItem->materialList;
+
+            $this->addMaterialItem($materialItem);
+        }
+
+        parent::copyFromPrototype($prototype);
     }
 }

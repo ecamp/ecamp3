@@ -17,8 +17,8 @@
                 {{ scheduleEntry.activity().category().short }}
               </v-chip>
               {{ scheduleEntry.activity().title }}
-              <template v-if="chapter.contentNode().instanceName">
-                - {{ chapter.contentNode().instanceName }}
+              <template v-if="chapter.instanceName">
+                - {{ chapter.instanceName }}
               </template>
               <v-spacer />
               <router-link :to="{ name: 'activity', params: { campId: day.period().camp().id, scheduleEntryId: scheduleEntry.id } }">
@@ -76,7 +76,6 @@ export default {
           storyChapters: (scheduleEntry.activity().contentNodes() || { items: [] })
             .items
             .filter(contentNode => contentNode.contentTypeName === 'Storycontext')
-            .map(contentNode => contentNode.singleText())
         }
       })
     },

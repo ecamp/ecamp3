@@ -16,18 +16,20 @@ class UpdateColumnLayoutTest extends UpdateContentNodeTestCase {
     }
 
     public function testPatchColumnLayoutAcceptsValidJson() {
-        $SINGLE_COLUMN_JSON_CONFIG = [
-            ['slot' => '1', 'width' => 12],
+        $VALID_JSON_CONFIG = [
+            ['slot' => '1', 'width' => 5],
+            ['slot' => '2', 'width' => 4],
+            ['slot' => '3', 'width' => 3],
         ];
 
         $contentNode = static::$fixtures['columnLayout2'];
         static::createClientWithCredentials()->request('PATCH', $this->endpoint.'/'.$contentNode->getId(), ['json' => [
-            'columns' => $SINGLE_COLUMN_JSON_CONFIG,
+            'columns' => $VALID_JSON_CONFIG,
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
 
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
-            'columns' => $SINGLE_COLUMN_JSON_CONFIG,
+            'columns' => $VALID_JSON_CONFIG,
         ]);
     }
 
@@ -190,15 +192,15 @@ class UpdateColumnLayoutTest extends UpdateContentNodeTestCase {
         ]);
     }
 
-    public function testPatchColumnLayoutAcceptsNullPosition() {
+    public function testPatchColumnLayoutDisallowsNullPosition() {
         $contentNode = static::$fixtures['columnLayoutChild1'];
         static::createClientWithCredentials()->request('PATCH', $this->endpoint.'/'.$contentNode->getId(), ['json' => [
             'position' => null,
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
 
-        $this->assertResponseStatusCodeSame(200);
+        $this->assertResponseStatusCodeSame(400);
         $this->assertJsonContains([
-            'position' => null,
+            'detail' => 'The type of the "position" attribute must be "int", "NULL" given.',
         ]);
     }
 
