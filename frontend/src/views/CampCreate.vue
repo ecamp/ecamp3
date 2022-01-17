@@ -87,7 +87,7 @@ export default {
   },
   computed: {
     campTemplates () {
-      return this.api.get().camps({ isPrototype: 1 }).items.map(ct => ({
+      return this.api.get().camps({ isPrototype: true }).items.map(ct => ({
         value: ct._meta.self,
         text: this.$tc(ct.name),
         object: ct
