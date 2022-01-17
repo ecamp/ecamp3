@@ -1,8 +1,16 @@
 const express = require('express')
 const cookieParser = require('cookie-parser')
+const cors = require('cors')
 
 // Create express instance
 const app = express()
+
+// allow cross origin access
+const corsOptions = {
+  origin: process.env.FRONTEND_URL,
+  credentials: true,
+}
+app.use(cors(corsOptions))
 
 // Require API routes
 const test1 = require('./routes/test1.js')

@@ -9,6 +9,7 @@
 
 import puppeteer from 'puppeteer'
 const { performance } = require('perf_hooks')
+const { URL } = require('url')
 const { loadNuxt } = require('nuxt')
 const { Router } = require('express')
 
@@ -65,7 +66,9 @@ router.use('/test4', async (req, res) => {
     const nuxt = await loadNuxt({ for: 'start' })
 
     // Capture HTML via internal Nuxt render call
-    const { html } = await nuxt.renderRoute('/', { req }) // pass `req` object to Nuxt will also pass authentication cookies automatically
+    const url = new URL(req.url, `http://${req.headers.host}`)
+    const queryString = url.search
+    const { html } = await nuxt.renderRoute('/picasso' + queryString, { req }) // pass `req` object to Nuxt will also pass authentication cookies automatically
 
     // set HTML content of current page
     measurePerformance('Puppeteer set HTML content & load resources...')
