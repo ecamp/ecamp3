@@ -65,5 +65,10 @@ spec:
                 secretKeyRef:
                   name: {{ include "print.name" . }}
                   key: sentry-dsn
+            - name: BROWSERLESS_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "print.name" . }}
+                  key: browserless-token
             - name: NUXT_PORT
               value: "3003"
