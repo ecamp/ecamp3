@@ -114,8 +114,6 @@ class Camp extends BaseEntity implements BelongsToCampInterface, CopyFromPrototy
      *
      * @ORM\Column(type="string", length=16, nullable=true)
      */
-    #[Assert\DisableAutoMapping]
-    #[ApiProperty(readable: false)]
     public ?string $campPrototypeId = null;
 
     /**
