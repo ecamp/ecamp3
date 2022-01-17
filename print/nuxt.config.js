@@ -79,6 +79,7 @@ export default {
    */
   axios: {
     baseURL: process.env.INTERNAL_API_ROOT_URL || 'http://backend:3001/api',
+    credentials: true,
   },
   /*
    ** Sentry module configuration

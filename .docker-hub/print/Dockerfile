@@ -4,9 +4,11 @@ FROM node:16.13.1@sha256:89b59ce49929d8a8e230946bdb1b58c14cdbbb86c9a7397610afcec
 COPY common /common
 
 WORKDIR /app
-COPY print .
 
+COPY frontend/package*.json ./
 RUN npm ci
+
+COPY print .
 RUN npm run build
 
 # production stage
@@ -16,6 +18,7 @@ WORKDIR /app
 COPY --from=build-stage /app/node_modules ./node_modules
 COPY --from=build-stage /app/.nuxt ./.nuxt
 COPY --from=build-stage /app/static ./static
+COPY --from=build-stage /app/server-middleware ./server-middleware
 COPY print/nuxt.config.js .
 
 ENV NUXT_HOST 0.0.0.0
