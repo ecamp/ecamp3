@@ -5,7 +5,7 @@ COPY common /common
 
 WORKDIR /app
 
-COPY frontend/package*.json ./
+COPY print/package*.json ./
 RUN npm ci
 
 COPY print .
