@@ -1,7 +1,7 @@
 // eslint-disable-next-line no-unused-vars
 import React from 'react'
 import pdf from '@react-pdf/renderer'
-import FrontPage from './FrontPage.jsx'
+// import FrontPage from './FrontPage.jsx'
 import Picasso from './picasso/Picasso.jsx'
 
 const { Document } = pdf

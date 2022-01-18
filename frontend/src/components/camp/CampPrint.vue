@@ -30,7 +30,10 @@
         class="mt-2" />
     </div>
     <v-btn @click="refreshPreview">Refresh</v-btn>
-    <print-react-pdf v-if="!dataLoading && !refreshing" ref="printPreview" :tc="boundTc" :camp="camp()" />
+    <print-react-pdf v-if="!dataLoading && !refreshing"
+                     ref="printPreview"
+                     :tc="boundTc"
+                     :camp="camp()" />
   </div>
 </template>
 
