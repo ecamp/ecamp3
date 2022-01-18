@@ -86,6 +86,19 @@ class ListDaysTest extends ECampApiTestCase {
         $this->assertArrayNotHasKey('items', $response->toArray()['_links']);
     }
 
+    public function testListDaysOrdersByDate() {
+        $client = static::createClientWithCredentials();
+        $response = $client->request('GET', '/days');
+        $this->assertEquals([
+            ['href' => $this->getIriFor('day1period1campPrototype')],
+            ['href' => $this->getIriFor('day1period2')],
+            ['href' => $this->getIriFor('day1period1')],
+            ['href' => $this->getIriFor('day2period1')],
+            ['href' => $this->getIriFor('day3period1')],
+            ['href' => $this->getIriFor('day1period1camp2')],
+        ], $response->toArray()['_links']['items']);
+    }
+
     public function testListDaysFilteredByPeriodInCampPrototypeIsAllowedForCollaborator() {
         $period = static::$fixtures['period1campPrototype'];
         $response = static::createClientWithCredentials()->request('GET', '/days?period=/periods/'.$period->getId());
