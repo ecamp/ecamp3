@@ -4,6 +4,8 @@ import pdf from '@react-pdf/renderer'
 import styles from '../styles.js'
 import TimeColumn from './TimeColumn.jsx'
 import DayColumn from './DayColumn.jsx'
+import TimeColumnSpacer from './TimeColumnSpacer.jsx'
+import DayHeader from './DayHeader.jsx'
 
 const { Page, View, Text } = pdf
 
@@ -51,6 +53,11 @@ function Picasso ({ period }) {
 
   return <Page size="A4" orientation={period.days().items.length > 1 ? 'landscape' : 'portrait'} style={ styles.page }>
     <Text id="picasso" style={styles.h1}>Grobprogramm {period.description}</Text>
+    <View style={{ ...columnWrapperStyles, border: 'none' }}>
+      <TimeColumnSpacer times={times}/>
+      {period.days().items.map(day => <DayHeader day={day} key={day.id}/>)}
+      <TimeColumnSpacer times={times}/>
+    </View>
     <View style={ columnWrapperStyles }>
       <TimeColumn times={times.slice(0, times.length - 1)} />
       {period.days().items.map(day => {
