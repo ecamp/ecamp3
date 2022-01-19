@@ -36,7 +36,7 @@ router.use('/test4', async (req, res) => {
 
   // Connect to browserless.io (puppeteer websocket)
   const browser = await puppeteer.connect({
-    browserWSEndpoint: `wss://chrome.browserless.io/?token=${process.env.BROWSERLESS_TOKEN}`,
+    browserWSEndpoint: process.env.BROWSER_WS_ENDPOINT,
   })
 
   const page = await browser.newPage()
