@@ -85,7 +85,7 @@ class Storyboard extends ContentNode {
      * @param Storyboard $prototype
      * @param EntityMap  $entityMap
      */
-    public function copyFromPrototype($prototype, &$entityMap = null): void {
+    public function copyFromPrototype($prototype, $entityMap): void {
         parent::copyFromPrototype($prototype, $entityMap);
 
         // copy all storyboard sections

@@ -86,7 +86,7 @@ class MaterialNode extends ContentNode {
      * @param MaterialNode $prototype
      * @param EntityMap    $entityMap
      */
-    public function copyFromPrototype($prototype, &$entityMap = null): void {
+    public function copyFromPrototype($prototype, $entityMap): void {
         parent::copyFromPrototype($prototype, $entityMap);
 
         // copy all material items

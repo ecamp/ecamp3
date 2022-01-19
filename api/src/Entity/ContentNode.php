@@ -268,8 +268,8 @@ abstract class ContentNode extends BaseEntity implements BelongsToCampInterface,
      * @param ContentNode $prototype
      * @param EntityMap   $entityMap
      */
-    public function copyFromPrototype($prototype, &$entityMap = null): void {
-        CopyFromPrototype::add($this, $prototype, $entityMap);
+    public function copyFromPrototype($prototype, $entityMap): void {
+        $entityMap->add($prototype, $this);
 
         // copy ContentNode base properties
         $this->contentType = $prototype->contentType;

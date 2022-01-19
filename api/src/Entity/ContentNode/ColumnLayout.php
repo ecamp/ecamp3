@@ -80,7 +80,7 @@ class ColumnLayout extends ContentNode {
      * @param ColumnLayout $prototype
      * @param EntityMap    $entityMap
      */
-    public function copyFromPrototype($prototype, &$entityMap = null): void {
+    public function copyFromPrototype($prototype, $entityMap): void {
         parent::copyFromPrototype($prototype, $entityMap);
 
         $this->columns = $prototype->columns;

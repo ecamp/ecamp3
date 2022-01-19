@@ -8,6 +8,7 @@ use App\Entity\BaseEntity;
 use App\Entity\Camp;
 use App\Entity\CampCollaboration;
 use App\Entity\User;
+use App\Util\EntityMap;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\Security;
 
@@ -34,7 +35,8 @@ class CampDataPersister extends AbstractDataPersister {
 
         // copy from prototype, if given
         if (isset($data->campPrototype)) {
-            $data->copyFromPrototype($data->campPrototype);
+            $entityMap = new EntityMap();
+            $data->copyFromPrototype($data->campPrototype, $entityMap);
         }
 
         return $data;

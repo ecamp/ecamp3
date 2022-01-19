@@ -249,8 +249,8 @@ class Category extends AbstractContentNodeOwner implements BelongsToCampInterfac
      * @param Category  $prototype
      * @param EntityMap $entityMap
      */
-    public function copyFromPrototype($prototype, &$entityMap = null): void {
-        CopyFromPrototype::add($this, $prototype, $entityMap);
+    public function copyFromPrototype($prototype, $entityMap): void {
+        $entityMap->add($prototype, $this);
 
         $this->categoryPrototypeId = $prototype->getId();
         $this->short = $prototype->short;

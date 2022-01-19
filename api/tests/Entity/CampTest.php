@@ -8,6 +8,7 @@ use App\Entity\ContentNode\ColumnLayout;
 use App\Entity\ContentNode\MaterialNode;
 use App\Entity\MaterialItem;
 use App\Entity\MaterialList;
+use App\Util\EntityMap;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -54,7 +55,7 @@ class CampTest extends TestCase {
 
     public function testCopyFromPrototype() {
         $camp = new Camp();
-        $camp->copyFromPrototype($this->campPrototype);
+        $camp->copyFromPrototype($this->campPrototype, new EntityMap());
 
         $this->assertEquals($this->campPrototype->getId(), $camp->campPrototypeId);
 

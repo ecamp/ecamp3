@@ -113,8 +113,8 @@ class MaterialList extends BaseEntity implements BelongsToCampInterface, CopyFro
      * @param MaterialList $prototype
      * @param EntityMap    $entityMap
      */
-    public function copyFromPrototype($prototype, &$entityMap = null): void {
-        CopyFromPrototype::add($this, $prototype, $entityMap);
+    public function copyFromPrototype($prototype, $entityMap): void {
+        $entityMap->add($prototype, $this);
 
         $this->materialListPrototypeId = $prototype->getId();
         $this->name = $prototype->name;

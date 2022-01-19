@@ -50,7 +50,7 @@ class SingleText extends ContentNode {
      * @param SingleText $prototype
      * @param EntityMap  $entityMap
      */
-    public function copyFromPrototype($prototype, &$entityMap = null): void {
+    public function copyFromPrototype($prototype, $entityMap): void {
         parent::copyFromPrototype($prototype, $entityMap);
 
         $this->text = $prototype->text;

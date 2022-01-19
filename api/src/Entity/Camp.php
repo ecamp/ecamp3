@@ -418,8 +418,8 @@ class Camp extends BaseEntity implements BelongsToCampInterface, CopyFromPrototy
      * @param Camp      $prototype
      * @param EntityMap $entityMap
      */
-    public function copyFromPrototype($prototype, &$entityMap = null): void {
-        CopyFromPrototype::add($this, $prototype, $entityMap);
+    public function copyFromPrototype($prototype, $entityMap): void {
+        $entityMap->add($prototype, $this);
 
         $this->campPrototypeId = $prototype->getId();
 

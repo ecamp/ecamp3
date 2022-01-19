@@ -9,7 +9,6 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Entity\BaseEntity;
 use App\Entity\BelongsToCampInterface;
 use App\Entity\Camp;
-use App\Entity\CopyFromPrototype;
 use App\Entity\CopyFromPrototypeInterface;
 use App\Entity\SortableEntityInterface;
 use App\Entity\SortableEntityTrait;
@@ -88,8 +87,8 @@ class StoryboardSection extends BaseEntity implements BelongsToCampInterface, So
      * @param StoryboardSection $prototype
      * @param EntityMap         $entityMap
      */
-    public function copyFromPrototype($prototype, &$entityMap = null): void {
-        CopyFromPrototype::add($this, $prototype, $entityMap);
+    public function copyFromPrototype($prototype, $entityMap): void {
+        $entityMap->add($prototype, $this);
 
         $this->column1 = $prototype->column1;
         $this->column2 = $prototype->column2;
