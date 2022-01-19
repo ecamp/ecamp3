@@ -52,7 +52,7 @@ class Activity extends AbstractContentNodeOwner implements BelongsToCampInterfac
         'groups' => [
             'read',
             'Activity:Category',
-            'Activity:CampCollaborations',
+            'Activity:ActivityResponsibles',
             'Activity:ScheduleEntries',
             'Activity:ContentNodes',
         ],
@@ -72,14 +72,6 @@ class Activity extends AbstractContentNodeOwner implements BelongsToCampInterfac
     )]
     #[Groups(['read', 'create'])]
     public Collection $scheduleEntries;
-
-    /**
-     * The list of people that are responsible for planning or carrying out this activity.
-     *
-     * @ORM\OneToMany(targetEntity="ActivityResponsible", mappedBy="activity", orphanRemoval=true, cascade={"persist"})
-     */
-    #[ApiProperty(readable: false, writable: false)]
-    public Collection $activityResponsibles;
 
     /**
      * The camp to which this activity belongs.
@@ -124,12 +116,12 @@ class Activity extends AbstractContentNodeOwner implements BelongsToCampInterfac
 
     /**
      * The list of people that are responsible for planning or carrying out this activity.
-     * This is an API property only (not stored in DB) in order to update activityResponsibles based on a list of CampCollaborations
-     * (logic to add/remove in ActivityDataPersister).
+     *
+     * @ORM\OneToMany(targetEntity="ActivityResponsible", mappedBy="activity", orphanRemoval=true)
      */
-    #[ApiProperty]
-    #[Groups(['write'])]
-    public array $campCollaborations = [];
+    #[ApiProperty(writable: false)]
+    #[Groups(['read'])]
+    private Collection $activityResponsibles;
 
     public function __construct() {
         $this->scheduleEntries = new ArrayCollection();
@@ -187,49 +179,6 @@ class Activity extends AbstractContentNodeOwner implements BelongsToCampInterfac
     }
 
     /**
-     * @return CampCollaboration[]
-     */
-    #[ApiProperty(readableLink: true)]
-    #[SerializedName('campCollaborations')]
-    #[Groups(['Activity:CampCollaborations'])]
-    public function getEmbeddedCampCollaborations(): array {
-        return $this->getCampCollaborations();
-    }
-
-    /**
-     * The list of people that are responsible for planning or carrying out this activity.
-     *
-     * @return CampCollaboration[]
-     */
-    #[ApiProperty(writable: false, example: '["/camp_collaborations/1a2b3c4d"]')]
-    #[RelatedCollectionLink(CampCollaboration::class, ['activityResponsibles.activity' => '$this'])]
-    #[Groups(['read'])]
-    public function getCampCollaborations(): array {
-        return array_filter(
-            $this
-                ->activityResponsibles
-                ->map(fn (ActivityResponsible $activityResponsible) => $activityResponsible->campCollaboration)
-                ->getValues(),
-            fn ($cc) => !is_null($cc)
-        );
-    }
-
-    /**
-     * Adds a campCollaboration to activityResponsibles list, unless a list item already exists for this campCollaboration.
-     */
-    public function addCampCollaboration(CampCollaboration $campCollaboration): self {
-        if (!$this->activityResponsibles->exists(function ($key, ActivityResponsible $activityResponsible) use ($campCollaboration) {
-            return $activityResponsible->campCollaboration === $campCollaboration;
-        })) {
-            $activityResponsible = new ActivityResponsible();
-            $this->addActivityResponsible($activityResponsible);
-            $campCollaboration->addActivityResponsible($activityResponsible);
-        }
-
-        return $this;
-    }
-
-    /**
      * @return ScheduleEntry[]
      */
     #[ApiProperty(readableLink: true)]
@@ -263,6 +212,20 @@ class Activity extends AbstractContentNodeOwner implements BelongsToCampInterfac
         }
 
         return $this;
+    }
+
+    /**
+     * ActivityResponsibles.
+     */
+
+    /**
+     * @return ActivityResponsible[]
+     */
+    #[ApiProperty(readableLink: true)]
+    #[SerializedName('activityResponsibles')]
+    #[Groups(['Activity:ActivityResponsibles'])]
+    public function getEmbeddedActivityResponsibles(): array {
+        return $this->getActivityResponsibles();
     }
 
     /**

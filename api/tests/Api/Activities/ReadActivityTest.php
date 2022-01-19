@@ -63,7 +63,7 @@ class ReadActivityTest extends ECampApiTestCase {
                 'category' => ['href' => $this->getIriFor('category1')],
                 'camp' => ['href' => $this->getIriFor('camp1')],
                 'scheduleEntries' => ['href' => '/schedule_entries?activity=/activities/'.$activity->getId()],
-                //'campCollaborations' => ['href' => '/camp_collaborations?activity=/activities/'.$activity->getId()],
+                'activityResponsibles' => ['href' => '/activity_responsibles?activity=/activities/'.$activity->getId()],
             ],
         ]);
     }
@@ -85,7 +85,7 @@ class ReadActivityTest extends ECampApiTestCase {
                 'category' => ['href' => $this->getIriFor('category1')],
                 'camp' => ['href' => $this->getIriFor('camp1')],
                 'scheduleEntries' => ['href' => '/schedule_entries?activity=/activities/'.$activity->getId()],
-                //'campCollaborations' => ['href' => '/camp_collaborations?activity=/activities/'.$activity->getId()],
+                'activityResponsibles' => ['href' => '/activity_responsibles?activity=/activities/'.$activity->getId()],
             ],
         ]);
     }
@@ -105,7 +105,7 @@ class ReadActivityTest extends ECampApiTestCase {
                 'category' => ['href' => $this->getIriFor('category1')],
                 'camp' => ['href' => $this->getIriFor('camp1')],
                 'scheduleEntries' => ['href' => '/schedule_entries?activity=/activities/'.$activity->getId()],
-                //'campCollaborations' => ['href' => '/camp_collaborations?activity=/activities/'.$activity->getId()],
+                'activityResponsibles' => ['href' => '/activity_responsibles?activity=/activities/'.$activity->getId()],
             ],
         ]);
     }
