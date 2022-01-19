@@ -48,7 +48,8 @@ Listing all given activity schedule entries in a calendar view.
           v-if="editable && !event.tmpEvent"
           :ref="`editDialog-${event.id}`"
           :schedule-entry="event"
-          @activityUpdated="afterUpdateActivity()">
+          @activityUpdated="reloadScheduleEntries()"
+          @error="reloadScheduleEntries()">
           <template #activator="{ on }">
             <v-btn absolute
                    top
@@ -294,7 +295,7 @@ export default {
     weekdayFormat () {
       return ''
     },
-    afterUpdateActivity () {
+    reloadScheduleEntries () {
       this.api.reload(this.period.scheduleEntries())
     },
     scheduleEntryRoute

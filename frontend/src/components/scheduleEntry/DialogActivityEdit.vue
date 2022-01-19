@@ -74,31 +74,11 @@ export default {
     }
   },
   methods: {
-    /**
-     * Following code only works, if embedded collection patch is enabled & is working
-     * Blocked by https://github.com/api-platform/core/issues/4630
-     */
-    /*
-    updateActivity () {
-      const payloadData = {
-        ...this.entityData,
-
-        scheduleEntries: this.entityData.scheduleEntries?.map(entry => ({
-          period: entry.period()._meta.self,
-          periodOffset: entry.periodOffset,
-          length: entry.length,
-          '@id': entry.self
-        })) || []
-      }
-
-      return this.update(payloadData)
-    }, */
-
     updateActivity () {
       this.error = null
       const _events = this._events
 
-      const scheduleEntryPromises = this.entityData.scheduleEntries
+      const promises = this.entityData.scheduleEntries
         .map(entry => {
           // deleted local entry: do nothing
           if (!entry.self && entry.deleted) {
@@ -131,13 +111,11 @@ export default {
       // patch activity entity
       const activityPayload = { ...this.entityData }
       delete activityPayload.scheduleEntries
+      promises.push(this.api.patch(this.entityUri, activityPayload))
 
-      // first patch + post + delete all schedule entries
-      const promise = Promise.all(scheduleEntryPromises)
-
-        // then patch the activity itself (ensures after return we have a valid & complete activity in the local store)
-        .then(() => this.api.patch(this.entityUri, activityPayload))
-        .then(this.updatedSuccessful, e => this.onError(_events, e))
+      // execute all requests together --> onError if one fails
+      const promise = Promise.all(promises)
+        .then(this.updatedSuccessful, e => { this.onError(_events, e) })
 
       this.$emit('submit')
       return promise
