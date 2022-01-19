@@ -7,6 +7,7 @@ use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Repository\PeriodRepository;
+use App\Serializer\Normalizer\RelatedCollectionLink;
 use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -76,8 +77,6 @@ class Period extends BaseEntity implements BelongsToCampInterface {
      *
      * @ORM\OneToMany(targetEntity="MaterialItem", mappedBy="period")
      */
-    #[ApiProperty(writable: false, example: '["/material_items/1a2b3c4d"]')]
-    #[Groups(['read'])]
     public Collection $materialItems;
 
     /**
@@ -221,6 +220,9 @@ class Period extends BaseEntity implements BelongsToCampInterface {
     /**
      * @return MaterialItem[]
      */
+    #[ApiProperty(writable: false, example: '["/material_items/1a2b3c4d"]')]
+    #[RelatedCollectionLink(MaterialItem::class, ['period' => '$this'])]
+    #[Groups(['read'])]
     public function getMaterialItems(): array {
         return $this->materialItems->getValues();
     }

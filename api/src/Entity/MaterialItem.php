@@ -6,6 +6,7 @@ use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use App\Doctrine\Filter\MaterialItemPeriodFilter;
 use App\Entity\ContentNode\MaterialNode;
 use App\Repository\MaterialItemRepository;
 use App\Util\EntityMap;
@@ -36,7 +37,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
     denormalizationContext: ['groups' => ['write']],
     normalizationContext: ['groups' => ['read']],
 )]
-#[ApiFilter(SearchFilter::class, properties: ['materialList', 'period', 'materialNode'])]
+#[ApiFilter(SearchFilter::class, properties: ['materialList', 'materialNode'])]
+#[ApiFilter(MaterialItemPeriodFilter::class)]
 class MaterialItem extends BaseEntity implements BelongsToCampInterface, CopyFromPrototypeInterface {
     /**
      * The list to which this item belongs. Lists are used to keep track of who is
