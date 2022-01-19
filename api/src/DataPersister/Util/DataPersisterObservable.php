@@ -98,8 +98,6 @@ class DataPersisterObservable {
             foreach ($this->customActionListeners as $listener) {
                 if (self::actionNameMatches($listener, $context)) {
                     $data = call_user_func($listener->getBeforeAction(), $data);
-
-                    break;
                 }
             }
         }
@@ -125,8 +123,6 @@ class DataPersisterObservable {
             foreach ($this->customActionListeners as $listener) {
                 if (self::actionNameMatches($listener, $context)) {
                     call_user_func($listener->getAfterAction(), $data);
-
-                    break;
                 }
             }
         }

@@ -6,3 +6,4 @@
 .cache/
 /.caddy/
 /.env
+/.helm/ecamp3/charts

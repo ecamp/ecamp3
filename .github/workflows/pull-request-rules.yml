@@ -9,7 +9,7 @@ jobs:
     name: No "Meeting Discuss" label
     runs-on: ubuntu-latest
     steps:
-      - uses: mheap/github-action-required-labels@c1021ae643be7256d21caec582af08f09f71379e # renovate: tag=v1
+      - uses: mheap/github-action-required-labels@d2892166405e47deea29d2052ab4cca1382df41e # renovate: tag=v1
         with:
           mode: exactly
           count: 0

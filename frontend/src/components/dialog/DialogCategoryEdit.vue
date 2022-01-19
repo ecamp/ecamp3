@@ -2,6 +2,7 @@
   <dialog-form
     v-model="showDialog"
     :loading="loading"
+    :error="error"
     icon="mdi-calendar-edit"
     :title="category.name"
     max-width="600px"

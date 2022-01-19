@@ -2,7 +2,6 @@
 
 namespace App\Tests\DataPersister;
 
-use ApiPlatform\Core\DataPersister\ContextAwareDataPersisterInterface;
 use App\DataPersister\CategoryDataPersister;
 use App\DataPersister\Util\DataPersisterObservable;
 use App\Entity\Category;
@@ -17,58 +16,19 @@ use PHPUnit\Framework\TestCase;
  */
 class CategoryDataPersisterTest extends TestCase {
     private CategoryDataPersister $dataPersister;
-    private MockObject|ContextAwareDataPersisterInterface $decoratedMock;
     private MockObject|EntityManagerInterface $entityManagerMock;
     private Category $category;
 
     protected function setUp(): void {
-        $this->decoratedMock = $this->createMock(ContextAwareDataPersisterInterface::class);
-        $this->entityManagerMock = $this->createMock(EntityManagerInterface::class);
         $this->category = new Category();
-        $this->category->category = new Category();
 
-        $requestStack = RequestStackMockFactory::create(fn (string $className) => $this->createMock($className));
-        $dataPersisterObservable = new DataPersisterObservable($this->decoratedMock, $requestStack);
-
+        $this->entityManagerMock = $this->createMock(EntityManagerInterface::class);
+        $dataPersisterObservable = $this->createMock(DataPersisterObservable::class);
         $this->dataPersister = new CategoryDataPersister($dataPersisterObservable, $this->entityManagerMock);
     }
 
-    public function testDelegatesSupportCheckToDecorated() {
-        $this->decoratedMock
-            ->expects($this->exactly(2))
-            ->method('supports')
-            ->willReturnOnConsecutiveCalls(true, false)
-        ;
-
-        $this->assertTrue($this->dataPersister->supports($this->category, []));
-        $this->assertFalse($this->dataPersister->supports($this->category, []));
-    }
-
-    public function testDoesNotSupportNonCategory() {
-        $this->decoratedMock
-            ->method('supports')
-            ->willReturn(true)
-        ;
-
-        $this->assertFalse($this->dataPersister->supports([], []));
-    }
-
-    public function testDelegatesPersistToDecorated() {
+    public function testCreatesNewContentNodeBeforeCreate() {
         // given
-        $this->decoratedMock->expects($this->once())
-            ->method('persist')
-            ->willReturnArgument(0)
-        ;
-
-        // when
-        $this->dataPersister->persist($this->category, []);
-
-        // then
-    }
-
-    public function testPostCreatesANewRootContentNode() {
-        // given
-        $this->decoratedMock->expects($this->once())->method('persist')->willReturnArgument(0);
         $repositoryMock = $this->createMock(EntityRepository::class);
         $repositoryMock->method('findOneBy')->willReturnCallback(function ($criteria) {
             $result = new ContentType();
@@ -80,22 +40,10 @@ class CategoryDataPersisterTest extends TestCase {
 
         // when
         /** @var Category $data */
-        $data = $this->dataPersister->persist($this->category, ['collection_operation_name' => 'post']);
+        $data = $this->dataPersister->beforeCreate($this->category);
 
         // then
         $this->assertNotNull($data->getRootContentNode());
         $this->assertEquals('ColumnLayout', $data->getRootContentNode()->contentType->name);
-    }
-
-    public function testUpdateDoesNotChangeRootContentNode() {
-        // given
-        $this->decoratedMock->expects($this->once())->method('persist')->willReturnArgument(0);
-
-        // when
-        /** @var Category $data */
-        $data = $this->dataPersister->persist($this->category, ['item_operation_name' => 'patch']);
-
-        // then
-        $this->assertNull($data->getRootContentNode());
     }
 }

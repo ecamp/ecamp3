@@ -6,7 +6,7 @@ use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
-use App\Doctrine\Filter\ExpressionDateFilter;
+use App\Doctrine\Filter\ExpressionDateTimeFilter;
 use App\Repository\ScheduleEntryRepository;
 use App\Validator\AssertBelongsToSameCamp;
 use DateInterval;
@@ -14,6 +14,7 @@ use DateTime;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Collections\Selectable;
 use Doctrine\ORM\Mapping as ORM;
+use RuntimeException;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Annotation\SerializedName;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -26,7 +27,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 #[ApiResource(
     collectionOperations: [
-        'get' => ['security' => 'is_fully_authenticated()'],
+        'get' => ['security' => 'is_authenticated()'],
         'post' => [
             'denormalization_context' => ['groups' => ['write', 'create']],
             'normalization_context' => self::ITEM_NORMALIZATION_CONTEXT,
@@ -48,7 +49,7 @@ use Symfony\Component\Validator\Constraints as Assert;
     normalizationContext: ['groups' => ['read']],
 )]
 #[ApiFilter(SearchFilter::class, properties: ['period', 'activity'])]
-#[ApiFilter(ExpressionDateFilter::class, properties: [
+#[ApiFilter(ExpressionDateTimeFilter::class, properties: [
     'start' => 'DATE_ADD({period.start}, {}.periodOffset, \'minute\')',
     'end' => 'DATE_ADD(DATE_ADD({period.start}, {}.periodOffset, \'minute\'), {}.length, \'minute\')',
 ])]
@@ -185,12 +186,18 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
      */
     #[ApiProperty(writable: false, example: '/days/1a2b3c4d')]
     #[Groups(['read'])]
-    public function getDay(): Day {
+    public function getDay(): Day|null {
         $dayNumber = $this->getDayNumber();
 
-        return $this->period->days->filter(function (Day $day) use ($dayNumber) {
+        $filteredDays = $this->period->days->filter(function (Day $day) use ($dayNumber) {
             return $day->getDayNumber() === $dayNumber;
-        })->first();
+        });
+
+        if ($filteredDays->isEmpty()) {
+            throw new RuntimeException("Could not find Day entity for dayNumber {$dayNumber}");
+        }
+
+        return $filteredDays->first();
     }
 
     #[ApiProperty(readable: false)]

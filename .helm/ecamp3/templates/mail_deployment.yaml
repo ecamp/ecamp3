@@ -1,0 +1,47 @@
+{{- if .Values.mail.dummyEnabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "mail.name" . }}
+  labels:
+    {{- include "app.labels" . | nindent 4 }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      {{- include "app.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "app.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "app.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}-mail
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.mail.image.repository }}:{{ .Values.mail.image.tag | default .Values.imageTag }}"
+          imagePullPolicy: {{ .Values.mail.image.pullPolicy }}
+          ports:
+            - name: mail-http
+              containerPort: 8025
+              protocol: TCP
+            - name: mail-smtp
+              containerPort: 1025
+              protocol: TCP
+          readinessProbe:
+            httpGet:
+              scheme: HTTP
+              path: /
+              port: 8025
+            initialDelaySeconds: 10
+            periodSeconds: 5
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+{{- end }}

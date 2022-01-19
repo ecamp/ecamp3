@@ -23,7 +23,7 @@ use Symfony\Component\Validator\Constraints as Assert;
         'get' => ['security' => 'false'],
     ],
     itemOperations: [
-        'get' => ['security' => 'is_fully_authenticated()'],
+        'get' => ['security' => 'is_authenticated()'],
         'patch' => ['security' => 'object.user === user'],
     ],
     denormalizationContext: ['groups' => ['write']],
@@ -60,7 +60,7 @@ class Profile extends BaseEntity {
     #[Assert\Regex(pattern: '/^[a-z0-9_.-]+$/')]
     #[ApiProperty(example: self::EXAMPLE_USERNAME)]
     #[Groups(['read', 'create'])]
-    public ?string $username = null;
+    public string $username = '';
 
     /**
      * The user's (optional) first name.

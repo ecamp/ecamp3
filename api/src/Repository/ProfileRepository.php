@@ -9,7 +9,6 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Query\Expr;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
-use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
 
 /**
  * @method null|Profile find($id, $lockMode = null, $lockVersion = null)
@@ -17,7 +16,7 @@ use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
  * @method Profile[]    findAll()
  * @method Profile[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class ProfileRepository extends ServiceEntityRepository implements PasswordUpgraderInterface, CanFilterByUserInterface {
+class ProfileRepository extends ServiceEntityRepository implements CanFilterByUserInterface {
     public function __construct(ManagerRegistry $registry) {
         parent::__construct($registry, Profile::class);
     }

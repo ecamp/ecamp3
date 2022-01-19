@@ -51,45 +51,71 @@ export default {
   props: {
     icon: { type: String, required: false, default: 'mdi-clock-outline' },
     value: { type: [Number, String], required: true },
+
+    // format in which the `value` property is being provided & input events are triggered
     valueFormat: { type: [String, Array], default: 'YYYY-MM-DDTHH:mm:ssZ' }
-  },
-  data () {
-    return {
-      dateTime: null
-    }
   },
   methods: {
     allowedStep: m => m % 15 === 0,
-    setTime (dateTime) {
-      if (this.dateTime && this.dateTime.isValid()) {
-        this.dateTime = this.dateTime
-          .hour(dateTime.hour())
-          .minute(dateTime.minute())
-          .second(dateTime.second())
-          .millisecond(dateTime.millisecond())
+
+    /**
+     * override time on value but keep date
+     */
+    setTimeOnValue (time) {
+      // current value as DayJS
+      let valueDateTime = this.getValueAsDateTime(this.value)
+
+      // override time
+      if (valueDateTime && valueDateTime.isValid()) {
+        valueDateTime = valueDateTime
+          .hour(time.hour())
+          .minute(time.minute())
+          .second(time.second())
+          .millisecond(time.millisecond())
       } else {
-        this.dateTime = dateTime
+        valueDateTime = time
       }
+
+      // return in value format
+      return valueDateTime.format(this.valueFormat)
     },
+
+    /**
+     * returns val as DayJS object
+     */
+    getValueAsDateTime (val) {
+      return this.$date.utc(val, this.valueFormat)
+    },
+
+    /**
+     * Format internal value for display in the UI
+     */
     format (val) {
       if (val !== '') {
-        this.dateTime = this.$date.utc(val, this.valueFormat)
-        return this.dateTime.format('LT')
+        return this.getValueAsDateTime(val).format('LT')
       }
       return ''
     },
+
+    /**
+     * Format internal value for the popup component
+     */
     formatPicker (val) {
       if (val !== '') {
-        return this.$date.utc(val, this.valueFormat).format(HTML5_FMT.TIME)
+        return this.getValueAsDateTime(val).format(HTML5_FMT.TIME)
       }
       return ''
     },
+
+    /**
+     * Parse a user-supplied value into the internal format
+     */
     parse (val) {
       if (val) {
         const parsedDateTime = this.$date.utc(val, 'LT')
         if (parsedDateTime.isValid() && parsedDateTime.format('LT') === val) {
-          this.setTime(parsedDateTime)
-          return Promise.resolve(this.dateTime.format(this.valueFormat))
+          const newValue = this.setTimeOnValue(parsedDateTime)
+          return Promise.resolve(newValue)
         } else {
           return Promise.reject(new Error('invalid format'))
         }
@@ -97,12 +123,16 @@ export default {
         return Promise.resolve('')
       }
     },
+
+    /**
+     * Parse the value from the popup component into the internal format
+     */
     parsePicker (val) {
       if (val) {
         const parsedDateTime = this.$date.utc(val, HTML5_FMT.TIME)
         if (parsedDateTime.isValid() && parsedDateTime.format(HTML5_FMT.TIME) === val) {
-          this.setTime(parsedDateTime)
-          return Promise.resolve(this.dateTime.format(this.valueFormat))
+          const newValue = this.setTimeOnValue(parsedDateTime)
+          return Promise.resolve(newValue)
         } else {
           return Promise.reject(new Error('invalid format'))
         }

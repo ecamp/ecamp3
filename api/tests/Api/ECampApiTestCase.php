@@ -35,9 +35,21 @@ abstract class ECampApiTestCase extends ApiTestCase {
     private ?ResourceMetadataFactoryInterface $resourceMetadataFactory = null;
     private ?EntityManagerInterface $entityManager = null;
 
+    /** @var string */
+    private $currentTimezone;
+
     public function setUp(): void {
         self::bootKernel();
         parent::setUp();
+
+        // backup current timezone, in case it's change in one of the tests
+        $this->currentTimezone = date_default_timezone_get();
+    }
+
+    protected function tearDown(): void {
+        date_default_timezone_set($this->currentTimezone);
+
+        parent::tearDown();
     }
 
     /**
@@ -125,7 +137,7 @@ abstract class ECampApiTestCase extends ApiTestCase {
 
     protected function getExamplePayload(string $resourceClass, string $operationType, string $operationName, array $attributes = [], array $exceptExamples = [], array $exceptAttributes = []): array {
         $schema = $this->getSchemaFactory()->buildSchema($resourceClass, 'json', 'get' === $operationName ? Schema::TYPE_OUTPUT : Schema::TYPE_INPUT, $operationType, $operationName);
-        preg_match('/\/([^\/]+)$/', $schema['$ref'], $matches);
+        preg_match('/\/([^\/]+)$/', $schema['$ref'] ?? '', $matches);
         $schemaName = $matches[1];
         $properties = $schema->getDefinitions()[$schemaName]['properties'] ?? [];
         $writableProperties = array_filter($properties, fn ($property) => !($property['readOnly'] ?? false));
@@ -196,7 +208,7 @@ abstract class ECampApiTestCase extends ApiTestCase {
 
         $entity ??= $this->defaultEntity;
 
-        static::createClientWithCredentials($credentials)->request('PATCH', "{$this->endpoint}/".$entity->getId(), [
+        return static::createClientWithCredentials($credentials)->request('PATCH', "{$this->endpoint}/".$entity->getId(), [
             'json' => $payload,
             'headers' => ['Content-Type' => 'application/merge-patch+json'],
         ]);

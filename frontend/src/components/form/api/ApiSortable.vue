@@ -51,9 +51,9 @@ export default {
     // retrieve all relevant entities from external (incl. filtering and sorting)
     entities () {
       return this.collection().items.sort((a, b) => {
-        if (a.pos !== b.pos) {
-          // firstly: sort by pos property
-          return a.pos - b.pos
+        if (a.position !== b.position) {
+          // firstly: sort by position property
+          return a.position - b.position
         } else {
           // secondly: sort by id (string compare)
           return a.id.localeCompare(b.id)
@@ -61,7 +61,7 @@ export default {
       })
     },
 
-    // locally sorted entities (sorted as per loal hrefList)
+    // locally sorted entities (sorted as per local hrefList)
     locallySortedEntities () {
       return this.sorting.hrefList.map(href => this.api.get(href))
     }
@@ -87,57 +87,50 @@ export default {
   },
   methods: {
     async moveUp (entity) {
-      const list = this.sorting.hrefList
-      const index = list.indexOf(entity._meta.self)
-
-      // cannot move first entry up
-      if (index > 0) {
-        const previousItem = list[index - 1]
-        this.$set(list, index - 1, list[index])
-        this.$set(list, index, previousItem)
-      }
-
-      this.saveLocalSorting()
+      this.swapPosition(entity, -1)
     },
     async moveDown (entity) {
+      this.swapPosition(entity, +1)
+    },
+
+    // swaps position of entity with the element which is deltaPosition down/ahead in the list
+    async swapPosition (entity, deltaPosition) {
       const list = this.sorting.hrefList
-      const index = list.indexOf(entity._meta.self)
+      const oldIndex = list.indexOf(entity._meta.self)
 
-      // cannot move last entry down
-      if (index >= 0 && index < (list.length - 1)) {
-        const nextItem = list[index + 1]
-        this.$set(list, index + 1, list[index])
-        this.$set(list, index, nextItem)
+      const newIndex = oldIndex + deltaPosition
+
+      // newIndex has the be within the list (cannot move first element up or last element down)
+      if (newIndex >= 0 && newIndex < list.length) {
+        // swap spaces in hrefList
+        const movingListItem = list[oldIndex]
+        this.$set(list, oldIndex, list[newIndex])
+        this.$set(list, newIndex, movingListItem)
+
+        this.savePosition(entity, newIndex)
       }
-
-      this.saveLocalSorting()
     },
 
     /**
-     * Triggeres on every sorting change
+     * Triggers on every sorting change
      */
-    onSort (event) {
-      this.saveLocalSorting()
+    async onSort (event) {
+      const newIndex = event.newDraggableIndex
+      const entity = this.api.get(this.sorting.hrefList[newIndex])
+
+      this.savePosition(entity, newIndex)
     },
 
     /**
-     * Saves local list sorting to API
+     * Saves new position to API and reloads complete list
      */
-    saveLocalSorting () {
+    async savePosition (entity, newPosition) {
       this.sorting.dirty = true
 
-      /**
-      Compiles proper patchList object in the form of
-      {
-        'id1': { pos: 0 },
-        'id2': { pos: 1 },
-        ...
-      }
-      */
-      const patchData = this.locallySortedEntities.map((entity, index) => [entity.id, { pos: index }])
-      const patchDataObj = Object.fromEntries(patchData)
-
-      this.collection().$patch(patchDataObj)
+      await entity.$patch({
+        position: newPosition
+      })
+      this.collection().$reload() // TODO: should $reload kill the last load and issue a new reload?
     }
   }
 }
