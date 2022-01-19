@@ -19,8 +19,8 @@
             <e-text-field
               v-model="camp.motto"
               :name="$tc('entity.camp.fields.motto')" />
-            <!--<e-select
-              v-model="camp.campPrototypeId"
+            <e-select
+              v-model="camp.campPrototype"
               :name="$tc('entity.camp.prototype')"
               :items="campTemplates">
               <template #item="data">
@@ -30,7 +30,7 @@
                   </v-list-item-content>
                 </v-list-item>
               </template>
-            </e-select>-->
+            </e-select>
             <create-camp-periods :add-period="addPeriod" :periods="camp.periods"
                                  :delete-period="deletePeriod" :period-deletable="periodDeletable" />
           </v-card-text>
@@ -87,8 +87,8 @@ export default {
   },
   computed: {
     campTemplates () {
-      return this.api.get().camps({ isPrototype: 1 }).items.map(ct => ({
-        value: ct.id,
+      return this.api.get().camps({ isPrototype: true }).items.map(ct => ({
+        value: ct._meta.self,
         text: this.$tc(ct.name),
         object: ct
       }))

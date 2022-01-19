@@ -6,6 +6,7 @@ use App\DataPersister\Util\AbstractDataPersister;
 use App\DataPersister\Util\DataPersisterObservable;
 use App\Entity\Activity;
 use App\Entity\ContentNode\ColumnLayout;
+use App\Util\EntityMap;
 
 class ActivityDataPersister extends AbstractDataPersister {
     public function __construct(
@@ -35,7 +36,8 @@ class ActivityDataPersister extends AbstractDataPersister {
         $data->setRootContentNode($rootContentNode);
 
         // deep copy from category root node
-        $rootContentNode->copyFromPrototype($data->category->rootContentNode);
+        $entityMap = new EntityMap();
+        $rootContentNode->copyFromPrototype($data->category->rootContentNode, $entityMap);
 
         return $data;
     }
