@@ -30,6 +30,7 @@ Wrapper component for form components to save data back to API
 import { debounce } from 'lodash'
 import { apiPropsMixin } from '@/mixins/apiPropsMixin.js'
 import { ValidationObserver } from 'vee-validate'
+import serverErrorToString from '@/helpers/serverErrorToString.js'
 
 export default {
   name: 'ApiWrapper',
@@ -209,18 +210,7 @@ export default {
         setTimeout(() => { this.showIconSuccess = false }, 2000)
       }, (error) => {
         this.isSaving = false
-
-        // 422 validation error
-        if (error.name === 'ServerException' && error.response && error.response.status === 422) {
-          this.serverErrorMessage = 'Validation error: '
-          const validationMessages = error.response.data.validation_messages[this.fieldname]
-          Object.keys(validationMessages).forEach((key) => {
-            this.serverErrorMessage = this.serverErrorMessage + validationMessages[key] + '. '
-          })
-        } else {
-          this.serverErrorMessage = error.message
-        }
-
+        this.serverErrorMessage = serverErrorToString(error, this.fieldname)
         this.hasServerError = true
       })
     }

@@ -123,8 +123,8 @@ class CreateActivityResponsibleTest extends ECampApiTestCase {
         $this->assertJsonContains([
             'violations' => [
                 [
-                    'propertyPath' => 'activity',
-                    'message' => 'This value is already used.',
+                    'propertyPath' => 'campCollaboration',
+                    'message' => 'This campCollaboration (user) is already responsible for this activity.',
                 ],
             ],
         ]);
