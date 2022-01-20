@@ -26,7 +26,7 @@ function ScheduleEntry (props) {
   return <React.Fragment>
     <View wrap={false} minPresenceAhead={75}>
       <View style={{ display: 'flex', flexDirection: 'row', borderBottom: '1px solid black', paddingBottom: '8pt' }}>
-        <Text id={'scheduleEntry-' + scheduleEntry.id} style={{ ...styles.h1, padding: '4pt 0' }}> 1.1</Text>
+        <Text id={'scheduleEntry-' + scheduleEntry.id} style={{ ...styles.h1, padding: '4pt 0' }}>{ scheduleEntry.number } </Text>
         <Text style={{ ...styles.h1, ...categoryLabelStyles, backgroundColor: activity.category().color }}>{activity.category().short}</Text>
         <Text style={{ ...styles.h1, padding: '4pt', flexGrow: '1', overflow: 'ellipsis' }}>{activity.title}</Text>
         <View style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>

@@ -1,6 +1,7 @@
 // eslint-disable-next-line no-unused-vars
 import React from 'react'
 import pdf from '@react-pdf/renderer'
+import { sortBy } from 'lodash'
 import FrontPage from './FrontPage.jsx'
 import Picasso from './picasso/Picasso.jsx'
 import ScheduleEntry from './scheduleEntry/ScheduleEntry.jsx'
@@ -16,7 +17,8 @@ function PDFDocument (props) {
     { props.camp.periods().items.map(period => <Picasso {...props} period={period} key={period.id}/>) }
     <Page size="A4" orientation="portrait" style={{ ...styles.page, fontSize: 8 + 'pt' }}>
       { props.camp.periods().items.map(period => {
-        return period.scheduleEntries().items.map(scheduleEntry => <ScheduleEntry {...props} scheduleEntry={scheduleEntry} key={scheduleEntry.id}/>)
+        return sortBy(period.scheduleEntries().items, ['dayNumber', 'scheduleEntryNumber'])
+          .map(scheduleEntry => <ScheduleEntry {...props} scheduleEntry={scheduleEntry} key={scheduleEntry.id}/>)
       }) }
     </Page>
     {/* <FrontPage {...props} /> */}
