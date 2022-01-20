@@ -42,7 +42,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
         'delete' => ['security' => 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)'],
     ],
     denormalizationContext: ['groups' => ['write']],
-    normalizationContext: ['groups' => ['read']]
+    normalizationContext: ['groups' => ['read']],
+    order: ['storyboard.id', 'position']
 )]
 #[ApiFilter(SearchFilter::class, properties: ['storyboard'])]
 class StoryboardSection extends BaseEntity implements BelongsToCampInterface, SortableEntityInterface, CopyFromPrototypeInterface {
