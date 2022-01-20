@@ -34,7 +34,7 @@ export default {
       return (this.contentNode.columns.length + 1) * this.minColumnWidth <= this.totalWidth
     },
     removingColumnEnabled () {
-      return this.contentNode.columns.length > 2 && this.removableColumn !== undefined
+      return this.contentNode.columns.length > 1 && this.removableColumn !== undefined
     },
     children () {
       return this.contentNode.owner().contentNodes().items.filter(child => {

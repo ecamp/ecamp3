@@ -19,7 +19,7 @@ const textStyles = {
 }
 
 function renderDate (day) {
-  return dayjs(day.start).hour(0).minute(0).second(0).format('ddd LL')
+  return dayjs.utc(day.start).hour(0).minute(0).second(0).format('ddd LL')
 }
 
 function DayColumn ({ day, styles }) {

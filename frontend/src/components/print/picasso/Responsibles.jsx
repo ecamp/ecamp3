@@ -44,10 +44,10 @@ const initialsStyles = {
   color: 'white'
 }
 
-function Responsibles ({ scheduleEntry, styles }) {
-  const last = scheduleEntry.activity().campCollaborations().items.length - 1
+function Responsibles ({ activity, styles }) {
+  const last = activity.campCollaborations().items.length - 1
   return <View style={{ ...avatarsStyles, ...styles }}>
-    {scheduleEntry.activity().activityResponsibles().items.map((activityResponsible, index) => {
+    {activity.activityResponsibles().items.map((activityResponsible, index) => {
       return <View key={activityResponsible.campCollaboration().id} style={{
         ...avatarStyles,
         backgroundColor: color(activityResponsible.campCollaboration()),

@@ -90,8 +90,17 @@ export default {
                 scheduleEntry.activity().campCollaborations().items.some(responsible => {
                   return responsible._meta.loading ||
                     (responsible.user() !== null && responsible.user()._meta.loading)
+                }) ||
+                scheduleEntry.activity().contentNodes()._meta.loading ||
+                scheduleEntry.activity().contentNodes().items.some(contentNode => {
+                  return contentNode._meta.loading ||
+                    contentNode.contentType()._meta.loading
                 })
             })
+        }) ||
+        this.camp().materialLists()._meta.loading ||
+        this.camp().materialLists().items.some(materialList => {
+          return materialList._meta.loading
         })
     },
     boundTc () {

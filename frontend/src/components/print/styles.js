@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
     padding: 10
   },
   h1: {
-    fontSize: 24,
+    fontSize: 16,
     fontWeight: 'semibold'
   },
   header: {

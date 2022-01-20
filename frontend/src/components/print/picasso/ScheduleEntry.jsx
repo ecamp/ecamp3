@@ -58,7 +58,7 @@ function ScheduleEntry ({ scheduleEntry, styles }) {
     <View style={spacerStyles} />
     <View style={responsiblesContainerStyle}>
       <View style={spacerStyles} />
-      <Responsibles styles={responsiblesStyle} scheduleEntry={scheduleEntry} />
+      <Responsibles styles={responsiblesStyle} activity={scheduleEntry.activity()} />
       <View style={spacerStyles} />
     </View>
   </View>
