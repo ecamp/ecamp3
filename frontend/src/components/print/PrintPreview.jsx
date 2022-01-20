@@ -3,8 +3,9 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import pdf from '@react-pdf/renderer'
 import PDFDocument from './PDFDocument.jsx'
-import InterRegular from '../../assets/fonts/Inter-Regular.ttf'
-import InterSemiBold from '../../assets/fonts/Inter-SemiBold.ttf'
+import OpenSans from '../../assets/fonts/OpenSans/OpenSans-Regular.ttf'
+import OpenSansSemiBold from '../../assets/fonts/OpenSans/OpenSans-SemiBold.ttf'
+import OpenSansBold from '../../assets/fonts/OpenSans/OpenSans-Bold.ttf'
 
 const { Font, PDFViewer } = pdf
 
@@ -15,11 +16,12 @@ if (import.meta.hot) {
 }
 
 Font.register({
-  family: 'Inter',
+  family: 'OpenSans',
   fonts: [
     // For now it seems that only ttf is supported, not woff or woff2 :(
-    { src: InterRegular },
-    { src: InterSemiBold, fontWeight: 'semibold' }
+    { src: OpenSans },
+    { src: OpenSansSemiBold, fontWeight: 'semibold' },
+    { src: OpenSansBold, fontWeight: 'bold' }
   ]
 })
 
@@ -27,8 +29,9 @@ let fontsLoaded = false
 let forceUpdate = null
 
 Promise.all([
-  Font.load({ fontFamily: 'Inter' }),
-  Font.load({ fontFamily: 'Inter', fontWeight: 600 })
+  Font.load({ fontFamily: 'OpenSans' }),
+  Font.load({ fontFamily: 'OpenSans', fontWeight: 600 }),
+  Font.load({ fontFamily: 'OpenSans', fontWeight: 700 })
 ]).then(() => {
   fontsLoaded = true
   if (forceUpdate) forceUpdate()

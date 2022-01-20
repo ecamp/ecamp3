@@ -7,7 +7,7 @@ const marginFontSize = 10
 
 const styles = StyleSheet.create({
   page: {
-    fontFamily: 'Inter',
+    fontFamily: 'OpenSans',
     padding: pageBorder,
     fontSize: 12,
     display: 'flex',
