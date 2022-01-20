@@ -4,8 +4,9 @@ import pdf from '@react-pdf/renderer'
 import FrontPage from './FrontPage.jsx'
 import Picasso from './picasso/Picasso.jsx'
 import ScheduleEntry from './scheduleEntry/ScheduleEntry.jsx'
+import styles from './styles.js'
 
-const { Document } = pdf
+const { Document, Page } = pdf
 
 function PDFDocument (props) {
   return <Document>
@@ -13,9 +14,11 @@ function PDFDocument (props) {
       return props.camp.periods().items.map(period => <Picasso {...props} period={period} key={period.id}/>)
     }) */}
     { props.camp.periods().items.map(period => <Picasso {...props} period={period} key={period.id}/>) }
-    { props.camp.periods().items.map(period => {
-      return period.scheduleEntries().items.map(scheduleEntry => <ScheduleEntry {...props} scheduleEntry={scheduleEntry} key={scheduleEntry.id}/>)
-    }) }
+    <Page size="A4" orientation="portrait" style={{ ...styles.page, fontSize: 8 + 'pt' }}>
+      { props.camp.periods().items.map(period => {
+        return period.scheduleEntries().items.map(scheduleEntry => <ScheduleEntry {...props} scheduleEntry={scheduleEntry} key={scheduleEntry.id}/>)
+      }) }
+    </Page>
     {/* <FrontPage {...props} /> */}
   </Document>
 }
