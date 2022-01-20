@@ -18,7 +18,7 @@
         <api-form :entity="sortable.entity">
           <v-row dense>
             <v-col cols="2">
-              <api-textarea
+              <api-richtext
                 fieldname="column1"
                 auto-grow
                 rows="2"
@@ -26,7 +26,7 @@
                 :filled="layoutMode" />
             </v-col>
             <v-col cols="7">
-              <api-textarea
+              <api-richtext
                 fieldname="column2"
                 auto-grow
                 rows="4"
@@ -34,7 +34,7 @@
                 :filled="layoutMode" />
             </v-col>
             <v-col cols="2">
-              <api-textarea
+              <api-richtext
                 fieldname="column3"
                 auto-grow
                 rows="2"
@@ -101,7 +101,7 @@
 </template>
 
 <script>
-import ApiTextarea from '@/components/form/api/ApiTextarea.vue'
+import ApiRichtext from '@/components/form/api/ApiRichtext.vue'
 import ApiForm from '@/components/form/api/ApiForm.vue'
 import DialogEntityDelete from '@/components/dialog/DialogEntityDelete.vue'
 import CardContentNode from '@/components/activity/CardContentNode.vue'
@@ -113,7 +113,7 @@ export default {
   components: {
     CardContentNode,
     ApiForm,
-    ApiTextarea,
+    ApiRichtext,
     DialogEntityDelete,
     ApiSortable
   },

@@ -7,7 +7,8 @@ const { View, Text } = pdf
 
 const columnStyles = {
   flexGrow: '1',
-  lineHeight: 1.6
+  lineHeight: 1.6,
+  paddingBottom: '4pt'
 }
 
 const column1Styles = {
@@ -22,7 +23,7 @@ const column2Styles = {
   ...columnStyles,
   flexGrow: '1',
   borderLeft: '1px solid black',
-  padding: '0 2pt'
+  paddingHorizontal: '2pt'
 }
 
 const column3Styles = {
@@ -40,17 +41,17 @@ function Storyboard (props) {
   return <View style={{ display: 'flex', flexDirection: 'column', marginBottom: '6pt' }}>
     { storyboard.instanceName ? <Text style={{ fontWeight: 'bold' }}>{ storyboard.instanceName }</Text> : <View/> }
     <View style={{ display: 'flex', flexDirection: 'row', borderBottom: '1px solid black' }}>
-      <View style={column1Styles}>
+      <View style={{ ...column1Styles, paddingBottom: 0 }}>
         <Text>{ props.$tc('contentNode.storyboard.entity.section.fields.column1') }</Text>
       </View>
-      <View style={column2Styles}>
+      <View style={{ ...column2Styles, paddingBottom: 0 }}>
         <Text>{ props.$tc('contentNode.storyboard.entity.section.fields.column2') }</Text>
       </View>
-      <View style={column3Styles}>
+      <View style={{ ...column3Styles, paddingBottom: 0 }}>
         <Text>{ props.$tc('contentNode.storyboard.entity.section.fields.column3') }</Text>
       </View>
     </View>
-    { sections.map(section => {
+    { sections.sort((section1, section2) => section1.position - section2.position).map(section => {
       return <View key={section.id} style={{ display: 'flex', flexDirection: 'row' }}>
         <View style={column1Styles}>
           <RichText richText={section.column1}/>
