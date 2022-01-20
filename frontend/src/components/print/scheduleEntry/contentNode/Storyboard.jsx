@@ -6,25 +6,30 @@ import RichText from '../../RichText.jsx'
 const { View, Text } = pdf
 
 const columnStyles = {
-  flexGrow: '1'
+  flexGrow: '1',
+  lineHeight: 1.6
 }
 
 const column1Styles = {
   ...columnStyles,
-  flexBasis: '1000pt',
+  flexBasis: '23pt',
+  flexShrink: '0',
+  flexGrow: '0',
   paddingRight: '2pt'
 }
 
 const column2Styles = {
   ...columnStyles,
-  flexBasis: '8000pt',
+  flexGrow: '1',
   borderLeft: '1px solid black',
   padding: '0 2pt'
 }
 
 const column3Styles = {
   ...columnStyles,
-  flexBasis: '2000pt',
+  flexBasis: '40pt',
+  flexShrink: '0',
+  flexGrow: '0',
   borderLeft: '1px solid black',
   paddingLeft: '2pt'
 }

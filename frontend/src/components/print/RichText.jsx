@@ -5,7 +5,7 @@ import pdf from '@react-pdf/renderer'
 const { Text } = pdf
 
 function RichText ({ richText }) {
-  const strippedText = richText.replaceAll(/<[^>]+>/ig, '')
+  const strippedText = (richText || '').replaceAll(/<[^>]+>/ig, '')
   return <Text>{ strippedText }</Text>
 }
 
