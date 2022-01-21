@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "nuxt",
+    "dev": "nuxt dev",
     "dev-debug": "node --inspect node_modules/.bin/nuxt",
     "build": "nuxt build",
     "start": "nuxt start",
