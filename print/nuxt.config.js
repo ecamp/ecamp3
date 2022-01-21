@@ -153,7 +153,7 @@ export default {
         ],
 
         // allow script loading script from Unkpg (used for PagedJS)
-        'script-src': ["'self'", "'unsafe-inline'", 'https://unpkg.com'],
+        'script-src': ["'self'", "'unsafe-inline'", "'unsafe-eval'", 'https://unpkg.com'],
       },
     },
   },
