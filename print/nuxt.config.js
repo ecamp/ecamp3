@@ -93,7 +93,7 @@ export default {
 
   publicRuntimeConfig: {
     axios: {
-      browserBaseURL: process.env.API_ROOT_URL || 'http://localhost:3001/api',
+      browserBaseURL: process.env.API_ROOT_URL || 'http://localhost:3001/',
     },
     sentry: {
       config: {
@@ -106,7 +106,7 @@ export default {
 
   privateRuntimeConfig: {
     axios: {
-      baseURL: process.env.INTERNAL_API_ROOT_URL || 'http://backend:3001/api',
+      baseURL: process.env.INTERNAL_API_ROOT_URL || 'http://caddy:3001/',
     },
   },
 

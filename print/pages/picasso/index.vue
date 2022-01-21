@@ -7,33 +7,12 @@
 </template>
 
 <script>
-function collection(items) {
-  const entityArray = items.map((item) => entity(item)())
-
-  return () => ({
-    items: entityArray,
-    _meta: {
-      load: Promise.resolve({
-        items: entityArray,
-      }),
-    },
-  })
-}
-
-function entity(item) {
-  return () =>
-    Object.assign(
-      { ...item },
-      {
-        _meta: {
-          load: Promise.resolve({ ...item }),
-          self: item.id,
-        },
-      }
-    )
-}
+import PicassoLandscape from '../../components/PicassoLandscape.vue'
 
 export default {
+  components: {
+    PicassoLandscape,
+  },
   layout: 'landscapeA3',
   data() {
     return {
@@ -51,7 +30,13 @@ export default {
     const query = this.$route.query
 
     if (query.period) {
-      this.period = await this.$api.get(query.period)._meta.load
+      const url = new URL(query.period, process.env.INTERNAL_API_ROOT_URL)
+      // TODO find a sustainable solution in development for converting the URL to one reachable from the print service
+      url.protocol = 'http://'
+      url.host = 'caddy'
+      url.port = '3001'
+
+      this.period = await this.$api.get(url.toString())._meta.load
       this.isDemo = false
     }
   },

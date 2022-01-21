@@ -10,7 +10,7 @@
 import puppeteer from 'puppeteer'
 const { performance } = require('perf_hooks')
 const { URL } = require('url')
-const { loadNuxt } = require('nuxt')
+const { loadNuxt, build } = require('nuxt')
 const { Router } = require('express')
 
 const router = Router()
@@ -60,10 +60,16 @@ router.use('/test4', async (req, res) => {
 
   try {
     measurePerformance('Rendering page in Nuxt...')
+    measurePerformance('building... ' + process.env.NODE_ENV)
 
+    const isDev = process.env.NODE_ENV !== 'production'
     // Get nuxt instance for start (production mode)
-    // Make sure to have run `nuxt build` before running this script
-    const nuxt = await loadNuxt({ for: 'start' })
+    const nuxt = await loadNuxt(isDev ? 'dev' : 'start')
+
+    // Enable live build & reloading on dev
+    if (isDev) {
+      build(nuxt)
+    }
 
     // Capture HTML via internal Nuxt render call
     const url = new URL(req.url, `http://${req.headers.host}`)

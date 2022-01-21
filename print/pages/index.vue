@@ -117,7 +117,7 @@ export default {
       this.period = await this.$api.get(query.period)._meta.load
       this.camp = await this.period.camp()._meta.load
 
-      const [scheduleEntries, activities, categories] = await Promise.all([
+      const [scheduleEntries] = await Promise.all([
         this.period.scheduleEntries().$loadItems(),
         this.camp.activities().$loadItems(),
         this.camp.categories().$loadItems(),
