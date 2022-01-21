@@ -88,15 +88,27 @@ export default {
   async fetch() {
     this.camp = await this.period.camp()._meta.load
 
-    const [scheduleEntries, activities, categories] = await Promise.all([
-      this.period.scheduleEntries().$loadItems(),
-      this.camp.activities().$loadItems(),
-      this.camp.categories().$loadItems(),
+    // Load all periods, their schedule entries, activities, categories, responsibles, content nodes and all material lists
+    // prettier-ignore
+    await Promise.all([
+      this.camp.periods().$loadItems().then(periods => Promise.all(periods.items.flatMap(period => [
+        period.scheduleEntries().$loadItems().then(scheduleEntries => Promise.all(scheduleEntries.items.flatMap(scheduleEntry => [
+          scheduleEntry.activity()._meta.load,
+          scheduleEntry.activity().category()._meta.load,
+          scheduleEntry.activity().campCollaborations().$loadItems().then(campCollaborations => Promise.all(campCollaborations.items.flatMap(responsible => [
+            responsible.user() === null ? Promise.resolve() : responsible.user()._meta.load
+          ]))),
+          scheduleEntry.activity().contentNodes().$loadItems().then(contentNodes => Promise.all(contentNodes.items.flatMap(contentNode => [
+            contentNode.contentType()._meta.load
+          ])))
+        ])))
+      ]))),
+      this.camp.materialLists().$loadItems(),
     ])
 
-    this.events = scheduleEntries.items.map((entry) =>
-      defineHelpers(entry, true)
-    )
+    this.events = this.period
+      .scheduleEntries()
+      .items.map((entry) => defineHelpers(entry, true))
   },
   methods: {
     getActivityColor(scheduleEntry) {
