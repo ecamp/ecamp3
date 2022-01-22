@@ -86,6 +86,7 @@ export default {
     this.period().scheduleEntries().$reload()
     this.period().camp().activities().$reload()
     this.period().camp().categories().$reload()
+    this.period().days().$reload()
   },
 
   methods: {
