@@ -1,18 +1,19 @@
 <template>
-  <e-select
-    v-model="selectedCampCollaborations"
-    :items="availableCampCollaborations"
-    :loading="isSaving || isLoading ? 'secondary' : false"
-    :name="$tc('entity.day.fields.dayResponsibles')"
-    :error-messages="errorMessages"
-    outlined
-    :filled="false"
-    multiple
-    chips
-    deletable-chips
-    small-chips
-    v-bind="$attrs"
-    @input="onInput" />
+  <v-skeleton-loader v-if="isLoading" type="text" height="56" />
+  <e-select v-else
+            v-model="selectedCampCollaborations"
+            :items="availableCampCollaborations"
+            :loading="isSaving || isLoading ? 'secondary' : false"
+            :name="$tc('entity.day.fields.dayResponsibles')"
+            :error-messages="errorMessages"
+            outlined
+            :filled="false"
+            multiple
+            chips
+            deletable-chips
+            small-chips
+            v-bind="$attrs"
+            @input="onInput" />
 </template>
 
 <script>
@@ -38,13 +39,11 @@ export default {
       oldSelectedCampCollaborations: [],
       selectedCampCollaborations: [],
       errorMessages: [],
-      isSaving: false
+      isSaving: false,
+      isLoading: true
     }
   },
   computed: {
-    isLoading () {
-      return this.campCollaborations._meta.loading || this.period.days()._meta.loading || this.dayResponsibles._meta.loading
-    },
     availableCampCollaborations () {
       return this.campCollaborations.items.filter(cc => {
         return (cc.status === 'established') || (this.currentCampCollaborationIRIs.includes(cc._meta.self))
@@ -77,8 +76,12 @@ export default {
     }
   },
   async mounted () {
-    await this.period.days().$loadItems()
-    await this.dayResponsibles._meta.load
+    await Promise.all([
+      this.period.camp().campCollaborations()._meta.load,
+      this.period.days().$reload()
+    ])
+
+    this.isLoading = false
 
     this.oldSelectedCampCollaborations = [...this.currentCampCollaborationIRIs]
     this.selectedCampCollaborations = [...this.currentCampCollaborationIRIs]
@@ -121,3 +124,11 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+  ::v-deep .v-skeleton-loader__text {
+    height: 40px;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+</style>
