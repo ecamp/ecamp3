@@ -290,8 +290,8 @@ class UpdateCampCollaborationTest extends ECampApiTestCase {
         $this->assertJsonContains([
             'violations' => [
                 [
-                    'propertyPath' => 'camp',
-                    'message' => 'Camp must have at least one manager.',
+                    'propertyPath' => 'camp.collaborations',
+                    'message' => 'must have at least one manager.',
                 ],
             ],
         ]);
@@ -320,8 +320,8 @@ class UpdateCampCollaborationTest extends ECampApiTestCase {
         $this->assertJsonContains([
             'violations' => [
                 [
-                    'propertyPath' => 'camp',
-                    'message' => 'Camp must have at least one manager.',
+                    'propertyPath' => 'camp.collaborations',
+                    'message' => 'must have at least one manager.',
                 ],
             ],
         ]);
@@ -350,8 +350,8 @@ class UpdateCampCollaborationTest extends ECampApiTestCase {
         $this->assertJsonContains([
             'violations' => [
                 [
-                    'propertyPath' => 'camp',
-                    'message' => 'Camp must have at least one manager.',
+                    'propertyPath' => 'camp.collaborations',
+                    'message' => 'must have at least one manager.',
                 ],
             ],
         ]);

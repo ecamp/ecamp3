@@ -2,11 +2,11 @@
 
 namespace App\Tests\Validator;
 
-use App\Entity\Camp;
 use App\Entity\CampCollaboration;
 use App\Entity\User;
-use App\Validator\AssertHasAtLeastOneManager;
-use App\Validator\AssertHasAtLeastOneManagerValidator;
+use App\Validator\AssertContainsAtLeastOneManager;
+use App\Validator\AssertContainsAtLeastOneManagerValidator;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 use Symfony\Component\Validator\Exception\UnexpectedValueException;
@@ -15,7 +15,7 @@ use Symfony\Component\Validator\Test\ConstraintValidatorTestCase;
 /**
  * @internal
  */
-class AssertHasAtLeastOneManagerValidatorTest extends ConstraintValidatorTestCase {
+class AssertContainsAtLeastOneManagerValidatorTest extends ConstraintValidatorTestCase {
     public const GUEST = CampCollaboration::ROLE_GUEST;
     public const MEMBER = CampCollaboration::ROLE_MEMBER;
     public const MANAGER = CampCollaboration::ROLE_MANAGER;
@@ -29,67 +29,72 @@ class AssertHasAtLeastOneManagerValidatorTest extends ConstraintValidatorTestCas
         $this->validator->validate(null, new Email());
     }
 
-    public function testExpectsCampValue() {
+    public function testExpectsCollectionValue() {
         $this->expectException(UnexpectedValueException::class);
-        $this->validator->validate(new \stdClass(), new AssertHasAtLeastOneManager());
+        $this->validator->validate(new \stdClass(), new AssertContainsAtLeastOneManager());
+    }
+
+    public function testExpectsItemsOfTypeCampCollaboration() {
+        $this->expectException(UnexpectedValueException::class);
+        $this->validator->validate(new ArrayCollection(['test']), new AssertContainsAtLeastOneManager());
     }
 
     public function testValidationSucceedsIfValueIsNull() {
-        $this->validator->validate(null, new AssertHasAtLeastOneManager());
+        $this->validator->validate(null, new AssertContainsAtLeastOneManager());
 
         $this->assertNoViolation();
     }
 
     public function testValidationFailsIfCampHasNoCampCollaborations() {
-        $this->validator->validate(new Camp(), new AssertHasAtLeastOneManager());
+        $this->validator->validate(new ArrayCollection(), new AssertContainsAtLeastOneManager());
 
-        $this->buildViolation('Camp must have at least one manager.')
+        $this->buildViolation('must have at least one manager.')
             ->assertRaised()
         ;
     }
 
-    public function testValidationFailsIfCampHasOnlyMembersAndGuests() {
-        $camp = new Camp();
-        $camp->addCampCollaboration(
+    public function testValidationFailsIfCollectionHasOnlyMembersAndGuests() {
+        $collection = new ArrayCollection();
+        $collection->add(
             self::createCampCollaboration(self::GUEST, self::ESTABLISHED)
         );
-        $camp->addCampCollaboration(
+        $collection->add(
             self::createCampCollaboration(self::MEMBER, self::ESTABLISHED)
         );
-        $this->validator->validate($camp, new AssertHasAtLeastOneManager());
+        $this->validator->validate($collection, new AssertContainsAtLeastOneManager());
 
-        $this->buildViolation('Camp must have at least one manager.')
+        $this->buildViolation('must have at least one manager.')
             ->assertRaised()
         ;
     }
 
     public function testValidationFailsIfManagerIsNotEstablished() {
-        $camp = new Camp();
-        $camp->addCampCollaboration(
+        $collection = new ArrayCollection();
+        $collection->add(
             self::createCampCollaboration(self::MANAGER, self::INACTIVE)
         );
-        $camp->addCampCollaboration(
+        $collection->add(
             self::createCampCollaboration(self::MANAGER, self::INVITED)
         );
-        $this->validator->validate($camp, new AssertHasAtLeastOneManager());
+        $this->validator->validate($collection, new AssertContainsAtLeastOneManager());
 
-        $this->buildViolation('Camp must have at least one manager.')
+        $this->buildViolation('must have at least one manager.')
             ->assertRaised()
         ;
     }
 
     public function testValidationSucceedsIfCampHasOneManager() {
-        $camp = new Camp();
-        $camp->addCampCollaboration(
+        $collection = new ArrayCollection();
+        $collection->add(
             self::createCampCollaboration(self::MANAGER, self::ESTABLISHED)
         );
-        $this->validator->validate($camp, new AssertHasAtLeastOneManager());
+        $this->validator->validate($collection, new AssertContainsAtLeastOneManager());
 
         $this->assertNoViolation();
     }
 
     protected function createValidator() {
-        return new AssertHasAtLeastOneManagerValidator();
+        return new AssertContainsAtLeastOneManagerValidator();
     }
 
     private static function createCampCollaboration($role, $status): CampCollaboration {
