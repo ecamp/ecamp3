@@ -108,12 +108,17 @@ export default {
       // return value from API unless `value` is set explicitly
       } else {
         const resource = this.api.get(this.uri)
+        let val = resource[this.fieldname]
+
+        // resource is loaded, but val is still undefined (=doesn't exist)
+        if (val === undefined) {
+          console.error('You are trying to use a fieldname ' + this.fieldname + ' in an ApiFormComponent, but ' + this.fieldname + ' doesn\'t exist on entity ' + this.uri)
+          return null
+        }
 
         // while loading, value is null
         // (necessary because while loading, even normal properties are returned as functions)
-        if (resource._meta.loading) return null
-
-        let val = resource[this.fieldname]
+        if (resource._meta.loading || val._meta?.loading) return null
 
         // Check if val is an embedded collection
         if (val instanceof Function) {
