@@ -107,11 +107,13 @@ export default {
 
       // return value from API unless `value` is set explicitly
       } else {
-        let val = this.api.get(this.uri)[this.fieldname]
+        const resource = this.api.get(this.uri)
 
         // while loading, value is null
         // (necessary because while loading, even normal properties are returned as functions)
-        if (val && val.loading) return null
+        if (resource._meta.loading) return null
+
+        let val = resource[this.fieldname]
 
         // Check if val is an embedded collection
         if (val instanceof Function) {
