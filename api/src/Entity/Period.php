@@ -85,6 +85,7 @@ class Period extends BaseEntity implements BelongsToCampInterface {
      * @ORM\ManyToOne(targetEntity="Camp", inversedBy="periods")
      * @ORM\JoinColumn(nullable=false)
      */
+    #[Assert\Valid]
     #[ApiProperty(example: '/camps/1a2b3c4d')]
     #[Groups(['read', 'create'])]
     public ?Camp $camp = null;
