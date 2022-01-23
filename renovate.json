@@ -1,8 +1,21 @@
 {
   "extends": [
     "config:base",
-    "docker:pinDigests"
+    "docker:pinDigests",
+    "group:all"
   ],
+  "js": {
+    "managerBranchPrefix": "js-",
+    "commitMessageSuffix": "js"
+  },
+  "php" : {
+    "managerBranchPrefix": "php-",
+    "commitMessageSuffix": "php"
+  },
+  "docker": {
+    "managerBranchPrefix": "docker-",
+    "commitMessageSuffix": "docker tags"
+  },
   "force": {
     "constraints": {
       "node": "= 16.3.0",
@@ -30,7 +43,37 @@
         "php"
       ],
       "extractVersion": "^php-(?<version>.*)$",
-      "automerge": false
+      "automerge": false,
+      "groupName": "php"
+    },
+    {
+      "matchPackageNames": [
+        "composer"
+      ],
+      "groupName": "composer"
+    },
+    {
+      "matchPackageNames": [
+        "node"
+      ],
+      "groupName" : "node"
+    },
+    {
+      "matchPackageNames": [
+        "eslint",
+        "lint",
+        "stylelint",
+        "prettier"
+      ],
+      "groupName": "js-linter"
+    },
+    {
+      "matchPackageNames": [
+        "phpstan/phpstan",
+        "friendsofphp/php-cs-fixer",
+        "vimeo/psalm"
+      ],
+      "groupName": "php-linter"
     }
   ],
   "ignorePaths": [
