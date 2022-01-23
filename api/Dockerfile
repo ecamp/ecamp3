@@ -99,6 +99,7 @@ COPY .env ./
 COPY bin bin/
 COPY config config/
 COPY migrations migrations/
+COPY dev-data-migrations dev-data-migrations/
 COPY fixtures fixtures/
 COPY public public/
 COPY src src/

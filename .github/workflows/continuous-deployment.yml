@@ -211,6 +211,7 @@ jobs:
             --set postgresql.url='${{ secrets.POSTGRES_URL }}/ecamp3${{ matrix.deployment.name }}?sslmode=require' \
             --set postgresql.adminUrl='${{ secrets.POSTGRES_ADMIN_URL }}/ecamp3${{ matrix.deployment.name }}?sslmode=require' \
             --set postgresql.dropDBOnUninstall=${{ contains(fromJson(env.never_uninstall), matrix.deployment.name) && 'false' || 'true' }} \
+            --set php.dataMigrationsDir='${{ secrets.DATA_MIGRATIONS_DIR }}' \
             --set php.appSecret='${{ secrets.API_APP_SECRET }}' \
             --set php.jwt.passphrase='${{ secrets.JWT_PASSPHRASE }}' \
             --set php.jwt.publicKey='${{ secrets.JWT_PUBLIC_KEY }}' \
