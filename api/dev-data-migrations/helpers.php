@@ -28,5 +28,8 @@ function getStatementsForMigrationFile(string $migrationFile): array {
     $dump_file = str_replace('.php', '_data.sql', $migrationFile);
     $sql = file_get_contents($dump_file);
 
-    return explode(';', $sql);
+    $parser = new Parser($sql);
+    $parsed_statements = array_map(fn (InsertStatement $statement) => $statement->build(), $parser->statements);
+
+    return str_replace('`', '"', $parsed_statements);
 }
