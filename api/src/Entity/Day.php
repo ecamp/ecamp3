@@ -31,7 +31,7 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
  */
 #[ApiResource(
     collectionOperations: [
-        'get' => ['security' => 'is_fully_authenticated()'],
+        'get' => ['security' => 'is_authenticated()'],
     ],
     itemOperations: [
         'get' => ['security' => 'is_granted("CAMP_COLLABORATOR", object) or is_granted("CAMP_IS_PROTOTYPE", object)'],
@@ -71,6 +71,7 @@ class Day extends BaseEntity implements BelongsToCampInterface {
     public int $dayOffset = 0;
 
     public function __construct() {
+        parent::__construct();
         $this->dayResponsibles = new ArrayCollection();
     }
 

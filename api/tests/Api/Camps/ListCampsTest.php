@@ -36,6 +36,23 @@ class ListCampsTest extends ECampApiTestCase {
         ], $response->toArray()['_links']['items']);
     }
 
+    public function testListPrototypeCampsOnly() {
+        $response = static::createClientWithCredentials()->request('GET', '/camps?isPrototype=true');
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertJsonContains([
+            'totalItems' => 1,
+            '_links' => [
+                'items' => [],
+            ],
+            '_embedded' => [
+                'items' => [],
+            ],
+        ]);
+        $this->assertEqualsCanonicalizing([
+            ['href' => $this->getIriFor('campPrototype')],
+        ], $response->toArray()['_links']['items']);
+    }
+
     public function testListCampsDoesNotShowCampToInactiveCollaborator() {
         $response = static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->getUsername()])
             ->request('GET', '/camps')

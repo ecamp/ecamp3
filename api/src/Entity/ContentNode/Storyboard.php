@@ -6,6 +6,7 @@ use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Entity\ContentNode;
 use App\Repository\StoryboardRepository;
+use App\Util\EntityMap;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -19,7 +20,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
     routePrefix: '/content_node',
     collectionOperations: [
         'get' => [
-            'security' => 'is_fully_authenticated()',
+            'security' => 'is_authenticated()',
         ],
         'post' => [
             'denormalization_context' => ['groups' => ['write', 'create']],
@@ -48,6 +49,7 @@ class Storyboard extends ContentNode {
     public Collection $sections;
 
     public function __construct() {
+        parent::__construct();
         $this->sections = new ArrayCollection();
 
         parent::__construct();
@@ -81,20 +83,17 @@ class Storyboard extends ContentNode {
 
     /**
      * @param Storyboard $prototype
+     * @param EntityMap  $entityMap
      */
-    public function copyFromPrototype($prototype) {
+    public function copyFromPrototype($prototype, $entityMap): void {
+        parent::copyFromPrototype($prototype, $entityMap);
+
         // copy all storyboard sections
-        foreach ($prototype->sections as $prototypeSection) {
+        foreach ($prototype->sections as $sectionPrototype) {
             $section = new StoryboardSection();
-
-            $section->column1 = $prototypeSection->column1;
-            $section->column2 = $prototypeSection->column2;
-            $section->column3 = $prototypeSection->column3;
-            $section->setPos($prototypeSection->getPos());
-
             $this->addSection($section);
-        }
 
-        parent::copyFromPrototype($prototype);
+            $section->copyFromPrototype($sectionPrototype, $entityMap);
+        }
     }
 }

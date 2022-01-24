@@ -344,11 +344,12 @@ describe('Testing ApiWrapper [autoSave=true; value from API]', () => {
   test('shows error when loading value from API fails', async () => {
     // given
     const loadingValue = () => {}
-    loadingValue.loading = true
+    loadingValue._meta = { loading: true }
     apiGet.mockReturnValue({
       [config.propsData.fieldname]: loadingValue,
       _meta: {
-        load: Promise.reject(new Error('loading error'))
+        load: Promise.reject(new Error('loading error')),
+        loading: true
       }
     })
     wrapper = shallowMount(ApiWrapper, config)
@@ -367,11 +368,12 @@ describe('Testing ApiWrapper [autoSave=true; value from API]', () => {
   test('shows an error when specifying a relation as fieldname', async () => {
     // given
     const loadingValue = () => {}
-    loadingValue.loading = true
+    loadingValue._meta = { loading: true }
     apiGet.mockReturnValue({
       [config.propsData.fieldname]: loadingValue,
       _meta: {
-        load: Promise.resolve()
+        load: Promise.resolve(),
+        loading: true
       }
     })
 

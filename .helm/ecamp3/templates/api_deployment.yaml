@@ -1,0 +1,154 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "api.name" . }}
+  labels:
+    {{- include "app.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.api.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "app.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "app.selectorLabels" . | nindent 8 }}
+      annotations:
+        # This deployment should be restarted whenever either the configmap or the secrets change
+        # because the containers depend on environment variables from these places during startup
+        checksum/config: {{ include (print $.Template.BasePath "/api_configmap.yaml") . | sha256sum }}
+        checksum/secrets: {{ include (print $.Template.BasePath "/api_secrets.yaml") . | sha256sum }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "app.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: caddy
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.caddy.image.repository }}:{{ .Values.caddy.image.tag | default .Values.imageTag }}"
+          imagePullPolicy: {{ .Values.caddy.image.pullPolicy }}
+          env:
+            - name: SERVER_NAME
+              value: :3001
+            - name: MERCURE_PUBLISHER_JWT_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "api.name" . }}
+                  key: mercure-jwt-secret
+            - name: MERCURE_SUBSCRIBER_JWT_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "api.name" . }}
+                  key: mercure-jwt-secret
+          ports:
+            - name: api-http
+              containerPort: 3001
+              protocol: TCP
+          volumeMounts:
+            - mountPath: /var/run/php
+              name: php-socket
+          lifecycle:
+            preStop:
+              exec:
+                command: ["curl", "-XPOST", "http://localhost:2019/stop"]
+          readinessProbe:
+            tcpSocket:
+              port: 3001
+            initialDelaySeconds: 3
+            periodSeconds: 3
+          livenessProbe:
+            tcpSocket:
+              port: 3001
+            initialDelaySeconds: 3
+            periodSeconds: 3
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+        - name: php
+          {{/* Define the php container as a template, so it can be reused in other places */}}
+          {{- define "api.phpContainer" }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.php.image.repository }}:{{ .Values.php.image.tag | default .Values.imageTag }}"
+          imagePullPolicy: {{ .Values.php.image.pullPolicy }}
+          envFrom:
+            - configMapRef:
+                name: {{ include "api.name" . }}-configmap
+          env:
+            - name: APP_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "api.name" . }}
+                  key: php-app-secret
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "api.name" . }}
+                  key: database-url
+            - name: MAILER_DSN
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "api.name" . }}
+                  key: mailer-dsn
+            - name: JWT_PASSPHRASE
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "api.name" . }}
+                  key: php-jwt-passphrase
+            - name: MERCURE_JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "api.name" . }}
+                  key: mercure-jwt-secret
+          volumeMounts:
+            - mountPath: /var/run/php
+              name: php-socket
+            - mountPath: /srv/api/config/jwt/public.pem
+              name: jwt-keypair
+              subPath: public.pem
+            - mountPath: /srv/api/config/jwt/private.pem
+              name: jwt-keypair
+              subPath: private.pem
+          lifecycle:
+            preStop:
+              exec:
+                command: ["/bin/sh", "-c", "/bin/sleep 1; kill -QUIT 1"]
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          {{- end }}
+          {{- template "api.phpContainer" . }}
+          readinessProbe:
+            exec:
+              command:
+                - docker-healthcheck
+            initialDelaySeconds: 3
+            periodSeconds: 3
+          livenessProbe:
+            exec:
+              command:
+                - docker-healthcheck
+            periodSeconds: 3
+          startupProbe:
+            exec:
+              command:
+                - docker-healthcheck
+            failureThreshold: 40
+            periodSeconds: 3
+
+      volumes:
+      - name: php-socket
+        emptyDir: {}
+      - name: jwt-keypair
+        secret:
+          secretName: {{ include "api.name" . }}
+          items:
+            - key: jwt-public-key
+              path: public.pem
+            - key: jwt-private-key
+              path: private.pem

@@ -115,3 +115,10 @@ services:
 
     Rize\UriTemplate:
         public: false
+
+    Symfony\Component\Serializer\Normalizer\DateTimeNormalizer:
+        arguments:
+            $defaultContext:
+                # ensure, data coming from API without timezone information is interpreted as UTC
+                # (e.g. period start '2021-01-01' in POST payload)
+                datetime_timezone: 'UTC'

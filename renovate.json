@@ -24,6 +24,13 @@
         "sass"
       ],
       "dependencyDashboardApproval": true
+    },
+    {
+      "matchPackageNames": [
+        "php"
+      ],
+      "extractVersion": "^php-(?<version>.*)$",
+      "automerge": false
     }
   ],
   "ignorePaths": [
@@ -49,6 +56,51 @@
       ],
       "depNameTemplate": "phpunit/phpunit",
       "datasourceTemplate": "packagist"
+    },
+    {
+      "fileMatch": [
+        "^api/Dockerfile$"
+      ],
+      "matchStrings": [
+        "datasource=(?<datasource>.*?) depName=(?<depName>.*?)( versioning=(?<versioning>.*?))?\\s(ENV|ARG) .*?_VERSION=(?<currentValue>.*)\\s"
+      ],
+      "versioningTemplate": "{{#if versioning}}{{{versioning}}}{{else}}semver{{/if}}"
+    },
+    {
+      "fileMatch": [
+        "^.github/workflows/.+\\.ya?ml$"
+      ],
+      "matchStrings": [
+        "php-version: '(?<currentValue>[0-9.]+)'"
+      ],
+      "depNameTemplate": "php",
+      "lookupNameTemplate": "php/php-src",
+      "datasourceTemplate": "github-tags",
+      "versioningTemplate": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)(?<prerelease>\\w+)?$"
+    },
+    {
+      "fileMatch": [
+        "^.github/workflows/.+\\.ya?ml$"
+      ],
+      "matchStrings": [
+        "tools: composer:(?<currentValue>[0-9.]+)"
+      ],
+      "depNameTemplate": "composer",
+      "lookupNameTemplate": "composer/composer",
+      "datasourceTemplate": "github-tags",
+      "versioningTemplate": "regex:^(?<major>\\d+)\\.(?<minor>\\d+).*?$"
+    },
+    {
+      "fileMatch": [
+        "^.github/workflows/.+\\.ya?ml$"
+      ],
+      "matchStrings": [
+        "node-version: '(?<currentValue>[^']+)'.*"
+      ],
+      "depNameTemplate": "node",
+      "lookupNameTemplate": "nodejs/node",
+      "datasourceTemplate": "github-tags",
+      "versioningTemplate": "node"
     }
   ]
 }

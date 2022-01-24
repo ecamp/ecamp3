@@ -19,11 +19,11 @@ class UriTemplateNormalizer implements NormalizerInterface, CacheableSupportsMet
     ) {
     }
 
-    public function supportsNormalization($data, $format = null) {
+    public function supportsNormalization($data, $format = null): bool {
         return $this->decorated->supportsNormalization($data, $format);
     }
 
-    public function normalize($object, $format = null, array $context = []) {
+    public function normalize($object, $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null {
         $result = $this->decorated->normalize($object, $format, $context);
 
         foreach ($result['_links'] as $rel => $link) {

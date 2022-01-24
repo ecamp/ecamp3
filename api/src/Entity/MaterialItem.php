@@ -6,8 +6,10 @@ use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use App\Doctrine\Filter\MaterialItemPeriodFilter;
 use App\Entity\ContentNode\MaterialNode;
 use App\Repository\MaterialItemRepository;
+use App\Util\EntityMap;
 use App\Validator\AssertBelongsToSameCamp;
 use App\Validator\AssertEitherIsNull;
 use App\Validator\MaterialItemUpdateGroupSequence;
@@ -21,7 +23,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  */
 #[ApiResource(
     collectionOperations: [
-        'get' => ['security' => 'is_fully_authenticated()'],
+        'get' => ['security' => 'is_authenticated()'],
         'post' => ['security_post_denormalize' => 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)'],
     ],
     itemOperations: [
@@ -35,8 +37,9 @@ use Symfony\Component\Serializer\Annotation\Groups;
     denormalizationContext: ['groups' => ['write']],
     normalizationContext: ['groups' => ['read']],
 )]
-#[ApiFilter(SearchFilter::class, properties: ['materialList', 'period', 'materialNode'])]
-class MaterialItem extends BaseEntity implements BelongsToCampInterface {
+#[ApiFilter(SearchFilter::class, properties: ['materialList', 'materialNode'])]
+#[ApiFilter(MaterialItemPeriodFilter::class)]
+class MaterialItem extends BaseEntity implements BelongsToCampInterface, CopyFromPrototypeInterface {
     /**
      * The list to which this item belongs. Lists are used to keep track of who is
      * responsible to prepare and bring the item to the camp.
@@ -103,5 +106,21 @@ class MaterialItem extends BaseEntity implements BelongsToCampInterface {
     #[ApiProperty(readable: false)]
     public function getCamp(): ?Camp {
         return $this->materialList?->getCamp();
+    }
+
+    /**
+     * @param MaterialItem $prototype
+     * @param EntityMap    $entityMap
+     */
+    public function copyFromPrototype($prototype, $entityMap): void {
+        $entityMap->add($prototype, $this);
+
+        /** @var MaterialList $materialList */
+        $materialList = $entityMap->get($prototype->materialList);
+        $materialList->addMaterialItem($this);
+
+        $this->article = $prototype->article;
+        $this->quantity = $prototype->quantity;
+        $this->unit = $prototype->unit;
     }
 }

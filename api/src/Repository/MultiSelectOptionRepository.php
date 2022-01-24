@@ -4,7 +4,6 @@ namespace App\Repository;
 
 use App\Entity\ContentNode\MultiSelectOption;
 use App\Entity\User;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -14,7 +13,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method MultiSelectOption[]    findAll()
  * @method MultiSelectOption[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class MultiSelectOptionRepository extends ServiceEntityRepository implements CanFilterByUserInterface {
+class MultiSelectOptionRepository extends SortableServiceEntityRepository implements CanFilterByUserInterface {
     use FiltersByContentNode;
 
     public function __construct(ManagerRegistry $registry) {

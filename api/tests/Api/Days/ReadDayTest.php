@@ -126,4 +126,42 @@ class ReadDayTest extends ECampApiTestCase {
             ],
         ]);
     }
+
+    public function testDatesFormatProperlyInTimezoneAheadOfUTC() {
+        //given
+        date_default_timezone_set('Asia/Singapore');
+        /** @var Day $day */
+        $day = static::$fixtures['day1period1'];
+
+        // when
+        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->getUsername()])
+            ->request('GET', '/days/'.$day->getId())
+        ;
+
+        //then
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertJsonContains([
+            'start' => '2023-05-01T00:00:00+00:00',
+            'end' => '2023-05-02T00:00:00+00:00',
+        ]);
+    }
+
+    public function testDatesFormatProperlyInTimezoneBehindUTC() {
+        //given
+        date_default_timezone_set('America/New_York');
+        /** @var Day $day */
+        $day = static::$fixtures['day1period1'];
+
+        // when
+        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->getUsername()])
+            ->request('GET', '/days/'.$day->getId())
+        ;
+
+        //then
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertJsonContains([
+            'start' => '2023-05-01T00:00:00+00:00',
+            'end' => '2023-05-02T00:00:00+00:00',
+        ]);
+    }
 }

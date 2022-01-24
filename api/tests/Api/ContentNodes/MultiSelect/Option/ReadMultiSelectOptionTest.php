@@ -31,7 +31,7 @@ class ReadMultiSelectOptionTest extends ECampApiTestCase {
             'id' => $option->getId(),
             'translateKey' => $option->translateKey,
             'checked' => $option->checked,
-            'pos' => $option->getPos(),
+            'position' => $option->getPosition(),
 
             '_links' => [
                 'multiSelect' => ['href' => $this->getIriFor($option->multiSelect)],

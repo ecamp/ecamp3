@@ -23,7 +23,7 @@ use Symfony\Component\Validator\Constraints as Assert;
         'get' => ['security' => 'false'],
     ],
     itemOperations: [
-        'get' => ['security' => 'is_fully_authenticated()'],
+        'get' => ['security' => 'is_authenticated()'],
         'patch' => ['security' => 'object.user === user'],
     ],
     denormalizationContext: ['groups' => ['write']],
@@ -39,6 +39,7 @@ class Profile extends BaseEntity {
 
     /**
      * Unique email of the user.
+     * Cannot be changed until we have a workflow where the changed email is validated again.
      *
      * @ORM\Column(type="string", length=64, nullable=false, unique=true)
      */
@@ -46,7 +47,7 @@ class Profile extends BaseEntity {
     #[Assert\NotBlank]
     #[Assert\Email]
     #[ApiProperty(example: self::EXAMPLE_EMAIL)]
-    #[Groups(['read', 'write'])]
+    #[Groups(['read', 'create'])]
     public ?string $email = null;
 
     /**
@@ -59,7 +60,7 @@ class Profile extends BaseEntity {
     #[Assert\Regex(pattern: '/^[a-z0-9_.-]+$/')]
     #[ApiProperty(example: self::EXAMPLE_USERNAME)]
     #[Groups(['read', 'create'])]
-    public ?string $username = null;
+    public string $username = '';
 
     /**
      * The user's (optional) first name.

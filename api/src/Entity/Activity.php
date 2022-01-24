@@ -23,7 +23,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 #[ApiResource(
     collectionOperations: [
-        'get' => ['security' => 'is_fully_authenticated()'],
+        'get' => ['security' => 'is_authenticated()'],
         'post' => [
             'validation_groups' => ['Default', 'create'],
             'denormalization_context' => ['groups' => ['write', 'create']],
@@ -123,6 +123,7 @@ class Activity extends AbstractContentNodeOwner implements BelongsToCampInterfac
     public string $location = '';
 
     public function __construct() {
+        parent::__construct();
         $this->scheduleEntries = new ArrayCollection();
         $this->activityResponsibles = new ArrayCollection();
     }

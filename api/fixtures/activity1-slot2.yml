@@ -1,0 +1,40 @@
+# Right column (slot 2)
+App\Entity\ContentNode\Storyboard:
+  storyboard1:
+    root: '@columnLayout1'
+    parent: '@columnLayout1'
+    slot: '2'
+    position: 0
+    instanceName: 'storyboard1'
+    contentType: '@contentTypeStoryboard'
+
+App\Entity\ContentNode\ColumnLayout:
+  columnLayoutChild1:
+    root: '@columnLayout1'
+    parent: '@columnLayout1'
+    slot: '2'
+    position: 1
+    columns: [{slot: '1', width: 7}, {slot: '2', width: 5}]
+    instanceName: 'columnLayoutChild1'
+    contentType: '@contentTypeColumnLayout'
+
+# Storyboard sections
+App\Entity\ContentNode\StoryboardSection:
+  storyboardSection1:
+    storyboard: '@storyboard1'
+    column1: <word()>
+    column2: <word()>
+    column3: <word()>
+    position: 0
+  storyboardSection2:
+    storyboard: '@storyboard2'
+    column1: <word()>
+    column2: <word()>
+    column3: <word()>
+    position: 0
+  storyboardSectionCampUnrelated:
+    storyboard: '@storyboardCampUnrelated'
+    column1: <word()>
+    column2: <word()>
+    column3: <word()>
+    position: 0

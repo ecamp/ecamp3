@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "serve": "vite --host 0.0.0.0",
-    "build": "vite build --mode prod",
+    "build": "vite build",
     "lint": "vue-cli-service lint",
     "lint-check": "vue-cli-service lint --no-fix",
     "start": "vite --host 0.0.0.0",
@@ -22,6 +22,7 @@
   "dependencies": {
     "@mdi/font": "6.5.95",
     "@sentry/vue": "6.16.0",
+    "@vue/composition-api": "1.4.1",
     "axios": "0.24.0",
     "dayjs": "1.10.7",
     "deepmerge": "4.2.2",

@@ -41,7 +41,7 @@ class ReadStoryboardTest extends ReadContentNodeTestCase {
                         'column1' => $storyboardSection->column1,
                         'column2' => $storyboardSection->column2,
                         'column3' => $storyboardSection->column3,
-                        'pos' => $storyboardSection->getPos(),
+                        'position' => $storyboardSection->getPosition(),
                         'id' => $storyboardSection->getId(),
                         '_links' => [
                             'storyboard' => ['href' => $this->getIriFor($storyboard)],

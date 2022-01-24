@@ -9,10 +9,13 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Entity\BaseEntity;
 use App\Entity\BelongsToCampInterface;
 use App\Entity\Camp;
+use App\Entity\CopyFromPrototypeInterface;
 use App\Entity\SortableEntityInterface;
 use App\Entity\SortableEntityTrait;
 use App\Repository\MultiSelectOptionRepository;
+use App\Util\EntityMap;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
@@ -23,7 +26,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
     routePrefix: '/content_node',
     collectionOperations: [
         'get' => [
-            'security' => 'is_fully_authenticated()',
+            'security' => 'is_authenticated()',
         ],
     ],
     itemOperations: [
@@ -37,12 +40,13 @@ use Symfony\Component\Serializer\Annotation\Groups;
     normalizationContext: ['groups' => ['read']],
 )]
 #[ApiFilter(SearchFilter::class, properties: ['multiSelect'])]
-class MultiSelectOption extends BaseEntity implements BelongsToCampInterface, SortableEntityInterface {
+class MultiSelectOption extends BaseEntity implements BelongsToCampInterface, SortableEntityInterface, CopyFromPrototypeInterface {
     use SortableEntityTrait;
 
     /**
      * @ORM\ManyToOne(targetEntity="MultiSelect", inversedBy="options")
      * @ORM\JoinColumn(nullable=false, onDelete="cascade")
+     * @Gedmo\SortableGroup
      */
     #[ApiProperty(readableLink: false, writableLink: false)]
     #[Groups(['read'])]
@@ -63,5 +67,17 @@ class MultiSelectOption extends BaseEntity implements BelongsToCampInterface, So
     #[ApiProperty(readable: false)]
     public function getCamp(): ?Camp {
         return $this->multiSelect?->getCamp();
+    }
+
+    /**
+     * @param MultiSelectOption $prototype
+     * @param EntityMap         $entityMap
+     */
+    public function copyFromPrototype($prototype, $entityMap): void {
+        $entityMap->add($prototype, $this);
+
+        $this->translateKey = $prototype->translateKey;
+        $this->checked = $prototype->checked;
+        $this->setPosition($prototype->getPosition());
     }
 }
