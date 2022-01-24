@@ -37,6 +37,7 @@ if [ "$1" = 'php-fpm' ] || [ "$1" = 'php' ] || [ "$1" = 'bin/console' ] || [ "$1
 
     if grep -q DATABASE_URL= .env; then
       migrate-database || exit 1
+      migrate-database -e test || exit 1
 
 			if ls -A fixtures/*.yml >/dev/null 2>&1; then
 				php bin/console hautelook:fixtures:load --quiet
