@@ -21,7 +21,7 @@ spec:
       containers:
         - name: db-migrate-job
           {{ template "api.phpContainer" . }}
-          command: ["migrate-database"]
+          command: ["migrate-database -e dev"]
       volumes:
       - name: php-socket
         emptyDir: {}

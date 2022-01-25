@@ -24,7 +24,7 @@ php:
     pullPolicy: IfNotPresent
     # Overrides the image tag whose shared default is .Values.imageTag
     tag:
-  appEnv: dev
+  appEnv: prod
   appDebug: "0"
   appSecret: ""
   corsAllowOrigin: "^https://.*?\\.chart-example\\.local$"
