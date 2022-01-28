@@ -222,7 +222,8 @@ services:
     restart: on-failure
 
   browserless:
-    image: browserless/chrome:1.50.0-puppeteer-12.0.1
+    build:
+      context: ./print/browserless
     container_name: 'ecamp3-browserless'
     ports:
       - '3010:3000'

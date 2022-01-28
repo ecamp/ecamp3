@@ -25,7 +25,7 @@ export default {
   /*
    ** Global CSS
    */
-  css: [],
+  css: ['~/assets/fonts.css'],
   /*
    ** Plugins to load before mounting the App
    ** https://nuxtjs.org/guide/plugins
@@ -120,6 +120,7 @@ export default {
     theme: {
       dark: false,
     },
+    defaultAssets: false,
   },
   /*
    ** Build configuration

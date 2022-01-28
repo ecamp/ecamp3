@@ -78,7 +78,12 @@ router.use('/test4', async (req, res) => {
 
     // set HTML content of current page
     measurePerformance('Puppeteer set HTML content & load resources...')
-    page.setContent(html)
+    await page.setUserAgent(
+      'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:96.0) Gecko/20100101 Firefox/96.0'
+    )
+    await page.setContent(html, {
+      waitUntil: 'networkidle0',
+    })
 
     /**
      * Following code snippets copied mostly from https://gitlab.pagedmedia.org/tools/pagedjs-cli/-/blob/master/src/printer.js
