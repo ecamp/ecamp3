@@ -44,16 +44,16 @@ export default {
         type: 'text/css',
         hid: 'defaultMarginBox',
         cssText: `@media print {
-                    
+
                     :root {
                       --ecamp-margin-font-size: 10pt;
                     }
 
                     @page {
-                      font-family: "Roboto", sans-serif;
+                      font-family: "Open Sans", sans-serif;
                       size: A3 landscape;
                       margin: 15mm 15mm 15mm 15mm;
-                      
+
                       @top-center {
                         content: 'eCamp3';
                         font-size: var(--ecamp-margin-font-size);

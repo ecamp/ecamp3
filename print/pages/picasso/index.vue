@@ -13,7 +13,7 @@ export default {
   components: {
     PicassoLandscape,
   },
-  layout: 'landscapeA3',
+  layout: 'no-vuetify',
   data() {
     return {
       config: {},
