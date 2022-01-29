@@ -23,6 +23,10 @@ abstract class AbstractContentNodeOwner extends BaseEntity {
     #[ApiProperty(writable: false, example: '/content_nodes/1a2b3c4d')]
     public ?ContentNode $rootContentNode = null;
 
+    public function __construct() {
+        parent::__construct();
+    }
+
     public function setRootContentNode(?ContentNode $rootContentNode) {
         // unset the owning side of the relation if necessary
         if (null === $rootContentNode && null !== $this->rootContentNode) {

@@ -227,6 +227,7 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
         $expr = Criteria::expr();
         $crit = Criteria::create();
         $crit->where($expr->andX(
+            $expr->neq('id', $this->getId()),
             $expr->gte('periodOffset', $dayOffset),
             $expr->lte('periodOffset', $this->periodOffset)
         ));
@@ -235,24 +236,22 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
         $scheduleEntriesCollection = $this->period->scheduleEntries;
         $scheduleEntries = $scheduleEntriesCollection->matching($crit);
 
-        return $scheduleEntries->filter(function (ScheduleEntry $scheduleEntry) {
-            if ($scheduleEntry === $this) {
+        return 1 + $scheduleEntries->filter(function (ScheduleEntry $scheduleEntry) {
+            if ($scheduleEntry->getNumberingStyle() !== $this->getNumberingStyle()) {
+                return false;
+            }
+            if ($scheduleEntry->periodOffset < $this->periodOffset) {
                 return true;
             }
-            if ($scheduleEntry->getNumberingStyle() === $this->getNumberingStyle()) {
-                if ($scheduleEntry->periodOffset < $this->periodOffset) {
+            if ($scheduleEntry->left < $this->left) {
+                return true;
+            }
+            if ($scheduleEntry->left === $this->left) {
+                if ($scheduleEntry->length > $this->length) {
                     return true;
                 }
-
-                // left ScheduleEntry gets lower number
-                $seLeft = $scheduleEntry->left;
-                $thisLeft = $this->left;
-
-                if ($seLeft < $thisLeft) {
-                    return true;
-                }
-                if ($seLeft === $thisLeft) {
-                    if ($scheduleEntry->createTime < $this->createTime) {
+                if ($scheduleEntry->length === $this->length) {
+                    if ($scheduleEntry->getId() < $this->getId()) {
                         return true;
                     }
                 }

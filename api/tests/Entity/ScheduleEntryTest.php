@@ -111,15 +111,28 @@ class ScheduleEntryTest extends TestCase {
         $this->assertEquals('1.2', $this->scheduleEntry1->getNumber());
     }
 
-    public function testGetNumberOrdersSamePeriodOffsetAndLeftByCreateTime() {
+    public function testGetNumberOrdersSamePeriodOffsetAndLeftByLength() {
         $this->scheduleEntry1->periodOffset = $this->scheduleEntry2->periodOffset;
-        $this->scheduleEntry1->left = 0;
-        $this->scheduleEntry2->left = 0;
-        $this->setCreateTime($this->scheduleEntry1, new DateTime('yesterday'));
-        $this->setCreateTime($this->scheduleEntry2, new DateTime('now'));
+        $this->scheduleEntry1->left = $this->scheduleEntry2->left;
+        $this->scheduleEntry1->length = 60;
+        $this->scheduleEntry2->length = 120;
 
-        $this->assertEquals('1.1', $this->scheduleEntry1->getNumber());
-        $this->assertEquals('1.2', $this->scheduleEntry2->getNumber());
+        $this->assertEquals('1.1', $this->scheduleEntry2->getNumber());
+        $this->assertEquals('1.2', $this->scheduleEntry1->getNumber());
+    }
+
+    public function testGetNumberOrdersSamePeriodOffsetAndLeftAndLengthById() {
+        $this->scheduleEntry1->periodOffset = $this->scheduleEntry2->periodOffset;
+        $this->scheduleEntry1->left = $this->scheduleEntry2->left;
+        $this->scheduleEntry1->length = $this->scheduleEntry2->length;
+
+        if ($this->scheduleEntry1->getId() < $this->scheduleEntry2->getId()) {
+            $this->assertEquals('1.1', $this->scheduleEntry1->getNumber());
+            $this->assertEquals('1.2', $this->scheduleEntry2->getNumber());
+        } else {
+            $this->assertEquals('1.1', $this->scheduleEntry2->getNumber());
+            $this->assertEquals('1.2', $this->scheduleEntry1->getNumber());
+        }
     }
 
     public function testGetDay() {
