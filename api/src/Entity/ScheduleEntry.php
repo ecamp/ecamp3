@@ -187,14 +187,14 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
     #[ApiProperty(writable: false, example: '/days/1a2b3c4d')]
     #[Groups(['read'])]
     public function getDay(): Day|null {
-        $dayNumber = $this->getDayNumber();
+        $dayOffset = $this->getDayOffset();
 
-        $filteredDays = $this->period->days->filter(function (Day $day) use ($dayNumber) {
-            return $day->getDayNumber() === $dayNumber;
+        $filteredDays = $this->period->days->filter(function (Day $day) use ($dayOffset) {
+            return $day->dayOffset === $dayOffset;
         });
 
         if ($filteredDays->isEmpty()) {
-            throw new RuntimeException("Could not find Day entity for dayNumber {$dayNumber}");
+            throw new RuntimeException("Could not find Day entity for dayOffset {$dayOffset}");
         }
 
         return $filteredDays->first();
@@ -211,7 +211,7 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
     #[ApiProperty(example: '1')]
     #[Groups(['read'])]
     public function getDayNumber(): int {
-        return 1 + (int) floor($this->periodOffset / (24 * 60));
+        return $this->period->getFirstDayNumber() + $this->getDayOffset();
     }
 
     /**
@@ -275,5 +275,13 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
         $scheduleEntryStyledNumber = $this->activity?->category?->getStyledNumber($scheduleEntryNumber) ?? $scheduleEntryNumber;
 
         return $dayNumber.'.'.$scheduleEntryStyledNumber;
+    }
+
+    /**
+     * The dayOffset within the period (zero-based)
+     * First day has an offset of zero.
+     */
+    private function getDayOffset(): int {
+        return (int) floor($this->periodOffset / (24 * 60));
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Tests\Entity;
 
 use App\Entity\Activity;
+use App\Entity\Camp;
 use App\Entity\Category;
 use App\Entity\Day;
 use App\Entity\Period;
@@ -19,6 +20,7 @@ class ScheduleEntryTest extends TestCase {
     private ScheduleEntry $scheduleEntry1;
     private ScheduleEntry $scheduleEntry2;
     private ScheduleEntry $scheduleEntry3;
+    private Camp $camp;
     private Period $period;
     private Day $day1;
     private Day $day2;
@@ -34,6 +36,9 @@ class ScheduleEntryTest extends TestCase {
         $this->period->start = new DateTime('2020-07-14');
         $this->period->addDay($this->day1);
         $this->period->addDay($this->day2);
+
+        $this->camp = new Camp();
+        $this->camp->addPeriod($this->period);
 
         $this->scheduleEntry2 = new ScheduleEntry();
         $this->scheduleEntry2->periodOffset = 960;
