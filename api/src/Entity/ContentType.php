@@ -71,6 +71,7 @@ class ContentType extends BaseEntity {
     public Collection $categories;
 
     public function __construct() {
+        parent::__construct();
         $this->categories = new ArrayCollection();
     }
 

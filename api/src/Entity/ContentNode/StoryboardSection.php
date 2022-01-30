@@ -9,10 +9,12 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Entity\BaseEntity;
 use App\Entity\BelongsToCampInterface;
 use App\Entity\Camp;
+use App\Entity\CopyFromPrototypeInterface;
 use App\Entity\SortableEntityInterface;
 use App\Entity\SortableEntityTrait;
 use App\InputFilter;
 use App\Repository\StoryboardSectionRepository;
+use App\Util\EntityMap;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -43,7 +45,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
     normalizationContext: ['groups' => ['read']]
 )]
 #[ApiFilter(SearchFilter::class, properties: ['storyboard'])]
-class StoryboardSection extends BaseEntity implements BelongsToCampInterface, SortableEntityInterface {
+class StoryboardSection extends BaseEntity implements BelongsToCampInterface, SortableEntityInterface, CopyFromPrototypeInterface {
     use SortableEntityTrait;
 
     /**
@@ -79,5 +81,18 @@ class StoryboardSection extends BaseEntity implements BelongsToCampInterface, So
     #[ApiProperty(readable: false)]
     public function getCamp(): ?Camp {
         return $this->storyboard?->getCamp();
+    }
+
+    /**
+     * @param StoryboardSection $prototype
+     * @param EntityMap         $entityMap
+     */
+    public function copyFromPrototype($prototype, $entityMap): void {
+        $entityMap->add($prototype, $this);
+
+        $this->column1 = $prototype->column1;
+        $this->column2 = $prototype->column2;
+        $this->column3 = $prototype->column3;
+        $this->setPosition($prototype->getPosition());
     }
 }

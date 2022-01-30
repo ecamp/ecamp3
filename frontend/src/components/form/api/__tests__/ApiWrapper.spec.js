@@ -306,7 +306,7 @@ describe('Testing ApiWrapper [autoSave=true; value from API]', () => {
 
   test('loads value from API (fieldname = primitive value)', async () => {
     // given
-    const loadingValue = () => {}
+    const loadingValue = () => ({})
     loadingValue.loading = true
     apiGet.mockReturnValue({
       [config.propsData.fieldname]: loadingValue,
@@ -343,12 +343,13 @@ describe('Testing ApiWrapper [autoSave=true; value from API]', () => {
 
   test('shows error when loading value from API fails', async () => {
     // given
-    const loadingValue = () => {}
-    loadingValue.loading = true
+    const loadingValue = () => ({})
+    loadingValue._meta = { loading: true }
     apiGet.mockReturnValue({
       [config.propsData.fieldname]: loadingValue,
       _meta: {
-        load: Promise.reject(new Error('loading error'))
+        load: Promise.reject(new Error('loading error')),
+        loading: true
       }
     })
     wrapper = shallowMount(ApiWrapper, config)
@@ -366,12 +367,13 @@ describe('Testing ApiWrapper [autoSave=true; value from API]', () => {
 
   test('loads IRI from API (fieldname = embedded entity)', async () => {
     // given
-    const loadingValue = () => {}
-    loadingValue.loading = true
+    const loadingValue = () => ({})
+    loadingValue._meta = { loading: true }
     apiGet.mockReturnValue({
       [config.propsData.fieldname]: loadingValue,
       _meta: {
-        load: Promise.resolve()
+        load: Promise.resolve(),
+        loading: true
       }
     })
 
@@ -400,12 +402,13 @@ describe('Testing ApiWrapper [autoSave=true; value from API]', () => {
 
   test('loads array of IRIs from API (fieldname = embedded collection)', async () => {
     // given
-    const loadingValue = () => {}
-    loadingValue.loading = true
+    const loadingValue = () => ({})
+    loadingValue._meta = { loading: true }
     apiGet.mockReturnValue({
       [config.propsData.fieldname]: loadingValue,
       _meta: {
-        load: Promise.resolve()
+        load: Promise.resolve(),
+        loading: true
       }
     })
 

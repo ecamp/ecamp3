@@ -6,7 +6,9 @@ use ApiPlatform\Core\Api\IriConverterInterface;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\AbstractContextAwareFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Util\QueryNameGeneratorInterface;
 use App\Entity\Activity;
+use App\Entity\ContentNode\MaterialNode;
 use App\Entity\MaterialItem;
+use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
@@ -63,18 +65,24 @@ final class MaterialItemPeriodFilter extends AbstractContextAwareFilter {
 
         $rootAlias = $q->getRootAliases()[0];
 
-        // build relations for materialItems attached via activities
-        $q
-            ->leftJoin("{$rootAlias}.materialNode", $materialNodeJoinAlias)
-            ->leftJoin("{$materialNodeJoinAlias}.root", $rootJoinAlias)
-            ->leftJoin("{$rootJoinAlias}.owner", $ownerJoinAlias)
-            ->leftJoin(Activity::class, $activityJoinAlias, Join::WITH, "{$activityJoinAlias}.id = {$ownerJoinAlias}.id")
-            ->leftJoin("{$activityJoinAlias}.scheduleEntries", $scheduleEntryJoinAlias)
-        ;
-
+        /** @var EntityRepository $materialNodeRepository */
+        $materialNodeRepository = $this->getManagerRegistry()->getRepository(MaterialNode::class);
         $q->andWhere($q->expr()->orX(
-            $q->expr()->eq("{$rootAlias}.period", ":{$periodParameterName}"),              // item directly attached to Period
-            $q->expr()->eq("{$scheduleEntryJoinAlias}.period", ":{$periodParameterName}")  // item part of scheduleEntry in Period
+             // item directly attached to Period
+            $q->expr()->eq("{$rootAlias}.period", ":{$periodParameterName}"),
+            // item part of any scheduleEntry in Period
+            $q->expr()->in(
+                "{$rootAlias}.materialNode",
+                $materialNodeRepository
+                    ->createQueryBuilder($materialNodeJoinAlias)
+                    ->select("{$materialNodeJoinAlias}.id")
+                    ->join("{$materialNodeJoinAlias}.root", $rootJoinAlias)
+                    ->join("{$rootJoinAlias}.owner", $ownerJoinAlias)
+                    ->join(Activity::class, $activityJoinAlias, Join::WITH, "{$activityJoinAlias}.id = {$ownerJoinAlias}.id")
+                    ->join("{$activityJoinAlias}.scheduleEntries", $scheduleEntryJoinAlias)
+                    ->where($q->expr()->eq("{$scheduleEntryJoinAlias}.period", ":{$periodParameterName}"))
+                    ->getDQL()
+            )
         ));
 
         $q->setParameter($periodParameterName, $period);

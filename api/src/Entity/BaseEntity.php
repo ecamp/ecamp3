@@ -22,8 +22,6 @@ abstract class BaseEntity {
      *
      * @ORM\Id
      * @ORM\Column(type="string", length=16, nullable=false)
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class=IdGenerator::class)
      */
     #[ApiProperty(writable: false, example: '1a2b3c4d')]
     #[Groups(['read'])]
@@ -42,6 +40,10 @@ abstract class BaseEntity {
      */
     #[ApiProperty(writable: false)]
     protected DateTime $updateTime;
+
+    public function __construct() {
+        $this->id = IdGenerator::generateRandomHexString(12);
+    }
 
     public function getId(): string {
         return $this->id;
