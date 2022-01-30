@@ -215,10 +215,6 @@ class Activity extends AbstractContentNodeOwner implements BelongsToCampInterfac
     }
 
     /**
-     * ActivityResponsibles.
-     */
-
-    /**
      * @return ActivityResponsible[]
      */
     #[ApiProperty(readableLink: true)]

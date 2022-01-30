@@ -18,6 +18,7 @@
 
 <script>
 import serverErrorToString from '@/helpers/serverErrorToString.js'
+import campCollaborationDisplayName from '@/helpers/campCollaborationDisplayName.js'
 
 export default {
   props: {
@@ -40,15 +41,12 @@ export default {
     },
     availableCampCollaborations () {
       return this.campCollaborations.items.filter(cc => {
-        return (cc.status === 'established') || (this.currentCampCollaborationIRIs.includes(cc._meta.self))
+        return (cc.status !== 'inactive') || (this.currentCampCollaborationIRIs.includes(cc._meta.self))
       }).map(value => {
-        const inactive = value.status === 'inactive'
-        const text = value.user().displayName + (inactive ? (' (' + this.$tc('entity.campCollaboration.inactive')) + ')' : '')
-
         // following structure is defined by vuetify v-select items property
         return {
           value: value._meta.self,
-          text
+          text: campCollaborationDisplayName(value)
         }
       })
     },
