@@ -92,7 +92,7 @@ async function loginPbsMiData () {
 }
 
 export async function logout () {
-  Cookies.remove('jwt_hp')
+  Cookies.remove('jwt_hp', { domain: window.environment.SHARED_COOKIE_DOMAIN })
   return router.push({ name: 'login' })
     .then(() => apiStore.purgeAll())
     .then(() => isLoggedIn())

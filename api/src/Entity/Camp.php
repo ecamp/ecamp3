@@ -2,10 +2,13 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\InputFilter;
 use App\Repository\CampRepository;
+use App\Util\EntityMap;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -45,7 +48,8 @@ use Symfony\Component\Validator\Constraints as Assert;
     denormalizationContext: ['groups' => ['write']],
     normalizationContext: ['groups' => ['read']],
 )]
-class Camp extends BaseEntity implements BelongsToCampInterface {
+#[ApiFilter(SearchFilter::class, properties: ['isPrototype'])]
+class Camp extends BaseEntity implements BelongsToCampInterface, CopyFromPrototypeInterface {
     public const ITEM_NORMALIZATION_CONTEXT = [
         'groups' => ['read', 'Camp:Periods', 'Period:Days', 'Camp:CampCollaborations', 'CampCollaboration:User'],
         'swagger_definition_name' => 'read',
@@ -68,6 +72,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
      */
     #[Assert\Valid]
     #[Assert\Count(min: 1, groups: ['create'])]
+    #[Assert\Count(min: 2, minMessage: 'A camp must have at least one period.', groups: ['Period:delete'])]
     #[ApiProperty(
         writableLink: true,
         example: '[{ "description": "Hauptlager", "start": "2022-01-01", "end": "2022-01-08" }]',
@@ -78,7 +83,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
     /**
      * Types of programme, such as sports activities or meal times.
      *
-     * @ORM\OneToMany(targetEntity="Category", mappedBy="camp", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="Category", mappedBy="camp", orphanRemoval=true, cascade={"persist"})
      */
     #[ApiProperty(writable: false, example: '["/categories/1a2b3c4d"]')]
     #[Groups(['read'])]
@@ -98,7 +103,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
      * Lists for collecting the required materials needed for carrying out the programme. Each collaborator
      * has a material list, and there may be more, such as shopping lists.
      *
-     * @ORM\OneToMany(targetEntity="MaterialList", mappedBy="camp", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="MaterialList", mappedBy="camp", orphanRemoval=true, cascade={"persist"})
      */
     #[ApiProperty(writable: false, example: '["/material_lists/1a2b3c4d"]')]
     #[Groups(['read'])]
@@ -110,9 +115,15 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
      *
      * @ORM\Column(type="string", length=16, nullable=true)
      */
-    #[Assert\DisableAutoMapping]
-    #[ApiProperty(readable: false, writable: false)]
     public ?string $campPrototypeId = null;
+
+    /**
+     * The prototype camp that will be used as a template to create this camp.
+     * Only the ID will be persisted.
+     */
+    #[ApiProperty(readable: false)]
+    #[Groups(['create'])]
+    public ?Camp $campPrototype = null;
 
     /**
      * Whether this camp may serve as a template for creating other camps.
@@ -234,6 +245,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
     public ?User $owner = null;
 
     public function __construct() {
+        parent::__construct();
         $this->collaborations = new ArrayCollection();
         $this->periods = new ArrayCollection();
         $this->categories = new ArrayCollection();
@@ -401,5 +413,31 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
         }
 
         return $this;
+    }
+
+    /**
+     * @param Camp      $prototype
+     * @param EntityMap $entityMap
+     */
+    public function copyFromPrototype($prototype, $entityMap): void {
+        $entityMap->add($prototype, $this);
+
+        $this->campPrototypeId = $prototype->getId();
+
+        // copy MaterialLists
+        foreach ($prototype->getMaterialLists() as $materialListPrototype) {
+            $materialList = new MaterialList();
+            $this->addMaterialList($materialList);
+
+            $materialList->copyFromPrototype($materialListPrototype, $entityMap);
+        }
+
+        // copy Categories
+        foreach ($prototype->getCategories() as $categoryPrototype) {
+            $category = new Category();
+            $this->addCategory($category);
+
+            $category->copyFromPrototype($categoryPrototype, $entityMap);
+        }
     }
 }

@@ -8,6 +8,7 @@ use App\Entity\BaseEntity;
 use App\Entity\Camp;
 use App\Entity\CampCollaboration;
 use App\Entity\User;
+use App\Util\EntityMap;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\Security;
 
@@ -23,13 +24,20 @@ class CampDataPersister extends AbstractDataPersister {
         );
     }
 
+    /**
+     * @param Camp $data
+     */
     public function beforeCreate($data): BaseEntity {
         /** @var User $user */
         $user = $this->security->getUser();
         $data->creator = $user;
         $data->owner = $user;
 
-        // TODO prototype cloning logic here? Or in a separate endpoint?
+        // copy from prototype, if given
+        if (isset($data->campPrototype)) {
+            $entityMap = new EntityMap();
+            $data->copyFromPrototype($data->campPrototype, $entityMap);
+        }
 
         return $data;
     }

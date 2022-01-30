@@ -7,6 +7,7 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Util\QueryNameGeneratorInterface;
 use App\Doctrine\Filter\MaterialItemPeriodFilter;
 use App\Entity\MaterialItem;
 use App\Entity\Period;
+use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query\Expr;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
@@ -19,6 +20,8 @@ use PHPUnit\Framework\TestCase;
  */
 class MaterialItemPeriodFilterTest extends TestCase {
     private MockObject|ManagerRegistry $managerRegistryMock;
+    private MockObject|EntityRepository $materialNodeRepositoryMock;
+    private MockObject|QueryBuilder $materialNodeQueryBuilderMock;
     private MockObject|QueryBuilder $queryBuilderMock;
     private MockObject|QueryNameGeneratorInterface $queryNameGeneratorInterfaceMock;
     private MockObject|IriConverterInterface $iriConverterMock;
@@ -26,18 +29,40 @@ class MaterialItemPeriodFilterTest extends TestCase {
     public function setUp(): void {
         parent::setUp();
         $this->managerRegistryMock = $this->createMock(ManagerRegistry::class);
+        $this->materialNodeRepositoryMock = $this->createMock(EntityRepository::class);
+        $this->materialNodeQueryBuilderMock = $this->createMock(QueryBuilder::class);
         $this->queryBuilderMock = $this->createMock(QueryBuilder::class);
         $this->queryNameGeneratorInterfaceMock = $this->createMock(QueryNameGeneratorInterface::class);
         $this->iriConverterMock = $this->createMock(IriConverterInterface::class);
 
-        $this->queryBuilderMock
-            ->method('getRootAliases')
-            ->willReturn(['o'])
+        $this->managerRegistryMock
+            ->method('getRepository')
+            ->will($this->returnValue($this->materialNodeRepositoryMock))
+        ;
+
+        $this->materialNodeRepositoryMock
+            ->method('createQueryBuilder')
+            ->will($this->returnValue($this->materialNodeQueryBuilderMock))
+        ;
+
+        $this->materialNodeQueryBuilderMock
+            ->method('select')
+            ->will($this->returnSelf())
+        ;
+
+        $this->materialNodeQueryBuilderMock
+            ->method('join')
+            ->will($this->returnSelf())
+        ;
+
+        $this->materialNodeQueryBuilderMock
+            ->method('where')
+            ->will($this->returnSelf())
         ;
 
         $this->queryBuilderMock
-            ->method('leftJoin')
-            ->will($this->returnSelf())
+            ->method('getRootAliases')
+            ->willReturn(['o'])
         ;
 
         $expr = new Expr();
@@ -94,12 +119,12 @@ class MaterialItemPeriodFilterTest extends TestCase {
         // then
         $this->queryBuilderMock
             ->expects($this->never())
-            ->method('andWhere')
+            ->method('getRootAliases')
         ;
 
         $this->queryBuilderMock
             ->expects($this->never())
-            ->method('leftJoin')
+            ->method('andWhere')
         ;
 
         // when
@@ -127,14 +152,14 @@ class MaterialItemPeriodFilterTest extends TestCase {
         ;
 
         $this->queryBuilderMock
-            ->expects($this->exactly(5))
-            ->method('leftJoin')
-        ;
-
-        $this->queryBuilderMock
             ->expects($this->once())
             ->method('setParameter')
             ->with('period_a1', $period)
+        ;
+
+        $this->materialNodeQueryBuilderMock
+            ->expects($this->exactly(4))
+            ->method('join')
         ;
 
         // when

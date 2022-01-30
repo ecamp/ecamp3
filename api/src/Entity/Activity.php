@@ -124,6 +124,7 @@ class Activity extends AbstractContentNodeOwner implements BelongsToCampInterfac
     private Collection $activityResponsibles;
 
     public function __construct() {
+        parent::__construct();
         $this->scheduleEntries = new ArrayCollection();
         $this->activityResponsibles = new ArrayCollection();
     }

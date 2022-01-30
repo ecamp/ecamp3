@@ -15,6 +15,7 @@ data:
     {{- else }}
       SENTRY_FRONTEND_DSN: null,
     {{- end }}
+      SHARED_COOKIE_DOMAIN: '{{ .Values.sharedCookieDomain }}',
       DEPLOYMENT_TIME: '{{ .Values.deploymentTime }}',
       VERSION: '{{ .Values.deployedVersion }}',
       VERSION_LINK_TEMPLATE: '{{ .Values.versionLinkTemplate }}',
