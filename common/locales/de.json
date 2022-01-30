@@ -61,7 +61,7 @@
     },
     "day": {
       "fields": {
-        "dayResponsibles": "Tageschefs"
+        "dayResponsibles": "Tagesverantwortliche"
       }
     },
     "materialList": {

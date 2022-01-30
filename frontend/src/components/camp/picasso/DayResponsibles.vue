@@ -46,7 +46,7 @@ export default {
   computed: {
     availableCampCollaborations () {
       return this.campCollaborations.items.filter(cc => {
-        return (cc.status === 'established') || (this.currentCampCollaborationIRIs.includes(cc._meta.self))
+        return (cc.status !== 'inactive') || (this.currentCampCollaborationIRIs.includes(cc._meta.self))
       }).map(value => {
         const inactive = value.status === 'inactive'
         const text = value.user().displayName + (inactive ? (' (' + this.$tc('entity.campCollaboration.inactive')) + ')' : '')
