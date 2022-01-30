@@ -67,7 +67,7 @@ class Period extends BaseEntity implements BelongsToCampInterface {
      * may span over multiple days, but may not end later than the period.
      *
      * @ORM\OneToMany(targetEntity="ScheduleEntry", mappedBy="period")
-     * @ORM\OrderBy({"periodOffset": "ASC", "id": "ASC"})
+     * @ORM\OrderBy({"periodOffset": "ASC", "left": "ASC", "length": "DESC", "id": "ASC"})
      */
     #[ApiProperty(writable: false, example: '["/schedule_entries/1a2b3c4d"]')]
     #[Groups(['read'])]
