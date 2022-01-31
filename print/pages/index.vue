@@ -5,8 +5,9 @@
       <h1>API connection test</h1>
       Loading all camps from API to check API connection &amp; authentication
       <ul>
-        <li v-for="camp in camps" :key="camp.id">
-          {{ camp.id }} / {{ camp.name }} / {{ camp.title }}
+        <li v-for="displayedCamp in camps" :key="displayedCamp.id">
+          {{ displayedCamp.id }} / {{ displayedCamp.name }} /
+          {{ displayedCamp.title }}
         </li>
       </ul>
       <hr />
@@ -101,6 +102,7 @@ export default {
     try {
       this.camps = (await this.$api.get().camps()._meta.load).items
     } catch (error) {
+      // eslint-disable-next-line
       console.log(error)
     }
 
