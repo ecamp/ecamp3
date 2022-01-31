@@ -1,4 +1,59 @@
 {
+  "contentNode": {
+    "laThematicArea": {
+      "entity": {
+        "option": {
+          "campsiteAndSurroundings": {
+            "description": "Einrichten von Lagerplatz/Umgebung, Abbau, Erstellen von Spielplatz- einrichtungen und Sportgeräten.",
+            "name": "Lagerplatz/Umgebung"
+          },
+          "natureAndEnvironment": {
+            "description": "Tier- und Pflanzenwelt, Umweltschutz im Lager, Wetter- und Sternkunde, Übermittlungstechniken, Feuer machen.",
+            "name": "Natur und Umwelt"
+          },
+          "outdoorTechnique": {
+            "description": "Wanderplanung, Kartenlesen (z.B. NORDA), Krokieren, Hilfsmittel (z.B. Kompass, GPS, Höhenmeter usw.), orientieren im Gelände.",
+            "name": "Outdoortechniken"
+          },
+          "pioneeringTechnique": {
+            "description": "Biwakbau, Iglubau, Material- und Ausrüstungskunde, Materialpflege, Erstellen und Abbau von Pionierbauten, Seil- und Knotenkunde, Seil- bahnen, Seilbrücken, Abseilen.",
+            "name": "Pioniertechnik"
+          },
+          "preventionAndIntegration": {
+            "description": "Aktivitäten, welche der Prävention und der Integration dienen und die Kompetenzen der Teilnehmenden in diesem Bereich fördern.",
+            "name": "Prävention und Integration"
+          },
+          "security": {
+            "description": "Sicherheit bei Aktivitäten im Lager, Unfallorganisation und Alarmierung, 1. Hilfe, Sicherheitsüberlegungen.",
+            "name": "Sicherheit"
+          }
+        }
+      },
+      "name": "LA Themenbereich"
+    },
+    "notes": {
+      "name": "Notizen"
+    },
+    "safetyConcept": {
+      "name": "Sicherheitskonzept"
+    },
+    "storyboard": {
+      "entity": {
+        "section": {
+          "fields": {
+            "column1": "Zeit",
+            "column2": "Programm",
+            "column3": "verantwortlich"
+          },
+          "name": "Programmpunkt | Programmpunkte"
+        }
+      },
+      "name": "Programmabschnitt"
+    },
+    "storycontext": {
+      "name": "Roter Faden"
+    }
+  },
   "global": {
     "datetime": {
       "dateLong": "dd L",
