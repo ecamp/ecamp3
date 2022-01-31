@@ -44,6 +44,8 @@ export default {
 
                     body {
                       font-family: 'Open Sans';
+                      font-size: 9px;
+                      word-break: break-word;
                     }
 
                     @page {
