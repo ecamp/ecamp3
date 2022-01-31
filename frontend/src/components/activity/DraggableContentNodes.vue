@@ -6,6 +6,7 @@
                group="contentNodes"
                class="draggable-area d-flex flex-column pb-10"
                :class="{ 'min-height': layoutMode }"
+               :invert-swap="true"
                @start="startDrag"
                @add="finishDrag"
                @update="finishDrag"
