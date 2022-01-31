@@ -29,35 +29,6 @@ function measurePerformance(msg) {
 
 // Test route
 router.use('/test4', async (req, res) => {
-  measurePerformance('Connecting to puppeteer...')
-
-  // Launch own puppeteer + Chromium
-  // const browser = await puppeteer.launch()
-
-  // Connect to browserless.io (puppeteer websocket)
-  const browser = await puppeteer.connect({
-    browserWSEndpoint: process.env.BROWSER_WS_ENDPOINT,
-  })
-
-  const page = await browser.newPage()
-
-  /**
-   * Debugging puppeteer
-   */
-  /*
-  page.on('request', (request) =>
-    console.log('>>', request.method(), request.url())
-  )
-  page.on('response', (response) =>
-    console.log('<<', response.status(), response.url())
-  ) */
-  page.on('error', (err) => {
-    console.log('error happen at the page: ', err)
-  })
-  page.on('pageerror', (pageerr) => {
-    console.log('pageerror occurred: ', pageerr)
-  })
-
   try {
     measurePerformance('Rendering page in Nuxt...')
     measurePerformance('building... ' + process.env.NODE_ENV)
@@ -75,6 +46,35 @@ router.use('/test4', async (req, res) => {
     const url = new URL(req.url, `http://${req.headers.host}`)
     const queryString = url.search
     const { html } = await nuxt.renderRoute('/picasso' + queryString, { req }) // pass `req` object to Nuxt will also pass authentication cookies automatically
+
+    measurePerformance('Connecting to puppeteer...')
+
+    // Launch own puppeteer + Chromium
+    // const browser = await puppeteer.launch()
+
+    // Connect to browserless.io (puppeteer websocket)
+    const browser = await puppeteer.connect({
+      browserWSEndpoint: process.env.BROWSER_WS_ENDPOINT + '?--font-render-hinting=none',
+    })
+
+    const page = await browser.newPage()
+
+    /**
+     * Debugging puppeteer
+     */
+    /*
+    page.on('request', (request) =>
+      console.log('>>', request.method(), request.url())
+    )
+    page.on('response', (response) =>
+      console.log('<<', response.status(), response.url())
+    ) */
+    page.on('error', (err) => {
+      console.log('error happen at the page: ', err)
+    })
+    page.on('pageerror', (pageerr) => {
+      console.log('pageerror occurred: ', pageerr)
+    })
 
     // set HTML content of current page
     measurePerformance('Puppeteer set HTML content & load resources...')
