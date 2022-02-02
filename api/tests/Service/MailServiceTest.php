@@ -35,7 +35,8 @@ class MailServiceTest extends KernelTestCase {
         $this->camp->name = 'some camp';
     }
 
-    public function testSendInviteToCampMail() {
+    public function testSendInviteToCampMailDeChScout() {
+        $this->user->profile->language = 'de-CH-scout';
         $this->mailer->sendInviteToCampMail($this->user, $this->camp, self::INVITE_KEY, self::INVITE_MAIL);
 
         self::assertEmailCount(1);
@@ -48,6 +49,37 @@ class MailServiceTest extends KernelTestCase {
 
         self::assertEmailTextBodyContains($mailerMessage, $this->camp->name);
         self::assertEmailTextBodyContains($mailerMessage, $this->user->getDisplayName());
+        self::assertEmailTextBodyContains($mailerMessage, self::INVITE_KEY);
+    }
+
+    public function testSendUserActivationMailDeChScout() {
+        $this->user->profile->language = 'de-CH-scout';
+        $this->user->profile->email = self::INVITE_MAIL;
+        $this->mailer->sendUserActivationMail($this->user, self::INVITE_KEY);
+
+        self::assertEmailCount(1);
+        $mailerMessage = self::getMailerMessage(0);
+        self::assertEmailAddressContains($mailerMessage, 'To', self::INVITE_MAIL);
+
+        self::assertEmailHtmlBodyContains($mailerMessage, 'Willkommen');
+        self::assertEmailHtmlBodyContains($mailerMessage, self::INVITE_KEY);
+        self::assertEmailTextBodyContains($mailerMessage, 'Willkommen');
+        self::assertEmailTextBodyContains($mailerMessage, self::INVITE_KEY);
+    }
+
+    public function testSendUserActivationMailFr() {
+        // Test fallback to english
+        $this->user->profile->language = 'fr';
+        $this->user->profile->email = self::INVITE_MAIL;
+        $this->mailer->sendUserActivationMail($this->user, self::INVITE_KEY);
+
+        self::assertEmailCount(1);
+        $mailerMessage = self::getMailerMessage(0);
+        self::assertEmailAddressContains($mailerMessage, 'To', self::INVITE_MAIL);
+
+        self::assertEmailHtmlBodyContains($mailerMessage, 'Welcome');
+        self::assertEmailHtmlBodyContains($mailerMessage, self::INVITE_KEY);
+        self::assertEmailTextBodyContains($mailerMessage, 'Welcome');
         self::assertEmailTextBodyContains($mailerMessage, self::INVITE_KEY);
     }
 }
