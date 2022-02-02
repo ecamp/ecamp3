@@ -204,6 +204,7 @@ class CampCollaboration extends BaseEntity implements BelongsToCampInterface {
     public ?string $collaborationAcceptedBy = null;
 
     public function __construct() {
+        parent::__construct();
         $this->dayResponsibles = new ArrayCollection();
         $this->activityResponsibles = new ArrayCollection();
     }

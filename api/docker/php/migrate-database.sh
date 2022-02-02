@@ -23,5 +23,5 @@ else
 fi
 
 if ls -A migrations/*.php >/dev/null 2>&1; then
-  php bin/console doctrine:migrations:migrate --no-interaction
+  php bin/console doctrine:migrations:migrate --no-interaction "$@"
 fi

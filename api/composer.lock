@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5ea502bcac8c927a16c0b16b6a771260",
+    "content-hash": "d1b06627a41279810cbc380391a86b57",
     "packages": [
         {
             "name": "api-platform/core",
@@ -2650,16 +2650,16 @@
         },
         {
             "name": "lexik/jwt-authentication-bundle",
-            "version": "v2.14.2",
+            "version": "v2.14.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/lexik/LexikJWTAuthenticationBundle.git",
-                "reference": "41cd2596c77c8c20dac40ff9cdeba2645446cfb7"
+                "reference": "b08d174fc979e12f609ad075e49b46a9e30ecfac"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lexik/LexikJWTAuthenticationBundle/zipball/41cd2596c77c8c20dac40ff9cdeba2645446cfb7",
-                "reference": "41cd2596c77c8c20dac40ff9cdeba2645446cfb7",
+                "url": "https://api.github.com/repos/lexik/LexikJWTAuthenticationBundle/zipball/b08d174fc979e12f609ad075e49b46a9e30ecfac",
+                "reference": "b08d174fc979e12f609ad075e49b46a9e30ecfac",
                 "shasum": ""
             },
             "require": {
@@ -2753,7 +2753,7 @@
             ],
             "support": {
                 "issues": "https://github.com/lexik/LexikJWTAuthenticationBundle/issues",
-                "source": "https://github.com/lexik/LexikJWTAuthenticationBundle/tree/v2.14.2"
+                "source": "https://github.com/lexik/LexikJWTAuthenticationBundle/tree/v2.14.4"
             },
             "funding": [
                 {
@@ -2765,7 +2765,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-12-05T17:35:05+00:00"
+            "time": "2022-01-04T23:33:23+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -3201,6 +3201,79 @@
                 "source": "https://github.com/phplang/scope-exit/tree/master"
             },
             "time": "2016-09-17T00:15:18+00:00"
+        },
+        {
+            "name": "phpmyadmin/sql-parser",
+            "version": "5.5.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/phpmyadmin/sql-parser.git",
+                "reference": "8ab99cd0007d880f49f5aa1807033dbfa21b1cb5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/phpmyadmin/sql-parser/zipball/8ab99cd0007d880f49f5aa1807033dbfa21b1cb5",
+                "reference": "8ab99cd0007d880f49f5aa1807033dbfa21b1cb5",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.1 || ^8.0",
+                "symfony/polyfill-mbstring": "^1.3"
+            },
+            "conflict": {
+                "phpmyadmin/motranslator": "<3.0"
+            },
+            "require-dev": {
+                "phpmyadmin/coding-standard": "^3.0",
+                "phpmyadmin/motranslator": "^4.0 || ^5.0",
+                "phpstan/extension-installer": "^1.1",
+                "phpstan/phpstan": "^1.2",
+                "phpstan/phpstan-phpunit": "^1.0",
+                "phpunit/php-code-coverage": "*",
+                "phpunit/phpunit": "^7.5 || ^8.5 || ^9.5",
+                "psalm/plugin-phpunit": "^0.16.1",
+                "vimeo/psalm": "^4.11",
+                "zumba/json-serializer": "^3.0"
+            },
+            "suggest": {
+                "ext-mbstring": "For best performance",
+                "phpmyadmin/motranslator": "Translate messages to your favorite locale"
+            },
+            "bin": [
+                "bin/highlight-query",
+                "bin/lint-query",
+                "bin/tokenize-query"
+            ],
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "PhpMyAdmin\\SqlParser\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "The phpMyAdmin Team",
+                    "email": "developers@phpmyadmin.net",
+                    "homepage": "https://www.phpmyadmin.net/team/"
+                }
+            ],
+            "description": "A validating SQL lexer and parser with a focus on MySQL dialect.",
+            "homepage": "https://github.com/phpmyadmin/sql-parser",
+            "keywords": [
+                "analysis",
+                "lexer",
+                "parser",
+                "sql"
+            ],
+            "support": {
+                "issues": "https://github.com/phpmyadmin/sql-parser/issues",
+                "source": "https://github.com/phpmyadmin/sql-parser"
+            },
+            "time": "2021-12-09T04:31:52+00:00"
         },
         {
             "name": "psr/cache",
@@ -12670,5 +12743,5 @@
         "ext-iconv": "*"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.1.0"
+    "plugin-api-version": "2.2.0"
 }

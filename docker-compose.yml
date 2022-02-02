@@ -38,6 +38,7 @@ services:
       - ./api/docker/php/docker-entrypoint.sh:/usr/local/bin/docker-entrypoint
     environment:
       APP_ENV: dev
+      DATA_MIGRATIONS_DIR: dev-data-migrations
       # See https://docs.docker.com/docker-for-mac/networking/#i-want-to-connect-from-a-container-to-a-service-on-the-host
       # See https://github.com/docker/for-linux/issues/264
       # The `remote_host` below may optionally be replaced with `remote_connect_back`
@@ -155,6 +156,7 @@ services:
       - POSTGRES_USER=ecamp3
     volumes:
       - db-data-postgres:/var/lib/postgresql/data:rw
+      - ./create-ecamp3-test-database.sh:/docker-entrypoint-initdb.d/create-ecamp3-test-database.sh
       # you may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!
       # - ./api/docker/db/data:/var/lib/postgresql/data:rw
     ports:

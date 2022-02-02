@@ -591,6 +591,22 @@ class CreateCampTest extends ECampApiTestCase {
         ]);
     }
 
+    public function testCreateCampFromPrototype() {
+        /** @var Camp $campPrototype */
+        $campPrototype = self::$fixtures['campPrototype'];
+
+        $response = static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExampleWritePayload([
+            'campPrototype' => $this->getIriFor($campPrototype),
+        ])]);
+
+        $this->assertResponseStatusCodeSame(201);
+
+        $camp = $this->getEntityManager()->getRepository(Camp::class)->find($response->toArray()['id']);
+        $this->assertEquals($campPrototype->getId(), $camp->campPrototypeId);
+        $this->assertCount(1, $camp->categories);
+        $this->assertCount(1, $camp->materialLists);
+    }
+
     public function testCreateCampReturnsProperDatesInTimezoneAheadOfUTC() {
         date_default_timezone_set('Asia/Singapore');
         static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExampleWritePayload([
