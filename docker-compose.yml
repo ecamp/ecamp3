@@ -164,7 +164,7 @@ services:
         protocol: tcp
 
   phpmyadmin:
-    image: phpmyadmin/phpmyadmin@sha256:382dedf6b43bf3b6c6c90f355b4dda660beb3e099de91bb3241170e54fca6d59
+    image: phpmyadmin/phpmyadmin@sha256:90feab83dd4b831c0f69d9329ab205dab5fdd9c24b9b2e5a81dd9a482f02c8e4
     container_name: 'ecamp3-phpmyadmin'
     ports:
       - '3002:80'
