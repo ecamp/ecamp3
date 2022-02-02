@@ -4,6 +4,7 @@ namespace App\Tests\DataPersister\ContentNodes;
 
 use App\DataPersister\ContentNode\SingleTextDataPersister;
 use App\DataPersister\Util\DataPersisterObservable;
+use App\Entity\ContentNode\ColumnLayout;
 use App\Entity\ContentNode\SingleText;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -14,13 +15,14 @@ use PHPUnit\Framework\TestCase;
 class SingleTextDataPersisterTest extends TestCase {
     private SingleTextDataPersister $dataPersister;
     private MockObject|DataPersisterObservable $dataPersisterObservable;
+    private ColumnLayout $root;
     private SingleText $contentNode;
 
     protected function setUp(): void {
         $this->dataPersisterObservable = $this->createMock(DataPersisterObservable::class);
         $this->contentNode = new SingleText();
 
-        $this->root = $this->createMock(SingleText::class);
+        $this->root = new ColumnLayout();
         $this->contentNode->parent = new SingleText();
         $this->contentNode->parent->root = $this->root;
 

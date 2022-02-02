@@ -62,7 +62,7 @@ abstract class ContentNode extends BaseEntity implements BelongsToCampInterface,
      */
     #[ApiProperty(writable: false, example: '/content_nodes/1a2b3c4d')]
     #[Groups(['read'])]
-    public ?ContentNode $root = null;
+    public ContentNode $root;
 
     /**
      * All content nodes that are part of this content node tree.
@@ -149,6 +149,7 @@ abstract class ContentNode extends BaseEntity implements BelongsToCampInterface,
 
     public function __construct() {
         parent::__construct();
+        $this->root = $this;
         $this->rootDescendants = new ArrayCollection();
         $this->children = new ArrayCollection();
     }
@@ -169,13 +170,13 @@ abstract class ContentNode extends BaseEntity implements BelongsToCampInterface,
     #[ApiProperty(writable: false, example: '/activities/1a2b3c4d')]
     #[Groups(['read'])]
     public function getRootOwner(): Activity|Category|AbstractContentNodeOwner|null {
-        if (null !== $this->root) {
-            return $this->root->owner;
+        // New created ContentNodes have root == this.
+        // Therefore we use the root of the parent-node.
+        if ($this->root === $this && null !== $this->parent) {
+            return $this->parent->root->owner;
         }
 
-        // this line is used during create process when $this->root is not yet set
-        // returns null if parent is not set
-        return $this->parent?->root->owner;
+        return $this->root->owner;
     }
 
     /**

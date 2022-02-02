@@ -15,13 +15,14 @@ use PHPUnit\Framework\TestCase;
 class StoryboardDataPersisterTest extends TestCase {
     private StoryboardDataPersister $dataPersister;
     private MockObject|DataPersisterObservable $dataPersisterObservable;
+    private ColumnLayout $root;
     private Storyboard $contentNode;
 
     protected function setUp(): void {
         $this->dataPersisterObservable = $this->createMock(DataPersisterObservable::class);
         $this->contentNode = new Storyboard();
 
-        $this->root = $this->createMock(ColumnLayout::class);
+        $this->root = new ColumnLayout();
         $this->contentNode->parent = new ColumnLayout();
         $this->contentNode->parent->root = $this->root;
 

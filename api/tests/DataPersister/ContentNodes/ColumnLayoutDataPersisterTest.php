@@ -14,6 +14,7 @@ use PHPUnit\Framework\TestCase;
 class ColumnLayoutDataPersisterTest extends TestCase {
     private ColumnLayoutDataPersister $dataPersister;
     private MockObject|DataPersisterObservable $dataPersisterObservable;
+    private ColumnLayout $root;
     private ColumnLayout $contentNode;
 
     protected function setUp(): void {
@@ -21,7 +22,7 @@ class ColumnLayoutDataPersisterTest extends TestCase {
 
         $this->contentNode = new ColumnLayout();
 
-        $this->root = $this->createMock(ColumnLayout::class);
+        $this->root = new ColumnLayout();
         $this->contentNode->parent = new ColumnLayout();
         $this->contentNode->parent->root = $this->root;
 
