@@ -52,7 +52,7 @@ class Activity extends AbstractContentNodeOwner implements BelongsToCampInterfac
         'groups' => [
             'read',
             'Activity:Category',
-            'Activity:CampCollaborations',
+            'Activity:ActivityResponsibles',
             'Activity:ScheduleEntries',
             'Activity:ContentNodes',
         ],
@@ -72,14 +72,6 @@ class Activity extends AbstractContentNodeOwner implements BelongsToCampInterfac
     )]
     #[Groups(['read', 'create'])]
     public Collection $scheduleEntries;
-
-    /**
-     * The list of people that are responsible for planning or carrying out this activity.
-     *
-     * @ORM\OneToMany(targetEntity="ActivityResponsible", mappedBy="activity", orphanRemoval=true)
-     */
-    #[ApiProperty(readable: false, writable: false)]
-    public Collection $activityResponsibles;
 
     /**
      * The camp to which this activity belongs.
@@ -121,6 +113,15 @@ class Activity extends AbstractContentNodeOwner implements BelongsToCampInterfac
     #[ApiProperty(example: 'Spielwiese')]
     #[Groups(['read', 'write'])]
     public string $location = '';
+
+    /**
+     * The list of people that are responsible for planning or carrying out this activity.
+     *
+     * @ORM\OneToMany(targetEntity="ActivityResponsible", mappedBy="activity", orphanRemoval=true)
+     */
+    #[ApiProperty(writable: false)]
+    #[Groups(['read'])]
+    private Collection $activityResponsibles;
 
     public function __construct() {
         parent::__construct();
@@ -179,34 +180,6 @@ class Activity extends AbstractContentNodeOwner implements BelongsToCampInterfac
     }
 
     /**
-     * @return CampCollaboration[]
-     */
-    #[ApiProperty(readableLink: true)]
-    #[SerializedName('campCollaborations')]
-    #[Groups(['Activity:CampCollaborations'])]
-    public function getEmbeddedCampCollaborations(): array {
-        return $this->getCampCollaborations();
-    }
-
-    /**
-     * The list of people that are responsible for planning or carrying out this activity.
-     *
-     * @return CampCollaboration[]
-     */
-    #[ApiProperty(writable: false, example: '["/camp_collaborations/1a2b3c4d"]')]
-    #[RelatedCollectionLink(CampCollaboration::class, ['activityResponsibles.activity' => '$this'])]
-    #[Groups(['read'])]
-    public function getCampCollaborations(): array {
-        return array_filter(
-            $this
-                ->activityResponsibles
-                ->map(fn (ActivityResponsible $activityResponsible) => $activityResponsible->campCollaboration)
-                ->getValues(),
-            fn ($cc) => !is_null($cc)
-        );
-    }
-
-    /**
      * @return ScheduleEntry[]
      */
     #[ApiProperty(readableLink: true)]
@@ -240,6 +213,16 @@ class Activity extends AbstractContentNodeOwner implements BelongsToCampInterfac
         }
 
         return $this;
+    }
+
+    /**
+     * @return ActivityResponsible[]
+     */
+    #[ApiProperty(readableLink: true)]
+    #[SerializedName('activityResponsibles')]
+    #[Groups(['Activity:ActivityResponsibles'])]
+    public function getEmbeddedActivityResponsibles(): array {
+        return $this->getActivityResponsibles();
     }
 
     /**

@@ -133,17 +133,9 @@ Displays a single activity
               </v-row>
               <v-row dense>
                 <v-col>
-                  <api-select
-                    :name="$tc('entity.activity.fields.responsible')"
-                    dense
-                    multiple
-                    chips
-                    deletable-chips
-                    small-chips
-                    :uri="activity._meta.self"
-                    fieldname="campCollaborations"
-                    :disabled="layoutMode || !isContributor"
-                    :items="availableCampCollaborations" />
+                  <activity-responsibles
+                    :activity="activity"
+                    :disabled="layoutMode || !isContributor" />
                 </v-col>
               </v-row>
             </v-col>
@@ -164,8 +156,8 @@ Displays a single activity
 <script>
 import ContentCard from '@/components/layout/ContentCard.vue'
 import ApiTextField from '@/components/form/api/ApiTextField.vue'
-import ApiSelect from '@/components/form/api/ApiSelect.vue'
 import RootNode from '@/components/activity/RootNode.vue'
+import ActivityResponsibles from '@/components/activity/ActivityResponsibles.vue'
 import { defineHelpers } from '@/common/helpers/scheduleEntry/dateHelperUTC.js'
 import { campRoleMixin } from '@/mixins/campRoleMixin'
 
@@ -174,8 +166,8 @@ export default {
   components: {
     ContentCard,
     ApiTextField,
-    ApiSelect,
-    RootNode
+    RootNode,
+    ActivityResponsibles
   },
   mixins: [campRoleMixin],
   props: {
@@ -192,22 +184,6 @@ export default {
     }
   },
   computed: {
-    availableCampCollaborations () {
-      const currentCampCollaborationIds = this.activity.campCollaborations().items.map(cc => cc.id)
-      return this.campCollaborations.filter(cc => {
-        return (cc.status === 'established') || (currentCampCollaborationIds.includes(cc.id))
-      }).map(value => {
-        const inactive = value.status === 'inactive'
-        const text = value.user().displayName + (inactive ? (' (' + this.$tc('entity.campCollaboration.inactive')) + ')' : '')
-        return {
-          value,
-          text
-        }
-      })
-    },
-    campCollaborations () {
-      return this.activity.camp().campCollaborations().items
-    },
     activity () {
       return this.scheduleEntry().activity()
     },
