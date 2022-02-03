@@ -38,13 +38,8 @@ export default {
     const query = this.$route.query
 
     if (query.period) {
-      const url = new URL(query.period, process.env.INTERNAL_API_ROOT_URL)
-      // TODO find a sustainable solution in development for converting the URL to one reachable from the print service
-      url.protocol = 'http://'
-      url.host = 'caddy'
-      url.port = '3001'
-
-      this.period = await this.$api.get(url.toString())._meta.load
+      // TODO prevent specifying arbitrary absolute URLs that the print container should fetch...
+      this.period = await this.$api.get(query.period)._meta.load
 
       // Load all data that we can here, to avoid n+1 queries
       // prettier-ignore
