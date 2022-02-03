@@ -11,6 +11,8 @@ use App\Serializer\Normalizer\RelatedCollectionLink;
 use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\Criteria;
+use Doctrine\Common\Collections\Selectable;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Context;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -65,7 +67,7 @@ class Period extends BaseEntity implements BelongsToCampInterface {
      * may span over multiple days, but may not end later than the period.
      *
      * @ORM\OneToMany(targetEntity="ScheduleEntry", mappedBy="period")
-     * @ORM\OrderBy({"periodOffset": "ASC"})
+     * @ORM\OrderBy({"periodOffset": "ASC", "left": "ASC", "length": "DESC", "id": "ASC"})
      */
     #[ApiProperty(writable: false, example: '["/schedule_entries/1a2b3c4d"]')]
     #[Groups(['read'])]
@@ -245,5 +247,25 @@ class Period extends BaseEntity implements BelongsToCampInterface {
         }
 
         return $this;
+    }
+
+    /**
+     * The day number of the first Day in period.
+     */
+    public function getFirstDayNumber(): int {
+        $expr = Criteria::expr();
+        $crit = Criteria::create();
+        $crit->where($expr->lt('start', $this->start));
+
+        /** @var Selectable $periodCollection */
+        $periodCollection = $this->camp->periods;
+        $periods = $periodCollection->matching($crit);
+
+        $firstDayNumber = 1;
+        foreach ($periods as $period) {
+            $firstDayNumber += $period->days->count();
+        }
+
+        return $firstDayNumber;
     }
 }

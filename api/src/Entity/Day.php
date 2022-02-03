@@ -87,7 +87,7 @@ class Day extends BaseEntity implements BelongsToCampInterface {
     #[SerializedName('number')]
     #[Groups(['read'])]
     public function getDayNumber(): int {
-        return $this->dayOffset + 1;
+        return $this->period->getFirstDayNumber() + $this->dayOffset;
     }
 
     /**
