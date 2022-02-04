@@ -12,5 +12,5 @@ docker-compose exec database pg_dump \
   | grep -v "^--" \
   | grep -v "pg_dump" \
   | grep -v "SET" \
-  | dos2unix
+  | dos2unix \
   > api/dev-data-migrations/Version$(date +"%Y%m%d%I%M%p")_data.sql
