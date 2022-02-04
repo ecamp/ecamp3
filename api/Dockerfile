@@ -98,8 +98,8 @@ RUN set -eux; \
 COPY .env ./
 COPY bin bin/
 COPY config config/
-COPY migrations migrations/
-COPY dev-data-migrations dev-data-migrations/
+COPY migrations/schema migrations/schema
+COPY migrations/dev-data migrations/dev-data
 COPY fixtures fixtures/
 COPY public public/
 COPY src src/

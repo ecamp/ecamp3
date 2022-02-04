@@ -1,2 +1,2 @@
 parameters:
-    data_migrations_dir: empty-data-migrations
+    data_migrations_dir: empty-data
