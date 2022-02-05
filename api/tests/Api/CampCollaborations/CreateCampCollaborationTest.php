@@ -13,8 +13,6 @@ use App\Tests\Api\ECampApiTestCase;
 class CreateCampCollaborationTest extends ECampApiTestCase {
     // TODO input filter tests
     // TODO validation tests
-    // TODO create a camp collaboration for someone else
-    // TODO add test creating a collaboration with user reference once a user can see other users (https://github.com/ecamp/ecamp3/pull/2241)
 
     public function testCreateCampCollaborationIsDeniedForAnonymousUser() {
         static::createBasicClient()->request('POST', '/camp_collaborations', ['json' => $this->getExampleWritePayload([
@@ -112,6 +110,28 @@ class CreateCampCollaborationTest extends ECampApiTestCase {
             'inviteEmail' => 'someone@example.com',
             '_links' => [
                 'user' => null,
+            ],
+        ]));
+    }
+
+    public function testCreateCampCollaborationWithUser() {
+        static::createClientWithCredentials()->request(
+            'POST',
+            '/camp_collaborations',
+            [
+                'json' => $this->getExampleWritePayload(
+                    [
+                        'user' => $this->getIriFor('user4unrelated'),
+                    ],
+                    ['inviteEmail']
+                ),
+            ]
+        );
+
+        $this->assertResponseStatusCodeSame(201);
+        $this->assertJsonContains($this->getExampleReadPayload([
+            '_links' => [
+                'user' => ['href' => $this->getIriFor('user4unrelated')],
             ],
         ]));
     }
@@ -250,7 +270,6 @@ class CreateCampCollaborationTest extends ECampApiTestCase {
     }
 
     public function testCreateCampCollaborationValidatesConflictingUserAndInviteEmail() {
-        $this->markTestIncomplete('This test needs https://github.com/ecamp/ecamp3/pull/2241');
         static::createClientWithCredentials()->request('POST', '/camp_collaborations', ['json' => $this->getExampleWritePayload([
             'inviteEmail' => 'someone@example.com',
             'user' => $this->getIriFor('user4unrelated'),

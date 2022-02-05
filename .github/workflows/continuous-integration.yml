@@ -65,7 +65,7 @@ jobs:
 
       - uses: actions/setup-node@v2
         with:
-          node-version: '16.13.1'
+          node-version: '16.13.2'
 
       - uses: actions/cache@937d24475381cd9c75ae6db12cb4e79714b926ed # renovate: tag=v2
         with:
@@ -89,7 +89,7 @@ jobs:
 
       - uses: actions/setup-node@v2
         with:
-          node-version: '16.13.1'
+          node-version: '16.13.2'
 
       - uses: actions/cache@937d24475381cd9c75ae6db12cb4e79714b926ed # renovate: tag=v2
         with:
@@ -108,13 +108,13 @@ jobs:
     name: "Tests: API"
     runs-on: ubuntu-latest
     env:
-      DATABASE_URL: postgresql://ecamp3:ecamp3@localhost:5432/ecamp3dev?serverVersion=13&charset=utf8
+      TEST_DATABASE_URL: postgresql://ecamp3:ecamp3@localhost:5432/ecamp3test?serverVersion=13&charset=utf8
 
     services:
       postgres:
         image: 'postgres:14-alpine@sha256:28e8ac42048c31694d443039d5adfe293f24eec7d8c0b4f88aaefcc8df1e5b72'
         env:
-          POSTGRES_DB: 'ecamp3dev'
+          POSTGRES_DB: 'ecamp3test'
           POSTGRES_PASSWORD: 'ecamp3'
           POSTGRES_USER: 'ecamp3'
         ports:
@@ -161,10 +161,7 @@ jobs:
           setfacl -dR -m u:www-data:rX -m u:"$(whoami)":rwX config/jwt
         working-directory: api
 
-      - run: php bin/console doctrine:migrations:migrate --no-interaction
-        working-directory: api
-
-      - run: php bin/console hautelook:fixtures:load --quiet
+      - run: php bin/console doctrine:migrations:migrate --no-interaction -e test
         working-directory: api
 
       - run: composer test
@@ -190,7 +187,7 @@ jobs:
 
       - uses: actions/setup-node@v2
         with:
-          node-version: '16.13.1'
+          node-version: '16.13.2'
 
       - uses: actions/cache@937d24475381cd9c75ae6db12cb4e79714b926ed # renovate: tag=v2
         with:
@@ -227,7 +224,7 @@ jobs:
 
       - uses: actions/setup-node@v2
         with:
-          node-version: '16.13.1'
+          node-version: '16.13.2'
 
       - uses: actions/cache@937d24475381cd9c75ae6db12cb4e79714b926ed # renovate: tag=v2
         with:

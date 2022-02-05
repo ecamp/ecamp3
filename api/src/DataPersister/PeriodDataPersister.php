@@ -2,6 +2,7 @@
 
 namespace App\DataPersister;
 
+use ApiPlatform\Core\Validator\ValidatorInterface;
 use App\DataPersister\Util\AbstractDataPersister;
 use App\DataPersister\Util\DataPersisterObservable;
 use App\Entity\BaseEntity;
@@ -13,6 +14,7 @@ class PeriodDataPersister extends AbstractDataPersister {
     public function __construct(
         DataPersisterObservable $dataPersisterObservable,
         private EntityManagerInterface $em,
+        private ValidatorInterface $validator
     ) {
         parent::__construct(
             Period::class,
@@ -32,6 +34,12 @@ class PeriodDataPersister extends AbstractDataPersister {
         static::managePeriodDays($data, $orig);
 
         return $data;
+    }
+
+    public function beforeRemove($data): ?BaseEntity {
+        $this->validator->validate($data, ['groups' => ['delete', 'Period:delete']]);
+
+        return null;
     }
 
     public static function managePeriodDays(Period $period, array $orig = null) {

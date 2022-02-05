@@ -1,6 +1,12 @@
+parameters:
+    empty_data_migration_dir: empty-data
+    data_migrations_dir: '%env(default:empty_data_migration_dir:DATA_MIGRATIONS_DIR)%'
 doctrine_migrations:
     migrations_paths:
         # namespace is arbitrary but should be different from App\Migrations
         # as migrations classes should NOT be autoloaded
-        'DoctrineMigrations': '%kernel.project_dir%/migrations'
+        'DoctrineMigrations': '%kernel.project_dir%/migrations/schema'
+        'DataMigrations': '%kernel.project_dir%/migrations/%data_migrations_dir%'
     enable_profiler: '%kernel.debug%'
+    services:
+        Doctrine\Migrations\Version\Comparator: App\Doctrine\NameSpaceIgnoringVersionComparator

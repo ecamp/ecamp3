@@ -44,7 +44,7 @@
     "vuex": "3.6.2"
   },
   "devDependencies": {
-    "@testing-library/jest-dom": "5.16.1",
+    "@testing-library/jest-dom": "5.16.2",
     "@testing-library/vue": "5.8.2",
     "@vue/cli-plugin-babel": "4.5.13",
     "@vue/cli-plugin-e2e-cypress": "4.5.13",
@@ -57,7 +57,7 @@
     "babel-plugin-require-context-hook": "1.0.0",
     "coveralls": "3.1.1",
     "eslint": "7.32.0",
-    "eslint-plugin-import": "2.25.3",
+    "eslint-plugin-import": "2.25.4",
     "eslint-plugin-node": "11.1.0",
     "eslint-plugin-promise": "5.2.0",
     "eslint-plugin-vue": "7.20.0",
@@ -67,9 +67,9 @@
     "jest-serializer-vue-tjw": "3.19.0",
     "lint-staged": "12.1.2",
     "sass": "1.32.13",
-    "vite": "2.7.1",
+    "vite": "2.7.13",
     "vite-plugin-components": "0.13.3",
-    "vite-plugin-vue2": "1.9.0",
+    "vite-plugin-vue2": "1.9.3",
     "vite-plugin-vue2-svg": "0.1.8",
     "vue-cli-plugin-vuetify": "2.4.5",
     "vue-template-compiler": "2.6.14"

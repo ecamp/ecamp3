@@ -2,7 +2,7 @@ version: "3.4"
 
 services:
   frontend:
-    image: node:16.13.1@sha256:89b59ce49929d8a8e230946bdb1b58c14cdbbb86c9a7397610afcecfce1be035
+    image: node:16.13.2@sha256:2033f4cc18f9d8b5d0baa7f276aaeffd202e1a2c6fe9af408af05a34fe68cbfb
     container_name: 'ecamp3-frontend'
     ports:
       - '3000:3000'
@@ -38,6 +38,7 @@ services:
       - ./api/docker/php/docker-entrypoint.sh:/usr/local/bin/docker-entrypoint
     environment:
       APP_ENV: dev
+      DATA_MIGRATIONS_DIR: dev-data
       # See https://docs.docker.com/docker-for-mac/networking/#i-want-to-connect-from-a-container-to-a-service-on-the-host
       # See https://github.com/docker/for-linux/issues/264
       # The `remote_host` below may optionally be replaced with `remote_connect_back`
@@ -105,7 +106,7 @@ services:
     entrypoint: ./docker-setup.sh
 
   print:
-    image: node:16.13.1@sha256:89b59ce49929d8a8e230946bdb1b58c14cdbbb86c9a7397610afcecfce1be035
+    image: node:16.13.2@sha256:2033f4cc18f9d8b5d0baa7f276aaeffd202e1a2c6fe9af408af05a34fe68cbfb
     container_name: 'ecamp3-print'
     ports:
       - '3003:3003'
@@ -125,7 +126,7 @@ services:
       - ./print/print.env
 
   composer:
-    image: composer:2@sha256:5134a6dc6b8bdf39bec4273f52c7baf292a5e8dbd7b19261b0adcf3d3373ae1b
+    image: composer:2@sha256:e7d5a45e8ac670cec2e46668ca824f5374fde83fd9e977bae50d797f4fe09698
     container_name: 'ecamp3-composer'
     restart: 'no'
     command: bash -c "composer install --no-interaction --no-plugins --no-scripts --prefer-dist"
@@ -149,13 +150,14 @@ services:
       - db-data:/var/lib/mysql
 
   database:
-    image: postgres:14-alpine@sha256:28e8ac42048c31694d443039d5adfe293f24eec7d8c0b4f88aaefcc8df1e5b72
+    image: postgres:14-alpine@sha256:578ca5c8452c08a4e0f5e65b55dce5e1812fe63c8fee40ea837641031598e51e
     environment:
       - POSTGRES_DB=ecamp3dev
       - POSTGRES_PASSWORD=ecamp3
       - POSTGRES_USER=ecamp3
     volumes:
       - db-data-postgres:/var/lib/postgresql/data:rw
+      - ./create-ecamp3-test-database.sh:/docker-entrypoint-initdb.d/create-ecamp3-test-database.sh
       # you may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!
       # - ./api/docker/db/data:/var/lib/postgresql/data:rw
     ports:
@@ -164,7 +166,7 @@ services:
         protocol: tcp
 
   phpmyadmin:
-    image: phpmyadmin/phpmyadmin@sha256:382dedf6b43bf3b6c6c90f355b4dda660beb3e099de91bb3241170e54fca6d59
+    image: phpmyadmin/phpmyadmin@sha256:90feab83dd4b831c0f69d9329ab205dab5fdd9c24b9b2e5a81dd9a482f02c8e4
     container_name: 'ecamp3-phpmyadmin'
     ports:
       - '3002:80'

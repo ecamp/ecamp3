@@ -53,6 +53,15 @@ App\Entity\Profile:
     nickname: <word()>
     language: en
     roles: [ 'ROLE_USER' ]
+  profile7manager:
+    user: '@user7manager'
+    email: <email()>
+    username: user7manager
+    firstname: <firstName()>
+    surname: <lastName()>
+    nickname: <word()>
+    language: en
+    roles: [ 'ROLE_USER' ]
   profileAdmin:
     user: '@admin'
     email: admin@example.com

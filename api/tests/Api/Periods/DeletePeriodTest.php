@@ -84,4 +84,20 @@ class DeletePeriodTest extends ECampApiTestCase {
             'detail' => 'Access Denied.',
         ]);
     }
+
+    public function testDeleteLastPeriodIsRejected() {
+        $period = static::$fixtures['period1camp2'];
+        static::createClientWithCredentials()
+            ->request('DELETE', '/periods/'.$period->getId())
+        ;
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [
+                    'propertyPath' => 'camp.periods',
+                    'message' => 'A camp must have at least one period.',
+                ],
+            ],
+        ]);
+    }
 }

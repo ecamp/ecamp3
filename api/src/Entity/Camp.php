@@ -9,6 +9,7 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\InputFilter;
 use App\Repository\CampRepository;
 use App\Util\EntityMap;
+use App\Validator\AssertContainsAtLeastOneManager;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -58,6 +59,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface, CopyFromPrototy
     /**
      * @ORM\OneToMany(targetEntity="CampCollaboration", mappedBy="camp", orphanRemoval=true)
      */
+    #[AssertContainsAtLeastOneManager(groups: ['update'])]
     #[SerializedName('campCollaborations')]
     #[Groups(['read'])]
     public Collection $collaborations;
@@ -72,6 +74,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface, CopyFromPrototy
      */
     #[Assert\Valid]
     #[Assert\Count(min: 1, groups: ['create'])]
+    #[Assert\Count(min: 2, minMessage: 'A camp must have at least one period.', groups: ['Period:delete'])]
     #[ApiProperty(
         writableLink: true,
         example: '[{ "description": "Hauptlager", "start": "2022-01-01", "end": "2022-01-08" }]',
