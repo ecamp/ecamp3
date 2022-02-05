@@ -124,6 +124,13 @@ class Period extends BaseEntity implements BelongsToCampInterface {
     public ?DateTimeInterface $start = null;
 
     /**
+     * ...
+     */
+    #[ApiProperty(example: true)]
+    #[Groups(['write'])]
+    public bool $moveScheduleEntries = false;
+
+    /**
      * The (inclusive) day at the end of which the period ends, as an ISO date string. Should
      * not be before "start".
      *
