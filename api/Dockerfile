@@ -154,7 +154,7 @@ COPY docker/caddy/Caddyfile.prod /etc/caddy/Caddyfile
 FROM api_platform_php as api_platform_php_dev
 
 # renovate: datasource=github-tags depName=xdebug/xdebug
-ARG XDEBUG_VERSION=3.1.2
+ARG XDEBUG_VERSION=3.1.3
 RUN set -eux; \
 	apk add --no-cache --virtual .build-deps $PHPIZE_DEPS; \
 	pecl install xdebug-$XDEBUG_VERSION; \
