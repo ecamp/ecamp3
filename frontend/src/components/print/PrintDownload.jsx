@@ -7,7 +7,7 @@ import OpenSans from '../../assets/fonts/OpenSans/OpenSans-Regular.ttf'
 import OpenSansSemiBold from '../../assets/fonts/OpenSans/OpenSans-SemiBold.ttf'
 import OpenSansBold from '../../assets/fonts/OpenSans/OpenSans-Bold.ttf'
 
-const { Font, PDFViewer } = pdf
+const { Font, PDFDownloadLink } = pdf
 
 if (import.meta.hot) {
   import.meta.hot.accept((newExports) => {

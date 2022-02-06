@@ -1,8 +1,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import PrintDownload from './PrintDownload.jsx'
+import PDFDownloadButton from './PDFDownloadButton.jsx'
 
-let PrintDownloadReactComponent = PrintDownload
+let ReactComponent = PDFDownloadButton
 
 /**
  * Taken and adapted from https://github.com/alkin/vue-react/blob/master/src/vue-react.js
@@ -35,14 +35,14 @@ export default {
     if (import.meta.hot) {
       window.addEventListener('hotReloadPrintDownload', (event) => {
         // During a hot reload, replace the whole react component with the new version
-        PrintDownloadReactComponent = event.detail
+        ReactComponent = event.detail
         this.refresh()
       })
     }
   },
   methods: {
     refresh () {
-      this.component = ReactDOM.render(React.createElement(PrintDownloadReactComponent, this.props, ...this.children), this.$el)
+      this.component = ReactDOM.render(React.createElement(ReactComponent, this.props, ...this.children), this.$el)
     }
   },
   render (createElement) {

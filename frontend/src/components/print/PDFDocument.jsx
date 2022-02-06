@@ -2,7 +2,7 @@
 import React from 'react'
 import pdf from '@react-pdf/renderer'
 import { sortBy } from 'lodash'
-import FrontPage from './FrontPage.jsx'
+// import FrontPage from './FrontPage.jsx'
 import Picasso from './picasso/Picasso.jsx'
 import ScheduleEntry from './scheduleEntry/ScheduleEntry.jsx'
 import styles from './styles.js'

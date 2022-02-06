@@ -21,7 +21,7 @@ Show all activity schedule entries of a single period.
       </v-tooltip>
       <print-button-react-pdf v-if="!dataLoading"
                               ref="printPreview"
-                              :tc="boundTc"
+                              :i18n-data="$i18n.messages"
                               :camp="camp" />
     </template>
     <schedule-entries :period="period" :show-button="isContributor">
@@ -91,9 +91,6 @@ export default {
                 })
             })
         })
-    },
-    boundTc () {
-      return this.$tc.bind(this)
     }
   }
 }
