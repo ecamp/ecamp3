@@ -8,6 +8,8 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Repository\PeriodRepository;
 use App\Serializer\Normalizer\RelatedCollectionLink;
+use App\Validator\Period\AssertValidPeriodEnd;
+use App\Validator\Period\AssertValidPeriodStart;
 use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -116,6 +118,7 @@ class Period extends BaseEntity implements BelongsToCampInterface {
      * @ORM\Column(type="date")
      */
     #[Assert\LessThanOrEqual(propertyPath: 'end')]
+    #[AssertValidPeriodStart()]
     #[ApiProperty(example: '2022-01-01', openapiContext: ['format' => 'date'])]
     #[Context(
         normalizationContext: [DateTimeNormalizer::FORMAT_KEY => 'Y-m-d'],
@@ -125,21 +128,13 @@ class Period extends BaseEntity implements BelongsToCampInterface {
     public ?DateTimeInterface $start = null;
 
     /**
-     * If Period-Start date is changing, moveScheduleEntries defines what happens with ScheduleEntries.
-     * true: ScheduleEntries will be moved together with Period (periodOffste stays the same).
-     * false: The start date of each ScheduleEntry remains the same (periodOffset changes).
-     */
-    #[ApiProperty(example: true)]
-    #[Groups(['write'])]
-    public bool $moveScheduleEntries = false;
-
-    /**
      * The (inclusive) day at the end of which the period ends, as an ISO date string. Should
      * not be before "start".
      *
      * @ORM\Column(name="`end`", type="date")
      */
     #[Assert\GreaterThanOrEqual(propertyPath: 'start')]
+    #[AssertValidPeriodEnd()]
     #[ApiProperty(example: '2022-01-08', openapiContext: ['format' => 'date'])]
     #[Context([DateTimeNormalizer::FORMAT_KEY => '!Y-m-d'])]
     #[Context(
@@ -148,6 +143,16 @@ class Period extends BaseEntity implements BelongsToCampInterface {
     )]
     #[Groups(['read', 'write'])]
     public ?DateTimeInterface $end = null;
+
+    /**
+     * If the start date of the period is changing, moveScheduleEntries defines what happens with the schedule
+     * entries in the period.
+     * true: The schedule entries will be moved together with the period (periodOffset stays the same).
+     * false: The start date of each schedule entry remains the same (periodOffset changes).
+     */
+    #[ApiProperty(example: true)]
+    #[Groups(['write'])]
+    public bool $moveScheduleEntries = true;
 
     public function __construct() {
         parent::__construct();

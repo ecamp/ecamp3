@@ -272,7 +272,7 @@ at position 9: Data missing',
         $this->assertCount(2, $period->days);
     }
 
-    public function testPatchPeriodMoveScheduleEntrys() {
+    public function testPatchPeriodMovesScheduleEntries() {
         /** @var Period $period */
         $period = static::$fixtures['period1camp2'];
 
@@ -294,7 +294,7 @@ at position 9: Data missing',
         $this->assertEquals(540, $scheduleEntry->periodOffset);
     }
 
-    public function testPatchPeriodDoNotMoveScheduleEntrys() {
+    public function testPatchPeriodDoNotMoveScheduleEntries() {
         /** @var Period $period */
         $period = static::$fixtures['period1camp2'];
 
