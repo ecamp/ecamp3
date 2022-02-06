@@ -30,7 +30,7 @@
     "inter-ui": "3.19.3",
     "js-cookie": "3.0.1",
     "lodash": "4.17.21",
-    "slugify": "1.6.3",
+    "slugify": "1.6.5",
     "tiptap": "1.32.2",
     "tiptap-extensions": "1.35.2",
     "url-template": "2.0.8",
