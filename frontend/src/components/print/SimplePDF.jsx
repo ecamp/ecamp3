@@ -7,7 +7,7 @@ const { Document, Page, Text } = pdf
 function SimplePDF (props) {
   return <Document>
     <Page>
-      <Text style={{ fontFamily: 'OpenSans' }}>hello world!</Text>
+      { Array.from(new Array(1000).keys()).map(i => <Text key={i} style={{ fontFamily: 'OpenSans' }}>Hello world! I was rendered in a background job!</Text>) }
     </Page>
   </Document>
 }
