@@ -315,4 +315,48 @@ at position 9: Data missing',
         $scheduleEntry = $period->scheduleEntries[0];
         $this->assertEquals(1440 + 540, $scheduleEntry->periodOffset);
     }
+
+    public function testPatchPeriodValidateStartDate() {
+        /** @var Period $period */
+        $period = static::$fixtures['period1camp2'];
+
+        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->getUsername()])
+            ->request('PATCH', '/periods/'.$period->getId(), ['json' => [
+                'start' => '2023-11-11',
+                'end' => '2023-11-11',
+                'moveScheduleEntries' => false,
+            ], 'headers' => ['Content-Type' => 'application/merge-patch+json']])
+        ;
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [
+                    'propertyPath' => 'start',
+                    'message' => 'Due to existing activities, start-date can not be later then 2023-11-10',
+                ],
+            ],
+        ]);
+    }
+
+    public function testPatchPeriodValidateEndDate() {
+        /** @var Period $period */
+        $period = static::$fixtures['period1camp2'];
+
+        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->getUsername()])
+            ->request('PATCH', '/periods/'.$period->getId(), ['json' => [
+                'start' => '2023-11-09',
+                'end' => '2023-11-09',
+                'moveScheduleEntries' => false,
+            ], 'headers' => ['Content-Type' => 'application/merge-patch+json']])
+        ;
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [
+                    'propertyPath' => 'end',
+                    'message' => 'Due to existing activities, end-date can not be earlier then 2023-11-10',
+                ],
+            ],
+        ]);
+    }
 }

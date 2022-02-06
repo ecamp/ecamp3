@@ -30,15 +30,15 @@ class AssertValidPeriodEndValidator extends ConstraintValidator {
             if (!$period->moveScheduleEntries) {
                 $orig = $this->em->getUnitOfWork()->getOriginalEntityData($period);
                 if (null != $orig) {
-                    $delta = $period->start->getTimestamp() - $orig['start']->getTimestamp();
+                    $delta = $orig['start']->getTimestamp() - $period->start->getTimestamp();
                     $delta = floor($delta / 60);
                 }
             }
 
             // get maximal existing ScheduleEntryEnd
             $scheduleEntryEnds = $period->scheduleEntries->map(fn ($se) => $se->periodOffset + $se->length);
-            $maxScheduleEntryEnd = max($scheduleEntryEnds->toArray());
-            $periodEnd = 1440 * $period->getPeriodLength() + $delta;
+            $maxScheduleEntryEnd = max($scheduleEntryEnds->toArray()) + $delta;
+            $periodEnd = 1440 * $period->getPeriodLength();
 
             if ($maxScheduleEntryEnd > $periodEnd) {
                 /** @var DateTime $endDate */
