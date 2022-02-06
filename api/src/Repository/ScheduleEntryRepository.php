@@ -21,7 +21,7 @@ class ScheduleEntryRepository extends ServiceEntityRepository implements CanFilt
         parent::__construct($registry, ScheduleEntry::class);
     }
 
-    public function createQueryBuilder($alias, $indexBy = null) {
+    public function createQueryBuilder($alias, $indexBy = null): QueryBuilder {
         $qb = parent::createQueryBuilder($alias, $indexBy);
         $qb->orderBy($alias.'.period', 'ASC')
             ->addOrderBy($alias.'.periodOffset', 'ASC')
