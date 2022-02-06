@@ -125,7 +125,9 @@ class Period extends BaseEntity implements BelongsToCampInterface {
     public ?DateTimeInterface $start = null;
 
     /**
-     * ...
+     * If Period-Start date is changing, moveScheduleEntries defines what happens with ScheduleEntries.
+     * true: ScheduleEntries will be moved together with Period (periodOffste stays the same).
+     * false: The start date of each ScheduleEntry remains the same (periodOffset changes).
      */
     #[ApiProperty(example: true)]
     #[Groups(['write'])]
