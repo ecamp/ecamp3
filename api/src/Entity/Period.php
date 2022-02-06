@@ -257,6 +257,20 @@ class Period extends BaseEntity implements BelongsToCampInterface {
     }
 
     /**
+     * Returns the length of this period
+     * (based on start and end date).
+     */
+    public function getPeriodLength(): ?int {
+        if (isset($this->start, $this->end)) {
+            $length = $this->end->getTimestamp() - $this->start->getTimestamp();
+
+            return floor($length / 86400) + 1;
+        }
+
+        return null;
+    }
+
+    /**
      * The day number of the first Day in period.
      */
     public function getFirstDayNumber(): int {

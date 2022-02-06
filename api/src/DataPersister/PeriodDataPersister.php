@@ -43,8 +43,7 @@ class PeriodDataPersister extends AbstractDataPersister {
     }
 
     public static function managePeriodDays(Period $period, array $orig = null) {
-        $length = $period->end->getTimestamp() - $period->start->getTimestamp();
-        $length = floor($length / 86400) + 1;
+        $length = $period->getPeriodLength();
         $days = $period->getDays();
 
         $minDelta = 0;
