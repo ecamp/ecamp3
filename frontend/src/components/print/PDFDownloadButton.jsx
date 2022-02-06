@@ -5,7 +5,7 @@ import * as Comlink from 'comlink'
 import { useAsyncCallback } from 'react-async-hook'
 // import PDFDocument from './PDFDocument.jsx'
 import { saveAs } from 'file-saver'
-import Worker from './renderPdf.worker.js?worker'
+import Worker from 'worker-iife:./renderPdf.worker.js'
 
 if (import.meta.hot) {
   import.meta.hot.accept((newExports) => {
