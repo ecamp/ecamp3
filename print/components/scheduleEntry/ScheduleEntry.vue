@@ -1,12 +1,10 @@
 <template>
   <div>
-    <div class="schedule-entry-title">
-      <h2>
-        {{ scheduleEntry.number }}
-        <category-label :category="scheduleEntry.activity().category()" />
-        {{ scheduleEntry.activity().title }}
-      </h2>
-    </div>
+    <h2>
+      {{ scheduleEntry.number }}
+      <category-label :category="scheduleEntry.activity().category()" />
+      {{ scheduleEntry.activity().title }}
+    </h2>
     <div class="header">
       <table class="header-table">
         <tr>

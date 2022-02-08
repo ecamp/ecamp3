@@ -1,29 +1,33 @@
 <template>
-  <div class="wrapper">
-    <div v-if="instanceName" class="instance-name">{{ instanceName }}</div>
-    <div class="storyboard-row">
-      <div class="column column1 header">
+  <table>
+    <caption v-if="instanceName" class="instance-name">{{ instanceName }}</caption>
+    <thead>
+      <tr>
+      <th style="white-space: nowrap">
         {{ $tc('contentNode.storyboard.entity.section.fields.column1') }}
-      </div>
-      <div class="column column2 header">
+      </th>
+      <th>
         {{ $tc('contentNode.storyboard.entity.section.fields.column2') }}
-      </div>
-      <div class="column column3 header">
+      </th>
+      <th style="white-space: nowrap">
         {{ $tc('contentNode.storyboard.entity.section.fields.column3') }}
-      </div>
-    </div>
-    <div v-for="section in sections" :key="section.id" class="storyboard-row">
-      <div class="column column1">
+      </th>
+      </tr>
+    </thead>
+    <tbody>
+    <tr v-for="section in sections" :key="section.id">
+      <th>
         <rich-text :rich-text="section.column1" />
-      </div>
-      <div class="column column2">
+      </th>
+      <td>
         <rich-text :rich-text="section.column2" />
-      </div>
-      <div class="column column3">
+      </td>
+      <td>
         <rich-text :rich-text="section.column3" />
-      </div>
-    </div>
-  </div>
+      </td>
+    </tr>
+    </tbody>
+  </table>
 </template>
 
 <script>
@@ -55,6 +59,15 @@ export default {
 </script>
 
 <style scoped lang="scss">
+table {
+  border-collapse: collapse;
+  border: 1px solid;
+}
+th, td {
+  padding: 5px;
+  vertical-align: baseline;
+  border: 1px solid;
+}
 .wrapper {
   margin-bottom: 12px;
 }

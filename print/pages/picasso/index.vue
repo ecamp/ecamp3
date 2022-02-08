@@ -1,18 +1,15 @@
 <template>
-  <v-row no-gutters>
-    <v-col cols="12">
-      <schedule-entry
-        v-for="scheduleEntry in scheduleEntries"
-        :key="scheduleEntry.id"
-        :schedule-entry="scheduleEntry"
-      />
-      <!--<picasso-landscape :period="period" :demo="isDemo" />-->
-    </v-col>
-  </v-row>
+  <div>
+    <schedule-entry
+      v-for="scheduleEntry in scheduleEntries"
+      :key="scheduleEntry.id"
+      :schedule-entry="scheduleEntry"
+    />
+  </div>
 </template>
 
 <script>
-import { sortBy } from 'lodash'
+import {sortBy} from 'lodash'
 // import PicassoLandscape from '../../components/PicassoLandscape.vue'
 import ScheduleEntry from '../../components/scheduleEntry/ScheduleEntry.vue'
 

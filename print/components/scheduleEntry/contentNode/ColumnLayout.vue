@@ -21,7 +21,8 @@ export default {
 
 <style scoped lang="scss">
 .wrapper {
-  display: flex;
-  flex-direction: row;
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  width: 100%;
 }
 </style>

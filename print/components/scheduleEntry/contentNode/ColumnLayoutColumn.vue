@@ -26,16 +26,15 @@ export default {
     },
     columnStyles() {
       return {
+        gridColumn: this.width + ' span',
         flex: '0 0 ' + (this.width / 12.0) * 100.0 + '%',
         borderLeft:
           this.columnSlot === this.firstSlot ? 'none' : '1px solid black',
         padding:
           '4px ' +
-          (this.columnSlot === this.lastSlot ? '0' : '1%') +
+          (this.columnSlot === this.lastSlot ? '0' : '5px') +
           ' 4px ' +
-          (this.columnSlot === this.firstSlot ? '0' : '1%'),
-        display: 'flex',
-        flexDirection: 'column',
+          (this.columnSlot === this.firstSlot ? '0' : '5px')
       }
     },
     firstSlot() {

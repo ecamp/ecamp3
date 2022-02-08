@@ -1,6 +1,5 @@
 <template>
-  <v-row no-gutters>
-    <v-col cols="12">
+  <div>
       <hr />
       <h1>API connection test</h1>
       Loading all camps from API to check API connection &amp; authentication
@@ -39,8 +38,7 @@
         :show-daily-summary="config.showDailySummary"
         :show-activities="config.showActivities"
       />
-    </v-col>
-  </v-row>
+  </div>
 </template>
 
 <script>

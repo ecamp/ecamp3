@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapper">
+  <div class="wrapper" style="break-inside: avoid">
     <div class="instance-name">{{ instanceName }}</div>
     <div v-for="item in items" :key="item.id" class="item">
       <div class="material-row">

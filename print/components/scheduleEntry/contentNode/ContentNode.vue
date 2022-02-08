@@ -1,10 +1,9 @@
 <template>
-  <div>
-    <component
-      :is="componentFor(contentNode)"
-      :content-node="contentNode"
-    ></component>
-  </div>
+  <component
+    class="content-node"
+    :is="componentFor(contentNode)"
+    :content-node="contentNode"
+  ></component>
 </template>
 
 <script>
@@ -45,3 +44,9 @@ export default {
   },
 }
 </script>
+
+<style>
+  .content-node + .content-node {
+    margin-top: 20px;
+  }
+</style>

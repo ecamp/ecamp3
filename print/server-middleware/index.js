@@ -17,6 +17,7 @@ const test1 = require('./routes/test1.js')
 const test2 = require('./routes/test2.js')
 const test3 = require('./routes/test3.js')
 const test4 = require('./routes/test4.js')
+const test5 = require('./routes/test5.js')
 
 app.use(cookieParser())
 
@@ -25,6 +26,7 @@ app.use(test1)
 app.use(test2)
 app.use(test3)
 app.use(test4)
+app.use(test5)
 
 // Export express app
 module.exports = app
