@@ -16,6 +16,7 @@
           </template>
         </v-toolbar-title>
       </template>
+
       <template #title-actions>
         <v-btn v-if="!layoutMode"
                color="primary"
@@ -39,8 +40,10 @@
         </v-btn>
       </template>
       <v-card-text class="px-0 py-0">
-        <content-node
-          v-if="!category().rootContentNode()._meta.loading"
+        <v-skeleton-loader v-if="loading" type="article" />
+
+        <root-node
+          v-if="!loading"
           :content-node="category().rootContentNode()"
           :layout-mode="layoutMode" />
       </v-card-text>
@@ -50,13 +53,13 @@
 
 <script>
 import ContentCard from '@/components/layout/ContentCard.vue'
-import ContentNode from '@/components/activity/ContentNode.vue'
+import RootNode from '@/components/activity/RootNode.vue'
 
 export default {
   name: 'Category',
   components: {
     ContentCard,
-    ContentNode
+    RootNode
   },
   props: {
     category: {
@@ -66,8 +69,17 @@ export default {
   },
   data () {
     return {
-      layoutMode: true
+      layoutMode: true,
+      loading: true
     }
+  },
+
+  // reload data every time user navigates to Category view
+  async mounted () {
+    this.loading = true
+    await this.category()._meta.load // wait if category is being loaded as part of a collection
+    await this.category().$reload() // reload as single entity to ensure all embedded entities are included in a single network request
+    this.loading = false
   }
 }
 </script>

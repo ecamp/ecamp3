@@ -24,7 +24,7 @@ class CreateActivityResponsibleTest extends ECampApiTestCase {
     }
 
     public function testCreateActivityResponsibleIsNotPossibleForUnrelatedUserBecauseActivityIsNotReadable() {
-        static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->username])
+        static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->getUsername()])
             ->request('POST', '/activity_responsibles', ['json' => $this->getExampleWritePayload()])
         ;
         $this->assertResponseStatusCodeSame(400);
@@ -35,7 +35,7 @@ class CreateActivityResponsibleTest extends ECampApiTestCase {
     }
 
     public function testCreateActivityResponsibleIsNotPossibleForInactiveCollaboratorBecauseActivityIsNotReadable() {
-        static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->username])
+        static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->getUsername()])
             ->request('POST', '/activity_responsibles', ['json' => $this->getExampleWritePayload()])
         ;
         $this->assertResponseStatusCodeSame(400);
@@ -46,7 +46,7 @@ class CreateActivityResponsibleTest extends ECampApiTestCase {
     }
 
     public function testCreateActivityResponsibleIsDeniedForGuest() {
-        static::createClientWithCredentials(['username' => static::$fixtures['user3guest']->username])
+        static::createClientWithCredentials(['username' => static::$fixtures['user3guest']->getUsername()])
             ->request('POST', '/activity_responsibles', ['json' => $this->getExampleWritePayload()])
         ;
 
@@ -58,7 +58,7 @@ class CreateActivityResponsibleTest extends ECampApiTestCase {
     }
 
     public function testCreateActivityResponsibleIsAllowedForMember() {
-        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->username])
+        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->getUsername()])
             ->request('POST', '/activity_responsibles', ['json' => $this->getExampleWritePayload()])
         ;
 
@@ -123,8 +123,8 @@ class CreateActivityResponsibleTest extends ECampApiTestCase {
         $this->assertJsonContains([
             'violations' => [
                 [
-                    'propertyPath' => 'activity',
-                    'message' => 'This value is already used.',
+                    'propertyPath' => 'campCollaboration',
+                    'message' => 'This campCollaboration (user) is already responsible for this activity.',
                 ],
             ],
         ]);

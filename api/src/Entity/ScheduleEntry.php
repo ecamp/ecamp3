@@ -6,11 +6,15 @@ use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use App\Doctrine\Filter\ExpressionDateTimeFilter;
 use App\Repository\ScheduleEntryRepository;
 use App\Validator\AssertBelongsToSameCamp;
+use DateInterval;
+use DateTime;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Collections\Selectable;
 use Doctrine\ORM\Mapping as ORM;
+use RuntimeException;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Annotation\SerializedName;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -23,7 +27,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 #[ApiResource(
     collectionOperations: [
-        'get' => ['security' => 'is_fully_authenticated()'],
+        'get' => ['security' => 'is_authenticated()'],
         'post' => [
             'denormalization_context' => ['groups' => ['write', 'create']],
             'normalization_context' => self::ITEM_NORMALIZATION_CONTEXT,
@@ -45,6 +49,10 @@ use Symfony\Component\Validator\Constraints as Assert;
     normalizationContext: ['groups' => ['read']],
 )]
 #[ApiFilter(SearchFilter::class, properties: ['period', 'activity'])]
+#[ApiFilter(ExpressionDateTimeFilter::class, properties: [
+    'start' => 'DATE_ADD({period.start}, {}.periodOffset, \'minute\')',
+    'end' => 'DATE_ADD(DATE_ADD({period.start}, {}.periodOffset, \'minute\'), {}.length, \'minute\')',
+])]
 class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
     public const ITEM_NORMALIZATION_CONTEXT = [
         'groups' => ['read', 'ScheduleEntry:Activity'],
@@ -124,7 +132,43 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
 
     #[ApiProperty(readable: false)]
     public function getCamp(): ?Camp {
-        return $this->activity?->camp;
+        return $this->activity?->getCamp();
+    }
+
+    /**
+     * The start date and time of the schedule entry. This is a read-only convenience property.
+     *
+     * @return null|DateTime
+     */
+    #[ApiProperty(writable: false, example: '2022-01-02T00:00:00+00:00', openapiContext: ['format' => 'date'])]
+    #[Groups(['read'])]
+    public function getStart(): ?DateTime {
+        try {
+            $start = $this->period?->start ? DateTime::createFromInterface($this->period->start) : null;
+            $start?->add(new DateInterval('PT'.$this->periodOffset.'M'));
+
+            return $start;
+        } catch (\Exception $e) {
+            return null;
+        }
+    }
+
+    /**
+     * The end date and time of the schedule entry. This is a read-only convenience property.
+     *
+     * @return null|DateTime
+     */
+    #[ApiProperty(writable: false, example: '2022-01-02T01:30:00+00:00', openapiContext: ['format' => 'date'])]
+    #[Groups(['read'])]
+    public function getEnd(): ?DateTime {
+        try {
+            $end = $this->period?->start ? DateTime::createFromInterface($this->period->start) : null;
+            $end?->add(new DateInterval('PT'.($this->periodOffset + $this->length).'M'));
+
+            return $end;
+        } catch (\Exception $e) {
+            return null;
+        }
     }
 
     /**
@@ -142,12 +186,18 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
      */
     #[ApiProperty(writable: false, example: '/days/1a2b3c4d')]
     #[Groups(['read'])]
-    public function getDay(): Day {
-        $dayNumber = $this->getDayNumber();
+    public function getDay(): Day|null {
+        $dayOffset = $this->getDayOffset();
 
-        return $this->period->days->filter(function (Day $day) use ($dayNumber) {
-            return $day->getDayNumber() === $dayNumber;
-        })->first();
+        $filteredDays = $this->period->days->filter(function (Day $day) use ($dayOffset) {
+            return $day->dayOffset === $dayOffset;
+        });
+
+        if ($filteredDays->isEmpty()) {
+            throw new RuntimeException("Could not find Day entity for dayOffset {$dayOffset}");
+        }
+
+        return $filteredDays->first();
     }
 
     #[ApiProperty(readable: false)]
@@ -161,7 +211,7 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
     #[ApiProperty(example: '1')]
     #[Groups(['read'])]
     public function getDayNumber(): int {
-        return 1 + floor($this->periodOffset / (24 * 60));
+        return $this->period->getFirstDayNumber() + $this->getDayOffset();
     }
 
     /**
@@ -177,6 +227,7 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
         $expr = Criteria::expr();
         $crit = Criteria::create();
         $crit->where($expr->andX(
+            $expr->neq('id', $this->getId()),
             $expr->gte('periodOffset', $dayOffset),
             $expr->lte('periodOffset', $this->periodOffset)
         ));
@@ -184,21 +235,23 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
         /** @var Selectable $scheduleEntriesCollection */
         $scheduleEntriesCollection = $this->period->scheduleEntries;
         $scheduleEntries = $scheduleEntriesCollection->matching($crit);
-        $activityNumber = $scheduleEntries->filter(function (ScheduleEntry $scheduleEntry) {
-            if ($scheduleEntry->getNumberingStyle() === $this->getNumberingStyle()) {
-                if ($scheduleEntry->periodOffset < $this->periodOffset) {
+
+        return 1 + $scheduleEntries->filter(function (ScheduleEntry $scheduleEntry) {
+            if ($scheduleEntry->getNumberingStyle() !== $this->getNumberingStyle()) {
+                return false;
+            }
+            if ($scheduleEntry->periodOffset < $this->periodOffset) {
+                return true;
+            }
+            if ($scheduleEntry->left < $this->left) {
+                return true;
+            }
+            if ($scheduleEntry->left === $this->left) {
+                if ($scheduleEntry->length > $this->length) {
                     return true;
                 }
-
-                // left ScheduleEntry gets lower number
-                $seLeft = $scheduleEntry->left;
-                $thisLeft = $this->left;
-
-                if ($seLeft < $thisLeft) {
-                    return true;
-                }
-                if ($seLeft === $thisLeft) {
-                    if ($scheduleEntry->createTime < $this->createTime) {
+                if ($scheduleEntry->length === $this->length) {
+                    if ($scheduleEntry->getId() < $this->getId()) {
                         return true;
                     }
                 }
@@ -206,8 +259,6 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
 
             return false;
         })->count();
-
-        return $activityNumber + 1;
     }
 
     /**
@@ -224,5 +275,13 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
         $scheduleEntryStyledNumber = $this->activity?->category?->getStyledNumber($scheduleEntryNumber) ?? $scheduleEntryNumber;
 
         return $dayNumber.'.'.$scheduleEntryStyledNumber;
+    }
+
+    /**
+     * The dayOffset within the period (zero-based)
+     * First day has an offset of zero.
+     */
+    private function getDayOffset(): int {
+        return (int) floor($this->periodOffset / (24 * 60));
     }
 }

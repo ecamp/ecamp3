@@ -7,12 +7,17 @@ use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Repository\PeriodRepository;
+use App\Serializer\Normalizer\RelatedCollectionLink;
 use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\Criteria;
+use Doctrine\Common\Collections\Selectable;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Context;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Annotation\SerializedName;
+use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -23,7 +28,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 #[ApiResource(
     collectionOperations: [
-        'get' => ['security' => 'is_fully_authenticated()'],
+        'get' => ['security' => 'is_authenticated()'],
         'post' => [
             'denormalization_context' => ['groups' => ['write', 'create']],
             'security_post_denormalize' => 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)',
@@ -50,7 +55,7 @@ class Period extends BaseEntity implements BelongsToCampInterface {
     /**
      * The days in this time period. These are generated automatically.
      *
-     * @ORM\OneToMany(targetEntity="Day", mappedBy="period", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="Day", mappedBy="period", orphanRemoval=true, cascade={"persist"})
      * @ORM\OrderBy({"dayOffset": "ASC"})
      */
     #[ApiProperty(writable: false, example: '["/days?period=/periods/1a2b3c4d"]')]
@@ -62,7 +67,7 @@ class Period extends BaseEntity implements BelongsToCampInterface {
      * may span over multiple days, but may not end later than the period.
      *
      * @ORM\OneToMany(targetEntity="ScheduleEntry", mappedBy="period")
-     * @ORM\OrderBy({"periodOffset": "ASC"})
+     * @ORM\OrderBy({"periodOffset": "ASC", "left": "ASC", "length": "DESC", "id": "ASC"})
      */
     #[ApiProperty(writable: false, example: '["/schedule_entries/1a2b3c4d"]')]
     #[Groups(['read'])]
@@ -74,8 +79,6 @@ class Period extends BaseEntity implements BelongsToCampInterface {
      *
      * @ORM\OneToMany(targetEntity="MaterialItem", mappedBy="period")
      */
-    #[ApiProperty(writable: false, example: '["/material_items/1a2b3c4d"]')]
-    #[Groups(['read'])]
     public Collection $materialItems;
 
     /**
@@ -84,6 +87,7 @@ class Period extends BaseEntity implements BelongsToCampInterface {
      * @ORM\ManyToOne(targetEntity="Camp", inversedBy="periods")
      * @ORM\JoinColumn(nullable=false)
      */
+    #[Assert\Valid(groups: ['Period:delete'])]
     #[ApiProperty(example: '/camps/1a2b3c4d')]
     #[Groups(['read', 'create'])]
     public ?Camp $camp = null;
@@ -113,6 +117,10 @@ class Period extends BaseEntity implements BelongsToCampInterface {
      */
     #[Assert\LessThanOrEqual(propertyPath: 'end')]
     #[ApiProperty(example: '2022-01-01', openapiContext: ['format' => 'date'])]
+    #[Context(
+        normalizationContext: [DateTimeNormalizer::FORMAT_KEY => 'Y-m-d'],
+        denormalizationContext: [DateTimeNormalizer::FORMAT_KEY => '!Y-m-d']
+    )]
     #[Groups(['read', 'write'])]
     public ?DateTimeInterface $start = null;
 
@@ -124,10 +132,16 @@ class Period extends BaseEntity implements BelongsToCampInterface {
      */
     #[Assert\GreaterThanOrEqual(propertyPath: 'start')]
     #[ApiProperty(example: '2022-01-08', openapiContext: ['format' => 'date'])]
+    #[Context([DateTimeNormalizer::FORMAT_KEY => '!Y-m-d'])]
+    #[Context(
+        normalizationContext: [DateTimeNormalizer::FORMAT_KEY => 'Y-m-d'],
+        denormalizationContext: [DateTimeNormalizer::FORMAT_KEY => '!Y-m-d']
+    )]
     #[Groups(['read', 'write'])]
     public ?DateTimeInterface $end = null;
 
     public function __construct() {
+        parent::__construct();
         $this->days = new ArrayCollection();
         $this->scheduleEntries = new ArrayCollection();
         $this->materialItems = new ArrayCollection();
@@ -209,6 +223,9 @@ class Period extends BaseEntity implements BelongsToCampInterface {
     /**
      * @return MaterialItem[]
      */
+    #[ApiProperty(writable: false, example: '["/material_items/1a2b3c4d"]')]
+    #[RelatedCollectionLink(MaterialItem::class, ['period' => '$this'])]
+    #[Groups(['read'])]
     public function getMaterialItems(): array {
         return $this->materialItems->getValues();
     }
@@ -230,5 +247,25 @@ class Period extends BaseEntity implements BelongsToCampInterface {
         }
 
         return $this;
+    }
+
+    /**
+     * The day number of the first Day in period.
+     */
+    public function getFirstDayNumber(): int {
+        $expr = Criteria::expr();
+        $crit = Criteria::create();
+        $crit->where($expr->lt('start', $this->start));
+
+        /** @var Selectable $periodCollection */
+        $periodCollection = $this->camp->periods;
+        $periods = $periodCollection->matching($crit);
+
+        $firstDayNumber = 1;
+        foreach ($periods as $period) {
+            $firstDayNumber += $period->days->count();
+        }
+
+        return $firstDayNumber;
     }
 }

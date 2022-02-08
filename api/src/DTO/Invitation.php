@@ -12,20 +12,27 @@ use Symfony\Component\Validator\Constraints as Assert;
  * already have an account.
  */
 #[ApiResource(
-    collectionOperations: [],
+    collectionOperations: [
+        'get' => [
+            'security' => 'false',
+            'path' => '',
+            'openapi_context' => [
+                'description' => 'Not implemented. Only needed that we can show this endpoint in /index.jsonhal.',
+            ],
+        ],
+    ],
     itemOperations: [
-        'find' => [
-            'method' => 'GET',
-            'path' => '/{inviteKey}/find',
+        'get' => [
+            'path' => '/{inviteKey}/find.{_format}',
             'normalization_context' => self::ITEM_NORMALIZATION_CONTEXT,
             'openapi_context' => [
                 'description' => 'Use myInviteKey to find an invitation in the dev environment.',
             ],
         ],
         self::ACCEPT => [
-            'security' => 'is_fully_authenticated()',
+            'security' => 'is_authenticated()',
             'method' => 'PATCH',
-            'path' => '/{inviteKey}/'.self::ACCEPT,
+            'path' => '/{inviteKey}/'.self::ACCEPT.'.{_format}',
             'denormalization_context' => [
                 'groups' => ['write'],
             ],
@@ -38,7 +45,7 @@ use Symfony\Component\Validator\Constraints as Assert;
         ],
         self::REJECT => [
             'method' => 'PATCH',
-            'path' => '/{inviteKey}/'.self::REJECT,
+            'path' => '/{inviteKey}/'.self::REJECT.'.{_format}',
             'denormalization_context' => [
                 'groups' => ['write'],
             ],

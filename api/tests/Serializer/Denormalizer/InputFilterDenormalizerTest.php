@@ -2,9 +2,12 @@
 
 namespace App\Tests\Serializer\Denormalizer;
 
+use App\Entity\BaseEntity;
 use App\InputFilter\FilterAttribute;
 use App\InputFilter\InputFilter;
 use App\Serializer\Denormalizer\InputFilterDenormalizer;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ServiceLocator;
@@ -97,6 +100,158 @@ class InputFilterDenormalizerTest extends TestCase {
 
         $this->assertFalse($this->denormalizer->supportsDenormalization([], DummyEntity::class, 'json', $context));
     }
+
+    public function testDoesNotApplyDenormalizerIfRelatedEntityIsNotPresent() {
+        $this->decoratedMock->expects($this->once())
+            ->method('denormalize')
+            ->willReturnArgument(0)
+        ;
+
+        $result = $this->denormalizer->denormalize(['foo' => 'test'], DummyEntity::class);
+
+        $this->assertEquals(['foo' => 'processed'], $result);
+    }
+
+    public function testDoesNotApplyDenormalizerIfRelatedEntityIsIRI() {
+        $this->decoratedMock->expects($this->once())
+            ->method('denormalize')
+            ->willReturnArgument(0)
+        ;
+
+        $result = $this->denormalizer->denormalize(
+            [
+                'foo' => 'test',
+                'relatedEntity' => '/relatedEntities/1',
+            ],
+            DummyEntity::class
+        );
+
+        $this->assertEquals(
+            [
+                'foo' => 'processed',
+                'relatedEntity' => '/relatedEntities/1',
+            ],
+            $result
+        );
+    }
+
+    public function testDenormalizeRelatedEntity() {
+        $this->decoratedMock->expects($this->once())
+            ->method('denormalize')
+            ->willReturnArgument(0)
+        ;
+
+        $result = $this->denormalizer->denormalize(
+            [
+                'foo' => 'test',
+                'relatedEntity' => [
+                    'dummy' => 'test',
+                    'dummy2' => 'test',
+                    'a' => 'test',
+                ],
+            ],
+            DummyEntity::class
+        );
+
+        $this->assertEquals(
+            [
+                'foo' => 'processed',
+                'relatedEntity' => [
+                    'dummy' => 'processed',
+                    'dummy2' => 'processed',
+                    'a' => 'testA',
+                ],
+            ],
+            $result
+        );
+    }
+
+    public function testDoesNotYetSupportEmbeddableStructuredProperties() {
+        $this->decoratedMock->expects($this->once())
+            ->method('denormalize')
+            ->willReturnArgument(0)
+        ;
+
+        $result = $this->denormalizer->denormalize(
+            [
+                'foo' => 'test',
+                'embeddableEntity' => [
+                    'dummy' => 'test',
+                ],
+            ],
+            DummyEntity::class
+        );
+
+        $this->assertEquals(
+            [
+                'foo' => 'processed',
+                'embeddableEntity' => [
+                    'dummy' => 'test',
+                ],
+            ],
+            $result
+        );
+    }
+
+    public function testDoesNotYetSupportCollectionProperties() {
+        $this->decoratedMock->expects($this->once())
+            ->method('denormalize')
+            ->willReturnArgument(0)
+        ;
+
+        $result = $this->denormalizer->denormalize(
+            [
+                'foo' => 'test',
+                'collection' => [
+                    [
+                        'dummy' => 'test',
+                    ],
+                ],
+            ],
+            DummyEntity::class
+        );
+
+        $this->assertEquals(
+            [
+                'foo' => 'processed',
+                'collection' => [
+                    [
+                        'dummy' => 'test',
+                    ],
+                ],
+            ],
+            $result
+        );
+    }
+
+    public function testDoesApplyFiltersToEmbeddedIRICollection() {
+        $this->decoratedMock->expects($this->once())
+            ->method('denormalize')
+            ->willReturnArgument(0)
+        ;
+
+        $result = $this->denormalizer->denormalize(
+            [
+                'foo' => 'test',
+                'collection' => [
+                    'relatedEntities/1',
+                    'relatedEntities/2',
+                ],
+            ],
+            DummyEntity::class
+        );
+
+        $this->assertEquals(
+            [
+                'foo' => 'processed',
+                'collection' => [
+                    'relatedEntities/1',
+                    'relatedEntities/2',
+                ],
+            ],
+            $result
+        );
+    }
 }
 
 #[\Attribute(\Attribute::TARGET_PROPERTY | \Attribute::IS_REPEATABLE)]
@@ -108,8 +263,9 @@ class DummyFilter extends InputFilter {
         if (!isset($data[$propertyName])) {
             return $data;
         }
+        $data[$propertyName] = 'processed';
 
-        return [$propertyName => 'processed'];
+        return $data;
     }
 }
 
@@ -159,8 +315,40 @@ class DummyEntity {
     #[AppendB(priority: 10)]
     public $ba;
 
+    /**
+     * @ORM\OneToOne(targetEntity="RelatedEntity")
+     */
+    public RelatedEntity $relatedEntity;
+
+    /**
+     * @ORM\OneToMany(targetEntity="RelatedEntity")
+     */
+    public Collection $collection;
+
+    /**
+     * @ORM\Embedded(class="EmbeddableEntity")
+     */
+    public EmbeddableEntity $embeddableEntity;
+
     public function __construct($foo, $bar) {
         $this->foo = $foo;
         $this->bar = $bar;
     }
+}
+
+class RelatedEntity extends BaseEntity {
+    #[Dummy]
+    public string $dummy;
+
+    #[Dummy]
+    public string $dummy2;
+
+    #[AppendA]
+    public string $a;
+}
+
+/** @ORM\Embeddable */
+class EmbeddableEntity {
+    #[Dummy]
+    public string $dummy;
 }

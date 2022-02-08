@@ -61,7 +61,7 @@ class ListMaterialListsTest extends ECampApiTestCase {
 
     public function testListMaterialListsFilteredByCampIsDeniedForUnrelatedUser() {
         $camp = static::$fixtures['camp1'];
-        $response = static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->username])
+        $response = static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->getUsername()])
             ->request('GET', '/material_lists?camp=/camps/'.$camp->getId())
         ;
 
@@ -73,7 +73,7 @@ class ListMaterialListsTest extends ECampApiTestCase {
 
     public function testListMaterialListsFilteredByCampIsDeniedForInactiveCollaborator() {
         $camp = static::$fixtures['camp1'];
-        $response = static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->username])
+        $response = static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->getUsername()])
             ->request('GET', '/material_lists?camp=/camps/'.$camp->getId())
         ;
 

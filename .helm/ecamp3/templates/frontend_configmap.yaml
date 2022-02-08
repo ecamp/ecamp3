@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "frontend.name" . }}-configmap
+  labels:
+    {{- include "app.labels" . | nindent 4 }}
+data:
+  environment.js: |
+    window.environment = {
+      API_ROOT_URL: '{{ include "api.url" . }}',
+      PRINT_SERVER: '{{ include "print.url" . }}',
+      PRINT_FILE_SERVER: '',
+    {{- if .Values.frontend.sentryDsn }}
+      SENTRY_FRONTEND_DSN: '{{ .Values.frontend.sentryDsn }}',
+    {{- else }}
+      SENTRY_FRONTEND_DSN: null,
+    {{- end }}
+      SHARED_COOKIE_DOMAIN: '{{ .Values.sharedCookieDomain }}',
+      DEPLOYMENT_TIME: '{{ .Values.deploymentTime }}',
+      VERSION: '{{ .Values.deployedVersion }}',
+      VERSION_LINK_TEMPLATE: '{{ .Values.versionLinkTemplate }}',
+    }

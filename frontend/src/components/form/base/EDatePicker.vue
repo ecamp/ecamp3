@@ -17,6 +17,7 @@ Displays a field as a date picker (can be used with v-model)
         :value="picker.value || ''"
         :locale="$i18n.locale"
         first-day-of-week="1"
+        :allowed-dates="allowedDates"
         no-title
         scrollable
         @input="picker.on.input">
@@ -51,26 +52,72 @@ export default {
   props: {
     value: { type: [String, Number], required: true },
     icon: { type: String, required: false, default: 'mdi-calendar' },
-    valueFormat: { type: [String, Array], default: 'YYYY-MM-DD' }
+
+    // format in which the `value` property is being provided & input events are triggered
+    valueFormat: { type: [String, Array], default: 'YYYY-MM-DD' },
+
+    // v-date-picker allowedDates
+    allowedDates: { type: Function, default: null }
   },
   methods: {
+
+    /**
+     * override date but keep time
+     */
+    setDateOnValue (date) {
+      // current value as DayJS
+      let valueDateTime = this.getValueAsDateTime(this.value)
+
+      // override date
+      if (valueDateTime && valueDateTime.isValid()) {
+        valueDateTime = valueDateTime
+          .year(date.year())
+          .month(date.month())
+          .date(date.date())
+      } else {
+        valueDateTime = date
+      }
+
+      // return in value format
+      return valueDateTime.format(this.valueFormat)
+    },
+
+    /**
+     * returns val as DayJS object
+     */
+    getValueAsDateTime (val) {
+      return this.$date.utc(val, this.valueFormat)
+    },
+
+    /**
+     * Format internal value for display in the UI
+     */
     format (val) {
       if (val !== '') {
-        return this.$date.utc(val, this.valueFormat).format('L')
+        return this.getValueAsDateTime(val).format('L')
       }
       return ''
     },
+
+    /**
+     * Format internal value for the popup component. If omitted, uses format instead.
+     */
     formatPicker (val) {
       if (val !== '') {
-        return this.$date.utc(val, this.valueFormat).format(HTML5_FMT.DATE)
+        return this.getValueAsDateTime(val).format(HTML5_FMT.DATE)
       }
       return ''
     },
+
+    /**
+     * Parse a user-supplied value into the internal format
+     */
     parse (val) {
       if (val) {
         const parsedDate = this.$date.utc(val, 'L')
         if (parsedDate.isValid() && parsedDate.format('L') === val) {
-          return Promise.resolve(parsedDate.format(this.valueFormat))
+          const newValue = this.setDateOnValue(parsedDate)
+          return Promise.resolve(newValue)
         } else {
           return Promise.reject(new Error('invalid format'))
         }
@@ -78,11 +125,16 @@ export default {
         return Promise.resolve('')
       }
     },
+
+    /**
+     * Parse the value from the popup component into the internal format. If omitted, uses parse instead.
+     */
     parsePicker (val) {
       if (val) {
         const parsedDate = this.$date.utc(val, HTML5_FMT.DATE)
         if (parsedDate.isValid() && parsedDate.format(HTML5_FMT.DATE) === val) {
-          return Promise.resolve(parsedDate.format(this.valueFormat))
+          const newValue = this.setDateOnValue(parsedDate)
+          return Promise.resolve(newValue)
         } else {
           return Promise.reject(new Error('invalid format'))
         }

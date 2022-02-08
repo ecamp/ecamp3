@@ -23,7 +23,7 @@ class ReadActivityTest extends ECampApiTestCase {
     public function testGetSingleActivityIsDeniedForUnrelatedUser() {
         /** @var Activity $activity */
         $activity = static::$fixtures['activity1'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->username])
+        static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->getUsername()])
             ->request('GET', '/activities/'.$activity->getId())
         ;
         $this->assertResponseStatusCodeSame(404);
@@ -36,7 +36,7 @@ class ReadActivityTest extends ECampApiTestCase {
     public function testGetSingleActivityIsDeniedForInactiveCollaborator() {
         /** @var Activity $activity */
         $activity = static::$fixtures['activity1'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->username])
+        static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->getUsername()])
             ->request('GET', '/activities/'.$activity->getId())
         ;
         $this->assertResponseStatusCodeSame(404);
@@ -49,7 +49,7 @@ class ReadActivityTest extends ECampApiTestCase {
     public function testGetSingleActivityIsAllowedForGuest() {
         /** @var Activity $activity */
         $activity = static::$fixtures['activity1'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user3guest']->username])
+        static::createClientWithCredentials(['username' => static::$fixtures['user3guest']->getUsername()])
             ->request('GET', '/activities/'.$activity->getId())
         ;
         $this->assertResponseStatusCodeSame(200);
@@ -63,7 +63,7 @@ class ReadActivityTest extends ECampApiTestCase {
                 'category' => ['href' => $this->getIriFor('category1')],
                 'camp' => ['href' => $this->getIriFor('camp1')],
                 'scheduleEntries' => ['href' => '/schedule_entries?activity=/activities/'.$activity->getId()],
-                //'campCollaborations' => ['href' => '/camp_collaborations?activity=/activities/'.$activity->getId()],
+                'activityResponsibles' => ['href' => '/activity_responsibles?activity=/activities/'.$activity->getId()],
             ],
         ]);
     }
@@ -71,7 +71,7 @@ class ReadActivityTest extends ECampApiTestCase {
     public function testGetSingleActivityIsAllowedForMember() {
         /** @var Activity $activity */
         $activity = static::$fixtures['activity1'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->username])
+        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->getUsername()])
             ->request('GET', '/activities/'.$activity->getId())
         ;
         $this->assertResponseStatusCodeSame(200);
@@ -85,7 +85,7 @@ class ReadActivityTest extends ECampApiTestCase {
                 'category' => ['href' => $this->getIriFor('category1')],
                 'camp' => ['href' => $this->getIriFor('camp1')],
                 'scheduleEntries' => ['href' => '/schedule_entries?activity=/activities/'.$activity->getId()],
-                //'campCollaborations' => ['href' => '/camp_collaborations?activity=/activities/'.$activity->getId()],
+                'activityResponsibles' => ['href' => '/activity_responsibles?activity=/activities/'.$activity->getId()],
             ],
         ]);
     }
@@ -105,7 +105,7 @@ class ReadActivityTest extends ECampApiTestCase {
                 'category' => ['href' => $this->getIriFor('category1')],
                 'camp' => ['href' => $this->getIriFor('camp1')],
                 'scheduleEntries' => ['href' => '/schedule_entries?activity=/activities/'.$activity->getId()],
-                //'campCollaborations' => ['href' => '/camp_collaborations?activity=/activities/'.$activity->getId()],
+                'activityResponsibles' => ['href' => '/activity_responsibles?activity=/activities/'.$activity->getId()],
             ],
         ]);
     }

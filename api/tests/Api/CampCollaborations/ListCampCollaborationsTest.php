@@ -24,7 +24,7 @@ class ListCampCollaborationsTest extends ECampApiTestCase {
         $response = static::createClientWithCredentials()->request('GET', '/camp_collaborations');
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
-            'totalItems' => 8,
+            'totalItems' => 11,
             '_links' => [
                 'items' => [],
             ],
@@ -39,7 +39,10 @@ class ListCampCollaborationsTest extends ECampApiTestCase {
             ['href' => $this->getIriFor('campCollaboration3guest')],
             ['href' => $this->getIriFor('campCollaboration4invited')],
             ['href' => $this->getIriFor('campCollaboration5inactive')],
-            ['href' => $this->getIriFor('campCollaboration1camp2')],
+            ['href' => $this->getIriFor('campCollaboration6manager')],
+            ['href' => $this->getIriFor('campCollaboration1camp2manager')],
+            ['href' => $this->getIriFor('campCollaboration2camp2member')],
+            ['href' => $this->getIriFor('campCollaboration3camp2guest')],
             ['href' => $this->getIriFor('campCollaboration1campPrototype')],
         ], $response->toArray()['_links']['items']);
     }
@@ -49,7 +52,7 @@ class ListCampCollaborationsTest extends ECampApiTestCase {
         $response = static::createClientWithCredentials()->request('GET', '/camp_collaborations?camp=/camps/'.$camp->getId());
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
-            'totalItems' => 5,
+            'totalItems' => 6,
             '_links' => [
                 'items' => [],
             ],
@@ -63,12 +66,13 @@ class ListCampCollaborationsTest extends ECampApiTestCase {
             ['href' => $this->getIriFor('campCollaboration3guest')],
             ['href' => $this->getIriFor('campCollaboration4invited')],
             ['href' => $this->getIriFor('campCollaboration5inactive')],
+            ['href' => $this->getIriFor('campCollaboration6manager')],
         ], $response->toArray()['_links']['items']);
     }
 
     public function testListCampCollaborationsFilteredByCampIsDeniedForUnrelatedUser() {
         $camp = static::$fixtures['camp1'];
-        $response = static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->username])
+        $response = static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->getUsername()])
             ->request('GET', '/camp_collaborations?camp=/camps/'.$camp->getId())
         ;
         $this->assertResponseStatusCodeSame(200);
@@ -78,7 +82,7 @@ class ListCampCollaborationsTest extends ECampApiTestCase {
 
     public function testListCampCollaborationsFilteredByCampIsDeniedForInactiveCollaborator() {
         $camp = static::$fixtures['camp1'];
-        $response = static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->username])
+        $response = static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->getUsername()])
             ->request('GET', '/camp_collaborations?camp=/camps/'.$camp->getId())
         ;
         $this->assertResponseStatusCodeSame(200);

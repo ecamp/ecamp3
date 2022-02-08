@@ -6,9 +6,9 @@ import Cookies from 'js-cookie'
 Vue.use(storeLoader)
 
 // expired on 01-01-1970
-const expiredJWTPayload = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpYXQiOjE2MzMxMzM1MDAsImV4cCI6MCwicm9sZXMiOlsiUk9MRV9VU0VSIl0sInVzZXJuYW1lIjoidGVzdC11c2VyIn0'
+const expiredJWTPayload = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpYXQiOjE2MzMxMzM0MDksImV4cCI6MCwicm9sZXMiOlsiUk9MRV9VU0VSIl0sInVzZXJuYW1lIjoidGVzdC11c2VyIiwidXNlciI6Ii91c2Vycy8xYTJiM2M0ZCJ9'
 // expires on 01-01-3021, yes you read that right
-const validJWTPayload = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpYXQiOjE2MzMxMzM0MDksImV4cCI6MzMxNjYzNjQ0MDAsInJvbGVzIjpbIlJPTEVfVVNFUiJdLCJ1c2VybmFtZSI6InRlc3QtdXNlciJ9'
+const validJWTPayload = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpYXQiOjE2MzMxMzM0MDksImV4cCI6MzMxNjYzNjQ0MDAsInJvbGVzIjpbIlJPTEVfVVNFUiJdLCJ1c2VybmFtZSI6InRlc3QtdXNlciIsInVzZXIiOiIvdXNlcnMvMWEyYjNjNGQifQ'
 
 expect.extend({
   haveUri (actual, expectedUri) {
@@ -82,23 +82,16 @@ describe('authentication logic', () => {
   describe('login()', () => {
     it('resolves to true if the user successfully logs in', async done => {
       // given
-      let isLoggedIn = false
       store.replaceState(createState())
       jest.spyOn(apiStore, 'post').mockImplementation(async () => {
-        isLoggedIn = true
-      })
-      jest.spyOn(apiStore, 'reload').mockImplementation(() => {
-        if (isLoggedIn) {
-          Cookies.set('jwt_hp', validJWTPayload)
-        }
+        Cookies.set('jwt_hp', validJWTPayload)
       })
 
       // when
-      /* const result = */await auth.login('foo', 'bar')
+      const result = await auth.login('foo', 'bar')
 
       // then
-      // TODO hal-json-vuex can't handle "204 No Content" yet
-      // expect(result).toBeTruthy()
+      expect(result).toBeTruthy()
       expect(apiStore.post).toHaveBeenCalledTimes(1)
       expect(apiStore.post).toHaveBeenCalledWith('http://localhost/authentication_token', { username: 'foo', password: 'bar' })
       done()
@@ -106,14 +99,8 @@ describe('authentication logic', () => {
 
     it('resolves to false if the login fails', async done => {
       // given
-      const isLoggedIn = false
       jest.spyOn(apiStore, 'post').mockImplementation(async () => {
-        // login fails, leave guest role as it is
-      })
-      jest.spyOn(apiStore, 'reload').mockImplementation(() => {
-        if (isLoggedIn) {
-          Cookies.set('jwt_hp', validJWTPayload)
-        }
+        // login fails, no cookie added
       })
 
       // when
@@ -123,6 +110,73 @@ describe('authentication logic', () => {
       expect(result).toBeFalsy()
       expect(apiStore.post).toHaveBeenCalledTimes(1)
       expect(apiStore.post).toHaveBeenCalledWith('http://localhost/authentication_token', { username: 'foo', password: 'barrrr' })
+      done()
+    })
+  })
+
+  describe('user()', () => {
+    it('resolves to null if not logged in', async done => {
+      // given
+      store.replaceState(createState())
+      jest.spyOn(apiStore, 'get')
+
+      // when
+      const result = auth.user()
+
+      // then
+      expect(result).toEqual(null)
+      expect(apiStore.get).toHaveBeenCalledTimes(0)
+      done()
+    })
+
+    it('resolves to the user from the JWT token cookie', async done => {
+      // given
+      store.replaceState(createState())
+      const user = {
+        username: 'something',
+        _meta: {}
+      }
+      user._meta.load = new Promise(() => user)
+      Cookies.set('jwt_hp', validJWTPayload)
+
+      jest.spyOn(apiStore, 'get').mockImplementation(() => user)
+
+      // when
+      const result = auth.user()
+
+      // then
+      expect(result).toEqual(user)
+      expect(apiStore.get).toHaveBeenCalledTimes(1)
+      expect(apiStore.get).toHaveBeenCalledWith('/users/1a2b3c4d')
+      done()
+    })
+
+    it.each([[401], [403], [404]])('calls logout when fetching the user fails with status %s', async (status, done) => {
+      // given
+      store.replaceState(createState())
+      Cookies.set('jwt_hp', validJWTPayload)
+
+      const user = {
+        _meta: {
+          load: new Promise(() => {
+            const error = new Error('test error')
+            error.response = { status }
+            throw error
+          })
+        }
+      }
+      jest.spyOn(apiStore, 'get').mockImplementation(() => user)
+      jest.spyOn(auth, 'logout').mockImplementation(() => user)
+
+      // when
+      const result = auth.user()
+
+      // then
+      expect(result).toEqual(user)
+      expect(apiStore.get).toHaveBeenCalledTimes(1)
+      expect(apiStore.get).toHaveBeenCalledWith('/users/1a2b3c4d')
+      await result._meta.load
+      expect(auth.logout).toHaveBeenCalledTimes(1)
       done()
     })
   })

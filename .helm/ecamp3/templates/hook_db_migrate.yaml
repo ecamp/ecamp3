@@ -1,0 +1,35 @@
+#
+# Migrates the database after installing or upgrading the chart.
+#
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: "{{ include "app.name" . }}-db-migrate"
+  labels:
+    {{- include "app.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": post-install,post-upgrade
+    "helm.sh/hook-delete-policy": hook-succeeded
+spec:
+  template:
+    metadata:
+      name: "{{ include "app.name" . }}-pre-install"
+      labels:
+        {{- include "app.selectorLabels" . | nindent 8 }}
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: db-migrate-job
+          {{ template "api.phpContainer" . }}
+          command: ["migrate-database"]
+      volumes:
+      - name: php-socket
+        emptyDir: {}
+      - name: jwt-keypair
+        secret:
+          secretName: {{ include "api.name" . }}
+          items:
+            - key: jwt-public-key
+              path: public.pem
+            - key: jwt-private-key
+              path: private.pem

@@ -4,57 +4,62 @@
 
 
 # https://docs.docker.com/engine/reference/builder/#understand-how-arg-and-from-interact
-ARG PHP_VERSION=8.0
-ARG CADDY_VERSION=2.4.3
+
+# renovate: datasource=docker depName=php
+ARG PHP_VERSION=8.1.1
+
+# renovate: datasource=docker depName=caddy
+ARG CADDY_VERSION=2.4.6
 
 # "php" stage
 FROM php:${PHP_VERSION}-fpm-alpine AS api_platform_php
 
 # persistent / runtime deps
 RUN apk add --no-cache \
-		acl \
-		fcgi \
-		file \
-		gettext \
-		git \
-		gnu-libiconv \
-		patch \
+	acl \
+	fcgi \
+	file \
+	gettext \
+	git \
+	gnu-libiconv \
+	patch \
 	;
 
 # install gnu-libiconv and set LD_PRELOAD env to make iconv work fully on Alpine image.
 # see https://github.com/docker-library/php/issues/240#issuecomment-763112749
 ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so
 
-ARG APCU_VERSION=5.1.19
+# renovate: datasource=github-releases depName=krakjoe/apcu
+ARG APCU_VERSION=5.1.21
 RUN set -eux; \
 	apk add --no-cache --virtual .build-deps \
-		$PHPIZE_DEPS \
-		icu-dev \
-		libzip-dev \
-		postgresql-dev \
-		zlib-dev \
+	$PHPIZE_DEPS \
+	icu-dev \
+	libzip-dev \
+	postgresql-dev \
+	zlib-dev \
 	; \
 	\
 	docker-php-ext-configure zip; \
 	docker-php-ext-install -j$(nproc) \
-		intl \
-		pdo_pgsql \
-		zip \
+	intl \
+	pdo_pgsql \
+	zip \
 	; \
 	pecl install \
-		apcu-${APCU_VERSION} \
+	apcu-${APCU_VERSION} \
 	; \
 	pecl clear-cache; \
 	docker-php-ext-enable \
-		apcu \
-		opcache \
+	apcu \
+	opcache \
 	; \
 	\
 	runDeps="$( \
-		scanelf --needed --nobanner --format '%n#p' --recursive /usr/local/lib/php/extensions \
-			| tr ',' '\n' \
-			| sort -u \
-			| awk 'system("[ -e /usr/local/lib/" $1 " ]") == 0 { next } { print "so:" $1 }' \
+	scanelf --needed --nobanner --format '%n#p' --recursive /usr/local/lib/php/extensions \
+	| tr ',' '\n' \
+	| sort -u \
+	| awk 'system("[ -e /usr/local/lib/" $1 " ]") == 0 { next } { print "so:" $1 }' \
 	)"; \
 	apk add --no-cache --virtual .api-phpexts-rundeps $runDeps; \
 	\
@@ -63,7 +68,7 @@ RUN set -eux; \
 ###> recipes ###
 ###< recipes ###
 
-COPY --from=composer:2.1@sha256:33d2c1d9fb7311cb8f215a8f52669894ef534292ac5d331347f929c27e317bb1 /usr/bin/composer /usr/bin/composer
+COPY --from=composer:2.2@sha256:e7d5a45e8ac670cec2e46668ca824f5374fde83fd9e977bae50d797f4fe09698 /usr/bin/composer /usr/bin/composer
 
 # Copy development php.ini
 RUN cp "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
@@ -93,10 +98,12 @@ RUN set -eux; \
 COPY .env ./
 COPY bin bin/
 COPY config config/
-COPY migrations migrations/
+COPY migrations/schema migrations/schema
+COPY migrations/dev-data migrations/dev-data
 COPY fixtures fixtures/
 COPY public public/
 COPY src src/
+COPY templates templates/
 
 RUN set -eux; \
 	mkdir -p var/cache var/log; \
@@ -107,6 +114,8 @@ RUN set -eux; \
 
 COPY docker/php/docker-healthcheck.sh /usr/local/bin/docker-healthcheck
 RUN chmod +x /usr/local/bin/docker-healthcheck
+COPY docker/php/migrate-database.sh /usr/local/bin/migrate-database
+RUN chmod +x /usr/local/bin/migrate-database
 
 HEALTHCHECK --interval=10s --timeout=3s --retries=3 CMD ["docker-healthcheck"]
 
@@ -144,7 +153,8 @@ COPY docker/caddy/Caddyfile.prod /etc/caddy/Caddyfile
 # Debug stage, for using XDebug
 FROM api_platform_php as api_platform_php_dev
 
-ARG XDEBUG_VERSION=3.0.2
+# renovate: datasource=github-tags depName=xdebug/xdebug
+ARG XDEBUG_VERSION=3.1.3
 RUN set -eux; \
 	apk add --no-cache --virtual .build-deps $PHPIZE_DEPS; \
 	pecl install xdebug-$XDEBUG_VERSION; \

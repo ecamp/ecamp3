@@ -11,9 +11,9 @@
   "entity": {
     "activity": {
       "fields": {
-        "category": "Activity category",
+        "category": "Category",
         "location": "Location",
-        "responsible": "responsible",
+        "responsible": "Responsible",
         "title": "Title"
       },
       "name": "Activity | Activities",

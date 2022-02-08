@@ -2,25 +2,25 @@ App\Entity\Period:
   period1:
     camp: '@camp1'
     description: Hauptlager
-    start: '<dateTimeBetween("now", "now")>'
-    end: '<dateTimeBetween("+2 days", "+2 days")>'
+    start: '<(new DateTime("2023-05-01"))>'
+    end: '<(new DateTime("2023-05-03"))>'
   period2:
     camp: '@camp1'
     description: Vorabend
-    start: '<dateTimeBetween("-2 days", "-2 days")>'
-    end: '<dateTimeBetween("-2 days", "-2 days")>'
+    start: '<(new DateTime("2023-04-15"))>'
+    end: '<(new DateTime("2023-04-15"))>'
   period1camp2:
     camp: '@camp2'
     description: Vorweekend
-    start: '<dateTimeBetween("now", "now")>'
-    end: '<dateTimeBetween("+2 days", "+14 days")>'
+    start: '<(new DateTime("2023-11-10"))>'
+    end: '<(new DateTime("2023-11-10"))>'
   period1campUnrelated:
     camp: '@campUnrelated'
     description: Hauptlager
-    start: '<dateTimeBetween("now", "now")>'
-    end: '<dateTimeBetween("+2 days", "+14 days")>'
+    start: '<(new DateTime("2024-02-20"))>'
+    end: '<(new DateTime("2024-02-20"))>'
   period1campPrototype:
     camp: '@campPrototype'
     description: Hauptlager
-    start: '<dateTimeBetween("now", "now")>'
-    end: '<dateTimeBetween("+2 days", "+14 days")>'
+    start: '<(new DateTime("2021-01-01"))>'
+    end: '<(new DateTime("2021-01-01"))>'

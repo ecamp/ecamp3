@@ -31,7 +31,7 @@ class ReadCampTest extends ECampApiTestCase {
 
     public function testGetSingleCampIsDeniedForInactiveCollaborator() {
         $camp = static::$fixtures['campUnrelated'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->username])
+        static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->getUsername()])
             ->request('GET', '/camps/'.$camp->getId())
         ;
         $this->assertResponseStatusCodeSame(404);
@@ -45,7 +45,7 @@ class ReadCampTest extends ECampApiTestCase {
         /** @var Camp $camp */
         $camp = static::$fixtures['camp1'];
         $user = static::$fixtures['user3guest'];
-        static::createClientWithCredentials(['username' => $user->username])->request('GET', '/camps/'.$camp->getId());
+        static::createClientWithCredentials(['username' => $user->getUsername()])->request('GET', '/camps/'.$camp->getId());
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
             'id' => $camp->getId(),
@@ -73,7 +73,7 @@ class ReadCampTest extends ECampApiTestCase {
         /** @var Camp $camp */
         $camp = static::$fixtures['camp1'];
         $user = static::$fixtures['user2member'];
-        static::createClientWithCredentials(['username' => $user->username])->request('GET', '/camps/'.$camp->getId());
+        static::createClientWithCredentials(['username' => $user->getUsername()])->request('GET', '/camps/'.$camp->getId());
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
             'id' => $camp->getId(),
@@ -177,5 +177,38 @@ class ReadCampTest extends ECampApiTestCase {
 
         $this->assertResponseStatusCodeSame(200);
         $this->assertArrayNotHasKey('campPrototypeId', $response->toArray());
+    }
+
+    public function testGetSingleCampEmbedsCampCollaborationsAndItsUser() {
+        /** @var Camp $camp */
+        $camp = static::$fixtures['camp1'];
+        $user = static::$fixtures['user2member'];
+        static::createClientWithCredentials(['username' => $user->getUsername()])->request('GET', '/camps/'.$camp->getId());
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertMatchesJsonSchema([
+            'type' => 'object',
+            'required' => ['_embedded'],
+            'properties' => [
+                '_embedded' => [
+                    'type' => 'object',
+                    'required' => ['campCollaborations'],
+                    'properties' => [
+                        'campCollaborations' => [
+                            'type' => 'array',
+                            'items' => [
+                                'type' => 'object',
+                                'required' => ['_embedded'],
+                                'properties' => [
+                                    '_embedded' => [
+                                        'type' => 'object',
+                                        'required' => ['user'],
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ]);
     }
 }

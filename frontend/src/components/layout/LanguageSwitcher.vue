@@ -3,6 +3,7 @@
     <template #activator="{ on, attrs }">
       <v-btn
         id="languageSwitcher" text
+        class="my-n2"
         small
         :aria-label="$tc('global.changeLanguage')"
         v-bind="attrs"

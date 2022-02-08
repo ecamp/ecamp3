@@ -1,0 +1,160 @@
+# Default values for ecamp3.
+# Declare configuration values to be passed into the templates.
+
+chartNameOverride: ""
+imageTag: "latest"
+imagePullSecrets: []
+deploymentTime: ""
+deployedVersion: "devel"
+versionLinkTemplate: 'https://github.com/ecamp/ecamp3/commit/{version}'
+
+sharedCookieDomain:
+
+api:
+  domain:
+  service:
+    type: ClusterIP
+    port: 3001
+  # If you use Mercure, you need the managed or the On Premise version to deploy more than one pod: https://mercure.rocks/docs/hub/cluster
+  replicaCount: 1
+
+php:
+  image:
+    repository: "docker.io/ecamp/ecamp3-api"
+    pullPolicy: IfNotPresent
+    # Overrides the image tag whose shared default is .Values.imageTag
+    tag:
+  appEnv: prod
+  appDebug: "0"
+  appSecret: ""
+  corsAllowOrigin: "^https://.*?\\.chart-example\\.local$"
+  trustedProxies:
+    - "127.0.0.1"
+    - "10.0.0.0/8"
+    - "172.16.0.0/12"
+    - "192.168.0.0/16"
+  jwt:
+    passphrase:
+    privateKey:
+    publicKey:
+
+caddy:
+  image:
+    repository: "docker.io/ecamp/ecamp3-caddy"
+    pullPolicy: IfNotPresent
+    # Overrides the image tag whose shared default is .Values.imageTag
+    tag:
+
+frontend:
+  domain:
+  image:
+    repository: "docker.io/ecamp/ecamp3-frontend"
+    pullPolicy: IfNotPresent
+    # Overrides the image tag whose shared default is .Values.imageTag
+    tag:
+  sentryDsn:
+  service:
+    type: ClusterIP
+    port: 3000
+  replicaCount: 1
+
+print:
+  domain:
+  image:
+    repository: "docker.io/ecamp/ecamp3-print"
+    pullPolicy: IfNotPresent
+    # Overrides the image tag whose shared default is .Values.imageTag
+    tag:
+  sentryDsn:
+  service:
+    type: ClusterIP
+    port: 3003
+  replicaCount: 1
+
+mail:
+  dummyEnabled: true
+  # If using a real mail server, the connection uri to send emails to
+  dsn: # smtp://myuser:mypass@mymailserver:1025
+  # If the dummy mail server is enabled, the domain where the web interface is available
+  domain:
+  image:
+    repository: "docker.io/mailhog/mailhog"
+    pullPolicy: IfNotPresent
+    # Overrides the image tag whose shared default is .Values.imageTag
+    tag: "latest"
+  service:
+    type: ClusterIP
+    port: 8025
+
+# You may prefer using the managed version in production: https://mercure.rocks
+mercure:
+  publicUrl: https://chart-example.local/.well-known/mercure
+  # Change me!
+  jwtSecret: "!ChangeMe!"
+  corsAllowedOrigins: "^https?://.*?\\.chart-example\\.local$"
+
+# Full configuration: https://github.com/bitnami/charts/tree/master/bitnami/postgresql
+postgresql:
+  enabled: true
+  # If bringing your own PostgreSQL, the full uri to use
+  url: postgresql://api-platform:!ChangeMe!@database:5432/api?serverVersion=13&charset=utf8
+  dropDBOnUninstall: false
+  # If bringing your own PostgreSQL, an uri with privileges to create and drop a database for the application
+  adminUrl:
+  postgresqlUsername: "example"
+  postgresqlPassword: "!ChangeMe!"
+  postgresqlDatabase: "api"
+  # Persistent Volume Storage configuration.
+  # ref: https://kubernetes.io/docs/user-guide/persistent-volumes
+  persistence:
+    enabled: false
+  pullPolicy: IfNotPresent
+  image:
+    repository: bitnami/postgresql
+    tag: 14
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+ingress:
+  enabled: true
+  annotations:
+    # kubernetes.io/tls-acme: "true"
+  className: nginx
+  tls:
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 5
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80

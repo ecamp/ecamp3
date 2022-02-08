@@ -7,7 +7,6 @@ framework:
     trusted_hosts:
         - localhost
         - caddy
-        - example.com
         - '%env(API_DOMAIN)%'
     # See https://caddyserver.com/docs/caddyfile/directives/reverse_proxy#headers
     trusted_headers: ['x-forwarded-for', 'x-forwarded-proto']

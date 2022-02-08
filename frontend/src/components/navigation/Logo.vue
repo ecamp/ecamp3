@@ -1,10 +1,10 @@
 <template>
   <v-toolbar-items>
-    <v-btn text class="px-2"
+    <v-btn text class="px-2 e-logo"
            min-width="0" rounded
            exact :to="{ name: 'home'}">
       <v-toolbar-title>
-        <v-icon>$vuetify.icons.ecamp</v-icon>️<span v-if="text" class="ml-4 mr-2">eCamp</span>
+        <v-icon>$vuetify.icons.ecamp</v-icon>️<span v-show="text" class="ml-4 mr-2 e-logo-text">eCamp</span>
       </v-toolbar-title>
     </v-btn>
     <slot />
@@ -28,5 +28,7 @@ export default {
 </script>
 
 <style scoped>
-
+  .e-logo:hover .e-logo-text {
+    display: inline !important;
+  }
 </style>

@@ -37,11 +37,29 @@ export function isLoggedIn () {
 
 async function login (username, password) {
   const url = await apiStore.href(apiStore.get().auth(), 'login')
-  return apiStore.post(url, { username: username, password: password })
+  return apiStore.post(url, { username: username, password: password }).then(() => {
+    return isLoggedIn()
+  })
 }
 
 function user () {
-  return apiStore.get(parseJWTPayload(getJWTPayloadFromCookie()).user)
+  if (!getJWTPayloadFromCookie()) {
+    return null
+  }
+  const user = apiStore.get(parseJWTPayload(getJWTPayloadFromCookie()).user)
+  user._meta.load = user._meta.load.catch(e => {
+    if (e.response && [401, 403, 404].includes(e.response.status)) {
+      // 401 means no complete token was submitted, so we may be missing the JWT signature cookie
+      // 403 means we can theoretically interact in some way with the user, but apparently not read it
+      // 404 means the user doesn't exist or we don't have access to it
+      // Either way, we aren't allowed to access the user from the token, so it's best to ask the user
+      // to log in again.
+      auth.logout()
+      return
+    }
+    throw e
+  })
+  return user
 }
 
 async function register (data) {
@@ -71,7 +89,7 @@ async function loginPbsMiData () {
 }
 
 export async function logout () {
-  Cookies.remove('jwt_hp')
+  Cookies.remove('jwt_hp', { domain: window.environment.SHARED_COOKIE_DOMAIN })
   return router.push({ name: 'login' })
     .then(() => apiStore.purgeAll())
     .then(() => isLoggedIn())

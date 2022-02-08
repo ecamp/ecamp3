@@ -2,47 +2,30 @@
 
 namespace App\Tests\Api\ContentNodes\SingleText;
 
-use App\Tests\Api\ECampApiTestCase;
+use App\Tests\Api\ContentNodes\ListContentNodeTestCase;
 
 /**
  * @internal
  */
-class ListSingleTextTest extends ECampApiTestCase {
-    // TODO security tests when not logged in or not collaborator
+class ListSingleTextTest extends ListContentNodeTestCase {
+    public function setUp(): void {
+        parent::setUp();
 
-    public function testListSingleTextsIsAllowedForCollaborator() {
-        $response = static::createClientWithCredentials()->request('GET', '/content_node/single_texts');
-        $this->assertResponseStatusCodeSame(200);
-        $this->assertJsonContains([
-            'totalItems' => 2,
-            '_links' => [
-                'items' => [],
-            ],
-            '_embedded' => [
-                'items' => [],
-            ],
-        ]);
-        $this->assertEqualsCanonicalizing([
-            ['href' => $this->getIriFor('singleText1')],
-            ['href' => $this->getIriFor('singleText2')],
-        ], $response->toArray()['_links']['items']);
+        $this->endpoint = '/content_node/single_texts';
+
+        $this->contentNodesCamp1and2 = [
+            $this->getIriFor('singleText1'),
+            $this->getIriFor('singleText2'),
+            $this->getIriFor('safetyConcept1'),
+        ];
+
+        $this->contentNodesCampUnrelated = [
+            $this->getIriFor('singleTextCampUnrelated'),
+        ];
     }
 
-    public function testListSingleTextsFilteredByParentIsAllowedForCollaborator() {
-        $parent = static::$fixtures['columnLayout1'];
-        $response = static::createClientWithCredentials()->request('GET', '/content_node/single_texts?parent='.$this->getIriFor('columnLayout1'));
+    public function testListSingleTextsFilteredByParent() {
+        $response = static::createClientWithCredentials()->request('GET', "{$this->endpoint}?parent=".$this->getIriFor('columnLayout1'));
         $this->assertResponseStatusCodeSame(200);
-        $this->assertJsonContains([
-            'totalItems' => 1,
-            '_links' => [
-                'items' => [],
-            ],
-            '_embedded' => [
-                'items' => [],
-            ],
-        ]);
-        $this->assertEqualsCanonicalizing([
-            ['href' => $this->getIriFor('singleText1')],
-        ], $response->toArray()['_links']['items']);
     }
 }

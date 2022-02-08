@@ -24,31 +24,13 @@ services:
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
 
-    App\DataPersister\UserDataPersister:
-        arguments: [ '@api_platform.doctrine.orm.data_persister' ]
-
-    App\DataPersister\CampCollaborationDataPersister:
-        arguments: [ '@api_platform.doctrine.orm.data_persister' ]
-
-    App\DataPersister\CampDataPersister:
-        arguments: [ '@api_platform.doctrine.orm.data_persister' ]
-
-    App\DataPersister\ActivityDataPersister:
-        arguments: [ '@api_platform.doctrine.orm.data_persister' ]
-
-    App\DataPersister\CategoryDataPersister:
-        arguments: [ '@api_platform.doctrine.orm.data_persister' ]
-
-    App\DataPersister\ContentNode\SingleTextDataPersister:
-        arguments: [ '@api_platform.doctrine.orm.data_persister' ]
-
-    App\DataPersister\ContentNode\ColumnLayoutDataPersister:
-        arguments: [ '@api_platform.doctrine.orm.data_persister' ]
-        
-    App\DataPersister\InvitationDataPersister:
+    App\DataPersister\Util\DataPersisterObservable:
         arguments: [ '@api_platform.doctrine.orm.data_persister' ]
 
     App\Validator\MaterialItemUpdateGroupSequence:
+        public: true
+
+    App\Validator\ColumnLayout\ColumnLayoutGroupSequence:
         public: true
 
     # Since the input filter classes are resolved at runtime instead
@@ -73,11 +55,15 @@ services:
             - '@api_platform.route_name_resolver'
             - '@api_platform.filter_locator'
             - '@serializer.name_converter.metadata_aware'
+            - '@Rize\UriTemplate'
 
     App\Serializer\Normalizer\CircularReferenceDetectingHalItemNormalizer:
         decorates: 'api_platform.hal.normalizer.item'
 
-    App\Serializer\Normalizer\URITemplateNormalizer:
+    App\Serializer\Normalizer\ContentTypeNormalizer:
+        decorates: 'api_platform.hal.normalizer.item'
+
+    App\Serializer\Normalizer\UriTemplateNormalizer:
         decorates: 'api_platform.hal.normalizer.entrypoint'
 
     App\Serializer\Normalizer\CollectionItemsNormalizer:
@@ -91,6 +77,10 @@ services:
         # Priority should be 1 lower than the one of SerializerPropertyMetadataFactory, see
         # https://github.com/api-platform/core/blob/main/src/Bridge/Symfony/Bundle/Resources/config/metadata/metadata.xml#L65
         decoration_priority: 29
+
+    App\Serializer\Denormalizer\MaterialItemDenormalizer:
+        tags:
+            - { name: 'serializer.denormalizer', priority: 64 }
 
     App\OpenApi\JwtDecorator:
         decorates: 'api_platform.openapi.factory'
@@ -113,9 +103,30 @@ services:
     App\Service\MailService:
         public: true
 
-    Symfony\Component\String\Inflector\EnglishInflector:
-        public: false
-
     App\EventListener\JWTCreatedListener:
         tags:
             - { name: kernel.event_listener, event: lexik_jwt_authentication.on_jwt_created, method: onJWTCreated }
+
+    # Entity Filter
+    App\Doctrine\FilterByCurrentUserExtension:
+        tags:
+            # FilterEagerLoadingExtension has Priority -17 and breaks the DQL generated in ContentNodeRepository => Priority -20 ensures this runs after FilterEagerLoadingExtension
+            - { name: api_platform.doctrine.orm.query_extension.collection, priority: -20 }
+            - { name: api_platform.doctrine.orm.query_extension.item }
+
+    App\Metadata\Resource\Factory\UriTemplateFactory:
+        arguments:
+            - '@api_platform.filter_locator'
+
+    Symfony\Component\String\Inflector\EnglishInflector:
+        public: false
+
+    Rize\UriTemplate:
+        public: false
+
+    Symfony\Component\Serializer\Normalizer\DateTimeNormalizer:
+        arguments:
+            $defaultContext:
+                # ensure, data coming from API without timezone information is interpreted as UTC
+                # (e.g. period start '2021-01-01' in POST payload)
+                datetime_timezone: 'UTC'

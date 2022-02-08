@@ -22,8 +22,8 @@ class MailService {
             ->from('info@ecamp3.ch')
             ->to(new Address($emailToInvite))
             ->subject("You were invited to collaborate in camp {$camp->name}")
-            ->htmlTemplate('emails/campCollaborationInvite.html.twig')
-            ->textTemplate('emails/campCollaborationInvite.text.twig')
+            ->htmlTemplate($this->getTemplate('emails/campCollaborationInvite.{language}.html.twig', $byUser))
+            ->textTemplate($this->getTemplate('emails/campCollaborationInvite.{language}.text.twig', $byUser))
             ->context([
                 'by_user' => $byUser->getDisplayName(),
                 'url' => "{$frontendUrl}/camps/invitation/{$key}",
@@ -42,10 +42,10 @@ class MailService {
         $frontendUrl = 'http://localhost:3000';
         $email = (new TemplatedEmail())
             ->from('info@ecamp3.ch')
-            ->to(new Address($user->email))
+            ->to(new Address($user->getEmail()))
             ->subject('Welcome to eCamp3')
-            ->htmlTemplate('emails/userActivation.html.twig')
-            ->textTemplate('emails/userActivation.text.twig')
+            ->htmlTemplate($this->getTemplate('emails/userActivation.{language}.html.twig', $user))
+            ->textTemplate($this->getTemplate('emails/userActivation.{language}.text.twig', $user))
             ->context([
                 'name' => $user->getDisplayName(),
                 'url' => "{$frontendUrl}/activate/{$user->getId()}/{$key}",
@@ -56,6 +56,39 @@ class MailService {
             $this->mailer->send($email);
         } catch (TransportExceptionInterface $e) {
             throw new \RuntimeException($e);
+        }
+    }
+
+    private function getTemplate(string $templateName, User $user) {
+        // TODO: Move this into some configuration
+        $languageFallback = [
+            'de-CH-scout' => 'de',
+            'fr-CH-scout' => 'fr',
+            'it-CH-scout' => 'it',
+            'en-CH-scout' => 'en',
+            'de' => 'en',
+            'it' => 'en',
+            'fr' => 'en',
+        ];
+
+        $language = $user->profile?->language ?? 'en';
+
+        while (true) {
+            $template = str_replace('{language}', $language, $templateName);
+
+            // TODO: Remove path
+            if (file_exists(__DIR__.'/../../templates/'.$template)) {
+                return $template;
+            }
+
+            if (!isset($languageFallback[$language])) {
+                throw new \Exception(
+                    "Can not find Mail-Template translated '{$templateName}' for ".
+                    ($user->profile?->language ?? 'en')
+                );
+            }
+
+            $language = $languageFallback[$language];
         }
     }
 }

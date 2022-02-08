@@ -63,8 +63,11 @@ export default {
   @import "src/scss/global";
   @import "~@mdi/font/css/materialdesignicons.css";
 
+  .v-btn.ec-drawer-open,
   .v-btn.ec-drawer-collapse {
+    position: absolute;
     right: 0;
+    bottom: 0;
   }
 
   @media #{map-get($display-breakpoints, 'xs-only')}{
@@ -86,10 +89,6 @@ export default {
   .user-nav {
     border-top-left-radius: 0 !important;
     border-top-right-radius: 0 !important;
-  }
-
-  .v-navigation-drawer--temporary.v-navigation-drawer--clipped {
-    margin-top: 56px;
   }
 
   .v-btn--open {

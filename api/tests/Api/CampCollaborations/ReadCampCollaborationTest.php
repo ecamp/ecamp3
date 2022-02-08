@@ -23,7 +23,7 @@ class ReadCampCollaborationTest extends ECampApiTestCase {
     public function testGetSingleCampCollaborationIsDeniedForUnrelatedUser() {
         /** @var CampCollaboration $campCollaboration */
         $campCollaboration = static::$fixtures['campCollaboration1manager'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->username])
+        static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->getUsername()])
             ->request('GET', '/camp_collaborations/'.$campCollaboration->getId())
         ;
         $this->assertResponseStatusCodeSame(404);
@@ -36,7 +36,7 @@ class ReadCampCollaborationTest extends ECampApiTestCase {
     public function testGetSingleCampCollaborationIsDeniedForInactiveCollaborator() {
         /** @var CampCollaboration $campCollaboration */
         $campCollaboration = static::$fixtures['campCollaboration1manager'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->username])
+        static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->getUsername()])
             ->request('GET', '/camp_collaborations/'.$campCollaboration->getId())
         ;
         $this->assertResponseStatusCodeSame(404);
@@ -49,7 +49,7 @@ class ReadCampCollaborationTest extends ECampApiTestCase {
     public function testGetSingleCampCollaborationIsAllowedForGuest() {
         /** @var CampCollaboration $campCollaboration */
         $campCollaboration = static::$fixtures['campCollaboration1manager'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user3guest']->username])
+        static::createClientWithCredentials(['username' => static::$fixtures['user3guest']->getUsername()])
             ->request('GET', '/camp_collaborations/'.$campCollaboration->getId())
         ;
         $this->assertResponseStatusCodeSame(200);
@@ -68,7 +68,7 @@ class ReadCampCollaborationTest extends ECampApiTestCase {
     public function testGetSingleCampCollaborationIsAllowedForMember() {
         /** @var CampCollaboration $campCollaboration */
         $campCollaboration = static::$fixtures['campCollaboration1manager'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->username])
+        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->getUsername()])
             ->request('GET', '/camp_collaborations/'.$campCollaboration->getId())
         ;
         $this->assertResponseStatusCodeSame(200);

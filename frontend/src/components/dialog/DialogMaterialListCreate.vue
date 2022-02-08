@@ -1,6 +1,8 @@
 <template>
   <dialog-form
     v-model="showDialog"
+    :loading="loading"
+    :error="error"
     icon="mdi-package-variant"
     :title="$tc('components.dialog.dialogMaterialListCreate.title')"
     max-width="600px"
@@ -10,7 +12,7 @@
     <template #activator="scope">
       <slot name="activator" v-bind="scope" />
     </template>
-    <server-error :server-error="error" />
+
     <dialog-material-list-form :material-list="entityData" />
   </dialog-form>
 </template>
@@ -19,11 +21,10 @@
 import DialogForm from './DialogForm.vue'
 import DialogBase from './DialogBase.vue'
 import DialogMaterialListForm from './DialogMaterialListForm.vue'
-import ServerError from '@/components/form/ServerError.vue'
 
 export default {
   name: 'DialogMaterialListCreate',
-  components: { DialogForm, DialogMaterialListForm, ServerError },
+  components: { DialogForm, DialogMaterialListForm },
   extends: DialogBase,
   props: {
     camp: { type: Object, required: true }
@@ -31,17 +32,17 @@ export default {
   data () {
     return {
       entityProperties: [
-        'campId',
+        'camp',
         'name'
       ],
-      entityUri: '/material-lists'
+      entityUri: '/material_lists'
     }
   },
   watch: {
     showDialog: function (showDialog) {
       if (showDialog) {
         this.setEntityData({
-          campId: this.camp.id,
+          camp: this.camp._meta.self,
           name: ''
         })
       } else {

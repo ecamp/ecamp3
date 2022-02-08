@@ -6,6 +6,7 @@ use ApiPlatform\Core\DataProvider\ItemDataProviderInterface;
 use ApiPlatform\Core\DataProvider\RestrictedDataProviderInterface;
 use ApiPlatform\Core\DataProvider\SerializerAwareDataProviderTrait;
 use App\DTO\Invitation;
+use App\Entity\User;
 use App\Repository\CampCollaborationRepository;
 use App\Repository\UserRepository;
 use Symfony\Component\Security\Core\Security;
@@ -22,8 +23,12 @@ class InvitationDataProvider implements ItemDataProviderInterface, RestrictedDat
         $this->campCollaborationRepository = $campCollaborationRepository;
     }
 
+    /**
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     * @throws \Doctrine\ORM\NoResultException
+     */
     public function getItem(string $resourceClass, $id, string $operationName = null, array $context = []): ?Invitation {
-        if (null === $id) {
+        if (null == $id) {
             return null;
         }
         $campCollaboration = $this->campCollaborationRepository->findByInviteKey($id);
@@ -36,9 +41,15 @@ class InvitationDataProvider implements ItemDataProviderInterface, RestrictedDat
         $camp = $campCollaboration->camp;
         if (null !== $this->security->getUser()) {
             $username = $this->security->getUser()->getUserIdentifier();
-            $user = $this->userRepository->findOneBy(['username' => $username]);
+            /** @var User $user */
+            $user = $this->userRepository->loadUserByIdentifier($username);
             $userDisplayName = $user->getDisplayName();
-            $userAlreadyInCamp = null !== $this->campCollaborationRepository->findByUserAndCamp($user, $camp);
+            $existingCampCollaboration = $this->campCollaborationRepository->findByUserAndCamp($user, $camp);
+            if ($existingCampCollaboration === $campCollaboration) {
+                $userAlreadyInCamp = false;
+            } else {
+                $userAlreadyInCamp = null !== $existingCampCollaboration;
+            }
         }
 
         return new Invitation($id, $camp->getId(), $camp->title, $userDisplayName, $userAlreadyInCamp);

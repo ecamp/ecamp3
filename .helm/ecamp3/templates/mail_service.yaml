@@ -1,0 +1,21 @@
+{{- if .Values.mail.dummyEnabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "mail.name" . }}
+  labels:
+    {{- include "app.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.mail.service.type }}
+  ports:
+    - port: {{ .Values.mail.service.port }}
+      targetPort: mail-http
+      protocol: TCP
+      name: mail-http
+    - port: 1025
+      targetPort: mail-smtp
+      protocol: TCP
+      name: mail-smtp
+  selector:
+    {{- include "app.selectorLabels" . | nindent 4 }}
+{{- end }}

@@ -1,0 +1,82 @@
+App\Entity\Profile:
+  profile1manager:
+    user: '@user1manager'
+    email: test@example.com
+    username: test-user
+    firstname: Robert
+    surname: Baden-Powell
+    nickname: Bi-Pi
+    language: en
+    roles: [ 'ROLE_USER' ]
+  profile2member:
+    user: '@user2member'
+    email: <email()>
+    username: member-user
+    firstname: <firstName()>
+    surname: <lastName()>
+    nickname: <word()>
+    language: en
+    roles: [ 'ROLE_USER' ]
+  profile3guest:
+    user: '@user3guest'
+    email: <email()>
+    username: guest-user
+    firstname: <firstName()>
+    surname: <lastName()>
+    nickname: <word()>
+    language: en
+    roles: [ 'ROLE_USER' ]
+  profile4unrelated:
+    user: '@user4unrelated'
+    email: <email()>
+    username: unrelated-user
+    firstname: <firstName()>
+    surname: <lastName()>
+    nickname: <word()>
+    language: en
+    roles: [ 'ROLE_USER' ]
+  profile5inactive:
+    user: '@user5inactive'
+    email: <email()>
+    username: inactive-user
+    firstname: <firstName()>
+    surname: <lastName()>
+    nickname: <word()>
+    language: en
+    roles: [ 'ROLE_USER' ]
+  profile6invited:
+    user: '@user6invited'
+    email: <email()>
+    username: user6invited
+    firstname: <firstName()>
+    surname: <lastName()>
+    nickname: <word()>
+    language: en
+    roles: [ 'ROLE_USER' ]
+  profile7manager:
+    user: '@user7manager'
+    email: <email()>
+    username: user7manager
+    firstname: <firstName()>
+    surname: <lastName()>
+    nickname: <word()>
+    language: en
+    roles: [ 'ROLE_USER' ]
+  profileAdmin:
+    user: '@admin'
+    email: admin@example.com
+    username: admin
+    firstname: Admi
+    surname: Nistrator
+    nickname: Administrator
+    language: de
+    roles: [ 'ROLE_USER' ]
+  profileWithoutCampCollaborations:
+    user: '@userWithoutCampCollaborations'
+    email: <email()>
+    username: fresh-user
+    firstname: <firstName()>
+    surname: <lastName()>
+    nickname: <word()>
+    language: en
+    roles: [ 'ROLE_USER' ]

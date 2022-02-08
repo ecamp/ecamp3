@@ -17,11 +17,15 @@ abstract class AbstractContentNodeOwner extends BaseEntity {
      * exchanged, but all the contents attached to it can.
      *
      * @ORM\OneToOne(targetEntity="ContentNode", inversedBy="owner", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=false, unique=true)
+     * @ORM\JoinColumn(nullable=false, unique=true, onDelete="cascade")
      */
     #[Assert\DisableAutoMapping]
     #[ApiProperty(writable: false, example: '/content_nodes/1a2b3c4d')]
     public ?ContentNode $rootContentNode = null;
+
+    public function __construct() {
+        parent::__construct();
+    }
 
     public function setRootContentNode(?ContentNode $rootContentNode) {
         // unset the owning side of the relation if necessary
@@ -29,9 +33,12 @@ abstract class AbstractContentNodeOwner extends BaseEntity {
             $this->rootContentNode->owner = null;
         }
 
-        // set the owning side of the relation if necessary
-        if (null !== $rootContentNode && $rootContentNode->owner !== $this) {
+        if (null !== $rootContentNode) {
+            // set the owning side of the relation if necessary
             $rootContentNode->owner = $this;
+
+            // make content node a root node
+            $rootContentNode->addRootDescendant($rootContentNode);
         }
 
         $this->rootContentNode = $rootContentNode;

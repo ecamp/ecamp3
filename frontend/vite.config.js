@@ -4,7 +4,7 @@ import { createSvgPlugin } from 'vite-plugin-vue2-svg'
 import ViteComponents, { VuetifyResolver } from 'vite-plugin-components'
 import * as path from 'path'
 
-export default defineConfig({
+export default defineConfig(({ mode }) => ({
   plugins: [
     createVuePlugin(),
     ViteComponents({
@@ -13,7 +13,8 @@ export default defineConfig({
     createSvgPlugin()
   ],
   build: {
-    sourcemap: true
+    sourcemap: mode === 'development',
+    minify: mode === 'development' ? false : 'esbuild'
   },
   resolve: {
     alias: [
@@ -63,4 +64,4 @@ export default defineConfig({
       }
     }
   }
-})
+}))

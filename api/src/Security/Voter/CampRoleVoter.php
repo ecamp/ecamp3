@@ -19,11 +19,10 @@ class CampRoleVoter extends Voter {
 
     protected function supports($attribute, $subject): bool {
         return in_array($attribute, array_keys(self::RULE_MAPPING))
-            && ($subject instanceof BelongsToCampInterface || null === $subject)
-            && ($subject?->getCamp() instanceof Camp || null === $subject?->getCamp());
+            && ($subject instanceof BelongsToCampInterface);
     }
 
-    protected function voteOnAttribute(string $attribute, $subject, TokenInterface $token) {
+    protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool {
         $user = $token->getUser();
         if (!$user instanceof User) {
             return false;

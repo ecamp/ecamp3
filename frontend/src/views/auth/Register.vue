@@ -166,7 +166,16 @@ export default {
   },
   methods: {
     async register () {
-      await this.$auth.register(this.formData)
+      await this.$auth.register({
+        password: this.formData.password,
+        profile: {
+          username: this.formData.username,
+          firstname: this.formData.firstname,
+          surname: this.formData.surname,
+          email: this.formData.email,
+          language: this.formData.language
+        }
+      })
       this.$router.push({ name: 'register-done' })
     }
   }

@@ -3,7 +3,7 @@ Displays periods of a single camp.
 -->
 
 <template>
-  <side-bar>
+  <side-bar v-if="show">
     <content-card>
       <v-subheader class="text-uppercase subtitle-2">
         {{ $tc('views.camp.sideBarPeriods.title') }}
@@ -34,6 +34,7 @@ export default {
   name: 'SideBarPeriods',
   components: { ContentCard, SideBar },
   props: {
+    show: { type: Boolean, required: false, default: true },
     camp: { type: Function, required: true },
     period: { type: Function, required: true }
   },

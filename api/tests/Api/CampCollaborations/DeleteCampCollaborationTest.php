@@ -10,7 +10,7 @@ use App\Tests\Api\ECampApiTestCase;
  */
 class DeleteCampCollaborationTest extends ECampApiTestCase {
     public function testDeleteCampCollaborationIsDeniedForAnonymousUser() {
-        $campCollaboration = static::$fixtures['campCollaboration1manager'];
+        $campCollaboration = static::$fixtures['campCollaboration5inactive'];
         static::createBasicClient()->request('DELETE', '/camp_collaborations/'.$campCollaboration->getId());
         $this->assertResponseStatusCodeSame(401);
         $this->assertJsonContains([
@@ -20,7 +20,7 @@ class DeleteCampCollaborationTest extends ECampApiTestCase {
     }
 
     public function testDeleteCampCollaborationIsDeniedForUnrelatedUser() {
-        $campCollaboration = static::$fixtures['campCollaboration1manager'];
+        $campCollaboration = static::$fixtures['campCollaboration5inactive'];
         static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->getUsername()])
             ->request('DELETE', '/camp_collaborations/'.$campCollaboration->getId())
         ;
@@ -33,7 +33,7 @@ class DeleteCampCollaborationTest extends ECampApiTestCase {
     }
 
     public function testDeleteCampCollaborationIsDeniedForInactiveCollaborator() {
-        $campCollaboration = static::$fixtures['campCollaboration1manager'];
+        $campCollaboration = static::$fixtures['campCollaboration5inactive'];
         static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->getUsername()])
             ->request('DELETE', '/camp_collaborations/'.$campCollaboration->getId())
         ;
@@ -46,7 +46,7 @@ class DeleteCampCollaborationTest extends ECampApiTestCase {
     }
 
     public function testDeleteCampCollaborationIsDeniedForGuest() {
-        $campCollaboration = static::$fixtures['campCollaboration1manager'];
+        $campCollaboration = static::$fixtures['campCollaboration5inactive'];
         static::createClientWithCredentials(['username' => static::$fixtures['user3guest']->getUsername()])
             ->request('DELETE', '/camp_collaborations/'.$campCollaboration->getId())
         ;
@@ -59,7 +59,7 @@ class DeleteCampCollaborationTest extends ECampApiTestCase {
     }
 
     public function testDeleteCampCollaborationIsAllowedForMember() {
-        $campCollaboration = static::$fixtures['campCollaboration1manager'];
+        $campCollaboration = static::$fixtures['campCollaboration5inactive'];
         static::createClientWithCredentials(['username' => static::$fixtures['user2member']->getUsername()])
             ->request('DELETE', '/camp_collaborations/'.$campCollaboration->getId())
         ;
@@ -68,10 +68,16 @@ class DeleteCampCollaborationTest extends ECampApiTestCase {
     }
 
     public function testDeleteCampCollaborationIsAllowedForManager() {
-        $campCollaboration = static::$fixtures['campCollaboration1manager'];
+        $campCollaboration = static::$fixtures['campCollaboration5inactive'];
         static::createClientWithCredentials()->request('DELETE', '/camp_collaborations/'.$campCollaboration->getId());
         $this->assertResponseStatusCodeSame(204);
         $this->assertNull($this->getEntityManager()->getRepository(CampCollaboration::class)->find($campCollaboration->getId()));
+    }
+
+    public function testDeleteCampCollaborationIsDeniedIfStatusNotInactive() {
+        $campCollaboration = static::$fixtures['campCollaboration1manager'];
+        static::createClientWithCredentials()->request('DELETE', '/camp_collaborations/'.$campCollaboration->getId());
+        $this->assertResponseStatusCodeSame(422);
     }
 
     public function testDeleteCampCollaborationFromCampPrototypeIsDeniedForUnrelatedUser() {

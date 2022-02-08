@@ -40,25 +40,84 @@ class CreateUserTest extends ECampApiTestCase {
         $this->assertResponseIsSuccessful();
     }
 
-    public function testCreateUserTrimsEmail() {
-        static::createBasicClient()->request('POST', '/users', ['json' => $this->getExampleWritePayload([
-            'email' => " bi-pi@example.com\t\t",
-        ])]);
-
-        $this->assertResponseStatusCodeSame(201);
-        $this->assertJsonContains($this->getExampleReadPayload([
-            'email' => 'bi-pi@example.com',
-        ], ['password']));
-    }
-
-    public function testCreateUserValidatesMissingEmail() {
-        static::createClientWithCredentials()->request('POST', '/users', ['json' => $this->getExampleWritePayload([], ['email'])]);
+    public function testCreateUserValidatesMissingProfile() {
+        static::createClientWithCredentials()->request(
+            'POST',
+            '/users',
+            [
+                'json' => $this->getExampleWritePayload([], ['profile']),
+            ]
+        );
 
         $this->assertResponseStatusCodeSame(422);
         $this->assertJsonContains([
             'violations' => [
                 [
-                    'propertyPath' => 'email',
+                    'propertyPath' => 'profile',
+                    'message' => 'This value should not be null.',
+                ],
+            ],
+        ]);
+    }
+
+    public function testCreateUserValidatesNullProfile() {
+        static::createClientWithCredentials()->request(
+            'POST',
+            '/users',
+            [
+                'json' => $this->getExampleWritePayload(['profile' => null], []),
+            ]
+        );
+
+        $this->assertResponseStatusCodeSame(400);
+        $this->assertJsonContains(
+            [
+                'title' => 'An error occurred',
+                'detail' => 'Expected IRI or document for resource "App\\Entity\\Profile", "NULL" given.',
+            ],
+        );
+    }
+
+    public function testCreateUserTrimsEmail() {
+        static::createBasicClient()->request(
+            'POST',
+            '/users',
+            [
+                'json' => $this->getExampleWritePayload(
+                    mergeEmbeddedAttributes: [
+                        'profile' => [
+                            'email' => " bi-pi@example.com\t\t",
+                        ],
+                    ]
+                ),
+            ]
+        );
+
+        $this->assertResponseStatusCodeSame(201);
+        $this->assertJsonContains($this->getExampleReadPayload(
+            [
+                '_embedded' => [
+                    'profile' => [
+                        'email' => 'bi-pi@example.com',
+                    ],
+                ],
+            ],
+            ['password']
+        ));
+    }
+
+    public function testCreateUserValidatesMissingEmail() {
+        // use this easy way here, because unsetting a nested attribute would be complicated
+        $exampleWritePayload = $this->getExampleWritePayload();
+        unset($exampleWritePayload['profile']['email']);
+
+        static::createClientWithCredentials()->request('POST', '/users', ['json' => $exampleWritePayload]);
+
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [
+                    'propertyPath' => 'profile.email',
                     'message' => 'This value should not be blank.',
                 ],
             ],
@@ -66,15 +125,25 @@ class CreateUserTest extends ECampApiTestCase {
     }
 
     public function testCreateUserValidatesBlankEmail() {
-        static::createClientWithCredentials()->request('POST', '/users', ['json' => $this->getExampleWritePayload([
-            'email' => '',
-        ])]);
+        static::createClientWithCredentials()->request(
+            'POST',
+            '/users',
+            [
+                'json' => $this->getExampleWritePayload(
+                    mergeEmbeddedAttributes: [
+                        'profile' => [
+                            'email' => '',
+                        ],
+                    ]
+                ),
+            ]
+        );
 
         $this->assertResponseStatusCodeSame(422);
         $this->assertJsonContains([
             'violations' => [
                 [
-                    'propertyPath' => 'email',
+                    'propertyPath' => 'profile.email',
                     'message' => 'This value should not be blank.',
                 ],
             ],
@@ -82,15 +151,25 @@ class CreateUserTest extends ECampApiTestCase {
     }
 
     public function testCreateUserValidatesLongEmail() {
-        static::createClientWithCredentials()->request('POST', '/users', ['json' => $this->getExampleWritePayload([
-            'email' => 'test-with-a-very-long-email-address-which-is-not-really-realistic@example.com',
-        ])]);
+        static::createClientWithCredentials()->request(
+            'POST',
+            '/users',
+            [
+                'json' => $this->getExampleWritePayload(
+                    mergeEmbeddedAttributes: [
+                        'profile' => [
+                            'email' => 'test-with-a-very-long-email-address-which-is-not-really-realistic@example.com',
+                        ],
+                    ]
+                ),
+            ]
+        );
 
         $this->assertResponseStatusCodeSame(422);
         $this->assertJsonContains([
             'violations' => [
                 [
-                    'propertyPath' => 'email',
+                    'propertyPath' => 'profile.email',
                     'message' => 'This value is too long. It should have 64 characters or less.',
                 ],
             ],
@@ -98,15 +177,25 @@ class CreateUserTest extends ECampApiTestCase {
     }
 
     public function testCreateUserValidatesInvalidEmail() {
-        static::createClientWithCredentials()->request('POST', '/users', ['json' => $this->getExampleWritePayload([
-            'email' => 'test@sunrise',
-        ])]);
+        static::createClientWithCredentials()->request(
+            'POST',
+            '/users',
+            [
+                'json' => $this->getExampleWritePayload(
+                    mergeEmbeddedAttributes: [
+                        'profile' => [
+                            'email' => 'test@sunrise',
+                        ],
+                    ]
+                ),
+            ]
+        );
 
         $this->assertResponseStatusCodeSame(422);
         $this->assertJsonContains([
             'violations' => [
                 [
-                    'propertyPath' => 'email',
+                    'propertyPath' => 'profile.email',
                     'message' => 'This value is not a valid email address.',
                 ],
             ],
@@ -115,15 +204,25 @@ class CreateUserTest extends ECampApiTestCase {
 
     public function testCreateUserValidatesDuplicateEmail() {
         $client = static::createClientWithCredentials();
-        $client->request('POST', '/users', ['json' => $this->getExampleWritePayload([
-            'email' => static::$fixtures['user1manager']->email,
-        ])]);
+        $client->request(
+            'POST',
+            '/users',
+            [
+                'json' => $this->getExampleWritePayload(
+                    mergeEmbeddedAttributes: [
+                        'profile' => [
+                            'email' => static::$fixtures['user1manager']->getEmail(),
+                        ],
+                    ]
+                ),
+            ]
+        );
 
         $this->assertResponseStatusCodeSame(422);
         $this->assertJsonContains([
             'violations' => [
                 [
-                    'propertyPath' => 'email',
+                    'propertyPath' => 'profile.email',
                     'message' => 'This value is already used.',
                 ],
             ],
@@ -132,15 +231,25 @@ class CreateUserTest extends ECampApiTestCase {
 
     public function testCreateUserTrimsFirstThenValidatesDuplicateEmail() {
         $client = static::createClientWithCredentials();
-        $client->request('POST', '/users', ['json' => $this->getExampleWritePayload([
-            'email' => ' '.static::$fixtures['user1manager']->email,
-        ])]);
+        $client->request(
+            'POST',
+            '/users',
+            [
+                'json' => $this->getExampleWritePayload(
+                    mergeEmbeddedAttributes: [
+                        'profile' => [
+                            'email' => ' '.static::$fixtures['user1manager']->getEmail(),
+                        ],
+                    ]
+                ),
+            ]
+        );
 
         $this->assertResponseStatusCodeSame(422);
         $this->assertJsonContains([
             'violations' => [
                 [
-                    'propertyPath' => 'email',
+                    'propertyPath' => 'profile.email',
                     'message' => 'This value is already used.',
                 ],
             ],
@@ -148,24 +257,47 @@ class CreateUserTest extends ECampApiTestCase {
     }
 
     public function testCreateUserTrimsUsername() {
-        static::createBasicClient()->request('POST', '/users', ['json' => $this->getExampleWritePayload([
-            'username' => '  bipi ',
-        ])]);
+        static::createBasicClient()->request(
+            'POST',
+            '/users',
+            [
+                'json' => $this->getExampleWritePayload(
+                    mergeEmbeddedAttributes: [
+                        'profile' => [
+                            'username' => '  bipi ',
+                        ],
+                    ]
+                ),
+            ]
+        );
 
         $this->assertResponseStatusCodeSame(201);
-        $this->assertJsonContains($this->getExampleReadPayload([
-            'username' => 'bipi',
-        ], ['password']));
+        $this->assertJsonContains(
+            $this->getExampleReadPayload(
+                [
+                    '_embedded' => [
+                        'profile' => [
+                            'username' => 'bipi',
+                        ],
+                    ],
+                ],
+                ['password']
+            )
+        );
     }
 
     public function testCreateUserValidatesMissingUsername() {
-        static::createClientWithCredentials()->request('POST', '/users', ['json' => $this->getExampleWritePayload([], ['username'])]);
+        // use this easy way here, because unsetting a nested attribute would be complicated
+        $exampleWritePayload = $this->getExampleWritePayload();
+        unset($exampleWritePayload['profile']['username']);
+
+        static::createClientWithCredentials()->request('POST', '/users', ['json' => $exampleWritePayload]);
 
         $this->assertResponseStatusCodeSame(422);
         $this->assertJsonContains([
             'violations' => [
                 [
-                    'propertyPath' => 'username',
+                    'propertyPath' => 'profile.username',
                     'message' => 'This value should not be blank.',
                 ],
             ],
@@ -173,15 +305,25 @@ class CreateUserTest extends ECampApiTestCase {
     }
 
     public function testCreateUserValidatesBlankUsername() {
-        static::createClientWithCredentials()->request('POST', '/users', ['json' => $this->getExampleWritePayload([
-            'username' => '',
-        ])]);
+        static::createClientWithCredentials()->request(
+            'POST',
+            '/users',
+            [
+                'json' => $this->getExampleWritePayload(
+                    mergeEmbeddedAttributes: [
+                        'profile' => [
+                            'username' => '',
+                        ],
+                    ]
+                ),
+            ]
+        );
 
         $this->assertResponseStatusCodeSame(422);
         $this->assertJsonContains([
             'violations' => [
                 [
-                    'propertyPath' => 'username',
+                    'propertyPath' => 'profile.username',
                     'message' => 'This value should not be blank.',
                 ],
             ],
@@ -189,15 +331,25 @@ class CreateUserTest extends ECampApiTestCase {
     }
 
     public function testCreateUserValidatesInvalidUsername() {
-        static::createClientWithCredentials()->request('POST', '/users', ['json' => $this->getExampleWritePayload([
-            'username' => 'b*p',
-        ])]);
+        static::createClientWithCredentials()->request(
+            'POST',
+            '/users',
+            [
+                'json' => $this->getExampleWritePayload(
+                    mergeEmbeddedAttributes: [
+                        'profile' => [
+                            'username' => 'b*p',
+                        ],
+                    ]
+                ),
+            ]
+        );
 
         $this->assertResponseStatusCodeSame(422);
         $this->assertJsonContains([
             'violations' => [
                 [
-                    'propertyPath' => 'username',
+                    'propertyPath' => 'profile.username',
                     'message' => 'This value is not valid.',
                 ],
             ],
@@ -205,15 +357,25 @@ class CreateUserTest extends ECampApiTestCase {
     }
 
     public function testCreateUserValidatesLongUsername() {
-        static::createClientWithCredentials()->request('POST', '/users', ['json' => $this->getExampleWritePayload([
-            'username' => 'daenerys_targaryen_also_known_as_daenerys_stormborn_queen_of_the_andals_and_the_first_men',
-        ])]);
+        static::createClientWithCredentials()->request(
+            'POST',
+            '/users',
+            [
+                'json' => $this->getExampleWritePayload(
+                    mergeEmbeddedAttributes: [
+                        'profile' => [
+                            'username' => 'daenerys_targaryen_also_known_as_daenerys_stormborn_queen_of_the_andals_and_the_first_men',
+                        ],
+                    ]
+                ),
+            ]
+        );
 
         $this->assertResponseStatusCodeSame(422);
         $this->assertJsonContains([
             'violations' => [
                 [
-                    'propertyPath' => 'username',
+                    'propertyPath' => 'profile.username',
                     'message' => 'This value is too long. It should have 64 characters or less.',
                 ],
             ],
@@ -222,15 +384,25 @@ class CreateUserTest extends ECampApiTestCase {
 
     public function testCreateUserValidatesDuplicateUsername() {
         $client = static::createClientWithCredentials();
-        $client->request('POST', '/users', ['json' => $this->getExampleWritePayload([
-            'username' => static::$fixtures['user1manager']->username,
-        ])]);
+        $client->request(
+            'POST',
+            '/users',
+            [
+                'json' => $this->getExampleWritePayload(
+                    mergeEmbeddedAttributes: [
+                        'profile' => [
+                            'username' => static::$fixtures['user1manager']->getUsername(),
+                        ],
+                    ]
+                ),
+            ]
+        );
 
         $this->assertResponseStatusCodeSame(422);
         $this->assertJsonContains([
             'violations' => [
                 [
-                    'propertyPath' => 'username',
+                    'propertyPath' => 'profile.username',
                     'message' => 'This value is already used.',
                 ],
             ],
@@ -239,15 +411,25 @@ class CreateUserTest extends ECampApiTestCase {
 
     public function testCreateUserTrimsFirstThenValidatesDuplicateUsername() {
         $client = static::createClientWithCredentials();
-        $client->request('POST', '/users', ['json' => $this->getExampleWritePayload([
-            'username' => static::$fixtures['user1manager']->username.'   ',
-        ])]);
+        $client->request(
+            'POST',
+            '/users',
+            [
+                'json' => $this->getExampleWritePayload(
+                    mergeEmbeddedAttributes: [
+                        'profile' => [
+                            'username' => static::$fixtures['user1manager']->getUsername().'   ',
+                        ],
+                    ]
+                ),
+            ]
+        );
 
         $this->assertResponseStatusCodeSame(422);
         $this->assertJsonContains([
             'violations' => [
                 [
-                    'propertyPath' => 'username',
+                    'propertyPath' => 'profile.username',
                     'message' => 'This value is already used.',
                 ],
             ],
@@ -255,109 +437,222 @@ class CreateUserTest extends ECampApiTestCase {
     }
 
     public function testCreateUserTrimsFirstname() {
-        static::createBasicClient()->request('POST', '/users', ['json' => $this->getExampleWritePayload([
-            'firstname' => " Robert\t",
-        ])]);
+        static::createBasicClient()->request(
+            'POST',
+            '/users',
+            [
+                'json' => $this->getExampleWritePayload(
+                    mergeEmbeddedAttributes: [
+                        'profile' => [
+                            'firstname' => " Robert\t",
+                        ],
+                    ]
+                ),
+            ]
+        );
 
         $this->assertResponseStatusCodeSame(201);
-        $this->assertJsonContains($this->getExampleReadPayload([
-            'firstname' => 'Robert',
-        ], ['password']));
+        $this->assertJsonContains($this->getExampleReadPayload(
+            [
+                '_embedded' => [
+                    'profile' => [
+                        'firstname' => 'Robert',
+                    ],
+                ],
+            ],
+            ['password']
+        ));
     }
 
     public function testCreateUserCleansHTMLFromFirstname() {
-        static::createBasicClient()->request('POST', '/users', ['json' => $this->getExampleWritePayload([
-            'firstname' => 'Robert<script>alert(1)</script>',
-        ])]);
+        static::createBasicClient()->request(
+            'POST',
+            '/users',
+            [
+                'json' => $this->getExampleWritePayload(
+                    mergeEmbeddedAttributes: [
+                        'profile' => [
+                            'firstname' => 'Robert<script>alert(1)</script>',
+                        ],
+                    ]
+                ),
+            ]
+        );
 
         $this->assertResponseStatusCodeSame(201);
-        $this->assertJsonContains($this->getExampleReadPayload([
-            'firstname' => 'Robert',
-        ], ['password']));
+        $this->assertJsonContains($this->getExampleReadPayload(
+            [
+                '_embedded' => [
+                    'profile' => [
+                        'firstname' => 'Robert',
+                    ],
+                ],
+            ],
+            ['password']
+        ));
     }
 
     public function testCreateUserTrimsSurname() {
-        static::createBasicClient()->request('POST', '/users', ['json' => $this->getExampleWritePayload([
-            'surname' => '   Baden-Powell',
-        ])]);
+        static::createBasicClient()->request(
+            'POST',
+            '/users',
+            [
+                'json' => $this->getExampleWritePayload(
+                    mergeEmbeddedAttributes: [
+                        'profile' => [
+                            'surname' => '   Baden-Powell',
+                        ],
+                    ]
+                ),
+            ]
+        );
 
         $this->assertResponseStatusCodeSame(201);
-        $this->assertJsonContains($this->getExampleReadPayload([
-            'surname' => 'Baden-Powell',
-        ], ['password']));
+        $this->assertJsonContains($this->getExampleReadPayload(
+            [
+                '_embedded' => [
+                    'profile' => [
+                        'surname' => 'Baden-Powell',
+                    ],
+                ],
+            ],
+            ['password']
+        ));
     }
 
     public function testCreateUserCleansHTMLFromSurname() {
-        static::createBasicClient()->request('POST', '/users', ['json' => $this->getExampleWritePayload([
-            'surname' => 'Baden-Powell<script>alert(1)</script>',
-        ])]);
+        static::createBasicClient()->request(
+            'POST',
+            '/users',
+            [
+                'json' => $this->getExampleWritePayload(
+                    mergeEmbeddedAttributes: [
+                        'profile' => [
+                            'surname' => 'Baden-Powell<script>alert(1)</script>',
+                        ],
+                    ]
+                ),
+            ]
+        );
 
         $this->assertResponseStatusCodeSame(201);
-        $this->assertJsonContains($this->getExampleReadPayload([
-            'surname' => 'Baden-Powell',
-        ], ['password']));
+        $this->assertJsonContains($this->getExampleReadPayload(
+            [
+                '_embedded' => [
+                    'profile' => [
+                        'surname' => 'Baden-Powell',
+                    ],
+                ],
+            ],
+            ['password']
+        ));
     }
 
     public function testCreateUserTrimsNickname() {
-        static::createBasicClient()->request('POST', '/users', ['json' => $this->getExampleWritePayload([
-            'nickname' => "\tBi-Pi\t",
-        ])]);
+        static::createBasicClient()->request(
+            'POST',
+            '/users',
+            [
+                'json' => $this->getExampleWritePayload(
+                    mergeEmbeddedAttributes: [
+                        'profile' => [
+                            'nickname' => "\tBi-Pi\t",
+                        ],
+                    ]
+                ),
+            ]
+        );
 
         $this->assertResponseStatusCodeSame(201);
-        $this->assertJsonContains($this->getExampleReadPayload([
-            'nickname' => 'Bi-Pi',
-        ], ['password']));
+        $this->assertJsonContains($this->getExampleReadPayload(
+            [
+                '_embedded' => [
+                    'profile' => [
+                        'nickname' => 'Bi-Pi',
+                    ],
+                ],
+            ],
+            ['password']
+        ));
     }
 
     public function testCreateUserCleansHTMLFromNickname() {
-        static::createBasicClient()->request('POST', '/users', ['json' => $this->getExampleWritePayload([
-            'nickname' => 'Bi-Pi<script>alert(1)</script>',
-        ])]);
+        static::createBasicClient()->request(
+            'POST',
+            '/users',
+            [
+                'json' => $this->getExampleWritePayload(
+                    mergeEmbeddedAttributes: [
+                        'profile' => [
+                            'nickname' => 'Bi-Pi<script>alert(1)</script>',
+                        ],
+                    ]
+                ),
+            ]
+        );
 
         $this->assertResponseStatusCodeSame(201);
-        $this->assertJsonContains($this->getExampleReadPayload([
-            'nickname' => 'Bi-Pi',
-        ], ['password']));
+        $this->assertJsonContains($this->getExampleReadPayload(
+            [
+                '_embedded' => [
+                    'profile' => [
+                        'nickname' => 'Bi-Pi',
+                    ],
+                ],
+            ],
+            ['password']
+        ));
     }
 
     public function testCreateUserTrimsLanguage() {
-        static::createBasicClient()->request('POST', '/users', ['json' => $this->getExampleWritePayload([
-            'language' => "\ten ",
-        ])]);
+        static::createBasicClient()->request(
+            'POST',
+            '/users',
+            [
+                'json' => $this->getExampleWritePayload(
+                    mergeEmbeddedAttributes: [
+                        'profile' => [
+                            'language' => "\ten ",
+                        ],
+                    ]
+                ),
+            ]
+        );
 
         $this->assertResponseStatusCodeSame(201);
-        $this->assertJsonContains($this->getExampleReadPayload([
-            'language' => 'en',
-        ], ['password']));
+        $this->assertJsonContains($this->getExampleReadPayload(
+            [
+                '_embedded' => [
+                    'profile' => [
+                        'language' => 'en',
+                    ],
+                ],
+            ],
+            ['password']
+        ));
     }
 
     public function testCreateUserValidatesInvalidLanguage() {
-        static::createClientWithCredentials()->request('POST', '/users', ['json' => $this->getExampleWritePayload([
-            'language' => 'französisch',
-        ])]);
+        static::createClientWithCredentials()->request(
+            'POST',
+            '/users',
+            [
+                'json' => $this->getExampleWritePayload(
+                    mergeEmbeddedAttributes: [
+                        'profile' => [
+                            'language' => 'französisch',
+                        ],
+                    ]
+                ),
+            ]
+        );
 
         $this->assertResponseStatusCodeSame(422);
         $this->assertJsonContains([
             'violations' => [
                 [
-                    'propertyPath' => 'language',
-                    'message' => 'This value is not a valid locale.',
-                ],
-            ],
-        ]);
-    }
-
-    public function testCreateUserValidatesLongLanguage() {
-        static::createClientWithCredentials()->request('POST', '/users', ['json' => $this->getExampleWritePayload([
-            'language' => 'fr_CH.some-ridiculously-long-extension-which-is-technically-a-valid-ICU-locale',
-        ])]);
-
-        $this->assertResponseStatusCodeSame(422);
-        $this->assertJsonContains([
-            'violations' => [
-                [
-                    'propertyPath' => 'language',
-                    'message' => 'This value is too long. It should have 20 characters or less.',
+                    'propertyPath' => 'profile.language',
+                    'message' => 'The value you selected is not a valid choice.',
                 ],
             ],
         ]);
@@ -393,11 +688,31 @@ class CreateUserTest extends ECampApiTestCase {
         ]);
     }
 
-    public function getExampleWritePayload($attributes = [], $except = []) {
-        return $this->getExamplePayload(User::class, OperationType::COLLECTION, 'post', $attributes, [], $except);
+    public function getExampleWritePayload($attributes = [], $except = [], $mergeEmbeddedAttributes = []) {
+        $examplePayload = $this->getExamplePayload(
+            User::class,
+            OperationType::COLLECTION,
+            'post',
+            $attributes,
+            [],
+            $except
+        );
+
+        return array_replace_recursive($examplePayload, $mergeEmbeddedAttributes);
     }
 
     public function getExampleReadPayload($attributes = [], $except = []) {
-        return $this->getExamplePayload(User::class, OperationType::ITEM, 'get', $attributes, [], $except);
+        $exampleReadPayload = $this->getExamplePayload(
+            User::class,
+            OperationType::ITEM,
+            'get',
+            $attributes,
+            [],
+            $except
+        );
+        $exampleReadPayload['_embedded']['profile'] = $exampleReadPayload['profile'];
+        unset($exampleReadPayload['profile']);
+
+        return $exampleReadPayload;
     }
 }

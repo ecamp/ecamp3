@@ -6,13 +6,17 @@ use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use App\Repository\ContentNodeRepository;
+use App\Util\EntityMap;
 use App\Validator\AssertEitherIsNull;
 use App\Validator\ContentNode\AssertBelongsToSameOwner;
+use App\Validator\ContentNode\AssertContentTypeCompatible;
 use App\Validator\ContentNode\AssertNoLoop;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Exception;
+use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Annotation\SerializedName;
 
@@ -23,13 +27,13 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
  * content nodes may be inserted. In return, a content node may be nested inside a slot in a parent
  * container content node. This way, a tree of content nodes makes up a complete programme.
  *
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass=ContentNodeRepository::class)
  * @ORM\InheritanceType("JOINED")
  * @ORM\DiscriminatorColumn(name="strategy", type="string")
  */
 #[ApiResource(
     collectionOperations: [
-        'get' => ['security' => 'is_fully_authenticated()'],
+        'get' => ['security' => 'is_authenticated()'],
     ],
     itemOperations: [
         'get' => ['security' => 'is_granted("CAMP_COLLABORATOR", object) or is_granted("CAMP_IS_PROTOTYPE", object)'],
@@ -37,10 +41,10 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
     denormalizationContext: ['groups' => ['write']],
     normalizationContext: ['groups' => ['read']],
 )]
-#[ApiFilter(SearchFilter::class, properties: ['parent'])]
-abstract class ContentNode extends BaseEntity implements BelongsToCampInterface {
+#[ApiFilter(SearchFilter::class, properties: ['parent', 'contentType', 'root'])]
+abstract class ContentNode extends BaseEntity implements BelongsToCampInterface, CopyFromPrototypeInterface {
     /**
-     * @ORM\OneToOne(targetEntity="AbstractContentNodeOwner", mappedBy="rootContentNode", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity="AbstractContentNodeOwner", mappedBy="rootContentNode", cascade={"persist"})
      */
     #[SerializedName('_owner')]
     #[ApiProperty(readable: false, writable: false)]
@@ -53,10 +57,12 @@ abstract class ContentNode extends BaseEntity implements BelongsToCampInterface 
      * @ORM\ManyToOne(targetEntity="ContentNode", inversedBy="rootDescendants")
      * TODO make not null in the DB using a migration, and get fixtures to run
      * @ORM\JoinColumn(nullable=true)
+     *
+     * @Gedmo\SortableGroup - this is needed to avoid that all root nodes are in the same sort group (parent:null, slot: '')
      */
     #[ApiProperty(writable: false, example: '/content_nodes/1a2b3c4d')]
     #[Groups(['read'])]
-    public ?ContentNode $root = null;
+    public ContentNode $root;
 
     /**
      * All content nodes that are part of this content node tree.
@@ -73,6 +79,8 @@ abstract class ContentNode extends BaseEntity implements BelongsToCampInterface 
      * it has an owner.
      *
      * @ORM\ManyToOne(targetEntity="ContentNode", inversedBy="children")
+     * @ORM\JoinColumn(onDelete="CASCADE")
+     * @Gedmo\SortableGroup
      */
     #[AssertEitherIsNull(
         other: 'owner',
@@ -86,16 +94,9 @@ abstract class ContentNode extends BaseEntity implements BelongsToCampInterface 
     public ?ContentNode $parent = null;
 
     /**
-     * The prototype ContentNode from which the content is copied during creation.
-     */
-    #[ApiProperty(example: '/content_nodes/1a2b3c4d')]
-    #[Groups(['create'])]
-    public ?ContentNode $prototype = null;
-
-    /**
      * All content nodes that are direct children of this content node.
      *
-     * @ORM\OneToMany(targetEntity="ContentNode", mappedBy="parent", cascade={"remove"})
+     * @ORM\OneToMany(targetEntity="ContentNode", mappedBy="parent", cascade={"persist"})
      */
     #[ApiProperty(writable: false, example: '["/content_nodes/1a2b3c4d"]')]
     #[Groups(['read'])]
@@ -106,6 +107,7 @@ abstract class ContentNode extends BaseEntity implements BelongsToCampInterface 
      * are defined by the content type of the parent.
      *
      * @ORM\Column(type="text", nullable=true)
+     * @Gedmo\SortableGroup
      */
     #[ApiProperty(example: 'footer')]
     #[Groups(['read', 'write'])]
@@ -115,22 +117,12 @@ abstract class ContentNode extends BaseEntity implements BelongsToCampInterface 
      * A whole number used for ordering multiple content nodes that are in the same slot of the
      * same parent. The API does not guarantee the uniqueness of parent+slot+position.
      *
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="integer", nullable=false)
+     * @Gedmo\SortablePosition
      */
     #[ApiProperty(example: '0')]
     #[Groups(['read', 'write'])]
-    public ?int $position = null;
-
-    /**
-     * Allows the content node to store some minimal configuration about its slots, in case the
-     * slots are dynamically changeable (such as the number of columns in a column layout).
-     * Depending on the content node's content type, different validation rules will apply.
-     *
-     * @ORM\Column(type="json", nullable=true)
-     */
-    #[ApiProperty(example: '{}')]
-    #[Groups(['read', 'write'])]
-    public ?array $jsonConfig = null;
+    public int $position = -1;
 
     /**
      * An optional name for this content node. This is useful when planning e.g. an alternative
@@ -152,9 +144,12 @@ abstract class ContentNode extends BaseEntity implements BelongsToCampInterface 
      */
     #[ApiProperty(example: '/content_types/1a2b3c4d')]
     #[Groups(['read', 'create'])]
+    #[AssertContentTypeCompatible]
     public ?ContentType $contentType = null;
 
     public function __construct() {
+        parent::__construct();
+        $this->root = $this;
         $this->rootDescendants = new ArrayCollection();
         $this->children = new ArrayCollection();
     }
@@ -174,13 +169,14 @@ abstract class ContentNode extends BaseEntity implements BelongsToCampInterface 
     #[SerializedName('owner')]
     #[ApiProperty(writable: false, example: '/activities/1a2b3c4d')]
     #[Groups(['read'])]
-    public function getRootOwner(): Activity|Category|AbstractContentNodeOwner {
-        if (null !== $this->root) {
-            return $this->root->owner;
+    public function getRootOwner(): Activity|Category|AbstractContentNodeOwner|null {
+        // New created ContentNodes have root == this.
+        // Therefore we use the root of the parent-node.
+        if ($this->root === $this && null !== $this->parent) {
+            return $this->parent->root->owner;
         }
 
-        // this line is used during create process when $this->root is not yet set
-        return $this->parent->root->owner;
+        return $this->root->owner;
     }
 
     /**
@@ -267,5 +263,32 @@ abstract class ContentNode extends BaseEntity implements BelongsToCampInterface 
         }
 
         return $this;
+    }
+
+    /**
+     * @param ContentNode $prototype
+     * @param EntityMap   $entityMap
+     */
+    public function copyFromPrototype($prototype, $entityMap): void {
+        $entityMap->add($prototype, $this);
+
+        // copy ContentNode base properties
+        $this->contentType = $prototype->contentType;
+        $this->instanceName = $prototype->instanceName;
+        $this->slot = $prototype->slot;
+        $this->position = $prototype->position;
+
+        // deep copy children
+        foreach ($prototype->getChildren() as $childPrototype) {
+            $childClass = $childPrototype::class;
+
+            /** @var ContentNode $childContentNode */
+            $childContentNode = new $childClass();
+
+            $this->addChild($childContentNode);
+            $this->root->addRootDescendant($childContentNode);
+
+            $childContentNode->copyFromPrototype($childPrototype, $entityMap);
+        }
     }
 }

@@ -2,67 +2,53 @@
 
 namespace App\Tests\Api\ContentNodes\SingleText;
 
-use ApiPlatform\Core\Api\OperationType;
 use App\Entity\ContentNode\SingleText;
-use App\Tests\Api\ECampApiTestCase;
+use App\Tests\Api\ContentNodes\CreateContentNodeTestCase;
 
 /**
  * @internal
  */
-class CreateSingleTextTest extends ECampApiTestCase {
-    // TODO security tests when not logged in or not collaborator
-    // TODO input filter tests
-    // TODO validation tests
+class CreateSingleTextTest extends CreateContentNodeTestCase {
+    public function setUp(): void {
+        parent::setUp();
+
+        $this->endpoint = '/content_node/single_texts';
+        $this->entityClass = SingleText::class;
+        $this->defaultContentType = static::$fixtures['contentTypeNotes'];
+    }
 
     public function testCreateSingleTextFromString() {
+        // given
         $text = 'TestText';
-        static::createClientWithCredentials()->request('POST', '/content_node/single_texts', ['json' => $this->getExampleWritePayload(['text' => $text])]);
 
+        // when
+        $this->create($this->getExampleWritePayload(['text' => $text]));
+
+        // then
         $this->assertResponseStatusCodeSame(201);
-        $this->assertJsonContains($this->getExampleReadPayload());
         $this->assertJsonContains(['text' => $text]);
     }
 
     public function testCreateSingleTextFromNull() {
-        static::createClientWithCredentials()->request('POST', '/content_node/single_texts', ['json' => $this->getExampleWritePayload(['text' => null])]);
+        // when
+        $this->create($this->getExampleWritePayload(['text' => null]));
 
+        // then
         $this->assertResponseStatusCodeSame(201);
-        $this->assertJsonContains($this->getExampleReadPayload());
         $this->assertJsonContains(['text' => null]);
     }
 
-    public function testCreateSingleTextFromPrototype() {
-        $prototype = static::$fixtures['singleText2'];
-        static::createClientWithCredentials()->request('POST', '/content_node/single_texts', ['json' => $this->getExampleWritePayload(['prototype' => $this->getIriFor('singleText2')])]);
+    public function testCreateSingleTextCleansHTMLFromText() {
+        // given
+        $text = ' testText<script>alert(1)</script>';
 
+        // when
+        $this->create($this->getExampleWritePayload(['text' => $text]));
+
+        // then
         $this->assertResponseStatusCodeSame(201);
-        $this->assertJsonContains($this->getExampleReadPayload());
-        $this->assertJsonContains(['text' => $prototype->text]);
-    }
-
-    public function getExampleWritePayload($attributes = [], $except = []) {
-        return $this->getExamplePayload(
-            SingleText::class,
-            OperationType::COLLECTION,
-            'post',
-            array_merge([
-                'parent' => $this->getIriFor('columnLayout1'),
-                'contentType' => $this->getIriFor('contentTypeNotes'),
-                'prototype' => null,
-            ], $attributes),
-            [],
-            $except
-        );
-    }
-
-    public function getExampleReadPayload($attributes = [], $except = []) {
-        return $this->getExamplePayload(
-            SingleText::class,
-            OperationType::ITEM,
-            'get',
-            $attributes,
-            ['parent', 'contentType'],
-            $except
-        );
+        $this->assertJsonContains([
+            'text' => ' testText',
+        ]);
     }
 }

@@ -2,9 +2,9 @@
   <card-content-node v-bind="$props">
     <div class="mb-3">
       <material-table :camp="camp"
-                      :content-node="contentNode"
+                      :material-node="contentNode"
                       :layout-mode="layoutMode"
-                      :material-item-collection="contentNode.materialItems()"
+                      :material-item-collection="materialItemCollection"
                       :group-by-list="$vuetify.breakpoint.xs"
                       :disabled="disabled" />
     </div>
@@ -23,7 +23,12 @@ export default {
     CardContentNode,
     MaterialTable
   },
-  mixins: [contentNodeMixin]
+  mixins: [contentNodeMixin],
+  computed: {
+    materialItemCollection () {
+      return this.api.get().materialItems({ materialNode: this.contentNode._meta.self })
+    }
+  }
 }
 </script>
 

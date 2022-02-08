@@ -7,6 +7,8 @@ use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Repository\CategoryRepository;
+use App\Serializer\Normalizer\RelatedCollectionLink;
+use App\Util\EntityMap;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -24,7 +26,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 #[ApiResource(
     collectionOperations: [
-        'get' => ['security' => 'is_fully_authenticated()'],
+        'get' => ['security' => 'is_authenticated()'],
         'post' => [
             'denormalization_context' => ['groups' => ['write', 'create']],
             'normalization_context' => self::ITEM_NORMALIZATION_CONTEXT,
@@ -47,9 +49,13 @@ use Symfony\Component\Validator\Constraints as Assert;
     normalizationContext: ['groups' => ['read']],
 )]
 #[ApiFilter(SearchFilter::class, properties: ['camp'])]
-class Category extends AbstractContentNodeOwner implements BelongsToCampInterface {
+class Category extends AbstractContentNodeOwner implements BelongsToCampInterface, CopyFromPrototypeInterface {
     public const ITEM_NORMALIZATION_CONTEXT = [
-        'groups' => ['read', 'Category:PreferredContentTypes'],
+        'groups' => [
+            'read',
+            'Category:PreferredContentTypes',
+            'Category:ContentNodes',
+        ],
         'swagger_definition_name' => 'read',
     ];
 
@@ -66,7 +72,7 @@ class Category extends AbstractContentNodeOwner implements BelongsToCampInterfac
     /**
      * The content types that are most likely to be useful for planning programme of this category.
      *
-     * @ORM\ManyToMany(targetEntity="ContentType")
+     * @ORM\ManyToMany(targetEntity="ContentType", inversedBy="categories")
      * @ORM\JoinTable(name="category_contenttype",
      *     joinColumns={@ORM\JoinColumn(name="category_id", referencedColumnName="id")},
      *     inverseJoinColumns={@ORM\JoinColumn(name="contenttype_id", referencedColumnName="id")}
@@ -134,8 +140,19 @@ class Category extends AbstractContentNodeOwner implements BelongsToCampInterfac
     public string $numberingStyle = '1';
 
     public function __construct() {
+        parent::__construct();
         $this->preferredContentTypes = new ArrayCollection();
         $this->activities = new ArrayCollection();
+    }
+
+    /**
+     * @return ContentNode[]
+     */
+    #[ApiProperty(readableLink: true)]
+    #[SerializedName('contentNodes')]
+    #[Groups(['Category:ContentNodes'])]
+    public function getEmbeddedContentNodes(): array {
+        return $this->getContentNodes();
     }
 
     public function getCamp(): ?Camp {
@@ -196,6 +213,7 @@ class Category extends AbstractContentNodeOwner implements BelongsToCampInterfac
     }
 
     /**
+     * All content nodes of this category
      * Overridden in order to add annotations.
      *
      * {@inheritdoc}
@@ -203,6 +221,7 @@ class Category extends AbstractContentNodeOwner implements BelongsToCampInterfac
      * @return ContentNode[]
      */
     #[Groups(['read'])]
+    #[RelatedCollectionLink(ContentNode::class, ['root' => 'rootContentNode'])]
     public function getContentNodes(): array {
         return parent::getContentNodes();
     }
@@ -222,7 +241,36 @@ class Category extends AbstractContentNodeOwner implements BelongsToCampInterfac
                 return strtoupper($this->getRomanNum($num));
 
             default:
-                return $num;
+                return strval($num);
+        }
+    }
+
+    /**
+     * @param Category  $prototype
+     * @param EntityMap $entityMap
+     */
+    public function copyFromPrototype($prototype, $entityMap): void {
+        $entityMap->add($prototype, $this);
+
+        $this->categoryPrototypeId = $prototype->getId();
+        $this->short = $prototype->short;
+        $this->name = $prototype->name;
+        $this->color = $prototype->color;
+        $this->numberingStyle = $prototype->numberingStyle;
+
+        // copy preferredContentTypes
+        foreach ($prototype->getPreferredContentTypes() as $contentType) {
+            $this->addPreferredContentType($contentType);
+        }
+
+        // copy rootContentNode
+        $rootContentNodePrototype = $prototype->getRootContentNode();
+        if (null != $rootContentNodePrototype) {
+            $rootContentNodeClass = $rootContentNodePrototype::class;
+            $rootContentNode = new $rootContentNodeClass();
+
+            $this->setRootContentNode($rootContentNode);
+            $rootContentNode->copyFromPrototype($rootContentNodePrototype, $entityMap);
         }
     }
 

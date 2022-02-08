@@ -55,7 +55,7 @@ class AcceptInvitationTest extends ECampApiTestCase {
             'campId' => $campCollaboration->camp->getId(),
             'campTitle' => $campCollaboration->camp->title,
             'userDisplayName' => 'Bi-Pi',
-            'userAlreadyInCamp' => true,
+            'userAlreadyInCamp' => false,
             '_links' => [
                 'self' => ['href' => "/invitations/{$campCollaboration->inviteKey}/find"],
             ],
@@ -87,7 +87,7 @@ class AcceptInvitationTest extends ECampApiTestCase {
             'campId' => $campCollaboration->camp->getId(),
             'campTitle' => $campCollaboration->camp->title,
             'userDisplayName' => 'Bi-Pi',
-            'userAlreadyInCamp' => true,
+            'userAlreadyInCamp' => false,
             '_links' => [
                 'self' => ['href' => "/invitations/{$campCollaboration->inviteKey}/find"],
             ],
@@ -128,6 +128,26 @@ class AcceptInvitationTest extends ECampApiTestCase {
     public function testAcceptInvitationFailsWhenUserAlreadyInCamp() {
         /** @var CampCollaboration $campCollaboration */
         $campCollaboration = static::$fixtures['campCollaboration4invited'];
+        static::createClientWithCredentials()->request(
+            'PATCH',
+            "/invitations/{$campCollaboration->inviteKey}/".Invitation::ACCEPT,
+            [
+                'json' => [],
+                'headers' => ['Content-Type' => 'application/merge-patch+json'],
+            ]
+        );
+        $this->assertResponseStatusCodeSame(422);
+    }
+
+    /**
+     * @throws TransportExceptionInterface
+     * @throws ServerExceptionInterface
+     * @throws RedirectionExceptionInterface
+     * @throws ClientExceptionInterface
+     */
+    public function testAcceptInvitationFailsWhenUserAlreadyInCampAndUserIsAttachedToInvitation() {
+        /** @var CampCollaboration $campCollaboration */
+        $campCollaboration = static::$fixtures['campCollaboration6invitedWithUser'];
         static::createClientWithCredentials()->request(
             'PATCH',
             "/invitations/{$campCollaboration->inviteKey}/".Invitation::ACCEPT,

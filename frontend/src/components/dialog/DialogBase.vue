@@ -33,39 +33,49 @@ export default {
       }
     },
     setEntityData (data) {
+      const loadingPromises = []
+
       this.entityProperties.forEach(key => {
         this.$set(this.entityData, key, data[key])
       })
       this.embeddedEntities.forEach(key => {
         if (data[key]) {
-          data[key]()._meta.load.then(obj => this.$set(this.entityData, key + 'Id', obj.id))
+          loadingPromises.push(data[key]()._meta.load)
+          data[key]()._meta.load.then(obj => this.$set(this.entityData, key, obj._meta.self))
         }
       })
       this.embeddedCollections.forEach(key => {
         if (data[key]) {
-          data[key]()._meta.load.then(obj => this.$set(this.entityData, key, obj.items))
+          loadingPromises.push(data[key]().$loadItems())
+          data[key]().$loadItems().then(obj => {
+            this.$set(this.entityData, key, obj.items.map(entity => entity._meta.self))
+          })
         }
       })
-      this.loading = false
+
+      // wait for all loading promises to finish before showing any content
+      Promise.all(loadingPromises).then(() => { this.loading = false })
     },
-    create () {
+    create (payloadData = null) {
       this.error = null
       const _events = this._events
-      const promise = this.api.post(this.entityUri, this.entityData).then(this.close, e => this.onError(_events, e))
+      payloadData ??= this.entityData
+      const promise = this.api.post(this.entityUri, payloadData).then(this.onSuccess, e => this.onError(_events, e))
       this.$emit('submit')
       return promise
     },
-    update () {
+    update (payloadData = null) {
       this.error = null
       const _events = this._events
-      const promise = this.api.patch(this.entityUri, this.entityData).then(this.close, e => this.onError(_events, e))
+      payloadData ??= this.entityData
+      const promise = this.api.patch(this.entityUri, payloadData).then(this.onSuccess, e => this.onError(_events, e))
       this.$emit('submit')
       return promise
     },
     del () {
       this.error = null
       const _events = this._events
-      const promise = this.api.del(this.entityUri).then(this.close, e => this.onError(_events, e))
+      const promise = this.api.del(this.entityUri).then(this.onSuccess, e => this.onError(_events, e))
       this.$emit('submit')
       return promise
     },
@@ -75,6 +85,9 @@ export default {
     },
     close () {
       this.showDialog = false
+    },
+    open () {
+      this.showDialog = true
     },
     onError (originalHandlers, e) {
       // By the time we get here, the dialog might be closed because an enclosing menu might be closed.

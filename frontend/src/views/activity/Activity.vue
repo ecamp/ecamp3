@@ -91,7 +91,7 @@ Displays a single activity
       </template>
 
       <v-card-text class="px-0 py-0">
-        <v-skeleton-loader v-if="activity._meta.loading" type="article" />
+        <v-skeleton-loader v-if="loading" type="article" />
         <template v-else>
           <!-- Header -->
           <v-row dense class="activity-header">
@@ -133,23 +133,17 @@ Displays a single activity
               </v-row>
               <v-row dense>
                 <v-col>
-                  <api-select
-                    :name="$tc('entity.activity.fields.responsible')"
-                    dense
-                    multiple
-                    chips
-                    deletable-chips
-                    small-chips
-                    :uri="activity._meta.self"
-                    fieldname="campCollaborations"
-                    :disabled="layoutMode || !isContributor"
-                    :items="availableCampCollaborations" />
+                  <activity-responsibles
+                    :activity="activity"
+                    :disabled="layoutMode || !isContributor" />
                 </v-col>
               </v-row>
             </v-col>
           </v-row>
-          <content-node
-            v-if="activity.rootContentNode"
+
+          <v-skeleton-loader v-if="loading" type="article" />
+          <root-node
+            v-else
             :content-node="activity.rootContentNode()"
             :layout-mode="layoutMode"
             :disabled="isContributor === false" />
@@ -162,8 +156,8 @@ Displays a single activity
 <script>
 import ContentCard from '@/components/layout/ContentCard.vue'
 import ApiTextField from '@/components/form/api/ApiTextField.vue'
-import ApiSelect from '@/components/form/api/ApiSelect.vue'
-import ContentNode from '@/components/activity/ContentNode.vue'
+import RootNode from '@/components/activity/RootNode.vue'
+import ActivityResponsibles from '@/components/activity/ActivityResponsibles.vue'
 import { defineHelpers } from '@/common/helpers/scheduleEntry/dateHelperUTC.js'
 import { campRoleMixin } from '@/mixins/campRoleMixin'
 
@@ -172,8 +166,8 @@ export default {
   components: {
     ContentCard,
     ApiTextField,
-    ApiSelect,
-    ContentNode
+    RootNode,
+    ActivityResponsibles
   },
   mixins: [campRoleMixin],
   props: {
@@ -185,26 +179,11 @@ export default {
   data () {
     return {
       layoutMode: false,
-      editActivityTitle: false
+      editActivityTitle: false,
+      loading: true
     }
   },
   computed: {
-    availableCampCollaborations () {
-      const currentCampCollaborationIds = this.activity.campCollaborations().items.map(cc => cc.id)
-      return this.campCollaborations.filter(cc => {
-        return (cc.status === 'established') || (currentCampCollaborationIds.includes(cc.id))
-      }).map(value => {
-        const inactive = value.status === 'inactive'
-        const text = value.user().displayName + (inactive ? (' (' + this.$tc('entity.campCollaboration.inactive')) + ')' : '')
-        return {
-          value,
-          text
-        }
-      })
-    },
-    campCollaborations () {
-      return this.activity.camp().campCollaborations().items
-    },
     activity () {
       return this.scheduleEntry().activity()
     },
@@ -221,10 +200,19 @@ export default {
       return this.activity.contentNodes()
     }
   },
+
+  // reload data every time user navigates to Activity view
+  async mounted () {
+    this.loading = true
+    await this.scheduleEntry().activity()._meta.load // wait if activity is being loaded as part of a collection
+    await this.scheduleEntry().activity().$reload() // reload as single entity to ensure all embedded entities are included in a single network request
+    this.loading = false
+  },
+
   methods: {
     changeCategory (category) {
       this.activity.$patch({
-        categoryId: category.id
+        category: category._meta.self
       })
     },
     countContentNodes (contentType) {

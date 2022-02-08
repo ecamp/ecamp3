@@ -5,7 +5,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "XDebug: eCamp Backend",
+            "name": "XDebug: eCamp API",
             "type": "php",
             "request": "launch",
             "hostname": "localhost",

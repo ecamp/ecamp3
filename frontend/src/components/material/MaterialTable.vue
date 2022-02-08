@@ -40,7 +40,8 @@
         :disabled="layoutMode || disabled"
         dense
         :uri="item.uri"
-        fieldname="quantity" />
+        fieldname="quantity"
+        type="number" />
       <span v-if="item.readonly">{{ item.quantity }}</span>
     </template>
 
@@ -70,8 +71,7 @@
         :disabled="layoutMode || disabled"
         dense
         :uri="item.uri"
-        relation="materialList"
-        fieldname="materialListId"
+        fieldname="materialList"
         :items="materialLists" />
       <span v-if="item.readonly">{{ item.listName }}</span>
     </template>
@@ -79,8 +79,8 @@
     <template #[`item.lastColumn`]="{ item }">
       <!-- Activity link (only visible in full period view) -->
       <schedule-entry-links
-        v-if="period && showContentNodeMaterial && item.entityObject && item.entityObject.contentNode"
-        :activity="item.entityObject.contentNode().owner" />
+        v-if="period && showActivityMaterial && item.entityObject && item.entityObject.materialNode"
+        :activity="item.entityObject.materialNode().owner" />
 
       <!-- Action buttons -->
       <div v-if="!item.readonly" class="d-flex">
@@ -217,14 +217,14 @@ export default {
     // materialItems Collection to display
     materialItemCollection: { type: Object, required: true },
 
-    // contentNode Entity for displaying material tables within activitiy
-    contentNode: { type: Object, required: false, default: null },
+    // materialNode Entity for displaying material item within an activity (should be null if period is provided)
+    materialNode: { type: Object, required: false, default: null },
 
-    // contentNode Entity for displaying material tables within activitiy
+    // period Entity for displaying material items within a period (should be null if materialNode is provided)
     period: { type: Object, required: false, default: null },
 
     // controls if material belonging to ContentNodes should be shown or not
-    showContentNodeMaterial: { type: Boolean, default: true },
+    showActivityMaterial: { type: Boolean, default: true },
 
     // true --> displays table grouped by material list
     groupByList: { type: Boolean, default: false }
@@ -250,7 +250,7 @@ export default {
       headers.push({ text: this.$tc('entity.materialList.name'), value: 'listName', width: '20%' })
 
       // Activity column only shown in period overview
-      if (this.period && this.showContentNodeMaterial) {
+      if (this.period && this.showActivityMaterial) {
         headers.push({ text: this.$tc('entity.activity.name'), value: 'lastColumn', groupable: false, width: '15%' })
       } else {
         headers.push({ text: '', value: 'lastColumn', sortable: false, groupable: false, width: '5%' })
@@ -260,15 +260,15 @@ export default {
     },
     materialLists () {
       return this.camp.materialLists().items.map(l => ({
-        value: l.id,
+        value: l._meta.self,
         text: l.name
       }))
     },
     materialItemsData () {
       const items = this.materialItemCollection.items
         .filter(item => {
-          // filter out material items belonging to content nodes (if showContentNodeMaterial is deactivated)
-          if (!this.showContentNodeMaterial && item.contentNode !== null) {
+          // filter out material items belonging to content nodes (if showActivityMaterial is deactivated)
+          if (!this.showActivityMaterial && item.materialNode !== null) {
             return false
           }
 
@@ -281,12 +281,10 @@ export default {
           quantity: item.quantity,
           unit: item.unit,
           article: item.article,
-          listId: item.materialList().id,
           listName: item.materialList().name,
-          activity: item.contentNode ? item.contentNode().id : null,
           entityObject: item,
-          readonly: (this.period && item.contentNode), // if complete component is in period overview, disable editing of material that belongs to contentNodes (Acitity material)
-          class: this.period && item.contentNode ? 'readonly' : 'period'
+          readonly: (this.period && item.materialNode), // if complete component is in period overview, disable editing of material that belongs to materialNodes (Activity material)
+          class: this.period && item.materialNode ? 'readonly' : 'period'
         }))
 
       // eager add new Items
@@ -297,7 +295,7 @@ export default {
           quantity: mi.quantity,
           unit: mi.unit,
           article: mi.article,
-          listName: this.materialLists.find(listItem => listItem.value === mi.materialListId).text,
+          listName: this.materialLists.find(listItem => listItem.value === mi.materialList).text,
           new: true,
           serverError: mi.serverError,
           readonly: true,
@@ -361,7 +359,7 @@ export default {
             this.$delete(this.newMaterialItems, key)
           })
         })
-        // catch server error
+      // catch server error
         .catch(error => {
           this.$set(this.newMaterialItems[key], 'serverError', error)
         })

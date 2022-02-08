@@ -3,6 +3,7 @@
 namespace App\Tests\Api\CampCollaborations;
 
 use App\Entity\CampCollaboration;
+use App\Entity\User;
 use App\Tests\Api\ECampApiTestCase;
 
 /**
@@ -27,7 +28,7 @@ class UpdateCampCollaborationTest extends ECampApiTestCase {
 
     public function testPatchCampCollaborationIsDeniedForUnrelatedUser() {
         $campCollaboration = static::$fixtures['campCollaboration1manager'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->username])
+        static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->getUsername()])
             ->request('PATCH', '/camp_collaborations/'.$campCollaboration->getId(), ['json' => [
                 'status' => 'inactive',
                 'role' => 'guest',
@@ -42,7 +43,7 @@ class UpdateCampCollaborationTest extends ECampApiTestCase {
 
     public function testPatchCampCollaborationIsDeniedForInactiveCollaborator() {
         $campCollaboration = static::$fixtures['campCollaboration1manager'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->username])
+        static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->getUsername()])
             ->request('PATCH', '/camp_collaborations/'.$campCollaboration->getId(), ['json' => [
                 'status' => 'inactive',
                 'role' => 'guest',
@@ -57,7 +58,7 @@ class UpdateCampCollaborationTest extends ECampApiTestCase {
 
     public function testPatchCampCollaborationIsDeniedForGuest() {
         $campCollaboration = static::$fixtures['campCollaboration1manager'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user3guest']->username])
+        static::createClientWithCredentials(['username' => static::$fixtures['user3guest']->getUsername()])
             ->request('PATCH', '/camp_collaborations/'.$campCollaboration->getId(), ['json' => [
                 'status' => 'inactive',
                 'role' => 'guest',
@@ -72,7 +73,7 @@ class UpdateCampCollaborationTest extends ECampApiTestCase {
 
     public function testOwnPatchCampCollaborationIsAllowedForGuest() {
         $campCollaboration = static::$fixtures['campCollaboration3guest'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user3guest']->username])
+        static::createClientWithCredentials(['username' => static::$fixtures['user3guest']->getUsername()])
             ->request('PATCH', '/camp_collaborations/'.$campCollaboration->getId(), ['json' => [
                 'status' => 'inactive',
                 'role' => 'guest',
@@ -87,7 +88,7 @@ class UpdateCampCollaborationTest extends ECampApiTestCase {
 
     public function testPatchCampCollaborationIsAllowedForMember() {
         $campCollaboration = static::$fixtures['campCollaboration1manager'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->username])
+        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->getUsername()])
             ->request('PATCH', '/camp_collaborations/'.$campCollaboration->getId(), ['json' => [
                 'status' => 'inactive',
                 'role' => 'guest',
@@ -264,5 +265,99 @@ class UpdateCampCollaborationTest extends ECampApiTestCase {
             'status' => 'invited',
         ]);
         $this->assertEmailCount(1);
+    }
+
+    /**
+     * @dataProvider usersWhichCanEditCampCollaborations
+     */
+    public function testRejectsPatchStatusFromEstablishedToInactiveIfNoManagerWouldBeInCamp(string $userFixtureName) {
+        $campCollaboration = static::$fixtures['campCollaboration1camp2manager'];
+        /** @var User $user */
+        $user = static::$fixtures[$userFixtureName];
+        static::createClientWithCredentials(['username' => $user->getUsername()])
+            ->request(
+                'PATCH',
+                '/camp_collaborations/'.$campCollaboration->getId(),
+                [
+                    'json' => [
+                        'status' => CampCollaboration::STATUS_INACTIVE,
+                    ],
+                    'headers' => ['Content-Type' => 'application/merge-patch+json'],
+                ]
+            )
+        ;
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [
+                    'propertyPath' => 'camp.collaborations',
+                    'message' => 'must have at least one manager.',
+                ],
+            ],
+        ]);
+    }
+
+    /**
+     * @dataProvider usersWhichCanEditCampCollaborations
+     */
+    public function testRejectsPatchRoleToMemberIfNoManagerWouldBeInCamp(string $userFixtureName) {
+        $campCollaboration = static::$fixtures['campCollaboration1camp2manager'];
+        /** @var User $user */
+        $user = static::$fixtures[$userFixtureName];
+        static::createClientWithCredentials(['username' => $user->getUsername()])
+            ->request(
+                'PATCH',
+                '/camp_collaborations/'.$campCollaboration->getId(),
+                [
+                    'json' => [
+                        'role' => CampCollaboration::ROLE_MEMBER,
+                    ],
+                    'headers' => ['Content-Type' => 'application/merge-patch+json'],
+                ]
+            )
+        ;
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [
+                    'propertyPath' => 'camp.collaborations',
+                    'message' => 'must have at least one manager.',
+                ],
+            ],
+        ]);
+    }
+
+    /**
+     * @dataProvider usersWhichCanEditCampCollaborations
+     */
+    public function testRejectsPatchRoleToGuestIfNoManagerWouldBeInCamp(string $userFixtureName) {
+        $campCollaboration = static::$fixtures['campCollaboration1camp2manager'];
+        /** @var User $user */
+        $user = static::$fixtures[$userFixtureName];
+        static::createClientWithCredentials(['username' => $user->getUsername()])
+            ->request(
+                'PATCH',
+                '/camp_collaborations/'.$campCollaboration->getId(),
+                [
+                    'json' => [
+                        'role' => CampCollaboration::ROLE_GUEST,
+                    ],
+                    'headers' => ['Content-Type' => 'application/merge-patch+json'],
+                ]
+            )
+        ;
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [
+                    'propertyPath' => 'camp.collaborations',
+                    'message' => 'must have at least one manager.',
+                ],
+            ],
+        ]);
+    }
+
+    public static function usersWhichCanEditCampCollaborations(): array {
+        return ['user1manager' => ['user1manager'], 'user2member' => ['user2member']];
     }
 }

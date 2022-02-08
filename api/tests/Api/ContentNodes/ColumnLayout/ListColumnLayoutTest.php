@@ -2,56 +2,41 @@
 
 namespace App\Tests\Api\ContentNodes\ColumnLayout;
 
-use App\Tests\Api\ECampApiTestCase;
+use App\Tests\Api\ContentNodes\ListContentNodeTestCase;
 
 /**
  * @internal
  */
-class ListColumnLayoutTest extends ECampApiTestCase {
-    // TODO security tests when not logged in or not collaborator
+class ListColumnLayoutTest extends ListContentNodeTestCase {
+    public function setUp(): void {
+        parent::setUp();
 
-    public function testListColumnLayouts() {
-        $response = static::createClientWithCredentials()->request('GET', '/content_node/column_layouts');
-        $this->assertResponseStatusCodeSame(200);
-        $this->assertJsonContains([
-            'totalItems' => 10,
-            '_links' => [
-                'items' => [],
-            ],
-            '_embedded' => [
-                'items' => [],
-            ],
-        ]);
-        $this->assertEqualsCanonicalizing([
-            ['href' => $this->getIriFor('columnLayout1')],
-            ['href' => $this->getIriFor('columnLayout2')],
-            ['href' => $this->getIriFor('columnLayoutChild1')],
-            ['href' => $this->getIriFor('columnLayout3')],
-            ['href' => $this->getIriFor('columnLayout4')],
-            ['href' => $this->getIriFor('columnLayout2camp2')],
-            ['href' => $this->getIriFor('columnLayout1campPrototype')],
-            ['href' => $this->getIriFor('columnLayout2campPrototype')],
-            // The next two should not be visible once we implement proper entity filtering for content nodes
-            ['href' => $this->getIriFor('columnLayout1campUnrelated')],
-            ['href' => $this->getIriFor('columnLayout2campUnrelated')],
-        ], $response->toArray()['_links']['items']);
+        $this->endpoint = '/content_node/column_layouts';
+
+        $this->contentNodesCamp1and2 = [
+            $this->getIriFor('columnLayout1'),
+            $this->getIriFor('columnLayout2'),
+            $this->getIriFor('columnLayoutChild1'),
+            $this->getIriFor('columnLayout2Child1'),
+            $this->getIriFor('columnLayout3'),
+            $this->getIriFor('columnLayout4'),
+            $this->getIriFor('columnLayout2camp2'),
+        ];
+
+        $this->contentNodesCampUnrelated = [
+            $this->getIriFor('columnLayout1campUnrelated'),
+            $this->getIriFor('columnLayout2campUnrelated'),
+        ];
+
+        $this->contentNodesCampPrototypes = [
+            $this->getIriFor('columnLayout1campPrototype'),
+            $this->getIriFor('columnLayout2campPrototype'),
+        ];
     }
 
     public function testListColumnLayoutsFilteredByParent() {
-        $parent = static::$fixtures['columnLayout1'];
         $response = static::createClientWithCredentials()->request('GET', '/content_node/column_layouts?parent='.$this->getIriFor('columnLayout1'));
         $this->assertResponseStatusCodeSame(200);
-        $this->assertJsonContains([
-            'totalItems' => 1,
-            '_links' => [
-                'items' => [],
-            ],
-            '_embedded' => [
-                'items' => [],
-            ],
-        ]);
-        $this->assertEqualsCanonicalizing([
-            ['href' => $this->getIriFor('columnLayoutChild1')],
-        ], $response->toArray()['_links']['items']);
+        $this->assertJsonContainsItems($response, [$this->getIriFor('columnLayoutChild1')]);
     }
 }

@@ -7,9 +7,13 @@ use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Repository\DayRepository;
+use App\Serializer\Normalizer\RelatedCollectionLink;
+use DateInterval;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Exception;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Annotation\SerializedName;
@@ -27,7 +31,7 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
  */
 #[ApiResource(
     collectionOperations: [
-        'get' => ['security' => 'is_fully_authenticated()'],
+        'get' => ['security' => 'is_authenticated()'],
     ],
     itemOperations: [
         'get' => ['security' => 'is_granted("CAMP_COLLABORATOR", object) or is_granted("CAMP_IS_PROTOTYPE", object)'],
@@ -67,6 +71,7 @@ class Day extends BaseEntity implements BelongsToCampInterface {
     public int $dayOffset = 0;
 
     public function __construct() {
+        parent::__construct();
         $this->dayResponsibles = new ArrayCollection();
     }
 
@@ -82,26 +87,62 @@ class Day extends BaseEntity implements BelongsToCampInterface {
     #[SerializedName('number')]
     #[Groups(['read'])]
     public function getDayNumber(): int {
-        return $this->dayOffset + 1;
+        return $this->period->getFirstDayNumber() + $this->dayOffset;
     }
 
     /**
-     * All scheduleEntries which start on the current day (using midnight as cutoff).
+     * All scheduleEntries in this day's period which overlap with this day (using midnight as cutoff).
      *
      * @return ScheduleEntry[]
      */
-    #[ApiProperty(example: '["/schedule_entries/1a2b3c4d"]')]
+    #[ApiProperty(example: '/schedule_entries?period=%2Fperiods%2F1a2b3c4d&start%5Bstrictly_before%5D=2022-01-03T00%3A00%3A00%2B00%3A00&end%5Bafter%5D=2022-01-02T00%3A00%3A00%2B00%3A00')]
+    #[RelatedCollectionLink(ScheduleEntry::class, ['period' => 'period', 'start[strictly_before]' => 'end', 'end[after]' => 'start'])]
+    #[Groups(['read'])]
     public function getScheduleEntries(): array {
-        $dayOffset = $this->dayOffset;
-
         return array_filter(
             $this->period->getScheduleEntries(),
-            // filters all scheduleEntries which start on the current day
-            function (ScheduleEntry $scheduleEntry) use ($dayOffset) {
-                return $scheduleEntry->periodOffset >= $dayOffset * 24 * 60              // after midnight of current day
-                        && $scheduleEntry->periodOffset < ($dayOffset + 1) * 24 * 60;    // before midnight of next day
+            // filters all scheduleEntries which overlap with the current day
+            function (ScheduleEntry $scheduleEntry) {
+                return $scheduleEntry->getStart() >= $this->getEnd()     // starts at or after midnight of current day
+                        && $scheduleEntry->getEnd() < $this->getStart(); // ends strictly before midnight of next day
             }
         );
+    }
+
+    /**
+     * The start date and time of the day. This is a read-only convenience property.
+     *
+     * @return null|DateTime
+     */
+    #[ApiProperty(example: '2022-01-02T00:00:00+00:00', openapiContext: ['format' => 'date'])]
+    #[Groups(['read'])]
+    public function getStart(): ?DateTime {
+        try {
+            $start = $this->period?->start ? DateTime::createFromInterface($this->period->start) : null;
+            $start?->add(new DateInterval('P'.$this->dayOffset.'D'));
+
+            return $start;
+        } catch (Exception $e) {
+            return null;
+        }
+    }
+
+    /**
+     * The end date and time of the day. This is a read-only convenience property.
+     *
+     * @return null|DateTime
+     */
+    #[ApiProperty(example: '2022-01-03T00:00:00+00:00', openapiContext: ['format' => 'date'])]
+    #[Groups(['read'])]
+    public function getEnd(): ?DateTime {
+        try {
+            $end = $this->period?->start ? DateTime::createFromInterface($this->period->start) : null;
+            $end?->add(new DateInterval('P'.($this->dayOffset + 1).'D'));
+
+            return $end;
+        } catch (Exception $e) {
+            return null;
+        }
     }
 
     /**

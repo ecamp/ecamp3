@@ -30,6 +30,7 @@ Wrapper component for form components to save data back to API
 import { debounce } from 'lodash'
 import { apiPropsMixin } from '@/mixins/apiPropsMixin.js'
 import { ValidationObserver } from 'vee-validate'
+import serverErrorToString from '@/helpers/serverErrorToString.js'
 
 export default {
   name: 'ApiWrapper',
@@ -39,10 +40,6 @@ export default {
     separateButtons: {
       type: Boolean,
       default: true
-    },
-    relation: {
-      type: String,
-      default: ''
     }
   },
   data () {
@@ -101,27 +98,32 @@ export default {
       } else if (this.hasLoadingError) {
         return null
 
-      // load relation, use id
-      } else if (this.relation) {
-        return this.api.get(this.uri)[this.relation]().id
-
       // return value from API unless `value` is set explicitly
       } else {
-        let val = this.api.get(this.uri)[this.fieldname]
+        const resource = this.api.get(this.uri)
+        let val = resource[this.fieldname]
+
+        // resource is loaded, but val is still undefined (=doesn't exist)
+        if (val === undefined) {
+          console.error('You are trying to use a fieldname ' + this.fieldname + ' in an ApiFormComponent, but ' + this.fieldname + ' doesn\'t exist on entity ' + this.uri)
+          return null
+        }
 
         // while loading, value is null
         // (necessary because while loading, even normal properties are returned as functions)
-        if (val && val.loading) return null
+        if (resource._meta.loading || val._meta?.loading) return null
 
-        // Check if val is an embedded collection
+        // Check if val is an (embedded) relation
         if (val instanceof Function) {
           val = val()
           if (!('items' in val)) {
-            console.error('You are trying to use a fieldname ' + this.fieldname + ' in an ApiFormComponent, but ' + this.fieldname + ' is a relation, not a primitive value or embedded collection.')
-            return null
+            return val._meta.self // val is an embedded relation (*ToOne) --> return IRI
+          } else {
+            return val.items.map(item => item._meta.self) // val is an embedded collection (*ToMany) --> return array of IRIs
           }
-          val = val.items
         }
+
+        // standard case: value is a primitive value
         return val
       }
     }
@@ -215,18 +217,7 @@ export default {
         setTimeout(() => { this.showIconSuccess = false }, 2000)
       }, (error) => {
         this.isSaving = false
-
-        // 422 validation error
-        if (error.name === 'ServerException' && error.response && error.response.status === 422) {
-          this.serverErrorMessage = 'Validation error: '
-          const validationMessages = error.response.data.validation_messages[this.fieldname]
-          Object.keys(validationMessages).forEach((key) => {
-            this.serverErrorMessage = this.serverErrorMessage + validationMessages[key] + '. '
-          })
-        } else {
-          this.serverErrorMessage = error.message
-        }
-
+        this.serverErrorMessage = serverErrorToString(error, this.fieldname)
         this.hasServerError = true
       })
     }

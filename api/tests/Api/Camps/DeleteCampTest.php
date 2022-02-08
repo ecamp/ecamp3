@@ -33,7 +33,7 @@ class DeleteCampTest extends ECampApiTestCase {
 
     public function testDeleteCampIsDeniedForOtherwiseUnrelatedCreator() {
         $camp = static::$fixtures['camp2'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->getUsername()])
+        static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->getUsername()])
             ->request('DELETE', '/camps/'.$camp->getId())
         ;
         $this->assertResponseStatusCodeSame(404);

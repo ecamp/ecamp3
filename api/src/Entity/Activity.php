@@ -7,6 +7,7 @@ use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Repository\ActivityRepository;
+use App\Serializer\Normalizer\RelatedCollectionLink;
 use App\Validator\AssertBelongsToSameCamp;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -22,8 +23,9 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 #[ApiResource(
     collectionOperations: [
-        'get' => ['security' => 'is_fully_authenticated()'],
+        'get' => ['security' => 'is_authenticated()'],
         'post' => [
+            'validation_groups' => ['Default', 'create'],
             'denormalization_context' => ['groups' => ['write', 'create']],
             'normalization_context' => self::ITEM_NORMALIZATION_CONTEXT,
             'security_post_denormalize' => 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)',
@@ -50,7 +52,7 @@ class Activity extends AbstractContentNodeOwner implements BelongsToCampInterfac
         'groups' => [
             'read',
             'Activity:Category',
-            'Activity:CampCollaborations',
+            'Activity:ActivityResponsibles',
             'Activity:ScheduleEntries',
             'Activity:ContentNodes',
         ],
@@ -60,19 +62,17 @@ class Activity extends AbstractContentNodeOwner implements BelongsToCampInterfac
     /**
      * The list of points in time when this activity's programme will be carried out.
      *
-     * @ORM\OneToMany(targetEntity="ScheduleEntry", mappedBy="activity", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="ScheduleEntry", mappedBy="activity", orphanRemoval=true, cascade={"persist"})
+     * @ORM\OrderBy({"periodOffset": "ASC", "left": "ASC", "length": "DESC", "id": "ASC"})
      */
-    #[ApiProperty(writable: false, example: '["/schedule_entries/1a2b3c4d"]')]
-    #[Groups(['read'])]
+    #[Assert\Valid]
+    #[Assert\Count(min: 1, groups: ['create'])]
+    #[ApiProperty(
+        writableLink: true,
+        example: '[{ "period": "/periods/1a2b3c4a", "length": 100, "periodOffset": 1000 }]',
+    )]
+    #[Groups(['read', 'create'])]
     public Collection $scheduleEntries;
-
-    /**
-     * The list of people that are responsible for planning or carrying out this activity.
-     *
-     * @ORM\OneToMany(targetEntity="ActivityResponsible", mappedBy="activity", orphanRemoval=true)
-     */
-    #[ApiProperty(readable: false, writable: false)]
-    public Collection $activityResponsibles;
 
     /**
      * The camp to which this activity belongs.
@@ -115,7 +115,17 @@ class Activity extends AbstractContentNodeOwner implements BelongsToCampInterfac
     #[Groups(['read', 'write'])]
     public string $location = '';
 
+    /**
+     * The list of people that are responsible for planning or carrying out this activity.
+     *
+     * @ORM\OneToMany(targetEntity="ActivityResponsible", mappedBy="activity", orphanRemoval=true)
+     */
+    #[ApiProperty(writable: false)]
+    #[Groups(['read'])]
+    private Collection $activityResponsibles;
+
     public function __construct() {
+        parent::__construct();
         $this->scheduleEntries = new ArrayCollection();
         $this->activityResponsibles = new ArrayCollection();
     }
@@ -165,33 +175,9 @@ class Activity extends AbstractContentNodeOwner implements BelongsToCampInterfac
      * @return ContentNode[]
      */
     #[Groups(['read'])]
+    #[RelatedCollectionLink(ContentNode::class, ['root' => 'rootContentNode'])]
     public function getContentNodes(): array {
         return parent::getContentNodes();
-    }
-
-    /**
-     * @return CampCollaboration[]
-     */
-    #[ApiProperty(readableLink: true)]
-    #[SerializedName('campCollaborations')]
-    #[Groups(['Activity:CampCollaborations'])]
-    public function getEmbeddedCampCollaborations(): array {
-        return $this->getCampCollaborations();
-    }
-
-    /**
-     * The list of people that are responsible for planning or carrying out this activity.
-     *
-     * @return CampCollaboration[]
-     */
-    #[ApiProperty(writable: false, example: '["/camp_collaborations/1a2b3c4d"]')]
-    #[Groups(['read'])]
-    public function getCampCollaborations(): array {
-        return $this
-            ->activityResponsibles
-            ->map(fn (ActivityResponsible $activityResponsible) => $activityResponsible->campCollaboration)
-            ->getValues()
-        ;
     }
 
     /**
@@ -228,6 +214,16 @@ class Activity extends AbstractContentNodeOwner implements BelongsToCampInterfac
         }
 
         return $this;
+    }
+
+    /**
+     * @return ActivityResponsible[]
+     */
+    #[ApiProperty(readableLink: true)]
+    #[SerializedName('activityResponsibles')]
+    #[Groups(['Activity:ActivityResponsibles'])]
+    public function getEmbeddedActivityResponsibles(): array {
+        return $this->getActivityResponsibles();
     }
 
     /**

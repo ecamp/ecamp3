@@ -25,11 +25,26 @@ App\Entity\CampCollaboration:
     camp: '@camp1'
     status: inactive
     role: manager
-  campCollaboration1camp2:
+  campCollaboration6manager:
+    user: '@user7manager'
+    camp: '@camp1'
+    status: established
+    role: manager
+  campCollaboration1camp2manager:
     user: '@user1manager'
     camp: '@camp2'
     status: established
+    role: manager
+  campCollaboration2camp2member:
+    user: '@user2member'
+    camp: '@camp2'
+    status: established
     role: member
+  campCollaboration3camp2guest:
+    user: '@user3guest'
+    camp: '@camp2'
+    status: established
+    role: guest
   campCollaboration2invitedCampUnrelated:
     camp: '@campUnrelated'
     inviteKey: "myInviteKey2"
@@ -45,7 +60,7 @@ App\Entity\CampCollaboration:
     user: '@user6invited'
     camp: '@camp2'
     inviteKey: "myInviteKeyCamp2"
-    inviteEmail: '@user6invited->email'
+    inviteEmail: '@profile6invited->email'
     status: invited
     role: member
   campCollaboration1campPrototype:

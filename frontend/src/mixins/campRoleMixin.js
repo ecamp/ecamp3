@@ -13,10 +13,21 @@ export const campRoleMixin = {
       return this.role === 'member'
     },
     role () {
+      const currentUserLink = this.$auth.user()._meta.self
+      const result = this._campCollaborations
+        .filter(coll => typeof coll.user === 'function')
+        .find(coll => coll.user()._meta.self === currentUserLink)
+      return result?.role
+    },
+    _campCollaborations () {
+      const campCollaborations = this._camp?.campCollaborations()
+      return campCollaborations?.items
+    },
+    _camp () {
       if (typeof this.camp === 'function') {
-        return this.camp()?.role
+        return this.camp()
       }
-      return this.camp?.role
+      return this.camp
     }
   },
   mounted () {

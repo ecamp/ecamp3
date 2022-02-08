@@ -1,7 +1,9 @@
-# App\Entity\SingleText:
-#   singleText1:
-#     text: 'Test 1'
-#     contentNode: '@singleText1'
-#   singleText2:
-#     text: 'Test 2'
-#     contentNode: '@singleText2'
+App\Entity\ContentNode\SingleText:
+  singleTextCampUnrelated:
+    root: '@columnLayout1campUnrelated'
+    parent: '@columnLayout1campUnrelated'
+    slot: '1'
+    position: 1
+    instanceName: <word()>
+    contentType: '@contentTypeNotes'
+    text: <word()>

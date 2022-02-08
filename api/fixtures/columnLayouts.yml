@@ -1,0 +1,73 @@
+App\Entity\ContentNode\ColumnLayout:
+  columnLayout2:
+    root: '@self'
+    parent: null
+    slot: ''
+    position: 0
+    columns: [{slot: '1', width: 12}]
+    instanceName: 'columnLayout2'
+    contentType: '@contentTypeColumnLayout'
+  columnLayout2Child1:
+    root: '@columnLayout2'
+    parent: '@columnLayout2'
+    slot: '2'
+    position: 0
+    columns: [{slot: '1', width: 12}]
+    instanceName: 'columnLayout2Child'
+    contentType: '@contentTypeColumnLayout'
+  columnLayout3:
+    root: '@self'
+    parent: null
+    slot: ''
+    position: 0
+    columns: [{slot: '1', width: 12}]
+    instanceName: <word()>
+    contentType: '@contentTypeColumnLayout'
+  columnLayout4:
+    root: '@self'
+    parent: null
+    slot: ''
+    position: 0
+    columns: [{slot: '1', width: 12}]
+    instanceName: <word()>
+    contentType: '@contentTypeColumnLayout'
+  columnLayout2camp2:
+    root: '@self'
+    parent: null
+    slot: ''
+    position: 0
+    columns: [{slot: '1', width: 12}]
+    instanceName: <word()>
+    contentType: '@contentTypeColumnLayout'
+  columnLayout1campUnrelated:
+    root: '@self'
+    parent: null
+    slot: ''
+    position: 0
+    columns: [{slot: '1', width: 12}]
+    instanceName: <word()>
+    contentType: '@contentTypeColumnLayout'
+  columnLayout2campUnrelated:
+    root: '@self'
+    parent: null
+    slot: ''
+    position: 0
+    columns: [{slot: '1', width: 12}]
+    instanceName: <word()>
+    contentType: '@contentTypeColumnLayout'
+  columnLayout1campPrototype:
+    root: '@self'
+    parent: null
+    slot: ''
+    position: 0
+    columns: [{slot: '1', width: 12}]
+    instanceName: <word()>
+    contentType: '@contentTypeColumnLayout'
+  columnLayout2campPrototype:
+    root: '@self'
+    parent: null
+    slot: ''
+    position: 0
+    columns: [{slot: '1', width: 12}]
+    instanceName: <word()>
+    contentType: '@contentTypeColumnLayout'

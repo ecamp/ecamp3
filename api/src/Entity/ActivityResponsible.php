@@ -23,7 +23,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 #[ApiResource(
     collectionOperations: [
-        'get' => ['security' => 'is_fully_authenticated()'],
+        'get' => ['security' => 'is_authenticated()'],
         'post' => ['security_post_denormalize' => 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)'],
     ],
     itemOperations: [
@@ -33,7 +33,10 @@ use Symfony\Component\Validator\Constraints as Assert;
     denormalizationContext: ['groups' => ['write']],
     normalizationContext: ['groups' => ['read']],
 )]
-#[UniqueEntity(fields: ['activity', 'campCollaboration'])]
+#[UniqueEntity(
+    fields: ['campCollaboration', 'activity'],
+    message: 'This campCollaboration (user) is already responsible for this activity.',
+)]
 #[ApiFilter(SearchFilter::class, properties: ['activity', 'activity.camp'])]
 class ActivityResponsible extends BaseEntity implements BelongsToCampInterface {
     /**

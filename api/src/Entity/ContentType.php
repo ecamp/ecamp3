@@ -2,8 +2,12 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
@@ -19,6 +23,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
     itemOperations: ['get'],
     normalizationContext: ['groups' => ['read']],
 )]
+#[ApiFilter(SearchFilter::class, properties: ['categories'])]
 class ContentType extends BaseEntity {
     /**
      * A name in UpperCamelCase of the content type. This value may be used as a technical
@@ -56,4 +61,32 @@ class ContentType extends BaseEntity {
      */
     #[ApiProperty(writable: false)]
     public ?array $jsonConfig = [];
+
+    /**
+     * Backlink to category (only used for filtering contentTypes by category).
+     * Internal: not published via API.
+     *
+     * @ORM\ManyToMany(targetEntity="Category", mappedBy="preferredContentTypes")
+     */
+    public Collection $categories;
+
+    public function __construct() {
+        parent::__construct();
+        $this->categories = new ArrayCollection();
+    }
+
+    /**
+     * API endpoint link for creating new entities of type entityClass.
+     */
+    #[Groups(['read'])]
+    #[ApiProperty(
+        example: '/content_node/column_layouts?contentType=%2Fcontent_types%2F1a2b3c4d',
+        openapiContext: [
+            'type' => 'array',
+            'format' => 'iri-reference',
+        ]
+    )]
+    public function getContentNodes(): array {
+        return []; // empty here; actual content is filled/decorated in ContentTypeNormalizer
+    }
 }

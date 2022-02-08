@@ -29,7 +29,7 @@ class UpdateMaterialItemTest extends ECampApiTestCase {
 
     public function testPatchMaterialItemIsDeniedForUnrelatedUser() {
         $materialItem = static::$fixtures['materialItem1'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->username])
+        static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->getUsername()])
             ->request('PATCH', '/material_items/'.$materialItem->getId(), ['json' => [
                 'materialList' => $this->getIriFor('materialList2'),
                 'period' => $this->getIriFor('period1'),
@@ -48,7 +48,7 @@ class UpdateMaterialItemTest extends ECampApiTestCase {
 
     public function testPatchMaterialItemIsDeniedForInactiveCollaborator() {
         $materialItem = static::$fixtures['materialItem1'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->username])
+        static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->getUsername()])
             ->request('PATCH', '/material_items/'.$materialItem->getId(), ['json' => [
                 'materialList' => $this->getIriFor('materialList2'),
                 'period' => $this->getIriFor('period1'),
@@ -67,7 +67,7 @@ class UpdateMaterialItemTest extends ECampApiTestCase {
 
     public function testPatchMaterialItemIsDeniedForGuest() {
         $materialItem = static::$fixtures['materialItem1'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user3guest']->username])
+        static::createClientWithCredentials(['username' => static::$fixtures['user3guest']->getUsername()])
             ->request('PATCH', '/material_items/'.$materialItem->getId(), ['json' => [
                 'materialList' => $this->getIriFor('materialList2'),
                 'period' => $this->getIriFor('period1'),
@@ -86,7 +86,7 @@ class UpdateMaterialItemTest extends ECampApiTestCase {
 
     public function testPatchMaterialItemIsAllowedForMember() {
         $materialItem = static::$fixtures['materialItem1'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->username])
+        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->getUsername()])
             ->request('PATCH', '/material_items/'.$materialItem->getId(), ['json' => [
                 'materialList' => $this->getIriFor('materialList2'),
                 'period' => $this->getIriFor('period1'),

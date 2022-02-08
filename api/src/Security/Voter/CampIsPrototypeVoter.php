@@ -10,11 +10,10 @@ use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 class CampIsPrototypeVoter extends Voter {
     protected function supports($attribute, $subject): bool {
         return 'CAMP_IS_PROTOTYPE' === $attribute
-            && ($subject instanceof BelongsToCampInterface || null === $subject)
-            && ($subject?->getCamp() instanceof Camp || null === $subject?->getCamp());
+            && ($subject instanceof BelongsToCampInterface);
     }
 
-    protected function voteOnAttribute(string $attribute, $subject, TokenInterface $token) {
+    protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool {
         /** @var null|Camp $camp */
         $camp = $subject?->getCamp();
         if (null === $camp) {
@@ -24,6 +23,6 @@ class CampIsPrototypeVoter extends Voter {
             return true;
         }
 
-        return $camp->isPrototype ?? false;
+        return $camp->isPrototype;
     }
 }

@@ -46,14 +46,14 @@ class CampRoleVoterTest extends TestCase {
         $this->assertEquals(VoterInterface::ACCESS_ABSTAIN, $result);
     }
 
-    public function testDeniesAccessWhenSubjectIsNull() {
+    public function testDoesntVoteWhenSubjectIsNull() {
         // given
 
         // when
         $result = $this->voter->vote($this->token, null, ['CAMP_COLLABORATOR']);
 
         // then
-        $this->assertEquals(VoterInterface::ACCESS_DENIED, $result);
+        $this->assertEquals(VoterInterface::ACCESS_ABSTAIN, $result);
     }
 
     public function testDeniesAccessWhenNotLoggedIn() {

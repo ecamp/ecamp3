@@ -1,13 +1,7 @@
 App\Entity\Activity:
-  activity1:
-    camp: '@camp1'
-    title: <word()>
-    location: <sentence()>
-    rootContentNode: '@columnLayout1'
-    category: '@category1'
   activity2:
     camp: '@camp1'
-    title: <word()>
+    title: 'Activity 2'
     location: <sentence()>
     rootContentNode: '@columnLayout3'
     category: '@category2'

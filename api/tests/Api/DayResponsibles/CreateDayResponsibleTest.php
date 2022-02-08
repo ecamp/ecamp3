@@ -24,7 +24,7 @@ class CreateDayResponsibleTest extends ECampApiTestCase {
     }
 
     public function testCreateDayResponsibleIsNotPossibleForUnrelatedUserBecauseDayIsNotReadable() {
-        static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->username])
+        static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->getUsername()])
             ->request('POST', '/day_responsibles', ['json' => $this->getExampleWritePayload()])
         ;
         $this->assertResponseStatusCodeSame(400);
@@ -35,7 +35,7 @@ class CreateDayResponsibleTest extends ECampApiTestCase {
     }
 
     public function testCreateDayResponsibleIsNotPossibleForInactiveCollaboratorBecauseDayIsNotReadable() {
-        static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->username])
+        static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->getUsername()])
             ->request('POST', '/day_responsibles', ['json' => $this->getExampleWritePayload()])
         ;
         $this->assertResponseStatusCodeSame(400);
@@ -46,7 +46,7 @@ class CreateDayResponsibleTest extends ECampApiTestCase {
     }
 
     public function testCreateDayResponsibleIsDeniedForGuest() {
-        static::createClientWithCredentials(['username' => static::$fixtures['user3guest']->username])
+        static::createClientWithCredentials(['username' => static::$fixtures['user3guest']->getUsername()])
             ->request('POST', '/day_responsibles', ['json' => $this->getExampleWritePayload()])
         ;
 
@@ -58,7 +58,7 @@ class CreateDayResponsibleTest extends ECampApiTestCase {
     }
 
     public function testCreateDayResponsibleIsAllowedForMember() {
-        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->username])
+        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->getUsername()])
             ->request('POST', '/day_responsibles', ['json' => $this->getExampleWritePayload()])
         ;
 

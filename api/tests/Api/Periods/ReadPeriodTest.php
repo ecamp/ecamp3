@@ -23,7 +23,7 @@ class ReadPeriodTest extends ECampApiTestCase {
     public function testGetSinglePeriodIsDeniedForUnrelatedUser() {
         /** @var Period $period */
         $period = static::$fixtures['period1'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->username])
+        static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->getUsername()])
             ->request('GET', '/periods/'.$period->getId())
         ;
         $this->assertResponseStatusCodeSame(404);
@@ -36,7 +36,7 @@ class ReadPeriodTest extends ECampApiTestCase {
     public function testGetSinglePeriodIsDeniedForInactiveCollaborator() {
         /** @var Period $period */
         $period = static::$fixtures['period1'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->username])
+        static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->getUsername()])
             ->request('GET', '/periods/'.$period->getId())
         ;
         $this->assertResponseStatusCodeSame(404);
@@ -49,7 +49,7 @@ class ReadPeriodTest extends ECampApiTestCase {
     public function testGetSinglePeriodIsAllowedForGuest() {
         /** @var Period $period */
         $period = static::$fixtures['period1'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user3guest']->username])
+        static::createClientWithCredentials(['username' => static::$fixtures['user3guest']->getUsername()])
             ->request('GET', '/periods/'.$period->getId())
         ;
 
@@ -61,7 +61,7 @@ class ReadPeriodTest extends ECampApiTestCase {
             'end' => $period->end->format('Y-m-d'),
             '_links' => [
                 'camp' => ['href' => $this->getIriFor('camp1')],
-                'materialItems' => ['href' => '/material_items?period=/periods/'.$period->getId()],
+                'materialItems' => ['href' => '/material_items?period=%2Fperiods%2F'.$period->getId()], // TODO: fix encoding with https://github.com/ecamp/ecamp3/issues/2289
                 'days' => ['href' => '/days?period=/periods/'.$period->getId()],
                 'scheduleEntries' => ['href' => '/schedule_entries?period=/periods/'.$period->getId()],
             ],
@@ -71,7 +71,7 @@ class ReadPeriodTest extends ECampApiTestCase {
     public function testGetSinglePeriodIsAllowedForMember() {
         /** @var Period $period */
         $period = static::$fixtures['period1'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->username])
+        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->getUsername()])
             ->request('GET', '/periods/'.$period->getId())
         ;
 
@@ -83,7 +83,7 @@ class ReadPeriodTest extends ECampApiTestCase {
             'end' => $period->end->format('Y-m-d'),
             '_links' => [
                 'camp' => ['href' => $this->getIriFor('camp1')],
-                'materialItems' => ['href' => '/material_items?period=/periods/'.$period->getId()],
+                'materialItems' => ['href' => '/material_items?period=%2Fperiods%2F'.$period->getId()],  // TODO: fix encoding with https://github.com/ecamp/ecamp3/issues/2289
                 'days' => ['href' => '/days?period=/periods/'.$period->getId()],
                 'scheduleEntries' => ['href' => '/schedule_entries?period=/periods/'.$period->getId()],
             ],
@@ -102,7 +102,7 @@ class ReadPeriodTest extends ECampApiTestCase {
             'end' => $period->end->format('Y-m-d'),
             '_links' => [
                 'camp' => ['href' => $this->getIriFor('camp1')],
-                'materialItems' => ['href' => '/material_items?period=/periods/'.$period->getId()],
+                'materialItems' => ['href' => '/material_items?period=%2Fperiods%2F'.$period->getId()], // TODO: fix encoding with https://github.com/ecamp/ecamp3/issues/2289
                 'days' => ['href' => '/days?period=/periods/'.$period->getId()],
                 'scheduleEntries' => ['href' => '/schedule_entries?period=/periods/'.$period->getId()],
             ],
