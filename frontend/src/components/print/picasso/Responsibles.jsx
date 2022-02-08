@@ -45,7 +45,7 @@ const initialsStyles = {
 }
 
 function Responsibles ({ activity, styles }) {
-  const last = activity.campCollaborations().items.length - 1
+  const last = activity.activityResponsibles().items.length - 1
   return <View style={{ ...avatarsStyles, ...styles }}>
     {activity.activityResponsibles().items.map((activityResponsible, index) => {
       return <View key={activityResponsible.campCollaboration().id} style={{

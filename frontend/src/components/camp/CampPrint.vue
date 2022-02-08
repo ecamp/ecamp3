@@ -86,10 +86,11 @@ export default {
               return scheduleEntry._meta.loading ||
                 scheduleEntry.activity()._meta.loading ||
                 scheduleEntry.activity().category()._meta.loading ||
-                scheduleEntry.activity().campCollaborations()._meta.loading ||
-                scheduleEntry.activity().campCollaborations().items.some(responsible => {
+                scheduleEntry.activity().activityResponsibles()._meta.loading ||
+                scheduleEntry.activity().activityResponsibles().items.some(responsible => {
                   return responsible._meta.loading ||
-                    (responsible.user() !== null && responsible.user()._meta.loading)
+                    responsible.campCollaboration()._meta.loading ||
+                    (responsible.campCollaboration().user() !== null && responsible.campCollaboration().user()._meta.loading)
                 }) ||
                 scheduleEntry.activity().contentNodes()._meta.loading ||
                 scheduleEntry.activity().contentNodes().items.some(contentNode => {
