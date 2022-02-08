@@ -15,7 +15,7 @@ use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Http\Authentication\AuthenticationSuccessHandlerInterface;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
-use Symfony\Component\Security\Http\Authenticator\Passport\PassportInterface;
+use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPassport;
 
 class HitobitoAuthenticator extends OAuth2Authenticator {
@@ -33,7 +33,7 @@ class HitobitoAuthenticator extends OAuth2Authenticator {
         return 'connect_hitobito_check' === $request->attributes->get('_route');
     }
 
-    public function authenticate(Request $request): PassportInterface {
+    public function authenticate(Request $request): Passport {
         $client = $this->clientRegistry->getClient('hitobito');
         $accessToken = $this->fetchAccessToken($client);
 
