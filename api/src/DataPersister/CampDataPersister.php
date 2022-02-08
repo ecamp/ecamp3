@@ -7,6 +7,7 @@ use App\DataPersister\Util\DataPersisterObservable;
 use App\Entity\BaseEntity;
 use App\Entity\Camp;
 use App\Entity\CampCollaboration;
+use App\Entity\MaterialList;
 use App\Entity\User;
 use App\Util\EntityMap;
 use Doctrine\ORM\EntityManagerInterface;
@@ -47,6 +48,7 @@ class CampDataPersister extends AbstractDataPersister {
     }
 
     public function afterCreate($data): void {
+        /** @var Camp $data */
         /** @var User $user */
         $user = $this->security->getUser();
         $collaboration = new CampCollaboration();
@@ -55,6 +57,12 @@ class CampDataPersister extends AbstractDataPersister {
         $collaboration->status = CampCollaboration::STATUS_ESTABLISHED;
         $data->addCampCollaboration($collaboration);
         $this->em->persist($collaboration);
+
+        $materialList = new MaterialList();
+        $materialList->campCollaboration = $collaboration;
+        $data->addMaterialList($materialList);
+        $this->em->persist($materialList);
+
         $this->em->flush();
     }
 }

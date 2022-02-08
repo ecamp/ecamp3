@@ -9,10 +9,12 @@ use App\DataPersister\Util\DataPersisterObservable;
 use App\DataPersister\Util\PropertyChangeListener;
 use App\Entity\BaseEntity;
 use App\Entity\CampCollaboration;
+use App\Entity\MaterialList;
 use App\Entity\User;
 use App\Repository\ProfileRepository;
 use App\Service\MailService;
 use App\Util\IdGenerator;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactoryInterface;
 use Symfony\Component\Security\Core\Security;
 
@@ -25,6 +27,7 @@ class CampCollaborationDataPersister extends AbstractDataPersister {
         private Security $security,
         private PasswordHasherFactoryInterface $passwordHasherFactory,
         private ProfileRepository $profileRepository,
+        private EntityManagerInterface $em,
         private MailService $mailService,
         private ValidatorInterface $validator
     ) {
@@ -64,12 +67,20 @@ class CampCollaborationDataPersister extends AbstractDataPersister {
     }
 
     public function afterCreate($data): void {
+        /** @var CampCollaboration $data */
         /** @var User $user */
         $user = $this->security->getUser();
         $emailToInvite = $data->user?->getEmail() ?? $data->inviteEmail;
         if (CampCollaboration::STATUS_INVITED == $data->status && $emailToInvite) {
             $this->mailService->sendInviteToCampMail($user, $data->camp, $data->inviteKey, $emailToInvite);
         }
+
+        $materialList = new MaterialList();
+        $materialList->campCollaboration = $data;
+        $data->camp->addMaterialList($materialList);
+        $this->em->persist($materialList);
+
+        $this->em->flush();
     }
 
     public function beforeRemove($data): ?BaseEntity {
