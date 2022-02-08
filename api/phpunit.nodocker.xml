@@ -17,6 +17,7 @@
         <!-- if "Other deprecation notices" ever gets annoying: 
           <env name="SYMFONY_DEPRECATIONS_HELPER" value="quiet[]=indirect&amp;quiet[]=other"/> -->
         <env name="DATABASE_URL" value="postgresql://ecamp3:ecamp3@localhost:5432/ecamp3dev?serverVersion=13%26charset=utf8" force="true" />
+        <env name="TEST_DATABASE_URL" value="postgresql://ecamp3:ecamp3@localhost:5432/ecamp3dev?serverVersion=13%26charset=utf8" force="true" />
     </php>
 
     <testsuites>
