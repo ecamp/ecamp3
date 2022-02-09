@@ -44,7 +44,6 @@ use Symfony\Component\Validator\Constraints as Assert;
     ],
     denormalizationContext: ['groups' => ['write']],
     normalizationContext: ['groups' => ['read']],
-    order: ['start' => 'ASC'],
 )]
 #[ApiFilter(SearchFilter::class, properties: ['camp'])]
 class Period extends BaseEntity implements BelongsToCampInterface {

@@ -6,7 +6,7 @@ import Responsibles from '../picasso/Responsibles.jsx'
 import dayjs from '../../../../../common/helpers/dayjs.js'
 import ContentNode from './contentNode/ContentNode.jsx'
 
-const { Page, View, Text } = pdf
+const { View, Text } = pdf
 
 const fontSize = 8
 
