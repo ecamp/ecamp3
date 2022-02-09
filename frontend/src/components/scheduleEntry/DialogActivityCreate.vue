@@ -15,7 +15,7 @@
       <slot name="activator" v-bind="scope" />
     </template>
 
-    <dialog-activity-form :activity="entityData" :camp="camp" :period="period" />
+    <dialog-activity-form :activity="entityData" :period="period" />
   </dialog-form>
 </template>
 
@@ -33,7 +33,6 @@ export default {
   },
   extends: DialogBase,
   props: {
-    camp: { type: Function, required: true },
     scheduleEntry: { type: Object, required: true },
 
     // currently visible period
@@ -63,7 +62,8 @@ export default {
               period: this.scheduleEntry.period,
               periodOffset: this.scheduleEntry.periodOffset,
               length: this.scheduleEntry.length,
-              key: uniqueId()
+              key: uniqueId(),
+              deleted: false
             }
           ]
         })
@@ -81,7 +81,8 @@ export default {
     createActivity () {
       const payloadData = {
         ...this.entityData,
-        scheduleEntries: this.entityData.scheduleEntries?.map(entry => ({
+
+        scheduleEntries: this.entityData.scheduleEntries?.filter(entry => !entry.deleted).map(entry => ({
           period: entry.period()._meta.self,
           periodOffset: entry.periodOffset,
           length: entry.length
@@ -91,10 +92,8 @@ export default {
       return this.create(payloadData)
     },
     onSuccess (activity) {
-      activity.scheduleEntries()._meta.load.then(() => {
-        this.close()
-        this.$emit('activityCreated', activity)
-      })
+      this.close()
+      this.$emit('activityCreated', activity)
     }
   }
 }
