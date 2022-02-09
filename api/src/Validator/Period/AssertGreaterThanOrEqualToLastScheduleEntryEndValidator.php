@@ -20,6 +20,10 @@ class AssertGreaterThanOrEqualToLastScheduleEntryEndValidator extends Constraint
             throw new UnexpectedTypeException($constraint, AssertGreaterThanOrEqualToLastScheduleEntryEnd::class);
         }
 
+        if (!isset($value)) {
+            return;
+        }
+
         /** @var DateTime $periodEnd */
         $periodEnd = clone $value;
         // Period ends at the end of the day (+1day)
