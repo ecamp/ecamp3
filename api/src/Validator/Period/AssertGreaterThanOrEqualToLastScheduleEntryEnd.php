@@ -6,6 +6,6 @@ use Attribute;
 use Symfony\Component\Validator\Constraint;
 
 #[Attribute]
-class AssertValidPeriodEnd extends Constraint {
+class AssertGreaterThanOrEqualToLastScheduleEntryEnd extends Constraint {
     public string $message = 'Due to existing activities, end-date can not be earlier then {{ endDate }}';
 }

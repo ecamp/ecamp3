@@ -11,14 +11,19 @@ use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 use Symfony\Component\Validator\Exception\UnexpectedValueException;
 
-class AssertValidPeriodEndValidator extends ConstraintValidator {
+class AssertGreaterThanOrEqualToLastScheduleEntryEndValidator extends ConstraintValidator {
     public function __construct(private EntityManagerInterface $em) {
     }
 
     public function validate($value, Constraint $constraint) {
-        if (!$constraint instanceof AssertValidPeriodEnd) {
-            throw new UnexpectedTypeException($constraint, AssertValidPeriodEnd::class);
+        if (!$constraint instanceof AssertGreaterThanOrEqualToLastScheduleEntryEnd) {
+            throw new UnexpectedTypeException($constraint, AssertGreaterThanOrEqualToLastScheduleEntryEnd::class);
         }
+
+        /** @var DateTime $periodEnd */
+        $periodEnd = clone $value;
+        // Period ends at the end of the day (+1day)
+        $periodEnd->add(new DateInterval('P1D'));
 
         $period = $this->context->getObject();
         if (!$period instanceof Period) {
@@ -26,30 +31,25 @@ class AssertValidPeriodEndValidator extends ConstraintValidator {
         }
 
         if ($period->scheduleEntries->count() > 0) {
-            $delta = 0;
+            /** @var DateTime $periodStart */
+            $periodStart = $period->start;
+
             if (!$period->moveScheduleEntries) {
                 $orig = $this->em->getUnitOfWork()->getOriginalEntityData($period);
                 if (null != $orig) {
-                    $delta = $orig['start']->getTimestamp() - $period->start->getTimestamp();
-                    $delta = floor($delta / 60);
+                    $periodStart = $orig['start'];
                 }
             }
 
-            // get maximal existing ScheduleEntryEnd
-            $scheduleEntryEnds = $period->scheduleEntries->map(fn ($se) => $se->periodOffset + $se->length);
-            $maxScheduleEntryEnd = max($scheduleEntryEnds->toArray()) + $delta;
-            $periodEnd = 1440 * $period->getPeriodLength();
+            $periodStart = clone $periodStart;
+            $lastScheduleEntryPeriodEndOffset = max($period->scheduleEntries->map(fn ($se) => $se->periodOffset + $se->length)->toArray());
+            $lastScheduleEntryEnd = $periodStart->add(new DateInterval('PT'.$lastScheduleEntryPeriodEndOffset.'M'));
 
-            if ($maxScheduleEntryEnd > $periodEnd) {
-                /** @var DateTime $endDate */
-                $endDate = clone $period->end;
-                $maxPeriodOffsetInDays = floor($maxScheduleEntryEnd / 1440);
-                $endDate->add(new DateInterval('P'.$maxPeriodOffsetInDays.'D'));
-
+            if ($periodEnd < $lastScheduleEntryEnd) {
                 $this->context->buildViolation($constraint->message)
-                    ->setParameter('{{ endDate }}', $endDate->format('Y-m-d'))
+                    ->setParameter('{{ endDate }}', $lastScheduleEntryEnd->format('Y-m-d'))
                     ->addViolation()
-            ;
+                ;
             }
         }
     }

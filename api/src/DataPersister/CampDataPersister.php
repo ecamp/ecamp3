@@ -40,7 +40,7 @@ class CampDataPersister extends AbstractDataPersister {
         }
 
         foreach ($data->periods as $period) {
-            PeriodDataPersister::managePeriodDays($period);
+            PeriodDataPersister::updateDaysAndScheduleEntries($period);
         }
 
         return $data;

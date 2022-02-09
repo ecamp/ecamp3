@@ -212,7 +212,7 @@ class CreatePeriodTest extends ECampApiTestCase {
         ]);
     }
 
-    public function testCraetePeriodCreatesDays() {
+    public function testCreatePeriodCreatesDays() {
         $response = static::createClientWithCredentials()->request('POST', '/periods', ['json' => $this->getExampleWritePayload([
             'start' => '2021-03-01',
             'end' => '2021-03-04',

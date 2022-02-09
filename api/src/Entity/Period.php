@@ -8,8 +8,8 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Repository\PeriodRepository;
 use App\Serializer\Normalizer\RelatedCollectionLink;
-use App\Validator\Period\AssertValidPeriodEnd;
-use App\Validator\Period\AssertValidPeriodStart;
+use App\Validator\Period\AssertGreaterThanOrEqualToLastScheduleEntryEnd;
+use App\Validator\Period\AssertLessThanOrEqualToEarliestScheduleEntryStart;
 use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -118,7 +118,7 @@ class Period extends BaseEntity implements BelongsToCampInterface {
      * @ORM\Column(type="date")
      */
     #[Assert\LessThanOrEqual(propertyPath: 'end')]
-    #[AssertValidPeriodStart()]
+    #[AssertLessThanOrEqualToEarliestScheduleEntryStart()]
     #[ApiProperty(example: '2022-01-01', openapiContext: ['format' => 'date'])]
     #[Context(
         normalizationContext: [DateTimeNormalizer::FORMAT_KEY => 'Y-m-d'],
@@ -134,7 +134,7 @@ class Period extends BaseEntity implements BelongsToCampInterface {
      * @ORM\Column(name="`end`", type="date")
      */
     #[Assert\GreaterThanOrEqual(propertyPath: 'start')]
-    #[AssertValidPeriodEnd()]
+    #[AssertGreaterThanOrEqualToLastScheduleEntryEnd()]
     #[ApiProperty(example: '2022-01-08', openapiContext: ['format' => 'date'])]
     #[Context([DateTimeNormalizer::FORMAT_KEY => '!Y-m-d'])]
     #[Context(

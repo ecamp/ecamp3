@@ -23,7 +23,7 @@ class PeriodDataPersister extends AbstractDataPersister {
     }
 
     public function beforeCreate($data): BaseEntity {
-        static::managePeriodDays($data);
+        static::updateDaysAndScheduleEntries($data);
 
         return $data;
     }
@@ -31,7 +31,7 @@ class PeriodDataPersister extends AbstractDataPersister {
     public function beforeUpdate($data): BaseEntity {
         $orig = $this->em->getUnitOfWork()->getOriginalEntityData($data);
 
-        static::managePeriodDays($data, $orig);
+        static::updateDaysAndScheduleEntries($data, $orig);
 
         return $data;
     }
@@ -42,7 +42,7 @@ class PeriodDataPersister extends AbstractDataPersister {
         return null;
     }
 
-    public static function managePeriodDays(Period $period, array $orig = null) {
+    public static function updateDaysAndScheduleEntries(Period $period, array $orig = null) {
         $length = $period->getPeriodLength();
         $days = $period->getDays();
 

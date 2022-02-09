@@ -11,13 +11,13 @@ use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 use Symfony\Component\Validator\Exception\UnexpectedValueException;
 
-class AssertValidPeriodStartValidator extends ConstraintValidator {
+class AssertLessThanOrEqualToEarliestScheduleEntryStartValidator extends ConstraintValidator {
     public function __construct(private EntityManagerInterface $em) {
     }
 
     public function validate($value, Constraint $constraint) {
-        if (!$constraint instanceof AssertValidPeriodStart) {
-            throw new UnexpectedTypeException($constraint, AssertValidPeriodStart::class);
+        if (!$constraint instanceof AssertLessThanOrEqualToEarliestScheduleEntryStart) {
+            throw new UnexpectedTypeException($constraint, AssertLessThanOrEqualToEarliestScheduleEntryStart::class);
         }
 
         $period = $this->context->getObject();
@@ -26,24 +26,16 @@ class AssertValidPeriodStartValidator extends ConstraintValidator {
         }
 
         if (!$period->moveScheduleEntries && $period->scheduleEntries->count() > 0) {
-            $delta = 0;
             $orig = $this->em->getUnitOfWork()->getOriginalEntityData($period);
             if (null != $orig) {
-                $delta = $period->start->getTimestamp() - $orig['start']->getTimestamp();
-                $delta = floor($delta / 60);
+                /** @var DateTime $origPeriodStart */
+                $origPeriodStart = clone $orig['start'];
+                $firstScheduleEntryPeriodOffset = min($period->scheduleEntries->map(fn ($se) => $se->periodOffset)->toArray());
+                $firstScheduleEntryStart = $origPeriodStart->add(new DateInterval('PT'.$firstScheduleEntryPeriodOffset.'M'));
 
-                // get minimal ScheduleEntryStart
-                $scheduleEntryStarts = $period->scheduleEntries->map(fn ($se) => $se->periodOffset);
-                $minScheduleEntryStart = min($scheduleEntryStarts->toArray());
-
-                if ($minScheduleEntryStart < $delta) {
-                    /** @var DateTime $startDate */
-                    $startDate = clone $orig['start'];
-                    $minScheduleEntryStartInDays = floor($minScheduleEntryStart / 1440);
-                    $startDate->add(new DateInterval('P'.$minScheduleEntryStartInDays.'D'));
-
+                if ($firstScheduleEntryStart < $value) {
                     $this->context->buildViolation($constraint->message)
-                        ->setParameter('{{ startDate }}', $startDate->format('Y-m-d'))
+                        ->setParameter('{{ startDate }}', $firstScheduleEntryStart->format('Y-m-d'))
                         ->addViolation()
                     ;
                 }
