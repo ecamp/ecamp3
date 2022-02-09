@@ -304,9 +304,9 @@ describe('Testing ApiWrapper [autoSave=true; value from API]', () => {
     vm = wrapper.vm
   })
 
-  test('loads value from API', async () => {
+  test('loads value from API (fieldname = primitive value)', async () => {
     // given
-    const loadingValue = () => {}
+    const loadingValue = () => ({})
     loadingValue.loading = true
     apiGet.mockReturnValue({
       [config.propsData.fieldname]: loadingValue,
@@ -343,12 +343,13 @@ describe('Testing ApiWrapper [autoSave=true; value from API]', () => {
 
   test('shows error when loading value from API fails', async () => {
     // given
-    const loadingValue = () => {}
-    loadingValue.loading = true
+    const loadingValue = () => ({})
+    loadingValue._meta = { loading: true }
     apiGet.mockReturnValue({
       [config.propsData.fieldname]: loadingValue,
       _meta: {
-        load: Promise.reject(new Error('loading error'))
+        load: Promise.reject(new Error('loading error')),
+        loading: true
       }
     })
     wrapper = shallowMount(ApiWrapper, config)
@@ -364,14 +365,15 @@ describe('Testing ApiWrapper [autoSave=true; value from API]', () => {
     expect(vm.errorMessages[0]).toMatch('loading error')
   })
 
-  test('shows an error when specifying a relation as fieldname', async () => {
+  test('loads IRI from API (fieldname = embedded entity)', async () => {
     // given
-    const loadingValue = () => {}
-    loadingValue.loading = true
+    const loadingValue = () => ({})
+    loadingValue._meta = { loading: true }
     apiGet.mockReturnValue({
       [config.propsData.fieldname]: loadingValue,
       _meta: {
-        load: Promise.resolve()
+        load: Promise.resolve(),
+        loading: true
       }
     })
 
@@ -379,12 +381,15 @@ describe('Testing ApiWrapper [autoSave=true; value from API]', () => {
     vm = wrapper.vm
 
     apiGet.mockReturnValue({
-      [config.propsData.fieldname]: () => ({}),
+      [config.propsData.fieldname]: () => ({
+        _meta: {
+          self: '/iri/5'
+        }
+      }),
       _meta: {
         load: Promise.resolve()
       }
     })
-    const errorSpy = jest.spyOn(console, 'error').mockImplementation()
 
     // when
     await flushPromises() // wait for load promise to resolve
@@ -392,64 +397,51 @@ describe('Testing ApiWrapper [autoSave=true; value from API]', () => {
     // then
     expect(vm.hasFinishedLoading).toBe(true)
     expect(vm.isLoading).toBe(false)
-    expect(vm.localValue).toBe(null)
-    expect(errorSpy).toHaveBeenCalledWith('You are trying to use a fieldname testField in an ApiFormComponent, but testField is a relation, not a primitive value or embedded collection.')
-
-    errorSpy.mockRestore()
+    expect(vm.localValue).toBe('/iri/5')
   })
-})
 
-/**
- * AutoSave = true
- * Value from API
- */
-describe('Testing ApiWrapper [autoSave=true; value from API; relation defined]', () => {
-  let wrapper
-  let vm
-  let config
-  let apiGet
-
-  const relation = 'relation'
-  const relationUri = 'http://localhost/relation/1'
-
-  beforeEach(() => {
-    vuetify = new Vuetify()
-
-    config = createConfig({
-      propsData: {
-        value: 'Test Value',
-        fieldname: 'testField',
-        uri: '/testEntity/123',
-        label: 'Test Field',
-        relation
+  test('loads array of IRIs from API (fieldname = embedded collection)', async () => {
+    // given
+    const loadingValue = () => ({})
+    loadingValue._meta = { loading: true }
+    apiGet.mockReturnValue({
+      [config.propsData.fieldname]: loadingValue,
+      _meta: {
+        load: Promise.resolve(),
+        loading: true
       }
     })
-    delete config.propsData.value
 
-    apiGet = jest.spyOn(config.mocks.api, 'get')
+    wrapper = shallowMount(ApiWrapper, config)
+    vm = wrapper.vm
+
     apiGet.mockReturnValue({
-      [relation]: () => ({
-        _meta: {
-          self: relationUri
-        }
+      [config.propsData.fieldname]: () => ({
+        items: [
+          {
+            _meta: {
+              self: '/iri/5'
+            }
+          },
+          {
+            _meta: {
+              self: '/iri/6'
+            }
+          }
+        ]
       }),
       _meta: {
         load: Promise.resolve()
       }
     })
-  })
 
-  test('loads id of relation', async () => {
     // when
-    wrapper = shallowMount(ApiWrapper, config)
-    vm = wrapper.vm
-
-    await flushPromises()
+    await flushPromises() // wait for load promise to resolve
 
     // then
     expect(vm.hasFinishedLoading).toBe(true)
     expect(vm.isLoading).toBe(false)
-    expect(vm.localValue).toBe(relationUri)
+    expect(vm.localValue).toStrictEqual(['/iri/5', '/iri/6'])
   })
 })
 

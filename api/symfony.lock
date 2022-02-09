@@ -297,6 +297,9 @@
     "phplang/scope-exit": {
         "version": "1.0.0"
     },
+    "phpmyadmin/sql-parser": {
+        "version": "5.5.0"
+    },
     "phpspec/prophecy": {
         "version": "1.14.0"
     },

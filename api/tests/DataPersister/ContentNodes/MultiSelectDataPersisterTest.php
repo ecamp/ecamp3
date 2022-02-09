@@ -16,13 +16,14 @@ use PHPUnit\Framework\TestCase;
 class MultiSelectDataPersisterTest extends TestCase {
     private MultiSelectDataPersister $dataPersister;
     private MockObject|DataPersisterObservable $dataPersisterObservable;
+    private ColumnLayout $root;
     private MultiSelect $contentNode;
 
     protected function setUp(): void {
         $this->dataPersisterObservable = $this->createMock(DataPersisterObservable::class);
         $this->contentNode = new MultiSelect();
 
-        $this->root = $this->createMock(ColumnLayout::class);
+        $this->root = new ColumnLayout();
         $this->contentNode->parent = new ColumnLayout();
         $this->contentNode->parent->root = $this->root;
 

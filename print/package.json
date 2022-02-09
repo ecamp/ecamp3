@@ -19,7 +19,7 @@
   },
   "dependencies": {
     "@nuxtjs/axios": "5.13.6",
-    "@nuxtjs/sentry": "5.1.6",
+    "@nuxtjs/sentry": "5.1.7",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "cssesc": "3.0.0",
@@ -33,7 +33,7 @@
     "vue-i18n": "8.26.7"
   },
   "devDependencies": {
-    "@babel/eslint-parser": "7.16.3",
+    "@babel/eslint-parser": "7.17.0",
     "@nuxtjs/eslint-config": "6.0.1",
     "@nuxtjs/eslint-module": "3.0.2",
     "@nuxtjs/stylelint-module": "4.1.0",
@@ -49,7 +49,7 @@
     "jest": "27.4.3",
     "prettier": "2.5.1",
     "stylelint": "13.13.1",
-    "stylelint-config-prettier": "8.0.2",
+    "stylelint-config-prettier": "9.0.3",
     "stylelint-config-standard": "22.0.0",
     "vue": "2.6.14",
     "vue-jest": "3.0.7",

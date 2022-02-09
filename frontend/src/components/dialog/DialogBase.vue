@@ -3,9 +3,18 @@ export default {
   name: 'DialogBase',
   data () {
     return {
+      // specifies entity properties available in the form
       entityProperties: [],
+
+      // single selection of related entities (e.g. activity.category)
+      // suitable for ManyToOne relations. Property is sent as IRI to the API.
       embeddedEntities: [],
+
+      // multi selection of related entities (e.g. category.preferredContentTypes)
+      // suitable for ManyToMany relations. Property is sent as array of IRIs to the API
+      // not suitable, if data of the embedded entities should be edited as well (e.g. OneToMany relations)
       embeddedCollections: [],
+
       entityData: {},
       entityUri: '',
       showDialog: false,

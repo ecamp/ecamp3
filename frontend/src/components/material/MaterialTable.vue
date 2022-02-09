@@ -71,7 +71,6 @@
         :disabled="layoutMode || disabled"
         dense
         :uri="item.uri"
-        relation="materialList"
         fieldname="materialList"
         :items="materialLists" />
       <span v-if="item.readonly">{{ item.listName }}</span>

@@ -5,7 +5,7 @@
     :error="error"
     icon="mdi-calendar-plus"
     max-width="600px"
-    :submit-action="update"
+    :submit-action="updateActivity"
     submit-label="global.button.update"
     submit-color="success"
     :cancel-action="close">
@@ -18,7 +18,7 @@
         {{ $tc('global.button.open') }}
       </v-btn>
     </template>
-    <dialog-activity-form :activity="entityData" :camp="scheduleEntry.period().camp" />
+    <dialog-activity-form :activity="entityData" :period="scheduleEntry.period" />
   </dialog-form>
 </template>
 
@@ -44,46 +44,86 @@ export default {
       embeddedEntities: [
         'category'
       ]
-      /*
-      embeddedCollections: [
-        'scheduleEntries'
-      ] */
+    }
+  },
+  computed: {
+    scheduleEntries () {
+      return this.activity.scheduleEntries()
+    },
+    activity () {
+      return this.scheduleEntry.activity()
     }
   },
   watch: {
-    showDialog: function (showDialog) {
+    showDialog: async function (showDialog) {
       if (showDialog) {
-        this.loadEntityData(this.scheduleEntry.activity()._meta.self)
+        this.loadEntityData(this.activity._meta.self)
+
+        const scheduleEntries = await this.scheduleEntries.$loadItems()
+        this.$set(this.entityData, 'scheduleEntries', scheduleEntries.items.map((scheduleEntry) => {
+          return {
+            period: scheduleEntry.period,
+            periodOffset: scheduleEntry.periodOffset,
+            length: scheduleEntry.length,
+            key: scheduleEntry._meta.self,
+            deleted: false,
+            self: scheduleEntry._meta.self
+          }
+        }))
       }
     }
   },
   methods: {
-    /*
     updateActivity () {
-      return this.update()
-    },
-    update () {
       this.error = null
-      const patchScheduleEntries = this.entityData.scheduleEntries
-        .map(entry => this.api.patch(entry._meta.self, {
-          periodOffset: entry.periodOffset,
-          length: entry.length
-        }))
-      Promise.all(patchScheduleEntries)
-        .then(__ => ({ ...this.entityData }))
-        .then(entityData => {
-          delete entityData.scheduleEntries
-          return entityData
+      const _events = this._events
+
+      const promises = this.entityData.scheduleEntries
+        .map(entry => {
+          // deleted local entry: do nothing
+          if (!entry.self && entry.deleted) {
+            return Promise.resolve()
+          }
+
+          // delete existing
+          if (entry.self && entry.deleted) {
+            return this.api.del(entry.self)
+          }
+
+          // update existing
+          if (entry.self) {
+            return this.api.patch(entry.self, {
+              period: entry.period()._meta.self,
+              periodOffset: entry.periodOffset,
+              length: entry.length
+            })
+          }
+
+          // else: create new entry
+          return this.scheduleEntries.$post({
+            period: entry.period()._meta.self,
+            periodOffset: entry.periodOffset,
+            length: entry.length,
+            activity: this.activity._meta.self
+          })
         })
-        .then(entityData => this.api.patch(this.entityUri, entityData))
-        .then(this.updatedSuccessful, this.onError)
+
+      // patch activity entity
+      const activityPayload = { ...this.entityData }
+      delete activityPayload.scheduleEntries
+      promises.push(this.api.patch(this.entityUri, activityPayload))
+
+      // execute all requests together --> onError if one fails
+      const promise = Promise.all(promises)
+        .then(this.updatedSuccessful, e => { this.onError(_events, e) })
+
+      this.$emit('submit')
+      return promise
     },
     updatedSuccessful (data) {
-      this.api.reload(this.scheduleEntry).then(() => {
-        this.close()
-        this.$emit('scheduleEntryUpdated', data)
-      })
-    }, */
+      this.close()
+      this.$emit('activityUpdated', data)
+    },
     scheduleEntryRoute
   }
 }

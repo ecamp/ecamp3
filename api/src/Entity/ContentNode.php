@@ -7,6 +7,7 @@ use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Repository\ContentNodeRepository;
+use App\Util\EntityMap;
 use App\Validator\AssertEitherIsNull;
 use App\Validator\ContentNode\AssertBelongsToSameOwner;
 use App\Validator\ContentNode\AssertContentTypeCompatible;
@@ -41,7 +42,7 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
     normalizationContext: ['groups' => ['read']],
 )]
 #[ApiFilter(SearchFilter::class, properties: ['parent', 'contentType', 'root'])]
-abstract class ContentNode extends BaseEntity implements BelongsToCampInterface {
+abstract class ContentNode extends BaseEntity implements BelongsToCampInterface, CopyFromPrototypeInterface {
     /**
      * @ORM\OneToOne(targetEntity="AbstractContentNodeOwner", mappedBy="rootContentNode", cascade={"persist"})
      */
@@ -61,7 +62,7 @@ abstract class ContentNode extends BaseEntity implements BelongsToCampInterface 
      */
     #[ApiProperty(writable: false, example: '/content_nodes/1a2b3c4d')]
     #[Groups(['read'])]
-    public ?ContentNode $root = null;
+    public ContentNode $root;
 
     /**
      * All content nodes that are part of this content node tree.
@@ -147,6 +148,8 @@ abstract class ContentNode extends BaseEntity implements BelongsToCampInterface 
     public ?ContentType $contentType = null;
 
     public function __construct() {
+        parent::__construct();
+        $this->root = $this;
         $this->rootDescendants = new ArrayCollection();
         $this->children = new ArrayCollection();
     }
@@ -167,13 +170,13 @@ abstract class ContentNode extends BaseEntity implements BelongsToCampInterface 
     #[ApiProperty(writable: false, example: '/activities/1a2b3c4d')]
     #[Groups(['read'])]
     public function getRootOwner(): Activity|Category|AbstractContentNodeOwner|null {
-        if (null !== $this->root) {
-            return $this->root->owner;
+        // New created ContentNodes have root == this.
+        // Therefore we use the root of the parent-node.
+        if ($this->root === $this && null !== $this->parent) {
+            return $this->parent->root->owner;
         }
 
-        // this line is used during create process when $this->root is not yet set
-        // returns null if parent is not set
-        return $this->parent?->root->owner;
+        return $this->root->owner;
     }
 
     /**
@@ -264,8 +267,11 @@ abstract class ContentNode extends BaseEntity implements BelongsToCampInterface 
 
     /**
      * @param ContentNode $prototype
+     * @param EntityMap   $entityMap
      */
-    public function copyFromPrototype($prototype) {
+    public function copyFromPrototype($prototype, $entityMap): void {
+        $entityMap->add($prototype, $this);
+
         // copy ContentNode base properties
         $this->contentType = $prototype->contentType;
         $this->instanceName = $prototype->instanceName;
@@ -276,13 +282,13 @@ abstract class ContentNode extends BaseEntity implements BelongsToCampInterface 
         foreach ($prototype->getChildren() as $childPrototype) {
             $childClass = $childPrototype::class;
 
-            // @var ContentNode $childContentNode
+            /** @var ContentNode $childContentNode */
             $childContentNode = new $childClass();
 
             $this->addChild($childContentNode);
             $this->root->addRootDescendant($childContentNode);
 
-            $childContentNode->copyFromPrototype($childPrototype);
+            $childContentNode->copyFromPrototype($childPrototype, $entityMap);
         }
     }
 }

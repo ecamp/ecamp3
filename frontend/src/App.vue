@@ -91,10 +91,6 @@ export default {
     border-top-right-radius: 0 !important;
   }
 
-  .v-navigation-drawer--temporary.v-navigation-drawer--clipped {
-    margin-top: 56px;
-  }
-
   .v-btn--open {
     background: #B0BEC5 !important;
     color: rgba(0, 0, 0, 0.87) !important;
