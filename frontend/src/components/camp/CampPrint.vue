@@ -29,24 +29,22 @@
         :title="result.title"
         class="mt-2" />
     </div>
-    <v-btn @click="refreshPreview">Refresh</v-btn>
-    <print-react-pdf v-if="!dataLoading && !refreshing"
-                     ref="printPreview"
-                     :tc="boundTc"
-                     :camp="camp()" />
+    <local-print-preview :config="config"
+                         width="100%"
+                         height="500" />
   </div>
 </template>
 
 <script>
 import PrintDownloader from '@/components/camp/CampPrintDownloader.vue'
-import PrintReactPdf from '@/components/print/PrintReactPdf.js'
+import LocalPrintPreview from '../print/LocalPrintPreview.vue'
 
 const PRINT_SERVER = window.environment.PRINT_SERVER
 const PRINT_FILE_SERVER = window.environment.PRINT_FILE_SERVER
 
 export default {
   name: 'CampPrint',
-  components: { PrintDownloader, PrintReactPdf },
+  components: { PrintDownloader, LocalPrintPreview },
   props: {
     camp: {
       type: Function,
@@ -63,7 +61,8 @@ export default {
         showPicasso: true,
         showDailySummary: true,
         showStoryline: true,
-        showActivities: true
+        showActivities: true,
+        camp: this.camp.bind(this)
       },
       refreshing: false
     }
