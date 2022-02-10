@@ -19,13 +19,6 @@ class HitobitoUser implements ResourceOwnerInterface {
     }
 
     /**
-     * Get preferred display name.
-     */
-    public function getName(): string {
-        return $this->response['name'];
-    }
-
-    /**
      * Get preferred first name.
      */
     public function getFirstName(): ?string {
