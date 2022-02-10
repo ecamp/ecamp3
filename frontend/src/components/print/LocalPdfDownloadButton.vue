@@ -1,7 +1,7 @@
 <template>
   <button class="ml-5 v-btn v-btn--outlined theme--light v-size--default primary--text"
           :disabled="loading"
-          @click="exportPdf">
+          @click="generatePdf">
     {{ loading ? 'Generating...' : 'Generate PDF' }}
   </button>
 </template>
@@ -23,11 +23,8 @@ export default {
       loading: false
     }
   },
-  unmounted () {
-    this.revokeOldObjectUrl()
-  },
   methods: {
-    async exportPdf () {
+    async generatePdf () {
       this.loading = true
 
       const { blob, filename, error } = await generatePdf({
@@ -37,14 +34,14 @@ export default {
         renderInWorker: false
       })
 
+      this.loading = false
+
       if (error) {
         // TODO error handling
         console.log(error)
-        this.loading = false
         return
       }
 
-      this.loading = false
       saveAs(blob, filename)
     }
   }

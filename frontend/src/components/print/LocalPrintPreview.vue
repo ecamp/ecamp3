@@ -24,27 +24,31 @@ export default {
     config: {
       immediate: true,
       deep: true,
-      async handler () {
-        this.revokeOldObjectUrl()
-        const { error, blob } = await generatePdf({
-          config: this.config,
-          storeData: this.$store.state,
-          translationData: this.$i18n.messages,
-          renderInWorker: false
-        })
-        if (error) {
-          // TODO error handling
-          console.log(error)
-        } else {
-          this.url = URL.createObjectURL(blob)
-        }
-      }
+      handler () { this.generatePdf() }
     }
   },
   unmounted () {
     this.revokeOldObjectUrl()
   },
   methods: {
+    async generatePdf () {
+      this.revokeOldObjectUrl()
+
+      const { error, blob } = await generatePdf({
+        config: this.config,
+        storeData: this.$store.state,
+        translationData: this.$i18n.messages,
+        renderInWorker: false
+      })
+
+      if (error) {
+        // TODO error handling
+        console.log(error)
+        return
+      }
+
+      this.url = URL.createObjectURL(blob)
+    },
     revokeOldObjectUrl () {
       const oldUrl = this.url
       if (oldUrl) {
