@@ -41,9 +41,9 @@ Admin screen of a camp: Displays details & periods of a single camp and allows t
                             {{ scheduleEntry.activity().category().short }} {{ scheduleEntry.number }}: {{ scheduleEntry.activity().title }}
                             <v-spacer />
                             <user-avatar
-                              v-for="cc in sortCampCollaborations(scheduleEntry.activity().campCollaborations().items)"
-                              :key="cc._meta.self"
-                              :camp-collaboration="cc" :size="24"
+                              v-for="ar in sortCampCollaborations(scheduleEntry.activity().activityResponsibles().items)"
+                              :key="ar._meta.self"
+                              :camp-collaboration="ar.campCollaboration()" :size="24"
                               style="margin: 2px" />
                           </v-card-title>
                           <v-card-subtitle>
@@ -132,8 +132,8 @@ export default {
     },
     showScheduleEntry (scheduleEntry) {
       const authUser = this.$auth.user()
-      const campCollaborations = scheduleEntry.activity().campCollaborations().items
-      return campCollaborations.some(cc => cc.user().id === authUser.id)
+      const activityResponsibles = scheduleEntry.activity().activityResponsibles().items
+      return activityResponsibles.some(ar => ar.campCollaboration().user().id === authUser.id)
     },
     sortCampCollaborations (campCollaborations) {
       return campCollaborations.sort((a, b) => parseInt(a.user().id, 16) - parseInt(b.user().id, 16))
