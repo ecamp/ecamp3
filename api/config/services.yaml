@@ -85,6 +85,9 @@ services:
     App\OpenApi\JwtDecorator:
         decorates: 'api_platform.openapi.factory'
 
+    App\OpenApi\OAuthDecorator:
+        decorates: 'api_platform.openapi.factory'
+
     App\Security\OAuth\GoogleAuthenticator:
         arguments:
             - '@lexik_jwt_authentication.handler.authentication_success'
