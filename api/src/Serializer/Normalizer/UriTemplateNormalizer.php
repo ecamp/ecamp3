@@ -2,6 +2,7 @@
 
 namespace App\Serializer\Normalizer;
 
+use ApiPlatform\Core\Api\UrlGeneratorInterface;
 use App\Metadata\Resource\Factory\UriTemplateFactory;
 use Symfony\Component\Serializer\Normalizer\CacheableSupportsMethodInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
@@ -16,6 +17,7 @@ class UriTemplateNormalizer implements NormalizerInterface, CacheableSupportsMet
         private NormalizerInterface $decorated,
         private EnglishInflector $inflector,
         private UriTemplateFactory $uriTemplateFactory,
+        private UrlGeneratorInterface $urlGenerator,
     ) {
     }
 
@@ -45,6 +47,11 @@ class UriTemplateNormalizer implements NormalizerInterface, CacheableSupportsMet
             unset($result['_links'][$rel]);
             $result['_links'][$pluralRel] = $linkObject;
         }
+
+        $result['_links']['login'] = ['href' => $this->urlGenerator->generate('authentication_token')];
+        $result['_links']['oauthGoogle'] = ['href' => $this->urlGenerator->generate('connect_google_start').'{?callback}', 'templated' => true];
+        $result['_links']['oauthPbsmidata'] = ['href' => $this->urlGenerator->generate('connect_pbsmidata_start').'{?callback}', 'templated' => true];
+        $result['_links']['oauthCevidb'] = ['href' => $this->urlGenerator->generate('connect_cevidb_start').'{?callback}', 'templated' => true];
 
         return $result;
     }

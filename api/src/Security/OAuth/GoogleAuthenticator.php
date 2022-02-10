@@ -2,6 +2,7 @@
 
 namespace App\Security\OAuth;
 
+use App\Entity\Profile;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
@@ -44,24 +45,28 @@ class GoogleAuthenticator extends OAuth2Authenticator {
 
                 $email = $googleUser->getEmail();
 
-                $userRepository = $this->entityManager->getRepository(User::class);
+                $profileRepository = $this->entityManager->getRepository(Profile::class);
 
                 // has the user logged in with Google before?
-                $existingUser = $userRepository->findOneBy(['googleId' => $googleUser->getId()]);
+                $existingProfile = $profileRepository->findOneBy(['googleId' => $googleUser->getId()]);
 
-                if ($existingUser) {
-                    return $existingUser;
+                if ($existingProfile) {
+                    return $existingProfile->user;
                 }
 
                 // do we have a matching user by email?
-                $user = $userRepository->findOneBy(['email' => $email]);
+                $profile = $profileRepository->findOneBy(['email' => $email]);
+                $user = $profile?->user;
 
-                if (is_null($user)) {
+                if (is_null($profile)) {
+                    $profile = new Profile();
+                    $profile->email = $email;
+                    $profile->firstname = $googleUser->getFirstName();
+                    $profile->surname = $googleUser->getLastName();
+                    $profile->username = $email;
                     $user = new User();
-                    $user->email = $email;
-                    $user->firstname = $googleUser->getFirstName();
-                    $user->surname = $googleUser->getLastName();
-                    $user->username = $email;
+                    $user->profile = $profile;
+                    $user->state = User::STATE_ACTIVATED;
                 }
 
                 // persist user object

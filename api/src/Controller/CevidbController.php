@@ -7,17 +7,17 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
-class HitobitoController extends AbstractController {
+class CevidbController extends AbstractController {
     /**
      * Link to this controller to start the "connect" process.
      *
-     * @Route("/auth/hitobito", name="connect_hitobito_start")
+     * @Route("/auth/cevidb", name="connect_cevidb_start")
      */
     public function connectAction(Request $request, ClientRegistry $clientRegistry) {
         $request->getSession()->set('redirect_uri', $request->get('callback'));
 
         return $clientRegistry
-            ->getClient('hitobito') // key used in config/packages/knpu_oauth2_client.yaml
+            ->getClient('cevidb') // key used in config/packages/knpu_oauth2_client.yaml
             ->redirect()
         ;
     }
@@ -27,7 +27,7 @@ class HitobitoController extends AbstractController {
      * because this is the "redirect_route" you configured
      * in config/packages/knpu_oauth2_client.yaml.
      *
-     * @Route("/auth/hitobito/callback", name="connect_hitobito_check")
+     * @Route("/auth/cevidb/callback", name="connect_cevidb_check")
      */
     public function connectCheckAction(Request $request, ClientRegistry $clientRegistry) {
         // ** if you want to *authenticate* the user, then

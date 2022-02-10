@@ -59,12 +59,20 @@ class Profile extends BaseEntity {
     public ?string $googleId = null;
 
     /**
-     * Hitobito id of the user.
+     * PBS MiData id of the user.
      *
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     #[ApiProperty(readable: false, writable: false)]
-    public ?string $hitobitoId = null;
+    public ?string $pbsmidataId = null;
+
+    /**
+     * CeviDB id of the user.
+     *
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    #[ApiProperty(readable: false, writable: false)]
+    public ?string $cevidbId = null;
 
     /**
      * Unique username. Lower case alphanumeric symbols, dashes, periods and underscores only.

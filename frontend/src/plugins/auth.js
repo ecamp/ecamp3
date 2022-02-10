@@ -36,7 +36,7 @@ export function isLoggedIn () {
 }
 
 async function login (username, password) {
-  const url = await apiStore.href(apiStore.get().auth(), 'login')
+  const url = await apiStore.href(apiStore.get('/'), 'login')
   return apiStore.post(url, { username: username, password: password }).then(() => {
     return isLoggedIn()
   })
@@ -75,17 +75,21 @@ async function redirectToOAuthLogin (provider) {
     returnUrl += '?redirect=' + params.get('redirect')
   }
 
-  return apiStore.href(apiStore.get().auth(), provider, { callback: encodeURI(returnUrl) }).then(url => {
+  return apiStore.href(apiStore.get('/'), provider, { callback: encodeURI(returnUrl) }).then(url => {
     window.location.href = window.environment.API_ROOT_URL + url
   })
 }
 
 async function loginGoogle () {
-  return redirectToOAuthLogin('google')
+  return redirectToOAuthLogin('oauthGoogle')
 }
 
 async function loginPbsMiData () {
-  return redirectToOAuthLogin('pbsmidata')
+  return redirectToOAuthLogin('oauthPbsmidata')
+}
+
+async function loginCeviDB () {
+  return redirectToOAuthLogin('oauthCevidb')
 }
 
 export async function logout () {
@@ -95,7 +99,7 @@ export async function logout () {
     .then(() => isLoggedIn())
 }
 
-export const auth = { isLoggedIn, login, register, loginGoogle, loginPbsMiData, logout, user }
+export const auth = { isLoggedIn, login, register, loginGoogle, loginPbsMiData, loginCeviDB, logout, user }
 
 class AuthPlugin {
   install (Vue) {

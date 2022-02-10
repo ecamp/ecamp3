@@ -3,6 +3,7 @@
 namespace App\Tests\Serializer\Normalizer;
 
 use ApiPlatform\Core\Api\Entrypoint;
+use ApiPlatform\Core\Api\UrlGeneratorInterface;
 use ApiPlatform\Core\Metadata\Resource\ResourceNameCollection;
 use App\Entity\Activity;
 use App\Entity\Camp;
@@ -21,17 +22,56 @@ class UriTemplateNormalizerTest extends TestCase {
     private MockObject|NormalizerInterface $decorated;
     private MockObject|UriTemplateFactory $uriTemplateFactory;
     private EnglishInflector $englishInflector;
+    private array $loginAndOauthLinks;
 
     protected function setUp(): void {
         $this->decorated = $this->createMock(NormalizerInterface::class);
         $this->uriTemplateFactory = $this->createMock(UriTemplateFactory::class);
         $this->englishInflector = new EnglishInflector();
+        $urlGenerator = $this->createMock(UrlGeneratorInterface::class);
+        $urlGenerator->method('generate')->willReturnCallback(function (string $arg) {
+            switch ($arg) {
+                case 'authentication_token':
+                    return '/authentication_token';
+
+                case 'connect_google_start':
+                    return '/auth/google';
+
+                case 'connect_pbsmidata_start':
+                    return '/auth/pbsmidata';
+
+                case 'connect_cevidb_start':
+                    return '/auth/cevidb';
+
+                default:
+                    return null;
+            }
+        });
 
         $this->uriTemplateNormalizer = new UriTemplateNormalizer(
             $this->decorated,
             $this->englishInflector,
             $this->uriTemplateFactory,
+            $urlGenerator,
         );
+
+        $this->loginAndOauthLinks = [
+            'login' => [
+                'href' => '/authentication_token',
+            ],
+            'oauthGoogle' => [
+                'href' => '/auth/google{?callback}',
+                'templated' => true,
+            ],
+            'oauthPbsmidata' => [
+                'href' => '/auth/pbsmidata{?callback}',
+                'templated' => true,
+            ],
+            'oauthCevidb' => [
+                'href' => '/auth/cevidb{?callback}',
+                'templated' => true,
+            ],
+        ];
     }
 
     public function testCreateNotTemplatedLinkIfNoParameters() {
@@ -56,6 +96,7 @@ class UriTemplateNormalizerTest extends TestCase {
                     'camps' => [
                         'href' => '/camps',
                     ],
+                    ...$this->loginAndOauthLinks,
                 ],
             ]
         ));
@@ -84,6 +125,7 @@ class UriTemplateNormalizerTest extends TestCase {
                         'href' => '/camps{/id}',
                         'templated' => true,
                     ],
+                    ...$this->loginAndOauthLinks,
                 ],
             ]
         ));
@@ -112,6 +154,7 @@ class UriTemplateNormalizerTest extends TestCase {
                         'href' => '/activities{?camp,camp[]}',
                         'templated' => true,
                     ],
+                    ...$this->loginAndOauthLinks,
                 ],
             ]
         ));
@@ -140,6 +183,7 @@ class UriTemplateNormalizerTest extends TestCase {
                         'href' => '/activities{/id}{?camp,camp[]}',
                         'templated' => true,
                     ],
+                    ...$this->loginAndOauthLinks,
                 ],
             ]
         ));
