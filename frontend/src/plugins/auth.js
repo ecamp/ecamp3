@@ -36,7 +36,7 @@ export function isLoggedIn () {
 }
 
 async function login (username, password) {
-  const url = await apiStore.href(apiStore.get('/'), 'login')
+  const url = await apiStore.href(apiStore.get(), 'login')
   return apiStore.post(url, { username: username, password: password }).then(() => {
     return isLoggedIn()
   })
@@ -75,7 +75,7 @@ async function redirectToOAuthLogin (provider) {
     returnUrl += '?redirect=' + params.get('redirect')
   }
 
-  return apiStore.href(apiStore.get('/'), provider, { callback: encodeURI(returnUrl) }).then(url => {
+  return apiStore.href(apiStore.get(), provider, { callback: encodeURI(returnUrl) }).then(url => {
     window.location.href = window.environment.API_ROOT_URL + url
   })
 }

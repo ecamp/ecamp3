@@ -227,6 +227,29 @@ describe('authentication logic', () => {
     })
   })
 
+  describe('loginCeviDB()', () => {
+    const { location } = window
+    beforeEach(() => {
+      delete window.location
+      window.location = {
+        origin: 'http://localhost',
+        href: 'http://localhost/login'
+      }
+    })
+    afterEach(() => {
+      window.location = location
+    })
+
+    it('forwards to cevidb authentication endpoint', async done => {
+      // when
+      await auth.loginCeviDB()
+
+      // then
+      expect(window.location.href).toBe('http://localhost/auth/cevidb?callback=http%3A%2F%2Flocalhost%2FloginCallback')
+      done()
+    })
+  })
+
   describe('logout()', () => {
     it('resolves to false if the user successfully logs out', async done => {
       // given
@@ -247,38 +270,26 @@ function createState (authState = {}) {
     api: {
       '': {
         ...authState,
-        auth: {
-          href: '/auth'
-        },
         users: {
           href: '/users'
-        },
-        _meta: {
-          self: ''
-        }
-      },
-      '/auth': {
-        register: {
-          href: '/auth/register'
         },
         login: {
           href: '/authentication_token'
         },
-        google: {
+        oauthGoogle: {
           href: '/auth/google{?callback}',
           templated: true
         },
-        pbsmidata: {
+        oauthPbsmidata: {
           href: '/auth/pbsmidata{?callback}',
           templated: true
         },
+        oauthCevidb: {
+          href: '/auth/cevidb{?callback}',
+          templated: true
+        },
         _meta: {
-          self: '/auth'
-        }
-      },
-      '/auth/logout': {
-        _meta: {
-          self: '/auth/logout'
+          self: ''
         }
       }
     }
