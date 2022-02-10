@@ -36,6 +36,6 @@ export const renderPdf = async ({ config, storeData, translationData }) => {
 }
 
 export const printComponentFor = (config) => {
-  // TODO use a dynamic import here and select a different component depending on the config
+  // TODO select a different component depending on the config
   return SimplePDF
 }

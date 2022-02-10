@@ -1,6 +1,6 @@
 import { printComponentFor, renderPdf } from './renderPdf.js'
-// import Worker from 'worker-iife:./renderPdf.worker.js'
-// import * as Comlink from 'comlink'
+import Worker from 'worker-iife:./renderPdf.worker.js'
+import * as Comlink from 'comlink'
 
 export const generatePdf = async (data) => {
   const component = printComponentFor(data.config)
@@ -9,13 +9,14 @@ export const generatePdf = async (data) => {
   }
 
   if (data.renderInWorker) {
-    // TODO
-    // const pdfWorker = Comlink.wrap(new Worker())
-    // const [filename, blob] = await pdfWorker.renderPdfInWorker({ camp: () => {} }, {}, {})
-    // something something error handling
-    // console.log(filename, blob)
-    // state.blob = blob
-    return {}
+    const pdfWorker = Comlink.wrap(new Worker())
+    const serializableData = {
+      ...data,
+      config: JSON.parse(JSON.stringify(data.config)),
+      storeData: JSON.parse(JSON.stringify(data.storeData)),
+      translationData: JSON.parse(JSON.stringify(data.translationData))
+    }
+    return { ...(await pdfWorker.renderPdfInWorker(serializableData)), filename: 'web-worker.pdf' }
   } else {
     return { ...(await renderPdf(data)), filename: 'main-thread.pdf' }
   }

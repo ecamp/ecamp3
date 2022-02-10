@@ -31,7 +31,7 @@ export default {
         config: this.config,
         storeData: this.$store.state,
         translationData: this.$i18n.messages,
-        renderInWorker: false
+        renderInWorker: true
       })
 
       this.loading = false
