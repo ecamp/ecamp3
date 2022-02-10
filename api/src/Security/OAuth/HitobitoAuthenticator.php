@@ -71,8 +71,7 @@ class HitobitoAuthenticator extends OAuth2Authenticator {
                     $profile->username = $email;
                     $user = new User();
                     $user->profile = $profile;
-                    // TODO enable the next line once email verification is active in hitobito
-                    // $user->state = User::STATE_ACTIVATED;
+                    $user->state = User::STATE_ACTIVATED;
                 }
 
                 // persist user object
