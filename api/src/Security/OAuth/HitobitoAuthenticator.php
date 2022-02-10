@@ -36,9 +36,10 @@ class HitobitoAuthenticator extends OAuth2Authenticator {
     }
 
     public function authenticate(Request $request): Passport {
+        // extract provider from request path
         preg_match('/^\/auth\/(pbsmidata|cevidb)\/callback$/', $request->getPathInfo(), $providerMatch);
         $provider = $providerMatch[1];
-        /** @param Hitobito $client */
+        /** @var Hitobito $client */
         $client = $this->clientRegistry->getClient($provider);
         $accessToken = $this->fetchAccessToken($client);
 
