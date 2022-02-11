@@ -32,7 +32,7 @@ function prepareDataForSerialization (data) {
   }
 }
 
-function replaceEntitiesWithRelativeUris(map) {
+function replaceEntitiesWithRelativeUris (map) {
   Object.keys(map).forEach(key => {
     const value = map[key]
     const relativeUri = relativeUriFor(value)
@@ -43,10 +43,10 @@ function replaceEntitiesWithRelativeUris(map) {
   return map
 }
 
-function relativeUriFor(entity) {
+function relativeUriFor (entity) {
   if (typeof entity !== 'function') {
     return entity
   }
   const baseUrl = window.environment.API_ROOT_URL
-  return entity()?._meta?.self?.replace(new RegExp(`^${baseUrl}`), '')
+  return entity()?._meta?.self?.replace(new RegExp('^' + baseUrl), '')
 }
