@@ -6,7 +6,6 @@
       :on="eventHandlers" />
     <dialog-activity-create
       ref="dialogActivityCreate"
-      :camp="period().camp"
       :period="period"
       :schedule-entry="newEntryPlaceholder"
       @activityCreated="afterCreateActivity($event)"
@@ -86,6 +85,7 @@ export default {
     this.period().scheduleEntries().$reload()
     this.period().camp().activities().$reload()
     this.period().camp().categories().$reload()
+    this.period().days().$reload()
   },
 
   methods: {

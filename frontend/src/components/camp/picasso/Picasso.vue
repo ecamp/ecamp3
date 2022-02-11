@@ -34,12 +34,17 @@ Listing all given activity schedule entries in a calendar view.
       @mouseleave.native="onMouseleave"
       @mousedown.native.prevent="/*this prevents from middle button to start scroll behavior*/">
       <!-- day header -->
-      <template #day-label-header="time">
+      <template #day-label-header="{ date }">
         <div class="ec-daily_head-day-label">
           <span v-if="widthPluralization > 0" class="d-block">
-            {{ $date.utc(time.date).format('dddd') }}
-          </span> {{ $date.utc(time.date).format($tc('components.camp.picasso.datetime.date', widthPluralization)) }}
+            {{ $date.utc(date).format('dddd') }}
+          </span> {{ $date.utc(date).format($tc('components.camp.picasso.datetime.date', widthPluralization)) }}
         </div>
+        <day-responsibles
+          :date="date"
+          :period="period"
+          :disabled="!editable"
+          class="mt-1 mx-2" />
       </template>
 
       <!-- template for single scheduleEntry -->
@@ -48,7 +53,9 @@ Listing all given activity schedule entries in a calendar view.
         <dialog-activity-edit
           v-if="editable && !event.tmpEvent"
           :ref="`editDialog-${event.id}`"
-          :schedule-entry="event">
+          :schedule-entry="event"
+          @activityUpdated="reloadScheduleEntries()"
+          @error="reloadScheduleEntries()">
           <template #activator="{ on }">
             <v-btn absolute
                    top
@@ -111,14 +118,16 @@ import { scheduleEntryRoute } from '@/router.js'
 import mergeListeners from '@/helpers/mergeListeners.js'
 
 import DialogActivityEdit from '@/components/scheduleEntry/DialogActivityEdit.vue'
+import DayResponsibles from './DayResponsibles.vue'
 
 export default {
   name: 'Picasso',
   components: {
-    DialogActivityEdit
+    DialogActivityEdit,
+    DayResponsibles
   },
   props: {
-    // period for which to schow picasso
+    // period for which to show picasso
     period: {
       type: Object,
       required: true
@@ -306,6 +315,9 @@ export default {
     },
     weekdayFormat () {
       return ''
+    },
+    reloadScheduleEntries () {
+      this.api.reload(this.period.scheduleEntries())
     },
     scheduleEntryRoute
   }

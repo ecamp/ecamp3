@@ -59,6 +59,14 @@
     "contentType": {
       "name": "Inhalttyp | Inhalttypen"
     },
+    "day": {
+      "fields": {
+        "dayResponsibles": "Tagesverantwortliche"
+      }
+    },
+    "materialList": {
+      "name": "Materialliste"
+    },
     "period": {
       "defaultDescription": "Hauptlager",
       "fields": {

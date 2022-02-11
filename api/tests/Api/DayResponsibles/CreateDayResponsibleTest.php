@@ -124,8 +124,8 @@ class CreateDayResponsibleTest extends ECampApiTestCase {
         $this->assertJsonContains([
             'violations' => [
                 [
-                    'propertyPath' => 'day',
-                    'message' => 'This value is already used.',
+                    'propertyPath' => 'campCollaboration',
+                    'message' => 'This campCollaboration (user) is already responsible for this day.',
                 ],
             ],
         ]);

@@ -1,19 +1,19 @@
 <template>
-  <e-select
-    v-model="selectedCampCollaborations"
-    :items="availableCampCollaborations"
-    :loading="isSaving || isLoading ? 'secondary' : false"
-    :name="$tc('entity.activity.fields.responsible')"
-    :error-messages="errorMessages"
-    outlined
-    :filled="false"
-    dense
-    multiple
-    chips
-    deletable-chips
-    small-chips
-    v-bind="$attrs"
-    @input="onInput" />
+  <v-skeleton-loader v-if="isLoading" type="text" height="56" />
+  <e-select v-else
+            v-model="selectedCampCollaborations"
+            :items="availableCampCollaborations"
+            :loading="isSaving || isLoading ? 'secondary' : false"
+            :name="$tc('entity.day.fields.dayResponsibles')"
+            :error-messages="errorMessages"
+            outlined
+            :filled="false"
+            multiple
+            chips
+            deletable-chips
+            small-chips
+            v-bind="$attrs"
+            @input="onInput" />
 </template>
 
 <script>
@@ -21,10 +21,17 @@ import serverErrorToString from '@/helpers/serverErrorToString.js'
 import campCollaborationDisplayName from '@/helpers/campCollaborationDisplayName.js'
 
 export default {
-  name: 'ActivityResponsibles',
+  name: 'DayResponsibles',
   props: {
-    activity: {
+    // current period
+    period: {
       type: Object,
+      required: true
+    },
+
+    // date of the DayEntity as ISO String
+    date: {
+      type: String,
       required: true
     }
   },
@@ -33,13 +40,11 @@ export default {
       oldSelectedCampCollaborations: [],
       selectedCampCollaborations: [],
       errorMessages: [],
-      isSaving: false
+      isSaving: false,
+      isLoading: true
     }
   },
   computed: {
-    isLoading () {
-      return this.campCollaborations._meta.loading || this.activityResponsibles._meta.loading
-    },
     availableCampCollaborations () {
       return this.campCollaborations.items.filter(cc => {
         return (cc.status !== 'inactive') || (this.currentCampCollaborationIRIs.includes(cc._meta.self))
@@ -52,17 +57,30 @@ export default {
       })
     },
     currentCampCollaborationIRIs () {
-      return this.activityResponsibles.items.map(item => item.campCollaboration()._meta.self)
+      return this.dayResponsibles.items.map(item => item.campCollaboration()._meta.self)
     },
-    activityResponsibles () {
-      return this.activity.activityResponsibles()
+    dayResponsibles () {
+      return this.day.dayResponsibles()
     },
     campCollaborations () {
-      return this.activity.camp().campCollaborations()
+      return this.period.camp().campCollaborations()
+    },
+
+    // returns the day entity which corresponds to the provided date string
+    day () {
+      return this.period.days().items.find(day => {
+        return this.$date.utc(this.date).isSame(this.$date.utc(day.start), 'day')
+      })
     }
   },
   async mounted () {
-    await this.activityResponsibles._meta.load
+    await Promise.all([
+      this.period.camp().campCollaborations()._meta.load,
+      this.period.days().$reload()
+    ])
+
+    this.isLoading = false
+
     this.oldSelectedCampCollaborations = [...this.currentCampCollaborationIRIs]
     this.selectedCampCollaborations = [...this.currentCampCollaborationIRIs]
   },
@@ -75,8 +93,8 @@ export default {
       // add new items
       const newItems = this.selectedCampCollaborations.filter(item => !this.oldSelectedCampCollaborations.includes(item))
       newItems.forEach(campCollaborationIRI => {
-        promises.push(this.activity.activityResponsibles().$post({
-          activity: this.activity._meta.self,
+        promises.push(this.dayResponsibles.$post({
+          day: this.day._meta.self,
           campCollaboration: campCollaborationIRI
         }))
       })
@@ -84,9 +102,9 @@ export default {
       // delete removed items
       const removedItems = this.oldSelectedCampCollaborations.filter(item => !this.selectedCampCollaborations.includes(item))
       removedItems.forEach(campCollaborationIRI => {
-        const activityResponsible = this.activityResponsibles.items.find(item => item.campCollaboration()._meta.self === campCollaborationIRI)
-        if (activityResponsible !== undefined) {
-          promises.push(activityResponsible.$del())
+        const dayResponsible = this.dayResponsibles.items.find(item => item.campCollaboration()._meta.self === campCollaborationIRI)
+        if (dayResponsible !== undefined) {
+          promises.push(dayResponsible.$del())
         }
       })
 
@@ -94,7 +112,7 @@ export default {
       this.oldSelectedCampCollaborations = [...this.selectedCampCollaborations]
 
       Promise.all(promises).then(() => {
-        this.activityResponsibles.$reload()
+        this.dayResponsibles.$reload()
       }).catch(e => {
         this.errorMessages.push(serverErrorToString(e))
       }).finally(() => {
@@ -104,3 +122,11 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+  ::v-deep .v-skeleton-loader__text {
+    height: 40px;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+</style>

@@ -39,7 +39,7 @@
       v-if="activity.scheduleEntries"
       :schedule-entries="activity.scheduleEntries"
       :period="period"
-      :periods="camp().periods().items" />
+      :periods="camp.periods().items" />
   </div>
 </template>
 
@@ -52,10 +52,6 @@ export default {
   props: {
     activity: {
       type: Object,
-      required: true
-    },
-    camp: {
-      type: Function,
       required: true
     },
 
@@ -72,7 +68,10 @@ export default {
   },
   computed: {
     categories () {
-      return this.camp().categories()
+      return this.camp.categories()
+    },
+    camp () {
+      return this.period().camp()
     }
   }
 }

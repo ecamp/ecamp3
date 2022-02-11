@@ -22,7 +22,7 @@
   "dependencies": {
     "@mdi/font": "6.5.95",
     "@sentry/vue": "6.16.0",
-    "@vue/composition-api": "1.4.1",
+    "@vue/composition-api": "1.4.6",
     "axios": "0.24.0",
     "dayjs": "1.10.7",
     "deepmerge": "4.2.2",
@@ -30,7 +30,7 @@
     "inter-ui": "3.19.3",
     "js-cookie": "3.0.1",
     "lodash": "4.17.21",
-    "slugify": "1.6.3",
+    "slugify": "1.6.5",
     "tiptap": "1.32.2",
     "tiptap-extensions": "1.35.2",
     "url-template": "2.0.8",
@@ -40,7 +40,7 @@
     "vue-i18n": "8.26.7",
     "vue-router": "3.5.2",
     "vuedraggable": "2.24.3",
-    "vuetify": "2.6.1",
+    "vuetify": "2.6.3",
     "vuex": "3.6.2"
   },
   "devDependencies": {
