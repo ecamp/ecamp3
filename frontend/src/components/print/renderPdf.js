@@ -1,8 +1,10 @@
 // eslint-disable-next-line no-unused-vars
 import React from 'react'
 // import VueI18n from 'vue-i18n'
-import reactPdf from '@react-pdf/renderer'
+import wrap from './minimalHalJsonVuex.js'
+import { get } from 'lodash'
 import SimplePDF from './SimplePDF.jsx'
+import reactPdf from '@react-pdf/renderer'
 const { pdf } = reactPdf
 
 export const renderPdf = async ({ config, storeData, translationData }) => {
@@ -14,17 +16,23 @@ export const renderPdf = async ({ config, storeData, translationData }) => {
     error: null
   }
 
-  // TODO provide accessor functions for storeData and translationData, which work independently of
-  //   whether we are in a web worker or in the main thread.
+  // TODO provide proper accessor function for translationData, which supports placeholders and
+  //  works independently of whether we are in a web worker or in the main thread.
+  const $tc = key => {
+    console.log(key, translationData[storeData.lang.language])
+    return get(translationData[storeData.lang.language], key, `untranslated key "${key}"`)
+  }
   // const i18n = new VueI18n({
   //   messages: JSON.parse(JSON.stringify(translationData))
   // })
   // console.log(i18n)
 
+  const store = wrap(storeData.api)
+
   if (typeof component.prepare === 'function') {
     await component.prepare(config)
   }
-  const document = React.createElement(component, { config })
+  const document = React.createElement(component, { config, store, $tc })
   const pdfBuilder = pdf(document)
   try {
     result.blob = await pdfBuilder.toBlob()

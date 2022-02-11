@@ -8,10 +8,12 @@ import OpenSansBold from '../../assets/fonts/OpenSans/OpenSans-Bold.ttf'
 const { Document, Page, Text, Font } = pdf
 
 function SimplePDF (props) {
+  const camp = props.store.get(props.config.camp)
   return <Document>
     <Page>
       { Array.from(new Array(10).keys()).map(i => {
         return <Text key={i} style={{ fontFamily: 'OpenSans' }}>
+          { camp.title } { props.$tc('entity.user.fields.email') } { camp.periods().items.length } { camp.periods().items.map(period => period.description) }
           Hello world! I was rendered in a background worker! ... or not? I don't care, I'm just a simple react component. showFrontpage: {props.config.showFrontpage ? 'true' : 'false'}
         </Text>
       }) }
@@ -22,7 +24,8 @@ function SimplePDF (props) {
 export const loadData = async (config) => {
   // Load any data necessary based on the print config
   return await Promise.all([
-    config.camp()._meta.load
+    config.camp()._meta.load,
+    config.camp().periods().$loadItems()
     /*
   return this.camp()._meta.loading ||
     this.camp().periods()._meta.loading ||

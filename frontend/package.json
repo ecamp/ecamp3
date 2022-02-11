@@ -40,7 +40,7 @@
     "slugify": "1.6.5",
     "tiptap": "1.32.2",
     "tiptap-extensions": "1.35.2",
-    "url-template": "2.0.8",
+    "url-template": "^2.0.8",
     "vee-validate": "3.4.14",
     "vite-plugin-worker": "^1.0.5",
     "vue": "2.6.14",
