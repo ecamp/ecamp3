@@ -38,7 +38,7 @@ export default {
         config: this.config,
         storeData: this.$store.state,
         translationData: this.$i18n.messages,
-        renderInWorker: process.env.NODE_ENV === 'production'
+        renderInWorker: true
       })
 
       if (error) {
