@@ -1,7 +1,8 @@
 // eslint-disable-next-line no-unused-vars
 import React from 'react'
 import pdf from '@react-pdf/renderer'
-import { Parser } from 'html-to-react'
+import htmlToReact from 'html-to-react'
+const { Parser } = htmlToReact
 
 const { Text, View } = pdf
 
