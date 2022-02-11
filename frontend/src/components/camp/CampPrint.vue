@@ -31,7 +31,8 @@
     </div>
     <local-print-preview :config="config"
                          width="100%"
-                         height="500" />
+                         height="500"
+                         class="mt-4" />
   </div>
 </template>
 
