@@ -7,5 +7,5 @@ use Symfony\Component\Validator\Constraint;
 
 #[Attribute]
 class AssertLessThanOrEqualToEarliestScheduleEntryStart extends Constraint {
-    public string $message = 'Due to existing activities, start-date can not be later then {{ startDate }}';
+    public string $message = 'Due to existing schedule entries, start-date can not be later then {{ startDate }}';
 }

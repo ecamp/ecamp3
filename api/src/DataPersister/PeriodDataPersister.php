@@ -46,12 +46,6 @@ class PeriodDataPersister extends AbstractDataPersister {
         $length = $period->getPeriodLength();
         $days = $period->getDays();
 
-        $minDelta = 0;
-        if (null != $orig) {
-            $minDelta = $orig['start']->getTimestamp() - $period->start->getTimestamp();
-            $minDelta = floor($minDelta / 60);
-        }
-
         // Add Days
         $i = count($days);
         while ($i < $length) {
@@ -62,8 +56,14 @@ class PeriodDataPersister extends AbstractDataPersister {
 
         // Move Schedule-Entries
         if (!$period->moveScheduleEntries) {
+            $deltaMinutes = 0;
+            if (null != $orig) {
+                $deltaMinutes = $orig['start']->getTimestamp() - $period->start->getTimestamp();
+                $deltaMinutes = floor($deltaMinutes / 60);
+            }
+
             foreach ($period->scheduleEntries as $scheduleEntry) {
-                $scheduleEntry->periodOffset += $minDelta;
+                $scheduleEntry->periodOffset += $deltaMinutes;
             }
         }
 

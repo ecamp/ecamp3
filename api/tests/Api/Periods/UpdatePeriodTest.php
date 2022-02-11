@@ -332,7 +332,7 @@ at position 9: Data missing',
             'violations' => [
                 [
                     'propertyPath' => 'start',
-                    'message' => 'Due to existing activities, start-date can not be later then 2023-11-10',
+                    'message' => 'Due to existing schedule entries, start-date can not be later then 2023-11-10',
                 ],
             ],
         ]);
@@ -354,7 +354,7 @@ at position 9: Data missing',
             'violations' => [
                 [
                     'propertyPath' => 'end',
-                    'message' => 'Due to existing activities, end-date can not be earlier then 2023-11-10',
+                    'message' => 'Due to existing schedule entries, end-date can not be earlier then 2023-11-10',
                 ],
             ],
         ]);

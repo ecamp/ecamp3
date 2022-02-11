@@ -264,7 +264,7 @@ class Period extends BaseEntity implements BelongsToCampInterface {
     }
 
     /**
-     * Returns the length of this period
+     * Returns the length of this period in days
      * (based on start and end date).
      */
     public function getPeriodLength(): ?int {

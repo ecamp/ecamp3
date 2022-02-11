@@ -20,7 +20,7 @@ class AssertLessThanOrEqualToEarliestScheduleEntryStartValidator extends Constra
             throw new UnexpectedTypeException($constraint, AssertLessThanOrEqualToEarliestScheduleEntryStart::class);
         }
 
-        if (!isset($value)) {
+        if (null === $value || '' === $value) {
             return;
         }
 

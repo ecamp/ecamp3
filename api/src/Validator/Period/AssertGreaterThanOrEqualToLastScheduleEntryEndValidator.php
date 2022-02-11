@@ -20,7 +20,7 @@ class AssertGreaterThanOrEqualToLastScheduleEntryEndValidator extends Constraint
             throw new UnexpectedTypeException($constraint, AssertGreaterThanOrEqualToLastScheduleEntryEnd::class);
         }
 
-        if (!isset($value)) {
+        if (null === $value || '' === $value) {
             return;
         }
 
