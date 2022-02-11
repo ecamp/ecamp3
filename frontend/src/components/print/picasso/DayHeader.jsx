@@ -22,10 +22,10 @@ function renderDate (day) {
   return dayjs.utc(day.start).hour(0).minute(0).second(0).format('ddd LL')
 }
 
-function DayColumn ({ day, styles }) {
+function DayHeader ({ day, styles }) {
   return <View style={{ ...wrapperStyles, ...styles }}>
     <Text style={ textStyles }>{ renderDate(day) }</Text>
   </View>
 }
 
-export default DayColumn
+export default DayHeader

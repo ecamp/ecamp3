@@ -4,7 +4,7 @@ import pdf from '@react-pdf/renderer'
 
 const { Svg, Circle, Polygon } = pdf
 
-function LAThematicArea ({ size = 12 }) {
+function Checkmark ({ size = 12 }) {
   const scale = size / 8
   return <Svg style={{ transform: `scale(${scale})`, marginTop: '1pt' }} height="8" width="8">
     <Circle
@@ -20,4 +20,4 @@ function LAThematicArea ({ size = 12 }) {
   </Svg>
 }
 
-export default LAThematicArea
+export default Checkmark
