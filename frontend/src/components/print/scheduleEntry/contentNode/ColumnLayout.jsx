@@ -9,11 +9,14 @@ function ColumnLayout (props) {
   const columns = props.contentNode.columns
   const firstSlot = columns.length ? columns[0].slot : '1'
   const lastSlot = columns.length ? columns[columns.length - 1].slot : '1'
+  const children = props.contentNode.owner().contentNodes().items.filter(contentNode => {
+    return contentNode.parent && contentNode.parent()._meta.self === props.contentNode._meta.self
+  })
 
   return <View style={{ display: 'flex', flexDirection: 'row' }}>
       { columns.map(({ slot, width }) => {
         return <View key={slot} style={{ borderLeft: (slot === firstSlot) ? 'none' : '1px solid black', padding: '2pt ' + (slot === lastSlot ? '0' : '1%') + ' 2pt ' + (slot === firstSlot ? '0' : '1%'), flexBasis: (width * 1000) + 'pt' }}>
-          { props.contentNode.children().items
+          { children
             .filter(child => child.slot === slot)
             .sort((child1, child2) => parseInt(child1.position) - parseInt(child2.position))
             .map(child => {

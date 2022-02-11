@@ -33,34 +33,25 @@ export const loadData = async (config) => {
   // Load any data necessary based on the print config
   return Promise.all([
     config.camp()._meta.load,
-    config.camp().periods().$loadItems().then(periods => {
-      return Promise.all(periods.items.map(period => {
-        return period.scheduleEntries().$loadItems().then(scheduleEntries => {
-          return Promise.all(scheduleEntries.items.map(scheduleEntry => {
-            return Promise.all([
-              scheduleEntry.activity()._meta.load,
-              scheduleEntry.activity().category()._meta.load,
-              scheduleEntry.activity().activityResponsibles().$loadItems().then(activityResponsibles => {
-                return Promise.all(activityResponsibles.items.map(activityResponsible => {
-                  return activityResponsible.campCollaboration()._meta.load.then(campCollaboration => {
-                    return campCollaboration.user ? campCollaboration.user()._meta.load : Promise.resolve()
-                  })
-                }))
-              }),
-              scheduleEntry.activity().contentNodes().$loadItems().then(contentNodes => {
-                return Promise.all(contentNodes.items.map(contentNode => {
-                  return Promise.all([
-                    contentNode.contentType()._meta.load,
-                    contentNode.children().$loadItems()
-                  ])
-                }))
-              })
-            ])
-          }))
-        })
+    config.camp().categories().$loadItems(),
+    config.camp().activities().$loadItems().then(activities => {
+      return Promise.all(activities.items.map(activity => {
+        return Promise.all([
+          activity.activityResponsibles().$loadItems(),
+          activity.contentNodes().$loadItems()
+        ])
       }))
     }),
-    config.camp().materialLists().$loadItems()
+    config.camp().campCollaborations().$loadItems().then(campCollaboration => {
+      return campCollaboration.user ? campCollaboration.user()._meta.load : Promise.resolve()
+    }),
+    config.camp().periods().$loadItems().then(periods => {
+      return Promise.all(periods.items.map(period => {
+        return period.scheduleEntries().$loadItems()
+      }))
+    }),
+    config.camp().materialLists().$loadItems(),
+    config.apiGet().contentTypes().$loadItems()
   ])
 }
 

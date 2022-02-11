@@ -28,7 +28,7 @@ export default {
       this.loading = true
 
       const { blob, filename, error } = await generatePdf({
-        config: this.config,
+        config: { ...this.config, apiGet: this.api.get.bind(this) },
         storeData: this.$store.state,
         translationData: this.$i18n.messages,
         renderInWorker: true
