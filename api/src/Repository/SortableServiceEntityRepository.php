@@ -28,14 +28,10 @@ use function sprintf;
  *         parent::__construct($registry, YourEntity::class);
  *     }
  * }
- *
- * @template T
- * @template-extends EntityRepository<T>
  */
 abstract class SortableServiceEntityRepository extends SortableRepository implements ServiceEntityRepositoryInterface {
     /**
      * @param string $entityClass The class name of the entity this repository manages
-     * @psalm-param class-string<T> $entityClass
      */
     public function __construct(ManagerRegistry $registry, string $entityClass) {
         $manager = $registry->getManagerForClass($entityClass);

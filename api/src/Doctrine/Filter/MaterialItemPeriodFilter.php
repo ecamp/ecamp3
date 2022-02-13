@@ -43,7 +43,7 @@ final class MaterialItemPeriodFilter extends AbstractContextAwareFilter {
         return $description;
     }
 
-    protected function filterProperty(string $property, $value, QueryBuilder $q, QueryNameGeneratorInterface $queryNameGenerator, string $resourceClass, string $operationName = null) {
+    protected function filterProperty(string $property, $value, QueryBuilder $queryBuilder, QueryNameGeneratorInterface $queryNameGenerator, string $resourceClass, string $operationName = null) {
         if (MaterialItem::class !== $resourceClass) {
             throw new \Exception("MaterialItemPeriodFilter can only be applied to entities of type MaterialItem (received: {$resourceClass}).");
         }
@@ -63,15 +63,15 @@ final class MaterialItemPeriodFilter extends AbstractContextAwareFilter {
         $activityJoinAlias = $queryNameGenerator->generateJoinAlias('activity');
         $scheduleEntryJoinAlias = $queryNameGenerator->generateJoinAlias('scheduleEntry');
 
-        $rootAlias = $q->getRootAliases()[0];
+        $rootAlias = $queryBuilder->getRootAliases()[0];
 
         /** @var EntityRepository $materialNodeRepository */
         $materialNodeRepository = $this->getManagerRegistry()->getRepository(MaterialNode::class);
-        $q->andWhere($q->expr()->orX(
+        $queryBuilder->andWhere($queryBuilder->expr()->orX(
              // item directly attached to Period
-            $q->expr()->eq("{$rootAlias}.period", ":{$periodParameterName}"),
+            $queryBuilder->expr()->eq("{$rootAlias}.period", ":{$periodParameterName}"),
             // item part of any scheduleEntry in Period
-            $q->expr()->in(
+            $queryBuilder->expr()->in(
                 "{$rootAlias}.materialNode",
                 $materialNodeRepository
                     ->createQueryBuilder($materialNodeJoinAlias)
@@ -80,11 +80,11 @@ final class MaterialItemPeriodFilter extends AbstractContextAwareFilter {
                     ->join("{$rootJoinAlias}.owner", $ownerJoinAlias)
                     ->join(Activity::class, $activityJoinAlias, Join::WITH, "{$activityJoinAlias}.id = {$ownerJoinAlias}.id")
                     ->join("{$activityJoinAlias}.scheduleEntries", $scheduleEntryJoinAlias)
-                    ->where($q->expr()->eq("{$scheduleEntryJoinAlias}.period", ":{$periodParameterName}"))
+                    ->where($queryBuilder->expr()->eq("{$scheduleEntryJoinAlias}.period", ":{$periodParameterName}"))
                     ->getDQL()
             )
         ));
 
-        $q->setParameter($periodParameterName, $period);
+        $queryBuilder->setParameter($periodParameterName, $period);
     }
 }
