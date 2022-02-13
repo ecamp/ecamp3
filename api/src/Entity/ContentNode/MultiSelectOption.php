@@ -38,6 +38,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
     ],
     denormalizationContext: ['groups' => ['write']],
     normalizationContext: ['groups' => ['read']],
+    order: ['multiSelect.id', 'position']
 )]
 #[ApiFilter(SearchFilter::class, properties: ['multiSelect'])]
 class MultiSelectOption extends BaseEntity implements BelongsToCampInterface, SortableEntityInterface, CopyFromPrototypeInterface {

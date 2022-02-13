@@ -19,6 +19,7 @@ Show all activity schedule entries of a single period.
         </template>
         <span>{{ $tc('views.camp.picasso.guestsCannotEdit') }}</span>
       </v-tooltip>
+      <local-pdf-download-button :config="printConfig" />
     </template>
     <schedule-entries :period="period" :show-button="isContributor">
       <template #default="slotProps">
@@ -46,10 +47,12 @@ import ContentCard from '@/components/layout/ContentCard.vue'
 import Picasso from '@/components/camp/picasso/Picasso.vue'
 import ScheduleEntries from '@/components/scheduleEntry/ScheduleEntries.vue'
 import PeriodSwitcher from '@/components/camp/PeriodSwitcher.vue'
+import LocalPdfDownloadButton from '../../components/print/LocalPdfDownloadButton.vue'
 
 export default {
   name: 'CampProgram',
   components: {
+    LocalPdfDownloadButton,
     PeriodSwitcher,
     ContentCard,
     Picasso,
@@ -61,7 +64,16 @@ export default {
   },
   data () {
     return {
-      editMode: false
+      editMode: false,
+      printConfig: {
+        showFrontpage: false,
+        showToc: false,
+        showPicasso: true,
+        showDailySummary: false,
+        showStoryline: false,
+        showActivities: false,
+        camp: this.period().camp.bind(this)
+      }
     }
   },
   computed: {

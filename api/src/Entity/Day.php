@@ -44,6 +44,7 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
     ],
     denormalizationContext: ['groups' => ['write']],
     normalizationContext: ['groups' => ['read']],
+    order: ['period.start', 'dayOffset']
 )]
 #[ApiFilter(SearchFilter::class, properties: ['period'])]
 #[UniqueEntity(fields: ['period', 'dayOffset'])]

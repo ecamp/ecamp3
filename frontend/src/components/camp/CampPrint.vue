@@ -29,18 +29,23 @@
         :title="result.title"
         class="mt-2" />
     </div>
+    <local-print-preview :config="config"
+                         width="100%"
+                         height="500"
+                         class="mt-4" />
   </div>
 </template>
 
 <script>
 import PrintDownloader from '@/components/camp/CampPrintDownloader.vue'
+import LocalPrintPreview from '../print/LocalPrintPreview.vue'
 
 const PRINT_SERVER = window.environment.PRINT_SERVER
 const PRINT_FILE_SERVER = window.environment.PRINT_FILE_SERVER
 
 export default {
   name: 'CampPrint',
-  components: { PrintDownloader },
+  components: { PrintDownloader, LocalPrintPreview },
   props: {
     camp: {
       type: Function,
@@ -57,8 +62,10 @@ export default {
         showPicasso: true,
         showDailySummary: true,
         showStoryline: true,
-        showActivities: true
-      }
+        showActivities: true,
+        camp: this.camp.bind(this)
+      },
+      refreshing: false
     }
   },
   computed: {
@@ -68,6 +75,37 @@ export default {
     },
     lang () {
       return this.$store.state.lang.language
+    },
+    dataLoading () {
+      return this.camp()._meta.loading ||
+        this.camp().periods()._meta.loading ||
+        this.camp().periods().items.some(period => {
+          return period._meta.loading ||
+            period.scheduleEntries()._meta.loading ||
+            period.scheduleEntries().items.some(scheduleEntry => {
+              return scheduleEntry._meta.loading ||
+                scheduleEntry.activity()._meta.loading ||
+                scheduleEntry.activity().category()._meta.loading ||
+                scheduleEntry.activity().activityResponsibles()._meta.loading ||
+                scheduleEntry.activity().activityResponsibles().items.some(responsible => {
+                  return responsible._meta.loading ||
+                    responsible.campCollaboration()._meta.loading ||
+                    (responsible.campCollaboration().user() !== null && responsible.campCollaboration().user()._meta.loading)
+                }) ||
+                scheduleEntry.activity().contentNodes()._meta.loading ||
+                scheduleEntry.activity().contentNodes().items.some(contentNode => {
+                  return contentNode._meta.loading ||
+                    contentNode.contentType()._meta.loading
+                })
+            })
+        }) ||
+        this.camp().materialLists()._meta.loading ||
+        this.camp().materialLists().items.some(materialList => {
+          return materialList._meta.loading
+        })
+    },
+    boundTc () {
+      return this.$tc.bind(this)
     }
   },
   methods: {
@@ -86,6 +124,10 @@ export default {
         filename: `${PRINT_FILE_SERVER}/${result.filename}-puppeteer.pdf`,
         title: 'ecamp3-puppeteer.pdf'
       })
+    },
+    refreshPreview () {
+      this.refreshing = true
+      this.$nextTick(() => (this.refreshing = false))
     }
   }
 }

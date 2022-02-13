@@ -12,8 +12,13 @@ App\Entity\ContentNode\MultiSelectOption:
     multiSelect: '@multiSelect1'
     translateKey: <word()>
     checked: true
-    position: 0
+    position: 1
   multiSelectOption2:
+    multiSelect: '@multiSelect1'
+    translateKey: <word()>
+    checked: true
+    position: 0
+  multiSelectOption3:
     multiSelect: '@multiSelect2'
     translateKey: <word()>
     checked: true
