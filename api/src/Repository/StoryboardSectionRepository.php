@@ -4,8 +4,8 @@ namespace App\Repository;
 
 use App\Entity\ContentNode\StoryboardSection;
 use App\Entity\User;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
-use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @method null|StoryboardSection find($id, $lockMode = null, $lockVersion = null)
@@ -16,8 +16,8 @@ use Doctrine\Persistence\ManagerRegistry;
 class StoryboardSectionRepository extends SortableServiceEntityRepository implements CanFilterByUserInterface {
     use FiltersByContentNode;
 
-    public function __construct(ManagerRegistry $registry) {
-        parent::__construct($registry, StoryboardSection::class);
+    public function __construct(EntityManagerInterface $em) {
+        parent::__construct($em, StoryboardSection::class);
     }
 
     public function filterByUser(QueryBuilder $queryBuilder, User $user): void {

@@ -1,31 +1,30 @@
 <?php
 
 /**
- * This class is a 1:1 copy of Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository with the only change that it
- * extends from Gedmo\Sortable\Entity\Repository\SortableRepository instead of the default Doctrine\ORM\EntityRepository in
- * order to make this work with Sortable Doctrine extension.
+ * This class copies the concept of Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository with the
+ * only change that it extends from Gedmo\Sortable\Entity\Repository\SortableRepository instead of the default
+ * Doctrine\ORM\EntityRepository in order to make this work with Sortable Doctrine extension.
+ * It also uses the EntityManagerInterface instead of the ObjectManager retrieved from the RegistryManager,
+ * because SortableRepository depends on EntityManagerInterface.
  */
 
 namespace App\Repository;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface;
-use Doctrine\ORM\EntityRepository;
-use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\ORM\EntityManagerInterface;
 use Gedmo\Sortable\Entity\Repository\SortableRepository;
-use LogicException;
-use function sprintf;
 
 /**
  * Optional EntityRepository base class with a simplified constructor (for autowiring).
  *
- * To use in your class, inject the "registry" service and call
+ * To use in your class, inject the "em" service and call
  * the parent constructor. For example:
  *
  * class YourEntityRepository extends ServiceEntityRepository
  * {
- *     public function __construct(ManagerRegistry $registry)
+ *     public function __construct(EntityManagerInterface $em)
  *     {
- *         parent::__construct($registry, YourEntity::class);
+ *         parent::__construct($em, YourEntity::class);
  *     }
  * }
  */
@@ -33,16 +32,7 @@ abstract class SortableServiceEntityRepository extends SortableRepository implem
     /**
      * @param string $entityClass The class name of the entity this repository manages
      */
-    public function __construct(ManagerRegistry $registry, string $entityClass) {
-        $manager = $registry->getManagerForClass($entityClass);
-
-        if (null === $manager) {
-            throw new LogicException(sprintf(
-                'Could not find the entity manager for class "%s". Check your Doctrine configuration to make sure it is configured to load this entity’s metadata.',
-                $entityClass
-            ));
-        }
-
-        parent::__construct($manager, $manager->getClassMetadata($entityClass));
+    public function __construct(EntityManagerInterface $em, string $entityClass) {
+        parent::__construct($em, $em->getClassMetadata($entityClass));
     }
 }
