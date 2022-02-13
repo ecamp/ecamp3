@@ -1,22 +1,8 @@
 {
   "extends": [
     "config:base",
-    "docker:pinDigests",
-    "group:all",
-    "schedule:earlyMondays"
+    "docker:pinDigests"
   ],
-  "js": {
-    "managerBranchPrefix": "js-",
-    "commitMessageSuffix": "js"
-  },
-  "php" : {
-    "managerBranchPrefix": "php-",
-    "commitMessageSuffix": "php"
-  },
-  "docker": {
-    "managerBranchPrefix": "docker-",
-    "commitMessageSuffix": "docker tags"
-  },
   "force": {
     "constraints": {
       "node": "= 16.3.0",
@@ -44,20 +30,7 @@
         "php"
       ],
       "extractVersion": "^php-(?<version>.*)$",
-      "automerge": false,
-      "groupName": "php"
-    },
-    {
-      "matchPackageNames": [
-        "composer"
-      ],
-      "groupName": "composer"
-    },
-    {
-      "matchPackageNames": [
-        "node"
-      ],
-      "groupName" : "node"
+      "automerge": false
     },
     {
       "matchPackageNames": [
@@ -75,6 +48,21 @@
         "vimeo/psalm"
       ],
       "groupName": "php-linter"
+    },
+    {
+      "matchPackageNames": [
+        "caddy",
+        "krakjoe/apcu",
+        "mailhog/mailhog",
+        "phpmyadmin/phpmyadmin",
+        "postgres",
+        "python",
+        "qoomon/docker-host"
+      ],
+      "groupName": "docker-images",
+      "extends": [
+        "schedule:weekly"
+      ]
     }
   ],
   "ignorePaths": [
