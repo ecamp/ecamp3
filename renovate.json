@@ -29,7 +29,6 @@
       "matchPackageNames": [
         "php"
       ],
-      "extractVersion": "^php-(?<version>.*)$",
       "automerge": false
     },
     {
@@ -108,7 +107,8 @@
       "depNameTemplate": "php",
       "lookupNameTemplate": "php/php-src",
       "datasourceTemplate": "github-tags",
-      "versioningTemplate": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)(?<prerelease>\\w+)?$"
+      "versioningTemplate": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)(?<prerelease>\\w+)?$",
+      "extractVersionTemplate": "regex:^php-(?<version>.*)$"
     },
     {
       "fileMatch": [
