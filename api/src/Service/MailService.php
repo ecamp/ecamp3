@@ -71,7 +71,7 @@ class MailService {
             'fr' => 'en',
         ];
 
-        $language = $user->profile?->language ?? 'en';
+        $language = $user->profile->language ?? 'en';
 
         while (true) {
             $template = str_replace('{language}', $language, $templateName);
@@ -84,7 +84,7 @@ class MailService {
             if (!isset($languageFallback[$language])) {
                 throw new \Exception(
                     "Can not find Mail-Template translated '{$templateName}' for ".
-                    ($user->profile?->language ?? 'en')
+                    ($user->profile->language ?? 'en')
                 );
             }
 
