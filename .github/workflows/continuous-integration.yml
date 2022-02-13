@@ -87,6 +87,37 @@ jobs:
       - run: composer psalm
         working-directory: api
 
+  api-phpstan:
+    name: "Lint: API (phpstan)"
+    runs-on: ubuntu-latest
+    steps:
+
+      - uses: actions/checkout@ec3a7ce113134d7a93b817d10a8272cb61118579 # renovate: tag=v2
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1.1'
+          tools: composer:2.2.0
+          coverage: xdebug
+
+      - name: Get Composer Cache Directory
+        id: composer-cache
+        run: 'echo "::set-output name=dir::$(composer config cache-files-dir)"'
+        working-directory: api
+
+      - uses: actions/cache@937d24475381cd9c75ae6db12cb4e79714b926ed # renovate: tag=v2
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
+
+      - run: composer install --no-interaction --no-plugins --no-scripts --prefer-dist
+        working-directory: api
+
+      - run: composer phpstan
+        working-directory: api
+
   frontend-eslint:
     name: "Lint: Frontend (ESLint)"
     runs-on: ubuntu-latest
