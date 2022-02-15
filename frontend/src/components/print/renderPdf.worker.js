@@ -1,4 +1,3 @@
-import './globalWorkerShim.js'
 import * as Comlink from 'comlink'
 import { renderPdf } from './renderPdf.js'
 
