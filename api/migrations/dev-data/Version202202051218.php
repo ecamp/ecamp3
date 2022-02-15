@@ -15,6 +15,7 @@ final class Version202202051218 extends AbstractMigration {
     }
 
     public function up(Schema $schema): void {
+        // START PHP CODE
         $this->addSql(createTruncateDatabaseCommand());
 
         $statements = getStatementsForMigrationFile(__FILE__);
@@ -23,6 +24,7 @@ final class Version202202051218 extends AbstractMigration {
                 $this->addSql($statement);
             }
         }
+        // END PHP CODE
     }
 
     public function down(Schema $schema): void {
