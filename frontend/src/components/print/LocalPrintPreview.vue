@@ -20,10 +20,19 @@ export default {
       url: null
     }
   },
+  computed: {
+    language () {
+      return this.$store.state.lang.language
+    }
+  },
   watch: {
     config: {
       immediate: true,
       deep: true,
+      handler () { this.generatePdf() }
+    },
+    language: {
+      immediate: true,
       handler () { this.generatePdf() }
     }
   },
