@@ -9,7 +9,7 @@ import DayHeader from './DayHeader.jsx'
 
 const { Page, View, Text } = pdf
 
-function Picasso ({ period }) {
+function Picasso ({ period, $tc }) {
   const columnWrapperStyles = {
     flexGrow: '1',
     display: 'flex',
@@ -52,7 +52,7 @@ function Picasso ({ period }) {
   ]
 
   return <Page size="A4" orientation={period.days().items.length > 1 ? 'landscape' : 'portrait'} style={ styles.page }>
-    <Text id="picasso" style={styles.h1}>Grobprogramm {period.description}</Text>
+    <Text id="picasso" style={styles.h1}>{$tc('components.print.picasso.title', { period: period.description })}</Text>
     <View style={{ ...columnWrapperStyles, border: 'none' }}>
       <TimeColumnSpacer times={times}/>
       {period.days().items.map(day => <DayHeader day={day} key={day.id}/>)}

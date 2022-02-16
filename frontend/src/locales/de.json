@@ -104,7 +104,7 @@
         "dailySummary": "Tagesübersicht",
         "frontpage": "Deckblatt",
         "openPrintPreview": "Druckvorschau öffnen",
-        "picasso": "Picasso",
+        "picasso": "Grobprogramm",
         "printNow": "Jetzt drucken",
         "selectPrintPreview": "Druckvorschau zeigen",
         "storyline": "Roter Faden",
@@ -128,7 +128,7 @@
         }
       },
       "storyDay": {
-        "noStory": "Kein roter Faden an diesem Tag gefunden …"
+        "noStory": "Kein roter Faden an diesem Tag gefunden…"
       }
     },
     "dialog": {
@@ -160,6 +160,11 @@
         "logOut": "Ausloggen",
         "myCamps": "Mein Lager | Meine Lager",
         "profile": "Profil"
+      }
+    },
+    "print": {
+      "picasso": {
+        "title": "Grobprogramm {period}"
       }
     }
   },
