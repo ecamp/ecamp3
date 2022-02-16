@@ -25,6 +25,8 @@
 import { generatePdf } from './generatePdf.js'
 import { saveAs } from 'file-saver'
 
+const RENDER_IN_WORKER = true
+
 export default {
   name: 'LocalPDFDownloadButton',
   props: {
@@ -47,7 +49,7 @@ export default {
         config: { ...this.config, apiGet: this.api.get.bind(this) },
         storeData: this.$store.state,
         translationData: this.$i18n.messages,
-        renderInWorker: true
+        renderInWorker: RENDER_IN_WORKER
       })
 
       this.loading = false

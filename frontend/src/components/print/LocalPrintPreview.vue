@@ -16,6 +16,8 @@
 <script>
 import { generatePdf } from './generatePdf.js'
 
+const RENDER_IN_WORKER = true
+
 export default {
   name: 'LocalPrintPreview',
   props: {
@@ -66,7 +68,7 @@ export default {
         config: { ...this.config, apiGet: this.api.get.bind(this) },
         storeData: this.$store.state,
         translationData: this.$i18n.messages,
-        renderInWorker: true
+        renderInWorker: RENDER_IN_WORKER
       })
 
       if (error) {
