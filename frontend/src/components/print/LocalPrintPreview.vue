@@ -27,7 +27,8 @@ export default {
   data () {
     return {
       url: null,
-      loading: true,
+      loading: false,
+      preventingMultiple: false,
       error: null
     }
   },
@@ -52,6 +53,11 @@ export default {
   },
   methods: {
     async generatePdf () {
+      if (this.loading) {
+        this.preventingMultiple = true
+        return
+      }
+
       this.loading = true
       this.error = null
       this.revokeOldObjectUrl()
@@ -71,6 +77,10 @@ export default {
       }
 
       this.loading = false
+      if (this.preventingMultiple) {
+        this.preventingMultiple = false
+        this.generatePdf()
+      }
     },
     revokeOldObjectUrl () {
       const oldUrl = this.url
