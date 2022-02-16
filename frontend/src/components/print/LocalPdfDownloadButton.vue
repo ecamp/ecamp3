@@ -1,9 +1,24 @@
 <template>
-  <button class="ml-5 v-btn v-btn--outlined theme--light v-size--default primary--text"
-          :disabled="loading"
-          @click="generatePdf">
-    {{ loading ? 'Generating...' : 'Generate PDF' }}
-  </button>
+  <div>
+    <v-btn class="ml-5"
+           color="primary"
+           :loading="loading"
+           outlined
+           @click="generatePdf">
+      <v-icon>mdi-printer</v-icon>
+    </v-btn>
+    <v-snackbar v-model="error" :timeout="10000">
+      {{ $tc('components.camp.print.localPdfDownloadButton.error') }}
+      <template #action="{ attrs }">
+        <v-btn color="red"
+               text
+               v-bind="attrs"
+               @click="error = null">
+          {{ $tc('global.button.close') }}
+        </v-btn>
+      </template>
+    </v-snackbar>
+  </div>
 </template>
 
 <script>
@@ -20,7 +35,8 @@ export default {
   },
   data () {
     return {
-      loading: false
+      loading: false,
+      error: null
     }
   },
   methods: {
@@ -37,7 +53,7 @@ export default {
       this.loading = false
 
       if (error) {
-        // TODO error handling
+        this.error = error
         console.log(error)
         return
       }

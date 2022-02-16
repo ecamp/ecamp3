@@ -127,6 +127,11 @@
           "date": "dd. D.MM | D. MMM | DD. MMM YYYY"
         }
       },
+      "print": {
+        "localPdfDownloadButton": {
+          "error": "Etwas hat nicht geklappt. Probiere es nochmals, oder lade die Seite neu."
+        }
+      },
       "storyDay": {
         "noStory": "Kein roter Faden an diesem Tag gefunden…"
       }
@@ -188,6 +193,7 @@
       "add": "Hinzufügen",
       "back": "Zurück",
       "cancel": "Abbrechen",
+      "close": "Schliessen",
       "content": "Inhalt",
       "create": "Erstellen",
       "delete": "Löschen",
@@ -292,7 +298,8 @@
         "team": "Team"
       },
       "print": {
-        "title": "Druckvorschau"
+        "title": "Druckvorschau",
+        "previewError": "Etwas hat nicht geklappt. Probiere es nochmals mit anderen Druckeinstellungen, oder lade die Seite neu."
       },
       "sideBarPeriods": {
         "title": "Lagerabschnitt"

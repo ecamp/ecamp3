@@ -1,7 +1,16 @@
 <template>
-  <iframe :src="url"
-          :title="$tc('views.camp.print.previewIframeTitle')"
-          v-bind="$attrs" />
+  <div style="position: relative">
+    <iframe :src="url"
+            :title="$tc('views.camp.print.previewIframeTitle')"
+            class="d-block"
+            v-bind="$attrs" />
+    <v-overlay absolute :value="loading || error" z-index="2">
+      <div v-if="error">
+        {{ $tc('views.camp.print.previewError') }}
+      </div>
+      <v-progress-circular v-else indeterminate />
+    </v-overlay>
+  </div>
 </template>
 
 <script>
@@ -17,7 +26,9 @@ export default {
   },
   data () {
     return {
-      url: null
+      url: null,
+      loading: true,
+      error: null
     }
   },
   computed: {
@@ -41,6 +52,8 @@ export default {
   },
   methods: {
     async generatePdf () {
+      this.loading = true
+      this.error = null
       this.revokeOldObjectUrl()
 
       const { error, blob } = await generatePdf({
@@ -51,12 +64,13 @@ export default {
       })
 
       if (error) {
-        // TODO error handling
+        this.error = error
         console.log(error)
-        return
+      } else {
+        this.url = URL.createObjectURL(blob)
       }
 
-      this.url = URL.createObjectURL(blob)
+      this.loading = false
     },
     revokeOldObjectUrl () {
       const oldUrl = this.url
