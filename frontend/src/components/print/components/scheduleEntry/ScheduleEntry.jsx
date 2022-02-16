@@ -3,7 +3,7 @@ import React from 'react'
 import pdf from '@react-pdf/renderer'
 import styles from '../styles.js'
 import Responsibles from '../picasso/Responsibles.jsx'
-import dayjs from '../../../../../common/helpers/dayjs.js'
+import dayjs from '../../../../../../common/helpers/dayjs.js'
 import ContentNode from './contentNode/ContentNode.jsx'
 
 const { View, Text } = pdf
