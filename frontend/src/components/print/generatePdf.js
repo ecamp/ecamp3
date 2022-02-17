@@ -12,19 +12,13 @@ export const generatePdf = async (data) => {
   const serializableData = prepareDataForSerialization(data)
 
   if (data.renderInWorker) {
-    return {
-      ...(await Comlink.wrap(new Worker()).renderPdfInWorker(serializableData)),
-      filename: 'web-worker.pdf'
-    }
+    return await Comlink.wrap(new Worker()).renderPdfInWorker(serializableData)
   } else {
     // In Firefox, dynamic imports are only available in the main thread:
     // https://bugzilla.mozilla.org/show_bug.cgi?id=1540913
     // So we use dynamic imports if we are in the main thread, but static imports if we are in the worker.
     const renderingDependencies = (await import('./renderingDependencies.js')).default
-    return {
-      ...(await renderPdf(serializableData, renderingDependencies)),
-      filename: 'main-thread.pdf'
-    }
+    return await renderPdf(serializableData, renderingDependencies)
   }
 }
 

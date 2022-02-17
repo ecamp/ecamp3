@@ -24,6 +24,7 @@
 <script>
 import { generatePdf } from './generatePdf.js'
 import { saveAs } from 'file-saver'
+import slugify from 'slugify'
 
 const RENDER_IN_WORKER = true
 
@@ -60,7 +61,7 @@ export default {
         return
       }
 
-      saveAs(blob, filename)
+      saveAs(blob, slugify(filename, { locale: this.$store.state.lang.language.substr(0, 2) }))
     }
   }
 }

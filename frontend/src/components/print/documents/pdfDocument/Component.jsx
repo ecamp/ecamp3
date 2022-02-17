@@ -10,14 +10,13 @@ import OpenSansSemiBold from '../../../../assets/fonts/OpenSans/OpenSans-SemiBol
 import OpenSansBold from '../../../../assets/fonts/OpenSans/OpenSans-Bold.ttf'
 
 function PDFDocument (props) {
-  const camp = props.store.get(props.config.camp)
   return <Document>
     { props.config.showPicasso
-      ? camp.periods().items.map(period => <Picasso {...props} period={period} key={period.id}/>)
+      ? props.config.camp.periods().items.map(period => <Picasso {...props} period={period} key={period.id}/>)
       : <React.Fragment /> }
     { props.config.showActivities
       ? <Page size="A4" orientation="portrait" style={{ ...styles.page, fontSize: 8 + 'pt' }}>
-          { camp.periods().items.map(period => {
+          { props.config.camp.periods().items.map(period => {
             return sortBy(period.scheduleEntries().items, ['dayNumber', 'scheduleEntryNumber'])
               .map(scheduleEntry => <ScheduleEntry {...props} scheduleEntry={scheduleEntry} key={scheduleEntry.id}/>)
           }) }
@@ -30,7 +29,7 @@ const registerFonts = async () => {
   Font.register({
     family: 'OpenSans',
     fonts: [
-      // For now it seems that only ttf is supported, not woff or woff2 :(
+      // For now it seems that only ttf is supported, not woff or woff2
       { src: OpenSans },
       { src: OpenSansSemiBold, fontWeight: 'semibold' },
       { src: OpenSansBold, fontWeight: 'bold' }
@@ -46,6 +45,16 @@ const registerFonts = async () => {
 
 PDFDocument.prepare = async (config) => {
   return await registerFonts(config)
+}
+
+PDFDocument.filename = async ({ config, $tc }) => {
+  if (config.showPicasso && !config.showActivities /* && !config.showSomeOtherStuff */) {
+    return $tc('components.camp.print.documents.pdfDocument.filename.picassoOnly', { camp: config.camp.name })
+  }
+  if (config.showActivities && !config.showPicasso /* && !config.showSomeOtherStuff */) {
+    return $tc('components.camp.print.documents.pdfDocument.filename.activitiesOnly', { camp: config.camp.name })
+  }
+  return config.camp.name
 }
 
 export default PDFDocument

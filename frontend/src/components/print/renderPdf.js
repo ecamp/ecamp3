@@ -1,22 +1,25 @@
 export const renderPdf = async ({ config, storeData, translationData }, { React, wrap, createI18n, pdf, documents }) => {
-  const document = documents[await documentFor(config)]
-
   const result = {
-    filename: null, // TODO the document component itself should be able to specify the filename
+    filename: null,
     blob: null,
     error: null
   }
 
-  const { translate } = createI18n(translationData, storeData.lang.language)
-  const store = wrap(storeData.api)
-
-  if (typeof document.prepare === 'function') {
-    await document.prepare(config)
-  }
-  const reactComponent = React.createElement(document, { config, store, $tc: translate })
-  const pdfBuilder = pdf(reactComponent)
   try {
-    result.blob = await pdfBuilder.toBlob()
+    const document = documents[await documentFor(config)]
+
+    const { translate } = createI18n(translationData, storeData.lang.language)
+    const store = wrap(storeData.api)
+
+    if (typeof document.prepare === 'function') {
+      await document.prepare(config)
+    }
+
+    config.camp = store.get(config.camp)
+    const props = { config, store, $tc: translate }
+
+    result.filename = await document.filename(props)
+    result.blob = await pdf(React.createElement(document, props)).toBlob()
   } catch (error) {
     result.error = error
   }
