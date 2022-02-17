@@ -34,5 +34,5 @@ const documentFor = (config) => {
 
 export const mainThreadLoaderFor = async (config) => {
   const document = documentFor(config)
-  return (await import(`./documents/${document}/prepareInMainThread.js`)).default
+  return (await import('./documents/' + document + '/prepareInMainThread.js')).default
 }
