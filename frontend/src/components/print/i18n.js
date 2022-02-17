@@ -7,7 +7,8 @@ const createI18n = (translationData, language) => {
     locale: language,
     fallbackLocale: 'en',
     messages: translationData,
-    missingWarn: false
+    missingWarn: false,
+    fallbackWarn: false
   })
 
   return {
