@@ -1,9 +1,7 @@
 // eslint-disable-next-line no-unused-vars
 import React from 'react'
-import pdf from '@react-pdf/renderer'
+import { View, Text } from '../../../reactPdf.js'
 import RichText from '../../RichText.jsx'
-
-const { View, Text } = pdf
 
 function Notes (props) {
   const notes = props.contentNode

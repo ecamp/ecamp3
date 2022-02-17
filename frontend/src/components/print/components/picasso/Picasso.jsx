@@ -1,13 +1,11 @@
 // eslint-disable-next-line no-unused-vars
 import React from 'react'
-import pdf from '@react-pdf/renderer'
+import { Page, View, Text } from '../../reactPdf.js'
 import styles from '../styles.js'
 import TimeColumn from './TimeColumn.jsx'
 import DayColumn from './DayColumn.jsx'
 import TimeColumnSpacer from './TimeColumnSpacer.jsx'
 import DayHeader from './DayHeader.jsx'
-
-const { Page, View, Text } = pdf
 
 function Picasso ({ period, $tc }) {
   const columnWrapperStyles = {

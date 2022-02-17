@@ -1,5 +1,5 @@
 import { mainThreadLoaderFor, renderPdf } from './renderPdf.js'
-import { cloneDeep } from 'lodash'
+import cloneDeep from 'lodash/cloneDeep.js'
 import Worker from 'worker-iife:./renderPdf.worker.js'
 import * as Comlink from 'comlink'
 

@@ -1,4 +1,4 @@
-import { StyleSheet } from '@react-pdf/renderer'
+import { StyleSheet } from '../reactPdf.js'
 
 const pageBorder = 40
 const marginFontSize = 10

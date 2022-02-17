@@ -1,10 +1,7 @@
 // eslint-disable-next-line no-unused-vars
 import React from 'react'
-import pdf from '@react-pdf/renderer'
+import { Text, View } from '../reactPdf.js'
 import htmlToReact from 'html-to-react'
-const { Parser } = htmlToReact
-
-const { Text, View } = pdf
 
 function addKeys (children) {
   return children.map((child, idx) => ({ ...child, key: idx }))
@@ -78,7 +75,7 @@ const richTextRules = [
 
 function RichText ({ richText }) {
   if (!richText) return <View/>
-  const htmlToReactParser = new Parser()
+  const htmlToReactParser = new htmlToReact.Parser()
   return htmlToReactParser.parseWithInstructions(richText, () => true, richTextRules)
 }
 
