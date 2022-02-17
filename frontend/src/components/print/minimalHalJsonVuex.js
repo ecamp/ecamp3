@@ -1,4 +1,4 @@
-import urltemplate from 'url-template'
+import { parseTemplate } from 'url-template'
 
 function isEqualIgnoringOrder (array, other) {
   return array.length === other.length && array.every(elem => other.includes(elem))
@@ -75,7 +75,7 @@ class StoreValue {
 
         // storeData[key] is a templated link
         } else if (isTemplatedLink(value)) {
-          this[key] = templateParams => actions.get(urltemplate.parse(value.href).expand(templateParams || {}))
+          this[key] = templateParams => actions.get(parseTemplate(value.href).expand(templateParams || {}))
 
         // storeData[key] is a primitive (normal entity property)
         } else {
@@ -87,7 +87,7 @@ class StoreValue {
   $href (relation, templateParams = {}) {
     const rel = this._storeData[relation]
     if (rel?.templated) {
-      return urltemplate.parse(rel?.href || '').expand(templateParams)
+      return parseTemplate(rel?.href || '').expand(templateParams)
     }
     return rel?.href
   }
