@@ -11,18 +11,18 @@ import OpenSansBold from '../../../../assets/fonts/OpenSans/OpenSans-Bold.ttf'
 
 function PDFDocument (props) {
   const camp = props.store.get(props.config.camp)
-  // TODO vary the rendered contents depending on props.config
   return <Document>
-    {/* Array.from(Array(50).keys()).map(i => {
-      return camp.periods().items.map(period => <Picasso {...props} period={period} key={period.id}/>)
-    }) */}
-    { camp.periods().items.map(period => <Picasso {...props} period={period} key={period.id}/>) }
-    <Page size="A4" orientation="portrait" style={{ ...styles.page, fontSize: 8 + 'pt' }}>
-      { camp.periods().items.map(period => {
-        return sortBy(period.scheduleEntries().items, ['dayNumber', 'scheduleEntryNumber'])
-          .map(scheduleEntry => <ScheduleEntry {...props} scheduleEntry={scheduleEntry} key={scheduleEntry.id}/>)
-      }) }
-    </Page>
+    { props.config.showPicasso
+      ? camp.periods().items.map(period => <Picasso {...props} period={period} key={period.id}/>)
+      : <React.Fragment /> }
+    { props.config.showActivities
+      ? <Page size="A4" orientation="portrait" style={{ ...styles.page, fontSize: 8 + 'pt' }}>
+          { camp.periods().items.map(period => {
+            return sortBy(period.scheduleEntries().items, ['dayNumber', 'scheduleEntryNumber'])
+              .map(scheduleEntry => <ScheduleEntry {...props} scheduleEntry={scheduleEntry} key={scheduleEntry.id}/>)
+          }) }
+        </Page>
+      : <React.Fragment /> }
   </Document>
 }
 
