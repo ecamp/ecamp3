@@ -56,8 +56,7 @@ router.use('/pdf', async (req, res) => {
 
     // Connect to browserless.io (puppeteer websocket)
     browser = await puppeteer.connect({
-      browserWSEndpoint:
-        process.env.BROWSER_WS_ENDPOINT + '?--font-render-hinting=none',
+      browserWSEndpoint: process.env.BROWSER_WS_ENDPOINT,
     })
 
     const page = await browser.newPage()
