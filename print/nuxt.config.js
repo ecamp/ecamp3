@@ -78,7 +78,7 @@ export default {
    ** See https://axios.nuxtjs.org/options
    */
   axios: {
-    baseURL: process.env.INTERNAL_API_ROOT_URL || 'http://backend:3001/api',
+    baseURL: process.env.INTERNAL_API_ROOT_URL || 'http://caddy:3001/',
     credentials: true,
   },
   /*

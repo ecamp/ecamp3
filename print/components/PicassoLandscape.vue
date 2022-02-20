@@ -88,8 +88,15 @@ export default {
   async fetch() {
     this.camp = await this.period.camp()._meta.load
 
+    const [scheduleEntries] = await Promise.all([
+      this.period.scheduleEntries().$loadItems(),
+      this.camp.activities().$loadItems(),
+      this.camp.categories().$loadItems(),
+    ])
+
     // Load all periods, their schedule entries, activities, categories, responsibles, content nodes and all material lists
     // prettier-ignore
+    /*
     await Promise.all([
       this.camp.periods().$loadItems().then(periods => Promise.all(periods.items.flatMap(period => [
         period.scheduleEntries().$loadItems().then(scheduleEntries => Promise.all(scheduleEntries.items.flatMap(scheduleEntry => [
@@ -104,11 +111,11 @@ export default {
         ])))
       ]))),
       this.camp.materialLists().$loadItems(),
-    ])
+    ]) */
 
-    this.events = this.period
-      .scheduleEntries()
-      .items.map((entry) => defineHelpers(entry, true))
+    this.events = scheduleEntries.items.map((entry) =>
+      defineHelpers(entry, true)
+    )
   },
   methods: {
     getActivityColor(scheduleEntry) {

@@ -92,10 +92,14 @@ export default {
 
       this.isPrinting = true
 
+      // this strips hostname from the self-link
+      // TODO: can be removed after implementation of https://github.com/ecamp/hal-json-vuex/issues/245
+      const periodURI = (new URL(this.period()._meta.self)).pathname
+
       try {
         const response = await axios({
           method: 'get',
-          url: `${PRINT_SERVER}/pdf/test4?period=${this.period()._meta.self}`,
+          url: `${PRINT_SERVER}/pdf/test4?period=${periodURI}`,
           responseType: 'arraybuffer',
           withCredentials: true,
           headers: {

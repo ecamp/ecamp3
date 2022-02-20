@@ -10,7 +10,9 @@
     <div class="header">
       <table class="header-table">
         <tr>
-          <th class="header-row left-col">{{ $tc('entity.activity.fields.location') }}</th>
+          <th class="header-row left-col">
+            {{ $tc('entity.activity.fields.location') }}
+          </th>
           <td class="header-row">{{ scheduleEntry.activity().location }}</td>
         </tr>
         <tr>
