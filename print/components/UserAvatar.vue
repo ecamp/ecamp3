@@ -85,6 +85,7 @@ export default {
 .avatar {
   border-radius: 9999px;
 }
+
 .initials {
   color: white;
   font-weight: 600;

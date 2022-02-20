@@ -27,6 +27,7 @@ export default {
 .wrapper {
   margin-bottom: 12px;
 }
+
 .instance-name {
   font-weight: bold;
 }

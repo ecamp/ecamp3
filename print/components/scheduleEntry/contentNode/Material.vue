@@ -37,14 +37,17 @@ export default {
 .instance-name {
   font-weight: bold;
 }
+
 .material-row {
   display: flex;
   flex-direction: row;
 }
+
 .item {
   flex-basis: 7000px;
   padding-right: 4px;
 }
+
 .list-name {
   flex-basis: 3000px;
   padding-left: 4px;

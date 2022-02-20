@@ -58,34 +58,41 @@ export default {
 .wrapper {
   margin-bottom: 12px;
 }
+
 .instance-name {
   font-weight: bold;
 }
+
 .storyboard-row {
   display: flex;
   flex-direction: row;
 }
+
 .header {
   padding-bottom: 0;
   border-bottom: 1px solid black;
 }
+
 .column {
   flex-grow: 1;
   line-height: 1.6;
   padding-bottom: 8px;
 }
+
 .column1 {
   flex-basis: 26px;
   flex-shrink: 0;
   flex-grow: 0;
   padding-right: 4px;
 }
+
 .column2 {
   flex-grow: 1;
   border-left: 1px solid black;
   padding-left: 4px;
   padding-right: 4px;
 }
+
 .column3 {
   flex-basis: 80px;
   flex-shrink: 0;
