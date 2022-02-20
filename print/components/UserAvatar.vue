@@ -1,8 +1,6 @@
 <template>
   <div class="avatar" :style="avatarStyle">
-    <span class="initials" :style="style">{{
-      initials
-    }}</span>
+    <span class="initials" :style="style">{{ initials }}</span>
   </div>
 </template>
 <script>

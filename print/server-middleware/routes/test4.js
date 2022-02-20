@@ -29,6 +29,8 @@ function measurePerformance(msg) {
 
 // Test route
 router.use('/test4', async (req, res) => {
+  let browser = null
+
   try {
     measurePerformance('Rendering page in Nuxt...')
     measurePerformance('building... ' + process.env.NODE_ENV)
@@ -53,8 +55,9 @@ router.use('/test4', async (req, res) => {
     // const browser = await puppeteer.launch()
 
     // Connect to browserless.io (puppeteer websocket)
-    const browser = await puppeteer.connect({
-      browserWSEndpoint: process.env.BROWSER_WS_ENDPOINT + '?--font-render-hinting=none',
+    browser = await puppeteer.connect({
+      browserWSEndpoint:
+        process.env.BROWSER_WS_ENDPOINT + '?--font-render-hinting=none',
     })
 
     const page = await browser.newPage()
