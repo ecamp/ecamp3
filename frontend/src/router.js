@@ -25,14 +25,6 @@ export default new Router({
       }
     },
 
-    {
-      path: '/print',
-      name: 'print',
-      components: {
-        default: () => import(/* webpackChunkName: "register" */ './views/dev/Print.vue')
-      }
-    },
-
     // Prod-Pages:
     {
       path: '/register',
