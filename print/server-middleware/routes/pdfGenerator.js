@@ -32,8 +32,7 @@ router.use('/pdf', async (req, res) => {
   let browser = null
 
   try {
-    measurePerformance('Rendering page in Nuxt...')
-    measurePerformance('building... ' + process.env.NODE_ENV)
+    measurePerformance('Building Nuxt if necessary... ' + process.env.NODE_ENV)
 
     const isDev = process.env.NODE_ENV !== 'production'
     // Get nuxt instance for start (production mode)
@@ -41,18 +40,16 @@ router.use('/pdf', async (req, res) => {
 
     // Enable live build & reloading on dev
     if (isDev) {
-      build(nuxt)
+      await build(nuxt)
     }
 
     // Capture HTML via internal Nuxt render call
+    measurePerformance('Rendering page in Nuxt...')
     const url = new URL(req.url, `http://${req.headers.host}`)
     const queryString = url.search
     const { html } = await nuxt.renderRoute('/picasso' + queryString, { req }) // pass `req` object to Nuxt will also pass authentication cookies automatically
 
     measurePerformance('Connecting to puppeteer...')
-
-    // Launch own puppeteer + Chromium
-    // const browser = await puppeteer.launch()
 
     // Connect to browserless.io (puppeteer websocket)
     browser = await puppeteer.connect({
@@ -70,22 +67,20 @@ router.use('/pdf', async (req, res) => {
     )
     page.on('response', (response) =>
       console.log('<<', response.status(), response.url())
-    ) */
+    ) 
     page.on('error', (err) => {
       console.log('error happen at the page: ', err)
     })
     page.on('pageerror', (pageerr) => {
       console.log('pageerror occurred: ', pageerr)
-    })
+    }) */
 
     // set HTML content of current page
     measurePerformance('Puppeteer set HTML content & load resources...')
-    await page.setUserAgent(
+    page.setUserAgent(
       'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:96.0) Gecko/20100101 Firefox/96.0'
     )
-    await page.setContent(html, {
-      waitUntil: 'networkidle0',
-    })
+    page.setContent(html)
 
     /**
      * Following code snippets copied mostly from https://gitlab.pagedmedia.org/tools/pagedjs-cli/-/blob/master/src/printer.js
