@@ -6,6 +6,10 @@ module.exports = {
   },
   parserOptions: {
     parser: '@babel/eslint-parser',
+    requireConfigFile: false,
+    babelOptions: {
+      configFile: './.babelrc',
+    },
   },
   extends: [
     '@nuxtjs',
