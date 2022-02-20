@@ -99,7 +99,7 @@ export default {
       try {
         const response = await axios({
           method: 'get',
-          url: `${PRINT_SERVER}/pdf/test4?period=${periodURI}`,
+          url: `${PRINT_SERVER}/server/pdf?period=${periodURI}`,
           responseType: 'arraybuffer',
           withCredentials: true,
           headers: {

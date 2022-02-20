@@ -28,7 +28,7 @@ function measurePerformance(msg) {
 }
 
 // Test route
-router.use('/test4', async (req, res) => {
+router.use('/pdf', async (req, res) => {
   let browser = null
 
   try {

@@ -13,18 +13,12 @@ const corsOptions = {
 app.use(cors(corsOptions))
 
 // Require API routes
-const test1 = require('./routes/test1.js')
-const test2 = require('./routes/test2.js')
-const test3 = require('./routes/test3.js')
-const test4 = require('./routes/test4.js')
+const pdfGenerator = require('./routes/pdfGenerator.js')
 
 app.use(cookieParser())
 
 // Import API Routes
-app.use(test1)
-app.use(test2)
-app.use(test3)
-app.use(test4)
+app.use(pdfGenerator)
 
 // Export express app
 module.exports = app

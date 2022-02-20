@@ -63,7 +63,7 @@ export default {
   /*
    ** Server Middleware
    */
-  serverMiddleware: [{ path: '/pdf', handler: '~/server-middleware' }],
+  serverMiddleware: [{ path: '/server', handler: '~/server-middleware' }],
 
   /**
    * Router config
@@ -87,27 +87,8 @@ export default {
    */
   sentry: {
     // Use a dummy DSN so that the sentry module doesn't disable itself during build
-    dsn: 'test',
+    dsn: process.env.SENTRY_PRINT_DSN || '',
     disabled: process.env.NODE_ENV === 'development',
-  },
-
-  publicRuntimeConfig: {
-    axios: {
-      browserBaseURL: process.env.API_ROOT_URL || 'http://localhost:3001/',
-    },
-    sentry: {
-      config: {
-        // The real DSN is only known at runtime, because we build a container
-        // that can be configured via environment variables at runtime.
-        dsn: process.env.SENTRY_PRINT_DSN || '',
-      },
-    },
-  },
-
-  privateRuntimeConfig: {
-    axios: {
-      baseURL: process.env.INTERNAL_API_ROOT_URL || 'http://caddy:3001/',
-    },
   },
 
   /*
