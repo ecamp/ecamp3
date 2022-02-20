@@ -66,7 +66,7 @@ print:
     # Overrides the image tag whose shared default is .Values.imageTag
     tag:
   sentryDsn:
-  browserlessToken:
+  browserWsEndpoint:
   service:
     type: ClusterIP
     port: 3003
