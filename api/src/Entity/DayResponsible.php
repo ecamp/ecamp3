@@ -34,7 +34,10 @@ use Symfony\Component\Validator\Constraints as Assert;
     normalizationContext: ['groups' => ['read']],
 )]
 #[ApiFilter(SearchFilter::class, properties: ['day'])]
-#[UniqueEntity(fields: ['day', 'campCollaboration'])]
+#[UniqueEntity(
+    fields: ['campCollaboration', 'day'],
+    message: 'This campCollaboration (user) is already responsible for this day.',
+)]
 class DayResponsible extends BaseEntity implements BelongsToCampInterface {
     /**
      * The day on which the person is responsible.

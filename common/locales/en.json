@@ -122,6 +122,11 @@
     "contentType": {
       "name": "Contenttype | Contenttypes"
     },
+    "day": {
+      "fields": {
+        "dayResponsibles": "Responsible of the day"
+      }
+    },
     "materialItem": {
       "fields": {
         "article": "Article",

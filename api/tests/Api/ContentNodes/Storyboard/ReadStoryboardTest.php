@@ -23,7 +23,7 @@ class ReadStoryboardTest extends ReadContentNodeTestCase {
         $storyboard = $this->defaultEntity;
 
         /** @var StoryboardSection $storyboardSection */
-        $storyboardSection = static::$fixtures['storyboardSection1'];
+        $storyboardSection = static::$fixtures['storyboardSection2'];
 
         // when
         $this->get($storyboard);

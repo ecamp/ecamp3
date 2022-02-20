@@ -315,7 +315,6 @@ async function requirePeriod (to, from, next) {
 
 export function campFromRoute (route) {
   return function () {
-    // TODO add another decorator for EntrypointNormalizer and add our templated URIs there
     return this.api.get().camps({ id: route.params.campId })
   }
 }

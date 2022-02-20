@@ -29,6 +29,8 @@ Show all activity schedule entries of a single period.
         @click="print">
         <v-icon>mdi-printer</v-icon>
       </v-btn>
+
+      <local-pdf-download-button :config="printConfig" />
     </template>
     <schedule-entries :period="period" :show-button="isContributor">
       <template #default="slotProps">
@@ -56,6 +58,7 @@ import ContentCard from '@/components/layout/ContentCard.vue'
 import Picasso from '@/components/camp/picasso/Picasso.vue'
 import ScheduleEntries from '@/components/scheduleEntry/ScheduleEntries.vue'
 import PeriodSwitcher from '@/components/camp/PeriodSwitcher.vue'
+import LocalPdfDownloadButton from '../../components/print/LocalPdfDownloadButton.vue'
 
 import axios from 'axios'
 
@@ -64,6 +67,7 @@ const PRINT_SERVER = window.environment?.PRINT_SERVER
 export default {
   name: 'CampProgram',
   components: {
+    LocalPdfDownloadButton,
     PeriodSwitcher,
     ContentCard,
     Picasso,
@@ -76,7 +80,16 @@ export default {
   data () {
     return {
       editMode: false,
-      isPrinting: false
+      isPrinting: false,
+      printConfig: {
+        showFrontpage: false,
+        showToc: false,
+        showPicasso: true,
+        showDailySummary: false,
+        showStoryline: false,
+        showActivities: false,
+        camp: this.period().camp.bind(this)
+      }
     }
   },
   computed: {

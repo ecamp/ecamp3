@@ -21,6 +21,7 @@ import serverErrorToString from '@/helpers/serverErrorToString.js'
 import campCollaborationDisplayName from '@/helpers/campCollaborationDisplayName.js'
 
 export default {
+  name: 'ActivityResponsibles',
   props: {
     activity: {
       type: Object,

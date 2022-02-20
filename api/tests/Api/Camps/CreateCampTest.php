@@ -110,6 +110,35 @@ class CreateCampTest extends ECampApiTestCase {
         ]);
     }
 
+    public function testCreateCampCreatesPeriodAndDays() {
+        $response = static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExampleWritePayload([
+            'periods' => [
+                [
+                    'description' => 'Woche1',
+                    'start' => '2023-01-01',
+                    'end' => '2023-01-08',
+                ],
+                [
+                    'description' => 'Woche2',
+                    'start' => '2023-02-01',
+                    'end' => '2023-02-04',
+                ],
+            ],
+        ])]);
+
+        $this->assertResponseStatusCodeSame(201);
+
+        /** @var Camp $camp */
+        $camp = $this->getEntityManager()->getRepository(Camp::class)->find($response->toArray()['id']);
+        $this->assertCount(2, $camp->periods);
+
+        $woche1 = $camp->periods[0];
+        $this->assertCount(8, $woche1->days);
+
+        $woche2 = $camp->periods[1];
+        $this->assertCount(4, $woche2->days);
+    }
+
     public function testCreateCampTrimsName() {
         static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExampleWritePayload([
             'name' => " So-La\t ",

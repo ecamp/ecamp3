@@ -2,6 +2,8 @@ import { defineConfig } from 'vite'
 import { createVuePlugin } from 'vite-plugin-vue2'
 import { createSvgPlugin } from 'vite-plugin-vue2-svg'
 import ViteComponents, { VuetifyResolver } from 'vite-plugin-components'
+import shimReactPdf from 'vite-plugin-shim-react-pdf'
+import worker, { pluginHelper } from 'vite-plugin-worker'
 import * as path from 'path'
 
 export default defineConfig(({ mode }) => ({
@@ -10,7 +12,10 @@ export default defineConfig(({ mode }) => ({
     ViteComponents({
       customComponentResolvers: [VuetifyResolver()]
     }),
-    createSvgPlugin()
+    createSvgPlugin(),
+    shimReactPdf(),
+    pluginHelper(),
+    worker({})
   ],
   build: {
     sourcemap: mode === 'development',

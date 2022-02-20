@@ -20,11 +20,21 @@ class ListMultiSelectOptionTest extends ECampApiTestCase {
         $this->entitiesCamp1 = [
             $this->getIriFor('multiSelectOption1'),
             $this->getIriFor('multiSelectOption2'),
+            $this->getIriFor('multiSelectOption3'),
         ];
 
         $this->entitiesCampUnrelated = [
             $this->getIriFor('multiSelectOptionCampUnrelated'),
         ];
+    }
+
+    public function testListMultiselectOptionsOrdersByPosition() {
+        $client = static::createClientWithCredentials();
+        $response = $client->request('GET', '/content_node/multi_select_options?multiSelect='.$this->getIriFor('multiSelect1'));
+        $this->assertEquals([
+            ['href' => $this->getIriFor('multiSelectOption2')],
+            ['href' => $this->getIriFor('multiSelectOption1')],
+        ], $response->toArray()['_links']['items']);
     }
 
     public function testListOptionsFilteredByMultiSelect() {
@@ -33,7 +43,10 @@ class ListMultiSelectOptionTest extends ECampApiTestCase {
 
         // then
         $this->assertResponseStatusCodeSame(200);
-        $this->assertJsonContainsItems($response, [$this->getIriFor('multiSelectOption1')]);
+        $this->assertJsonContainsItems($response, [
+            $this->getIriFor('multiSelectOption1'),
+            $this->getIriFor('multiSelectOption2'),
+        ]);
     }
 
     /**
