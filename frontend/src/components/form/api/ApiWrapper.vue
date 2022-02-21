@@ -111,7 +111,7 @@ export default {
 
         // while loading, value is null
         // (necessary because while loading, even normal properties are returned as functions)
-        if (resource._meta.loading || val._meta?.loading) return null
+        if (resource._meta.loading || val?._meta?.loading) return null
 
         // Check if val is an (embedded) relation
         if (val instanceof Function) {

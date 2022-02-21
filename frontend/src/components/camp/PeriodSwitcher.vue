@@ -16,7 +16,7 @@
         </v-btn>
       </template>
       <v-list>
-        <v-list-item v-for="item in period().camp().periods().items" :key="item.id" :to="periodRoute(item)">
+        <v-list-item v-for="item in period().camp().periods().items" :key="item._meta.self" :to="periodRoute(item)">
           {{ item.description }}
         </v-list-item>
       </v-list>
