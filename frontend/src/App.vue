@@ -34,15 +34,15 @@ export default {
       return this.$auth.user()
     },
     deploymentTime () {
-      const timestamp = window.environment?.DEPLOYMENT_TIME
+      const timestamp = window.environment.DEPLOYMENT_TIME
       const dateTime = timestamp ? this.$date.unix(timestamp) : this.$date()
       return dateTime.format(this.$tc('global.datetime.dateTimeLong'))
     },
     version () {
-      return window.environment?.VERSION || ''
+      return window.environment.VERSION || ''
     },
     versionLink () {
-      return urltemplate.parse(window.environment?.VERSION_LINK_TEMPLATE).expand({ version: this.version }) || '#'
+      return urltemplate.parse(window.environment.VERSION_LINK_TEMPLATE).expand({ version: this.version }) || '#'
     }
   },
   created () {

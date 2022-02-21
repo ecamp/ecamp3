@@ -62,7 +62,7 @@ import LocalPdfDownloadButton from '../../components/print/LocalPdfDownloadButto
 
 import axios from 'axios'
 
-const PRINT_SERVER = window.environment?.PRINT_SERVER
+const PRINT_SERVER = window.environment.PRINT_SERVER
 
 export default {
   name: 'CampProgram',

@@ -86,7 +86,6 @@ export default {
    ** See https://sentry.nuxtjs.org/sentry/options
    */
   sentry: {
-    // Use a dummy DSN so that the sentry module doesn't disable itself during build
     dsn: process.env.SENTRY_PRINT_DSN || '',
     disabled: process.env.NODE_ENV === 'development',
   },

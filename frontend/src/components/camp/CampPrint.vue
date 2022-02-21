@@ -32,7 +32,7 @@
 <script>
 import LocalPrintPreview from '../print/LocalPrintPreview.vue'
 
-const PRINT_SERVER = window.environment?.PRINT_SERVER
+const PRINT_SERVER = window.environment.PRINT_SERVER
 
 export default {
   name: 'CampPrint',
