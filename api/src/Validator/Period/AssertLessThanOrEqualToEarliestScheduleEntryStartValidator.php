@@ -34,7 +34,7 @@ class AssertLessThanOrEqualToEarliestScheduleEntryStartValidator extends Constra
             if (null != $orig) {
                 /** @var DateTime $origPeriodStart */
                 $origPeriodStart = clone $orig['start'];
-                $firstScheduleEntryPeriodOffset = min($period->scheduleEntries->map(fn ($se) => $se->periodOffset)->toArray());
+                $firstScheduleEntryPeriodOffset = min($period->scheduleEntries->map(fn ($se) => $se->startOffset)->toArray());
                 $firstScheduleEntryStart = $origPeriodStart->add(new DateInterval('PT'.$firstScheduleEntryPeriodOffset.'M'));
 
                 if ($firstScheduleEntryStart < $value) {

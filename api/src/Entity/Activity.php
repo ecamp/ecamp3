@@ -66,13 +66,13 @@ class Activity extends AbstractContentNodeOwner implements BelongsToCampInterfac
      * The list of points in time when this activity's programme will be carried out.
      *
      * @ORM\OneToMany(targetEntity="ScheduleEntry", mappedBy="activity", orphanRemoval=true, cascade={"persist"})
-     * @ORM\OrderBy({"periodOffset": "ASC", "left": "ASC", "length": "DESC", "id": "ASC"})
+     * @ORM\OrderBy({"startOffset": "ASC", "left": "ASC", "endOffset": "DESC", "id": "ASC"})
      */
     #[Assert\Valid]
     #[Assert\Count(min: 1, groups: ['create'])]
     #[ApiProperty(
         writableLink: true,
-        example: '[{ "period": "/periods/1a2b3c4a", "length": 100, "periodOffset": 1000 }]',
+        example: '[{ "period": "/periods/1a2b3c4a", "endOffset": 1100, "startOffset": 1000 }]',
     )]
     #[Groups(['read', 'create'])]
     public Collection $scheduleEntries;

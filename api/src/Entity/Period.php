@@ -69,7 +69,7 @@ class Period extends BaseEntity implements BelongsToCampInterface {
      * may span over multiple days, but may not end later than the period.
      *
      * @ORM\OneToMany(targetEntity="ScheduleEntry", mappedBy="period")
-     * @ORM\OrderBy({"periodOffset": "ASC", "left": "ASC", "length": "DESC", "id": "ASC"})
+     * @ORM\OrderBy({"startOffset": "ASC", "left": "ASC", "endOffset": "DESC", "id": "ASC"})
      */
     #[ApiProperty(writable: false, example: '["/schedule_entries/1a2b3c4d"]')]
     #[Groups(['read'])]
@@ -147,8 +147,8 @@ class Period extends BaseEntity implements BelongsToCampInterface {
     /**
      * If the start date of the period is changing, moveScheduleEntries defines what happens with the schedule
      * entries in the period.
-     * true: The schedule entries will be moved together with the period (periodOffset stays the same).
-     * false: The start date of each schedule entry remains the same (periodOffset changes).
+     * true: The schedule entries will be moved together with the period (startOffset stays the same).
+     * false: The start date of each schedule entry remains the same (startOffset changes).
      */
     #[ApiProperty(example: true)]
     #[Groups(['write'])]

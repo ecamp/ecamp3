@@ -2,20 +2,20 @@ App\Entity\ScheduleEntry:
   scheduleEntry1period1camp2:
     period: '@period1camp2'
     activity: '@activity1camp2'
-    periodOffset: 540
-    length: 60
+    startOffset: 540
+    endOffset: 600
   scheduleEntry1period1campUnrelated:
     period: '@period1campUnrelated'
     activity: '@activity1campUnrelated'
-    periodOffset: 600
-    length: 60
+    startOffset: 600
+    endOffset: 660
   scheduleEntry1period1campPrototype:
     period: '@period1campPrototype'
     activity: '@activity1campPrototype'
-    periodOffset: 660
-    length: 60
+    startOffset: 660
+    endOffset: 720
   scheduleEntry2period1campPrototype:
     period: '@period1campPrototype'
     activity: '@activity1campPrototype'
-    periodOffset: 720
-    length: 60
+    startOffset: 720
+    endOffset: 780

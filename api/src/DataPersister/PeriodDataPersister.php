@@ -63,7 +63,7 @@ class PeriodDataPersister extends AbstractDataPersister {
             }
 
             foreach ($period->scheduleEntries as $scheduleEntry) {
-                $scheduleEntry->periodOffset += $deltaMinutes;
+                $scheduleEntry->startOffset += $deltaMinutes;
             }
         }
 

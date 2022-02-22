@@ -50,8 +50,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 )]
 #[ApiFilter(SearchFilter::class, properties: ['period', 'activity'])]
 #[ApiFilter(ExpressionDateTimeFilter::class, properties: [
-    'start' => 'DATE_ADD({period.start}, {}.periodOffset, \'minute\')',
-    'end' => 'DATE_ADD(DATE_ADD({period.start}, {}.periodOffset, \'minute\'), {}.length, \'minute\')',
+    'start' => 'DATE_ADD({period.start}, {}.startOffset, \'minute\')',
+    'end' => 'DATE_ADD({period.start}, {}.endOffset, \'minute\')',
 ])]
 class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
     public const ITEM_NORMALIZATION_CONTEXT = [
@@ -83,26 +83,24 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
     public ?Activity $activity = null;
 
     /**
-     * The number of minutes that have passed since the start of the period when this schedule entry
-     * starts.
+     * The offset in minutes between start of the period and start of this scheduleEntry.
      *
-     * @var int minutes since period start
      * @ORM\Column(type="integer", nullable=false)
      */
     #[Assert\GreaterThanOrEqual(value: 0)]
     #[ApiProperty(example: 1440)]
     #[Groups(['read', 'write'])]
-    public int $periodOffset = 0;
+    public int $startOffset = 0;
 
     /**
-     * The duration in minutes that this schedule entry will take.
+     * The offset in minutes between start of the period and end of this scheduleEntry.
      *
      * @ORM\Column(type="integer", nullable=false)
      */
-    #[Assert\GreaterThan(value: 0)]
+    #[Assert\GreaterThan(propertyPath: 'startOffset')]
     #[ApiProperty(example: 90)]
     #[Groups(['read', 'write'])]
-    public int $length = 0;
+    public int $endOffset = 60;
 
     /**
      * When rendering a period in a calendar view: Specifies how far offset the rendered calendar event
@@ -145,7 +143,7 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
     public function getStart(): ?DateTime {
         try {
             $start = $this->period?->start ? DateTime::createFromInterface($this->period->start) : null;
-            $start?->add(new DateInterval('PT'.$this->periodOffset.'M'));
+            $start?->add(new DateInterval('PT'.$this->startOffset.'M'));
 
             return $start;
         } catch (\Exception $e) {
@@ -163,7 +161,7 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
     public function getEnd(): ?DateTime {
         try {
             $end = $this->period?->start ? DateTime::createFromInterface($this->period->start) : null;
-            $end?->add(new DateInterval('PT'.($this->periodOffset + $this->length).'M'));
+            $end?->add(new DateInterval('PT'.$this->endOffset.'M'));
 
             return $end;
         } catch (\Exception $e) {
@@ -222,14 +220,14 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
     #[ApiProperty(example: '2')]
     #[Groups(['read'])]
     public function getScheduleEntryNumber(): int {
-        $dayOffset = floor($this->periodOffset / (24 * 60)) * 24 * 60;
+        $dayOffset = floor($this->startOffset / (24 * 60)) * 24 * 60;
 
         $expr = Criteria::expr();
         $crit = Criteria::create();
         $crit->where($expr->andX(
             $expr->neq('id', $this->getId()),
-            $expr->gte('periodOffset', $dayOffset),
-            $expr->lte('periodOffset', $this->periodOffset)
+            $expr->gte('startOffset', $dayOffset),
+            $expr->lte('startOffset', $this->startOffset)
         ));
 
         /** @var Selectable $scheduleEntriesCollection */
@@ -240,17 +238,17 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
             if ($scheduleEntry->getNumberingStyle() !== $this->getNumberingStyle()) {
                 return false;
             }
-            if ($scheduleEntry->periodOffset < $this->periodOffset) {
+            if ($scheduleEntry->startOffset < $this->startOffset) {
                 return true;
             }
             if ($scheduleEntry->left < $this->left) {
                 return true;
             }
             if ($scheduleEntry->left === $this->left) {
-                if ($scheduleEntry->length > $this->length) {
+                if ($scheduleEntry->endOffset > $this->endOffset) {
                     return true;
                 }
-                if ($scheduleEntry->length === $this->length) {
+                if ($scheduleEntry->endOffset === $this->endOffset) {
                     if ($scheduleEntry->getId() < $this->getId()) {
                         return true;
                     }
@@ -282,6 +280,6 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
      * First day has an offset of zero.
      */
     private function getDayOffset(): int {
-        return (int) floor($this->periodOffset / (24 * 60));
+        return (int) floor($this->startOffset / (24 * 60));
     }
 }

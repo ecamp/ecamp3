@@ -46,7 +46,7 @@ class AssertGreaterThanOrEqualToLastScheduleEntryEndValidator extends Constraint
             }
 
             $periodStart = clone $periodStart;
-            $lastScheduleEntryPeriodEndOffset = max($period->scheduleEntries->map(fn ($se) => $se->periodOffset + $se->length)->toArray());
+            $lastScheduleEntryPeriodEndOffset = max($period->scheduleEntries->map(fn ($se) => $se->endOffset)->toArray());
             $lastScheduleEntryEnd = $periodStart->add(new DateInterval('PT'.$lastScheduleEntryPeriodEndOffset.'M'));
 
             if ($periodEnd < $lastScheduleEntryEnd) {
