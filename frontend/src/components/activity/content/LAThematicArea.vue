@@ -3,7 +3,7 @@
     <v-list three-line class="mx-n4">
       <v-list-item-group>
         <v-list-item v-for="option in contentNode.options().items"
-                     :key="option.id"
+                     :key="option._meta.self"
                      tag="label"
                      :disabled="layoutMode || disabled">
           <v-list-item-action>

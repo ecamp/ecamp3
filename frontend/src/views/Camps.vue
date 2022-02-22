@@ -8,7 +8,7 @@
         </template>
         <v-list-item
           v-for="camp in upcomingCamps"
-          :key="camp.id"
+          :key="camp._meta.self"
           two-line
           :to="campRoute(camp)">
           <v-list-item-content>
@@ -44,7 +44,7 @@
             <v-list class="py-0">
               <v-list-item
                 v-for="camp in prototypeCamps"
-                :key="camp.id"
+                :key="camp._meta.self"
                 two-line
                 :to="campRoute(camp)">
                 <v-list-item-content>
@@ -67,7 +67,7 @@
             <v-list class="py-0">
               <v-list-item
                 v-for="camp in pastCamps"
-                :key="camp.id"
+                :key="camp._meta.self"
                 two-line
                 :to="campRoute(camp)">
                 <v-list-item-content>

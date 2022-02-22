@@ -19,7 +19,7 @@
       <v-list>
         <!-- preferred content types -->
         <v-list-item v-for="act in preferredContentTypes"
-                     :key="act.contentType.id"
+                     :key="act.contentType._meta.self"
                      @click="addContentNode(act.contentType)">
           <v-list-item-icon>
             <v-icon>{{ $tc(act.contentTypeIconKey) }}</v-icon>
@@ -33,7 +33,7 @@
 
         <!-- all other content types -->
         <v-list-item v-for="act in nonpreferredContentTypes"
-                     :key="act.contentType.id"
+                     :key="act.contentType._meta.self"
                      @click="addContentNode(act.contentType)">
           <v-list-item-icon>
             <v-icon>{{ $tc(act.contentTypeIconKey) }}</v-icon>
