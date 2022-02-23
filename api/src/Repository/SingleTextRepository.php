@@ -3,7 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\ContentNode\SingleText;
-use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\ORM\EntityManagerInterface;
 
 /**
  * @method null|SingleText find($id, $lockMode = null, $lockVersion = null)
@@ -12,7 +12,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method SingleText[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class SingleTextRepository extends ContentNodeRepository {
-    public function __construct(ManagerRegistry $registry) {
-        parent::__construct($registry, SingleText::class);
+    public function __construct(EntityManagerInterface $em) {
+        parent::__construct($em, SingleText::class);
     }
 }

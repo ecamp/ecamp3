@@ -68,6 +68,7 @@ class Period extends BaseEntity implements BelongsToCampInterface {
      * All time slots for programme that are part of this time period. A schedule entry
      * may span over multiple days, but may not end later than the period.
      *
+     * @var Collection<int, ScheduleEntry>
      * @ORM\OneToMany(targetEntity="ScheduleEntry", mappedBy="period")
      * @ORM\OrderBy({"periodOffset": "ASC", "left": "ASC", "length": "DESC", "id": "ASC"})
      */
@@ -271,7 +272,7 @@ class Period extends BaseEntity implements BelongsToCampInterface {
         if (isset($this->start, $this->end)) {
             $length = $this->end->getTimestamp() - $this->start->getTimestamp();
 
-            return floor($length / 86400) + 1;
+            return intval(floor($length / 86400)) + 1;
         }
 
         return null;
