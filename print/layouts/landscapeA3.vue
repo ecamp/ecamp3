@@ -10,6 +10,7 @@
 
 <script>
 export default {
+  layout: 'landscapeA3',
   data() {
     return {
       pagedjs: false,
@@ -50,7 +51,7 @@ export default {
 
                     @page {
                       font-family: "Open Sans", sans-serif;
-                      size: A4 portrait;
+                      size: A3 landscape;
                       margin: 15mm 15mm 15mm 15mm;
 
                       @top-center {
@@ -102,19 +103,6 @@ export default {
         {
           rel: 'stylesheet',
           href: '/print-preview.css',
-        },
-        {
-          rel: 'preconnect',
-          href: 'https://fonts.googleapis.com',
-        },
-        {
-          rel: 'preconnect',
-          href: 'https://fonts.gstatic.com',
-          crossorigin: true,
-        },
-        {
-          rel: 'stylesheet',
-          href: 'https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&display=swap',
         },
       ]
     }

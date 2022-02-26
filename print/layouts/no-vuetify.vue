@@ -1,11 +1,5 @@
 <template>
-  <v-app>
-    <v-main>
-      <v-container class="container" fluid>
-        <nuxt />
-      </v-container>
-    </v-main>
-  </v-app>
+  <nuxt />
 </template>
 
 <script>
@@ -48,8 +42,13 @@ export default {
                       --ecamp-margin-font-size: 10pt;
                     }
 
+                    body {
+                      font-family: 'Open Sans';
+                      font-size: 9px;
+                      word-break: break-word;
+                    }
+
                     @page {
-                      font-family: "Open Sans", sans-serif;
                       size: A4 portrait;
                       margin: 15mm 15mm 15mm 15mm;
 
@@ -102,19 +101,6 @@ export default {
         {
           rel: 'stylesheet',
           href: '/print-preview.css',
-        },
-        {
-          rel: 'preconnect',
-          href: 'https://fonts.googleapis.com',
-        },
-        {
-          rel: 'preconnect',
-          href: 'https://fonts.gstatic.com',
-          crossorigin: true,
-        },
-        {
-          rel: 'stylesheet',
-          href: 'https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&display=swap',
         },
       ]
     }

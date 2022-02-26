@@ -47,8 +47,7 @@ services:
       # default port for Xdebug 3 is 9003
       # idekey=VSCODE if you are debugging with VSCode
       XDEBUG_CONFIG: >-
-        client_host=docker-host
-        idekey=PHPSTORM
+        client_host=docker-host idekey=PHPSTORM
       # This should correspond to the server declared in PHPStorm `Preferences | Languages & Frameworks | PHP | Servers`
       # Then PHPStorm will use the corresponding path mappings
       PHP_IDE_CONFIG: serverName=localhost
@@ -173,43 +172,6 @@ services:
     volumes:
       - ./phpmyadmin/config.user.inc.php:/etc/phpmyadmin/config.user.inc.php
 
-#  rabbitmq:
-#    image: rabbitmq:3.9-management@sha256:e65c880a794cf01f5e83cb80ebca282413e10a73f060fc81122866e42ed4afc0
-#    container_name: 'ecamp3-rabbitmq'
-#    ports:
-#      - '3004:15672'
-#
-#  worker-print-puppeteer:
-#    build: ./workers/print-puppeteer
-#    container_name: 'ecamp3-worker-print-puppeteer'
-#    user: ${USER_ID:-1000}
-#    volumes:
-#      - ./workers/print-puppeteer:/app:delegated
-#      - ./.cache/npm:/home/node/.npm
-#      - ./.print-data:/app/data
-#    command: ./docker-setup.sh
-#    environment:
-#      - NPM_CONFIG_UPDATE_NOTIFIER=false
-#      - NPM_CONFIG_CACHE=/home/node/.npm
-#
-#  worker-print-weasy:
-#    build: ./workers/print-weasy
-#    container_name: 'ecamp3-worker-print-weasy'
-#    user: ${USER_ID:-1000}
-#    volumes:
-#      - ./workers/print-weasy:/app:delegated
-#      - ./.print-data:/app/data
-#
-#  print-file-server:
-#    image: halverneus/static-file-server@sha256:1f88fe3030527f1ba3ded829e85e4b1acf060036c0d184d7adba4aef874d2145
-#    container_name: 'ecamp3-print-file-server'
-#    volumes:
-#      - ./.print-data:/web
-#    ports:
-#      - '3005:8080'
-#    environment:
-#      - CORS=true
-
   mail:
     image: mailhog/mailhog@sha256:8d76a3d4ffa32a3661311944007a415332c4bb855657f4f6c57996405c009bea
     container_name: 'ecamp3-mail'
@@ -222,6 +184,13 @@ services:
     cap_add: [ 'NET_ADMIN', 'NET_RAW' ]
     restart: on-failure
 
+  browserless:
+    build:
+      context: ./print/browserless
+    container_name: 'ecamp3-browserless'
+    ports:
+      - '3010:3000'
+
 volumes:
-  db-data:
-  db-data-postgres:
+  db-data: null
+  db-data-postgres: null

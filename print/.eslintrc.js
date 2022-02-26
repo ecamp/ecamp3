@@ -6,6 +6,10 @@ module.exports = {
   },
   parserOptions: {
     parser: '@babel/eslint-parser',
+    requireConfigFile: false,
+    babelOptions: {
+      configFile: './.babelrc',
+    },
   },
   extends: [
     '@nuxtjs',
@@ -16,5 +20,7 @@ module.exports = {
   ],
   plugins: ['prettier'],
   // add your custom rules here
-  rules: {},
+  rules: {
+    'no-console': 'off',
+  },
 }
