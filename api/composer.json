@@ -42,7 +42,7 @@
         "webonyx/graphql-php": "14.11.5"
     },
     "require-dev": {
-        "friendsofphp/php-cs-fixer": "3.4.0",
+        "friendsofphp/php-cs-fixer": "3.6.0",
         "hautelook/alice-bundle": "2.10.0",
         "justinrainbow/json-schema": "5.2.11",
         "php-coveralls/php-coveralls": "2.5.2",
