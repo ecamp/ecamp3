@@ -15,8 +15,8 @@ class UpdateScheduleEntryTest extends ECampApiTestCase {
         $scheduleEntry = static::$fixtures['scheduleEntry1'];
         static::createBasicClient()->request('PATCH', '/schedule_entries/'.$scheduleEntry->getId(), ['json' => [
             'period' => $this->getIriFor('period2'),
-            'periodOffset' => 10,
-            'length' => 30,
+            'start' => '2023-04-15T00:10:00+00:00',
+            'end' => '2023-04-15T00:40:00+00:00',
             'left' => 0.3,
             'width' => 0.7,
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -32,8 +32,8 @@ class UpdateScheduleEntryTest extends ECampApiTestCase {
         static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->getUsername()])
             ->request('PATCH', '/schedule_entries/'.$scheduleEntry->getId(), ['json' => [
                 'period' => $this->getIriFor('period2'),
-                'periodOffset' => 10,
-                'length' => 30,
+                'start' => '2023-04-15T00:10:00+00:00',
+                'end' => '2023-04-15T00:40:00+00:00',
                 'left' => 0.3,
                 'width' => 0.7,
             ], 'headers' => ['Content-Type' => 'application/merge-patch+json']])
@@ -50,8 +50,8 @@ class UpdateScheduleEntryTest extends ECampApiTestCase {
         static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->getUsername()])
             ->request('PATCH', '/schedule_entries/'.$scheduleEntry->getId(), ['json' => [
                 'period' => $this->getIriFor('period2'),
-                'periodOffset' => 10,
-                'length' => 30,
+                'start' => '2023-04-15T00:10:00+00:00',
+                'end' => '2023-04-15T00:40:00+00:00',
                 'left' => 0.3,
                 'width' => 0.7,
             ], 'headers' => ['Content-Type' => 'application/merge-patch+json']])
@@ -68,8 +68,8 @@ class UpdateScheduleEntryTest extends ECampApiTestCase {
         static::createClientWithCredentials(['username' => static::$fixtures['user3guest']->getUsername()])
             ->request('PATCH', '/schedule_entries/'.$scheduleEntry->getId(), ['json' => [
                 'period' => $this->getIriFor('period2'),
-                'periodOffset' => 10,
-                'length' => 30,
+                'start' => '2023-04-15T00:10:00+00:00',
+                'end' => '2023-04-15T00:40:00+00:00',
                 'left' => 0.3,
                 'width' => 0.7,
             ], 'headers' => ['Content-Type' => 'application/merge-patch+json']])
@@ -83,19 +83,19 @@ class UpdateScheduleEntryTest extends ECampApiTestCase {
 
     public function testPatchScheduleEntryIsAllowedForMember() {
         $scheduleEntry = static::$fixtures['scheduleEntry1'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->getUsername()])
+        $response = static::createClientWithCredentials(['username' => static::$fixtures['user2member']->getUsername()])
             ->request('PATCH', '/schedule_entries/'.$scheduleEntry->getId(), ['json' => [
                 'period' => $this->getIriFor('period2'),
-                'periodOffset' => 10,
-                'length' => 30,
+                'start' => '2023-04-15T00:10:00+00:00',
+                'end' => '2023-04-15T00:40:00+00:00',
                 'left' => 0.3,
                 'width' => 0.7,
             ], 'headers' => ['Content-Type' => 'application/merge-patch+json']])
         ;
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
-            'periodOffset' => 10,
-            'length' => 30,
+            'start' => '2023-04-15T00:10:00+00:00',
+            'end' => '2023-04-15T00:40:00+00:00',
             'left' => 0.3,
             'width' => 0.7,
             '_links' => [
@@ -108,15 +108,15 @@ class UpdateScheduleEntryTest extends ECampApiTestCase {
         $scheduleEntry = static::$fixtures['scheduleEntry1'];
         static::createClientWithCredentials()->request('PATCH', '/schedule_entries/'.$scheduleEntry->getId(), ['json' => [
             'period' => $this->getIriFor('period2'),
-            'periodOffset' => 10,
-            'length' => 30,
+            'start' => '2023-04-15T00:10:00+00:00',
+            'end' => '2023-04-15T00:40:00+00:00',
             'left' => 0.3,
             'width' => 0.7,
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
-            'periodOffset' => 10,
-            'length' => 30,
+            'start' => '2023-04-15T00:10:00+00:00',
+            'end' => '2023-04-15T00:40:00+00:00',
             'left' => 0.3,
             'width' => 0.7,
             '_links' => [
@@ -129,8 +129,8 @@ class UpdateScheduleEntryTest extends ECampApiTestCase {
         $scheduleEntry = static::$fixtures['scheduleEntry1period1campPrototype'];
         static::createClientWithCredentials()->request('PATCH', '/schedule_entries/'.$scheduleEntry->getId(), ['json' => [
             'period' => $this->getIriFor('period2'),
-            'periodOffset' => 10,
-            'length' => 30,
+            'start' => '2023-04-15T00:10:00+00:00',
+            'end' => '2023-04-15T00:40:00+00:00',
             'left' => 0.3,
             'width' => 0.7,
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -170,59 +170,60 @@ class UpdateScheduleEntryTest extends ECampApiTestCase {
         ]);
     }
 
-    public function testPatchScheduleEntryValidatesMissingPeriodOffset() {
+    public function testPatchScheduleEntryValidatesMissingStart() {
         $scheduleEntry = static::$fixtures['scheduleEntry1'];
         static::createClientWithCredentials()->request('PATCH', '/schedule_entries/'.$scheduleEntry->getId(), ['json' => [
-            'periodOffset' => null,
+            'start' => null,
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
 
         $this->assertResponseStatusCodeSame(400);
         $this->assertJsonContains([
-            'detail' => 'The type of the "periodOffset" attribute must be "int", "NULL" given.',
+            'detail' => 'The data is either an empty string or null, you should pass a string that can be parsed with the passed format or a valid DateTime string.',
         ]);
     }
 
-    public function testPatchScheduleEntryValidatesNegativePeriodOffset() {
+    public function testPatchScheduleEntryValidatesStartBeforePeriodStart() {
         $scheduleEntry = static::$fixtures['scheduleEntry1'];
         static::createClientWithCredentials()->request('PATCH', '/schedule_entries/'.$scheduleEntry->getId(), ['json' => [
-            'periodOffset' => -180,
+            'start' => '2023-04-14T23:59:59+00:00',
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
 
         $this->assertResponseStatusCodeSame(422);
         $this->assertJsonContains([
             'violations' => [
                 [
-                    'propertyPath' => 'periodOffset',
+                    'propertyPath' => 'startOffset',
                     'message' => 'This value should be greater than or equal to 0.',
                 ],
             ],
         ]);
     }
 
-    public function testPatchScheduleEntryValidatesMissingLength() {
+    public function testPatchScheduleEntryValidatesMissingEnd() {
         $scheduleEntry = static::$fixtures['scheduleEntry1'];
         static::createClientWithCredentials()->request('PATCH', '/schedule_entries/'.$scheduleEntry->getId(), ['json' => [
-            'length' => null,
+            'end' => null,
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
 
         $this->assertResponseStatusCodeSame(400);
         $this->assertJsonContains([
-            'detail' => 'The type of the "length" attribute must be "int", "NULL" given.',
+            'detail' => 'The data is either an empty string or null, you should pass a string that can be parsed with the passed format or a valid DateTime string.',
         ]);
     }
 
     public function testPatchScheduleEntryValidatesNegativeLength() {
         $scheduleEntry = static::$fixtures['scheduleEntry1'];
         static::createClientWithCredentials()->request('PATCH', '/schedule_entries/'.$scheduleEntry->getId(), ['json' => [
-            'length' => -10,
+            'start' => '2023-04-15T00:40:00+00:00',
+            'end' => '2023-04-15T00:10:00+00:00',
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
 
         $this->assertResponseStatusCodeSame(422);
         $this->assertJsonContains([
             'violations' => [
                 [
-                    'propertyPath' => 'length',
-                    'message' => 'This value should be greater than 0.',
+                    'propertyPath' => 'startOffset',
+                    'message' => 'This value should be greater than or equal to 0.',
                 ],
             ],
         ]);

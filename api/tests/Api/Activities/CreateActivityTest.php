@@ -209,8 +209,8 @@ class CreateActivityTest extends ECampApiTestCase {
                     'scheduleEntries' => [
                         [
                             'period' => $this->getIriFor('period1'),
-                            'length' => 180,
-                            'periodOffset' => 1000,
+                            'start' => '2023-05-01T15:00:00+00:00',
+                            'end' => '2023-05-01T16:00:00+00:00',
                         ],
                     ],
                 ],
@@ -223,8 +223,8 @@ class CreateActivityTest extends ECampApiTestCase {
             '_embedded' => [
                 'scheduleEntries' => [
                     [
-                        'periodOffset' => 1000,
-                        'length' => 180,
+                        'start' => '2023-05-01T15:00:00+00:00',
+                        'end' => '2023-05-01T16:00:00+00:00',
                     ],
                 ],
             ],
@@ -240,8 +240,6 @@ class CreateActivityTest extends ECampApiTestCase {
                     'scheduleEntries' => [
                         [
                             'period' => $this->getIriFor('period1camp2'),
-                            'length' => 180,
-                            'periodOffset' => 1000,
                         ],
                     ],
                 ],
@@ -250,6 +248,14 @@ class CreateActivityTest extends ECampApiTestCase {
         );
 
         $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [
+                    'propertyPath' => 'scheduleEntries[0].period',
+                    'message' => 'Must belong to the same camp.',
+                ],
+            ],
+        ]);
     }
 
     public function testCreateActivityValidatesMissingScheduleEntries() {
@@ -277,8 +283,8 @@ class CreateActivityTest extends ECampApiTestCase {
                 'scheduleEntries' => [
                     [
                         'period' => $this->getIriFor('period1'),
-                        'length' => 180,
-                        'periodOffset' => 1000,
+                        'start' => '2023-05-01T15:00:00+00:00',
+                        'end' => '2023-05-01T16:00:00+00:00',
                     ],
                 ],
             ], $attributes),

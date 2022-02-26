@@ -131,56 +131,52 @@ class CreateScheduleEntryTest extends ECampApiTestCase {
         ]);
     }
 
-    public function testCreateScheduleEntryUsesDefaultForMissingPeriodOffset() {
-        static::createClientWithCredentials()->request('POST', '/schedule_entries', ['json' => $this->getExampleWritePayload([], ['periodOffset'])]);
+    public function testCreateScheduleEntryUsesDefaultForMissingStart() {
+        static::createClientWithCredentials()->request('POST', '/schedule_entries', ['json' => $this->getExampleWritePayload([], ['start'])]);
 
         $this->assertResponseStatusCodeSame(201);
         $this->assertJsonContains([
-            'periodOffset' => 0,
+            'start' => '2023-05-01T00:00:00+00:00',
         ]);
     }
 
-    public function testCreateScheduleEntryValidatesNegativePeriodOffset() {
+    public function testCreateScheduleEntryValidatesStartBeforePeriodStart() {
         static::createClientWithCredentials()->request('POST', '/schedule_entries', ['json' => $this->getExampleWritePayload([
-            'periodOffset' => -60,
+            'start' => '2023-04-30T23:59:59+00:00',
         ])]);
 
         $this->assertResponseStatusCodeSame(422);
         $this->assertJsonContains([
             'violations' => [
                 [
-                    'propertyPath' => 'periodOffset',
+                    'propertyPath' => 'startOffset',
                     'message' => 'This value should be greater than or equal to 0.',
                 ],
             ],
         ]);
     }
 
-    public function testCreateScheduleEntryValidatesMissingLength() {
-        static::createClientWithCredentials()->request('POST', '/schedule_entries', ['json' => $this->getExampleWritePayload([], ['length'])]);
+    public function testCreateScheduleEntryUsesDefaultForMissingEnd() {
+        static::createClientWithCredentials()->request('POST', '/schedule_entries', ['json' => $this->getExampleWritePayload([], ['end'])]);
 
-        $this->assertResponseStatusCodeSame(422);
+        $this->assertResponseStatusCodeSame(201);
         $this->assertJsonContains([
-            'violations' => [
-                [
-                    'propertyPath' => 'length',
-                    'message' => 'This value should be greater than 0.',
-                ],
-            ],
+            'end' => '2023-05-01T01:00:00+00:00',
         ]);
     }
 
     public function testCreateScheduleEntryValidatesNegativeLength() {
         static::createClientWithCredentials()->request('POST', '/schedule_entries', ['json' => $this->getExampleWritePayload([
-            'length' => -60,
+            'start' => '2023-05-01T01:30:00+00:00',
+            'end' => '2023-05-01T01:00:00+00:00',
         ])]);
 
         $this->assertResponseStatusCodeSame(422);
         $this->assertJsonContains([
             'violations' => [
                 [
-                    'propertyPath' => 'length',
-                    'message' => 'This value should be greater than 0.',
+                    'propertyPath' => 'endOffset',
+                    'message' => 'This value should be greater than 90.',
                 ],
             ],
         ]);
@@ -210,6 +206,8 @@ class CreateScheduleEntryTest extends ECampApiTestCase {
             OperationType::COLLECTION,
             'post',
             array_merge([
+                'start' => '2023-05-01T00:30:00+00:00',
+                'end' => '2023-05-01T01:30:00+00:00',
                 'period' => $this->getIriFor('period1'),
                 'activity' => $this->getIriFor('activity1'),
             ], $attributes),
@@ -223,7 +221,10 @@ class CreateScheduleEntryTest extends ECampApiTestCase {
             ScheduleEntry::class,
             OperationType::ITEM,
             'get',
-            $attributes,
+            array_merge([
+                'start' => '2023-05-01T00:30:00+00:00',
+                'end' => '2023-05-01T01:30:00+00:00',
+            ], $attributes),
             ['period', 'activity'],
             $except
         );

@@ -291,7 +291,8 @@ at position 9: Data missing',
 
         /** @var ScheduleEntry $scheduleEntry */
         $scheduleEntry = $period->scheduleEntries[0];
-        $this->assertEquals(540, $scheduleEntry->periodOffset);
+        $this->assertEquals(540, $scheduleEntry->startOffset);
+        $this->assertEquals(600, $scheduleEntry->endOffset);
     }
 
     public function testPatchPeriodDoNotMoveScheduleEntries() {
@@ -313,7 +314,8 @@ at position 9: Data missing',
 
         /** @var ScheduleEntry $scheduleEntry */
         $scheduleEntry = $period->scheduleEntries[0];
-        $this->assertEquals(1440 + 540, $scheduleEntry->periodOffset);
+        $this->assertEquals(1440 + 540, $scheduleEntry->startOffset);
+        $this->assertEquals(1440 + 600, $scheduleEntry->endOffset);
     }
 
     public function testPatchPeriodValidateStartDate() {

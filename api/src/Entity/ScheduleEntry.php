@@ -8,9 +8,11 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Doctrine\Filter\ExpressionDateTimeFilter;
 use App\Repository\ScheduleEntryRepository;
+use App\Util\DateTimeUtil;
 use App\Validator\AssertBelongsToSameCamp;
 use DateInterval;
 use DateTime;
+use DateTimeInterface;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Collections\Selectable;
 use Doctrine\ORM\Mapping as ORM;
@@ -84,22 +86,20 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
 
     /**
      * The offset in minutes between start of the period and start of this scheduleEntry.
+     * This property is not exposed via API (use `start` instead).
      *
      * @ORM\Column(type="integer", nullable=false)
      */
     #[Assert\GreaterThanOrEqual(value: 0)]
-    #[ApiProperty(example: 1440)]
-    #[Groups(['read', 'write'])]
     public int $startOffset = 0;
 
     /**
      * The offset in minutes between start of the period and end of this scheduleEntry.
+     * This property is not exposed via API (use `end` instead).
      *
      * @ORM\Column(type="integer", nullable=false)
      */
     #[Assert\GreaterThan(propertyPath: 'startOffset')]
-    #[ApiProperty(example: 90)]
-    #[Groups(['read', 'write'])]
     public int $endOffset = 60;
 
     /**
@@ -134,11 +134,9 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
     }
 
     /**
-     * The start date and time of the schedule entry. This is a read-only convenience property.
-     *
-     * @return null|DateTime
+     * Start date and time of the schedule entry.
      */
-    #[ApiProperty(writable: false, example: '2022-01-02T00:00:00+00:00', openapiContext: ['format' => 'date'])]
+    #[ApiProperty(example: '2022-01-02T00:00:00+00:00', required: true, openapiContext: ['format' => 'date-time'])]
     #[Groups(['read'])]
     public function getStart(): ?DateTime {
         try {
@@ -151,12 +149,17 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
         }
     }
 
+    #[Groups(['write'])]
+    public function setStart(DateTimeInterface $start): void {
+        if (null !== $this->period?->start) {
+            $this->startOffset = DateTimeUtil::differenceInMinutes($this->period->start, $start);
+        }
+    }
+
     /**
-     * The end date and time of the schedule entry. This is a read-only convenience property.
-     *
-     * @return null|DateTime
+     * End date and time of the schedule entry.
      */
-    #[ApiProperty(writable: false, example: '2022-01-02T01:30:00+00:00', openapiContext: ['format' => 'date'])]
+    #[ApiProperty(example: '2022-01-02T01:30:00+00:00', required: true, openapiContext: ['format' => 'date-time'])]
     #[Groups(['read'])]
     public function getEnd(): ?DateTime {
         try {
@@ -166,6 +169,13 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
             return $end;
         } catch (\Exception $e) {
             return null;
+        }
+    }
+
+    #[Groups(['write'])]
+    public function setEnd(DateTimeInterface $end): void {
+        if (null !== $this->period?->start) {
+            $this->endOffset = DateTimeUtil::differenceInMinutes($this->period->start, $end);
         }
     }
 

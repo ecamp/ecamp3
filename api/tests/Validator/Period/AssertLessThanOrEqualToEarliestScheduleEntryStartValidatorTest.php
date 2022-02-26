@@ -48,8 +48,8 @@ class AssertLessThanOrEqualToEarliestScheduleEntryStartValidatorTest extends Con
         $period->moveScheduleEntries = true;
 
         $scheduleEntry = new ScheduleEntry();
-        $scheduleEntry->periodOffset = 300; // 2023-08-01 05:00
-        $scheduleEntry->length = 300; // 5h
+        $scheduleEntry->startOffset = 300; // 2023-08-01 05:00
+        $scheduleEntry->endOffset = 300 + 300; // 2023-08-01 10:00
         $period->addScheduleEntry($scheduleEntry);
 
         $this->setObject($period);
@@ -67,8 +67,8 @@ class AssertLessThanOrEqualToEarliestScheduleEntryStartValidatorTest extends Con
         $period->moveScheduleEntries = false;
 
         $scheduleEntry = new ScheduleEntry();
-        $scheduleEntry->periodOffset = 300; // 2023-08-01 05:00
-        $scheduleEntry->length = 300; // 5h
+        $scheduleEntry->startOffset = 300; // 2023-08-01 05:00
+        $scheduleEntry->endOffset = 300 + 300; // 2023-08-01 10:00
         $period->addScheduleEntry($scheduleEntry);
 
         $this->setObject($period);
