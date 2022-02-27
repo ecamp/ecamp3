@@ -158,6 +158,7 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
      */
     #[ApiProperty(example: '2022-01-02T01:30:00+00:00', required: true, openapiContext: ['format' => 'date-time'])]
     #[Assert\GreaterThan(propertyPath: 'start')]
+    #[Assert\LessThanOrEqual(propertyPath: 'period.endOfLastDay')]
     #[Groups(['read'])]
     public function getEnd(): ?DateTime {
         try {

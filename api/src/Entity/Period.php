@@ -10,6 +10,7 @@ use App\Repository\PeriodRepository;
 use App\Serializer\Normalizer\RelatedCollectionLink;
 use App\Validator\Period\AssertGreaterThanOrEqualToLastScheduleEntryEnd;
 use App\Validator\Period\AssertLessThanOrEqualToEarliestScheduleEntryStart;
+use DateTime;
 use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -295,5 +296,19 @@ class Period extends BaseEntity implements BelongsToCampInterface {
         }
 
         return $firstDayNumber;
+    }
+
+    /**
+     * returns the end time of the last day of the period.
+     */
+    public function getEndOfLastDay(): DateTime {
+        if (null === $this->end) {
+            return null;
+        }
+
+        $endTime = DateTime::createFromInterface($this->end);
+        $endTime->modify('+1 day');
+
+        return $endTime;
     }
 }
