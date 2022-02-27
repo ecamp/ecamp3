@@ -301,7 +301,7 @@ class Period extends BaseEntity implements BelongsToCampInterface {
     /**
      * returns the end time of the last day of the period.
      */
-    public function getEndOfLastDay(): DateTime {
+    public function getEndOfLastDay(): ?DateTime {
         if (null === $this->end) {
             return null;
         }

@@ -92,12 +92,12 @@ class ListDaysTest extends ECampApiTestCase {
         $response = $client->request('GET', '/days');
         $this->assertEquals([
             ['href' => $this->getIriFor('day1period1campPrototype')],
+            ['href' => $this->getIriFor('day1period1camp2')],
+            ['href' => $this->getIriFor('day2period1camp2')],
             ['href' => $this->getIriFor('day1period2')],
             ['href' => $this->getIriFor('day1period1')],
             ['href' => $this->getIriFor('day2period1')],
             ['href' => $this->getIriFor('day3period1')],
-            ['href' => $this->getIriFor('day1period1camp2')],
-            ['href' => $this->getIriFor('day2period1camp2')],
         ], $response->toArray()['_links']['items']);
     }
 
