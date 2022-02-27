@@ -184,16 +184,16 @@ class UpdateScheduleEntryTest extends ECampApiTestCase {
 
     public function testPatchScheduleEntryValidatesStartBeforePeriodStart() {
         $scheduleEntry = static::$fixtures['scheduleEntry1'];
-        static::createClientWithCredentials()->request('PATCH', '/schedule_entries/'.$scheduleEntry->getId(), ['json' => [
-            'start' => '2023-04-14T23:59:59+00:00',
+        $response = static::createClientWithCredentials()->request('PATCH', '/schedule_entries/'.$scheduleEntry->getId(), ['json' => [
+            'start' => '2023-04-30T23:59:59+00:00',
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
 
         $this->assertResponseStatusCodeSame(422);
         $this->assertJsonContains([
             'violations' => [
                 [
-                    'propertyPath' => 'startOffset',
-                    'message' => 'This value should be greater than or equal to 0.',
+                    'propertyPath' => 'start',
+                    'message' => 'This value should be greater than or equal to May 1, 2023, 12:00 AM.',
                 ],
             ],
         ]);
@@ -214,16 +214,16 @@ class UpdateScheduleEntryTest extends ECampApiTestCase {
     public function testPatchScheduleEntryValidatesNegativeLength() {
         $scheduleEntry = static::$fixtures['scheduleEntry1'];
         static::createClientWithCredentials()->request('PATCH', '/schedule_entries/'.$scheduleEntry->getId(), ['json' => [
-            'start' => '2023-04-15T00:40:00+00:00',
-            'end' => '2023-04-15T00:10:00+00:00',
+            'start' => '2023-05-01T00:40:00+00:00',
+            'end' => '2023-05-01T00:10:00+00:00',
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
 
         $this->assertResponseStatusCodeSame(422);
         $this->assertJsonContains([
             'violations' => [
                 [
-                    'propertyPath' => 'startOffset',
-                    'message' => 'This value should be greater than or equal to 0.',
+                    'propertyPath' => 'end',
+                    'message' => 'This value should be greater than May 1, 2023, 12:40 AM.',
                 ],
             ],
         ]);

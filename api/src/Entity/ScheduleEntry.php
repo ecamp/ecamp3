@@ -10,13 +10,11 @@ use App\Doctrine\Filter\ExpressionDateTimeFilter;
 use App\Repository\ScheduleEntryRepository;
 use App\Util\DateTimeUtil;
 use App\Validator\AssertBelongsToSameCamp;
-use DateInterval;
 use DateTime;
 use DateTimeInterface;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Collections\Selectable;
 use Doctrine\ORM\Mapping as ORM;
-use RuntimeException;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Annotation\SerializedName;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -90,7 +88,6 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
      *
      * @ORM\Column(type="integer", nullable=false)
      */
-    #[Assert\GreaterThanOrEqual(value: 0)]
     public int $startOffset = 0;
 
     /**
@@ -99,7 +96,6 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
      *
      * @ORM\Column(type="integer", nullable=false)
      */
-    #[Assert\GreaterThan(propertyPath: 'startOffset')]
     public int $endOffset = 60;
 
     /**
@@ -137,11 +133,12 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
      * Start date and time of the schedule entry.
      */
     #[ApiProperty(example: '2022-01-02T00:00:00+00:00', required: true, openapiContext: ['format' => 'date-time'])]
+    #[Assert\GreaterThanOrEqual(propertyPath: 'period.start')]
     #[Groups(['read'])]
     public function getStart(): ?DateTime {
         try {
             $start = $this->period?->start ? DateTime::createFromInterface($this->period->start) : null;
-            $start?->add(new DateInterval('PT'.$this->startOffset.'M'));
+            $start?->modify("{$this->startOffset} minutes");
 
             return $start;
         } catch (\Exception $e) {
@@ -160,11 +157,12 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
      * End date and time of the schedule entry.
      */
     #[ApiProperty(example: '2022-01-02T01:30:00+00:00', required: true, openapiContext: ['format' => 'date-time'])]
+    #[Assert\GreaterThan(propertyPath: 'start')]
     #[Groups(['read'])]
     public function getEnd(): ?DateTime {
         try {
             $end = $this->period?->start ? DateTime::createFromInterface($this->period->start) : null;
-            $end?->add(new DateInterval('PT'.$this->endOffset.'M'));
+            $end?->modify("{$this->endOffset} minutes");
 
             return $end;
         } catch (\Exception $e) {
@@ -202,7 +200,7 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
         });
 
         if ($filteredDays->isEmpty()) {
-            throw new RuntimeException("Could not find Day entity for dayOffset {$dayOffset}");
+            return null;
         }
 
         return $filteredDays->first();
