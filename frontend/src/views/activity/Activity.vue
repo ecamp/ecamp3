@@ -111,12 +111,12 @@ Displays a single activity
                   ({{ scheduleEntryItem.number }})
                 </v-col>
                 <v-col cols="10">
-                  {{ $date.utc(scheduleEntryItem.startTime).format($tc('global.datetime.dateShort')) }} <b>
-                    {{ $date.utc(scheduleEntryItem.startTime).format($tc('global.datetime.hourShort')) }} </b> - {{
-                    $date.utc(scheduleEntryItem.startTime).format($tc('global.datetime.dateShort')) == $date.utc(scheduleEntryItem.endTime).format($tc('global.datetime.dateShort'))
+                  {{ dateShort(scheduleEntryItem.start) }} <b>
+                    {{ hourShort(scheduleEntryItem.start) }} </b> - {{
+                    dateShort(scheduleEntryItem.start) == dateShort(scheduleEntryItem.end)
                       ? ''
-                      : $date.utc(scheduleEntryItem.endTime).format($tc('global.datetime.dateShort'))
-                  }} <b> {{ $date.utc(scheduleEntryItem.endTime).format($tc('global.datetime.hourShort')) }} </b>
+                      : dateShort(scheduleEntryItem.end)
+                  }} <b> {{ hourShort(scheduleEntryItem.end) }} </b>
                 </v-col>
               </v-row>
             </v-col>
@@ -158,7 +158,7 @@ import ContentCard from '@/components/layout/ContentCard.vue'
 import ApiTextField from '@/components/form/api/ApiTextField.vue'
 import RootNode from '@/components/activity/RootNode.vue'
 import ActivityResponsibles from '@/components/activity/ActivityResponsibles.vue'
-import { defineHelpers } from '@/common/helpers/scheduleEntry/dateHelperUTC.js'
+import { dateShort, hourShort } from '@/common/helpers/scheduleEntry/dateHelperUTCFormatted.js'
 import { campRoleMixin } from '@/mixins/campRoleMixin'
 
 export default {
@@ -194,7 +194,7 @@ export default {
       return this.activity.category()
     },
     scheduleEntries () {
-      return this.activity.scheduleEntries().items.map((entry) => defineHelpers(entry))
+      return this.activity.scheduleEntries().items
     },
     contentNodes () {
       return this.activity.contentNodes()
@@ -210,6 +210,8 @@ export default {
   },
 
   methods: {
+    dateShort,
+    hourShort,
     changeCategory (category) {
       this.activity.$patch({
         category: category._meta.self

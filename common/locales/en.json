@@ -92,7 +92,6 @@
       "fields": {
         "length": "Length in Minutes",
         "nr": "Nr",
-        "periodOffset": "Period Offset",
         "time": "Time"
       },
       "name": "Activity scheduled"

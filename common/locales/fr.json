@@ -57,7 +57,6 @@
       "fields": {
         "length": "Durée en minutes",
         "nr": "Numéro",
-        "periodOffset": "Décalage de période",
         "time": "Heure"
       },
       "name": "Inscription au calendrier"

@@ -6,7 +6,7 @@ import { toTime, roundTimeUp, roundTimeDown } from '@/helpers/vCalendarDragAndDr
  * @param int threshold       min. mouse movement needed to detect drag & drop
  * @returns
  */
-export default function useDragAndDrop (enabled, emit) {
+export default function useDragAndDrop (enabled, createEntry) {
   /**
    * internal data (not exposed)
    */
@@ -87,7 +87,8 @@ export default function useDragAndDrop (enabled, emit) {
       // resize placeholder
       const mouseTime = toTime(tms)
       resizeEntry(newEntry, mouseTime)
-      emit('changePlaceholder', newEntry.startTime, newEntry.endTime)
+
+      createEntry(newEntry.startTime, newEntry.endTime, false)
     }
   }
 
@@ -97,7 +98,7 @@ export default function useDragAndDrop (enabled, emit) {
 
     if (newEntry) {
       // placeholder for new schedule entry was created --> open dialog to create new activity
-      emit('newEntry', newEntry.startTime, newEntry.endTime)
+      createEntry(newEntry.startTime, newEntry.endTime, true)
     }
 
     clear()

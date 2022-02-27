@@ -80,7 +80,6 @@
       "fields": {
         "length": "Dauer in Minuten",
         "nr": "Nr",
-        "periodOffset": "Minuten seit Lagerabschnittbeginn",
         "time": "Zeitpunkt"
       },
       "name": "Zeitplaneintrag"

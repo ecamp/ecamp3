@@ -42,7 +42,6 @@ export default function useDragAndDrop (enabled, threshold, update) {
     const newStart = roundTimeDown((mouse - mouseOffset))
     const newEnd = newStart + duration
 
-    // TODO review: Here we're changing the store value directly.
     draggedEntry.startTime = newStart
     draggedEntry.endTime = newEnd
   }
@@ -113,7 +112,7 @@ export default function useDragAndDrop (enabled, threshold, update) {
 
     // trigger update callback
     if (dragging) {
-      update(draggedEntry, draggedEntry.periodOffset, draggedEntry.length)
+      update(draggedEntry, draggedEntry.startTime, draggedEntry.endTime)
     }
 
     clear()

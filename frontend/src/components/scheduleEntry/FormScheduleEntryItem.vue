@@ -4,7 +4,7 @@
       no-gutters class="mx-2 mb-2">
       <v-col cols="5">
         <e-date-picker
-          v-model="mappedScheduleEntry.startTimeUTCFormatted"
+          v-model="localScheduleEntry.start"
           value-format="YYYY-MM-DDTHH:mm:ssZ"
           :name="$tc('components.activity.createScheduleEntries.fields.startTime')"
           vee-rules="required"
@@ -14,7 +14,7 @@
           required />
 
         <e-time-picker
-          v-model="mappedScheduleEntry.startTimeUTCFormatted"
+          v-model="localScheduleEntry.start"
           :name="$tc('components.activity.createScheduleEntries.fields.startTime')"
           vee-rules="required"
           :filled="false"
@@ -26,7 +26,7 @@
       </v-col>
       <v-col cols="5">
         <e-date-picker
-          v-model="mappedScheduleEntry.endTimeUTCFormatted"
+          v-model="localScheduleEntry.end"
           value-format="YYYY-MM-DDTHH:mm:ssZ"
           :name="$tc('components.activity.createScheduleEntries.fields.endTime')"
           vee-rules="required"
@@ -36,8 +36,7 @@
           required />
 
         <e-time-picker
-          v-model="mappedScheduleEntry.endTimeUTCFormatted"
-
+          v-model="localScheduleEntry.end"
           :name="$tc('components.activity.createScheduleEntries.fields.endTime')"
           vee-rules="required"
           :filled="false"
@@ -52,7 +51,6 @@
   </v-container>
 </template>
 <script>
-import { defineHelpers } from '@/common/helpers/scheduleEntry/dateHelperUTCFormatted.js'
 import dayjs from '@/common/helpers/dayjs.js'
 
 import ButtonDelete from '@/components/buttons/ButtonDelete.vue'
@@ -85,13 +83,10 @@ export default {
     }
   },
   computed: {
-    mappedScheduleEntry () {
-      return defineHelpers(this.localScheduleEntry)
-    },
 
     // detect selected period based on start date
     period () {
-      const startDate = dayjs.utc(this.mappedScheduleEntry.startTimeUTCFormatted)
+      const startDate = dayjs.utc(this.localScheduleEntry.start)
 
       return this.periods.find((period) => {
         return startDate.isBetween(dayjs.utc(period.start), dayjs.utc(period.end), 'date', '[]')
@@ -102,14 +97,10 @@ export default {
     'period._meta.self': function (value) {
       if (value === undefined || this.period === undefined) return
 
-      const startTimeUTCFormatted = this.mappedScheduleEntry.startTimeUTCFormatted
       const period = this.period
 
       // change period in object
       this.localScheduleEntry.period = () => period
-
-      // set startTime again --> recalculates periodOffset based on new period (dateHelperUTCFormatted.js)
-      this.mappedScheduleEntry.startTimeUTCFormatted = startTimeUTCFormatted
     }
 
   },
@@ -131,8 +122,7 @@ export default {
 
       const calendarDate = dayjs.utc(val)
       return calendarDate.isBetween(dayjs.utc(this.period.start), dayjs.utc(this.period.end), 'date', '[]')
-    },
-    defineHelpers
+    }
   }
 }
 </script>

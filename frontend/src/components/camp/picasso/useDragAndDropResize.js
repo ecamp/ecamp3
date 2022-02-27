@@ -61,7 +61,7 @@ export default function useDragAndDrop (enabled, update) {
 
     if (resizedEntry && resizedEntry.endTime !== originalEndTime) {
       // existing entry was resized --> save to API
-      update(resizedEntry, resizedEntry.periodOffset, resizedEntry.length)
+      update(resizedEntry, resizedEntry.startTime, resizedEntry.endTime)
     }
 
     clear()

@@ -30,7 +30,6 @@
 
 <script>
 import DialogActivityCreate from '@/components/scheduleEntry/DialogActivityCreate.vue'
-import { defineHelpers } from '@/common/helpers/scheduleEntry/dateHelperLocal.js'
 
 export default {
   name: 'ScheduleEntries',
@@ -48,11 +47,11 @@ export default {
         changePlaceholder: this.changePlaceholder,
         newEntry: this.newEntry
       },
-      newEntryPlaceholder: defineHelpers({
+      newEntryPlaceholder: {
         number: null,
         period: () => (this.period)(),
-        periodOffset: -100, // hidden from view
-        length: 60,
+        start: null,
+        end: null,
         activity: () => ({
           title: this.$tc('entity.activity.new'),
           location: '',
@@ -64,7 +63,7 @@ export default {
           })
         }),
         tmpEvent: true
-      }, true)
+      }
     }
   },
   computed: {
@@ -77,11 +76,13 @@ export default {
     apiScheduleEntries: {
       immediate: true,
       handler (value) {
-        this.scheduleEntries = value.items.map(entry => defineHelpers(entry, true)).concat(this.newEntryPlaceholder)
+        this.scheduleEntries = value.items.concat(this.newEntryPlaceholder)
       }
     }
   },
   mounted () {
+    this.resetPlaceholder()
+
     this.period().scheduleEntries().$reload()
     this.period().camp().activities().$reload()
     this.period().camp().categories().$reload()
@@ -90,13 +91,15 @@ export default {
 
   methods: {
     resetPlaceholder () {
-      this.newEntryPlaceholder.periodOffset = -100
-      this.newEntryPlaceholder.length = 60
+      // start and end before period start (placeholder not visible)
+      this.newEntryPlaceholder.start = this.$date.utc(this.period().start).subtract(4, 'hour').format()
+      this.newEntryPlaceholder.end = this.$date.utc(this.period().start).subtract(3, 'hour').format()
     },
 
     createNewActivity () {
       this.resetPlaceholder()
-      this.newEntryPlaceholder.periodOffset = 8 * 60
+      this.newEntryPlaceholder.start = this.$date.utc(this.period().start).add(8, 'hour').format()
+      this.newEntryPlaceholder.end = this.$date.utc(this.period().start).add(9, 'hour').format()
       this.showActivityCreateDialog()
     },
     showActivityCreateDialog () {
@@ -112,16 +115,15 @@ export default {
 
     // Event Handler on.changePlaceholder: change position of the current placeholder
     changePlaceholder (start, end) {
-      this.newEntryPlaceholder.startTime = start
-      this.newEntryPlaceholder.endTime = end
+      this.newEntryPlaceholder.start = start
+      this.newEntryPlaceholder.end = end
     },
 
     // Event Handler on.newEntry: update position of placeholder & open create dialog
     newEntry (start, end) {
       this.changePlaceholder(start, end)
       this.showActivityCreateDialog()
-    },
-    defineHelpers
+    }
   }
 }
 </script>

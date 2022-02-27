@@ -1,35 +1,21 @@
 import dayjs from '../dayjs.js'
-import { HTML5_FMT } from '../dateFormat.js'
+import i18n from '@/plugins/i18n'
 
-function defineHelpers (scheduleEntry, timed = false) {
-  if (!Object.prototype.hasOwnProperty.call(scheduleEntry, 'startTimeUTCFormatted')) {
-    Object.defineProperties(scheduleEntry, {
-      startTimeUTCFormatted: {
-        get () {
-          return dayjs.utc(this.period().start, HTML5_FMT.DATE).add(this.periodOffset, 'm').format()
-        },
-        set (value) {
-          this.periodOffset = dayjs.utc(value).diff(dayjs.utc(this.period().start, HTML5_FMT.DATE), 'm')
-        }
-      },
-      endTimeUTCFormatted: {
-        get () {
-          return dayjs.utc(this.period().start, HTML5_FMT.DATE).add(this.periodOffset + this.length, 'm').format()
-        },
-        set (value) {
-          this.length = dayjs.utc(value).diff(dayjs.utc(this.period().start, HTML5_FMT.DATE), 'm') - this.periodOffset
-        }
-      }
-    })
-  }
-  if (timed) {
-    Object.defineProperty(scheduleEntry, 'timed', {
-      value: true
-    })
-  }
-  return scheduleEntry
+function dateShort(dateTimeString){
+  return dayjs.utc(dateTimeString).format(i18n.tc('global.datetime.dateShort'))
 }
 
+function dateLong(dateTimeString){
+  return dayjs.utc(dateTimeString).format(i18n.tc('global.datetime.dateLong'))
+}
+
+function hourShort(dateTimeString){
+  return dayjs.utc(dateTimeString).format(i18n.tc('global.datetime.hourShort'))
+}
+
+
 export {
-  defineHelpers
+  dateShort,
+  dateLong,
+  hourShort
 }

@@ -9,7 +9,7 @@ Listing all given activity schedule entries in a calendar view.
       v-model="value"
       v-resize="resize"
       :class="editable ? 'ec-picasso-editable' : 'ec-picasso'"
-      :events="scheduleEntries"
+      :events="events"
       :event-name="getActivityName"
       :event-color="getActivityColor"
       event-start="startTime"
@@ -116,9 +116,20 @@ import { isCssColor } from 'vuetify/lib/util/colorUtils'
 import { apiStore as api } from '@/plugins/store'
 import { scheduleEntryRoute } from '@/router.js'
 import mergeListeners from '@/helpers/mergeListeners.js'
+import dayjs from '@/common/helpers/dayjs.js'
 
 import DialogActivityEdit from '@/components/scheduleEntry/DialogActivityEdit.vue'
 import DayResponsibles from './DayResponsibles.vue'
+
+// converts a timestamp (local timezone) into ISO String format (UTC timezone)
+function timestampToUtcString (timestamp) {
+  return dayjs.utc(dayjs(timestamp).format('YYYY-MM-DD HH:mm')).format()
+}
+
+// converts ISO String format (UTC timezone) into a timestamp (local timezone)
+function utcStringToTimestamp (string) {
+  return dayjs(dayjs.utc(string).format('YYYY-MM-DD HH:mm')).valueOf()
+}
 
 export default {
   name: 'Picasso',
@@ -189,10 +200,10 @@ export default {
     const patchError = ref(null)
 
     // callback used to save entry to API
-    const updateEntry = (scheduleEntry, periodOffset, length) => {
+    const updateEntry = (scheduleEntry, startTime, endTime) => {
       const patchData = {
-        periodOffset,
-        length
+        start: timestampToUtcString(startTime),
+        end: timestampToUtcString(endTime)
       }
       isSaving.value = true
       api.patch(scheduleEntry._meta.self, patchData).then(() => {
@@ -203,6 +214,18 @@ export default {
       })
     }
 
+    // callback used to create new entry
+    const createEntry = (startTime, endTime, finished) => {
+      const start = timestampToUtcString(startTime)
+      const end = timestampToUtcString(endTime)
+
+      if (finished) {
+        emit('newEntry', start, end)
+      } else {
+        emit('changePlaceholder', start, end)
+      }
+    }
+
     // open edit dialog
     const onClick = (scheduleEntry) => {
       refs[`editDialog-${scheduleEntry.id}`].open()
@@ -210,7 +233,7 @@ export default {
 
     const dragAndDropMove = useDragAndDropMove(editable, 5, updateEntry)
     const dragAndDropResize = useDragAndDropResize(editable, updateEntry)
-    const dragAndDropNew = useDragAndDropNew(editable, emit)
+    const dragAndDropNew = useDragAndDropNew(editable, createEntry)
     const clickDetector = useClickDetector(editable, 5, onClick)
 
     // merge mouseleave handlers
@@ -240,6 +263,7 @@ export default {
   },
   data () {
     return {
+      events: [],
       maxDays: 100,
       entryWidth: 80,
       value: '',
@@ -271,6 +295,20 @@ export default {
         this.$vuetify.breakpoint.xsOnly
         ? 1.3 * (this.$vuetify.breakpoint.height - 140) / this.intervalCount
         : 1.3 * Math.max((this.$vuetify.breakpoint.height - 204) / this.intervalCount, 32)
+    }
+  },
+  watch: {
+    scheduleEntries: {
+      immediate: true,
+      handler (value) {
+        // prepare scheduleEntries to make them understandable by v-calendar
+        this.events = this.scheduleEntries.map(entry => ({
+          ...entry,
+          startTime: utcStringToTimestamp(entry.start),
+          endTime: utcStringToTimestamp(entry.end),
+          timed: true
+        }))
+      }
     }
   },
   mounted () {
