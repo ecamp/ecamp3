@@ -68,8 +68,8 @@
       "createScheduleEntries": {
         "fields": {
           "duration": "Länge",
-          "endTime": "Ende",
-          "startTime": "Start"
+          "end": "Ende",
+          "start": "Start"
         },
         "name": "Geplante Termine"
       }

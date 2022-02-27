@@ -69,8 +69,8 @@
       "createScheduleEntries": {
         "fields": {
           "duration": "Durata",
-          "endTime": "Fine",
-          "startTime": "Inizio"
+          "end": "Fine",
+          "start": "Inizio"
         },
         "name": "Programmato"
       }

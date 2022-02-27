@@ -12,8 +12,8 @@ Listing all given activity schedule entries in a calendar view.
       :events="events"
       :event-name="getActivityName"
       :event-color="getActivityColor"
-      event-start="startTime"
-      event-end="endTime"
+      event-start="startTimestamp"
+      event-end="endTimestamp"
       :interval-height="computedIntervalHeight"
       interval-width="46"
       :interval-format="intervalFormat"
@@ -187,9 +187,9 @@ export default {
 
   // emitted events
   emits: [
-    'changePlaceholder', // triggered continuously while a new entry is being dragged (parameters: startTime, endTime)
+    'changePlaceholder', // triggered continuously while a new entry is being dragged (parameters: startTimestamp, endTimestamp)
 
-    'newEntry' // triggered once when a new entry was created via drag & drop (parameters: startTime, endTime)
+    'newEntry' // triggered once when a new entry was created via drag & drop (parameters: startTimestamp, endTimestamp)
   ],
 
   // composition API setup
@@ -200,10 +200,10 @@ export default {
     const patchError = ref(null)
 
     // callback used to save entry to API
-    const updateEntry = (scheduleEntry, startTime, endTime) => {
+    const updateEntry = (scheduleEntry, startTimestamp, endTimestamp) => {
       const patchData = {
-        start: timestampToUtcString(startTime),
-        end: timestampToUtcString(endTime)
+        start: timestampToUtcString(startTimestamp),
+        end: timestampToUtcString(endTimestamp)
       }
       isSaving.value = true
       api.patch(scheduleEntry._meta.self, patchData).then(() => {
@@ -215,9 +215,9 @@ export default {
     }
 
     // callback used to create new entry
-    const createEntry = (startTime, endTime, finished) => {
-      const start = timestampToUtcString(startTime)
-      const end = timestampToUtcString(endTime)
+    const createEntry = (startTimestamp, endTimestamp, finished) => {
+      const start = timestampToUtcString(startTimestamp)
+      const end = timestampToUtcString(endTimestamp)
 
       if (finished) {
         emit('newEntry', start, end)
@@ -304,8 +304,8 @@ export default {
         // prepare scheduleEntries to make them understandable by v-calendar
         this.events = this.scheduleEntries.map(entry => ({
           ...entry,
-          startTime: utcStringToTimestamp(entry.start),
-          endTime: utcStringToTimestamp(entry.end),
+          startTimestamp: utcStringToTimestamp(entry.start),
+          endTimestamp: utcStringToTimestamp(entry.end),
           timed: true
         }))
       }

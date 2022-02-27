@@ -12,7 +12,7 @@ export default function useDragAndDrop (enabled, createEntry) {
    */
 
   // timestamp of mouse location when drag & drop event started
-  let mouseStartTime = null
+  let mouseStartTimestamp = null
 
   // temporary placeholder for new schedule entry, when created via drag & drop
   let newEntry = null
@@ -26,26 +26,26 @@ export default function useDragAndDrop (enabled, createEntry) {
 
   const clear = () => {
     newEntry = null
-    mouseStartTime = null
+    mouseStartTimestamp = null
     entryWasClicked = false
   }
 
   // this creates a placeholder for a new schedule entry and make it resizable
   const createNewEntry = (mouse) => {
     newEntry = {
-      startTime: roundTimeDown(mouse),
-      endTime: roundTimeDown(mouse) + 15
+      startTimestamp: roundTimeDown(mouse),
+      endTimestamp: roundTimeDown(mouse) + 15
     }
   }
 
   // resize placeholder entry
   const resizeEntry = (entry, mouse) => {
     const mouseRounded = roundTimeUp(mouse)
-    const min = Math.min(mouseRounded, roundTimeDown(mouseStartTime))
-    const max = Math.max(mouseRounded, roundTimeDown(mouseStartTime))
+    const min = Math.min(mouseRounded, roundTimeDown(mouseStartTimestamp))
+    const max = Math.max(mouseRounded, roundTimeDown(mouseStartTimestamp))
 
-    entry.startTime = min
-    entry.endTime = max
+    entry.startTimestamp = min
+    entry.endTimestamp = max
   }
 
   /**
@@ -74,7 +74,7 @@ export default function useDragAndDrop (enabled, createEntry) {
     if (!entryWasClicked) {
       // No entry is being dragged --> create a placeholder for a new schedule entry
       const mouseTime = toTime(tms)
-      mouseStartTime = mouseTime
+      mouseStartTimestamp = mouseTime
       createNewEntry(mouseTime)
     }
   }
@@ -88,7 +88,7 @@ export default function useDragAndDrop (enabled, createEntry) {
       const mouseTime = toTime(tms)
       resizeEntry(newEntry, mouseTime)
 
-      createEntry(newEntry.startTime, newEntry.endTime, false)
+      createEntry(newEntry.startTimestamp, newEntry.endTimestamp, false)
     }
   }
 
@@ -98,7 +98,7 @@ export default function useDragAndDrop (enabled, createEntry) {
 
     if (newEntry) {
       // placeholder for new schedule entry was created --> open dialog to create new activity
-      createEntry(newEntry.startTime, newEntry.endTime, true)
+      createEntry(newEntry.startTimestamp, newEntry.endTimestamp, true)
     }
 
     clear()

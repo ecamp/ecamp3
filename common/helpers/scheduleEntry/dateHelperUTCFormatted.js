@@ -13,9 +13,31 @@ function hourShort(dateTimeString){
   return dayjs.utc(dateTimeString).format(i18n.tc('global.datetime.hourShort'))
 }
 
+// short format of dateTime range
+// doesn't repeat end date if on the same day
+function rangeShort(start, end){
+  let result = ''
+
+  result += dateShort(start)
+  result += ' '
+  result += hourShort(start)
+
+  result += ' - '
+
+  if( dateShort(start) !== dateShort(end) ){
+    result += dateShort(end)
+    result += ' '
+  }
+
+  result += hourShort(end)
+
+  return result
+}
+
 
 export {
   dateShort,
   dateLong,
-  hourShort
+  hourShort,
+  rangeShort
 }

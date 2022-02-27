@@ -6,7 +6,7 @@
         <e-date-picker
           v-model="localScheduleEntry.start"
           value-format="YYYY-MM-DDTHH:mm:ssZ"
-          :name="$tc('components.activity.createScheduleEntries.fields.startTime')"
+          :name="$tc('components.activity.createScheduleEntries.fields.start')"
           vee-rules="required"
           :allowed-dates="allowedStartDates"
           :filled="false"
@@ -15,7 +15,7 @@
 
         <e-time-picker
           v-model="localScheduleEntry.start"
-          :name="$tc('components.activity.createScheduleEntries.fields.startTime')"
+          :name="$tc('components.activity.createScheduleEntries.fields.start')"
           vee-rules="required"
           :filled="false"
           class="float-left mt-0 ml-3 time-picker"
@@ -28,7 +28,7 @@
         <e-date-picker
           v-model="localScheduleEntry.end"
           value-format="YYYY-MM-DDTHH:mm:ssZ"
-          :name="$tc('components.activity.createScheduleEntries.fields.endTime')"
+          :name="$tc('components.activity.createScheduleEntries.fields.end')"
           vee-rules="required"
           :allowed-dates="allowedEndDates"
           :filled="false"
@@ -37,7 +37,7 @@
 
         <e-time-picker
           v-model="localScheduleEntry.end"
-          :name="$tc('components.activity.createScheduleEntries.fields.endTime')"
+          :name="$tc('components.activity.createScheduleEntries.fields.end')"
           vee-rules="required"
           :filled="false"
           class="float-left mt-0 ml-3 time-picker"

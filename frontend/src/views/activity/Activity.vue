@@ -111,12 +111,7 @@ Displays a single activity
                   ({{ scheduleEntryItem.number }})
                 </v-col>
                 <v-col cols="10">
-                  {{ dateShort(scheduleEntryItem.start) }} <b>
-                    {{ hourShort(scheduleEntryItem.start) }} </b> - {{
-                    dateShort(scheduleEntryItem.start) == dateShort(scheduleEntryItem.end)
-                      ? ''
-                      : dateShort(scheduleEntryItem.end)
-                  }} <b> {{ hourShort(scheduleEntryItem.end) }} </b>
+                  {{ rangeShort(scheduleEntryItem.start, scheduleEntryItem.end) }}
                 </v-col>
               </v-row>
             </v-col>
@@ -158,7 +153,7 @@ import ContentCard from '@/components/layout/ContentCard.vue'
 import ApiTextField from '@/components/form/api/ApiTextField.vue'
 import RootNode from '@/components/activity/RootNode.vue'
 import ActivityResponsibles from '@/components/activity/ActivityResponsibles.vue'
-import { dateShort, hourShort } from '@/common/helpers/scheduleEntry/dateHelperUTCFormatted.js'
+import { rangeShort } from '@/common/helpers/scheduleEntry/dateHelperUTCFormatted.js'
 import { campRoleMixin } from '@/mixins/campRoleMixin'
 
 export default {
@@ -210,8 +205,7 @@ export default {
   },
 
   methods: {
-    dateShort,
-    hourShort,
+    rangeShort,
     changeCategory (category) {
       this.activity.$patch({
         category: category._meta.self
