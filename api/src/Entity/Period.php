@@ -272,7 +272,7 @@ class Period extends BaseEntity implements BelongsToCampInterface {
         if (isset($this->start, $this->end)) {
             $length = $this->end->getTimestamp() - $this->start->getTimestamp();
 
-            return floor($length / 86400) + 1;
+            return intval(floor($length / 86400)) + 1;
         }
 
         return null;

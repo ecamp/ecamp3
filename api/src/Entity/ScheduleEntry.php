@@ -229,13 +229,13 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
     #[ApiProperty(example: '2')]
     #[Groups(['read'])]
     public function getScheduleEntryNumber(): int {
-        $dayOffset = floor($this->startOffset / (24 * 60)) * 24 * 60;
+        $dayOffsetInMinutes = $this->getDayOffset() * 24 * 60;
 
         $expr = Criteria::expr();
         $crit = Criteria::create();
         $crit->where($expr->andX(
             $expr->neq('id', $this->getId()),
-            $expr->gte('startOffset', $dayOffset),
+            $expr->gte('startOffset', $dayOffsetInMinutes),
             $expr->lte('startOffset', $this->startOffset)
         ));
 

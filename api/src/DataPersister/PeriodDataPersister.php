@@ -8,6 +8,7 @@ use App\DataPersister\Util\DataPersisterObservable;
 use App\Entity\BaseEntity;
 use App\Entity\Day;
 use App\Entity\Period;
+use App\Util\DateTimeUtil;
 use Doctrine\ORM\EntityManagerInterface;
 
 class PeriodDataPersister extends AbstractDataPersister {
@@ -58,8 +59,7 @@ class PeriodDataPersister extends AbstractDataPersister {
         if (!$period->moveScheduleEntries) {
             $deltaMinutes = 0;
             if (null != $orig) {
-                $deltaMinutes = $orig['start']->getTimestamp() - $period->start->getTimestamp();
-                $deltaMinutes = floor($deltaMinutes / 60);
+                $deltaMinutes = DateTimeUtil::differenceInMinutes($period->start, $orig['start']);
             }
 
             foreach ($period->scheduleEntries as $scheduleEntry) {

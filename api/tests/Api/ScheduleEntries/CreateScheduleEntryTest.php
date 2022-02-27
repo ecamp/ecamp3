@@ -175,8 +175,8 @@ class CreateScheduleEntryTest extends ECampApiTestCase {
         $this->assertJsonContains([
             'violations' => [
                 [
-                    'propertyPath' => 'endOffset',
-                    'message' => 'This value should be greater than 90.',
+                    'propertyPath' => 'end',
+                    'message' => 'This value should be greater than May 1, 2023, 1:30 AM.',
                 ],
             ],
         ]);

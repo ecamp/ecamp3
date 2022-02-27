@@ -16,8 +16,8 @@ class UpdateScheduleEntryTest extends ECampApiTestCase {
         $scheduleEntry = static::$fixtures['scheduleEntry1'];
         static::createBasicClient()->request('PATCH', '/schedule_entries/'.$scheduleEntry->getId(), ['json' => [
             'period' => $this->getIriFor('period2'),
-            'start' => '2023-03-25T00:10:00+00:00',
-            'end' => '2023-03-25T00:40:00+00:00',
+            'start' => '2023-04-15T00:10:00+00:00',
+            'end' => '2023-04-15T00:40:00+00:00',
             'left' => 0.3,
             'width' => 0.7,
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -33,8 +33,8 @@ class UpdateScheduleEntryTest extends ECampApiTestCase {
         static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->getUsername()])
             ->request('PATCH', '/schedule_entries/'.$scheduleEntry->getId(), ['json' => [
                 'period' => $this->getIriFor('period2'),
-                'start' => '2023-03-25T00:10:00+00:00',
-                'end' => '2023-03-25T00:40:00+00:00',
+                'start' => '2023-04-15T00:10:00+00:00',
+                'end' => '2023-04-15T00:40:00+00:00',
                 'left' => 0.3,
                 'width' => 0.7,
             ], 'headers' => ['Content-Type' => 'application/merge-patch+json']])
@@ -51,8 +51,8 @@ class UpdateScheduleEntryTest extends ECampApiTestCase {
         static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->getUsername()])
             ->request('PATCH', '/schedule_entries/'.$scheduleEntry->getId(), ['json' => [
                 'period' => $this->getIriFor('period2'),
-                'start' => '2023-03-25T00:10:00+00:00',
-                'end' => '2023-03-25T00:40:00+00:00',
+                'start' => '2023-04-15T00:10:00+00:00',
+                'end' => '2023-04-15T00:40:00+00:00',
                 'left' => 0.3,
                 'width' => 0.7,
             ], 'headers' => ['Content-Type' => 'application/merge-patch+json']])
@@ -69,8 +69,8 @@ class UpdateScheduleEntryTest extends ECampApiTestCase {
         static::createClientWithCredentials(['username' => static::$fixtures['user3guest']->getUsername()])
             ->request('PATCH', '/schedule_entries/'.$scheduleEntry->getId(), ['json' => [
                 'period' => $this->getIriFor('period2'),
-                'start' => '2023-03-25T00:10:00+00:00',
-                'end' => '2023-03-25T00:40:00+00:00',
+                'start' => '2023-04-15T00:10:00+00:00',
+                'end' => '2023-04-15T00:40:00+00:00',
                 'left' => 0.3,
                 'width' => 0.7,
             ], 'headers' => ['Content-Type' => 'application/merge-patch+json']])
@@ -87,16 +87,16 @@ class UpdateScheduleEntryTest extends ECampApiTestCase {
         $response = static::createClientWithCredentials(['username' => static::$fixtures['user2member']->getUsername()])
             ->request('PATCH', '/schedule_entries/'.$scheduleEntry->getId(), ['json' => [
                 'period' => $this->getIriFor('period2'),
-                'start' => '2023-03-25T00:10:00+00:00',
-                'end' => '2023-03-25T00:40:00+00:00',
+                'start' => '2023-04-15T00:10:00+00:00',
+                'end' => '2023-04-15T00:40:00+00:00',
                 'left' => 0.3,
                 'width' => 0.7,
             ], 'headers' => ['Content-Type' => 'application/merge-patch+json']])
         ;
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
-            'start' => '2023-03-25T00:10:00+00:00',
-            'end' => '2023-03-25T00:40:00+00:00',
+            'start' => '2023-04-15T00:10:00+00:00',
+            'end' => '2023-04-15T00:40:00+00:00',
             'left' => 0.3,
             'width' => 0.7,
             '_links' => [
@@ -109,15 +109,15 @@ class UpdateScheduleEntryTest extends ECampApiTestCase {
         $scheduleEntry = static::$fixtures['scheduleEntry1'];
         static::createClientWithCredentials()->request('PATCH', '/schedule_entries/'.$scheduleEntry->getId(), ['json' => [
             'period' => $this->getIriFor('period2'),
-            'start' => '2023-03-25T00:10:00+00:00',
-            'end' => '2023-03-25T00:40:00+00:00',
+            'start' => '2023-04-15T00:10:00+00:00',
+            'end' => '2023-04-15T00:40:00+00:00',
             'left' => 0.3,
             'width' => 0.7,
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
-            'start' => '2023-03-25T00:10:00+00:00',
-            'end' => '2023-03-25T00:40:00+00:00',
+            'start' => '2023-04-15T00:10:00+00:00',
+            'end' => '2023-04-15T00:40:00+00:00',
             'left' => 0.3,
             'width' => 0.7,
             '_links' => [
@@ -130,8 +130,8 @@ class UpdateScheduleEntryTest extends ECampApiTestCase {
         $scheduleEntry = static::$fixtures['scheduleEntry1period1campPrototype'];
         static::createClientWithCredentials()->request('PATCH', '/schedule_entries/'.$scheduleEntry->getId(), ['json' => [
             'period' => $this->getIriFor('period2'),
-            'start' => '2023-03-25T00:10:00+00:00',
-            'end' => '2023-03-25T00:40:00+00:00',
+            'start' => '2023-04-15T00:10:00+00:00',
+            'end' => '2023-04-15T00:40:00+00:00',
             'left' => 0.3,
             'width' => 0.7,
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -283,9 +283,8 @@ class UpdateScheduleEntryTest extends ECampApiTestCase {
     public function testPatchScheduleEntryWorksCorrectlyDuringClockChanges() {
         date_default_timezone_set('Europe/Zurich'); // clock changes to daylight saving on 2023-03-26 at 2am
 
-        $scheduleEntry = static::$fixtures['scheduleEntry1'];
+        $scheduleEntry = static::$fixtures['scheduleEntry1period1camp2'];
         static::createClientWithCredentials()->request('PATCH', '/schedule_entries/'.$scheduleEntry->getId(), ['json' => [
-            'period' => $this->getIriFor('period2'),
             'start' => '2023-03-25T22:00:00+00:00',
             'end' => '2023-03-26T09:00:00+00:00',
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
