@@ -15,14 +15,6 @@ final class Version202201230531 extends AbstractMigration {
     }
 
     public function up(Schema $schema): void {
-        $this->addSql(createTruncateDatabaseCommand());
-
-        $statements = getStatementsForMigrationFile(__FILE__);
-        foreach ($statements as $statement) {
-            if (trim($statement)) {
-                $this->addSql($statement);
-            }
-        }
     }
 
     public function down(Schema $schema): void {

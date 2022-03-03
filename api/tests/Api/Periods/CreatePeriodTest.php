@@ -212,6 +212,20 @@ class CreatePeriodTest extends ECampApiTestCase {
         ]);
     }
 
+    public function testCreatePeriodCreatesDays() {
+        $response = static::createClientWithCredentials()->request('POST', '/periods', ['json' => $this->getExampleWritePayload([
+            'start' => '2021-03-01',
+            'end' => '2021-03-04',
+        ])]);
+
+        $this->assertResponseStatusCodeSame(201);
+
+        /** @var Period $period */
+        $period = $this->getEntityManager()->getRepository(Period::class)->find($response->toArray()['id']);
+
+        $this->assertCount(4, $period->days);
+    }
+
     public function getExampleWritePayload($attributes = [], $except = []) {
         return $this->getExamplePayload(
             Period::class,

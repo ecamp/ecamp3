@@ -12,7 +12,7 @@
               item-text="name"
               vee-rules="required">
       <template #item="{item, on, attrs}">
-        <v-list-item :key="item.id" v-bind="attrs" v-on="on">
+        <v-list-item :key="item._meta.self" v-bind="attrs" v-on="on">
           <v-list-item-avatar>
             <v-chip :color="item.color">{{ item.short }}</v-chip>
           </v-list-item-avatar>
@@ -39,7 +39,7 @@
       v-if="activity.scheduleEntries"
       :schedule-entries="activity.scheduleEntries"
       :period="period"
-      :periods="camp().periods().items" />
+      :periods="camp.periods().items" />
   </div>
 </template>
 
@@ -52,10 +52,6 @@ export default {
   props: {
     activity: {
       type: Object,
-      required: true
-    },
-    camp: {
-      type: Function,
       required: true
     },
 
@@ -72,7 +68,10 @@ export default {
   },
   computed: {
     categories () {
-      return this.camp().categories()
+      return this.camp.categories()
+    },
+    camp () {
+      return this.period().camp()
     }
   }
 }

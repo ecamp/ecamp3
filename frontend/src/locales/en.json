@@ -386,7 +386,8 @@
         "team": "Team"
       },
       "print": {
-        "title": "Print preview"
+        "title": "Print preview",
+        "previewIframeTitle": "Print preview"
       },
       "sideBarPeriods": {
         "title": "Periods"

@@ -6,6 +6,7 @@ Show all activity schedule entries of a single period.
   <content-card :title="$tc('views.camp.picasso.title')" toolbar>
     <template #title-actions>
       <period-switcher v-if="$vuetify.breakpoint.xsOnly" :period="period" />
+
       <v-tooltip :disabled="isContributor" bottom>
         <template #activator="{ on, attrs }">
           <div
@@ -19,6 +20,17 @@ Show all activity schedule entries of a single period.
         </template>
         <span>{{ $tc('views.camp.picasso.guestsCannotEdit') }}</span>
       </v-tooltip>
+
+      <v-btn
+        class="ml-5"
+        color="primary"
+        :loading="isPrinting"
+        outlined
+        @click="print">
+        <v-icon>mdi-printer</v-icon>
+      </v-btn>
+
+      <local-pdf-download-button :config="printConfig" />
     </template>
     <schedule-entries :period="period" :show-button="isContributor">
       <template #default="slotProps">
@@ -46,10 +58,16 @@ import ContentCard from '@/components/layout/ContentCard.vue'
 import Picasso from '@/components/camp/picasso/Picasso.vue'
 import ScheduleEntries from '@/components/scheduleEntry/ScheduleEntries.vue'
 import PeriodSwitcher from '@/components/camp/PeriodSwitcher.vue'
+import LocalPdfDownloadButton from '../../components/print/LocalPdfDownloadButton.vue'
+
+import axios from 'axios'
+
+const PRINT_SERVER = window.environment.PRINT_SERVER
 
 export default {
   name: 'CampProgram',
   components: {
+    LocalPdfDownloadButton,
     PeriodSwitcher,
     ContentCard,
     Picasso,
@@ -61,12 +79,62 @@ export default {
   },
   data () {
     return {
-      editMode: false
+      editMode: false,
+      isPrinting: false,
+      printConfig: {
+        showFrontpage: false,
+        showToc: false,
+        showPicasso: true,
+        showDailySummary: false,
+        showStoryline: false,
+        showActivities: false,
+        camp: this.period().camp.bind(this)
+      }
     }
   },
   computed: {
     camp () {
       return this.period().camp()
+    }
+  },
+  methods: {
+    async print () {
+      console.log('Printing now')
+
+      const title = 'PrintedByBrowserless.pdf'
+
+      this.isPrinting = true
+
+      // this strips hostname from the self-link
+      // TODO: can be removed after implementation of https://github.com/ecamp/hal-json-vuex/issues/245
+      const periodURI = (new URL(this.period()._meta.self)).pathname
+
+      try {
+        const response = await axios({
+          method: 'get',
+          url: `${PRINT_SERVER}/server/pdf?period=${periodURI}`,
+          responseType: 'arraybuffer',
+          withCredentials: true,
+          headers: {
+            'Cache-Control': 'no-cache',
+            Pragma: 'no-cache',
+            Expires: '0'
+          }
+        })
+        this.forceFileDownload(response, title)
+      } catch (error) {
+        console.log(error)
+      } finally {
+        this.isPrinting = false
+      }
+    },
+    forceFileDownload (response, title) {
+      const url = window.URL.createObjectURL(new Blob([response.data]))
+      const link = document.createElement('a')
+      link.href = url
+      link.setAttribute('download', title)
+      document.body.appendChild(link)
+      link.click()
     }
   }
 }

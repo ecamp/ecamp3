@@ -23,18 +23,24 @@ App\Entity\ContentNode\StoryboardSection:
   storyboardSection1:
     storyboard: '@storyboard1'
     column1: <word()>
-    column2: <word()>
+    column2: <sentence()>
+    column3: <word()>
+    position: 1
+  storyboardSection2:
+    storyboard: '@storyboard1'
+    column1: <word()>
+    column2: <sentence()>
     column3: <word()>
     position: 0
-  storyboardSection2:
+  storyboardSection3:
     storyboard: '@storyboard2'
     column1: <word()>
-    column2: <word()>
+    column2: <sentence()>
     column3: <word()>
     position: 0
   storyboardSectionCampUnrelated:
     storyboard: '@storyboardCampUnrelated'
     column1: <word()>
-    column2: <word()>
+    column2: <sentence()>
     column3: <word()>
     position: 0

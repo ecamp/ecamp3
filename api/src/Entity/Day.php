@@ -31,17 +31,39 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
  */
 #[ApiResource(
     collectionOperations: [
-        'get' => ['security' => 'is_authenticated()'],
+        'get' => [
+            'normalization_context' => self::COLLECTION_NORMALIZATION_CONTEXT,
+            'security' => 'is_authenticated()',
+        ],
     ],
     itemOperations: [
-        'get' => ['security' => 'is_granted("CAMP_COLLABORATOR", object) or is_granted("CAMP_IS_PROTOTYPE", object)'],
+        'get' => [
+            'normalization_context' => self::ITEM_NORMALIZATION_CONTEXT,
+            'security' => 'is_granted("CAMP_COLLABORATOR", object) or is_granted("CAMP_IS_PROTOTYPE", object)',
+        ],
     ],
     denormalizationContext: ['groups' => ['write']],
     normalizationContext: ['groups' => ['read']],
+    order: ['period.start', 'dayOffset']
 )]
 #[ApiFilter(SearchFilter::class, properties: ['period'])]
 #[UniqueEntity(fields: ['period', 'dayOffset'])]
 class Day extends BaseEntity implements BelongsToCampInterface {
+    public const ITEM_NORMALIZATION_CONTEXT = [
+        'groups' => [
+            'read',
+            'Day:DayResponsibles',
+        ],
+        'swagger_definition_name' => 'read',
+    ];
+
+    public const COLLECTION_NORMALIZATION_CONTEXT = [
+        'groups' => [
+            'read',
+            'Day:DayResponsibles',
+        ],
+    ];
+
     /**
      * The list of people who have a whole-day responsibility on this day.
      *
@@ -143,6 +165,20 @@ class Day extends BaseEntity implements BelongsToCampInterface {
         } catch (Exception $e) {
             return null;
         }
+    }
+
+    /**
+     * DayResponsible.
+     */
+
+    /**
+     * @return DayResponsible[]
+     */
+    #[ApiProperty(readableLink: true)]
+    #[SerializedName('dayResponsibles')]
+    #[Groups(['Day:DayResponsibles'])]
+    public function getEmbeddedDayResponsibles(): array {
+        return $this->getDayResponsibles();
     }
 
     /**

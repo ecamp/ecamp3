@@ -39,6 +39,10 @@ class CampDataPersister extends AbstractDataPersister {
             $data->copyFromPrototype($data->campPrototype, $entityMap);
         }
 
+        foreach ($data->periods as $period) {
+            PeriodDataPersister::updateDaysAndScheduleEntries($period);
+        }
+
         return $data;
     }
 

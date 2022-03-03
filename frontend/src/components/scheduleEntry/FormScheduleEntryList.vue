@@ -15,13 +15,13 @@
         </v-col>
       </v-row>
       <transition-group name="transition-list" tag="div" class="row no-gutters">
-        <form-schedule-entry-item v-for="(scheduleEntry, index) in scheduleEntries"
+        <form-schedule-entry-item v-for="scheduleEntry in scheduleEntriesWithoutDeleted"
                                   :key="scheduleEntry.key"
                                   class="transition-list-item pa-0 mb-4"
                                   :schedule-entry="scheduleEntry"
                                   :periods="periods"
                                   :is-last-item="scheduleEntries.length === 1"
-                                  @delete="deleteEntry(index)" />
+                                  @delete="deleteEntry(scheduleEntry)" />
       </transition-group>
       <v-row>
         <v-col cols="12" class="text-center" />
@@ -60,17 +60,23 @@ export default {
       localScheduleEntries: this.scheduleEntries
     }
   },
+  computed: {
+    scheduleEntriesWithoutDeleted () {
+      return this.scheduleEntries.filter(entry => !entry.deleted)
+    }
+  },
   methods: {
     addScheduleEntry () {
       this.localScheduleEntries.push({
         period: () => (this.period)(),
         periodOffset: 420, // 7am
         length: 60, // 1 hours
-        key: uniqueId()
+        key: uniqueId(),
+        deleted: false
       })
     },
-    deleteEntry (index) {
-      this.localScheduleEntries.splice(index, 1)
+    deleteEntry (scheduleEntry) {
+      this.$set(scheduleEntry, 'deleted', true)
     }
   }
 }

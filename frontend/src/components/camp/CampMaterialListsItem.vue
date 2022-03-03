@@ -1,5 +1,5 @@
 <template>
-  <v-list-item>
+  <v-list-item v-if="!materialList._meta.loading">
     <v-list-item-content class="pt-0 pb-2">
       <v-list-item-title>{{ materialList.name }}</v-list-item-title>
     </v-list-item-content>

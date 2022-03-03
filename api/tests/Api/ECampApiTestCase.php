@@ -246,7 +246,6 @@ abstract class ECampApiTestCase extends ApiTestCase {
             'totalItems' => count($items),
         ]);
 
-        // TODO: remove if once PR #2062 is merged
         if (!empty($items)) {
             $this->assertJsonContains([
                 '_links' => [
@@ -261,6 +260,12 @@ abstract class ECampApiTestCase extends ApiTestCase {
                 array_map(fn ($iri): array => ['href' => $iri], $items),
                 $response->toArray()['_links']['items']
             );
+        } else {
+            $this->assertJsonContains([
+                '_embedded' => [
+                    'items' => [],
+                ],
+            ]);
         }
     }
 }

@@ -1,7 +1,7 @@
 <template>
   <span>
     <span v-for="(scheduleEntry, index) in items"
-          :key="scheduleEntry.id">
+          :key="scheduleEntry._meta.self">
       <router-link
         :to="scheduleEntryRoute(scheduleEntry)"
         small

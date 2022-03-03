@@ -23,7 +23,7 @@ Displays all periods of a single camp and allows to edit them & create new ones
     <v-list>
       <period-item
         v-for="period in periods.items"
-        :key="period.id"
+        :key="period._meta.self"
         class="px-0"
         :period="period"
         :disabled="disabled" />

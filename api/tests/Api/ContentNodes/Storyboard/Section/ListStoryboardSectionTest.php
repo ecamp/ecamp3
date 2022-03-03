@@ -20,11 +20,21 @@ class ListStoryboardSectionTest extends ECampApiTestCase {
         $this->entitiesCamp1 = [
             $this->getIriFor('storyboardSection1'),
             $this->getIriFor('storyboardSection2'),
+            $this->getIriFor('storyboardSection3'),
         ];
 
         $this->entitiesCampUnrelated = [
             $this->getIriFor('storyboardSectionCampUnrelated'),
         ];
+    }
+
+    public function testListStoryboardSectionsOrdersByPosition() {
+        $client = static::createClientWithCredentials();
+        $response = $client->request('GET', '/content_node/storyboard_sections?storyboard='.$this->getIriFor('storyboard1'));
+        $this->assertEquals([
+            ['href' => $this->getIriFor('storyboardSection2')],
+            ['href' => $this->getIriFor('storyboardSection1')],
+        ], $response->toArray()['_links']['items']);
     }
 
     public function testListSectionsFilteredByStoryboard() {
@@ -33,7 +43,10 @@ class ListStoryboardSectionTest extends ECampApiTestCase {
 
         // then
         $this->assertResponseStatusCodeSame(200);
-        $this->assertJsonContainsItems($response, [$this->getIriFor('storyboardSection1')]);
+        $this->assertJsonContainsItems($response, [
+            $this->getIriFor('storyboardSection1'),
+            $this->getIriFor('storyboardSection2'),
+        ]);
     }
 
     /**

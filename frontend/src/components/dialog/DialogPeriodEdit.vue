@@ -103,6 +103,11 @@ export default {
       if (showDialog) {
         this.loadEntityData(this.period._meta.self)
       }
+    },
+    loading: function (isLoading) {
+      if (!isLoading) {
+        this.entityData.moveScheduleEntries = true
+      }
     }
   }
 }
