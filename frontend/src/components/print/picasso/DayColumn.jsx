@@ -2,15 +2,21 @@
 import React from 'react'
 import pdf from '@react-pdf/renderer'
 import ScheduleEntry from './ScheduleEntry.jsx'
+import dayjs from '../../../../../common/helpers/dayjs.js'
 
 const { View } = pdf
+
+// converts ISO String format (UTC timezone) into a unix/seconds timestamp (UTC timezone)
+function stringToTimestamp (string) {
+  return dayjs.utc(string).unix()
+}
 
 function getWeightsSum (times) {
   return times.reduce((sum, [_, weight]) => sum + weight, 0)
 }
 
-function percentage (minutes, times) {
-  const hours = minutes / 60.0
+function percentage (seconds, times) {
+  const hours = seconds / 3600.0
   let matchingTimeIndex = times.findIndex(([time, _]) => time >= hours)
   matchingTimeIndex = Math.min(matchingTimeIndex < 0 ? times.length : matchingTimeIndex, times.length - 1)
   const remainder = hours - times[matchingTimeIndex][0]
@@ -26,8 +32,11 @@ function percentage (minutes, times) {
 function dayBoundariesInMinutes (day, times) {
   const [dayStart] = times[0]
   const [dayEnd] = times[times.length - 1]
-  const dayStartMinutes = (day.dayOffset * 24 + dayStart) * 60
-  const dayEndMinutes = (day.dayOffset * 24 + dayEnd) * 60
+
+  const dayStartTimestamp = stringToTimestamp(day.start)
+
+  const dayStartMinutes = dayStartTimestamp + dayStart * 3600
+  const dayEndMinutes = dayStartTimestamp + dayEnd * 3600
 
   return [dayStartMinutes, dayEndMinutes]
 }
@@ -36,18 +45,18 @@ function filterScheduleEntriesByDay (scheduleEntries, day, times) {
   const [dayStart, dayEnd] = dayBoundariesInMinutes(day, times)
 
   return scheduleEntries.filter(scheduleEntry => {
-    return (scheduleEntry.periodOffset < dayEnd) &&
-      ((scheduleEntry.periodOffset + scheduleEntry.length) > dayStart)
+    return (stringToTimestamp(scheduleEntry.start) < dayEnd) &&
+      (stringToTimestamp(scheduleEntry.end) > dayStart)
   })
 }
 
 function scheduleEntryBorderRadiusStyles (scheduleEntry, day, times) {
   const [dayStart, dayEnd] = dayBoundariesInMinutes(day, times)
 
-  const start = scheduleEntry.periodOffset
+  const start = stringToTimestamp(scheduleEntry.start)
   const startsOnThisDay = start >= dayStart && start <= dayEnd
 
-  const end = scheduleEntry.periodOffset + scheduleEntry.length
+  const end = stringToTimestamp(scheduleEntry.end)
   const endsOnThisDay = end >= dayStart && end <= dayEnd
 
   return {
@@ -58,8 +67,8 @@ function scheduleEntryBorderRadiusStyles (scheduleEntry, day, times) {
 
 function scheduleEntryPositionStyles (scheduleEntry, day, times) {
   return {
-    top: percentage(scheduleEntry.periodOffset - (day.dayOffset * 24 * 60), times) + '%',
-    bottom: (100 - percentage(scheduleEntry.periodOffset + scheduleEntry.length - (day.dayOffset * 24 * 60), times)) + '%'
+    top: percentage(stringToTimestamp(scheduleEntry.start) - stringToTimestamp(day.start), times) + '%',
+    bottom: (100 - percentage(stringToTimestamp(scheduleEntry.end) - stringToTimestamp(day.start), times)) + '%'
   }
 }
 
