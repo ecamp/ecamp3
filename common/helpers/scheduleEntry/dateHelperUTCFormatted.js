@@ -1,21 +1,21 @@
 import dayjs from '../dayjs.js'
 import i18n from '@/plugins/i18n'
 
-function dateShort(dateTimeString){
+function dateShort (dateTimeString) {
   return dayjs.utc(dateTimeString).format(i18n.tc('global.datetime.dateShort'))
 }
 
-function dateLong(dateTimeString){
+function dateLong (dateTimeString) {
   return dayjs.utc(dateTimeString).format(i18n.tc('global.datetime.dateLong'))
 }
 
-function hourShort(dateTimeString){
+function hourShort (dateTimeString) {
   return dayjs.utc(dateTimeString).format(i18n.tc('global.datetime.hourShort'))
 }
 
 // short format of dateTime range
 // doesn't repeat end date if on the same day
-function rangeShort(start, end){
+function rangeShort (start, end) {
   let result = ''
 
   result += dateShort(start)
@@ -24,7 +24,7 @@ function rangeShort(start, end){
 
   result += ' - '
 
-  if( dateShort(start) !== dateShort(end) ){
+  if (dateShort(start) !== dateShort(end)) {
     result += dateShort(end)
     result += ' '
   }
@@ -33,7 +33,6 @@ function rangeShort(start, end){
 
   return result
 }
-
 
 export {
   dateShort,
