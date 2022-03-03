@@ -58,7 +58,7 @@ class Hitobito extends AbstractProvider {
 
     protected function checkResponse(ResponseInterface $response, $data): void {
         if ($response->getStatusCode() >= 400) {
-            throw new IdentityProviderException($response->getReasonPhrase(), $response->getStatusCode(), $response);
+            throw new IdentityProviderException($response->getReasonPhrase(), $response->getStatusCode(), $response->getBody());
         }
     }
 

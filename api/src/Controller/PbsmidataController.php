@@ -7,7 +7,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[ApiResource]
 class PbsmidataController extends AbstractController {
     /**
      * Link to this controller to start the "connect" process.
@@ -19,7 +18,7 @@ class PbsmidataController extends AbstractController {
 
         return $clientRegistry
             ->getClient('pbsmidata') // key used in config/packages/knpu_oauth2_client.yaml
-            ->redirect()
+            ->redirect([], [])
         ;
     }
 

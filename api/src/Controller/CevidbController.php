@@ -18,7 +18,7 @@ class CevidbController extends AbstractController {
 
         return $clientRegistry
             ->getClient('cevidb') // key used in config/packages/knpu_oauth2_client.yaml
-            ->redirect()
+            ->redirect([], [])
         ;
     }
 
