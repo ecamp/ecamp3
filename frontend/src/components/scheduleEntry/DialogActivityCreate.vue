@@ -76,7 +76,6 @@ export default {
   methods: {
     cancelCreate () {
       this.close()
-      this.$emit('creationCanceled')
     },
     createActivity () {
       const payloadData = {

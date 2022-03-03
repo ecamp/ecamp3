@@ -107,7 +107,7 @@ Listing all given activity schedule entries in a calendar view.
   </div>
 </template>
 <script>
-import { toRefs, ref } from '@vue/composition-api'
+import { toRefs, ref, watch, reactive } from '@vue/composition-api'
 import useDragAndDropMove from './useDragAndDropMove.js'
 import useDragAndDropResize from './useDragAndDropResize.js'
 import useDragAndDropNew from './useDragAndDropNew.js'
@@ -177,14 +177,12 @@ export default {
 
   // emitted events
   emits: [
-    'changePlaceholder', // triggered continuously while a new entry is being dragged (parameters: startTimestamp, endTimestamp)
-
     'newEntry' // triggered once when a new entry was created via drag & drop (parameters: startTimestamp, endTimestamp)
   ],
 
   // composition API setup
   setup (props, { emit, refs }) {
-    const { editable } = toRefs(props)
+    const { editable, scheduleEntries } = toRefs(props)
 
     const isSaving = ref(false)
     const patchError = ref(null)
@@ -201,18 +199,29 @@ export default {
         isSaving.value = false
       }).catch((error) => {
         patchError.value = error
+      }).finally(() => {
+        reloadScheduleEntries()
       })
     }
 
     // callback used to create new entry
+    let placeholder = reactive({
+      startTimestamp: 0,
+      endTimestamp: 0,
+      timed: true,
+      tmpEvent: true
+    })
     const createEntry = (startTimestamp, endTimestamp, finished) => {
       const start = timestampToUtcString(startTimestamp)
       const end = timestampToUtcString(endTimestamp)
 
       if (finished) {
+        placeholder.startTimestamp = 0
+        placeholder.endTimestamp = 0
         emit('newEntry', start, end)
       } else {
-        emit('changePlaceholder', start, end)
+        placeholder.startTimestamp = startTimestamp
+        placeholder.endTimestamp = endTimestamp
       }
     }
 
@@ -243,17 +252,46 @@ export default {
       clickDetector.vCalendarListeners
     ])
 
+
+    // make events a reactive array + load event array from schedule entries
+    let events = ref([]);
+    const loadCalenderEventsFromScheduleEntries = () => {
+      // prepare scheduleEntries to make them understandable by v-calendar
+      events.value = scheduleEntries.value.map(entry => ({
+        ...entry,
+        startTimestamp: utcStringToTimestamp(entry.start),
+        endTimestamp: utcStringToTimestamp(entry.end),
+        timed: true
+      }))
+      
+      // add placeholder for drag & drop (create new entry)
+      events.value.push(placeholder)
+    }
+    loadCalenderEventsFromScheduleEntries()
+
+    // watch for changes from API
+    watch(scheduleEntries, loadCalenderEventsFromScheduleEntries)
+
+    // reloads schedule entries from API + recreates event array after reload
+    const reloadScheduleEntries = async () => {
+      console.log('reloadScheduleEntries')
+      await api.reload(props.period.scheduleEntries())
+      loadCalenderEventsFromScheduleEntries()
+    }
+   
     return {
       vCalendarListeners,
       startResize: dragAndDropResize.startResize,
       onMouseleave,
       isSaving,
-      patchError
+      patchError,
+      reloadScheduleEntries,
+      loadCalenderEventsFromScheduleEntries,
+      events
     }
   },
   data () {
     return {
-      events: [],
       maxDays: 100,
       entryWidth: 80,
       value: '',
@@ -287,20 +325,6 @@ export default {
         : 1.3 * Math.max((this.$vuetify.breakpoint.height - 204) / this.intervalCount, 32)
     }
   },
-  watch: {
-    scheduleEntries: {
-      immediate: true,
-      handler (value) {
-        // prepare scheduleEntries to make them understandable by v-calendar
-        this.events = this.scheduleEntries.map(entry => ({
-          ...entry,
-          startTimestamp: utcStringToTimestamp(entry.start),
-          endTimestamp: utcStringToTimestamp(entry.end),
-          timed: true
-        }))
-      }
-    }
-  },
   mounted () {
     this.period.camp().activities()._meta.load.then(() => { this.activitiesLoading = false })
     this.period.camp().categories()._meta.load.then(() => { this.categoriesLoading = false })
@@ -315,13 +339,19 @@ export default {
       this.entryWidth = Math.max((this.$refs.calendar.$el.offsetWidth - widthIntervals) / this.$refs.calendar.days.length, 80)
     },
     getActivityName (scheduleEntry, _) {
+      if( scheduleEntry.tmpEvent ) return this.$tc('entity.activity.new')
+  
       if (this.isActivityLoading(scheduleEntry)) return this.$tc('global.loading')
+
       return (scheduleEntry.number ? scheduleEntry.number + ' ' : '') +
         (scheduleEntry.activity().category().short ? scheduleEntry.activity().category().short + ': ' : '') +
         scheduleEntry.activity().title
     },
     getActivityColor (scheduleEntry, _) {
+      if( scheduleEntry.tmpEvent ) return 'grey elevation-4 v-event--temporary'
+
       if (this.isCategoryLoading(scheduleEntry)) return 'grey lighten-1'
+
       const color = scheduleEntry.activity().category().color
       return isCssColor(color) ? color : color + ' elevation-4 v-event--temporary'
     },
@@ -344,9 +374,7 @@ export default {
     weekdayFormat () {
       return ''
     },
-    reloadScheduleEntries () {
-      this.api.reload(this.period.scheduleEntries())
-    },
+   
     scheduleEntryRoute
   }
 }
