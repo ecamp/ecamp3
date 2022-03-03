@@ -69,6 +69,7 @@ class Period extends BaseEntity implements BelongsToCampInterface {
      * All time slots for programme that are part of this time period. A schedule entry
      * may span over multiple days, but may not end later than the period.
      *
+     * @var Collection<int, ScheduleEntry>
      * @ORM\OneToMany(targetEntity="ScheduleEntry", mappedBy="period")
      * @ORM\OrderBy({"startOffset": "ASC", "left": "ASC", "endOffset": "DESC", "id": "ASC"})
      */

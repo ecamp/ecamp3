@@ -23,7 +23,7 @@ Displays all periods of a single camp and allows to edit them & create new ones
     <v-list>
       <v-list-item
         v-for="category in categories.items"
-        :key="category.id"
+        :key="category._meta.self"
         class="px-0">
         <v-list-item-content class="pt-0 pb-2">
           <v-list-item-title>
@@ -72,10 +72,10 @@ Displays all periods of a single camp and allows to edit them & create new ones
                   <template v-if="findActivities(category).length > 0" #error>
                     {{ $tc('components.camp.CampCategories.deleteCategoryNotPossibleInUse') }}
                     <ul>
-                      <li v-for="activity in findActivities(category)" :key="activity.id">
+                      <li v-for="activity in findActivities(category)" :key="activity._meta.self">
                         {{ activity.title }}
                         <ul>
-                          <li v-for="scheduleEntry in activity.scheduleEntries().items" :key="scheduleEntry.id">
+                          <li v-for="scheduleEntry in activity.scheduleEntries().items" :key="scheduleEntry._meta.self">
                             <router-link :to="{ name: 'activity', params: { campId: camp().id, scheduleEntryId: scheduleEntry.id } }">
                               {{ rangeShort(scheduleEntry.start, scheduleEntry.end) }}
                             </router-link>

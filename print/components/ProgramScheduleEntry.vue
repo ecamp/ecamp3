@@ -3,7 +3,7 @@
     <v-col cols="12">
       <error v-if="$fetchState.error">{{ $fetchState.error.message }}</error>
       <div v-else-if="!$fetchState.pending" class="event">
-        <h2 :id="'activity_' + activity.id">
+        <h2 :id="'scheduleEntry_' + scheduleEntry.id">
           {{ scheduleEntry.number }}
           <v-chip dark :color="category.color">{{ category.short }}</v-chip>
           {{ activity.title }}
@@ -105,7 +105,7 @@ export default {
     this.category = await this.activity.category()._meta.load
 
     /** TODO: something is not yet working here with loading scheduleEntries() from hal-json-vuex. Needs some further debugging */
-    await this.activity.scheduleEntries()._meta.load
+    // await this.activity.scheduleEntries()._meta.load
   },
   computed: {
     scheduleEntries() {

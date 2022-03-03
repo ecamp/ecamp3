@@ -24,6 +24,7 @@ export default new Router({
         default: () => import(/* webpackChunkName: "register" */ './views/dev/Controls.vue')
       }
     },
+
     // Prod-Pages:
     {
       path: '/register',

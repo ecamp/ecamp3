@@ -25,7 +25,7 @@ export default {
   /*
    ** Global CSS
    */
-  css: [],
+  css: ['~/assets/fonts.css'],
   /*
    ** Plugins to load before mounting the App
    ** https://nuxtjs.org/guide/plugins
@@ -60,6 +60,11 @@ export default {
     '@nuxtjs/sentry',
   ],
 
+  /*
+   ** Server Middleware
+   */
+  serverMiddleware: [{ path: '/server', handler: '~/server-middleware' }],
+
   /**
    * Router config
    * See https://nuxtjs.org/api/configuration-router/
@@ -73,35 +78,16 @@ export default {
    ** See https://axios.nuxtjs.org/options
    */
   axios: {
-    baseURL: process.env.INTERNAL_API_ROOT_URL || 'http://backend:3001/api',
+    baseURL: process.env.INTERNAL_API_ROOT_URL || 'http://caddy:3001/',
+    credentials: true,
   },
   /*
    ** Sentry module configuration
    ** See https://sentry.nuxtjs.org/sentry/options
    */
   sentry: {
-    // Use a dummy DSN so that the sentry module doesn't disable itself during build
-    dsn: 'test',
+    dsn: process.env.SENTRY_PRINT_DSN || '',
     disabled: process.env.NODE_ENV === 'development',
-  },
-
-  publicRuntimeConfig: {
-    axios: {
-      browserBaseURL: process.env.API_ROOT_URL || 'http://localhost:3001/api',
-    },
-    sentry: {
-      config: {
-        // The real DSN is only known at runtime, because we build a container
-        // that can be configured via environment variables at runtime.
-        dsn: process.env.SENTRY_PRINT_DSN || '',
-      },
-    },
-  },
-
-  privateRuntimeConfig: {
-    axios: {
-      baseURL: process.env.INTERNAL_API_ROOT_URL || 'http://backend:3001/api',
-    },
   },
 
   /*
@@ -110,10 +96,11 @@ export default {
    */
   vuetify: {
     customVariables: ['~/assets/variables.scss'],
-    treeShake: true,
+    treeShake: false /** tree shaking somehow doesn't work well with injectScript=false */,
     theme: {
       dark: false,
     },
+    defaultAssets: false,
   },
   /*
    ** Build configuration
@@ -134,9 +121,9 @@ export default {
    */
   render: {
     // in production: FALSE: deactivates injecting any Javascript on client side ==> pure HTML/CSS output only (except explicit head-scripts)
-    // in development: TRUE: enable javasript injection in dev mode to support hot reloading
-    injectScripts: process.env.NODE_ENV === 'development',
-    // injectScripts: false,
+    // in development: TRUE: enable javascript injection in dev mode to support hot reloading
+    // injectScripts: process.env.NODE_ENV === 'development',
+    injectScripts: false,
 
     csp: {
       reportOnly: false,

@@ -29,8 +29,39 @@
       "matchPackageNames": [
         "php"
       ],
-      "extractVersion": "^php-(?<version>.*)$",
       "automerge": false
+    },
+    {
+      "matchPackageNames": [
+        "eslint",
+        "lint",
+        "stylelint",
+        "prettier"
+      ],
+      "groupName": "js-linter"
+    },
+    {
+      "matchPackageNames": [
+        "phpstan/phpstan",
+        "friendsofphp/php-cs-fixer",
+        "vimeo/psalm"
+      ],
+      "groupName": "php-linter"
+    },
+    {
+      "matchPackageNames": [
+        "caddy",
+        "krakjoe/apcu",
+        "mailhog/mailhog",
+        "phpmyadmin/phpmyadmin",
+        "postgres",
+        "python",
+        "qoomon/docker-host"
+      ],
+      "groupName": "docker-images",
+      "extends": [
+        "schedule:weekly"
+      ]
     }
   ],
   "ignorePaths": [
@@ -76,7 +107,8 @@
       "depNameTemplate": "php",
       "lookupNameTemplate": "php/php-src",
       "datasourceTemplate": "github-tags",
-      "versioningTemplate": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)(?<prerelease>\\w+)?$"
+      "versioningTemplate": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)(?<prerelease>\\w+)?$",
+      "extractVersionTemplate": "^php-(?<version>.*)$"
     },
     {
       "fileMatch": [
