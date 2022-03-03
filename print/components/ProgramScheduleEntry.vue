@@ -28,38 +28,7 @@
             >
               <v-col cols="2"> ({{ scheduleEntryItem.number }}) </v-col>
               <v-col cols="10">
-                {{
-                  $date
-                    .utc(scheduleEntryItem.startTime)
-                    .format($tc('global.datetime.dateShort'))
-                }}
-                <b>
-                  {{
-                    $date
-                      .utc(scheduleEntryItem.startTime)
-                      .format($tc('global.datetime.hourShort'))
-                  }}
-                </b>
-                -
-                {{
-                  $date
-                    .utc(scheduleEntryItem.startTime)
-                    .format($tc('global.datetime.dateShort')) ==
-                  $date
-                    .utc(scheduleEntryItem.endTime)
-                    .format($tc('global.datetime.dateShort'))
-                    ? ''
-                    : $date
-                        .utc(scheduleEntryItem.endTime)
-                        .format($tc('global.datetime.dateShort'))
-                }}
-                <b>
-                  {{
-                    $date
-                      .utc(scheduleEntryItem.endTime)
-                      .format($tc('global.datetime.hourShort'))
-                  }}
-                </b>
+                {{ rangeShort(scheduleEntryItem.start, scheduleEntryItem.end) }}
               </v-col>
             </v-row>
           </v-col>
@@ -88,7 +57,7 @@
 </template>
 
 <script>
-import { defineHelpers } from '@/../common/helpers/scheduleEntry/dateHelperUTC.js'
+import { rangeShort } from '@/../common/helpers/dateHelperUTCFormatted.js'
 
 export default {
   props: {
@@ -109,10 +78,11 @@ export default {
   },
   computed: {
     scheduleEntries() {
-      return this.activity
-        .scheduleEntries()
-        .items.map((entry) => defineHelpers(entry))
+      return this.activity.scheduleEntries().items
     },
+  },
+  methods: {
+    rangeShort,
   },
 }
 </script>

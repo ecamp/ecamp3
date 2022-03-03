@@ -116,20 +116,10 @@ import { isCssColor } from 'vuetify/lib/util/colorUtils'
 import { apiStore as api } from '@/plugins/store'
 import { scheduleEntryRoute } from '@/router.js'
 import mergeListeners from '@/helpers/mergeListeners.js'
-import dayjs from '@/common/helpers/dayjs.js'
+import { timestampToUtcString, utcStringToTimestamp } from '@/common/helpers/dateHelperVCalendar.js'
 
 import DialogActivityEdit from '@/components/scheduleEntry/DialogActivityEdit.vue'
 import DayResponsibles from './DayResponsibles.vue'
-
-// converts a timestamp (local timezone) into ISO String format (UTC timezone)
-function timestampToUtcString (timestamp) {
-  return dayjs.utc(dayjs(timestamp).format('YYYY-MM-DD HH:mm')).format()
-}
-
-// converts ISO String format (UTC timezone) into a timestamp (local timezone)
-function utcStringToTimestamp (string) {
-  return dayjs(dayjs.utc(string).format('YYYY-MM-DD HH:mm')).valueOf()
-}
 
 export default {
   name: 'Picasso',

@@ -88,7 +88,7 @@ Admin screen of a camp: Displays details & periods of a single camp and allows t
 import { campRoute, scheduleEntryRoute } from '@/router.js'
 import ContentCard from '@/components/layout/ContentCard.vue'
 import UserAvatar from '../../components/user/UserAvatar.vue'
-import { dateShort, dateLong, hourShort } from '@/common/helpers/scheduleEntry/dateHelperUTCFormatted.js'
+import { dateShort, dateLong, hourShort } from '@/common/helpers/dateHelperUTCFormatted.js'
 
 export default {
   name: 'Dashboard',

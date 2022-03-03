@@ -99,3 +99,5 @@ Object.defineProperty(i18n, 'browserPreferredLocale', {
 })
 
 export default i18n
+
+export { i18n }

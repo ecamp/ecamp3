@@ -9,8 +9,8 @@
             ref="calendar"
             :value="today"
             :events="events"
-            event-start="startTime"
-            event-end="endTime"
+            event-start="startTimestamp"
+            event-end="endTimestamp"
             :event-color="getActivityColor"
             :start="period.start"
             :end="period.end"
@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import { defineHelpers } from '~/../common/helpers/scheduleEntry/dateHelperLocal.js'
+import { utcStringToTimestamp } from '~/../common/helpers/dateHelperVCalendar.js'
 
 export default {
   props: {
@@ -113,9 +113,12 @@ export default {
       this.camp.materialLists().$loadItems(),
     ]) */
 
-    this.events = scheduleEntries.items.map((entry) =>
-      defineHelpers(entry, true)
-    )
+    this.events = scheduleEntries.items.map((entry) => ({
+      ...entry,
+      startTimestamp: utcStringToTimestamp(entry.start),
+      endTimestamp: utcStringToTimestamp(entry.end),
+      timed: true,
+    }))
   },
   methods: {
     getActivityColor(scheduleEntry) {

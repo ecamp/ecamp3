@@ -153,7 +153,7 @@ import ContentCard from '@/components/layout/ContentCard.vue'
 import ApiTextField from '@/components/form/api/ApiTextField.vue'
 import RootNode from '@/components/activity/RootNode.vue'
 import ActivityResponsibles from '@/components/activity/ActivityResponsibles.vue'
-import { rangeShort } from '@/common/helpers/scheduleEntry/dateHelperUTCFormatted.js'
+import { rangeShort } from '@/common/helpers/dateHelperUTCFormatted.js'
 import { campRoleMixin } from '@/mixins/campRoleMixin'
 
 export default {

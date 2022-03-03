@@ -103,7 +103,7 @@ import ContentGroup from '@/components/layout/ContentGroup.vue'
 import DialogCategoryEdit from '@/components/dialog/DialogCategoryEdit.vue'
 import DialogCategoryCreate from '@/components/dialog/DialogCategoryCreate.vue'
 import DialogEntityDelete from '@/components/dialog/DialogEntityDelete.vue'
-import { rangeShort } from '@/common/helpers/scheduleEntry/dateHelperUTCFormatted.js'
+import { rangeShort } from '@/common/helpers/dateHelperUTCFormatted.js'
 
 export default {
   name: 'CampCategories',
