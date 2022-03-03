@@ -101,6 +101,12 @@ export default {
 
       // change period in object
       this.localScheduleEntry.period = () => period
+    },
+
+    // watch start and automatically shift end if start changes (=keep duration)
+    'localScheduleEntry.start': function( newValue, oldValue){
+      const delta = dayjs.utc(newValue).diff(dayjs.utc(oldValue))
+      this.localScheduleEntry.end = dayjs.utc(this.localScheduleEntry.end).add(delta).format()
     }
 
   },
