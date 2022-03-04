@@ -53,6 +53,7 @@ import { sortBy } from 'lodash'
 import ApiForm from '@/components/form/api/ApiForm.vue'
 import ApiTextarea from '@/components/form/api/ApiTextarea.vue'
 import TiptapEditor from '@/components/form/tiptap/TiptapEditor.vue'
+import { dateLong } from '@/common/helpers/dateHelperUTCFormatted.js'
 
 export default {
   name: 'StoryDay',
@@ -81,6 +82,9 @@ export default {
   },
   mounted () {
     this.day.scheduleEntries().items.forEach(entry => this.api.reload(entry.activity().contentNodes()))
+  },
+  methods: {
+    dateLong
   }
 }
 </script>

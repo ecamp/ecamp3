@@ -273,7 +273,6 @@ export default {
 
     // reloads schedule entries from API + recreates event array after reload
     const reloadScheduleEntries = async () => {
-      console.log('reloadScheduleEntries')
       await api.reload(props.period.scheduleEntries())
       loadCalenderEventsFromScheduleEntries()
     }
