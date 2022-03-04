@@ -47,7 +47,7 @@ export default {
       newScheduleEntry: {
         period: () => (this.period)(),
         start: null,
-        end: null,
+        end: null
       }
     }
   },
@@ -55,7 +55,7 @@ export default {
     scheduleEntries () {
       // TODO for SideBar, add filtering for the current day when backend supports it
       return this.period().scheduleEntries()
-    },
+    }
   },
   mounted () {
     this.period().scheduleEntries().$reload()

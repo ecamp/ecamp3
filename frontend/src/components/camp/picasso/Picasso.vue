@@ -205,7 +205,7 @@ export default {
     }
 
     // callback used to create new entry
-    let placeholder = reactive({
+    const placeholder = reactive({
       startTimestamp: 0,
       endTimestamp: 0,
       timed: true,
@@ -252,9 +252,8 @@ export default {
       clickDetector.vCalendarListeners
     ])
 
-
     // make events a reactive array + load event array from schedule entries
-    let events = ref([]);
+    const events = ref([])
     const loadCalenderEventsFromScheduleEntries = () => {
       // prepare scheduleEntries to make them understandable by v-calendar
       events.value = scheduleEntries.value.map(entry => ({
@@ -263,7 +262,7 @@ export default {
         endTimestamp: utcStringToTimestamp(entry.end),
         timed: true
       }))
-      
+
       // add placeholder for drag & drop (create new entry)
       events.value.push(placeholder)
     }
@@ -278,7 +277,7 @@ export default {
       await api.reload(props.period.scheduleEntries())
       loadCalenderEventsFromScheduleEntries()
     }
-   
+
     return {
       vCalendarListeners,
       startResize: dragAndDropResize.startResize,
@@ -339,8 +338,8 @@ export default {
       this.entryWidth = Math.max((this.$refs.calendar.$el.offsetWidth - widthIntervals) / this.$refs.calendar.days.length, 80)
     },
     getActivityName (scheduleEntry, _) {
-      if( scheduleEntry.tmpEvent ) return this.$tc('entity.activity.new')
-  
+      if (scheduleEntry.tmpEvent) return this.$tc('entity.activity.new')
+
       if (this.isActivityLoading(scheduleEntry)) return this.$tc('global.loading')
 
       return (scheduleEntry.number ? scheduleEntry.number + ' ' : '') +
@@ -348,7 +347,7 @@ export default {
         scheduleEntry.activity().title
     },
     getActivityColor (scheduleEntry, _) {
-      if( scheduleEntry.tmpEvent ) return 'grey elevation-4 v-event--temporary'
+      if (scheduleEntry.tmpEvent) return 'grey elevation-4 v-event--temporary'
 
       if (this.isCategoryLoading(scheduleEntry)) return 'grey lighten-1'
 
@@ -374,7 +373,7 @@ export default {
     weekdayFormat () {
       return ''
     },
-   
+
     scheduleEntryRoute
   }
 }

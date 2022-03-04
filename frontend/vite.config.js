@@ -47,14 +47,7 @@ export default defineConfig(({ mode }) => ({
       {
         find: 'dayjs',
         replacement: path.resolve(__dirname, 'node_modules', 'dayjs')
-      },
-
-      // find plugins from commons
-      {
-        find: '~',
-        replacement: path.resolve(__dirname, 'src')
-      },
-      
+      }
     ],
     preserveSymlinks: true
   },

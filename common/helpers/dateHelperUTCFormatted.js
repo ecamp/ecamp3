@@ -1,5 +1,5 @@
 import dayjs from './dayjs.js'
-import { i18n } from '~/plugins/i18n' // this imports i18-plugin from "frontend" or from "print", depending on where the helper is used
+import { i18n } from '@/plugins/i18n' // this imports i18-plugin from "frontend" or from "print", depending on where the helper is used
 
 function dateShort (dateTimeString) {
   return dayjs.utc(dateTimeString).format(i18n.tc('global.datetime.dateShort'))

@@ -12,5 +12,5 @@ function utcStringToTimestamp (string) {
 
 export {
   timestampToUtcString,
-  utcStringToTimestamp,
+  utcStringToTimestamp
 }
