@@ -15,6 +15,7 @@ use DateTimeInterface;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Collections\Selectable;
 use Doctrine\ORM\Mapping as ORM;
+use RuntimeException;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Annotation\SerializedName;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -148,9 +149,11 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
 
     #[Groups(['write'])]
     public function setStart(DateTimeInterface $start): void {
-        if (null !== $this->period?->start) {
-            $this->startOffset = DateTimeUtil::differenceInMinutes($this->period->start, $start);
+        if (null === $this->period?->start) {
+            throw new RuntimeException('Trying to call setStart of ScheduleEntry without setting period start before');
         }
+
+        $this->startOffset = DateTimeUtil::differenceInMinutes($this->period->start, $start);
     }
 
     /**
@@ -173,9 +176,11 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
 
     #[Groups(['write'])]
     public function setEnd(DateTimeInterface $end): void {
-        if (null !== $this->period?->start) {
-            $this->endOffset = DateTimeUtil::differenceInMinutes($this->period->start, $end);
+        if (null === $this->period?->start) {
+            throw new RuntimeException('Trying to call setEnd of ScheduleEntry without setting period start before');
         }
+
+        $this->endOffset = DateTimeUtil::differenceInMinutes($this->period->start, $end);
     }
 
     /**
