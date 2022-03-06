@@ -10,12 +10,12 @@ use App\Doctrine\Filter\ExpressionDateTimeFilter;
 use App\Repository\ScheduleEntryRepository;
 use App\Util\DateTimeUtil;
 use App\Validator\AssertBelongsToSameCamp;
+use App\Validator\ScheduleEntryPostGroupSequence;
 use DateTime;
 use DateTimeInterface;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Collections\Selectable;
 use Doctrine\ORM\Mapping as ORM;
-use RuntimeException;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Annotation\SerializedName;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -33,6 +33,7 @@ use Symfony\Component\Validator\Constraints as Assert;
             'denormalization_context' => ['groups' => ['write', 'create']],
             'normalization_context' => self::ITEM_NORMALIZATION_CONTEXT,
             'security_post_denormalize' => 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)',
+            'validation_groups' => ScheduleEntryPostGroupSequence::class,
         ],
     ],
     itemOperations: [
@@ -66,6 +67,7 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
      * @ORM\ManyToOne(targetEntity="Period", inversedBy="scheduleEntries")
      * @ORM\JoinColumn(nullable=false, onDelete="cascade")
      */
+    #[Assert\NotNull(groups: ['validPeriod'])] // this is validated before all others
     #[AssertBelongsToSameCamp]
     #[ApiProperty(example: '/periods/1a2b3c4d')]
     #[Groups(['read', 'write'])]
@@ -125,9 +127,33 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
     #[Groups(['read', 'write'])]
     public ?float $width = 1;
 
+    /**
+     * internal cache of 'start' and 'end' property during denormalization
+     * this is necessary in case period is denormalized after 'start' or 'end'.
+     */
+    private ?DateTimeInterface $_start = null;
+    private ?DateTimeInterface $_end = null;
+
     #[ApiProperty(readable: false)]
     public function getCamp(): ?Camp {
         return $this->activity?->getCamp();
+    }
+
+    public function getPeriod(): Period|null {
+        return $this->period;
+    }
+
+    public function setPeriod(Period $period): void {
+        $this->period = $period;
+
+        // if start has been denormalized, calculate startOffset
+        if (null !== $this->_start) {
+            $this->setStart($this->_start);
+        }
+        // if end has been denormalized, calculate endOffset
+        if (null !== $this->_end) {
+            $this->setEnd($this->_end);
+        }
     }
 
     /**
@@ -136,24 +162,24 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
     #[ApiProperty(example: '2022-01-02T00:00:00+00:00', required: true, openapiContext: ['format' => 'date-time'])]
     #[Assert\GreaterThanOrEqual(propertyPath: 'period.start')]
     #[Groups(['read'])]
-    public function getStart(): ?DateTime {
-        try {
-            $start = $this->period?->start ? DateTime::createFromInterface($this->period->start) : null;
-            $start?->modify("{$this->startOffset} minutes");
-
-            return $start;
-        } catch (\Exception $e) {
-            return null;
+    public function getStart(): ?DateTimeInterface {
+        if (null === $this->period?->start) {
+            return $this->_start;
         }
+
+        $start = DateTime::createFromInterface($this->period->start);
+        $start->modify("{$this->startOffset} minutes");
+
+        return $start;
     }
 
     #[Groups(['write'])]
     public function setStart(DateTimeInterface $start): void {
-        if (null === $this->period?->start) {
-            throw new RuntimeException('Trying to call setStart of ScheduleEntry without setting period start before');
-        }
+        $this->_start = $start;
 
-        $this->startOffset = DateTimeUtil::differenceInMinutes($this->period->start, $start);
+        if (null !== $this->period?->start) {
+            $this->startOffset = DateTimeUtil::differenceInMinutes($this->period->start, $start);
+        }
     }
 
     /**
@@ -163,24 +189,24 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
     #[Assert\GreaterThan(propertyPath: 'start')]
     #[Assert\LessThanOrEqual(propertyPath: 'period.endOfLastDay')]
     #[Groups(['read'])]
-    public function getEnd(): ?DateTime {
-        try {
-            $end = $this->period?->start ? DateTime::createFromInterface($this->period->start) : null;
-            $end?->modify("{$this->endOffset} minutes");
-
-            return $end;
-        } catch (\Exception $e) {
-            return null;
+    public function getEnd(): ?DateTimeInterface {
+        if (null === $this->period?->start) {
+            return $this->_end;
         }
+
+        $end = DateTime::createFromInterface($this->period->start);
+        $end->modify("{$this->endOffset} minutes");
+
+        return $end;
     }
 
     #[Groups(['write'])]
     public function setEnd(DateTimeInterface $end): void {
-        if (null === $this->period?->start) {
-            throw new RuntimeException('Trying to call setEnd of ScheduleEntry without setting period start before');
-        }
+        $this->_end = $end;
 
-        $this->endOffset = DateTimeUtil::differenceInMinutes($this->period->start, $end);
+        if (null !== $this->period?->start) {
+            $this->endOffset = DateTimeUtil::differenceInMinutes($this->period->start, $end);
+        }
     }
 
     /**
