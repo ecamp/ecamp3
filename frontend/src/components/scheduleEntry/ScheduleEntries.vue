@@ -1,15 +1,14 @@
 <template>
   <div>
     <slot
-      :scheduleEntries="scheduleEntries"
-      :loading="apiScheduleEntries._meta.loading"
+      :scheduleEntries="scheduleEntries.items"
+      :loading="scheduleEntries._meta.loading"
       :on="eventHandlers" />
     <dialog-activity-create
       ref="dialogActivityCreate"
       :period="period"
-      :schedule-entry="newEntryPlaceholder"
-      @activityCreated="afterCreateActivity($event)"
-      @creationCanceled="cancelNewActivity" />
+      :schedule-entry="newScheduleEntry"
+      @activityCreated="afterCreateActivity($event)" />
 
     <v-btn
       v-if="showButton"
@@ -30,7 +29,6 @@
 
 <script>
 import DialogActivityCreate from '@/components/scheduleEntry/DialogActivityCreate.vue'
-import { defineHelpers } from '@/common/helpers/scheduleEntry/dateHelperLocal.js'
 
 export default {
   name: 'ScheduleEntries',
@@ -43,42 +41,20 @@ export default {
   },
   data () {
     return {
-      scheduleEntries: [],
       eventHandlers: {
-        changePlaceholder: this.changePlaceholder,
-        newEntry: this.newEntry
+        newEntry: this.newEntryFromPicasso
       },
-      newEntryPlaceholder: defineHelpers({
-        number: null,
+      newScheduleEntry: {
         period: () => (this.period)(),
-        periodOffset: -100, // hidden from view
-        length: 60,
-        activity: () => ({
-          title: this.$tc('entity.activity.new'),
-          location: '',
-          camp: (this.period)().camp,
-          category: () => ({
-            id: null,
-            short: null,
-            color: 'grey elevation-4 v-event--temporary'
-          })
-        }),
-        tmpEvent: true
-      }, true)
+        start: null,
+        end: null
+      }
     }
   },
   computed: {
-    apiScheduleEntries () {
+    scheduleEntries () {
       // TODO for SideBar, add filtering for the current day when backend supports it
       return this.period().scheduleEntries()
-    }
-  },
-  watch: {
-    apiScheduleEntries: {
-      immediate: true,
-      handler (value) {
-        this.scheduleEntries = value.items.map(entry => defineHelpers(entry, true)).concat(this.newEntryPlaceholder)
-      }
     }
   },
   mounted () {
@@ -89,39 +65,24 @@ export default {
   },
 
   methods: {
-    resetPlaceholder () {
-      this.newEntryPlaceholder.periodOffset = -100
-      this.newEntryPlaceholder.length = 60
-    },
-
     createNewActivity () {
-      this.resetPlaceholder()
-      this.newEntryPlaceholder.periodOffset = 8 * 60
+      this.newScheduleEntry.start = this.$date.utc(this.period().start).add(8, 'hour').format()
+      this.newScheduleEntry.end = this.$date.utc(this.period().start).add(9, 'hour').format()
       this.showActivityCreateDialog()
     },
     showActivityCreateDialog () {
       this.$refs.dialogActivityCreate.showDialog = true
     },
     afterCreateActivity (data) {
-      this.resetPlaceholder()
       this.api.reload(this.period().scheduleEntries())
     },
-    cancelNewActivity () {
-      this.resetPlaceholder()
-    },
 
-    // Event Handler on.changePlaceholder: change position of the current placeholder
-    changePlaceholder (start, end) {
-      this.newEntryPlaceholder.startTime = start
-      this.newEntryPlaceholder.endTime = end
-    },
-
-    // Event Handler on.newEntry: update position of placeholder & open create dialog
-    newEntry (start, end) {
-      this.changePlaceholder(start, end)
+    // Event Handler on.newEntry: update position & open create dialog
+    newEntryFromPicasso (start, end) {
+      this.newScheduleEntry.start = start
+      this.newScheduleEntry.end = end
       this.showActivityCreateDialog()
-    },
-    defineHelpers
+    }
   }
 }
 </script>

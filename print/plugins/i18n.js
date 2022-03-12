@@ -22,31 +22,35 @@ import deCHScoutCommon from '~/../common/locales/de-CH-scout.json'
 
 Vue.use(VueI18n)
 
+const i18n = new VueI18n({
+  fallbackLocale: 'en',
+  messages: deepmerge(
+    {
+      it: itCommon,
+      'it-CH-scout': itCHScoutCommon,
+      fr: frCommon,
+      'fr-CH-scout': frCHScoutCommon,
+      en: enCommon,
+      'en-CH-scout': enCHScoutCommon,
+      de: deCommon,
+      'de-CH-scout': deCHScoutCommon,
+    },
+    {
+      it,
+      'it-CH-scout': itCHScout,
+      fr,
+      'fr-CH-scout': frCHScout,
+      en,
+      'en-CH-scout': enCHScout,
+      de,
+      'de-CH-scout': deCHScout,
+    }
+  ),
+  silentTranslationWarn: true,
+})
+
 export default ({ app, store }) => {
-  app.i18n = new VueI18n({
-    fallbackLocale: 'en',
-    messages: deepmerge(
-      {
-        it: itCommon,
-        'it-CH-scout': itCHScoutCommon,
-        fr: frCommon,
-        'fr-CH-scout': frCHScoutCommon,
-        en: enCommon,
-        'en-CH-scout': enCHScoutCommon,
-        de: deCommon,
-        'de-CH-scout': deCHScoutCommon,
-      },
-      {
-        it,
-        'it-CH-scout': itCHScout,
-        fr,
-        'fr-CH-scout': frCHScout,
-        en,
-        'en-CH-scout': enCHScout,
-        de,
-        'de-CH-scout': deCHScout,
-      }
-    ),
-    silentTranslationWarn: true,
-  })
+  app.i18n = i18n
 }
+
+export { i18n }

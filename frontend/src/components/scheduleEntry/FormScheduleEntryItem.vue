@@ -4,9 +4,9 @@
       no-gutters class="mx-2 mb-2">
       <v-col cols="5">
         <e-date-picker
-          v-model="mappedScheduleEntry.startTimeUTCFormatted"
+          v-model="localScheduleEntry.start"
           value-format="YYYY-MM-DDTHH:mm:ssZ"
-          :name="$tc('components.activity.createScheduleEntries.fields.startTime')"
+          :name="$tc('components.activity.createScheduleEntries.fields.start')"
           vee-rules="required"
           :allowed-dates="allowedStartDates"
           :filled="false"
@@ -14,8 +14,8 @@
           required />
 
         <e-time-picker
-          v-model="mappedScheduleEntry.startTimeUTCFormatted"
-          :name="$tc('components.activity.createScheduleEntries.fields.startTime')"
+          v-model="localScheduleEntry.start"
+          :name="$tc('components.activity.createScheduleEntries.fields.start')"
           vee-rules="required"
           :filled="false"
           class="float-left mt-0 ml-3 time-picker"
@@ -26,9 +26,9 @@
       </v-col>
       <v-col cols="5">
         <e-date-picker
-          v-model="mappedScheduleEntry.endTimeUTCFormatted"
+          v-model="localScheduleEntry.end"
           value-format="YYYY-MM-DDTHH:mm:ssZ"
-          :name="$tc('components.activity.createScheduleEntries.fields.endTime')"
+          :name="$tc('components.activity.createScheduleEntries.fields.end')"
           vee-rules="required"
           :allowed-dates="allowedEndDates"
           :filled="false"
@@ -36,9 +36,8 @@
           required />
 
         <e-time-picker
-          v-model="mappedScheduleEntry.endTimeUTCFormatted"
-
-          :name="$tc('components.activity.createScheduleEntries.fields.endTime')"
+          v-model="localScheduleEntry.end"
+          :name="$tc('components.activity.createScheduleEntries.fields.end')"
           vee-rules="required"
           :filled="false"
           class="float-left mt-0 ml-3 time-picker"
@@ -52,7 +51,6 @@
   </v-container>
 </template>
 <script>
-import { defineHelpers } from '@/common/helpers/scheduleEntry/dateHelperUTCFormatted.js'
 import dayjs from '@/common/helpers/dayjs.js'
 
 import ButtonDelete from '@/components/buttons/ButtonDelete.vue'
@@ -85,13 +83,10 @@ export default {
     }
   },
   computed: {
-    mappedScheduleEntry () {
-      return defineHelpers(this.localScheduleEntry)
-    },
 
     // detect selected period based on start date
     period () {
-      const startDate = dayjs.utc(this.mappedScheduleEntry.startTimeUTCFormatted)
+      const startDate = dayjs.utc(this.localScheduleEntry.start)
 
       return this.periods.find((period) => {
         return startDate.isBetween(dayjs.utc(period.start), dayjs.utc(period.end), 'date', '[]')
@@ -102,14 +97,16 @@ export default {
     'period._meta.self': function (value) {
       if (value === undefined || this.period === undefined) return
 
-      const startTimeUTCFormatted = this.mappedScheduleEntry.startTimeUTCFormatted
       const period = this.period
 
       // change period in object
       this.localScheduleEntry.period = () => period
+    },
 
-      // set startTime again --> recalculates periodOffset based on new period (dateHelperUTCFormatted.js)
-      this.mappedScheduleEntry.startTimeUTCFormatted = startTimeUTCFormatted
+    // watch start and automatically shift end if start changes (=keep duration)
+    'localScheduleEntry.start': function (newValue, oldValue) {
+      const delta = dayjs.utc(newValue).diff(dayjs.utc(oldValue))
+      this.localScheduleEntry.end = dayjs.utc(this.localScheduleEntry.end).add(delta).format()
     }
 
   },
@@ -131,8 +128,7 @@ export default {
 
       const calendarDate = dayjs.utc(val)
       return calendarDate.isBetween(dayjs.utc(this.period.start), dayjs.utc(this.period.end), 'date', '[]')
-    },
-    defineHelpers
+    }
   }
 }
 </script>

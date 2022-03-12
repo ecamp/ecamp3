@@ -77,7 +77,7 @@ Displays all periods of a single camp and allows to edit them & create new ones
                         <ul>
                           <li v-for="scheduleEntry in activity.scheduleEntries().items" :key="scheduleEntry._meta.self">
                             <router-link :to="{ name: 'activity', params: { campId: camp().id, scheduleEntryId: scheduleEntry.id } }">
-                              {{ scheduleEntry.startTime }} - {{ scheduleEntry.endTime }}
+                              {{ rangeShort(scheduleEntry.start, scheduleEntry.end) }}
                             </router-link>
                           </li>
                         </ul>
@@ -103,6 +103,7 @@ import ContentGroup from '@/components/layout/ContentGroup.vue'
 import DialogCategoryEdit from '@/components/dialog/DialogCategoryEdit.vue'
 import DialogCategoryCreate from '@/components/dialog/DialogCategoryCreate.vue'
 import DialogEntityDelete from '@/components/dialog/DialogEntityDelete.vue'
+import { rangeShort } from '@/common/helpers/dateHelperUTCFormatted.js'
 
 export default {
   name: 'CampCategories',
@@ -128,6 +129,7 @@ export default {
     }
   },
   methods: {
+    rangeShort,
     categoryRoute,
     findActivities (category) {
       const activities = this.camp().activities()

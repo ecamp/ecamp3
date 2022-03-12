@@ -1,7 +1,7 @@
 <template>
   <v-expansion-panel-content class="e-story-day">
     <h3 class="body-2 grey--text text--darken-2 e-story-day-title">
-      {{ dayName }}
+      {{ dateLong(day.start) }}
     </h3>
     <template v-if="entriesWithStory.length">
       <template v-for="{ scheduleEntry, storyChapters } in entriesWithStory">
@@ -53,6 +53,7 @@ import { sortBy } from 'lodash'
 import ApiForm from '@/components/form/api/ApiForm.vue'
 import ApiTextarea from '@/components/form/api/ApiTextarea.vue'
 import TiptapEditor from '@/components/form/tiptap/TiptapEditor.vue'
+import { dateLong } from '@/common/helpers/dateHelperUTCFormatted.js'
 
 export default {
   name: 'StoryDay',
@@ -62,12 +63,8 @@ export default {
     editing: { type: Boolean, default: false }
   },
   computed: {
-    dayName () {
-      const date = this.addDays(this.day.period().start, this.day.dayOffset)
-      return this.$date.utc(date).format(this.$tc('global.datetime.dateLong'))
-    },
     sortedScheduleEntries () {
-      return sortBy(this.day.scheduleEntries().items, scheduleEntry => scheduleEntry.periodOffset)
+      return sortBy(this.day.scheduleEntries().items, scheduleEntry => scheduleEntry.start)
     },
     entries () {
       return this.sortedScheduleEntries.map(scheduleEntry => {
@@ -87,9 +84,7 @@ export default {
     this.day.scheduleEntries().items.forEach(entry => this.api.reload(entry.activity().contentNodes()))
   },
   methods: {
-    addDays (date, days) {
-      return Date.parse(date) + days * 24 * 60 * 60 * 1000
-    }
+    dateLong
   }
 }
 </script>

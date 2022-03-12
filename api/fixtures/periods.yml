@@ -12,8 +12,8 @@ App\Entity\Period:
   period1camp2:
     camp: '@camp2'
     description: Vorweekend
-    start: '<(new DateTime("2023-11-10"))>'
-    end: '<(new DateTime("2023-11-10"))>'
+    start: '<(new DateTime("2023-03-25"))>'
+    end: '<(new DateTime("2023-03-26"))>'
   period1campUnrelated:
     camp: '@campUnrelated'
     description: Hauptlager

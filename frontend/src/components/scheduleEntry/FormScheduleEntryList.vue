@@ -33,6 +33,7 @@
 import FormScheduleEntryItem from './FormScheduleEntryItem.vue'
 import ButtonAdd from '@/components/buttons/ButtonAdd.vue'
 import { uniqueId } from 'lodash'
+import dayjs from '@/common/helpers/dayjs.js'
 
 export default {
   name: 'FormScheduleEntryList',
@@ -69,8 +70,8 @@ export default {
     addScheduleEntry () {
       this.localScheduleEntries.push({
         period: () => (this.period)(),
-        periodOffset: 420, // 7am
-        length: 60, // 1 hours
+        start: dayjs.utc(this.period().start).add(7, 'hour').format(),
+        end: dayjs.utc(this.period().start).add(8, 'hour').format(),
         key: uniqueId(),
         deleted: false
       })

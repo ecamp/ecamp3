@@ -278,8 +278,8 @@ at position 9: Data missing',
 
         static::createClientWithCredentials(['username' => static::$fixtures['user2member']->getUsername()])
             ->request('PATCH', '/periods/'.$period->getId(), ['json' => [
-                'start' => '2023-11-09',
-                'end' => '2023-11-10',
+                'start' => '2023-03-24',
+                'end' => '2023-03-26',
                 'moveScheduleEntries' => true,
             ], 'headers' => ['Content-Type' => 'application/merge-patch+json']])
         ;
@@ -291,7 +291,8 @@ at position 9: Data missing',
 
         /** @var ScheduleEntry $scheduleEntry */
         $scheduleEntry = $period->scheduleEntries[0];
-        $this->assertEquals(540, $scheduleEntry->periodOffset);
+        $this->assertEquals(540, $scheduleEntry->startOffset);
+        $this->assertEquals(600, $scheduleEntry->endOffset);
     }
 
     public function testPatchPeriodDoNotMoveScheduleEntries() {
@@ -300,8 +301,8 @@ at position 9: Data missing',
 
         static::createClientWithCredentials(['username' => static::$fixtures['user2member']->getUsername()])
             ->request('PATCH', '/periods/'.$period->getId(), ['json' => [
-                'start' => '2023-11-09',
-                'end' => '2023-11-10',
+                'start' => '2023-03-24',
+                'end' => '2023-03-26',
                 'moveScheduleEntries' => false,
             ], 'headers' => ['Content-Type' => 'application/merge-patch+json']])
         ;
@@ -313,7 +314,8 @@ at position 9: Data missing',
 
         /** @var ScheduleEntry $scheduleEntry */
         $scheduleEntry = $period->scheduleEntries[0];
-        $this->assertEquals(1440 + 540, $scheduleEntry->periodOffset);
+        $this->assertEquals(1440 + 540, $scheduleEntry->startOffset);
+        $this->assertEquals(1440 + 600, $scheduleEntry->endOffset);
     }
 
     public function testPatchPeriodValidateStartDate() {
@@ -322,8 +324,8 @@ at position 9: Data missing',
 
         static::createClientWithCredentials(['username' => static::$fixtures['user2member']->getUsername()])
             ->request('PATCH', '/periods/'.$period->getId(), ['json' => [
-                'start' => '2023-11-11',
-                'end' => '2023-11-11',
+                'start' => '2023-03-26',
+                'end' => '2023-03-27',
                 'moveScheduleEntries' => false,
             ], 'headers' => ['Content-Type' => 'application/merge-patch+json']])
         ;
@@ -332,7 +334,7 @@ at position 9: Data missing',
             'violations' => [
                 [
                     'propertyPath' => 'start',
-                    'message' => 'Due to existing schedule entries, start-date can not be later then 2023-11-10',
+                    'message' => 'Due to existing schedule entries, start-date can not be later then 2023-03-25',
                 ],
             ],
         ]);
@@ -344,8 +346,8 @@ at position 9: Data missing',
 
         static::createClientWithCredentials(['username' => static::$fixtures['user2member']->getUsername()])
             ->request('PATCH', '/periods/'.$period->getId(), ['json' => [
-                'start' => '2023-11-09',
-                'end' => '2023-11-09',
+                'start' => '2023-03-24',
+                'end' => '2023-03-24',
                 'moveScheduleEntries' => false,
             ], 'headers' => ['Content-Type' => 'application/merge-patch+json']])
         ;
@@ -354,7 +356,7 @@ at position 9: Data missing',
             'violations' => [
                 [
                     'propertyPath' => 'end',
-                    'message' => 'Due to existing schedule entries, end-date can not be earlier then 2023-11-10',
+                    'message' => 'Due to existing schedule entries, end-date can not be earlier then 2023-03-25',
                 ],
             ],
         ]);

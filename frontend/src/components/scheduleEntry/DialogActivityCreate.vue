@@ -60,8 +60,8 @@ export default {
           scheduleEntries: [
             {
               period: this.scheduleEntry.period,
-              periodOffset: this.scheduleEntry.periodOffset,
-              length: this.scheduleEntry.length,
+              start: this.scheduleEntry.start,
+              end: this.scheduleEntry.end,
               key: uniqueId(),
               deleted: false
             }
@@ -76,7 +76,6 @@ export default {
   methods: {
     cancelCreate () {
       this.close()
-      this.$emit('creationCanceled')
     },
     createActivity () {
       const payloadData = {
@@ -84,8 +83,8 @@ export default {
 
         scheduleEntries: this.entityData.scheduleEntries?.filter(entry => !entry.deleted).map(entry => ({
           period: entry.period()._meta.self,
-          periodOffset: entry.periodOffset,
-          length: entry.length
+          start: entry.start,
+          end: entry.end
         })) || []
       }
 
