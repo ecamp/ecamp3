@@ -21,7 +21,7 @@
   },
   "dependencies": {
     "@mdi/font": "6.5.95",
-    "@react-pdf/renderer": "2.0.21",
+    "@react-pdf/renderer": "2.1.1",
     "@sentry/vue": "6.16.0",
     "@vue/composition-api": "1.4.9",
     "axios": "0.24.0",
