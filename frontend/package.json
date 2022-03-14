@@ -24,7 +24,7 @@
     "@react-pdf/renderer": "2.1.1",
     "@sentry/vue": "6.18.2",
     "@vue/composition-api": "1.4.9",
-    "axios": "0.24.0",
+    "axios": "0.26.1",
     "comlink": "4.3.1",
     "dayjs": "1.10.8",
     "deepmerge": "4.2.2",
