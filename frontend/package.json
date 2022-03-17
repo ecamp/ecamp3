@@ -23,6 +23,7 @@
     "@intlify/core": "^9.1.9",
     "@mdi/font": "6.5.95",
     "@react-pdf/renderer": "2.1.1",
+    "@sentry/browser": "^6.18.2",
     "@sentry/vue": "6.18.2",
     "@vue/composition-api": "1.4.9",
     "axios": "0.26.1",
