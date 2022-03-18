@@ -24,7 +24,7 @@
 <script>
 import LanguageSwitcher from '@/components/layout/LanguageSwitcher.vue'
 import VueI18n from '@/plugins/i18n'
-import urltemplate from 'url-template'
+import { parseTemplate } from 'url-template'
 
 export default {
   name: 'App',
@@ -42,7 +42,7 @@ export default {
       return window.environment.VERSION || ''
     },
     versionLink () {
-      return urltemplate.parse(window.environment.VERSION_LINK_TEMPLATE).expand({ version: this.version }) || '#'
+      return parseTemplate(window.environment.VERSION_LINK_TEMPLATE).expand({ version: this.version }) || '#'
     }
   },
   created () {

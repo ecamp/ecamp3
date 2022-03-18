@@ -63,8 +63,8 @@ export default {
         this.$set(this.entityData, 'scheduleEntries', scheduleEntries.items.map((scheduleEntry) => {
           return {
             period: scheduleEntry.period,
-            periodOffset: scheduleEntry.periodOffset,
-            length: scheduleEntry.length,
+            start: scheduleEntry.start,
+            end: scheduleEntry.end,
             key: scheduleEntry._meta.self,
             deleted: false,
             self: scheduleEntry._meta.self
@@ -94,16 +94,16 @@ export default {
           if (entry.self) {
             return this.api.patch(entry.self, {
               period: entry.period()._meta.self,
-              periodOffset: entry.periodOffset,
-              length: entry.length
+              start: entry.start,
+              end: entry.end
             })
           }
 
           // else: create new entry
           return this.scheduleEntries.$post({
             period: entry.period()._meta.self,
-            periodOffset: entry.periodOffset,
-            length: entry.length,
+            start: entry.start,
+            end: entry.end,
             activity: this.activity._meta.self
           })
         })

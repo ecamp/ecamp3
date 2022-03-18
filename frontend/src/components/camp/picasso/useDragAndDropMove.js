@@ -14,7 +14,7 @@ export default function useDragAndDrop (enabled, threshold, update) {
   // reference to dragged scheduleEntry (null = no drag & drop ongoing)
   let draggedEntry = null
 
-  // time offset between (dragged) entry startTime and mouse location
+  // time offset between (dragged) entry startTimestamp and mouse location
   let mouseOffset = null
 
   // coordinates of mouse down event
@@ -35,16 +35,15 @@ export default function useDragAndDrop (enabled, threshold, update) {
 
   // move an existing entry
   const moveEntry = (mouse) => {
-    const start = draggedEntry.startTime
-    const end = draggedEntry.endTime
+    const start = draggedEntry.startTimestamp
+    const end = draggedEntry.endTimestamp
     const duration = end - start
 
     const newStart = roundTimeDown((mouse - mouseOffset))
     const newEnd = newStart + duration
 
-    // TODO review: Here we're changing the store value directly.
-    draggedEntry.startTime = newStart
-    draggedEntry.endTime = newEnd
+    draggedEntry.startTimestamp = newStart
+    draggedEntry.endTimestamp = newEnd
   }
 
   const clear = () => {
@@ -86,8 +85,8 @@ export default function useDragAndDrop (enabled, threshold, update) {
     // Drag has just started on an entry ('mousedown:event' was detected before)
     if (draggedEntry) {
       const mouseTime = toTime(tms)
-      const startTime = draggedEntry.startTime
-      mouseOffset = mouseTime - startTime
+      const startTimestamp = draggedEntry.startTimestamp
+      mouseOffset = mouseTime - startTimestamp
     }
   }
 
@@ -113,7 +112,7 @@ export default function useDragAndDrop (enabled, threshold, update) {
 
     // trigger update callback
     if (dragging) {
-      update(draggedEntry, draggedEntry.periodOffset, draggedEntry.length)
+      update(draggedEntry, draggedEntry.startTimestamp, draggedEntry.endTimestamp)
     }
 
     clear()

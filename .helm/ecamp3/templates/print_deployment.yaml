@@ -41,19 +41,19 @@ spec:
           readinessProbe:
             httpGet:
               scheme: HTTP
-              path: /
+              path: /health
               port: 3003
             initialDelaySeconds: 10
             periodSeconds: 30
-            timeoutSeconds: 10 # TODO introduce a faster health check and lower period and timeout
+            timeoutSeconds: 10
           livenessProbe:
             httpGet:
               scheme: HTTP
-              path: /
+              path: /server/health
               port: 3003
             initialDelaySeconds: 10
             periodSeconds: 30
-            timeoutSeconds: 10 # TODO introduce a faster health check and lower period and timeout
+            timeoutSeconds: 10
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           envFrom:

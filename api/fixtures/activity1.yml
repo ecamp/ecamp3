@@ -10,8 +10,8 @@ App\Entity\ScheduleEntry:
   scheduleEntry1:
     period: '@period1'
     activity: '@activity1'
-    periodOffset: 480
-    length: 60
+    startOffset: 480
+    endOffset: 540
 
 # Root node
 App\Entity\ContentNode\ColumnLayout:

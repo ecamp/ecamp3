@@ -15,10 +15,10 @@ export default function useDragAndDrop (enabled, update) {
   let resizedEntry = null
 
   // original start time of entry which is being resized
-  let originalStartTime = null
+  let originalStartTimestamp = null
 
   // original end time of entry which is being resized
-  let originalEndTime = null
+  let originalEndTimestamp = null
 
   /**
    * internal methods
@@ -27,18 +27,18 @@ export default function useDragAndDrop (enabled, update) {
   // resize an entry (existing or new placeholder)
   const resizeEntry = (entry, mouse) => {
     const mouseRounded = roundTimeUp(mouse)
-    const min = Math.min(mouseRounded, roundTimeDown(originalStartTime))
-    const max = Math.max(mouseRounded, roundTimeDown(originalStartTime))
+    const min = Math.min(mouseRounded, roundTimeDown(originalStartTimestamp))
+    const max = Math.max(mouseRounded, roundTimeDown(originalStartTimestamp))
 
     // TODO review: Here we're changing the store value directly.
-    entry.startTime = min
-    entry.endTime = max
+    entry.startTimestamp = min
+    entry.endTimestamp = max
   }
 
   const clear = () => {
     resizedEntry = null
-    originalEndTime = null
-    originalStartTime = null
+    originalEndTimestamp = null
+    originalStartTimestamp = null
   }
 
   /**
@@ -59,9 +59,9 @@ export default function useDragAndDrop (enabled, update) {
   const timeMouseUp = () => {
     if (!enabled.value) { return }
 
-    if (resizedEntry && resizedEntry.endTime !== originalEndTime) {
+    if (resizedEntry && resizedEntry.endTimestamp !== originalEndTimestamp) {
       // existing entry was resized --> save to API
-      update(resizedEntry, resizedEntry.periodOffset, resizedEntry.length)
+      update(resizedEntry, resizedEntry.startTimestamp, resizedEntry.endTimestamp)
     }
 
     clear()
@@ -75,8 +75,8 @@ export default function useDragAndDrop (enabled, update) {
   // start resize operation (needs to be called manually from resize handle)
   const startResize = (event) => {
     resizedEntry = event
-    originalStartTime = event.startTime
-    originalEndTime = event.endTime
+    originalStartTimestamp = event.startTimestamp
+    originalEndTimestamp = event.endTimestamp
   }
 
   return {

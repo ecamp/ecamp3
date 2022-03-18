@@ -1,26 +1,27 @@
-import { printComponentFor, renderPdf } from './renderPdf.js'
-import { cloneDeep } from 'lodash'
+import { mainThreadLoaderFor, renderPdf } from './renderPdf.js'
+import cloneDeep from 'lodash/cloneDeep.js'
 import Worker from 'worker-iife:./renderPdf.worker.js'
 import * as Comlink from 'comlink'
 
+// During prod build, force vite to bundle the required fonts
+const fonts = import.meta.glob('../../assets/fonts/OpenSans/*.ttf') // eslint-disable-line no-unused-vars
+
 export const generatePdf = async (data) => {
-  const component = printComponentFor(data.config)
-  if (typeof component.prepareInMainThread === 'function') {
-    await component.prepareInMainThread(data.config)
+  const prepareInMainThread = await mainThreadLoaderFor(data.config)
+  if (typeof prepareInMainThread === 'function') {
+    await prepareInMainThread(data.config)
   }
 
   const serializableData = prepareDataForSerialization(data)
 
   if (data.renderInWorker) {
-    return {
-      ...(await Comlink.wrap(new Worker()).renderPdfInWorker(serializableData)),
-      filename: 'web-worker.pdf'
-    }
+    return await Comlink.wrap(new Worker()).renderPdfInWorker(serializableData)
   } else {
-    return {
-      ...(await renderPdf(serializableData)),
-      filename: 'main-thread.pdf'
-    }
+    // In Firefox, dynamic imports are only available in the main thread:
+    // https://bugzilla.mozilla.org/show_bug.cgi?id=1540913
+    // So we use dynamic imports if we are in the main thread, but static imports if we are in the worker.
+    const renderingDependencies = (await import('./renderingDependencies.js')).default
+    return await renderPdf(serializableData, renderingDependencies)
   }
 }
 

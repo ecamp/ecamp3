@@ -68,8 +68,8 @@
       "createScheduleEntries": {
         "fields": {
           "duration": "Länge",
-          "endTime": "Ende",
-          "startTime": "Start"
+          "end": "Ende",
+          "start": "Start"
         },
         "name": "Geplante Termine"
       }
@@ -104,7 +104,7 @@
         "dailySummary": "Tagesübersicht",
         "frontpage": "Deckblatt",
         "openPrintPreview": "Druckvorschau öffnen",
-        "picasso": "Picasso",
+        "picasso": "Grobprogramm",
         "printNow": "Jetzt drucken",
         "selectPrintPreview": "Druckvorschau zeigen",
         "storyline": "Roter Faden",
@@ -127,8 +127,21 @@
           "date": "dd. D.MM | D. MMM | DD. MMM YYYY"
         }
       },
+      "print": {
+        "documents": {
+          "pdfDocument": {
+            "filename": {
+              "activitiesOnly": "Aktivitäten {camp}",
+              "picassoOnly": "Grobprogramm {camp}"
+            }
+          }
+        },
+        "localPdfDownloadButton": {
+          "error": "Etwas hat nicht geklappt. Probiere es nochmals, oder lade die Seite neu."
+        }
+      },
       "storyDay": {
-        "noStory": "Kein roter Faden an diesem Tag gefunden …"
+        "noStory": "Kein roter Faden an diesem Tag gefunden…"
       }
     },
     "dialog": {
@@ -161,6 +174,11 @@
         "myCamps": "Mein Lager | Meine Lager",
         "profile": "Profil"
       }
+    },
+    "print": {
+      "picasso": {
+        "title": "Grobprogramm {period}"
+      }
     }
   },
   "entity": {
@@ -183,6 +201,7 @@
       "add": "Hinzufügen",
       "back": "Zurück",
       "cancel": "Abbrechen",
+      "close": "Schliessen",
       "content": "Inhalt",
       "create": "Erstellen",
       "delete": "Löschen",
@@ -288,7 +307,8 @@
         "team": "Team"
       },
       "print": {
-        "title": "Druckvorschau"
+        "title": "Druckvorschau",
+        "previewError": "Etwas hat nicht geklappt. Probiere es nochmals mit anderen Druckeinstellungen, oder lade die Seite neu."
       },
       "sideBarPeriods": {
         "title": "Lagerabschnitt"

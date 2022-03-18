@@ -9,11 +9,11 @@ Listing all given activity schedule entries in a calendar view.
       v-model="value"
       v-resize="resize"
       :class="editable ? 'ec-picasso-editable' : 'ec-picasso'"
-      :events="scheduleEntries"
+      :events="events"
       :event-name="getActivityName"
       :event-color="getActivityColor"
-      event-start="startTime"
-      event-end="endTime"
+      event-start="startTimestamp"
+      event-end="endTimestamp"
       :interval-height="computedIntervalHeight"
       interval-width="46"
       :interval-format="intervalFormat"
@@ -107,7 +107,7 @@ Listing all given activity schedule entries in a calendar view.
   </div>
 </template>
 <script>
-import { toRefs, ref } from '@vue/composition-api'
+import { toRefs, ref, watch, reactive } from '@vue/composition-api'
 import useDragAndDropMove from './useDragAndDropMove.js'
 import useDragAndDropResize from './useDragAndDropResize.js'
 import useDragAndDropNew from './useDragAndDropNew.js'
@@ -116,6 +116,7 @@ import { isCssColor } from 'vuetify/lib/util/colorUtils'
 import { apiStore as api } from '@/plugins/store'
 import { scheduleEntryRoute } from '@/router.js'
 import mergeListeners from '@/helpers/mergeListeners.js'
+import { timestampToUtcString, utcStringToTimestamp } from '@/common/helpers/dateHelperVCalendar.js'
 
 import DialogActivityEdit from '@/components/scheduleEntry/DialogActivityEdit.vue'
 import DayResponsibles from './DayResponsibles.vue'
@@ -176,23 +177,21 @@ export default {
 
   // emitted events
   emits: [
-    'changePlaceholder', // triggered continuously while a new entry is being dragged (parameters: startTime, endTime)
-
-    'newEntry' // triggered once when a new entry was created via drag & drop (parameters: startTime, endTime)
+    'newEntry' // triggered once when a new entry was created via drag & drop (parameters: startTimestamp, endTimestamp)
   ],
 
   // composition API setup
   setup (props, { emit, refs }) {
-    const { editable } = toRefs(props)
+    const { editable, scheduleEntries } = toRefs(props)
 
     const isSaving = ref(false)
     const patchError = ref(null)
 
     // callback used to save entry to API
-    const updateEntry = (scheduleEntry, periodOffset, length) => {
+    const updateEntry = (scheduleEntry, startTimestamp, endTimestamp) => {
       const patchData = {
-        periodOffset,
-        length
+        start: timestampToUtcString(startTimestamp),
+        end: timestampToUtcString(endTimestamp)
       }
       isSaving.value = true
       api.patch(scheduleEntry._meta.self, patchData).then(() => {
@@ -200,7 +199,30 @@ export default {
         isSaving.value = false
       }).catch((error) => {
         patchError.value = error
+      }).finally(() => {
+        reloadScheduleEntries()
       })
+    }
+
+    // callback used to create new entry
+    const placeholder = reactive({
+      startTimestamp: 0,
+      endTimestamp: 0,
+      timed: true,
+      tmpEvent: true
+    })
+    const createEntry = (startTimestamp, endTimestamp, finished) => {
+      const start = timestampToUtcString(startTimestamp)
+      const end = timestampToUtcString(endTimestamp)
+
+      if (finished) {
+        placeholder.startTimestamp = 0
+        placeholder.endTimestamp = 0
+        emit('newEntry', start, end)
+      } else {
+        placeholder.startTimestamp = startTimestamp
+        placeholder.endTimestamp = endTimestamp
+      }
     }
 
     // open edit dialog
@@ -210,7 +232,7 @@ export default {
 
     const dragAndDropMove = useDragAndDropMove(editable, 5, updateEntry)
     const dragAndDropResize = useDragAndDropResize(editable, updateEntry)
-    const dragAndDropNew = useDragAndDropNew(editable, emit)
+    const dragAndDropNew = useDragAndDropNew(editable, createEntry)
     const clickDetector = useClickDetector(editable, 5, onClick)
 
     // merge mouseleave handlers
@@ -230,12 +252,40 @@ export default {
       clickDetector.vCalendarListeners
     ])
 
+    // make events a reactive array + load event array from schedule entries
+    const events = ref([])
+    const loadCalenderEventsFromScheduleEntries = () => {
+      // prepare scheduleEntries to make them understandable by v-calendar
+      events.value = scheduleEntries.value.map(entry => ({
+        ...entry,
+        startTimestamp: utcStringToTimestamp(entry.start),
+        endTimestamp: utcStringToTimestamp(entry.end),
+        timed: true
+      }))
+
+      // add placeholder for drag & drop (create new entry)
+      events.value.push(placeholder)
+    }
+    loadCalenderEventsFromScheduleEntries()
+
+    // watch for changes from API
+    watch(scheduleEntries, loadCalenderEventsFromScheduleEntries)
+
+    // reloads schedule entries from API + recreates event array after reload
+    const reloadScheduleEntries = async () => {
+      await api.reload(props.period.scheduleEntries())
+      loadCalenderEventsFromScheduleEntries()
+    }
+
     return {
       vCalendarListeners,
       startResize: dragAndDropResize.startResize,
       onMouseleave,
       isSaving,
-      patchError
+      patchError,
+      reloadScheduleEntries,
+      loadCalenderEventsFromScheduleEntries,
+      events
     }
   },
   data () {
@@ -287,13 +337,19 @@ export default {
       this.entryWidth = Math.max((this.$refs.calendar.$el.offsetWidth - widthIntervals) / this.$refs.calendar.days.length, 80)
     },
     getActivityName (scheduleEntry, _) {
+      if (scheduleEntry.tmpEvent) return this.$tc('entity.activity.new')
+
       if (this.isActivityLoading(scheduleEntry)) return this.$tc('global.loading')
+
       return (scheduleEntry.number ? scheduleEntry.number + ' ' : '') +
         (scheduleEntry.activity().category().short ? scheduleEntry.activity().category().short + ': ' : '') +
         scheduleEntry.activity().title
     },
     getActivityColor (scheduleEntry, _) {
+      if (scheduleEntry.tmpEvent) return 'grey elevation-4 v-event--temporary'
+
       if (this.isCategoryLoading(scheduleEntry)) return 'grey lighten-1'
+
       const color = scheduleEntry.activity().category().color
       return isCssColor(color) ? color : color + ' elevation-4 v-event--temporary'
     },
@@ -316,9 +372,7 @@ export default {
     weekdayFormat () {
       return ''
     },
-    reloadScheduleEntries () {
-      this.api.reload(this.period.scheduleEntries())
-    },
+
     scheduleEntryRoute
   }
 }

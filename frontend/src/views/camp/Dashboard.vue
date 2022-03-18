@@ -25,13 +25,12 @@ Admin screen of a camp: Displays details & periods of a single camp and allows t
                 <template v-for="day in period.days().items">
                   <template v-if="showDay(day)">
                     <v-col :key="day._meta.self" cols="12" class="pb-0">
-                      <h4>{{ day.dayOffset + 1 }}) {{ displayDate(day) }}</h4>
+                      <h4>{{ day.dayOffset + 1 }}) {{ dateLong(day.start) }}</h4>
                     </v-col>
                     <template v-for="scheduleEntry in day.scheduleEntries().items">
                       <v-col
                         v-if="showScheduleEntry(scheduleEntry)"
                         :key="scheduleEntry._meta.self"
-                        :set="scheduleEntryTime = defineHelpers(scheduleEntry)"
                         cols="12" sm="6"
                         md="4" lg="3">
                         <v-card
@@ -47,13 +46,13 @@ Admin screen of a camp: Displays details & periods of a single camp and allows t
                               style="margin: 2px" />
                           </v-card-title>
                           <v-card-subtitle>
-                            {{ $date.utc(scheduleEntryTime.startTime).format($tc('global.datetime.dateShort')) == $date.utc(scheduleEntryTime.endTime).format($tc('global.datetime.dateShort'))
-                              ? '' : $date.utc(scheduleEntryTime.startTime).format($tc('global.datetime.dateShort')) }}
-                            <b> {{ $date.utc(scheduleEntryTime.startTime).format($tc('global.datetime.hourShort')) }} </b>
+                            {{ dateShort(scheduleEntry.start) == dateShort(scheduleEntry.end)
+                              ? '' : dateShort(scheduleEntry.start) }}
+                            <b> {{ hourShort(scheduleEntry.start) }} </b>
                             -
-                            {{ $date.utc(scheduleEntryTime.startTime).format($tc('global.datetime.dateShort')) == $date.utc(scheduleEntryTime.endTime).format($tc('global.datetime.dateShort'))
-                              ? '' : $date.utc(scheduleEntryTime.endTime).format($tc('global.datetime.dateShort')) }}
-                            <b> {{ $date.utc(scheduleEntryTime.endTime).format($tc('global.datetime.hourShort')) }} </b>
+                            {{ dateShort(scheduleEntry.start) == dateShort(scheduleEntry.end)
+                              ? '' : dateShort(scheduleEntry.end) }}
+                            <b> {{ hourShort(scheduleEntry.end) }} </b>
                           </v-card-subtitle>
                         </v-card>
                       </v-col>
@@ -89,7 +88,7 @@ Admin screen of a camp: Displays details & periods of a single camp and allows t
 import { campRoute, scheduleEntryRoute } from '@/router.js'
 import ContentCard from '@/components/layout/ContentCard.vue'
 import UserAvatar from '../../components/user/UserAvatar.vue'
-import { defineHelpers } from '@/common/helpers/scheduleEntry/dateHelperUTC.js'
+import { dateShort, dateLong, hourShort } from '@/common/helpers/dateHelperUTCFormatted.js'
 
 export default {
   name: 'Dashboard',
@@ -114,7 +113,9 @@ export default {
     this.api.reload(this.camp())
   },
   methods: {
-    defineHelpers,
+    dateShort,
+    dateLong,
+    hourShort,
     campRoute,
     scheduleEntryRoute,
     showAnyPeriod (camp) {
@@ -125,10 +126,6 @@ export default {
     },
     showDay (day) {
       return day.scheduleEntries().items.some(this.showScheduleEntry)
-    },
-    displayDate (day) {
-      const date = Date.parse(day.period().start) + day.dayOffset * 24 * 60 * 60 * 1000
-      return this.$date.utc(date).format(this.$tc('global.datetime.dateLong'))
     },
     showScheduleEntry (scheduleEntry) {
       const authUser = this.$auth.user()

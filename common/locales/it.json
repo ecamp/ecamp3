@@ -57,7 +57,6 @@
       "fields": {
         "length": "Lunghezza in minuti",
         "nr": "Numero",
-        "periodOffset": "Periodo Offset",
         "time": "Tempo"
       },
       "name": "Inserimento nel programma"

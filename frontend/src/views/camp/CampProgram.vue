@@ -45,7 +45,6 @@ Show all activity schedule entries of a single period.
             :start="Date.parse(period().start)"
             :end="Date.parse(period().end)"
             :editable="editMode"
-            @changePlaceholder="slotProps.on.changePlaceholder"
             @newEntry="slotProps.on.newEntry" />
         </template>
       </template>

@@ -1,14 +1,32 @@
 <template>
-  <button class="ml-5 v-btn v-btn--outlined theme--light v-size--default primary--text"
-          :disabled="loading"
-          @click="generatePdf">
-    {{ loading ? 'Generating...' : 'Generate PDF' }}
-  </button>
+  <div>
+    <v-btn class="ml-5"
+           color="primary"
+           :loading="loading"
+           outlined
+           @click="generatePdf">
+      <v-icon>mdi-printer</v-icon>
+    </v-btn>
+    <v-snackbar v-model="error" :timeout="10000">
+      {{ $tc('components.camp.print.localPdfDownloadButton.error') }}
+      <template #action="{ attrs }">
+        <v-btn color="red"
+               text
+               v-bind="attrs"
+               @click="error = null">
+          {{ $tc('global.button.close') }}
+        </v-btn>
+      </template>
+    </v-snackbar>
+  </div>
 </template>
 
 <script>
 import { generatePdf } from './generatePdf.js'
 import { saveAs } from 'file-saver'
+import slugify from 'slugify'
+
+const RENDER_IN_WORKER = true
 
 export default {
   name: 'LocalPDFDownloadButton',
@@ -20,7 +38,8 @@ export default {
   },
   data () {
     return {
-      loading: false
+      loading: false,
+      error: null
     }
   },
   methods: {
@@ -31,18 +50,18 @@ export default {
         config: { ...this.config, apiGet: this.api.get.bind(this) },
         storeData: this.$store.state,
         translationData: this.$i18n.messages,
-        renderInWorker: true
+        renderInWorker: RENDER_IN_WORKER
       })
 
       this.loading = false
 
       if (error) {
-        // TODO error handling
+        this.error = error
         console.log(error)
         return
       }
 
-      saveAs(blob, filename)
+      saveAs(blob, slugify(filename, { locale: this.$store.state.lang.language.substr(0, 2) }))
     }
   }
 }

@@ -50,8 +50,8 @@ class AssertGreaterThanOrEqualToLastScheduleEntryEndValidatorTest extends Constr
         $period->start = new DateTime('2023-08-01');
 
         $scheduleEntry = new ScheduleEntry();
-        $scheduleEntry->periodOffset = 3600; // 2023-08-03 12:00
-        $scheduleEntry->length = 300; // 5h
+        $scheduleEntry->startOffset = 3600; // 2023-08-03 12:00
+        $scheduleEntry->endOffset = 3600 + 300; // 2023-08-03 17:00
         $period->addScheduleEntry($scheduleEntry);
 
         $this->setObject($period);
@@ -76,8 +76,8 @@ class AssertGreaterThanOrEqualToLastScheduleEntryEndValidatorTest extends Constr
         $period->start = new DateTime('2023-07-31');
 
         $scheduleEntry = new ScheduleEntry();
-        $scheduleEntry->periodOffset = 3600; // New: 2023-08-02 12:00
-        $scheduleEntry->length = 300; // 5h
+        $scheduleEntry->startOffset = 3600; // New: 2023-08-02 12:00
+        $scheduleEntry->endOffset = 3600 + 300; // 2023-08-03 17:00
         $period->addScheduleEntry($scheduleEntry);
 
         $this->setObject($period);
@@ -102,8 +102,8 @@ class AssertGreaterThanOrEqualToLastScheduleEntryEndValidatorTest extends Constr
         $period->start = new DateTime('2023-07-31');
 
         $scheduleEntry = new ScheduleEntry();
-        $scheduleEntry->periodOffset = 3600; // 2023-08-03 12:00
-        $scheduleEntry->length = 300; // 5h
+        $scheduleEntry->startOffset = 3600; // 2023-08-03 12:00
+        $scheduleEntry->endOffset = 3600 + 300; // 2023-08-03 17:00
         $period->addScheduleEntry($scheduleEntry);
 
         $this->setObject($period);

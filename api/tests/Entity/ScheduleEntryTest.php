@@ -11,7 +11,6 @@ use App\Entity\ScheduleEntry;
 use DateTime;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
-use RuntimeException;
 
 /**
  * @internal
@@ -41,18 +40,18 @@ class ScheduleEntryTest extends TestCase {
         $this->camp->addPeriod($this->period);
 
         $this->scheduleEntry2 = new ScheduleEntry();
-        $this->scheduleEntry2->periodOffset = 960;
-        $this->scheduleEntry2->length = 90;
+        $this->scheduleEntry2->startOffset = 960;
+        $this->scheduleEntry2->endOffset = 960 + 90;
         $this->period->addScheduleEntry($this->scheduleEntry2);
 
         $this->scheduleEntry3 = new ScheduleEntry();
-        $this->scheduleEntry3->periodOffset = 2400;
-        $this->scheduleEntry3->length = 90;
+        $this->scheduleEntry3->startOffset = 2400;
+        $this->scheduleEntry3->endOffset = 2400 + 90;
         $this->period->addScheduleEntry($this->scheduleEntry3);
 
         $this->scheduleEntry1 = new ScheduleEntry();
-        $this->scheduleEntry1->periodOffset = 420;
-        $this->scheduleEntry1->length = 30;
+        $this->scheduleEntry1->startOffset = 420;
+        $this->scheduleEntry1->endOffset = 420 + 30;
         $this->period->addScheduleEntry($this->scheduleEntry1);
     }
 
@@ -108,7 +107,7 @@ class ScheduleEntryTest extends TestCase {
     }
 
     public function testGetNumberOrdersSamePeriodOffsetByLeft() {
-        $this->scheduleEntry1->periodOffset = $this->scheduleEntry2->periodOffset;
+        $this->scheduleEntry1->startOffset = $this->scheduleEntry2->startOffset;
         $this->scheduleEntry1->left = 0.5;
         $this->scheduleEntry2->left = 0;
 
@@ -117,19 +116,19 @@ class ScheduleEntryTest extends TestCase {
     }
 
     public function testGetNumberOrdersSamePeriodOffsetAndLeftByLength() {
-        $this->scheduleEntry1->periodOffset = $this->scheduleEntry2->periodOffset;
+        $this->scheduleEntry1->startOffset = $this->scheduleEntry2->startOffset;
         $this->scheduleEntry1->left = $this->scheduleEntry2->left;
-        $this->scheduleEntry1->length = 60;
-        $this->scheduleEntry2->length = 120;
+        $this->scheduleEntry1->endOffset = $this->scheduleEntry1->startOffset + 60;
+        $this->scheduleEntry2->endOffset = $this->scheduleEntry1->startOffset + 120;
 
         $this->assertEquals('1.1', $this->scheduleEntry2->getNumber());
         $this->assertEquals('1.2', $this->scheduleEntry1->getNumber());
     }
 
     public function testGetNumberOrdersSamePeriodOffsetAndLeftAndLengthById() {
-        $this->scheduleEntry1->periodOffset = $this->scheduleEntry2->periodOffset;
+        $this->scheduleEntry1->startOffset = $this->scheduleEntry2->startOffset;
         $this->scheduleEntry1->left = $this->scheduleEntry2->left;
-        $this->scheduleEntry1->length = $this->scheduleEntry2->length;
+        $this->scheduleEntry1->endOffset = $this->scheduleEntry2->endOffset;
 
         if ($this->scheduleEntry1->getId() < $this->scheduleEntry2->getId()) {
             $this->assertEquals('1.1', $this->scheduleEntry1->getNumber());
@@ -145,15 +144,15 @@ class ScheduleEntryTest extends TestCase {
         $this->assertEquals($this->day2, $this->scheduleEntry3->getDay());
     }
 
-    public function testGetDayThrowsErrorIfDayEntityIsMissing() {
+    public function testGetDayReturnsNullIfDayEntityIsMissing() {
         // given
         $this->period->removeDay($this->day1);
 
-        // then
-        $this->expectException(RuntimeException::class);
-
         // when
-        $this->scheduleEntry1->getDay();
+        $day = $this->scheduleEntry1->getDay();
+
+        // then
+        $this->assertNull($day);
     }
 
     protected function setCreateTime(ScheduleEntry $scheduleEntry, DateTime $createTime) {

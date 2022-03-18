@@ -9,6 +9,9 @@
       "npm": ">= 7.15.1"
     }
   },
+  "vulnerabilityAlerts": {
+    "automerge": true
+  },
   "packageRules": [
     {
       "updateTypes": [
