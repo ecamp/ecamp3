@@ -14,5 +14,6 @@ data:
   {{- end }}
   CORS_ALLOW_ORIGIN: {{ include "frontend.url" . | quote }}
   TRUSTED_PROXIES: "{{ join "," .Values.php.trustedProxies }}"
+  SECURE_SCHEME: {{ .Values.php.secureScheme | quote }}
   MERCURE_URL: "http://{{ include "api.name" . }}/.well-known/mercure"
   MERCURE_PUBLIC_URL: {{ .Values.mercure.publicUrl | default "http://127.0.0.1/.well-known/mercure" | quote }}
