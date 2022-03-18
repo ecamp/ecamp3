@@ -4,31 +4,18 @@
       v-model="options.periods"
       :items="periods"
       multiple />
-    <e-select
-      v-model="options.orientation"
-      :items="orientations" />
   </div>
 </template>
 
 <script>
 export default {
-  name: 'Picasso',
+  name: 'Story',
   props: {
     value: { type: Object, required: true },
     camp: { type: Object, required: true }
   },
   data () {
     return {
-      orientations: [
-        {
-          value: 'L',
-          text: 'Landscape'
-        },
-        {
-          value: 'P',
-          text: 'Portrait'
-        }
-      ]
     }
   },
   computed: {
@@ -45,8 +32,7 @@ export default {
   },
   defaultOptions () {
     return {
-      periods: [],
-      orientation: 'L'
+      periods: []
     }
   }
 }

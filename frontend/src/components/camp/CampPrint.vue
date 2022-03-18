@@ -76,7 +76,10 @@ import LocalPrintPreview from '../print/LocalPrintPreview.vue'
 import Draggable from 'vuedraggable'
 import Cover from './print/Cover.vue'
 import Picasso from './print/Picasso.vue'
+import Story from './print/Story.vue'
 import Program from './print/Program.vue'
+import Activity from './print/Activity.vue'
+import Toc from './print/Toc.vue'
 
 const PRINT_SERVER = window.environment.PRINT_SERVER
 
@@ -87,7 +90,10 @@ export default {
     LocalPrintPreview,
     Cover,
     Picasso,
-    Program
+    Story,
+    Program,
+    Activity,
+    Toc
   },
   props: {
     camp: {
@@ -111,7 +117,10 @@ export default {
       contentComponents: [
         Cover,
         Picasso,
-        Program
+        Story,
+        Program,
+        Activity,
+        Toc
       ],
       cnf: {
         language: '',
