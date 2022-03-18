@@ -68,8 +68,7 @@
     }
   ],
   "ignorePaths": [
-    "backend/",
-    ".docker-hub/backend/"
+    "backend/"
   ],
   "regexManagers": [
     {

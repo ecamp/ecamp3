@@ -64,7 +64,7 @@ describe('authentication logic', () => {
   })
 
   describe('register()', () => {
-    it('sends a POST request to the backend', async done => {
+    it('sends a POST request to the API', async done => {
       // given
       store.replaceState(createState())
       jest.spyOn(apiStore, 'post').mockImplementation(async () => {})
