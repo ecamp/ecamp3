@@ -2,7 +2,7 @@
 import React from 'react'
 import { View } from '../../reactPdf.js'
 import ScheduleEntry from './ScheduleEntry.jsx'
-import dayjs from '../../../../../common/helpers/dayjs.js'
+import dayjs from '../../../../../../common/helpers/dayjs.js'
 
 // converts ISO String format (UTC timezone) into a unix/seconds timestamp (UTC timezone)
 function stringToTimestamp (string) {
