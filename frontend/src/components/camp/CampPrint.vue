@@ -3,40 +3,92 @@
     <v-skeleton-loader v-if="camp()._meta.loading" type="article" />
     <div v-else>
       <h3>{{ $tc('components.camp.campPrint.selectPrintPreview') }}</h3>
-      <e-checkbox v-model="config.showFrontpage" :name="$tc('components.camp.campPrint.frontpage')" />
-      <e-checkbox v-model="config.showToc" :name="$tc('components.camp.campPrint.toc')" />
-      <e-checkbox v-model="config.showPicasso" :name="$tc('components.camp.campPrint.picasso')" />
-      <e-checkbox v-model="config.showStoryline" :name="$tc('components.camp.campPrint.storyline')" />
-      <e-checkbox v-model="config.showDailySummary" :name="$tc('components.camp.campPrint.dailySummary')" />
-      <e-checkbox v-model="config.showActivities" :name="$tc('components.camp.campPrint.activities')" />
 
-      <v-btn color="primary" class="mt-5"
-             :href="previewUrl"
-             target="_blank">
-        {{ $tc('components.camp.campPrint.openPrintPreview') }}
-      </v-btn>
-      <v-btn
-        color="primary"
-        class="mt-5 ml-5"
-        :loading="printing">
-        {{ $tc('components.camp.campPrint.printNow') }}
-      </v-btn>
+      <v-list>
+        <draggable v-model="cnf.contents">
+          <v-list-item v-for="(content, idx) in cnf.contents" :key="idx">
+            <v-list-item-content>
+              <v-list-item-title>
+                <h3>{{ content.type }}</h3>
+              </v-list-item-title>
+              <component :is="content.type"
+                         v-model="content.options"
+                         :camp="camp()" />
+            </v-list-item-content>
+            <v-list-item-action>
+              <v-btn icon @click="cnf.contents.splice(idx, 1)">
+                <v-icon color="red">mdi-delete</v-icon>
+              </v-btn>
+            </v-list-item-action>
+          </v-list-item>
+        </draggable>
+      </v-list>
+      <br>
+      <v-menu>
+        <template #activator="{ on, attrs }">
+          <v-btn
+            color="primary"
+            dark
+            v-bind="attrs"
+            v-on="on">
+            Add
+          </v-btn>
+        </template>
+        <v-list>
+          <v-list-item
+            v-for="(component, idx) in contentComponents"
+            :key="idx"
+            @click="cnf.contents.push({
+              type: component.name,
+              options: component.defaultOptions()
+            })">
+            <v-list-item-title>
+              {{ component.name }}
+            </v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
+      <br>
+      <br>
+      <hr>
+      <pre>
+{{ cnf }}
+
+      </pre>
+      <div>
+        <v-btn color="primary" class="mt-5"
+               :href="previewUrl"
+               target="_blank">
+          {{ $tc('components.camp.campPrint.openPrintPreview') }}
+        </v-btn>
+
+        <local-print-preview :config="config"
+                             width="100%"
+                             height="500"
+                             class="mt-4" />
+      </div>
     </div>
-    <local-print-preview :config="config"
-                         width="100%"
-                         height="500"
-                         class="mt-4" />
   </div>
 </template>
 
 <script>
 import LocalPrintPreview from '../print/LocalPrintPreview.vue'
+import Draggable from 'vuedraggable'
+import Cover from './print/Cover.vue'
+import Picasso from './print/Picasso.vue'
+import Program from './print/Program.vue'
 
 const PRINT_SERVER = window.environment.PRINT_SERVER
 
 export default {
   name: 'CampPrint',
-  components: { LocalPrintPreview },
+  components: {
+    Draggable,
+    LocalPrintPreview,
+    Cover,
+    Picasso,
+    Program
+  },
   props: {
     camp: {
       type: Function,
@@ -45,7 +97,6 @@ export default {
   },
   data () {
     return {
-      printing: false,
       config: {
         showFrontpage: true,
         showToc: true,
@@ -55,7 +106,19 @@ export default {
         showActivities: true,
         camp: this.camp.bind(this)
       },
-      refreshing: false
+
+      // ..
+      contentComponents: [
+        Cover,
+        Picasso,
+        Program
+      ],
+      cnf: {
+        language: '',
+        documentName: this.camp().title + '.pdf',
+        contents: [
+        ]
+      }
     }
   },
   computed: {
@@ -93,15 +156,14 @@ export default {
         this.camp().materialLists().items.some(materialList => {
           return materialList._meta.loading
         })
-    },
-    boundTc () {
-      return this.$tc.bind(this)
     }
   },
-  methods: {
-    refreshPreview () {
-      this.refreshing = true
-      this.$nextTick(() => (this.refreshing = false))
+  watch: {
+    lang: {
+      handler (language) {
+        this.cnf.language = language
+      },
+      immediate: true
     }
   }
 }
