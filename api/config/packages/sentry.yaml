@@ -1,0 +1,10 @@
+sentry:
+    dsn: '%env(SENTRY_API_DSN)%'
+    register_error_listener: false # Disables the ErrorListener to avoid duplicated log in sentry
+
+monolog:
+    handlers:
+        sentry:
+            type: sentry
+            level: !php/const Monolog\Logger::ERROR
+            hub_id: Sentry\State\HubInterface

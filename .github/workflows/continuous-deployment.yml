@@ -213,6 +213,7 @@ jobs:
             --set postgresql.dropDBOnUninstall=${{ contains(fromJson(env.never_uninstall), matrix.deployment.name) && 'false' || 'true' }} \
             --set php.dataMigrationsDir='${{ secrets.DATA_MIGRATIONS_DIR }}' \
             --set php.appSecret='${{ secrets.API_APP_SECRET }}' \
+            --set php.sentryDsn='${{ secrets.API_SENTRY_DSN }}' \
             --set php.jwt.passphrase='${{ secrets.JWT_PASSPHRASE }}' \
             --set php.jwt.publicKey='${{ secrets.JWT_PUBLIC_KEY }}' \
             --set php.jwt.privateKey='${{ secrets.JWT_PRIVATE_KEY }}' \
