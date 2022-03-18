@@ -50,7 +50,7 @@ We recommend to [configure your IDE](https://github.com/ecamp/ecamp3/wiki/Gettin
 Alternatively you can
 * run php-cs-fixer and ESLint manually before each commit:
     ```bash
-    docker-compose run backend composer cs-fix
+    docker-compose run api composer cs-fix
     docker-compose run frontend npm run lint
     docker-compose run print npm run lint
     ```
@@ -113,7 +113,7 @@ Wir empfehlen deine [IDE so zu konfigurieren](https://github.com/ecamp/ecamp3/wi
 Alternativ kannst du 
 * php-cs-fixer und ESLint vor jedem commit manuell laufen lassen:
     ```bash
-    docker-compose run backend composer cs-fix
+    docker-compose run api composer cs-fix
     docker-compose run frontend npm run lint
     docker-compose run print npm run lint
     ```

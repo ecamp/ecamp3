@@ -53,7 +53,7 @@ export default {
   },
   computed: {
     scheduleEntries () {
-      // TODO for SideBar, add filtering for the current day when backend supports it
+      // TODO for SideBar, add filtering for the current day, now that the API supports it
       return this.period().scheduleEntries()
     }
   },
