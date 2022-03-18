@@ -32,6 +32,9 @@ security:
                 - App\Security\OAuth\HitobitoAuthenticator
 
     access_control:
-        - { path: ^/docs, roles: PUBLIC_ACCESS } # Allows accessing the Swagger UI
-        - { path: ^/authentication_token, roles: PUBLIC_ACCESS }
         - { path: ^/, roles: PUBLIC_ACCESS } # Some endpoints are available to unauthenticated clients
+
+when@prod:
+    security:
+        access_control:
+            - { path: ^/, roles: PUBLIC_ACCESS, requires_channel: https } # force https, https://symfony.com/doc/current/security/force_https.html
