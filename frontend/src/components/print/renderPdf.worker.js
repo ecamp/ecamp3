@@ -1,9 +1,17 @@
-import './globalWorkerShim.js'
+import * as Sentry from '@sentry/browser'
 import * as Comlink from 'comlink'
 import { renderPdf } from './renderPdf.js'
+import './globalWorkerShim.js'
+import 'raf/polyfill' // must be imported before renderingDependencies
+import renderingDependencies from './renderingDependencies.js'
 
 const renderPdfInWorker = async (data) => {
-  return { ...(await renderPdf(data)), filename: 'web-worker.pdf' }
+  const result = { ...(await renderPdf(data, renderingDependencies)) }
+  if (result.error) {
+    Sentry.captureException(result.error)
+    result.error = result.error.message
+  }
+  return result
 }
 
 Comlink.expose({

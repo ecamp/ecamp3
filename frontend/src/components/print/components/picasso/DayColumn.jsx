@@ -1,10 +1,8 @@
 // eslint-disable-next-line no-unused-vars
 import React from 'react'
-import pdf from '@react-pdf/renderer'
+import { View } from '../../reactPdf.js'
 import ScheduleEntry from './ScheduleEntry.jsx'
-import dayjs from '../../../../../common/helpers/dayjs.js'
-
-const { View } = pdf
+import dayjs from '../../../../../../common/helpers/dayjs.js'
 
 // converts ISO String format (UTC timezone) into a unix/seconds timestamp (UTC timezone)
 function stringToTimestamp (string) {

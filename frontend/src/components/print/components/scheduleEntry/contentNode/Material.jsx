@@ -1,8 +1,6 @@
 // eslint-disable-next-line no-unused-vars
 import React from 'react'
-import pdf from '@react-pdf/renderer'
-
-const { View, Text } = pdf
+import { View, Text } from '../../../reactPdf.js'
 
 const columnStyles = {
   flexGrow: '1',

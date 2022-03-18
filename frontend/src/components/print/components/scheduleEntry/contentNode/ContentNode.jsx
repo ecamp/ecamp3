@@ -1,6 +1,6 @@
 // eslint-disable-next-line no-unused-vars
 import React from 'react'
-import pdf from '@react-pdf/renderer'
+import { Text } from '../../../reactPdf.js'
 import ColumnLayout from './ColumnLayout.jsx'
 import LAThematicArea from './LAThematicArea.jsx'
 import Storyboard from './Storyboard.jsx'
@@ -8,8 +8,6 @@ import Notes from './Notes.jsx'
 import SafetyConcept from './SafetyConcept.jsx'
 import Material from './Material.jsx'
 import Storycontext from './Storycontext.jsx'
-
-const { Text } = pdf
 
 const contentNodeComponents = {
   ColumnLayout,

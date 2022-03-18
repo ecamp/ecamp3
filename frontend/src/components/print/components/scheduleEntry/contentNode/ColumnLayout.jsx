@@ -1,8 +1,6 @@
 // eslint-disable-next-line no-unused-vars
 import React from 'react'
-import pdf from '@react-pdf/renderer'
-
-const { View } = pdf
+import { View } from '../../../reactPdf.js'
 
 function ColumnLayout (props) {
   const ContentNode = props.ContentNode
