@@ -20,6 +20,7 @@ exports[`An ETextArea looks like a textarea: mountAsInControls 1`] = `
                                    class="editor"
                                    id
                                    rows="3">
+                                   <!---->
                                    <div class="editor__content"></div>
                               </div>
                          </div>
@@ -48,6 +49,7 @@ exports[`An ETextArea looks like a textarea: multiline 1`] = `
                               <div class="editor"
                                    id
                                    multi-line>
+                                   <!---->
                                    <div class="editor__content"></div>
                               </div>
                          </div>
@@ -67,6 +69,7 @@ exports[`An ETextArea looks like a textarea: notext 1`] = `
                          <div class="v-text-field__slot">
                               <div class="editor"
                                    id>
+                                   <!---->
                                    <div class="editor__content"></div>
                               </div>
                          </div>
@@ -93,11 +96,13 @@ exports[`An ETextArea looks like a textarea: withtext 1`] = `
                          <div class="v-text-field__slot">
                               <div class="editor"
                                    id>
+                                   <!---->
                                    <div class="editor__content">
                                         <div class="ProseMirror"
                                              contenteditable="true"
-                                             tabindex="0">
-                                             <p class>Here comes a text with new lines and new lines with in them and tags a</p>
+                                             tabindex="0"
+                                             translate="no">
+                                             <p>Here comes a text with new lines and new lines with in them and tags a</p>
                                         </div>
                                    </div>
                               </div>
