@@ -1,31 +1,60 @@
+<template>
+  <div class="editor">
+    <bubble-menu v-if="withExtensions" :editor="editor" :tippy-options="{ maxWidth: 'none' }">
+      <v-toolbar short>
+        <v-item-group class="v-btn-toggle v-btn-toggle--dense">
+          <v-btn :class="editor.isActive('heading', { level: 1 }) ? 'v-item--active v-btn--active' : ''" @click="editor.chain().focus().toggleHeading({ level: 1 }).run()">
+            <v-icon>mdi-format-header-1</v-icon>
+          </v-btn>
+          <v-btn :class="editor.isActive('heading', { level: 2 }) ? 'v-item--active v-btn--active' : ''" @click="editor.chain().focus().toggleHeading({ level: 2 }).run()">
+            <v-icon>mdi-format-header-2</v-icon>
+          </v-btn>
+          <v-btn :class="editor.isActive('heading', { level: 3 }) ? 'v-item--active v-btn--active' : ''" @click="editor.chain().focus().toggleHeading({ level: 3 }).run()">
+            <v-icon>mdi-format-header-3</v-icon>
+          </v-btn>
+        </v-item-group>
+        <div class="mx-1" />
+        <v-item-group class="v-btn-toggle v-btn-toggle--dense" multiple>
+          <v-btn :class="editor.isActive('bold') ? 'v-item--active v-btn--active' : ''" @click="editor.chain().focus().toggleBold().run()">
+            <v-icon>mdi-format-bold</v-icon>
+          </v-btn>
+          <v-btn :class="editor.isActive('italic') ? 'v-item--active v-btn--active' : ''" @click="editor.chain().focus().toggleItalic().run()">
+            <v-icon>mdi-format-italic</v-icon>
+          </v-btn>
+          <v-btn :class="editor.isActive('underline') ? 'v-item--active v-btn--active' : ''" @click="editor.chain().focus().toggleUnderline().run()">
+            <v-icon>mdi-format-underline</v-icon>
+          </v-btn>
+          <v-btn :class="editor.isActive('strike') ? 'v-item--active v-btn--active' : ''" @click="editor.chain().focus().toggleStrike().run()">
+            <v-icon>mdi-format-strikethrough</v-icon>
+          </v-btn>
+        </v-item-group>
+      </v-toolbar>
+    </bubble-menu>
+    <editor-content class="editor__content" :editor="editor" />
+  </div>
+</template>
 <script>
-
-import { Editor, EditorContent, EditorMenuBubble } from 'tiptap'
-import {
-  BulletList,
-  HardBreak,
-  Heading,
-  ListItem,
-  OrderedList,
-  Bold,
-  Italic,
-  Strike,
-  Underline,
-  History,
-  Placeholder
-} from 'tiptap-extensions'
-import { VBtn, VIcon, VItemGroup, VSpacer, VToolbar } from 'vuetify/lib'
+import { Editor, EditorContent, BubbleMenu } from '@tiptap/vue-2'
+import Document from '@tiptap/extension-document'
+import Paragraph from '@tiptap/extension-paragraph'
+import Text from '@tiptap/extension-text'
+import BulletList from '@tiptap/extension-bullet-list'
+import HardBreak from '@tiptap/extension-hard-break'
+import Heading from '@tiptap/extension-heading'
+import ListItem from '@tiptap/extension-list-item'
+import OrderedList from '@tiptap/extension-ordered-list'
+import Bold from '@tiptap/extension-bold'
+import Italic from '@tiptap/extension-italic'
+import Strike from '@tiptap/extension-strike'
+import Underline from '@tiptap/extension-underline'
+import History from '@tiptap/extension-history'
+import Placeholder from '@tiptap/extension-placeholder'
 
 export default {
   name: 'TiptapEditor',
   components: {
-    VBtn,
-    VIcon,
-    VItemGroup,
-    VSpacer,
-    VToolbar,
     EditorContent,
-    EditorMenuBubble
+    BubbleMenu
   },
   props: {
     value: {
@@ -46,61 +75,70 @@ export default {
     }
   },
   data () {
+    const placeholder = Placeholder.configure({
+      emptyEditorClass: 'is-editor-empty',
+      emptyNodeClass: 'is-empty',
+      emptyNodeText: '',
+      showOnlyWhenEditable: true,
+      showOnlyCurrent: true
+    })
     const extensions = [
-      new Placeholder({
-        emptyEditorClass: 'is-editor-empty',
-        emptyNodeClass: 'is-empty',
-        emptyNodeText: '',
-        showOnlyWhenEditable: true,
-        showOnlyCurrent: true
-      })
+      Document,
+      Paragraph,
+      Text,
+      placeholder
     ]
     if (this.withExtensions) {
       extensions.push(...[
-        new History(),
-        new Bold(),
-        new Italic(),
-        new Underline(),
-        new Strike(),
-        new ListItem(),
-        new BulletList(),
-        new OrderedList(),
-        new Heading({ levels: [1, 2, 3] }),
-        new HardBreak()
+        History,
+        Bold,
+        Italic,
+        Underline,
+        Strike,
+        ListItem,
+        BulletList,
+        OrderedList,
+        Heading.configure({ levels: [1, 2, 3] }),
+        HardBreak
       ])
     }
 
     return {
-      emitAfterOnUpdate: false,
       editor: new Editor({
         extensions: extensions,
         content: this.value,
         onUpdate: this.onUpdate,
-        onFocus: this.onFocus,
-        onBlur: this.onBlur,
         editable: this.editable
       }),
+      placeholderExtension: placeholder,
       regex: {
         emptyParagraph: /<p><\/p>/,
         lineBreak1: /<br>/g,
         lineBreak2: /<br\/>/g
-      },
-      lastSelection: null
+      }
+    }
+  },
+  computed: {
+    html () {
+      // Replace some Tags, to be compatible with backend HTMLPurifier
+      return this.editor.getHTML()
+        .replace(this.regex.emptyParagraph, '')
+        .replace(this.regex.lineBreak1, '<br />')
+        .replace(this.regex.lineBreak1, '<br />')
     }
   },
   watch: {
     value (val) {
-      if (this.emitAfterOnUpdate) {
-        this.emitAfterOnUpdate = false
-        return
+      // Be careful to only use setContent when absolutely necessary, because it resets the user's cursor to the end
+      // of the input field
+      if (val !== this.html) {
+        this.editor.commands.setContent(val)
       }
-      this.lastSelection = null
-      this.editor.setContent(val)
     },
     placeholder: {
       immediate: true,
       handler (val) {
-        this.editor.extensions.options.placeholder.emptyNodeText = val
+        this.placeholderExtension.options.emptyNodeText = val
       }
     },
     editable () {
@@ -111,128 +149,11 @@ export default {
   },
   methods: {
     focus () {
-      this.editor.focus()
+      this.editor.commands.focus()
     },
-    onUpdate (info) {
-      let output = info.getHTML()
-
-      // Replace some Tags, to be compatible with backend HTMLPurifier
-      output = output.replace(this.regex.emptyParagraph, '')
-      output = output.replace(this.regex.lineBreak1, '<br />')
-      output = output.replace(this.regex.lineBreak1, '<br />')
-
-      this.emitAfterOnUpdate = true
-      this.$emit('input', output, info)
-    },
-    onFocus (e) {
-      this.$emit('focus', e)
-
-      const sel = document.getSelection()
-      if (sel.rangeCount === 1) {
-        const range = sel.getRangeAt(0)
-        if (this.lastSelection === null) {
-          const div = this.editor.view.dom
-          range.setStart(div, div.childElementCount)
-          range.setEnd(div, div.childElementCount)
-        } else {
-          range.setStart(this.lastSelection.startContainer, this.lastSelection.startOffset)
-          range.setEnd(this.lastSelection.endContainer, this.lastSelection.endOffset)
-        }
-      }
-    },
-    onBlur (e) {
-      this.$emit('blur', e)
-
-      const sel = document.getSelection()
-      if (sel.rangeCount === 1) {
-        const range = sel.getRangeAt(0)
-        this.lastSelection = {
-          startContainer: range.startContainer,
-          startOffset: range.startOffset,
-          endContainer: range.endContainer,
-          endOffset: range.endOffset
-        }
-      }
-    },
-    getContent () {
-      if (this.withExtensions) {
-        return [
-          this.genToolbar(),
-          this.genEditorContent()
-        ]
-      } else {
-        return [
-          this.genEditorContent()
-        ]
-      }
-    },
-    genToolbar () {
-      return this.$createElement(EditorMenuBubble, {
-        props: {
-          editor: this.editor
-        },
-        scopedSlots: {
-          default: (props) => {
-            return this.$createElement('div', {
-              staticClass: 'menububble',
-              class: { 'is-active': props.menu.isActive },
-              style: {
-                left: props.menu.left + 'px',
-                bottom: props.menu.bottom + 'px'
-              }
-            }, [
-              this.$createElement(VToolbar, {
-                props: { short: true }
-              }, [
-                this.$createElement(VItemGroup, {
-                  staticClass: 'v-btn-toggle v-btn-toggle--dense',
-                  props: { dense: true }
-                }, [
-                  this.genToolbarItem(props.isActive.heading({ level: 1 }), () => props.commands.heading({ level: 1 }), 'mdi-format-header-1'),
-                  this.genToolbarItem(props.isActive.heading({ level: 2 }), () => props.commands.heading({ level: 2 }), 'mdi-format-header-2'),
-                  this.genToolbarItem(props.isActive.heading({ level: 3 }), () => props.commands.heading({ level: 3 }), 'mdi-format-header-3')
-                ]),
-                this.$createElement('div', { staticClass: 'mx-1' }),
-                this.$createElement(VItemGroup, {
-                  staticClass: 'v-btn-toggle v-btn-toggle--dense',
-                  props: { dense: true, multiple: true }
-                }, [
-                  this.genToolbarItem(props.isActive.bold(), props.commands.bold, 'mdi-format-bold'),
-                  this.genToolbarItem(props.isActive.italic(), props.commands.italic, 'mdi-format-italic'),
-                  this.genToolbarItem(props.isActive.underline(), props.commands.underline, 'mdi-format-underline'),
-                  this.genToolbarItem(props.isActive.strike(), props.commands.strike, 'mdi-format-strikethrough')
-                ])
-              ])
-            ])
-          }
-        }
-      })
-    },
-    genToolbarItem (isActive, onClick, icon) {
-      return this.$createElement(VBtn, {
-        class: {
-          'v-item--active': isActive,
-          'v-btn--active': isActive
-        },
-        on: { click: onClick }
-      }, [
-        this.$createElement(VIcon, {}, [icon])
-      ])
-    },
-    genEditorContent () {
-      // TODO: Emit MouseDown/Up events
-      return this.$createElement(EditorContent, {
-        staticClass: 'editor__content',
-        props: {
-          editor: this.editor
-        }
-      })
+    onUpdate () {
+      this.$emit('input', this.html)
     }
-  },
-  render (h) {
-    return h('div', {
-      staticClass: 'editor'
-    }, this.getContent())
   }
 }
 </script>
@@ -296,37 +217,6 @@ div.editor >>> .editor__content .ProseMirror li p {
 }
 div.editor >>> .editor__content .ProseMirror li p:not(:last-child) {
   margin-bottom: 0;
-}
-
-div.editor >>> .menububble {
-  position: absolute;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  z-index: 20;
-  /*background: #000;*/
-  border-radius: 5px;
-  padding: .3rem;
-  margin-bottom: .5rem;
-  -webkit-transform: translateX(-50%);
-  transform: translateX(-50%);
-  visibility: hidden;
-  opacity: 0;
-  -webkit-transition: opacity .2s,visibility .2s;
-  transition: opacity .2s,visibility .2s;
-}
-
-div.editor >>> .menububble.is-active {
-  opacity: 1;
-  visibility: visible;
-}
-
-div.editor >>> .menububble__button {
-  border-radius: 3px;
-}
-
-div.editor >>> .menububble__button.is-active {
-  background-color: hsla(0, 0%, 100%, .3);
 }
 
 </style>
