@@ -14,9 +14,6 @@
     "lint": "npm run lint:js && npm run lint:style",
     "test": "jest"
   },
-  "engines": {
-    "npm": "~8.5.0"
-  },
   "dependencies": {
     "@nuxtjs/axios": "5.13.6",
     "@nuxtjs/sentry": "5.1.7",
