@@ -136,10 +136,10 @@ class CampCollaboration extends BaseEntity implements BelongsToCampInterface {
     #[ApiProperty(example: 'some-email@example.com')]
     #[Groups(['read', 'create'])]
     public ?string $inviteEmail = null;
-    
+
     #[ApiProperty(readable: false, writable: false)]
     public ?string $inviteKey = null;
-    
+
     /**
      * @ORM\Column(type="string", length=64, nullable=true)
      */
