@@ -25,7 +25,7 @@ const picassoData = (config) => {
 }
 
 const activityData = (config) => {
-  if (!config.contents.some(c => c.type === 'Program')) {
+  if (!config.contents.some(c => ['Program', 'Activity'].includes(c.type))) {
     return []
   }
   return [
