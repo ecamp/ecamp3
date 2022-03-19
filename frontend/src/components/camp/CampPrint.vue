@@ -4,72 +4,82 @@
     <div v-else>
       <h3>{{ $tc('components.camp.campPrint.selectPrintPreview') }}</h3>
 
-      <v-list>
-        <draggable v-model="cnf.contents" handle=".handle">
-          <v-list-item v-for="(content, idx) in cnf.contents" :key="idx">
-            <v-list-item-icon>
-              <v-icon class="handle">mdi-drag-horizontal-variant</v-icon>
-            </v-list-item-icon>
-            <v-list-item-content>
-              <v-list-item-title>
-                <h3>{{ content.type }}</h3>
-              </v-list-item-title>
-              <component :is="content.type"
-                         v-model="content.options"
-                         :camp="camp()" />
-            </v-list-item-content>
-            <v-list-item-action>
-              <v-btn icon @click="cnf.contents.splice(idx, 1)">
-                <v-icon color="red">mdi-delete</v-icon>
+      <v-container>
+        <v-row>
+          <v-col cols="12" lg="4">
+            <v-list>
+              <draggable v-model="cnf.contents" handle=".handle">
+                <v-list-item v-for="(content, idx) in cnf.contents" :key="idx">
+                  <v-list-item-icon>
+                    <v-icon class="handle">mdi-drag-horizontal-variant</v-icon>
+                  </v-list-item-icon>
+                  <v-list-item-content>
+                    <v-list-item-title>
+                      <h3>{{ content.type }}</h3>
+                    </v-list-item-title>
+                    <component :is="content.type"
+                               v-model="content.options"
+                               :camp="camp()" />
+                  </v-list-item-content>
+                  <v-list-item-action>
+                    <v-btn icon @click="cnf.contents.splice(idx, 1)">
+                      <v-icon color="red">mdi-delete</v-icon>
+                    </v-btn>
+                  </v-list-item-action>
+                </v-list-item>
+              </draggable>
+            </v-list>
+            <br>
+            <v-menu>
+              <template #activator="{ on, attrs }">
+                <v-btn
+                  color="primary"
+                  dark
+                  v-bind="attrs"
+                  v-on="on">
+                  Add
+                </v-btn>
+              </template>
+              <v-list>
+                <v-list-item
+                  v-for="(component, idx) in contentComponents"
+                  :key="idx"
+                  @click="cnf.contents.push({
+                    type: component.name,
+                    options: component.defaultOptions()
+                  })">
+                  <v-list-item-title>
+                    {{ component.name }}
+                  </v-list-item-title>
+                </v-list-item>
+              </v-list>
+            </v-menu>
+          </v-col>
+          <v-col cols="12" lg="8">
+            <div>
+              <v-btn color="primary"
+                     :href="previewUrl"
+                     target="_blank">
+                {{ $tc('components.camp.campPrint.openPrintPreview') }}
               </v-btn>
-            </v-list-item-action>
-          </v-list-item>
-        </draggable>
-      </v-list>
-      <br>
-      <v-menu>
-        <template #activator="{ on, attrs }">
-          <v-btn
-            color="primary"
-            dark
-            v-bind="attrs"
-            v-on="on">
-            Add
-          </v-btn>
-        </template>
-        <v-list>
-          <v-list-item
-            v-for="(component, idx) in contentComponents"
-            :key="idx"
-            @click="cnf.contents.push({
-              type: component.name,
-              options: component.defaultOptions()
-            })">
-            <v-list-item-title>
-              {{ component.name }}
-            </v-list-item-title>
-          </v-list-item>
-        </v-list>
-      </v-menu>
-      <br>
-      <br>
-      <hr>
-      <pre>
-{{ cnf }}
 
-      </pre>
-      <div>
-        <v-btn color="primary" class="mt-5"
-               :href="previewUrl"
-               target="_blank">
-          {{ $tc('components.camp.campPrint.openPrintPreview') }}
-        </v-btn>
+              <local-print-preview :config="{ camp: camp.bind(this), ...cnf }"
+                                   width="100%"
+                                   height="600"
+                                   class="my-4" />
 
-        <local-print-preview :config="{ camp: camp.bind(this), ...cnf }"
-                             width="100%"
-                             height="500"
-                             class="mt-4" />
-      </div>
+              <v-expansion-panels>
+                <v-expansion-panel>
+                  <v-expansion-panel-header>View Print-Config</v-expansion-panel-header>
+                  <v-expansion-panel-content>
+                    <pre>{{ cnf }}</pre>
+                  </v-expansion-panel-content>
+                </v-expansion-panel>
+              </v-expansion-panels>
+            </div>
+          </v-col>
+        </v-row>
+      </v-container>
     </div>
   </div>
 </template>

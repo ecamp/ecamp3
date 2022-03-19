@@ -28,7 +28,7 @@ import { generatePdf } from './generatePdf.js'
 import { saveAs } from 'file-saver'
 import slugify from 'slugify'
 
-const RENDER_IN_WORKER = false
+const RENDER_IN_WORKER = true
 
 export default {
   name: 'LocalPDFDownloadButton',

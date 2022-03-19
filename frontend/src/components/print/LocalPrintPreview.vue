@@ -16,7 +16,7 @@
 <script>
 import { generatePdf } from './generatePdf.js'
 
-const RENDER_IN_WORKER = false
+const RENDER_IN_WORKER = true
 
 export default {
   name: 'LocalPrintPreview',
