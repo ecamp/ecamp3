@@ -87,15 +87,15 @@ export default {
   }),
   computed: {
     isLastManager () {
+      if (this.collaborator.status !== 'established') return false
+      if (this.collaborator.role !== 'manager') return false
       const camp = this.collaborator.camp()
-      const isManager = this.collaborator.role === 'manager'
-      const lastManager = camp
+      return camp
         ?.campCollaborations()
         ?.items
         ?.filter(collaborator => collaborator.status === 'established')
         .filter(collaborator => collaborator.role === 'manager')
         .length <= 1
-      return isManager && lastManager
     },
     isOwnCampCollaboration () {
       if (!(typeof this.collaborator.user === 'function')) {
