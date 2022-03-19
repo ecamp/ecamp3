@@ -24,7 +24,6 @@
 </template>
 
 <script>
-import { generatePdf } from './generatePdf.js'
 import { saveAs } from 'file-saver'
 import slugify from 'slugify'
 
@@ -48,7 +47,10 @@ export default {
     async generatePdf () {
       this.loading = true
 
-      const { blob, error } = await generatePdf({
+      // lazy load generatePdf to avoid loading complete react-pdf when showing PDF download buton
+      const generatePdfModule = await import('./generatePdf.js')
+
+      const { blob, error } = await generatePdfModule.generatePdf({
         config: { ...this.config, apiGet: this.api.get.bind(this) },
         storeData: this.$store.state,
         translationData: this.$i18n.messages,

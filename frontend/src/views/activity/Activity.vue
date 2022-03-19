@@ -156,7 +156,7 @@ import RootNode from '@/components/activity/RootNode.vue'
 import ActivityResponsibles from '@/components/activity/ActivityResponsibles.vue'
 import { rangeShort } from '@/common/helpers/dateHelperUTCFormatted.js'
 import { campRoleMixin } from '@/mixins/campRoleMixin'
-import LocalPdfDownloadButton from '../../components/print/LocalPdfDownloadButton.vue'
+import LocalPdfDownloadButton from '@/components/print/print-react/LocalPdfDownloadButton.vue'
 
 export default {
   name: 'Activity',

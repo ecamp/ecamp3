@@ -5,9 +5,9 @@ import sortBy from 'lodash/sortBy.js'
 import Picasso from '../../components/picasso/Picasso.jsx'
 import ScheduleEntry from '../../components/scheduleEntry/ScheduleEntry.jsx'
 import styles from '../../components/styles.js'
-import OpenSans from '../../../../assets/fonts/OpenSans/OpenSans-Regular.ttf'
-import OpenSansSemiBold from '../../../../assets/fonts/OpenSans/OpenSans-SemiBold.ttf'
-import OpenSansBold from '../../../../assets/fonts/OpenSans/OpenSans-Bold.ttf'
+import OpenSans from '@/assets/fonts/OpenSans/OpenSans-Regular.ttf'
+import OpenSansSemiBold from '@/assets/fonts/OpenSans/OpenSans-SemiBold.ttf'
+import OpenSansBold from '@/assets/fonts/OpenSans/OpenSans-Bold.ttf'
 
 function PDFDocument (props) {
   return <Document>

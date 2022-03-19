@@ -3,16 +3,16 @@ Print preview to print complete camp
 -->
 
 <template>
-  <camp-print :camp="camp" />
+  <print-configurator :camp="camp" />
 </template>
 
 <script>
-import CampPrint from '@/components/camp/CampPrint.vue'
+import PrintConfigurator from '@/components/print/PrintConfigurator.vue'
 
 export default {
   name: 'PrintCamp',
   components: {
-    CampPrint
+    PrintConfigurator
   },
   props: {
     camp: { type: Function, required: true }

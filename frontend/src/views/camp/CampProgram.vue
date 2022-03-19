@@ -57,7 +57,7 @@ import ContentCard from '@/components/layout/ContentCard.vue'
 import Picasso from '@/components/camp/picasso/Picasso.vue'
 import ScheduleEntries from '@/components/scheduleEntry/ScheduleEntries.vue'
 import PeriodSwitcher from '@/components/camp/PeriodSwitcher.vue'
-import LocalPdfDownloadButton from '../../components/print/LocalPdfDownloadButton.vue'
+import LocalPdfDownloadButton from '@/components/print/print-react/LocalPdfDownloadButton.vue'
 
 import axios from 'axios'
 
