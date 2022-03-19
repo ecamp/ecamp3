@@ -27,7 +27,6 @@ php:
   appEnv: prod
   appDebug: "0"
   appSecret: ""
-  secureScheme: "https"
   corsAllowOrigin: "^https://.*?\\.chart-example\\.local$"
   trustedProxies:
     - "127.0.0.1"

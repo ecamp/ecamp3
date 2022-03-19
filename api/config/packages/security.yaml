@@ -32,7 +32,9 @@ security:
                 - App\Security\OAuth\HitobitoAuthenticator
 
     access_control:
-        # roles: PUBLIC_ACCESS => some endpoints are available to unauthenticated clients
-        # requires_channel => force https in prod to get valid oauth redirect URIs, https://symfony.com/doc/current/security/force_https.html
-        # the SECURE_SCHEME env variable is defined as 'http' for dev and 'https' for prod
-        - { path: ^/, roles: PUBLIC_ACCESS, requires_channel: '%env(SECURE_SCHEME)%' } 
+        - { path: ^/, roles: PUBLIC_ACCESS } # Some endpoints are available to unauthenticated clients
+
+when@prod:
+    security:
+        access_control:
+            - { path: ^/, roles: PUBLIC_ACCESS, requires_channel: https } # force https, https://symfony.com/doc/current/security/force_https.html
