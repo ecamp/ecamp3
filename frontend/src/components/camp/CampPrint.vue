@@ -5,8 +5,11 @@
       <h3>{{ $tc('components.camp.campPrint.selectPrintPreview') }}</h3>
 
       <v-list>
-        <draggable v-model="cnf.contents">
+        <draggable v-model="cnf.contents" handle=".handle">
           <v-list-item v-for="(content, idx) in cnf.contents" :key="idx">
+            <v-list-item-icon>
+              <v-icon class="handle">mdi-drag-horizontal-variant</v-icon>
+            </v-list-item-icon>
             <v-list-item-content>
               <v-list-item-title>
                 <h3>{{ content.type }}</h3>
