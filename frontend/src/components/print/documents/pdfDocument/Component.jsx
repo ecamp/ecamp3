@@ -29,6 +29,16 @@ function PDFDocument (props) {
         }
         </Page>
       }
+      if (content.type === 'Activity' && content.options.scheduleEntry !== null) {
+        return <Page size="A4" orientation="portrait" style={{ ...styles.page, fontSize: 8 + 'pt' }}>
+        {
+          [content.options.scheduleEntry].map(scheduleEntryUri => {
+            const scheduleEntry = props.store.get(scheduleEntryUri)
+            return <ScheduleEntry {...props} scheduleEntry={scheduleEntry} key={scheduleEntry.id} />
+          })
+        }
+        </Page>
+      }
       return <React.Fragment />
     })}
   </Document>
