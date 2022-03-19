@@ -15,7 +15,7 @@ function PDFDocument (props) {
       if (content.type === 'Picasso') {
         return content.options.periods.map(periodUri => {
           const period = props.store.get(periodUri)
-          return <Picasso {...props} period={period} key={period.id} />
+          return <Picasso {...props} period={period} orientation={content.options.orientation} key={period.id} />
         })
       }
       if (content.type === 'Program') {
