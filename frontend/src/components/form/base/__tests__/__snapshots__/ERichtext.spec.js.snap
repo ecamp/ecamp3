@@ -9,8 +9,7 @@ exports[`An ERichtext looks like a richtext field: empty 1`] = `
                          <div class="v-text-field__slot">
                               <div class="editor"
                                    id>
-                                   <div class="menububble"
-                                        style="left: 0px; bottom: 0px;">
+                                   <div style="visibility: hidden;">
                                         <header class="v-sheet theme--light v-toolbar"
                                                 style="height: 56px;">
                                              <div class="v-toolbar__content"
@@ -94,74 +93,12 @@ exports[`An ERichtext looks like a richtext field: with text 1`] = `
                          <div class="v-text-field__slot">
                               <div class="editor"
                                    id>
-                                   <div class="menububble"
-                                        style="left: 0px; bottom: 0px;">
-                                        <header class="v-sheet theme--light v-toolbar"
-                                                style="height: 56px;">
-                                             <div class="v-toolbar__content"
-                                                  style="height: 56px;">
-                                                  <div class="v-btn-toggle v-btn-toggle--dense v-item-group theme--light">
-                                                       <button class="v-btn v-btn--is-elevated v-btn--has-bg theme--light v-size--default"
-                                                               type="button">
-                                                            <span class="v-btn__content">
-                                                                 <i aria-hidden="true"
-                                                                    class="v-icon notranslate mdi mdi-format-header-1 theme--light"></i>
-                                                            </span>
-                                                       </button>
-                                                       <button class="v-btn v-btn--is-elevated v-btn--has-bg theme--light v-size--default"
-                                                               type="button">
-                                                            <span class="v-btn__content">
-                                                                 <i aria-hidden="true"
-                                                                    class="v-icon notranslate mdi mdi-format-header-2 theme--light"></i>
-                                                            </span>
-                                                       </button>
-                                                       <button class="v-btn v-btn--is-elevated v-btn--has-bg theme--light v-size--default"
-                                                               type="button">
-                                                            <span class="v-btn__content">
-                                                                 <i aria-hidden="true"
-                                                                    class="v-icon notranslate mdi mdi-format-header-3 theme--light"></i>
-                                                            </span>
-                                                       </button>
-                                                  </div>
-                                                  <div class="mx-1"></div>
-                                                  <div class="v-btn-toggle v-btn-toggle--dense v-item-group theme--light">
-                                                       <button class="v-btn v-btn--is-elevated v-btn--has-bg theme--light v-size--default v-item--active v-btn--active"
-                                                               type="button">
-                                                            <span class="v-btn__content">
-                                                                 <i aria-hidden="true"
-                                                                    class="v-icon notranslate mdi mdi-format-bold theme--light"></i>
-                                                            </span>
-                                                       </button>
-                                                       <button class="v-btn v-btn--is-elevated v-btn--has-bg theme--light v-size--default"
-                                                               type="button">
-                                                            <span class="v-btn__content">
-                                                                 <i aria-hidden="true"
-                                                                    class="v-icon notranslate mdi mdi-format-italic theme--light"></i>
-                                                            </span>
-                                                       </button>
-                                                       <button class="v-btn v-btn--is-elevated v-btn--has-bg theme--light v-size--default"
-                                                               type="button">
-                                                            <span class="v-btn__content">
-                                                                 <i aria-hidden="true"
-                                                                    class="v-icon notranslate mdi mdi-format-underline theme--light"></i>
-                                                            </span>
-                                                       </button>
-                                                       <button class="v-btn v-btn--is-elevated v-btn--has-bg theme--light v-size--default"
-                                                               type="button">
-                                                            <span class="v-btn__content">
-                                                                 <i aria-hidden="true"
-                                                                    class="v-icon notranslate mdi mdi-format-strikethrough theme--light"></i>
-                                                            </span>
-                                                       </button>
-                                                  </div>
-                                             </div>
-                                        </header>
-                                   </div>
                                    <div class="editor__content">
                                         <div class="ProseMirror"
                                              contenteditable="true"
-                                             tabindex="0">
-                                             <p class>My text with newlines and <strong>bold</strong>
+                                             tabindex="0"
+                                             translate="no">
+                                             <p>My text with newlines and <strong>bold</strong>
                                              </p>
                                         </div>
                                    </div>
