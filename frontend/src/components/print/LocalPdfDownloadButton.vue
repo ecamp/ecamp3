@@ -6,6 +6,8 @@
            outlined
            @click="generatePdf">
       <v-icon>mdi-printer</v-icon>
+      <div class="mx-1">with</div>
+      <v-icon>mdi-react</v-icon>
     </v-btn>
     <v-snackbar v-model="error" :timeout="10000">
       {{ $tc('components.camp.print.localPdfDownloadButton.error') }}
@@ -26,7 +28,7 @@ import { generatePdf } from './generatePdf.js'
 import { saveAs } from 'file-saver'
 import slugify from 'slugify'
 
-const RENDER_IN_WORKER = true
+const RENDER_IN_WORKER = false
 
 export default {
   name: 'LocalPDFDownloadButton',
