@@ -129,8 +129,7 @@ export default {
       cnf: {
         language: '',
         documentName: this.camp().title + '.pdf',
-        contents: [
-        ]
+        contents: this.defaultContents()
       }
     }
   },
@@ -177,6 +176,45 @@ export default {
         this.cnf.language = language
       },
       immediate: true
+    }
+  },
+  methods: {
+    defaultContents () {
+      const contents = [
+        {
+          type: 'Cover',
+          options: {}
+        },
+        {
+          type: 'Picasso',
+          options: {
+            periods: this.camp().periods().items.map(period => period._meta.self),
+            orientation: 'L'
+          }
+        }
+      ]
+
+      this.camp().periods().items.forEach(period => {
+        contents.push({
+          type: 'Story',
+          options: {
+            periods: [period._meta.self]
+          }
+        })
+        contents.push({
+          type: 'Program',
+          options: {
+            periods: [period._meta.self]
+          }
+        })
+      })
+
+      contents.push({
+        type: 'Toc',
+        options: {}
+      })
+
+      return contents
     }
   }
 }

@@ -19,15 +19,17 @@ function PDFDocument (props) {
         })
       }
       if (content.type === 'Program') {
-        return <Page size="A4" orientation="portrait" style={{ ...styles.page, fontSize: 8 + 'pt' }}>
-        {
-          content.options.periods.map(periodUri => {
-            const period = props.store.get(periodUri)
-            return sortBy(period.scheduleEntries().items, ['dayNumber', 'scheduleEntryNumber'])
-              .map(scheduleEntry => <ScheduleEntry {...props} scheduleEntry={scheduleEntry} key={scheduleEntry.id}/>)
-          })
+        const periods = content.options.periods.map(periodUri => props.store.get(periodUri))
+        if (periods.some(period => period.scheduleEntries().items.length > 0)) {
+          return <Page size="A4" orientation="portrait" style={{ ...styles.page, fontSize: 8 + 'pt' }}>
+          {
+            periods.map(period => {
+              return sortBy(period.scheduleEntries().items, ['dayNumber', 'scheduleEntryNumber'])
+                .map(scheduleEntry => <ScheduleEntry {...props} scheduleEntry={scheduleEntry} key={scheduleEntry.id}/>)
+            })
+          }
+          </Page>
         }
-        </Page>
       }
       if (content.type === 'Activity' && content.options.scheduleEntry !== null) {
         return <Page size="A4" orientation="portrait" style={{ ...styles.page, fontSize: 8 + 'pt' }}>
