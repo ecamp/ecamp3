@@ -88,6 +88,17 @@ services:
     App\OpenApi\OAuthDecorator:
         decorates: 'api_platform.openapi.factory'
 
+    App\Oauth\UrlGeneratorDecorator:
+        class: App\Oauth\UrlGeneratorDecorator
+        arguments:
+            - '@Symfony\Component\Routing\Generator\UrlGeneratorInterface'
+            - "%kernel.environment%"
+
+    knpu.oauth2.provider_factory:
+        class: KnpU\OAuth2ClientBundle\DependencyInjection\ProviderFactory
+        arguments:
+            - '@App\Oauth\UrlGeneratorDecorator'
+
     App\Security\OAuth\GoogleAuthenticator:
         arguments:
             - '@lexik_jwt_authentication.handler.authentication_success'
