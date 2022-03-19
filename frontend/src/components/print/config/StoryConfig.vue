@@ -9,7 +9,7 @@
 
 <script>
 export default {
-  name: 'Story',
+  name: 'StoryConfig',
   props: {
     value: { type: Object, required: true },
     camp: { type: Object, required: true }

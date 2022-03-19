@@ -31,13 +31,13 @@ Admin screen of a camp: Displays details & periods of a single camp and allows t
 </template>
 
 <script>
-import CampSettings from '@/components/camp/CampSettings.vue'
-import CampAddress from '@/components/camp/CampAddress.vue'
-import CampPeriods from '@/components/camp/CampPeriods.vue'
-import CampMaterialLists from '@/components/camp/CampMaterialLists.vue'
-import CampCategories from '@/components/camp/CampCategories.vue'
+import CampSettings from '@/components/campAdmin/CampSettings.vue'
+import CampAddress from '@/components/campAdmin/CampAddress.vue'
+import CampPeriods from '@/components/campAdmin/CampPeriods.vue'
+import CampMaterialLists from '@/components/campAdmin/CampMaterialLists.vue'
+import CampCategories from '@/components/campAdmin/CampCategories.vue'
 import ContentCard from '@/components/layout/ContentCard.vue'
-import CampDangerZone from '@/components/camp/CampDangerZone.vue'
+import CampDangerZone from '@/components/campAdmin/CampDangerZone.vue'
 import { campRoleMixin } from '@/mixins/campRoleMixin'
 
 export default {

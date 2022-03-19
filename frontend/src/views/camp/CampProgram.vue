@@ -54,9 +54,9 @@ Show all activity schedule entries of a single period.
 <script>
 import { campRoleMixin } from '@/mixins/campRoleMixin'
 import ContentCard from '@/components/layout/ContentCard.vue'
-import Picasso from '@/components/camp/picasso/Picasso.vue'
-import ScheduleEntries from '@/components/scheduleEntry/ScheduleEntries.vue'
-import PeriodSwitcher from '@/components/camp/PeriodSwitcher.vue'
+import Picasso from '@/components/program/picasso/Picasso.vue'
+import ScheduleEntries from '@/components/program/ScheduleEntries.vue'
+import PeriodSwitcher from '@/components/program/PeriodSwitcher.vue'
 import LocalPdfDownloadButton from '@/components/print/print-react/LocalPdfDownloadButton.vue'
 
 import axios from 'axios'

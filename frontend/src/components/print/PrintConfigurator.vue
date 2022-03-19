@@ -87,12 +87,12 @@
 <script>
 import LocalPrintPreview from './print-react/LocalPrintPreview.vue'
 import Draggable from 'vuedraggable'
-import Cover from './config/Cover.vue'
-import Picasso from './config/Picasso.vue'
-import Story from './config/Story.vue'
-import Program from './config/Program.vue'
-import Activity from './config/Activity.vue'
-import Toc from './config/Toc.vue'
+import Cover from './config/CoverConfig.vue'
+import Picasso from './config/PicassoConfig.vue'
+import Story from './config/StoryConfig.vue'
+import Program from './config/ProgramConfig.vue'
+import Activity from './config/ActivityConfig.vue'
+import Toc from './config/TocConfig.vue'
 
 const PRINT_SERVER = window.environment.PRINT_SERVER
 

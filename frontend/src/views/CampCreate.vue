@@ -55,7 +55,7 @@ import ETextField from '@/components/form/base/ETextField.vue'
 import { campRoute } from '@/router.js'
 import ServerError from '@/components/form/ServerError.vue'
 import { ValidationObserver } from 'vee-validate'
-import CreateCampPeriods from '@/components/camp/CreateCampPeriods.vue'
+import CreateCampPeriods from '@/components/campAdmin/CreateCampPeriods.vue'
 
 export default {
   name: 'Camps',

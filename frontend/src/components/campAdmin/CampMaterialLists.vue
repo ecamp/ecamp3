@@ -28,8 +28,8 @@
 
 <script>
 import ButtonAdd from '@/components/buttons/ButtonAdd.vue'
-import CampMaterialListsItem from '@/components/camp/CampMaterialListsItem.vue'
-import DialogMaterialListCreate from '@/components/dialog/DialogMaterialListCreate.vue'
+import CampMaterialListsItem from '@/components/campAdmin/CampMaterialListsItem.vue'
+import DialogMaterialListCreate from './DialogMaterialListCreate.vue'
 import ContentGroup from '@/components/layout/ContentGroup.vue'
 
 export default {

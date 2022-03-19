@@ -4,7 +4,7 @@
 
 <script>
 export default {
-  name: 'Cover',
+  name: 'TocConfig',
   props: {
     value: { type: Object, required: true }
   },
