@@ -1,9 +1,6 @@
 <template>
   <div>
     <e-select
-      v-model="optionsActivity"
-      :items="activities" />
-    <e-select
       v-model="optionsScheduleEntry"
       :items="scheduleEntries" />
   </div>
@@ -25,33 +22,30 @@ export default {
       get () { return this.value },
       set (v) { this.$emit('input', v) }
     },
-    optionsActivity: {
-      get () { return this.options.activity },
-      set (a) {
-        this.options.activity = a
-        this.options.scheduleEntry = null
-      }
-    },
     optionsScheduleEntry: {
-      get () { return this.options.scheduleEntry },
-      set (s) { this.options.scheduleEntry = s }
-    },
-    activities () {
-      return this.camp.activities().items.map(a => ({
-        value: a._meta.self,
-        text: a.title
-      }))
+      get () {
+        return {
+          activity: this.options.activity,
+          scheduleEntry: this.options.scheduleEntry
+        }
+      },
+      set (val) {
+        this.options.activity = val.activity
+        this.options.scheduleEntry = val.scheduleEntry
+      }
     },
     scheduleEntries () {
-      if (this.options.activity != null) {
-        const activity = this.api.get(this.options.activity)
-        const scheduleEntries = activity.scheduleEntries().items
-        return scheduleEntries.map(se => ({
-          value: se._meta.self,
-          text: se.number
+      let scheduleEntries = []
+
+      this.camp.periods().items.forEach(p => {
+        const periodScheduleEntries = p.scheduleEntries().items.map(se => ({
+          value: { activity: se.activity()._meta.self, scheduleEntry: se._meta.self },
+          text: '(' + se.number + ') ' + se.activity().title
         }))
-      }
-      return []
+        scheduleEntries = [...scheduleEntries, ...periodScheduleEntries]
+      })
+
+      return scheduleEntries
     }
   },
   defaultOptions () {

@@ -11,7 +11,7 @@ import OpenSansBold from '../../../../assets/fonts/OpenSans/OpenSans-Bold.ttf'
 
 function PDFDocument (props) {
   return <Document>
-    { props.config.contents.map(content => {
+    { props.config.contents.map((content, idx) => {
       if (content.type === 'Picasso') {
         return content.options.periods.map(periodUri => {
           const period = props.store.get(periodUri)
@@ -21,7 +21,7 @@ function PDFDocument (props) {
       if (content.type === 'Program') {
         const periods = content.options.periods.map(periodUri => props.store.get(periodUri))
         if (periods.some(period => period.scheduleEntries().items.length > 0)) {
-          return <Page size="A4" orientation="portrait" style={{ ...styles.page, fontSize: 8 + 'pt' }}>
+          return <Page size="A4" orientation="portrait" style={{ ...styles.page, fontSize: 8 + 'pt' }} key={idx}>
           {
             periods.map(period => {
               return sortBy(period.scheduleEntries().items, ['dayNumber', 'scheduleEntryNumber'])
@@ -32,7 +32,7 @@ function PDFDocument (props) {
         }
       }
       if (content.type === 'Activity' && content.options.scheduleEntry !== null) {
-        return <Page size="A4" orientation="portrait" style={{ ...styles.page, fontSize: 8 + 'pt' }}>
+        return <Page size="A4" orientation="portrait" style={{ ...styles.page, fontSize: 8 + 'pt' }} key={idx}>
         {
           [content.options.scheduleEntry].map(scheduleEntryUri => {
             const scheduleEntry = props.store.get(scheduleEntryUri)
@@ -41,7 +41,7 @@ function PDFDocument (props) {
         }
         </Page>
       }
-      return <React.Fragment />
+      return <React.Fragment key={idx}/>
     })}
   </Document>
 }
@@ -66,16 +66,6 @@ const registerFonts = async () => {
 
 PDFDocument.prepare = async (config) => {
   return await registerFonts(config)
-}
-
-PDFDocument.filename = async ({ config, $tc }) => {
-  if (config.showPicasso && !config.showActivities /* && !config.showSomeOtherStuff */) {
-    return $tc('components.camp.print.documents.pdfDocument.filename.picassoOnly', { camp: config.camp.name })
-  }
-  if (config.showActivities && !config.showPicasso /* && !config.showSomeOtherStuff */) {
-    return $tc('components.camp.print.documents.pdfDocument.filename.activitiesOnly', { camp: config.camp.name })
-  }
-  return config.camp.name
 }
 
 export default PDFDocument
