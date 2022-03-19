@@ -105,6 +105,8 @@ class CampCollaborationDataPersister extends AbstractDataPersister {
     public function onResendInvitation(CampCollaboration $data) {
         /** @var User $user */
         $user = $this->security->getUser();
+        $data->inviteKey = IdGenerator::generateRandomHexString(64);
+        $data->inviteKeyHash = md5($data->inviteKey);
         $this->mailService->sendInviteToCampMail($user, $data->camp, $data->inviteKey, $data->inviteEmail);
     }
 }
