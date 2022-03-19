@@ -16,9 +16,6 @@
     "test:unit:debug": "node --inspect-brk=0.0.0.0:9229 ./node_modules/@vue/cli-service/bin/vue-cli-service.js test:unit --no-cache --runInBand",
     "test:unit:watch": "vue-cli-service test:unit --watch"
   },
-  "engines": {
-    "npm": "~8.5.0"
-  },
   "dependencies": {
     "@intlify/core": "^9.1.9",
     "@mdi/font": "6.5.95",
