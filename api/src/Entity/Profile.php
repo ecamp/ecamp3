@@ -51,9 +51,33 @@ class Profile extends BaseEntity {
     public ?string $email = null;
 
     /**
+     * Google id of the user.
+     *
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    #[ApiProperty(readable: false, writable: false)]
+    public ?string $googleId = null;
+
+    /**
+     * PBS MiData id of the user.
+     *
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    #[ApiProperty(readable: false, writable: false)]
+    public ?string $pbsmidataId = null;
+
+    /**
+     * CeviDB id of the user.
+     *
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    #[ApiProperty(readable: false, writable: false)]
+    public ?string $cevidbId = null;
+
+    /**
      * Unique username. Lower case alphanumeric symbols, dashes, periods and underscores only.
      *
-     * @ORM\Column(type="string", length=32, nullable=false, unique=true)
+     * @ORM\Column(type="string", length=64, nullable=false, unique=true)
      */
     #[InputFilter\Trim]
     #[Assert\NotBlank]

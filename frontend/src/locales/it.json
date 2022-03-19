@@ -216,7 +216,8 @@
         "provider": {
           "ecamp": "Accedi con eCamp",
           "google": "Accedi con Google",
-          "midata": "Accedi con MiData"
+          "midata": "Accedi con MiData",
+          "cevidb": "Accedi con CeviDB"
         },
         "registernow": "Iscriviti ora",
         "title": "Accedi",

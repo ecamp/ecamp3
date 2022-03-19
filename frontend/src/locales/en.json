@@ -340,7 +340,8 @@
         "provider": {
           "ecamp": "Login with eCamp",
           "google": "Login with Google",
-          "midata": "Login with MiData"
+          "midata": "Login with MiData",
+          "cevidb": "Login with CeviDB"
         },
         "registernow": "Register now",
         "title": "Login",

@@ -364,7 +364,7 @@ class CreateUserTest extends ECampApiTestCase {
                 'json' => $this->getExampleWritePayload(
                     mergeEmbeddedAttributes: [
                         'profile' => [
-                            'username' => 'abcdefghijklmnopqrstuvwxyz-the-alphabet',
+                            'username' => 'daenerys_targaryen_also_known_as_daenerys_stormborn_queen_of_the_andals_and_the_first_men',
                         ],
                     ]
                 ),
@@ -376,7 +376,7 @@ class CreateUserTest extends ECampApiTestCase {
             'violations' => [
                 [
                     'propertyPath' => 'profile.username',
-                    'message' => 'This value is too long. It should have 32 characters or less.',
+                    'message' => 'This value is too long. It should have 64 characters or less.',
                 ],
             ],
         ]);

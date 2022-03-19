@@ -93,7 +93,7 @@ describe('authentication logic', () => {
       // then
       expect(result).toBeTruthy()
       expect(apiStore.post).toHaveBeenCalledTimes(1)
-      expect(apiStore.post).toHaveBeenCalledWith('/authentication_token', { username: 'foo', password: 'bar' })
+      expect(apiStore.post).toHaveBeenCalledWith('http://localhost/authentication_token', { username: 'foo', password: 'bar' })
       done()
     })
 
@@ -109,7 +109,7 @@ describe('authentication logic', () => {
       // then
       expect(result).toBeFalsy()
       expect(apiStore.post).toHaveBeenCalledTimes(1)
-      expect(apiStore.post).toHaveBeenCalledWith('/authentication_token', { username: 'foo', password: 'barrrr' })
+      expect(apiStore.post).toHaveBeenCalledWith('http://localhost/authentication_token', { username: 'foo', password: 'barrrr' })
       done()
     })
   })
@@ -227,6 +227,29 @@ describe('authentication logic', () => {
     })
   })
 
+  describe('loginCeviDB()', () => {
+    const { location } = window
+    beforeEach(() => {
+      delete window.location
+      window.location = {
+        origin: 'http://localhost',
+        href: 'http://localhost/login'
+      }
+    })
+    afterEach(() => {
+      window.location = location
+    })
+
+    it('forwards to cevidb authentication endpoint', async done => {
+      // when
+      await auth.loginCeviDB()
+
+      // then
+      expect(window.location.href).toBe('http://localhost/auth/cevidb?callback=http%3A%2F%2Flocalhost%2FloginCallback')
+      done()
+    })
+  })
+
   describe('logout()', () => {
     it('resolves to false if the user successfully logs out', async done => {
       // given
@@ -247,35 +270,26 @@ function createState (authState = {}) {
     api: {
       '': {
         ...authState,
-        auth: {
-          href: '/auth'
-        },
         users: {
           href: '/users'
         },
+        login: {
+          href: '/authentication_token'
+        },
+        oauthGoogle: {
+          href: '/auth/google{?callback}',
+          templated: true
+        },
+        oauthPbsmidata: {
+          href: '/auth/pbsmidata{?callback}',
+          templated: true
+        },
+        oauthCevidb: {
+          href: '/auth/cevidb{?callback}',
+          templated: true
+        },
         _meta: {
           self: ''
-        }
-      },
-      '/auth': {
-        register: {
-          href: '/auth/register'
-        },
-        google: {
-          href: 'http://localhost/auth/google{?callback}',
-          templated: true
-        },
-        pbsmidata: {
-          href: 'http://localhost/auth/pbsmidata{?callback}',
-          templated: true
-        },
-        _meta: {
-          self: '/auth'
-        }
-      },
-      '/auth/logout': {
-        _meta: {
-          self: '/auth/logout'
         }
       }
     }

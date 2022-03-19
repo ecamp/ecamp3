@@ -98,7 +98,7 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
     /**
      * The hashed password. Of course not exposed through the API.
      *
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     #[Assert\DisableAutoMapping]
     #[ApiProperty(readable: false, writable: false)]

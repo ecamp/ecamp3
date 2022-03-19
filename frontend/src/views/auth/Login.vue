@@ -67,6 +67,18 @@
       <icon-spacer />
     </v-btn>
     <v-btn dark
+           color="blue"
+           :x-large="$vuetify.breakpoint.smAndUp"
+           block
+           outlined
+           class="my-4"
+           @click="loginCeviDB">
+      <v-spacer />
+      <span class="text--secondary">{{ $tc('views.auth.login.provider.cevidb') }}</span>
+      <v-spacer />
+      <icon-spacer />
+    </v-btn>
+    <v-btn dark
            color="blue-grey lighten-3"
            :x-large="$vuetify.breakpoint.smAndUp"
            block
@@ -134,6 +146,9 @@ export default {
     },
     async loginPbsMiData () {
       await this.$auth.loginPbsMiData()
+    },
+    async loginCeviDB () {
+      await this.$auth.loginCeviDB()
     }
   }
 }

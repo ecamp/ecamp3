@@ -257,7 +257,8 @@
         "provider": {
           "ecamp": "Anmelden mit eCamp",
           "google": "Anmelden mit Google",
-          "midata": "Anmelden mit MiData"
+          "midata": "Anmelden mit MiData",
+          "cevidb": "Anmelden mit CeviDB"
         },
         "registernow": "Jetzt registrieren",
         "title": "Anmelden",

@@ -216,7 +216,8 @@
         "provider": {
           "ecamp": "Connectez-vous avec eCamp",
           "google": "Connectez-vous avec Google",
-          "midata": "Connectez-vous avec MiData"
+          "midata": "Connectez-vous avec MiData",
+          "cevidb": "Connectez-vous avec CeviDB"
         },
         "registernow": "Inscrivez-vous maintenant",
         "title": "Se connecter",

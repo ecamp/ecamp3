@@ -85,6 +85,28 @@ services:
     App\OpenApi\JwtDecorator:
         decorates: 'api_platform.openapi.factory'
 
+    App\OpenApi\OAuthDecorator:
+        decorates: 'api_platform.openapi.factory'
+
+    App\OAuth\UrlGeneratorDecorator:
+        class: App\OAuth\UrlGeneratorDecorator
+        arguments:
+            - '@Symfony\Component\Routing\Generator\UrlGeneratorInterface'
+            - "%kernel.environment%"
+
+    knpu.oauth2.provider_factory:
+        class: KnpU\OAuth2ClientBundle\DependencyInjection\ProviderFactory
+        arguments:
+            - '@App\OAuth\UrlGeneratorDecorator'
+
+    App\Security\OAuth\GoogleAuthenticator:
+        arguments:
+            - '@lexik_jwt_authentication.handler.authentication_success'
+
+    App\Security\OAuth\HitobitoAuthenticator:
+        arguments:
+            - '@lexik_jwt_authentication.handler.authentication_success'
+
     ApiPlatform\Core\Bridge\Doctrine\Orm\Extension\EagerLoadingExtension:
         class: App\Doctrine\EagerLoadingExtension
     api_platform.doctrine.orm.query_extension.eager_loading:
