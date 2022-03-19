@@ -41,6 +41,7 @@ class InvitationDataPersister extends AbstractDataPersister {
         $campCollaboration->user = $this->security->getUser();
         $campCollaboration->status = CampCollaboration::STATUS_ESTABLISHED;
         $campCollaboration->inviteKey = null;
+        $campCollaboration->inviteKeyHash = null;
         $campCollaboration->inviteEmail = null;
 
         return $campCollaboration;
@@ -51,6 +52,7 @@ class InvitationDataPersister extends AbstractDataPersister {
         $campCollaboration = $this->campCollaborationRepository->findByInviteKeyHash($inviteKeyHash);
         $campCollaboration->status = CampCollaboration::STATUS_INACTIVE;
         $campCollaboration->inviteKey = null;
+        $campCollaboration->inviteKeyHash = null;
 
         return $campCollaboration;
     }

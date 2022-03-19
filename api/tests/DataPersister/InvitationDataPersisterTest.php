@@ -62,7 +62,7 @@ class InvitationDataPersisterTest extends TestCase {
     public function testUpdatesInvitationCorrectlyOnAccept() {
         $this->collaborationRepository
             ->expects(self::once())
-            ->method('findByInviteKey')
+            ->method('findByInviteKeyHash')
             ->with(self::INVITEKEY)
             ->willReturn($this->campCollaboration)
         ;
@@ -79,7 +79,7 @@ class InvitationDataPersisterTest extends TestCase {
     public function testUpdatesInvitationCorrectlyOnReject() {
         $this->collaborationRepository
             ->expects(self::once())
-            ->method('findByInviteKey')
+            ->method('findByInviteKeyHash')
             ->with(self::INVITEKEY)
             ->willReturn($this->campCollaboration)
         ;
