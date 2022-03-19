@@ -11,17 +11,26 @@ import OpenSansBold from '../../../../assets/fonts/OpenSans/OpenSans-Bold.ttf'
 
 function PDFDocument (props) {
   return <Document>
-    { props.config.showPicasso
-      ? props.config.camp.periods().items.map(period => <Picasso {...props} period={period} key={period.id}/>)
-      : <React.Fragment /> }
-    { props.config.showActivities
-      ? <Page size="A4" orientation="portrait" style={{ ...styles.page, fontSize: 8 + 'pt' }}>
-          { props.config.camp.periods().items.map(period => {
+    { props.config.contents.map(content => {
+      if (content.type === 'Picasso') {
+        return content.options.periods.map(periodUri => {
+          const period = props.store.get(periodUri)
+          return <Picasso {...props} period={period} key={period.id} />
+        })
+      }
+      if (content.type === 'Program') {
+        return <Page size="A4" orientation="portrait" style={{ ...styles.page, fontSize: 8 + 'pt' }}>
+        {
+          content.options.periods.map(periodUri => {
+            const period = props.store.get(periodUri)
             return sortBy(period.scheduleEntries().items, ['dayNumber', 'scheduleEntryNumber'])
               .map(scheduleEntry => <ScheduleEntry {...props} scheduleEntry={scheduleEntry} key={scheduleEntry.id}/>)
-          }) }
+          })
+        }
         </Page>
-      : <React.Fragment /> }
+      }
+      return <React.Fragment />
+    })}
   </Document>
 }
 

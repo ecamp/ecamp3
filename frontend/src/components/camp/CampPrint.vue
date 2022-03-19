@@ -62,7 +62,7 @@
           {{ $tc('components.camp.campPrint.openPrintPreview') }}
         </v-btn>
 
-        <local-print-preview :config="config"
+        <local-print-preview :config="{ camp: camp.bind(this), ...cnf }"
                              width="100%"
                              height="500"
                              class="mt-4" />
@@ -103,6 +103,7 @@ export default {
   },
   data () {
     return {
+      // OLD
       config: {
         showFrontpage: true,
         showToc: true,
@@ -113,7 +114,7 @@ export default {
         camp: this.camp.bind(this)
       },
 
-      // ..
+      // NEW
       contentComponents: [
         Cover,
         Picasso,
