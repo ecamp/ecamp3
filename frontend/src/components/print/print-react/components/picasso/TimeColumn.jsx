@@ -1,7 +1,7 @@
 // eslint-disable-next-line no-unused-vars
 import React from 'react'
 import { Text, View } from '../../reactPdf.js'
-import dayjs from '../../../../../../common/helpers/dayjs.js'
+import dayjs from '@/common/helpers/dayjs.js'
 
 const fontSize = 8
 

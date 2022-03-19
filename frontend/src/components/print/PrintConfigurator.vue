@@ -85,19 +85,19 @@
 </template>
 
 <script>
-import LocalPrintPreview from '../print/LocalPrintPreview.vue'
+import LocalPrintPreview from './print-react/LocalPrintPreview.vue'
 import Draggable from 'vuedraggable'
-import Cover from './print/Cover.vue'
-import Picasso from './print/Picasso.vue'
-import Story from './print/Story.vue'
-import Program from './print/Program.vue'
-import Activity from './print/Activity.vue'
-import Toc from './print/Toc.vue'
+import Cover from './config/Cover.vue'
+import Picasso from './config/Picasso.vue'
+import Story from './config/Story.vue'
+import Program from './config/Program.vue'
+import Activity from './config/Activity.vue'
+import Toc from './config/Toc.vue'
 
 const PRINT_SERVER = window.environment.PRINT_SERVER
 
 export default {
-  name: 'CampPrint',
+  name: 'PrintConfigurator',
   components: {
     Draggable,
     LocalPrintPreview,
