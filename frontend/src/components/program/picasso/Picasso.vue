@@ -118,7 +118,7 @@ import { scheduleEntryRoute } from '@/router.js'
 import mergeListeners from '@/helpers/mergeListeners.js'
 import { timestampToUtcString, utcStringToTimestamp } from '@/common/helpers/dateHelperVCalendar.js'
 
-import DialogActivityEdit from '@/components/program/DialogActivityEdit.vue'
+import DialogActivityEdit from '../DialogActivityEdit.vue'
 import DayResponsibles from './DayResponsibles.vue'
 
 export default {

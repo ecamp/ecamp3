@@ -33,7 +33,7 @@ Displays all periods of a single camp and allows to edit them & create new ones
 
 <script>
 import ButtonAdd from '@/components/buttons/ButtonAdd.vue'
-import PeriodItem from '@/components/campAdmin/CampPeriodsListItem.vue'
+import PeriodItem from './CampPeriodsListItem.vue'
 import DialogPeriodCreate from './DialogPeriodCreate.vue'
 import ContentGroup from '@/components/layout/ContentGroup.vue'
 
