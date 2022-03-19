@@ -9,7 +9,7 @@ Displays details on a single camp and allows to edit them.
       <api-form :entity="camp()">
         <api-text-field
           fieldname="name"
-          :label="$tc('entity.camp.fields.name')"
+          :name="$tc('entity.camp.fields.name')"
           vee-rules="required"
           :disabled="disabled" />
         <api-text-field
