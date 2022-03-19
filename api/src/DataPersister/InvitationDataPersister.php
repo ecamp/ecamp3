@@ -36,7 +36,8 @@ class InvitationDataPersister extends AbstractDataPersister {
     }
 
     public function onAccept($data): CampCollaboration {
-        $campCollaboration = $this->campCollaborationRepository->findByInviteKey($data->inviteKey);
+        $inviteKeyHash = md5($data->inviteKey);
+        $campCollaboration = $this->campCollaborationRepository->findByInviteKeyHash($inviteKeyHash);
         $campCollaboration->user = $this->security->getUser();
         $campCollaboration->status = CampCollaboration::STATUS_ESTABLISHED;
         $campCollaboration->inviteKey = null;
@@ -46,7 +47,8 @@ class InvitationDataPersister extends AbstractDataPersister {
     }
 
     public function onReject($data): CampCollaboration {
-        $campCollaboration = $this->campCollaborationRepository->findByInviteKey($data->inviteKey);
+        $inviteKeyHash = md5($data->inviteKey);
+        $campCollaboration = $this->campCollaborationRepository->findByInviteKeyHash($inviteKeyHash);
         $campCollaboration->status = CampCollaboration::STATUS_INACTIVE;
         $campCollaboration->inviteKey = null;
 

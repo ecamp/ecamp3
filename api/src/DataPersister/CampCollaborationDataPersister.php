@@ -54,6 +54,7 @@ class CampCollaborationDataPersister extends AbstractDataPersister {
                 $this->validator->validate($data, ['groups' => ['Default', 'create']]);
             }
             $data->inviteKey = IdGenerator::generateRandomHexString(64);
+            $data->inviteKeyHash = md5($data->inviteKey);
         }
 
         return $data;
@@ -77,6 +78,7 @@ class CampCollaborationDataPersister extends AbstractDataPersister {
     public function onBeforeStatusChange(CampCollaboration $data): CampCollaboration {
         if (CampCollaboration::STATUS_INVITED == $data->status && ($data->inviteEmail || $data->user)) {
             $data->inviteKey = IdGenerator::generateRandomHexString(64);
+            $data->inviteKeyHash = md5($data->inviteKey);
         }
 
         return $data;

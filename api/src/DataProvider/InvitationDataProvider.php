@@ -31,7 +31,8 @@ class InvitationDataProvider implements ItemDataProviderInterface, RestrictedDat
         if (null == $id) {
             return null;
         }
-        $campCollaboration = $this->campCollaborationRepository->findByInviteKey($id);
+        $idHash = md5($id);
+        $campCollaboration = $this->campCollaborationRepository->findByInviteKeyHash($idHash);
         if (null === $campCollaboration) {
             return null;
         }

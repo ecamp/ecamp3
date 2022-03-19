@@ -22,7 +22,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Entity(repositoryClass=CampCollaborationRepository::class)
  * @ORM\Table(uniqueConstraints={
- *     @ORM\UniqueConstraint(name="inviteKey_unique", columns={"inviteKey"}),
+ *     @ORM\UniqueConstraint(name="inviteKeyHash_unique", columns={"inviteKeyHash"}),
  *     @ORM\UniqueConstraint(name="user_camp_unique", fields={"user", "camp"}),
  *     @ORM\UniqueConstraint(name="inviteEmail_camp_unique", fields={"inviteEmail", "camp"})
  * })
@@ -136,12 +136,15 @@ class CampCollaboration extends BaseEntity implements BelongsToCampInterface {
     #[ApiProperty(example: 'some-email@example.com')]
     #[Groups(['read', 'create'])]
     public ?string $inviteEmail = null;
-
+    
+    #[ApiProperty(readable: false, writable: false)]
+    public ?string $inviteKey = null;
+    
     /**
      * @ORM\Column(type="string", length=64, nullable=true)
      */
     #[ApiProperty(readable: false, writable: false)]
-    public ?string $inviteKey = null;
+    public ?string $inviteKeyHash = null;
 
     /**
      * The person that is collaborating in the camp. Cannot be changed once the campCollaboration is established.
