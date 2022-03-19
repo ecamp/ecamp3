@@ -7,7 +7,7 @@ import DayColumn from './DayColumn.jsx'
 import TimeColumnSpacer from './TimeColumnSpacer.jsx'
 import DayHeader from './DayHeader.jsx'
 
-function Picasso ({ period, $tc }) {
+function Picasso ({ period, orientation, $tc }) {
   const columnWrapperStyles = {
     flexGrow: '1',
     display: 'flex',
@@ -49,7 +49,7 @@ function Picasso ({ period, $tc }) {
     [24, 0] // this last hour is only needed for defining the length of the day, the weight should be 0
   ]
 
-  return <Page size="A4" orientation={period.days().items.length > 1 ? 'landscape' : 'portrait'} style={ styles.page }>
+  return <Page size="A4" orientation={orientation === 'L' ? 'landscape' : 'portrait'} style={ styles.page }>
     <Text id="picasso" style={styles.h1}>{$tc('components.print.picasso.title', { period: period.description })}</Text>
     <View style={{ ...columnWrapperStyles, border: 'none' }}>
       <TimeColumnSpacer times={times}/>

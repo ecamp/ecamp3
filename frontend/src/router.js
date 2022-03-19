@@ -340,6 +340,7 @@ function getContentLayout (route) {
   switch (route.name) {
     case 'camp/period': return 'full'
     case 'camp/admin': return 'wide'
+    case 'camp/print': return 'wide'
     default: return 'normal'
   }
 }

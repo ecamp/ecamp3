@@ -30,7 +30,7 @@ Show all activity schedule entries of a single period.
         <v-icon>mdi-printer</v-icon>
       </v-btn>
 
-      <local-pdf-download-button :config="printConfig" />
+      <local-pdf-download-button :config="printConfig()" />
     </template>
     <schedule-entries :period="period" :show-button="isContributor">
       <template #default="slotProps">
@@ -79,16 +79,7 @@ export default {
   data () {
     return {
       editMode: false,
-      isPrinting: false,
-      printConfig: {
-        showFrontpage: false,
-        showToc: false,
-        showPicasso: true,
-        showDailySummary: false,
-        showStoryline: false,
-        showActivities: false,
-        camp: this.period().camp.bind(this)
-      }
+      isPrinting: false
     }
   },
   computed: {
@@ -97,6 +88,24 @@ export default {
     }
   },
   methods: {
+    printConfig () {
+      return {
+        camp: () => this.period().camp(),
+        language: this.$store.state.lang.language,
+        documentName: this.camp.title + '-picasso.pdf',
+        contents: [
+          {
+            type: 'Picasso',
+            options: {
+              periods: [
+                this.period()._meta.self
+              ],
+              orientation: 'L'
+            }
+          }
+        ]
+      }
+    },
     async print () {
       console.log('Printing now')
 

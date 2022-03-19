@@ -18,7 +18,7 @@ export const renderPdf = async ({ config, storeData, translationData }, { React,
     config.camp = store.get(config.camp)
     const props = { config, store, $tc: translate }
 
-    result.filename = await document.filename(props)
+    result.filename = config.documentName
     result.blob = await pdf(React.createElement(document, props)).toBlob()
   } catch (error) {
     result.error = error

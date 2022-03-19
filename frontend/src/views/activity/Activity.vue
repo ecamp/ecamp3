@@ -88,6 +88,7 @@ Displays a single activity
           </template>
           <span>{{ $tc('views.activity.printPreview') }}</span>
         </v-tooltip>
+        <local-pdf-download-button :config="printConfig()" />
       </template>
 
       <v-card-text class="px-0 py-0">
@@ -155,6 +156,7 @@ import RootNode from '@/components/activity/RootNode.vue'
 import ActivityResponsibles from '@/components/activity/ActivityResponsibles.vue'
 import { rangeShort } from '@/common/helpers/dateHelperUTCFormatted.js'
 import { campRoleMixin } from '@/mixins/campRoleMixin'
+import LocalPdfDownloadButton from '../../components/print/LocalPdfDownloadButton.vue'
 
 export default {
   name: 'Activity',
@@ -162,7 +164,8 @@ export default {
     ContentCard,
     ApiTextField,
     RootNode,
-    ActivityResponsibles
+    ActivityResponsibles,
+    LocalPdfDownloadButton
   },
   mixins: [campRoleMixin],
   props: {
@@ -219,6 +222,22 @@ export default {
     makeTitleEditable () {
       if (this.isContributor) {
         this.editActivityTitle = true
+      }
+    },
+    printConfig () {
+      return {
+        camp: () => this.camp,
+        language: this.$store.state.lang.language,
+        documentName: this.activity.title + '.pdf',
+        contents: [
+          {
+            type: 'Activity',
+            options: {
+              activity: this.activity._meta.self,
+              scheduleEntry: this.scheduleEntry()._meta.self
+            }
+          }
+        ]
       }
     }
   }

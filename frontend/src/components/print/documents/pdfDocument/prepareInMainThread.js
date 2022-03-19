@@ -1,5 +1,5 @@
 const picassoData = (config) => {
-  if (!config.showPicasso) {
+  if (!config.contents.some(c => c.type === 'Picasso')) {
     return []
   }
   return [
@@ -25,7 +25,7 @@ const picassoData = (config) => {
 }
 
 const activityData = (config) => {
-  if (!config.showActivities) {
+  if (!config.contents.some(c => ['Program', 'Activity'].includes(c.type))) {
     return []
   }
   return [

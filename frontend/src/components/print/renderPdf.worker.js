@@ -5,6 +5,10 @@ import './globalWorkerShim.js'
 import 'raf/polyfill' // must be imported before renderingDependencies
 import renderingDependencies from './renderingDependencies.js'
 
+if (typeof importScripts === 'function') {
+  self.importScripts('/environment.js')
+}
+
 const renderPdfInWorker = async (data) => {
   const result = { ...(await renderPdf(data, renderingDependencies)) }
   if (result.error) {

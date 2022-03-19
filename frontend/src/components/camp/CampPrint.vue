@@ -3,40 +3,111 @@
     <v-skeleton-loader v-if="camp()._meta.loading" type="article" />
     <div v-else>
       <h3>{{ $tc('components.camp.campPrint.selectPrintPreview') }}</h3>
-      <e-checkbox v-model="config.showFrontpage" :name="$tc('components.camp.campPrint.frontpage')" />
-      <e-checkbox v-model="config.showToc" :name="$tc('components.camp.campPrint.toc')" />
-      <e-checkbox v-model="config.showPicasso" :name="$tc('components.camp.campPrint.picasso')" />
-      <e-checkbox v-model="config.showStoryline" :name="$tc('components.camp.campPrint.storyline')" />
-      <e-checkbox v-model="config.showDailySummary" :name="$tc('components.camp.campPrint.dailySummary')" />
-      <e-checkbox v-model="config.showActivities" :name="$tc('components.camp.campPrint.activities')" />
 
-      <v-btn color="primary" class="mt-5"
-             :href="previewUrl"
-             target="_blank">
-        {{ $tc('components.camp.campPrint.openPrintPreview') }}
-      </v-btn>
-      <v-btn
-        color="primary"
-        class="mt-5 ml-5"
-        :loading="printing">
-        {{ $tc('components.camp.campPrint.printNow') }}
-      </v-btn>
+      <v-container>
+        <v-row>
+          <v-col cols="12" lg="4">
+            <v-list>
+              <draggable v-model="cnf.contents" handle=".handle">
+                <v-list-item v-for="(content, idx) in cnf.contents" :key="idx">
+                  <v-list-item-icon>
+                    <v-icon class="handle">mdi-drag-horizontal-variant</v-icon>
+                  </v-list-item-icon>
+                  <v-list-item-content>
+                    <v-list-item-title>
+                      <h3>{{ content.type }}</h3>
+                    </v-list-item-title>
+                    <component :is="content.type"
+                               v-model="content.options"
+                               :camp="camp()" />
+                  </v-list-item-content>
+                  <v-list-item-action>
+                    <v-btn icon @click="cnf.contents.splice(idx, 1)">
+                      <v-icon color="red">mdi-delete</v-icon>
+                    </v-btn>
+                  </v-list-item-action>
+                </v-list-item>
+              </draggable>
+            </v-list>
+            <br>
+            <v-menu>
+              <template #activator="{ on, attrs }">
+                <v-btn
+                  color="primary"
+                  dark
+                  v-bind="attrs"
+                  v-on="on">
+                  Add
+                </v-btn>
+              </template>
+              <v-list>
+                <v-list-item
+                  v-for="(component, idx) in contentComponents"
+                  :key="idx"
+                  @click="cnf.contents.push({
+                    type: component.name,
+                    options: component.defaultOptions()
+                  })">
+                  <v-list-item-title>
+                    {{ component.name }}
+                  </v-list-item-title>
+                </v-list-item>
+              </v-list>
+            </v-menu>
+          </v-col>
+          <v-col cols="12" lg="8">
+            <div>
+              <v-btn color="primary"
+                     :href="previewUrl"
+                     target="_blank">
+                {{ $tc('components.camp.campPrint.openPrintPreview') }}
+              </v-btn>
+
+              <local-print-preview :config="{ camp: camp.bind(this), ...cnf }"
+                                   width="100%"
+                                   height="600"
+                                   class="my-4" />
+
+              <v-expansion-panels>
+                <v-expansion-panel>
+                  <v-expansion-panel-header>View Print-Config</v-expansion-panel-header>
+                  <v-expansion-panel-content>
+                    <pre>{{ cnf }}</pre>
+                  </v-expansion-panel-content>
+                </v-expansion-panel>
+              </v-expansion-panels>
+            </div>
+          </v-col>
+        </v-row>
+      </v-container>
     </div>
-    <local-print-preview :config="config"
-                         width="100%"
-                         height="500"
-                         class="mt-4" />
   </div>
 </template>
 
 <script>
 import LocalPrintPreview from '../print/LocalPrintPreview.vue'
+import Draggable from 'vuedraggable'
+import Cover from './print/Cover.vue'
+import Picasso from './print/Picasso.vue'
+import Story from './print/Story.vue'
+import Program from './print/Program.vue'
+import Activity from './print/Activity.vue'
+import Toc from './print/Toc.vue'
 
 const PRINT_SERVER = window.environment.PRINT_SERVER
 
 export default {
   name: 'CampPrint',
-  components: { LocalPrintPreview },
+  components: {
+    Draggable,
+    LocalPrintPreview,
+    Cover,
+    Picasso,
+    Story,
+    Program,
+    Activity,
+    Toc
+  },
   props: {
     camp: {
       type: Function,
@@ -45,7 +116,7 @@ export default {
   },
   data () {
     return {
-      printing: false,
+      // OLD
       config: {
         showFrontpage: true,
         showToc: true,
@@ -55,7 +126,21 @@ export default {
         showActivities: true,
         camp: this.camp.bind(this)
       },
-      refreshing: false
+
+      // NEW
+      contentComponents: [
+        Cover,
+        Picasso,
+        Story,
+        Program,
+        Activity,
+        Toc
+      ],
+      cnf: {
+        language: '',
+        documentName: this.camp().title + '.pdf',
+        contents: this.defaultContents()
+      }
     }
   },
   computed: {
@@ -93,15 +178,53 @@ export default {
         this.camp().materialLists().items.some(materialList => {
           return materialList._meta.loading
         })
-    },
-    boundTc () {
-      return this.$tc.bind(this)
+    }
+  },
+  watch: {
+    lang: {
+      handler (language) {
+        this.cnf.language = language
+      },
+      immediate: true
     }
   },
   methods: {
-    refreshPreview () {
-      this.refreshing = true
-      this.$nextTick(() => (this.refreshing = false))
+    defaultContents () {
+      const contents = [
+        {
+          type: 'Cover',
+          options: {}
+        },
+        {
+          type: 'Picasso',
+          options: {
+            periods: this.camp().periods().items.map(period => period._meta.self),
+            orientation: 'L'
+          }
+        }
+      ]
+
+      this.camp().periods().items.forEach(period => {
+        contents.push({
+          type: 'Story',
+          options: {
+            periods: [period._meta.self]
+          }
+        })
+        contents.push({
+          type: 'Program',
+          options: {
+            periods: [period._meta.self]
+          }
+        })
+      })
+
+      contents.push({
+        type: 'Toc',
+        options: {}
+      })
+
+      return contents
     }
   }
 }

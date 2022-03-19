@@ -6,6 +6,8 @@
            outlined
            @click="generatePdf">
       <v-icon>mdi-printer</v-icon>
+      <div class="mx-1">with</div>
+      <v-icon>mdi-react</v-icon>
     </v-btn>
     <v-snackbar v-model="error" :timeout="10000">
       {{ $tc('components.camp.print.localPdfDownloadButton.error') }}
@@ -46,7 +48,7 @@ export default {
     async generatePdf () {
       this.loading = true
 
-      const { blob, filename, error } = await generatePdf({
+      const { blob, error } = await generatePdf({
         config: { ...this.config, apiGet: this.api.get.bind(this) },
         storeData: this.$store.state,
         translationData: this.$i18n.messages,
@@ -61,7 +63,7 @@ export default {
         return
       }
 
-      saveAs(blob, slugify(filename, { locale: this.$store.state.lang.language.substr(0, 2) }))
+      saveAs(blob, slugify(this.config.documentName, { locale: this.$store.state.lang.language.substr(0, 2) }))
     }
   }
 }
