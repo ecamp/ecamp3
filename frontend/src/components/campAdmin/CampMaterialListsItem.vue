@@ -43,7 +43,7 @@
 
 <script>
 
-import DialogMaterialListEdit from '@/components/dialog/DialogMaterialListEdit.vue'
+import DialogMaterialListEdit from './DialogMaterialListEdit.vue'
 import DialogEntityDelete from '@/components/dialog/DialogEntityDelete.vue'
 import ButtonEdit from '@/components/buttons/ButtonEdit.vue'
 import ButtonDelete from '@/components/buttons/ButtonDelete.vue'

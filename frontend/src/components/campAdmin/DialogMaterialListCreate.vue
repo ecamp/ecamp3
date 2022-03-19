@@ -4,43 +4,58 @@
     :loading="loading"
     :error="error"
     icon="mdi-package-variant"
-    :title="materialList.name"
+    :title="$tc('components.dialog.dialogMaterialListCreate.title')"
     max-width="600px"
-    :submit-action="update"
+    :submit-action="createMaterialList"
     submit-color="success"
     :cancel-action="close">
     <template #activator="scope">
       <slot name="activator" v-bind="scope" />
     </template>
+
     <dialog-material-list-form :material-list="entityData" />
   </dialog-form>
 </template>
 
 <script>
-import DialogBase from './DialogBase.vue'
-import DialogForm from './DialogForm.vue'
+import DialogForm from '@/components/dialog/DialogForm.vue'
+import DialogBase from '@/components/dialog/DialogBase.vue'
 import DialogMaterialListForm from './DialogMaterialListForm.vue'
 
 export default {
-  name: 'DialogMaterialListEdit',
+  name: 'DialogMaterialListCreate',
   components: { DialogForm, DialogMaterialListForm },
   extends: DialogBase,
   props: {
-    materialList: { type: Object, required: true }
+    camp: { type: Object, required: true }
   },
   data () {
     return {
       entityProperties: [
+        'camp',
         'name'
-      ]
+      ],
+      entityUri: '/material_lists'
     }
   },
   watch: {
-    // copy data whenever dialog is opened
     showDialog: function (showDialog) {
       if (showDialog) {
-        this.loadEntityData(this.materialList._meta.self)
+        this.setEntityData({
+          camp: this.camp._meta.self,
+          name: ''
+        })
+      } else {
+        // clear form on exit
+        this.clearEntityData()
       }
+    }
+  },
+  methods: {
+    createMaterialList () {
+      return this.create().then(() => {
+        this.api.reload(this.camp.materialLists())
+      })
     }
   }
 }

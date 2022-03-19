@@ -76,11 +76,11 @@ Displays collaborators of a single camp.
 <script>
 import ContentCard from '@/components/layout/ContentCard.vue'
 import ContentGroup from '@/components/layout/ContentGroup.vue'
-import CollaboratorListItem from '@/components/camp/CollaboratorListItem.vue'
+import CollaboratorListItem from '@/components/collaborator/CollaboratorListItem.vue'
 import ButtonAdd from '@/components/buttons/ButtonAdd.vue'
 import ETextField from '@/components/form/base/ETextField.vue'
 import ESelect from '@/components/form/base/ESelect.vue'
-import InactiveCollaboratorListItem from '@/components/camp/InactiveCollaboratorListItem.vue'
+import InactiveCollaboratorListItem from '@/components/collaborator/InactiveCollaboratorListItem.vue'
 import { campRoleMixin } from '@/mixins/campRoleMixin'
 
 const DEFAULT_INVITE_ROLE = 'member'

@@ -4,32 +4,16 @@
       v-model="options.periods"
       :items="periods"
       multiple />
-    <e-select
-      v-model="options.orientation"
-      :items="orientations" />
+    <e-checkbox v-model="options.dayOverview" label="print day-overview" />
   </div>
 </template>
 
 <script>
 export default {
-  name: 'Picasso',
+  name: 'ProgramConfig',
   props: {
     value: { type: Object, required: true },
     camp: { type: Object, required: true }
-  },
-  data () {
-    return {
-      orientations: [
-        {
-          value: 'L',
-          text: 'Landscape'
-        },
-        {
-          value: 'P',
-          text: 'Portrait'
-        }
-      ]
-    }
   },
   computed: {
     options: {
@@ -46,7 +30,7 @@ export default {
   defaultOptions () {
     return {
       periods: [],
-      orientation: 'L'
+      dayOverview: true
     }
   }
 }

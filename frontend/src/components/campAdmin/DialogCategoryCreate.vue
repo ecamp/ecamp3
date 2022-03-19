@@ -21,8 +21,8 @@
 </template>
 
 <script>
-import DialogForm from './DialogForm.vue'
-import DialogBase from './DialogBase.vue'
+import DialogForm from '@/components/dialog/DialogForm.vue'
+import DialogBase from '@/components/dialog/DialogBase.vue'
 import DialogCategoryForm from './DialogCategoryForm.vue'
 
 export default {

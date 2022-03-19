@@ -32,7 +32,7 @@ Admin screen of a camp: Displays MaterialLists and MaterialItems
 
 <script>
 import ContentCard from '@/components/layout/ContentCard.vue'
-import PeriodMaterialLists from '@/components/camp/PeriodMaterialLists.vue'
+import PeriodMaterialLists from '@/components/material/PeriodMaterialLists.vue'
 import { campRoleMixin } from '@/mixins/campRoleMixin'
 
 export default {

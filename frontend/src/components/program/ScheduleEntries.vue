@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import DialogActivityCreate from '@/components/scheduleEntry/DialogActivityCreate.vue'
+import DialogActivityCreate from './DialogActivityCreate.vue'
 
 export default {
   name: 'ScheduleEntries',
