@@ -21,3 +21,4 @@ data:
   {{- else }}
   SENTRY_API_DSN: null,
   {{- end }}
+  FRONTEND_BASE_URL: {{ include "frontend.url" . | quote }}

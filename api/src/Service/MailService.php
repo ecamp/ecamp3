@@ -10,23 +10,23 @@ use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
 
 class MailService {
-    private MailerInterface $mailer;
-
-    public function __construct(MailerInterface $mailer) {
-        $this->mailer = $mailer;
+    public function __construct(
+        private MailerInterface $mailer,
+        private string $frontendBaseUrl,
+        private string $mailFrom,
+    ) {
     }
 
     public function sendInviteToCampMail(User $byUser, Camp $camp, string $key, string $emailToInvite): void {
-        $frontendUrl = 'http://localhost:3000';
         $email = (new TemplatedEmail())
-            ->from('info@ecamp3.ch')
+            ->from($this->mailFrom)
             ->to(new Address($emailToInvite))
             ->subject("You were invited to collaborate in camp {$camp->name}")
             ->htmlTemplate($this->getTemplate('emails/campCollaborationInvite.{language}.html.twig', $byUser))
             ->textTemplate($this->getTemplate('emails/campCollaborationInvite.{language}.text.twig', $byUser))
             ->context([
                 'by_user' => $byUser->getDisplayName(),
-                'url' => "{$frontendUrl}/camps/invitation/{$key}",
+                'url' => "{$this->frontendBaseUrl}/camps/invitation/{$key}",
                 'camp_name' => $camp->name,
             ])
         ;
@@ -39,16 +39,15 @@ class MailService {
     }
 
     public function sendUserActivationMail(User $user, string $key): void {
-        $frontendUrl = 'http://localhost:3000';
         $email = (new TemplatedEmail())
-            ->from('info@ecamp3.ch')
+            ->from($this->mailFrom)
             ->to(new Address($user->getEmail()))
             ->subject('Welcome to eCamp3')
             ->htmlTemplate($this->getTemplate('emails/userActivation.{language}.html.twig', $user))
             ->textTemplate($this->getTemplate('emails/userActivation.{language}.text.twig', $user))
             ->context([
                 'name' => $user->getDisplayName(),
-                'url' => "{$frontendUrl}/activate/{$user->getId()}/{$key}",
+                'url' => "{$this->frontendBaseUrl}/activate/{$user->getId()}/{$key}",
             ])
         ;
 
