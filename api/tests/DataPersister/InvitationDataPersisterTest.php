@@ -18,6 +18,7 @@ use Symfony\Component\Security\Core\Security;
  */
 class InvitationDataPersisterTest extends TestCase {
     public const INVITEKEY = 'inviteKey';
+    public const INVITEKEYHASH = '705418a2bf6cddce356d3cf70af63a4f';
 
     private Invitation $invitation;
     private CampCollaboration $campCollaboration;
@@ -63,7 +64,7 @@ class InvitationDataPersisterTest extends TestCase {
         $this->collaborationRepository
             ->expects(self::once())
             ->method('findByInviteKeyHash')
-            ->with(self::INVITEKEY)
+            ->with(self::INVITEKEYHASH)
             ->willReturn($this->campCollaboration)
         ;
         $this->security->expects(self::once())->method('getUser')->willReturn($this->user);
@@ -80,7 +81,7 @@ class InvitationDataPersisterTest extends TestCase {
         $this->collaborationRepository
             ->expects(self::once())
             ->method('findByInviteKeyHash')
-            ->with(self::INVITEKEY)
+            ->with(self::INVITEKEYHASH)
             ->willReturn($this->campCollaboration)
         ;
         $this->security->expects(self::never())->method('getUser');
