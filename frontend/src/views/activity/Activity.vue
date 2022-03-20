@@ -88,7 +88,7 @@ Displays a single activity
           </template>
           <span>{{ $tc('views.activity.printPreview') }}</span>
         </v-tooltip>
-        <local-pdf-download-button :config="printConfig()" />
+        <pdf-download-button-react :config="printConfig()" />
       </template>
 
       <v-card-text class="px-0 py-0">
@@ -156,7 +156,7 @@ import RootNode from '@/components/activity/RootNode.vue'
 import ActivityResponsibles from '@/components/activity/ActivityResponsibles.vue'
 import { rangeShort } from '@/common/helpers/dateHelperUTCFormatted.js'
 import { campRoleMixin } from '@/mixins/campRoleMixin'
-import LocalPdfDownloadButton from '@/components/print/print-react/LocalPdfDownloadButton.vue'
+import PdfDownloadButtonReact from '@/components/print/print-react/PdfDownloadButtonReact.vue'
 
 export default {
   name: 'Activity',
@@ -165,7 +165,7 @@ export default {
     ApiTextField,
     RootNode,
     ActivityResponsibles,
-    LocalPdfDownloadButton
+    PdfDownloadButtonReact
   },
   mixins: [campRoleMixin],
   props: {

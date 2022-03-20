@@ -21,16 +21,9 @@ Show all activity schedule entries of a single period.
         <span>{{ $tc('views.camp.picasso.guestsCannotEdit') }}</span>
       </v-tooltip>
 
-      <v-btn
-        class="ml-5"
-        color="primary"
-        :loading="isPrinting"
-        outlined
-        @click="print">
-        <v-icon>mdi-printer</v-icon>
-      </v-btn>
+      <pdf-download-button-nuxt :config="printConfig()" />
 
-      <local-pdf-download-button :config="printConfig()" />
+      <pdf-download-button-react :config="printConfig()" />
     </template>
     <schedule-entries :period="period" :show-button="isContributor">
       <template #default="slotProps">
@@ -57,16 +50,14 @@ import ContentCard from '@/components/layout/ContentCard.vue'
 import Picasso from '@/components/program/picasso/Picasso.vue'
 import ScheduleEntries from '@/components/program/ScheduleEntries.vue'
 import PeriodSwitcher from '@/components/program/PeriodSwitcher.vue'
-import LocalPdfDownloadButton from '@/components/print/print-react/LocalPdfDownloadButton.vue'
-
-import axios from 'axios'
-
-const PRINT_SERVER = window.environment.PRINT_SERVER
+import PdfDownloadButtonReact from '@/components/print/print-react/PdfDownloadButtonReact.vue'
+import PdfDownloadButtonNuxt from '@/components/print/print-nuxt/PdfDownloadButtonNuxt.vue'
 
 export default {
   name: 'CampProgram',
   components: {
-    LocalPdfDownloadButton,
+    PdfDownloadButtonReact,
+    PdfDownloadButtonNuxt,
     PeriodSwitcher,
     ContentCard,
     Picasso,
@@ -105,40 +96,6 @@ export default {
           }
         ]
       }
-    },
-    async print () {
-      console.log('Printing now')
-
-      const title = 'PrintedByBrowserless.pdf'
-
-      this.isPrinting = true
-
-      try {
-        const response = await axios({
-          method: 'get',
-          url: `${PRINT_SERVER}/server/pdf?period=${this.period()._meta.self}`,
-          responseType: 'arraybuffer',
-          withCredentials: true,
-          headers: {
-            'Cache-Control': 'no-cache',
-            Pragma: 'no-cache',
-            Expires: '0'
-          }
-        })
-        this.forceFileDownload(response, title)
-      } catch (error) {
-        console.log(error)
-      } finally {
-        this.isPrinting = false
-      }
-    },
-    forceFileDownload (response, title) {
-      const url = window.URL.createObjectURL(new Blob([response.data]))
-      const link = document.createElement('a')
-      link.href = url
-      link.setAttribute('download', title)
-      document.body.appendChild(link)
-      link.click()
     }
   }
 }

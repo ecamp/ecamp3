@@ -85,7 +85,7 @@
 </template>
 
 <script>
-import LocalPrintPreview from './print-react/LocalPrintPreview.vue'
+import PrintPreviewReact from './print-react/PrintPreviewReact.vue'
 import Draggable from 'vuedraggable'
 import Cover from './config/CoverConfig.vue'
 import Picasso from './config/PicassoConfig.vue'
@@ -100,7 +100,7 @@ export default {
   name: 'PrintConfigurator',
   components: {
     Draggable,
-    LocalPrintPreview,
+    PrintPreviewReact,
     Cover,
     Picasso,
     Story,

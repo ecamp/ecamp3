@@ -30,7 +30,7 @@ import slugify from 'slugify'
 const RENDER_IN_WORKER = true
 
 export default {
-  name: 'LocalPDFDownloadButton',
+  name: 'PdfDownloadButtonReact',
   props: {
     config: {
       type: Object,
