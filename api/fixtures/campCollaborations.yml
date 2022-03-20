@@ -17,7 +17,7 @@ App\Entity\CampCollaboration:
   campCollaboration4invited:
     camp: '@camp1'
     inviteKey: "myInviteKey"
-    inviteKeyHash: "bb54d9361ccece1a036dc0ee52c0038a"
+    inviteKeyHash: "fefd1e509e2302fedd42552a85f5640f30319f9b"
     inviteEmail: "e.mail@test.com"
     status: invited
     role: member
@@ -49,7 +49,7 @@ App\Entity\CampCollaboration:
   campCollaboration2invitedCampUnrelated:
     camp: '@campUnrelated'
     inviteKey: "myInviteKey2"
-    inviteKeyHash: "5befc1a3c58d357a723f21833b07a34c"
+    inviteKeyHash: "7e053951fed1fe219c40863fff145be9cac595f9"
     inviteEmail: "e.mail2@test.com"
     status: invited
     role: member
@@ -62,7 +62,7 @@ App\Entity\CampCollaboration:
     user: '@user6invited'
     camp: '@camp2'
     inviteKey: "myInviteKeyCamp2"
-    inviteKeyHash: "c71e604a07af8ad32ae9e3431dd6bbcb"
+    inviteKeyHash: "15fe756d37db5f12acae4b7113d77459aaa017da"
     inviteEmail: '@profile6invited->email'
     status: invited
     role: member
