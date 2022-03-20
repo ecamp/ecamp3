@@ -6,7 +6,7 @@
 
       <v-container>
         <v-row>
-          <v-col cols="12" lg="4">
+          <v-col cols="8">
             <v-list>
               <draggable v-model="cnf.contents" handle=".handle">
                 <v-list-item v-for="(content, idx) in cnf.contents" :key="idx">
@@ -55,28 +55,29 @@
               </v-list>
             </v-menu>
           </v-col>
-          <v-col cols="12" lg="8">
-            <div>
-              <v-btn color="primary"
-                     :href="previewUrl"
-                     target="_blank">
-                {{ $tc('components.camp.campPrint.openPrintPreview') }}
-              </v-btn>
-
-              <local-print-preview :config="{ camp: camp.bind(this), ...cnf }"
-                                   width="100%"
-                                   height="600"
-                                   class="my-4" />
-
-              <v-expansion-panels>
-                <v-expansion-panel>
-                  <v-expansion-panel-header>View Print-Config</v-expansion-panel-header>
-                  <v-expansion-panel-content>
-                    <pre>{{ cnf }}</pre>
-                  </v-expansion-panel-content>
-                </v-expansion-panel>
-              </v-expansion-panels>
-            </div>
+          <v-col cols="4">
+            <v-expansion-panels>
+              <v-expansion-panel>
+                <v-expansion-panel-header>View Print-Config</v-expansion-panel-header>
+                <v-expansion-panel-content>
+                  <pre>{{ cnf }}</pre>
+                </v-expansion-panel-content>
+              </v-expansion-panel>
+            </v-expansion-panels>
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col cols="6">
+            <print-preview-react :config="{ camp: camp.bind(this), ...cnf }"
+                                 width="100%"
+                                 height="600"
+                                 class="my-4" />
+          </v-col>
+          <v-col cols="6">
+            <print-preview-nuxt :config="{ camp: camp.bind(this), ...cnf }"
+                                width="100%"
+                                height="600"
+                                class="my-4" />
           </v-col>
         </v-row>
       </v-container>
@@ -86,6 +87,7 @@
 
 <script>
 import PrintPreviewReact from './print-react/PrintPreviewReact.vue'
+import PrintPreviewNuxt from './print-nuxt/PrintPreviewNuxt.vue'
 import Draggable from 'vuedraggable'
 import Cover from './config/CoverConfig.vue'
 import Picasso from './config/PicassoConfig.vue'
@@ -101,6 +103,7 @@ export default {
   components: {
     Draggable,
     PrintPreviewReact,
+    PrintPreviewNuxt,
     Cover,
     Picasso,
     Story,

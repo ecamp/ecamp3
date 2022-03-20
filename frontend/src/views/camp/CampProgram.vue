@@ -21,9 +21,9 @@ Show all activity schedule entries of a single period.
         <span>{{ $tc('views.camp.picasso.guestsCannotEdit') }}</span>
       </v-tooltip>
 
-      <pdf-download-button-nuxt :config="printConfig()" />
+      <pdf-download-button-nuxt :config="printConfig()" class="ml-3" />
 
-      <pdf-download-button-react :config="printConfig()" />
+      <pdf-download-button-react :config="printConfig()" class="ml-3" />
     </template>
     <schedule-entries :period="period" :show-button="isContributor">
       <template #default="slotProps">

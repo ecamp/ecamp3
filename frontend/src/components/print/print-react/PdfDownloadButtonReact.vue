@@ -1,7 +1,6 @@
 <template>
   <div>
-    <v-btn class="ml-5"
-           color="primary"
+    <v-btn color="primary"
            :loading="loading"
            outlined
            @click="generatePdf">

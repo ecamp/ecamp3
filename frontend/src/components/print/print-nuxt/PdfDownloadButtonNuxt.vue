@@ -1,7 +1,6 @@
 <template>
   <div>
-    <v-btn class="ml-5"
-           color="primary"
+    <v-btn color="primary"
            :loading="loading"
            outlined
            @click="generatePdf">
@@ -49,10 +48,12 @@ export default {
     async generatePdf () {
       this.loading = true
 
+      const period = this.config.contents.find(content => content.type === 'Picasso').options.periods[0]
+
       try {
         const response = await axios({
           method: 'get',
-          url: `${PRINT_SERVER}/server/pdf?period=${this.config.contents[0].options.periods[0]}`,
+          url: `${PRINT_SERVER}/server/pdf?period=${period}`,
           responseType: 'arraybuffer',
           withCredentials: true,
           headers: {
