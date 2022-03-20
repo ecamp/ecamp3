@@ -48,6 +48,5 @@ function relativeUriFor (entity) {
   if (typeof entity !== 'function') {
     return entity
   }
-  const baseUrl = window.environment.API_ROOT_URL
-  return entity()?._meta?.self?.replace(new RegExp('^' + baseUrl), '')
+  return entity()?._meta?.self
 }

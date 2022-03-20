@@ -44,7 +44,7 @@
     "dayjs": "1.11.0",
     "deepmerge": "4.2.2",
     "file-saver": "2.0.5",
-    "hal-json-vuex": "2.0.0-alpha.12",
+    "hal-json-vuex": "2.0.0-alpha.13",
     "html-to-react": "1.4.8",
     "inter-ui": "3.19.3",
     "js-cookie": "3.0.1",
