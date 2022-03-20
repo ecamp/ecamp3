@@ -56,7 +56,7 @@ class ReadCampTest extends ECampApiTestCase {
             'addressStreet' => $camp->addressStreet,
             'addressZipcode' => $camp->addressZipcode,
             'addressCity' => $camp->addressCity,
-            //'role' => 'guest',
+            // 'role' => 'guest',
             'isPrototype' => false,
             '_links' => [
                 'creator' => ['href' => $this->getIriFor('user2member')],
@@ -84,7 +84,7 @@ class ReadCampTest extends ECampApiTestCase {
             'addressStreet' => $camp->addressStreet,
             'addressZipcode' => $camp->addressZipcode,
             'addressCity' => $camp->addressCity,
-            //'role' => 'member',
+            // 'role' => 'member',
             'isPrototype' => false,
             '_links' => [
                 'creator' => ['href' => $this->getIriFor('user2member')],
@@ -111,7 +111,7 @@ class ReadCampTest extends ECampApiTestCase {
             'addressStreet' => $camp->addressStreet,
             'addressZipcode' => $camp->addressZipcode,
             'addressCity' => $camp->addressCity,
-            //'role' => 'manager',
+            // 'role' => 'manager',
             'isPrototype' => false,
             '_links' => [
                 'creator' => ['href' => $this->getIriFor('user2member')],

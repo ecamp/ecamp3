@@ -38,6 +38,7 @@ class HitobitoAuthenticator extends OAuth2Authenticator {
         // extract provider from request path
         preg_match('/^\/auth\/(pbsmidata|cevidb)\/callback$/', $request->getPathInfo(), $providerMatch);
         $provider = $providerMatch[1];
+
         /** @var OAuth2Client $client */
         $client = $this->clientRegistry->getClient($provider);
         $accessToken = $this->fetchAccessToken($client);

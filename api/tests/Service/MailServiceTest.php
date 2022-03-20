@@ -22,6 +22,7 @@ class MailServiceTest extends KernelTestCase {
 
     protected function setUp(): void {
         static::bootKernel();
+
         /** @var MailService $mailer */
         $mailer = self::getContainer()->get(MailService::class);
         $this->mailer = $mailer;

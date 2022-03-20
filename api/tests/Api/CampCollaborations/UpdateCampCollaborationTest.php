@@ -272,6 +272,7 @@ class UpdateCampCollaborationTest extends ECampApiTestCase {
      */
     public function testRejectsPatchStatusFromEstablishedToInactiveIfNoManagerWouldBeInCamp(string $userFixtureName) {
         $campCollaboration = static::$fixtures['campCollaboration1camp2manager'];
+
         /** @var User $user */
         $user = static::$fixtures[$userFixtureName];
         static::createClientWithCredentials(['username' => $user->getUsername()])
@@ -302,6 +303,7 @@ class UpdateCampCollaborationTest extends ECampApiTestCase {
      */
     public function testRejectsPatchRoleToMemberIfNoManagerWouldBeInCamp(string $userFixtureName) {
         $campCollaboration = static::$fixtures['campCollaboration1camp2manager'];
+
         /** @var User $user */
         $user = static::$fixtures[$userFixtureName];
         static::createClientWithCredentials(['username' => $user->getUsername()])
@@ -332,6 +334,7 @@ class UpdateCampCollaborationTest extends ECampApiTestCase {
      */
     public function testRejectsPatchRoleToGuestIfNoManagerWouldBeInCamp(string $userFixtureName) {
         $campCollaboration = static::$fixtures['campCollaboration1camp2manager'];
+
         /** @var User $user */
         $user = static::$fixtures[$userFixtureName];
         static::createClientWithCredentials(['username' => $user->getUsername()])

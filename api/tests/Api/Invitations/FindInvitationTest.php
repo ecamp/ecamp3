@@ -66,6 +66,7 @@ class FindInvitationTest extends ECampApiTestCase {
     public function testUserAlreadyInCampFalseForOwnCampCollaboration() {
         /** @var CampCollaboration $campCollaboration */
         $campCollaboration = static::$fixtures['campCollaboration6invitedWithUser'];
+
         /** @var User $invitedUser */
         $invitedUser = static::$fixtures['user6invited'];
         static::createClientWithCredentials(['username' => $invitedUser->getUsername()])
@@ -119,6 +120,7 @@ class FindInvitationTest extends ECampApiTestCase {
     public function testUserAlreadyInCampTrueWhenUserAlreadyInCampEvenIfInactive() {
         /** @var CampCollaboration $campCollaboration */
         $campCollaboration = static::$fixtures['campCollaboration4invited'];
+
         /** @var User $inactiveUser */
         $inactiveUser = static::$fixtures['user5inactive'];
         static::createClientWithCredentials(['username' => $inactiveUser->getUsername()])

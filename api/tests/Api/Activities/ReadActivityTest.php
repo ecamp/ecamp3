@@ -59,7 +59,7 @@ class ReadActivityTest extends ECampApiTestCase {
             'location' => $activity->location,
             '_links' => [
                 'rootContentNode' => ['href' => $this->getIriFor('columnLayout1')],
-                //'contentNodes' => ['href' => '/content_nodes?owner=/activities/'.$activity->getId()],
+                // 'contentNodes' => ['href' => '/content_nodes?owner=/activities/'.$activity->getId()],
                 'category' => ['href' => $this->getIriFor('category1')],
                 'camp' => ['href' => $this->getIriFor('camp1')],
                 'scheduleEntries' => ['href' => '/schedule_entries?activity=/activities/'.$activity->getId()],
@@ -81,7 +81,7 @@ class ReadActivityTest extends ECampApiTestCase {
             'location' => $activity->location,
             '_links' => [
                 'rootContentNode' => ['href' => $this->getIriFor('columnLayout1')],
-                //'contentNodes' => ['href' => '/content_nodes?owner=/activities/'.$activity->getId()],
+                // 'contentNodes' => ['href' => '/content_nodes?owner=/activities/'.$activity->getId()],
                 'category' => ['href' => $this->getIriFor('category1')],
                 'camp' => ['href' => $this->getIriFor('camp1')],
                 'scheduleEntries' => ['href' => '/schedule_entries?activity=/activities/'.$activity->getId()],
@@ -101,7 +101,7 @@ class ReadActivityTest extends ECampApiTestCase {
             'location' => $activity->location,
             '_links' => [
                 'rootContentNode' => ['href' => $this->getIriFor('columnLayout1')],
-                //'contentNodes' => ['href' => '/content_nodes?owner=/activities/'.$activity->getId()],
+                // 'contentNodes' => ['href' => '/content_nodes?owner=/activities/'.$activity->getId()],
                 'category' => ['href' => $this->getIriFor('category1')],
                 'camp' => ['href' => $this->getIriFor('camp1')],
                 'scheduleEntries' => ['href' => '/schedule_entries?activity=/activities/'.$activity->getId()],

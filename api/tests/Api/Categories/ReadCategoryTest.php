@@ -63,7 +63,7 @@ class ReadCategoryTest extends ECampApiTestCase {
                 'camp' => ['href' => $this->getIriFor('camp1')],
                 'rootContentNode' => ['href' => $this->getIriFor('columnLayout2')],
                 'preferredContentTypes' => [],
-                //'contentNodes' => ['href' => '/content_nodes?owner=/categories/'.$category->getId()],
+                // 'contentNodes' => ['href' => '/content_nodes?owner=/categories/'.$category->getId()],
             ],
         ]);
     }
@@ -85,7 +85,7 @@ class ReadCategoryTest extends ECampApiTestCase {
                 'camp' => ['href' => $this->getIriFor('camp1')],
                 'rootContentNode' => ['href' => $this->getIriFor('columnLayout2')],
                 'preferredContentTypes' => [],
-                //'contentNodes' => ['href' => '/content_nodes?owner=/categories/'.$category->getId()],
+                // 'contentNodes' => ['href' => '/content_nodes?owner=/categories/'.$category->getId()],
             ],
         ]);
     }
@@ -105,7 +105,7 @@ class ReadCategoryTest extends ECampApiTestCase {
                 'camp' => ['href' => $this->getIriFor('camp1')],
                 'rootContentNode' => ['href' => $this->getIriFor('columnLayout2')],
                 'preferredContentTypes' => [],
-                //'contentNodes' => ['href' => '/content_nodes?owner=/categories/'.$category->getId()],
+                // 'contentNodes' => ['href' => '/content_nodes?owner=/categories/'.$category->getId()],
             ],
         ]);
     }
@@ -124,7 +124,7 @@ class ReadCategoryTest extends ECampApiTestCase {
             '_links' => [
                 'camp' => ['href' => $this->getIriFor('campPrototype')],
                 'rootContentNode' => ['href' => $this->getIriFor('columnLayout2campPrototype')],
-                //'contentNodes' => ['href' => '/content_nodes?owner=/categories/'.$category->getId()],
+                // 'contentNodes' => ['href' => '/content_nodes?owner=/categories/'.$category->getId()],
             ],
         ]);
     }

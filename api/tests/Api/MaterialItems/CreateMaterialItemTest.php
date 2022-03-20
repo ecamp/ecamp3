@@ -110,7 +110,7 @@ class CreateMaterialItemTest extends ECampApiTestCase {
         $this->assertJsonContains($this->getExampleReadPayload([
             '_links' => [
                 'materialNode' => ['href' => $this->getIriFor('materialNode1')],
-                //'period' => null,
+                // 'period' => null,
             ],
         ]));
     }
@@ -127,7 +127,7 @@ class CreateMaterialItemTest extends ECampApiTestCase {
         $this->assertJsonContains($this->getExampleReadPayload([
             '_links' => [
                 'materialNode' => ['href' => $this->getIriFor('materialNode1')],
-                //'period' => null,
+                // 'period' => null,
             ],
         ]));
     }

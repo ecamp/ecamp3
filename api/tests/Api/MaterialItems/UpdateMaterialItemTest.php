@@ -104,7 +104,7 @@ class UpdateMaterialItemTest extends ECampApiTestCase {
             '_links' => [
                 'materialList' => ['href' => $this->getIriFor('materialList2')],
                 'period' => ['href' => $this->getIriFor('period1')],
-                //'materialNode' => null,
+                // 'materialNode' => null,
             ],
         ]);
     }
@@ -127,7 +127,7 @@ class UpdateMaterialItemTest extends ECampApiTestCase {
             '_links' => [
                 'materialList' => ['href' => $this->getIriFor('materialList2')],
                 'period' => ['href' => $this->getIriFor('period1')],
-                //'materialNode' => null,
+                // 'materialNode' => null,
             ],
         ]);
     }
@@ -187,7 +187,7 @@ class UpdateMaterialItemTest extends ECampApiTestCase {
         $this->assertJsonContains([
             '_links' => [
                 'period' => ['href' => $this->getIriFor('period1')],
-                //'materialNode' => null,
+                // 'materialNode' => null,
             ],
         ]);
     }
