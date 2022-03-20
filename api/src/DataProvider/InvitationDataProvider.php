@@ -6,7 +6,6 @@ use ApiPlatform\Core\DataProvider\ItemDataProviderInterface;
 use ApiPlatform\Core\DataProvider\RestrictedDataProviderInterface;
 use ApiPlatform\Core\DataProvider\SerializerAwareDataProviderTrait;
 use App\DTO\Invitation;
-use App\Entity\CampCollaboration;
 use App\Entity\User;
 use App\Repository\CampCollaborationRepository;
 use App\Repository\UserRepository;
@@ -18,9 +17,9 @@ class InvitationDataProvider implements ItemDataProviderInterface, RestrictedDat
 
 
     public function __construct(
-        private Security $security, 
+        private Security $security,
         private PasswordHasherFactoryInterface $passwordHasherFactory,
-        private UserRepository $userRepository, 
+        private UserRepository $userRepository,
         private CampCollaborationRepository $campCollaborationRepository
     ) {
     }

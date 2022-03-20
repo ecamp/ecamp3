@@ -13,10 +13,7 @@ use App\Entity\User;
 use App\Repository\ProfileRepository;
 use App\Service\MailService;
 use App\Util\IdGenerator;
-use eCampApi\V1\Rest\Camp\CampCollection;
-use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactory;
 use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactoryInterface;
-use Symfony\Component\PasswordHasher\PasswordHasherInterface;
 use Symfony\Component\Security\Core\Security;
 
 class CampCollaborationDataPersister extends AbstractDataPersister {
