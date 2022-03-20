@@ -13,6 +13,7 @@ use App\Entity\User;
 use App\Repository\ProfileRepository;
 use App\Service\MailService;
 use App\Util\IdGenerator;
+use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactoryInterface;
 use Symfony\Component\Security\Core\Security;
 
 class CampCollaborationDataPersister extends AbstractDataPersister {
@@ -22,13 +23,15 @@ class CampCollaborationDataPersister extends AbstractDataPersister {
     public function __construct(
         DataPersisterObservable $dataPersisterObservable,
         private Security $security,
+        private PasswordHasherFactoryInterface $passwordHasherFactory,
         private ProfileRepository $profileRepository,
         private MailService $mailService,
         private ValidatorInterface $validator
     ) {
         $resendInvitationListener = CustomActionListener::of(
             CampCollaboration::RESEND_INVITATION,
-            afterAction: fn (CampCollaboration $data) => $this->onResendInvitation($data)
+            fn (CampCollaboration $data) => $this->onBeforeResendInvitation($data),
+            fn (CampCollaboration $data) => $this->onAfterResendInvitation($data)
         );
         $statusChangeListener = PropertyChangeListener::of(
             extractProperty: fn (CampCollaboration $data) => $data->status,
@@ -54,6 +57,7 @@ class CampCollaborationDataPersister extends AbstractDataPersister {
                 $this->validator->validate($data, ['groups' => ['Default', 'create']]);
             }
             $data->inviteKey = IdGenerator::generateRandomHexString(64);
+            $data->inviteKeyHash = $this->passwordHasherFactory->getPasswordHasher('MailToken')->hash($data->inviteKey);
         }
 
         return $data;
@@ -77,6 +81,7 @@ class CampCollaborationDataPersister extends AbstractDataPersister {
     public function onBeforeStatusChange(CampCollaboration $data): CampCollaboration {
         if (CampCollaboration::STATUS_INVITED == $data->status && ($data->inviteEmail || $data->user)) {
             $data->inviteKey = IdGenerator::generateRandomHexString(64);
+            $data->inviteKeyHash = $this->passwordHasherFactory->getPasswordHasher('MailToken')->hash($data->inviteKey);
         }
 
         return $data;
@@ -100,7 +105,16 @@ class CampCollaborationDataPersister extends AbstractDataPersister {
         }
     }
 
-    public function onResendInvitation(CampCollaboration $data) {
+    public function onBeforeResendInvitation(CampCollaboration $data) {
+        /** @var User $user */
+        $user = $this->security->getUser();
+        $data->inviteKey = IdGenerator::generateRandomHexString(64);
+        $data->inviteKeyHash = $this->passwordHasherFactory->getPasswordHasher('MailToken')->hash($data->inviteKey);
+
+        return $data;
+    }
+
+    public function onAfterResendInvitation(CampCollaboration $data) {
         /** @var User $user */
         $user = $this->security->getUser();
         $this->mailService->sendInviteToCampMail($user, $data->camp, $data->inviteKey, $data->inviteEmail);

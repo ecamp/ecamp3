@@ -8,6 +8,7 @@ use App\DataPersister\Util\DataPersisterObservable;
 use App\DTO\Invitation;
 use App\Entity\CampCollaboration;
 use App\Repository\CampCollaborationRepository;
+use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactoryInterface;
 use Symfony\Component\Security\Core\Security;
 
 class InvitationDataPersister extends AbstractDataPersister {
@@ -16,6 +17,7 @@ class InvitationDataPersister extends AbstractDataPersister {
      */
     public function __construct(
         DataPersisterObservable $dataPersisterObservable,
+        private PasswordHasherFactoryInterface $passwordHasherFactory,
         private CampCollaborationRepository $campCollaborationRepository,
         private Security $security
     ) {
@@ -36,19 +38,23 @@ class InvitationDataPersister extends AbstractDataPersister {
     }
 
     public function onAccept($data): CampCollaboration {
-        $campCollaboration = $this->campCollaborationRepository->findByInviteKey($data->inviteKey);
+        $inviteKeyHash = $this->passwordHasherFactory->getPasswordHasher('MailToken')->hash($data->inviteKey);
+        $campCollaboration = $this->campCollaborationRepository->findByInviteKeyHash($inviteKeyHash);
         $campCollaboration->user = $this->security->getUser();
         $campCollaboration->status = CampCollaboration::STATUS_ESTABLISHED;
         $campCollaboration->inviteKey = null;
+        $campCollaboration->inviteKeyHash = null;
         $campCollaboration->inviteEmail = null;
 
         return $campCollaboration;
     }
 
     public function onReject($data): CampCollaboration {
-        $campCollaboration = $this->campCollaborationRepository->findByInviteKey($data->inviteKey);
+        $inviteKeyHash = $this->passwordHasherFactory->getPasswordHasher('MailToken')->hash($data->inviteKey);
+        $campCollaboration = $this->campCollaborationRepository->findByInviteKeyHash($inviteKeyHash);
         $campCollaboration->status = CampCollaboration::STATUS_INACTIVE;
         $campCollaboration->inviteKey = null;
+        $campCollaboration->inviteKeyHash = null;
 
         return $campCollaboration;
     }

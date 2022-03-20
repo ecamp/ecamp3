@@ -22,8 +22,8 @@ class CampCollaborationRepository extends ServiceEntityRepository implements Can
         parent::__construct($registry, CampCollaboration::class);
     }
 
-    public function findByInviteKey(string $inviteKey): ?CampCollaboration {
-        return $this->findOneBy(['inviteKey' => $inviteKey]);
+    public function findByInviteKeyHash(string $inviteKeyHash): ?CampCollaboration {
+        return $this->findOneBy(['inviteKeyHash' => $inviteKeyHash]);
     }
 
     public function findByUserAndCamp(User $user, Camp $camp): ?CampCollaboration {

@@ -13,6 +13,8 @@ use App\Repository\ProfileRepository;
 use App\Service\MailService;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactory;
+use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactoryInterface;
 use Symfony\Component\Security\Core\Security;
 
 /**
@@ -29,6 +31,7 @@ class CampCollaborationDataPersisterTest extends TestCase {
 
     private MockObject|ProfileRepository $profileRepository;
     private MockObject|Security $security;
+    private MockObject|PasswordHasherFactoryInterface $pwHashFactory;
     private MockObject|MailService $mailService;
 
     private CampCollaborationDataPersister $dataPersister;
@@ -55,6 +58,7 @@ class CampCollaborationDataPersisterTest extends TestCase {
         $dataPersisterObservable = $this->createMock(DataPersisterObservable::class);
         $this->security = $this->createMock(Security::class);
         $this->security->expects(self::any())->method('getUser')->willReturn($this->user);
+        $this->pwHashFactory = $this->createMock(PasswordHasherFactory::class);
         $this->profileRepository = $this->createMock(ProfileRepository::class);
         $this->mailService = $this->createMock(MailService::class);
         $validator = $this->createMock(ValidatorInterface::class);
@@ -62,6 +66,7 @@ class CampCollaborationDataPersisterTest extends TestCase {
         $this->dataPersister = new CampCollaborationDataPersister(
             $dataPersisterObservable,
             $this->security,
+            $this->pwHashFactory,
             $this->profileRepository,
             $this->mailService,
             $validator

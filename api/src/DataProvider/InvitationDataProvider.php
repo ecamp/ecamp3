@@ -9,18 +9,18 @@ use App\DTO\Invitation;
 use App\Entity\User;
 use App\Repository\CampCollaborationRepository;
 use App\Repository\UserRepository;
+use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactoryInterface;
 use Symfony\Component\Security\Core\Security;
 
 class InvitationDataProvider implements ItemDataProviderInterface, RestrictedDataProviderInterface {
     use SerializerAwareDataProviderTrait;
-    private CampCollaborationRepository $campCollaborationRepository;
-    private Security $security;
-    private UserRepository $userRepository;
 
-    public function __construct(Security $security, UserRepository $userRepository, CampCollaborationRepository $campCollaborationRepository) {
-        $this->security = $security;
-        $this->userRepository = $userRepository;
-        $this->campCollaborationRepository = $campCollaborationRepository;
+    public function __construct(
+        private Security $security,
+        private PasswordHasherFactoryInterface $passwordHasherFactory,
+        private UserRepository $userRepository,
+        private CampCollaborationRepository $campCollaborationRepository
+    ) {
     }
 
     /**
@@ -31,7 +31,9 @@ class InvitationDataProvider implements ItemDataProviderInterface, RestrictedDat
         if (null == $id) {
             return null;
         }
-        $campCollaboration = $this->campCollaborationRepository->findByInviteKey($id);
+
+        $idHash = $this->passwordHasherFactory->getPasswordHasher('MailToken')->hash($id);
+        $campCollaboration = $this->campCollaborationRepository->findByInviteKeyHash($idHash);
         if (null === $campCollaboration) {
             return null;
         }
