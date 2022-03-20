@@ -46,6 +46,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $queryBuilder->from(User::class, 'user');
         $queryBuilder->join('user.profile', 'profile');
         $queryBuilder->andWhere('profile.username = :identifier');
+        $queryBuilder->orWhere('profile.email = :identifier');
         $queryBuilder->setParameter('identifier', $identifier);
 
         return $queryBuilder->getQuery()->getSingleResult();
