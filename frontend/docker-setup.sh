@@ -10,4 +10,9 @@ fi
 
 npm ci
 
-npm run dev
+if [ $CI -eq 'true' ]; then
+  npm run build
+  npm run preview
+else
+  npm run dev
+fi
