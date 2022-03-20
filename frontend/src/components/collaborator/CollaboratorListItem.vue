@@ -58,7 +58,7 @@
             <button-delete
               :disabled="(disabled && !isOwnCampCollaboration) || isLastManager"
               icon="mdi-cancel"
-              @click="api.patch(collaborator, {status: 'inactive'})">
+              @click="deactivateUser">
               {{ $tc("components.camp.collaboratorListItem.deactivate") }}
             </button-delete>
           </div>
@@ -112,6 +112,14 @@ export default {
         action: 'resend_invitation'
       }).then(postUrl => this.api.patch(postUrl, {}))
         .finally(() => { this.resendingEmail = false })
+    },
+    deactivateUser () {
+      const ok = this.api.patch(this.collaborator, { status: 'inactive' })
+
+      if (this.isOwnCampCollaboration) {
+        // User left camp -> navigate to camp-overview
+        ok.then(() => this.$router.push({ name: 'camps' }))
+      }
     }
   }
 }
