@@ -116,6 +116,10 @@ services:
         
     App\Service\MailService:
         public: true
+        arguments:
+            - '@Symfony\Component\Mailer\MailerInterface'
+            - "%env(FRONTEND_BASE_URL)%"
+            - "%env(MAIL_FROM)%"
 
     App\EventListener\JWTCreatedListener:
         tags:
