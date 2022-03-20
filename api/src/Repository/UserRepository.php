@@ -40,7 +40,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
      * @throws \Doctrine\ORM\NonUniqueResultException
      * @throws \Doctrine\ORM\NoResultException
      */
-    public function loadUserByIdentifier(string $identifier): User {
+    public function loadUserByIdentifier(string $identifier): ?User {
         $queryBuilder = $this->_em->createQueryBuilder();
         $queryBuilder->select('user');
         $queryBuilder->from(User::class, 'user');
@@ -49,7 +49,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $queryBuilder->orWhere('profile.email = :identifier');
         $queryBuilder->setParameter('identifier', $identifier);
 
-        return $queryBuilder->getQuery()->getSingleResult();
+        return $queryBuilder->getQuery()->getOneOrNullResult();
     }
 
     public function loadUserByUsername(string $username): ?UserInterface {
