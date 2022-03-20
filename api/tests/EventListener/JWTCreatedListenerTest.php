@@ -18,10 +18,12 @@ class JWTCreatedListenerTest extends TestCase {
      * @var JWTCreatedListener
      */
     private $jwtCreatedListener;
+
     /**
      * @var MockObject|Security
      */
     private $security;
+
     /**
      * @var IriConverterInterface|MockObject
      */

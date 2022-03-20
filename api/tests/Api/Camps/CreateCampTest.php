@@ -49,6 +49,7 @@ class CreateCampTest extends ECampApiTestCase {
 
     public function testCreateCampSetsOwnerToAuthenticatedUser() {
         $response = static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExampleWritePayload()]);
+
         /** @var UserRepository $userRepository */
         $userRepository = $this->getEntityManager()->getRepository(User::class);
         $user = $userRepository->loadUserByIdentifier('test-user');

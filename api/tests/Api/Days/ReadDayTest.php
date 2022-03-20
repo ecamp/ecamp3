@@ -128,8 +128,9 @@ class ReadDayTest extends ECampApiTestCase {
     }
 
     public function testDatesFormatProperlyInTimezoneAheadOfUTC() {
-        //given
+        // given
         date_default_timezone_set('Asia/Singapore');
+
         /** @var Day $day */
         $day = static::$fixtures['day1period1'];
 
@@ -138,7 +139,7 @@ class ReadDayTest extends ECampApiTestCase {
             ->request('GET', '/days/'.$day->getId())
         ;
 
-        //then
+        // then
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
             'start' => '2023-05-01T00:00:00+00:00',
@@ -147,8 +148,9 @@ class ReadDayTest extends ECampApiTestCase {
     }
 
     public function testDatesFormatProperlyInTimezoneBehindUTC() {
-        //given
+        // given
         date_default_timezone_set('America/New_York');
+
         /** @var Day $day */
         $day = static::$fixtures['day1period1'];
 
@@ -157,7 +159,7 @@ class ReadDayTest extends ECampApiTestCase {
             ->request('GET', '/days/'.$day->getId())
         ;
 
-        //then
+        // then
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
             'start' => '2023-05-01T00:00:00+00:00',

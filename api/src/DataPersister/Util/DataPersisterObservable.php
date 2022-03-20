@@ -13,10 +13,12 @@ class DataPersisterObservable {
     private Closure $onAfterUpdate;
     private Closure $onBeforeRemove;
     private Closure $onAfterRemove;
+
     /**
      * @var CustomActionListener[]
      */
     private array $customActionListeners = [];
+
     /**
      * @var PropertyChangeListener[]
      */

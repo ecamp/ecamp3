@@ -60,6 +60,7 @@ class CampTest extends TestCase {
         $this->assertEquals($this->campPrototype->getId(), $camp->campPrototypeId);
 
         $this->assertCount(1, $camp->categories);
+
         /** @var Category $category */
         $category = $camp->categories->first();
         $this->assertNotEquals($this->categoryPrototype, $category);
@@ -75,11 +76,13 @@ class CampTest extends TestCase {
         $this->assertEquals($this->rootContentNodePrototype->columns[0]['width'], $rootContentNode->columns[0]['width']);
 
         $this->assertCount(1, $rootContentNode->children);
+
         /** @var MaterialNode $materialContentNode */
         $materialContentNode = $rootContentNode->children->first();
         $this->assertNotEquals($this->materialContentNodePrototype, $materialContentNode);
 
         $this->assertCount(1, $camp->materialLists);
+
         /** @var MaterialList $materialList */
         $materialList = $camp->materialLists->first();
         $this->assertNotEquals($this->materialListPrototype, $materialList);

@@ -57,14 +57,14 @@ final class EagerLoadingExtension implements ContextAwareQueryCollectionExtensio
     /**
      * @TODO move $fetchPartial after $forceEager (@soyuka) in 3.0
      */
-    public function __construct(/*PropertyNameCollectionFactoryInterface $propertyNameCollectionFactory,*/ PropertyMetadataFactoryInterface $propertyMetadataFactory, ResourceMetadataFactoryInterface $resourceMetadataFactory, int $maxJoins = 30, bool $forceEager = true, RequestStack $requestStack = null, SerializerContextBuilderInterface $serializerContextBuilder = null, bool $fetchPartial = false, ClassMetadataFactoryInterface $classMetadataFactory = null) {
+    public function __construct(/* PropertyNameCollectionFactoryInterface $propertyNameCollectionFactory, */ PropertyMetadataFactoryInterface $propertyMetadataFactory, ResourceMetadataFactoryInterface $resourceMetadataFactory, int $maxJoins = 30, bool $forceEager = true, RequestStack $requestStack = null, SerializerContextBuilderInterface $serializerContextBuilder = null, bool $fetchPartial = false, ClassMetadataFactoryInterface $classMetadataFactory = null) {
         // Commented out to prevent lowering the code coverage
-        //if (null !== $this->requestStack) {
+        // if (null !== $this->requestStack) {
         //    @trigger_error(sprintf('Passing an instance of "%s" is deprecated since version 2.2 and will be removed in 3.0. Use the data provider\'s context instead.', RequestStack::class), \E_USER_DEPRECATED);
-        //}
-        //if (null !== $this->serializerContextBuilder) {
+        // }
+        // if (null !== $this->serializerContextBuilder) {
         //    @trigger_error(sprintf('Passing an instance of "%s" is deprecated since version 2.2 and will be removed in 3.0. Use the data provider\'s context instead.', SerializerContextBuilderInterface::class), \E_USER_DEPRECATED);
-        //}
+        // }
 
         // $this->propertyNameCollectionFactory = $propertyNameCollectionFactory;
         $this->propertyMetadataFactory = $propertyMetadataFactory;
@@ -95,9 +95,9 @@ final class EagerLoadingExtension implements ContextAwareQueryCollectionExtensio
 
     private function apply(bool $collection, QueryBuilder $queryBuilder, QueryNameGeneratorInterface $queryNameGenerator, ?string $resourceClass, ?string $operationName, array $context) {
         // Commented out to prevent lowering the code coverage
-        //if (null === $resourceClass) {
+        // if (null === $resourceClass) {
         //    throw new InvalidArgumentException('The "$resourceClass" parameter must not be null');
-        //}
+        // }
 
         $options = [];
         if (null !== $operationName) {
@@ -143,7 +143,7 @@ final class EagerLoadingExtension implements ContextAwareQueryCollectionExtensio
         $attributesMetadata = $this->classMetadataFactory ? $this->classMetadataFactory->getMetadataFor($resourceClass)->getAttributesMetadata() : null;
 
         foreach ($classMetadata->associationMappings as $association => $mapping) {
-            //Don't join if max depth is enabled and the current depth limit is reached
+            // Don't join if max depth is enabled and the current depth limit is reached
             if (0 === $currentDepth && ($normalizationContext[AbstractObjectNormalizer::ENABLE_MAX_DEPTH] ?? false)) {
                 continue;
             }
@@ -151,10 +151,10 @@ final class EagerLoadingExtension implements ContextAwareQueryCollectionExtensio
             try {
                 $propertyMetadata = $this->propertyMetadataFactory->create($resourceClass, $association, $options);
             } catch (PropertyNotFoundException $propertyNotFoundException) {
-                //skip properties not found
+                // skip properties not found
                 continue;
             } catch (ResourceClassNotFoundException $resourceClassNotFoundException) {
-                //skip associations that are not resource classes
+                // skip associations that are not resource classes
                 continue;
             }
 
