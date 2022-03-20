@@ -74,7 +74,7 @@ describe('authentication logic', () => {
 
       // then
       expect(apiStore.post).toHaveBeenCalledTimes(1)
-      expect(apiStore.post).toHaveBeenCalledWith('http://localhost/users', { username: 'foo', email: 'bar', password: 'baz' })
+      expect(apiStore.post).toHaveBeenCalledWith('/users', { username: 'foo', email: 'bar', password: 'baz' })
       done()
     })
   })
@@ -93,7 +93,7 @@ describe('authentication logic', () => {
       // then
       expect(result).toBeTruthy()
       expect(apiStore.post).toHaveBeenCalledTimes(1)
-      expect(apiStore.post).toHaveBeenCalledWith('http://localhost/authentication_token', { username: 'foo', password: 'bar' })
+      expect(apiStore.post).toHaveBeenCalledWith('/authentication_token', { username: 'foo', password: 'bar' })
       done()
     })
 
@@ -109,7 +109,7 @@ describe('authentication logic', () => {
       // then
       expect(result).toBeFalsy()
       expect(apiStore.post).toHaveBeenCalledTimes(1)
-      expect(apiStore.post).toHaveBeenCalledWith('http://localhost/authentication_token', { username: 'foo', password: 'barrrr' })
+      expect(apiStore.post).toHaveBeenCalledWith('/authentication_token', { username: 'foo', password: 'barrrr' })
       done()
     })
   })

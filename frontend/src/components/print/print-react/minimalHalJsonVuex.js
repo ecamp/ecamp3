@@ -26,7 +26,7 @@ function normalizeEntityUri (uriOrEntity) {
     uriOrEntity = uriOrEntity._meta?.self || ''
   }
 
-  return uriOrEntity.replace(new RegExp('^' + window.environment.API_ROOT_URL), '')
+  return uriOrEntity
 }
 
 const wrap = (storeData) => {
