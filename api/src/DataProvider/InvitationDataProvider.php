@@ -15,7 +15,6 @@ use Symfony\Component\Security\Core\Security;
 class InvitationDataProvider implements ItemDataProviderInterface, RestrictedDataProviderInterface {
     use SerializerAwareDataProviderTrait;
 
-
     public function __construct(
         private Security $security,
         private PasswordHasherFactoryInterface $passwordHasherFactory,
