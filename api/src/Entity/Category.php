@@ -87,6 +87,11 @@ class Category extends AbstractContentNodeOwner implements BelongsToCampInterfac
      *
      * @ORM\OneToMany(targetEntity="Activity", mappedBy="category", orphanRemoval=true)
      */
+    #[Assert\Count(
+        exactly: 0,
+        exactMessage: 'It\'s not possible to delete a category as long as it has an activity linked to it.',
+        groups: ['delete']
+    )]
     #[ApiProperty(readable: false, writable: false)]
     public Collection $activities;
 

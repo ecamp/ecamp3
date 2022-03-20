@@ -2,6 +2,7 @@
 
 namespace App\DataPersister;
 
+use ApiPlatform\Core\Validator\ValidatorInterface;
 use App\DataPersister\Util\AbstractDataPersister;
 use App\DataPersister\Util\DataPersisterObservable;
 use App\Entity\BaseEntity;
@@ -13,6 +14,7 @@ use Doctrine\ORM\EntityManagerInterface;
 class CategoryDataPersister extends AbstractDataPersister {
     public function __construct(
         DataPersisterObservable $dataPersisterObservable,
+        private ValidatorInterface $validator,
         private EntityManagerInterface $em,
     ) {
         parent::__construct(
@@ -33,5 +35,11 @@ class CategoryDataPersister extends AbstractDataPersister {
         $data->setRootContentNode($rootContentNode);
 
         return $data;
+    }
+
+    public function beforeRemove($data): ?BaseEntity {
+        $this->validator->validate($data, ['groups' => ['delete']]);
+
+        return null;
     }
 }

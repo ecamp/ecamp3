@@ -84,4 +84,17 @@ class DeleteCategoryTest extends ECampApiTestCase {
             'detail' => 'Access Denied.',
         ]);
     }
+
+    public function testDeleteCategoryValidatesThatCategoryHasNoActivities() {
+        $category = static::$fixtures['category1'];
+        static::createClientWithCredentials()
+            ->request('DELETE', '/categories/'.$category->getId())
+        ;
+
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'title' => 'An error occurred',
+            'detail' => 'activities: It\'s not possible to delete a category as long as it has an activity linked to it.',
+        ]);
+    }
 }
