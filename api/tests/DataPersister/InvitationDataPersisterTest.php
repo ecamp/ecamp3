@@ -45,7 +45,7 @@ class InvitationDataPersisterTest extends TestCase {
         $this->collaborationRepository = $this->createMock(CampCollaborationRepository::class);
         $this->security = $this->createMock(Security::class);
         $this->pwHasherFactory = $this->createMock(PasswordHasherFactory::class);
-        
+
         $this->dataPersister = new InvitationDataPersister(
             $this->dataPersisterObservable,
             $this->pwHasherFactory,
