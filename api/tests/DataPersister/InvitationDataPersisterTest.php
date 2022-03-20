@@ -11,6 +11,9 @@ use App\Repository\CampCollaborationRepository;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use stdClass;
+use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactory;
+use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactoryInterface;
+use Symfony\Component\PasswordHasher\PasswordHasherInterface;
 use Symfony\Component\Security\Core\Security;
 
 /**
@@ -18,7 +21,7 @@ use Symfony\Component\Security\Core\Security;
  */
 class InvitationDataPersisterTest extends TestCase {
     public const INVITEKEY = 'inviteKey';
-    public const INVITEKEYHASH = '705418a2bf6cddce356d3cf70af63a4f';
+    public const INVITEKEYHASH = 'sl3hC12VkIUzT89mMggYyoMmFuo=';
 
     private Invitation $invitation;
     private CampCollaboration $campCollaboration;
@@ -27,6 +30,7 @@ class InvitationDataPersisterTest extends TestCase {
     private MockObject|DataPersisterObservable $dataPersisterObservable;
     private MockObject|CampCollaborationRepository $collaborationRepository;
     private MockObject|Security $security;
+    private MockObject|PasswordHasherFactoryInterface $pwHasherFactory;
     private InvitationDataPersister $dataPersister;
 
     /**
@@ -40,8 +44,11 @@ class InvitationDataPersisterTest extends TestCase {
         $this->dataPersisterObservable = $this->createMock(DataPersisterObservable::class);
         $this->collaborationRepository = $this->createMock(CampCollaborationRepository::class);
         $this->security = $this->createMock(Security::class);
+        $this->pwHasherFactory = $this->createMock(PasswordHasherFactory::class);
+        
         $this->dataPersister = new InvitationDataPersister(
             $this->dataPersisterObservable,
+            $this->pwHasherFactory,
             $this->collaborationRepository,
             $this->security
         );
@@ -61,6 +68,19 @@ class InvitationDataPersisterTest extends TestCase {
     }
 
     public function testUpdatesInvitationCorrectlyOnAccept() {
+        /** @var MockObject|PasswordHasherInterface $pwHasher */
+        $pwHasher = $this->createMock(PasswordHasherInterface::class);
+        $pwHasher->expects(self::once())
+            ->method('hash')
+            ->with(self::INVITEKEY)
+            ->willReturn(self::INVITEKEYHASH)
+        ;
+        $this->pwHasherFactory
+            ->expects(self::once())
+            ->method('getPasswordHasher')
+            ->with('MailToken')
+            ->willReturn($pwHasher)
+        ;
         $this->collaborationRepository
             ->expects(self::once())
             ->method('findByInviteKeyHash')
@@ -78,6 +98,19 @@ class InvitationDataPersisterTest extends TestCase {
     }
 
     public function testUpdatesInvitationCorrectlyOnReject() {
+        /** @var MockObject|PasswordHasherInterface $pwHasher */
+        $pwHasher = $this->createMock(PasswordHasherInterface::class);
+        $pwHasher->expects(self::once())
+            ->method('hash')
+            ->with(self::INVITEKEY)
+            ->willReturn(self::INVITEKEYHASH)
+        ;
+        $this->pwHasherFactory
+            ->expects(self::once())
+            ->method('getPasswordHasher')
+            ->with('MailToken')
+            ->willReturn($pwHasher)
+        ;
         $this->collaborationRepository
             ->expects(self::once())
             ->method('findByInviteKeyHash')
