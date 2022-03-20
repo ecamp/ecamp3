@@ -31,6 +31,14 @@ App\Entity\ContentNode\ColumnLayout:
     columns: [{slot: '1', width: 12}]
     instanceName: <word()>
     contentType: '@contentTypeColumnLayout'
+  columnLayout5:
+    root: '@self'
+    parent: null
+    slot: ''
+    position: 0
+    columns: [ { slot: '1', width: 12 } ]
+    instanceName: <word()>
+    contentType: '@contentTypeColumnLayout'
   columnLayout2camp2:
     root: '@self'
     parent: null

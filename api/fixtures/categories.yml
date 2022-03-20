@@ -15,6 +15,13 @@ App\Entity\Category:
     color: '#99CCFF'
     numberingStyle: 1
     rootContentNode: '@columnLayout4'
+  categoryWithNoActivities:
+    camp: '@camp1'
+    short: ES
+    name: Essen
+    color: '#99CCFF'
+    numberingStyle: 1
+    rootContentNode: '@columnLayout5'
   category1camp2:
     camp: '@camp2'
     short: LS
