@@ -48,12 +48,10 @@ export default {
     async generatePdf () {
       this.loading = true
 
-      const period = this.config.contents.find(content => content.type === 'Picasso').options.periods[0]
-
       try {
         const response = await axios({
           method: 'get',
-          url: `${PRINT_SERVER}/server/pdf?period=${period}`,
+          url: `${PRINT_SERVER}/server/pdf?config=${encodeURIComponent(JSON.stringify(this.config))}`,
           responseType: 'arraybuffer',
           withCredentials: true,
           headers: {

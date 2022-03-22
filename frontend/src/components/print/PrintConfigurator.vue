@@ -67,13 +67,14 @@
           </v-col>
         </v-row>
         <v-row>
-          <v-col cols="6">
+          <v-col cols="0">
+            <!--
             <print-preview-react :config="{ camp: camp.bind(this), ...cnf }"
                                  width="100%"
                                  height="600"
-                                 class="my-4" />
+                                 class="my-4" /> -->
           </v-col>
-          <v-col cols="6">
+          <v-col cols="12">
             <print-preview-nuxt :config="{ camp: camp.bind(this), ...cnf }"
                                 width="100%"
                                 height="600"
@@ -142,6 +143,7 @@ export default {
       cnf: {
         language: '',
         documentName: this.camp().title + '.pdf',
+        camp: this.camp()._meta.self,
         contents: this.defaultContents()
       }
     }

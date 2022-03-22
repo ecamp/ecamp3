@@ -2,13 +2,13 @@
   <v-row no-gutters>
     <v-col cols="12">
       <div class="page_break">
-        <h1>Detail program</h1>
+        <h1>Detail program for Period {{ period.description }}</h1>
       </div>
 
       <program-period
         v-for="period in periods"
         :key="'period_' + period.id"
-        :show-daily-summary="showDailySummary"
+        :show-daily-summary="dayOverview"
         :show-activities="showActivities"
         :period="period"
       />
@@ -20,7 +20,11 @@
 export default {
   props: {
     camp: { type: Object, required: true },
-    showDailySummary: { type: Boolean, required: true },
+    period: {
+      type: Object,
+      required: true,
+    },
+    dayOverview: { type: Boolean, required: true },
     showActivities: { type: Boolean, required: true },
   },
   data() {

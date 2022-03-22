@@ -3,7 +3,7 @@
     <v-col cols="12">
       <div :class="rotate ? 'rotate' : ''">
         <v-sheet>
-          <h1>Picasso</h1>
+          <h1>Picasso for Period {{ period.description }}</h1>
 
           <v-calendar
             ref="calendar"
@@ -31,6 +31,10 @@ export default {
       type: Boolean,
       required: false,
       default: false,
+    },
+    period: {
+      type: Object,
+      required: true,
     },
   },
   data: () => ({

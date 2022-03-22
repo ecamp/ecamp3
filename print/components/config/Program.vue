@@ -1,0 +1,33 @@
+<template>
+  <div>
+    <program-period
+      v-for="(periodUri, idx) in options.periods"
+      :key="idx"
+      :period="getPeriod(periodUri)"
+      :camp="camp"
+      :show-daily-summary="options.dayOverview"
+      :show-activities="true"
+    />
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'ConfigProgram',
+  props: {
+    options: { type: Object, required: false, default: null },
+    camp: { type: Object, required: true },
+  },
+  data() {
+    return {}
+  },
+  async fetch() {
+    await this.$api.get(this.camp.periods)._meta.load
+  },
+  methods: {
+    getPeriod(uri) {
+      return this.$api.get(uri)
+    },
+  },
+}
+</script>

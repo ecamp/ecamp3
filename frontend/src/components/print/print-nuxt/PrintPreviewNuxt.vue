@@ -57,9 +57,9 @@ export default {
       return this.$store.state.lang.language
     },
     url () {
-      const period = this.config.contents.find(content => content.type === 'Picasso').options.periods[0]
+      // const period = this.config.contents.find(content => content.type === 'Picasso').options.periods[0]
 
-      return `${PRINT_SERVER}/picasso?pagedjs=true&lang=${this.language}&period=${period}`
+      return `${PRINT_SERVER}/?pagedjs=true&config=${encodeURIComponent(JSON.stringify(this.config))}`
     }
   }
 
