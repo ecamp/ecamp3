@@ -39,6 +39,10 @@ class DataPersisterObservable {
         $this->onAfterRemove = $noop;
     }
 
+    // public function getDataPersister() {
+    //     return $this->dataPersister;
+    // }
+
     public function supports($data, array $context): bool {
         return $this->dataPersister->supports($data, $context);
     }

@@ -95,6 +95,10 @@
       {{ $tc('views.auth.login.accountless') }}<br>
       <router-link :to="{ name: 'register' }">{{ $tc('views.auth.login.registernow') }}</router-link>
     </p>
+    <p class="mt-8 mb-0 text--secondary text-center">
+      {{ $tc('views.auth.login.passwordForgotten') }}<br>
+      <router-link :to="{ name: 'resetPasswordRequest' }">{{ $tc('views.auth.login.resetPassword') }}</router-link>
+    </p>
   </auth-container>
 </template>
 

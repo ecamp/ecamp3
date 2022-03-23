@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\DTO\ResetPassword;
 use App\Entity\Camp;
 use App\Entity\User;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
@@ -48,6 +49,26 @@ class MailService {
             ->context([
                 'name' => $user->getDisplayName(),
                 'url' => "{$this->frontendBaseUrl}/activate/{$user->getId()}/{$key}",
+            ])
+        ;
+
+        try {
+            $this->mailer->send($email);
+        } catch (TransportExceptionInterface $e) {
+            throw new \RuntimeException($e);
+        }
+    }
+
+    public function sendPasswordResetLink(User $user, ResetPassword $data): void {
+        $email = (new TemplatedEmail())
+            ->from($this->mailFrom)
+            ->to(new Address($data->email))
+            ->subject('eCamp3 :: Password reset')
+            ->htmlTemplate($this->getTemplate('emails/passwordResetLink.{language}.html.twig', $user))
+            ->textTemplate($this->getTemplate('emails/passwordResetLink.{language}.text.twig', $user))
+            ->context([
+                'name' => $user->getDisplayName(),
+                'url' => "{$this->frontendBaseUrl}/reset-password/{$data->emailBase64}/{$data->resetKey}",
             ])
         ;
 

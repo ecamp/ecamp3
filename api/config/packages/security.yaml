@@ -5,6 +5,8 @@ security:
             algorithm: auto
         MailToken:
             algorithm: sha1
+        PasswordResetKey:
+            algorithm: auto
 
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     # https://symfony.com/doc/current/security/user_providers.html#using-a-custom-query-to-load-the-user

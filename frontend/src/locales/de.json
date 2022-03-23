@@ -254,6 +254,7 @@
         },
         "or": "oder",
         "password": "Passwort",
+        "passwordForgotten": "Hast du dein Password vergessen?",
         "provider": {
           "ecamp": "Anmelden mit eCamp",
           "google": "Anmelden mit Google",
@@ -261,6 +262,7 @@
           "cevidb": "Anmelden mit CeviDB"
         },
         "registernow": "Jetzt registrieren",
+        "resetPassword": "Password zurücksetzen",
         "title": "Anmelden",
         "username": "Username oder E-Mail"
       },
@@ -276,6 +278,20 @@
         "login": "Anmelden",
         "success": "Erfolgreich registriert",
         "title": "Konto erstellen"
+      },
+      "resetPassword": {
+        "back": "Zurück zum Login",
+        "password": "Neues Kennwort",
+        "passwordConfirmation": "Neues Kennwort wiederholen",
+        "send": "Passwort setzen",
+        "successMessage": "Neues Passwort erfolgreich gesetzt.",
+        "title": "Neues Passwort setzen"
+      },
+      "resetPasswordRequest": {
+        "back": "Zurück zum Login",
+        "send": "Abschicken",
+        "successMessage": "Mail mit Link für 'Passwort zurücksetzen' wird versendet.",
+        "title": "Passwort zurücksetzen"
       }
     },
     "camp": {
