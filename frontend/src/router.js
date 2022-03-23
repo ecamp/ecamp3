@@ -60,8 +60,8 @@ export default new Router({
       props: {
         default: route => {
           return {
-             emailBase64: route.params.emailBase64,
-             resetKey: route.params.resetKey
+            emailBase64: route.params.emailBase64,
+            resetKey: route.params.resetKey
           }
         }
       }

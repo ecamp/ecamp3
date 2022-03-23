@@ -122,7 +122,7 @@ export const auth = {
   resetPassword
 }
 
-  class AuthPlugin {
+class AuthPlugin {
   install (Vue) {
     Object.defineProperties(Vue.prototype, {
       $auth: {
