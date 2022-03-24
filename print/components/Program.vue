@@ -20,10 +20,6 @@
 export default {
   props: {
     camp: { type: Object, required: true },
-    period: {
-      type: Object,
-      required: true,
-    },
     dayOverview: { type: Boolean, required: true },
     showActivities: { type: Boolean, required: true },
   },
