@@ -4,7 +4,7 @@
 
 <script>
 export default {
-  name: 'TocConfig',
+  name: 'Toc',
   props: {
     value: { type: Object, required: true }
   },

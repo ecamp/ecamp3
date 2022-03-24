@@ -9,7 +9,7 @@
       <v-icon>mdi-nuxt</v-icon>
     </v-btn>
     <v-snackbar v-model="error" :timeout="10000">
-      {{ $tc('components.camp.print.localPdfDownloadButton.error') }}
+      {{ $tc('components.print.localPdfDownloadButton.error') }}
       <template #action="{ attrs }">
         <v-btn color="red"
                text

@@ -4,7 +4,7 @@
 
 <script>
 export default {
-  name: 'CoverConfig',
+  name: 'Cover',
   props: {
     value: { type: Object, required: true }
   },

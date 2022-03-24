@@ -8,7 +8,7 @@
 
 <script>
 export default {
-  name: 'ActivityConfig',
+  name: 'Activity',
   props: {
     value: { type: Object, required: true },
     camp: { type: Object, required: true }

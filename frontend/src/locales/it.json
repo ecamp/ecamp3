@@ -117,7 +117,9 @@
       },
       "collaboratorListItem": {
         "remove": "Rimuovere"
-      },
+      }
+    },
+    "story": {
       "storyDay": {
         "noStory": "Nessun contenuto di storia trovato in questo giorno..."
       }

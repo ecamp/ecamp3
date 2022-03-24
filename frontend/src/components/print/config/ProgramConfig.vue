@@ -4,13 +4,13 @@
       v-model="options.periods"
       :items="periods"
       multiple />
-    <e-checkbox v-model="options.dayOverview" label="print day-overview" />
+    <e-checkbox v-model="options.dayOverview" :label="$tc('components.print.printConfigurator.config.ProgramConfig.dayOverview')" />
   </div>
 </template>
 
 <script>
 export default {
-  name: 'ProgramConfig',
+  name: 'Program',
   props: {
     value: { type: Object, required: true },
     camp: { type: Object, required: true }

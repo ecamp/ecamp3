@@ -15,7 +15,7 @@
                   </v-list-item-icon>
                   <v-list-item-content>
                     <v-list-item-title>
-                      <h3>{{ content.type }}</h3>
+                      <h3>{{ $tc('components.print.printConfigurator.config.' + content.type) }}</h3>
                     </v-list-item-title>
                     <component :is="content.type"
                                v-model="content.options"
@@ -32,13 +32,9 @@
             <br>
             <v-menu>
               <template #activator="{ on, attrs }">
-                <v-btn
-                  color="primary"
-                  dark
+                <button-add
                   v-bind="attrs"
-                  v-on="on">
-                  Add
-                </v-btn>
+                  v-on="on" />
               </template>
               <v-list>
                 <v-list-item
@@ -49,7 +45,7 @@
                     options: component.defaultOptions()
                   })">
                   <v-list-item-title>
-                    {{ component.name }}
+                    {{ $tc('components.print.printConfigurator.config.' + component.name) }}
                   </v-list-item-title>
                 </v-list-item>
               </v-list>
