@@ -73,6 +73,7 @@
            outlined
            class="my-4"
            @click="loginCeviDB">
+      <v-icon>$vuetify.icons.cevi</v-icon>
       <v-spacer />
       <span class="text--secondary">{{ $tc('views.auth.login.provider.cevidb') }}</span>
       <v-spacer />
