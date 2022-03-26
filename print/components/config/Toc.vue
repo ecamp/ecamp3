@@ -1,5 +1,5 @@
 <template>
-  <div class="page_break">
+  <div class="tw-break-after-page">
     <h1>Table of content {{ camp.name }}</h1>
     {{ JSON.stringify(options) }}
   </div>

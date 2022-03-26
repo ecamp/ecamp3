@@ -29,11 +29,3 @@ export default {
   },
 }
 </script>
-
-<style lang="scss" scoped>
-@media print {
-  .page_break {
-    page-break-after: always;
-  }
-}
-</style>

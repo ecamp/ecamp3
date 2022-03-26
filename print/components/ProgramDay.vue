@@ -1,7 +1,7 @@
 <template>
   <v-row no-gutters>
     <v-col cols="12">
-      <div v-if="showDailySummary" class="page_break">
+      <div v-if="showDailySummary" class="tw-break-after-page">
         <h1>Daily summary of day {{ day.dayOffset }}</h1>
       </div>
 
@@ -38,11 +38,3 @@ export default {
   },
 }
 </script>
-
-<style lang="scss" scoped>
-@media print {
-  .page_break {
-    page-break-after: always;
-  }
-}
-</style>
