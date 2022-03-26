@@ -62,7 +62,7 @@ class MailService {
     public function sendPasswordResetLink(User $user, ResetPassword $data): void {
         $email = (new TemplatedEmail())
             ->from($this->mailFrom)
-            ->to(new Address($data->email))
+            ->to(new Address($user->getEmail()))
             ->subject('eCamp3 :: Password reset')
             ->htmlTemplate($this->getTemplate('emails/passwordResetLink.{language}.html.twig', $user))
             ->textTemplate($this->getTemplate('emails/passwordResetLink.{language}.text.twig', $user))

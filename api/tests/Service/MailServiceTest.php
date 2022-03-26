@@ -2,6 +2,7 @@
 
 namespace App\Tests\Service;
 
+use App\DTO\ResetPassword;
 use App\Entity\Camp;
 use App\Entity\Profile;
 use App\Entity\User;
@@ -82,5 +83,25 @@ class MailServiceTest extends KernelTestCase {
         self::assertEmailHtmlBodyContains($mailerMessage, self::INVITE_KEY);
         self::assertEmailTextBodyContains($mailerMessage, 'Welcome');
         self::assertEmailTextBodyContains($mailerMessage, self::INVITE_KEY);
+    }
+
+    public function testSendResetPasswordMailDeChScout() {
+        $this->user->profile->language = 'de-CH-scout';
+        $this->user->profile->email = self::INVITE_MAIL;
+
+        $resetPassword = new ResetPassword();
+        $resetPassword->emailBase64 = 'mail';
+        $resetPassword->resetKey = 'resetKey';
+
+        $this->mailer->sendPasswordResetLink($this->user, $resetPassword);
+
+        self::assertEmailCount(1);
+        $mailerMessage = self::getMailerMessage(0);
+        self::assertEmailAddressContains($mailerMessage, 'To', self::INVITE_MAIL);
+
+        self::assertEmailHtmlBodyContains($mailerMessage, 'Passwort zurücksetzen');
+        self::assertEmailHtmlBodyContains($mailerMessage, 'reset-password/mail/resetKey');
+        self::assertEmailTextBodyContains($mailerMessage, 'Passwort zurücksetzen');
+        self::assertEmailTextBodyContains($mailerMessage, 'reset-password/mail/resetKey');
     }
 }
