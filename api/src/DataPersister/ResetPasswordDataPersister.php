@@ -11,6 +11,7 @@ use App\Util\IdGenerator;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactoryInterface;
+use Symfony\Component\PasswordHasher\PasswordHasherInterface;
 
 class ResetPasswordDataPersister implements ContextAwareDataPersisterInterface {
     public function __construct(
@@ -26,7 +27,7 @@ class ResetPasswordDataPersister implements ContextAwareDataPersisterInterface {
         return $data instanceof ResetPassword;
     }
 
-    public function persist($data, array $context = []) {
+    public function persist($data, array $context = []): void {
         $observable = $this->dataPersisterObservable
             ->onBeforeCreate(fn ($data) => $this->beforeCreate($data))
             ->onBeforeUpdate(fn ($data) => $this->beforeUpdate($data))
@@ -34,19 +35,13 @@ class ResetPasswordDataPersister implements ContextAwareDataPersisterInterface {
 
         $data = $observable->persist($data, $context);
         $this->em->flush();
-
-        return $data;
     }
 
     public function remove($data, array $context = []) {
         throw new Exception('ResetPasswordDataPersister->remove() is not implemented');
     }
 
-    private function getResetKeyHasher() {
-        return $this->pwHasherFactory->getPasswordHasher('PasswordResetKey');
-    }
-
-    private function beforeCreate(ResetPassword $data): ResetPassword {
+    public function beforeCreate(ResetPassword $data): ResetPassword {
         $user = $this->userRepository->loadUserByIdentifier($data->email);
 
         if (null != $user) {
@@ -61,7 +56,7 @@ class ResetPasswordDataPersister implements ContextAwareDataPersisterInterface {
         return $data;
     }
 
-    private function beforeUpdate(ResetPassword $data): ResetPassword {
+    public function beforeUpdate(ResetPassword $data): ResetPassword {
         $email = base64_decode($data->emailBase64);
         $user = $this->userRepository->loadUserByIdentifier($email);
 
@@ -81,5 +76,9 @@ class ResetPasswordDataPersister implements ContextAwareDataPersisterInterface {
         $data->password = '';
 
         return $data;
+    }
+
+    private function getResetKeyHasher(): PasswordHasherInterface {
+        return $this->pwHasherFactory->getPasswordHasher('PasswordResetKey');
     }
 }
