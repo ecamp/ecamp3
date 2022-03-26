@@ -73,21 +73,7 @@ Displays a single activity
           <template v-else>{{ $tc('views.activity.activity.back') }}</template>
         </v-btn>
 
-        <!-- print preview button -->
-        <v-tooltip bottom>
-          <template #activator="{ on, attrs }">
-            <v-btn
-              class="ml-3"
-              color="primary"
-              outlined
-              :to="{ name: 'camp/print/activity', params: { campId: activity.camp().id, scheduleEntryId: scheduleEntry().id } }"
-              v-bind="attrs"
-              v-on="on">
-              <v-icon>mdi-printer</v-icon>
-            </v-btn>
-          </template>
-          <span>{{ $tc('views.activity.printPreview') }}</span>
-        </v-tooltip>
+        <pdf-download-button-nuxt :config="printConfig()" class="ml-3" />
         <pdf-download-button-react :config="printConfig()" />
       </template>
 
@@ -157,6 +143,7 @@ import ActivityResponsibles from '@/components/activity/ActivityResponsibles.vue
 import { rangeShort } from '@/common/helpers/dateHelperUTCFormatted.js'
 import { campRoleMixin } from '@/mixins/campRoleMixin'
 import PdfDownloadButtonReact from '@/components/print/print-react/PdfDownloadButtonReact.vue'
+import PdfDownloadButtonNuxt from '@/components/print/print-nuxt/PdfDownloadButtonNuxt.vue'
 
 export default {
   name: 'Activity',
@@ -165,7 +152,8 @@ export default {
     ApiTextField,
     RootNode,
     ActivityResponsibles,
-    PdfDownloadButtonReact
+    PdfDownloadButtonReact,
+    PdfDownloadButtonNuxt
   },
   mixins: [campRoleMixin],
   props: {

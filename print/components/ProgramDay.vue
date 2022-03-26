@@ -6,7 +6,7 @@
       </div>
 
       <div v-if="showActivities">
-        <program-schedule-entry
+        <schedule-entry
           v-for="scheduleEntry in scheduleEntries"
           :key="scheduleEntry.id"
           :schedule-entry="scheduleEntry"

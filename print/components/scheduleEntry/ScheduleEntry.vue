@@ -1,13 +1,19 @@
 <template>
-  <div>
-    <div class="schedule-entry-title">
-      <h2>
+  <div class="tw-mb-20 tw-break-inside-avoid">
+    <div class="schedule-entry-title tw-float-left">
+      <h2
+        :id="'scheduleEntry_' + scheduleEntry.id"
+        class="tw-text-2xl tw-font-bold"
+      >
         {{ scheduleEntry.number }}
         <category-label :category="scheduleEntry.activity().category()" />
         {{ scheduleEntry.activity().title }}
       </h2>
     </div>
-    <div class="header">
+    <div class="tw-float-right">
+      {{ rangeShort(scheduleEntry.start, scheduleEntry.end) }}
+    </div>
+    <div class="header tw-clear-both">
       <table class="header-table">
         <tr>
           <th class="header-row left-col">
@@ -20,12 +26,13 @@
             {{ $tc('entity.activity.fields.responsible') }}
           </th>
           <td class="header-row">
-            <user-avatar
+            {{ responsiblesListed }}
+            <!-- <user-avatar
               v-for="responsible in responsibles"
               :key="responsible.id"
-              :user="responsible.user()"
+              :user="responsible.campCollaboration().user()"
               :size="16"
-            />
+            /> -->
           </td>
         </tr>
       </table>
@@ -35,12 +42,12 @@
 </template>
 
 <script>
-import UserAvatar from '../UserAvatar.vue'
 import CategoryLabel from './CategoryLabel.vue'
 import ContentNode from './contentNode/ContentNode.vue'
+import { rangeShort } from '@/../common/helpers/dateHelperUTCFormatted.js'
 
 export default {
-  components: { UserAvatar, CategoryLabel, ContentNode },
+  components: { CategoryLabel, ContentNode },
   props: {
     scheduleEntry: { type: Object, required: true },
   },
@@ -59,15 +66,30 @@ export default {
       this.scheduleEntry.activity().category()._meta.load,
       this.scheduleEntry.period().camp().materialLists().$loadItems(),
       // prettier-ignore
-      this.scheduleEntry.activity().campCollaborations().$loadItems().then((campCollaborations) => {
-        return Promise.all(campCollaborations.items.map(campCollaboration => campCollaboration.user()._meta.load))
-      }),
+      this.scheduleEntry.activity().activityResponsibles().$loadItems().then(
+        (activityResponsibles) => {
+          return Promise.all(activityResponsibles.items.map((activityResponsible) => activityResponsible.campCollaboration().user()._meta.load))
+        }  
+      ),
     ])
   },
   computed: {
     responsibles() {
-      return this.scheduleEntry.activity().campCollaborations().items
+      return this.scheduleEntry.activity().activityResponsibles().items
     },
+    responsiblesListed() {
+      return this.scheduleEntry
+        .activity()
+        .activityResponsibles()
+        .items.map(
+          (activityResponsible) =>
+            activityResponsible.campCollaboration().user().displayName
+        )
+        .join(', ')
+    },
+  },
+  methods: {
+    rangeShort,
   },
 }
 </script>
