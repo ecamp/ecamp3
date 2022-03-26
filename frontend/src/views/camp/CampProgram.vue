@@ -81,7 +81,7 @@ export default {
   methods: {
     printConfig () {
       return {
-        camp: () => this.period().camp(),
+        camp: this.period().camp()._meta.self,
         language: this.$store.state.lang.language,
         documentName: this.camp.title + '-picasso.pdf',
         contents: [

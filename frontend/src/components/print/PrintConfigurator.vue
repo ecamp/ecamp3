@@ -63,18 +63,23 @@
           </v-col>
         </v-row>
         <v-row>
-          <v-col cols="0">
-            <!--
-            <print-preview-react :config="{ camp: camp.bind(this), ...cnf }"
-                                 width="100%"
-                                 height="600"
-                                 class="my-4" /> -->
-          </v-col>
           <v-col cols="12">
-            <print-preview-nuxt :config="{ camp: camp.bind(this), ...cnf }"
-                                width="100%"
-                                height="600"
-                                class="my-4" />
+            <v-tabs>
+              <v-tab>Print with Nuxt</v-tab>
+              <v-tab>Print with React</v-tab>
+              <v-tab-item>
+                <print-preview-nuxt :config="cnf"
+                                    width="100%"
+                                    height="600"
+                                    class="my-4" />
+              </v-tab-item>
+              <v-tab-item>
+                <print-preview-react :config="cnf"
+                                     width="100%"
+                                     height="600"
+                                     class="my-4" />
+              </v-tab-item>
+            </v-tabs>
           </v-col>
         </v-row>
       </v-container>
@@ -92,8 +97,6 @@ import Story from './config/StoryConfig.vue'
 import Program from './config/ProgramConfig.vue'
 import Activity from './config/ActivityConfig.vue'
 import Toc from './config/TocConfig.vue'
-
-const PRINT_SERVER = window.environment.PRINT_SERVER
 
 export default {
   name: 'PrintConfigurator',
@@ -116,18 +119,6 @@ export default {
   },
   data () {
     return {
-      // OLD
-      config: {
-        showFrontpage: true,
-        showToc: true,
-        showPicasso: true,
-        showDailySummary: true,
-        showStoryline: true,
-        showActivities: true,
-        camp: this.camp.bind(this)
-      },
-
-      // NEW
       contentComponents: [
         Cover,
         Picasso,
@@ -145,10 +136,6 @@ export default {
     }
   },
   computed: {
-    previewUrl () {
-      const configGetParams = Object.entries(this.config).map(([key, val]) => `${key}=${val}`).join('&')
-      return `${PRINT_SERVER}/?camp=${this.camp().id}&pagedjs=true&${configGetParams}&lang=${this.lang}`
-    },
     lang () {
       return this.$store.state.lang.language
     },

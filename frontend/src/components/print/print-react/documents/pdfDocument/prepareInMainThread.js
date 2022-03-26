@@ -2,10 +2,13 @@ const picassoData = (config) => {
   if (!config.contents.some(c => c.type === 'Picasso')) {
     return []
   }
+
+  const camp = config.apiGet(config.camp)
+
   return [
-    config.camp()._meta.load,
-    config.camp().categories().$loadItems(),
-    config.camp().activities().$loadItems().then(activities => {
+    camp._meta.load,
+    camp.categories().$loadItems(),
+    camp.activities().$loadItems().then(activities => {
       return Promise.all(activities.items.map(activity => {
         return Promise.all([
           activity.activityResponsibles().$loadItems(),
@@ -13,10 +16,10 @@ const picassoData = (config) => {
         ])
       }))
     }),
-    config.camp().campCollaborations().$loadItems().then(campCollaboration => {
+    camp.campCollaborations().$loadItems().then(campCollaboration => {
       return campCollaboration.user ? campCollaboration.user()._meta.load : Promise.resolve()
     }),
-    config.camp().periods().$loadItems().then(periods => {
+    camp.periods().$loadItems().then(periods => {
       return Promise.all(periods.items.map(period => {
         return period.scheduleEntries().$loadItems()
       }))
@@ -28,10 +31,13 @@ const activityData = (config) => {
   if (!config.contents.some(c => ['Program', 'Activity'].includes(c.type))) {
     return []
   }
+
+  const camp = config.apiGet(config.camp)
+
   return [
-    config.camp()._meta.load,
-    config.camp().categories().$loadItems(),
-    config.camp().activities().$loadItems().then(activities => {
+    camp._meta.load,
+    camp.categories().$loadItems(),
+    camp.activities().$loadItems().then(activities => {
       return Promise.all(activities.items.map(activity => {
         return Promise.all([
           activity.activityResponsibles().$loadItems(),
@@ -39,15 +45,15 @@ const activityData = (config) => {
         ])
       }))
     }),
-    config.camp().campCollaborations().$loadItems().then(campCollaboration => {
+    camp.campCollaborations().$loadItems().then(campCollaboration => {
       return campCollaboration.user ? campCollaboration.user()._meta.load : Promise.resolve()
     }),
-    config.camp().periods().$loadItems().then(periods => {
+    camp.periods().$loadItems().then(periods => {
       return Promise.all(periods.items.map(period => {
         return period.scheduleEntries().$loadItems()
       }))
     }),
-    config.camp().materialLists().$loadItems(),
+    camp.materialLists().$loadItems(),
     config.apiGet().contentTypes().$loadItems()
   ]
 }

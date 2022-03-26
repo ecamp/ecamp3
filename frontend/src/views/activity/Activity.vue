@@ -226,7 +226,7 @@ export default {
     },
     printConfig () {
       return {
-        camp: () => this.camp,
+        camp: this.camp._meta.self,
         language: this.$store.state.lang.language,
         documentName: this.activity.title + '.pdf',
         contents: [
