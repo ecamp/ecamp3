@@ -37,6 +37,42 @@ const richTextRules = [
   {
     replaceChildren: true,
     shouldProcessNode: function (node) {
+      return node.type === 'tag' && (node.name === 'h1' || node.name === 'h2' || node.name === 'h3')
+    },
+    processNode: function (node, children) {
+      return <Text style={{ fontWeight: 'bold', fontSize: 16 - 2 * parseInt(node.name.charAt(1)) }}>{ addKeys(children) }</Text>
+    }
+  },
+  {
+    replaceChildren: true,
+    shouldProcessNode: function (node) {
+      return node.type === 'tag' && node.name === 'em'
+    },
+    processNode: function (node, children) {
+      return <Text style={{ fontStyle: 'italic' }}>{ addKeys(children) }</Text>
+    }
+  },
+  {
+    replaceChildren: true,
+    shouldProcessNode: function (node) {
+      return node.type === 'tag' && node.name === 'u'
+    },
+    processNode: function (node, children) {
+      return <Text style={{ textDecoration: 'underline' }}>{ addKeys(children) }</Text>
+    }
+  },
+  {
+    replaceChildren: true,
+    shouldProcessNode: function (node) {
+      return node.type === 'tag' && node.name === 's'
+    },
+    processNode: function (node, children) {
+      return <Text style={{ textDecoration: 'line-through' }}>{ addKeys(children) }</Text>
+    }
+  },
+  {
+    replaceChildren: true,
+    shouldProcessNode: function (node) {
       return node.type === 'tag' && node.name === 'ul'
     },
     processNode: function (node, children) {
@@ -59,6 +95,18 @@ const richTextRules = [
     },
     processNode: function (node, children) {
       return <Text style={{ marginLeft: '4pt' }}>• {children}</Text>
+    }
+  },
+
+  // fall back tag --> print as plain text
+  {
+    replaceChildren: true,
+    shouldProcessNode: function (node) {
+      return node.type === 'tag'
+    },
+    processNode: function (node, children) {
+      console.log('unknown HTML node tag', node, children)
+      return <Text>{ addKeys(children) }</Text>
     }
   },
   {
