@@ -1,11 +1,12 @@
 <template>
   <div>
     <picasso
-      v-for="(periodUri, idx) in options.periods"
-      :key="idx"
-      :period="getPeriod(periodUri)"
+      v-for="period in periods"
+      :key="period._meta.self"
+      :period="period"
       :camp="camp"
       :orientation="options.orientation"
+      :index="index"
     />
   </div>
 </template>
@@ -19,15 +20,16 @@ export default {
     index: { type: Number, required: true },
   },
   data() {
-    return {}
+    return {
+      periods: [],
+    }
   },
   async fetch() {
-    await this.$api.get(this.camp.periods)._meta.load
-  },
-  methods: {
-    getPeriod(uri) {
-      return this.$api.get(uri)
-    },
+    await this.camp.periods().$loadItems()
+
+    this.periods = this.options.periods.map((periodUri) => {
+      return this.$api.get(periodUri)
+    })
   },
 }
 </script>

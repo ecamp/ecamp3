@@ -1,11 +1,13 @@
 <template>
-  <v-row no-gutters>
-    <v-col cols="12">
-      <div class="tw-break-after-page">
-        <h1>Story line for period {{ period.description }}</h1>
-      </div>
-    </v-col>
-  </v-row>
+  <div class="tw-break-after-page">
+    <h1
+      :id="`content_${index}_period_${period.id}`"
+      class="tw-text-2xl tw-font-bold"
+    >
+      {{ $tc('print.story.title') }}: {{ $tc('entity.period.name') }}
+      {{ period.description }}
+    </h1>
+  </div>
 </template>
 
 <script>
@@ -16,6 +18,7 @@ export default {
       type: Object,
       required: true,
     },
+    index: { type: Number, required: true },
   },
 }
 </script>

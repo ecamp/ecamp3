@@ -168,6 +168,12 @@
     },
     "program": {
       "title": "Program"
+    },
+    "story": {
+      "title": "Storyline"
+    },
+    "picasso": {
+      "title": "Program overview"
     }
   }
 }

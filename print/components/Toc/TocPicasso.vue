@@ -1,22 +1,23 @@
 <template>
   <li>
     <div class="toc-element-level-1">
-      {{ $tc('print.program.title') }}
+      {{ $tc('print.picasso.title') }}
     </div>
     <ul>
-      <toc-program-period
-        v-for="period in periods"
-        :key="period._meta.self"
-        :period="period"
-        :index="index"
-      />
+      <li v-for="period in periods" :key="period._meta.self">
+        <div class="toc-element toc-element-level-2">
+          <a :href="`#content_${index}_period_${period.id}`"
+            >{{ $tc('entity.period.name') }} {{ period.description }}</a
+          >
+        </div>
+      </li>
     </ul>
   </li>
 </template>
 
 <script>
 export default {
-  name: 'TocProgram',
+  name: 'TocPicasso',
   props: {
     options: { type: Object, required: false, default: null },
     camp: { type: Object, required: true },

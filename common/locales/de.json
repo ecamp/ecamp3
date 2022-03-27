@@ -150,6 +150,12 @@
     },
     "program": {
       "title": "Detailprogramm"
+    },
+    "story": {
+      "title": "Roter Faden"
+    },
+    "picasso": {
+      "title": "Grobprogramm"
     }
   }
 }

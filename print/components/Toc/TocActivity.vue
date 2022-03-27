@@ -1,12 +1,16 @@
 <template>
-  <div class="tw-break-after-page">
-    <schedule-entry :schedule-entry="scheduleEntry" :index="index" />
-  </div>
+  <li>
+    <div class="toc-element toc-element-level-1">
+      <a :href="`#content_${index}_scheduleEntry_${scheduleEntry.id}`"
+        >{{ scheduleEntry.number }} {{ scheduleEntry.activity().title }}</a
+      >
+    </div>
+  </li>
 </template>
 
 <script>
 export default {
-  name: 'ConfigActivity',
+  name: 'TocActivity',
   props: {
     options: { type: Object, required: false, default: null },
     camp: { type: Object, required: true },
