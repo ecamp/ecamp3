@@ -2,8 +2,8 @@
   <div class="tw-mb-20 tw-break-inside-avoid">
     <div class="schedule-entry-title tw-float-left">
       <h2
-        :id="'scheduleEntry_' + scheduleEntry.id"
-        class="tw-text-2xl tw-font-bold"
+        :id="`content_${index}_scheduleEntry_${scheduleEntry.id}`"
+        class="tw-text-xl tw-font-bold"
       >
         {{ scheduleEntry.number }}
         <category-label :category="scheduleEntry.activity().category()" />
@@ -50,6 +50,7 @@ export default {
   components: { CategoryLabel, ContentNode },
   props: {
     scheduleEntry: { type: Object, required: true },
+    index: { type: Number, required: true },
   },
   async fetch() {
     await Promise.all([

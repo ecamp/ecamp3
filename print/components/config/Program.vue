@@ -1,12 +1,13 @@
 <template>
-  <div>
+  <div class="tw-break-after-page">
     <program-period
       v-for="(periodUri, idx) in options.periods"
       :key="idx"
       :period="getPeriod(periodUri)"
       :camp="camp"
-      :show-daily-summary="options.dayOverview"
+      :show-daily-summary="options.dayOverview || false"
       :show-activities="true"
+      :index="index"
     />
   </div>
 </template>
@@ -17,6 +18,7 @@ export default {
   props: {
     options: { type: Object, required: false, default: null },
     camp: { type: Object, required: true },
+    index: { type: Number, required: true },
   },
   data() {
     return {}

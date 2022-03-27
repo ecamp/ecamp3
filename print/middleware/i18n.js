@@ -15,8 +15,9 @@ export default function ({
     return
   }
 
-  // Get locale from params
-  const locale = query.lang || defaultLocale
+  // Get locale from config
+  const config = JSON.parse(query.config)
+  const locale = config.language || defaultLocale
 
   /*
   if (!store.state.locales.includes(locale)) {

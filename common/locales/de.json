@@ -117,7 +117,8 @@
     "day": {
       "fields": {
         "dayResponsibles": "Tagesverantwortliche"
-      }
+      },
+      "name": "Tag | Tage"
     },
     "materialList": {
       "name": "Materialliste"
@@ -146,6 +147,9 @@
     },
     "cover": {
       "title": "Titelseite"
+    },
+    "program": {
+      "title": "Detailprogramm"
     }
   }
 }

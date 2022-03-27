@@ -1,10 +1,22 @@
 <template>
-  <a :href="`#content_${index}_cover`">{{ $tc('print.cover.program') }}</a>
+  <li>
+    <div class="toc-element-level-1">
+      {{ $tc('print.program.title') }}
+    </div>
+    <ul>
+      <toc-program-period
+        v-for="(periodUri, idx) in options.periods"
+        :key="idx"
+        :period="getPeriod(periodUri)"
+        :index="index"
+      />
+    </ul>
+  </li>
 </template>
 
 <script>
 export default {
-  name: 'TocCover',
+  name: 'TocProgram',
   props: {
     options: { type: Object, required: false, default: null },
     camp: { type: Object, required: true },
@@ -13,6 +25,13 @@ export default {
   data() {
     return {}
   },
-  async fetch() {},
+  async fetch() {
+    await this.$api.get(this.camp.periods)._meta.load
+  },
+  methods: {
+    getPeriod(uri) {
+      return this.$api.get(uri)
+    },
+  },
 }
 </script>

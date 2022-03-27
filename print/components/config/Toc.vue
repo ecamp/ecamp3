@@ -4,19 +4,16 @@
       {{ $tc('print.toc.title') }}
     </h1>
     <ul class="toc">
-      <li
-        v-for="(content, idx) in config.contents"
-        :key="idx"
-        class="toc-element toc-element-level-1"
-      >
+      <template v-for="(content, idx) in config.contents">
         <component
           :is="'Toc' + content.type"
+          :key="idx"
           :options="content.options"
           :camp="camp"
           :config="config"
           :index="idx"
         />
-      </li>
+      </template>
     </ul>
   </div>
 </template>

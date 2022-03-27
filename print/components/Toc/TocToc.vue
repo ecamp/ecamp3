@@ -1,5 +1,9 @@
 <template>
-  <a :href="`#content_${index}_toc`">{{ $tc('print.toc.title') }}</a>
+  <li>
+    <div class="toc-element toc-element-level-1">
+      <a :href="`#content_${index}_toc`">{{ $tc('print.toc.title') }}</a>
+    </div>
+  </li>
 </template>
 
 <script>

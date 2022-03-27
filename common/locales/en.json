@@ -125,7 +125,8 @@
     "day": {
       "fields": {
         "dayResponsibles": "Responsible of the day"
-      }
+      },
+      "name": "Day | Days"
     },
     "materialItem": {
       "fields": {
@@ -164,6 +165,9 @@
     },
     "cover": {
       "title": "Cover page"
+    },
+    "program": {
+      "title": "Program"
     }
   }
 }

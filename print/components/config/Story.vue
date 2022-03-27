@@ -15,6 +15,7 @@ export default {
   props: {
     options: { type: Object, required: false, default: null },
     camp: { type: Object, required: true },
+    index: { type: Number, required: true },
   },
   data() {
     return {}
