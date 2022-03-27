@@ -20,6 +20,7 @@ ul.toc .toc-element-level-2 {
 }
 
 /*  leader() doesn't work for now, replace with the hack bellow */
+
 /* ul.toc .toc-element a::after{
     content: leader('.') " p. " target-counter(attr(href), page);
     float: right;
@@ -27,6 +28,7 @@ ul.toc .toc-element-level-2 {
 
 /* hack for leaders */
 
+/* stylelint-disable no-duplicate-selectors */
 ul.toc {
     overflow-x: hidden;
 }
@@ -53,3 +55,5 @@ ul.toc .toc-element a::after {
 ul.toc .toc-element a {
     right: 0;
 }
+
+/* stylelint-enable no-duplicate-selectors */
