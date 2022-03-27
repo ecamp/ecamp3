@@ -139,5 +139,13 @@
       },
       "name": "Zeitplaneintrag"
     }
+  },
+  "print": {
+    "toc": {
+      "title": "Inhaltsverzeichnis"
+    },
+    "cover": {
+      "title": "Titelseite"
+    }
   }
 }

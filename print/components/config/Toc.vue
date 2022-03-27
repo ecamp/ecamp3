@@ -1,7 +1,23 @@
 <template>
   <div class="tw-break-after-page">
-    <h1>Table of content {{ camp.name }}</h1>
-    {{ JSON.stringify(options) }}
+    <h1 :id="`content_${index}_toc`" class="tw-text-2xl tw-font-bold">
+      {{ $tc('print.toc.title') }}
+    </h1>
+    <ul class="toc">
+      <li
+        v-for="(content, idx) in config.contents"
+        :key="idx"
+        class="toc-element toc-element-level-1"
+      >
+        <component
+          :is="'Toc' + content.type"
+          :options="content.options"
+          :camp="camp"
+          :config="config"
+          :index="idx"
+        />
+      </li>
+    </ul>
   </div>
 </template>
 
@@ -11,6 +27,8 @@ export default {
   props: {
     options: { type: Object, required: false, default: null },
     camp: { type: Object, required: true },
+    config: { type: Object, required: true },
+    index: { type: Number, required: true },
   },
   data() {
     return {}

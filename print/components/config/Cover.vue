@@ -1,6 +1,8 @@
 <template>
   <div class="tw-break-after-page tw-text-center">
-    <div class="tw-text-4xl tw-mt-20 tw-mb-20">{{ camp.name }}</div>
+    <div :id="`content_${index}_cover`" class="tw-text-4xl tw-mt-20 tw-mb-20">
+      {{ camp.name }}
+    </div>
 
     <div class="tw-mb-6">
       <span class="tw-font-bold">{{ $tc('entity.camp.fields.title') }}:</span>
@@ -19,6 +21,7 @@ export default {
   props: {
     options: { type: Object, required: false, default: null },
     camp: { type: Object, required: true },
+    index: { type: Number, required: true },
   },
   data() {
     return {}

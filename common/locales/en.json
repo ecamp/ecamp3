@@ -157,5 +157,13 @@
       },
       "name": "Activity scheduled"
     }
+  },
+  "print": {
+    "toc": {
+      "title": "Table of content"
+    },
+    "cover": {
+      "title": "Cover page"
+    }
   }
 }

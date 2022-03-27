@@ -6,6 +6,8 @@
           :is="'Config' + content.type"
           :options="content.options"
           :camp="camp"
+          :config="config"
+          :index="idx"
         />
       </div>
       <!--
