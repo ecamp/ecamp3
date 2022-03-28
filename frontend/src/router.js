@@ -52,7 +52,7 @@ export default new Router({
     },
     {
       path: '/reset-password/:emailBase64/:resetKey',
-      name: 'resetPasswordRequest',
+      name: 'resetPassword',
       components: {
         navigation: NavigationAuth,
         default: () => import(/* webpackChunkName: "register" */ './views/auth/ResetPassword.vue')
