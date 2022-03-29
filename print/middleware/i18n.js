@@ -16,7 +16,7 @@ export default function ({
   }
 
   // Get locale from config
-  const config = JSON.parse(query.config)
+  const config = JSON.parse(query.config || '{}')
   const locale = config.language || defaultLocale
 
   /*

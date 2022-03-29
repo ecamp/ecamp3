@@ -65,7 +65,7 @@ export default {
   async fetch() {
     const query = this.$route.query
 
-    this.config = JSON.parse(query.config)
+    this.config = JSON.parse(query.config || '{}')
 
     try {
       this.camp = await this.$api.get(this.config.camp)._meta.load
