@@ -6,7 +6,7 @@
 
       <v-container>
         <v-row>
-          <v-col cols="8">
+          <v-col cols="12" md="8">
             <v-list>
               <draggable v-model="cnf.contents" handle=".handle">
                 <v-list-item v-for="(content, idx) in cnf.contents" :key="idx">
@@ -51,7 +51,7 @@
               </v-list>
             </v-menu>
           </v-col>
-          <v-col cols="4">
+          <v-col cols="12" md="4">
             <v-expansion-panels>
               <v-expansion-panel>
                 <v-expansion-panel-header>View Print-Config</v-expansion-panel-header>
