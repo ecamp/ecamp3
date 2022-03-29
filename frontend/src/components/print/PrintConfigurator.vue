@@ -64,17 +64,19 @@
         </v-row>
         <v-row>
           <v-col cols="12">
-            <v-tabs>
+            <v-tabs v-model="previewTab">
               <v-tab>Print with Nuxt</v-tab>
               <v-tab>Print with React</v-tab>
               <v-tab-item>
-                <print-preview-nuxt :config="cnf"
+                <print-preview-nuxt v-if="previewTab === 0"
+                                    :config="cnf"
                                     width="100%"
                                     height="600"
                                     class="my-4" />
               </v-tab-item>
               <v-tab-item>
-                <print-preview-react :config="cnf"
+                <print-preview-react v-if="previewTab === 1"
+                                     :config="cnf"
                                      width="100%"
                                      height="600"
                                      class="my-4" />
@@ -132,7 +134,8 @@ export default {
         documentName: this.camp().title + '.pdf',
         camp: this.camp()._meta.self,
         contents: this.defaultContents()
-      }
+      },
+      previewTab: null
     }
   },
   computed: {
