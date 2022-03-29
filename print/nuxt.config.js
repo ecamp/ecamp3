@@ -114,6 +114,15 @@ export default {
         config.devtool = ctx.isClient ? 'source-map' : 'inline-source-map'
       }
     },
+    postcss: {
+      plugins: {
+        cssnano: {
+          // minifySelectors changes double colon :: to single colon (https://cssnano.co/docs/optimisations/minifyselectors/)
+          // which throws an error in pagedjs (https://gitlab.coko.foundation/pagedjs/pagedjs/-/issues/305)
+          preset: ['default', { minifySelectors: false }],
+        },
+      },
+    },
   },
 
   /*
