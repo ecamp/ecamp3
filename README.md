@@ -27,9 +27,9 @@ eCamp v3 is made up of a backend based on the PHP framework API Platform (Symfon
 Thanks for helping! There are a few ways to get started.
 - Visit our test environment at https://dev.ecamp3.ch. If you discover a bug, [open an issue](https://github.com/ecamp/ecamp3/issues/new) for it.
 - To run the project on your computer for development, follow one of our installation guides:
-  - [Installation with Docker on Linux](https://github.com/ecamp/ecamp3/wiki/Installation-auf-Linux-mit-Docker) (German only)
-  - [Installation with Docker on Windows + WSL 2](https://github.com/ecamp/ecamp3/wiki/Getting-started-on-Windows)
-  - [Set up VS Code as your code editor](https://github.com/ecamp/ecamp3/wiki/Getting-started-on-Windows#setting-up-the-ide)
+  - [Installation with Docker on Linux](https://github.com/ecamp/ecamp3/wiki/installation-development-linux) (German only)
+  - [Installation with Docker on Windows + WSL 2](https://github.com/ecamp/ecamp3/wiki/installation-development-windows)
+  - [Set up VS Code as your code editor](https://github.com/ecamp/ecamp3/wiki/installation-development-windows#setting-up-the-ide)
 - If you run into problems during setup or need help, don't worry. Check the [discussions](https://github.com/ecamp/ecamp3/discussions) whether someone already had and solved your problem, and add a [new discussion](https://github.com/ecamp/ecamp3/discussions/new) otherwise.
 - Before you can start coding, read our [contributing guidelines](CONTRIBUTING.md)
 - Study the [documentation in the wiki](https://github.com/ecamp/ecamp3/wiki)
@@ -59,9 +59,9 @@ eCamp v3 besteht aus einem Backend basierend auf dem PHP-Framework API Platform 
 Danke dass du mithelfen möchtest! Es gibt ein paar verschiedene Arten wie du beginnen kannst.
 - Besuche unsere Testumgebung auf https://dev.ecamp3.ch. Wenn du einen Fehler entdeckst, [eröffne ein Issue dafür](https://github.com/ecamp/ecamp3/issues/new).
 - Um das Projekt bei dir auf dem Computer laufen zu lassen, folge einer der Installationsanleitungen:
-  - [Installation mit Docker auf Linux](https://github.com/ecamp/ecamp3/wiki/Installation-auf-Linux-mit-Docker)
-  - [Installation mit Docker auf Windows + WSL2](https://github.com/ecamp/ecamp3/wiki/Getting-started-on-Windows) (nur englisch)
-  - [VS Code als Code-Editor einrichten](https://github.com/ecamp/ecamp3/wiki/Getting-started-on-Windows#setting-up-the-ide) (nur englisch)
+  - [Installation mit Docker auf Linux](https://github.com/ecamp/ecamp3/wiki/installation-development-linux)
+  - [Installation mit Docker auf Windows + WSL2](https://github.com/ecamp/ecamp3/wiki/installation-development-windows) (nur englisch)
+  - [VS Code als Code-Editor einrichten](https://github.com/ecamp/ecamp3/wiki/installation-development-windows#setting-up-the-ide) (nur englisch)
 - Falls du Probleme beim Einrichten oder Verständnisfragen hast - keine Sorge, du bist nicht allein. Schau bei den [Discussions](https://github.com/ecamp/ecamp3/discussions) nach ob das Problem bekannt und gelöst ist. Falls nein, eröffne eine [neue Discussion](https://github.com/ecamp/ecamp3/discussions/new).
 - Bevor du mit programmieren loslegen kannst, lies unsere [contributing guidelines](CONTRIBUTING.md)
 - Studier die [Dokumentation im Wiki](https://github.com/ecamp/ecamp3/wiki)
