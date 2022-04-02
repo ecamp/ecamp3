@@ -72,7 +72,7 @@ class UriTemplateNormalizerTest extends TestCase {
                 'templated' => true,
             ],
             'resetPassword' => [
-                'href' => '{/emailBase64}',
+                'href' => '{/id}',
                 'templated' => true,
             ],
         ];
