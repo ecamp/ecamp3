@@ -21,9 +21,9 @@
     </v-alert>
     <v-form @submit.prevent="login">
       <e-text-field
-        autofocus
         id="inputUsername"
         v-model="username"
+        autofocus
         :label="$tc('views.auth.login.username')"
         name="username"
         append-icon="mdi-account-outline"

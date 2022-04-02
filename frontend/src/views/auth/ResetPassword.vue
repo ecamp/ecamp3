@@ -8,20 +8,20 @@
         :width="7"
         indeterminate />
     </div>
-    
+
     <v-alert v-if="status == 'loading-failed'" type="error">
       {{ $tc('views.auth.resetPassword.invalidRequest') }}
     </v-alert>
-  
+
     <v-alert v-if="status == 'success'" type="success">
       {{ $tc('views.auth.resetPassword.successMessage') }}
     </v-alert>
-    
-    <v-alert v-if="status == 'failed'"  type="error">
+
+    <v-alert v-if="status == 'failed'" type="error">
       {{ $tc('views.auth.resetPassword.errorMessage') }}
     </v-alert>
 
-    <v-form 
+    <v-form
       v-if="status == 'loaded' || status=='reseting'"
       @submit.prevent="resetPassword">
       <ValidationObserver>
@@ -45,16 +45,15 @@
           type="password"
           loading
           autofocus>
-          <template v-slot:progress>
-            <v-progress-linear  
+          <template #progress>
+            <v-progress-linear
               :value="strength"
               :color="color"
               absolute
-              height="5"
-            ></v-progress-linear>
+              height="5" />
           </template>
         </e-text-field>
-          
+
         <e-text-field
           v-model="confirmation"
           :label="$tc('views.auth.resetPassword.passwordConfirmation')"
@@ -64,7 +63,7 @@
           vee-rules-old="confirmed:password"
           validate-on-blur
           :dense="$vuetify.breakpoint.xsOnly"
-          type="password" />        
+          type="password" />
 
         <v-btn
           type="submit"
@@ -116,7 +115,7 @@ export default {
       return passwordStrength(this.password)
     },
     strength () {
-      if (this.strengthInfo.length == 0) return 0
+      if (this.strengthInfo.length === 0) return 0
       return (1 + this.strengthInfo.id) * 25
     },
     color () {
@@ -125,6 +124,16 @@ export default {
       if (this.strength <= 75) return 'yellow'
       return 'green'
     }
+  },
+
+  async mounted () {
+    const url = await this.api.href(this.api.get(), 'resetPassword', { id: this.id })
+    this.api.get(url)._meta.load.then(info => {
+      this.email = info.email
+      this.status = 'loaded'
+    }, e => {
+      this.status = 'loading-failed'
+    })
   },
 
   methods: {
@@ -136,16 +145,6 @@ export default {
         this.status = 'failed'
       })
     }
-  },
-  
-  async mounted () {
-    const url = await this.api.href(this.api.get(), 'resetPassword', { id: this.id })
-    this.api.get(url)._meta.load.then(info => {
-      this.email = info.email
-      this.status = 'loaded'
-    }, e => {
-      this.status = 'loading-failed'
-    })
   }
 }
 </script>
