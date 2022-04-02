@@ -375,6 +375,7 @@
       },
       "resetPasswordRequest": {
         "back": "Log in",
+        "errorMessage": "Reset password failed.",
         "send": "Send",
         "successMessage": "Mail with Link to reset your password will be delivered.",
         "title": "Reset password"

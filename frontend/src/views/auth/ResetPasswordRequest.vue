@@ -2,11 +2,16 @@
   <auth-container>
     <h1 class="display-1 text-center mb-4">{{ $tc('views.auth.resetPasswordRequest.title') }}</h1>
 
-    <v-alert v-if="requestSent" type="success">
+    <v-alert v-if="status == 'success'" type="success">
       {{ $tc('views.auth.resetPasswordRequest.successMessage') }}
     </v-alert>
+    
+    <v-alert v-if="status == 'error'" type="error">
+      {{ $tc('views.auth.resetPasswordRequest.errorMessage') }}
+    </v-alert>
 
-    <v-form v-else @submit.prevent="resetPassword">
+
+    <v-form v-if="status == 'mounted' || status == 'sending'" @submit.prevent="resetPassword">
       <e-text-field
         v-model="email"
         :label="$tc('entity.user.fields.email')"
@@ -25,7 +30,7 @@
         outlined
         :x-large="$vuetify.breakpoint.smAndUp"
         class="my-4">
-        <v-progress-circular v-if="requestSending" indeterminate size="24" />
+        <v-progress-circular v-if="status == 'sending'" indeterminate size="24" />
         <v-icon v-else>$vuetify.icons.ecamp</v-icon>
         <v-spacer />
         <span>{{ $tc('views.auth.resetPasswordRequest.send') }}</span>
@@ -48,19 +53,17 @@ export default {
   data () {
     return {
       email: '',
-      requestSending: false,
-      requestSent: false
+      status: 'mounted'
     }
   },
 
   methods: {
-    async resetPassword () {
-      this.requestSending = true
+    resetPassword () {
+      this.status = 'sending'
       this.$auth.resetPasswordRequest(this.email).then(() => {
-        this.requestSent = true
-        this.requestSending = false
+        this.status = 'success'
       }).catch(() => {
-        this.requestSending = false
+        this.status = 'error'
       })
     }
   }

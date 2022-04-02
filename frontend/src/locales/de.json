@@ -291,6 +291,7 @@
       },
       "resetPasswordRequest": {
         "back": "Zurück zum Login",
+        "errorMessage": "Passwort zurücksetzen nicht möglich.",
         "send": "Abschicken",
         "successMessage": "Mail mit Link für 'Passwort zurücksetzen' wird versendet.",
         "title": "Passwort zurücksetzen"
