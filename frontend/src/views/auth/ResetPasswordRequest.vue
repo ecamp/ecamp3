@@ -5,11 +5,10 @@
     <v-alert v-if="status == 'success'" type="success">
       {{ $tc('views.auth.resetPasswordRequest.successMessage') }}
     </v-alert>
-    
+
     <v-alert v-if="status == 'error'" type="error">
       {{ $tc('views.auth.resetPasswordRequest.errorMessage') }}
     </v-alert>
-
 
     <v-form v-if="status == 'mounted' || status == 'sending'" @submit.prevent="resetPassword">
       <e-text-field
