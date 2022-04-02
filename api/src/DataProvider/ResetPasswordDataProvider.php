@@ -6,13 +6,11 @@ use ApiPlatform\Core\DataProvider\ItemDataProviderInterface;
 use ApiPlatform\Core\DataProvider\RestrictedDataProviderInterface;
 use App\DTO\ResetPassword;
 use App\Repository\UserRepository;
-use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactoryInterface;
 use Symfony\Component\PasswordHasher\PasswordHasherInterface;
 
 class ResetPasswordDataProvider implements ItemDataProviderInterface, RestrictedDataProviderInterface {
     public function __construct(
-        private RequestStack $requestStack,
         private UserRepository $userRepository,
         private PasswordHasherFactoryInterface $pwHasherFactory,
     ) {
