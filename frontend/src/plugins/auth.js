@@ -47,9 +47,9 @@ async function resetPasswordRequest (email) {
   return apiStore.post(url, { email: email })
 }
 
-async function resetPassword (emailBase64, resetKey, password) {
-  const url = await apiStore.href(apiStore.get(), 'resetPassword', { emailBase64: emailBase64 })
-  return apiStore.patch(url, { resetKey: resetKey, password: password })
+async function resetPassword (id, password) {
+  const url = await apiStore.href(apiStore.get(), 'resetPassword', { id: id })
+  return apiStore.patch(url, { password: password })
 }
 
 function user () {

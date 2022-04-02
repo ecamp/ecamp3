@@ -51,7 +51,7 @@ export default new Router({
       }
     },
     {
-      path: '/reset-password/:emailBase64/:resetKey',
+      path: '/reset-password/:id',
       name: 'resetPassword',
       components: {
         navigation: NavigationAuth,
@@ -60,8 +60,7 @@ export default new Router({
       props: {
         default: route => {
           return {
-            emailBase64: route.params.emailBase64,
-            resetKey: route.params.resetKey
+            id: route.params.id
           }
         }
       }

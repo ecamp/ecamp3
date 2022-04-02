@@ -22,29 +22,28 @@ use Symfony\Component\Serializer\Annotation\Groups;
     ],
     itemOperations: [
         'get' => [
-            'security' => 'false',
-            'path' => '/{emailBase64}',
+            'security' => 'true',
+            'path' => '/{id}.{_format}',
         ],
         'patch' => [
             'security' => 'true',
-            'path' => '/{emailBase64}',
+            'path' => '/{id}',
             'denormalization_context' => ['groups' => ['update']],
         ],
     ],
     routePrefix: '/auth/reset_password'
 )]
 class ResetPassword {
-    #[ApiProperty(readable: false, writable: true)]
-    #[Groups(['create'])]
-    public ?string $email = null;
-
+    /**
+     * $id: base64_encode($email . '#' . $resetKey).
+     */
     #[ApiProperty(readable: true, writable: false, identifier: true)]
     #[Groups(['read'])]
-    public ?string $emailBase64 = '';
+    public ?string $id = null;
 
-    #[ApiProperty(readable: false, writable: true)]
-    #[Groups(['update'])]
-    public ?string $resetKey = null;
+    #[ApiProperty(readable: true, writable: true)]
+    #[Groups(['create', 'read'])]
+    public ?string $email = null;
 
     #[ApiProperty(readable: false, writable: true)]
     #[Groups(['update'])]

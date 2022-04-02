@@ -229,7 +229,8 @@
       "short": "Serverfehler"
     },
     "validation": {
-      "minDate": "{_field_} darf nicht vor {min} liegen"
+      "minDate": "{_field_} darf nicht vor {min} liegen",
+      "pwConfirmed": "Passwort stimmt nicht überein"
     }
   },
   "views": {
@@ -280,6 +281,8 @@
       },
       "resetPassword": {
         "back": "Zurück zum Login",
+        "errorMessage": "Passwort konnte nicht geändert werden.",
+        "invalidRequest": "Ungültiger Link",
         "password": "Neues Passwort",
         "passwordConfirmation": "Neues Passwort wiederholen",
         "send": "Passwort setzen",

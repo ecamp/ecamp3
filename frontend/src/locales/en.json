@@ -305,7 +305,8 @@
       "short": "Server error"
     },
     "validation": {
-      "minDate": "{_field_} may not be earlier than {min}"
+      "minDate": "{_field_} may not be earlier than {min}",
+      "pwConfirmed": "Password does not match"
     }
   },
   "views": {
@@ -364,6 +365,8 @@
       },
       "resetPassword": {
         "back": "Log in",
+        "errorMessage": "Reset password failed.",
+        "invalidRequest": "Invalid link",
         "password": "New password",
         "passwordConfirmation": "New password again",
         "send": "Set password",

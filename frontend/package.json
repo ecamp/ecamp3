@@ -41,6 +41,7 @@
     "@tiptap/vue-2": "2.0.0-beta.77",
     "@vue/composition-api": "1.4.9",
     "axios": "0.26.1",
+    "check-password-strength": "^2.0.5",
     "comlink": "4.3.1",
     "dayjs": "1.11.0",
     "deepmerge": "4.2.2",

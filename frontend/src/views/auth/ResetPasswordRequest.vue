@@ -11,6 +11,7 @@
         v-model="email"
         :label="$tc('entity.user.fields.email')"
         name="email"
+        vee-rules="email"
         append-icon="mdi-at"
         :dense="$vuetify.breakpoint.xsOnly"
         type="text"

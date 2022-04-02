@@ -68,7 +68,7 @@ class MailService {
             ->textTemplate($this->getTemplate('emails/passwordResetLink.{language}.text.twig', $user))
             ->context([
                 'name' => $user->getDisplayName(),
-                'url' => "{$this->frontendBaseUrl}/reset-password/{$data->emailBase64}/{$data->resetKey}",
+                'url' => "{$this->frontendBaseUrl}/reset-password/{$data->id}",
             ])
         ;
 

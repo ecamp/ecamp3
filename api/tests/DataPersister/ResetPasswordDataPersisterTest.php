@@ -92,7 +92,7 @@ class ResetPasswordDataPersisterTest extends TestCase {
         $this->resetPassword->email = self::EMAIL;
 
         $data = $this->dataPersister->beforeCreate($this->resetPassword);
-        self::assertThat($data->resetKey, self::isNull());
+        self::assertThat($data->id, self::isNull());
     }
 
     public function testCreateWithKnowneMailCreatesResetKey() {
@@ -116,8 +116,7 @@ class ResetPasswordDataPersisterTest extends TestCase {
         $this->resetPassword->email = self::EMAIL;
         $data = $this->dataPersister->beforeCreate($this->resetPassword);
 
-        self::assertThat($data->emailBase64, self::equalTo(self::EMAILBASE64));
-        self::assertThat($data->resetKey, self::logicalNot(self::isNull()));
+        self::assertThat($data->id, self::logicalNot(self::isNull()));
     }
 
     public function testUpdateWithUnknownEmailThrowsException() {
@@ -126,7 +125,7 @@ class ResetPasswordDataPersisterTest extends TestCase {
             ->willReturn(null)
         ;
 
-        $this->resetPassword->emailBase64 = self::EMAILBASE64;
+        $this->resetPassword->id = base64_encode(self::EMAIL.'#');
 
         $this->expectException(Exception::class);
         $this->dataPersister->beforeUpdate($this->resetPassword);
@@ -140,7 +139,7 @@ class ResetPasswordDataPersisterTest extends TestCase {
             ->willReturn($user)
         ;
 
-        $this->resetPassword->emailBase64 = self::EMAILBASE64;
+        $this->resetPassword->id = base64_encode(self::EMAIL.'#');
 
         $this->expectException(Exception::class);
         $this->dataPersister->beforeUpdate($this->resetPassword);
@@ -160,8 +159,7 @@ class ResetPasswordDataPersisterTest extends TestCase {
             ->willReturn(false)
         ;
 
-        $this->resetPassword->emailBase64 = self::EMAILBASE64;
-        $this->resetPassword->resetKey = 'myKey';
+        $this->resetPassword->id = base64_encode(self::EMAIL.'#myKey');
 
         $this->expectException(Exception::class);
         $this->dataPersister->beforeUpdate($this->resetPassword);
@@ -185,8 +183,7 @@ class ResetPasswordDataPersisterTest extends TestCase {
             ->willReturnCallback(fn ($raw) => md5($raw))
         ;
 
-        $this->resetPassword->emailBase64 = self::EMAILBASE64;
-        $this->resetPassword->resetKey = 'myKey';
+        $this->resetPassword->id = base64_encode(self::EMAIL.'#myKey');
         $this->resetPassword->password = 'newPassword';
 
         $this->dataPersister->beforeUpdate($this->resetPassword);

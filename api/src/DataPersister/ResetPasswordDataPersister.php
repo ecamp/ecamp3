@@ -45,10 +45,10 @@ class ResetPasswordDataPersister implements ContextAwareDataPersisterInterface {
         $user = $this->userRepository->loadUserByIdentifier($data->email);
 
         if (null != $user) {
-            $data->emailBase64 = base64_encode($data->email);
-            $data->resetKey = IdGenerator::generateRandomHexString(64);
+            $resetKey = IdGenerator::generateRandomHexString(64);
 
-            $user->passwordResetKeyHash = $this->getResetKeyHasher()->hash($data->resetKey);
+            $data->id = base64_encode($data->email.'#'.$resetKey);
+            $user->passwordResetKeyHash = $this->getResetKeyHasher()->hash($resetKey);
 
             $this->mailService->sendPasswordResetLink($user, $data);
         }
@@ -57,13 +57,13 @@ class ResetPasswordDataPersister implements ContextAwareDataPersisterInterface {
     }
 
     public function beforeUpdate(ResetPassword $data): ResetPassword {
-        $email = base64_decode($data->emailBase64);
+        [$email, $resetKey] = explode('#', base64_decode($data->id), 2);
         $user = $this->userRepository->loadUserByIdentifier($email);
 
         if (
             null == $user
             || null == $user->passwordResetKeyHash
-            || !$this->getResetKeyHasher()->verify($user->passwordResetKeyHash, $data->resetKey)
+            || !$this->getResetKeyHasher()->verify($user->passwordResetKeyHash, $resetKey)
         ) {
             throw new \Exception('Password reset failed');
         }
@@ -72,7 +72,6 @@ class ResetPasswordDataPersister implements ContextAwareDataPersisterInterface {
         $user->password = $passwordHasher->hash($data->password);
         $user->passwordResetKeyHash = null;
 
-        $data->resetKey = '';
         $data->password = '';
 
         return $data;

@@ -2,54 +2,86 @@
   <auth-container>
     <h1 class="display-1 text-center mb-4">{{ $tc('views.auth.resetPassword.title') }}</h1>
 
-    <v-alert v-if="passwordReseted" type="success">
+    <div v-if="status == 'loading'" style="text-align: center">
+      <v-progress-circular
+        :size="70"
+        :width="7"
+        indeterminate />
+    </div>
+    
+    <v-alert v-if="status == 'loading-failed'" type="error">
+      {{ $tc('views.auth.resetPassword.invalidRequest') }}
+    </v-alert>
+  
+    <v-alert v-if="status == 'success'" type="success">
       {{ $tc('views.auth.resetPassword.successMessage') }}
     </v-alert>
+    
+    <v-alert v-if="status == 'failed'"  type="error">
+      {{ $tc('views.auth.resetPassword.errorMessage') }}
+    </v-alert>
 
-    <v-form v-else @submit.prevent="resetPassword">
-      <e-text-field
-        :value="email"
-        :label="$tc('entity.user.fields.email')"
-        name="email"
-        append-icon="mdi-at"
-        :dense="$vuetify.breakpoint.xsOnly"
-        type="text"
-        readonly />
+    <v-form 
+      v-if="status == 'loaded' || status=='reseting'"
+      @submit.prevent="resetPassword">
+      <ValidationObserver>
+        <e-text-field
+          :value="email"
+          :label="$tc('entity.user.fields.email')"
+          name="email"
+          append-icon="mdi-at"
+          :dense="$vuetify.breakpoint.xsOnly"
+          type="text"
+          readonly />
 
-      <e-text-field
-        v-model="password1"
-        :label="$tc('views.auth.resetPassword.password')"
-        name="password1"
-        :rules="pw1Rules"
-        validate-on-blur
-        :dense="$vuetify.breakpoint.xsOnly"
-        type="password"
-        autofocus />
+        <e-text-field
+          v-model="password"
+          :label="$tc('views.auth.resetPassword.password')"
+          name="Password"
+          vee-id="password"
+          vee-rules="min:8"
+          validate-on-blur
+          :dense="$vuetify.breakpoint.xsOnly"
+          type="password"
+          loading
+          autofocus>
+          <template v-slot:progress>
+            <v-progress-linear  
+              :value="strength"
+              :color="color"
+              absolute
+              height="5"
+            ></v-progress-linear>
+          </template>
+        </e-text-field>
+          
+        <e-text-field
+          v-model="confirmation"
+          :label="$tc('views.auth.resetPassword.passwordConfirmation')"
+          name="Confirmation"
+          vee-id="confirmation"
+          vee-rules="pwConfirmed:@password"
+          vee-rules-old="confirmed:password"
+          validate-on-blur
+          :dense="$vuetify.breakpoint.xsOnly"
+          type="password" />        
 
-      <e-text-field
-        v-model="password2"
-        :label="$tc('views.auth.resetPassword.passwordConfirmation')"
-        name="password2"
-        :rules="pw2Rules"
-        validate-on-blur
-        :dense="$vuetify.breakpoint.xsOnly"
-        type="password" />
-
-      <v-btn
-        type="submit"
-        block
-        :color="email ? 'blue darken-2' : 'blue lightne-4'"
-        :disabled="!email"
-        outlined
-        :x-large="$vuetify.breakpoint.smAndUp"
-        class="my-4">
-        <v-progress-circular v-if="passwordResetSending" indeterminate size="24" />
-        <v-icon v-else>$vuetify.icons.ecamp</v-icon>
-        <v-spacer />
-        <span>{{ $tc('views.auth.resetPassword.send') }}</span>
-        <v-spacer />
-        <icon-spacer />
-      </v-btn>
+        <v-btn
+          type="submit"
+          block
+          :color="email ? 'blue darken-2' : 'blue lightne-4'"
+          :disabled="!email"
+          outlined
+          :x-large="$vuetify.breakpoint.smAndUp"
+          class="my-4">
+          <v-progress-circular v-if="status=='reseting'" indeterminate size="24" />
+          <v-icon v-else>$vuetify.icons.ecamp</v-icon>
+          <v-spacer />
+          <span>{{ $tc('views.auth.resetPassword.send') }}</span>
+          <v-spacer />
+          <icon-spacer />
+        </v-btn>
+      </ValidationObserver>
     </v-form>
     <p class="mt-8 mb0 text--secondary text-center">
       <router-link :to="{ name: 'login' }">
@@ -60,44 +92,60 @@
 </template>
 
 <script>
+import { ValidationObserver } from 'vee-validate'
+import { passwordStrength } from 'check-password-strength'
+
 export default {
   name: 'ResetPassword',
+  components: { ValidationObserver },
   props: {
-    emailBase64: { type: String, required: true },
-    resetKey: { type: String, required: true }
+    id: { type: String, required: true }
   },
 
   data () {
     return {
-      password1: '',
-      password2: '',
-      passwordResetSending: false,
-      passwordReseted: false
+      email: null,
+      password: '',
+      confirmation: '',
+      status: 'loading'
     }
   },
 
   computed: {
-    email () {
-      return atob(this.emailBase64)
+    strengthInfo () {
+      return passwordStrength(this.password)
     },
-    pw1Rules () {
-      return [v => v.length >= 8 || 'Mindestens 8 Zeichen lang sein']
+    strength () {
+      if (this.strengthInfo.length == 0) return 0
+      return (1 + this.strengthInfo.id) * 25
     },
-    pw2Rules () {
-      return [v => (!!v && v) === this.password1 || 'Nicht übereinstimmend']
+    color () {
+      if (this.strength <= 25) return 'red'
+      if (this.strength <= 50) return 'orange'
+      if (this.strength <= 75) return 'yellow'
+      return 'green'
     }
   },
 
   methods: {
     async resetPassword () {
-      this.passwordResetSending = true
-      this.$auth.resetPassword(this.emailBase64, this.resetKey, this.password1).then(() => {
-        this.passwordReseted = true
-        this.passwordResetSending = false
+      this.status = 'reseting'
+      this.$auth.resetPassword(this.id, this.password).then(() => {
+        this.status = 'success'
       }).catch((e) => {
-        this.passwordResetSending = false
+        this.status = 'failed'
       })
     }
+  },
+  
+  async mounted () {
+    const url = await this.api.href(this.api.get(), 'resetPassword', { id: this.id })
+    this.api.get(url)._meta.load.then(info => {
+      this.email = info.email
+      this.status = 'loaded'
+    }, e => {
+      this.status = 'loading-failed'
+    })
   }
 }
 </script>
