@@ -189,7 +189,7 @@
         "firstname": "Vorname",
         "language": "Sprache",
         "nickname": "Spitzname",
-        "password": "Kennwort",
+        "password": "Passwort",
         "surname": "Nachname",
         "username": "Benutzername"
       },
@@ -253,8 +253,8 @@
           "loginInProgress": "Du wirst eingeloggt"
         },
         "or": "oder",
-        "password": "Kennwort",
-        "passwordForgotten": "Hast du dein Kennwort vergessen?",
+        "password": "Passwort",
+        "passwordForgotten": "Passwort vergessen?",
         "provider": {
           "ecamp": "Anmelden mit eCamp",
           "google": "Anmelden mit Google",
@@ -262,7 +262,6 @@
           "cevidb": "Anmelden mit CeviDB"
         },
         "registernow": "Jetzt registrieren",
-        "resetPassword": "Password zurücksetzen",
         "title": "Anmelden",
         "username": "Username oder E-Mail"
       },
@@ -270,7 +269,7 @@
         "acceptTermsOfUse": "Akzeptieren Sie die Nutzungsbedingungen",
         "alreadyHaveAnAccount": "Haben Sie bereits ein Konto?",
         "login": "Anmelden",
-        "passwordConfirmation": "Kennwort erneut eingeben",
+        "passwordConfirmation": "Passwort erneut eingeben",
         "register": "Registrieren",
         "title": "Ein Konto erstellen"
       },
@@ -281,17 +280,17 @@
       },
       "resetPassword": {
         "back": "Zurück zum Login",
-        "password": "Neues Kennwort",
-        "passwordConfirmation": "Neues Kennwort wiederholen",
-        "send": "Kennwort setzen",
-        "successMessage": "Neues Kennwort erfolgreich gesetzt.",
-        "title": "Neues Kennwort setzen"
+        "password": "Neues Passwort",
+        "passwordConfirmation": "Neues Passwort wiederholen",
+        "send": "Passwort setzen",
+        "successMessage": "Neues Passwort erfolgreich gesetzt.",
+        "title": "Neues Passwort setzen"
       },
       "resetPasswordRequest": {
         "back": "Zurück zum Login",
         "send": "Abschicken",
-        "successMessage": "Mail mit Link für 'Kennwort zurücksetzen' wird versendet.",
-        "title": "Kennwort zurücksetzen"
+        "successMessage": "Mail mit Link für 'Passwort zurücksetzen' wird versendet.",
+        "title": "Passwort zurücksetzen"
       }
     },
     "camp": {

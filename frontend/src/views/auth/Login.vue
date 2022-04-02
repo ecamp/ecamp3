@@ -21,6 +21,7 @@
     </v-alert>
     <v-form @submit.prevent="login">
       <e-text-field
+        autofocus
         id="inputUsername"
         v-model="username"
         :label="$tc('views.auth.login.username')"
@@ -37,6 +38,14 @@
         append-icon="mdi-lock-outline"
         :dense="$vuetify.breakpoint.xsOnly"
         type="password" />
+      <small class="ml-2">
+        <router-link
+          :to="{ name: 'resetPasswordRequest' }"
+          tabindex="100"
+          style="color: gray">
+          {{ $tc('views.auth.login.passwordForgotten') }}
+        </router-link>
+      </small>
 
       <v-btn type="submit"
              :color="username && password ? 'blue darken-2' : 'blue lighten-4'" block
@@ -94,10 +103,6 @@
     <p class="mt-8 mb-0 text--secondary text-center">
       {{ $tc('views.auth.login.accountless') }}<br>
       <router-link :to="{ name: 'register' }">{{ $tc('views.auth.login.registernow') }}</router-link>
-    </p>
-    <p class="mt-8 mb-0 text--secondary text-center">
-      {{ $tc('views.auth.login.passwordForgotten') }}<br>
-      <router-link :to="{ name: 'resetPasswordRequest' }">{{ $tc('views.auth.login.resetPassword') }}</router-link>
     </p>
   </auth-container>
 </template>

@@ -337,7 +337,7 @@
         },
         "or": "or",
         "password": "Password",
-        "passwordForgotten": "Have you forgotten your password?",
+        "passwordForgotten": "Forgotten your password?",
         "provider": {
           "ecamp": "Login with eCamp",
           "google": "Login with Google",
@@ -345,7 +345,6 @@
           "cevidb": "Login with CeviDB"
         },
         "registernow": "Register now",
-        "resetPassword": "Reset password",
         "title": "Login",
         "username": "Username or Email"
       },
