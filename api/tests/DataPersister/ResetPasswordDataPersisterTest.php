@@ -91,8 +91,8 @@ class ResetPasswordDataPersisterTest extends TestCase {
 
         $this->resetPassword->email = self::EMAIL;
 
+        $this->expectException(Exception::class);
         $data = $this->dataPersister->beforeCreate($this->resetPassword);
-        self::assertThat($data->id, self::isNull());
     }
 
     public function testCreateWithKnowneMailCreatesResetKey() {
