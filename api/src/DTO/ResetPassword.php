@@ -46,6 +46,10 @@ class ResetPassword {
     public ?string $email = null;
 
     #[ApiProperty(readable: false, writable: true)]
+    #[Groups(['create', 'update'])]
+    public ?string $token = null;
+
+    #[ApiProperty(readable: false, writable: true)]
     #[Groups(['update'])]
     public ?string $password = null;
 }
