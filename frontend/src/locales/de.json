@@ -99,18 +99,6 @@
         "deleteWarning": "Möchtest du diese Periode wirklich löschen?",
         "lastPeriodNotDeletable": "Die letzte Periode kann nicht gelöscht werden."
       },
-      "campPrint": {
-        "activities": "Aktivitäten",
-        "dailySummary": "Tagesübersicht",
-        "frontpage": "Deckblatt",
-        "openPrintPreview": "Druckvorschau öffnen",
-        "picasso": "Grobprogramm",
-        "printNow": "Jetzt drucken",
-        "selectPrintPreview": "Druckvorschau zeigen",
-        "storyline": "Roter Faden",
-        "title": "Drucken",
-        "toc": "Inhaltsverzeichnis"
-      },
       "campSettings": {
         "fields": {
           "motto": "Motto",
@@ -155,6 +143,9 @@
       },
       "picasso": {
         "title": "Grobprogramm {period}"
+      },
+      "printPreviewNuxt": {
+        "openPreview": "Vorschau in neuem Fenster öffnen"
       }
     },
     "story": {

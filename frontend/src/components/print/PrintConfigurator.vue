@@ -2,8 +2,6 @@
   <div>
     <v-skeleton-loader v-if="camp()._meta.loading" type="article" />
     <div v-else>
-      <h3>{{ $tc('components.camp.campPrint.selectPrintPreview') }}</h3>
-
       <v-container>
         <v-row>
           <v-col cols="12" md="8">

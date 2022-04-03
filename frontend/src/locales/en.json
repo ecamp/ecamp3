@@ -147,18 +147,6 @@
         "deleteWarning": "Do you really want to delete this period?",
         "lastPeriodNotDeletable": "Last period is not deletable."
       },
-      "campPrint": {
-        "activities": "Activities",
-        "dailySummary": "Daily summary",
-        "frontpage": "Front page",
-        "openPrintPreview": "Open print preview",
-        "picasso": "Picasso",
-        "printNow": "Print now",
-        "selectPrintPreview": "Select print sections:",
-        "storyline": "Storyline",
-        "title": "Print",
-        "toc": "Table of content"
-      },
       "campSettings": {
         "fields": {
           "motto": "motto",
@@ -205,11 +193,14 @@
           "Picasso": "Picasso",
           "Story": "Story summary",
           "Program": "Program",
-          "Toc": "Table of content",
+          "Toc": "Table of contents",
           "ProgramConfig": {
             "dayOverview": "print day overview"
           }
         }
+      },
+      "printPreviewNuxt": {
+        "openPreview": "Open preview in new window"
       }
     },
     "story": {

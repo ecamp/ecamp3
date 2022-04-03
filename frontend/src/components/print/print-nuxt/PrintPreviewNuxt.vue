@@ -9,7 +9,7 @@
       :href="url"
       target="_blank">
       <v-icon left>mdi-open-in-new</v-icon>
-      Open preview in new window
+      {{ $tc('components.print.printPreviewNuxt.openPreview') }}
     </v-btn>
 
     <iframe

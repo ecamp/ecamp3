@@ -180,7 +180,7 @@ export default new Router({
         {
           path: 'story',
           name: 'camp/story',
-          component: () => import(/* webpackChunkName: "campPrint" */ './views/camp/Story.vue')
+          component: () => import(/* webpackChunkName: "campStory" */ './views/camp/Story.vue')
         },
         {
           path: 'material',

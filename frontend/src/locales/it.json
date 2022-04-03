@@ -95,18 +95,6 @@
       "campPeriodsListItem": {
         "deleteWarning": "Volete davvero cancellarlo?"
       },
-      "campPrint": {
-        "activities": "Attività",
-        "dailySummary": "Panoramica giornaliera",
-        "frontpage": "Pagina della copertina",
-        "openPrintPreview": "Aprire l'anteprima di stampa",
-        "picasso": "Picasso",
-        "printNow": "Stampa ora",
-        "selectPrintPreview": "Selezionare le sezioni di stampa:",
-        "storyline": "Panoramica giornaliera",
-        "title": "Stampare",
-        "toc": "Tabella dei contenuti"
-      },
       "campSettings": {
         "fields": {
           "motto": "Motto",
