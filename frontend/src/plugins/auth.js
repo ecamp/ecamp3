@@ -42,14 +42,14 @@ async function login (username, password) {
   })
 }
 
-async function resetPasswordRequest (email) {
+async function resetPasswordRequest (email, token) {
   const url = await apiStore.href(apiStore.get(), 'resetPassword')
-  return apiStore.post(url, { email: email })
+  return apiStore.post(url, { email: email, token: token })
 }
 
-async function resetPassword (id, password) {
+async function resetPassword (id, password, token) {
   const url = await apiStore.href(apiStore.get(), 'resetPassword', { id: id })
-  return apiStore.patch(url, { password: password })
+  return apiStore.patch(url, { password: password, token: token })
 }
 
 function user () {

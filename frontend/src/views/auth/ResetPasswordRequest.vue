@@ -20,7 +20,6 @@
         :dense="$vuetify.breakpoint.xsOnly"
         type="text"
         autofocus />
-
       <v-btn
         type="submit"
         block
@@ -46,20 +45,40 @@
 </template>
 
 <script>
+import { load } from 'recaptcha-v3'
+
 export default {
   name: 'ResetPasswordRequest',
 
   data () {
     return {
       email: '',
-      status: 'mounted'
+      status: 'mounted',
+      recaptcha: null
+    }
+  },
+
+  mounted () {
+    if (window.environment.RECAPTCHA_SITE_KEY) {
+      this.recaptcha = load(window.environment.RECAPTCHA_SITE_KEY, {
+        explicitRenderParameters: {
+          badge: 'bottomleft'
+        }
+      })
     }
   },
 
   methods: {
-    resetPassword () {
+    async resetPassword () {
       this.status = 'sending'
-      this.$auth.resetPasswordRequest(this.email).then(() => {
+
+      let token = null
+      if (this.recaptcha) {
+        const recaptcha = await this.recaptcha
+        token = await recaptcha.execute('login')
+      }
+
+      this.$auth.resetPasswordRequest(this.email, token).then(() => {
         this.status = 'success'
       }).catch(() => {
         this.status = 'error'

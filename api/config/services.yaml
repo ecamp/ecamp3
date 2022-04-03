@@ -107,6 +107,11 @@ services:
         arguments:
             - '@lexik_jwt_authentication.handler.authentication_success'
 
+    App\Security\ReCaptcha\ReCaptcha:
+        arguments:
+            - "%env(RECAPTCHA_SECRET)%"
+            - '@ReCaptcha\ReCaptcha'
+
     ApiPlatform\Core\Bridge\Doctrine\Orm\Extension\EagerLoadingExtension:
         class: App\Doctrine\EagerLoadingExtension
     api_platform.doctrine.orm.query_extension.eager_loading:

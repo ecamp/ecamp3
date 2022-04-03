@@ -22,3 +22,4 @@ data:
   SENTRY_API_DSN: null,
   {{- end }}
   FRONTEND_BASE_URL: {{ include "frontend.url" . | quote }}
+  RECAPTCHA_SECRET: {{ .Values.recaptcha.secret | quote }}

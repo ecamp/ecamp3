@@ -221,7 +221,9 @@ jobs:
             --set print.sentryDsn='${{ secrets.PRINT_SENTRY_DSN }}' \
             --set print.browserWsEndpoint='${{ secrets.BROWSER_WS_ENDPOINT }}' \
             --set deploymentTime="$(date -u +%s)" \
-            --set deployedVersion="$(git rev-parse --short '${{ matrix.deployment.sha }}')"
+            --set deployedVersion="$(git rev-parse --short '${{ matrix.deployment.sha }}')" \
+            --set recaptcha.siteKey='${{ secrets.RECAPTCHA_SITE_KEY }}' \
+            --set recaptcha.secret='${{ secrets.RECAPTCHA_SECRET }}'
 
       - name: Finish the GitHub deployment
         uses: bobheadxi/deployments@v0.6.2
