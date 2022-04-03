@@ -64,7 +64,7 @@ describe('authentication logic', () => {
   })
 
   describe('register()', () => {
-    it('sends a POST request to the API', async done => {
+    it('sends a POST request to the API', async () => {
       // given
       store.replaceState(createState())
       jest.spyOn(apiStore, 'post').mockImplementation(async () => {})
@@ -75,12 +75,11 @@ describe('authentication logic', () => {
       // then
       expect(apiStore.post).toHaveBeenCalledTimes(1)
       expect(apiStore.post).toHaveBeenCalledWith('/users', { username: 'foo', email: 'bar', password: 'baz' })
-      done()
     })
   })
 
   describe('login()', () => {
-    it('resolves to true if the user successfully logs in', async done => {
+    it('resolves to true if the user successfully logs in', async () => {
       // given
       store.replaceState(createState())
       jest.spyOn(apiStore, 'post').mockImplementation(async () => {
@@ -94,10 +93,9 @@ describe('authentication logic', () => {
       expect(result).toBeTruthy()
       expect(apiStore.post).toHaveBeenCalledTimes(1)
       expect(apiStore.post).toHaveBeenCalledWith('/authentication_token', { username: 'foo', password: 'bar' })
-      done()
     })
 
-    it('resolves to false if the login fails', async done => {
+    it('resolves to false if the login fails', async () => {
       // given
       jest.spyOn(apiStore, 'post').mockImplementation(async () => {
         // login fails, no cookie added
@@ -110,12 +108,11 @@ describe('authentication logic', () => {
       expect(result).toBeFalsy()
       expect(apiStore.post).toHaveBeenCalledTimes(1)
       expect(apiStore.post).toHaveBeenCalledWith('/authentication_token', { username: 'foo', password: 'barrrr' })
-      done()
     })
   })
 
   describe('user()', () => {
-    it('resolves to null if not logged in', async done => {
+    it('resolves to null if not logged in', async () => {
       // given
       store.replaceState(createState())
       jest.spyOn(apiStore, 'get')
@@ -126,10 +123,9 @@ describe('authentication logic', () => {
       // then
       expect(result).toEqual(null)
       expect(apiStore.get).toHaveBeenCalledTimes(0)
-      done()
     })
 
-    it('resolves to the user from the JWT token cookie', async done => {
+    it('resolves to the user from the JWT token cookie', async () => {
       // given
       store.replaceState(createState())
       const user = {
@@ -148,10 +144,9 @@ describe('authentication logic', () => {
       expect(result).toEqual(user)
       expect(apiStore.get).toHaveBeenCalledTimes(1)
       expect(apiStore.get).toHaveBeenCalledWith('/users/1a2b3c4d')
-      done()
     })
 
-    it.each([[401], [403], [404]])('calls logout when fetching the user fails with status %s', async (status, done) => {
+    it.each([[401], [403], [404]])('calls logout when fetching the user fails with status %s', async (status) => {
       // given
       store.replaceState(createState())
       Cookies.set('jwt_hp', validJWTPayload)
@@ -177,7 +172,6 @@ describe('authentication logic', () => {
       expect(apiStore.get).toHaveBeenCalledWith('/users/1a2b3c4d')
       await result._meta.load
       expect(auth.logout).toHaveBeenCalledTimes(1)
-      done()
     })
   })
 
@@ -194,13 +188,12 @@ describe('authentication logic', () => {
       window.location = location
     })
 
-    it('forwards to google authentication endpoint', async done => {
+    it('forwards to google authentication endpoint', async () => {
       // when
       await auth.loginGoogle()
 
       // then
       expect(window.location.href).toBe('http://localhost/auth/google?callback=http%3A%2F%2Flocalhost%2FloginCallback')
-      done()
     })
   })
 
@@ -217,13 +210,12 @@ describe('authentication logic', () => {
       window.location = location
     })
 
-    it('forwards to pbsmidata authentication endpoint', async done => {
+    it('forwards to pbsmidata authentication endpoint', async () => {
       // when
       await auth.loginPbsMiData()
 
       // then
       expect(window.location.href).toBe('http://localhost/auth/pbsmidata?callback=http%3A%2F%2Flocalhost%2FloginCallback')
-      done()
     })
   })
 
@@ -240,18 +232,17 @@ describe('authentication logic', () => {
       window.location = location
     })
 
-    it('forwards to cevidb authentication endpoint', async done => {
+    it('forwards to cevidb authentication endpoint', async () => {
       // when
       await auth.loginCeviDB()
 
       // then
       expect(window.location.href).toBe('http://localhost/auth/cevidb?callback=http%3A%2F%2Flocalhost%2FloginCallback')
-      done()
     })
   })
 
   describe('logout()', () => {
-    it('resolves to false if the user successfully logs out', async done => {
+    it('resolves to false if the user successfully logs out', async () => {
       // given
       Cookies.set('jwt_hp', validJWTPayload)
 
@@ -260,7 +251,6 @@ describe('authentication logic', () => {
 
       // then
       expect(result).toBeFalsy()
-      done()
     })
   })
 })
