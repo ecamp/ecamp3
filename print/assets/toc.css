@@ -30,19 +30,18 @@ ul.toc .toc-element-level-2 {
 
 /* stylelint-disable no-duplicate-selectors */
 ul.toc {
-    overflow-x: hidden;
+    overflow: visible;
 }
 
 ul.toc .toc-element::after {
-    content: ".................................................................................................................................................";
-    float: left;
-    width: 0;
-    padding-left: 5px;
-    letter-spacing: 2px;
+    content: " ";
+    flex: 1;
+    border-bottom: 0.1em dotted rgb(156 163 175);
 }
 
 ul.toc .toc-element {
     display: flex;
+    margin-bottom: 0.4em;
 }
 
 ul.toc .toc-element a::after {
@@ -54,6 +53,8 @@ ul.toc .toc-element a::after {
 
 ul.toc .toc-element a {
     right: 0;
+    height: 1.05em;
+    margin-right: 0.2em;
 }
 
 /* stylelint-enable no-duplicate-selectors */
