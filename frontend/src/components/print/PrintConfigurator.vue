@@ -15,7 +15,7 @@
                     <v-list-item-title>
                       <h3>{{ $tc('components.print.printConfigurator.config.' + content.type) }}</h3>
                     </v-list-item-title>
-                    <component :is="content.type"
+                    <component :is="contentComponents[content.type]"
                                v-model="content.options"
                                :camp="camp()" />
                   </v-list-item-content>
@@ -39,11 +39,11 @@
                   v-for="(component, idx) in contentComponents"
                   :key="idx"
                   @click="cnf.contents.push({
-                    type: component.name,
+                    type: idx,
                     options: component.defaultOptions()
                   })">
                   <v-list-item-title>
-                    {{ $tc('components.print.printConfigurator.config.' + component.name) }}
+                    {{ $tc('components.print.printConfigurator.config.' + idx) }}
                   </v-list-item-title>
                 </v-list-item>
               </v-list>
@@ -91,12 +91,12 @@
 import PrintPreviewReact from './print-react/PrintPreviewReact.vue'
 import PrintPreviewNuxt from './print-nuxt/PrintPreviewNuxt.vue'
 import Draggable from 'vuedraggable'
-import Cover from './config/CoverConfig.vue'
-import Picasso from './config/PicassoConfig.vue'
-import Story from './config/StoryConfig.vue'
-import Program from './config/ProgramConfig.vue'
-import Activity from './config/ActivityConfig.vue'
-import Toc from './config/TocConfig.vue'
+import CoverConfig from './config/CoverConfig.vue'
+import PicassoConfig from './config/PicassoConfig.vue'
+import StoryConfig from './config/StoryConfig.vue'
+import ProgramConfig from './config/ProgramConfig.vue'
+import ActivityConfig from './config/ActivityConfig.vue'
+import TocConfig from './config/TocConfig.vue'
 
 export default {
   name: 'PrintConfigurator',
@@ -104,12 +104,12 @@ export default {
     Draggable,
     PrintPreviewReact,
     PrintPreviewNuxt,
-    Cover,
-    Picasso,
-    Story,
-    Program,
-    Activity,
-    Toc
+    CoverConfig,
+    PicassoConfig,
+    StoryConfig,
+    ProgramConfig,
+    ActivityConfig,
+    TocConfig
   },
   props: {
     camp: {
@@ -119,14 +119,14 @@ export default {
   },
   data () {
     return {
-      contentComponents: [
-        Cover,
-        Picasso,
-        Story,
-        Program,
-        Activity,
-        Toc
-      ],
+      contentComponents: {
+        Cover: CoverConfig,
+        Picasso: PicassoConfig,
+        Story: StoryConfig,
+        Program: ProgramConfig,
+        Activity: ActivityConfig,
+        Toc: TocConfig
+      },
       cnf: {
         language: '',
         documentName: this.camp().title + '.pdf',

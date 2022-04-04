@@ -12,7 +12,7 @@
 
 <script>
 export default {
-  name: 'Picasso',
+  name: 'PicassoConfig',
   props: {
     value: { type: Object, required: true },
     camp: { type: Object, required: true }

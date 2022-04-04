@@ -10,7 +10,7 @@
 
 <script>
 export default {
-  name: 'Program',
+  name: 'ProgramConfig',
   props: {
     value: { type: Object, required: true },
     camp: { type: Object, required: true }
