@@ -23,7 +23,7 @@
     "dayjs": "1.11.0",
     "deepmerge": "4.2.2",
     "express": "4.17.3",
-    "hal-json-vuex": "2.0.0-alpha.12",
+    "hal-json-vuex": "2.0.0-alpha.14",
     "nuxt": "2.15.8",
     "pagedjs": "0.2.0",
     "puppeteer": "12.0.1",

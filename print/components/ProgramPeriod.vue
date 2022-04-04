@@ -32,7 +32,12 @@ export default {
     }
   },
   async fetch() {
-    this.days = (await this.period.days()._meta.load).items
+    await Promise.all([
+      this.period.days().$loadItems(),
+      this.period.scheduleEntries().$loadItems(),
+    ])
+
+    this.days = this.period.days().items
   },
 }
 </script>
