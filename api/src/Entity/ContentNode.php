@@ -6,6 +6,7 @@ use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use App\Doctrine\Filter\ContentNodePeriodFilter;
 use App\Repository\ContentNodeRepository;
 use App\Util\EntityMap;
 use App\Validator\AssertEitherIsNull;
@@ -42,6 +43,7 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
     normalizationContext: ['groups' => ['read']],
 )]
 #[ApiFilter(SearchFilter::class, properties: ['contentType', 'root'])]
+#[ApiFilter(ContentNodePeriodFilter::class)]
 abstract class ContentNode extends BaseEntity implements BelongsToCampInterface, CopyFromPrototypeInterface {
     /**
      * @ORM\OneToOne(targetEntity="AbstractContentNodeOwner", mappedBy="rootContentNode", cascade={"persist"})
