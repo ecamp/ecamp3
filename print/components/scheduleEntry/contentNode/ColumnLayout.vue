@@ -1,12 +1,14 @@
 <template>
-  <div class="wrapper">
-    <column-layout-column
-      v-for="column in contentNode.columns"
-      :key="column.slot"
-      :content-node="contentNode"
-      :column-slot="column.slot"
-    />
-  </div>
+  <table class="tw-w-full">
+    <tr>
+      <column-layout-column
+        v-for="column in contentNode.columns"
+        :key="column.slot"
+        :content-node="contentNode"
+        :column-slot="column.slot"
+      />
+    </tr>
+  </table>
 </template>
 
 <script>
@@ -19,9 +21,4 @@ export default {
 }
 </script>
 
-<style scoped lang="scss">
-.wrapper {
-  display: flex;
-  flex-direction: row;
-}
-</style>
+<style scoped lang="scss"></style>

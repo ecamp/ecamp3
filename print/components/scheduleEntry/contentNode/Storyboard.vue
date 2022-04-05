@@ -13,11 +13,7 @@
           {{ $tc('contentNode.storyboard.entity.section.fields.column3') }}
         </th>
       </tr>
-      <tr
-        v-for="section in sections"
-        :key="section.id"
-        class="tw-break-inside-avoid"
-      >
+      <tr v-for="section in sections" :key="section.id">
         <td class="column column1">
           <rich-text :rich-text="section.column1" />
         </td>
@@ -63,7 +59,7 @@ export default {
 <style scoped lang="scss">
 .header {
   padding-bottom: 0;
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid rgb(148 163 184);
 }
 
 .column {
@@ -76,13 +72,13 @@ export default {
 }
 
 .column2 {
-  border-left: 1px solid black;
+  border-left: 1px solid rgb(148 163 184);
   padding-left: 4px;
   padding-right: 4px;
 }
 
 .column3 {
-  border-left: 1px solid black;
+  border-left: 1px solid rgb(148 163 184);
   padding-left: 4px;
 }
 </style>
