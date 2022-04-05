@@ -23,9 +23,4 @@ class ListSingleTextTest extends ListContentNodeTestCase {
             $this->getIriFor('singleTextCampUnrelated'),
         ];
     }
-
-    public function testListSingleTextsFilteredByParent() {
-        $response = static::createClientWithCredentials()->request('GET', "{$this->endpoint}?parent=".$this->getIriFor('columnLayout1'));
-        $this->assertResponseStatusCodeSame(200);
-    }
 }

@@ -29,7 +29,7 @@ class ReadColumnLayoutTest extends ReadContentNodeTestCase {
         $this->assertJsonContains([
             'columns' => $contentNode->columns,
             '_links' => [
-                'children' => ['href' => '/content_nodes?parent='.$this->getIriFor('columnLayoutChild1')],
+                'children' => [],
             ],
         ]);
     }
