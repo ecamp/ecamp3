@@ -141,9 +141,6 @@
           }
         }
       },
-      "picasso": {
-        "title": "Grobprogramm {period}"
-      },
       "printPreviewNuxt": {
         "openPreview": "Vorschau in neuem Fenster öffnen"
       }
