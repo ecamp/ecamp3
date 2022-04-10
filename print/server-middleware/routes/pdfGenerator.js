@@ -47,7 +47,7 @@ router.use('/pdf', async (req, res) => {
     measurePerformance('Rendering page in Nuxt...')
     const url = new URL(req.url, `http://${req.headers.host}`)
     const queryString = url.search
-    const { html } = await nuxt.renderRoute('/picasso' + queryString, { req }) // pass `req` object to Nuxt will also pass authentication cookies automatically
+    const { html } = await nuxt.renderRoute('/' + queryString, { req }) // pass `req` object to Nuxt will also pass authentication cookies automatically
 
     measurePerformance('Connecting to puppeteer...')
 

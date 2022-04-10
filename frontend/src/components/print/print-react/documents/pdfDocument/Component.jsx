@@ -6,8 +6,11 @@ import Picasso from '../../components/picasso/Picasso.jsx'
 import ScheduleEntry from '../../components/scheduleEntry/ScheduleEntry.jsx'
 import styles from '../../components/styles.js'
 import OpenSans from '@/assets/fonts/OpenSans/OpenSans-Regular.ttf'
+import OpenSansItalic from '@/assets/fonts/OpenSans/OpenSans-Italic.ttf'
 import OpenSansSemiBold from '@/assets/fonts/OpenSans/OpenSans-SemiBold.ttf'
+import OpenSansSemiBoldItalic from '@/assets/fonts/OpenSans/OpenSans-SemiBoldItalic.ttf'
 import OpenSansBold from '@/assets/fonts/OpenSans/OpenSans-Bold.ttf'
+import OpenSansBoldItalic from '@/assets/fonts/OpenSans/OpenSans-BoldItalic.ttf'
 
 function PDFDocument (props) {
   return <Document>
@@ -53,14 +56,20 @@ const registerFonts = async () => {
       // For now it seems that only ttf is supported, not woff or woff2
       { src: OpenSans },
       { src: OpenSansSemiBold, fontWeight: 'semibold' },
-      { src: OpenSansBold, fontWeight: 'bold' }
+      { src: OpenSansBold, fontWeight: 'bold' },
+      { src: OpenSansItalic, fontStyle: 'italic' },
+      { src: OpenSansSemiBoldItalic, fontWeight: 'semibold', fontStyle: 'italic' },
+      { src: OpenSansBoldItalic, fontWeight: 'bold', fontStyle: 'italic' }
     ]
   })
 
   return await Promise.all([
     Font.load({ fontFamily: 'OpenSans' }),
     Font.load({ fontFamily: 'OpenSans', fontWeight: 600 }),
-    Font.load({ fontFamily: 'OpenSans', fontWeight: 700 })
+    Font.load({ fontFamily: 'OpenSans', fontWeight: 700 }),
+    Font.load({ fontFamily: 'OpenSans', fontStyle: 'italic' }),
+    Font.load({ fontFamily: 'OpenSans', fontWeight: 600, fontStyle: 'italic' }),
+    Font.load({ fontFamily: 'OpenSans', fontWeight: 700, fontStyle: 'italic' })
   ])
 }
 

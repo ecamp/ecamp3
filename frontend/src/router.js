@@ -173,32 +173,14 @@ export default new Router({
         },
         {
           path: 'print',
+          name: 'camp/print',
           component: () => import(/* webpackChunkName: "campPrint" */ './views/camp/Print.vue'),
-          children: [
-            {
-              path: '',
-              name: 'camp/print',
-              component: () => import(/* webpackChunkName: "printCamp" */ './views/camp/PrintCamp.vue'),
-              props: route => ({ camp: campFromRoute(route) })
-            },
-            {
-              path: 'activity/:scheduleEntryId/:activityName?',
-              name: 'camp/print/activity',
-              component: () => import(/* webpackChunkName: "printActivity" */ './views/camp/PrintActivity.vue'),
-              props: route => ({ scheduleEntry: scheduleEntryFromRoute(route) })
-            },
-            {
-              path: 'period/:periodId/:periodTitle?',
-              name: 'camp/print/period',
-              component: () => import(/* webpackChunkName: "printActivity" */ './views/camp/PrintPeriod.vue'),
-              props: route => ({ period: periodFromRoute(route) })
-            }
-          ]
+          props: route => ({ camp: campFromRoute(route) })
         },
         {
           path: 'story',
           name: 'camp/story',
-          component: () => import(/* webpackChunkName: "campPrint" */ './views/camp/Story.vue')
+          component: () => import(/* webpackChunkName: "campStory" */ './views/camp/Story.vue')
         },
         {
           path: 'material',

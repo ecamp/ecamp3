@@ -50,7 +50,7 @@ function Picasso ({ period, orientation, $tc }) {
   ]
 
   return <Page size="A4" orientation={orientation === 'L' ? 'landscape' : 'portrait'} style={ styles.page }>
-    <Text id="picasso" style={styles.h1}>{$tc('components.print.picasso.title', { period: period.description })}</Text>
+    <Text id="picasso" style={styles.h1}>{$tc('print.picasso.title', { period: period.description })}</Text>
     <View style={{ ...columnWrapperStyles, border: 'none' }}>
       <TimeColumnSpacer times={times}/>
       {period.days().items.map(day => <DayHeader day={day} key={day.id}/>)}

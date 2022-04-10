@@ -1,0 +1,35 @@
+<template>
+  <div>
+    <picasso
+      v-for="period in periods"
+      :key="period._meta.self"
+      :period="period"
+      :camp="camp"
+      :orientation="options.orientation"
+      :index="index"
+    />
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'ConfigPicasso',
+  props: {
+    options: { type: Object, required: false, default: null },
+    camp: { type: Object, required: true },
+    index: { type: Number, required: true },
+  },
+  data() {
+    return {
+      periods: [],
+    }
+  },
+  async fetch() {
+    await this.camp.periods().$loadItems()
+
+    this.periods = this.options.periods.map((periodUri) => {
+      return this.$api.get(periodUri)
+    })
+  },
+}
+</script>

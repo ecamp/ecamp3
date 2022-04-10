@@ -73,22 +73,8 @@ Displays a single activity
           <template v-else>{{ $tc('views.activity.activity.back') }}</template>
         </v-btn>
 
-        <!-- print preview button -->
-        <v-tooltip bottom>
-          <template #activator="{ on, attrs }">
-            <v-btn
-              class="ml-3"
-              color="primary"
-              outlined
-              :to="{ name: 'camp/print/activity', params: { campId: activity.camp().id, scheduleEntryId: scheduleEntry().id } }"
-              v-bind="attrs"
-              v-on="on">
-              <v-icon>mdi-printer</v-icon>
-            </v-btn>
-          </template>
-          <span>{{ $tc('views.activity.printPreview') }}</span>
-        </v-tooltip>
-        <local-pdf-download-button :config="printConfig()" />
+        <pdf-download-button-nuxt :config="printConfig()" class="ml-3" />
+        <pdf-download-button-react :config="printConfig()" />
       </template>
 
       <v-card-text class="px-0 py-0">
@@ -156,7 +142,8 @@ import RootNode from '@/components/activity/RootNode.vue'
 import ActivityResponsibles from '@/components/activity/ActivityResponsibles.vue'
 import { rangeShort } from '@/common/helpers/dateHelperUTCFormatted.js'
 import { campRoleMixin } from '@/mixins/campRoleMixin'
-import LocalPdfDownloadButton from '@/components/print/print-react/LocalPdfDownloadButton.vue'
+import PdfDownloadButtonReact from '@/components/print/print-react/PdfDownloadButtonReact.vue'
+import PdfDownloadButtonNuxt from '@/components/print/print-nuxt/PdfDownloadButtonNuxt.vue'
 
 export default {
   name: 'Activity',
@@ -165,7 +152,8 @@ export default {
     ApiTextField,
     RootNode,
     ActivityResponsibles,
-    LocalPdfDownloadButton
+    PdfDownloadButtonReact,
+    PdfDownloadButtonNuxt
   },
   mixins: [campRoleMixin],
   props: {
@@ -226,7 +214,7 @@ export default {
     },
     printConfig () {
       return {
-        camp: () => this.camp,
+        camp: this.camp._meta.self,
         language: this.$store.state.lang.language,
         documentName: this.activity.title + '.pdf',
         contents: [

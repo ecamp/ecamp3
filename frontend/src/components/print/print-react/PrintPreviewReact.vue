@@ -19,7 +19,7 @@ import { generatePdf } from './generatePdf.js'
 const RENDER_IN_WORKER = true
 
 export default {
-  name: 'LocalPrintPreview',
+  name: 'PrintPreviewReact',
   props: {
     config: {
       type: Object,

@@ -1,11 +1,4 @@
 {
-  "components": {
-    "camp": {
-      "campPrint": {
-        "picasso": "Grobprogramm"
-      }
-    }
-  },
   "entity": {
     "user": {
       "fields": {

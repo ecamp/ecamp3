@@ -1,0 +1,60 @@
+/* mostly copied from https://gitlab.coko.foundation/pagedjs/pagedjs-documentation/-/blob/master/Part09_Table-of-content.md */
+
+ul.toc {
+    list-style: none;
+}
+
+ul.toc .toc-element a::after {
+    content: target-counter(attr(href url), page);
+    float: right;
+}
+
+ul.toc .toc-element-level-1 {
+    margin-top: 25px;
+    font-weight: bold;
+}
+
+
+ul.toc .toc-element-level-2 {
+    margin-left: 25px;
+}
+
+/*  leader() doesn't work for now, replace with the hack bellow */
+
+/* ul.toc .toc-element a::after{
+    content: leader('.') " p. " target-counter(attr(href), page);
+    float: right;
+} */
+
+/* hack for leaders */
+
+/* stylelint-disable no-duplicate-selectors */
+ul.toc {
+    overflow: visible;
+}
+
+ul.toc .toc-element::after {
+    content: " ";
+    flex: 1;
+    border-bottom: 0.1em dotted rgb(156 163 175);
+}
+
+ul.toc .toc-element {
+    display: flex;
+    margin-bottom: 0.4em;
+}
+
+ul.toc .toc-element a::after {
+    position: absolute;
+    right: 0;
+    background-color: white;
+    padding-left: 6px;
+}
+
+ul.toc .toc-element a {
+    right: 0;
+    height: 1.05em;
+    margin-right: 0.2em;
+}
+
+/* stylelint-enable no-duplicate-selectors */

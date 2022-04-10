@@ -147,18 +147,6 @@
         "deleteWarning": "Do you really want to delete this period?",
         "lastPeriodNotDeletable": "Last period is not deletable."
       },
-      "campPrint": {
-        "activities": "Activities",
-        "dailySummary": "Daily summary",
-        "frontpage": "Front page",
-        "openPrintPreview": "Open print preview",
-        "picasso": "Picasso",
-        "printNow": "Print now",
-        "selectPrintPreview": "Select print sections:",
-        "storyline": "Storyline",
-        "title": "Print",
-        "toc": "Table of content"
-      },
       "campSettings": {
         "fields": {
           "motto": "motto",
@@ -184,20 +172,38 @@
         "datetime": {
           "date": "dd. D.MM | D. MMM | DD. MMM YYYY"
         }
-      },
-      "print": {
-        "documents": {
-          "pdfDocument": {
-            "filename": {
-              "activitiesOnly": "Activities {camp}",
-              "picassoOnly": "Picasso {camp}"
-            }
+      }
+    },
+    "print": {
+      "documents": {
+        "pdfDocument": {
+          "filename": {
+            "activitiesOnly": "Activities {camp}",
+            "picassoOnly": "Picasso {camp}"
           }
-        },
-        "localPdfDownloadButton": {
-          "error": "Something did not work. Please try again, or try reloading the page."
         }
       },
+      "localPdfDownloadButton": {
+        "error": "Something did not work. Please try again, or try reloading the page."
+      },
+      "printConfigurator": {
+        "config": {
+          "Activity": "Single activity",
+          "Cover": "Cover page",
+          "Picasso": "Picasso",
+          "Story": "Story summary",
+          "Program": "Program",
+          "Toc": "Table of contents",
+          "ProgramConfig": {
+            "dayOverview": "print day overview"
+          }
+        }
+      },
+      "printPreviewNuxt": {
+        "openPreview": "Open preview in new window"
+      }
+    },
+    "story": {
       "storyDay": {
         "noStory": "No story content found on this day..."
       }

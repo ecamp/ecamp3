@@ -99,18 +99,6 @@
         "deleteWarning": "Möchtest du diese Periode wirklich löschen?",
         "lastPeriodNotDeletable": "Die letzte Periode kann nicht gelöscht werden."
       },
-      "campPrint": {
-        "activities": "Aktivitäten",
-        "dailySummary": "Tagesübersicht",
-        "frontpage": "Deckblatt",
-        "openPrintPreview": "Druckvorschau öffnen",
-        "picasso": "Grobprogramm",
-        "printNow": "Jetzt drucken",
-        "selectPrintPreview": "Druckvorschau zeigen",
-        "storyline": "Roter Faden",
-        "title": "Drucken",
-        "toc": "Inhaltsverzeichnis"
-      },
       "campSettings": {
         "fields": {
           "motto": "Motto",
@@ -126,20 +114,38 @@
         "datetime": {
           "date": "dd. D.MM | D. MMM | DD. MMM YYYY"
         }
-      },
-      "print": {
-        "documents": {
-          "pdfDocument": {
-            "filename": {
-              "activitiesOnly": "Aktivitäten {camp}",
-              "picassoOnly": "Grobprogramm {camp}"
-            }
+      }
+    },
+    "print": {
+      "documents": {
+        "pdfDocument": {
+          "filename": {
+            "activitiesOnly": "Aktivitäten {camp}",
+            "picassoOnly": "Grobprogramm {camp}"
           }
-        },
-        "localPdfDownloadButton": {
-          "error": "Etwas hat nicht geklappt. Probiere es nochmals, oder lade die Seite neu."
         }
       },
+      "localPdfDownloadButton": {
+        "error": "Etwas hat nicht geklappt. Probiere es nochmals, oder lade die Seite neu."
+      },
+      "printConfigurator": {
+        "config": {
+          "Activity": "Einzelaktivität",
+          "Cover": "Titelseite",
+          "Picasso": "Grobprogramm",
+          "Story": "Roter Faden",
+          "Program": "Programm",
+          "Toc": "Inhaltsverzeichnis",
+          "ProgramConfig": {
+            "dayOverview": "Tagesübersicht drucken"
+          }
+        }
+      },
+      "printPreviewNuxt": {
+        "openPreview": "Vorschau in neuem Fenster öffnen"
+      }
+    },
+    "story": {
       "storyDay": {
         "noStory": "Kein roter Faden an diesem Tag gefunden…"
       }
@@ -173,11 +179,6 @@
         "logOut": "Ausloggen",
         "myCamps": "Mein Lager | Meine Lager",
         "profile": "Profil"
-      }
-    },
-    "print": {
-      "picasso": {
-        "title": "Grobprogramm {period}"
       }
     }
   },

@@ -1,6 +1,16 @@
 <template>
   <v-row no-gutters>
     <v-col cols="12">
+      <div v-for="(content, idx) in config.contents" :key="idx">
+        <component
+          :is="'Config' + content.type"
+          :options="content.options"
+          :camp="camp"
+          :config="config"
+          :index="idx"
+        />
+      </div>
+      <!--
       <hr />
       <h1>API connection test</h1>
       Loading all camps from API to check API connection &amp; authentication
@@ -38,83 +48,33 @@
         :camp="camp"
         :show-daily-summary="config.showDailySummary"
         :show-activities="config.showActivities"
-      />
+      /> -->
     </v-col>
   </v-row>
 </template>
 
 <script>
-function collection(items) {
-  const entityArray = items.map((item) => entity(item)())
-
-  return () => ({
-    items: entityArray,
-    _meta: {
-      load: Promise.resolve({
-        items: entityArray,
-      }),
-    },
-  })
-}
-
-function entity(item) {
-  return () =>
-    Object.assign(
-      { ...item },
-      {
-        _meta: {
-          load: Promise.resolve({ ...item }),
-          self: item.id,
-        },
-      }
-    )
-}
-
 export default {
   data() {
     return {
       config: {},
       pagedjs: '',
       camp: null,
-      camps: [],
-      scheduleEntries: [],
     }
   },
   async fetch() {
     const query = this.$route.query
-    /*
-    this.config = {
-      showFrontpage:
-        query.showFrontpage && query.showFrontpage.toLowerCase() === 'true',
-      showToc: query.showToc && query.showToc.toLowerCase() === 'true',
-      showPicasso:
-        query.showPicasso && query.showPicasso.toLowerCase() === 'true',
-      showStoryline:
-        query.showStoryline && query.showStoryline.toLowerCase() === 'true',
-      showDailySummary:
-        query.showDailySummary &&
-        query.showDailySummary.toLowerCase() === 'true',
-      showActivities:
-        query.showActivities && query.showActivities.toLowerCase() === 'true',
-    }
-    */
+
+    this.config = JSON.parse(query.config || '{}')
 
     try {
-      this.camps = (await this.$api.get().camps()._meta.load).items
+      this.camp = await this.$api.get(this.config.camp)._meta.load
     } catch (error) {
       // eslint-disable-next-line
       console.log(error)
     }
 
-    this.config = {
-      showFrontpage: true,
-      showToc: true,
-      showPicasso: true,
-      showStoryline: true,
-      showDailySummary: true,
-      showActivities: true,
-    }
-
+    /*
     if (query.period) {
       this.period = await this.$api.get(query.period)._meta.load
       this.camp = await this.period.camp()._meta.load
@@ -178,6 +138,7 @@ export default {
         },
       ]
     }
+    */
   },
 }
 </script>
