@@ -89,6 +89,17 @@ class UpdateMaterialListTest extends ECampApiTestCase {
         ]);
     }
 
+    public function testSetNameOfMaterialListWithCampCollaborationOverwritesGeneratedName() {
+        $materialList = static::$fixtures['materialList3Manager'];
+        static::createClientWithCredentials()->request('PATCH', '/material_lists/'.$materialList->getId(), ['json' => [
+            'name' => 'Something',
+        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertJsonContains([
+            'name' => 'Something',
+        ]);
+    }
+
     public function testPatchMaterialListInCampPrototypeIsDeniedForUnrelatedUser() {
         $materialList = static::$fixtures['materialList1campPrototype'];
         static::createClientWithCredentials()->request('PATCH', '/material_lists/'.$materialList->getId(), ['json' => [

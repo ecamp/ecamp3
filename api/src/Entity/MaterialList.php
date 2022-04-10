@@ -12,6 +12,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Annotation\SerializedName;
 
 /**
  * A list of material items that someone needs to bring to the camp. A material list
@@ -57,6 +58,16 @@ class MaterialList extends BaseEntity implements BelongsToCampInterface, CopyFro
     public ?Camp $camp = null;
 
     /**
+     * The campCollaboration this material list belongs to.
+     *
+     * @ORM\OneToOne(targetEntity="CampCollaboration")
+     * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
+     */
+    #[ApiProperty(writable: false, example: '/camp_collaborations/1a2b3c4d')]
+    #[Groups(['read'])]
+    public ?CampCollaboration $campCollaboration = null;
+
+    /**
      * The id of the material list that was used as a template for creating this camp. Internal
      * for now, is not published through the API.
      *
@@ -68,10 +79,10 @@ class MaterialList extends BaseEntity implements BelongsToCampInterface, CopyFro
     /**
      * The human readable name of the material list.
      *
-     * @ORM\Column(type="text", nullable=false)
+     * @ORM\Column(type="text")
      */
     #[ApiProperty(example: 'Lebensmittel')]
-    #[Groups(['read', 'write'])]
+    #[Groups(['write'])]
     public ?string $name = null;
 
     public function __construct() {
@@ -109,6 +120,16 @@ class MaterialList extends BaseEntity implements BelongsToCampInterface, CopyFro
         return $this;
     }
 
+    #[ApiProperty(example: 'Lebensmittel')]
+    #[SerializedName('name')]
+    #[Groups(['read'])]
+    public function getName(): ?string {
+        return $this->name
+            ?? $this->campCollaboration?->user?->getDisplayName()
+            ?? $this->campCollaboration?->inviteEmail
+            ?? 'NoName';
+    }
+
     /**
      * @param MaterialList $prototype
      * @param EntityMap    $entityMap
@@ -117,6 +138,6 @@ class MaterialList extends BaseEntity implements BelongsToCampInterface, CopyFro
         $entityMap->add($prototype, $this);
 
         $this->materialListPrototypeId = $prototype->getId();
-        $this->name = $prototype->name;
+        $this->name = $prototype->getName();
     }
 }
