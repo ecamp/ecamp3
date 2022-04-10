@@ -322,7 +322,21 @@ jobs:
 
       - run: cp .env.ci .env
 
-      - run: docker-compose up -d
+      # Pull the latest image to build, and avoid caching pull-only images.
+      # (docker pull is faster than caching in most cases.)
+      - run: docker-compose pull
+
+      - uses: satackey/action-docker-layer-caching@v0.0.11
+        continue-on-error: true
+
+      - uses: actions/cache@937d24475381cd9c75ae6db12cb4e79714b926ed # renovate: tag=v2
+        with:
+          path: .cache
+          key: docker-compose-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            docker-compose-
+
+      - run: docker-compose up -d --build
 
       - run: bash wait-for-container-startup.sh
 
