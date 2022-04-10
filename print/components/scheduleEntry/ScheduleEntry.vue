@@ -56,14 +56,7 @@ export default {
     await Promise.all([
       this.scheduleEntry._meta.load,
       this.scheduleEntry.activity()._meta.load,
-      // prettier-ignore
-      this.scheduleEntry.activity().contentNodes().$loadItems().then((contentNodes) => {
-        return Promise.all(contentNodes.items.map((contentNode) => Promise.all([
-          contentNode._meta.load,
-          contentNode.children().$loadItems(),
-          contentNode.contentType()._meta.load,
-        ])))
-      }),
+      this.scheduleEntry.activity().rootContentNode()._meta.load,
       this.scheduleEntry.activity().category()._meta.load,
       this.scheduleEntry.period().camp().materialLists().$loadItems(),
       // prettier-ignore

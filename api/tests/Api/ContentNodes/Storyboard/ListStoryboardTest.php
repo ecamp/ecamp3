@@ -22,11 +22,4 @@ class ListStoryboardTest extends ListContentNodeTestCase {
             $this->getIriFor('storyboardCampUnrelated'),
         ];
     }
-
-    public function testListStoryboardsFilteredByParent() {
-        $response = static::createClientWithCredentials()->request('GET', "{$this->endpoint}?parent=".$this->getIriFor('columnLayout1'));
-        $this->assertResponseStatusCodeSame(200);
-
-        $this->assertJsonContainsItems($response, [$this->getIriFor('storyboard1')]);
-    }
 }

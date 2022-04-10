@@ -22,11 +22,4 @@ class ListMultiSelectTest extends ListContentNodeTestCase {
             $this->getIriFor('multiSelectCampUnrelated'),
         ];
     }
-
-    public function testListMultiSelectsFilteredByParent() {
-        $response = static::createClientWithCredentials()->request('GET', "{$this->endpoint}?parent=".$this->getIriFor('columnLayout1'));
-        $this->assertResponseStatusCodeSame(200);
-
-        $this->assertJsonContainsItems($response, [$this->getIriFor('multiSelect1')]);
-    }
 }

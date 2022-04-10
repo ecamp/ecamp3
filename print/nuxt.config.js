@@ -34,6 +34,7 @@ export default {
     { src: '~/plugins/hal-json-vuex.js' },
     { src: '~/plugins/i18n.js' },
     { src: '~/plugins/dayjs.js' },
+    { src: '~/plugins/axios.js' },
   ],
   /*
    ** Auto import components

@@ -44,27 +44,4 @@ class ListContentNodesTest extends ECampApiTestCase {
             ['href' => $this->getIriFor('multiSelect2')],
         ], $response->toArray()['_links']['items']);
     }
-
-    public function testListContentNodesFilteredByParentIsAllowedForCollaborator() {
-        $parent = static::$fixtures['columnLayout1'];
-        $response = static::createClientWithCredentials()->request('GET', '/content_nodes?parent='.$this->getIriFor('columnLayout1'));
-        $this->assertResponseStatusCodeSame(200);
-        $this->assertJsonContains([
-            'totalItems' => 6,
-            '_links' => [
-                'items' => [],
-            ],
-            '_embedded' => [
-                'items' => [],
-            ],
-        ]);
-        $this->assertEqualsCanonicalizing([
-            ['href' => $this->getIriFor('columnLayoutChild1')],
-            ['href' => $this->getIriFor('singleText1')],
-            ['href' => $this->getIriFor('safetyConcept1')],
-            ['href' => $this->getIriFor('materialNode1')],
-            ['href' => $this->getIriFor('storyboard1')],
-            ['href' => $this->getIriFor('multiSelect1')],
-        ], $response->toArray()['_links']['items']);
-    }
 }
