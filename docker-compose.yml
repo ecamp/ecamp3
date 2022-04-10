@@ -38,6 +38,7 @@ services:
       - ./api:/srv/api:rw,cached
       - ./api/docker/php/conf.d/api-platform.dev.ini:/usr/local/etc/php/conf.d/api-platform.ini
       - ./api/docker/php/docker-entrypoint.sh:/usr/local/bin/docker-entrypoint
+      - ./.cache/composer:/root/.composer/cache
     environment:
       APP_ENV: dev
       DATA_MIGRATIONS_DIR: dev-data

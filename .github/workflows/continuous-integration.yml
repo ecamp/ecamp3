@@ -342,8 +342,8 @@ jobs:
           load: true
           target: api_platform_php_dev
           tags: ecamp/ecamp3-api:latest
-          cache-from: type=local,src=/tmp/.buildx-cache
-          cache-to: type=local,dest=/tmp/.buildx-cache-new
+          cache-from: type=gha,scope=api
+          cache-to: type=gha,scope=api,mode=max
 
       - name: Build docker image (Caddy)
         uses: docker/build-push-action@v2
@@ -354,8 +354,8 @@ jobs:
           load: true
           target: api_platform_caddy
           tags: ecamp/ecamp3-caddy:latest
-          cache-from: type=local,src=/tmp/.buildx-cache
-          cache-to: type=local,dest=/tmp/.buildx-cache-new
+          cache-from: type=gha,scope=caddy
+          cache-to: type=gha,scope=caddy,mode=max
       
       - name: Build docker image (Browserless)
         uses: docker/build-push-action@v2
@@ -365,8 +365,8 @@ jobs:
           push: false
           load: true
           tags: ecamp/ecamp3-browserless:latest
-          cache-from: type=local,src=/tmp/.buildx-cache
-          cache-to: type=local,dest=/tmp/.buildx-cache-new
+          cache-from: type=gha,scope=browserless
+          cache-to: type=gha,scope=browserless,mode=max
 
       - name: Restore cache volumes (npm, composer)
         uses: actions/cache@937d24475381cd9c75ae6db12cb4e79714b926ed # renovate: tag=v2
@@ -376,20 +376,12 @@ jobs:
           restore-keys: |
             docker-compose-
 
-      - run: docker-compose up -d
+      - run: docker compose up -d
 
       - run: bash wait-for-container-startup.sh
 
       - run: docker run -v $PWD:/e2e -w /e2e --network host -e CYPRESS_BASE_URL=http://localhost:3000 cypress/included:9.5.1
         working-directory: frontend
-
-      # Temp fix
-      # https://github.com/docker/build-push-action/issues/252
-      # https://github.com/moby/buildkit/issues/1896
-      - name: Move cache
-        run: |
-          rm -rf /tmp/.buildx-cache
-          mv /tmp/.buildx-cache-new /tmp/.buildx-cache
 
   test-development-setup:
     name: "Tests: End-to-end for development setup"
