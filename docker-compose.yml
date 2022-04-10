@@ -28,6 +28,8 @@ services:
     build:
       context: ./api
       target: api_platform_php_dev
+      cache_from:
+        - ecamp/ecamp3-api:latest
     container_name: 'ecamp3-api'
     depends_on:
       - database
@@ -65,6 +67,8 @@ services:
     build:
       context: ./api
       target: api_platform_caddy
+      cache_from:
+        - ecamp/ecamp3-caddy:latest
     container_name: 'ecamp3-caddy'
     depends_on:
       - php
@@ -147,6 +151,8 @@ services:
   browserless:
     build:
       context: ./print/browserless
+      cache_from:
+        - ecamp/ecamp3-browserless:latest
     container_name: 'ecamp3-browserless'
     ports:
       - '3010:3000'
