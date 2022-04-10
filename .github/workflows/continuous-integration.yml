@@ -376,7 +376,7 @@ jobs:
           restore-keys: |
             docker-compose-
 
-      - run: docker-compose up -d --build
+      - run: docker-compose up -d
 
       - run: bash wait-for-container-startup.sh
 
