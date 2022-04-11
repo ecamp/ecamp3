@@ -376,13 +376,13 @@ jobs:
 
       - name: Cypress run
         uses: cypress-io/github-action@v2
+        env:
+          CYPRESS_BASE_URL: http://localhost:3000
         with:
           working-directory: frontend
           wait-on: 'http://localhost:3000, http://localhost:3001'
           wait-on-timeout: 240
-          env:
-            CYPRESS_BASE_URL: http://localhost:3000
-
+          
       - run: docker-compose logs --tail="all"
 
 
