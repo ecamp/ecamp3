@@ -91,7 +91,8 @@ ARG APP_ENV=prod
 COPY composer.json composer.lock symfony.lock ./
 COPY patch patch/
 RUN set -eux; \
-	composer install --prefer-dist --no-dev --no-scripts --no-progress
+	composer install --prefer-dist --no-dev --no-scripts --no-progress; \
+	composer clear-cache
 
 # copy only specifically what we need
 COPY .env ./
