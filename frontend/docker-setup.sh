@@ -10,7 +10,7 @@ fi
 
 npm ci
 
-if [ $CI -eq 'true' ]; then
+if [ $CI -eq 1 ]; then
   npm run build
   npm run preview
 else
