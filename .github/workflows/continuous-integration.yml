@@ -7,6 +7,8 @@ on:
 
 env:
   USER_ID: 1001
+  DOCKER_BUILDKIT: 1
+  COMPOSE_DOCKER_CLI_BUILD: 1
 
 jobs:
   api-validate-composer-lock:
@@ -323,16 +325,9 @@ jobs:
       - run: cp .env.ci .env
 
       - name: Set up Docker Buildx
+        id: buildx
         uses: docker/setup-buildx-action@v1
 
-      - name: Cache Docker layers
-        uses: actions/cache@v2
-        with:
-          path: /tmp/.buildx-cache
-          key: ${{ runner.os }}-buildx-${{ github.sha }}
-          restore-keys: |
-            ${{ runner.os }}-buildx-
-      
       - name: Build docker image (API/PHP)
         uses: docker/build-push-action@v2
         with:
@@ -341,7 +336,8 @@ jobs:
           push: false
           load: true
           target: api_platform_php_dev
-          tags: ecamp/ecamp3-api:latest
+          builder: ${{ steps.buildx.outputs.name }}
+          tags: ecamp/ecamp3-api
           cache-from: type=gha,scope=api
           cache-to: type=gha,scope=api,mode=max
 
@@ -353,20 +349,10 @@ jobs:
           push: false
           load: true
           target: api_platform_caddy
-          tags: ecamp/ecamp3-caddy:latest
+          builder: ${{ steps.buildx.outputs.name }}
+          tags: ecamp/ecamp3-caddy
           cache-from: type=gha,scope=caddy
           cache-to: type=gha,scope=caddy,mode=max
-      
-      - name: Build docker image (Browserless)
-        uses: docker/build-push-action@v2
-        with:
-          file: print/browserless/Dockerfile
-          context: './print/browserless'
-          push: false
-          load: true
-          tags: ecamp/ecamp3-browserless:latest
-          cache-from: type=gha,scope=browserless
-          cache-to: type=gha,scope=browserless,mode=max
 
       - name: Restore cache volumes (npm, composer)
         uses: actions/cache@937d24475381cd9c75ae6db12cb4e79714b926ed # renovate: tag=v2
@@ -376,7 +362,7 @@ jobs:
           restore-keys: |
             docker-compose-
 
-      - run: COMPOSE_DOCKER_CLI_BUILD=1 docker-compose up -d
+      - run: docker-compose up -d php caddy frontend database docker-host
 
       - run: bash wait-for-container-startup.sh
 

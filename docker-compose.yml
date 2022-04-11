@@ -25,11 +25,12 @@ services:
       - CYPRESS_CACHE_FOLDER=/home/node/.cache/Cypress
 
   php:
+    image: ecamp/ecamp3-api
     build:
       context: ./api
       target: api_platform_php_dev
       cache_from:
-        - ecamp/ecamp3-api:latest
+        - ecamp/ecamp3-api
     container_name: 'ecamp3-api'
     depends_on:
       - database
@@ -64,11 +65,12 @@ services:
     user: ${USER_ID:-1000}
 
   caddy:
+    image: ecamp/ecamp3-caddy
     build:
       context: ./api
       target: api_platform_caddy
       cache_from:
-        - ecamp/ecamp3-caddy:latest
+        - ecamp/ecamp3-caddy
     container_name: 'ecamp3-caddy'
     depends_on:
       - php
@@ -149,6 +151,7 @@ services:
     restart: on-failure
 
   browserless:
+    image: ecamp/ecamp3-browserless
     build:
       context: ./print/browserless
       cache_from:
