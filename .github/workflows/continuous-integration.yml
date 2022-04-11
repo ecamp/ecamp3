@@ -374,6 +374,17 @@ jobs:
       - run: docker run -v $PWD:/e2e -w /e2e --network host -e CYPRESS_BASE_URL=http://localhost:3000 cypress/included:9.5.1
         working-directory: frontend
 
+      - name: Cypress run
+        uses: cypress-io/github-action@v2
+        working-directory: frontend
+        wait-on: 'http://localhost:3000, http://localhost:3001'
+        env:
+          CYPRESS_BASE_URL: http://localhost:3000
+
+      - run: docker-compose logs --tail="all"
+
+
+
   test-development-setup:
     name: "Tests: End-to-end for development setup"
     runs-on: ubuntu-latest
