@@ -2,17 +2,13 @@
 
 namespace App\Tests\DataPersister;
 
-use ApiPlatform\Core\Validator\ValidatorInterface;
 use App\DataPersister\CategoryDataPersister;
 use App\DataPersister\Util\DataPersisterObservable;
 use App\Entity\Category;
 use App\Entity\ContentType;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
-use function PHPUnit\Framework\assertThat;
-use function PHPUnit\Framework\isNull;
 use PHPUnit\Framework\MockObject\MockObject;
-use function PHPUnit\Framework\once;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -20,7 +16,6 @@ use PHPUnit\Framework\TestCase;
  */
 class CategoryDataPersisterTest extends TestCase {
     private CategoryDataPersister $dataPersister;
-    private MockObject|ValidatorInterface $validator;
     private MockObject|EntityManagerInterface $entityManagerMock;
     private Category $category;
 
@@ -28,11 +23,9 @@ class CategoryDataPersisterTest extends TestCase {
         $this->category = new Category();
 
         $this->entityManagerMock = $this->createMock(EntityManagerInterface::class);
-        $this->validator = $this->createMock(ValidatorInterface::class);
         $dataPersisterObservable = $this->createMock(DataPersisterObservable::class);
         $this->dataPersister = new CategoryDataPersister(
             $dataPersisterObservable,
-            $this->validator,
             $this->entityManagerMock
         );
     }
@@ -55,13 +48,5 @@ class CategoryDataPersisterTest extends TestCase {
         // then
         $this->assertNotNull($data->getRootContentNode());
         $this->assertEquals('ColumnLayout', $data->getRootContentNode()->contentType->name);
-    }
-
-    public function testCallsValidatorOnRemove() {
-        $this->validator->expects(once())->method('validate');
-
-        $remove = $this->dataPersister->beforeRemove($this->category);
-
-        assertThat($remove, isNull());
     }
 }

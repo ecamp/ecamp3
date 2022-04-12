@@ -83,12 +83,6 @@ class CampCollaborationDataPersister extends AbstractDataPersister {
         $this->em->flush();
     }
 
-    public function beforeRemove($data): ?BaseEntity {
-        $this->validator->validate($data, ['groups' => ['delete']]);
-
-        return null;
-    }
-
     public function onBeforeStatusChange(CampCollaboration $data): CampCollaboration {
         if (CampCollaboration::STATUS_INVITED == $data->status && ($data->inviteEmail || $data->user)) {
             $data->inviteKey = IdGenerator::generateRandomHexString(64);
