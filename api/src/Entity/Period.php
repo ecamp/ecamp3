@@ -43,7 +43,10 @@ use Symfony\Component\Validator\Constraints as Assert;
             'normalization_context' => self::ITEM_NORMALIZATION_CONTEXT,
         ],
         'patch' => ['security' => 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)'],
-        'delete' => ['security' => 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)'],
+        'delete' => [
+            'security' => 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)',
+            'validation_groups' => ['delete', 'Period:delete'],
+        ],
     ],
     denormalizationContext: ['groups' => ['write']],
     normalizationContext: ['groups' => ['read']],

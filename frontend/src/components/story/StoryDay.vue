@@ -44,7 +44,7 @@
       </template>
     </template>
     <div v-else class="grey--text">
-      {{ $tc('components.camp.storyDay.noStory') }}
+      {{ $tc('components.story.storyDay.noStory') }}
     </div>
   </v-expansion-panel-content>
 </template>

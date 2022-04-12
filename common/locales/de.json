@@ -117,7 +117,8 @@
     "day": {
       "fields": {
         "dayResponsibles": "Tagesverantwortliche"
-      }
+      },
+      "name": "Tag | Tage"
     },
     "materialList": {
       "name": "Materialliste"
@@ -138,6 +139,23 @@
         "time": "Zeitpunkt"
       },
       "name": "Zeitplaneintrag"
+    }
+  },
+  "print": {
+    "toc": {
+      "title": "Inhaltsverzeichnis"
+    },
+    "cover": {
+      "title": "Titelseite"
+    },
+    "program": {
+      "title": "Detailprogramm"
+    },
+    "story": {
+      "title": "Roter Faden"
+    },
+    "picasso": {
+      "title": "Grobprogramm für {period}"
     }
   }
 }

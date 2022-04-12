@@ -2,11 +2,9 @@
   <div>
     <v-skeleton-loader v-if="camp()._meta.loading" type="article" />
     <div v-else>
-      <h3>{{ $tc('components.camp.campPrint.selectPrintPreview') }}</h3>
-
       <v-container>
         <v-row>
-          <v-col cols="12" lg="4">
+          <v-col cols="12" md="8">
             <v-list>
               <draggable v-model="cnf.contents" handle=".handle">
                 <v-list-item v-for="(content, idx) in cnf.contents" :key="idx">
@@ -15,9 +13,9 @@
                   </v-list-item-icon>
                   <v-list-item-content>
                     <v-list-item-title>
-                      <h3>{{ content.type }}</h3>
+                      <h3>{{ $tc('components.print.printConfigurator.config.' + content.type) }}</h3>
                     </v-list-item-title>
-                    <component :is="content.type"
+                    <component :is="contentComponents[content.type]"
                                v-model="content.options"
                                :camp="camp()" />
                   </v-list-item-content>
@@ -32,51 +30,56 @@
             <br>
             <v-menu>
               <template #activator="{ on, attrs }">
-                <v-btn
-                  color="primary"
-                  dark
+                <button-add
                   v-bind="attrs"
-                  v-on="on">
-                  Add
-                </v-btn>
+                  v-on="on" />
               </template>
               <v-list>
                 <v-list-item
                   v-for="(component, idx) in contentComponents"
                   :key="idx"
                   @click="cnf.contents.push({
-                    type: component.name,
+                    type: idx,
                     options: component.defaultOptions()
                   })">
                   <v-list-item-title>
-                    {{ component.name }}
+                    {{ $tc('components.print.printConfigurator.config.' + idx) }}
                   </v-list-item-title>
                 </v-list-item>
               </v-list>
             </v-menu>
           </v-col>
-          <v-col cols="12" lg="8">
-            <div>
-              <v-btn color="primary"
-                     :href="previewUrl"
-                     target="_blank">
-                {{ $tc('components.camp.campPrint.openPrintPreview') }}
-              </v-btn>
-
-              <local-print-preview :config="{ camp: camp.bind(this), ...cnf }"
-                                   width="100%"
-                                   height="600"
-                                   class="my-4" />
-
-              <v-expansion-panels>
-                <v-expansion-panel>
-                  <v-expansion-panel-header>View Print-Config</v-expansion-panel-header>
-                  <v-expansion-panel-content>
-                    <pre>{{ cnf }}</pre>
-                  </v-expansion-panel-content>
-                </v-expansion-panel>
-              </v-expansion-panels>
-            </div>
+          <v-col cols="12" md="4">
+            <v-expansion-panels>
+              <v-expansion-panel>
+                <v-expansion-panel-header>View Print-Config</v-expansion-panel-header>
+                <v-expansion-panel-content>
+                  <pre>{{ cnf }}</pre>
+                </v-expansion-panel-content>
+              </v-expansion-panel>
+            </v-expansion-panels>
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col cols="12">
+            <v-tabs v-model="previewTab">
+              <v-tab>Print with Nuxt</v-tab>
+              <v-tab>Print with React</v-tab>
+              <v-tab-item>
+                <print-preview-nuxt v-if="previewTab === 0"
+                                    :config="cnf"
+                                    width="100%"
+                                    height="600"
+                                    class="my-4" />
+              </v-tab-item>
+              <v-tab-item>
+                <print-preview-react v-if="previewTab === 1"
+                                     :config="cnf"
+                                     width="100%"
+                                     height="600"
+                                     class="my-4" />
+              </v-tab-item>
+            </v-tabs>
           </v-col>
         </v-row>
       </v-container>
@@ -85,28 +88,28 @@
 </template>
 
 <script>
-import LocalPrintPreview from './print-react/LocalPrintPreview.vue'
+import PrintPreviewReact from './print-react/PrintPreviewReact.vue'
+import PrintPreviewNuxt from './print-nuxt/PrintPreviewNuxt.vue'
 import Draggable from 'vuedraggable'
-import Cover from './config/CoverConfig.vue'
-import Picasso from './config/PicassoConfig.vue'
-import Story from './config/StoryConfig.vue'
-import Program from './config/ProgramConfig.vue'
-import Activity from './config/ActivityConfig.vue'
-import Toc from './config/TocConfig.vue'
-
-const PRINT_SERVER = window.environment.PRINT_SERVER
+import CoverConfig from './config/CoverConfig.vue'
+import PicassoConfig from './config/PicassoConfig.vue'
+import StoryConfig from './config/StoryConfig.vue'
+import ProgramConfig from './config/ProgramConfig.vue'
+import ActivityConfig from './config/ActivityConfig.vue'
+import TocConfig from './config/TocConfig.vue'
 
 export default {
   name: 'PrintConfigurator',
   components: {
     Draggable,
-    LocalPrintPreview,
-    Cover,
-    Picasso,
-    Story,
-    Program,
-    Activity,
-    Toc
+    PrintPreviewReact,
+    PrintPreviewNuxt,
+    CoverConfig,
+    PicassoConfig,
+    StoryConfig,
+    ProgramConfig,
+    ActivityConfig,
+    TocConfig
   },
   props: {
     camp: {
@@ -116,38 +119,24 @@ export default {
   },
   data () {
     return {
-      // OLD
-      config: {
-        showFrontpage: true,
-        showToc: true,
-        showPicasso: true,
-        showDailySummary: true,
-        showStoryline: true,
-        showActivities: true,
-        camp: this.camp.bind(this)
+      contentComponents: {
+        Cover: CoverConfig,
+        Picasso: PicassoConfig,
+        Story: StoryConfig,
+        Program: ProgramConfig,
+        Activity: ActivityConfig,
+        Toc: TocConfig
       },
-
-      // NEW
-      contentComponents: [
-        Cover,
-        Picasso,
-        Story,
-        Program,
-        Activity,
-        Toc
-      ],
       cnf: {
         language: '',
         documentName: this.camp().title + '.pdf',
+        camp: this.camp()._meta.self,
         contents: this.defaultContents()
-      }
+      },
+      previewTab: null
     }
   },
   computed: {
-    previewUrl () {
-      const configGetParams = Object.entries(this.config).map(([key, val]) => `${key}=${val}`).join('&')
-      return `${PRINT_SERVER}/?camp=${this.camp().id}&pagedjs=true&${configGetParams}&lang=${this.lang}`
-    },
     lang () {
       return this.$store.state.lang.language
     },

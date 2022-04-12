@@ -4,7 +4,7 @@ import Worker from 'worker-iife:./renderPdf.worker.js'
 import * as Comlink from 'comlink'
 
 // During prod build, force vite to bundle the required fonts
-const fonts = import.meta.glob('../../assets/fonts/OpenSans/*.ttf') // eslint-disable-line no-unused-vars
+const fonts = import.meta.glob('../../../assets/fonts/OpenSans/*.ttf') // eslint-disable-line no-unused-vars
 
 export const generatePdf = async (data) => {
   const prepareInMainThread = await mainThreadLoaderFor(data.config)

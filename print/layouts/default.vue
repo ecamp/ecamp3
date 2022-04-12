@@ -62,10 +62,6 @@ export default {
                         font-size: var(--ecamp-margin-font-size);
                       }
                     }
-
-                    .toclink::after {
-                      content: ', page ' target-counter(attr(href url), page);
-                    }
                   }`,
       },
     ]

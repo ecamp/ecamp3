@@ -153,7 +153,7 @@ export default {
   methods: {
     async onInput (newValue) {
       this.localValue = newValue
-      this.dirty = true
+      this.dirty = this.localValue !== this.apiValue
 
       if (this.autoSave) {
         this.debouncedSave()

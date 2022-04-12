@@ -1,48 +1,50 @@
 <template>
-  <v-row no-gutters>
-    <v-col cols="12">
-      <div v-if="showDailySummary" class="page_break">
-        <h1>Daily summary of day {{ day.dayOffset }}</h1>
-      </div>
+  <div>
+    <div v-if="showDailySummary" class="tw-text-2xl tw-mb-6">
+      <h1>
+        {{ $tc('entity.day.name') }} {{ day.number }} ({{
+          dateLong(day.start)
+        }})
+      </h1>
+    </div>
 
-      <div v-if="showActivities">
-        <program-schedule-entry
-          v-for="scheduleEntry in scheduleEntries"
-          :key="scheduleEntry.id"
-          :schedule-entry="scheduleEntry"
-        />
-      </div>
-    </v-col>
-  </v-row>
+    <div v-if="showActivities">
+      <schedule-entry
+        v-for="scheduleEntry in scheduleEntries"
+        :key="scheduleEntry.id"
+        :schedule-entry="scheduleEntry"
+        :index="index"
+      />
+    </div>
+  </div>
 </template>
 
 <script>
+import { dateLong } from '@/../common/helpers/dateHelperUTCFormatted.js'
+
 export default {
   props: {
     day: { type: Object, required: true },
     showDailySummary: { type: Boolean, required: true },
     showActivities: { type: Boolean, required: true },
+    index: { type: Number, required: true },
   },
   data() {
-    return {
-      scheduleEntries: null,
-    }
-  },
-  async fetch() {
-    this.scheduleEntries = (await this.day.scheduleEntries()._meta.load).items
+    return {}
   },
   computed: {
-    dayAsDate() {
-      return this.day.dayOffset
+    // returns scheduleEntries of current day without the need for an additional API call
+    scheduleEntries() {
+      return this.day
+        .period()
+        .scheduleEntries()
+        .items.filter((scheduleEntry) => {
+          return scheduleEntry.day()._meta.self === this.day._meta.self
+        })
     },
+  },
+  methods: {
+    dateLong,
   },
 }
 </script>
-
-<style lang="scss" scoped>
-@media print {
-  .page_break {
-    page-break-after: always;
-  }
-}
-</style>

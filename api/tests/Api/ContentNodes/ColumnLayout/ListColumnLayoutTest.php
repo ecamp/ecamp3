@@ -34,10 +34,4 @@ class ListColumnLayoutTest extends ListContentNodeTestCase {
             $this->getIriFor('columnLayout2campPrototype'),
         ];
     }
-
-    public function testListColumnLayoutsFilteredByParent() {
-        $response = static::createClientWithCredentials()->request('GET', '/content_node/column_layouts?parent='.$this->getIriFor('columnLayout1'));
-        $this->assertResponseStatusCodeSame(200);
-        $this->assertJsonContainsItems($response, [$this->getIriFor('columnLayoutChild1')]);
-    }
 }

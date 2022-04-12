@@ -95,18 +95,6 @@
       "campPeriodsListItem": {
         "deleteWarning": "Voulez-vous vraiment le supprimer ?"
       },
-      "campPrint": {
-        "activities": "Activités",
-        "dailySummary": "Résumé quotidien",
-        "frontpage": "Page de garde",
-        "openPrintPreview": "Ouvrir l'aperçu avant impression",
-        "picasso": "Picasso",
-        "printNow": "Imprimer maintenant",
-        "selectPrintPreview": "Sélectionnez les sections à imprimer :",
-        "storyline": "Aperçu de l'histoire",
-        "title": "Imprimer",
-        "toc": "Table des matières"
-      },
       "campSettings": {
         "fields": {
           "motto": "Devise",
@@ -117,7 +105,9 @@
       },
       "collaboratorListItem": {
         "remove": "Supprimer"
-      },
+      }
+    },
+    "story": {
       "storyDay": {
         "noStory": "Aucun contenu d'histoire trouvé ce jour-là..."
       }

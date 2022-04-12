@@ -7,10 +7,13 @@ use App\DataPersister\CampCollaborationDataPersister;
 use App\DataPersister\Util\DataPersisterObservable;
 use App\Entity\Camp;
 use App\Entity\CampCollaboration;
+use App\Entity\MaterialList;
 use App\Entity\Profile;
 use App\Entity\User;
 use App\Repository\ProfileRepository;
 use App\Service\MailService;
+use Doctrine\ORM\EntityManagerInterface;
+use PHPUnit\Framework\Constraint\Callback;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactory;
@@ -28,8 +31,11 @@ class CampCollaborationDataPersisterTest extends TestCase {
     private CampCollaboration $campCollaboration;
     private User $user;
     private Profile $profile;
+    private Camp $camp;
 
     private MockObject|ProfileRepository $profileRepository;
+    private MockObject|EntityManagerInterface $em;
+
     private MockObject|Security $security;
     private MockObject|PasswordHasherFactoryInterface $pwHashFactory;
     private MockObject|MailService $mailService;
@@ -40,14 +46,14 @@ class CampCollaborationDataPersisterTest extends TestCase {
      * @throws \ReflectionException
      */
     protected function setUp(): void {
-        $camp = new Camp();
-        $camp->title = 'title';
+        $this->camp = new Camp();
+        $this->camp->title = 'title';
 
         $this->campCollaboration = new CampCollaboration();
         $this->campCollaboration->user = self::INITIAL_USER;
         $this->campCollaboration->inviteEmail = self::INITIAL_INVITE_EMAIL;
         $this->campCollaboration->inviteKey = self::INITIAL_INVITE_KEY;
-        $this->campCollaboration->camp = $camp;
+        $this->campCollaboration->camp = $this->camp;
 
         $this->profile = new Profile();
         $this->profile->email = 'e@mail.com';
@@ -60,6 +66,7 @@ class CampCollaborationDataPersisterTest extends TestCase {
         $this->security->expects(self::any())->method('getUser')->willReturn($this->user);
         $this->pwHashFactory = $this->createMock(PasswordHasherFactory::class);
         $this->profileRepository = $this->createMock(ProfileRepository::class);
+        $this->em = $this->createMock(EntityManagerInterface::class);
         $this->mailService = $this->createMock(MailService::class);
         $validator = $this->createMock(ValidatorInterface::class);
 
@@ -68,6 +75,7 @@ class CampCollaborationDataPersisterTest extends TestCase {
             $this->security,
             $this->pwHashFactory,
             $this->profileRepository,
+            $this->em,
             $this->mailService,
             $validator
         );
@@ -77,6 +85,20 @@ class CampCollaborationDataPersisterTest extends TestCase {
         $this->campCollaboration->inviteEmail = 'e@mail.com';
 
         $this->mailService->expects(self::once())->method('sendInviteToCampMail');
+
+        $result = $this->dataPersister->beforeCreate($this->campCollaboration);
+        $this->dataPersister->afterCreate($result);
+    }
+
+    public function testAfterCreateCreatesMaterialList() {
+        $this->campCollaboration->inviteEmail = 'e@mail.com';
+        $this->security->expects(self::once())->method('getUser')->willReturn($this->user);
+
+        $this->em
+            ->expects(self::once())
+            ->method('persist')
+            ->with(self::materialListWith($this->campCollaboration, $this->camp))
+        ;
 
         $result = $this->dataPersister->beforeCreate($this->campCollaboration);
         $this->dataPersister->afterCreate($result);
@@ -175,5 +197,17 @@ class CampCollaborationDataPersisterTest extends TestCase {
             CampCollaboration::STATUS_INACTIVE => [CampCollaboration::STATUS_INACTIVE],
             CampCollaboration::STATUS_ESTABLISHED => [CampCollaboration::STATUS_ESTABLISHED],
         ];
+    }
+
+    private static function materialListWith(CampCollaboration $campCollaboration, Camp $camp): Callback {
+        return self::callback(function ($objectToPersist) use ($campCollaboration, $camp) {
+            if (!$objectToPersist instanceof MaterialList) {
+                return false;
+            }
+
+            return $campCollaboration === $objectToPersist->campCollaboration
+                && $camp === $objectToPersist->getCamp()
+                && null === $objectToPersist->name;
+        });
     }
 }

@@ -3,7 +3,13 @@
     <v-col cols="12">
       <div :class="rotate ? 'rotate' : ''">
         <v-sheet>
-          <h1>Picasso</h1>
+          <h1
+            :id="`content_${index}_period_${period.id}`"
+            class="tw-text-2xl tw-font-bold"
+          >
+            {{ $tc('print.picasso.title') }}: {{ $tc('entity.period.name') }}
+            {{ period.description }}
+          </h1>
 
           <v-calendar
             ref="calendar"
@@ -32,6 +38,11 @@ export default {
       required: false,
       default: false,
     },
+    period: {
+      type: Object,
+      required: true,
+    },
+    index: { type: Number, required: true },
   },
   data: () => ({
     today: '2019-01-08',

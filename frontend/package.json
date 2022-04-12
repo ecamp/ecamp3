@@ -40,6 +40,7 @@
     "@tiptap/extension-underline": "2.0.0-beta.23",
     "@tiptap/vue-2": "2.0.0-beta.77",
     "@vue/composition-api": "1.4.9",
+    "assert": "2.0.0",
     "axios": "0.26.1",
     "check-password-strength": "^2.0.5",
     "comlink": "4.3.1",
@@ -55,6 +56,7 @@
     "react": "17.0.2",
     "slugify": "1.6.5",
     "url-template": "3.0.0",
+    "util": "0.12.4",
     "vee-validate": "3.4.14",
     "vite-plugin-worker": "1.0.5",
     "vue": "2.6.14",
@@ -68,13 +70,14 @@
   "devDependencies": {
     "@testing-library/jest-dom": "5.16.2",
     "@testing-library/vue": "5.8.2",
-    "@vue/cli-plugin-babel": "4.5.13",
-    "@vue/cli-plugin-e2e-cypress": "5.0.0",
-    "@vue/cli-plugin-eslint": "4.5.13",
-    "@vue/cli-plugin-unit-jest": "4.5.13",
-    "@vue/cli-service": "4.5.13",
+    "@vue/cli-plugin-babel": "5.0.4",
+    "@vue/cli-plugin-e2e-cypress": "5.0.4",
+    "@vue/cli-plugin-eslint": "5.0.4",
+    "@vue/cli-plugin-unit-jest": "5.0.4",
+    "@vue/cli-service": "5.0.4",
     "@vue/eslint-config-standard": "6.1.0",
     "@vue/test-utils": "1.2.2",
+    "@vue/vue2-jest": "27.0.0-alpha.4",
     "babel-eslint": "10.1.0",
     "babel-plugin-require-context-hook": "1.0.0",
     "coveralls": "3.1.1",
@@ -84,7 +87,6 @@
     "eslint-plugin-promise": "5.2.0",
     "eslint-plugin-vue": "7.20.0",
     "flush-promises": "1.0.2",
-    "jest": "26.6.3",
     "jest-canvas-mock": "2.3.1",
     "jest-serializer-vue-tjw": "3.19.0",
     "lint-staged": "12.3.5",
@@ -167,6 +169,7 @@
     "not ie <= 8"
   ],
   "jest": {
+    "testEnvironment": "jsdom",
     "setupFiles": [
       "<rootDir>/.jest/register-context.js",
       "<rootDir>/.jest/environment.js",
@@ -182,7 +185,7 @@
       "vue"
     ],
     "transform": {
-      "^.+\\.vue$": "vue-jest",
+      "^.+\\.vue$": "@vue/vue2-jest",
       ".+\\.(css|styl|less|sass|scss|svg|png|jpg|ttf|woff|woff2)$": "jest-transform-stub",
       "^.+\\.jsx?$": "babel-jest"
     },

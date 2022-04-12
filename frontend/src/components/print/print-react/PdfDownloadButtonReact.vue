@@ -1,7 +1,6 @@
 <template>
   <div>
-    <v-btn class="ml-5"
-           color="primary"
+    <v-btn color="primary"
            :loading="loading"
            outlined
            @click="generatePdf">
@@ -10,7 +9,7 @@
       <v-icon>mdi-react</v-icon>
     </v-btn>
     <v-snackbar v-model="error" :timeout="10000">
-      {{ $tc('components.camp.print.localPdfDownloadButton.error') }}
+      {{ $tc('components.print.localPdfDownloadButton.error') }}
       <template #action="{ attrs }">
         <v-btn color="red"
                text
@@ -30,7 +29,7 @@ import slugify from 'slugify'
 const RENDER_IN_WORKER = true
 
 export default {
-  name: 'LocalPDFDownloadButton',
+  name: 'PdfDownloadButtonReact',
   props: {
     config: {
       type: Object,

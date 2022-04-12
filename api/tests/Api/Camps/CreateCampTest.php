@@ -634,7 +634,7 @@ class CreateCampTest extends ECampApiTestCase {
         $camp = $this->getEntityManager()->getRepository(Camp::class)->find($response->toArray()['id']);
         $this->assertEquals($campPrototype->getId(), $camp->campPrototypeId);
         $this->assertCount(1, $camp->categories);
-        $this->assertCount(1, $camp->materialLists);
+        $this->assertCount(2, $camp->materialLists);
     }
 
     public function testCreateCampReturnsProperDatesInTimezoneAheadOfUTC() {

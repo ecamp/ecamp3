@@ -125,7 +125,8 @@
     "day": {
       "fields": {
         "dayResponsibles": "Responsible of the day"
-      }
+      },
+      "name": "Day | Days"
     },
     "materialItem": {
       "fields": {
@@ -156,6 +157,23 @@
         "time": "Time"
       },
       "name": "Activity scheduled"
+    }
+  },
+  "print": {
+    "toc": {
+      "title": "Table of content"
+    },
+    "cover": {
+      "title": "Cover page"
+    },
+    "program": {
+      "title": "Program"
+    },
+    "story": {
+      "title": "Storyline"
+    },
+    "picasso": {
+      "title": "Program overview for {period}"
     }
   }
 }
