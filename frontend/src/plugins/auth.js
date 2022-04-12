@@ -42,6 +42,16 @@ async function login (username, password) {
   })
 }
 
+async function resetPasswordRequest (email) {
+  const url = await apiStore.href(apiStore.get(), 'resetPassword')
+  return apiStore.post(url, { email: email })
+}
+
+async function resetPassword (id, password) {
+  const url = await apiStore.href(apiStore.get(), 'resetPassword', { id: id })
+  return apiStore.patch(url, { password: password })
+}
+
 function user () {
   if (!getJWTPayloadFromCookie()) {
     return null
@@ -99,7 +109,18 @@ export async function logout () {
     .then(() => isLoggedIn())
 }
 
-export const auth = { isLoggedIn, login, register, loginGoogle, loginPbsMiData, loginCeviDB, logout, user }
+export const auth = {
+  isLoggedIn,
+  login,
+  register,
+  loginGoogle,
+  loginPbsMiData,
+  loginCeviDB,
+  logout,
+  user,
+  resetPasswordRequest,
+  resetPassword
+}
 
 class AuthPlugin {
   install (Vue) {

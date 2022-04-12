@@ -43,6 +43,29 @@ export default new Router({
       }
     },
     {
+      path: '/reset-password',
+      name: 'resetPasswordRequest',
+      components: {
+        navigation: NavigationAuth,
+        default: () => import(/* webpackChunkName: "register" */ './views/auth/ResetPasswordRequest.vue')
+      }
+    },
+    {
+      path: '/reset-password/:id',
+      name: 'resetPassword',
+      components: {
+        navigation: NavigationAuth,
+        default: () => import(/* webpackChunkName: "register" */ './views/auth/ResetPassword.vue')
+      },
+      props: {
+        default: route => {
+          return {
+            id: route.params.id
+          }
+        }
+      }
+    },
+    {
       path: '/activate/:userId/:activationKey',
       name: 'activate',
       components: {

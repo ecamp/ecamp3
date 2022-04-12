@@ -115,6 +115,13 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
     public ?string $plainPassword = null;
 
     /**
+     * The hashed password-reset-key. Of course not exposed through the API.
+     *
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    public ?string $passwordResetKeyHash = null;
+
+    /**
      * @ORM\OneToOne(targetEntity="Profile", inversedBy="user", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false, unique=true, onDelete="restrict")
      */

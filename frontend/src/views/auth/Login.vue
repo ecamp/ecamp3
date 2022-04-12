@@ -23,6 +23,7 @@
       <e-text-field
         id="inputUsername"
         v-model="username"
+        autofocus
         :label="$tc('views.auth.login.username')"
         name="username"
         append-icon="mdi-account-outline"
@@ -37,6 +38,14 @@
         append-icon="mdi-lock-outline"
         :dense="$vuetify.breakpoint.xsOnly"
         type="password" />
+      <small class="ml-2">
+        <router-link
+          :to="{ name: 'resetPasswordRequest' }"
+          tabindex="100"
+          style="color: gray">
+          {{ $tc('views.auth.login.passwordForgotten') }}
+        </router-link>
+      </small>
 
       <v-btn type="submit"
              :color="username && password ? 'blue darken-2' : 'blue lighten-4'" block

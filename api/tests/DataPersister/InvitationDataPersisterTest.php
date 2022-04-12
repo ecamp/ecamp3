@@ -60,7 +60,7 @@ class InvitationDataPersisterTest extends TestCase {
         self::assertThat($this->dataPersister->supports($this->invitation), self::isTrue());
     }
 
-    public function doesNotSupportAnythingElseThanInvitations() {
+    public function testDoesNotSupportAnythingElseThanInvitations() {
         $this->dataPersisterObservable->expects(self::never())->method('supports')->willReturn(false);
 
         self::assertThat($this->dataPersister->supports(new stdClass()), self::isFalse());
