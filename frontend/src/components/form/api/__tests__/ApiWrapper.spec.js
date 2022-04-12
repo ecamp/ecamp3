@@ -109,6 +109,7 @@ describe('Testing ApiWrapper [autoSave=true;  manual external value]', () => {
   })
 
   afterEach(() => {
+    wrapper?.destroy()
     jest.restoreAllMocks()
   })
 
@@ -128,7 +129,7 @@ describe('Testing ApiWrapper [autoSave=true;  manual external value]', () => {
     const newValue = 'new value'
     const newValueFromApi = 'NEW VALUE'
 
-    vm.onInput(newValue)
+    await vm.onInput(newValue)
 
     // value (from outside) is still the same
     expect(vm.value).toBe(config.propsData.value)
@@ -138,11 +139,11 @@ describe('Testing ApiWrapper [autoSave=true;  manual external value]', () => {
     expect(vm.localValue).toBe(newValue)
 
     // resolve lodash debounced
-    jest.advanceTimersByTime(100)
+    await jest.advanceTimersByTime(100)
     await flushPromises()
 
     // await validation Promise
-    jest.advanceTimersByTime(100)
+    await jest.advanceTimersByTime(100)
     await flushPromises()
 
     // saving started
@@ -155,11 +156,11 @@ describe('Testing ApiWrapper [autoSave=true;  manual external value]', () => {
     expect(apiPatch).toBeCalledWith(config.propsData.uri, { [config.propsData.fieldname]: newValue })
 
     // wait for patch promise to resolve
-    jest.advanceTimersByTime(100)
+    await jest.advanceTimersByTime(100)
     await flushPromises()
 
     // feedback changed return value from API & make sure it's taken over to localValue
-    wrapper.setProps({ value: newValueFromApi })
+    await wrapper.setProps({ value: newValueFromApi })
     await wrapper.vm.$nextTick()
     expect(vm.localValue).toBe(newValueFromApi)
 
@@ -167,27 +168,25 @@ describe('Testing ApiWrapper [autoSave=true;  manual external value]', () => {
     expect(vm.status).toBe('success')
 
     // wait for success icon timer to finish
-    jest.advanceTimersByTime(2000)
+    await jest.advanceTimersByTime(2000)
     await flushPromises()
 
     // again in init state
     expect(vm.status).toBe('init')
   })
 
-  test('avoid double triggering of save for enter key', async done => {
+  test('avoid double triggering of save for enter key', async () => {
     // given
     const input = wrapper.find('input')
 
     // when
-    vm.onInput('new value')
-    input.trigger('submit') // trigger submit event (simulates enter key)
-    jest.runAllTimers() // resolve lodash debounced
+    await vm.onInput('new value')
+    await input.trigger('submit') // trigger submit event (simulates enter key)
+    await jest.runAllTimers() // resolve lodash debounced
     await flushPromises() // resolve validation
 
     // then
     expect(apiPatch).toHaveBeenCalledTimes(1)
-
-    done()
   })
 
   test('shows server error if api.patch failed', async () => {
@@ -195,8 +194,8 @@ describe('Testing ApiWrapper [autoSave=true;  manual external value]', () => {
     apiPatch.mockRejectedValueOnce(new Error('server error'))
 
     // when
-    vm.onInput('new value') // Trigger patch
-    jest.runAllTimers() // resolve lodash debounced
+    await vm.onInput('new value') // Trigger patch
+    await jest.runAllTimers() // resolve lodash debounced
     await flushPromises() // wait for patch promise to resolve
 
     // then
@@ -209,8 +208,8 @@ describe('Testing ApiWrapper [autoSave=true;  manual external value]', () => {
     apiPatch.mockRejectedValueOnce(new Error(validationMsg))
 
     // when
-    vm.onInput('new value') // Trigger patch
-    jest.runAllTimers() // resolve lodash debounced
+    await vm.onInput('new value') // Trigger patch
+    await jest.runAllTimers() // resolve lodash debounced
     await flushPromises() // wait for patch promise to resolve
 
     // then
@@ -219,7 +218,7 @@ describe('Testing ApiWrapper [autoSave=true;  manual external value]', () => {
   })
 
   /*
-  test('shows error if `required` validation fails', async done => {
+  test('shows error if `required` validation fails', async () => {
     // given
     wrapper.setProps({ required: true })
 
@@ -229,12 +228,10 @@ describe('Testing ApiWrapper [autoSave=true;  manual external value]', () => {
     // then
     expect(vm.hasValidationError).toBe(true)
     expect(vm.errorMessages[0]).toMatch('is required')
-
-    done()
   }) */
 
   /*
-  test('shows error if arbitrary validation fails & aborts save', async done => {
+  test('shows error if arbitrary validation fails & aborts save', async () => {
     // given
     wrapper.setProps({ validation: 'min:3|myOwnValidationRule' })
     validate.mockResolvedValue({ valid: false, errors: ['Validation failed'] })
@@ -252,11 +249,9 @@ describe('Testing ApiWrapper [autoSave=true;  manual external value]', () => {
 
     // then
     expect(apiPatch).not.toHaveBeenCalled()
-
-    done()
   })
 
-  test('clears error if arbitrary validation succedes', async done => {
+  test('clears error if arbitrary validation succedes', async () => {
     // given
     wrapper.setProps({ validation: 'required' })
     wrapper.vm.hasValidationError = true
@@ -268,8 +263,6 @@ describe('Testing ApiWrapper [autoSave=true;  manual external value]', () => {
     // then
     expect(vm.hasValidationError).toBe(false)
     expect(vm.errorMessages).toHaveLength(0)
-
-    done()
   }) */
 })
 
@@ -299,9 +292,10 @@ describe('Testing ApiWrapper [autoSave=true; value from API]', () => {
         load: Promise.resolve()
       }
     })
+  })
 
-    wrapper = shallowMount(ApiWrapper, config)
-    vm = wrapper.vm
+  afterEach(() => {
+    wrapper?.destroy()
   })
 
   test('loads value from API (fieldname = primitive value)', async () => {
@@ -466,6 +460,10 @@ describe('Testing ApiWrapper [autoSave=false]', () => {
     apiPatch = jest.spyOn(config.mocks.api, 'patch')
   })
 
+  afterEach(() => {
+    wrapper?.destroy()
+  })
+
   test('init correctly with default values', () => {
     expect(vm.value).toBe(config.propsData.value)
     expect(vm.dirty).toBe(false)
@@ -476,27 +474,27 @@ describe('Testing ApiWrapper [autoSave=false]', () => {
 
   test('clears dirty flag when local value matches external value', async () => {
     // local change
-    vm.onInput('new local value')
+    await vm.onInput('new local value')
     expect(vm.dirty).toBe(true)
 
     // new value from external --> local value will not be changed
-    wrapper.setProps({ value: 'new external value #1' })
+    await wrapper.setProps({ value: 'new external value #1' })
     expect(vm.localValue).toBe('new local value')
 
     // local change to same value as external value
-    vm.onInput('new external value #1')
+    await vm.onInput('new external value #1')
     await vm.$nextTick() // needed for watcher to trigger
     expect(vm.dirty).toBe(false)
 
     // new value from external --> local value will be changed
-    wrapper.setProps({ value: 'new external value #2' })
+    await wrapper.setProps({ value: 'new external value #2' })
     await vm.$nextTick() // needed for watcher to trigger
     expect(vm.localValue).toBe('new external value #2')
   })
 
   test('resets value and errors when `reset` is called', async () => {
     // when
-    vm.onInput('new local value')
+    await vm.onInput('new local value')
     // vm.hasValidationError = true
 
     // then
@@ -504,7 +502,7 @@ describe('Testing ApiWrapper [autoSave=false]', () => {
     expect(vm.localValue).toBe('new local value')
 
     // when
-    vm.reset()
+    await vm.reset()
 
     // then
     expect(vm.dirty).toBe(false)
@@ -517,7 +515,7 @@ describe('Testing ApiWrapper [autoSave=false]', () => {
     const input = wrapper.find('input')
 
     // when
-    input.trigger('submit')
+    await input.trigger('submit')
     await vm.$nextTick()
     await flushPromises() // resolve validation
 
@@ -525,23 +523,23 @@ describe('Testing ApiWrapper [autoSave=false]', () => {
     expect(apiPatch).toHaveBeenCalled()
   })
 
-  test('abort save in readonly mode', () => {
+  test('abort save in readonly mode', async () => {
     // given
-    wrapper.setProps({ readonly: true })
+    await wrapper.setProps({ readonly: true })
 
     // when
-    vm.save()
+    await vm.save()
 
     // then
     expect(apiPatch).not.toHaveBeenCalled()
   })
 
-  test('abort save in disabled mode', () => {
+  test('abort save in disabled mode', async () => {
     // given
-    wrapper.setProps({ disabled: true })
+    await wrapper.setProps({ disabled: true })
 
     // when
-    vm.save()
+    await vm.save()
 
     // then
     expect(apiPatch).not.toHaveBeenCalled()
