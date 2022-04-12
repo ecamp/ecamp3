@@ -45,6 +45,7 @@
 import CategoryLabel from './CategoryLabel.vue'
 import ContentNode from './contentNode/ContentNode.vue'
 import { rangeShort } from '@/../common/helpers/dateHelperUTCFormatted.js'
+import campCollaborationDisplayName from '@/../common/helpers/campCollaborationDisplayName.js'
 
 export default {
   components: { CategoryLabel, ContentNode },
@@ -75,9 +76,8 @@ export default {
       return this.scheduleEntry
         .activity()
         .activityResponsibles()
-        .items.map(
-          (activityResponsible) =>
-            activityResponsible.campCollaboration().user().displayName
+        .items.map((activityResponsible) =>
+          campCollaborationDisplayName(activityResponsible.campCollaboration())
         )
         .join(', ')
     },
