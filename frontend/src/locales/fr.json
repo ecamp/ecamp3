@@ -285,6 +285,7 @@
       "welcome": "Bonjour {user}. Bienvenue sur eCamp"
     },
     "navigationDefault": {
+      "camps": "Camps",
       "home": "Accueil",
       "myCamps": "Mon camp | Mes camps",
       "profile": "Profil"

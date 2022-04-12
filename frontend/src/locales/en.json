@@ -241,6 +241,9 @@
       }
     },
     "navigation": {
+      "items": {
+        "camps": "Camps"
+      },
       "searchDesktop": {
         "search": "Search"
       },
@@ -365,7 +368,10 @@
     "camp": {
       "admin": {
         "collaborators": "Manage Team",
-        "title": "Camp Admin"
+        "title": "Camp Admin",
+        "mobile": {
+          "title": "Admin & Profile"
+        }
       },
       "collaborators": {
         "email": "Email address",
@@ -435,6 +441,7 @@
       "welcome": "Hello {user}. Welcome on eCamp"
     },
     "navigationDefault": {
+      "camps": "Camps",
       "home": "Home",
       "myCamps": "My camp | My camps",
       "profile": "Profile"

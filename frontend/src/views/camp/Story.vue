@@ -5,13 +5,9 @@ Admin screen of a camp: Displays details & periods of a single camp and allows t
 <template>
   <content-card :title="$tc('views.camp.story.title')" toolbar>
     <template #title-actions>
-      <template v-if="$vuetify.breakpoint.smAndUp">
-        <e-switch v-model="editing" :label="$tc('global.button.editable')"
-                  class="ec-story-editable ml-auto"
-                  :disabled="!isContributor"
-                  @click="$event.preventDefault()" />
-      </template>
-      <v-menu v-else offset-y>
+      <v-icon v-if="editing" small color="grey">mdi-lock-open</v-icon>
+      <v-icon v-else small color="grey">mdi-lock</v-icon>
+      <v-menu left offset-y>
         <template #activator="{ on, attrs }">
           <v-btn
             text icon
@@ -21,19 +17,25 @@ Admin screen of a camp: Displays details & periods of a single camp and allows t
             <v-icon>mdi-dots-vertical</v-icon>
           </v-btn>
         </template>
-        <v-list>
-          <v-list-item :href="previewUrl">
+        <v-list class="py-0">
+          <v-list-item @click="editing = !editing">
+            <v-list-item-icon>
+              <v-icon v-if="editing">mdi-lock</v-icon>
+              <v-icon v-else>mdi-lock-open</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title>
+              {{ editing ? 'Sperren' : 'Entsperren' }}
+            </v-list-item-title>
+          </v-list-item>
+          <v-divider />
+          <v-list-item :href="previewUrl" target="_blank">
             <v-list-item-icon>
               <v-icon>mdi-printer</v-icon>
             </v-list-item-icon>
-            <v-list-item-content>
+            <v-list-item-title>
               {{ $tc('views.camp.print.title') }}
-            </v-list-item-content>
-          </v-list-item>
-          <v-list-item>
-            <e-switch v-model="editing" :label="$tc('global.button.editable')"
-                      class="ec-story-editable"
-                      @click.stop="$event.preventDefault()" />
+              <v-icon small>mdi-open-in-new</v-icon>
+            </v-list-item-title>
           </v-list-item>
         </v-list>
       </v-menu>

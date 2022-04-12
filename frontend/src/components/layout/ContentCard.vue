@@ -10,7 +10,8 @@ Displays the content wrapped inside a card.
                elevation="0"
                dense>
       <v-toolbar-items>
-        <button-back v-if="back || $vuetify.breakpoint.xsOnly && !!$route.query.isDetail" class="ml-n4" />
+        <button-back v-if="back || $vuetify.breakpoint.xsOnly && !!$route.query.isDetail"
+                     class="ml-n4" @click="goBack" />
       </v-toolbar-items>
 
       <slot name="title">
@@ -44,8 +45,17 @@ export default {
     loaded: { type: Boolean, required: false, default: true },
     title: { type: String, required: false, default: '' },
     toolbar: { type: Boolean, required: false, default: false },
-    back: { type: Boolean, required: false, default: false },
+    back: { type: [Boolean, Function], required: false, default: false },
     maxWidth: { type: String, default: '' }
+  },
+  methods: {
+    goBack () {
+      if (typeof this.back === 'function') {
+        this.back()
+      } else {
+        this.$router.go(-1)
+      }
+    }
   }
 }
 </script>

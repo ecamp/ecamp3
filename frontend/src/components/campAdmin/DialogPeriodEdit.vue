@@ -72,6 +72,24 @@
       <path style="stroke: rgb(255, 255, 255); fill: rgba(0, 0, 0, 0); stroke-width: 2px;"
             d="M 200 10 C 190 20 190 40 200 50 C 210 60 210 80 200 90" />
     </svg>
+    <template #moreActions>
+      <dialog-entity-delete :entity="period" :submit-enabled="!isLastPeriod">
+        <template #activator="{ on }">
+          <button-delete v-on="on" />
+        </template>
+        <div v-if="isLastPeriod">
+          {{ $tc('components.camp.campPeriodsListItem.lastPeriodNotDeletable') }}
+        </div>
+        <div v-else>
+          {{ $tc('components.camp.campPeriodsListItem.deleteWarning') }} <br>
+          <ul>
+            <li>
+              {{ period.description }}
+            </li>
+          </ul>
+        </div>
+      </dialog-entity-delete>
+    </template>
   </dialog-form>
 </template>
 
@@ -79,10 +97,11 @@
 import DialogBase from '@/components/dialog/DialogBase.vue'
 import DialogForm from '@/components/dialog/DialogForm.vue'
 import DialogPeriodForm from './DialogPeriodForm.vue'
+import DialogEntityDelete from '@/components/dialog/DialogEntityDelete.vue'
 
 export default {
   name: 'DialogPeriodEdit',
-  components: { DialogForm, DialogPeriodForm },
+  components: { DialogEntityDelete, DialogForm, DialogPeriodForm },
   extends: DialogBase,
   props: {
     period: { type: Object, required: true }

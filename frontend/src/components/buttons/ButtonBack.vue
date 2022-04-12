@@ -3,7 +3,7 @@
     aria-label="Zurück"
     icon
     v-bind="$attrs"
-    @click="$router.go(-1)">
+    @click="$emit('click',$event)">
     <v-icon>mdi-arrow-left</v-icon>
   </v-btn>
 </template>

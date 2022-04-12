@@ -71,7 +71,8 @@ Listing all given activity schedule entries in a calendar view.
         </dialog-activity-edit>
 
         <!-- readonly mode: complete div is a HTML link -->
-        <router-link v-if="!editable && !event.tmpEvent" :to="scheduleEntryRoute(event)">
+        <router-link v-if="!editable && !event.tmpEvent" :to="scheduleEntryRoute(event)"
+                     class="white--text text-decoration-none">
           <div class="readonlyEntry">
             <h4 class="v-event-title">
               {{ getActivityName(event) }}
@@ -181,8 +182,14 @@ export default {
   ],
 
   // composition API setup
-  setup (props, { emit, refs }) {
-    const { editable, scheduleEntries } = toRefs(props)
+  setup (props, {
+    emit,
+    refs
+  }) {
+    const {
+      editable,
+      scheduleEntries
+    } = toRefs(props)
 
     const isSaving = ref(false)
     const patchError = ref(null)
@@ -318,14 +325,18 @@ export default {
     },
     computedIntervalHeight () {
       return this.intervalHeight ??
-        this.$vuetify.breakpoint.xsOnly
+      this.$vuetify.breakpoint.xsOnly
         ? 1.3 * (this.$vuetify.breakpoint.height - 140) / this.intervalCount
         : 1.3 * Math.max((this.$vuetify.breakpoint.height - 204) / this.intervalCount, 32)
     }
   },
   mounted () {
-    this.period.camp().activities()._meta.load.then(() => { this.activitiesLoading = false })
-    this.period.camp().categories()._meta.load.then(() => { this.categoriesLoading = false })
+    this.period.camp().activities()._meta.load.then(() => {
+      this.activitiesLoading = false
+    })
+    this.period.camp().categories()._meta.load.then(() => {
+      this.categoriesLoading = false
+    })
 
     // scroll a bit down to hide the night hours
     const scroller = this.$el.querySelector('.v-calendar-daily__scroll-area')
@@ -380,10 +391,10 @@ export default {
 
 <style scoped lang="scss">
 .ec-picasso, .ec-picasso-editable {
-  height:calc(100vh - 200px);
+  height: calc(100vh - 200px);
 
   @media #{map-get($display-breakpoints, 'xs-only')}{
-      height:calc(100vh - 120px);
+    height: calc(100vh - 120px);
   }
 
   ::v-deep {
@@ -402,11 +413,11 @@ export default {
 
       // full size div within v-calendar event
       div.readonlyEntry, div.editableEntry {
-          width: 100%;
-          height: 100%;
-          left: 0;
-          top: 0;
-          padding:3px;
+        width: 100%;
+        height: 100%;
+        left: 0;
+        top: 0;
+        padding: 3px;
       }
     }
   }
@@ -435,7 +446,7 @@ export default {
     transition: transform .1s; /* Animation */
   }
 
-  ::v-deep .v-event-timed:hover{
+  ::v-deep .v-event-timed:hover {
     transform: scale(1.02); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
   }
 

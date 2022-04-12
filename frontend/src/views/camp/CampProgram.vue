@@ -6,31 +6,47 @@ Show all activity schedule entries of a single period.
   <content-card :title="$tc('views.camp.picasso.title')" toolbar>
     <template #title-actions>
       <period-switcher v-if="$vuetify.breakpoint.xsOnly" :period="period" />
-
+      <v-spacer />
       <v-tooltip :disabled="isContributor" bottom>
-        <template #activator="{ on, attrs }">
-          <div
-            v-bind="attrs"
-            v-on="on">
-            <e-switch
-              v-model="editMode"
-              :disabled="!isContributor"
-              :label="$tc('views.camp.picasso.editMode')" />
+        <template #activator="{ on }">
+          <div v-on="on">
+            <v-icon v-if="editMode" small color="grey">mdi-lock-open</v-icon>
+            <v-icon v-else small color="grey">mdi-lock</v-icon>
           </div>
         </template>
         <span>{{ $tc('views.camp.picasso.guestsCannotEdit') }}</span>
       </v-tooltip>
-
-      <v-btn
-        class="ml-5"
-        color="primary"
-        :loading="isPrinting"
-        outlined
-        @click="print">
-        <v-icon>mdi-printer</v-icon>
-      </v-btn>
-
-      <local-pdf-download-button :config="printConfig()" />
+      <v-menu>
+        <template #activator="{ on, attrs }">
+          <div
+            v-bind="attrs"
+            v-on="on">
+            <v-btn icon>
+              <v-icon>mdi-dots-vertical</v-icon>
+            </v-btn>
+          </div>
+        </template>
+        <v-list class="py-0">
+          <v-list-item @click="editMode = !editMode">
+            <v-list-item-icon>
+              <v-icon v-if="editMode">mdi-lock</v-icon>
+              <v-icon v-else>mdi-lock-open</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title>
+              {{ editMode ? 'Sperren' : 'Entsperren' }}
+            </v-list-item-title>
+          </v-list-item>
+          <v-divider />
+          <v-list-item @click="print">
+            <v-list-item-icon>
+              <v-icon v-if="isPrinting">mdi-timer-sand</v-icon>
+              <v-icon v-else>mdi-nuxt</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title>PDF herunterladen</v-list-item-title>
+          </v-list-item>
+          <local-pdf-download-button :config="printConfig()" />
+        </v-list>
+      </v-menu>
     </template>
     <schedule-entries :period="period" :show-button="isContributor">
       <template #default="slotProps">
@@ -74,7 +90,10 @@ export default {
   },
   mixins: [campRoleMixin],
   props: {
-    period: { type: Function, required: true }
+    period: {
+      type: Function,
+      required: true
+    }
   },
   data () {
     return {

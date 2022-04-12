@@ -2,6 +2,7 @@
   <v-dialog
     content-class="ec-dialog-form"
     :fullscreen="$vuetify.breakpoint.xsOnly"
+    :transition="$vuetify.breakpoint.xsOnly ? 'slide-x-reverse-transition' :'dialog-transition'"
     eager
     v-bind="$attrs"
     :value="value"
@@ -15,10 +16,15 @@
       <v-form @submit.prevent="handleSubmit(doSubmit)">
         <v-card>
           <v-toolbar dense elevation="0" class="ec-dialog-toolbar">
-            <v-icon left>
+            <v-icon v-if="$vuetify.breakpoint.smAndUp" left>
               {{ icon }}
             </v-icon>
-            <v-toolbar-title>
+            <v-btn v-else
+                   icon
+                   @click="doCancel">
+              <v-icon>mdi-arrow-left</v-icon>
+            </v-btn>
+            <v-toolbar-title class="pl-0" :class="{'text-center': !$vuetify.breakpoint.smAndUp}">
               {{ title }}
             </v-toolbar-title>
             <v-btn v-if="$vuetify.breakpoint.smAndUp" icon
@@ -28,6 +34,9 @@
               <v-icon>mdi-close</v-icon>
               <span class="d-sr-only">{{ $tc('global.button.cancel') }}</span>
             </v-btn>
+            <v-icon v-else class="ml-auto">
+              {{ icon }}
+            </v-icon>
           </v-toolbar>
           <div class="pa-4">
             <v-skeleton-loader v-if="loading" type="article" />
@@ -87,27 +96,89 @@ import ServerError from '@/components/form/ServerError.vue'
 
 export default {
   name: 'DialogForm',
-  components: { ValidationObserver, ServerError },
+  components: {
+    ValidationObserver,
+    ServerError
+  },
   props: {
-    value: { type: Boolean, required: true },
+    value: {
+      type: Boolean,
+      required: true
+    },
 
-    icon: { type: String, default: '', required: false },
-    title: { type: String, default: '', required: false },
+    icon: {
+      type: String,
+      default: '',
+      required: false
+    },
+    title: {
+      type: String,
+      default: '',
+      required: false
+    },
 
-    submitAction: { type: Function, default: null, required: false },
-    submitIcon: { type: String, default: 'mdi-check', required: false },
-    submitLabel: { type: String, default: 'global.button.submit', required: false },
-    submitColor: { type: String, default: 'primary', required: false },
-    submitEnabled: { type: Boolean, default: true, required: false },
+    submitAction: {
+      type: Function,
+      default: null,
+      required: false
+    },
+    submitIcon: {
+      type: String,
+      default: 'mdi-check',
+      required: false
+    },
+    submitLabel: {
+      type: String,
+      default: 'global.button.submit',
+      required: false
+    },
+    submitColor: {
+      type: String,
+      default: 'primary',
+      required: false
+    },
+    submitEnabled: {
+      type: Boolean,
+      default: true,
+      required: false
+    },
 
-    cancelAction: { type: Function, default: null, required: false },
-    cancelIcon: { type: String, default: 'mdi-window-close', required: false },
-    cancelLabel: { type: String, default: 'global.button.cancel', required: false },
-    cancelColor: { type: String, default: 'secondary', required: false },
-    cancelEnabled: { type: Boolean, default: true, required: false },
+    cancelAction: {
+      type: Function,
+      default: null,
+      required: false
+    },
+    cancelIcon: {
+      type: String,
+      default: 'mdi-window-close',
+      required: false
+    },
+    cancelLabel: {
+      type: String,
+      default: 'global.button.cancel',
+      required: false
+    },
+    cancelColor: {
+      type: String,
+      default: 'secondary',
+      required: false
+    },
+    cancelEnabled: {
+      type: Boolean,
+      default: true,
+      required: false
+    },
 
-    loading: { type: Boolean, default: false, required: false },
-    error: { type: [Object, String, Error], default: null, required: false }
+    loading: {
+      type: Boolean,
+      default: false,
+      required: false
+    },
+    error: {
+      type: [Object, String, Error],
+      default: null,
+      required: false
+    }
   },
   data () {
     return {
@@ -149,7 +220,8 @@ export default {
     }
   }
 }
-.ec-dialog-toolbar{
-  border-bottom: 1px solid #cfd8dc!important;
+
+.ec-dialog-toolbar {
+  border-bottom: 1px solid #cfd8dc !important;
 }
 </style>

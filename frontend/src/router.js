@@ -220,8 +220,9 @@ export default new Router({
           }
         },
         {
-          path: '',
+          path: 'dashboard',
           name: 'camp/dashboard',
+          alias: '',
           component: () => import(/* webpackChungName: "camp" */ './views/camp/Dashboard.vue')
         }
       ]

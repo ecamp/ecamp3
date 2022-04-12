@@ -1,6 +1,6 @@
 <template>
   <card-content-node v-bind="$props">
-    <v-container fluid>
+    <v-container fluid class="flex-column">
       <v-row no-gutters class="text-subtitle-2">
         <v-col cols="2">
           {{ $tc('contentNode.storyboard.entity.section.fields.column1') }}

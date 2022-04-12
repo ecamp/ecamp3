@@ -50,45 +50,71 @@ Displays a single activity
         </div>
       </template>
       <template #title-actions>
-        <!-- layout/content switch -->
-        <v-btn v-if="!layoutMode"
-               color="primary"
-               outlined
-               :disabled="!isContributor"
-               @click="layoutMode = true">
-          <template v-if="$vuetify.breakpoint.smAndUp">
-            <v-icon left>mdi-puzzle-edit-outline</v-icon>
-            {{ $tc('views.activity.activity.changeLayout') }}
-          </template>
-          <template v-else>{{ $tc('views.activity.activity.layout') }}</template>
-        </v-btn>
-        <v-btn v-else-if="isContributor"
-               color="success"
-               outlined
-               @click="layoutMode = false">
-          <template v-if="$vuetify.breakpoint.smAndUp">
-            <v-icon left>mdi-file-document-edit-outline</v-icon>
-            {{ $tc('views.activity.activity.backToContents') }}
-          </template>
-          <template v-else>{{ $tc('views.activity.activity.back') }}</template>
-        </v-btn>
-
         <!-- print preview button -->
-        <v-tooltip bottom>
+        <v-icon v-if="editMode" small color="grey">mdi-lock-open</v-icon>
+        <v-icon v-else small color="grey">mdi-lock</v-icon>
+        <v-menu>
           <template #activator="{ on, attrs }">
             <v-btn
-              class="ml-3"
-              color="primary"
-              outlined
-              :to="{ name: 'camp/print/activity', params: { campId: activity.camp().id, scheduleEntryId: scheduleEntry().id } }"
+              icon
               v-bind="attrs"
               v-on="on">
-              <v-icon>mdi-printer</v-icon>
+              <v-icon>mdi-dots-vertical</v-icon>
             </v-btn>
           </template>
-          <span>{{ $tc('views.activity.printPreview') }}</span>
-        </v-tooltip>
-        <local-pdf-download-button :config="printConfig()" />
+          <v-list class="py-0">
+            <v-list-item @click="editMode = !editMode">
+              <v-list-item-icon>
+                <v-icon v-if="editMode">mdi-lock</v-icon>
+                <v-icon v-else>mdi-lock-open</v-icon>
+              </v-list-item-icon>
+              <v-list-item-title>
+                {{ editMode ? 'Sperren' : 'Entsperren' }}
+              </v-list-item-title>
+            </v-list-item>
+            <v-divider />
+            <v-tooltip bottom>
+              <template #activator="{ on, attrs }">
+                <v-list-item
+                  :to="{ name: 'camp/print/activity', params: { campId: activity.camp().id, scheduleEntryId: scheduleEntry().id }, query: {isDetail: true} }"
+                  v-bind="attrs"
+                  v-on="on">
+                  <v-list-item-icon>
+                    <v-icon>mdi-file-pdf-box</v-icon>
+                  </v-list-item-icon>
+                  <v-list-item-title>PDF erstellen</v-list-item-title>
+                </v-list-item>
+              </template>
+              <span>{{ $tc('views.activity.printPreview') }}</span>
+            </v-tooltip>
+            <local-pdf-download-button :config="printConfig()" />
+
+            <!-- layout/content switch -->
+            <v-list-item v-if="!layoutMode"
+                         color="primary"
+                         outlined
+                         :disabled="!isContributor"
+                         @click="layoutMode = true">
+              <v-list-item-icon>
+                <v-icon>mdi-puzzle-edit-outline</v-icon>
+              </v-list-item-icon>
+              <v-list-item-title>
+                {{ $tc('views.activity.activity.changeLayout') }}
+              </v-list-item-title>
+            </v-list-item>
+            <v-list-item v-else-if="isContributor"
+                         color="success"
+                         outlined
+                         @click="layoutMode = false">
+              <v-list-item-icon>
+                <v-icon>mdi-file-document-edit-outline</v-icon>
+              </v-list-item-icon>
+              <v-list-item-title>
+                {{ $tc('views.activity.activity.backToContents') }}
+              </v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-menu>
       </template>
 
       <v-card-text class="px-0 py-0">
@@ -123,7 +149,7 @@ Displays a single activity
                     :name="$tc('entity.activity.fields.location')"
                     :uri="activity._meta.self"
                     fieldname="location"
-                    :disabled="layoutMode || !isContributor"
+                    :disabled="layoutMode || !editMode || !isContributor"
                     dense />
                 </v-col>
               </v-row>
@@ -131,7 +157,7 @@ Displays a single activity
                 <v-col>
                   <activity-responsibles
                     :activity="activity"
-                    :disabled="layoutMode || !isContributor" />
+                    :disabled="layoutMode || !editMode || !isContributor" />
                 </v-col>
               </v-row>
             </v-col>
@@ -142,7 +168,7 @@ Displays a single activity
             v-else
             :content-node="activity.rootContentNode()"
             :layout-mode="layoutMode"
-            :disabled="isContributor === false" />
+            :disabled="!editMode || isContributor === false" />
         </template>
       </v-card-text>
     </content-card>
@@ -178,6 +204,7 @@ export default {
     return {
       layoutMode: false,
       editActivityTitle: false,
+      editMode: this.$vuetify.breakpoint.smAndUp,
       loading: true
     }
   },

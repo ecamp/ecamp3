@@ -1,14 +1,14 @@
 <template>
-  <div>
-    <v-btn class="ml-5"
-           color="primary"
-           :loading="loading"
-           outlined
-           @click="generatePdf">
-      <v-icon>mdi-printer</v-icon>
-      <div class="mx-1">with</div>
-      <v-icon>mdi-react</v-icon>
-    </v-btn>
+  <div class="contents">
+    <v-list-item
+      @click="generatePdf">
+      <v-list-item-icon>
+        <v-icon>mdi-react</v-icon>
+      </v-list-item-icon>
+      <v-list-item-title>
+        PDF herunterladen
+      </v-list-item-title>
+    </v-list-item>
     <v-snackbar v-model="error" :timeout="10000">
       {{ $tc('components.camp.print.localPdfDownloadButton.error') }}
       <template #action="{ attrs }">
@@ -34,7 +34,8 @@ export default {
   props: {
     config: {
       type: Object,
-      default: () => {}
+      default: () => {
+      }
     }
   },
   data () {
@@ -50,8 +51,14 @@ export default {
       // lazy load generatePdf to avoid loading complete react-pdf when showing PDF download buton
       const generatePdfModule = await import('./generatePdf.js')
 
-      const { blob, error } = await generatePdfModule.generatePdf({
-        config: { ...this.config, apiGet: this.api.get.bind(this) },
+      const {
+        blob,
+        error
+      } = await generatePdfModule.generatePdf({
+        config: {
+          ...this.config,
+          apiGet: this.api.get.bind(this)
+        },
         storeData: this.$store.state,
         translationData: this.$i18n.messages,
         renderInWorker: RENDER_IN_WORKER

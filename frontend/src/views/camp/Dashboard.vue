@@ -3,7 +3,7 @@ Admin screen of a camp: Displays details & periods of a single camp and allows t
 -->
 
 <template>
-  <content-card :title="camp().title" toolbar>
+  <content-card title="Meine Verantwortungen" toolbar>
     <v-card-text>
       {{ $tc('views.camp.dashboard.viewDescription', 1, { title: camp().title }) }}
     </v-card-text>

@@ -3,70 +3,44 @@ Displays a single period as a list item including controls to edit and delete it
 -->
 
 <template>
-  <v-list-item v-if="!period._meta.loading">
-    <v-list-item-content class="pt-0 pb-2">
-      <v-list-item-title>{{ period.description }}</v-list-item-title>
-      <v-list-item-subtitle>
-        {{ $date.utc(period.start).format($tc('global.datetime.dateLong')) }} -
-        {{ $date.utc(period.end).format($tc('global.datetime.dateLong')) }}
-      </v-list-item-subtitle>
-    </v-list-item-content>
-
-    <v-list-item-action v-if="!disabled" style="display: inline">
-      <v-item-group>
-        <dialog-period-edit :period="period">
-          <template #activator="{ on }">
-            <button-edit class="mr-1" v-on="on" />
-          </template>
-        </dialog-period-edit>
-      </v-item-group>
-    </v-list-item-action>
-
-    <v-menu v-if="!disabled" offset-y>
-      <template #activator="{ on, attrs }">
-        <v-btn icon v-bind="attrs" v-on="on">
-          <v-icon>mdi-dots-vertical</v-icon>
-        </v-btn>
-      </template>
-      <v-card>
-        <v-item-group>
-          <v-list-item-action>
-            <dialog-entity-delete :entity="period" :submit-enabled="!isLastPeriod">
-              <template #activator="{ on }">
-                <button-delete v-on="on" />
-              </template>
-              <div v-if="isLastPeriod">
-                {{ $tc('components.camp.campPeriodsListItem.lastPeriodNotDeletable') }}
-              </div>
-              <div v-else>
-                {{ $tc('components.camp.campPeriodsListItem.deleteWarning') }} <br>
-                <ul>
-                  <li>
-                    {{ period.description }}
-                  </li>
-                </ul>
-              </div>
-            </dialog-entity-delete>
-          </v-list-item-action>
-        </v-item-group>
-      </v-card>
-    </v-menu>
-  </v-list-item>
+  <dialog-period-edit :period="period">
+    <template #activator="{ on }">
+      <v-hover v-slot="{ hover }">
+        <v-list-item v-if="!period._meta.loading" class="px-sm-0" v-on="on">
+          <v-list-item-content>
+            <v-list-item-title>{{ period.description }}</v-list-item-title>
+            <v-list-item-subtitle>
+              {{ $date.utc(period.start).format($tc('global.datetime.dateLong')) }} -
+              {{ $date.utc(period.end).format($tc('global.datetime.dateLong')) }}
+            </v-list-item-subtitle>
+          </v-list-item-content>
+          <v-list-item-icon class="align-self-center">
+            <v-icon v-show="hover" small>mdi-pencil</v-icon>
+          </v-list-item-icon>
+        </v-list-item>
+      </v-hover>
+    </template>
+  </dialog-period-edit>
 </template>
 
 <script>
 
 import DialogPeriodEdit from './DialogPeriodEdit.vue'
-import DialogEntityDelete from '@/components/dialog/DialogEntityDelete.vue'
-import ButtonEdit from '@/components/buttons/ButtonEdit.vue'
-import ButtonDelete from '@/components/buttons/ButtonDelete.vue'
 
 export default {
   name: 'CampPeriods',
-  components: { DialogEntityDelete, DialogPeriodEdit, ButtonEdit, ButtonDelete },
+  components: {
+    DialogPeriodEdit
+  },
   props: {
-    period: { type: Object, required: true },
-    disabled: { type: Boolean, default: false }
+    period: {
+      type: Object,
+      required: true
+    },
+    disabled: {
+      type: Boolean,
+      default: false
+    }
   },
   computed: {
     isLastPeriod () {

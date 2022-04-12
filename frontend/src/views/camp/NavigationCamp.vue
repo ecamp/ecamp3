@@ -44,16 +44,16 @@
   <v-bottom-navigation v-else grow
                        app background-color="blue-grey darken-4"
                        dark>
-    <v-btn :to="{name: 'home'}" exact>
-      <span>{{ $tc('views.navigationDefault.home') }}</span>
-      <v-icon>mdi-home</v-icon>
+    <v-btn :to="campRoute(camp(), 'dashboard')">
+      <span>Aktivitäten</span>
+      <v-icon>mdi-magnify</v-icon>
     </v-btn>
     <v-btn :to="campRoute(camp(), 'story')">
       <span>{{ $tc('views.camp.navigationCamp.story') }}</span>
       <v-icon>mdi-book-open-variant</v-icon>
     </v-btn>
-    <v-btn :to="campRoute(camp())" exact>
-      <span>{{ $tc('views.camp.navigationCamp.program') }}</span>
+    <v-btn :to="campRoute(camp(), 'program')" exact>
+      <span>{{ camp().name }}</span>
       <v-icon large>mdi-tent</v-icon>
     </v-btn>
     <v-btn :to="campRoute(camp(), 'material')">
@@ -61,7 +61,7 @@
       <v-icon>mdi-package-variant</v-icon>
     </v-btn>
     <v-btn :to="campRoute(camp(), 'admin')">
-      <span>{{ camp().name }}</span>
+      <span>Admin</span>
       <v-icon>mdi-account-cog</v-icon>
     </v-btn>
   </v-bottom-navigation>
@@ -88,7 +88,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .camp--name::v-deep .v-btn__content {
-    width: 100%;
-  }
+.camp--name::v-deep .v-btn__content {
+  width: 100%;
+}
 </style>

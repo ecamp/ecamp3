@@ -2,7 +2,7 @@
   <content-node
     :content-node="contentNode"
     :layout-mode="layoutMode"
-    :disable="disabled" />
+    :disabled="disabled" />
 </template>
 
 <script>

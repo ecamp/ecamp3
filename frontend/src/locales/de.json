@@ -343,6 +343,7 @@
       "welcome": "Hallo {user}. Herzlich willkommen auf eCamp"
     },
     "navigationDefault": {
+      "camps": "Alle Lager",
       "home": "Home",
       "myCamps": "Mein Lager | Meine Lager",
       "profile": "Profil"

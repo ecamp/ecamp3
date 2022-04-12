@@ -51,8 +51,18 @@ body {font-feature-settings: "ss03", "calt", "rlig", "kern", "cv05", "cv07", "cv
 	flex: 1 1 0;
 }
 
+.contents {
+	display: contents;
+}
+
+.fftnum {
+	font-feature-settings: 'tnum';
+}
+
 .v-sheet > .v-expansion-panels,
-.v-card > .v-expansion-panels {
+.v-sheet > .contents > .v-expansion-panels,
+.v-card > .v-expansion-panels ,
+.v-card > .contents > .v-expansion-panels {
 	border-top: 1px solid #eee;
 	border-bottom: 1px solid #eee;
 

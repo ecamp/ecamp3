@@ -6,13 +6,15 @@
     <template v-if="entriesWithStory.length">
       <template v-for="{ scheduleEntry, storyChapters } in entriesWithStory">
         <div v-for="chapter in storyChapters" :key="chapter._meta.uri">
-          <h4 class="mt-1 mb-2">
+          <h4 class="mt-2 mt-sm-3">
             <div class="d-flex">
-              {{ scheduleEntry.number }}
+              <span class="fftnum">
+                {{ scheduleEntry.number }}
+              </span>
               <v-chip v-if="!scheduleEntry.activity().category()._meta.loading"
                       small
                       dark
-                      class="mx-1"
+                      class="mx-1 px-1 fftnum category-chip"
                       :color="scheduleEntry.activity().category().color">
                 {{ scheduleEntry.activity().category().short }}
               </v-chip>
@@ -21,7 +23,8 @@
                 - {{ chapter.instanceName }}
               </template>
               <v-spacer />
-              <router-link :to="{ name: 'activity', params: { campId: day.period().camp().id, scheduleEntryId: scheduleEntry.id } }">
+              <router-link
+                :to="{ name: 'activity', params: { campId: day.period().camp().id, scheduleEntryId: scheduleEntry.id } }">
                 <v-icon small>mdi-open-in-new</v-icon>
               </router-link>
             </div>
@@ -39,7 +42,8 @@
           <tiptap-editor v-show="!editing"
                          :value="chapter.text"
                          :editable="false"
-                         class="mt-1 v-input" />
+                         class="v-input mb-1"
+                         :class="{'readonly': !editing}" />
         </div>
       </template>
     </template>
@@ -57,10 +61,20 @@ import { dateLong } from '@/common/helpers/dateHelperUTCFormatted.js'
 
 export default {
   name: 'StoryDay',
-  components: { TiptapEditor, ApiForm, ApiTextarea },
+  components: {
+    TiptapEditor,
+    ApiForm,
+    ApiTextarea
+  },
   props: {
-    day: { type: Object, required: true },
-    editing: { type: Boolean, default: false }
+    day: {
+      type: Object,
+      required: true
+    },
+    editing: {
+      type: Boolean,
+      default: false
+    }
   },
   computed: {
     sortedScheduleEntries () {
@@ -93,5 +107,18 @@ export default {
 .e-story-day + .e-story-day .e-story-day-title {
   border-top: 1px solid #eee;
   padding-top: 5px;
+}
+
+.category-chip {
+  height: 20px !important;
+  margin-top: 2px;
+  margin-bottom: 2px;
+}
+</style>
+
+<style scoped>
+
+.readonly ::v-deep .ProseMirror-trailingBreak {
+  display: none;
 }
 </style>
