@@ -58,14 +58,14 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
      * The camps that this user is the owner of.
      */
     #[ApiProperty(readable: false, writable: false)]
-    #[ORM\OneToMany(targetEntity: 'Camp', mappedBy: 'owner')]
+    #[ORM\OneToMany(targetEntity: Camp::class, mappedBy: 'owner')]
     public Collection $ownedCamps;
 
     /**
      * All the camps that this user participates in.
      */
     #[ApiProperty(readable: false, writable: false)]
-    #[ORM\OneToMany(targetEntity: 'CampCollaboration', mappedBy: 'user', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: CampCollaboration::class, mappedBy: 'user', orphanRemoval: true)]
     public Collection $collaborations;
 
     /**
@@ -128,7 +128,7 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
         ]
     )]
     #[Groups(['create'])]
-    #[ORM\OneToOne(targetEntity: 'Profile', inversedBy: 'user', cascade: ['persist'])]
+    #[ORM\OneToOne(targetEntity: Profile::class, inversedBy: 'user', cascade: ['persist'])]
     #[ORM\JoinColumn(nullable: false, unique: true, onDelete: 'restrict')]
     public Profile $profile;
 

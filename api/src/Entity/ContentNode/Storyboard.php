@@ -41,7 +41,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 class Storyboard extends ContentNode {
     #[ApiProperty(readableLink: true, writableLink: false)]
     #[Groups(['read'])]
-    #[ORM\OneToMany(targetEntity: 'StoryboardSection', mappedBy: 'storyboard', orphanRemoval: true, cascade: ['persist'])]
+    #[ORM\OneToMany(targetEntity: StoryboardSection::class, mappedBy: 'storyboard', orphanRemoval: true, cascade: ['persist'])]
     public Collection $sections;
 
     public function __construct() {

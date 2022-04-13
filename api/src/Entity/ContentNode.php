@@ -46,7 +46,7 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
 abstract class ContentNode extends BaseEntity implements BelongsToCampInterface, CopyFromPrototypeInterface {
     #[SerializedName('_owner')]
     #[ApiProperty(readable: false, writable: false)]
-    #[ORM\OneToOne(targetEntity: 'AbstractContentNodeOwner', mappedBy: 'rootContentNode', cascade: ['persist'])]
+    #[ORM\OneToOne(targetEntity: AbstractContentNodeOwner::class, mappedBy: 'rootContentNode', cascade: ['persist'])]
     public ?AbstractContentNodeOwner $owner = null;
 
     /**
@@ -56,7 +56,7 @@ abstract class ContentNode extends BaseEntity implements BelongsToCampInterface,
     #[ApiProperty(writable: false, example: '/content_nodes/1a2b3c4d')]
     #[Gedmo\SortableGroup] // this is needed to avoid that all root nodes are in the same sort group (parent:null, slot: '')
     #[Groups(['read'])]
-    #[ORM\ManyToOne(targetEntity: 'ContentNode', inversedBy: 'rootDescendants')]
+    #[ORM\ManyToOne(targetEntity: ContentNode::class, inversedBy: 'rootDescendants')]
     #[ORM\JoinColumn(nullable: true)] // TODO make not null in the DB using a migration, and get fixtures to run
     public ContentNode $root;
 
@@ -64,7 +64,7 @@ abstract class ContentNode extends BaseEntity implements BelongsToCampInterface,
      * All content nodes that are part of this content node tree.
      */
     #[ApiProperty(readable: false, writable: false)]
-    #[ORM\OneToMany(targetEntity: 'ContentNode', mappedBy: 'root')]
+    #[ORM\OneToMany(targetEntity: ContentNode::class, mappedBy: 'root')]
     public Collection $rootDescendants;
 
     /**
@@ -83,7 +83,7 @@ abstract class ContentNode extends BaseEntity implements BelongsToCampInterface,
     #[ApiProperty(example: '/content_nodes/1a2b3c4d')]
     #[Gedmo\SortableGroup]
     #[Groups(['read', 'write'])]
-    #[ORM\ManyToOne(targetEntity: 'ContentNode', inversedBy: 'children')]
+    #[ORM\ManyToOne(targetEntity: ContentNode::class, inversedBy: 'children')]
     #[ORM\JoinColumn(onDelete: 'CASCADE')]
     public ?ContentNode $parent = null;
 
@@ -92,7 +92,7 @@ abstract class ContentNode extends BaseEntity implements BelongsToCampInterface,
      */
     #[ApiProperty(writable: false, example: '["/content_nodes/1a2b3c4d"]')]
     #[Groups(['read'])]
-    #[ORM\OneToMany(targetEntity: 'ContentNode', mappedBy: 'parent', cascade: ['persist'])]
+    #[ORM\OneToMany(targetEntity: ContentNode::class, mappedBy: 'parent', cascade: ['persist'])]
     public Collection $children;
 
     /**
@@ -132,7 +132,7 @@ abstract class ContentNode extends BaseEntity implements BelongsToCampInterface,
     #[ApiProperty(example: '/content_types/1a2b3c4d')]
     #[Groups(['read', 'create'])]
     #[AssertContentTypeCompatible]
-    #[ORM\ManyToOne(targetEntity: 'ContentType')]
+    #[ORM\ManyToOne(targetEntity: ContentType::class)]
     #[ORM\JoinColumn(nullable: false)]
     public ?ContentType $contentType = null;
 

@@ -111,14 +111,14 @@ class CampCollaboration extends BaseEntity implements BelongsToCampInterface {
      * List of whole-day responsibilities that the collaborator has in the camp.
      */
     #[ApiProperty(writable: false, example: '["/day_responsibles/1a2b3c4d"]')]
-    #[ORM\OneToMany(targetEntity: 'DayResponsible', mappedBy: 'campCollaboration', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: DayResponsible::class, mappedBy: 'campCollaboration', orphanRemoval: true)]
     public Collection $dayResponsibles;
 
     /**
      * List of activities in the camp that the collaborator is responsible for planning or carrying out.
      */
     #[ApiProperty(writable: false, example: '["/activity_responsibles/1a2b3c4d"]')]
-    #[ORM\OneToMany(targetEntity: 'ActivityResponsible', mappedBy: 'campCollaboration', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: ActivityResponsible::class, mappedBy: 'campCollaboration', orphanRemoval: true)]
     public Collection $activityResponsibles;
 
     /**
@@ -145,7 +145,7 @@ class CampCollaboration extends BaseEntity implements BelongsToCampInterface {
     #[AssertEitherIsNull(other: 'inviteEmail')]
     #[ApiProperty(example: '/users/1a2b3c4d')]
     #[Groups(['read', 'create'])]
-    #[ORM\ManyToOne(targetEntity: 'User', inversedBy: 'collaborations')]
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'collaborations')]
     #[ORM\JoinColumn(nullable: true, onDelete: 'cascade')]
     public ?User $user = null;
 
@@ -155,7 +155,7 @@ class CampCollaboration extends BaseEntity implements BelongsToCampInterface {
     #[Assert\Valid]
     #[ApiProperty(example: '/camps/1a2b3c4d')]
     #[Groups(['read', 'create'])]
-    #[ORM\ManyToOne(targetEntity: 'Camp', inversedBy: 'collaborations')]
+    #[ORM\ManyToOne(targetEntity: Camp::class, inversedBy: 'collaborations')]
     #[ORM\JoinColumn(nullable: false, onDelete: 'cascade')]
     public ?Camp $camp = null;
 

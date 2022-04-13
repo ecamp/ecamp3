@@ -129,7 +129,7 @@ class Profile extends BaseEntity {
 
     #[ApiProperty(writable: false, example: '/users/1a2b3c4d')]
     #[Groups(['read'])]
-    #[ORM\OneToOne(targetEntity: 'User', mappedBy: 'profile')]
+    #[ORM\OneToOne(targetEntity: User::class, mappedBy: 'profile')]
     public User $user;
 
     public function getDisplayName(): ?string {

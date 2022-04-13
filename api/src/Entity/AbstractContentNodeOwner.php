@@ -16,7 +16,7 @@ abstract class AbstractContentNodeOwner extends BaseEntity {
      */
     #[Assert\DisableAutoMapping]
     #[ApiProperty(writable: false, example: '/content_nodes/1a2b3c4d')]
-    #[ORM\OneToOne(targetEntity: 'ContentNode', inversedBy: 'owner', cascade: ['persist'])]
+    #[ORM\OneToOne(targetEntity: ContentNode::class, inversedBy: 'owner', cascade: ['persist'])]
     #[ORM\JoinColumn(nullable: false, unique: true, onDelete: 'cascade')]
     public ?ContentNode $rootContentNode = null;
 

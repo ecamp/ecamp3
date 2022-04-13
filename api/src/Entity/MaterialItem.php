@@ -46,7 +46,7 @@ class MaterialItem extends BaseEntity implements BelongsToCampInterface, CopyFro
     #[AssertBelongsToSameCamp(compareToPrevious: true, groups: ['update'])]
     #[ApiProperty(example: '/material_lists/1a2b3c4d')]
     #[Groups(['read', 'write'])]
-    #[ORM\ManyToOne(targetEntity: 'MaterialList', inversedBy: 'materialItems')]
+    #[ORM\ManyToOne(targetEntity: MaterialList::class, inversedBy: 'materialItems')]
     #[ORM\JoinColumn(nullable: false, onDelete: 'cascade')]
     public ?MaterialList $materialList = null;
 
@@ -57,7 +57,7 @@ class MaterialItem extends BaseEntity implements BelongsToCampInterface, CopyFro
     #[AssertEitherIsNull(other: 'materialNode')]
     #[ApiProperty(example: '/periods/1a2b3c4d')]
     #[Groups(['read', 'write'])]
-    #[ORM\ManyToOne(targetEntity: 'Period', inversedBy: 'materialItems')]
+    #[ORM\ManyToOne(targetEntity: Period::class, inversedBy: 'materialItems')]
     #[ORM\JoinColumn(nullable: true, onDelete: 'cascade')]
     public ?Period $period = null;
 

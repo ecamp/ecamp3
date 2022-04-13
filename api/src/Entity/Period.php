@@ -62,7 +62,7 @@ class Period extends BaseEntity implements BelongsToCampInterface {
      */
     #[ApiProperty(writable: false, example: '["/days?period=/periods/1a2b3c4d"]')]
     #[Groups(['read'])]
-    #[ORM\OneToMany(targetEntity: 'Day', mappedBy: 'period', orphanRemoval: true, cascade: ['persist'])]
+    #[ORM\OneToMany(targetEntity: Day::class, mappedBy: 'period', orphanRemoval: true, cascade: ['persist'])]
     #[ORM\OrderBy(['dayOffset' => 'ASC'])]
     public Collection $days;
 
@@ -74,7 +74,7 @@ class Period extends BaseEntity implements BelongsToCampInterface {
      */
     #[ApiProperty(writable: false, example: '["/schedule_entries/1a2b3c4d"]')]
     #[Groups(['read'])]
-    #[ORM\OneToMany(targetEntity: 'ScheduleEntry', mappedBy: 'period')]
+    #[ORM\OneToMany(targetEntity: ScheduleEntry::class, mappedBy: 'period')]
     #[ORM\OrderBy(['startOffset' => 'ASC', 'left' => 'ASC', 'endOffset' => 'DESC', 'id' => 'ASC'])]
     public Collection $scheduleEntries;
 
@@ -82,7 +82,7 @@ class Period extends BaseEntity implements BelongsToCampInterface {
      * Material items that are assigned directly to the period, as opposed to individual
      * activities.
      */
-    #[ORM\OneToMany(targetEntity: 'MaterialItem', mappedBy: 'period')]
+    #[ORM\OneToMany(targetEntity: MaterialItem::class, mappedBy: 'period')]
     public Collection $materialItems;
 
     /**
@@ -91,7 +91,7 @@ class Period extends BaseEntity implements BelongsToCampInterface {
     #[Assert\Valid(groups: ['Period:delete'])]
     #[ApiProperty(example: '/camps/1a2b3c4d')]
     #[Groups(['read', 'create'])]
-    #[ORM\ManyToOne(targetEntity: 'Camp', inversedBy: 'periods')]
+    #[ORM\ManyToOne(targetEntity: Camp::class, inversedBy: 'periods')]
     #[ORM\JoinColumn(nullable: false)]
     public ?Camp $camp = null;
 

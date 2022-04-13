@@ -63,7 +63,7 @@ class Category extends AbstractContentNodeOwner implements BelongsToCampInterfac
      */
     #[ApiProperty(example: '/camps/1a2b3c4d')]
     #[Groups(['read', 'create'])]
-    #[ORM\ManyToOne(targetEntity: 'Camp', inversedBy: 'categories')]
+    #[ORM\ManyToOne(targetEntity: Camp::class, inversedBy: 'categories')]
     #[ORM\JoinColumn(nullable: false, onDelete: 'cascade')]
     public ?Camp $camp = null;
 
@@ -72,7 +72,7 @@ class Category extends AbstractContentNodeOwner implements BelongsToCampInterfac
      */
     #[ApiProperty(example: '["/content_types/1a2b3c4d"]')]
     #[Groups(['read', 'write'])]
-    #[ORM\ManyToMany(targetEntity: 'ContentType', inversedBy: 'categories')]
+    #[ORM\ManyToMany(targetEntity: ContentType::class, inversedBy: 'categories')]
     #[ORM\JoinTable(name: 'category_contenttype')]
     #[ORM\JoinColumn(name: 'category_id', referencedColumnName: 'id')]
     #[ORM\InverseJoinColumn(name: 'contenttype_id', referencedColumnName: 'id')]
@@ -87,7 +87,7 @@ class Category extends AbstractContentNodeOwner implements BelongsToCampInterfac
         groups: ['delete']
     )]
     #[ApiProperty(readable: false, writable: false)]
-    #[ORM\OneToMany(targetEntity: 'Activity', mappedBy: 'category', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: Activity::class, mappedBy: 'category', orphanRemoval: true)]
     public Collection $activities;
 
     /**

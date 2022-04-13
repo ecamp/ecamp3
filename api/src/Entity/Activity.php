@@ -71,7 +71,7 @@ class Activity extends AbstractContentNodeOwner implements BelongsToCampInterfac
         example: '[{ "period": "/periods/1a2b3c4a", "endOffset": 1100, "startOffset": 1000 }]',
     )]
     #[Groups(['read', 'create'])]
-    #[ORM\OneToMany(targetEntity: 'ScheduleEntry', mappedBy: 'activity', orphanRemoval: true, cascade: ['persist'])]
+    #[ORM\OneToMany(targetEntity: ScheduleEntry::class, mappedBy: 'activity', orphanRemoval: true, cascade: ['persist'])]
     #[ORM\OrderBy(['startOffset' => 'ASC', 'left' => 'ASC', 'endOffset' => 'DESC', 'id' => 'ASC'])]
     public Collection $scheduleEntries;
 
@@ -81,7 +81,7 @@ class Activity extends AbstractContentNodeOwner implements BelongsToCampInterfac
     #[Assert\DisableAutoMapping] // camp is set in the DataPersister
     #[ApiProperty(writable: false, example: '/camps/1a2b3c4d')]
     #[Groups(['read'])]
-    #[ORM\ManyToOne(targetEntity: 'Camp', inversedBy: 'activities')]
+    #[ORM\ManyToOne(targetEntity: Camp::class, inversedBy: 'activities')]
     #[ORM\JoinColumn(nullable: false, onDelete: 'cascade')]
     public ?Camp $camp = null;
 
@@ -92,7 +92,7 @@ class Activity extends AbstractContentNodeOwner implements BelongsToCampInterfac
     #[ApiProperty(example: '/categories/1a2b3c4d')]
     #[AssertBelongsToSameCamp(groups: ['update'])]
     #[Groups(['read', 'write'])]
-    #[ORM\ManyToOne(targetEntity: 'Category', inversedBy: 'activities')]
+    #[ORM\ManyToOne(targetEntity: Category::class, inversedBy: 'activities')]
     #[ORM\JoinColumn(nullable: false)]
     public ?Category $category = null;
 
@@ -117,7 +117,7 @@ class Activity extends AbstractContentNodeOwner implements BelongsToCampInterfac
      */
     #[ApiProperty(writable: false)]
     #[Groups(['read'])]
-    #[ORM\OneToMany(targetEntity: 'ActivityResponsible', mappedBy: 'activity', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: ActivityResponsible::class, mappedBy: 'activity', orphanRemoval: true)]
     private Collection $activityResponsibles;
 
     public function __construct() {

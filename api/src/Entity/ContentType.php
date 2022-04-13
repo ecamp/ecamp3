@@ -61,7 +61,7 @@ class ContentType extends BaseEntity {
      * Backlink to category (only used for filtering contentTypes by category).
      * Internal: not published via API.
      */
-    #[ORM\ManyToMany(targetEntity: 'Category', mappedBy: 'preferredContentTypes')]
+    #[ORM\ManyToMany(targetEntity: Category::class, mappedBy: 'preferredContentTypes')]
     public Collection $categories;
 
     public function __construct() {

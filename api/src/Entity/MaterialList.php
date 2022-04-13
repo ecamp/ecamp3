@@ -42,7 +42,7 @@ class MaterialList extends BaseEntity implements BelongsToCampInterface, CopyFro
      */
     #[ApiProperty(writable: false, example: '["/material_items/1a2b3c4d"]')]
     #[Groups(['read'])]
-    #[ORM\OneToMany(targetEntity: 'MaterialItem', mappedBy: 'materialList')]
+    #[ORM\OneToMany(targetEntity: MaterialItem::class, mappedBy: 'materialList')]
     public Collection $materialItems;
 
     /**
@@ -50,7 +50,7 @@ class MaterialList extends BaseEntity implements BelongsToCampInterface, CopyFro
      */
     #[ApiProperty(example: '/camps/1a2b3c4d')]
     #[Groups(['read', 'create'])]
-    #[ORM\ManyToOne(targetEntity: 'Camp', inversedBy: 'materialLists')]
+    #[ORM\ManyToOne(targetEntity: Camp::class, inversedBy: 'materialLists')]
     #[ORM\JoinColumn(nullable: false, onDelete: 'cascade')]
     public ?Camp $camp = null;
 
@@ -59,7 +59,7 @@ class MaterialList extends BaseEntity implements BelongsToCampInterface, CopyFro
      */
     #[ApiProperty(writable: false, example: '/camp_collaborations/1a2b3c4d')]
     #[Groups(['read'])]
-    #[ORM\OneToOne(targetEntity: 'CampCollaboration')]
+    #[ORM\OneToOne(targetEntity: CampCollaboration::class)]
     #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
     public ?CampCollaboration $campCollaboration = null;
 

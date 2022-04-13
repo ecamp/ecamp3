@@ -58,7 +58,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface, CopyFromPrototy
     #[AssertContainsAtLeastOneManager(groups: ['update'])]
     #[SerializedName('campCollaborations')]
     #[Groups(['read'])]
-    #[ORM\OneToMany(targetEntity: 'CampCollaboration', mappedBy: 'camp', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: CampCollaboration::class, mappedBy: 'camp', orphanRemoval: true)]
     public Collection $collaborations;
 
     /**
@@ -74,7 +74,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface, CopyFromPrototy
         example: '[{ "description": "Hauptlager", "start": "2022-01-01", "end": "2022-01-08" }]',
     )]
     #[Groups(['read', 'create'])]
-    #[ORM\OneToMany(targetEntity: 'Period', mappedBy: 'camp', orphanRemoval: true, cascade: ['persist'])]
+    #[ORM\OneToMany(targetEntity: Period::class, mappedBy: 'camp', orphanRemoval: true, cascade: ['persist'])]
     #[ORM\OrderBy(['start' => 'ASC'])]
     public Collection $periods;
 
@@ -83,7 +83,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface, CopyFromPrototy
      */
     #[ApiProperty(writable: false, example: '["/categories/1a2b3c4d"]')]
     #[Groups(['read'])]
-    #[ORM\OneToMany(targetEntity: 'Category', mappedBy: 'camp', orphanRemoval: true, cascade: ['persist'])]
+    #[ORM\OneToMany(targetEntity: Category::class, mappedBy: 'camp', orphanRemoval: true, cascade: ['persist'])]
     public Collection $categories;
 
     /**
@@ -92,7 +92,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface, CopyFromPrototy
      */
     #[ApiProperty(writable: false, example: '["/activities/1a2b3c4d"]')]
     #[Groups(['read'])]
-    #[ORM\OneToMany(targetEntity: 'Activity', mappedBy: 'camp', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: Activity::class, mappedBy: 'camp', orphanRemoval: true)]
     public Collection $activities;
 
     /**
@@ -101,7 +101,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface, CopyFromPrototy
      */
     #[ApiProperty(writable: false, example: '["/material_lists/1a2b3c4d"]')]
     #[Groups(['read'])]
-    #[ORM\OneToMany(targetEntity: 'MaterialList', mappedBy: 'camp', orphanRemoval: true, cascade: ['persist'])]
+    #[ORM\OneToMany(targetEntity: MaterialList::class, mappedBy: 'camp', orphanRemoval: true, cascade: ['persist'])]
     public Collection $materialLists;
 
     /**
@@ -214,7 +214,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface, CopyFromPrototy
     #[Assert\DisableAutoMapping]
     #[ApiProperty(writable: false)]
     #[Groups(['read'])]
-    #[ORM\ManyToOne(targetEntity: 'User')]
+    #[ORM\ManyToOne(targetEntity: User::class)]
     #[ORM\JoinColumn(nullable: false)]
     public ?User $creator = null;
 
@@ -224,7 +224,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface, CopyFromPrototy
      */
     #[Assert\DisableAutoMapping]
     #[ApiProperty(readable: false, writable: false)]
-    #[ORM\ManyToOne(targetEntity: 'User', inversedBy: 'ownedCamps')]
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'ownedCamps')]
     #[ORM\JoinColumn(nullable: false)]
     public ?User $owner = null;
 

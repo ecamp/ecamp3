@@ -45,7 +45,7 @@ class MultiSelectOption extends BaseEntity implements BelongsToCampInterface, So
     #[ApiProperty(readableLink: false, writableLink: false)]
     #[Gedmo\SortableGroup]
     #[Groups(['read'])]
-    #[ORM\ManyToOne(targetEntity: 'MultiSelect', inversedBy: 'options')]
+    #[ORM\ManyToOne(targetEntity: MultiSelect::class, inversedBy: 'options')]
     #[ORM\JoinColumn(nullable: false, onDelete: 'cascade')]
     public ?MultiSelect $multiSelect = null;
 

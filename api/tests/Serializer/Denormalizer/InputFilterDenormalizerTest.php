@@ -315,10 +315,10 @@ class DummyEntity {
     #[AppendB(priority: 10)]
     public $ba;
 
-    #[ORM\OneToOne(targetEntity: 'RelatedEntity')]
+    #[ORM\OneToOne(targetEntity: RelatedEntity::class)]
     public RelatedEntity $relatedEntity;
 
-    #[ORM\OneToMany(targetEntity: 'RelatedEntity')]
+    #[ORM\OneToMany(targetEntity: RelatedEntity::class)]
     public Collection $collection;
 
     #[ORM\Embedded(class: 'EmbeddableEntity')]

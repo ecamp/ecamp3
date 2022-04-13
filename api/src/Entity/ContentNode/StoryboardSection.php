@@ -50,7 +50,7 @@ class StoryboardSection extends BaseEntity implements BelongsToCampInterface, So
     #[ApiProperty(readableLink: false, writableLink: false)]
     #[Gedmo\SortableGroup]
     #[Groups(['read', 'create'])]
-    #[ORM\ManyToOne(targetEntity: 'Storyboard', inversedBy: 'sections')]
+    #[ORM\ManyToOne(targetEntity: Storyboard::class, inversedBy: 'sections')]
     #[ORM\JoinColumn(nullable: false, onDelete: 'cascade')]
     public ?Storyboard $storyboard = null;
 

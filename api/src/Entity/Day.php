@@ -66,7 +66,7 @@ class Day extends BaseEntity implements BelongsToCampInterface {
      */
     #[ApiProperty(writable: false, example: '["/day_responsibles/1a2b3c4d"]')]
     #[Groups(['read'])]
-    #[ORM\OneToMany(targetEntity: 'DayResponsible', mappedBy: 'day', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: DayResponsible::class, mappedBy: 'day', orphanRemoval: true)]
     public Collection $dayResponsibles;
 
     /**
@@ -74,7 +74,7 @@ class Day extends BaseEntity implements BelongsToCampInterface {
      */
     #[ApiProperty(example: '/periods/1a2b3c4d')]
     #[Groups(['read'])]
-    #[ORM\ManyToOne(targetEntity: 'Period', inversedBy: 'days')]
+    #[ORM\ManyToOne(targetEntity: Period::class, inversedBy: 'days')]
     #[ORM\JoinColumn(nullable: false, onDelete: 'cascade')]
     public ?Period $period = null;
 

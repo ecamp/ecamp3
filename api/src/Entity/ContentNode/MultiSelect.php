@@ -41,7 +41,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 class MultiSelect extends ContentNode {
     #[ApiProperty(readableLink: true, writableLink: false)]
     #[Groups(['read'])]
-    #[ORM\OneToMany(targetEntity: 'MultiSelectOption', mappedBy: 'multiSelect', orphanRemoval: true, cascade: ['persist'])]
+    #[ORM\OneToMany(targetEntity: MultiSelectOption::class, mappedBy: 'multiSelect', orphanRemoval: true, cascade: ['persist'])]
     public Collection $options;
 
     public function __construct() {
