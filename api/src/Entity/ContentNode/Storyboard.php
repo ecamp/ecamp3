@@ -12,10 +12,6 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
-/**
- * @ORM\Entity(repositoryClass=StoryboardRepository::class)
- * @ORM\Table(name="content_node_storyboard")
- */
 #[ApiResource(
     routePrefix: '/content_node',
     collectionOperations: [
@@ -40,12 +36,12 @@ use Symfony\Component\Serializer\Annotation\Groups;
     denormalizationContext: ['groups' => ['write']],
     normalizationContext: ['groups' => ['read']],
 )]
+#[ORM\Entity(repositoryClass: StoryboardRepository::class)]
+#[ORM\Table(name: 'content_node_storyboard')]
 class Storyboard extends ContentNode {
-    /**
-     * @ORM\OneToMany(targetEntity="StoryboardSection", mappedBy="storyboard", orphanRemoval=true, cascade={"persist"})
-     */
     #[ApiProperty(readableLink: true, writableLink: false)]
     #[Groups(['read'])]
+    #[ORM\OneToMany(targetEntity: 'StoryboardSection', mappedBy: 'storyboard', orphanRemoval: true, cascade: ['persist'])]
     public Collection $sections;
 
     public function __construct() {

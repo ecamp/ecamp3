@@ -23,11 +23,6 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
  * along with a number of days offset from the period's starting date. This is to make it
  * easier to move the whole periods to different dates. Days are created automatically when
  * creating or updating periods, and are not writable through the API directly.
- *
- * @ORM\Entity(repositoryClass=DayRepository::class)
- * @ORM\Table(uniqueConstraints={
- *     @ORM\UniqueConstraint(name="offset_period_idx", columns={"periodId", "dayOffset"})
- * })
  */
 #[ApiResource(
     collectionOperations: [
@@ -48,6 +43,8 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
 )]
 #[ApiFilter(SearchFilter::class, properties: ['period'])]
 #[UniqueEntity(fields: ['period', 'dayOffset'])]
+#[ORM\Entity(repositoryClass: DayRepository::class)]
+#[ORM\UniqueConstraint(name: 'offset_period_idx', columns: ['periodId', 'dayOffset'])]
 class Day extends BaseEntity implements BelongsToCampInterface {
     public const ITEM_NORMALIZATION_CONTEXT = [
         'groups' => [
@@ -66,30 +63,27 @@ class Day extends BaseEntity implements BelongsToCampInterface {
 
     /**
      * The list of people who have a whole-day responsibility on this day.
-     *
-     * @ORM\OneToMany(targetEntity="DayResponsible", mappedBy="day", orphanRemoval=true)
      */
     #[ApiProperty(writable: false, example: '["/day_responsibles/1a2b3c4d"]')]
     #[Groups(['read'])]
+    #[ORM\OneToMany(targetEntity: 'DayResponsible', mappedBy: 'day', orphanRemoval: true)]
     public Collection $dayResponsibles;
 
     /**
      * The time period that this day belongs to.
-     *
-     * @ORM\ManyToOne(targetEntity="Period", inversedBy="days")
-     * @ORM\JoinColumn(nullable=false, onDelete="cascade")
      */
     #[ApiProperty(example: '/periods/1a2b3c4d')]
     #[Groups(['read'])]
+    #[ORM\ManyToOne(targetEntity: 'Period', inversedBy: 'days')]
+    #[ORM\JoinColumn(nullable: false, onDelete: 'cascade')]
     public ?Period $period = null;
 
     /**
      * The 0-based offset in days from the period's start date when this day starts.
-     *
-     * @ORM\Column(type="integer")
      */
     #[ApiProperty(writable: false, example: '1')]
     #[Groups(['read'])]
+    #[ORM\Column(type: 'integer')]
     public int $dayOffset = 0;
 
     public function __construct() {

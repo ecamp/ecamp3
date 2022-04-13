@@ -15,11 +15,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * A person that is responsible for planning or carrying out an activity.
- *
- * @ORM\Entity(repositoryClass=ActivityResponsibleRepository::class)
- * @ORM\Table(uniqueConstraints={
- *     @ORM\UniqueConstraint(name="activity_campCollaboration_unique", columns={"activityId", "campCollaborationId"})
- * })
  */
 #[ApiResource(
     collectionOperations: [
@@ -38,27 +33,27 @@ use Symfony\Component\Validator\Constraints as Assert;
     message: 'This campCollaboration (user) is already responsible for this activity.',
 )]
 #[ApiFilter(SearchFilter::class, properties: ['activity', 'activity.camp'])]
+#[ORM\Entity(repositoryClass: ActivityResponsibleRepository::class)]
+#[ORM\UniqueConstraint(name: 'activity_campCollaboration_unique', columns: ['activityId', 'campCollaborationId'])]
 class ActivityResponsible extends BaseEntity implements BelongsToCampInterface {
     /**
      * The activity that the person is responsible for.
-     *
-     * @ORM\ManyToOne(targetEntity="Activity", inversedBy="activityResponsibles")
-     * @ORM\JoinColumn(nullable=false, onDelete="cascade")
      */
     #[Assert\NotNull]
     #[ApiProperty(example: '/activities/1a2b3c4d')]
     #[Groups(['read', 'write'])]
+    #[ORM\ManyToOne(targetEntity: 'Activity', inversedBy: 'activityResponsibles')]
+    #[ORM\JoinColumn(nullable: false, onDelete: 'cascade')]
     public ?Activity $activity = null;
 
     /**
      * The person that is responsible. Must be a collaborator in the same camp as the activity.
-     *
-     * @ORM\ManyToOne(targetEntity="CampCollaboration", inversedBy="activityResponsibles")
-     * @ORM\JoinColumn(nullable=false)
      */
     #[ApiProperty(example: '/camp_collaborations/1a2b3c4d')]
     #[AssertBelongsToSameCamp]
     #[Groups(['read', 'write'])]
+    #[ORM\ManyToOne(targetEntity: 'CampCollaboration', inversedBy: 'activityResponsibles')]
+    #[ORM\JoinColumn(nullable: false)]
     public ?CampCollaboration $campCollaboration = null;
 
     #[ApiProperty(readable: false)]

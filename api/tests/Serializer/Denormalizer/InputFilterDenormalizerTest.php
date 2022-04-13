@@ -315,19 +315,13 @@ class DummyEntity {
     #[AppendB(priority: 10)]
     public $ba;
 
-    /**
-     * @ORM\OneToOne(targetEntity="RelatedEntity")
-     */
+    #[ORM\OneToOne(targetEntity: 'RelatedEntity')]
     public RelatedEntity $relatedEntity;
 
-    /**
-     * @ORM\OneToMany(targetEntity="RelatedEntity")
-     */
+    #[ORM\OneToMany(targetEntity: 'RelatedEntity')]
     public Collection $collection;
 
-    /**
-     * @ORM\Embedded(class="EmbeddableEntity")
-     */
+    #[ORM\Embedded(class: 'EmbeddableEntity')]
     public EmbeddableEntity $embeddableEntity;
 
     public function __construct($foo, $bar) {
@@ -347,7 +341,7 @@ class RelatedEntity extends BaseEntity {
     public string $a;
 }
 
-/** @ORM\Embeddable */
+#[ORM\Embeddable]
 class EmbeddableEntity {
     #[Dummy]
     public string $dummy;

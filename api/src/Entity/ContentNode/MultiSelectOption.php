@@ -18,10 +18,6 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Serializer\Annotation\Groups;
 
-/**
- * @ORM\Entity(repositoryClass=MultiSelectOptionRepository::class)
- * @ORM\Table(name="content_node_multiselect_option")
- */
 #[ApiResource(
     routePrefix: '/content_node',
     collectionOperations: [
@@ -41,28 +37,26 @@ use Symfony\Component\Serializer\Annotation\Groups;
     order: ['multiSelect.id', 'position']
 )]
 #[ApiFilter(SearchFilter::class, properties: ['multiSelect'])]
+#[ORM\Entity(repositoryClass: MultiSelectOptionRepository::class)]
+#[ORM\Table(name: 'content_node_multiselect_option')]
 class MultiSelectOption extends BaseEntity implements BelongsToCampInterface, SortableEntityInterface, CopyFromPrototypeInterface {
     use SortableEntityTrait;
 
     /**
-     * @ORM\ManyToOne(targetEntity="MultiSelect", inversedBy="options")
-     * @ORM\JoinColumn(nullable=false, onDelete="cascade")
      * @Gedmo\SortableGroup
      */
     #[ApiProperty(readableLink: false, writableLink: false)]
     #[Groups(['read'])]
+    #[ORM\ManyToOne(targetEntity: 'MultiSelect', inversedBy: 'options')]
+    #[ORM\JoinColumn(nullable: false, onDelete: 'cascade')]
     public ?MultiSelect $multiSelect = null;
 
-    /**
-     * @ORM\Column(type="text", nullable=false)
-     */
     #[Groups(['read'])]
+    #[ORM\Column(type: 'text', nullable: false)]
     public string $translateKey;
 
-    /**
-     * @ORM\Column(type="boolean", nullable=false)
-     */
     #[Groups(['read', 'update'])]
+    #[ORM\Column(type: 'boolean', nullable: false)]
     public bool $checked = false;
 
     #[ApiProperty(readable: false)]

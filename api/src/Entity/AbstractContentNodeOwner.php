@@ -6,21 +6,18 @@ use ApiPlatform\Core\Annotation\ApiProperty;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * @ORM\Entity
- * @ORM\InheritanceType("JOINED")
- * @ORM\DiscriminatorColumn(name="entityType", type="string")
- */
+#[ORM\Entity]
+#[ORM\InheritanceType('JOINED')]
+#[ORM\DiscriminatorColumn(name: 'entityType', type: 'string')]
 abstract class AbstractContentNodeOwner extends BaseEntity {
     /**
      * The programme contents, organized as a tree of content nodes. The root content node cannot be
      * exchanged, but all the contents attached to it can.
-     *
-     * @ORM\OneToOne(targetEntity="ContentNode", inversedBy="owner", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=false, unique=true, onDelete="cascade")
      */
     #[Assert\DisableAutoMapping]
     #[ApiProperty(writable: false, example: '/content_nodes/1a2b3c4d')]
+    #[ORM\OneToOne(targetEntity: 'ContentNode', inversedBy: 'owner', cascade: ['persist'])]
+    #[ORM\JoinColumn(nullable: false, unique: true, onDelete: 'cascade')]
     public ?ContentNode $rootContentNode = null;
 
     public function __construct() {
