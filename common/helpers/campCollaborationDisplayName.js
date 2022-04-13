@@ -1,4 +1,4 @@
-import i18n from '@/plugins/i18n'
+import { i18n } from '@/plugins/i18n' // this imports i18-plugin from "frontend" or from "print", depending on where the helper is used
 
 /**
  * Returns a display name for a camp collaboration based on its status
