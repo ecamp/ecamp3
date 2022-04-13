@@ -42,10 +42,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
 class MultiSelectOption extends BaseEntity implements BelongsToCampInterface, SortableEntityInterface, CopyFromPrototypeInterface {
     use SortableEntityTrait;
 
-    /**
-     * @Gedmo\SortableGroup
-     */
     #[ApiProperty(readableLink: false, writableLink: false)]
+    #[Gedmo\SortableGroup]
     #[Groups(['read'])]
     #[ORM\ManyToOne(targetEntity: 'MultiSelect', inversedBy: 'options')]
     #[ORM\JoinColumn(nullable: false, onDelete: 'cascade')]

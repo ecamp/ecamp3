@@ -22,17 +22,13 @@ abstract class BaseEntity {
     #[ORM\Column(type: 'string', length: 16, nullable: false)]
     protected string $id;
 
-    /**
-     * @Gedmo\Timestampable(on="create")
-     */
     #[ApiProperty(writable: false)]
+    #[Gedmo\Timestampable(on: 'create')]
     #[ORM\Column(type: 'datetime')]
     protected DateTime $createTime;
 
-    /**
-     * @Gedmo\Timestampable(on="update")
-     */
     #[ApiProperty(writable: false)]
+    #[Gedmo\Timestampable(on: 'update')]
     #[ORM\Column(type: 'datetime')]
     protected DateTime $updateTime;
 

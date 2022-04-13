@@ -52,10 +52,9 @@ abstract class ContentNode extends BaseEntity implements BelongsToCampInterface,
     /**
      * The content node that is the root of the content node tree. Refers to itself in case this
      * content node is the root.
-     *
-     * @Gedmo\SortableGroup - this is needed to avoid that all root nodes are in the same sort group (parent:null, slot: '')
      */
     #[ApiProperty(writable: false, example: '/content_nodes/1a2b3c4d')]
+    #[Gedmo\SortableGroup] // this is needed to avoid that all root nodes are in the same sort group (parent:null, slot: '')
     #[Groups(['read'])]
     #[ORM\ManyToOne(targetEntity: 'ContentNode', inversedBy: 'rootDescendants')]
     #[ORM\JoinColumn(nullable: true)] // TODO make not null in the DB using a migration, and get fixtures to run
@@ -73,8 +72,6 @@ abstract class ContentNode extends BaseEntity implements BelongsToCampInterface,
      * root of a content node tree. For non-root content nodes, the parent can be changed, as long
      * as the new parent is in the same camp as the old one. A content node is defined as root when
      * it has an owner.
-     *
-     * @Gedmo\SortableGroup
      */
     #[AssertEitherIsNull(
         other: 'owner',
@@ -84,6 +81,7 @@ abstract class ContentNode extends BaseEntity implements BelongsToCampInterface,
     #[AssertBelongsToSameOwner(groups: ['update'])]
     #[AssertNoLoop(groups: ['update'])]
     #[ApiProperty(example: '/content_nodes/1a2b3c4d')]
+    #[Gedmo\SortableGroup]
     #[Groups(['read', 'write'])]
     #[ORM\ManyToOne(targetEntity: 'ContentNode', inversedBy: 'children')]
     #[ORM\JoinColumn(onDelete: 'CASCADE')]
@@ -100,10 +98,9 @@ abstract class ContentNode extends BaseEntity implements BelongsToCampInterface,
     /**
      * The name of the slot in the parent in which this content node resides. The valid slot names
      * are defined by the content type of the parent.
-     *
-     * @Gedmo\SortableGroup
      */
     #[ApiProperty(example: 'footer')]
+    #[Gedmo\SortableGroup]
     #[Groups(['read', 'write'])]
     #[ORM\Column(type: 'text', nullable: true)]
     public ?string $slot = null;
@@ -111,10 +108,9 @@ abstract class ContentNode extends BaseEntity implements BelongsToCampInterface,
     /**
      * A whole number used for ordering multiple content nodes that are in the same slot of the
      * same parent. The API does not guarantee the uniqueness of parent+slot+position.
-     *
-     * @Gedmo\SortablePosition
      */
     #[ApiProperty(example: '0')]
+    #[Gedmo\SortablePosition]
     #[Groups(['read', 'write'])]
     #[ORM\Column(type: 'integer', nullable: false)]
     public int $position = -1;

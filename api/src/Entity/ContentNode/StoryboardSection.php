@@ -47,10 +47,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
 class StoryboardSection extends BaseEntity implements BelongsToCampInterface, SortableEntityInterface, CopyFromPrototypeInterface {
     use SortableEntityTrait;
 
-    /**
-     * @Gedmo\SortableGroup
-     */
     #[ApiProperty(readableLink: false, writableLink: false)]
+    #[Gedmo\SortableGroup]
     #[Groups(['read', 'create'])]
     #[ORM\ManyToOne(targetEntity: 'Storyboard', inversedBy: 'sections')]
     #[ORM\JoinColumn(nullable: false, onDelete: 'cascade')]
