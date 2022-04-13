@@ -25,9 +25,12 @@ services:
       - CYPRESS_CACHE_FOLDER=/home/node/.cache/Cypress
 
   php:
+    image: ecamp/ecamp3-api
     build:
       context: ./api
       target: api_platform_php_dev
+      cache_from:
+        - ecamp/ecamp3-api
     container_name: 'ecamp3-api'
     depends_on:
       - database
@@ -38,6 +41,7 @@ services:
       - ./api:/srv/api:rw,cached
       - ./api/docker/php/conf.d/api-platform.dev.ini:/usr/local/etc/php/conf.d/api-platform.ini
       - ./api/docker/php/docker-entrypoint.sh:/usr/local/bin/docker-entrypoint
+      - ./.cache/composer:/tmp/composer/cache
     environment:
       APP_ENV: dev
       DATA_MIGRATIONS_DIR: dev-data
@@ -45,11 +49,10 @@ services:
       # See https://github.com/docker/for-linux/issues/264
       # The `remote_host` below may optionally be replaced with `remote_connect_back`
       # XDEBUG_MODE required for step debugging
-      XDEBUG_MODE: develop,debug,coverage
+      XDEBUG_MODE: ${XDEBUG_MODE}
       # default port for Xdebug 3 is 9003
       # idekey=VSCODE if you are debugging with VSCode
-      XDEBUG_CONFIG: >-
-        client_host=docker-host idekey=PHPSTORM
+      XDEBUG_CONFIG: ${XDEBUG_CONFIG}
       # This should correspond to the server declared in PHPStorm `Preferences | Languages & Frameworks | PHP | Servers`
       # Then PHPStorm will use the corresponding path mappings
       PHP_IDE_CONFIG: serverName=localhost
@@ -61,9 +64,12 @@ services:
     user: ${USER_ID:-1000}
 
   caddy:
+    image: ecamp/ecamp3-caddy
     build:
       context: ./api
       target: api_platform_caddy
+      cache_from:
+        - ecamp/ecamp3-caddy
     container_name: 'ecamp3-caddy'
     depends_on:
       - php

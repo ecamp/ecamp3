@@ -7,6 +7,8 @@ on:
 
 env:
   USER_ID: 1001
+  DOCKER_BUILDKIT: 1
+  COMPOSE_DOCKER_CLI_BUILD: 1
 
 jobs:
   api-validate-composer-lock:
@@ -322,12 +324,62 @@ jobs:
 
       - run: cp .env.ci .env
 
-      - run: docker-compose up -d
+      - name: Set up Docker Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@v1
 
+      # build API (using cache; provide image to docker-compose)
+      - name: Build docker image (API/PHP)
+        uses: docker/build-push-action@v2
+        with:
+          file: api/Dockerfile
+          context: './api'
+          push: false
+          load: true
+          target: api_platform_php_dev
+          builder: ${{ steps.buildx.outputs.name }}
+          tags: ecamp/ecamp3-api
+          cache-from: type=gha,scope=api
+          cache-to: type=gha,scope=api,mode=max
+
+      # build caddy (using cache; provide image to docker-compose)
+      - name: Build docker image (Caddy)
+        uses: docker/build-push-action@v2
+        with:
+          file: api/Dockerfile
+          context: './api'
+          push: false
+          load: true
+          target: api_platform_caddy
+          builder: ${{ steps.buildx.outputs.name }}
+          tags: ecamp/ecamp3-caddy
+          cache-from: type=gha,scope=caddy
+          cache-to: type=gha,scope=caddy,mode=max
+
+      - name: Restore cache volumes (npm, composer)
+        uses: actions/cache@937d24475381cd9c75ae6db12cb4e79714b926ed # renovate: tag=v2
+        with:
+          path: .cache
+          key: docker-compose-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            docker-compose-
+
+      # start necessary containers
+      - run: docker-compose up -d php caddy frontend database docker-host
+
+      # pull cypress while container are starting up
+      - run: docker pull cypress/included:9.5.1
+
+      # wait for backend & frontend to be up and running
       - run: bash wait-for-container-startup.sh
 
+      # run end-to-end tests
       - run: docker run -v $PWD:/e2e -w /e2e --network host -e CYPRESS_BASE_URL=http://localhost:3000 cypress/included:9.5.1
         working-directory: frontend
+          
+      # print docker container logs (good for debugging; can be disabled again lateron)
+      - run: docker-compose logs --tail="all"
+
 
   test-development-setup:
     name: "Tests: End-to-end for development setup"

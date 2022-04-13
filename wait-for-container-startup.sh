@@ -7,7 +7,6 @@ do
 done
 echo "API container is ready."
 
-
 echo "Waiting for frontend container to start up..."
 until curl --output /dev/null --silent --fail http://localhost:3000
 do
