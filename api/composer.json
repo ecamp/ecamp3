@@ -8,7 +8,6 @@
         "api-platform/core": "2.6.8",
         "composer/package-versions-deprecated": "1.11.99",
         "cweagans/composer-patches": "1.7.2",
-        "doctrine/annotations": "1.13.2",
         "doctrine/doctrine-bundle": "2.5.7",
         "doctrine/doctrine-migrations-bundle": "3.2.2",
         "doctrine/orm": "2.11.2",
