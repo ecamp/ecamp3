@@ -150,11 +150,8 @@ services:
     restart: on-failure
 
   browserless:
-    image: ecamp/ecamp3-browserless
     build:
       context: ./print/browserless
-      cache_from:
-        - ecamp/ecamp3-browserless:latest
     container_name: 'ecamp3-browserless'
     ports:
       - '3010:3000'
