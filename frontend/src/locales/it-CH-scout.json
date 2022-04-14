@@ -8,5 +8,17 @@
   },
   "global": {
     "language": "Italiano (Scout)"
+  },
+  "contentNode": {
+    "storycontext": {
+      "name": "Filo rosso"
+    }
+  },
+  "views": {
+    "camp": {
+      "story": {
+        "title": "Filo rosso"
+      }
+    }
   }
 }
