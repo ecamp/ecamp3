@@ -68,7 +68,7 @@
     "vuex": "3.6.2"
   },
   "devDependencies": {
-    "@testing-library/jest-dom": "5.16.2",
+    "@testing-library/jest-dom": "5.16.4",
     "@testing-library/vue": "5.8.2",
     "@vue/cli-plugin-babel": "5.0.4",
     "@vue/cli-plugin-e2e-cypress": "5.0.4",
