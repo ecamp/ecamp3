@@ -1,52 +1,46 @@
 <template>
-  <v-expansion-panel-content class="e-story-day">
+  <div class="e-story-day contents">
     <h3 class="body-2 grey--text text--darken-2 e-story-day-title">
       {{ dateLong(day.start) }}
     </h3>
     <template v-if="entriesWithStory.length">
       <template v-for="{ scheduleEntry, storyChapters } in entriesWithStory">
         <div v-for="chapter in storyChapters" :key="chapter._meta.uri">
-          <h4 class="mt-1 mb-2">
-            <div class="d-flex">
-              {{ scheduleEntry.number }}
-              <v-chip v-if="!scheduleEntry.activity().category()._meta.loading"
-                      small
-                      dark
-                      class="mx-1"
-                      :color="scheduleEntry.activity().category().color">
-                {{ scheduleEntry.activity().category().short }}
-              </v-chip>
-              {{ scheduleEntry.activity().title }}
+          <h4 class="mt-2 mt-sm-3">
+            <span class="d-inline-flex align-center">
+              <span class="tabular-nums">{{ scheduleEntry.number }}</span>
+              <CategoryChip :category="scheduleEntry.activity().category" class="mx-1" />
+            </span>
+            <router-link
+              :to="{ name: 'activity', params: { campId: day.period().camp().id, scheduleEntryId: scheduleEntry.id } }"
+              class="e-title-link">
+              <span>{{ scheduleEntry.activity().title }}</span>
               <template v-if="chapter.instanceName">
                 - {{ chapter.instanceName }}
               </template>
-              <v-spacer />
-              <router-link :to="{ name: 'activity', params: { campId: day.period().camp().id, scheduleEntryId: scheduleEntry.id } }">
-                <v-icon small>mdi-open-in-new</v-icon>
-              </router-link>
-            </div>
+            </router-link>
           </h4>
-          <api-form v-show="editing"
-                    :entity="chapter">
-            <api-textarea
-              fieldname="text"
-              label=""
-              auto-grow
-              :outlined="false"
-              :solo="false"
-              dense />
+          <api-form v-show="editing" :entity="chapter">
+            <api-textarea :outlined="false"
+                          :solo="false"
+                          auto-grow
+                          dense
+                          fieldname="text"
+                          aria-label="Erfassen"
+                          label="" />
           </api-form>
           <tiptap-editor v-show="!editing"
-                         :value="chapter.text"
+                         :class="{'readonly': !editing}"
                          :editable="false"
-                         class="mt-1 v-input" />
+                         :value="chapter.text"
+                         class="v-input mb-1" />
         </div>
       </template>
     </template>
-    <div v-else class="grey--text">
+    <p v-else>
       {{ $tc('components.story.storyDay.noStory') }}
-    </div>
-  </v-expansion-panel-content>
+    </p>
+  </div>
 </template>
 <script>
 import { sortBy } from 'lodash'
@@ -89,7 +83,11 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+.readonly ::v-deep .ProseMirror-trailingBreak {
+  display: none;
+}
+
 .e-story-day + .e-story-day .e-story-day-title {
   border-top: 1px solid #eee;
   padding-top: 5px;
