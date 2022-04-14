@@ -6,16 +6,16 @@ Admin screen of a camp: Displays details & periods of a single camp and allows t
   <content-card :title="$tc('views.camp.story.title')" toolbar>
     <template #title-actions>
       <template v-if="$vuetify.breakpoint.smAndUp">
-        <e-switch v-model="editing" :label="$tc('global.button.editable')"
+        <e-switch v-model="editing" :disabled="!isContributor"
+                  :label="$tc('global.button.editable')"
                   class="ec-story-editable ml-auto"
-                  :disabled="!isContributor"
                   @click="$event.preventDefault()" />
       </template>
       <v-menu v-else offset-y>
         <template #activator="{ on, attrs }">
           <v-btn
-            text icon
             class="ml-auto"
+            text icon
             v-bind="attrs"
             v-on="on">
             <v-icon>mdi-dots-vertical</v-icon>
@@ -38,18 +38,25 @@ Admin screen of a camp: Displays details & periods of a single camp and allows t
         </v-list>
       </v-menu>
     </template>
-    <v-expansion-panels v-model="openPeriods" multiple
-                        flat accordion>
+    <v-expansion-panels v-if="camp().periods().items.length > 1" v-model="openPeriods"
+                        accordion
+                        flat multiple>
       <story-period v-for="period in camp().periods().items"
                     :key="period._meta.self"
-                    :period="period"
-                    :editing="editing" />
+                    :editing="editing"
+                    :period="period" />
     </v-expansion-panels>
+    <div v-else-if="camp().periods().items.length === 1" class="px-4">
+      <story-day v-for="day in camp().periods().items[0].days().items" :key="day._meta.self"
+                 :day="day"
+                 :editing="editing"
+                 class="my-4" />
+    </div>
     <v-card-actions v-if="$vuetify.breakpoint.smAndUp">
       <v-btn
+        :href="previewUrl"
         class="ml-auto"
         color="primary"
-        :href="previewUrl"
         target="_blank">
         <v-icon left>mdi-printer</v-icon>
         {{ $tc('views.camp.print.title') }}
@@ -62,12 +69,14 @@ Admin screen of a camp: Displays details & periods of a single camp and allows t
 import ContentCard from '@/components/layout/ContentCard.vue'
 import StoryPeriod from '@/components/story/StoryPeriod.vue'
 import { campRoleMixin } from '@/mixins/campRoleMixin'
+import StoryDay from '@/components/story/StoryDay.vue'
 
 const PRINT_SERVER = window.environment.PRINT_SERVER
 
 export default {
   name: 'Story',
   components: {
+    StoryDay,
     StoryPeriod,
     ContentCard
   },

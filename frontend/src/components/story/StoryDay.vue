@@ -3,7 +3,10 @@
     <h3 class="body-2 grey--text text--darken-2 e-story-day-title">
       {{ dateLong(day.start) }}
     </h3>
-    <template v-if="entriesWithStory.length">
+    <template v-if="loading">
+      <v-skeleton-loader class="mt-2 mt-sm-3" type="list-item-three-line" />
+    </template>
+    <template v-else-if="entriesWithStory.length">
       <template v-for="{ scheduleEntry, storyChapters } in entriesWithStory">
         <div v-for="chapter in storyChapters" :key="chapter._meta.uri">
           <h4 class="mt-2 mt-sm-3">
@@ -48,27 +51,36 @@ import ApiForm from '@/components/form/api/ApiForm.vue'
 import ApiTextarea from '@/components/form/api/ApiTextarea.vue'
 import TiptapEditor from '@/components/form/tiptap/TiptapEditor.vue'
 import { dateLong } from '@/common/helpers/dateHelperUTCFormatted.js'
+import CategoryChip from '@/components/story/CategoryChip.vue'
 
 export default {
   name: 'StoryDay',
-  components: { TiptapEditor, ApiForm, ApiTextarea },
+  components: {
+    CategoryChip,
+    TiptapEditor,
+    ApiForm,
+    ApiTextarea
+  },
   props: {
     day: { type: Object, required: true },
     editing: { type: Boolean, default: false }
   },
   computed: {
+    loading () {
+      return this.day.scheduleEntries()._meta.loading || this.sortedScheduleEntries.some(entry => entry.activity().contentNodes()._meta.loading)
+    },
     sortedScheduleEntries () {
       return sortBy(this.day.scheduleEntries().items, scheduleEntry => scheduleEntry.start)
     },
     entries () {
-      return this.sortedScheduleEntries.map(scheduleEntry => {
-        return {
+      return this.sortedScheduleEntries.map(scheduleEntry =>
+        ({
           scheduleEntry: scheduleEntry,
           storyChapters: (scheduleEntry.activity().contentNodes() || { items: [] })
             .items
             .filter(contentNode => contentNode.contentTypeName === 'Storycontext')
-        }
-      })
+        })
+      )
     },
     entriesWithStory () {
       return this.entries.filter(({ storyChapters }) => storyChapters.length)
@@ -91,5 +103,10 @@ export default {
 .e-story-day + .e-story-day .e-story-day-title {
   border-top: 1px solid #eee;
   padding-top: 5px;
+}
+
+::v-deep .v-skeleton-loader__list-item-three-line {
+  padding: 0;
+  height: auto;
 }
 </style>
