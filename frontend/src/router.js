@@ -20,8 +20,15 @@ export default new Router({
       path: '/controls',
       name: 'controls',
       components: {
-        navigation: NavigationDefault,
-        default: () => import(/* webpackChunkName: "register" */ './views/dev/Controls.vue')
+        default: () => import(/* webpackChunkName: "controls" */ './views/dev/Controls.vue')
+      }
+    },
+
+    {
+      path: '/performance',
+      name: 'performance',
+      components: {
+        default: () => import(/* webpackChunkName: "performance" */ './views/dev/Performance.vue')
       }
     },
 
