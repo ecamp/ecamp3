@@ -23,8 +23,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * A calendar event in a period of the camp, at which some activity will take place. The start time
  * is specified as an offset in minutes from the period's start time.
- *
- * @ORM\Entity(repositoryClass=ScheduleEntryRepository::class)
  */
 #[ApiResource(
     collectionOperations: [
@@ -55,6 +53,7 @@ use Symfony\Component\Validator\Constraints as Assert;
     'start' => 'DATE_ADD({period.start}, {}.startOffset, \'minute\')',
     'end' => 'DATE_ADD({period.start}, {}.endOffset, \'minute\')',
 ])]
+#[ORM\Entity(repositoryClass: ScheduleEntryRepository::class)]
 class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
     public const ITEM_NORMALIZATION_CONTEXT = [
         'groups' => ['read', 'ScheduleEntry:Activity'],
@@ -63,14 +62,13 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
 
     /**
      * The time period which this schedule entry is part of. Must belong to the same camp as the activity.
-     *
-     * @ORM\ManyToOne(targetEntity="Period", inversedBy="scheduleEntries")
-     * @ORM\JoinColumn(nullable=false, onDelete="cascade")
      */
     #[Assert\NotNull(groups: ['validPeriod'])] // this is validated before all others
     #[AssertBelongsToSameCamp]
     #[ApiProperty(example: '/periods/1a2b3c4d')]
     #[Groups(['read', 'write'])]
+    #[ORM\ManyToOne(targetEntity: Period::class, inversedBy: 'scheduleEntries')]
+    #[ORM\JoinColumn(nullable: false, onDelete: 'cascade')]
     public ?Period $period = null;
 
     /**
@@ -78,27 +76,25 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
      * once the schedule entry is created.
      *
      * @internal Do not set the {@see Activity} directly on the ScheduleEntry. Instead use {@see Activity::addScheduleEntry()}
-     * @ORM\ManyToOne(targetEntity="Activity", inversedBy="scheduleEntries")
-     * @ORM\JoinColumn(nullable=false, onDelete="cascade")
      */
     #[ApiProperty(example: '/activities/1a2b3c4d')]
     #[Groups(['read', 'create'])]
+    #[ORM\ManyToOne(targetEntity: Activity::class, inversedBy: 'scheduleEntries')]
+    #[ORM\JoinColumn(nullable: false, onDelete: 'cascade')]
     public ?Activity $activity = null;
 
     /**
      * The offset in minutes between start of the period and start of this scheduleEntry.
      * This property is not exposed via API (use `start` instead).
-     *
-     * @ORM\Column(type="integer", nullable=false)
      */
+    #[ORM\Column(type: 'integer', nullable: false)]
     public int $startOffset = 0;
 
     /**
      * The offset in minutes between start of the period and end of this scheduleEntry.
      * This property is not exposed via API (use `end` instead).
-     *
-     * @ORM\Column(type="integer", nullable=false)
      */
+    #[ORM\Column(type: 'integer', nullable: false)]
     public int $endOffset = 60;
 
     /**
@@ -107,12 +103,10 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
      * day. This is useful to arrange multiple overlapping schedule entries such that all of them are
      * visible. Should be a decimal number between 0 and 1, and left+width should not exceed 1, but the
      * API currently does not enforce this.
-     *
-     * @ORM\Column(name="`left`", type="float", nullable=true)
-     * --> left is a MariaDB keyword, therefore escaping for column name necessary
      */
     #[ApiProperty(default: 0, example: 0.6)]
     #[Groups(['read', 'write'])]
+    #[ORM\Column(name: '`left`', type: 'float', nullable: true)]
     public ?float $left = 0;
 
     /**
@@ -120,11 +114,10 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
      * be, as a fractional amount of the width of the whole day. This is useful to arrange multiple
      * overlapping schedule entries such that all of them are visible. Should be a decimal number
      * between 0 and 1, and left+width should not exceed 1, but the API currently does not enforce this.
-     *
-     * @ORM\Column(type="float", nullable=true)
      */
     #[ApiProperty(example: 0.4)]
     #[Groups(['read', 'write'])]
+    #[ORM\Column(type: 'float', nullable: true)]
     public ?float $width = 1;
 
     /**

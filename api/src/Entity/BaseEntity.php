@@ -9,36 +9,27 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Serializer\Annotation\Groups;
 
-/**
- * @ORM\MappedSuperclass
- * @ORM\Table(indexes={
- *     @ORM\Index(columns={"createTime"}),
- *     @ORM\Index(columns={"updateTime"})
- * })
- */
+#[ORM\MappedSuperclass]
+#[ORM\Index(columns: ['createTime'])]
+#[ORM\Index(columns: ['updateTime'])]
 abstract class BaseEntity {
     /**
      * An internal, unique, randomly generated identifier of this entity.
-     *
-     * @ORM\Id
-     * @ORM\Column(type="string", length=16, nullable=false)
      */
     #[ApiProperty(writable: false, example: '1a2b3c4d')]
     #[Groups(['read'])]
+    #[ORM\Id]
+    #[ORM\Column(type: 'string', length: 16, nullable: false)]
     protected string $id;
 
-    /**
-     * @Gedmo\Timestampable(on="create")
-     * @ORM\Column(type="datetime")
-     */
     #[ApiProperty(writable: false)]
+    #[Gedmo\Timestampable(on: 'create')]
+    #[ORM\Column(type: 'datetime')]
     protected DateTime $createTime;
 
-    /**
-     * @Gedmo\Timestampable(on="update")
-     * @ORM\Column(type="datetime")
-     */
     #[ApiProperty(writable: false)]
+    #[Gedmo\Timestampable(on: 'update')]
+    #[ORM\Column(type: 'datetime')]
     protected DateTime $updateTime;
 
     public function __construct() {

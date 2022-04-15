@@ -26,8 +26,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * A time period in which the programme of a camp will take place. There may be multiple
  * periods in a camp, but they may not overlap. A period is made up of one or more full days.
- *
- * @ORM\Entity(repositoryClass=PeriodRepository::class)
  */
 #[ApiResource(
     collectionOperations: [
@@ -52,6 +50,7 @@ use Symfony\Component\Validator\Constraints as Assert;
     normalizationContext: ['groups' => ['read']],
 )]
 #[ApiFilter(SearchFilter::class, properties: ['camp'])]
+#[ORM\Entity(repositoryClass: PeriodRepository::class)]
 class Period extends BaseEntity implements BelongsToCampInterface {
     public const ITEM_NORMALIZATION_CONTEXT = [
         'groups' => ['read', 'Period:Camp', 'Period:Days'],
@@ -60,12 +59,11 @@ class Period extends BaseEntity implements BelongsToCampInterface {
 
     /**
      * The days in this time period. These are generated automatically.
-     *
-     * @ORM\OneToMany(targetEntity="Day", mappedBy="period", orphanRemoval=true, cascade={"persist"})
-     * @ORM\OrderBy({"dayOffset": "ASC"})
      */
     #[ApiProperty(writable: false, example: '["/days?period=/periods/1a2b3c4d"]')]
     #[Groups(['read'])]
+    #[ORM\OneToMany(targetEntity: Day::class, mappedBy: 'period', orphanRemoval: true, cascade: ['persist'])]
+    #[ORM\OrderBy(['dayOffset' => 'ASC'])]
     public Collection $days;
 
     /**
@@ -73,42 +71,39 @@ class Period extends BaseEntity implements BelongsToCampInterface {
      * may span over multiple days, but may not end later than the period.
      *
      * @var Collection<int, ScheduleEntry>
-     * @ORM\OneToMany(targetEntity="ScheduleEntry", mappedBy="period")
-     * @ORM\OrderBy({"startOffset": "ASC", "left": "ASC", "endOffset": "DESC", "id": "ASC"})
      */
     #[ApiProperty(writable: false, example: '["/schedule_entries/1a2b3c4d"]')]
     #[Groups(['read'])]
+    #[ORM\OneToMany(targetEntity: ScheduleEntry::class, mappedBy: 'period')]
+    #[ORM\OrderBy(['startOffset' => 'ASC', 'left' => 'ASC', 'endOffset' => 'DESC', 'id' => 'ASC'])]
     public Collection $scheduleEntries;
 
     /**
      * Material items that are assigned directly to the period, as opposed to individual
      * activities.
-     *
-     * @ORM\OneToMany(targetEntity="MaterialItem", mappedBy="period")
      */
+    #[ORM\OneToMany(targetEntity: MaterialItem::class, mappedBy: 'period')]
     public Collection $materialItems;
 
     /**
      * The camp that this time period belongs to. Cannot be changed once the period is created.
-     *
-     * @ORM\ManyToOne(targetEntity="Camp", inversedBy="periods")
-     * @ORM\JoinColumn(nullable=false)
      */
     #[Assert\Valid(groups: ['Period:delete'])]
     #[ApiProperty(example: '/camps/1a2b3c4d')]
     #[Groups(['read', 'create'])]
+    #[ORM\ManyToOne(targetEntity: Camp::class, inversedBy: 'periods')]
+    #[ORM\JoinColumn(nullable: false)]
     public ?Camp $camp = null;
 
     /**
      * A free text name for the period. Useful to distinguish multiple periods in the same camp.
      *
      * TODO: Make non-nullable in the DB
-     *
-     * @ORM\Column(type="text", nullable=true)
      */
     #[Assert\NotBlank]
     #[ApiProperty(example: 'Hauptlager')]
     #[Groups(['read', 'write'])]
+    #[ORM\Column(type: 'text', nullable: true)]
     public ?string $description = null;
 
     /**
@@ -119,8 +114,6 @@ class Period extends BaseEntity implements BelongsToCampInterface {
      *       When implementing dangerous operations on the backend, there is no way to enforce
      *       a user confirmation dialog. But then again, we also support deleting whole camps
      *       that aren't empty...
-     *
-     * @ORM\Column(type="date")
      */
     #[Assert\LessThanOrEqual(propertyPath: 'end')]
     #[AssertLessThanOrEqualToEarliestScheduleEntryStart()]
@@ -130,13 +123,12 @@ class Period extends BaseEntity implements BelongsToCampInterface {
         denormalizationContext: [DateTimeNormalizer::FORMAT_KEY => '!Y-m-d']
     )]
     #[Groups(['read', 'write'])]
+    #[ORM\Column(type: 'date')]
     public ?DateTimeInterface $start = null;
 
     /**
      * The (inclusive) day at the end of which the period ends, as an ISO date string. Should
      * not be before "start".
-     *
-     * @ORM\Column(name="`end`", type="date")
      */
     #[Assert\GreaterThanOrEqual(propertyPath: 'start')]
     #[AssertGreaterThanOrEqualToLastScheduleEntryEnd()]
@@ -147,6 +139,7 @@ class Period extends BaseEntity implements BelongsToCampInterface {
         denormalizationContext: [DateTimeNormalizer::FORMAT_KEY => '!Y-m-d']
     )]
     #[Groups(['read', 'write'])]
+    #[ORM\Column(name: '`end`', type: 'date')]
     public ?DateTimeInterface $end = null;
 
     /**

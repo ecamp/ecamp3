@@ -27,10 +27,6 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
  * to define layouts. For this purpose, a content node may offer so-called slots, into which other
  * content nodes may be inserted. In return, a content node may be nested inside a slot in a parent
  * container content node. This way, a tree of content nodes makes up a complete programme.
- *
- * @ORM\Entity(repositoryClass=ContentNodeRepository::class)
- * @ORM\InheritanceType("JOINED")
- * @ORM\DiscriminatorColumn(name="strategy", type="string")
  */
 #[ApiResource(
     collectionOperations: [
@@ -44,34 +40,31 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
 )]
 #[ApiFilter(SearchFilter::class, properties: ['contentType', 'root'])]
 #[ApiFilter(ContentNodePeriodFilter::class)]
+#[ORM\Entity(repositoryClass: ContentNodeRepository::class)]
+#[ORM\InheritanceType('JOINED')]
+#[ORM\DiscriminatorColumn(name: 'strategy', type: 'string')]
 abstract class ContentNode extends BaseEntity implements BelongsToCampInterface, CopyFromPrototypeInterface {
-    /**
-     * @ORM\OneToOne(targetEntity="AbstractContentNodeOwner", mappedBy="rootContentNode", cascade={"persist"})
-     */
     #[SerializedName('_owner')]
     #[ApiProperty(readable: false, writable: false)]
+    #[ORM\OneToOne(targetEntity: AbstractContentNodeOwner::class, mappedBy: 'rootContentNode', cascade: ['persist'])]
     public ?AbstractContentNodeOwner $owner = null;
 
     /**
      * The content node that is the root of the content node tree. Refers to itself in case this
      * content node is the root.
-     *
-     * @ORM\ManyToOne(targetEntity="ContentNode", inversedBy="rootDescendants")
-     * TODO make not null in the DB using a migration, and get fixtures to run
-     * @ORM\JoinColumn(nullable=true)
-     *
-     * @Gedmo\SortableGroup - this is needed to avoid that all root nodes are in the same sort group (parent:null, slot: '')
      */
     #[ApiProperty(writable: false, example: '/content_nodes/1a2b3c4d')]
+    #[Gedmo\SortableGroup] // this is needed to avoid that all root nodes are in the same sort group (parent:null, slot: '')
     #[Groups(['read'])]
+    #[ORM\ManyToOne(targetEntity: ContentNode::class, inversedBy: 'rootDescendants')]
+    #[ORM\JoinColumn(nullable: true)] // TODO make not null in the DB using a migration, and get fixtures to run
     public ContentNode $root;
 
     /**
      * All content nodes that are part of this content node tree.
-     *
-     * @ORM\OneToMany(targetEntity="ContentNode", mappedBy="root")
      */
     #[ApiProperty(readable: false, writable: false)]
+    #[ORM\OneToMany(targetEntity: ContentNode::class, mappedBy: 'root')]
     public Collection $rootDescendants;
 
     /**
@@ -79,10 +72,6 @@ abstract class ContentNode extends BaseEntity implements BelongsToCampInterface,
      * root of a content node tree. For non-root content nodes, the parent can be changed, as long
      * as the new parent is in the same camp as the old one. A content node is defined as root when
      * it has an owner.
-     *
-     * @ORM\ManyToOne(targetEntity="ContentNode", inversedBy="children")
-     * @ORM\JoinColumn(onDelete="CASCADE")
-     * @Gedmo\SortableGroup
      */
     #[AssertEitherIsNull(
         other: 'owner',
@@ -92,61 +81,59 @@ abstract class ContentNode extends BaseEntity implements BelongsToCampInterface,
     #[AssertBelongsToSameOwner(groups: ['update'])]
     #[AssertNoLoop(groups: ['update'])]
     #[ApiProperty(example: '/content_nodes/1a2b3c4d')]
+    #[Gedmo\SortableGroup]
     #[Groups(['read', 'write'])]
+    #[ORM\ManyToOne(targetEntity: ContentNode::class, inversedBy: 'children')]
+    #[ORM\JoinColumn(onDelete: 'CASCADE')]
     public ?ContentNode $parent = null;
 
     /**
      * All content nodes that are direct children of this content node.
-     *
-     * @ORM\OneToMany(targetEntity="ContentNode", mappedBy="parent", cascade={"persist"})
      */
     #[ApiProperty(writable: false, example: '["/content_nodes/1a2b3c4d"]')]
     #[Groups(['read'])]
+    #[ORM\OneToMany(targetEntity: ContentNode::class, mappedBy: 'parent', cascade: ['persist'])]
     public Collection $children;
 
     /**
      * The name of the slot in the parent in which this content node resides. The valid slot names
      * are defined by the content type of the parent.
-     *
-     * @ORM\Column(type="text", nullable=true)
-     * @Gedmo\SortableGroup
      */
     #[ApiProperty(example: 'footer')]
+    #[Gedmo\SortableGroup]
     #[Groups(['read', 'write'])]
+    #[ORM\Column(type: 'text', nullable: true)]
     public ?string $slot = null;
 
     /**
      * A whole number used for ordering multiple content nodes that are in the same slot of the
      * same parent. The API does not guarantee the uniqueness of parent+slot+position.
-     *
-     * @ORM\Column(type="integer", nullable=false)
-     * @Gedmo\SortablePosition
      */
     #[ApiProperty(example: '0')]
+    #[Gedmo\SortablePosition]
     #[Groups(['read', 'write'])]
+    #[ORM\Column(type: 'integer', nullable: false)]
     public int $position = -1;
 
     /**
      * An optional name for this content node. This is useful when planning e.g. an alternative
      * version of the programme suited for bad weather, in addition to the normal version.
-     *
-     * @ORM\Column(type="text", nullable=true)
      */
     #[ApiProperty(example: 'Schlechtwetterprogramm')]
     #[Groups(['read', 'write'])]
+    #[ORM\Column(type: 'text', nullable: true)]
     public ?string $instanceName = null;
 
     /**
      * Defines the type of this content node. There is a fixed list of types that are implemented
      * in eCamp. Depending on the type, different content data and different slots may be allowed
      * in a content node. The content type may not be changed once the content node is created.
-     *
-     * @ORM\ManyToOne(targetEntity="ContentType")
-     * @ORM\JoinColumn(nullable=false)
      */
     #[ApiProperty(example: '/content_types/1a2b3c4d')]
     #[Groups(['read', 'create'])]
     #[AssertContentTypeCompatible]
+    #[ORM\ManyToOne(targetEntity: ContentType::class)]
+    #[ORM\JoinColumn(nullable: false)]
     public ?ContentType $contentType = null;
 
     public function __construct() {

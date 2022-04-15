@@ -15,11 +15,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * A person that has some whole-day responsibility on a day in the camp.
- *
- * @ORM\Entity(repositoryClass=DayResponsibleRepository::class)
- * @ORM\Table(uniqueConstraints={
- *     @ORM\UniqueConstraint(name="day_campCollaboration_unique", columns={"dayId", "campCollaborationId"})
- * })
  */
 #[ApiResource(
     collectionOperations: [
@@ -38,27 +33,27 @@ use Symfony\Component\Validator\Constraints as Assert;
     fields: ['campCollaboration', 'day'],
     message: 'This campCollaboration (user) is already responsible for this day.',
 )]
+#[ORM\Entity(repositoryClass: DayResponsibleRepository::class)]
+#[ORM\UniqueConstraint(name: 'day_campCollaboration_unique', columns: ['dayId', 'campCollaborationId'])]
 class DayResponsible extends BaseEntity implements BelongsToCampInterface {
     /**
      * The day on which the person is responsible.
-     *
-     * @ORM\ManyToOne(targetEntity="Day", inversedBy="dayResponsibles")
-     * @ORM\JoinColumn(nullable=false, onDelete="cascade")
      */
     #[Assert\NotNull]
     #[ApiProperty(example: '/days/1a2b3c4d')]
     #[Groups(['read', 'write'])]
+    #[ORM\ManyToOne(targetEntity: Day::class, inversedBy: 'dayResponsibles')]
+    #[ORM\JoinColumn(nullable: false, onDelete: 'cascade')]
     public ?Day $day = null;
 
     /**
      * The person that is responsible. Must belong to the same camp as the day's period.
-     *
-     * @ORM\ManyToOne(targetEntity="CampCollaboration", inversedBy="dayResponsibles")
-     * @ORM\JoinColumn(nullable=false, onDelete="cascade")
      */
     #[AssertBelongsToSameCamp]
     #[ApiProperty(example: '/camp_collaborations/1a2b3c4d')]
     #[Groups(['read', 'write'])]
+    #[ORM\ManyToOne(targetEntity: CampCollaboration::class, inversedBy: 'dayResponsibles')]
+    #[ORM\JoinColumn(nullable: false, onDelete: 'cascade')]
     public ?CampCollaboration $campCollaboration = null;
 
     #[ApiProperty(readable: false)]

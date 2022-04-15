@@ -15,10 +15,6 @@ use App\Validator\ColumnLayout\ColumnLayoutPostGroupSequence;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
-/**
- * @ORM\Entity(repositoryClass=ColumnLayoutRepository::class)
- * @ORM\Table(name="content_node_columnlayout")
- */
 #[ApiResource(
     routePrefix: '/content_node',
     collectionOperations: [
@@ -43,6 +39,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
     denormalizationContext: ['groups' => ['write']],
     normalizationContext: ['groups' => ['read']],
 )]
+#[ORM\Entity(repositoryClass: ColumnLayoutRepository::class)]
+#[ORM\Table(name: 'content_node_columnlayout')]
 class ColumnLayout extends ContentNode {
     public const COLUMNS_SCHEMA = [
         'type' => 'array',
@@ -66,14 +64,13 @@ class ColumnLayout extends ContentNode {
 
     /**
      * JSON configuration for columns.
-     *
-     * @ORM\Column(type="json", nullable=true)
      */
     #[ApiProperty(example: [['slot' => '1', 'width' => 12]])]
     #[Groups(['read', 'write'])]
     #[AssertJsonSchema(schema: ColumnLayout::COLUMNS_SCHEMA, groups: ['columns_schema'])]
     #[AssertColumWidthsSumTo12]
     #[AssertNoOrphanChildren]
+    #[ORM\Column(type: 'json', nullable: true)]
     public ?array $columns = [['slot' => '1', 'width' => 12]];
 
     /**
