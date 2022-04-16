@@ -80,6 +80,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\UniqueConstraint(name: 'inviteKeyHash_unique', columns: ['inviteKeyHash'])]
 #[ORM\UniqueConstraint(name: 'user_camp_unique', fields: ['user', 'camp'])]
 #[ORM\UniqueConstraint(name: 'inviteEmail_camp_unique', fields: ['inviteEmail', 'camp'])]
+#[ORM\Index(columns: ['status'])]
 class CampCollaboration extends BaseEntity implements BelongsToCampInterface {
     public const ITEM_NORMALIZATION_CONTEXT = [
         'groups' => ['read', 'CampCollaboration:Camp', 'CampCollaboration:User'],

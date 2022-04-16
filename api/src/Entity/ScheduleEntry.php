@@ -54,6 +54,8 @@ use Symfony\Component\Validator\Constraints as Assert;
     'end' => 'DATE_ADD({period.start}, {}.endOffset, \'minute\')',
 ])]
 #[ORM\Entity(repositoryClass: ScheduleEntryRepository::class)]
+#[ORM\Index(columns: ['startOffset'])]
+#[ORM\Index(columns: ['endOffset'])]
 class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
     public const ITEM_NORMALIZATION_CONTEXT = [
         'groups' => ['read', 'ScheduleEntry:Activity'],
