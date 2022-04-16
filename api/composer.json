@@ -12,7 +12,7 @@
         "doctrine/doctrine-migrations-bundle": "3.2.2",
         "doctrine/orm": "2.11.2",
         "exercise/htmlpurifier-bundle": "3.1.0",
-        "guzzlehttp/guzzle": "7.4.1",
+        "guzzlehttp/guzzle": "7.4.2",
         "knpuniversity/oauth2-client-bundle": "2.9.0",
         "league/oauth2-google": "4.0.0",
         "lexik/jwt-authentication-bundle": "2.14.4",
