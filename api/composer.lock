@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "55f49bac706ef9e0edd58f71ec2cf6df",
+    "content-hash": "8d37eb69aacf167513d045fa4bd0b9dc",
     "packages": [
         {
             "name": "api-platform/core",
@@ -4713,16 +4713,16 @@
         },
         {
             "name": "sentry/sentry-symfony",
-            "version": "4.2.7",
+            "version": "4.2.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/getsentry/sentry-symfony.git",
-                "reference": "c231f5c6204fe9d428ab4db94ca4c9d1a9491e62"
+                "reference": "faa2f4312d67c35f83b817c73521884aad49bba4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/getsentry/sentry-symfony/zipball/c231f5c6204fe9d428ab4db94ca4c9d1a9491e62",
-                "reference": "c231f5c6204fe9d428ab4db94ca4c9d1a9491e62",
+                "url": "https://api.github.com/repos/getsentry/sentry-symfony/zipball/faa2f4312d67c35f83b817c73521884aad49bba4",
+                "reference": "faa2f4312d67c35f83b817c73521884aad49bba4",
                 "shasum": ""
             },
             "require": {
@@ -4812,7 +4812,7 @@
             ],
             "support": {
                 "issues": "https://github.com/getsentry/sentry-symfony/issues",
-                "source": "https://github.com/getsentry/sentry-symfony/tree/4.2.7"
+                "source": "https://github.com/getsentry/sentry-symfony/tree/4.2.8"
             },
             "funding": [
                 {
@@ -4824,7 +4824,7 @@
                     "type": "custom"
                 }
             ],
-            "time": "2022-02-23T10:07:22+00:00"
+            "time": "2022-03-31T11:39:51+00:00"
         },
         {
             "name": "stof/doctrine-extensions-bundle",
