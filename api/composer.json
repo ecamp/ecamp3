@@ -15,7 +15,7 @@
         "guzzlehttp/guzzle": "7.4.2",
         "knpuniversity/oauth2-client-bundle": "2.9.0",
         "league/oauth2-google": "4.0.0",
-        "lexik/jwt-authentication-bundle": "2.14.4",
+        "lexik/jwt-authentication-bundle": "2.15.1",
         "nelmio/cors-bundle": "2.2.0",
         "phpdocumentor/reflection-docblock": "5.3.0",
         "phpmyadmin/sql-parser": "5.5.0",
