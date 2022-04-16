@@ -20,7 +20,7 @@
     "cookie-parser": "1.4.6",
     "cors": "2.8.5",
     "cssesc": "3.0.0",
-    "dayjs": "1.11.0",
+    "dayjs": "1.11.1",
     "deepmerge": "4.2.2",
     "express": "4.17.3",
     "hal-json-vuex": "2.0.0-alpha.14",
