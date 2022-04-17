@@ -32,7 +32,7 @@
   "devDependencies": {
     "@babel/eslint-parser": "7.17.0",
     "@nuxtjs/eslint-config": "6.0.1",
-    "@nuxtjs/eslint-module": "3.0.2",
+    "@nuxtjs/eslint-module": "3.1.0",
     "@nuxtjs/stylelint-module": "4.1.0",
     "@nuxtjs/tailwindcss": "5.0.2",
     "@nuxtjs/vuetify": "1.12.3",
@@ -45,7 +45,7 @@
     "eslint-plugin-prettier": "4.0.0",
     "eslint-plugin-vue": "7.20.0",
     "jest": "27.5.1",
-    "prettier": "2.5.1",
+    "prettier": "2.6.2",
     "stylelint": "13.13.1",
     "stylelint-config-prettier": "9.0.3",
     "stylelint-config-standard": "22.0.0",
