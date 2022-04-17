@@ -46,6 +46,7 @@ use Symfony\Component\Validator\Constraints as Assert;
     ],
     denormalizationContext: ['groups' => ['write']],
     normalizationContext: ['groups' => ['read']],
+    forceEager: false
 )]
 #[ApiFilter(SearchFilter::class, properties: ['isPrototype'])]
 #[ORM\Entity(repositoryClass: CampRepository::class)]
@@ -72,7 +73,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface, CopyFromPrototy
     #[Assert\Count(min: 2, minMessage: 'A camp must have at least one period.', groups: ['Period:delete'])]
     #[ApiProperty(
         writableLink: true,
-        example: '[{ "description": "Hauptlager", "start": "2022-01-01", "end": "2022-01-08" }]',
+        example: '[{ "description": "Hauptlager", "start": "2022-01-01", "end": "2022-01-08" }]'
     )]
     #[Groups(['read', 'create'])]
     #[ORM\OneToMany(targetEntity: Period::class, mappedBy: 'camp', orphanRemoval: true, cascade: ['persist'])]

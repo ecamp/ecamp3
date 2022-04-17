@@ -7,6 +7,7 @@ use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Doctrine\Filter\ContentNodePeriodFilter;
+use App\Entity\ContentNode\ColumnLayout;
 use App\Repository\ContentNodeRepository;
 use App\Util\EntityMap;
 use App\Validator\AssertEitherIsNull;
@@ -36,7 +37,7 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
         'get' => ['security' => 'is_granted("CAMP_COLLABORATOR", object) or is_granted("CAMP_IS_PROTOTYPE", object)'],
     ],
     denormalizationContext: ['groups' => ['write']],
-    normalizationContext: ['groups' => ['read']],
+    normalizationContext: ['groups' => ['read']]
 )]
 #[ApiFilter(SearchFilter::class, properties: ['contentType', 'root'])]
 #[ApiFilter(ContentNodePeriodFilter::class)]
@@ -46,8 +47,8 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
 abstract class ContentNode extends BaseEntity implements BelongsToCampInterface, CopyFromPrototypeInterface {
     #[SerializedName('_owner')]
     #[ApiProperty(readable: false, writable: false)]
-    #[ORM\OneToOne(targetEntity: AbstractContentNodeOwner::class, mappedBy: 'rootContentNode', cascade: ['persist'])]
-    public ?AbstractContentNodeOwner $owner = null;
+    #[ORM\OneToMany(targetEntity: AbstractContentNodeOwner::class, mappedBy: 'rootContentNode', cascade: ['persist'])]
+    public Collection $owner;
 
     /**
      * The content node that is the root of the content node tree. Refers to itself in case this
@@ -56,9 +57,9 @@ abstract class ContentNode extends BaseEntity implements BelongsToCampInterface,
     #[ApiProperty(writable: false, example: '/content_nodes/1a2b3c4d')]
     #[Gedmo\SortableGroup] // this is needed to avoid that all root nodes are in the same sort group (parent:null, slot: '')
     #[Groups(['read'])]
-    #[ORM\ManyToOne(targetEntity: ContentNode::class, inversedBy: 'rootDescendants')]
+    #[ORM\ManyToOne(targetEntity: ColumnLayout::class, inversedBy: 'rootDescendants')]
     #[ORM\JoinColumn(nullable: true)] // TODO make not null in the DB using a migration, and get fixtures to run
-    public ContentNode $root;
+    public ColumnLayout $root;
 
     /**
      * All content nodes that are part of this content node tree.
@@ -141,6 +142,13 @@ abstract class ContentNode extends BaseEntity implements BelongsToCampInterface,
         $this->root = $this;
         $this->rootDescendants = new ArrayCollection();
         $this->children = new ArrayCollection();
+        $this->owner = new ArrayCollection();
+    }
+
+    // Workaround to allow lazy-loading One-To-One inverse side
+    // see https://github.com/doctrine/orm/issues/4389#issuecomment-162367781
+    public function getOwner() {
+        return (false !== $this->owner->first()) ? $this->owner->first() : null;
     }
 
     /**
@@ -162,10 +170,10 @@ abstract class ContentNode extends BaseEntity implements BelongsToCampInterface,
         // New created ContentNodes have root == this.
         // Therefore we use the root of the parent-node.
         if ($this->root === $this && null !== $this->parent) {
-            return $this->parent->root->owner;
+            return $this->parent->root->getOwner();
         }
 
-        return $this->root->owner;
+        return $this->root->getOwner();
     }
 
     /**

@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiProperty;
+use App\Entity\ContentNode\ColumnLayout;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -16,9 +17,9 @@ abstract class AbstractContentNodeOwner extends BaseEntity {
      */
     #[Assert\DisableAutoMapping]
     #[ApiProperty(writable: false, example: '/content_nodes/1a2b3c4d')]
-    #[ORM\OneToOne(targetEntity: ContentNode::class, inversedBy: 'owner', cascade: ['persist'])]
+    #[ORM\OneToOne(targetEntity: ColumnLayout::class, cascade: ['persist'])]
     #[ORM\JoinColumn(nullable: false, unique: true, onDelete: 'cascade')]
-    public ?ContentNode $rootContentNode = null;
+    public ?ColumnLayout $rootContentNode = null;
 
     public function __construct() {
         parent::__construct();
@@ -27,12 +28,12 @@ abstract class AbstractContentNodeOwner extends BaseEntity {
     public function setRootContentNode(?ContentNode $rootContentNode) {
         // unset the owning side of the relation if necessary
         if (null === $rootContentNode && null !== $this->rootContentNode) {
-            $this->rootContentNode->owner = null;
+            $this->rootContentNode->owner = [];
         }
 
         if (null !== $rootContentNode) {
             // set the owning side of the relation if necessary
-            $rootContentNode->owner = $this;
+            $rootContentNode->owner[] = $this;
 
             // make content node a root node
             $rootContentNode->addRootDescendant($rootContentNode);

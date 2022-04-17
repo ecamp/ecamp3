@@ -59,7 +59,7 @@ class AssertBelongsToSameOwnerValidatorTest extends ConstraintValidatorTestCase 
         $activity = $this->createMock(Activity::class);
         $activity->method('getId')->willReturn('idfromtest');
         $root = new ColumnLayout();
-        $root->owner = $activity;
+        $root->owner[] = $activity;
         $root->root = $root;
         $parent = new ColumnLayout();
         $parent->root = $root;
@@ -83,10 +83,10 @@ class AssertBelongsToSameOwnerValidatorTest extends ConstraintValidatorTestCase 
         $category = $this->createMock(Category::class);
         $category->method('getId')->willReturn('anotheridfromtest');
         $root = new ColumnLayout();
-        $root->owner = $activity;
+        $root->owner[] = $activity;
         $root->root = $root;
         $root2 = new ColumnLayout();
-        $root2->owner = $category;
+        $root2->owner[] = $category;
         $root2->root = $root2;
         $parent = new ColumnLayout();
         $parent->root = $root2;
