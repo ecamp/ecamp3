@@ -35,11 +35,15 @@
       "automerge": false
     },
     {
-      "matchPackageNames": [
-        "eslint",
-        "lint",
-        "stylelint",
-        "prettier"
+      "matchPackagePatterns": [
+        "^(@.*\\/|(.*-)?)eslint(-.*)?$",
+        "^(@.*\\/|(.*-)?)lint(-.*)?$",
+        "^(@.*\\/|(.*-)?)stylelint(-.*)?$",
+        "^(@.*\\/|(.*-)?)prettier(-.*)?$"
+      ],
+      "excludePackageNames": [
+        "@vue/cli-plugin-eslint",
+        "lint-staged"
       ],
       "groupName": "js-linter"
     },
