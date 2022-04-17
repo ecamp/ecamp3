@@ -135,6 +135,15 @@
       "lookupNameTemplate": "nodejs/node",
       "datasourceTemplate": "github-tags",
       "versioningTemplate": "node"
+    },
+    {
+      "fileMatch": [
+        "^.github/workflows/.+\\.ya?ml$"
+      ],
+      "matchStrings": [
+        "image:\\s+'(?<depName>.*):(?<currentValue>.*)@(?<currentDigest>.*)'\\s"
+      ],
+      "datasourceTemplate": "docker"
     }
   ]
 }
