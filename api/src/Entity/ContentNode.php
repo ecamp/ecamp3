@@ -163,9 +163,7 @@ abstract class ContentNode extends BaseEntity implements BelongsToCampInterface,
     /**
      * The entity that owns the content node tree that this content node resides in.
      */
-    #[SerializedName('owner')]
-    #[ApiProperty(writable: false, example: '/activities/1a2b3c4d')]
-    #[Groups(['read'])]
+    #[ApiProperty(readable: false)]
     public function getRootOwner(): Activity|Category|AbstractContentNodeOwner|null {
         // New created ContentNodes have root == this.
         // Therefore we use the root of the parent-node.
@@ -182,8 +180,7 @@ abstract class ContentNode extends BaseEntity implements BelongsToCampInterface,
      *
      * @throws Exception when the owner is neither an activity nor a category
      */
-    #[ApiProperty(example: '/categories/1a2b3c4d')]
-    #[Groups(['read'])]
+    #[ApiProperty(readable: false)]
     public function getOwnerCategory(): Category {
         $owner = $this->getRootOwner();
 
