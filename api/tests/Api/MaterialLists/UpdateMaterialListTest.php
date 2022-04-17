@@ -124,15 +124,20 @@ class UpdateMaterialListTest extends ECampApiTestCase {
         ]);
     }
 
-    public function testPatchMaterialItemValidatesMissingArticle() {
+    public function testPatchMaterialListValidatesMissingName() {
         $materialList = static::$fixtures['materialList1'];
         static::createClientWithCredentials()->request('PATCH', '/material_lists/'.$materialList->getId(), ['json' => [
             'name' => null,
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
 
-        $this->assertResponseStatusCodeSame(400);
+        $this->assertResponseStatusCodeSame(422);
         $this->assertJsonContains([
-            'detail' => 'The type of the "name" attribute must be "string", "NULL" given.',
+            'violations' => [
+                [
+                    'propertyPath' => 'name',
+                    'message' => 'This value should not be blank.',
+                ],
+            ],
         ]);
     }
 }

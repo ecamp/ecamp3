@@ -107,7 +107,7 @@ class CreateMaterialListTest extends ECampApiTestCase {
             'violations' => [
                 [
                     'propertyPath' => 'name',
-                    'message' => 'This value should not be null.',
+                    'message' => 'This value should not be blank.',
                 ],
             ],
         ]);
