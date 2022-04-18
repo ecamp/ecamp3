@@ -6,6 +6,7 @@ use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use App\InputFilter;
 use App\Repository\MaterialListRepository;
 use App\Util\EntityMap;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -13,6 +14,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Annotation\SerializedName;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * A list of material items that someone needs to bring to the camp. A material list
@@ -76,7 +78,11 @@ class MaterialList extends BaseEntity implements BelongsToCampInterface, CopyFro
      */
     #[ApiProperty(example: 'Lebensmittel')]
     #[Groups(['write'])]
-    #[ORM\Column(type: 'text')]
+    #[InputFilter\Trim]
+    #[InputFilter\CleanHTML]
+    #[Assert\NotBlank]
+    #[Assert\Length(max: 32)]
+    #[ORM\Column(type: 'text', nullable: true)]
     public ?string $name = null;
 
     public function __construct() {

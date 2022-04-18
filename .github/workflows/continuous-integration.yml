@@ -242,6 +242,58 @@ jobs:
           COVERALLS_PARALLEL: true
           COVERALLS_FLAG_NAME: api
 
+  api-validate-migrations:
+    name: "API: validate migrations"
+    runs-on: ubuntu-latest
+    env:
+      TEST_DATABASE_URL: postgresql://ecamp3:ecamp3@localhost:5432/ecamp3test?serverVersion=13&charset=utf8
+
+    services:
+      postgres:
+        image: 'postgres:14-alpine@sha256:28e8ac42048c31694d443039d5adfe293f24eec7d8c0b4f88aaefcc8df1e5b72'
+        env:
+          POSTGRES_DB: 'ecamp3test'
+          POSTGRES_PASSWORD: 'ecamp3'
+          POSTGRES_USER: 'ecamp3'
+        ports:
+          - '5432:5432'
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+
+      - uses: actions/checkout@dcd71f646680f2efd8db4afa5ad64fdcba30e748 # tag=v3
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1.3'
+          tools: composer:2.3.0
+          coverage: xdebug
+
+      - name: Get Composer Cache Directory
+        id: composer-cache
+        run: 'echo "::set-output name=dir::$(composer config cache-files-dir)"'
+        working-directory: api
+
+      - uses: actions/cache@937d24475381cd9c75ae6db12cb4e79714b926ed # renovate: tag=v2
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
+
+      - run: composer install --prefer-dist --no-progress --no-interaction
+        working-directory: api
+
+      - run: php bin/console doctrine:migrations:migrate --no-interaction -e test
+        working-directory: api
+
+      - run: php bin/console doctrine:schema:validate -e test
+        working-directory: api
+
   frontend-tests:
     name: "Tests: Frontend"
     runs-on: ubuntu-latest
