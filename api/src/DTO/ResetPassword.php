@@ -23,7 +23,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
     itemOperations: [
         'get' => [
             'security' => 'true',
-            'path' => '/{id}.{_format}',
+            'path' => '/{id}',
         ],
         'patch' => [
             'security' => 'true',
@@ -47,7 +47,7 @@ class ResetPassword {
 
     #[ApiProperty(readable: false, writable: true)]
     #[Groups(['create', 'update'])]
-    public ?string $token = null;
+    public ?string $recaptchaToken = null;
 
     #[ApiProperty(readable: false, writable: true)]
     #[Groups(['update'])]

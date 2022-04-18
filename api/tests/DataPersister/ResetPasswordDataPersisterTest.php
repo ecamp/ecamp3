@@ -97,7 +97,7 @@ class ResetPasswordDataPersisterTest extends TestCase {
             ->method('isSuccess')
             ->willReturn(false)
         ;
-        $this->resetPassword->token = 'token';
+        $this->resetPassword->recaptchaToken = 'token';
 
         $this->expectException(Exception::class);
         $this->dataPersister->beforeCreate($this->resetPassword);
@@ -116,7 +116,7 @@ class ResetPasswordDataPersisterTest extends TestCase {
             ->method('sendPasswordResetLink')
         ;
 
-        $this->resetPassword->token = 'token';
+        $this->resetPassword->recaptchaToken = 'token';
         $this->resetPassword->email = self::EMAIL;
 
         $this->expectException(Exception::class);
@@ -145,7 +145,7 @@ class ResetPasswordDataPersisterTest extends TestCase {
             ->with($user, $this->resetPassword)
         ;
 
-        $this->resetPassword->token = 'token';
+        $this->resetPassword->recaptchaToken = 'token';
         $this->resetPassword->email = self::EMAIL;
         $data = $this->dataPersister->beforeCreate($this->resetPassword);
 
@@ -163,7 +163,7 @@ class ResetPasswordDataPersisterTest extends TestCase {
         ;
 
         $this->resetPassword->id = base64_encode(self::EMAIL.'#');
-        $this->resetPassword->token = 'token';
+        $this->resetPassword->recaptchaToken = 'token';
 
         $this->expectException(Exception::class);
         $this->dataPersister->beforeUpdate($this->resetPassword);
@@ -182,7 +182,7 @@ class ResetPasswordDataPersisterTest extends TestCase {
         ;
 
         $this->resetPassword->id = base64_encode(self::EMAIL.'#');
-        $this->resetPassword->token = 'token';
+        $this->resetPassword->recaptchaToken = 'token';
 
         $this->expectException(Exception::class);
         $this->dataPersister->beforeUpdate($this->resetPassword);
@@ -207,7 +207,7 @@ class ResetPasswordDataPersisterTest extends TestCase {
         ;
 
         $this->resetPassword->id = base64_encode(self::EMAIL.'#myKey');
-        $this->resetPassword->token = 'token';
+        $this->resetPassword->recaptchaToken = 'token';
 
         $this->expectException(Exception::class);
         $this->dataPersister->beforeUpdate($this->resetPassword);
@@ -236,7 +236,7 @@ class ResetPasswordDataPersisterTest extends TestCase {
         ;
 
         $this->resetPassword->id = base64_encode(self::EMAIL.'#myKey');
-        $this->resetPassword->token = 'token';
+        $this->resetPassword->recaptchaToken = 'token';
         $this->resetPassword->password = 'newPassword';
 
         $this->dataPersister->beforeUpdate($this->resetPassword);

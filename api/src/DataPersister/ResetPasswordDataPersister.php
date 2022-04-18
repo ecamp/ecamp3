@@ -45,7 +45,7 @@ class ResetPasswordDataPersister implements ContextAwareDataPersisterInterface {
     }
 
     public function beforeCreate(ResetPassword $data): ResetPassword {
-        $resp = $this->reCaptcha->verify($data->token);
+        $resp = $this->reCaptcha->verify($data->recaptchaToken);
         if (!$resp->isSuccess()) {
             throw new HttpException(422, 'ReCaptcha failed');
         }
@@ -67,7 +67,7 @@ class ResetPasswordDataPersister implements ContextAwareDataPersisterInterface {
     }
 
     public function beforeUpdate(ResetPassword $data): ResetPassword {
-        $resp = $this->reCaptcha->verify($data->token);
+        $resp = $this->reCaptcha->verify($data->recaptchaToken);
         if (!$resp->isSuccess()) {
             throw new HttpException(422, 'ReCaptcha failed');
         }
