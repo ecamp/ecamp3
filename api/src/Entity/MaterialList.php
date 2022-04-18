@@ -6,6 +6,7 @@ use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use App\InputFilter;
 use App\Repository\MaterialListRepository;
 use App\Util\EntityMap;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -77,7 +78,10 @@ class MaterialList extends BaseEntity implements BelongsToCampInterface, CopyFro
      */
     #[ApiProperty(example: 'Lebensmittel')]
     #[Groups(['write'])]
+    #[InputFilter\Trim]
+    #[InputFilter\CleanHTML]
     #[Assert\NotBlank]
+    #[Assert\Length(max: 32)]
     #[ORM\Column(type: 'text', nullable: true)]
     public ?string $name = null;
 
