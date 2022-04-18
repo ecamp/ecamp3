@@ -150,13 +150,13 @@ export default {
     async resetPassword () {
       this.status = 'reseting'
 
-      let token = null
+      let recaptchaToken = null
       if (this.recaptcha) {
         const recaptcha = await this.recaptcha
-        token = await recaptcha.execute('login')
+        recaptchaToken = await recaptcha.execute('login')
       }
 
-      this.$auth.resetPassword(this.id, this.password, token).then(() => {
+      this.$auth.resetPassword(this.id, this.password, recaptchaToken).then(() => {
         this.status = 'success'
       }).catch((e) => {
         this.status = 'failed'
