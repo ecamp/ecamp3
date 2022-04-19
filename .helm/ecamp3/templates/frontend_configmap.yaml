@@ -18,5 +18,9 @@ data:
       DEPLOYMENT_TIME: '{{ .Values.deploymentTime }}',
       VERSION: '{{ .Values.deployedVersion }}',
       VERSION_LINK_TEMPLATE: '{{ .Values.versionLinkTemplate }}',
+    {{- if .Values.recaptcha.siteKey }}
       RECAPTCHA_SITE_KEY: '{{ .Values.recaptcha.siteKey }}',
+    {{- else }}
+      RECAPTCHA_SITE_KEY: null,
+    {{- end }}
     }
