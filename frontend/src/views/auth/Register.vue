@@ -97,6 +97,7 @@
 </template>
 
 <script>
+import { load } from 'recaptcha-v3'
 import AuthContainer from '@/components/layout/AuthContainer.vue'
 import VueI18n from '@/plugins/i18n'
 
@@ -114,7 +115,8 @@ export default {
       pw1: '',
       pw2: '',
       language: '',
-      tos: false
+      tos: false,
+      recaptcha: null
     }
   },
   computed: {
@@ -163,9 +165,23 @@ export default {
   },
   mounted () {
     this.language = this.$i18n.browserPreferredLocale
+
+    if (window.environment.RECAPTCHA_SITE_KEY) {
+      this.recaptcha = load(window.environment.RECAPTCHA_SITE_KEY, {
+        explicitRenderParameters: {
+          badge: 'bottomleft'
+        }
+      })
+    }
   },
   methods: {
     async register () {
+      let recaptchaToken = null
+      if (this.recaptcha) {
+        const recaptcha = await this.recaptcha
+        recaptchaToken = await recaptcha.execute('login')
+      }
+
       await this.$auth.register({
         password: this.formData.password,
         profile: {
@@ -174,7 +190,8 @@ export default {
           surname: this.formData.surname,
           email: this.formData.email,
           language: this.formData.language
-        }
+        },
+        recaptchaToken: recaptchaToken
       })
       this.$router.push({ name: 'register-done' })
     }

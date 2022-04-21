@@ -7,8 +7,10 @@ use App\DataPersister\Util\CustomActionListener;
 use App\DataPersister\Util\DataPersisterObservable;
 use App\Entity\BaseEntity;
 use App\Entity\User;
+use App\Security\ReCaptcha\ReCaptcha;
 use App\Service\MailService;
 use App\Util\IdGenerator;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class UserDataPersister extends AbstractDataPersister {
@@ -17,6 +19,7 @@ class UserDataPersister extends AbstractDataPersister {
      */
     public function __construct(
         DataPersisterObservable $dataPersisterObservable,
+        private ReCaptcha $reCaptcha,
         private UserPasswordHasherInterface $userPasswordHasher,
         private MailService $mailService
     ) {
@@ -29,6 +32,11 @@ class UserDataPersister extends AbstractDataPersister {
     }
 
     public function beforeCreate($data): BaseEntity {
+        $resp = $this->reCaptcha->verify($data->recaptchaToken);
+        if (!$resp->isSuccess()) {
+            throw new HttpException(422, 'ReCaptcha failed');
+        }
+
         $data->state = User::STATE_REGISTERED;
         if ($data->plainPassword) {
             $data->password = $this->userPasswordHasher->hashPassword($data, $data->plainPassword);
