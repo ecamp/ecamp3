@@ -15,7 +15,7 @@ jobs:
       never-uninstall: ${{ steps.to-uninstall.outputs.never-uninstall }}
     steps:
 
-      - uses: actions/checkout@dcd71f646680f2efd8db4afa5ad64fdcba30e748 # tag=v3
+      - uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b # tag=v3
 
       - name: Get CI status of the devel branch
         id: devel-ci
@@ -131,7 +131,7 @@ jobs:
           token: ${{ secrets.REPO_ACCESS_TOKEN }}
           env: ${{ matrix.deployment.name }}
 
-      - uses: actions/checkout@dcd71f646680f2efd8db4afa5ad64fdcba30e748 # tag=v3
+      - uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b # tag=v3
         with:
           ref: ${{ matrix.deployment.sha }}
 
