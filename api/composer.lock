@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1a05178494552a7997a04be00f0dac00",
+    "content-hash": "fb2588fcdb0b8e1fee9159c752d53fc9",
     "packages": [
         {
             "name": "api-platform/core",
@@ -889,23 +889,23 @@
         },
         {
             "name": "doctrine/doctrine-bundle",
-            "version": "2.6.2",
+            "version": "2.6.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/DoctrineBundle.git",
-                "reference": "53cf797feda995299629bed081ffb51776f36e9f"
+                "reference": "527970d22b8ca6472ebd88d7c42e512550bd874e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/DoctrineBundle/zipball/53cf797feda995299629bed081ffb51776f36e9f",
-                "reference": "53cf797feda995299629bed081ffb51776f36e9f",
+                "url": "https://api.github.com/repos/doctrine/DoctrineBundle/zipball/527970d22b8ca6472ebd88d7c42e512550bd874e",
+                "reference": "527970d22b8ca6472ebd88d7c42e512550bd874e",
                 "shasum": ""
             },
             "require": {
                 "doctrine/annotations": "^1",
                 "doctrine/cache": "^1.11 || ^2.0",
                 "doctrine/dbal": "^2.13.1|^3.3.2",
-                "doctrine/persistence": "^2.2",
+                "doctrine/persistence": "^2.2|^3",
                 "doctrine/sql-formatter": "^1.0.1",
                 "php": "^7.1 || ^8.0",
                 "symfony/cache": "^4.3.3|^5.0|^6.0",
@@ -983,7 +983,7 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/DoctrineBundle/issues",
-                "source": "https://github.com/doctrine/DoctrineBundle/tree/2.6.2"
+                "source": "https://github.com/doctrine/DoctrineBundle/tree/2.6.3"
             },
             "funding": [
                 {
@@ -999,7 +999,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-04-07T09:18:26+00:00"
+            "time": "2022-04-22T09:59:53+00:00"
         },
         {
             "name": "doctrine/doctrine-migrations-bundle",
