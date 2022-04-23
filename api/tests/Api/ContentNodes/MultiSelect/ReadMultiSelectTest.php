@@ -22,8 +22,11 @@ class ReadMultiSelectTest extends ReadContentNodeTestCase {
         /** @var MultiSelect $contentNode */
         $multiSelect = $this->defaultEntity;
 
-        /** @var MultiSelectOption $multiSelectOption */
-        $multiSelectOption = static::$fixtures['multiSelectOption2'];
+        /** @var MultiSelectOption $multiSelectOption1 */
+        $multiSelectOption1 = static::$fixtures['multiSelectOption1'];
+
+        /** @var MultiSelectOption $multiSelectOption2 */
+        $multiSelectOption2 = static::$fixtures['multiSelectOption2'];
 
         // when
         $this->get($multiSelect);
@@ -38,10 +41,19 @@ class ReadMultiSelectTest extends ReadContentNodeTestCase {
             '_embedded' => [
                 'options' => [
                     [
-                        'translateKey' => $multiSelectOption->translateKey,
-                        'checked' => $multiSelectOption->checked,
-                        'position' => $multiSelectOption->getPosition(),
-                        'id' => $multiSelectOption->getId(),
+                        'translateKey' => $multiSelectOption1->translateKey,
+                        'checked' => $multiSelectOption1->checked,
+                        'position' => $multiSelectOption1->getPosition(),
+                        'id' => $multiSelectOption1->getId(),
+                        '_links' => [
+                            'multiSelect' => ['href' => $this->getIriFor($multiSelect)],
+                        ],
+                    ],
+                    [
+                        'translateKey' => $multiSelectOption2->translateKey,
+                        'checked' => $multiSelectOption2->checked,
+                        'position' => $multiSelectOption2->getPosition(),
+                        'id' => $multiSelectOption2->getId(),
                         '_links' => [
                             'multiSelect' => ['href' => $this->getIriFor($multiSelect)],
                         ],
