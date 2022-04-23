@@ -68,14 +68,15 @@ abstract class ECampApiTestCase extends ApiTestCase {
             )
         ;
         $user = $profile->user;
+
         $jwtToken = static::getContainer()->get('lexik_jwt_authentication.jwt_manager')->create($user);
         $lastPeriodPosition = strrpos($jwtToken, '.');
         $jwtHeaderAndPayload = substr($jwtToken, 0, $lastPeriodPosition);
         $jwtSignature = substr($jwtToken, $lastPeriodPosition + 1);
 
         $cookies = $client->getCookieJar();
-        $cookies->set(new Cookie('jwt_hp', $jwtHeaderAndPayload, null, null, 'example.com', false, false, false, 'strict'));
-        $cookies->set(new Cookie('jwt_s', $jwtSignature, null, null, 'example.com', false, true, false, 'strict'));
+        $cookies->set(new Cookie('jwt_hp', $jwtHeaderAndPayload, null, null, 'localhost', false, false, false, 'strict'));
+        $cookies->set(new Cookie('jwt_s', $jwtSignature, null, null, 'localhost', false, true, false, 'strict'));
 
         return $client;
     }
