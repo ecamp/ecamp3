@@ -111,13 +111,6 @@ services:
         arguments:
             - "%env(RECAPTCHA_SECRET)%"
             - '@ReCaptcha\ReCaptcha'
-
-    ApiPlatform\Core\Bridge\Doctrine\Orm\Extension\EagerLoadingExtension:
-        class: App\Doctrine\EagerLoadingExtension
-    api_platform.doctrine.orm.query_extension.eager_loading:
-        class: App\Doctrine\EagerLoadingExtension
-    App\Doctrine\EagerLoadingExtension:
-        public: false
         
     App\Service\MailService:
         public: true
