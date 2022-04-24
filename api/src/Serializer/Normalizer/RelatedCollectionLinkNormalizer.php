@@ -2,10 +2,10 @@
 
 namespace App\Serializer\Normalizer;
 
+use ApiPlatform\Api\UrlGeneratorInterface;
 use ApiPlatform\Core\Api\FilterInterface;
 use ApiPlatform\Core\Api\IriConverterInterface;
 use ApiPlatform\Core\Api\OperationType;
-use ApiPlatform\Core\Api\UrlGeneratorInterface;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Core\Bridge\Symfony\Routing\RouteNameResolverInterface;
 use ApiPlatform\Core\Exception\ResourceClassNotFoundException;
