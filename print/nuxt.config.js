@@ -26,10 +26,10 @@ export default {
    ** Global CSS
    */
   css: [
-    '~/assets/tailwind.css', 
-    '~/assets/fonts.css', 
-    '~/assets/toc.css', 
-    '~/assets/typography.css'
+    '~/assets/tailwind.css',
+    '~/assets/fonts.css',
+    '~/assets/toc.css',
+    '~/assets/typography.css',
   ],
   /*
    ** Plugins to load before mounting the App
