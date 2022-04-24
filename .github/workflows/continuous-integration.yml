@@ -432,25 +432,6 @@ jobs:
       # print docker container logs (good for debugging; can be disabled again lateron)
       - run: docker-compose logs --tail="all"
 
-
-  test-development-setup:
-    name: "Tests: End-to-end for development setup"
-    runs-on: ubuntu-latest
-    env:
-      CI: 'false'
-    steps:
-
-      - uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b # tag=v3
-
-      - run: cp .env.ci .env
-
-      - run: docker-compose up -d
-
-      - run: bash wait-for-container-startup.sh
-
-      - run: docker run -v $PWD:/e2e -w /e2e --network host -e CYPRESS_BASE_URL=http://localhost:3000 cypress/included:9.5.4
-        working-directory: frontend
-
   coveralls-finished:
     name: "Finish coveralls report"
     needs:
