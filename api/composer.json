@@ -56,7 +56,7 @@
         "symfony/css-selector": "6.0.3",
         "symfony/debug-bundle": "6.0.3",
         "symfony/http-client": "6.0.7",
-        "symfony/maker-bundle": "1.40.0",
+        "symfony/maker-bundle": "1.40.1",
         "symfony/phpunit-bridge": "6.0.7",
         "symfony/stopwatch": "6.0.5",
         "symfony/var-dumper": "6.0.6",
