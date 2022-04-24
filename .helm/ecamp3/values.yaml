@@ -73,6 +73,18 @@ print:
     port: 3003
   replicaCount: 1
 
+browserless:
+  enabled: true
+  domain:
+  image:
+    repository: "docker.io/browserless/chrome"
+    pullPolicy: IfNotPresent
+    # Overrides the image tag whose shared default is .Values.imageTag
+    tag: "1.50.0-puppeteer-12.0.1"
+  service:
+    type: ClusterIP
+    port: 3000
+
 mail:
   dummyEnabled: true
   # If using a real mail server, the connection uri to send emails to
