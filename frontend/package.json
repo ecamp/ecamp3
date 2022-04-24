@@ -95,7 +95,7 @@
     "vite": "2.9.5",
     "vite-plugin-components": "0.13.3",
     "vite-plugin-shim-react-pdf": "1.0.5",
-    "vite-plugin-vue2": "1.9.3",
+    "vite-plugin-vue2": "2.0.0",
     "vite-plugin-vue2-svg": "0.1.8",
     "vue-cli-plugin-vuetify": "2.4.8",
     "vue-template-compiler": "2.6.14"
