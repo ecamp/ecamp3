@@ -14,12 +14,14 @@ app.use(cors(corsOptions))
 
 // Require API routes
 const pdfGenerator = require('./routes/pdfGenerator.js')
+const pdfGeneratorNativeChrome = require('./routes/pdfGeneratorNativeChrome.js')
 const health = require('./routes/health.js')
 
 app.use(cookieParser())
 
 // Import API Routes
 app.use(pdfGenerator)
+app.use(pdfGeneratorNativeChrome)
 app.use(health)
 
 // Export express app
