@@ -189,9 +189,12 @@ div.editor >>> .editor__content .ProseMirror {
   box-shadow: none !important;
   outline: none;
   color: rgba(0, 0, 0, 0.87);
-  line-height: normal !important;
+  line-height: 1.5;
 }
 
+div.editor >>> .editor__content .ProseMirror p {
+  letter-spacing: -0.011em;
+}
 div.editor >>> .editor__content .ProseMirror p,
 div.editor >>> .editor__content .ProseMirror ol,
 div.editor >>> .editor__content .ProseMirror ul {
