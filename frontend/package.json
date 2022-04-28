@@ -24,7 +24,7 @@
     "@sentry/browser": "6.19.7",
     "@sentry/vue": "6.19.7",
     "@tiptap/extension-bold": "2.0.0-beta.26",
-    "@tiptap/extension-bubble-menu": "2.0.0-beta.55",
+    "@tiptap/extension-bubble-menu": "2.0.0-beta.56",
     "@tiptap/extension-bullet-list": "2.0.0-beta.26",
     "@tiptap/extension-document": "2.0.0-beta.15",
     "@tiptap/extension-hard-break": "2.0.0-beta.30",
