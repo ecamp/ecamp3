@@ -30,6 +30,18 @@ class ReadContentNodeTest extends ECampApiTestCase {
         ]);
     }
 
+    public function testGetSingleContentNodeIsAllowedInCampPrototype() {
+        // given
+        /** @var ContentNode $contentNode */
+        $contentNode = static::$fixtures['columnLayout1campPrototype'];
+
+        // when (requesting with anonymous user)
+        static::createBasicClient()->request('GET', '/content_nodes/'.$contentNode->getId());
+
+        // then
+        $this->assertResponseStatusCodeSame(200);
+    }
+
     public function testGetSingleContentNodeIncludesProperRelationLinks() {
         /** @var Storyboard $contentNode */
         $contentNode = static::$fixtures['storyboard1'];

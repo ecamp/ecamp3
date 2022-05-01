@@ -2,12 +2,16 @@
 
 namespace App\Tests\Validator;
 
+use App\Entity\Activity;
 use App\Entity\BaseEntity;
 use App\Entity\BelongsToCampInterface;
+use App\Entity\BelongsToContentNodeInterface;
 use App\Entity\Camp;
+use App\Entity\ContentNode\ColumnLayout;
 use App\Validator\AssertBelongsToSameCamp;
 use App\Validator\AssertBelongsToSameCampValidator;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\EntityRepository;
 use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Request;
@@ -59,7 +63,7 @@ class AssertBelongsToSameCampValidatorTest extends ConstraintValidatorTestCase {
         $this->assertNoViolation();
     }
 
-    public function testValid() {
+    public function testValidViaBelongsToCampInterface() {
         // given
         $camp = $this->createMock(Camp::class);
         $camp->method('getId')->willReturn('idfromtest');
@@ -69,6 +73,28 @@ class AssertBelongsToSameCampValidatorTest extends ConstraintValidatorTestCase {
 
         // when
         $this->validator->validate($child, new AssertBelongsToSameCamp());
+
+        // then
+        $this->assertNoViolation();
+    }
+
+    public function testValidViaBelongsToContentNodeInterface() {
+        // given
+        $camp = $this->createMock(Camp::class);
+        $camp->method('getId')->willReturn('idfromtest');
+        $root = new ColumnLayout();
+        $contentNode = new ContentNodeTestClass($root);
+        $parent = new ParentTestClass($camp);
+        $this->setObject($parent);
+
+        $activity = $this->createMock(Activity::class);
+        $activity->method('getCamp')->willReturn($camp);
+        $repository = $this->createMock(EntityRepository::class);
+        $this->em->method('getRepository')->willReturn($repository);
+        $repository->method('findOneBy')->willReturn($activity);
+
+        // when
+        $this->validator->validate($contentNode, new AssertBelongsToSameCamp());
 
         // then
         $this->assertNoViolation();
@@ -149,12 +175,21 @@ class ChildTestClass implements BelongsToCampInterface {
 
 class ParentTestClass extends BaseEntity implements BelongsToCampInterface {
     #[AssertBelongsToSameCamp]
-    public ChildTestClass $child;
+    public ?ChildTestClass $child;
 
-    public function __construct(public Camp $camp, ChildTestClass $child) {
+    public function __construct(public Camp $camp, ?ChildTestClass $child = null) {
     }
 
     public function getCamp(): ?Camp {
         return $this->camp;
+    }
+}
+
+class ContentNodeTestClass implements BelongsToContentNodeInterface {
+    public function __construct(public ColumnLayout $root) {
+    }
+
+    public function getRoot(): ?ColumnLayout {
+        return $this->root;
     }
 }

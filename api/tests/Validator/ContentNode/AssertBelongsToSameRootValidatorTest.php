@@ -2,7 +2,6 @@
 
 namespace App\Tests\Validator\ContentNode;
 
-use App\Entity\Activity;
 use App\Entity\BaseEntity;
 use App\Entity\BelongsToCampInterface;
 use App\Entity\Camp;
@@ -11,6 +10,8 @@ use App\Entity\ContentNode\ColumnLayout;
 use App\Validator\ContentNode\AssertBelongsToSameRoot;
 use App\Validator\ContentNode\AssertBelongsToSameRootValidator;
 use PHPUnit\Framework\MockObject\MockObject;
+use Symfony\Component\HttpFoundation\ParameterBag;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
@@ -56,6 +57,26 @@ class AssertBelongsToSameRootValidatorTest extends ConstraintValidatorTestCase {
         $this->validator->validate(null, new AssertBelongsToSameRoot());
     }
 
+    public function testNullIsValidIfValueWasNullBefore() {
+        // given
+        $previous = new ColumnLayout();
+        $previous->parent = null;
+
+        $current = new ColumnLayout();
+        $current->parent = null;
+        $this->setProperty($current, 'parent');
+
+        $request = $this->createMock(Request::class);
+        $request->attributes = new ParameterBag(['previous_data' => $previous]);
+        $this->requestStack->method('getCurrentRequest')->willReturn($request);
+
+        // when
+        $this->validator->validate($current->parent, new AssertBelongsToSameRoot());
+
+        // then
+        $this->assertNoViolation();
+    }
+
     public function testEmptyIsNotValid() {
         // then
         $this->expectException(UnexpectedValueException::class);
@@ -66,10 +87,7 @@ class AssertBelongsToSameRootValidatorTest extends ConstraintValidatorTestCase {
 
     public function testValid() {
         // given
-        $activity = $this->createMock(Activity::class);
-        $activity->method('getId')->willReturn('idfromtest');
         $root = new ColumnLayout();
-        $root->owner[] = $activity;
         $root->root = $root;
         $parent = new ColumnLayout();
         $parent->root = $root;
@@ -88,15 +106,11 @@ class AssertBelongsToSameRootValidatorTest extends ConstraintValidatorTestCase {
 
     public function testInvalid() {
         // given
-        $activity = $this->createMock(Activity::class);
-        $activity->method('getId')->willReturn('idfromtest');
         $category = $this->createMock(Category::class);
         $category->method('getId')->willReturn('anotheridfromtest');
         $root = new ColumnLayout();
-        $root->owner[] = $activity;
         $root->root = $root;
         $root2 = new ColumnLayout();
-        $root2->owner[] = $category;
         $root2->root = $root2;
         $parent = new ColumnLayout();
         $parent->root = $root2;
