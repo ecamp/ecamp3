@@ -35,7 +35,7 @@ class AssertBelongsToSameRootValidator extends ConstraintValidator {
             throw new UnexpectedValueException($value, ContentNode::class);
         }
 
-        if ($value->getRoot()->getId() !== $object->getRoot()->getId() || null === $value->getRoot()->getId()) {
+        if ($value->getRoot()->getId() !== $object->getRoot()->getId() || null === $value->getRoot()) {
             $this->context->buildViolation($constraint->message)
                 ->addViolation()
             ;

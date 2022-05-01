@@ -10,9 +10,9 @@ use App\Entity\Category;
 use Doctrine\ORM\EntityManagerInterface;
 
 trait GetCampFromContentNodeTrait {
-    private function getCampFromInterface(BelongsToCampInterface|BelongsToContentNodeInterface $subject, EntityManagerInterface $em): null|Camp {
+    private function getCampFromInterface(mixed $subject, EntityManagerInterface $em): null|Camp {
         if ($subject instanceof BelongsToCampInterface) {
-            return $subject?->getCamp();
+            return $subject->getCamp();
         }
 
         if ($subject instanceof BelongsToContentNodeInterface) {
@@ -23,7 +23,7 @@ trait GetCampFromContentNodeTrait {
     }
 
     private function getCampFromContentNode(BelongsToContentNodeInterface $subject, EntityManagerInterface $em): null|Camp {
-        $rootContentNode = $subject?->getRoot();
+        $rootContentNode = $subject->getRoot();
 
         $activity = $em
             ->getRepository(Activity::class)

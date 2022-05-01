@@ -58,13 +58,6 @@ abstract class ContentNode extends BaseEntity implements BelongsToContentNodeInt
     public ?ColumnLayout $root = null;
 
     /**
-     * All content nodes that are part of this content node tree.
-     */
-    #[ApiProperty(readable: false, writable: false)]
-    #[ORM\OneToMany(targetEntity: ContentNode::class, mappedBy: 'root')]
-    public Collection $rootDescendants;
-
-    /**
      * The parent to which this content node belongs. Is null in case this content node is the
      * root of a content node tree. For non-root content nodes, the parent can be changed, as long
      * as the new parent is in the same camp as the old one.
@@ -130,7 +123,6 @@ abstract class ContentNode extends BaseEntity implements BelongsToContentNodeInt
 
     public function __construct() {
         parent::__construct();
-        $this->rootDescendants = new ArrayCollection();
         $this->children = new ArrayCollection();
     }
 
@@ -155,33 +147,6 @@ abstract class ContentNode extends BaseEntity implements BelongsToContentNodeInt
         }
 
         return $this->root;
-    }
-
-    /**
-     * @return ContentNode[]
-     */
-    public function getRootDescendants(): array {
-        return $this->rootDescendants->getValues();
-    }
-
-    public function addRootDescendant(self $rootDescendant): self {
-        if (!$this->rootDescendants->contains($rootDescendant)) {
-            $this->rootDescendants[] = $rootDescendant;
-            $rootDescendant->root = $this;
-        }
-
-        return $this;
-    }
-
-    public function removeRootDescendant(self $rootDescendant): self {
-        if ($this->rootDescendants->removeElement($rootDescendant)) {
-            // reset the owning side (unless already changed)
-            if ($rootDescendant->root === $this) {
-                $rootDescendant->root = $rootDescendant;
-            }
-        }
-
-        return $this;
     }
 
     /**
