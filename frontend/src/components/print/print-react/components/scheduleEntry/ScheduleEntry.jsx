@@ -44,7 +44,7 @@ function ScheduleEntry (props) {
       </View>
     </View>
     <View style={{ marginBottom: '20pt' }}>
-      <ContentNode {...props} contentNode={activity.rootContentNode()} />
+      <ContentNode {...props} contentNode={activity.rootContentNode()} allContentNodes={activity.contentNodes()} />
     </View>
   </React.Fragment>
 }
