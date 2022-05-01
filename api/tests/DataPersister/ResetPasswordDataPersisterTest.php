@@ -7,11 +7,13 @@ use App\DataPersister\Util\DataPersisterObservable;
 use App\DTO\ResetPassword;
 use App\Entity\User;
 use App\Repository\UserRepository;
+use App\Security\ReCaptcha\ReCaptcha;
 use App\Service\MailService;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use ReCaptcha\Response;
 use stdClass;
 use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactory;
 use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactoryInterface;
@@ -27,6 +29,8 @@ class ResetPasswordDataPersisterTest extends TestCase {
     private ResetPassword $resetPassword;
 
     private MockObject|DataPersisterObservable $dataPersisterObservable;
+    private MockObject|ReCaptcha $recaptcha;
+    private MockObject|Response $recaptchaResponse;
     private MockObject|EntityManagerInterface $entityManager;
     private MockObject|UserRepository $userRepository;
     private MockObject|PasswordHasherFactoryInterface $pwHasherFactory;
@@ -41,11 +45,18 @@ class ResetPasswordDataPersisterTest extends TestCase {
         $this->resetPassword = new ResetPassword();
 
         $this->dataPersisterObservable = $this->createMock(DataPersisterObservable::class);
+        $this->recaptchaResponse = $this->createMock(Response::class);
+        $this->recaptcha = $this->createMock(ReCaptcha::class);
         $this->entityManager = $this->createMock(EntityManagerInterface::class);
         $this->userRepository = $this->createMock(UserRepository::class);
         $this->pwHasherFactory = $this->createMock(PasswordHasherFactory::class);
         $this->pwHasher = $this->createMock(PasswordHasherInterface::class);
         $this->mailService = $this->createMock(MailService::class);
+
+        $this->recaptcha->expects(self::any())
+            ->method('verify')
+            ->willReturn($this->recaptchaResponse)
+        ;
 
         $this->pwHasherFactory->expects(self::any())
             ->method('getPasswordHasher')
@@ -54,6 +65,7 @@ class ResetPasswordDataPersisterTest extends TestCase {
 
         $this->dataPersister = new ResetPasswordDataPersister(
             $this->dataPersisterObservable,
+            $this->recaptcha,
             $this->entityManager,
             $this->userRepository,
             $this->pwHasherFactory,
@@ -80,7 +92,22 @@ class ResetPasswordDataPersisterTest extends TestCase {
         $this->dataPersister->remove(null);
     }
 
+    public function testCreateRequiresReCaptcha() {
+        $this->recaptchaResponse->expects(self::once())
+            ->method('isSuccess')
+            ->willReturn(false)
+        ;
+        $this->resetPassword->recaptchaToken = 'token';
+
+        $this->expectException(Exception::class);
+        $this->dataPersister->beforeCreate($this->resetPassword);
+    }
+
     public function testCreateWithUnknownEmailDoesNotCreateResetKey() {
+        $this->recaptchaResponse->expects(self::once())
+            ->method('isSuccess')
+            ->willReturn(true)
+        ;
         $this->userRepository->expects(self::once())
             ->method('loadUserByIdentifier')
             ->willReturn(null)
@@ -89,6 +116,7 @@ class ResetPasswordDataPersisterTest extends TestCase {
             ->method('sendPasswordResetLink')
         ;
 
+        $this->resetPassword->recaptchaToken = 'token';
         $this->resetPassword->email = self::EMAIL;
 
         $this->expectException(Exception::class);
@@ -96,6 +124,10 @@ class ResetPasswordDataPersisterTest extends TestCase {
     }
 
     public function testCreateWithKnowneMailCreatesResetKey() {
+        $this->recaptchaResponse->expects(self::once())
+            ->method('isSuccess')
+            ->willReturn(true)
+        ;
         $user = new User();
         $this->userRepository->expects(self::once())
             ->method('loadUserByIdentifier')
@@ -113,6 +145,7 @@ class ResetPasswordDataPersisterTest extends TestCase {
             ->with($user, $this->resetPassword)
         ;
 
+        $this->resetPassword->recaptchaToken = 'token';
         $this->resetPassword->email = self::EMAIL;
         $data = $this->dataPersister->beforeCreate($this->resetPassword);
 
@@ -120,18 +153,27 @@ class ResetPasswordDataPersisterTest extends TestCase {
     }
 
     public function testUpdateWithUnknownEmailThrowsException() {
+        $this->recaptchaResponse->expects(self::once())
+            ->method('isSuccess')
+            ->willReturn(true)
+        ;
         $this->userRepository->expects(self::once())
             ->method('loadUserByIdentifier')
             ->willReturn(null)
         ;
 
         $this->resetPassword->id = base64_encode(self::EMAIL.'#');
+        $this->resetPassword->recaptchaToken = 'token';
 
         $this->expectException(Exception::class);
         $this->dataPersister->beforeUpdate($this->resetPassword);
     }
 
     public function testUpdateWithUserHasNoResetKeyThrowsException() {
+        $this->recaptchaResponse->expects(self::once())
+            ->method('isSuccess')
+            ->willReturn(true)
+        ;
         $user = new User();
         $this->userRepository->expects(self::once())
             ->method('loadUserByIdentifier')
@@ -140,12 +182,17 @@ class ResetPasswordDataPersisterTest extends TestCase {
         ;
 
         $this->resetPassword->id = base64_encode(self::EMAIL.'#');
+        $this->resetPassword->recaptchaToken = 'token';
 
         $this->expectException(Exception::class);
         $this->dataPersister->beforeUpdate($this->resetPassword);
     }
 
     public function testUpdateWithWrongResetKeyThrowsException() {
+        $this->recaptchaResponse->expects(self::once())
+            ->method('isSuccess')
+            ->willReturn(true)
+        ;
         $user = new User();
         $user->passwordResetKeyHash = 'resetKey';
 
@@ -160,12 +207,17 @@ class ResetPasswordDataPersisterTest extends TestCase {
         ;
 
         $this->resetPassword->id = base64_encode(self::EMAIL.'#myKey');
+        $this->resetPassword->recaptchaToken = 'token';
 
         $this->expectException(Exception::class);
         $this->dataPersister->beforeUpdate($this->resetPassword);
     }
 
     public function testUpdateWithCorrectResetKey() {
+        $this->recaptchaResponse->expects(self::once())
+            ->method('isSuccess')
+            ->willReturn(true)
+        ;
         $user = new User();
         $user->passwordResetKeyHash = 'resetKey';
 
@@ -184,6 +236,7 @@ class ResetPasswordDataPersisterTest extends TestCase {
         ;
 
         $this->resetPassword->id = base64_encode(self::EMAIL.'#myKey');
+        $this->resetPassword->recaptchaToken = 'token';
         $this->resetPassword->password = 'newPassword';
 
         $this->dataPersister->beforeUpdate($this->resetPassword);

@@ -55,7 +55,7 @@
     },
     "storycontext": {
       "add": "Aggiungi filo conduttore",
-      "name": "Filo conduttore"
+      "name": "Storia"
     }
   },
   "components": {
@@ -244,7 +244,7 @@
         "campIsLoading": "Il campo sta caricando",
         "material": "Materiale",
         "print": "Stampa",
-        "story": "filo conduttore",
+        "story": "Storia",
         "tasks": "Compiti",
         "team": "Team"
       },
@@ -254,7 +254,7 @@
       "story": {
         "editModeOff": "Modifica disattivata",
         "editModeOn": "Modifica in corso",
-        "title": "Azione"
+        "title": "Storia"
       }
     },
     "campCreate": {

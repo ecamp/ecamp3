@@ -6,16 +6,19 @@ use ApiPlatform\Core\DataPersister\ContextAwareDataPersisterInterface;
 use App\DataPersister\Util\DataPersisterObservable;
 use App\DTO\ResetPassword;
 use App\Repository\UserRepository;
+use App\Security\ReCaptcha\ReCaptcha;
 use App\Service\MailService;
 use App\Util\IdGenerator;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactoryInterface;
 use Symfony\Component\PasswordHasher\PasswordHasherInterface;
 
 class ResetPasswordDataPersister implements ContextAwareDataPersisterInterface {
     public function __construct(
         private DataPersisterObservable $dataPersisterObservable,
+        private ReCaptcha $reCaptcha,
         private EntityManagerInterface $em,
         private UserRepository $userRepository,
         private PasswordHasherFactoryInterface $pwHasherFactory,
@@ -42,10 +45,15 @@ class ResetPasswordDataPersister implements ContextAwareDataPersisterInterface {
     }
 
     public function beforeCreate(ResetPassword $data): ResetPassword {
+        $resp = $this->reCaptcha->verify($data->recaptchaToken);
+        if (!$resp->isSuccess()) {
+            throw new HttpException(422, 'ReCaptcha failed');
+        }
+
         $user = $this->userRepository->loadUserByIdentifier($data->email);
 
         if (null == $user) {
-            throw new Exception('Create request failed');
+            throw new HttpException(422, 'Create request failed');
         }
 
         $resetKey = IdGenerator::generateRandomHexString(64);
@@ -59,6 +67,11 @@ class ResetPasswordDataPersister implements ContextAwareDataPersisterInterface {
     }
 
     public function beforeUpdate(ResetPassword $data): ResetPassword {
+        $resp = $this->reCaptcha->verify($data->recaptchaToken);
+        if (!$resp->isSuccess()) {
+            throw new HttpException(422, 'ReCaptcha failed');
+        }
+
         [$email, $resetKey] = explode('#', base64_decode($data->id), 2);
         $user = $this->userRepository->loadUserByIdentifier($email);
 
@@ -67,7 +80,7 @@ class ResetPasswordDataPersister implements ContextAwareDataPersisterInterface {
             || null == $user->passwordResetKeyHash
             || !$this->getResetKeyHasher()->verify($user->passwordResetKeyHash, $resetKey)
         ) {
-            throw new Exception('Password reset failed');
+            throw new HttpException(422, 'Password reset failed');
         }
 
         $passwordHasher = $this->pwHasherFactory->getPasswordHasher($user);

@@ -1,6 +1,6 @@
 import Vuex from 'vuex'
 import axios from 'axios'
-import VueAxios from 'vue-axios'
+import VueAxios from 'vue-axios/dist/vue-axios.common.min'
 import HalJsonVuex from 'hal-json-vuex'
 import lang from './lang'
 

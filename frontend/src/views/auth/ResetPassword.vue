@@ -91,6 +91,7 @@
 </template>
 
 <script>
+import { load } from 'recaptcha-v3'
 import { ValidationObserver } from 'vee-validate'
 import { passwordStrength } from 'check-password-strength'
 
@@ -106,7 +107,8 @@ export default {
       email: null,
       password: '',
       confirmation: '',
-      status: 'loading'
+      status: 'loading',
+      recaptcha: null
     }
   },
 
@@ -127,6 +129,14 @@ export default {
   },
 
   async mounted () {
+    if (window.environment.RECAPTCHA_SITE_KEY) {
+      this.recaptcha = load(window.environment.RECAPTCHA_SITE_KEY, {
+        explicitRenderParameters: {
+          badge: 'bottomleft'
+        }
+      })
+    }
+
     const url = await this.api.href(this.api.get(), 'resetPassword', { id: this.id })
     this.api.get(url)._meta.load.then(info => {
       this.email = info.email
@@ -139,7 +149,14 @@ export default {
   methods: {
     async resetPassword () {
       this.status = 'reseting'
-      this.$auth.resetPassword(this.id, this.password).then(() => {
+
+      let recaptchaToken = null
+      if (this.recaptcha) {
+        const recaptcha = await this.recaptcha
+        recaptchaToken = await recaptcha.execute('login')
+      }
+
+      this.$auth.resetPassword(this.id, this.password, recaptchaToken).then(() => {
         this.status = 'success'
       }).catch((e) => {
         this.status = 'failed'

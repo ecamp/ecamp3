@@ -54,8 +54,8 @@
       "name": "Programmabschnitt"
     },
     "storycontext": {
-      "add": "Roten Faden hinzufügen",
-      "name": "Roter Faden"
+      "add": "Geschichte hinzufügen",
+      "name": "Geschichte"
     }
   },
   "components": {
@@ -334,7 +334,7 @@
         "title": "Lagerabschnitt"
       },
       "story": {
-        "title": "Roter Faden"
+        "title": "Geschichte"
       },
       "material": {
         "groupByList": "Nach Materialliste gruppieren"

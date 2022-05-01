@@ -10,9 +10,6 @@ use App\Tests\Api\ECampApiTestCase;
  * @internal
  */
 class CreateMaterialListTest extends ECampApiTestCase {
-    // TODO input filter tests
-    // TODO validation tests
-
     public function testCreateMaterialListIsDeniedForAnonymousUser() {
         static::createBasicClient()->request('POST', '/material_lists', ['json' => $this->getExampleWritePayload()]);
 
@@ -99,6 +96,25 @@ class CreateMaterialListTest extends ECampApiTestCase {
         ]);
     }
 
+    public function testCreateMaterialListDisallowsSettingCampCollaboration() {
+        static::createClientWithCredentials()
+            ->request(
+                'POST',
+                '/material_lists',
+                [
+                    'json' => $this->getExampleWritePayload([
+                        'campCollaboration' => $this->getIriFor('campCollaboration1manager'),
+                    ]),
+                ]
+            )
+        ;
+
+        $this->assertResponseStatusCodeSame(400);
+        $this->assertJsonContains([
+            'detail' => 'Extra attributes are not allowed ("campCollaboration" is unknown).',
+        ]);
+    }
+
     public function testCreateMaterialListValidatesMissingName() {
         static::createClientWithCredentials()->request('POST', '/material_lists', ['json' => $this->getExampleWritePayload([], ['name'])]);
 
@@ -107,9 +123,71 @@ class CreateMaterialListTest extends ECampApiTestCase {
             'violations' => [
                 [
                     'propertyPath' => 'name',
-                    'message' => 'This value should not be null.',
+                    'message' => 'This value should not be blank.',
                 ],
             ],
+        ]);
+    }
+
+    public function testCreateMaterialListValidatesTooLongName() {
+        static::createClientWithCredentials()
+            ->request(
+                'POST',
+                '/material_lists',
+                [
+                    'json' => $this->getExampleWritePayload([
+                        'name' => 'a very long name with more than a',
+                    ]),
+                ]
+            )
+    ;
+
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [
+                    'propertyPath' => 'name',
+                    'message' => 'This value is too long. It should have 32 characters or less.',
+                ],
+            ],
+        ]);
+    }
+
+    public function testCreateMaterialListTrimsName() {
+        static::createClientWithCredentials()
+            ->request(
+                'POST',
+                '/material_lists',
+                [
+                    'json' => $this->getExampleWritePayload([
+                        'name' => ' Something ',
+                    ]),
+                ]
+            )
+        ;
+
+        $this->assertResponseStatusCodeSame(201);
+        $this->assertJsonContains([
+            'name' => 'Something',
+        ]);
+    }
+
+    public function testCreateMaterialListCleansHtml() {
+        static::createClientWithCredentials()
+            ->request(
+                'POST',
+                '/material_lists',
+                [
+                    'json' => $this->getExampleWritePayload([
+                        'name' => ' Some<script>alert(1)</script>thing ',
+                    ]),
+                ]
+            )
+        ;
+
+        $this->assertResponseStatusCodeSame(201);
+        $this->assertJsonContains([
+            'name' => 'Something',
         ]);
     }
 

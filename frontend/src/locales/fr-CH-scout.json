@@ -8,5 +8,17 @@
   },
   "global": {
     "language": "Français (Scout)"
+  },
+  "contentNode": {
+    "storycontext": {
+      "name": "Fil rouge"
+    }
+  },
+  "views": {
+    "camp": {
+      "story": {
+        "title": "Fil rouge"
+      }
+    }
   }
 }

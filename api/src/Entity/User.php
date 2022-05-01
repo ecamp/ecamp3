@@ -76,6 +76,13 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
     public string $state = self::STATE_NONREGISTERED;
 
     /**
+     * ReCaptchaToken used on Register-View.
+     */
+    #[ApiProperty(readable: false, writable: true)]
+    #[Groups(['create'])]
+    public ?string $recaptchaToken = null;
+
+    /**
      * User-Input for activation.
      */
     #[ApiProperty(readable: false, writable: true)]
