@@ -25,16 +25,8 @@ abstract class AbstractContentNodeOwner extends BaseEntity {
         parent::__construct();
     }
 
-    public function setRootContentNode(?ContentNode $rootContentNode) {
-        // unset the owning side of the relation if necessary
-        if (null === $rootContentNode && null !== $this->rootContentNode) {
-            $this->rootContentNode->owner = [];
-        }
-
+    public function setRootContentNode(?ColumnLayout $rootContentNode) {
         if (null !== $rootContentNode) {
-            // set the owning side of the relation if necessary
-            $rootContentNode->owner[] = $this;
-
             // make content node a root node
             $rootContentNode->addRootDescendant($rootContentNode);
         }

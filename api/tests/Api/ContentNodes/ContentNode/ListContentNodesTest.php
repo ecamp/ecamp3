@@ -14,7 +14,7 @@ class ListContentNodesTest extends ECampApiTestCase {
         $response = static::createClientWithCredentials()->request('GET', '/content_nodes');
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
-            'totalItems' => 19,
+            'totalItems' => 20,
             '_links' => [
                 'items' => [],
             ],
@@ -30,6 +30,7 @@ class ListContentNodesTest extends ECampApiTestCase {
             ['href' => $this->getIriFor('columnLayout3')],
             ['href' => $this->getIriFor('columnLayout4')],
             ['href' => $this->getIriFor('columnLayout5')],
+            ['href' => $this->getIriFor('columnLayout1camp2')],
             ['href' => $this->getIriFor('columnLayout2camp2')],
             ['href' => $this->getIriFor('columnLayout1campPrototype')],
             ['href' => $this->getIriFor('columnLayout2campPrototype')],

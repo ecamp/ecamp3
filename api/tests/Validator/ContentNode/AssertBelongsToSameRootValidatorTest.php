@@ -8,8 +8,10 @@ use App\Entity\BelongsToCampInterface;
 use App\Entity\Camp;
 use App\Entity\Category;
 use App\Entity\ContentNode\ColumnLayout;
-use App\Validator\ContentNode\AssertBelongsToSameOwner;
-use App\Validator\ContentNode\AssertBelongsToSameOwnerValidator;
+use App\Validator\ContentNode\AssertBelongsToSameRoot;
+use App\Validator\ContentNode\AssertBelongsToSameRootValidator;
+use PHPUnit\Framework\MockObject\MockObject;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 use Symfony\Component\Validator\Exception\UnexpectedValueException;
@@ -18,7 +20,9 @@ use Symfony\Component\Validator\Test\ConstraintValidatorTestCase;
 /**
  * @internal
  */
-class AssertBelongsToSameOwnerValidatorTest extends ConstraintValidatorTestCase {
+class AssertBelongsToSameRootValidatorTest extends ConstraintValidatorTestCase {
+    private MockObject|RequestStack $requestStack;
+
     public function testExpectsMatchingAnnotation() {
         $this->expectException(UnexpectedTypeException::class);
         $this->validator->validate(null, new Email());
@@ -26,7 +30,7 @@ class AssertBelongsToSameOwnerValidatorTest extends ConstraintValidatorTestCase 
 
     public function testExpectsContentNodeValue() {
         $this->expectException(UnexpectedValueException::class);
-        $this->validator->validate(new \stdClass(), new AssertBelongsToSameOwner());
+        $this->validator->validate(new \stdClass(), new AssertBelongsToSameRoot());
     }
 
     public function testExpectsContentNodeObject() {
@@ -41,17 +45,23 @@ class AssertBelongsToSameOwnerValidatorTest extends ConstraintValidatorTestCase 
         $this->expectException(UnexpectedValueException::class);
 
         // when
-        $this->validator->validate($child, new AssertBelongsToSameOwner());
+        $this->validator->validate($child, new AssertBelongsToSameRoot());
     }
 
-    public function testNullIsValid() {
-        $this->validator->validate(null, new AssertBelongsToSameOwner());
-        $this->assertNoViolation();
+    public function testNullIsNotValid() {
+        // then
+        $this->expectException(UnexpectedValueException::class);
+
+        // when
+        $this->validator->validate(null, new AssertBelongsToSameRoot());
     }
 
-    public function testEmptyIsValid() {
-        $this->validator->validate('', new AssertBelongsToSameOwner());
-        $this->assertNoViolation();
+    public function testEmptyIsNotValid() {
+        // then
+        $this->expectException(UnexpectedValueException::class);
+
+        // when
+        $this->validator->validate('', new AssertBelongsToSameRoot());
     }
 
     public function testValid() {
@@ -70,7 +80,7 @@ class AssertBelongsToSameOwnerValidatorTest extends ConstraintValidatorTestCase 
         $this->setObject($child);
 
         // when
-        $this->validator->validate($parent, new AssertBelongsToSameOwner());
+        $this->validator->validate($parent, new AssertBelongsToSameRoot());
 
         // then
         $this->assertNoViolation();
@@ -97,14 +107,16 @@ class AssertBelongsToSameOwnerValidatorTest extends ConstraintValidatorTestCase 
         $this->setObject($child);
 
         // when
-        $this->validator->validate($parent, new AssertBelongsToSameOwner());
+        $this->validator->validate($parent, new AssertBelongsToSameRoot());
 
         // then
-        $this->buildViolation('Must belong to the same owner.')->assertRaised();
+        $this->buildViolation('Must belong to the same root.')->assertRaised();
     }
 
     protected function createValidator() {
-        return new AssertBelongsToSameOwnerValidator();
+        $this->requestStack = $this->createMock(RequestStack::class);
+
+        return new AssertBelongsToSameRootValidator($this->requestStack);
     }
 }
 
@@ -118,7 +130,7 @@ class ChildTestClass implements BelongsToCampInterface {
 }
 
 class ParentTestClass extends BaseEntity implements BelongsToCampInterface {
-    #[AssertBelongsToSameOwner]
+    #[AssertBelongsToSameRoot]
     public ChildTestClass $child;
 
     public function __construct(public Camp $camp, ChildTestClass $child) {

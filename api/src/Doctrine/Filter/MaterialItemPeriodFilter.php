@@ -66,7 +66,6 @@ final class MaterialItemPeriodFilter extends AbstractContextAwareFilter {
         $periodParameterName = $queryNameGenerator->generateParameterName($property);
         $materialNodeJoinAlias = $queryNameGenerator->generateJoinAlias('materialNode');
         $rootJoinAlias = $queryNameGenerator->generateJoinAlias('root');
-        $ownerJoinAlias = $queryNameGenerator->generateJoinAlias('owner');
         $activityJoinAlias = $queryNameGenerator->generateJoinAlias('activity');
         $scheduleEntryJoinAlias = $queryNameGenerator->generateJoinAlias('scheduleEntry');
 
@@ -84,8 +83,7 @@ final class MaterialItemPeriodFilter extends AbstractContextAwareFilter {
                     ->createQueryBuilder($materialNodeJoinAlias)
                     ->select("{$materialNodeJoinAlias}.id")
                     ->join("{$materialNodeJoinAlias}.root", $rootJoinAlias)
-                    ->join("{$rootJoinAlias}.owner", $ownerJoinAlias)
-                    ->join(Activity::class, $activityJoinAlias, Join::WITH, "{$activityJoinAlias}.id = {$ownerJoinAlias}.id")
+                    ->join(Activity::class, $activityJoinAlias, Join::WITH, "{$activityJoinAlias}.rootContentNode = {$rootJoinAlias}.id")
                     ->join("{$activityJoinAlias}.scheduleEntries", $scheduleEntryJoinAlias)
                     ->where($queryBuilder->expr()->eq("{$scheduleEntryJoinAlias}.period", ":{$periodParameterName}"))
                     ->getDQL()

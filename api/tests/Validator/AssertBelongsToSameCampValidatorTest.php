@@ -7,6 +7,7 @@ use App\Entity\BelongsToCampInterface;
 use App\Entity\Camp;
 use App\Validator\AssertBelongsToSameCamp;
 use App\Validator\AssertBelongsToSameCampValidator;
+use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,6 +22,7 @@ use Symfony\Component\Validator\Test\ConstraintValidatorTestCase;
  */
 class AssertBelongsToSameCampValidatorTest extends ConstraintValidatorTestCase {
     private MockObject|RequestStack $requestStack;
+    private MockObject|EntityManagerInterface $em;
 
     public function testExpectsMatchingAnnotation() {
         $this->expectException(UnexpectedTypeException::class);
@@ -130,8 +132,9 @@ class AssertBelongsToSameCampValidatorTest extends ConstraintValidatorTestCase {
 
     protected function createValidator() {
         $this->requestStack = $this->createMock(RequestStack::class);
+        $this->em = $this->createMock(EntityManagerInterface::class);
 
-        return new AssertBelongsToSameCampValidator($this->requestStack);
+        return new AssertBelongsToSameCampValidator($this->requestStack, $this->em);
     }
 }
 

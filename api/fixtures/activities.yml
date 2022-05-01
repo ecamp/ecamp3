@@ -9,7 +9,7 @@ App\Entity\Activity:
     camp: '@camp2'
     title: <word()>
     location: <sentence()>
-    rootContentNode: '@materialNode2'
+    rootContentNode: '@columnLayout1camp2'
     category: '@category1camp2'
   activity1campUnrelated:
     camp: '@campUnrelated'

@@ -11,6 +11,7 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Core\Bridge\Symfony\Routing\RouteNameResolverInterface;
 use ApiPlatform\Core\Exception\ResourceClassNotFoundException;
 use ApiPlatform\Core\Metadata\Resource\Factory\ResourceMetadataFactoryInterface;
+use ApiPlatform\Core\Util\ClassInfoTrait;
 use App\Entity\BaseEntity;
 use App\Metadata\Resource\Factory\UriTemplateFactory;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
@@ -80,6 +81,7 @@ use Symfony\Component\Serializer\SerializerInterface;
  */
 class RelatedCollectionLinkNormalizer implements NormalizerInterface, SerializerAwareInterface {
     use PropertyHelperTrait;
+    use ClassInfoTrait;
 
     public function __construct(
         private NormalizerInterface $decorated,
@@ -131,7 +133,7 @@ class RelatedCollectionLinkNormalizer implements NormalizerInterface, Serializer
     }
 
     public function getRelatedCollectionHref($object, $rel, array $context = []): string {
-        $resourceClass = get_class($object);
+        $resourceClass = $this->getObjectClass($object);
 
         if ($this->nameConverter instanceof AdvancedNameConverterInterface) {
             $rel = $this->nameConverter->denormalize($rel, $resourceClass, null, array_merge($context, ['groups' => ['read']]));

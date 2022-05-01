@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use App\Entity\ContentNode\ColumnLayout;
+
 interface BelongsToContentNodeInterface {
-    public function getContentNode(): ?ContentNode;
+    public function getRoot(): ?ColumnLayout;
 }

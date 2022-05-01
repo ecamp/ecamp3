@@ -8,6 +8,7 @@ use App\Entity\Period;
 use App\Entity\User;
 use App\Security\Voter\CampIsPrototypeVoter;
 use App\Security\Voter\CampRoleVoter;
+use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -18,11 +19,13 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 class CampIsPrototypeVoterTest extends TestCase {
     private CampIsPrototypeVoter $voter;
     private TokenInterface|MockObject $token;
+    private MockObject|EntityManagerInterface $em;
 
     public function setUp(): void {
         parent::setUp();
         $this->token = $this->createMock(TokenInterface::class);
-        $this->voter = new CampIsPrototypeVoter();
+        $this->em = $this->createMock(EntityManagerInterface::class);
+        $this->voter = new CampIsPrototypeVoter($this->em);
     }
 
     public function testDoesntVoteWhenAttributeWrong() {

@@ -6,21 +6,20 @@ use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Core\Util\ClassInfoTrait;
 use App\Doctrine\Filter\ContentNodePeriodFilter;
 use App\Entity\ContentNode\ColumnLayout;
 use App\Repository\ContentNodeRepository;
 use App\Util\EntityMap;
-use App\Validator\AssertEitherIsNull;
-use App\Validator\ContentNode\AssertBelongsToSameOwner;
+use App\Validator\ContentNode\AssertBelongsToSameRoot;
 use App\Validator\ContentNode\AssertContentTypeCompatible;
 use App\Validator\ContentNode\AssertNoLoop;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Exception;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Serializer\Annotation\Groups;
-use Symfony\Component\Serializer\Annotation\SerializedName;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * A piece of information that is part of a programme. ContentNodes may store content such as
@@ -44,11 +43,8 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
 #[ORM\Entity(repositoryClass: ContentNodeRepository::class)]
 #[ORM\InheritanceType('JOINED')]
 #[ORM\DiscriminatorColumn(name: 'strategy', type: 'string')]
-abstract class ContentNode extends BaseEntity implements BelongsToCampInterface, CopyFromPrototypeInterface {
-    #[SerializedName('_owner')]
-    #[ApiProperty(readable: false, writable: false)]
-    #[ORM\OneToMany(targetEntity: AbstractContentNodeOwner::class, mappedBy: 'rootContentNode', cascade: ['persist'])]
-    public Collection $owner;
+abstract class ContentNode extends BaseEntity implements BelongsToContentNodeInterface, CopyFromPrototypeInterface {
+    use ClassInfoTrait;
 
     /**
      * The content node that is the root of the content node tree. Refers to itself in case this
@@ -59,7 +55,7 @@ abstract class ContentNode extends BaseEntity implements BelongsToCampInterface,
     #[Groups(['read'])]
     #[ORM\ManyToOne(targetEntity: ColumnLayout::class, inversedBy: 'rootDescendants')]
     #[ORM\JoinColumn(nullable: true)] // TODO make not null in the DB using a migration, and get fixtures to run
-    public ColumnLayout $root;
+    public ?ColumnLayout $root = null;
 
     /**
      * All content nodes that are part of this content node tree.
@@ -71,15 +67,10 @@ abstract class ContentNode extends BaseEntity implements BelongsToCampInterface,
     /**
      * The parent to which this content node belongs. Is null in case this content node is the
      * root of a content node tree. For non-root content nodes, the parent can be changed, as long
-     * as the new parent is in the same camp as the old one. A content node is defined as root when
-     * it has an owner.
+     * as the new parent is in the same camp as the old one.
      */
-    #[AssertEitherIsNull(
-        other: 'owner',
-        messageBothNull: 'Must not be null on non-root content nodes.',
-        messageNoneNull: 'Must be null on root content nodes.'
-    )]
-    #[AssertBelongsToSameOwner(groups: ['update'])]
+    #[Assert\NotNull(groups: ['create'])] // Root nodes have parent:null, but manually creating root nodes is not allowed
+    #[AssertBelongsToSameRoot(groups: ['update'])]
     #[AssertNoLoop(groups: ['update'])]
     #[ApiProperty(example: '/content_nodes/1a2b3c4d')]
     #[Gedmo\SortableGroup]
@@ -139,16 +130,8 @@ abstract class ContentNode extends BaseEntity implements BelongsToCampInterface,
 
     public function __construct() {
         parent::__construct();
-        $this->root = $this;
         $this->rootDescendants = new ArrayCollection();
         $this->children = new ArrayCollection();
-        $this->owner = new ArrayCollection();
-    }
-
-    // Workaround to allow lazy-loading One-To-One inverse side
-    // see https://github.com/doctrine/orm/issues/4389#issuecomment-162367781
-    public function getOwner() {
-        return (false !== $this->owner->first()) ? $this->owner->first() : null;
     }
 
     /**
@@ -164,45 +147,14 @@ abstract class ContentNode extends BaseEntity implements BelongsToCampInterface,
      * The entity that owns the content node tree that this content node resides in.
      */
     #[ApiProperty(readable: false)]
-    public function getRootOwner(): Activity|Category|AbstractContentNodeOwner|null {
+    public function getRoot(): ?ColumnLayout {
         // New created ContentNodes have root == this.
         // Therefore we use the root of the parent-node.
-        if ($this->root === $this && null !== $this->parent) {
-            return $this->parent->root->getOwner();
+        if (null === $this->root && null !== $this->parent) {
+            return $this->parent->root;
         }
 
-        return $this->root->getOwner();
-    }
-
-    /**
-     * The category that owns this content node's content tree, or the category of the
-     * activity that owns this content node's content tree.
-     *
-     * @throws Exception when the owner is neither an activity nor a category
-     */
-    #[ApiProperty(readable: false)]
-    public function getOwnerCategory(): Category {
-        $owner = $this->getRootOwner();
-
-        if ($owner instanceof Activity) {
-            $owner = $owner->category;
-        }
-
-        if ($owner instanceof Category) {
-            return $owner;
-        }
-
-        throw new Exception('Unexpected owner type '.get_debug_type($owner));
-    }
-
-    #[ApiProperty(readable: false)]
-    public function getCamp(): ?Camp {
-        $owner = $this->getRootOwner();
-        if ($owner instanceof BelongsToCampInterface) {
-            return $owner->getCamp();
-        }
-
-        return null;
+        return $this->root;
     }
 
     /**
@@ -274,7 +226,7 @@ abstract class ContentNode extends BaseEntity implements BelongsToCampInterface,
 
         // deep copy children
         foreach ($prototype->getChildren() as $childPrototype) {
-            $childClass = $childPrototype::class;
+            $childClass = $this->getObjectClass($childPrototype);
 
             /** @var ContentNode $childContentNode */
             $childContentNode = new $childClass();

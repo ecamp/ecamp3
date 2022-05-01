@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Activity;
+use App\Entity\ContentNode\ColumnLayout;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
@@ -25,5 +26,9 @@ class ActivityRepository extends ServiceEntityRepository implements CanFilterByU
         $rootAlias = $queryBuilder->getRootAliases()[0];
         $queryBuilder->innerJoin("{$rootAlias}.camp", 'camp');
         $this->filterByCampCollaboration($queryBuilder, $user);
+    }
+
+    public function findOneByRootContentNode(ColumnLayout $rootContentNode) {
+        return $this->findOneBy(['rootContentNode' => $rootContentNode]);
     }
 }
