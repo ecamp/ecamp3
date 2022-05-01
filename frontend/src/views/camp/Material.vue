@@ -68,6 +68,8 @@ export default {
         .map((period, idx) => Date.parse(period.end) >= new Date() ? idx : null)
         .filter(idx => idx !== null)
     })
+
+    this.camp().activities().$reload()
   }
 }
 </script>

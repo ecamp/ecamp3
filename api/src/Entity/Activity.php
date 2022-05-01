@@ -21,7 +21,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ApiResource(
     collectionOperations: [
         'get' => [
-            'normalization_context' => ['groups' => ['read', 'Activity:ActivityResponsibles']],
+            'normalization_context' => ['groups' => ['read', 'Activity:ActivityResponsibles', 'Activity:ScheduleEntries']],
             'security' => 'is_authenticated()',
         ],
         'post' => [

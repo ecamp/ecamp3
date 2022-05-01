@@ -51,7 +51,7 @@ import { camelCase } from 'lodash'
 
 export default {
   name: 'ButtonNestedContentNodeAdd',
-  inject: ['draggableDirty'],
+  inject: ['draggableDirty', 'contentNodeOwner'],
   props: {
     layoutMode: { type: Boolean, default: false },
     parentContentNode: { type: Object, required: true },
@@ -64,11 +64,11 @@ export default {
   },
   computed: {
     preferredContentTypes () {
-      return this.parentContentNode.ownerCategory().preferredContentTypes().items.map(this.contentTypeMap)
+      return this.contentNodeOwner.preferredContentTypes().items.map(this.contentTypeMap)
     },
     nonpreferredContentTypes () {
       return this.api.get().contentTypes().items
-        .filter(ct => !this.parentContentNode.ownerCategory().preferredContentTypes().items.map(ct => ct.id).includes(ct.id)) // remove contentTypes already included in preferredContentTypes
+        .filter(ct => !this.contentNodeOwner.preferredContentTypes().items.map(ct => ct.id).includes(ct.id)) // remove contentTypes already included in preferredContentTypes
         .map(this.contentTypeMap)
     }
   },
@@ -93,7 +93,7 @@ export default {
         // need to clear dirty flag to ensure new content node is visible in case same Patch-calls are still ongoing
         this.draggableDirty.clearDirty(null)
 
-        await this.parentContentNode.owner().$reload()
+        await this.contentNodeOwner.contentNodes().$reload()
       } catch (error) {
         console.log(error) // TO DO: display error message in error snackbar/toast
       }

@@ -80,7 +80,7 @@
       <!-- Activity link (only visible in full period view) -->
       <schedule-entry-links
         v-if="period && showActivityMaterial && item.entityObject && item.entityObject.materialNode"
-        :activity="item.entityObject.materialNode().owner" />
+        :activity-promise="findOneActivityByContentNode(item.entityObject.materialNode())" />
 
       <!-- Action buttons -->
       <div v-if="!item.readonly" class="d-flex">
@@ -363,6 +363,15 @@ export default {
         .catch(error => {
           this.$set(this.newMaterialItems[key], 'serverError', error)
         })
+    },
+
+    async findOneActivityByContentNode (contentNode) {
+      await this.camp.activities().$loadItems()
+      const root = await contentNode.$href('root')
+
+      return this.camp.activities().items.find(activity => {
+        return activity.rootContentNode()._meta.self === root
+      })
     }
   }
 }

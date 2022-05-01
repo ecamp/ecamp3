@@ -156,6 +156,15 @@ export default {
     PdfDownloadButtonNuxt
   },
   mixins: [campRoleMixin],
+  provide () {
+    return {
+      contentNodeOwner: {
+        preferredContentTypes: () => this.preferredContentTypes,
+        contentNodes: () => this.contentNodes,
+        camp: () => this.camp
+      }
+    }
+  },
   props: {
     scheduleEntry: {
       type: Function,
@@ -184,6 +193,9 @@ export default {
     },
     contentNodes () {
       return this.activity.contentNodes()
+    },
+    preferredContentTypes () {
+      return this.category.preferredContentTypes()
     }
   },
 
