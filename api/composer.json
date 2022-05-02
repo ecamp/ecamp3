@@ -28,7 +28,7 @@
         "symfony/console": "6.0.8",
         "symfony/dotenv": "6.0.5",
         "symfony/expression-language": "6.0.8",
-        "symfony/flex": "2.1.7",
+        "symfony/flex": "2.1.8",
         "symfony/framework-bundle": "6.0.8",
         "symfony/intl": "6.0.8",
         "symfony/mailer": "6.0.8",
