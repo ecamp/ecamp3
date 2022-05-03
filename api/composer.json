@@ -21,7 +21,7 @@
         "phpdocumentor/reflection-docblock": "5.3.0",
         "phpmyadmin/sql-parser": "5.5.0",
         "rize/uri-template": "0.3.4",
-        "sentry/sentry-symfony": "4.2.8",
+        "sentry/sentry-symfony": "4.2.9",
         "stof/doctrine-extensions-bundle": "1.7.0",
         "swaggest/json-schema": "0.12.39",
         "symfony/asset": "6.0.7",
