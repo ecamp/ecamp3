@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3a05b50eff0d34e1b61b3314b50ca5f8",
+    "content-hash": "d33f6aa84b31001f221cbbc4494918d3",
     "packages": [
         {
             "name": "api-platform/core",
@@ -4768,16 +4768,16 @@
         },
         {
             "name": "sentry/sentry-symfony",
-            "version": "4.2.8",
+            "version": "4.2.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/getsentry/sentry-symfony.git",
-                "reference": "faa2f4312d67c35f83b817c73521884aad49bba4"
+                "reference": "a31ea51f7270db461660de6de7e0a3e6b76c9183"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/getsentry/sentry-symfony/zipball/faa2f4312d67c35f83b817c73521884aad49bba4",
-                "reference": "faa2f4312d67c35f83b817c73521884aad49bba4",
+                "url": "https://api.github.com/repos/getsentry/sentry-symfony/zipball/a31ea51f7270db461660de6de7e0a3e6b76c9183",
+                "reference": "a31ea51f7270db461660de6de7e0a3e6b76c9183",
                 "shasum": ""
             },
             "require": {
@@ -4867,7 +4867,7 @@
             ],
             "support": {
                 "issues": "https://github.com/getsentry/sentry-symfony/issues",
-                "source": "https://github.com/getsentry/sentry-symfony/tree/4.2.8"
+                "source": "https://github.com/getsentry/sentry-symfony/tree/4.2.9"
             },
             "funding": [
                 {
@@ -4879,7 +4879,7 @@
                     "type": "custom"
                 }
             ],
-            "time": "2022-03-31T11:39:51+00:00"
+            "time": "2022-05-02T08:23:30+00:00"
         },
         {
             "name": "stella-maris/clock",
