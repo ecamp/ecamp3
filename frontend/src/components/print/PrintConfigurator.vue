@@ -151,55 +151,6 @@ export default {
     lang() {
       return this.$store.state.lang.language
     },
-    dataLoading() {
-      return (
-        this.camp()._meta.loading ||
-        this.camp().periods()._meta.loading ||
-        this.camp()
-          .periods()
-          .items.some((period) => {
-            return (
-              period._meta.loading ||
-              period.scheduleEntries()._meta.loading ||
-              period.scheduleEntries().items.some((scheduleEntry) => {
-                return (
-                  scheduleEntry._meta.loading ||
-                  scheduleEntry.activity()._meta.loading ||
-                  scheduleEntry.activity().category()._meta.loading ||
-                  scheduleEntry.activity().activityResponsibles()._meta.loading ||
-                  scheduleEntry
-                    .activity()
-                    .activityResponsibles()
-                    .items.some((responsible) => {
-                      return (
-                        responsible._meta.loading ||
-                        responsible.campCollaboration()._meta.loading ||
-                        (responsible.campCollaboration().user() !== null &&
-                          responsible.campCollaboration().user()._meta.loading)
-                      )
-                    }) ||
-                  scheduleEntry.activity().contentNodes()._meta.loading ||
-                  scheduleEntry
-                    .activity()
-                    .contentNodes()
-                    .items.some((contentNode) => {
-                      return (
-                        contentNode._meta.loading ||
-                        contentNode.contentType()._meta.loading
-                      )
-                    })
-                )
-              })
-            )
-          }) ||
-        this.camp().materialLists()._meta.loading ||
-        this.camp()
-          .materialLists()
-          .items.some((materialList) => {
-            return materialList._meta.loading
-          })
-      )
-    },
   },
   watch: {
     lang: {
