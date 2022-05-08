@@ -129,7 +129,7 @@ jobs:
 
       - uses: actions/setup-node@v3
         with:
-          node-version: '16.14.2'
+          node-version: '16.15.0'
 
       - uses: actions/cache@48af2dc4a9e8278b89d7fa154b955c30c6aaab09 # tag=v3
         with:
@@ -153,7 +153,7 @@ jobs:
 
       - uses: actions/setup-node@v3
         with:
-          node-version: '16.14.2'
+          node-version: '16.15.0'
 
       - uses: actions/cache@48af2dc4a9e8278b89d7fa154b955c30c6aaab09 # tag=v3
         with:
@@ -176,7 +176,7 @@ jobs:
 
     services:
       postgres:
-        image: 'postgres:14-alpine@sha256:28e8ac42048c31694d443039d5adfe293f24eec7d8c0b4f88aaefcc8df1e5b72'
+        image: 'postgres:14-alpine@sha256:20e49432a20e1a63bb985977c32ec8f110bc609b93de35ad4f19c5486abcefaa'
         env:
           POSTGRES_DB: 'ecamp3test'
           POSTGRES_PASSWORD: 'ecamp3'
@@ -250,7 +250,7 @@ jobs:
 
     services:
       postgres:
-        image: 'postgres:14-alpine@sha256:28e8ac42048c31694d443039d5adfe293f24eec7d8c0b4f88aaefcc8df1e5b72'
+        image: 'postgres:14-alpine@sha256:20e49432a20e1a63bb985977c32ec8f110bc609b93de35ad4f19c5486abcefaa'
         env:
           POSTGRES_DB: 'ecamp3test'
           POSTGRES_PASSWORD: 'ecamp3'
@@ -278,7 +278,7 @@ jobs:
         run: 'echo "::set-output name=dir::$(composer config cache-files-dir)"'
         working-directory: api
 
-      - uses: actions/cache@937d24475381cd9c75ae6db12cb4e79714b926ed # renovate: tag=v2
+      - uses: actions/cache@48af2dc4a9e8278b89d7fa154b955c30c6aaab09 # tag=v3
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
@@ -303,7 +303,7 @@ jobs:
 
       - uses: actions/setup-node@v3
         with:
-          node-version: '16.14.2'
+          node-version: '16.15.0'
 
       - uses: actions/cache@48af2dc4a9e8278b89d7fa154b955c30c6aaab09 # tag=v3
         with:
@@ -340,7 +340,7 @@ jobs:
 
       - uses: actions/setup-node@v3
         with:
-          node-version: '16.14.2'
+          node-version: '16.15.0'
 
       - uses: actions/cache@48af2dc4a9e8278b89d7fa154b955c30c6aaab09 # tag=v3
         with:
@@ -420,37 +420,18 @@ jobs:
       - run: docker-compose up -d php caddy frontend database docker-host
 
       # pull cypress while container are starting up
-      - run: docker pull cypress/included:9.5.4
+      - run: docker pull cypress/included:9.6.0
 
       # wait for backend & frontend to be up and running
       - run: bash wait-for-container-startup.sh
 
       # run end-to-end tests
-      - run: docker run -v $PWD:/e2e -w /e2e --network host -e CYPRESS_BASE_URL=http://localhost:3000 cypress/included:9.5.4
+      - run: docker run -v $PWD:/e2e -w /e2e --network host -e CYPRESS_BASE_URL=http://localhost:3000 cypress/included:9.6.0
         working-directory: frontend
           
       # print docker container logs (good for debugging; can be disabled again lateron)
       - run: docker-compose logs --tail="all"
-
-
-  test-development-setup:
-    name: "Tests: End-to-end for development setup"
-    runs-on: ubuntu-latest
-    env:
-      CI: 'false'
-    steps:
-
-      - uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b # tag=v3
-
-      - run: cp .env.ci .env
-
-      - run: docker-compose up -d
-
-      - run: bash wait-for-container-startup.sh
-
-      - run: docker run -v $PWD:/e2e -w /e2e --network host -e CYPRESS_BASE_URL=http://localhost:3000 cypress/included:9.5.4
-        working-directory: frontend
-
+      
   coveralls-finished:
     name: "Finish coveralls report"
     needs:

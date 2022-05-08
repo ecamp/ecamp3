@@ -69,7 +69,7 @@
     "storycontext": {
       "add": "Add story context",
       "icon": "mdi-book-open-variant",
-      "name": "Story concept"
+      "name": "Story"
     },
     "material": {
       "icon": "mdi-package-variant",
@@ -224,6 +224,9 @@
       },
       "dialogPeriodCreate": {
         "title": "Create period"
+      },
+      "dialogPeriodEdit": {
+        "moveScheduleEntries": "Move schedule entries"
       }
     },
     "invitation": {
@@ -295,7 +298,9 @@
       "saving": "Saving",
       "submit": "Submit",
       "tryagain": "Try again",
-      "update": "Update"
+      "update": "Update",
+      "close": "Close",
+      "search": "Search"
     },
     "changeLanguage": "Change language",
     "empty": {

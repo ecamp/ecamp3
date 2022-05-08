@@ -25,7 +25,12 @@ export default {
   /*
    ** Global CSS
    */
-  css: ['~/assets/fonts.css', '~/assets/toc.css', '~/assets/typography.css'],
+  css: [
+    '~/assets/tailwind.css',
+    '~/assets/fonts.css',
+    '~/assets/toc.css',
+    '~/assets/typography.css',
+  ],
   /*
    ** Plugins to load before mounting the App
    ** https://nuxtjs.org/guide/plugins
@@ -50,7 +55,7 @@ export default {
     // Doc: https://github.com/nuxt-community/stylelint-module
     '@nuxtjs/stylelint-module',
     '@nuxtjs/vuetify',
-    '@nuxtjs/tailwindcss',
+    '@nuxt/postcss8', // used for tailwind
   ],
   /*
    ** Nuxt.js modules
@@ -117,6 +122,8 @@ export default {
     },
     postcss: {
       plugins: {
+        tailwindcss: {},
+        autoprefixer: {},
         cssnano: {
           // minifySelectors changes double colon :: to single colon (https://cssnano.co/docs/optimisations/minifyselectors/)
           // which throws an error in pagedjs (https://gitlab.coko.foundation/pagedjs/pagedjs/-/issues/305)

@@ -126,6 +126,10 @@ postgresql:
     repository: bitnami/postgresql
     tag: 14
 
+recaptcha:
+  siteKey:
+  secret:
+
 serviceAccount:
   # Specifies whether a service account should be created
   create: true

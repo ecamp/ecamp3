@@ -39,10 +39,23 @@ body {font-feature-settings: "ss03", "calt", "rlig", "kern", "cv05", "cv07", "cv
 .w-100 {
 	width: 100%;
 }
-.v-application ul.v-list {
-	padding-left: 0;
-}
+.v-application {
+	ul.v-list {
+		padding-left: 0;
+	}
 
+	.e-title-link {
+		color: #000;
+		text-decoration-color: #1976d2;
+
+		&:hover {
+			text-decoration-thickness: 2px;
+		}
+	}
+}
+.tabular-nums {
+	font-variant-numeric: tabular-nums;
+}
 .e-form-container + .e-form-container {
 	margin-top: 12px;
 }
