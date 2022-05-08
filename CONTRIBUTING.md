@@ -45,7 +45,7 @@ git checkout -b my-new-feature-branch
 ### Code formatting
 We use cs-fixer for PHP and ESLint for Javascript to ensure a common code style. Make sure your code is auto-formatted before comitting and pushing to the repository.
 
-We recommend to [configure your IDE](https://github.com/ecamp/ecamp3/wiki/Getting-started-on-Windows#code-auto-formatting) such that your code is auto-formatted on save.
+We recommend to [configure your IDE](https://github.com/ecamp/ecamp3/wiki/installation-development-windows#code-auto-formatting) such that your code is auto-formatted on save.
 
 Alternatively you can
 * run php-cs-fixer and ESLint manually before each commit:
@@ -108,7 +108,7 @@ git checkout -b my-new-feature-branch
 ### Quellcode Formatierung
 Wir verwenden php-cs-fixer für PHP und ESLint für JS um einen gemeinsamen Code Style zu etablieren. Bitte stelle sicher, dass dein Code automatisch richtig formatiert wird, bevor du diesen ins Git repo committest.
 
-Wir empfehlen deine [IDE so zu konfigurieren](https://github.com/ecamp/ecamp3/wiki/Getting-started-on-Windows#code-auto-formatting), dass dein Code beim Speichern automatisch richtig formatiert wird.
+Wir empfehlen deine [IDE so zu konfigurieren](https://github.com/ecamp/ecamp3/wiki/installation-development-windows#code-auto-formatting), dass dein Code beim Speichern automatisch richtig formatiert wird.
 
 Alternativ kannst du 
 * php-cs-fixer und ESLint vor jedem commit manuell laufen lassen:

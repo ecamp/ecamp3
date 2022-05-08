@@ -47,6 +47,7 @@
 import CategoryLabel from './CategoryLabel.vue'
 import ContentNode from './contentNode/ContentNode.vue'
 import { rangeShort } from '@/../common/helpers/dateHelperUTCFormatted.js'
+import campCollaborationDisplayName from '@/../common/helpers/campCollaborationDisplayName.js'
 
 export default {
   components: { CategoryLabel, ContentNode },
@@ -58,14 +59,7 @@ export default {
     await Promise.all([
       this.scheduleEntry._meta.load,
       this.scheduleEntry.activity()._meta.load,
-      // prettier-ignore
-      this.scheduleEntry.activity().contentNodes().$loadItems().then((contentNodes) => {
-        return Promise.all(contentNodes.items.map((contentNode) => Promise.all([
-          contentNode._meta.load,
-          contentNode.children().$loadItems(),
-          contentNode.contentType()._meta.load,
-        ])))
-      }),
+      this.scheduleEntry.activity().rootContentNode()._meta.load,
       this.scheduleEntry.activity().category()._meta.load,
       this.scheduleEntry.period().camp().materialLists().$loadItems(),
       // prettier-ignore
@@ -84,9 +78,8 @@ export default {
       return this.scheduleEntry
         .activity()
         .activityResponsibles()
-        .items.map(
-          (activityResponsible) =>
-            activityResponsible.campCollaboration().user().displayName
+        .items.map((activityResponsible) =>
+          campCollaborationDisplayName(activityResponsible.campCollaboration())
         )
         .join(', ')
     },

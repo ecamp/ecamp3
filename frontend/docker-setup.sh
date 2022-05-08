@@ -8,6 +8,11 @@ if [ ! -f "$ENV_FILE" ]; then
     cp $BASEDIR/public/environment.docker.dist "$ENV_FILE"
 fi
 
-npm ci
+npm ci --verbose
 
-npm run dev
+if [ "$CI" = 'true' ] ; then
+  npm run build
+  npm run preview
+else
+  npm run dev
+fi

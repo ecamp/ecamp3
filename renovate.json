@@ -35,11 +35,15 @@
       "automerge": false
     },
     {
-      "matchPackageNames": [
-        "eslint",
-        "lint",
-        "stylelint",
-        "prettier"
+      "matchPackagePatterns": [
+        "^(@.*\\/|(.*-)?)eslint(-.*)?$",
+        "^(@.*\\/|(.*-)?)lint(-.*)?$",
+        "^(@.*\\/|(.*-)?)stylelint(-.*)?$",
+        "^(@.*\\/|(.*-)?)prettier(-.*)?$"
+      ],
+      "excludePackageNames": [
+        "@vue/cli-plugin-eslint",
+        "lint-staged"
       ],
       "groupName": "js-linter"
     },
@@ -135,6 +139,15 @@
       "lookupNameTemplate": "nodejs/node",
       "datasourceTemplate": "github-tags",
       "versioningTemplate": "node"
+    },
+    {
+      "fileMatch": [
+        "^.github/workflows/.+\\.ya?ml$"
+      ],
+      "matchStrings": [
+        "image:\\s+'(?<depName>.*):(?<currentValue>.*)@(?<currentDigest>.*)'\\s"
+      ],
+      "datasourceTemplate": "docker"
     }
   ]
 }

@@ -19,10 +19,6 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Serializer\Annotation\Groups;
 
-/**
- * @ORM\Entity(repositoryClass=StoryboardSectionRepository::class)
- * @ORM\Table(name="content_node_storyboard_section")
- */
 #[ApiResource(
     routePrefix: '/content_node',
     collectionOperations: [
@@ -46,37 +42,31 @@ use Symfony\Component\Serializer\Annotation\Groups;
     order: ['storyboard.id', 'position']
 )]
 #[ApiFilter(SearchFilter::class, properties: ['storyboard'])]
+#[ORM\Entity(repositoryClass: StoryboardSectionRepository::class)]
+#[ORM\Table(name: 'content_node_storyboard_section')]
 class StoryboardSection extends BaseEntity implements BelongsToCampInterface, SortableEntityInterface, CopyFromPrototypeInterface {
     use SortableEntityTrait;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="Storyboard", inversedBy="sections")
-     * @ORM\JoinColumn(nullable=false, onDelete="cascade")
-     * @Gedmo\SortableGroup
-     */
     #[ApiProperty(readableLink: false, writableLink: false)]
+    #[Gedmo\SortableGroup]
     #[Groups(['read', 'create'])]
+    #[ORM\ManyToOne(targetEntity: Storyboard::class, inversedBy: 'sections')]
+    #[ORM\JoinColumn(nullable: false, onDelete: 'cascade')]
     public ?Storyboard $storyboard = null;
 
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
     #[InputFilter\CleanHTML]
     #[Groups(['read', 'write'])]
+    #[ORM\Column(type: 'text', nullable: true)]
     public ?string $column1 = null;
 
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
     #[InputFilter\CleanHTML]
     #[Groups(['read', 'write'])]
+    #[ORM\Column(type: 'text', nullable: true)]
     public ?string $column2 = null;
 
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
     #[InputFilter\CleanHTML]
     #[Groups(['read', 'write'])]
+    #[ORM\Column(type: 'text', nullable: true)]
     public ?string  $column3 = null;
 
     #[ApiProperty(readable: false)]

@@ -13,10 +13,6 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
-/**
- * @ORM\Entity(repositoryClass=MaterialNodeRepository::class)
- * @ORM\Table(name="content_node_materialnode")
- */
 #[ApiResource(
     routePrefix: '/content_node',
     collectionOperations: [
@@ -41,12 +37,12 @@ use Symfony\Component\Serializer\Annotation\Groups;
     denormalizationContext: ['groups' => ['write']],
     normalizationContext: ['groups' => ['read']],
 )]
+#[ORM\Entity(repositoryClass: MaterialNodeRepository::class)]
+#[ORM\Table(name: 'content_node_materialnode')]
 class MaterialNode extends ContentNode {
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\MaterialItem", mappedBy="materialNode", orphanRemoval=true, cascade={"persist", "remove"})
-     */
     #[ApiProperty(readableLink: true, writableLink: false)]
     #[Groups(['read'])]
+    #[ORM\OneToMany(targetEntity: 'App\Entity\MaterialItem', mappedBy: 'materialNode', orphanRemoval: true, cascade: ['persist', 'remove'])]
     public Collection $materialItems;
 
     public function __construct() {

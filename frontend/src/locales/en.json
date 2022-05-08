@@ -69,7 +69,7 @@
     "storycontext": {
       "add": "Add story context",
       "icon": "mdi-book-open-variant",
-      "name": "Story concept"
+      "name": "Story"
     },
     "material": {
       "icon": "mdi-package-variant",
@@ -224,6 +224,9 @@
       },
       "dialogPeriodCreate": {
         "title": "Create period"
+      },
+      "dialogPeriodEdit": {
+        "moveScheduleEntries": "Move schedule entries"
       }
     },
     "invitation": {
@@ -295,7 +298,9 @@
       "saving": "Saving",
       "submit": "Submit",
       "tryagain": "Try again",
-      "update": "Update"
+      "update": "Update",
+      "close": "Close",
+      "search": "Search"
     },
     "changeLanguage": "Change language",
     "empty": {
@@ -311,7 +316,8 @@
       "short": "Server error"
     },
     "validation": {
-      "minDate": "{_field_} may not be earlier than {min}"
+      "minDate": "{_field_} may not be earlier than {min}",
+      "pwConfirmed": "Password does not match"
     }
   },
   "views": {
@@ -343,6 +349,7 @@
         },
         "or": "or",
         "password": "Password",
+        "passwordForgotten": "Forgotten your password?",
         "provider": {
           "ecamp": "Login with eCamp",
           "google": "Login with Google",
@@ -366,6 +373,23 @@
         "login": "Login",
         "success": "Successfully registered",
         "title": "Create account"
+      },
+      "resetPassword": {
+        "back": "Log in",
+        "errorMessage": "Reset password failed.",
+        "invalidRequest": "Invalid link",
+        "password": "New password",
+        "passwordConfirmation": "New password again",
+        "send": "Set password",
+        "successMessage": "Successfully set new password.",
+        "title": "Reset password"
+      },
+      "resetPasswordRequest": {
+        "back": "Log in",
+        "errorMessage": "Reset password failed.",
+        "send": "Send",
+        "successMessage": "Mail with Link to reset your password will be delivered.",
+        "title": "Reset password"
       }
     },
     "camp": {

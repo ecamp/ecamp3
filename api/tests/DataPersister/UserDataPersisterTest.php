@@ -5,10 +5,12 @@ namespace App\Tests\DataPersister;
 use App\DataPersister\UserDataPersister;
 use App\DataPersister\Util\DataPersisterObservable;
 use App\Entity\User;
+use App\Security\ReCaptcha\ReCaptcha;
 use App\Service\MailService;
 use Exception;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use ReCaptcha\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasher;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
@@ -17,6 +19,8 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
  */
 class UserDataPersisterTest extends TestCase {
     private UserDataPersister $dataPersister;
+    private MockObject|ReCaptcha $recaptcha;
+    private MockObject|Response $recaptchaResponse;
     private MockObject|UserPasswordHasherInterface $userPasswordHasher;
     private MockObject|MailService $mailService;
     private User $user;
@@ -27,18 +31,40 @@ class UserDataPersisterTest extends TestCase {
     protected function setUp(): void {
         $this->user = new User();
 
+        $this->recaptchaResponse = $this->createMock(Response::class);
+        $this->recaptcha = $this->createMock(ReCaptcha::class);
+        $this->recaptcha->expects(self::any())
+            ->method('verify')
+            ->willReturn($this->recaptchaResponse)
+        ;
+
         $this->userPasswordHasher = $this->createMock(UserPasswordHasher::class);
         $this->mailService = $this->createMock(MailService::class);
         $dataPersisterObservable = $this->createMock(DataPersisterObservable::class);
         $this->dataPersister = new UserDataPersister(
             $dataPersisterObservable,
+            $this->recaptcha,
             $this->userPasswordHasher,
             $this->mailService
         );
     }
 
+    public function testCreateRequiresReCaptcha() {
+        $this->recaptchaResponse->expects(self::once())
+            ->method('isSuccess')
+            ->willReturn(false)
+        ;
+
+        $this->expectException(Exception::class);
+        $this->dataPersister->beforeCreate($this->user);
+    }
+
     public function testDoesNotHashWhenNoPasswordIsSet() {
         // given
+        $this->recaptchaResponse->expects(self::once())
+            ->method('isSuccess')
+            ->willReturn(true)
+        ;
         $this->userPasswordHasher->expects($this->never())->method('hashPassword');
 
         // when
@@ -52,6 +78,10 @@ class UserDataPersisterTest extends TestCase {
 
     public function testHashesPasswordWhenPlainPasswordIsSet() {
         // given
+        $this->recaptchaResponse->expects(self::once())
+            ->method('isSuccess')
+            ->willReturn(true)
+        ;
         $this->user->plainPassword = 'test plain password';
         $this->userPasswordHasher->expects($this->once())->method('hashPassword')->willReturn('test hash');
 
@@ -66,6 +96,10 @@ class UserDataPersisterTest extends TestCase {
 
     public function testCreateAndSendActivationKey() {
         // given
+        $this->recaptchaResponse->expects(self::once())
+            ->method('isSuccess')
+            ->willReturn(true)
+        ;
         $this->mailService->expects($this->once())->method('sendUserActivationMail');
 
         // when
@@ -79,6 +113,11 @@ class UserDataPersisterTest extends TestCase {
 
     public function testSetsStateToRegisteredBeforeCreate() {
         // when
+        $this->recaptchaResponse->expects(self::once())
+            ->method('isSuccess')
+            ->willReturn(true)
+        ;
+
         /** @var User $data */
         $data = $this->dataPersister->beforeCreate($this->user);
 

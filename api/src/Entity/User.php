@@ -17,9 +17,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * A person using eCamp.
  * The properties available for all other eCamp users are here.
- *
- * @ORM\Entity(repositoryClass=UserRepository::class)
- * @ORM\Table(name="`user`")
  */
 #[ApiResource(
     collectionOperations: [
@@ -47,6 +44,8 @@ use Symfony\Component\Validator\Constraints as Assert;
     denormalizationContext: ['groups' => ['write']],
     normalizationContext: ['groups' => ['read']],
 )]
+#[ORM\Entity(repositoryClass: UserRepository::class)]
+#[ORM\Table(name: '`user`')]
 class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUserInterface {
     public const ACTIVATE = 'activate';
 
@@ -57,27 +56,31 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
 
     /**
      * The camps that this user is the owner of.
-     *
-     * @ORM\OneToMany(targetEntity="Camp", mappedBy="owner")
      */
     #[ApiProperty(readable: false, writable: false)]
+    #[ORM\OneToMany(targetEntity: Camp::class, mappedBy: 'owner')]
     public Collection $ownedCamps;
 
     /**
      * All the camps that this user participates in.
-     *
-     * @ORM\OneToMany(targetEntity="CampCollaboration", mappedBy="user", orphanRemoval=true)
      */
     #[ApiProperty(readable: false, writable: false)]
+    #[ORM\OneToMany(targetEntity: CampCollaboration::class, mappedBy: 'user', orphanRemoval: true)]
     public Collection $collaborations;
 
     /**
      * The state of this user.
-     *
-     * @ORM\Column(type="string", length=16, nullable=false)
      */
     #[ApiProperty(readable: false, writable: false)]
+    #[ORM\Column(type: 'string', length: 16, nullable: false)]
     public string $state = self::STATE_NONREGISTERED;
+
+    /**
+     * ReCaptchaToken used on Register-View.
+     */
+    #[ApiProperty(readable: false, writable: true)]
+    #[Groups(['create'])]
+    public ?string $recaptchaToken = null;
 
     /**
      * User-Input for activation.
@@ -88,20 +91,18 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
 
     /**
      * InvitationKey hashed for new user.
-     *
-     * @ORM\Column(type="string", length=255, nullable=true)
      */
     #[Assert\DisableAutoMapping]
     #[ApiProperty(readable: false, writable: false)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     public ?string $activationKeyHash = null;
 
     /**
      * The hashed password. Of course not exposed through the API.
-     *
-     * @ORM\Column(type="string", length=255, nullable=true)
      */
     #[Assert\DisableAutoMapping]
     #[ApiProperty(readable: false, writable: false)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     public ?string $password = null;
 
     /**
@@ -115,9 +116,11 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
     public ?string $plainPassword = null;
 
     /**
-     * @ORM\OneToOne(targetEntity="Profile", inversedBy="user", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=false, unique=true, onDelete="restrict")
+     * The hashed password-reset-key. Of course not exposed through the API.
      */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    public ?string $passwordResetKeyHash = null;
+
     #[Assert\Valid]
     #[Assert\NotNull(groups: ['create'])]
     #[ApiProperty(
@@ -132,6 +135,8 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
         ]
     )]
     #[Groups(['create'])]
+    #[ORM\OneToOne(targetEntity: Profile::class, inversedBy: 'user', cascade: ['persist'])]
+    #[ORM\JoinColumn(nullable: false, unique: true, onDelete: 'restrict')]
     public Profile $profile;
 
     public function __construct() {

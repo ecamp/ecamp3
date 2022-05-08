@@ -23,12 +23,18 @@ export default {
     day: { type: Object, required: true },
   },
   data() {
-    return {
-      scheduleEntries: null,
-    }
+    return {}
   },
-  async fetch() {
-    this.scheduleEntries = (await this.day.scheduleEntries()._meta.load).items
+  computed: {
+    // returns scheduleEntries of current day without the need for an additional API call
+    scheduleEntries() {
+      return this.day
+        .period()
+        .scheduleEntries()
+        .items.filter((scheduleEntry) => {
+          return scheduleEntry.day()._meta.self === this.day._meta.self
+        })
+    },
   },
   methods: {
     dateLong,

@@ -18,13 +18,11 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * A piece of programme that will be carried out once or multiple times in a camp.
- *
- * @ORM\Entity(repositoryClass=ActivityRepository::class)
  */
 #[ApiResource(
     collectionOperations: [
         'get' => [
-            'normalization_context' => ['groups' => ['read', 'Activity:ActivityResponsibles', 'Activity:ContentNodes']],
+            'normalization_context' => ['groups' => ['read', 'Activity:ActivityResponsibles']],
             'security' => 'is_authenticated()',
         ],
         'post' => [
@@ -50,6 +48,7 @@ use Symfony\Component\Validator\Constraints as Assert;
     normalizationContext: ['groups' => ['read']],
 )]
 #[ApiFilter(SearchFilter::class, properties: ['camp'])]
+#[ORM\Entity(repositoryClass: ActivityRepository::class)]
 class Activity extends AbstractContentNodeOwner implements BelongsToCampInterface {
     public const ITEM_NORMALIZATION_CONTEXT = [
         'groups' => [
@@ -64,9 +63,6 @@ class Activity extends AbstractContentNodeOwner implements BelongsToCampInterfac
 
     /**
      * The list of points in time when this activity's programme will be carried out.
-     *
-     * @ORM\OneToMany(targetEntity="ScheduleEntry", mappedBy="activity", orphanRemoval=true, cascade={"persist"})
-     * @ORM\OrderBy({"startOffset": "ASC", "left": "ASC", "endOffset": "DESC", "id": "ASC"})
      */
     #[Assert\Valid]
     #[Assert\Count(min: 1, groups: ['create'])]
@@ -75,56 +71,53 @@ class Activity extends AbstractContentNodeOwner implements BelongsToCampInterfac
         example: '[{ "period": "/periods/1a2b3c4a", "endOffset": 1100, "startOffset": 1000 }]',
     )]
     #[Groups(['read', 'create'])]
+    #[ORM\OneToMany(targetEntity: ScheduleEntry::class, mappedBy: 'activity', orphanRemoval: true, cascade: ['persist'])]
+    #[ORM\OrderBy(['startOffset' => 'ASC', 'left' => 'ASC', 'endOffset' => 'DESC', 'id' => 'ASC'])]
     public Collection $scheduleEntries;
 
     /**
      * The camp to which this activity belongs.
-     *
-     * @ORM\ManyToOne(targetEntity="Camp", inversedBy="activities")
-     * @ORM\JoinColumn(nullable=false, onDelete="cascade")
      */
     #[Assert\DisableAutoMapping] // camp is set in the DataPersister
     #[ApiProperty(writable: false, example: '/camps/1a2b3c4d')]
     #[Groups(['read'])]
+    #[ORM\ManyToOne(targetEntity: Camp::class, inversedBy: 'activities')]
+    #[ORM\JoinColumn(nullable: false, onDelete: 'cascade')]
     public ?Camp $camp = null;
 
     /**
      * The category to which this activity belongs. The category determines color and numbering scheme
      * of the activity, and is used for marking similar activities. Must be in the same camp as the activity.
-     *
-     * @ORM\ManyToOne(targetEntity="Category", inversedBy="activities")
-     * @ORM\JoinColumn(nullable=false)
      */
     #[ApiProperty(example: '/categories/1a2b3c4d')]
     #[AssertBelongsToSameCamp(groups: ['update'])]
     #[Groups(['read', 'write'])]
+    #[ORM\ManyToOne(targetEntity: Category::class, inversedBy: 'activities')]
+    #[ORM\JoinColumn(nullable: false)]
     public ?Category $category = null;
 
     /**
      * The title of this activity that is shown in the picasso.
-     *
-     * @ORM\Column(type="text")
      */
     #[ApiProperty(example: 'Sportolympiade')]
     #[Groups(['read', 'write'])]
+    #[ORM\Column(type: 'text')]
     public ?string $title = null;
 
     /**
      * The physical location where this activity's programme will be carried out.
-     *
-     * @ORM\Column(type="text")
      */
     #[ApiProperty(example: 'Spielwiese')]
     #[Groups(['read', 'write'])]
+    #[ORM\Column(type: 'text')]
     public string $location = '';
 
     /**
      * The list of people that are responsible for planning or carrying out this activity.
-     *
-     * @ORM\OneToMany(targetEntity="ActivityResponsible", mappedBy="activity", orphanRemoval=true)
      */
     #[ApiProperty(writable: false)]
     #[Groups(['read'])]
+    #[ORM\OneToMany(targetEntity: ActivityResponsible::class, mappedBy: 'activity', orphanRemoval: true)]
     private Collection $activityResponsibles;
 
     public function __construct() {

@@ -55,7 +55,7 @@
     },
     "storycontext": {
       "add": "Ajouter du fil rouge",
-      "name": "Fil rouge"
+      "name": "Histoire"
     }
   },
   "components": {
@@ -254,7 +254,7 @@
       "story": {
         "editModeOff": "Modification désactivée",
         "editModeOn": "Modification activée",
-        "title": "Action"
+        "title": "Histoire"
       }
     },
     "campCreate": {

@@ -71,6 +71,10 @@ class UriTemplateNormalizerTest extends TestCase {
                 'href' => '/auth/cevidb{?callback}',
                 'templated' => true,
             ],
+            'resetPassword' => [
+                'href' => '{/id}',
+                'templated' => true,
+            ],
         ];
     }
 

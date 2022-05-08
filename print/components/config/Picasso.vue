@@ -25,7 +25,12 @@ export default {
     }
   },
   async fetch() {
-    await this.camp.periods().$loadItems()
+    await Promise.all([
+      this.camp.periods().$loadItems(),
+      this.camp.activities().$loadItems(),
+      this.camp.categories().$loadItems(),
+      this.camp.campCollaborations().$loadItems(),
+    ])
 
     this.periods = this.options.periods.map((periodUri) => {
       return this.$api.get(periodUri)

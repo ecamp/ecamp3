@@ -23,6 +23,7 @@
       <e-text-field
         id="inputUsername"
         v-model="username"
+        autofocus
         :label="$tc('views.auth.login.username')"
         name="username"
         append-icon="mdi-account-outline"
@@ -37,6 +38,14 @@
         append-icon="mdi-lock-outline"
         :dense="$vuetify.breakpoint.xsOnly"
         type="password" />
+      <small class="ml-2">
+        <router-link
+          :to="{ name: 'resetPasswordRequest' }"
+          tabindex="100"
+          style="color: gray">
+          {{ $tc('views.auth.login.passwordForgotten') }}
+        </router-link>
+      </small>
 
       <v-btn type="submit"
              :color="username && password ? 'blue darken-2' : 'blue lighten-4'" block
@@ -54,25 +63,26 @@
     </v-form>
     <horizontal-rule :label="$tc('views.auth.login.or')" />
     <v-btn dark
-           color="green"
+           color="#91697f"
            :x-large="$vuetify.breakpoint.smAndUp"
            block
            outlined
            class="my-4"
            @click="loginPbsMiData">
-      <v-icon>$vuetify.icons.pbs</v-icon>
+      <v-icon color="#521d3a">$vuetify.icons.pbs</v-icon>
       <v-spacer />
       <span class="text--secondary">{{ $tc('views.auth.login.provider.midata') }}</span>
       <v-spacer />
       <icon-spacer />
     </v-btn>
     <v-btn dark
-           color="blue"
+           color="green"
            :x-large="$vuetify.breakpoint.smAndUp"
            block
            outlined
            class="my-4"
            @click="loginCeviDB">
+      <v-icon>$vuetify.icons.cevi</v-icon>
       <v-spacer />
       <span class="text--secondary">{{ $tc('views.auth.login.provider.cevidb') }}</span>
       <v-spacer />

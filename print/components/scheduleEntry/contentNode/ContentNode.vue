@@ -32,7 +32,11 @@ export default {
     contentNode: { type: Object, required: true },
   },
   async fetch() {
-    await this.contentNode._meta.load
+    await Promise.all([
+      this.contentNode._meta.load,
+      this.contentNode.children().$loadItems(),
+      this.contentNode.contentType()._meta.load,
+    ])
   },
   methods: {
     componentFor(contentNode) {

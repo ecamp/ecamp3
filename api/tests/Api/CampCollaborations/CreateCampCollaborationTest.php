@@ -136,6 +136,50 @@ class CreateCampCollaborationTest extends ECampApiTestCase {
         ]));
     }
 
+    public function testCreateCampCollaborationWithUserCreatesMaterialList() {
+        $client = static::createClientWithCredentials();
+        $client->disableReboot();
+
+        $client->request('GET', '/material_lists?camp='.$this->getIriFor('camp1'));
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertJsonContains([
+            'totalItems' => 3,
+            '_links' => [
+                'items' => [],
+            ],
+            '_embedded' => [
+                'items' => [],
+            ],
+        ]);
+
+        $client->request(
+            'POST',
+            '/camp_collaborations',
+            [
+                'json' => $this->getExampleWritePayload(
+                    [
+                        'user' => $this->getIriFor('user4unrelated'),
+                    ],
+                    ['inviteEmail']
+                ),
+            ]
+        );
+
+        $this->assertResponseStatusCodeSame(201);
+
+        $client->request('GET', '/material_lists?camp='.$this->getIriFor('camp1'));
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertJsonContains([
+            'totalItems' => 4,
+            '_links' => [
+                'items' => [],
+            ],
+            '_embedded' => [
+                'items' => [],
+            ],
+        ]);
+    }
+
     public function testCreateCampCollaborationInCampPrototypeIsDeniedForUnrelatedUser() {
         static::createClientWithCredentials()->request('POST', '/camp_collaborations', ['json' => $this->getExampleWritePayload([
             'camp' => $this->getIriFor('campPrototype'),

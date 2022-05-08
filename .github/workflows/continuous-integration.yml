@@ -7,6 +7,8 @@ on:
 
 env:
   USER_ID: 1001
+  DOCKER_BUILDKIT: 1
+  COMPOSE_DOCKER_CLI_BUILD: 1
 
 jobs:
   api-validate-composer-lock:
@@ -14,12 +16,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-      - uses: actions/checkout@a12a3943b4bdde767164f792f33f40b04645d846 # tag=v3
+      - uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b # tag=v3
 
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.1.3'
-          tools: composer:2.2.0
+          php-version: '8.1.5'
+          tools: composer:2.3.0
           coverage: xdebug
 
       - run: composer validate -n --no-check-all --no-check-publish --strict
@@ -30,12 +32,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-      - uses: actions/checkout@a12a3943b4bdde767164f792f33f40b04645d846 # tag=v3
+      - uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b # tag=v3
 
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.1.3'
-          tools: composer:2.2.0
+          php-version: '8.1.5'
+          tools: composer:2.3.0
           coverage: xdebug
 
       - name: Get Composer Cache Directory
@@ -43,7 +45,7 @@ jobs:
         run: 'echo "::set-output name=dir::$(composer config cache-files-dir)"'
         working-directory: api
 
-      - uses: actions/cache@937d24475381cd9c75ae6db12cb4e79714b926ed # renovate: tag=v2
+      - uses: actions/cache@48af2dc4a9e8278b89d7fa154b955c30c6aaab09 # tag=v3
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
@@ -61,12 +63,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-      - uses: actions/checkout@a12a3943b4bdde767164f792f33f40b04645d846 # tag=v3
+      - uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b # tag=v3
 
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.1.3'
-          tools: composer:2.2.0
+          php-version: '8.1.5'
+          tools: composer:2.3.0
           coverage: xdebug
 
       - name: Get Composer Cache Directory
@@ -74,7 +76,7 @@ jobs:
         run: 'echo "::set-output name=dir::$(composer config cache-files-dir)"'
         working-directory: api
 
-      - uses: actions/cache@937d24475381cd9c75ae6db12cb4e79714b926ed # renovate: tag=v2
+      - uses: actions/cache@48af2dc4a9e8278b89d7fa154b955c30c6aaab09 # tag=v3
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
@@ -92,12 +94,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-      - uses: actions/checkout@a12a3943b4bdde767164f792f33f40b04645d846 # tag=v3
+      - uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b # tag=v3
 
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.1.3'
-          tools: composer:2.2.0
+          php-version: '8.1.5'
+          tools: composer:2.3.0
           coverage: xdebug
 
       - name: Get Composer Cache Directory
@@ -105,7 +107,7 @@ jobs:
         run: 'echo "::set-output name=dir::$(composer config cache-files-dir)"'
         working-directory: api
 
-      - uses: actions/cache@937d24475381cd9c75ae6db12cb4e79714b926ed # renovate: tag=v2
+      - uses: actions/cache@48af2dc4a9e8278b89d7fa154b955c30c6aaab09 # tag=v3
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
@@ -123,13 +125,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-      - uses: actions/checkout@a12a3943b4bdde767164f792f33f40b04645d846 # tag=v3
+      - uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b # tag=v3
 
       - uses: actions/setup-node@v3
         with:
-          node-version: '16.14.0'
+          node-version: '16.15.0'
 
-      - uses: actions/cache@937d24475381cd9c75ae6db12cb4e79714b926ed # renovate: tag=v2
+      - uses: actions/cache@48af2dc4a9e8278b89d7fa154b955c30c6aaab09 # tag=v3
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
@@ -147,13 +149,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-      - uses: actions/checkout@a12a3943b4bdde767164f792f33f40b04645d846 # tag=v3
+      - uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b # tag=v3
 
       - uses: actions/setup-node@v3
         with:
-          node-version: '16.14.0'
+          node-version: '16.15.0'
 
-      - uses: actions/cache@937d24475381cd9c75ae6db12cb4e79714b926ed # renovate: tag=v2
+      - uses: actions/cache@48af2dc4a9e8278b89d7fa154b955c30c6aaab09 # tag=v3
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
@@ -174,7 +176,7 @@ jobs:
 
     services:
       postgres:
-        image: 'postgres:14-alpine@sha256:28e8ac42048c31694d443039d5adfe293f24eec7d8c0b4f88aaefcc8df1e5b72'
+        image: 'postgres:14-alpine@sha256:20e49432a20e1a63bb985977c32ec8f110bc609b93de35ad4f19c5486abcefaa'
         env:
           POSTGRES_DB: 'ecamp3test'
           POSTGRES_PASSWORD: 'ecamp3'
@@ -189,12 +191,12 @@ jobs:
 
     steps:
 
-      - uses: actions/checkout@a12a3943b4bdde767164f792f33f40b04645d846 # tag=v3
+      - uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b # tag=v3
 
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.1.3'
-          tools: composer:2.2.0
+          php-version: '8.1.5'
+          tools: composer:2.3.0
           coverage: xdebug
 
       - name: Get Composer Cache Directory
@@ -202,7 +204,7 @@ jobs:
         run: 'echo "::set-output name=dir::$(composer config cache-files-dir)"'
         working-directory: api
 
-      - uses: actions/cache@937d24475381cd9c75ae6db12cb4e79714b926ed # renovate: tag=v2
+      - uses: actions/cache@48af2dc4a9e8278b89d7fa154b955c30c6aaab09 # tag=v3
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
@@ -240,18 +242,70 @@ jobs:
           COVERALLS_PARALLEL: true
           COVERALLS_FLAG_NAME: api
 
+  api-validate-migrations:
+    name: "API: validate migrations"
+    runs-on: ubuntu-latest
+    env:
+      TEST_DATABASE_URL: postgresql://ecamp3:ecamp3@localhost:5432/ecamp3test?serverVersion=13&charset=utf8
+
+    services:
+      postgres:
+        image: 'postgres:14-alpine@sha256:20e49432a20e1a63bb985977c32ec8f110bc609b93de35ad4f19c5486abcefaa'
+        env:
+          POSTGRES_DB: 'ecamp3test'
+          POSTGRES_PASSWORD: 'ecamp3'
+          POSTGRES_USER: 'ecamp3'
+        ports:
+          - '5432:5432'
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+
+      - uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b # tag=v3
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1.5'
+          tools: composer:2.3.0
+          coverage: xdebug
+
+      - name: Get Composer Cache Directory
+        id: composer-cache
+        run: 'echo "::set-output name=dir::$(composer config cache-files-dir)"'
+        working-directory: api
+
+      - uses: actions/cache@48af2dc4a9e8278b89d7fa154b955c30c6aaab09 # tag=v3
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
+
+      - run: composer install --prefer-dist --no-progress --no-interaction
+        working-directory: api
+
+      - run: php bin/console doctrine:migrations:migrate --no-interaction -e test
+        working-directory: api
+
+      - run: php bin/console doctrine:schema:validate -e test
+        working-directory: api
+
   frontend-tests:
     name: "Tests: Frontend"
     runs-on: ubuntu-latest
     steps:
 
-      - uses: actions/checkout@a12a3943b4bdde767164f792f33f40b04645d846 # tag=v3
+      - uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b # tag=v3
 
       - uses: actions/setup-node@v3
         with:
-          node-version: '16.14.0'
+          node-version: '16.15.0'
 
-      - uses: actions/cache@937d24475381cd9c75ae6db12cb4e79714b926ed # renovate: tag=v2
+      - uses: actions/cache@48af2dc4a9e8278b89d7fa154b955c30c6aaab09 # tag=v3
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
@@ -282,13 +336,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-      - uses: actions/checkout@a12a3943b4bdde767164f792f33f40b04645d846 # tag=v3
+      - uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b # tag=v3
 
       - uses: actions/setup-node@v3
         with:
-          node-version: '16.14.0'
+          node-version: '16.15.0'
 
-      - uses: actions/cache@937d24475381cd9c75ae6db12cb4e79714b926ed # renovate: tag=v2
+      - uses: actions/cache@48af2dc4a9e8278b89d7fa154b955c30c6aaab09 # tag=v3
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
@@ -318,17 +372,66 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-      - uses: actions/checkout@a12a3943b4bdde767164f792f33f40b04645d846 # tag=v3
+      - uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b # tag=v3
 
       - run: cp .env.ci .env
 
-      - run: docker-compose up -d
+      - name: Set up Docker Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@v1
 
+      # build API (using cache; provide image to docker-compose)
+      - name: Build docker image (API/PHP)
+        uses: docker/build-push-action@v2
+        with:
+          file: api/Dockerfile
+          context: './api'
+          push: false
+          load: true
+          target: api_platform_php_dev
+          builder: ${{ steps.buildx.outputs.name }}
+          tags: ecamp/ecamp3-api
+          cache-from: type=gha,scope=api
+          cache-to: type=gha,scope=api,mode=max
+
+      # build caddy (using cache; provide image to docker-compose)
+      - name: Build docker image (Caddy)
+        uses: docker/build-push-action@v2
+        with:
+          file: api/Dockerfile
+          context: './api'
+          push: false
+          load: true
+          target: api_platform_caddy
+          builder: ${{ steps.buildx.outputs.name }}
+          tags: ecamp/ecamp3-caddy
+          cache-from: type=gha,scope=caddy
+          cache-to: type=gha,scope=caddy,mode=max
+
+      - name: Restore cache volumes (npm, composer)
+        uses: actions/cache@48af2dc4a9e8278b89d7fa154b955c30c6aaab09 # tag=v3
+        with:
+          path: .cache
+          key: docker-compose-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            docker-compose-
+
+      # start necessary containers
+      - run: docker-compose up -d php caddy frontend database docker-host
+
+      # pull cypress while container are starting up
+      - run: docker pull cypress/included:9.6.0
+
+      # wait for backend & frontend to be up and running
       - run: bash wait-for-container-startup.sh
 
-      - run: docker run -v $PWD:/e2e -w /e2e --network host -e CYPRESS_BASE_URL=http://localhost:3000 cypress/included:9.5.1
+      # run end-to-end tests
+      - run: docker run -v $PWD:/e2e -w /e2e --network host -e CYPRESS_BASE_URL=http://localhost:3000 cypress/included:9.6.0
         working-directory: frontend
-
+          
+      # print docker container logs (good for debugging; can be disabled again lateron)
+      - run: docker-compose logs --tail="all"
+      
   coveralls-finished:
     name: "Finish coveralls report"
     needs:
@@ -357,7 +460,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-      - uses: peter-evans/repository-dispatch@ce5485de42c9b2622d2ed064be479e8ed65e76f4 # renovate: tag=v1
+      - uses: peter-evans/repository-dispatch@11ba7d3f32dc7cc919d1c43f1fec1c05260c26b5 # tag=v2
         with:
           token: ${{ secrets.REPO_ACCESS_TOKEN }}
           event-type: ci-passed

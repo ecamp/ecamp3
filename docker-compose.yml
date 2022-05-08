@@ -2,7 +2,7 @@ version: "3.4"
 
 services:
   frontend:
-    image: node:16.14.0@sha256:61b6cc81ecc3f94f614dca6bfdc5262d15a6618f7aabfbfc6f9f05c935ee753c
+    image: node:16.15.0@sha256:a6c217d7c8f001dc6fc081d55c2dd7fb3fefe871d5aa7be9c0c16bd62bea8e0c
     container_name: 'ecamp3-frontend'
     ports:
       - '3000:3000'
@@ -21,12 +21,17 @@ services:
       - NODE_ENV=development
       - NPM_CONFIG_UPDATE_NOTIFIER=false
       - NPM_CONFIG_CACHE=/home/node/.npm
+      - CI=${CI}
       - CYPRESS_CACHE_FOLDER=/home/node/.cache/Cypress
 
   php:
+    image: ecamp/ecamp3-api
     build:
       context: ./api
       target: api_platform_php_dev
+      cache_from:
+        - ecamp/ecamp3-api
+    container_name: 'ecamp3-api'
     depends_on:
       - database
       - docker-host
@@ -36,6 +41,7 @@ services:
       - ./api:/srv/api:rw,cached
       - ./api/docker/php/conf.d/api-platform.dev.ini:/usr/local/etc/php/conf.d/api-platform.ini
       - ./api/docker/php/docker-entrypoint.sh:/usr/local/bin/docker-entrypoint
+      - ./.cache/composer:/tmp/composer/cache
     environment:
       APP_ENV: dev
       DATA_MIGRATIONS_DIR: dev-data
@@ -43,11 +49,10 @@ services:
       # See https://github.com/docker/for-linux/issues/264
       # The `remote_host` below may optionally be replaced with `remote_connect_back`
       # XDEBUG_MODE required for step debugging
-      XDEBUG_MODE: develop,debug,coverage
+      XDEBUG_MODE: ${XDEBUG_MODE}
       # default port for Xdebug 3 is 9003
       # idekey=VSCODE if you are debugging with VSCode
-      XDEBUG_CONFIG: >-
-        client_host=docker-host idekey=PHPSTORM
+      XDEBUG_CONFIG: ${XDEBUG_CONFIG}
       # This should correspond to the server declared in PHPStorm `Preferences | Languages & Frameworks | PHP | Servers`
       # Then PHPStorm will use the corresponding path mappings
       PHP_IDE_CONFIG: serverName=localhost
@@ -59,9 +64,13 @@ services:
     user: ${USER_ID:-1000}
 
   caddy:
+    image: ecamp/ecamp3-caddy
     build:
       context: ./api
       target: api_platform_caddy
+      cache_from:
+        - ecamp/ecamp3-caddy
+    container_name: 'ecamp3-caddy'
     depends_on:
       - php
     environment:
@@ -92,7 +101,7 @@ services:
       - ./api/public:/srv/api/public:ro
 
   print:
-    image: node:16.14.0@sha256:61b6cc81ecc3f94f614dca6bfdc5262d15a6618f7aabfbfc6f9f05c935ee753c
+    image: node:16.15.0@sha256:a6c217d7c8f001dc6fc081d55c2dd7fb3fefe871d5aa7be9c0c16bd62bea8e0c
     container_name: 'ecamp3-print'
     ports:
       - '3003:3003'
@@ -112,7 +121,8 @@ services:
       - ./print/print.env
 
   database:
-    image: postgres:14-alpine@sha256:126bcff3a868d6bc79fbd9588e276731fa634f7137dd447476662da9d655ddfc
+    image: postgres:14-alpine@sha256:20e49432a20e1a63bb985977c32ec8f110bc609b93de35ad4f19c5486abcefaa
+    container_name: 'ecamp3-database'
     environment:
       - POSTGRES_DB=ecamp3dev
       - POSTGRES_PASSWORD=ecamp3

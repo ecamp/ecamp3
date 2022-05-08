@@ -10,10 +10,6 @@ use App\Util\EntityMap;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
-/**
- * @ORM\Entity(repositoryClass=SingleTextRepository::class)
- * @ORM\Table(name="content_node_singletext")
- */
 #[ApiResource(
     routePrefix: '/content_node',
     collectionOperations: [
@@ -38,12 +34,12 @@ use Symfony\Component\Serializer\Annotation\Groups;
     denormalizationContext: ['groups' => ['write']],
     normalizationContext: ['groups' => ['read']],
 )]
+#[ORM\Entity(repositoryClass: SingleTextRepository::class)]
+#[ORM\Table(name: 'content_node_singletext')]
 class SingleText extends ContentNode {
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
     #[InputFilter\CleanHTML]
     #[Groups(['read', 'write'])]
+    #[ORM\Column(type: 'text', nullable: true)]
     public ?string $text = null;
 
     /**

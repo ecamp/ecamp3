@@ -14,9 +14,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  * The profile of a person using eCamp.
  * The properties available to related eCamp users are here.
  * Related means that they were or are collaborators in the same camp.
- *
- * @ORM\Entity(repositoryClass=ProfileRepository::class)
- * @ORM\Table(name="`profile`")
  */
 #[ApiResource(
     collectionOperations: [
@@ -29,6 +26,8 @@ use Symfony\Component\Validator\Constraints as Assert;
     denormalizationContext: ['groups' => ['write']],
     normalizationContext: ['groups' => ['read']],
 )]
+#[ORM\Entity(repositoryClass: ProfileRepository::class)]
+#[ORM\Table(name: '`profile`')]
 class Profile extends BaseEntity {
     public const EXAMPLE_EMAIL = 'bi-pi@example.com';
     public const EXAMPLE_USERNAME = 'bipi';
@@ -40,109 +39,97 @@ class Profile extends BaseEntity {
     /**
      * Unique email of the user.
      * Cannot be changed until we have a workflow where the changed email is validated again.
-     *
-     * @ORM\Column(type="string", length=64, nullable=false, unique=true)
      */
     #[InputFilter\Trim]
     #[Assert\NotBlank]
     #[Assert\Email]
     #[ApiProperty(example: self::EXAMPLE_EMAIL)]
     #[Groups(['read', 'create'])]
+    #[ORM\Column(type: 'string', length: 64, nullable: false, unique: true)]
     public ?string $email = null;
 
     /**
      * Google id of the user.
-     *
-     * @ORM\Column(type="string", length=255, nullable=true)
      */
     #[ApiProperty(readable: false, writable: false)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     public ?string $googleId = null;
 
     /**
      * PBS MiData id of the user.
-     *
-     * @ORM\Column(type="string", length=255, nullable=true)
      */
     #[ApiProperty(readable: false, writable: false)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     public ?string $pbsmidataId = null;
 
     /**
      * CeviDB id of the user.
-     *
-     * @ORM\Column(type="string", length=255, nullable=true)
      */
     #[ApiProperty(readable: false, writable: false)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     public ?string $cevidbId = null;
 
     /**
      * Unique username. Lower case alphanumeric symbols, dashes, periods and underscores only.
-     *
-     * @ORM\Column(type="string", length=64, nullable=false, unique=true)
      */
     #[InputFilter\Trim]
     #[Assert\NotBlank]
     #[Assert\Regex(pattern: '/^[a-z0-9_.-]+$/')]
     #[ApiProperty(example: self::EXAMPLE_USERNAME)]
     #[Groups(['read', 'create'])]
+    #[ORM\Column(type: 'string', length: 64, nullable: false, unique: true)]
     public string $username = '';
 
     /**
      * The user's (optional) first name.
-     *
-     * @ORM\Column(type="text", nullable=true)
      */
     #[InputFilter\Trim]
     #[InputFilter\CleanHTML]
     #[ApiProperty(example: self::EXAMPLE_FIRSTNAME)]
     #[Groups(['read', 'write'])]
+    #[ORM\Column(type: 'text', nullable: true)]
     public ?string $firstname = null;
 
     /**
      * The user's (optional) last name.
-     *
-     * @ORM\Column(type="text", nullable=true)
      */
     #[InputFilter\Trim]
     #[InputFilter\CleanHTML]
     #[ApiProperty(example: self::EXAMPLE_SURNAME)]
     #[Groups(['read', 'write'])]
+    #[ORM\Column(type: 'text', nullable: true)]
     public ?string $surname = null;
 
     /**
      * The user's (optional) nickname or scout name.
-     *
-     * @ORM\Column(type="text", nullable=true)
      */
     #[InputFilter\Trim]
     #[InputFilter\CleanHTML]
     #[ApiProperty(example: self::EXAMPLE_NICKNAME)]
     #[Groups(['read', 'write'])]
+    #[ORM\Column(type: 'text', nullable: true)]
     public ?string $nickname = null;
 
     /**
      * The optional preferred language of the user, as an ICU language code.
-     *
-     * @ORM\Column(type="string", length=20, nullable=true)
      */
     #[InputFilter\Trim]
     #[ApiProperty(example: self::EXAMPLE_LANGUAGE)]
     #[Assert\Choice(['en', 'en-CH-scout', 'de', 'de-CH-scout', 'fr', 'fr-CH-scout', 'it', 'it-CH-scout'])]
     #[Groups(['read', 'write'])]
+    #[ORM\Column(type: 'string', length: 20, nullable: true)]
     public ?string $language = null;
 
     /**
      * The technical roles that this person has in the eCamp application.
-     *
-     * @ORM\Column(type="json")
      */
     #[ApiProperty(writable: false)]
+    #[ORM\Column(type: 'json')]
     public array $roles = ['ROLE_USER'];
 
     #[ApiProperty(writable: false, example: '/users/1a2b3c4d')]
     #[Groups(['read'])]
-    /**
-     * @ORM\OneToOne(targetEntity="User", mappedBy="profile")
-     */
+    #[ORM\OneToOne(targetEntity: User::class, mappedBy: 'profile')]
     public User $user;
 
     public function getDisplayName(): ?string {
