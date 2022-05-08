@@ -79,8 +79,7 @@ browserless:
   image:
     repository: "docker.io/browserless/chrome"
     pullPolicy: IfNotPresent
-    # Overrides the image tag whose shared default is .Values.imageTag
-    tag: "1.50.0-puppeteer-12.0.1"
+    tag: "1.53-puppeteer-13.6.0"
   service:
     type: ClusterIP
     port: 3000

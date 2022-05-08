@@ -26,7 +26,7 @@ spec:
         - name: {{ .Chart.Name }}-browserless
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.browserless.image.repository }}:{{ .Values.browserless.image.tag | default .Values.imageTag }}"
+          image: "{{ .Values.browserless.image.repository }}:{{ .Values.browserless.image.tag }}"
           imagePullPolicy: {{ .Values.browserless.image.pullPolicy }}
           ports:
             - name: browserless-ws
