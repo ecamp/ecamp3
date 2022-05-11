@@ -10,7 +10,7 @@
         "cweagans/composer-patches": "1.7.2",
         "doctrine/doctrine-bundle": "2.6.3",
         "doctrine/doctrine-migrations-bundle": "3.2.2",
-        "doctrine/orm": "2.12.1",
+        "doctrine/orm": "2.12.2",
         "exercise/htmlpurifier-bundle": "4.0",
         "google/recaptcha": "1.2.4",
         "guzzlehttp/guzzle": "7.4.2",
