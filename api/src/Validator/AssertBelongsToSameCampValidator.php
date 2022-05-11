@@ -3,7 +3,7 @@
 namespace App\Validator;
 
 use App\Entity\BelongsToCampInterface;
-use App\Entity\BelongsToContentNodeInterface;
+use App\Entity\BelongsToContentNodeTreeInterface;
 use App\Util\GetCampFromContentNodeTrait;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -31,12 +31,12 @@ class AssertBelongsToSameCampValidator extends ConstraintValidator {
         }
 
         $object = $this->context->getObject();
-        if (!($object instanceof BelongsToCampInterface || $object instanceof BelongsToContentNodeInterface)) {
-            throw new UnexpectedValueException($value, BelongsToCampInterface::class.' or '.BelongsToContentNodeInterface::class);
+        if (!($object instanceof BelongsToCampInterface || $object instanceof BelongsToContentNodeTreeInterface)) {
+            throw new UnexpectedValueException($value, BelongsToCampInterface::class.' or '.BelongsToContentNodeTreeInterface::class);
         }
 
-        if (!($value instanceof BelongsToCampInterface || $value instanceof BelongsToContentNodeInterface)) {
-            throw new UnexpectedValueException($value, BelongsToCampInterface::class.' or '.BelongsToContentNodeInterface::class);
+        if (!($value instanceof BelongsToCampInterface || $value instanceof BelongsToContentNodeTreeInterface)) {
+            throw new UnexpectedValueException($value, BelongsToCampInterface::class.' or '.BelongsToContentNodeTreeInterface::class);
         }
 
         if ($constraint->compareToPrevious) {

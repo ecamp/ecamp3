@@ -31,7 +31,6 @@ final class Version20220501060227 extends AbstractMigration {
 
     public function down(Schema $schema): void {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->addSql('CREATE SCHEMA public');
         $this->addSql('CREATE INDEX idx_c93898a9d468a55 ON camp_collaboration (createtime)');
         $this->addSql('ALTER TABLE content_node DROP CONSTRAINT fk_481d0580b7939b21');
         $this->addSql('ALTER TABLE content_node ADD CONSTRAINT fk_481d0580b7939b21 FOREIGN KEY (rootid) REFERENCES content_node (id) NOT DEFERRABLE INITIALLY IMMEDIATE');

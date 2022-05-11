@@ -5,7 +5,7 @@ namespace App\Tests\Validator;
 use App\Entity\Activity;
 use App\Entity\BaseEntity;
 use App\Entity\BelongsToCampInterface;
-use App\Entity\BelongsToContentNodeInterface;
+use App\Entity\BelongsToContentNodeTreeInterface;
 use App\Entity\Camp;
 use App\Entity\ContentNode\ColumnLayout;
 use App\Validator\AssertBelongsToSameCamp;
@@ -78,7 +78,7 @@ class AssertBelongsToSameCampValidatorTest extends ConstraintValidatorTestCase {
         $this->assertNoViolation();
     }
 
-    public function testValidViaBelongsToContentNodeInterface() {
+    public function testValidViaBelongsToContentNodeTreeInterface() {
         // given
         $camp = $this->createMock(Camp::class);
         $camp->method('getId')->willReturn('idfromtest');
@@ -185,7 +185,7 @@ class ParentTestClass extends BaseEntity implements BelongsToCampInterface {
     }
 }
 
-class ContentNodeTestClass implements BelongsToContentNodeInterface {
+class ContentNodeTestClass implements BelongsToContentNodeTreeInterface {
     public function __construct(public ColumnLayout $root) {
     }
 

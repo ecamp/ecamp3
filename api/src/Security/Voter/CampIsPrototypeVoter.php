@@ -3,7 +3,7 @@
 namespace App\Security\Voter;
 
 use App\Entity\BelongsToCampInterface;
-use App\Entity\BelongsToContentNodeInterface;
+use App\Entity\BelongsToContentNodeTreeInterface;
 use App\Util\GetCampFromContentNodeTrait;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -19,7 +19,7 @@ class CampIsPrototypeVoter extends Voter {
 
     protected function supports($attribute, $subject): bool {
         return 'CAMP_IS_PROTOTYPE' === $attribute
-        && ($subject instanceof BelongsToCampInterface || $subject instanceof BelongsToContentNodeInterface);
+        && ($subject instanceof BelongsToCampInterface || $subject instanceof BelongsToContentNodeTreeInterface);
     }
 
     protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool {

@@ -4,6 +4,6 @@ namespace App\Entity;
 
 use App\Entity\ContentNode\ColumnLayout;
 
-interface BelongsToContentNodeInterface {
+interface BelongsToContentNodeTreeInterface {
     public function getRoot(): ?ColumnLayout;
 }

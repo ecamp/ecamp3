@@ -3,7 +3,7 @@
 namespace App\Security\Voter;
 
 use App\Entity\BelongsToCampInterface;
-use App\Entity\BelongsToContentNodeInterface;
+use App\Entity\BelongsToContentNodeTreeInterface;
 use App\Entity\CampCollaboration;
 use App\Entity\User;
 use App\Util\GetCampFromContentNodeTrait;
@@ -28,7 +28,7 @@ class CampRoleVoter extends Voter {
 
     protected function supports($attribute, $subject): bool {
         return in_array($attribute, array_keys(self::RULE_MAPPING))
-            && ($subject instanceof BelongsToCampInterface || $subject instanceof BelongsToContentNodeInterface);
+            && ($subject instanceof BelongsToCampInterface || $subject instanceof BelongsToContentNodeTreeInterface);
     }
 
     protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool {

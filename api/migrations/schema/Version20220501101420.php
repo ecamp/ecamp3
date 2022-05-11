@@ -53,7 +53,6 @@ final class Version20220501101420 extends AbstractMigration {
 
     public function down(Schema $schema): void {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->addSql('CREATE SCHEMA public');
         $this->addSql('CREATE TABLE abstract_content_node_owner (id VARCHAR(16) NOT NULL, rootcontentnodeid VARCHAR(16) NOT NULL, createtime TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, updatetime TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, entitytype VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX idx_8e710ab49d468a55 ON abstract_content_node_owner (createtime)');
         $this->addSql('CREATE INDEX idx_8e710ab455aa53e2 ON abstract_content_node_owner (updatetime)');

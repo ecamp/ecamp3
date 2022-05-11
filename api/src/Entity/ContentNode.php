@@ -43,7 +43,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Entity(repositoryClass: ContentNodeRepository::class)]
 #[ORM\InheritanceType('JOINED')]
 #[ORM\DiscriminatorColumn(name: 'strategy', type: 'string')]
-abstract class ContentNode extends BaseEntity implements BelongsToContentNodeInterface, CopyFromPrototypeInterface {
+abstract class ContentNode extends BaseEntity implements BelongsToContentNodeTreeInterface, CopyFromPrototypeInterface {
     use ClassInfoTrait;
 
     /**

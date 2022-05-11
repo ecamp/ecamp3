@@ -237,7 +237,7 @@ class CampRoleVoterTest extends TestCase {
         $this->assertEquals(VoterInterface::ACCESS_GRANTED, $result);
     }
 
-    public function testGrantsAccessViaBelongsToContentNodeInterface() {
+    public function testGrantsAccessViaBelongsToContentNodeTreeInterface() {
         // given
         $user = $this->createMock(User::class);
         $user->method('getId')->willReturn('idFromTest');

@@ -12,7 +12,7 @@ use Doctrine\Migrations\AbstractMigration;
  */
 final class Version20220416125104 extends AbstractMigration {
     public function getDescription(): string {
-        return 'add indexed for searchable properties';
+        return 'add indexes for searchable properties';
     }
 
     public function up(Schema $schema): void {
@@ -25,7 +25,6 @@ final class Version20220416125104 extends AbstractMigration {
 
     public function down(Schema $schema): void {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->addSql('CREATE SCHEMA public');
         $this->addSql('DROP INDEX IDX_D7785D2CA1CB398B');
         $this->addSql('DROP INDEX IDX_D7785D2CA501647F');
         $this->addSql('DROP INDEX IDX_C19442309AF2EB23');
