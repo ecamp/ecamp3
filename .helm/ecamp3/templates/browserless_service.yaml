@@ -1,0 +1,17 @@
+{{- if .Values.browserless.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "browserless.name" . }}
+  labels:
+    {{- include "app.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.browserless.service.type }}
+  ports:
+    - port: {{ .Values.browserless.service.port }}
+      targetPort: browserless-ws
+      protocol: TCP
+      name: browserless-ws
+  selector:
+    {{- include "app.selectorLabels" . | nindent 4 }}
+{{- end }}
