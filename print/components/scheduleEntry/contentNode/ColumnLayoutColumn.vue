@@ -1,11 +1,11 @@
 <template>
-  <div :style="columnStyles">
+  <td :style="columnStyles" class="tw-align-top">
     <content-node
       v-for="child in children"
       :key="child.id"
       :content-node="child"
     />
-  </div>
+  </td>
 </template>
 
 <script>
@@ -26,7 +26,7 @@ export default {
     },
     columnStyles() {
       return {
-        flex: '0 0 ' + (this.width / 12.0) * 100.0 + '%',
+        width: (this.width / 12.0) * 100.0 + '%',
         borderLeft:
           this.columnSlot === this.firstSlot ? 'none' : '1px solid black',
         padding:
@@ -34,8 +34,6 @@ export default {
           (this.columnSlot === this.lastSlot ? '0' : '1%') +
           ' 4px ' +
           (this.columnSlot === this.firstSlot ? '0' : '1%'),
-        display: 'flex',
-        flexDirection: 'column',
       }
     },
     firstSlot() {

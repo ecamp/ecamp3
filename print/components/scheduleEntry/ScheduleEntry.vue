@@ -3,7 +3,7 @@
     <div class="schedule-entry-title tw-float-left">
       <h2
         :id="`content_${index}_scheduleEntry_${scheduleEntry.id}`"
-        class="tw-text-xl tw-font-bold"
+        class="tw-text-xl tw-font-bold tw-pt-1"
       >
         {{ scheduleEntry.number }}
         <category-label :category="scheduleEntry.activity().category()" />
@@ -13,13 +13,15 @@
     <div class="tw-float-right">
       {{ rangeShort(scheduleEntry.start, scheduleEntry.end) }}
     </div>
-    <div class="header tw-clear-both">
+    <div class="header tw-clear-both tw-mb-4">
       <table class="header-table">
         <tr>
           <th class="header-row left-col">
             {{ $tc('entity.activity.fields.location') }}
           </th>
-          <td class="header-row">{{ scheduleEntry.activity().location }}</td>
+          <td class="header-row">
+            {{ scheduleEntry.activity().location }}
+          </td>
         </tr>
         <tr>
           <th class="header-row left-col">
@@ -106,7 +108,8 @@ export default {
 
 .header-row {
   border-bottom: 1px solid black;
-  padding: 0.1rem;
+  padding: 0.2rem;
+  padding-left: 0.4rem;
   width: 90%;
 }
 
@@ -115,5 +118,7 @@ export default {
   font-weight: bold;
   text-align: left;
   width: 10%;
+  padding-left: 0;
+  padding-right: 0.4rem;
 }
 </style>
