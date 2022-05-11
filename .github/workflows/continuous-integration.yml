@@ -378,7 +378,7 @@ jobs:
 
       - name: Set up Docker Buildx
         id: buildx
-        uses: docker/setup-buildx-action@v1
+        uses: docker/setup-buildx-action@v2
 
       # build API (using cache; provide image to docker-compose)
       - name: Build docker image (API/PHP)
