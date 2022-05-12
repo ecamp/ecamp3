@@ -132,10 +132,7 @@
         "error",
         {
           "singleline": 3,
-          "multiline": {
-            "max": 2,
-            "allowFirstLine": true
-          }
+          "multiline": 2
         }
       ],
       "vue/singleline-html-element-content-newline": [
