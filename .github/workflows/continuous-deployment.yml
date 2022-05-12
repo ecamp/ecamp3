@@ -103,7 +103,7 @@ jobs:
           helm delete ecamp3-${{ matrix.deployment-name }}
 
       - name: Remove GitHub deployment
-        uses: bobheadxi/deployments@v1.1.0
+        uses: bobheadxi/deployments@v1.2.0
         with:
           step: deactivate-env
           token: ${{ secrets.REPO_ACCESS_TOKEN }}
@@ -124,7 +124,7 @@ jobs:
     steps:
 
       - name: Create a pending GitHub deployment
-        uses: bobheadxi/deployments@v1.1.0
+        uses: bobheadxi/deployments@v1.2.0
         id: deployment
         with:
           step: start
@@ -226,7 +226,7 @@ jobs:
             --set recaptcha.secret='${{ secrets.RECAPTCHA_SECRET }}'
 
       - name: Finish the GitHub deployment
-        uses: bobheadxi/deployments@v1.1.0
+        uses: bobheadxi/deployments@v1.2.0
         if: always()
         with:
           step: finish
