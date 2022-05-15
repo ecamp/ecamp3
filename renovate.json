@@ -69,6 +69,12 @@
       "extends": [
         "schedule:weekly"
       ]
+    },
+    {
+      "matchPackageNames": [
+        "postgres"
+      ],
+      "allowedVersions": "13-alpine"
     }
   ],
   "ignorePaths": [
