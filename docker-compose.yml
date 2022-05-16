@@ -121,7 +121,7 @@ services:
       - ./print/print.env
 
   database:
-    image: postgres:14-alpine@sha256:20e49432a20e1a63bb985977c32ec8f110bc609b93de35ad4f19c5486abcefaa
+    image: postgres:13-alpine@sha256:0d3137d83b50573cc17d5998a62f79075d4088daec4d408a240e960a99f5da4e
     container_name: 'ecamp3-database'
     environment:
       - POSTGRES_DB=ecamp3dev
