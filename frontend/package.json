@@ -38,7 +38,7 @@
     "@tiptap/extension-strike": "2.0.0-beta.27",
     "@tiptap/extension-text": "2.0.0-beta.15",
     "@tiptap/extension-underline": "2.0.0-beta.23",
-    "@tiptap/vue-2": "2.0.0-beta.78",
+    "@tiptap/vue-2": "2.0.0-beta.79",
     "@vue/composition-api": "1.6.1",
     "assert": "2.0.0",
     "axios": "0.27.2",
