@@ -103,7 +103,7 @@ export default {
    */
   vuetify: {
     customVariables: ['~/assets/variables.scss'],
-    treeShake: false /** tree shaking somehow doesn't work well with injectScript=false */,
+    treeShake: true,
     theme: {
       dark: false,
     },

@@ -2,7 +2,7 @@ version: "3.4"
 
 services:
   frontend:
-    image: node:16.15.0@sha256:a6c217d7c8f001dc6fc081d55c2dd7fb3fefe871d5aa7be9c0c16bd62bea8e0c
+    image: node:16.15.0@sha256:1817bb941c9a30fe2a6d75ff8675a8f6def408efe3d3ff43dbb006e2b534fa14
     container_name: 'ecamp3-frontend'
     ports:
       - '3000:3000'
@@ -101,7 +101,7 @@ services:
       - ./api/public:/srv/api/public:ro
 
   print:
-    image: node:16.15.0@sha256:a6c217d7c8f001dc6fc081d55c2dd7fb3fefe871d5aa7be9c0c16bd62bea8e0c
+    image: node:16.15.0@sha256:1817bb941c9a30fe2a6d75ff8675a8f6def408efe3d3ff43dbb006e2b534fa14
     container_name: 'ecamp3-print'
     ports:
       - '3003:3003'
@@ -121,7 +121,7 @@ services:
       - ./print/print.env
 
   database:
-    image: postgres:14-alpine@sha256:20e49432a20e1a63bb985977c32ec8f110bc609b93de35ad4f19c5486abcefaa
+    image: postgres:13-alpine@sha256:0d3137d83b50573cc17d5998a62f79075d4088daec4d408a240e960a99f5da4e
     container_name: 'ecamp3-database'
     environment:
       - POSTGRES_DB=ecamp3dev
@@ -150,8 +150,7 @@ services:
     restart: on-failure
 
   browserless:
-    build:
-      context: ./print/browserless
+    image: browserless/chrome:1.50.0-puppeteer-12.0.1@sha256:ca9c1a56ff88ba91c3aac908713cfe92f4e308c941a64e408d00d26bf1de036a
     container_name: 'ecamp3-browserless'
     ports:
       - '3010:3000'

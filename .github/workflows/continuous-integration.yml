@@ -20,7 +20,7 @@ jobs:
 
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.1.5'
+          php-version: '8.1.6'
           tools: composer:2.3.0
           coverage: xdebug
 
@@ -36,7 +36,7 @@ jobs:
 
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.1.5'
+          php-version: '8.1.6'
           tools: composer:2.3.0
           coverage: xdebug
 
@@ -67,7 +67,7 @@ jobs:
 
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.1.5'
+          php-version: '8.1.6'
           tools: composer:2.3.0
           coverage: xdebug
 
@@ -98,7 +98,7 @@ jobs:
 
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.1.5'
+          php-version: '8.1.6'
           tools: composer:2.3.0
           coverage: xdebug
 
@@ -176,7 +176,7 @@ jobs:
 
     services:
       postgres:
-        image: 'postgres:14-alpine@sha256:28e8ac42048c31694d443039d5adfe293f24eec7d8c0b4f88aaefcc8df1e5b72'
+        image: 'postgres:13-alpine@sha256:0d3137d83b50573cc17d5998a62f79075d4088daec4d408a240e960a99f5da4e'
         env:
           POSTGRES_DB: 'ecamp3test'
           POSTGRES_PASSWORD: 'ecamp3'
@@ -195,7 +195,7 @@ jobs:
 
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.1.5'
+          php-version: '8.1.6'
           tools: composer:2.3.0
           coverage: xdebug
 
@@ -250,7 +250,7 @@ jobs:
 
     services:
       postgres:
-        image: 'postgres:14-alpine@sha256:28e8ac42048c31694d443039d5adfe293f24eec7d8c0b4f88aaefcc8df1e5b72'
+        image: 'postgres:13-alpine@sha256:0d3137d83b50573cc17d5998a62f79075d4088daec4d408a240e960a99f5da4e'
         env:
           POSTGRES_DB: 'ecamp3test'
           POSTGRES_PASSWORD: 'ecamp3'
@@ -269,7 +269,7 @@ jobs:
 
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.1.5'
+          php-version: '8.1.6'
           tools: composer:2.3.0
           coverage: xdebug
 
@@ -278,7 +278,7 @@ jobs:
         run: 'echo "::set-output name=dir::$(composer config cache-files-dir)"'
         working-directory: api
 
-      - uses: actions/cache@937d24475381cd9c75ae6db12cb4e79714b926ed # renovate: tag=v2
+      - uses: actions/cache@48af2dc4a9e8278b89d7fa154b955c30c6aaab09 # tag=v3
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
@@ -378,11 +378,11 @@ jobs:
 
       - name: Set up Docker Buildx
         id: buildx
-        uses: docker/setup-buildx-action@v1
+        uses: docker/setup-buildx-action@v2
 
       # build API (using cache; provide image to docker-compose)
       - name: Build docker image (API/PHP)
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v3
         with:
           file: api/Dockerfile
           context: './api'
@@ -396,7 +396,7 @@ jobs:
 
       # build caddy (using cache; provide image to docker-compose)
       - name: Build docker image (Caddy)
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v3
         with:
           file: api/Dockerfile
           context: './api'
@@ -420,13 +420,13 @@ jobs:
       - run: docker-compose up -d php caddy frontend database docker-host
 
       # pull cypress while container are starting up
-      - run: docker pull cypress/included:9.6.0
+      - run: docker pull cypress/included:9.6.1
 
       # wait for backend & frontend to be up and running
       - run: bash wait-for-container-startup.sh
 
       # run end-to-end tests
-      - run: docker run -v $PWD:/e2e -w /e2e --network host -e CYPRESS_BASE_URL=http://localhost:3000 cypress/included:9.6.0
+      - run: docker run -v $PWD:/e2e -w /e2e --network host -e CYPRESS_BASE_URL=http://localhost:3000 cypress/included:9.6.1
         working-directory: frontend
           
       # print docker container logs (good for debugging; can be disabled again lateron)

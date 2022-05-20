@@ -92,7 +92,7 @@ export default {
     /* changing page orientation currently not working in pagedJS/chrome
        https://github.com/pagedjs/pagedjs/issues/6 */
     size: a4 landscape;
-    margin: 10mm 10mm 10mm 10mm;
+    margin: 15mm 10mm 10mm 10mm;
 
     @top-center {
       content: 'Picasso';

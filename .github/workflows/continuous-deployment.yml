@@ -103,7 +103,7 @@ jobs:
           helm delete ecamp3-${{ matrix.deployment-name }}
 
       - name: Remove GitHub deployment
-        uses: bobheadxi/deployments@v0.6.2
+        uses: bobheadxi/deployments@v1.2.0
         with:
           step: deactivate-env
           token: ${{ secrets.REPO_ACCESS_TOKEN }}
@@ -124,7 +124,7 @@ jobs:
     steps:
 
       - name: Create a pending GitHub deployment
-        uses: bobheadxi/deployments@v0.6.2
+        uses: bobheadxi/deployments@v1.2.0
         id: deployment
         with:
           step: start
@@ -136,16 +136,16 @@ jobs:
           ref: ${{ matrix.deployment.sha }}
 
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
+        uses: docker/setup-buildx-action@v2
 
       - name: Login to DockerHub
-        uses: docker/login-action@v1
+        uses: docker/login-action@v2
         with:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
 
       - name: Build and push frontend docker image
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v3
         with:
           push: true
           file: .docker-hub/frontend/Dockerfile
@@ -155,7 +155,7 @@ jobs:
           cache-to: type=gha,scope=frontend,mode=max
 
       - name: Build and push api docker image
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v3
         with:
           push: true
           file: api/Dockerfile
@@ -166,7 +166,7 @@ jobs:
           cache-to: type=gha,scope=api,mode=max
 
       - name: Build and push caddy docker image
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v3
         with:
           push: true
           file: api/Dockerfile
@@ -177,7 +177,7 @@ jobs:
           cache-to: type=gha,scope=caddy,mode=max
 
       - name: Build and push print docker image
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v3
         with:
           push: true
           file: .docker-hub/print/Dockerfile
@@ -226,7 +226,7 @@ jobs:
             --set recaptcha.secret='${{ secrets.RECAPTCHA_SECRET }}'
 
       - name: Finish the GitHub deployment
-        uses: bobheadxi/deployments@v0.6.2
+        uses: bobheadxi/deployments@v1.2.0
         if: always()
         with:
           step: finish
@@ -234,3 +234,4 @@ jobs:
           status: ${{ job.status }}
           deployment_id: ${{ steps.deployment.outputs.deployment_id }}
           env_url: https://${{ matrix.deployment.name }}.ecamp3.ch
+          env: ${{ steps.deployment.outputs.env }}
