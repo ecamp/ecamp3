@@ -13,8 +13,6 @@ use App\Validator\AssertBelongsToSameCamp;
 use App\Validator\ScheduleEntryPostGroupSequence;
 use DateTime;
 use DateTimeInterface;
-use Doctrine\Common\Collections\Criteria;
-use Doctrine\Common\Collections\Selectable;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Annotation\SerializedName;
@@ -69,7 +67,7 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
     #[AssertBelongsToSameCamp]
     #[ApiProperty(example: '/periods/1a2b3c4d')]
     #[Groups(['read', 'write'])]
-    #[ORM\ManyToOne(targetEntity: Period::class, inversedBy: 'scheduleEntries')]
+    #[ORM\ManyToOne(targetEntity: Period::class, inversedBy: 'scheduleEntries', fetch: 'EAGER')]
     #[ORM\JoinColumn(nullable: false, onDelete: 'cascade')]
     public ?Period $period = null;
 
@@ -257,33 +255,44 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
     public function getScheduleEntryNumber(): int {
         $dayOffsetInMinutes = $this->getDayOffset() * 24 * 60;
 
-        $expr = Criteria::expr();
-        $crit = Criteria::create();
-        $crit->where($expr->andX(
-            $expr->neq('id', $this->getId()),
-            $expr->gte('startOffset', $dayOffsetInMinutes),
-            $expr->lte('startOffset', $this->startOffset)
-        ));
+        return 1 + $this->period->scheduleEntries->filter(function (ScheduleEntry $scheduleEntry) use ($dayOffsetInMinutes) {
+            // don't count self
+            if ($scheduleEntry->getId() === $this->getId()) {
+                return false;
+            }
 
-        /** @var Selectable $scheduleEntriesCollection */
-        $scheduleEntriesCollection = $this->period->scheduleEntries;
-        $scheduleEntries = $scheduleEntriesCollection->matching($crit);
+            // don't count scheduleEntries of previous days
+            if ($scheduleEntry->startOffset < $dayOffsetInMinutes) {
+                return false;
+            }
 
-        return 1 + $scheduleEntries->filter(function (ScheduleEntry $scheduleEntry) {
+            // don't count scheduleEntries starting later
+            if ($scheduleEntry->startOffset > $this->startOffset) {
+                return false;
+            }
+
+            // don't count scheduleEntries of different numbering styles
             if ($scheduleEntry->getNumberingStyle() !== $this->getNumberingStyle()) {
                 return false;
             }
+
+            // count scheduleEntries starting earlier
             if ($scheduleEntry->startOffset < $this->startOffset) {
                 return true;
             }
+
+            // for scheduleEntries starting at same time: count lower 'left'
             if ($scheduleEntry->left < $this->left) {
                 return true;
             }
+
             if ($scheduleEntry->left === $this->left) {
+                // for scheduleEntries starting at same time & same left value: count longer entries
                 if ($scheduleEntry->endOffset > $this->endOffset) {
                     return true;
                 }
                 if ($scheduleEntry->endOffset === $this->endOffset) {
+                    // for scheduleEntries starting at same time & same left value & same duration: ID as fallback comparison
                     if ($scheduleEntry->getId() < $this->getId()) {
                         return true;
                     }
