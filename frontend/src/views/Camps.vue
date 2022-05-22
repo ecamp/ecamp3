@@ -3,7 +3,7 @@
     <content-card :title="$tc('views.camps.title', camps.items.length)" max-width="800" toolbar>
       <template #title-actions>
         <v-btn class="d-sm-none" icon :to="{name: 'profile', query: {isDetail: true}}">
-          <user-avatar :user="user" size="36" />
+          <user-avatar :user="user" :size="36" />
         </v-btn>
       </template>
       <v-list class="py-0">
