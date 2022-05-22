@@ -6,7 +6,7 @@ services:
     container_name: 'ecamp3-frontend'
     ports:
       - '3000:3000'
-      - '9229:9229' # jest debug 
+      - '9229:9229' # jest debug
     stdin_open: true
     tty: true
     user: ${USER_ID:-1000}
@@ -37,7 +37,7 @@ services:
       - docker-host
     restart: unless-stopped
     volumes:
-      - ./.caddy/php-socket:/var/run/php
+      - php-socket:/var/run/php
       - ./api:/srv/api:rw,cached
       - ./api/docker/php/conf.d/api-platform.dev.ini:/usr/local/etc/php/conf.d/api-platform.ini
       - ./api/docker/php/docker-entrypoint.sh:/usr/local/bin/docker-entrypoint
@@ -94,9 +94,9 @@ services:
     restart: unless-stopped
     user: ${USER_ID:-1000}
     volumes:
-      - ./.caddy/php-socket:/var/run/php
-      - ./.caddy/data:/data
-      - ./.caddy/config-cache:/config
+      - php-socket:/var/run/php
+      - caddy-data:/data
+      - caddy-config:/config
       - ./api/docker/caddy/Caddyfile:/etc/caddy/Caddyfile:ro
       - ./api/public:/srv/api/public:ro
 
@@ -157,3 +157,6 @@ services:
 
 volumes:
   db-data-postgres: null
+  php-socket: null
+  caddy-data: null
+  caddy-config: null
