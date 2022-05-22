@@ -108,6 +108,14 @@ export default {
   }
 }
 
+.v-calendar {
+  overflow: visible;
+}
+
+.v-calendar-daily__body {
+  overflow: visible;
+}
+
 .v-calendar-daily__pane {
   overflow-y: visible;
 }
@@ -120,6 +128,8 @@ export default {
   padding: 2px;
   white-space: normal;
   overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-all;
 
   a {
     color: black;
