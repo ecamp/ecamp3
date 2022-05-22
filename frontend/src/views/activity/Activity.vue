@@ -50,20 +50,10 @@ Displays a single activity
         </div>
       </template>
       <template #title-actions>
-        <!-- layout/content switch -->
-        <v-btn v-if="!layoutMode"
-               color="primary"
-               outlined
-               :disabled="!isContributor"
-               @click="layoutMode = true">
-          <template v-if="$vuetify.breakpoint.smAndUp">
-            <v-icon left>mdi-puzzle-edit-outline</v-icon>
-            {{ $tc('views.activity.activity.changeLayout') }}
-          </template>
-          <template v-else>{{ $tc('views.activity.activity.layout') }}</template>
-        </v-btn>
-        <v-btn v-else-if="isContributor"
+        <!-- layout/content switch (back to content) -->
+        <v-btn v-if="layoutMode"
                color="success"
+               class="ml-3"
                outlined
                @click="layoutMode = false">
           <template v-if="$vuetify.breakpoint.smAndUp">
@@ -74,7 +64,45 @@ Displays a single activity
         </v-btn>
 
         <pdf-download-button-nuxt :config="printConfig()" class="ml-3" />
-        <pdf-download-button-react :config="printConfig()" />
+        <pdf-download-button-react :config="printConfig()" class="ml-3" />
+
+        <!-- hamburger menu -->
+        <v-menu offset-y>
+          <template #activator="{ on, attrs }">
+            <v-btn icon v-bind="attrs" v-on="on">
+              <v-icon>mdi-dots-vertical</v-icon>
+            </v-btn>
+          </template>
+
+          <v-list>
+            <!-- layout/content switch (switch to layout mode) -->
+            <v-list-item v-if="!layoutMode" :disabled="!isContributor" @click="layoutMode = true">
+              <v-list-item-icon>
+                <v-icon>mdi-puzzle-edit-outline</v-icon>
+              </v-list-item-icon>
+              <v-list-item-title>
+                {{ $tc('views.activity.activity.changeLayout') }}
+              </v-list-item-title>
+            </v-list-item>
+
+            <v-divider />
+
+            <!-- remove activity -->
+            <dialog-entity-delete :entity="activity" @submit="onDelete">
+              <template #activator="{ on }">
+                <v-list-item :disabled="!isContributor" v-on="on">
+                  <v-list-item-icon>
+                    <v-icon>mdi-delete</v-icon>
+                  </v-list-item-icon>
+                  <v-list-item-title>
+                    {{ $tc('global.button.delete') }}
+                  </v-list-item-title>
+                </v-list-item>
+              </template>
+              {{ $tc('views.activity.deleteWarning') }}
+            </dialog-entity-delete>
+          </v-list>
+        </v-menu>
       </template>
 
       <v-card-text class="px-0 py-0">
@@ -144,6 +172,7 @@ import { rangeShort } from '@/common/helpers/dateHelperUTCFormatted.js'
 import { campRoleMixin } from '@/mixins/campRoleMixin'
 import PdfDownloadButtonReact from '@/components/print/print-react/PdfDownloadButtonReact.vue'
 import PdfDownloadButtonNuxt from '@/components/print/print-nuxt/PdfDownloadButtonNuxt.vue'
+import { periodRoute } from '@/router.js'
 
 export default {
   name: 'Activity',
@@ -227,7 +256,12 @@ export default {
           }
         ]
       }
+    },
+    onDelete () {
+      // redirect to Picasso
+      this.$router.push(periodRoute(this.scheduleEntry().period()))
     }
+
   }
 }
 </script>

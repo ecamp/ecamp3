@@ -331,7 +331,8 @@
       "sideBarProgram": {
         "title": "Activities on this day"
       },
-      "printPreview": "Open print preview"
+      "printPreview": "Open print preview",
+      "deleteWarning": "Do you really want to delete this activity? All content of this activity will be removed."
     },
     "auth": {
       "activate": {
