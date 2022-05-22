@@ -459,11 +459,6 @@
       "prototypeCamps": "Prototypes",
       "title": "My Camp | My Camps"
     },
-    "home": {
-      "home": "Home",
-      "myCamps": "My Camp | My Camps",
-      "welcome": "Hello {user}. Welcome on eCamp"
-    },
     "navigationDefault": {
       "home": "Home",
       "myCamps": "My camp | My camps",

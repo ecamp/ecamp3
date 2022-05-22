@@ -8,7 +8,7 @@
 export default {
   name: 'UserAvatar',
   props: {
-    size: { type: Number, required: false, default: 48 },
+    size: { type: [String, Number], required: false, default: 48 },
     user: { type: Object, default: null },
     campCollaboration: { type: Object, default: null }
   },
@@ -64,7 +64,7 @@ export default {
     },
     style () {
       return {
-        fontSize: (this.size / 2.5) + 'px',
+        fontSize: (Number(this.size) / 2.5) + 'px',
         fontWeight: 400,
         letterSpacing: '1px',
         marginRight: '-1.5px'

@@ -98,15 +98,6 @@ export default new Router({
       }
     },
     {
-      path: '/',
-      name: 'home',
-      components: {
-        navigation: NavigationDefault,
-        default: () => import(/* webpackChunkName: "about" */ './views/Home.vue')
-      },
-      beforeEnter: requireAuth
-    },
-    {
       path: '/profile',
       name: 'profile',
       components: {
@@ -260,6 +251,11 @@ export default new Router({
         default: route => ({ scheduleEntry: scheduleEntryFromRoute(route) }),
         aside: route => ({ day: dayFromScheduleEntryInRoute(route) })
       }
+    },
+    {
+      path: '/',
+      name: 'home',
+      redirect: { name: 'camps' }
     }
   ]
 })

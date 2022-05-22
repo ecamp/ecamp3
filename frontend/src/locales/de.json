@@ -357,11 +357,6 @@
       "prototypeCamps": "Vorlagen",
       "title": "Mein Lager | Meine Lager"
     },
-    "home": {
-      "home": "Home",
-      "myCamps": "Mein Lager | Meine Lager",
-      "welcome": "Hallo {user}. Herzlich willkommen auf eCamp"
-    },
     "navigationDefault": {
       "home": "Home",
       "myCamps": "Mein Lager | Meine Lager",
