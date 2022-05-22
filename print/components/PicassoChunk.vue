@@ -31,9 +31,12 @@
       >
         <template #event="{ event }">
           <div class="tw-float-left tw-text-xs tw-font-weight-medium">
-            ({{ event.number }})&nbsp;
-            {{ event.activity().category().short }}:&nbsp;
-            {{ event.activity().title }}
+            <!-- link jumps to first instance of scheduleEntry within the document -->
+            <a :href="`#scheduleEntry_${event.id}`">
+              ({{ event.number }})&nbsp;
+              {{ event.activity().category().short }}:&nbsp;
+              {{ event.activity().title }}
+            </a>
           </div>
           <span class="tw-float-right tw-text-xs tw-italic ml-1">{{
             responsiblesCommaSeparated(event)
@@ -117,5 +120,9 @@ export default {
   padding: 2px;
   white-space: normal;
   overflow-wrap: break-word;
+
+  a {
+    color: black;
+  }
 }
 </style>

@@ -1,6 +1,9 @@
 <template>
   <div class="tw-mb-20 tw-break-inside-avoid">
-    <div class="schedule-entry-title tw-float-left">
+    <div
+      :id="`scheduleEntry_${scheduleEntry.id}`"
+      class="schedule-entry-title tw-float-left"
+    >
       <h2
         :id="`content_${index}_scheduleEntry_${scheduleEntry.id}`"
         class="tw-text-xl tw-font-bold tw-pt-1"
