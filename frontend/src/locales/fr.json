@@ -269,11 +269,6 @@
       "create": "Créer un camp",
       "title": "Mon camp | Mes camps"
     },
-    "navigationDefault": {
-      "home": "Accueil",
-      "myCamps": "Mon camp | Mes camps",
-      "profile": "Profil"
-    },
     "profile": {
       "profile": "Profil"
     }

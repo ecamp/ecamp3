@@ -459,11 +459,6 @@
       "prototypeCamps": "Prototypes",
       "title": "My Camp | My Camps"
     },
-    "navigationDefault": {
-      "home": "Home",
-      "myCamps": "My camp | My camps",
-      "profile": "Profile"
-    },
     "profile": {
       "profile": "Profile"
     }

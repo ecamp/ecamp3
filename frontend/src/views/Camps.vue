@@ -1,6 +1,11 @@
 <template>
   <v-container fluid>
     <content-card :title="$tc('views.camps.title', camps.items.length)" max-width="800" toolbar>
+      <template #title-actions>
+        <v-btn class="d-sm-none" icon :to="{name: 'profile', query: {isDetail: true}}">
+          <user-avatar :user="user" size="36" />
+        </v-btn>
+      </template>
       <v-list class="py-0">
         <template v-if="camps._meta.loading">
           <v-skeleton-loader type="list-item-two-line" height="64" />
@@ -89,10 +94,12 @@
 import { campRoute } from '@/router.js'
 import ContentCard from '@/components/layout/ContentCard.vue'
 import ButtonAdd from '@/components/buttons/ButtonAdd.vue'
+import UserAvatar from '@/components/user/UserAvatar.vue'
 
 export default {
   name: 'Camps',
   components: {
+    UserAvatar,
     ContentCard,
     ButtonAdd
   },
@@ -112,6 +119,9 @@ export default {
       return this.camps.items
         .filter(c => !c.isPrototype)
         .filter(c => !c.periods().items.some(p => new Date(p.end) > new Date()))
+    },
+    user () {
+      return this.$auth.user()
     }
   },
   mounted () {

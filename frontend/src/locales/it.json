@@ -269,11 +269,6 @@
       "create": "Creare il campo",
       "title": "Il mio campo | I miei campi"
     },
-    "navigationDefault": {
-      "home": "Home",
-      "myCamps": "Il mio campo | I miei campi",
-      "profile": "Profilo"
-    },
     "profile": {
       "profile": "Profilo"
     }
