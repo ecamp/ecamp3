@@ -31,7 +31,31 @@ export default {
   async fetch() {
     const [scheduleEntries] = await Promise.all([
       this.period.scheduleEntries().$loadItems(),
-      this.camp.activities().$loadItems(),
+      this.camp
+        .activities()
+        .$loadItems()
+        .then((activities) => {
+          return Promise.all(
+            activities.items.map((activity) =>
+              activity
+                .activityResponsibles()
+                .$loadItems()
+                .then((activityResponsibles) => {
+                  return Promise.all(
+                    activityResponsibles.items.map((activityResponsible) => {
+                      if (
+                        activityResponsible.campCollaboration().user === null
+                      ) {
+                        return Promise.resolve(null)
+                      }
+                      return activityResponsible.campCollaboration().user()
+                        ._meta.load
+                    })
+                  )
+                })
+            )
+          )
+        }),
       this.camp.categories().$loadItems(),
     ])
 
