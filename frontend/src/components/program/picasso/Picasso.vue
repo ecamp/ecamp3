@@ -41,10 +41,10 @@ Listing all given activity schedule entries in a calendar view.
           </span> {{ $date.utc(date).format($tc('components.camp.picasso.datetime.date', widthPluralization)) }}
         </div>
         <day-responsibles
+          :class="{ 'ec-daily_head-day-responsibles--readonly': !editable }"
           :date="date"
           :period="period"
-          :disabled="!editable"
-          class="mt-1 mx-2" />
+          :readonly="!editable" />
       </template>
 
       <!-- template for single scheduleEntry -->
@@ -318,14 +318,18 @@ export default {
     },
     computedIntervalHeight () {
       return this.intervalHeight ??
-        this.$vuetify.breakpoint.xsOnly
+      this.$vuetify.breakpoint.xsOnly
         ? 1.3 * (this.$vuetify.breakpoint.height - 140) / this.intervalCount
         : 1.3 * Math.max((this.$vuetify.breakpoint.height - 204) / this.intervalCount, 32)
     }
   },
   mounted () {
-    this.period.camp().activities()._meta.load.then(() => { this.activitiesLoading = false })
-    this.period.camp().categories()._meta.load.then(() => { this.categoriesLoading = false })
+    this.period.camp().activities()._meta.load.then(() => {
+      this.activitiesLoading = false
+    })
+    this.period.camp().categories()._meta.load.then(() => {
+      this.categoriesLoading = false
+    })
 
     // scroll a bit down to hide the night hours
     const scroller = this.$el.querySelector('.v-calendar-daily__scroll-area')
@@ -380,10 +384,16 @@ export default {
 
 <style scoped lang="scss">
 .ec-picasso, .ec-picasso-editable {
-  height:calc(100vh - 200px);
+  height: calc(100vh - 200px);
+  border: none;
+  overflow: auto;
 
   @media #{map-get($display-breakpoints, 'xs-only')}{
-      height:calc(100vh - 120px);
+    position: fixed;
+    top: 48px;
+    bottom: 56px;
+    left: 0;
+    right: 0;
   }
 
   ::v-deep {
@@ -402,11 +412,11 @@ export default {
 
       // full size div within v-calendar event
       div.readonlyEntry, div.editableEntry {
-          width: 100%;
-          height: 100%;
-          left: 0;
-          top: 0;
-          padding:3px;
+        width: 100%;
+        height: 100%;
+        left: 0;
+        top: 0;
+        padding: 3px;
       }
     }
   }
@@ -435,10 +445,44 @@ export default {
     transition: transform .1s; /* Animation */
   }
 
-  ::v-deep .v-event-timed:hover{
+  ::v-deep .v-event-timed:hover {
     transform: scale(1.02); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
   }
 
+}
+
+.ec-picasso-editable ::v-deep,
+.ec-picasso ::v-deep {
+  .v-calendar-daily__head, .v-calendar-daily__intervals-body {
+    position: sticky;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(4px);
+  }
+
+  .v-calendar-daily__head {
+    top: 0;
+    z-index: 2;
+    min-width: fit-content;
+    overflow: hidden;
+  }
+
+  .ec-daily_head-day-responsibles--readonly .v-input__append-inner {
+    display: none;
+  }
+
+  .v-calendar-daily__pane,
+  .v-calendar-daily__body {
+    overflow: visible;
+  }
+
+  .v-calendar-daily__intervals-body {
+    left: 0;
+    z-index: 1;
+  }
+
+  .v-calendar-daily__scroll-area {
+    overflow-y: visible;
+  }
 }
 
 // entry edit button
@@ -459,11 +503,65 @@ export default {
   hyphenate-limit-zone: 8%;
 }
 
+.readonlyEntry .v-event-title {
+  color: white;
+  text-decoration: none;
+  text-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
+}
+
 // day title
 .ec-daily_head-day-label {
   font-size: 11px;
   font-feature-settings: "tnum";
   letter-spacing: -.1px;
+}
+
+::v-deep .v-calendar-daily_head-day-label {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+
+  .v-text-field .v-label {
+    text-align: center;
+    width: 100%;
+    transform-origin: top center;
+  }
+
+  .e-form-container {
+    display: contents;
+  }
+
+  .v-select {
+    flex-direction: column;
+  }
+
+  .v-input__slot {
+    align-items: stretch;
+    height: 100%;
+  }
+
+  .v-select__slot {
+    flex-wrap: wrap;
+    align-content: space-between;
+  }
+
+  .v-select__selections {
+    gap: 4px;
+    padding: 4px 2px;
+    width: 100%;
+    min-width: initial;
+    justify-content: center;
+
+    .v-chip {
+      margin: 0;
+      padding-left: 6px;
+      padding-right: 6px;
+    }
+
+    > input {
+      display: none;
+    }
+  }
 }
 
 // temporary placeholder (crate new event)

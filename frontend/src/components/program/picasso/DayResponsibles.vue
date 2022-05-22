@@ -1,17 +1,18 @@
 <template>
-  <v-skeleton-loader v-if="isLoading" type="text" height="56" />
+  <v-skeleton-loader v-if="isLoading" type="text"
+                     height="46"
+                     class="ma-2" />
   <e-select v-else
             v-model="selectedCampCollaborations"
             :items="availableCampCollaborations"
             :loading="isSaving || isLoading ? 'secondary' : false"
             :name="$tc('entity.day.fields.dayResponsibles')"
             :error-messages="errorMessages"
-            outlined
             :filled="false"
             multiple
             chips
-            deletable-chips
             small-chips
+            persistent-placeholder
             v-bind="$attrs"
             @input="onInput" />
 </template>
