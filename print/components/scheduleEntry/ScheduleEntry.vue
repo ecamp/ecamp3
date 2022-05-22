@@ -28,7 +28,7 @@
             {{ $tc('entity.activity.fields.responsible') }}
           </th>
           <td class="header-row">
-            {{ responsiblesListed }}
+            {{ responsiblesCommaSeparated }}
             <!-- <user-avatar
               v-for="responsible in responsibles"
               :key="responsible.id"
@@ -47,7 +47,7 @@
 import CategoryLabel from './CategoryLabel.vue'
 import ContentNode from './contentNode/ContentNode.vue'
 import { rangeShort } from '@/../common/helpers/dateHelperUTCFormatted.js'
-import campCollaborationDisplayName from '@/../common/helpers/campCollaborationDisplayName.js'
+import { responsiblesCommaSeparated } from '@/helpers/activityResponsibles.js'
 
 export default {
   components: { CategoryLabel, ContentNode },
@@ -74,14 +74,8 @@ export default {
     responsibles() {
       return this.scheduleEntry.activity().activityResponsibles().items
     },
-    responsiblesListed() {
-      return this.scheduleEntry
-        .activity()
-        .activityResponsibles()
-        .items.map((activityResponsible) =>
-          campCollaborationDisplayName(activityResponsible.campCollaboration())
-        )
-        .join(', ')
+    responsiblesCommaSeparated() {
+      return responsiblesCommaSeparated(this.scheduleEntry.activity())
     },
   },
   methods: {

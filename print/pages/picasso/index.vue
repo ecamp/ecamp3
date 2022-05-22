@@ -6,20 +6,16 @@
         :key="scheduleEntry.id"
         :schedule-entry="scheduleEntry"
       /> -->
-      <picasso-landscape :period="period" />
+      <picasso-chunk :period="period" />
     </v-col>
   </v-row>
 </template>
 
 <script>
 import { sortBy } from 'lodash'
-import PicassoLandscape from '../../components/PicassoLandscape.vue'
 // import ScheduleEntry from '../../components/scheduleEntry/ScheduleEntry.vue'
 
 export default {
-  components: {
-    PicassoLandscape,
-  },
   layout: 'landscapeA3',
   data() {
     return {

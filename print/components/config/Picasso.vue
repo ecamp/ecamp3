@@ -1,6 +1,6 @@
 <template>
   <div>
-    <picasso
+    <picasso-period
       v-for="period in periods"
       :key="period._meta.self"
       :period="period"
