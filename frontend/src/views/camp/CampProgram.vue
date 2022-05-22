@@ -6,24 +6,57 @@ Show all activity schedule entries of a single period.
   <content-card :title="$tc('views.camp.picasso.title')" toolbar>
     <template #title-actions>
       <period-switcher v-if="$vuetify.breakpoint.xsOnly" :period="period" />
-
+      <v-spacer />
       <v-tooltip :disabled="isContributor" bottom>
-        <template #activator="{ on, attrs }">
-          <div
-            v-bind="attrs"
-            v-on="on">
-            <e-switch
-              v-model="editMode"
-              :disabled="!isContributor"
-              :label="$tc('views.camp.picasso.editMode')" />
-          </div>
+        <template #activator="{ on }">
+          <v-icon v-if="editMode"
+                  small color="grey"
+                  v-on="on">
+            mdi-lock-open
+          </v-icon>
+          <v-icon v-else
+                  small color="grey"
+                  v-on="on">
+            mdi-lock
+          </v-icon>
         </template>
         <span>{{ $tc('views.camp.picasso.guestsCannotEdit') }}</span>
       </v-tooltip>
-
-      <pdf-download-button-nuxt :config="printConfig()" class="ml-3" />
-
-      <pdf-download-button-react :config="printConfig()" class="ml-3" />
+      <v-menu offset-y>
+        <template #activator="{ on, attrs }">
+          <v-btn icon
+                 v-bind="attrs"
+                 v-on="on">
+            <v-icon>mdi-dots-horizontal</v-icon>
+          </v-btn>
+        </template>
+        <v-list class="py-0">
+          <v-list-item @click="editMode = !editMode">
+            <v-list-item-icon>
+              <v-icon v-if="editMode">mdi-lock</v-icon>
+              <v-icon v-else>mdi-lock-open</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title>
+              {{ editMode ? 'Sperren' : 'Entsperren' }}
+            </v-list-item-title>
+          </v-list-item>
+          <v-divider />
+          <v-list-item @click="printNuxt">
+            <v-list-item-icon>
+              <v-icon v-if="nuxtIsPrinting">mdi-timer-sand</v-icon>
+              <v-icon v-else>mdi-nuxt</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title>PDF herunterladen</v-list-item-title>
+          </v-list-item>
+          <v-list-item @click="printReact">
+            <v-list-item-icon>
+              <v-icon v-if="reactIsPrinting">mdi-timer-sand</v-icon>
+              <v-icon v-else>mdi-react</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title>PDF herunterladen</v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
     </template>
     <schedule-entries :period="period" :show-button="isContributor">
       <template #default="slotProps">
@@ -32,7 +65,6 @@ Show all activity schedule entries of a single period.
         </template>
         <template v-else>
           <picasso
-            class="mx-2 ma-sm-0 pa-sm-2"
             :schedule-entries="slotProps.scheduleEntries"
             :period="period()"
             :start="Date.parse(period().start)"
@@ -42,6 +74,17 @@ Show all activity schedule entries of a single period.
         </template>
       </template>
     </schedule-entries>
+    <v-snackbar v-model="error" app :timeout="10000">
+      {{ $tc('components.print.localPdfDownloadButton.error') }}
+      <template #action="{ attrs }">
+        <v-btn color="red"
+               text
+               v-bind="attrs"
+               @click="error = null">
+          {{ $tc('global.button.close') }}
+        </v-btn>
+      </template>
+    </v-snackbar>
   </content-card>
 </template>
 <script>
@@ -50,14 +93,12 @@ import ContentCard from '@/components/layout/ContentCard.vue'
 import Picasso from '@/components/program/picasso/Picasso.vue'
 import ScheduleEntries from '@/components/program/ScheduleEntries.vue'
 import PeriodSwitcher from '@/components/program/PeriodSwitcher.vue'
-import PdfDownloadButtonReact from '@/components/print/print-react/PdfDownloadButtonReact.vue'
-import PdfDownloadButtonNuxt from '@/components/print/print-nuxt/PdfDownloadButtonNuxt.vue'
+import { download as nuxtDownload } from '@/components/print/print-nuxt/download.js'
+import { download as reactDownload } from '@/components/print/print-react/download.js'
 
 export default {
   name: 'CampProgram',
   components: {
-    PdfDownloadButtonReact,
-    PdfDownloadButtonNuxt,
     PeriodSwitcher,
     ContentCard,
     Picasso,
@@ -70,7 +111,9 @@ export default {
   data () {
     return {
       editMode: false,
-      isPrinting: false
+      error: null,
+      nuxtIsPrinting: false,
+      reactIsPrinting: false
     }
   },
   computed: {
@@ -79,6 +122,25 @@ export default {
     }
   },
   methods: {
+    async printNuxt () {
+      this.nuxtIsPrinting = true
+      await nuxtDownload(this.printConfig()).catch((error) => {
+        this.error = error
+      })
+      this.nuxtIsPrinting = false
+    },
+    async printReact () {
+      this.reactIsPrinting = true
+      await reactDownload({
+        config: { ...this.printConfig(), apiGet: this.api.get.bind(this) },
+        storeData: this.$store.state,
+        translationData: this.$i18n.messages
+      }).catch((error) => {
+        console.error(error)
+        this.error = error
+      })
+      this.reactIsPrinting = false
+    },
     printConfig () {
       return {
         camp: this.period().camp()._meta.self,
