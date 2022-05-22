@@ -395,7 +395,7 @@
     "camp": {
       "admin": {
         "collaborators": "Manage Team",
-        "title": "Camp Admin"
+        "title": "Admin"
       },
       "collaborators": {
         "email": "Email address",

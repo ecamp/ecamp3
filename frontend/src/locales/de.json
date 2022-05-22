@@ -301,7 +301,7 @@
     "camp": {
       "admin": {
         "collaborators": "Team verwalten",
-        "title": "Lager Admin"
+        "title": "Admin"
       },
       "collaborators": {
         "email": "E-Mail-Adresse",
