@@ -269,16 +269,6 @@
       "create": "Créer un camp",
       "title": "Mon camp | Mes camps"
     },
-    "home": {
-      "home": "Accueil",
-      "myCamps": "Mon camp | Mes camps",
-      "welcome": "Bonjour {user}. Bienvenue sur eCamp"
-    },
-    "navigationDefault": {
-      "home": "Accueil",
-      "myCamps": "Mon camp | Mes camps",
-      "profile": "Profil"
-    },
     "profile": {
       "profile": "Profil"
     }

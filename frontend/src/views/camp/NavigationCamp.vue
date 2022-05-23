@@ -3,8 +3,8 @@
              clipped-left
              color="blue-grey darken-4" dark>
     <logo>
-      <v-btn :to="campRoute(camp())" class="justify-start px-2 camp--name"
-             text exact
+      <v-btn :to="campRoute(camp(),'dashboard')" class="justify-start px-2 camp--name"
+             text
              width="216">
         <v-toolbar-title>
           {{ camp().title | loading($tc('views.camp.navigationCamp.campIsLoading')) }}
@@ -14,7 +14,7 @@
 
     <v-toolbar-items>
       <v-btn :to="campRoute(camp(), 'program')" text>
-        <v-icon :left="$vuetify.breakpoint.mdAndUp">mdi-view-dashboard-variant</v-icon>
+        <v-icon :left="$vuetify.breakpoint.mdAndUp">mdi-view-dashboard</v-icon>
         <span class="sr-only-sm-and-down">{{ $tc('views.camp.navigationCamp.program') }}</span>
       </v-btn>
       <v-btn :to="campRoute(camp(), 'story')" text>
@@ -44,16 +44,16 @@
   <v-bottom-navigation v-else grow
                        app background-color="blue-grey darken-4"
                        dark>
-    <v-btn :to="{name: 'home'}" exact>
-      <span>{{ $tc('views.navigationDefault.home') }}</span>
-      <v-icon>mdi-home</v-icon>
+    <v-btn :to="campRoute(camp(), 'program')">
+      <span>{{ $tc('views.camp.navigationCamp.program') }}</span>
+      <v-icon>mdi-view-dashboard</v-icon>
     </v-btn>
     <v-btn :to="campRoute(camp(), 'story')">
       <span>{{ $tc('views.camp.navigationCamp.story') }}</span>
       <v-icon>mdi-book-open-variant</v-icon>
     </v-btn>
-    <v-btn :to="campRoute(camp())" exact>
-      <span>{{ $tc('views.camp.navigationCamp.program') }}</span>
+    <v-btn :to="campRoute(camp(), 'dashboard')">
+      <span>{{ camp().name }}</span>
       <v-icon large>mdi-tent</v-icon>
     </v-btn>
     <v-btn :to="campRoute(camp(), 'material')">
@@ -61,7 +61,7 @@
       <v-icon>mdi-package-variant</v-icon>
     </v-btn>
     <v-btn :to="campRoute(camp(), 'admin')">
-      <span>{{ camp().name }}</span>
+      <span>{{ $tc('views.camp.navigationCamp.admin') }}</span>
       <v-icon>mdi-account-cog</v-icon>
     </v-btn>
   </v-bottom-navigation>
@@ -90,5 +90,11 @@ export default {
 <style lang="scss" scoped>
   .camp--name::v-deep .v-btn__content {
     width: 100%;
+  }
+
+  .v-bottom-navigation--fixed {
+    height: auto!important;
+    min-height: 56px;
+    padding-bottom: env(safe-area-inset-bottom);
   }
 </style>

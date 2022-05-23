@@ -98,15 +98,6 @@ export default new Router({
       }
     },
     {
-      path: '/',
-      name: 'home',
-      components: {
-        navigation: NavigationDefault,
-        default: () => import(/* webpackChunkName: "about" */ './views/Home.vue')
-      },
-      beforeEnter: requireAuth
-    },
-    {
       path: '/profile',
       name: 'profile',
       components: {
@@ -189,7 +180,7 @@ export default new Router({
           component: () => import(/* webpackChunkName: "campAdmin" */ './views/camp/Admin.vue')
         },
         {
-          path: 'period/:periodId/:periodTitle?',
+          path: 'program/period/:periodId/:periodTitle?',
           name: 'camp/period',
           component: () => import(/* webpackChunkName: "campProgram" */ './views/camp/CampProgram.vue'),
           beforeEnter: requirePeriod
@@ -225,14 +216,19 @@ export default new Router({
           }
         },
         {
-          path: '',
+          path: 'dashboard',
           name: 'camp/dashboard',
           component: () => import(/* webpackChungName: "camp" */ './views/camp/Dashboard.vue')
+        },
+        {
+          path: '',
+          name: 'camp/home',
+          redirect: { name: 'camp/dashboard' }
         }
       ]
     },
     {
-      path: '/camps/:campId/:campTitle/category/:categoryId/:categoryName?',
+      path: '/camps/:campId/:campTitle/admin/category/:categoryId/:categoryName?',
       name: 'category',
       components: {
         navigation: NavigationCamp,
@@ -247,7 +243,7 @@ export default new Router({
       }
     },
     {
-      path: '/camps/:campId/:campTitle/activities/:scheduleEntryId/:activityName?',
+      path: '/camps/:campId/:campTitle/program/activities/:scheduleEntryId/:activityName?',
       name: 'activity',
       components: {
         navigation: NavigationCamp,
@@ -260,6 +256,11 @@ export default new Router({
         default: route => ({ scheduleEntry: scheduleEntryFromRoute(route) }),
         aside: route => ({ day: dayFromScheduleEntryInRoute(route) })
       }
+    },
+    {
+      path: '/',
+      name: 'home',
+      redirect: { name: 'camps' }
     }
   ]
 })

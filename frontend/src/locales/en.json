@@ -395,7 +395,7 @@
     "camp": {
       "admin": {
         "collaborators": "Manage Team",
-        "title": "Camp Admin"
+        "title": "Admin"
       },
       "collaborators": {
         "email": "Email address",
@@ -458,16 +458,6 @@
       "pastCamps": "Past camps",
       "prototypeCamps": "Prototypes",
       "title": "My Camp | My Camps"
-    },
-    "home": {
-      "home": "Home",
-      "myCamps": "My Camp | My Camps",
-      "welcome": "Hello {user}. Welcome on eCamp"
-    },
-    "navigationDefault": {
-      "home": "Home",
-      "myCamps": "My camp | My camps",
-      "profile": "Profile"
     },
     "profile": {
       "profile": "Profile"
