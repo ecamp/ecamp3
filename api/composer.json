@@ -14,7 +14,7 @@
         "exercise/htmlpurifier-bundle": "4.0",
         "google/recaptcha": "1.2.4",
         "guzzlehttp/guzzle": "7.4.2",
-        "knpuniversity/oauth2-client-bundle": "2.10.0",
+        "knpuniversity/oauth2-client-bundle": "2.10.1",
         "league/oauth2-google": "4.0.0",
         "lexik/jwt-authentication-bundle": "2.15.1",
         "nelmio/cors-bundle": "2.2.0",
