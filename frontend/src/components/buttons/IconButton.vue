@@ -5,13 +5,10 @@
     :color="color"
     v-bind="$attrs"
     v-on="$listeners">
-    <span :class="{'d-sr-only': hideLabel}">
+    <span :class="{ 'd-sr-only': hideLabel }">
       <slot />
     </span>
-    <v-icon
-      :right="!hideLabel"
-      size="150%"
-      :class="{'animate': animate}">
+    <v-icon :right="!hideLabel" size="150%" :class="{ animate: animate }">
       {{ icon }}
     </v-icon>
   </v-btn>
@@ -32,7 +29,7 @@ export default {
 <style scoped>
 /*noinspection CssUnusedSymbol*/
 .v-icon.animate {
-  animation: spin .5s infinite;
+  animation: spin 0.5s infinite;
 }
 
 @keyframes spin {

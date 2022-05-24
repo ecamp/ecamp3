@@ -1,30 +1,33 @@
 <template>
   <div>
-    <draggable v-if="contentNodeIds"
-               v-model="localContentNodeIds"
-               :disabled="!draggingEnabled"
-               group="contentNodes"
-               class="draggable-area d-flex flex-column pb-10"
-               :class="{ 'min-height': layoutMode }"
-               :invert-swap="true"
-               @start="startDrag"
-               @add="finishDrag"
-               @update="finishDrag"
-               @end="cleanupDrag">
-      <content-node v-for="id in draggableContentNodeIds"
-                    :key="id"
-                    :data-href="allContentNodesById[id]._meta.self"
-                    class="content-node"
-                    :content-node="allContentNodesById[id]"
-                    :layout-mode="layoutMode"
-                    :draggable="draggingEnabled"
-                    :disabled="disabled" />
+    <draggable
+      v-if="contentNodeIds"
+      v-model="localContentNodeIds"
+      :disabled="!draggingEnabled"
+      group="contentNodes"
+      class="draggable-area d-flex flex-column pb-10"
+      :class="{ 'min-height': layoutMode }"
+      :invert-swap="true"
+      @start="startDrag"
+      @add="finishDrag"
+      @update="finishDrag"
+      @end="cleanupDrag">
+      <content-node
+        v-for="id in draggableContentNodeIds"
+        :key="id"
+        :data-href="allContentNodesById[id]._meta.self"
+        class="content-node"
+        :content-node="allContentNodesById[id]"
+        :layout-mode="layoutMode"
+        :draggable="draggingEnabled"
+        :disabled="disabled" />
     </draggable>
 
-    <button-nested-content-node-add v-if="layoutMode"
-                                    :layout-mode="layoutMode"
-                                    :parent-content-node="parentContentNode"
-                                    :slot-name="slotName" />
+    <button-nested-content-node-add
+      v-if="layoutMode"
+      :layout-mode="layoutMode"
+      :parent-content-node="parentContentNode"
+      :slot-name="slotName" />
   </div>
 </template>
 <script>
@@ -63,13 +66,20 @@ export default {
       return sortBy(
         // We have to work with the complete list of contentNodes instead of parentContentNode.children()
         // in order to allow dragging a node to a new parent
-        this.parentContentNode.owner().contentNodes().items
-          .filter(child => child.slot === this.slotName && child.parent !== null && child.parent()._meta.self === this.parentContentNode._meta.self),
+        this.parentContentNode
+          .owner()
+          .contentNodes()
+          .items.filter(
+            (child) =>
+              child.slot === this.slotName &&
+              child.parent !== null &&
+              child.parent()._meta.self === this.parentContentNode._meta.self
+          ),
         'position'
-      ).map(child => child.id)
+      ).map((child) => child.id)
     },
     draggableContentNodeIds () {
-      return this.localContentNodeIds.filter(id => id in this.allContentNodesById)
+      return this.localContentNodeIds.filter((id) => id in this.allContentNodesById)
     }
   },
   watch: {

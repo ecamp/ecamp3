@@ -49,18 +49,26 @@ describe('An ESwitch', () => {
         }
       }
     })
-    expect(wrapper.find('input[type=checkbox]').element.getAttribute('aria-checked')).toBe('true')
+    expect(
+      wrapper.find('input[type=checkbox]').element.getAttribute('aria-checked')
+    ).toBe('true')
   })
 
   test('updates switch when vModel changes', async () => {
     const wrapper = mount()
-    expect(wrapper.find('input[type=checkbox]').element.getAttribute('aria-checked')).toBe('false')
+    expect(
+      wrapper.find('input[type=checkbox]').element.getAttribute('aria-checked')
+    ).toBe('false')
 
     await wrapper.setData({ data: true })
-    expect(wrapper.find('input[type=checkbox]').element.getAttribute('aria-checked')).toBe('true')
+    expect(
+      wrapper.find('input[type=checkbox]').element.getAttribute('aria-checked')
+    ).toBe('true')
 
     await wrapper.setData({ data: false })
-    expect(wrapper.find('input[type=checkbox]').element.getAttribute('aria-checked')).toBe('false')
+    expect(
+      wrapper.find('input[type=checkbox]').element.getAttribute('aria-checked')
+    ).toBe('false')
   })
 
   test('updates vModel when user toggles with click', async () => {

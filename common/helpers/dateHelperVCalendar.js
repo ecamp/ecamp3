@@ -10,7 +10,4 @@ function utcStringToTimestamp (string) {
   return dayjs(dayjs.utc(string).format('YYYY-MM-DD HH:mm')).valueOf()
 }
 
-export {
-  timestampToUtcString,
-  utcStringToTimestamp
-}
+export { timestampToUtcString, utcStringToTimestamp }

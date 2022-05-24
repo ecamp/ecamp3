@@ -1,7 +1,17 @@
 import Vue from 'vue'
 import App from './App.vue'
 import router from '@/router.js'
-import { vuetifyLoader, auth, storeLoader, filterLoading, formBaseComponents, ignoreNativeBindingWarnMessages, i18n, veeValidate, dayjs } from './plugins'
+import {
+  vuetifyLoader,
+  auth,
+  storeLoader,
+  filterLoading,
+  formBaseComponents,
+  ignoreNativeBindingWarnMessages,
+  i18n,
+  veeValidate,
+  dayjs
+} from './plugins'
 import { store } from './plugins/store'
 import { vuetify } from './plugins/vuetify'
 import VueCompositionAPI from '@vue/composition-api'
@@ -36,5 +46,5 @@ new Vue({
   store,
   vuetify,
   i18n,
-  render: h => h(App)
+  render: (h) => h(App)
 }).$mount('#app')

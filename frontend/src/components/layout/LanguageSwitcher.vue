@@ -2,7 +2,8 @@
   <v-menu offset-y>
     <template #activator="{ on, attrs }">
       <v-btn
-        id="languageSwitcher" text
+        id="languageSwitcher"
+        text
         class="my-n2"
         small
         :aria-label="$tc('global.changeLanguage')"
@@ -12,8 +13,7 @@
         {{ $tc('global.language') }}
       </v-btn>
     </template>
-    <v-list dense tag="ul"
-            aria-labelledby="languageSwitcher">
+    <v-list dense tag="ul" aria-labelledby="languageSwitcher">
       <v-list-item
         v-for="item in $root.$i18n.availableLocales"
         :key="item"
@@ -37,6 +37,4 @@ export default {
 }
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

@@ -32,6 +32,7 @@ describe('generating a next slot name', () => {
 })
 
 describe('adjusting the column widths', () => {
+  // prettier-ignore
   const examples = [
     [[], []],
     // compacting columns
@@ -64,8 +65,8 @@ describe('adjusting the column widths', () => {
   ]
 
   examples.forEach(([input, expected]) => {
-    it(input.map(col => col.width).toString(), () => {
-      expect(adjustColumnWidths(input).map(col => col.width)).toEqual(expected)
+    it(input.map((col) => col.width).toString(), () => {
+      expect(adjustColumnWidths(input).map((col) => col.width)).toEqual(expected)
     })
   })
 })

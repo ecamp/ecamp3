@@ -1,12 +1,11 @@
 <template>
   <auth-container>
-    <h1 class="display-1 text-center mb-4">{{ $tc('views.auth.resetPassword.title') }}</h1>
+    <h1 class="display-1 text-center mb-4">
+      {{ $tc('views.auth.resetPassword.title') }}
+    </h1>
 
     <div v-if="status == 'loading'" style="text-align: center">
-      <v-progress-circular
-        :size="70"
-        :width="7"
-        indeterminate />
+      <v-progress-circular :size="70" :width="7" indeterminate />
     </div>
 
     <v-alert v-if="status == 'loading-failed'" type="error">
@@ -22,7 +21,7 @@
     </v-alert>
 
     <v-form
-      v-if="status == 'loaded' || status=='reseting'"
+      v-if="status == 'loaded' || status == 'reseting'"
       @submit.prevent="resetPassword">
       <ValidationObserver>
         <e-text-field
@@ -46,11 +45,9 @@
           loading
           autofocus>
           <template #progress>
-            <v-progress-linear
-              :value="strength"
-              :color="color"
-              absolute
-              height="5" />
+            <v-progress-linear :value="strength" :color="color"
+                               absolute
+                               height="5" />
           </template>
         </e-text-field>
 
@@ -73,7 +70,7 @@
           outlined
           :x-large="$vuetify.breakpoint.smAndUp"
           class="my-4">
-          <v-progress-circular v-if="status=='reseting'" indeterminate size="24" />
+          <v-progress-circular v-if="status == 'reseting'" indeterminate size="24" />
           <v-icon v-else>$vuetify.icons.ecamp</v-icon>
           <v-spacer />
           <span>{{ $tc('views.auth.resetPassword.send') }}</span>
@@ -138,12 +135,15 @@ export default {
     }
 
     const url = await this.api.href(this.api.get(), 'resetPassword', { id: this.id })
-    this.api.get(url)._meta.load.then(info => {
-      this.email = info.email
-      this.status = 'loaded'
-    }, e => {
-      this.status = 'loading-failed'
-    })
+    this.api.get(url)._meta.load.then(
+      (info) => {
+        this.email = info.email
+        this.status = 'loaded'
+      },
+      () => {
+        this.status = 'loading-failed'
+      }
+    )
   },
 
   methods: {
@@ -156,11 +156,14 @@ export default {
         recaptchaToken = await recaptcha.execute('login')
       }
 
-      this.$auth.resetPassword(this.id, this.password, recaptchaToken).then(() => {
-        this.status = 'success'
-      }).catch((e) => {
-        this.status = 'failed'
-      })
+      this.$auth
+        .resetPassword(this.id, this.password, recaptchaToken)
+        .then(() => {
+          this.status = 'success'
+        })
+        .catch(() => {
+          this.status = 'failed'
+        })
     }
   }
 }

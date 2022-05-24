@@ -3,14 +3,20 @@ Displays the content wrapped inside a card.
 -->
 
 <template>
-  <v-card :max-width="maxWidth" width="100%"
-          :tile="$vuetify.breakpoint.xsOnly"
-          class="mx-auto">
-    <v-toolbar v-if="back || $vuetify.breakpoint.xsOnly || toolbar" class="ec-content-card__toolbar"
-               elevation="0"
-               dense>
+  <v-card
+    :max-width="maxWidth"
+    width="100%"
+    :tile="$vuetify.breakpoint.xsOnly"
+    class="mx-auto">
+    <v-toolbar
+      v-if="back || $vuetify.breakpoint.xsOnly || toolbar"
+      class="ec-content-card__toolbar"
+      elevation="0"
+      dense>
       <v-toolbar-items>
-        <button-back v-if="back || $vuetify.breakpoint.xsOnly && !!$route.query.isDetail" class="ml-n4" />
+        <button-back
+          v-if="back || ($vuetify.breakpoint.xsOnly && !!$route.query.isDetail)"
+          class="ml-n4" />
       </v-toolbar-items>
 
       <slot name="title">
@@ -52,7 +58,7 @@ export default {
 
 <style scoped lang="scss">
 .ec-content-card__toolbar {
-  @media #{map-get($display-breakpoints, 'xs-only')}{
+  @media #{map-get($display-breakpoints, 'xs-only')} {
     position: sticky;
     top: 0;
     z-index: 10;

@@ -57,12 +57,12 @@ export default {
       return this.$store.state.lang.language
     },
     url () {
-      return `${PRINT_SERVER}/?pagedjs=true&config=${encodeURIComponent(JSON.stringify(this.config))}`
+      return `${PRINT_SERVER}/?pagedjs=true&config=${encodeURIComponent(
+        JSON.stringify(this.config)
+      )}`
     }
   }
-
 }
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

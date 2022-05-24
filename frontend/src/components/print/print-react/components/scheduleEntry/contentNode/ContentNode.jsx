@@ -22,7 +22,10 @@ const contentNodeComponents = {
 function ContentNode (props) {
   const contentTypeName = props.contentNode.contentType().name
   if (typeof contentNodeComponents[contentTypeName] !== 'undefined') {
-    return React.createElement(contentNodeComponents[contentTypeName], { ...props, ContentNode })
+    return React.createElement(contentNodeComponents[contentTypeName], {
+      ...props,
+      ContentNode
+    })
   } else {
     return <Text>{contentTypeName}</Text>
   }

@@ -1,26 +1,22 @@
 <template>
-  <v-row v-if="layoutMode"
-         no-gutters
+  <v-row v-if="layoutMode" no-gutters
          justify="center"
          class="mb-3">
-    <v-menu bottom
-            left
-            offset-y>
+    <v-menu bottom left offset-y>
       <template #activator="{ on, attrs }">
-        <v-btn color="primary"
-               outlined
+        <v-btn color="primary" outlined
                :loading="isAdding"
-               v-bind="attrs"
-               v-on="on">
+               v-bind="attrs" v-on="on">
           <v-icon left>mdi-plus-circle-outline</v-icon>
           {{ $tc('global.button.add') }}
         </v-btn>
       </template>
       <v-list>
         <!-- preferred content types -->
-        <v-list-item v-for="act in preferredContentTypes"
-                     :key="act.contentType._meta.self"
-                     @click="addContentNode(act.contentType)">
+        <v-list-item
+          v-for="act in preferredContentTypes"
+          :key="act.contentType._meta.self"
+          @click="addContentNode(act.contentType)">
           <v-list-item-icon>
             <v-icon>{{ $tc(act.contentTypeIconKey) }}</v-icon>
           </v-list-item-icon>
@@ -32,9 +28,10 @@
         <v-divider />
 
         <!-- all other content types -->
-        <v-list-item v-for="act in nonpreferredContentTypes"
-                     :key="act.contentType._meta.self"
-                     @click="addContentNode(act.contentType)">
+        <v-list-item
+          v-for="act in nonpreferredContentTypes"
+          :key="act.contentType._meta.self"
+          @click="addContentNode(act.contentType)">
           <v-list-item-icon>
             <v-icon>{{ $tc(act.contentTypeIconKey) }}</v-icon>
           </v-list-item-icon>
@@ -64,11 +61,23 @@ export default {
   },
   computed: {
     preferredContentTypes () {
-      return this.parentContentNode.ownerCategory().preferredContentTypes().items.map(this.contentTypeMap)
+      return this.parentContentNode
+        .ownerCategory()
+        .preferredContentTypes()
+        .items.map(this.contentTypeMap)
     },
     nonpreferredContentTypes () {
-      return this.api.get().contentTypes().items
-        .filter(ct => !this.parentContentNode.ownerCategory().preferredContentTypes().items.map(ct => ct.id).includes(ct.id)) // remove contentTypes already included in preferredContentTypes
+      return this.api
+        .get()
+        .contentTypes()
+        .items.filter(
+          (ct) =>
+            !this.parentContentNode
+              .ownerCategory()
+              .preferredContentTypes()
+              .items.map((ct) => ct.id)
+              .includes(ct.id)
+        ) // remove contentTypes already included in preferredContentTypes
         .map(this.contentTypeMap)
     }
   },
@@ -84,7 +93,8 @@ export default {
     async addContentNode (contentType) {
       this.isAdding = true
       try {
-        await this.api.post(await this.api.href(contentType, 'contentNodes'), { // this.api.href resolves to the correct endpoint for this contentType (e.g. '/content_node/single_texts?contentType=...')
+        await this.api.post(await this.api.href(contentType, 'contentNodes'), {
+          // this.api.href resolves to the correct endpoint for this contentType (e.g. '/content_node/single_texts?contentType=...')
           parent: this.parentContentNode._meta.self,
           contentType: contentType._meta.self,
           slot: this.slotName

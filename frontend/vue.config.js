@@ -1,23 +1,14 @@
 module.exports = {
   devServer: {
     useLocalIp: false,
-    allowedHosts: [
-      'ecamp3',
-      'localhost',
-      '127.0.0.1'
-    ]
+    allowedHosts: ['ecamp3', 'localhost', '127.0.0.1']
   },
 
-  transpileDependencies: [
-    'vuetify'
-  ],
+  transpileDependencies: ['vuetify'],
 
   pluginOptions: {
     jestSerializer: {
-      attributesToClear: [
-        'id',
-        'for'
-      ],
+      attributesToClear: ['id', 'for'],
       formatting: {
         indent_char: ' ',
         indent_inner_html: true,

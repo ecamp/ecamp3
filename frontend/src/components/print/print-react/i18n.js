@@ -1,4 +1,9 @@
-import { translate, createCoreContext, registerMessageCompiler, compileToFunction } from '@intlify/core'
+import {
+  translate,
+  createCoreContext,
+  registerMessageCompiler,
+  compileToFunction
+} from '@intlify/core'
 
 const createI18n = (translationData, language) => {
   registerMessageCompiler(compileToFunction)

@@ -1,7 +1,6 @@
 <template>
   <div>
-    <v-btn color="primary"
-           :loading="loading"
+    <v-btn color="primary" :loading="loading"
            outlined
            @click="generatePdf">
       <v-icon>mdi-printer</v-icon>
@@ -11,8 +10,7 @@
     <v-snackbar v-model="error" :timeout="10000">
       {{ $tc('components.print.localPdfDownloadButton.error') }}
       <template #action="{ attrs }">
-        <v-btn color="red"
-               text
+        <v-btn color="red" text
                v-bind="attrs"
                @click="error = null">
           {{ $tc('global.button.close') }}
@@ -64,11 +62,15 @@ export default {
         return
       }
 
-      saveAs(blob, slugify(this.config.documentName, { locale: this.$store.state.lang.language.substr(0, 2) }))
+      saveAs(
+        blob,
+        slugify(this.config.documentName, {
+          locale: this.$store.state.lang.language.substr(0, 2)
+        })
+      )
     }
   }
 }
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

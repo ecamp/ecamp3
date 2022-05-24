@@ -12,9 +12,7 @@
     <!-- disable transition for drag&drop as draggable already comes with its own anmations -->
     <transition-group :name="!dragging ? 'flip-list' : null" tag="div">
       <div v-for="entity in locallySortedEntities" :key="entity._meta.self">
-        <slot
-          :entity="entity"
-          :on="eventHandlers" />
+        <slot :entity="entity" :on="eventHandlers" />
       </div>
     </transition-group>
   </draggable>
@@ -63,13 +61,13 @@ export default {
 
     // locally sorted entities (sorted as per local hrefList)
     locallySortedEntities () {
-      return this.sorting.hrefList.map(href => this.api.get(href))
+      return this.sorting.hrefList.map((href) => this.api.get(href))
     }
   },
   watch: {
     entities: {
       handler: function (entities) {
-        const hrefList = entities.map(entry => entry._meta.self)
+        const hrefList = entities.map((entry) => entry._meta.self)
 
         // update local sorting with external sorting if not dirty
         // or if number of items don't match (new incoming items or deleted items)
@@ -77,7 +75,7 @@ export default {
           this.sorting.hrefList = hrefList
           this.sorting.dirty = false
 
-        // remove dirty flag if external sorting is equal to local sorting (e.g. saving to API was successful)
+          // remove dirty flag if external sorting is equal to local sorting (e.g. saving to API was successful)
         } else if (isEqual(this.sorting.hrefList, hrefList)) {
           this.sorting.dirty = false
         }
@@ -137,7 +135,6 @@ export default {
 </script>
 
 <style scoped>
-
 .flip-list-move {
   transition: transform 0.5s;
   opacity: 0.5;
@@ -152,5 +149,4 @@ export default {
 >>> .drag-and-drop-handle {
   cursor: grab;
 }
-
 </style>

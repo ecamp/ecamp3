@@ -1,8 +1,10 @@
 <template>
   <v-app-bar
     v-if="$vuetify.breakpoint.smAndUp"
-    app clipped-left
-    color="blue-grey darken-4" dark>
+    app
+    clipped-left
+    color="blue-grey darken-4"
+    dark>
     <logo text />
     <v-spacer />
     <user-meta />
@@ -44,6 +46,4 @@ export default {
 }
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

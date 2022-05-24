@@ -12,10 +12,11 @@ Displays a field as a color picker (can be used with v-model)
     @input="$emit('input', $event)">
     <template slot-scope="picker">
       <v-card>
-        <v-color-picker v-if="picker.showPicker"
-                        :value="picker.value"
-                        flat
-                        @input="picker.on.input" />
+        <v-color-picker
+          v-if="picker.showPicker"
+          :value="picker.value"
+          flat
+          @input="picker.on.input" />
         <v-spacer />
         <v-btn text color="primary"
                data-testid="action-cancel"
@@ -58,5 +59,4 @@ export default {
 }
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

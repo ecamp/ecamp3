@@ -4,100 +4,100 @@ $body-font-weight: 400;
 $font-weights: (
   'light': 200,
   'regular': 400,
-  'bold': 600
+  'bold': 600,
 );
 $headings: (
   'h1': (
     'size': 6rem,
     'weight': 200,
     'line-height': 1.428571429,
-    'letter-spacing': -.022em,
-    'font-family': $heading-font-family
+    'letter-spacing': -0.022em,
+    'font-family': $heading-font-family,
   ),
   'h2': (
     'size': 3.75rem,
     'weight': 200,
     'line-height': 1.428571429,
-    'letter-spacing': -.022em,
-    'font-family': $heading-font-family
+    'letter-spacing': -0.022em,
+    'font-family': $heading-font-family,
   ),
   'h3': (
     'size': 3rem,
     'weight': 400,
     'line-height': 1.428571429,
-    'letter-spacing': -.0215em,
-    'font-family': $heading-font-family
+    'letter-spacing': -0.0215em,
+    'font-family': $heading-font-family,
   ),
   'h4': (
     'size': 2.125rem,
     'weight': 400,
     'line-height': 1.428571429,
-    'letter-spacing': -.021em,
-    'font-family': $heading-font-family
+    'letter-spacing': -0.021em,
+    'font-family': $heading-font-family,
   ),
   'h5': (
     'size': 1.5rem,
     'weight': 400,
     'line-height': 1.428571429,
-    'letter-spacing': -.019em,
-    'font-family': $heading-font-family
+    'letter-spacing': -0.019em,
+    'font-family': $heading-font-family,
   ),
   'h6': (
     'size': 1.25rem,
     'weight': 600,
     'line-height': 1.428571429,
-    'letter-spacing': -.0125em,
-    'font-family': $heading-font-family
+    'letter-spacing': -0.0125em,
+    'font-family': $heading-font-family,
   ),
   'subtitle-1': (
     'size': 1.125rem,
     'weight': 400,
     'line-height': 1.428571429,
-    'letter-spacing': -.017em,
-    'font-family': $body-font-family
+    'letter-spacing': -0.017em,
+    'font-family': $body-font-family,
   ),
   'subtitle-2': (
-    'size': .875rem,
+    'size': 0.875rem,
     'weight': 600,
     'line-height': 1.375rem,
-    'letter-spacing': -.006em,
-    'font-family': $body-font-family
+    'letter-spacing': -0.006em,
+    'font-family': $body-font-family,
   ),
   'body-2': (
-    'size': .875rem,
+    'size': 0.875rem,
     'weight': 400,
     'line-height': 1.428571429,
-    'letter-spacing': -.006em,
-    'font-family': $body-font-family
+    'letter-spacing': -0.006em,
+    'font-family': $body-font-family,
   ),
   'body-1': (
     'size': 1rem,
     'weight': 400,
     'line-height': 1.428571429,
     'letter-spacing': -0.011em,
-    'font-family': $body-font-family
+    'font-family': $body-font-family,
   ),
   'caption': (
-    'size': .75rem,
+    'size': 0.75rem,
     'weight': 400,
     'line-height': 1.428571429,
     'letter-spacing': 0em,
-    'font-family': $body-font-family
+    'font-family': $body-font-family,
   ),
   'overline': (
-    'size': .625rem,
+    'size': 0.625rem,
     'weight': 400,
     'line-height': 1.428571429,
-    'letter-spacing': 0.010em,
-    'font-family': $body-font-family
-  )
+    'letter-spacing': 0.01em,
+    'font-family': $body-font-family,
+  ),
 );
-$btn-letter-spacing: .25px;
+$btn-letter-spacing: 0.25px;
 $btn-text-transform: inherit;
 $bottom-nav-btn-min-width: 60px;
 $list-item-action-icon-margin: 20px;
 $menu-content-border-radius: 0 0 4px 4px;
-$primary-transition: .1s ease-in-out !default;
+$primary-transition: 0.1s ease-in-out !default;
 $card-actions-padding: 16px;
 $expansion-panel-header-padding: 16px;
 $expansion-panel-content-padding: 0 16px 16px;
