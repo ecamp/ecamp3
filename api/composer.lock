@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b11d2ee3bc442de6fb73b5b76528730a",
+    "content-hash": "9f4c5c712d650e53f1d2d76a395211a6",
     "packages": [
         {
             "name": "api-platform/core",
@@ -2702,16 +2702,16 @@
         },
         {
             "name": "knpuniversity/oauth2-client-bundle",
-            "version": "v2.10.0",
+            "version": "v2.10.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/knpuniversity/oauth2-client-bundle.git",
-                "reference": "eb260409723a7bf204c2aa842b3488980372e874"
+                "reference": "0f4b238f16793ea6d2225044cfeae41b148a5c49"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/knpuniversity/oauth2-client-bundle/zipball/eb260409723a7bf204c2aa842b3488980372e874",
-                "reference": "eb260409723a7bf204c2aa842b3488980372e874",
+                "url": "https://api.github.com/repos/knpuniversity/oauth2-client-bundle/zipball/0f4b238f16793ea6d2225044cfeae41b148a5c49",
+                "reference": "0f4b238f16793ea6d2225044cfeae41b148a5c49",
                 "shasum": ""
             },
             "require": {
@@ -2756,9 +2756,9 @@
             ],
             "support": {
                 "issues": "https://github.com/knpuniversity/oauth2-client-bundle/issues",
-                "source": "https://github.com/knpuniversity/oauth2-client-bundle/tree/v2.10.0"
+                "source": "https://github.com/knpuniversity/oauth2-client-bundle/tree/v2.10.1"
             },
-            "time": "2022-02-23T15:00:49+00:00"
+            "time": "2022-05-24T17:36:38+00:00"
         },
         {
             "name": "laminas/laminas-code",
