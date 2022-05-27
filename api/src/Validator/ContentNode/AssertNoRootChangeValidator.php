@@ -9,13 +9,13 @@ use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 use Symfony\Component\Validator\Exception\UnexpectedValueException;
 
-class AssertBelongsToSameRootValidator extends ConstraintValidator {
+class AssertNoRootChangeValidator extends ConstraintValidator {
     public function __construct(public RequestStack $requestStack) {
     }
 
     public function validate($value, Constraint $constraint) {
-        if (!$constraint instanceof AssertBelongsToSameRoot) {
-            throw new UnexpectedTypeException($constraint, AssertBelongsToSameRoot::class);
+        if (!$constraint instanceof AssertNoRootChange) {
+            throw new UnexpectedTypeException($constraint, AssertNoRootChange::class);
         }
 
         $object = $this->context->getObject();

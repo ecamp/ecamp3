@@ -26,7 +26,6 @@ trait FiltersByContentNode {
         $queryBuilder->leftJoin(Activity::class, 'cn_activity', Join::WITH, 'cn_activity.rootContentNode = root.id');
 
         /*
-         * COALESCE:
          *   If owner is an Activity --> cn_activity.category is not null
          *   If owner is a Category --> cn_category.rootContentNode = root.id is a match
          */

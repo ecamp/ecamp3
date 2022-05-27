@@ -6,6 +6,6 @@ use Attribute;
 use Symfony\Component\Validator\Constraint;
 
 #[Attribute]
-class AssertBelongsToSameRoot extends Constraint {
+class AssertNoRootChange extends Constraint {
     public string $message = 'Must belong to the same root.';
 }

@@ -11,9 +11,9 @@ use App\Doctrine\Filter\ContentNodePeriodFilter;
 use App\Entity\ContentNode\ColumnLayout;
 use App\Repository\ContentNodeRepository;
 use App\Util\EntityMap;
-use App\Validator\ContentNode\AssertBelongsToSameRoot;
 use App\Validator\ContentNode\AssertContentTypeCompatible;
 use App\Validator\ContentNode\AssertNoLoop;
+use App\Validator\ContentNode\AssertNoRootChange;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -63,7 +63,7 @@ abstract class ContentNode extends BaseEntity implements BelongsToContentNodeTre
      * as the new parent is in the same camp as the old one.
      */
     #[Assert\NotNull(groups: ['create'])] // Root nodes have parent:null, but manually creating root nodes is not allowed
-    #[AssertBelongsToSameRoot(groups: ['update'])]
+    #[AssertNoRootChange(groups: ['update'])]
     #[AssertNoLoop(groups: ['update'])]
     #[ApiProperty(example: '/content_nodes/1a2b3c4d')]
     #[Gedmo\SortableGroup]
@@ -137,11 +137,11 @@ abstract class ContentNode extends BaseEntity implements BelongsToContentNodeTre
 
     /**
      * The entity that owns the content node tree that this content node resides in.
+     * (implements BelongsToContentNodeTreeInterface for security voting).
      */
-    #[ApiProperty(readable: false)]
     public function getRoot(): ?ColumnLayout {
-        // New created ContentNodes have root == this.
-        // Therefore we use the root of the parent-node.
+        // Newly created ContentNodes don't have root populated yet (happens later in DataPersister),
+        // so we're using the parent's root here
         if (null === $this->root && null !== $this->parent) {
             return $this->parent->root;
         }

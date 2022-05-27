@@ -7,8 +7,8 @@ use App\Entity\BelongsToCampInterface;
 use App\Entity\Camp;
 use App\Entity\Category;
 use App\Entity\ContentNode\ColumnLayout;
-use App\Validator\ContentNode\AssertBelongsToSameRoot;
-use App\Validator\ContentNode\AssertBelongsToSameRootValidator;
+use App\Validator\ContentNode\AssertNoRootChange;
+use App\Validator\ContentNode\AssertNoRootChangeValidator;
 use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,7 +21,7 @@ use Symfony\Component\Validator\Test\ConstraintValidatorTestCase;
 /**
  * @internal
  */
-class AssertBelongsToSameRootValidatorTest extends ConstraintValidatorTestCase {
+class AssertNoRootChangeValidatorTest extends ConstraintValidatorTestCase {
     private MockObject|RequestStack $requestStack;
 
     public function testExpectsMatchingAnnotation() {
@@ -31,7 +31,7 @@ class AssertBelongsToSameRootValidatorTest extends ConstraintValidatorTestCase {
 
     public function testExpectsContentNodeValue() {
         $this->expectException(UnexpectedValueException::class);
-        $this->validator->validate(new \stdClass(), new AssertBelongsToSameRoot());
+        $this->validator->validate(new \stdClass(), new AssertNoRootChange());
     }
 
     public function testExpectsContentNodeObject() {
@@ -46,7 +46,7 @@ class AssertBelongsToSameRootValidatorTest extends ConstraintValidatorTestCase {
         $this->expectException(UnexpectedValueException::class);
 
         // when
-        $this->validator->validate($child, new AssertBelongsToSameRoot());
+        $this->validator->validate($child, new AssertNoRootChange());
     }
 
     public function testNullIsNotValid() {
@@ -54,7 +54,7 @@ class AssertBelongsToSameRootValidatorTest extends ConstraintValidatorTestCase {
         $this->expectException(UnexpectedValueException::class);
 
         // when
-        $this->validator->validate(null, new AssertBelongsToSameRoot());
+        $this->validator->validate(null, new AssertNoRootChange());
     }
 
     public function testNullIsValidIfValueWasNullBefore() {
@@ -71,7 +71,7 @@ class AssertBelongsToSameRootValidatorTest extends ConstraintValidatorTestCase {
         $this->requestStack->method('getCurrentRequest')->willReturn($request);
 
         // when
-        $this->validator->validate($current->parent, new AssertBelongsToSameRoot());
+        $this->validator->validate($current->parent, new AssertNoRootChange());
 
         // then
         $this->assertNoViolation();
@@ -82,7 +82,7 @@ class AssertBelongsToSameRootValidatorTest extends ConstraintValidatorTestCase {
         $this->expectException(UnexpectedValueException::class);
 
         // when
-        $this->validator->validate('', new AssertBelongsToSameRoot());
+        $this->validator->validate('', new AssertNoRootChange());
     }
 
     public function testValid() {
@@ -98,7 +98,7 @@ class AssertBelongsToSameRootValidatorTest extends ConstraintValidatorTestCase {
         $this->setObject($child);
 
         // when
-        $this->validator->validate($parent, new AssertBelongsToSameRoot());
+        $this->validator->validate($parent, new AssertNoRootChange());
 
         // then
         $this->assertNoViolation();
@@ -121,7 +121,7 @@ class AssertBelongsToSameRootValidatorTest extends ConstraintValidatorTestCase {
         $this->setObject($child);
 
         // when
-        $this->validator->validate($parent, new AssertBelongsToSameRoot());
+        $this->validator->validate($parent, new AssertNoRootChange());
 
         // then
         $this->buildViolation('Must belong to the same root.')->assertRaised();
@@ -130,7 +130,7 @@ class AssertBelongsToSameRootValidatorTest extends ConstraintValidatorTestCase {
     protected function createValidator() {
         $this->requestStack = $this->createMock(RequestStack::class);
 
-        return new AssertBelongsToSameRootValidator($this->requestStack);
+        return new AssertNoRootChangeValidator($this->requestStack);
     }
 }
 
@@ -144,7 +144,7 @@ class ChildTestClass implements BelongsToCampInterface {
 }
 
 class ParentTestClass extends BaseEntity implements BelongsToCampInterface {
-    #[AssertBelongsToSameRoot]
+    #[AssertNoRootChange]
     public ChildTestClass $child;
 
     public function __construct(public Camp $camp, ChildTestClass $child) {
