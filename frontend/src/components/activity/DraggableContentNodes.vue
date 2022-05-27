@@ -40,7 +40,7 @@ export default {
     // Lazy import necessary due to recursive component structure
     ContentNode: () => import('@/components/activity/ContentNode.vue')
   },
-  inject: ['draggableDirty', 'contentNodeOwner'],
+  inject: ['draggableDirty', 'rootContentNodes'],
   props: {
     layoutMode: { type: Boolean, default: false },
     slotName: { type: String, required: true },
@@ -54,7 +54,7 @@ export default {
   },
   computed: {
     allContentNodes () {
-      return this.contentNodeOwner.contentNodes()
+      return this.rootContentNodes()
     },
     allContentNodesById () {
       return keyBy(this.allContentNodes.items, 'id')

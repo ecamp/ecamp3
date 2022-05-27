@@ -5,10 +5,10 @@ export const contentNodeMixin = {
     draggable: { type: Boolean, default: false },
     disabled: { type: Boolean, default: false }
   },
-  inject: ['contentNodeOwner'],
+  inject: ['camp'],
   computed: {
     camp () {
-      return this.contentNodeOwner.camp()
+      return this.camp()
     }
   }
 }

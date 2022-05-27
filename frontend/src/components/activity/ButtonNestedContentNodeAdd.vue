@@ -18,7 +18,7 @@
       </template>
       <v-list>
         <!-- preferred content types -->
-        <v-list-item v-for="act in preferredContentTypes"
+        <v-list-item v-for="act in preferredContentTypesList"
                      :key="act.contentType._meta.self"
                      @click="addContentNode(act.contentType)">
           <v-list-item-icon>
@@ -32,7 +32,7 @@
         <v-divider />
 
         <!-- all other content types -->
-        <v-list-item v-for="act in nonpreferredContentTypes"
+        <v-list-item v-for="act in nonpreferredContentTypesList"
                      :key="act.contentType._meta.self"
                      @click="addContentNode(act.contentType)">
           <v-list-item-icon>
@@ -51,7 +51,7 @@ import { camelCase } from 'lodash'
 
 export default {
   name: 'ButtonNestedContentNodeAdd',
-  inject: ['draggableDirty', 'contentNodeOwner'],
+  inject: ['draggableDirty', 'preferredContentTypes', 'rootContentNodes'],
   props: {
     layoutMode: { type: Boolean, default: false },
     parentContentNode: { type: Object, required: true },
@@ -63,12 +63,12 @@ export default {
     }
   },
   computed: {
-    preferredContentTypes () {
-      return this.contentNodeOwner.preferredContentTypes().items.map(this.contentTypeMap)
+    preferredContentTypesList () {
+      return this.preferredContentTypes().items.map(this.contentTypeMap)
     },
-    nonpreferredContentTypes () {
+    nonpreferredContentTypesList () {
       return this.api.get().contentTypes().items
-        .filter(ct => !this.contentNodeOwner.preferredContentTypes().items.map(ct => ct.id).includes(ct.id)) // remove contentTypes already included in preferredContentTypes
+        .filter(ct => !this.preferredContentTypes().items.map(ct => ct.id).includes(ct.id)) // remove contentTypes already included in preferredContentTypes
         .map(this.contentTypeMap)
     }
   },
@@ -93,7 +93,7 @@ export default {
         // need to clear dirty flag to ensure new content node is visible in case same Patch-calls are still ongoing
         this.draggableDirty.clearDirty(null)
 
-        await this.contentNodeOwner.contentNodes().$reload()
+        await this.rootContentNodes().$reload()
       } catch (error) {
         console.log(error) // TO DO: display error message in error snackbar/toast
       }

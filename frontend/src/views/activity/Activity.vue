@@ -158,11 +158,9 @@ export default {
   mixins: [campRoleMixin],
   provide () {
     return {
-      contentNodeOwner: {
-        preferredContentTypes: () => this.preferredContentTypes,
-        contentNodes: () => this.contentNodes,
-        camp: () => this.camp
-      }
+      preferredContentTypes: () => this.preferredContentTypes,
+      rootContentNodes: () => this.contentNodes,
+      camp: () => this.camp
     }
   },
   props: {

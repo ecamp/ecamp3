@@ -1,7 +1,7 @@
 <template>
   <card-content-node v-bind="$props">
     <div class="mb-3">
-      <material-table :camp="camp"
+      <material-table :camp="camp()"
                       :material-node="contentNode"
                       :layout-mode="layoutMode"
                       :material-item-collection="materialItemCollection"

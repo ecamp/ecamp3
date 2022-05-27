@@ -24,7 +24,7 @@ import { calculateNextSlotName, adjustColumnWidths } from '@/components/activity
 
 export default {
   name: 'ColumnOperations',
-  inject: ['contentNodeOwner'],
+  inject: ['rootContentNodes'],
   props: {
     contentNode: { type: Object, required: true },
     minColumnWidth: { type: Number, default: 3 },
@@ -38,7 +38,7 @@ export default {
       return this.contentNode.columns.length > 2 && this.removableColumn !== undefined
     },
     children () {
-      return this.contentNodeOwner.contentNodes().items.filter(child => {
+      return this.rootContentNodes().items.filter(child => {
         return child.parent !== null && child.parent()._meta.self === this.contentNode._meta.self
       })
     },
