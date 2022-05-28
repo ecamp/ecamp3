@@ -34,7 +34,7 @@ class ListMaterialListsTest extends ECampApiTestCase {
         ]);
         $this->assertEqualsCanonicalizing([
             ['href' => $this->getIriFor('materialList1')],
-            ['href' => $this->getIriFor('materialList2')],
+            ['href' => $this->getIriFor('materialList2WithNoItems')],
             ['href' => $this->getIriFor('materialList3Manager')],
             ['href' => $this->getIriFor('materialList1camp2')],
             ['href' => $this->getIriFor('materialList1campPrototype')],
@@ -56,7 +56,7 @@ class ListMaterialListsTest extends ECampApiTestCase {
         ]);
         $this->assertEqualsCanonicalizing([
             ['href' => $this->getIriFor('materialList1')],
-            ['href' => $this->getIriFor('materialList2')],
+            ['href' => $this->getIriFor('materialList2WithNoItems')],
             ['href' => $this->getIriFor('materialList3Manager')],
         ], $response->toArray()['_links']['items']);
     }
