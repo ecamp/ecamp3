@@ -17,7 +17,7 @@
     <v-skeleton-loader v-if="camp().materialLists()._meta.loading" type="article" />
     <v-list>
       <camp-material-lists-item
-        v-for="materialList in materialLists.items"
+        v-for="materialList in materialLists.allItems"
         :key="materialList._meta.self"
         class="px-0"
         :material-list="materialList"

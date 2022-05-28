@@ -134,7 +134,8 @@
         "title": "Material lists"
       },
       "campMaterialListsItem": {
-        "deleteWarning": "Do you really want to delete this material list?"
+        "deleteWarning": "Do you really want to delete this material list?",
+        "deleteError": "Could not delete the material list. Check if the list is empty before deleting it."
       },
       "campMembers": {
         "title": "Members"

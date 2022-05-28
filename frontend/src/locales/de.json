@@ -88,6 +88,14 @@
       "campInvitations": {
         "title": "Einladen"
       },
+      "campMaterialLists": {
+        "createMaterialList": "Materialliste erstellen",
+        "title": "Materiallisten"
+      },
+      "campMaterialListsItem": {
+        "deleteWarning": "Möchtest du diese Materialliste wirklich löschen?",
+        "deleteError": "Materialliste konnte nicht gelöscht werden. Überprüfe vor dem Löschen, dass die Liste leer ist."
+      },
       "campMembers": {
         "title": "Mitglieder"
       },
