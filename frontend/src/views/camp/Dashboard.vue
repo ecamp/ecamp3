@@ -8,7 +8,9 @@ Admin screen of a camp: Displays details & periods of a single camp and allows t
       {{ $tc('views.camp.dashboard.viewDescription', 1, { title: camp().title }) }}
     </v-card-text>
 
-    <template v-if="showAnyPeriod(camp())">
+    <v-skeleton-loader v-if="loading" type="article" />
+
+    <template v-else-if="showAnyPeriod(camp())">
       <v-expansion-panels v-model="openPeriods" multiple
                           flat accordion>
         <template v-for="period in camp().periods().items">
@@ -27,7 +29,7 @@ Admin screen of a camp: Displays details & periods of a single camp and allows t
                     <v-col :key="day._meta.self" cols="12" class="pb-0">
                       <h4>{{ day.dayOffset + 1 }}) {{ dateLong(day.start) }}</h4>
                     </v-col>
-                    <template v-for="scheduleEntry in day.scheduleEntries().items">
+                    <template v-for="scheduleEntry in scheduleEntriesByDay(day)">
                       <v-col
                         v-if="showScheduleEntry(scheduleEntry)"
                         :key="scheduleEntry._meta.self"
@@ -101,16 +103,25 @@ export default {
   },
   data () {
     return {
-      openPeriods: []
+      loading: true
     }
   },
-  mounted () {
-    this.camp().periods()._meta.load.then(periods => {
-      this.openPeriods = periods.items
+  computed: {
+    // all periods with end-date in future
+    openPeriods () {
+      return this.camp().periods().items
         .map((period, idx) => Date.parse(period.end) >= new Date() ? idx : null)
         .filter(idx => idx !== null)
-    })
-    this.api.reload(this.camp())
+    }
+  },
+  async mounted () {
+    await Promise.all([
+      this.camp().activities()._meta.load,
+      this.camp().categories()._meta.load,
+      this.camp().periods()._meta.load
+    ])
+
+    this.loading = false
   },
   methods: {
     dateShort,
@@ -125,7 +136,7 @@ export default {
       return period.days().items.some(this.showDay)
     },
     showDay (day) {
-      return day.scheduleEntries().items.some(this.showScheduleEntry)
+      return this.scheduleEntriesByDay(day).some(this.showScheduleEntry)
     },
     showScheduleEntry (scheduleEntry) {
       const authUser = this.$auth.user()
@@ -134,6 +145,15 @@ export default {
     },
     sortCampCollaborations (campCollaborations) {
       return campCollaborations.sort((a, b) => parseInt(a.user().id, 16) - parseInt(b.user().id, 16))
+    },
+    // returns scheduleEntries of current day without the need for an additional API call
+    scheduleEntriesByDay (day) {
+      return day
+        .period()
+        .scheduleEntries()
+        .items.filter((scheduleEntry) => {
+          return scheduleEntry.day()._meta.self === day._meta.self
+        })
     }
   }
 }
