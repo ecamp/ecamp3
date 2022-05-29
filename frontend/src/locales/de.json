@@ -126,7 +126,8 @@
         }
       },
       "localPdfDownloadButton": {
-        "error": "Etwas hat nicht geklappt. Probiere es nochmals, oder lade die Seite neu."
+        "error": "Etwas hat nicht geklappt. Probiere es nochmals, oder lade die Seite neu.",
+        "label": "PDF herunterladen"
       },
       "printConfigurator": {
         "config": {

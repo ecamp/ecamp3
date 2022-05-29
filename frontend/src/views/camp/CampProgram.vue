@@ -41,20 +41,8 @@ Show all activity schedule entries of a single period.
             </v-list-item-title>
           </v-list-item>
           <v-divider />
-          <v-list-item @click="printNuxt">
-            <v-list-item-icon>
-              <v-icon v-if="nuxtIsPrinting">mdi-timer-sand</v-icon>
-              <v-icon v-else>mdi-nuxt</v-icon>
-            </v-list-item-icon>
-            <v-list-item-title>PDF herunterladen</v-list-item-title>
-          </v-list-item>
-          <v-list-item @click="printReact">
-            <v-list-item-icon>
-              <v-icon v-if="reactIsPrinting">mdi-timer-sand</v-icon>
-              <v-icon v-else>mdi-react</v-icon>
-            </v-list-item-icon>
-            <v-list-item-title>PDF herunterladen</v-list-item-title>
-          </v-list-item>
+          <DownloadNuxtPdf :config="printConfig()" @error="showPrintError" />
+          <DownloadReactPdf :config="printConfig()" @error="showPrintError" />
         </v-list>
       </v-menu>
     </template>
@@ -74,13 +62,13 @@ Show all activity schedule entries of a single period.
         </template>
       </template>
     </schedule-entries>
-    <v-snackbar v-model="error" app :timeout="10000">
-      {{ $tc('components.print.localPdfDownloadButton.error') }}
+    <v-snackbar v-model="showError" app :timeout="10000">
+      {{ error ? error.label : null }}
       <template #action="{ attrs }">
         <v-btn color="red"
                text
                v-bind="attrs"
-               @click="error = null">
+               @click="showError = null">
           {{ $tc('global.button.close') }}
         </v-btn>
       </template>
@@ -93,12 +81,14 @@ import ContentCard from '@/components/layout/ContentCard.vue'
 import Picasso from '@/components/program/picasso/Picasso.vue'
 import ScheduleEntries from '@/components/program/ScheduleEntries.vue'
 import PeriodSwitcher from '@/components/program/PeriodSwitcher.vue'
-import { download as nuxtDownload } from '@/components/print/print-nuxt/download.js'
-import { download as reactDownload } from '@/components/print/print-react/download.js'
+import DownloadNuxtPdf from '@/components/print/print-nuxt/DownloadNuxtPdfListItem.vue'
+import DownloadReactPdf from '@/components/print/print-react/DownloadReactPdfListItem.vue'
 
 export default {
   name: 'CampProgram',
   components: {
+    DownloadNuxtPdf,
+    DownloadReactPdf,
     PeriodSwitcher,
     ContentCard,
     Picasso,
@@ -111,6 +101,7 @@ export default {
   data () {
     return {
       editMode: false,
+      showError: null,
       error: null,
       nuxtIsPrinting: false,
       reactIsPrinting: false
@@ -122,24 +113,9 @@ export default {
     }
   },
   methods: {
-    async printNuxt () {
-      this.nuxtIsPrinting = true
-      await nuxtDownload(this.printConfig()).catch((error) => {
-        this.error = error
-      })
-      this.nuxtIsPrinting = false
-    },
-    async printReact () {
-      this.reactIsPrinting = true
-      await reactDownload({
-        config: { ...this.printConfig(), apiGet: this.api.get.bind(this) },
-        storeData: this.$store.state,
-        translationData: this.$i18n.messages
-      }).catch((error) => {
-        console.error(error)
-        this.error = error
-      })
-      this.reactIsPrinting = false
+    showPrintError (event) {
+      this.error = event
+      this.showError = true
     },
     printConfig () {
       return {
