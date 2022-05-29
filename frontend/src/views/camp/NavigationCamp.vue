@@ -91,4 +91,10 @@ export default {
   .camp--name::v-deep .v-btn__content {
     width: 100%;
   }
+
+  .v-bottom-navigation {
+    height: initial!important;
+    min-height: 56px;
+    padding-bottom: env(safe-area-inset-bottom);
+  }
 </style>

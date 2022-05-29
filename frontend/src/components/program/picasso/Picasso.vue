@@ -391,7 +391,7 @@ export default {
     position: fixed;
     height: inherit;
     top: 48px;
-    bottom: 56px;
+    bottom: calc(56px + env(safe-area-inset-bottom));
     left: 0;
     right: 0;
   }
