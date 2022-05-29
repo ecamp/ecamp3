@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "555ce17cef20679a775ad3a8f89c7404",
+    "content-hash": "d4e6e78e98ebe52a254b1a4e7e3a9465",
     "packages": [
         {
             "name": "api-platform/core",
@@ -2262,16 +2262,16 @@
         },
         {
             "name": "guzzlehttp/guzzle",
-            "version": "7.4.2",
+            "version": "7.4.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/guzzle.git",
-                "reference": "ac1ec1cd9b5624694c3a40be801d94137afb12b4"
+                "reference": "74a8602c6faec9ef74b7a9391ac82c5e65b1cdab"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/ac1ec1cd9b5624694c3a40be801d94137afb12b4",
-                "reference": "ac1ec1cd9b5624694c3a40be801d94137afb12b4",
+                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/74a8602c6faec9ef74b7a9391ac82c5e65b1cdab",
+                "reference": "74a8602c6faec9ef74b7a9391ac82c5e65b1cdab",
                 "shasum": ""
             },
             "require": {
@@ -2366,7 +2366,7 @@
             ],
             "support": {
                 "issues": "https://github.com/guzzle/guzzle/issues",
-                "source": "https://github.com/guzzle/guzzle/tree/7.4.2"
+                "source": "https://github.com/guzzle/guzzle/tree/7.4.3"
             },
             "funding": [
                 {
@@ -2382,7 +2382,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-03-20T14:16:28+00:00"
+            "time": "2022-05-25T13:24:33+00:00"
         },
         {
             "name": "guzzlehttp/promises",
@@ -2702,16 +2702,16 @@
         },
         {
             "name": "knpuniversity/oauth2-client-bundle",
-            "version": "v2.10.0",
+            "version": "v2.10.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/knpuniversity/oauth2-client-bundle.git",
-                "reference": "eb260409723a7bf204c2aa842b3488980372e874"
+                "reference": "0f4b238f16793ea6d2225044cfeae41b148a5c49"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/knpuniversity/oauth2-client-bundle/zipball/eb260409723a7bf204c2aa842b3488980372e874",
-                "reference": "eb260409723a7bf204c2aa842b3488980372e874",
+                "url": "https://api.github.com/repos/knpuniversity/oauth2-client-bundle/zipball/0f4b238f16793ea6d2225044cfeae41b148a5c49",
+                "reference": "0f4b238f16793ea6d2225044cfeae41b148a5c49",
                 "shasum": ""
             },
             "require": {
@@ -2756,9 +2756,9 @@
             ],
             "support": {
                 "issues": "https://github.com/knpuniversity/oauth2-client-bundle/issues",
-                "source": "https://github.com/knpuniversity/oauth2-client-bundle/tree/v2.10.0"
+                "source": "https://github.com/knpuniversity/oauth2-client-bundle/tree/v2.10.1"
             },
-            "time": "2022-02-23T15:00:49+00:00"
+            "time": "2022-05-24T17:36:38+00:00"
         },
         {
             "name": "laminas/laminas-code",
@@ -11720,16 +11720,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "1.6.9",
+            "version": "1.7.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "8c98899c7c54251a098befd23b50a983594a20f9"
+                "reference": "c602f80d66ba425943b0f4aaa27010c822dd8f87"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/8c98899c7c54251a098befd23b50a983594a20f9",
-                "reference": "8c98899c7c54251a098befd23b50a983594a20f9",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/c602f80d66ba425943b0f4aaa27010c822dd8f87",
+                "reference": "c602f80d66ba425943b0f4aaa27010c822dd8f87",
                 "shasum": ""
             },
             "require": {
@@ -11755,7 +11755,7 @@
             "description": "PHPStan - PHP Static Analysis Tool",
             "support": {
                 "issues": "https://github.com/phpstan/phpstan/issues",
-                "source": "https://github.com/phpstan/phpstan/tree/1.6.9"
+                "source": "https://github.com/phpstan/phpstan/tree/1.7.2"
             },
             "funding": [
                 {
@@ -11775,7 +11775,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-05-21T11:34:44+00:00"
+            "time": "2022-05-26T12:59:20+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -12200,21 +12200,21 @@
         },
         {
             "name": "rector/rector",
-            "version": "0.12.23",
+            "version": "0.13.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/rectorphp/rector.git",
-                "reference": "690b31768b322db886b35845f8452025eba2cacb"
+                "reference": "5c552996240defa00a293265ec6b1fef0a87af40"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rectorphp/rector/zipball/690b31768b322db886b35845f8452025eba2cacb",
-                "reference": "690b31768b322db886b35845f8452025eba2cacb",
+                "url": "https://api.github.com/repos/rectorphp/rector/zipball/5c552996240defa00a293265ec6b1fef0a87af40",
+                "reference": "5c552996240defa00a293265ec6b1fef0a87af40",
                 "shasum": ""
             },
             "require": {
                 "php": "^7.2|^8.0",
-                "phpstan/phpstan": "^1.6"
+                "phpstan/phpstan": "^1.7.2"
             },
             "conflict": {
                 "phpstan/phpdoc-parser": "<1.2",
@@ -12233,7 +12233,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-main": "0.12-dev"
+                    "dev-main": "0.13-dev"
                 }
             },
             "autoload": {
@@ -12248,7 +12248,7 @@
             "description": "Instant Upgrade and Automated Refactoring of any PHP code",
             "support": {
                 "issues": "https://github.com/rectorphp/rector/issues",
-                "source": "https://github.com/rectorphp/rector/tree/0.12.23"
+                "source": "https://github.com/rectorphp/rector/tree/0.13.2"
             },
             "funding": [
                 {
@@ -12256,7 +12256,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-05-01T15:50:16+00:00"
+            "time": "2022-05-27T21:47:31+00:00"
         },
         {
             "name": "sebastian/cli-parser",

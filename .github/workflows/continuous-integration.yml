@@ -176,7 +176,7 @@ jobs:
 
     services:
       postgres:
-        image: 'postgres:13-alpine@sha256:0d3137d83b50573cc17d5998a62f79075d4088daec4d408a240e960a99f5da4e'
+        image: 'postgres:13-alpine@sha256:802de213e81fe78e610a8ff17b351b97e678d8e4acc853bcd1eb8242505fbfa1'
         env:
           POSTGRES_DB: 'ecamp3test'
           POSTGRES_PASSWORD: 'ecamp3'
@@ -250,7 +250,7 @@ jobs:
 
     services:
       postgres:
-        image: 'postgres:13-alpine@sha256:0d3137d83b50573cc17d5998a62f79075d4088daec4d408a240e960a99f5da4e'
+        image: 'postgres:13-alpine@sha256:802de213e81fe78e610a8ff17b351b97e678d8e4acc853bcd1eb8242505fbfa1'
         env:
           POSTGRES_DB: 'ecamp3test'
           POSTGRES_PASSWORD: 'ecamp3'
@@ -420,13 +420,13 @@ jobs:
       - run: docker-compose up -d php caddy frontend database docker-host
 
       # pull cypress while container are starting up
-      - run: docker pull cypress/included:9.6.1
+      - run: docker pull cypress/included:9.7.0
 
       # wait for backend & frontend to be up and running
       - run: bash wait-for-container-startup.sh
 
       # run end-to-end tests
-      - run: docker run -v $PWD:/e2e -w /e2e --network host -e CYPRESS_BASE_URL=http://localhost:3000 cypress/included:9.6.1
+      - run: docker run -v $PWD:/e2e -w /e2e --network host -e CYPRESS_BASE_URL=http://localhost:3000 cypress/included:9.7.0
         working-directory: frontend
           
       # print docker container logs (good for debugging; can be disabled again lateron)

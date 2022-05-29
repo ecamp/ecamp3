@@ -302,7 +302,7 @@
     "camp": {
       "admin": {
         "collaborators": "Team verwalten",
-        "title": "Lager Admin"
+        "title": "Admin"
       },
       "collaborators": {
         "email": "E-Mail-Adresse",
@@ -357,16 +357,6 @@
       "pastCamps": "Alte Lager",
       "prototypeCamps": "Vorlagen",
       "title": "Mein Lager | Meine Lager"
-    },
-    "home": {
-      "home": "Home",
-      "myCamps": "Mein Lager | Meine Lager",
-      "welcome": "Hallo {user}. Herzlich willkommen auf eCamp"
-    },
-    "navigationDefault": {
-      "home": "Home",
-      "myCamps": "Mein Lager | Meine Lager",
-      "profile": "Profil"
     },
     "profile": {
       "profile": "Profil"

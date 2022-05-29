@@ -2,7 +2,7 @@ version: "3.4"
 
 services:
   frontend:
-    image: node:16.15.0@sha256:1817bb941c9a30fe2a6d75ff8675a8f6def408efe3d3ff43dbb006e2b534fa14
+    image: node:16.15.0@sha256:59eb4e9d6a344ae1161e7d6d8af831cb50713cc631889a5a8c2d438d6ec6aa0f
     container_name: 'ecamp3-frontend'
     ports:
       - '3000:3000'
@@ -101,7 +101,7 @@ services:
       - ./api/public:/srv/api/public:ro
 
   print:
-    image: node:16.15.0@sha256:1817bb941c9a30fe2a6d75ff8675a8f6def408efe3d3ff43dbb006e2b534fa14
+    image: node:16.15.0@sha256:59eb4e9d6a344ae1161e7d6d8af831cb50713cc631889a5a8c2d438d6ec6aa0f
     container_name: 'ecamp3-print'
     ports:
       - '3003:3003'
@@ -121,7 +121,7 @@ services:
       - ./print/print.env
 
   database:
-    image: postgres:13-alpine@sha256:0d3137d83b50573cc17d5998a62f79075d4088daec4d408a240e960a99f5da4e
+    image: postgres:13-alpine@sha256:802de213e81fe78e610a8ff17b351b97e678d8e4acc853bcd1eb8242505fbfa1
     container_name: 'ecamp3-database'
     environment:
       - POSTGRES_DB=ecamp3dev
