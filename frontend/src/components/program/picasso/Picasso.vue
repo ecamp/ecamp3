@@ -384,16 +384,24 @@ export default {
 
 <style scoped lang="scss">
 .ec-picasso, .ec-picasso-editable {
-  height: calc(100vh - 200px);
   border: none;
   overflow: auto;
 
   @media #{map-get($display-breakpoints, 'xs-only')}{
     position: fixed;
+    height: inherit;
     top: 48px;
     bottom: 56px;
     left: 0;
     right: 0;
+  }
+
+  @media #{map-get($display-breakpoints, 'sm-and-up')}{
+    height: calc(100vh - 136px);
+  }
+
+  @media #{map-get($display-breakpoints, 'md-and-up')}{
+    height: calc(100vh - 168px);
   }
 
   ::v-deep {
@@ -416,7 +424,12 @@ export default {
         height: 100%;
         left: 0;
         top: 0;
-        padding: 3px;
+        padding: 1px;
+        overflow: hidden;
+
+        @media #{map-get($display-breakpoints, 'sm-and-up')}{
+          padding: 3px;
+        }
       }
     }
   }
