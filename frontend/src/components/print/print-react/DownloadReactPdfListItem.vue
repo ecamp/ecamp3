@@ -31,6 +31,10 @@ export default {
   },
   methods: {
     async generatePdf () {
+      if (this.loading) {
+        return
+      }
+
       this.loading = true
 
       // lazy load generatePdf to avoid loading complete react-pdf when showing PDF download buton
@@ -42,8 +46,6 @@ export default {
         translationData: this.$i18n.messages,
         renderInWorker: RENDER_IN_WORKER
       })
-
-      this.loading = false
 
       if (error) {
         this.$emit('error', {
@@ -59,6 +61,8 @@ export default {
           locale: this.$store.state.lang.language.substr(0, 2)
         })
       )
+
+      this.loading = false
     }
   }
 }

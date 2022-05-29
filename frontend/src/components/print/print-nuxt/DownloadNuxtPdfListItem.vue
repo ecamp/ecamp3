@@ -34,6 +34,10 @@ export default {
   },
   methods: {
     async generatePdf () {
+      if (this.loading) {
+        return
+      }
+
       this.loading = true
 
       try {
