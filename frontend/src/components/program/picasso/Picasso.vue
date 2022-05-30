@@ -331,7 +331,7 @@ export default {
     })
 
     // scroll a bit down to hide the night hours
-    const scroller = this.$el.querySelector('.v-calendar-daily__scroll-area')
+    const scroller = this.$el.querySelector('.v-calendar')
     scroller.scrollTo({ top: 250 })
   },
   methods: {
@@ -465,6 +465,10 @@ export default {
 
 .ec-picasso-editable ::v-deep,
 .ec-picasso ::v-deep {
+  .v-calendar-daily__day-container {
+    width: initial;
+  }
+
   .v-calendar-daily__head, .v-calendar-daily__intervals-body {
     position: sticky;
     background: rgba(255, 255, 255, 0.85);
