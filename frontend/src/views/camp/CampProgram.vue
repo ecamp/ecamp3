@@ -10,9 +10,9 @@ Show all activity schedule entries of a single period.
       <v-tooltip :disabled="isContributor" bottom>
         <template #activator="{ on }">
           <v-icon v-if="editMode"
-                  small color="grey"
+                  small
                   v-on="on">
-            mdi-lock-open
+            mdi-lock-open-variant
           </v-icon>
           <v-icon v-else
                   small color="grey"
@@ -34,10 +34,10 @@ Show all activity schedule entries of a single period.
           <v-list-item @click="editMode = !editMode">
             <v-list-item-icon>
               <v-icon v-if="editMode">mdi-lock</v-icon>
-              <v-icon v-else>mdi-lock-open</v-icon>
+              <v-icon v-else>mdi-lock-open-variant</v-icon>
             </v-list-item-icon>
             <v-list-item-title>
-              {{ editMode ? 'Sperren' : 'Entsperren' }}
+              {{ editMode ? $tc('global.button.lock') : $tc('global.button.unlock') }}
             </v-list-item-title>
           </v-list-item>
           <v-divider />
