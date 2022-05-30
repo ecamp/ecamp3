@@ -364,7 +364,8 @@
         "program": "Programm",
         "story": "Geschichte",
         "tasks": "Aufgaben",
-        "team": "Team"
+        "team": "Team",
+        "more": "Mehr"
       },
       "print": {
         "title": "Druckvorschau",

@@ -64,7 +64,7 @@ export default {
   @media #{map-get($display-breakpoints, 'xs-only')} {
     position: sticky;
     top: 0;
-    z-index: 10;
+    z-index: 5;
   }
   border-bottom: 1px solid rgba(0, 0, 0, 0.12);
 }
