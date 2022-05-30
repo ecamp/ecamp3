@@ -1,20 +1,33 @@
 <template>
-  <v-skeleton-loader v-if="isLoading" type="text"
-                     height="46"
-                     class="ma-2" />
+  <v-skeleton-loader v-if="isLoading" type="heading"
+                     height="24"
+                     class="mx-2 d-flex justify-center my-1" />
   <e-select v-else
             v-model="selectedCampCollaborations"
             :items="availableCampCollaborations"
             :loading="isSaving || isLoading ? 'secondary' : false"
             :name="$tc('entity.day.fields.dayResponsibles')"
             :error-messages="errorMessages"
+            :menu-props="{ openOnClick: true, closeOnClick: true, closeOnContentClick: true, overflowY: true}"
             :filled="false"
             multiple
             chips
+            single-line
             small-chips
             persistent-placeholder
             v-bind="$attrs"
-            @input="onInput" />
+            :readonly="!readonly"
+            :class="{'ec-day-responsible--readonly': readonly}"
+            @input="onInput">
+    <template #prepend-item>
+      <v-list-item>
+        <v-list-item-title>
+          {{ $tc('entity.day.fields.dayResponsibles') }}
+        </v-list-item-title>
+      </v-list-item>
+      <v-divider />
+    </template>
+  </e-select>
 </template>
 
 <script>
@@ -34,6 +47,11 @@ export default {
     date: {
       type: String,
       required: true
+    },
+
+    readonly: {
+      type: Boolean,
+      default: false
     }
   },
   data () {
@@ -129,5 +147,14 @@ export default {
     height: 40px;
     padding-left: 0 !important;
     padding-right: 0 !important;
+  }
+
+  ::v-deep .v-input {
+    margin-top: 0;
+    padding-top: 0;
+  }
+
+  .ec-day-responsible--readonly ::v-deep .v-input__append-inner {
+    display: none;
   }
 </style>

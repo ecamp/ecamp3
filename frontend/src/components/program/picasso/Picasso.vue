@@ -41,7 +41,6 @@ Listing all given activity schedule entries in a calendar view.
           </span> {{ $date.utc(date).format($tc('components.camp.picasso.datetime.date', widthPluralization)) }}
         </div>
         <day-responsibles
-          :class="{ 'ec-daily_head-day-responsibles--readonly': !editable }"
           :date="date"
           :period="period"
           :readonly="!editable" />
@@ -477,10 +476,6 @@ export default {
     z-index: 2;
     min-width: fit-content;
     overflow: hidden;
-  }
-
-  .ec-daily_head-day-responsibles--readonly .v-input__append-inner {
-    display: none;
   }
 
   .v-calendar-daily__pane,
