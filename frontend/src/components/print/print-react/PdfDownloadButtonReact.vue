@@ -46,7 +46,7 @@ export default {
     async generatePdf () {
       this.loading = true
 
-      // lazy load generatePdf to avoid loading complete react-pdf when showing PDF download buton
+      // lazy load generatePdf to avoid loading complete react-pdf when showing PDF download button
       const generatePdfModule = await import('./generatePdf.js')
 
       const { blob, error } = await generatePdfModule.generatePdf({

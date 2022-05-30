@@ -5,7 +5,7 @@
       <v-icon v-else>mdi-nuxt</v-icon>
     </v-list-item-icon>
     <v-list-item-title>
-      {{ $tc("components.print.localPdfDownloadButton.label") }}
+      {{ $tc("components.print.pdfDownload.nuxt.label") }}
     </v-list-item-title>
   </v-list-item>
 </template>

@@ -126,8 +126,15 @@
         }
       },
       "localPdfDownloadButton": {
-        "error": "Etwas hat nicht geklappt. Probiere es nochmals, oder lade die Seite neu.",
-        "label": "PDF herunterladen"
+        "error": "Etwas hat nicht geklappt. Probiere es nochmals, oder lade die Seite neu."
+      },
+      "pdfDownload": {
+        "nuxt": {
+          "label": "PDF herunterladen"
+        },
+        "react": {
+          "label": "PDF herunterladen"
+        }
       },
       "printConfigurator": {
         "config": {
@@ -209,6 +216,7 @@
       "delete": "Löschen",
       "edit": "Bearbeiten",
       "editable": "Bearbeitbar",
+      "lock": "Sperren",
       "logout": "Ausloggen",
       "ok": "In Ordnung",
       "open": "Öffnen",
@@ -217,6 +225,7 @@
       "search": "Suchen",
       "submit": "Abschicken",
       "tryagain": "Erneut versuchen",
+      "unlock": "Entsperren",
       "update": "Aktualisieren"
     },
     "changeLanguage": "Sprache ändern",

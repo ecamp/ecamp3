@@ -5,7 +5,7 @@
       <v-icon v-else>mdi-react</v-icon>
     </v-list-item-icon>
     <v-list-item-title>
-      {{ $tc("components.print.localPdfDownloadButton.label") }}
+      {{ $tc("components.print.pdfDownload.react.label") }}
     </v-list-item-title>
   </v-list-item>
 </template>
@@ -37,7 +37,7 @@ export default {
 
       this.loading = true
 
-      // lazy load generatePdf to avoid loading complete react-pdf when showing PDF download buton
+      // lazy load generatePdf to avoid loading complete react-pdf when showing PDF download button
       const generatePdfModule = await import('./generatePdf.js')
 
       const { blob, error } = await generatePdfModule.generatePdf({
@@ -52,6 +52,7 @@ export default {
           label: this.$tc('components.print.localPdfDownloadButton.error'),
           trace: error
         })
+        this.loading = false
         return
       }
 
