@@ -8,7 +8,7 @@
             :loading="isSaving || isLoading ? 'secondary' : false"
             :name="$tc('entity.day.fields.dayResponsibles')"
             :error-messages="errorMessages"
-            :menu-props="{ openOnClick: true, closeOnClick: true, closeOnContentClick: true, overflowY: true}"
+            :menu-props="{ closeOnClick: true, closeOnContentClick: true, overflowY: true}"
             :filled="false"
             multiple
             chips
