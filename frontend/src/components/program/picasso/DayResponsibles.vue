@@ -20,12 +20,7 @@
             :class="{'ec-day-responsible--readonly': readonly}"
             @input="onInput">
     <template #prepend-item>
-      <v-list-item>
-        <v-list-item-title>
-          {{ $tc('entity.day.fields.dayResponsibles') }}
-        </v-list-item-title>
-      </v-list-item>
-      <v-divider />
+      <v-subheader>{{ $tc('entity.day.fields.dayResponsibles') }}</v-subheader>
     </template>
   </e-select>
 </template>

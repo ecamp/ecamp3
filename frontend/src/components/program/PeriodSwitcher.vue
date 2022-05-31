@@ -4,11 +4,11 @@
       <template #activator="{ on, attrs, value }">
         <v-btn
           text large
-          class="justify-start pl-0"
+          class="justify-start px-2"
           height="auto" block
           v-bind="attrs"
           v-on="on">
-          <h1 class="text-h6">
+          <h1 class="text-subtitle-1">
             {{ period().description }}
           </h1>
           <v-icon v-if="value" right>mdi-menu-up</v-icon>
@@ -16,8 +16,16 @@
         </v-btn>
       </template>
       <v-list>
-        <v-list-item v-for="item in period().camp().periods().items" :key="item._meta.self" :to="periodRoute(item)">
-          {{ item.description }}
+        <v-subheader>{{ $tc('components.camp.periodSwitcher.title') }}</v-subheader>
+        <v-list-item v-for="item in period().camp().periods().items" :key="item._meta.self"
+                     :to="periodRoute(item)"
+                     two-line>
+          <v-list-item-content>
+            <v-list-item-title>{{ item.description }}</v-list-item-title>
+            <v-list-item-subtitle>
+              {{ $date.utc(item.start).format($tc('global.datetime.dateShort')) }} - {{ $date.utc(item.end).format($tc('global.datetime.dateShort')) }}
+            </v-list-item-subtitle>
+          </v-list-item-content>
         </v-list-item>
       </v-list>
     </v-menu>

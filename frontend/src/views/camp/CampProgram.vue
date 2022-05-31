@@ -5,7 +5,7 @@ Show all activity schedule entries of a single period.
 <template>
   <content-card :title="$tc('views.camp.picasso.title')" toolbar>
     <template #title-actions>
-      <period-switcher v-if="$vuetify.breakpoint.xsOnly" :period="period" />
+      <period-switcher :period="period" />
       <v-spacer />
       <v-tooltip :disabled="isContributor" bottom>
         <template #activator="{ on }">
