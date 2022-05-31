@@ -5,7 +5,7 @@
       <v-icon v-else>mdi-react</v-icon>
     </v-list-item-icon>
     <v-list-item-title>
-      {{ $tc("components.print.pdfDownload.react.label") }}
+      {{ $tc("components.print.printReact.downloadNuxtPdfListItem.label") }}
     </v-list-item-title>
   </v-list-item>
 </template>
@@ -49,7 +49,7 @@ export default {
 
       if (error) {
         this.$emit('error', {
-          label: this.$tc('components.print.localPdfDownloadButton.error'),
+          label: this.$tc('components.print.printReact.downloadReactPdfListItem.error'),
           trace: error
         })
         this.loading = false

@@ -128,14 +128,6 @@
       "localPdfDownloadButton": {
         "error": "Etwas hat nicht geklappt. Probiere es nochmals, oder lade die Seite neu."
       },
-      "pdfDownload": {
-        "nuxt": {
-          "label": "PDF herunterladen"
-        },
-        "react": {
-          "label": "PDF herunterladen"
-        }
-      },
       "printConfigurator": {
         "config": {
           "Activity": "Einzelaktivität",
@@ -149,8 +141,20 @@
           }
         }
       },
+      "printNuxt": {
+        "downloadNuxtPdfListItem": {
+          "label": "PDF herunterladen",
+          "error": "Etwas hat nicht geklappt. Probiere es nochmals, oder lade die Seite neu."
+        }
+      },
       "printPreviewNuxt": {
         "openPreview": "Vorschau in neuem Fenster öffnen"
+      },
+      "printReact": {
+        "downloadNuxtPdfListItem": {
+          "label": "PDF herunterladen",
+          "error": "Etwas hat nicht geklappt. Probiere es nochmals, oder lade die Seite neu."
+        }
       }
     },
     "story": {

@@ -5,7 +5,7 @@
       <v-icon v-else>mdi-nuxt</v-icon>
     </v-list-item-icon>
     <v-list-item-title>
-      {{ $tc("components.print.pdfDownload.nuxt.label") }}
+      {{ $tc("components.print.printNuxt.downloadNuxtPdfListItem.label") }}
     </v-list-item-title>
   </v-list-item>
 </template>
@@ -63,7 +63,7 @@ export default {
         )
       } catch (error) {
         this.$emit('error', {
-          label: this.$tc('components.print.localPdfDownloadButton.error'),
+          label: this.$tc('components.print.printNuxt.downloadNuxtPdfListItem.error'),
           trace: error
         })
       } finally {
