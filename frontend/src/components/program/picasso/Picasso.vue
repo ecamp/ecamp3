@@ -571,7 +571,9 @@ export default {
     }
 
     > input {
-      display: none;
+      height: 1px;
+      padding: 0;
+      margin: 0;
     }
   }
 }

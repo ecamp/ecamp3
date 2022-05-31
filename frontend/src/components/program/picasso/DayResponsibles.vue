@@ -16,7 +16,7 @@
             small-chips
             persistent-placeholder
             v-bind="$attrs"
-            :readonly="!readonly"
+            :readonly="readonly"
             :class="{'ec-day-responsible--readonly': readonly}"
             @input="onInput">
     <template #prepend-item>
