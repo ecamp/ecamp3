@@ -90,7 +90,7 @@
     "flush-promises": "1.0.2",
     "jest-canvas-mock": "2.4.0",
     "jest-serializer-vue-tjw": "3.19.0",
-    "lint-staged": "12.4.3",
+    "lint-staged": "12.5.0",
     "sass": "1.32.13",
     "vite": "2.9.9",
     "vite-plugin-components": "0.13.3",
