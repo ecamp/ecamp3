@@ -111,8 +111,7 @@ final class RequestTransactionListener implements EventSubscriberInterface {
 
     private function validateTransactionNestingLevel(): void {
         $currentTransactionNestingLevel = $this->entityManager->getConnection()->getTransactionNestingLevel();
-        $expectedTransactionNestingLevel = $this->transactionLevelStack->top();
-        $expectedTransactionNestingLevel = $expectedTransactionNestingLevel->level;
+        $expectedTransactionNestingLevel = $this->transactionLevelStack->top()->level;
         if ($currentTransactionNestingLevel !== $expectedTransactionNestingLevel) {
             throw new RuntimeException(
                 "Transaction starts and ends were not symmetric when ending a transaction, 
