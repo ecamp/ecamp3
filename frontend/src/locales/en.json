@@ -264,6 +264,20 @@
         "myCamps": "My camp | My camps",
         "profile": "Profile"
       }
+    },
+    "user": {
+      "dialogChangeMail": {
+        "title": "Change Mail-Adress",
+        "message": "You will receive a mail for verification.",
+        "success": "Check your mailbox now.",
+        "error": "An error has occurred."
+      },
+      "dialogChangeMailRunning": {
+        "title": "Changing Mail-Adress",
+        "message": "Changing Mail-Adresse ...",
+        "success": "Mail-Adresse successfully changed.",
+        "error": "An error has occurred."
+      }
     }
   },
   "entity": {

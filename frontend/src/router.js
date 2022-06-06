@@ -107,6 +107,20 @@ export default new Router({
       beforeEnter: requireAuth
     },
     {
+      path: '/profile/verify-mail/:emailVerificationKey',
+      name: 'profileVerifyEmail',
+      components: {
+        navigation: NavigationDefault,
+        default: () => import(/* webpackChunkName: "about" */ './views/Profile.vue')
+      },
+      props: {
+        default: route => {
+          return { emailVerificationKey: route.params.emailVerificationKey }
+        }
+      },
+      beforeEnter: requireAuth
+    },
+    {
       path: '/camps',
       name: 'camps',
       components: {
