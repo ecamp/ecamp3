@@ -13,7 +13,7 @@
         "doctrine/orm": "2.12.2",
         "exercise/htmlpurifier-bundle": "4.0",
         "google/recaptcha": "1.2.4",
-        "guzzlehttp/guzzle": "7.4.3",
+        "guzzlehttp/guzzle": "7.4.4",
         "knpuniversity/oauth2-client-bundle": "2.10.1",
         "league/oauth2-google": "4.0.0",
         "lexik/jwt-authentication-bundle": "2.15.1",
