@@ -3,7 +3,7 @@
     <div class="mb-3">
       <api-form :entity="contentNode">
         <api-textarea
-          fieldname="text"
+          fieldname="data.text"
           :label="$tc('contentNode.notes.name')"
           rows="4"
           auto-grow

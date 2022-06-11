@@ -3,7 +3,7 @@
     <div class="mb-3">
       <api-form :entity="contentNode">
         <api-richtext
-          fieldname="text"
+          fieldname="data.text"
           :placeholder="$tc('contentNode.safetyConcept.name')"
           rows="2"
           :disabled="layoutMode || disabled"

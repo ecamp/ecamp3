@@ -8,6 +8,7 @@ export const apiPropsMixin = {
     value: { required: false, default: null },
 
     /* field name and URI for saving back to API */
+    // TODO: consider renaming to 'path', as this now allows to contain a nested json path
     fieldname: { type: String, required: true },
 
     /* load devault value from apiObject (via ApiForm injection) */

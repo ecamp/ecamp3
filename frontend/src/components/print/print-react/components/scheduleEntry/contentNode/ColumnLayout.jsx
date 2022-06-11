@@ -4,7 +4,7 @@ import { View } from '../../../reactPdf.js'
 
 function ColumnLayout (props) {
   const ContentNode = props.ContentNode
-  const columns = props.contentNode.columns
+  const columns = props.contentNode.data.columns
   const firstSlot = columns.length ? columns[0].slot : '1'
   const lastSlot = columns.length ? columns[columns.length - 1].slot : '1'
   const children = props.allContentNodes.items.filter(contentNode => {
