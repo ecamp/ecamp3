@@ -2,13 +2,14 @@
 
 namespace App\Entity\ContentNode;
 
+use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Entity\ContentNode;
-use App\InputFilter;
 use App\Repository\SingleTextRepository;
-use App\Util\EntityMap;
+use App\Validator\AssertJsonSchema;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ApiResource(
     routePrefix: '/content_node',
@@ -35,20 +36,26 @@ use Symfony\Component\Serializer\Annotation\Groups;
     normalizationContext: ['groups' => ['read']],
 )]
 #[ORM\Entity(repositoryClass: SingleTextRepository::class)]
-#[ORM\Table(name: 'content_node_singletext')]
 class SingleText extends ContentNode {
-    #[InputFilter\CleanHTML]
-    #[Groups(['read', 'write'])]
-    #[ORM\Column(type: 'text', nullable: true)]
-    public ?string $text = null;
+    public const JSON_SCHEMA = [
+        'type' => 'object',
+        'additionalProperties' => false,
+        'required' => ['text'],
+        'properties' => [
+            'text' => [
+                'type' => 'string',
+            ],
+        ],
+    ];
 
     /**
-     * @param SingleText $prototype
-     * @param EntityMap  $entityMap
+     * Holds the actual data of the content node
+     * (overridden from abstract class in order to add specific validation).
      */
-    public function copyFromPrototype($prototype, $entityMap): void {
-        parent::copyFromPrototype($prototype, $entityMap);
-
-        $this->text = $prototype->text;
-    }
+    #[ApiProperty(example: ['text' => 'dummy text'])]
+    #[Groups(['read', 'write'])]
+    #[ORM\Column(type: 'json', nullable: true, options: ['jsonb' => true])]
+    #[Assert\IsNull(groups: ['create'])] // create with empty data; default value is populated by data persister
+    #[AssertJsonSchema(schema: self::JSON_SCHEMA, groups: ['update'])]
+    public ?array $data = null;
 }

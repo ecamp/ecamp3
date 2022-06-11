@@ -18,7 +18,7 @@ class AssertColumWidthsSumTo12Validator extends ConstraintValidator {
             }
 
             return 0;
-        }, $value));
+        }, $value['columns']));
 
         if (12 !== $columnWidths) {
             $this->context->buildViolation($constraint->message)

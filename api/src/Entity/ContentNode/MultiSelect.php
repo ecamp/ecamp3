@@ -6,11 +6,10 @@ use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Entity\ContentNode;
 use App\Repository\MultiSelectRepository;
-use App\Util\EntityMap;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use App\Validator\AssertJsonSchema;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ApiResource(
     routePrefix: '/content_node',
@@ -37,59 +36,39 @@ use Symfony\Component\Serializer\Annotation\Groups;
     normalizationContext: ['groups' => ['read']],
 )]
 #[ORM\Entity(repositoryClass: MultiSelectRepository::class)]
-#[ORM\Table(name: 'content_node_multiselect')]
 class MultiSelect extends ContentNode {
-    #[ApiProperty(readableLink: true, writableLink: false)]
-    #[Groups(['read'])]
-    #[ORM\OneToMany(targetEntity: MultiSelectOption::class, mappedBy: 'multiSelect', orphanRemoval: true, cascade: ['persist'])]
-    public Collection $options;
-
-    public function __construct() {
-        parent::__construct();
-        $this->options = new ArrayCollection();
-
-        parent::__construct();
-    }
-
-    /**
-     * @return MultiSelectOption[]
-     */
-    public function getOptions(): array {
-        return $this->options->getValues();
-    }
-
-    public function addOption(MultiSelectOption $option): self {
-        if (!$this->options->contains($option)) {
-            $this->options->add($option);
-            $option->multiSelect = $this;
-        }
-
-        return $this;
-    }
-
-    public function removeOption(MultiSelectOption $option): self {
-        if ($this->options->removeElement($option)) {
-            if ($option->multiSelect === $this) {
-                $option->multiSelect = null;
-            }
-        }
-
-        return $this;
-    }
+    public const JSON_SCHEMA = [
+        'type' => 'object',
+        'additionalProperties' => false,
+        'required' => ['options'],
+        'properties' => [
+            'options' => [
+                'type' => 'object',
+                'additionalProperties' => ['$ref' => '#/$defs/option'],
+            ],
+        ],
+        '$defs' => [
+            'option' => [
+                'type' => 'object',
+                'additionalProperties' => false,
+                'required' => ['checked'],
+                'properties' => [
+                    'checked' => [
+                        'type' => 'boolean',
+                    ],
+                ],
+            ],
+        ],
+    ];
 
     /**
-     * @param MultiSelect $prototype
-     * @param EntityMap   $entityMap
+     * Holds the actual data of the content node
+     * (overridden from abstract class in order to add specific validation).
      */
-    public function copyFromPrototype($prototype, $entityMap): void {
-        parent::copyFromPrototype($prototype, $entityMap);
-
-        // copy all multiSelect options
-        foreach ($prototype->options as $optionPrototype) {
-            $option = new MultiSelectOption();
-            $this->addOption($option);
-
-            $option->copyFromPrototype($optionPrototype, $entityMap);
-        }
-    }
+    #[ApiProperty(example: ['text' => 'dummy text'])]
+    #[Groups(['read', 'write'])]
+    #[ORM\Column(type: 'json', nullable: true, options: ['jsonb' => true])]
+    #[Assert\IsNull(groups: ['create'])] // create with empty data; default value is populated by data persister
+    #[AssertJsonSchema(schema: self::JSON_SCHEMA, groups: ['update'])]
+    public ?array $data = null;
 }

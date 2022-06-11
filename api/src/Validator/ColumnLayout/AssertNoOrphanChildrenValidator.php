@@ -28,7 +28,7 @@ class AssertNoOrphanChildrenValidator extends ConstraintValidator {
             }
 
             return null;
-        }, $value);
+        }, $value['columns']);
 
         $childSlots = $columnLayout->children->map(function (ContentNode $child) {
             return $child->slot;

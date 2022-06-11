@@ -6,11 +6,10 @@ use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Entity\ContentNode;
 use App\Repository\StoryboardRepository;
-use App\Util\EntityMap;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use App\Validator\AssertJsonSchema;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ApiResource(
     routePrefix: '/content_node',
@@ -37,59 +36,55 @@ use Symfony\Component\Serializer\Annotation\Groups;
     normalizationContext: ['groups' => ['read']],
 )]
 #[ORM\Entity(repositoryClass: StoryboardRepository::class)]
-#[ORM\Table(name: 'content_node_storyboard')]
 class Storyboard extends ContentNode {
-    #[ApiProperty(readableLink: true, writableLink: false)]
-    #[Groups(['read'])]
-    #[ORM\OneToMany(targetEntity: StoryboardSection::class, mappedBy: 'storyboard', orphanRemoval: true, cascade: ['persist'])]
-    public Collection $sections;
-
-    public function __construct() {
-        parent::__construct();
-        $this->sections = new ArrayCollection();
-
-        parent::__construct();
-    }
+    public const JSON_SCHEMA = [
+        'type' => 'object',
+        'additionalProperties' => false,
+        'required' => ['sections'],
+        'properties' => [
+            'sections' => [
+                'type' => 'object',
+                'patternProperties' => [
+                    // uuid4 key
+                    '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}' => [
+                        '$ref' => '#/$defs/section',
+                    ],
+                ],
+                'additionalProperties' => false,
+            ],
+        ],
+        '$defs' => [
+            'section' => [
+                'type' => 'object',
+                'additionalProperties' => false,
+                'required' => ['column1', 'column2', 'column3', 'position'],
+                'properties' => [
+                    'column1' => [
+                        'type' => 'string',
+                    ],
+                    'column2' => [
+                        'type' => 'string',
+                    ],
+                    'column3' => [
+                        'type' => 'string',
+                    ],
+                    'position' => [
+                        'type' => 'integer',
+                        'minimum' => 1,
+                    ],
+                ],
+            ],
+        ],
+    ];
 
     /**
-     * @return StoryboardSection[]
+     * Holds the actual data of the content node
+     * (overridden from abstract class in order to add specific validation).
      */
-    public function getSections(): array {
-        return $this->sections->getValues();
-    }
-
-    public function addSection(StoryboardSection $section): self {
-        if (!$this->sections->contains($section)) {
-            $this->sections->add($section);
-            $section->storyboard = $this;
-        }
-
-        return $this;
-    }
-
-    public function removeSection(StoryboardSection $section): self {
-        if ($this->sections->removeElement($section)) {
-            if ($section->storyboard === $this) {
-                $section->storyboard = null;
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @param Storyboard $prototype
-     * @param EntityMap  $entityMap
-     */
-    public function copyFromPrototype($prototype, $entityMap): void {
-        parent::copyFromPrototype($prototype, $entityMap);
-
-        // copy all storyboard sections
-        foreach ($prototype->sections as $sectionPrototype) {
-            $section = new StoryboardSection();
-            $this->addSection($section);
-
-            $section->copyFromPrototype($sectionPrototype, $entityMap);
-        }
-    }
+    #[ApiProperty(example: ['text' => 'dummy text'])]
+    #[Groups(['read', 'write'])]
+    #[ORM\Column(type: 'json', nullable: true, options: ['jsonb' => true])]
+    #[Assert\IsNull(groups: ['create'])] // create with empty data; default value is populated by data persister
+    #[AssertJsonSchema(schema: self::JSON_SCHEMA, groups: ['update'])]
+    public ?array $data = null;
 }

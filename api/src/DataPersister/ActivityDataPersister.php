@@ -7,10 +7,12 @@ use App\DataPersister\Util\DataPersisterObservable;
 use App\Entity\Activity;
 use App\Entity\ContentNode\ColumnLayout;
 use App\Util\EntityMap;
+use Doctrine\ORM\EntityManagerInterface;
 
 class ActivityDataPersister extends AbstractDataPersister {
     public function __construct(
-        DataPersisterObservable $dataPersisterObservable
+        DataPersisterObservable $dataPersisterObservable,
+        private EntityManagerInterface $em,
     ) {
         parent::__construct(
             Activity::class,
@@ -33,6 +35,11 @@ class ActivityDataPersister extends AbstractDataPersister {
         }
 
         $rootContentNode = new ColumnLayout();
+        $rootContentNode->contentType = $this->em
+            ->getRepository(ContentType::class)
+            ->findOneBy(['name' => 'ColumnLayout'])
+        ;
+        $rootContentNode->data = ['columns' => [['slot' => '1', 'width' => 12]]];
         $data->setRootContentNode($rootContentNode);
 
         // deep copy from category root node

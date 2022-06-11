@@ -29,7 +29,7 @@ class CategoryDataPersister extends AbstractDataPersister {
             ->getRepository(ContentType::class)
             ->findOneBy(['name' => 'ColumnLayout'])
         ;
-
+        $rootContentNode->data = ['columns' => [['slot' => '1', 'width' => 12]]];
         $data->setRootContentNode($rootContentNode);
 
         return $data;

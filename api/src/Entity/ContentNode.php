@@ -11,6 +11,7 @@ use App\Doctrine\Filter\ContentNodePeriodFilter;
 use App\Entity\ContentNode\ColumnLayout;
 use App\Repository\ContentNodeRepository;
 use App\Util\EntityMap;
+use App\Util\JsonMergePatch;
 use App\Validator\ContentNode\AssertContentTypeCompatible;
 use App\Validator\ContentNode\AssertNoLoop;
 use App\Validator\ContentNode\AssertNoRootChange;
@@ -41,7 +42,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ApiFilter(SearchFilter::class, properties: ['contentType', 'root'])]
 #[ApiFilter(ContentNodePeriodFilter::class)]
 #[ORM\Entity(repositoryClass: ContentNodeRepository::class)]
-#[ORM\InheritanceType('JOINED')]
+#[ORM\InheritanceType('SINGLE_TABLE')]
 #[ORM\DiscriminatorColumn(name: 'strategy', type: 'string')]
 abstract class ContentNode extends BaseEntity implements BelongsToContentNodeTreeInterface, CopyFromPrototypeInterface {
     use ClassInfoTrait;
@@ -79,6 +80,15 @@ abstract class ContentNode extends BaseEntity implements BelongsToContentNodeTre
     #[Groups(['read'])]
     #[ORM\OneToMany(targetEntity: ContentNode::class, mappedBy: 'parent', cascade: ['persist'])]
     public Collection $children;
+
+    /**
+     * Holds the actual data of the content node.
+     */
+    #[ApiProperty(example: ['text' => 'dummy text'])]
+    #[Groups(['read', 'write'])]
+    #[ORM\Column(type: 'json', nullable: true, options: ['jsonb' => true])]
+    #[Assert\IsNull(groups: ['create'])] // create with empty data; default value is populated by ContentNodeDataPersister
+    public ?array $data = null;
 
     /**
      * The name of the slot in the parent in which this content node resides. The valid slot names
@@ -149,6 +159,16 @@ abstract class ContentNode extends BaseEntity implements BelongsToContentNodeTre
         return $this->root;
     }
 
+    public function getData(): ?array {
+        return $this->data;
+    }
+
+    public function setData(?array $data) {
+        if (null !== $this->data && null !== $data) {
+            $this->data = JsonMergePatch::mergePatch($this->data, $data);
+        }
+    }
+
     /**
      * @return ContentNode[]
      */
@@ -188,6 +208,7 @@ abstract class ContentNode extends BaseEntity implements BelongsToContentNodeTre
         $this->instanceName = $prototype->instanceName;
         $this->slot = $prototype->slot;
         $this->position = $prototype->position;
+        $this->data = $prototype->data;
 
         // deep copy children
         foreach ($prototype->getChildren() as $childPrototype) {

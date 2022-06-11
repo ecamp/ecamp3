@@ -12,6 +12,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ApiResource(
     routePrefix: '/content_node',
@@ -38,8 +39,17 @@ use Symfony\Component\Serializer\Annotation\Groups;
     normalizationContext: ['groups' => ['read']],
 )]
 #[ORM\Entity(repositoryClass: MaterialNodeRepository::class)]
-#[ORM\Table(name: 'content_node_materialnode')]
 class MaterialNode extends ContentNode {
+    /**
+     * Holds the actual data of the content node
+     * (overridden from abstract class in order to add specific validation).
+     */
+    #[ApiProperty(example: ['text' => 'dummy text'])]
+    #[Groups(['read', 'write'])]
+    #[ORM\Column(type: 'json', nullable: true, options: ['jsonb' => true])]
+    #[Assert\IsNull]
+    public ?array $data = null;
+
     #[ApiProperty(readableLink: true, writableLink: false)]
     #[Groups(['read'])]
     #[ORM\OneToMany(targetEntity: 'App\Entity\MaterialItem', mappedBy: 'materialNode', orphanRemoval: true, cascade: ['persist', 'remove'])]
