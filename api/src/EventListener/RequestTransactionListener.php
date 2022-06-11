@@ -25,12 +25,24 @@ final class RequestTransactionListener implements EventSubscriberInterface {
     /** @noinspection PhpArrayShapeAttributeCanBeAddedInspection */
     public static function getSubscribedEvents(): array {
         return [
-            // needs to run before CorsListener, because the CorsListener short circuits to sending
-            // a response directly
+            // Symfony Event-Call-Order is:
+            //
+            // Normal Request:
+            // - KernelEvents::REQUEST
+            //    -> Start Transaction
+            // - KernelEvents::RESPONSE
+            //    -> Commit
+            //
+            // Bad Request (with Exception):
+            // - KernelEvents::REQUEST
+            //    -> Start Transaction
+            // - KernelEvents::EXCEPTION
+            //    -> Rollback
+            // - KernelEvents::RESPONSE
+            //    -> Noop
+
             KernelEvents::REQUEST => ['startTransaction', 251],
             KernelEvents::RESPONSE => ['commitTransaction', 10],
-            // In the case that both the Exception and Response events are triggered, we want to make sure the
-            // transaction is rolled back before trying to commit it.
             KernelEvents::EXCEPTION => ['rollbackTransaction', 11],
         ];
     }
@@ -46,7 +58,10 @@ final class RequestTransactionListener implements EventSubscriberInterface {
             throw new RuntimeException('startTransaction called more than once');
         }
         $this->entityManager->getConnection()->beginTransaction();
-        $this->transactionLevelStack->push($this->entityManager->getConnection()->getTransactionNestingLevel());
+        $this->transactionLevelStack->push((object) [
+            'level' => $this->entityManager->getConnection()->getTransactionNestingLevel(),
+            'rollbacked' => false,
+        ]);
     }
 
     /**
@@ -56,8 +71,16 @@ final class RequestTransactionListener implements EventSubscriberInterface {
         if (HttpKernelInterface::MAIN_REQUEST != $event->getRequestType()) {
             return;
         }
-        $this->validateTransactionNestingLevel();
-        $this->entityManager->getConnection()->commit();
+        if ($this->transactionLevelStack->isEmpty()) {
+            throw new RuntimeException('Trying to commit a transaction, when no transaction was started.');
+        }
+
+        $transactionLevel = $this->transactionLevelStack->top();
+        if (!$transactionLevel->rollbacked) {
+            $this->validateTransactionNestingLevel();
+            $this->entityManager->getConnection()->commit();
+        }
+
         $this->transactionLevelStack->pop();
     }
 
@@ -70,11 +93,16 @@ final class RequestTransactionListener implements EventSubscriberInterface {
         }
 
         try {
+            if ($this->transactionLevelStack->isEmpty()) {
+                throw new RuntimeException('Trying to rollback a transaction, when no transaction was started.');
+            }
+
             $this->validateTransactionNestingLevel();
+            $transactionLevel = (object) $this->transactionLevelStack->top();
+            $transactionLevel->rollbacked = true;
         } finally {
             try {
                 $this->entityManager->getConnection()->rollBack();
-                $this->transactionLevelStack->pop();
             } finally {
                 $this->entityManager->clear();
             }
@@ -82,12 +110,8 @@ final class RequestTransactionListener implements EventSubscriberInterface {
     }
 
     private function validateTransactionNestingLevel(): void {
-        if ($this->transactionLevelStack->isEmpty()) {
-            throw new RuntimeException('Trying to commit a transaction, when no transaction was started.');
-        }
-
         $currentTransactionNestingLevel = $this->entityManager->getConnection()->getTransactionNestingLevel();
-        $expectedTransactionNestingLevel = $this->transactionLevelStack->top();
+        $expectedTransactionNestingLevel = $this->transactionLevelStack->top()->level;
         if ($currentTransactionNestingLevel !== $expectedTransactionNestingLevel) {
             throw new RuntimeException(
                 "Transaction starts and ends were not symmetric when ending a transaction, 
