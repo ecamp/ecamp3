@@ -50,14 +50,18 @@ class MaterialNode extends ContentNode {
     #[Assert\IsNull]
     public ?array $data = null;
 
+    /*
+    TODO: review/discuss if materialItems should be embedded with materialNode
+
     #[ApiProperty(readableLink: true, writableLink: false)]
     #[Groups(['read'])]
     #[ORM\OneToMany(targetEntity: 'App\Entity\MaterialItem', mappedBy: 'materialNode', orphanRemoval: true, cascade: ['persist', 'remove'])]
     public Collection $materialItems;
+    */
 
     public function __construct() {
         parent::__construct();
-        $this->materialItems = new ArrayCollection();
+        // $this->materialItems = new ArrayCollection();
 
         parent::__construct();
     }
