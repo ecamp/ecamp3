@@ -40,7 +40,7 @@ export default {
     // Lazy import necessary due to recursive component structure
     ContentNode: () => import('@/components/activity/ContentNode.vue')
   },
-  inject: ['draggableDirty', 'rootContentNodes'],
+  inject: ['draggableDirty', 'allContentNodes'],
   props: {
     layoutMode: { type: Boolean, default: false },
     slotName: { type: String, required: true },
@@ -53,11 +53,8 @@ export default {
     }
   },
   computed: {
-    allContentNodes () {
-      return this.rootContentNodes()
-    },
     allContentNodesById () {
-      return keyBy(this.allContentNodes.items, 'id')
+      return keyBy(this.allContentNodes().items, 'id')
     },
     draggingEnabled () {
       return this.layoutMode && this.$vuetify.breakpoint.mdAndUp && !this.disabled
@@ -66,7 +63,7 @@ export default {
       return sortBy(
         // We have to work with the complete list of contentNodes instead of parentContentNode.children()
         // in order to allow dragging a node to a new parent
-        this.allContentNodes.items
+        this.allContentNodes().items
           .filter(child => child.slot === this.slotName && child.parent !== null && child.parent()._meta.self === this.parentContentNode._meta.self),
         'position'
       ).map(child => child.id)
@@ -109,7 +106,7 @@ export default {
       })
 
       // reload all contentNodes to update position properties
-      await this.allContentNodes.$reload()
+      await this.allContentNodes().$reload()
 
       // clear dirty flag (unless a new change happened in the meantime)
       this.draggableDirty.clearDirty(timestamp)

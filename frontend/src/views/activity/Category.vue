@@ -64,7 +64,7 @@ export default {
   provide () {
     return {
       preferredContentTypes: () => this.preferredContentTypes,
-      rootContentNodes: () => this.contentNodes,
+      allContentNodes: () => this.contentNodes,
       camp: () => this.camp
     }
   },

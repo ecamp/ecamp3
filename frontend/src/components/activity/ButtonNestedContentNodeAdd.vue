@@ -18,28 +18,28 @@
       </template>
       <v-list>
         <!-- preferred content types -->
-        <v-list-item v-for="act in preferredContentTypesList"
-                     :key="act.contentType._meta.self"
-                     @click="addContentNode(act.contentType)">
+        <v-list-item v-for="contentType in preferredContentTypesItems"
+                     :key="contentType._meta.self"
+                     @click="addContentNode(contentType)">
           <v-list-item-icon>
-            <v-icon>{{ $tc(act.contentTypeIconKey) }}</v-icon>
+            <v-icon>{{ $tc(contentTypeIconKey(contentType)) }}</v-icon>
           </v-list-item-icon>
           <v-list-item-title>
-            {{ $tc(act.contentTypeNameKey) }}
+            {{ $tc(contentTypeNameKey(contentType)) }}
           </v-list-item-title>
         </v-list-item>
 
         <v-divider />
 
         <!-- all other content types -->
-        <v-list-item v-for="act in nonpreferredContentTypesList"
-                     :key="act.contentType._meta.self"
-                     @click="addContentNode(act.contentType)">
+        <v-list-item v-for="contentType in nonpreferredContentTypesItems"
+                     :key="contentType._meta.self"
+                     @click="addContentNode(contentType)">
           <v-list-item-icon>
-            <v-icon>{{ $tc(act.contentTypeIconKey) }}</v-icon>
+            <v-icon>{{ $tc(contentTypeIconKey(contentType)) }}</v-icon>
           </v-list-item-icon>
           <v-list-item-title>
-            {{ $tc(act.contentTypeNameKey) }}
+            {{ $tc(contentTypeNameKey(contentType)) }}
           </v-list-item-title>
         </v-list-item>
       </v-list>
@@ -51,7 +51,7 @@ import { camelCase } from 'lodash'
 
 export default {
   name: 'ButtonNestedContentNodeAdd',
-  inject: ['draggableDirty', 'preferredContentTypes', 'rootContentNodes'],
+  inject: ['draggableDirty', 'preferredContentTypes', 'allContentNodes'],
   props: {
     layoutMode: { type: Boolean, default: false },
     parentContentNode: { type: Object, required: true },
@@ -63,23 +63,20 @@ export default {
     }
   },
   computed: {
-    preferredContentTypesList () {
-      return this.preferredContentTypes().items.map(this.contentTypeMap)
+    preferredContentTypesItems () {
+      return this.preferredContentTypes().items
     },
-    nonpreferredContentTypesList () {
+    nonpreferredContentTypesItems () {
       return this.api.get().contentTypes().items
         .filter(ct => !this.preferredContentTypes().items.map(ct => ct.id).includes(ct.id)) // remove contentTypes already included in preferredContentTypes
-        .map(this.contentTypeMap)
     }
   },
   methods: {
-    contentTypeMap (ct) {
-      return {
-        id: ct.id,
-        contentType: ct,
-        contentTypeNameKey: 'contentNode.' + camelCase(ct.name) + '.name',
-        contentTypeIconKey: 'contentNode.' + camelCase(ct.name) + '.icon'
-      }
+    contentTypeNameKey (contentType) {
+      return 'contentNode.' + camelCase(contentType.name) + '.name'
+    },
+    contentTypeIconKey (contentType) {
+      return 'contentNode.' + camelCase(contentType.name) + '.icon'
     },
     async addContentNode (contentType) {
       this.isAdding = true
@@ -93,7 +90,7 @@ export default {
         // need to clear dirty flag to ensure new content node is visible in case same Patch-calls are still ongoing
         this.draggableDirty.clearDirty(null)
 
-        await this.rootContentNodes().$reload()
+        await this.allContentNodes().$reload()
       } catch (error) {
         console.log(error) // TO DO: display error message in error snackbar/toast
       }
