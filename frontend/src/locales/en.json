@@ -267,15 +267,15 @@
     },
     "user": {
       "dialogChangeMail": {
-        "title": "Change Mail-Adress",
-        "message": "You will receive a mail for verification.",
-        "success": "Before you can use your new mail address, you have to verify it. Check your mailbox now.",
+        "title": "Change email address",
+        "message": "You will receive an email for verification.",
+        "success": "Before you can use your new email address, you have to verify it. Check your mailbox now.",
         "error": "An error has occurred."
       },
       "dialogChangeMailRunning": {
-        "title": "Changing Mail-Adress",
-        "message": "Changing Mail-Adresse ...",
-        "success": "Mail-Adresse successfully changed.",
+        "title": "Changing email address",
+        "message": "Changing email address ...",
+        "success": "Email address successfully changed.",
         "error": "An error has occurred."
       }
     }

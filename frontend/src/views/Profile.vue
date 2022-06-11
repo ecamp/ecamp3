@@ -9,7 +9,7 @@
                 :name="$tc('entity.user.fields.email')"
                 :uri="profile._meta.self"
                 fieldname="email"
-                :editing="false"
+                readonly
                 required />
             </v-col>
             <v-col cols="2">
