@@ -115,9 +115,9 @@ class MailServiceTest extends KernelTestCase {
         $mailerMessage = self::getMailerMessage(0);
         self::assertEmailAddressContains($mailerMessage, 'To', self::INVITE_MAIL);
 
-        self::assertEmailHtmlBodyContains($mailerMessage, 'Deine Mail-Adresse bei eCamp soll geändert werden');
+        self::assertEmailHtmlBodyContains($mailerMessage, 'Jemand hat versucht, deine Mail-Adresse bei eCamp zu ändern');
         self::assertEmailHtmlBodyContains($mailerMessage, 'profile/verify-mail/some-id');
-        self::assertEmailTextBodyContains($mailerMessage, 'Deine Mail-Adresse bei eCamp soll geändert werden');
+        self::assertEmailTextBodyContains($mailerMessage, 'Jemand hat versucht, deine Mail-Adresse bei eCamp zu ändern');
         self::assertEmailTextBodyContains($mailerMessage, 'profile/verify-mail/some-id');
     }
 }

@@ -2,18 +2,18 @@
   <dialog-form
     v-model="showDialog"
     :title="$tc('components.user.dialogChangeMailRunning.title')"
-    :cancel-action="(status == 'initial') ? null : close"
-    :cancel-label="'Close'"
+    :cancel-action="(status === 'initial') ? null : close"
+    :cancel-label="$tc('global.button.close')"
     max-width="600px">
-    <div v-if="status == 'initial'">
+    <div v-if="status === 'initial'">
       <v-progress-circular indeterminate />
       {{ $tc('components.user.dialogChangeMailRunning.message') }}
     </div>
-    <div v-if="status == 'success'">
+    <div v-if="status === 'success'">
       <v-icon>mdi mdi-check</v-icon>
       {{ $tc('components.user.dialogChangeMailRunning.success') }}
     </div>
-    <div v-if="status == 'error'">
+    <div v-if="status === 'error'">
       {{ $tc('components.user.dialogChangeMailRunning.error') }}
     </div>
   </dialog-form>

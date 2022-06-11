@@ -2,15 +2,15 @@
   <dialog-form
     v-model="showDialog"
     :title="$tc('components.user.dialogChangeMail.title')"
-    :submit-action="(status == 'initial') ? sendChangeMailRequest : null"
-    :cancel-action="(status == 'initial') ? null : close"
-    :cancel-label="'Close'"
+    :submit-action="(status === 'initial') ? sendChangeMailRequest : null"
+    :cancel-action="(status === 'initial') ? null : close"
+    :cancel-label="$tc('global.button.close')"
     submit-color="success"
     max-width="600px">
     <template #activator="scope">
       <slot name="activator" v-bind="scope" />
     </template>
-    <div v-if="status == 'initial'">
+    <div v-if="status === 'initial'">
       <e-text-field
         v-model="entityData.newEmail"
         :name="$tc('entity.user.fields.email')"

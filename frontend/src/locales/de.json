@@ -193,7 +193,7 @@
       "dialogChangeMail": {
         "title": "E-Mail-Adresse ändern",
         "message": "Zur Verifikation schicken wir dir eine Mail.",
-        "success": "Prüfe jetzt deine Mailbox.",
+        "success": "Bevor du die neue E-Mail-Adresse verwenden kannst, muss du diese verifizieren. Prüfe jetzt deine Mailbox.",
         "error": "Leider ist ein Fehler aufgetreten."
       },
       "dialogChangeMailRunning": {
@@ -380,6 +380,7 @@
       "title": "Mein Lager | Meine Lager"
     },
     "profile": {
+      "changeEmail": "Ändern",
       "profile": "Profil"
     }
   }

@@ -19,7 +19,7 @@
                     <v-icon left>
                       mdi-pencil
                     </v-icon>
-                    Change
+                    {{ $tc('views.profile.changeEmail') }}
                   </v-btn>
                 </template>
               </dialog-change-mail>

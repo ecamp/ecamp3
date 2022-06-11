@@ -21,7 +21,10 @@ use Symfony\Component\Validator\Constraints as Assert;
     ],
     itemOperations: [
         'get' => ['security' => 'is_authenticated()'],
-        'patch' => ['security' => 'object.user === user'],
+        'patch' => [
+            'denormalization_context' => ['groups' => ['write', 'update']],
+            'security' => 'object.user === user',
+        ],
     ],
     denormalizationContext: ['groups' => ['write']],
     normalizationContext: ['groups' => ['read']],
@@ -50,7 +53,7 @@ class Profile extends BaseEntity {
 
     /**
      * New email.
-     * If set, a verification-mail is set to this email-adress.
+     * If set, a verification email is sent to this email address.
      */
     #[InputFilter\Trim]
     #[Assert\Email]
@@ -60,22 +63,21 @@ class Profile extends BaseEntity {
 
     /**
      * Untrusted email.
-     * Will become the email when it is verified by a Link send to the adress.
+     * Will become the email when it is verified by a link sent to the adress.
      */
     #[ORM\Column(type: 'string', length: 64, nullable: true)]
     public ?string $untrustedEmail = null;
 
     /**
-     * User-Input for email verification.
+     * User input for email verification.
      */
     #[ApiProperty(readable: false, writable: true)]
-    #[Groups(['write'])]
+    #[Groups(['update'])]
     public ?string $untrustedEmailKey = null;
 
     /**
      * The hashed untrusted-email-key. Of course not exposed through the API.
      */
-    #[Assert\DisableAutoMapping]
     #[ApiProperty(readable: false, writable: false)]
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     public ?string $untrustedEmailKeyHash = null;

@@ -269,7 +269,7 @@
       "dialogChangeMail": {
         "title": "Change Mail-Adress",
         "message": "You will receive a mail for verification.",
-        "success": "Check your mailbox now.",
+        "success": "Before you can use your new mail address, you have to verify it. Check your mailbox now.",
         "error": "An error has occurred."
       },
       "dialogChangeMailRunning": {
@@ -475,6 +475,7 @@
       "title": "My Camp | My Camps"
     },
     "profile": {
+      "changeEmail": "Change",
       "profile": "Profile"
     }
   }
