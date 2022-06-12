@@ -3,6 +3,7 @@
     v-model="showDialog"
     :icon="icon"
     :title="$tc('components.dialog.dialogEntityDelete.title')"
+    :error="error"
     max-width="600px"
     :submit-action="del"
     :submit-enabled="submitEnabled && !$slots.error"
@@ -39,6 +40,7 @@ export default {
   created () {
     this.entityUri = this.entity._meta.self
   }
+
 }
 </script>
 

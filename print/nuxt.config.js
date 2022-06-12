@@ -103,7 +103,9 @@ export default {
    */
   vuetify: {
     customVariables: ['~/assets/variables.scss'],
-    treeShake: true,
+    treeShake: {
+      components: ['VCalendar', 'VSheet', 'VContainer', 'VCol', 'VRow'],
+    },
     theme: {
       dark: false,
     },

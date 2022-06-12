@@ -60,7 +60,7 @@ Displays all periods of a single camp and allows to edit them & create new ones
             <v-item-group>
               <v-list-item-action>
                 <dialog-entity-delete :entity="category">
-                  {{ $tc('components.camp.CampCategories.deleteCategoryQuestion') }}
+                  {{ $tc('components.camp.campCategories.deleteCategoryQuestion') }}
                   <ul>
                     <li>
                       {{ category.short }}: {{ category.name }}
@@ -70,7 +70,7 @@ Displays all periods of a single camp and allows to edit them & create new ones
                     <button-delete v-on="on" />
                   </template>
                   <template v-if="findActivities(category).length > 0" #error>
-                    {{ $tc('components.camp.CampCategories.deleteCategoryNotPossibleInUse') }}
+                    {{ $tc('components.camp.campCategories.deleteCategoryNotPossibleInUse') }}
                     <ul>
                       <li v-for="activity in findActivities(category)" :key="activity._meta.self">
                         {{ activity.title }}

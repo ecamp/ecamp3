@@ -29,6 +29,9 @@ export default function ({
   // app.i18n.locale = store.state.locale
   app.i18n.locale = locale
 
+  // set locale of dayjs
+  app.$date.locale(locale)
+
   // If route is /<defaultLocale>/... -> redirect to /...
   /*
   if (
