@@ -102,9 +102,7 @@ export default {
     return {
       editMode: false,
       showError: null,
-      error: null,
-      nuxtIsPrinting: false,
-      reactIsPrinting: false
+      error: null
     }
   },
   computed: {
