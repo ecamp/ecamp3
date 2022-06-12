@@ -6,7 +6,7 @@
            @click="generatePdf">
       <v-icon>mdi-printer</v-icon>
       <div class="mx-1">with</div>
-      <v-icon>mdi-nuxt</v-icon>
+      <v-icon>mdi-react</v-icon>
     </v-btn>
     <v-snackbar v-model="error" :timeout="10000">
       {{ $tc('components.print.localPdfDownloadButton.error') }}
@@ -26,12 +26,10 @@
 import { saveAs } from 'file-saver'
 import slugify from 'slugify'
 
-import axios from 'axios'
-
-const PRINT_SERVER = window.environment.PRINT_SERVER
+const RENDER_IN_WORKER = true
 
 export default {
-  name: 'PdfDownloadButtonNuxt',
+  name: 'DownloadReactPdfButton',
   props: {
     config: {
       type: Object,
@@ -48,26 +46,25 @@ export default {
     async generatePdf () {
       this.loading = true
 
-      try {
-        const response = await axios({
-          method: 'get',
-          url: `${PRINT_SERVER}/server/pdfChrome?config=${encodeURIComponent(JSON.stringify(this.config))}`,
-          responseType: 'arraybuffer',
-          withCredentials: true,
-          headers: {
-            'Cache-Control': 'no-cache',
-            Pragma: 'no-cache',
-            Expires: '0'
-          }
-        })
+      // lazy load generatePdf to avoid loading complete react-pdf when showing PDF download button
+      const generatePdfModule = await import('./generatePdf.js')
 
-        saveAs(new Blob([response.data]), slugify(this.config.documentName, { locale: this.$store.state.lang.language.substr(0, 2) }))
-      } catch (error) {
+      const { blob, error } = await generatePdfModule.generatePdf({
+        config: { ...this.config, apiGet: this.api.get.bind(this) },
+        storeData: this.$store.state,
+        translationData: this.$i18n.messages,
+        renderInWorker: RENDER_IN_WORKER
+      })
+
+      this.loading = false
+
+      if (error) {
         this.error = error
         console.log(error)
-      } finally {
-        this.loading = false
+        return
       }
+
+      saveAs(blob, slugify(this.config.documentName, { locale: this.$store.state.lang.language.substr(0, 2) }))
     }
   }
 }
