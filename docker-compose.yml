@@ -6,11 +6,12 @@ services:
     container_name: 'ecamp3-frontend'
     ports:
       - '3000:3000'
-      - '9229:9229' # jest debug 
+      - '9229:9229' # jest debug
     stdin_open: true
     tty: true
     user: ${USER_ID:-1000}
     volumes:
+      - ./.prettierrc:/.prettierrc
       - ./frontend:/app:delegated
       - ./common:/common:delegated
       - ./.cache/npm:/home/node/.npm
@@ -107,6 +108,7 @@ services:
       - '3003:3003'
     user: ${USER_ID:-1000}
     volumes:
+      - ./.prettierrc:/.prettierrc
       - ./print:/app:delegated
       - ./common:/common:delegated
       - ./.cache/npm:/home/node/.npm
