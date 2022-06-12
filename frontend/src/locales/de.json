@@ -118,6 +118,9 @@
       "materialCreateItem": {
         "noMaterialListAvailable": "Für dieses Lager sind noch keine Materiallisten erfasst. Du kannst diese unter 'Admin' erfassen."
       },
+      "periodSwitcher": {
+        "title": "Lagerabschnitt"
+      },
       "picasso": {
         "datetime": {
           "date": "dd. D.MM | D. MMM | DD. MMM YYYY"
@@ -149,8 +152,20 @@
           }
         }
       },
+      "printNuxt": {
+        "downloadNuxtPdfListItem": {
+          "label": "PDF herunterladen",
+          "error": "Etwas hat nicht geklappt. Probiere es nochmals, oder lade die Seite neu."
+        }
+      },
       "printPreviewNuxt": {
         "openPreview": "Vorschau in neuem Fenster öffnen"
+      },
+      "printReact": {
+        "downloadNuxtPdfListItem": {
+          "label": "PDF herunterladen",
+          "error": "Etwas hat nicht geklappt. Probiere es nochmals, oder lade die Seite neu."
+        }
       }
     },
     "story": {
@@ -216,6 +231,7 @@
       "delete": "Löschen",
       "edit": "Bearbeiten",
       "editable": "Bearbeitbar",
+      "lock": "Sperren",
       "logout": "Ausloggen",
       "ok": "In Ordnung",
       "open": "Öffnen",
@@ -224,6 +240,7 @@
       "search": "Suchen",
       "submit": "Abschicken",
       "tryagain": "Erneut versuchen",
+      "unlock": "Entsperren",
       "update": "Aktualisieren"
     },
     "changeLanguage": "Sprache ändern",
@@ -337,9 +354,6 @@
       "print": {
         "title": "Druckvorschau",
         "previewError": "Etwas hat nicht geklappt. Probiere es nochmals mit anderen Druckeinstellungen, oder lade die Seite neu."
-      },
-      "sideBarPeriods": {
-        "title": "Lagerabschnitt"
       },
       "story": {
         "title": "Geschichte"

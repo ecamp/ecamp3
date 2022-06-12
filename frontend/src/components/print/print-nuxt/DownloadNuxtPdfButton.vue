@@ -6,7 +6,7 @@
            @click="generatePdf">
       <v-icon>mdi-printer</v-icon>
       <div class="mx-1">with</div>
-      <v-icon>mdi-react</v-icon>
+      <v-icon>mdi-nuxt</v-icon>
     </v-btn>
     <v-snackbar v-model="error" :timeout="10000">
       {{ $tc('components.print.localPdfDownloadButton.error') }}
@@ -26,10 +26,12 @@
 import { saveAs } from 'file-saver'
 import slugify from 'slugify'
 
-const RENDER_IN_WORKER = true
+import axios from 'axios'
+
+const PRINT_SERVER = window.environment.PRINT_SERVER
 
 export default {
-  name: 'PdfDownloadButtonReact',
+  name: 'DownloadNuxtPdfButton',
   props: {
     config: {
       type: Object,
@@ -46,25 +48,26 @@ export default {
     async generatePdf () {
       this.loading = true
 
-      // lazy load generatePdf to avoid loading complete react-pdf when showing PDF download buton
-      const generatePdfModule = await import('./generatePdf.js')
+      try {
+        const response = await axios({
+          method: 'get',
+          url: `${PRINT_SERVER}/server/pdfChrome?config=${encodeURIComponent(JSON.stringify(this.config))}`,
+          responseType: 'arraybuffer',
+          withCredentials: true,
+          headers: {
+            'Cache-Control': 'no-cache',
+            Pragma: 'no-cache',
+            Expires: '0'
+          }
+        })
 
-      const { blob, error } = await generatePdfModule.generatePdf({
-        config: { ...this.config, apiGet: this.api.get.bind(this) },
-        storeData: this.$store.state,
-        translationData: this.$i18n.messages,
-        renderInWorker: RENDER_IN_WORKER
-      })
-
-      this.loading = false
-
-      if (error) {
+        saveAs(new Blob([response.data]), slugify(this.config.documentName, { locale: this.$store.state.lang.language.substr(0, 2) }))
+      } catch (error) {
         this.error = error
         console.log(error)
-        return
+      } finally {
+        this.loading = false
       }
-
-      saveAs(blob, slugify(this.config.documentName, { locale: this.$store.state.lang.language.substr(0, 2) }))
     }
   }
 }
