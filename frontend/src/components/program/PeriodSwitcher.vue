@@ -23,7 +23,7 @@
           <v-list-item-content>
             <v-list-item-title>{{ item.description }}</v-list-item-title>
             <v-list-item-subtitle>
-              {{ $date.utc(item.start).format($tc('global.datetime.dateShort')) }} - {{ $date.utc(item.end).format($tc('global.datetime.dateShort')) }}
+              {{ dateRange(item.start, item.end) }}
             </v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
@@ -38,6 +38,7 @@
 </template>
 <script>
 import { periodRoute } from '@/router.js'
+import { dateRange } from '@/common/helpers/dateHelperUTCFormatted.js'
 
 export default {
   name: 'PeriodSwitcher',
@@ -48,7 +49,8 @@ export default {
     }
   },
   methods: {
-    periodRoute
+    periodRoute,
+    dateRange
   }
 }
 </script>
