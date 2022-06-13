@@ -7,9 +7,7 @@ function ColumnLayout (props) {
   const columns = props.contentNode.columns
   const firstSlot = columns.length ? columns[0].slot : '1'
   const lastSlot = columns.length ? columns[columns.length - 1].slot : '1'
-  const children = props.contentNode
-    .owner()
-    .contentNodes()
+  const children = props.allContentNodes
     .items.filter((contentNode) => {
       return (
         contentNode.parent &&

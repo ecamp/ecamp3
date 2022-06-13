@@ -153,12 +153,6 @@ class CreateActivityTest extends ECampApiTestCase {
                         'contentType' => [
                             'href' => $this->getIriFor('contentTypeColumnLayout'),
                         ],
-                        'owner' => [
-                            'href' => $this->getIriFor($newActivity),
-                        ],
-                        'ownerCategory' => [
-                            'href' => $this->getIriFor('category1'),
-                        ],
                     ],
                     'columns' => [
                         [
@@ -177,12 +171,6 @@ class CreateActivityTest extends ECampApiTestCase {
                     '_links' => [
                         'contentType' => [
                             'href' => $this->getIriFor('contentTypeColumnLayout'),
-                        ],
-                        'owner' => [
-                            'href' => $this->getIriFor($newActivity),
-                        ],
-                        'ownerCategory' => [
-                            'href' => $this->getIriFor('category1'),
                         ],
                     ],
                     'columns' => [

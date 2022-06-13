@@ -6,6 +6,6 @@ use Attribute;
 use Symfony\Component\Validator\Constraint;
 
 #[Attribute]
-class AssertBelongsToSameOwner extends Constraint {
-    public string $message = 'Must belong to the same owner.';
+class AssertNoRootChange extends Constraint {
+    public string $message = 'Must belong to the same root.';
 }

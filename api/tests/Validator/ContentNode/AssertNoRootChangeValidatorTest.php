@@ -2,14 +2,17 @@
 
 namespace App\Tests\Validator\ContentNode;
 
-use App\Entity\Activity;
 use App\Entity\BaseEntity;
 use App\Entity\BelongsToCampInterface;
 use App\Entity\Camp;
 use App\Entity\Category;
 use App\Entity\ContentNode\ColumnLayout;
-use App\Validator\ContentNode\AssertBelongsToSameOwner;
-use App\Validator\ContentNode\AssertBelongsToSameOwnerValidator;
+use App\Validator\ContentNode\AssertNoRootChange;
+use App\Validator\ContentNode\AssertNoRootChangeValidator;
+use PHPUnit\Framework\MockObject\MockObject;
+use Symfony\Component\HttpFoundation\ParameterBag;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 use Symfony\Component\Validator\Exception\UnexpectedValueException;
@@ -18,7 +21,9 @@ use Symfony\Component\Validator\Test\ConstraintValidatorTestCase;
 /**
  * @internal
  */
-class AssertBelongsToSameOwnerValidatorTest extends ConstraintValidatorTestCase {
+class AssertNoRootChangeValidatorTest extends ConstraintValidatorTestCase {
+    private MockObject|RequestStack $requestStack;
+
     public function testExpectsMatchingAnnotation() {
         $this->expectException(UnexpectedTypeException::class);
         $this->validator->validate(null, new Email());
@@ -26,7 +31,7 @@ class AssertBelongsToSameOwnerValidatorTest extends ConstraintValidatorTestCase 
 
     public function testExpectsContentNodeValue() {
         $this->expectException(UnexpectedValueException::class);
-        $this->validator->validate(new \stdClass(), new AssertBelongsToSameOwner());
+        $this->validator->validate(new \stdClass(), new AssertNoRootChange());
     }
 
     public function testExpectsContentNodeObject() {
@@ -41,25 +46,48 @@ class AssertBelongsToSameOwnerValidatorTest extends ConstraintValidatorTestCase 
         $this->expectException(UnexpectedValueException::class);
 
         // when
-        $this->validator->validate($child, new AssertBelongsToSameOwner());
+        $this->validator->validate($child, new AssertNoRootChange());
     }
 
-    public function testNullIsValid() {
-        $this->validator->validate(null, new AssertBelongsToSameOwner());
+    public function testNullIsNotValid() {
+        // then
+        $this->expectException(UnexpectedValueException::class);
+
+        // when
+        $this->validator->validate(null, new AssertNoRootChange());
+    }
+
+    public function testNullIsValidIfValueWasNullBefore() {
+        // given
+        $previous = new ColumnLayout();
+        $previous->parent = null;
+
+        $current = new ColumnLayout();
+        $current->parent = null;
+        $this->setProperty($current, 'parent');
+
+        $request = $this->createMock(Request::class);
+        $request->attributes = new ParameterBag(['previous_data' => $previous]);
+        $this->requestStack->method('getCurrentRequest')->willReturn($request);
+
+        // when
+        $this->validator->validate($current->parent, new AssertNoRootChange());
+
+        // then
         $this->assertNoViolation();
     }
 
-    public function testEmptyIsValid() {
-        $this->validator->validate('', new AssertBelongsToSameOwner());
-        $this->assertNoViolation();
+    public function testEmptyIsNotValid() {
+        // then
+        $this->expectException(UnexpectedValueException::class);
+
+        // when
+        $this->validator->validate('', new AssertNoRootChange());
     }
 
     public function testValid() {
         // given
-        $activity = $this->createMock(Activity::class);
-        $activity->method('getId')->willReturn('idfromtest');
         $root = new ColumnLayout();
-        $root->owner = $activity;
         $root->root = $root;
         $parent = new ColumnLayout();
         $parent->root = $root;
@@ -70,7 +98,7 @@ class AssertBelongsToSameOwnerValidatorTest extends ConstraintValidatorTestCase 
         $this->setObject($child);
 
         // when
-        $this->validator->validate($parent, new AssertBelongsToSameOwner());
+        $this->validator->validate($parent, new AssertNoRootChange());
 
         // then
         $this->assertNoViolation();
@@ -78,15 +106,11 @@ class AssertBelongsToSameOwnerValidatorTest extends ConstraintValidatorTestCase 
 
     public function testInvalid() {
         // given
-        $activity = $this->createMock(Activity::class);
-        $activity->method('getId')->willReturn('idfromtest');
         $category = $this->createMock(Category::class);
         $category->method('getId')->willReturn('anotheridfromtest');
         $root = new ColumnLayout();
-        $root->owner = $activity;
         $root->root = $root;
         $root2 = new ColumnLayout();
-        $root2->owner = $category;
         $root2->root = $root2;
         $parent = new ColumnLayout();
         $parent->root = $root2;
@@ -97,14 +121,16 @@ class AssertBelongsToSameOwnerValidatorTest extends ConstraintValidatorTestCase 
         $this->setObject($child);
 
         // when
-        $this->validator->validate($parent, new AssertBelongsToSameOwner());
+        $this->validator->validate($parent, new AssertNoRootChange());
 
         // then
-        $this->buildViolation('Must belong to the same owner.')->assertRaised();
+        $this->buildViolation('Must belong to the same root.')->assertRaised();
     }
 
     protected function createValidator() {
-        return new AssertBelongsToSameOwnerValidator();
+        $this->requestStack = $this->createMock(RequestStack::class);
+
+        return new AssertNoRootChangeValidator($this->requestStack);
     }
 }
 
@@ -118,7 +144,7 @@ class ChildTestClass implements BelongsToCampInterface {
 }
 
 class ParentTestClass extends BaseEntity implements BelongsToCampInterface {
-    #[AssertBelongsToSameOwner]
+    #[AssertNoRootChange]
     public ChildTestClass $child;
 
     public function __construct(public Camp $camp, ChildTestClass $child) {

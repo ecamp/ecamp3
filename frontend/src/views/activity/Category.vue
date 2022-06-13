@@ -57,6 +57,13 @@ export default {
     ContentCard,
     RootNode
   },
+  provide () {
+    return {
+      preferredContentTypes: () => this.preferredContentTypes,
+      allContentNodes: () => this.contentNodes,
+      camp: () => this.camp
+    }
+  },
   props: {
     category: {
       type: Function,
@@ -67,6 +74,17 @@ export default {
     return {
       layoutMode: true,
       loading: true
+    }
+  },
+  computed: {
+    camp () {
+      return this.category().camp()
+    },
+    contentNodes () {
+      return this.category().contentNodes()
+    },
+    preferredContentTypes () {
+      return this.category().preferredContentTypes()
     }
   },
 

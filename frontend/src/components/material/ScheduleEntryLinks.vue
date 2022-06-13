@@ -1,11 +1,19 @@
 <template>
   <span>
-    <span v-for="(scheduleEntry, index) in items" :key="scheduleEntry._meta.self">
-      <router-link :to="scheduleEntryRoute(scheduleEntry)" small class="short-button">
-        {{ getScheduleEntryCaption(scheduleEntry) }}
-      </router-link>
-      <span v-if="index + 1 < items.length"><br></span>
+    <v-skeleton-loader v-if="loading" type="text" />
+    <span v-else>
+      <span v-for="(scheduleEntry, index) in items"
+            :key="scheduleEntry._meta.self">
+        <router-link
+          :to="scheduleEntryRoute(scheduleEntry)"
+          small
+          class="short-button">
+          {{ getScheduleEntryCaption(scheduleEntry) }}
+        </router-link>
+        <span v-if="index + 1 < items.length"><br></span>
+      </span>
     </span>
+
   </span>
 </template>
 
@@ -13,15 +21,29 @@
 import { scheduleEntryRoute } from '@/router.js'
 
 export default {
-  name: 'MaterialTable',
-  components: {},
+  name: 'ScheduleEntryLinks',
+  components: {
+  },
   props: {
-    activity: { type: Function, required: true }
+    activityPromise: { type: Promise, required: true }
+  },
+  data: () => {
+    return {
+      activity: null,
+      loading: true
+    }
   },
   computed: {
     items () {
-      return this.activity().scheduleEntries().items
+      if (!this.activity) return []
+      return this.activity.scheduleEntries().items
     }
+  },
+  async mounted () {
+    this.activity = await this.activityPromise
+    await this.activity.scheduleEntries().$loadItems()
+
+    this.loading = false
   },
   methods: {
     scheduleEntryRoute,

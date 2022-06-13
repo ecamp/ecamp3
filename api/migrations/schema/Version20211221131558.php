@@ -23,7 +23,6 @@ final class Version20211221131558 extends AbstractMigration {
 
     public function down(Schema $schema): void {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->addSql('CREATE SCHEMA public');
         $this->addSql('DROP INDEX user_camp_unique');
         $this->addSql('DROP INDEX inviteEmail_camp_unique');
     }

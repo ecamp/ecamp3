@@ -23,7 +23,7 @@ class ReadMultiSelectTest extends ReadContentNodeTestCase {
         $multiSelect = $this->defaultEntity;
 
         /** @var MultiSelectOption $multiSelectOption */
-        $multiSelectOption = static::$fixtures['multiSelectOption2'];
+        $multiSelectOption = static::$fixtures['multiSelectOption1'];
 
         // when
         $this->get($multiSelect);

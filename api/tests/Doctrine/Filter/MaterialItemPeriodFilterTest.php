@@ -158,7 +158,7 @@ class MaterialItemPeriodFilterTest extends TestCase {
         ;
 
         $this->materialNodeQueryBuilderMock
-            ->expects($this->exactly(4))
+            ->expects($this->exactly(3))
             ->method('join')
         ;
 

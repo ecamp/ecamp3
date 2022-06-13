@@ -3,13 +3,17 @@
 namespace App\Security\Voter;
 
 use App\Entity\BelongsToCampInterface;
-use App\Entity\Camp;
+use App\Entity\BelongsToContentNodeTreeInterface;
 use App\Entity\CampCollaboration;
 use App\Entity\User;
+use App\Util\GetCampFromContentNodeTrait;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
 class CampRoleVoter extends Voter {
+    use GetCampFromContentNodeTrait;
+
     public const RULE_MAPPING = [
         'CAMP_GUEST' => [CampCollaboration::ROLE_GUEST],
         'CAMP_MEMBER' => [CampCollaboration::ROLE_MEMBER],
@@ -17,9 +21,14 @@ class CampRoleVoter extends Voter {
         'CAMP_COLLABORATOR' => CampCollaboration::VALID_ROLES,
     ];
 
+    public function __construct(
+        private EntityManagerInterface $em,
+    ) {
+    }
+
     protected function supports($attribute, $subject): bool {
         return in_array($attribute, array_keys(self::RULE_MAPPING))
-            && ($subject instanceof BelongsToCampInterface);
+            && ($subject instanceof BelongsToCampInterface || $subject instanceof BelongsToContentNodeTreeInterface);
     }
 
     protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool {
@@ -28,8 +37,8 @@ class CampRoleVoter extends Voter {
             return false;
         }
 
-        /** @var null|Camp $camp */
-        $camp = $subject?->getCamp();
+        $camp = $this->getCampFromInterface($subject, $this->em);
+
         if (null === $camp) {
             // Allow access when camp is null.
             // In write operations, this should be handled by validation.

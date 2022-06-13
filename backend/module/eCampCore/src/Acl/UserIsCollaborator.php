@@ -3,7 +3,7 @@
 namespace eCamp\Core\Acl;
 
 use eCamp\Core\Entity\BelongsToCampInterface;
-use eCamp\Core\Entity\BelongsToContentNodeInterface;
+use eCamp\Core\Entity\BelongsToContentNodeTreeInterface;
 use eCamp\Core\Entity\Camp;
 use eCamp\Core\Entity\CampCollaboration;
 use eCamp\Core\Entity\User;
@@ -23,7 +23,7 @@ class UserIsCollaborator implements AssertionInterface {
         /** @var User $user */
         $user = $role;
 
-        if ($resource instanceof BelongsToContentNodeInterface) {
+        if ($resource instanceof BelongsToContentNodeTreeInterface) {
             $resource = $resource->getContentNode();
         }
 
