@@ -23,7 +23,7 @@
               {{ title }}
             </v-toolbar-title>
             <v-btn
-              v-if="$vuetify.breakpoint.smAndUp"
+              v-if="$vuetify.breakpoint.smAndUp && cancelAction != null"
               icon
               class="ml-auto"
               :title="$tc('global.button.cancel')"
@@ -52,7 +52,7 @@
             <slot name="moreActions" />
             <v-spacer />
             <v-btn
-              v-if="cancelAction != null"
+              v-if="cancelVisible && cancelAction != null"
               :color="cancelColor"
               text
               :disabled="!cancelEnabled"
@@ -104,6 +104,7 @@ export default {
     cancelLabel: { type: String, default: 'global.button.cancel', required: false },
     cancelColor: { type: String, default: 'secondary', required: false },
     cancelEnabled: { type: Boolean, default: true, required: false },
+    cancelVisible: { type: Boolean, default: true, required: false },
 
     loading: { type: Boolean, default: false, required: false },
     error: { type: [Object, String, Error], default: null, required: false },
@@ -128,7 +129,9 @@ export default {
     },
     doCancel() {
       this.isSaving = false
-      this.cancelAction()
+      if (this.cancelAction != null) {
+        this.cancelAction()
+      }
     },
     onInput(event) {
       // perform cancel action if dialog is dismissed without using the Cancel button

@@ -203,6 +203,20 @@
         "myCamps": "Mein Lager | Meine Lager",
         "profile": "Profil"
       }
+    },
+    "user": {
+      "dialogChangeMail": {
+        "title": "E-Mail-Adresse ändern",
+        "message": "Zur Verifikation schicken wir dir eine Mail.",
+        "success": "Bevor du die neue E-Mail-Adresse verwenden kannst, muss du diese verifizieren. Prüfe jetzt deine Mailbox.",
+        "error": "Leider ist ein Fehler aufgetreten."
+      },
+      "dialogChangeMailRunning": {
+        "title": "E-Mail-Adresse wird geändert",
+        "message": "E-Mail-Adresse wird geändert...",
+        "success": "E-Mail-Adresse erfolgreich geändert.",
+        "error": "Leider ist ein Fehler aufgetreten."
+      }
     }
   },
   "entity": {
@@ -380,6 +394,7 @@
       "title": "Mein Lager | Meine Lager"
     },
     "profile": {
+      "changeEmail": "Ändern",
       "profile": "Profil"
     }
   }

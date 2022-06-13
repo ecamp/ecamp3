@@ -21,7 +21,10 @@ use Symfony\Component\Validator\Constraints as Assert;
     ],
     itemOperations: [
         'get' => ['security' => 'is_authenticated()'],
-        'patch' => ['security' => 'object.user === user'],
+        'patch' => [
+            'denormalization_context' => ['groups' => ['write', 'update']],
+            'security' => 'object.user === user',
+        ],
     ],
     denormalizationContext: ['groups' => ['write']],
     normalizationContext: ['groups' => ['read']],
@@ -49,6 +52,37 @@ class Profile extends BaseEntity {
     public ?string $email = null;
 
     /**
+     * New email.
+     * If set, a verification email is sent to this email address.
+     */
+    #[InputFilter\Trim]
+    #[Assert\Email]
+    #[ApiProperty(example: self::EXAMPLE_EMAIL)]
+    #[Groups(['write'])]
+    public ?string $newEmail = null;
+
+    /**
+     * Untrusted email.
+     * Will become the email when it is verified by a link sent to the adress.
+     */
+    #[ORM\Column(type: 'string', length: 64, nullable: true)]
+    public ?string $untrustedEmail = null;
+
+    /**
+     * User input for email verification.
+     */
+    #[ApiProperty(readable: false, writable: true)]
+    #[Groups(['update'])]
+    public ?string $untrustedEmailKey = null;
+
+    /**
+     * The hashed untrusted-email-key. Of course not exposed through the API.
+     */
+    #[ApiProperty(readable: false, writable: false)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    public ?string $untrustedEmailKeyHash = null;
+
+    /**
      * Google id of the user.
      */
     #[ApiProperty(readable: false, writable: false)]
@@ -74,7 +108,7 @@ class Profile extends BaseEntity {
      */
     #[InputFilter\Trim]
     #[Assert\NotBlank]
-    #[Assert\Regex(pattern: '/^[a-z0-9_.-]+$/')]
+    #[Assert\Regex(pattern: '/^[a-z0-9_.@-]+$/')]
     #[ApiProperty(example: self::EXAMPLE_USERNAME)]
     #[Groups(['read', 'create'])]
     #[ORM\Column(type: 'string', length: 64, nullable: false, unique: true)]
