@@ -4,7 +4,7 @@
  * @param int threshold       max. mouse movement to still detect as a click
  * @returns
  */
-export default function useClickDetector (enabled = true, threshold = 5, onClick = null) {
+export default function useClickDetector(enabled = true, threshold = 5, onClick = null) {
   /**
    * internal data (not exposed)
    */
@@ -16,28 +16,35 @@ export default function useClickDetector (enabled = true, threshold = 5, onClick
   /**
    * internal methods
    */
-  function cancelClick () {
+  function cancelClick() {
     startX = null
     startY = null
   }
 
   // returns true if still within defined threshold
-  function withinThreshold (nativeEvent) {
-    return (Math.abs(nativeEvent.x - startX) < threshold) && (Math.abs(nativeEvent.y - startY) < threshold)
+  function withinThreshold(nativeEvent) {
+    return (
+      Math.abs(nativeEvent.x - startX) < threshold &&
+      Math.abs(nativeEvent.y - startY) < threshold
+    )
   }
 
   /**
    * exposed methods
    */
   const entryMouseDown = ({ nativeEvent }) => {
-    if (!enabled.value) { return }
+    if (!enabled.value) {
+      return
+    }
 
     startX = nativeEvent.x
     startY = nativeEvent.y
   }
 
   const entryMouseMove = ({ nativeEvent }) => {
-    if (startX === null) { return }
+    if (startX === null) {
+      return
+    }
 
     if (!withinThreshold(nativeEvent)) {
       // abort click if movement is larger than threshold
@@ -46,7 +53,9 @@ export default function useClickDetector (enabled = true, threshold = 5, onClick
   }
 
   const entryMouseUp = ({ event, nativeEvent }) => {
-    if (startX === null) { return }
+    if (startX === null) {
+      return
+    }
 
     if (!withinThreshold(nativeEvent)) {
       cancelClick()
@@ -77,8 +86,7 @@ export default function useClickDetector (enabled = true, threshold = 5, onClick
     vCalendarListeners: {
       'mousedown:event': entryMouseDown,
       'mousemove:event': entryMouseMove,
-      'mouseup:event': entryMouseUp
-    }
-
+      'mouseup:event': entryMouseUp,
+    },
   }
 }

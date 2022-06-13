@@ -3,6 +3,7 @@
     v-model="showDialog"
     :icon="icon"
     :title="$tc('components.dialog.dialogEntityDelete.title')"
+    :error="error"
     max-width="600px"
     :submit-action="del"
     :submit-enabled="submitEnabled && !$slots.error"
@@ -10,7 +11,8 @@
     submit-color="error"
     :submit-icon="icon"
     cancel-icon=""
-    :cancel-action="close">
+    :cancel-action="close"
+  >
     <template #activator="scope">
       <slot name="activator" v-bind="scope" />
     </template>
@@ -34,14 +36,12 @@ export default {
   props: {
     entity: { type: Object, required: true },
     submitEnabled: { type: Boolean, required: false, default: true },
-    icon: { type: String, required: false, default: 'mdi-delete' }
+    icon: { type: String, required: false, default: 'mdi-delete' },
   },
-  created () {
+  created() {
     this.entityUri = this.entity._meta.self
-  }
+  },
 }
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

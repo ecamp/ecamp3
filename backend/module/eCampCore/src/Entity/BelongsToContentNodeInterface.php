@@ -2,6 +2,6 @@
 
 namespace eCamp\Core\Entity;
 
-interface BelongsToContentNodeInterface {
+interface BelongsToContentNodeTreeInterface {
     public function getContentNode(): ?ContentNode;
 }

@@ -7,7 +7,6 @@ use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Repository\ActivityRepository;
-use App\Serializer\Normalizer\RelatedCollectionLink;
 use App\Validator\AssertBelongsToSameCamp;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -22,7 +21,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ApiResource(
     collectionOperations: [
         'get' => [
-            'normalization_context' => ['groups' => ['read', 'Activity:ActivityResponsibles']],
+            'normalization_context' => ['groups' => ['read', 'Activity:ActivityResponsibles', 'Activity:ScheduleEntries']],
             'security' => 'is_authenticated()',
         ],
         'post' => [
@@ -49,7 +48,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 )]
 #[ApiFilter(SearchFilter::class, properties: ['camp'])]
 #[ORM\Entity(repositoryClass: ActivityRepository::class)]
-class Activity extends AbstractContentNodeOwner implements BelongsToCampInterface {
+class Activity extends BaseEntity implements BelongsToCampInterface {
+    use HasRootContentNodeTrait;
+
     public const ITEM_NORMALIZATION_CONTEXT = [
         'groups' => [
             'read',
@@ -140,19 +141,6 @@ class Activity extends AbstractContentNodeOwner implements BelongsToCampInterfac
         return $this->category;
     }
 
-    #[ApiProperty(writable: false)]
-    public function setRootContentNode(?ContentNode $rootContentNode) {
-        // Overridden to add annotations
-        parent::setRootContentNode($rootContentNode);
-    }
-
-    #[Assert\DisableAutoMapping]
-    #[Groups(['read'])]
-    public function getRootContentNode(): ?ContentNode {
-        // Getter is here to add annotations to parent class property
-        return $this->rootContentNode;
-    }
-
     /**
      * @return ContentNode[]
      */
@@ -161,19 +149,6 @@ class Activity extends AbstractContentNodeOwner implements BelongsToCampInterfac
     #[Groups(['Activity:ContentNodes'])]
     public function getEmbeddedContentNodes(): array {
         return $this->getContentNodes();
-    }
-
-    /**
-     * Overridden in order to add annotations.
-     *
-     * {@inheritdoc}
-     *
-     * @return ContentNode[]
-     */
-    #[Groups(['read'])]
-    #[RelatedCollectionLink(ContentNode::class, ['root' => 'rootContentNode'])]
-    public function getContentNodes(): array {
-        return parent::getContentNodes();
     }
 
     /**

@@ -25,17 +25,14 @@ describe('An ApiSelect', () => {
 
   const FIRST_OPTION = {
     value: 1,
-    text: 'firstOption'
+    text: 'firstOption',
   }
   const SECOND_OPTION = {
     value: '2',
-    text: 'secondOption'
+    text: 'secondOption',
   }
 
-  const selectValues = [
-    FIRST_OPTION,
-    SECOND_OPTION
-  ]
+  const selectValues = [FIRST_OPTION, SECOND_OPTION]
 
   beforeEach(() => {
     vuetify = new Vuetify()
@@ -52,7 +49,7 @@ describe('An ApiSelect', () => {
       components: { ApiSelect },
       props: {
         fieldName: { type: String, default: fieldName },
-        selectValues: { type: Array, default: () => selectValues }
+        selectValues: { type: Array, default: () => selectValues },
       },
       template: `
         <div data-app>
@@ -65,17 +62,21 @@ describe('An ApiSelect', () => {
           :items="selectValues"
         />
         </div>
-      `
+      `,
     })
     apiMock.get().thenReturn(ApiMock.success(FIRST_OPTION.value).forFieldName(fieldName))
     const defaultOptions = {
       mocks: {
-        $tc: () => {
-        },
-        api: apiMock.getMocks()
-      }
+        $tc: () => {},
+        api: apiMock.getMocks(),
+      },
     }
-    return mountComponent(app, { vuetify, i18n, attachTo: document.body, ...merge(defaultOptions, options) })
+    return mountComponent(app, {
+      vuetify,
+      i18n,
+      attachTo: document.body,
+      ...merge(defaultOptions, options),
+    })
   }
 
   test('triggers api.patch and status update if input changes', async () => {

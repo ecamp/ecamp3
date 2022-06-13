@@ -1,9 +1,12 @@
 <template>
   <div class="e-form-container">
-    <v-card v-for="(period, i) in periods"
-            :key="period.key"
-            outlined
-            color="grey lighten-3" class="period mb-2 rounded-b-0">
+    <v-card
+      v-for="(period, i) in periods"
+      :key="period.key"
+      outlined
+      color="grey lighten-3"
+      class="period mb-2 rounded-b-0"
+    >
       <v-row no-gutters>
         <v-col>
           <legend class="pa-2">
@@ -13,9 +16,12 @@
         <v-col cols="auto">
           <v-btn
             class="ml-2 px-2"
-            text min-width="auto"
+            text
+            min-width="auto"
             color="error"
-            :disabled="!periodDeletable" @click="deletePeriod(i)">
+            :disabled="!periodDeletable"
+            @click="deletePeriod(i)"
+          >
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </v-col>
@@ -31,7 +37,8 @@
             vee-rules="required"
             :my="false"
             input-class="mb-2 pt-0"
-            required />
+            required
+          />
         </v-col>
       </v-row>
       <v-row no-gutters class="mx-2 mb-2">
@@ -43,7 +50,8 @@
             vee-rules="required"
             :my="2"
             :filled="false"
-            required />
+            required
+          />
         </v-col>
         <v-col>
           <e-date-picker
@@ -53,14 +61,12 @@
             vee-rules="required|minDate:@start"
             :my="2"
             :filled="false"
-            required />
+            required
+          />
         </v-col>
       </v-row>
     </v-card>
-    <v-btn text
-           block
-           height="auto" class="pa-4"
-           @click="addPeriod">
+    <v-btn text block height="auto" class="pa-4" @click="addPeriod">
       <v-icon>mdi-plus</v-icon>
       {{ $tc('views.campCreate.period.add') }}
     </v-btn>
@@ -74,32 +80,32 @@ export default {
   name: 'CreateCampPeriods',
   components: {
     EDatePicker,
-    ETextField
+    ETextField,
   },
   props: {
     addPeriod: {
       type: Function,
-      required: true
+      required: true,
     },
     periods: {
       type: Array,
-      required: true
+      required: true,
     },
     deletePeriod: {
       type: Function,
-      required: true
+      required: true,
     },
     periodDeletable: {
       type: Boolean,
-      required: true
-    }
-  }
+      required: true,
+    },
+  },
 }
 </script>
 <style scoped lang="scss">
-  .period.period {
-    border-bottom-width: 1px !important;
-    border-bottom-style: solid !important;
-    border-bottom-color: rgba(0, 0, 0, 0.42) !important;
-  }
+.period.period {
+  border-bottom-width: 1px !important;
+  border-bottom-style: solid !important;
+  border-bottom-color: rgba(0, 0, 0, 0.42) !important;
+}
 </style>

@@ -16,7 +16,8 @@
         color="normal"
         icon="mdi-refresh"
         :disabled="disabled"
-        @click="api.patch(collaborator, {status: 'invited'})">
+        @click="api.patch(collaborator, { status: 'invited' })"
+      >
         {{ $tc('components.camp.inactiveCampCollaboratorListItem.inviteAgain') }}
       </icon-button>
     </v-list-item-action>
@@ -25,7 +26,7 @@
         <template #activator="{ on }">
           <button-delete :disabled="disabled" v-on="on" />
         </template>
-        {{ $tc('components.camp.inactiveCampCollaboratorListItem.delete') }} <br>
+        {{ $tc('components.camp.inactiveCampCollaboratorListItem.delete') }} <br />
         <ul>
           <li>
             <span v-if="collaborator.user">
@@ -42,7 +43,6 @@
 </template>
 
 <script>
-
 import IconButton from '@/components/buttons/IconButton.vue'
 import ButtonDelete from '@/components/buttons/ButtonDelete.vue'
 import DialogEntityDelete from '@/components/dialog/DialogEntityDelete.vue'
@@ -53,10 +53,9 @@ export default {
   components: { IconButton, ButtonDelete, DialogEntityDelete, UserAvatar },
   props: {
     collaborator: { type: Object, required: true },
-    disabled: { type: Boolean, default: false }
-  }
+    disabled: { type: Boolean, default: false },
+  },
 }
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

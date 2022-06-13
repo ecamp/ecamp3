@@ -2,7 +2,6 @@
 */.DS_Store
 .idea/
 .vscode/
-/.print-data/
 .cache/
 /.caddy/
 /.env

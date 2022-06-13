@@ -28,19 +28,17 @@ describe('An EDatePicker', () => {
       {
         date_1: '01.03.2020',
         date_2: '31.12.2015',
-        date_3: '24.03.2020'
-      }
-
+        date_3: '24.03.2020',
+      },
     ],
     [
       'en',
       {
         date_1: '03/01/2020',
         date_2: '12/31/2015',
-        date_3: '03/24/2020'
-      }
-
-    ]
+        date_3: '03/24/2020',
+      },
+    ],
   ]
 
   const mount = (options) => mountComponent(EDatePicker, { vuetify, i18n, ...options })
@@ -55,23 +53,26 @@ describe('An EDatePicker', () => {
     test('renders', async () => {
       const wrapper = mount({
         propsData: {
-          value: DATE_1
-        }
+          value: DATE_1,
+        },
       })
       await flushPromises()
       expect(wrapper.find('input[type=text]').element.value).toBe(data.date_1)
     })
 
     test('looks like a date picker', async () => {
-      const wrapper = mountComponent({
-        data: () => ({ date: DATE_1 }),
-        template: '<div data-app><e-date-picker v-model="date"></e-date-picker></div>',
-        components: { 'e-date-picker': EDatePicker }
-      }, {
-        vuetify,
-        attachTo: document.body,
-        i18n
-      })
+      const wrapper = mountComponent(
+        {
+          data: () => ({ date: DATE_1 }),
+          template: '<div data-app><e-date-picker v-model="date"></e-date-picker></div>',
+          components: { 'e-date-picker': EDatePicker },
+        },
+        {
+          vuetify,
+          attachTo: document.body,
+          i18n,
+        }
+      )
       await waitForDebounce()
       expect(wrapper).toMatchSnapshot('pickerclosed')
       await wrapper.find('button').trigger('click')
@@ -80,14 +81,17 @@ describe('An EDatePicker', () => {
     })
 
     test('updates v-model when the value changes', async () => {
-      const wrapper = mountComponent({
-        data: () => ({ date: DATE_1 }),
-        template: '<div><e-date-picker v-model="date"></e-date-picker></div>',
-        components: { 'e-date-picker': EDatePicker }
-      }, {
-        vuetify,
-        i18n
-      })
+      const wrapper = mountComponent(
+        {
+          data: () => ({ date: DATE_1 }),
+          template: '<div><e-date-picker v-model="date"></e-date-picker></div>',
+          components: { 'e-date-picker': EDatePicker },
+        },
+        {
+          vuetify,
+          i18n,
+        }
+      )
       expect(wrapper.vm.date).toBe(DATE_1)
       const inputSpy = jest.fn()
       wrapper.findComponent(EDatePicker).vm.$on('input', (event) => inputSpy(event))
@@ -102,8 +106,8 @@ describe('An EDatePicker', () => {
     test('validates the input', async () => {
       const wrapper = mount({
         propsData: {
-          value: DATE_1
-        }
+          value: DATE_1,
+        },
       })
       const input = wrapper.find('input[type=text]')
       await input.setValue(INVALID_DATE_1)
@@ -115,21 +119,28 @@ describe('An EDatePicker', () => {
     })
 
     test('updates its value when a date is picked', async () => {
-      const wrapper = mountComponent({
-        data: () => ({ date: DATE_1 }),
-        template: '<div data-app><e-date-picker v-model="date"></e-date-picker></div>',
-        components: { 'e-date-picker': EDatePicker }
-      }, {
-        vuetify,
-        attachTo: document.body,
-        i18n
-      })
+      const wrapper = mountComponent(
+        {
+          data: () => ({ date: DATE_1 }),
+          template: '<div data-app><e-date-picker v-model="date"></e-date-picker></div>',
+          components: { 'e-date-picker': EDatePicker },
+        },
+        {
+          vuetify,
+          attachTo: document.body,
+          i18n,
+        }
+      )
       await waitForDebounce()
       // open the date picker
       const openPicker = wrapper.find('button')
       await openPicker.trigger('click')
       // click on day 24 of the month
-      await wrapper.findAll('button').filter(node => node.text() === '24').at(0).trigger('click')
+      await wrapper
+        .findAll('button')
+        .filter((node) => node.text() === '24')
+        .at(0)
+        .trigger('click')
       // click the save button
       const closeButton = wrapper.find('[data-testid="action-ok"]')
       await closeButton.trigger('click')

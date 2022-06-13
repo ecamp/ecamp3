@@ -1,6 +1,19 @@
 <template>
   <v-container fluid>
-    <content-card :title="$tc('views.camps.title', camps.items.length)" max-width="800" toolbar>
+    <content-card
+      :title="$tc('views.camps.title', camps.items.length)"
+      max-width="800"
+      toolbar
+    >
+      <template #title-actions>
+        <v-btn
+          class="d-sm-none"
+          icon
+          :to="{ name: 'profile', query: { isDetail: true } }"
+        >
+          <user-avatar :user="user" :size="36" />
+        </v-btn>
+      </template>
       <v-list class="py-0">
         <template v-if="camps._meta.loading">
           <v-skeleton-loader type="list-item-two-line" height="64" />
@@ -10,7 +23,8 @@
           v-for="camp in upcomingCamps"
           :key="camp._meta.self"
           two-line
-          :to="campRoute(camp)">
+          :to="campRoute(camp)"
+        >
           <v-list-item-content>
             <v-list-item-title>{{ camp.title }}</v-list-item-title>
             <v-list-item-subtitle>
@@ -21,9 +35,7 @@
         <v-list-item>
           <v-list-item-content />
           <v-list-item-action>
-            <button-add
-              icon="mdi-plus"
-              :to="{ name: 'camps/create' }">
+            <button-add icon="mdi-plus" :to="{ name: 'camps/create' }">
               {{ $tc('views.camps.create') }}
             </button-add>
           </v-list-item-action>
@@ -33,7 +45,8 @@
         v-if="prototypeCamps.length > 0 || pastCamps.length > 0"
         multiple
         flat
-        accordion>
+        accordion
+      >
         <v-expansion-panel v-if="prototypeCamps.length > 0">
           <v-expansion-panel-header>
             <h3>
@@ -46,7 +59,8 @@
                 v-for="camp in prototypeCamps"
                 :key="camp._meta.self"
                 two-line
-                :to="campRoute(camp)">
+                :to="campRoute(camp)"
+              >
                 <v-list-item-content>
                   <v-list-item-title>{{ camp.title }}</v-list-item-title>
                   <v-list-item-subtitle>
@@ -69,7 +83,8 @@
                 v-for="camp in pastCamps"
                 :key="camp._meta.self"
                 two-line
-                :to="campRoute(camp)">
+                :to="campRoute(camp)"
+              >
                 <v-list-item-content>
                   <v-list-item-title>{{ camp.title }}</v-list-item-title>
                   <v-list-item-subtitle>
@@ -89,42 +104,47 @@
 import { campRoute } from '@/router.js'
 import ContentCard from '@/components/layout/ContentCard.vue'
 import ButtonAdd from '@/components/buttons/ButtonAdd.vue'
+import UserAvatar from '@/components/user/UserAvatar.vue'
 
 export default {
   name: 'Camps',
   components: {
+    UserAvatar,
     ContentCard,
-    ButtonAdd
+    ButtonAdd,
   },
   computed: {
-    camps () {
+    camps() {
       return this.api.get().camps()
     },
-    prototypeCamps () {
-      return this.camps.items.filter(c => c.isPrototype)
+    prototypeCamps() {
+      return this.camps.items.filter((c) => c.isPrototype)
     },
-    upcomingCamps () {
+    upcomingCamps() {
       return this.camps.items
-        .filter(c => !c.isPrototype)
-        .filter(c => c.periods().items.some(p => new Date(p.end) > new Date()))
+        .filter((c) => !c.isPrototype)
+        .filter((c) => c.periods().items.some((p) => new Date(p.end) > new Date()))
     },
-    pastCamps () {
+    pastCamps() {
       return this.camps.items
-        .filter(c => !c.isPrototype)
-        .filter(c => !c.periods().items.some(p => new Date(p.end) > new Date()))
-    }
+        .filter((c) => !c.isPrototype)
+        .filter((c) => !c.periods().items.some((p) => new Date(p.end) > new Date()))
+    },
+    user() {
+      return this.$auth.user()
+    },
   },
-  mounted () {
+  mounted() {
     this.api.reload(this.camps)
   },
   methods: {
-    campRoute
-  }
+    campRoute,
+  },
 }
 </script>
 
 <style scoped>
-  .v-expansion-panel-content >>> .v-expansion-panel-content__wrap {
-    padding: 0 !important;
-    }
+.v-expansion-panel-content >>> .v-expansion-panel-content__wrap {
+  padding: 0 !important;
+}
 </style>

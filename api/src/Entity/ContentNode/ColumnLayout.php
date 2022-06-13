@@ -12,6 +12,8 @@ use App\Validator\ColumnLayout\AssertColumWidthsSumTo12;
 use App\Validator\ColumnLayout\AssertNoOrphanChildren;
 use App\Validator\ColumnLayout\ColumnLayoutPatchGroupSequence;
 use App\Validator\ColumnLayout\ColumnLayoutPostGroupSequence;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
@@ -34,7 +36,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
             'security' => 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)',
             'validation_groups' => ColumnLayoutPatchGroupSequence::class,
         ],
-        'delete' => ['security' => '(is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)) and object.owner === null'], // disallow delete when contentNode is a root node
+        'delete' => ['security' => '(is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)) and object.parent !== null'], // disallow delete when contentNode is a root node
     ],
     denormalizationContext: ['groups' => ['write']],
     normalizationContext: ['groups' => ['read']],
@@ -72,6 +74,45 @@ class ColumnLayout extends ContentNode {
     #[AssertNoOrphanChildren]
     #[ORM\Column(type: 'json', nullable: true)]
     public ?array $columns = [['slot' => '1', 'width' => 12]];
+
+    /**
+     * All content nodes that are part of this content node tree.
+     */
+    #[ApiProperty(readable: false, writable: false)]
+    #[ORM\OneToMany(targetEntity: ContentNode::class, mappedBy: 'root')]
+    public Collection $rootDescendants;
+
+    public function __construct() {
+        parent::__construct();
+        $this->rootDescendants = new ArrayCollection();
+    }
+
+    /**
+     * @return ContentNode[]
+     */
+    public function getRootDescendants(): array {
+        return $this->rootDescendants->getValues();
+    }
+
+    public function addRootDescendant(ContentNode $rootDescendant): self {
+        if (!$this->rootDescendants->contains($rootDescendant)) {
+            $this->rootDescendants[] = $rootDescendant;
+            $rootDescendant->root = $this;
+        }
+
+        return $this;
+    }
+
+    public function removeRootDescendant(ContentNode $rootDescendant): self {
+        if ($this->rootDescendants->removeElement($rootDescendant)) {
+            // reset the owning side (unless already changed)
+            if ($rootDescendant->root === $this) {
+                $rootDescendant->root = null;
+            }
+        }
+
+        return $this;
+    }
 
     /**
      * @param ColumnLayout $prototype

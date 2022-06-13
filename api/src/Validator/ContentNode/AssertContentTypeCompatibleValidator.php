@@ -2,6 +2,7 @@
 
 namespace App\Validator\ContentNode;
 
+use ApiPlatform\Core\Util\ClassInfoTrait;
 use App\Entity\ContentNode;
 use App\Entity\ContentType;
 use Symfony\Component\Validator\Constraint;
@@ -10,6 +11,8 @@ use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 use Symfony\Component\Validator\Exception\UnexpectedValueException;
 
 class AssertContentTypeCompatibleValidator extends ConstraintValidator {
+    use ClassInfoTrait;
+
     public function __construct() {
     }
 
@@ -27,10 +30,10 @@ class AssertContentTypeCompatibleValidator extends ConstraintValidator {
             throw new UnexpectedValueException($value, ContentType::class);
         }
 
-        if ($value->entityClass !== get_class($object)) {
+        if ($value->entityClass !== $this->getObjectClass($object)) {
             $this->context->buildViolation($constraint->message)
                 ->setParameter('{{ contentTypeName }}', $value->name)
-                ->setParameter('{{ givenEntityClass }}', get_class($object))
+                ->setParameter('{{ givenEntityClass }}', $this->getObjectClass($object))
                 ->setParameter('{{ expectedEntityClass }}', $value->entityClass)
                 ->addViolation()
             ;

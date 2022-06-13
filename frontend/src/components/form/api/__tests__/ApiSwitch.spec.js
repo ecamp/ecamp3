@@ -34,7 +34,7 @@ describe('An ApiSwitch', () => {
     const app = Vue.component('App', {
       components: { ApiSwitch },
       props: {
-        fieldName: { type: String, default: fieldName }
+        fieldName: { type: String, default: fieldName },
       },
       template: `
         <div data-app>
@@ -46,17 +46,21 @@ describe('An ApiSwitch', () => {
             required="true"
           />
         </div>
-      `
+      `,
     })
     apiMock.get().thenReturn(ApiMock.success(true).forFieldName(fieldName))
     const defaultOptions = {
       mocks: {
-        $tc: () => {
-        },
-        api: apiMock.getMocks()
-      }
+        $tc: () => {},
+        api: apiMock.getMocks(),
+      },
     }
-    return mountComponent(app, { vuetify, i18n, attachTo: document.body, ...merge(defaultOptions, options) })
+    return mountComponent(app, {
+      vuetify,
+      i18n,
+      attachTo: document.body,
+      ...merge(defaultOptions, options),
+    })
   }
 
   test('triggers api.patch and status update if input changes', async () => {
@@ -86,6 +90,8 @@ describe('An ApiSwitch', () => {
     await flushPromises()
 
     expect(wrapper.findComponent(ApiWrapper).vm.localValue).toBe(false)
-    expect(wrapper.find('input[type=checkbox]').element.getAttribute('aria-checked')).toBe('false')
+    expect(
+      wrapper.find('input[type=checkbox]').element.getAttribute('aria-checked')
+    ).toBe('false')
   })
 })

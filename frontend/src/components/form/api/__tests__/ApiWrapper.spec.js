@@ -26,8 +26,8 @@ Vue.use(veeValidatePlugin)
 let vuetify
 
 // creates a mock Promise which resolves within 100ms with value
-function mockPromiseResolving (value) {
-  return new Promise((resolve, reject) => {
+function mockPromiseResolving(value) {
+  return new Promise((resolve) => {
     const timer = setTimeout(() => {
       clearTimeout(timer)
       resolve(value)
@@ -47,40 +47,43 @@ function mockPromiseRejecting (value) {
 } */
 
 // config factory
-function createConfig (overrides) {
+function createConfig(overrides) {
   const mocks = {
     api: {
       patch: () => mockPromiseResolving({}),
       get: () => {
         return {
           _meta: {
-            load: () => mockPromiseResolving({})
-          }
+            load: () => mockPromiseResolving({}),
+          },
         }
-      }
-    }
+      },
+    },
   }
 
   const propsData = {
     value: 'Test Value',
     fieldname: 'testField',
     uri: '/testEntity/123',
-    label: 'Test Field'
+    label: 'Test Field',
   }
 
   const stubs = {
     VForm,
     VBtn,
-    ValidationObserver
+    ValidationObserver,
   }
 
   const scopedSlots = {
-    default: '<input type="text" name="dummyField" id="dummyField" :value="props.localValue" />'
+    default:
+      '<input type="text" name="dummyField" id="dummyField" :value="props.localValue" />',
   }
 
   const localVue = createLocalVue()
 
-  return cloneDeep(Object.assign({ mocks, propsData, vuetify, stubs, scopedSlots, localVue }, overrides))
+  return cloneDeep(
+    Object.assign({ mocks, propsData, vuetify, stubs, scopedSlots, localVue }, overrides)
+  )
 }
 
 /**
@@ -153,7 +156,9 @@ describe('Testing ApiWrapper [autoSave=true;  manual external value]', () => {
 
     // API patch method called
     expect(apiPatch).toBeCalledTimes(1)
-    expect(apiPatch).toBeCalledWith(config.propsData.uri, { [config.propsData.fieldname]: newValue })
+    expect(apiPatch).toBeCalledWith(config.propsData.uri, {
+      [config.propsData.fieldname]: newValue,
+    })
 
     // wait for patch promise to resolve
     await jest.advanceTimersByTime(100)
@@ -289,8 +294,8 @@ describe('Testing ApiWrapper [autoSave=true; value from API]', () => {
     apiGet.mockReturnValue({
       [config.propsData.fieldname]: 'api value',
       _meta: {
-        load: Promise.resolve()
-      }
+        load: Promise.resolve(),
+      },
     })
   })
 
@@ -306,8 +311,8 @@ describe('Testing ApiWrapper [autoSave=true; value from API]', () => {
       [config.propsData.fieldname]: loadingValue,
       _meta: {
         loading: true,
-        load: Promise.resolve()
-      }
+        load: Promise.resolve(),
+      },
     })
 
     // when
@@ -322,8 +327,8 @@ describe('Testing ApiWrapper [autoSave=true; value from API]', () => {
     apiGet.mockReturnValue({
       [config.propsData.fieldname]: 'api value',
       _meta: {
-        load: Promise.resolve()
-      }
+        load: Promise.resolve(),
+      },
     })
 
     // when
@@ -343,8 +348,8 @@ describe('Testing ApiWrapper [autoSave=true; value from API]', () => {
       [config.propsData.fieldname]: loadingValue,
       _meta: {
         load: Promise.reject(new Error('loading error')),
-        loading: true
-      }
+        loading: true,
+      },
     })
     wrapper = shallowMount(ApiWrapper, config)
     vm = wrapper.vm
@@ -367,8 +372,8 @@ describe('Testing ApiWrapper [autoSave=true; value from API]', () => {
       [config.propsData.fieldname]: loadingValue,
       _meta: {
         load: Promise.resolve(),
-        loading: true
-      }
+        loading: true,
+      },
     })
 
     wrapper = shallowMount(ApiWrapper, config)
@@ -377,12 +382,12 @@ describe('Testing ApiWrapper [autoSave=true; value from API]', () => {
     apiGet.mockReturnValue({
       [config.propsData.fieldname]: () => ({
         _meta: {
-          self: '/iri/5'
-        }
+          self: '/iri/5',
+        },
       }),
       _meta: {
-        load: Promise.resolve()
-      }
+        load: Promise.resolve(),
+      },
     })
 
     // when
@@ -402,8 +407,8 @@ describe('Testing ApiWrapper [autoSave=true; value from API]', () => {
       [config.propsData.fieldname]: loadingValue,
       _meta: {
         load: Promise.resolve(),
-        loading: true
-      }
+        loading: true,
+      },
     })
 
     wrapper = shallowMount(ApiWrapper, config)
@@ -414,19 +419,19 @@ describe('Testing ApiWrapper [autoSave=true; value from API]', () => {
         items: [
           {
             _meta: {
-              self: '/iri/5'
-            }
+              self: '/iri/5',
+            },
           },
           {
             _meta: {
-              self: '/iri/6'
-            }
-          }
-        ]
+              self: '/iri/6',
+            },
+          },
+        ],
       }),
       _meta: {
-        load: Promise.resolve()
-      }
+        load: Promise.resolve(),
+      },
     })
 
     // when

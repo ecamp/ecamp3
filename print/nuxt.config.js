@@ -53,7 +53,6 @@ export default {
     // Doc: https://github.com/nuxt-community/eslint-module
     '@nuxtjs/eslint-module',
     // Doc: https://github.com/nuxt-community/stylelint-module
-    '@nuxtjs/stylelint-module',
     '@nuxtjs/vuetify',
     '@nuxt/postcss8', // used for tailwind
   ],
@@ -103,7 +102,9 @@ export default {
    */
   vuetify: {
     customVariables: ['~/assets/variables.scss'],
-    treeShake: true,
+    treeShake: {
+      components: ['VCalendar', 'VSheet', 'VContainer', 'VCol', 'VRow'],
+    },
     theme: {
       dark: false,
     },
@@ -147,9 +148,7 @@ export default {
       reportOnly: false,
       policies: {
         // allow embedding in iFrames
-        'frame-ancestors': [
-          process.env.FRONTEND_URL || 'http://localhost:3000',
-        ],
+        'frame-ancestors': [process.env.FRONTEND_URL || 'http://localhost:3000'],
 
         // allow script loading script from Unkpg (used for PagedJS)
         'script-src': ["'self'", "'unsafe-inline'", 'https://unpkg.com'],

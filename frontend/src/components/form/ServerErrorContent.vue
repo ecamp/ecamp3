@@ -1,13 +1,21 @@
 <template>
-  <div v-if="!!serverError.name || !!serverError.response ">
-    <template v-if="serverError.name === 'ServerException' && serverError.response && serverError.response.status === 422">
-      <div class="title">
-        Validation error
-      </div>
+  <div v-if="!!serverError.name || !!serverError.response">
+    <template
+      v-if="
+        serverError.name === 'ServerException' &&
+        serverError.response &&
+        serverError.response.status === 422
+      "
+    >
+      <div class="title">Validation error</div>
       <ul>
-        <li v-for="(violation, index) in serverError.response.data.violations" :key="index">
+        <li
+          v-for="(violation, index) in serverError.response.data.violations"
+          :key="index"
+        >
           <div>
-            <b>{{ violation.propertyPath }}</b>: {{ violation.message }}
+            <b>{{ violation.propertyPath }}</b
+            >: {{ violation.message }}
           </div>
         </li>
       </ul>
@@ -22,15 +30,13 @@
 </template>
 
 <script>
-
 export default {
   name: 'ServerErrorContent',
   props: {
     serverError: {
       type: [Object, String, Error],
-      default: null
-    }
-  }
+      default: null,
+    },
+  },
 }
-
 </script>

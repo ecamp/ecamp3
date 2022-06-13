@@ -33,4 +33,16 @@ class ReadColumnLayoutTest extends ReadContentNodeTestCase {
             ],
         ]);
     }
+
+    public function testGetColumnLayoutInCategory() {
+        // given
+        /** @var ColumnLayout $contentNode */
+        $contentNode = static::$fixtures['columnLayout2']; // root content node of category1
+
+        // when
+        $this->get($contentNode);
+
+        // then
+        $this->assertResponseStatusCodeSame(200);
+    }
 }

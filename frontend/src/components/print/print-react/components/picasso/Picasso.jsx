@@ -7,13 +7,13 @@ import DayColumn from './DayColumn.jsx'
 import TimeColumnSpacer from './TimeColumnSpacer.jsx'
 import DayHeader from './DayHeader.jsx'
 
-function Picasso ({ period, orientation, $tc }) {
+function Picasso({ period, orientation, $tc }) {
   const columnWrapperStyles = {
     flexGrow: '1',
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'stretch',
-    border: '1px solid black'
+    border: '1px solid black',
   }
 
   // Format: [hour, weight] where weight determines how tall the hour is rendered.
@@ -46,28 +46,45 @@ function Picasso ({ period, orientation, $tc }) {
     [21, 2],
     [22, 2],
     [23, 1],
-    [24, 0] // this last hour is only needed for defining the length of the day, the weight should be 0
+    [24, 0], // this last hour is only needed for defining the length of the day, the weight should be 0
   ]
 
-  return <Page size="A4" orientation={orientation === 'L' ? 'landscape' : 'portrait'} style={ styles.page }>
-    <Text id="picasso" style={styles.h1}>{$tc('print.picasso.title', { period: period.description })}</Text>
-    <View style={{ ...columnWrapperStyles, border: 'none' }}>
-      <TimeColumnSpacer times={times}/>
-      {period.days().items.map(day => <DayHeader day={day} key={day.id}/>)}
-      <TimeColumnSpacer times={times}/>
-    </View>
-    <View style={ columnWrapperStyles }>
-      <TimeColumn times={times.slice(0, times.length - 1)} />
-      {period.days().items.map(day => {
-        return <DayColumn key={day.id}
-                          styles={{ borderLeft: (day.id === period.days().items[0].id) ? '1px solid grey' : '', borderRight: '1px solid grey' }}
-                          times={times}
-                          day={day}
-                          scheduleEntries={period.scheduleEntries().items}/>
-      })}
-      <TimeColumn times={times.slice(0, times.length - 1)} />
-    </View>
-  </Page>
+  return (
+    <Page
+      size="A4"
+      orientation={orientation === 'L' ? 'landscape' : 'portrait'}
+      style={styles.page}
+    >
+      <Text id="picasso" style={styles.h1}>
+        {$tc('print.picasso.title', { period: period.description })}
+      </Text>
+      <View style={{ ...columnWrapperStyles, border: 'none' }}>
+        <TimeColumnSpacer times={times} />
+        {period.days().items.map((day) => (
+          <DayHeader day={day} key={day.id} />
+        ))}
+        <TimeColumnSpacer times={times} />
+      </View>
+      <View style={columnWrapperStyles}>
+        <TimeColumn times={times.slice(0, times.length - 1)} />
+        {period.days().items.map((day) => {
+          return (
+            <DayColumn
+              key={day.id}
+              styles={{
+                borderLeft: day.id === period.days().items[0].id ? '1px solid grey' : '',
+                borderRight: '1px solid grey',
+              }}
+              times={times}
+              day={day}
+              scheduleEntries={period.scheduleEntries().items}
+            />
+          )
+        })}
+        <TimeColumn times={times.slice(0, times.length - 1)} />
+      </View>
+    </Page>
+  )
 }
 
 export default Picasso

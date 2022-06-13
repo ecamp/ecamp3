@@ -7,14 +7,14 @@
           :placeholder="$tc('contentNode.safetyConcept.name')"
           rows="2"
           :disabled="layoutMode || disabled"
-          :filled="layoutMode" />
+          :filled="layoutMode"
+        />
       </api-form>
     </div>
   </card-content-node>
 </template>
 
 <script>
-
 import ApiForm from '@/components/form/api/ApiForm.vue'
 import ApiRichtext from '@/components/form/api/ApiRichtext.vue'
 import CardContentNode from '@/components/activity/CardContentNode.vue'
@@ -25,11 +25,10 @@ export default {
   components: {
     CardContentNode,
     ApiForm,
-    ApiRichtext
+    ApiRichtext,
   },
-  mixins: [contentNodeMixin]
+  mixins: [contentNodeMixin],
 }
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

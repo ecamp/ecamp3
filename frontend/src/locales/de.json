@@ -88,6 +88,14 @@
       "campInvitations": {
         "title": "Einladen"
       },
+      "campMaterialLists": {
+        "createMaterialList": "Materialliste erstellen",
+        "title": "Materiallisten"
+      },
+      "campMaterialListsItem": {
+        "deleteWarning": "Möchtest du diese Materialliste wirklich löschen?",
+        "deleteError": "Materialliste konnte nicht gelöscht werden. Überprüfe vor dem Löschen, dass die Liste leer ist."
+      },
       "campMembers": {
         "title": "Mitglieder"
       },
@@ -109,6 +117,9 @@
       },
       "materialCreateItem": {
         "noMaterialListAvailable": "Für dieses Lager sind noch keine Materiallisten erfasst. Du kannst diese unter 'Admin' erfassen."
+      },
+      "periodSwitcher": {
+        "title": "Lagerabschnitt"
       },
       "picasso": {
         "datetime": {
@@ -141,8 +152,20 @@
           }
         }
       },
+      "printNuxt": {
+        "downloadNuxtPdfListItem": {
+          "label": "PDF herunterladen",
+          "error": "Etwas hat nicht geklappt. Probiere es nochmals, oder lade die Seite neu."
+        }
+      },
       "printPreviewNuxt": {
         "openPreview": "Vorschau in neuem Fenster öffnen"
+      },
+      "printReact": {
+        "downloadNuxtPdfListItem": {
+          "label": "PDF herunterladen",
+          "error": "Etwas hat nicht geklappt. Probiere es nochmals, oder lade die Seite neu."
+        }
       }
     },
     "story": {
@@ -208,6 +231,7 @@
       "delete": "Löschen",
       "edit": "Bearbeiten",
       "editable": "Bearbeitbar",
+      "lock": "Sperren",
       "logout": "Ausloggen",
       "ok": "In Ordnung",
       "open": "Öffnen",
@@ -216,6 +240,7 @@
       "search": "Suchen",
       "submit": "Abschicken",
       "tryagain": "Erneut versuchen",
+      "unlock": "Entsperren",
       "update": "Aktualisieren"
     },
     "changeLanguage": "Sprache ändern",
@@ -302,7 +327,7 @@
     "camp": {
       "admin": {
         "collaborators": "Team verwalten",
-        "title": "Lager Admin"
+        "title": "Admin"
       },
       "collaborators": {
         "email": "E-Mail-Adresse",
@@ -331,9 +356,6 @@
         "title": "Druckvorschau",
         "previewError": "Etwas hat nicht geklappt. Probiere es nochmals mit anderen Druckeinstellungen, oder lade die Seite neu."
       },
-      "sideBarPeriods": {
-        "title": "Lagerabschnitt"
-      },
       "story": {
         "title": "Geschichte"
       },
@@ -357,16 +379,6 @@
       "pastCamps": "Alte Lager",
       "prototypeCamps": "Vorlagen",
       "title": "Mein Lager | Meine Lager"
-    },
-    "home": {
-      "home": "Home",
-      "myCamps": "Mein Lager | Meine Lager",
-      "welcome": "Hallo {user}. Herzlich willkommen auf eCamp"
-    },
-    "navigationDefault": {
-      "home": "Home",
-      "myCamps": "Mein Lager | Meine Lager",
-      "profile": "Profil"
     },
     "profile": {
       "profile": "Profil"

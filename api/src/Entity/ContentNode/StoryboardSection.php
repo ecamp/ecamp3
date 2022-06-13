@@ -7,8 +7,7 @@ use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Entity\BaseEntity;
-use App\Entity\BelongsToCampInterface;
-use App\Entity\Camp;
+use App\Entity\BelongsToContentNodeTreeInterface;
 use App\Entity\CopyFromPrototypeInterface;
 use App\Entity\SortableEntityInterface;
 use App\Entity\SortableEntityTrait;
@@ -44,7 +43,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ApiFilter(SearchFilter::class, properties: ['storyboard'])]
 #[ORM\Entity(repositoryClass: StoryboardSectionRepository::class)]
 #[ORM\Table(name: 'content_node_storyboard_section')]
-class StoryboardSection extends BaseEntity implements BelongsToCampInterface, SortableEntityInterface, CopyFromPrototypeInterface {
+class StoryboardSection extends BaseEntity implements BelongsToContentNodeTreeInterface, SortableEntityInterface, CopyFromPrototypeInterface {
     use SortableEntityTrait;
 
     #[ApiProperty(readableLink: false, writableLink: false)]
@@ -70,8 +69,8 @@ class StoryboardSection extends BaseEntity implements BelongsToCampInterface, So
     public ?string  $column3 = null;
 
     #[ApiProperty(readable: false)]
-    public function getCamp(): ?Camp {
-        return $this->storyboard?->getCamp();
+    public function getRoot(): ?ColumnLayout {
+        return $this->storyboard?->getRoot();
     }
 
     /**

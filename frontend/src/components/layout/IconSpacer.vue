@@ -4,12 +4,12 @@
 
 <script>
 export default {
-  name: 'IconSpacer'
+  name: 'IconSpacer',
 }
 </script>
 
 <style scoped>
-  div {
-    width: 24px;
-  }
+div {
+  width: 24px;
+}
 </style>

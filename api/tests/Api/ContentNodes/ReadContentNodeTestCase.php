@@ -63,8 +63,6 @@ abstract class ReadContentNodeTestCase extends ECampApiTestCase {
 
             '_links' => [
                 'parent' => ['href' => $this->getIriFor($contentNode->parent)],
-                'owner' => ['href' => $this->getIriFor($contentNode->getRootOwner())],
-                'ownerCategory' => ['href' => $this->getIriFor($contentNode->getOwnerCategory())],
             ],
         ]);
     }

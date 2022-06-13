@@ -11,7 +11,7 @@ const roundTimeDown = (time) => {
   const roundTo = 15 // minutes
   const roundDownTime = roundTo * 60 * 1000
 
-  return time - time % roundDownTime
+  return time - (time % roundDownTime)
 }
 
 const roundTimeUp = (time) => {
@@ -21,8 +21,4 @@ const roundTimeUp = (time) => {
   return time + (roundDownTime - (time % roundDownTime))
 }
 
-export {
-  toTime,
-  roundTimeDown,
-  roundTimeUp
-}
+export { toTime, roundTimeDown, roundTimeUp }

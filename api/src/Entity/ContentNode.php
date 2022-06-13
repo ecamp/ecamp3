@@ -6,20 +6,20 @@ use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Core\Util\ClassInfoTrait;
 use App\Doctrine\Filter\ContentNodePeriodFilter;
+use App\Entity\ContentNode\ColumnLayout;
 use App\Repository\ContentNodeRepository;
 use App\Util\EntityMap;
-use App\Validator\AssertEitherIsNull;
-use App\Validator\ContentNode\AssertBelongsToSameOwner;
 use App\Validator\ContentNode\AssertContentTypeCompatible;
 use App\Validator\ContentNode\AssertNoLoop;
+use App\Validator\ContentNode\AssertNoRootChange;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Exception;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Serializer\Annotation\Groups;
-use Symfony\Component\Serializer\Annotation\SerializedName;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * A piece of information that is part of a programme. ContentNodes may store content such as
@@ -36,18 +36,15 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
         'get' => ['security' => 'is_granted("CAMP_COLLABORATOR", object) or is_granted("CAMP_IS_PROTOTYPE", object)'],
     ],
     denormalizationContext: ['groups' => ['write']],
-    normalizationContext: ['groups' => ['read']],
+    normalizationContext: ['groups' => ['read']]
 )]
 #[ApiFilter(SearchFilter::class, properties: ['contentType', 'root'])]
 #[ApiFilter(ContentNodePeriodFilter::class)]
 #[ORM\Entity(repositoryClass: ContentNodeRepository::class)]
 #[ORM\InheritanceType('JOINED')]
 #[ORM\DiscriminatorColumn(name: 'strategy', type: 'string')]
-abstract class ContentNode extends BaseEntity implements BelongsToCampInterface, CopyFromPrototypeInterface {
-    #[SerializedName('_owner')]
-    #[ApiProperty(readable: false, writable: false)]
-    #[ORM\OneToOne(targetEntity: AbstractContentNodeOwner::class, mappedBy: 'rootContentNode', cascade: ['persist'])]
-    public ?AbstractContentNodeOwner $owner = null;
+abstract class ContentNode extends BaseEntity implements BelongsToContentNodeTreeInterface, CopyFromPrototypeInterface {
+    use ClassInfoTrait;
 
     /**
      * The content node that is the root of the content node tree. Refers to itself in case this
@@ -56,29 +53,17 @@ abstract class ContentNode extends BaseEntity implements BelongsToCampInterface,
     #[ApiProperty(writable: false, example: '/content_nodes/1a2b3c4d')]
     #[Gedmo\SortableGroup] // this is needed to avoid that all root nodes are in the same sort group (parent:null, slot: '')
     #[Groups(['read'])]
-    #[ORM\ManyToOne(targetEntity: ContentNode::class, inversedBy: 'rootDescendants')]
+    #[ORM\ManyToOne(targetEntity: ColumnLayout::class, inversedBy: 'rootDescendants')]
     #[ORM\JoinColumn(nullable: true)] // TODO make not null in the DB using a migration, and get fixtures to run
-    public ContentNode $root;
-
-    /**
-     * All content nodes that are part of this content node tree.
-     */
-    #[ApiProperty(readable: false, writable: false)]
-    #[ORM\OneToMany(targetEntity: ContentNode::class, mappedBy: 'root')]
-    public Collection $rootDescendants;
+    public ?ColumnLayout $root = null;
 
     /**
      * The parent to which this content node belongs. Is null in case this content node is the
      * root of a content node tree. For non-root content nodes, the parent can be changed, as long
-     * as the new parent is in the same camp as the old one. A content node is defined as root when
-     * it has an owner.
+     * as the new parent is in the same camp as the old one.
      */
-    #[AssertEitherIsNull(
-        other: 'owner',
-        messageBothNull: 'Must not be null on non-root content nodes.',
-        messageNoneNull: 'Must be null on root content nodes.'
-    )]
-    #[AssertBelongsToSameOwner(groups: ['update'])]
+    #[Assert\NotNull(groups: ['create'])] // Root nodes have parent:null, but manually creating root nodes is not allowed
+    #[AssertNoRootChange(groups: ['update'])]
     #[AssertNoLoop(groups: ['update'])]
     #[ApiProperty(example: '/content_nodes/1a2b3c4d')]
     #[Gedmo\SortableGroup]
@@ -138,8 +123,6 @@ abstract class ContentNode extends BaseEntity implements BelongsToCampInterface,
 
     public function __construct() {
         parent::__construct();
-        $this->root = $this;
-        $this->rootDescendants = new ArrayCollection();
         $this->children = new ArrayCollection();
     }
 
@@ -154,77 +137,16 @@ abstract class ContentNode extends BaseEntity implements BelongsToCampInterface,
 
     /**
      * The entity that owns the content node tree that this content node resides in.
+     * (implements BelongsToContentNodeTreeInterface for security voting).
      */
-    #[SerializedName('owner')]
-    #[ApiProperty(writable: false, example: '/activities/1a2b3c4d')]
-    #[Groups(['read'])]
-    public function getRootOwner(): Activity|Category|AbstractContentNodeOwner|null {
-        // New created ContentNodes have root == this.
-        // Therefore we use the root of the parent-node.
-        if ($this->root === $this && null !== $this->parent) {
-            return $this->parent->root->owner;
+    public function getRoot(): ?ColumnLayout {
+        // Newly created ContentNodes don't have root populated yet (happens later in DataPersister),
+        // so we're using the parent's root here
+        if (null === $this->root && null !== $this->parent) {
+            return $this->parent->root;
         }
 
-        return $this->root->owner;
-    }
-
-    /**
-     * The category that owns this content node's content tree, or the category of the
-     * activity that owns this content node's content tree.
-     *
-     * @throws Exception when the owner is neither an activity nor a category
-     */
-    #[ApiProperty(example: '/categories/1a2b3c4d')]
-    #[Groups(['read'])]
-    public function getOwnerCategory(): Category {
-        $owner = $this->getRootOwner();
-
-        if ($owner instanceof Activity) {
-            $owner = $owner->category;
-        }
-
-        if ($owner instanceof Category) {
-            return $owner;
-        }
-
-        throw new Exception('Unexpected owner type '.get_debug_type($owner));
-    }
-
-    #[ApiProperty(readable: false)]
-    public function getCamp(): ?Camp {
-        $owner = $this->getRootOwner();
-        if ($owner instanceof BelongsToCampInterface) {
-            return $owner->getCamp();
-        }
-
-        return null;
-    }
-
-    /**
-     * @return ContentNode[]
-     */
-    public function getRootDescendants(): array {
-        return $this->rootDescendants->getValues();
-    }
-
-    public function addRootDescendant(self $rootDescendant): self {
-        if (!$this->rootDescendants->contains($rootDescendant)) {
-            $this->rootDescendants[] = $rootDescendant;
-            $rootDescendant->root = $this;
-        }
-
-        return $this;
-    }
-
-    public function removeRootDescendant(self $rootDescendant): self {
-        if ($this->rootDescendants->removeElement($rootDescendant)) {
-            // reset the owning side (unless already changed)
-            if ($rootDescendant->root === $this) {
-                $rootDescendant->root = $rootDescendant;
-            }
-        }
-
-        return $this;
+        return $this->root;
     }
 
     /**
@@ -269,7 +191,7 @@ abstract class ContentNode extends BaseEntity implements BelongsToCampInterface,
 
         // deep copy children
         foreach ($prototype->getChildren() as $childPrototype) {
-            $childClass = $childPrototype::class;
+            $childClass = $this->getObjectClass($childPrototype);
 
             /** @var ContentNode $childContentNode */
             $childContentNode = new $childClass();

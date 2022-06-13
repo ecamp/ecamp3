@@ -1,8 +1,11 @@
-export const renderPdf = async ({ config, storeData, translationData }, { React, wrap, createI18n, pdf, documents }) => {
+export const renderPdf = async (
+  { config, storeData, translationData },
+  { React, wrap, createI18n, pdf, documents }
+) => {
   const result = {
     filename: null,
     blob: null,
-    error: null
+    error: null,
   }
 
   try {
@@ -27,7 +30,7 @@ export const renderPdf = async ({ config, storeData, translationData }, { React,
   return result
 }
 
-const documentFor = (config) => {
+const documentFor = () => {
   // If necessary, this could select a different main document component, depending on the print config
   return 'pdfDocument'
 }

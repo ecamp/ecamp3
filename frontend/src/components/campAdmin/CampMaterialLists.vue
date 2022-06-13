@@ -5,9 +5,7 @@
         {{ $tc('components.camp.campMaterialLists.title') }}
         <dialog-material-list-create v-if="!disabled" :camp="camp()">
           <template #activator="{ on }">
-            <button-add color="secondary" text
-                        class="my-n1"
-                        v-on="on">
+            <button-add color="secondary" text class="my-n1" v-on="on">
               {{ $tc('components.camp.campMaterialLists.createMaterialList') }}
             </button-add>
           </template>
@@ -17,11 +15,12 @@
     <v-skeleton-loader v-if="camp().materialLists()._meta.loading" type="article" />
     <v-list>
       <camp-material-lists-item
-        v-for="materialList in materialLists.items"
+        v-for="materialList in materialLists.allItems"
         :key="materialList._meta.self"
         class="px-0"
         :material-list="materialList"
-        :disabled="disabled" />
+        :disabled="disabled"
+      />
     </v-list>
   </content-group>
 </template>
@@ -34,22 +33,25 @@ import ContentGroup from '@/components/layout/ContentGroup.vue'
 
 export default {
   name: 'CampMaterialLists',
-  components: { ContentGroup, ButtonAdd, CampMaterialListsItem, DialogMaterialListCreate },
+  components: {
+    ContentGroup,
+    ButtonAdd,
+    CampMaterialListsItem,
+    DialogMaterialListCreate,
+  },
   props: {
     camp: { type: Function, required: true },
-    disabled: { type: Boolean, default: false }
+    disabled: { type: Boolean, default: false },
   },
-  data () {
-    return {
-    }
+  data() {
+    return {}
   },
   computed: {
-    materialLists () {
+    materialLists() {
       return this.camp().materialLists()
-    }
-  }
+    },
+  },
 }
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

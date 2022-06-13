@@ -1,9 +1,6 @@
 <template>
   <div>
-    <component
-      :is="componentFor(contentNode)"
-      :content-node="contentNode"
-    ></component>
+    <component :is="componentFor(contentNode)" :content-node="contentNode"></component>
   </div>
 </template>
 
