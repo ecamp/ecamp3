@@ -3,8 +3,9 @@
     v-model="showDialog"
     :title="$tc('components.user.dialogChangeMail.title')"
     :submit-action="(status === 'initial') ? sendChangeMailRequest : null"
-    :cancel-action="(status === 'initial') ? null : close"
+    :cancel-action="close"
     :cancel-label="$tc('global.button.close')"
+    :cancel-visible="(status !== 'initial')"
     submit-color="success"
     max-width="600px">
     <template #activator="scope">
