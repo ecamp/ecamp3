@@ -22,8 +22,8 @@ export default {
     loaded: { type: Boolean, required: false, default: true },
     title: { type: String, required: false, default: '' },
     icon: { type: String, required: false, default: '' },
-    maxWidth: { type: String, default: '' }
-  }
+    maxWidth: { type: String, default: '' },
+  },
 }
 </script>
 

@@ -8,7 +8,8 @@
           rows="2"
           auto-grow
           :disabled="layoutMode || disabled"
-          :filled="layoutMode" />
+          :filled="layoutMode"
+        />
       </api-form>
     </div>
   </card-content-node>
@@ -25,9 +26,9 @@ export default {
   components: {
     CardContentNode,
     ApiForm,
-    ApiTextarea
+    ApiTextarea,
   },
-  mixins: [contentNodeMixin]
+  mixins: [contentNodeMixin],
 }
 </script>
 

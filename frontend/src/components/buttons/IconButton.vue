@@ -4,7 +4,8 @@
     min-width="0"
     :color="color"
     v-bind="$attrs"
-    v-on="$listeners">
+    v-on="$listeners"
+  >
     <span :class="{ 'd-sr-only': hideLabel }">
       <slot />
     </span>
@@ -21,8 +22,8 @@ export default {
     icon: { type: String, required: true },
     hideLabel: { type: Boolean, default: false },
     color: { type: String, default: 'normal' },
-    animate: { type: Boolean, default: false }
-  }
+    animate: { type: Boolean, default: false },
+  },
 }
 </script>
 

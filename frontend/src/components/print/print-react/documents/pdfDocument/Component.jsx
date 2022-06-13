@@ -12,7 +12,7 @@ import OpenSansSemiBoldItalic from '@/assets/fonts/OpenSans/OpenSans-SemiBoldIta
 import OpenSansBold from '@/assets/fonts/OpenSans/OpenSans-Bold.ttf'
 import OpenSansBoldItalic from '@/assets/fonts/OpenSans/OpenSans-BoldItalic.ttf'
 
-function PDFDocument (props) {
+function PDFDocument(props) {
   return (
     <Document>
       {props.config.contents.map((content, idx) => {
@@ -44,7 +44,7 @@ function PDFDocument (props) {
                 {periods.map((period) => {
                   return sortBy(period.scheduleEntries().items, [
                     'dayNumber',
-                    'scheduleEntryNumber'
+                    'scheduleEntryNumber',
                   ]).map((scheduleEntry) => (
                     <ScheduleEntry
                       {...props}
@@ -94,8 +94,8 @@ const registerFonts = async () => {
       { src: OpenSansBold, fontWeight: 'bold' },
       { src: OpenSansItalic, fontStyle: 'italic' },
       { src: OpenSansSemiBoldItalic, fontWeight: 'semibold', fontStyle: 'italic' },
-      { src: OpenSansBoldItalic, fontWeight: 'bold', fontStyle: 'italic' }
-    ]
+      { src: OpenSansBoldItalic, fontWeight: 'bold', fontStyle: 'italic' },
+    ],
   })
 
   return await Promise.all([
@@ -104,7 +104,7 @@ const registerFonts = async () => {
     Font.load({ fontFamily: 'OpenSans', fontWeight: 700 }),
     Font.load({ fontFamily: 'OpenSans', fontStyle: 'italic' }),
     Font.load({ fontFamily: 'OpenSans', fontWeight: 600, fontStyle: 'italic' }),
-    Font.load({ fontFamily: 'OpenSans', fontWeight: 700, fontStyle: 'italic' })
+    Font.load({ fontFamily: 'OpenSans', fontWeight: 700, fontStyle: 'italic' }),
   ])
 }
 

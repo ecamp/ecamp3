@@ -34,7 +34,7 @@ describe('An ApiCheckbox', () => {
     const app = Vue.component('App', {
       components: { ApiCheckbox },
       props: {
-        fieldName: { type: String, default: fieldName }
+        fieldName: { type: String, default: fieldName },
       },
       template: `
         <div data-app>
@@ -46,20 +46,20 @@ describe('An ApiCheckbox', () => {
             required="true"
           />
         </div>
-      `
+      `,
     })
     apiMock.get().thenReturn(ApiMock.success(true).forFieldName(fieldName))
     const defaultOptions = {
       mocks: {
         $tc: () => {},
-        api: apiMock.getMocks()
-      }
+        api: apiMock.getMocks(),
+      },
     }
     return mountComponent(app, {
       vuetify,
       i18n,
       attachTo: document.body,
-      ...merge(defaultOptions, options)
+      ...merge(defaultOptions, options),
     })
   }
 

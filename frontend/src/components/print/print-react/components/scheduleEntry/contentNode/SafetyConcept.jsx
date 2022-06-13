@@ -3,17 +3,15 @@ import React from 'react'
 import { View, Text } from '../../../reactPdf.js'
 import RichText from '../../RichText.jsx'
 
-function SafetyConcept (props) {
+function SafetyConcept(props) {
   const safetyConcept = props.contentNode
   return (
     <View style={{ marginBottom: '6pt' }}>
-      {safetyConcept.instanceName
-        ? (
+      {safetyConcept.instanceName ? (
         <Text style={{ fontWeight: 'bold' }}>{safetyConcept.instanceName}</Text>
-          )
-        : (
+      ) : (
         <View />
-          )}
+      )}
       <RichText richText={safetyConcept.text} />
     </View>
   )

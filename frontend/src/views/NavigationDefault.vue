@@ -4,7 +4,8 @@
     app
     clipped-left
     color="blue-grey darken-4"
-    dark>
+    dark
+  >
     <logo text />
     <v-spacer />
     <user-meta />
@@ -19,30 +20,30 @@ export default {
   name: 'NavigationDefault',
   components: {
     UserMeta,
-    Logo
+    Logo,
   },
-  data () {
+  data() {
     return {
-      logoutIcon: 'mdi-logout'
+      logoutIcon: 'mdi-logout',
     }
   },
   computed: {
-    isLoggedIn () {
+    isLoggedIn() {
       return this.$auth.isLoggedIn()
-    }
+    },
   },
   methods: {
-    logout () {
+    logout() {
       this.logoutIcon = ''
       this.$auth.logout().then(() => this.$router.replace({ name: 'login' }))
     },
-    prevent (event) {
+    prevent(event) {
       event.stopImmediatePropagation()
       event.preventDefault()
       event.cancelBubble = true
       return null
-    }
-  }
+    },
+  },
 }
 </script>
 

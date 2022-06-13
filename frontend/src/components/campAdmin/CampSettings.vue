@@ -11,16 +11,19 @@ Displays details on a single camp and allows to edit them.
           fieldname="name"
           :name="$tc('entity.camp.fields.name')"
           vee-rules="required"
-          :disabled="disabled" />
+          :disabled="disabled"
+        />
         <api-text-field
           fieldname="title"
           :name="$tc('entity.camp.fields.title')"
           vee-rules="required"
-          :disabled="disabled" />
+          :disabled="disabled"
+        />
         <api-text-field
           fieldname="motto"
           :name="$tc('entity.camp.fields.motto')"
-          :disabled="disabled" />
+          :disabled="disabled"
+        />
       </api-form>
     </div>
   </content-group>
@@ -37,16 +40,16 @@ export default {
   props: {
     camp: {
       type: Function,
-      required: true
+      required: true,
     },
     disabled: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
-  data () {
+  data() {
     return {}
-  }
+  },
 }
 </script>
 

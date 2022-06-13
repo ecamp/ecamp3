@@ -3,18 +3,21 @@
     <e-text-field
       v-model="localPeriod.description"
       :name="$tc('entity.period.fields.description')"
-      vee-rules="required" />
+      vee-rules="required"
+    />
 
     <e-date-picker
       v-model="localPeriod.start"
       :name="$tc('entity.period.fields.start')"
       vee-id="start"
-      vee-rules="required" />
+      vee-rules="required"
+    />
 
     <e-date-picker
       v-model="localPeriod.end"
       :name="$tc('entity.period.fields.end')"
-      vee-rules="required|minDate:@start" />
+      vee-rules="required|minDate:@start"
+    />
   </div>
 </template>
 
@@ -22,12 +25,12 @@
 export default {
   name: 'DialogPeriodForm',
   props: {
-    period: { type: Object, required: true }
+    period: { type: Object, required: true },
   },
-  data () {
+  data() {
     return {
-      localPeriod: this.period
+      localPeriod: this.period,
     }
-  }
+  },
 }
 </script>

@@ -10,43 +10,43 @@ export default {
   name: 'PicassoConfig',
   props: {
     value: { type: Object, required: true },
-    camp: { type: Object, required: true }
+    camp: { type: Object, required: true },
   },
-  data () {
+  data() {
     return {
       orientations: [
         {
           value: 'L',
-          text: 'Landscape'
+          text: 'Landscape',
         },
         {
           value: 'P',
-          text: 'Portrait'
-        }
-      ]
+          text: 'Portrait',
+        },
+      ],
     }
   },
   computed: {
     options: {
-      get () {
+      get() {
         return this.value
       },
-      set (v) {
+      set(v) {
         this.$emit('input', v)
-      }
+      },
     },
-    periods () {
+    periods() {
       return this.camp.periods().items.map((p) => ({
         value: p._meta.self,
-        text: p.description
+        text: p.description,
       }))
-    }
+    },
   },
-  defaultOptions () {
+  defaultOptions() {
     return {
       periods: [],
-      orientation: 'L'
+      orientation: 'L',
     }
-  }
+  },
 }
 </script>

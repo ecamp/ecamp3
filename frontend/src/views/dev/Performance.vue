@@ -24,20 +24,14 @@
 </template>
 
 <script>
-
 export default {
   name: 'Controls',
-  components: {
-
-  },
+  components: {},
   data: () => ({
-    results: []
-
+    results: [],
   }),
-  computed: {
-
-  },
-  async mounted () {
+  computed: {},
+  async mounted() {
     const root = await this.api.get()._meta.load
 
     for (const key of Object.keys(root)) {
@@ -45,7 +39,8 @@ export default {
 
       if (key.includes('auth') || key.includes('login') || key.includes('reset')) continue
 
-      if (key.includes('user') || key.includes('profile') || key.includes('invitation')) continue
+      if (key.includes('user') || key.includes('profile') || key.includes('invitation'))
+        continue
 
       // const collection = await root[key]()._meta.load
       // const entity = collection.items[0]._meta.self
@@ -62,23 +57,23 @@ export default {
       this.results.push({
         endpoint: key,
         collection: collectionEnd - collectionStart,
-        entity: entityEnd - collectionEnd
+        entity: entityEnd - collectionEnd,
       })
     }
-  }
+  },
 }
-
 </script>
 
 <style scoped lang="scss">
-.result-table{
-  border:1px black solid;
+.result-table {
+  border: 1px black solid;
   border-collapse: collapse;
   tr {
-    td, th {
-    border: 1px black solid;
-    padding: 5px;
-  }
+    td,
+    th {
+      border: 1px black solid;
+      padding: 5px;
+    }
   }
 }
 </style>

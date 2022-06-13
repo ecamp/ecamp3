@@ -22,7 +22,7 @@
 import { cloneDeep, groupBy } from 'lodash'
 import {
   calculateNextSlotName,
-  adjustColumnWidths
+  adjustColumnWidths,
 } from '@/components/activity/content/columnLayout/calculateNextSlotName.js'
 
 export default {
@@ -31,46 +31,49 @@ export default {
   props: {
     contentNode: { type: Object, required: true },
     minColumnWidth: { type: Number, default: 3 },
-    totalWidth: { type: Number, default: 12 }
+    totalWidth: { type: Number, default: 12 },
   },
   computed: {
-    addingColumnEnabled () {
+    addingColumnEnabled() {
       return (
         (this.contentNode.columns.length + 1) * this.minColumnWidth <= this.totalWidth
       )
     },
-    removingColumnEnabled () {
+    removingColumnEnabled() {
       return this.contentNode.columns.length > 2 && this.removableColumn !== undefined
     },
-    children () {
-      return this.allContentNodes().items.filter(child => {
-        return child.parent !== null && child.parent()._meta.self === this.contentNode._meta.self
+    children() {
+      return this.allContentNodes().items.filter((child) => {
+        return (
+          child.parent !== null &&
+          child.parent()._meta.self === this.contentNode._meta.self
+        )
       })
     },
-    childrenBySlot () {
+    childrenBySlot() {
       return groupBy(this.children, 'slot')
     },
-    removableColumn () {
+    removableColumn() {
       return this.contentNode.columns
         .map((col) => col.slot)
         .reverse()
         .find((slot) => {
           return !Object.keys(this.childrenBySlot).includes(slot)
         })
-    }
+    },
   },
   methods: {
-    addColumn () {
+    addColumn() {
       let columns = cloneDeep(this.contentNode.columns)
       const newSlotName = calculateNextSlotName(columns.map((col) => col.slot))
       columns.push({
         slot: newSlotName,
-        width: this.minColumnWidth
+        width: this.minColumnWidth,
       })
       columns = adjustColumnWidths(columns, this.minColumnWidth, this.totalWidth)
       this.contentNode.$patch({ columns })
     },
-    removeColumn () {
+    removeColumn() {
       let columns = cloneDeep(this.contentNode.columns)
       columns = adjustColumnWidths(
         columns.filter((col) => col.slot !== this.removableColumn),
@@ -78,7 +81,7 @@ export default {
         this.totalWidth
       )
       this.contentNode.$patch({ columns })
-    }
-  }
+    },
+  },
 }
 </script>

@@ -17,13 +17,13 @@ describe('An ETextField', () => {
       components: { ETextField },
       data: function () {
         return {
-          data: null
+          data: null,
         }
       },
       template: `
         <div data-app>
         <e-text-field v-model="data"/>
-        </div>`
+        </div>`,
     })
     return mountComponent(app, { vuetify, attachTo: document.body, ...options })
   }

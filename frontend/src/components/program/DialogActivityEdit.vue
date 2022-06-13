@@ -8,7 +8,8 @@
     :submit-action="updateActivity"
     submit-label="global.button.update"
     submit-color="success"
-    :cancel-action="close">
+    :cancel-action="close"
+  >
     <template #activator="scope">
       <slot name="activator" v-bind="scope" />
     </template>
@@ -16,7 +17,8 @@
       <v-btn
         v-if="!scheduleEntry.tmpEvent"
         color="primary"
-        :to="scheduleEntryRoute(scheduleEntry)">
+        :to="scheduleEntryRoute(scheduleEntry)"
+      >
         {{ $tc('global.button.open') }}
       </v-btn>
     </template>
@@ -35,21 +37,21 @@ export default {
   components: { DialogForm, DialogActivityForm },
   extends: DialogBase,
   props: {
-    scheduleEntry: { type: Object, required: true }
+    scheduleEntry: { type: Object, required: true },
   },
-  data () {
+  data() {
     return {
       entityProperties: ['title', 'location'],
-      embeddedEntities: ['category']
+      embeddedEntities: ['category'],
     }
   },
   computed: {
-    scheduleEntries () {
+    scheduleEntries() {
       return this.activity.scheduleEntries()
     },
-    activity () {
+    activity() {
       return this.scheduleEntry.activity()
-    }
+    },
   },
   watch: {
     showDialog: async function (showDialog) {
@@ -67,15 +69,15 @@ export default {
               end: scheduleEntry.end,
               key: scheduleEntry._meta.self,
               deleted: false,
-              self: scheduleEntry._meta.self
+              self: scheduleEntry._meta.self,
             }
           })
         )
       }
-    }
+    },
   },
   methods: {
-    updateActivity () {
+    updateActivity() {
       this.error = null
       const _events = this._events
 
@@ -95,7 +97,7 @@ export default {
           return this.api.patch(entry.self, {
             period: entry.period()._meta.self,
             start: entry.start,
-            end: entry.end
+            end: entry.end,
           })
         }
 
@@ -104,7 +106,7 @@ export default {
           period: entry.period()._meta.self,
           start: entry.start,
           end: entry.end,
-          activity: this.activity._meta.self
+          activity: this.activity._meta.self,
         })
       })
 
@@ -121,12 +123,12 @@ export default {
       this.$emit('submit')
       return promise
     },
-    updatedSuccessful (data) {
+    updatedSuccessful(data) {
       this.close()
       this.$emit('activityUpdated', data)
     },
-    scheduleEntryRoute
-  }
+    scheduleEntryRoute,
+  },
 }
 </script>
 

@@ -22,7 +22,8 @@
 
     <v-form
       v-if="status == 'loaded' || status == 'reseting'"
-      @submit.prevent="resetPassword">
+      @submit.prevent="resetPassword"
+    >
       <ValidationObserver>
         <e-text-field
           :value="email"
@@ -31,7 +32,8 @@
           append-icon="mdi-at"
           :dense="$vuetify.breakpoint.xsOnly"
           type="text"
-          readonly />
+          readonly
+        />
 
         <e-text-field
           v-model="password"
@@ -43,11 +45,10 @@
           :dense="$vuetify.breakpoint.xsOnly"
           type="password"
           loading
-          autofocus>
+          autofocus
+        >
           <template #progress>
-            <v-progress-linear :value="strength" :color="color"
-                               absolute
-                               height="5" />
+            <v-progress-linear :value="strength" :color="color" absolute height="5" />
           </template>
         </e-text-field>
 
@@ -60,7 +61,8 @@
           vee-rules-old="confirmed:password"
           validate-on-blur
           :dense="$vuetify.breakpoint.xsOnly"
-          type="password" />
+          type="password"
+        />
 
         <v-btn
           type="submit"
@@ -69,7 +71,8 @@
           :disabled="!email"
           outlined
           :x-large="$vuetify.breakpoint.smAndUp"
-          class="my-4">
+          class="my-4"
+        >
           <v-progress-circular v-if="status == 'reseting'" indeterminate size="24" />
           <v-icon v-else>$vuetify.icons.ecamp</v-icon>
           <v-spacer />
@@ -96,41 +99,41 @@ export default {
   name: 'ResetPassword',
   components: { ValidationObserver },
   props: {
-    id: { type: String, required: true }
+    id: { type: String, required: true },
   },
 
-  data () {
+  data() {
     return {
       email: null,
       password: '',
       confirmation: '',
       status: 'loading',
-      recaptcha: null
+      recaptcha: null,
     }
   },
 
   computed: {
-    strengthInfo () {
+    strengthInfo() {
       return passwordStrength(this.password)
     },
-    strength () {
+    strength() {
       if (this.strengthInfo.length === 0) return 0
       return (1 + this.strengthInfo.id) * 25
     },
-    color () {
+    color() {
       if (this.strength <= 25) return 'red'
       if (this.strength <= 50) return 'orange'
       if (this.strength <= 75) return 'yellow'
       return 'green'
-    }
+    },
   },
 
-  async mounted () {
+  async mounted() {
     if (window.environment.RECAPTCHA_SITE_KEY) {
       this.recaptcha = load(window.environment.RECAPTCHA_SITE_KEY, {
         explicitRenderParameters: {
-          badge: 'bottomleft'
-        }
+          badge: 'bottomleft',
+        },
       })
     }
 
@@ -147,7 +150,7 @@ export default {
   },
 
   methods: {
-    async resetPassword () {
+    async resetPassword() {
       this.status = 'reseting'
 
       let recaptchaToken = null
@@ -164,7 +167,7 @@ export default {
         .catch(() => {
           this.status = 'failed'
         })
-    }
-  }
+    },
+  },
 }
 </script>

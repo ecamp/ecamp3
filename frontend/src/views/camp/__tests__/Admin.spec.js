@@ -15,7 +15,7 @@ const renderWithVuetify = (component, options, callback) => {
     {
       container: document.body.appendChild(root),
       vuetify: new Vuetify(),
-      ...options
+      ...options,
     },
     callback
   )
@@ -25,21 +25,21 @@ describe('Admin view', () => {
   it('shows the danger zone when the user has a manager role', async () => {
     const { getByText } = renderWithVuetify(Admin, {
       props: {
-        camp: createCampWithRole('manager')
+        camp: createCampWithRole('manager'),
       },
       routes: [],
       mocks: {
         $auth: USER,
         api: { reload: () => Promise.resolve() },
-        $tc: (key) => key
+        $tc: (key) => key,
       },
       stubs: [
         'camp-settings',
         'camp-address',
         'camp-periods',
         'camp-categories',
-        'camp-material-lists'
-      ]
+        'camp-material-lists',
+      ],
     })
 
     await flushPromises()
@@ -53,21 +53,21 @@ describe('Admin view', () => {
   it("doesn't show the danger zone when the user has a member role", async () => {
     const { queryByText } = renderWithVuetify(Admin, {
       props: {
-        camp: createCampWithRole('member')
+        camp: createCampWithRole('member'),
       },
       routes: [],
       mocks: {
         $auth: USER,
         api: { reload: () => Promise.resolve() },
-        $tc: (key) => key
+        $tc: (key) => key,
       },
       stubs: [
         'camp-settings',
         'camp-address',
         'camp-periods',
         'camp-categories',
-        'camp-material-lists'
-      ]
+        'camp-material-lists',
+      ],
     })
 
     await flushPromises()
@@ -81,21 +81,21 @@ describe('Admin view', () => {
   it("doesn't show the danger zone when the user has the guest role", async () => {
     const { queryByText } = renderWithVuetify(Admin, {
       props: {
-        camp: createCampWithRole('guest')
+        camp: createCampWithRole('guest'),
       },
       routes: [],
       mocks: {
         $auth: USER,
         api: { reload: () => Promise.resolve() },
-        $tc: (key) => key
+        $tc: (key) => key,
       },
       stubs: [
         'camp-settings',
         'camp-address',
         'camp-periods',
         'camp-categories',
-        'camp-material-lists'
-      ]
+        'camp-material-lists',
+      ],
     })
 
     await flushPromises()
@@ -111,22 +111,22 @@ const USER_URL = '/users/17d341a80579'
 const USER = {
   user: () => ({
     _meta: {
-      self: USER_URL
-    }
-  })
+      self: USER_URL,
+    },
+  }),
 }
 
-function createCampWithRole (role) {
+function createCampWithRole(role) {
   return () => ({
     campCollaborations: () => ({
       items: [
         {
           role: role,
-          ...USER
-        }
-      ]
+          ...USER,
+        },
+      ],
     }),
     materialLists: () => {},
-    _meta: { load: Promise.resolve() }
+    _meta: { load: Promise.resolve() },
   })
 }

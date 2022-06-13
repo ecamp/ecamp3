@@ -4,22 +4,22 @@ import { View, Text } from '../../../reactPdf.js'
 
 const columnStyles = {
   flexGrow: '1',
-  borderBottom: '1px solid black'
+  borderBottom: '1px solid black',
 }
 
 const column1Styles = {
   ...columnStyles,
   flexBasis: '7000pt',
-  paddingRight: '2pt'
+  paddingRight: '2pt',
 }
 
 const column2Styles = {
   ...columnStyles,
   flexBasis: '3000pt',
-  paddingLeft: '2pt'
+  paddingLeft: '2pt',
 }
 
-function Material (props) {
+function Material(props) {
   const material = props.contentNode
   const items = material.materialItems().items
   return (

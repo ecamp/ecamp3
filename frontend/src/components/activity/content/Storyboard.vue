@@ -17,7 +17,8 @@
       <api-sortable
         v-slot="sortable"
         :disabled="layoutMode || disabled"
-        :collection="sections">
+        :collection="sections"
+      >
         <api-form :entity="sortable.entity">
           <v-row dense>
             <v-col cols="2">
@@ -26,7 +27,8 @@
                 auto-grow
                 rows="2"
                 :disabled="layoutMode || disabled"
-                :filled="layoutMode" />
+                :filled="layoutMode"
+              />
             </v-col>
             <v-col cols="7">
               <api-textarea
@@ -34,7 +36,8 @@
                 auto-grow
                 rows="4"
                 :disabled="layoutMode || disabled"
-                :filled="layoutMode" />
+                :filled="layoutMode"
+              />
             </v-col>
             <v-col cols="2">
               <api-textarea
@@ -42,7 +45,8 @@
                 auto-grow
                 rows="2"
                 :disabled="layoutMode || disabled"
-                :filled="layoutMode" />
+                :filled="layoutMode"
+              />
             </v-col>
             <v-col cols="1">
               <v-container v-if="!layoutMode && !disabled" class="ma-0 pa-0">
@@ -51,9 +55,7 @@
                     <div class="section-buttons">
                       <dialog-entity-delete :entity="sortable.entity">
                         <template #activator="{ on }">
-                          <v-btn icon x-small
-                                 color="error"
-                                 v-on="on">
+                          <v-btn icon x-small color="error" v-on="on">
                             <v-icon>mdi-delete</v-icon>
                           </v-btn>
                         </template>
@@ -91,7 +93,8 @@
             class="button-add"
             color="success"
             :loading="isAdding"
-            @click="addSection">
+            @click="addSection"
+          >
             <v-icon>mdi-plus</v-icon>
           </v-btn>
         </v-col>
@@ -115,28 +118,28 @@ export default {
     ApiForm,
     ApiTextarea,
     DialogEntityDelete,
-    ApiSortable
+    ApiSortable,
   },
   mixins: [contentNodeMixin],
   props: {
-    contentNode: { type: Object, required: true }
+    contentNode: { type: Object, required: true },
   },
-  data () {
+  data() {
     return {
-      isAdding: false
+      isAdding: false,
     }
   },
   computed: {
-    sections () {
+    sections() {
       return this.api.get(this.contentNode).sections
-    }
+    },
   },
   methods: {
-    async addSection () {
+    async addSection() {
       this.isAdding = true
       try {
         await this.api.post(this.contentNode.sections(), {
-          storyboard: this.contentNode._meta.self
+          storyboard: this.contentNode._meta.self,
         })
 
         await this.refreshContent() // refresh node content (reloading section array)
@@ -146,10 +149,10 @@ export default {
 
       this.isAdding = false
     },
-    async refreshContent () {
+    async refreshContent() {
       await this.api.reload(this.contentNode)
-    }
-  }
+    },
+  },
 }
 </script>
 

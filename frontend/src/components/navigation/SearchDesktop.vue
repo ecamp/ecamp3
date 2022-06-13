@@ -1,7 +1,8 @@
 <template>
   <v-responsive
     :max-width="searchFocused ? 350 : 200"
-    class="align-center transition-swing">
+    class="align-center transition-swing"
+  >
     <v-text-field
       rounded
       type="search"
@@ -17,18 +18,19 @@
       color="white"
       dense
       @focus="searchFocused = true"
-      @blur="searchFocused = false" />
+      @blur="searchFocused = false"
+    />
   </v-responsive>
 </template>
 
 <script>
 export default {
   name: 'SearchDesktop',
-  data () {
+  data() {
     return {
-      searchFocused: false
+      searchFocused: false,
     }
-  }
+  },
 }
 </script>
 

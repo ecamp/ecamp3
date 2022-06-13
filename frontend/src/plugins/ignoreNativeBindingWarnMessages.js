@@ -5,7 +5,7 @@
  * and here https://github.com/vuetifyjs/vuetify/issues/9999
  */
 class IgnoreNativeBindingWarnMessagesPlugin {
-  install (Vue) {
+  install(Vue) {
     const ignoreWarnMessage =
       'The .native modifier for v-on is only valid on components but it was used on'
     Vue.config.warnHandler = function (msg, vm, trace) {

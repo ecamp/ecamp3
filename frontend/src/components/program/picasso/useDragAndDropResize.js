@@ -6,7 +6,7 @@ import { toTime, roundTimeUp, roundTimeDown } from '@/helpers/vCalendarDragAndDr
  * @param int threshold       min. mouse movement needed to detect drag & drop
  * @returns
  */
-export default function useDragAndDrop (enabled, update) {
+export default function useDragAndDrop(enabled, update) {
   /**
    * internal data (not exposed)
    */
@@ -86,9 +86,9 @@ export default function useDragAndDrop (enabled, update) {
   return {
     vCalendarListeners: {
       'mousemove:time': timeMouseMove,
-      'mouseup:time': timeMouseUp
+      'mouseup:time': timeMouseUp,
     },
     nativeMouseLeave,
-    startResize
+    startResize,
   }
 }

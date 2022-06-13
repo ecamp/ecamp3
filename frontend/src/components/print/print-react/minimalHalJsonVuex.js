@@ -1,19 +1,19 @@
 import { parseTemplate } from 'url-template'
 
-function isEqualIgnoringOrder (array, other) {
+function isEqualIgnoringOrder(array, other) {
   return array.length === other.length && array.every((elem) => other.includes(elem))
 }
 
-function isCollection (object) {
+function isCollection(object) {
   return !!(object && Array.isArray(object.items))
 }
 
-function isEntityReference (object) {
+function isEntityReference(object) {
   if (!object) return false
   return isEqualIgnoringOrder(Object.keys(object), ['href'])
 }
 
-function isTemplatedLink (object) {
+function isTemplatedLink(object) {
   if (!object) return false
   return (
     isEqualIgnoringOrder(Object.keys(object), ['href', 'templated']) &&
@@ -21,7 +21,7 @@ function isTemplatedLink (object) {
   )
 }
 
-function normalizeEntityUri (uriOrEntity) {
+function normalizeEntityUri(uriOrEntity) {
   if (typeof uriOrEntity === 'function') {
     uriOrEntity = uriOrEntity()
   }
@@ -54,14 +54,14 @@ const wrap = (storeData) => {
     },
     href: (uriOrEntity, relation) => {
       return actions.get(uriOrEntity).$href(relation)
-    }
+    },
   }
 
   return actions
 }
 
 class StoreValue {
-  constructor (storeData, actions) {
+  constructor(storeData, actions) {
     this._storeData = storeData
     this._actions = actions
 
@@ -90,7 +90,7 @@ class StoreValue {
       })
   }
 
-  $href (relation, templateParams = {}) {
+  $href(relation, templateParams = {}) {
     const rel = this._storeData[relation]
     if (rel?.templated) {
       return parseTemplate(rel?.href || '').expand(templateParams)
@@ -100,27 +100,27 @@ class StoreValue {
 }
 
 class Collection extends StoreValue {
-  _filterDeleting (array) {
+  _filterDeleting(array) {
     return array.filter((entry) => !entry._meta.deleting)
   }
 
-  _replaceEntityReferences (array) {
+  _replaceEntityReferences(array) {
     return array
       .filter((entry) => isEntityReference(entry))
       .map((entry) => this._actions.get(entry.href))
   }
 
-  get items () {
+  get items() {
     return this._filterDeleting(this._replaceEntityReferences(this._storeData.items))
   }
 
-  get allItems () {
+  get allItems() {
     return this._replaceEntityReferences(this._storeData.items)
   }
 }
 
 class EmbeddedCollection extends Collection {
-  constructor (data, actions) {
+  constructor(data, actions) {
     super({ items: data, _meta: { loading: false } }, actions)
   }
 }

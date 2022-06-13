@@ -27,7 +27,7 @@ describe('An EColorPicker', () => {
     return {
       preventDefault: () => {},
       clientX: x,
-      clientY: y
+      clientY: y,
     }
   }
 
@@ -39,7 +39,7 @@ describe('An EColorPicker', () => {
     right: 0,
     top: 0,
     x: 0,
-    y: 0
+    y: 0,
   }
 
   const mount = (options) => mountComponent(EColorPicker, { vuetify, i18n, ...options })
@@ -51,8 +51,8 @@ describe('An EColorPicker', () => {
   test('renders', async () => {
     const wrapper = mount({
       propsData: {
-        value: COLOR_1
-      }
+        value: COLOR_1,
+      },
     })
     await flushPromises()
     expect(wrapper.find('input[type=text]').element.value).toBe(COLOR_1)
@@ -63,12 +63,12 @@ describe('An EColorPicker', () => {
       {
         data: () => ({ color: COLOR_1 }),
         template: '<div data-app><e-color-picker v-model="color"></e-color-picker></div>',
-        components: { 'e-color-picker': EColorPicker }
+        components: { 'e-color-picker': EColorPicker },
       },
       {
         vuetify,
         attachTo: document.body,
-        i18n
+        i18n,
       }
     )
     await waitForDebounce()
@@ -83,11 +83,11 @@ describe('An EColorPicker', () => {
       {
         data: () => ({ color: COLOR_1 }),
         template: '<div><e-color-picker v-model="color"></e-color-picker></div>',
-        components: { 'e-color-picker': EColorPicker }
+        components: { 'e-color-picker': EColorPicker },
       },
       {
         vuetify,
-        i18n
+        i18n,
       }
     )
     expect(wrapper.vm.color).toBe(COLOR_1)
@@ -105,8 +105,8 @@ describe('An EColorPicker', () => {
     const wrapper = mount({
       propsData: {
         value: COLOR_1,
-        name: 'Color'
-      }
+        name: 'Color',
+      },
     })
     const input = wrapper.find('input[type=text]')
     await input.setValue(INVALID_COLOR)
@@ -119,12 +119,12 @@ describe('An EColorPicker', () => {
       {
         data: () => ({ color: COLOR_2 }),
         template: '<div data-app><e-color-picker v-model="color"></e-color-picker></div>',
-        components: { 'e-color-picker': EColorPicker }
+        components: { 'e-color-picker': EColorPicker },
       },
       {
         vuetify,
         attachTo: document.body,
-        i18n
+        i18n,
       }
     )
     await waitForDebounce()
@@ -149,12 +149,12 @@ describe('An EColorPicker', () => {
       {
         data: () => ({ color: '#abc' }),
         template: '<div data-app><e-color-picker v-model="color"></e-color-picker></div>',
-        components: { 'e-color-picker': EColorPicker }
+        components: { 'e-color-picker': EColorPicker },
       },
       {
         vuetify,
         attachTo: document.body,
-        i18n
+        i18n,
       }
     )
     await waitForDebounce()

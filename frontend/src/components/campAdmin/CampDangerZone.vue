@@ -10,14 +10,10 @@ Critical operations on camp
         <v-list-item class="px-0" three-line>
           <v-list-item-content>
             <v-list-item-title>
-              {{
-                $tc('components.camp.campDangerzone.deleteCamp.title')
-              }}
+              {{ $tc('components.camp.campDangerzone.deleteCamp.title') }}
             </v-list-item-title>
             <v-list-item-subtitle>
-              {{
-                $tc('components.camp.campDangerzone.deleteCamp.description')
-              }}
+              {{ $tc('components.camp.campDangerzone.deleteCamp.description') }}
             </v-list-item-subtitle>
           </v-list-item-content>
           <v-list-item-action>
@@ -25,7 +21,8 @@ Critical operations on camp
               :entity="camp()"
               :submit-enabled="promptText === camp().name"
               icon="mdi-bomb"
-              @submit="$router.push({ name: 'camps' })">
+              @submit="$router.push({ name: 'camps' })"
+            >
               <template #activator="{ on }">
                 <button-delete
                   icon="mdi-bomb"
@@ -33,7 +30,8 @@ Critical operations on camp
                   dark
                   outlined
                   color="blue-grey"
-                  @click.prevent="on.click">
+                  @click.prevent="on.click"
+                >
                   {{ $tc('components.camp.campDangerzone.deleteCamp.action') }}
                 </button-delete>
               </template>
@@ -72,14 +70,14 @@ export default {
   props: {
     camp: {
       type: Function,
-      required: true
+      required: true,
+    },
+  },
+  data() {
+    return {
+      promptText: '',
     }
   },
-  data () {
-    return {
-      promptText: ''
-    }
-  }
 }
 </script>
 

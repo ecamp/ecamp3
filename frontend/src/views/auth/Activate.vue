@@ -17,7 +17,8 @@
         :to="{ name: 'login' }"
         x-large
         class="my-4"
-        block>
+        block
+      >
         {{ $tc('views.auth.registerDone.login') }}
       </v-btn>
     </div>
@@ -38,15 +39,15 @@ export default {
   components: { AuthContainer },
   props: {
     userId: { type: String, required: true },
-    activationKey: { type: String, required: true }
+    activationKey: { type: String, required: true },
   },
-  data () {
+  data() {
     return {
       loading: true,
-      activated: null
+      activated: null,
     }
   },
-  mounted () {
+  mounted() {
     // TODO: Change, when templated links are available
     // this.api.href(this.api.get(), 'users', { userId: this.userId }).then(url => {
     //  this.api.patch(url, { activationKey: this.activationKey })
@@ -55,7 +56,7 @@ export default {
     this.api.href(this.api.get(), 'users').then((url) => {
       this.api
         .patch(url + '/' + this.userId + '/activate', {
-          activationKey: this.activationKey
+          activationKey: this.activationKey,
         })
         .then(
           () => {
@@ -68,7 +69,7 @@ export default {
           }
         )
     })
-  }
+  },
 }
 </script>
 

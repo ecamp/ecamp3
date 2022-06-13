@@ -11,13 +11,12 @@ Admin screen of a camp: Displays details & periods of a single camp and allows t
           :disabled="!isContributor"
           :label="$tc('global.button.editable')"
           class="ec-story-editable ml-auto"
-          @click="$event.preventDefault()" />
+          @click="$event.preventDefault()"
+        />
       </template>
       <v-menu v-else offset-y>
         <template #activator="{ on, attrs }">
-          <v-btn class="ml-auto" text
-                 icon
-                 v-bind="attrs" v-on="on">
+          <v-btn class="ml-auto" text icon v-bind="attrs" v-on="on">
             <v-icon>mdi-dots-vertical</v-icon>
           </v-btn>
         </template>
@@ -35,7 +34,8 @@ Admin screen of a camp: Displays details & periods of a single camp and allows t
               v-model="editing"
               :label="$tc('global.button.editable')"
               class="ec-story-editable"
-              @click.stop="$event.preventDefault()" />
+              @click.stop="$event.preventDefault()"
+            />
           </v-list-item>
         </v-list>
       </v-menu>
@@ -45,12 +45,14 @@ Admin screen of a camp: Displays details & periods of a single camp and allows t
       v-model="openPeriods"
       accordion
       flat
-      multiple>
+      multiple
+    >
       <story-period
         v-for="period in camp().periods().items"
         :key="period._meta.self"
         :editing="editing"
-        :period="period" />
+        :period="period"
+      />
     </v-expansion-panels>
     <div v-else-if="camp().periods().items.length === 1" class="px-4">
       <story-day
@@ -58,12 +60,11 @@ Admin screen of a camp: Displays details & periods of a single camp and allows t
         :key="day._meta.self"
         :day="day"
         :editing="editing"
-        class="my-4" />
+        class="my-4"
+      />
     </div>
     <v-card-actions v-if="$vuetify.breakpoint.smAndUp">
-      <v-btn :href="previewUrl" class="ml-auto"
-             color="primary"
-             target="_blank">
+      <v-btn :href="previewUrl" class="ml-auto" color="primary" target="_blank">
         <v-icon left>mdi-printer</v-icon>
         {{ $tc('views.camp.print.title') }}
       </v-btn>
@@ -84,30 +85,30 @@ export default {
   components: {
     StoryDay,
     StoryPeriod,
-    ContentCard
+    ContentCard,
   },
   mixins: [campRoleMixin],
   props: {
-    camp: { type: Function, required: true }
+    camp: { type: Function, required: true },
   },
-  data () {
+  data() {
     return {
       editing: false,
-      openPeriods: []
+      openPeriods: [],
     }
   },
   computed: {
-    previewUrl () {
+    previewUrl() {
       const config = {
-        showStoryline: true
+        showStoryline: true,
       }
       const configGetParams = Object.entries(config)
         .map(([key, val]) => `${key}=${val}`)
         .join('&')
       return `${PRINT_SERVER}/?camp=${this.camp().id}&pagedjs=true&${configGetParams}`
-    }
+    },
   },
-  mounted () {
+  mounted() {
     this.camp()
       .periods()
       ._meta.load.then((periods) => {
@@ -115,7 +116,7 @@ export default {
           .map((period, idx) => (Date.parse(period.end) >= new Date() ? idx : null))
           .filter((idx) => idx !== null)
       })
-  }
+  },
 }
 </script>
 

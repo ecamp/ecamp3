@@ -9,24 +9,14 @@ Show all activity schedule entries of a single period.
       <v-spacer />
       <v-tooltip :disabled="isContributor" bottom>
         <template #activator="{ on }">
-          <v-icon v-if="editMode"
-                  small
-                  v-on="on">
-            mdi-lock-open-variant
-          </v-icon>
-          <v-icon v-else
-                  small color="grey"
-                  v-on="on">
-            mdi-lock
-          </v-icon>
+          <v-icon v-if="editMode" small v-on="on"> mdi-lock-open-variant </v-icon>
+          <v-icon v-else small color="grey" v-on="on"> mdi-lock </v-icon>
         </template>
         <span>{{ $tc('views.camp.picasso.guestsCannotEdit') }}</span>
       </v-tooltip>
       <v-menu offset-y>
         <template #activator="{ on, attrs }">
-          <v-btn icon
-                 v-bind="attrs"
-                 v-on="on">
+          <v-btn icon v-bind="attrs" v-on="on">
             <v-icon>mdi-dots-horizontal</v-icon>
           </v-btn>
         </template>
@@ -58,17 +48,15 @@ Show all activity schedule entries of a single period.
             :start="Date.parse(period().start)"
             :end="Date.parse(period().end)"
             :editable="editMode"
-            @newEntry="slotProps.on.newEntry" />
+            @newEntry="slotProps.on.newEntry"
+          />
         </template>
       </template>
     </schedule-entries>
     <v-snackbar v-model="showError" app :timeout="10000">
       {{ error ? error.label : null }}
       <template #action="{ attrs }">
-        <v-btn color="red"
-               text
-               v-bind="attrs"
-               @click="showError = null">
+        <v-btn color="red" text v-bind="attrs" @click="showError = null">
           {{ $tc('global.button.close') }}
         </v-btn>
       </template>
@@ -92,30 +80,30 @@ export default {
     PeriodSwitcher,
     ContentCard,
     Picasso,
-    ScheduleEntries
+    ScheduleEntries,
   },
   mixins: [campRoleMixin],
   props: {
-    period: { type: Function, required: true }
+    period: { type: Function, required: true },
   },
-  data () {
+  data() {
     return {
       editMode: false,
       showError: null,
-      error: null
+      error: null,
     }
   },
   computed: {
-    camp () {
+    camp() {
       return this.period().camp()
-    }
+    },
   },
   methods: {
-    showPrintError (event) {
+    showPrintError(event) {
       this.error = event
       this.showError = true
     },
-    printConfig () {
+    printConfig() {
       return {
         camp: this.period().camp()._meta.self,
         language: this.$store.state.lang.language,
@@ -124,15 +112,13 @@ export default {
           {
             type: 'Picasso',
             options: {
-              periods: [
-                this.period()._meta.self
-              ],
-              orientation: 'L'
-            }
-          }
-        ]
+              periods: [this.period()._meta.self],
+              orientation: 'L',
+            },
+          },
+        ],
       }
-    }
-  }
+    },
+  },
 }
 </script>

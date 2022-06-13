@@ -13,12 +13,12 @@ const validJWTPayload =
   'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpYXQiOjE2MzMxMzM0MDksImV4cCI6MzMxNjYzNjQ0MDAsInJvbGVzIjpbIlJPTEVfVVNFUiJdLCJ1c2VybmFtZSI6InRlc3QtdXNlciIsInVzZXIiOiIvdXNlcnMvMWEyYjNjNGQifQ'
 
 expect.extend({
-  haveUri (actual, expectedUri) {
+  haveUri(actual, expectedUri) {
     return {
       pass: actual === expectedUri || actual._meta.self === expectedUri,
-      message: () => "expected to have the URI '" + expectedUri + "'"
+      message: () => "expected to have the URI '" + expectedUri + "'",
     }
-  }
+  },
 })
 
 describe('authentication logic', () => {
@@ -79,7 +79,7 @@ describe('authentication logic', () => {
       expect(apiStore.post).toHaveBeenCalledWith('/users', {
         username: 'foo',
         email: 'bar',
-        password: 'baz'
+        password: 'baz',
       })
     })
   })
@@ -100,7 +100,7 @@ describe('authentication logic', () => {
       expect(apiStore.post).toHaveBeenCalledTimes(1)
       expect(apiStore.post).toHaveBeenCalledWith('/authentication_token', {
         username: 'foo',
-        password: 'bar'
+        password: 'bar',
       })
     })
 
@@ -118,7 +118,7 @@ describe('authentication logic', () => {
       expect(apiStore.post).toHaveBeenCalledTimes(1)
       expect(apiStore.post).toHaveBeenCalledWith('/authentication_token', {
         username: 'foo',
-        password: 'barrrr'
+        password: 'barrrr',
       })
     })
   })
@@ -142,7 +142,7 @@ describe('authentication logic', () => {
       store.replaceState(createState())
       const user = {
         username: 'something',
-        _meta: {}
+        _meta: {},
       }
       user._meta.load = new Promise(() => user)
       Cookies.set('jwt_hp', validJWTPayload)
@@ -171,8 +171,8 @@ describe('authentication logic', () => {
               const error = new Error('test error')
               error.response = { status }
               throw error
-            })
-          }
+            }),
+          },
         }
         jest.spyOn(apiStore, 'get').mockImplementation(() => user)
         jest.spyOn(auth, 'logout').mockImplementation(() => user)
@@ -196,7 +196,7 @@ describe('authentication logic', () => {
       delete window.location
       window.location = {
         origin: 'http://localhost',
-        href: 'http://localhost/login'
+        href: 'http://localhost/login',
       }
     })
     afterEach(() => {
@@ -220,7 +220,7 @@ describe('authentication logic', () => {
       delete window.location
       window.location = {
         origin: 'http://localhost',
-        href: 'http://localhost/login'
+        href: 'http://localhost/login',
       }
     })
     afterEach(() => {
@@ -244,7 +244,7 @@ describe('authentication logic', () => {
       delete window.location
       window.location = {
         origin: 'http://localhost',
-        href: 'http://localhost/login'
+        href: 'http://localhost/login',
       }
     })
     afterEach(() => {
@@ -276,33 +276,33 @@ describe('authentication logic', () => {
   })
 })
 
-function createState (authState = {}) {
+function createState(authState = {}) {
   return {
     api: {
       '': {
         ...authState,
         users: {
-          href: '/users'
+          href: '/users',
         },
         login: {
-          href: '/authentication_token'
+          href: '/authentication_token',
         },
         oauthGoogle: {
           href: '/auth/google{?callback}',
-          templated: true
+          templated: true,
         },
         oauthPbsmidata: {
           href: '/auth/pbsmidata{?callback}',
-          templated: true
+          templated: true,
         },
         oauthCevidb: {
           href: '/auth/cevidb{?callback}',
-          templated: true
+          templated: true,
         },
         _meta: {
-          self: ''
-        }
-      }
-    }
+          self: '',
+        },
+      },
+    },
   }
 }

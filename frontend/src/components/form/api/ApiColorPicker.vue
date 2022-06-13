@@ -13,7 +13,8 @@ Displays a field as a color picker + write access via API wrapper
       outlined
       :filled="false"
       :error-messages="wrapper.errorMessages"
-      @input="wrapper.on.input">
+      @input="wrapper.on.input"
+    >
       <template #append>
         <api-wrapper-append :wrapper="wrapper" />
       </template>
@@ -32,11 +33,11 @@ export default {
   mixins: [apiPropsMixin],
   props: {
     // disable delay per default
-    autoSaveDelay: { type: Number, default: 0, required: false }
+    autoSaveDelay: { type: Number, default: 0, required: false },
   },
-  data () {
+  data() {
     return {}
-  }
+  },
 }
 </script>
 

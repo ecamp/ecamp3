@@ -12,10 +12,10 @@ Displays several tabs with details on a single camp.
 export default {
   name: 'Camp',
   props: {
-    layout: { type: String, required: false, default: 'full' }
+    layout: { type: String, required: false, default: 'full' },
   },
   computed: {
-    layoutStyle () {
+    layoutStyle() {
       switch (this.layout) {
         case 'normal':
           return { maxWidth: '900px' }
@@ -24,7 +24,7 @@ export default {
         default:
           return null
       }
-    }
-  }
+    },
+  },
 }
 </script>

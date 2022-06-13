@@ -4,13 +4,15 @@
     app
     clipped-left
     color="blue-grey darken-4"
-    dark>
+    dark
+  >
     <logo>
       <v-btn
         :to="campRoute(camp(), 'dashboard')"
         class="justify-start px-2 camp--name"
         text
-        width="216">
+        width="216"
+      >
         <v-toolbar-title>
           {{ camp().title | loading($tc('views.camp.navigationCamp.campIsLoading')) }}
         </v-toolbar-title>
@@ -58,9 +60,7 @@
     <v-spacer />
     <user-meta />
   </v-app-bar>
-  <v-bottom-navigation v-else grow
-                       app
-                       background-color="blue-grey darken-4" dark>
+  <v-bottom-navigation v-else grow app background-color="blue-grey darken-4" dark>
     <v-btn :to="campRoute(camp(), 'program')">
       <span>{{ $tc('views.camp.navigationCamp.program') }}</span>
       <v-icon>mdi-view-dashboard</v-icon>
@@ -93,14 +93,14 @@ export default {
   name: 'NavigationCamp',
   components: {
     UserMeta,
-    Logo
+    Logo,
   },
   props: {
-    camp: { type: Function, required: true }
+    camp: { type: Function, required: true },
   },
   methods: {
-    campRoute
-  }
+    campRoute,
+  },
 }
 </script>
 

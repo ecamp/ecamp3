@@ -9,9 +9,7 @@ Displays all periods of a single camp and allows to edit them & create new ones
         {{ $tc('components.camp.campPeriods.title', api.get().camps().items.length) }}
         <dialog-period-create v-if="!disabled" :camp="camp()">
           <template #activator="{ on }">
-            <button-add color="secondary" text
-                        class="my-n2"
-                        :hide-label="true" v-on="on">
+            <button-add color="secondary" text class="my-n2" :hide-label="true" v-on="on">
               {{ $tc('components.camp.campPeriods.createPeriod') }}
             </button-add>
           </template>
@@ -25,7 +23,8 @@ Displays all periods of a single camp and allows to edit them & create new ones
         :key="period._meta.self"
         class="px-0"
         :period="period"
-        :disabled="disabled" />
+        :disabled="disabled"
+      />
     </v-list>
   </content-group>
 </template>
@@ -41,16 +40,16 @@ export default {
   components: { ContentGroup, ButtonAdd, PeriodItem, DialogPeriodCreate },
   props: {
     camp: { type: Function, required: true },
-    disabled: { type: Boolean, default: false }
+    disabled: { type: Boolean, default: false },
   },
-  data () {
+  data() {
     return {}
   },
   computed: {
-    periods () {
+    periods() {
       return this.camp().periods()
-    }
-  }
+    },
+  },
 }
 </script>
 

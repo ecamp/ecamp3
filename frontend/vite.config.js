@@ -10,46 +10,46 @@ export default defineConfig(({ mode }) => ({
   plugins: [
     createVuePlugin(),
     ViteComponents({
-      customComponentResolvers: [VuetifyResolver()]
+      customComponentResolvers: [VuetifyResolver()],
     }),
     createSvgPlugin(),
     shimReactPdf(),
     pluginHelper(),
-    worker({})
+    worker({}),
   ],
   build: {
     sourcemap: mode === 'development',
-    minify: mode === 'development' ? false : 'esbuild'
+    minify: mode === 'development' ? false : 'esbuild',
   },
   resolve: {
     alias: [
       // webpack alias @ (import in Vue files)
       {
         find: '~@',
-        replacement: path.resolve(__dirname, 'src')
+        replacement: path.resolve(__dirname, 'src'),
       },
       {
         find: '@',
-        replacement: path.resolve(__dirname, 'src')
+        replacement: path.resolve(__dirname, 'src'),
       },
 
       // individual webpack aliases for ~ (node modules)
       {
         find: '~@mdi',
-        replacement: path.resolve(__dirname, 'node_modules', '@mdi')
+        replacement: path.resolve(__dirname, 'node_modules', '@mdi'),
       },
       {
         find: '~inter-ui',
-        replacement: path.resolve(__dirname, 'node_modules', 'inter-ui')
+        replacement: path.resolve(__dirname, 'node_modules', 'inter-ui'),
       },
 
       // find dayjs from commons
       {
         find: 'dayjs',
-        replacement: path.resolve(__dirname, 'node_modules', 'dayjs')
-      }
+        replacement: path.resolve(__dirname, 'node_modules', 'dayjs'),
+      },
     ],
-    preserveSymlinks: true
+    preserveSymlinks: true,
   },
   css: {
     preprocessorOptions: {
@@ -57,16 +57,16 @@ export default defineConfig(({ mode }) => ({
         additionalData: [
           '@import "./node_modules/vuetify/src/styles/styles.sass";', // original default variables from vuetify
           '@import "@/scss/variables.scss";', // vuetify variable overrides
-          ''
-        ].join('\n')
+          '',
+        ].join('\n'),
       },
       sass: {
         additionalData: [
           '@import "./node_modules/vuetify/src/styles/styles.sass"', // original default variables from vuetify
           '@import "@/scss/variables.scss"', // vuetify variable overrides
-          ''
-        ].join('\n')
-      }
-    }
-  }
+          '',
+        ].join('\n'),
+      },
+    },
+  },
 }))

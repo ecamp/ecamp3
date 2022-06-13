@@ -12,15 +12,15 @@ const columnStyles = {
   flexDirection: 'column',
   alignItems: 'stretch',
   marginTop: -fontSize / 2.0 - 1 + 'pt',
-  marginBottom: fontSize / 2.0 + 1 + 'pt'
+  marginBottom: fontSize / 2.0 + 1 + 'pt',
 }
 const rowStyles = {
   paddingHorizontal: '2pt',
   fontSize: fontSize + 'pt',
-  flexBasis: 1
+  flexBasis: 1,
 }
 
-function TimeColumn ({ times, styles }) {
+function TimeColumn({ times, styles }) {
   return (
     <View style={{ ...styles, ...columnStyles }}>
       {times.map(([time, weight]) => {
@@ -28,10 +28,10 @@ function TimeColumn ({ times, styles }) {
           <Text key={time} style={{ flexGrow: weight, ...rowStyles }}>
             {time !== times[0][0]
               ? dayjs()
-                .hour(0)
-                .minute(time * 60)
-                .second(0)
-                .format('LT')
+                  .hour(0)
+                  .minute(time * 60)
+                  .second(0)
+                  .format('LT')
               : ' '}
           </Text>
         )

@@ -3,19 +3,19 @@ import * as rules from 'vee-validate/dist/rules'
 import i18n from '@/plugins/i18n'
 
 class VeeValidatePlugin {
-  install (Vue) {
+  install(Vue) {
     // translate default error messages
     configure({
       // this will be used to generate messages.
       defaultMessage: (field, values) => {
         return i18n.t(`global.validation.${values._rule_}`, values)
-      }
+      },
     })
 
     // install all default rules
     Object.keys(rules).forEach((rule) => {
       extend(rule, {
-        ...rules[rule] // copies rule configuration
+        ...rules[rule], // copies rule configuration
       })
     })
 
@@ -31,7 +31,7 @@ class VeeValidatePlugin {
         const valueDate = Vue.dayjs.utc(value, 'L')
         return valueDate.diff(minDate, 'day') >= 0
       },
-      message: (field, values) => i18n.t('global.validation.minDate', values)
+      message: (field, values) => i18n.t('global.validation.minDate', values),
     })
 
     extend('pwConfirmed', {
@@ -39,7 +39,7 @@ class VeeValidatePlugin {
       validate: (value, { target }) => {
         return value === target
       },
-      message: (field, values) => i18n.t('global.validation.pwConfirmed', values)
+      message: (field, values) => i18n.t('global.validation.pwConfirmed', values),
     })
   }
 }
