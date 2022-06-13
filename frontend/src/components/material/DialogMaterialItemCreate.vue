@@ -8,14 +8,16 @@
     max-width="600px"
     :submit-action="createMaterialItem"
     submit-color="success"
-    :cancel-action="close">
+    :cancel-action="close"
+  >
     <template #activator="scope">
       <slot name="activator" v-bind="scope" />
     </template>
 
     <dialog-material-item-form
       :material-lists="camp.materialLists"
-      :material-item="entityData" />
+      :material-item="entityData"
+    />
   </dialog-form>
 </template>
 
@@ -32,12 +34,12 @@ export default {
     camp: { type: Object, required: true },
 
     // API collection on which to post the new item
-    materialItemCollection: { type: Object, required: true }
+    materialItemCollection: { type: Object, required: true },
   },
-  data () {
+  data() {
     return {
       entityProperties: ['quantity', 'unit', 'article'],
-      entityUri: this.materialItemCollection._meta.self
+      entityUri: this.materialItemCollection._meta.self,
     }
   },
   watch: {
@@ -47,7 +49,7 @@ export default {
           quantity: '',
           unit: '',
           article: '',
-          materialList: null
+          materialList: null,
         }
 
         this.setEntityData(entityData)
@@ -55,18 +57,18 @@ export default {
         // clear form on exit
         this.clearEntityData()
       }
-    }
+    },
   },
   methods: {
-    createMaterialItem () {
+    createMaterialItem() {
       const key = Date.now()
       const data = this.entityData
 
       // fire event to allow for eager adding before post has finished
       this.$emit('item-adding', key, data)
       this.close()
-    }
-  }
+    },
+  },
 }
 </script>
 

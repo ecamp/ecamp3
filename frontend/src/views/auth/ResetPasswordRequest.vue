@@ -14,7 +14,8 @@
 
     <v-form
       v-if="status == 'mounted' || status == 'sending'"
-      @submit.prevent="resetPassword">
+      @submit.prevent="resetPassword"
+    >
       <e-text-field
         v-model="email"
         :label="$tc('entity.user.fields.email')"
@@ -23,7 +24,8 @@
         append-icon="mdi-at"
         :dense="$vuetify.breakpoint.xsOnly"
         type="text"
-        autofocus />
+        autofocus
+      />
       <v-btn
         type="submit"
         block
@@ -31,7 +33,8 @@
         :disabled="!email"
         outlined
         :x-large="$vuetify.breakpoint.smAndUp"
-        class="my-4">
+        class="my-4"
+      >
         <v-progress-circular v-if="status == 'sending'" indeterminate size="24" />
         <v-icon v-else>$vuetify.icons.ecamp</v-icon>
         <v-spacer />
@@ -54,26 +57,26 @@ import { load } from 'recaptcha-v3'
 export default {
   name: 'ResetPasswordRequest',
 
-  data () {
+  data() {
     return {
       email: '',
       status: 'mounted',
-      recaptcha: null
+      recaptcha: null,
     }
   },
 
-  mounted () {
+  mounted() {
     if (window.environment.RECAPTCHA_SITE_KEY) {
       this.recaptcha = load(window.environment.RECAPTCHA_SITE_KEY, {
         explicitRenderParameters: {
-          badge: 'bottomleft'
-        }
+          badge: 'bottomleft',
+        },
       })
     }
   },
 
   methods: {
-    async resetPassword () {
+    async resetPassword() {
       this.status = 'sending'
 
       let recaptchaToken = null
@@ -90,7 +93,7 @@ export default {
         .catch(() => {
           this.status = 'error'
         })
-    }
-  }
+    },
+  },
 }
 </script>

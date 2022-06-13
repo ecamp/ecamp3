@@ -3,7 +3,8 @@
     <e-select v-model="options.periods" :items="periods" multiple />
     <e-checkbox
       v-model="options.dayOverview"
-      :label="$tc('components.print.printConfigurator.config.ProgramConfig.dayOverview')" />
+      :label="$tc('components.print.printConfigurator.config.ProgramConfig.dayOverview')"
+    />
   </div>
 </template>
 
@@ -12,29 +13,29 @@ export default {
   name: 'ProgramConfig',
   props: {
     value: { type: Object, required: true },
-    camp: { type: Object, required: true }
+    camp: { type: Object, required: true },
   },
   computed: {
     options: {
-      get () {
+      get() {
         return this.value
       },
-      set (v) {
+      set(v) {
         this.$emit('input', v)
-      }
+      },
     },
-    periods () {
+    periods() {
       return this.camp.periods().items.map((p) => ({
         value: p._meta.self,
-        text: p.description
+        text: p.description,
       }))
-    }
+    },
   },
-  defaultOptions () {
+  defaultOptions() {
     return {
       periods: [],
-      dayOverview: true
+      dayOverview: true,
     }
-  }
+  },
 }
 </script>

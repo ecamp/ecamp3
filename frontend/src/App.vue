@@ -11,11 +11,13 @@
 
     <!-- footer -->
     <v-footer v-if="$vuetify.breakpoint.smAndUp" app color="grey lighten-5">
-      <small>eCamp
+      <small
+        >eCamp
         <a v-if="version" :href="versionLink" target="_blank">
           {{ version }}
         </a>
-        <span class="ml-1">{{ deploymentTime }}</span></small>
+        <span class="ml-1">{{ deploymentTime }}</span></small
+      >
       <v-spacer />
       <language-switcher />
     </v-footer>
@@ -31,29 +33,29 @@ export default {
   name: 'App',
   components: { LanguageSwitcher },
   computed: {
-    profile () {
+    profile() {
       return this.$auth.user()
     },
-    deploymentTime () {
+    deploymentTime() {
       const timestamp = window.environment.DEPLOYMENT_TIME
       const dateTime = timestamp ? this.$date.unix(timestamp) : this.$date()
       return dateTime.format(this.$tc('global.datetime.dateTimeLong'))
     },
-    version () {
+    version() {
       return window.environment.VERSION || ''
     },
-    versionLink () {
+    versionLink() {
       return (
         parseTemplate(window.environment.VERSION_LINK_TEMPLATE).expand({
-          version: this.version
+          version: this.version,
         }) || '#'
       )
-    }
+    },
   },
-  created () {
+  created() {
     this.$store.commit('setLanguage', this.$store.state.lang.language)
   },
-  async mounted () {
+  async mounted() {
     if (this.$auth.isLoggedIn()) {
       this.profile._meta.load.then((profile) => {
         if (VueI18n.availableLocales.includes(profile.language)) {
@@ -61,7 +63,7 @@ export default {
         }
       })
     }
-  }
+  },
 }
 </script>
 <style lang="scss">

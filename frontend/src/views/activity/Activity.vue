@@ -4,17 +4,20 @@ Displays a single activity
 
 <template>
   <v-container fluid>
-    <content-card toolbar :loaded="!scheduleEntry()._meta.loading && !activity.camp()._meta.loading">
+    <content-card
+      toolbar
+      :loaded="!scheduleEntry()._meta.loading && !activity.camp()._meta.loading"
+    >
       <template #title>
         <v-toolbar-title class="font-weight-bold">
           {{ scheduleEntry().number }}
-          <v-menu v-if="!category._meta.loading" offset-y :disabled="layoutMode || !isContributor">
+          <v-menu
+            v-if="!category._meta.loading"
+            offset-y
+            :disabled="layoutMode || !isContributor"
+          >
             <template #activator="{ on, attrs }">
-              <v-chip
-                :color="category.color"
-                dark
-                v-bind="attrs"
-                v-on="on">
+              <v-chip :color="category.color" dark v-bind="attrs" v-on="on">
                 {{ category.short }}
               </v-chip>
             </template>
@@ -22,7 +25,8 @@ Displays a single activity
               <v-list-item
                 v-for="cat in camp.categories().items"
                 :key="cat._meta.self"
-                @click="changeCategory(cat)">
+                @click="changeCategory(cat)"
+              >
                 <v-list-item-title>
                   <v-chip :color="cat.color">
                     {{ cat.short }}
@@ -32,9 +36,11 @@ Displays a single activity
               </v-list-item>
             </v-list>
           </v-menu>
-          <a v-if="!editActivityTitle"
-             style="color: inherit"
-             @click="makeTitleEditable();">
+          <a
+            v-if="!editActivityTitle"
+            style="color: inherit"
+            @click="makeTitleEditable()"
+          >
             {{ activity.title }}
           </a>
         </v-toolbar-title>
@@ -46,26 +52,31 @@ Displays a single activity
             dense
             autofocus
             :auto-save="false"
-            @finished="editActivityTitle = false" />
+            @finished="editActivityTitle = false"
+          />
         </div>
       </template>
       <template #title-actions>
         <!-- layout/content switch -->
-        <v-btn v-if="!layoutMode"
-               color="primary"
-               outlined
-               :disabled="!isContributor"
-               @click="layoutMode = true">
+        <v-btn
+          v-if="!layoutMode"
+          color="primary"
+          outlined
+          :disabled="!isContributor"
+          @click="layoutMode = true"
+        >
           <template v-if="$vuetify.breakpoint.smAndUp">
             <v-icon left>mdi-puzzle-edit-outline</v-icon>
             {{ $tc('views.activity.activity.changeLayout') }}
           </template>
           <template v-else>{{ $tc('views.activity.activity.layout') }}</template>
         </v-btn>
-        <v-btn v-else-if="isContributor"
-               color="success"
-               outlined
-               @click="layoutMode = false">
+        <v-btn
+          v-else-if="isContributor"
+          color="success"
+          outlined
+          @click="layoutMode = false"
+        >
           <template v-if="$vuetify.breakpoint.smAndUp">
             <v-icon left>mdi-file-document-edit-outline</v-icon>
             {{ $tc('views.activity.activity.backToContents') }}
@@ -93,10 +104,10 @@ Displays a single activity
               </v-row>
               <v-row
                 v-for="scheduleEntryItem in scheduleEntries"
-                :key="scheduleEntryItem._meta.self" dense>
-                <v-col cols="2">
-                  ({{ scheduleEntryItem.number }})
-                </v-col>
+                :key="scheduleEntryItem._meta.self"
+                dense
+              >
+                <v-col cols="2"> ({{ scheduleEntryItem.number }}) </v-col>
                 <v-col cols="10">
                   {{ rangeShort(scheduleEntryItem.start, scheduleEntryItem.end) }}
                 </v-col>
@@ -110,14 +121,16 @@ Displays a single activity
                     :uri="activity._meta.self"
                     fieldname="location"
                     :disabled="layoutMode || !isContributor"
-                    dense />
+                    dense
+                  />
                 </v-col>
               </v-row>
               <v-row dense>
                 <v-col>
                   <activity-responsibles
                     :activity="activity"
-                    :disabled="layoutMode || !isContributor" />
+                    :disabled="layoutMode || !isContributor"
+                  />
                 </v-col>
               </v-row>
             </v-col>
@@ -128,7 +141,8 @@ Displays a single activity
             v-else
             :content-node="activity.rootContentNode()"
             :layout-mode="layoutMode"
-            :disabled="isContributor === false" />
+            :disabled="isContributor === false"
+          />
         </template>
       </v-card-text>
     </content-card>
@@ -153,52 +167,52 @@ export default {
     RootNode,
     ActivityResponsibles,
     DownloadReactPdfButton,
-    DownloadNuxtPdfButton
+    DownloadNuxtPdfButton,
   },
   mixins: [campRoleMixin],
-  provide () {
+  provide() {
     return {
       preferredContentTypes: () => this.preferredContentTypes,
       allContentNodes: () => this.contentNodes,
-      camp: () => this.camp
+      camp: () => this.camp,
     }
   },
   props: {
     scheduleEntry: {
       type: Function,
-      required: true
-    }
+      required: true,
+    },
   },
-  data () {
+  data() {
     return {
       layoutMode: false,
       editActivityTitle: false,
-      loading: true
+      loading: true,
     }
   },
   computed: {
-    activity () {
+    activity() {
       return this.scheduleEntry().activity()
     },
-    camp () {
+    camp() {
       return this.activity.camp()
     },
-    category () {
+    category() {
       return this.activity.category()
     },
-    scheduleEntries () {
+    scheduleEntries() {
       return this.activity.scheduleEntries().items
     },
-    contentNodes () {
+    contentNodes() {
       return this.activity.contentNodes()
     },
-    preferredContentTypes () {
+    preferredContentTypes() {
       return this.category.preferredContentTypes()
-    }
+    },
   },
 
   // reload data every time user navigates to Activity view
-  async mounted () {
+  async mounted() {
     this.loading = true
     await this.scheduleEntry().activity()._meta.load // wait if activity is being loaded as part of a collection
     await this.scheduleEntry().activity().$reload() // reload as single entity to ensure all embedded entities are included in a single network request
@@ -207,22 +221,22 @@ export default {
 
   methods: {
     rangeShort,
-    changeCategory (category) {
+    changeCategory(category) {
       this.activity.$patch({
-        category: category._meta.self
+        category: category._meta.self,
       })
     },
-    countContentNodes (contentType) {
-      return this.contentNodes.items.filter(cn => {
+    countContentNodes(contentType) {
+      return this.contentNodes.items.filter((cn) => {
         return cn.contentType().id === contentType.id
       }).length
     },
-    makeTitleEditable () {
+    makeTitleEditable() {
       if (this.isContributor) {
         this.editActivityTitle = true
       }
     },
-    printConfig () {
+    printConfig() {
       return {
         camp: this.camp._meta.self,
         language: this.$store.state.lang.language,
@@ -232,13 +246,13 @@ export default {
             type: 'Activity',
             options: {
               activity: this.activity._meta.self,
-              scheduleEntry: this.scheduleEntry()._meta.self
-            }
-          }
-        ]
+              scheduleEntry: this.scheduleEntry()._meta.self,
+            },
+          },
+        ],
       }
-    }
-  }
+    },
+  },
 }
 </script>
 

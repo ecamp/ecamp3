@@ -9,13 +9,13 @@ export default {
   props: {
     size: { type: Number, required: false, default: 48 },
     user: { type: Object, default: null },
-    campCollaboration: { type: Object, default: null }
+    campCollaboration: { type: Object, default: null },
   },
   computed: {
-    isLoading () {
+    isLoading() {
       return (this.user || this.campCollaboration)._meta.loading
     },
-    objectId () {
+    objectId() {
       if (this.isLoading) return null
       if (this.user) {
         return this.user.id
@@ -28,7 +28,7 @@ export default {
       }
       return undefined
     },
-    objectText () {
+    objectText() {
       if (this.isLoading) {
         return ''
       }
@@ -43,7 +43,7 @@ export default {
       }
       return ''
     },
-    color () {
+    color() {
       if (!this.isLoading) {
         const h = parseInt(this.objectId, 16) % 360
         return `hsl(${h}, 100%, 30%)`
@@ -51,7 +51,7 @@ export default {
         return 'rgba(0, 0, 0, 0)'
       }
     },
-    initials () {
+    initials() {
       const displayName = this.objectText
       let items = displayName.split(' ', 2)
       if (items.length === 1) {
@@ -63,14 +63,14 @@ export default {
         return items[0].substr(0, 1) + items[1].substr(0, 1)
       }
     },
-    style () {
+    style() {
       return {
         fontSize: this.size / 2.5 + 'px',
         fontWeight: 400,
         letterSpacing: '1px',
-        marginRight: '-1.5px'
+        marginRight: '-1.5px',
       }
-    }
-  }
+    },
+  },
 }
 </script>

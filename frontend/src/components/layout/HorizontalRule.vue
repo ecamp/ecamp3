@@ -1,13 +1,13 @@
 <template>
-  <hr :aria-label="label">
+  <hr :aria-label="label" />
 </template>
 
 <script>
 export default {
   name: 'HorizontalRule',
   props: {
-    label: { type: String, required: true }
-  }
+    label: { type: String, required: true },
+  },
 }
 </script>
 

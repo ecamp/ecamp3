@@ -4,7 +4,8 @@
     app
     clipped-left
     color="blue-grey darken-4"
-    dark>
+    dark
+  >
     <logo text />
     <v-spacer />
   </v-app-bar>
@@ -16,8 +17,8 @@ import Logo from '@/components/navigation/Logo.vue'
 export default {
   name: 'NavigationAuth',
   components: {
-    Logo
-  }
+    Logo,
+  },
 }
 </script>
 

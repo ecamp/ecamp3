@@ -5,7 +5,7 @@ export const renderPdf = async (
   const result = {
     filename: null,
     blob: null,
-    error: null
+    error: null,
   }
 
   try {

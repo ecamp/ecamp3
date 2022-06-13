@@ -3,12 +3,14 @@
     <slot
       :scheduleEntries="scheduleEntries.items"
       :loading="scheduleEntries._meta.loading"
-      :on="eventHandlers" />
+      :on="eventHandlers"
+    />
     <dialog-activity-create
       ref="dialogActivityCreate"
       :period="period"
       :schedule-entry="newScheduleEntry"
-      @activityCreated="afterCreateActivity($event)" />
+      @activityCreated="afterCreateActivity($event)"
+    />
 
     <v-btn
       v-if="showButton"
@@ -21,7 +23,8 @@
       right
       class="fab--bottom_nav float-right"
       color="red"
-      @click.stop="createNewActivity()">
+      @click.stop="createNewActivity()"
+    >
       <v-icon>mdi-plus</v-icon>
     </v-btn>
   </div>
@@ -33,31 +36,31 @@ import DialogActivityCreate from './DialogActivityCreate.vue'
 export default {
   name: 'ScheduleEntries',
   components: {
-    DialogActivityCreate
+    DialogActivityCreate,
   },
   props: {
     period: { type: Function, required: true },
-    showButton: { type: Boolean, required: true }
+    showButton: { type: Boolean, required: true },
   },
-  data () {
+  data() {
     return {
       eventHandlers: {
-        newEntry: this.newEntryFromPicasso
+        newEntry: this.newEntryFromPicasso,
       },
       newScheduleEntry: {
-        period: () => (this.period)(),
+        period: () => this.period(),
         start: null,
-        end: null
-      }
+        end: null,
+      },
     }
   },
   computed: {
-    scheduleEntries () {
+    scheduleEntries() {
       // TODO for SideBar, add filtering for the current day, now that the API supports it
       return this.period().scheduleEntries()
-    }
+    },
   },
-  mounted () {
+  mounted() {
     this.period().scheduleEntries().$reload()
     this.period().camp().activities().$reload()
     this.period().camp().categories().$reload()
@@ -65,25 +68,31 @@ export default {
   },
 
   methods: {
-    createNewActivity () {
-      this.newScheduleEntry.start = this.$date.utc(this.period().start).add(8, 'hour').format()
-      this.newScheduleEntry.end = this.$date.utc(this.period().start).add(9, 'hour').format()
+    createNewActivity() {
+      this.newScheduleEntry.start = this.$date
+        .utc(this.period().start)
+        .add(8, 'hour')
+        .format()
+      this.newScheduleEntry.end = this.$date
+        .utc(this.period().start)
+        .add(9, 'hour')
+        .format()
       this.showActivityCreateDialog()
     },
-    showActivityCreateDialog () {
+    showActivityCreateDialog() {
       this.$refs.dialogActivityCreate.showDialog = true
     },
-    afterCreateActivity (data) {
+    afterCreateActivity() {
       this.api.reload(this.period().scheduleEntries())
     },
 
     // Event Handler on.newEntry: update position & open create dialog
-    newEntryFromPicasso (start, end) {
+    newEntryFromPicasso(start, end) {
       this.newScheduleEntry.start = start
       this.newScheduleEntry.end = end
       this.showActivityCreateDialog()
-    }
-  }
+    },
+  },
 }
 </script>
 
@@ -91,7 +100,7 @@ export default {
 .fab--bottom_nav {
   position: fixed;
   bottom: calc(16px + 56px + env(safe-area-inset-bottom)) !important;
-  @media #{map-get($display-breakpoints, 'sm-and-up')}{
+  @media #{map-get($display-breakpoints, 'sm-and-up')} {
     bottom: calc(16px + 36px + env(safe-area-inset-bottom)) !important;
   }
 }

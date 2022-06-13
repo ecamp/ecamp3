@@ -10,7 +10,7 @@ import {
   ignoreNativeBindingWarnMessages,
   i18n,
   veeValidate,
-  dayjs
+  dayjs,
 } from './plugins'
 import { store } from './plugins/store'
 import { vuetify } from './plugins/vuetify'
@@ -24,7 +24,7 @@ if (window.environment && window.environment.SENTRY_FRONTEND_DSN) {
     Vue,
     dsn: window.environment.SENTRY_FRONTEND_DSN,
     tracing: false,
-    logErrors: process.env.NODE_ENV !== 'production'
+    logErrors: process.env.NODE_ENV !== 'production',
   })
 }
 
@@ -46,5 +46,5 @@ new Vue({
   store,
   vuetify,
   i18n,
-  render: (h) => h(App)
+  render: (h) => h(App),
 }).$mount('#app')

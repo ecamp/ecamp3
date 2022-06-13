@@ -43,7 +43,7 @@ describe('An ApiDatePicker', () => {
     const app = Vue.component('App', {
       components: { ApiDatePicker },
       props: {
-        fieldName: { type: String, default: fieldName }
+        fieldName: { type: String, default: fieldName },
       },
       template: `
         <div data-app>
@@ -55,20 +55,20 @@ describe('An ApiDatePicker', () => {
             required="true"
           />
         </div>
-      `
+      `,
     })
     apiMock.get().thenReturn(ApiMock.success(DATE_1).forFieldName(fieldName))
     const defaultOptions = {
       mocks: {
         $tc: () => {},
-        api: apiMock.getMocks()
-      }
+        api: apiMock.getMocks(),
+      },
     }
     return mountComponent(app, {
       vuetify,
       i18n,
       attachTo: document.body,
-      ...merge(defaultOptions, options)
+      ...merge(defaultOptions, options),
     })
   }
 

@@ -8,7 +8,8 @@
         small
         :aria-label="$tc('global.changeLanguage')"
         v-bind="attrs"
-        v-on="on">
+        v-on="on"
+      >
         <v-icon left small>mdi-translate</v-icon>
         {{ $tc('global.language') }}
       </v-btn>
@@ -19,7 +20,8 @@
         :key="item"
         tag="li"
         :lang="item"
-        @click="changeLang(item)">
+        @click="changeLang(item)"
+      >
         <v-list-item-title>{{ $tc('global.language', 1, item) }}</v-list-item-title>
       </v-list-item>
     </v-list>
@@ -30,10 +32,10 @@
 export default {
   name: 'LanguageSwitcher',
   methods: {
-    changeLang (lang) {
+    changeLang(lang) {
       this.$store.commit('setLanguage', lang)
-    }
-  }
+    },
+  },
 }
 </script>
 

@@ -5,9 +5,7 @@
         {{ $tc('components.camp.campMaterialLists.title') }}
         <dialog-material-list-create v-if="!disabled" :camp="camp()">
           <template #activator="{ on }">
-            <button-add color="secondary" text
-                        class="my-n1"
-                        v-on="on">
+            <button-add color="secondary" text class="my-n1" v-on="on">
               {{ $tc('components.camp.campMaterialLists.createMaterialList') }}
             </button-add>
           </template>
@@ -21,7 +19,8 @@
         :key="materialList._meta.self"
         class="px-0"
         :material-list="materialList"
-        :disabled="disabled" />
+        :disabled="disabled"
+      />
     </v-list>
   </content-group>
 </template>
@@ -38,20 +37,20 @@ export default {
     ContentGroup,
     ButtonAdd,
     CampMaterialListsItem,
-    DialogMaterialListCreate
+    DialogMaterialListCreate,
   },
   props: {
     camp: { type: Function, required: true },
-    disabled: { type: Boolean, default: false }
+    disabled: { type: Boolean, default: false },
   },
-  data () {
+  data() {
     return {}
   },
   computed: {
-    materialLists () {
+    materialLists() {
       return this.camp().materialLists()
-    }
-  }
+    },
+  },
 }
 </script>
 

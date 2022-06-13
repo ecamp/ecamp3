@@ -6,7 +6,7 @@ import { toTime, roundTimeUp, roundTimeDown } from '@/helpers/vCalendarDragAndDr
  * @param int threshold       min. mouse movement needed to detect drag & drop
  * @returns
  */
-export default function useDragAndDrop (enabled, createEntry) {
+export default function useDragAndDrop(enabled, createEntry) {
   /**
    * internal data (not exposed)
    */
@@ -34,7 +34,7 @@ export default function useDragAndDrop (enabled, createEntry) {
   const createNewEntry = (mouse) => {
     newEntry = {
       startTimestamp: roundTimeDown(mouse),
-      endTimestamp: roundTimeDown(mouse) + 15
+      endTimestamp: roundTimeDown(mouse) + 15,
     }
   }
 
@@ -126,8 +126,8 @@ export default function useDragAndDrop (enabled, createEntry) {
       'mousedown:event': entryMouseDown,
       'mousedown:time': timeMouseDown,
       'mousemove:time': timeMouseMove,
-      'mouseup:time': timeMouseUp
+      'mouseup:time': timeMouseUp,
     },
-    nativeMouseLeave
+    nativeMouseLeave,
   }
 }

@@ -6,7 +6,8 @@
     :color="color"
     :icon="iconOnly"
     v-bind="$attrs"
-    v-on="$listeners">
+    v-on="$listeners"
+  >
     <v-icon v-if="iconOnly">{{ icon }}</v-icon>
     <v-icon v-else :left="$vuetify.breakpoint.smAndUp" size="150%">{{ icon }}</v-icon>
 
@@ -23,8 +24,8 @@ export default {
     icon: { type: String, default: 'mdi-delete' },
     text: { type: Boolean, default: true },
     color: { type: String, default: 'blue-grey' },
-    iconOnly: { type: Boolean, default: false }
-  }
+    iconOnly: { type: Boolean, default: false },
+  },
 }
 </script>
 

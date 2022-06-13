@@ -2,7 +2,7 @@
 import React from 'react'
 import { Svg, Circle, Polygon } from '../reactPdf.js'
 
-function Checkmark ({ size = 12 }) {
+function Checkmark({ size = 12 }) {
   const scale = size / 8
   return (
     <Svg style={{ transform: `scale(${scale})`, marginTop: '1pt' }} height="8" width="8">

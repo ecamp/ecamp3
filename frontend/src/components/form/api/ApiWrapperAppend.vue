@@ -32,7 +32,8 @@
             type="submit"
             class="mr-1"
             v-on="on"
-            @click="wrapper.on.save">
+            @click="wrapper.on.save"
+          >
             <v-icon>mdi-refresh</v-icon>
           </v-btn>
         </template>
@@ -47,7 +48,8 @@
             x-small
             color="grey"
             v-on="on"
-            @click="wrapper.on.reset">
+            @click="wrapper.on.reset"
+          >
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </template>
@@ -67,7 +69,8 @@
             type="submit"
             class="mr-1"
             v-on="on"
-            @click="wrapper.on.save">
+            @click="wrapper.on.save"
+          >
             <v-icon>mdi-check</v-icon>
           </v-btn>
         </template>
@@ -82,7 +85,8 @@
             x-small
             color="grey"
             v-on="on"
-            @click="wrapper.on.reset">
+            @click="wrapper.on.reset"
+          >
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </template>
@@ -95,7 +99,8 @@
       v-if="wrapper.hasLoadingError"
       text
       type="submit"
-      @click="wrapper.on.reload" />
+      @click="wrapper.on.reload"
+    />
   </div>
 </template>
 
@@ -108,11 +113,11 @@ export default {
   props: {
     wrapper: {
       required: true,
-      type: Object
-    }
+      type: Object,
+    },
   },
   computed: {
-    checkIconAddon () {
+    checkIconAddon() {
       if (this.wrapper.hasServerError || this.wrapper.dirty) {
         return 'hidden'
       } else if (this.wrapper.status === 'success') {
@@ -120,8 +125,8 @@ export default {
       } else {
         return ''
       }
-    }
-  }
+    },
+  },
 }
 </script>
 

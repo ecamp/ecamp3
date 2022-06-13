@@ -6,14 +6,17 @@
           v-for="option in contentNode.options().items"
           :key="option._meta.self"
           tag="label"
-          :disabled="layoutMode || disabled">
+          :disabled="layoutMode || disabled"
+        >
           <v-list-item-action>
             <api-checkbox fieldname="checked" :uri="option._meta.self" />
           </v-list-item-action>
           <v-list-item-content>
             <v-list-item-title>
               {{
-                $tc(`contentNode.laThematicArea.entity.option.${option.translateKey}.name`)
+                $tc(
+                  `contentNode.laThematicArea.entity.option.${option.translateKey}.name`
+                )
               }}
             </v-list-item-title>
             <v-list-item-subtitle>
@@ -40,9 +43,9 @@ export default {
   components: { CardContentNode, ApiCheckbox },
   mixins: [contentNodeMixin],
   methods: {
-    async refreshContent () {
+    async refreshContent() {
       await this.api.reload(this.contentNode)
-    }
-  }
+    },
+  },
 }
 </script>

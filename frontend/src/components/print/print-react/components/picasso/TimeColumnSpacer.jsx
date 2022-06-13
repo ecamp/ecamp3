@@ -11,15 +11,15 @@ const columnStyles = {
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'stretch',
-  opacity: '0'
+  opacity: '0',
 }
 const rowStyles = {
   paddingHorizontal: '2pt',
   fontSize: fontSize + 'pt',
-  flexBasis: 1
+  flexBasis: 1,
 }
 
-function longestTime (times) {
+function longestTime(times) {
   return dayjs()
     .hour(0)
     .minute(times[times.length - 1][0] * 60)
@@ -27,7 +27,7 @@ function longestTime (times) {
     .format('LT')
 }
 
-function TimeColumnSpacer ({ times }) {
+function TimeColumnSpacer({ times }) {
   return (
     <View style={columnStyles}>
       <Text style={rowStyles}>{longestTime(times)}</Text>

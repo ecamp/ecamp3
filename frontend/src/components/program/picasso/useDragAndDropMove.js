@@ -6,7 +6,7 @@ import { toTime, roundTimeDown } from '@/helpers/vCalendarDragAndDrop.js'
  * @param int threshold       min. mouse movement needed to detect drag & drop
  * @returns
  */
-export default function useDragAndDrop (enabled, threshold, update) {
+export default function useDragAndDrop(enabled, threshold, update) {
   /**
    * internal data (not exposed)
    */
@@ -29,7 +29,7 @@ export default function useDragAndDrop (enabled, threshold, update) {
    */
 
   // returns true if still within defined threshold
-  function withinThreshold (nativeEvent) {
+  function withinThreshold(nativeEvent) {
     return (
       Math.abs(nativeEvent.x - startX) < threshold &&
       Math.abs(nativeEvent.y - startY) < threshold
@@ -147,8 +147,8 @@ export default function useDragAndDrop (enabled, threshold, update) {
       'mousedown:event': entryMouseDown,
       'mousedown:time': timeMouseDown,
       'mousemove:time': timeMouseMove,
-      'mouseup:time': timeMouseUp
+      'mouseup:time': timeMouseUp,
     },
-    nativeMouseLeave
+    nativeMouseLeave,
   }
 }

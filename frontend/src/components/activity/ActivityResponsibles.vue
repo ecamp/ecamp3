@@ -13,7 +13,8 @@
     deletable-chips
     small-chips
     v-bind="$attrs"
-    @input="onInput" />
+    @input="onInput"
+  />
 </template>
 
 <script>
@@ -25,24 +26,24 @@ export default {
   props: {
     activity: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
-  data () {
+  data() {
     return {
       oldSelectedCampCollaborations: [],
       selectedCampCollaborations: [],
       errorMessages: [],
-      isSaving: false
+      isSaving: false,
     }
   },
   computed: {
-    isLoading () {
+    isLoading() {
       return (
         this.campCollaborations._meta.loading || this.activityResponsibles._meta.loading
       )
     },
-    availableCampCollaborations () {
+    availableCampCollaborations() {
       return this.campCollaborations.items
         .filter((cc) => {
           return (
@@ -54,29 +55,29 @@ export default {
           // following structure is defined by vuetify v-select items property
           return {
             value: value._meta.self,
-            text: campCollaborationDisplayName(value)
+            text: campCollaborationDisplayName(value),
           }
         })
     },
-    currentCampCollaborationIRIs () {
+    currentCampCollaborationIRIs() {
       return this.activityResponsibles.items.map(
         (item) => item.campCollaboration()._meta.self
       )
     },
-    activityResponsibles () {
+    activityResponsibles() {
       return this.activity.activityResponsibles()
     },
-    campCollaborations () {
+    campCollaborations() {
       return this.activity.camp().campCollaborations()
-    }
+    },
   },
-  async mounted () {
+  async mounted() {
     await this.activityResponsibles._meta.load
     this.oldSelectedCampCollaborations = [...this.currentCampCollaborationIRIs]
     this.selectedCampCollaborations = [...this.currentCampCollaborationIRIs]
   },
   methods: {
-    onInput () {
+    onInput() {
       const promises = []
       this.errorMessages = []
       this.isSaving = true
@@ -89,7 +90,7 @@ export default {
         promises.push(
           this.activity.activityResponsibles().$post({
             activity: this.activity._meta.self,
-            campCollaboration: campCollaborationIRI
+            campCollaboration: campCollaborationIRI,
           })
         )
       })
@@ -120,7 +121,7 @@ export default {
         .finally(() => {
           this.isSaving = false
         })
-    }
-  }
+    },
+  },
 }
 </script>

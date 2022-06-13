@@ -7,16 +7,19 @@ Displays the content wrapped inside a card.
     :max-width="maxWidth"
     width="100%"
     :tile="$vuetify.breakpoint.xsOnly"
-    class="mx-auto">
+    class="mx-auto"
+  >
     <v-toolbar
       v-if="back || $vuetify.breakpoint.xsOnly || toolbar"
       class="ec-content-card__toolbar"
       elevation="0"
-      dense>
+      dense
+    >
       <v-toolbar-items>
         <button-back
           v-if="back || ($vuetify.breakpoint.xsOnly && !!$route.query.isDetail)"
-          class="ml-n4" />
+          class="ml-n4"
+        />
       </v-toolbar-items>
 
       <slot name="title">
@@ -44,15 +47,15 @@ import ButtonBack from '@/components/buttons/ButtonBack.vue'
 export default {
   name: 'ContentCard',
   components: {
-    ButtonBack
+    ButtonBack,
   },
   props: {
     loaded: { type: Boolean, required: false, default: true },
     title: { type: String, required: false, default: '' },
     toolbar: { type: Boolean, required: false, default: false },
     back: { type: Boolean, required: false, default: false },
-    maxWidth: { type: String, default: '' }
-  }
+    maxWidth: { type: String, default: '' },
+  },
 }
 </script>
 

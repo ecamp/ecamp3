@@ -3,11 +3,14 @@
     <v-menu offset-y>
       <template #activator="{ on, attrs, value }">
         <v-btn
-          text large
+          text
+          large
           class="justify-start px-2"
-          height="auto" block
+          height="auto"
+          block
           v-bind="attrs"
-          v-on="on">
+          v-on="on"
+        >
           <h1 class="text-subtitle-1">
             {{ period().description }}
           </h1>
@@ -17,9 +20,12 @@
       </template>
       <v-list>
         <v-subheader>{{ $tc('components.camp.periodSwitcher.title') }}</v-subheader>
-        <v-list-item v-for="item in period().camp().periods().items" :key="item._meta.self"
-                     :to="periodRoute(item)"
-                     two-line>
+        <v-list-item
+          v-for="item in period().camp().periods().items"
+          :key="item._meta.self"
+          :to="periodRoute(item)"
+          two-line
+        >
           <v-list-item-content>
             <v-list-item-title>{{ item.description }}</v-list-item-title>
             <v-list-item-subtitle>
@@ -45,15 +51,13 @@ export default {
   props: {
     period: {
       type: Function,
-      required: true
-    }
+      required: true,
+    },
   },
   methods: {
     periodRoute,
-    dateRange
-  }
+    dateRange,
+  },
 }
 </script>
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

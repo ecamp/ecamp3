@@ -5,9 +5,7 @@ Displays a field as a e-checkbox + write access via API wrapper
 -->
 
 <template>
-  <api-wrapper v-slot="wrapper" v-bind="$props"
-               separate-buttons
-               v-on="$listeners">
+  <api-wrapper v-slot="wrapper" v-bind="$props" separate-buttons v-on="$listeners">
     <e-switch
       :value="wrapper.localValue"
       v-bind="$attrs"
@@ -15,7 +13,8 @@ Displays a field as a e-checkbox + write access via API wrapper
       :disabled="disabled"
       :error-messages="wrapper.errorMessages"
       :loading="wrapper.isSaving"
-      @input="wrapper.on.input">
+      @input="wrapper.on.input"
+    >
       <template #append>
         <api-wrapper-append :wrapper="wrapper" />
       </template>
@@ -34,11 +33,11 @@ export default {
   mixins: [apiPropsMixin],
   props: {
     // disable delay per default
-    autoSaveDelay: { type: Number, default: 0, required: false }
+    autoSaveDelay: { type: Number, default: 0, required: false },
   },
-  data () {
+  data() {
     return {}
-  }
+  },
 }
 </script>
 

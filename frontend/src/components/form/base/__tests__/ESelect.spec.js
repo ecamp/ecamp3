@@ -14,15 +14,15 @@ describe('An ESelect', () => {
 
   const FIRST_OPTION = {
     value: 1,
-    text: 'firstOption'
+    text: 'firstOption',
   }
   const SECOND_OPTION = {
     value: '2',
-    text: 'secondOption'
+    text: 'secondOption',
   }
   const THIRD_OPTION = {
     value: { key: 'value', array: [1, 2, 3], nestedObject: { key: 'value' } },
-    text: 'thirdOption'
+    text: 'thirdOption',
   }
   const selectValues = [FIRST_OPTION, SECOND_OPTION, THIRD_OPTION]
 
@@ -32,14 +32,14 @@ describe('An ESelect', () => {
       data: function () {
         return {
           selectValues: selectValues,
-          data: null
+          data: null,
         }
       },
       template: `
           <div data-app>
           <e-select :items="selectValues" v-model="data"/>
           </div>
-        `
+        `,
     })
     return mountComponent(app, { vuetify, attachTo: document.body, ...options })
   }
