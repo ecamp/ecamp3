@@ -17,7 +17,7 @@
     <v-skeleton-loader v-if="camp().materialLists()._meta.loading" type="article" />
     <v-list>
       <camp-material-lists-item
-        v-for="materialList in materialLists.items"
+        v-for="materialList in materialLists.allItems"
         :key="materialList._meta.self"
         class="px-0"
         :material-list="materialList"
@@ -34,14 +34,18 @@ import ContentGroup from '@/components/layout/ContentGroup.vue'
 
 export default {
   name: 'CampMaterialLists',
-  components: { ContentGroup, ButtonAdd, CampMaterialListsItem, DialogMaterialListCreate },
+  components: {
+    ContentGroup,
+    ButtonAdd,
+    CampMaterialListsItem,
+    DialogMaterialListCreate
+  },
   props: {
     camp: { type: Function, required: true },
     disabled: { type: Boolean, default: false }
   },
   data () {
-    return {
-    }
+    return {}
   },
   computed: {
     materialLists () {
@@ -51,5 +55,4 @@ export default {
 }
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

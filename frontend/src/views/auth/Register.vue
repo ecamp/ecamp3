@@ -62,28 +62,26 @@
         dense
         :items="availableLocales" />
 
-      <e-checkbox
-        v-model="tos"
-        required
-        class="align-center">
+      <e-checkbox v-model="tos" required class="align-center">
         <template #label>
-          <span style="hyphens: auto" :class="{'body-2':$vuetify.breakpoint.xsOnly}">
+          <span style="hyphens: auto" :class="{ 'body-2': $vuetify.breakpoint.xsOnly }">
             {{ $tc('views.auth.register.acceptTermsOfUse') }}
           </span>
         </template>
         <template #append>
-          <v-btn text min-width="0"
-                 :title="$tc('global.button.open')"
-                 target="_blank"
-                 class="px-1"
-                 to="#"
-                 tabindex="-1">
+          <v-btn
+            text
+            min-width="0"
+            :title="$tc('global.button.open')"
+            target="_blank"
+            class="px-1"
+            to="#"
+            tabindex="-1">
             <v-icon small>mdi-open-in-new</v-icon>
           </v-btn>
         </template>
       </e-checkbox>
-      <v-btn type="submit"
-             color="primary"
+      <v-btn type="submit" color="primary"
              :disabled="!formComplete"
              block x-large>
         {{ $tc('views.auth.register.register') }}
@@ -91,7 +89,11 @@
     </v-form>
     <p class="mt-8 mb-0 text--secondary text-center">
       {{ $tc('views.auth.register.alreadyHaveAnAccount') }}<br>
-      <router-link :to="{ name: 'login' }">{{ $tc('views.auth.register.login') }}</router-link>
+      <router-link :to="{ name: 'login' }">
+        {{
+          $tc('views.auth.register.login')
+        }}
+      </router-link>
     </p>
   </auth-container>
 </template>
@@ -121,13 +123,16 @@ export default {
   },
   computed: {
     formComplete () {
-      return this.tos &&
-        (this.username !== '') &&
-        (this.firstname !== '') &&
-        (this.surname !== '') &&
-        (this.email !== '') &&
-        (this.pw1 !== '') && (this.pw2 !== '') &&
-        (this.pw1 === this.pw2)
+      return (
+        this.tos &&
+        this.username !== '' &&
+        this.firstname !== '' &&
+        this.surname !== '' &&
+        this.email !== '' &&
+        this.pw1 !== '' &&
+        this.pw2 !== '' &&
+        this.pw1 === this.pw2
+      )
     },
     formData () {
       return {
@@ -140,17 +145,13 @@ export default {
       }
     },
     pw2Rules () {
-      return [
-        v => (!!v && v) === this.pw1 || 'Nicht übereinstimmend'
-      ]
+      return [(v) => (!!v && v) === this.pw1 || 'Nicht übereinstimmend']
     },
     pw1Rules () {
-      return [
-        v => v.length >= 8 || 'Mindestens 8 Zeichen lang sein'
-      ]
+      return [(v) => v.length >= 8 || 'Mindestens 8 Zeichen lang sein']
     },
     availableLocales () {
-      return VueI18n.availableLocales.map(l => ({
+      return VueI18n.availableLocales.map((l) => ({
         value: l,
         text: this.$tc('global.language', 1, l)
       }))
@@ -199,6 +200,4 @@ export default {
 }
 </script>
 
-<style>
-
-</style>
+<style></style>

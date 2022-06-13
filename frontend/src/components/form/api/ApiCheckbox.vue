@@ -5,11 +5,9 @@ Displays a field as a e-checkbox + write access via API wrapper
 -->
 
 <template>
-  <api-wrapper
-    v-slot="wrapper"
-    v-bind="$props"
-    separate-buttons
-    v-on="$listeners">
+  <api-wrapper v-slot="wrapper" v-bind="$props"
+               separate-buttons
+               v-on="$listeners">
     <e-checkbox
       :value="wrapper.localValue"
       v-bind="$attrs"
@@ -44,5 +42,4 @@ export default {
 }
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

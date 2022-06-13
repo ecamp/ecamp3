@@ -20,7 +20,6 @@
 </template>
 
 <script>
-
 import ApiCheckbox from '@/components/form/api/ApiCheckbox.vue'
 import CardContentNode from '@/components/activity/CardContentNode.vue'
 import { contentNodeMixin } from '@/mixins/contentNodeMixin.js'

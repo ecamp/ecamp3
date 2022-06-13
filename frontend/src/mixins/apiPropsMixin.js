@@ -17,7 +17,9 @@ export const apiPropsMixin = {
       required: false,
       default () {
         if (this.apiUri === null) {
-          throw new Error('ApiWrapper: `uri` not set on component; no ApiForm component found as parent for fallback')
+          throw new Error(
+            'ApiWrapper: `uri` not set on component; no ApiForm component found as parent for fallback'
+          )
         }
         return this.apiUri
       }
@@ -51,5 +53,4 @@ export const apiPropsMixin = {
       required: false
     }
   }
-
 }

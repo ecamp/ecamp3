@@ -1,6 +1,11 @@
 <script>
 export default {
   name: 'DialogBase',
+  props: {
+    // manual error handler to generate error message
+    // should return an error message as string (or null, in which case the default error message is displayed)
+    errorHandler: { type: Function, required: false, default: null }
+  },
   data () {
     return {
       // specifies entity properties available in the form
@@ -20,6 +25,7 @@ export default {
       showDialog: false,
       loading: true,
       error: null
+
     }
   },
   watch: {
@@ -108,15 +114,24 @@ export default {
       this.$emit('error', e)
       this._events = eventHandlers
 
-      this.error = e.message
+      // default error message
+      let defaultMessage = e.message
       if (e.response) {
         if (e.response.status === 409 /* Conflict */) {
-          this.error = this.$tc('global.serverError.409')
+          defaultMessage = this.$tc('global.serverError.409')
         }
         if (e.response.status === 422 /* Validation Error */) {
-          this.error = e
+          defaultMessage = e
         }
       }
+
+      // overwrite with manual error message from errorHandler
+      let errorHandlerMessage = null
+      if (this.errorHandler) {
+        errorHandlerMessage = this.errorHandler(e)
+      }
+
+      this.error = errorHandlerMessage || defaultMessage
     }
   }
 }

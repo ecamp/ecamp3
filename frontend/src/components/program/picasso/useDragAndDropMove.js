@@ -30,7 +30,10 @@ export default function useDragAndDrop (enabled, threshold, update) {
 
   // returns true if still within defined threshold
   function withinThreshold (nativeEvent) {
-    return (Math.abs(nativeEvent.x - startX) < threshold) && (Math.abs(nativeEvent.y - startY) < threshold)
+    return (
+      Math.abs(nativeEvent.x - startX) < threshold &&
+      Math.abs(nativeEvent.y - startY) < threshold
+    )
   }
 
   // move an existing entry
@@ -39,7 +42,7 @@ export default function useDragAndDrop (enabled, threshold, update) {
     const end = draggedEntry.endTimestamp
     const duration = end - start
 
-    const newStart = roundTimeDown((mouse - mouseOffset))
+    const newStart = roundTimeDown(mouse - mouseOffset)
     const newEnd = newStart + duration
 
     draggedEntry.startTimestamp = newStart
@@ -60,13 +63,19 @@ export default function useDragAndDrop (enabled, threshold, update) {
 
   // triggered with MouseDown event on a calendar entry
   const entryMouseDown = ({ event: entry, timed, nativeEvent }) => {
-    if (!enabled.value) { return }
+    if (!enabled.value) {
+      return
+    }
 
     // cancel drag & drop if button is not left button
-    if (nativeEvent.button !== 0) { return }
+    if (nativeEvent.button !== 0) {
+      return
+    }
 
     // only move timed events
-    if (!entry || !timed) { return }
+    if (!entry || !timed) {
+      return
+    }
 
     // start Drag & Drop
     startX = nativeEvent.x
@@ -77,10 +86,14 @@ export default function useDragAndDrop (enabled, threshold, update) {
 
   // triggered with MouseDown event anywhere on the calendar (independent of clicking on entry or not)
   const timeMouseDown = (tms, nativeEvent) => {
-    if (!enabled.value) { return }
+    if (!enabled.value) {
+      return
+    }
 
     // cancel drag & drop if button is not left button
-    if (nativeEvent.button !== 0) { return }
+    if (nativeEvent.button !== 0) {
+      return
+    }
 
     // Drag has just started on an entry ('mousedown:event' was detected before)
     if (draggedEntry) {
@@ -92,13 +105,17 @@ export default function useDragAndDrop (enabled, threshold, update) {
 
   // triggered when mouse is being moved in calendar (independent whether drag & drop is ongoing or not)
   const timeMouseMove = (tms, nativeEvent) => {
-    if (!enabled.value) { return }
+    if (!enabled.value) {
+      return
+    }
 
     const mouse = toTime(tms)
 
     if (draggedEntry) {
       // don't move if still within threshold
-      if (withinThreshold(nativeEvent)) { return }
+      if (withinThreshold(nativeEvent)) {
+        return
+      }
 
       // move existing
       dragging = true
@@ -108,7 +125,9 @@ export default function useDragAndDrop (enabled, threshold, update) {
 
   // triggered with MouseUp Event anywhere in the calendar
   const timeMouseUp = () => {
-    if (!enabled.value) { return }
+    if (!enabled.value) {
+      return
+    }
 
     // trigger update callback
     if (dragging) {

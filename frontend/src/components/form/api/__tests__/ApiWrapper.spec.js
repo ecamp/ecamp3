@@ -27,7 +27,7 @@ let vuetify
 
 // creates a mock Promise which resolves within 100ms with value
 function mockPromiseResolving (value) {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     const timer = setTimeout(() => {
       clearTimeout(timer)
       resolve(value)
@@ -75,12 +75,15 @@ function createConfig (overrides) {
   }
 
   const scopedSlots = {
-    default: '<input type="text" name="dummyField" id="dummyField" :value="props.localValue" />'
+    default:
+      '<input type="text" name="dummyField" id="dummyField" :value="props.localValue" />'
   }
 
   const localVue = createLocalVue()
 
-  return cloneDeep(Object.assign({ mocks, propsData, vuetify, stubs, scopedSlots, localVue }, overrides))
+  return cloneDeep(
+    Object.assign({ mocks, propsData, vuetify, stubs, scopedSlots, localVue }, overrides)
+  )
 }
 
 /**
@@ -153,7 +156,9 @@ describe('Testing ApiWrapper [autoSave=true;  manual external value]', () => {
 
     // API patch method called
     expect(apiPatch).toBeCalledTimes(1)
-    expect(apiPatch).toBeCalledWith(config.propsData.uri, { [config.propsData.fieldname]: newValue })
+    expect(apiPatch).toBeCalledWith(config.propsData.uri, {
+      [config.propsData.fieldname]: newValue
+    })
 
     // wait for patch promise to resolve
     await jest.advanceTimersByTime(100)

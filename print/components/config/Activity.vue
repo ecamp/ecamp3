@@ -19,8 +19,8 @@ export default {
   },
   async fetch() {
     const [scheduleEntry] = await Promise.all([
-      this.$api.get(this.options.scheduleEntry)._meta.load,
-      this.$api.get(this.options.activity)._meta.load,
+      this.$api.get(this.options.scheduleEntry)._meta.load, // TODO prevent specifying arbitrary absolute URLs that the print container should fetch...
+      this.$api.get(this.options.activity)._meta.load, // TODO prevent specifying arbitrary absolute URLs that the print container should fetch...
       this.$api.get().contentTypes().$loadItems(),
 
       // might not be needed for every activity, but safer to do eager loading instead of n+1 later on

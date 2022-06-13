@@ -90,9 +90,9 @@ export default {
 <style lang="scss">
 .fab--bottom_nav {
   position: fixed;
-  bottom: 16px + 56px !important;
+  bottom: calc(16px + 56px + env(safe-area-inset-bottom)) !important;
   @media #{map-get($display-breakpoints, 'sm-and-up')}{
-    bottom: 16px + 36px !important;
+    bottom: calc(16px + 36px + env(safe-area-inset-bottom)) !important;
   }
 }
 </style>

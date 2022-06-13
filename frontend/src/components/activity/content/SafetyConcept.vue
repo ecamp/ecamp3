@@ -14,7 +14,6 @@
 </template>
 
 <script>
-
 import ApiForm from '@/components/form/api/ApiForm.vue'
 import ApiRichtext from '@/components/form/api/ApiRichtext.vue'
 import CardContentNode from '@/components/activity/CardContentNode.vue'
@@ -31,5 +30,4 @@ export default {
 }
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

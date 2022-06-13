@@ -30,9 +30,7 @@ export default {
   },
   data () {
     return {
-      entityProperties: [
-        'name'
-      ]
+      entityProperties: ['name']
     }
   },
   watch: {
@@ -46,6 +44,4 @@ export default {
 }
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

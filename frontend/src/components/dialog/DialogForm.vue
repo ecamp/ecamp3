@@ -21,10 +21,12 @@
             <v-toolbar-title>
               {{ title }}
             </v-toolbar-title>
-            <v-btn v-if="$vuetify.breakpoint.smAndUp" icon
-                   class="ml-auto"
-                   :title="$tc('global.button.cancel')"
-                   @click="doCancel">
+            <v-btn
+              v-if="$vuetify.breakpoint.smAndUp"
+              icon
+              class="ml-auto"
+              :title="$tc('global.button.cancel')"
+              @click="doCancel">
               <v-icon>mdi-close</v-icon>
               <span class="d-sr-only">{{ $tc('global.button.cancel') }}</span>
             </v-btn>
@@ -36,11 +38,9 @@
 
           <v-card-text>
             <!-- error message via slot -->
-            <v-alert v-if="$slots.error"
-                     text
+            <v-alert v-if="$slots.error" text
                      outlined
-                     color="warning"
-                     icon="mdi-alert">
+                     color="warning" icon="mdi-alert">
               <slot name="error" />
             </v-alert>
 
@@ -65,9 +65,7 @@
               type="submit"
               :loading="isSaving"
               :disabled="!submitEnabled">
-              <v-icon
-                v-if="!!submitIcon"
-                left>
+              <v-icon v-if="!!submitIcon" left>
                 {{ submitIcon }}
               </v-icon>
               {{ $tc(submitLabel) }}
@@ -81,7 +79,6 @@
 </template>
 
 <script>
-
 import { ValidationObserver } from 'vee-validate'
 import ServerError from '@/components/form/ServerError.vue'
 
@@ -142,14 +139,15 @@ export default {
 </script>
 
 <style lang="scss">
-@media #{map-get($display-breakpoints, 'xs-only')}{
+@media #{map-get($display-breakpoints, 'xs-only')} {
   .ec-dialog-form {
-    .v-form, .v-form > .v-sheet {
+    .v-form,
+    .v-form > .v-sheet {
       height: 100%;
     }
   }
 }
-.ec-dialog-toolbar{
-  border-bottom: 1px solid #cfd8dc!important;
+.ec-dialog-toolbar {
+  border-bottom: 1px solid #cfd8dc !important;
 }
 </style>

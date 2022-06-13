@@ -42,7 +42,8 @@ export default {
   computed: {
     inputListeners: function () {
       const vm = this
-      return Object.assign({},
+      return Object.assign(
+        {},
         // attach all $parent listeners
         this.$listeners,
 

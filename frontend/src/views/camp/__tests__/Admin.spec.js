@@ -31,18 +31,26 @@ describe('Admin view', () => {
       mocks: {
         $auth: USER,
         api: { reload: () => Promise.resolve() },
-        $tc: key => key
+        $tc: (key) => key
       },
-      stubs: ['camp-settings', 'camp-address', 'camp-periods', 'camp-categories', 'camp-material-lists']
+      stubs: [
+        'camp-settings',
+        'camp-address',
+        'camp-periods',
+        'camp-categories',
+        'camp-material-lists'
+      ]
     })
 
     await flushPromises()
 
     expect(getByText('components.camp.campDangerzone.title')).toBeInTheDocument()
-    expect(getByText('components.camp.campDangerzone.deleteCamp.title')).toBeInTheDocument()
+    expect(
+      getByText('components.camp.campDangerzone.deleteCamp.title')
+    ).toBeInTheDocument()
   })
 
-  it('doesn\'t show the danger zone when the user has a member role', async () => {
+  it("doesn't show the danger zone when the user has a member role", async () => {
     const { queryByText } = renderWithVuetify(Admin, {
       props: {
         camp: createCampWithRole('member')
@@ -51,18 +59,26 @@ describe('Admin view', () => {
       mocks: {
         $auth: USER,
         api: { reload: () => Promise.resolve() },
-        $tc: key => key
+        $tc: (key) => key
       },
-      stubs: ['camp-settings', 'camp-address', 'camp-periods', 'camp-categories', 'camp-material-lists']
+      stubs: [
+        'camp-settings',
+        'camp-address',
+        'camp-periods',
+        'camp-categories',
+        'camp-material-lists'
+      ]
     })
 
     await flushPromises()
 
     expect(queryByText('components.camp.campDangerzone.title')).not.toBeInTheDocument()
-    expect(queryByText('components.camp.campDangerzone.deleteCamp.title')).not.toBeInTheDocument()
+    expect(
+      queryByText('components.camp.campDangerzone.deleteCamp.title')
+    ).not.toBeInTheDocument()
   })
 
-  it('doesn\'t show the danger zone when the user has the guest role', async () => {
+  it("doesn't show the danger zone when the user has the guest role", async () => {
     const { queryByText } = renderWithVuetify(Admin, {
       props: {
         camp: createCampWithRole('guest')
@@ -71,15 +87,23 @@ describe('Admin view', () => {
       mocks: {
         $auth: USER,
         api: { reload: () => Promise.resolve() },
-        $tc: key => key
+        $tc: (key) => key
       },
-      stubs: ['camp-settings', 'camp-address', 'camp-periods', 'camp-categories', 'camp-material-lists']
+      stubs: [
+        'camp-settings',
+        'camp-address',
+        'camp-periods',
+        'camp-categories',
+        'camp-material-lists'
+      ]
     })
 
     await flushPromises()
 
     expect(queryByText('components.camp.campDangerzone.title')).not.toBeInTheDocument()
-    expect(queryByText('components.camp.campDangerzone.deleteCamp.title')).not.toBeInTheDocument()
+    expect(
+      queryByText('components.camp.campDangerzone.deleteCamp.title')
+    ).not.toBeInTheDocument()
   })
 })
 
@@ -102,8 +126,7 @@ function createCampWithRole (role) {
         }
       ]
     }),
-    materialLists: () => {
-    },
+    materialLists: () => {},
     _meta: { load: Promise.resolve() }
   })
 }

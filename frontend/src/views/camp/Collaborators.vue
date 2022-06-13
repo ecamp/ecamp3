@@ -6,28 +6,38 @@ Displays collaborators of a single camp.
     <v-card-text>
       <content-group :title="$tc('views.camp.collaborators.members')">
         <v-list>
-          <v-skeleton-loader v-if="collaborators.length <= 0" type="list-item-avatar-two-line@3" class="px-0" />
+          <v-skeleton-loader
+            v-if="collaborators.length <= 0"
+            type="list-item-avatar-two-line@3"
+            class="px-0" />
           <collaborator-list-item
             v-for="collaborator in establishedCollaborators"
-            :key="collaborator._meta.self" :collaborator="collaborator"
+            :key="collaborator._meta.self"
+            :collaborator="collaborator"
             :disabled="!isManager" />
         </v-list>
       </content-group>
 
-      <content-group v-if="invitedCollaborators.length > 0" :title="$tc('views.camp.collaborators.openInvitations')">
+      <content-group
+        v-if="invitedCollaborators.length > 0"
+        :title="$tc('views.camp.collaborators.openInvitations')">
         <v-list>
           <collaborator-list-item
             v-for="collaborator in invitedCollaborators"
-            :key="collaborator._meta.self" :collaborator="collaborator"
+            :key="collaborator._meta.self"
+            :collaborator="collaborator"
             :disabled="!isManager" />
         </v-list>
       </content-group>
 
-      <content-group v-if="inactiveCollaborators.length > 0" :title="$tc('views.camp.collaborators.inactiveCollaborators')">
+      <content-group
+        v-if="inactiveCollaborators.length > 0"
+        :title="$tc('views.camp.collaborators.inactiveCollaborators')">
         <v-list>
           <inactive-collaborator-list-item
             v-for="collaborator in inactiveCollaborators"
-            :key="collaborator._meta.self" :collaborator="collaborator"
+            :key="collaborator._meta.self"
+            :collaborator="collaborator"
             :disabled="!isManager" />
         </v-list>
       </content-group>
@@ -35,8 +45,7 @@ Displays collaborators of a single camp.
       <content-group v-if="isManager" :title="$tc('views.camp.collaborators.invite')">
         <v-form @submit.prevent="invite">
           <v-container>
-            <v-row
-              align="center">
+            <v-row align="center">
               <v-col>
                 <e-text-field
                   v-model="inviteEmail"
@@ -45,14 +54,18 @@ Displays collaborators of a single camp.
                   aria-autocomplete="none"
                   :placeholder="$tc('views.camp.collaborators.email')" />
               </v-col>
-              <v-col
-                sm="12"
-                md="3">
+              <v-col sm="12" md="3">
                 <e-select
                   v-model="inviteRole"
                   :items="[
-                    { key: 'member', translation: $tc('entity.camp.collaborators.member') },
-                    { key: 'manager', translation: $tc('entity.camp.collaborators.manager') },
+                    {
+                      key: 'member',
+                      translation: $tc('entity.camp.collaborators.member'),
+                    },
+                    {
+                      key: 'manager',
+                      translation: $tc('entity.camp.collaborators.manager'),
+                    },
                     { key: 'guest', translation: $tc('entity.camp.collaborators.guest') },
                   ]"
                   item-value="key"
@@ -113,16 +126,18 @@ export default {
       return this.camp().campCollaborations().items
     },
     establishedCollaborators () {
-      return this.collaborators.filter(c => c.status === 'established')
+      return this.collaborators.filter((c) => c.status === 'established')
     },
     invitedCollaborators () {
-      return this.collaborators.filter(c => c.status === 'invited')
+      return this.collaborators.filter((c) => c.status === 'invited')
     },
     inactiveCollaborators () {
-      return this.collaborators.filter(c => c.status === 'inactive')
+      return this.collaborators.filter((c) => c.status === 'inactive')
     },
     inviteEmailMessages () {
-      return this.messages.inviteEmail ? Object.values({ ...this.messages.inviteEmail }) : []
+      return this.messages.inviteEmail
+        ? Object.values({ ...this.messages.inviteEmail })
+        : []
     }
   },
   created () {
@@ -130,14 +145,16 @@ export default {
   },
   methods: {
     invite () {
-      this.api.href(this.api.get(), 'campCollaborations')
-        .then(url => this.api.post(url, {
-          camp: this.camp()._meta.self,
-          inviteEmail: this.inviteEmail,
-          role: this.inviteRole
-        }))
-        .then(this.refreshCamp,
-          this.handleError)
+      this.api
+        .href(this.api.get(), 'campCollaborations')
+        .then((url) =>
+          this.api.post(url, {
+            camp: this.camp()._meta.self,
+            inviteEmail: this.inviteEmail,
+            role: this.inviteRole
+          })
+        )
+        .then(this.refreshCamp, this.handleError)
     },
     handleError (e) {
       if (e.response) {
@@ -160,13 +177,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  ::v-deep .v-skeleton-loader__list-item-avatar-two-line {
-    height: 72px;
-    padding-left: 0 !important;
-    padding-right: 0 !important;
-  }
+::v-deep .v-skeleton-loader__list-item-avatar-two-line {
+  height: 72px;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
 
-  ::v-deep .v-select__selections input {
-    width: 20px;
-  }
+::v-deep .v-select__selections input {
+  width: 20px;
+}
 </style>

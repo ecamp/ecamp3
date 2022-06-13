@@ -3,7 +3,7 @@ import { apiStore } from '@/plugins/store'
 import router from '@/router'
 import Cookies from 'js-cookie'
 
-axios.interceptors.response.use(null, error => {
+axios.interceptors.response.use(null, (error) => {
   if (error.status === 401) {
     logout().then(() => {})
   }
@@ -20,9 +20,14 @@ function getJWTPayloadFromCookie () {
 function parseJWTPayload (payload) {
   if (!payload) return {}
   const base64 = payload.replace(/-/g, '+').replace(/_/g, '/')
-  const jsonPayload = decodeURIComponent(atob(base64).split('').map(function (c) {
-    return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
-  }).join(''))
+  const jsonPayload = decodeURIComponent(
+    atob(base64)
+      .split('')
+      .map(function (c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
+      })
+      .join('')
+  )
 
   return JSON.parse(jsonPayload)
 }
@@ -57,7 +62,7 @@ function user () {
     return null
   }
   const user = apiStore.get(parseJWTPayload(getJWTPayloadFromCookie()).user)
-  user._meta.load = user._meta.load.catch(e => {
+  user._meta.load = user._meta.load.catch((e) => {
     if (e.response && [401, 403, 404].includes(e.response.status)) {
       // 401 means no complete token was submitted, so we may be missing the JWT signature cookie
       // 403 means we can theoretically interact in some way with the user, but apparently not read it
@@ -85,9 +90,11 @@ async function redirectToOAuthLogin (provider) {
     returnUrl += '?redirect=' + params.get('redirect')
   }
 
-  return apiStore.href(apiStore.get(), provider, { callback: encodeURI(returnUrl) }).then(url => {
-    window.location.href = window.environment.API_ROOT_URL + url
-  })
+  return apiStore
+    .href(apiStore.get(), provider, { callback: encodeURI(returnUrl) })
+    .then((url) => {
+      window.location.href = window.environment.API_ROOT_URL + url
+    })
 }
 
 async function loginGoogle () {
@@ -104,7 +111,8 @@ async function loginCeviDB () {
 
 export async function logout () {
   Cookies.remove('jwt_hp', { domain: window.environment.SHARED_COOKIE_DOMAIN })
-  return router.push({ name: 'login' })
+  return router
+    .push({ name: 'login' })
     .then(() => apiStore.purgeAll())
     .then(() => isLoggedIn())
 }

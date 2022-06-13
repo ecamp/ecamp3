@@ -35,9 +35,7 @@ export default {
 
     const cssPageCounter = `'${this.$tc(
       'global.margin.pageCounter.page'
-    )} ' counter(page) ' ${this.$tc(
-      'global.margin.pageCounter.of'
-    )}  ' counter(pages)`
+    )} ' counter(page) ' ${this.$tc('global.margin.pageCounter.of')}  ' counter(pages)`
 
     header.style = [
       {
@@ -74,9 +72,7 @@ export default {
     header.script = []
 
     // inject FRONTEND_URL to client
-    header.__dangerouslyDisableSanitizersByTagID.environmentVariables = [
-      'innerHTML',
-    ]
+    header.__dangerouslyDisableSanitizersByTagID.environmentVariables = ['innerHTML']
     header.script.push({
       hid: 'environmentVariables',
       type: 'application/javascript',

@@ -5,7 +5,7 @@ Wrapper component for form components to save data back to API
 <template>
   <ValidationObserver ref="validationObserver" v-slot="validationObserver" slim>
     <v-form
-      :class="[{'api-wrapper--inline':!autoSave && !readonly && !separateButtons}]"
+      :class="[{ 'api-wrapper--inline': !autoSave && !readonly && !separateButtons }]"
       class="e-form-container"
       @submit.prevent="onEnter">
       <slot
@@ -90,22 +90,29 @@ export default {
       if (this.value) {
         return this.value
 
-      // while loading, value is null
+        // while loading, value is null
       } else if (this.isLoading) {
         return null
 
-      // avoid infinite reloading if loading from API has failed
+        // avoid infinite reloading if loading from API has failed
       } else if (this.hasLoadingError) {
         return null
 
-      // return value from API unless `value` is set explicitly
+        // return value from API unless `value` is set explicitly
       } else {
         const resource = this.api.get(this.uri)
         let val = get(resource, this.fieldname)
 
         // resource is loaded, but val is still undefined (=doesn't exist)
         if (val === undefined) {
-          console.error('You are trying to use a fieldname ' + this.fieldname + ' in an ApiFormComponent, but ' + this.fieldname + ' doesn\'t exist on entity ' + this.uri)
+          console.error(
+            'You are trying to use a fieldname ' +
+              this.fieldname +
+              ' in an ApiFormComponent, but ' +
+              this.fieldname +
+              " doesn't exist on entity " +
+              this.uri
+          )
           return null
         }
 
@@ -119,7 +126,7 @@ export default {
           if (!('items' in val)) {
             return val._meta.self // val is an embedded relation (*ToOne) --> return IRI
           } else {
-            return val.items.map(item => item._meta.self) // val is an embedded collection (*ToMany) --> return array of IRIs
+            return val.items.map((item) => item._meta.self) // val is an embedded collection (*ToMany) --> return array of IRIs
           }
         }
 
@@ -129,7 +136,7 @@ export default {
     }
   },
   watch: {
-    apiValue: function (newValue, oldValue) {
+    apiValue: function (newValue) {
       // override local value if it wasn't dirty
       if (!this.dirty || this.overrideDirty) {
         this.localValue = newValue
@@ -166,13 +173,15 @@ export default {
       this.isLoading = obj._meta.loading
 
       // initial data load from API
-      obj._meta.load.then(() => {
-        this.isLoading = false
-      }).catch(error => {
-        this.isLoading = false
-        this.hasLoadingError = true
-        this.loadingErrorMessage = error.message
-      })
+      obj._meta.load
+        .then(() => {
+          this.isLoading = false
+        })
+        .catch((error) => {
+          this.isLoading = false
+          this.hasLoadingError = true
+          this.loadingErrorMessage = error.message
+        })
     },
     reset () {
       this.localValue = this.apiValue
@@ -185,7 +194,9 @@ export default {
       this.hasLoadingError = false
       this.hasServerError = false
       this.serverErrorMessage = null
-      if (this.isMounted) { this.$refs.validationObserver.reset() }
+      if (this.isMounted) {
+        this.$refs.validationObserver.reset()
+      }
     },
     onEnter () {
       if (!this.autoSave) {
@@ -226,24 +237,23 @@ export default {
       })
     }
   }
-
 }
 </script>
 
 <style lang="scss" scoped>
-  .api-wrapper--inline .v-btn--last-instance {
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
-  }
-  .api-wrapper--inline .v-btn {
-    border-top: 1px solid rgba(0, 0, 0, 0.38);
-    border-bottom: 1px solid rgba(0, 0, 0, 0.38);
-  }
+.api-wrapper--inline .v-btn--last-instance {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.api-wrapper--inline .v-btn {
+  border-top: 1px solid rgba(0, 0, 0, 0.38);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.38);
+}
 </style>
 
-<style lang="scss" >
-  .api-wrapper--inline .v-text-field {
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-  }
+<style lang="scss">
+.api-wrapper--inline .v-text-field {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
 </style>

@@ -1,17 +1,12 @@
 <template>
-  <v-row v-if="layoutMode"
-         no-gutters
+  <v-row v-if="layoutMode" no-gutters
          justify="center"
          class="mb-3">
-    <v-menu bottom
-            left
-            offset-y>
+    <v-menu bottom left offset-y>
       <template #activator="{ on, attrs }">
-        <v-btn color="primary"
-               outlined
+        <v-btn color="primary" outlined
                :loading="isAdding"
-               v-bind="attrs"
-               v-on="on">
+               v-bind="attrs" v-on="on">
           <v-icon left>mdi-plus-circle-outline</v-icon>
           {{ $tc('global.button.add') }}
         </v-btn>
@@ -81,7 +76,8 @@ export default {
     async addContentNode (contentType) {
       this.isAdding = true
       try {
-        await this.api.post(await this.api.href(contentType, 'contentNodes'), { // this.api.href resolves to the correct endpoint for this contentType (e.g. '/content_node/single_texts?contentType=...')
+        await this.api.post(await this.api.href(contentType, 'contentNodes'), {
+          // this.api.href resolves to the correct endpoint for this contentType (e.g. '/content_node/single_texts?contentType=...')
           parent: this.parentContentNode._meta.self,
           contentType: contentType._meta.self,
           slot: this.slotName

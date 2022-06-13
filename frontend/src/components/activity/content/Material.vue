@@ -12,7 +12,6 @@
 </template>
 
 <script>
-
 import CardContentNode from '@/components/activity/CardContentNode.vue'
 import { contentNodeMixin } from '@/mixins/contentNodeMixin.js'
 import MaterialTable from '@/components/material/MaterialTable.vue'
@@ -32,6 +31,4 @@ export default {
 }
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

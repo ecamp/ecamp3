@@ -2,8 +2,7 @@
   <v-card :elevation="draggable ? 4 : 0" :class="{ 'mx-2 my-2': draggable }">
     <v-card-title hide-actions class="pa-0 pr-sm-2">
       <v-toolbar dense flat>
-        <v-menu v-if="!disabled"
-                bottom
+        <v-menu v-if="!disabled" bottom
                 right
                 offset-y>
           <template #activator="{ on, attrs }">
@@ -16,11 +15,12 @@
           <v-container class="grey lighten-5">
             <v-row v-for="(row, idx) in allowedIcons" :key="idx" no-gutters>
               <v-col v-for="(col, jdx) in row" :key="jdx">
-                <v-btn icon
-                       tile
-                       :outlined="currentIcon === col"
-                       class="ma-1"
-                       @click="currentIcon = col">
+                <v-btn
+                  icon
+                  tile
+                  :outlined="currentIcon === col"
+                  class="ma-1"
+                  @click="currentIcon = col">
                   <v-icon>{{ col }}</v-icon>
                 </v-btn>
               </v-col>
@@ -31,11 +31,9 @@
           {{ currentIcon }}
         </v-icon>
 
-        <div
-          v-if="editInstanceName"
-          style="flex: 1;"
-          @click.stop
-          @keyup.prevent>
+        <div v-if="editInstanceName" style="flex: 1"
+             @click.stop
+             @keyup.prevent>
           <api-text-field
             dense
             autofocus
@@ -44,14 +42,13 @@
             fieldname="instanceName"
             @finished="editInstanceName = false" />
         </div>
-        <div v-else style="flex: 1;">
+        <div v-else style="flex: 1">
           <v-toolbar-title>
             {{ instanceOrContentTypeName }}
           </v-toolbar-title>
         </div>
 
-        <v-menu v-if="!layoutMode && !disabled"
-                bottom
+        <v-menu v-if="!layoutMode && !disabled" bottom
                 left
                 offset-y>
           <template #activator="{ on, attrs }">
@@ -70,15 +67,11 @@
             </v-list-item>
           </v-list>
         </v-menu>
-        <dialog-entity-delete
-          v-else-if="!disabled"
-          :entity="contentNode">
+        <dialog-entity-delete v-else-if="!disabled" :entity="contentNode">
           <template #activator="{ on }">
-            <v-btn icon
-                   small
+            <v-btn icon small
                    color="error"
-                   class="float-right"
-                   v-on="on">
+                   class="float-right" v-on="on">
               <v-icon>mdi-trash-can-outline</v-icon>
             </v-btn>
           </template>
@@ -92,7 +85,6 @@
 </template>
 
 <script>
-
 import camelCase from 'lodash/camelCase'
 import ApiTextField from '../form/api/ApiTextField.vue'
 import DialogEntityDelete from '@/components/dialog/DialogEntityDelete.vue'
@@ -100,7 +92,8 @@ import DialogEntityDelete from '@/components/dialog/DialogEntityDelete.vue'
 export default {
   name: 'CardContentNode',
   components: {
-    ApiTextField, DialogEntityDelete
+    ApiTextField,
+    DialogEntityDelete
   },
   props: {
     contentNode: { type: Object, required: true },
@@ -112,9 +105,7 @@ export default {
     return {
       editInstanceName: false,
       allowedIcons: [
-        [
-          'mdi-book-open-variant'
-        ],
+        ['mdi-book-open-variant'],
         [
           'mdi-script-text-outline',
           'mdi-timeline-text-outline',
@@ -123,10 +114,7 @@ export default {
           'mdi-gender-female',
           'mdi-gender-male'
         ],
-        [
-          'mdi-security',
-          'mdi-hospital-box-outline'
-        ]
+        ['mdi-security', 'mdi-hospital-box-outline']
       ],
       currentIcon: ''
     }
@@ -140,10 +128,12 @@ export default {
     }
   },
   mounted () {
-    this.currentIcon = this.$tc(`contentNode.${camelCase(this.contentNode.contentTypeName)}.icon`)
+    this.currentIcon = this.$tc(
+      `contentNode.${camelCase(this.contentNode.contentTypeName)}.icon`
+    )
   },
   methods: {
-    toggleEditInstanceName (e) {
+    toggleEditInstanceName () {
       if (this.disabled) {
         return
       }
@@ -153,5 +143,4 @@ export default {
 }
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

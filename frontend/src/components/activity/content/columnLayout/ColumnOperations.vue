@@ -20,7 +20,10 @@
 </template>
 <script>
 import { cloneDeep, groupBy } from 'lodash'
-import { calculateNextSlotName, adjustColumnWidths } from '@/components/activity/content/columnLayout/calculateNextSlotName.js'
+import {
+  calculateNextSlotName,
+  adjustColumnWidths
+} from '@/components/activity/content/columnLayout/calculateNextSlotName.js'
 
 export default {
   name: 'ColumnOperations',

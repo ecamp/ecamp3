@@ -151,7 +151,6 @@ export default {
 </script>
 
 <style scoped>
-
 .flip-list-move {
   transition: transform 0.5s;
   opacity: 0.5;
@@ -166,5 +165,4 @@ export default {
 >>> .drag-and-drop-handle {
   cursor: grab;
 }
-
 </style>

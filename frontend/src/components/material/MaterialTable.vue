@@ -8,13 +8,12 @@
     item-class="class"
     hide-default-footer>
     <!-- skeleton loader (slot #body overrides all others) -->
-    <template v-if="materialItemCollection._meta.loading || camp.materialLists()._meta.loading" #body="{ headers }">
+    <template
+      v-if="materialItemCollection._meta.loading || camp.materialLists()._meta.loading"
+      #body="{ headers }">
       <tr v-for="row in 3" :key="row">
         <td v-for="col in headers.length" :key="col">
-          <v-skeleton-loader
-            height="25"
-            class="pr-5 mt-1"
-            type="text" />
+          <v-skeleton-loader height="25" class="pr-5 mt-1" type="text" />
         </td>
       </tr>
     </template>
@@ -25,7 +24,7 @@
           <v-icon v-if="isOpen">mdi-minus</v-icon>
           <v-icon v-else>mdi-plus</v-icon>
         </v-btn>
-        {{ tableHeaders.find(header => header.value === groupBy[0] ).text }}:
+        {{ tableHeaders.find((header) => header.value === groupBy[0]).text }}:
         {{ group }}
         <!--
         <v-btn icon small @click="remove">
@@ -90,8 +89,7 @@
           class="float-left"
           :material-item-uri="item.uri">
           <template #activator="{ on }">
-            <button-edit small
-                         fab
+            <button-edit small fab
                          text
                          v-on="on" />
           </template>
@@ -128,10 +126,9 @@
         <div v-if="item.serverError">
           <v-tooltip top color="red darken-2">
             <template #activator="{ on, attrs }">
-              <span
-                v-bind="attrs"
-                class="red--text text--darken-2"
-                v-on="on">{{ $tc('global.serverError.short') }}</span>
+              <span v-bind="attrs" class="red--text text--darken-2" v-on="on">{{
+                $tc('global.serverError.short')
+              }}</span>
             </template>
             <server-error-content :server-error="item.serverError" />
           </v-tooltip>
@@ -169,10 +166,7 @@
     </template>
 
     <template #no-data>
-      <v-btn
-        color="primary">
-        No material items found
-      </v-btn>
+      <v-btn color="primary"> No material items found </v-btn>
     </template>
   </v-data-table>
 </template>
@@ -236,37 +230,60 @@ export default {
   },
   computed: {
     tableHeaders () {
-      const headers = [{
-        text: this.$tc('entity.materialItem.fields.quantity'),
-        value: 'quantity',
-        align: 'start',
-        sortable: false,
-        groupable: false,
-        width: '10%'
-      },
-      { text: this.$tc('entity.materialItem.fields.unit'), value: 'unit', groupable: false, sortable: false, width: '15%' },
-      { text: this.$tc('entity.materialItem.fields.article'), value: 'article' }]
+      const headers = [
+        {
+          text: this.$tc('entity.materialItem.fields.quantity'),
+          value: 'quantity',
+          align: 'start',
+          sortable: false,
+          groupable: false,
+          width: '10%'
+        },
+        {
+          text: this.$tc('entity.materialItem.fields.unit'),
+          value: 'unit',
+          groupable: false,
+          sortable: false,
+          width: '15%'
+        },
+        { text: this.$tc('entity.materialItem.fields.article'), value: 'article' }
+      ]
 
-      headers.push({ text: this.$tc('entity.materialList.name'), value: 'listName', width: '20%' })
+      headers.push({
+        text: this.$tc('entity.materialList.name'),
+        value: 'listName',
+        width: '20%'
+      })
 
       // Activity column only shown in period overview
       if (this.period && this.showActivityMaterial) {
-        headers.push({ text: this.$tc('entity.activity.name'), value: 'lastColumn', groupable: false, width: '15%' })
+        headers.push({
+          text: this.$tc('entity.activity.name'),
+          value: 'lastColumn',
+          groupable: false,
+          width: '15%'
+        })
       } else {
-        headers.push({ text: '', value: 'lastColumn', sortable: false, groupable: false, width: '5%' })
+        headers.push({
+          text: '',
+          value: 'lastColumn',
+          sortable: false,
+          groupable: false,
+          width: '5%'
+        })
       }
 
       return headers
     },
     materialLists () {
-      return this.camp.materialLists().items.map(l => ({
+      return this.camp.materialLists().items.map((l) => ({
         value: l._meta.self,
         text: l.name
       }))
     },
     materialItemsData () {
       const items = this.materialItemCollection.items
-        .filter(item => {
+        .filter((item) => {
           // filter out material items belonging to content nodes (if showActivityMaterial is deactivated)
           if (!this.showActivityMaterial && item.materialNode !== null) {
             return false
@@ -275,7 +292,7 @@ export default {
           return true
         })
 
-        .map(item => ({
+        .map((item) => ({
           id: item.id,
           uri: item._meta.self,
           quantity: item.quantity,
@@ -283,7 +300,7 @@ export default {
           article: item.article,
           listName: item.materialList().name,
           entityObject: item,
-          readonly: (this.period && item.materialNode), // if complete component is in period overview, disable editing of material that belongs to materialNodes (Activity material)
+          readonly: this.period && item.materialNode, // if complete component is in period overview, disable editing of material that belongs to materialNodes (Activity material)
           class: this.period && item.materialNode ? 'readonly' : 'period'
         }))
 
@@ -295,7 +312,9 @@ export default {
           quantity: mi.quantity,
           unit: mi.unit,
           article: mi.article,
-          listName: this.materialLists.find(listItem => listItem.value === mi.materialList).text,
+          listName: this.materialLists.find(
+            (listItem) => listItem.value === mi.materialList
+          ).text,
           new: true,
           serverError: mi.serverError,
           readonly: true,
@@ -352,15 +371,16 @@ export default {
 
     postToApi (key, data) {
       // post new item to the API collection
-      this.materialItemCollection.$post(data)
-        .then(mi => {
+      this.materialItemCollection
+        .$post(data)
+        .then(() => {
           // reload list after item has successfully been added
           this.api.reload(this.materialItemCollection).then(() => {
             this.$delete(this.newMaterialItems, key)
           })
         })
-      // catch server error
-        .catch(error => {
+        // catch server error
+        .catch((error) => {
           this.$set(this.newMaterialItems[key], 'serverError', error)
         })
     },
@@ -378,26 +398,27 @@ export default {
 </script>
 
 <style scoped>
+.v-data-table >>> .v-data-table__wrapper th {
+  padding: 0 2px;
+}
+.v-data-table >>> .v-data-table__wrapper td {
+  padding: 0 2px;
+}
 
-  .v-data-table >>> .v-data-table__wrapper th {
-    padding: 0 2px;
-  }
-  .v-data-table >>> .v-data-table__wrapper td {
-    padding: 0 2px;
-  }
+.v-data-table >>> .v-data-table__wrapper tr.readonly td,
+.v-data-table >>> .v-data-table__wrapper tr.new td {
+  padding-left: 10px;
+}
 
-  .v-data-table >>> .v-data-table__wrapper tr.readonly td,
-  .v-data-table >>> .v-data-table__wrapper tr.new td {
-    padding-left: 10px;
-  }
+.v-data-table >>> tr.new {
+  animation: backgroundHighlight 2s;
+}
 
-  .v-data-table >>> tr.new {
-    animation: backgroundHighlight 2s;
+@keyframes backgroundHighlight {
+  from {
+    background: #c8ebfb;
   }
-
-  @keyframes backgroundHighlight {
-    from {background: #c8ebfb;}
-    to {}
+  to {
   }
-
+}
 </style>
