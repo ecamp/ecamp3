@@ -72,11 +72,8 @@ Displays a single activity
           <template v-else>{{ $tc('views.activity.activity.back') }}</template>
         </v-btn>
 
-        <DownloadNuxtPdfButton :config="printConfig()" class="ml-3" />
-        <DownloadReactPdfButton :config="printConfig()" class="ml-3" />
-
         <!-- hamburger menu -->
-        <v-menu offset-y>
+        <v-menu offset-y v-if="!layoutMode">
           <template #activator="{ on, attrs }">
             <v-btn icon v-bind="attrs" v-on="on">
               <v-icon>mdi-dots-vertical</v-icon>
@@ -84,12 +81,13 @@ Displays a single activity
           </template>
 
           <v-list>
+            <DownloadNuxtPdf :config="printConfig()" @error="showPrintError" />
+            <DownloadReactPdf :config="printConfig()" @error="showPrintError" />
+
+            <v-divider />
+
             <!-- layout/content switch (switch to layout mode) -->
-            <v-list-item
-              v-if="!layoutMode"
-              :disabled="!isContributor"
-              @click="layoutMode = true"
-            >
+            <v-list-item :disabled="!isContributor" @click="layoutMode = true">
               <v-list-item-icon>
                 <v-icon>mdi-puzzle-edit-outline</v-icon>
               </v-list-item-icon>
@@ -175,6 +173,15 @@ Displays a single activity
           />
         </template>
       </v-card-text>
+
+      <v-snackbar v-model="showError" app :timeout="10000">
+        {{ error ? error.label : null }}
+        <template #action="{ attrs }">
+          <v-btn color="red" text v-bind="attrs" @click="showError = null">
+            {{ $tc('global.button.close') }}
+          </v-btn>
+        </template>
+      </v-snackbar>
     </content-card>
   </v-container>
 </template>
@@ -187,8 +194,8 @@ import ActivityResponsibles from '@/components/activity/ActivityResponsibles.vue
 import { rangeShort } from '@/common/helpers/dateHelperUTCFormatted.js'
 import { campRoleMixin } from '@/mixins/campRoleMixin'
 import { periodRoute } from '@/router.js'
-import DownloadReactPdfButton from '@/components/print/print-react/DownloadReactPdfButton.vue'
-import DownloadNuxtPdfButton from '@/components/print/print-nuxt/DownloadNuxtPdfButton.vue'
+import DownloadNuxtPdf from '@/components/print/print-nuxt/DownloadNuxtPdfListItem.vue'
+import DownloadReactPdf from '@/components/print/print-react/DownloadReactPdfListItem.vue'
 
 export default {
   name: 'Activity',
@@ -197,8 +204,8 @@ export default {
     ApiTextField,
     RootNode,
     ActivityResponsibles,
-    DownloadReactPdfButton,
-    DownloadNuxtPdfButton,
+    DownloadReactPdf,
+    DownloadNuxtPdf,
   },
   mixins: [campRoleMixin],
   provide() {
@@ -219,6 +226,8 @@ export default {
       layoutMode: false,
       editActivityTitle: false,
       loading: true,
+      showError: null,
+      error: null,
     }
   },
   computed: {
@@ -266,6 +275,10 @@ export default {
       if (this.isContributor) {
         this.editActivityTitle = true
       }
+    },
+    showPrintError(event) {
+      this.error = event
+      this.showError = true
     },
     printConfig() {
       return {
