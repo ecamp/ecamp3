@@ -25,17 +25,17 @@ export const generatePdf = async (data) => {
   }
 }
 
-function prepareDataForSerialization (data) {
+function prepareDataForSerialization(data) {
   return {
     config: JSON.parse(
       JSON.stringify(replaceEntitiesWithRelativeUris(cloneDeep(data.config)))
     ),
     storeData: JSON.parse(JSON.stringify(data.storeData)),
-    translationData: JSON.parse(JSON.stringify(data.translationData))
+    translationData: JSON.parse(JSON.stringify(data.translationData)),
   }
 }
 
-function replaceEntitiesWithRelativeUris (map) {
+function replaceEntitiesWithRelativeUris(map) {
   Object.keys(map).forEach((key) => {
     const value = map[key]
     const relativeUri = relativeUriFor(value)
@@ -46,7 +46,7 @@ function replaceEntitiesWithRelativeUris (map) {
   return map
 }
 
-function relativeUriFor (entity) {
+function relativeUriFor(entity) {
   if (typeof entity !== 'function') {
     return entity
   }

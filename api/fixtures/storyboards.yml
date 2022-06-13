@@ -6,3 +6,11 @@ App\Entity\ContentNode\Storyboard:
     position: 1
     instanceName: <word()>
     contentType: '@contentTypeStoryboard'
+
+App\Entity\ContentNode\StoryboardSection:
+  storyboardSectionCampUnrelated:
+    storyboard: '@storyboardCampUnrelated'
+    column1: <word()>
+    column2: <sentence()>
+    column3: <word()>
+    position: 0

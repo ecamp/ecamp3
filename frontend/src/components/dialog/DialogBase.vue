@@ -4,9 +4,9 @@ export default {
   props: {
     // manual error handler to generate error message
     // should return an error message as string (or null, in which case the default error message is displayed)
-    errorHandler: { type: Function, required: false, default: null }
+    errorHandler: { type: Function, required: false, default: null },
   },
-  data () {
+  data() {
     return {
       // specifies entity properties available in the form
       entityProperties: [],
@@ -24,87 +24,102 @@ export default {
       entityUri: '',
       showDialog: false,
       loading: true,
-      error: null
-
+      error: null,
     }
   },
   watch: {
-    showDialog (visible) {
+    showDialog(visible) {
       if (visible) {
         this.error = null
       }
-    }
+    },
   },
   methods: {
-    clearEntityData () {
+    clearEntityData() {
       this.loading = true
       this.entityData = {}
     },
-    loadEntityData (uri) {
+    loadEntityData(uri) {
       this.clearEntityData()
       if (uri) {
         this.entityUri = uri
         this.api.get(uri)._meta.load.then(this.setEntityData)
       }
     },
-    setEntityData (data) {
+    setEntityData(data) {
       const loadingPromises = []
 
-      this.entityProperties.forEach(key => {
+      this.entityProperties.forEach((key) => {
         this.$set(this.entityData, key, data[key])
       })
-      this.embeddedEntities.forEach(key => {
+      this.embeddedEntities.forEach((key) => {
         if (data[key]) {
           loadingPromises.push(data[key]()._meta.load)
-          data[key]()._meta.load.then(obj => this.$set(this.entityData, key, obj._meta.self))
+          data[key]()._meta.load.then((obj) =>
+            this.$set(this.entityData, key, obj._meta.self)
+          )
         }
       })
-      this.embeddedCollections.forEach(key => {
+      this.embeddedCollections.forEach((key) => {
         if (data[key]) {
           loadingPromises.push(data[key]().$loadItems())
-          data[key]().$loadItems().then(obj => {
-            this.$set(this.entityData, key, obj.items.map(entity => entity._meta.self))
-          })
+          data[key]()
+            .$loadItems()
+            .then((obj) => {
+              this.$set(
+                this.entityData,
+                key,
+                obj.items.map((entity) => entity._meta.self)
+              )
+            })
         }
       })
 
       // wait for all loading promises to finish before showing any content
-      Promise.all(loadingPromises).then(() => { this.loading = false })
+      Promise.all(loadingPromises).then(() => {
+        this.loading = false
+      })
     },
-    create (payloadData = null) {
+    create(payloadData = null) {
       this.error = null
       const _events = this._events
       payloadData ??= this.entityData
-      const promise = this.api.post(this.entityUri, payloadData).then(this.onSuccess, e => this.onError(_events, e))
+      const promise = this.api
+        .post(this.entityUri, payloadData)
+        .then(this.onSuccess, (e) => this.onError(_events, e))
       this.$emit('submit')
       return promise
     },
-    update (payloadData = null) {
+    update(payloadData = null) {
       this.error = null
       const _events = this._events
       payloadData ??= this.entityData
-      const promise = this.api.patch(this.entityUri, payloadData).then(this.onSuccess, e => this.onError(_events, e))
+      const promise = this.api
+        .patch(this.entityUri, payloadData)
+        .then(this.onSuccess, (e) => this.onError(_events, e))
       this.$emit('submit')
       return promise
     },
-    del () {
+    del() {
       this.error = null
       const _events = this._events
-      const promise = this.api.del(this.entityUri).then(this.onSuccess, e => this.onError(_events, e))
+      const promise = this.api
+        .del(this.entityUri)
+        .then(this.onSuccess, (e) => this.onError(_events, e))
       this.$emit('submit')
       return promise
     },
-    onSuccess () {
+    onSuccess() {
       this.$emit('success')
       this.close()
     },
-    close () {
+    close() {
       this.showDialog = false
     },
-    open () {
+    open() {
       this.showDialog = true
     },
-    onError (originalHandlers, e) {
+    onError(originalHandlers, e) {
       // By the time we get here, the dialog might be closed because an enclosing menu might be closed.
       // See https://github.com/vuetifyjs/vuetify/issues/7021
       // In this case, the event handlers in here are cleared, so we need to temporarily restore them
@@ -132,7 +147,7 @@ export default {
       }
 
       this.error = errorHandlerMessage || defaultMessage
-    }
-  }
+    },
+  },
 }
 </script>

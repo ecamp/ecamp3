@@ -5,7 +5,7 @@
       <v-icon v-else>mdi-react</v-icon>
     </v-list-item-icon>
     <v-list-item-title>
-      {{ $tc("components.print.printReact.downloadNuxtPdfListItem.label") }}
+      {{ $tc('components.print.printReact.downloadNuxtPdfListItem.label') }}
     </v-list-item-title>
   </v-list-item>
 </template>
@@ -21,16 +21,16 @@ export default {
   props: {
     config: {
       type: Object,
-      default: () => {}
-    }
+      default: () => {},
+    },
   },
-  data () {
+  data() {
     return {
-      loading: false
+      loading: false,
     }
   },
   methods: {
-    async generatePdf () {
+    async generatePdf() {
       if (this.loading) {
         return
       }
@@ -44,13 +44,13 @@ export default {
         config: { ...this.config, apiGet: this.api.get.bind(this) },
         storeData: this.$store.state,
         translationData: this.$i18n.messages,
-        renderInWorker: RENDER_IN_WORKER
+        renderInWorker: RENDER_IN_WORKER,
       })
 
       if (error) {
         this.$emit('error', {
           label: this.$tc('components.print.printReact.downloadReactPdfListItem.error'),
-          trace: error
+          trace: error,
         })
         this.loading = false
         return
@@ -59,13 +59,13 @@ export default {
       saveAs(
         blob,
         slugify(this.config.documentName, {
-          locale: this.$store.state.lang.language.substr(0, 2)
+          locale: this.$store.state.lang.language.substr(0, 2),
         })
       )
 
       this.loading = false
-    }
-  }
+    },
+  },
 }
 </script>
 

@@ -16,7 +16,7 @@ const picassoData = (config) => {
           activities.items.map((activity) => {
             return Promise.all([
               activity.activityResponsibles().$loadItems(),
-              activity.contentNodes().$loadItems()
+              activity.contentNodes().$loadItems(),
             ])
           })
         )
@@ -38,7 +38,7 @@ const picassoData = (config) => {
             return period.scheduleEntries().$loadItems()
           })
         )
-      })
+      }),
   ]
 }
 
@@ -60,7 +60,7 @@ const activityData = (config) => {
           activities.items.map((activity) => {
             return Promise.all([
               activity.activityResponsibles().$loadItems(),
-              activity.contentNodes().$loadItems()
+              activity.contentNodes().$loadItems(),
             ])
           })
         )
@@ -84,7 +84,7 @@ const activityData = (config) => {
         )
       }),
     camp.materialLists().$loadItems(),
-    config.apiGet().contentTypes().$loadItems()
+    config.apiGet().contentTypes().$loadItems(),
   ]
 }
 

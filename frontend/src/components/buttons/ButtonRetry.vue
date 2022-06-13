@@ -7,6 +7,6 @@
 
 <script>
 export default {
-  name: 'ButtonRetry'
+  name: 'ButtonRetry',
 }
 </script>

@@ -5,44 +5,44 @@ import TiptapEditor from './TiptapEditor.vue'
 export default {
   name: 'VTiptapEditor',
   components: {
-    TiptapEditor
+    TiptapEditor,
   },
   extends: VTextField,
   props: {
     withExtensions: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   methods: {
-    genInput () {
+    genInput() {
       const listeners = Object.assign({}, this.listeners$)
       return this.$createElement(TiptapEditor, {
         attrs: {
           ...this.attrs$,
-          id: this.computedId
+          id: this.computedId,
         },
         props: {
           value: this.value,
           placeholder: this.placeholder,
           withExtensions: this.withExtensions,
-          editable: !this.readonly
+          editable: !this.readonly,
         },
         on: Object.assign(listeners, {
           blur: this.onBlur,
           focus: this.onFocus,
           // input: this.onInput,
           mousedown: this.onMouseDown,
-          mouseup: this.onMouseUp
+          mouseup: this.onMouseUp,
         }),
-        ref: 'input'
+        ref: 'input',
       })
     },
 
-    onBlur (e) {
+    onBlur(e) {
       VTextField.options.methods.onBlur.call(this, e)
     },
-    onFocus (e) {
+    onFocus(e) {
       VTextField.options.methods.onFocus.call(this, e)
 
       if (!this.isFocused) {
@@ -50,17 +50,17 @@ export default {
         e && this.$emit('focus', e)
       }
     },
-    onMouseDown (e) {
+    onMouseDown(e) {
       if (e.target === this.$refs.input) {
         VTextField.options.methods.onMouseDown.call(this, e)
       }
     },
-    onMouseUp (e) {
+    onMouseUp(e) {
       if (e.target === this.$refs.input) {
         VTextField.options.methods.onMouseDown.call(this, e)
       }
-    }
-  }
+    },
+  },
 }
 </script>
 

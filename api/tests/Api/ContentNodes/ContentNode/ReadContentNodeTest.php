@@ -24,12 +24,22 @@ class ReadContentNodeTest extends ECampApiTestCase {
             'contentTypeName' => $contentNode->getContentTypeName(),
             '_links' => [
                 'parent' => ['href' => $this->getIriFor($contentNode->parent)],
-                'owner' => ['href' => $this->getIriFor('activity1')],
-                'ownerCategory' => ['href' => $this->getIriFor('category1')],
                 'children' => [],
                 'self' => ['href' => $this->getIriFor('columnLayoutChild1')],
             ],
         ]);
+    }
+
+    public function testGetSingleContentNodeIsAllowedInCampPrototype() {
+        // given
+        /** @var ContentNode $contentNode */
+        $contentNode = static::$fixtures['columnLayout1campPrototype'];
+
+        // when (requesting with anonymous user)
+        static::createBasicClient()->request('GET', '/content_nodes/'.$contentNode->getId());
+
+        // then
+        $this->assertResponseStatusCodeSame(200);
     }
 
     public function testGetSingleContentNodeIncludesProperRelationLinks() {

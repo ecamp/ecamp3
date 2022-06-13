@@ -11,7 +11,8 @@ Displays a field as a date picker (can be used with v-model)
     :parse="parse"
     :parse-picker="parsePicker"
     v-bind="$attrs"
-    @input="$emit('input', $event)">
+    @input="$emit('input', $event)"
+  >
     <template slot-scope="picker">
       <v-date-picker
         :value="picker.value || ''"
@@ -20,16 +21,13 @@ Displays a field as a date picker (can be used with v-model)
         :allowed-dates="allowedDates"
         no-title
         scrollable
-        @input="picker.on.input">
+        @input="picker.on.input"
+      >
         <v-spacer />
-        <v-btn text color="primary"
-               data-testid="action-cancel"
-               @click="picker.on.close">
+        <v-btn text color="primary" data-testid="action-cancel" @click="picker.on.close">
           {{ $tc('global.button.cancel') }}
         </v-btn>
-        <v-btn text color="primary"
-               data-testid="action-ok"
-               @click="picker.on.save">
+        <v-btn text color="primary" data-testid="action-ok" @click="picker.on.save">
           {{ $tc('global.button.ok') }}
         </v-btn>
       </v-date-picker>
@@ -57,13 +55,13 @@ export default {
     valueFormat: { type: [String, Array], default: 'YYYY-MM-DD' },
 
     // v-date-picker allowedDates
-    allowedDates: { type: Function, default: null }
+    allowedDates: { type: Function, default: null },
   },
   methods: {
     /**
      * override date but keep time
      */
-    setDateOnValue (date) {
+    setDateOnValue(date) {
       // current value as DayJS
       let valueDateTime = this.getValueAsDateTime(this.value)
 
@@ -84,14 +82,14 @@ export default {
     /**
      * returns val as DayJS object
      */
-    getValueAsDateTime (val) {
+    getValueAsDateTime(val) {
       return this.$date.utc(val, this.valueFormat)
     },
 
     /**
      * Format internal value for display in the UI
      */
-    format (val) {
+    format(val) {
       if (val !== '') {
         return this.getValueAsDateTime(val).format('L')
       }
@@ -101,7 +99,7 @@ export default {
     /**
      * Format internal value for the popup component. If omitted, uses format instead.
      */
-    formatPicker (val) {
+    formatPicker(val) {
       if (val !== '') {
         return this.getValueAsDateTime(val).format(HTML5_FMT.DATE)
       }
@@ -111,7 +109,7 @@ export default {
     /**
      * Parse a user-supplied value into the internal format
      */
-    parse (val) {
+    parse(val) {
       if (val) {
         const parsedDate = this.$date.utc(val, 'L')
         if (parsedDate.isValid() && parsedDate.format('L') === val) {
@@ -128,7 +126,7 @@ export default {
     /**
      * Parse the value from the popup component into the internal format. If omitted, uses parse instead.
      */
-    parsePicker (val) {
+    parsePicker(val) {
       if (val) {
         const parsedDate = this.$date.utc(val, HTML5_FMT.DATE)
         if (parsedDate.isValid() && parsedDate.format(HTML5_FMT.DATE) === val) {
@@ -140,8 +138,8 @@ export default {
       } else {
         return Promise.resolve('')
       }
-    }
-  }
+    },
+  },
 }
 </script>
 

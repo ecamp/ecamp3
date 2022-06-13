@@ -5,15 +5,15 @@ import ScheduleEntry from './ScheduleEntry.jsx'
 import dayjs from '@/common/helpers/dayjs.js'
 
 // converts ISO String format (UTC timezone) into a unix/seconds timestamp (UTC timezone)
-function stringToTimestamp (string) {
+function stringToTimestamp(string) {
   return dayjs.utc(string).unix()
 }
 
-function getWeightsSum (times) {
+function getWeightsSum(times) {
   return times.reduce((sum, [_, weight]) => sum + weight, 0)
 }
 
-function percentage (seconds, times) {
+function percentage(seconds, times) {
   const hours = seconds / 3600.0
   let matchingTimeIndex = times.findIndex(([time, _]) => time >= hours)
   matchingTimeIndex = Math.min(
@@ -32,7 +32,7 @@ function percentage (seconds, times) {
   return Math.max(0, Math.min(100, result))
 }
 
-function dayBoundariesInMinutes (day, times) {
+function dayBoundariesInMinutes(day, times) {
   const [dayStart] = times[0]
   const [dayEnd] = times[times.length - 1]
 
@@ -44,7 +44,7 @@ function dayBoundariesInMinutes (day, times) {
   return [dayStartMinutes, dayEndMinutes]
 }
 
-function filterScheduleEntriesByDay (scheduleEntries, day, times) {
+function filterScheduleEntriesByDay(scheduleEntries, day, times) {
   const [dayStart, dayEnd] = dayBoundariesInMinutes(day, times)
 
   return scheduleEntries.filter((scheduleEntry) => {
@@ -55,7 +55,7 @@ function filterScheduleEntriesByDay (scheduleEntries, day, times) {
   })
 }
 
-function scheduleEntryBorderRadiusStyles (scheduleEntry, day, times) {
+function scheduleEntryBorderRadiusStyles(scheduleEntry, day, times) {
   const [dayStart, dayEnd] = dayBoundariesInMinutes(day, times)
 
   const start = stringToTimestamp(scheduleEntry.start)
@@ -68,11 +68,11 @@ function scheduleEntryBorderRadiusStyles (scheduleEntry, day, times) {
     ...(endsOnThisDay
       ? {}
       : { borderBottomRightRadius: '0', borderBottomLeftRadius: '0' }),
-    ...(startsOnThisDay ? {} : { borderTopRightRadius: '0', borderTopLeftRadius: '0' })
+    ...(startsOnThisDay ? {} : { borderTopRightRadius: '0', borderTopLeftRadius: '0' }),
   }
 }
 
-function scheduleEntryPositionStyles (scheduleEntry, day, times) {
+function scheduleEntryPositionStyles(scheduleEntry, day, times) {
   return {
     top:
       percentage(
@@ -85,7 +85,7 @@ function scheduleEntryPositionStyles (scheduleEntry, day, times) {
         stringToTimestamp(scheduleEntry.end) - stringToTimestamp(day.start),
         times
       ) +
-      '%'
+      '%',
   }
 }
 
@@ -93,15 +93,15 @@ const columnStyles = {
   flexGrow: '1',
   display: 'flex',
   flexDirection: 'column',
-  overflow: 'hidden'
+  overflow: 'hidden',
 }
 const dayGridStyles = {
   minWidth: '100%',
   minHeight: '100%',
-  display: 'flex'
+  display: 'flex',
 }
 const rowStyles = {
-  display: 'flex'
+  display: 'flex',
 }
 const scheduleEntryColumnStyles = {
   margin: '0 0.5%',
@@ -109,10 +109,10 @@ const scheduleEntryColumnStyles = {
   top: '0',
   bottom: '0',
   left: '0',
-  right: '0'
+  right: '0',
 }
 
-function DayColumn ({ times, scheduleEntries, day, styles }) {
+function DayColumn({ times, scheduleEntries, day, styles }) {
   return (
     <View style={{ ...columnStyles, ...styles }}>
       <View style={dayGridStyles}>
@@ -122,7 +122,7 @@ function DayColumn ({ times, scheduleEntries, day, styles }) {
             style={{
               ...rowStyles,
               flexGrow: weight,
-              ...(index % 2 === 0 ? { backgroundColor: 'lightgrey' } : {})
+              ...(index % 2 === 0 ? { backgroundColor: 'lightgrey' } : {}),
             }}
           />
         ))}
@@ -135,7 +135,7 @@ function DayColumn ({ times, scheduleEntries, day, styles }) {
               scheduleEntry={scheduleEntry}
               styles={{
                 ...scheduleEntryPositionStyles(scheduleEntry, day, times),
-                ...scheduleEntryBorderRadiusStyles(scheduleEntry, day, times)
+                ...scheduleEntryBorderRadiusStyles(scheduleEntry, day, times),
               }}
             />
           )

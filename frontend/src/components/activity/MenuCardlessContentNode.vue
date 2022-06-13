@@ -1,9 +1,7 @@
 <template>
   <v-menu bottom left offset-y>
     <template #activator="{ on, attrs }">
-      <v-btn icon class="float-right mr-4 mt-3"
-             v-bind="attrs"
-             v-on="on">
+      <v-btn icon class="float-right mr-4 mt-3" v-bind="attrs" v-on="on">
         <v-icon>mdi-dots-vertical</v-icon>
       </v-btn>
     </template>
@@ -12,7 +10,8 @@
       <dialog-entity-delete
         v-if="showDelete"
         :entity="contentNode"
-        @error="deletingFailed">
+        @error="deletingFailed"
+      >
         <template #activator="{ on }">
           <v-list-item :disabled="deletingDisabled" v-on="on">
             <v-list-item-icon>
@@ -33,42 +32,40 @@ import DialogEntityDelete from '@/components/dialog/DialogEntityDelete.vue'
 export default {
   name: 'MenuCardlessContentNode',
   components: {
-    DialogEntityDelete
+    DialogEntityDelete,
   },
+  inject: ['allContentNodes'],
   props: {
-    contentNode: { type: Object, required: true }
+    contentNode: { type: Object, required: true },
   },
   computed: {
-    isRoot () {
+    isRoot() {
       return this.contentNode._meta.self === this.contentNode.root()._meta.self
     },
-    children () {
-      return this.contentNode
-        .owner()
-        .contentNodes()
-        .items.filter((child) => {
-          return (
-            child.parent !== null &&
-            child.parent()._meta.self === this.contentNode._meta.self
-          )
-        })
+    children() {
+      return this.allContentNodes().items.filter((child) => {
+        return (
+          child.parent !== null &&
+          child.parent()._meta.self === this.contentNode._meta.self
+        )
+      })
     },
-    showDelete () {
+    showDelete() {
       return !this.isRoot
     },
-    deletingDisabled () {
+    deletingDisabled() {
       return this.children.length > 0
     },
-    deleteCaption () {
+    deleteCaption() {
       return this.deletingDisabled
         ? this.$tc('components.activity.menuCardlessContentNode.deletingDisabled')
         : this.$tc('components.activity.menuCardlessContentNode.delete')
-    }
+    },
   },
   methods: {
-    deletingFailed () {
-      this.contentNode.owner().contentNodes().$reload()
-    }
-  }
+    deletingFailed() {
+      this.allContentNodes().$reload()
+    },
+  },
 }
 </script>

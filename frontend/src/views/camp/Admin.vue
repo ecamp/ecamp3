@@ -8,7 +8,8 @@ Admin screen of a camp: Displays details & periods of a single camp and allows t
       <v-btn
         block
         :to="{ name: 'profile', query: { isDetail: true } }"
-        class="d-sm-none mb-2">
+        class="d-sm-none mb-2"
+      >
         {{ $tc('views.profile.profile') }}
       </v-btn>
       <v-btn block :to="{ name: 'camps', query: { isDetail: true } }" class="d-sm-none">
@@ -21,7 +22,8 @@ Admin screen of a camp: Displays details & periods of a single camp and allows t
 
           <v-btn
             v-if="$vuetify.breakpoint.xsOnly"
-            :to="{ name: 'camp/collaborators', query: { isDetail: true } }">
+            :to="{ name: 'camp/collaborators', query: { isDetail: true } }"
+          >
             {{ $tc('views.camp.admin.collaborators') }}
           </v-btn>
           <camp-periods :camp="camp" :disabled="!isManager" />
@@ -60,19 +62,19 @@ export default {
     CampAddress,
     CampPeriods,
     CampMaterialLists,
-    CampCategories
+    CampCategories,
   },
   mixins: [campRoleMixin],
   props: {
-    camp: { type: Function, required: true }
+    camp: { type: Function, required: true },
   },
-  data () {
+  data() {
     return {}
   },
-  mounted () {
+  mounted() {
     this.api.reload(this.camp())
     this.api.reload(this.camp().materialLists())
-  }
+  },
 }
 </script>
 

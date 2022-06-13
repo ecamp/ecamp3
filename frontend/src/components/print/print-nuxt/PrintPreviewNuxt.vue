@@ -7,7 +7,8 @@
       color="primary"
       outlined
       :href="url"
-      target="_blank">
+      target="_blank"
+    >
       <v-icon left>mdi-open-in-new</v-icon>
       {{ $tc('components.print.printPreviewNuxt.openPreview') }}
     </v-btn>
@@ -22,7 +23,8 @@
       width="100%"
       height="1150"
       :src="url"
-      v-bind="$attrs" />
+      v-bind="$attrs"
+    />
 
     <v-overlay absolute :value="loading || error" z-index="2">
       <div v-if="error">
@@ -43,25 +45,25 @@ export default {
   props: {
     config: {
       type: Object,
-      default: () => {}
-    }
+      default: () => {},
+    },
   },
-  data () {
+  data() {
     return {
       loading: false,
-      error: null
+      error: null,
     }
   },
   computed: {
-    language () {
+    language() {
       return this.$store.state.lang.language
     },
-    url () {
+    url() {
       return `${PRINT_SERVER}/?pagedjs=true&config=${encodeURIComponent(
         JSON.stringify(this.config)
       )}`
-    }
-  }
+    },
+  },
 }
 </script>
 

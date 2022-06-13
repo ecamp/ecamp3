@@ -19,5 +19,5 @@ const renderPdfInWorker = async (data) => {
 }
 
 Comlink.expose({
-  renderPdfInWorker
+  renderPdfInWorker,
 })

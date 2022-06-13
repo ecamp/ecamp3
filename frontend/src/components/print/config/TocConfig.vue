@@ -6,10 +6,10 @@
 export default {
   name: 'TocConfig',
   props: {
-    value: { type: Object, required: true }
+    value: { type: Object, required: true },
   },
-  defaultOptions () {
+  defaultOptions() {
     return {}
-  }
+  },
 }
 </script>

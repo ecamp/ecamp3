@@ -23,7 +23,6 @@ final class Version20211125144627 extends AbstractMigration {
 
     public function down(Schema $schema): void {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->addSql('CREATE SCHEMA public');
         $this->addSql('ALTER TABLE content_node_multiselect_option RENAME COLUMN position TO pos');
         $this->addSql('ALTER TABLE content_node_storyboard_section RENAME COLUMN position TO pos');
     }

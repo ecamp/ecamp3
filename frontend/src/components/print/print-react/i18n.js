@@ -2,7 +2,7 @@ import {
   translate,
   createCoreContext,
   registerMessageCompiler,
-  compileToFunction
+  compileToFunction,
 } from '@intlify/core'
 
 const createI18n = (translationData, language) => {
@@ -13,13 +13,13 @@ const createI18n = (translationData, language) => {
     fallbackLocale: 'en',
     messages: translationData,
     missingWarn: false,
-    fallbackWarn: false
+    fallbackWarn: false,
   })
 
   return {
     translate: (...args) => {
       return translate(context, ...args)
-    }
+    },
   }
 }
 

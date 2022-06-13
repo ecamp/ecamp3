@@ -2,12 +2,16 @@
 
 namespace App\Tests\Security\Voter;
 
+use App\Entity\Activity;
 use App\Entity\BaseEntity;
 use App\Entity\Camp;
 use App\Entity\CampCollaboration;
+use App\Entity\ContentNode\ColumnLayout;
 use App\Entity\Period;
 use App\Entity\User;
 use App\Security\Voter\CampRoleVoter;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\EntityRepository;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -19,11 +23,13 @@ use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 class CampRoleVoterTest extends TestCase {
     private CampRoleVoter $voter;
     private TokenInterface|MockObject $token;
+    private MockObject|EntityManagerInterface $em;
 
     public function setUp(): void {
         parent::setUp();
         $this->token = $this->createMock(TokenInterface::class);
-        $this->voter = new CampRoleVoter();
+        $this->em = $this->createMock(EntityManagerInterface::class);
+        $this->voter = new CampRoleVoter($this->em);
     }
 
     public function testDoesntVoteWhenAttributeWrong() {
@@ -208,7 +214,7 @@ class CampRoleVoterTest extends TestCase {
         $this->assertEquals(VoterInterface::ACCESS_DENIED, $result);
     }
 
-    public function testGrantsAccess() {
+    public function testGrantsAccessViaBelongsToCampInterface() {
         // given
         $user = $this->createMock(User::class);
         $user->method('getId')->willReturn('idFromTest');
@@ -223,6 +229,34 @@ class CampRoleVoterTest extends TestCase {
         $camp->collaborations->add($collaboration);
         $subject = $this->createMock(Period::class);
         $subject->method('getCamp')->willReturn($camp);
+
+        // when
+        $result = $this->voter->vote($this->token, $subject, ['CAMP_COLLABORATOR']);
+
+        // then
+        $this->assertEquals(VoterInterface::ACCESS_GRANTED, $result);
+    }
+
+    public function testGrantsAccessViaBelongsToContentNodeTreeInterface() {
+        // given
+        $user = $this->createMock(User::class);
+        $user->method('getId')->willReturn('idFromTest');
+        $user2 = $this->createMock(User::class);
+        $user2->method('getId')->willReturn('idFromTest');
+        $this->token->method('getUser')->willReturn($user);
+        $collaboration = new CampCollaboration();
+        $collaboration->user = $user2;
+        $collaboration->status = CampCollaboration::STATUS_ESTABLISHED;
+        $collaboration->role = CampCollaboration::ROLE_MANAGER;
+        $camp = new Camp();
+        $camp->collaborations->add($collaboration);
+        $activity = $this->createMock(Activity::class);
+        $activity->method('getCamp')->willReturn($camp);
+        $subject = $this->createMock(ColumnLayout::class);
+        $subject->method('getRoot')->willReturn($subject);
+        $repository = $this->createMock(EntityRepository::class);
+        $this->em->method('getRepository')->willReturn($repository);
+        $repository->method('findOneBy')->willReturn($activity);
 
         // when
         $result = $this->voter->vote($this->token, $subject, ['CAMP_COLLABORATOR']);

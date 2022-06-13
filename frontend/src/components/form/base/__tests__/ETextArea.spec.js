@@ -30,7 +30,7 @@ describe('An ETextArea', () => {
     const app = Vue.component('App', {
       components: { ETextarea },
       data: () => ({ data: null }),
-      template: template
+      template: template,
     })
     return mountComponent(app, { vuetify, attachTo: document.body, ...options })
   }

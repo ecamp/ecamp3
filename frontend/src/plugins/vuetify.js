@@ -10,28 +10,28 @@ import i18n from '@/plugins/i18n'
 import colors from 'vuetify/lib/util/colors'
 
 class VuetifyLoaderPlugin {
-  install (Vue) {
+  install(Vue) {
     Vue.use(Vuetify)
 
     const opts = {
       lang: {
-        t: (key, ...params) => i18n.t(key, params)
+        t: (key, ...params) => i18n.t(key, params),
       },
       icons: {
         values: {
           pbs: { component: PbsLogo },
           google: { component: GoogleLogo },
           ecamp: { component: eCampLogo },
-          cevi: { component: CeviLogo }
-        }
+          cevi: { component: CeviLogo },
+        },
       },
       theme: {
         themes: {
           light: {
-            error: colors.red.darken2
-          }
-        }
-      }
+            error: colors.red.darken2,
+          },
+        },
+      },
     }
 
     vuetify = new Vuetify(opts)

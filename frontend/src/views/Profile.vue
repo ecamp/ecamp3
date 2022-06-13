@@ -3,7 +3,8 @@
     <content-card
       max-width="800"
       :title="$tc('views.profile.profile') + ': ' + user.displayName"
-      toolbar>
+      toolbar
+    >
       <v-col>
         <v-skeleton-loader type="text" :loading="profile._meta.loading">
           <v-row class="e-form-container">
@@ -13,7 +14,8 @@
                 :uri="profile._meta.self"
                 fieldname="email"
                 readonly
-                required />
+                required
+              />
             </v-col>
             <v-col cols="2">
               <dialog-change-mail>
@@ -31,20 +33,24 @@
           <api-text-field
             :name="$tc('entity.user.fields.firstname')"
             :uri="profile._meta.self"
-            fieldname="firstname" />
+            fieldname="firstname"
+          />
           <api-text-field
             :name="$tc('entity.user.fields.surname')"
             :uri="profile._meta.self"
-            fieldname="surname" />
+            fieldname="surname"
+          />
           <api-text-field
             :name="$tc('entity.user.fields.nickname')"
             :uri="profile._meta.self"
-            fieldname="nickname" />
+            fieldname="nickname"
+          />
           <api-select
             :name="$tc('entity.user.fields.language')"
             :uri="profile._meta.self"
             fieldname="language"
-            :items="availableLocales" />
+            :items="availableLocales"
+          />
           <p class="text-caption blue-grey--text mb-0">
             {{ $tc('global.lokaliseMessage') }}
           </p>
@@ -54,7 +60,8 @@
             block
             large
             dark
-            @click="$auth.logout()">
+            @click="$auth.logout()"
+          >
             {{ $tc('global.button.logout') }}
           </v-btn>
         </v-skeleton-loader>
@@ -86,29 +93,29 @@ export default {
     emailVerificationKey: { type: String, required: false, default: null }
   },
   computed: {
-    user () {
+    user() {
       return this.$auth.user()
     },
-    profile () {
+    profile() {
       return this.user.profile()
     },
-    availableLocales () {
+    availableLocales() {
       return VueI18n.availableLocales.map((l) => ({
         value: l,
-        text: this.$tc('global.language', 1, l)
+        text: this.$tc('global.language', 1, l),
       }))
-    }
+    },
   },
   watch: {
-    user () {
+    user() {
       if (VueI18n.availableLocales.includes(this.profile.language)) {
         this.$store.commit('setLanguage', this.profile.language)
       }
-    }
+    },
   },
-  mounted () {
+  mounted() {
     this.api.reload(this.user).then((user) => this.api.reload(user.profile()))
-  }
+  },
 }
 </script>
 

@@ -1,4 +1,4 @@
-export function touch (element) {
+export function touch(element) {
   const createTrigger = (eventName) => (clientX, clientY) => {
     const touches = [{ clientX, clientY }]
     const event = new Event(eventName)
@@ -13,7 +13,7 @@ export function touch (element) {
   return {
     start: createTrigger('touchstart'),
     move: createTrigger('touchmove'),
-    end: createTrigger('touchend')
+    end: createTrigger('touchend'),
   }
 }
 

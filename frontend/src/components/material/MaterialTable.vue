@@ -6,11 +6,13 @@
     mobile-breakpoint="0"
     :group-by="groupByList ? 'listName' : null"
     item-class="class"
-    hide-default-footer>
+    hide-default-footer
+  >
     <!-- skeleton loader (slot #body overrides all others) -->
     <template
       v-if="materialItemCollection._meta.loading || camp.materialLists()._meta.loading"
-      #body="{ headers }">
+      #body="{ headers }"
+    >
       <tr v-for="row in 3" :key="row">
         <td v-for="col in headers.length" :key="col">
           <v-skeleton-loader height="25" class="pr-5 mt-1" type="text" />
@@ -40,7 +42,8 @@
         dense
         :uri="item.uri"
         fieldname="quantity"
-        type="number" />
+        type="number"
+      />
       <span v-if="item.readonly">{{ item.quantity }}</span>
     </template>
 
@@ -50,7 +53,8 @@
         :disabled="layoutMode || disabled"
         dense
         :uri="item.uri"
-        fieldname="unit" />
+        fieldname="unit"
+      />
       <span v-if="item.readonly">{{ item.unit }}</span>
     </template>
 
@@ -60,7 +64,8 @@
         :disabled="layoutMode || disabled"
         dense
         :uri="item.uri"
-        fieldname="article" />
+        fieldname="article"
+      />
       <span v-if="item.readonly">{{ item.article }}</span>
     </template>
 
@@ -71,7 +76,8 @@
         dense
         :uri="item.uri"
         fieldname="materialList"
-        :items="materialLists" />
+        :items="materialLists"
+      />
       <span v-if="item.readonly">{{ item.listName }}</span>
     </template>
 
@@ -80,11 +86,12 @@
       <schedule-entry-links
         v-if="
           period &&
-            showActivityMaterial &&
-            item.entityObject &&
-            item.entityObject.materialNode
+          showActivityMaterial &&
+          item.entityObject &&
+          item.entityObject.materialNode
         "
-        :activity="item.entityObject.materialNode().owner" />
+        :activity-promise="findOneActivityByContentNode(item.entityObject.materialNode())"
+      />
 
       <!-- Action buttons -->
       <div v-if="!item.readonly" class="d-flex">
@@ -92,11 +99,10 @@
         <dialog-material-item-edit
           v-if="!$vuetify.breakpoint.smAndUp && !layoutMode && !disabled"
           class="float-left"
-          :material-item-uri="item.uri">
+          :material-item-uri="item.uri"
+        >
           <template #activator="{ on }">
-            <button-edit small fab
-                         text
-                         v-on="on" />
+            <button-edit small fab text v-on="on" />
           </template>
         </dialog-material-item-edit>
 
@@ -126,7 +132,8 @@
           v-if="!item.serverError"
           size="16"
           indeterminate
-          color="primary" />
+          color="primary"
+        />
 
         <div v-if="item.serverError">
           <v-tooltip top color="red darken-2">
@@ -151,7 +158,8 @@
         key="addItemRow"
         :camp="camp"
         :columns="headers.length"
-        @item-adding="add" />
+        @item-adding="add"
+      />
     </template>
 
     <template #footer>
@@ -160,7 +168,8 @@
         <dialog-material-item-create
           :camp="camp"
           :material-item-collection="materialItemCollection"
-          @item-adding="add">
+          @item-adding="add"
+        >
           <template #activator="{ on }">
             <button-add v-on="on">
               {{ $tc('components.camp.periodMaterialLists.addNewItem') }}
@@ -202,7 +211,7 @@ export default {
     ButtonRetry,
     ButtonCancel,
     ScheduleEntryLinks,
-    ServerErrorContent
+    ServerErrorContent,
   },
   props: {
     // camp Entity
@@ -226,15 +235,15 @@ export default {
     showActivityMaterial: { type: Boolean, default: true },
 
     // true --> displays table grouped by material list
-    groupByList: { type: Boolean, default: false }
+    groupByList: { type: Boolean, default: false },
   },
-  data () {
+  data() {
     return {
-      newMaterialItems: {}
+      newMaterialItems: {},
     }
   },
   computed: {
-    tableHeaders () {
+    tableHeaders() {
       const headers = [
         {
           text: this.$tc('entity.materialItem.fields.quantity'),
@@ -242,22 +251,22 @@ export default {
           align: 'start',
           sortable: false,
           groupable: false,
-          width: '10%'
+          width: '10%',
         },
         {
           text: this.$tc('entity.materialItem.fields.unit'),
           value: 'unit',
           groupable: false,
           sortable: false,
-          width: '15%'
+          width: '15%',
         },
-        { text: this.$tc('entity.materialItem.fields.article'), value: 'article' }
+        { text: this.$tc('entity.materialItem.fields.article'), value: 'article' },
       ]
 
       headers.push({
         text: this.$tc('entity.materialList.name'),
         value: 'listName',
-        width: '20%'
+        width: '20%',
       })
 
       // Activity column only shown in period overview
@@ -266,7 +275,7 @@ export default {
           text: this.$tc('entity.activity.name'),
           value: 'lastColumn',
           groupable: false,
-          width: '15%'
+          width: '15%',
         })
       } else {
         headers.push({
@@ -274,19 +283,19 @@ export default {
           value: 'lastColumn',
           sortable: false,
           groupable: false,
-          width: '5%'
+          width: '5%',
         })
       }
 
       return headers
     },
-    materialLists () {
+    materialLists() {
       return this.camp.materialLists().items.map((l) => ({
         value: l._meta.self,
-        text: l.name
+        text: l.name,
       }))
     },
-    materialItemsData () {
+    materialItemsData() {
       const items = this.materialItemCollection.items
         .filter((item) => {
           // filter out material items belonging to content nodes (if showActivityMaterial is deactivated)
@@ -306,7 +315,7 @@ export default {
           listName: item.materialList().name,
           entityObject: item,
           readonly: this.period && item.materialNode, // if complete component is in period overview, disable editing of material that belongs to materialNodes (Activity material)
-          class: this.period && item.materialNode ? 'readonly' : 'period'
+          class: this.period && item.materialNode ? 'readonly' : 'period',
         }))
 
       // eager add new Items
@@ -323,13 +332,13 @@ export default {
           new: true,
           serverError: mi.serverError,
           readonly: true,
-          class: 'new' // CSS class of new item rows
+          class: 'new', // CSS class of new item rows
         })
       }
 
       return items
     },
-    materialItemsSorted () {
+    materialItemsSorted() {
       const items = this.materialItemCollection.items
 
       // eager add new Items
@@ -339,21 +348,21 @@ export default {
           id: key,
           quantity: mi.quantity,
           unit: mi.unit,
-          article: mi.article
+          article: mi.article,
         })
       }
 
       return items.sort((a, b) => a.article.localeCompare(b.article))
-    }
+    },
   },
   methods: {
     // remove existing item
-    deleteMaterialItem (materialItem) {
+    deleteMaterialItem(materialItem) {
       this.api.del(materialItem.uri)
     },
 
     // add new item to list & save to API
-    add (key, data) {
+    add(key, data) {
       // add item to local array
       this.$set(this.newMaterialItems, key, data)
 
@@ -361,7 +370,7 @@ export default {
     },
 
     // retry to save to API (after server error)
-    retry (item) {
+    retry(item) {
       // reset error
       this.$set(this.newMaterialItems[item.id], 'serverError', null)
 
@@ -370,11 +379,11 @@ export default {
     },
 
     // cancel (remove) item that is not successfully stored to API
-    cancel (item) {
+    cancel(item) {
       this.$delete(this.newMaterialItems, item.id)
     },
 
-    postToApi (key, data) {
+    postToApi(key, data) {
       // post new item to the API collection
       this.materialItemCollection
         .$post(data)
@@ -388,8 +397,17 @@ export default {
         .catch((error) => {
           this.$set(this.newMaterialItems[key], 'serverError', error)
         })
-    }
-  }
+    },
+
+    async findOneActivityByContentNode(contentNode) {
+      await this.camp.activities().$loadItems()
+      const root = await contentNode.$href('root')
+
+      return this.camp.activities().items.find((activity) => {
+        return activity.rootContentNode()._meta.self === root
+      })
+    },
+  },
 }
 </script>
 

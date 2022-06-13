@@ -21,6 +21,7 @@ class ListColumnLayoutTest extends ListContentNodeTestCase {
             $this->getIriFor('columnLayout3'),
             $this->getIriFor('columnLayout4'),
             $this->getIriFor('columnLayout5'),
+            $this->getIriFor('columnLayout1camp2'),
             $this->getIriFor('columnLayout2camp2'),
         ];
 

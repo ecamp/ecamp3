@@ -7,13 +7,13 @@ import DayColumn from './DayColumn.jsx'
 import TimeColumnSpacer from './TimeColumnSpacer.jsx'
 import DayHeader from './DayHeader.jsx'
 
-function Picasso ({ period, orientation, $tc }) {
+function Picasso({ period, orientation, $tc }) {
   const columnWrapperStyles = {
     flexGrow: '1',
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'stretch',
-    border: '1px solid black'
+    border: '1px solid black',
   }
 
   // Format: [hour, weight] where weight determines how tall the hour is rendered.
@@ -46,7 +46,7 @@ function Picasso ({ period, orientation, $tc }) {
     [21, 2],
     [22, 2],
     [23, 1],
-    [24, 0] // this last hour is only needed for defining the length of the day, the weight should be 0
+    [24, 0], // this last hour is only needed for defining the length of the day, the weight should be 0
   ]
 
   return (
@@ -73,7 +73,7 @@ function Picasso ({ period, orientation, $tc }) {
               key={day.id}
               styles={{
                 borderLeft: day.id === period.days().items[0].id ? '1px solid grey' : '',
-                borderRight: '1px solid grey'
+                borderRight: '1px solid grey',
               }}
               times={times}
               day={day}

@@ -23,7 +23,6 @@ final class Version20211030110620 extends AbstractMigration {
 
     public function down(Schema $schema): void {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->addSql('CREATE SCHEMA public');
         $this->addSql('ALTER TABLE abstract_content_node_owner DROP CONSTRAINT fk_8e710ab4f886581c');
         $this->addSql('ALTER TABLE abstract_content_node_owner ADD CONSTRAINT fk_8e710ab4f886581c FOREIGN KEY (rootcontentnodeid) REFERENCES content_node (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
     }

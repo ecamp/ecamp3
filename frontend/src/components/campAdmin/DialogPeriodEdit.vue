@@ -7,7 +7,8 @@
     :title="period.description"
     max-width="600px"
     :submit-action="update"
-    :cancel-action="close">
+    :cancel-action="close"
+  >
     <template #activator="scope">
       <slot name="activator" v-bind="scope" />
     </template>
@@ -15,38 +16,24 @@
 
     <e-checkbox
       v-model="entityData.moveScheduleEntries"
-      :name="$tc('components.dialog.dialogPeriodEdit.moveScheduleEntries')" />
+      :name="$tc('components.dialog.dialogPeriodEdit.moveScheduleEntries')"
+    />
 
     <svg
       viewBox="0 12 400 76"
       width="100%"
       height="80"
-      xmlns="http://www.w3.org/2000/svg">
-      <rect x="0" y="15"
-            width="14"
-            height="70" class="day-background" />
-      <rect x="42" y="15"
-            width="28"
-            height="70" class="day-background" />
-      <rect x="98" y="15"
-            width="28"
-            height="70" class="day-background" />
-      <rect x="154" y="15"
-            width="28"
-            height="70" class="day-background" />
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <rect x="0" y="15" width="14" height="70" class="day-background" />
+      <rect x="42" y="15" width="28" height="70" class="day-background" />
+      <rect x="98" y="15" width="28" height="70" class="day-background" />
+      <rect x="154" y="15" width="28" height="70" class="day-background" />
 
-      <rect x="218" y="15"
-            width="28"
-            height="70" class="day-background" />
-      <rect x="274" y="15"
-            width="28"
-            height="70" class="day-background" />
-      <rect x="330" y="15"
-            width="28"
-            height="70" class="day-background" />
-      <rect x="386" y="15"
-            width="14"
-            height="70" class="day-background" />
+      <rect x="218" y="15" width="28" height="70" class="day-background" />
+      <rect x="274" y="15" width="28" height="70" class="day-background" />
+      <rect x="330" y="15" width="28" height="70" class="day-background" />
+      <rect x="386" y="15" width="14" height="70" class="day-background" />
 
       <g :class="{ 'annimation-all': entityData.moveScheduleEntries }">
         <rect
@@ -59,29 +46,24 @@
           :class="{
             'annimation-period': !entityData.moveScheduleEntries,
             period: entityData.moveScheduleEntries,
-          }" />
+          }"
+        />
 
-        <rect x="101" y="40"
-              width="22"
-              height="32" class="category1" />
-        <rect x="129" y="34"
-              width="22"
-              height="32" class="category2" />
+        <rect x="101" y="40" width="22" height="32" class="category1" />
+        <rect x="129" y="34" width="22" height="32" class="category2" />
 
-        <rect x="249" y="40"
-              width="22"
-              height="32" class="category1" />
-        <rect x="277" y="34"
-              width="22"
-              height="32" class="category2" />
+        <rect x="249" y="40" width="22" height="32" class="category1" />
+        <rect x="277" y="34" width="22" height="32" class="category2" />
       </g>
       <path
         style="stroke: rgb(0, 0, 0); fill: rgba(0, 0, 0, 0); stroke-width: 5px"
-        d="M 200 10 C 190 20 190 40 200 50 C 210 60 210 80 200 90" />
+        d="M 200 10 C 190 20 190 40 200 50 C 210 60 210 80 200 90"
+      />
 
       <path
         style="stroke: rgb(255, 255, 255); fill: rgba(0, 0, 0, 0); stroke-width: 2px"
-        d="M 200 10 C 190 20 190 40 200 50 C 210 60 210 80 200 90" />
+        d="M 200 10 C 190 20 190 40 200 50 C 210 60 210 80 200 90"
+      />
     </svg>
   </dialog-form>
 </template>
@@ -96,11 +78,11 @@ export default {
   components: { DialogForm, DialogPeriodForm },
   extends: DialogBase,
   props: {
-    period: { type: Object, required: true }
+    period: { type: Object, required: true },
   },
-  data () {
+  data() {
     return {
-      entityProperties: ['description', 'start', 'end', 'moveScheduleEntries']
+      entityProperties: ['description', 'start', 'end', 'moveScheduleEntries'],
     }
   },
   watch: {
@@ -114,8 +96,8 @@ export default {
       if (!isLoading) {
         this.entityData.moveScheduleEntries = true
       }
-    }
-  }
+    },
+  },
 }
 </script>
 

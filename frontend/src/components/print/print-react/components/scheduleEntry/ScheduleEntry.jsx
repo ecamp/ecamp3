@@ -10,10 +10,10 @@ const fontSize = 8
 
 const categoryLabelStyles = {
   borderRadius: '50%',
-  padding: '4pt 8pt'
+  padding: '4pt 8pt',
 }
 
-function ScheduleEntry (props) {
+function ScheduleEntry(props) {
   const scheduleEntry = props.scheduleEntry
   const activity = scheduleEntry.activity()
   const start = dayjs.utc(scheduleEntry.start)
@@ -32,7 +32,7 @@ function ScheduleEntry (props) {
             display: 'flex',
             flexDirection: 'row',
             borderBottom: '1px solid black',
-            paddingBottom: '8pt'
+            paddingBottom: '8pt',
           }}
         >
           <Text
@@ -45,7 +45,7 @@ function ScheduleEntry (props) {
             style={{
               ...styles.h1,
               ...categoryLabelStyles,
-              backgroundColor: activity.category().color
+              backgroundColor: activity.category().color,
             }}
           >
             {activity.category().short}
@@ -59,14 +59,14 @@ function ScheduleEntry (props) {
             style={{
               display: 'flex',
               flexDirection: 'column',
-              justifyContent: 'center'
+              justifyContent: 'center',
             }}
           >
             <View
               style={{
                 display: 'flex',
                 flexDirection: 'row',
-                justifyContent: 'flex-end'
+                justifyContent: 'flex-end',
               }}
             >
               <Text>{startAt}</Text>
@@ -75,7 +75,7 @@ function ScheduleEntry (props) {
               style={{
                 display: 'flex',
                 flexDirection: 'row',
-                justifyContent: 'flex-end'
+                justifyContent: 'flex-end',
               }}
             >
               <Text>- {endAt}</Text>
@@ -88,14 +88,14 @@ function ScheduleEntry (props) {
               display: 'flex',
               flexDirection: 'column',
               flexShrink: '0',
-              borderRight: '1px solid black'
+              borderRight: '1px solid black',
             }}
           >
             <Text
               style={{
                 height: fontSize + 8 + 'pt',
                 borderBottom: '1px solid black',
-                padding: '2pt 4pt 2pt 0'
+                padding: '2pt 4pt 2pt 0',
               }}
             >
               {props.$tc('entity.activity.fields.location')}
@@ -104,7 +104,7 @@ function ScheduleEntry (props) {
               style={{
                 height: fontSize + 8 + 'pt',
                 borderBottom: '1px solid black',
-                padding: '2pt 4pt 2pt 0'
+                padding: '2pt 4pt 2pt 0',
               }}
             >
               {props.$tc('entity.activity.fields.responsible')}
@@ -116,7 +116,7 @@ function ScheduleEntry (props) {
                 height: fontSize + 8 + 'pt',
                 borderBottom: '1px solid black',
                 overflow: 'ellipsis',
-                padding: '2pt 0 2pt 4pt'
+                padding: '2pt 0 2pt 4pt',
               }}
             >
               {activity.location}
@@ -125,7 +125,7 @@ function ScheduleEntry (props) {
               styles={{
                 height: fontSize + 8 + 'pt',
                 borderBottom: '1px solid black',
-                padding: '2pt 0 2pt 4pt'
+                padding: '2pt 0 2pt 4pt',
               }}
               activity={activity}
             />
@@ -133,7 +133,11 @@ function ScheduleEntry (props) {
         </View>
       </View>
       <View style={{ marginBottom: '20pt' }}>
-        <ContentNode {...props} contentNode={activity.rootContentNode()} />
+        <ContentNode
+          {...props}
+          contentNode={activity.rootContentNode()}
+          allContentNodes={activity.contentNodes()}
+        />
       </View>
     </React.Fragment>
   )

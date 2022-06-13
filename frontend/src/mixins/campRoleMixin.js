@@ -1,40 +1,40 @@
 export const campRoleMixin = {
   computed: {
-    isContributor () {
+    isContributor() {
       return this.isMember || this.isManager
     },
-    isGuest () {
+    isGuest() {
       return this.role === 'guest'
     },
-    isManager () {
+    isManager() {
       return this.role === 'manager'
     },
-    isMember () {
+    isMember() {
       return this.role === 'member'
     },
-    role () {
+    role() {
       const currentUserLink = this.$auth.user()._meta.self
       const result = this._campCollaborations
         .filter((coll) => typeof coll.user === 'function')
         .find((coll) => coll.user()._meta.self === currentUserLink)
       return result?.role
     },
-    _campCollaborations () {
+    _campCollaborations() {
       const campCollaborations = this._camp?.campCollaborations()
       return campCollaborations?.items
     },
-    _camp () {
+    _camp() {
       if (typeof this.camp === 'function') {
         return this.camp()
       }
       return this.camp
-    }
+    },
   },
-  mounted () {
+  mounted() {
     if (typeof this.camp !== 'object' && typeof this.camp !== 'function') {
       throw new Error(
         'User of the campRoleMixin must expose a camp as object proxy or function'
       )
     }
-  }
+  },
 }

@@ -3,9 +3,7 @@ Displays a field as a e-textarea + write access via API wrapper
 -->
 
 <template>
-  <api-wrapper v-slot="wrapper" v-bind="$props"
-               separate-buttons
-               v-on="$listeners">
+  <api-wrapper v-slot="wrapper" v-bind="$props" separate-buttons v-on="$listeners">
     <e-richtext
       :value="wrapper.localValue"
       v-bind="$attrs"
@@ -15,7 +13,8 @@ Displays a field as a e-textarea + write access via API wrapper
       :loading="wrapper.isSaving || wrapper.isLoading ? 'secondary' : false"
       :outlined="outlined"
       :filled="filled"
-      @input="wrapper.on.input">
+      @input="wrapper.on.input"
+    >
       <template #append>
         <api-wrapper-append :wrapper="wrapper" />
       </template>
@@ -31,7 +30,7 @@ import ApiWrapperAppend from './ApiWrapperAppend.vue'
 export default {
   name: 'ApiRichtext',
   components: { ApiWrapper, ApiWrapperAppend },
-  mixins: [apiPropsMixin]
+  mixins: [apiPropsMixin],
 }
 </script>
 

@@ -1,7 +1,7 @@
 module.exports = {
   devServer: {
     useLocalIp: false,
-    allowedHosts: ['ecamp3', 'localhost', '127.0.0.1']
+    allowedHosts: ['ecamp3', 'localhost', '127.0.0.1'],
   },
 
   transpileDependencies: ['vuetify'],
@@ -15,12 +15,12 @@ module.exports = {
         indent_size: 5,
         inline: [],
         sep: '\n',
-        wrap_attributes: 'force-aligned'
-      }
-    }
+        wrap_attributes: 'force-aligned',
+      },
+    },
   },
 
   css: {
-    sourceMap: true
-  }
+    sourceMap: true,
+  },
 }

@@ -90,7 +90,7 @@ class CreateColumnLayoutTest extends CreateContentNodeTestCase {
             'violations' => [
                 [
                     'propertyPath' => 'parent',
-                    'message' => 'Must not be null on non-root content nodes.',
+                    'message' => 'This value should not be null.',
                 ],
             ],
         ]);

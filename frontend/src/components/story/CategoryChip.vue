@@ -4,7 +4,8 @@
     :color="category().color"
     class="e-category-chip tabular-nums"
     dark
-    small>
+    small
+  >
     {{ category().short }}
   </v-chip>
 </template>
@@ -14,9 +15,9 @@ export default {
   props: {
     category: {
       type: Function,
-      required: true
-    }
-  }
+      required: true,
+    },
+  },
 }
 </script>
 

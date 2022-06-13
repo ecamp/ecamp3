@@ -8,7 +8,8 @@
     :layout-mode="layoutMode"
     :draggable="draggable"
     :disabled="disabled"
-    v-bind="$attrs" />
+    v-bind="$attrs"
+  />
 </template>
 
 <script>
@@ -27,7 +28,7 @@ const contentNodeComponents = {
   LAThematicArea,
   SafetyConcept,
   Storyboard,
-  Storycontext
+  Storycontext,
 }
 
 export default {
@@ -37,8 +38,8 @@ export default {
     contentNode: { type: Object, required: true },
     layoutMode: { type: Boolean, required: true },
     draggable: { type: Boolean, default: false },
-    disabled: { type: Boolean, default: false }
-  }
+    disabled: { type: Boolean, default: false },
+  },
 }
 </script>
 

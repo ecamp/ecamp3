@@ -15,18 +15,21 @@
       :color="color"
       :show-header="!isRoot"
       @resizing="(newWidth) => resizeColumn(slot, newWidth)"
-      @resize-stop="saveColumnWidths">
+      @resize-stop="saveColumnWidths"
+    >
       <draggable-content-nodes
         :slot-name="slot"
         :layout-mode="layoutMode"
         :parent-content-node="contentNode"
-        :disabled="disabled" />
+        :disabled="disabled"
+      />
 
       <template #menu>
         <column-operations
           :content-node="contentNode"
           :min-column-width="minWidth(slot)"
-          :total-width="12" />
+          :total-width="12"
+        />
       </template>
     </resizable-column>
   </v-row>
@@ -39,7 +42,7 @@ import ResizableColumn from '@/components/activity/content/columnLayout/Resizabl
 import DraggableContentNodes from '@/components/activity/DraggableContentNodes.vue'
 import ColumnOperations from '@/components/activity/content/columnLayout/ColumnOperations.vue'
 
-function cumulativeSumReducer (cumSum, nextElement) {
+function cumulativeSumReducer(cumSum, nextElement) {
   cumSum.push(cumSum[cumSum.length - 1] + nextElement)
   return cumSum
 }
@@ -49,30 +52,30 @@ export default {
   components: {
     ColumnOperations,
     DraggableContentNodes,
-    ResizableColumn
+    ResizableColumn,
   },
   mixins: [contentNodeMixin],
-  data () {
+  data() {
     return {
-      localColumnWidths: {}
+      localColumnWidths: {},
     }
   },
   computed: {
-    columns () {
+    columns() {
       return keyBy(this.contentNode.columns || [], 'slot')
     },
-    numColumns () {
+    numColumns() {
       return this.contentNode.columns?.length || 0
     },
-    lastColumn () {
+    lastColumn() {
       const slots = Object.keys(this.columns)
       return slots[slots.length - 1]
     },
-    relativeColumnWidths () {
+    relativeColumnWidths() {
       // Cumulative sum of column widths, to know how many "width units" are to the left of each column
       // E.g. [0, 3, 8, 12] if there are three columns of width 3, 5, 4
       const cumSum = Object.values(this.localColumnWidths).reduce(cumulativeSumReducer, [
-        0
+        0,
       ])
       // Map the cumulative sum values to the slot names
       // E.g. {'1': 0, '2': 3, '3': 8}
@@ -84,46 +87,46 @@ export default {
       return mapValues(this.localColumnWidths, (width, slot) => [
         colsLeft[slot],
         width,
-        12 - colsLeft[slot] - width
+        12 - colsLeft[slot] - width,
       ])
     },
-    color () {
+    color() {
       const h = parseInt(this.contentNode.id, 16) % 360
       return `hsl(${h}, 100%, 30%)`
     },
-    isRoot () {
+    isRoot() {
       return this.contentNode._meta.self === this.contentNode.root()._meta.self
-    }
+    },
   },
   watch: {
     columns: {
       immediate: true,
-      handler () {
+      handler() {
         this.setLocalColumnWidths()
-      }
-    }
+      },
+    },
   },
   methods: {
-    setLocalColumnWidths () {
+    setLocalColumnWidths() {
       this.localColumnWidths = mapValues(this.columns, 'width')
     },
-    resizeColumn (slot, width) {
+    resizeColumn(slot, width) {
       const oldWidth = this.localColumnWidths[slot]
       const diff = width - oldWidth
       const nextSlot = this.next(slot)
       this.localColumnWidths[slot] = width
       this.localColumnWidths[nextSlot] = this.localColumnWidths[nextSlot] - diff
     },
-    next (slot) {
+    next(slot) {
       const slots = Object.keys(this.columns)
       const index = slots.findIndex((s) => s === slot)
       if (index === -1 || index === slots.length - 1) return undefined
       return slots[index + 1]
     },
-    minWidth () {
+    minWidth() {
       return 3
     },
-    maxWidth (slot) {
+    maxWidth(slot) {
       const nextSlot = this.next(slot)
       if (nextSlot === undefined) return this.localColumnWidths[slot]
       return (
@@ -132,15 +135,15 @@ export default {
         this.minWidth(nextSlot)
       )
     },
-    async saveColumnWidths () {
+    async saveColumnWidths() {
       const payload = {
         columns: this.contentNode.columns.map((column) => ({
           ...column,
-          width: this.localColumnWidths[column.slot]
-        }))
+          width: this.localColumnWidths[column.slot],
+        })),
       }
       this.api.patch(this.contentNode, payload)
-    }
-  }
+    },
+  },
 }
 </script>

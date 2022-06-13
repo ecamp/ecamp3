@@ -8,7 +8,8 @@
     :disabled="disabled"
     @sort="onSort"
     @start="dragging = true"
-    @end="dragging = false">
+    @end="dragging = false"
+  >
     <!-- disable transition for drag&drop as draggable already comes with its own anmations -->
     <transition-group :name="!dragging ? 'flip-list' : null" tag="div">
       <div v-for="entity in locallySortedEntities" :key="entity._meta.self">
@@ -25,29 +26,29 @@ import { isEqual } from 'lodash'
 export default {
   name: 'ApiSortable',
   components: {
-    draggable
+    draggable,
   },
   props: {
     /* reference to sortable API collection */
     collection: { type: Function, required: true },
-    disabled: { type: Boolean, default: false }
+    disabled: { type: Boolean, default: false },
   },
-  data () {
+  data() {
     return {
       dragging: false,
       sorting: {
         dirty: false,
-        hrefList: []
+        hrefList: [],
       },
       eventHandlers: {
         moveUp: this.moveUp,
-        moveDown: this.moveDown
-      }
+        moveDown: this.moveDown,
+      },
     }
   },
   computed: {
     // retrieve all relevant entities from external (incl. filtering and sorting)
-    entities () {
+    entities() {
       return this.collection().items.sort((a, b) => {
         if (a.position !== b.position) {
           // firstly: sort by position property
@@ -60,9 +61,9 @@ export default {
     },
 
     // locally sorted entities (sorted as per local hrefList)
-    locallySortedEntities () {
+    locallySortedEntities() {
       return this.sorting.hrefList.map((href) => this.api.get(href))
-    }
+    },
   },
   watch: {
     entities: {
@@ -80,19 +81,19 @@ export default {
           this.sorting.dirty = false
         }
       },
-      immediate: true
-    }
+      immediate: true,
+    },
   },
   methods: {
-    async moveUp (entity) {
+    async moveUp(entity) {
       this.swapPosition(entity, -1)
     },
-    async moveDown (entity) {
+    async moveDown(entity) {
       this.swapPosition(entity, +1)
     },
 
     // swaps position of entity with the element which is deltaPosition down/ahead in the list
-    async swapPosition (entity, deltaPosition) {
+    async swapPosition(entity, deltaPosition) {
       const list = this.sorting.hrefList
       const oldIndex = list.indexOf(entity._meta.self)
 
@@ -112,7 +113,7 @@ export default {
     /**
      * Triggers on every sorting change
      */
-    async onSort (event) {
+    async onSort(event) {
       const newIndex = event.newDraggableIndex
       const entity = this.api.get(this.sorting.hrefList[newIndex])
 
@@ -122,15 +123,15 @@ export default {
     /**
      * Saves new position to API and reloads complete list
      */
-    async savePosition (entity, newPosition) {
+    async savePosition(entity, newPosition) {
       this.sorting.dirty = true
 
       await entity.$patch({
-        position: newPosition
+        position: newPosition,
       })
       this.collection().$reload() // TODO: should $reload kill the last load and issue a new reload?
-    }
-  }
+    },
+  },
 }
 </script>
 

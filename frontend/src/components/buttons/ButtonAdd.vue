@@ -4,7 +4,8 @@
     min-width="0"
     :color="color"
     v-bind="$attrs"
-    v-on="$listeners">
+    v-on="$listeners"
+  >
     <span :class="{ 'd-sr-only': hideLabel }">
       <slot>{{ $tc('global.button.add') }}</slot>
     </span>
@@ -18,8 +19,8 @@ export default {
   props: {
     icon: { type: String, default: 'mdi-plus' },
     hideLabel: { type: Boolean, default: false },
-    color: { type: String, default: 'success' }
-  }
+    color: { type: String, default: 'success' },
+  },
 }
 </script>
 

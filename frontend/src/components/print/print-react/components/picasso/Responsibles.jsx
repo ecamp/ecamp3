@@ -5,12 +5,12 @@ import { View, Text } from '../../reactPdf.js'
 const fontSize = 8
 const initialFontSize = fontSize * 0.75
 
-function color (campCollaboration) {
+function color(campCollaboration) {
   const h = parseInt(campCollaboration.user()?.id || campCollaboration.id, 16) % 360
   return `hsl(${h}, 100%, 30%)`
 }
 
-function initials (campCollaboration) {
+function initials(campCollaboration) {
   const displayName =
     campCollaboration.user()?.displayName ||
     campCollaboration.inviteEmail.split('@', 2).shift()
@@ -27,7 +27,7 @@ function initials (campCollaboration) {
 
 const avatarsStyles = {
   flexDirection: 'row',
-  alignItems: 'flex-end'
+  alignItems: 'flex-end',
 }
 
 const avatarStyles = {
@@ -35,16 +35,16 @@ const avatarStyles = {
   width: initialFontSize * 2 + 'pt',
   height: initialFontSize * 2 + 'pt',
   flexDirection: 'column',
-  justifyContent: 'center'
+  justifyContent: 'center',
 }
 
 const initialsStyles = {
   fontSize: initialFontSize + 'pt',
   textAlign: 'center',
-  color: 'white'
+  color: 'white',
 }
 
-function Responsibles ({ activity, styles }) {
+function Responsibles({ activity, styles }) {
   const last = activity.activityResponsibles().items.length - 1
   return (
     <View style={{ ...avatarsStyles, ...styles }}>
@@ -55,7 +55,7 @@ function Responsibles ({ activity, styles }) {
             style={{
               ...avatarStyles,
               backgroundColor: color(activityResponsible.campCollaboration()),
-              ...(index === last ? {} : { marginRight: '-' + fontSize / 4 + 'px' })
+              ...(index === last ? {} : { marginRight: '-' + fontSize / 4 + 'px' }),
             }}
           >
             <Text style={initialsStyles}>
