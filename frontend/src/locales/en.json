@@ -387,6 +387,7 @@
       "registerDone": {
         "login": "Login",
         "success": "Successfully registered",
+        "message": "We sent you an email. Please complete your registration by clicking the activation-link in the email",
         "title": "Create account"
       },
       "resetPassword": {

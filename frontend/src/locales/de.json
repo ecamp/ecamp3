@@ -317,6 +317,7 @@
       "registerDone": {
         "login": "Anmelden",
         "success": "Erfolgreich registriert",
+        "message": "Wir haben dir eine Mail geschickt. Bitte schliesse die Registrierung ab, in dem du den Aktivierungs-Link im Mail aufrufst.",
         "title": "Konto erstellen"
       },
       "resetPassword": {
