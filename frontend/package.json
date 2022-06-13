@@ -80,7 +80,7 @@
     "@vue/cli-plugin-eslint": "5.0.4",
     "@vue/cli-plugin-unit-jest": "5.0.4",
     "@vue/cli-service": "5.0.4",
-    "@vue/eslint-config-standard": "6.1.0",
+    "@vue/eslint-config-prettier": "7.0.0",
     "@vue/test-utils": "1.3.0",
     "@vue/vue2-jest": "27.0.0",
     "babel-eslint": "10.1.0",
@@ -89,12 +89,15 @@
     "eslint": "7.32.0",
     "eslint-plugin-import": "2.26.0",
     "eslint-plugin-node": "11.1.0",
+    "eslint-plugin-prettier": "4.0.0",
     "eslint-plugin-promise": "5.2.0",
     "eslint-plugin-vue": "7.20.0",
+    "eslint-config-prettier": "8.5.0",
     "flush-promises": "1.0.2",
     "jest-canvas-mock": "2.4.0",
     "jest-serializer-vue-tjw": "3.19.0",
     "lint-staged": "12.5.0",
+    "prettier": "2.6.2",
     "sass": "1.32.13",
     "vite": "2.9.12",
     "vite-plugin-components": "0.13.3",
@@ -111,8 +114,10 @@
       "jest": true
     },
     "extends": [
-      "plugin:vue/recommended",
-      "@vue/standard"
+      "plugin:vue/essential",
+      "eslint:recommended",
+      "plugin:prettier/recommended",
+      "@vue/eslint-config-prettier"
     ],
     "rules": {
       "vue/component-tags-order": [
@@ -125,37 +130,10 @@
           ]
         }
       ],
-      "vue/html-closing-bracket-newline": [
+      "no-unused-vars": [
         "error",
         {
-          "singleline": "never",
-          "multiline": "never"
-        }
-      ],
-      "vue/max-attributes-per-line": [
-        "error",
-        {
-          "singleline": 3,
-          "multiline": {
-            "max": 2,
-            "allowFirstLine": true
-          }
-        }
-      ],
-      "vue/singleline-html-element-content-newline": [
-        "error",
-        {
-          "ignoreWhenEmpty": true,
-          "ignores": [
-            "v-chip",
-            "v-icon",
-            "v-btn",
-            "v-alert",
-            "span",
-            "router-link",
-            "h1",
-            "pre"
-          ]
+          "argsIgnorePattern": "^_$"
         }
       ]
     },
