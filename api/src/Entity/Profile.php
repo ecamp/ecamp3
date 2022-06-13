@@ -108,7 +108,7 @@ class Profile extends BaseEntity {
      */
     #[InputFilter\Trim]
     #[Assert\NotBlank]
-    #[Assert\Regex(pattern: '/^[a-z0-9_.-@]+$/')]
+    #[Assert\Regex(pattern: '/^[a-z0-9_.@-]+$/')]
     #[ApiProperty(example: self::EXAMPLE_USERNAME)]
     #[Groups(['read', 'create'])]
     #[ORM\Column(type: 'string', length: 64, nullable: false, unique: true)]
