@@ -26,7 +26,9 @@ Admin screen of a camp: Displays details & periods of a single camp and allows t
                     <v-col :key="day._meta.self" cols="12" class="pb-0">
                       <h4>{{ day.dayOffset + 1 }}) {{ dateLong(day.start) }}</h4>
                     </v-col>
-                    <template v-for="scheduleEntry in scheduleEntriesByDay(day)">
+                    <template
+                      v-for="scheduleEntry in scheduleEntriesByDay[day._meta.self]"
+                    >
                       <v-col
                         v-if="showScheduleEntry(scheduleEntry)"
                         :key="scheduleEntry._meta.self"
@@ -121,23 +123,39 @@ export default {
   data() {
     return {
       loading: true,
+      openPeriods: [],
     }
   },
   computed: {
-    // all periods with end-date in future
-    openPeriods() {
-      return this.camp()
+    // returns scheduleEntries per day without the need for an additional API call for each day
+    scheduleEntriesByDay() {
+      let scheduleEntriesByDay = []
+
+      this.camp()
         .periods()
-        .items.map((period, idx) => (Date.parse(period.end) >= new Date() ? idx : null))
-        .filter((idx) => idx !== null)
+        .items.forEach(function (period) {
+          period.scheduleEntries().items.forEach(function (scheduleEntry) {
+            const dayUri = scheduleEntry.day()._meta.self
+            if (!(dayUri in scheduleEntriesByDay)) {
+              scheduleEntriesByDay[dayUri] = []
+            }
+            scheduleEntriesByDay[dayUri].push(scheduleEntry)
+          })
+        })
+
+      return scheduleEntriesByDay
     },
   },
   async mounted() {
-    await Promise.all([
+    const [periods] = await Promise.all([
+      this.camp().periods()._meta.load,
       this.camp().activities()._meta.load,
       this.camp().categories()._meta.load,
-      this.camp().periods()._meta.load,
     ])
+
+    this.openPeriods = periods.items
+      .map((period, idx) => (Date.parse(period.end) >= new Date() ? idx : null))
+      .filter((idx) => idx !== null)
 
     this.loading = false
   },
@@ -154,7 +172,9 @@ export default {
       return period.days().items.some(this.showDay)
     },
     showDay(day) {
-      return this.scheduleEntriesByDay(day).some(this.showScheduleEntry)
+      return (this.scheduleEntriesByDay[day._meta.self] || []).some(
+        this.showScheduleEntry
+      )
     },
     showScheduleEntry(scheduleEntry) {
       const authUser = this.$auth.user()
@@ -167,15 +187,6 @@ export default {
       return campCollaborations.sort(
         (a, b) => parseInt(a.user().id, 16) - parseInt(b.user().id, 16)
       )
-    },
-    // returns scheduleEntries of current day without the need for an additional API call
-    scheduleEntriesByDay(day) {
-      return day
-        .period()
-        .scheduleEntries()
-        .items.filter((scheduleEntry) => {
-          return scheduleEntry.day()._meta.self === day._meta.self
-        })
     },
   },
 }
