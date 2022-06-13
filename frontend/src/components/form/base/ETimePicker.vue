@@ -56,7 +56,7 @@ export default {
     valueFormat: { type: [String, Array], default: 'YYYY-MM-DDTHH:mm:ssZ' }
   },
   methods: {
-    allowedStep: m => m % 15 === 0,
+    allowedStep: (m) => m % 15 === 0,
 
     /**
      * override time on value but keep date
@@ -144,5 +144,4 @@ export default {
 }
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

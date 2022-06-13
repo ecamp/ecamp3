@@ -9,7 +9,7 @@ export default {
 </script>
 
 <style scoped>
-  div {
-    width: 24px;
-  }
+div {
+  width: 24px;
+}
 </style>

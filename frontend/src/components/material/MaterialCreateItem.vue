@@ -1,9 +1,10 @@
 <template>
-  <ValidationObserver v-if="materialLists.length > 0"
-                      ref="validation"
-                      tag="tr"
-                      class="newItemRow"
-                      @keyup.enter="submitForm">
+  <ValidationObserver
+    v-if="materialLists.length > 0"
+    ref="validation"
+    tag="tr"
+    class="newItemRow"
+    @keyup.enter="submitForm">
     <td>
       <e-text-field
         ref="quantity"
@@ -29,7 +30,7 @@
         :name="$tc('entity.materialItem.fields.article')"
         fieldname="article" />
     </td>
-    <td :colspan="columns-4">
+    <td :colspan="columns - 4">
       <e-select
         v-model="materialItem.materialList"
         dense
@@ -79,7 +80,7 @@ export default {
   },
   computed: {
     materialLists () {
-      return this.camp.materialLists().items.map(l => ({
+      return this.camp.materialLists().items.map((l) => ({
         value: l._meta.self,
         text: l.name
       }))
@@ -109,7 +110,7 @@ export default {
 </script>
 
 <style scoped>
-  .newItemRow {
-    line-height: 80px;
-  }
+.newItemRow {
+  line-height: 80px;
+}
 </style>

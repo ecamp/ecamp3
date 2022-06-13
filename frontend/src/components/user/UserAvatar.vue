@@ -4,7 +4,6 @@
   </v-avatar>
 </template>
 <script>
-
 export default {
   name: 'UserAvatar',
   props: {
@@ -18,7 +17,9 @@ export default {
     },
     objectId () {
       if (this.isLoading) return null
-      if (this.user) { return this.user.id }
+      if (this.user) {
+        return this.user.id
+      }
       if (this.campCollaboration) {
         if (typeof this.campCollaboration.user === 'function') {
           return this.campCollaboration.user().id
@@ -44,7 +45,7 @@ export default {
     },
     color () {
       if (!this.isLoading) {
-        const h = (parseInt(this.objectId, 16) % 360)
+        const h = parseInt(this.objectId, 16) % 360
         return `hsl(${h}, 100%, 30%)`
       } else {
         return 'rgba(0, 0, 0, 0)'
@@ -64,7 +65,7 @@ export default {
     },
     style () {
       return {
-        fontSize: (this.size / 2.5) + 'px',
+        fontSize: this.size / 2.5 + 'px',
         fontWeight: 400,
         letterSpacing: '1px',
         marginRight: '-1.5px'
@@ -72,5 +73,4 @@ export default {
     }
   }
 }
-
 </script>

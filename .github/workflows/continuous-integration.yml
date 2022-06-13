@@ -20,7 +20,7 @@ jobs:
 
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.1.6'
+          php-version: '8.1.7'
           tools: composer:2.3.0
           coverage: xdebug
 
@@ -36,7 +36,7 @@ jobs:
 
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.1.6'
+          php-version: '8.1.7'
           tools: composer:2.3.0
           coverage: xdebug
 
@@ -45,7 +45,7 @@ jobs:
         run: 'echo "::set-output name=dir::$(composer config cache-files-dir)"'
         working-directory: api
 
-      - uses: actions/cache@30f413bfed0a2bc738fdfd409e5a9e96b24545fd # tag=v3
+      - uses: actions/cache@c3f1317a9e7b1ef106c153ac8c0f00fed3ddbc0d # tag=v3
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
@@ -67,7 +67,7 @@ jobs:
 
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.1.6'
+          php-version: '8.1.7'
           tools: composer:2.3.0
           coverage: xdebug
 
@@ -76,7 +76,7 @@ jobs:
         run: 'echo "::set-output name=dir::$(composer config cache-files-dir)"'
         working-directory: api
 
-      - uses: actions/cache@30f413bfed0a2bc738fdfd409e5a9e96b24545fd # tag=v3
+      - uses: actions/cache@c3f1317a9e7b1ef106c153ac8c0f00fed3ddbc0d # tag=v3
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
@@ -98,7 +98,7 @@ jobs:
 
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.1.6'
+          php-version: '8.1.7'
           tools: composer:2.3.0
           coverage: xdebug
 
@@ -107,7 +107,7 @@ jobs:
         run: 'echo "::set-output name=dir::$(composer config cache-files-dir)"'
         working-directory: api
 
-      - uses: actions/cache@30f413bfed0a2bc738fdfd409e5a9e96b24545fd # tag=v3
+      - uses: actions/cache@c3f1317a9e7b1ef106c153ac8c0f00fed3ddbc0d # tag=v3
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
@@ -131,17 +131,17 @@ jobs:
         with:
           node-version: '16.15.1'
 
-      - uses: actions/cache@30f413bfed0a2bc738fdfd409e5a9e96b24545fd # tag=v3
+      - uses: actions/cache@c3f1317a9e7b1ef106c153ac8c0f00fed3ddbc0d # tag=v3
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
 
-      - run: npm ci
+      - run: npm ci --no-audit
         working-directory: frontend
 
-      - run: npm run lint-check
+      - run: npm run lint:check
         working-directory: frontend
 
   print-eslint:
@@ -155,17 +155,17 @@ jobs:
         with:
           node-version: '16.15.1'
 
-      - uses: actions/cache@30f413bfed0a2bc738fdfd409e5a9e96b24545fd # tag=v3
+      - uses: actions/cache@c3f1317a9e7b1ef106c153ac8c0f00fed3ddbc0d # tag=v3
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
 
-      - run: npm ci
+      - run: npm ci --no-audit
         working-directory: print
 
-      - run: npm run lint
+      - run: npm run lint:check
         working-directory: print
 
   api-tests:
@@ -195,7 +195,7 @@ jobs:
 
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.1.6'
+          php-version: '8.1.7'
           tools: composer:2.3.0
           coverage: xdebug
 
@@ -204,7 +204,7 @@ jobs:
         run: 'echo "::set-output name=dir::$(composer config cache-files-dir)"'
         working-directory: api
 
-      - uses: actions/cache@30f413bfed0a2bc738fdfd409e5a9e96b24545fd # tag=v3
+      - uses: actions/cache@c3f1317a9e7b1ef106c153ac8c0f00fed3ddbc0d # tag=v3
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
@@ -269,7 +269,7 @@ jobs:
 
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.1.6'
+          php-version: '8.1.7'
           tools: composer:2.3.0
           coverage: xdebug
 
@@ -278,7 +278,7 @@ jobs:
         run: 'echo "::set-output name=dir::$(composer config cache-files-dir)"'
         working-directory: api
 
-      - uses: actions/cache@30f413bfed0a2bc738fdfd409e5a9e96b24545fd # tag=v3
+      - uses: actions/cache@c3f1317a9e7b1ef106c153ac8c0f00fed3ddbc0d # tag=v3
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
@@ -305,14 +305,14 @@ jobs:
         with:
           node-version: '16.15.1'
 
-      - uses: actions/cache@30f413bfed0a2bc738fdfd409e5a9e96b24545fd # tag=v3
+      - uses: actions/cache@c3f1317a9e7b1ef106c153ac8c0f00fed3ddbc0d # tag=v3
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
 
-      - run: npm ci
+      - run: npm ci --no-audit
         working-directory: frontend
 
       - run: npm run build
@@ -342,14 +342,14 @@ jobs:
         with:
           node-version: '16.15.1'
 
-      - uses: actions/cache@30f413bfed0a2bc738fdfd409e5a9e96b24545fd # tag=v3
+      - uses: actions/cache@c3f1317a9e7b1ef106c153ac8c0f00fed3ddbc0d # tag=v3
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
 
-      - run: npm ci
+      - run: npm ci --no-audit
         working-directory: print
 
       - run: npm run build
@@ -409,7 +409,7 @@ jobs:
           cache-to: type=gha,scope=caddy,mode=max
 
       - name: Restore cache volumes (npm, composer)
-        uses: actions/cache@30f413bfed0a2bc738fdfd409e5a9e96b24545fd # tag=v3
+        uses: actions/cache@c3f1317a9e7b1ef106c153ac8c0f00fed3ddbc0d # tag=v3
         with:
           path: .cache
           key: docker-compose-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('**/composer.lock') }}
@@ -420,18 +420,18 @@ jobs:
       - run: docker-compose up -d php caddy frontend database docker-host
 
       # pull cypress while container are starting up
-      - run: docker pull cypress/included:9.7.0
+      - run: docker pull cypress/included:10.1.0
 
       # wait for backend & frontend to be up and running
       - run: bash wait-for-container-startup.sh
 
       # run end-to-end tests
-      - run: docker run -v $PWD:/e2e -w /e2e --network host -e CYPRESS_BASE_URL=http://localhost:3000 cypress/included:9.7.0
+      - run: docker run -v $PWD:/e2e -w /e2e --network host -e CYPRESS_BASE_URL=http://localhost:3000 cypress/included:10.1.0
         working-directory: frontend
-          
+
       # print docker container logs (good for debugging; can be disabled again lateron)
       - run: docker-compose logs --tail="all"
-      
+
   coveralls-finished:
     name: "Finish coveralls report"
     needs:

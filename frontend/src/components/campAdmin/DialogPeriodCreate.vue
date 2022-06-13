@@ -30,12 +30,7 @@ export default {
   },
   data () {
     return {
-      entityProperties: [
-        'camp',
-        'description',
-        'start',
-        'end'
-      ],
+      entityProperties: ['camp', 'description', 'start', 'end'],
       entityUri: '/periods'
     }
   },
@@ -64,6 +59,4 @@ export default {
 }
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

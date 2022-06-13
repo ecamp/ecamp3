@@ -16,9 +16,7 @@
               :name="$tc('entity.camp.fields.title')"
               vee-rules="required"
               required />
-            <e-text-field
-              v-model="camp.motto"
-              :name="$tc('entity.camp.fields.motto')" />
+            <e-text-field v-model="camp.motto" :name="$tc('entity.camp.fields.motto')" />
             <e-select
               v-model="camp.campPrototype"
               :name="$tc('entity.camp.prototype')"
@@ -31,8 +29,11 @@
                 </v-list-item>
               </template>
             </e-select>
-            <create-camp-periods :add-period="addPeriod" :periods="camp.periods"
-                                 :delete-period="deletePeriod" :period-deletable="periodDeletable" />
+            <create-camp-periods
+              :add-period="addPeriod"
+              :periods="camp.periods"
+              :delete-period="deletePeriod"
+              :period-deletable="periodDeletable" />
           </v-card-text>
           <v-divider />
           <v-card-text class="text-right">
@@ -87,11 +88,14 @@ export default {
   },
   computed: {
     campTemplates () {
-      return this.api.get().camps({ isPrototype: true }).items.map(ct => ({
-        value: ct._meta.self,
-        text: this.$tc(ct.name),
-        object: ct
-      }))
+      return this.api
+        .get()
+        .camps({ isPrototype: true })
+        .items.map((ct) => ({
+          value: ct._meta.self,
+          text: this.$tc(ct.name),
+          object: ct
+        }))
     },
     periodDeletable () {
       return this.camp.periods.length > 1
@@ -100,16 +104,18 @@ export default {
       return this.api.get().camps()._meta.self
     }
   },
-  created () {
-  },
+  created () {},
   methods: {
     createCamp: function () {
-      this.api.post(this.campsUrl, this.camp).then(c => {
-        this.$router.push(campRoute(c, 'admin'))
-        this.api.reload(this.campsUrl)
-      }, (error) => {
-        this.serverError = error
-      })
+      this.api.post(this.campsUrl, this.camp).then(
+        (c) => {
+          this.$router.push(campRoute(c, 'admin'))
+          this.api.reload(this.campsUrl)
+        },
+        (error) => {
+          this.serverError = error
+        }
+      )
     },
     addPeriod: function () {
       this.camp.periods.push({
@@ -125,6 +131,4 @@ export default {
 }
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

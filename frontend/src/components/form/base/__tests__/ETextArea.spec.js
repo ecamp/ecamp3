@@ -19,11 +19,14 @@ describe('An ETextArea', () => {
     and tags <i>a</i>
     `
 
-  const mount = (options, template = `
+  const mount = (
+    options,
+    template = `
         <div data-app>
           <e-textarea v-model="data"/>
         </div>
-      `) => {
+      `
+  ) => {
     const app = Vue.component('App', {
       components: { ETextarea },
       data: () => ({ data: null }),
@@ -41,14 +44,19 @@ describe('An ETextArea', () => {
     await wrapper.setData({ data: multiLineText })
     expect(wrapper).toMatchSnapshot('withtext')
 
-    const mountWithMultiLine = mount({ data: () => ({ data: multiLineText }) }, `
+    const mountWithMultiLine = mount(
+      { data: () => ({ data: multiLineText }) },
+      `
         <div data-app>
           <e-textarea v-model="data" multi-line/>
         </div>
-      `)
+      `
+    )
     expect(mountWithMultiLine).toMatchSnapshot('multiline')
 
-    const mountAsinControls = mount({ data: () => ({ data: multiLineText }) }, `
+    const mountAsinControls = mount(
+      { data: () => ({ data: multiLineText }) },
+      `
         <div data-app>
           <e-textarea
                 v-model="data"
@@ -56,20 +64,24 @@ describe('An ETextArea', () => {
                 auto-grow
           />
         </div>
-      `)
+      `
+    )
     expect(mountAsinControls).toMatchSnapshot('mountAsInControls')
   })
 
   test('updates the text with the viewmodel', async () => {
     const wrapper = mount()
     await wrapper.setData({ data: multiLineText })
-    const textWithoutMultiLine = multiLineText.replace(/\n\s*/g, ' ')
+    const textWithoutMultiLine = multiLineText
+      .replace(/\n\s*/g, ' ')
       .replace('  ', ' ')
       .replace('<i>', '')
       .replace('</i>', '')
       .trim()
     expect(wrapper.find('.editor__content').text()).toBe(textWithoutMultiLine)
-    expect(wrapper.find('.e-form-container').element.getAttribute('value')).toBe(multiLineText)
+    expect(wrapper.find('.e-form-container').element.getAttribute('value')).toBe(
+      multiLineText
+    )
     expect(wrapper.vm.data).toBe(multiLineText)
   })
 })

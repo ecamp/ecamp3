@@ -50,16 +50,19 @@ export default {
   },
   computed: {
     numberingStyles () {
-      return ['1', 'a', 'A', 'i', 'I'].map(i => ({
+      return ['1', 'a', 'A', 'i', 'I'].map((i) => ({
         value: i,
         text: this.$tc('entity.category.numberingStyles.' + i)
       }))
     },
     contentTypes () {
-      return this.api.get().contentTypes().items.map(ct => ({
-        value: ct._meta.self,
-        text: this.$tc('contentNode.' + camelCase(ct.name) + '.name')
-      }))
+      return this.api
+        .get()
+        .contentTypes()
+        .items.map((ct) => ({
+          value: ct._meta.self,
+          text: this.$tc('contentNode.' + camelCase(ct.name) + '.name')
+        }))
     },
     contentTypesLoading () {
       return this.api.get().contentTypes()._meta.loading

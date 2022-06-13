@@ -38,7 +38,7 @@ class PagedEventHandler extends Paged.Handler {
   }
 
   // send message to parent frame after each page
-  afterPageLayout(pageElement, page, breakToken) {
+  afterPageLayout(pageElement, page) {
     window.parent.postMessage(
       {
         event_id: 'pagedjs_progress',

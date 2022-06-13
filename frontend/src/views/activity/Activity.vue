@@ -73,8 +73,8 @@ Displays a single activity
           <template v-else>{{ $tc('views.activity.activity.back') }}</template>
         </v-btn>
 
-        <pdf-download-button-nuxt :config="printConfig()" class="ml-3" />
-        <pdf-download-button-react :config="printConfig()" />
+        <DownloadNuxtPdfButton :config="printConfig()" class="ml-3" />
+        <DownloadReactPdfButton :config="printConfig()" />
       </template>
 
       <v-card-text class="px-0 py-0">
@@ -142,8 +142,8 @@ import RootNode from '@/components/activity/RootNode.vue'
 import ActivityResponsibles from '@/components/activity/ActivityResponsibles.vue'
 import { rangeShort } from '@/common/helpers/dateHelperUTCFormatted.js'
 import { campRoleMixin } from '@/mixins/campRoleMixin'
-import PdfDownloadButtonReact from '@/components/print/print-react/PdfDownloadButtonReact.vue'
-import PdfDownloadButtonNuxt from '@/components/print/print-nuxt/PdfDownloadButtonNuxt.vue'
+import DownloadReactPdfButton from '@/components/print/print-react/DownloadReactPdfButton.vue'
+import DownloadNuxtPdfButton from '@/components/print/print-nuxt/DownloadNuxtPdfButton.vue'
 
 export default {
   name: 'Activity',
@@ -152,8 +152,8 @@ export default {
     ApiTextField,
     RootNode,
     ActivityResponsibles,
-    PdfDownloadButtonReact,
-    PdfDownloadButtonNuxt
+    DownloadReactPdfButton,
+    DownloadNuxtPdfButton
   },
   mixins: [campRoleMixin],
   props: {

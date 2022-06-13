@@ -1,27 +1,28 @@
 <template>
   <div class="e-form-container">
-    <v-card outlined
-            color="grey lighten-3" class="period mb-2 rounded-b-0">
+    <v-card outlined color="grey lighten-3" class="period mb-2 rounded-b-0">
       <v-row no-gutters>
         <v-col class="header mb-3">
           <legend class="pa-2 float-left">
             {{ $tc('components.activity.createScheduleEntries.name') }}
           </legend>
 
-          <button-add color="secondary"
-                      text
-                      class="ma-1 float-right"
-                      @click="addScheduleEntry" />
+          <button-add
+            color="secondary"
+            text
+            class="ma-1 float-right"
+            @click="addScheduleEntry" />
         </v-col>
       </v-row>
       <transition-group name="transition-list" tag="div" class="row no-gutters">
-        <form-schedule-entry-item v-for="scheduleEntry in scheduleEntriesWithoutDeleted"
-                                  :key="scheduleEntry.key"
-                                  class="transition-list-item pa-0 mb-4"
-                                  :schedule-entry="scheduleEntry"
-                                  :periods="periods"
-                                  :is-last-item="scheduleEntries.length === 1"
-                                  @delete="deleteEntry(scheduleEntry)" />
+        <form-schedule-entry-item
+          v-for="scheduleEntry in scheduleEntriesWithoutDeleted"
+          :key="scheduleEntry.key"
+          class="transition-list-item pa-0 mb-4"
+          :schedule-entry="scheduleEntry"
+          :periods="periods"
+          :is-last-item="scheduleEntries.length === 1"
+          @delete="deleteEntry(scheduleEntry)" />
       </transition-group>
       <v-row>
         <v-col cols="12" class="text-center" />
@@ -63,13 +64,13 @@ export default {
   },
   computed: {
     scheduleEntriesWithoutDeleted () {
-      return this.scheduleEntries.filter(entry => !entry.deleted)
+      return this.scheduleEntries.filter((entry) => !entry.deleted)
     }
   },
   methods: {
     addScheduleEntry () {
       this.localScheduleEntries.push({
-        period: () => (this.period)(),
+        period: () => this.period(),
         start: dayjs.utc(this.period().start).add(7, 'hour').format(),
         end: dayjs.utc(this.period().start).add(8, 'hour').format(),
         key: uniqueId(),
@@ -91,14 +92,13 @@ export default {
 
 .header {
   border-bottom: 1px solid map-get($blue-grey, 'lighten-4');
-
 }
 .transition-list-item {
   transition: all 0.5s;
   display: inline-block;
 }
-.transition-list-enter, .transition-list-leave-to {
+.transition-list-enter,
+.transition-list-leave-to {
   opacity: 0;
 }
-
 </style>

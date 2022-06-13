@@ -6,7 +6,13 @@ import Responsibles from './Responsibles.jsx'
 const fontSize = 8
 
 function scheduleEntryTitle (scheduleEntry) {
-  return scheduleEntry.activity().category().short + ' ' + scheduleEntry.number + ' ' + scheduleEntry.activity().title
+  return (
+    scheduleEntry.activity().category().short +
+    ' ' +
+    scheduleEntry.number +
+    ' ' +
+    scheduleEntry.activity().title
+  )
 }
 
 const scheduleEntryStyles = {
@@ -44,22 +50,26 @@ const spacerStyles = {
 }
 
 function ScheduleEntry ({ scheduleEntry, styles }) {
-  return <View style={{
-    left: scheduleEntry.left * 100 + '%',
-    right: (1.0 - scheduleEntry.left - scheduleEntry.width) * 100 + '%',
-    backgroundColor: scheduleEntry.activity().category().color,
-    ...scheduleEntryStyles,
-    ...styles
-  }}>
-    <View style={spacerStyles} />
-    <Text style={titleStyles}>{scheduleEntryTitle(scheduleEntry)}</Text>
-    <View style={spacerStyles} />
-    <View style={responsiblesContainerStyle}>
+  return (
+    <View
+      style={{
+        left: scheduleEntry.left * 100 + '%',
+        right: (1.0 - scheduleEntry.left - scheduleEntry.width) * 100 + '%',
+        backgroundColor: scheduleEntry.activity().category().color,
+        ...scheduleEntryStyles,
+        ...styles
+      }}
+    >
       <View style={spacerStyles} />
-      <Responsibles styles={responsiblesStyle} activity={scheduleEntry.activity()} />
+      <Text style={titleStyles}>{scheduleEntryTitle(scheduleEntry)}</Text>
       <View style={spacerStyles} />
+      <View style={responsiblesContainerStyle}>
+        <View style={spacerStyles} />
+        <Responsibles styles={responsiblesStyle} activity={scheduleEntry.activity()} />
+        <View style={spacerStyles} />
+      </View>
     </View>
-  </View>
+  )
 }
 
 export default ScheduleEntry

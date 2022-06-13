@@ -31,10 +31,7 @@ export default {
   },
   data () {
     return {
-      entityProperties: [
-        'camp',
-        'name'
-      ],
+      entityProperties: ['camp', 'name'],
       entityUri: '/material_lists'
     }
   },
@@ -61,6 +58,4 @@ export default {
 }
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

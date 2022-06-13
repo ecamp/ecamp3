@@ -81,7 +81,16 @@ const i18n = new VueI18n({
     },
 
     // eCamp frontend only locales
-    { it, 'it-CH-scout': itCHScout, fr, 'fr-CH-scout': frCHScout, en, 'en-CH-scout': enCHScout, de, 'de-CH-scout': deCHScout }
+    {
+      it,
+      'it-CH-scout': itCHScout,
+      fr,
+      'fr-CH-scout': frCHScout,
+      en,
+      'en-CH-scout': enCHScout,
+      de,
+      'de-CH-scout': deCHScout
+    }
   ]),
   silentTranslationWarn: true
 })

@@ -36,7 +36,7 @@ export default {
     ])
 
     this.periods = this.options.periods.map((periodUri) => {
-      return this.$api.get(periodUri)
+      return this.$api.get(periodUri) // TODO prevent specifying arbitrary absolute URLs that the print container should fetch...
     })
   },
 }

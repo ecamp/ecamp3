@@ -46,8 +46,10 @@ export default function useDragAndDrop (enabled, update) {
    */
 
   // triggered when mouse is being moved in calendar (independent whether drag & drop is ongoing or not)
-  const timeMouseMove = (tms, nativeEvent) => {
-    if (!enabled.value) { return }
+  const timeMouseMove = (tms) => {
+    if (!enabled.value) {
+      return
+    }
 
     if (resizedEntry) {
       const mouseTime = toTime(tms)
@@ -57,7 +59,9 @@ export default function useDragAndDrop (enabled, update) {
 
   // triggered with MouseUp Event anywhere in the calendar
   const timeMouseUp = () => {
-    if (!enabled.value) { return }
+    if (!enabled.value) {
+      return
+    }
 
     if (resizedEntry && resizedEntry.endTimestamp !== originalEndTimestamp) {
       // existing entry was resized --> save to API

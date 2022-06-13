@@ -5,10 +5,13 @@ Admin screen of a camp: Displays details & periods of a single camp and allows t
 <template>
   <content-card :title="$tc('views.camp.admin.title')">
     <v-card-text>
-      <v-btn block :to="{ name: 'profile', query: {isDetail: true}}" class="d-sm-none mb-2">
+      <v-btn
+        block
+        :to="{ name: 'profile', query: { isDetail: true } }"
+        class="d-sm-none mb-2">
         {{ $tc('views.profile.profile') }}
       </v-btn>
-      <v-btn block :to="{ name: 'camps', query: {isDetail: true}}" class="d-sm-none">
+      <v-btn block :to="{ name: 'camps', query: { isDetail: true } }" class="d-sm-none">
         {{ $tc('views.camps.title') }}
       </v-btn>
       <v-row>
@@ -16,7 +19,9 @@ Admin screen of a camp: Displays details & periods of a single camp and allows t
           <camp-settings :camp="camp" :disabled="!isManager" />
           <camp-address :camp="camp" :disabled="!isManager" />
 
-          <v-btn v-if="$vuetify.breakpoint.xsOnly" :to="{name: 'camp/collaborators', query: {isDetail: true}}">
+          <v-btn
+            v-if="$vuetify.breakpoint.xsOnly"
+            :to="{ name: 'camp/collaborators', query: { isDetail: true } }">
             {{ $tc('views.camp.admin.collaborators') }}
           </v-btn>
           <camp-periods :camp="camp" :disabled="!isManager" />
@@ -71,5 +76,4 @@ export default {
 }
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

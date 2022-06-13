@@ -40,14 +40,8 @@ export default {
   },
   data () {
     return {
-      entityProperties: [
-        'title',
-        'location',
-        'scheduleEntries'
-      ],
-      embeddedEntities: [
-        'category'
-      ],
+      entityProperties: ['title', 'location', 'scheduleEntries'],
+      embeddedEntities: ['category'],
       entityUri: '/activities'
     }
   },
@@ -81,11 +75,14 @@ export default {
       const payloadData = {
         ...this.entityData,
 
-        scheduleEntries: this.entityData.scheduleEntries?.filter(entry => !entry.deleted).map(entry => ({
-          period: entry.period()._meta.self,
-          start: entry.start,
-          end: entry.end
-        })) || []
+        scheduleEntries:
+          this.entityData.scheduleEntries
+            ?.filter((entry) => !entry.deleted)
+            .map((entry) => ({
+              period: entry.period()._meta.self,
+              start: entry.start,
+              end: entry.end
+            })) || []
       }
 
       return this.create(payloadData)
@@ -98,6 +95,4 @@ export default {
 }
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

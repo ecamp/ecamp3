@@ -32,10 +32,7 @@ describe('An ApiSelect', () => {
     text: 'secondOption'
   }
 
-  const selectValues = [
-    FIRST_OPTION,
-    SECOND_OPTION
-  ]
+  const selectValues = [FIRST_OPTION, SECOND_OPTION]
 
   beforeEach(() => {
     vuetify = new Vuetify()
@@ -70,12 +67,16 @@ describe('An ApiSelect', () => {
     apiMock.get().thenReturn(ApiMock.success(FIRST_OPTION.value).forFieldName(fieldName))
     const defaultOptions = {
       mocks: {
-        $tc: () => {
-        },
+        $tc: () => {},
         api: apiMock.getMocks()
       }
     }
-    return mountComponent(app, { vuetify, i18n, attachTo: document.body, ...merge(defaultOptions, options) })
+    return mountComponent(app, {
+      vuetify,
+      i18n,
+      attachTo: document.body,
+      ...merge(defaultOptions, options)
+    })
   }
 
   test('triggers api.patch and status update if input changes', async () => {

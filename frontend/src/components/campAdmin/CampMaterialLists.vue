@@ -34,14 +34,18 @@ import ContentGroup from '@/components/layout/ContentGroup.vue'
 
 export default {
   name: 'CampMaterialLists',
-  components: { ContentGroup, ButtonAdd, CampMaterialListsItem, DialogMaterialListCreate },
+  components: {
+    ContentGroup,
+    ButtonAdd,
+    CampMaterialListsItem,
+    DialogMaterialListCreate
+  },
   props: {
     camp: { type: Function, required: true },
     disabled: { type: Boolean, default: false }
   },
   data () {
-    return {
-    }
+    return {}
   },
   computed: {
     materialLists () {
@@ -51,5 +55,4 @@ export default {
 }
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

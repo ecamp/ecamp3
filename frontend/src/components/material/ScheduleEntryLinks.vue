@@ -1,11 +1,7 @@
 <template>
   <span>
-    <span v-for="(scheduleEntry, index) in items"
-          :key="scheduleEntry._meta.self">
-      <router-link
-        :to="scheduleEntryRoute(scheduleEntry)"
-        small
-        class="short-button">
+    <span v-for="(scheduleEntry, index) in items" :key="scheduleEntry._meta.self">
+      <router-link :to="scheduleEntryRoute(scheduleEntry)" small class="short-button">
         {{ getScheduleEntryCaption(scheduleEntry) }}
       </router-link>
       <span v-if="index + 1 < items.length"><br></span>
@@ -18,8 +14,7 @@ import { scheduleEntryRoute } from '@/router.js'
 
 export default {
   name: 'MaterialTable',
-  components: {
-  },
+  components: {},
   props: {
     activity: { type: Function, required: true }
   },

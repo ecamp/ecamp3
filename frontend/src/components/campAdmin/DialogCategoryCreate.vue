@@ -13,10 +13,7 @@
       <slot name="activator" v-bind="scope" />
     </template>
 
-    <dialog-category-form
-      :camp="camp"
-      :is-new="true"
-      :category="entityData" />
+    <dialog-category-form :camp="camp" :is-new="true" :category="entityData" />
   </dialog-form>
 </template>
 
@@ -37,16 +34,8 @@ export default {
   },
   data () {
     return {
-      entityProperties: [
-        'camp',
-        'short',
-        'name',
-        'color',
-        'numberingStyle'
-      ],
-      embeddedCollections: [
-        'preferredContentTypes'
-      ],
+      entityProperties: ['camp', 'short', 'name', 'color', 'numberingStyle'],
+      embeddedCollections: ['preferredContentTypes'],
       entityUri: '/categories'
     }
   },
@@ -76,6 +65,4 @@ export default {
 }
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

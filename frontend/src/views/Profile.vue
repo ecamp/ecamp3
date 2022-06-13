@@ -1,6 +1,9 @@
 <template>
   <v-container fluid>
-    <content-card max-width="800" :title="$tc('views.profile.profile') + ': ' + user.displayName" toolbar>
+    <content-card
+      max-width="800"
+      :title="$tc('views.profile.profile') + ': ' + user.displayName"
+      toolbar>
       <v-col>
         <v-skeleton-loader type="text" :loading="profile._meta.loading">
           <v-row class="e-form-container">
@@ -45,11 +48,13 @@
           <p class="text-caption blue-grey--text mb-0">
             {{ $tc('global.lokaliseMessage') }}
           </p>
-          <v-btn v-if="$vuetify.breakpoint.xsOnly" color="red"
-                 block
-                 large
-                 dark
-                 @click="$auth.logout()">
+          <v-btn
+            v-if="$vuetify.breakpoint.xsOnly"
+            color="red"
+            block
+            large
+            dark
+            @click="$auth.logout()">
             {{ $tc('global.button.logout') }}
           </v-btn>
         </v-skeleton-loader>
@@ -88,7 +93,7 @@ export default {
       return this.user.profile()
     },
     availableLocales () {
-      return VueI18n.availableLocales.map(l => ({
+      return VueI18n.availableLocales.map((l) => ({
         value: l,
         text: this.$tc('global.language', 1, l)
       }))
@@ -102,11 +107,9 @@ export default {
     }
   },
   mounted () {
-    this.api.reload(this.user)
-      .then(user => this.api.reload(user.profile()))
+    this.api.reload(this.user).then((user) => this.api.reload(user.profile()))
   }
 }
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

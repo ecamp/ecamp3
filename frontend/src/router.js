@@ -173,14 +173,12 @@ export default new Router({
       path: '/camps/:campId/:campTitle?',
       components: {
         navigation: NavigationCamp,
-        default: () => import(/* webpackChunkName: "camp" */ './views/camp/Camp.vue'),
-        aside: () => import(/* webpackChunkName: "periods" */ './views/camp/SideBarPeriods.vue')
+        default: () => import(/* webpackChunkName: "camp" */ './views/camp/Camp.vue')
       },
       beforeEnter: all([requireAuth, requireCamp]),
       props: {
         navigation: route => ({ camp: campFromRoute(route) }),
-        default: route => ({ camp: campFromRoute(route), period: periodFromRoute(route), layout: getContentLayout(route) }),
-        aside: route => ({ camp: campFromRoute(route), period: periodFromRoute(route), show: showAside(route) })
+        default: route => ({ camp: campFromRoute(route), period: periodFromRoute(route), layout: getContentLayout(route) })
       },
       children: [
         {
@@ -246,8 +244,7 @@ export default new Router({
       name: 'category',
       components: {
         navigation: NavigationCamp,
-        default: () => import(/* webpackChunkName: "campCategory" */ './views/activity/Category.vue'),
-        aside: () => import(/* webpackChunkName: "periods" */ './views/camp/SideBarPeriods.vue')
+        default: () => import(/* webpackChunkName: "campCategory" */ './views/activity/Category.vue')
       },
       beforeEnter: requireAuth,
       props: {
@@ -363,10 +360,6 @@ function getContentLayout (route) {
     case 'camp/print': return 'wide'
     default: return 'normal'
   }
-}
-
-function showAside (route) {
-  return ['camp/period'].includes(route.name)
 }
 
 function dayFromScheduleEntryInRoute (route) {

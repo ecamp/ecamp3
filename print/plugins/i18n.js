@@ -49,7 +49,7 @@ const i18n = new VueI18n({
   silentTranslationWarn: true,
 })
 
-export default ({ app, store }) => {
+export default ({ app }) => {
   app.i18n = i18n
 }
 

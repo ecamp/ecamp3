@@ -14,7 +14,10 @@
         <v-col cols="1" />
       </v-row>
 
-      <api-sortable v-slot="sortable" :disabled="layoutMode || disabled" :collection="sections">
+      <api-sortable
+        v-slot="sortable"
+        :disabled="layoutMode || disabled"
+        :collection="sections">
         <api-form :entity="sortable.entity">
           <v-row dense>
             <v-col cols="2">
@@ -48,8 +51,7 @@
                     <div class="section-buttons">
                       <dialog-entity-delete :entity="sortable.entity">
                         <template #activator="{ on }">
-                          <v-btn icon
-                                 x-small
+                          <v-btn icon x-small
                                  color="error"
                                  v-on="on">
                             <v-icon>mdi-delete</v-icon>
@@ -57,20 +59,17 @@
                         </template>
                       </dialog-entity-delete>
                     </div>
-                    <v-btn icon x-small
-                           class="drag-and-drop-handle">
+                    <v-btn icon x-small class="drag-and-drop-handle">
                       <v-icon>mdi-drag-horizontal-variant</v-icon>
                     </v-btn>
                   </v-col>
                   <v-col cols="6">
                     <div class="section-buttons">
-                      <v-btn icon x-small
-                             @click="sortable.on.moveUp(sortable.entity)">
+                      <v-btn icon x-small @click="sortable.on.moveUp(sortable.entity)">
                         <v-icon>mdi-arrow-up-bold</v-icon>
                       </v-btn>
 
-                      <v-btn icon x-small
-                             @click="sortable.on.moveDown(sortable.entity)">
+                      <v-btn icon x-small @click="sortable.on.moveDown(sortable.entity)">
                         <v-icon>mdi-arrow-down-bold</v-icon>
                       </v-btn>
                     </div>
@@ -85,13 +84,14 @@
       <!-- add at end position -->
       <v-row no-gutters justify="center">
         <v-col cols="1">
-          <v-btn v-if="!layoutMode && !disabled"
-                 icon
-                 small
-                 class="button-add"
-                 color="success"
-                 :loading="isAdding"
-                 @click="addSection">
+          <v-btn
+            v-if="!layoutMode && !disabled"
+            icon
+            small
+            class="button-add"
+            color="success"
+            :loading="isAdding"
+            @click="addSection">
             <v-icon>mdi-plus</v-icon>
           </v-btn>
         </v-col>
@@ -154,8 +154,8 @@ export default {
 </script>
 
 <style scoped>
-.section-buttons{
-  width:40px;
+.section-buttons {
+  width: 40px;
 }
 
 .row-inter {
@@ -165,7 +165,7 @@ export default {
 }
 .row-inter:hover {
   height: 30px;
-  background-color: #EEEEEE;
+  background-color: #eeeeee;
   transition-delay: 0.3s;
 }
 
@@ -181,5 +181,4 @@ export default {
   height: 30px;
   transition-delay: 0.3s;
 }
-
 </style>

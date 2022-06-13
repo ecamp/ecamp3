@@ -45,19 +45,19 @@ export default {
     multiple: { type: Boolean, default: false, required: false }
   },
   data () {
-    return {
-    }
+    return {}
   },
   computed: {
     autoSaveDelayComputed () {
-      return this.autoSaveDelay ?? // manual override
+      return (
+        this.autoSaveDelay ?? // manual override
         (this.multiple
           ? 800 // default: 800ms save delay for multiple selection
           : 0) // default: immediate save for single selection
+      )
     }
   }
 }
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

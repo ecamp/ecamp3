@@ -1,11 +1,14 @@
 <template>
-  <v-menu v-model="open"
-          offset-y dark
-          right content-class="ec-usermenu"
-          transition="slide-y-transition"
-          :close-on-content-click="false"
-          z-index="5">
-    <template #activator="{ on,value,attrs }">
+  <v-menu
+    v-model="open"
+    offset-y
+    dark
+    right
+    content-class="ec-usermenu"
+    transition="slide-y-transition"
+    :close-on-content-click="false"
+    z-index="5">
+    <template #activator="{ on, value, attrs }">
       <v-toolbar-items>
         <v-btn right text
                v-bind="attrs"
@@ -27,16 +30,18 @@
         <span>{{ $tc('components.navigation.userMeta.profile') }}</span>
       </v-list-item>
       <v-list-item block tag="li"
-                   exact :to="{ name: 'camps' }"
-                   @click="open = false">
+                   exact
+                   :to="{ name: 'camps' }" @click="open = false">
         <v-icon left>mdi-format-list-bulleted-triangle</v-icon>
-        <span>{{ $tc('components.navigation.userMeta.myCamps', api.get().camps().items.length) }}</span>
+        <span>{{
+          $tc('components.navigation.userMeta.myCamps', api.get().camps().items.length)
+        }}</span>
       </v-list-item>
-      <v-list-item block tag="li"
-                   @click="logout">
+      <v-list-item block tag="li" @click="logout">
         <v-icon v-if="logoutIcon" left>{{ logoutIcon }}</v-icon>
         <v-progress-circular v-else indeterminate
-                             size="18" class="mr-2" />
+                             size="18"
+                             class="mr-2" />
         <span>{{ $tc('components.navigation.userMeta.logOut') }}</span>
       </v-list-item>
     </v-list>
@@ -75,6 +80,4 @@ export default {
 }
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
