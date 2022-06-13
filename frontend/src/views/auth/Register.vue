@@ -6,7 +6,7 @@
         v-model="username"
         :label="$tc('entity.user.fields.username')"
         name="username"
-        append-icon="mdi-at"
+        append-icon="mdi-account-outline"
         dense
         type="text"
         autofocus
@@ -33,8 +33,9 @@
       <e-text-field
         v-model="email"
         :label="$tc('entity.user.fields.email')"
-        name="email"
-        append-icon="mdi-email-outline"
+        name="Email"
+        vee-rules="email"
+        append-icon="mdi-at"
         dense
         type="text"
       />
