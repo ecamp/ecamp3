@@ -41,7 +41,7 @@
       </template>
     </template>
     <p v-else>
-      {{ $tc('components.story.storyDay.noStory') }}
+      {{ $tc('story.storyDay.noStory') }}
     </p>
   </div>
 </template>

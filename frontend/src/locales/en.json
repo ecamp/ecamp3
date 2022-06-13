@@ -204,11 +204,6 @@
         "openPreview": "Open preview in new window"
       }
     },
-    "story": {
-      "storyDay": {
-        "noStory": "No story content found on this day..."
-      }
-    },
     "dialog": {
       "dialogCategoryCreate": {
         "title": "Create activity category"

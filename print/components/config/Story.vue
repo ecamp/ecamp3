@@ -1,6 +1,6 @@
 <template>
   <div>
-    <story
+    <story-period
       v-for="period in periods"
       :key="period._meta.self"
       :period="period"
@@ -24,7 +24,12 @@ export default {
     }
   },
   async fetch() {
-    await this.camp.periods().$loadItems()
+    await Promise.all([
+      this.$api.get().contentTypes().$loadItems(),
+      this.camp.periods().$loadItems(),
+      this.camp.activities().$loadItems(),
+      this.camp.categories().$loadItems(),
+    ])
 
     this.periods = this.options.periods.map((periodUri) => {
       return this.$api.get(periodUri) // TODO prevent specifying arbitrary absolute URLs that the print container should fetch...

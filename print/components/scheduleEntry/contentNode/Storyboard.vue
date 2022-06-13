@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import RichText from '../../RichText.vue'
+import RichText from '../../generic/RichText.vue'
 
 export default {
   components: {

@@ -157,5 +157,10 @@
     "picasso": {
       "title": "Grobprogramm für {period}"
     }
+  },
+  "story": {
+    "storyDay": {
+      "noStory": "Kein roter Faden an diesem Tag gefunden…"
+    }
   }
 }

@@ -61,5 +61,10 @@
       },
       "name": "Inscription au calendrier"
     }
+  },
+  "story": {
+    "storyDay": {
+      "noStory": "Aucun contenu d'histoire trouvé ce jour-là..."
+    }
   }
 }
