@@ -10,7 +10,7 @@ import i18n from '@/plugins/i18n'
 import colors from 'vuetify/lib/util/colors'
 
 class VuetifyLoaderPlugin {
-  install (Vue, options) {
+  install (Vue) {
     Vue.use(Vuetify)
 
     const opts = {

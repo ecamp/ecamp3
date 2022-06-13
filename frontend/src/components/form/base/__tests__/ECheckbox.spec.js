@@ -48,19 +48,27 @@ describe('An ECheckbox', () => {
         }
       }
     })
-    expect(wrapper.find('input[type=checkbox]').element.getAttribute('aria-checked')).toBe('true')
+    expect(
+      wrapper.find('input[type=checkbox]').element.getAttribute('aria-checked')
+    ).toBe('true')
   })
 
   test('updates checkbox when vModel changes', async () => {
     const wrapper = mount()
     await wrapper.setData({ data: false })
-    expect(wrapper.find('input[type=checkbox]').element.getAttribute('aria-checked')).toBe('false')
+    expect(
+      wrapper.find('input[type=checkbox]').element.getAttribute('aria-checked')
+    ).toBe('false')
 
     await wrapper.setData({ data: true })
-    expect(wrapper.find('input[type=checkbox]').element.getAttribute('aria-checked')).toBe('true')
+    expect(
+      wrapper.find('input[type=checkbox]').element.getAttribute('aria-checked')
+    ).toBe('true')
 
     await wrapper.setData({ data: false })
-    expect(wrapper.find('input[type=checkbox]').element.getAttribute('aria-checked')).toBe('false')
+    expect(
+      wrapper.find('input[type=checkbox]').element.getAttribute('aria-checked')
+    ).toBe('false')
   })
 
   test('updates vModel when user clicks on checkbox', async () => {

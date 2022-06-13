@@ -5,13 +5,14 @@
       :name="$tc('entity.activity.fields.title')"
       vee-rules="required" />
 
-    <e-select v-model="localActivity.category"
-              :name="$tc('entity.activity.fields.category')"
-              :items="categories.items"
-              item-value="_meta.self"
-              item-text="name"
-              vee-rules="required">
-      <template #item="{item, on, attrs}">
+    <e-select
+      v-model="localActivity.category"
+      :name="$tc('entity.activity.fields.category')"
+      :items="categories.items"
+      item-value="_meta.self"
+      item-text="name"
+      vee-rules="required">
+      <template #item="{ item, on, attrs }">
         <v-list-item :key="item._meta.self" v-bind="attrs" v-on="on">
           <v-list-item-avatar>
             <v-chip :color="item.color">{{ item.short }}</v-chip>
@@ -21,7 +22,7 @@
           </v-list-item-content>
         </v-list-item>
       </template>
-      <template #selection="{item}">
+      <template #selection="{ item }">
         <div class="v-select__selection">
           <span class="black--text">
             {{ item.name }}

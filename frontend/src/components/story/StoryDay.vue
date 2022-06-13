@@ -15,7 +15,13 @@
               <CategoryChip :category="scheduleEntry.activity().category" class="mx-1" />
             </span>
             <router-link
-              :to="{ name: 'activity', params: { campId: day.period().camp().id, scheduleEntryId: scheduleEntry.id } }"
+              :to="{
+                name: 'activity',
+                params: {
+                  campId: day.period().camp().id,
+                  scheduleEntryId: scheduleEntry.id,
+                },
+              }"
               class="e-title-link">
               <span>{{ scheduleEntry.activity().title }}</span>
               <template v-if="chapter.instanceName">
@@ -24,19 +30,21 @@
             </router-link>
           </h4>
           <api-form v-show="editing" :entity="chapter">
-            <api-textarea :outlined="false"
-                          :solo="false"
-                          auto-grow
-                          dense
-                          fieldname="text"
-                          aria-label="Erfassen"
-                          label="" />
+            <api-textarea
+              :outlined="false"
+              :solo="false"
+              auto-grow
+              dense
+              fieldname="text"
+              aria-label="Erfassen"
+              label="" />
           </api-form>
-          <tiptap-editor v-show="!editing"
-                         :class="{'readonly': !editing}"
-                         :editable="false"
-                         :value="chapter.text"
-                         class="v-input mb-1" />
+          <tiptap-editor
+            v-show="!editing"
+            :class="{ readonly: !editing }"
+            :editable="false"
+            :value="chapter.text"
+            class="v-input mb-1" />
         </div>
       </template>
     </template>
@@ -67,27 +75,35 @@ export default {
   },
   computed: {
     loading () {
-      return this.day.scheduleEntries()._meta.loading || this.sortedScheduleEntries.some(entry => entry.activity().contentNodes()._meta.loading)
+      return (
+        this.day.scheduleEntries()._meta.loading ||
+        this.sortedScheduleEntries.some(
+          (entry) => entry.activity().contentNodes()._meta.loading
+        )
+      )
     },
     sortedScheduleEntries () {
-      return sortBy(this.day.scheduleEntries().items, scheduleEntry => scheduleEntry.start)
+      return sortBy(
+        this.day.scheduleEntries().items,
+        (scheduleEntry) => scheduleEntry.start
+      )
     },
     entries () {
-      return this.sortedScheduleEntries.map(scheduleEntry =>
-        ({
-          scheduleEntry: scheduleEntry,
-          storyChapters: (scheduleEntry.activity().contentNodes() || { items: [] })
-            .items
-            .filter(contentNode => contentNode.contentTypeName === 'Storycontext')
-        })
-      )
+      return this.sortedScheduleEntries.map((scheduleEntry) => ({
+        scheduleEntry: scheduleEntry,
+        storyChapters: (
+          scheduleEntry.activity().contentNodes() || { items: [] }
+        ).items.filter((contentNode) => contentNode.contentTypeName === 'Storycontext')
+      }))
     },
     entriesWithStory () {
       return this.entries.filter(({ storyChapters }) => storyChapters.length)
     }
   },
   mounted () {
-    this.day.scheduleEntries().items.forEach(entry => this.api.reload(entry.activity().contentNodes()))
+    this.day
+      .scheduleEntries()
+      .items.forEach((entry) => this.api.reload(entry.activity().contentNodes()))
   },
   methods: {
     dateLong

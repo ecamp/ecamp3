@@ -13,8 +13,10 @@
       <slot name="activator" v-bind="scope" />
     </template>
     <template #moreActions>
-      <v-btn v-if="!scheduleEntry.tmpEvent"
-             color="primary" :to="scheduleEntryRoute(scheduleEntry)">
+      <v-btn
+        v-if="!scheduleEntry.tmpEvent"
+        color="primary"
+        :to="scheduleEntryRoute(scheduleEntry)">
         {{ $tc('global.button.open') }}
       </v-btn>
     </template>
@@ -37,13 +39,8 @@ export default {
   },
   data () {
     return {
-      entityProperties: [
-        'title',
-        'location'
-      ],
-      embeddedEntities: [
-        'category'
-      ]
+      entityProperties: ['title', 'location'],
+      embeddedEntities: ['category']
     }
   },
   computed: {
@@ -60,16 +57,20 @@ export default {
         this.loadEntityData(this.activity._meta.self)
 
         const scheduleEntries = await this.scheduleEntries.$loadItems()
-        this.$set(this.entityData, 'scheduleEntries', scheduleEntries.items.map((scheduleEntry) => {
-          return {
-            period: scheduleEntry.period,
-            start: scheduleEntry.start,
-            end: scheduleEntry.end,
-            key: scheduleEntry._meta.self,
-            deleted: false,
-            self: scheduleEntry._meta.self
-          }
-        }))
+        this.$set(
+          this.entityData,
+          'scheduleEntries',
+          scheduleEntries.items.map((scheduleEntry) => {
+            return {
+              period: scheduleEntry.period,
+              start: scheduleEntry.start,
+              end: scheduleEntry.end,
+              key: scheduleEntry._meta.self,
+              deleted: false,
+              self: scheduleEntry._meta.self
+            }
+          })
+        )
       }
     }
   },
@@ -78,35 +79,34 @@ export default {
       this.error = null
       const _events = this._events
 
-      const promises = this.entityData.scheduleEntries
-        .map(entry => {
-          // deleted local entry: do nothing
-          if (!entry.self && entry.deleted) {
-            return Promise.resolve()
-          }
+      const promises = this.entityData.scheduleEntries.map((entry) => {
+        // deleted local entry: do nothing
+        if (!entry.self && entry.deleted) {
+          return Promise.resolve()
+        }
 
-          // delete existing
-          if (entry.self && entry.deleted) {
-            return this.api.del(entry.self)
-          }
+        // delete existing
+        if (entry.self && entry.deleted) {
+          return this.api.del(entry.self)
+        }
 
-          // update existing
-          if (entry.self) {
-            return this.api.patch(entry.self, {
-              period: entry.period()._meta.self,
-              start: entry.start,
-              end: entry.end
-            })
-          }
-
-          // else: create new entry
-          return this.scheduleEntries.$post({
+        // update existing
+        if (entry.self) {
+          return this.api.patch(entry.self, {
             period: entry.period()._meta.self,
             start: entry.start,
-            end: entry.end,
-            activity: this.activity._meta.self
+            end: entry.end
           })
+        }
+
+        // else: create new entry
+        return this.scheduleEntries.$post({
+          period: entry.period()._meta.self,
+          start: entry.start,
+          end: entry.end,
+          activity: this.activity._meta.self
         })
+      })
 
       // patch activity entity
       const activityPayload = { ...this.entityData }
@@ -114,8 +114,9 @@ export default {
       promises.push(this.api.patch(this.entityUri, activityPayload))
 
       // execute all requests together --> onError if one fails
-      const promise = Promise.all(promises)
-        .then(this.updatedSuccessful, e => { this.onError(_events, e) })
+      const promise = Promise.all(promises).then(this.updatedSuccessful, (e) => {
+        this.onError(_events, e)
+      })
 
       this.$emit('submit')
       return promise
@@ -129,6 +130,4 @@ export default {
 }
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

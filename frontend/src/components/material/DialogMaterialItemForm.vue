@@ -34,7 +34,7 @@ export default {
       return this.materialItem
     },
     materialListArray () {
-      return this.materialLists().items.map(l => ({
+      return this.materialLists().items.map((l) => ({
         value: l._meta.self,
         text: l.name
       }))

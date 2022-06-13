@@ -20,7 +20,10 @@
 </template>
 <script>
 import { cloneDeep, groupBy } from 'lodash'
-import { calculateNextSlotName, adjustColumnWidths } from '@/components/activity/content/columnLayout/calculateNextSlotName.js'
+import {
+  calculateNextSlotName,
+  adjustColumnWidths
+} from '@/components/activity/content/columnLayout/calculateNextSlotName.js'
 
 export default {
   name: 'ColumnOperations',
@@ -32,7 +35,9 @@ export default {
   },
   computed: {
     addingColumnEnabled () {
-      return (this.contentNode.columns.length + 1) * this.minColumnWidth <= this.totalWidth
+      return (
+        (this.contentNode.columns.length + 1) * this.minColumnWidth <= this.totalWidth
+      )
     },
     removingColumnEnabled () {
       return this.contentNode.columns.length > 2 && this.removableColumn !== undefined
@@ -46,15 +51,18 @@ export default {
       return groupBy(this.children, 'slot')
     },
     removableColumn () {
-      return this.contentNode.columns.map(col => col.slot).reverse().find(slot => {
-        return !Object.keys(this.childrenBySlot).includes(slot)
-      })
+      return this.contentNode.columns
+        .map((col) => col.slot)
+        .reverse()
+        .find((slot) => {
+          return !Object.keys(this.childrenBySlot).includes(slot)
+        })
     }
   },
   methods: {
     addColumn () {
       let columns = cloneDeep(this.contentNode.columns)
-      const newSlotName = calculateNextSlotName(columns.map(col => col.slot))
+      const newSlotName = calculateNextSlotName(columns.map((col) => col.slot))
       columns.push({
         slot: newSlotName,
         width: this.minColumnWidth
@@ -64,7 +72,11 @@ export default {
     },
     removeColumn () {
       let columns = cloneDeep(this.contentNode.columns)
-      columns = adjustColumnWidths(columns.filter(col => col.slot !== this.removableColumn), this.minColumnWidth, this.totalWidth)
+      columns = adjustColumnWidths(
+        columns.filter((col) => col.slot !== this.removableColumn),
+        this.minColumnWidth,
+        this.totalWidth
+      )
       this.contentNode.$patch({ columns })
     }
   }

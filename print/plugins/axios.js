@@ -1,4 +1,4 @@
-export default function ({ $axios, redirect }) {
+export default function ({ $axios }) {
   if (process.env.NODE_ENV !== 'production') {
     $axios.onRequest((config) => {
       config.meta = config.meta || {}

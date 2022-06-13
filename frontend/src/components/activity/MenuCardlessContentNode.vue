@@ -1,10 +1,7 @@
 <template>
-  <v-menu bottom
-          left
-          offset-y>
+  <v-menu bottom left offset-y>
     <template #activator="{ on, attrs }">
-      <v-btn icon
-             class="float-right mr-4 mt-3"
+      <v-btn icon class="float-right mr-4 mt-3"
              v-bind="attrs"
              v-on="on">
         <v-icon>mdi-dots-vertical</v-icon>
@@ -12,9 +9,10 @@
     </template>
     <v-list>
       <slot />
-      <dialog-entity-delete v-if="showDelete"
-                            :entity="contentNode"
-                            @error="deletingFailed">
+      <dialog-entity-delete
+        v-if="showDelete"
+        :entity="contentNode"
+        @error="deletingFailed">
         <template #activator="{ on }">
           <v-list-item :disabled="deletingDisabled" v-on="on">
             <v-list-item-icon>

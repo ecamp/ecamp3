@@ -1,9 +1,10 @@
 <template>
-  <v-chip v-if="!category()._meta.loading"
-          :color="category().color"
-          class="e-category-chip tabular-nums"
-          dark
-          small>
+  <v-chip
+    v-if="!category()._meta.loading"
+    :color="category().color"
+    class="e-category-chip tabular-nums"
+    dark
+    small>
     {{ category().short }}
   </v-chip>
 </template>

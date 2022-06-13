@@ -1,9 +1,7 @@
 <template>
-  <span
-    class="category-label"
-    :style="{ 'background-color': category.color }"
-    >{{ category.short }}</span
-  >
+  <span class="category-label" :style="{ 'background-color': category.color }">{{
+    category.short
+  }}</span>
 </template>
 
 <script>

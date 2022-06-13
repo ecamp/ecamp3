@@ -6,10 +6,7 @@
       </v-subheader>
       <schedule-entries :period="period" :show-button="false">
         <template #default="slotProps">
-          <v-skeleton-loader
-            v-if="slotProps.loading"
-            class="ma-3"
-            type="list-item@6" />
+          <v-skeleton-loader v-if="slotProps.loading" class="ma-3" type="list-item@6" />
           <picasso
             v-else
             :schedule-entries="slotProps.scheduleEntries"

@@ -1,6 +1,8 @@
 <template>
   <auth-container>
-    <h1 class="display-1 text-center mb-4">{{ $tc('views.auth.resetPasswordRequest.title') }}</h1>
+    <h1 class="display-1 text-center mb-4">
+      {{ $tc('views.auth.resetPasswordRequest.title') }}
+    </h1>
 
     <v-alert v-if="status == 'success'" type="success">
       {{ $tc('views.auth.resetPasswordRequest.successMessage') }}
@@ -10,7 +12,9 @@
       {{ $tc('views.auth.resetPasswordRequest.errorMessage') }}
     </v-alert>
 
-    <v-form v-if="status == 'mounted' || status == 'sending'" @submit.prevent="resetPassword">
+    <v-form
+      v-if="status == 'mounted' || status == 'sending'"
+      @submit.prevent="resetPassword">
       <e-text-field
         v-model="email"
         :label="$tc('entity.user.fields.email')"
@@ -78,11 +82,14 @@ export default {
         recaptchaToken = await recaptcha.execute('login')
       }
 
-      this.$auth.resetPasswordRequest(this.email, recaptchaToken).then(() => {
-        this.status = 'success'
-      }).catch(() => {
-        this.status = 'error'
-      })
+      this.$auth
+        .resetPasswordRequest(this.email, recaptchaToken)
+        .then(() => {
+          this.status = 'success'
+        })
+        .catch(() => {
+          this.status = 'error'
+        })
     }
   }
 }

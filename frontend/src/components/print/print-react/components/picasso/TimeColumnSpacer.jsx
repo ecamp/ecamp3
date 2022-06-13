@@ -20,13 +20,19 @@ const rowStyles = {
 }
 
 function longestTime (times) {
-  return dayjs().hour(0).minute(times[times.length - 1][0] * 60).second(0).format('LT')
+  return dayjs()
+    .hour(0)
+    .minute(times[times.length - 1][0] * 60)
+    .second(0)
+    .format('LT')
 }
 
 function TimeColumnSpacer ({ times }) {
-  return <View style={ columnStyles }>
-    <Text style={ rowStyles }>{ longestTime(times) }</Text>
-  </View>
+  return (
+    <View style={columnStyles}>
+      <Text style={rowStyles}>{longestTime(times)}</Text>
+    </View>
+  )
 }
 
 export default TimeColumnSpacer

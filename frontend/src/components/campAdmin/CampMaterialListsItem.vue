@@ -23,7 +23,7 @@
       <v-card>
         <v-item-group>
           <v-list-item-action>
-            <dialog-entity-delete :entity="materialList">
+            <dialog-entity-delete :entity="materialList" :error-handler="deleteErrorHandler">
               <template #activator="{ on }">
                 <button-delete v-on="on" />
               </template>
@@ -54,6 +54,15 @@ export default {
   props: {
     materialList: { type: Object, required: true },
     disabled: { type: Boolean, default: false }
+  },
+  methods: {
+    deleteErrorHandler (e) {
+      if (e?.response?.status === 422 /* Validation Error */) {
+        return this.$tc('components.camp.campMaterialListsItem.deleteError')
+      }
+
+      return null
+    }
   }
 }
 </script>

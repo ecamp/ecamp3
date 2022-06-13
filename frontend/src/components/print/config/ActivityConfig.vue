@@ -1,8 +1,6 @@
 <template>
   <div>
-    <e-select
-      v-model="optionsScheduleEntry"
-      :items="scheduleEntries" />
+    <e-select v-model="optionsScheduleEntry" :items="scheduleEntries" />
   </div>
 </template>
 
@@ -14,13 +12,16 @@ export default {
     camp: { type: Object, required: true }
   },
   data () {
-    return {
-    }
+    return {}
   },
   computed: {
     options: {
-      get () { return this.value },
-      set (v) { this.$emit('input', v) }
+      get () {
+        return this.value
+      },
+      set (v) {
+        this.$emit('input', v)
+      }
     },
     optionsScheduleEntry: {
       get () {
@@ -37,8 +38,8 @@ export default {
     scheduleEntries () {
       let scheduleEntries = []
 
-      this.camp.periods().items.forEach(p => {
-        const periodScheduleEntries = p.scheduleEntries().items.map(se => ({
+      this.camp.periods().items.forEach((p) => {
+        const periodScheduleEntries = p.scheduleEntries().items.map((se) => ({
           value: { activity: se.activity()._meta.self, scheduleEntry: se._meta.self },
           text: '(' + se.number + ') ' + se.activity().title
         }))

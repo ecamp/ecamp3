@@ -48,9 +48,7 @@ export default {
     sections() {
       return this.contentNode
         .sections()
-        .items.sort(
-          (section1, section2) => section1.position - section2.position
-        )
+        .items.sort((section1, section2) => section1.position - section2.position)
     },
   },
 }

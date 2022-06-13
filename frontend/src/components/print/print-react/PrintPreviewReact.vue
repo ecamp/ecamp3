@@ -1,9 +1,10 @@
 <template>
   <div style="position: relative">
-    <iframe :src="url"
-            :title="$tc('views.camp.print.previewIframeTitle')"
-            class="d-block"
-            v-bind="$attrs" />
+    <iframe
+      :src="url"
+      :title="$tc('views.camp.print.previewIframeTitle')"
+      class="d-block"
+      v-bind="$attrs" />
     <v-overlay absolute :value="loading || error" z-index="2">
       <div v-if="error">
         {{ $tc('views.camp.print.previewError') }}
@@ -43,11 +44,15 @@ export default {
     config: {
       immediate: true,
       deep: true,
-      handler () { this.generatePdf() }
+      handler () {
+        this.generatePdf()
+      }
     },
     language: {
       immediate: true,
-      handler () { this.generatePdf() }
+      handler () {
+        this.generatePdf()
+      }
     }
   },
   unmounted () {
@@ -95,5 +100,4 @@ export default {
 }
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

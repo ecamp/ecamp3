@@ -1,6 +1,9 @@
 <template>
   <div class="tw-mb-20 tw-break-inside-avoid">
-    <div class="schedule-entry-title tw-float-left">
+    <div
+      :id="`scheduleEntry_${scheduleEntry.id}`"
+      class="schedule-entry-title tw-float-left"
+    >
       <h2
         :id="`content_${index}_scheduleEntry_${scheduleEntry.id}`"
         class="tw-text-xl tw-font-bold tw-pt-1"
@@ -28,7 +31,7 @@
             {{ $tc('entity.activity.fields.responsible') }}
           </th>
           <td class="header-row">
-            {{ responsiblesListed }}
+            {{ responsiblesCommaSeparated }}
             <!-- <user-avatar
               v-for="responsible in responsibles"
               :key="responsible.id"
@@ -47,7 +50,7 @@
 import CategoryLabel from './CategoryLabel.vue'
 import ContentNode from './contentNode/ContentNode.vue'
 import { rangeShort } from '@/../common/helpers/dateHelperUTCFormatted.js'
-import campCollaborationDisplayName from '@/../common/helpers/campCollaborationDisplayName.js'
+import { responsiblesCommaSeparated } from '@/helpers/activityResponsibles.js'
 
 export default {
   components: { CategoryLabel, ContentNode },
@@ -65,7 +68,14 @@ export default {
       // prettier-ignore
       this.scheduleEntry.activity().activityResponsibles().$loadItems().then(
         (activityResponsibles) => {
-          return Promise.all(activityResponsibles.items.map((activityResponsible) => activityResponsible.campCollaboration().user()._meta.load))
+          return Promise.all(activityResponsibles.items.map((activityResponsible) => {
+            if ( activityResponsible.campCollaboration().user === null) {
+              return Promise.resolve(null)
+            }
+
+            return activityResponsible.campCollaboration().user()._meta.load
+          }
+          ))
         }  
       ),
     ])
@@ -74,14 +84,8 @@ export default {
     responsibles() {
       return this.scheduleEntry.activity().activityResponsibles().items
     },
-    responsiblesListed() {
-      return this.scheduleEntry
-        .activity()
-        .activityResponsibles()
-        .items.map((activityResponsible) =>
-          campCollaborationDisplayName(activityResponsible.campCollaboration())
-        )
-        .join(', ')
+    responsiblesCommaSeparated() {
+      return responsiblesCommaSeparated(this.scheduleEntry.activity())
     },
   },
   methods: {

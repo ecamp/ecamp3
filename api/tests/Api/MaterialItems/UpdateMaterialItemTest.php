@@ -14,7 +14,7 @@ class UpdateMaterialItemTest extends ECampApiTestCase {
     public function testPatchMaterialItemIsDeniedForAnonymousUser() {
         $materialItem = static::$fixtures['materialItem1'];
         static::createBasicClient()->request('PATCH', '/material_items/'.$materialItem->getId(), ['json' => [
-            'materialList' => $this->getIriFor('materialList2'),
+            'materialList' => $this->getIriFor('materialList2WithNoItems'),
             'period' => $this->getIriFor('period1'),
             'materialNode' => null,
             'article' => 'Mehl',
@@ -31,7 +31,7 @@ class UpdateMaterialItemTest extends ECampApiTestCase {
         $materialItem = static::$fixtures['materialItem1'];
         static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->getUsername()])
             ->request('PATCH', '/material_items/'.$materialItem->getId(), ['json' => [
-                'materialList' => $this->getIriFor('materialList2'),
+                'materialList' => $this->getIriFor('materialList2WithNoItems'),
                 'period' => $this->getIriFor('period1'),
                 'materialNode' => null,
                 'article' => 'Mehl',
@@ -50,7 +50,7 @@ class UpdateMaterialItemTest extends ECampApiTestCase {
         $materialItem = static::$fixtures['materialItem1'];
         static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->getUsername()])
             ->request('PATCH', '/material_items/'.$materialItem->getId(), ['json' => [
-                'materialList' => $this->getIriFor('materialList2'),
+                'materialList' => $this->getIriFor('materialList2WithNoItems'),
                 'period' => $this->getIriFor('period1'),
                 'materialNode' => null,
                 'article' => 'Mehl',
@@ -69,7 +69,7 @@ class UpdateMaterialItemTest extends ECampApiTestCase {
         $materialItem = static::$fixtures['materialItem1'];
         static::createClientWithCredentials(['username' => static::$fixtures['user3guest']->getUsername()])
             ->request('PATCH', '/material_items/'.$materialItem->getId(), ['json' => [
-                'materialList' => $this->getIriFor('materialList2'),
+                'materialList' => $this->getIriFor('materialList2WithNoItems'),
                 'period' => $this->getIriFor('period1'),
                 'materialNode' => null,
                 'article' => 'Mehl',
@@ -88,7 +88,7 @@ class UpdateMaterialItemTest extends ECampApiTestCase {
         $materialItem = static::$fixtures['materialItem1'];
         static::createClientWithCredentials(['username' => static::$fixtures['user2member']->getUsername()])
             ->request('PATCH', '/material_items/'.$materialItem->getId(), ['json' => [
-                'materialList' => $this->getIriFor('materialList2'),
+                'materialList' => $this->getIriFor('materialList2WithNoItems'),
                 'period' => $this->getIriFor('period1'),
                 'materialNode' => null,
                 'article' => 'Mehl',
@@ -102,7 +102,7 @@ class UpdateMaterialItemTest extends ECampApiTestCase {
             'quantity' => 1500,
             'unit' => 'g',
             '_links' => [
-                'materialList' => ['href' => $this->getIriFor('materialList2')],
+                'materialList' => ['href' => $this->getIriFor('materialList2WithNoItems')],
                 'period' => ['href' => $this->getIriFor('period1')],
                 // 'materialNode' => null,
             ],
@@ -112,7 +112,7 @@ class UpdateMaterialItemTest extends ECampApiTestCase {
     public function testPatchMaterialItemIsAllowedForManager() {
         $materialItem = static::$fixtures['materialItem1'];
         static::createClientWithCredentials()->request('PATCH', '/material_items/'.$materialItem->getId(), ['json' => [
-            'materialList' => $this->getIriFor('materialList2'),
+            'materialList' => $this->getIriFor('materialList2WithNoItems'),
             'period' => $this->getIriFor('period1'),
             'materialNode' => null,
             'article' => 'Mehl',
@@ -125,7 +125,7 @@ class UpdateMaterialItemTest extends ECampApiTestCase {
             'quantity' => 1500,
             'unit' => 'g',
             '_links' => [
-                'materialList' => ['href' => $this->getIriFor('materialList2')],
+                'materialList' => ['href' => $this->getIriFor('materialList2WithNoItems')],
                 'period' => ['href' => $this->getIriFor('period1')],
                 // 'materialNode' => null,
             ],

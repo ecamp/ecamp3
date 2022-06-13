@@ -67,7 +67,7 @@ router.use('/pdf', async (req, res) => {
     )
     page.on('response', (response) =>
       console.log('<<', response.status(), response.url())
-    ) 
+    )
     page.on('error', (err) => {
       console.log('error happen at the page: ', err)
     })
@@ -90,7 +90,7 @@ router.use('/pdf', async (req, res) => {
 
     // create Promise to wait for PagedJS 'after'
     let resolver
-    const pagedjsRendered = new Promise(function (resolve, reject) {
+    const pagedjsRendered = new Promise(function (resolve) {
       resolver = resolve
     })
     await page.exposeFunction('onRendered', () => {

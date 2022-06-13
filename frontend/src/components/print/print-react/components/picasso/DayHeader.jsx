@@ -21,9 +21,11 @@ function renderDate (day) {
 }
 
 function DayHeader ({ day, styles }) {
-  return <View style={{ ...wrapperStyles, ...styles }}>
-    <Text style={ textStyles }>{ renderDate(day) }</Text>
-  </View>
+  return (
+    <View style={{ ...wrapperStyles, ...styles }}>
+      <Text style={textStyles}>{renderDate(day)}</Text>
+    </View>
+  )
 }
 
 export default DayHeader

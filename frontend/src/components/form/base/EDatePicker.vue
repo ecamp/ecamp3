@@ -60,7 +60,6 @@ export default {
     allowedDates: { type: Function, default: null }
   },
   methods: {
-
     /**
      * override date but keep time
      */
@@ -146,5 +145,4 @@ export default {
 }
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

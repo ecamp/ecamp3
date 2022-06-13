@@ -11,9 +11,7 @@
         {{ collaborator.inviteEmail }}
       </v-list-item-subtitle>
     </v-list-item-content>
-    <v-list-item-action
-      v-if="collaborator.status === 'invited'"
-      class="ml-2">
+    <v-list-item-action v-if="collaborator.status === 'invited'" class="ml-2">
       <icon-button
         color="normal"
         icon="mdi-refresh"
@@ -26,9 +24,7 @@
     <v-list-item-action class="ml-4">
       <v-tooltip :disabled="disabled || !isLastManager" top>
         <template #activator="{ on, attrs }">
-          <div
-            v-bind="attrs"
-            v-on="on">
+          <div v-bind="attrs" v-on="on">
             <api-select
               :value="collaborator.role"
               :uri="collaborator._meta.self"
@@ -46,24 +42,26 @@
               :disabled="disabled || isLastManager" />
           </div>
         </template>
-        <span>{{ $tc("components.camp.collaboratorListItem.cannotAssignAnotherRoleToLastManager") }}</span>
+        <span>{{
+          $tc('components.camp.collaboratorListItem.cannotAssignAnotherRoleToLastManager')
+        }}</span>
       </v-tooltip>
     </v-list-item-action>
     <v-list-item-action class="ml-2">
       <v-tooltip :disabled="disabled || !isLastManager" top>
         <template #activator="{ on, attrs }">
-          <div
-            v-bind="attrs"
-            v-on="on">
+          <div v-bind="attrs" v-on="on">
             <button-delete
               :disabled="(disabled && !isOwnCampCollaboration) || isLastManager"
               icon="mdi-cancel"
               @click="deactivateUser">
-              {{ $tc("components.camp.collaboratorListItem.deactivate") }}
+              {{ $tc('components.camp.collaboratorListItem.deactivate') }}
             </button-delete>
           </div>
         </template>
-        <span>{{ $tc("components.camp.collaboratorListItem.cannotRemoveLastManager") }}</span>
+        <span>{{
+          $tc('components.camp.collaboratorListItem.cannotRemoveLastManager')
+        }}</span>
       </v-tooltip>
     </v-list-item-action>
   </v-list-item>
@@ -90,12 +88,12 @@ export default {
       if (this.collaborator.status !== 'established') return false
       if (this.collaborator.role !== 'manager') return false
       const camp = this.collaborator.camp()
-      return camp
-        ?.campCollaborations()
-        ?.items
-        ?.filter(collaborator => collaborator.status === 'established')
-        .filter(collaborator => collaborator.role === 'manager')
-        .length <= 1
+      return (
+        camp
+          ?.campCollaborations()
+          ?.items?.filter((collaborator) => collaborator.status === 'established')
+          .filter((collaborator) => collaborator.role === 'manager').length <= 1
+      )
     },
     isOwnCampCollaboration () {
       if (!(typeof this.collaborator.user === 'function')) {
@@ -107,11 +105,15 @@ export default {
   methods: {
     resendInvitation () {
       this.resendingEmail = true
-      this.api.href(this.api.get(), 'campCollaborations', {
-        id: this.collaborator.id,
-        action: 'resend_invitation'
-      }).then(postUrl => this.api.patch(postUrl, {}))
-        .finally(() => { this.resendingEmail = false })
+      this.api
+        .href(this.api.get(), 'campCollaborations', {
+          id: this.collaborator.id,
+          action: 'resend_invitation'
+        })
+        .then((postUrl) => this.api.patch(postUrl, {}))
+        .finally(() => {
+          this.resendingEmail = false
+        })
     },
     deactivateUser () {
       const ok = this.api.patch(this.collaborator, { status: 'inactive' })
@@ -125,5 +127,4 @@ export default {
 }
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

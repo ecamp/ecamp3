@@ -11,8 +11,7 @@ Displays all periods of a single camp and allows to edit them & create new ones
           <template #activator="{ on }">
             <button-add color="secondary" text
                         class="my-n2"
-                        :hide-label="true"
-                        v-on="on">
+                        :hide-label="true" v-on="on">
               {{ $tc('components.camp.campPeriods.createPeriod') }}
             </button-add>
           </template>
@@ -55,5 +54,4 @@ export default {
 }
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

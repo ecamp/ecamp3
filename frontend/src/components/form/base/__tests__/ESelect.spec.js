@@ -24,11 +24,7 @@ describe('An ESelect', () => {
     value: { key: 'value', array: [1, 2, 3], nestedObject: { key: 'value' } },
     text: 'thirdOption'
   }
-  const selectValues = [
-    FIRST_OPTION,
-    SECOND_OPTION,
-    THIRD_OPTION
-  ]
+  const selectValues = [FIRST_OPTION, SECOND_OPTION, THIRD_OPTION]
 
   const mount = (options) => {
     const app = Vue.component('App', {
@@ -98,7 +94,11 @@ describe('An ESelect', () => {
     expect(wrapper.vm.data).toBe(FIRST_OPTION.value)
 
     await wrapper.setData({ data: SECOND_OPTION.value })
-    expect(wrapper.findAll('[role="option"]').at(1).element.getAttribute('aria-selected')).toBe('true')
-    expect(wrapper.findAll('[role="option"]').at(0).element.getAttribute('aria-selected')).not.toBe('true')
+    expect(
+      wrapper.findAll('[role="option"]').at(1).element.getAttribute('aria-selected')
+    ).toBe('true')
+    expect(
+      wrapper.findAll('[role="option"]').at(0).element.getAttribute('aria-selected')
+    ).not.toBe('true')
   })
 })

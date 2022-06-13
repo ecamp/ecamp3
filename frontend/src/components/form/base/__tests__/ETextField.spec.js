@@ -44,11 +44,15 @@ describe('An ETextField', () => {
 
     const firstText = 'myText'
     await wrapper.setData({ data: firstText })
-    expect(wrapper.find('.e-form-container').element.getAttribute('value')).toBe(firstText)
+    expect(wrapper.find('.e-form-container').element.getAttribute('value')).toBe(
+      firstText
+    )
 
     const secondText = 'myText2'
     await wrapper.setData({ data: secondText })
-    expect(wrapper.find('.e-form-container').element.getAttribute('value')).toBe(secondText)
+    expect(wrapper.find('.e-form-container').element.getAttribute('value')).toBe(
+      secondText
+    )
   })
 
   test('updates vModel when value of input field changes', async () => {

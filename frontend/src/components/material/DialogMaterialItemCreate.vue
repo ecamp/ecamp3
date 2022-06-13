@@ -13,7 +13,9 @@
       <slot name="activator" v-bind="scope" />
     </template>
 
-    <dialog-material-item-form :material-lists="camp.materialLists" :material-item="entityData" />
+    <dialog-material-item-form
+      :material-lists="camp.materialLists"
+      :material-item="entityData" />
   </dialog-form>
 </template>
 
@@ -34,11 +36,7 @@ export default {
   },
   data () {
     return {
-      entityProperties: [
-        'quantity',
-        'unit',
-        'article'
-      ],
+      entityProperties: ['quantity', 'unit', 'article'],
       entityUri: this.materialItemCollection._meta.self
     }
   },
@@ -72,6 +70,4 @@ export default {
 }
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

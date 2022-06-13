@@ -1,7 +1,6 @@
 <template>
   <v-container>
-    <v-row
-      no-gutters class="mx-2 mb-2">
+    <v-row no-gutters class="mx-2 mb-2">
       <v-col cols="5">
         <e-date-picker
           v-model="localScheduleEntry.start"
@@ -83,13 +82,17 @@ export default {
     }
   },
   computed: {
-
     // detect selected period based on start date
     period () {
       const startDate = dayjs.utc(this.localScheduleEntry.start)
 
       return this.periods.find((period) => {
-        return startDate.isBetween(dayjs.utc(period.start), dayjs.utc(period.end), 'date', '[]')
+        return startDate.isBetween(
+          dayjs.utc(period.start),
+          dayjs.utc(period.end),
+          'date',
+          '[]'
+        )
       })
     }
   },
@@ -106,9 +109,11 @@ export default {
     // watch start and automatically shift end if start changes (=keep duration)
     'localScheduleEntry.start': function (newValue, oldValue) {
       const delta = dayjs.utc(newValue).diff(dayjs.utc(oldValue))
-      this.localScheduleEntry.end = dayjs.utc(this.localScheduleEntry.end).add(delta).format()
+      this.localScheduleEntry.end = dayjs
+        .utc(this.localScheduleEntry.end)
+        .add(delta)
+        .format()
     }
-
   },
   methods: {
     // returns true for any date that is within any available period
@@ -116,7 +121,12 @@ export default {
       const calendarDate = dayjs.utc(val)
 
       return this.periods.some((period) => {
-        return calendarDate.isBetween(dayjs.utc(period.start), dayjs.utc(period.end), 'date', '[]')
+        return calendarDate.isBetween(
+          dayjs.utc(period.start),
+          dayjs.utc(period.end),
+          'date',
+          '[]'
+        )
       })
     },
 
@@ -127,17 +137,22 @@ export default {
       }
 
       const calendarDate = dayjs.utc(val)
-      return calendarDate.isBetween(dayjs.utc(this.period.start), dayjs.utc(this.period.end), 'date', '[]')
+      return calendarDate.isBetween(
+        dayjs.utc(this.period.start),
+        dayjs.utc(this.period.end),
+        'date',
+        '[]'
+      )
     }
   }
 }
 </script>
 <style scoped lang="scss">
-.date-picker{
+.date-picker {
   width: 120px;
 }
 
-.time-picker{
+.time-picker {
   width: 80px;
 }
 </style>
