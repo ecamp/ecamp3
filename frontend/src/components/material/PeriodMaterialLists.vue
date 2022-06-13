@@ -19,7 +19,6 @@
 </template>
 
 <script>
-
 import MaterialTable from '@/components/material/MaterialTable.vue'
 
 export default {
@@ -48,5 +47,4 @@ export default {
     this.period.materialItems().$reload()
   }
 }
-
 </script>

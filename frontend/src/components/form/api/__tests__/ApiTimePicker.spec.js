@@ -27,7 +27,8 @@ describe('An ApiTimePicker', () => {
   const TIME_2_MINUTE = 15
   const TIME_2 = `2037-07-18T${TIME_2_HOUR}:${TIME_2_MINUTE}:00+00:00`
 
-  const format = date => Vue.dayjs.utc(date, HTML5_FMT.DATETIME_LOCAL_SECONDS).format('LT')
+  const format = (date) =>
+    Vue.dayjs.utc(date, HTML5_FMT.DATETIME_LOCAL_SECONDS).format('LT')
 
   beforeEach(() => {
     i18n.locale = 'de'
@@ -62,12 +63,16 @@ describe('An ApiTimePicker', () => {
     apiMock.get().thenReturn(ApiMock.success(TIME_1).forFieldName(fieldName))
     const defaultOptions = {
       mocks: {
-        $tc: () => {
-        },
+        $tc: () => {},
         api: apiMock.getMocks()
       }
     }
-    return mountComponent(app, { vuetify, i18n, attachTo: document.body, ...merge(defaultOptions, options) })
+    return mountComponent(app, {
+      vuetify,
+      i18n,
+      attachTo: document.body,
+      ...merge(defaultOptions, options)
+    })
   }
 
   test('triggers api.patch and status update if input changes', async () => {

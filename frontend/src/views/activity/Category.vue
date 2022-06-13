@@ -4,9 +4,7 @@
       <template #title>
         <v-toolbar-title class="font-weight-bold">
           <template v-if="!category()._meta.loading">
-            <v-chip
-              :color="category().color"
-              dark>
+            <v-chip :color="category().color" dark>
               {{ category().short }}
             </v-chip>
             {{ category().name }}
@@ -18,8 +16,7 @@
       </template>
 
       <template #title-actions>
-        <v-btn v-if="!layoutMode"
-               color="primary"
+        <v-btn v-if="!layoutMode" color="primary"
                outlined
                @click="layoutMode = true">
           <template v-if="$vuetify.breakpoint.smAndUp">
@@ -28,8 +25,7 @@
           </template>
           <template v-else>{{ $tc('views.activity.activity.layout') }}</template>
         </v-btn>
-        <v-btn v-else
-               color="success"
+        <v-btn v-else color="success"
                outlined
                @click="layoutMode = false">
           <template v-if="$vuetify.breakpoint.smAndUp">
@@ -84,5 +80,4 @@ export default {
 }
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

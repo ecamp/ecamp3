@@ -33,8 +33,7 @@
           <div class="tw-float-left tw-text-xs tw-font-weight-medium">
             <!-- link jumps to first instance of scheduleEntry within the document -->
             <a :href="`#scheduleEntry_${event.id}`">
-              ({{ event.number }})&nbsp;
-              {{ event.activity().category().short }}:&nbsp;
+              ({{ event.number }})&nbsp; {{ event.activity().category().short }}:&nbsp;
               {{ event.activity().title }}
             </a>
           </div>
@@ -69,9 +68,7 @@ export default {
         .format(this.$tc('global.datetime.hourLong'))
     },
     dayFormat(day) {
-      return this.$date
-        .utc(day.date)
-        .format(this.$tc('global.datetime.dateLong'))
+      return this.$date.utc(day.date).format(this.$tc('global.datetime.dateLong'))
     },
     weekdayFormat() {
       return ''

@@ -3,7 +3,7 @@ import * as rules from 'vee-validate/dist/rules'
 import i18n from '@/plugins/i18n'
 
 class VeeValidatePlugin {
-  install (Vue, options) {
+  install (Vue) {
     // translate default error messages
     configure({
       // this will be used to generate messages.
@@ -13,7 +13,7 @@ class VeeValidatePlugin {
     })
 
     // install all default rules
-    Object.keys(rules).forEach(rule => {
+    Object.keys(rules).forEach((rule) => {
       extend(rule, {
         ...rules[rule] // copies rule configuration
       })

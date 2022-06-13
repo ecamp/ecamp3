@@ -2,10 +2,7 @@
   <div class="d-flex" style="margin-top: -5px">
     <!-- Success icon after saving -->
     <div class="checkIconContainer">
-      <v-icon
-        color="green"
-        class="checkIcon"
-        :class="checkIconAddon">
+      <v-icon color="green" class="checkIcon" :class="checkIconAddon">
         mdi-content-save
       </v-icon>
       <!--
@@ -94,10 +91,11 @@
     </template>
 
     <!-- Retry button if loading failed -->
-    <button-retry v-if="wrapper.hasLoadingError"
-                  text
-                  type="submit"
-                  @click="wrapper.on.reload" />
+    <button-retry
+      v-if="wrapper.hasLoadingError"
+      text
+      type="submit"
+      @click="wrapper.on.reload" />
   </div>
 </template>
 
@@ -125,7 +123,6 @@ export default {
     }
   }
 }
-
 </script>
 
 <style scoped>
@@ -136,7 +133,7 @@ export default {
   position: relative;
   top: -11px;
   right: 13px;
-  transition: opacity .2s ease-out;
+  transition: opacity 0.2s ease-out;
   opacity: 0;
 }
 div.v-input--checkbox .v-icon.checkIcon {
@@ -149,5 +146,4 @@ div.v-input--checkbox .v-icon.checkIcon {
 .v-icon.checkIcon.hidden {
   transition: none;
 }
-
 </style>

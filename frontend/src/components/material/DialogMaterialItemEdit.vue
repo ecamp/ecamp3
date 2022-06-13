@@ -13,7 +13,9 @@
       <slot name="activator" v-bind="scope" />
     </template>
 
-    <dialog-material-item-form :material-lists="camp.materialLists" :material-item="entityData" />
+    <dialog-material-item-form
+      :material-lists="camp.materialLists"
+      :material-item="entityData" />
   </dialog-form>
 </template>
 
@@ -31,14 +33,8 @@ export default {
   },
   data () {
     return {
-      entityProperties: [
-        'quantity',
-        'unit',
-        'article'
-      ],
-      embeddedEntities: [
-        'materialList'
-      ]
+      entityProperties: ['quantity', 'unit', 'article'],
+      embeddedEntities: ['materialList']
     }
   },
   computed: {
@@ -49,7 +45,13 @@ export default {
       return this.materialItem.materialList().camp()
     },
     title () {
-      return this.materialItem.quantity + ' ' + this.materialItem.unit + ' ' + this.materialItem.article
+      return (
+        this.materialItem.quantity +
+        ' ' +
+        this.materialItem.unit +
+        ' ' +
+        this.materialItem.article
+      )
     }
   },
   watch: {
@@ -63,6 +65,4 @@ export default {
 }
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

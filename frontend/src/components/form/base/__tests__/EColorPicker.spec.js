@@ -59,15 +59,18 @@ describe('An EColorPicker', () => {
   })
 
   test('looks like a color picker', async () => {
-    const wrapper = mountComponent({
-      data: () => ({ color: COLOR_1 }),
-      template: '<div data-app><e-color-picker v-model="color"></e-color-picker></div>',
-      components: { 'e-color-picker': EColorPicker }
-    }, {
-      vuetify,
-      attachTo: document.body,
-      i18n
-    })
+    const wrapper = mountComponent(
+      {
+        data: () => ({ color: COLOR_1 }),
+        template: '<div data-app><e-color-picker v-model="color"></e-color-picker></div>',
+        components: { 'e-color-picker': EColorPicker }
+      },
+      {
+        vuetify,
+        attachTo: document.body,
+        i18n
+      }
+    )
     await waitForDebounce()
     expect(wrapper).toMatchSnapshot('pickerclosed')
     await wrapper.find('button').trigger('click')
@@ -76,14 +79,17 @@ describe('An EColorPicker', () => {
   })
 
   test('updates v-model when the value changes', async () => {
-    const wrapper = mountComponent({
-      data: () => ({ color: COLOR_1 }),
-      template: '<div><e-color-picker v-model="color"></e-color-picker></div>',
-      components: { 'e-color-picker': EColorPicker }
-    }, {
-      vuetify,
-      i18n
-    })
+    const wrapper = mountComponent(
+      {
+        data: () => ({ color: COLOR_1 }),
+        template: '<div><e-color-picker v-model="color"></e-color-picker></div>',
+        components: { 'e-color-picker': EColorPicker }
+      },
+      {
+        vuetify,
+        i18n
+      }
+    )
     expect(wrapper.vm.color).toBe(COLOR_1)
     const inputSpy = jest.fn()
     wrapper.findComponent(EColorPicker).vm.$on('input', (event) => inputSpy(event))
@@ -109,15 +115,18 @@ describe('An EColorPicker', () => {
   })
 
   test('updates its value when a color is picked', async () => {
-    const wrapper = mountComponent({
-      data: () => ({ color: COLOR_2 }),
-      template: '<div data-app><e-color-picker v-model="color"></e-color-picker></div>',
-      components: { 'e-color-picker': EColorPicker }
-    }, {
-      vuetify,
-      attachTo: document.body,
-      i18n
-    })
+    const wrapper = mountComponent(
+      {
+        data: () => ({ color: COLOR_2 }),
+        template: '<div data-app><e-color-picker v-model="color"></e-color-picker></div>',
+        components: { 'e-color-picker': EColorPicker }
+      },
+      {
+        vuetify,
+        attachTo: document.body,
+        i18n
+      }
+    )
     await waitForDebounce()
     // open the color picker
     const openPicker = wrapper.find('button')
@@ -136,15 +145,18 @@ describe('An EColorPicker', () => {
   })
 
   test('accepts 3-digit hex color codes', async () => {
-    const wrapper = mountComponent({
-      data: () => ({ color: '#abc' }),
-      template: '<div data-app><e-color-picker v-model="color"></e-color-picker></div>',
-      components: { 'e-color-picker': EColorPicker }
-    }, {
-      vuetify,
-      attachTo: document.body,
-      i18n
-    })
+    const wrapper = mountComponent(
+      {
+        data: () => ({ color: '#abc' }),
+        template: '<div data-app><e-color-picker v-model="color"></e-color-picker></div>',
+        components: { 'e-color-picker': EColorPicker }
+      },
+      {
+        vuetify,
+        attachTo: document.body,
+        i18n
+      }
+    )
     await waitForDebounce()
     // open the color picker
     const openPicker = wrapper.find('button')

@@ -14,7 +14,7 @@ Displays a field as a picker (can be used with v-model)
       offset-overflow
       min-width="290px"
       max-width="290px">
-      <template #activator="{on}">
+      <template #activator="{ on }">
         <e-text-field
           :value="fieldValue"
           v-bind="$attrs"
@@ -36,9 +36,7 @@ Displays a field as a picker (can be used with v-model)
           </template>
         </e-text-field>
       </template>
-      <slot :value="pickerValue"
-            :showPicker="showPicker"
-            :on="eventHandlers" />
+      <slot :value="pickerValue" :showPicker="showPicker" :on="eventHandlers" />
     </v-menu>
   </div>
 </template>
@@ -101,7 +99,6 @@ export default {
     }
   },
   computed: {
-
     // value formatted for text field
     fieldValue () {
       if (this.format !== null) {

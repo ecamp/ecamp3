@@ -5,7 +5,7 @@
       {{ $tc('views.auth.registerDone.success') }}
     </v-alert>
     <v-spacer />
-    <v-btn color="primary" :to="{name: 'login'}"
+    <v-btn color="primary" :to="{ name: 'login' }"
            x-large
            class="my-4" block>
       {{ $tc('views.auth.registerDone.login') }}
@@ -22,5 +22,4 @@ export default {
 }
 </script>
 
-<style>
-</style>
+<style></style>

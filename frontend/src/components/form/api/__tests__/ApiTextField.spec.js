@@ -53,12 +53,16 @@ describe('An ApiTextField', () => {
     apiMock.get().thenReturn(ApiMock.success(TEXT_1).forFieldName(fieldName))
     const defaultOptions = {
       mocks: {
-        $tc: () => {
-        },
+        $tc: () => {},
         api: apiMock.getMocks()
       }
     }
-    return mountComponent(app, { vuetify, i18n, attachTo: document.body, ...merge(defaultOptions, options) })
+    return mountComponent(app, {
+      vuetify,
+      i18n,
+      attachTo: document.body,
+      ...merge(defaultOptions, options)
+    })
   }
 
   test('triggers api.patch and status update if input changes', async () => {

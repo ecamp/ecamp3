@@ -5,7 +5,7 @@
     :color="color"
     v-bind="$attrs"
     v-on="$listeners">
-    <span :class="{'d-sr-only': hideLabel}">
+    <span :class="{ 'd-sr-only': hideLabel }">
       <slot>{{ $tc('global.button.add') }}</slot>
     </span>
     <v-icon :right="!hideLabel" size="150%">{{ icon }}</v-icon>
@@ -23,5 +23,4 @@ export default {
 }
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

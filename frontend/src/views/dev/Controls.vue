@@ -36,18 +36,10 @@
       <v-card-text>
         <v-container>
           <v-row dense no-glutters justify="space-around">
-            <v-col>
-              V-Text-Field
-            </v-col>
-            <v-col>
-              E-Text-Field
-            </v-col>
-            <v-col>
-              Api-Text-Field autosave
-            </v-col>
-            <v-col>
-              Api-Text-Field
-            </v-col>
+            <v-col> V-Text-Field </v-col>
+            <v-col> E-Text-Field </v-col>
+            <v-col> Api-Text-Field autosave </v-col>
+            <v-col> Api-Text-Field </v-col>
           </v-row>
           <v-row dense no-glutters justify="space-around">
             <v-col>
@@ -81,18 +73,10 @@
             </v-col>
           </v-row>
           <v-row dense no-glutters justify="space-around">
-            <v-col>
-              V-Textarea
-            </v-col>
-            <v-col>
-              E-Textarea
-            </v-col>
-            <v-col>
-              Api-Textarea, autosave
-            </v-col>
-            <v-col>
-              Api-Textarea
-            </v-col>
+            <v-col> V-Textarea </v-col>
+            <v-col> E-Textarea </v-col>
+            <v-col> Api-Textarea, autosave </v-col>
+            <v-col> Api-Textarea </v-col>
           </v-row>
           <v-row dense no-glutters justify="space-around">
             <v-col>
@@ -134,18 +118,10 @@
             </v-col>
           </v-row>
           <v-row dense no-glutters justify="space-around">
-            <v-col>
-              V-Tiptap-Editor
-            </v-col>
-            <v-col>
-              E-Richtext
-            </v-col>
-            <v-col>
-              Api-Richtext, autosave
-            </v-col>
-            <v-col>
-              Api-Richtext
-            </v-col>
+            <v-col> V-Tiptap-Editor </v-col>
+            <v-col> E-Richtext </v-col>
+            <v-col> Api-Richtext, autosave </v-col>
+            <v-col> Api-Richtext </v-col>
           </v-row>
           <v-row dense no-glutters justify="space-around">
             <v-col>
@@ -179,27 +155,17 @@
             </v-col>
           </v-row>
           <v-row dense no-glutters justify="space-around">
-            <v-col>
-              V-Checkbox
-            </v-col>
-            <v-col>
-              E-Checkbox
-            </v-col>
-            <v-col>
-              Api-Checkbox, autosave
-            </v-col>
-            <v-col>
-              Api-Checkbox
-            </v-col>
+            <v-col> V-Checkbox </v-col>
+            <v-col> E-Checkbox </v-col>
+            <v-col> Api-Checkbox, autosave </v-col>
+            <v-col> Api-Checkbox </v-col>
           </v-row>
           <v-row dense no-glutters justify="space-around">
             <v-col>
-              <v-checkbox
-                v-model="checkboxValue" />
+              <v-checkbox v-model="checkboxValue" />
             </v-col>
             <v-col>
-              <e-checkbox
-                v-model="checkboxValue" />
+              <e-checkbox v-model="checkboxValue" />
             </v-col>
             <v-col>
               <api-checkbox
@@ -216,27 +182,17 @@
             </v-col>
           </v-row>
           <v-row dense no-glutters justify="space-around">
-            <v-col>
-              V-Switch
-            </v-col>
-            <v-col>
-              E-Switch
-            </v-col>
-            <v-col>
-              Api-Switch, autosave
-            </v-col>
-            <v-col>
-              Api-Switch
-            </v-col>
+            <v-col> V-Switch </v-col>
+            <v-col> E-Switch </v-col>
+            <v-col> Api-Switch, autosave </v-col>
+            <v-col> Api-Switch </v-col>
           </v-row>
           <v-row dense no-glutters justify="space-around">
             <v-col>
-              <v-switch
-                v-model="checkboxValue" />
+              <v-switch v-model="checkboxValue" />
             </v-col>
             <v-col>
-              <e-switch
-                v-model="checkboxValue" />
+              <e-switch v-model="checkboxValue" />
             </v-col>
             <v-col>
               <api-switch
@@ -253,31 +209,17 @@
             </v-col>
           </v-row>
           <v-row dense no-glutters justify="space-around">
-            <v-col>
-              V-Select
-            </v-col>
-            <v-col>
-              E-Select
-            </v-col>
-            <v-col>
-              Api-Select, autosave
-            </v-col>
-            <v-col>
-              Api-Select
-            </v-col>
+            <v-col> V-Select </v-col>
+            <v-col> E-Select </v-col>
+            <v-col> Api-Select, autosave </v-col>
+            <v-col> Api-Select </v-col>
           </v-row>
           <v-row dense no-glutters justify="space-around">
             <v-col>
-              <v-select
-                v-model="selectValue"
-                :items="availableLocales"
-                v-bind="config" />
+              <v-select v-model="selectValue" :items="availableLocales" v-bind="config" />
             </v-col>
             <v-col>
-              <e-select
-                v-model="selectValue"
-                :items="availableLocales"
-                v-bind="config" />
+              <e-select v-model="selectValue" :items="availableLocales" v-bind="config" />
             </v-col>
             <v-col>
               <api-select
@@ -298,27 +240,17 @@
             </v-col>
           </v-row>
           <v-row dense no-glutters justify="space-around">
-            <v-col>
-              Date
-            </v-col>
-            <v-col>
-              E-Date-Picker
-            </v-col>
-            <v-col>
-              Api-Date-Picker, autosave
-            </v-col>
-            <v-col>
-              Api-Date-Picker
-            </v-col>
+            <v-col> Date </v-col>
+            <v-col> E-Date-Picker </v-col>
+            <v-col> Api-Date-Picker, autosave </v-col>
+            <v-col> Api-Date-Picker </v-col>
           </v-row>
           <v-row dense no-glutters justify="space-around">
             <v-col>
               {{ dateValue }}
             </v-col>
             <v-col>
-              <e-date-picker
-                v-model="dateValue"
-                v-bind="config" />
+              <e-date-picker v-model="dateValue" v-bind="config" />
             </v-col>
             <v-col>
               <api-date-picker
@@ -337,18 +269,10 @@
             </v-col>
           </v-row>
           <v-row dense no-glutters justify="space-around">
-            <v-col>
-              Time
-            </v-col>
-            <v-col>
-              E-Time-Picker
-            </v-col>
-            <v-col>
-              Api-Time-Picker, autosave
-            </v-col>
-            <v-col>
-              Api-Time-Picker
-            </v-col>
+            <v-col> Time </v-col>
+            <v-col> E-Time-Picker </v-col>
+            <v-col> Api-Time-Picker, autosave </v-col>
+            <v-col> Api-Time-Picker </v-col>
           </v-row>
           <v-row dense no-glutters justify="space-around">
             <v-col>
@@ -360,9 +284,7 @@
                 value-format="YYYY-MM-DDTHH:mm:ssZ"
                 v-bind="config" />
 
-              <e-time-picker
-                v-model="timeValue"
-                v-bind="config" />
+              <e-time-picker v-model="timeValue" v-bind="config" />
             </v-col>
             <v-col>
               <api-time-picker
@@ -387,7 +309,6 @@
 </template>
 
 <script>
-
 import ContentCard from '@/components/layout/ContentCard.vue'
 import VTiptapEditor from '@/components/form/tiptap/VTiptapEditor.vue'
 import ETextField from '@/components/form/base/ETextField.vue'
@@ -453,7 +374,7 @@ export default {
       return this.$auth.user().profile()._meta.self
     },
     availableLocales () {
-      return VueI18n.availableLocales.map(l => ({
+      return VueI18n.availableLocales.map((l) => ({
         value: l,
         text: this.$tc('global.language', 1, l)
       }))
@@ -474,9 +395,6 @@ export default {
     }
   }
 }
-
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

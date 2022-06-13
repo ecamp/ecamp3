@@ -1,17 +1,8 @@
 <template>
   <transition name="fade">
-    <div
-      v-if="visible"
-      class="out-of-flow-parent">
-      <v-avatar
-        color="white"
-        class="out-of-flow-child"
-        size="32">
-        <v-icon
-          color="green"
-          size="24">
-          mdi-check
-        </v-icon>
+    <div v-if="visible" class="out-of-flow-parent">
+      <v-avatar color="white" class="out-of-flow-child" size="32">
+        <v-icon color="green" size="24"> mdi-check </v-icon>
       </v-avatar>
     </div>
   </transition>
@@ -38,19 +29,20 @@ export default {
   transition: opacity 5s ease-in;
 }
 
-.fade-enter, .fade-leave-to {
+.fade-enter,
+.fade-leave-to {
   opacity: 0;
 }
 
-.out-of-flow-parent{
+.out-of-flow-parent {
   position: relative;
-  top:-4px;
-  left:-28px;
-  width:0px;
-  height:0px;
+  top: -4px;
+  left: -28px;
+  width: 0px;
+  height: 0px;
 }
 
-.out-of-flow-child{
+.out-of-flow-child {
   position: absolute;
 }
 </style>

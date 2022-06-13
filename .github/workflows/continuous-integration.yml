@@ -138,10 +138,10 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
 
-      - run: npm ci
+      - run: npm ci --no-audit
         working-directory: frontend
 
-      - run: npm run lint-check
+      - run: npm run lint:check
         working-directory: frontend
 
   print-eslint:
@@ -162,10 +162,10 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
 
-      - run: npm ci
+      - run: npm ci --no-audit
         working-directory: print
 
-      - run: npm run lint
+      - run: npm run lint:check
         working-directory: print
 
   api-tests:
@@ -312,7 +312,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
 
-      - run: npm ci
+      - run: npm ci --no-audit
         working-directory: frontend
 
       - run: npm run build
@@ -349,7 +349,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
 
-      - run: npm ci
+      - run: npm ci --no-audit
         working-directory: print
 
       - run: npm run build
@@ -428,10 +428,10 @@ jobs:
       # run end-to-end tests
       - run: docker run -v $PWD:/e2e -w /e2e --network host -e CYPRESS_BASE_URL=http://localhost:3000 cypress/included:10.1.0
         working-directory: frontend
-          
+
       # print docker container logs (good for debugging; can be disabled again lateron)
       - run: docker-compose logs --tail="all"
-      
+
   coveralls-finished:
     name: "Finish coveralls report"
     needs:

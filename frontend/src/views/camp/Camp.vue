@@ -17,9 +17,12 @@ export default {
   computed: {
     layoutStyle () {
       switch (this.layout) {
-        case 'normal': return { maxWidth: '900px' }
-        case 'wide': return { maxWidth: '1400px' }
-        default: return null
+        case 'normal':
+          return { maxWidth: '900px' }
+        case 'wide':
+          return { maxWidth: '1400px' }
+        default:
+          return null
       }
     }
   }

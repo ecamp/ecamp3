@@ -3,10 +3,7 @@ Displays a field as a color picker + write access via API wrapper
 -->
 
 <template>
-  <api-wrapper
-    v-slot="wrapper"
-    v-bind="$props"
-    v-on="$listeners">
+  <api-wrapper v-slot="wrapper" v-bind="$props" v-on="$listeners">
     <e-color-picker
       :value="wrapper.localValue || ''"
       v-bind="$attrs"
@@ -38,11 +35,9 @@ export default {
     autoSaveDelay: { type: Number, default: 0, required: false }
   },
   data () {
-    return {
-    }
+    return {}
   }
 }
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>
