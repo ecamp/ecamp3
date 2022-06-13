@@ -2,15 +2,16 @@ version: "3.4"
 
 services:
   frontend:
-    image: node:16.15.0@sha256:1817bb941c9a30fe2a6d75ff8675a8f6def408efe3d3ff43dbb006e2b534fa14
+    image: node:16.15.1@sha256:6155ff062c403e99c1da7c317710c5c838c1e060f526d98baea6ee921ca61729
     container_name: 'ecamp3-frontend'
     ports:
       - '3000:3000'
-      - '9229:9229' # jest debug 
+      - '9229:9229' # jest debug
     stdin_open: true
     tty: true
     user: ${USER_ID:-1000}
     volumes:
+      - ./.prettierrc:/.prettierrc
       - ./frontend:/app:delegated
       - ./common:/common:delegated
       - ./.cache/npm:/home/node/.npm
@@ -101,12 +102,13 @@ services:
       - ./api/public:/srv/api/public:ro
 
   print:
-    image: node:16.15.0@sha256:1817bb941c9a30fe2a6d75ff8675a8f6def408efe3d3ff43dbb006e2b534fa14
+    image: node:16.15.1@sha256:6155ff062c403e99c1da7c317710c5c838c1e060f526d98baea6ee921ca61729
     container_name: 'ecamp3-print'
     ports:
       - '3003:3003'
     user: ${USER_ID:-1000}
     volumes:
+      - ./.prettierrc:/.prettierrc
       - ./print:/app:delegated
       - ./common:/common:delegated
       - ./.cache/npm:/home/node/.npm
@@ -121,7 +123,7 @@ services:
       - ./print/print.env
 
   database:
-    image: postgres:13-alpine@sha256:0d3137d83b50573cc17d5998a62f79075d4088daec4d408a240e960a99f5da4e
+    image: postgres:13-alpine@sha256:c8bfb54cac477fbe49ccb6916c40e85724eb324f882a1c4476512cab32d6e421
     container_name: 'ecamp3-database'
     environment:
       - POSTGRES_DB=ecamp3dev

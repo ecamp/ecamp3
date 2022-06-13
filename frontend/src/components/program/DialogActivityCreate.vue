@@ -10,7 +10,8 @@
     submit-label="global.button.create"
     submit-icon="mdi-plus"
     submit-color="success"
-    :cancel-action="cancelCreate">
+    :cancel-action="cancelCreate"
+  >
     <template #activator="scope">
       <slot name="activator" v-bind="scope" />
     </template>
@@ -29,26 +30,20 @@ export default {
   name: 'DialogActivityCreate',
   components: {
     DialogForm,
-    DialogActivityForm
+    DialogActivityForm,
   },
   extends: DialogBase,
   props: {
     scheduleEntry: { type: Object, required: true },
 
     // currently visible period
-    period: { type: Function, required: true }
+    period: { type: Function, required: true },
   },
-  data () {
+  data() {
     return {
-      entityProperties: [
-        'title',
-        'location',
-        'scheduleEntries'
-      ],
-      embeddedEntities: [
-        'category'
-      ],
-      entityUri: '/activities'
+      entityProperties: ['title', 'location', 'scheduleEntries'],
+      embeddedEntities: ['category'],
+      entityUri: '/activities',
     }
   },
   watch: {
@@ -63,41 +58,42 @@ export default {
               start: this.scheduleEntry.start,
               end: this.scheduleEntry.end,
               key: uniqueId(),
-              deleted: false
-            }
-          ]
+              deleted: false,
+            },
+          ],
         })
       } else {
         // clear form on exit
         this.clearEntityData()
       }
-    }
+    },
   },
   methods: {
-    cancelCreate () {
+    cancelCreate() {
       this.close()
     },
-    createActivity () {
+    createActivity() {
       const payloadData = {
         ...this.entityData,
 
-        scheduleEntries: this.entityData.scheduleEntries?.filter(entry => !entry.deleted).map(entry => ({
-          period: entry.period()._meta.self,
-          start: entry.start,
-          end: entry.end
-        })) || []
+        scheduleEntries:
+          this.entityData.scheduleEntries
+            ?.filter((entry) => !entry.deleted)
+            .map((entry) => ({
+              period: entry.period()._meta.self,
+              start: entry.start,
+              end: entry.end,
+            })) || [],
       }
 
       return this.create(payloadData)
     },
-    onSuccess (activity) {
+    onSuccess(activity) {
       this.close()
       this.$emit('activityCreated', activity)
-    }
-  }
+    },
+  },
 }
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

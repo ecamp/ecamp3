@@ -2,18 +2,13 @@
   <span>
     <v-skeleton-loader v-if="loading" type="text" />
     <span v-else>
-      <span v-for="(scheduleEntry, index) in items"
-            :key="scheduleEntry._meta.self">
-        <router-link
-          :to="scheduleEntryRoute(scheduleEntry)"
-          small
-          class="short-button">
+      <span v-for="(scheduleEntry, index) in items" :key="scheduleEntry._meta.self">
+        <router-link :to="scheduleEntryRoute(scheduleEntry)" small class="short-button">
           {{ getScheduleEntryCaption(scheduleEntry) }}
         </router-link>
-        <span v-if="index + 1 < items.length"><br></span>
+        <span v-if="index + 1 < items.length"><br /></span>
       </span>
     </span>
-
   </span>
 </template>
 
@@ -22,24 +17,23 @@ import { scheduleEntryRoute } from '@/router.js'
 
 export default {
   name: 'ScheduleEntryLinks',
-  components: {
-  },
+  components: {},
   props: {
-    activityPromise: { type: Promise, required: true }
+    activityPromise: { type: Promise, required: true },
   },
   data: () => {
     return {
       activity: null,
-      loading: true
+      loading: true,
     }
   },
   computed: {
-    items () {
+    items() {
       if (!this.activity) return []
       return this.activity.scheduleEntries().items
-    }
+    },
   },
-  async mounted () {
+  async mounted() {
     this.activity = await this.activityPromise
     await this.activity.scheduleEntries().$loadItems()
 
@@ -47,7 +41,7 @@ export default {
   },
   methods: {
     scheduleEntryRoute,
-    getScheduleEntryCaption (scheduleEntry) {
+    getScheduleEntryCaption(scheduleEntry) {
       const number = scheduleEntry.number
       const title = scheduleEntry.activity().title
 
@@ -60,7 +54,7 @@ export default {
       } else {
         return number
       }
-    }
-  }
+    },
+  },
 }
 </script>

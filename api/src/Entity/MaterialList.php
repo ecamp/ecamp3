@@ -42,6 +42,11 @@ class MaterialList extends BaseEntity implements BelongsToCampInterface, CopyFro
     /**
      * The items that are part of this list.
      */
+    #[Assert\Count(
+        exactly: 0,
+        exactMessage: 'It\'s not possible to delete a material list as long as it has items linked to it.',
+        groups: ['delete']
+    )]
     #[ApiProperty(writable: false, example: '["/material_items/1a2b3c4d"]')]
     #[Groups(['read'])]
     #[ORM\OneToMany(targetEntity: MaterialItem::class, mappedBy: 'materialList')]

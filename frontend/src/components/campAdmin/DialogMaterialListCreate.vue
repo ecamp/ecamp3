@@ -8,7 +8,8 @@
     max-width="600px"
     :submit-action="createMaterialList"
     submit-color="success"
-    :cancel-action="close">
+    :cancel-action="close"
+  >
     <template #activator="scope">
       <slot name="activator" v-bind="scope" />
     </template>
@@ -27,15 +28,12 @@ export default {
   components: { DialogForm, DialogMaterialListForm },
   extends: DialogBase,
   props: {
-    camp: { type: Object, required: true }
+    camp: { type: Object, required: true },
   },
-  data () {
+  data() {
     return {
-      entityProperties: [
-        'camp',
-        'name'
-      ],
-      entityUri: '/material_lists'
+      entityProperties: ['camp', 'name'],
+      entityUri: '/material_lists',
     }
   },
   watch: {
@@ -43,24 +41,22 @@ export default {
       if (showDialog) {
         this.setEntityData({
           camp: this.camp._meta.self,
-          name: ''
+          name: '',
         })
       } else {
         // clear form on exit
         this.clearEntityData()
       }
-    }
+    },
   },
   methods: {
-    createMaterialList () {
+    createMaterialList() {
       return this.create().then(() => {
         this.api.reload(this.camp.materialLists())
       })
-    }
-  }
+    },
+  },
 }
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

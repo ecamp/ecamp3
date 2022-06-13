@@ -1,17 +1,18 @@
 <template>
-  <component :is="contentNode.contentTypeName"
-             v-if="!contentNode.loading"
-             class="content-node"
-             :class="{ 'draggable': draggable && contentNode.parent !== null }"
-             :content-node="contentNode"
-             :layout-mode="layoutMode"
-             :draggable="draggable"
-             :disabled="disabled"
-             v-bind="$attrs" />
+  <component
+    :is="contentNode.contentTypeName"
+    v-if="!contentNode.loading"
+    class="content-node"
+    :class="{ draggable: draggable && contentNode.parent !== null }"
+    :content-node="contentNode"
+    :layout-mode="layoutMode"
+    :draggable="draggable"
+    :disabled="disabled"
+    v-bind="$attrs"
+  />
 </template>
 
 <script>
-
 import ColumnLayout from './content/ColumnLayout.vue'
 import Notes from './content/Notes.vue'
 import Material from './content/Material.vue'
@@ -27,7 +28,7 @@ const contentNodeComponents = {
   LAThematicArea,
   SafetyConcept,
   Storyboard,
-  Storycontext
+  Storycontext,
 }
 
 export default {
@@ -37,8 +38,8 @@ export default {
     contentNode: { type: Object, required: true },
     layoutMode: { type: Boolean, required: true },
     draggable: { type: Boolean, default: false },
-    disabled: { type: Boolean, default: false }
-  }
+    disabled: { type: Boolean, default: false },
+  },
 }
 </script>
 
@@ -59,5 +60,4 @@ export default {
     background: none;
   }
 }
-
 </style>

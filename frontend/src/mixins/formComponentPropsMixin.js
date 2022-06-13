@@ -3,61 +3,61 @@ export const formComponentPropsMixin = {
     id: {
       type: String,
       required: false,
-      default: null
+      default: null,
     },
 
     // vuetify property hideDetails
     filled: {
       type: Boolean,
-      default: true
+      default: true,
     },
 
     // vuetify property hideDetails
     hideDetails: {
       type: String,
-      default: 'auto'
+      default: 'auto',
     },
 
     // set classes on input
     inputClass: {
       type: String,
       default: '',
-      required: false
+      required: false,
     },
 
     // used as field name for validation and as label (if no fallback label is provided)
     name: {
       type: String,
       required: false,
-      default: null
+      default: null,
     },
 
     // fallback label; name is used as label if not provided
     label: {
       type: String,
       required: false,
-      default: null
+      default: null,
     },
 
     // ID for vee-validation
     veeId: {
       type: String,
       required: false,
-      default: null
+      default: null,
     },
 
     // rules for vee-validation
     veeRules: {
       type: [String, Object],
       required: false,
-      default: ''
+      default: '',
     },
 
     // rules for vee-validation
     errorMessages: {
       type: Array,
       required: false,
-      default: () => []
-    }
-  }
+      default: () => [],
+    },
+  },
 }

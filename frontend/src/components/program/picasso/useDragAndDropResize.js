@@ -6,7 +6,7 @@ import { toTime, roundTimeUp, roundTimeDown } from '@/helpers/vCalendarDragAndDr
  * @param int threshold       min. mouse movement needed to detect drag & drop
  * @returns
  */
-export default function useDragAndDrop (enabled, update) {
+export default function useDragAndDrop(enabled, update) {
   /**
    * internal data (not exposed)
    */
@@ -46,8 +46,10 @@ export default function useDragAndDrop (enabled, update) {
    */
 
   // triggered when mouse is being moved in calendar (independent whether drag & drop is ongoing or not)
-  const timeMouseMove = (tms, nativeEvent) => {
-    if (!enabled.value) { return }
+  const timeMouseMove = (tms) => {
+    if (!enabled.value) {
+      return
+    }
 
     if (resizedEntry) {
       const mouseTime = toTime(tms)
@@ -57,7 +59,9 @@ export default function useDragAndDrop (enabled, update) {
 
   // triggered with MouseUp Event anywhere in the calendar
   const timeMouseUp = () => {
-    if (!enabled.value) { return }
+    if (!enabled.value) {
+      return
+    }
 
     if (resizedEntry && resizedEntry.endTimestamp !== originalEndTimestamp) {
       // existing entry was resized --> save to API
@@ -82,9 +86,9 @@ export default function useDragAndDrop (enabled, update) {
   return {
     vCalendarListeners: {
       'mousemove:time': timeMouseMove,
-      'mouseup:time': timeMouseUp
+      'mouseup:time': timeMouseUp,
     },
     nativeMouseLeave,
-    startResize
+    startResize,
   }
 }

@@ -1,13 +1,14 @@
 <template>
   <div style="position: relative">
-    <pdf-download-button-nuxt :config="config" class="mb-3 float-left" />
+    <DownloadNuxtPdfButton :config="config" class="mb-3 float-left" />
 
     <v-btn
       class="ml-3 mb-3 float-left"
       color="primary"
       outlined
       :href="url"
-      target="_blank">
+      target="_blank"
+    >
       <v-icon left>mdi-open-in-new</v-icon>
       {{ $tc('components.print.printPreviewNuxt.openPreview') }}
     </v-btn>
@@ -22,7 +23,8 @@
       width="100%"
       height="1150"
       :src="url"
-      v-bind="$attrs" />
+      v-bind="$attrs"
+    />
 
     <v-overlay absolute :value="loading || error" z-index="2">
       <div v-if="error">
@@ -34,35 +36,35 @@
 </template>
 
 <script>
-import PdfDownloadButtonNuxt from '@/components/print/print-nuxt/PdfDownloadButtonNuxt.vue'
+import DownloadNuxtPdfButton from '@/components/print/print-nuxt/DownloadNuxtPdfButton.vue'
 const PRINT_SERVER = window.environment.PRINT_SERVER
 
 export default {
   name: 'PrintPreviewNuxt',
-  components: { PdfDownloadButtonNuxt },
+  components: { DownloadNuxtPdfButton },
   props: {
     config: {
       type: Object,
-      default: () => {}
-    }
+      default: () => {},
+    },
   },
-  data () {
+  data() {
     return {
       loading: false,
-      error: null
+      error: null,
     }
   },
   computed: {
-    language () {
+    language() {
       return this.$store.state.lang.language
     },
-    url () {
-      return `${PRINT_SERVER}/?pagedjs=true&config=${encodeURIComponent(JSON.stringify(this.config))}`
-    }
-  }
-
+    url() {
+      return `${PRINT_SERVER}/?pagedjs=true&config=${encodeURIComponent(
+        JSON.stringify(this.config)
+      )}`
+    },
+  },
 }
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

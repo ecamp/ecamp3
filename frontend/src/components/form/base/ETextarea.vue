@@ -5,7 +5,8 @@
     :name="name"
     :vid="veeId"
     :rules="veeRules"
-    class="e-form-container">
+    class="e-form-container"
+  >
     <v-tiptap-editor
       v-bind="$attrs"
       :with-extensions="false"
@@ -14,7 +15,8 @@
       :error-messages="veeErrors.concat(errorMessages)"
       :label="label || name"
       :class="[inputClass]"
-      v-on="$listeners">
+      v-on="$listeners"
+    >
       <!-- passing through all slots -->
       <slot v-for="(_, name) in $slots" :slot="name" :name="name" />
       <template v-for="(_, name) in $scopedSlots" :slot="name" slot-scope="slotData">
@@ -32,6 +34,6 @@ import VTiptapEditor from '@/components/form/tiptap/VTiptapEditor.vue'
 export default {
   name: 'ETextarea',
   components: { VTiptapEditor, ValidationProvider },
-  mixins: [formComponentPropsMixin]
+  mixins: [formComponentPropsMixin],
 }
 </script>

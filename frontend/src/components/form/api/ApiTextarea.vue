@@ -3,11 +3,7 @@ Displays a field as a e-textarea + write access via API wrapper
 -->
 
 <template>
-  <api-wrapper
-    v-slot="wrapper"
-    v-bind="$props"
-    separate-buttons
-    v-on="$listeners">
+  <api-wrapper v-slot="wrapper" v-bind="$props" separate-buttons v-on="$listeners">
     <e-textarea
       :value="wrapper.localValue"
       v-bind="$attrs"
@@ -18,7 +14,8 @@ Displays a field as a e-textarea + write access via API wrapper
       :outlined="outlined"
       :filled="filled"
       :dense="dense"
-      @input="wrapper.on.input">
+      @input="wrapper.on.input"
+    >
       <template #append>
         <api-wrapper-append :wrapper="wrapper" />
       </template>
@@ -36,11 +33,10 @@ export default {
   components: { ApiWrapper, ApiWrapperAppend },
   mixins: [apiPropsMixin],
 
-  data () {
+  data() {
     return {}
-  }
+  },
 }
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

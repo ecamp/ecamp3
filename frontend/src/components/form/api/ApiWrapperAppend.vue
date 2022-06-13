@@ -2,10 +2,7 @@
   <div class="d-flex" style="margin-top: -5px">
     <!-- Success icon after saving -->
     <div class="checkIconContainer">
-      <v-icon
-        color="green"
-        class="checkIcon"
-        :class="checkIconAddon">
+      <v-icon color="green" class="checkIcon" :class="checkIconAddon">
         mdi-content-save
       </v-icon>
       <!--
@@ -35,7 +32,8 @@
             type="submit"
             class="mr-1"
             v-on="on"
-            @click="wrapper.on.save">
+            @click="wrapper.on.save"
+          >
             <v-icon>mdi-refresh</v-icon>
           </v-btn>
         </template>
@@ -50,7 +48,8 @@
             x-small
             color="grey"
             v-on="on"
-            @click="wrapper.on.reset">
+            @click="wrapper.on.reset"
+          >
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </template>
@@ -70,7 +69,8 @@
             type="submit"
             class="mr-1"
             v-on="on"
-            @click="wrapper.on.save">
+            @click="wrapper.on.save"
+          >
             <v-icon>mdi-check</v-icon>
           </v-btn>
         </template>
@@ -85,7 +85,8 @@
             x-small
             color="grey"
             v-on="on"
-            @click="wrapper.on.reset">
+            @click="wrapper.on.reset"
+          >
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </template>
@@ -94,10 +95,12 @@
     </template>
 
     <!-- Retry button if loading failed -->
-    <button-retry v-if="wrapper.hasLoadingError"
-                  text
-                  type="submit"
-                  @click="wrapper.on.reload" />
+    <button-retry
+      v-if="wrapper.hasLoadingError"
+      text
+      type="submit"
+      @click="wrapper.on.reload"
+    />
   </div>
 </template>
 
@@ -110,11 +113,11 @@ export default {
   props: {
     wrapper: {
       required: true,
-      type: Object
-    }
+      type: Object,
+    },
   },
   computed: {
-    checkIconAddon () {
+    checkIconAddon() {
       if (this.wrapper.hasServerError || this.wrapper.dirty) {
         return 'hidden'
       } else if (this.wrapper.status === 'success') {
@@ -122,10 +125,9 @@ export default {
       } else {
         return ''
       }
-    }
-  }
+    },
+  },
 }
-
 </script>
 
 <style scoped>
@@ -136,7 +138,7 @@ export default {
   position: relative;
   top: -11px;
   right: 13px;
-  transition: opacity .2s ease-out;
+  transition: opacity 0.2s ease-out;
   opacity: 0;
 }
 div.v-input--checkbox .v-icon.checkIcon {
@@ -149,5 +151,4 @@ div.v-input--checkbox .v-icon.checkIcon {
 .v-icon.checkIcon.hidden {
   transition: none;
 }
-
 </style>

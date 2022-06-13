@@ -1,11 +1,7 @@
 <template>
   <div>
     <div v-if="showDailySummary" class="tw-text-2xl tw-mb-6">
-      <h1>
-        {{ $tc('entity.day.name') }} {{ day.number }} ({{
-          dateLong(day.start)
-        }})
-      </h1>
+      <h1>{{ $tc('entity.day.name') }} {{ day.number }} ({{ dateLong(day.start) }})</h1>
     </div>
 
     <div v-if="showActivities">

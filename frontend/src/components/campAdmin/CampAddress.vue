@@ -10,19 +10,23 @@ Displays address and allows to edit
         <api-text-field
           fieldname="addressName"
           :name="$tc('entity.camp.fields.addressName')"
-          :disabled="disabled" />
+          :disabled="disabled"
+        />
         <api-text-field
           fieldname="addressStreet"
           :name="$tc('entity.camp.fields.addressStreet')"
-          :disabled="disabled" />
+          :disabled="disabled"
+        />
         <api-text-field
           fieldname="addressZipcode"
           :name="$tc('entity.camp.fields.addressZipcode')"
-          :disabled="disabled" />
+          :disabled="disabled"
+        />
         <api-text-field
           fieldname="addressCity"
           :name="$tc('entity.camp.fields.addressCity')"
-          :disabled="disabled" />
+          :disabled="disabled"
+        />
       </api-form>
     </div>
   </content-group>
@@ -39,15 +43,14 @@ export default {
   props: {
     camp: {
       type: Function,
-      required: true
+      required: true,
     },
     disabled: {
       type: Boolean,
-      default: false
-    }
-  }
+      default: false,
+    },
+  },
 }
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

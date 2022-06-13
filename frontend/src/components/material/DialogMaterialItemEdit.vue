@@ -8,12 +8,16 @@
     max-width="600px"
     :submit-action="update"
     submit-color="success"
-    :cancel-action="close">
+    :cancel-action="close"
+  >
     <template #activator="scope">
       <slot name="activator" v-bind="scope" />
     </template>
 
-    <dialog-material-item-form :material-lists="camp.materialLists" :material-item="entityData" />
+    <dialog-material-item-form
+      :material-lists="camp.materialLists"
+      :material-item="entityData"
+    />
   </dialog-form>
 </template>
 
@@ -27,30 +31,30 @@ export default {
   components: { DialogForm, DialogMaterialItemForm },
   extends: DialogBase,
   props: {
-    materialItemUri: { type: String, required: true }
+    materialItemUri: { type: String, required: true },
   },
-  data () {
+  data() {
     return {
-      entityProperties: [
-        'quantity',
-        'unit',
-        'article'
-      ],
-      embeddedEntities: [
-        'materialList'
-      ]
+      entityProperties: ['quantity', 'unit', 'article'],
+      embeddedEntities: ['materialList'],
     }
   },
   computed: {
-    materialItem () {
+    materialItem() {
       return this.api.get(this.materialItemUri)
     },
-    camp () {
+    camp() {
       return this.materialItem.materialList().camp()
     },
-    title () {
-      return this.materialItem.quantity + ' ' + this.materialItem.unit + ' ' + this.materialItem.article
-    }
+    title() {
+      return (
+        this.materialItem.quantity +
+        ' ' +
+        this.materialItem.unit +
+        ' ' +
+        this.materialItem.article
+      )
+    },
   },
   watch: {
     // copy data whenever dialog is opened
@@ -58,11 +62,9 @@ export default {
       if (showDialog) {
         this.loadEntityData(this.materialItemUri)
       }
-    }
-  }
+    },
+  },
 }
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
