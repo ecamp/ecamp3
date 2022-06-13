@@ -2,12 +2,13 @@
   <dialog-form
     v-model="showDialog"
     :title="$tc('components.user.dialogChangeMail.title')"
-    :submit-action="(status === 'initial') ? sendChangeMailRequest : null"
+    :submit-action="status === 'initial' ? sendChangeMailRequest : null"
     :cancel-action="close"
     :cancel-label="$tc('global.button.close')"
-    :cancel-visible="(status !== 'initial')"
+    :cancel-visible="status !== 'initial'"
     submit-color="success"
-    max-width="600px">
+    max-width="600px"
+  >
     <template #activator="scope">
       <slot name="activator" v-bind="scope" />
     </template>
@@ -15,8 +16,10 @@
       <e-text-field
         v-model="entityData.newEmail"
         :name="$tc('entity.user.fields.email')"
+        vee-rules="email|required"
+        append-icon="mdi-at"
         autofocus
-        vee-rules="required" />
+      />
       <p class="mt-5">
         {{ $tc('components.user.dialogChangeMail.message') }}
       </p>
@@ -38,12 +41,10 @@ export default {
   name: 'DialogChangeMail',
   components: { DialogForm },
   extends: DialogBase,
-  data () {
+  data() {
     return {
       status: '',
-      entityProperties: [
-        'newEmail'
-      ]
+      entityProperties: ['newEmail'],
     }
   },
   watch: {
@@ -53,16 +54,19 @@ export default {
         this.status = 'initial'
         this.loadEntityData(this.$auth.user().profile()._meta.self)
       }
-    }
+    },
   },
   methods: {
-    async sendChangeMailRequest () {
-      await this.api.patch(this.entityUri, this.entityData).then(() => {
-        this.status = 'success'
-      }).catch(() => {
-        this.status = 'error'
-      })
-    }
-  }
+    async sendChangeMailRequest() {
+      await this.api
+        .patch(this.entityUri, this.entityData)
+        .then(() => {
+          this.status = 'success'
+        })
+        .catch(() => {
+          this.status = 'error'
+        })
+    },
+  },
 }
 </script>

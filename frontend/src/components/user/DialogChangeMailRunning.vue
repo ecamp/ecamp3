@@ -2,9 +2,10 @@
   <dialog-form
     v-model="showDialog"
     :title="$tc('components.user.dialogChangeMailRunning.title')"
-    :cancel-action="(status === 'initial') ? null : close"
+    :cancel-action="status === 'initial' ? null : close"
     :cancel-label="$tc('global.button.close')"
-    max-width="600px">
+    max-width="600px"
+  >
     <div v-if="status === 'initial'">
       <v-progress-circular indeterminate />
       {{ $tc('components.user.dialogChangeMailRunning.message') }}
@@ -28,11 +29,11 @@ export default {
   components: { DialogForm },
   extends: DialogBase,
   props: {
-    emailVerificationKey: { type: String, required: false, default: null }
+    emailVerificationKey: { type: String, required: false, default: null },
   },
-  data () {
+  data() {
     return {
-      status: ''
+      status: '',
     }
   },
   watch: {
@@ -40,23 +41,28 @@ export default {
       if (!showDialog) {
         this.$router.push({ name: 'profile' })
       }
-    }
+    },
   },
-  mounted () {
+  mounted() {
     if (this.emailVerificationKey) {
       this.status = 'initial'
       this.showDialog = true
 
-      this.$auth.user().profile()._meta.load.then(p => {
-        p.$patch({
-          untrustedEmailKey: this.emailVerificationKey
-        }).then(() => {
-          this.status = 'success'
-        }).catch(() => {
-          this.status = 'error'
+      this.$auth
+        .user()
+        .profile()
+        ._meta.load.then((p) => {
+          p.$patch({
+            untrustedEmailKey: this.emailVerificationKey,
+          })
+            .then(() => {
+              this.status = 'success'
+            })
+            .catch(() => {
+              this.status = 'error'
+            })
         })
-      })
     }
-  }
+  },
 }
 </script>
