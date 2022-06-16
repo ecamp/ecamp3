@@ -162,7 +162,7 @@ class UpdatePeriodTest extends ECampApiTestCase {
         $this->assertJsonContains([
             'detail' => 'Parsing datetime string "something" using format "!Y-m-d" resulted in 3 errors: 
 at position 0: A four digit year could not be found
-at position 9: Data missing',
+at position 9: Not enough data available to satisfy format',
         ]);
     }
 
@@ -176,7 +176,7 @@ at position 9: Data missing',
         $this->assertJsonContains([
             'detail' => 'Parsing datetime string "something" using format "!Y-m-d" resulted in 3 errors: 
 at position 0: A four digit year could not be found
-at position 9: Data missing',
+at position 9: Not enough data available to satisfy format',
         ]);
     }
 
