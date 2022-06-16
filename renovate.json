@@ -9,6 +9,7 @@
       "npm": ">= 7.15.1"
     }
   },
+  "automergeType": "branch",
   "vulnerabilityAlerts": {
     "automerge": true
   },
