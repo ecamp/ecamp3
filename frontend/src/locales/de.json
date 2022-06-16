@@ -379,6 +379,14 @@
       },
       "picasso": {
         "editMode": "Editiermodus"
+      },
+      "navigation": {
+        "mobile": {
+          "navAdminItem": "Campeinstellungen",
+          "navCloseItem": "Menu schliessen",
+          "navCollaboratorsItem": "Team",
+          "navPrintingItem": "PDF / Drucken"
+        }
       }
     },
     "campCreate": {
