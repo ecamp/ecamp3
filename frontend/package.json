@@ -74,7 +74,7 @@
   },
   "devDependencies": {
     "@testing-library/jest-dom": "5.16.4",
-    "@testing-library/vue": "5.8.3",
+    "@testing-library/vue": "6.6.0",
     "@vue/cli-plugin-babel": "5.0.6",
     "@vue/cli-plugin-e2e-cypress": "5.0.6",
     "@vue/cli-plugin-eslint": "5.0.6",
