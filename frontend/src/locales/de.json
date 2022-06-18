@@ -282,7 +282,8 @@
       "sideBarProgram": {
         "title": "Tagesübersicht"
       },
-      "printPreview": "Druckvorschau öffnen"
+      "printPreview": "Druckvorschau öffnen",
+      "deleteWarning": "Möchtest du diese Aktivität wirklich löschen? Der komplette Inhalt dieser Aktivität wird gelöscht."
     },
     "auth": {
       "login": {
