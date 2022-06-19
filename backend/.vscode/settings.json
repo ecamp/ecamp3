@@ -1,7 +1,0 @@
-{
-    "php-cs-fixer.config": "./.php_cs",
-    "phpunit.files": "./{module,content-type}/**/test/**/*Test.php",
-    "phpunit.args": [
-        "-cphpunit.xml"
-    ],
-}

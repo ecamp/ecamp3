@@ -1,9 +1,0 @@
-<?php
-
-return [
-    'ecamp' => [
-        'frontend' => [
-            'url' => 'localhost:3000',
-        ],
-    ],
-];
