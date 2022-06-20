@@ -4,21 +4,25 @@
       v-model="localMaterialItem.quantity"
       :name="$tc('entity.materialItem.fields.quantity')"
       type="number"
-      autofocus />
+      autofocus
+    />
     <e-text-field
       v-model="localMaterialItem.unit"
-      :name="$tc('entity.materialItem.fields.unit')" />
+      :name="$tc('entity.materialItem.fields.unit')"
+    />
     <e-text-field
       v-model="localMaterialItem.article"
       :name="$tc('entity.materialItem.fields.article')"
-      vee-rules="required" />
+      vee-rules="required"
+    />
     <e-select
       v-model="localMaterialItem.materialList"
       dense
       vee-rules="required"
       :name="$tc('entity.materialList.name')"
       fieldname="materialList"
-      :items="materialListArray" />
+      :items="materialListArray"
+    />
   </div>
 </template>
 
@@ -27,18 +31,18 @@ export default {
   name: 'DialogMaterialItemForm',
   props: {
     materialLists: { type: Function, required: true },
-    materialItem: { type: Object, required: true }
+    materialItem: { type: Object, required: true },
   },
   computed: {
-    localMaterialItem () {
+    localMaterialItem() {
       return this.materialItem
     },
-    materialListArray () {
-      return this.materialLists().items.map(l => ({
+    materialListArray() {
+      return this.materialLists().items.map((l) => ({
         value: l._meta.self,
-        text: l.name
+        text: l.name,
       }))
-    }
-  }
+    },
+  },
 }
 </script>

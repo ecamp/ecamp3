@@ -118,6 +118,9 @@
       "materialCreateItem": {
         "noMaterialListAvailable": "Für dieses Lager sind noch keine Materiallisten erfasst. Du kannst diese unter 'Admin' erfassen."
       },
+      "periodSwitcher": {
+        "title": "Lagerabschnitt"
+      },
       "picasso": {
         "datetime": {
           "date": "dd. D.MM | D. MMM | DD. MMM YYYY"
@@ -149,8 +152,20 @@
           }
         }
       },
+      "printNuxt": {
+        "downloadNuxtPdfListItem": {
+          "label": "PDF herunterladen",
+          "error": "Etwas hat nicht geklappt. Probiere es nochmals, oder lade die Seite neu."
+        }
+      },
       "printPreviewNuxt": {
         "openPreview": "Vorschau in neuem Fenster öffnen"
+      },
+      "printReact": {
+        "downloadNuxtPdfListItem": {
+          "label": "PDF herunterladen",
+          "error": "Etwas hat nicht geklappt. Probiere es nochmals, oder lade die Seite neu."
+        }
       }
     },
     "dialog": {
@@ -183,6 +198,20 @@
         "myCamps": "Mein Lager | Meine Lager",
         "profile": "Profil"
       }
+    },
+    "user": {
+      "dialogChangeMail": {
+        "title": "E-Mail-Adresse ändern",
+        "message": "Zur Verifikation schicken wir dir eine Mail.",
+        "success": "Bevor du die neue E-Mail-Adresse verwenden kannst, muss du diese verifizieren. Prüfe jetzt deine Mailbox.",
+        "error": "Leider ist ein Fehler aufgetreten."
+      },
+      "dialogChangeMailRunning": {
+        "title": "E-Mail-Adresse wird geändert",
+        "message": "E-Mail-Adresse wird geändert...",
+        "success": "E-Mail-Adresse erfolgreich geändert.",
+        "error": "Leider ist ein Fehler aufgetreten."
+      }
     }
   },
   "entity": {
@@ -211,6 +240,7 @@
       "delete": "Löschen",
       "edit": "Bearbeiten",
       "editable": "Bearbeitbar",
+      "lock": "Sperren",
       "logout": "Ausloggen",
       "ok": "In Ordnung",
       "open": "Öffnen",
@@ -219,6 +249,7 @@
       "search": "Suchen",
       "submit": "Abschicken",
       "tryagain": "Erneut versuchen",
+      "unlock": "Entsperren",
       "update": "Aktualisieren"
     },
     "changeLanguage": "Sprache ändern",
@@ -246,7 +277,8 @@
       "sideBarProgram": {
         "title": "Tagesübersicht"
       },
-      "printPreview": "Druckvorschau öffnen"
+      "printPreview": "Druckvorschau öffnen",
+      "deleteWarning": "Möchtest du diese Aktivität wirklich löschen? Der komplette Inhalt dieser Aktivität wird gelöscht."
     },
     "auth": {
       "login": {
@@ -281,6 +313,7 @@
       "registerDone": {
         "login": "Anmelden",
         "success": "Erfolgreich registriert",
+        "message": "Wir haben dir eine Mail geschickt. Bitte schliesse die Registrierung ab, in dem du den Aktivierungs-Link im Mail aufrufst.",
         "title": "Konto erstellen"
       },
       "resetPassword": {
@@ -333,9 +366,6 @@
         "title": "Druckvorschau",
         "previewError": "Etwas hat nicht geklappt. Probiere es nochmals mit anderen Druckeinstellungen, oder lade die Seite neu."
       },
-      "sideBarPeriods": {
-        "title": "Lagerabschnitt"
-      },
       "story": {
         "title": "Geschichte"
       },
@@ -361,6 +391,7 @@
       "title": "Mein Lager | Meine Lager"
     },
     "profile": {
+      "changeEmail": "Ändern",
       "profile": "Profil"
     }
   }

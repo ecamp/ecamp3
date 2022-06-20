@@ -24,7 +24,6 @@ final class Version20220319210543 extends AbstractMigration {
 
     public function down(Schema $schema): void {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->addSql('CREATE SCHEMA public');
         $this->addSql('DROP INDEX inviteKeyHash_unique');
         $this->addSql('ALTER TABLE camp_collaboration RENAME COLUMN inviteKeyHash TO invitekey');
         $this->addSql('CREATE UNIQUE INDEX invitekey_unique ON camp_collaboration (invitekey)');

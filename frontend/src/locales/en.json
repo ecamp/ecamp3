@@ -259,6 +259,20 @@
         "myCamps": "My camp | My camps",
         "profile": "Profile"
       }
+    },
+    "user": {
+      "dialogChangeMail": {
+        "title": "Change email address",
+        "message": "You will receive an email for verification.",
+        "success": "Before you can use your new email address, you have to verify it. Check your mailbox now.",
+        "error": "An error has occurred."
+      },
+      "dialogChangeMailRunning": {
+        "title": "Changing email address",
+        "message": "Changing email address ...",
+        "success": "Email address successfully changed.",
+        "error": "An error has occurred."
+      }
     }
   },
   "entity": {
@@ -327,7 +341,8 @@
       "sideBarProgram": {
         "title": "Activities on this day"
       },
-      "printPreview": "Open print preview"
+      "printPreview": "Open print preview",
+      "deleteWarning": "Do you really want to delete this activity? All content of this activity will be removed."
     },
     "auth": {
       "activate": {
@@ -368,6 +383,7 @@
       "registerDone": {
         "login": "Login",
         "success": "Successfully registered",
+        "message": "We sent you an email. Please complete your registration by clicking the activation-link in the email",
         "title": "Create account"
       },
       "resetPassword": {
@@ -456,6 +472,7 @@
       "title": "My Camp | My Camps"
     },
     "profile": {
+      "changeEmail": "Change",
       "profile": "Profile"
     }
   }

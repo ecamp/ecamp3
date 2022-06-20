@@ -8,7 +8,8 @@
     max-width="600px"
     :submit-action="update"
     submit-color="success"
-    :cancel-action="close">
+    :cancel-action="close"
+  >
     <template #activator="scope">
       <slot name="activator" v-bind="scope" />
     </template>
@@ -26,13 +27,11 @@ export default {
   components: { DialogForm, DialogMaterialListForm },
   extends: DialogBase,
   props: {
-    materialList: { type: Object, required: true }
+    materialList: { type: Object, required: true },
   },
-  data () {
+  data() {
     return {
-      entityProperties: [
-        'name'
-      ]
+      entityProperties: ['name'],
     }
   },
   watch: {
@@ -41,11 +40,9 @@ export default {
       if (showDialog) {
         this.loadEntityData(this.materialList._meta.self)
       }
-    }
-  }
+    },
+  },
 }
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

@@ -21,18 +21,15 @@ trait FiltersByContentNode {
      */
     protected function filterByContentNode(QueryBuilder $queryBuilder, User $user, string $contentNodeAlias): void {
         $queryBuilder->innerJoin("{$contentNodeAlias}.root", 'root');
-        $queryBuilder->innerJoin('root.owner', 'owner');
 
         // assuming owner is an Activity
-        $queryBuilder->leftJoin(Activity::class, 'cn_activity', Join::WITH, 'cn_activity.id = owner.id');
-        $queryBuilder->leftJoin('cn_activity.category', 'cn_activity_category');
+        $queryBuilder->leftJoin(Activity::class, 'cn_activity', Join::WITH, 'cn_activity.rootContentNode = root.id');
 
         /*
-         * COALESCE:
-         *   If owner is an Activity --> cn_activity_category.id is properly loaded (not null)
-         *   If owner is a Category --> cn_activity_category.id is null --> category is loaded via owner.id
+         *   If owner is an Activity --> cn_activity.category is not null
+         *   If owner is a Category --> cn_category.rootContentNode = root.id is a match
          */
-        $queryBuilder->join(Category::class, 'cn_category', Join::WITH, 'cn_category.id = COALESCE(cn_activity_category.id, owner.id)');
+        $queryBuilder->join(Category::class, 'cn_category', Join::WITH, 'cn_category.id = cn_activity.category OR cn_category.rootContentNode = root.id');
 
         // load owning camp via category
         $queryBuilder->join('cn_category.camp', 'cn_camp');

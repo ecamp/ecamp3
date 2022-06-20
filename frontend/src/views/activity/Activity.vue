@@ -4,17 +4,20 @@ Displays a single activity
 
 <template>
   <v-container fluid>
-    <content-card toolbar :loaded="!scheduleEntry()._meta.loading && !activity.camp()._meta.loading">
+    <content-card
+      toolbar
+      :loaded="!scheduleEntry()._meta.loading && !activity.camp()._meta.loading"
+    >
       <template #title>
         <v-toolbar-title class="font-weight-bold">
           {{ scheduleEntry().number }}
-          <v-menu v-if="!category._meta.loading" offset-y :disabled="layoutMode || !isContributor">
+          <v-menu
+            v-if="!category._meta.loading"
+            offset-y
+            :disabled="layoutMode || !isContributor"
+          >
             <template #activator="{ on, attrs }">
-              <v-chip
-                :color="category.color"
-                dark
-                v-bind="attrs"
-                v-on="on">
+              <v-chip :color="category.color" dark v-bind="attrs" v-on="on">
                 {{ category.short }}
               </v-chip>
             </template>
@@ -22,7 +25,8 @@ Displays a single activity
               <v-list-item
                 v-for="cat in camp.categories().items"
                 :key="cat._meta.self"
-                @click="changeCategory(cat)">
+                @click="changeCategory(cat)"
+              >
                 <v-list-item-title>
                   <v-chip :color="cat.color">
                     {{ cat.short }}
@@ -32,9 +36,11 @@ Displays a single activity
               </v-list-item>
             </v-list>
           </v-menu>
-          <a v-if="!editActivityTitle"
-             style="color: inherit"
-             @click="makeTitleEditable();">
+          <a
+            v-if="!editActivityTitle"
+            style="color: inherit"
+            @click="makeTitleEditable()"
+          >
             {{ activity.title }}
           </a>
         </v-toolbar-title>
@@ -46,26 +52,19 @@ Displays a single activity
             dense
             autofocus
             :auto-save="false"
-            @finished="editActivityTitle = false" />
+            @finished="editActivityTitle = false"
+          />
         </div>
       </template>
       <template #title-actions>
-        <!-- layout/content switch -->
-        <v-btn v-if="!layoutMode"
-               color="primary"
-               outlined
-               :disabled="!isContributor"
-               @click="layoutMode = true">
-          <template v-if="$vuetify.breakpoint.smAndUp">
-            <v-icon left>mdi-puzzle-edit-outline</v-icon>
-            {{ $tc('views.activity.activity.changeLayout') }}
-          </template>
-          <template v-else>{{ $tc('views.activity.activity.layout') }}</template>
-        </v-btn>
-        <v-btn v-else-if="isContributor"
-               color="success"
-               outlined
-               @click="layoutMode = false">
+        <!-- layout/content switch (back to content) -->
+        <v-btn
+          v-if="layoutMode"
+          color="success"
+          class="ml-3"
+          outlined
+          @click="layoutMode = false"
+        >
           <template v-if="$vuetify.breakpoint.smAndUp">
             <v-icon left>mdi-file-document-edit-outline</v-icon>
             {{ $tc('views.activity.activity.backToContents') }}
@@ -73,8 +72,48 @@ Displays a single activity
           <template v-else>{{ $tc('views.activity.activity.back') }}</template>
         </v-btn>
 
-        <pdf-download-button-nuxt :config="printConfig()" class="ml-3" />
-        <pdf-download-button-react :config="printConfig()" />
+        <!-- hamburger menu -->
+        <v-menu offset-y v-if="!layoutMode">
+          <template #activator="{ on, attrs }">
+            <v-btn icon v-bind="attrs" v-on="on">
+              <v-icon>mdi-dots-vertical</v-icon>
+            </v-btn>
+          </template>
+
+          <v-list>
+            <DownloadNuxtPdf :config="printConfig()" @error="showPrintError" />
+            <DownloadReactPdf :config="printConfig()" @error="showPrintError" />
+
+            <v-divider />
+
+            <!-- layout/content switch (switch to layout mode) -->
+            <v-list-item :disabled="!isContributor" @click="layoutMode = true">
+              <v-list-item-icon>
+                <v-icon>mdi-puzzle-edit-outline</v-icon>
+              </v-list-item-icon>
+              <v-list-item-title>
+                {{ $tc('views.activity.activity.changeLayout') }}
+              </v-list-item-title>
+            </v-list-item>
+
+            <v-divider />
+
+            <!-- remove activity -->
+            <dialog-entity-delete :entity="activity" @submit="onDelete">
+              <template #activator="{ on }">
+                <v-list-item :disabled="!isContributor" v-on="on">
+                  <v-list-item-icon>
+                    <v-icon>mdi-delete</v-icon>
+                  </v-list-item-icon>
+                  <v-list-item-title>
+                    {{ $tc('global.button.delete') }}
+                  </v-list-item-title>
+                </v-list-item>
+              </template>
+              {{ $tc('views.activity.deleteWarning') }}
+            </dialog-entity-delete>
+          </v-list>
+        </v-menu>
       </template>
 
       <v-card-text class="px-0 py-0">
@@ -93,10 +132,10 @@ Displays a single activity
               </v-row>
               <v-row
                 v-for="scheduleEntryItem in scheduleEntries"
-                :key="scheduleEntryItem._meta.self" dense>
-                <v-col cols="2">
-                  ({{ scheduleEntryItem.number }})
-                </v-col>
+                :key="scheduleEntryItem._meta.self"
+                dense
+              >
+                <v-col cols="2"> ({{ scheduleEntryItem.number }}) </v-col>
                 <v-col cols="10">
                   {{ rangeShort(scheduleEntryItem.start, scheduleEntryItem.end) }}
                 </v-col>
@@ -110,14 +149,16 @@ Displays a single activity
                     :uri="activity._meta.self"
                     fieldname="location"
                     :disabled="layoutMode || !isContributor"
-                    dense />
+                    dense
+                  />
                 </v-col>
               </v-row>
               <v-row dense>
                 <v-col>
                   <activity-responsibles
                     :activity="activity"
-                    :disabled="layoutMode || !isContributor" />
+                    :disabled="layoutMode || !isContributor"
+                  />
                 </v-col>
               </v-row>
             </v-col>
@@ -128,9 +169,19 @@ Displays a single activity
             v-else
             :content-node="activity.rootContentNode()"
             :layout-mode="layoutMode"
-            :disabled="isContributor === false" />
+            :disabled="isContributor === false"
+          />
         </template>
       </v-card-text>
+
+      <v-snackbar v-model="showError" app :timeout="10000">
+        {{ error ? error.label : null }}
+        <template #action="{ attrs }">
+          <v-btn color="red" text v-bind="attrs" @click="showError = null">
+            {{ $tc('global.button.close') }}
+          </v-btn>
+        </template>
+      </v-snackbar>
     </content-card>
   </v-container>
 </template>
@@ -142,8 +193,9 @@ import RootNode from '@/components/activity/RootNode.vue'
 import ActivityResponsibles from '@/components/activity/ActivityResponsibles.vue'
 import { rangeShort } from '@/common/helpers/dateHelperUTCFormatted.js'
 import { campRoleMixin } from '@/mixins/campRoleMixin'
-import PdfDownloadButtonReact from '@/components/print/print-react/PdfDownloadButtonReact.vue'
-import PdfDownloadButtonNuxt from '@/components/print/print-nuxt/PdfDownloadButtonNuxt.vue'
+import { periodRoute } from '@/router.js'
+import DownloadNuxtPdf from '@/components/print/print-nuxt/DownloadNuxtPdfListItem.vue'
+import DownloadReactPdf from '@/components/print/print-react/DownloadReactPdfListItem.vue'
 
 export default {
   name: 'Activity',
@@ -152,43 +204,55 @@ export default {
     ApiTextField,
     RootNode,
     ActivityResponsibles,
-    PdfDownloadButtonReact,
-    PdfDownloadButtonNuxt
+    DownloadReactPdf,
+    DownloadNuxtPdf,
   },
   mixins: [campRoleMixin],
+  provide() {
+    return {
+      preferredContentTypes: () => this.preferredContentTypes,
+      allContentNodes: () => this.contentNodes,
+      camp: () => this.camp,
+    }
+  },
   props: {
     scheduleEntry: {
       type: Function,
-      required: true
-    }
+      required: true,
+    },
   },
-  data () {
+  data() {
     return {
       layoutMode: false,
       editActivityTitle: false,
-      loading: true
+      loading: true,
+      showError: null,
+      error: null,
     }
   },
   computed: {
-    activity () {
+    activity() {
       return this.scheduleEntry().activity()
     },
-    camp () {
+    camp() {
       return this.activity.camp()
     },
-    category () {
+    category() {
       return this.activity.category()
     },
-    scheduleEntries () {
+    scheduleEntries() {
       return this.activity.scheduleEntries().items
     },
-    contentNodes () {
+    contentNodes() {
       return this.activity.contentNodes()
-    }
+    },
+    preferredContentTypes() {
+      return this.category.preferredContentTypes()
+    },
   },
 
   // reload data every time user navigates to Activity view
-  async mounted () {
+  async mounted() {
     this.loading = true
     await this.scheduleEntry().activity()._meta.load // wait if activity is being loaded as part of a collection
     await this.scheduleEntry().activity().$reload() // reload as single entity to ensure all embedded entities are included in a single network request
@@ -197,22 +261,26 @@ export default {
 
   methods: {
     rangeShort,
-    changeCategory (category) {
+    changeCategory(category) {
       this.activity.$patch({
-        category: category._meta.self
+        category: category._meta.self,
       })
     },
-    countContentNodes (contentType) {
-      return this.contentNodes.items.filter(cn => {
+    countContentNodes(contentType) {
+      return this.contentNodes.items.filter((cn) => {
         return cn.contentType().id === contentType.id
       }).length
     },
-    makeTitleEditable () {
+    makeTitleEditable() {
       if (this.isContributor) {
         this.editActivityTitle = true
       }
     },
-    printConfig () {
+    showPrintError(event) {
+      this.error = event
+      this.showError = true
+    },
+    printConfig() {
       return {
         camp: this.camp._meta.self,
         language: this.$store.state.lang.language,
@@ -222,13 +290,17 @@ export default {
             type: 'Activity',
             options: {
               activity: this.activity._meta.self,
-              scheduleEntry: this.scheduleEntry()._meta.self
-            }
-          }
-        ]
+              scheduleEntry: this.scheduleEntry()._meta.self,
+            },
+          },
+        ],
       }
-    }
-  }
+    },
+    onDelete() {
+      // redirect to Picasso
+      this.$router.push(periodRoute(this.scheduleEntry().period()))
+    },
+  },
 }
 </script>
 

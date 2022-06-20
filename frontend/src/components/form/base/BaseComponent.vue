@@ -3,7 +3,8 @@
     v-slot="{ errors: veeErrors }"
     :name="name"
     :vid="veeId"
-    :rules="veeRules">
+    :rules="veeRules"
+  >
     <component
       :is="inputComponent"
       v-bind="$attrs"
@@ -12,7 +13,8 @@
       :error-messages="veeErrors.concat(errorMessages)"
       :label.prop="label || name"
       :class="[inputClass]"
-      v-on="$listeners">
+      v-on="$listeners"
+    >
       <!-- passing through all slots -->
       <slot v-for="(_, name) in $slots" :slot="name" :name="name" />
       <template v-for="(_, name) in $scopedSlots" :slot="name" slot-scope="slotData">
@@ -34,8 +36,8 @@ export default {
   props: {
     inputComponent: {
       type: String,
-      required: true
-    }
-  }
+      required: true,
+    },
+  },
 }
 </script>

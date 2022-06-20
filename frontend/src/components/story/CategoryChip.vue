@@ -1,9 +1,11 @@
 <template>
-  <v-chip v-if="!category()._meta.loading"
-          :color="category().color"
-          class="e-category-chip tabular-nums"
-          dark
-          small>
+  <v-chip
+    v-if="!category()._meta.loading"
+    :color="category().color"
+    class="e-category-chip tabular-nums"
+    dark
+    small
+  >
     {{ category().short }}
   </v-chip>
 </template>
@@ -13,9 +15,9 @@ export default {
   props: {
     category: {
       type: Function,
-      required: true
-    }
-  }
+      required: true,
+    },
+  },
 }
 </script>
 

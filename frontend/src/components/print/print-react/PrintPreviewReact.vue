@@ -1,9 +1,11 @@
 <template>
   <div style="position: relative">
-    <iframe :src="url"
-            :title="$tc('views.camp.print.previewIframeTitle')"
-            class="d-block"
-            v-bind="$attrs" />
+    <iframe
+      :src="url"
+      :title="$tc('views.camp.print.previewIframeTitle')"
+      class="d-block"
+      v-bind="$attrs"
+    />
     <v-overlay absolute :value="loading || error" z-index="2">
       <div v-if="error">
         {{ $tc('views.camp.print.previewError') }}
@@ -23,38 +25,42 @@ export default {
   props: {
     config: {
       type: Object,
-      default: () => {}
-    }
+      default: () => {},
+    },
   },
-  data () {
+  data() {
     return {
       url: null,
       loading: false,
       preventingMultiple: false,
-      error: null
+      error: null,
     }
   },
   computed: {
-    language () {
+    language() {
       return this.$store.state.lang.language
-    }
+    },
   },
   watch: {
     config: {
       immediate: true,
       deep: true,
-      handler () { this.generatePdf() }
+      handler() {
+        this.generatePdf()
+      },
     },
     language: {
       immediate: true,
-      handler () { this.generatePdf() }
-    }
+      handler() {
+        this.generatePdf()
+      },
+    },
   },
-  unmounted () {
+  unmounted() {
     this.revokeOldObjectUrl()
   },
   methods: {
-    async generatePdf () {
+    async generatePdf() {
       if (this.loading) {
         this.preventingMultiple = true
         return
@@ -68,7 +74,7 @@ export default {
         config: { ...this.config, apiGet: this.api.get.bind(this) },
         storeData: this.$store.state,
         translationData: this.$i18n.messages,
-        renderInWorker: RENDER_IN_WORKER
+        renderInWorker: RENDER_IN_WORKER,
       })
 
       if (error) {
@@ -84,16 +90,15 @@ export default {
         this.generatePdf()
       }
     },
-    revokeOldObjectUrl () {
+    revokeOldObjectUrl() {
       const oldUrl = this.url
       if (oldUrl) {
         this.url = null
         URL.revokeObjectURL(oldUrl)
       }
-    }
-  }
+    },
+  },
 }
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

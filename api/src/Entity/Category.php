@@ -6,8 +6,8 @@ use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Core\Util\ClassInfoTrait;
 use App\Repository\CategoryRepository;
-use App\Serializer\Normalizer\RelatedCollectionLink;
 use App\Util\EntityMap;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -48,7 +48,10 @@ use Symfony\Component\Validator\Constraints as Assert;
 )]
 #[ApiFilter(SearchFilter::class, properties: ['camp'])]
 #[ORM\Entity(repositoryClass: CategoryRepository::class)]
-class Category extends AbstractContentNodeOwner implements BelongsToCampInterface, CopyFromPrototypeInterface {
+class Category extends BaseEntity implements BelongsToCampInterface, CopyFromPrototypeInterface {
+    use ClassInfoTrait;
+    use HasRootContentNodeTrait;
+
     public const ITEM_NORMALIZATION_CONTEXT = [
         'groups' => [
             'read',
@@ -194,33 +197,6 @@ class Category extends AbstractContentNodeOwner implements BelongsToCampInterfac
         $this->activities->removeElement($activity);
     }
 
-    #[ApiProperty(writable: false)]
-    public function setRootContentNode(?ContentNode $rootContentNode) {
-        // Overridden to add annotations
-        parent::setRootContentNode($rootContentNode);
-    }
-
-    #[Assert\DisableAutoMapping]
-    #[Groups(['read'])]
-    public function getRootContentNode(): ?ContentNode {
-        // Getter is here to add annotations to parent class property
-        return $this->rootContentNode;
-    }
-
-    /**
-     * All content nodes of this category
-     * Overridden in order to add annotations.
-     *
-     * {@inheritdoc}
-     *
-     * @return ContentNode[]
-     */
-    #[Groups(['read'])]
-    #[RelatedCollectionLink(ContentNode::class, ['root' => 'rootContentNode'])]
-    public function getContentNodes(): array {
-        return parent::getContentNodes();
-    }
-
     public function getStyledNumber(int $num): string {
         switch ($this->numberingStyle) {
             case 'a':
@@ -261,7 +237,7 @@ class Category extends AbstractContentNodeOwner implements BelongsToCampInterfac
         // copy rootContentNode
         $rootContentNodePrototype = $prototype->getRootContentNode();
         if (null != $rootContentNodePrototype) {
-            $rootContentNodeClass = $rootContentNodePrototype::class;
+            $rootContentNodeClass = $this->getObjectClass($rootContentNodePrototype);
             $rootContentNode = new $rootContentNodeClass();
 
             $this->setRootContentNode($rootContentNode);

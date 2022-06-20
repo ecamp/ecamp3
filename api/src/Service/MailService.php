@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\DTO\ResetPassword;
 use App\Entity\Camp;
+use App\Entity\Profile;
 use App\Entity\User;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
@@ -69,6 +70,28 @@ class MailService {
             ->context([
                 'name' => $user->getDisplayName(),
                 'url' => "{$this->frontendBaseUrl}/reset-password/{$data->id}",
+            ])
+        ;
+
+        try {
+            $this->mailer->send($email);
+        } catch (TransportExceptionInterface $e) {
+            throw new \RuntimeException($e);
+        }
+    }
+
+    public function sendEmailVerificationMail(User $user, Profile $data): void {
+        $email = (new TemplatedEmail())
+            ->from($this->mailFrom)
+            ->to(new Address($data->untrustedEmail))
+            ->subject('eCamp3 :: Verify E-Mail-Adress')
+            ->htmlTemplate($this->getTemplate('emails/verifyMailAdress.{language}.html.twig', $user))
+            ->textTemplate($this->getTemplate('emails/verifyMailAdress.{language}.text.twig', $user))
+            ->context([
+                'name' => $user->getDisplayName(),
+                'oldMail' => $data->email,
+                'newMail' => $data->untrustedEmail,
+                'url' => "{$this->frontendBaseUrl}/profile/verify-mail/{$data->untrustedEmailKey}",
             ])
         ;
 

@@ -14,8 +14,6 @@ use DateTime;
 use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\Common\Collections\Criteria;
-use Doctrine\Common\Collections\Selectable;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Context;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -279,16 +277,20 @@ class Period extends BaseEntity implements BelongsToCampInterface {
      * The day number of the first Day in period.
      */
     public function getFirstDayNumber(): int {
-        $expr = Criteria::expr();
-        $crit = Criteria::create();
-        $crit->where($expr->lt('start', $this->start));
+        $earlierPeriods = $this->camp->periods->filter(function (Period $period) {
+            if ($period->start < $this->start) {
+                return true;
+            }
 
-        /** @var Selectable $periodCollection */
-        $periodCollection = $this->camp->periods;
-        $periods = $periodCollection->matching($crit);
+            if ($period->start > $this->start) {
+                return false;
+            }
+
+            return $period->getId() < $this->getId();
+        });
 
         $firstDayNumber = 1;
-        foreach ($periods as $period) {
+        foreach ($earlierPeriods as $period) {
             $firstDayNumber += $period->days->count();
         }
 

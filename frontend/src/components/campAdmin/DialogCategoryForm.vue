@@ -3,23 +3,27 @@
     <e-text-field
       v-model="localCategory.short"
       :name="$tc('entity.category.fields.short')"
-      vee-rules="required" />
+      vee-rules="required"
+    />
 
     <e-text-field
       v-model="localCategory.name"
       :name="$tc('entity.category.fields.name')"
-      vee-rules="required" />
+      vee-rules="required"
+    />
 
     <e-color-picker
       v-model="localCategory.color"
       :name="$tc('entity.category.fields.color')"
-      vee-rules="required" />
+      vee-rules="required"
+    />
 
     <e-select
       v-model="localCategory.numberingStyle"
       :items="numberingStyles"
       :name="$tc('entity.category.fields.numberingStyle')"
-      vee-rules="required" />
+      vee-rules="required"
+    />
 
     <e-select
       v-model="localCategory.preferredContentTypes"
@@ -27,7 +31,8 @@
       :disabled="contentTypesLoading"
       :loading="contentTypesLoading"
       :name="$tc('entity.contentType.name', 2)"
-      multiple />
+      multiple
+    />
   </div>
 </template>
 
@@ -40,30 +45,33 @@ export default {
   props: {
     camp: { type: Object, required: true },
     isNew: { type: Boolean, required: true },
-    category: { type: Object, required: true }
+    category: { type: Object, required: true },
   },
-  data () {
+  data() {
     return {
       updateColorAndNumberingStyle: true,
-      localCategory: this.category
+      localCategory: this.category,
     }
   },
   computed: {
-    numberingStyles () {
-      return ['1', 'a', 'A', 'i', 'I'].map(i => ({
+    numberingStyles() {
+      return ['1', 'a', 'A', 'i', 'I'].map((i) => ({
         value: i,
-        text: this.$tc('entity.category.numberingStyles.' + i)
+        text: this.$tc('entity.category.numberingStyles.' + i),
       }))
     },
-    contentTypes () {
-      return this.api.get().contentTypes().items.map(ct => ({
-        value: ct._meta.self,
-        text: this.$tc('contentNode.' + camelCase(ct.name) + '.name')
-      }))
+    contentTypes() {
+      return this.api
+        .get()
+        .contentTypes()
+        .items.map((ct) => ({
+          value: ct._meta.self,
+          text: this.$tc('contentNode.' + camelCase(ct.name) + '.name'),
+        }))
     },
-    contentTypesLoading () {
+    contentTypesLoading() {
       return this.api.get().contentTypes()._meta.loading
-    }
-  }
+    },
+  },
 }
 </script>

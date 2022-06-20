@@ -43,13 +43,10 @@ export default {
                 .then((activityResponsibles) => {
                   return Promise.all(
                     activityResponsibles.items.map((activityResponsible) => {
-                      if (
-                        activityResponsible.campCollaboration().user === null
-                      ) {
+                      if (activityResponsible.campCollaboration().user === null) {
                         return Promise.resolve(null)
                       }
-                      return activityResponsible.campCollaboration().user()
-                        ._meta.load
+                      return activityResponsible.campCollaboration().user()._meta.load
                     })
                   )
                 })

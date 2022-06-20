@@ -63,7 +63,6 @@ final class ContentNodePeriodFilter extends AbstractContextAwareFilter {
         // generate alias to avoid interference with other filters
         $periodParameterName = $queryNameGenerator->generateParameterName($property);
         $rootJoinAlias = $queryNameGenerator->generateJoinAlias('root');
-        $ownerJoinAlias = $queryNameGenerator->generateJoinAlias('owner');
         $activityJoinAlias = $queryNameGenerator->generateJoinAlias('activity');
         $scheduleEntryJoinAlias = $queryNameGenerator->generateJoinAlias('scheduleEntry');
 
@@ -71,8 +70,7 @@ final class ContentNodePeriodFilter extends AbstractContextAwareFilter {
 
         $queryBuilder
             ->join("{$rootAlias}.root", $rootJoinAlias)
-            ->join("{$rootJoinAlias}.owner", $ownerJoinAlias)
-            ->join(Activity::class, $activityJoinAlias, Join::WITH, "{$activityJoinAlias}.id = {$ownerJoinAlias}.id")
+            ->join(Activity::class, $activityJoinAlias, Join::WITH, "{$activityJoinAlias}.rootContentNode = {$rootJoinAlias}.id")
             ->join("{$activityJoinAlias}.scheduleEntries", $scheduleEntryJoinAlias)
             ->andWhere($queryBuilder->expr()->eq("{$scheduleEntryJoinAlias}.period", ":{$periodParameterName}"))
         ;

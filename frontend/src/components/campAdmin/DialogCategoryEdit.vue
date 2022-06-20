@@ -7,15 +7,13 @@
     :title="category.name"
     max-width="600px"
     :submit-action="update"
-    :cancel-action="close">
+    :cancel-action="close"
+  >
     <template #activator="scope">
       <slot name="activator" v-bind="scope" />
     </template>
 
-    <dialog-category-form
-      :camp="camp"
-      :is-new="false"
-      :category="entityData" />
+    <dialog-category-form :camp="camp" :is-new="false" :category="entityData" />
   </dialog-form>
 </template>
 
@@ -28,24 +26,17 @@ export default {
   name: 'DialogCategoryEdit',
   components: {
     DialogCategoryForm,
-    DialogForm
+    DialogForm,
   },
   extends: DialogBase,
   props: {
     camp: { type: Object, required: true },
-    category: { type: Object, required: true }
+    category: { type: Object, required: true },
   },
-  data () {
+  data() {
     return {
-      entityProperties: [
-        'short',
-        'name',
-        'color',
-        'numberingStyle'
-      ],
-      embeddedCollections: [
-        'preferredContentTypes'
-      ]
+      entityProperties: ['short', 'name', 'color', 'numberingStyle'],
+      embeddedCollections: ['preferredContentTypes'],
     }
   },
   watch: {
@@ -54,11 +45,9 @@ export default {
       if (showDialog) {
         this.loadEntityData(this.category._meta.self)
       }
-    }
-  }
+    },
+  },
 }
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

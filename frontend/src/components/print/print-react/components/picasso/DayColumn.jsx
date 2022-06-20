@@ -5,29 +5,34 @@ import ScheduleEntry from './ScheduleEntry.jsx'
 import dayjs from '@/common/helpers/dayjs.js'
 
 // converts ISO String format (UTC timezone) into a unix/seconds timestamp (UTC timezone)
-function stringToTimestamp (string) {
+function stringToTimestamp(string) {
   return dayjs.utc(string).unix()
 }
 
-function getWeightsSum (times) {
+function getWeightsSum(times) {
   return times.reduce((sum, [_, weight]) => sum + weight, 0)
 }
 
-function percentage (seconds, times) {
+function percentage(seconds, times) {
   const hours = seconds / 3600.0
   let matchingTimeIndex = times.findIndex(([time, _]) => time >= hours)
-  matchingTimeIndex = Math.min(matchingTimeIndex < 0 ? times.length : matchingTimeIndex, times.length - 1)
+  matchingTimeIndex = Math.min(
+    matchingTimeIndex < 0 ? times.length : matchingTimeIndex,
+    times.length - 1
+  )
   const remainder = hours - times[matchingTimeIndex][0]
-  const weightsSum = getWeightsSum(times.slice(0, matchingTimeIndex)) + remainder * times[Math.min(matchingTimeIndex, times.length)][1]
+  const weightsSum =
+    getWeightsSum(times.slice(0, matchingTimeIndex)) +
+    remainder * times[Math.min(matchingTimeIndex, times.length)][1]
   const totalWeightsSum = getWeightsSum(times)
   if (totalWeightsSum === 0) {
     return 0
   }
-  const result = weightsSum * 100.0 / totalWeightsSum
+  const result = (weightsSum * 100.0) / totalWeightsSum
   return Math.max(0, Math.min(100, result))
 }
 
-function dayBoundariesInMinutes (day, times) {
+function dayBoundariesInMinutes(day, times) {
   const [dayStart] = times[0]
   const [dayEnd] = times[times.length - 1]
 
@@ -39,16 +44,18 @@ function dayBoundariesInMinutes (day, times) {
   return [dayStartMinutes, dayEndMinutes]
 }
 
-function filterScheduleEntriesByDay (scheduleEntries, day, times) {
+function filterScheduleEntriesByDay(scheduleEntries, day, times) {
   const [dayStart, dayEnd] = dayBoundariesInMinutes(day, times)
 
-  return scheduleEntries.filter(scheduleEntry => {
-    return (stringToTimestamp(scheduleEntry.start) < dayEnd) &&
-      (stringToTimestamp(scheduleEntry.end) > dayStart)
+  return scheduleEntries.filter((scheduleEntry) => {
+    return (
+      stringToTimestamp(scheduleEntry.start) < dayEnd &&
+      stringToTimestamp(scheduleEntry.end) > dayStart
+    )
   })
 }
 
-function scheduleEntryBorderRadiusStyles (scheduleEntry, day, times) {
+function scheduleEntryBorderRadiusStyles(scheduleEntry, day, times) {
   const [dayStart, dayEnd] = dayBoundariesInMinutes(day, times)
 
   const start = stringToTimestamp(scheduleEntry.start)
@@ -58,15 +65,27 @@ function scheduleEntryBorderRadiusStyles (scheduleEntry, day, times) {
   const endsOnThisDay = end >= dayStart && end <= dayEnd
 
   return {
-    ...(endsOnThisDay ? {} : { borderBottomRightRadius: '0', borderBottomLeftRadius: '0' }),
-    ...(startsOnThisDay ? {} : { borderTopRightRadius: '0', borderTopLeftRadius: '0' })
+    ...(endsOnThisDay
+      ? {}
+      : { borderBottomRightRadius: '0', borderBottomLeftRadius: '0' }),
+    ...(startsOnThisDay ? {} : { borderTopRightRadius: '0', borderTopLeftRadius: '0' }),
   }
 }
 
-function scheduleEntryPositionStyles (scheduleEntry, day, times) {
+function scheduleEntryPositionStyles(scheduleEntry, day, times) {
   return {
-    top: percentage(stringToTimestamp(scheduleEntry.start) - stringToTimestamp(day.start), times) + '%',
-    bottom: (100 - percentage(stringToTimestamp(scheduleEntry.end) - stringToTimestamp(day.start), times)) + '%'
+    top:
+      percentage(
+        stringToTimestamp(scheduleEntry.start) - stringToTimestamp(day.start),
+        times
+      ) + '%',
+    bottom:
+      100 -
+      percentage(
+        stringToTimestamp(scheduleEntry.end) - stringToTimestamp(day.start),
+        times
+      ) +
+      '%',
   }
 }
 
@@ -74,15 +93,15 @@ const columnStyles = {
   flexGrow: '1',
   display: 'flex',
   flexDirection: 'column',
-  overflow: 'hidden'
+  overflow: 'hidden',
 }
 const dayGridStyles = {
   minWidth: '100%',
   minHeight: '100%',
-  display: 'flex'
+  display: 'flex',
 }
 const rowStyles = {
-  display: 'flex'
+  display: 'flex',
 }
 const scheduleEntryColumnStyles = {
   margin: '0 0.5%',
@@ -90,27 +109,40 @@ const scheduleEntryColumnStyles = {
   top: '0',
   bottom: '0',
   left: '0',
-  right: '0'
+  right: '0',
 }
 
-function DayColumn ({ times, scheduleEntries, day, styles }) {
-  return <View style={{ ...columnStyles, ...styles }}>
-    <View style={ dayGridStyles }>
-      {times.slice(0, times.length - 1).map(([time, weight], index) => <View key={time} style={{
-        ...rowStyles,
-        flexGrow: weight,
-        ...(index % 2 === 0 ? { backgroundColor: 'lightgrey' } : {})
-      }} />)}
+function DayColumn({ times, scheduleEntries, day, styles }) {
+  return (
+    <View style={{ ...columnStyles, ...styles }}>
+      <View style={dayGridStyles}>
+        {times.slice(0, times.length - 1).map(([time, weight], index) => (
+          <View
+            key={time}
+            style={{
+              ...rowStyles,
+              flexGrow: weight,
+              ...(index % 2 === 0 ? { backgroundColor: 'lightgrey' } : {}),
+            }}
+          />
+        ))}
+      </View>
+      <View style={scheduleEntryColumnStyles}>
+        {filterScheduleEntriesByDay(scheduleEntries, day, times).map((scheduleEntry) => {
+          return (
+            <ScheduleEntry
+              key={scheduleEntry.id}
+              scheduleEntry={scheduleEntry}
+              styles={{
+                ...scheduleEntryPositionStyles(scheduleEntry, day, times),
+                ...scheduleEntryBorderRadiusStyles(scheduleEntry, day, times),
+              }}
+            />
+          )
+        })}
+      </View>
     </View>
-    <View style={ scheduleEntryColumnStyles }>
-      {filterScheduleEntriesByDay(scheduleEntries, day, times).map(scheduleEntry => {
-        return <ScheduleEntry key={scheduleEntry.id} scheduleEntry={scheduleEntry} styles={{
-          ...scheduleEntryPositionStyles(scheduleEntry, day, times),
-          ...scheduleEntryBorderRadiusStyles(scheduleEntry, day, times)
-        }}/>
-      })}
-    </View>
-  </View>
+  )
 }
 
 export default DayColumn

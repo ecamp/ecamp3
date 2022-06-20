@@ -3,10 +3,7 @@ Displays a field as a e-text-field + write access via API wrapper
 -->
 
 <template>
-  <api-wrapper
-    v-slot="wrapper"
-    v-bind="$props"
-    v-on="$listeners">
+  <api-wrapper v-slot="wrapper" v-bind="$props" v-on="$listeners">
     <e-text-field
       ref="textField"
       :value="wrapper.localValue"
@@ -18,7 +15,8 @@ Displays a field as a e-text-field + write access via API wrapper
       :outlined="outlined"
       :filled="filled"
       :dense="dense"
-      @input="wrapper.on.input">
+      @input="wrapper.on.input"
+    >
       <template #append>
         <api-wrapper-append :wrapper="wrapper" />
       </template>
@@ -38,19 +36,18 @@ export default {
   props: {
     outlined: {
       type: Boolean,
-      default: true
-    }
+      default: true,
+    },
   },
-  data () {
+  data() {
     return {}
   },
   methods: {
-    focus () {
+    focus() {
       this.$refs.textField.focus()
-    }
-  }
+    },
+  },
 }
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

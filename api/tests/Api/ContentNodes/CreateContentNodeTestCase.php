@@ -141,12 +141,6 @@ abstract class CreateContentNodeTestCase extends ECampApiTestCase {
                 'contentType' => [
                     'href' => $this->getIriFor($contentType),
                 ],
-                'owner' => [
-                    'href' => $this->getIriFor($parent->getRootOwner()),
-                ],
-                'ownerCategory' => [
-                    'href' => $this->getIriFor($parent->getOwnerCategory()),
-                ],
             ],
         ];
     }

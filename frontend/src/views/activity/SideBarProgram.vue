@@ -6,10 +6,7 @@
       </v-subheader>
       <schedule-entries :period="period" :show-button="false">
         <template #default="slotProps">
-          <v-skeleton-loader
-            v-if="slotProps.loading"
-            class="ma-3"
-            type="list-item@6" />
+          <v-skeleton-loader v-if="slotProps.loading" class="ma-3" type="list-item@6" />
           <picasso
             v-else
             :schedule-entries="slotProps.scheduleEntries"
@@ -17,7 +14,8 @@
             :start="startOfDay"
             :interval-height="36"
             :end="endOfDay"
-            type="day" />
+            type="day"
+          />
         </template>
       </schedule-entries>
     </content-card>
@@ -34,23 +32,23 @@ export default {
   name: 'SideBarProgram',
   components: { ContentCard, SideBar, Picasso, ScheduleEntries },
   props: {
-    day: { type: Function, required: true }
+    day: { type: Function, required: true },
   },
   computed: {
-    period () {
+    period() {
       return this.day().period
     },
-    startOfDay () {
+    startOfDay() {
       return this.addDays(this.period().start, this.day().dayOffset)
     },
-    endOfDay () {
+    endOfDay() {
       return this.addDays(this.startOfDay, 1)
-    }
+    },
   },
   methods: {
-    addDays (date, days) {
+    addDays(date, days) {
       return Date.parse(date) + days * 24 * 60 * 60 * 1000
-    }
-  }
+    },
+  },
 }
 </script>

@@ -5,14 +5,14 @@ import HalJsonVuex from 'hal-json-vuex'
 import lang from './lang'
 
 class StorePlugin {
-  install (Vue, options) {
+  install(Vue) {
     Vue.use(Vuex)
 
     store = new Vuex.Store({
       modules: {
-        lang
+        lang,
       },
-      strict: process.env.NODE_ENV !== 'production'
+      strict: process.env.NODE_ENV !== 'production',
     })
 
     axios.defaults.withCredentials = true

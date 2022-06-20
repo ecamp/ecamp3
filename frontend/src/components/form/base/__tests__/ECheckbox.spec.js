@@ -17,14 +17,14 @@ describe('An ECheckbox', () => {
       components: { ECheckbox },
       data: function () {
         return {
-          data: null
+          data: null,
         }
       },
       template: `
         <div data-app>
           <e-checkbox v-model="data"/>
         </div>
-      `
+      `,
     })
     return mountComponent(app, { vuetify, attachTo: document.body, ...options })
   }
@@ -44,23 +44,31 @@ describe('An ECheckbox', () => {
     const wrapper = mount({
       data: function () {
         return {
-          data: true
+          data: true,
         }
-      }
+      },
     })
-    expect(wrapper.find('input[type=checkbox]').element.getAttribute('aria-checked')).toBe('true')
+    expect(
+      wrapper.find('input[type=checkbox]').element.getAttribute('aria-checked')
+    ).toBe('true')
   })
 
   test('updates checkbox when vModel changes', async () => {
     const wrapper = mount()
     await wrapper.setData({ data: false })
-    expect(wrapper.find('input[type=checkbox]').element.getAttribute('aria-checked')).toBe('false')
+    expect(
+      wrapper.find('input[type=checkbox]').element.getAttribute('aria-checked')
+    ).toBe('false')
 
     await wrapper.setData({ data: true })
-    expect(wrapper.find('input[type=checkbox]').element.getAttribute('aria-checked')).toBe('true')
+    expect(
+      wrapper.find('input[type=checkbox]').element.getAttribute('aria-checked')
+    ).toBe('true')
 
     await wrapper.setData({ data: false })
-    expect(wrapper.find('input[type=checkbox]').element.getAttribute('aria-checked')).toBe('false')
+    expect(
+      wrapper.find('input[type=checkbox]').element.getAttribute('aria-checked')
+    ).toBe('false')
   })
 
   test('updates vModel when user clicks on checkbox', async () => {

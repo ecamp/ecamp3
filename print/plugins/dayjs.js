@@ -1,5 +1,5 @@
 import dayjs from '@/../common/helpers/dayjs.js'
 
-export default ({ app }, inject) => {
+export default (_, inject) => {
   inject('date', dayjs)
 }

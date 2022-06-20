@@ -11,22 +11,28 @@ const columnStyles = {
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'stretch',
-  opacity: '0'
+  opacity: '0',
 }
 const rowStyles = {
   paddingHorizontal: '2pt',
   fontSize: fontSize + 'pt',
-  flexBasis: 1
+  flexBasis: 1,
 }
 
-function longestTime (times) {
-  return dayjs().hour(0).minute(times[times.length - 1][0] * 60).second(0).format('LT')
+function longestTime(times) {
+  return dayjs()
+    .hour(0)
+    .minute(times[times.length - 1][0] * 60)
+    .second(0)
+    .format('LT')
 }
 
-function TimeColumnSpacer ({ times }) {
-  return <View style={ columnStyles }>
-    <Text style={ rowStyles }>{ longestTime(times) }</Text>
-  </View>
+function TimeColumnSpacer({ times }) {
+  return (
+    <View style={columnStyles}>
+      <Text style={rowStyles}>{longestTime(times)}</Text>
+    </View>
+  )
 }
 
 export default TimeColumnSpacer

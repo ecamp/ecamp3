@@ -9,29 +9,45 @@ Critical operations on camp
       <v-list>
         <v-list-item class="px-0" three-line>
           <v-list-item-content>
-            <v-list-item-title>{{ $tc('components.camp.campDangerzone.deleteCamp.title') }}</v-list-item-title>
-            <v-list-item-subtitle>{{ $tc('components.camp.campDangerzone.deleteCamp.description') }}</v-list-item-subtitle>
+            <v-list-item-title>
+              {{ $tc('components.camp.campDangerzone.deleteCamp.title') }}
+            </v-list-item-title>
+            <v-list-item-subtitle>
+              {{ $tc('components.camp.campDangerzone.deleteCamp.description') }}
+            </v-list-item-subtitle>
           </v-list-item-content>
           <v-list-item-action>
             <dialog-entity-delete
               :entity="camp()"
               :submit-enabled="promptText === camp().name"
               icon="mdi-bomb"
-              @submit="$router.push({ name: 'camps' })">
+              @submit="$router.push({ name: 'camps' })"
+            >
               <template #activator="{ on }">
-                <button-delete icon="mdi-bomb"
-                               :text="false"
-                               dark outlined
-                               color="blue-grey"
-                               @click.prevent="on.click">
+                <button-delete
+                  icon="mdi-bomb"
+                  :text="false"
+                  dark
+                  outlined
+                  color="blue-grey"
+                  @click.prevent="on.click"
+                >
                   {{ $tc('components.camp.campDangerzone.deleteCamp.action') }}
                 </button-delete>
               </template>
               <p class="body-1">
-                {{ $tc('components.camp.campDangerzone.deleteCamp.explanation', 0 , { campName: camp().name }) }}
+                {{
+                  $tc('components.camp.campDangerzone.deleteCamp.explanation', 0, {
+                    campName: camp().name,
+                  })
+                }}
               </p>
               <label>
-                {{ $tc('components.camp.campDangerzone.deleteCamp.label', 0 , { campName: camp().name }) }}
+                {{
+                  $tc('components.camp.campDangerzone.deleteCamp.label', 0, {
+                    campName: camp().name,
+                  })
+                }}
                 <e-text-field v-model="promptText" />
               </label>
             </dialog-entity-delete>
@@ -54,16 +70,15 @@ export default {
   props: {
     camp: {
       type: Function,
-      required: true
+      required: true,
+    },
+  },
+  data() {
+    return {
+      promptText: '',
     }
   },
-  data () {
-    return {
-      promptText: ''
-    }
-  }
 }
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

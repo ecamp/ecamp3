@@ -23,6 +23,15 @@
       "automerge": true
     },
     {
+      "extends": [
+        "monorepo:vue"
+      ],
+      "matchUpdateTypes": [
+        "major"
+      ],
+      "dependencyDashboardApproval": true
+    },
+    {
       "matchPackageNames": [
         "sass"
       ],

@@ -18,16 +18,15 @@ export default {
   name: 'Print',
   components: {
     ContentCard,
-    PrintConfigurator
+    PrintConfigurator,
   },
   props: {
-    camp: { type: Function, required: true }
+    camp: { type: Function, required: true },
   },
-  data () {
+  data() {
     return {}
-  }
+  },
 }
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

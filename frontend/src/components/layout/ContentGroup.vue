@@ -22,16 +22,16 @@ export default {
     loaded: { type: Boolean, required: false, default: true },
     title: { type: String, required: false, default: '' },
     icon: { type: String, required: false, default: '' },
-    maxWidth: { type: String, default: '' }
-  }
+    maxWidth: { type: String, default: '' },
+  },
 }
 </script>
 
 <style lang="scss">
-  .ec-content-group__title {
-    border-bottom: 1px solid map-get($blue-grey, 'lighten-4');
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-  }
+.ec-content-group__title {
+  border-bottom: 1px solid map-get($blue-grey, 'lighten-4');
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
 </style>

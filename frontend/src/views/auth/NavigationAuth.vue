@@ -1,7 +1,11 @@
 <template>
-  <v-app-bar v-if="$vuetify.breakpoint.smAndUp" app
-             clipped-left
-             color="blue-grey darken-4" dark>
+  <v-app-bar
+    v-if="$vuetify.breakpoint.smAndUp"
+    app
+    clipped-left
+    color="blue-grey darken-4"
+    dark
+  >
     <logo text />
     <v-spacer />
   </v-app-bar>
@@ -13,11 +17,9 @@ import Logo from '@/components/navigation/Logo.vue'
 export default {
   name: 'NavigationAuth',
   components: {
-    Logo
-  }
+    Logo,
+  },
 }
 </script>
 
-<style lang="scss">
-
-</style>
+<style lang="scss"></style>

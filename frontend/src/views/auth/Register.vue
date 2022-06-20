@@ -6,10 +6,11 @@
         v-model="username"
         :label="$tc('entity.user.fields.username')"
         name="username"
-        append-icon="mdi-at"
+        append-icon="mdi-account-outline"
         dense
         type="text"
-        autofocus />
+        autofocus
+      />
 
       <e-text-field
         v-model="firstname"
@@ -17,7 +18,8 @@
         name="firstname"
         append-icon="mdi-account-outline"
         dense
-        type="text" />
+        type="text"
+      />
 
       <e-text-field
         v-model="surname"
@@ -25,15 +27,18 @@
         name="surname"
         append-icon="mdi-account-outline"
         dense
-        type="text" />
+        type="text"
+      />
 
       <e-text-field
         v-model="email"
         :label="$tc('entity.user.fields.email')"
-        name="email"
-        append-icon="mdi-email-outline"
+        name="Email"
+        vee-rules="email"
+        append-icon="mdi-at"
         dense
-        type="text" />
+        type="text"
+      />
 
       <e-text-field
         v-model="pw1"
@@ -43,7 +48,8 @@
         validate-on-blur
         append-icon="mdi-lock-outline"
         dense
-        type="password" />
+        type="password"
+      />
 
       <e-text-field
         v-model="pw2"
@@ -53,45 +59,46 @@
         validate-on-blur
         dense
         append-icon="mdi-lock-outline"
-        type="password" />
+        type="password"
+      />
 
       <e-select
         v-model="language"
         :label="$tc('entity.user.fields.language')"
         name="language"
         dense
-        :items="availableLocales" />
+        :items="availableLocales"
+      />
 
-      <e-checkbox
-        v-model="tos"
-        required
-        class="align-center">
+      <e-checkbox v-model="tos" required class="align-center">
         <template #label>
-          <span style="hyphens: auto" :class="{'body-2':$vuetify.breakpoint.xsOnly}">
+          <span style="hyphens: auto" :class="{ 'body-2': $vuetify.breakpoint.xsOnly }">
             {{ $tc('views.auth.register.acceptTermsOfUse') }}
           </span>
         </template>
         <template #append>
-          <v-btn text min-width="0"
-                 :title="$tc('global.button.open')"
-                 target="_blank"
-                 class="px-1"
-                 to="#"
-                 tabindex="-1">
+          <v-btn
+            text
+            min-width="0"
+            :title="$tc('global.button.open')"
+            target="_blank"
+            class="px-1"
+            to="#"
+            tabindex="-1"
+          >
             <v-icon small>mdi-open-in-new</v-icon>
           </v-btn>
         </template>
       </e-checkbox>
-      <v-btn type="submit"
-             color="primary"
-             :disabled="!formComplete"
-             block x-large>
+      <v-btn type="submit" color="primary" :disabled="!formComplete" block x-large>
         {{ $tc('views.auth.register.register') }}
       </v-btn>
     </v-form>
     <p class="mt-8 mb-0 text--secondary text-center">
-      {{ $tc('views.auth.register.alreadyHaveAnAccount') }}<br>
-      <router-link :to="{ name: 'login' }">{{ $tc('views.auth.register.login') }}</router-link>
+      {{ $tc('views.auth.register.alreadyHaveAnAccount') }}<br />
+      <router-link :to="{ name: 'login' }">
+        {{ $tc('views.auth.register.login') }}
+      </router-link>
     </p>
   </auth-container>
 </template>
@@ -104,9 +111,9 @@ import VueI18n from '@/plugins/i18n'
 export default {
   name: 'Register',
   components: {
-    AuthContainer
+    AuthContainer,
   },
-  data () {
+  data() {
     return {
       username: '',
       firstname: '',
@@ -116,66 +123,65 @@ export default {
       pw2: '',
       language: '',
       tos: false,
-      recaptcha: null
+      recaptcha: null,
     }
   },
   computed: {
-    formComplete () {
-      return this.tos &&
-        (this.username !== '') &&
-        (this.firstname !== '') &&
-        (this.surname !== '') &&
-        (this.email !== '') &&
-        (this.pw1 !== '') && (this.pw2 !== '') &&
-        (this.pw1 === this.pw2)
+    formComplete() {
+      return (
+        this.tos &&
+        this.username !== '' &&
+        this.firstname !== '' &&
+        this.surname !== '' &&
+        this.email !== '' &&
+        this.pw1 !== '' &&
+        this.pw2 !== '' &&
+        this.pw1 === this.pw2
+      )
     },
-    formData () {
+    formData() {
       return {
         username: this.username,
         firstname: this.firstname,
         surname: this.surname,
         email: this.email,
         password: this.pw1,
-        language: this.language
+        language: this.language,
       }
     },
-    pw2Rules () {
-      return [
-        v => (!!v && v) === this.pw1 || 'Nicht übereinstimmend'
-      ]
+    pw2Rules() {
+      return [(v) => (!!v && v) === this.pw1 || 'Nicht übereinstimmend']
     },
-    pw1Rules () {
-      return [
-        v => v.length >= 8 || 'Mindestens 8 Zeichen lang sein'
-      ]
+    pw1Rules() {
+      return [(v) => v.length >= 8 || 'Mindestens 8 Zeichen lang sein']
     },
-    availableLocales () {
-      return VueI18n.availableLocales.map(l => ({
+    availableLocales() {
+      return VueI18n.availableLocales.map((l) => ({
         value: l,
-        text: this.$tc('global.language', 1, l)
+        text: this.$tc('global.language', 1, l),
       }))
-    }
+    },
   },
   watch: {
-    language () {
+    language() {
       if (VueI18n.availableLocales.includes(this.language)) {
         this.$store.commit('setLanguage', this.language)
       }
-    }
+    },
   },
-  mounted () {
+  mounted() {
     this.language = this.$i18n.browserPreferredLocale
 
     if (window.environment.RECAPTCHA_SITE_KEY) {
       this.recaptcha = load(window.environment.RECAPTCHA_SITE_KEY, {
         explicitRenderParameters: {
-          badge: 'bottomleft'
-        }
+          badge: 'bottomleft',
+        },
       })
     }
   },
   methods: {
-    async register () {
+    async register() {
       let recaptchaToken = null
       if (this.recaptcha) {
         const recaptcha = await this.recaptcha
@@ -189,16 +195,14 @@ export default {
           firstname: this.formData.firstname,
           surname: this.formData.surname,
           email: this.formData.email,
-          language: this.formData.language
+          language: this.formData.language,
         },
-        recaptchaToken: recaptchaToken
+        recaptchaToken: recaptchaToken,
       })
       this.$router.push({ name: 'register-done' })
-    }
-  }
+    },
+  },
 }
 </script>
 
-<style>
-
-</style>
+<style></style>

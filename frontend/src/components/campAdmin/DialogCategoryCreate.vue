@@ -8,15 +8,13 @@
     max-width="600px"
     :submit-action="createCategory"
     submit-color="success"
-    :cancel-action="close">
+    :cancel-action="close"
+  >
     <template #activator="scope">
       <slot name="activator" v-bind="scope" />
     </template>
 
-    <dialog-category-form
-      :camp="camp"
-      :is-new="true"
-      :category="entityData" />
+    <dialog-category-form :camp="camp" :is-new="true" :category="entityData" />
   </dialog-form>
 </template>
 
@@ -29,25 +27,17 @@ export default {
   name: 'DialogCategoryCreate',
   components: {
     DialogCategoryForm,
-    DialogForm
+    DialogForm,
   },
   extends: DialogBase,
   props: {
-    camp: { type: Object, required: true }
+    camp: { type: Object, required: true },
   },
-  data () {
+  data() {
     return {
-      entityProperties: [
-        'camp',
-        'short',
-        'name',
-        'color',
-        'numberingStyle'
-      ],
-      embeddedCollections: [
-        'preferredContentTypes'
-      ],
-      entityUri: '/categories'
+      entityProperties: ['camp', 'short', 'name', 'color', 'numberingStyle'],
+      embeddedCollections: ['preferredContentTypes'],
+      entityUri: '/categories',
     }
   },
   watch: {
@@ -58,24 +48,22 @@ export default {
           short: '',
           name: '',
           color: '#000000',
-          numberingStyle: '1'
+          numberingStyle: '1',
         })
       } else {
         // clear form on exit
         this.clearEntityData()
       }
-    }
+    },
   },
   methods: {
-    createCategory () {
+    createCategory() {
       return this.create().then(() => {
         this.api.reload(this.camp.categories())
       })
-    }
-  }
+    },
+  },
 }
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
