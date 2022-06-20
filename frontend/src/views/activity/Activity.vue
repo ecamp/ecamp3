@@ -73,7 +73,7 @@ Displays a single activity
         </v-btn>
 
         <!-- hamburger menu -->
-        <v-menu offset-y v-if="!layoutMode">
+        <v-menu v-if="!layoutMode" offset-y>
           <template #activator="{ on, attrs }">
             <v-btn icon v-bind="attrs" v-on="on">
               <v-icon>mdi-dots-vertical</v-icon>
