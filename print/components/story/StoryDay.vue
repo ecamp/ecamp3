@@ -1,20 +1,12 @@
 <template>
   <div class="tw-mb-4">
     <div class="tw-text-2xl tw-mb-2 tw-break-after-avoid">
-      <h1>
-        {{ $tc('entity.day.name') }} {{ day.number }} ({{
-          dateLong(day.start)
-        }})
-      </h1>
+      <h1>{{ $tc('entity.day.name') }} {{ day.number }} ({{ dateLong(day.start) }})</h1>
     </div>
 
     <template v-if="entriesWithStory.length">
       <template v-for="{ scheduleEntry, storyChapters } in entriesWithStory">
-        <div
-          v-for="chapter in storyChapters"
-          :key="chapter._meta.uri"
-          class="tw-mb-3"
-        >
+        <div v-for="chapter in storyChapters" :key="chapter._meta.uri" class="tw-mb-3">
           <h4 class="tw-text-lg tw-font-bold">
             <span class="d-inline-flex align-center">
               <span>{{ scheduleEntry.number }}</span>
