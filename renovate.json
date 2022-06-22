@@ -46,6 +46,12 @@
     },
     {
       "matchPackagePatterns": [
+        "^@tiptap\/"
+      ],
+      "groupName": "tiptap"
+    },
+    {
+      "matchPackagePatterns": [
         "^(@.*\\/|(.*-)?)eslint(-.*)?$",
         "^(@.*\\/|(.*-)?)lint(-.*)?$",
         "^(@.*\\/|(.*-)?)stylelint(-.*)?$",
