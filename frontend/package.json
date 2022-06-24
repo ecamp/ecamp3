@@ -96,7 +96,7 @@
     "flush-promises": "1.0.2",
     "jest-canvas-mock": "2.4.0",
     "jest-serializer-vue-tjw": "3.19.0",
-    "lint-staged": "12.5.0",
+    "lint-staged": "13.0.3",
     "prettier": "2.7.1",
     "sass": "1.32.13",
     "vite": "2.9.12",
