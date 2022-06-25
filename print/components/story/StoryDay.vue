@@ -7,7 +7,7 @@
     <template v-if="entriesWithStory.length">
       <template v-for="{ scheduleEntry, storyChapters } in entriesWithStory">
         <div v-for="chapter in storyChapters" :key="chapter._meta.uri" class="tw-mb-3">
-          <h4 class="tw-text-lg tw-font-bold">
+          <h4 class="tw-text-lg tw-font-bold tw-break-after-avoid">
             <span class="d-inline-flex align-center">
               <span>{{ scheduleEntry.number }}</span>
               <category-label
@@ -35,11 +35,20 @@
 </template>
 
 <script>
-import CategoryLabel from '../generic/CategoryLabel.vue'
+import CategoryLabel from '@/components/generic/CategoryLabel.vue'
+import RichText from '@/components/generic/RichText.vue'
 import { dateLong } from '@/../common/helpers/dateHelperUTCFormatted.js'
 
+function isEmptyHtml(html) {
+  if (html === null) {
+    return true
+  }
+
+  return html.trim() === '' || html.trim() === '<p></p>'
+}
+
 export default {
-  components: { CategoryLabel },
+  components: { CategoryLabel, RichText },
   props: {
     day: { type: Object, required: true },
     index: { type: Number, required: true },
@@ -65,7 +74,8 @@ export default {
         storyChapters: this.periodStoryChapters.filter(
           (contentNode) =>
             contentNode.root()._meta.self ===
-            scheduleEntry.activity().rootContentNode()._meta.self
+              scheduleEntry.activity().rootContentNode()._meta.self &&
+            !isEmptyHtml(contentNode.text)
         ),
       }))
     },
