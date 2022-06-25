@@ -12,14 +12,21 @@ const { performance } = require('perf_hooks')
 const { URL } = require('url')
 const { loadNuxt, build } = require('nuxt')
 const { Router } = require('express')
+const { memoryUsage } = require('process')
 
 const router = Router()
 
 let lastTime = null
 function measurePerformance(msg) {
   const now = performance.now()
+  const memory = memoryUsage()
+
   if (lastTime !== null) {
-    console.log(`(took ${Math.round(now - lastTime)} millisecons)`)
+    console.log(
+      `(took ${Math.round(now - lastTime)} millisecons / using ${
+        memory.heapUsed / 1000000
+      }MB)`
+    )
   }
   lastTime = now
 
