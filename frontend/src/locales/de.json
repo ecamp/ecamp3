@@ -168,11 +168,6 @@
         }
       }
     },
-    "story": {
-      "storyDay": {
-        "noStory": "Kein roter Faden an diesem Tag gefunden…"
-      }
-    },
     "dialog": {
       "dialogCategoryCreate": {
         "title": "Block-Kategorie erstellen"

@@ -175,5 +175,10 @@
     "picasso": {
       "title": "Program overview for {period}"
     }
+  },
+  "story": {
+    "storyDay": {
+      "noStory": "No story content found on this day..."
+    }
   }
 }
