@@ -7,8 +7,8 @@
         :name="$tc('entity.user.fields.username')"
         append-icon="mdi-account-outline"
         dense
+        required
         type="text"
-        class="required"
         autofocus
       />
 
@@ -17,8 +17,8 @@
         :name="$tc('entity.user.fields.firstname')"
         append-icon="mdi-account-outline"
         dense
+        required
         type="text"
-        class="required"
       />
 
       <e-text-field
@@ -26,8 +26,8 @@
         :name="$tc('entity.user.fields.surname')"
         append-icon="mdi-account-outline"
         dense
+        required
         type="text"
-        class="required"
       />
 
       <e-text-field
@@ -36,8 +36,8 @@
         vee-rules="email"
         append-icon="mdi-at"
         dense
+        required
         type="text"
-        class="required"
       />
 
       <e-text-field
@@ -47,8 +47,8 @@
         validate-on-blur
         append-icon="mdi-lock-outline"
         dense
+        required
         type="password"
-        class="required"
       />
 
       <e-text-field
@@ -57,9 +57,9 @@
         :rules="pw2Rules"
         validate-on-blur
         dense
+        required
         append-icon="mdi-lock-outline"
         type="password"
-        class="required"
       />
 
       <e-select
@@ -69,7 +69,7 @@
         :items="availableLocales"
       />
 
-      <e-checkbox v-model="tos" required class="required align-center">
+      <e-checkbox v-model="tos" required class="align-center">
         <template #label>
           <span style="hyphens: auto" :class="{ 'body-2': $vuetify.breakpoint.xsOnly }">
             {{ $tc('views.auth.register.acceptTermsOfUse') }}
@@ -221,14 +221,3 @@ export default {
   },
 }
 </script>
-
-<style scoped>
-.required >>> label::after {
-  content: '\a0*';
-  font-size: 12px;
-  color: #d32f2f;
-}
-.required >>> .v-input--is-label-active label::after {
-  color: gray;
-}
-</style>
