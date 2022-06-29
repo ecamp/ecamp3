@@ -69,7 +69,7 @@
     "vue-recaptcha-v3": "1.9.0",
     "vue-router": "3.5.4",
     "vuedraggable": "2.24.3",
-    "vuetify": "2.6.6",
+    "vuetify": "2.6.7",
     "vuex": "3.6.2"
   },
   "devDependencies": {
