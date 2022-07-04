@@ -46,7 +46,7 @@
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "3.8.0",
-        "hautelook/alice-bundle": "2.10.0",
+        "hautelook/alice-bundle": "2.11.0",
         "justinrainbow/json-schema": "5.2.12",
         "php-coveralls/php-coveralls": "2.5.2",
         "phpstan/phpstan": "1.8.0",
