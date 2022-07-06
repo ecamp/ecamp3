@@ -10,7 +10,7 @@ function isCollection(object) {
 
 function isEntityReference(object) {
   if (!object) return false
-  return isEqualIgnoringOrder(Object.keys(object), ['href'])
+  return isEqualIgnoringOrder(Object.keys(object), ['href']) || isVirtualLink(object)
 }
 
 function isTemplatedLink(object) {
@@ -18,6 +18,14 @@ function isTemplatedLink(object) {
   return (
     isEqualIgnoringOrder(Object.keys(object), ['href', 'templated']) &&
     object.templated === true
+  )
+}
+
+function isVirtualLink(object) {
+  if (!object) return false
+  return (
+    isEqualIgnoringOrder(Object.keys(object), ['href', 'virtual']) &&
+    object.virtual === true
   )
 }
 
