@@ -103,6 +103,7 @@ import ETextField from '@/components/form/base/ETextField.vue'
 import ESelect from '@/components/form/base/ESelect.vue'
 import InactiveCollaboratorListItem from '@/components/collaborator/InactiveCollaboratorListItem.vue'
 import { campRoleMixin } from '@/mixins/campRoleMixin'
+import serverErrorToString from '@/helpers/serverErrorToString'
 
 const DEFAULT_INVITE_ROLE = 'member'
 
@@ -143,8 +144,8 @@ export default {
       return this.collaborators.filter((c) => c.status === 'inactive')
     },
     inviteEmailMessages() {
-      return this.messages.inviteEmail
-        ? Object.values({ ...this.messages.inviteEmail })
+      return this.messages
+        ? Object.values({ ...this.messages.map((value) => serverErrorToString(value)) })
         : []
     },
   },
@@ -170,7 +171,7 @@ export default {
           this.messages = [this.$tc('global.serverError.409')]
         }
         if (e.response.status === 422 /* Validation Error */) {
-          this.messages = e.response.data.validation_messages
+          this.messages = e.response.data.violations
         }
       }
     },
