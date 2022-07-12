@@ -115,6 +115,21 @@
         },
         "title": "Einstellungen"
       },
+      "collaboratorListItem": {
+        "cannotAssignAnotherRoleToLastManager": "Du kannst dem letzten Manager keine andere Rolle zuteilen.",
+        "cannotRemoveLastManager": "Du kannst den letzten Manager nicht entfernen",
+        "deactivate": "Deaktivieren",
+        "resendEmail": "E-Mail erneut senden"
+      },
+      "collaboratorListItemDeactivate": {
+        "deactivate": "Deaktivieren",
+        "title": "Mitarbeiter:in deaktivieren",
+        "warningText": "Möchtest du '{name}' wirklich deaktivieren?"
+      },
+      "inactiveCampCollaboratorListItem": {
+        "inviteAgain": "Erneut einladen",
+        "delete": "Möchtest du diese:n Mitarbeiter:in wirklich entfernen?"
+      },
       "materialCreateItem": {
         "noMaterialListAvailable": "Für dieses Lager sind noch keine Materiallisten erfasst. Du kannst diese unter 'Admin' erfassen."
       },

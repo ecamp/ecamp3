@@ -162,6 +162,11 @@
         "deactivate": "Deactivate",
         "resendEmail": "Resend email"
       },
+      "collaboratorListItemDeactivate": {
+        "deactivate": "Deactivate",
+        "title": "Deactivate collaborator",
+        "warningText": "Do you want to deactivate '{name}'?"
+      },
       "inactiveCampCollaboratorListItem": {
         "inviteAgain": "Invite again",
         "delete": "Do you really want to remove this collaborator from the camp?"
