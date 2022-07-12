@@ -55,6 +55,8 @@ Displays collaborators of a single camp.
               <v-col>
                 <e-text-field
                   v-model="inviteEmail"
+                  :name="$tc('views.camp.collaborators.email')"
+                  vee-rules="email"
                   :error-messages="inviteEmailMessages"
                   single-line
                   aria-autocomplete="none"
