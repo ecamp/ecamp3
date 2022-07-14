@@ -67,6 +67,11 @@ class Activity extends BaseEntity implements BelongsToCampInterface {
      */
     #[Assert\Valid]
     #[Assert\Count(min: 1, groups: ['create'])]
+    #[Assert\Count(
+        min: 2,
+        minMessage: 'An activity must have at least one ScheduleEntry',
+        groups: ['ScheduleEntry:delete']
+    )]
     #[ApiProperty(
         writableLink: true,
         example: '[{ "period": "/periods/1a2b3c4a", "endOffset": 1100, "startOffset": 1000 }]',
