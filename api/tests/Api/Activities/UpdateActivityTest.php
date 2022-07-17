@@ -139,4 +139,85 @@ class UpdateActivityTest extends ECampApiTestCase {
             ],
         ]);
     }
+
+    public function testPatchActivityValidatesNullTitle() {
+        $activity = static::$fixtures['activity1'];
+        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->getUsername()])
+            ->request('PATCH', '/activities/'.$activity->getId(), ['json' => [
+                'title' => null,
+            ], 'headers' => ['Content-Type' => 'application/merge-patch+json']])
+        ;
+
+        $this->assertResponseStatusCodeSame(400);
+        $this->assertJsonContains([
+            'title' => 'An error occurred',
+            'detail' => 'The type of the "title" attribute must be "string", "NULL" given.',
+        ]);
+    }
+
+    public function testPatchActivityValidatesTitleMinLength() {
+        $activity = static::$fixtures['activity1'];
+        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->getUsername()])
+            ->request('PATCH', '/activities/'.$activity->getId(), ['json' => [
+                'title' => '',
+            ], 'headers' => ['Content-Type' => 'application/merge-patch+json']])
+        ;
+
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [
+                    'propertyPath' => 'title',
+                    'message' => 'This value should not be blank.',
+                ],
+            ],
+        ]);
+    }
+
+    public function testPatchActivityValidatesTitleMaxLength() {
+        $activity = static::$fixtures['activity1'];
+        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->getUsername()])
+            ->request('PATCH', '/activities/'.$activity->getId(), ['json' => [
+                'title' => str_repeat('a', 33),
+            ], 'headers' => ['Content-Type' => 'application/merge-patch+json']])
+        ;
+
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [
+                    'propertyPath' => 'title',
+                    'message' => 'This value is too long. It should have 32 characters or less.',
+                ],
+            ],
+        ]);
+    }
+
+    public function testPatchActivityCleansHtmlFromTitle() {
+        $activity = static::$fixtures['activity1'];
+        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->getUsername()])
+            ->request('PATCH', '/activities/'.$activity->getId(), ['json' => [
+                'title' => 'Dschungel<script>alert(1)</script>buch',
+            ], 'headers' => ['Content-Type' => 'application/merge-patch+json']])
+        ;
+
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertJsonContains([
+            'title' => 'Dschungelbuch',
+        ]);
+    }
+
+    public function testPatchActivityTrimsTitle() {
+        $activity = static::$fixtures['activity1'];
+        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->getUsername()])
+            ->request('PATCH', '/activities/'.$activity->getId(), ['json' => [
+                'title' => " \t".str_repeat('a', 32)." \t",
+            ], 'headers' => ['Content-Type' => 'application/merge-patch+json']])
+        ;
+
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertJsonContains([
+            'title' => str_repeat('a', 32),
+        ]);
+    }
 }

@@ -125,10 +125,126 @@ class CreateActivityTest extends ECampApiTestCase {
             'violations' => [
                 [
                     'propertyPath' => 'title',
-                    'message' => 'This value should not be null.',
+                    'message' => 'This value should not be blank.',
                 ],
             ],
         ]);
+    }
+
+    public function testCreateActivityValidatesNullTitle() {
+        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->getUsername()])
+            ->request(
+                'POST',
+                '/activities',
+                [
+                    'json' => $this->getExampleWritePayload(
+                        [
+                            'title' => null,
+                        ]
+                    ),
+                ]
+            )
+        ;
+
+        $this->assertResponseStatusCodeSame(400);
+        $this->assertJsonContains([
+            'title' => 'An error occurred',
+            'detail' => 'The type of the "title" attribute must be "string", "NULL" given.',
+        ]);
+    }
+
+    public function testCreateActivityValidatesTitleMinLength() {
+        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->getUsername()])
+            ->request(
+                'POST',
+                '/activities',
+                [
+                    'json' => $this->getExampleWritePayload(
+                        [
+                            'title' => '',
+                        ]
+                    ),
+                ]
+            )
+        ;
+
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [
+                    'propertyPath' => 'title',
+                    'message' => 'This value should not be blank.',
+                ],
+            ],
+        ]);
+    }
+
+    public function testCreateActivityValidatesTitleMaxLength() {
+        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->getUsername()])
+            ->request(
+                'POST',
+                '/activities',
+                [
+                    'json' => $this->getExampleWritePayload(
+                        [
+                            'title' => str_repeat('a', 33),
+                        ]
+                    ),
+                ]
+            )
+        ;
+
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [
+                    'propertyPath' => 'title',
+                    'message' => 'This value is too long. It should have 32 characters or less.',
+                ],
+            ],
+        ]);
+    }
+
+    public function testCreateActivityCleansHtmlFromTitle() {
+        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->getUsername()])
+            ->request(
+                'POST',
+                '/activities',
+                [
+                    'json' => $this->getExampleWritePayload(
+                        [
+                            'title' => 'Dschungel<script>alert(1)</script>buch',
+                        ]
+                    ),
+                ]
+            )
+        ;
+
+        $this->assertResponseStatusCodeSame(201);
+        $this->assertJsonContains($this->getExampleReadPayload([
+            'title' => 'Dschungelbuch',
+        ]));
+    }
+
+    public function testCreateActivityTrimsTitle() {
+        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->getUsername()])
+            ->request(
+                'POST',
+                '/activities',
+                [
+                    'json' => $this->getExampleWritePayload(
+                        [
+                            'title' => str_repeat('a', 32)." \t",
+                        ]
+                    ),
+                ]
+            )
+        ;
+
+        $this->assertResponseStatusCodeSame(201);
+        $this->assertJsonContains($this->getExampleReadPayload([
+            'title' => str_repeat('a', 32),
+        ]));
     }
 
     public function testCreateActivityAllowsMissingLocation() {

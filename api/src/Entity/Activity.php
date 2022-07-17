@@ -6,6 +6,7 @@ use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use App\InputFilter;
 use App\Repository\ActivityRepository;
 use App\Validator\AssertBelongsToSameCamp;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -105,6 +106,10 @@ class Activity extends BaseEntity implements BelongsToCampInterface {
     /**
      * The title of this activity that is shown in the picasso.
      */
+    #[InputFilter\Trim]
+    #[InputFilter\CleanHTML]
+    #[Assert\NotBlank]
+    #[Assert\Length(max: 32)]
     #[ApiProperty(example: 'Sportolympiade')]
     #[Groups(['read', 'write'])]
     #[ORM\Column(type: 'text')]
