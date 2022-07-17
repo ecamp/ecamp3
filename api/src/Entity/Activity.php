@@ -118,6 +118,9 @@ class Activity extends BaseEntity implements BelongsToCampInterface {
     /**
      * The physical location where this activity's programme will be carried out.
      */
+    #[InputFilter\Trim]
+    #[InputFilter\CleanHTML]
+    #[Assert\Length(max: 64)]
     #[ApiProperty(example: 'Spielwiese')]
     #[Groups(['read', 'write'])]
     #[ORM\Column(type: 'text')]
