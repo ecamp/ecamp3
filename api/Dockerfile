@@ -6,7 +6,7 @@
 # https://docs.docker.com/engine/reference/builder/#understand-how-arg-and-from-interact
 
 # renovate: datasource=docker depName=php
-ARG PHP_VERSION=8.1.7
+ARG PHP_VERSION=8.1.8
 
 # renovate: datasource=docker depName=caddy
 ARG CADDY_VERSION=2.5.1
