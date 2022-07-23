@@ -48,7 +48,7 @@
     "axios": "0.27.2",
     "check-password-strength": "2.0.5",
     "comlink": "4.3.1",
-    "dayjs": "1.11.3",
+    "dayjs": "1.11.4",
     "deepmerge": "4.2.2",
     "file-saver": "2.0.5",
     "hal-json-vuex": "2.0.0-alpha.14",
