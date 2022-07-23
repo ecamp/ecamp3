@@ -378,6 +378,7 @@
         "openTermsOfUse": "Open",
         "passwordConfirmation": "Enter Password again",
         "register": "Register",
+        "requiredField": "required field",
         "title": "Create an account"
       },
       "registerDone": {
