@@ -59,7 +59,7 @@
     "raf": "3.4.1",
     "react": "17.0.2",
     "slugify": "1.6.5",
-    "url-template": "3.0.0",
+    "url-template": "3.1.0",
     "util": "0.12.4",
     "vee-validate": "3.4.14",
     "vite-plugin-worker": "1.0.5",
