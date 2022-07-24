@@ -34,7 +34,7 @@ const picassoData = (config) => {
           periods.items.map((period) => {
             return Promise.all([
               period.scheduleEntries().$loadItems(),
-              period.contentNodes().$loadItems()
+              period.contentNodes().$loadItems(),
             ])
           })
         )
@@ -78,7 +78,7 @@ const activityData = (config) => {
           periods.items.map((period) => {
             return Promise.all([
               period.scheduleEntries().$loadItems(),
-              period.contentNodes().$loadItems()
+              period.contentNodes().$loadItems(),
             ])
           })
         )

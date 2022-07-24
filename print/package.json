@@ -77,7 +77,8 @@
       "plugin:prettier/recommended"
     ],
     "rules": {
-      "no-console": "off"
+      "no-console": "off",
+      "prettier/prettier": "error"
     }
   },
   "babel": {

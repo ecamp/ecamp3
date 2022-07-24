@@ -141,7 +141,13 @@ jobs:
       - run: npm ci --no-audit
         working-directory: frontend
 
-      - run: npm run lint:check
+      - run: |
+          npm run lint:check:eslint
+          result=$(npm run lint:check:prettier)
+          echo $result
+          if echo $result | grep -E "Code style issues found"; then 
+             exit 1
+          fi
         working-directory: frontend
 
   print-eslint:
@@ -165,7 +171,13 @@ jobs:
       - run: npm ci --no-audit
         working-directory: print
 
-      - run: npm run lint:check
+      - run: |
+          npm run lint:check:eslint
+          result=$(npm run lint:check:prettier)
+          echo $result
+          if echo $result | grep -E "Code style issues found"; then 
+             exit 1
+          fi
         working-directory: print
 
   api-tests:
