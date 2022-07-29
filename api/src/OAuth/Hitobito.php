@@ -35,7 +35,7 @@ class Hitobito extends AbstractProvider {
         return ' ';
     }
 
-    protected function fetchResourceOwnerDetails(AccessToken $token) {
+    protected function fetchResourceOwnerDetails(AccessToken $token): mixed {
         $url = $this->getResourceOwnerDetailsUrl($token);
 
         $separator = $this->getScopeSeparator();
@@ -62,7 +62,7 @@ class Hitobito extends AbstractProvider {
         }
     }
 
-    protected function getDefaultHeaders() {
+    protected function getDefaultHeaders(): array {
         return [
             'Accept' => 'application/json',
         ];

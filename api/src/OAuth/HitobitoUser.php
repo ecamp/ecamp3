@@ -14,7 +14,7 @@ class HitobitoUser implements ResourceOwnerInterface {
         $this->response = $response;
     }
 
-    public function getId() {
+    public function getId(): mixed {
         return $this->response['id'];
     }
 
