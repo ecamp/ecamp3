@@ -93,9 +93,6 @@
       "allowedVersions": "13-alpine"
     }
   ],
-  "ignorePaths": [
-    "backend/"
-  ],
   "regexManagers": [
     {
       "fileMatch": [

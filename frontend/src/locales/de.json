@@ -168,11 +168,6 @@
         }
       }
     },
-    "story": {
-      "storyDay": {
-        "noStory": "Kein roter Faden an diesem Tag gefunden…"
-      }
-    },
     "dialog": {
       "dialogCategoryCreate": {
         "title": "Block-Kategorie erstellen"
@@ -313,6 +308,7 @@
         "login": "Anmelden",
         "passwordConfirmation": "Passwort erneut eingeben",
         "register": "Registrieren",
+        "requiredField": "Pflichtfelder",
         "title": "Ein Konto erstellen"
       },
       "registerDone": {

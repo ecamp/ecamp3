@@ -47,7 +47,7 @@
 </template>
 
 <script>
-import CategoryLabel from './CategoryLabel.vue'
+import CategoryLabel from '../generic/CategoryLabel.vue'
 import ContentNode from './contentNode/ContentNode.vue'
 import { rangeShort } from '@/../common/helpers/dateHelperUTCFormatted.js'
 import { responsiblesCommaSeparated } from '@/helpers/activityResponsibles.js'

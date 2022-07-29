@@ -6,7 +6,7 @@
 # https://docs.docker.com/engine/reference/builder/#understand-how-arg-and-from-interact
 
 # renovate: datasource=docker depName=php
-ARG PHP_VERSION=8.1.7
+ARG PHP_VERSION=8.1.8
 
 # renovate: datasource=docker depName=caddy
 ARG CADDY_VERSION=2.5.1
@@ -68,7 +68,7 @@ RUN set -eux; \
 ###> recipes ###
 ###< recipes ###
 
-COPY --from=composer:2.3@sha256:5a5dc47399839fc46c447f939bff4678fa5db64f924801c0b049380ca1b7f882 /usr/bin/composer /usr/bin/composer
+COPY --from=composer:2.3@sha256:bce5a9b833a8b9cc21ecc66a39641cd6b7812b6d56eeef92108c470041d1ac79 /usr/bin/composer /usr/bin/composer
 
 # Copy development php.ini
 RUN cp "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"

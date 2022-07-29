@@ -7,12 +7,7 @@ function ColumnLayout(props) {
   const columns = props.contentNode.columns
   const firstSlot = columns.length ? columns[0].slot : '1'
   const lastSlot = columns.length ? columns[columns.length - 1].slot : '1'
-  const children = props.allContentNodes.items.filter((contentNode) => {
-    return (
-      contentNode.parent &&
-      contentNode.parent()._meta.self === props.contentNode._meta.self
-    )
-  })
+  const children = props.contentNode.children().items
 
   return (
     <View style={{ display: 'flex', flexDirection: 'row' }}>
