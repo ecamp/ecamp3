@@ -7,19 +7,26 @@
  * sudo apt-get install -y gconf-service libasound2 libatk1.0-0 libc6 libcairo2 libcups2 libdbus-1-3 libexpat1 libfontconfig1 libgcc1 libgconf-2-4 libgdk-pixbuf2.0-0 libglib2.0-0 libgtk-3-0 libnspr4 libpango-1.0-0 libpangocairo-1.0-0 libstdc++6 libx11-6 libx11-xcb1 libxcb1 libxcomposite1 libxcursor1 libxdamage1 libxext6 libxfixes3 libxi6 libxrandr2 libxrender1 libxss1 libxtst6 ca-certificates fonts-liberation libappindicator1 libnss3 lsb-release xdg-utils wget libgbm-dev
  */
 
-import puppeteer from 'puppeteer'
+import puppeteer from 'puppeteer-core'
 const { performance } = require('perf_hooks')
 const { URL } = require('url')
 const { loadNuxt, build } = require('nuxt')
 const { Router } = require('express')
+const { memoryUsage } = require('process')
 
 const router = Router()
 
 let lastTime = null
 function measurePerformance(msg) {
   const now = performance.now()
+  const memory = memoryUsage()
+
   if (lastTime !== null) {
-    console.log(`(took ${Math.round(now - lastTime)} millisecons)`)
+    console.log(
+      `(took ${Math.round(now - lastTime)} millisecons / using ${
+        memory.heapUsed / 1000000
+      }MB)`
+    )
   }
   lastTime = now
 
@@ -67,7 +74,7 @@ router.use('/pdf', async (req, res) => {
     )
     page.on('response', (response) =>
       console.log('<<', response.status(), response.url())
-    ) 
+    )
     page.on('error', (err) => {
       console.log('error happen at the page: ', err)
     })
@@ -90,7 +97,7 @@ router.use('/pdf', async (req, res) => {
 
     // create Promise to wait for PagedJS 'after'
     let resolver
-    const pagedjsRendered = new Promise(function (resolve, reject) {
+    const pagedjsRendered = new Promise(function (resolve) {
       resolver = resolve
     })
     await page.exposeFunction('onRendered', () => {

@@ -9,6 +9,7 @@
       "npm": ">= 7.15.1"
     }
   },
+  "automergeType": "branch",
   "vulnerabilityAlerts": {
     "automerge": true
   },
@@ -23,6 +24,15 @@
       "automerge": true
     },
     {
+      "extends": [
+        "monorepo:vue"
+      ],
+      "matchUpdateTypes": [
+        "major"
+      ],
+      "dependencyDashboardApproval": true
+    },
+    {
       "matchPackageNames": [
         "sass"
       ],
@@ -33,6 +43,12 @@
         "php"
       ],
       "automerge": false
+    },
+    {
+      "matchPackagePatterns": [
+        "^@tiptap\/"
+      ],
+      "groupName": "tiptap"
     },
     {
       "matchPackagePatterns": [
@@ -69,10 +85,13 @@
       "extends": [
         "schedule:weekly"
       ]
+    },
+    {
+      "matchPackageNames": [
+        "postgres"
+      ],
+      "allowedVersions": "13-alpine"
     }
-  ],
-  "ignorePaths": [
-    "backend/"
   ],
   "regexManagers": [
     {

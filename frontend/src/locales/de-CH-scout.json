@@ -8,5 +8,21 @@
   },
   "global": {
     "language": "Deutsch (Pfadi)"
+  },
+  "contentNode": {
+    "storycontext": {
+      "add": "Roten Faden hinzufügen",
+      "name": "Roter Faden"
+    }
+  },
+  "views": {
+    "camp": {
+      "navigationCamp": {
+        "story": "RF"
+      },
+      "story": {
+        "title": "Roter Faden"
+      }
+    }
   }
 }

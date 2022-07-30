@@ -1,11 +1,7 @@
 <template>
-  <div :style="columnStyles">
-    <content-node
-      v-for="child in children"
-      :key="child.id"
-      :content-node="child"
-    />
-  </div>
+  <td :style="columnStyles" class="tw-align-top">
+    <content-node v-for="child in children" :key="child.id" :content-node="child" />
+  </td>
 </template>
 
 <script>
@@ -17,25 +13,20 @@ export default {
   },
   computed: {
     column() {
-      return this.contentNode.columns.find(
-        (column) => column.slot === this.columnSlot
-      )
+      return this.contentNode.columns.find((column) => column.slot === this.columnSlot)
     },
     width() {
       return this.column.width
     },
     columnStyles() {
       return {
-        flex: '0 0 ' + (this.width / 12.0) * 100.0 + '%',
-        borderLeft:
-          this.columnSlot === this.firstSlot ? 'none' : '1px solid black',
+        width: (this.width / 12.0) * 100.0 + '%',
+        borderLeft: this.columnSlot === this.firstSlot ? 'none' : '1px solid black',
         padding:
           '4px ' +
           (this.columnSlot === this.lastSlot ? '0' : '1%') +
           ' 4px ' +
           (this.columnSlot === this.firstSlot ? '0' : '1%'),
-        display: 'flex',
-        flexDirection: 'column',
       }
     },
     firstSlot() {
@@ -48,10 +39,7 @@ export default {
       return this.contentNode
         .children()
         .items.filter((child) => child.slot === this.columnSlot)
-        .sort(
-          (child1, child2) =>
-            parseInt(child1.position) - parseInt(child2.position)
-        )
+        .sort((child1, child2) => parseInt(child1.position) - parseInt(child2.position))
     },
   },
 }

@@ -6,10 +6,10 @@
 # https://docs.docker.com/engine/reference/builder/#understand-how-arg-and-from-interact
 
 # renovate: datasource=docker depName=php
-ARG PHP_VERSION=8.1.5
+ARG PHP_VERSION=8.1.8
 
 # renovate: datasource=docker depName=caddy
-ARG CADDY_VERSION=2.4.6
+ARG CADDY_VERSION=2.5.1
 
 # "php" stage
 FROM php:${PHP_VERSION}-fpm-alpine AS api_platform_php
@@ -68,7 +68,7 @@ RUN set -eux; \
 ###> recipes ###
 ###< recipes ###
 
-COPY --from=composer:2.3@sha256:29a96961e98177174403e35cbd59a28d09c3ce9e1933546cd6044c01769b709f /usr/bin/composer /usr/bin/composer
+COPY --from=composer:2.3@sha256:bce5a9b833a8b9cc21ecc66a39641cd6b7812b6d56eeef92108c470041d1ac79 /usr/bin/composer /usr/bin/composer
 
 # Copy development php.ini
 RUN cp "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
@@ -153,7 +153,7 @@ COPY docker/caddy/Caddyfile.prod /etc/caddy/Caddyfile
 FROM api_platform_php as api_platform_php_dev
 
 # renovate: datasource=github-tags depName=xdebug/xdebug
-ARG XDEBUG_VERSION=3.1.4
+ARG XDEBUG_VERSION=3.1.5
 RUN set -eux; \
 	apk add --no-cache --virtual .build-deps $PHPIZE_DEPS; \
 	pecl install xdebug-$XDEBUG_VERSION; \

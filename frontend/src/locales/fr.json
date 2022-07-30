@@ -55,7 +55,7 @@
     },
     "storycontext": {
       "add": "Ajouter du fil rouge",
-      "name": "Fil rouge"
+      "name": "Histoire"
     }
   },
   "components": {
@@ -105,11 +105,6 @@
       },
       "collaboratorListItem": {
         "remove": "Supprimer"
-      }
-    },
-    "story": {
-      "storyDay": {
-        "noStory": "Aucun contenu d'histoire trouvé ce jour-là..."
       }
     },
     "dialog": {
@@ -254,7 +249,7 @@
       "story": {
         "editModeOff": "Modification désactivée",
         "editModeOn": "Modification activée",
-        "title": "Action"
+        "title": "Histoire"
       }
     },
     "campCreate": {
@@ -268,16 +263,6 @@
     "camps": {
       "create": "Créer un camp",
       "title": "Mon camp | Mes camps"
-    },
-    "home": {
-      "home": "Accueil",
-      "myCamps": "Mon camp | Mes camps",
-      "welcome": "Bonjour {user}. Bienvenue sur eCamp"
-    },
-    "navigationDefault": {
-      "home": "Accueil",
-      "myCamps": "Mon camp | Mes camps",
-      "profile": "Profil"
     },
     "profile": {
       "profile": "Profil"

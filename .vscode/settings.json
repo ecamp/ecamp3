@@ -2,7 +2,7 @@
     "php-cs-fixer.executablePath": "${workspaceFolder}/api/vendor/bin/php-cs-fixer",
     "php-cs-fixer.config": "./api/.php-cs-fixer.php",
     "javascript.format.enable": false,
-    "eslint.format.enable": true,
+    "eslint.format.enable": false,
     "phpunit.files": "api/tests/**/*Test.php",
     "phpunit.args": [
         "-capi/phpunit.nodocker.xml"

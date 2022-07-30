@@ -3,17 +3,13 @@
     <div class="instance-name">{{ instanceName }}</div>
     <div v-for="entry in selectedOptions" :key="entry.id" class="entry">
       <check-mark :size="12" />
-      {{
-        $tc(
-          `contentNode.laThematicArea.entity.option.${entry.translateKey}.name`
-        )
-      }}
+      {{ $tc(`contentNode.laThematicArea.entity.option.${entry.translateKey}.name`) }}
     </div>
   </div>
 </template>
 
 <script>
-import CheckMark from '../../CheckMark.vue'
+import CheckMark from '../../generic/CheckMark.vue'
 
 export default {
   components: {
@@ -27,10 +23,7 @@ export default {
   },
   computed: {
     instanceName() {
-      return (
-        this.contentNode.instanceName ||
-        this.$tc(`contentNode.laThematicArea.name`)
-      )
+      return this.contentNode.instanceName || this.$tc(`contentNode.laThematicArea.name`)
     },
     selectedOptions() {
       return this.contentNode.options().items.filter((item) => item.checked)

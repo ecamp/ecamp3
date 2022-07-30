@@ -1,8 +1,8 @@
 App\Entity\ContentNode\MaterialNode:
   materialNode2:
-    root: '@self'
-    parent: null
-    slot: ''
+    root: '@columnLayout1camp2'
+    parent: '@columnLayout1camp2'
+    slot: '1'
     position: 0
     instanceName: <word()>
     contentType: '@contentTypeMaterial'

@@ -55,7 +55,7 @@
     },
     "storycontext": {
       "add": "Aggiungi filo conduttore",
-      "name": "Filo conduttore"
+      "name": "Storia"
     }
   },
   "components": {
@@ -105,11 +105,6 @@
       },
       "collaboratorListItem": {
         "remove": "Rimuovere"
-      }
-    },
-    "story": {
-      "storyDay": {
-        "noStory": "Nessun contenuto di storia trovato in questo giorno..."
       }
     },
     "dialog": {
@@ -244,7 +239,7 @@
         "campIsLoading": "Il campo sta caricando",
         "material": "Materiale",
         "print": "Stampa",
-        "story": "filo conduttore",
+        "story": "Storia",
         "tasks": "Compiti",
         "team": "Team"
       },
@@ -254,7 +249,7 @@
       "story": {
         "editModeOff": "Modifica disattivata",
         "editModeOn": "Modifica in corso",
-        "title": "Azione"
+        "title": "Storia"
       }
     },
     "campCreate": {
@@ -268,16 +263,6 @@
     "camps": {
       "create": "Creare il campo",
       "title": "Il mio campo | I miei campi"
-    },
-    "home": {
-      "home": "Home",
-      "myCamps": "Il mio campo | I miei campi",
-      "welcome": "Salve {user}. Benvenuto su eCamp"
-    },
-    "navigationDefault": {
-      "home": "Home",
-      "myCamps": "Il mio campo | I miei campi",
-      "profile": "Profilo"
     },
     "profile": {
       "profile": "Profilo"

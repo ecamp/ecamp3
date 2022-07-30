@@ -54,8 +54,8 @@
       "name": "Programmabschnitt"
     },
     "storycontext": {
-      "add": "Roten Faden hinzufügen",
-      "name": "Roter Faden"
+      "add": "Geschichte hinzufügen",
+      "name": "Geschichte"
     }
   },
   "components": {
@@ -88,6 +88,14 @@
       "campInvitations": {
         "title": "Einladen"
       },
+      "campMaterialLists": {
+        "createMaterialList": "Materialliste erstellen",
+        "title": "Materiallisten"
+      },
+      "campMaterialListsItem": {
+        "deleteWarning": "Möchtest du diese Materialliste wirklich löschen?",
+        "deleteError": "Materialliste konnte nicht gelöscht werden. Überprüfe vor dem Löschen, dass die Liste leer ist."
+      },
       "campMembers": {
         "title": "Mitglieder"
       },
@@ -109,6 +117,9 @@
       },
       "materialCreateItem": {
         "noMaterialListAvailable": "Für dieses Lager sind noch keine Materiallisten erfasst. Du kannst diese unter 'Admin' erfassen."
+      },
+      "periodSwitcher": {
+        "title": "Lagerabschnitt"
       },
       "picasso": {
         "datetime": {
@@ -141,13 +152,20 @@
           }
         }
       },
+      "printNuxt": {
+        "downloadNuxtPdfListItem": {
+          "label": "PDF herunterladen",
+          "error": "Etwas hat nicht geklappt. Probiere es nochmals, oder lade die Seite neu."
+        }
+      },
       "printPreviewNuxt": {
         "openPreview": "Vorschau in neuem Fenster öffnen"
-      }
-    },
-    "story": {
-      "storyDay": {
-        "noStory": "Kein roter Faden an diesem Tag gefunden…"
+      },
+      "printReact": {
+        "downloadNuxtPdfListItem": {
+          "label": "PDF herunterladen",
+          "error": "Etwas hat nicht geklappt. Probiere es nochmals, oder lade die Seite neu."
+        }
       }
     },
     "dialog": {
@@ -180,6 +198,20 @@
         "myCamps": "Mein Lager | Meine Lager",
         "profile": "Profil"
       }
+    },
+    "user": {
+      "dialogChangeMail": {
+        "title": "E-Mail-Adresse ändern",
+        "message": "Zur Verifikation schicken wir dir eine Mail.",
+        "success": "Bevor du die neue E-Mail-Adresse verwenden kannst, muss du diese verifizieren. Prüfe jetzt deine Mailbox.",
+        "error": "Leider ist ein Fehler aufgetreten."
+      },
+      "dialogChangeMailRunning": {
+        "title": "E-Mail-Adresse wird geändert",
+        "message": "E-Mail-Adresse wird geändert...",
+        "success": "E-Mail-Adresse erfolgreich geändert.",
+        "error": "Leider ist ein Fehler aufgetreten."
+      }
     }
   },
   "entity": {
@@ -208,6 +240,7 @@
       "delete": "Löschen",
       "edit": "Bearbeiten",
       "editable": "Bearbeitbar",
+      "lock": "Sperren",
       "logout": "Ausloggen",
       "ok": "In Ordnung",
       "open": "Öffnen",
@@ -216,6 +249,7 @@
       "search": "Suchen",
       "submit": "Abschicken",
       "tryagain": "Erneut versuchen",
+      "unlock": "Entsperren",
       "update": "Aktualisieren"
     },
     "changeLanguage": "Sprache ändern",
@@ -243,7 +277,8 @@
       "sideBarProgram": {
         "title": "Tagesübersicht"
       },
-      "printPreview": "Druckvorschau öffnen"
+      "printPreview": "Druckvorschau öffnen",
+      "deleteWarning": "Möchtest du diese Aktivität wirklich löschen? Der komplette Inhalt dieser Aktivität wird gelöscht."
     },
     "auth": {
       "login": {
@@ -273,11 +308,13 @@
         "login": "Anmelden",
         "passwordConfirmation": "Passwort erneut eingeben",
         "register": "Registrieren",
+        "requiredField": "Pflichtfelder",
         "title": "Ein Konto erstellen"
       },
       "registerDone": {
         "login": "Anmelden",
         "success": "Erfolgreich registriert",
+        "message": "Wir haben dir eine Mail geschickt. Bitte schliesse die Registrierung ab, in dem du den Aktivierungs-Link im Mail aufrufst.",
         "title": "Konto erstellen"
       },
       "resetPassword": {
@@ -301,7 +338,7 @@
     "camp": {
       "admin": {
         "collaborators": "Team verwalten",
-        "title": "Lager Admin"
+        "title": "Admin"
       },
       "collaborators": {
         "email": "E-Mail-Adresse",
@@ -330,11 +367,8 @@
         "title": "Druckvorschau",
         "previewError": "Etwas hat nicht geklappt. Probiere es nochmals mit anderen Druckeinstellungen, oder lade die Seite neu."
       },
-      "sideBarPeriods": {
-        "title": "Lagerabschnitt"
-      },
       "story": {
-        "title": "Roter Faden"
+        "title": "Geschichte"
       },
       "material": {
         "groupByList": "Nach Materialliste gruppieren"
@@ -357,17 +391,8 @@
       "prototypeCamps": "Vorlagen",
       "title": "Mein Lager | Meine Lager"
     },
-    "home": {
-      "home": "Home",
-      "myCamps": "Mein Lager | Meine Lager",
-      "welcome": "Hallo {user}. Herzlich willkommen auf eCamp"
-    },
-    "navigationDefault": {
-      "home": "Home",
-      "myCamps": "Mein Lager | Meine Lager",
-      "profile": "Profil"
-    },
     "profile": {
+      "changeEmail": "Ändern",
       "profile": "Profil"
     }
   }

@@ -2,15 +2,16 @@ version: "3.4"
 
 services:
   frontend:
-    image: node:16.14.2@sha256:6e54786b2ad01667d46524e82806298714f50d2be72b39706770aed55faedbd7
+    image: node:16.16.0@sha256:2e1b4542d4a06e0e0442dc38af1f4828760aecc9db2b95e7df87f573640d98cd
     container_name: 'ecamp3-frontend'
     ports:
       - '3000:3000'
-      - '9229:9229' # jest debug 
+      - '9229:9229' # jest debug
     stdin_open: true
     tty: true
     user: ${USER_ID:-1000}
     volumes:
+      - ./.prettierrc:/.prettierrc
       - ./frontend:/app:delegated
       - ./common:/common:delegated
       - ./.cache/npm:/home/node/.npm
@@ -101,12 +102,13 @@ services:
       - ./api/public:/srv/api/public:ro
 
   print:
-    image: node:16.14.2@sha256:6e54786b2ad01667d46524e82806298714f50d2be72b39706770aed55faedbd7
+    image: node:16.16.0@sha256:2e1b4542d4a06e0e0442dc38af1f4828760aecc9db2b95e7df87f573640d98cd
     container_name: 'ecamp3-print'
     ports:
       - '3003:3003'
     user: ${USER_ID:-1000}
     volumes:
+      - ./.prettierrc:/.prettierrc
       - ./print:/app:delegated
       - ./common:/common:delegated
       - ./.cache/npm:/home/node/.npm
@@ -121,7 +123,7 @@ services:
       - ./print/print.env
 
   database:
-    image: postgres:14-alpine@sha256:20e49432a20e1a63bb985977c32ec8f110bc609b93de35ad4f19c5486abcefaa
+    image: postgres:13-alpine@sha256:c8bfb54cac477fbe49ccb6916c40e85724eb324f882a1c4476512cab32d6e421
     container_name: 'ecamp3-database'
     environment:
       - POSTGRES_DB=ecamp3dev
@@ -150,8 +152,7 @@ services:
     restart: on-failure
 
   browserless:
-    build:
-      context: ./print/browserless
+    image: browserless/chrome:1.50.0-puppeteer-12.0.1@sha256:ca9c1a56ff88ba91c3aac908713cfe92f4e308c941a64e408d00d26bf1de036a
     container_name: 'ecamp3-browserless'
     ports:
       - '3010:3000'

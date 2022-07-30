@@ -5,7 +5,8 @@
     :name="name"
     :vid="veeId"
     :rules="veeRules"
-    class="e-form-container">
+    class="e-form-container"
+  >
     <v-text-field
       ref="textField"
       v-bind="$attrs"
@@ -15,7 +16,8 @@
       :label="label || name"
       :class="[inputClass]"
       :type="type"
-      v-on="inputListeners">
+      v-on="inputListeners"
+    >
       <!-- passing through all slots -->
       <slot v-for="(_, name) in $slots" :slot="name" :name="name" />
       <template v-for="(_, name) in $scopedSlots" :slot="name" slot-scope="slotData">
@@ -36,13 +38,14 @@ export default {
   props: {
     type: {
       type: String,
-      default: 'text'
-    }
+      default: 'text',
+    },
   },
   computed: {
     inputListeners: function () {
       const vm = this
-      return Object.assign({},
+      return Object.assign(
+        {},
         // attach all $parent listeners
         this.$listeners,
 
@@ -54,15 +57,26 @@ export default {
             } else {
               vm.$emit('input', value)
             }
-          }
+          },
         }
       )
-    }
+    },
   },
   methods: {
-    focus () {
+    focus() {
       this.$refs.textField.focus()
-    }
-  }
+    },
+  },
 }
 </script>
+
+<style scoped>
+[required] >>> label::after {
+  content: '\a0*';
+  font-size: 12px;
+  color: #d32f2f;
+}
+[required] >>> .v-input--is-label-active label::after {
+  color: gray;
+}
+</style>

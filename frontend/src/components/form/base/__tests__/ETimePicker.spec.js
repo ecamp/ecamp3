@@ -30,19 +30,17 @@ describe('An ETimePicker', () => {
       {
         time_1: '09:52',
         time_2: '18:33',
-        time_3: '19:15'
-      }
-
+        time_3: '19:15',
+      },
     ],
     [
       'en',
       {
         time_1: '9:52 AM',
         time_2: '6:33 PM',
-        time_3: '7:15 PM'
-      }
-
-    ]
+        time_3: '7:15 PM',
+      },
+    ],
   ]
 
   const mount = (options) => mountComponent(ETimePicker, { vuetify, i18n, ...options })
@@ -57,23 +55,26 @@ describe('An ETimePicker', () => {
     test('renders', async () => {
       const wrapper = mount({
         propsData: {
-          value: TIME_1
-        }
+          value: TIME_1,
+        },
       })
       await flushPromises()
       expect(wrapper.find('input[type=text]').element.value).toBe(data.time_1)
     })
 
     test('looks like a time picker', async () => {
-      const wrapper = mountComponent({
-        data: () => ({ time: TIME_1 }),
-        template: '<div data-app><e-time-picker v-model="time"></e-time-picker></div>',
-        components: { 'e-time-picker': ETimePicker }
-      }, {
-        vuetify,
-        attachTo: document.body,
-        i18n
-      })
+      const wrapper = mountComponent(
+        {
+          data: () => ({ time: TIME_1 }),
+          template: '<div data-app><e-time-picker v-model="time"></e-time-picker></div>',
+          components: { 'e-time-picker': ETimePicker },
+        },
+        {
+          vuetify,
+          attachTo: document.body,
+          i18n,
+        }
+      )
       await waitForDebounce()
       expect(wrapper).toMatchSnapshot('pickerclosed')
       await wrapper.find('button').trigger('click')
@@ -85,22 +86,25 @@ describe('An ETimePicker', () => {
       const wrapper = mount({
         propsData: {
           value: TIME_1_HHMM,
-          valueFormat: 'HH:mm'
-        }
+          valueFormat: 'HH:mm',
+        },
       })
       await flushPromises()
       expect(wrapper.find('input[type=text]').element.value).toBe(data.time_1)
     })
 
     test('updates v-model when the value changes', async () => {
-      const wrapper = mountComponent({
-        data: () => ({ time: TIME_2 }),
-        template: '<div><e-time-picker v-model="time"></e-time-picker></div>',
-        components: { 'e-time-picker': ETimePicker }
-      }, {
-        vuetify,
-        i18n
-      })
+      const wrapper = mountComponent(
+        {
+          data: () => ({ time: TIME_2 }),
+          template: '<div><e-time-picker v-model="time"></e-time-picker></div>',
+          components: { 'e-time-picker': ETimePicker },
+        },
+        {
+          vuetify,
+          i18n,
+        }
+      )
       expect(wrapper.vm.time).toBe(TIME_2)
       const inputSpy = jest.fn()
       wrapper.findComponent(ETimePicker).vm.$on('input', (event) => inputSpy(event))
@@ -115,8 +119,8 @@ describe('An ETimePicker', () => {
     test('validates the input', async () => {
       const wrapper = mount({
         propsData: {
-          value: TIME_1
-        }
+          value: TIME_1,
+        },
       })
       const input = wrapper.find('input[type=text]')
       await input.setValue(INVALID_TIME_1)
@@ -130,8 +134,8 @@ describe('An ETimePicker', () => {
     test('works with invalid initialization', async () => {
       const wrapper = mount({
         propsData: {
-          value: 'abc'
-        }
+          value: 'abc',
+        },
       })
       await waitForDebounce()
       expect(wrapper.find('input[type=text]').element.value).toBe('Invalid Date')
@@ -143,15 +147,18 @@ describe('An ETimePicker', () => {
     })
 
     test('updates its value when a time is picked', async () => {
-      const wrapper = mountComponent({
-        data: () => ({ time: TIME_2 }),
-        template: '<div data-app><e-time-picker v-model="time"></e-time-picker></div>',
-        components: { 'e-time-picker': ETimePicker }
-      }, {
-        vuetify,
-        attachTo: document.body,
-        i18n
-      })
+      const wrapper = mountComponent(
+        {
+          data: () => ({ time: TIME_2 }),
+          template: '<div data-app><e-time-picker v-model="time"></e-time-picker></div>',
+          components: { 'e-time-picker': ETimePicker },
+        },
+        {
+          vuetify,
+          attachTo: document.body,
+          i18n,
+        }
+      )
       await waitForDebounce()
       // open the time picker
       const openPicker = wrapper.find('button')

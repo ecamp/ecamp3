@@ -6,7 +6,7 @@ import { toTime, roundTimeUp, roundTimeDown } from '@/helpers/vCalendarDragAndDr
  * @param int threshold       min. mouse movement needed to detect drag & drop
  * @returns
  */
-export default function useDragAndDrop (enabled, createEntry) {
+export default function useDragAndDrop(enabled, createEntry) {
   /**
    * internal data (not exposed)
    */
@@ -34,7 +34,7 @@ export default function useDragAndDrop (enabled, createEntry) {
   const createNewEntry = (mouse) => {
     newEntry = {
       startTimestamp: roundTimeDown(mouse),
-      endTimestamp: roundTimeDown(mouse) + 15
+      endTimestamp: roundTimeDown(mouse) + 15,
     }
   }
 
@@ -54,10 +54,14 @@ export default function useDragAndDrop (enabled, createEntry) {
 
   // triggered with MouseDown event on a calendar entry
   const entryMouseDown = ({ event: entry, timed, nativeEvent }) => {
-    if (!enabled.value) { return }
+    if (!enabled.value) {
+      return
+    }
 
     // cancel drag & drop if button is not left button
-    if (nativeEvent.button !== 0) { return }
+    if (nativeEvent.button !== 0) {
+      return
+    }
 
     if (entry && timed) {
       entryWasClicked = true
@@ -66,10 +70,14 @@ export default function useDragAndDrop (enabled, createEntry) {
 
   // triggered with MouseDown event anywhere on the calendar (independent of clicking on entry or not)
   const timeMouseDown = (tms, nativeEvent) => {
-    if (!enabled.value) { return }
+    if (!enabled.value) {
+      return
+    }
 
     // cancel drag & drop if button is not left button
-    if (nativeEvent.button !== 0) { return }
+    if (nativeEvent.button !== 0) {
+      return
+    }
 
     if (!entryWasClicked) {
       // No entry is being dragged --> create a placeholder for a new schedule entry
@@ -80,8 +88,10 @@ export default function useDragAndDrop (enabled, createEntry) {
   }
 
   // triggered when mouse is being moved in calendar (independent whether drag & drop is ongoing or not)
-  const timeMouseMove = (tms, nativeEvent) => {
-    if (!enabled.value) { return }
+  const timeMouseMove = (tms) => {
+    if (!enabled.value) {
+      return
+    }
 
     if (newEntry) {
       // resize placeholder
@@ -94,7 +104,9 @@ export default function useDragAndDrop (enabled, createEntry) {
 
   // triggered with MouseUp Event anywhere in the calendar
   const timeMouseUp = () => {
-    if (!enabled.value) { return }
+    if (!enabled.value) {
+      return
+    }
 
     if (newEntry) {
       // placeholder for new schedule entry was created --> open dialog to create new activity
@@ -114,8 +126,8 @@ export default function useDragAndDrop (enabled, createEntry) {
       'mousedown:event': entryMouseDown,
       'mousedown:time': timeMouseDown,
       'mousemove:time': timeMouseMove,
-      'mouseup:time': timeMouseUp
+      'mouseup:time': timeMouseUp,
     },
-    nativeMouseLeave
+    nativeMouseLeave,
   }
 }

@@ -3,6 +3,7 @@
 namespace App\Tests\Api\ContentNodes\ContentNode;
 
 use App\Entity\ContentNode;
+use App\Entity\ContentNode\Storyboard;
 use App\Tests\Api\ECampApiTestCase;
 
 /**
@@ -24,12 +25,32 @@ class ReadContentNodeTest extends ECampApiTestCase {
             'contentTypeName' => $contentNode->getContentTypeName(),
             '_links' => [
                 'parent' => ['href' => $this->getIriFor($contentNode->parent)],
-                'owner' => ['href' => $this->getIriFor('activity1')],
-                'ownerCategory' => ['href' => $this->getIriFor('category1')],
-                'children' => [],
+                // For performance reasons, children must be an array of hrefs, not a single href to a collection!
+                // If this test breaks here, that means you probably added a "parent" filter on ContentNode.
+                // If you really need that filter, see https://github.com/ecamp/ecamp3/pull/2571#discussion_r844089434
+                // for more info on why it was previously removed. You will then probably have to adapt
+                // RelatedCollectionLinkNormalizer and add a way to explicitly disable related collection links on a
+                // specific relation, so that the "parent" filter can co-exist with children being an array.
+                'children' => [
+                    ['href' => $this->getIriFor('multiSelect2')],
+                    ['href' => $this->getIriFor('singleText2')],
+                    ['href' => $this->getIriFor('storyboard2')],
+                ],
                 'self' => ['href' => $this->getIriFor('columnLayoutChild1')],
             ],
         ]);
+    }
+
+    public function testGetSingleContentNodeIsAllowedInCampPrototype() {
+        // given
+        /** @var ContentNode $contentNode */
+        $contentNode = static::$fixtures['columnLayout1campPrototype'];
+
+        // when (requesting with anonymous user)
+        static::createBasicClient()->request('GET', '/content_nodes/'.$contentNode->getId());
+
+        // then
+        $this->assertResponseStatusCodeSame(200);
     }
 
     public function testGetSingleContentNodeIncludesProperRelationLinks() {

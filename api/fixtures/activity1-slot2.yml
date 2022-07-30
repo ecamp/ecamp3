@@ -38,9 +38,3 @@ App\Entity\ContentNode\StoryboardSection:
     column2: <sentence()>
     column3: <word()>
     position: 0
-  storyboardSectionCampUnrelated:
-    storyboard: '@storyboardCampUnrelated'
-    column1: <word()>
-    column2: <sentence()>
-    column3: <word()>
-    position: 0

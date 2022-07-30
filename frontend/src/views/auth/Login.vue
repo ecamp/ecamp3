@@ -7,16 +7,13 @@
       text
       dense
       border="left"
-      style="hypens:auto"
-      color="warning">
+      style="hypens: auto"
+      color="warning"
+    >
       <!-- eslint-disable-next-line vue/no-v-html -->
       <div v-html="$tc('views.auth.login.beta.notice')" />
     </v-alert>
-    <v-alert v-if="error"
-             outlined
-             text
-             border="left"
-             type="error">
+    <v-alert v-if="error" outlined text border="left" type="error">
       Login failed
     </v-alert>
     <v-form @submit.prevent="login">
@@ -28,7 +25,8 @@
         name="username"
         append-icon="mdi-account-outline"
         :dense="$vuetify.breakpoint.xsOnly"
-        type="text" />
+        type="text"
+      />
 
       <e-text-field
         id="inputPassword"
@@ -37,22 +35,27 @@
         name="password"
         append-icon="mdi-lock-outline"
         :dense="$vuetify.breakpoint.xsOnly"
-        type="password" />
+        type="password"
+      />
       <small class="ml-2">
         <router-link
           :to="{ name: 'resetPasswordRequest' }"
           tabindex="100"
-          style="color: gray">
+          style="color: gray"
+        >
           {{ $tc('views.auth.login.passwordForgotten') }}
         </router-link>
       </small>
 
-      <v-btn type="submit"
-             :color="username && password ? 'blue darken-2' : 'blue lighten-4'" block
-             :disabled="!(username && password)"
-             outlined
-             :x-large="$vuetify.breakpoint.smAndUp"
-             class="my-4">
+      <v-btn
+        type="submit"
+        :color="username && password ? 'blue darken-2' : 'blue lighten-4'"
+        block
+        :disabled="!(username && password)"
+        outlined
+        :x-large="$vuetify.breakpoint.smAndUp"
+        class="my-4"
+      >
         <v-progress-circular v-if="normalLoggingIn" indeterminate size="24" />
         <v-icon v-else>$vuetify.icons.ecamp</v-icon>
         <v-spacer />
@@ -62,39 +65,45 @@
       </v-btn>
     </v-form>
     <horizontal-rule :label="$tc('views.auth.login.or')" />
-    <v-btn dark
-           color="#91697f"
-           :x-large="$vuetify.breakpoint.smAndUp"
-           block
-           outlined
-           class="my-4"
-           @click="loginPbsMiData">
+    <v-btn
+      dark
+      color="#91697f"
+      :x-large="$vuetify.breakpoint.smAndUp"
+      block
+      outlined
+      class="my-4"
+      @click="loginPbsMiData"
+    >
       <v-icon color="#521d3a">$vuetify.icons.pbs</v-icon>
       <v-spacer />
       <span class="text--secondary">{{ $tc('views.auth.login.provider.midata') }}</span>
       <v-spacer />
       <icon-spacer />
     </v-btn>
-    <v-btn dark
-           color="green"
-           :x-large="$vuetify.breakpoint.smAndUp"
-           block
-           outlined
-           class="my-4"
-           @click="loginCeviDB">
+    <v-btn
+      dark
+      color="green"
+      :x-large="$vuetify.breakpoint.smAndUp"
+      block
+      outlined
+      class="my-4"
+      @click="loginCeviDB"
+    >
       <v-icon>$vuetify.icons.cevi</v-icon>
       <v-spacer />
       <span class="text--secondary">{{ $tc('views.auth.login.provider.cevidb') }}</span>
       <v-spacer />
       <icon-spacer />
     </v-btn>
-    <v-btn dark
-           color="blue-grey lighten-3"
-           :x-large="$vuetify.breakpoint.smAndUp"
-           block
-           outlined
-           class="my-4 text--secondary"
-           @click="loginGoogle">
+    <v-btn
+      dark
+      color="blue-grey lighten-3"
+      :x-large="$vuetify.breakpoint.smAndUp"
+      block
+      outlined
+      class="my-4 text--secondary"
+      @click="loginGoogle"
+    >
       <v-icon>$vuetify.icons.google</v-icon>
       <v-spacer />
       <span class="text--secondary">{{ $tc('views.auth.login.provider.google') }}</span>
@@ -102,8 +111,10 @@
       <icon-spacer />
     </v-btn>
     <p class="mt-8 mb-0 text--secondary text-center">
-      {{ $tc('views.auth.login.accountless') }}<br>
-      <router-link :to="{ name: 'register' }">{{ $tc('views.auth.login.registernow') }}</router-link>
+      {{ $tc('views.auth.login.accountless') }}<br />
+      <router-link :to="{ name: 'register' }">
+        {{ $tc('views.auth.login.registernow') }}
+      </router-link>
     </p>
   </auth-container>
 </template>
@@ -119,50 +130,52 @@ export default {
   components: {
     IconSpacer,
     HorizontalRule,
-    AuthContainer
+    AuthContainer,
   },
-  beforeRouteEnter (to, from, next) {
+  beforeRouteEnter(to, from, next) {
     if (isLoggedIn()) {
       next(to.query.redirect || '/')
     } else {
       next()
     }
   },
-  data () {
+  data() {
     return {
       username: '',
       password: '',
       error: false,
       normalLoggingIn: false,
-      showCredits: true
+      showCredits: true,
     }
   },
-  mounted () {
+  mounted() {
     this.$store.commit('setLanguage', this.$i18n.browserPreferredLocale)
   },
   methods: {
-    async login () {
+    async login() {
       this.normalLoggingIn = true
       this.error = false
-      this.$auth.login(this.username, this.password).then(() => {
-        this.$router.replace(this.$route.query.redirect || '/')
-      }).catch(() => {
-        this.normalLoggingIn = false
-        this.error = true
-      })
+      this.$auth
+        .login(this.username, this.password)
+        .then(() => {
+          this.$router.replace(this.$route.query.redirect || '/')
+        })
+        .catch(() => {
+          this.normalLoggingIn = false
+          this.error = true
+        })
     },
-    async loginGoogle () {
+    async loginGoogle() {
       await this.$auth.loginGoogle()
     },
-    async loginPbsMiData () {
+    async loginPbsMiData() {
       await this.$auth.loginPbsMiData()
     },
-    async loginCeviDB () {
+    async loginCeviDB() {
       await this.$auth.loginCeviDB()
-    }
-  }
+    },
+  },
 }
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

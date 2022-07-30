@@ -76,6 +76,13 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
     public string $state = self::STATE_NONREGISTERED;
 
     /**
+     * ReCaptchaToken used on Register-View.
+     */
+    #[ApiProperty(readable: false, writable: true)]
+    #[Groups(['create'])]
+    public ?string $recaptchaToken = null;
+
+    /**
      * User-Input for activation.
      */
     #[ApiProperty(readable: false, writable: true)]
@@ -128,7 +135,7 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
         ]
     )]
     #[Groups(['create'])]
-    #[ORM\OneToOne(targetEntity: Profile::class, inversedBy: 'user', cascade: ['persist'])]
+    #[ORM\OneToOne(targetEntity: Profile::class, inversedBy: 'user', cascade: ['persist'], fetch: 'EAGER')]
     #[ORM\JoinColumn(nullable: false, unique: true, onDelete: 'restrict')]
     public Profile $profile;
 

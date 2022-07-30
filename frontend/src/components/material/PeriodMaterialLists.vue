@@ -13,40 +13,39 @@
         :show-activity-material="showActivityMaterial"
         :group-by-list="groupByList"
         enable-grouping
-        :disabled="disabled" />
+        :disabled="disabled"
+      />
     </v-expansion-panel-content>
   </v-expansion-panel>
 </template>
 
 <script>
-
 import MaterialTable from '@/components/material/MaterialTable.vue'
 
 export default {
   name: 'PeriodMaterialLists',
   components: {
-    MaterialTable
+    MaterialTable,
   },
   props: {
     period: { type: Object, required: true },
     showActivityMaterial: { type: Boolean, required: true },
     groupByList: { type: Boolean, required: true },
-    disabled: { type: Boolean, default: false }
+    disabled: { type: Boolean, default: false },
   },
-  data () {
+  data() {
     return {
-      newMaterialItems: {}
+      newMaterialItems: {},
     }
   },
   computed: {
-    camp () {
+    camp() {
       return this.period.camp()
-    }
+    },
   },
   // reload data every time user navigates to material table
-  mounted () {
+  mounted() {
     this.period.materialItems().$reload()
-  }
+  },
 }
-
 </script>

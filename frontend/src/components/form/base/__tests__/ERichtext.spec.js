@@ -17,13 +17,13 @@ describe('An ERichtext', () => {
       components: { ERichtext },
       data: function () {
         return {
-          data: null
+          data: null,
         }
       },
       template: `
         <div data-app>
         <e-richtext v-model="data"/>
-        </div>`
+        </div>`,
     })
     return mountComponent(app, { vuetify, attachTo: document.body, ...options })
   }
@@ -37,7 +37,7 @@ describe('An ERichtext', () => {
     await wrapper.setData({
       data: `My text
     with newlines
-    and <strong>bold</strong>`
+    and <strong>bold</strong>`,
     })
     expect(wrapper).toMatchSnapshot('with text')
   })
@@ -48,10 +48,14 @@ describe('An ERichtext', () => {
 
     const firstText = 'myText'
     await wrapper.setData({ data: firstText })
-    expect(wrapper.find('.e-form-container').element.getAttribute('value')).toBe(firstText)
+    expect(wrapper.find('.e-form-container').element.getAttribute('value')).toBe(
+      firstText
+    )
 
     const secondText = 'myText2'
     await wrapper.setData({ data: secondText })
-    expect(wrapper.find('.e-form-container').element.getAttribute('value')).toBe(secondText)
+    expect(wrapper.find('.e-form-container').element.getAttribute('value')).toBe(
+      secondText
+    )
   })
 })

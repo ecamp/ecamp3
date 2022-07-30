@@ -4,34 +4,24 @@
       <template #title>
         <v-toolbar-title class="font-weight-bold">
           <template v-if="!category()._meta.loading">
-            <v-chip
-              :color="category().color"
-              dark>
+            <v-chip :color="category().color" dark>
               {{ category().short }}
             </v-chip>
             {{ category().name }}
           </template>
-          <template v-else>
-            loading...
-          </template>
+          <template v-else> loading... </template>
         </v-toolbar-title>
       </template>
 
       <template #title-actions>
-        <v-btn v-if="!layoutMode"
-               color="primary"
-               outlined
-               @click="layoutMode = true">
+        <v-btn v-if="!layoutMode" color="primary" outlined @click="layoutMode = true">
           <template v-if="$vuetify.breakpoint.smAndUp">
             <v-icon left>mdi-puzzle-edit-outline</v-icon>
             {{ $tc('views.activity.activity.changeLayout') }}
           </template>
           <template v-else>{{ $tc('views.activity.activity.layout') }}</template>
         </v-btn>
-        <v-btn v-else
-               color="success"
-               outlined
-               @click="layoutMode = false">
+        <v-btn v-else color="success" outlined @click="layoutMode = false">
           <template v-if="$vuetify.breakpoint.smAndUp">
             <v-icon left>mdi-check</v-icon>
             {{ $tc('views.activity.activity.backToContents') }}
@@ -45,7 +35,8 @@
         <root-node
           v-if="!loading"
           :content-node="category().rootContentNode()"
-          :layout-mode="layoutMode" />
+          :layout-mode="layoutMode"
+        />
       </v-card-text>
     </content-card>
   </v-container>
@@ -59,30 +50,47 @@ export default {
   name: 'Category',
   components: {
     ContentCard,
-    RootNode
+    RootNode,
+  },
+  provide() {
+    return {
+      preferredContentTypes: () => this.preferredContentTypes,
+      allContentNodes: () => this.contentNodes,
+      camp: () => this.camp,
+    }
   },
   props: {
     category: {
       type: Function,
-      required: true
-    }
+      required: true,
+    },
   },
-  data () {
+  data() {
     return {
       layoutMode: true,
-      loading: true
+      loading: true,
     }
+  },
+  computed: {
+    camp() {
+      return this.category().camp()
+    },
+    contentNodes() {
+      return this.category().contentNodes()
+    },
+    preferredContentTypes() {
+      return this.category().preferredContentTypes()
+    },
   },
 
   // reload data every time user navigates to Category view
-  async mounted () {
+  async mounted() {
     this.loading = true
     await this.category()._meta.load // wait if category is being loaded as part of a collection
     await this.category().$reload() // reload as single entity to ensure all embedded entities are included in a single network request
     this.loading = false
-  }
+  },
 }
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

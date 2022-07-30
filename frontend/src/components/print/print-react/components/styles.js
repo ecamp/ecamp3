@@ -9,15 +9,15 @@ const styles = StyleSheet.create({
     padding: pageBorder,
     fontSize: 12,
     display: 'flex',
-    flexDirection: 'column'
+    flexDirection: 'column',
   },
   section: {
     margin: 10,
-    padding: 10
+    padding: 10,
   },
   h1: {
     fontSize: 16,
-    fontWeight: 'semibold'
+    fontWeight: 'semibold',
   },
   header: {
     fontSize: marginFontSize,
@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     marginTop: pageBorder / 2,
-    marginHorizontal: pageBorder
+    marginHorizontal: pageBorder,
   },
   footer: {
     fontSize: marginFontSize,
@@ -39,8 +39,8 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     marginBottom: pageBorder / 2,
-    marginHorizontal: pageBorder
-  }
+    marginHorizontal: pageBorder,
+  },
 })
 
 export default styles

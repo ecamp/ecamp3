@@ -40,7 +40,7 @@ describe('An ApiColorPicker', () => {
     const app = Vue.component('App', {
       components: { ApiColorPicker },
       props: {
-        fieldName: { type: String, default: fieldName }
+        fieldName: { type: String, default: fieldName },
       },
       template: `
         <div data-app>
@@ -52,17 +52,21 @@ describe('An ApiColorPicker', () => {
             required="true"
           />
         </div>
-      `
+      `,
     })
     apiMock.get().thenReturn(ApiMock.success(COLOR_1).forFieldName(fieldName))
     const defaultOptions = {
       mocks: {
-        $tc: () => {
-        },
-        api: apiMock.getMocks()
-      }
+        $tc: () => {},
+        api: apiMock.getMocks(),
+      },
     }
-    return mountComponent(app, { vuetify, i18n, attachTo: document.body, ...merge(defaultOptions, options) })
+    return mountComponent(app, {
+      vuetify,
+      i18n,
+      attachTo: document.body,
+      ...merge(defaultOptions, options),
+    })
   }
 
   test('triggers api.patch and status update if input changes', async () => {

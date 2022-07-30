@@ -8,7 +8,8 @@
     max-width="600px"
     :submit-action="createPeriod"
     submit-color="success"
-    :cancel-action="close">
+    :cancel-action="close"
+  >
     <template #activator="scope">
       <slot name="activator" v-bind="scope" />
     </template>
@@ -26,17 +27,12 @@ export default {
   components: { DialogForm, DialogPeriodForm },
   extends: DialogBase,
   props: {
-    camp: { type: Object, required: true }
+    camp: { type: Object, required: true },
   },
-  data () {
+  data() {
     return {
-      entityProperties: [
-        'camp',
-        'description',
-        'start',
-        'end'
-      ],
-      entityUri: '/periods'
+      entityProperties: ['camp', 'description', 'start', 'end'],
+      entityUri: '/periods',
     }
   },
   watch: {
@@ -46,24 +42,22 @@ export default {
           camp: this.camp._meta.self,
           description: '',
           start: '',
-          end: ''
+          end: '',
         })
       } else {
         // clear form on exit
         this.clearEntityData()
       }
-    }
+    },
   },
   methods: {
-    createPeriod () {
+    createPeriod() {
       return this.create().then(() => {
         this.api.reload(this.camp)
       })
-    }
-  }
+    },
+  },
 }
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

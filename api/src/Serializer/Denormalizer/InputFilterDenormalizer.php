@@ -11,15 +11,15 @@ use ReflectionAttribute;
 use ReflectionClass;
 use ReflectionProperty;
 use Symfony\Component\DependencyInjection\ServiceLocator;
-use Symfony\Component\Serializer\Normalizer\ContextAwareDenormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
+use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 
 /**
  * This class is responsible for reading and calling any InputFilter Attributes on API entities.
  * InputFilters can be used to post-process the payload data submitted in write requests.
  */
-class InputFilterDenormalizer implements ContextAwareDenormalizerInterface, DenormalizerAwareInterface {
+class InputFilterDenormalizer implements DenormalizerInterface, DenormalizerAwareInterface {
     use DenormalizerAwareTrait;
 
     private const ALREADY_CALLED = 'INPUT_FILTER_DENORMALIZER_ALREADY_CALLED';

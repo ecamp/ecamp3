@@ -3,12 +3,15 @@
     <v-menu offset-y>
       <template #activator="{ on, attrs, value }">
         <v-btn
-          text large
-          class="justify-start pl-0"
-          height="auto" block
+          text
+          large
+          class="justify-start px-2"
+          height="auto"
+          block
           v-bind="attrs"
-          v-on="on">
-          <h1 class="text-h6">
+          v-on="on"
+        >
+          <h1 class="text-subtitle-1">
             {{ period().description }}
           </h1>
           <v-icon v-if="value" right>mdi-menu-up</v-icon>
@@ -16,8 +19,19 @@
         </v-btn>
       </template>
       <v-list>
-        <v-list-item v-for="item in period().camp().periods().items" :key="item._meta.self" :to="periodRoute(item)">
-          {{ item.description }}
+        <v-subheader>{{ $tc('components.camp.periodSwitcher.title') }}</v-subheader>
+        <v-list-item
+          v-for="item in period().camp().periods().items"
+          :key="item._meta.self"
+          :to="periodRoute(item)"
+          two-line
+        >
+          <v-list-item-content>
+            <v-list-item-title>{{ item.description }}</v-list-item-title>
+            <v-list-item-subtitle>
+              {{ dateRange(item.start, item.end) }}
+            </v-list-item-subtitle>
+          </v-list-item-content>
         </v-list-item>
       </v-list>
     </v-menu>
@@ -30,20 +44,20 @@
 </template>
 <script>
 import { periodRoute } from '@/router.js'
+import { dateRange } from '@/common/helpers/dateHelperUTCFormatted.js'
 
 export default {
   name: 'PeriodSwitcher',
   props: {
     period: {
       type: Function,
-      required: true
-    }
+      required: true,
+    },
   },
   methods: {
-    periodRoute
-  }
+    periodRoute,
+    dateRange,
+  },
 }
 </script>
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

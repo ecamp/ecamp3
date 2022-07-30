@@ -11,7 +11,7 @@ import ETextField from '@/components/form/base/ETextField.vue'
 import ETimePicker from '@/components/form/base/ETimePicker.vue'
 
 class FormBaseComponentsPlugin {
-  install (Vue) {
+  install(Vue) {
     Vue.component('ECheckbox', ECheckbox)
     Vue.component('EColorPicker', EColorPicker)
     Vue.component('EDatePicker', EDatePicker)

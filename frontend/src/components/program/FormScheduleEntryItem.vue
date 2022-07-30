@@ -1,7 +1,6 @@
 <template>
   <v-container>
-    <v-row
-      no-gutters class="mx-2 mb-2">
+    <v-row no-gutters class="mx-2 mb-2">
       <v-col cols="5">
         <e-date-picker
           v-model="localScheduleEntry.start"
@@ -11,7 +10,8 @@
           :allowed-dates="allowedStartDates"
           :filled="false"
           class="float-left date-picker"
-          required />
+          required
+        />
 
         <e-time-picker
           v-model="localScheduleEntry.start"
@@ -19,11 +19,10 @@
           vee-rules="required"
           :filled="false"
           class="float-left mt-0 ml-3 time-picker"
-          required />
+          required
+        />
       </v-col>
-      <v-col cols="1" class="text-center pt-4">
-        -
-      </v-col>
+      <v-col cols="1" class="text-center pt-4"> - </v-col>
       <v-col cols="5">
         <e-date-picker
           v-model="localScheduleEntry.end"
@@ -33,7 +32,8 @@
           :allowed-dates="allowedEndDates"
           :filled="false"
           class="float-left date-picker"
-          required />
+          required
+        />
 
         <e-time-picker
           v-model="localScheduleEntry.end"
@@ -41,7 +41,8 @@
           vee-rules="required"
           :filled="false"
           class="float-left mt-0 ml-3 time-picker"
-          required />
+          required
+        />
       </v-col>
 
       <v-col cols="1" class="pt-3 text-center">
@@ -62,36 +63,40 @@ export default {
     // scheduleEntry to display
     scheduleEntry: {
       type: Object,
-      required: true
+      required: true,
     },
 
     // List of available periods
     periods: {
       type: Array,
-      required: true
+      required: true,
     },
 
     // true if current item is the last scheduleEntry
     isLastItem: {
       type: Boolean,
-      required: true
-    }
+      required: true,
+    },
   },
-  data () {
+  data() {
     return {
-      localScheduleEntry: this.scheduleEntry
+      localScheduleEntry: this.scheduleEntry,
     }
   },
   computed: {
-
     // detect selected period based on start date
-    period () {
+    period() {
       const startDate = dayjs.utc(this.localScheduleEntry.start)
 
       return this.periods.find((period) => {
-        return startDate.isBetween(dayjs.utc(period.start), dayjs.utc(period.end), 'date', '[]')
+        return startDate.isBetween(
+          dayjs.utc(period.start),
+          dayjs.utc(period.end),
+          'date',
+          '[]'
+        )
       })
-    }
+    },
   },
   watch: {
     'period._meta.self': function (value) {
@@ -106,9 +111,11 @@ export default {
     // watch start and automatically shift end if start changes (=keep duration)
     'localScheduleEntry.start': function (newValue, oldValue) {
       const delta = dayjs.utc(newValue).diff(dayjs.utc(oldValue))
-      this.localScheduleEntry.end = dayjs.utc(this.localScheduleEntry.end).add(delta).format()
-    }
-
+      this.localScheduleEntry.end = dayjs
+        .utc(this.localScheduleEntry.end)
+        .add(delta)
+        .format()
+    },
   },
   methods: {
     // returns true for any date that is within any available period
@@ -116,7 +123,12 @@ export default {
       const calendarDate = dayjs.utc(val)
 
       return this.periods.some((period) => {
-        return calendarDate.isBetween(dayjs.utc(period.start), dayjs.utc(period.end), 'date', '[]')
+        return calendarDate.isBetween(
+          dayjs.utc(period.start),
+          dayjs.utc(period.end),
+          'date',
+          '[]'
+        )
       })
     },
 
@@ -127,17 +139,22 @@ export default {
       }
 
       const calendarDate = dayjs.utc(val)
-      return calendarDate.isBetween(dayjs.utc(this.period.start), dayjs.utc(this.period.end), 'date', '[]')
-    }
-  }
+      return calendarDate.isBetween(
+        dayjs.utc(this.period.start),
+        dayjs.utc(this.period.end),
+        'date',
+        '[]'
+      )
+    },
+  },
 }
 </script>
 <style scoped lang="scss">
-.date-picker{
+.date-picker {
   width: 120px;
 }
 
-.time-picker{
+.time-picker {
   width: 80px;
 }
 </style>

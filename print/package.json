@@ -9,9 +9,12 @@
     "start": "nuxt start",
     "export": "nuxt export",
     "serve": "nuxt serve",
-    "lint:js": "eslint --ext .js,.vue --ignore-path .gitignore .",
-    "lint:style": "stylelint **/*.{vue,css} --ignore-path .gitignore",
-    "lint": "npm run lint:js && npm run lint:style",
+    "lint": "npm run lint:eslint && npm run lint:prettier",
+    "lint:eslint": "eslint --fix --ext .ts,.js,.vue --ignore-path .gitignore .",
+    "lint:prettier": "prettier --write --ignore-path .gitignore **/*.{css,scss,json,md}",
+    "lint:check": "npm run lint:check:eslint && npm run lint:check:prettier",
+    "lint:check:eslint": "eslint --ext .ts,.js,.vue --ignore-path .gitignore .",
+    "lint:check:prettier": "prettier --check --ignore-path .gitignore **/*.{css,scss,json,md}",
     "test": "jest"
   },
   "dependencies": {
@@ -20,38 +23,99 @@
     "cookie-parser": "1.4.6",
     "cors": "2.8.5",
     "cssesc": "3.0.0",
-    "dayjs": "1.11.1",
+    "dayjs": "1.11.4",
     "deepmerge": "4.2.2",
-    "express": "4.17.3",
+    "express": "4.18.1",
     "hal-json-vuex": "2.0.0-alpha.14",
     "nuxt": "2.15.8",
-    "pagedjs": "0.2.0",
-    "puppeteer": "12.0.1",
-    "vue-i18n": "8.27.1"
+    "pagedjs": "0.3.5",
+    "puppeteer-core": "15.5.0",
+    "vue-i18n": "8.27.2"
   },
   "devDependencies": {
-    "@babel/eslint-parser": "7.17.0",
+    "@babel/eslint-parser": "7.18.9",
+    "@nuxt/postcss8": "1.1.3",
     "@nuxtjs/eslint-config": "6.0.1",
     "@nuxtjs/eslint-module": "3.1.0",
     "@nuxtjs/stylelint-module": "4.1.0",
-    "@nuxtjs/tailwindcss": "5.0.3",
     "@nuxtjs/vuetify": "1.12.3",
     "@vue/test-utils": "1.3.0",
+    "autoprefixer": "10.4.8",
     "babel-core": "7.0.0-bridge.0",
-    "babel-jest": "27.5.1",
+    "babel-jest": "28.1.3",
     "eslint": "7.32.0",
     "eslint-config-prettier": "8.5.0",
     "eslint-plugin-nuxt": "3.2.0",
-    "eslint-plugin-prettier": "4.0.0",
+    "eslint-plugin-prettier": "4.2.1",
     "eslint-plugin-vue": "7.20.0",
-    "jest": "27.5.1",
-    "prettier": "2.6.2",
+    "jest": "28.1.3",
+    "postcss": "8.4.14",
+    "prettier": "2.7.1",
     "stylelint": "13.13.1",
     "stylelint-config-prettier": "9.0.3",
     "stylelint-config-standard": "22.0.0",
+    "tailwindcss": "3.1.6",
     "vue": "2.6.14",
     "vue-jest": "3.0.7",
     "vue-server-renderer": "2.6.14",
     "vue-template-compiler": "2.6.14"
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "browser": true,
+      "node": true,
+      "jest": true
+    },
+    "parserOptions": {
+      "parser": "@babel/eslint-parser"
+    },
+    "extends": [
+      "plugin:vue/recommended",
+      "plugin:nuxt/recommended",
+      "eslint:recommended",
+      "plugin:prettier/recommended"
+    ],
+    "rules": {
+      "no-console": "off",
+      "prettier/prettier": "error"
+    }
+  },
+  "babel": {
+    "env": {
+      "test": {
+        "presets": [
+          [
+            "@babel/preset-env",
+            {
+              "targets": {
+                "node": "current"
+              }
+            }
+          ]
+        ]
+      }
+    }
+  },
+  "jest": {
+    "moduleNameMapper": {
+      "^@/(.*)$": "<rootDir>/$1",
+      "^~/(.*)$": "<rootDir>/$1",
+      "^vue$": "vue/dist/vue.common.js"
+    },
+    "moduleFileExtensions": [
+      "js",
+      "vue",
+      "json"
+    ],
+    "transform": {
+      "^.+\\.js$": "babel-jest",
+      ".*\\.(vue)$": "vue-jest"
+    },
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "<rootDir>/components/**/*.vue",
+      "<rootDir>/pages/**/*.vue"
+    ]
   }
 }

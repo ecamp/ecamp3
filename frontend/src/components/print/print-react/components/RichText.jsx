@@ -3,7 +3,7 @@ import React from 'react'
 import { Text, View } from '../reactPdf.js'
 import htmlToReact from 'html-to-react'
 
-function addKeys (children) {
+function addKeys(children) {
   return children.map((child, idx) => ({ ...child, key: idx }))
 }
 
@@ -12,9 +12,9 @@ const richTextRules = [
     shouldProcessNode: function (node) {
       return node.type === 'text'
     },
-    processNode: function (node, children) {
+    processNode: function (node) {
       return <Text>{node.data}</Text>
-    }
+    },
   },
   {
     replaceChildren: true,
@@ -22,8 +22,8 @@ const richTextRules = [
       return node.type === 'tag' && node.name === 'p'
     },
     processNode: function (node, children) {
-      return children.length ? <Text>{ addKeys(children) }</Text> : <Text> </Text>
-    }
+      return children.length ? <Text>{addKeys(children)}</Text> : <Text> </Text>
+    },
   },
   {
     replaceChildren: true,
@@ -31,17 +31,29 @@ const richTextRules = [
       return node.type === 'tag' && (node.name === 'strong' || node.name === 'b')
     },
     processNode: function (node, children) {
-      return <Text style={{ fontWeight: 'bold' }}>{ addKeys(children) }</Text>
-    }
+      return <Text style={{ fontWeight: 'bold' }}>{addKeys(children)}</Text>
+    },
   },
   {
     replaceChildren: true,
     shouldProcessNode: function (node) {
-      return node.type === 'tag' && (node.name === 'h1' || node.name === 'h2' || node.name === 'h3')
+      return (
+        node.type === 'tag' &&
+        (node.name === 'h1' || node.name === 'h2' || node.name === 'h3')
+      )
     },
     processNode: function (node, children) {
-      return <Text style={{ fontWeight: 'bold', fontSize: 16 - 2 * parseInt(node.name.charAt(1)) }}>{ addKeys(children) }</Text>
-    }
+      return (
+        <Text
+          style={{
+            fontWeight: 'bold',
+            fontSize: 16 - 2 * parseInt(node.name.charAt(1)),
+          }}
+        >
+          {addKeys(children)}
+        </Text>
+      )
+    },
   },
   {
     replaceChildren: true,
@@ -49,8 +61,8 @@ const richTextRules = [
       return node.type === 'tag' && node.name === 'em'
     },
     processNode: function (node, children) {
-      return <Text style={{ fontStyle: 'italic' }}>{ addKeys(children) }</Text>
-    }
+      return <Text style={{ fontStyle: 'italic' }}>{addKeys(children)}</Text>
+    },
   },
   {
     replaceChildren: true,
@@ -58,8 +70,8 @@ const richTextRules = [
       return node.type === 'tag' && node.name === 'u'
     },
     processNode: function (node, children) {
-      return <Text style={{ textDecoration: 'underline' }}>{ addKeys(children) }</Text>
-    }
+      return <Text style={{ textDecoration: 'underline' }}>{addKeys(children)}</Text>
+    },
   },
   {
     replaceChildren: true,
@@ -67,8 +79,8 @@ const richTextRules = [
       return node.type === 'tag' && node.name === 's'
     },
     processNode: function (node, children) {
-      return <Text style={{ textDecoration: 'line-through' }}>{ addKeys(children) }</Text>
-    }
+      return <Text style={{ textDecoration: 'line-through' }}>{addKeys(children)}</Text>
+    },
   },
   {
     replaceChildren: true,
@@ -77,7 +89,7 @@ const richTextRules = [
     },
     processNode: function (node, children) {
       return children
-    }
+    },
   },
   {
     replaceChildren: true,
@@ -86,7 +98,7 @@ const richTextRules = [
     },
     processNode: function (node, children) {
       return children
-    }
+    },
   },
   {
     replaceChildren: true,
@@ -95,7 +107,7 @@ const richTextRules = [
     },
     processNode: function (node, children) {
       return <Text style={{ marginLeft: '4pt' }}>• {children}</Text>
-    }
+    },
   },
 
   // fall back tag --> print as plain text
@@ -106,23 +118,23 @@ const richTextRules = [
     },
     processNode: function (node, children) {
       console.log('unknown HTML node tag', node, children)
-      return <Text>{ addKeys(children) }</Text>
-    }
+      return <Text>{addKeys(children)}</Text>
+    },
   },
   {
     replaceChildren: true,
-    shouldProcessNode: function (node) {
+    shouldProcessNode: function () {
       return true
     },
     processNode: function (node, children) {
       console.log('unknown HTML node type', node, children)
-      return <View/>
-    }
-  }
+      return <View />
+    },
+  },
 ]
 
-function RichText ({ richText }) {
-  if (!richText) return <View/>
+function RichText({ richText }) {
+  if (!richText) return <View />
   const htmlToReactParser = new htmlToReact.Parser()
   return htmlToReactParser.parseWithInstructions(richText, () => true, richTextRules)
 }

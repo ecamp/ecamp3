@@ -14,21 +14,17 @@ describe('An ESelect', () => {
 
   const FIRST_OPTION = {
     value: 1,
-    text: 'firstOption'
+    text: 'firstOption',
   }
   const SECOND_OPTION = {
     value: '2',
-    text: 'secondOption'
+    text: 'secondOption',
   }
   const THIRD_OPTION = {
     value: { key: 'value', array: [1, 2, 3], nestedObject: { key: 'value' } },
-    text: 'thirdOption'
+    text: 'thirdOption',
   }
-  const selectValues = [
-    FIRST_OPTION,
-    SECOND_OPTION,
-    THIRD_OPTION
-  ]
+  const selectValues = [FIRST_OPTION, SECOND_OPTION, THIRD_OPTION]
 
   const mount = (options) => {
     const app = Vue.component('App', {
@@ -36,14 +32,14 @@ describe('An ESelect', () => {
       data: function () {
         return {
           selectValues: selectValues,
-          data: null
+          data: null,
         }
       },
       template: `
           <div data-app>
           <e-select :items="selectValues" v-model="data"/>
           </div>
-        `
+        `,
     })
     return mountComponent(app, { vuetify, attachTo: document.body, ...options })
   }
@@ -98,7 +94,11 @@ describe('An ESelect', () => {
     expect(wrapper.vm.data).toBe(FIRST_OPTION.value)
 
     await wrapper.setData({ data: SECOND_OPTION.value })
-    expect(wrapper.findAll('[role="option"]').at(1).element.getAttribute('aria-selected')).toBe('true')
-    expect(wrapper.findAll('[role="option"]').at(0).element.getAttribute('aria-selected')).not.toBe('true')
+    expect(
+      wrapper.findAll('[role="option"]').at(1).element.getAttribute('aria-selected')
+    ).toBe('true')
+    expect(
+      wrapper.findAll('[role="option"]').at(0).element.getAttribute('aria-selected')
+    ).not.toBe('true')
   })
 })

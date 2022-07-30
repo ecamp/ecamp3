@@ -10,19 +10,20 @@
               :name="$tc('entity.camp.fields.name')"
               vee-rules="required"
               required
-              autofocus />
+              autofocus
+            />
             <e-text-field
               v-model="camp.title"
               :name="$tc('entity.camp.fields.title')"
               vee-rules="required"
-              required />
-            <e-text-field
-              v-model="camp.motto"
-              :name="$tc('entity.camp.fields.motto')" />
+              required
+            />
+            <e-text-field v-model="camp.motto" :name="$tc('entity.camp.fields.motto')" />
             <e-select
               v-model="camp.campPrototype"
               :name="$tc('entity.camp.prototype')"
-              :items="campTemplates">
+              :items="campTemplates"
+            >
               <template #item="data">
                 <v-list-item v-bind="data.attrs" v-on="data.on">
                   <v-list-item-content>
@@ -31,8 +32,12 @@
                 </v-list-item>
               </template>
             </e-select>
-            <create-camp-periods :add-period="addPeriod" :periods="camp.periods"
-                                 :delete-period="deletePeriod" :period-deletable="periodDeletable" />
+            <create-camp-periods
+              :add-period="addPeriod"
+              :periods="camp.periods"
+              :delete-period="deletePeriod"
+              :period-deletable="periodDeletable"
+            />
           </v-card-text>
           <v-divider />
           <v-card-text class="text-right">
@@ -66,9 +71,9 @@ export default {
     ContentCard,
     ETextField,
     ValidationObserver,
-    ServerError
+    ServerError,
   },
-  data () {
+  data() {
     return {
       camp: {
         name: '',
@@ -78,53 +83,56 @@ export default {
           {
             start: '',
             end: '',
-            description: this.$tc('entity.period.defaultDescription')
-          }
-        ]
+            description: this.$tc('entity.period.defaultDescription'),
+          },
+        ],
       },
-      serverError: null
+      serverError: null,
     }
   },
   computed: {
-    campTemplates () {
-      return this.api.get().camps({ isPrototype: true }).items.map(ct => ({
-        value: ct._meta.self,
-        text: this.$tc(ct.name),
-        object: ct
-      }))
+    campTemplates() {
+      return this.api
+        .get()
+        .camps({ isPrototype: true })
+        .items.map((ct) => ({
+          value: ct._meta.self,
+          text: this.$tc(ct.name),
+          object: ct,
+        }))
     },
-    periodDeletable () {
+    periodDeletable() {
       return this.camp.periods.length > 1
     },
-    campsUrl () {
+    campsUrl() {
       return this.api.get().camps()._meta.self
-    }
+    },
   },
-  created () {
-  },
+  created() {},
   methods: {
     createCamp: function () {
-      this.api.post(this.campsUrl, this.camp).then(c => {
-        this.$router.push(campRoute(c, 'admin'))
-        this.api.reload(this.campsUrl)
-      }, (error) => {
-        this.serverError = error
-      })
+      this.api.post(this.campsUrl, this.camp).then(
+        (c) => {
+          this.$router.push(campRoute(c, 'admin'))
+          this.api.reload(this.campsUrl)
+        },
+        (error) => {
+          this.serverError = error
+        }
+      )
     },
     addPeriod: function () {
       this.camp.periods.push({
         start: '',
         end: '',
-        description: ''
+        description: '',
       })
     },
     deletePeriod: function (idx) {
       this.camp.periods.splice(idx, 1)
-    }
-  }
+    },
+  },
 }
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

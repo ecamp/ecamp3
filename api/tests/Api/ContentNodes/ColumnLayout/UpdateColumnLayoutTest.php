@@ -100,7 +100,7 @@ class UpdateColumnLayoutTest extends UpdateContentNodeTestCase {
     /**
      * From here: testing functionality of ContentNode base class.
      */
-    public function testPatchColumnLayoutValidatesParentBelongsToSameOwner() {
+    public function testPatchColumnLayoutValidatesParentBelongsToSameRoot() {
         $contentNode = static::$fixtures['columnLayoutChild1'];
         static::createClientWithCredentials()->request('PATCH', $this->endpoint.'/'.$contentNode->getId(), ['json' => [
             'parent' => $this->getIriFor('columnLayout2'),
@@ -111,7 +111,7 @@ class UpdateColumnLayoutTest extends UpdateContentNodeTestCase {
             'violations' => [
                 [
                     'propertyPath' => 'parent',
-                    'message' => 'Must belong to the same owner.',
+                    'message' => 'Must belong to the same root.',
                 ],
             ],
         ]);
@@ -145,7 +145,7 @@ class UpdateColumnLayoutTest extends UpdateContentNodeTestCase {
             'violations' => [
                 [
                     'propertyPath' => 'parent',
-                    'message' => 'Must not be null on non-root content nodes.',
+                    'message' => 'This value should be of type App\\Entity\\ContentNode.',
                 ],
             ],
         ]);
@@ -162,7 +162,7 @@ class UpdateColumnLayoutTest extends UpdateContentNodeTestCase {
             'violations' => [
                 [
                     'propertyPath' => 'parent',
-                    'message' => 'Must be null on root content nodes.',
+                    'message' => 'Must belong to the same root.',
                 ],
             ],
         ]);

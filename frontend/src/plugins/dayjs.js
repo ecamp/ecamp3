@@ -4,11 +4,11 @@ export default {
   install: (Vue) => {
     Object.defineProperties(Vue.prototype, {
       $date: {
-        get () {
+        get() {
           return dayjs
-        }
-      }
+        },
+      },
     })
     Vue.dayjs = dayjs
-  }
+  },
 }

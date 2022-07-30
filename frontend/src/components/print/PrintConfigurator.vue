@@ -13,11 +13,17 @@
                   </v-list-item-icon>
                   <v-list-item-content>
                     <v-list-item-title>
-                      <h3>{{ $tc('components.print.printConfigurator.config.' + content.type) }}</h3>
+                      <h3>
+                        {{
+                          $tc('components.print.printConfigurator.config.' + content.type)
+                        }}
+                      </h3>
                     </v-list-item-title>
-                    <component :is="contentComponents[content.type]"
-                               v-model="content.options"
-                               :camp="camp()" />
+                    <component
+                      :is="contentComponents[content.type]"
+                      v-model="content.options"
+                      :camp="camp()"
+                    />
                   </v-list-item-content>
                   <v-list-item-action>
                     <v-btn icon @click="cnf.contents.splice(idx, 1)">
@@ -27,21 +33,22 @@
                 </v-list-item>
               </draggable>
             </v-list>
-            <br>
+            <br />
             <v-menu>
               <template #activator="{ on, attrs }">
-                <button-add
-                  v-bind="attrs"
-                  v-on="on" />
+                <button-add v-bind="attrs" v-on="on" />
               </template>
               <v-list>
                 <v-list-item
                   v-for="(component, idx) in contentComponents"
                   :key="idx"
-                  @click="cnf.contents.push({
-                    type: idx,
-                    options: component.defaultOptions()
-                  })">
+                  @click="
+                    cnf.contents.push({
+                      type: idx,
+                      options: component.defaultOptions(),
+                    })
+                  "
+                >
                   <v-list-item-title>
                     {{ $tc('components.print.printConfigurator.config.' + idx) }}
                   </v-list-item-title>
@@ -66,18 +73,22 @@
               <v-tab>Print with Nuxt</v-tab>
               <v-tab>Print with React</v-tab>
               <v-tab-item>
-                <print-preview-nuxt v-if="previewTab === 0"
-                                    :config="cnf"
-                                    width="100%"
-                                    height="600"
-                                    class="my-4" />
+                <print-preview-nuxt
+                  v-if="previewTab === 0"
+                  :config="cnf"
+                  width="100%"
+                  height="600"
+                  class="my-4"
+                />
               </v-tab-item>
               <v-tab-item>
-                <print-preview-react v-if="previewTab === 1"
-                                     :config="cnf"
-                                     width="100%"
-                                     height="600"
-                                     class="my-4" />
+                <print-preview-react
+                  v-if="previewTab === 1"
+                  :config="cnf"
+                  width="100%"
+                  height="600"
+                  class="my-4"
+                />
               </v-tab-item>
             </v-tabs>
           </v-col>
@@ -109,15 +120,15 @@ export default {
     StoryConfig,
     ProgramConfig,
     ActivityConfig,
-    TocConfig
+    TocConfig,
   },
   props: {
     camp: {
       type: Function,
-      required: true
-    }
+      required: true,
+    },
   },
-  data () {
+  data() {
     return {
       contentComponents: {
         Cover: CoverConfig,
@@ -125,99 +136,74 @@ export default {
         Story: StoryConfig,
         Program: ProgramConfig,
         Activity: ActivityConfig,
-        Toc: TocConfig
+        Toc: TocConfig,
       },
       cnf: {
         language: '',
         documentName: this.camp().title + '.pdf',
         camp: this.camp()._meta.self,
-        contents: this.defaultContents()
+        contents: this.defaultContents(),
       },
-      previewTab: null
+      previewTab: null,
     }
   },
   computed: {
-    lang () {
+    lang() {
       return this.$store.state.lang.language
     },
-    dataLoading () {
-      return this.camp()._meta.loading ||
-        this.camp().periods()._meta.loading ||
-        this.camp().periods().items.some(period => {
-          return period._meta.loading ||
-            period.scheduleEntries()._meta.loading ||
-            period.scheduleEntries().items.some(scheduleEntry => {
-              return scheduleEntry._meta.loading ||
-                scheduleEntry.activity()._meta.loading ||
-                scheduleEntry.activity().category()._meta.loading ||
-                scheduleEntry.activity().activityResponsibles()._meta.loading ||
-                scheduleEntry.activity().activityResponsibles().items.some(responsible => {
-                  return responsible._meta.loading ||
-                    responsible.campCollaboration()._meta.loading ||
-                    (responsible.campCollaboration().user() !== null && responsible.campCollaboration().user()._meta.loading)
-                }) ||
-                scheduleEntry.activity().contentNodes()._meta.loading ||
-                scheduleEntry.activity().contentNodes().items.some(contentNode => {
-                  return contentNode._meta.loading ||
-                    contentNode.contentType()._meta.loading
-                })
-            })
-        }) ||
-        this.camp().materialLists()._meta.loading ||
-        this.camp().materialLists().items.some(materialList => {
-          return materialList._meta.loading
-        })
-    }
   },
   watch: {
     lang: {
-      handler (language) {
+      handler(language) {
         this.cnf.language = language
       },
-      immediate: true
-    }
+      immediate: true,
+    },
   },
   methods: {
-    defaultContents () {
+    defaultContents() {
       const contents = [
         {
           type: 'Cover',
-          options: {}
+          options: {},
         },
         {
           type: 'Picasso',
           options: {
-            periods: this.camp().periods().items.map(period => period._meta.self),
-            orientation: 'L'
-          }
-        }
+            periods: this.camp()
+              .periods()
+              .items.map((period) => period._meta.self),
+            orientation: 'L',
+          },
+        },
       ]
 
-      this.camp().periods().items.forEach(period => {
-        contents.push({
-          type: 'Story',
-          options: {
-            periods: [period._meta.self]
-          }
+      this.camp()
+        .periods()
+        .items.forEach((period) => {
+          contents.push({
+            type: 'Story',
+            options: {
+              periods: [period._meta.self],
+            },
+          })
+          contents.push({
+            type: 'Program',
+            options: {
+              periods: [period._meta.self],
+            },
+          })
         })
-        contents.push({
-          type: 'Program',
-          options: {
-            periods: [period._meta.self]
-          }
-        })
-      })
 
       contents.push({
         type: 'Toc',
-        options: {}
+        options: {},
       })
 
       return contents
-    }
-  }
+    },
+  },
 }
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

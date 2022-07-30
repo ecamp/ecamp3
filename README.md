@@ -4,12 +4,12 @@
 
 ## English
 
-*(deutsche Übersetzung weiter unten)*
+_(deutsche Übersetzung weiter unten)_
 
 eCamp is a web application for planning J+S camps, J+S courses and other camps. It helps to exchange all planned programme among the camp organizers.
 
 An older version called "eCamp v2" is productive and can be used at the following address (but only in german): [https://ecamp.pfadiluzern.ch](https://ecamp.pfadiluzern.ch/)
- 
+
 eCamp3 is a project that aims to re-develop the features of eCamp v2 with modern technologies and an extensible architecture. Currently, we focus on re-building just the camp planning features, which will be released in an MVP (minimal viable product). Later, extensions for course planning and other features will follow.
 
 The following commonly requested improvements over eCamp v2 are already implemented:
@@ -25,6 +25,7 @@ eCamp v3 is made up of a backend based on the PHP framework API Platform (Symfon
 ### Want to help?
 
 Thanks for helping! There are a few ways to get started.
+
 - Visit our test environment at https://dev.ecamp3.ch. If you discover a bug, [open an issue](https://github.com/ecamp/ecamp3/issues/new) for it.
 - To run the project on your computer for development, follow one of our installation guides:
   - [Installation with Docker on Linux](https://github.com/ecamp/ecamp3/wiki/installation-development-linux) (German only)
@@ -34,7 +35,6 @@ Thanks for helping! There are a few ways to get started.
 - Before you can start coding, read our [contributing guidelines](CONTRIBUTING.md)
 - Study the [documentation in the wiki](https://github.com/ecamp/ecamp3/wiki)
 - Choose an [issue labeled "good first issue"](https://github.com/ecamp/ecamp3/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) and try to solve it
-
 
 ## Deutsch
 
@@ -57,6 +57,7 @@ eCamp v3 besteht aus einem Backend basierend auf dem PHP-Framework API Platform 
 ### Mithelfen
 
 Danke dass du mithelfen möchtest! Es gibt ein paar verschiedene Arten wie du beginnen kannst.
+
 - Besuche unsere Testumgebung auf https://dev.ecamp3.ch. Wenn du einen Fehler entdeckst, [eröffne ein Issue dafür](https://github.com/ecamp/ecamp3/issues/new).
 - Um das Projekt bei dir auf dem Computer laufen zu lassen, folge einer der Installationsanleitungen:
   - [Installation mit Docker auf Linux](https://github.com/ecamp/ecamp3/wiki/installation-development-linux)

@@ -3,7 +3,8 @@
     v-slot="{ errors: veeErrors }"
     :name="name"
     :vid="veeId"
-    :rules="veeRules">
+    :rules="veeRules"
+  >
     <v-checkbox
       v-bind="$attrs"
       :id="id"
@@ -13,7 +14,8 @@
       :class="[inputClass]"
       :input-value="value"
       @change="$emit('input', $event)"
-      v-on="$listeners">
+      v-on="$listeners"
+    >
       <!-- passing through all slots -->
       <slot v-for="(_, name) in $slots" :slot="name" :name="name" />
       <template v-for="(_, name) in $scopedSlots" :slot="name" slot-scope="slotData">
@@ -32,7 +34,18 @@ export default {
   components: { ValidationProvider },
   mixins: [formComponentPropsMixin],
   props: {
-    value: { type: Boolean, required: false }
-  }
+    value: { type: Boolean, required: false },
+  },
 }
 </script>
+
+<style scoped>
+[required] >>> label::after {
+  content: '\a0*';
+  font-size: 12px;
+  color: #d32f2f;
+}
+[required] >>> .v-input--is-label-active label::after {
+  color: gray;
+}
+</style>

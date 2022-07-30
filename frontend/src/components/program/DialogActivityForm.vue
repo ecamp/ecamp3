@@ -3,15 +3,18 @@
     <e-text-field
       v-model="localActivity.title"
       :name="$tc('entity.activity.fields.title')"
-      vee-rules="required" />
+      vee-rules="required"
+    />
 
-    <e-select v-model="localActivity.category"
-              :name="$tc('entity.activity.fields.category')"
-              :items="categories.items"
-              item-value="_meta.self"
-              item-text="name"
-              vee-rules="required">
-      <template #item="{item, on, attrs}">
+    <e-select
+      v-model="localActivity.category"
+      :name="$tc('entity.activity.fields.category')"
+      :items="categories.items"
+      item-value="_meta.self"
+      item-text="name"
+      vee-rules="required"
+    >
+      <template #item="{ item, on, attrs }">
         <v-list-item :key="item._meta.self" v-bind="attrs" v-on="on">
           <v-list-item-avatar>
             <v-chip :color="item.color">{{ item.short }}</v-chip>
@@ -21,7 +24,7 @@
           </v-list-item-content>
         </v-list-item>
       </template>
-      <template #selection="{item}">
+      <template #selection="{ item }">
         <div class="v-select__selection">
           <span class="black--text">
             {{ item.name }}
@@ -33,13 +36,15 @@
 
     <e-text-field
       v-model="localActivity.location"
-      :name="$tc('entity.activity.fields.location')" />
+      :name="$tc('entity.activity.fields.location')"
+    />
 
     <form-schedule-entry-list
       v-if="activity.scheduleEntries"
       :schedule-entries="activity.scheduleEntries"
       :period="period"
-      :periods="camp.periods().items" />
+      :periods="camp.periods().items"
+    />
   </div>
 </template>
 
@@ -52,27 +57,27 @@ export default {
   props: {
     activity: {
       type: Object,
-      required: true
+      required: true,
     },
 
     // currently visible period
     period: {
       type: Function,
-      required: true
-    }
+      required: true,
+    },
   },
-  data () {
+  data() {
     return {
-      localActivity: this.activity
+      localActivity: this.activity,
     }
   },
   computed: {
-    categories () {
+    categories() {
       return this.camp.categories()
     },
-    camp () {
+    camp() {
       return this.period().camp()
-    }
-  }
+    },
+  },
 }
 </script>

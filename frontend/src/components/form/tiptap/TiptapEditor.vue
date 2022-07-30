@@ -1,30 +1,67 @@
 <template>
   <div class="editor">
-    <bubble-menu v-if="withExtensions" :editor="editor" :tippy-options="{ maxWidth: 'none' }">
+    <bubble-menu
+      v-if="withExtensions"
+      :editor="editor"
+      :tippy-options="{ maxWidth: 'none' }"
+    >
       <v-toolbar short>
         <v-item-group class="v-btn-toggle v-btn-toggle--dense">
-          <v-btn :class="editor.isActive('heading', { level: 1 }) ? 'v-item--active v-btn--active' : ''" @click="editor.chain().focus().toggleHeading({ level: 1 }).run()">
+          <v-btn
+            :class="
+              editor.isActive('heading', { level: 1 })
+                ? 'v-item--active v-btn--active'
+                : ''
+            "
+            @click="editor.chain().focus().toggleHeading({ level: 1 }).run()"
+          >
             <v-icon>mdi-format-header-1</v-icon>
           </v-btn>
-          <v-btn :class="editor.isActive('heading', { level: 2 }) ? 'v-item--active v-btn--active' : ''" @click="editor.chain().focus().toggleHeading({ level: 2 }).run()">
+          <v-btn
+            :class="
+              editor.isActive('heading', { level: 2 })
+                ? 'v-item--active v-btn--active'
+                : ''
+            "
+            @click="editor.chain().focus().toggleHeading({ level: 2 }).run()"
+          >
             <v-icon>mdi-format-header-2</v-icon>
           </v-btn>
-          <v-btn :class="editor.isActive('heading', { level: 3 }) ? 'v-item--active v-btn--active' : ''" @click="editor.chain().focus().toggleHeading({ level: 3 }).run()">
+          <v-btn
+            :class="
+              editor.isActive('heading', { level: 3 })
+                ? 'v-item--active v-btn--active'
+                : ''
+            "
+            @click="editor.chain().focus().toggleHeading({ level: 3 }).run()"
+          >
             <v-icon>mdi-format-header-3</v-icon>
           </v-btn>
         </v-item-group>
         <div class="mx-1" />
         <v-item-group class="v-btn-toggle v-btn-toggle--dense" multiple>
-          <v-btn :class="editor.isActive('bold') ? 'v-item--active v-btn--active' : ''" @click="editor.chain().focus().toggleBold().run()">
+          <v-btn
+            :class="editor.isActive('bold') ? 'v-item--active v-btn--active' : ''"
+            @click="editor.chain().focus().toggleBold().run()"
+          >
             <v-icon>mdi-format-bold</v-icon>
           </v-btn>
-          <v-btn :class="editor.isActive('italic') ? 'v-item--active v-btn--active' : ''" @click="editor.chain().focus().toggleItalic().run()">
+          <v-btn
+            :class="editor.isActive('italic') ? 'v-item--active v-btn--active' : ''"
+            @click="editor.chain().focus().toggleItalic().run()"
+          >
             <v-icon>mdi-format-italic</v-icon>
           </v-btn>
-          <v-btn :class="editor.isActive('underline') ? 'v-item--active v-btn--active' : ''" @click="editor.chain().focus().toggleUnderline().run()">
+          <v-btn
+            :class="editor.isActive('underline') ? 'v-item--active v-btn--active' : ''"
+            @click="editor.chain().focus().toggleUnderline().run()"
+          >
             <v-icon>mdi-format-underline</v-icon>
           </v-btn>
-          <v-btn :class="editor.isActive('strike') ? 'v-item--active v-btn--active' : ''" @click="editor.chain().focus().toggleStrike().run()">
+          <v-btn
+            :class="editor.isActive('strike') ? 'v-item--active v-btn--active' : ''"
+            @click="editor.chain().focus().toggleStrike().run()"
+          >
             <v-icon>mdi-format-strikethrough</v-icon>
           </v-btn>
         </v-item-group>
@@ -54,53 +91,50 @@ export default {
   name: 'TiptapEditor',
   components: {
     EditorContent,
-    BubbleMenu
+    BubbleMenu,
   },
   props: {
     value: {
       type: String,
-      default: ''
+      default: '',
     },
     placeholder: {
       type: String,
-      default: ''
+      default: '',
     },
     withExtensions: {
       type: Boolean,
-      default: false
+      default: false,
     },
     editable: {
       type: Boolean,
-      default: true
-    }
+      default: true,
+    },
   },
-  data () {
+  data() {
     const placeholder = Placeholder.configure({
       emptyEditorClass: 'is-editor-empty',
       emptyNodeClass: 'is-empty',
       emptyNodeText: '',
       showOnlyWhenEditable: true,
-      showOnlyCurrent: true
+      showOnlyCurrent: true,
     })
-    const extensions = [
-      Document,
-      Paragraph,
-      Text,
-      placeholder
-    ]
+    const extensions = [Document, Paragraph, Text, placeholder]
     if (this.withExtensions) {
-      extensions.push(...[
-        History,
-        Bold,
-        Italic,
-        Underline,
-        Strike,
-        ListItem,
-        BulletList,
-        OrderedList,
-        Heading.configure({ levels: [1, 2, 3] }),
-        HardBreak
-      ])
+      extensions.push(
+        ...[
+          History,
+          Bold,
+          Italic,
+          Underline,
+          Strike,
+          ListItem,
+          BulletList,
+          OrderedList,
+          Heading.configure({ levels: [1, 2, 3] }),
+          HardBreak,
+        ]
+      )
     }
 
     return {
@@ -108,27 +142,28 @@ export default {
         extensions: extensions,
         content: this.value,
         onUpdate: this.onUpdate,
-        editable: this.editable
+        editable: this.editable,
       }),
       placeholderExtension: placeholder,
       regex: {
         emptyParagraph: /<p><\/p>/,
         lineBreak1: /<br>/g,
-        lineBreak2: /<br\/>/g
-      }
+        lineBreak2: /<br\/>/g,
+      },
     }
   },
   computed: {
-    html () {
+    html() {
       // Replace some Tags, to be compatible with backend HTMLPurifier
-      return this.editor.getHTML()
+      return this.editor
+        .getHTML()
         .replace(this.regex.emptyParagraph, '')
         .replace(this.regex.lineBreak1, '<br />')
         .replace(this.regex.lineBreak1, '<br />')
-    }
+    },
   },
   watch: {
-    value (val) {
+    value(val) {
       // Be careful to only use setContent when absolutely necessary, because it resets the user's cursor to the end
       // of the input field
       if (val !== this.html) {
@@ -137,33 +172,32 @@ export default {
     },
     placeholder: {
       immediate: true,
-      handler (val) {
+      handler(val) {
         this.placeholderExtension.options.emptyNodeText = val
-      }
+      },
     },
-    editable () {
+    editable() {
       this.editor.setOptions({
-        editable: this.editable
+        editable: this.editable,
       })
-    }
+    },
   },
   methods: {
-    focus () {
+    focus() {
       this.editor.commands.focus()
     },
-    onUpdate () {
+    onUpdate() {
       this.$emit('input', this.html)
-    }
-  }
+    },
+  },
 }
 </script>
 
 <style scoped>
-
 div.editor >>> p.is-editor-empty:first-child::before {
   content: attr(data-empty-text);
   float: left;
-  color: #8B8B8B;
+  color: #8b8b8b;
   pointer-events: none;
   height: 0;
 }
@@ -189,9 +223,12 @@ div.editor >>> .editor__content .ProseMirror {
   box-shadow: none !important;
   outline: none;
   color: rgba(0, 0, 0, 0.87);
-  line-height: normal !important;
+  line-height: 1.5;
 }
 
+div.editor >>> .editor__content .ProseMirror p {
+  letter-spacing: -0.011em;
+}
 div.editor >>> .editor__content .ProseMirror p,
 div.editor >>> .editor__content .ProseMirror ol,
 div.editor >>> .editor__content .ProseMirror ul {
@@ -218,5 +255,4 @@ div.editor >>> .editor__content .ProseMirror li p {
 div.editor >>> .editor__content .ProseMirror li p:not(:last-child) {
   margin-bottom: 0;
 }
-
 </style>

@@ -1,7 +1,7 @@
 export const apiPropsMixin = {
   inheritAttrs: false,
   inject: {
-    apiUri: { default: null }
+    apiUri: { default: null },
   },
   props: {
     /* value is not required; by default value is read directly from api */
@@ -14,12 +14,14 @@ export const apiPropsMixin = {
     uri: {
       type: String,
       required: false,
-      default () {
+      default() {
         if (this.apiUri === null) {
-          throw new Error('ApiWrapper: `uri` not set on component; no ApiForm component found as parent for fallback')
+          throw new Error(
+            'ApiWrapper: `uri` not set on component; no ApiForm component found as parent for fallback'
+          )
         }
         return this.apiUri
-      }
+      },
     },
 
     /* overrideDirty=true will reset the input if 'value' changes, even if the input is dirty. Use with caution. */
@@ -37,18 +39,17 @@ export const apiPropsMixin = {
     filled: {
       type: Boolean,
       default: false,
-      required: false
+      required: false,
     },
     outlined: {
       type: Boolean,
       default: true,
-      required: false
+      required: false,
     },
     dense: {
       type: Boolean,
       default: false,
-      required: false
-    }
-  }
-
+      required: false,
+    },
+  },
 }

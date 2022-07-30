@@ -25,7 +25,12 @@ export default {
   /*
    ** Global CSS
    */
-  css: ['~/assets/fonts.css', '~/assets/toc.css', '~/assets/typography.css'],
+  css: [
+    '~/assets/tailwind.css',
+    '~/assets/fonts.css',
+    '~/assets/toc.css',
+    '~/assets/typography.css',
+  ],
   /*
    ** Plugins to load before mounting the App
    ** https://nuxtjs.org/guide/plugins
@@ -48,9 +53,8 @@ export default {
     // Doc: https://github.com/nuxt-community/eslint-module
     '@nuxtjs/eslint-module',
     // Doc: https://github.com/nuxt-community/stylelint-module
-    '@nuxtjs/stylelint-module',
     '@nuxtjs/vuetify',
-    '@nuxtjs/tailwindcss',
+    '@nuxt/postcss8', // used for tailwind
   ],
   /*
    ** Nuxt.js modules
@@ -98,7 +102,9 @@ export default {
    */
   vuetify: {
     customVariables: ['~/assets/variables.scss'],
-    treeShake: false /** tree shaking somehow doesn't work well with injectScript=false */,
+    treeShake: {
+      components: ['VCalendar', 'VSheet', 'VContainer', 'VCol', 'VRow'],
+    },
     theme: {
       dark: false,
     },
@@ -117,6 +123,8 @@ export default {
     },
     postcss: {
       plugins: {
+        tailwindcss: {},
+        autoprefixer: {},
         cssnano: {
           // minifySelectors changes double colon :: to single colon (https://cssnano.co/docs/optimisations/minifyselectors/)
           // which throws an error in pagedjs (https://gitlab.coko.foundation/pagedjs/pagedjs/-/issues/305)
@@ -140,9 +148,7 @@ export default {
       reportOnly: false,
       policies: {
         // allow embedding in iFrames
-        'frame-ancestors': [
-          process.env.FRONTEND_URL || 'http://localhost:3000',
-        ],
+        'frame-ancestors': [process.env.FRONTEND_URL || 'http://localhost:3000'],
 
         // allow script loading script from Unkpg (used for PagedJS)
         'script-src': ["'self'", "'unsafe-inline'", 'https://unpkg.com'],

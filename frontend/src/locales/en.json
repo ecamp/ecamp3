@@ -69,7 +69,7 @@
     "storycontext": {
       "add": "Add story context",
       "icon": "mdi-book-open-variant",
-      "name": "Story concept"
+      "name": "Story"
     },
     "material": {
       "icon": "mdi-package-variant",
@@ -134,7 +134,8 @@
         "title": "Material lists"
       },
       "campMaterialListsItem": {
-        "deleteWarning": "Do you really want to delete this material list?"
+        "deleteWarning": "Do you really want to delete this material list?",
+        "deleteError": "Could not delete the material list. Check if the list is empty before deleting it."
       },
       "campMembers": {
         "title": "Members"
@@ -203,11 +204,6 @@
         "openPreview": "Open preview in new window"
       }
     },
-    "story": {
-      "storyDay": {
-        "noStory": "No story content found on this day..."
-      }
-    },
     "dialog": {
       "dialogCategoryCreate": {
         "title": "Create activity category"
@@ -224,6 +220,9 @@
       },
       "dialogPeriodCreate": {
         "title": "Create period"
+      },
+      "dialogPeriodEdit": {
+        "moveScheduleEntries": "Move schedule entries"
       }
     },
     "invitation": {
@@ -260,6 +259,20 @@
         "myCamps": "My camp | My camps",
         "profile": "Profile"
       }
+    },
+    "user": {
+      "dialogChangeMail": {
+        "title": "Change email address",
+        "message": "You will receive an email for verification.",
+        "success": "Before you can use your new email address, you have to verify it. Check your mailbox now.",
+        "error": "An error has occurred."
+      },
+      "dialogChangeMailRunning": {
+        "title": "Changing email address",
+        "message": "Changing email address ...",
+        "success": "Email address successfully changed.",
+        "error": "An error has occurred."
+      }
     }
   },
   "entity": {
@@ -295,7 +308,9 @@
       "saving": "Saving",
       "submit": "Submit",
       "tryagain": "Try again",
-      "update": "Update"
+      "update": "Update",
+      "close": "Close",
+      "search": "Search"
     },
     "changeLanguage": "Change language",
     "empty": {
@@ -326,7 +341,8 @@
       "sideBarProgram": {
         "title": "Activities on this day"
       },
-      "printPreview": "Open print preview"
+      "printPreview": "Open print preview",
+      "deleteWarning": "Do you really want to delete this activity? All content of this activity will be removed."
     },
     "auth": {
       "activate": {
@@ -362,11 +378,13 @@
         "openTermsOfUse": "Open",
         "passwordConfirmation": "Enter Password again",
         "register": "Register",
+        "requiredField": "required field",
         "title": "Create an account"
       },
       "registerDone": {
         "login": "Login",
         "success": "Successfully registered",
+        "message": "We sent you an email. Please complete your registration by clicking the activation-link in the email",
         "title": "Create account"
       },
       "resetPassword": {
@@ -390,7 +408,7 @@
     "camp": {
       "admin": {
         "collaborators": "Manage Team",
-        "title": "Camp Admin"
+        "title": "Admin"
       },
       "collaborators": {
         "email": "Email address",
@@ -454,17 +472,8 @@
       "prototypeCamps": "Prototypes",
       "title": "My Camp | My Camps"
     },
-    "home": {
-      "home": "Home",
-      "myCamps": "My Camp | My Camps",
-      "welcome": "Hello {user}. Welcome on eCamp"
-    },
-    "navigationDefault": {
-      "home": "Home",
-      "myCamps": "My camp | My camps",
-      "profile": "Profile"
-    },
     "profile": {
+      "changeEmail": "Change",
       "profile": "Profile"
     }
   }
