@@ -41,19 +41,19 @@ class ReadMultiSelectTest extends ReadContentNodeTestCase {
             '_embedded' => [
                 'options' => [
                     [
-                        'translateKey' => $multiSelectOption2->translateKey,
-                        'checked' => $multiSelectOption2->checked,
-                        'position' => $multiSelectOption2->getPosition(),
-                        'id' => $multiSelectOption2->getId(),
+                        'translateKey' => $multiSelectOption1->translateKey,
+                        'checked' => $multiSelectOption1->checked,
+                        'position' => $multiSelectOption1->getPosition(),
+                        'id' => $multiSelectOption1->getId(),
                         '_links' => [
                             'multiSelect' => ['href' => $this->getIriFor($multiSelect)],
                         ],
                     ],
                     [
-                        'translateKey' => $multiSelectOption1->translateKey,
-                        'checked' => $multiSelectOption1->checked,
-                        'position' => $multiSelectOption1->getPosition(),
-                        'id' => $multiSelectOption1->getId(),
+                        'translateKey' => $multiSelectOption2->translateKey,
+                        'checked' => $multiSelectOption2->checked,
+                        'position' => $multiSelectOption2->getPosition(),
+                        'id' => $multiSelectOption2->getId(),
                         '_links' => [
                             'multiSelect' => ['href' => $this->getIriFor($multiSelect)],
                         ],

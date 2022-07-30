@@ -41,21 +41,21 @@ class ReadStoryboardTest extends ReadContentNodeTestCase {
             '_embedded' => [
                 'sections' => [
                     [
-                        'column1' => $storyboardSection2->column1,
-                        'column2' => $storyboardSection2->column2,
-                        'column3' => $storyboardSection2->column3,
-                        'position' => $storyboardSection2->getPosition(),
-                        'id' => $storyboardSection2->getId(),
-                        '_links' => [
-                            'storyboard' => ['href' => $this->getIriFor($storyboard)],
-                        ],
-                    ],
-                    [
                         'column1' => $storyboardSection1->column1,
                         'column2' => $storyboardSection1->column2,
                         'column3' => $storyboardSection1->column3,
                         'position' => $storyboardSection1->getPosition(),
                         'id' => $storyboardSection1->getId(),
+                        '_links' => [
+                            'storyboard' => ['href' => $this->getIriFor($storyboard)],
+                        ],
+                    ],
+                    [
+                        'column1' => $storyboardSection2->column1,
+                        'column2' => $storyboardSection2->column2,
+                        'column3' => $storyboardSection2->column3,
+                        'position' => $storyboardSection2->getPosition(),
+                        'id' => $storyboardSection2->getId(),
                         '_links' => [
                             'storyboard' => ['href' => $this->getIriFor($storyboard)],
                         ],
