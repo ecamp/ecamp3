@@ -35,8 +35,8 @@ final class CircularReferenceDetectingHalItemNormalizer extends AbstractItemNorm
     /**
      * {@inheritdoc}
      */
-    public function supportsNormalization($data, $format = null): bool {
-        return $this->decorated->supportsNormalization($data, $format);
+    public function supportsNormalization($data, $format = null, array $context = []): bool {
+        return $this->decorated->supportsNormalization($data, $format, $context);
     }
 
     /**

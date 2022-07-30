@@ -32,9 +32,9 @@ class ReadContentNodeTest extends ECampApiTestCase {
                 // RelatedCollectionLinkNormalizer and add a way to explicitly disable related collection links on a
                 // specific relation, so that the "parent" filter can co-exist with children being an array.
                 'children' => [
-                    ['href' => $this->getIriFor('multiSelect2')],
-                    ['href' => $this->getIriFor('singleText2')],
                     ['href' => $this->getIriFor('storyboard2')],
+                    ['href' => $this->getIriFor('singleText2')],
+                    ['href' => $this->getIriFor('multiSelect2')],
                 ],
                 'self' => ['href' => $this->getIriFor('columnLayoutChild1')],
             ],

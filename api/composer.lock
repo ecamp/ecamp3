@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a04890382ba5231ea526010b53f2de51",
+    "content-hash": "3d5629b88fffe05c818e1cf10b2b8b62",
     "packages": [
         {
             "name": "api-platform/core",
-            "version": "v2.7.0-alpha.2",
+            "version": "v2.7.0-rc.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/api-platform/core.git",
-                "reference": "7f609dc9ed4f4020748c8f22124355a7b80a68f4"
+                "reference": "f2c8a6113d2e004eefe10f95671a8822ce307733"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/api-platform/core/zipball/7f609dc9ed4f4020748c8f22124355a7b80a68f4",
-                "reference": "7f609dc9ed4f4020748c8f22124355a7b80a68f4",
+                "url": "https://api.github.com/repos/api-platform/core/zipball/f2c8a6113d2e004eefe10f95671a8822ce307733",
+                "reference": "f2c8a6113d2e004eefe10f95671a8822ce307733",
                 "shasum": ""
             },
             "require": {
@@ -163,7 +163,7 @@
             ],
             "support": {
                 "issues": "https://github.com/api-platform/core/issues",
-                "source": "https://github.com/api-platform/core/tree/v2.7.0-alpha.2"
+                "source": "https://github.com/api-platform/core/tree/v2.7.0-rc.2"
             },
             "funding": [
                 {
@@ -171,7 +171,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-04-22T09:24:36+00:00"
+            "time": "2022-07-25T08:58:06+00:00"
         },
         {
             "name": "behat/transliterator",
@@ -14216,7 +14216,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "api-platform/core": 15
+        "api-platform/core": 5
     },
     "prefer-stable": false,
     "prefer-lowest": false,
