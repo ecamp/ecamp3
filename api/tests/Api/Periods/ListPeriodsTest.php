@@ -42,7 +42,7 @@ class ListPeriodsTest extends ECampApiTestCase {
 
     public function testListPeriodsFilteredByCampIsAllowedForCollaborator() {
         $camp = static::$fixtures['camp1'];
-        $response = static::createClientWithCredentials()->request('GET', '/periods?camp=/camps/'.$camp->getId());
+        $response = static::createClientWithCredentials()->request('GET', '/periods?camp=%2Fcamps%2F'.$camp->getId());
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
             'totalItems' => 2,
@@ -62,7 +62,7 @@ class ListPeriodsTest extends ECampApiTestCase {
     public function testListPeriodsFilteredByCampIsDeniedForUnrelatedUser() {
         $camp = static::$fixtures['camp1'];
         $response = static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->getUsername()])
-            ->request('GET', '/periods?camp=/camps/'.$camp->getId())
+            ->request('GET', '/periods?camp=%2Fcamps%2F'.$camp->getId())
         ;
 
         $this->assertResponseStatusCodeSame(200);
@@ -74,7 +74,7 @@ class ListPeriodsTest extends ECampApiTestCase {
     public function testListPeriodsFilteredByCampIsDeniedForInactiveCollaborator() {
         $camp = static::$fixtures['camp1'];
         $response = static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->getUsername()])
-            ->request('GET', '/periods?camp=/camps/'.$camp->getId())
+            ->request('GET', '/periods?camp=%2Fcamps%2F'.$camp->getId())
         ;
 
         $this->assertResponseStatusCodeSame(200);
@@ -85,7 +85,7 @@ class ListPeriodsTest extends ECampApiTestCase {
 
     public function testListPeriodsFilteredByCampPrototypeIsAllowedForUnrelatedUser() {
         $camp = static::$fixtures['campPrototype'];
-        $response = static::createClientWithCredentials()->request('GET', '/periods?camp=/camps/'.$camp->getId());
+        $response = static::createClientWithCredentials()->request('GET', '/periods?camp=%2Fcamps%2F'.$camp->getId());
 
         $this->assertResponseStatusCodeSame(200);
 

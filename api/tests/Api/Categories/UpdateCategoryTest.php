@@ -115,7 +115,7 @@ class UpdateCategoryTest extends ECampApiTestCase {
             'numberingStyle' => 'I',
             '_links' => [
                 'preferredContentTypes' => [
-                    'href' => '/content_types?categories='.$this->getIriFor($category),
+                    'href' => '/content_types?categories='.urlencode($this->getIriFor($category)),
                 ],
             ],
         ]);
@@ -141,7 +141,7 @@ class UpdateCategoryTest extends ECampApiTestCase {
             'numberingStyle' => 'I',
             '_links' => [
                 'preferredContentTypes' => [
-                    'href' => '/content_types?categories='.$this->getIriFor($category),
+                    'href' => '/content_types?categories='.urlencode($this->getIriFor($category)),
                 ],
             ],
         ]);

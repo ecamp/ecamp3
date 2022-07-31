@@ -41,7 +41,7 @@ class ListActivityResponsiblesTest extends ECampApiTestCase {
 
     public function testListActivityResponsiblesFilteredByActivityIsAllowedForCollaborator() {
         $activity = static::$fixtures['activity1'];
-        $response = static::createClientWithCredentials()->request('GET', '/activity_responsibles?activity=/activities/'.$activity->getId());
+        $response = static::createClientWithCredentials()->request('GET', '/activity_responsibles?activity=%2Factivities%2F'.$activity->getId());
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
             'totalItems' => 1,
@@ -60,7 +60,7 @@ class ListActivityResponsiblesTest extends ECampApiTestCase {
     public function testListActivityResponsiblesFilteredByActivityIsDeniedForUnrelatedUser() {
         $activity = static::$fixtures['activity1'];
         $response = static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->getUsername()])
-            ->request('GET', '/activity_responsibles?activity=/activities/'.$activity->getId())
+            ->request('GET', '/activity_responsibles?activity=%2Factivities%2F'.$activity->getId())
         ;
 
         $this->assertResponseStatusCodeSame(200);
@@ -72,7 +72,7 @@ class ListActivityResponsiblesTest extends ECampApiTestCase {
     public function testListActivityResponsiblesFilteredByActivityIsDeniedForInactiveCollaborator() {
         $activity = static::$fixtures['activity1'];
         $response = static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->getUsername()])
-            ->request('GET', '/activity_responsibles?activity=/activities/'.$activity->getId())
+            ->request('GET', '/activity_responsibles?activity=%2Factivities%2F'.$activity->getId())
         ;
 
         $this->assertResponseStatusCodeSame(200);
@@ -83,7 +83,7 @@ class ListActivityResponsiblesTest extends ECampApiTestCase {
 
     public function testListActivityResponsiblesFilteredByActivityInCampPrototypeIsAllowedForUnrelatedUser() {
         $activity = static::$fixtures['activity1campPrototype'];
-        $response = static::createClientWithCredentials()->request('GET', '/activity_responsibles?activity=/activities/'.$activity->getId());
+        $response = static::createClientWithCredentials()->request('GET', '/activity_responsibles?activity=%2Factivities%2F'.$activity->getId());
 
         $this->assertResponseStatusCodeSame(200);
 
@@ -95,7 +95,7 @@ class ListActivityResponsiblesTest extends ECampApiTestCase {
 
     public function testListActivityResponsiblesFilteredByCampIsAllowedForCollaborator() {
         $camp = static::$fixtures['camp1'];
-        $response = static::createClientWithCredentials()->request('GET', '/activity_responsibles?activity.camp=/camps/'.$camp->getId());
+        $response = static::createClientWithCredentials()->request('GET', '/activity_responsibles?activity.camp=%2Fcamps%2F'.$camp->getId());
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
             'totalItems' => 2,
@@ -115,7 +115,7 @@ class ListActivityResponsiblesTest extends ECampApiTestCase {
     public function testListActivityResponsiblesFilteredByCampIsDeniedForUnrelatedUser() {
         $camp = static::$fixtures['camp1'];
         $response = static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->getUsername()])
-            ->request('GET', '/activity_responsibles?activity.camp=/camps/'.$camp->getId())
+            ->request('GET', '/activity_responsibles?activity.camp=%2Fcamps%2F'.$camp->getId())
         ;
 
         $this->assertResponseStatusCodeSame(200);
@@ -126,7 +126,7 @@ class ListActivityResponsiblesTest extends ECampApiTestCase {
 
     public function testListActivityResponsiblesFilteredByCampPrototypeIsAllowedForUnrelatedUser() {
         $camp = static::$fixtures['campPrototype'];
-        $response = static::createClientWithCredentials()->request('GET', '/activity_responsibles?activity.camp=/camps/'.$camp->getId());
+        $response = static::createClientWithCredentials()->request('GET', '/activity_responsibles?activity.camp=%2Fcamps%2F'.$camp->getId());
 
         $this->assertResponseStatusCodeSame(200);
 
