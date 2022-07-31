@@ -117,7 +117,7 @@ Listing all given activity schedule entries in a calendar view.
   </div>
 </template>
 <script>
-import { toRefs, ref, watch, reactive } from '@vue/composition-api'
+import { toRefs, ref, watch, reactive } from 'vue'
 import useDragAndDropMove from './useDragAndDropMove.js'
 import useDragAndDropResize from './useDragAndDropResize.js'
 import useDragAndDropNew from './useDragAndDropNew.js'
