@@ -22,7 +22,7 @@
     "test:unit:watch": "vue-cli-service test:unit --watch"
   },
   "dependencies": {
-    "@intlify/core": "9.1.10",
+    "@intlify/core": "9.2.0",
     "@mdi/font": "7.0.96",
     "@react-pdf/renderer": "2.3.0",
     "@sentry/browser": "7.8.0",
