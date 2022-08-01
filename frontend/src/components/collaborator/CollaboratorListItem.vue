@@ -53,13 +53,17 @@
       <v-tooltip :disabled="disabled || !isLastManager" top>
         <template #activator="{ on, attrs }">
           <div v-bind="attrs" v-on="on">
-            <button-delete
-              :disabled="(disabled && !isOwnCampCollaboration) || isLastManager"
-              icon="mdi-cancel"
-              @click="deactivateUser"
-            >
-              {{ $tc('components.camp.collaboratorListItem.deactivate') }}
-            </button-delete>
+            <CollaboratorListItemDeactivate :entity="collaborator">
+              <template #activator="{ on: onDialog }">
+                <button-delete
+                  :disabled="(disabled && !isOwnCampCollaboration) || isLastManager"
+                  icon="mdi-cancel"
+                  v-on="onDialog"
+                >
+                  {{ $tc('components.camp.collaboratorListItem.deactivate') }}
+                </button-delete>
+              </template>
+            </CollaboratorListItemDeactivate>
           </div>
         </template>
         <span>{{
@@ -72,13 +76,18 @@
 
 <script>
 import ApiSelect from '@/components/form/api/ApiSelect.vue'
-import ButtonDelete from '@/components/buttons/ButtonDelete.vue'
 import UserAvatar from '@/components/user/UserAvatar.vue'
 import IconButton from '@/components/buttons/IconButton.vue'
+import CollaboratorListItemDeactivate from '@/components/collaborator/CollaboratorListItemDeactivate.vue'
 
 export default {
   name: 'CollaboratorListItem',
-  components: { ButtonDelete, ApiSelect, UserAvatar, IconButton },
+  components: {
+    ApiSelect,
+    UserAvatar,
+    IconButton,
+    CollaboratorListItemDeactivate,
+  },
   props: {
     collaborator: { type: Object, required: true },
     disabled: { type: Boolean, default: false },
@@ -117,14 +126,6 @@ export default {
         .finally(() => {
           this.resendingEmail = false
         })
-    },
-    deactivateUser() {
-      const ok = this.api.patch(this.collaborator, { status: 'inactive' })
-
-      if (this.isOwnCampCollaboration) {
-        // User left camp -> navigate to camp-overview
-        ok.then(() => this.$router.push({ name: 'camps' }))
-      }
     },
   },
 }
