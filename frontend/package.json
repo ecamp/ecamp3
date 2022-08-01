@@ -23,7 +23,7 @@
   },
   "dependencies": {
     "@intlify/core": "9.1.10",
-    "@mdi/font": "6.9.96",
+    "@mdi/font": "7.0.96",
     "@react-pdf/renderer": "2.3.0",
     "@sentry/browser": "7.8.0",
     "@sentry/vue": "7.8.0",
