@@ -63,7 +63,7 @@ class ReadContentNodeTest extends ECampApiTestCase {
         // then the response still includes content-node (here:storyboard) specific relation links (injected from RelatedCollectionLinkNormalizer)
         $this->assertJsonContains([
             '_links' => [
-                'sections' => ['href' => '/content_node/storyboard_sections?storyboard='.$this->getIriFor($contentNode)],
+                'sections' => ['href' => '/content_node/storyboard_sections?storyboard='.urlencode($this->getIriFor($contentNode))],
             ],
         ]);
         $this->assertResponseStatusCodeSame(200);

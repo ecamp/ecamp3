@@ -33,7 +33,7 @@ class ReadStoryboardTest extends ReadContentNodeTestCase {
 
         $this->assertJsonContains([
             '_links' => [
-                'sections' => ['href' => '/content_node/storyboard_sections?storyboard='.$this->getIriFor($storyboard)],
+                'sections' => ['href' => '/content_node/storyboard_sections?storyboard='.urlencode($this->getIriFor($storyboard))],
             ],
             '_embedded' => [
                 'sections' => [

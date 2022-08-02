@@ -40,7 +40,7 @@ class ListDayResponsiblesTest extends ECampApiTestCase {
 
     public function testListDayResponsiblesFilteredByDayIsAllowedForCollaborator() {
         $day = static::$fixtures['day1period1'];
-        $response = static::createClientWithCredentials()->request('GET', '/day_responsibles?day=/days/'.$day->getId());
+        $response = static::createClientWithCredentials()->request('GET', '/day_responsibles?day=%2Fdays%2F'.$day->getId());
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
             'totalItems' => 1,
@@ -59,7 +59,7 @@ class ListDayResponsiblesTest extends ECampApiTestCase {
     public function testListDayResponsiblesFilteredByDayIsDeniedForUnrelatedUser() {
         $day = static::$fixtures['day1period1'];
         $response = static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->getUsername()])
-            ->request('GET', '/day_responsibles?day=/days/'.$day->getId())
+            ->request('GET', '/day_responsibles?day=%2Fdays%2F'.$day->getId())
         ;
 
         $this->assertResponseStatusCodeSame(200);
@@ -71,7 +71,7 @@ class ListDayResponsiblesTest extends ECampApiTestCase {
     public function testListDayResponsiblesFilteredByDayIsDeniedForInactiveCollaborator() {
         $day = static::$fixtures['day1period1'];
         $response = static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->getUsername()])
-            ->request('GET', '/day_responsibles?day=/days/'.$day->getId())
+            ->request('GET', '/day_responsibles?day=%2Fdays%2F'.$day->getId())
         ;
 
         $this->assertResponseStatusCodeSame(200);
@@ -82,7 +82,7 @@ class ListDayResponsiblesTest extends ECampApiTestCase {
 
     public function testListDayResponsiblesFilteredByDayInCampPrototypeIsAllowedForUnrelatedUser() {
         $day = static::$fixtures['day1period1campPrototype'];
-        $response = static::createClientWithCredentials()->request('GET', '/day_responsibles?day=/days/'.$day->getId());
+        $response = static::createClientWithCredentials()->request('GET', '/day_responsibles?day=%2Fdays%2F'.$day->getId());
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
             'totalItems' => 1,

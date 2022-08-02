@@ -63,7 +63,7 @@ class ReadDayTest extends ECampApiTestCase {
             '_links' => [
                 'period' => ['href' => $this->getIriFor('period1')],
                 'scheduleEntries' => ['href' => '/schedule_entries?period=%2Fperiods%2F'.$day->period->getId().'&start%5Bstrictly_before%5D='.urlencode($end).'&end%5Bafter%5D='.urlencode($start)],
-                'dayResponsibles' => ['href' => '/day_responsibles?day=/days/'.$day->getId()],
+                'dayResponsibles' => ['href' => '/day_responsibles?day=%2Fdays%2F'.$day->getId()],
             ],
         ]);
     }
@@ -84,7 +84,7 @@ class ReadDayTest extends ECampApiTestCase {
             '_links' => [
                 'period' => ['href' => $this->getIriFor('period1')],
                 'scheduleEntries' => ['href' => '/schedule_entries?period=%2Fperiods%2F'.$day->period->getId().'&start%5Bstrictly_before%5D='.urlencode($end).'&end%5Bafter%5D='.urlencode($start)],
-                'dayResponsibles' => ['href' => '/day_responsibles?day=/days/'.$day->getId()],
+                'dayResponsibles' => ['href' => '/day_responsibles?day=%2Fdays%2F'.$day->getId()],
             ],
         ]);
     }
@@ -103,7 +103,7 @@ class ReadDayTest extends ECampApiTestCase {
             '_links' => [
                 'period' => ['href' => $this->getIriFor('period1')],
                 'scheduleEntries' => ['href' => '/schedule_entries?period=%2Fperiods%2F'.$day->period->getId().'&start%5Bstrictly_before%5D='.urlencode($end).'&end%5Bafter%5D='.urlencode($start)],
-                'dayResponsibles' => ['href' => '/day_responsibles?day=/days/'.$day->getId()],
+                'dayResponsibles' => ['href' => '/day_responsibles?day=%2Fdays%2F'.$day->getId()],
             ],
         ]);
     }
@@ -122,7 +122,7 @@ class ReadDayTest extends ECampApiTestCase {
             '_links' => [
                 'period' => ['href' => $this->getIriFor('period1campPrototype')],
                 'scheduleEntries' => ['href' => '/schedule_entries?period=%2Fperiods%2F'.$day->period->getId().'&start%5Bstrictly_before%5D='.urlencode($end).'&end%5Bafter%5D='.urlencode($start)],
-                'dayResponsibles' => ['href' => '/day_responsibles?day=/days/'.$day->getId()],
+                'dayResponsibles' => ['href' => '/day_responsibles?day=%2Fdays%2F'.$day->getId()],
             ],
         ]);
     }

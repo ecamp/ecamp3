@@ -44,7 +44,7 @@ class ListScheduleEntriesTest extends ECampApiTestCase {
 
     public function testListScheduleEntriesFilteredByPeriodIsAllowedForCollaborator() {
         $period = static::$fixtures['period1'];
-        $response = static::createClientWithCredentials()->request('GET', '/schedule_entries?period=/periods/'.$period->getId());
+        $response = static::createClientWithCredentials()->request('GET', '/schedule_entries?period=%2Fperiods%2F'.$period->getId());
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
             'totalItems' => 1,
@@ -63,7 +63,7 @@ class ListScheduleEntriesTest extends ECampApiTestCase {
     public function testListScheduleEntriesFilteredByPeriodIsDeniedForUnrelatedUser() {
         $period = static::$fixtures['period1'];
         $response = static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->getUsername()])
-            ->request('GET', '/schedule_entries?period=/periods/'.$period->getId())
+            ->request('GET', '/schedule_entries?period=%2Fperiods%2F'.$period->getId())
         ;
 
         $this->assertResponseStatusCodeSame(200);
@@ -75,7 +75,7 @@ class ListScheduleEntriesTest extends ECampApiTestCase {
     public function testListScheduleEntriesFilteredByPeriodIsDeniedForInactiveCollaborator() {
         $period = static::$fixtures['period1'];
         $response = static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->getUsername()])
-            ->request('GET', '/schedule_entries?period=/periods/'.$period->getId())
+            ->request('GET', '/schedule_entries?period=%2Fperiods%2F'.$period->getId())
         ;
 
         $this->assertResponseStatusCodeSame(200);
@@ -86,7 +86,7 @@ class ListScheduleEntriesTest extends ECampApiTestCase {
 
     public function testListScheduleEntriesFilteredByPeriodInCampPrototypeIsAllowedForUnrelatedUser() {
         $period = static::$fixtures['period1campPrototype'];
-        $response = static::createClientWithCredentials()->request('GET', '/schedule_entries?period=/periods/'.$period->getId());
+        $response = static::createClientWithCredentials()->request('GET', '/schedule_entries?period=%2Fperiods%2F'.$period->getId());
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
             'totalItems' => 2,
@@ -105,7 +105,7 @@ class ListScheduleEntriesTest extends ECampApiTestCase {
 
     public function testListScheduleEntriesFilteredByActivityIsAllowedForCollaborator() {
         $activity = static::$fixtures['activity1'];
-        $response = static::createClientWithCredentials()->request('GET', '/schedule_entries?activity=/activities/'.$activity->getId());
+        $response = static::createClientWithCredentials()->request('GET', '/schedule_entries?activity=%2Factivities%2F'.$activity->getId());
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
             'totalItems' => 1,
@@ -124,7 +124,7 @@ class ListScheduleEntriesTest extends ECampApiTestCase {
     public function testListScheduleEntriesFilteredByActivityIsDeniedForUnrelatedUser() {
         $activity = static::$fixtures['activity1'];
         $response = static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->getUsername()])
-            ->request('GET', '/schedule_entries?activity=/activities/'.$activity->getId())
+            ->request('GET', '/schedule_entries?activity=%2Factivities%2F'.$activity->getId())
         ;
 
         $this->assertResponseStatusCodeSame(200);
@@ -136,7 +136,7 @@ class ListScheduleEntriesTest extends ECampApiTestCase {
     public function testListScheduleEntriesFilteredByActivityIsDeniedForInactiveCollaborator() {
         $activity = static::$fixtures['activity1'];
         $response = static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->getUsername()])
-            ->request('GET', '/schedule_entries?activity=/activities/'.$activity->getId())
+            ->request('GET', '/schedule_entries?activity=%2Factivities%2F'.$activity->getId())
         ;
 
         $this->assertResponseStatusCodeSame(200);
@@ -147,7 +147,7 @@ class ListScheduleEntriesTest extends ECampApiTestCase {
 
     public function testListScheduleEntriesFilteredByActivityInCampPrototypeIsAllowedForUnrelatedUser() {
         $activity = static::$fixtures['activity1campPrototype'];
-        $response = static::createClientWithCredentials()->request('GET', '/schedule_entries?activity=/activities/'.$activity->getId());
+        $response = static::createClientWithCredentials()->request('GET', '/schedule_entries?activity=%2Factivities%2F'.$activity->getId());
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
             'totalItems' => 2,
