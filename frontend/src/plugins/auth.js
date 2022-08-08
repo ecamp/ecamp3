@@ -110,7 +110,9 @@ async function loginCeviDB() {
 }
 
 export async function logout() {
-  Cookies.remove(headerAndPayloadCookieName(), { domain: window.environment.SHARED_COOKIE_DOMAIN })
+  Cookies.remove(headerAndPayloadCookieName(), {
+    domain: window.environment.SHARED_COOKIE_DOMAIN,
+  })
   return router
     .push({ name: 'login' })
     .then(() => apiStore.purgeAll())
@@ -118,7 +120,7 @@ export async function logout() {
 }
 
 function headerAndPayloadCookieName() {
-  return `${apiDomain()}_jwt_hp`;
+  return `${apiDomain()}_jwt_hp`
 }
 
 function apiDomain() {
