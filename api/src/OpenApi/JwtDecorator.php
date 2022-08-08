@@ -38,7 +38,7 @@ final class JwtDecorator implements OpenApiFactoryInterface {
                 tags: ['Login'],
                 responses: [
                     '204' => [
-                        'description' => 'Get a JWT token split across the two cookies jwt_hp and jwt_s',
+                        'description' => 'Get a JWT token split across the two cookies [api-domain]_jwt_hp and [api-domain]_jwt_s',
                     ],
                 ],
                 summary: 'Log in using username and password.',
