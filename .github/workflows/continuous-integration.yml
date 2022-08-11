@@ -45,7 +45,7 @@ jobs:
         run: 'echo "::set-output name=dir::$(composer config cache-files-dir)"'
         working-directory: api
 
-      - uses: actions/cache@f4278025ab0f432ce369118909e46deec636f50c # tag=v3
+      - uses: actions/cache@a7c34adf76222e77931dedbf4a45b2e4648ced19 # tag=v3
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
@@ -76,7 +76,7 @@ jobs:
         run: 'echo "::set-output name=dir::$(composer config cache-files-dir)"'
         working-directory: api
 
-      - uses: actions/cache@f4278025ab0f432ce369118909e46deec636f50c # tag=v3
+      - uses: actions/cache@a7c34adf76222e77931dedbf4a45b2e4648ced19 # tag=v3
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
@@ -107,7 +107,7 @@ jobs:
         run: 'echo "::set-output name=dir::$(composer config cache-files-dir)"'
         working-directory: api
 
-      - uses: actions/cache@f4278025ab0f432ce369118909e46deec636f50c # tag=v3
+      - uses: actions/cache@a7c34adf76222e77931dedbf4a45b2e4648ced19 # tag=v3
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
@@ -131,7 +131,7 @@ jobs:
         with:
           node-version: '16.16.0'
 
-      - uses: actions/cache@f4278025ab0f432ce369118909e46deec636f50c # tag=v3
+      - uses: actions/cache@a7c34adf76222e77931dedbf4a45b2e4648ced19 # tag=v3
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
@@ -161,7 +161,7 @@ jobs:
         with:
           node-version: '16.16.0'
 
-      - uses: actions/cache@f4278025ab0f432ce369118909e46deec636f50c # tag=v3
+      - uses: actions/cache@a7c34adf76222e77931dedbf4a45b2e4648ced19 # tag=v3
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
@@ -216,7 +216,7 @@ jobs:
         run: 'echo "::set-output name=dir::$(composer config cache-files-dir)"'
         working-directory: api
 
-      - uses: actions/cache@f4278025ab0f432ce369118909e46deec636f50c # tag=v3
+      - uses: actions/cache@a7c34adf76222e77931dedbf4a45b2e4648ced19 # tag=v3
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
@@ -290,7 +290,7 @@ jobs:
         run: 'echo "::set-output name=dir::$(composer config cache-files-dir)"'
         working-directory: api
 
-      - uses: actions/cache@f4278025ab0f432ce369118909e46deec636f50c # tag=v3
+      - uses: actions/cache@a7c34adf76222e77931dedbf4a45b2e4648ced19 # tag=v3
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
@@ -317,7 +317,7 @@ jobs:
         with:
           node-version: '16.16.0'
 
-      - uses: actions/cache@f4278025ab0f432ce369118909e46deec636f50c # tag=v3
+      - uses: actions/cache@a7c34adf76222e77931dedbf4a45b2e4648ced19 # tag=v3
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
@@ -354,7 +354,7 @@ jobs:
         with:
           node-version: '16.16.0'
 
-      - uses: actions/cache@f4278025ab0f432ce369118909e46deec636f50c # tag=v3
+      - uses: actions/cache@a7c34adf76222e77931dedbf4a45b2e4648ced19 # tag=v3
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
@@ -421,7 +421,7 @@ jobs:
           cache-to: type=gha,scope=caddy,mode=max
 
       - name: Restore cache volumes (npm, composer)
-        uses: actions/cache@f4278025ab0f432ce369118909e46deec636f50c # tag=v3
+        uses: actions/cache@a7c34adf76222e77931dedbf4a45b2e4648ced19 # tag=v3
         with:
           path: .cache
           key: docker-compose-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('**/composer.lock') }}
