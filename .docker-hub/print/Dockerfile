@@ -6,9 +6,10 @@ COPY common /common
 WORKDIR /app
 
 COPY print/package*.json ./
-RUN npm ci
+RUN mkdir -p /home/node/.cache/node-gyp/18.6.0 && npm ci
 
 COPY print .
+ENV NODE_OPTIONS=--openssl-legacy-provider
 RUN npm run build
 
 # production stage

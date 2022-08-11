@@ -129,7 +129,7 @@ jobs:
 
       - uses: actions/setup-node@v3
         with:
-          node-version: '16.16.0'
+          node-version: '18.6.0'
 
       - uses: actions/cache@0865c47f36e68161719c5b124609996bb5c40129 # tag=v3
         with:
@@ -159,7 +159,7 @@ jobs:
 
       - uses: actions/setup-node@v3
         with:
-          node-version: '16.16.0'
+          node-version: '18.6.0'
 
       - uses: actions/cache@0865c47f36e68161719c5b124609996bb5c40129 # tag=v3
         with:
@@ -315,7 +315,7 @@ jobs:
 
       - uses: actions/setup-node@v3
         with:
-          node-version: '16.16.0'
+          node-version: '18.6.0'
 
       - uses: actions/cache@0865c47f36e68161719c5b124609996bb5c40129 # tag=v3
         with:
@@ -352,7 +352,7 @@ jobs:
 
       - uses: actions/setup-node@v3
         with:
-          node-version: '16.16.0'
+          node-version: '18.6.0'
 
       - uses: actions/cache@0865c47f36e68161719c5b124609996bb5c40129 # tag=v3
         with:
@@ -366,6 +366,8 @@ jobs:
 
       - run: npm run build
         working-directory: print
+        env:
+          NODE_OPTIONS: --openssl-legacy-provider
 
       - run: npm run test
         working-directory: print
