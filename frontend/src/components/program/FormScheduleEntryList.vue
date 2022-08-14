@@ -22,7 +22,7 @@
           class="transition-list-item pa-0 mb-4"
           :schedule-entry="scheduleEntry"
           :periods="periods"
-          :is-last-item="scheduleEntries.length === 1"
+          :is-last-item="scheduleEntriesWithoutDeleted.length === 1"
           @delete="deleteEntry(scheduleEntry)"
         />
       </transition-group>
