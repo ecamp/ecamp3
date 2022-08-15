@@ -18,7 +18,7 @@ class AssertNoOrphanChildrenValidator extends ConstraintValidator {
         /** @var ColumnLayout $columnLayout */
         $columnLayout = $this->context->getObject();
 
-        if (!($columnLayout instanceof ColumnLayout)) {
+        if (!$columnLayout instanceof ColumnLayout) {
             throw new InvalidArgumentException('AssertNoOrphanChildren is only valid inside a ColumnLayout object');
         }
 

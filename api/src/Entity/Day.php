@@ -127,8 +127,6 @@ class Day extends BaseEntity implements BelongsToCampInterface {
 
     /**
      * The start date and time of the day. This is a read-only convenience property.
-     *
-     * @return null|DateTime
      */
     #[ApiProperty(example: '2022-01-02T00:00:00+00:00', openapiContext: ['format' => 'date'])]
     #[Groups(['read'])]
@@ -145,8 +143,6 @@ class Day extends BaseEntity implements BelongsToCampInterface {
 
     /**
      * The end date and time of the day. This is a read-only convenience property.
-     *
-     * @return null|DateTime
      */
     #[ApiProperty(example: '2022-01-03T00:00:00+00:00', openapiContext: ['format' => 'date'])]
     #[Groups(['read'])]

@@ -5,10 +5,14 @@ namespace App\Tests\EventListener;
 use App\EventListener\RequestTransactionListener;
 use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityManagerInterface;
+
 use function PHPUnit\Framework\exactly;
+
 use PHPUnit\Framework\MockObject\MockObject;
+
 use function PHPUnit\Framework\never;
 use function PHPUnit\Framework\once;
+
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
 use Symfony\Component\HttpFoundation\Request;

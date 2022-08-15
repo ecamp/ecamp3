@@ -6,7 +6,9 @@
 namespace App\Tests\Types\Doctrine;
 
 use App\Types\Doctrine\UTCDateType;
+
 use function date_default_timezone_set;
+
 use DateTime;
 use Doctrine\DBAL\Types\ConversionException;
 

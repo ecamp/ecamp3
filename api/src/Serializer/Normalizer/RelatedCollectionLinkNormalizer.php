@@ -234,7 +234,7 @@ class RelatedCollectionLinkNormalizer implements NormalizerInterface, Serializer
         return 0 < count(array_filter($filterIds, function ($filterId) use ($resourceClass, $propertyName) {
             /** @var FilterInterface $filter */
             $filter = $this->filterLocator->get($filterId);
-            if (!($filter instanceof SearchFilter)) {
+            if (!$filter instanceof SearchFilter) {
                 return false;
             }
             $filterDescription = $filter->getDescription($resourceClass);
