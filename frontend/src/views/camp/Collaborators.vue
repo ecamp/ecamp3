@@ -62,6 +62,7 @@ Displays collaborators of a single camp.
                   single-line
                   aria-autocomplete="none"
                   :placeholder="$tc('views.camp.collaborators.email')"
+                  @keyup="clearMessages"
                 />
               </v-col>
               <v-col sm="12" md="3">
@@ -181,8 +182,11 @@ export default {
     refreshCamp() {
       this.inviteEmail = null
       this.inviteRole = DEFAULT_INVITE_ROLE
-      this.messages = []
+      this.clearMessages()
       this.api.reload(this.camp()._meta.self)
+    },
+    clearMessages() {
+      this.messages = []
     },
   },
 }
