@@ -58,6 +58,7 @@ Displays collaborators of a single camp.
                   :name="$tc('views.camp.collaborators.email')"
                   vee-rules="email"
                   :error-messages="inviteEmailMessages"
+                  :error-count="2"
                   single-line
                   aria-autocomplete="none"
                   :placeholder="$tc('views.camp.collaborators.email')"
