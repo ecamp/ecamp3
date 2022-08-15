@@ -118,6 +118,10 @@ class Category extends BaseEntity implements BelongsToCampInterface, CopyFromPro
     /**
      * The full name of the category.
      */
+    #[InputFilter\CleanHTML]
+    #[InputFilter\Trim]
+    #[Assert\NotBlank]
+    #[Assert\Length(max: 32)]
     #[ApiProperty(example: 'Lagersport')]
     #[Groups(['read', 'write'])]
     #[ORM\Column(type: 'text', nullable: false)]

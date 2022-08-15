@@ -11,9 +11,6 @@ use App\Tests\Api\ECampApiTestCase;
  * @internal
  */
 class CreateCategoryTest extends ECampApiTestCase {
-    // TODO input filter tests
-    // TODO validation tests
-
     public function testCreateCategoryIsDeniedForAnonymousUser() {
         static::createBasicClient()->request('POST', '/categories', ['json' => $this->getExampleWritePayload()]);
 
@@ -238,10 +235,100 @@ class CreateCategoryTest extends ECampApiTestCase {
             'violations' => [
                 [
                     'propertyPath' => 'name',
-                    'message' => 'This value should not be null.',
+                    'message' => 'This value should not be blank.',
                 ],
             ],
         ]);
+    }
+
+    public function testCreateCategoryValidatesBlankName() {
+        static::createClientWithCredentials()->request(
+            'POST',
+            '/categories',
+            [
+                'json' => $this->getExampleWritePayload(
+                    [
+                        'name' => '',
+                    ]
+                ),
+            ]
+        );
+
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [
+                    'propertyPath' => 'name',
+                    'message' => 'This value should not be blank.',
+                ],
+            ],
+        ]);
+    }
+
+    public function testCreateCategoryValidatesTooLongName() {
+        static::createClientWithCredentials()->request(
+            'POST',
+            '/categories',
+            [
+                'json' => $this->getExampleWritePayload(
+                    [
+                        'name' => str_repeat('l', 33),
+                    ]
+                ),
+            ]
+        );
+
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [
+                    'propertyPath' => 'name',
+                    'message' => 'This value is too long. It should have 32 characters or less.',
+                ],
+            ],
+        ]);
+    }
+
+    public function testCreateCategoryTrimsName() {
+        static::createClientWithCredentials()->request(
+            'POST',
+            '/categories',
+            [
+                'json' => $this->getExampleWritePayload(
+                    [
+                        'name' => "  \t Lagersport\t ",
+                    ]
+                ),
+            ]
+        );
+
+        $this->assertResponseStatusCodeSame(201);
+        $this->assertJsonContains($this->getExampleReadPayload(
+            [
+                'name' => 'Lagersport',
+            ]
+        ));
+    }
+
+    public function testCreateCategoryCleansHtmlForName() {
+        static::createClientWithCredentials()->request(
+            'POST',
+            '/categories',
+            [
+                'json' => $this->getExampleWritePayload(
+                    [
+                        'name' => 'Lagerspo<script>alert(1)</script>rt',
+                    ]
+                ),
+            ]
+        );
+
+        $this->assertResponseStatusCodeSame(201);
+        $this->assertJsonContains($this->getExampleReadPayload(
+            [
+                'name' => 'Lagersport',
+            ]
+        ));
     }
 
     public function testCreateCategoryValidatesMissingColor() {
