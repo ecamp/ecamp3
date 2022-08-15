@@ -178,6 +178,33 @@ class UpdateCategoryTest extends ECampApiTestCase {
         ]);
     }
 
+    public function testPatchCategoryIsAllowsEmptyPreferredContentTypes() {
+        $category = static::$fixtures['category1'];
+        $client = static::createClientWithCredentials();
+        $client->disableReboot();
+        $client->request(
+            'PATCH',
+            '/categories/'.$category->getId(),
+            [
+                'json' => [
+                    'preferredContentTypes' => [],
+                ],
+                'headers' => ['Content-Type' => 'application/merge-patch+json'], ]
+        );
+        $this->assertResponseStatusCodeSame(200);
+
+        $client->request(
+            'GET',
+            '/content_types?categories='.urlencode($this->getIriFor($category))
+        );
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertJsonContains(
+            [
+                'totalItems' => 0,
+            ]
+        );
+    }
+
     public function testPatchCategoryValidatesInvalidColor() {
         $category = static::$fixtures['category1'];
         static::createClientWithCredentials()->request('PATCH', '/categories/'.$category->getId(), ['json' => [
