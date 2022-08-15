@@ -10,7 +10,6 @@ use App\Tests\Api\ECampApiTestCase;
  * @internal
  */
 class UpdatePeriodTest extends ECampApiTestCase {
-    // TODO input filter tests
     // TODO validation tests
     // TODO moving a period vs changing the time window
 
@@ -135,6 +134,23 @@ class UpdatePeriodTest extends ECampApiTestCase {
         ]);
     }
 
+    public function testPatchPeriodValidatesNullDescription() {
+        $period = static::$fixtures['period1'];
+        static::createClientWithCredentials()->request('PATCH', '/periods/'.$period->getId(), ['json' => [
+            'description' => null,
+        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
+
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [
+                    'propertyPath' => 'description',
+                    'message' => 'This value should not be blank.',
+                ],
+            ],
+        ]);
+    }
+
     public function testPatchPeriodValidatesEmptyDescription() {
         $period = static::$fixtures['period1'];
         static::createClientWithCredentials()->request('PATCH', '/periods/'.$period->getId(), ['json' => [
@@ -149,6 +165,45 @@ class UpdatePeriodTest extends ECampApiTestCase {
                     'message' => 'This value should not be blank.',
                 ],
             ],
+        ]);
+    }
+
+    public function testPatchPeriodValidatesTooLongDescription() {
+        $period = static::$fixtures['period1'];
+        static::createClientWithCredentials()->request('PATCH', '/periods/'.$period->getId(), ['json' => [
+            'description' => str_repeat('l', 33),
+        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
+
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [
+                    'propertyPath' => 'description',
+                    'message' => 'This value is too long. It should have 32 characters or less.',
+                ],
+            ],
+        ]);
+    }
+
+    public function testPatchPeriodTrimsDescription() {
+        $period = static::$fixtures['period1'];
+        static::createClientWithCredentials()->request('PATCH', '/periods/'.$period->getId(), ['json' => [
+            'description' => " \t Vorweekend \t ",
+        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertJsonContains([
+            'description' => 'Vorweekend',
+        ]);
+    }
+
+    public function testPatchPeriodCleansHtmlForDescription() {
+        $period = static::$fixtures['period1'];
+        static::createClientWithCredentials()->request('PATCH', '/periods/'.$period->getId(), ['json' => [
+            'description' => 'Vorwe<script>alert(1)</script>ekend',
+        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertJsonContains([
+            'description' => 'Vorweekend',
         ]);
     }
 
