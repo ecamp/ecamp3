@@ -10,7 +10,6 @@ use App\Tests\Api\ECampApiTestCase;
  * @internal
  */
 class CreatePeriodTest extends ECampApiTestCase {
-    // TODO validation tests
     // TODO validation for no overlapping periods
 
     public function testCreatePeriodIsDeniedForAnonymousUser() {

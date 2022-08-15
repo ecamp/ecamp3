@@ -10,7 +10,7 @@ use App\Tests\Api\ECampApiTestCase;
  * @internal
  */
 class UpdatePeriodTest extends ECampApiTestCase {
-    // TODO validation tests
+    // TODO validation for no overlapping periods
     // TODO moving a period vs changing the time window
 
     public function testPatchPeriodIsDeniedForAnonymousUser() {
@@ -221,6 +221,19 @@ at position 9: Not enough data available to satisfy format',
         ]);
     }
 
+    public function testPatchPeriodValidatesInvalidStartFormat() {
+        $period = static::$fixtures['period1'];
+        static::createClientWithCredentials()->request('PATCH', '/periods/'.$period->getId(), ['json' => [
+            'start' => '2023-05-01+01:00',
+        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
+
+        $this->assertResponseStatusCodeSame(400);
+        $this->assertJsonContains([
+            'detail' => 'Parsing datetime string "2023-05-01+01:00" using format "!Y-m-d" resulted in 1 errors: 
+at position 10: Trailing data',
+        ]);
+    }
+
     public function testPatchPeriodValidatesInvalidEnd() {
         $period = static::$fixtures['period1'];
         static::createClientWithCredentials()->request('PATCH', '/periods/'.$period->getId(), ['json' => [
@@ -232,6 +245,19 @@ at position 9: Not enough data available to satisfy format',
             'detail' => 'Parsing datetime string "something" using format "!Y-m-d" resulted in 3 errors: 
 at position 0: A four digit year could not be found
 at position 9: Not enough data available to satisfy format',
+        ]);
+    }
+
+    public function testPatchPeriodValidatesInvalidEndFormat() {
+        $period = static::$fixtures['period1'];
+        static::createClientWithCredentials()->request('PATCH', '/periods/'.$period->getId(), ['json' => [
+            'end' => '2023-05-03T01:00',
+        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
+
+        $this->assertResponseStatusCodeSame(400);
+        $this->assertJsonContains([
+            'detail' => 'Parsing datetime string "2023-05-03T01:00" using format "!Y-m-d" resulted in 1 errors: 
+at position 10: Trailing data',
         ]);
     }
 
