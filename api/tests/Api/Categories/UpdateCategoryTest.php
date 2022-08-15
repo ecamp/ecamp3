@@ -205,6 +205,112 @@ class UpdateCategoryTest extends ECampApiTestCase {
         );
     }
 
+    public function testPatchCategoryValidatesNullShort() {
+        $category = static::$fixtures['category1'];
+        static::createClientWithCredentials()->request(
+            'PATCH',
+            '/categories/'.$category->getId(),
+            [
+                'json' => [
+                    'short' => null,
+                ],
+                'headers' => ['Content-Type' => 'application/merge-patch+json'],
+            ]
+        );
+
+        $this->assertResponseStatusCodeSame(400);
+        $this->assertJsonContains([
+            'title' => 'An error occurred',
+            'detail' => 'The type of the "short" attribute must be "string", "NULL" given.',
+        ]);
+    }
+
+    public function testPatchCategoryValidatesBlankShort() {
+        $category = static::$fixtures['category1'];
+        static::createClientWithCredentials()->request(
+            'PATCH',
+            '/categories/'.$category->getId(),
+            [
+                'json' => [
+                    'short' => ' ',
+                ],
+                'headers' => ['Content-Type' => 'application/merge-patch+json'],
+            ]
+        );
+
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [
+                    'propertyPath' => 'short',
+                    'message' => 'This value should not be blank.',
+                ],
+            ],
+        ]);
+    }
+
+    public function testPatchCategoryValidatesTooLongShort() {
+        $category = static::$fixtures['category1'];
+        static::createClientWithCredentials()->request(
+            'PATCH',
+            '/categories/'.$category->getId(),
+            [
+                'json' => [
+                    'short' => str_repeat('l', 17),
+                ],
+                'headers' => ['Content-Type' => 'application/merge-patch+json'],
+            ]
+        );
+
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [
+                    'propertyPath' => 'short',
+                    'message' => 'This value is too long. It should have 16 characters or less.',
+                ],
+            ],
+        ]);
+    }
+
+    public function testPatchCategoryTrimsShort() {
+        $category = static::$fixtures['category1'];
+        static::createClientWithCredentials()->request(
+            'PATCH',
+            '/categories/'.$category->getId(),
+            [
+                'json' => [
+                    'short' => "  \t LS\t ",
+                ],
+                'headers' => ['Content-Type' => 'application/merge-patch+json'], ]
+        );
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertJsonContains(
+            [
+                'short' => 'LS',
+            ]
+        );
+    }
+
+    public function testPatchCategoryCleansHtmlForShort() {
+        $category = static::$fixtures['category1'];
+        static::createClientWithCredentials()->request(
+            'PATCH',
+            '/categories/'.$category->getId(),
+            [
+                'json' => [
+                    'short' => 'L<script>alert(1)</script>S',
+                ],
+                'headers' => ['Content-Type' => 'application/merge-patch+json'], ]
+        );
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertJsonContains(
+            [
+                'short' => 'LS',
+            ]
+        );
+    }
+
     public function testPatchCategoryValidatesInvalidColor() {
         $category = static::$fixtures['category1'];
         static::createClientWithCredentials()->request('PATCH', '/categories/'.$category->getId(), ['json' => [

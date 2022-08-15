@@ -134,10 +134,100 @@ class CreateCategoryTest extends ECampApiTestCase {
             'violations' => [
                 [
                     'propertyPath' => 'short',
-                    'message' => 'This value should not be null.',
+                    'message' => 'This value should not be blank.',
                 ],
             ],
         ]);
+    }
+
+    public function testCreateCategoryValidatesBlankShort() {
+        static::createClientWithCredentials()->request(
+            'POST',
+            '/categories',
+            [
+                'json' => $this->getExampleWritePayload(
+                    [
+                        'short' => '',
+                    ]
+                ),
+            ]
+        );
+
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [
+                    'propertyPath' => 'short',
+                    'message' => 'This value should not be blank.',
+                ],
+            ],
+        ]);
+    }
+
+    public function testCreateCategoryValidatesTooLongShort() {
+        static::createClientWithCredentials()->request(
+            'POST',
+            '/categories',
+            [
+                'json' => $this->getExampleWritePayload(
+                    [
+                        'short' => str_repeat('l', 17),
+                    ]
+                ),
+            ]
+        );
+
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [
+                    'propertyPath' => 'short',
+                    'message' => 'This value is too long. It should have 16 characters or less.',
+                ],
+            ],
+        ]);
+    }
+
+    public function testCreateCategoryTrimsShort() {
+        static::createClientWithCredentials()->request(
+            'POST',
+            '/categories',
+            [
+                'json' => $this->getExampleWritePayload(
+                    [
+                        'short' => "  \t LS\t ",
+                    ]
+                ),
+            ]
+        );
+
+        $this->assertResponseStatusCodeSame(201);
+        $this->assertJsonContains($this->getExampleReadPayload(
+            [
+                'short' => 'LS',
+            ]
+        ));
+    }
+
+    public function testCreateCategoryCleansHtmlForShort() {
+        static::createClientWithCredentials()->request(
+            'POST',
+            '/categories',
+            [
+                'json' => $this->getExampleWritePayload(
+                    [
+                        'short' => 'L<script>alert(1)</script>S',
+                    ]
+                ),
+            ]
+        );
+
+        $this->assertResponseStatusCodeSame(201);
+        $this->assertJsonContains($this->getExampleReadPayload(
+            [
+                'short' => 'LS',
+            ]
+        ));
     }
 
     public function testCreateCategoryValidatesMissingName() {
