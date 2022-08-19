@@ -356,16 +356,30 @@
         "program": "Programm",
         "viewDescription": "Du arbeitest an \"{title}\" mit. Hier siehst du alle Blöcke, für welche du zuständig bist."
       },
-      "navigationCamp": {
-        "admin": "Admin",
-        "campIsLoading": "Lager wird geladen",
-        "material": "Material",
-        "print": "Drucken",
-        "program": "Programm",
-        "story": "Geschichte",
-        "tasks": "Aufgaben",
-        "team": "Team",
-        "more": "Mehr"
+      "navigation": {
+        "desktop": {
+          "navDesktop": {
+            "admin": "Admin",
+            "campIsLoading": "Lager wird geladen",
+            "material": "Material",
+            "print": "Drucken",
+            "program": "Programm",
+            "story": "Geschichte",
+            "team": "Team"
+          }
+        },
+        "mobile": {
+          "navItemCampAdmin": "Lagereinstellungen",
+          "navItemClose": "Menü schliessen",
+          "navItemCollaborators": "Team",
+          "navItemPrinting": "PDF / Drucken",
+          "navMobileBottom": {
+            "material": "Material",
+            "more": "Mehr",
+            "program": "Programm",
+            "story": "Geschichte"
+          }
+        }
       },
       "print": {
         "title": "Druckvorschau",
@@ -379,14 +393,6 @@
       },
       "picasso": {
         "editMode": "Editiermodus"
-      },
-      "navigation": {
-        "mobile": {
-          "navAdminItem": "Campeinstellungen",
-          "navCloseItem": "Menu schliessen",
-          "navCollaboratorsItem": "Team",
-          "navPrintingItem": "PDF / Drucken"
-        }
       }
     },
     "campCreate": {

@@ -6,43 +6,43 @@
       <v-btn :to="campRoute(camp(), 'program')" text>
         <v-icon :left="$vuetify.breakpoint.mdAndUp">mdi-view-tent-variant</v-icon>
         <span class="sr-only-sm-and-down">{{
-          camp().title | loading($tc('views.camp.navigationCamp.campIsLoading'))
+          camp().title | loading($tc('views.camp.navigation.desktop.navDesktop.campIsLoading'))
         }}</span>
       </v-btn>
       <v-btn :to="campRoute(camp(), 'program')" text>
         <v-icon :left="$vuetify.breakpoint.mdAndUp">mdi-view-dashboard</v-icon>
         <span class="sr-only-sm-and-down">{{
-          $tc('views.camp.navigationCamp.program')
+          $tc('views.camp.navigation.desktop.navDesktop.program')
         }}</span>
       </v-btn>
       <v-btn :to="campRoute(camp(), 'story')" text>
         <v-icon :left="$vuetify.breakpoint.mdAndUp"> mdi-book-open-variant </v-icon>
         <span class="sr-only-sm-and-down">{{
-          $tc('views.camp.navigationCamp.story')
+          $tc('views.camp.navigation.desktop.navDesktop.story')
         }}</span>
       </v-btn>
       <v-btn :to="campRoute(camp(), 'collaborators')" text>
         <v-icon :left="$vuetify.breakpoint.mdAndUp">mdi-account-group</v-icon>
         <span class="sr-only-sm-and-down">{{
-          $tc('views.camp.navigationCamp.team')
+          $tc('views.camp.navigation.desktop.navDesktop.team')
         }}</span>
       </v-btn>
       <v-btn :to="campRoute(camp(), 'material')" text>
         <v-icon :left="$vuetify.breakpoint.mdAndUp"> mdi-package-variant </v-icon>
         <span class="sr-only-sm-and-down">{{
-          $tc('views.camp.navigationCamp.material')
+          $tc('views.camp.navigation.desktop.navDesktop.material')
         }}</span>
       </v-btn>
       <v-btn :to="campRoute(camp(), 'print')" text>
         <v-icon :left="$vuetify.breakpoint.mdAndUp">mdi-printer</v-icon>
         <span class="sr-only-sm-and-down">{{
-          $tc('views.camp.navigationCamp.print')
+          $tc('views.camp.navigation.desktop.navDesktop.print')
         }}</span>
       </v-btn>
       <v-btn :to="campRoute(camp(), 'admin')" text>
         <v-icon :left="$vuetify.breakpoint.mdAndUp">mdi-cogs</v-icon>
         <span class="sr-only-sm-and-down">{{
-          $tc('views.camp.navigationCamp.admin')
+          $tc('views.camp.navigation.desktop.navDesktop.admin')
         }}</span>
       </v-btn>
     </v-toolbar-items>
@@ -54,7 +54,7 @@
 <script>
 import UserMeta from '@/components/navigation/UserMeta.vue'
 import Logo from '@/components/navigation/Logo.vue'
-import { campRoute } from '@/router.js'
+import { campRoute } from '@/../../../../router'
 
 export default {
   name: 'NavDesktop',

@@ -433,16 +433,30 @@
         "title": "Material",
         "groupByList": "Group by material list"
       },
-      "navigationCamp": {
-        "admin": "Admin",
-        "camp": "Camp",
-        "campIsLoading": "Camp is loading",
-        "material": "Materials",
-        "print": "Print",
-        "program": "Program",
-        "story": "Story",
-        "tasks": "Tasks",
-        "team": "Team"
+      "navigation": {
+        "desktop": {
+          "navDesktop": {
+            "admin": "Admin",
+            "campIsLoading": "Camp is loading",
+            "material": "Materials",
+            "print": "Print",
+            "program": "Program",
+            "story": "Story",
+            "team": "Team"
+          }
+        },
+        "mobile": {
+          "navItemCampAdmin": "Camp settings",
+          "navItemClose": "Close menu",
+          "navItemCollaborators": "Team",
+          "navItemPrinting": "PDF / Print",
+          "navMobileBottom": {
+            "material": "Materials",
+            "more": "More",
+            "program": "Program",
+            "story": "Story"
+          }
+        }
       },
       "print": {
         "title": "Print preview",

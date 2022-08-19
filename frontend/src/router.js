@@ -10,9 +10,9 @@ const NavigationAuth = () =>
   import(/* webpackChunkName: "navigationAuth" */ './views/auth/NavigationAuth.vue')
 const NavigationDefault = () =>
   import(/* webpackChunkName: "navigationDefault" */ './views/NavigationDefault.vue')
-const CampNavigation = () =>
+const NavigationCamp = () =>
   import(
-    /* webpackChunkName: "navigationCamp" */ './views/camp/navigation/CampNavigation.vue'
+    /* webpackChunkName: "navigationCamp" */ './views/camp/navigation/NavigationCamp.vue'
   )
 
 /* istanbul ignore next */
@@ -199,7 +199,7 @@ export default new Router({
     {
       path: '/camps/:campId/:campTitle?',
       components: {
-        navigation: CampNavigation,
+        navigation: NavigationCamp,
         default: () => import(/* webpackChunkName: "camp" */ './views/camp/Camp.vue'),
       },
       beforeEnter: all([requireAuth, requireCamp]),
@@ -283,7 +283,7 @@ export default new Router({
       path: '/camps/:campId/:campTitle/admin/category/:categoryId/:categoryName?',
       name: 'category',
       components: {
-        navigation: CampNavigation,
+        navigation: NavigationCamp,
         default: () =>
           import(/* webpackChunkName: "campCategory" */ './views/activity/Category.vue'),
       },
@@ -298,7 +298,7 @@ export default new Router({
       path: '/camps/:campId/:campTitle/program/activities/:scheduleEntryId/:activityName?',
       name: 'activity',
       components: {
-        navigation: CampNavigation,
+        navigation: NavigationCamp,
         default: () =>
           import(/* webpackChunkName: "activity" */ './views/activity/Activity.vue'),
         aside: () =>

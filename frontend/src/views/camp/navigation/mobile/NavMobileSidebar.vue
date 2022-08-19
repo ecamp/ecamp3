@@ -25,7 +25,7 @@
           </template>
         </SidebarListItem>
         <SidebarListItem
-          :title="$tc('views.camps.title', 2)"
+          :title="$tc('views.camp.navigation.mobile.navItemCamps', 2)"
           icon="mdi-format-list-bulleted-triangle"
           :to="{ name: 'camps', query: { isDetail: true } }"
         />
@@ -43,19 +43,19 @@
         />
         <v-divider inset i />
         <SidebarListItem
-          :title="$tc('views.camp.navigation.mobile.navAdminItem')"
+          :title="$tc('views.camp.navigation.mobile.navItemCampAdmin')"
           icon="mdi-cogs"
           :to="campRoute(camp(), 'admin', { isDetail: true })"
         />
         <v-divider inset />
         <SidebarListItem
-          :title="$tc('views.camp.navigation.mobile.navCollaboratorsItem')"
+          :title="$tc('views.camp.navigation.mobile.navItemCollaborators')"
           icon="mdi-account-group"
           :to="campRoute(camp(), 'collaborators', { isDetail: true })"
         />
         <v-divider inset />
         <SidebarListItem
-          :title="$tc('views.camp.navigation.mobile.navPrintingItem')"
+          :title="$tc('views.camp.navigation.mobile.navItemPrinting')"
           icon="mdi-file-outline"
           :to="campRoute(camp(), 'print', { isDetail: true })"
         />
@@ -70,7 +70,7 @@
           class="ec-close-drawer pb-safe"
           @click="$emit('input', false)"
         >
-          {{ $tc('views.camp.navigation.mobile.navCloseItem') }}
+          {{ $tc('views.camp.navigation.mobile.navItemClose') }}
           <v-icon right>mdi-close</v-icon>
         </v-btn>
       </div>

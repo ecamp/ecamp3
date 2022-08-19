@@ -7,12 +7,12 @@
 </template>
 
 <script>
-import NavDesktop from '@/views/camp/navigation/NavDesktop.vue'
+import NavDesktop from '@/views/camp/navigation/desktop/NavDesktop.vue'
 import NavMobileBottom from '@/views/camp/navigation/mobile/NavMobileBottom.vue'
 import NavMobileSidebar from '@/views/camp/navigation/mobile/NavMobileSidebar.vue'
 
 export default {
-  name: 'CampNavigation',
+  name: 'NavigationCamp',
   components: {
     NavMobileSidebar,
     NavMobileBottom,
