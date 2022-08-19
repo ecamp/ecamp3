@@ -115,6 +115,21 @@
         },
         "title": "Einstellungen"
       },
+      "collaboratorListItem": {
+        "cannotAssignAnotherRoleToLastManager": "Du kannst dem letzten Manager keine andere Rolle zuteilen.",
+        "cannotRemoveLastManager": "Du kannst den letzten Manager nicht entfernen",
+        "deactivate": "Deaktivieren",
+        "resendEmail": "E-Mail erneut senden"
+      },
+      "collaboratorListItemDeactivate": {
+        "deactivate": "Deaktivieren",
+        "title": "Mitarbeiter:in deaktivieren",
+        "warningText": "Möchtest du '{name}' wirklich deaktivieren?"
+      },
+      "inactiveCampCollaboratorListItem": {
+        "inviteAgain": "Erneut einladen",
+        "delete": "Möchtest du diese:n Mitarbeiter:in wirklich entfernen?"
+      },
       "materialCreateItem": {
         "noMaterialListAvailable": "Für dieses Lager sind noch keine Materiallisten erfasst. Du kannst diese unter 'Admin' erfassen."
       },
@@ -166,11 +181,6 @@
           "label": "PDF herunterladen",
           "error": "Etwas hat nicht geklappt. Probiere es nochmals, oder lade die Seite neu."
         }
-      }
-    },
-    "story": {
-      "storyDay": {
-        "noStory": "Kein roter Faden an diesem Tag gefunden…"
       }
     },
     "dialog": {
@@ -282,7 +292,8 @@
       "sideBarProgram": {
         "title": "Tagesübersicht"
       },
-      "printPreview": "Druckvorschau öffnen"
+      "printPreview": "Druckvorschau öffnen",
+      "deleteWarning": "Möchtest du diese Aktivität wirklich löschen? Der komplette Inhalt dieser Aktivität wird gelöscht."
     },
     "auth": {
       "login": {
@@ -312,6 +323,7 @@
         "login": "Anmelden",
         "passwordConfirmation": "Passwort erneut eingeben",
         "register": "Registrieren",
+        "requiredField": "Pflichtfelder",
         "title": "Ein Konto erstellen"
       },
       "registerDone": {

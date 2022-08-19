@@ -57,23 +57,11 @@ Displays a single activity
         </div>
       </template>
       <template #title-actions>
-        <!-- layout/content switch -->
+        <!-- layout/content switch (back to content) -->
         <v-btn
-          v-if="!layoutMode"
-          color="primary"
-          outlined
-          :disabled="!isContributor"
-          @click="layoutMode = true"
-        >
-          <template v-if="$vuetify.breakpoint.smAndUp">
-            <v-icon left>mdi-puzzle-edit-outline</v-icon>
-            {{ $tc('views.activity.activity.changeLayout') }}
-          </template>
-          <template v-else>{{ $tc('views.activity.activity.layout') }}</template>
-        </v-btn>
-        <v-btn
-          v-else-if="isContributor"
+          v-if="layoutMode"
           color="success"
+          class="ml-3"
           outlined
           @click="layoutMode = false"
         >
@@ -84,8 +72,48 @@ Displays a single activity
           <template v-else>{{ $tc('views.activity.activity.back') }}</template>
         </v-btn>
 
-        <DownloadNuxtPdfButton :config="printConfig()" class="ml-3" />
-        <DownloadReactPdfButton :config="printConfig()" />
+        <!-- hamburger menu -->
+        <v-menu v-if="!layoutMode" offset-y>
+          <template #activator="{ on, attrs }">
+            <v-btn icon v-bind="attrs" v-on="on">
+              <v-icon>mdi-dots-vertical</v-icon>
+            </v-btn>
+          </template>
+
+          <v-list>
+            <DownloadNuxtPdf :config="printConfig()" @error="showPrintError" />
+            <DownloadReactPdf :config="printConfig()" @error="showPrintError" />
+
+            <v-divider />
+
+            <!-- layout/content switch (switch to layout mode) -->
+            <v-list-item :disabled="!isContributor" @click="layoutMode = true">
+              <v-list-item-icon>
+                <v-icon>mdi-puzzle-edit-outline</v-icon>
+              </v-list-item-icon>
+              <v-list-item-title>
+                {{ $tc('views.activity.activity.changeLayout') }}
+              </v-list-item-title>
+            </v-list-item>
+
+            <v-divider />
+
+            <!-- remove activity -->
+            <dialog-entity-delete :entity="activity" @submit="onDelete">
+              <template #activator="{ on }">
+                <v-list-item :disabled="!isContributor" v-on="on">
+                  <v-list-item-icon>
+                    <v-icon>mdi-delete</v-icon>
+                  </v-list-item-icon>
+                  <v-list-item-title>
+                    {{ $tc('global.button.delete') }}
+                  </v-list-item-title>
+                </v-list-item>
+              </template>
+              {{ $tc('views.activity.deleteWarning') }}
+            </dialog-entity-delete>
+          </v-list>
+        </v-menu>
       </template>
 
       <v-card-text class="px-0 py-0">
@@ -145,6 +173,15 @@ Displays a single activity
           />
         </template>
       </v-card-text>
+
+      <v-snackbar v-model="showError" app :timeout="10000">
+        {{ error ? error.label : null }}
+        <template #action="{ attrs }">
+          <v-btn color="red" text v-bind="attrs" @click="showError = null">
+            {{ $tc('global.button.close') }}
+          </v-btn>
+        </template>
+      </v-snackbar>
     </content-card>
   </v-container>
 </template>
@@ -156,8 +193,9 @@ import RootNode from '@/components/activity/RootNode.vue'
 import ActivityResponsibles from '@/components/activity/ActivityResponsibles.vue'
 import { rangeShort } from '@/common/helpers/dateHelperUTCFormatted.js'
 import { campRoleMixin } from '@/mixins/campRoleMixin'
-import DownloadReactPdfButton from '@/components/print/print-react/DownloadReactPdfButton.vue'
-import DownloadNuxtPdfButton from '@/components/print/print-nuxt/DownloadNuxtPdfButton.vue'
+import { periodRoute } from '@/router.js'
+import DownloadNuxtPdf from '@/components/print/print-nuxt/DownloadNuxtPdfListItem.vue'
+import DownloadReactPdf from '@/components/print/print-react/DownloadReactPdfListItem.vue'
 
 export default {
   name: 'Activity',
@@ -166,8 +204,8 @@ export default {
     ApiTextField,
     RootNode,
     ActivityResponsibles,
-    DownloadReactPdfButton,
-    DownloadNuxtPdfButton,
+    DownloadReactPdf,
+    DownloadNuxtPdf,
   },
   mixins: [campRoleMixin],
   provide() {
@@ -188,6 +226,8 @@ export default {
       layoutMode: false,
       editActivityTitle: false,
       loading: true,
+      showError: null,
+      error: null,
     }
   },
   computed: {
@@ -236,6 +276,10 @@ export default {
         this.editActivityTitle = true
       }
     },
+    showPrintError(event) {
+      this.error = event
+      this.showError = true
+    },
     printConfig() {
       return {
         camp: this.camp._meta.self,
@@ -251,6 +295,10 @@ export default {
           },
         ],
       }
+    },
+    onDelete() {
+      // redirect to Picasso
+      this.$router.push(periodRoute(this.scheduleEntry().period()))
     },
   },
 }

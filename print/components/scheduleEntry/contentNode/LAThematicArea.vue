@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import CheckMark from '../../CheckMark.vue'
+import CheckMark from '../../generic/CheckMark.vue'
 
 export default {
   components: {

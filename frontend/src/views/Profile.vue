@@ -21,9 +21,7 @@
               <dialog-change-mail>
                 <template #activator="{ on }">
                   <v-btn block outlined v-on="on">
-                    <v-icon left>
-                      mdi-pencil
-                    </v-icon>
+                    <v-icon left> mdi-pencil </v-icon>
                     {{ $tc('views.profile.changeEmail') }}
                   </v-btn>
                 </template>
@@ -87,10 +85,10 @@ export default {
     ApiTextField,
     ContentCard,
     DialogChangeMail,
-    DialogChangeMailRunning
+    DialogChangeMailRunning,
   },
   props: {
-    emailVerificationKey: { type: String, required: false, default: null }
+    emailVerificationKey: { type: String, required: false, default: null },
   },
   computed: {
     user() {

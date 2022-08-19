@@ -231,6 +231,23 @@ class Period extends BaseEntity implements BelongsToCampInterface {
     }
 
     /**
+     * All the content nodes used in some activity which is carried out (has a schedule entry) in this period.
+     *
+     * @return ContentNode[]
+     */
+    #[ApiProperty(writable: false, example: '["/content_nodes/1a2b3c4d"]')]
+    #[RelatedCollectionLink(ContentNode::class, ['period' => '$this'])]
+    #[Groups(['read'])]
+    public function getContentNodes(): array {
+        return array_values(array_unique(array_merge(...array_map(
+            function (ScheduleEntry $scheduleEntry) {
+                return $scheduleEntry->activity->getRootContentNode()->getRootDescendants();
+            },
+            $this->getScheduleEntries()
+        )), SORT_REGULAR));
+    }
+
+    /**
      * @return MaterialItem[]
      */
     #[ApiProperty(writable: false, example: '["/material_items/1a2b3c4d"]')]

@@ -107,11 +107,6 @@
         "remove": "Supprimer"
       }
     },
-    "story": {
-      "storyDay": {
-        "noStory": "Aucun contenu d'histoire trouvé ce jour-là..."
-      }
-    },
     "dialog": {
       "dialogCategoryCreate": {
         "title": "Créer une catégorie d'activité"

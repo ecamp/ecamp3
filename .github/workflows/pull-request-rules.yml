@@ -3,13 +3,17 @@ name: PR
 on:
   pull_request:
     types: [opened, labeled, unlabeled, synchronize]
+  push:
+    branches:
+      - 'renovate/**'
 
 jobs:
   no-meeting-discuss-label:
     name: No "Meeting Discuss" label
     runs-on: ubuntu-latest
     steps:
-      - uses: mheap/github-action-required-labels@d2892166405e47deea29d2052ab4cca1382df41e # renovate: tag=v1
+      - uses: mheap/github-action-required-labels@c0f708ca21f539fc66bac255181c40d7196c4cdc # tag=v2
+        if: github.event_name == 'pull_request'
         with:
           mode: exactly
           count: 0

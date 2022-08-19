@@ -1,4 +1,9 @@
 App\Entity\ScheduleEntry:
+  scheduleEntry1period1camp1:
+    period: '@period1'
+    activity: '@activity2'
+    startOffset: 600
+    endOffset: 660
   scheduleEntry1period1camp2:
     period: '@period1camp2'
     activity: '@activity1camp2'
