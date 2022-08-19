@@ -20,8 +20,8 @@ export default {
   name: 'SidebarListItem',
   props: {
     title: { type: String, required: true },
-    subtitle: { type: String, required: false },
-    icon: { type: String, required: false },
+    subtitle: { type: String, required: false, default: '' },
+    icon: { type: String, required: false, default: '' },
     hideAvatar: { type: Boolean, default: false },
     hideChevron: { type: Boolean, default: false },
     to: { type: [String, Object], default: null },

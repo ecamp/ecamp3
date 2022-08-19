@@ -2,7 +2,7 @@
   <NavDesktop v-if="$vuetify.breakpoint.smAndUp" :camp="camp" />
   <div v-else>
     <NavMobileBottom :camp="camp" @input="open = $event" />
-    <NavMobileSidebar :camp="camp" v-model="open" />
+    <NavMobileSidebar v-model="open" :camp="camp" />
   </div>
 </template>
 
@@ -18,13 +18,13 @@ export default {
     NavMobileBottom,
     NavDesktop,
   },
+  props: {
+    camp: { type: Function, required: true },
+  },
   data() {
     return {
       open: false,
     }
-  },
-  props: {
-    camp: { type: Function, required: true },
   },
 }
 </script>

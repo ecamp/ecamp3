@@ -6,7 +6,8 @@
       <v-btn :to="campRoute(camp(), 'program')" text>
         <v-icon :left="$vuetify.breakpoint.mdAndUp">mdi-view-tent-variant</v-icon>
         <span class="sr-only-sm-and-down">{{
-          camp().title | loading($tc('views.camp.navigation.desktop.navDesktop.campIsLoading'))
+          camp().title
+            | loading($tc('views.camp.navigation.desktop.navDesktop.campIsLoading'))
         }}</span>
       </v-btn>
       <v-btn :to="campRoute(camp(), 'program')" text>
