@@ -449,6 +449,7 @@
         },
         "mobile": {
           "navItemCampAdmin": "Camp settings",
+          "navItemCamps": "My Camps",
           "navItemClose": "Close menu",
           "navItemCollaborators": "Team",
           "navItemPrinting": "PDF / Print",

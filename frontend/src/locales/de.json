@@ -382,6 +382,7 @@
         },
         "mobile": {
           "navItemCampAdmin": "Lagereinstellungen",
+          "navItemCamps": "Meine Lager",
           "navItemClose": "Menü schliessen",
           "navItemCollaborators": "Team",
           "navItemPrinting": "PDF / Drucken",
