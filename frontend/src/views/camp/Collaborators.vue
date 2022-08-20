@@ -107,7 +107,7 @@ import ETextField from '@/components/form/base/ETextField.vue'
 import ESelect from '@/components/form/base/ESelect.vue'
 import InactiveCollaboratorListItem from '@/components/collaborator/InactiveCollaboratorListItem.vue'
 import { campRoleMixin } from '@/mixins/campRoleMixin'
-import serverErrorToString from '@/helpers/serverErrorToString'
+import { serverErrorToArray } from '@/helpers/serverError'
 
 const DEFAULT_INVITE_ROLE = 'member'
 
@@ -129,7 +129,7 @@ export default {
   data() {
     return {
       editing: false,
-      messages: [],
+      inviteEmailMessages: [],
       inviteEmail: '',
       inviteRole: DEFAULT_INVITE_ROLE,
     }
@@ -146,11 +146,6 @@ export default {
     },
     inactiveCollaborators() {
       return this.collaborators.filter((c) => c.status === 'inactive')
-    },
-    inviteEmailMessages() {
-      return this.messages
-        ? Object.values({ ...this.messages.map((value) => serverErrorToString(value)) })
-        : []
     },
   },
   created() {
@@ -170,14 +165,7 @@ export default {
         .then(this.refreshCamp, this.handleError)
     },
     handleError(e) {
-      if (e.response) {
-        if (e.response.status === 409 /* Conflict */) {
-          this.messages = [this.$tc('global.serverError.409')]
-        }
-        if (e.response.status === 422 /* Validation Error */) {
-          this.messages = e.response.data.violations
-        }
-      }
+      this.inviteEmailMessages = serverErrorToArray(e, 'inviteEmail')
     },
     refreshCamp() {
       this.inviteEmail = null
@@ -186,7 +174,7 @@ export default {
       this.api.reload(this.camp()._meta.self)
     },
     clearMessages() {
-      this.messages = []
+      this.inviteEmailMessages = []
     },
   },
 }

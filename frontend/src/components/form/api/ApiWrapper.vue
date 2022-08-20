@@ -31,7 +31,7 @@ Wrapper component for form components to save data back to API
 import { debounce } from 'lodash'
 import { apiPropsMixin } from '@/mixins/apiPropsMixin.js'
 import { ValidationObserver } from 'vee-validate'
-import serverErrorToString from '@/helpers/serverErrorToString.js'
+import { serverErrorToString } from '@/helpers/serverError.js'
 
 export default {
   name: 'ApiWrapper',
