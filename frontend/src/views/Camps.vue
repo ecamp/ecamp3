@@ -135,7 +135,10 @@ export default {
     },
   },
   mounted() {
-    this.api.reload(this.camps)
+    // Only reload camps if they were loaded before, to avoid console error
+    if (this.camps._meta.self !== null) {
+      this.api.reload(this.camps)
+    }
   },
   methods: {
     campRoute,
