@@ -99,7 +99,7 @@
     "lint-staged": "13.0.3",
     "prettier": "2.7.1",
     "sass": "1.32.13",
-    "vite": "2.9.14",
+    "vite": "2.9.15",
     "vite-plugin-components": "0.13.3",
     "vite-plugin-shim-react-pdf": "1.0.7",
     "vite-plugin-vue2": "2.0.2",
