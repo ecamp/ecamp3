@@ -6,11 +6,16 @@ App\Entity\ContentNode\Storyboard:
     position: 1
     instanceName: <word()>
     contentType: '@contentTypeStoryboard'
-
-App\Entity\ContentNode\StoryboardSection:
-  storyboardSectionCampUnrelated:
-    storyboard: '@storyboardCampUnrelated'
-    column1: <word()>
-    column2: <sentence()>
-    column3: <word()>
-    position: 0
+    data:
+      {
+        sections:
+          {
+            'cf13d4b5-3ccd-4d9a-ab40-ad6f7e287140':
+              {
+                column1: <word()>,
+                column2: <sentence()>,
+                column3: <word()>,
+                position: 0,
+              },
+          },
+      }

@@ -25,6 +25,6 @@ App\Entity\ContentNode\ColumnLayout:
     parent: null
     slot: ''
     position: 0
-    columns: [{slot: '1', width: 6}, {slot: '2', width: 6}]
+    data: { columns: [{ slot: '1', width: 6 }, { slot: '2', width: 6 }] }
     instanceName: 'columnLayout1'
     contentType: '@contentTypeColumnLayout'
