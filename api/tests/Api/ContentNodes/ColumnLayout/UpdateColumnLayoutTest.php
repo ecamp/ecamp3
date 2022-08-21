@@ -39,19 +39,12 @@ class UpdateColumnLayoutTest extends UpdateContentNodeTestCase {
         ];
 
         $contentNode = static::$fixtures['columnLayout2'];
-        static::createClientWithCredentials()->request('PATCH', $this->endpoint.'/'.$contentNode->getId(), ['json' => ['data' => [
+        $response = static::createClientWithCredentials()->request('PATCH', $this->endpoint.'/'.$contentNode->getId(), ['json' => ['data' => [
             'columns' => $INVALID_JSON_CONFIG,
         ]], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
 
         $this->assertResponseStatusCodeSame(422);
-        $this->assertJsonContains([
-            'violations' => [
-                [
-                    'propertyPath' => 'data',
-                    'message' => 'Provided JSON doesn\'t match required schema (Array expected, {"0":{"slot":"1","width":12},"data":"value"} received at #->properties:columns).',
-                ],
-            ],
-        ]);
+        $this->assertJsonSchemaError($response, 'data');
     }
 
     public function testPatchColumnLayoutRejectsInvalidWidth() {

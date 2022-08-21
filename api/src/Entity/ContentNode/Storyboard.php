@@ -9,7 +9,6 @@ use App\Repository\StoryboardRepository;
 use App\Validator\AssertJsonSchema;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
-use Symfony\Component\Validator\Constraints as Assert;
 
 #[ApiResource(
     routePrefix: '/content_node',
@@ -43,14 +42,25 @@ class Storyboard extends ContentNode {
         'required' => ['sections'],
         'properties' => [
             'sections' => [
-                'type' => 'object',
-                'patternProperties' => [
-                    // uuid4 key
-                    '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}' => [
-                        '$ref' => '#/$defs/section',
+                'anyOf' => [
+                    [
+                        'type' => 'object',
+                        'patternProperties' => [
+                            // uuid4 key
+                            '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}' => [
+                                '$ref' => '#/$defs/section',
+                            ],
+                        ],
+                        'additionalProperties' => false,
+                    ],
+
+                    // empty array
+                    // this is needed because PHP's json_decode cannot distinguish between empty array and empty object and will always decode [] to an empty array
+                    [
+                        'type' => 'array',
+                        'maxItems' => 0,
                     ],
                 ],
-                'additionalProperties' => false,
             ],
         ],
         '$defs' => [
@@ -81,10 +91,9 @@ class Storyboard extends ContentNode {
      * Holds the actual data of the content node
      * (overridden from abstract class in order to add specific validation).
      */
-    #[ApiProperty(example: ['text' => 'dummy text'])]
+    #[ApiProperty(example: ['sections' => []])]
     #[Groups(['read', 'write'])]
     #[ORM\Column(type: 'json', nullable: true, options: ['jsonb' => true])]
-    #[Assert\IsNull(groups: ['create'])] // create with empty data; default value is populated by data persister
-    #[AssertJsonSchema(schema: self::JSON_SCHEMA, groups: ['update'])]
-    public ?array $data = null;
+    #[AssertJsonSchema(schema: self::JSON_SCHEMA)]
+    public ?array $data = ['sections' => []];
 }

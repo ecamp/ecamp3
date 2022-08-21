@@ -36,20 +36,13 @@ class UpdateMultiSelectTest extends UpdateContentNodeTestCase {
     }
 
     public function testPatchMultiSelectRejectsInvalidJson() {
-        $this->patch($this->defaultEntity, ['data' => [
+        $response = $this->patch($this->defaultEntity, ['data' => [
             'options' => [
                 'key1' => ['checked' => false, 'additionalProperty' => 'dummy'],
             ],
         ]]);
 
         $this->assertResponseStatusCodeSame(422);
-        $this->assertJsonContains([
-            'violations' => [
-                [
-                    'propertyPath' => 'data',
-                    'message' => 'Provided JSON doesn\'t match required schema (Additional properties not allowed: additionalProperty at #->properties:options->additionalProperties:key1->$ref[#/$defs/option]).',
-                ],
-            ],
-        ]);
+        $this->assertJsonSchemaError($response, 'data');
     }
 }

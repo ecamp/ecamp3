@@ -26,9 +26,7 @@ class StoryboardDataPersister extends ContentNodeAbstractDataPersister {
     public function beforeCreate($data): Storyboard {
         $data = parent::beforeCreate($data);
 
-        $data->data = ['sections' => []];
-
-        return $data;
+        return $this->sanitizeData($data);
     }
 
     /**
@@ -37,6 +35,10 @@ class StoryboardDataPersister extends ContentNodeAbstractDataPersister {
     public function beforeUpdate($data): Storyboard {
         $data = parent::beforeUpdate($data);
 
+        return $this->sanitizeData($data);
+    }
+
+    private function sanitizeData($data) {
         foreach ($data->data['sections'] as &$section) {
             $section = $this->cleanHTMLFilter->applyTo($section, 'column1');
             $section = $this->cleanHTMLFilter->applyTo($section, 'column2');

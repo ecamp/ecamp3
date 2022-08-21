@@ -48,17 +48,10 @@ class CreateColumnLayoutTest extends CreateContentNodeTestCase {
             'data' => 'value',
         ];
 
-        $this->create($this->getExampleWritePayload(['data' => ['columns' => $INVALID_JSON_CONFIG]]));
+        $response = $this->create($this->getExampleWritePayload(['data' => ['columns' => $INVALID_JSON_CONFIG]]));
 
         $this->assertResponseStatusCodeSame(422);
-        $this->assertJsonContains([
-            'violations' => [
-                [
-                    'propertyPath' => 'data',
-                    'message' => 'Provided JSON doesn\'t match required schema (Array expected, {"0":{"slot":"1","width":12},"data":"value"} received at #->properties:columns).',
-                ],
-            ],
-        ]);
+        $this->assertJsonSchemaError($response, 'data');
     }
 
     public function testCreateColumnLayoutRejectsInvalidWidth() {
