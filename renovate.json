@@ -5,10 +5,11 @@
   ],
   "force": {
     "constraints": {
-      "node": "= 16.3.0",
+      "node": "< 17.0.0",
       "npm": ">= 7.15.1"
     }
   },
+  "automergeType": "branch",
   "vulnerabilityAlerts": {
     "automerge": true
   },
@@ -23,6 +24,15 @@
       "automerge": true
     },
     {
+      "extends": [
+        "monorepo:vue"
+      ],
+      "matchUpdateTypes": [
+        "major"
+      ],
+      "dependencyDashboardApproval": true
+    },
+    {
       "matchPackageNames": [
         "sass"
       ],
@@ -33,6 +43,12 @@
         "php"
       ],
       "automerge": false
+    },
+    {
+      "matchPackagePatterns": [
+        "^@tiptap\/"
+      ],
+      "groupName": "tiptap"
     },
     {
       "matchPackagePatterns": [
@@ -76,9 +92,6 @@
       ],
       "allowedVersions": "13-alpine"
     }
-  ],
-  "ignorePaths": [
-    "backend/"
   ],
   "regexManagers": [
     {

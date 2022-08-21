@@ -115,6 +115,21 @@
         },
         "title": "Einstellungen"
       },
+      "collaboratorListItem": {
+        "cannotAssignAnotherRoleToLastManager": "Du kannst dem letzten Manager keine andere Rolle zuteilen.",
+        "cannotRemoveLastManager": "Du kannst den letzten Manager nicht entfernen",
+        "deactivate": "Deaktivieren",
+        "resendEmail": "E-Mail erneut senden"
+      },
+      "collaboratorListItemDeactivate": {
+        "deactivate": "Deaktivieren",
+        "title": "Mitarbeiter:in deaktivieren",
+        "warningText": "Möchtest du '{name}' wirklich deaktivieren?"
+      },
+      "inactiveCampCollaboratorListItem": {
+        "inviteAgain": "Erneut einladen",
+        "delete": "Möchtest du diese:n Mitarbeiter:in wirklich entfernen?"
+      },
       "materialCreateItem": {
         "noMaterialListAvailable": "Für dieses Lager sind noch keine Materiallisten erfasst. Du kannst diese unter 'Admin' erfassen."
       },
@@ -168,11 +183,6 @@
         }
       }
     },
-    "story": {
-      "storyDay": {
-        "noStory": "Kein roter Faden an diesem Tag gefunden…"
-      }
-    },
     "dialog": {
       "dialogCategoryCreate": {
         "title": "Block-Kategorie erstellen"
@@ -202,6 +212,20 @@
         "logOut": "Ausloggen",
         "myCamps": "Mein Lager | Meine Lager",
         "profile": "Profil"
+      }
+    },
+    "user": {
+      "dialogChangeMail": {
+        "title": "E-Mail-Adresse ändern",
+        "message": "Zur Verifikation schicken wir dir eine Mail.",
+        "success": "Bevor du die neue E-Mail-Adresse verwenden kannst, muss du diese verifizieren. Prüfe jetzt deine Mailbox.",
+        "error": "Leider ist ein Fehler aufgetreten."
+      },
+      "dialogChangeMailRunning": {
+        "title": "E-Mail-Adresse wird geändert",
+        "message": "E-Mail-Adresse wird geändert...",
+        "success": "E-Mail-Adresse erfolgreich geändert.",
+        "error": "Leider ist ein Fehler aufgetreten."
       }
     }
   },
@@ -268,7 +292,8 @@
       "sideBarProgram": {
         "title": "Tagesübersicht"
       },
-      "printPreview": "Druckvorschau öffnen"
+      "printPreview": "Druckvorschau öffnen",
+      "deleteWarning": "Möchtest du diese Aktivität wirklich löschen? Der komplette Inhalt dieser Aktivität wird gelöscht."
     },
     "auth": {
       "login": {
@@ -298,11 +323,13 @@
         "login": "Anmelden",
         "passwordConfirmation": "Passwort erneut eingeben",
         "register": "Registrieren",
+        "requiredField": "Pflichtfelder",
         "title": "Ein Konto erstellen"
       },
       "registerDone": {
         "login": "Anmelden",
         "success": "Erfolgreich registriert",
+        "message": "Wir haben dir eine Mail geschickt. Bitte schliesse die Registrierung ab, in dem du den Aktivierungs-Link im Mail aufrufst.",
         "title": "Konto erstellen"
       },
       "resetPassword": {
@@ -380,6 +407,7 @@
       "title": "Mein Lager | Meine Lager"
     },
     "profile": {
+      "changeEmail": "Ändern",
       "profile": "Profil"
     }
   }

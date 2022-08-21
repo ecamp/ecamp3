@@ -17,14 +17,14 @@ describe('An ECheckbox', () => {
       components: { ECheckbox },
       data: function () {
         return {
-          data: null
+          data: null,
         }
       },
       template: `
         <div data-app>
           <e-checkbox v-model="data"/>
         </div>
-      `
+      `,
     })
     return mountComponent(app, { vuetify, attachTo: document.body, ...options })
   }
@@ -44,9 +44,9 @@ describe('An ECheckbox', () => {
     const wrapper = mount({
       data: function () {
         return {
-          data: true
+          data: true,
         }
-      }
+      },
     })
     expect(
       wrapper.find('input[type=checkbox]').element.getAttribute('aria-checked')

@@ -2,18 +2,12 @@
 import React from 'react'
 import { View } from '../../../reactPdf.js'
 
-function ColumnLayout (props) {
+function ColumnLayout(props) {
   const ContentNode = props.ContentNode
   const columns = props.contentNode.data.columns
   const firstSlot = columns.length ? columns[0].slot : '1'
   const lastSlot = columns.length ? columns[columns.length - 1].slot : '1'
-  const children = props.allContentNodes
-    .items.filter((contentNode) => {
-      return (
-        contentNode.parent &&
-        contentNode.parent()._meta.self === props.contentNode._meta.self
-      )
-    })
+  const children = props.contentNode.children().items
 
   return (
     <View style={{ display: 'flex', flexDirection: 'row' }}>
@@ -28,7 +22,7 @@ function ColumnLayout (props) {
                 (slot === lastSlot ? '0' : '1%') +
                 ' 2pt ' +
                 (slot === firstSlot ? '0' : '1%'),
-              flexBasis: width * 1000 + 'pt'
+              flexBasis: width * 1000 + 'pt',
             }}
           >
             {children

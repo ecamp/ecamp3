@@ -17,7 +17,8 @@
         icon="mdi-refresh"
         :animate="resendingEmail"
         :disabled="disabled"
-        @click="resendInvitation">
+        @click="resendInvitation"
+      >
         {{ $tc('components.camp.collaboratorListItem.resendEmail') }}
       </icon-button>
     </v-list-item-action>
@@ -39,7 +40,8 @@
               :my="0"
               dense
               vee-rules="required"
-              :disabled="disabled || isLastManager" />
+              :disabled="disabled || isLastManager"
+            />
           </div>
         </template>
         <span>{{
@@ -51,12 +53,17 @@
       <v-tooltip :disabled="disabled || !isLastManager" top>
         <template #activator="{ on, attrs }">
           <div v-bind="attrs" v-on="on">
-            <button-delete
-              :disabled="(disabled && !isOwnCampCollaboration) || isLastManager"
-              icon="mdi-cancel"
-              @click="deactivateUser">
-              {{ $tc('components.camp.collaboratorListItem.deactivate') }}
-            </button-delete>
+            <CollaboratorListItemDeactivate :entity="collaborator">
+              <template #activator="{ on: onDialog }">
+                <button-delete
+                  :disabled="(disabled && !isOwnCampCollaboration) || isLastManager"
+                  icon="mdi-cancel"
+                  v-on="onDialog"
+                >
+                  {{ $tc('components.camp.collaboratorListItem.deactivate') }}
+                </button-delete>
+              </template>
+            </CollaboratorListItemDeactivate>
           </div>
         </template>
         <span>{{
@@ -69,22 +76,27 @@
 
 <script>
 import ApiSelect from '@/components/form/api/ApiSelect.vue'
-import ButtonDelete from '@/components/buttons/ButtonDelete.vue'
 import UserAvatar from '@/components/user/UserAvatar.vue'
 import IconButton from '@/components/buttons/IconButton.vue'
+import CollaboratorListItemDeactivate from '@/components/collaborator/CollaboratorListItemDeactivate.vue'
 
 export default {
   name: 'CollaboratorListItem',
-  components: { ButtonDelete, ApiSelect, UserAvatar, IconButton },
+  components: {
+    ApiSelect,
+    UserAvatar,
+    IconButton,
+    CollaboratorListItemDeactivate,
+  },
   props: {
     collaborator: { type: Object, required: true },
-    disabled: { type: Boolean, default: false }
+    disabled: { type: Boolean, default: false },
   },
   data: () => ({
-    resendingEmail: false
+    resendingEmail: false,
   }),
   computed: {
-    isLastManager () {
+    isLastManager() {
       if (this.collaborator.status !== 'established') return false
       if (this.collaborator.role !== 'manager') return false
       const camp = this.collaborator.camp()
@@ -95,35 +107,27 @@ export default {
           .filter((collaborator) => collaborator.role === 'manager').length <= 1
       )
     },
-    isOwnCampCollaboration () {
+    isOwnCampCollaboration() {
       if (!(typeof this.collaborator.user === 'function')) {
         return false
       }
       return this.$auth.user().id === this.collaborator.user().id
-    }
+    },
   },
   methods: {
-    resendInvitation () {
+    resendInvitation() {
       this.resendingEmail = true
       this.api
         .href(this.api.get(), 'campCollaborations', {
           id: this.collaborator.id,
-          action: 'resend_invitation'
+          action: 'resend_invitation',
         })
         .then((postUrl) => this.api.patch(postUrl, {}))
         .finally(() => {
           this.resendingEmail = false
         })
     },
-    deactivateUser () {
-      const ok = this.api.patch(this.collaborator, { status: 'inactive' })
-
-      if (this.isOwnCampCollaboration) {
-        // User left camp -> navigate to camp-overview
-        ok.then(() => this.$router.push({ name: 'camps' }))
-      }
-    }
-  }
+  },
 }
 </script>
 

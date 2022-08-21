@@ -10,9 +10,6 @@ use App\Tests\Api\ECampApiTestCase;
  * @internal
  */
 class UpdateCampCollaborationTest extends ECampApiTestCase {
-    // TODO input filter tests
-    // TODO validation tests
-
     public function testPatchCampCollaborationIsDeniedForAnonymousUser() {
         $campCollaboration = static::$fixtures['campCollaboration1manager'];
         static::createBasicClient()->request('PATCH', '/camp_collaborations/'.$campCollaboration->getId(), ['json' => [

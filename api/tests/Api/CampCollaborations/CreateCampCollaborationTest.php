@@ -11,9 +11,6 @@ use App\Tests\Api\ECampApiTestCase;
  * @internal
  */
 class CreateCampCollaborationTest extends ECampApiTestCase {
-    // TODO input filter tests
-    // TODO validation tests
-
     public function testCreateCampCollaborationIsDeniedForAnonymousUser() {
         static::createBasicClient()->request('POST', '/camp_collaborations', ['json' => $this->getExampleWritePayload([
             'user' => $this->getIriFor('user4unrelated'),
@@ -192,6 +189,65 @@ class CreateCampCollaborationTest extends ECampApiTestCase {
         ]);
     }
 
+    public function testCreateCampCollaborationValidatesIfInviteEmailIsBlank() {
+        static::createClientWithCredentials()->request('POST', '/camp_collaborations', ['json' => $this->getExampleWritePayload([
+            'inviteEmail' => '',
+        ], ['user'])]);
+
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'title' => 'An error occurred',
+            'detail' => 'inviteEmail: This value is too short. It should have 1 character or more.',
+        ]);
+    }
+
+    public function testCreateCampCollaborationValidatesIfInviteEmailIsValid() {
+        static::createClientWithCredentials()->request('POST', '/camp_collaborations', ['json' => $this->getExampleWritePayload([
+            'inviteEmail' => 'not an email',
+        ], ['user'])]);
+
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'title' => 'An error occurred',
+            'detail' => 'inviteEmail: This value is not a valid email address.',
+        ]);
+    }
+
+    public function testCreateCampCollaborationValidatesInviteEmailLength() {
+        static::createClientWithCredentials()->request('POST', '/camp_collaborations', ['json' => $this->getExampleWritePayload([
+            'inviteEmail' => str_repeat('a', 128).'@test.com',
+        ], ['user'])]);
+
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'title' => 'An error occurred',
+            'detail' => 'inviteEmail: This value is too long. It should have 128 characters or less.',
+        ]);
+    }
+
+    public function testCreateCampCollaborationTrimsInviteEmail() {
+        static::createClientWithCredentials()->request(
+            'POST',
+            '/camp_collaborations',
+            [
+                'json' => $this->getExampleWritePayload(
+                    [
+                        'inviteEmail' => " \tsomeone@example.com \t",
+                    ],
+                    ['user']
+                ),
+            ]
+        );
+
+        $this->assertResponseStatusCodeSame(201);
+        $this->assertJsonContains($this->getExampleReadPayload([
+            'inviteEmail' => 'someone@example.com',
+            '_links' => [
+                'user' => null,
+            ],
+        ]));
+    }
+
     public function testCreateCampCollaborationWithInviteEmailInsteadOfUserIsPossible() {
         static::createClientWithCredentials()->request('POST', '/camp_collaborations', ['json' => $this->getExampleWritePayload([
             'inviteEmail' => 'someone@example.com',
@@ -313,6 +369,39 @@ class CreateCampCollaborationTest extends ECampApiTestCase {
         ]);
     }
 
+    public function testCreateCampCollaborationValidatesIfUserAndInviteEmailAreNull() {
+        static::createClientWithCredentials()->request(
+            'POST',
+            '/camp_collaborations',
+            [
+                'json' => $this->getExampleWritePayload(
+                    [
+                        'inviteEmail' => null,
+                        'user' => null,
+                    ],
+                    []
+                ),
+            ]
+        );
+
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'title' => 'An error occurred',
+            'violations' => [
+                [
+                    'propertyPath' => 'inviteEmail',
+                    'message' => 'Either this value or user should not be null.',
+                    'code' => null,
+                ],
+                [
+                    'propertyPath' => 'user',
+                    'message' => 'Either this value or inviteEmail should not be null.',
+                    'code' => null,
+                ],
+            ],
+        ]);
+    }
+
     public function testCreateCampCollaborationValidatesConflictingUserAndInviteEmail() {
         static::createClientWithCredentials()->request('POST', '/camp_collaborations', ['json' => $this->getExampleWritePayload([
             'inviteEmail' => 'someone@example.com',
@@ -356,6 +445,28 @@ class CreateCampCollaborationTest extends ECampApiTestCase {
         $this->assertResponseStatusCodeSame(400);
         $this->assertJsonContains([
             'detail' => 'Extra attributes are not allowed ("status" is unknown).',
+        ]);
+    }
+
+    public function testCreateCampCollaborationDisallowsSettingInviteKey() {
+        static::createClientWithCredentials()->request('POST', '/camp_collaborations', ['json' => $this->getExampleWritePayload([
+            'inviteKey' => 'hash',
+        ])]);
+
+        $this->assertResponseStatusCodeSame(400);
+        $this->assertJsonContains([
+            'detail' => 'Extra attributes are not allowed ("inviteKey" is unknown).',
+        ]);
+    }
+
+    public function testCreateCampCollaborationDisallowsSettingInviteKeyHash() {
+        static::createClientWithCredentials()->request('POST', '/camp_collaborations', ['json' => $this->getExampleWritePayload([
+            'inviteKeyHash' => 'hash',
+        ])]);
+
+        $this->assertResponseStatusCodeSame(400);
+        $this->assertJsonContains([
+            'detail' => 'Extra attributes are not allowed ("inviteKeyHash" is unknown).',
         ]);
     }
 

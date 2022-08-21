@@ -14,9 +14,12 @@
         <v-col cols="1" />
       </v-row>
 
-      <api-sortable v-slot="sortable" :disabled="layoutMode || disabled"
-                    :items="sections"
-                    @sort="updateSections">
+      <api-sortable
+        v-slot="sortable"
+        :disabled="layoutMode || disabled"
+        :items="sections"
+        @sort="updateSections"
+      >
         <api-form :entity="contentNode">
           <v-row dense>
             <v-col cols="2">
@@ -25,7 +28,8 @@
                 auto-grow
                 rows="2"
                 :disabled="layoutMode || disabled"
-                :filled="layoutMode" />
+                :filled="layoutMode"
+              />
             </v-col>
             <v-col cols="7">
               <api-textarea
@@ -33,7 +37,8 @@
                 auto-grow
                 rows="4"
                 :disabled="layoutMode || disabled"
-                :filled="layoutMode" />
+                :filled="layoutMode"
+              />
             </v-col>
             <v-col cols="2">
               <api-textarea
@@ -41,7 +46,8 @@
                 auto-grow
                 rows="2"
                 :disabled="layoutMode || disabled"
-                :filled="layoutMode" />
+                :filled="layoutMode"
+              />
             </v-col>
             <v-col cols="1">
               <v-container v-if="!layoutMode && !disabled" class="ma-0 pa-0">
@@ -49,9 +55,12 @@
                   <v-col cols="6">
                     <!-- TODO: dialog to ask for confirmation before deletion -->
                     <div class="section-buttons">
-                      <v-btn icon x-small
-                             color="error"
-                             @click="sortable.on.delete(sortable.itemKey)">
+                      <v-btn
+                        icon
+                        x-small
+                        color="error"
+                        @click="sortable.on.delete(sortable.itemKey)"
+                      >
                         <v-icon>mdi-delete</v-icon>
                       </v-btn>
                     </div>
@@ -61,13 +70,11 @@
                   </v-col>
                   <v-col cols="6">
                     <div class="section-buttons">
-                      <v-btn icon x-small
-                             @click="sortable.on.moveUp(sortable.itemKey)">
+                      <v-btn icon x-small @click="sortable.on.moveUp(sortable.itemKey)">
                         <v-icon>mdi-arrow-up-bold</v-icon>
                       </v-btn>
 
-                      <v-btn icon x-small
-                             @click="sortable.on.moveDown(sortable.itemKey)">
+                      <v-btn icon x-small @click="sortable.on.moveDown(sortable.itemKey)">
                         <v-icon>mdi-arrow-down-bold</v-icon>
                       </v-btn>
                     </div>
@@ -89,7 +96,8 @@
             class="button-add"
             color="success"
             :loading="isAdding"
-            @click="addSection">
+            @click="addSection"
+          >
             <v-icon>mdi-plus</v-icon>
           </v-btn>
         </v-col>
@@ -113,24 +121,24 @@ export default {
     CardContentNode,
     ApiForm,
     ApiTextarea,
-    ApiSortable
+    ApiSortable,
   },
   mixins: [contentNodeMixin],
   props: {
-    contentNode: { type: Object, required: true }
+    contentNode: { type: Object, required: true },
   },
-  data () {
+  data() {
     return {
-      isAdding: false
+      isAdding: false,
     }
   },
   computed: {
-    sections () {
+    sections() {
       return this.api.get(this.contentNode).data.sections
-    }
+    },
   },
   methods: {
-    async addSection () {
+    async addSection() {
       this.isAdding = true
 
       const sectionId = uuidv4()
@@ -143,10 +151,10 @@ export default {
                 column1: '',
                 column2: '',
                 column3: '',
-                position: Object.keys(this.sections).length + 1
-              }
-            }
-          }
+                position: Object.keys(this.sections).length + 1,
+              },
+            },
+          },
         })
       } catch (error) {
         console.log(error) // TO DO: display error message in error snackbar/toast
@@ -155,18 +163,18 @@ export default {
       this.isAdding = false
     },
 
-    async updateSections (payload) {
+    async updateSections(payload) {
       try {
         await this.contentNode.$patch({
           data: {
-            sections: payload
-          }
+            sections: payload,
+          },
         })
       } catch (error) {
         console.log(error) // TO DO: display error message in error snackbar/toast
       }
-    }
-  }
+    },
+  },
 }
 </script>
 

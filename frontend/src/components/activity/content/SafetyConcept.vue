@@ -7,7 +7,8 @@
           :placeholder="$tc('contentNode.safetyConcept.name')"
           rows="2"
           :disabled="layoutMode || disabled"
-          :filled="layoutMode" />
+          :filled="layoutMode"
+        />
       </api-form>
     </div>
   </card-content-node>
@@ -24,9 +25,9 @@ export default {
   components: {
     CardContentNode,
     ApiForm,
-    ApiRichtext
+    ApiRichtext,
   },
-  mixins: [contentNodeMixin]
+  mixins: [contentNodeMixin],
 }
 </script>
 

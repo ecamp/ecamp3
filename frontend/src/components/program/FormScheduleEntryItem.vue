@@ -10,7 +10,8 @@
           :allowed-dates="allowedStartDates"
           :filled="false"
           class="float-left date-picker"
-          required />
+          required
+        />
 
         <e-time-picker
           v-model="localScheduleEntry.start"
@@ -18,11 +19,10 @@
           vee-rules="required"
           :filled="false"
           class="float-left mt-0 ml-3 time-picker"
-          required />
+          required
+        />
       </v-col>
-      <v-col cols="1" class="text-center pt-4">
-        -
-      </v-col>
+      <v-col cols="1" class="text-center pt-4"> - </v-col>
       <v-col cols="5">
         <e-date-picker
           v-model="localScheduleEntry.end"
@@ -32,7 +32,8 @@
           :allowed-dates="allowedEndDates"
           :filled="false"
           class="float-left date-picker"
-          required />
+          required
+        />
 
         <e-time-picker
           v-model="localScheduleEntry.end"
@@ -40,7 +41,8 @@
           vee-rules="required"
           :filled="false"
           class="float-left mt-0 ml-3 time-picker"
-          required />
+          required
+        />
       </v-col>
 
       <v-col cols="1" class="pt-3 text-center">
@@ -61,29 +63,29 @@ export default {
     // scheduleEntry to display
     scheduleEntry: {
       type: Object,
-      required: true
+      required: true,
     },
 
     // List of available periods
     periods: {
       type: Array,
-      required: true
+      required: true,
     },
 
     // true if current item is the last scheduleEntry
     isLastItem: {
       type: Boolean,
-      required: true
-    }
+      required: true,
+    },
   },
-  data () {
+  data() {
     return {
-      localScheduleEntry: this.scheduleEntry
+      localScheduleEntry: this.scheduleEntry,
     }
   },
   computed: {
     // detect selected period based on start date
-    period () {
+    period() {
       const startDate = dayjs.utc(this.localScheduleEntry.start)
 
       return this.periods.find((period) => {
@@ -94,7 +96,7 @@ export default {
           '[]'
         )
       })
-    }
+    },
   },
   watch: {
     'period._meta.self': function (value) {
@@ -113,7 +115,7 @@ export default {
         .utc(this.localScheduleEntry.end)
         .add(delta)
         .format()
-    }
+    },
   },
   methods: {
     // returns true for any date that is within any available period
@@ -143,8 +145,8 @@ export default {
         'date',
         '[]'
       )
-    }
-  }
+    },
+  },
 }
 </script>
 <style scoped lang="scss">

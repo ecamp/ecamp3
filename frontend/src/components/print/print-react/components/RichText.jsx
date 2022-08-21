@@ -3,7 +3,7 @@ import React from 'react'
 import { Text, View } from '../reactPdf.js'
 import htmlToReact from 'html-to-react'
 
-function addKeys (children) {
+function addKeys(children) {
   return children.map((child, idx) => ({ ...child, key: idx }))
 }
 
@@ -14,7 +14,7 @@ const richTextRules = [
     },
     processNode: function (node) {
       return <Text>{node.data}</Text>
-    }
+    },
   },
   {
     replaceChildren: true,
@@ -23,7 +23,7 @@ const richTextRules = [
     },
     processNode: function (node, children) {
       return children.length ? <Text>{addKeys(children)}</Text> : <Text> </Text>
-    }
+    },
   },
   {
     replaceChildren: true,
@@ -32,7 +32,7 @@ const richTextRules = [
     },
     processNode: function (node, children) {
       return <Text style={{ fontWeight: 'bold' }}>{addKeys(children)}</Text>
-    }
+    },
   },
   {
     replaceChildren: true,
@@ -47,13 +47,13 @@ const richTextRules = [
         <Text
           style={{
             fontWeight: 'bold',
-            fontSize: 16 - 2 * parseInt(node.name.charAt(1))
+            fontSize: 16 - 2 * parseInt(node.name.charAt(1)),
           }}
         >
           {addKeys(children)}
         </Text>
       )
-    }
+    },
   },
   {
     replaceChildren: true,
@@ -62,7 +62,7 @@ const richTextRules = [
     },
     processNode: function (node, children) {
       return <Text style={{ fontStyle: 'italic' }}>{addKeys(children)}</Text>
-    }
+    },
   },
   {
     replaceChildren: true,
@@ -71,7 +71,7 @@ const richTextRules = [
     },
     processNode: function (node, children) {
       return <Text style={{ textDecoration: 'underline' }}>{addKeys(children)}</Text>
-    }
+    },
   },
   {
     replaceChildren: true,
@@ -80,7 +80,7 @@ const richTextRules = [
     },
     processNode: function (node, children) {
       return <Text style={{ textDecoration: 'line-through' }}>{addKeys(children)}</Text>
-    }
+    },
   },
   {
     replaceChildren: true,
@@ -89,7 +89,7 @@ const richTextRules = [
     },
     processNode: function (node, children) {
       return children
-    }
+    },
   },
   {
     replaceChildren: true,
@@ -98,7 +98,7 @@ const richTextRules = [
     },
     processNode: function (node, children) {
       return children
-    }
+    },
   },
   {
     replaceChildren: true,
@@ -107,7 +107,7 @@ const richTextRules = [
     },
     processNode: function (node, children) {
       return <Text style={{ marginLeft: '4pt' }}>• {children}</Text>
-    }
+    },
   },
 
   // fall back tag --> print as plain text
@@ -119,7 +119,7 @@ const richTextRules = [
     processNode: function (node, children) {
       console.log('unknown HTML node tag', node, children)
       return <Text>{addKeys(children)}</Text>
-    }
+    },
   },
   {
     replaceChildren: true,
@@ -129,11 +129,11 @@ const richTextRules = [
     processNode: function (node, children) {
       console.log('unknown HTML node type', node, children)
       return <View />
-    }
-  }
+    },
+  },
 ]
 
-function RichText ({ richText }) {
+function RichText({ richText }) {
   if (!richText) return <View />
   const htmlToReactParser = new htmlToReact.Parser()
   return htmlToReactParser.parseWithInstructions(richText, () => true, richTextRules)

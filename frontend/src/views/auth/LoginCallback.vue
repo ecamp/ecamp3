@@ -14,9 +14,9 @@
 <script>
 export default {
   name: 'LoginCallback',
-  beforeRouteEnter (to, from, next) {
+  beforeRouteEnter(to, from, next) {
     next(decodeURI(to.query.redirect || '/'))
-  }
+  },
 }
 </script>
 <style scoped></style>

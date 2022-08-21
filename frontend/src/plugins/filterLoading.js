@@ -1,5 +1,5 @@
 class FilterLoadingPlugin {
-  install (Vue) {
+  install(Vue) {
     Vue.filter(
       'loading',
       function (

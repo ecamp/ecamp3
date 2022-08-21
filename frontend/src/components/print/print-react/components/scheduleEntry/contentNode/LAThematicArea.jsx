@@ -4,7 +4,7 @@ import { View, Text } from '../../../reactPdf.js'
 import camelCase from 'lodash/camelCase.js'
 import Checkmark from '../../Checkmark.jsx'
 
-function LAThematicArea (props) {
+function LAThematicArea(props) {
   const laThematicArea = props.contentNode
   const options = laThematicArea.options().items.filter((item) => item.checked)
   return (

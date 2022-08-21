@@ -4,15 +4,15 @@ namespace App\Serializer\Denormalizer;
 
 use App\Entity\MaterialItem;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\Serializer\Normalizer\ContextAwareDenormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
+use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 
 /**
  * This class is responsible for denormalizing (writing) MaterialItem entities during POST (create) operation
  * Purpose: adds specific query parameters (period, materialNode) to the POST payload.
  */
-class MaterialItemDenormalizer implements ContextAwareDenormalizerInterface, DenormalizerAwareInterface {
+class MaterialItemDenormalizer implements DenormalizerInterface, DenormalizerAwareInterface {
     use DenormalizerAwareTrait;
 
     private const ALREADY_CALLED = 'MATERIAL_ITEM_DENORMALIZER_ALREADY_CALLED';

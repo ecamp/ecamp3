@@ -4,7 +4,8 @@
     ref="validation"
     tag="tr"
     class="newItemRow"
-    @keyup.enter="submitForm">
+    @keyup.enter="submitForm"
+  >
     <td>
       <e-text-field
         ref="quantity"
@@ -13,14 +14,16 @@
         vee-rules="numeric"
         type="number"
         :name="$tc('entity.materialItem.fields.quantity')"
-        fieldname="quantity" />
+        fieldname="quantity"
+      />
     </td>
     <td>
       <e-text-field
         v-model="materialItem.unit"
         dense
         :name="$tc('entity.materialItem.fields.unit')"
-        fieldname="unit" />
+        fieldname="unit"
+      />
     </td>
     <td>
       <e-text-field
@@ -28,7 +31,8 @@
         dense
         vee-rules="required"
         :name="$tc('entity.materialItem.fields.article')"
-        fieldname="article" />
+        fieldname="article"
+      />
     </td>
     <td :colspan="columns - 4">
       <e-select
@@ -37,7 +41,8 @@
         vee-rules="required"
         :name="$tc('entity.materialList.name')"
         fieldname="materialList"
-        :items="materialLists" />
+        :items="materialLists"
+      />
     </td>
     <td>
       <button-add hide-label @click="submitForm" />
@@ -71,29 +76,29 @@ export default {
     camp: { type: Object, required: true },
 
     /* number of colums currently visible in table */
-    columns: { type: Number, required: true }
+    columns: { type: Number, required: true },
   },
-  data () {
+  data() {
     return {
-      materialItem: {}
+      materialItem: {},
     }
   },
   computed: {
-    materialLists () {
+    materialLists() {
       return this.camp.materialLists().items.map((l) => ({
         value: l._meta.self,
-        text: l.name
+        text: l.name,
       }))
-    }
+    },
   },
   methods: {
-    async submitForm () {
+    async submitForm() {
       const isValid = await this.$refs.validation.validate()
       if (isValid) {
         this.createMaterialItem()
       }
     },
-    createMaterialItem () {
+    createMaterialItem() {
       const key = Date.now()
       const data = this.materialItem
 
@@ -104,8 +109,8 @@ export default {
       // fire event to allow for eager adding before post has finished
       this.$emit('item-adding', key, data)
     },
-    campRoute
-  }
+    campRoute,
+  },
 }
 </script>
 

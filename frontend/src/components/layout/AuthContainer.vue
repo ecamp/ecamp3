@@ -6,11 +6,13 @@
       md="5"
       lg="4"
       class="pa-0 pa-sm-4 pb-sm-12"
-      :class="{ 'fill-height': $vuetify.breakpoint.xsOnly }">
+      :class="{ 'fill-height': $vuetify.breakpoint.xsOnly }"
+    >
       <v-card
         class="pa-8 sso--card"
         :tile="$vuetify.breakpoint.xsOnly"
-        :class="{ 'fill-min-height': $vuetify.breakpoint.xsOnly }">
+        :class="{ 'fill-min-height': $vuetify.breakpoint.xsOnly }"
+      >
         <slot />
       </v-card>
     </v-col>
@@ -22,7 +24,7 @@
 
 <script>
 export default {
-  name: 'AuthContainer'
+  name: 'AuthContainer',
 }
 </script>
 

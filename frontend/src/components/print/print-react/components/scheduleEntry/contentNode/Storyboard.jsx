@@ -6,7 +6,7 @@ import RichText from '../../RichText.jsx'
 const columnStyles = {
   flexGrow: '1',
   lineHeight: 1.6,
-  paddingBottom: '4pt'
+  paddingBottom: '4pt',
 }
 
 const column1Styles = {
@@ -14,14 +14,14 @@ const column1Styles = {
   flexBasis: '23pt',
   flexShrink: '0',
   flexGrow: '0',
-  paddingRight: '2pt'
+  paddingRight: '2pt',
 }
 
 const column2Styles = {
   ...columnStyles,
   flexGrow: '1',
   borderLeft: '1px solid black',
-  paddingHorizontal: '2pt'
+  paddingHorizontal: '2pt',
 }
 
 const column3Styles = {
@@ -30,26 +30,24 @@ const column3Styles = {
   flexShrink: '0',
   flexGrow: '0',
   borderLeft: '1px solid black',
-  paddingLeft: '2pt'
+  paddingLeft: '2pt',
 }
 
-function Storyboard (props) {
+function Storyboard(props) {
   const storyboard = props.contentNode
   const sections = storyboard.sections().items
   return (
     <View style={{ display: 'flex', flexDirection: 'column', marginBottom: '6pt' }}>
-      {storyboard.instanceName
-        ? (
+      {storyboard.instanceName ? (
         <Text style={{ fontWeight: 'bold' }}>{storyboard.instanceName}</Text>
-          )
-        : (
+      ) : (
         <View />
-          )}
+      )}
       <View
         style={{
           display: 'flex',
           flexDirection: 'row',
-          borderBottom: '1px solid black'
+          borderBottom: '1px solid black',
         }}
       >
         <View style={{ ...column1Styles, paddingBottom: 0 }}>

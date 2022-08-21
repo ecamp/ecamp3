@@ -12,10 +12,10 @@
         <server name="APP_ENV" value="test" force="true" />
         <server name="SHELL_VERBOSITY" value="-1" />
         <server name="SYMFONY_PHPUNIT_REMOVE" value="" />
-        <server name="SYMFONY_PHPUNIT_VERSION" value="9.5.20" />
-        <env name="SYMFONY_DEPRECATIONS_HELPER" value="quiet[]=indirect"/>
+        <server name="SYMFONY_PHPUNIT_VERSION" value="9.5.22" />
+        <env name="SYMFONY_DEPRECATIONS_HELPER" value="quiet[]=indirect&amp;max[total]=999999"/>
         <!-- if "Other deprecation notices" ever gets annoying: 
-          <env name="SYMFONY_DEPRECATIONS_HELPER" value="quiet[]=indirect&amp;quiet[]=other"/> -->
+          <env name="SYMFONY_DEPRECATIONS_HELPER" value="quiet[]=indirect&amp;quiet[]=other&amp;max[total]=999999"/> -->
     </php>
 
     <testsuites>

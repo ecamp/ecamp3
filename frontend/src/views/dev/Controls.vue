@@ -46,13 +46,15 @@
               <v-text-field
                 v-model="textfieldValue"
                 :placeholder="placeholder"
-                v-bind="config" />
+                v-bind="config"
+              />
             </v-col>
             <v-col>
               <e-text-field
                 v-model="textfieldValue"
                 :placeholder="placeholder"
-                v-bind="config" />
+                v-bind="config"
+              />
             </v-col>
             <v-col>
               <api-text-field
@@ -60,7 +62,8 @@
                 :uri="profileUri"
                 fieldname="nickname"
                 :placeholder="placeholder"
-                v-bind="config" />
+                v-bind="config"
+              />
             </v-col>
             <v-col>
               <api-text-field
@@ -69,7 +72,8 @@
                 fieldname="nickname"
                 :placeholder="placeholder"
                 :auto-save="false"
-                v-bind="config" />
+                v-bind="config"
+              />
             </v-col>
           </v-row>
           <v-row dense no-glutters justify="space-around">
@@ -85,7 +89,8 @@
                 :placeholder="placeholder"
                 :rows="3"
                 auto-grow
-                v-bind="config" />
+                v-bind="config"
+              />
             </v-col>
             <v-col>
               <e-textarea
@@ -93,7 +98,8 @@
                 :placeholder="placeholder"
                 :rows="3"
                 auto-grow
-                v-bind="config" />
+                v-bind="config"
+              />
             </v-col>
             <v-col>
               <api-textarea
@@ -103,7 +109,8 @@
                 :placeholder="placeholder"
                 :rows="3"
                 auto-grow
-                v-bind="config" />
+                v-bind="config"
+              />
             </v-col>
             <v-col>
               <api-textarea
@@ -114,7 +121,8 @@
                 :auto-save="false"
                 :rows="3"
                 auto-grow
-                v-bind="config" />
+                v-bind="config"
+              />
             </v-col>
           </v-row>
           <v-row dense no-glutters justify="space-around">
@@ -128,13 +136,15 @@
               <v-tiptap-editor
                 v-model="richtextValue"
                 :placeholder="placeholder"
-                v-bind="config" />
+                v-bind="config"
+              />
             </v-col>
             <v-col>
               <e-richtext
                 v-model="richtextValue"
                 :placeholder="placeholder"
-                v-bind="config" />
+                v-bind="config"
+              />
             </v-col>
             <v-col>
               <api-richtext
@@ -142,7 +152,8 @@
                 :uri="profileUri"
                 fieldname="nickname"
                 :placeholder="placeholder"
-                v-bind="config" />
+                v-bind="config"
+              />
             </v-col>
             <v-col>
               <api-richtext
@@ -151,7 +162,8 @@
                 fieldname="nickname"
                 :placeholder="placeholder"
                 :auto-save="false"
-                v-bind="config" />
+                v-bind="config"
+              />
             </v-col>
           </v-row>
           <v-row dense no-glutters justify="space-around">
@@ -171,14 +183,16 @@
               <api-checkbox
                 v-if="profileUri !== null"
                 :uri="profileUri"
-                fieldname="isAdmin" />
+                fieldname="isAdmin"
+              />
             </v-col>
             <v-col>
               <api-checkbox
                 v-if="profileUri !== null"
                 :uri="profileUri"
                 fieldname="isAdmin"
-                :auto-save="false" />
+                :auto-save="false"
+              />
             </v-col>
           </v-row>
           <v-row dense no-glutters justify="space-around">
@@ -198,14 +212,16 @@
               <api-switch
                 v-if="profileUri !== null"
                 :uri="profileUri"
-                fieldname="isAdmin" />
+                fieldname="isAdmin"
+              />
             </v-col>
             <v-col>
               <api-switch
                 v-if="profileUri !== null"
                 :uri="profileUri"
                 fieldname="isAdmin"
-                :auto-save="false" />
+                :auto-save="false"
+              />
             </v-col>
           </v-row>
           <v-row dense no-glutters justify="space-around">
@@ -227,7 +243,8 @@
                 :uri="profileUri"
                 fieldname="language"
                 :items="availableLocales"
-                v-bind="config" />
+                v-bind="config"
+              />
             </v-col>
             <v-col>
               <api-select
@@ -236,7 +253,8 @@
                 fieldname="language"
                 :auto-save="false"
                 :items="availableLocales"
-                v-bind="config" />
+                v-bind="config"
+              />
             </v-col>
           </v-row>
           <v-row dense no-glutters justify="space-around">
@@ -257,7 +275,8 @@
                 v-if="profileUri !== null"
                 :uri="profileUri"
                 fieldname="birthday"
-                v-bind="config" />
+                v-bind="config"
+              />
             </v-col>
             <v-col>
               <api-date-picker
@@ -265,7 +284,8 @@
                 :uri="profileUri"
                 fieldname="birthday"
                 :auto-save="false"
-                v-bind="config" />
+                v-bind="config"
+              />
             </v-col>
           </v-row>
           <v-row dense no-glutters justify="space-around">
@@ -282,7 +302,8 @@
               <e-date-picker
                 v-model="timeValue"
                 value-format="YYYY-MM-DDTHH:mm:ssZ"
-                v-bind="config" />
+                v-bind="config"
+              />
 
               <e-time-picker v-model="timeValue" v-bind="config" />
             </v-col>
@@ -291,7 +312,8 @@
                 v-if="profileUri !== null"
                 :uri="profileUri"
                 fieldname="nickname"
-                v-bind="config" />
+                v-bind="config"
+              />
             </v-col>
             <v-col>
               <api-time-picker
@@ -299,7 +321,8 @@
                 :uri="profileUri"
                 fieldname="nickname"
                 :auto-save="false"
-                v-bind="config" />
+                v-bind="config"
+              />
             </v-col>
           </v-row>
         </v-container>
@@ -349,7 +372,7 @@ export default {
     ApiSwitch,
     ApiSelect,
     ApiDatePicker,
-    ApiTimePicker
+    ApiTimePicker,
   },
   data: () => ({
     stdConfig: true,
@@ -367,22 +390,22 @@ export default {
     colorValue: '#FFFFFF',
     selectValue: null,
     dateValue: '2020-01-01',
-    timeValue: '2020-01-01T14:45:00+00:00'
+    timeValue: '2020-01-01T14:45:00+00:00',
   }),
   computed: {
-    profileUri () {
+    profileUri() {
       return this.$auth.user().profile()._meta.self
     },
-    availableLocales () {
+    availableLocales() {
       return VueI18n.availableLocales.map((l) => ({
         value: l,
-        text: this.$tc('global.language', 1, l)
+        text: this.$tc('global.language', 1, l),
       }))
     },
-    config () {
+    config() {
       const c = {
         hint: this.hint,
-        'persistent-hint': this.persistentHint
+        'persistent-hint': this.persistentHint,
       }
       if (!this.stdConfig) {
         c.hint = this.hint
@@ -392,8 +415,8 @@ export default {
         c.outlined = this.outlined
       }
       return c
-    }
-  }
+    },
+  },
 }
 </script>
 

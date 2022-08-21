@@ -9,36 +9,42 @@ Displays collaborators of a single camp.
           <v-skeleton-loader
             v-if="collaborators.length <= 0"
             type="list-item-avatar-two-line@3"
-            class="px-0" />
+            class="px-0"
+          />
           <collaborator-list-item
             v-for="collaborator in establishedCollaborators"
             :key="collaborator._meta.self"
             :collaborator="collaborator"
-            :disabled="!isManager" />
+            :disabled="!isManager"
+          />
         </v-list>
       </content-group>
 
       <content-group
         v-if="invitedCollaborators.length > 0"
-        :title="$tc('views.camp.collaborators.openInvitations')">
+        :title="$tc('views.camp.collaborators.openInvitations')"
+      >
         <v-list>
           <collaborator-list-item
             v-for="collaborator in invitedCollaborators"
             :key="collaborator._meta.self"
             :collaborator="collaborator"
-            :disabled="!isManager" />
+            :disabled="!isManager"
+          />
         </v-list>
       </content-group>
 
       <content-group
         v-if="inactiveCollaborators.length > 0"
-        :title="$tc('views.camp.collaborators.inactiveCollaborators')">
+        :title="$tc('views.camp.collaborators.inactiveCollaborators')"
+      >
         <v-list>
           <inactive-collaborator-list-item
             v-for="collaborator in inactiveCollaborators"
             :key="collaborator._meta.self"
             :collaborator="collaborator"
-            :disabled="!isManager" />
+            :disabled="!isManager"
+          />
         </v-list>
       </content-group>
 
@@ -52,7 +58,8 @@ Displays collaborators of a single camp.
                   :error-messages="inviteEmailMessages"
                   single-line
                   aria-autocomplete="none"
-                  :placeholder="$tc('views.camp.collaborators.email')" />
+                  :placeholder="$tc('views.camp.collaborators.email')"
+                />
               </v-col>
               <v-col sm="12" md="3">
                 <e-select
@@ -72,7 +79,8 @@ Displays collaborators of a single camp.
                   item-text="translation"
                   :my="0"
                   dense
-                  vee-rules="required" />
+                  vee-rules="required"
+                />
               </v-col>
               <v-col>
                 <button-add type="submit" icon="mdi-account-plus">
@@ -107,56 +115,56 @@ export default {
     ContentCard,
     ETextField,
     ESelect,
-    InactiveCollaboratorListItem
+    InactiveCollaboratorListItem,
   },
   mixins: [campRoleMixin],
   props: {
-    camp: { type: Function, required: true }
+    camp: { type: Function, required: true },
   },
-  data () {
+  data() {
     return {
       editing: false,
       messages: [],
       inviteEmail: '',
-      inviteRole: DEFAULT_INVITE_ROLE
+      inviteRole: DEFAULT_INVITE_ROLE,
     }
   },
   computed: {
-    collaborators () {
+    collaborators() {
       return this.camp().campCollaborations().items
     },
-    establishedCollaborators () {
+    establishedCollaborators() {
       return this.collaborators.filter((c) => c.status === 'established')
     },
-    invitedCollaborators () {
+    invitedCollaborators() {
       return this.collaborators.filter((c) => c.status === 'invited')
     },
-    inactiveCollaborators () {
+    inactiveCollaborators() {
       return this.collaborators.filter((c) => c.status === 'inactive')
     },
-    inviteEmailMessages () {
+    inviteEmailMessages() {
       return this.messages.inviteEmail
         ? Object.values({ ...this.messages.inviteEmail })
         : []
-    }
+    },
   },
-  created () {
+  created() {
     return this.camp().campCollaborations()
   },
   methods: {
-    invite () {
+    invite() {
       this.api
         .href(this.api.get(), 'campCollaborations')
         .then((url) =>
           this.api.post(url, {
             camp: this.camp()._meta.self,
             inviteEmail: this.inviteEmail,
-            role: this.inviteRole
+            role: this.inviteRole,
           })
         )
         .then(this.refreshCamp, this.handleError)
     },
-    handleError (e) {
+    handleError(e) {
       if (e.response) {
         if (e.response.status === 409 /* Conflict */) {
           this.messages = [this.$tc('global.serverError.409')]
@@ -166,13 +174,13 @@ export default {
         }
       }
     },
-    refreshCamp () {
+    refreshCamp() {
       this.inviteEmail = null
       this.inviteRole = DEFAULT_INVITE_ROLE
       this.messages = []
       this.api.reload(this.camp()._meta.self)
-    }
-  }
+    },
+  },
 }
 </script>
 

@@ -43,7 +43,7 @@ class ListMaterialListsTest extends ECampApiTestCase {
 
     public function testListMaterialListsFilteredByCampIsAllowedForCollaborator() {
         $camp = static::$fixtures['camp1'];
-        $response = static::createClientWithCredentials()->request('GET', '/material_lists?camp=/camps/'.$camp->getId());
+        $response = static::createClientWithCredentials()->request('GET', '/material_lists?camp=%2Fcamps%2F'.$camp->getId());
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
             'totalItems' => 3,
@@ -64,7 +64,7 @@ class ListMaterialListsTest extends ECampApiTestCase {
     public function testListMaterialListsFilteredByCampIsDeniedForUnrelatedUser() {
         $camp = static::$fixtures['camp1'];
         $response = static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->getUsername()])
-            ->request('GET', '/material_lists?camp=/camps/'.$camp->getId())
+            ->request('GET', '/material_lists?camp=%2Fcamps%2F'.$camp->getId())
         ;
 
         $this->assertResponseStatusCodeSame(200);
@@ -76,7 +76,7 @@ class ListMaterialListsTest extends ECampApiTestCase {
     public function testListMaterialListsFilteredByCampIsDeniedForInactiveCollaborator() {
         $camp = static::$fixtures['camp1'];
         $response = static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->getUsername()])
-            ->request('GET', '/material_lists?camp=/camps/'.$camp->getId())
+            ->request('GET', '/material_lists?camp=%2Fcamps%2F'.$camp->getId())
         ;
 
         $this->assertResponseStatusCodeSame(200);
@@ -87,7 +87,7 @@ class ListMaterialListsTest extends ECampApiTestCase {
 
     public function testListMaterialListsFilteredByCampPrototypeIsAllowedForUnrelatedUser() {
         $camp = static::$fixtures['campPrototype'];
-        $response = static::createClientWithCredentials()->request('GET', '/material_lists?camp=/camps/'.$camp->getId());
+        $response = static::createClientWithCredentials()->request('GET', '/material_lists?camp=%2Fcamps%2F'.$camp->getId());
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
             'totalItems' => 1,

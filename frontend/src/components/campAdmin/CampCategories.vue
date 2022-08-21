@@ -9,22 +9,20 @@ Displays all periods of a single camp and allows to edit them & create new ones
         {{ $tc('components.camp.campCategories.title') }}
         <dialog-category-create v-if="!disabled" :camp="camp()">
           <template #activator="{ on }">
-            <button-add color="secondary" text
-                        :hide-label="true"
-                        class="my-n2"
-                        v-on="on">
+            <button-add color="secondary" text :hide-label="true" class="my-n2" v-on="on">
               {{ $tc('components.camp.campCategories.create') }}
             </button-add>
           </template>
         </dialog-category-create>
       </div>
     </slot>
-    <v-skeleton-loader v-if="camp().categories()._meta.loading " type="article" />
+    <v-skeleton-loader v-if="camp().categories()._meta.loading" type="article" />
     <v-list>
       <v-list-item
         v-for="category in categories.items"
         :key="category._meta.self"
-        class="px-0">
+        class="px-0"
+      >
         <v-list-item-content class="pt-0 pb-2">
           <v-list-item-title>
             <v-chip dark :color="category.color">
@@ -44,7 +42,8 @@ Displays all periods of a single camp and allows to edit them & create new ones
             <button-edit
               class="mr-1"
               icon="mdi-view-dashboard-variant"
-              :to="categoryRoute(camp(), category)">
+              :to="categoryRoute(camp(), category)"
+            >
               {{ $tc('components.camp.campCategories.editLayout') }}
             </button-edit>
           </v-item-group>
@@ -62,21 +61,35 @@ Displays all periods of a single camp and allows to edit them & create new ones
                 <dialog-entity-delete :entity="category">
                   {{ $tc('components.camp.campCategories.deleteCategoryQuestion') }}
                   <ul>
-                    <li>
-                      {{ category.short }}: {{ category.name }}
-                    </li>
+                    <li>{{ category.short }}: {{ category.name }}</li>
                   </ul>
                   <template #activator="{ on }">
                     <button-delete v-on="on" />
                   </template>
                   <template v-if="findActivities(category).length > 0" #error>
-                    {{ $tc('components.camp.campCategories.deleteCategoryNotPossibleInUse') }}
+                    {{
+                      $tc('components.camp.campCategories.deleteCategoryNotPossibleInUse')
+                    }}
                     <ul>
-                      <li v-for="activity in findActivities(category)" :key="activity._meta.self">
+                      <li
+                        v-for="activity in findActivities(category)"
+                        :key="activity._meta.self"
+                      >
                         {{ activity.title }}
                         <ul>
-                          <li v-for="scheduleEntry in activity.scheduleEntries().items" :key="scheduleEntry._meta.self">
-                            <router-link :to="{ name: 'activity', params: { campId: camp().id, scheduleEntryId: scheduleEntry.id } }">
+                          <li
+                            v-for="scheduleEntry in activity.scheduleEntries().items"
+                            :key="scheduleEntry._meta.self"
+                          >
+                            <router-link
+                              :to="{
+                                name: 'activity',
+                                params: {
+                                  campId: camp().id,
+                                  scheduleEntryId: scheduleEntry.id,
+                                },
+                              }"
+                            >
                               {{ rangeShort(scheduleEntry.start, scheduleEntry.end) }}
                             </router-link>
                           </li>
@@ -114,30 +127,29 @@ export default {
     DialogCategoryEdit,
     DialogCategoryCreate,
     DialogEntityDelete,
-    ContentGroup
+    ContentGroup,
   },
   props: {
     camp: { type: Function, required: true },
-    disabled: { type: Boolean, default: false }
+    disabled: { type: Boolean, default: false },
   },
-  data () {
+  data() {
     return {}
   },
   computed: {
-    categories () {
+    categories() {
       return this.camp().categories()
-    }
+    },
   },
   methods: {
     rangeShort,
     categoryRoute,
-    findActivities (category) {
+    findActivities(category) {
       const activities = this.camp().activities()
-      return activities.items.filter(a => a.category().id === category.id)
-    }
-  }
+      return activities.items.filter((a) => a.category().id === category.id)
+    },
+  },
 }
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

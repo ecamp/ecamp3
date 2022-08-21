@@ -103,4 +103,21 @@ class MailServiceTest extends KernelTestCase {
         self::assertEmailTextBodyContains($mailerMessage, 'Passwort zurücksetzen');
         self::assertEmailTextBodyContains($mailerMessage, 'reset-password/some-id');
     }
+
+    public function testSendEmailVerificationMail() {
+        $this->user->profile->language = 'de-CH-scout';
+        $this->user->profile->untrustedEmail = self::INVITE_MAIL;
+        $this->user->profile->untrustedEmailKey = 'some-id';
+
+        $this->mailer->sendEmailVerificationMail($this->user, $this->user->profile);
+
+        self::assertEmailCount(1);
+        $mailerMessage = self::getMailerMessage(0);
+        self::assertEmailAddressContains($mailerMessage, 'To', self::INVITE_MAIL);
+
+        self::assertEmailHtmlBodyContains($mailerMessage, 'Jemand hat versucht, deine Mail-Adresse bei eCamp zu ändern');
+        self::assertEmailHtmlBodyContains($mailerMessage, 'profile/verify-mail/some-id');
+        self::assertEmailTextBodyContains($mailerMessage, 'Jemand hat versucht, deine Mail-Adresse bei eCamp zu ändern');
+        self::assertEmailTextBodyContains($mailerMessage, 'profile/verify-mail/some-id');
+    }
 }

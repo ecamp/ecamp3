@@ -17,13 +17,13 @@ describe('An ERichtext', () => {
       components: { ERichtext },
       data: function () {
         return {
-          data: null
+          data: null,
         }
       },
       template: `
         <div data-app>
         <e-richtext v-model="data"/>
-        </div>`
+        </div>`,
     })
     return mountComponent(app, { vuetify, attachTo: document.body, ...options })
   }
@@ -37,7 +37,7 @@ describe('An ERichtext', () => {
     await wrapper.setData({
       data: `My text
     with newlines
-    and <strong>bold</strong>`
+    and <strong>bold</strong>`,
     })
     expect(wrapper).toMatchSnapshot('with text')
   })

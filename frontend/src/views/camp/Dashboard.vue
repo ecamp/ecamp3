@@ -8,10 +8,10 @@ Admin screen of a camp: Displays details & periods of a single camp and allows t
       {{ $tc('views.camp.dashboard.viewDescription', 1, { title: camp().title }) }}
     </v-card-text>
 
-    <template v-if="showAnyPeriod(camp())">
-      <v-expansion-panels v-model="openPeriods" multiple
-                          flat
-                          accordion>
+    <v-skeleton-loader v-if="loading" type="article" />
+
+    <template v-else-if="showAnyPeriod(camp())">
+      <v-expansion-panels v-model="openPeriods" multiple flat accordion>
         <template v-for="period in camp().periods().items">
           <v-expansion-panel v-if="showPeriod(period)" :key="period._meta.self">
             <v-expansion-panel-header>
@@ -26,17 +26,21 @@ Admin screen of a camp: Displays details & periods of a single camp and allows t
                     <v-col :key="day._meta.self" cols="12" class="pb-0">
                       <h4>{{ day.dayOffset + 1 }}) {{ dateLong(day.start) }}</h4>
                     </v-col>
-                    <template v-for="scheduleEntry in day.scheduleEntries().items">
+                    <template
+                      v-for="scheduleEntry in scheduleEntriesByDay[day._meta.self]"
+                    >
                       <v-col
                         v-if="showScheduleEntry(scheduleEntry)"
                         :key="scheduleEntry._meta.self"
                         cols="12"
                         sm="6"
                         md="4"
-                        lg="3">
+                        lg="3"
+                      >
                         <v-card
                           :color="scheduleEntry.activity().category().color"
-                          :to="scheduleEntryRoute(scheduleEntry)">
+                          :to="scheduleEntryRoute(scheduleEntry)"
+                        >
                           <v-card-title>
                             {{ scheduleEntry.activity().category().short }}
                             {{ scheduleEntry.number }}:
@@ -49,12 +53,13 @@ Admin screen of a camp: Displays details & periods of a single camp and allows t
                               :key="ar._meta.self"
                               :camp-collaboration="ar.campCollaboration()"
                               :size="24"
-                              style="margin: 2px" />
+                              style="margin: 2px"
+                            />
                           </v-card-title>
                           <v-card-subtitle>
                             {{
                               dateShort(scheduleEntry.start) ==
-                                dateShort(scheduleEntry.end)
+                              dateShort(scheduleEntry.end)
                                 ? ''
                                 : dateShort(scheduleEntry.start)
                             }}
@@ -62,7 +67,7 @@ Admin screen of a camp: Displays details & periods of a single camp and allows t
                             -
                             {{
                               dateShort(scheduleEntry.start) ==
-                                dateShort(scheduleEntry.end)
+                              dateShort(scheduleEntry.end)
                                 ? ''
                                 : dateShort(scheduleEntry.end)
                             }}
@@ -82,8 +87,8 @@ Admin screen of a camp: Displays details & periods of a single camp and allows t
     <template v-else>
       <v-card-text>
         <p style="text-align: center">
-          {{ $tc('views.camp.dashboard.noActivitiesLine1') }} <br>
-          {{ $tc('views.camp.dashboard.noActivitiesLine2') }} <br>
+          {{ $tc('views.camp.dashboard.noActivitiesLine1') }} <br />
+          {{ $tc('views.camp.dashboard.noActivitiesLine2') }} <br />
         </p>
         <p style="text-align: center">
           <v-btn color="success" :to="campRoute(camp(), 'program')">
@@ -103,32 +108,56 @@ import UserAvatar from '../../components/user/UserAvatar.vue'
 import {
   dateShort,
   dateLong,
-  hourShort
+  hourShort,
 } from '@/common/helpers/dateHelperUTCFormatted.js'
 
 export default {
   name: 'Dashboard',
   components: {
     ContentCard,
-    UserAvatar
+    UserAvatar,
   },
   props: {
-    camp: { type: Function, required: true }
+    camp: { type: Function, required: true },
   },
-  data () {
+  data() {
     return {
-      openPeriods: []
+      loading: true,
+      openPeriods: [],
     }
   },
-  mounted () {
-    this.camp()
-      .periods()
-      ._meta.load.then((periods) => {
-        this.openPeriods = periods.items
-          .map((period, idx) => (Date.parse(period.end) >= new Date() ? idx : null))
-          .filter((idx) => idx !== null)
-      })
-    this.api.reload(this.camp())
+  computed: {
+    // returns scheduleEntries per day without the need for an additional API call for each day
+    scheduleEntriesByDay() {
+      let scheduleEntriesByDay = []
+
+      this.camp()
+        .periods()
+        .items.forEach(function (period) {
+          period.scheduleEntries().items.forEach(function (scheduleEntry) {
+            const dayUri = scheduleEntry.day()._meta.self
+            if (!(dayUri in scheduleEntriesByDay)) {
+              scheduleEntriesByDay[dayUri] = []
+            }
+            scheduleEntriesByDay[dayUri].push(scheduleEntry)
+          })
+        })
+
+      return scheduleEntriesByDay
+    },
+  },
+  async mounted() {
+    const [periods] = await Promise.all([
+      this.camp().periods()._meta.load,
+      this.camp().activities()._meta.load,
+      this.camp().categories()._meta.load,
+    ])
+
+    this.openPeriods = periods.items
+      .map((period, idx) => (Date.parse(period.end) >= new Date() ? idx : null))
+      .filter((idx) => idx !== null)
+
+    this.loading = false
   },
   methods: {
     dateShort,
@@ -136,28 +165,30 @@ export default {
     hourShort,
     campRoute,
     scheduleEntryRoute,
-    showAnyPeriod (camp) {
+    showAnyPeriod(camp) {
       return camp.periods().items.some(this.showPeriod)
     },
-    showPeriod (period) {
+    showPeriod(period) {
       return period.days().items.some(this.showDay)
     },
-    showDay (day) {
-      return day.scheduleEntries().items.some(this.showScheduleEntry)
+    showDay(day) {
+      return (this.scheduleEntriesByDay[day._meta.self] || []).some(
+        this.showScheduleEntry
+      )
     },
-    showScheduleEntry (scheduleEntry) {
+    showScheduleEntry(scheduleEntry) {
       const authUser = this.$auth.user()
       const activityResponsibles = scheduleEntry.activity().activityResponsibles().items
       return activityResponsibles.some(
         (ar) => ar.campCollaboration().user().id === authUser.id
       )
     },
-    sortCampCollaborations (campCollaborations) {
+    sortCampCollaborations(campCollaborations) {
       return campCollaborations.sort(
         (a, b) => parseInt(a.user().id, 16) - parseInt(b.user().id, 16)
       )
-    }
-  }
+    },
+  },
 }
 </script>
 

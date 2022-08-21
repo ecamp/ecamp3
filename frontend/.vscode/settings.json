@@ -1,6 +1,6 @@
 {
   "javascript.format.enable": false,
-  "eslint.format.enable": true,
-  "i18n-ally.localesPaths": ["src/locales", "src/plugins/i18n"],
+  "eslint.format.enable": false,
+  "i18n-ally.localesPaths": ["src/locales", "src/common/locales"],
   "i18n-ally.keystyle": "nested"
 }

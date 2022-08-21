@@ -6,7 +6,8 @@
     v-bind="$attrs"
     :value="value"
     v-on="$listeners"
-    @input="onInput">
+    @input="onInput"
+  >
     <template #activator="scope">
       <slot name="activator" v-bind="scope" />
     </template>
@@ -22,11 +23,12 @@
               {{ title }}
             </v-toolbar-title>
             <v-btn
-              v-if="$vuetify.breakpoint.smAndUp"
+              v-if="$vuetify.breakpoint.smAndUp && cancelAction != null"
               icon
               class="ml-auto"
               :title="$tc('global.button.cancel')"
-              @click="doCancel">
+              @click="doCancel"
+            >
               <v-icon>mdi-close</v-icon>
               <span class="d-sr-only">{{ $tc('global.button.cancel') }}</span>
             </v-btn>
@@ -38,9 +40,7 @@
 
           <v-card-text>
             <!-- error message via slot -->
-            <v-alert v-if="$slots.error" text
-                     outlined
-                     color="warning" icon="mdi-alert">
+            <v-alert v-if="$slots.error" text outlined color="warning" icon="mdi-alert">
               <slot name="error" />
             </v-alert>
 
@@ -52,11 +52,12 @@
             <slot name="moreActions" />
             <v-spacer />
             <v-btn
-              v-if="cancelAction != null"
+              v-if="cancelVisible && cancelAction != null"
               :color="cancelColor"
               text
               :disabled="!cancelEnabled"
-              @click="doCancel">
+              @click="doCancel"
+            >
               {{ $tc(cancelLabel) }}
             </v-btn>
             <v-btn
@@ -64,7 +65,8 @@
               :color="submitColor"
               type="submit"
               :loading="isSaving"
-              :disabled="!submitEnabled">
+              :disabled="!submitEnabled"
+            >
               <v-icon v-if="!!submitIcon" left>
                 {{ submitIcon }}
               </v-icon>
@@ -102,39 +104,42 @@ export default {
     cancelLabel: { type: String, default: 'global.button.cancel', required: false },
     cancelColor: { type: String, default: 'secondary', required: false },
     cancelEnabled: { type: Boolean, default: true, required: false },
+    cancelVisible: { type: Boolean, default: true, required: false },
 
     loading: { type: Boolean, default: false, required: false },
-    error: { type: [Object, String, Error], default: null, required: false }
+    error: { type: [Object, String, Error], default: null, required: false },
   },
-  data () {
+  data() {
     return {
-      isSaving: false
+      isSaving: false,
     }
   },
   watch: {
-    value (visible) {
+    value(visible) {
       if (visible) {
         this.$nextTick(() => this.$refs.validation.reset())
       }
-    }
+    },
   },
   methods: {
-    async doSubmit () {
+    async doSubmit() {
       this.isSaving = true
       await this.submitAction()
       this.isSaving = false
     },
-    doCancel () {
+    doCancel() {
       this.isSaving = false
-      this.cancelAction()
+      if (this.cancelAction != null) {
+        this.cancelAction()
+      }
     },
-    onInput (event) {
+    onInput(event) {
       // perform cancel action if dialog is dismissed without using the Cancel button
       if (event === false) {
         this.doCancel()
       }
-    }
-  }
+    },
+  },
 }
 </script>
 

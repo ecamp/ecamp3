@@ -1,14 +1,16 @@
 <template>
   <v-col
     class="resizable-col"
-    :class="{ [widthClass]: true, 'layout-mode': layoutMode, 'top-border': showHeader }">
+    :class="{ [widthClass]: true, 'layout-mode': layoutMode, 'top-border': showHeader }"
+  >
     <resizable-column-header
       v-if="layoutMode && $vuetify.breakpoint.mdAndUp && showHeader"
       :width="width"
       :min-width="minWidth"
       :max-width="maxWidth"
       :column-height="columnHeight"
-      v-on="$listeners">
+      v-on="$listeners"
+    >
       <menu-cardless-content-node v-if="last" :content-node="parentContentNode">
         <slot name="menu" />
       </menu-cardless-content-node>
@@ -20,7 +22,8 @@
       :width="width"
       :width-left="widthLeft"
       :width-right="widthRight"
-      :color="color" />
+      :color="color"
+    />
 
     <slot />
   </v-col>
@@ -36,7 +39,7 @@ export default {
   components: {
     MenuCardlessContentNode,
     MobileColumnWidthIndicator,
-    ResizableColumnHeader
+    ResizableColumnHeader,
   },
   props: {
     parentContentNode: { type: Object, required: true },
@@ -49,22 +52,22 @@ export default {
     minWidth: { type: Number, default: 3 }, // minimum allowed width of this column
     maxWidth: { type: Number, default: 12 }, // maximum allowed width of this column
     color: { type: String, required: true },
-    showHeader: { type: Boolean, default: true }
+    showHeader: { type: Boolean, default: true },
   },
-  data () {
+  data() {
     return {
-      columnHeight: 100
+      columnHeight: 100,
     }
   },
   computed: {
-    widthClass () {
+    widthClass() {
       if (this.$vuetify.breakpoint.smAndDown) return 'col-12'
       return 'col-md-' + this.width
-    }
+    },
   },
-  updated () {
+  updated() {
     this.columnHeight = this.$el.clientHeight
-  }
+  },
 }
 </script>
 

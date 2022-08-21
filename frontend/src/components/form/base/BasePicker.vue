@@ -13,7 +13,8 @@ Displays a field as a picker (can be used with v-model)
       offset-y
       offset-overflow
       min-width="290px"
-      max-width="290px">
+      max-width="290px"
+    >
       <template #activator="{ on }">
         <e-text-field
           :value="fieldValue"
@@ -23,7 +24,8 @@ Displays a field as a picker (can be used with v-model)
           :disabled="disabled"
           @input="debouncedParseValue"
           @focus="textFieldIsActive = true"
-          @blur="textFieldIsActive = false">
+          @blur="textFieldIsActive = false"
+        >
           <template v-if="icon" #prepend>
             <v-icon :color="iconColor" @click="on.click">
               {{ icon }}
@@ -74,9 +76,9 @@ export default {
     /**
      * Parse the value from the popup component into the internal format. If omitted, uses parse instead.
      */
-    parsePicker: { type: Function, required: false, default: null }
+    parsePicker: { type: Function, required: false, default: null },
   },
-  data () {
+  data() {
     return {
       // internal value
       localValue: this.value,
@@ -90,17 +92,17 @@ export default {
       eventHandlers: {
         save: this.savePicker,
         close: this.closePicker,
-        input: this.inputPicker
+        input: this.inputPicker,
       },
       // note that it is necessary to debounce in data to have one debounced function per instance, whereas
       // debouncing in watch or methods results in one global debounced function which has unwanted effects
       // when there are multiple picker instances rendered at the same time
-      debouncedParseValue: debounce(this.parseValue, 500)
+      debouncedParseValue: debounce(this.parseValue, 500),
     }
   },
   computed: {
     // value formatted for text field
-    fieldValue () {
+    fieldValue() {
       if (this.format !== null) {
         return this.format(this.localValue)
       } else {
@@ -109,7 +111,7 @@ export default {
     },
 
     // value formatted for picker component
-    pickerValue () {
+    pickerValue() {
       if (this.formatPicker !== null) {
         return this.formatPicker(this.localValue)
       } else if (this.format !== null) {
@@ -118,56 +120,56 @@ export default {
         return this.localValue
       }
     },
-    combinedErrorMessages () {
+    combinedErrorMessages() {
       if (this.parseError == null) {
         return this.errorMessages
       }
       return [...this.errorMessages, this.parseError.message]
-    }
+    },
   },
   watch: {
-    value (val) {
+    value(val) {
       if (this.showPicker === false) {
         this.localValue = val
       }
-    }
+    },
   },
-  mounted () {
+  mounted() {
     this.parseValue(this.fieldValue)
   },
   methods: {
-    setValue (val) {
+    setValue(val) {
       if (this.localValue !== val) {
         this.$emit('input', val)
         this.localValue = val
       }
       this.parseError = null
     },
-    parseValue (val) {
+    parseValue(val) {
       if (this.parse != null) {
         this.parse(val).then(this.setValue, this.setParseError)
       } else {
         this.setValue(val)
       }
     },
-    setValueOfPicker (val) {
+    setValueOfPicker(val) {
       if (this.localPickerValue !== val) {
         this.localPickerValue = val
       }
       this.parseError = null
     },
-    setParseError (err) {
+    setParseError(err) {
       this.parseError = err
     },
-    closePicker () {
+    closePicker() {
       this.showPicker = false
       this.localPickerValue = this.localValue
     },
-    savePicker () {
+    savePicker() {
       this.showPicker = false
       this.setValue(this.localPickerValue)
     },
-    inputPicker (val) {
+    inputPicker(val) {
       if (this.parsePicker !== null) {
         this.parsePicker(val).then(this.setValueOfPicker, this.setParseError)
       } else if (this.parse !== null) {
@@ -175,7 +177,7 @@ export default {
       } else {
         this.setValueOfPicker(val)
       }
-    }
-  }
+    },
+  },
 }
 </script>

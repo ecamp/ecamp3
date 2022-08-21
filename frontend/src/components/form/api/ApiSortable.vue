@@ -8,14 +8,12 @@
     :disabled="disabled"
     @sort="onSort"
     @start="dragging = true"
-    @end="dragging = false">
+    @end="dragging = false"
+  >
     <!-- disable transition for drag&drop as draggable already comes with its own anmations -->
     <transition-group :name="!dragging ? 'flip-list' : null" tag="div">
       <div v-for="key in localSortedKeys" :key="key">
-        <slot
-          :itemKey="key"
-          :item="items[key]"
-          :on="eventHandlers" />
+        <slot :itemKey="key" :item="items[key]" :on="eventHandlers" />
       </div>
     </transition-group>
   </draggable>
@@ -28,13 +26,13 @@ import { isEqual } from 'lodash'
 export default {
   name: 'ApiSortable', // TODO: consider renaming the component, as the logic of this compoentn is now independent of the API itself
   components: {
-    draggable
+    draggable,
   },
   props: {
     items: { type: Object, required: true },
-    disabled: { type: Boolean, default: false }
+    disabled: { type: Boolean, default: false },
   },
-  data () {
+  data() {
     return {
       dragging: false,
       dirty: false,
@@ -42,13 +40,13 @@ export default {
       eventHandlers: {
         moveUp: this.moveUp,
         moveDown: this.moveDown,
-        delete: this.delete
-      }
+        delete: this.delete,
+      },
     }
   },
   computed: {
     // keys within items property, sorted by position (and key as fallback)
-    sortedKeys () {
+    sortedKeys() {
       return Object.keys(this.items).sort((keyA, keyB) => {
         const positionA = this.items[keyA].position
         const positionB = this.items[keyB].position
@@ -61,7 +59,7 @@ export default {
           return keyA.localeCompare(keyB)
         }
       })
-    }
+    },
   },
   watch: {
     sortedKeys: {
@@ -72,25 +70,24 @@ export default {
           this.localSortedKeys = sortedKeys
           this.dirty = false
 
-        // remove dirty flag if external sorting is equal to local sorting (e.g. saving to API was successful)
+          // remove dirty flag if external sorting is equal to local sorting (e.g. saving to API was successful)
         } else if (isEqual(this.localSortedKeys, sortedKeys)) {
           this.dirty = false
         }
       },
-      immediate: true
-    }
-
+      immediate: true,
+    },
   },
   methods: {
-    async moveUp (key) {
+    async moveUp(key) {
       this.swapPosition(key, -1)
     },
-    async moveDown (key) {
+    async moveDown(key) {
       this.swapPosition(key, +1)
     },
 
     // swaps position of entity with the element which is deltaPosition down/ahead in the list
-    async swapPosition (key, deltaPosition) {
+    async swapPosition(key, deltaPosition) {
       const list = this.localSortedKeys
       const oldIndex = list.indexOf(key)
 
@@ -107,7 +104,7 @@ export default {
       }
     },
 
-    async delete (key) {
+    async delete(key) {
       this.dirty = true
 
       // remove item from array of sorted keys
@@ -126,7 +123,7 @@ export default {
     /**
      * Triggers on every sorting change
      */
-    onSort () {
+    onSort() {
       this.dirty = true
 
       this.$emit('sort', this.recalculatePositions())
@@ -135,18 +132,17 @@ export default {
     /**
      * Recalculates position properties based on current sorting and prepares patch payload
      */
-    recalculatePositions () {
+    recalculatePositions() {
       const payload = {}
       let position = 1
-      this.localSortedKeys.forEach(key => {
+      this.localSortedKeys.forEach((key) => {
         payload[key] = { position }
         position++
       })
 
       return payload
-    }
-
-  }
+    },
+  },
 }
 </script>
 

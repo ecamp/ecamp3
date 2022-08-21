@@ -33,7 +33,7 @@ class ReadMultiSelectTest extends ReadContentNodeTestCase {
 
         $this->assertJsonContains([
             '_links' => [
-                'options' => ['href' => '/content_node/multi_select_options?multiSelect='.$this->getIriFor($multiSelect)],
+                'options' => ['href' => '/content_node/multi_select_options?multiSelect='.urlencode($this->getIriFor($multiSelect))],
             ],
             '_embedded' => [
                 'options' => [

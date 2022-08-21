@@ -11,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ServiceLocator;
-use Symfony\Component\Serializer\Normalizer\ContextAwareDenormalizerInterface;
+use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Symfony\Component\Validator\Constraints\Valid;
 
 /**
@@ -21,7 +21,7 @@ class InputFilterDenormalizerTest extends TestCase {
     private InputFilterDenormalizer $denormalizer;
 
     /**
-     * @var ContextAwareDenormalizerInterface|MockObject
+     * @var DenormalizerInterface|MockObject
      */
     private $decoratedMock;
 
@@ -36,7 +36,7 @@ class InputFilterDenormalizerTest extends TestCase {
             return new $name();
         });
 
-        $this->decoratedMock = $this->createMock(ContextAwareDenormalizerInterface::class);
+        $this->decoratedMock = $this->createMock(DenormalizerInterface::class);
         $this->denormalizer = new InputFilterDenormalizer($this->inputFilterLocatorMock);
         $this->denormalizer->setDenormalizer($this->decoratedMock);
     }

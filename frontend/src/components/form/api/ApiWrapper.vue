@@ -7,7 +7,8 @@ Wrapper component for form components to save data back to API
     <v-form
       :class="[{ 'api-wrapper--inline': !autoSave && !readonly && !separateButtons }]"
       class="e-form-container"
-      @submit.prevent="onEnter">
+      @submit.prevent="onEnter"
+    >
       <slot
         :localValue="localValue"
         :hasServerError="hasServerError"
@@ -20,13 +21,13 @@ Wrapper component for form components to save data back to API
         :readonly="readonly || !hasFinishedLoading"
         :status="status"
         :dirty="dirty"
-        :on="eventHandlers" />
+        :on="eventHandlers"
+      />
     </v-form>
   </ValidationObserver>
 </template>
 
 <script>
-
 import { debounce, set, get } from 'lodash'
 import { apiPropsMixin } from '@/mixins/apiPropsMixin.js'
 import { ValidationObserver } from 'vee-validate'
@@ -39,10 +40,10 @@ export default {
   props: {
     separateButtons: {
       type: Boolean,
-      default: true
-    }
+      default: true,
+    },
   },
-  data () {
+  data() {
     return {
       localValue: null,
       isSaving: false,
@@ -59,15 +60,15 @@ export default {
         save: this.save,
         reset: this.reset,
         reload: this.reload,
-        input: this.onInput
-      }
+        input: this.onInput,
+      },
     }
   },
   computed: {
-    hasFinishedLoading () {
+    hasFinishedLoading() {
       return !this.isLoading && !this.hasLoadingError
     },
-    errorMessages () {
+    errorMessages() {
       const errors = []
       if (this.hasLoadingError) errors.push(this.loadingErrorMessage)
       if (this.hasServerError) errors.push(this.serverErrorMessage)
@@ -82,10 +83,10 @@ export default {
         return 'init'
       }
     },
-    debouncedSave () {
+    debouncedSave() {
       return debounce(this.save, this.autoSaveDelay)
     },
-    apiValue () {
+    apiValue() {
       // return value from props if set explicitly
       if (this.value) {
         return this.value
@@ -133,7 +134,7 @@ export default {
         // standard case: value is a primitive value
         return val
       }
-    }
+    },
   },
   watch: {
     apiValue: function (newValue) {
@@ -146,19 +147,19 @@ export default {
       if (this.localValue === newValue) {
         this.dirty = false
       }
-    }
+    },
   },
-  created () {
+  created() {
     // initial data load from API
     if (!this.value) this.reload()
 
     this.localValue = this.apiValue
   },
-  mounted () {
+  mounted() {
     this.isMounted = true
   },
   methods: {
-    async onInput (newValue) {
+    async onInput(newValue) {
       this.localValue = newValue
       this.dirty = this.localValue !== this.apiValue
 
@@ -167,7 +168,7 @@ export default {
       }
     },
     // reload data from API (doesn't force loading from server if available locally)
-    reload () {
+    reload() {
       this.resetErrors()
       const obj = this.api.get(this.uri)
       this.isLoading = obj._meta.loading
@@ -183,13 +184,13 @@ export default {
           this.loadingErrorMessage = error.message
         })
     },
-    reset () {
+    reset() {
       this.localValue = this.apiValue
       this.resetErrors()
       this.$emit('reseted')
       this.$emit('finished')
     },
-    resetErrors () {
+    resetErrors() {
       this.dirty = false
       this.hasLoadingError = false
       this.hasServerError = false
@@ -198,12 +199,12 @@ export default {
         this.$refs.validationObserver.reset()
       }
     },
-    onEnter () {
+    onEnter() {
       if (!this.autoSave) {
         this.save()
       }
     },
-    async save () {
+    async save() {
       // abort saving if component is in readonly or disabled state
       // this is here for safety reasons, should not be triggered if the wrapped component behaves normally
       if (this.readonly || this.disabled) {
@@ -224,19 +225,24 @@ export default {
       const payload = {}
       set(payload, this.fieldname, this.localValue)
 
-      this.api.patch(this.uri, payload).then(() => {
-        this.isSaving = false
-        this.showIconSuccess = true
-        this.$emit('saved')
-        this.$emit('finished')
-        setTimeout(() => { this.showIconSuccess = false }, 2000)
-      }, (error) => {
-        this.isSaving = false
-        this.serverErrorMessage = serverErrorToString(error, this.fieldname)
-        this.hasServerError = true
-      })
-    }
-  }
+      this.api.patch(this.uri, payload).then(
+        () => {
+          this.isSaving = false
+          this.showIconSuccess = true
+          this.$emit('saved')
+          this.$emit('finished')
+          setTimeout(() => {
+            this.showIconSuccess = false
+          }, 2000)
+        },
+        (error) => {
+          this.isSaving = false
+          this.serverErrorMessage = serverErrorToString(error, this.fieldname)
+          this.hasServerError = true
+        }
+      )
+    },
+  },
 }
 </script>
 

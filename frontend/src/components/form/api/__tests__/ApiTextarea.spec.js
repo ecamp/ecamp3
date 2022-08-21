@@ -36,7 +36,7 @@ describe('An ApiTextarea', () => {
     const app = Vue.component('App', {
       components: { ApiTextarea },
       props: {
-        fieldName: { type: String, default: fieldName }
+        fieldName: { type: String, default: fieldName },
       },
       template: `
         <div data-app>
@@ -46,20 +46,20 @@ describe('An ApiTextarea', () => {
           uri="test-field/123"
           label="Test field"
           required="true"/>
-        </div>`
+        </div>`,
     })
     apiMock.get().thenReturn(ApiMock.success(TEXT_1).forFieldName(fieldName))
     const defaultOptions = {
       mocks: {
         $tc: () => {},
-        api: apiMock.getMocks()
-      }
+        api: apiMock.getMocks(),
+      },
     }
     return mountComponent(app, {
       vuetify,
       i18n,
       attachTo: document.body,
-      ...merge(defaultOptions, options)
+      ...merge(defaultOptions, options),
     })
   }
 

@@ -13,7 +13,8 @@ Displays a field as a date picker + write access via API wrapper
       :outlined="outlined"
       :filled="filled"
       :error-messages="wrapper.errorMessages"
-      @input="wrapper.on.input">
+      @input="wrapper.on.input"
+    >
       <template #append>
         <api-wrapper-append :wrapper="wrapper" />
       </template>
@@ -30,9 +31,9 @@ export default {
   name: 'ApiDatePicker',
   components: { ApiWrapper, ApiWrapperAppend },
   mixins: [apiPropsMixin],
-  data () {
+  data() {
     return {}
-  }
+  },
 }
 </script>
 

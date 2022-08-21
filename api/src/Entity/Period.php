@@ -6,6 +6,7 @@ use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use App\InputFilter;
 use App\Repository\PeriodRepository;
 use App\Serializer\Normalizer\RelatedCollectionLink;
 use App\Validator\Period\AssertGreaterThanOrEqualToLastScheduleEntryEnd;
@@ -98,7 +99,10 @@ class Period extends BaseEntity implements BelongsToCampInterface {
      *
      * TODO: Make non-nullable in the DB
      */
+    #[InputFilter\CleanHTML]
+    #[InputFilter\Trim]
     #[Assert\NotBlank]
+    #[Assert\Length(max: 32)]
     #[ApiProperty(example: 'Hauptlager')]
     #[Groups(['read', 'write'])]
     #[ORM\Column(type: 'text', nullable: true)]
@@ -228,6 +232,23 @@ class Period extends BaseEntity implements BelongsToCampInterface {
         }
 
         return $this;
+    }
+
+    /**
+     * All the content nodes used in some activity which is carried out (has a schedule entry) in this period.
+     *
+     * @return ContentNode[]
+     */
+    #[ApiProperty(writable: false, example: '["/content_nodes/1a2b3c4d"]')]
+    #[RelatedCollectionLink(ContentNode::class, ['period' => '$this'])]
+    #[Groups(['read'])]
+    public function getContentNodes(): array {
+        return array_values(array_unique(array_merge(...array_map(
+            function (ScheduleEntry $scheduleEntry) {
+                return $scheduleEntry->activity->getRootContentNode()->getRootDescendants();
+            },
+            $this->getScheduleEntries()
+        )), SORT_REGULAR));
     }
 
     /**

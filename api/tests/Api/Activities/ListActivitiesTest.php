@@ -42,7 +42,7 @@ class ListActivitiesTest extends ECampApiTestCase {
 
     public function testListActivitiesFilteredByCampIsAllowedForCollaborator() {
         $camp = static::$fixtures['camp1'];
-        $response = static::createClientWithCredentials()->request('GET', '/activities?camp=/camps/'.$camp->getId());
+        $response = static::createClientWithCredentials()->request('GET', '/activities?camp=%2Fcamps%2F'.$camp->getId());
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
             'totalItems' => 2,
@@ -62,7 +62,7 @@ class ListActivitiesTest extends ECampApiTestCase {
     public function testListActivitiesFilteredByCampIsDeniedForUnrelatedUser() {
         $camp = static::$fixtures['camp1'];
         $response = static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->getUsername()])
-            ->request('GET', '/activities?camp=/camps/'.$camp->getId())
+            ->request('GET', '/activities?camp=%2Fcamps%2F'.$camp->getId())
         ;
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains(['totalItems' => 0]);
@@ -72,7 +72,7 @@ class ListActivitiesTest extends ECampApiTestCase {
     public function testListActivitiesFilteredByCampIsDeniedForInactiveCollaborator() {
         $camp = static::$fixtures['camp1'];
         $response = static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->getUsername()])
-            ->request('GET', '/activities?camp=/camps/'.$camp->getId())
+            ->request('GET', '/activities?camp=%2Fcamps%2F'.$camp->getId())
         ;
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains(['totalItems' => 0]);
@@ -81,7 +81,7 @@ class ListActivitiesTest extends ECampApiTestCase {
 
     public function testListActivitiesFilteredByCampPrototypeIsAllowedForUnrelatedUser() {
         $camp = static::$fixtures['campPrototype'];
-        $response = static::createClientWithCredentials()->request('GET', '/activities?camp=/camps/'.$camp->getId());
+        $response = static::createClientWithCredentials()->request('GET', '/activities?camp=%2Fcamps%2F'.$camp->getId());
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains(['totalItems' => 1]);
         $this->assertEqualsCanonicalizing([

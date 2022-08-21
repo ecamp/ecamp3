@@ -22,7 +22,8 @@
                   scheduleEntryId: scheduleEntry.id,
                 },
               }"
-              class="e-title-link">
+              class="e-title-link"
+            >
               <span>{{ scheduleEntry.activity().title }}</span>
               <template v-if="chapter.instanceName">
                 - {{ chapter.instanceName }}
@@ -37,19 +38,21 @@
               dense
               fieldname="text"
               aria-label="Erfassen"
-              label="" />
+              label=""
+            />
           </api-form>
           <tiptap-editor
             v-show="!editing"
             :class="{ readonly: !editing }"
             :editable="false"
             :value="chapter.text"
-            class="v-input mb-1" />
+            class="v-input mb-1"
+          />
         </div>
       </template>
     </template>
     <p v-else>
-      {{ $tc('components.story.storyDay.noStory') }}
+      {{ $tc('story.storyDay.noStory') }}
     </p>
   </div>
 </template>
@@ -67,14 +70,14 @@ export default {
     CategoryChip,
     TiptapEditor,
     ApiForm,
-    ApiTextarea
+    ApiTextarea,
   },
   props: {
     day: { type: Object, required: true },
-    editing: { type: Boolean, default: false }
+    editing: { type: Boolean, default: false },
   },
   computed: {
-    loading () {
+    loading() {
       return (
         this.day.scheduleEntries()._meta.loading ||
         this.sortedScheduleEntries.some(
@@ -82,32 +85,32 @@ export default {
         )
       )
     },
-    sortedScheduleEntries () {
+    sortedScheduleEntries() {
       return sortBy(
         this.day.scheduleEntries().items,
         (scheduleEntry) => scheduleEntry.start
       )
     },
-    entries () {
+    entries() {
       return this.sortedScheduleEntries.map((scheduleEntry) => ({
         scheduleEntry: scheduleEntry,
         storyChapters: (
           scheduleEntry.activity().contentNodes() || { items: [] }
-        ).items.filter((contentNode) => contentNode.contentTypeName === 'Storycontext')
+        ).items.filter((contentNode) => contentNode.contentTypeName === 'Storycontext'),
       }))
     },
-    entriesWithStory () {
+    entriesWithStory() {
       return this.entries.filter(({ storyChapters }) => storyChapters.length)
-    }
+    },
   },
-  mounted () {
+  mounted() {
     this.day
       .scheduleEntries()
       .items.forEach((entry) => this.api.reload(entry.activity().contentNodes()))
   },
   methods: {
-    dateLong
-  }
+    dateLong,
+  },
 }
 </script>
 

@@ -10,7 +10,8 @@
         :class="{ dragging }"
         :style="cssVariables"
         @mousedown.stop.prevent="mouseDown"
-        @touchstart.stop.prevent="mouseDown">
+        @touchstart.stop.prevent="mouseDown"
+      >
         <v-icon> mdi-arrow-split-vertical </v-icon>
       </v-btn>
     </slot>
@@ -23,27 +24,27 @@ export default {
     width: { type: Number, required: true }, // the column width, in 1/12th units of the full width
     columnHeight: { type: Number, default: 200 },
     minWidth: { type: Number, default: 3 },
-    maxWidth: { type: Number, default: 12 }
+    maxWidth: { type: Number, default: 12 },
   },
-  data () {
+  data() {
     return {
       dragging: false,
       startWidth: 0,
-      startValue: this.width
+      startValue: this.width,
     }
   },
   computed: {
-    cssVariables () {
+    cssVariables() {
       return '--column-height: ' + this.columnHeight + 'px'
-    }
+    },
   },
   watch: {
-    dragging () {
+    dragging() {
       if (this.dragging) document.body.classList.add('dragging')
       else document.body.classList.remove('dragging')
-    }
+    },
   },
-  mounted () {
+  mounted() {
     document.documentElement.addEventListener('mousemove', this.mouseMove)
     document.documentElement.addEventListener('mouseup', this.mouseUp)
     document.documentElement.addEventListener('mouseleave', this.mouseUp)
@@ -70,13 +71,13 @@ export default {
       this.startValue = this.width
       this.$emit('resize-start')
     },
-    mouseMove (ev) {
+    mouseMove(ev) {
       if (!this.dragging) return
       ev.stopPropagation()
 
       this.resizing(ev)
     },
-    mouseUp (ev) {
+    mouseUp(ev) {
       if (!this.dragging) return
       ev.stopPropagation()
 
@@ -87,7 +88,7 @@ export default {
       this.startValue = this.width
       this.$emit('resize-stop')
     },
-    resizing (ev) {
+    resizing(ev) {
       const pageX = typeof ev.pageX !== 'undefined' ? ev.pageX : ev.touches[0].pageX
       const newWidthPx = pageX - this.$el.getBoundingClientRect().left
       const newWidth = this.limit(
@@ -95,13 +96,13 @@ export default {
       )
       if (newWidth !== this.width) this.$emit('resizing', newWidth)
     },
-    snapToGrid (width) {
+    snapToGrid(width) {
       return Math.round(width)
     },
-    limit (width) {
+    limit(width) {
       return Math.min(Math.max(width, this.minWidth), this.maxWidth)
-    }
-  }
+    },
+  },
 }
 </script>
 <style scoped lang="scss">

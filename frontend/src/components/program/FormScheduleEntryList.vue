@@ -11,7 +11,8 @@
             color="secondary"
             text
             class="ma-1 float-right"
-            @click="addScheduleEntry" />
+            @click="addScheduleEntry"
+          />
         </v-col>
       </v-row>
       <transition-group name="transition-list" tag="div" class="row no-gutters">
@@ -21,8 +22,9 @@
           class="transition-list-item pa-0 mb-4"
           :schedule-entry="scheduleEntry"
           :periods="periods"
-          :is-last-item="scheduleEntries.length === 1"
-          @delete="deleteEntry(scheduleEntry)" />
+          :is-last-item="scheduleEntriesWithoutDeleted.length === 1"
+          @delete="deleteEntry(scheduleEntry)"
+        />
       </transition-group>
       <v-row>
         <v-col cols="12" class="text-center" />
@@ -42,45 +44,45 @@ export default {
   props: {
     scheduleEntries: {
       type: Array,
-      required: true
+      required: true,
     },
 
     // all available periods
     periods: {
       type: Array,
-      required: true
+      required: true,
     },
 
     // currently visible period
     period: {
       type: Function,
-      required: true
-    }
+      required: true,
+    },
   },
-  data () {
+  data() {
     return {
-      localScheduleEntries: this.scheduleEntries
+      localScheduleEntries: this.scheduleEntries,
     }
   },
   computed: {
-    scheduleEntriesWithoutDeleted () {
+    scheduleEntriesWithoutDeleted() {
       return this.scheduleEntries.filter((entry) => !entry.deleted)
-    }
+    },
   },
   methods: {
-    addScheduleEntry () {
+    addScheduleEntry() {
       this.localScheduleEntries.push({
         period: () => this.period(),
         start: dayjs.utc(this.period().start).add(7, 'hour').format(),
         end: dayjs.utc(this.period().start).add(8, 'hour').format(),
         key: uniqueId(),
-        deleted: false
+        deleted: false,
       })
     },
-    deleteEntry (scheduleEntry) {
+    deleteEntry(scheduleEntry) {
       this.$set(scheduleEntry, 'deleted', true)
-    }
-  }
+    },
+  },
 }
 </script>
 <style scoped lang="scss">

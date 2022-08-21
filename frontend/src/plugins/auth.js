@@ -10,14 +10,14 @@ axios.interceptors.response.use(null, (error) => {
   return Promise.reject(error)
 })
 
-function getJWTPayloadFromCookie () {
-  const jwtHeaderAndPayload = Cookies.get('jwt_hp')
+function getJWTPayloadFromCookie() {
+  const jwtHeaderAndPayload = Cookies.get(headerAndPayloadCookieName())
   if (!jwtHeaderAndPayload) return ''
 
   return jwtHeaderAndPayload.split('.')[1]
 }
 
-function parseJWTPayload (payload) {
+function parseJWTPayload(payload) {
   if (!payload) return {}
   const base64 = payload.replace(/-/g, '+').replace(/_/g, '/')
   const jsonPayload = decodeURIComponent(
@@ -32,32 +32,32 @@ function parseJWTPayload (payload) {
   return JSON.parse(jsonPayload)
 }
 
-function getJWTExpirationTimestamp () {
+function getJWTExpirationTimestamp() {
   return (parseJWTPayload(getJWTPayloadFromCookie()).exp ?? 0) * 1000
 }
 
-export function isLoggedIn () {
+export function isLoggedIn() {
   return Date.now() < getJWTExpirationTimestamp()
 }
 
-async function login (username, password) {
+async function login(username, password) {
   const url = await apiStore.href(apiStore.get(), 'login')
   return apiStore.post(url, { username: username, password: password }).then(() => {
     return isLoggedIn()
   })
 }
 
-async function resetPasswordRequest (email, recaptchaToken) {
+async function resetPasswordRequest(email, recaptchaToken) {
   const url = await apiStore.href(apiStore.get(), 'resetPassword')
   return apiStore.post(url, { email: email, recaptchaToken: recaptchaToken })
 }
 
-async function resetPassword (id, password, recaptchaToken) {
+async function resetPassword(id, password, recaptchaToken) {
   const url = await apiStore.href(apiStore.get(), 'resetPassword', { id: id })
   return apiStore.patch(url, { password: password, recaptchaToken: recaptchaToken })
 }
 
-function user () {
+function user() {
   if (!getJWTPayloadFromCookie()) {
     return null
   }
@@ -77,12 +77,12 @@ function user () {
   return user
 }
 
-async function register (data) {
+async function register(data) {
   const url = await apiStore.href(apiStore.get(), 'users')
   return apiStore.post(url, data)
 }
 
-async function redirectToOAuthLogin (provider) {
+async function redirectToOAuthLogin(provider) {
   let returnUrl = window.location.origin + router.resolve({ name: 'loginCallback' }).href
 
   const params = new URLSearchParams(window.location.search)
@@ -97,24 +97,34 @@ async function redirectToOAuthLogin (provider) {
     })
 }
 
-async function loginGoogle () {
+async function loginGoogle() {
   return redirectToOAuthLogin('oauthGoogle')
 }
 
-async function loginPbsMiData () {
+async function loginPbsMiData() {
   return redirectToOAuthLogin('oauthPbsmidata')
 }
 
-async function loginCeviDB () {
+async function loginCeviDB() {
   return redirectToOAuthLogin('oauthCevidb')
 }
 
-export async function logout () {
-  Cookies.remove('jwt_hp', { domain: window.environment.SHARED_COOKIE_DOMAIN })
+export async function logout() {
+  Cookies.remove(headerAndPayloadCookieName(), {
+    domain: window.environment.SHARED_COOKIE_DOMAIN,
+  })
   return router
     .push({ name: 'login' })
     .then(() => apiStore.purgeAll())
     .then(() => isLoggedIn())
+}
+
+function headerAndPayloadCookieName() {
+  return `${apiDomain()}_jwt_hp`
+}
+
+function apiDomain() {
+  return new URL(window.environment.API_ROOT_URL).hostname
 }
 
 export const auth = {
@@ -127,17 +137,17 @@ export const auth = {
   logout,
   user,
   resetPasswordRequest,
-  resetPassword
+  resetPassword,
 }
 
 class AuthPlugin {
-  install (Vue) {
+  install(Vue) {
     Object.defineProperties(Vue.prototype, {
       $auth: {
-        get () {
+        get() {
           return auth
-        }
-      }
+        },
+      },
     })
   }
 }

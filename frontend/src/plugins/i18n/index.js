@@ -40,24 +40,24 @@ const i18n = new VueI18n({
     {
       it: {
         global: {
-          validation: validationIt.messages
-        }
+          validation: validationIt.messages,
+        },
       },
       fr: {
         global: {
-          validation: validationFr.messages
-        }
+          validation: validationFr.messages,
+        },
       },
       en: {
         global: {
-          validation: validationEn.messages
-        }
+          validation: validationEn.messages,
+        },
       },
       de: {
         global: {
-          validation: validationDe.messages
-        }
-      }
+          validation: validationDe.messages,
+        },
+      },
     },
 
     // vuetify locales
@@ -65,7 +65,7 @@ const i18n = new VueI18n({
       en: { $vuetify: vuetifyEn },
       de: { $vuetify: vuetifyDe },
       fr: { $vuetify: vuetifyFr },
-      it: { $vuetify: vuetifyIt }
+      it: { $vuetify: vuetifyIt },
     },
 
     // eCamp common locales
@@ -77,7 +77,7 @@ const i18n = new VueI18n({
       en: enCommon,
       'en-CH-scout': enCHScoutCommon,
       de: deCommon,
-      'de-CH-scout': deCHScoutCommon
+      'de-CH-scout': deCHScoutCommon,
     },
 
     // eCamp frontend only locales
@@ -89,10 +89,10 @@ const i18n = new VueI18n({
       en,
       'en-CH-scout': enCHScout,
       de,
-      'de-CH-scout': deCHScout
-    }
+      'de-CH-scout': deCHScout,
+    },
   ]),
-  silentTranslationWarn: true
+  silentTranslationWarn: true,
 })
 
 Object.defineProperty(i18n, 'browserPreferredLocale', {
@@ -104,7 +104,7 @@ Object.defineProperty(i18n, 'browserPreferredLocale', {
       }
     }
     return undefined
-  }
+  },
 })
 
 export default i18n

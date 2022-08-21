@@ -7,13 +7,13 @@
 <script>
 export default {
   name: 'ApiForm',
-  provide () {
+  provide() {
     return {
-      apiUri: this.entity._meta.self
+      apiUri: this.entity._meta.self,
     }
   },
   props: {
-    entity: { required: true, type: Object }
-  }
+    entity: { required: true, type: Object },
+  },
 }
 </script>

@@ -7,7 +7,8 @@
     :title="category.name"
     max-width="600px"
     :submit-action="update"
-    :cancel-action="close">
+    :cancel-action="close"
+  >
     <template #activator="scope">
       <slot name="activator" v-bind="scope" />
     </template>
@@ -25,17 +26,17 @@ export default {
   name: 'DialogCategoryEdit',
   components: {
     DialogCategoryForm,
-    DialogForm
+    DialogForm,
   },
   extends: DialogBase,
   props: {
     camp: { type: Object, required: true },
-    category: { type: Object, required: true }
+    category: { type: Object, required: true },
   },
-  data () {
+  data() {
     return {
       entityProperties: ['short', 'name', 'color', 'numberingStyle'],
-      embeddedCollections: ['preferredContentTypes']
+      embeddedCollections: ['preferredContentTypes'],
     }
   },
   watch: {
@@ -44,8 +45,8 @@ export default {
       if (showDialog) {
         this.loadEntityData(this.category._meta.self)
       }
-    }
-  }
+    },
+  },
 }
 </script>
 

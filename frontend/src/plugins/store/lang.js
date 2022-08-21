@@ -6,7 +6,7 @@ import { localeChanged } from 'vee-validate'
 const LANG_KEY = 'language'
 
 export const state = {
-  language: window.localStorage.getItem(LANG_KEY) || window.navigator.language || 'en'
+  language: window.localStorage.getItem(LANG_KEY) || window.navigator.language || 'en',
 }
 
 export const mutations = {
@@ -15,7 +15,7 @@ export const mutations = {
    * @param state Vuex state
    * @param lang Language string
    */
-  setLanguage (state, lang) {
+  setLanguage(state, lang) {
     state.language = lang
     VueI18n.locale = lang
     Vue.dayjs.locale(lang)
@@ -23,10 +23,10 @@ export const mutations = {
     axios.defaults.headers.common['Accept-Language'] = lang
     document.querySelector('html').setAttribute('lang', lang)
     window.localStorage.setItem(LANG_KEY, lang)
-  }
+  },
 }
 
 export default {
   state,
-  mutations
+  mutations,
 }

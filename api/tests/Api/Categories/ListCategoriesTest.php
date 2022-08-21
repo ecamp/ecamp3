@@ -43,7 +43,7 @@ class ListCategoriesTest extends ECampApiTestCase {
 
     public function testListCategoriesFilteredByCampIsAllowedForCollaborator() {
         $camp = static::$fixtures['camp1'];
-        $response = static::createClientWithCredentials()->request('GET', '/categories?camp=/camps/'.$camp->getId());
+        $response = static::createClientWithCredentials()->request('GET', '/categories?camp=%2Fcamps%2F'.$camp->getId());
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
             'totalItems' => 3,
@@ -64,7 +64,7 @@ class ListCategoriesTest extends ECampApiTestCase {
     public function testListCategoriesFilteredByCampIsDeniedForUnrelatedUser() {
         $camp = static::$fixtures['camp1'];
         $response = static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->getUsername()])
-            ->request('GET', '/categories?camp=/camps/'.$camp->getId())
+            ->request('GET', '/categories?camp=%2Fcamps%2F'.$camp->getId())
         ;
 
         $this->assertResponseStatusCodeSame(200);
@@ -76,7 +76,7 @@ class ListCategoriesTest extends ECampApiTestCase {
     public function testListCategoriesFilteredByCampIsDeniedForInactiveCollaborator() {
         $camp = static::$fixtures['camp1'];
         $response = static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->getUsername()])
-            ->request('GET', '/categories?camp=/camps/'.$camp->getId())
+            ->request('GET', '/categories?camp=%2Fcamps%2F'.$camp->getId())
         ;
 
         $this->assertResponseStatusCodeSame(200);
@@ -87,7 +87,7 @@ class ListCategoriesTest extends ECampApiTestCase {
 
     public function testListCategoriesFilteredByCampPrototypeIsAllowedForUnrelatedUser() {
         $camp = static::$fixtures['campPrototype'];
-        $response = static::createClientWithCredentials()->request('GET', '/categories?camp=/camps/'.$camp->getId());
+        $response = static::createClientWithCredentials()->request('GET', '/categories?camp=%2Fcamps%2F'.$camp->getId());
 
         $this->assertResponseStatusCodeSame(200);
 
