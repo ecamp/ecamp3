@@ -11,9 +11,6 @@ use App\Tests\Api\ECampApiTestCase;
  * @internal
  */
 class CreateCategoryTest extends ECampApiTestCase {
-    // TODO input filter tests
-    // TODO validation tests
-
     public function testCreateCategoryIsDeniedForAnonymousUser() {
         static::createBasicClient()->request('POST', '/categories', ['json' => $this->getExampleWritePayload()]);
 
@@ -134,10 +131,100 @@ class CreateCategoryTest extends ECampApiTestCase {
             'violations' => [
                 [
                     'propertyPath' => 'short',
-                    'message' => 'This value should not be null.',
+                    'message' => 'This value should not be blank.',
                 ],
             ],
         ]);
+    }
+
+    public function testCreateCategoryValidatesBlankShort() {
+        static::createClientWithCredentials()->request(
+            'POST',
+            '/categories',
+            [
+                'json' => $this->getExampleWritePayload(
+                    [
+                        'short' => '',
+                    ]
+                ),
+            ]
+        );
+
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [
+                    'propertyPath' => 'short',
+                    'message' => 'This value should not be blank.',
+                ],
+            ],
+        ]);
+    }
+
+    public function testCreateCategoryValidatesTooLongShort() {
+        static::createClientWithCredentials()->request(
+            'POST',
+            '/categories',
+            [
+                'json' => $this->getExampleWritePayload(
+                    [
+                        'short' => str_repeat('l', 17),
+                    ]
+                ),
+            ]
+        );
+
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [
+                    'propertyPath' => 'short',
+                    'message' => 'This value is too long. It should have 16 characters or less.',
+                ],
+            ],
+        ]);
+    }
+
+    public function testCreateCategoryTrimsShort() {
+        static::createClientWithCredentials()->request(
+            'POST',
+            '/categories',
+            [
+                'json' => $this->getExampleWritePayload(
+                    [
+                        'short' => "  \t LS\t ",
+                    ]
+                ),
+            ]
+        );
+
+        $this->assertResponseStatusCodeSame(201);
+        $this->assertJsonContains($this->getExampleReadPayload(
+            [
+                'short' => 'LS',
+            ]
+        ));
+    }
+
+    public function testCreateCategoryCleansHtmlForShort() {
+        static::createClientWithCredentials()->request(
+            'POST',
+            '/categories',
+            [
+                'json' => $this->getExampleWritePayload(
+                    [
+                        'short' => 'L<script>alert(1)</script>S',
+                    ]
+                ),
+            ]
+        );
+
+        $this->assertResponseStatusCodeSame(201);
+        $this->assertJsonContains($this->getExampleReadPayload(
+            [
+                'short' => 'LS',
+            ]
+        ));
     }
 
     public function testCreateCategoryValidatesMissingName() {
@@ -148,10 +235,100 @@ class CreateCategoryTest extends ECampApiTestCase {
             'violations' => [
                 [
                     'propertyPath' => 'name',
-                    'message' => 'This value should not be null.',
+                    'message' => 'This value should not be blank.',
                 ],
             ],
         ]);
+    }
+
+    public function testCreateCategoryValidatesBlankName() {
+        static::createClientWithCredentials()->request(
+            'POST',
+            '/categories',
+            [
+                'json' => $this->getExampleWritePayload(
+                    [
+                        'name' => '',
+                    ]
+                ),
+            ]
+        );
+
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [
+                    'propertyPath' => 'name',
+                    'message' => 'This value should not be blank.',
+                ],
+            ],
+        ]);
+    }
+
+    public function testCreateCategoryValidatesTooLongName() {
+        static::createClientWithCredentials()->request(
+            'POST',
+            '/categories',
+            [
+                'json' => $this->getExampleWritePayload(
+                    [
+                        'name' => str_repeat('l', 33),
+                    ]
+                ),
+            ]
+        );
+
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [
+                    'propertyPath' => 'name',
+                    'message' => 'This value is too long. It should have 32 characters or less.',
+                ],
+            ],
+        ]);
+    }
+
+    public function testCreateCategoryTrimsName() {
+        static::createClientWithCredentials()->request(
+            'POST',
+            '/categories',
+            [
+                'json' => $this->getExampleWritePayload(
+                    [
+                        'name' => "  \t Lagersport\t ",
+                    ]
+                ),
+            ]
+        );
+
+        $this->assertResponseStatusCodeSame(201);
+        $this->assertJsonContains($this->getExampleReadPayload(
+            [
+                'name' => 'Lagersport',
+            ]
+        ));
+    }
+
+    public function testCreateCategoryCleansHtmlForName() {
+        static::createClientWithCredentials()->request(
+            'POST',
+            '/categories',
+            [
+                'json' => $this->getExampleWritePayload(
+                    [
+                        'name' => 'Lagerspo<script>alert(1)</script>rt',
+                    ]
+                ),
+            ]
+        );
+
+        $this->assertResponseStatusCodeSame(201);
+        $this->assertJsonContains($this->getExampleReadPayload(
+            [
+                'name' => 'Lagersport',
+            ]
+        ));
     }
 
     public function testCreateCategoryValidatesMissingColor() {

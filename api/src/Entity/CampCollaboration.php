@@ -6,6 +6,7 @@ use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use App\InputFilter;
 use App\Repository\CampCollaborationRepository;
 use App\Validator\AllowTransition\AssertAllowTransitions;
 use App\Validator\AssertEitherIsNull;
@@ -126,6 +127,9 @@ class CampCollaboration extends BaseEntity implements BelongsToCampInterface {
      * The receiver email address of the invitation email, in case the collaboration does not yet have
      * a user account. Either this field or the user field should be null.
      */
+    #[InputFilter\Trim]
+    #[Assert\Email]
+    #[Assert\Length(min: 1, max: 128)]
     #[AssertEitherIsNull(other: 'user')]
     #[ApiProperty(example: 'some-email@example.com')]
     #[Groups(['read', 'create'])]

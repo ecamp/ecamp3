@@ -84,6 +84,9 @@ services:
 
     App\OpenApi\JwtDecorator:
         decorates: 'api_platform.openapi.factory'
+        arguments:
+            - '@.inner'
+            - '%env(API_DOMAIN)%'
 
     App\OpenApi\OAuthDecorator:
         decorates: 'api_platform.openapi.factory'

@@ -24,14 +24,14 @@ expect.extend({
 describe('authentication logic', () => {
   afterEach(() => {
     jest.restoreAllMocks()
-    Cookies.remove('jwt_hp')
+    Cookies.remove('localhost_jwt_hp')
   })
 
   describe('isLoggedIn()', () => {
     it('returns true if JWT payload is not expired', () => {
       // given
       store.replaceState(createState())
-      Cookies.set('jwt_hp', validJWTPayload)
+      Cookies.set('localhost_jwt_hp', validJWTPayload)
 
       // when
       const result = auth.isLoggedIn()
@@ -43,7 +43,7 @@ describe('authentication logic', () => {
     it('returns false if JWT payload is expired', () => {
       // given
       store.replaceState(createState())
-      Cookies.set('jwt_hp', expiredJWTPayload)
+      Cookies.set('localhost_jwt_hp', expiredJWTPayload)
 
       // when
       const result = auth.isLoggedIn()
@@ -55,7 +55,7 @@ describe('authentication logic', () => {
     it('returns false if JWT cookie is missing', () => {
       // given
       store.replaceState(createState())
-      Cookies.set('jwt_hp', expiredJWTPayload)
+      Cookies.set('localhost_jwt_hp', expiredJWTPayload)
 
       // when
       const result = auth.isLoggedIn()
@@ -89,7 +89,7 @@ describe('authentication logic', () => {
       // given
       store.replaceState(createState())
       jest.spyOn(apiStore, 'post').mockImplementation(async () => {
-        Cookies.set('jwt_hp', validJWTPayload)
+        Cookies.set('localhost_jwt_hp', validJWTPayload)
       })
 
       // when
@@ -145,7 +145,7 @@ describe('authentication logic', () => {
         _meta: {},
       }
       user._meta.load = new Promise(() => user)
-      Cookies.set('jwt_hp', validJWTPayload)
+      Cookies.set('localhost_jwt_hp', validJWTPayload)
 
       jest.spyOn(apiStore, 'get').mockImplementation(() => user)
 
@@ -163,7 +163,7 @@ describe('authentication logic', () => {
       async (status) => {
         // given
         store.replaceState(createState())
-        Cookies.set('jwt_hp', validJWTPayload)
+        Cookies.set('localhost_jwt_hp', validJWTPayload)
 
         const user = {
           _meta: {
@@ -265,7 +265,7 @@ describe('authentication logic', () => {
   describe('logout()', () => {
     it('resolves to false if the user successfully logs out', async () => {
       // given
-      Cookies.set('jwt_hp', validJWTPayload)
+      Cookies.set('localhost_jwt_hp', validJWTPayload)
 
       // when
       const result = await auth.logout()
