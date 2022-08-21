@@ -6,6 +6,7 @@ use App\DataPersister\Util\AbstractDataPersister;
 use App\DataPersister\Util\DataPersisterObservable;
 use App\Entity\Activity;
 use App\Entity\ContentNode\ColumnLayout;
+use App\Entity\ContentType;
 use App\Util\EntityMap;
 use Doctrine\ORM\EntityManagerInterface;
 

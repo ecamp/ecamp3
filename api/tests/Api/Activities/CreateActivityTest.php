@@ -357,10 +357,12 @@ class CreateActivityTest extends ECampApiTestCase {
                             'href' => $this->getIriFor('contentTypeColumnLayout'),
                         ],
                     ],
-                    'columns' => [
-                        [
-                            'slot' => '1',
-                            'width' => 12,
+                    'data' => [
+                        'columns' => [
+                            [
+                                'slot' => '1',
+                                'width' => 12,
+                            ],
                         ],
                     ],
                     'slot' => '',
@@ -376,10 +378,12 @@ class CreateActivityTest extends ECampApiTestCase {
                             'href' => $this->getIriFor('contentTypeColumnLayout'),
                         ],
                     ],
-                    'columns' => [
-                        [
-                            'slot' => '1',
-                            'width' => 12,
+                    'data' => [
+                        'columns' => [
+                            [
+                                'slot' => '1',
+                                'width' => 12,
+                            ],
                         ],
                     ],
                     'slot' => '2',

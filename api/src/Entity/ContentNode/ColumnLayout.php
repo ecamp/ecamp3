@@ -6,7 +6,6 @@ use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Entity\ContentNode;
 use App\Repository\ColumnLayoutRepository;
-use App\Util\EntityMap;
 use App\Validator\AssertJsonSchema;
 use App\Validator\ColumnLayout\AssertColumWidthsSumTo12;
 use App\Validator\ColumnLayout\AssertNoOrphanChildren;
@@ -120,15 +119,5 @@ class ColumnLayout extends ContentNode {
         }
 
         return $this;
-    }
-
-    /**
-     * @param ColumnLayout $prototype
-     * @param EntityMap    $entityMap
-     */
-    public function copyFromPrototype($prototype, $entityMap): void {
-        parent::copyFromPrototype($prototype, $entityMap);
-
-        $this->columns = $prototype->columns;
     }
 }

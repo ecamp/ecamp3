@@ -213,7 +213,7 @@ abstract class ContentNode extends BaseEntity implements BelongsToContentNodeTre
         $this->instanceName = $prototype->instanceName;
         $this->slot = $prototype->slot;
         $this->position = $prototype->position;
-        $this->data = $prototype->data;
+        $this->data = $prototype->data; // At the moment this is fine here as we don't to change anything within the JSON for any of the content types. As soon as this changes, we need to remove this here and move to the specific entities
 
         // deep copy children
         foreach ($prototype->getChildren() as $childPrototype) {

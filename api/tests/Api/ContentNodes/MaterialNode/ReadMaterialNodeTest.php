@@ -31,6 +31,10 @@ class ReadMaterialNodeTest extends ReadContentNodeTestCase {
         // then
         $this->assertResponseStatusCodeSame(200);
 
+        /*
+        Currently, we don't embed materialItems on materialNodes due to performance reason
+        Keeping the code commented out, in case we decide to bring it back
+
         $this->assertJsonContains([
             '_links' => [
                 'materialItems' => [
@@ -52,6 +56,6 @@ class ReadMaterialNodeTest extends ReadContentNodeTestCase {
                     ],
                 ],
             ],
-        ]);
+        ]);*/
     }
 }
