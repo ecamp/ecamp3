@@ -70,7 +70,7 @@ class Storyboard extends ContentNode {
                     ],
                     'position' => [
                         'type' => 'integer',
-                        'minimum' => 1,
+                        'minimum' => 0,
                     ],
                 ],
             ],
