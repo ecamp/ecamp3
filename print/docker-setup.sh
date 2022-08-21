@@ -1,7 +1,7 @@
 #!/bin/bash
 set -euo pipefail
 
-mkdir -p /home/node/.cache/node-gyp/18.6.0
+mkdir -p /home/node/.cache/node-gyp/18.7.0
 
 usermod -u $USER_ID node
 groupmod -g $USER_ID node
