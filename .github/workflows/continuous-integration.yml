@@ -129,7 +129,7 @@ jobs:
 
       - uses: actions/setup-node@v3
         with:
-          node-version: '16.16.0'
+          node-version: '16.17.0'
 
       - uses: actions/cache@a7c34adf76222e77931dedbf4a45b2e4648ced19 # tag=v3
         with:
@@ -159,7 +159,7 @@ jobs:
 
       - uses: actions/setup-node@v3
         with:
-          node-version: '16.16.0'
+          node-version: '16.17.0'
 
       - uses: actions/cache@a7c34adf76222e77931dedbf4a45b2e4648ced19 # tag=v3
         with:
@@ -315,7 +315,7 @@ jobs:
 
       - uses: actions/setup-node@v3
         with:
-          node-version: '16.16.0'
+          node-version: '16.17.0'
 
       - uses: actions/cache@a7c34adf76222e77931dedbf4a45b2e4648ced19 # tag=v3
         with:
@@ -352,7 +352,7 @@ jobs:
 
       - uses: actions/setup-node@v3
         with:
-          node-version: '16.16.0'
+          node-version: '16.17.0'
 
       - uses: actions/cache@a7c34adf76222e77931dedbf4a45b2e4648ced19 # tag=v3
         with:
