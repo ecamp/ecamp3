@@ -26,7 +26,7 @@ class SingleTextDataPersister extends ContentNodeAbstractDataPersister {
     public function beforeCreate($data): SingleText {
         $data = parent::beforeCreate($data);
 
-        $data->data = ['text' => ''];
+        $data->data = $this->cleanHTMLFilter->applyTo($data->data, 'text');
 
         return $data;
     }

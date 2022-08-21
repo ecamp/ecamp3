@@ -26,8 +26,6 @@ class ReadSingleTextTest extends ReadContentNodeTestCase {
 
         // then
         $this->assertResponseStatusCodeSame(200);
-        $this->assertJsonContains([
-            'text' => $contentNode->text,
-        ]);
+        $this->assertJsonContains(['data' => $contentNode->data]);
     }
 }
