@@ -19,44 +19,19 @@ class CreateMultiSelectTest extends CreateContentNodeTestCase {
 
     public function testCreateMultiSelectCopiesOptionsFromContentType() {
         // when
-        $response = $this->create($this->getExampleWritePayload());
+        $response = $this->create($this->getExampleWritePayload(['data' => null]));
 
         // then
         $this->assertResponseStatusCodeSame(201);
-        $this->assertCount(1, $response->toArray()['_links']['options']);
         $this->assertJsonContains([
-            '_embedded' => [
+            'data' => [
                 'options' => [
-                    [
-                        'translateKey' => 'outdoorTechnique',
-                        'checked' => false,
-                        'position' => 0,
-                    ],
-                    [
-                        'translateKey' => 'security',
-                        'checked' => false,
-                        'position' => 1,
-                    ],
-                    [
-                        'translateKey' => 'natureAndEnvironment',
-                        'checked' => false,
-                        'position' => 2,
-                    ],
-                    [
-                        'translateKey' => 'pioneeringTechnique',
-                        'checked' => false,
-                        'position' => 3,
-                    ],
-                    [
-                        'translateKey' => 'campsiteAndSurroundings',
-                        'checked' => false,
-                        'position' => 4,
-                    ],
-                    [
-                        'translateKey' => 'preventionAndIntegration',
-                        'checked' => false,
-                        'position' => 5,
-                    ],
+                    'outdoorTechnique' => ['checked' => false],
+                    'security' => ['checked' => false],
+                    'natureAndEnvironment' => ['checked' => false],
+                    'pioneeringTechnique' => ['checked' => false],
+                    'campsiteAndSurroundings' => ['checked' => false],
+                    'preventionAndIntegration' => ['checked' => false],
                 ],
             ],
         ]);

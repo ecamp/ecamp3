@@ -65,7 +65,7 @@ class MultiSelect extends ContentNode {
      * Holds the actual data of the content node
      * (overridden from abstract class in order to add specific validation).
      */
-    #[ApiProperty(example: ['text' => 'dummy text'])]
+    #[ApiProperty(example: null)]
     #[Groups(['read', 'write'])]
     #[ORM\Column(type: 'json', nullable: true, options: ['jsonb' => true])]
     #[Assert\IsNull(groups: ['create'])] // create with empty data; default value is populated by data persister
