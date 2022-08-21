@@ -73,16 +73,15 @@ class ColumnLayout extends ContentNode {
      * Holds the actual data of the content node
      * (overridden from abstract class in order to add specific validation).
      */
-    #[ApiProperty(example: ['text' => 'dummy text'])]
+    #[ApiProperty(example: ['columns' => [['slot' => '1', 'width' => 12]]])]
     #[Groups(['read', 'write'])]
     #[ORM\Column(type: 'json', nullable: true, options: ['jsonb' => true])]
-    #[Assert\IsNull(groups: ['create'])] // create with empty data; default value is populated by data persister
     #[Assert\Sequentially(constraints: [
         new AssertJsonSchema(schema: self::JSON_SCHEMA),
         new AssertColumWidthsSumTo12(),
         new AssertNoOrphanChildren(),
-    ], groups: ['update'])]
-    public ?array $data = null;
+    ])]
+    public ?array $data = ['columns' => [['slot' => '1', 'width' => 12]]];
 
     /**
      * All content nodes that are part of this content node tree.

@@ -87,7 +87,6 @@ abstract class ContentNode extends BaseEntity implements BelongsToContentNodeTre
     #[ApiProperty(example: ['text' => 'dummy text'])]
     #[Groups(['read', 'write'])]
     #[ORM\Column(type: 'json', nullable: true, options: ['jsonb' => true])]
-    #[Assert\IsNull(groups: ['create'])] // create with empty data; default value is populated by ContentNodeDataPersister
     public ?array $data = null;
 
     /**
@@ -164,7 +163,13 @@ abstract class ContentNode extends BaseEntity implements BelongsToContentNodeTre
     }
 
     public function setData(?array $data) {
-        if (null !== $this->data && null !== $data) {
+        if (null === $this->data) {
+            $this->data = $data;
+
+            return;
+        }
+
+        if (null !== $data) {
             $this->data = JsonMergePatch::mergePatch($this->data, $data);
         }
     }

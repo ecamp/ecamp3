@@ -22,6 +22,10 @@ class AssertNoOrphanChildrenValidator extends ConstraintValidator {
             throw new InvalidArgumentException('AssertNoOrphanChildren is only valid inside a ColumnLayout object');
         }
 
+        if (!isset($value['columns'])) {
+            throw new \TypeError('Property "columns" expected but not found');
+        }
+
         $slots = array_map(function ($col) {
             if (isset($col['slot'])) {
                 return $col['slot'];

@@ -17,15 +17,4 @@ class ColumnLayoutDataPersister extends ContentNodeAbstractDataPersister {
             $dataPersisterObservable
         );
     }
-
-    /**
-     * @param ColumnLayout $data
-     */
-    public function beforeCreate($data): ColumnLayout {
-        $data = parent::beforeCreate($data);
-
-        $data->data = ['columns' => [['slot' => '1', 'width' => 12]]];
-
-        return $data;
-    }
 }

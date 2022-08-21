@@ -12,6 +12,10 @@ class AssertColumWidthsSumTo12Validator extends ConstraintValidator {
             throw new UnexpectedTypeException($constraint, AssertColumWidthsSumTo12::class);
         }
 
+        if (!isset($value['columns'])) {
+            throw new \TypeError('Property "columns" expected but not found');
+        }
+
         $columnWidths = array_sum(array_map(function ($col) {
             if (isset($col['width'])) {
                 return $col['width'];

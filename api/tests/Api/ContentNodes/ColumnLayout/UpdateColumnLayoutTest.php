@@ -23,14 +23,14 @@ class UpdateColumnLayoutTest extends UpdateContentNodeTestCase {
         ];
 
         $contentNode = static::$fixtures['columnLayout2'];
-        static::createClientWithCredentials()->request('PATCH', $this->endpoint.'/'.$contentNode->getId(), ['json' => [
+        static::createClientWithCredentials()->request('PATCH', $this->endpoint.'/'.$contentNode->getId(), ['json' => ['data' => [
             'columns' => $VALID_JSON_CONFIG,
-        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
+        ]], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
 
         $this->assertResponseStatusCodeSame(200);
-        $this->assertJsonContains([
+        $this->assertJsonContains(['data' => [
             'columns' => $VALID_JSON_CONFIG,
-        ]);
+        ]]);
     }
 
     public function testPatchColumnLayoutRejectsInvalidJson() {
@@ -39,16 +39,16 @@ class UpdateColumnLayoutTest extends UpdateContentNodeTestCase {
         ];
 
         $contentNode = static::$fixtures['columnLayout2'];
-        static::createClientWithCredentials()->request('PATCH', $this->endpoint.'/'.$contentNode->getId(), ['json' => [
+        static::createClientWithCredentials()->request('PATCH', $this->endpoint.'/'.$contentNode->getId(), ['json' => ['data' => [
             'columns' => $INVALID_JSON_CONFIG,
-        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
+        ]], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
 
         $this->assertResponseStatusCodeSame(422);
         $this->assertJsonContains([
             'violations' => [
                 [
-                    'propertyPath' => 'columns',
-                    'message' => "Provided JSON doesn't match required schema.",
+                    'propertyPath' => 'data',
+                    'message' => 'Provided JSON doesn\'t match required schema (Array expected, {"0":{"slot":"1","width":12},"data":"value"} received at #->properties:columns).',
                 ],
             ],
         ]);
@@ -61,15 +61,15 @@ class UpdateColumnLayoutTest extends UpdateContentNodeTestCase {
         ];
 
         $contentNode = static::$fixtures['columnLayout1'];
-        static::createClientWithCredentials()->request('PATCH', $this->endpoint.'/'.$contentNode->getId(), ['json' => [
+        static::createClientWithCredentials()->request('PATCH', $this->endpoint.'/'.$contentNode->getId(), ['json' => ['data' => [
             'columns' => $JSON_CONFIG,
-        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
+        ]], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
 
         $this->assertResponseStatusCodeSame(422);
         $this->assertJsonContains([
             'violations' => [
                 [
-                    'propertyPath' => 'columns',
+                    'propertyPath' => 'data',
                     'message' => 'Expected column widths to sum to 12, but got a sum of 11',
                 ],
             ],
@@ -82,15 +82,15 @@ class UpdateColumnLayoutTest extends UpdateContentNodeTestCase {
         ];
 
         $contentNode = static::$fixtures['columnLayout1'];
-        static::createClientWithCredentials()->request('PATCH', $this->endpoint.'/'.$contentNode->getId(), ['json' => [
+        static::createClientWithCredentials()->request('PATCH', $this->endpoint.'/'.$contentNode->getId(), ['json' => ['data' => [
             'columns' => $JSON_CONFIG,
-        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
+        ]], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
 
         $this->assertResponseStatusCodeSame(422);
         $this->assertJsonContains([
             'violations' => [
                 [
-                    'propertyPath' => 'columns',
+                    'propertyPath' => 'data',
                     'message' => 'The following slots still have child contents and should be present in the columns: 2',
                 ],
             ],

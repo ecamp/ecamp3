@@ -3,7 +3,6 @@
 namespace App\Tests\Api\ContentNodes\ContentNode;
 
 use App\Entity\ContentNode;
-use App\Entity\ContentNode\Storyboard;
 use App\Tests\Api\ECampApiTestCase;
 
 /**
@@ -50,22 +49,6 @@ class ReadContentNodeTest extends ECampApiTestCase {
         static::createBasicClient()->request('GET', '/content_nodes/'.$contentNode->getId());
 
         // then
-        $this->assertResponseStatusCodeSame(200);
-    }
-
-    public function testGetSingleContentNodeIncludesProperRelationLinks() {
-        /** @var Storyboard $contentNode */
-        $contentNode = static::$fixtures['storyboard1'];
-
-        // when content node is loaded via generic /content_nodes endpoint
-        static::createClientWithCredentials()->request('GET', '/content_nodes/'.$contentNode->getId());
-
-        // then the response still includes content-node (here:storyboard) specific relation links (injected from RelatedCollectionLinkNormalizer)
-        $this->assertJsonContains([
-            '_links' => [
-                'sections' => ['href' => '/content_node/storyboard_sections?storyboard='.urlencode($this->getIriFor($contentNode))],
-            ],
-        ]);
         $this->assertResponseStatusCodeSame(200);
     }
 }
