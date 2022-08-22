@@ -1,9 +1,9 @@
 <template>
   <div class="wrapper">
     <div class="instance-name">{{ instanceName }}</div>
-    <div v-for="entry in selectedOptions" :key="entry.id" class="entry">
+    <div v-for="option in selectedOptions" :key="option.translateKey" class="entry">
       <check-mark :size="12" />
-      {{ $tc(`contentNode.laThematicArea.entity.option.${entry.translateKey}.name`) }}
+      {{ $tc(`contentNode.laThematicArea.entity.option.${option.translateKey}.name`) }}
     </div>
   </div>
 </template>
@@ -18,15 +18,19 @@ export default {
   props: {
     contentNode: { type: Object, required: true },
   },
-  async fetch() {
-    await this.contentNode.options().$loadItems()
-  },
   computed: {
     instanceName() {
       return this.contentNode.instanceName || this.$tc(`contentNode.laThematicArea.name`)
     },
     selectedOptions() {
-      return this.contentNode.options().items.filter((item) => item.checked)
+      const options = this.contentNode.data.options
+
+      const optionsArray = Object.keys(options).map((key) => ({
+        translateKey: key,
+        checked: options[key].checked,
+      }))
+
+      return optionsArray.filter((item) => item.checked)
     },
   },
 }
