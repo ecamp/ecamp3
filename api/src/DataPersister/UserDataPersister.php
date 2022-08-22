@@ -31,7 +31,12 @@ class UserDataPersister extends AbstractDataPersister {
         );
     }
 
-    public function beforeCreate($data): BaseEntity {
+    /**
+     * @param User $data
+     *
+     * @return User
+     */
+    public function beforeCreate($data) {
         $resp = $this->reCaptcha->verify($data->recaptchaToken);
         if (!$resp->isSuccess()) {
             throw new HttpException(422, 'ReCaptcha failed');
@@ -52,7 +57,12 @@ class UserDataPersister extends AbstractDataPersister {
         $this->mailService->sendUserActivationMail($data, $data->activationKey);
     }
 
-    public function beforeUpdate($data): BaseEntity {
+    /**
+     * @param User $data
+     *
+     * @return User
+     */
+    public function beforeUpdate($data) {
         if ($data->plainPassword) {
             $data->password = $this->userPasswordHasher->hashPassword($data, $data->plainPassword);
             $data->eraseCredentials();
