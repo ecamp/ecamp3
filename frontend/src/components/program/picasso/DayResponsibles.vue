@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import serverErrorToString from '@/helpers/serverErrorToString.js'
+import { serverErrorToString } from '@/helpers/serverError.js'
 import campCollaborationDisplayName from '@/common/helpers/campCollaborationDisplayName.js'
 
 export default {
