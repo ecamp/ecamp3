@@ -7,7 +7,6 @@ use App\DataPersister\Util\AbstractDataPersister;
 use App\DataPersister\Util\CustomActionListener;
 use App\DataPersister\Util\DataPersisterObservable;
 use App\DataPersister\Util\PropertyChangeListener;
-use App\Entity\BaseEntity;
 use App\Entity\CampCollaboration;
 use App\Entity\MaterialList;
 use App\Entity\User;
@@ -49,7 +48,10 @@ class CampCollaborationDataPersister extends AbstractDataPersister {
         );
     }
 
-    public function beforeCreate($data): BaseEntity {
+    /**
+     * @param CampCollaboration $data
+     */
+    public function beforeCreate($data): CampCollaboration {
         /** @var CampCollaboration $data */
         $inviteEmail = $data->user?->getEmail() ?? $data->inviteEmail;
         if (CampCollaboration::STATUS_INVITED == $data->status && $inviteEmail) {
@@ -66,6 +68,9 @@ class CampCollaborationDataPersister extends AbstractDataPersister {
         return $data;
     }
 
+    /**
+     * @param CampCollaboration $data
+     */
     public function afterCreate($data): void {
         /** @var CampCollaboration $data */
         /** @var User $user */

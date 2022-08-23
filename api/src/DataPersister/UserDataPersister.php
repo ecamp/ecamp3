@@ -33,10 +33,8 @@ class UserDataPersister extends AbstractDataPersister {
 
     /**
      * @param User $data
-     *
-     * @return User
      */
-    public function beforeCreate($data) {
+    public function beforeCreate($data): User {
         $resp = $this->reCaptcha->verify($data->recaptchaToken);
         if (!$resp->isSuccess()) {
             throw new HttpException(422, 'ReCaptcha failed');
@@ -59,10 +57,8 @@ class UserDataPersister extends AbstractDataPersister {
 
     /**
      * @param User $data
-     *
-     * @return User
      */
-    public function beforeUpdate($data) {
+    public function beforeUpdate($data): User {
         if ($data->plainPassword) {
             $data->password = $this->userPasswordHasher->hashPassword($data, $data->plainPassword);
             $data->eraseCredentials();

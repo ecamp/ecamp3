@@ -22,10 +22,8 @@ class CategoryDataPersister extends AbstractDataPersister {
 
     /**
      * @param Category $data
-     *
-     * @return Category
      */
-    public function beforeCreate($data) {
+    public function beforeCreate($data): Category {
         // TODO implement actual prototype cloning and strategy classes, this is just a dummy implementation to
         //      fill the non-nullable field for Doctrine
         $rootContentNode = new ColumnLayout();

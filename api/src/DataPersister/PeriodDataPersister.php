@@ -22,10 +22,8 @@ class PeriodDataPersister extends AbstractDataPersister {
 
     /**
      * @param Period $data
-     *
-     * @return Period
      */
-    public function beforeCreate($data) {
+    public function beforeCreate($data): Period {
         static::updateDaysAndScheduleEntries($data);
 
         return $data;
@@ -33,10 +31,8 @@ class PeriodDataPersister extends AbstractDataPersister {
 
     /**
      * @param Period $data
-     *
-     * @return Period
      */
-    public function beforeUpdate($data) {
+    public function beforeUpdate($data): Period {
         $orig = $this->em->getUnitOfWork()->getOriginalEntityData($data);
 
         static::updateDaysAndScheduleEntries($data, $orig);

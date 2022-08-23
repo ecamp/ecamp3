@@ -73,7 +73,7 @@ abstract class AbstractDataPersister implements ContextAwareDataPersisterInterfa
      *
      * @return T
      */
-    public function beforeCreate($data) {
+    public function beforeCreate($data): BaseEntity {
         return $data;
     }
 
