@@ -1,34 +1,35 @@
 # see https://symfony.com/doc/current/reference/configuration/framework.html
 framework:
-    secret: '%env(APP_SECRET)%'
-    #csrf_protection: true
-    http_method_override: false
-    trusted_proxies: '%env(TRUSTED_PROXIES)%'
-    trusted_hosts:
-        - localhost
-        - caddy
-        - '%env(API_DOMAIN)%'
-    # See https://caddyserver.com/docs/caddyfile/directives/reverse_proxy#headers
-    trusted_headers: ['x-forwarded-for', 'x-forwarded-proto']
+  secret: '%env(APP_SECRET)%'
+  #csrf_protection: true
+  http_method_override: false
+  trusted_proxies: '%env(TRUSTED_PROXIES)%'
+  trusted_hosts:
+    - localhost
+    - caddy
+    - '%env(API_DOMAIN)%'
+  # See https://caddyserver.com/docs/caddyfile/directives/reverse_proxy#headers
+  trusted_headers: ['x-forwarded-for', 'x-forwarded-proto']
 
-    #esi: true
-    #fragments: true
-    php_errors:
-        log: true
+  #esi: true
+  #fragments: true
+  php_errors:
+    log: true
 
-    session:
-        # enables the support of sessions in the app
-        enabled: true # sessions are needed for oauth state parameters
-        # ID of the service used for session storage.
-        # NULL means that Symfony uses PHP default session mechanism
-        handler_id: 'session.handler.native_file'
-        save_path: '%kernel.project_dir%/var/sessions/%kernel.environment%'
-        # improves the security of the cookies used for sessions
-        cookie_secure: 'auto'
-        cookie_samesite: 'lax'
+  session:
+    # enables the support of sessions in the app
+    enabled: true # sessions are needed for oauth state parameters
+    # ID of the service used for session storage.
+    # NULL means that Symfony uses PHP default session mechanism
+    handler_id: 'session.handler.native_file'
+    save_path: '%kernel.project_dir%/var/sessions/%kernel.environment%'
+    # improves the security of the cookies used for sessions
+    cookie_secure: 'auto'
+    cookie_samesite: 'lax'
+    cookie_domain: '%env(resolve:SHARED_COOKIE_DOMAIN)%'
 
 when@test:
-    framework:
-        test: true
-        session:
-            enabled: false
+  framework:
+    test: true
+    session:
+      enabled: false
