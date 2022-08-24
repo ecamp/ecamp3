@@ -105,14 +105,16 @@ services:
     App\Security\OAuth\GoogleAuthenticator:
         arguments:
             - '@lexik_jwt_authentication.handler.authentication_success'
+            - '%env(API_DOMAIN)%'
 
     App\Security\OAuth\HitobitoAuthenticator:
         arguments:
             - '@lexik_jwt_authentication.handler.authentication_success'
+            - '%env(API_DOMAIN)%'
 
     App\Security\ReCaptcha\ReCaptcha:
         arguments:
-            - "%env(RECAPTCHA_SECRET)%"
+            - '%env(RECAPTCHA_SECRET)%'
             - '@ReCaptcha\ReCaptcha'
 
     ApiPlatform\Core\Bridge\Doctrine\Orm\Extension\EagerLoadingExtension:
