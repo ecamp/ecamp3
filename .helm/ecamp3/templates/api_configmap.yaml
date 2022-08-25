@@ -19,6 +19,6 @@ data:
   {{- if .Values.php.sentryDsn }}
   SENTRY_API_DSN: {{ .Values.php.sentryDsn | quote }}
   {{- else }}
-  SENTRY_API_DSN: null,
+  SENTRY_API_DSN: {{ "" | quote }}
   {{- end }}
   FRONTEND_BASE_URL: {{ include "frontend.url" . | quote }}
