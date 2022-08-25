@@ -17,8 +17,17 @@
   },
   "views": {
     "camp": {
-      "navigationCamp": {
-        "story": "RF"
+      "navigation": {
+        "desktop": {
+          "navDesktop": {
+            "story": "RF"
+          }
+        },
+        "mobile": {
+          "navMobileBottom": {
+            "story": "RF"
+          }
+        }
       },
       "story": {
         "title": "Roter Faden"

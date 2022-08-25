@@ -11,7 +11,9 @@ const NavigationAuth = () =>
 const NavigationDefault = () =>
   import(/* webpackChunkName: "navigationDefault" */ './views/NavigationDefault.vue')
 const NavigationCamp = () =>
-  import(/* webpackChunkName: "navigationCamp" */ './views/camp/NavigationCamp.vue')
+  import(
+    /* webpackChunkName: "navigationCamp" */ './views/camp/navigation/NavigationCamp.vue'
+  )
 
 /* istanbul ignore next */
 export default new Router({
@@ -419,6 +421,11 @@ function dayFromScheduleEntryInRoute(route) {
   }
 }
 
+/**
+ * @param camp
+ * @param subroute {'admin' | 'dashboard' | 'program' | 'material' | 'story' | 'home' | 'collaborators' | 'print' }
+ * @param query
+ */
 export function campRoute(camp, subroute = 'dashboard', query = {}) {
   if (camp._meta.loading) return {}
   return {
