@@ -13,6 +13,7 @@
   "vulnerabilityAlerts": {
     "automerge": true
   },
+  "labels": ["renovate"],
   "packageRules": [
     {
       "updateTypes": [
