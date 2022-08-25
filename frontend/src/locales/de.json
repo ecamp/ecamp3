@@ -131,6 +131,7 @@
         "delete": "Möchtest du diese:n Mitarbeiter:in wirklich entfernen?"
       },
       "materialCreateItem": {
+        "campSettingsButton": "Einstellungen",
         "noMaterialListAvailable": "Für dieses Lager sind noch keine Materiallisten erfasst. Du kannst diese unter 'Admin' erfassen."
       },
       "periodSwitcher": {

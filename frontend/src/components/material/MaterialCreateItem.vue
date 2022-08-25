@@ -57,7 +57,7 @@
         </p>
         <v-btn :to="campRoute(camp, 'admin')">
           <v-icon :left="$vuetify.breakpoint.mdAndUp">mdi-cogs</v-icon>
-          {{ $tc('components.camp.campSettings.title') }}
+          {{ $tc('components.camp.materialCreateItem.campSettingsButton') }}
         </v-btn>
       </div>
     </td>

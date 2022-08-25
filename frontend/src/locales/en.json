@@ -171,6 +171,9 @@
         "inviteAgain": "Invite again",
         "delete": "Do you really want to remove this collaborator from the camp?"
       },
+      "materialCreateItem": {
+        "campSettingsButton": "Settings"
+      },
       "periodMaterialLists": {
         "addNewItem": "Add new item"
       },
