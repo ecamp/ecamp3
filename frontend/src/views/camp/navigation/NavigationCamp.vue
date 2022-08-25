@@ -7,9 +7,9 @@
 </template>
 
 <script>
-import NavDesktop from '@/views/camp/navigation/desktop/NavDesktop.vue'
-import NavMobileBottom from '@/views/camp/navigation/mobile/NavMobileBottom.vue'
-import NavMobileSidebar from '@/views/camp/navigation/mobile/NavMobileSidebar.vue'
+import NavDesktop from '@/views/camp/navigation/desktop/NavTopbar.vue'
+import NavMobileBottom from '@/views/camp/navigation/mobile/NavBottombar.vue'
+import NavMobileSidebar from '@/views/camp/navigation/mobile/NavSidebar.vue'
 
 export default {
   name: 'NavigationCamp',

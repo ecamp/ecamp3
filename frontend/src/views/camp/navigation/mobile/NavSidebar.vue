@@ -25,7 +25,7 @@
           </template>
         </SidebarListItem>
         <SidebarListItem
-          :title="$tc('views.camp.navigation.mobile.navItemCamps', 2)"
+          :title="$tc('views.camp.navigation.mobile.navSidebar.itemCamps', 2)"
           icon="mdi-format-list-bulleted-triangle"
           :to="{ name: 'camps', query: { isDetail: true } }"
         />
@@ -43,19 +43,19 @@
         />
         <v-divider inset i />
         <SidebarListItem
-          :title="$tc('views.camp.navigation.mobile.navItemCampAdmin')"
+          :title="$tc('views.camp.navigation.mobile.navSidebar.itemCampAdmin')"
           icon="mdi-cogs"
           :to="campRoute(camp(), 'admin', { isDetail: true })"
         />
         <v-divider inset />
         <SidebarListItem
-          :title="$tc('views.camp.navigation.mobile.navItemCollaborators')"
+          :title="$tc('views.camp.navigation.mobile.navSidebar.itemCollaborators')"
           icon="mdi-account-group"
           :to="campRoute(camp(), 'collaborators', { isDetail: true })"
         />
         <v-divider inset />
         <SidebarListItem
-          :title="$tc('views.camp.navigation.mobile.navItemPrinting')"
+          :title="$tc('views.camp.navigation.mobile.navSidebar.itemPrinting')"
           icon="mdi-file-outline"
           :to="campRoute(camp(), 'print', { isDetail: true })"
         />
@@ -70,7 +70,7 @@
           class="ec-close-drawer pb-safe"
           @click="$emit('input', false)"
         >
-          {{ $tc('views.camp.navigation.mobile.navItemClose') }}
+          {{ $tc('views.camp.navigation.mobile.navSidebar.itemClose') }}
           <v-icon right>mdi-close</v-icon>
         </v-btn>
       </div>
@@ -84,7 +84,7 @@ import UserAvatar from '@/components/user/UserAvatar.vue'
 import SidebarListItem from '@/components/layout/SidebarListItem.vue'
 
 export default {
-  name: 'NavMobileSidebar',
+  name: 'navSidebar',
   components: {
     SidebarListItem,
     UserAvatar,

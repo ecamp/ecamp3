@@ -437,7 +437,7 @@
       },
       "navigation": {
         "desktop": {
-          "navDesktop": {
+          "navTopbar": {
             "admin": "Admin",
             "campIsLoading": "Camp is loading",
             "material": "Materials",
@@ -448,16 +448,18 @@
           }
         },
         "mobile": {
-          "navItemCampAdmin": "Camp settings",
-          "navItemCamps": "My Camps",
-          "navItemClose": "Close menu",
-          "navItemCollaborators": "Team",
-          "navItemPrinting": "PDF / Print",
-          "navMobileBottom": {
+          "navBottombar": {
             "material": "Materials",
             "more": "More",
             "program": "Program",
             "story": "Story"
+          },
+          "navSidebar": {
+            "itemCampAdmin": "Camp settings",
+            "itemCamps": "My Camps",
+            "itemClose": "Close menu",
+            "itemCollaborators": "Team",
+            "itemPrinting": "PDF / Print"
           }
         }
       },

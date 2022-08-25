@@ -236,7 +236,7 @@
       },
       "navigation": {
         "desktop": {
-          "navDesktop": {
+          "navTopbar": {
             "admin": "Admin",
             "campIsLoading": "Le camp est en train de charger",
             "material": "Matériel",
@@ -247,15 +247,17 @@
           }
         },
         "mobile": {
-          "navItemCampAdmin": "Configuration du camp",
-          "navItemClose": "Fermer le menu",
-          "navItemCollaborators": "Team",
-          "navItemPrinting": "PDF / Imprimer",
-          "navMobileBottom": {
+          "navBottombar": {
             "material": "Matériel",
             "more": "Plus",
             "program": "Programm",
             "story": "Fil rouge"
+          },
+          "navSidebar": {
+            "itemCampAdmin": "Configuration du camp",
+            "itemClose": "Fermer le menu",
+            "itemCollaborators": "Team",
+            "itemPrinting": "PDF / Imprimer"
           }
         }
       },

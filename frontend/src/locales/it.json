@@ -236,7 +236,7 @@
       },
       "navigation": {
         "desktop": {
-          "navDesktop": {
+          "navTopbar": {
             "admin": "Admin",
             "campIsLoading": "Il campo sta caricando",
             "material": "Material",
@@ -247,15 +247,17 @@
           }
         },
         "mobile": {
-          "navItemCampAdmin": "Configurazione del campo",
-          "navItemClose": "Chiudere il menu",
-          "navItemCollaborators": "Team",
-          "navItemPrinting": "PDF / Stampa",
-          "navMobileBottom": {
+          "navBottombar": {
             "material": "Materiale",
             "more": "Più",
             "program": "Programma",
             "story": "Storia"
+          },
+          "navSidebar": {
+            "itemCampAdmin": "Configurazione del campo",
+            "itemClose": "Chiudere il menu",
+            "itemCollaborators": "Team",
+            "itemPrinting": "PDF / Stampa"
           }
         }
       },
