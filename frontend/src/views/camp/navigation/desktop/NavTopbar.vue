@@ -58,7 +58,7 @@ import Logo from '@/components/navigation/Logo.vue'
 import { campRoute } from '@/router.js'
 
 export default {
-  name: 'NavDesktop',
+  name: 'NavTopbar',
   components: {
     UserMeta,
     Logo,

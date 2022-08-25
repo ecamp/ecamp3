@@ -27,7 +27,7 @@
 import { campRoute } from '@/router'
 
 export default {
-  name: 'NavMobileBottom',
+  name: 'NavBottombar',
   props: {
     camp: { type: Function, required: true },
   },

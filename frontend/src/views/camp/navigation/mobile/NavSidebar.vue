@@ -84,7 +84,7 @@ import UserAvatar from '@/components/user/UserAvatar.vue'
 import SidebarListItem from '@/components/layout/SidebarListItem.vue'
 
 export default {
-  name: 'navSidebar',
+  name: 'NavSidebar',
   components: {
     SidebarListItem,
     UserAvatar,

@@ -1,22 +1,22 @@
 <template>
-  <NavDesktop v-if="$vuetify.breakpoint.smAndUp" :camp="camp" />
+  <NavTopbar v-if="$vuetify.breakpoint.smAndUp" :camp="camp" />
   <div v-else>
-    <NavMobileBottom :camp="camp" @input="open = $event" />
-    <NavMobileSidebar v-model="open" :camp="camp" />
+    <NavBottombar :camp="camp" @input="open = $event" />
+    <NavSidebar v-model="open" :camp="camp" />
   </div>
 </template>
 
 <script>
-import NavDesktop from '@/views/camp/navigation/desktop/NavTopbar.vue'
-import NavMobileBottom from '@/views/camp/navigation/mobile/NavBottombar.vue'
-import NavMobileSidebar from '@/views/camp/navigation/mobile/NavSidebar.vue'
+import NavTopbar from '@/views/camp/navigation/desktop/NavTopbar.vue'
+import NavBottombar from '@/views/camp/navigation/mobile/NavBottombar.vue'
+import NavSidebar from '@/views/camp/navigation/mobile/NavSidebar.vue'
 
 export default {
   name: 'NavigationCamp',
   components: {
-    NavMobileSidebar,
-    NavMobileBottom,
-    NavDesktop,
+    NavTopbar,
+    NavBottombar,
+    NavSidebar,
   },
   props: {
     camp: { type: Function, required: true },
