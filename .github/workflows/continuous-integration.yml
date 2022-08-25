@@ -238,10 +238,10 @@ jobs:
 
       - name: send coveralls report
         run: |
-          api/vendor/bin/php-coveralls  -r api \
-                                            -v \
-                                            --coverage_clover build/logs/clover.xml \
-                                            --json_path build/logs/coveralls-upload.json
+          sed -i "s|$(pwd)/api/|api/|g" api/build/logs/clover.xml
+          api/vendor/bin/php-coveralls -v \
+                                  --coverage_clover api/build/logs/clover.xml \
+                                  --json_path api/build/logs/coveralls-upload.json
         env:
           COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           COVERALLS_PARALLEL: true
@@ -325,7 +325,9 @@ jobs:
         working-directory: frontend
 
       - name: send coverage info
-        run: cat frontend/data/coverage/lcov.info | npx coveralls .
+        run: |
+          sed -i "s|src/|frontend/src/|g" frontend/data/coverage/lcov.info
+          cat frontend/data/coverage/lcov.info | npx coveralls .
         env:
           COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           COVERALLS_SERVICE_NAME: github
@@ -362,7 +364,10 @@ jobs:
       - run: npm run test
         working-directory: print
 
-      - run: cat print/coverage/lcov.info | npx coveralls .
+      - name: send coverage info
+        run: |
+          sed -i "s|SF:|SF:print/|g" print/coverage/lcov.info
+          cat print/coverage/lcov.info | npx coveralls .
         env:
           COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           COVERALLS_SERVICE_NAME: github

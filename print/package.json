@@ -114,8 +114,9 @@
     },
     "collectCoverage": true,
     "collectCoverageFrom": [
-      "<rootDir>/components/**/*.vue",
-      "<rootDir>/pages/**/*.vue"
+      "**/*.{js,vue}",
+      "!**/node_modules/**",
+      "!**/.nuxt/**"
     ]
   }
 }
