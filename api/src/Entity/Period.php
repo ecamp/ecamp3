@@ -6,6 +6,7 @@ use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use App\InputFilter;
 use App\Repository\PeriodRepository;
 use App\Serializer\Normalizer\RelatedCollectionLink;
 use App\Validator\Period\AssertGreaterThanOrEqualToLastScheduleEntryEnd;
@@ -98,7 +99,10 @@ class Period extends BaseEntity implements BelongsToCampInterface {
      *
      * TODO: Make non-nullable in the DB
      */
+    #[InputFilter\CleanHTML]
+    #[InputFilter\Trim]
     #[Assert\NotBlank]
+    #[Assert\Length(max: 32)]
     #[ApiProperty(example: 'Hauptlager')]
     #[Groups(['read', 'write'])]
     #[ORM\Column(type: 'text', nullable: true)]

@@ -2,7 +2,7 @@ version: "3.4"
 
 services:
   frontend:
-    image: node:16.16.0@sha256:1ed1e17ccabb09038cfb8a965337ebcda51ef9e9d32082164c502d44d9731a02
+    image: node:18.8.0@sha256:a0a2fc4435b0c9ae7bec0a69b1279323a4a41c5a005581fbf30d39cd5777db37
     container_name: 'ecamp3-frontend'
     ports:
       - '3000:3000'
@@ -102,23 +102,25 @@ services:
       - ./api/public:/srv/api/public:ro
 
   print:
-    image: node:16.16.0@sha256:1ed1e17ccabb09038cfb8a965337ebcda51ef9e9d32082164c502d44d9731a02
+    image: node:18.8.0@sha256:a0a2fc4435b0c9ae7bec0a69b1279323a4a41c5a005581fbf30d39cd5777db37
     container_name: 'ecamp3-print'
     ports:
       - '3003:3003'
-    user: ${USER_ID:-1000}
     volumes:
       - ./.prettierrc:/.prettierrc
       - ./print:/app:delegated
       - ./common:/common:delegated
       - ./.cache/npm:/home/node/.npm
+      - node-cache:/home/node/.cache
     working_dir: /app
     command: ./docker-setup.sh
     environment:
+      - NODE_OPTIONS=--openssl-legacy-provider #TODO: remove when we update to webpack >=5
       - NUXT_HOST=0.0.0.0
       - NUXT_PORT=3003
       - NPM_CONFIG_UPDATE_NOTIFIER=false
       - NPM_CONFIG_CACHE=/home/node/.npm
+      - USER_ID=${USER_ID:-1000}
     env_file:
       - ./print/print.env
 
@@ -159,3 +161,4 @@ services:
 
 volumes:
   db-data-postgres: null
+  node-cache:
