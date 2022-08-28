@@ -1,3 +1,6 @@
+parameters:
+    env(COOKIE_PREFIX): ""
+
 lexik_jwt_authentication:
     secret_key: '%env(resolve:JWT_SECRET_KEY)%'
     public_key: '%env(resolve:JWT_PUBLIC_KEY)%'
@@ -13,14 +16,14 @@ lexik_jwt_authentication:
         split_cookie:
             enabled: true
             cookies:
-                - '%env(API_DOMAIN)%_jwt_hp'
-                - '%env(API_DOMAIN)%_jwt_s'
+                - '%env(COOKIE_PREFIX)%jwt_hp'
+                - '%env(COOKIE_PREFIX)%jwt_s'
 
     # When logging in, set the two cookies. The header and payload cookie [api-domain]_jwt_hp is available in JavaScript,
     # while the signature [api-domain]_jwt_s is HttpOnly. This is considered safer than handing the whole token to JavaScript:
     # https://medium.com/lightrail/getting-token-authentication-right-in-a-stateless-single-page-application-57d0c6474e3
     set_cookies:
-        '%env(API_DOMAIN)%_jwt_hp':
+        '%env(COOKIE_PREFIX)%jwt_hp':
             lifetime: null
             samesite: lax
             path: /
@@ -29,7 +32,7 @@ lexik_jwt_authentication:
             split:
                 - header
                 - payload
-        '%env(API_DOMAIN)%_jwt_s':
+        '%env(COOKIE_PREFIX)%jwt_s':
             lifetime: null
             samesite: lax
             path: /

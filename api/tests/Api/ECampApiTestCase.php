@@ -74,8 +74,8 @@ abstract class ECampApiTestCase extends ApiTestCase {
         $jwtSignature = substr($jwtToken, $lastPeriodPosition + 1);
 
         $cookies = $client->getCookieJar();
-        $cookies->set(new Cookie('example.com_jwt_hp', $jwtHeaderAndPayload, null, null, 'example.com', false, false, false, 'strict'));
-        $cookies->set(new Cookie('example.com_jwt_s', $jwtSignature, null, null, 'example.com', false, true, false, 'strict'));
+        $cookies->set(new Cookie('example_com_jwt_hp', $jwtHeaderAndPayload, null, null, 'example.com', false, false, false, 'strict'));
+        $cookies->set(new Cookie('example_com_jwt_s', $jwtSignature, null, null, 'example.com', false, true, false, 'strict'));
 
         return $client;
     }

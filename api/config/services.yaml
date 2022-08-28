@@ -86,7 +86,7 @@ services:
         decorates: 'api_platform.openapi.factory'
         arguments:
             - '@.inner'
-            - '%env(API_DOMAIN)%'
+            - '%env(COOKIE_PREFIX)%'
 
     App\OpenApi\OAuthDecorator:
         decorates: 'api_platform.openapi.factory'
