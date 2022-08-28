@@ -19,7 +19,7 @@
   },
   "dependencies": {
     "@nuxtjs/axios": "5.13.6",
-    "@nuxtjs/sentry": "5.1.7",
+    "@nuxtjs/sentry": "6.0.0",
     "cookie-parser": "1.4.6",
     "cors": "2.8.5",
     "cssesc": "3.0.0",
