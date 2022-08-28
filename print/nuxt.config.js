@@ -117,7 +117,9 @@ export default {
   build: {
     extend(config, ctx) {
       // include source map in development mode
-      if (ctx.isDev) {
+      // eslint-disable-next-line no-constant-condition
+      if (ctx.isDev && false) {
+        // TODO: remove the '&& false' again when webpack supports node 18 with sourcemaps.
         config.devtool = ctx.isClient ? 'source-map' : 'inline-source-map'
       }
     },

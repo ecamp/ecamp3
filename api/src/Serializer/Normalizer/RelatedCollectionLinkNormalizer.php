@@ -159,19 +159,14 @@ class RelatedCollectionLinkNormalizer implements NormalizerInterface, Serializer
             throw new UnsupportedRelationException($resourceClass.'#'.$rel.' is not a Doctrine association. Embedding non-Doctrine collections is currently not implemented.');
         }
 
-        if (!isset($relationMetadata['targetEntity']) || '' === $relationMetadata['targetEntity']
-                || (
-                    (!isset($relationMetadata['mappedBy']) || '' === $relationMetadata['mappedBy'])
-                    && (!isset($relationMetadata['inversedBy']) || '' === $relationMetadata['inversedBy'])
-                )
-        ) {
-            throw new UnsupportedRelationException('The '.$resourceClass.'#'.$rel.' relation does not have both a targetEntity and a mappedBy or inversedBy property');
-        }
-
         $relatedResourceClass = $relationMetadata['targetEntity'];
 
         $relatedFilterName = $relationMetadata['mappedBy'];
         $relatedFilterName ??= $relationMetadata['inversedBy'];
+
+        if (empty($relatedResourceClass) || empty($relatedFilterName)) {
+            throw new UnsupportedRelationException('The '.$resourceClass.'#'.$rel.' relation does not have both a targetEntity and a mappedBy or inversedBy property');
+        }
 
         if (!$this->exactSearchFilterExists($relatedResourceClass, $relatedFilterName)) {
             throw new UnsupportedRelationException('The resource '.$relatedResourceClass.' does not have a search filter for the relation '.$relatedFilterName.'.');

@@ -234,14 +234,32 @@
         "openInvitations": "Inviti aperti",
         "title": "Team"
       },
-      "navigationCamp": {
-        "admin": "Admin",
-        "campIsLoading": "Il campo sta caricando",
-        "material": "Materiale",
-        "print": "Stampa",
-        "story": "Storia",
-        "tasks": "Compiti",
-        "team": "Team"
+      "navigation": {
+        "desktop": {
+          "navTopbar": {
+            "admin": "Admin",
+            "campIsLoading": "Il campo sta caricando",
+            "material": "Material",
+            "print": "Stampa",
+            "program": "Programm",
+            "story": "Storia",
+            "team": "Team"
+          }
+        },
+        "mobile": {
+          "navBottombar": {
+            "material": "Materiale",
+            "more": "Più",
+            "program": "Programma",
+            "story": "Storia"
+          },
+          "navSidebar": {
+            "itemCampAdmin": "Configurazione del campo",
+            "itemClose": "Chiudere il menu",
+            "itemCollaborators": "Team",
+            "itemPrinting": "PDF / Stampa"
+          }
+        }
       },
       "sideBarPeriods": {
         "title": "Periodi"

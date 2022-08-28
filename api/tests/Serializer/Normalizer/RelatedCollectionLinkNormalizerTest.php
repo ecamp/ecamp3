@@ -321,7 +321,7 @@ class RelatedCollectionLinkNormalizerTest extends TestCase {
         $resource = new ParentEntity();
         $this->mockDecoratedNormalizer();
         $this->mockNameConverter();
-        $this->mockAssociationMetadata(['mappedBy' => 'parent']);
+        $this->mockAssociationMetadata(['targetEntity' => null, 'mappedBy' => 'parent']);
         $this->mockRelatedResourceMetadata(['filters' => ['attribute_filter_something_something']]);
         $this->mockRelatedFilterDescription(['parent' => ['strategy' => 'exact']]);
         $this->mockGeneratedRoute();
@@ -361,7 +361,7 @@ class RelatedCollectionLinkNormalizerTest extends TestCase {
         $resource = new ParentEntity();
         $this->mockDecoratedNormalizer();
         $this->mockNameConverter();
-        $this->mockAssociationMetadata(['targetEntity' => Child::class]);
+        $this->mockAssociationMetadata(['targetEntity' => Child::class, 'mappedBy' => null, 'inversedBy' => null]);
         $this->mockRelatedResourceMetadata(['filters' => ['attribute_filter_something_something']]);
         $this->mockRelatedFilterDescription(['parent' => ['strategy' => 'exact']]);
         $this->mockGeneratedRoute();
