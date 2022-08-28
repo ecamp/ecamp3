@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e36fc8d66b5f7de4d007044be9565adb",
+    "content-hash": "5929b41d1cd96829b071b631f703b141",
     "packages": [
         {
             "name": "api-platform/core",
@@ -10802,16 +10802,16 @@
         },
         {
             "name": "friendsofphp/php-cs-fixer",
-            "version": "v3.8.0",
+            "version": "v3.9.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfPHP/PHP-CS-Fixer.git",
-                "reference": "cbad1115aac4b5c3c5540e7210d3c9fba2f81fa3"
+                "reference": "4465d70ba776806857a1ac2a6f877e582445ff36"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfPHP/PHP-CS-Fixer/zipball/cbad1115aac4b5c3c5540e7210d3c9fba2f81fa3",
-                "reference": "cbad1115aac4b5c3c5540e7210d3c9fba2f81fa3",
+                "url": "https://api.github.com/repos/FriendsOfPHP/PHP-CS-Fixer/zipball/4465d70ba776806857a1ac2a6f877e582445ff36",
+                "reference": "4465d70ba776806857a1ac2a6f877e582445ff36",
                 "shasum": ""
             },
             "require": {
@@ -10879,7 +10879,7 @@
             "description": "A tool to automatically fix PHP code style",
             "support": {
                 "issues": "https://github.com/FriendsOfPHP/PHP-CS-Fixer/issues",
-                "source": "https://github.com/FriendsOfPHP/PHP-CS-Fixer/tree/v3.8.0"
+                "source": "https://github.com/FriendsOfPHP/PHP-CS-Fixer/tree/v3.9.5"
             },
             "funding": [
                 {
@@ -10887,7 +10887,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-03-18T17:20:59+00:00"
+            "time": "2022-07-22T08:43:51+00:00"
         },
         {
             "name": "hautelook/alice-bundle",
@@ -11659,20 +11659,21 @@
                 "issues": "https://github.com/PHP-CS-Fixer/diff/issues",
                 "source": "https://github.com/PHP-CS-Fixer/diff/tree/v2.0.2"
             },
+            "abandoned": true,
             "time": "2020-10-14T08:32:19+00:00"
         },
         {
             "name": "phpstan/phpstan",
-            "version": "1.8.0",
+            "version": "1.8.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "b7648d4ee9321665acaf112e49da9fd93df8fbd5"
+                "reference": "c53312ecc575caf07b0e90dee43883fdf90ca67c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/b7648d4ee9321665acaf112e49da9fd93df8fbd5",
-                "reference": "b7648d4ee9321665acaf112e49da9fd93df8fbd5",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/c53312ecc575caf07b0e90dee43883fdf90ca67c",
+                "reference": "c53312ecc575caf07b0e90dee43883fdf90ca67c",
                 "shasum": ""
             },
             "require": {
@@ -11698,7 +11699,7 @@
             "description": "PHPStan - PHP Static Analysis Tool",
             "support": {
                 "issues": "https://github.com/phpstan/phpstan/issues",
-                "source": "https://github.com/phpstan/phpstan/tree/1.8.0"
+                "source": "https://github.com/phpstan/phpstan/tree/1.8.2"
             },
             "funding": [
                 {
@@ -11718,7 +11719,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-06-29T08:53:31+00:00"
+            "time": "2022-07-20T09:57:31+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -13701,20 +13702,20 @@
         },
         {
             "name": "symfony/process",
-            "version": "v6.0.7",
+            "version": "v6.1.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/process.git",
-                "reference": "e13f6757e267d687e20ec5b26ccfcbbe511cd8f4"
+                "reference": "a6506e99cfad7059b1ab5cab395854a0a0c21292"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/process/zipball/e13f6757e267d687e20ec5b26ccfcbbe511cd8f4",
-                "reference": "e13f6757e267d687e20ec5b26ccfcbbe511cd8f4",
+                "url": "https://api.github.com/repos/symfony/process/zipball/a6506e99cfad7059b1ab5cab395854a0a0c21292",
+                "reference": "a6506e99cfad7059b1ab5cab395854a0a0c21292",
                 "shasum": ""
             },
             "require": {
-                "php": ">=8.0.2"
+                "php": ">=8.1"
             },
             "type": "library",
             "autoload": {
@@ -13742,7 +13743,7 @@
             "description": "Executes commands in sub-processes",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/process/tree/v6.0.7"
+                "source": "https://github.com/symfony/process/tree/v6.1.3"
             },
             "funding": [
                 {
@@ -13758,7 +13759,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-03-18T16:21:55+00:00"
+            "time": "2022-06-27T17:24:16+00:00"
         },
         {
             "name": "symfony/web-profiler-bundle",
@@ -13984,16 +13985,16 @@
         },
         {
             "name": "vimeo/psalm",
-            "version": "4.24.0",
+            "version": "4.26.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/vimeo/psalm.git",
-                "reference": "06dd975cb55d36af80f242561738f16c5f58264f"
+                "reference": "6998fabb2bf528b65777bf9941920888d23c03ac"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/vimeo/psalm/zipball/06dd975cb55d36af80f242561738f16c5f58264f",
-                "reference": "06dd975cb55d36af80f242561738f16c5f58264f",
+                "url": "https://api.github.com/repos/vimeo/psalm/zipball/6998fabb2bf528b65777bf9941920888d23c03ac",
+                "reference": "6998fabb2bf528b65777bf9941920888d23c03ac",
                 "shasum": ""
             },
             "require": {
@@ -14085,9 +14086,9 @@
             ],
             "support": {
                 "issues": "https://github.com/vimeo/psalm/issues",
-                "source": "https://github.com/vimeo/psalm/tree/4.24.0"
+                "source": "https://github.com/vimeo/psalm/tree/4.26.0"
             },
-            "time": "2022-06-26T11:47:54+00:00"
+            "time": "2022-07-31T13:10:26+00:00"
         },
         {
             "name": "webmozart/path-util",

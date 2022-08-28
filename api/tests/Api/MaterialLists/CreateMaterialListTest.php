@@ -140,7 +140,7 @@ class CreateMaterialListTest extends ECampApiTestCase {
                     ]),
                 ]
             )
-    ;
+        ;
 
         $this->assertResponseStatusCodeSame(422);
         $this->assertJsonContains([

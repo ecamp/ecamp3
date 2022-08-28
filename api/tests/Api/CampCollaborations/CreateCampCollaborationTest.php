@@ -77,7 +77,7 @@ class CreateCampCollaborationTest extends ECampApiTestCase {
                     ),
                 ]
             )
-    ;
+        ;
 
         $this->assertResponseStatusCodeSame(201);
         $this->assertJsonContains($this->getExampleReadPayload([

@@ -147,8 +147,6 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
 
     /**
      * A displayable name of the user.
-     *
-     * @return null|string
      */
     #[ApiProperty(example: 'Robert Baden-Powell')]
     #[Groups(['read'])]
@@ -217,7 +215,7 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
     }
 
     public function ownsCamps(): bool {
-        return (bool) (count($this->getOwnedCamps()));
+        return (bool) count($this->getOwnedCamps());
     }
 
     /**
