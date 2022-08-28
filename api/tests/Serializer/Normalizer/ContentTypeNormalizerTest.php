@@ -84,7 +84,7 @@ class ContentTypeNormalizerTest extends TestCase {
         $this->decoratedMock->expects($this->once())
             ->method('normalize')
             ->willReturn($delegatedResult)
-         ;
+        ;
         $this->uriTemplateFactory->expects($this->once())
             ->method('createFromResourceClass')
             ->willReturn(['/templatedUri', 'true'])
