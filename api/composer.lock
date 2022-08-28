@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f50bc9a152835932a2dbbd2fd40a63ab",
+    "content-hash": "52377562c00d9776eec412488c60ff38",
     "packages": [
         {
             "name": "api-platform/core",
@@ -1841,16 +1841,16 @@
         },
         {
             "name": "exercise/htmlpurifier-bundle",
-            "version": "4.0",
+            "version": "4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Exercise/HTMLPurifierBundle.git",
-                "reference": "15721f45befb47a090758f416173f6c38f506cca"
+                "reference": "6642e1c96a5aa969e95328031ab84589c6c87123"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Exercise/HTMLPurifierBundle/zipball/15721f45befb47a090758f416173f6c38f506cca",
-                "reference": "15721f45befb47a090758f416173f6c38f506cca",
+                "url": "https://api.github.com/repos/Exercise/HTMLPurifierBundle/zipball/6642e1c96a5aa969e95328031ab84589c6c87123",
+                "reference": "6642e1c96a5aa969e95328031ab84589c6c87123",
                 "shasum": ""
             },
             "require": {
@@ -1897,9 +1897,9 @@
             ],
             "support": {
                 "issues": "https://github.com/Exercise/HTMLPurifierBundle/issues",
-                "source": "https://github.com/Exercise/HTMLPurifierBundle/tree/4.0"
+                "source": "https://github.com/Exercise/HTMLPurifierBundle/tree/4.1"
             },
-            "time": "2022-04-18T17:49:52+00:00"
+            "time": "2022-08-28T15:48:42+00:00"
         },
         {
             "name": "ezyang/htmlpurifier",

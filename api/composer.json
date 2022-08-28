@@ -11,7 +11,7 @@
         "doctrine/doctrine-bundle": "2.7.0",
         "doctrine/doctrine-migrations-bundle": "3.2.2",
         "doctrine/orm": "2.13.1",
-        "exercise/htmlpurifier-bundle": "4.0",
+        "exercise/htmlpurifier-bundle": "4.1",
         "google/recaptcha": "1.2.4",
         "guzzlehttp/guzzle": "7.4.5",
         "knpuniversity/oauth2-client-bundle": "2.10.1",
