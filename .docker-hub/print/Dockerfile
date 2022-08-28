@@ -1,18 +1,19 @@
 # build stage
-FROM node:16.16.0@sha256:2e1b4542d4a06e0e0442dc38af1f4828760aecc9db2b95e7df87f573640d98cd AS build-stage
+FROM node:18.8.0@sha256:a0a2fc4435b0c9ae7bec0a69b1279323a4a41c5a005581fbf30d39cd5777db37 AS build-stage
 
 COPY common /common
 
 WORKDIR /app
 
 COPY print/package*.json ./
-RUN npm ci
+RUN mkdir -p /home/node/.cache/node-gyp/18.7.0 && npm ci
 
 COPY print .
+ENV NODE_OPTIONS=--openssl-legacy-provider
 RUN npm run build
 
 # production stage
-FROM node:16.16.0@sha256:2e1b4542d4a06e0e0442dc38af1f4828760aecc9db2b95e7df87f573640d98cd AS production-stage
+FROM node:18.8.0@sha256:a0a2fc4435b0c9ae7bec0a69b1279323a4a41c5a005581fbf30d39cd5777db37 AS production-stage
 WORKDIR /app
 
 COPY --from=build-stage /app/node_modules ./node_modules

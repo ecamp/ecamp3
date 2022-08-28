@@ -74,7 +74,7 @@ final class MaterialItemPeriodFilter extends AbstractContextAwareFilter {
         /** @var EntityRepository $materialNodeRepository */
         $materialNodeRepository = $this->getManagerRegistry()->getRepository(MaterialNode::class);
         $queryBuilder->andWhere($queryBuilder->expr()->orX(
-             // item directly attached to Period
+            // item directly attached to Period
             $queryBuilder->expr()->eq("{$rootAlias}.period", ":{$periodParameterName}"),
             // item part of any scheduleEntry in Period
             $queryBuilder->expr()->in(

@@ -12,32 +12,30 @@ env:
 
 jobs:
   api-validate-composer-lock:
-    name: "Validate Api Platform composer.lock"
+    name: 'Validate Api Platform composer.lock'
     runs-on: ubuntu-latest
     steps:
-
       - uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b # tag=v3
 
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.1.8'
-          tools: composer:2.3.0
+          php-version: '8.1.9'
+          tools: composer:2.4.0
           coverage: xdebug
 
       - run: composer validate -n --no-check-all --no-check-publish --strict
         working-directory: api
 
   api-cs-check:
-    name: "Lint: API (php-cs-fixer)"
+    name: 'Lint: API (php-cs-fixer)'
     runs-on: ubuntu-latest
     steps:
-
       - uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b # tag=v3
 
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.1.8'
-          tools: composer:2.3.0
+          php-version: '8.1.9'
+          tools: composer:2.4.0
           coverage: xdebug
 
       - name: Get Composer Cache Directory
@@ -45,7 +43,7 @@ jobs:
         run: 'echo "::set-output name=dir::$(composer config cache-files-dir)"'
         working-directory: api
 
-      - uses: actions/cache@0865c47f36e68161719c5b124609996bb5c40129 # tag=v3
+      - uses: actions/cache@fd5de65bc895cf536527842281bea11763fefd77 # tag=v3
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
@@ -59,16 +57,15 @@ jobs:
         working-directory: api
 
   api-psalm:
-    name: "Lint: API (psalm)"
+    name: 'Lint: API (psalm)'
     runs-on: ubuntu-latest
     steps:
-
       - uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b # tag=v3
 
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.1.8'
-          tools: composer:2.3.0
+          php-version: '8.1.9'
+          tools: composer:2.4.0
           coverage: xdebug
 
       - name: Get Composer Cache Directory
@@ -76,7 +73,7 @@ jobs:
         run: 'echo "::set-output name=dir::$(composer config cache-files-dir)"'
         working-directory: api
 
-      - uses: actions/cache@0865c47f36e68161719c5b124609996bb5c40129 # tag=v3
+      - uses: actions/cache@fd5de65bc895cf536527842281bea11763fefd77 # tag=v3
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
@@ -90,16 +87,15 @@ jobs:
         working-directory: api
 
   api-phpstan:
-    name: "Lint: API (phpstan)"
+    name: 'Lint: API (phpstan)'
     runs-on: ubuntu-latest
     steps:
-
       - uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b # tag=v3
 
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.1.8'
-          tools: composer:2.3.0
+          php-version: '8.1.9'
+          tools: composer:2.4.0
           coverage: xdebug
 
       - name: Get Composer Cache Directory
@@ -107,7 +103,7 @@ jobs:
         run: 'echo "::set-output name=dir::$(composer config cache-files-dir)"'
         working-directory: api
 
-      - uses: actions/cache@0865c47f36e68161719c5b124609996bb5c40129 # tag=v3
+      - uses: actions/cache@fd5de65bc895cf536527842281bea11763fefd77 # tag=v3
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
@@ -121,17 +117,16 @@ jobs:
         working-directory: api
 
   frontend-eslint:
-    name: "Lint: Frontend (ESLint)"
+    name: 'Lint: Frontend (ESLint)'
     runs-on: ubuntu-latest
     steps:
-
       - uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b # tag=v3
 
       - uses: actions/setup-node@v3
         with:
-          node-version: '16.16.0'
+          node-version: '18.7.0'
 
-      - uses: actions/cache@0865c47f36e68161719c5b124609996bb5c40129 # tag=v3
+      - uses: actions/cache@fd5de65bc895cf536527842281bea11763fefd77 # tag=v3
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
@@ -151,17 +146,16 @@ jobs:
         working-directory: frontend
 
   print-eslint:
-    name: "Lint: Print (ESLint)"
+    name: 'Lint: Print (ESLint)'
     runs-on: ubuntu-latest
     steps:
-
       - uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b # tag=v3
 
       - uses: actions/setup-node@v3
         with:
-          node-version: '16.16.0'
+          node-version: '18.7.0'
 
-      - uses: actions/cache@0865c47f36e68161719c5b124609996bb5c40129 # tag=v3
+      - uses: actions/cache@fd5de65bc895cf536527842281bea11763fefd77 # tag=v3
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
@@ -181,7 +175,7 @@ jobs:
         working-directory: print
 
   api-tests:
-    name: "Tests: API"
+    name: 'Tests: API'
     runs-on: ubuntu-latest
     env:
       TEST_DATABASE_URL: postgresql://ecamp3:ecamp3@localhost:5432/ecamp3test?serverVersion=13&charset=utf8
@@ -202,13 +196,12 @@ jobs:
           --health-retries 5
 
     steps:
-
       - uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b # tag=v3
 
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.1.8'
-          tools: composer:2.3.0
+          php-version: '8.1.9'
+          tools: composer:2.4.0
           coverage: xdebug
 
       - name: Get Composer Cache Directory
@@ -216,7 +209,7 @@ jobs:
         run: 'echo "::set-output name=dir::$(composer config cache-files-dir)"'
         working-directory: api
 
-      - uses: actions/cache@0865c47f36e68161719c5b124609996bb5c40129 # tag=v3
+      - uses: actions/cache@fd5de65bc895cf536527842281bea11763fefd77 # tag=v3
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
@@ -245,17 +238,17 @@ jobs:
 
       - name: send coveralls report
         run: |
-          api/vendor/bin/php-coveralls  -r api \
-                                            -v \
-                                            --coverage_clover build/logs/clover.xml \
-                                            --json_path build/logs/coveralls-upload.json
+          sed -i "s|$(pwd)/api/|api/|g" api/build/logs/clover.xml
+          api/vendor/bin/php-coveralls -v \
+                                  --coverage_clover api/build/logs/clover.xml \
+                                  --json_path api/build/logs/coveralls-upload.json
         env:
           COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           COVERALLS_PARALLEL: true
           COVERALLS_FLAG_NAME: api
 
   api-validate-migrations:
-    name: "API: validate migrations"
+    name: 'API: validate migrations'
     runs-on: ubuntu-latest
     env:
       TEST_DATABASE_URL: postgresql://ecamp3:ecamp3@localhost:5432/ecamp3test?serverVersion=13&charset=utf8
@@ -276,13 +269,12 @@ jobs:
           --health-retries 5
 
     steps:
-
       - uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b # tag=v3
 
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.1.8'
-          tools: composer:2.3.0
+          php-version: '8.1.9'
+          tools: composer:2.4.0
           coverage: xdebug
 
       - name: Get Composer Cache Directory
@@ -290,7 +282,7 @@ jobs:
         run: 'echo "::set-output name=dir::$(composer config cache-files-dir)"'
         working-directory: api
 
-      - uses: actions/cache@0865c47f36e68161719c5b124609996bb5c40129 # tag=v3
+      - uses: actions/cache@fd5de65bc895cf536527842281bea11763fefd77 # tag=v3
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
@@ -307,17 +299,16 @@ jobs:
         working-directory: api
 
   frontend-tests:
-    name: "Tests: Frontend"
+    name: 'Tests: Frontend'
     runs-on: ubuntu-latest
     steps:
-
       - uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b # tag=v3
 
       - uses: actions/setup-node@v3
         with:
-          node-version: '16.16.0'
+          node-version: '18.7.0'
 
-      - uses: actions/cache@0865c47f36e68161719c5b124609996bb5c40129 # tag=v3
+      - uses: actions/cache@fd5de65bc895cf536527842281bea11763fefd77 # tag=v3
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
@@ -334,7 +325,9 @@ jobs:
         working-directory: frontend
 
       - name: send coverage info
-        run: cat frontend/data/coverage/lcov.info | npx coveralls .
+        run: |
+          sed -i "s|src/|frontend/src/|g" frontend/data/coverage/lcov.info
+          cat frontend/data/coverage/lcov.info | npx coveralls .
         env:
           COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           COVERALLS_SERVICE_NAME: github
@@ -344,17 +337,16 @@ jobs:
           COVERALLS_FLAG_NAME: frontend
 
   print-tests:
-    name: "Tests: Print"
+    name: 'Tests: Print'
     runs-on: ubuntu-latest
     steps:
-
       - uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b # tag=v3
 
       - uses: actions/setup-node@v3
         with:
-          node-version: '16.16.0'
+          node-version: '18.7.0'
 
-      - uses: actions/cache@0865c47f36e68161719c5b124609996bb5c40129 # tag=v3
+      - uses: actions/cache@fd5de65bc895cf536527842281bea11763fefd77 # tag=v3
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
@@ -366,11 +358,16 @@ jobs:
 
       - run: npm run build
         working-directory: print
+        env:
+          NODE_OPTIONS: --openssl-legacy-provider
 
       - run: npm run test
         working-directory: print
 
-      - run: cat print/coverage/lcov.info | npx coveralls .
+      - name: send coverage info
+        run: |
+          sed -i "s|SF:|SF:print/|g" print/coverage/lcov.info
+          cat print/coverage/lcov.info | npx coveralls .
         env:
           COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           COVERALLS_SERVICE_NAME: github
@@ -380,10 +377,9 @@ jobs:
           COVERALLS_FLAG_NAME: print
 
   e2e-tests:
-    name: "Tests: End-to-end"
+    name: 'Tests: End-to-end'
     runs-on: ubuntu-latest
     steps:
-
       - uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b # tag=v3
 
       - run: cp .env.ci .env
@@ -421,7 +417,7 @@ jobs:
           cache-to: type=gha,scope=caddy,mode=max
 
       - name: Restore cache volumes (npm, composer)
-        uses: actions/cache@0865c47f36e68161719c5b124609996bb5c40129 # tag=v3
+        uses: actions/cache@fd5de65bc895cf536527842281bea11763fefd77 # tag=v3
         with:
           path: .cache
           key: docker-compose-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('**/composer.lock') }}
@@ -432,34 +428,33 @@ jobs:
       - run: docker-compose up -d php caddy frontend database docker-host
 
       # pull cypress while container are starting up
-      - run: docker pull cypress/included:10.3.1
+      - run: docker pull cypress/included:10.6.0
 
       # wait for backend & frontend to be up and running
       - run: bash wait-for-container-startup.sh
 
       # run end-to-end tests
-      - run: docker run -v $PWD:/e2e -w /e2e --network host -e CYPRESS_BASE_URL=http://localhost:3000 cypress/included:10.3.1
+      - run: docker run -v $PWD:/e2e -w /e2e --network host -e CYPRESS_BASE_URL=http://localhost:3000 cypress/included:10.6.0
         working-directory: frontend
 
       # print docker container logs (good for debugging; can be disabled again lateron)
       - run: docker-compose logs --tail="all"
 
   coveralls-finished:
-    name: "Finish coveralls report"
+    name: 'Finish coveralls report'
     needs:
       - api-tests
       - frontend-tests
       - print-tests
     runs-on: ubuntu-latest
     steps:
-
       - uses: coverallsapp/github-action@master
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           parallel-finished: true
 
   ci-passed-event:
-    name: "Send out CI success event"
+    name: 'Send out CI success event'
     if: github.event_name == 'push' && (github.repository_owner == 'ecamp' || (github.event.pull_request && github.event.pull_request.number))
     needs:
       - api-cs-check
@@ -471,7 +466,6 @@ jobs:
       - e2e-tests
     runs-on: ubuntu-latest
     steps:
-
       - uses: peter-evans/repository-dispatch@11ba7d3f32dc7cc919d1c43f1fec1c05260c26b5 # tag=v2
         with:
           token: ${{ secrets.REPO_ACCESS_TOKEN }}

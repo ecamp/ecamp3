@@ -10,8 +10,6 @@ use App\Tests\Api\ECampApiTestCase;
  * @internal
  */
 class CreatePeriodTest extends ECampApiTestCase {
-    // TODO input filter tests
-    // TODO validation tests
     // TODO validation for no overlapping periods
 
     public function testCreatePeriodIsDeniedForAnonymousUser() {
@@ -128,6 +126,72 @@ class CreatePeriodTest extends ECampApiTestCase {
                 ],
             ],
         ]);
+    }
+
+    public function testCreatePeriodValidatesTooLongDescription() {
+        static::createClientWithCredentials()->request(
+            'POST',
+            '/periods',
+            [
+                'json' => $this->getExampleWritePayload(
+                    [
+                        'description' => str_repeat('l', 33),
+                    ]
+                ),
+            ]
+        );
+
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [
+                    'propertyPath' => 'description',
+                    'message' => 'This value is too long. It should have 32 characters or less.',
+                ],
+            ],
+        ]);
+    }
+
+    public function testCreatePeriodTrimsDescription() {
+        static::createClientWithCredentials()->request(
+            'POST',
+            '/periods',
+            [
+                'json' => $this->getExampleWritePayload(
+                    [
+                        'description' => " \t Vorlager \t ",
+                    ]
+                ),
+            ]
+        );
+
+        $this->assertResponseStatusCodeSame(201);
+        $this->assertJsonContains($this->getExampleReadPayload(
+            [
+                'description' => 'Vorlager',
+            ]
+        ));
+    }
+
+    public function testCreatePeriodCleansHtmlForDescription() {
+        static::createClientWithCredentials()->request(
+            'POST',
+            '/periods',
+            [
+                'json' => $this->getExampleWritePayload(
+                    [
+                        'description' => 'Vorl<script>alert(1)</script>ager',
+                    ]
+                ),
+            ]
+        );
+
+        $this->assertResponseStatusCodeSame(201);
+        $this->assertJsonContains($this->getExampleReadPayload(
+            [
+                'description' => 'Vorlager',
+            ]
+        ));
     }
 
     public function testCreatePeriodValidatesMissingStart() {

@@ -61,9 +61,9 @@ class ReadPeriodTest extends ECampApiTestCase {
             'end' => $period->end->format('Y-m-d'),
             '_links' => [
                 'camp' => ['href' => $this->getIriFor('camp1')],
-                'materialItems' => ['href' => '/material_items?period=%2Fperiods%2F'.$period->getId()], // TODO: fix encoding with https://github.com/ecamp/ecamp3/issues/2289
-                'days' => ['href' => '/days?period=/periods/'.$period->getId()],
-                'scheduleEntries' => ['href' => '/schedule_entries?period=/periods/'.$period->getId()],
+                'materialItems' => ['href' => '/material_items?period=%2Fperiods%2F'.$period->getId()],
+                'days' => ['href' => '/days?period=%2Fperiods%2F'.$period->getId()],
+                'scheduleEntries' => ['href' => '/schedule_entries?period=%2Fperiods%2F'.$period->getId()],
             ],
         ]);
     }
@@ -83,9 +83,9 @@ class ReadPeriodTest extends ECampApiTestCase {
             'end' => $period->end->format('Y-m-d'),
             '_links' => [
                 'camp' => ['href' => $this->getIriFor('camp1')],
-                'materialItems' => ['href' => '/material_items?period=%2Fperiods%2F'.$period->getId()],  // TODO: fix encoding with https://github.com/ecamp/ecamp3/issues/2289
-                'days' => ['href' => '/days?period=/periods/'.$period->getId()],
-                'scheduleEntries' => ['href' => '/schedule_entries?period=/periods/'.$period->getId()],
+                'materialItems' => ['href' => '/material_items?period=%2Fperiods%2F'.$period->getId()],
+                'days' => ['href' => '/days?period=%2Fperiods%2F'.$period->getId()],
+                'scheduleEntries' => ['href' => '/schedule_entries?period=%2Fperiods%2F'.$period->getId()],
             ],
         ]);
     }
@@ -102,9 +102,9 @@ class ReadPeriodTest extends ECampApiTestCase {
             'end' => $period->end->format('Y-m-d'),
             '_links' => [
                 'camp' => ['href' => $this->getIriFor('camp1')],
-                'materialItems' => ['href' => '/material_items?period=%2Fperiods%2F'.$period->getId()], // TODO: fix encoding with https://github.com/ecamp/ecamp3/issues/2289
-                'days' => ['href' => '/days?period=/periods/'.$period->getId()],
-                'scheduleEntries' => ['href' => '/schedule_entries?period=/periods/'.$period->getId()],
+                'materialItems' => ['href' => '/material_items?period=%2Fperiods%2F'.$period->getId()],
+                'days' => ['href' => '/days?period=%2Fperiods%2F'.$period->getId()],
+                'scheduleEntries' => ['href' => '/schedule_entries?period=%2Fperiods%2F'.$period->getId()],
             ],
         ]);
     }

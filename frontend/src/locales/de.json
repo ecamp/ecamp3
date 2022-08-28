@@ -115,7 +115,23 @@
         },
         "title": "Einstellungen"
       },
+      "collaboratorListItem": {
+        "cannotAssignAnotherRoleToLastManager": "Du kannst dem letzten Manager keine andere Rolle zuteilen.",
+        "cannotRemoveLastManager": "Du kannst den letzten Manager nicht entfernen",
+        "deactivate": "Deaktivieren",
+        "resendEmail": "E-Mail erneut senden"
+      },
+      "collaboratorListItemDeactivate": {
+        "deactivate": "Deaktivieren",
+        "title": "Mitarbeiter:in deaktivieren",
+        "warningText": "Möchtest du '{name}' wirklich deaktivieren?"
+      },
+      "inactiveCampCollaboratorListItem": {
+        "inviteAgain": "Erneut einladen",
+        "delete": "Möchtest du diese:n Mitarbeiter:in wirklich entfernen?"
+      },
       "materialCreateItem": {
+        "campSettingsButton": "Einstellungen",
         "noMaterialListAvailable": "Für dieses Lager sind noch keine Materiallisten erfasst. Du kannst diese unter 'Admin' erfassen."
       },
       "periodSwitcher": {
@@ -353,15 +369,33 @@
         "program": "Programm",
         "viewDescription": "Du arbeitest an \"{title}\" mit. Hier siehst du alle Blöcke, für welche du zuständig bist."
       },
-      "navigationCamp": {
-        "admin": "Admin",
-        "campIsLoading": "Lager wird geladen",
-        "material": "Material",
-        "print": "Drucken",
-        "program": "Programm",
-        "story": "Geschichte",
-        "tasks": "Aufgaben",
-        "team": "Team"
+      "navigation": {
+        "desktop": {
+          "navTopbar": {
+            "admin": "Admin",
+            "campIsLoading": "Lager wird geladen",
+            "material": "Material",
+            "print": "Drucken",
+            "program": "Programm",
+            "story": "Geschichte",
+            "team": "Team"
+          }
+        },
+        "mobile": {
+          "navBottombar": {
+            "material": "Material",
+            "more": "Mehr",
+            "program": "Programm",
+            "story": "Geschichte"
+          },
+          "navSidebar": {
+            "itemCampAdmin": "Lagereinstellungen",
+            "itemCamps": "Meine Lager",
+            "itemClose": "Menü schliessen",
+            "itemCollaborators": "Team",
+            "itemPrinting": "PDF / Drucken"
+          }
+        }
       },
       "print": {
         "title": "Druckvorschau",
