@@ -22,6 +22,7 @@ class ReadContentNodeTest extends ECampApiTestCase {
             'slot' => $contentNode->slot,
             'position' => $contentNode->position,
             'contentTypeName' => $contentNode->getContentTypeName(),
+            'data' => $contentNode->data,
             '_links' => [
                 'parent' => ['href' => $this->getIriFor($contentNode->parent)],
                 // For performance reasons, children must be an array of hrefs, not a single href to a collection!
@@ -49,6 +50,22 @@ class ReadContentNodeTest extends ECampApiTestCase {
         static::createBasicClient()->request('GET', '/content_nodes/'.$contentNode->getId());
 
         // then
+        $this->assertResponseStatusCodeSame(200);
+    }
+
+    public function testGetSingleContentNodeIncludesProperRelationLinks() {
+        /** @var Storyboard $contentNode */
+        $contentNode = static::$fixtures['materialNode1'];
+
+        // when content node is loaded via generic /content_nodes endpoint
+        static::createClientWithCredentials()->request('GET', '/content_nodes/'.$contentNode->getId());
+
+        // then the response still includes content-node (here:MaterialNode) specific relation links (injected from RelatedCollectionLinkNormalizer)
+        $this->assertJsonContains([
+            '_links' => [
+                'materialItems' => ['href' => '/material_items?materialNode='.urlencode($this->getIriFor($contentNode))],
+            ],
+        ]);
         $this->assertResponseStatusCodeSame(200);
     }
 }

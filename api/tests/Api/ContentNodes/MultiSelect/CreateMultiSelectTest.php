@@ -19,7 +19,7 @@ class CreateMultiSelectTest extends CreateContentNodeTestCase {
 
     public function testCreateMultiSelectCopiesOptionsFromContentType() {
         // when
-        $response = $this->create($this->getExampleWritePayload(['data' => null]));
+        $response = $this->create($this->getExampleWritePayload());
 
         // then
         $this->assertResponseStatusCodeSame(201);
@@ -35,5 +35,14 @@ class CreateMultiSelectTest extends CreateContentNodeTestCase {
                 ],
             ],
         ]);
+    }
+
+    protected function getExampleWritePayload($attributes = [], $except = []) {
+        return parent::getExampleWritePayload(
+            array_merge([
+                'data' => null,
+            ], $attributes),
+            $except
+        );
     }
 }

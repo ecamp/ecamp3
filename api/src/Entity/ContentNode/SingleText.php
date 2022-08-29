@@ -51,7 +51,7 @@ class SingleText extends ContentNode {
      * Holds the actual data of the content node
      * (overridden from abstract class in order to add specific validation).
      */
-    #[ApiProperty(example: ['text' => 'dummy text'])]
+    #[ApiProperty(example: ['text' => 'my example text'])]
     #[Groups(['read', 'write'])]
     #[ORM\Column(type: 'json', nullable: true, options: ['jsonb' => true])]
     #[AssertJsonSchema(schema: self::JSON_SCHEMA)]

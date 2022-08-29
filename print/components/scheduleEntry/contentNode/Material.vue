@@ -15,22 +15,15 @@ export default {
   props: {
     contentNode: { type: Object, required: true },
   },
-  data() {
-    return {
-      items: [],
-    }
-  },
   async fetch() {
-    this.items = (
-      await this.$api
-        .get()
-        .materialItems({ materialNode: this.contentNode._meta.self })
-        .$loadItems()
-    ).items
+    await this.contentNode.materialItems().$loadItems()
   },
   computed: {
     instanceName() {
       return this.contentNode.instanceName || this.$tc(`contentNode.material.name`)
+    },
+    items() {
+      return this.contentNode.materialItems().items
     },
   },
 }
