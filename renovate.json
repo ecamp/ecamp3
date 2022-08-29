@@ -83,8 +83,9 @@
         "qoomon/docker-host"
       ],
       "groupName": "docker-images",
-      "extends": [
-        "schedule:weekly"
+      "schedule": [
+        "after 10pm every sunday",
+        "before 7am every monday"
       ]
     },
     {
