@@ -74,9 +74,9 @@ final class Version20220611193723 extends AbstractMigration {
         $this->addSql('DROP TABLE content_node_storyboard');
         $this->addSql('DROP TABLE content_node_multiselect_option');
         $this->addSql('DROP TABLE content_node_storyboard_section');
-        $this->addSql('ALTER TABLE activity ADD CONSTRAINT FK_AC74095AF886581C FOREIGN KEY (rootContentNodeId) REFERENCES content_node (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
-        $this->addSql('ALTER TABLE category ADD CONSTRAINT FK_64C19C1F886581C FOREIGN KEY (rootContentNodeId) REFERENCES content_node (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
-        $this->addSql('ALTER TABLE content_node ADD CONSTRAINT FK_481D0580B7939B21 FOREIGN KEY (rootId) REFERENCES content_node (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql('ALTER TABLE activity ADD CONSTRAINT FK_AC74095AF886581C FOREIGN KEY (rootContentNodeId) REFERENCES content_node (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql('ALTER TABLE category ADD CONSTRAINT FK_64C19C1F886581C FOREIGN KEY (rootContentNodeId) REFERENCES content_node (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql('ALTER TABLE content_node ADD CONSTRAINT FK_481D0580B7939B21 FOREIGN KEY (rootId) REFERENCES content_node (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE material_item ADD CONSTRAINT FK_4B73482BD2115263 FOREIGN KEY (materialNodeId) REFERENCES content_node (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
     }
 

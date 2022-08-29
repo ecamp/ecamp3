@@ -164,7 +164,7 @@ abstract class ECampApiTestCase extends ApiTestCase {
 
         $entity ??= $this->defaultEntity;
 
-        static::createClientWithCredentials($credentials)->request('GET', "{$this->endpoint}/".$entity->getId());
+        return static::createClientWithCredentials($credentials)->request('GET', "{$this->endpoint}/".$entity->getId());
     }
 
     protected function list(?User $user = null) {
@@ -184,7 +184,7 @@ abstract class ECampApiTestCase extends ApiTestCase {
 
         $entity ??= $this->defaultEntity;
 
-        static::createClientWithCredentials($credentials)->request('DELETE', "{$this->endpoint}/".$entity->getId());
+        return static::createClientWithCredentials($credentials)->request('DELETE', "{$this->endpoint}/".$entity->getId());
     }
 
     protected function create(array $payload = null, ?User $user = null) {

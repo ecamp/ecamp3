@@ -3,6 +3,7 @@
 namespace App\Tests\Api\Activities;
 
 use App\Entity\Activity;
+use App\Entity\ContentNode\ColumnLayout;
 use App\Tests\Api\ECampApiTestCase;
 
 /**
@@ -83,5 +84,14 @@ class DeleteActivityTest extends ECampApiTestCase {
             'title' => 'An error occurred',
             'detail' => 'Access Denied.',
         ]);
+    }
+
+    public function testDeleteActivityAlsoDeletesContentNodes() {
+        $client = static::createClientWithCredentials();
+
+        $client->request('DELETE', $this->getIriFor(static::$fixtures['activity1']));
+        $this->assertResponseStatusCodeSame(204);
+
+        $this->assertNull($this->getEntityManager()->getRepository(ColumnLayout::class)->find(static::$fixtures['columnLayout1']->getId()));
     }
 }
