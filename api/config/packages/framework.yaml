@@ -19,5 +19,3 @@ framework:
 when@test:
     framework:
         test: true
-        session:
-            enabled: false
