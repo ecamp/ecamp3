@@ -101,7 +101,6 @@
     "sass": "1.32.13",
     "vite": "2.9.15",
     "vite-plugin-components": "0.13.3",
-    "vite-plugin-shim-react-pdf": "1.0.7",
     "vite-plugin-vue2": "2.0.2",
     "vite-plugin-vue2-svg": "0.3.0",
     "vue-cli-plugin-vuetify": "2.5.5",
