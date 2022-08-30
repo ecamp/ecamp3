@@ -381,6 +381,7 @@ class CreateCampCollaborationTest extends ECampApiTestCase {
                         'parameters' => [
                             'other' => 'user',
                         ],
+                        'translations' => [],
                     ],
                 ],
                 [
@@ -389,6 +390,7 @@ class CreateCampCollaborationTest extends ECampApiTestCase {
                         'parameters' => [
                             'other' => 'inviteEmail',
                         ],
+                        'translations' => [],
                     ],
                 ],
             ],

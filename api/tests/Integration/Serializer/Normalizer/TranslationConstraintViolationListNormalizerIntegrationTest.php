@@ -74,6 +74,53 @@ class TranslationConstraintViolationListNormalizerIntegrationTest extends Kernel
         ]], $result);
     }
 
+    /**
+     * @throws ExceptionInterface
+     * @throws \Exception
+     */
+    public function testAddsTranslations() {
+        $constraintViolationList = new ConstraintViolationList(self::getConstraintViolations());
+
+        $result = $this->translationConstraintViolationListNormalizer->normalize(
+            $constraintViolationList,
+            ConstraintViolationListNormalizer::FORMAT,
+            []
+        );
+
+        self::assertArraySubset(['violations' => [
+            [
+                'i18n' => [
+                    'translations' => [
+                        'en' => 'value must be one of inactive, was established',
+                        'de' => 'value must be one of inactive, was established',
+                        'fr' => 'value must be one of inactive, was established',
+                        'it' => 'value must be one of inactive, was established',
+                    ],
+                ],
+            ],
+            [
+                'i18n' => [
+                    'translations' => [
+                        'en' => 'This value should not be blank.',
+                        'de' => 'Dieser Wert sollte nicht leer sein.',
+                        'fr' => 'Cette valeur ne doit pas être vide.',
+                        'it' => 'Questo valore non dovrebbe essere vuoto.',
+                    ],
+                ],
+            ],
+            [
+                'i18n' => [
+                    'translations' => [
+                        'en' => 'This value should not be null.',
+                        'de' => 'Dieser Wert sollte nicht null sein.',
+                        'fr' => 'Cette valeur ne doit pas être nulle.',
+                        'it' => 'Questo valore non dovrebbe essere nullo.',
+                    ],
+                ],
+            ],
+        ]], $result);
+    }
+
     public static function getConstraintViolations(): array {
         return [
             new ConstraintViolation(

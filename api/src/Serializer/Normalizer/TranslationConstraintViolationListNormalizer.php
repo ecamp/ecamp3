@@ -6,6 +6,7 @@ namespace App\Serializer\Normalizer;
 
 use ApiPlatform\Core\Serializer\AbstractConstraintViolationListNormalizer;
 use App\Serializer\Normalizer\Error\TranslationInfoOfConstraintViolation;
+use App\Service\TranslateToAllLocalesService;
 use Symfony\Component\Serializer\Normalizer\CacheableSupportsMethodInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Validator\ConstraintViolation;
@@ -14,7 +15,8 @@ use Symfony\Component\Validator\ConstraintViolationList;
 class TranslationConstraintViolationListNormalizer implements NormalizerInterface, CacheableSupportsMethodInterface {
     public function __construct(
         private readonly AbstractConstraintViolationListNormalizer $decorated,
-        private readonly TranslationInfoOfConstraintViolation $translationInfoOfConstraintViolation
+        private readonly TranslationInfoOfConstraintViolation $translationInfoOfConstraintViolation,
+        private readonly TranslateToAllLocalesService $translateToAllLocalesService
     ) {
     }
 
@@ -39,7 +41,19 @@ class TranslationConstraintViolationListNormalizer implements NormalizerInterfac
                     if ($violation instanceof ConstraintViolation) {
                         $translationInfo = $this->translationInfoOfConstraintViolation->extract($violation);
                     }
-                    $resultItem = ['i18n' => [...(array) $translationInfo], ...$resultItem];
+
+                    $translations = $this->translateToAllLocalesService->translate(
+                        $violation->getMessageTemplate(),
+                        $violation->getParameters()
+                    );
+
+                    $resultItem = [
+                        'i18n' => [
+                            ...(array) $translationInfo,
+                            'translations' => $translations,
+                        ],
+                        ...$resultItem,
+                    ];
 
                     break;
                 }

@@ -134,6 +134,13 @@ services:
             - "%env(FRONTEND_BASE_URL)%"
             - "%env(MAIL_FROM)%"
 
+    App\Service\TranslateToAllLocalesService:
+        public: true
+        arguments:
+            - '@translator'
+            - '@translator'
+            - '%env(csv:TRANSLATE_ERRORS_TO_LOCALES)%'
+
     App\EventListener\JWTCreatedListener:
         tags:
             - { name: kernel.event_listener, event: lexik_jwt_authentication.on_jwt_created, method: onJWTCreated }
