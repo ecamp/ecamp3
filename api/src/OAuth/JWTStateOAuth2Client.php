@@ -33,8 +33,6 @@ use Symfony\Component\HttpFoundation\RequestStack;
 class JWTStateOAuth2Client extends OAuth2Client implements OAuth2ClientInterface {
     public const JWT_TTL = 300; // seconds, i.e. 5 minutes of validity for the JWT token
 
-    private OAuthStateRepository $stateRepository;
-
     public function __construct(
         AbstractProvider $provider,
         private RequestStack $requestStack,
@@ -42,14 +40,13 @@ class JWTStateOAuth2Client extends OAuth2Client implements OAuth2ClientInterface
         private string $appEnv,
         private JWTEncoderInterface $jwtEncoder,
         private EntityManagerInterface $entityManager,
+        private OAuthStateRepository $stateRepository,
     ) {
         parent::__construct($provider, $requestStack);
 
         // Inform the original OAuth2 client implementation that there are no native PHP sessions in this
         // application; we will handle all session storage ourselves in this class here.
         $this->setAsStateless();
-
-        $this->stateRepository = $this->entityManager->getRepository(OAuthState::class);
     }
 
     public static function getCookieName($cookiePrefix): string {

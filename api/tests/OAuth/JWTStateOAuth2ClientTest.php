@@ -53,9 +53,9 @@ class JWTStateOAuth2ClientTest extends TestCase {
             ->willReturn('my encoded JWT value')
         ;
 
-        $repositoryMock = $this->createMock(OAuthStateRepository::class);
         $entityManagerMock = $this->createMock(EntityManagerInterface::class);
-        $entityManagerMock->method('getRepository')->willReturn($repositoryMock);
+
+        $repositoryMock = $this->createMock(OAuthStateRepository::class);
 
         $client = new JWTStateOAuth2Client(
             $providerMock,
@@ -63,7 +63,8 @@ class JWTStateOAuth2ClientTest extends TestCase {
             'test_prefix_',
             'prod',
             $jwtEncoderMock,
-            $entityManagerMock
+            $entityManagerMock,
+            $repositoryMock,
         );
 
         // when
@@ -88,9 +89,9 @@ class JWTStateOAuth2ClientTest extends TestCase {
         $jwtEncoderMock = $this->createMock(JWTEncoderInterface::class);
         $jwtEncoderMock->method('encode')->willReturn('my encoded JWT value');
 
-        $repositoryMock = $this->createMock(OAuthStateRepository::class);
         $entityManagerMock = $this->createMock(EntityManagerInterface::class);
-        $entityManagerMock->method('getRepository')->willReturn($repositoryMock);
+
+        $repositoryMock = $this->createMock(OAuthStateRepository::class);
 
         $client = new JWTStateOAuth2Client(
             $providerMock,
@@ -98,7 +99,8 @@ class JWTStateOAuth2ClientTest extends TestCase {
             'test_prefix_',
             'prod',
             $jwtEncoderMock,
-            $entityManagerMock
+            $entityManagerMock,
+            $repositoryMock,
         );
 
         // then
@@ -140,8 +142,8 @@ class JWTStateOAuth2ClientTest extends TestCase {
         $repositoryMock = $this->createMock(OAuthStateRepository::class);
         $oAuthState = new OAuthState();
         $repositoryMock->method('findOneUnexpiredBy')->willReturn($oAuthState);
+
         $entityManagerMock = $this->createMock(EntityManagerInterface::class);
-        $entityManagerMock->method('getRepository')->willReturn($repositoryMock);
 
         $client = new JWTStateOAuth2Client(
             $providerMock,
@@ -149,7 +151,8 @@ class JWTStateOAuth2ClientTest extends TestCase {
             'test_prefix_',
             'prod',
             $jwtEncoderMock,
-            $entityManagerMock
+            $entityManagerMock,
+            $repositoryMock,
         );
 
         // when
@@ -184,8 +187,8 @@ class JWTStateOAuth2ClientTest extends TestCase {
         $repositoryMock = $this->createMock(OAuthStateRepository::class);
         $oAuthState = new OAuthState();
         $repositoryMock->method('findOneUnexpiredBy')->willReturn($oAuthState);
+
         $entityManagerMock = $this->createMock(EntityManagerInterface::class);
-        $entityManagerMock->method('getRepository')->willReturn($repositoryMock);
 
         $client = new JWTStateOAuth2Client(
             $providerMock,
@@ -193,7 +196,8 @@ class JWTStateOAuth2ClientTest extends TestCase {
             'test_prefix_',
             'prod',
             $jwtEncoderMock,
-            $entityManagerMock
+            $entityManagerMock,
+            $repositoryMock,
         );
 
         // then
@@ -228,8 +232,8 @@ class JWTStateOAuth2ClientTest extends TestCase {
         $repositoryMock = $this->createMock(OAuthStateRepository::class);
         $oAuthState = new OAuthState();
         $repositoryMock->method('findOneUnexpiredBy')->willReturn($oAuthState);
+
         $entityManagerMock = $this->createMock(EntityManagerInterface::class);
-        $entityManagerMock->method('getRepository')->willReturn($repositoryMock);
 
         $client = new JWTStateOAuth2Client(
             $providerMock,
@@ -237,7 +241,8 @@ class JWTStateOAuth2ClientTest extends TestCase {
             'test_prefix_',
             'prod',
             $jwtEncoderMock,
-            $entityManagerMock
+            $entityManagerMock,
+            $repositoryMock,
         );
 
         // then
@@ -273,8 +278,8 @@ class JWTStateOAuth2ClientTest extends TestCase {
         $repositoryMock->method('findOneUnexpiredBy')
             ->willThrowException(new NoResultException())
         ;
+
         $entityManagerMock = $this->createMock(EntityManagerInterface::class);
-        $entityManagerMock->method('getRepository')->willReturn($repositoryMock);
 
         $client = new JWTStateOAuth2Client(
             $providerMock,
@@ -282,7 +287,8 @@ class JWTStateOAuth2ClientTest extends TestCase {
             'test_prefix_',
             'prod',
             $jwtEncoderMock,
-            $entityManagerMock
+            $entityManagerMock,
+            $repositoryMock,
         );
 
         // then
@@ -318,8 +324,8 @@ class JWTStateOAuth2ClientTest extends TestCase {
         $repositoryMock->method('findOneUnexpiredBy')
             ->willThrowException(new NonUniqueResultException())
         ;
+
         $entityManagerMock = $this->createMock(EntityManagerInterface::class);
-        $entityManagerMock->method('getRepository')->willReturn($repositoryMock);
 
         $client = new JWTStateOAuth2Client(
             $providerMock,
@@ -327,7 +333,8 @@ class JWTStateOAuth2ClientTest extends TestCase {
             'test_prefix_',
             'prod',
             $jwtEncoderMock,
-            $entityManagerMock
+            $entityManagerMock,
+            $repositoryMock,
         );
 
         // then
@@ -362,8 +369,8 @@ class JWTStateOAuth2ClientTest extends TestCase {
         $repositoryMock = $this->createMock(OAuthStateRepository::class);
         $oAuthState = new OAuthState();
         $repositoryMock->method('findOneUnexpiredBy')->willReturn($oAuthState);
+
         $entityManagerMock = $this->createMock(EntityManagerInterface::class);
-        $entityManagerMock->method('getRepository')->willReturn($repositoryMock);
         $entityManagerMock->expects($this->once())
             ->method('remove')
             ->with($oAuthState)
@@ -375,7 +382,8 @@ class JWTStateOAuth2ClientTest extends TestCase {
             'test_prefix_',
             'prod',
             $jwtEncoderMock,
-            $entityManagerMock
+            $entityManagerMock,
+            $repositoryMock,
         );
 
         // when

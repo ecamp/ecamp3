@@ -18,8 +18,6 @@ class OAuthStateRepository extends ServiceEntityRepository {
     }
 
     /**
-     * @param string $expiresAfter
-     *
      * @throws \Doctrine\ORM\NoResultException
      * @throws \Doctrine\ORM\NonUniqueResultException
      */

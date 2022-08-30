@@ -37,7 +37,7 @@ class JWTOAuthStateCompilerPassTest extends TestCase {
         $compilerPass->process($container);
 
         // then
-        $this->assertEquals(5, count($container->getDefinition('knpu.oauth2.client.test-service')->getArguments()));
+        $this->assertEquals(6, count($container->getDefinition('knpu.oauth2.client.test-service')->getArguments()));
         $this->assertEquals(1, count($container->getDefinition('knpu.oauth2.client.test-service-2')->getArguments()));
         $this->assertEquals(1, count($container->getDefinition('knpu.oauth2.client.test-service-3')->getArguments()));
     }
