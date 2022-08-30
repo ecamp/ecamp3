@@ -5,15 +5,24 @@ import { View, Text } from '../../reactPdf.js'
 const fontSize = 8
 const initialFontSize = fontSize * 0.75
 
+function displayNameFor(campCollaboration) {
+  return campCollaboration.inviteEmail
+    ? campCollaboration.inviteEmail.split('@', 2).shift()
+    : campCollaboration.user().displayName
+}
+
 function color(campCollaboration) {
-  const h = parseInt(campCollaboration.user()?.id || campCollaboration.id, 16) % 360
+  const h =
+    parseInt(
+      campCollaboration.inviteEmail ? campCollaboration.id : campCollaboration.user().id,
+      16
+    ) % 360
   return `hsl(${h}, 100%, 30%)`
 }
 
 function initials(campCollaboration) {
-  const displayName =
-    campCollaboration.user()?.displayName ||
-    campCollaboration.inviteEmail.split('@', 2).shift()
+  const displayName = displayNameFor(campCollaboration)
+
   let items = displayName.split(' ', 2)
   if (items.length === 1) {
     items = items.shift().split(/[,._-]/, 2)
