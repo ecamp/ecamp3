@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Doctrine\ORM\EntityManagerInterface;
 use Lexik\Bundle\JWTAuthenticationBundle\Encoder\JWTEncoderInterface;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
@@ -26,6 +27,7 @@ class Kernel extends BaseKernel implements CompilerPassInterface {
             $definition->addArgument('%env(COOKIE_PREFIX)%');
             $definition->addArgument('%kernel.environment%');
             $definition->addArgument(new Reference(JWTEncoderInterface::class));
+            $definition->addArgument(new Reference(EntityManagerInterface::class));
         }
     }
 

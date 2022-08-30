@@ -2,6 +2,11 @@
 
 namespace App\OAuth;
 
+use App\Entity\OAuthState;
+use App\Repository\OAuthStateRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 use KnpU\OAuth2ClientBundle\Client\OAuth2Client;
 use KnpU\OAuth2ClientBundle\Client\OAuth2ClientInterface;
 use KnpU\OAuth2ClientBundle\Exception\InvalidStateException;
@@ -28,18 +33,23 @@ use Symfony\Component\HttpFoundation\RequestStack;
 class JWTStateOAuth2Client extends OAuth2Client implements OAuth2ClientInterface {
     public const JWT_TTL = 300; // seconds, i.e. 5 minutes of validity for the JWT token
 
+    private OAuthStateRepository $stateRepository;
+
     public function __construct(
         AbstractProvider $provider,
         private RequestStack $requestStack,
         private string $cookiePrefix,
         private string $appEnv,
         private JWTEncoderInterface $jwtEncoder,
+        private EntityManagerInterface $entityManager,
     ) {
         parent::__construct($provider, $requestStack);
 
         // Inform the original OAuth2 client implementation that there are no native PHP sessions in this
         // application; we will handle all session storage ourselves in this class here.
         $this->setAsStateless();
+
+        $this->stateRepository = $this->entityManager->getRepository(OAuthState::class);
     }
 
     public static function getCookieName($cookiePrefix): string {
@@ -80,6 +90,14 @@ class JWTStateOAuth2Client extends OAuth2Client implements OAuth2ClientInterface
             throw new LogicException('Could not create a JWT token for storing the state parameter securely');
         }
 
+        $this->stateRepository->deleteAllExpiredBefore(new \DateTime('@'.time()));
+
+        $oAuthState = new OAuthState();
+        $oAuthState->state = $state;
+        $oAuthState->expireTime = new \DateTime("@{$expires}");
+        $this->entityManager->persist($oAuthState);
+        $this->entityManager->flush();
+
         return $response;
     }
 
@@ -100,9 +118,15 @@ class JWTStateOAuth2Client extends OAuth2Client implements OAuth2ClientInterface
             if ($this->decodeStateJWT($jwt) !== $actualState) {
                 throw new InvalidStateException('Invalid state');
             }
-        } catch (JWTDecodeFailureException $e) {
+
+            $now = new \DateTime('@'.time());
+            $persistedState = $this->stateRepository->findOneUnexpiredBy($actualState, $now);
+        } catch (JWTDecodeFailureException|NoResultException|NonUniqueResultException $e) {
             throw new InvalidStateException('Invalid state');
         }
+
+        $this->entityManager->remove($persistedState);
+        $this->entityManager->flush();
 
         return parent::getAccessToken($options);
     }
