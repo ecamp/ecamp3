@@ -23,7 +23,7 @@ class Kernel extends BaseKernel implements CompilerPassInterface {
         // See JWTStateOAuth2Client for more info.
         foreach (array_keys($container->getExtensionConfig('knpu_oauth2_client')[0]['clients']) as $id) {
             $definition = $container->getDefinition('knpu.oauth2.client.'.$id);
-            $definition->addArgument('%env(API_DOMAIN)%');
+            $definition->addArgument('%env(COOKIE_PREFIX)%');
             $definition->addArgument('%kernel.environment%');
             $definition->addArgument(new Reference(JWTEncoderInterface::class));
         }

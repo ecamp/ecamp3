@@ -105,12 +105,12 @@ services:
     App\Security\OAuth\GoogleAuthenticator:
         arguments:
             - '@lexik_jwt_authentication.handler.authentication_success'
-            - '%env(API_DOMAIN)%'
+            - '%env(COOKIE_PREFIX)%'
 
     App\Security\OAuth\HitobitoAuthenticator:
         arguments:
             - '@lexik_jwt_authentication.handler.authentication_success'
-            - '%env(API_DOMAIN)%'
+            - '%env(COOKIE_PREFIX)%'
 
     App\Security\ReCaptcha\ReCaptcha:
         arguments:

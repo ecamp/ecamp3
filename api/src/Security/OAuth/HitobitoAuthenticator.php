@@ -25,7 +25,7 @@ use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPasspor
 class HitobitoAuthenticator extends OAuth2Authenticator {
     public function __construct(
         private AuthenticationSuccessHandler $authenticationSuccessHandler,
-        private string $apiDomain,
+        private string $cookiePrefix,
         private ClientRegistry $clientRegistry,
         private EntityManagerInterface $entityManager,
         private Security $security,
@@ -92,7 +92,7 @@ class HitobitoAuthenticator extends OAuth2Authenticator {
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response {
         $user = $this->security->getUser();
         $authSuccess = $this->authenticationSuccessHandler->handleAuthenticationSuccess($user);
-        $redirectUrl = $this->jwtDecoder->decode($request->cookies->get(JWTStateOAuth2Client::getCookieName($this->apiDomain)))['callback'] ?? '/';
+        $redirectUrl = $this->jwtDecoder->decode($request->cookies->get(JWTStateOAuth2Client::getCookieName($this->cookiePrefix)))['callback'] ?? '/';
 
         $response = new RedirectResponse($redirectUrl);
         $response->headers->set('set-cookie', $authSuccess->headers->all()['set-cookie']);

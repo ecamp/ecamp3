@@ -31,7 +31,7 @@ class JWTStateOAuth2Client extends OAuth2Client implements OAuth2ClientInterface
     public function __construct(
         AbstractProvider $provider,
         private RequestStack $requestStack,
-        private string $apiDomain,
+        private string $cookiePrefix,
         private string $appEnv,
         private JWTEncoderInterface $jwtEncoder,
     ) {
@@ -42,12 +42,8 @@ class JWTStateOAuth2Client extends OAuth2Client implements OAuth2ClientInterface
         $this->setAsStateless();
     }
 
-    public static function getCookieName($apiDomain, $phpCompliant = true): string {
-        $cookieName = "{$apiDomain}_oauth_state_jwt";
-
-        // Periods and spaces in the cookie names are replaced with underscores by PHP:
-        // https://www.php.net/manual/en/reserved.variables.cookies.php#117377
-        return $phpCompliant ? str_replace(['.', ' '], '_', $cookieName) : $cookieName;
+    public static function getCookieName($cookiePrefix): string {
+        return "{$cookiePrefix}oauth_state_jwt";
     }
 
     /**
@@ -69,14 +65,13 @@ class JWTStateOAuth2Client extends OAuth2Client implements OAuth2ClientInterface
 
         try {
             $response->headers->setCookie(
-                Cookie::create($this->getCookieName($this->apiDomain, false))
+                Cookie::create($this->getCookieName($this->cookiePrefix))
                     ->withValue($this->encodeStateJWT(array_merge($options['additionalData'], [
                         'state' => $state,
                         'iat' => $now,
                         'exp' => $expires,
                     ])))
                     ->withHttpOnly()
-                    ->withDomain($this->apiDomain)
                     ->withSameSite('lax')
                     ->withSecure('dev' !== $this->appEnv) // in local development, we don't use https
                     ->withExpires($expires)
@@ -98,7 +93,7 @@ class JWTStateOAuth2Client extends OAuth2Client implements OAuth2ClientInterface
      * @throws \League\OAuth2\Client\Provider\Exception\IdentityProviderException
      */
     public function getAccessToken(array $options = []): AccessTokenInterface {
-        $jwt = $this->getCurrentRequest()->cookies->get($this->getCookieName($this->apiDomain));
+        $jwt = $this->getCurrentRequest()->cookies->get($this->getCookieName($this->cookiePrefix));
         $actualState = $this->getCurrentRequest()->get('state');
 
         try {
