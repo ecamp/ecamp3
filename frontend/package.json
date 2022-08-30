@@ -24,7 +24,7 @@
   "dependencies": {
     "@intlify/core": "9.2.2",
     "@mdi/font": "7.0.96",
-    "@react-pdf/renderer": "2.3.0",
+    "@react-pdf/renderer": "3.0.0",
     "@sentry/browser": "7.11.1",
     "@sentry/vue": "7.11.1",
     "@tiptap/extension-bold": "2.0.0-beta.28",
