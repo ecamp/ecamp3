@@ -76,7 +76,7 @@ class JWTStateOAuth2Client extends OAuth2Client implements OAuth2ClientInterface
         try {
             $response->headers->setCookie(
                 Cookie::create($this->getCookieName($this->cookiePrefix))
-                    ->withValue($this->encodeStateJWT(array_merge($options['additionalData'], [
+                    ->withValue($this->encodeStateJWT(array_merge($options['additionalData'] ?? [], [
                         'state' => $state,
                         'iat' => $now,
                         'exp' => $expires,
