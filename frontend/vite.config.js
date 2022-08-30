@@ -17,6 +17,19 @@ export default defineConfig(({ mode }) => ({
     pluginHelper(),
     worker({}),
   ],
+  optimizeDeps: {
+    include: [
+      'core-js/modules/es.symbol.js',
+      'core-js/modules/es.symbol.description.js',
+      'core-js/modules/es.function.name.js',
+      'core-js/modules/es.array.concat.js',
+      'core-js/modules/es.array.splice.js',
+      'core-js/modules/es.array.find.js',
+      'core-js/modules/es.object.to-string.js',
+      '@sentry/browser',
+      'raf/polyfill',
+    ],
+  },
   build: {
     sourcemap: mode === 'development',
     minify: mode === 'development' ? false : 'esbuild',
