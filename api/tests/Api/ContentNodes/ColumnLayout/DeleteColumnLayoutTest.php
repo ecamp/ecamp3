@@ -26,4 +26,16 @@ class DeleteColumnLayoutTest extends DeleteContentNodeTestCase {
             'detail' => 'Access Denied.',
         ]);
     }
+
+    public function testDeleteColumnLayoutAlsoDeletesChildren() {
+        $client = static::createClientWithCredentials();
+        // Disable resetting the database between the two requests
+        $client->disableReboot();
+
+        $client->request('DELETE', $this->getIriFor(static::$fixtures['columnLayoutChild1']));
+        $this->assertResponseStatusCodeSame(204);
+
+        $client->request('GET', $this->getIriFor(static::$fixtures['singleText2']));
+        $this->assertResponseStatusCodeSame(404);
+    }
 }

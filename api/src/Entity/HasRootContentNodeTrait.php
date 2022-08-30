@@ -16,7 +16,7 @@ trait HasRootContentNodeTrait {
      */
     #[Assert\DisableAutoMapping]
     #[ApiProperty(writable: false, readableLink: true, example: '/content_nodes/1a2b3c4d')]
-    #[ORM\OneToOne(targetEntity: ColumnLayout::class, cascade: ['persist'], orphanRemoval: true)]
+    #[ORM\OneToOne(targetEntity: ColumnLayout::class, cascade: ['persist'])]
     #[ORM\JoinColumn(nullable: false, unique: true)]
     public ?ColumnLayout $rootContentNode = null;
 

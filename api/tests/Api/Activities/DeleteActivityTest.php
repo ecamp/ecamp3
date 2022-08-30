@@ -3,7 +3,6 @@
 namespace App\Tests\Api\Activities;
 
 use App\Entity\Activity;
-use App\Entity\ContentNode\ColumnLayout;
 use App\Tests\Api\ECampApiTestCase;
 
 /**
@@ -88,10 +87,16 @@ class DeleteActivityTest extends ECampApiTestCase {
 
     public function testDeleteActivityAlsoDeletesContentNodes() {
         $client = static::createClientWithCredentials();
+        // Disable resetting the database between the two requests
+        $client->disableReboot();
 
         $client->request('DELETE', $this->getIriFor(static::$fixtures['activity1']));
         $this->assertResponseStatusCodeSame(204);
 
-        $this->assertNull($this->getEntityManager()->getRepository(ColumnLayout::class)->find(static::$fixtures['columnLayout1']->getId()));
+        $client->request('GET', $this->getIriFor(static::$fixtures['columnLayout1']));
+        $this->assertResponseStatusCodeSame(404);
+
+        $client->request('GET', $this->getIriFor(static::$fixtures['multiSelect1']));
+        $this->assertResponseStatusCodeSame(404);
     }
 }

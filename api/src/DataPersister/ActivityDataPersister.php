@@ -48,4 +48,16 @@ class ActivityDataPersister extends AbstractDataPersister {
 
         return $data;
     }
+
+    /**
+     * @param Activity $data
+     */
+    public function beforeRemove($data): ?Activity {
+        // Deleting rootContentNode would normally be done automatically with orphanRemoval:true
+        // However, this currently runs into an error due to https://github.com/doctrine-extensions/DoctrineExtensions/issues/2510
+
+        $this->em->remove($data->rootContentNode);
+
+        return null;
+    }
 }
