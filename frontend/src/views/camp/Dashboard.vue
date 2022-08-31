@@ -110,6 +110,8 @@ import {
   dateLong,
   hourShort,
 } from '@/common/helpers/dateHelperUTCFormatted.js'
+import { sortBy } from 'lodash'
+import campCollaborationDisplayName from '@/common/helpers/campCollaborationDisplayName.js'
 
 export default {
   name: 'Dashboard',
@@ -179,21 +181,18 @@ export default {
     showScheduleEntry(scheduleEntry) {
       const authUser = this.$auth.user()
       const activityResponsibles = scheduleEntry.activity().activityResponsibles().items
-      return activityResponsibles.some(
-        (ar) => this.userIdOrInviteEmail(ar) === authUser.id
-      )
+      return activityResponsibles.some((activityResponsible) => {
+        const campCollaboration = activityResponsible.campCollaboration()
+        return (
+          typeof campCollaboration.user === 'function' &&
+          campCollaboration.user().id === authUser.id
+        )
+      })
     },
     sortActivityResponsibles(activityResponsibles) {
-      return activityResponsibles.sort(
-        (a, b) =>
-          parseInt(this.userIdOrInviteEmail(a), 16) -
-          parseInt(this.userIdOrInviteEmail(b), 16)
+      return sortBy(activityResponsibles, (activityResponsible) =>
+        campCollaborationDisplayName(activityResponsible.campCollaboration(), null, false)
       )
-    },
-    userIdOrInviteEmail(activityResponsible) {
-      const campCollaboration = activityResponsible.campCollaboration()
-      if (campCollaboration.inviteEmail) return campCollaboration.inviteEmail
-      return campCollaboration.user().id
     },
   },
 }
