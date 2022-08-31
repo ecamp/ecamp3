@@ -8,11 +8,15 @@ export default function (campCollaboration) {
     return idToColor('', true)
   }
 
-  const loading = campCollaboration._meta?.loading ||
-    (typeof campCollaboration.user === 'function' && campCollaboration.user()._meta?.loading)
+  const loading =
+    campCollaboration._meta?.loading ||
+    (typeof campCollaboration.user === 'function' &&
+      campCollaboration.user()._meta?.loading)
 
   return idToColor(
-    typeof campCollaboration.user === 'function' ? campCollaboration.user().id : campCollaboration.id,
+    typeof campCollaboration.user === 'function'
+      ? campCollaboration.user().id
+      : campCollaboration.id,
     campCollaboration.status === 'inactive' || loading
   )
 }

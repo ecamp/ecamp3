@@ -11,8 +11,11 @@ export default function (displayName) {
     items = items.shift().split(/[,._-]/, 2)
   }
   if (items.length === 1) {
-    return runes.substr(displayName,0, 2).toUpperCase()
+    return runes.substr(displayName, 0, 2).toUpperCase()
   } else {
-    return runes.substr(items[0], 0, 1).toUpperCase() + runes.substr(items[1],0, 1).toUpperCase()
+    return (
+      runes.substr(items[0], 0, 1).toUpperCase() +
+      runes.substr(items[1], 0, 1).toUpperCase()
+    )
   }
 }

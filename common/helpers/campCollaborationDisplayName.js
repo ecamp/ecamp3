@@ -8,9 +8,10 @@ export default function (campCollaboration, tc, indicateInactive = true) {
     return ''
   }
 
-  let text = typeof campCollaboration.user === 'function'
-    ? userDisplayName(campCollaboration.user())
-    : (campCollaboration.inviteEmail || '')
+  let text =
+    typeof campCollaboration.user === 'function'
+      ? userDisplayName(campCollaboration.user())
+      : campCollaboration.inviteEmail || ''
 
   if (campCollaboration.status === 'inactive' && indicateInactive) {
     text += ' (' + tc('entity.campCollaboration.inactive') + ')'
