@@ -184,6 +184,7 @@ export default {
       return activityResponsibles.some((activityResponsible) => {
         const campCollaboration = activityResponsible.campCollaboration()
         return (
+          !campCollaboration._meta.loading &&
           typeof campCollaboration.user === 'function' &&
           campCollaboration.user().id === authUser.id
         )
