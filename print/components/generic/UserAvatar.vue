@@ -4,10 +4,10 @@
   </div>
 </template>
 <script>
-import userColor from '@/common/helpers/userColor.js'
-import campCollaborationColor from '@/common/helpers/campCollaborationColor.js'
-import userInitials from '../../../common/helpers/userInitials.js'
-import campCollaborationInitials from '../../../common/helpers/campCollaborationInitials.js'
+import userColor from '@/../common/helpers/userColor.js'
+import campCollaborationColor from '@/../common/helpers/campCollaborationColor.js'
+import userInitials from '@/../common/helpers/userInitials.js'
+import campCollaborationInitials from '@/../common/helpers/campCollaborationInitials.js'
 
 export default {
   props: {

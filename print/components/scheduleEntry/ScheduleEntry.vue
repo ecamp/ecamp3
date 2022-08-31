@@ -50,7 +50,7 @@
 import CategoryLabel from '../generic/CategoryLabel.vue'
 import ContentNode from './contentNode/ContentNode.vue'
 import { rangeShort } from '@/../common/helpers/dateHelperUTCFormatted.js'
-import { responsiblesCommaSeparated } from '@/helpers/activityResponsibles.js'
+import { responsiblesCommaSeparated } from '../../helpers/activityResponsibles.js'
 
 export default {
   components: { CategoryLabel, ContentNode },
@@ -76,16 +76,19 @@ export default {
             return activityResponsible.campCollaboration().user()._meta.load
           }
           ))
-        }  
+        }
       ),
     ])
   },
   computed: {
-    responsibles() {
-      return this.scheduleEntry.activity().activityResponsibles().items
-    },
+    // responsibles() {
+    //   return this.scheduleEntry.activity().activityResponsibles().items
+    // },
     responsiblesCommaSeparated() {
-      return responsiblesCommaSeparated(this.scheduleEntry.activity())
+      return responsiblesCommaSeparated(
+        this.scheduleEntry.activity(),
+        this.$tc.bind(this)
+      )
     },
   },
   methods: {

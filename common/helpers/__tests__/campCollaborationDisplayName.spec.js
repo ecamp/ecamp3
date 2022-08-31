@@ -19,13 +19,14 @@ describe('campCollaborationDisplayName', () => {
       'ecamp@ecamp3.ch (inaktiv)',
     ],
   ])('maps %p to %p', (input, expected) => {
-    expect(campCollaborationDisplayName(input)).toEqual(expected)
+    expect(campCollaborationDisplayName(input, () => 'inaktiv')).toEqual(expected)
   })
 
   it('does not add inactive indicator', () => {
     expect(
       campCollaborationDisplayName(
         { inviteEmail: null, status: 'inactive', user: () => ({ displayName: 'Bi-Pi' }) },
+        null,
         false
       )
     ).toEqual('Bi-Pi')
