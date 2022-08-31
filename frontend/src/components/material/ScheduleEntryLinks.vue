@@ -14,6 +14,7 @@
 
 <script>
 import { scheduleEntryRoute } from '@/router.js'
+import runes from 'runes'
 
 export default {
   name: 'ScheduleEntryLinks',
@@ -47,7 +48,7 @@ export default {
 
       if (this.$vuetify.breakpoint.smAndUp) {
         if (title.length > 13) {
-          return number + ': ' + title.substr(0, 13) + '...'
+          return number + ': ' + runes.substr(title, 0, 13) + '...'
         } else {
           return number + ': ' + title
         }

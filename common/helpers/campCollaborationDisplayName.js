@@ -4,16 +4,16 @@ import userDisplayName from './userDisplayName.js'
 /**
  * Returns a display name for a camp collaboration based on its status
  */
-export default function (campCollaboration) {
-  let text = null
-
-  if (campCollaboration.user === null) {
-    text = campCollaboration.inviteEmail
-  } else {
-    text = userDisplayName(campCollaboration.user())
+export default function (campCollaboration, indicateInactive = true) {
+  if (!campCollaboration) {
+    return ''
   }
 
-  if (campCollaboration.status === 'inactive') {
+  let text = typeof campCollaboration.user === 'function'
+    ? userDisplayName(campCollaboration.user())
+    : (campCollaboration.inviteEmail || '')
+
+  if (campCollaboration.status === 'inactive' && indicateInactive) {
     text += ' (' + i18n.tc('entity.campCollaboration.inactive') + ')'
   }
 
