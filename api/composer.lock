@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "dc4e30cf34c04ab38c539e9059579cf2",
+    "content-hash": "3501891432c6360c0c0afd281b86b2f8",
     "packages": [
         {
             "name": "api-platform/core",
@@ -571,16 +571,16 @@
         },
         {
             "name": "doctrine/collections",
-            "version": "1.7.0",
+            "version": "1.7.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/collections.git",
-                "reference": "07d15c8a766e664ec271ae84e5dfc597aeeb03b1"
+                "reference": "3fe77330f5591108bbf1315da7377a7e704ed8a0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/collections/zipball/07d15c8a766e664ec271ae84e5dfc597aeeb03b1",
-                "reference": "07d15c8a766e664ec271ae84e5dfc597aeeb03b1",
+                "url": "https://api.github.com/repos/doctrine/collections/zipball/3fe77330f5591108bbf1315da7377a7e704ed8a0",
+                "reference": "3fe77330f5591108bbf1315da7377a7e704ed8a0",
                 "shasum": ""
             },
             "require": {
@@ -588,7 +588,7 @@
                 "php": "^7.1.3 || ^8.0"
             },
             "require-dev": {
-                "doctrine/coding-standard": "^9.0",
+                "doctrine/coding-standard": "^9.0 || ^10.0",
                 "phpstan/phpstan": "^1.4.8",
                 "phpunit/phpunit": "^7.5 || ^8.5 || ^9.1.5",
                 "vimeo/psalm": "^4.22"
@@ -635,9 +635,9 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/collections/issues",
-                "source": "https://github.com/doctrine/collections/tree/1.7.0"
+                "source": "https://github.com/doctrine/collections/tree/1.7.2"
             },
-            "time": "2022-08-18T05:44:45+00:00"
+            "time": "2022-08-27T16:08:58+00:00"
         },
         {
             "name": "doctrine/common",
@@ -10810,16 +10810,16 @@
         },
         {
             "name": "friendsofphp/php-cs-fixer",
-            "version": "v3.10.0",
+            "version": "v3.11.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfPHP/PHP-CS-Fixer.git",
-                "reference": "76d7da666e66d83a1dc27a9d1c625c80cc4ac1fe"
+                "reference": "7dcdea3f2f5f473464e835be9be55283ff8cfdc3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfPHP/PHP-CS-Fixer/zipball/76d7da666e66d83a1dc27a9d1c625c80cc4ac1fe",
-                "reference": "76d7da666e66d83a1dc27a9d1c625c80cc4ac1fe",
+                "url": "https://api.github.com/repos/FriendsOfPHP/PHP-CS-Fixer/zipball/7dcdea3f2f5f473464e835be9be55283ff8cfdc3",
+                "reference": "7dcdea3f2f5f473464e835be9be55283ff8cfdc3",
                 "shasum": ""
             },
             "require": {
@@ -10887,7 +10887,7 @@
             "description": "A tool to automatically fix PHP code style",
             "support": {
                 "issues": "https://github.com/FriendsOfPHP/PHP-CS-Fixer/issues",
-                "source": "https://github.com/FriendsOfPHP/PHP-CS-Fixer/tree/v3.10.0"
+                "source": "https://github.com/FriendsOfPHP/PHP-CS-Fixer/tree/v3.11.0"
             },
             "funding": [
                 {
@@ -10895,7 +10895,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-08-17T22:13:10+00:00"
+            "time": "2022-09-01T18:24:51+00:00"
         },
         {
             "name": "hautelook/alice-bundle",
@@ -11619,16 +11619,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "1.8.2",
+            "version": "1.8.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "c53312ecc575caf07b0e90dee43883fdf90ca67c"
+                "reference": "5583623b61caafebd62bc78a99533aa9d769d097"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/c53312ecc575caf07b0e90dee43883fdf90ca67c",
-                "reference": "c53312ecc575caf07b0e90dee43883fdf90ca67c",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/5583623b61caafebd62bc78a99533aa9d769d097",
+                "reference": "5583623b61caafebd62bc78a99533aa9d769d097",
                 "shasum": ""
             },
             "require": {
@@ -11652,9 +11652,13 @@
                 "MIT"
             ],
             "description": "PHPStan - PHP Static Analysis Tool",
+            "keywords": [
+                "dev",
+                "static analysis"
+            ],
             "support": {
                 "issues": "https://github.com/phpstan/phpstan/issues",
-                "source": "https://github.com/phpstan/phpstan/tree/1.8.2"
+                "source": "https://github.com/phpstan/phpstan/tree/1.8.3"
             },
             "funding": [
                 {
@@ -11666,15 +11670,11 @@
                     "type": "github"
                 },
                 {
-                    "url": "https://www.patreon.com/phpstan",
-                    "type": "patreon"
-                },
-                {
                     "url": "https://tidelift.com/funding/github/packagist/phpstan/phpstan",
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-07-20T09:57:31+00:00"
+            "time": "2022-09-01T15:27:34+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -13938,16 +13938,16 @@
         },
         {
             "name": "vimeo/psalm",
-            "version": "4.26.0",
+            "version": "4.27.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/vimeo/psalm.git",
-                "reference": "6998fabb2bf528b65777bf9941920888d23c03ac"
+                "reference": "faf106e717c37b8c81721845dba9de3d8deed8ff"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/vimeo/psalm/zipball/6998fabb2bf528b65777bf9941920888d23c03ac",
-                "reference": "6998fabb2bf528b65777bf9941920888d23c03ac",
+                "url": "https://api.github.com/repos/vimeo/psalm/zipball/faf106e717c37b8c81721845dba9de3d8deed8ff",
+                "reference": "faf106e717c37b8c81721845dba9de3d8deed8ff",
                 "shasum": ""
             },
             "require": {
@@ -14039,9 +14039,9 @@
             ],
             "support": {
                 "issues": "https://github.com/vimeo/psalm/issues",
-                "source": "https://github.com/vimeo/psalm/tree/4.26.0"
+                "source": "https://github.com/vimeo/psalm/tree/4.27.0"
             },
-            "time": "2022-07-31T13:10:26+00:00"
+            "time": "2022-08-31T13:47:09+00:00"
         },
         {
             "name": "webmozart/path-util",
