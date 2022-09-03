@@ -3,11 +3,11 @@ import campCollaborationDisplayName from '@/../common/helpers/campCollaborationD
 /**
  * Returns a display name for a camp collaboration based on its status
  */
-const responsiblesCommaSeparated = (activity) => {
+const responsiblesCommaSeparated = (activity, tc) => {
   return activity
     .activityResponsibles()
     .items.map((activityResponsible) =>
-      campCollaborationDisplayName(activityResponsible.campCollaboration())
+      campCollaborationDisplayName(activityResponsible.campCollaboration(), tc)
     )
     .join(', ')
 }

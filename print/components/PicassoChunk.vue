@@ -74,7 +74,10 @@ export default {
       return ''
     },
     responsiblesCommaSeparated(scheduleEntry) {
-      const responsibles = responsiblesCommaSeparated(scheduleEntry.activity())
+      const responsibles = responsiblesCommaSeparated(
+        scheduleEntry.activity(),
+        this.$tc.bind(this)
+      )
 
       if (responsibles === '') {
         return ''
