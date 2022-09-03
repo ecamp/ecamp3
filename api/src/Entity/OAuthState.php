@@ -11,6 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Definitely not exposed on the API, this is only for internal security checking.
  */
 #[ORM\Entity(repositoryClass: OAuthStateRepository::class)]
+#[ORM\Index(columns: ['expireTime', 'state'])]
 class OAuthState extends BaseEntity {
     #[ORM\Column(type: 'string')]
     public string $state;
