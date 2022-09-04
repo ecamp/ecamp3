@@ -131,9 +131,9 @@ class JWTStateOAuth2Client extends OAuth2Client implements OAuth2ClientInterface
     /**
      * @param array $payload the payload to encode in the JWT token
      *
-     * @throws JWTEncodeFailureException
-     *
      * @return string the encoded JWT token
+     *
+     * @throws JWTEncodeFailureException
      */
     private function encodeStateJWT(array $payload): string {
         return $this->jwtEncoder->encode($payload);
@@ -142,9 +142,9 @@ class JWTStateOAuth2Client extends OAuth2Client implements OAuth2ClientInterface
     /**
      * @param string $jwt the JWT token that should be checked for validity and decoded
      *
-     * @throws JWTDecodeFailureException
-     *
      * @return ?string the decoded state from the JWT token in the cookie
+     *
+     * @throws JWTDecodeFailureException
      */
     private function decodeStateJWT(string $jwt): ?string {
         return $this->jwtEncoder->decode($jwt)['state'] ?? null;
