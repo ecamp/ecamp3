@@ -25,8 +25,8 @@ use Symfony\Component\HttpFoundation\RequestStack;
  * Modify the OAuth2Client such that it does not require native PHP sessions, which would have lots of implications
  * to user management in Symfony. Instead, we store the value of the OAuth state parameter inside a signed JWT token
  * in a HttpOnly cookie, and use that as a user-facing but non-forgeable alternative temporary session storage. The
- * value of the state parameter is available in the browser anyways (it's part of the URL when redirecting to the
- * external OAuth provider), so no secret server-only session storage is needed anyways.
+ * value of the state parameter is available in the browser anyway (it's part of the URL when redirecting to the
+ * external OAuth provider), so no secret server-only session storage is needed.
  * This is perfectly safe, even safer than our normal authentication flow: There we use the same mechanism but with a
  * longer-living token and with parts of the cookie available to JavaScript.
  */
