@@ -55,7 +55,7 @@ class JWTStateOAuth2Client extends OAuth2Client implements OAuth2ClientInterface
 
     /**
      * Delegates to the original implementation to create a RedirectResponse. Then, adds a temporary cookie
-     * to that response, containing a JWT token which will act our stateless session storage.
+     * to that response, containing a JWT token which will act as our stateless session storage.
      *
      * The provider class has the option of passing custom data to also be stored inside the JWT token.
      * Caution: That data is publicly available in the browser! It's perfect though for storing a callback
