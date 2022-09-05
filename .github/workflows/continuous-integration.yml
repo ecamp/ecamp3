@@ -295,7 +295,7 @@ jobs:
       - run: php bin/console doctrine:migrations:migrate --no-interaction -e test
         working-directory: api
 
-      - run: php bin/console doctrine:schema:validate -e test
+      - run: php bin/console doctrine:schema:validate -v -e test
         working-directory: api
 
   frontend-tests:
