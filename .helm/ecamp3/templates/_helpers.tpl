@@ -97,6 +97,13 @@ The full URL where the API root will be available.
 {{- end }}
 
 {{/*
+The prefix used by API for setting cookie names
+*/}}
+{{- define "api.cookiePrefix" -}}
+{{- printf "%s_" (.Values.api.domain | replace "." "_") }}
+{{- end }}
+
+{{/*
 The full URL where the frontend will be available.
 */}}
 {{- define "frontend.url" -}}

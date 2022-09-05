@@ -25,7 +25,7 @@ api_platform:
     #mercure:
     #    hub_url: '%env(resolve:MERCURE_SUBSCRIBE_URL)%'
     defaults:
-        stateless: false # sessions are needed for oauth state parameters
+        stateless: true
         cache_headers:
             vary: ['Content-Type', 'Authorization', 'Origin']
         pagination_enabled: false

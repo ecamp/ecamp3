@@ -120,11 +120,11 @@ export async function logout() {
 }
 
 function headerAndPayloadCookieName() {
-  return `${apiDomain()}_jwt_hp`
+  return `${cookiePrefix()}jwt_hp`
 }
 
-function apiDomain() {
-  return new URL(window.environment.API_ROOT_URL).hostname
+function cookiePrefix() {
+  return window.environment.COOKIE_PREFIX || ''
 }
 
 export const auth = {

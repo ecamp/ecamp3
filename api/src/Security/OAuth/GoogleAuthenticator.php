@@ -4,10 +4,12 @@ namespace App\Security\OAuth;
 
 use App\Entity\Profile;
 use App\Entity\User;
+use App\OAuth\JWTStateOAuth2Client;
 use Doctrine\ORM\EntityManagerInterface;
 use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
 use KnpU\OAuth2ClientBundle\Security\Authenticator\OAuth2Authenticator;
 use League\OAuth2\Client\Provider\GoogleUser;
+use Lexik\Bundle\JWTAuthenticationBundle\Encoder\JWTEncoderInterface;
 use Lexik\Bundle\JWTAuthenticationBundle\Security\Http\Authentication\AuthenticationSuccessHandler;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,9 +24,11 @@ use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPasspor
 class GoogleAuthenticator extends OAuth2Authenticator {
     public function __construct(
         private AuthenticationSuccessHandler $authenticationSuccessHandler,
+        private string $cookiePrefix,
         private ClientRegistry $clientRegistry,
         private EntityManagerInterface $entityManager,
         private Security $security,
+        private JWTEncoderInterface $jwtDecoder,
     ) {
     }
 
@@ -81,7 +85,7 @@ class GoogleAuthenticator extends OAuth2Authenticator {
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response {
         $user = $this->security->getUser();
         $authSuccess = $this->authenticationSuccessHandler->handleAuthenticationSuccess($user);
-        $redirectUrl = $request->getSession()->get('redirect_uri');
+        $redirectUrl = $this->jwtDecoder->decode($request->cookies->get(JWTStateOAuth2Client::getCookieName($this->cookiePrefix)))['callback'] ?? '/';
 
         $response = new RedirectResponse($redirectUrl);
         $response->headers->set('set-cookie', $authSuccess->headers->all()['set-cookie']);
