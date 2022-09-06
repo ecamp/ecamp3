@@ -14,6 +14,8 @@ abstract class ContentNodeAbstractDataPersister extends AbstractDataPersister {
      * @return T
      */
     public function beforeCreate($data): ContentNode {
+        $data = parent::beforeCreate($data);
+
         // set root from parent
         $data->parent->addChild($data);
         $data->parent->root->addRootDescendant($data);

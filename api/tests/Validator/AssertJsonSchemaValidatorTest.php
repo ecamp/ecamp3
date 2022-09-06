@@ -14,7 +14,7 @@ use Symfony\Component\Validator\Test\ConstraintValidatorTestCase;
  * @internal
  */
 class AssertJsonSchemaValidatorTest extends ConstraintValidatorTestCase {
-    private const message = "Provided JSON doesn't match required schema.";
+    private const message = "Provided JSON doesn't match required schema ({{ schemaError }}).";
 
     private const testSchema = [
         'type' => 'object',
@@ -42,7 +42,7 @@ class AssertJsonSchemaValidatorTest extends ConstraintValidatorTestCase {
         $this->validator->validate(null, new AssertJsonSchema());
 
         // then
-        $this->buildViolation(self::message)->assertRaised();
+        $this->buildViolation(self::message)->setParameter('{{ schemaError }}', 'Object expected, null received')->assertRaised();
     }
 
     public function testEmptyObjectIsValid() {
@@ -75,7 +75,7 @@ class AssertJsonSchemaValidatorTest extends ConstraintValidatorTestCase {
         $this->validator->validate($value, new AssertJsonSchema(schema: self::testSchema));
 
         // then
-        $this->buildViolation(self::message)->assertRaised();
+        $this->buildViolation(self::message)->setParameter('{{ schemaError }}', 'Required property missing: id, data: {"anotherKey":"anotherValue"}')->assertRaised();
     }
 
     protected function createValidator() {

@@ -2,7 +2,7 @@
   <table class="tw-w-full">
     <tr>
       <column-layout-column
-        v-for="column in contentNode.columns"
+        v-for="column in contentNode.data.columns"
         :key="column.slot"
         :content-node="contentNode"
         :column-slot="column.slot"

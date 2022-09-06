@@ -22,20 +22,20 @@ class CreateSingleTextTest extends CreateContentNodeTestCase {
         $text = 'TestText';
 
         // when
-        $this->create($this->getExampleWritePayload(['text' => $text]));
+        $this->create($this->getExampleWritePayload(['data' => ['text' => $text]]));
 
         // then
         $this->assertResponseStatusCodeSame(201);
-        $this->assertJsonContains(['text' => $text]);
+        $this->assertJsonContains(['data' => ['text' => $text]]);
     }
 
-    public function testCreateSingleTextFromNull() {
+    public function testCreateSingleTextAcceptsEmptyJson() {
         // when
-        $this->create($this->getExampleWritePayload(['text' => null]));
+        $this->create($this->getExampleWritePayload(['data' => null]));
 
         // then
         $this->assertResponseStatusCodeSame(201);
-        $this->assertJsonContains(['text' => null]);
+        $this->assertJsonContains(['data' => ['text' => '']]);
     }
 
     public function testCreateSingleTextCleansHTMLFromText() {
@@ -43,12 +43,12 @@ class CreateSingleTextTest extends CreateContentNodeTestCase {
         $text = ' testText<script>alert(1)</script>';
 
         // when
-        $this->create($this->getExampleWritePayload(['text' => $text]));
+        $this->create($this->getExampleWritePayload(['data' => ['text' => $text]]));
 
         // then
         $this->assertResponseStatusCodeSame(201);
-        $this->assertJsonContains([
+        $this->assertJsonContains(['data' => [
             'text' => ' testText',
-        ]);
+        ]]);
     }
 }

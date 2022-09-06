@@ -4,7 +4,6 @@ namespace App\DataPersister\ContentNode;
 
 use App\DataPersister\Util\DataPersisterObservable;
 use App\Entity\ContentNode\MultiSelect;
-use App\Entity\ContentNode\MultiSelectOption;
 
 class MultiSelectDataPersister extends ContentNodeAbstractDataPersister {
     /**
@@ -26,14 +25,13 @@ class MultiSelectDataPersister extends ContentNodeAbstractDataPersister {
         $data = parent::beforeCreate($data);
 
         // copy options from ContentType config
-        foreach ($data->contentType->jsonConfig['items'] as $key => $item) {
-            $option = new MultiSelectOption();
-
-            $option->translateKey = $item;
-            $option->setPosition($key);
-
-            $data->addOption($option);
+        $options = [];
+        foreach ($data->contentType->jsonConfig['items'] as $item) {
+            $options[$item] = [
+                'checked' => false,
+            ];
         }
+        $data->data = ['options' => $options];
 
         return $data;
     }

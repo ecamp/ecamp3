@@ -13,7 +13,7 @@
           {{ $tc('contentNode.storyboard.entity.section.fields.column3') }}
         </th>
       </tr>
-      <tr v-for="section in sections" :key="section.id">
+      <tr v-for="(section, key) in sections" :key="key">
         <td class="column column1">
           <rich-text :rich-text="section.column1" />
         </td>
@@ -30,6 +30,7 @@
 
 <script>
 import RichText from '../../generic/RichText.vue'
+import { values } from 'lodash'
 
 export default {
   components: {
@@ -38,17 +39,15 @@ export default {
   props: {
     contentNode: { type: Object, required: true },
   },
-  async fetch() {
-    await this.contentNode.sections().$loadItems()
-  },
   computed: {
     instanceName() {
       return this.contentNode.instanceName
     },
     sections() {
-      return this.contentNode
-        .sections()
-        .items.sort((section1, section2) => section1.position - section2.position)
+      const sections = values(this.contentNode.data.sections)
+      return [...sections].sort(
+        (section1, section2) => section1.position - section2.position
+      )
     },
   },
 }

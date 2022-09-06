@@ -61,10 +61,10 @@ class AssertNoOrphanChildrenValidatorTest extends ConstraintValidatorTestCase {
         $this->setObject($testObject);
 
         // when
-        $this->validator->validate([
+        $this->validator->validate(['columns' => [
             ['slot' => '1'],
             ['slot' => '2'],
-        ], new AssertNoOrphanChildren());
+        ]], new AssertNoOrphanChildren());
 
         // then
         $this->assertNoViolation();
@@ -85,9 +85,9 @@ class AssertNoOrphanChildrenValidatorTest extends ConstraintValidatorTestCase {
         $this->setObject($testObject);
 
         // when
-        $this->validator->validate([
+        $this->validator->validate(['columns' => [
             ['slot' => 'anotherSlot'],
-        ], new AssertNoOrphanChildren());
+        ]], new AssertNoOrphanChildren());
 
         // then
         $this->buildViolation(self::message)->setParameter('{{ slots }}', 'missingSlot1, missingSlot2')->assertRaised();
@@ -104,10 +104,10 @@ class AssertNoOrphanChildrenValidatorTest extends ConstraintValidatorTestCase {
         $this->setObject($testObject);
 
         // when
-        $this->validator->validate([
+        $this->validator->validate(['columns' => [
             ['slot' => '1'],
             ['anotherKey' => 'anotherValue'],
-        ], new AssertNoOrphanChildren());
+        ]], new AssertNoOrphanChildren());
 
         // then
         $this->assertNoViolation();

@@ -63,10 +63,10 @@ export default {
   },
   computed: {
     columns() {
-      return keyBy(this.contentNode.columns || [], 'slot')
+      return keyBy(this.contentNode.data.columns || [], 'slot')
     },
     numColumns() {
-      return this.contentNode.columns?.length || 0
+      return this.contentNode.data.columns?.length || 0
     },
     lastColumn() {
       const slots = Object.keys(this.columns)
@@ -137,10 +137,12 @@ export default {
     },
     async saveColumnWidths() {
       const payload = {
-        columns: this.contentNode.columns.map((column) => ({
-          ...column,
-          width: this.localColumnWidths[column.slot],
-        })),
+        data: {
+          columns: this.contentNode.data.columns.map((column) => ({
+            ...column,
+            width: this.localColumnWidths[column.slot],
+          })),
+        },
       }
       this.api.patch(this.contentNode, payload)
     },

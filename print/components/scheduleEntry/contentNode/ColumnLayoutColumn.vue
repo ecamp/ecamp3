@@ -13,7 +13,9 @@ export default {
   },
   computed: {
     column() {
-      return this.contentNode.columns.find((column) => column.slot === this.columnSlot)
+      return this.contentNode.data.columns.find(
+        (column) => column.slot === this.columnSlot
+      )
     },
     width() {
       return this.column.width
@@ -30,10 +32,10 @@ export default {
       }
     },
     firstSlot() {
-      return this.contentNode.columns[0].slot
+      return this.contentNode.data.columns[0].slot
     },
     lastSlot() {
-      return this.contentNode.columns[this.contentNode.columns.length - 1].slot
+      return this.contentNode.data.columns[this.contentNode.data.columns.length - 1].slot
     },
     children() {
       return this.contentNode

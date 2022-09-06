@@ -17,23 +17,23 @@ class UpdateSingleTextTest extends UpdateContentNodeTestCase {
 
     public function testPatchText() {
         // when
-        $this->patch($this->defaultEntity, ['text' => 'testText']);
+        $this->patch($this->defaultEntity, ['data' => ['text' => 'testText']]);
 
         // then
         $this->assertResponseStatusCodeSame(200);
-        $this->assertJsonContains([
+        $this->assertJsonContains(['data' => [
             'text' => 'testText',
-        ]);
+        ]]);
     }
 
     public function testPatchCleansHTMLFromText() {
         // when
-        $this->patch($this->defaultEntity, ['text' => ' testText<script>alert(1)</script>']);
+        $this->patch($this->defaultEntity, ['data' => ['text' => ' testText<script>alert(1)</script>']]);
 
         // then
         $this->assertResponseStatusCodeSame(200);
-        $this->assertJsonContains([
+        $this->assertJsonContains(['data' => [
             'text' => ' testText',
-        ]);
+        ]]);
     }
 }

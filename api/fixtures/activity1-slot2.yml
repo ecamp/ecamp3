@@ -7,6 +7,26 @@ App\Entity\ContentNode\Storyboard:
     position: 0
     instanceName: 'storyboard1'
     contentType: '@contentTypeStoryboard'
+    data:
+      {
+        sections:
+          {
+            'ab9740f6-61a4-4cae-b574-a73aeb7c5ea0':
+              {
+                column1: <word()>,
+                column2: <sentence()>,
+                column3: <word()>,
+                position: 0,
+              },
+            'cb26d76a-9e3b-43f0-a7c4-0f2ad0ea8029':
+              {
+                column1: <word()>,
+                column2: <sentence()>,
+                column3: <word()>,
+                position: 1,
+              },
+          },
+      }
 
 App\Entity\ContentNode\ColumnLayout:
   columnLayoutChild1:
@@ -14,27 +34,6 @@ App\Entity\ContentNode\ColumnLayout:
     parent: '@columnLayout1'
     slot: '2'
     position: 1
-    columns: [{slot: '1', width: 7}, {slot: '2', width: 5}]
+    data: { columns: [{ slot: '1', width: 7 }, { slot: '2', width: 5 }] }
     instanceName: 'columnLayoutChild1'
     contentType: '@contentTypeColumnLayout'
-
-# Storyboard sections
-App\Entity\ContentNode\StoryboardSection:
-  storyboardSection1:
-    storyboard: '@storyboard1'
-    column1: <word()>
-    column2: <sentence()>
-    column3: <word()>
-    position: 1
-  storyboardSection2:
-    storyboard: '@storyboard1'
-    column1: <word()>
-    column2: <sentence()>
-    column3: <word()>
-    position: 0
-  storyboardSection3:
-    storyboard: '@storyboard2'
-    column1: <word()>
-    column2: <sentence()>
-    column3: <word()>
-    position: 0

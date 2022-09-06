@@ -7,6 +7,7 @@ App\Entity\ContentNode\MultiSelect:
     position: 0
     instanceName: 'multiSelect2'
     contentType: '@contentTypeMultiSelect'
+    data: { options: { 'key1': { 'checked': true } } }
 
 App\Entity\ContentNode\SingleText:
   singleText2:
@@ -16,8 +17,8 @@ App\Entity\ContentNode\SingleText:
     position: 1
     instanceName: 'singleText2'
     contentType: '@contentTypeNotes'
-    text: <word()>
-  
+    data: { text: <word()> }
+
 # nested column - slot2
 App\Entity\ContentNode\Storyboard:
   storyboard2:
@@ -27,3 +28,16 @@ App\Entity\ContentNode\Storyboard:
     position: 0
     instanceName: 'Storyboard2'
     contentType: '@contentTypeStoryboard'
+    data:
+      {
+        sections:
+          {
+            'ea6f1e5d-0ef7-454f-8ae0-1d9b3bfd1177':
+              {
+                column1: <word()>,
+                column2: <sentence()>,
+                column3: <word()>,
+                position: 0,
+              },
+          },
+      }

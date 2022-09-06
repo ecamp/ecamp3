@@ -1,7 +1,7 @@
 <template>
   <div class="wrapper">
     <div v-if="instanceName" class="instance-name">{{ instanceName }}</div>
-    <rich-text :rich-text="contentNode.text" />
+    <rich-text :rich-text="contentNode.data.text" />
   </div>
 </template>
 

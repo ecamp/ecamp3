@@ -164,7 +164,7 @@ abstract class ECampApiTestCase extends ApiTestCase {
 
         $entity ??= $this->defaultEntity;
 
-        static::createClientWithCredentials($credentials)->request('GET', "{$this->endpoint}/".$entity->getId());
+        return static::createClientWithCredentials($credentials)->request('GET', "{$this->endpoint}/".$entity->getId());
     }
 
     protected function list(?User $user = null) {
@@ -184,7 +184,7 @@ abstract class ECampApiTestCase extends ApiTestCase {
 
         $entity ??= $this->defaultEntity;
 
-        static::createClientWithCredentials($credentials)->request('DELETE', "{$this->endpoint}/".$entity->getId());
+        return static::createClientWithCredentials($credentials)->request('DELETE', "{$this->endpoint}/".$entity->getId());
     }
 
     protected function create(array $payload = null, ?User $user = null) {
@@ -267,5 +267,16 @@ abstract class ECampApiTestCase extends ApiTestCase {
                 ],
             ]);
         }
+    }
+
+    /**
+     * @param ResponseInterface $response     Response from API
+     * @param array             $propertyName property name which contains wrong JSON
+     */
+    protected function assertJsonSchemaError(ResponseInterface $response, string $propertyName) {
+        $responseArray = $response->toArray(false);
+
+        $this->assertEquals($propertyName, $responseArray['violations'][0]['propertyPath']);
+        $this->assertStringStartsWith('Provided JSON doesn\'t match required schema', $responseArray['violations'][0]['message']);
     }
 }

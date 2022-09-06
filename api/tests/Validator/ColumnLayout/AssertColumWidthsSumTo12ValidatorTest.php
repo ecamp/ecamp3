@@ -30,14 +30,14 @@ class AssertColumWidthsSumTo12ValidatorTest extends ConstraintValidatorTestCase 
 
     public function testValid() {
         // given
-        $columns = [
+        $data = ['columns' => [
             ['width' => 6],
             ['width' => 5],
             ['width' => 1],
-        ];
+        ]];
 
         // when
-        $this->validator->validate($columns, new AssertColumWidthsSumTo12());
+        $this->validator->validate($data, new AssertColumWidthsSumTo12());
 
         // then
         $this->assertNoViolation();
@@ -45,13 +45,13 @@ class AssertColumWidthsSumTo12ValidatorTest extends ConstraintValidatorTestCase 
 
     public function testInvalid() {
         // given
-        $columns = [
+        $data = ['columns' => [
             ['width' => 6],
             ['width' => 5],
-        ];
+        ]];
 
         // when
-        $this->validator->validate($columns, new AssertColumWidthsSumTo12());
+        $this->validator->validate($data, new AssertColumWidthsSumTo12());
 
         // then
         $this->buildViolation(self::message)->setParameter('{{ sum }}', 11)->assertRaised();
@@ -59,12 +59,12 @@ class AssertColumWidthsSumTo12ValidatorTest extends ConstraintValidatorTestCase 
 
     public function testMissingWidthIsCountedZero() {
         // given
-        $columns = [
+        $data = ['columns' => [
             ['slot' => 'test'],
-        ];
+        ]];
 
         // when
-        $this->validator->validate($columns, new AssertColumWidthsSumTo12());
+        $this->validator->validate($data, new AssertColumWidthsSumTo12());
 
         // then
         $this->buildViolation(self::message)->setParameter('{{ sum }}', 0)->assertRaised();

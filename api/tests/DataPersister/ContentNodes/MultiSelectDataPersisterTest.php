@@ -63,13 +63,15 @@ class MultiSelectDataPersisterTest extends TestCase {
         $data = $this->dataPersister->beforeCreate($this->contentNode);
 
         // then
-        $this->assertEquals($data->options[0]->translateKey, 'key1');
-        $this->assertEquals($data->options[0]->checked, false);
-        $this->assertEquals($data->options[0]->getPosition(), 0);
+        $this->assertArrayHasKey('options', $data->data);
 
-        $this->assertEquals($data->options[1]->translateKey, 'key2');
-        $this->assertEquals($data->options[1]->checked, false);
-        $this->assertEquals($data->options[1]->getPosition(), 1);
+        $options = $data->data['options'];
+
+        $this->assertArrayHasKey('key1', $options);
+        $this->assertEquals($options['key1']['checked'], false);
+
+        $this->assertArrayHasKey('key2', $options);
+        $this->assertEquals($options['key2']['checked'], false);
     }
 
     public function testDoesNotSetRootFromParentOnUpdate() {
@@ -87,6 +89,6 @@ class MultiSelectDataPersisterTest extends TestCase {
         $data = $this->dataPersister->beforeUpdate($this->contentNode);
 
         // then
-        $this->assertEquals(count($data->options), 0);
+        $this->assertEquals($data->data, $this->contentNode->data);
     }
 }

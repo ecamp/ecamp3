@@ -12,7 +12,7 @@ function Notes(props) {
       ) : (
         <View />
       )}
-      <RichText richText={notes.text} />
+      <RichText richText={notes.data.text} />
     </View>
   )
 }
