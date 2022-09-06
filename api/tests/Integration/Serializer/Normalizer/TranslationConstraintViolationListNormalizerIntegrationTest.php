@@ -92,9 +92,9 @@ class TranslationConstraintViolationListNormalizerIntegrationTest extends Kernel
                 'i18n' => [
                     'translations' => [
                         'en' => 'value must be one of inactive, was established',
-                        'de' => 'value must be one of inactive, was established',
-                        'fr' => 'value must be one of inactive, was established',
-                        'it' => 'value must be one of inactive, was established',
+                        'de' => 'Der Wert muss einer aus inactive sein, aber er war established',
+                        'fr' => 'La valeur doit être l\'une des suivantes : inactive, a été established',
+                        'it' => 'deve essere uno dei seguenti valori: inactive, è established',
                     ],
                 ],
             ],

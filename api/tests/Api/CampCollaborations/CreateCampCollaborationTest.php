@@ -381,7 +381,12 @@ class CreateCampCollaborationTest extends ECampApiTestCase {
                         'parameters' => [
                             'other' => 'user',
                         ],
-                        'translations' => [],
+                        'translations' => [
+                            'en' => 'Either this value or user should not be null.',
+                            'de' => 'Dieser Wert und user dürfen nicht beide null sein.',
+                            'fr' => 'Cette valeur ou user ne doit pas être nulle.',
+                            'it' => 'Questo valore o user non deve essere nullo.',
+                        ],
                     ],
                 ],
                 [
@@ -390,7 +395,12 @@ class CreateCampCollaborationTest extends ECampApiTestCase {
                         'parameters' => [
                             'other' => 'inviteEmail',
                         ],
-                        'translations' => [],
+                        'translations' => [
+                            'en' => 'Either this value or inviteEmail should not be null.',
+                            'de' => 'Dieser Wert und inviteEmail dürfen nicht beide null sein.',
+                            'fr' => 'Cette valeur ou inviteEmail ne doit pas être nulle.',
+                            'it' => 'Questo valore o inviteEmail non deve essere nullo.',
+                        ],
                     ],
                 ],
             ],
