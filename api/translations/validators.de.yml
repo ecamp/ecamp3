@@ -1,3 +1,4 @@
 Either this value or {{ other }} should not be null.: "Dieser Wert und {{ other }} dürfen nicht beide null sein."
+This inviteEmail is already present in the camp.: "Diese E-Mail Adresse wurde schon für dieses Lager verwendet."
 This is a test message for i18n variants: "de"
 value must be one of {{ to }}, was {{ value }}: "Der Wert muss einer aus {{ to }} sein, aber er war {{ value }}"
