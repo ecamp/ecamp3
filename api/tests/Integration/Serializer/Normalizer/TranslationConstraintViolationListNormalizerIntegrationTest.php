@@ -3,7 +3,8 @@
 namespace App\Tests\Integration\Serializer\Normalizer;
 
 use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\ApiTestAssertionsTrait;
-use ApiPlatform\Core\Problem\Serializer\ConstraintViolationListNormalizer;
+use ApiPlatform\Core\Hydra\Serializer\ConstraintViolationListNormalizer as HydraConstraintViolationListNormalizer;
+use ApiPlatform\Core\Problem\Serializer\ConstraintViolationListNormalizer as JsonProblemConstraintViolationListNormalizer;
 use App\Entity\CampCollaboration;
 use App\Serializer\Normalizer\TranslationConstraintViolationListNormalizer;
 use App\Validator\AllowTransition\AssertAllowTransitions;
@@ -31,20 +32,22 @@ class TranslationConstraintViolationListNormalizerIntegrationTest extends Kernel
         parent::setUp();
 
         /** @var TranslationConstraintViolationListNormalizer $obj */
-        $obj = self::getContainer()->get('api_platform.problem.normalizer.constraint_violation_list');
+        $obj = self::getContainer()->get('App\Serializer\Normalizer\TranslationConstraintViolationListNormalizer');
         $this->translationConstraintViolationListNormalizer = $obj;
     }
 
     /**
      * @throws ExceptionInterface
      * @throws \Exception
+     *
+     * @dataProvider getFormats()
      */
-    public function testAddsTranslationKeyAndParameters() {
+    public function testAddsTranslationKeyAndParameters(string $format) {
         $constraintViolationList = new ConstraintViolationList(self::getConstraintViolations());
 
         $result = $this->translationConstraintViolationListNormalizer->normalize(
             $constraintViolationList,
-            ConstraintViolationListNormalizer::FORMAT,
+            $format,
             []
         );
 
@@ -84,13 +87,15 @@ class TranslationConstraintViolationListNormalizerIntegrationTest extends Kernel
     /**
      * @throws ExceptionInterface
      * @throws \Exception
+     *
+     * @dataProvider getFormats()
      */
-    public function testAddsTranslations() {
+    public function testAddsTranslations(string $format) {
         $constraintViolationList = new ConstraintViolationList(self::getConstraintViolations());
 
         $result = $this->translationConstraintViolationListNormalizer->normalize(
             $constraintViolationList,
-            ConstraintViolationListNormalizer::FORMAT,
+            $format,
             []
         );
 
@@ -140,6 +145,16 @@ class TranslationConstraintViolationListNormalizerIntegrationTest extends Kernel
                 ],
             ],
         ]], $result);
+    }
+
+    public static function getFormats() {
+        $hydra = HydraConstraintViolationListNormalizer::FORMAT;
+        $problem = JsonProblemConstraintViolationListNormalizer::FORMAT;
+
+        return [
+            $hydra => [$hydra],
+            $problem => [$problem],
+        ];
     }
 
     public static function getConstraintViolations(): array {
