@@ -338,7 +338,7 @@ class CreateCampCollaborationTest extends ECampApiTestCase {
         $this->assertResponseStatusCodeSame(422);
         $this->assertJsonContains([
             'title' => 'An error occurred',
-            'detail' => 'user: This user is already present in the camp.',
+            'detail' => 'user: This user or a user with this email address is already participating in the camp.',
         ]);
     }
 

@@ -165,7 +165,10 @@ export default {
         .then(this.refreshCamp, this.handleError)
     },
     handleError(e) {
-      this.inviteEmailMessages = transformViolations(e, this.$i18n)['inviteEmail']
+      const violations = transformViolations(e, this.$i18n)
+      this.inviteEmailMessages = Object.values(violations).flatMap(
+        (violationsOfProperty) => violationsOfProperty
+      )
     },
     refreshCamp() {
       this.inviteEmail = null

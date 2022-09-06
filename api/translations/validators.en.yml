@@ -1,4 +1,5 @@
 Either this value or {{ other }} should not be null.: "Either this value or {{ other }} should not be null."
 This inviteEmail is already present in the camp.: "This inviteEmail is already present in the camp."
 This is a test message for i18n variants: "en"
+This user is already present in the camp.: "This user or a user with this email address is already participating in the camp."
 value must be one of {{ to }}, was {{ value }}: "value must be one of {{ to }}, was {{ value }}"
