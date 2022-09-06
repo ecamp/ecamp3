@@ -9,6 +9,7 @@ use App\Serializer\Normalizer\TranslationConstraintViolationListNormalizer;
 use App\Validator\AllowTransition\AssertAllowTransitions;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Serializer\Exception\ExceptionInterface;
+use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\NotNull;
 use Symfony\Component\Validator\ConstraintViolation;
@@ -71,6 +72,12 @@ class TranslationConstraintViolationListNormalizerIntegrationTest extends Kernel
                     'parameters' => [],
                 ],
             ],
+            [
+                'i18n' => [
+                    'key' => 'app.tests.integration.serializer.normalizer.myconstraint',
+                    'parameters' => [],
+                ],
+            ],
         ]], $result);
     }
 
@@ -118,6 +125,20 @@ class TranslationConstraintViolationListNormalizerIntegrationTest extends Kernel
                     ],
                 ],
             ],
+            [
+                'i18n' => [
+                    'translations' => [
+                        'en' => 'en',
+                        'en_CH_scout' => 'en_CH_scout',
+                        'de' => 'de',
+                        'de_CH_scout' => 'de_CH_scout',
+                        'fr' => 'fr',
+                        'fr_CH_scout' => 'fr_CH_scout',
+                        'it' => 'it',
+                        'it_CH_scout' => 'it_CH_scout',
+                    ],
+                ],
+            ],
         ]], $result);
     }
 
@@ -156,6 +177,27 @@ class TranslationConstraintViolationListNormalizerIntegrationTest extends Kernel
                 code: 'c1051bb4-d103-4f74-8988-acbcafc7fdc3',
                 constraint: new NotNull()
             ),
+            new ConstraintViolation(
+                message: 'This is a test message for i18n variants',
+                messageTemplate: 'This is a test message for i18n variants',
+                parameters: [],
+                root: new CampCollaboration(),
+                propertyPath: 'name',
+                invalidValue: '',
+                plural: null,
+                code: 'c1051bb4-d103-4f74-8988-acbcafc7fdc5',
+                constraint: new MyConstraint()
+            ),
         ];
+    }
+}
+
+class MyConstraint extends Constraint {
+    public function __construct(
+        array $options = null,
+        array $groups = null,
+        $payload = null
+    ) {
+        parent::__construct($options ?? [], $groups, $payload);
     }
 }
