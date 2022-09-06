@@ -1,0 +1,2 @@
+Either this value or {{ other }} should not be null.: "Cette valeur ou {{ other }} ne doit pas être nulle."
+value must be one of {{ to }}, was {{ value }}: "La valeur doit être l'une des suivantes : {{ to }}, a été {{ value }}"
