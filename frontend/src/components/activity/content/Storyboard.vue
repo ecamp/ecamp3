@@ -134,7 +134,14 @@ export default {
   },
   computed: {
     sections() {
-      return this.api.get(this.contentNode).data.sections
+      const sections = this.api.get(this.contentNode).data.sections
+
+      // workaround because our API return an empty array instead of empty object
+      if (Array.isArray(sections) && sections.length === 0) {
+        return {}
+      }
+
+      return sections
     },
   },
   methods: {
