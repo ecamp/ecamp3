@@ -70,13 +70,13 @@ class Storyboard extends ContentNode {
                 'required' => ['column1', 'column2', 'column3', 'position'],
                 'properties' => [
                     'column1' => [
-                        'type' => 'string',
+                        'type' => ['string', 'null'],
                     ],
                     'column2' => [
-                        'type' => 'string',
+                        'type' => ['string', 'null'],
                     ],
                     'column3' => [
-                        'type' => 'string',
+                        'type' => ['string', 'null'],
                     ],
                     'position' => [
                         'type' => 'integer',
