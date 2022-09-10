@@ -163,13 +163,13 @@ export default {
 
     // v-calendar start: starting date (first day)
     start: {
-      type: Number,
+      type: String,
       required: true,
     },
 
     // v-calender end: end date (last day)
     end: {
-      type: Number,
+      type: String,
       required: true,
     },
 
@@ -247,8 +247,22 @@ export default {
       refs[`editDialog-${scheduleEntry.id}`].open()
     }
 
-    const dragAndDropMove = useDragAndDropMove(editable, 5, updateEntry)
-    const dragAndDropResize = useDragAndDropResize(editable, updateEntry)
+    const calenderStartTimestamp = utcStringToTimestamp(props.start)
+    const calendarEndTimestamp = utcStringToTimestamp(props.end) + 24 * 60 * 60 * 1000
+
+    const dragAndDropMove = useDragAndDropMove(
+      editable,
+      5,
+      updateEntry,
+      calenderStartTimestamp,
+      calendarEndTimestamp
+    )
+    const dragAndDropResize = useDragAndDropResize(
+      editable,
+      updateEntry,
+      calenderStartTimestamp,
+      calendarEndTimestamp
+    )
     const dragAndDropNew = useDragAndDropNew(editable, createEntry)
     const clickDetector = useClickDetector(editable, 5, onClick)
 
