@@ -11,6 +11,7 @@ Listing all given activity schedule entries in a calendar view.
       :class="editable ? 'ec-picasso-editable' : 'ec-picasso'"
       :events="events"
       :event-name="getActivityName"
+      event-overlap-mode="column"
       :event-color="getActivityColor"
       event-start="startTimestamp"
       event-end="endTimestamp"
@@ -85,6 +86,12 @@ Listing all given activity schedule entries in a calendar view.
             <h4 class="v-event-title">
               {{ getActivityName(event) }}
             </h4>
+
+            <schedule-entry-responsibles
+              :schedule-entry="event"
+              :avatar-size="20"
+              class="d-flex justify-end flex-wrap mt-2"
+            />
           </div>
         </router-link>
 
@@ -93,6 +100,12 @@ Listing all given activity schedule entries in a calendar view.
           <h4 class="v-event-title">
             {{ getActivityName(event) }}
           </h4>
+
+          <schedule-entry-responsibles
+            :schedule-entry="event"
+            :avatar-size="20"
+            class="d-flex justify-end flex-wrap mt-2"
+          />
 
           <!-- resize handle -->
           <div
@@ -133,12 +146,14 @@ import {
 
 import DialogActivityEdit from '../DialogActivityEdit.vue'
 import DayResponsibles from './DayResponsibles.vue'
+import ScheduleEntryResponsibles from './ScheduleEntryResponsibles.vue'
 
 export default {
   name: 'Picasso',
   components: {
     DialogActivityEdit,
     DayResponsibles,
+    ScheduleEntryResponsibles,
   },
   props: {
     // period for which to show picasso

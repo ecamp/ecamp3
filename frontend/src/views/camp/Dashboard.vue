@@ -46,14 +46,9 @@ Admin screen of a camp: Displays details & periods of a single camp and allows t
                             {{ scheduleEntry.number }}:
                             {{ scheduleEntry.activity().title }}
                             <v-spacer />
-                            <user-avatar
-                              v-for="ar in sortActivityResponsibles(
-                                scheduleEntry.activity().activityResponsibles().items
-                              )"
-                              :key="ar._meta.self"
-                              :camp-collaboration="ar.campCollaboration()"
-                              :size="24"
-                              style="margin: 2px"
+
+                            <schedule-entry-responsibles
+                              :schedule-entry="scheduleEntry"
                             />
                           </v-card-title>
                           <v-card-subtitle>
@@ -104,20 +99,18 @@ Admin screen of a camp: Displays details & periods of a single camp and allows t
 <script>
 import { campRoute, scheduleEntryRoute } from '@/router.js'
 import ContentCard from '@/components/layout/ContentCard.vue'
-import UserAvatar from '../../components/user/UserAvatar.vue'
+import ScheduleEntryResponsibles from '@/components/program/picasso/ScheduleEntryResponsibles.vue'
 import {
   dateShort,
   dateLong,
   hourShort,
 } from '@/common/helpers/dateHelperUTCFormatted.js'
-import { sortBy } from 'lodash'
-import campCollaborationDisplayName from '@/common/helpers/campCollaborationDisplayName.js'
 
 export default {
   name: 'Dashboard',
   components: {
     ContentCard,
-    UserAvatar,
+    ScheduleEntryResponsibles,
   },
   props: {
     camp: { type: Function, required: true },
@@ -189,11 +182,6 @@ export default {
           campCollaboration.user().id === authUser.id
         )
       })
-    },
-    sortActivityResponsibles(activityResponsibles) {
-      return sortBy(activityResponsibles, (activityResponsible) =>
-        campCollaborationDisplayName(activityResponsible.campCollaboration(), null, false)
-      )
     },
   },
 }
