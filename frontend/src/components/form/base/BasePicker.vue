@@ -17,6 +17,7 @@ Displays a field as a picker (can be used with v-model)
     >
       <template #activator="{ on }">
         <e-text-field
+          ref="textField"
           :value="fieldValue"
           v-bind="$attrs"
           :error-messages="combinedErrorMessages"
@@ -168,6 +169,10 @@ export default {
     savePicker() {
       this.showPicker = false
       this.setValue(this.localPickerValue)
+
+      // after closing picker --> set focus into textfield and validate value
+      this.$refs.textField.focus()
+      this.$refs.textField.$refs.validationProvider.validate(this.fieldValue)
     },
     inputPicker(val) {
       if (this.parsePicker !== null) {

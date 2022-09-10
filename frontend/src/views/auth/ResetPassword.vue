@@ -58,7 +58,6 @@
           name="Confirmation"
           vee-id="confirmation"
           vee-rules="pwConfirmed:@password"
-          vee-rules-old="confirmed:password"
           validate-on-blur
           :dense="$vuetify.breakpoint.xsOnly"
           type="password"
