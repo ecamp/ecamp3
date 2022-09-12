@@ -6,6 +6,8 @@
       :tippy-options="{ maxWidth: 'none' }"
     >
       <v-toolbar short>
+        <!-- headings currently disabled (see issue #2657) -->
+        <!--
         <v-item-group class="v-btn-toggle v-btn-toggle--dense">
           <v-btn
             :class="
@@ -39,30 +41,31 @@
           </v-btn>
         </v-item-group>
         <div class="mx-1" />
+        -->
         <v-item-group class="v-btn-toggle v-btn-toggle--dense" multiple>
           <v-btn
             :class="editor.isActive('bold') ? 'v-item--active v-btn--active' : ''"
             @click="editor.chain().focus().toggleBold().run()"
           >
-            <v-icon>mdi-format-bold</v-icon>
+            <v-icon dense>mdi-format-bold</v-icon>
           </v-btn>
           <v-btn
             :class="editor.isActive('italic') ? 'v-item--active v-btn--active' : ''"
             @click="editor.chain().focus().toggleItalic().run()"
           >
-            <v-icon>mdi-format-italic</v-icon>
+            <v-icon dense>mdi-format-italic</v-icon>
           </v-btn>
           <v-btn
             :class="editor.isActive('underline') ? 'v-item--active v-btn--active' : ''"
             @click="editor.chain().focus().toggleUnderline().run()"
           >
-            <v-icon>mdi-format-underline</v-icon>
+            <v-icon dense>mdi-format-underline</v-icon>
           </v-btn>
           <v-btn
             :class="editor.isActive('strike') ? 'v-item--active v-btn--active' : ''"
             @click="editor.chain().focus().toggleStrike().run()"
           >
-            <v-icon>mdi-format-strikethrough</v-icon>
+            <v-icon dense>mdi-format-strikethrough</v-icon>
           </v-btn>
         </v-item-group>
       </v-toolbar>
@@ -77,7 +80,7 @@ import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import BulletList from '@tiptap/extension-bullet-list'
 import HardBreak from '@tiptap/extension-hard-break'
-import Heading from '@tiptap/extension-heading'
+// import Heading from '@tiptap/extension-heading'
 import ListItem from '@tiptap/extension-list-item'
 import OrderedList from '@tiptap/extension-ordered-list'
 import Bold from '@tiptap/extension-bold'
@@ -131,7 +134,8 @@ export default {
           ListItem,
           BulletList,
           OrderedList,
-          Heading.configure({ levels: [1, 2, 3] }),
+          // headings currently disabled (see issue #2657)
+          // Heading.configure({ levels: [1, 2, 3] }),
           HardBreak,
         ]
       )
