@@ -9,7 +9,7 @@
 ARG PHP_VERSION=8.1.10
 
 # renovate: datasource=docker depName=caddy
-ARG CADDY_VERSION=2.5.2
+ARG CADDY_VERSION=2.5.2@sha256:c2aa034bd91237e02c80e030f1366fe0e20c88dfc6b9eac5c3cfefdc447b7bc9
 
 # "php" stage
 FROM php:${PHP_VERSION}-fpm-alpine AS api_platform_php
