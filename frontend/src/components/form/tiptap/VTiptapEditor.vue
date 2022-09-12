@@ -26,7 +26,7 @@ export default {
           value: this.value,
           placeholder: this.placeholder,
           withExtensions: this.withExtensions,
-          editable: !this.readonly,
+          editable: !this.readonly && !this.disabled,
         },
         on: Object.assign(listeners, {
           blur: this.onBlur,
