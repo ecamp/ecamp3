@@ -31,7 +31,7 @@
             </router-link>
           </h4>
           <api-form v-show="editing" :entity="chapter">
-            <api-textarea
+            <api-richtext
               :outlined="false"
               :solo="false"
               auto-grow
@@ -59,7 +59,6 @@
 <script>
 import { sortBy } from 'lodash'
 import ApiForm from '@/components/form/api/ApiForm.vue'
-import ApiTextarea from '@/components/form/api/ApiTextarea.vue'
 import TiptapEditor from '@/components/form/tiptap/TiptapEditor.vue'
 import { dateLong } from '@/common/helpers/dateHelperUTCFormatted.js'
 import CategoryChip from '@/components/story/CategoryChip.vue'
@@ -70,7 +69,6 @@ export default {
     CategoryChip,
     TiptapEditor,
     ApiForm,
-    ApiTextarea,
   },
   props: {
     day: { type: Object, required: true },
