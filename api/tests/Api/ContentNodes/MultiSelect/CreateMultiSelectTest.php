@@ -19,7 +19,7 @@ class CreateMultiSelectTest extends CreateContentNodeTestCase {
 
     public function testCreateMultiSelectCopiesOptionsFromContentType() {
         // when
-        $response = $this->create($this->getExampleWritePayload());
+        $this->create($this->getExampleWritePayload());
 
         // then
         $this->assertResponseStatusCodeSame(201);
