@@ -1,5 +1,5 @@
 # build stage
-FROM node:18.9.0@sha256:160597f779997f4b941b43efe0cd6e7dd5b93b3230638928e8c1d297500409b5 AS build-stage
+FROM node:18.9.0@sha256:8a45c95c328809e7e10e8c9ed5bf8374620d62e52de1df7ef8e71a9596ec8676 AS build-stage
 
 COPY common /common
 
@@ -13,7 +13,7 @@ ENV NODE_OPTIONS=--openssl-legacy-provider
 RUN npm run build
 
 # production stage
-FROM node:18.9.0@sha256:160597f779997f4b941b43efe0cd6e7dd5b93b3230638928e8c1d297500409b5 AS production-stage
+FROM node:18.9.0@sha256:8a45c95c328809e7e10e8c9ed5bf8374620d62e52de1df7ef8e71a9596ec8676 AS production-stage
 WORKDIR /app
 
 COPY --from=build-stage /app/node_modules ./node_modules
