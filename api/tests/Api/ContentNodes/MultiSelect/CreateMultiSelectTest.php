@@ -37,6 +37,25 @@ class CreateMultiSelectTest extends CreateContentNodeTestCase {
         ]);
     }
 
+    public function testCreateDoesNotAcceptOptions() {
+        $this->create($this->getExampleWritePayload([
+            'data' => [
+                'options' => [
+                ],
+            ],
+        ]));
+
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                0 => [
+                    'propertyPath' => 'data',
+                    'message' => 'This value should be null.',
+                ],
+            ],
+        ]);
+    }
+
     protected function getExampleWritePayload($attributes = [], $except = []) {
         return parent::getExampleWritePayload(
             array_merge([
