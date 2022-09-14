@@ -31,7 +31,7 @@
 <script src="/environment.js" lang="application/javascript"></script>
 <script>
   if ('environment' in window) {
-    const missingKeys = [
+    const requiredKeys = [
       'API_ROOT_URL',
       'COOKIE_PREFIX',
       'PRINT_SERVER',
@@ -42,8 +42,8 @@
       'VERSION_LINK_TEMPLATE',
     ].filter(key => !Object.keys(window.environment).includes(key))
 
-    if (missingKeys.length > 0) {
-      console.error(`Missing key(s): "${missingKeys.join(',')}" in frontend/public/environment.js
+    if (requiredKeys.length > 0) {
+      console.error(`Missing key(s): "${requiredKeys.join(',')}" in frontend/public/environment.js
   You can look up example values in frontend/public/environment.dist`)
     }
   }
