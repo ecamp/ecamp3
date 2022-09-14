@@ -2,7 +2,7 @@
 Displays responsibles of a scheduleEntry as avatars
 -->
 <template>
-  <div>
+  <div class="ec-schedule-entry-responsibles">
     <user-avatar
       v-for="ar in sortActivityResponsibles(
         scheduleEntry.activity().activityResponsibles().items
@@ -10,7 +10,6 @@ Displays responsibles of a scheduleEntry as avatars
       :key="ar._meta.self"
       :camp-collaboration="ar.campCollaboration()"
       :size="avatarSize"
-      style="margin: 2px"
     />
   </div>
 </template>
@@ -45,3 +44,16 @@ export default {
   },
 }
 </script>
+
+<style lang="scss">
+.ec-schedule-entry-responsibles {
+  display: inline-flex;
+  gap: 2px;
+  margin-left: auto;
+  margin-top: auto;
+
+  @media #{map-get($display-breakpoints, 'xs-only')} {
+    padding: 1px;
+  }
+}
+</style>
