@@ -5,6 +5,7 @@ namespace App\Entity\ContentNode;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Entity\ContentNode;
+use App\Entity\SupportsContentNodeChildren;
 use App\Repository\ColumnLayoutRepository;
 use App\Validator\AssertJsonSchema;
 use App\Validator\ColumnLayout\AssertColumWidthsSumTo12;
@@ -40,7 +41,7 @@ use Symfony\Component\Validator\Constraints as Assert;
     normalizationContext: ['groups' => ['read']],
 )]
 #[ORM\Entity(repositoryClass: ColumnLayoutRepository::class)]
-class ColumnLayout extends ContentNode {
+class ColumnLayout extends ContentNode implements SupportsContentNodeChildren {
     public const JSON_SCHEMA = [
         'type' => 'object',
         'additionalProperties' => false,
