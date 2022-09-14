@@ -1,6 +1,6 @@
 <template>
   <v-avatar :size="size" :color="color">
-    <span class="white--text font-weight-medium" :style="style">{{ initials }}</span>
+    <span class="white--text" :style="style">{{ initials }}</span>
   </v-avatar>
 </template>
 <script>
@@ -39,9 +39,9 @@ export default {
     style() {
       return {
         fontSize: this.size / 2.5 + 'px',
-        fontWeight: 400,
-        letterSpacing: '1px',
-        marginRight: '-1.5px',
+        fontWeight: this.size >= 40 ? 400 : 600,
+        letterSpacing: '.1em',
+        marginRight: '-.125em',
       }
     },
   },
