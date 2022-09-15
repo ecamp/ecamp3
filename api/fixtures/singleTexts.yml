@@ -6,4 +6,4 @@ App\Entity\ContentNode\SingleText:
     position: 1
     instanceName: <word()>
     contentType: '@contentTypeNotes'
-    text: <word()>
+    data: { text: <word()> }

@@ -47,7 +47,7 @@ Admin screen of a camp: Displays details & periods of a single camp and allows t
                             {{ scheduleEntry.activity().title }}
                             <v-spacer />
                             <user-avatar
-                              v-for="ar in sortCampCollaborations(
+                              v-for="ar in sortActivityResponsibles(
                                 scheduleEntry.activity().activityResponsibles().items
                               )"
                               :key="ar._meta.self"
@@ -110,6 +110,8 @@ import {
   dateLong,
   hourShort,
 } from '@/common/helpers/dateHelperUTCFormatted.js'
+import { sortBy } from 'lodash'
+import campCollaborationDisplayName from '@/common/helpers/campCollaborationDisplayName.js'
 
 export default {
   name: 'Dashboard',
@@ -179,13 +181,18 @@ export default {
     showScheduleEntry(scheduleEntry) {
       const authUser = this.$auth.user()
       const activityResponsibles = scheduleEntry.activity().activityResponsibles().items
-      return activityResponsibles.some(
-        (ar) => ar.campCollaboration().user().id === authUser.id
-      )
+      return activityResponsibles.some((activityResponsible) => {
+        const campCollaboration = activityResponsible.campCollaboration()
+        return (
+          !campCollaboration._meta.loading &&
+          typeof campCollaboration.user === 'function' &&
+          campCollaboration.user().id === authUser.id
+        )
+      })
     },
-    sortCampCollaborations(campCollaborations) {
-      return campCollaborations.sort(
-        (a, b) => parseInt(a.user().id, 16) - parseInt(b.user().id, 16)
+    sortActivityResponsibles(activityResponsibles) {
+      return sortBy(activityResponsibles, (activityResponsible) =>
+        campCollaborationDisplayName(activityResponsible.campCollaboration(), null, false)
       )
     },
   },

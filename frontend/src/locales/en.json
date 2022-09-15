@@ -162,9 +162,17 @@
         "deactivate": "Deactivate",
         "resendEmail": "Resend email"
       },
+      "collaboratorListItemDeactivate": {
+        "deactivate": "Deactivate",
+        "title": "Deactivate collaborator",
+        "warningText": "Do you want to deactivate '{name}'?"
+      },
       "inactiveCampCollaboratorListItem": {
         "inviteAgain": "Invite again",
         "delete": "Do you really want to remove this collaborator from the camp?"
+      },
+      "materialCreateItem": {
+        "campSettingsButton": "Settings"
       },
       "periodMaterialLists": {
         "addNewItem": "Add new item"
@@ -430,16 +438,33 @@
         "title": "Material",
         "groupByList": "Group by material list"
       },
-      "navigationCamp": {
-        "admin": "Admin",
-        "camp": "Camp",
-        "campIsLoading": "Camp is loading",
-        "material": "Materials",
-        "print": "Print",
-        "program": "Program",
-        "story": "Story",
-        "tasks": "Tasks",
-        "team": "Team"
+      "navigation": {
+        "desktop": {
+          "navTopbar": {
+            "admin": "Admin",
+            "campIsLoading": "Camp is loading",
+            "material": "Materials",
+            "print": "Print",
+            "program": "Program",
+            "story": "Story",
+            "team": "Team"
+          }
+        },
+        "mobile": {
+          "navBottombar": {
+            "material": "Materials",
+            "more": "More",
+            "program": "Program",
+            "story": "Story"
+          },
+          "navSidebar": {
+            "itemCampAdmin": "Camp settings",
+            "itemCamps": "My Camps",
+            "itemClose": "Close menu",
+            "itemCollaborators": "Team",
+            "itemPrinting": "PDF / Print"
+          }
+        }
       },
       "print": {
         "title": "Print preview",

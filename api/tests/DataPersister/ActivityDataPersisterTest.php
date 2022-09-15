@@ -9,6 +9,9 @@ use App\Entity\Camp;
 use App\Entity\Category;
 use App\Entity\ContentNode\ColumnLayout;
 use App\Entity\ContentType;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\EntityRepository;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -17,9 +20,11 @@ use PHPUnit\Framework\TestCase;
 class ActivityDataPersisterTest extends TestCase {
     private ActivityDataPersister $dataPersister;
     private Activity $activity;
+    private MockObject|EntityManagerInterface $em;
 
     protected function setUp(): void {
         $dataPersisterObservable = $this->createMock(DataPersisterObservable::class);
+        $this->em = $this->createMock(EntityManagerInterface::class);
 
         $this->activity = new Activity();
         $this->activity->category = new Category();
@@ -27,13 +32,19 @@ class ActivityDataPersisterTest extends TestCase {
         $camp = $this->createMock(Camp::class);
         $this->activity->category->camp = $camp;
 
+        $contentType = new ContentType();
+        $contentType->name = 'ColumnLayout';
+
         $categoryRoot = new ColumnLayout();
         $categoryRoot->instanceName = 'category root';
-        $categoryRoot->contentType = new ContentType();
-        $categoryRoot->contentType->name = 'ColumnLayout';
+        $categoryRoot->contentType = $contentType;
         $this->activity->category->setRootContentNode($categoryRoot);
 
-        $this->dataPersister = new ActivityDataPersister($dataPersisterObservable);
+        $repository = $this->createMock(EntityRepository::class);
+        $this->em->method('getRepository')->willReturn($repository);
+        $repository->method('findOneBy')->willReturn($contentType);
+
+        $this->dataPersister = new ActivityDataPersister($dataPersisterObservable, $this->em);
     }
 
     public function testSetsCampFromCategory() {

@@ -29,7 +29,7 @@ trait FiltersByContentNode {
          *   If owner is an Activity --> cn_activity.category is not null
          *   If owner is a Category --> cn_category.rootContentNode = root.id is a match
          */
-        $queryBuilder->join(Category::class, 'cn_category', Join::WITH, 'cn_category.id = cn_activity.category OR cn_category.rootContentNode = root.id');
+        $queryBuilder->join(Category::class, 'cn_category', Join::WITH, 'cn_category = cn_activity.category OR cn_category.rootContentNode = root');
 
         // load owning camp via category
         $queryBuilder->join('cn_category.camp', 'cn_camp');

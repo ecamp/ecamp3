@@ -12,7 +12,7 @@ function Storycontext(props) {
       ) : (
         <View />
       )}
-      <RichText richText={storycontext.text} />
+      <RichText richText={storycontext.data.text} />
     </View>
   )
 }

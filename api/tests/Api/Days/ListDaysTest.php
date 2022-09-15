@@ -45,7 +45,7 @@ class ListDaysTest extends ECampApiTestCase {
 
     public function testListDaysFilteredByPeriodIsAllowedForCollaborator() {
         $period = static::$fixtures['period1'];
-        $response = static::createClientWithCredentials()->request('GET', '/days?period=/periods/'.$period->getId());
+        $response = static::createClientWithCredentials()->request('GET', '/days?period=%2Fperiods%2F'.$period->getId());
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
             'totalItems' => 3,
@@ -66,7 +66,7 @@ class ListDaysTest extends ECampApiTestCase {
     public function testListDaysFilteredByPeriodIsDeniedForUnrelatedUser() {
         $period = static::$fixtures['period1'];
         $response = static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->getUsername()])
-            ->request('GET', '/days?period=/periods/'.$period->getId())
+            ->request('GET', '/days?period=%2Fperiods%2F'.$period->getId())
         ;
 
         $this->assertResponseStatusCodeSame(200);
@@ -78,7 +78,7 @@ class ListDaysTest extends ECampApiTestCase {
     public function testListDaysFilteredByPeriodIsDeniedForInactiveCollaborator() {
         $period = static::$fixtures['period1'];
         $response = static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->getUsername()])
-            ->request('GET', '/days?period=/periods/'.$period->getId())
+            ->request('GET', '/days?period=%2Fperiods%2F'.$period->getId())
         ;
 
         $this->assertResponseStatusCodeSame(200);
@@ -103,7 +103,7 @@ class ListDaysTest extends ECampApiTestCase {
 
     public function testListDaysFilteredByPeriodInCampPrototypeIsAllowedForCollaborator() {
         $period = static::$fixtures['period1campPrototype'];
-        $response = static::createClientWithCredentials()->request('GET', '/days?period=/periods/'.$period->getId());
+        $response = static::createClientWithCredentials()->request('GET', '/days?period=%2Fperiods%2F'.$period->getId());
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
             'totalItems' => 1,

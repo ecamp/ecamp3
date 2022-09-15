@@ -1,5 +1,6 @@
 window.environment = {
   API_ROOT_URL: 'http://localhost:3001',
+  COOKIE_PREFIX: 'localhost_',
   PRINT_SERVER: 'http://localhost:3003',
   SENTRY_FRONTEND_DSN: null,
   SHARED_COOKIE_DOMAIN: 'localhost',

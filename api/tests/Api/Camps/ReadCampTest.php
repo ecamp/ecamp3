@@ -60,11 +60,11 @@ class ReadCampTest extends ECampApiTestCase {
             'isPrototype' => false,
             '_links' => [
                 'creator' => ['href' => $this->getIriFor('user2member')],
-                'activities' => ['href' => '/activities?camp=/camps/'.$camp->getId()],
-                'materialLists' => ['href' => '/material_lists?camp=/camps/'.$camp->getId()],
-                'campCollaborations' => ['href' => '/camp_collaborations?camp=/camps/'.$camp->getId()],
-                'periods' => ['href' => '/periods?camp=/camps/'.$camp->getId()],
-                'categories' => ['href' => '/categories?camp=/camps/'.$camp->getId()],
+                'activities' => ['href' => '/activities?camp=%2Fcamps%2F'.$camp->getId()],
+                'materialLists' => ['href' => '/material_lists?camp=%2Fcamps%2F'.$camp->getId()],
+                'campCollaborations' => ['href' => '/camp_collaborations?camp=%2Fcamps%2F'.$camp->getId()],
+                'periods' => ['href' => '/periods?camp=%2Fcamps%2F'.$camp->getId()],
+                'categories' => ['href' => '/categories?camp=%2Fcamps%2F'.$camp->getId()],
             ],
         ]);
     }
@@ -88,11 +88,11 @@ class ReadCampTest extends ECampApiTestCase {
             'isPrototype' => false,
             '_links' => [
                 'creator' => ['href' => $this->getIriFor('user2member')],
-                'activities' => ['href' => '/activities?camp=/camps/'.$camp->getId()],
-                'materialLists' => ['href' => '/material_lists?camp=/camps/'.$camp->getId()],
-                'campCollaborations' => ['href' => '/camp_collaborations?camp=/camps/'.$camp->getId()],
-                'periods' => ['href' => '/periods?camp=/camps/'.$camp->getId()],
-                'categories' => ['href' => '/categories?camp=/camps/'.$camp->getId()],
+                'activities' => ['href' => '/activities?camp=%2Fcamps%2F'.$camp->getId()],
+                'materialLists' => ['href' => '/material_lists?camp=%2Fcamps%2F'.$camp->getId()],
+                'campCollaborations' => ['href' => '/camp_collaborations?camp=%2Fcamps%2F'.$camp->getId()],
+                'periods' => ['href' => '/periods?camp=%2Fcamps%2F'.$camp->getId()],
+                'categories' => ['href' => '/categories?camp=%2Fcamps%2F'.$camp->getId()],
             ],
         ]);
     }
@@ -115,11 +115,11 @@ class ReadCampTest extends ECampApiTestCase {
             'isPrototype' => false,
             '_links' => [
                 'creator' => ['href' => $this->getIriFor('user2member')],
-                'activities' => ['href' => '/activities?camp=/camps/'.$camp->getId()],
-                'materialLists' => ['href' => '/material_lists?camp=/camps/'.$camp->getId()],
-                'campCollaborations' => ['href' => '/camp_collaborations?camp=/camps/'.$camp->getId()],
-                'periods' => ['href' => '/periods?camp=/camps/'.$camp->getId()],
-                'categories' => ['href' => '/categories?camp=/camps/'.$camp->getId()],
+                'activities' => ['href' => '/activities?camp=%2Fcamps%2F'.$camp->getId()],
+                'materialLists' => ['href' => '/material_lists?camp=%2Fcamps%2F'.$camp->getId()],
+                'campCollaborations' => ['href' => '/camp_collaborations?camp=%2Fcamps%2F'.$camp->getId()],
+                'periods' => ['href' => '/periods?camp=%2Fcamps%2F'.$camp->getId()],
+                'categories' => ['href' => '/categories?camp=%2Fcamps%2F'.$camp->getId()],
             ],
         ]);
     }

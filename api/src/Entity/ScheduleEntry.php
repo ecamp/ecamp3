@@ -41,7 +41,10 @@ use Symfony\Component\Validator\Constraints as Assert;
             'normalization_context' => self::ITEM_NORMALIZATION_CONTEXT,
             'security' => 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)',
         ],
-        'delete' => ['security' => 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)'],
+        'delete' => [
+            'security' => 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)',
+            'validation_groups' => ['delete', 'ScheduleEntry:delete'],
+        ],
     ],
     denormalizationContext: ['groups' => ['write']],
     normalizationContext: ['groups' => ['read']],
@@ -77,6 +80,7 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
      *
      * @internal Do not set the {@see Activity} directly on the ScheduleEntry. Instead use {@see Activity::addScheduleEntry()}
      */
+    #[Assert\Valid(groups: ['ScheduleEntry:delete'])]
     #[ApiProperty(example: '/activities/1a2b3c4d')]
     #[Groups(['read', 'create'])]
     #[ORM\ManyToOne(targetEntity: Activity::class, inversedBy: 'scheduleEntries')]

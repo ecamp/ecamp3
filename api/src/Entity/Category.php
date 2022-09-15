@@ -7,6 +7,7 @@ use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Core\Util\ClassInfoTrait;
+use App\InputFilter;
 use App\Repository\CategoryRepository;
 use App\Util\EntityMap;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -105,6 +106,10 @@ class Category extends BaseEntity implements BelongsToCampInterface, CopyFromPro
      * An abbreviated name of the category, for display in tight spaces, often together with the day and
      * schedule entry number, e.g. LS 3.a, where LS is the category's short name.
      */
+    #[InputFilter\CleanHTML]
+    #[InputFilter\Trim]
+    #[Assert\NotBlank]
+    #[Assert\Length(max: 16)]
     #[ApiProperty(example: 'LS')]
     #[Groups(['read', 'write'])]
     #[ORM\Column(type: 'text', nullable: false)]
@@ -113,6 +118,10 @@ class Category extends BaseEntity implements BelongsToCampInterface, CopyFromPro
     /**
      * The full name of the category.
      */
+    #[InputFilter\CleanHTML]
+    #[InputFilter\Trim]
+    #[Assert\NotBlank]
+    #[Assert\Length(max: 32)]
     #[ApiProperty(example: 'Lagersport')]
     #[Groups(['read', 'write'])]
     #[ORM\Column(type: 'text', nullable: false)]
@@ -258,9 +267,9 @@ class Category extends BaseEntity implements BelongsToCampInterface, CopyFromPro
 
     private function getRomanNum($num): string {
         $table = [
-            'M' => 1000,  'CM' => 900,  'D' => 500,   'CD' => 400,
-            'C' => 100,   'XC' => 90,   'L' => 50,    'XL' => 40,
-            'X' => 10,    'IX' => 9,    'V' => 5,     'IV' => 4,
+            'M' => 1000, 'CM' => 900, 'D' => 500, 'CD' => 400,
+            'C' => 100, 'XC' => 90, 'L' => 50, 'XL' => 40,
+            'X' => 10, 'IX' => 9, 'V' => 5, 'IV' => 4,
             'I' => 1,
         ];
         $romanNum = '';

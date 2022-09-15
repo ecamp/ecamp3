@@ -23,6 +23,7 @@ security:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
+            stateless: true
             # lazy is necessary to make unauthenticated endpoints
             # (such as user create) work without JWT token
             lazy: true

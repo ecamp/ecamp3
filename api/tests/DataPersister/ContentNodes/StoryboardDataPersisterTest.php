@@ -6,6 +6,7 @@ use App\DataPersister\ContentNode\StoryboardDataPersister;
 use App\DataPersister\Util\DataPersisterObservable;
 use App\Entity\ContentNode\ColumnLayout;
 use App\Entity\ContentNode\Storyboard;
+use App\InputFilter\CleanHTMLFilter;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -15,18 +16,20 @@ use PHPUnit\Framework\TestCase;
 class StoryboardDataPersisterTest extends TestCase {
     private StoryboardDataPersister $dataPersister;
     private MockObject|DataPersisterObservable $dataPersisterObservable;
+    private MockObject|CleanHTMLFilter $cleanHTMLFilter;
     private ColumnLayout $root;
     private Storyboard $contentNode;
 
     protected function setUp(): void {
         $this->dataPersisterObservable = $this->createMock(DataPersisterObservable::class);
+        $this->cleanHTMLFilter = $this->createMock(CleanHTMLFilter::class);
         $this->contentNode = new Storyboard();
 
         $this->root = new ColumnLayout();
         $this->contentNode->parent = new ColumnLayout();
         $this->contentNode->parent->root = $this->root;
 
-        $this->dataPersister = new StoryboardDataPersister($this->dataPersisterObservable);
+        $this->dataPersister = new StoryboardDataPersister($this->dataPersisterObservable, $this->cleanHTMLFilter);
     }
 
     public function testDoesNotSupportNonStoryboard() {

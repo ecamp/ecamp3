@@ -4,6 +4,11 @@
   </div>
 </template>
 <script>
+import userColor from '@/../common/helpers/userColor.js'
+import campCollaborationColor from '@/../common/helpers/campCollaborationColor.js'
+import userInitials from '@/../common/helpers/userInitials.js'
+import campCollaborationInitials from '@/../common/helpers/campCollaborationInitials.js'
+
 export default {
   props: {
     size: { type: Number, required: false, default: 48 },
@@ -14,53 +19,21 @@ export default {
     isLoading() {
       return (this.user || this.campCollaboration)._meta.loading
     },
-    objectId() {
-      if (this.isLoading) return null
-      if (this.user) {
-        return this.user.id
+    color() {
+      if (this.isLoading) {
+        return 'rgba(0,0,0,0)'
       }
-      if (this.campCollaboration) {
-        if (typeof this.campCollaboration.user === 'function') {
-          return this.campCollaboration.user().id
-        }
-        return this.campCollaboration.id
-      }
-      return undefined
+      return this.user
+        ? userColor(this.user)
+        : campCollaborationColor(this.campCollaboration)
     },
-    objectText() {
+    initials() {
       if (this.isLoading) {
         return ''
       }
-      if (this.user) {
-        return this.user.displayName
-      }
-      if (this.campCollaboration) {
-        if (typeof this.campCollaboration.user === 'function') {
-          return this.campCollaboration.user().displayName
-        }
-        return this.campCollaboration.inviteEmail.split('@', 2).shift()
-      }
-      return ''
-    },
-    color() {
-      if (!this.isLoading) {
-        const h = parseInt(this.objectId, 16) % 360
-        return `hsl(${h}, 100%, 30%)`
-      } else {
-        return 'rgba(0, 0, 0, 0)'
-      }
-    },
-    initials() {
-      const displayName = this.objectText
-      let items = displayName.split(' ', 2)
-      if (items.length === 1) {
-        items = items.shift().split(/[,._-]/, 2)
-      }
-      if (items.length === 1) {
-        return displayName.substr(0, 2)
-      } else {
-        return items[0].substr(0, 1) + items[1].substr(0, 1)
-      }
+      return this.user
+        ? userInitials(this.user)
+        : campCollaborationInitials(this.campCollaboration)
     },
     avatarStyle() {
       return {

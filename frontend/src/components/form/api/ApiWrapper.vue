@@ -28,10 +28,10 @@ Wrapper component for form components to save data back to API
 </template>
 
 <script>
-import { debounce } from 'lodash'
+import { debounce, set, get } from 'lodash'
 import { apiPropsMixin } from '@/mixins/apiPropsMixin.js'
 import { ValidationObserver } from 'vee-validate'
-import serverErrorToString from '@/helpers/serverErrorToString.js'
+import { serverErrorToString } from '@/helpers/serverError.js'
 
 export default {
   name: 'ApiWrapper',
@@ -102,7 +102,7 @@ export default {
         // return value from API unless `value` is set explicitly
       } else {
         const resource = this.api.get(this.uri)
-        let val = resource[this.fieldname]
+        let val = get(resource, this.fieldname)
 
         // resource is loaded, but val is still undefined (=doesn't exist)
         if (val === undefined) {
@@ -221,7 +221,11 @@ export default {
       this.resetErrors()
       this.isSaving = true
 
-      this.api.patch(this.uri, { [this.fieldname]: this.localValue }).then(
+      // construct payload (nested path allowed)
+      const payload = {}
+      set(payload, this.fieldname, this.localValue)
+
+      this.api.patch(this.uri, payload).then(
         () => {
           this.isSaving = false
           this.showIconSuccess = true

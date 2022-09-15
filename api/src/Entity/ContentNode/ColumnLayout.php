@@ -6,16 +6,14 @@ use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Entity\ContentNode;
 use App\Repository\ColumnLayoutRepository;
-use App\Util\EntityMap;
 use App\Validator\AssertJsonSchema;
 use App\Validator\ColumnLayout\AssertColumWidthsSumTo12;
 use App\Validator\ColumnLayout\AssertNoOrphanChildren;
-use App\Validator\ColumnLayout\ColumnLayoutPatchGroupSequence;
-use App\Validator\ColumnLayout\ColumnLayoutPostGroupSequence;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ApiResource(
     routePrefix: '/content_node',
@@ -26,7 +24,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
         'post' => [
             'denormalization_context' => ['groups' => ['write', 'create']],
             'security_post_denormalize' => 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)',
-            'validation_groups' => ColumnLayoutPostGroupSequence::class,
+            'validation_groups' => ['Default', 'create'],
         ],
     ],
     itemOperations: [
@@ -34,7 +32,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
         'patch' => [
             'denormalization_context' => ['groups' => ['write', 'update']],
             'security' => 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)',
-            'validation_groups' => ColumnLayoutPatchGroupSequence::class,
+            'validation_groups' => ['Default', 'update'],
         ],
         'delete' => ['security' => '(is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)) and object.parent !== null'], // disallow delete when contentNode is a root node
     ],
@@ -42,38 +40,47 @@ use Symfony\Component\Serializer\Annotation\Groups;
     normalizationContext: ['groups' => ['read']],
 )]
 #[ORM\Entity(repositoryClass: ColumnLayoutRepository::class)]
-#[ORM\Table(name: 'content_node_columnlayout')]
 class ColumnLayout extends ContentNode {
-    public const COLUMNS_SCHEMA = [
-        'type' => 'array',
-        'items' => [
-            'type' => 'object',
-            'additionalProperties' => false,
-            'required' => ['slot', 'width'],
-            'properties' => [
-                'slot' => [
-                    'type' => 'string',
-                    'pattern' => '^[1-9][0-9]*$',
-                ],
-                'width' => [
-                    'type' => 'integer',
-                    'minimum' => 3,
-                    'maximum' => 12,
+    public const JSON_SCHEMA = [
+        'type' => 'object',
+        'additionalProperties' => false,
+        'required' => ['columns'],
+        'properties' => [
+            'columns' => [
+                'type' => 'array',
+                'items' => [
+                    'type' => 'object',
+                    'additionalProperties' => false,
+                    'required' => ['slot', 'width'],
+                    'properties' => [
+                        'slot' => [
+                            'type' => 'string',
+                            'pattern' => '^[1-9][0-9]*$',
+                        ],
+                        'width' => [
+                            'type' => 'integer',
+                            'minimum' => 3,
+                            'maximum' => 12,
+                        ],
+                    ],
                 ],
             ],
         ],
     ];
 
     /**
-     * JSON configuration for columns.
+     * Holds the actual data of the content node
+     * (overridden from abstract class in order to add specific validation).
      */
-    #[ApiProperty(example: [['slot' => '1', 'width' => 12]])]
+    #[ApiProperty(example: ['columns' => [['slot' => '1', 'width' => 12]]])]
     #[Groups(['read', 'write'])]
-    #[AssertJsonSchema(schema: ColumnLayout::COLUMNS_SCHEMA, groups: ['columns_schema'])]
-    #[AssertColumWidthsSumTo12]
-    #[AssertNoOrphanChildren]
-    #[ORM\Column(type: 'json', nullable: true)]
-    public ?array $columns = [['slot' => '1', 'width' => 12]];
+    #[ORM\Column(type: 'json', nullable: true, options: ['jsonb' => true])]
+    #[Assert\Sequentially(constraints: [
+        new AssertJsonSchema(schema: self::JSON_SCHEMA),
+        new AssertColumWidthsSumTo12(),
+        new AssertNoOrphanChildren(),
+    ])]
+    public ?array $data = ['columns' => [['slot' => '1', 'width' => 12]]];
 
     /**
      * All content nodes that are part of this content node tree.
@@ -112,15 +119,5 @@ class ColumnLayout extends ContentNode {
         }
 
         return $this;
-    }
-
-    /**
-     * @param ColumnLayout $prototype
-     * @param EntityMap    $entityMap
-     */
-    public function copyFromPrototype($prototype, $entityMap): void {
-        parent::copyFromPrototype($prototype, $entityMap);
-
-        $this->columns = $prototype->columns;
     }
 }

@@ -42,7 +42,7 @@ class ListMaterialItemsTest extends ECampApiTestCase {
 
     public function testListMaterialItemsFilteredByMaterialListIsAllowedForCollaborator() {
         $materialList = static::$fixtures['materialList1'];
-        $response = static::createClientWithCredentials()->request('GET', '/material_items?materialList=/material_lists/'.$materialList->getId());
+        $response = static::createClientWithCredentials()->request('GET', '/material_items?materialList=%2Fmaterial_lists%2F'.$materialList->getId());
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
             'totalItems' => 2,
@@ -62,7 +62,7 @@ class ListMaterialItemsTest extends ECampApiTestCase {
     public function testListMaterialItemsFilteredByMaterialListIsDeniedForUnrelatedUser() {
         $materialList = static::$fixtures['materialList1'];
         $response = static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->getUsername()])
-            ->request('GET', '/material_items?materialList=/material_lists/'.$materialList->getId())
+            ->request('GET', '/material_items?materialList=%2Fmaterial_lists%2F'.$materialList->getId())
         ;
 
         $this->assertResponseStatusCodeSame(200);
@@ -74,7 +74,7 @@ class ListMaterialItemsTest extends ECampApiTestCase {
     public function testListMaterialItemsFilteredByMaterialListIsDeniedForInactiveCollaborator() {
         $materialList = static::$fixtures['materialList1'];
         $response = static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->getUsername()])
-            ->request('GET', '/material_items?materialList=/material_lists/'.$materialList->getId())
+            ->request('GET', '/material_items?materialList=%2Fmaterial_lists%2F'.$materialList->getId())
         ;
 
         $this->assertResponseStatusCodeSame(200);
@@ -85,7 +85,7 @@ class ListMaterialItemsTest extends ECampApiTestCase {
 
     public function testListMaterialItemsFilteredByMaterialListInCampPrototypeIsAllowedForUnrelatedUser() {
         $materialList = static::$fixtures['materialList1campPrototype'];
-        $response = static::createClientWithCredentials()->request('GET', '/material_items?materialList=/material_lists/'.$materialList->getId());
+        $response = static::createClientWithCredentials()->request('GET', '/material_items?materialList=%2Fmaterial_lists%2F'.$materialList->getId());
         $this->assertJsonContains([
             'totalItems' => 1,
             '_links' => [
@@ -102,7 +102,7 @@ class ListMaterialItemsTest extends ECampApiTestCase {
 
     public function testListMaterialItemsFilteredByPeriodIsAllowedForCollaborator() {
         $period = static::$fixtures['period1'];
-        $response = static::createClientWithCredentials()->request('GET', '/material_items?period=/periods/'.$period->getId());
+        $response = static::createClientWithCredentials()->request('GET', '/material_items?period=%2Fperiods%2F'.$period->getId());
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
             'totalItems' => 2,
@@ -122,7 +122,7 @@ class ListMaterialItemsTest extends ECampApiTestCase {
     public function testListMaterialItemsFilteredByPeriodIsDeniedForUnrelatedUser() {
         $period = static::$fixtures['period1'];
         $response = static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->getUsername()])
-            ->request('GET', '/material_items?period=/periods/'.$period->getId())
+            ->request('GET', '/material_items?period=%2Fperiods%2F'.$period->getId())
         ;
 
         $this->assertResponseStatusCodeSame(400);
@@ -136,7 +136,7 @@ class ListMaterialItemsTest extends ECampApiTestCase {
     public function testListMaterialItemsFilteredByPeriodIsDeniedForInactiveCollaborator() {
         $period = static::$fixtures['period1'];
         $response = static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->getUsername()])
-            ->request('GET', '/material_items?period=/periods/'.$period->getId())
+            ->request('GET', '/material_items?period=%2Fperiods%2F'.$period->getId())
         ;
 
         $this->assertResponseStatusCodeSame(400);
@@ -149,7 +149,7 @@ class ListMaterialItemsTest extends ECampApiTestCase {
 
     public function testListMaterialItemsFilteredByPeriodInCampPrototypeIsAllowedForUnrelatedUser() {
         $period = static::$fixtures['period1campPrototype'];
-        $response = static::createClientWithCredentials()->request('GET', '/material_items?period=/periods/'.$period->getId());
+        $response = static::createClientWithCredentials()->request('GET', '/material_items?period=%2Fperiods%2F'.$period->getId());
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
             'totalItems' => 1,

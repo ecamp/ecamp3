@@ -65,4 +65,24 @@ class CampDataPersister extends AbstractDataPersister {
 
         $this->em->flush();
     }
+
+    /**
+     * @param Camp $data
+     */
+    public function beforeRemove($data): ?BaseEntity {
+        // Deleting rootContentNode would normally be done automatically with orphanRemoval:true
+        // However, this currently runs into an error due to https://github.com/doctrine-extensions/DoctrineExtensions/issues/2510
+
+        foreach ($data->activities->getIterator() as $activity) {
+            $this->em->refresh($activity->rootContentNode);
+            $this->em->remove($activity->rootContentNode);
+        }
+
+        foreach ($data->categories->getIterator() as $category) {
+            $this->em->refresh($category->rootContentNode);
+            $this->em->remove($category->rootContentNode);
+        }
+
+        return null;
+    }
 }

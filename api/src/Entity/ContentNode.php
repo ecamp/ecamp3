@@ -11,6 +11,7 @@ use App\Doctrine\Filter\ContentNodePeriodFilter;
 use App\Entity\ContentNode\ColumnLayout;
 use App\Repository\ContentNodeRepository;
 use App\Util\EntityMap;
+use App\Util\JsonMergePatch;
 use App\Validator\ContentNode\AssertContentTypeCompatible;
 use App\Validator\ContentNode\AssertNoLoop;
 use App\Validator\ContentNode\AssertNoRootChange;
@@ -42,7 +43,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ApiFilter(SearchFilter::class, properties: ['contentType', 'root'])]
 #[ApiFilter(ContentNodePeriodFilter::class)]
 #[ORM\Entity(repositoryClass: ContentNodeRepository::class)]
-#[ORM\InheritanceType('JOINED')]
+#[ORM\InheritanceType('SINGLE_TABLE')]
 #[ORM\DiscriminatorColumn(name: 'strategy', type: 'string')]
 abstract class ContentNode extends BaseEntity implements BelongsToContentNodeTreeInterface, CopyFromPrototypeInterface {
     use ClassInfoTrait;
@@ -55,7 +56,7 @@ abstract class ContentNode extends BaseEntity implements BelongsToContentNodeTre
     #[Gedmo\SortableGroup] // this is needed to avoid that all root nodes are in the same sort group (parent:null, slot: '')
     #[Groups(['read'])]
     #[ORM\ManyToOne(targetEntity: ColumnLayout::class, inversedBy: 'rootDescendants')]
-    #[ORM\JoinColumn(nullable: true)] // TODO make not null in the DB using a migration, and get fixtures to run
+    #[ORM\JoinColumn(nullable: true, onDelete: 'CASCADE')] // TODO make not null in the DB using a migration, and get fixtures to run
     public ?ColumnLayout $root = null;
 
     /**
@@ -80,6 +81,14 @@ abstract class ContentNode extends BaseEntity implements BelongsToContentNodeTre
     #[Groups(['read'])]
     #[ORM\OneToMany(targetEntity: ContentNode::class, mappedBy: 'parent', cascade: ['persist'])]
     public Collection $children;
+
+    /**
+     * Holds the actual data of the content node.
+     */
+    #[ApiProperty(example: ['text' => 'dummy text'])]
+    #[Groups(['read', 'write'])]
+    #[ORM\Column(type: 'json', nullable: true, options: ['jsonb' => true])]
+    public ?array $data = null;
 
     /**
      * The name of the slot in the parent in which this content node resides. The valid slot names
@@ -150,6 +159,22 @@ abstract class ContentNode extends BaseEntity implements BelongsToContentNodeTre
         return $this->root;
     }
 
+    public function getData(): ?array {
+        return $this->data;
+    }
+
+    public function setData(?array $data) {
+        if (null === $this->data) {
+            $this->data = $data;
+
+            return;
+        }
+
+        if (null !== $data) {
+            $this->data = JsonMergePatch::mergePatch($this->data, $data);
+        }
+    }
+
     /**
      * @return ContentNode[]
      */
@@ -189,6 +214,7 @@ abstract class ContentNode extends BaseEntity implements BelongsToContentNodeTre
         $this->instanceName = $prototype->instanceName;
         $this->slot = $prototype->slot;
         $this->position = $prototype->position;
+        $this->data = $prototype->data; // At the moment this is fine here as we don't to change anything within the JSON for any of the content types. As soon as this changes, we need to remove this here and move to the specific entities
 
         // deep copy children
         foreach ($prototype->getChildren() as $childPrototype) {

@@ -19,6 +19,18 @@ class ReadUserTest extends ECampApiTestCase {
         ]);
     }
 
+    public function testGetUnknownUserReturns404ForAnonymousUser() {
+        static::createBasicClient()->request('GET', '/users/1');
+
+        $this->assertResponseStatusCodeSame(404);
+    }
+
+    public function testGetUnknownUserReturns404() {
+        static::createClientWithCredentials()->request('GET', '/users/1');
+
+        $this->assertResponseStatusCodeSame(404);
+    }
+
     public function testGetSingleUserIsAllowedForUnrelatedUser() {
         $user = static::$fixtures['user4unrelated'];
         static::createClientWithCredentials()->request('GET', '/users/'.$user->getId());

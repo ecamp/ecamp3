@@ -6,6 +6,7 @@ metadata:
     {{- include "app.labels" . | nindent 4 }}
 data:
   API_DOMAIN: {{ .Values.api.domain | quote }}
+  COOKIE_PREFIX: {{ include "api.cookiePrefix" . | quote }}
   SHARED_COOKIE_DOMAIN: {{ .Values.sharedCookieDomain | quote }}
   APP_ENV: {{ .Values.php.appEnv | quote }}
   APP_DEBUG: {{ .Values.php.appDebug | quote }}
@@ -19,6 +20,6 @@ data:
   {{- if .Values.php.sentryDsn }}
   SENTRY_API_DSN: {{ .Values.php.sentryDsn | quote }}
   {{- else }}
-  SENTRY_API_DSN: null,
+  SENTRY_API_DSN: {{ "" | quote }}
   {{- end }}
   FRONTEND_BASE_URL: {{ include "frontend.url" . | quote }}

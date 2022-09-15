@@ -67,7 +67,7 @@ final class OAuthDecorator implements OpenApiFactoryInterface {
         $pathItemCevidb = new Model\PathItem(
             ref: 'CeviDB OAuth',
             get: new Model\Operation(
-                operationId: 'oauthPbsmidataRedirect',
+                operationId: 'oauthCevidbRedirect',
                 tags: ['OAuth'],
                 parameters: [
                     new Model\Parameter(

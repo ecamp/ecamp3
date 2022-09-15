@@ -59,9 +59,9 @@ final class CircularReferenceDetectingHalItemNormalizer extends AbstractItemNorm
     /**
      * Detects if the configured circular reference limit is reached.
      *
-     * @throws CircularReferenceException
-     *
      * @return bool
+     *
+     * @throws CircularReferenceException
      */
     protected function isHalCircularReference(object $object, array &$context) {
         $objectHash = spl_object_hash($object);

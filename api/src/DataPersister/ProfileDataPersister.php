@@ -4,7 +4,6 @@ namespace App\DataPersister;
 
 use App\DataPersister\Util\AbstractDataPersister;
 use App\DataPersister\Util\DataPersisterObservable;
-use App\Entity\BaseEntity;
 use App\Entity\Profile;
 use App\Service\MailService;
 use App\Util\IdGenerator;
@@ -27,7 +26,10 @@ class ProfileDataPersister extends AbstractDataPersister {
         );
     }
 
-    public function beforeUpdate($data): BaseEntity {
+    /**
+     * @param Profile $data
+     */
+    public function beforeUpdate($data): Profile {
         /** @var Profile $data */
         if (isset($data->newEmail)) {
             $verificationKey = IdGenerator::generateRandomHexString(64);

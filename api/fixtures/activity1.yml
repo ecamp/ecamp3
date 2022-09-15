@@ -12,6 +12,11 @@ App\Entity\ScheduleEntry:
     activity: '@activity1'
     startOffset: 480
     endOffset: 540
+  scheduleEntry2:
+    period: '@period1'
+    activity: '@activity1'
+    startOffset: 1980
+    endOffset: 2040
 
 # Root node
 App\Entity\ContentNode\ColumnLayout:
@@ -20,6 +25,6 @@ App\Entity\ContentNode\ColumnLayout:
     parent: null
     slot: ''
     position: 0
-    columns: [{slot: '1', width: 6}, {slot: '2', width: 6}]
+    data: { columns: [{ slot: '1', width: 6 }, { slot: '2', width: 6 }] }
     instanceName: 'columnLayout1'
     contentType: '@contentTypeColumnLayout'

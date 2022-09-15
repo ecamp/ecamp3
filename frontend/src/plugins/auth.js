@@ -11,7 +11,7 @@ axios.interceptors.response.use(null, (error) => {
 })
 
 function getJWTPayloadFromCookie() {
-  const jwtHeaderAndPayload = Cookies.get('jwt_hp')
+  const jwtHeaderAndPayload = Cookies.get(headerAndPayloadCookieName())
   if (!jwtHeaderAndPayload) return ''
 
   return jwtHeaderAndPayload.split('.')[1]
@@ -110,11 +110,21 @@ async function loginCeviDB() {
 }
 
 export async function logout() {
-  Cookies.remove('jwt_hp', { domain: window.environment.SHARED_COOKIE_DOMAIN })
+  Cookies.remove(headerAndPayloadCookieName(), {
+    domain: window.environment.SHARED_COOKIE_DOMAIN,
+  })
   return router
     .push({ name: 'login' })
     .then(() => apiStore.purgeAll())
     .then(() => isLoggedIn())
+}
+
+function headerAndPayloadCookieName() {
+  return `${cookiePrefix()}jwt_hp`
+}
+
+function cookiePrefix() {
+  return window.environment.COOKIE_PREFIX || ''
 }
 
 export const auth = {

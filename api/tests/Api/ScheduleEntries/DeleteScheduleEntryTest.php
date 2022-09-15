@@ -84,4 +84,21 @@ class DeleteScheduleEntryTest extends ECampApiTestCase {
             'detail' => 'Access Denied.',
         ]);
     }
+
+    public function testDeleteScheduleEntryIsDeniedForLastScheduleEntryOfActivity() {
+        $scheduleEntry = static::$fixtures['scheduleEntry1period1camp1'];
+        static::createClientWithCredentials()->request('DELETE', '/schedule_entries/'.$scheduleEntry->getId());
+
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'title' => 'An error occurred',
+            'detail' => 'activity.scheduleEntries: An activity must have at least one ScheduleEntry',
+            'violations' => [
+                0 => [
+                    'propertyPath' => 'activity.scheduleEntries',
+                    'message' => 'An activity must have at least one ScheduleEntry',
+                ],
+            ],
+        ]);
+    }
 }

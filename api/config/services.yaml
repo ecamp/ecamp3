@@ -84,6 +84,9 @@ services:
 
     App\OpenApi\JwtDecorator:
         decorates: 'api_platform.openapi.factory'
+        arguments:
+            - '@.inner'
+            - '%env(COOKIE_PREFIX)%'
 
     App\OpenApi\OAuthDecorator:
         decorates: 'api_platform.openapi.factory'
@@ -102,14 +105,16 @@ services:
     App\Security\OAuth\GoogleAuthenticator:
         arguments:
             - '@lexik_jwt_authentication.handler.authentication_success'
+            - '%env(COOKIE_PREFIX)%'
 
     App\Security\OAuth\HitobitoAuthenticator:
         arguments:
             - '@lexik_jwt_authentication.handler.authentication_success'
+            - '%env(COOKIE_PREFIX)%'
 
     App\Security\ReCaptcha\ReCaptcha:
         arguments:
-            - "%env(RECAPTCHA_SECRET)%"
+            - '%env(RECAPTCHA_SECRET)%'
             - '@ReCaptcha\ReCaptcha'
         
     App\Service\MailService:

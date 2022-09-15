@@ -34,7 +34,7 @@ class ReadMaterialNodeTest extends ReadContentNodeTestCase {
         $this->assertJsonContains([
             '_links' => [
                 'materialItems' => [
-                    'href' => '/material_items?materialNode='.$this->getIriFor($contentNode),
+                    'href' => '/material_items?materialNode='.urlencode($this->getIriFor($contentNode)),
                 ],
             ],
             '_embedded' => [

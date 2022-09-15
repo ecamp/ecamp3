@@ -6,9 +6,7 @@ use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Entity\ContentNode;
 use App\Repository\StoryboardRepository;
-use App\Util\EntityMap;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use App\Validator\AssertJsonSchema;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
@@ -37,59 +35,65 @@ use Symfony\Component\Serializer\Annotation\Groups;
     normalizationContext: ['groups' => ['read']],
 )]
 #[ORM\Entity(repositoryClass: StoryboardRepository::class)]
-#[ORM\Table(name: 'content_node_storyboard')]
 class Storyboard extends ContentNode {
-    #[ApiProperty(readableLink: true, writableLink: false)]
-    #[Groups(['read'])]
-    #[ORM\OneToMany(targetEntity: StoryboardSection::class, mappedBy: 'storyboard', orphanRemoval: true, cascade: ['persist'])]
-    public Collection $sections;
+    public const JSON_SCHEMA = [
+        'type' => 'object',
+        'additionalProperties' => false,
+        'required' => ['sections'],
+        'properties' => [
+            'sections' => [
+                'anyOf' => [
+                    [
+                        'type' => 'object',
+                        'patternProperties' => [
+                            // uuid4 key
+                            '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}' => [
+                                '$ref' => '#/$defs/section',
+                            ],
+                        ],
+                        'additionalProperties' => false,
+                    ],
 
-    public function __construct() {
-        parent::__construct();
-        $this->sections = new ArrayCollection();
-
-        parent::__construct();
-    }
+                    // empty array
+                    // this is needed because PHP's json_decode cannot distinguish between empty array and empty object and will always decode [] to an empty array
+                    [
+                        'type' => 'array',
+                        'maxItems' => 0,
+                    ],
+                ],
+            ],
+        ],
+        '$defs' => [
+            'section' => [
+                'type' => 'object',
+                'additionalProperties' => false,
+                'required' => ['column1', 'column2', 'column3', 'position'],
+                'properties' => [
+                    'column1' => [
+                        'type' => 'string',
+                    ],
+                    'column2' => [
+                        'type' => 'string',
+                    ],
+                    'column3' => [
+                        'type' => 'string',
+                    ],
+                    'position' => [
+                        'type' => 'integer',
+                        'minimum' => 0,
+                    ],
+                ],
+            ],
+        ],
+    ];
 
     /**
-     * @return StoryboardSection[]
+     * Holds the actual data of the content node
+     * (overridden from abstract class in order to add specific validation).
      */
-    public function getSections(): array {
-        return $this->sections->getValues();
-    }
-
-    public function addSection(StoryboardSection $section): self {
-        if (!$this->sections->contains($section)) {
-            $this->sections->add($section);
-            $section->storyboard = $this;
-        }
-
-        return $this;
-    }
-
-    public function removeSection(StoryboardSection $section): self {
-        if ($this->sections->removeElement($section)) {
-            if ($section->storyboard === $this) {
-                $section->storyboard = null;
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @param Storyboard $prototype
-     * @param EntityMap  $entityMap
-     */
-    public function copyFromPrototype($prototype, $entityMap): void {
-        parent::copyFromPrototype($prototype, $entityMap);
-
-        // copy all storyboard sections
-        foreach ($prototype->sections as $sectionPrototype) {
-            $section = new StoryboardSection();
-            $this->addSection($section);
-
-            $section->copyFromPrototype($sectionPrototype, $entityMap);
-        }
-    }
+    #[ApiProperty(example: ['sections' => []])]
+    #[Groups(['read', 'write'])]
+    #[ORM\Column(type: 'json', nullable: true, options: ['jsonb' => true])]
+    #[AssertJsonSchema(schema: self::JSON_SCHEMA)]
+    public ?array $data = ['sections' => []];
 }

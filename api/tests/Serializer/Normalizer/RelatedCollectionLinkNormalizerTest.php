@@ -242,7 +242,7 @@ class RelatedCollectionLinkNormalizerTest extends TestCase {
         $this->assertEquals([
             'hello' => 'world',
             '_links' => [
-                'childrenWithSerializedName' => ['href' => '/children?parent=/parents/123'],
+                'childrenWithSerializedName' => ['href' => '/children?parent=%2Fparents%2F123'],
                 'firstBorn' => ['href' => '/children/1'],
             ],
         ], $result);
@@ -321,7 +321,7 @@ class RelatedCollectionLinkNormalizerTest extends TestCase {
         $resource = new ParentEntity();
         $this->mockDecoratedNormalizer();
         $this->mockNameConverter();
-        $this->mockAssociationMetadata(['mappedBy' => 'parent']);
+        $this->mockAssociationMetadata(['targetEntity' => null, 'mappedBy' => 'parent']);
         $this->mockRelatedResourceMetadata(['filters' => ['attribute_filter_something_something']]);
         $this->mockRelatedFilterDescription(['parent' => ['strategy' => 'exact']]);
         $this->mockGeneratedRoute();
@@ -361,7 +361,7 @@ class RelatedCollectionLinkNormalizerTest extends TestCase {
         $resource = new ParentEntity();
         $this->mockDecoratedNormalizer();
         $this->mockNameConverter();
-        $this->mockAssociationMetadata(['targetEntity' => Child::class]);
+        $this->mockAssociationMetadata(['targetEntity' => Child::class, 'mappedBy' => null, 'inversedBy' => null]);
         $this->mockRelatedResourceMetadata(['filters' => ['attribute_filter_something_something']]);
         $this->mockRelatedFilterDescription(['parent' => ['strategy' => 'exact']]);
         $this->mockGeneratedRoute();
@@ -444,7 +444,7 @@ class RelatedCollectionLinkNormalizerTest extends TestCase {
         $this->filterInstance->method('getDescription')->willReturn($description);
     }
 
-    protected function shouldReplaceChildrenWithLink($result, $link = '/children?parent=/parents/123') {
+    protected function shouldReplaceChildrenWithLink($result, $link = '/children?parent=%2Fparents%2F123') {
         $this->assertEquals([
             'hello' => 'world',
             '_links' => [
@@ -467,7 +467,7 @@ class RelatedCollectionLinkNormalizerTest extends TestCase {
         ], $result);
     }
 
-    protected function mockGeneratedRoute($generated = '/children?parent=/parents/123') {
+    protected function mockGeneratedRoute($generated = '/children?parent=%2Fparents%2F123') {
         $this->routerMock->method('generate')->willReturn($generated);
     }
 }

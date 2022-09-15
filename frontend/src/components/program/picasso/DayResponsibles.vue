@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import serverErrorToString from '@/helpers/serverErrorToString.js'
+import { serverErrorToString } from '@/helpers/serverError.js'
 import campCollaborationDisplayName from '@/common/helpers/campCollaborationDisplayName.js'
 
 export default {
@@ -76,7 +76,7 @@ export default {
           // following structure is defined by vuetify v-select items property
           return {
             value: value._meta.self,
-            text: campCollaborationDisplayName(value),
+            text: campCollaborationDisplayName(value, this.$tc.bind(this)),
           }
         })
     },

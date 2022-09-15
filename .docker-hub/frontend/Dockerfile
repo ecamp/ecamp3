@@ -1,5 +1,5 @@
 # build stage
-FROM node:lts-alpine@sha256:da32af0cf608622b1550678b2552b7d997def7d0ada00e0eca0166ed2ea42186 AS build-stage
+FROM node:lts-alpine@sha256:2c405ed42fc0fd6aacbe5730042640450e5ec030bada7617beac88f742b6997b AS build-stage
 
 COPY common /common
 
@@ -12,7 +12,7 @@ COPY frontend .
 RUN npm run build
 
 # production stage
-FROM nginx:stable-alpine@sha256:6e0d2cc5c4c8841ff6b8fc47a375f210e83069d038e1b8d1a6fd8f8ebe57ea2a as production-stage
+FROM nginx:stable-alpine@sha256:98a1e37840fdf90f57df595dae8e27a198278170323744e13464b7f3a927562e as production-stage
 RUN mkdir /app
 WORKDIR /app
 COPY --from=build-stage /app/dist /app

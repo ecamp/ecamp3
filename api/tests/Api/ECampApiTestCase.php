@@ -75,8 +75,8 @@ abstract class ECampApiTestCase extends ApiTestCase {
         $jwtSignature = substr($jwtToken, $lastPeriodPosition + 1);
 
         $cookies = $client->getCookieJar();
-        $cookies->set(new Cookie('jwt_hp', $jwtHeaderAndPayload, null, null, 'localhost', false, false, false, 'strict'));
-        $cookies->set(new Cookie('jwt_s', $jwtSignature, null, null, 'localhost', false, true, false, 'strict'));
+        $cookies->set(new Cookie('example_com_jwt_hp', $jwtHeaderAndPayload, null, null, 'localhost', false, false, false, 'strict'));
+        $cookies->set(new Cookie('example_com_jwt_s', $jwtSignature, null, null, 'localhost', false, true, false, 'strict'));
 
         return $client;
     }
@@ -165,7 +165,7 @@ abstract class ECampApiTestCase extends ApiTestCase {
 
         $entity ??= $this->defaultEntity;
 
-        static::createClientWithCredentials($credentials)->request('GET', "{$this->endpoint}/".$entity->getId());
+        return static::createClientWithCredentials($credentials)->request('GET', "{$this->endpoint}/".$entity->getId());
     }
 
     protected function list(?User $user = null) {
@@ -185,7 +185,7 @@ abstract class ECampApiTestCase extends ApiTestCase {
 
         $entity ??= $this->defaultEntity;
 
-        static::createClientWithCredentials($credentials)->request('DELETE', "{$this->endpoint}/".$entity->getId());
+        return static::createClientWithCredentials($credentials)->request('DELETE', "{$this->endpoint}/".$entity->getId());
     }
 
     protected function create(array $payload = null, ?User $user = null) {
@@ -268,5 +268,16 @@ abstract class ECampApiTestCase extends ApiTestCase {
                 ],
             ]);
         }
+    }
+
+    /**
+     * @param ResponseInterface $response     Response from API
+     * @param array             $propertyName property name which contains wrong JSON
+     */
+    protected function assertJsonSchemaError(ResponseInterface $response, string $propertyName) {
+        $responseArray = $response->toArray(false);
+
+        $this->assertEquals($propertyName, $responseArray['violations'][0]['propertyPath']);
+        $this->assertStringStartsWith('Provided JSON doesn\'t match required schema', $responseArray['violations'][0]['message']);
     }
 }

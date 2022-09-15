@@ -6,11 +6,14 @@ use App\DataPersister\Util\AbstractDataPersister;
 use App\DataPersister\Util\DataPersisterObservable;
 use App\Entity\Activity;
 use App\Entity\ContentNode\ColumnLayout;
+use App\Entity\ContentType;
 use App\Util\EntityMap;
+use Doctrine\ORM\EntityManagerInterface;
 
 class ActivityDataPersister extends AbstractDataPersister {
     public function __construct(
-        DataPersisterObservable $dataPersisterObservable
+        DataPersisterObservable $dataPersisterObservable,
+        private EntityManagerInterface $em,
     ) {
         parent::__construct(
             Activity::class,
@@ -33,6 +36,10 @@ class ActivityDataPersister extends AbstractDataPersister {
         }
 
         $rootContentNode = new ColumnLayout();
+        $rootContentNode->contentType = $this->em
+            ->getRepository(ContentType::class)
+            ->findOneBy(['name' => 'ColumnLayout'])
+        ;
         $data->setRootContentNode($rootContentNode);
 
         // deep copy from category root node
@@ -40,5 +47,17 @@ class ActivityDataPersister extends AbstractDataPersister {
         $rootContentNode->copyFromPrototype($data->category->rootContentNode, $entityMap);
 
         return $data;
+    }
+
+    /**
+     * @param Activity $data
+     */
+    public function beforeRemove($data): ?Activity {
+        // Deleting rootContentNode would normally be done automatically with orphanRemoval:true
+        // However, this currently runs into an error due to https://github.com/doctrine-extensions/DoctrineExtensions/issues/2510
+
+        $this->em->remove($data->rootContentNode);
+
+        return null;
     }
 }

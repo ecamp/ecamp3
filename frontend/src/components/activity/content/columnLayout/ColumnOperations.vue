@@ -36,11 +36,14 @@ export default {
   computed: {
     addingColumnEnabled() {
       return (
-        (this.contentNode.columns.length + 1) * this.minColumnWidth <= this.totalWidth
+        (this.contentNode.data.columns.length + 1) * this.minColumnWidth <=
+        this.totalWidth
       )
     },
     removingColumnEnabled() {
-      return this.contentNode.columns.length > 2 && this.removableColumn !== undefined
+      return (
+        this.contentNode.data.columns.length > 2 && this.removableColumn !== undefined
+      )
     },
     children() {
       return this.allContentNodes().items.filter((child) => {
@@ -54,7 +57,7 @@ export default {
       return groupBy(this.children, 'slot')
     },
     removableColumn() {
-      return this.contentNode.columns
+      return this.contentNode.data.columns
         .map((col) => col.slot)
         .reverse()
         .find((slot) => {
@@ -64,23 +67,23 @@ export default {
   },
   methods: {
     addColumn() {
-      let columns = cloneDeep(this.contentNode.columns)
+      let columns = cloneDeep(this.contentNode.data.columns)
       const newSlotName = calculateNextSlotName(columns.map((col) => col.slot))
       columns.push({
         slot: newSlotName,
         width: this.minColumnWidth,
       })
       columns = adjustColumnWidths(columns, this.minColumnWidth, this.totalWidth)
-      this.contentNode.$patch({ columns })
+      this.contentNode.$patch({ data: { columns } })
     },
     removeColumn() {
-      let columns = cloneDeep(this.contentNode.columns)
+      let columns = cloneDeep(this.contentNode.data.columns)
       columns = adjustColumnWidths(
         columns.filter((col) => col.slot !== this.removableColumn),
         this.minColumnWidth,
         this.totalWidth
       )
-      this.contentNode.$patch({ columns })
+      this.contentNode.$patch({ data: { columns } })
     },
   },
 }

@@ -11,18 +11,18 @@ use UnexpectedValueException;
 
 class Hitobito extends AbstractProvider {
     use BearerAuthorizationTrait;
-    protected $base_url;
+    protected string $baseUrl;
 
     public function getBaseAuthorizationUrl(): string {
-        return $this->base_url.'/oauth/authorize';
+        return $this->baseUrl.'/oauth/authorize';
     }
 
     public function getBaseAccessTokenUrl(array $params): string {
-        return $this->base_url.'/oauth/token';
+        return $this->baseUrl.'/oauth/token';
     }
 
     public function getResourceOwnerDetailsUrl(AccessToken $token): string {
-        return $this->base_url.'/oauth/profile';
+        return $this->baseUrl.'/oauth/profile';
     }
 
     protected function getDefaultScopes(): array {

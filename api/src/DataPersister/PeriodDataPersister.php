@@ -4,7 +4,6 @@ namespace App\DataPersister;
 
 use App\DataPersister\Util\AbstractDataPersister;
 use App\DataPersister\Util\DataPersisterObservable;
-use App\Entity\BaseEntity;
 use App\Entity\Day;
 use App\Entity\Period;
 use App\Util\DateTimeUtil;
@@ -21,13 +20,19 @@ class PeriodDataPersister extends AbstractDataPersister {
         );
     }
 
-    public function beforeCreate($data): BaseEntity {
+    /**
+     * @param Period $data
+     */
+    public function beforeCreate($data): Period {
         static::updateDaysAndScheduleEntries($data);
 
         return $data;
     }
 
-    public function beforeUpdate($data): BaseEntity {
+    /**
+     * @param Period $data
+     */
+    public function beforeUpdate($data): Period {
         $orig = $this->em->getUnitOfWork()->getOriginalEntityData($data);
 
         static::updateDaysAndScheduleEntries($data, $orig);
