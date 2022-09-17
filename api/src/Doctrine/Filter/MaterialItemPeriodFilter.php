@@ -14,7 +14,6 @@ use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\PropertyInfo\Type;
 use Symfony\Component\Serializer\NameConverter\NameConverterInterface;
 
@@ -24,12 +23,11 @@ final class MaterialItemPeriodFilter extends AbstractFilter {
     public function __construct(
         private IriConverterInterface $iriConverter,
         ManagerRegistry $managerRegistry,
-        ?RequestStack $requestStack = null,
         LoggerInterface $logger = null,
         array $properties = null,
         NameConverterInterface $nameConverter = null
     ) {
-        parent::__construct($managerRegistry, $requestStack, $logger, $properties, $nameConverter);
+        parent::__construct($managerRegistry, $logger, $properties, $nameConverter);
     }
 
     // This function is only used to hook in documentation generators (supported by Swagger and Hydra)
