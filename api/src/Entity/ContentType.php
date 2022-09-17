@@ -2,10 +2,12 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Core\Annotation\ApiFilter;
-use ApiPlatform\Core\Annotation\ApiProperty;
-use ApiPlatform\Core\Annotation\ApiResource;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Metadata\ApiProperty;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -17,11 +19,13 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * available slots and jsonConfig settings.
  */
 #[ApiResource(
-    collectionOperations: ['get'],
-    itemOperations: ['get'],
-    normalizationContext: ['groups' => ['read']],
+    operations: [
+        new Get(),
+        new GetCollection(),
+    ],
+    normalizationContext: ['groups' => ['read']]
 )]
-#[ApiFilter(SearchFilter::class, properties: ['categories'])]
+#[ApiFilter(filterClass: SearchFilter::class, properties: ['categories'])]
 #[ORM\Entity]
 class ContentType extends BaseEntity {
     /**

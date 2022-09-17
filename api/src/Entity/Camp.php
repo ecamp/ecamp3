@@ -2,10 +2,15 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Core\Annotation\ApiFilter;
-use ApiPlatform\Core\Annotation\ApiProperty;
-use ApiPlatform\Core\Annotation\ApiResource;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Metadata\ApiProperty;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Post;
 use App\InputFilter;
 use App\Repository\CampRepository;
 use App\Util\EntityMap;
@@ -22,33 +27,35 @@ use Symfony\Component\Validator\Constraints as Assert;
  * distributed across multiple time periods.
  */
 #[ApiResource(
-    collectionOperations: [
-        'get' => ['security' => 'is_authenticated()'],
-        'post' => [
-            'security' => 'is_authenticated()',
-            'input_formats' => ['jsonld', 'jsonapi', 'json'],
-            'validation_groups' => ['Default', 'create'],
-            'denormalization_context' => ['groups' => ['write', 'create']],
-            'normalization_context' => self::ITEM_NORMALIZATION_CONTEXT,
-        ],
-    ],
-    itemOperations: [
-        'get' => [
-            'security' => 'is_granted("CAMP_COLLABORATOR", object) or is_granted("CAMP_IS_PROTOTYPE", object)',
-            'normalization_context' => self::ITEM_NORMALIZATION_CONTEXT,
-        ],
-        'patch' => [
-            'security' => 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)',
-            'denormalization_context' => ['groups' => ['write', 'update']],
-            'normalization_context' => self::ITEM_NORMALIZATION_CONTEXT,
-        ],
-        'delete' => ['security' => 'object.owner == user'],
+    operations: [
+        new Get(
+            security: 'is_granted("CAMP_COLLABORATOR", object) or is_granted("CAMP_IS_PROTOTYPE", object)',
+            normalizationContext: self::ITEM_NORMALIZATION_CONTEXT,
+        ),
+        new Patch(
+            security: 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)',
+            denormalizationContext: ['groups' => ['write', 'update']],
+            normalizationContext: self::ITEM_NORMALIZATION_CONTEXT,
+        ),
+        new Delete(
+            security: 'object.owner == user'
+        ),
+        new GetCollection(
+            security: 'is_authenticated()'
+        ),
+        new Post(
+            security: 'is_authenticated()',
+            inputFormats: ['jsonld', 'jsonapi', 'json'],
+            validationContext: ['groups' => ['Default', 'create']],
+            denormalizationContext: ['groups' => ['write', 'create']],
+            normalizationContext: self::ITEM_NORMALIZATION_CONTEXT,
+        ),
     ],
     denormalizationContext: ['groups' => ['write']],
-    normalizationContext: ['groups' => ['read']],
-    forceEager: false
+    forceEager: false,
+    normalizationContext: ['groups' => ['read']]
 )]
-#[ApiFilter(SearchFilter::class, properties: ['isPrototype'])]
+#[ApiFilter(filterClass: SearchFilter::class, properties: ['isPrototype'])]
 #[ORM\Entity(repositoryClass: CampRepository::class)]
 #[ORM\Index(columns: ['isPrototype'])]
 class Camp extends BaseEntity implements BelongsToCampInterface, CopyFromPrototypeInterface {

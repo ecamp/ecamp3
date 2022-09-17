@@ -2,34 +2,32 @@
 
 namespace App\DTO;
 
-use ApiPlatform\Core\Annotation\ApiProperty;
-use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Metadata\ApiProperty;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Post;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ApiResource(
-    collectionOperations: [
-        'post' => [
-            'security' => 'true',
-            'path' => '',
-            'status' => 204,
-            'denormalization_context' => ['groups' => ['create']],
-            'normalization_context' => ['groups' => ['read']],
-            'openapi_context' => [
-                'summary' => 'Request Password-Reset-Mail',
-                'description' => 'Password-Reset-Link will be sent to the given email',
-            ],
-        ],
-    ],
-    itemOperations: [
-        'get' => [
-            'security' => 'true',
-            'path' => '/{id}',
-        ],
-        'patch' => [
-            'security' => 'true',
-            'path' => '/{id}',
-            'denormalization_context' => ['groups' => ['update']],
-        ],
+    operations: [
+        new Get(
+            security: 'true',
+            uriTemplate: '/{id}'
+        ),
+        new Patch(
+            security: 'true',
+            uriTemplate: '/{id}',
+            denormalizationContext: ['groups' => ['update']]
+        ),
+        new Post(
+            security: 'true',
+            uriTemplate: '',
+            status: 204,
+            denormalizationContext: ['groups' => ['create']],
+            normalizationContext: ['groups' => ['read']],
+            openapiContext: ['summary' => 'Request Password-Reset-Mail', 'description' => 'Password-Reset-Link will be sent to the given email']
+        ),
     ],
     routePrefix: '/auth/reset_password'
 )]

@@ -2,10 +2,14 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Core\Annotation\ApiFilter;
-use ApiPlatform\Core\Annotation\ApiProperty;
-use ApiPlatform\Core\Annotation\ApiResource;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Metadata\ApiProperty;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Post;
 use App\Doctrine\Filter\ExpressionDateTimeFilter;
 use App\Repository\ScheduleEntryRepository;
 use App\Util\DateTimeUtil;
@@ -23,34 +27,34 @@ use Symfony\Component\Validator\Constraints as Assert;
  * is specified as an offset in minutes from the period's start time.
  */
 #[ApiResource(
-    collectionOperations: [
-        'get' => ['security' => 'is_authenticated()'],
-        'post' => [
-            'denormalization_context' => ['groups' => ['write', 'create']],
-            'normalization_context' => self::ITEM_NORMALIZATION_CONTEXT,
-            'security_post_denormalize' => 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)',
-            'validation_groups' => ScheduleEntryPostGroupSequence::class,
-        ],
-    ],
-    itemOperations: [
-        'get' => [
-            'normalization_context' => self::ITEM_NORMALIZATION_CONTEXT,
-            'security' => 'is_granted("CAMP_COLLABORATOR", object) or is_granted("CAMP_IS_PROTOTYPE", object)',
-        ],
-        'patch' => [
-            'normalization_context' => self::ITEM_NORMALIZATION_CONTEXT,
-            'security' => 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)',
-        ],
-        'delete' => [
-            'security' => 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)',
-            'validation_groups' => ['delete', 'ScheduleEntry:delete'],
-        ],
+    operations: [
+        new Get(
+            normalizationContext: self::ITEM_NORMALIZATION_CONTEXT,
+            security: 'is_granted("CAMP_COLLABORATOR", object) or is_granted("CAMP_IS_PROTOTYPE", object)'
+        ),
+        new Patch(
+            normalizationContext: self::ITEM_NORMALIZATION_CONTEXT,
+            security: 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)'
+        ),
+        new Delete(
+            security: 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)',
+            validationContext: ['groups' => ['delete', 'ScheduleEntry:delete']]
+        ),
+        new GetCollection(
+            security: 'is_authenticated()'
+        ),
+        new Post(
+            denormalizationContext: ['groups' => ['write', 'create']],
+            normalizationContext: self::ITEM_NORMALIZATION_CONTEXT,
+            securityPostDenormalize: 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)',
+            validationContext: ['groups' => ScheduleEntryPostGroupSequence::class]
+        ),
     ],
     denormalizationContext: ['groups' => ['write']],
-    normalizationContext: ['groups' => ['read']],
+    normalizationContext: ['groups' => ['read']]
 )]
-#[ApiFilter(SearchFilter::class, properties: ['period', 'activity'])]
-#[ApiFilter(ExpressionDateTimeFilter::class, properties: [
+#[ApiFilter(filterClass: SearchFilter::class, properties: ['period', 'activity'])]
+#[ApiFilter(filterClass: ExpressionDateTimeFilter::class, properties: [
     'start' => 'DATE_ADD({period.start}, {}.startOffset, \'minute\')',
     'end' => 'DATE_ADD({period.start}, {}.endOffset, \'minute\')',
 ])]

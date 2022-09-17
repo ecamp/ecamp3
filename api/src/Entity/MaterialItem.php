@@ -2,10 +2,14 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Core\Annotation\ApiFilter;
-use ApiPlatform\Core\Annotation\ApiProperty;
-use ApiPlatform\Core\Annotation\ApiResource;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Metadata\ApiProperty;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Post;
 use App\Doctrine\Filter\MaterialItemPeriodFilter;
 use App\Entity\ContentNode\MaterialNode;
 use App\Repository\MaterialItemRepository;
@@ -20,23 +24,29 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * A physical item that is needed for carrying out a programme or camp.
  */
 #[ApiResource(
-    collectionOperations: [
-        'get' => ['security' => 'is_authenticated()'],
-        'post' => ['security_post_denormalize' => 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)'],
-    ],
-    itemOperations: [
-        'get' => ['security' => 'is_granted("CAMP_COLLABORATOR", object) or is_granted("CAMP_IS_PROTOTYPE", object)'],
-        'patch' => [
-            'validation_groups' => MaterialItemUpdateGroupSequence::class,
-            'security' => 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)',
-        ],
-        'delete' => ['security' => 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)'],
+    operations: [
+        new Get(
+            security: 'is_granted("CAMP_COLLABORATOR", object) or is_granted("CAMP_IS_PROTOTYPE", object)'
+        ),
+        new Patch(
+            validationContext: ['groups' => MaterialItemUpdateGroupSequence::class],
+            security: 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)'
+        ),
+        new Delete(
+            security: 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)'
+        ),
+        new GetCollection(
+            security: 'is_authenticated()'
+        ),
+        new Post(
+            securityPostDenormalize: 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)'
+        ),
     ],
     denormalizationContext: ['groups' => ['write']],
-    normalizationContext: ['groups' => ['read']],
+    normalizationContext: ['groups' => ['read']]
 )]
-#[ApiFilter(SearchFilter::class, properties: ['materialList', 'materialNode'])]
-#[ApiFilter(MaterialItemPeriodFilter::class)]
+#[ApiFilter(filterClass: SearchFilter::class, properties: ['materialList', 'materialNode'])]
+#[ApiFilter(filterClass: MaterialItemPeriodFilter::class)]
 #[ORM\Entity(repositoryClass: MaterialItemRepository::class)]
 class MaterialItem extends BaseEntity implements BelongsToCampInterface, CopyFromPrototypeInterface {
     /**
@@ -68,7 +78,7 @@ class MaterialItem extends BaseEntity implements BelongsToCampInterface, CopyFro
     #[AssertEitherisNull(other: 'period')]
     #[ApiProperty(example: '/content_node/material_nodes/1a2b3c4d')]
     #[Groups(['read', 'write'])]
-    #[ORM\ManyToOne(targetEntity: 'App\Entity\ContentNode\MaterialNode', inversedBy: 'materialItems')]
+    #[ORM\ManyToOne(targetEntity: MaterialNode::class, inversedBy: 'materialItems')]
     #[ORM\JoinColumn(nullable: true, onDelete: 'CASCADE')]
     public ?MaterialNode $materialNode = null;
 

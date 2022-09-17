@@ -2,8 +2,13 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Core\Annotation\ApiProperty;
-use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Metadata\ApiProperty;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Post;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -19,30 +24,33 @@ use Symfony\Component\Validator\Constraints as Assert;
  * The properties available for all other eCamp users are here.
  */
 #[ApiResource(
-    collectionOperations: [
-        'get' => ['security' => 'false'],
-        'post' => [
-            'security' => 'true', // allow unauthenticated clients to create (register) users
-            'input_formats' => ['jsonld', 'jsonapi', 'json'],
-            'validation_groups' => ['Default', 'create'],
-            'normalization_context' => ['groups' => ['read', 'User:create']],
-            'denormalization_context' => ['groups' => ['write', 'create']],
-        ],
-    ],
-    itemOperations: [
-        self::ACTIVATE => [
-            'method' => 'PATCH',
-            'path' => 'users/{id}/activate.{_format}',
-            'denormalization_context' => ['groups' => ['activate']],
-        ],
-        'get' => ['security' => 'is_authenticated()'],
-        'patch' => [
-            'security' => 'object === user',
-        ],
-        'delete' => ['security' => 'false'],
+    operations: [
+        new Patch(
+            uriTemplate: 'users/{id}/activate.{_format}',
+            denormalizationContext: ['groups' => ['activate']]
+        ),
+        new Get(
+            security: 'is_authenticated()'
+        ),
+        new Patch(
+            security: 'object === user'
+        ),
+        new Delete(
+            security: 'false'
+        ),
+        new GetCollection(
+            security: 'false'
+        ),
+        new Post(
+            security: 'true', // allow unauthenticated clients to create (register) users
+            inputFormats: ['jsonld', 'jsonapi', 'json'],
+            validationContext: ['groups' => ['Default', 'create']],
+            normalizationContext: ['groups' => ['read', 'User:create']],
+            denormalizationContext: ['groups' => ['write', 'create']]
+        ),
     ],
     denormalizationContext: ['groups' => ['write']],
-    normalizationContext: ['groups' => ['read']],
+    normalizationContext: ['groups' => ['read']]
 )]
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
