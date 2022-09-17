@@ -2,6 +2,8 @@ api_platform:
     title: eCamp v3
     version: 1.0.0
     metadata_backward_compatibility_layer: false
+    eager_loading:
+        enabled: false # temporary disable until EagerLoadingExtension is working
     show_webby: false
     mapping:
         paths:

@@ -3,13 +3,14 @@
 namespace App\Metadata\Resource\Factory;
 
 use ApiPlatform\Api\IriConverterInterface;
-use ApiPlatform\Core\DataProvider\PaginationOptions;
-use ApiPlatform\Core\Exception\ResourceClassNotFoundException;
+use ApiPlatform\Api\UrlGeneratorInterface;
 use ApiPlatform\Exception\OperationNotFoundException;
+use ApiPlatform\Exception\ResourceClassNotFoundException;
 use ApiPlatform\Metadata\HttpOperation;
 use ApiPlatform\Metadata\Resource\Factory\ResourceMetadataCollectionFactoryInterface;
 use ApiPlatform\Metadata\Resource\Factory\ResourceNameCollectionFactoryInterface;
 use ApiPlatform\Metadata\Resource\ResourceMetadataCollection;
+use ApiPlatform\State\Pagination\PaginationOptions;
 use Psr\Container\ContainerInterface;
 
 class UriTemplateFactory {
@@ -56,8 +57,9 @@ class UriTemplateFactory {
      */
     public function createFromResourceClass(string $resourceClass): array {
         $resourceMetadataCollection = $this->resourceMetadataCollectionFactory->create($resourceClass);
+        $getCollectionOperation = $resourceMetadataCollection->getOperation(null, true, true);
 
-        $baseUri = $this->iriConverter->getIriFromResource($resourceClass);
+        $baseUri = $this->iriConverter->getIriFromResource($resourceClass, UrlGeneratorInterface::ABS_PATH, $getCollectionOperation);
         $idParameter = $this->getIdParameter($resourceMetadataCollection);
         $queryParameters = $this->getQueryParameters($resourceClass, $resourceMetadataCollection);
         $additionalPathParameter = $this->allowsActionParameter($resourceMetadataCollection) ? '{/action}' : '';
@@ -100,7 +102,7 @@ class UriTemplateFactory {
     protected function getFilterParameters(string $resourceClass, ResourceMetadataCollection $resourceMetadataCollection) {
         $parameters = [];
 
-        $resourceFilters = $resourceMetadataCollection->getOperation('get', true)->getFilters();
+        $resourceFilters = $resourceMetadataCollection->getOperation(null, true)->getFilters();
         foreach ($resourceFilters as $filterId) {
             if (!$filter = $this->filterLocator->get($filterId)) {
                 continue;

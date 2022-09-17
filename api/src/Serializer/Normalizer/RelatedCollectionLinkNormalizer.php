@@ -2,16 +2,15 @@
 
 namespace App\Serializer\Normalizer;
 
+use ApiPlatform\Api\FilterInterface;
 use ApiPlatform\Api\IriConverterInterface;
 use ApiPlatform\Api\UrlGeneratorInterface;
-use ApiPlatform\Core\Api\FilterInterface;
-use ApiPlatform\Core\Api\OperationType;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
-use ApiPlatform\Core\Bridge\Symfony\Routing\RouteNameResolverInterface;
-use ApiPlatform\Core\Exception\ResourceClassNotFoundException;
-use ApiPlatform\Core\Metadata\Resource\Factory\ResourceMetadataFactoryInterface;
-use ApiPlatform\Core\Util\ClassInfoTrait;
 use ApiPlatform\Doctrine\Common\PropertyHelperTrait;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Exception\ResourceClassNotFoundException;
+use ApiPlatform\Metadata\HttpOperation;
+use ApiPlatform\Metadata\Resource\Factory\ResourceMetadataCollectionFactoryInterface;
+use ApiPlatform\Util\ClassInfoTrait;
 use App\Entity\BaseEntity;
 use App\Metadata\Resource\Factory\UriTemplateFactory;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
@@ -85,7 +84,6 @@ class RelatedCollectionLinkNormalizer implements NormalizerInterface, Serializer
 
     public function __construct(
         private NormalizerInterface $decorated,
-        private RouteNameResolverInterface $routeNameResolver,
         private ServiceLocator $filterLocator,
         private NameConverterInterface $nameConverter,
         private UriTemplate $uriTemplate,
@@ -93,7 +91,7 @@ class RelatedCollectionLinkNormalizer implements NormalizerInterface, Serializer
         private RouterInterface $router,
         private IriConverterInterface $iriConverter,
         private ManagerRegistry $managerRegistry,
-        private ResourceMetadataFactoryInterface $resourceMetadataFactory,
+        private ResourceMetadataCollectionFactoryInterface $resourceMetadataFactory,
         private PropertyAccessorInterface $propertyAccessor
     ) {
     }
@@ -172,7 +170,14 @@ class RelatedCollectionLinkNormalizer implements NormalizerInterface, Serializer
             throw new UnsupportedRelationException('The resource '.$relatedResourceClass.' does not have a search filter for the relation '.$relatedFilterName.'.');
         }
 
-        return $this->router->generate($this->routeNameResolver->getRouteName($relatedResourceClass, OperationType::COLLECTION), [$relatedFilterName => urlencode($this->iriConverter->getIriFromResource($object))], UrlGeneratorInterface::ABS_PATH);
+        $resourceMetadata = $this->resourceMetadataFactory->create($relatedResourceClass);
+        $operation = $resourceMetadata->getOperation(null, true, true);
+
+        if (!$operation instanceof HttpOperation) {
+            throw new UnsupportedRelationException('The resource '.$relatedResourceClass.' does not implement GetCollection() operation.');
+        }
+
+        return $this->router->generate($operation->getName(), [$relatedFilterName => urlencode($this->iriConverter->getIriFromResource($object))], UrlGeneratorInterface::ABS_PATH);
     }
 
     protected function getRelatedCollectionLinkAnnotation(string $className, string $propertyName): ?RelatedCollectionLink {
@@ -224,7 +229,7 @@ class RelatedCollectionLinkNormalizer implements NormalizerInterface, Serializer
      */
     private function exactSearchFilterExists(string $resourceClass, mixed $propertyName): bool {
         $resourceMetadata = $this->resourceMetadataFactory->create($resourceClass);
-        $filterIds = $resourceMetadata->getAttribute('filters') ?? [];
+        $filterIds = $resourceMetadata->getOperation(null, true, true)->getFilters() ?? [];
 
         return 0 < count(array_filter($filterIds, function ($filterId) use ($resourceClass, $propertyName) {
             /** @var FilterInterface $filter */

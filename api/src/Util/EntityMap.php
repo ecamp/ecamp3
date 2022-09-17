@@ -2,7 +2,7 @@
 
 namespace App\Util;
 
-use ApiPlatform\Core\Util\ClassInfoTrait;
+use ApiPlatform\Util\ClassInfoTrait;
 use App\Entity\BaseEntity;
 
 class EntityMap {
