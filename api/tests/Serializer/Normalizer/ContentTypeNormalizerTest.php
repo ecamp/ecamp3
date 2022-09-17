@@ -2,7 +2,7 @@
 
 namespace App\Tests\Serializer\Normalizer;
 
-use ApiPlatform\Core\Api\IriConverterInterface;
+use ApiPlatform\Api\IriConverterInterface;
 use ApiPlatform\Core\Bridge\Symfony\Routing\RouteNameResolverInterface;
 use App\Entity\ContentType;
 use App\Metadata\Resource\Factory\UriTemplateFactory;

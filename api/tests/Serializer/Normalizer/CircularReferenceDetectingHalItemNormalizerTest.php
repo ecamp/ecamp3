@@ -2,8 +2,8 @@
 
 namespace App\Tests\Serializer\Normalizer;
 
-use ApiPlatform\Core\Api\IriConverterInterface;
-use ApiPlatform\Core\Api\ResourceClassResolverInterface;
+use ApiPlatform\Api\IriConverterInterface;
+use ApiPlatform\Api\ResourceClassResolverInterface;
 use ApiPlatform\Core\Metadata\Property\Factory\PropertyMetadataFactoryInterface;
 use ApiPlatform\Core\Metadata\Property\Factory\PropertyNameCollectionFactoryInterface;
 use App\Serializer\Normalizer\CircularReferenceDetectingHalItemNormalizer;
@@ -99,7 +99,7 @@ class CircularReferenceDetectingHalItemNormalizerTest extends TestCase {
             })
         ;
         $this->iriConverterMock
-            ->method('getIriFromItem')
+            ->method('getIriFromResource')
             ->willReturnCallback(fn ($object) => '/'.$object->id)
         ;
 

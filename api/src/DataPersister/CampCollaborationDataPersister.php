@@ -2,7 +2,7 @@
 
 namespace App\DataPersister;
 
-use ApiPlatform\Core\Validator\ValidatorInterface;
+use ApiPlatform\Validator\ValidatorInterface;
 use App\DataPersister\Util\AbstractDataPersister;
 use App\DataPersister\Util\CustomActionListener;
 use App\DataPersister\Util\DataPersisterObservable;

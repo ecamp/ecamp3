@@ -2,9 +2,9 @@
 
 namespace App\Tests\Metadata\Resource\Factory;
 
+use ApiPlatform\Api\IriConverterInterface;
 use ApiPlatform\Core\Action\NotFoundAction;
 use ApiPlatform\Core\Api\FilterInterface;
-use ApiPlatform\Core\Api\IriConverterInterface;
 use ApiPlatform\Core\DataProvider\PaginationOptions;
 use ApiPlatform\Core\Metadata\Resource\Factory\ResourceMetadataFactoryInterface;
 use ApiPlatform\Core\Metadata\Resource\Factory\ResourceNameCollectionFactoryInterface;
@@ -39,7 +39,7 @@ class UriTemplateFactoryTest extends TestCase {
 
         $this->resourceNameCollectionFactory->method('create')->willReturnCallback(fn () => $this->resourceNameCollection);
         $this->resourceMetadataFactory->method('create')->with('Dummy')->willReturnCallback(fn () => $this->resourceMetadata);
-        $this->iriConverter->method('getIriFromResourceClass')->willReturnCallback(function ($resourceClass) {
+        $this->iriConverter->method('getIriFromResource')->willReturnCallback(function ($resourceClass) {
             return '/'.lcfirst($resourceClass).'s';
         });
     }

@@ -2,9 +2,9 @@
 
 namespace App\Serializer\Normalizer;
 
+use ApiPlatform\Api\IriConverterInterface;
 use ApiPlatform\Api\UrlGeneratorInterface;
 use ApiPlatform\Core\Api\FilterInterface;
-use ApiPlatform\Core\Api\IriConverterInterface;
 use ApiPlatform\Core\Api\OperationType;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Core\Bridge\Symfony\Routing\RouteNameResolverInterface;
@@ -172,7 +172,7 @@ class RelatedCollectionLinkNormalizer implements NormalizerInterface, Serializer
             throw new UnsupportedRelationException('The resource '.$relatedResourceClass.' does not have a search filter for the relation '.$relatedFilterName.'.');
         }
 
-        return $this->router->generate($this->routeNameResolver->getRouteName($relatedResourceClass, OperationType::COLLECTION), [$relatedFilterName => urlencode($this->iriConverter->getIriFromItem($object))], UrlGeneratorInterface::ABS_PATH);
+        return $this->router->generate($this->routeNameResolver->getRouteName($relatedResourceClass, OperationType::COLLECTION), [$relatedFilterName => urlencode($this->iriConverter->getIriFromResource($object))], UrlGeneratorInterface::ABS_PATH);
     }
 
     protected function getRelatedCollectionLinkAnnotation(string $className, string $propertyName): ?RelatedCollectionLink {
@@ -209,7 +209,7 @@ class RelatedCollectionLinkNormalizer implements NormalizerInterface, Serializer
             $param = $param->format(\DateTime::W3C);
         }
         if ($param instanceof BaseEntity) {
-            $param = $this->iriConverter->getIriFromItem($param);
+            $param = $this->iriConverter->getIriFromResource($param);
         }
 
         return $param;

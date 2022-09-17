@@ -2,13 +2,14 @@
 
 namespace App\Metadata\Resource\Factory;
 
-use ApiPlatform\Core\Action\NotFoundAction;
-use ApiPlatform\Core\Api\IriConverterInterface;
+use ApiPlatform\Api\IriConverterInterface;
 use ApiPlatform\Core\DataProvider\PaginationOptions;
 use ApiPlatform\Core\Exception\ResourceClassNotFoundException;
-use ApiPlatform\Core\Metadata\Resource\Factory\ResourceMetadataFactoryInterface;
-use ApiPlatform\Core\Metadata\Resource\Factory\ResourceNameCollectionFactoryInterface;
-use ApiPlatform\Core\Metadata\Resource\ResourceMetadata;
+use ApiPlatform\Exception\OperationNotFoundException;
+use ApiPlatform\Metadata\HttpOperation;
+use ApiPlatform\Metadata\Resource\Factory\ResourceMetadataCollectionFactoryInterface;
+use ApiPlatform\Metadata\Resource\Factory\ResourceNameCollectionFactoryInterface;
+use ApiPlatform\Metadata\Resource\ResourceMetadataCollection;
 use Psr\Container\ContainerInterface;
 
 class UriTemplateFactory {
@@ -16,13 +17,13 @@ class UriTemplateFactory {
 
     public function __construct(
         private ContainerInterface $filterLocator,
-        private ResourceMetadataFactoryInterface $resourceMetadataFactory,
+        private ResourceMetadataCollectionFactoryInterface $resourceMetadataCollectionFactory,
         ResourceNameCollectionFactoryInterface $resourceNameCollectionFactory,
         private IriConverterInterface $iriConverter,
         private PaginationOptions $paginationOptions,
     ) {
         foreach ($resourceNameCollectionFactory->create() as $className) {
-            $shortName = $this->resourceMetadataFactory->create($className)->getShortName();
+            $shortName = $this->resourceMetadataCollectionFactory->create($className)->getOperation()->getShortName();
             $this->resourceNameMapping[lcfirst($shortName)] = $className;
         }
     }
@@ -54,12 +55,12 @@ class UriTemplateFactory {
      * @throws ResourceClassNotFoundException
      */
     public function createFromResourceClass(string $resourceClass): array {
-        $resourceMetadata = $this->resourceMetadataFactory->create($resourceClass);
+        $resourceMetadataCollection = $this->resourceMetadataCollectionFactory->create($resourceClass);
 
-        $baseUri = $this->iriConverter->getIriFromResourceClass($resourceClass);
-        $idParameter = $this->getIdParameter($resourceMetadata);
-        $queryParameters = $this->getQueryParameters($resourceClass, $resourceMetadata);
-        $additionalPathParameter = $this->allowsActionParameter($resourceMetadata) ? '{/action}' : '';
+        $baseUri = $this->iriConverter->getIriFromResource($resourceClass);
+        $idParameter = $this->getIdParameter($resourceMetadataCollection);
+        $queryParameters = $this->getQueryParameters($resourceClass, $resourceMetadataCollection);
+        $additionalPathParameter = $this->allowsActionParameter($resourceMetadataCollection) ? '{/action}' : '';
 
         return [
             $baseUri.$idParameter.$additionalPathParameter.$queryParameters,
@@ -71,9 +72,14 @@ class UriTemplateFactory {
     /**
      * Returns an optional /id URL parameter, if access to single items is allowed.
      */
-    protected function getIdParameter(ResourceMetadata $resourceMetadata): string {
-        $getSingleItemIsAllowed = array_key_exists('get', $resourceMetadata->getItemOperations())
-            && (NotFoundAction::class !== ($resourceMetadata->getItemOperations()['get']['controller'] ?? ''));
+    protected function getIdParameter(ResourceMetadataCollection $resourceMetadataCollection): string {
+        $getSingleItemIsAllowed = true;
+
+        try {
+            $resourceMetadataCollection->getOperation(null, false, true);
+        } catch (OperationNotFoundException) {
+            $getSingleItemIsAllowed = false;
+        }
 
         return $getSingleItemIsAllowed ? '{/id}' : '';
     }
@@ -81,8 +87,8 @@ class UriTemplateFactory {
     /**
      * Collects all the query parameters and combines them into an optional URI parameter.
      */
-    protected function getQueryParameters(string $resourceClass, ResourceMetadata $resourceMetadata): string {
-        $parameters = array_merge($this->getFilterParameters($resourceClass, $resourceMetadata), $this->getPaginationParameters($resourceMetadata));
+    protected function getQueryParameters(string $resourceClass, ResourceMetadataCollection $resourceMetadataCollection): string {
+        $parameters = array_merge($this->getFilterParameters($resourceClass, $resourceMetadataCollection), $this->getPaginationParameters($resourceMetadataCollection));
 
         return empty($parameters) ? '' : '{?'.implode(',', $parameters).'}';
     }
@@ -91,10 +97,10 @@ class UriTemplateFactory {
      * Gets parameters corresponding to enabled filters.
      * Based on API Platform's OpenApiFactory::getFilterParameters.
      */
-    protected function getFilterParameters(string $resourceClass, ResourceMetadata $resourceMetadata) {
+    protected function getFilterParameters(string $resourceClass, ResourceMetadataCollection $resourceMetadataCollection) {
         $parameters = [];
 
-        $resourceFilters = $resourceMetadata->getCollectionOperationAttribute('get', 'filters', [], true);
+        $resourceFilters = $resourceMetadataCollection->getOperation('get', true)->getFilters();
         foreach ($resourceFilters as $filterId) {
             if (!$filter = $this->filterLocator->get($filterId)) {
                 continue;
@@ -112,30 +118,31 @@ class UriTemplateFactory {
      * Gets parameters corresponding to enabled pagination parameters.
      * Based on API Platform's OpenApiFactory::getPaginationParameters.
      */
-    protected function getPaginationParameters(ResourceMetadata $resourceMetadata) {
+    protected function getPaginationParameters(ResourceMetadataCollection $resourceMetadataCollection) {
         if (!$this->paginationOptions->isPaginationEnabled()) {
             return [];
         }
 
         $parameters = [];
+        $operation = $resourceMetadataCollection->getOperation('get', true);
 
-        if ($resourceMetadata->getCollectionOperationAttribute('get', 'pagination_enabled', true, true)) {
+        if ($operation->getPaginationEnabled() ?? $this->paginationOptions->isPaginationEnabled()) {
             $parameters[] = $this->paginationOptions->getPaginationPageParameterName();
 
-            if ($resourceMetadata->getCollectionOperationAttribute('get', 'pagination_client_items_per_page', $this->paginationOptions->getClientItemsPerPage(), true)) {
+            if ($operation->getPaginationClientItemsPerPage() ?? $this->paginationOptions->getClientItemsPerPage()) {
                 $parameters[] = $this->paginationOptions->getItemsPerPageParameterName();
             }
         }
 
-        if ($resourceMetadata->getCollectionOperationAttribute('get', 'pagination_client_enabled', $this->paginationOptions->getPaginationClientEnabled(), true)) {
+        if ($operation->getPaginationClientEnabled() ?? $this->paginationOptions->getPaginationClientEnabled()) {
             $parameters[] = $this->paginationOptions->getPaginationClientEnabledParameterName();
         }
 
         return $parameters;
     }
 
-    protected function allowsActionParameter(ResourceMetadata $resourceMetadata): bool {
-        foreach ($resourceMetadata->getItemOperations() as $itemOperation) {
+    protected function allowsActionParameter(ResourceMetadataCollection $resourceMetadataCollection): bool {
+        foreach ($resourceMetadataCollection->getIterator()->current()->getOperations() as $operation) {
             /*
              * Matches:
              * {/inviteKey}/find
@@ -144,8 +151,10 @@ class UriTemplateFactory {
              * Does not match:
              * profiles{/id}
              */
-            if (preg_match('/^.*\\/?{.*}\\/.+$/', $itemOperation['path'] ?? '')) {
-                return true;
+            if ($operation instanceof HttpOperation) {
+                if (preg_match('/^.*\\/?{.*}\\/.+$/', $operation->getUriTemplate() ?? '')) {
+                    return true;
+                }
             }
         }
 

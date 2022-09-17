@@ -2,7 +2,7 @@
 
 namespace App\Tests\DataPersister;
 
-use ApiPlatform\Core\Validator\ValidatorInterface;
+use ApiPlatform\Validator\ValidatorInterface;
 use App\DataPersister\CampCollaborationDataPersister;
 use App\DataPersister\Util\DataPersisterObservable;
 use App\Entity\Camp;

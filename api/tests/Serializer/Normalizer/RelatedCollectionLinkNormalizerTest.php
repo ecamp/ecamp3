@@ -2,9 +2,9 @@
 
 namespace App\Tests\Serializer\Normalizer;
 
+use ApiPlatform\Api\IriConverterInterface;
 use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Api\FilterInterface;
-use ApiPlatform\Core\Api\IriConverterInterface;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\DateFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Core\Bridge\Symfony\Routing\RouteNameResolverInterface;

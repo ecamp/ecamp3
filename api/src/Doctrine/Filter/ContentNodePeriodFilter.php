@@ -2,7 +2,7 @@
 
 namespace App\Doctrine\Filter;
 
-use ApiPlatform\Core\Api\IriConverterInterface;
+use ApiPlatform\Api\IriConverterInterface;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\AbstractContextAwareFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Util\QueryNameGeneratorInterface;
 use App\Entity\Activity;
@@ -58,7 +58,7 @@ final class ContentNodePeriodFilter extends AbstractContextAwareFilter {
         }
 
         // load period from query parameter value
-        $period = $this->iriConverter->getItemfromIri($value);
+        $period = $this->iriConverter->getResourceFromIri($value);
 
         // generate alias to avoid interference with other filters
         $periodParameterName = $queryNameGenerator->generateParameterName($property);

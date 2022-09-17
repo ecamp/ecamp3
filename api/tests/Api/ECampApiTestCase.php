@@ -2,7 +2,7 @@
 
 namespace App\Tests\Api;
 
-use ApiPlatform\Core\Api\IriConverterInterface;
+use ApiPlatform\Api\IriConverterInterface;
 use ApiPlatform\Core\Api\OperationType;
 use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\ApiTestCase;
 use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\Client;
@@ -109,7 +109,7 @@ abstract class ECampApiTestCase extends ApiTestCase {
             $entityOrFixtureName = static::$fixtures[$entityOrFixtureName];
         }
 
-        return $this->getIriConverter()->getIriFromItem($entityOrFixtureName);
+        return $this->getIriConverter()->getIriFromResource($entityOrFixtureName);
     }
 
     protected function getSchemaFactory(): SchemaFactoryInterface {
