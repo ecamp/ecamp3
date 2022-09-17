@@ -64,7 +64,7 @@ class Day extends BaseEntity implements BelongsToCampInterface {
     /**
      * The list of people who have a whole-day responsibility on this day.
      */
-    #[ApiProperty(readableLink: false, writable: false, example: '["/day_responsibles/1a2b3c4d"]')]
+    #[ApiProperty(writable: false, example: '["/day_responsibles/1a2b3c4d"]')]
     #[Groups(['read'])]
     #[ORM\OneToMany(targetEntity: DayResponsible::class, mappedBy: 'day', orphanRemoval: true)]
     public Collection $dayResponsibles;
@@ -72,7 +72,7 @@ class Day extends BaseEntity implements BelongsToCampInterface {
     /**
      * The time period that this day belongs to.
      */
-    #[ApiProperty(readableLink: false, example: '/periods/1a2b3c4d')]
+    #[ApiProperty(example: '/periods/1a2b3c4d')]
     #[Groups(['read'])]
     #[ORM\ManyToOne(targetEntity: Period::class, inversedBy: 'days')]
     #[ORM\JoinColumn(nullable: false, onDelete: 'cascade')]
@@ -111,7 +111,7 @@ class Day extends BaseEntity implements BelongsToCampInterface {
      *
      * @return ScheduleEntry[]
      */
-    #[ApiProperty(readableLink: false, example: '/schedule_entries?period=%2Fperiods%2F1a2b3c4d&start%5Bstrictly_before%5D=2022-01-03T00%3A00%3A00%2B00%3A00&end%5Bafter%5D=2022-01-02T00%3A00%3A00%2B00%3A00')]
+    #[ApiProperty(example: '/schedule_entries?period=%2Fperiods%2F1a2b3c4d&start%5Bstrictly_before%5D=2022-01-03T00%3A00%3A00%2B00%3A00&end%5Bafter%5D=2022-01-02T00%3A00%3A00%2B00%3A00')]
     #[RelatedCollectionLink(ScheduleEntry::class, ['period' => 'period', 'start[strictly_before]' => 'end', 'end[after]' => 'start'])]
     #[Groups(['read'])]
     public function getScheduleEntries(): array {

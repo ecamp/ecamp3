@@ -4,12 +4,10 @@ namespace App\Serializer\Normalizer;
 
 use ApiPlatform\Api\IriConverterInterface;
 use ApiPlatform\Api\ResourceClassResolverInterface;
-use ApiPlatform\Core\DataProvider\ItemDataProviderInterface;
-use ApiPlatform\Core\Metadata\Property\Factory\PropertyMetadataFactoryInterface;
-use ApiPlatform\Core\Metadata\Property\Factory\PropertyNameCollectionFactoryInterface;
-use ApiPlatform\Core\Metadata\Resource\Factory\ResourceMetadataFactoryInterface;
-use ApiPlatform\Core\Security\ResourceAccessCheckerInterface;
-use ApiPlatform\Core\Serializer\AbstractItemNormalizer;
+use ApiPlatform\Metadata\Property\Factory\PropertyMetadataFactoryInterface;
+use ApiPlatform\Metadata\Property\Factory\PropertyNameCollectionFactoryInterface;
+use ApiPlatform\Serializer\AbstractItemNormalizer;
+use ApiPlatform\Symfony\Security\ResourceAccessCheckerInterface;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 use Symfony\Component\Serializer\Exception\CircularReferenceException;
 use Symfony\Component\Serializer\Mapping\Factory\ClassMetadataFactoryInterface;
@@ -25,11 +23,11 @@ final class CircularReferenceDetectingHalItemNormalizer extends AbstractItemNorm
      */
     protected const HAL_CIRCULAR_REFERENCE_LIMIT_COUNTERS = 'hal_circular_reference_limit_counters';
 
-    public function __construct(private NormalizerInterface $decorated, PropertyNameCollectionFactoryInterface $propertyNameCollectionFactory, PropertyMetadataFactoryInterface $propertyMetadataFactory, IriConverterInterface $iriConverter, ResourceClassResolverInterface $resourceClassResolver, PropertyAccessorInterface $propertyAccessor = null, NameConverterInterface $nameConverter = null, ClassMetadataFactoryInterface $classMetadataFactory = null, ItemDataProviderInterface $itemDataProvider = null, bool $allowPlainIdentifiers = false, array $defaultContext = [], iterable $dataTransformers = [], ResourceMetadataFactoryInterface $resourceMetadataFactory = null, ResourceAccessCheckerInterface $resourceAccessChecker = null) {
+    public function __construct(private NormalizerInterface $decorated, PropertyNameCollectionFactoryInterface $propertyNameCollectionFactory, PropertyMetadataFactoryInterface $propertyMetadataFactory, IriConverterInterface $iriConverter, ResourceClassResolverInterface $resourceClassResolver, PropertyAccessorInterface $propertyAccessor = null, NameConverterInterface $nameConverter = null, ClassMetadataFactoryInterface $classMetadataFactory = null, array $defaultContext = [], ResourceMetadataCollectionFactoryInterface $resourceMetadataCollectionFactory = null, ?ResourceAccessCheckerInterface $resourceAccessChecker = null) {
         $defaultContext[AbstractNormalizer::CIRCULAR_REFERENCE_HANDLER] = function ($object) {
             return ['_links' => ['self' => ['href' => $this->iriConverter->getIriFromResource($object)]]];
         };
-        parent::__construct($propertyNameCollectionFactory, $propertyMetadataFactory, $iriConverter, $resourceClassResolver, $propertyAccessor, $nameConverter, $classMetadataFactory, $itemDataProvider, $allowPlainIdentifiers, $defaultContext, $dataTransformers, $resourceMetadataFactory, $resourceAccessChecker);
+        parent::__construct($propertyNameCollectionFactory, $propertyMetadataFactory, $iriConverter, $resourceClassResolver, $propertyAccessor, $nameConverter, $classMetadataFactory, $defaultContext, $resourceMetadataCollectionFactory, $resourceAccessChecker);
     }
 
     /**

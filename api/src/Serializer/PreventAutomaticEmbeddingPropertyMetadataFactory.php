@@ -13,12 +13,12 @@ declare(strict_types=1);
 
 namespace App\Serializer;
 
-use ApiPlatform\Core\Metadata\Property\Factory\PropertyMetadataFactoryInterface;
-use ApiPlatform\Core\Metadata\Property\PropertyMetadata;
+use ApiPlatform\Metadata\ApiProperty;
+use ApiPlatform\Metadata\Property\Factory\PropertyMetadataFactoryInterface;
 
 /**
  * This is meant as a thin wrapper around
- * ApiPlatform\Core\Metadata\Property\Factory\SerializerPropertyMetadataFactory.
+ * ApiPlatform\Metadata\Property\Factory\SerializerPropertyMetadataFactory.
  * That class implements the automatic embedding logic based on serialization groups,
  * described in https://api-platform.com/docs/core/serialization/#embedding-relations.
  *
@@ -58,11 +58,10 @@ final class PreventAutomaticEmbeddingPropertyMetadataFactory implements Property
     /**
      * {@inheritdoc}
      */
-    public function create(string $resourceClass, string $property, array $options = []): PropertyMetadata {
+    public function create(string $resourceClass, string $property, array $options = []): ApiProperty {
         $propertyMetadata = $this->decorated->create($resourceClass, $property, $options);
 
-        return new PropertyMetadata(
-            $propertyMetadata->getType(),
+        return new ApiProperty(
             $propertyMetadata->getDescription(),
             $propertyMetadata->isReadable(),
             $propertyMetadata->isWritable(),
@@ -70,14 +69,23 @@ final class PreventAutomaticEmbeddingPropertyMetadataFactory implements Property
             null, // reset writableLink to null
             $propertyMetadata->isRequired(),
             $propertyMetadata->isIdentifier(),
-            $propertyMetadata->getIri(),
-            $propertyMetadata->getChildInherited(),
-            $propertyMetadata->getAttributes(),
-            $propertyMetadata->getSubresource(),
-            $propertyMetadata->isInitializable(),
             $propertyMetadata->getDefault(),
             $propertyMetadata->getExample(),
-            $propertyMetadata->getSchema()
+            $propertyMetadata->getDeprecationReason(),
+            $propertyMetadata->isFetchable(),
+            $propertyMetadata->getFetchEager(),
+            $propertyMetadata->getJsonldContext(),
+            $propertyMetadata->getOpenapiContext(),
+            $propertyMetadata->getJsonSchemaContext(),
+            $propertyMetadata->getPush(),
+            $propertyMetadata->getSecurity(),
+            $propertyMetadata->getSecurityPostDenormalize(),
+            $propertyMetadata->getTypes(),
+            $propertyMetadata->getBuiltinTypes(),
+            $propertyMetadata->getSchema(),
+            $propertyMetadata->isInitializable(),
+            $propertyMetadata->getIris(),
+            $propertyMetadata->getExtraProperties()
         );
     }
 }

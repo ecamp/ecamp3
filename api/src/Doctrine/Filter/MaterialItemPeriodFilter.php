@@ -3,8 +3,9 @@
 namespace App\Doctrine\Filter;
 
 use ApiPlatform\Api\IriConverterInterface;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\AbstractContextAwareFilter;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Util\QueryNameGeneratorInterface;
+use ApiPlatform\Doctrine\Orm\Filter\AbstractFilter;
+use ApiPlatform\Doctrine\Orm\Util\QueryNameGeneratorInterface;
+use ApiPlatform\Metadata\Operation;
 use App\Entity\Activity;
 use App\Entity\ContentNode\MaterialNode;
 use App\Entity\MaterialItem;
@@ -17,7 +18,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\PropertyInfo\Type;
 use Symfony\Component\Serializer\NameConverter\NameConverterInterface;
 
-final class MaterialItemPeriodFilter extends AbstractContextAwareFilter {
+final class MaterialItemPeriodFilter extends AbstractFilter {
     public const PERIOD_QUERY_NAME = 'period';
 
     public function __construct(
@@ -49,8 +50,9 @@ final class MaterialItemPeriodFilter extends AbstractContextAwareFilter {
         QueryBuilder $queryBuilder,
         QueryNameGeneratorInterface $queryNameGenerator,
         string $resourceClass,
-        string $operationName = null
-    ) {
+        Operation $operation = null,
+        array $context = []
+    ): void {
         if (MaterialItem::class !== $resourceClass) {
             throw new \Exception("MaterialItemPeriodFilter can only be applied to entities of type MaterialItem (received: {$resourceClass}).");
         }

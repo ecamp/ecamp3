@@ -3,12 +3,11 @@
 namespace App\Tests\Api;
 
 use ApiPlatform\Api\IriConverterInterface;
-use ApiPlatform\Core\Api\OperationType;
-use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\ApiTestCase;
-use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\Client;
-use ApiPlatform\Core\JsonSchema\Schema;
-use ApiPlatform\Core\JsonSchema\SchemaFactoryInterface;
-use ApiPlatform\Core\Metadata\Resource\Factory\ResourceMetadataFactoryInterface;
+use ApiPlatform\JsonSchema\Schema;
+use ApiPlatform\JsonSchema\SchemaFactoryInterface;
+use ApiPlatform\Metadata\Resource\Factory\ResourceMetadataCollectionFactoryInterface;
+use ApiPlatform\Symfony\Bundle\Test\ApiTestCase;
+use ApiPlatform\Symfony\Bundle\Test\Client;
 use App\Entity\BaseEntity;
 use App\Entity\Profile;
 use App\Entity\User;
@@ -32,7 +31,7 @@ abstract class ECampApiTestCase extends ApiTestCase {
     private ?string $token = null;
     private ?IriConverterInterface $iriConverter = null;
     private ?SchemaFactoryInterface $schemaFactory = null;
-    private ?ResourceMetadataFactoryInterface $resourceMetadataFactory = null;
+    private ?ResourceMetadataCollectionFactoryInterface $resourceMetadataFactory = null;
     private ?EntityManagerInterface $entityManager = null;
 
     /** @var string */
@@ -120,9 +119,9 @@ abstract class ECampApiTestCase extends ApiTestCase {
         return $this->schemaFactory;
     }
 
-    protected function getResourceMetadataFactory(): ResourceMetadataFactoryInterface {
+    protected function getResourceMetadataFactory(): ResourceMetadataCollectionFactoryInterface {
         if (null === $this->resourceMetadataFactory) {
-            $this->resourceMetadataFactory = static::getContainer()->get(ResourceMetadataFactoryInterface::class);
+            $this->resourceMetadataFactory = static::getContainer()->get(ResourceMetadataCollectionFactoryInterface::class);
         }
 
         return $this->resourceMetadataFactory;
@@ -137,7 +136,7 @@ abstract class ECampApiTestCase extends ApiTestCase {
     }
 
     protected function getExamplePayload(string $resourceClass, string $operationType, string $operationName, array $attributes = [], array $exceptExamples = [], array $exceptAttributes = []): array {
-        $schema = $this->getSchemaFactory()->buildSchema($resourceClass, 'json', 'get' === $operationName ? Schema::TYPE_OUTPUT : Schema::TYPE_INPUT, $operationType, $operationName);
+        $schema = $this->getSchemaFactory()->buildSchema($resourceClass, 'json', 'get' === $operationName ? Schema::TYPE_OUTPUT : Schema::TYPE_INPUT);
         preg_match('/\/([^\/]+)$/', $schema['$ref'] ?? '', $matches);
         $schemaName = $matches[1];
         $properties = $schema->getDefinitions()[$schemaName]['properties'] ?? [];
@@ -218,7 +217,7 @@ abstract class ECampApiTestCase extends ApiTestCase {
     protected function getExampleWritePayload($attributes = [], $except = []) {
         return $this->getExamplePayload(
             $this->entityClass,
-            OperationType::COLLECTION,
+            '',
             'post',
             $attributes,
             [],

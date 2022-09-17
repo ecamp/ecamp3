@@ -24,8 +24,8 @@ services:
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
 
-    App\DataPersister\Util\DataPersisterObservable:
-        arguments: [ '@api_platform.doctrine.orm.data_persister' ]
+    # App\DataPersister\Util\DataPersisterObservable:
+    #     arguments: [ '@api_platform.doctrine.orm.data_persister' ]
 
     App\Validator\MaterialItemUpdateGroupSequence:
         public: true
@@ -45,8 +45,8 @@ services:
         tags:
             - 'app.input_filter'
 
-    App\Metadata\Resource\Factory\GraphQLSecurityResourceMetadataFactory:
-        decorates: 'api_platform.metadata.resource.metadata_factory'
+    # App\Metadata\Resource\Factory\GraphQLSecurityResourceMetadataFactory:
+    #     decorates: 'api_platform.metadata.resource.metadata_factory'
 
     App\Serializer\Normalizer\RelatedCollectionLinkNormalizer:
         decorates: 'api_platform.hal.normalizer.item'
@@ -72,7 +72,7 @@ services:
         decorates: 'api_platform.serializer.context_builder'
 
     App\Serializer\PreventAutomaticEmbeddingPropertyMetadataFactory:
-        decorates: 'api_platform.metadata.property.metadata_factory.legacy'
+        decorates: 'api_platform.metadata.property.metadata_factory'
         # Priority should be 1 lower than the one of SerializerPropertyMetadataFactory, see
         # https://github.com/api-platform/core/blob/main/src/Bridge/Symfony/Bundle/Resources/config/metadata/metadata.xml#L65
         decoration_priority: 29
