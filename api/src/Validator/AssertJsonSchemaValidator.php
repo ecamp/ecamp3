@@ -26,7 +26,10 @@ class AssertJsonSchemaValidator extends ConstraintValidator {
             // objects to be represented as stdObjects
             $schemaChecker->in(json_decode(json_encode($value)));
         } catch (InvalidValue|Exception $exception) {
-            $this->context->buildViolation($constraint->message)->addViolation();
+            $this->context->buildViolation($constraint->message)
+                ->setParameter('{{ schemaError }}', $exception->getMessage())
+                ->addViolation()
+            ;
         }
     }
 }

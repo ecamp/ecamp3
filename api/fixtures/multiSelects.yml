@@ -6,26 +6,4 @@ App\Entity\ContentNode\MultiSelect:
     position: 1
     instanceName: <word()>
     contentType: '@contentTypeMultiSelect'
-
-App\Entity\ContentNode\MultiSelectOption:
-  multiSelectOption1:
-    multiSelect: '@multiSelect1'
-    translateKey: <word()>
-    checked: true
-    position: 1
-  multiSelectOption2:
-    multiSelect: '@multiSelect1'
-    translateKey: <word()>
-    checked: true
-    position: 0
-  multiSelectOption3:
-    multiSelect: '@multiSelect2'
-    translateKey: <word()>
-    checked: true
-    position: 0
-  multiSelectOptionCampUnrelated:
-    multiSelect: '@multiSelectCampUnrelated'
-    translateKey: <word()>
-    checked: true
-    position: 0
-
+    data: { options: { 'key1': { 'checked': true } } }

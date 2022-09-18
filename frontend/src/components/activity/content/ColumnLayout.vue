@@ -41,6 +41,7 @@ import { contentNodeMixin } from '@/mixins/contentNodeMixin.js'
 import ResizableColumn from '@/components/activity/content/columnLayout/ResizableColumn.vue'
 import DraggableContentNodes from '@/components/activity/DraggableContentNodes.vue'
 import ColumnOperations from '@/components/activity/content/columnLayout/ColumnOperations.vue'
+import idToColor from '@/common/helpers/idToColor.js'
 
 function cumulativeSumReducer(cumSum, nextElement) {
   cumSum.push(cumSum[cumSum.length - 1] + nextElement)
@@ -62,10 +63,10 @@ export default {
   },
   computed: {
     columns() {
-      return keyBy(this.contentNode.columns || [], 'slot')
+      return keyBy(this.contentNode.data.columns || [], 'slot')
     },
     numColumns() {
-      return this.contentNode.columns?.length || 0
+      return this.contentNode.data.columns?.length || 0
     },
     lastColumn() {
       const slots = Object.keys(this.columns)
@@ -91,8 +92,7 @@ export default {
       ])
     },
     color() {
-      const h = parseInt(this.contentNode.id, 16) % 360
-      return `hsl(${h}, 100%, 30%)`
+      return idToColor(this.contentNode.id)
     },
     isRoot() {
       return this.contentNode._meta.self === this.contentNode.root()._meta.self
@@ -137,10 +137,12 @@ export default {
     },
     async saveColumnWidths() {
       const payload = {
-        columns: this.contentNode.columns.map((column) => ({
-          ...column,
-          width: this.localColumnWidths[column.slot],
-        })),
+        data: {
+          columns: this.contentNode.data.columns.map((column) => ({
+            ...column,
+            width: this.localColumnWidths[column.slot],
+          })),
+        },
       }
       this.api.patch(this.contentNode, payload)
     },

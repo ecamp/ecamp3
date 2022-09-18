@@ -6,10 +6,10 @@
 # https://docs.docker.com/engine/reference/builder/#understand-how-arg-and-from-interact
 
 # renovate: datasource=docker depName=php
-ARG PHP_VERSION=8.1.9
+ARG PHP_VERSION=8.1.10
 
 # renovate: datasource=docker depName=caddy
-ARG CADDY_VERSION=2.5.1
+ARG CADDY_VERSION=2.5.2
 
 # "php" stage
 FROM php:${PHP_VERSION}-fpm-alpine AS api_platform_php
@@ -68,7 +68,7 @@ RUN set -eux; \
 ###> recipes ###
 ###< recipes ###
 
-COPY --from=composer:2.4@sha256:2bd72b21088c439a0411b63f5e76df01404a63d4549e1311441aa6339f7eb8be /usr/bin/composer /usr/bin/composer
+COPY --from=composer:2.4@sha256:5a83f661a80dfb67e90f4400101130501569cf7a3ee996f2e39ac48beb73c444 /usr/bin/composer /usr/bin/composer
 
 # Copy development php.ini
 RUN cp "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"

@@ -30,10 +30,10 @@ class UriTemplateFactory {
     /**
      * Create an URI template based on the allowed parameters for the specified entity.
      *
-     * @throws ResourceClassNotFoundException
-     *
      * @return array contains the templated URI (or null when not successful), as well as a boolean flag which
      *               indicates whether any template parameters are present in the URI
+     *
+     * @throws ResourceClassNotFoundException
      */
     public function createFromShortname(string $shortName): array {
         $resourceClass = $this->resourceNameMapping[lcfirst($shortName)] ?? null;
@@ -48,10 +48,10 @@ class UriTemplateFactory {
     /**
      * Create an URI template based on the allowed parameters for the specified entity.
      *
-     * @throws ResourceClassNotFoundException
-     *
      * @return array contains the templated URI (or null when not successful), as well as a boolean flag which
      *               indicates whether any template parameters are present in the URI
+     *
+     * @throws ResourceClassNotFoundException
      */
     public function createFromResourceClass(string $resourceClass): array {
         $resourceMetadata = $this->resourceMetadataFactory->create($resourceClass);

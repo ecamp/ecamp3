@@ -12,7 +12,7 @@ function SafetyConcept(props) {
       ) : (
         <View />
       )}
-      <RichText richText={safetyConcept.text} />
+      <RichText richText={safetyConcept.data.text} />
     </View>
   )
 }

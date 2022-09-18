@@ -17,13 +17,14 @@
       <api-sortable
         v-slot="sortable"
         :disabled="layoutMode || disabled"
-        :collection="sections"
+        :items="sections"
+        @sort="updateSections"
       >
-        <api-form :entity="sortable.entity">
+        <api-form :entity="contentNode">
           <v-row dense>
             <v-col cols="2">
               <api-textarea
-                fieldname="column1"
+                :fieldname="`data.sections[${sortable.itemKey}].column1`"
                 auto-grow
                 rows="2"
                 :disabled="layoutMode || disabled"
@@ -32,7 +33,7 @@
             </v-col>
             <v-col cols="7">
               <api-textarea
-                fieldname="column2"
+                :fieldname="`data.sections[${sortable.itemKey}].column2`"
                 auto-grow
                 rows="4"
                 :disabled="layoutMode || disabled"
@@ -41,7 +42,7 @@
             </v-col>
             <v-col cols="2">
               <api-textarea
-                fieldname="column3"
+                :fieldname="`data.sections[${sortable.itemKey}].column3`"
                 auto-grow
                 rows="2"
                 :disabled="layoutMode || disabled"
@@ -52,14 +53,16 @@
               <v-container v-if="!layoutMode && !disabled" class="ma-0 pa-0">
                 <v-row no-gutters>
                   <v-col cols="6">
+                    <!-- TODO: dialog to ask for confirmation before deletion -->
                     <div class="section-buttons">
-                      <dialog-entity-delete :entity="sortable.entity">
-                        <template #activator="{ on }">
-                          <v-btn icon x-small color="error" v-on="on">
-                            <v-icon>mdi-delete</v-icon>
-                          </v-btn>
-                        </template>
-                      </dialog-entity-delete>
+                      <v-btn
+                        icon
+                        x-small
+                        color="error"
+                        @click="sortable.on.delete(sortable.itemKey)"
+                      >
+                        <v-icon>mdi-delete</v-icon>
+                      </v-btn>
                     </div>
                     <v-btn icon x-small class="drag-and-drop-handle">
                       <v-icon>mdi-drag-horizontal-variant</v-icon>
@@ -67,11 +70,11 @@
                   </v-col>
                   <v-col cols="6">
                     <div class="section-buttons">
-                      <v-btn icon x-small @click="sortable.on.moveUp(sortable.entity)">
+                      <v-btn icon x-small @click="sortable.on.moveUp(sortable.itemKey)">
                         <v-icon>mdi-arrow-up-bold</v-icon>
                       </v-btn>
 
-                      <v-btn icon x-small @click="sortable.on.moveDown(sortable.entity)">
+                      <v-btn icon x-small @click="sortable.on.moveDown(sortable.itemKey)">
                         <v-icon>mdi-arrow-down-bold</v-icon>
                       </v-btn>
                     </div>
@@ -106,10 +109,11 @@
 <script>
 import ApiTextarea from '@/components/form/api/ApiTextarea.vue'
 import ApiForm from '@/components/form/api/ApiForm.vue'
-import DialogEntityDelete from '@/components/dialog/DialogEntityDelete.vue'
 import CardContentNode from '@/components/activity/CardContentNode.vue'
 import { contentNodeMixin } from '@/mixins/contentNodeMixin.js'
 import ApiSortable from '@/components/form/api/ApiSortable.vue'
+
+import { v4 as uuidv4 } from 'uuid'
 
 export default {
   name: 'Storyboard',
@@ -117,7 +121,6 @@ export default {
     CardContentNode,
     ApiForm,
     ApiTextarea,
-    DialogEntityDelete,
     ApiSortable,
   },
   mixins: [contentNodeMixin],
@@ -131,26 +134,45 @@ export default {
   },
   computed: {
     sections() {
-      return this.api.get(this.contentNode).sections
+      return this.api.get(this.contentNode).data.sections
     },
   },
   methods: {
     async addSection() {
       this.isAdding = true
-      try {
-        await this.api.post(this.contentNode.sections(), {
-          storyboard: this.contentNode._meta.self,
-        })
 
-        await this.refreshContent() // refresh node content (reloading section array)
+      const sectionId = uuidv4()
+      try {
+        // TODO: consider adding item to ApiSortable eagerly (should be easy, now that uuid is generated locally)
+        await this.contentNode.$patch({
+          data: {
+            sections: {
+              [sectionId]: {
+                column1: '',
+                column2: '',
+                column3: '',
+                position: Object.keys(this.sections).length + 1,
+              },
+            },
+          },
+        })
       } catch (error) {
         console.log(error) // TO DO: display error message in error snackbar/toast
       }
 
       this.isAdding = false
     },
-    async refreshContent() {
-      await this.api.reload(this.contentNode)
+
+    async updateSections(payload) {
+      try {
+        await this.contentNode.$patch({
+          data: {
+            sections: payload,
+          },
+        })
+      } catch (error) {
+        console.log(error) // TO DO: display error message in error snackbar/toast
+      }
     },
   },
 }

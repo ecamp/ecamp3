@@ -22,15 +22,25 @@ class CreateColumnLayoutTest extends CreateContentNodeTestCase {
      */
     public function testCreateColumnLayoutAcceptsValidJson() {
         $SINGLE_COLUMN_JSON_CONFIG = [
-            ['slot' => '1', 'width' => 12],
+            ['slot' => '1', 'width' => 5],
+            ['slot' => '2', 'width' => 7],
         ];
 
-        $this->create($this->getExampleWritePayload(['columns' => $SINGLE_COLUMN_JSON_CONFIG]));
+        $this->create($this->getExampleWritePayload(['data' => ['columns' => $SINGLE_COLUMN_JSON_CONFIG]]));
 
         $this->assertResponseStatusCodeSame(201);
-        $this->assertJsonContains([
+        $this->assertJsonContains(['data' => [
             'columns' => $SINGLE_COLUMN_JSON_CONFIG,
-        ]);
+        ]]);
+    }
+
+    public function testCreateColumnLayoutAcceptsEmptyJson() {
+        $this->create($this->getExampleWritePayload(['data' => null]));
+
+        $this->assertResponseStatusCodeSame(201);
+        $this->assertJsonContains(['data' => [
+            'columns' => [['slot' => '1', 'width' => 12]],
+        ]]);
     }
 
     public function testCreateColumnLayoutRejectsInvalidJson() {
@@ -38,17 +48,10 @@ class CreateColumnLayoutTest extends CreateContentNodeTestCase {
             'data' => 'value',
         ];
 
-        $this->create($this->getExampleWritePayload(['columns' => $INVALID_JSON_CONFIG]));
+        $response = $this->create($this->getExampleWritePayload(['data' => ['columns' => $INVALID_JSON_CONFIG]]));
 
         $this->assertResponseStatusCodeSame(422);
-        $this->assertJsonContains([
-            'violations' => [
-                [
-                    'propertyPath' => 'columns',
-                    'message' => "Provided JSON doesn't match required schema.",
-                ],
-            ],
-        ]);
+        $this->assertJsonSchemaError($response, 'data');
     }
 
     public function testCreateColumnLayoutRejectsInvalidWidth() {
@@ -57,13 +60,13 @@ class CreateColumnLayoutTest extends CreateContentNodeTestCase {
             ['slot' => '2', 'width' => 5],
         ];
 
-        $this->create($this->getExampleWritePayload(['columns' => $JSON_CONFIG]));
+        $this->create($this->getExampleWritePayload(['data' => ['columns' => $JSON_CONFIG]]));
 
         $this->assertResponseStatusCodeSame(422);
         $this->assertJsonContains([
             'violations' => [
                 [
-                    'propertyPath' => 'columns',
+                    'propertyPath' => 'data',
                     'message' => 'Expected column widths to sum to 12, but got a sum of 11',
                 ],
             ],
@@ -138,7 +141,9 @@ class CreateColumnLayoutTest extends CreateContentNodeTestCase {
         return parent::getExampleWritePayload(
             array_merge(
                 [
-                    'columns' => [['slot' => '1', 'width' => 12]],
+                    'data' => [
+                        'columns' => [['slot' => '1', 'width' => 12]],
+                    ],
                 ],
                 $attributes
             ),

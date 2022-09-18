@@ -72,8 +72,7 @@ class CampTest extends TestCase {
         /** @var ColumnLayout $rootContentNode */
         $rootContentNode = $category->rootContentNode;
         $this->assertNotEquals($this->rootContentNodePrototype, $rootContentNode);
-        $this->assertEquals($this->rootContentNodePrototype->columns[0]['slot'], $rootContentNode->columns[0]['slot']);
-        $this->assertEquals($this->rootContentNodePrototype->columns[0]['width'], $rootContentNode->columns[0]['width']);
+        $this->assertEquals($this->rootContentNodePrototype->data, $rootContentNode->data);
 
         $this->assertCount(1, $rootContentNode->children);
 

@@ -66,6 +66,12 @@ abstract class AbstractDataPersister implements ContextAwareDataPersisterInterfa
 
     /**
      * Return an object of the type and with the properties you want persisted.
+     *
+     * @template T of BaseEntity
+     *
+     * @param T $data
+     *
+     * @return T
      */
     public function beforeCreate($data): BaseEntity {
         return $data;
@@ -79,8 +85,14 @@ abstract class AbstractDataPersister implements ContextAwareDataPersisterInterfa
 
     /**
      * Return an object of the type and with the properties you want persisted.
+     *
+     * @template T of BaseEntity
+     *
+     * @param T $data
+     *
+     * @return T
      */
-    public function beforeUpdate($data): BaseEntity {
+    public function beforeUpdate($data) {
         return $data;
     }
 

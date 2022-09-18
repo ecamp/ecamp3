@@ -29,6 +29,32 @@
 
 <div id="app"></div>
 <script src="/environment.js" lang="application/javascript"></script>
+<script>
+  if ('environment' in window) {
+    const requiredKeys = [
+      'API_ROOT_URL',
+      'COOKIE_PREFIX',
+      'PRINT_SERVER',
+      'SENTRY_FRONTEND_DSN',
+      'SHARED_COOKIE_DOMAIN',
+      'DEPLOYMENT_TIME',
+      'VERSION',
+      'VERSION_LINK_TEMPLATE',
+    ]
+
+    const missingKeys = requiredKeys.filter(key => !Object.keys(window.environment).includes(key))
+    if (missingKeys.length > 0) {
+      console.error(`Missing key(s): "${missingKeys.join(',')}" in frontend/public/environment.js
+  You can look up example values in frontend/public/environment.dist`)
+    }
+
+    const additionalKeys = Object.keys(window.environment).filter(key => !requiredKeys.includes(key))
+    if (additionalKeys.length > 0) {
+      console.error(`Additional defined key(s): "${additionalKeys.join(',')}" in frontend/public/environment.js
+  Maybe you forgot to add them here to the requiredKeys`)
+    }
+  }
+</script>
 <script type="module" src="/src/main.js"></script>
 <!-- built files will be auto injected -->
 </body>

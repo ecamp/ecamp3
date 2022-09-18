@@ -5,8 +5,7 @@
   ],
   "force": {
     "constraints": {
-      "node": "18.7.0",
-      "npm": ">= 8.15.0"
+      "node": "18.9.0"
     }
   },
   "automergeType": "branch",
@@ -83,8 +82,9 @@
         "qoomon/docker-host"
       ],
       "groupName": "docker-images",
-      "extends": [
-        "schedule:weekly"
+      "schedule": [
+        "after 10pm every sunday",
+        "before 7am every monday"
       ]
     },
     {
@@ -158,7 +158,34 @@
       "depNameTemplate": "node",
       "lookupNameTemplate": "nodejs/node",
       "datasourceTemplate": "github-tags",
-      "versioningTemplate": "node"
+      "versioningTemplate": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+).*?$",
+      "extractVersionTemplate": "^v(?<version>.*)$"
+    },
+    {
+      "fileMatch": [
+        ".nvmrc"
+      ],
+      "matchStrings": [
+        "(?<currentValue>[^'\n]+).*"
+      ],
+      "depNameTemplate": "node",
+      "lookupNameTemplate": "nodejs/node",
+      "datasourceTemplate": "github-tags",
+      "versioningTemplate": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+).*?$",
+      "extractVersionTemplate": "^v(?<version>.*)$"
+    },
+    {
+      "fileMatch": [
+        "^renovate.json$"
+      ],
+      "matchStrings": [
+        "\"node\": \"(?<currentValue>[^\"]+).*\".*"
+      ],
+      "depNameTemplate": "node",
+      "lookupNameTemplate": "nodejs/node",
+      "datasourceTemplate": "github-tags",
+      "versioningTemplate": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+).*?$",
+      "extractVersionTemplate": "^v(?<version>.*)$"
     },
     {
       "fileMatch": [

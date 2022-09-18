@@ -36,7 +36,7 @@
               :solo="false"
               auto-grow
               dense
-              fieldname="text"
+              fieldname="data.text"
               aria-label="Erfassen"
               label=""
             />
@@ -45,7 +45,7 @@
             v-show="!editing"
             :class="{ readonly: !editing }"
             :editable="false"
-            :value="chapter.text"
+            :value="chapter.data.text"
             class="v-input mb-1"
           />
         </div>

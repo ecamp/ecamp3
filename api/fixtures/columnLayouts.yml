@@ -4,7 +4,7 @@ App\Entity\ContentNode\ColumnLayout:
     parent: null
     slot: ''
     position: 0
-    columns: [{slot: '1', width: 12}]
+    data: { columns: [{ slot: '1', width: 12 }] }
     instanceName: 'columnLayout2'
     contentType: '@contentTypeColumnLayout'
   columnLayout2Child1:
@@ -12,7 +12,7 @@ App\Entity\ContentNode\ColumnLayout:
     parent: '@columnLayout2'
     slot: '2'
     position: 0
-    columns: [{slot: '1', width: 12}]
+    data: { columns: [{ slot: '1', width: 12 }] }
     instanceName: 'columnLayout2Child'
     contentType: '@contentTypeColumnLayout'
   columnLayout3:
@@ -20,7 +20,7 @@ App\Entity\ContentNode\ColumnLayout:
     parent: null
     slot: ''
     position: 0
-    columns: [{slot: '1', width: 12}]
+    data: { columns: [{ slot: '1', width: 12 }] }
     instanceName: <word()>
     contentType: '@contentTypeColumnLayout'
   columnLayout4:
@@ -28,7 +28,7 @@ App\Entity\ContentNode\ColumnLayout:
     parent: null
     slot: ''
     position: 0
-    columns: [{slot: '1', width: 12}]
+    data: { columns: [{ slot: '1', width: 12 }] }
     instanceName: <word()>
     contentType: '@contentTypeColumnLayout'
   columnLayout5:
@@ -36,7 +36,7 @@ App\Entity\ContentNode\ColumnLayout:
     parent: null
     slot: ''
     position: 0
-    columns: [ { slot: '1', width: 12 } ]
+    data: { columns: [{ slot: '1', width: 12 }] }
     instanceName: <word()>
     contentType: '@contentTypeColumnLayout'
   columnLayout1camp2:
@@ -44,7 +44,7 @@ App\Entity\ContentNode\ColumnLayout:
     parent: null
     slot: ''
     position: 0
-    columns: [{slot: '1', width: 12}]
+    data: { columns: [{ slot: '1', width: 12 }] }
     instanceName: <word()>
     contentType: '@contentTypeColumnLayout'
   columnLayout2camp2:
@@ -52,7 +52,7 @@ App\Entity\ContentNode\ColumnLayout:
     parent: null
     slot: ''
     position: 0
-    columns: [{slot: '1', width: 12}]
+    data: { columns: [{ slot: '1', width: 12 }] }
     instanceName: <word()>
     contentType: '@contentTypeColumnLayout'
   columnLayout1campUnrelated:
@@ -60,7 +60,7 @@ App\Entity\ContentNode\ColumnLayout:
     parent: null
     slot: ''
     position: 0
-    columns: [{slot: '1', width: 12}]
+    data: { columns: [{ slot: '1', width: 12 }] }
     instanceName: <word()>
     contentType: '@contentTypeColumnLayout'
   columnLayout2campUnrelated:
@@ -68,7 +68,7 @@ App\Entity\ContentNode\ColumnLayout:
     parent: null
     slot: ''
     position: 0
-    columns: [{slot: '1', width: 12}]
+    data: { columns: [{ slot: '1', width: 12 }] }
     instanceName: <word()>
     contentType: '@contentTypeColumnLayout'
   columnLayout1campPrototype:
@@ -76,7 +76,7 @@ App\Entity\ContentNode\ColumnLayout:
     parent: null
     slot: ''
     position: 0
-    columns: [{slot: '1', width: 12}]
+    data: { columns: [{ slot: '1', width: 12 }] }
     instanceName: <word()>
     contentType: '@contentTypeColumnLayout'
   columnLayout2campPrototype:
@@ -84,6 +84,6 @@ App\Entity\ContentNode\ColumnLayout:
     parent: null
     slot: ''
     position: 0
-    columns: [{slot: '1', width: 12}]
+    data: { columns: [{ slot: '1', width: 12 }] }
     instanceName: <word()>
     contentType: '@contentTypeColumnLayout'

@@ -10,7 +10,7 @@ use ApiPlatform\Core\OpenApi\OpenApi;
  * Decorates the OpenApi factory to add API docs for the login endpoint.
  */
 final class JwtDecorator implements OpenApiFactoryInterface {
-    public function __construct(private OpenApiFactoryInterface $decorated, private string $apiDomain) {
+    public function __construct(private OpenApiFactoryInterface $decorated, private string $cookiePrefix) {
     }
 
     public function __invoke(array $context = []): OpenApi {
@@ -31,7 +31,7 @@ final class JwtDecorator implements OpenApiFactoryInterface {
             ],
         ]);
 
-        $apiDomain = $this->apiDomain;
+        $cookiePrefix = $this->cookiePrefix;
         $pathItem = new Model\PathItem(
             ref: 'JWT Token',
             post: new Model\Operation(
@@ -39,7 +39,7 @@ final class JwtDecorator implements OpenApiFactoryInterface {
                 tags: ['Login'],
                 responses: [
                     '204' => [
-                        'description' => "Get a JWT token split across the two cookies {$apiDomain}_jwt_hp and {$apiDomain}_jwt_s",
+                        'description' => "Get a JWT token split across the two cookies {$cookiePrefix}jwt_hp and {$cookiePrefix}jwt_s",
                     ],
                 ],
                 summary: 'Log in using username and password.',

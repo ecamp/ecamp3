@@ -35,7 +35,14 @@ const column3Styles = {
 
 function Storyboard(props) {
   const storyboard = props.contentNode
-  const sections = storyboard.sections().items
+  const sections = storyboard.data.sections
+  const sectionsArray = Object.keys(sections).map((key) => ({
+    key,
+    column1: sections[key].column1,
+    column2: sections[key].column2,
+    column3: sections[key].column3,
+    position: sections[key].position,
+  }))
   return (
     <View style={{ display: 'flex', flexDirection: 'column', marginBottom: '6pt' }}>
       {storyboard.instanceName ? (
@@ -60,11 +67,11 @@ function Storyboard(props) {
           <Text>{props.$tc('contentNode.storyboard.entity.section.fields.column3')}</Text>
         </View>
       </View>
-      {sections
+      {sectionsArray
         .sort((section1, section2) => section1.position - section2.position)
         .map((section) => {
           return (
-            <View key={section.id} style={{ display: 'flex', flexDirection: 'row' }}>
+            <View key={section.key} style={{ display: 'flex', flexDirection: 'row' }}>
               <View style={column1Styles}>
                 <RichText richText={section.column1} />
               </View>

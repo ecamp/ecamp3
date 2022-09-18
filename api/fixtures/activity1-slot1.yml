@@ -7,6 +7,7 @@ App\Entity\ContentNode\MultiSelect:
     position: 0
     instanceName: 'multiSelect1'
     contentType: '@contentTypeMultiSelect'
+    data: { options: { 'key1': { 'checked': true }, 'key2': { 'checked': true } } }
 
 App\Entity\ContentNode\MaterialNode:
   materialNode1:
@@ -25,7 +26,7 @@ App\Entity\ContentNode\SingleText:
     position: 2
     instanceName: 'singleText1'
     contentType: '@contentTypeNotes'
-    text: <word()>
+    data: { text: <word()> }
   safetyConcept1:
     root: '@columnLayout1'
     parent: '@columnLayout1'
@@ -33,4 +34,4 @@ App\Entity\ContentNode\SingleText:
     position: 3
     instanceName: 'safetyConcept1'
     contentType: '@contentTypeSafetyConcept'
-    text: <sentence()>
+    data: { text: <sentence()> }

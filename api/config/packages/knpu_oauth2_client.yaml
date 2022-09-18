@@ -2,18 +2,19 @@ knpu_oauth2_client:
     clients:
         # configure your clients as described here: https://github.com/knpuniversity/oauth2-client-bundle#configuration
 
-        # will create service: "knpu.oauth2.client.google"
-        # an instance of: KnpU\OAuth2ClientBundle\Client\Provider\GoogleClient
-        # composer require league/oauth2-google
         google:
-            # must be "google" - it activates that type!
-            type: google
-            # add and set these environment variables in your .env files
+            # We don't use type: google so that we can customize the client class
+            type: generic
+            provider_class: League\OAuth2\Client\Provider\Google
+            client_class: App\OAuth\JWTStateOAuth2Client
+
+            # now, all the normal options!
             client_id: '%env(OAUTH_GOOGLE_CLIENT_ID)%'
             client_secret: '%env(OAUTH_GOOGLE_CLIENT_SECRET)%'
-            # a route name you'll create
             redirect_route: connect_google_check
             redirect_params: {}
+
+            # More options which would be useable with type: google, which we don't use at the moment:
             # Optional value for sending access_type parameter. More detail: https://developers.google.com/identity/protocols/OpenIDConnect#authenticationuriparameters
             # access_type: null
             # Optional value for sending hd parameter. More detail: https://developers.google.com/identity/protocols/OpenIDConnect#hd-param
@@ -28,37 +29,29 @@ knpu_oauth2_client:
         pbsmidata:
             type: generic
             provider_class: App\OAuth\Hitobito
-
-            # optional: a class that extends OAuth2Client
-            # client_class: Some\Custom\Client
+            client_class: App\OAuth\JWTStateOAuth2Client
 
             # optional: if your provider has custom constructor options
             provider_options:
-                base_url: '%env(OAUTH_PBSMIDATA_BASE_URL)%'
+                baseUrl: '%env(OAUTH_PBSMIDATA_BASE_URL)%'
 
             # now, all the normal options!
             client_id: '%env(OAUTH_PBSMIDATA_CLIENT_ID)%'
             client_secret: '%env(OAUTH_PBSMIDATA_CLIENT_SECRET)%'
             redirect_route: connect_pbsmidata_check
             redirect_params: {}
-            # whether to check OAuth2 "state": defaults to true
-            # use_state: true
 
         cevidb:
             type: generic
             provider_class: App\OAuth\Hitobito
-
-            # optional: a class that extends OAuth2Client
-            # client_class: Some\Custom\Client
+            client_class: App\OAuth\JWTStateOAuth2Client
 
             # optional: if your provider has custom constructor options
             provider_options:
-                base_url: '%env(OAUTH_CEVIDB_BASE_URL)%'
+                baseUrl: '%env(OAUTH_CEVIDB_BASE_URL)%'
 
             # now, all the normal options!
             client_id: '%env(OAUTH_CEVIDB_CLIENT_ID)%'
             client_secret: '%env(OAUTH_CEVIDB_CLIENT_SECRET)%'
             redirect_route: connect_cevidb_check
             redirect_params: {}
-            # whether to check OAuth2 "state": defaults to true
-            # use_state: true
