@@ -2,7 +2,6 @@
 
 namespace App\Tests\Api\ScheduleEntries;
 
-use ApiPlatform\Core\Api\OperationType;
 use App\Entity\ScheduleEntry;
 use App\Tests\Api\ECampApiTestCase;
 
@@ -219,7 +218,7 @@ class CreateScheduleEntryTest extends ECampApiTestCase {
     public function getExampleWritePayload($attributes = [], $except = []) {
         return $this->getExamplePayload(
             ScheduleEntry::class,
-            OperationType::COLLECTION,
+            '/schedule_entries',
             'post',
             array_merge([
                 'start' => '2023-05-01T00:30:00+00:00',
@@ -235,7 +234,7 @@ class CreateScheduleEntryTest extends ECampApiTestCase {
     public function getExampleReadPayload($attributes = [], $except = []) {
         return $this->getExamplePayload(
             ScheduleEntry::class,
-            OperationType::ITEM,
+            '/schedule_entries',
             'get',
             array_merge([
                 'start' => '2023-05-01T00:30:00+00:00',

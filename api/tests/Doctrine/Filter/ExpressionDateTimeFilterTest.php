@@ -2,7 +2,7 @@
 
 namespace App\Tests\Doctrine\Filter;
 
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Util\QueryNameGeneratorInterface;
+use ApiPlatform\Doctrine\Orm\Util\QueryNameGeneratorInterface;
 use App\Doctrine\Filter\ExpressionDateTimeFilter;
 use DateTime;
 use Doctrine\ORM\QueryBuilder;

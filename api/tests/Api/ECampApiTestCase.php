@@ -135,8 +135,37 @@ abstract class ECampApiTestCase extends ApiTestCase {
         return $this->entityManager;
     }
 
-    protected function getExamplePayload(string $resourceClass, string $operationType, string $operationName, array $attributes = [], array $exceptExamples = [], array $exceptAttributes = []): array {
-        $schema = $this->getSchemaFactory()->buildSchema($resourceClass, 'json', 'get' === $operationName ? Schema::TYPE_OUTPUT : Schema::TYPE_INPUT);
+    protected function getExamplePayload(string $resourceClass, string $endpoint, string $operationName = 'get', array $attributes = [], array $exceptExamples = [], array $exceptAttributes = []): array {
+        // At the moment, specific operations can only be found via route name
+        // --> build route name based on required operation and resource endpoint
+        $fullOperationName = '';
+
+        switch ($operationName) {
+            case 'get':
+            case 'patch':
+            case 'put':
+                $fullOperationName = "_api_{$endpoint}/{id}.{_format}_";
+
+                break;
+
+            case 'post':
+            case 'get_collection':
+                $fullOperationName = "_api_{$endpoint}.{_format}_";
+
+                break;
+
+            default:
+                throw new \Exception("invalid \$operationName {$operationName}");
+        }
+        $fullOperationName .= $operationName;
+
+        $resourceMetadataCollection = $this->getResourceMetadataFactory()->create($resourceClass);
+        $operation = $resourceMetadataCollection->getOperation($fullOperationName);
+
+        // build JSON schema based on requested operation
+        $schema = $this->getSchemaFactory()->buildSchema($resourceClass, 'json', 'get' === substr($operationName, 0, 3) ? Schema::TYPE_OUTPUT : Schema::TYPE_INPUT, $operation);
+
+        // transform schema into example payload
         preg_match('/\/([^\/]+)$/', $schema['$ref'] ?? '', $matches);
         $schemaName = $matches[1];
         $properties = $schema->getDefinitions()[$schemaName]['properties'] ?? [];
@@ -217,7 +246,7 @@ abstract class ECampApiTestCase extends ApiTestCase {
     protected function getExampleWritePayload($attributes = [], $except = []) {
         return $this->getExamplePayload(
             $this->entityClass,
-            '',
+            $this->endpoint,
             'post',
             $attributes,
             [],

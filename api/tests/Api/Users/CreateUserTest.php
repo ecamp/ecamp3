@@ -2,7 +2,6 @@
 
 namespace App\Tests\Api\Users;
 
-use ApiPlatform\Core\Api\OperationType;
 use App\Entity\User;
 use App\Tests\Api\ECampApiTestCase;
 
@@ -691,7 +690,7 @@ class CreateUserTest extends ECampApiTestCase {
     public function getExampleWritePayload($attributes = [], $except = [], $mergeEmbeddedAttributes = []) {
         $examplePayload = $this->getExamplePayload(
             User::class,
-            OperationType::COLLECTION,
+            '/users',
             'post',
             $attributes,
             [],
@@ -704,7 +703,7 @@ class CreateUserTest extends ECampApiTestCase {
     public function getExampleReadPayload($attributes = [], $except = []) {
         $exampleReadPayload = $this->getExamplePayload(
             User::class,
-            OperationType::ITEM,
+            '/users',
             'get',
             $attributes,
             [],

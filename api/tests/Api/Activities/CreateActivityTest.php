@@ -2,7 +2,6 @@
 
 namespace App\Tests\Api\Activities;
 
-use ApiPlatform\Core\Api\OperationType;
 use App\Entity\Activity;
 use App\Entity\User;
 use App\Tests\Api\ECampApiTestCase;
@@ -471,7 +470,7 @@ class CreateActivityTest extends ECampApiTestCase {
     public function getExampleWritePayload($attributes = [], $except = []) {
         return $this->getExamplePayload(
             Activity::class,
-            OperationType::COLLECTION,
+            '/activities',
             'post',
             array_merge([
                 'category' => $this->getIriFor('category1'),
@@ -491,7 +490,7 @@ class CreateActivityTest extends ECampApiTestCase {
     public function getExampleReadPayload($attributes = [], $except = []) {
         return $this->getExamplePayload(
             Activity::class,
-            OperationType::ITEM,
+            '/activities',
             'get',
             $attributes,
             ['category'],

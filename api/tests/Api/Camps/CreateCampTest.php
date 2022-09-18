@@ -2,7 +2,6 @@
 
 namespace App\Tests\Api\Camps;
 
-use ApiPlatform\Core\Api\OperationType;
 use App\Entity\Camp;
 use App\Entity\User;
 use App\Repository\UserRepository;
@@ -688,13 +687,13 @@ class CreateCampTest extends ECampApiTestCase {
     }
 
     public function getExampleWritePayload($attributes = [], $except = []) {
-        return $this->getExamplePayload(Camp::class, OperationType::COLLECTION, 'post', $attributes, [], $except);
+        return $this->getExamplePayload(Camp::class, '/camps', 'post', $attributes, [], $except);
     }
 
     public function getExampleReadPayload($attributes = [], $except = []) {
         return $this->getExamplePayload(
             Camp::class,
-            OperationType::ITEM,
+            '/camps',
             'get',
             $attributes,
             ['periods'],

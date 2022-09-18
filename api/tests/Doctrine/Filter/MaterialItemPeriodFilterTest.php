@@ -3,7 +3,7 @@
 namespace App\Tests\Doctrine\Filter;
 
 use ApiPlatform\Api\IriConverterInterface;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Util\QueryNameGeneratorInterface;
+use ApiPlatform\Doctrine\Orm\Util\QueryNameGeneratorInterface;
 use App\Doctrine\Filter\MaterialItemPeriodFilter;
 use App\Entity\MaterialItem;
 use App\Entity\Period;

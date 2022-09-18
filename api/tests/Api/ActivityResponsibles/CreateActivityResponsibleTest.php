@@ -2,7 +2,6 @@
 
 namespace App\Tests\Api\ActivityResponsibles;
 
-use ApiPlatform\Core\Api\OperationType;
 use App\Entity\ActivityResponsible;
 use App\Tests\Api\ECampApiTestCase;
 
@@ -133,7 +132,7 @@ class CreateActivityResponsibleTest extends ECampApiTestCase {
     public function getExampleWritePayload($attributes = [], $except = []) {
         return $this->getExamplePayload(
             ActivityResponsible::class,
-            OperationType::COLLECTION,
+            '/activity_responsibles',
             'post',
             array_merge([
                 'activity' => $this->getIriFor('activity2'),
@@ -147,7 +146,7 @@ class CreateActivityResponsibleTest extends ECampApiTestCase {
     public function getExampleReadPayload($attributes = [], $except = []) {
         return $this->getExamplePayload(
             ActivityResponsible::class,
-            OperationType::ITEM,
+            '/activity_responsibles',
             'get',
             $attributes,
             ['activity', 'campCollaboration'],

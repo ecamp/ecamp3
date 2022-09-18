@@ -2,7 +2,6 @@
 
 namespace App\Tests\Api\Profiles;
 
-use ApiPlatform\Core\Api\OperationType;
 use App\Entity\User;
 use App\Tests\Api\ECampApiTestCase;
 
@@ -17,6 +16,6 @@ class CreateProfileTest extends ECampApiTestCase {
     }
 
     public function getExampleWritePayload($attributes = [], $except = []) {
-        return $this->getExamplePayload(User::class, OperationType::COLLECTION, 'post', $attributes, [], $except);
+        return $this->getExamplePayload(User::class, '/profiles', 'post', $attributes, [], $except);
     }
 }
