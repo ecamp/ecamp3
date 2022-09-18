@@ -3,6 +3,7 @@
 namespace App\Tests\Api\ContentNodes;
 
 use App\Entity\ContentNode;
+use App\Entity\ContentNode\ColumnLayout;
 use App\Tests\Api\ECampApiTestCase;
 
 /**
@@ -65,6 +66,41 @@ abstract class UpdateContentNodeTestCase extends ECampApiTestCase {
                 0 => [
                     'propertyPath' => 'parent',
                     'message' => 'This parent does not support children, only content_nodes of type column_layout support children.',
+                ],
+            ],
+        ]);
+    }
+
+    public function testPatchValidatesThatParentSupportsSlotName() {
+        $this->patch(payload: ['slot' => 'invalidSlot']);
+
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                0 => [
+                    'propertyPath' => 'slot',
+                    'message' => 'This value should be one of [1,2], was invalidSlot.',
+                ],
+            ],
+        ]);
+    }
+
+    public function testPatchRejectsNullSlotOnNonRootNodes() {
+        if ($this->defaultEntity instanceof ColumnLayout) {
+            $this->defaultEntity = static::$fixtures['columnLayoutChild1'];
+        }
+        $this->patch(
+            payload: [
+                'slot' => null,
+            ]
+        );
+
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [
+                    'propertyPath' => 'slot',
+                    'message' => 'This value should be one of [1,2], was null.',
                 ],
             ],
         ]);
