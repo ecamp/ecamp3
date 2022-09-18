@@ -119,6 +119,34 @@ abstract class CreateContentNodeTestCase extends ECampApiTestCase {
         ]);
     }
 
+    public function testCreateValidatesThatParentSupportsSlotName() {
+        $this->create($this->getExampleWritePayload(['slot' => 'invalidSlot']));
+
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [
+                    'propertyPath' => 'slot',
+                    'message' => 'This value should be one of [1,2], was invalidSlot.',
+                ],
+            ],
+        ]);
+    }
+
+    public function testCreateContentNodeRejectsMissingSlot() {
+        $this->create($this->getExampleWritePayload([], ['slot']));
+
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [
+                    'propertyPath' => 'slot',
+                    'message' => 'This value should be one of [1,2], was null.',
+                ],
+            ],
+        ]);
+    }
+
     protected function getExampleWritePayload($attributes = [], $except = []) {
         return parent::getExampleWritePayload(
             array_merge([
@@ -141,7 +169,7 @@ abstract class CreateContentNodeTestCase extends ECampApiTestCase {
         $contentType = $this->defaultContentType;
 
         return [
-            'slot' => 'footer',
+            'slot' => '1',
             'position' => 10,
             'instanceName' => 'Schlechtwetterprogramm',
             'contentTypeName' => $contentType->name,
