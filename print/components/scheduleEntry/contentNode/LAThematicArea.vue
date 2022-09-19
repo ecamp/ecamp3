@@ -1,27 +1,25 @@
 <template>
-  <div class="wrapper">
-    <div class="instance-name">{{ instanceName }}</div>
+  <content-node-content :content-node="contentNode">
     <div v-for="option in selectedOptions" :key="option.translateKey" class="entry">
       <check-mark :size="12" />
       {{ $tc(`contentNode.laThematicArea.entity.option.${option.translateKey}.name`) }}
     </div>
-  </div>
+  </content-node-content>
 </template>
 
 <script>
 import CheckMark from '../../generic/CheckMark.vue'
+import ContentNodeContent from './ContentNodeContent.vue'
 
 export default {
   components: {
     CheckMark,
+    ContentNodeContent,
   },
   props: {
     contentNode: { type: Object, required: true },
   },
   computed: {
-    instanceName() {
-      return this.contentNode.instanceName || this.$tc(`contentNode.laThematicArea.name`)
-    },
     selectedOptions() {
       const options = this.contentNode.data.options
 
@@ -35,13 +33,3 @@ export default {
   },
 }
 </script>
-
-<style scoped lang="scss">
-.wrapper {
-  margin-bottom: 12px;
-}
-
-.instance-name {
-  font-weight: bold;
-}
-</style>

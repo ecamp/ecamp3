@@ -1,6 +1,5 @@
 <template>
-  <div class="tw-mb-3">
-    <div v-if="instanceName" class="tw-font-bold">{{ instanceName }}</div>
+  <content-node-content :content-node="contentNode">
     <table class="tw-w-full">
       <tr>
         <th class="column column1 header tw-w-1/12">
@@ -25,24 +24,23 @@
         </td>
       </tr>
     </table>
-  </div>
+  </content-node-content>
 </template>
 
 <script>
 import RichText from '../../generic/RichText.vue'
+import ContentNodeContent from './ContentNodeContent.vue'
 import { values } from 'lodash'
 
 export default {
   components: {
     RichText,
+    ContentNodeContent,
   },
   props: {
     contentNode: { type: Object, required: true },
   },
   computed: {
-    instanceName() {
-      return this.contentNode.instanceName
-    },
     sections() {
       const sections = values(this.contentNode.data.sections)
       return [...sections].sort(
@@ -57,6 +55,8 @@ export default {
 .header {
   padding-bottom: 0;
   border-bottom: 1px solid rgb(148 163 184);
+  font-weight: normal;
+  font-style: italic;
 }
 
 .column {

@@ -30,6 +30,7 @@ export default {
     '~/assets/fonts.css',
     '~/assets/toc.css',
     '~/assets/typography.css',
+    '@mdi/font/css/materialdesignicons.min.css',
   ],
   /*
    ** Plugins to load before mounting the App
@@ -115,14 +116,14 @@ export default {
    ** See https://nuxtjs.org/api/configuration-build/
    */
   build: {
-    extend(config, ctx) {
-      // include source map in development mode
-      // eslint-disable-next-line no-constant-condition
-      if (ctx.isDev && false) {
-        // TODO: remove the '&& false' again when webpack supports node 18 with sourcemaps.
-        config.devtool = ctx.isClient ? 'source-map' : 'inline-source-map'
-      }
-    },
+    // TODO: remove the '&& false' again when webpack supports node 18 with sourcemaps.
+    // extend(config, ctx) {
+    //   // include source map in development mode
+    //   // eslint-disable-next-line no-constant-condition
+    //   if (ctx.isDev) {
+    //     config.devtool = ctx.isClient ? 'source-map' : 'inline-source-map'
+    //   }
+    // },
     postcss: {
       plugins: {
         tailwindcss: {},

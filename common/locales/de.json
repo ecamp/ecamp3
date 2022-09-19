@@ -1,5 +1,13 @@
 {
   "contentNode": {
+    "columnLayout": {
+      "entity": {
+        "column": {
+          "name": "Spalte"
+        }
+      },
+      "name": "Spaltenlayout"
+    },
     "laThematicArea": {
       "entity": {
         "option": {
@@ -43,7 +51,7 @@
           "fields": {
             "column1": "Zeit",
             "column2": "Programm",
-            "column3": "verantwortlich"
+            "column3": "Verantwortlich"
           },
           "name": "Programmpunkt | Programmpunkte"
         }
@@ -51,7 +59,7 @@
       "name": "Programmabschnitt"
     },
     "storycontext": {
-      "name": "Roter Faden"
+      "name": "Geschichte"
     }
   },
   "global": {
@@ -68,7 +76,7 @@
       "fields": {
         "category": "Block Kategorie",
         "location": "Ort",
-        "responsible": "verantwortlich",
+        "responsible": "Verantwortlich",
         "title": "Titel"
       },
       "name": "Aktivität | Aktivitäten",
