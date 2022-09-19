@@ -1,0 +1,6 @@
+/* extend styles from toc.css: Show dotted line only in PagedJS mode */
+ul.toc .toc-element::after {
+  content: ' ';
+  flex: 1;
+  border-bottom: 0.1em dotted rgb(156 163 175);
+} 
