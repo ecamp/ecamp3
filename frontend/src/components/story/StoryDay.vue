@@ -30,24 +30,18 @@
               </template>
             </router-link>
           </h4>
-          <api-form v-show="editing" :entity="chapter">
-            <api-textarea
+          <api-form :entity="chapter">
+            <api-richtext
               :outlined="false"
               :solo="false"
               auto-grow
               dense
+              :readonly="!editing"
               fieldname="data.text"
               aria-label="Erfassen"
               label=""
             />
           </api-form>
-          <tiptap-editor
-            v-show="!editing"
-            :class="{ readonly: !editing }"
-            :editable="false"
-            :value="chapter.data.text"
-            class="v-input mb-1"
-          />
         </div>
       </template>
     </template>
@@ -59,8 +53,6 @@
 <script>
 import { sortBy } from 'lodash'
 import ApiForm from '@/components/form/api/ApiForm.vue'
-import ApiTextarea from '@/components/form/api/ApiTextarea.vue'
-import TiptapEditor from '@/components/form/tiptap/TiptapEditor.vue'
 import { dateLong } from '@/common/helpers/dateHelperUTCFormatted.js'
 import CategoryChip from '@/components/story/CategoryChip.vue'
 
@@ -68,9 +60,7 @@ export default {
   name: 'StoryDay',
   components: {
     CategoryChip,
-    TiptapEditor,
     ApiForm,
-    ApiTextarea,
   },
   props: {
     day: { type: Object, required: true },
@@ -115,10 +105,6 @@ export default {
 </script>
 
 <style scoped>
-.readonly ::v-deep .ProseMirror-trailingBreak {
-  display: none;
-}
-
 .e-story-day + .e-story-day .e-story-day-title {
   border-top: 1px solid #eee;
   padding-top: 5px;
