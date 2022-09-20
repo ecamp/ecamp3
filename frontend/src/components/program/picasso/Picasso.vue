@@ -89,8 +89,7 @@ Listing all given activity schedule entries in a calendar view.
 
             <schedule-entry-responsibles
               :schedule-entry="event"
-              :avatar-size="20"
-              class="d-flex justify-end flex-wrap mt-2"
+              :avatar-size="event.duration <= 30 ? 12 : event.duration < 60 ? 16 : 20"
             />
           </div>
         </router-link>
@@ -103,8 +102,7 @@ Listing all given activity schedule entries in a calendar view.
 
           <schedule-entry-responsibles
             :schedule-entry="event"
-            :avatar-size="20"
-            class="d-flex justify-end flex-wrap mt-2"
+            :avatar-size="event.duration < 30 ? 12 : event.duration < 60 ? 16 : 20"
           />
 
           <!-- resize handle -->
@@ -140,6 +138,7 @@ import { apiStore as api } from '@/plugins/store'
 import { scheduleEntryRoute } from '@/router.js'
 import mergeListeners from '@/helpers/mergeListeners.js'
 import {
+  minuteDifference,
   timestampToUtcString,
   utcStringToTimestamp,
 } from '@/common/helpers/dateHelperVCalendar.js'
@@ -291,6 +290,7 @@ export default {
         ...entry,
         startTimestamp: utcStringToTimestamp(entry.start),
         endTimestamp: utcStringToTimestamp(entry.end),
+        duration: minuteDifference(entry.end, entry.start),
         timed: true,
       }))
 
@@ -336,9 +336,9 @@ export default {
   },
   computed: {
     widthPluralization() {
-      if (this.entryWidth < 81) {
+      if (this.entryWidth < 100) {
         return 0
-      } else if (this.entryWidth < 85) {
+      } else if (this.entryWidth < 110) {
         return 1
       } else {
         return 2
@@ -485,6 +485,9 @@ export default {
         top: 0;
         padding: 1px;
         overflow: hidden;
+        display: flex;
+        column-gap: 4px;
+        flex-wrap: wrap;
 
         @media #{map-get($display-breakpoints, 'sm-and-up')} {
           padding: 3px;
