@@ -43,7 +43,7 @@
     "@tiptap/extension-text": "2.0.0-beta.196",
     "@tiptap/extension-underline": "2.0.0-beta.196",
     "@tiptap/vue-2": "2.0.0-beta.196",
-    "@vue/composition-api": "1.7.0",
+    "@vue/composition-api": "1.7.1",
     "assert": "2.0.0",
     "axios": "0.27.2",
     "check-password-strength": "2.0.7",
