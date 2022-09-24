@@ -30,7 +30,6 @@ export default {
     '~/assets/fonts.css',
     '~/assets/toc.css',
     '~/assets/typography.css',
-    '@mdi/font/css/materialdesignicons.min.css',
   ],
   /*
    ** Plugins to load before mounting the App

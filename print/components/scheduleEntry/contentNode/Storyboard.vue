@@ -1,5 +1,5 @@
 <template>
-  <content-node-content :content-node="contentNode">
+  <content-node-content :content-node="contentNode" :icon-path="mdiScriptTextOutline">
     <table class="tw-w-full">
       <tr>
         <th class="column column1 header tw-w-1/12">
@@ -31,6 +31,7 @@
 import RichText from '../../generic/RichText.vue'
 import ContentNodeContent from './ContentNodeContent.vue'
 import { values } from 'lodash'
+import { mdiScriptTextOutline } from '@mdi/js'
 
 export default {
   components: {
@@ -39,6 +40,11 @@ export default {
   },
   props: {
     contentNode: { type: Object, required: true },
+  },
+  data() {
+    return {
+      mdiScriptTextOutline,
+    }
   },
   computed: {
     sections() {

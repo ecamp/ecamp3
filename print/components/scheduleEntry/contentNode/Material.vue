@@ -1,5 +1,5 @@
 <template>
-  <content-node-content :content-node="contentNode">
+  <content-node-content :content-node="contentNode" :icon-path="mdiPackageVariant">
     <div v-for="item in items" :key="item.id" class="item">
       <div class="material-row">
         <div class="item">{{ item.quantity }} {{ item.unit }} {{ item.article }}</div>
@@ -11,12 +11,19 @@
 
 <script>
 import ContentNodeContent from './ContentNodeContent.vue'
+import { mdiPackageVariant } from '@mdi/js'
+
 export default {
   components: {
     ContentNodeContent,
   },
   props: {
     contentNode: { type: Object, required: true },
+  },
+  data() {
+    return {
+      mdiPackageVariant,
+    }
   },
   async fetch() {
     await this.contentNode.materialItems().$loadItems()
