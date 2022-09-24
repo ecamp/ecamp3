@@ -52,7 +52,7 @@ export default {
     showDialog: function (showDialog) {
       if (showDialog) {
         this.status = 'initial'
-        this.loadEntityData(this.$auth.user().profile()._meta.self)
+        this.loadEntityData(this.$store.state.auth.user.profile()._meta.self)
       }
     },
   },

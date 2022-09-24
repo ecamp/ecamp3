@@ -19,7 +19,7 @@
     <slot>
       {{
         $tc('components.camp.collaboratorListItemDeactivate.warningText', 1, {
-          name: entity.user().displayName,
+          name: displayName,
         })
       }}
     </slot>
@@ -34,6 +34,7 @@
 <script>
 import DialogForm from '@/components/dialog/DialogForm.vue'
 import DialogBase from '@/components/dialog/DialogBase.vue'
+import campCollaborationDisplayName from '@/common/helpers/campCollaborationDisplayName.js'
 
 export default {
   name: 'CollaboratorListItemDeactivate',
@@ -47,7 +48,10 @@ export default {
       if (!(typeof this.entity.user === 'function')) {
         return false
       }
-      return this.$auth.user().id === this.entity.user().id
+      return this.$store.state.auth.user.id === this.entity.user().id
+    },
+    displayName() {
+      return campCollaborationDisplayName(this.entity, this.$tc.bind(this))
     },
   },
   created() {

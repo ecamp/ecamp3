@@ -8,9 +8,28 @@ Vue.use(storeLoader)
 // expired on 01-01-1970
 const expiredJWTPayload =
   'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpYXQiOjE2MzMxMzM0MDksImV4cCI6MCwicm9sZXMiOlsiUk9MRV9VU0VSIl0sInVzZXJuYW1lIjoidGVzdC11c2VyIiwidXNlciI6Ii91c2Vycy8xYTJiM2M0ZCJ9'
+// {
+//   "iat": 1633133409,
+//   "exp": 0,
+//   "roles": [
+//     "ROLE_USER"
+//   ],
+//   "username": "test-user",
+//   "user": "/users/1a2b3c4d"
+// }
+
 // expires on 01-01-3021, yes you read that right
 const validJWTPayload =
   'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpYXQiOjE2MzMxMzM0MDksImV4cCI6MzMxNjYzNjQ0MDAsInJvbGVzIjpbIlJPTEVfVVNFUiJdLCJ1c2VybmFtZSI6InRlc3QtdXNlciIsInVzZXIiOiIvdXNlcnMvMWEyYjNjNGQifQ'
+// {
+//   "iat": 1633133409,
+//   "exp": 33166364400,
+//   "roles": [
+//     "ROLE_USER"
+//   ],
+//   "username": "test-user",
+//   "user": "/users/1a2b3c4d"
+// }
 
 expect.extend({
   haveUri(actual, expectedUri) {
@@ -123,14 +142,14 @@ describe('authentication logic', () => {
     })
   })
 
-  describe('user()', () => {
+  describe('loadUser()', () => {
     it('resolves to null if not logged in', async () => {
       // given
       store.replaceState(createState())
       jest.spyOn(apiStore, 'get')
 
       // when
-      const result = auth.user()
+      const result = await auth.loadUser()
 
       // then
       expect(result).toEqual(null)
@@ -140,20 +159,14 @@ describe('authentication logic', () => {
     it('resolves to the user from the JWT token cookie', async () => {
       // given
       store.replaceState(createState())
-      const user = {
-        username: 'something',
-        _meta: {},
-      }
-      user._meta.load = new Promise(() => user)
       Cookies.set('localhost_jwt_hp', validJWTPayload)
-
-      jest.spyOn(apiStore, 'get').mockImplementation(() => user)
+      jest.spyOn(apiStore, 'get')
 
       // when
-      const result = auth.user()
+      const result = await auth.loadUser()
 
       // then
-      expect(result).toEqual(user)
+      expect(result.id).toEqual('1a2b3c4d')
       expect(apiStore.get).toHaveBeenCalledTimes(1)
       expect(apiStore.get).toHaveBeenCalledWith('/users/1a2b3c4d')
     })
@@ -175,16 +188,15 @@ describe('authentication logic', () => {
           },
         }
         jest.spyOn(apiStore, 'get').mockImplementation(() => user)
-        jest.spyOn(auth, 'logout').mockImplementation(() => user)
+        jest.spyOn(auth, 'logout')
 
         // when
-        const result = auth.user()
+        const result = await auth.loadUser()
 
         // then
-        expect(result).toEqual(user)
+        expect(result).toEqual(null)
         expect(apiStore.get).toHaveBeenCalledTimes(1)
         expect(apiStore.get).toHaveBeenCalledWith('/users/1a2b3c4d')
-        await result._meta.load
         expect(auth.logout).toHaveBeenCalledTimes(1)
       }
     )
@@ -198,6 +210,7 @@ describe('authentication logic', () => {
         origin: 'http://localhost',
         href: 'http://localhost/login',
       }
+      store.replaceState(createState())
     })
     afterEach(() => {
       window.location = location
@@ -222,6 +235,7 @@ describe('authentication logic', () => {
         origin: 'http://localhost',
         href: 'http://localhost/login',
       }
+      store.replaceState(createState())
     })
     afterEach(() => {
       window.location = location
@@ -246,6 +260,7 @@ describe('authentication logic', () => {
         origin: 'http://localhost',
         href: 'http://localhost/login',
       }
+      store.replaceState(createState())
     })
     afterEach(() => {
       window.location = location
@@ -278,6 +293,9 @@ describe('authentication logic', () => {
 
 function createState(authState = {}) {
   return {
+    auth: {
+      user: null,
+    },
     api: {
       '': {
         ...authState,
@@ -301,6 +319,14 @@ function createState(authState = {}) {
         },
         _meta: {
           self: '',
+        },
+      },
+      '/users/1a2b3c4d': {
+        id: '1a2b3c4d',
+        _meta: {
+          load: Promise.resolve({
+            id: '1a2b3c4d',
+          }),
         },
       },
     },

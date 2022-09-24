@@ -3,6 +3,7 @@ import axios from 'axios'
 import VueAxios from 'vue-axios/dist/vue-axios.common.min'
 import HalJsonVuex from 'hal-json-vuex'
 import lang from './lang'
+import auth from './auth'
 
 class StorePlugin {
   install(Vue) {
@@ -11,6 +12,7 @@ class StorePlugin {
     store = new Vuex.Store({
       modules: {
         lang,
+        auth,
       },
       strict: process.env.NODE_ENV !== 'production',
     })

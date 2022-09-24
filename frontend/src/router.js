@@ -6,8 +6,6 @@ import { apiStore } from '@/plugins/store'
 
 Vue.use(Router)
 
-const NavigationAuth = () =>
-  import(/* webpackChunkName: "navigationAuth" */ './views/auth/NavigationAuth.vue')
 const NavigationDefault = () =>
   import(/* webpackChunkName: "navigationDefault" */ './views/NavigationDefault.vue')
 const NavigationCamp = () =>
@@ -44,7 +42,7 @@ export default new Router({
       path: '/register',
       name: 'register',
       components: {
-        navigation: NavigationAuth,
+        navigation: NavigationDefault,
         default: () =>
           import(/* webpackChunkName: "register" */ './views/auth/Register.vue'),
       },
@@ -53,7 +51,7 @@ export default new Router({
       path: '/register-done',
       name: 'register-done',
       components: {
-        navigation: NavigationAuth,
+        navigation: NavigationDefault,
         default: () =>
           import(/* webpackChunkName: "register" */ './views/auth/RegisterDone.vue'),
       },
@@ -62,7 +60,7 @@ export default new Router({
       path: '/reset-password',
       name: 'resetPasswordRequest',
       components: {
-        navigation: NavigationAuth,
+        navigation: NavigationDefault,
         default: () =>
           import(
             /* webpackChunkName: "register" */ './views/auth/ResetPasswordRequest.vue'
@@ -73,7 +71,7 @@ export default new Router({
       path: '/reset-password/:id',
       name: 'resetPassword',
       components: {
-        navigation: NavigationAuth,
+        navigation: NavigationDefault,
         default: () =>
           import(/* webpackChunkName: "register" */ './views/auth/ResetPassword.vue'),
       },
@@ -89,7 +87,7 @@ export default new Router({
       path: '/activate/:userId/:activationKey',
       name: 'activate',
       components: {
-        navigation: NavigationAuth,
+        navigation: NavigationDefault,
         default: () =>
           import(/* webpackChunkName: "register" */ './views/auth/Activate.vue'),
       },
@@ -106,7 +104,7 @@ export default new Router({
       path: '/login',
       name: 'login',
       components: {
-        navigation: NavigationAuth,
+        navigation: NavigationDefault,
         default: () => import(/* webpackChunkName: "login" */ './views/auth/Login.vue'),
       },
     },
@@ -114,7 +112,7 @@ export default new Router({
       path: '/loginCallback',
       name: 'loginCallback',
       components: {
-        navigation: NavigationAuth,
+        navigation: NavigationDefault,
         default: () =>
           import(/* webpackChunkName: "login" */ './views/auth/LoginCallback.vue'),
       },
@@ -164,7 +162,7 @@ export default new Router({
       path: '/camps/invitation/:inviteKey',
       name: 'campInvitation',
       components: {
-        navigation: NavigationAuth,
+        navigation: NavigationDefault,
         default: () =>
           import(/* webpackChunkName: "login" */ './views/camp/Invitation.vue'),
       },
@@ -180,7 +178,7 @@ export default new Router({
       path: '/camps/invitation/rejected',
       name: 'invitationRejected',
       components: {
-        navigation: NavigationAuth,
+        navigation: NavigationDefault,
         default: () =>
           import(/* webpackChunkName: "login" */ './views/camp/InvitationRejected.vue'),
       },
@@ -189,7 +187,7 @@ export default new Router({
       path: '/camps/invitation/updateError',
       name: 'invitationUpdateError',
       components: {
-        navigation: NavigationAuth,
+        navigation: NavigationDefault,
         default: () =>
           import(
             /* webpackChunkName: "login" */ './views/camp/InvitationUpdateError.vue'
