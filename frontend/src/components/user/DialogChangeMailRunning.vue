@@ -4,7 +4,6 @@
     :title="$tc('components.user.dialogChangeMailRunning.title')"
     :cancel-action="status === 'initial' ? null : close"
     :cancel-label="$tc('global.button.close')"
-    max-width="600px"
   >
     <div v-if="status === 'initial'">
       <v-progress-circular indeterminate />
