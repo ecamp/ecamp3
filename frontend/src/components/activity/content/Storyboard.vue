@@ -53,7 +53,6 @@
               <v-container v-if="!layoutMode && !disabled" class="ma-0 pa-0">
                 <v-row no-gutters>
                   <v-col cols="6">
-                    <!-- TODO: dialog to ask for confirmation before deletion -->
                     <div class="section-buttons">
                       <dialog-remove-section
                         @submit="sortable.on.delete(sortable.itemKey)"
