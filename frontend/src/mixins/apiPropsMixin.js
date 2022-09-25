@@ -29,8 +29,8 @@ export const apiPropsMixin = {
     overrideDirty: { type: Boolean, default: false, required: false },
 
     /* enable/disable edit mode */
-    readonly: { type: Boolean, required: false, default: false },
-    disabled: { type: Boolean, required: false, default: false },
+    readonly: { type: Boolean, required: false, default: false }, // vuetify readonly: same look and feel as normal, but no changes possible
+    disabled: { type: Boolean, required: false, default: false }, // vuetify disabled: input greyed out, not focusable
 
     /* enable/disable auto save */
     autoSave: { type: Boolean, default: true, required: false },

@@ -2,7 +2,7 @@
   <card-content-node v-bind="$props">
     <div class="mb-3">
       <api-form :entity="contentNode">
-        <api-textarea
+        <api-richtext
           fieldname="data.text"
           :placeholder="$tc('contentNode.storycontext.name')"
           rows="2"
@@ -16,7 +16,6 @@
 </template>
 
 <script>
-import ApiTextarea from '@/components/form/api/ApiTextarea.vue'
 import ApiForm from '@/components/form/api/ApiForm.vue'
 import CardContentNode from '@/components/activity/CardContentNode.vue'
 import { contentNodeMixin } from '@/mixins/contentNodeMixin.js'
@@ -26,7 +25,6 @@ export default {
   components: {
     CardContentNode,
     ApiForm,
-    ApiTextarea,
   },
   mixins: [contentNodeMixin],
 }
