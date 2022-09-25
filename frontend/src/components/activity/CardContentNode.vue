@@ -2,33 +2,7 @@
   <v-card :elevation="draggable ? 4 : 0" :class="{ 'mx-2 my-2': draggable }">
     <v-card-title hide-actions class="pa-0 pr-sm-2">
       <v-toolbar dense flat>
-        <v-menu v-if="!disabled" bottom right offset-y>
-          <template #activator="{ on, attrs }">
-            <v-btn icon v-bind="attrs" v-on="on">
-              <v-icon>
-                {{ currentIcon }}
-              </v-icon>
-            </v-btn>
-          </template>
-          <v-container class="grey lighten-5">
-            <v-row v-for="(row, idx) in allowedIcons" :key="idx" no-gutters>
-              <v-col v-for="(col, jdx) in row" :key="jdx">
-                <v-btn
-                  icon
-                  tile
-                  :outlined="currentIcon === col"
-                  class="ma-1"
-                  @click="currentIcon = col"
-                >
-                  <v-icon>{{ col }}</v-icon>
-                </v-btn>
-              </v-col>
-            </v-row>
-          </v-container>
-        </v-menu>
-        <v-icon v-else>
-          {{ currentIcon }}
-        </v-icon>
+        <v-icon class="mr-1">{{ icon }}</v-icon>
 
         <div v-if="editInstanceName" style="flex: 1" @click.stop @keyup.prevent>
           <api-text-field
@@ -40,11 +14,12 @@
             @finished="editInstanceName = false"
           />
         </div>
-        <div v-else style="flex: 1">
-          <v-toolbar-title>
-            {{ instanceOrContentTypeName }}
-          </v-toolbar-title>
-        </div>
+
+        <v-toolbar-title v-else>
+          {{ instanceOrContentTypeName }}
+        </v-toolbar-title>
+
+        <v-spacer />
 
         <v-menu v-if="!layoutMode && !disabled" bottom left offset-y>
           <template #activator="{ on, attrs }">
@@ -98,19 +73,6 @@ export default {
   data() {
     return {
       editInstanceName: false,
-      allowedIcons: [
-        ['mdi-book-open-variant'],
-        [
-          'mdi-script-text-outline',
-          'mdi-timeline-text-outline',
-          'mdi-weather-sunny',
-          'mdi-weather-lightning-rainy',
-          'mdi-gender-female',
-          'mdi-gender-male',
-        ],
-        ['mdi-security', 'mdi-hospital-box-outline'],
-      ],
-      currentIcon: '',
     }
   },
   computed: {
@@ -120,11 +82,9 @@ export default {
       }
       return this.$tc(`contentNode.${camelCase(this.contentNode.contentTypeName)}.name`)
     },
-  },
-  mounted() {
-    this.currentIcon = this.$tc(
-      `contentNode.${camelCase(this.contentNode.contentTypeName)}.icon`
-    )
+    icon() {
+      return this.$tc(`contentNode.${camelCase(this.contentNode.contentTypeName)}.icon`)
+    },
   },
   methods: {
     toggleEditInstanceName() {
