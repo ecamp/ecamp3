@@ -23,28 +23,23 @@
         <api-form :entity="contentNode">
           <v-row dense>
             <v-col cols="2">
-              <api-textarea
+              <api-text-field
                 :fieldname="`data.sections[${sortable.itemKey}].column1`"
-                auto-grow
-                rows="2"
                 :disabled="layoutMode || disabled"
                 :filled="layoutMode"
               />
             </v-col>
             <v-col cols="7">
-              <api-textarea
+              <api-richtext
                 :fieldname="`data.sections[${sortable.itemKey}].column2`"
-                auto-grow
                 rows="4"
                 :disabled="layoutMode || disabled"
                 :filled="layoutMode"
               />
             </v-col>
             <v-col cols="2">
-              <api-textarea
+              <api-text-field
                 :fieldname="`data.sections[${sortable.itemKey}].column3`"
-                auto-grow
-                rows="2"
                 :disabled="layoutMode || disabled"
                 :filled="layoutMode"
               />
@@ -128,7 +123,6 @@
 </template>
 
 <script>
-import ApiTextarea from '@/components/form/api/ApiTextarea.vue'
 import ApiForm from '@/components/form/api/ApiForm.vue'
 import CardContentNode from '@/components/activity/CardContentNode.vue'
 import { contentNodeMixin } from '@/mixins/contentNodeMixin.js'
@@ -143,7 +137,6 @@ export default {
   components: {
     CardContentNode,
     ApiForm,
-    ApiTextarea,
     ApiSortable,
     DialogRemoveSection,
   },
