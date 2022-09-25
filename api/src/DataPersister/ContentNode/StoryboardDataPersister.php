@@ -5,7 +5,6 @@ namespace App\DataPersister\ContentNode;
 use App\DataPersister\Util\DataPersisterObservable;
 use App\Entity\ContentNode\Storyboard;
 use App\InputFilter\CleanHTMLFilter;
-use Ramsey\Uuid\Uuid;
 
 class StoryboardDataPersister extends ContentNodeAbstractDataPersister {
     /**
@@ -26,15 +25,6 @@ class StoryboardDataPersister extends ContentNodeAbstractDataPersister {
      */
     public function beforeCreate($data): Storyboard {
         $data = parent::beforeCreate($data);
-
-        if (empty($data->data['sections'])) {
-            $data->data['sections'][Uuid::uuid4()] = [
-                'column1' => '',
-                'column2' => '',
-                'column3' => '',
-                'position' => 0,
-            ];
-        }
 
         return $this->sanitizeData($data);
     }
