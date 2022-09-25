@@ -18,7 +18,7 @@ class CreateStoryboardTest extends CreateContentNodeTestCase {
     }
 
     public function testCreateStoryboardAcceptsValidJson() {
-        $this->create($this->getExampleWritePayload(['data' => [
+        $response = $this->create($this->getExampleWritePayload(['data' => [
             'sections' => [
                 'f5ee1e2a-af0a-4fa5-8f3f-b869ed184c5c' => [
                     'column1' => 'A',
@@ -30,6 +30,7 @@ class CreateStoryboardTest extends CreateContentNodeTestCase {
         ]]));
 
         $this->assertResponseStatusCodeSame(201);
+        $this->assertCount(1, $response->toArray()['data']['sections']);
         $this->assertJsonContains(['data' => [
             'sections' => [
                 'f5ee1e2a-af0a-4fa5-8f3f-b869ed184c5c' => [
@@ -43,12 +44,11 @@ class CreateStoryboardTest extends CreateContentNodeTestCase {
     }
 
     public function testCreateStoryboardAcceptsEmptyJson() {
-        $this->create($this->getExampleWritePayload(['data' => null]));
+        $response = $this->create($this->getExampleWritePayload(['data' => null]));
 
         $this->assertResponseStatusCodeSame(201);
-        $this->assertJsonContains(['data' => [
-            'sections' => [],
-        ]]);
+
+        $this->assertCount(1, $response->toArray()['data']['sections']); // populated with 1 default section
     }
 
     public function testCreateStoryboardRejectsInvalidJson() {
