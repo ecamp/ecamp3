@@ -8,12 +8,11 @@ import TimeColumnSpacer from './TimeColumnSpacer.jsx'
 import DayHeader from './DayHeader.jsx'
 
 function Picasso({ period, orientation, $tc }) {
-  const columnWrapperStyles = {
-    flexGrow: '1',
+  const containerStyles = {
+    border: '1pt solid grey',
+    flexGrow: 1,
     display: 'flex',
     flexDirection: 'row',
-    alignItems: 'stretch',
-    border: '1px solid black',
   }
 
   // Format: [hour, weight] where weight determines how tall the hour is rendered.
@@ -58,22 +57,29 @@ function Picasso({ period, orientation, $tc }) {
       <Text id="picasso" style={styles.h1}>
         {$tc('print.picasso.title', { period: period.description })}
       </Text>
-      <View style={{ ...columnWrapperStyles, border: 'none' }}>
-        <TimeColumnSpacer times={times} />
+      <View style={{ ...containerStyles, border: '1pt solid white' }}>
+        <TimeColumnSpacer times={times.slice(0, times.length - 1)} />
         {period.days().items.map((day) => (
-          <DayHeader day={day} key={day.id} />
+          <DayHeader
+            day={day}
+            key={day.id}
+            styles={{
+              borderLeft:
+                day.id == period.days().items[0].id ? '1pt solid white' : '',
+              borderRight: '1pt solid white',
+          }} />
         ))}
-        <TimeColumnSpacer times={times} />
+        <TimeColumnSpacer times={times.slice(0, times.length - 1)} />
       </View>
-      <View style={columnWrapperStyles}>
-        <TimeColumn times={times.slice(0, times.length - 1)} />
+      <View style={containerStyles}>
+        <TimeColumn times={times.slice(0, times.length - 1)} styles={{ alignItems: 'flex-end' }} />
         {period.days().items.map((day) => {
           return (
             <DayColumn
               key={day.id}
               styles={{
-                borderLeft: day.id === period.days().items[0].id ? '1px solid grey' : '',
-                borderRight: '1px solid grey',
+                borderLeft: day.id === period.days().items[0].id ? '1pt solid grey' : '',
+                borderRight: '1pt solid grey',
               }}
               times={times}
               day={day}
@@ -81,7 +87,7 @@ function Picasso({ period, orientation, $tc }) {
             />
           )
         })}
-        <TimeColumn times={times.slice(0, times.length - 1)} />
+        <TimeColumn times={times.slice(0, times.length - 1)} styles={{ alignItems: 'flex-start' }} />
       </View>
     </Page>
   )

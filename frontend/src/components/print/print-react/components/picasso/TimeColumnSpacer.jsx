@@ -10,13 +10,11 @@ const columnStyles = {
   flexShrink: 0,
   display: 'flex',
   flexDirection: 'column',
-  alignItems: 'stretch',
   opacity: '0',
 }
 const rowStyles = {
   paddingHorizontal: '2pt',
   fontSize: fontSize + 'pt',
-  flexBasis: 1,
 }
 
 function longestTime(times) {

@@ -39,7 +39,7 @@ function Responsibles({ activity, styles }) {
               backgroundColor: campCollaborationColor(
                 activityResponsible.campCollaboration()
               ),
-              ...(index === last ? {} : { marginRight: '-' + fontSize / 4 + 'px' }),
+              ...(index === last ? {} : { marginRight: '-' + fontSize / 4 + 'pt' }),
             }}
           >
             <Text style={initialsStyles}>

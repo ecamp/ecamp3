@@ -3,10 +3,9 @@ import React from 'react'
 import { View, Text } from '../../reactPdf.js'
 import dayjs from '@/common/helpers/dayjs.js'
 
-const wrapperStyles = {
-  flexGrow: '1',
-  display: 'flex',
-  flexDirection: 'column',
+const containerStyles = {
+  flexBasis: 0,
+  flexGrow: 1,
   overflow: 'hidden',
   padding: '4pt 0 2pt',
 }
@@ -22,7 +21,7 @@ function renderDate(day) {
 
 function DayHeader({ day, styles }) {
   return (
-    <View style={{ ...wrapperStyles, ...styles }}>
+    <View style={{ ...containerStyles, ...styles }}>
       <Text style={textStyles}>{renderDate(day)}</Text>
     </View>
   )

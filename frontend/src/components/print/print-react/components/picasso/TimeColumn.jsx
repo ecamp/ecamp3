@@ -4,20 +4,20 @@ import { Text, View } from '../../reactPdf.js'
 import dayjs from '@/common/helpers/dayjs.js'
 
 const fontSize = 8
+const verticalOffset = fontSize / 2.0 + 2 // this might need to be adjusted if we change the font
 
 const columnStyles = {
   flexGrow: 0,
   flexShrink: 0,
   display: 'flex',
   flexDirection: 'column',
-  alignItems: 'stretch',
-  marginTop: -fontSize / 2.0 - 1 + 'pt',
-  marginBottom: fontSize / 2.0 + 1 + 'pt',
+  marginTop: -verticalOffset + 'pt',
+  marginBottom: verticalOffset + 'pt',
 }
 const rowStyles = {
   paddingHorizontal: '2pt',
   fontSize: fontSize + 'pt',
-  flexBasis: 1,
+  flexBasis: 0, // this should match the height of the borders on the day grid rows. 0 means no borders
 }
 
 function TimeColumn({ times, styles }) {

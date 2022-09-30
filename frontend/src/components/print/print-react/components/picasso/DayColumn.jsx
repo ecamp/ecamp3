@@ -65,9 +65,8 @@ function scheduleEntryBorderRadiusStyles(scheduleEntry, day, times) {
   const endsOnThisDay = end >= dayStart && end <= dayEnd
 
   return {
-    ...(endsOnThisDay
-      ? {}
-      : { borderBottomRightRadius: '0', borderBottomLeftRadius: '0' }),
+    // prettier-ignore
+    ...(endsOnThisDay ? {} : { borderBottomRightRadius: '0', borderBottomLeftRadius: '0' }),
     ...(startsOnThisDay ? {} : { borderTopRightRadius: '0', borderTopLeftRadius: '0' }),
   }
 }
@@ -90,21 +89,25 @@ function scheduleEntryPositionStyles(scheduleEntry, day, times) {
 }
 
 const columnStyles = {
-  flexGrow: '1',
+  flexBasis: 0,
+  flexGrow: 1,
   display: 'flex',
   flexDirection: 'column',
   overflow: 'hidden',
+  position: 'relative',
 }
 const dayGridStyles = {
-  minWidth: '100%',
-  minHeight: '100%',
+  width: '100%',
+  height: '100%',
   display: 'flex',
+  flexDirection: 'column',
 }
-const rowStyles = {
+const dayGridRowStyles = {
   display: 'flex',
+  flexBasis: 0,
 }
 const scheduleEntryColumnStyles = {
-  margin: '0 0.5%',
+  margin: '0 2pt',
   position: 'absolute',
   top: '0',
   bottom: '0',
@@ -120,7 +123,7 @@ function DayColumn({ times, scheduleEntries, day, styles }) {
           <View
             key={time}
             style={{
-              ...rowStyles,
+              ...dayGridRowStyles,
               flexGrow: weight,
               ...(index % 2 === 0 ? { backgroundColor: 'lightgrey' } : {}),
             }}

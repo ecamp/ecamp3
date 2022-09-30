@@ -17,8 +17,8 @@ function scheduleEntryTitle(scheduleEntry) {
 
 const scheduleEntryStyles = {
   position: 'absolute',
-  borderRadius: '2px',
-  padding: '0 4px',
+  borderRadius: '2pt',
+  padding: '0 4pt',
   flexDirection: 'column',
   justifyContent: 'flex-start',
 }
@@ -37,7 +37,7 @@ const responsiblesContainerStyle = {
   flexDirection: 'column',
   alignItems: 'flex-end',
   justifyContent: 'flex-end',
-  padding: '0 4px',
+  padding: '0 4pt',
 }
 
 const responsiblesStyle = {
@@ -45,7 +45,7 @@ const responsiblesStyle = {
 }
 
 const spacerStyles = {
-  height: '4px',
+  flexBasis: '4pt',
   flexShrink: '1',
 }
 
