@@ -2,20 +2,7 @@
 import React from 'react'
 import { Text, View } from '@react-pdf/renderer'
 import dayjs from '@/common/helpers/dayjs.js'
-
-const fontSize = 8
-
-const columnStyles = {
-  flexGrow: 0,
-  flexShrink: 0,
-  display: 'flex',
-  flexDirection: 'column',
-  opacity: '0',
-}
-const rowStyles = {
-  paddingHorizontal: '2pt',
-  fontSize: fontSize + 'pt',
-}
+import picassoStyles from './picassoStyles.js'
 
 function longestTime(times) {
   return dayjs()
@@ -27,8 +14,10 @@ function longestTime(times) {
 
 function TimeColumnSpacer({ times }) {
   return (
-    <View style={columnStyles}>
-      <Text style={rowStyles}>{longestTime(times)}</Text>
+    <View style={{ ...picassoStyles.timeColumn, marginTop: 0, marginBottom: 0 }}>
+      <Text style={{ ...picassoStyles.timeColumnText, opacity: 0 }}>
+        {longestTime(times)}
+      </Text>
     </View>
   )
 }

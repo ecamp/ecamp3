@@ -3,6 +3,7 @@ import React from 'react'
 import { View } from '@react-pdf/renderer'
 import ScheduleEntry from './ScheduleEntry.jsx'
 import dayjs from '@/common/helpers/dayjs.js'
+import picassoStyles from './picassoStyles.js'
 
 // converts ISO String format (UTC timezone) into a unix/seconds timestamp (UTC timezone)
 function stringToTimestamp(string) {
@@ -88,49 +89,22 @@ function scheduleEntryPositionStyles(scheduleEntry, day, times) {
   }
 }
 
-const columnStyles = {
-  flexBasis: 0,
-  flexGrow: 1,
-  display: 'flex',
-  flexDirection: 'column',
-  overflow: 'hidden',
-  position: 'relative',
-}
-const dayGridStyles = {
-  width: '100%',
-  height: '100%',
-  display: 'flex',
-  flexDirection: 'column',
-}
-const dayGridRowStyles = {
-  display: 'flex',
-  flexBasis: 0,
-}
-const scheduleEntryColumnStyles = {
-  margin: '0 2pt',
-  position: 'absolute',
-  top: '0',
-  bottom: '0',
-  left: '0',
-  right: '0',
-}
-
 function DayColumn({ times, scheduleEntries, day, styles }) {
   return (
-    <View style={{ ...columnStyles, ...styles }}>
-      <View style={dayGridStyles}>
+    <View style={{ ...picassoStyles.dayColumn, ...styles }}>
+      <View style={picassoStyles.dayGrid}>
         {times.slice(0, times.length - 1).map(([time, weight], index) => (
           <View
             key={time}
             style={{
-              ...dayGridRowStyles,
+              ...picassoStyles.dayGridRow,
               flexGrow: weight,
               ...(index % 2 === 0 ? { backgroundColor: 'lightgrey' } : {}),
             }}
           />
         ))}
       </View>
-      <View style={scheduleEntryColumnStyles}>
+      <View style={picassoStyles.scheduleEntryContainer}>
         {filterScheduleEntriesByDay(scheduleEntries, day, times).map((scheduleEntry) => {
           return (
             <ScheduleEntry

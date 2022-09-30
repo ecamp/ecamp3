@@ -18,6 +18,7 @@ const styles = StyleSheet.create({
   h1: {
     fontSize: 16,
     fontWeight: 'semibold',
+    marginBottom: 4,
   },
   header: {
     fontSize: marginFontSize,

@@ -2,19 +2,13 @@
 import React from 'react'
 import { Page, View, Text } from '@react-pdf/renderer'
 import styles from '../styles.js'
+import picassoStyles from './picassoStyles.js'
 import TimeColumn from './TimeColumn.jsx'
 import DayColumn from './DayColumn.jsx'
 import TimeColumnSpacer from './TimeColumnSpacer.jsx'
 import DayHeader from './DayHeader.jsx'
 
 function Picasso({ period, orientation, $tc }) {
-  const containerStyles = {
-    border: '1pt solid grey',
-    flexGrow: 1,
-    display: 'flex',
-    flexDirection: 'row',
-  }
-
   // Format: [hour, weight] where weight determines how tall the hour is rendered.
   // This could also be generated depending on the schedule entries present in the camp:
   // e.g. give less weight to hours that contain no schedule entries, or detect which hour is best
@@ -57,22 +51,25 @@ function Picasso({ period, orientation, $tc }) {
       <Text id="picasso" style={styles.h1}>
         {$tc('print.picasso.title', { period: period.description })}
       </Text>
-      <View style={{ ...containerStyles, border: '1pt solid white' }}>
+      <View style={{ ...picassoStyles.calendarContainer, border: '1pt solid white' }}>
         <TimeColumnSpacer times={times.slice(0, times.length - 1)} />
         {period.days().items.map((day) => (
           <DayHeader
             day={day}
             key={day.id}
             styles={{
-              borderLeft:
-                day.id == period.days().items[0].id ? '1pt solid white' : '',
+              borderLeft: day.id == period.days().items[0].id ? '1pt solid white' : '',
               borderRight: '1pt solid white',
-          }} />
+            }}
+          />
         ))}
         <TimeColumnSpacer times={times.slice(0, times.length - 1)} />
       </View>
-      <View style={containerStyles}>
-        <TimeColumn times={times.slice(0, times.length - 1)} styles={{ alignItems: 'flex-end' }} />
+      <View style={picassoStyles.calendarContainer}>
+        <TimeColumn
+          times={times.slice(0, times.length - 1)}
+          styles={{ alignItems: 'flex-end' }}
+        />
         {period.days().items.map((day) => {
           return (
             <DayColumn
@@ -87,7 +84,10 @@ function Picasso({ period, orientation, $tc }) {
             />
           )
         })}
-        <TimeColumn times={times.slice(0, times.length - 1)} styles={{ alignItems: 'flex-start' }} />
+        <TimeColumn
+          times={times.slice(0, times.length - 1)}
+          styles={{ alignItems: 'flex-start' }}
+        />
       </View>
     </Page>
   )
