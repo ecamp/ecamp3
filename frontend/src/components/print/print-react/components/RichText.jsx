@@ -1,6 +1,6 @@
 // eslint-disable-next-line no-unused-vars
 import React from 'react'
-import { Text, View } from '../reactPdf.js'
+import { Text, View } from '@react-pdf/renderer'
 import htmlToReact from 'html-to-react'
 
 function addKeys(children) {

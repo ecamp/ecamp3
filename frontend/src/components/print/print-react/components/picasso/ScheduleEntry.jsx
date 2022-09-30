@@ -1,6 +1,6 @@
 // eslint-disable-next-line no-unused-vars
 import React from 'react'
-import { View, Text } from '../../reactPdf.js'
+import { View, Text } from '@react-pdf/renderer'
 import Responsibles from './Responsibles.jsx'
 
 const fontSize = 8

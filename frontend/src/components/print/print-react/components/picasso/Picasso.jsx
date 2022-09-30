@@ -1,6 +1,6 @@
 // eslint-disable-next-line no-unused-vars
 import React from 'react'
-import { Page, View, Text } from '../../reactPdf.js'
+import { Page, View, Text } from '@react-pdf/renderer'
 import styles from '../styles.js'
 import TimeColumn from './TimeColumn.jsx'
 import DayColumn from './DayColumn.jsx'
