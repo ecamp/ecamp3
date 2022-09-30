@@ -9,7 +9,7 @@
 ARG PHP_VERSION=8.1.11
 
 # renovate: datasource=docker depName=caddy
-ARG CADDY_VERSION=2.5.2
+ARG CADDY_VERSION=2.6.1
 
 # "php" stage
 FROM php:${PHP_VERSION}-fpm-alpine AS api_platform_php
@@ -30,7 +30,7 @@ RUN apk add --no-cache \
 ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so
 
 # renovate: datasource=github-releases depName=krakjoe/apcu
-ARG APCU_VERSION=5.1.21
+ARG APCU_VERSION=v5.1.22
 RUN set -eux; \
 	apk add --no-cache --virtual .build-deps \
 	$PHPIZE_DEPS \
