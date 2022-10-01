@@ -14,7 +14,7 @@
       <div v-html="$tc('views.auth.login.beta.notice')" />
     </v-alert>
     <v-alert v-if="error" outlined text border="left" type="error">
-      Login failed
+      {{ error }}
     </v-alert>
     <v-form @submit.prevent="login">
       <e-text-field
@@ -51,12 +51,12 @@
         type="submit"
         :color="username && password ? 'blue darken-2' : 'blue lighten-4'"
         block
-        :disabled="!(username && password)"
+        :disabled="!(username && password) || authenticationInProgress"
         outlined
         :x-large="$vuetify.breakpoint.smAndUp"
         class="my-4"
       >
-        <v-progress-circular v-if="normalLoggingIn" indeterminate size="24" />
+        <v-progress-circular v-if="authenticationInProgress" indeterminate size="24" />
         <v-icon v-else>$vuetify.icons.ecamp</v-icon>
         <v-spacer />
         <span>{{ $tc('views.auth.login.provider.ecamp') }}</span>
@@ -124,6 +124,7 @@ import { isLoggedIn } from '@/plugins/auth'
 import AuthContainer from '@/components/layout/AuthContainer.vue'
 import HorizontalRule from '@/components/layout/HorizontalRule.vue'
 import IconSpacer from '@/components/layout/IconSpacer.vue'
+import { serverErrorToString } from '@/helpers/serverError'
 
 export default {
   name: 'Login',
@@ -143,8 +144,8 @@ export default {
     return {
       username: '',
       password: '',
-      error: false,
-      normalLoggingIn: false,
+      error: null,
+      authenticationInProgress: false,
       showCredits: true,
     }
   },
@@ -153,16 +154,16 @@ export default {
   },
   methods: {
     async login() {
-      this.normalLoggingIn = true
-      this.error = false
+      this.authenticationInProgress = true
+      this.error = null
       this.$auth
         .login(this.username, this.password)
         .then(() => {
           this.$router.replace(this.$route.query.redirect || '/')
         })
-        .catch(() => {
-          this.normalLoggingIn = false
-          this.error = true
+        .catch((e) => {
+          this.authenticationInProgress = false
+          this.error = serverErrorToString(e)
         })
     },
     async loginGoogle() {
