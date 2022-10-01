@@ -324,8 +324,11 @@
         "login": "Anmelden",
         "passwordConfirmation": "Passwort erneut eingeben",
         "register": "Registrieren",
-        "requiredField": "Pflichtfelder",
-        "title": "Ein Konto erstellen"
+        "requiredField": "Pflichtfeld",
+        "title": "Ein Konto erstellen",
+        "passwordMinLengthWarning": "Passwort muss mindestens 12 Zeichen lang sein",
+        "passwordMaxLengthWarning": "Passwort darf höchstens 64 Zeichen lang sein",
+        "passwordMismatch": "Passwörter stimmen nicht überein"
       },
       "registerDone": {
         "login": "Anmelden",

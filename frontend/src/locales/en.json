@@ -387,7 +387,10 @@
         "passwordConfirmation": "Enter Password again",
         "register": "Register",
         "requiredField": "required field",
-        "title": "Create an account"
+        "title": "Create an account",
+        "passwordMinLengthWarning": "Password must contain at least 12 characters",
+        "passwordMaxLengthWarning": "Password length must not exceed 64 characters",
+        "passwordMismatch": "Passwords don't match"
       },
       "registerDone": {
         "login": "Login",

@@ -164,10 +164,13 @@ export default {
       }
     },
     pw2Rules() {
-      return [(v) => (!!v && v) === this.pw1 || 'Nicht übereinstimmend']
+      return [(v) => (!!v && v) === this.pw1 || this.$tc('views.auth.register.passwordMismatch')]
     },
     pw1Rules() {
-      return [(v) => v.length >= 8 || 'Mindestens 8 Zeichen lang sein']
+      return [
+        (v) => v.length >= 12 || this.$tc('views.auth.register.passwordMinLengthWarning'),
+        (v) => v.length <= 64 || this.$tc('views.auth.register.passwordMaxLengthWarning')
+        ]
     },
     availableLocales() {
       return VueI18n.availableLocales.map((l) => ({
