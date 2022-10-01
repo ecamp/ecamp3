@@ -115,7 +115,7 @@ export default {
    ** See https://nuxtjs.org/api/configuration-build/
    */
   build: {
-    // TODO: remove the '&& false' again when webpack supports node 18 with sourcemaps.
+    // TODO: enable again when webpack supports node 18 with sourcemaps.
     // extend(config, ctx) {
     //   // include source map in development mode
     //   // eslint-disable-next-line no-constant-condition
