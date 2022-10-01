@@ -39,7 +39,7 @@ function dateRange(start, end) {
   if (dateLong(start) === dateLong(end)) {
     return dateLong(start)
   }
-  return `${dateShort(start) - dateLong()}`
+  return `${dateShort(start)} - ${dateLong(end)}`
 }
 
 export { dateShort, dateLong, hourShort, dateRange, rangeShort }
