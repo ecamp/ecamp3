@@ -327,7 +327,7 @@
         "requiredField": "Pflichtfeld",
         "title": "Ein Konto erstellen",
         "passwordMinLengthWarning": "Passwort muss mindestens 12 Zeichen lang sein",
-        "passwordMaxLengthWarning": "Passwort darf höchstens 64 Zeichen lang sein",
+        "passwordMaxLengthWarning": "Passwort darf höchstens 128 Zeichen lang sein",
         "passwordMismatch": "Passwörter stimmen nicht überein"
       },
       "registerDone": {

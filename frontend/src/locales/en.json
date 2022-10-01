@@ -389,7 +389,7 @@
         "requiredField": "required field",
         "title": "Create an account",
         "passwordMinLengthWarning": "Password must contain at least 12 characters",
-        "passwordMaxLengthWarning": "Password length must not exceed 64 characters",
+        "passwordMaxLengthWarning": "Password length must not exceed 128 characters",
         "passwordMismatch": "Passwords don't match"
       },
       "registerDone": {
