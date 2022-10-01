@@ -23,7 +23,31 @@ class StoryboardDataPersisterTest extends TestCase {
     protected function setUp(): void {
         $this->dataPersisterObservable = $this->createMock(DataPersisterObservable::class);
         $this->cleanHTMLFilter = $this->createMock(CleanHTMLFilter::class);
+        $this->cleanHTMLFilter->method('applyTo')->will(
+            $this->returnCallback(
+                function ($object, $property) {
+                    $object[$property] = '***sanitzed***';
+
+                    return $object;
+                }
+            )
+        );
+
         $this->contentNode = new Storyboard();
+        $this->contentNode->data = ['sections' => [
+            '37bbd7b8-441e-403e-b227-70ea52170b9b' => [
+                'column1' => 'test1<script>alert(1)</script>',
+                'column2' => 'test2<script>alert(2)</script>',
+                'column3' => 'test3<script>alert(3)</script>',
+                'position' => 0,
+            ],
+            '2c5534d3-d077-4ccd-8c9e-b961b451f6e3' => [
+                'column1' => 'test1<script>alert(1)</script>',
+                'column2' => 'test2<script>alert(2)</script>',
+                'column3' => 'test3<script>alert(3)</script>',
+                'position' => 1,
+            ],
+        ]];
 
         $this->root = new ColumnLayout();
         $this->contentNode->parent = new ColumnLayout();
@@ -57,5 +81,50 @@ class StoryboardDataPersisterTest extends TestCase {
 
         // then
         $this->assertNotEquals($this->root, $data->root);
+    }
+
+    public function testSantizeDataOnCreate() {
+        // when
+        /** @var Storyboard $data */
+        $data = $this->dataPersister->beforeCreate($this->contentNode);
+
+        // then
+        $this->assertEquals(['sections' => [
+            '37bbd7b8-441e-403e-b227-70ea52170b9b' => [
+                'column1' => '***sanitzed***',
+                'column2' => '***sanitzed***',
+                'column3' => '***sanitzed***',
+                'position' => 0,
+            ],
+            '2c5534d3-d077-4ccd-8c9e-b961b451f6e3' => [
+                'column1' => '***sanitzed***',
+                'column2' => '***sanitzed***',
+                'column3' => '***sanitzed***',
+                'position' => 1,
+            ],
+        ]], $data->data);
+    }
+
+    public function testSanitizeOnUpdate() {
+        // when
+        /** @var Storyboard $data */
+        $data = $this->dataPersister->beforeUpdate($this->contentNode);
+
+        // then
+        // then
+        $this->assertEquals(['sections' => [
+            '37bbd7b8-441e-403e-b227-70ea52170b9b' => [
+                'column1' => '***sanitzed***',
+                'column2' => '***sanitzed***',
+                'column3' => '***sanitzed***',
+                'position' => 0,
+            ],
+            '2c5534d3-d077-4ccd-8c9e-b961b451f6e3' => [
+                'column1' => '***sanitzed***',
+                'column2' => '***sanitzed***',
+                'column3' => '***sanitzed***',
+                'position' => 1,
+            ],
+        ]], $data->data);
     }
 }

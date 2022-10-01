@@ -51,6 +51,14 @@ class CreateStoryboardTest extends CreateContentNodeTestCase {
         $this->assertCount(1, $response->toArray()['data']['sections']); // populated with 1 default section
     }
 
+    public function testCreateStoryboardAcceptsNotExistingJson() {
+        $response = $this->create($this->getExampleWritePayload([], ['data']));
+
+        $this->assertResponseStatusCodeSame(201);
+
+        $this->assertCount(1, $response->toArray()['data']['sections']); // populated with 1 default section
+    }
+
     public function testCreateStoryboardRejectsInvalidJson() {
         $response = $this->create($this->getExampleWritePayload(['data' => ['sections' => 'dummy']]));
 

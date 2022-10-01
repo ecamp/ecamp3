@@ -8,8 +8,8 @@ use App\Entity\ContentNode;
 use App\Repository\StoryboardRepository;
 use App\Validator\AssertJsonSchema;
 use Doctrine\ORM\Mapping as ORM;
-use Ramsey\Uuid\Uuid;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ApiResource(
     routePrefix: '/content_node',
@@ -91,21 +91,6 @@ class Storyboard extends ContentNode {
     #[Groups(['read', 'write'])]
     #[ORM\Column(type: 'json', nullable: true, options: ['jsonb' => true])]
     #[AssertJsonSchema(schema: self::JSON_SCHEMA)]
+    #[Assert\NotNull(groups: ['update'])] // if created with empty data, then default value is populated in data persister
     public ?array $data = null;
-
-    public function setData(?array $data): void {
-        // populate with default data if existing data and incoming data is both empty
-        if (null === $this->data && null === $data) {
-            $this->data = ['sections' => [
-                Uuid::uuid4()->toString() => [
-                    'column1' => '',
-                    'column2' => '',
-                    'column3' => '',
-                    'position' => 0,
-                ],
-            ]];
-        } else {
-            parent::setData($data);
-        }
-    }
 }

@@ -80,6 +80,7 @@ class ColumnLayout extends ContentNode {
         new AssertColumWidthsSumTo12(),
         new AssertNoOrphanChildren(),
     ])]
+    #[Assert\NotNull]
     public ?array $data = ['columns' => [['slot' => '1', 'width' => 12]]];
 
     /**
