@@ -24,7 +24,7 @@ class CreateUserTest extends ECampApiTestCase {
         $this->assertJsonContains($this->getExampleReadPayload([], ['password']));
     }
 
-    public function testLoginAfterRegistration() {
+    public function testLoginFailsWithoutActivation() {
         $client = static::createBasicClient();
         // Disable resetting the database between the two requests
         $client->disableReboot();
@@ -37,7 +37,76 @@ class CreateUserTest extends ECampApiTestCase {
             'password' => 'learning-by-doing-101',
         ]]);
 
+        $this->assertResponseStatusCodeSame(401);
+    }
+
+    public function testLoginAfterRegistrationAndActivation() {
+        $client = static::createBasicClient();
+        // Disable resetting the database between the two requests
+        $client->disableReboot();
+
+        // register user
+        $result = $client->request('POST', '/users', ['json' => $this->getExampleWritePayload()]);
+        $this->assertResponseStatusCodeSame(201);
+
+        $userId = $result->toArray()['id'];
+        $user = $this->getEntityManager()->getRepository(User::class)->find($userId);
+
+        // activate user
+        $client->request('PATCH', "/users/{$userId}/activate", ['json' => [
+            'activationKey' => $user->activationKey,
+        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
         $this->assertResponseIsSuccessful();
+
+        // login
+        $client->request('POST', '/authentication_token', ['json' => [
+            'username' => 'bipi',
+            'password' => 'learning-by-doing-101',
+        ]]);
+        $this->assertResponseIsSuccessful();
+    }
+
+    public function testActivationFailsIfAlreadyActivated() {
+        $client = static::createBasicClient();
+        // Disable resetting the database between the two requests
+        $client->disableReboot();
+
+        // register user
+        $result = $client->request('POST', '/users', ['json' => $this->getExampleWritePayload()]);
+        $this->assertResponseStatusCodeSame(201);
+
+        $userId = $result->toArray()['id'];
+        $user = $this->getEntityManager()->getRepository(User::class)->find($userId);
+
+        // activate user
+        $client->request('PATCH', "/users/{$userId}/activate", ['json' => [
+            'activationKey' => $user->activationKey,
+        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
+        $this->assertResponseIsSuccessful();
+
+        // activate user again
+        $client->request('PATCH', "/users/{$userId}/activate", ['json' => [
+            'activationKey' => $user->activationKey,
+        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
+        $this->assertResponseStatusCodeSame(422);
+    }
+
+    public function testActivationFailsWithInvalidActivationKey() {
+        $client = static::createBasicClient();
+        // Disable resetting the database between the two requests
+        $client->disableReboot();
+
+        // register user
+        $result = $client->request('POST', '/users', ['json' => $this->getExampleWritePayload()]);
+        $this->assertResponseStatusCodeSame(201);
+
+        $userId = $result->toArray()['id'];
+
+        // activate user
+        $client->request('PATCH', "/users/{$userId}/activate", ['json' => [
+            'activationKey' => '***',
+        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
+        $this->assertResponseStatusCodeSame(422);
     }
 
     public function testCreateUserValidatesMissingProfile() {
