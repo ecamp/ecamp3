@@ -41,6 +41,10 @@ export default {
   props: {
     period: { type: Function, required: true },
     showButton: { type: Boolean, required: true },
+    day: {
+      type: Function,
+      required: false,
+    },
   },
   data() {
     return {
@@ -56,15 +60,23 @@ export default {
   },
   computed: {
     scheduleEntries() {
-      // TODO for SideBar, add filtering for the current day, now that the API supports it
-      return this.period().scheduleEntries()
+      if (this.date) {
+        return this.day().scheduleEntries()
+      } else {
+        return this.period().scheduleEntries()
+      }
     },
   },
   mounted() {
-    this.period().scheduleEntries().$reload()
-    this.period().camp().activities().$reload()
+    if (this.date) {
+      this.day().scheduleEntries().$reload()
+      // TODO which elements need a reload here and how?
+    } else {
+      this.period().scheduleEntries().$reload()
+      this.period().camp().activities().$reload()
+      this.period().days().$reload()
+    }
     this.period().camp().categories().$reload()
-    this.period().days().$reload()
   },
 
   methods: {
