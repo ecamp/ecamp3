@@ -109,26 +109,4 @@ class LoginTest extends ECampApiTestCase {
         $this->assertResponseStatusCodeSame(204);
         $this->assertResponseHasHeader('Set-Cookie');
     }
-
-    /**
-     * @throws TransportExceptionInterface
-     */
-    public function testLoginWithEmail() {
-        /** @var User $user */
-        $user = static::$fixtures['user2member'];
-
-        $this->createBasicClient()->request(
-            'POST',
-            '/authentication_token',
-            [
-                'json' => [
-                    'identifier' => $user->getEmail(),
-                    'password' => 'test',
-                ],
-            ]
-        );
-
-        $this->assertResponseStatusCodeSame(204);
-        $this->assertResponseHasHeader('Set-Cookie');
-    }
 }

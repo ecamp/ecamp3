@@ -21,10 +21,10 @@ We are using the following toolchain to ensure code quality standards:
 
 - **PHP CS Fixer**\
   Run `docker-compose exec php composer cs-fix` before committing\
-   cs-check is integrated into CI (pull request will not pass)
+  cs-check is integrated into CI (pull request will not pass)
 - **Phpstan**\
   Run `docker-compose exec php composer phpstan`\
-  Currently not integrated into CI
+  phpstan is integrated into CI (pull request will not pass)
 - **Psalm**\
   Run `docker-compose exec php composer psalm`\
-  Currently not integrated into CI
+  psalm is integrated into CI (pull request will not pass)
