@@ -44,6 +44,7 @@ export default {
     day: {
       type: Function,
       required: false,
+      default: undefined,
     },
   },
   data() {
@@ -60,7 +61,7 @@ export default {
   },
   computed: {
     scheduleEntries() {
-      if (this.date) {
+      if (this.day) {
         return this.day().scheduleEntries()
       } else {
         return this.period().scheduleEntries()
@@ -68,7 +69,7 @@ export default {
     },
   },
   mounted() {
-    if (this.date) {
+    if (this.day) {
       this.day().scheduleEntries().$reload()
       // TODO which elements need a reload here and how?
     } else {
