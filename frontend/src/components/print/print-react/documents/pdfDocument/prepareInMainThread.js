@@ -35,6 +35,14 @@ const picassoData = (config) => {
             return Promise.all([
               period.scheduleEntries().$loadItems(),
               period.contentNodes().$loadItems(),
+              period
+                .days()
+                .$loadItems()
+                .then((days) => {
+                  return Promise.all(
+                    days.items.map((day) => day.dayResponsibles().$loadItems())
+                  )
+                }),
             ])
           })
         )

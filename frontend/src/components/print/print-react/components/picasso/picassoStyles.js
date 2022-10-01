@@ -1,5 +1,7 @@
 import { StyleSheet } from '@react-pdf/renderer'
 
+const dayHeaderFontSize = 9
+const dayResponsiblesFontSize = 8
 const scheduleEntryFontSize = 8
 const timeColumnFontSize = 8
 
@@ -30,10 +32,17 @@ const picassoStyles = StyleSheet.create({
     flexGrow: 1,
     overflow: 'hidden',
     padding: '4pt 0 2pt',
+    display: 'flex',
+    flexDirection: 'column',
   },
   dayHeaderText: {
-    fontSize: '9pt',
+    fontSize: dayHeaderFontSize + 'pt',
+    fontWeight: 'bold',
     margin: '0 auto',
+  },
+  dayResponsibles: {
+    fontSize: dayResponsiblesFontSize + 'pt',
+    margin: '3pt auto',
   },
   dayColumn: {
     flexBasis: 0,

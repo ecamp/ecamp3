@@ -42,6 +42,10 @@ function Picasso({ period, orientation, $tc }) {
     [24, 0], // this last hour is only needed for defining the length of the day, the weight should be 0
   ]
 
+  const anyDayResponsibles = period
+    .days()
+    .items.some((day) => day.dayResponsibles().items.length > 0)
+
   return (
     <Page
       size="A4"
@@ -56,9 +60,11 @@ function Picasso({ period, orientation, $tc }) {
         {period.days().items.map((day) => (
           <DayHeader
             day={day}
+            showDayResponsibles={anyDayResponsibles}
+            $tc={$tc}
             key={day.id}
             styles={{
-              borderLeft: day.id == period.days().items[0].id ? '1pt solid white' : '',
+              borderLeft: day.id === period.days().items[0].id ? '1pt solid white' : '',
               borderRight: '1pt solid white',
             }}
           />
