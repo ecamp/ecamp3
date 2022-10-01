@@ -127,7 +127,6 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
         writableLink: true,
         example: [
             'email' => Profile::EXAMPLE_EMAIL,
-            'username' => Profile::EXAMPLE_USERNAME,
             'firstname' => Profile::EXAMPLE_FIRSTNAME,
             'surname' => Profile::EXAMPLE_SURNAME,
             'nickname' => Profile::EXAMPLE_NICKNAME,
@@ -187,16 +186,12 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
         $this->plainPassword = null;
     }
 
-    public function getUsername(): ?string {
-        return $this->profile->username;
-    }
-
     public function getEmail(): ?string {
         return $this->profile->email;
     }
 
     public function getUserIdentifier(): string {
-        return $this->profile->username;
+        return $this->profile->email;
     }
 
     /**

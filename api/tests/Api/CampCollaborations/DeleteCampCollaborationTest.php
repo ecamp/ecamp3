@@ -21,7 +21,7 @@ class DeleteCampCollaborationTest extends ECampApiTestCase {
 
     public function testDeleteCampCollaborationIsDeniedForUnrelatedUser() {
         $campCollaboration = static::$fixtures['campCollaboration5inactive'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->getUsername()])
+        static::createClientWithCredentials(['email' => static::$fixtures['user4unrelated']->getEmail()])
             ->request('DELETE', '/camp_collaborations/'.$campCollaboration->getId())
         ;
 
@@ -34,7 +34,7 @@ class DeleteCampCollaborationTest extends ECampApiTestCase {
 
     public function testDeleteCampCollaborationIsDeniedForInactiveCollaborator() {
         $campCollaboration = static::$fixtures['campCollaboration5inactive'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->getUsername()])
+        static::createClientWithCredentials(['email' => static::$fixtures['user5inactive']->getEmail()])
             ->request('DELETE', '/camp_collaborations/'.$campCollaboration->getId())
         ;
 
@@ -47,7 +47,7 @@ class DeleteCampCollaborationTest extends ECampApiTestCase {
 
     public function testDeleteCampCollaborationIsDeniedForGuest() {
         $campCollaboration = static::$fixtures['campCollaboration5inactive'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user3guest']->getUsername()])
+        static::createClientWithCredentials(['email' => static::$fixtures['user3guest']->getEmail()])
             ->request('DELETE', '/camp_collaborations/'.$campCollaboration->getId())
         ;
 
@@ -60,7 +60,7 @@ class DeleteCampCollaborationTest extends ECampApiTestCase {
 
     public function testDeleteCampCollaborationIsAllowedForMember() {
         $campCollaboration = static::$fixtures['campCollaboration5inactive'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->getUsername()])
+        static::createClientWithCredentials(['email' => static::$fixtures['user2member']->getEmail()])
             ->request('DELETE', '/camp_collaborations/'.$campCollaboration->getId())
         ;
         $this->assertResponseStatusCodeSame(204);

@@ -21,7 +21,7 @@ class LoginTest extends ECampApiTestCase {
             '/authentication_token',
             [
                 'json' => [
-                    'username' => 'unknown',
+                    'identifier' => 'unknown',
                     'password' => self::PASSWORD,
                 ],
             ]
@@ -42,7 +42,7 @@ class LoginTest extends ECampApiTestCase {
             '/authentication_token',
             [
                 'json' => [
-                    'username' => $user->getUsername(),
+                    'identifier' => $user->getEmail(),
                     'password' => 'wrongPassword',
                 ],
             ]
@@ -63,7 +63,7 @@ class LoginTest extends ECampApiTestCase {
             '/authentication_token',
             [
                 'json' => [
-                    'username' => $user->getUsername(),
+                    'identifier' => $user->getEmail(),
                 ],
             ]
         );
@@ -74,7 +74,7 @@ class LoginTest extends ECampApiTestCase {
     /**
      * @throws TransportExceptionInterface
      */
-    public function testLoginWithNoUserName() {
+    public function testLoginWithNoIdentifier() {
         static::createBasicClient()->request(
             'POST',
             '/authentication_token',
@@ -100,7 +100,7 @@ class LoginTest extends ECampApiTestCase {
             '/authentication_token',
             [
                 'json' => [
-                    'username' => $user->getUsername(),
+                    'identifier' => $user->getEmail(),
                     'password' => 'test',
                 ],
             ]
@@ -122,7 +122,7 @@ class LoginTest extends ECampApiTestCase {
             '/authentication_token',
             [
                 'json' => [
-                    'username' => $user->getEmail(),
+                    'identifier' => $user->getEmail(),
                     'password' => 'test',
                 ],
             ]

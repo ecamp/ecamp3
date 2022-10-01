@@ -21,7 +21,7 @@ class DeleteActivityTest extends ECampApiTestCase {
 
     public function testDeleteActivityIsDeniedForUnrelatedUser() {
         $activity = static::$fixtures['activity1'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->getUsername()])
+        static::createClientWithCredentials(['email' => static::$fixtures['user4unrelated']->getEmail()])
             ->request('DELETE', '/activities/'.$activity->getId())
         ;
 
@@ -34,7 +34,7 @@ class DeleteActivityTest extends ECampApiTestCase {
 
     public function testDeleteActivityIsDeniedForInactiveCollaborator() {
         $activity = static::$fixtures['activity1'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->getUsername()])
+        static::createClientWithCredentials(['email' => static::$fixtures['user5inactive']->getEmail()])
             ->request('DELETE', '/activities/'.$activity->getId())
         ;
 
@@ -47,7 +47,7 @@ class DeleteActivityTest extends ECampApiTestCase {
 
     public function testDeleteActivityIsDeniedForGuest() {
         $activity = static::$fixtures['activity1'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user3guest']->getUsername()])
+        static::createClientWithCredentials(['email' => static::$fixtures['user3guest']->getEmail()])
             ->request('DELETE', '/activities/'.$activity->getId())
         ;
 
@@ -60,7 +60,7 @@ class DeleteActivityTest extends ECampApiTestCase {
 
     public function testDeleteActivityIsAllowedForMember() {
         $activity = static::$fixtures['activity1'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->getUsername()])
+        static::createClientWithCredentials(['email' => static::$fixtures['user2member']->getEmail()])
             ->request('DELETE', '/activities/'.$activity->getId())
         ;
         $this->assertResponseStatusCodeSame(204);
