@@ -206,14 +206,14 @@ class CreateCategoryTest extends ECampApiTestCase {
         ));
     }
 
-    public function testCreateCategoryCleansHtmlForShort() {
+    public function testCreateCategoryDoesNotCleanHtmlForShort() {
         static::createClientWithCredentials()->request(
             'POST',
             '/categories',
             [
                 'json' => $this->getExampleWritePayload(
                     [
-                        'short' => 'L<script>alert(1)</script>S',
+                        'short' => 'L<b>S</b><a>',
                     ]
                 ),
             ]
@@ -222,7 +222,7 @@ class CreateCategoryTest extends ECampApiTestCase {
         $this->assertResponseStatusCodeSame(201);
         $this->assertJsonContains($this->getExampleReadPayload(
             [
-                'short' => 'LS',
+                'short' => 'L<b>S</b><a>',
             ]
         ));
     }
@@ -310,14 +310,14 @@ class CreateCategoryTest extends ECampApiTestCase {
         ));
     }
 
-    public function testCreateCategoryCleansHtmlForName() {
+    public function testCreateCategoryDoesNotCleanHtmlForName() {
         static::createClientWithCredentials()->request(
             'POST',
             '/categories',
             [
                 'json' => $this->getExampleWritePayload(
                     [
-                        'name' => 'Lagerspo<script>alert(1)</script>rt',
+                        'name' => '<script>Lager</script><b>sport',
                     ]
                 ),
             ]
@@ -326,7 +326,7 @@ class CreateCategoryTest extends ECampApiTestCase {
         $this->assertResponseStatusCodeSame(201);
         $this->assertJsonContains($this->getExampleReadPayload(
             [
-                'name' => 'Lagersport',
+                'name' => '<script>Lager</script><b>sport',
             ]
         ));
     }
