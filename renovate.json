@@ -9,6 +9,9 @@
     }
   },
   "automergeType": "branch",
+  "lockFileMaintenance": {
+    "enabled": true,
+  },
   "vulnerabilityAlerts": {
     "automerge": true
   },
@@ -19,7 +22,8 @@
         "minor",
         "patch",
         "pin",
-        "digest"
+        "digest",
+        "lockFileMaintenance"
       ],
       "automerge": true
     },
