@@ -169,7 +169,7 @@ export default {
     pw1Rules() {
       return [
         (v) => v.length >= 12 || this.$tc('views.auth.register.passwordMinLengthWarning'),
-        (v) => v.length <= 64 || this.$tc('views.auth.register.passwordMaxLengthWarning')
+        (v) => v.length <= 128 || this.$tc('views.auth.register.passwordMaxLengthWarning')
         ]
     },
     availableLocales() {
