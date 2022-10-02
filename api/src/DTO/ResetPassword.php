@@ -12,6 +12,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
             'security' => 'true',
             'path' => '',
             'status' => 204,
+            'output' => false,
             'denormalization_context' => ['groups' => ['create']],
             'normalization_context' => ['groups' => ['read']],
             'openapi_context' => [
