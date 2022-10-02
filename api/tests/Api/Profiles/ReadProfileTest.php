@@ -29,7 +29,6 @@ class ReadProfileTest extends ECampApiTestCase {
         $this->assertJsonContains([
             'id' => $profile->getId(),
             'email' => $profile->email,
-            'username' => $profile->username,
             'firstname' => $profile->firstname,
             'surname' => $profile->surname,
             'nickname' => $profile->nickname,
@@ -53,7 +52,6 @@ class ReadProfileTest extends ECampApiTestCase {
         $this->assertJsonContains([
             'id' => $profile->getId(),
             'email' => $profile->email,
-            'username' => $profile->username,
             'firstname' => $profile->firstname,
             'surname' => $profile->surname,
             'nickname' => $profile->nickname,
@@ -72,14 +70,13 @@ class ReadProfileTest extends ECampApiTestCase {
     public function testGetSingleProfileIsAllowedForSelfIfSelfHasNoCampCollaborations() {
         /** @var Profile $profile */
         $profile = static::$fixtures['profileWithoutCampCollaborations'];
-        static::createClientWithCredentials(['username' => $profile->username])
+        static::createClientWithCredentials(['email' => $profile->email])
             ->request('GET', '/profiles/'.$profile->getId())
         ;
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
             'id' => $profile->getId(),
             'email' => $profile->email,
-            'username' => $profile->username,
             'firstname' => $profile->firstname,
             'surname' => $profile->surname,
             'nickname' => $profile->nickname,

@@ -3,16 +3,6 @@
     <h1 class="display-1 text-center">{{ $tc('views.auth.register.title') }}</h1>
     <v-form @submit.prevent="register">
       <e-text-field
-        v-model="username"
-        :name="$tc('entity.user.fields.username')"
-        append-icon="mdi-account-outline"
-        dense
-        required
-        type="text"
-        autofocus
-      />
-
-      <e-text-field
         v-model="firstname"
         :name="$tc('entity.user.fields.firstname')"
         append-icon="mdi-account-outline"
@@ -129,7 +119,6 @@ export default {
   data() {
     return {
       registering: false,
-      username: '',
       firstname: '',
       surname: '',
       email: '',
@@ -144,7 +133,6 @@ export default {
     formComplete() {
       return (
         this.tos &&
-        this.username !== '' &&
         this.firstname !== '' &&
         this.surname !== '' &&
         this.email !== '' &&
@@ -155,7 +143,6 @@ export default {
     },
     formData() {
       return {
-        username: this.username,
         firstname: this.firstname,
         surname: this.surname,
         email: this.email,
@@ -207,7 +194,6 @@ export default {
         .register({
           password: this.formData.password,
           profile: {
-            username: this.formData.username,
             firstname: this.formData.firstname,
             surname: this.formData.surname,
             email: this.formData.email,

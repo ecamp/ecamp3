@@ -7,7 +7,6 @@
     :cancel-label="$tc('global.button.close')"
     :cancel-visible="status !== 'initial'"
     submit-color="success"
-    max-width="600px"
   >
     <template #activator="scope">
       <slot name="activator" v-bind="scope" />

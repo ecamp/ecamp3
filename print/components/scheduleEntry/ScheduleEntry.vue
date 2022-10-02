@@ -1,5 +1,5 @@
 <template>
-  <div class="tw-mb-20 tw-break-inside-avoid">
+  <div class="tw-mb-20 tw-mt-1 tw-break-inside-avoid">
     <div
       :id="`scheduleEntry_${scheduleEntry.id}`"
       class="schedule-entry-title tw-float-left"

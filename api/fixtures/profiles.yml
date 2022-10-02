@@ -2,7 +2,6 @@ App\Entity\Profile:
   profile1manager:
     user: '@user1manager'
     email: test@example.com
-    username: test-user
     firstname: Robert
     surname: Baden-Powell
     nickname: Bi-Pi
@@ -11,7 +10,6 @@ App\Entity\Profile:
   profile2member:
     user: '@user2member'
     email: <email()>
-    username: member-user
     firstname: <firstName()>
     surname: <lastName()>
     nickname: <word()>
@@ -20,7 +18,6 @@ App\Entity\Profile:
   profile3guest:
     user: '@user3guest'
     email: <email()>
-    username: guest-user
     firstname: <firstName()>
     surname: <lastName()>
     nickname: <word()>
@@ -29,7 +26,6 @@ App\Entity\Profile:
   profile4unrelated:
     user: '@user4unrelated'
     email: <email()>
-    username: unrelated-user
     firstname: <firstName()>
     surname: <lastName()>
     nickname: <word()>
@@ -38,7 +34,6 @@ App\Entity\Profile:
   profile5inactive:
     user: '@user5inactive'
     email: <email()>
-    username: inactive-user
     firstname: <firstName()>
     surname: <lastName()>
     nickname: <word()>
@@ -47,7 +42,6 @@ App\Entity\Profile:
   profile6invited:
     user: '@user6invited'
     email: <email()>
-    username: user6invited
     firstname: <firstName()>
     surname: <lastName()>
     nickname: <word()>
@@ -56,7 +50,6 @@ App\Entity\Profile:
   profile7manager:
     user: '@user7manager'
     email: <email()>
-    username: user7manager
     firstname: <firstName()>
     surname: <lastName()>
     nickname: <word()>
@@ -65,7 +58,6 @@ App\Entity\Profile:
   profileAdmin:
     user: '@admin'
     email: admin@example.com
-    username: admin
     firstname: Admi
     surname: Nistrator
     nickname: Administrator
@@ -74,7 +66,6 @@ App\Entity\Profile:
   profileWithoutCampCollaborations:
     user: '@userWithoutCampCollaborations'
     email: <email()>
-    username: fresh-user
     firstname: <firstName()>
     surname: <lastName()>
     nickname: <word()>

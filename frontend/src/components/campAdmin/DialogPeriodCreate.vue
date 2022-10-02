@@ -5,7 +5,6 @@
     :error="error"
     icon="mdi-calendar-plus"
     :title="$tc('components.dialog.dialogPeriodCreate.title')"
-    max-width="600px"
     :submit-action="createPeriod"
     submit-color="success"
     :cancel-action="close"

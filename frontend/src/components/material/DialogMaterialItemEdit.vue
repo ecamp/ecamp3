@@ -5,7 +5,6 @@
     :error="error"
     icon="mdi-package-variant"
     :title="title"
-    max-width="600px"
     :submit-action="update"
     submit-color="success"
     :cancel-action="close"

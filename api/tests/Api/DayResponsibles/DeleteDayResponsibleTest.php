@@ -21,7 +21,7 @@ class DeleteDayResponsibleTest extends ECampApiTestCase {
 
     public function testDeleteDayResponsibleIsDeniedForUnrelatedUser() {
         $dayResponsible = static::$fixtures['dayResponsible1'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->getUsername()])
+        static::createClientWithCredentials(['email' => static::$fixtures['user4unrelated']->getEmail()])
             ->request('DELETE', '/day_responsibles/'.$dayResponsible->getId())
         ;
 
@@ -34,7 +34,7 @@ class DeleteDayResponsibleTest extends ECampApiTestCase {
 
     public function testDeleteDayResponsibleIsDeniedForInactiveCollaborator() {
         $dayResponsible = static::$fixtures['dayResponsible1'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->getUsername()])
+        static::createClientWithCredentials(['email' => static::$fixtures['user5inactive']->getEmail()])
             ->request('DELETE', '/day_responsibles/'.$dayResponsible->getId())
         ;
 
@@ -47,7 +47,7 @@ class DeleteDayResponsibleTest extends ECampApiTestCase {
 
     public function testDeleteDayResponsibleIsDeniedForGuest() {
         $dayResponsible = static::$fixtures['dayResponsible1'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user3guest']->getUsername()])
+        static::createClientWithCredentials(['email' => static::$fixtures['user3guest']->getEmail()])
             ->request('DELETE', '/day_responsibles/'.$dayResponsible->getId())
         ;
 
@@ -60,7 +60,7 @@ class DeleteDayResponsibleTest extends ECampApiTestCase {
 
     public function testDeleteDayResponsibleIsAllowedForMember() {
         $dayResponsible = static::$fixtures['dayResponsible1'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->getUsername()])
+        static::createClientWithCredentials(['email' => static::$fixtures['user2member']->getEmail()])
             ->request('DELETE', '/day_responsibles/'.$dayResponsible->getId())
         ;
         $this->assertResponseStatusCodeSame(204);

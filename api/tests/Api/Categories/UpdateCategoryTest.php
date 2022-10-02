@@ -29,7 +29,7 @@ class UpdateCategoryTest extends ECampApiTestCase {
 
     public function testPatchCategoryIsDeniedForUnrelatedUser() {
         $category = static::$fixtures['category1'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->getUsername()])
+        static::createClientWithCredentials(['email' => static::$fixtures['user4unrelated']->getEmail()])
             ->request('PATCH', '/categories/'.$category->getId(), ['json' => [
                 'short' => 'LP',
                 'name' => 'Lagerprogramm',
@@ -50,7 +50,7 @@ class UpdateCategoryTest extends ECampApiTestCase {
 
     public function testPatchCategoryIsDeniedForInactiveCollaborator() {
         $category = static::$fixtures['category1'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->getUsername()])
+        static::createClientWithCredentials(['email' => static::$fixtures['user5inactive']->getEmail()])
             ->request('PATCH', '/categories/'.$category->getId(), ['json' => [
                 'short' => 'LP',
                 'name' => 'Lagerprogramm',
@@ -71,7 +71,7 @@ class UpdateCategoryTest extends ECampApiTestCase {
 
     public function testPatchCategoryIsDeniedForGuest() {
         $category = static::$fixtures['category1'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user3guest']->getUsername()])
+        static::createClientWithCredentials(['email' => static::$fixtures['user3guest']->getEmail()])
             ->request('PATCH', '/categories/'.$category->getId(), ['json' => [
                 'short' => 'LP',
                 'name' => 'Lagerprogramm',
@@ -92,7 +92,7 @@ class UpdateCategoryTest extends ECampApiTestCase {
 
     public function testPatchCategoryIsAllowedForMember() {
         $category = static::$fixtures['category1'];
-        $response = static::createClientWithCredentials(['username' => static::$fixtures['user2member']->getUsername()])
+        $response = static::createClientWithCredentials(['email' => static::$fixtures['user2member']->getEmail()])
             ->request('PATCH', '/categories/'.$category->getId(), ['json' => [
                 'short' => 'LP',
                 'name' => 'Lagerprogramm',
