@@ -33,7 +33,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Table(name: '`profile`')]
 class Profile extends BaseEntity {
     public const EXAMPLE_EMAIL = 'bi-pi@example.com';
-    public const EXAMPLE_USERNAME = 'bipi';
     public const EXAMPLE_FIRSTNAME = 'Robert';
     public const EXAMPLE_SURNAME = 'Baden-Powell';
     public const EXAMPLE_NICKNAME = 'Bi-Pi';
@@ -63,7 +62,7 @@ class Profile extends BaseEntity {
 
     /**
      * Untrusted email.
-     * Will become the email when it is verified by a link sent to the adress.
+     * Will become the email when it is verified by a link sent to the address.
      */
     #[ORM\Column(type: 'string', length: 64, nullable: true)]
     public ?string $untrustedEmail = null;
@@ -102,17 +101,6 @@ class Profile extends BaseEntity {
     #[ApiProperty(readable: false, writable: false)]
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     public ?string $cevidbId = null;
-
-    /**
-     * Unique username. Lower case alphanumeric symbols, dashes, periods and underscores only.
-     */
-    #[InputFilter\Trim]
-    #[Assert\NotBlank]
-    #[Assert\Regex(pattern: '/^[a-zA-Z0-9_.@-]+$/')]
-    #[ApiProperty(example: self::EXAMPLE_USERNAME)]
-    #[Groups(['read', 'create'])]
-    #[ORM\Column(type: 'string', length: 64, nullable: false, unique: true)]
-    public string $username = '';
 
     /**
      * The user's (optional) first name.
@@ -178,6 +166,6 @@ class Profile extends BaseEntity {
             return $this->firstname;
         }
 
-        return $this->username;
+        return 'Noname-'.substr(md5($this->email), 0, 4);
     }
 }

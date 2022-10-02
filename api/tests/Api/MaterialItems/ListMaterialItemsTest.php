@@ -61,7 +61,7 @@ class ListMaterialItemsTest extends ECampApiTestCase {
 
     public function testListMaterialItemsFilteredByMaterialListIsDeniedForUnrelatedUser() {
         $materialList = static::$fixtures['materialList1'];
-        $response = static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->getUsername()])
+        $response = static::createClientWithCredentials(['email' => static::$fixtures['user4unrelated']->getEmail()])
             ->request('GET', '/material_items?materialList=%2Fmaterial_lists%2F'.$materialList->getId())
         ;
 
@@ -73,7 +73,7 @@ class ListMaterialItemsTest extends ECampApiTestCase {
 
     public function testListMaterialItemsFilteredByMaterialListIsDeniedForInactiveCollaborator() {
         $materialList = static::$fixtures['materialList1'];
-        $response = static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->getUsername()])
+        $response = static::createClientWithCredentials(['email' => static::$fixtures['user5inactive']->getEmail()])
             ->request('GET', '/material_items?materialList=%2Fmaterial_lists%2F'.$materialList->getId())
         ;
 
@@ -121,7 +121,7 @@ class ListMaterialItemsTest extends ECampApiTestCase {
 
     public function testListMaterialItemsFilteredByPeriodIsDeniedForUnrelatedUser() {
         $period = static::$fixtures['period1'];
-        $response = static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->getUsername()])
+        $response = static::createClientWithCredentials(['email' => static::$fixtures['user4unrelated']->getEmail()])
             ->request('GET', '/material_items?period=%2Fperiods%2F'.$period->getId())
         ;
 
@@ -135,7 +135,7 @@ class ListMaterialItemsTest extends ECampApiTestCase {
 
     public function testListMaterialItemsFilteredByPeriodIsDeniedForInactiveCollaborator() {
         $period = static::$fixtures['period1'];
-        $response = static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->getUsername()])
+        $response = static::createClientWithCredentials(['email' => static::$fixtures['user5inactive']->getEmail()])
             ->request('GET', '/material_items?period=%2Fperiods%2F'.$period->getId())
         ;
 

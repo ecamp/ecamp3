@@ -239,8 +239,7 @@
         "language": "Sprache",
         "nickname": "Spitzname",
         "password": "Passwort",
-        "surname": "Nachname",
-        "username": "Benutzername"
+        "surname": "Nachname"
       },
       "name": "User"
     }
@@ -316,7 +315,7 @@
         },
         "registernow": "Jetzt registrieren",
         "title": "Anmelden",
-        "username": "Username oder E-Mail"
+        "email": "E-Mail"
       },
       "register": {
         "acceptTermsOfUse": "Akzeptieren Sie die Nutzungsbedingungen",

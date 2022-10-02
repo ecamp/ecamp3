@@ -40,9 +40,9 @@ export function isLoggedIn() {
   return Date.now() < getJWTExpirationTimestamp()
 }
 
-async function login(username, password) {
+async function login(email, password) {
   const url = await apiStore.href(apiStore.get(), 'login')
-  return apiStore.post(url, { username: username, password: password }).then(() => {
+  return apiStore.post(url, { identifier: email, password: password }).then(() => {
     return isLoggedIn()
   })
 }
