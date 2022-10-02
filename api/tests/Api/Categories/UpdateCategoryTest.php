@@ -289,21 +289,21 @@ class UpdateCategoryTest extends ECampApiTestCase {
         );
     }
 
-    public function testPatchCategoryCleansHtmlForShort() {
+    public function testPatchCategoryDoesNotCleanHtmlForShort() {
         $category = static::$fixtures['category1'];
         static::createClientWithCredentials()->request(
             'PATCH',
             '/categories/'.$category->getId(),
             [
                 'json' => [
-                    'short' => 'L<script>alert(1)</script>S',
+                    'short' => 'L<b>S</b><a>',
                 ],
                 'headers' => ['Content-Type' => 'application/merge-patch+json'], ]
         );
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains(
             [
-                'short' => 'LS',
+                'short' => 'L<b>S</b><a>',
             ]
         );
     }
@@ -395,7 +395,7 @@ class UpdateCategoryTest extends ECampApiTestCase {
         );
     }
 
-    public function testPatchCategoryCleansHtmlForName() {
+    public function testPatchCategoryDoesNotCleanHtmlForName() {
         $category = static::$fixtures['category1'];
         $client = static::createClientWithCredentials();
         $client->disableReboot();
@@ -404,14 +404,14 @@ class UpdateCategoryTest extends ECampApiTestCase {
             '/categories/'.$category->getId(),
             [
                 'json' => [
-                    'short' => 'Lagersp<script>alert(1)</script>ort',
+                    'name' => '<b>Lager</b>sport<a>',
                 ],
                 'headers' => ['Content-Type' => 'application/merge-patch+json'], ]
         );
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains(
             [
-                'short' => 'Lagersport',
+                'name' => '<b>Lager</b>sport<a>',
             ]
         );
     }

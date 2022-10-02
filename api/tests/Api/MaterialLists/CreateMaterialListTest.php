@@ -172,14 +172,14 @@ class CreateMaterialListTest extends ECampApiTestCase {
         ]);
     }
 
-    public function testCreateMaterialListCleansHtml() {
+    public function testCreateMaterialListDoesNotCleanHtmlOfName() {
         static::createClientWithCredentials()
             ->request(
                 'POST',
                 '/material_lists',
                 [
                     'json' => $this->getExampleWritePayload([
-                        'name' => ' Some<script>alert(1)</script>thing ',
+                        'name' => ' <script>alert(1)</script><b>t</b ',
                     ]),
                 ]
             )
@@ -187,7 +187,7 @@ class CreateMaterialListTest extends ECampApiTestCase {
 
         $this->assertResponseStatusCodeSame(201);
         $this->assertJsonContains([
-            'name' => 'Something',
+            'name' => '<script>alert(1)</script><b>t</b',
         ]);
     }
 
