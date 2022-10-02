@@ -38,7 +38,7 @@ Displays a field as a picker (can be used with v-model)
           </template>
         </e-text-field>
       </template>
-      <slot :value="pickerValue" :showPicker="showPicker" :on="eventHandlers" />
+      <slot :value="pickerValue" :show-picker="showPicker" :on="eventHandlers" />
     </v-menu>
   </div>
 </template>
