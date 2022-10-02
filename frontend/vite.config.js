@@ -25,6 +25,7 @@ export default defineConfig(({ mode }) => ({
       'core-js/modules/es.symbol.description.js',
       'core-js/modules/es.function.name.js',
       'core-js/modules/es.array.concat.js',
+      'core-js/modules/es.array.slice.js',
       'core-js/modules/es.array.splice.js',
       'core-js/modules/es.array.find.js',
       'core-js/modules/es.array.push.js',

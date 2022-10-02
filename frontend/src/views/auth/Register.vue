@@ -109,6 +109,7 @@
 <script>
 import { load } from 'recaptcha-v3'
 import AuthContainer from '@/components/layout/AuthContainer.vue'
+import { multiLineToast, violationsToFlatArray } from '@/components/toast/toasts'
 import VueI18n from '@/plugins/i18n'
 
 export default {
@@ -202,7 +203,10 @@ export default {
           recaptchaToken: recaptchaToken,
         })
         .then(() => this.$router.push({ name: 'register-done' }))
-        .catch(() => (this.registering = false))
+        .catch((e) => {
+          this.$toast.error(multiLineToast(violationsToFlatArray(e)))
+          this.registering = false
+        })
     },
   },
 }

@@ -196,6 +196,11 @@
         "openPreview": "Open preview in new window"
       }
     },
+    "toast": {
+      "multiLineToast": {
+        "generalError": "An error has occurred."
+      }
+    },
     "user": {
       "dialogChangeMail": {
         "error": "An error has occurred.",
