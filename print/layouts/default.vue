@@ -96,6 +96,10 @@ export default {
           href: '/print-preview.css',
         },
         {
+          rel: 'stylesheet',
+          href: '/pagedjs-styles.css',
+        },
+        {
           rel: 'preconnect',
           href: 'https://fonts.googleapis.com',
         },
