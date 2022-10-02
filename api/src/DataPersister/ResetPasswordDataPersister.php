@@ -53,7 +53,7 @@ class ResetPasswordDataPersister implements ContextAwareDataPersisterInterface {
         $user = $this->userRepository->loadUserByIdentifier($data->email);
 
         if (null == $user) {
-            throw new HttpException(422, 'Create request failed');
+            return $data;
         }
 
         $resetKey = IdGenerator::generateRandomHexString(64);

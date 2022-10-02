@@ -21,7 +21,7 @@ class DeleteCategoryTest extends ECampApiTestCase {
 
     public function testDeleteCategoryIsDeniedForUnrelatedUser() {
         $category = static::$fixtures['categoryWithNoActivities'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->getUsername()])
+        static::createClientWithCredentials(['email' => static::$fixtures['user4unrelated']->getEmail()])
             ->request('DELETE', '/categories/'.$category->getId())
         ;
 
@@ -34,7 +34,7 @@ class DeleteCategoryTest extends ECampApiTestCase {
 
     public function testDeleteCategoryIsDeniedForInactiveCollaborator() {
         $category = static::$fixtures['categoryWithNoActivities'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->getUsername()])
+        static::createClientWithCredentials(['email' => static::$fixtures['user5inactive']->getEmail()])
             ->request('DELETE', '/categories/'.$category->getId())
         ;
 
@@ -47,7 +47,7 @@ class DeleteCategoryTest extends ECampApiTestCase {
 
     public function testDeleteCategoryIsDeniedForGuest() {
         $category = static::$fixtures['categoryWithNoActivities'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user3guest']->getUsername()])
+        static::createClientWithCredentials(['email' => static::$fixtures['user3guest']->getEmail()])
             ->request('DELETE', '/categories/'.$category->getId())
         ;
 
@@ -60,7 +60,7 @@ class DeleteCategoryTest extends ECampApiTestCase {
 
     public function testDeleteCategoryIsAllowedForMember() {
         $category = static::$fixtures['categoryWithNoActivities'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->getUsername()])
+        static::createClientWithCredentials(['email' => static::$fixtures['user2member']->getEmail()])
             ->request('DELETE', '/categories/'.$category->getId())
         ;
         $this->assertResponseStatusCodeSame(204);

@@ -20,6 +20,7 @@
         "nelmio/cors-bundle": "2.2.0",
         "phpdocumentor/reflection-docblock": "5.3.0",
         "phpmyadmin/sql-parser": "5.5.0",
+        "ramsey/uuid": "4.5.1",
         "rize/uri-template": "0.3.4",
         "sentry/sentry-symfony": "4.3.0",
         "stof/doctrine-extensions-bundle": "1.7.0",

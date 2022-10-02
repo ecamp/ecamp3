@@ -18,11 +18,11 @@
     </v-alert>
     <v-form @submit.prevent="login">
       <e-text-field
-        id="inputUsername"
-        v-model="username"
+        id="inputEmail"
+        v-model="email"
         autofocus
-        :label="$tc('views.auth.login.username')"
-        name="username"
+        :label="$tc('views.auth.login.email')"
+        name="email"
         append-icon="mdi-account-outline"
         :dense="$vuetify.breakpoint.xsOnly"
         type="text"
@@ -49,9 +49,9 @@
 
       <v-btn
         type="submit"
-        :color="username && password ? 'blue darken-2' : 'blue lighten-4'"
+        :color="email && password ? 'blue darken-2' : 'blue lighten-4'"
         block
-        :disabled="!(username && password) || authenticationInProgress"
+        :disabled="!(email && password) || authenticationInProgress"
         outlined
         :x-large="$vuetify.breakpoint.smAndUp"
         class="my-4"
@@ -142,7 +142,7 @@ export default {
   },
   data() {
     return {
-      username: '',
+      email: '',
       password: '',
       error: null,
       authenticationInProgress: false,
@@ -157,7 +157,7 @@ export default {
       this.authenticationInProgress = true
       this.error = null
       this.$auth
-        .login(this.username, this.password)
+        .login(this.email, this.password)
         .then(() => {
           this.$router.replace(this.$route.query.redirect || '/')
         })

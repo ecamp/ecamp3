@@ -15,6 +15,10 @@ class AssertJsonSchemaValidator extends ConstraintValidator {
             throw new UnexpectedTypeException($constraint, AssertJsonSchema::class);
         }
 
+        if (null === $value) {
+            return;
+        }
+
         $schema = $constraint->schema;
 
         try {

@@ -20,9 +20,9 @@ final class JwtDecorator implements OpenApiFactoryInterface {
         $schemas['Credentials'] = new \ArrayObject([
             'type' => 'object',
             'properties' => [
-                'username' => [
+                'identifier' => [
                     'type' => 'string',
-                    'example' => 'test-user',
+                    'example' => 'test@example.com',
                 ],
                 'password' => [
                     'type' => 'string',
@@ -42,7 +42,7 @@ final class JwtDecorator implements OpenApiFactoryInterface {
                         'description' => "Get a JWT token split across the two cookies {$cookiePrefix}jwt_hp and {$cookiePrefix}jwt_s",
                     ],
                 ],
-                summary: 'Log in using username and password.',
+                summary: 'Log in using email and password.',
                 requestBody: new Model\RequestBody(
                     description: 'Generate new JWT Token by logging in',
                     content: new \ArrayObject([

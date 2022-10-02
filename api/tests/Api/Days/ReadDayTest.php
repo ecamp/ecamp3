@@ -24,7 +24,7 @@ class ReadDayTest extends ECampApiTestCase {
     public function testGetSingleDayIsDeniedForUnrelatedUser() {
         /** @var Day $day */
         $day = static::$fixtures['day1period1'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->getUsername()])
+        static::createClientWithCredentials(['email' => static::$fixtures['user4unrelated']->getEmail()])
             ->request('GET', '/days/'.$day->getId())
         ;
         $this->assertResponseStatusCodeSame(404);
@@ -37,7 +37,7 @@ class ReadDayTest extends ECampApiTestCase {
     public function testGetSingleDayIsDeniedForInactiveCollaborator() {
         /** @var Day $day */
         $day = static::$fixtures['day1period1'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->getUsername()])
+        static::createClientWithCredentials(['email' => static::$fixtures['user5inactive']->getEmail()])
             ->request('GET', '/days/'.$day->getId())
         ;
         $this->assertResponseStatusCodeSame(404);
@@ -52,7 +52,7 @@ class ReadDayTest extends ECampApiTestCase {
         $day = static::$fixtures['day1period1'];
         $start = $day->getStart()->format(DateTime::W3C);
         $end = $day->getEnd()->format(DateTime::W3C);
-        static::createClientWithCredentials(['username' => static::$fixtures['user3guest']->getUsername()])
+        static::createClientWithCredentials(['email' => static::$fixtures['user3guest']->getEmail()])
             ->request('GET', '/days/'.$day->getId())
         ;
         $this->assertResponseStatusCodeSame(200);
@@ -73,7 +73,7 @@ class ReadDayTest extends ECampApiTestCase {
         $day = static::$fixtures['day1period1'];
         $start = $day->getStart()->format(DateTime::W3C);
         $end = $day->getEnd()->format(DateTime::W3C);
-        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->getUsername()])
+        static::createClientWithCredentials(['email' => static::$fixtures['user2member']->getEmail()])
             ->request('GET', '/days/'.$day->getId())
         ;
         $this->assertResponseStatusCodeSame(200);
@@ -135,7 +135,7 @@ class ReadDayTest extends ECampApiTestCase {
         $day = static::$fixtures['day1period1'];
 
         // when
-        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->getUsername()])
+        static::createClientWithCredentials(['email' => static::$fixtures['user2member']->getEmail()])
             ->request('GET', '/days/'.$day->getId())
         ;
 
@@ -155,7 +155,7 @@ class ReadDayTest extends ECampApiTestCase {
         $day = static::$fixtures['day1period1'];
 
         // when
-        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->getUsername()])
+        static::createClientWithCredentials(['email' => static::$fixtures['user2member']->getEmail()])
             ->request('GET', '/days/'.$day->getId())
         ;
 

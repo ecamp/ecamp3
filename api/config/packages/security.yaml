@@ -31,7 +31,7 @@ security:
             user_checker: App\Security\UserStatusChecker
             json_login:
                 check_path: /authentication_token
-                username_path: username
+                username_path: identifier
                 password_path: password
                 success_handler: lexik_jwt_authentication.handler.authentication_success
                 failure_handler: lexik_jwt_authentication.handler.authentication_failure

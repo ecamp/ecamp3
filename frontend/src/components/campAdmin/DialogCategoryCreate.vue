@@ -5,7 +5,6 @@
     :error="error"
     icon="mdi-calendar-plus"
     :title="$tc('components.dialog.dialogCategoryCreate.title')"
-    max-width="600px"
     :submit-action="createCategory"
     submit-color="success"
     :cancel-action="close"

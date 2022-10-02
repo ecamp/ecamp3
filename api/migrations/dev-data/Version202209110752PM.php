@@ -9,13 +9,21 @@ use Doctrine\Migrations\AbstractMigration;
 
 require_once __DIR__.'/helpers.php';
 
-final class Version202202051218 extends AbstractMigration {
+final class Version202209110752PM extends AbstractMigration {
     public function getDescription(): string {
         return '';
     }
 
     public function up(Schema $schema): void {
         // START PHP CODE
+        $this->addSql(createTruncateDatabaseCommand());
+
+        $statements = getStatementsForMigrationFile(__FILE__);
+        foreach ($statements as $statement) {
+            if (trim($statement)) {
+                $this->addSql($statement);
+            }
+        }
         // END PHP CODE
     }
 

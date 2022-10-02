@@ -148,8 +148,7 @@
         "language": "Langue",
         "nickname": "Surnom",
         "password": "Mot de passe",
-        "surname": "Nom de famille",
-        "username": "Nom d'utilisateur"
+        "surname": "Nom de famille"
       },
       "name": "Utilisateur"
     }
@@ -206,7 +205,7 @@
         },
         "registernow": "Inscrivez-vous maintenant",
         "title": "Se connecter",
-        "username": "Nom d'utilisateur ou courriel"
+        "email": "Courriel"
       },
       "register": {
         "acceptTermsOfUse": "Accepter les conditions d'utilisation",
