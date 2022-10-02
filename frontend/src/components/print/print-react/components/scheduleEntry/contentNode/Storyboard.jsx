@@ -73,13 +73,13 @@ function Storyboard(props) {
           return (
             <View key={section.key} style={{ display: 'flex', flexDirection: 'row' }}>
               <View style={column1Styles}>
-                <RichText richText={section.column1} />
+                <Text>{section.column1}</Text>
               </View>
               <View style={column2Styles}>
                 <RichText richText={section.column2} />
               </View>
               <View style={column3Styles}>
-                <RichText richText={section.column3} />
+                <Text>{section.column3}</Text>
               </View>
             </View>
           )
