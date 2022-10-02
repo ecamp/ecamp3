@@ -67,6 +67,10 @@ abstract class ContentNode extends BaseEntity implements BelongsToContentNodeTre
     #[Assert\NotNull(groups: ['create'])] // Root nodes have parent:null, but manually creating root nodes is not allowed
     #[AssertNoRootChange(groups: ['update'])]
     #[AssertNoLoop(groups: ['update'])]
+    #[Assert\Type(
+        type: SupportsContentNodeChildren::class,
+        message: 'This parent does not support children, only content_nodes of type column_layout support children.'
+    )]
     #[ApiProperty(example: '/content_nodes/1a2b3c4d')]
     #[Gedmo\SortableGroup]
     #[Groups(['read', 'write'])]

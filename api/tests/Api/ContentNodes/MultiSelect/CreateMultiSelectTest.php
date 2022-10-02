@@ -19,7 +19,7 @@ class CreateMultiSelectTest extends CreateContentNodeTestCase {
 
     public function testCreateMultiSelectCopiesOptionsFromContentType() {
         // when
-        $response = $this->create($this->getExampleWritePayload());
+        $this->create($this->getExampleWritePayload());
 
         // then
         $this->assertResponseStatusCodeSame(201);
@@ -32,6 +32,25 @@ class CreateMultiSelectTest extends CreateContentNodeTestCase {
                     'pioneeringTechnique' => ['checked' => false],
                     'campsiteAndSurroundings' => ['checked' => false],
                     'preventionAndIntegration' => ['checked' => false],
+                ],
+            ],
+        ]);
+    }
+
+    public function testCreateDoesNotAcceptOptions() {
+        $this->create($this->getExampleWritePayload([
+            'data' => [
+                'options' => [
+                ],
+            ],
+        ]));
+
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                0 => [
+                    'propertyPath' => 'data',
+                    'message' => 'This value should be null.',
                 ],
             ],
         ]);
