@@ -84,6 +84,11 @@
             "addColumn": "Add a column",
             "removeColumn": "Remove empty column"
           }
+        },
+        "storyboard": {
+          "section": {
+            "deleteWarning": "Do you really want to remove this section?"
+          }
         }
       },
       "contentNode": {

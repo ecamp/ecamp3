@@ -167,14 +167,10 @@ abstract class ContentNode extends BaseEntity implements BelongsToContentNodeTre
         return $this->data;
     }
 
-    public function setData(?array $data) {
+    public function setData(?array $data): void {
         if (null === $this->data) {
             $this->data = $data;
-
-            return;
-        }
-
-        if (null !== $data) {
+        } elseif (null !== $data) {
             $this->data = JsonMergePatch::mergePatch($this->data, $data);
         }
     }

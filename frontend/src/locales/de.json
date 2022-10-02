@@ -72,6 +72,13 @@
           "start": "Start"
         },
         "name": "Geplante Termine"
+      },
+      "content": {
+        "storyboard": {
+          "section": {
+            "deleteWarning": "Möchtest du diesen Abschnitt wirklich löschen?"
+          }
+        }
       }
     },
     "camp": {
