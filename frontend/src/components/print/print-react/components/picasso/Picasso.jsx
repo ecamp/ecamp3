@@ -74,7 +74,7 @@ function Picasso({ period, orientation, $tc }) {
       <View style={picassoStyles.calendarContainer}>
         <TimeColumn
           times={times.slice(0, times.length - 1)}
-          styles={{ alignItems: 'flex-end' }}
+          align={'right'}
         />
         {period.days().items.map((day) => {
           return (
@@ -92,7 +92,7 @@ function Picasso({ period, orientation, $tc }) {
         })}
         <TimeColumn
           times={times.slice(0, times.length - 1)}
-          styles={{ alignItems: 'flex-start' }}
+          align={'left'}
         />
       </View>
     </Page>

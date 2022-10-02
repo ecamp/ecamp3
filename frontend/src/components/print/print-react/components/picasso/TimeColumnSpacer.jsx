@@ -1,16 +1,8 @@
 // eslint-disable-next-line no-unused-vars
 import React from 'react'
 import { Text, View } from '@react-pdf/renderer'
-import dayjs from '@/common/helpers/dayjs.js'
 import picassoStyles from './picassoStyles.js'
-
-function longestTime(times) {
-  return dayjs()
-    .hour(0)
-    .minute(times[times.length - 1][0] * 60)
-    .second(0)
-    .format('LT')
-}
+import longestTime from './longestTime.js'
 
 function TimeColumnSpacer({ times }) {
   return (

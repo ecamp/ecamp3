@@ -13,19 +13,30 @@ const picassoStyles = StyleSheet.create({
     flexGrow: 1,
     display: 'flex',
     flexDirection: 'row',
+    lineHeight: 1,
   },
-  timeColumn: {
+  timeColumn: (width) => ({
+    width: width,
     flexGrow: 0,
     flexShrink: 0,
     display: 'flex',
     flexDirection: 'column',
-    marginTop: -timeColumnVerticalOffset + 'pt',
-    marginBottom: timeColumnVerticalOffset + 'pt',
+  }),
+  timeColumnAbsolutePositionContainer: {
+    // Wrapping the time column in this absolutely positioned View is necessary, because otherwise the text
+    // in the time column breaks layouting of the texts inside the schedule entries.
+    position: 'absolute',
+    top: -timeColumnVerticalOffset,
+    bottom: timeColumnVerticalOffset,
+    left: 0,
+    right: 0,
+  },
+  timeColumnRow: {
+    paddingHorizontal: '2pt',
+    flexBasis: 0, // this should match the height of the borders on the day grid rows. 0 means no borders
   },
   timeColumnText: {
-    paddingHorizontal: '2pt',
     fontSize: timeColumnFontSize + 'pt',
-    flexBasis: 0, // this should match the height of the borders on the day grid rows. 0 means no borders
   },
   dayHeader: {
     flexBasis: 0,
