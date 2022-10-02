@@ -61,7 +61,7 @@ class ListPeriodsTest extends ECampApiTestCase {
 
     public function testListPeriodsFilteredByCampIsDeniedForUnrelatedUser() {
         $camp = static::$fixtures['camp1'];
-        $response = static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->getUsername()])
+        $response = static::createClientWithCredentials(['email' => static::$fixtures['user4unrelated']->getEmail()])
             ->request('GET', '/periods?camp=%2Fcamps%2F'.$camp->getId())
         ;
 
@@ -73,7 +73,7 @@ class ListPeriodsTest extends ECampApiTestCase {
 
     public function testListPeriodsFilteredByCampIsDeniedForInactiveCollaborator() {
         $camp = static::$fixtures['camp1'];
-        $response = static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->getUsername()])
+        $response = static::createClientWithCredentials(['email' => static::$fixtures['user5inactive']->getEmail()])
             ->request('GET', '/periods?camp=%2Fcamps%2F'.$camp->getId())
         ;
 

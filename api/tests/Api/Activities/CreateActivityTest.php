@@ -24,7 +24,7 @@ class CreateActivityTest extends ECampApiTestCase {
     public function testCreateActivityIsNotPossibleForUnrelatedUserBecausePeriodIsNotReadable() {
         /** @var User $user */
         $user = static::$fixtures['user4unrelated'];
-        static::createClientWithCredentials(['username' => $user->getUsername()])
+        static::createClientWithCredentials(['email' => $user->getEmail()])
             ->request('POST', '/activities', ['json' => $this->getExampleWritePayload()])
         ;
 
@@ -36,7 +36,7 @@ class CreateActivityTest extends ECampApiTestCase {
     }
 
     public function testCreateActivityIsNotPossibleForInactiveCollaboratorBecausePeriodIsNotReadable() {
-        static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->getUsername()])
+        static::createClientWithCredentials(['email' => static::$fixtures['user5inactive']->getEmail()])
             ->request('POST', '/activities', ['json' => $this->getExampleWritePayload()])
         ;
 
@@ -48,7 +48,7 @@ class CreateActivityTest extends ECampApiTestCase {
     }
 
     public function testCreateActivityIsDeniedForGuest() {
-        static::createClientWithCredentials(['username' => static::$fixtures['user3guest']->getUsername()])
+        static::createClientWithCredentials(['email' => static::$fixtures['user3guest']->getEmail()])
             ->request('POST', '/activities', ['json' => $this->getExampleWritePayload()])
         ;
 
@@ -60,7 +60,7 @@ class CreateActivityTest extends ECampApiTestCase {
     }
 
     public function testCreateActivityIsAllowedForMember() {
-        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->getUsername()])
+        static::createClientWithCredentials(['email' => static::$fixtures['user2member']->getEmail()])
             ->request('POST', '/activities', ['json' => $this->getExampleWritePayload()])
         ;
 
@@ -129,7 +129,7 @@ class CreateActivityTest extends ECampApiTestCase {
     }
 
     public function testCreateActivityValidatesNullTitle() {
-        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->getUsername()])
+        static::createClientWithCredentials(['email' => static::$fixtures['user2member']->getEmail()])
             ->request(
                 'POST',
                 '/activities',
@@ -151,7 +151,7 @@ class CreateActivityTest extends ECampApiTestCase {
     }
 
     public function testCreateActivityValidatesTitleMinLength() {
-        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->getUsername()])
+        static::createClientWithCredentials(['email' => static::$fixtures['user2member']->getEmail()])
             ->request(
                 'POST',
                 '/activities',
@@ -177,7 +177,7 @@ class CreateActivityTest extends ECampApiTestCase {
     }
 
     public function testCreateActivityValidatesTitleMaxLength() {
-        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->getUsername()])
+        static::createClientWithCredentials(['email' => static::$fixtures['user2member']->getEmail()])
             ->request(
                 'POST',
                 '/activities',
@@ -203,7 +203,7 @@ class CreateActivityTest extends ECampApiTestCase {
     }
 
     public function testCreateActivityCleansHtmlFromTitle() {
-        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->getUsername()])
+        static::createClientWithCredentials(['email' => static::$fixtures['user2member']->getEmail()])
             ->request(
                 'POST',
                 '/activities',
@@ -224,7 +224,7 @@ class CreateActivityTest extends ECampApiTestCase {
     }
 
     public function testCreateActivityTrimsTitle() {
-        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->getUsername()])
+        static::createClientWithCredentials(['email' => static::$fixtures['user2member']->getEmail()])
             ->request(
                 'POST',
                 '/activities',
@@ -252,7 +252,7 @@ class CreateActivityTest extends ECampApiTestCase {
     }
 
     public function testCreateActivityValidatesNullLocation() {
-        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->getUsername()])
+        static::createClientWithCredentials(['email' => static::$fixtures['user2member']->getEmail()])
             ->request(
                 'POST',
                 '/activities',
@@ -274,7 +274,7 @@ class CreateActivityTest extends ECampApiTestCase {
     }
 
     public function testCreateActivityValidatesLocationMaxLength() {
-        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->getUsername()])
+        static::createClientWithCredentials(['email' => static::$fixtures['user2member']->getEmail()])
             ->request(
                 'POST',
                 '/activities',
@@ -300,7 +300,7 @@ class CreateActivityTest extends ECampApiTestCase {
     }
 
     public function testCreateActivityCleansHtmlFromLocation() {
-        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->getUsername()])
+        static::createClientWithCredentials(['email' => static::$fixtures['user2member']->getEmail()])
             ->request(
                 'POST',
                 '/activities',
@@ -321,7 +321,7 @@ class CreateActivityTest extends ECampApiTestCase {
     }
 
     public function testCreateActivityTrimsLocation() {
-        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->getUsername()])
+        static::createClientWithCredentials(['email' => static::$fixtures['user2member']->getEmail()])
             ->request(
                 'POST',
                 '/activities',

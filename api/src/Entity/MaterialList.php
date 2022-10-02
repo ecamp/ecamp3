@@ -84,7 +84,6 @@ class MaterialList extends BaseEntity implements BelongsToCampInterface, CopyFro
     #[ApiProperty(example: 'Lebensmittel')]
     #[Groups(['write'])]
     #[InputFilter\Trim]
-    #[InputFilter\CleanHTML]
     #[Assert\NotBlank]
     #[Assert\Length(max: 32)]
     #[ORM\Column(type: 'text', nullable: true)]

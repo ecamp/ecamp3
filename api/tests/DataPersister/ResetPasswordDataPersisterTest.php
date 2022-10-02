@@ -119,7 +119,6 @@ class ResetPasswordDataPersisterTest extends TestCase {
         $this->resetPassword->recaptchaToken = 'token';
         $this->resetPassword->email = self::EMAIL;
 
-        $this->expectException(Exception::class);
         $data = $this->dataPersister->beforeCreate($this->resetPassword);
     }
 

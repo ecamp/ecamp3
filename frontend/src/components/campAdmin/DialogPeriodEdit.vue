@@ -5,7 +5,6 @@
     :error="error"
     icon="mdi-calendar-edit"
     :title="period.description"
-    max-width="600px"
     :submit-action="update"
     :cancel-action="close"
   >

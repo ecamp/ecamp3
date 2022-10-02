@@ -52,7 +52,7 @@ class CreateCampTest extends ECampApiTestCase {
 
         /** @var UserRepository $userRepository */
         $userRepository = $this->getEntityManager()->getRepository(User::class);
-        $user = $userRepository->loadUserByIdentifier('test-user');
+        $user = $userRepository->loadUserByIdentifier('test@example.com');
 
         $this->assertResponseStatusCodeSame(201);
         $camp = $this->getEntityManager()->getRepository(Camp::class)->find($response->toArray()['id']);

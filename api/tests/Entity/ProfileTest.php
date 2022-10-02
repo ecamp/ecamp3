@@ -14,10 +14,10 @@ class ProfileTest extends TestCase {
     public function setUp(): void {
         parent::setUp();
         $this->profile = new Profile();
-        $this->profile->username = 'bi-pi';
         $this->profile->firstname = 'Robert';
         $this->profile->surname = 'Baden-Powell';
         $this->profile->nickname = 'Bi-Pi';
+        $this->profile->email = 'test@test.com';
     }
 
     public function testDisplayNameUsesNicknameIfPresent() {
@@ -53,7 +53,7 @@ class ProfileTest extends TestCase {
         $this->assertEquals('Robert', $displayName);
     }
 
-    public function testDisplayNameUsesUsername() {
+    public function testDisplayNameUsesEmailHashAsFallback() {
         // given
         $this->profile->nickname = '';
         $this->profile->firstname = '';
@@ -62,6 +62,6 @@ class ProfileTest extends TestCase {
         $displayName = $this->profile->getDisplayName();
 
         // then
-        $this->assertEquals('bi-pi', $displayName);
+        $this->assertEquals('Noname-b642', $displayName);
     }
 }

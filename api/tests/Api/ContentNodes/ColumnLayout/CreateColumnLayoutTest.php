@@ -43,6 +43,15 @@ class CreateColumnLayoutTest extends CreateContentNodeTestCase {
         ]]);
     }
 
+    public function testCreateColumnLayoutAcceptsNonExistingJson() {
+        $response = $this->create($this->getExampleWritePayload([], ['data']));
+
+        $this->assertResponseStatusCodeSame(201);
+        $this->assertJsonContains(['data' => [
+            'columns' => [['slot' => '1', 'width' => 12]],
+        ]]);
+    }
+
     public function testCreateColumnLayoutRejectsInvalidJson() {
         $INVALID_JSON_CONFIG = [
             'data' => 'value',

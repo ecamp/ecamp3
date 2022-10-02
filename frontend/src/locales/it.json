@@ -89,8 +89,7 @@
         "language": "Lingua",
         "nickname": "Soprannome",
         "password": "Parola d'ordine",
-        "surname": "Cognome",
-        "username": "Nome utente"
+        "surname": "Cognome"
       },
       "name": "Utente"
     }
@@ -147,7 +146,7 @@
         },
         "registernow": "Iscriviti ora",
         "title": "Accedi",
-        "username": "Nome utente o indirizzo e-mail"
+        "email": "Indirizzo e-mail"
       },
       "register": {
         "acceptTermsOfUse": "Accettare le condizioni di utilizzo",

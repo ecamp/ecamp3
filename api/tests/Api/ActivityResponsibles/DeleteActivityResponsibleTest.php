@@ -21,7 +21,7 @@ class DeleteActivityResponsibleTest extends ECampApiTestCase {
 
     public function testDeleteActivityResponsibleIsDeniedForUnrelatedUser() {
         $activityResponsible = static::$fixtures['activityResponsible1'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->getUsername()])
+        static::createClientWithCredentials(['email' => static::$fixtures['user4unrelated']->getEmail()])
             ->request('DELETE', '/activity_responsibles/'.$activityResponsible->getId())
         ;
 
@@ -34,7 +34,7 @@ class DeleteActivityResponsibleTest extends ECampApiTestCase {
 
     public function testDeleteActivityResponsibleIsDeniedForInactiveCollaborator() {
         $activityResponsible = static::$fixtures['activityResponsible1'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->getUsername()])
+        static::createClientWithCredentials(['email' => static::$fixtures['user5inactive']->getEmail()])
             ->request('DELETE', '/activity_responsibles/'.$activityResponsible->getId())
         ;
 
@@ -47,7 +47,7 @@ class DeleteActivityResponsibleTest extends ECampApiTestCase {
 
     public function testDeleteActivityResponsibleIsDeniedForGuest() {
         $activityResponsible = static::$fixtures['activityResponsible1'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user3guest']->getUsername()])
+        static::createClientWithCredentials(['email' => static::$fixtures['user3guest']->getEmail()])
             ->request('DELETE', '/activity_responsibles/'.$activityResponsible->getId())
         ;
 
@@ -60,7 +60,7 @@ class DeleteActivityResponsibleTest extends ECampApiTestCase {
 
     public function testDeleteActivityResponsibleIsAllowedForMember() {
         $activityResponsible = static::$fixtures['activityResponsible1'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->getUsername()])
+        static::createClientWithCredentials(['email' => static::$fixtures['user2member']->getEmail()])
             ->request('DELETE', '/activity_responsibles/'.$activityResponsible->getId())
         ;
         $this->assertResponseStatusCodeSame(204);

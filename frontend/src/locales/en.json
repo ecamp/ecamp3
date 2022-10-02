@@ -7,6 +7,11 @@
             "addColumn": "Add a column",
             "removeColumn": "Remove empty column"
           }
+        },
+        "storyboard": {
+          "section": {
+            "deleteWarning": "Do you really want to remove this section?"
+          }
         }
       },
       "contentNode": {
@@ -215,8 +220,7 @@
         "language": "Language",
         "nickname": "Nickname",
         "password": "Password",
-        "surname": "Lastname",
-        "username": "Username"
+        "surname": "Lastname"
       },
       "name": "User"
     }
@@ -300,7 +304,7 @@
         },
         "registernow": "Register now",
         "title": "Login",
-        "username": "Username or Email"
+        "email": "Email"
       },
       "register": {
         "acceptTermsOfUse": "Accept the terms of use",

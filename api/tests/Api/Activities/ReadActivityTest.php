@@ -23,7 +23,7 @@ class ReadActivityTest extends ECampApiTestCase {
     public function testGetSingleActivityIsDeniedForUnrelatedUser() {
         /** @var Activity $activity */
         $activity = static::$fixtures['activity1'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->getUsername()])
+        static::createClientWithCredentials(['email' => static::$fixtures['user4unrelated']->getEmail()])
             ->request('GET', '/activities/'.$activity->getId())
         ;
         $this->assertResponseStatusCodeSame(404);
@@ -36,7 +36,7 @@ class ReadActivityTest extends ECampApiTestCase {
     public function testGetSingleActivityIsDeniedForInactiveCollaborator() {
         /** @var Activity $activity */
         $activity = static::$fixtures['activity1'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->getUsername()])
+        static::createClientWithCredentials(['email' => static::$fixtures['user5inactive']->getEmail()])
             ->request('GET', '/activities/'.$activity->getId())
         ;
         $this->assertResponseStatusCodeSame(404);
@@ -49,7 +49,7 @@ class ReadActivityTest extends ECampApiTestCase {
     public function testGetSingleActivityIsAllowedForGuest() {
         /** @var Activity $activity */
         $activity = static::$fixtures['activity1'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user3guest']->getUsername()])
+        static::createClientWithCredentials(['email' => static::$fixtures['user3guest']->getEmail()])
             ->request('GET', '/activities/'.$activity->getId())
         ;
         $this->assertResponseStatusCodeSame(200);
@@ -71,7 +71,7 @@ class ReadActivityTest extends ECampApiTestCase {
     public function testGetSingleActivityIsAllowedForMember() {
         /** @var Activity $activity */
         $activity = static::$fixtures['activity1'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->getUsername()])
+        static::createClientWithCredentials(['email' => static::$fixtures['user2member']->getEmail()])
             ->request('GET', '/activities/'.$activity->getId())
         ;
         $this->assertResponseStatusCodeSame(200);
