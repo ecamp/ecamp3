@@ -16,3 +16,7 @@ html {
 .tw-prose {
   line-height: 1.5;
 }
+
+.theme--light.v-application {
+  color: #404040; /* same as variable --tw-prose-body from class .tw-prose-neutral (neutral-700) */
+}
