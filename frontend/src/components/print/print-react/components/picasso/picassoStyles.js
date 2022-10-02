@@ -90,14 +90,16 @@ const picassoStyles = StyleSheet.create({
   },
   scheduleEntryTitle: {
     fontSize: scheduleEntryFontSize + 'pt',
-    flexShrink: '0',
+    height: 2 * scheduleEntryFontSize + 'pt',
+    lineHeight: 1,
+    flexGrow: 1,
   },
   scheduleEntryResponsiblesContainer: {
     position: 'absolute',
-    top: '0',
-    bottom: '0',
-    right: '0',
-    left: '0',
+    top: 0,
+    bottom: 0,
+    right: 0,
+    left: 0,
     flexDirection: 'column',
     alignItems: 'flex-end',
     justifyContent: 'flex-end',
@@ -107,8 +109,9 @@ const picassoStyles = StyleSheet.create({
     flexShrink: '0',
   },
   scheduleEntrySpacer: {
-    flexBasis: '4pt',
-    flexShrink: '1',
+    height: 0,
+    maxHeight: '4pt',
+    flexGrow: 1,
   },
 })
 
