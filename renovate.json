@@ -11,6 +11,9 @@
   "automergeType": "branch",
   "lockFileMaintenance": {
     "enabled": true,
+    "schedule": [
+      "on tuesday"
+    ]
   },
   "vulnerabilityAlerts": {
     "automerge": true
