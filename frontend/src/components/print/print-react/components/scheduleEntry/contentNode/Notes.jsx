@@ -10,7 +10,7 @@ function Notes(props) {
       {notes.instanceName ? (
         <Text style={{ fontWeight: 'bold' }}>{notes.instanceName}</Text>
       ) : (
-        <View />
+        <React.Fragment />
       )}
       <RichText richText={notes.data.text} />
     </View>

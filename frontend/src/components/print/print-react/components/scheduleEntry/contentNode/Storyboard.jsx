@@ -48,7 +48,7 @@ function Storyboard(props) {
       {storyboard.instanceName ? (
         <Text style={{ fontWeight: 'bold' }}>{storyboard.instanceName}</Text>
       ) : (
-        <View />
+        <React.Fragment />
       )}
       <View
         style={{

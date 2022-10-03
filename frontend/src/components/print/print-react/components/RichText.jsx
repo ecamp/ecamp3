@@ -128,13 +128,13 @@ const richTextRules = [
     },
     processNode: function (node, children) {
       console.log('unknown HTML node type', node, children)
-      return <View />
+      return <React.Fragment />
     },
   },
 ]
 
 function RichText({ richText }) {
-  if (!richText) return <View />
+  if (!richText) return <React.Fragment />
   const htmlToReactParser = new htmlToReact.Parser()
   return htmlToReactParser.parseWithInstructions(richText, () => true, richTextRules)
 }

@@ -10,7 +10,7 @@ function Storycontext(props) {
       {storycontext.instanceName ? (
         <Text style={{ fontWeight: 'bold' }}>{storycontext.instanceName}</Text>
       ) : (
-        <View />
+        <React.Fragment />
       )}
       <RichText richText={storycontext.data.text} />
     </View>

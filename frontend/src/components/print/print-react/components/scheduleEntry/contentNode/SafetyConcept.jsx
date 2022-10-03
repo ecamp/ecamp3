@@ -10,7 +10,7 @@ function SafetyConcept(props) {
       {safetyConcept.instanceName ? (
         <Text style={{ fontWeight: 'bold' }}>{safetyConcept.instanceName}</Text>
       ) : (
-        <View />
+        <React.Fragment />
       )}
       <RichText richText={safetyConcept.data.text} />
     </View>
