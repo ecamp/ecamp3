@@ -4,6 +4,10 @@ import { View } from '@react-pdf/renderer'
 import ScheduleEntry from './ScheduleEntry.jsx'
 import dayjs from '@/common/helpers/dayjs.js'
 import picassoStyles from './picassoStyles.js'
+import * as vuetifyLayouter from 'vuetify/es5/components/VCalendar/modes/column.js'
+import * as vuetifyEvents from 'vuetify/es5/components/VCalendar/util/events.js'
+import { utcStringToTimestamp } from '../../../../../../../common/helpers/dateHelperVCalendar.js'
+import keyBy from 'lodash/keyBy.js'
 
 // converts ISO String format (UTC timezone) into a unix/seconds timestamp (UTC timezone)
 function stringToTimestamp(string) {
@@ -72,7 +76,9 @@ function scheduleEntryBorderRadiusStyles(scheduleEntry, day, times) {
   }
 }
 
-function scheduleEntryPositionStyles(scheduleEntry, day, times) {
+function scheduleEntryPositionStyles(scheduleEntry, day, times, leftAndWidth) {
+  const left = leftAndWidth[scheduleEntry.id]?.left || 0
+  const width = leftAndWidth[scheduleEntry.id]?.width || 0
   return {
     top:
       percentage(
@@ -86,10 +92,48 @@ function scheduleEntryPositionStyles(scheduleEntry, day, times) {
         times
       ) +
       '%',
+    left: left + '%',
+    right: 100 - width - left + '%',
   }
 }
 
+function vuetifyLayout(scheduleEntries, day, times) {
+  const dayStart = dayjs.utc(day.start).hour(times[0][0])
+  const events = scheduleEntries
+    .map((entry) => ({
+      ...entry,
+      startTimestamp: utcStringToTimestamp(entry.start),
+      endTimestamp: utcStringToTimestamp(entry.end),
+      timed: true,
+    }))
+    .map((evt, index) =>
+      vuetifyEvents.parseEvent(evt, index, 'startTimestamp', 'endTimestamp', true, false)
+    )
+  return keyBy(
+    vuetifyLayouter.column(
+      events, // schedule entries in vuetify format
+      -1, // we don't want to reset the grouping on any weekday
+      60 // threshold for allowed overlap between two schedule entries before they stack next to each other
+    )(
+      {
+        year: dayStart.year(),
+        month: dayStart.month(),
+        day: dayStart.day(),
+        hour: dayStart.hour(),
+        minute: dayStart.minute(),
+      }, // day start timestamp object
+      events,
+      true, // timed true, we don't want all-day events
+      false // categoryMode false, we use calendar type 'week', not 'category'
+    ),
+    'event.input.id'
+  )
+}
+
 function DayColumn({ times, scheduleEntries, day, styles }) {
+  const relevantScheduleEntries = filterScheduleEntriesByDay(scheduleEntries, day, times)
+  const leftAndWidth = vuetifyLayout(relevantScheduleEntries, day, times)
+
   return (
     <View style={{ ...picassoStyles.dayColumn, ...styles }}>
       <View style={picassoStyles.dayGrid}>
@@ -105,13 +149,13 @@ function DayColumn({ times, scheduleEntries, day, styles }) {
         ))}
       </View>
       <View style={picassoStyles.scheduleEntryContainer}>
-        {filterScheduleEntriesByDay(scheduleEntries, day, times).map((scheduleEntry) => {
+        {relevantScheduleEntries.map((scheduleEntry) => {
           return (
             <ScheduleEntry
               key={scheduleEntry.id}
               scheduleEntry={scheduleEntry}
               styles={{
-                ...scheduleEntryPositionStyles(scheduleEntry, day, times),
+                ...scheduleEntryPositionStyles(scheduleEntry, day, times, leftAndWidth),
                 ...scheduleEntryBorderRadiusStyles(scheduleEntry, day, times),
               }}
             />

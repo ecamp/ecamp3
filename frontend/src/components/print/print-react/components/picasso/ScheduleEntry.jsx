@@ -19,8 +19,8 @@ function ScheduleEntry({ scheduleEntry, styles }) {
     <View
       style={{
         ...picassoStyles.scheduleEntry,
-        left: scheduleEntry.left * 100 + '%',
-        right: (1.0 - scheduleEntry.left - scheduleEntry.width) * 100 + '%',
+        left: 0,
+        right: 0,
         backgroundColor: scheduleEntry.activity().category().color,
         ...styles,
       }}

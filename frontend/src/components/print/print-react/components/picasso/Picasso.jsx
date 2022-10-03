@@ -72,10 +72,7 @@ function Picasso({ period, orientation, $tc }) {
         <TimeColumnSpacer times={times.slice(0, times.length - 1)} />
       </View>
       <View style={picassoStyles.calendarContainer}>
-        <TimeColumn
-          times={times.slice(0, times.length - 1)}
-          align={'right'}
-        />
+        <TimeColumn times={times.slice(0, times.length - 1)} align={'right'} />
         {period.days().items.map((day) => {
           return (
             <DayColumn
@@ -90,10 +87,7 @@ function Picasso({ period, orientation, $tc }) {
             />
           )
         })}
-        <TimeColumn
-          times={times.slice(0, times.length - 1)}
-          align={'left'}
-        />
+        <TimeColumn times={times.slice(0, times.length - 1)} align={'left'} />
       </View>
     </Page>
   )

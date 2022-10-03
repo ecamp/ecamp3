@@ -26,6 +26,9 @@ export default defineConfig(({ mode }) => ({
       'core-js/modules/es.object.to-string.js',
       '@sentry/browser',
       'raf/polyfill',
+      'vuetify/es5/components/VCalendar/modes/column.js',
+      'vuetify/es5/components/VCalendar/util/events.js',
+      'lodash/keyBy.js',
     ],
   },
   build: {
