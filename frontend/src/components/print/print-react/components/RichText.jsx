@@ -7,6 +7,15 @@ function addKeys(children) {
   return children.map((child, idx) => ({ ...child, key: idx }))
 }
 
+function getNumbering(liNode) {
+  const list = liNode.parent
+  const number =
+    list.children
+      .filter((child) => child.type === 'tag' && child.name === 'li')
+      .indexOf(liNode) + 1
+  return `${number}. `
+}
+
 const richTextRules = [
   {
     shouldProcessNode: function (node) {
@@ -86,7 +95,7 @@ const richTextRules = [
   },
   {
     shouldProcessNode: function (node) {
-      return node.type === 'tag' && node.name === 'ol' // TODO implement ordered list enumeration
+      return node.type === 'tag' && node.name === 'ol'
     },
     processNode: function (node, children) {
       return children
@@ -97,7 +106,8 @@ const richTextRules = [
       return node.type === 'tag' && node.name === 'li'
     },
     processNode: function (node, children) {
-      return <Text style={{ marginLeft: '4pt' }}>• {children}</Text>
+      const bullet = node.parent.name === 'ol' ? getNumbering(node) : '• '
+      return <Text style={{ marginLeft: '4pt' }}>{[bullet, ...children]}</Text>
     },
   },
 
