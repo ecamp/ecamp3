@@ -15,10 +15,12 @@ const column1Styles = {
   flexShrink: '0',
   flexGrow: '0',
   paddingRight: '2pt',
+  overflow: 'hidden',
 }
 
 const column2Styles = {
   ...columnStyles,
+  flexBasis: 0,
   flexGrow: '1',
   borderLeft: '1px solid black',
   paddingHorizontal: '2pt',
@@ -31,6 +33,7 @@ const column3Styles = {
   flexGrow: '0',
   borderLeft: '1px solid black',
   paddingLeft: '2pt',
+  overflow: 'hidden',
 }
 
 function Storyboard(props) {
