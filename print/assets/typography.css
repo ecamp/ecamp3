@@ -1,3 +1,22 @@
 html {
   font-size: 10pt;
 }
+
+/* override standard styling from @tailwindcss/typography and from vuetify (.v-application p) */
+
+.tw-prose :where(p):not(:where([class~='tw-not-prose'] *)) {
+  margin-top: 1em !important;
+  margin-bottom: 1em !important;
+}
+
+.tw-prose :where(.tw-prose > :first-child):not(:where([class~='tw-not-prose'] *)) {
+  margin-top: 0 !important;
+}
+
+.tw-prose {
+  line-height: 1.5;
+}
+
+.theme--light.v-application {
+  color: #404040; /* same as variable --tw-prose-body from class .tw-prose-neutral (neutral-700) */
+}

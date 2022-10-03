@@ -14,13 +14,13 @@
       </tr>
       <tr v-for="(section, key) in sections" :key="key">
         <td class="column column1">
-          <rich-text :rich-text="section.column1" />
+          {{ section.column1 }}
         </td>
         <td class="column column2">
           <rich-text :rich-text="section.column2" />
         </td>
         <td class="column column3">
-          <rich-text :rich-text="section.column3" />
+          {{ section.column3 }}
         </td>
       </tr>
     </table>
