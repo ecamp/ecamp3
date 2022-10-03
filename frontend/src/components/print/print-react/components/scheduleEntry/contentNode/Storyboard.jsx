@@ -2,6 +2,7 @@
 import React from 'react'
 import { View, Text } from '@react-pdf/renderer'
 import RichText from '../../RichText.jsx'
+import InstanceName from '../InstanceName.jsx'
 
 const columnStyles = {
   flexGrow: '1',
@@ -48,11 +49,7 @@ function Storyboard(props) {
   }))
   return (
     <View style={{ display: 'flex', flexDirection: 'column', marginBottom: '6pt' }}>
-      {storyboard.instanceName ? (
-        <Text style={{ fontWeight: 'bold' }}>{storyboard.instanceName}</Text>
-      ) : (
-        <React.Fragment />
-      )}
+      <InstanceName contentNode={storyboard} $tc={props.$tc} />
       <View
         style={{
           display: 'flex',

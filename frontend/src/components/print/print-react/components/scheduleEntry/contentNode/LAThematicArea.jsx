@@ -1,8 +1,8 @@
 // eslint-disable-next-line no-unused-vars
 import React from 'react'
 import { View, Text } from '@react-pdf/renderer'
-import camelCase from 'lodash/camelCase.js'
 import Checkmark from '../../Checkmark.jsx'
+import InstanceName from '../InstanceName.jsx'
 
 function LAThematicArea(props) {
   const laThematicArea = props.contentNode
@@ -14,10 +14,7 @@ function LAThematicArea(props) {
 
   return (
     <View style={{ marginBottom: '6pt' }}>
-      <Text style={{ fontWeight: 'bold' }}>
-        {laThematicArea.instanceName ||
-          props.$tc(`contentNode.${camelCase(laThematicArea.contentTypeName)}.name`)}
-      </Text>
+      <InstanceName contentNode={laThematicArea} $tc={props.$tc} />
       {optionsArray.map((option) => {
         return (
           <View

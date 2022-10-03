@@ -1,6 +1,6 @@
 // eslint-disable-next-line no-unused-vars
 import React from 'react'
-import { Text, View } from '@react-pdf/renderer'
+import { Text } from '@react-pdf/renderer'
 import htmlToReact from 'html-to-react'
 
 function addKeys(children) {
@@ -17,16 +17,14 @@ const richTextRules = [
     },
   },
   {
-    replaceChildren: true,
     shouldProcessNode: function (node) {
       return node.type === 'tag' && node.name === 'p'
     },
     processNode: function (node, children) {
-      return children.length ? <Text>{addKeys(children)}</Text> : <Text> </Text>
+      return children.length ? <Text>{addKeys(children)}</Text> : <React.Fragment />
     },
   },
   {
-    replaceChildren: true,
     shouldProcessNode: function (node) {
       return node.type === 'tag' && (node.name === 'strong' || node.name === 'b')
     },
@@ -35,7 +33,6 @@ const richTextRules = [
     },
   },
   {
-    replaceChildren: true,
     shouldProcessNode: function (node) {
       return (
         node.type === 'tag' &&
@@ -56,7 +53,6 @@ const richTextRules = [
     },
   },
   {
-    replaceChildren: true,
     shouldProcessNode: function (node) {
       return node.type === 'tag' && node.name === 'em'
     },
@@ -65,7 +61,6 @@ const richTextRules = [
     },
   },
   {
-    replaceChildren: true,
     shouldProcessNode: function (node) {
       return node.type === 'tag' && node.name === 'u'
     },
@@ -74,7 +69,6 @@ const richTextRules = [
     },
   },
   {
-    replaceChildren: true,
     shouldProcessNode: function (node) {
       return node.type === 'tag' && node.name === 's'
     },
@@ -83,7 +77,6 @@ const richTextRules = [
     },
   },
   {
-    replaceChildren: true,
     shouldProcessNode: function (node) {
       return node.type === 'tag' && node.name === 'ul'
     },
@@ -92,7 +85,6 @@ const richTextRules = [
     },
   },
   {
-    replaceChildren: true,
     shouldProcessNode: function (node) {
       return node.type === 'tag' && node.name === 'ol' // TODO implement ordered list enumeration
     },
@@ -101,7 +93,6 @@ const richTextRules = [
     },
   },
   {
-    replaceChildren: true,
     shouldProcessNode: function (node) {
       return node.type === 'tag' && node.name === 'li'
     },
@@ -112,7 +103,6 @@ const richTextRules = [
 
   // fall back tag --> print as plain text
   {
-    replaceChildren: true,
     shouldProcessNode: function (node) {
       return node.type === 'tag'
     },
@@ -122,7 +112,6 @@ const richTextRules = [
     },
   },
   {
-    replaceChildren: true,
     shouldProcessNode: function () {
       return true
     },

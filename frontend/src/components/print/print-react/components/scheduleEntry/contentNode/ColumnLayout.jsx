@@ -9,6 +9,10 @@ function ColumnLayout(props) {
   const lastSlot = columns.length ? columns[columns.length - 1].slot : '1'
   const children = props.contentNode.children().items
 
+  if (!columns.length) {
+    return <React.Fragment />
+  }
+
   return (
     <View style={{ display: 'flex', flexDirection: 'row' }}>
       {columns.map(({ slot, width }) => {
