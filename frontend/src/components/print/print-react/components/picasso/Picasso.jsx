@@ -8,7 +8,7 @@ import DayColumn from './DayColumn.jsx'
 import TimeColumnSpacer from './TimeColumnSpacer.jsx'
 import DayHeader from './DayHeader.jsx'
 
-function Picasso({ period, orientation, $tc }) {
+function Picasso({ period, orientation, index, $tc }) {
   // Format: [hour, weight] where weight determines how tall the hour is rendered.
   // This could also be generated depending on the schedule entries present in the camp:
   // e.g. give less weight to hours that contain no schedule entries, or detect which hour is best
@@ -52,7 +52,14 @@ function Picasso({ period, orientation, $tc }) {
       orientation={orientation === 'L' ? 'landscape' : 'portrait'}
       style={styles.page}
     >
-      <Text id="picasso" style={styles.h1}>
+      <Text
+        id={'entry-' + index}
+        bookmark={{
+          title: $tc('print.picasso.title', { period: period.description }),
+          fit: true,
+        }}
+        style={styles.h1}
+      >
         {$tc('print.picasso.title', { period: period.description })}
       </Text>
       <View style={{ ...picassoStyles.calendarContainer, border: '1pt solid white' }}>

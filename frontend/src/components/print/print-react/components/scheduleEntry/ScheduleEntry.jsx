@@ -36,7 +36,16 @@ function ScheduleEntry(props) {
           }}
         >
           <Text
-            id={'scheduleEntry-' + scheduleEntry.id}
+            id={'entry-' + props.index}
+            bookmark={{
+              title:
+                activity.category().short +
+                ' ' +
+                scheduleEntry.number +
+                ' ' +
+                activity.title,
+              fit: true
+            }}
             style={{ ...styles.h1, padding: '4pt 0' }}
           >
             {scheduleEntry.number}{' '}

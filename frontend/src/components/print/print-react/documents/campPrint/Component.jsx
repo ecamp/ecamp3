@@ -1,9 +1,10 @@
 // eslint-disable-next-line no-unused-vars
 import React from 'react'
-import { Document, Font, Page } from '@react-pdf/renderer'
+import { Document, Font, View, Page } from '@react-pdf/renderer'
 import sortBy from 'lodash/sortBy.js'
 import Picasso from '../../components/picasso/Picasso.jsx'
 import ScheduleEntry from '../../components/scheduleEntry/ScheduleEntry.jsx'
+import TableOfContents from '../../components/tableOfContents/TableOfContents.jsx'
 import styles from '../../components/styles.js'
 import OpenSans from '@/assets/fonts/OpenSans/OpenSans-Regular.ttf'
 import OpenSansItalic from '@/assets/fonts/OpenSans/OpenSans-Italic.ttf'
@@ -25,6 +26,7 @@ function PDFDocument(props) {
                 period={period}
                 orientation={content.options.orientation}
                 key={period.id}
+                index={idx + '-' + period.id}
               />
             )
           })
@@ -42,16 +44,27 @@ function PDFDocument(props) {
                 key={idx}
               >
                 {periods.map((period) => {
-                  return sortBy(period.scheduleEntries().items, [
-                    'dayNumber',
-                    'scheduleEntryNumber',
-                  ]).map((scheduleEntry) => (
-                    <ScheduleEntry
-                      {...props}
-                      scheduleEntry={scheduleEntry}
-                      key={scheduleEntry.id}
-                    />
-                  ))
+                  if (period.scheduleEntries().items.length === 0) {
+                    return <React.Fragment />
+                  }
+                  return (
+                    <View
+                      id={'entry-' + idx + '-' + period.id}
+                      bookmark={{ title: period.description, fit: true }}
+                    >
+                      {sortBy(period.scheduleEntries().items, [
+                        'dayNumber',
+                        'scheduleEntryNumber',
+                      ]).map((scheduleEntry) => (
+                        <ScheduleEntry
+                          {...props}
+                          scheduleEntry={scheduleEntry}
+                          key={scheduleEntry.id}
+                          index={idx + '-' + scheduleEntry.id}
+                        />
+                      ))}
+                    </View>
+                  )
                 })}
               </Page>
             )
@@ -72,11 +85,15 @@ function PDFDocument(props) {
                     {...props}
                     scheduleEntry={scheduleEntry}
                     key={scheduleEntry.id}
+                    index={idx + '-' + scheduleEntry.id}
                   />
                 )
               })}
             </Page>
           )
+        }
+        if (content.type === 'Toc') {
+          return <TableOfContents key={idx} index={idx} {...props} />
         }
         return <React.Fragment key={idx} />
       })}
