@@ -1,11 +1,10 @@
 // eslint-disable-next-line no-unused-vars
 import React from 'react'
-import { Document, Font, View, Page } from '@react-pdf/renderer'
-import sortBy from 'lodash/sortBy.js'
-import Picasso from '../../components/picasso/Picasso.jsx'
-import ScheduleEntry from '../../components/scheduleEntry/ScheduleEntry.jsx'
+import { Document, Font } from '@react-pdf/renderer'
 import TableOfContents from '../../components/tableOfContents/TableOfContents.jsx'
-import styles from '../../components/styles.js'
+import Picasso from '../../components/picasso/Picasso.jsx'
+import Program from '../../components/program/Program.jsx'
+import Activity from '../../components/activity/Activity.jsx'
 import OpenSans from '@/assets/fonts/OpenSans/OpenSans-Regular.ttf'
 import OpenSansItalic from '@/assets/fonts/OpenSans/OpenSans-Italic.ttf'
 import OpenSansSemiBold from '@/assets/fonts/OpenSans/OpenSans-SemiBold.ttf'
@@ -13,87 +12,25 @@ import OpenSansSemiBoldItalic from '@/assets/fonts/OpenSans/OpenSans-SemiBoldIta
 import OpenSansBold from '@/assets/fonts/OpenSans/OpenSans-Bold.ttf'
 import OpenSansBoldItalic from '@/assets/fonts/OpenSans/OpenSans-BoldItalic.ttf'
 
+const components = {
+  Toc: TableOfContents,
+  Picasso,
+  Program,
+  Activity,
+}
+
 function PDFDocument(props) {
   return (
     <Document>
       {props.config.contents.map((content, idx) => {
-        if (content.type === 'Picasso') {
-          return content.options.periods.map((periodUri) => {
-            const period = props.store.get(periodUri)
-            return (
-              <Picasso
-                {...props}
-                period={period}
-                orientation={content.options.orientation}
-                key={period.id}
-                index={idx + '-' + period.id}
-              />
-            )
+        const component = components[content.type]
+        if (component) {
+          return React.createElement(component, {
+            ...props,
+            content,
+            id: `entry-${idx}`,
+            key: idx,
           })
-        }
-        if (content.type === 'Program') {
-          const periods = content.options.periods.map((periodUri) =>
-            props.store.get(periodUri)
-          )
-          if (periods.some((period) => period.scheduleEntries().items.length > 0)) {
-            return (
-              <Page
-                size="A4"
-                orientation="portrait"
-                style={{ ...styles.page, fontSize: 8 + 'pt' }}
-                key={idx}
-              >
-                {periods.map((period) => {
-                  if (period.scheduleEntries().items.length === 0) {
-                    return <React.Fragment />
-                  }
-                  return (
-                    <View
-                      id={'entry-' + idx + '-' + period.id}
-                      bookmark={{ title: period.description, fit: true }}
-                    >
-                      {sortBy(period.scheduleEntries().items, [
-                        'dayNumber',
-                        'scheduleEntryNumber',
-                      ]).map((scheduleEntry) => (
-                        <ScheduleEntry
-                          {...props}
-                          scheduleEntry={scheduleEntry}
-                          key={scheduleEntry.id}
-                          index={idx + '-' + scheduleEntry.id}
-                        />
-                      ))}
-                    </View>
-                  )
-                })}
-              </Page>
-            )
-          }
-        }
-        if (content.type === 'Activity' && content.options.scheduleEntry !== null) {
-          return (
-            <Page
-              size="A4"
-              orientation="portrait"
-              style={{ ...styles.page, fontSize: 8 + 'pt' }}
-              key={idx}
-            >
-              {[content.options.scheduleEntry].map((scheduleEntryUri) => {
-                const scheduleEntry = props.store.get(scheduleEntryUri)
-                return (
-                  <ScheduleEntry
-                    {...props}
-                    scheduleEntry={scheduleEntry}
-                    key={scheduleEntry.id}
-                    index={idx + '-' + scheduleEntry.id}
-                  />
-                )
-              })}
-            </Page>
-          )
-        }
-        if (content.type === 'Toc') {
-          return <TableOfContents key={idx} index={idx} {...props} />
         }
         return <React.Fragment key={idx} />
       })}

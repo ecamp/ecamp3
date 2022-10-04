@@ -14,7 +14,8 @@ function Activity(props) {
     return (
       <Link
         style={tocStyles.entry}
-        href={'#entry-' + props.index + '-' + scheduleEntry.id}
+        href={`#${props.id}-${scheduleEntry.id}`}
+        key={scheduleEntry.id}
       >
         <Text>
           {activity.category().short + ' ' + scheduleEntry.number + ' ' + activity.title}

@@ -13,7 +13,7 @@ function Program(props) {
   }
   return periods.map((period) => {
     const periodEntry = (
-      <Link style={tocStyles.entry} href={'#entry-' + props.index + '-' + period.id}>
+      <Link style={tocStyles.entry} href={`#${props.id}-${period.id}`}>
         <Text>{period.description}</Text>
       </Link>
     )
@@ -25,7 +25,8 @@ function Program(props) {
       return (
         <Link
           style={tocStyles.subEntry}
-          href={'#entry-' + props.index + '-' + scheduleEntry.id}
+          href={`#${props.id}-${period.id}-${scheduleEntry.id}`}
+          key={scheduleEntry.id}
         >
           <Text>
             {activity.category().short +

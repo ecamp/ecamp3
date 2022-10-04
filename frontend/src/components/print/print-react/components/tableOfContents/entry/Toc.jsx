@@ -5,7 +5,7 @@ import tocStyles from '../tocStyles.js'
 
 function Toc(props) {
   return (
-    <Link style={tocStyles.entry} href={'#entry-' + props.index}>
+    <Link style={tocStyles.entry} href={`#${props.id}`}>
       <Text>{props.$tc('print.toc.title')}</Text>
     </Link>
   )

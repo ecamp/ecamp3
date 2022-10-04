@@ -1,6 +1,6 @@
 // eslint-disable-next-line no-unused-vars
 import React from 'react'
-import { View, Text } from '@react-pdf/renderer'
+import { Text, View } from '@react-pdf/renderer'
 import styles from '../styles.js'
 import Responsibles from '../picasso/Responsibles.jsx'
 import dayjs from '@/common/helpers/dayjs.js'
@@ -36,7 +36,7 @@ function ScheduleEntry(props) {
           }}
         >
           <Text
-            id={'entry-' + props.index}
+            id={props.id}
             bookmark={{
               title:
                 activity.category().short +
@@ -44,7 +44,7 @@ function ScheduleEntry(props) {
                 scheduleEntry.number +
                 ' ' +
                 activity.title,
-              fit: true
+              fit: true,
             }}
             style={{ ...styles.h1, padding: '4pt 0' }}
           >

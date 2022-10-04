@@ -17,11 +17,7 @@ const entryComponents = {
 function TableOfContents(props) {
   return (
     <Page size="A4" orientation={'portrait'} style={styles.page}>
-      <Text
-        id={'entry-' + props.index}
-        bookmark={props.$tc('print.toc.title')}
-        style={styles.h1}
-      >
+      <Text id={props.id} bookmark={props.$tc('print.toc.title')} style={styles.h1}>
         {props.$tc('print.toc.title')}
       </Text>
       {props.config.contents.map((entry, index) => {
@@ -29,10 +25,11 @@ function TableOfContents(props) {
           return React.createElement(entryComponents[entry.type], {
             ...props,
             entry,
-            index,
+            id: `entry-${index}`,
+            key: index,
           })
         }
-        return <Text>{entry.type}</Text>
+        return <Text key={index}>{entry.type}</Text>
       })}
     </Page>
   )
