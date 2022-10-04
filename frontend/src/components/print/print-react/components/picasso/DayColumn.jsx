@@ -4,8 +4,10 @@ import { View } from '@react-pdf/renderer'
 import ScheduleEntry from './ScheduleEntry.jsx'
 import dayjs from '@/common/helpers/dayjs.js'
 import picassoStyles from './picassoStyles.js'
-import * as vuetifyLayouter from 'vuetify/es5/components/VCalendar/modes/column.js'
-import * as vuetifyEvents from 'vuetify/es5/components/VCalendar/util/events.js'
+import vuetifyLayouter from 'vuetify/es5/components/VCalendar/modes/column.js'
+import * as vuetifyLayouterInMainThread from 'vuetify/es5/components/VCalendar/modes/column.js'
+import vuetifyEvents from 'vuetify/es5/components/VCalendar/util/events.js'
+import * as vuetifyEventsInMainThread from 'vuetify/es5/components/VCalendar/util/events.js'
 import { utcStringToTimestamp } from '../../../../../../../common/helpers/dateHelperVCalendar.js'
 import keyBy from 'lodash/keyBy.js'
 
@@ -98,6 +100,10 @@ function scheduleEntryPositionStyles(scheduleEntry, day, times, leftAndWidth) {
 }
 
 function vuetifyLayout(scheduleEntries, day, times) {
+  // Work around vite limitations with importing vuetify helpers in main thread vs. worker
+  const parseEvent = vuetifyEvents?.parseEvent || vuetifyEventsInMainThread?.parseEvent
+  const layouter = vuetifyLayouter?.column || vuetifyLayouterInMainThread?.column
+
   const dayStart = dayjs.utc(day.start).hour(times[0][0])
   const events = scheduleEntries
     .map((entry) => ({
@@ -107,10 +113,10 @@ function vuetifyLayout(scheduleEntries, day, times) {
       timed: true,
     }))
     .map((evt, index) =>
-      vuetifyEvents.parseEvent(evt, index, 'startTimestamp', 'endTimestamp', true, false)
+      parseEvent(evt, index, 'startTimestamp', 'endTimestamp', true, false)
     )
   return keyBy(
-    vuetifyLayouter.column(
+    layouter(
       events, // schedule entries in vuetify format
       -1, // we don't want to reset the grouping on any weekday
       60 // threshold for allowed overlap between two schedule entries before they stack next to each other
