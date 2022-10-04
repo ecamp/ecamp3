@@ -42,6 +42,12 @@ const styles = StyleSheet.create({
     marginBottom: pageBorder / 2,
     marginHorizontal: pageBorder,
   },
+  categoryLabel: {
+    padding: '0 8pt 2pt',
+    borderRadius: '50%',
+    marginBottom: 0,
+    alignSelf: 'center',
+  },
 })
 
 export default styles

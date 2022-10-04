@@ -3,15 +3,11 @@ import React from 'react'
 import { Text, View } from '@react-pdf/renderer'
 import styles from '../styles.js'
 import Responsibles from '../picasso/Responsibles.jsx'
+import CategoryLabel from '../CategoryLabel.jsx'
 import dayjs from '@/common/helpers/dayjs.js'
 import ContentNode from './contentNode/ContentNode.jsx'
 
 const fontSize = 8
-
-const categoryLabelStyles = {
-  borderRadius: '50%',
-  padding: '4pt 8pt',
-}
 
 function ScheduleEntry(props) {
   const scheduleEntry = props.scheduleEntry
@@ -46,23 +42,15 @@ function ScheduleEntry(props) {
                 activity.title,
               fit: true,
             }}
-            style={{ ...styles.h1, padding: '4pt 0' }}
+            style={{ ...styles.h1, margin: '4pt 0' }}
           >
             {scheduleEntry.number}{' '}
           </Text>
+          <CategoryLabel activity={activity} style={{ margin: '4pt 0' }} />
           <Text
-            style={{
-              ...styles.h1,
-              ...categoryLabelStyles,
-              backgroundColor: activity.category().color,
-            }}
+            style={{ ...styles.h1, margin: '4pt 0', flexGrow: '1', overflow: 'ellipsis' }}
           >
-            {activity.category().short}
-          </Text>
-          <Text
-            style={{ ...styles.h1, padding: '4pt', flexGrow: '1', overflow: 'ellipsis' }}
-          >
-            {activity.title}
+            {' '}{activity.title}
           </Text>
           <View
             style={{
