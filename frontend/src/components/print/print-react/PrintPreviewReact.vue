@@ -1,7 +1,7 @@
 <template>
   <div style="position: relative">
     <iframe
-      :src="url"
+      :src="url + '#navpanes=0&pagemode=none&zoom=page-fit'"
       :title="$tc('views.camp.print.previewIframeTitle')"
       class="d-block"
       v-bind="$attrs"
