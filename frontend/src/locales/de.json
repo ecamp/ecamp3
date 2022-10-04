@@ -145,7 +145,7 @@
     },
     "print": {
       "documents": {
-        "pdfDocument": {
+        "campPrint": {
           "filename": {
             "activitiesOnly": "Aktivitäten {camp}",
             "picassoOnly": "Grobprogramm {camp}"

@@ -1,6 +1,6 @@
 // eslint-disable-next-line no-unused-vars
 import React from 'react'
-import { Font, Document, Page } from '@react-pdf/renderer'
+import { Document, Font, Page } from '@react-pdf/renderer'
 import sortBy from 'lodash/sortBy.js'
 import Picasso from '../../components/picasso/Picasso.jsx'
 import ScheduleEntry from '../../components/scheduleEntry/ScheduleEntry.jsx'
