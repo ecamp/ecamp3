@@ -6,8 +6,10 @@ import Toc from './entry/Toc.jsx'
 import Picasso from './entry/Picasso.jsx'
 import Program from './entry/Program.jsx'
 import Activity from './entry/Activity.jsx'
+import Cover from './entry/Cover.jsx'
 
 const entryComponents = {
+  Cover,
   Toc,
   Picasso,
   Program,

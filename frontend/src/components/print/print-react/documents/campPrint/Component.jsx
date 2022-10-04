@@ -11,8 +11,10 @@ import OpenSansSemiBold from '@/assets/fonts/OpenSans/OpenSans-SemiBold.ttf'
 import OpenSansSemiBoldItalic from '@/assets/fonts/OpenSans/OpenSans-SemiBoldItalic.ttf'
 import OpenSansBold from '@/assets/fonts/OpenSans/OpenSans-Bold.ttf'
 import OpenSansBoldItalic from '@/assets/fonts/OpenSans/OpenSans-BoldItalic.ttf'
+import Cover from '../../components/cover/Cover.jsx'
 
 const components = {
+  Cover,
   Toc: TableOfContents,
   Picasso,
   Program,
