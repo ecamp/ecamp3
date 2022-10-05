@@ -32,7 +32,7 @@
     "lodash": "4.17.21",
     "nuxt": "2.15.8",
     "pagedjs": "0.3.5",
-    "puppeteer-core": "18.1.0",
+    "puppeteer-core": "18.2.0",
     "runes": "0.4.3",
     "vue-i18n": "8.27.2"
   },
