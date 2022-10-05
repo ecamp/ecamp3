@@ -2,7 +2,7 @@ version: "3.4"
 
 services:
   frontend:
-    image: node:18.10.0@sha256:c48cf8c493930d6b5fbada793144b177113fefeda5397e99173938c59933285d
+    image: node:18.10.0@sha256:bb3b9f1867edba6d8892758889e43b2f0205ebbd381969a2c45577d38281ac90
     container_name: 'ecamp3-frontend'
     ports:
       - '3000:3000'
@@ -102,7 +102,7 @@ services:
       - ./api/public:/srv/api/public:ro
 
   print:
-    image: node:18.10.0@sha256:c48cf8c493930d6b5fbada793144b177113fefeda5397e99173938c59933285d
+    image: node:18.10.0@sha256:bb3b9f1867edba6d8892758889e43b2f0205ebbd381969a2c45577d38281ac90
     container_name: 'ecamp3-print'
     ports:
       - '3003:3003'
