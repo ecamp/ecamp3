@@ -5,13 +5,14 @@ import TableOfContents from '../../components/tableOfContents/TableOfContents.js
 import Picasso from '../../components/picasso/Picasso.jsx'
 import Program from '../../components/program/Program.jsx'
 import Activity from '../../components/activity/Activity.jsx'
+import Cover from '../../components/cover/Cover.jsx'
+import Story from '../../components/story/Story.jsx'
 import OpenSans from '@/assets/fonts/OpenSans/OpenSans-Regular.ttf'
 import OpenSansItalic from '@/assets/fonts/OpenSans/OpenSans-Italic.ttf'
 import OpenSansSemiBold from '@/assets/fonts/OpenSans/OpenSans-SemiBold.ttf'
 import OpenSansSemiBoldItalic from '@/assets/fonts/OpenSans/OpenSans-SemiBoldItalic.ttf'
 import OpenSansBold from '@/assets/fonts/OpenSans/OpenSans-Bold.ttf'
 import OpenSansBoldItalic from '@/assets/fonts/OpenSans/OpenSans-BoldItalic.ttf'
-import Cover from '../../components/cover/Cover.jsx'
 
 const components = {
   Cover,
@@ -19,6 +20,7 @@ const components = {
   Picasso,
   Program,
   Activity,
+  Story,
 }
 
 function PDFDocument(props) {

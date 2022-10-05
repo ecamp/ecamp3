@@ -7,6 +7,7 @@ import Picasso from './entry/Picasso.jsx'
 import Program from './entry/Program.jsx'
 import Activity from './entry/Activity.jsx'
 import Cover from './entry/Cover.jsx'
+import Story from './entry/Story.jsx'
 
 const entryComponents = {
   Cover,
@@ -14,6 +15,7 @@ const entryComponents = {
   Picasso,
   Program,
   Activity,
+  Story,
 }
 
 function TableOfContents(props) {

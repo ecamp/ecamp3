@@ -20,6 +20,16 @@ const styles = StyleSheet.create({
     fontWeight: 'semibold',
     marginBottom: 4,
   },
+  h2: {
+    fontSize: 14,
+    fontWeight: 'semibold',
+    marginBottom: 4,
+  },
+  h3: {
+    fontSize: 12,
+    fontWeight: 'semibold',
+    marginBottom: 4,
+  },
   header: {
     fontSize: marginFontSize,
     textAlign: 'center',

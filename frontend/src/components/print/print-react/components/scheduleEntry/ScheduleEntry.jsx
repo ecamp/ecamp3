@@ -31,27 +31,30 @@ function ScheduleEntry(props) {
             paddingBottom: '8pt',
           }}
         >
-          <Text
-            id={props.id}
-            bookmark={{
-              title:
-                activity.category().short +
-                ' ' +
-                scheduleEntry.number +
-                ' ' +
-                activity.title,
-              fit: true,
-            }}
-            style={{ ...styles.h1, margin: '4pt 0' }}
+          <View
+            style={{ ...styles.h1, display: 'flex', flexDirection: 'row', flexGrow: '1' }}
           >
-            {scheduleEntry.number}{' '}
-          </Text>
-          <CategoryLabel activity={activity} style={{ margin: '4pt 0' }} />
-          <Text
-            style={{ ...styles.h1, margin: '4pt 0', flexGrow: '1', overflow: 'ellipsis' }}
-          >
-            {' '}{activity.title}
-          </Text>
+            <Text
+              id={props.id}
+              bookmark={{
+                title:
+                  activity.category().short +
+                  ' ' +
+                  scheduleEntry.number +
+                  ' ' +
+                  activity.title,
+                fit: true,
+              }}
+              style={{ margin: '4pt 0' }}
+            >
+              {scheduleEntry.number}{' '}
+            </Text>
+            <CategoryLabel activity={activity} style={{ margin: '4pt 0' }} />
+            <Text style={{ margin: '4pt 0', overflow: 'ellipsis' }}>
+              {' '}
+              {activity.title}
+            </Text>
+          </View>
           <View
             style={{
               display: 'flex',
