@@ -1,5 +1,6 @@
 <template>
   <div>
+    <generic-error-message v-if="$fetchState.error" :error="$fetchState.error" />
     <story-period
       v-for="period in periods"
       :key="period._meta.self"

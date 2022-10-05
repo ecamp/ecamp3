@@ -1,6 +1,7 @@
 <template>
   <content-node-content :content-node="contentNode" :icon-path="mdiPackageVariant">
-    <div v-for="item in items" :key="item.id" class="item">
+    <generic-error-message v-if="$fetchState.error" :error="$fetchState.error" />
+    <div v-for="item in items" v-else :key="item.id" class="item">
       <div class="material-row">
         <div class="item">{{ item.quantity }} {{ item.unit }} {{ item.article }}</div>
         <div class="list-name">{{ item.materialList().name }}</div>

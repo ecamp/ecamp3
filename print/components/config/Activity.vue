@@ -1,6 +1,7 @@
 <template>
   <div class="tw-break-after-page">
-    <schedule-entry :schedule-entry="scheduleEntry" :index="index" />
+    <generic-error-message v-if="$fetchState.error" :error="$fetchState.error" />
+    <schedule-entry v-else :schedule-entry="scheduleEntry" :index="index" />
   </div>
 </template>
 
@@ -18,6 +19,10 @@ export default {
     }
   },
   async fetch() {
+    if (this.options.scheduleEntry === null || this.options.activity === null) {
+      throw new Error('No activity and scheduleEntry provided provided')
+    }
+
     const [scheduleEntry] = await Promise.all([
       this.$api.get(this.options.scheduleEntry)._meta.load, // TODO prevent specifying arbitrary absolute URLs that the print container should fetch...
       this.$api.get(this.options.activity)._meta.load, // TODO prevent specifying arbitrary absolute URLs that the print container should fetch...

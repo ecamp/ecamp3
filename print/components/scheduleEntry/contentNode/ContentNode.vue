@@ -3,7 +3,12 @@ generic component to render any ContentNode
 -->
 <template>
   <div>
-    <component :is="componentFor(contentNode)" :content-node="contentNode"></component>
+    <generic-error-message v-if="$fetchState.error" :error="$fetchState.error" />
+    <component
+      :is="componentFor(contentNode)"
+      v-else
+      :content-node="contentNode"
+    ></component>
   </div>
 </template>
 

@@ -1,7 +1,9 @@
 <template>
   <div>
+    <generic-error-message v-if="$fetchState.error" :error="$fetchState.error" />
     <picasso-period
       v-for="period in periods"
+      v-else
       :key="period._meta.self"
       :period="period"
       :camp="camp"

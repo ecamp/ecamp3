@@ -1,7 +1,9 @@
 <template>
   <div>
+    <generic-error-message v-if="$fetchState.error" :error="$fetchState.error" />
     <picasso-chunk
       v-for="(periodChunk, i) in periodChunks"
+      v-else
       :key="i"
       :period="period"
       :start="periodChunk.start.format('YYYY-MM-DD')"
