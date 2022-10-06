@@ -60,7 +60,7 @@ class CreateUserTest extends ECampApiTestCase {
 
         // login
         $client->request('POST', '/authentication_token', ['json' => [
-            'username' => 'bipi',
+            'identifier' => 'bi-pi@example.com',
             'password' => 'learning-by-doing-101',
         ]]);
         $this->assertResponseIsSuccessful();
