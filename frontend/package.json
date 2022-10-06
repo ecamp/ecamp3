@@ -108,7 +108,7 @@
     "prettier": "2.7.1",
     "sass": "1.32.13",
     "unplugin-vue-components": "0.22.8",
-    "vite": "2.9.15",
+    "vite": "3.1.4",
     "vite-plugin-vue2": "2.0.2",
     "vite-plugin-vue2-svg": "0.3.0",
     "vue-cli-plugin-vuetify": "2.5.8",
