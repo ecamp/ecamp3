@@ -72,12 +72,11 @@ describe('authentication logic', () => {
       jest.spyOn(apiStore, 'post').mockImplementation(async () => {})
 
       // when
-      await auth.register({ username: 'foo', email: 'bar', password: 'baz' })
+      await auth.register({ email: 'bar', password: 'baz' })
 
       // then
       expect(apiStore.post).toHaveBeenCalledTimes(1)
       expect(apiStore.post).toHaveBeenCalledWith('/users', {
-        username: 'foo',
         email: 'bar',
         password: 'baz',
       })
@@ -99,7 +98,7 @@ describe('authentication logic', () => {
       expect(result).toBeTruthy()
       expect(apiStore.post).toHaveBeenCalledTimes(1)
       expect(apiStore.post).toHaveBeenCalledWith('/authentication_token', {
-        username: 'foo',
+        identifier: 'foo',
         password: 'bar',
       })
     })
@@ -117,7 +116,7 @@ describe('authentication logic', () => {
       expect(result).toBeFalsy()
       expect(apiStore.post).toHaveBeenCalledTimes(1)
       expect(apiStore.post).toHaveBeenCalledWith('/authentication_token', {
-        username: 'foo',
+        identifier: 'foo',
         password: 'barrrr',
       })
     })
@@ -141,7 +140,7 @@ describe('authentication logic', () => {
       // given
       store.replaceState(createState())
       const user = {
-        username: 'something',
+        email: 'test@example.com',
         _meta: {},
       }
       user._meta.load = new Promise(() => user)

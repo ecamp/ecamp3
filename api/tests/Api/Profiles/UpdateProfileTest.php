@@ -54,7 +54,7 @@ class UpdateProfileTest extends ECampApiTestCase {
 
     public function testPatchProfileIsAllowedForSelfIfSelfHasNoCampCollaborations() {
         $profile = static::$fixtures['profileWithoutCampCollaborations'];
-        static::createClientWithCredentials(['username' => $profile->user->getUserName()])
+        static::createClientWithCredentials(['email' => $profile->user->getEmail()])
             ->request(
                 'PATCH',
                 '/profiles/'.$profile->getId(),
@@ -87,18 +87,6 @@ class UpdateProfileTest extends ECampApiTestCase {
         $this->assertResponseStatusCodeSame(400);
         $this->assertJsonContains([
             'detail' => 'Extra attributes are not allowed ("email" is unknown).',
-        ]);
-    }
-
-    public function testPatchProfileDisallowsChangingProfilename() {
-        /** @var Profile $profile */
-        $profile = static::$fixtures['profile1manager'];
-        static::createClientWithCredentials()->request('PATCH', '/profiles/'.$profile->getId(), ['json' => [
-            'username' => 'bi-pi',
-        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
-        $this->assertResponseStatusCodeSame(400);
-        $this->assertJsonContains([
-            'detail' => 'Extra attributes are not allowed ("username" is unknown).',
         ]);
     }
 

@@ -1,63 +1,4 @@
 {
-  "contentNode": {
-    "laThematicArea": {
-      "entity": {
-        "option": {
-          "campsiteAndSurroundings": {
-            "description": "Allestire campo/dintorni, smontare le costruzioni, preparare le installazioni per il terreno da gioco e le attrezzature sportive.",
-            "name": "Campo/dintorni"
-          },
-          "natureAndEnvironment": {
-            "description": "Flora e fauna, tutela dell’ambiente al campo, meteorologia e astronomia, tecniche di trasmissione, accensione di un fuoco.",
-            "name": "Natura e ambiente"
-          },
-          "outdoorTechnique": {
-            "description": "Pianificazione delle escursioni, lettura delle carte topografiche (p. es. NORDA), schizzi topografici, strumenti di supporto (p.es. bussola, GPS, altimetro, ecc.), orientamento sul terreno.",
-            "name": "Tecniche outdoor"
-          },
-          "pioneeringTechnique": {
-            "description": "Installare il bivacco, costruire un igloo, tecniche relative a materiali ed equipaggiamento, effettuare la manutenzione del materiale, montare e smontare le costruzioni pionieristiche, tecniche delle corde e dei nodi, tirolese, ponti di corda, discesa in corda doppia.",
-            "name": "Tecnica pionieristica"
-          },
-          "preventionAndIntegration": {
-            "description": "Attività volte a promuovere la prevenzione e l’integrazione nonché a migliorare le competenze dei partecipanti in questo ambito.",
-            "name": "Prevenzione e integrazione"
-          },
-          "security": {
-            "description": "Sicurezza durante le attività al campo, organizzazione in caso di infortuni e sistema di allerta, primi soccorsi, riflessioni sulla sicurezza.",
-            "name": "Sicurezza"
-          }
-        }
-      },
-      "name": "Area tematica AC"
-    },
-    "notes": {
-      "add": "Aggiungi i noti",
-      "name": "Noti"
-    },
-    "safetyConcept": {
-      "add": "Aggiungere un concetto di sicurezza",
-      "name": "Concetto di sicurezza"
-    },
-    "storyboard": {
-      "add": "Aggiungere un programma | Aggiungere un altro programma",
-      "entity": {
-        "section": {
-          "fields": {
-            "column1": "Tempo",
-            "column2": "Programma",
-            "column3": "Responsabile"
-          },
-          "name": "Sezione del programma | Sezioni del programma"
-        }
-      },
-      "name": "Programma"
-    },
-    "storycontext": {
-      "add": "Aggiungi filo conduttore",
-      "name": "Storia"
-    }
-  },
   "components": {
     "activity": {
       "contentNode": {
@@ -148,8 +89,7 @@
         "language": "Lingua",
         "nickname": "Soprannome",
         "password": "Parola d'ordine",
-        "surname": "Cognome",
-        "username": "Nome utente"
+        "surname": "Cognome"
       },
       "name": "Utente"
     }
@@ -206,7 +146,7 @@
         },
         "registernow": "Iscriviti ora",
         "title": "Accedi",
-        "username": "Nome utente o indirizzo e-mail"
+        "email": "Indirizzo e-mail"
       },
       "register": {
         "acceptTermsOfUse": "Accettare le condizioni di utilizzo",

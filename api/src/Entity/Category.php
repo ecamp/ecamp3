@@ -106,7 +106,6 @@ class Category extends BaseEntity implements BelongsToCampInterface, CopyFromPro
      * An abbreviated name of the category, for display in tight spaces, often together with the day and
      * schedule entry number, e.g. LS 3.a, where LS is the category's short name.
      */
-    #[InputFilter\CleanHTML]
     #[InputFilter\Trim]
     #[Assert\NotBlank]
     #[Assert\Length(max: 16)]
@@ -118,7 +117,6 @@ class Category extends BaseEntity implements BelongsToCampInterface, CopyFromPro
     /**
      * The full name of the category.
      */
-    #[InputFilter\CleanHTML]
     #[InputFilter\Trim]
     #[Assert\NotBlank]
     #[Assert\Length(max: 32)]

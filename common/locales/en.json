@@ -1,5 +1,14 @@
 {
   "contentNode": {
+    "columnLayout": {
+      "entity": {
+        "column": {
+          "name": "Column"
+        }
+      },
+      "icon": "mdi-format-columns",
+      "name": "Column layout"
+    },
     "laThematicArea": {
       "entity": {
         "option": {
@@ -29,14 +38,15 @@
           }
         }
       },
+      "icon": "mdi-shape",
       "name": "LA thematic area"
     },
     "notes": {
-      "add": "Add notes",
+      "icon": "mdi-pen",
       "name": "Notes"
     },
     "safetyConcept": {
-      "add": "Add safety concept",
+      "icon": "mdi-security",
       "name": "Safety concept"
     },
     "storyboard": {
@@ -50,13 +60,15 @@
           "name": "Storyboard | Storyboards"
         }
       },
+      "icon": "mdi-script-text-outline",
       "name": "Storyboard"
     },
     "storycontext": {
-      "add": "Add story context",
-      "name": "Story concept"
+      "icon": "mdi-book-open-variant",
+      "name": "Story"
     },
     "material": {
+      "icon": "mdi-package-variant",
       "name": "Material"
     }
   },

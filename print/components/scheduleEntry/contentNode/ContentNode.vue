@@ -1,3 +1,6 @@
+<!-- 
+generic component to render any ContentNode
+-->
 <template>
   <div>
     <component :is="componentFor(contentNode)" :content-node="contentNode"></component>

@@ -24,7 +24,7 @@ class CreateScheduleEntryTest extends ECampApiTestCase {
     }
 
     public function testCreateScheduleEntryIsNotPossibleForUnrelatedUserBecausePeriodIsNotReadable() {
-        static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->getUsername()])
+        static::createClientWithCredentials(['email' => static::$fixtures['user4unrelated']->getEmail()])
             ->request('POST', '/schedule_entries', ['json' => $this->getExampleWritePayload()])
         ;
         $this->assertResponseStatusCodeSame(400);
@@ -35,7 +35,7 @@ class CreateScheduleEntryTest extends ECampApiTestCase {
     }
 
     public function testCreateScheduleEntryIsNotPossibleForInactiveCollaboratorBecausePeriodIsNotReadable() {
-        static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->getUsername()])
+        static::createClientWithCredentials(['email' => static::$fixtures['user5inactive']->getEmail()])
             ->request('POST', '/schedule_entries', ['json' => $this->getExampleWritePayload()])
         ;
         $this->assertResponseStatusCodeSame(400);
@@ -46,7 +46,7 @@ class CreateScheduleEntryTest extends ECampApiTestCase {
     }
 
     public function testCreateScheduleEntryIsDeniedForGuest() {
-        static::createClientWithCredentials(['username' => static::$fixtures['user3guest']->getUsername()])
+        static::createClientWithCredentials(['email' => static::$fixtures['user3guest']->getEmail()])
             ->request('POST', '/schedule_entries', ['json' => $this->getExampleWritePayload()])
         ;
 
@@ -58,7 +58,7 @@ class CreateScheduleEntryTest extends ECampApiTestCase {
     }
 
     public function testCreateScheduleEntryIsAllowedForMember() {
-        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->getUsername()])
+        static::createClientWithCredentials(['email' => static::$fixtures['user2member']->getEmail()])
             ->request('POST', '/schedule_entries', ['json' => $this->getExampleWritePayload()])
         ;
 

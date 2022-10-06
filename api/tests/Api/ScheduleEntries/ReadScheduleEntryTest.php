@@ -24,7 +24,7 @@ class ReadScheduleEntryTest extends ECampApiTestCase {
     public function testGetSingleScheduleEntryIsDeniedForUnrelatedUser() {
         /** @var ScheduleEntry $scheduleEntry */
         $scheduleEntry = static::$fixtures['scheduleEntry1'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->getUsername()])
+        static::createClientWithCredentials(['email' => static::$fixtures['user4unrelated']->getEmail()])
             ->request('GET', '/schedule_entries/'.$scheduleEntry->getId())
         ;
         $this->assertResponseStatusCodeSame(404);
@@ -37,7 +37,7 @@ class ReadScheduleEntryTest extends ECampApiTestCase {
     public function testGetSingleScheduleEntryIsDeniedForInactiveCollaborator() {
         /** @var ScheduleEntry $scheduleEntry */
         $scheduleEntry = static::$fixtures['scheduleEntry1'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->getUsername()])
+        static::createClientWithCredentials(['email' => static::$fixtures['user5inactive']->getEmail()])
             ->request('GET', '/schedule_entries/'.$scheduleEntry->getId())
         ;
         $this->assertResponseStatusCodeSame(404);
@@ -51,7 +51,7 @@ class ReadScheduleEntryTest extends ECampApiTestCase {
         /** @var ScheduleEntry $scheduleEntry */
         $scheduleEntry = static::$fixtures['scheduleEntry1'];
 
-        static::createClientWithCredentials(['username' => static::$fixtures['user3guest']->getUsername()])
+        static::createClientWithCredentials(['email' => static::$fixtures['user3guest']->getEmail()])
             ->request('GET', '/schedule_entries/'.$scheduleEntry->getId())
         ;
         $this->assertResponseStatusCodeSame(200);
@@ -77,7 +77,7 @@ class ReadScheduleEntryTest extends ECampApiTestCase {
         /** @var ScheduleEntry $scheduleEntry */
         $scheduleEntry = static::$fixtures['scheduleEntry1'];
 
-        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->getUsername()])
+        static::createClientWithCredentials(['email' => static::$fixtures['user2member']->getEmail()])
             ->request('GET', '/schedule_entries/'.$scheduleEntry->getId())
         ;
         $this->assertResponseStatusCodeSame(200);

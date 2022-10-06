@@ -13,7 +13,7 @@
     <!-- disable transition for drag&drop as draggable already comes with its own anmations -->
     <transition-group :name="!dragging ? 'flip-list' : null" tag="div">
       <div v-for="key in localSortedKeys" :key="key">
-        <slot :itemKey="key" :item="items[key]" :on="eventHandlers" />
+        <slot :item-key="key" :item="items[key]" :on="eventHandlers" />
       </div>
     </transition-group>
   </draggable>

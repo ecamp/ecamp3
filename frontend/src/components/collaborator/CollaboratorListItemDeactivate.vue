@@ -4,7 +4,6 @@
     icon="mdi-cancel"
     :title="$tc('components.camp.collaboratorListItemDeactivate.title')"
     :error="error"
-    max-width="600px"
     :submit-action="deactivateUser"
     :submit-enabled="!$slots.error"
     submit-label="components.camp.collaboratorListItemDeactivate.deactivate"

@@ -1,15 +1,19 @@
 import { defineConfig } from 'vite'
 import { createVuePlugin } from 'vite-plugin-vue2'
 import { createSvgPlugin } from 'vite-plugin-vue2-svg'
-import ViteComponents, { VuetifyResolver } from 'vite-plugin-components'
 import worker, { pluginHelper } from 'vite-plugin-worker'
 import * as path from 'path'
+import { VuetifyResolver } from 'unplugin-vue-components/resolvers'
+import Components from 'unplugin-vue-components/vite'
 
 export default defineConfig(({ mode }) => ({
   plugins: [
     createVuePlugin(),
-    ViteComponents({
-      customComponentResolvers: [VuetifyResolver()],
+    Components({
+      resolvers: [
+        // Vuetify
+        VuetifyResolver(),
+      ],
     }),
     createSvgPlugin(),
     pluginHelper(),
