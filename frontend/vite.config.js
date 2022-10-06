@@ -1,13 +1,17 @@
 import { defineConfig } from 'vite'
 import { createVuePlugin } from 'vite-plugin-vue2'
 import { createSvgPlugin } from 'vite-plugin-vue2-svg'
-import worker, { pluginHelper } from 'vite-plugin-worker'
+import { comlink } from 'vite-plugin-comlink'
 import * as path from 'path'
 import { VuetifyResolver } from 'unplugin-vue-components/resolvers'
 import Components from 'unplugin-vue-components/vite'
 
 export default defineConfig(({ mode }) => ({
+  server: {
+    port: 3000,
+  },
   plugins: [
+    comlink(), // must be first
     createVuePlugin(),
     Components({
       resolvers: [
@@ -16,9 +20,10 @@ export default defineConfig(({ mode }) => ({
       ],
     }),
     createSvgPlugin(),
-    pluginHelper(),
-    worker({}),
   ],
+  worker: {
+    plugins: [comlink()],
+  },
   optimizeDeps: {
     include: [
       'core-js/modules/es.symbol.js',
