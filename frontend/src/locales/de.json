@@ -227,7 +227,8 @@
       "short": "Serverfehler"
     },
     "validation": {
-      "minDate": "{_field_} darf nicht vor {min} liegen",
+      "greaterThanOrEqual_date": "{_field_} darf nicht vor {min} liegen",
+      "greaterThan_time": "{_field_} muss später als {min} sein"
     }
   },
   "views": {

@@ -24,14 +24,36 @@ class VeeValidatePlugin {
      */
 
     // check if date (value) is equal or larger than another date (min)
-    extend('minDate', {
+    extend('greaterThanOrEqual_date', {
       params: ['min'],
+      /**
+       * @param   {string}  value Dater value in local string format
+       * @param   {string}  min   comparison valye in local string format
+       * @returns {bool}          validation result
+       */
       validate: (value, { min }) => {
         const minDate = Vue.dayjs.utc(min, 'L')
         const valueDate = Vue.dayjs.utc(value, 'L')
         return valueDate.diff(minDate, 'day') >= 0
       },
-      message: (field, values) => i18n.t('global.validation.minDate', values),
+      message: (field, values) =>
+        i18n.t('global.validation.greaterThanOrEqual_date', values),
+    })
+
+    extend('greaterThan_time', {
+      params: ['min'],
+      /**
+       *
+       * @param {string} value Time value in string format 'HH:mm'
+       * @param {string} min   Comparison value in string format 'HH:mm'
+       * @returns {bool}       validation result
+       */
+      validate: (value, { min }) => {
+        const minDate = new Date('1970-01-01 ' + min)
+        const valueDate = new Date('1970-01-01 ' + value)
+        return valueDate > minDate
+      },
+      message: (field, values) => i18n.t('global.validation.greaterThan_time', values),
     })
   }
 }

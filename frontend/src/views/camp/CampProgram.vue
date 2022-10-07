@@ -45,8 +45,8 @@ Show all activity schedule entries of a single period.
           <picasso
             :schedule-entries="slotProps.scheduleEntries"
             :period="period()"
-            :start="Date.parse(period().start)"
-            :end="Date.parse(period().end)"
+            :start="period().start"
+            :end="period().end"
             :editable="editMode"
             @newEntry="slotProps.on.newEntry"
           />
