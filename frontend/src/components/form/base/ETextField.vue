@@ -5,8 +5,8 @@
     :name="name"
     :vid="veeId"
     :rules="veeRules"
-    class="e-form-container"
     :required="required"
+    class="e-form-container"
   >
     <v-text-field
       ref="textField"

@@ -5,6 +5,7 @@
     :name="name"
     :vid="veeId"
     :rules="veeRules"
+    :required="required"
     class="e-form-container"
   >
     <v-tiptap-editor

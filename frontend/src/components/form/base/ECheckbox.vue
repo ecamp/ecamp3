@@ -4,6 +4,7 @@
     :name="name"
     :vid="veeId"
     :rules="veeRules"
+    :required="required"
   >
     <v-checkbox
       v-bind="$attrs"

@@ -10,6 +10,7 @@ Displays a field as a date picker (can be used with v-model)
     :format-picker="formatPicker"
     :parse="parse"
     :parse-picker="parsePicker"
+    :required="required"
     v-bind="$attrs"
     @input="$emit('input', $event)"
   >
