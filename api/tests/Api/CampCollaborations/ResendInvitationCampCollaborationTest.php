@@ -77,7 +77,7 @@ class ResendInvitationCampCollaborationTest extends ECampApiTestCase {
     public function testResendInvitationSuccessfulWhenInvitedUserExists() {
         /** @var CampCollaboration $campCollaboration */
         $campCollaboration = static::$fixtures['campCollaboration6invitedWithUser'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user1manager']->getUsername()])->request(
+        static::createClientWithCredentials(['email' => static::$fixtures['user1manager']->getEmail()])->request(
             'PATCH',
             '/camp_collaborations/'.$campCollaboration->getId().'/'.self::RESEND_INVITATION,
             [
