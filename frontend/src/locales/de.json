@@ -228,7 +228,6 @@
     },
     "validation": {
       "minDate": "{_field_} darf nicht vor {min} liegen",
-      "pwConfirmed": "Passwort stimmt nicht überein"
     }
   },
   "views": {
