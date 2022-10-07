@@ -5,7 +5,11 @@ const serverErrorToString = (error) => {
   // API error
   // error.response is in API Problem Details format: https://www.rfc-editor.org/rfc/rfc7807
   if (error.name === 'ServerException' && error.response) {
-    return error.response.data.detail
+    if (error.response?.headers['content-type'].startsWith('application/problem+json')) {
+      return error.response.data.detail
+    }
+
+    return error.response?.data?.message || error.toString()
   }
 
   // other error thrown directly by Javascript (e.g. connection error)

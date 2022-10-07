@@ -154,10 +154,10 @@ class DataPersisterObservableTest extends TestCase {
         $this->dataPersisterObservable->persist($toPersist, ['item_operation_name' => self::ACTION_NAME]);
     }
 
-    public function testCallCustomActionListenersForItemOperationTwiceIfRegisteredTwice() {
+    public function testCallCustomActionListenersForItemOperationOnlyOnceIfRegisteredTwice() {
         $toPersist = new stdClass();
 
-        $this->closure->expects(self::exactly(4))
+        $this->closure->expects(self::exactly(2))
             ->method('call')
             ->with($toPersist)
             ->willReturnArgument(0)
