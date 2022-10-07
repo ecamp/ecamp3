@@ -1,5 +1,5 @@
 <template>
-  <div class="tw-break-after-page">
+  <div :class="landscape ? 'landscape tw-break-after-page' : 'tw-break-after-page'">
     <h1
       :id="`content_${index}_period_${period.id}`"
       class="tw-text-2xl tw-font-bold tw-mb-6"
@@ -8,7 +8,7 @@
       {{ period.description }}
     </h1>
 
-    <v-sheet>
+    <v-sheet :width="landscape ? 960 : 680">
       <v-calendar
         ref="calendar"
         :events="events"
@@ -21,7 +21,7 @@
         event-overlap-mode="column"
         first-interval="0"
         interval-count="24"
-        interval-height="35"
+        :interval-height="landscape ? 23 : 35"
         interval-width="46"
         event-text-color="black"
         :locale="$i18n.locale"
@@ -29,6 +29,20 @@
         :day-format="dayFormat"
         :weekday-format="weekdayFormat"
       >
+        <!-- day header -->
+        <template #day-label-header="{ date }">
+          <span class="tw-block">
+            {{ $date.utc(date).format($tc('global.datetime.dateLong')) }}
+          </span>
+
+          <span v-if="hasDayResponsibles(date)" class="tw-text-sm tw-italic">
+            {{ $tc('entity.day.fields.dayResponsibles') }}:
+            {{ dayResponsiblesCommaSeparated(date) }}
+          </span>
+
+          <!-- <day-responsibles :date="date" :period="period" :readonly="!editable" /> -->
+        </template>
+
         <template #event="{ event }">
           <div class="tw-float-left tw-text-xs tw-font-weight-medium">
             <!-- link jumps to first instance of scheduleEntry within the document -->
@@ -48,6 +62,7 @@
 
 <script>
 import { responsiblesCommaSeparated } from '@/helpers/activityResponsibles.js'
+import { dayResponsiblesCommaSeparated } from '@/helpers/dayResponsibles.js'
 
 export default {
   props: {
@@ -56,6 +71,7 @@ export default {
     end: { type: String, required: true },
     events: { type: Array, required: true },
     index: { type: Number, required: true },
+    landscape: { type: Boolean, required: true },
   },
 
   methods: {
@@ -85,27 +101,33 @@ export default {
 
       return `[${responsibles}]`
     },
+
+    dayResponsiblesCommaSeparated(date) {
+      const day = this.getDayByDate(date)
+      if (!day) return null
+      return dayResponsiblesCommaSeparated(day, this.$tc.bind(this))
+    },
+
+    hasDayResponsibles(date) {
+      const day = this.getDayByDate(date)
+      if (!day) return false
+      return day.dayResponsibles().items.length > 0
+    },
+
+    getDayByDate(date) {
+      return this.period.days().items.find((day) => {
+        return this.$date.utc(date).isSame(this.$date.utc(day.start), 'day')
+      })
+    },
   },
 }
 </script>
 
 <style lang="scss">
-@media print {
-  @page picasso {
-    /* changing page orientation currently not working in pagedJS/chrome
-       https://github.com/pagedjs/pagedjs/issues/6 */
-    size: a4 landscape;
-    margin: 15mm 15mm;
-
-    @top-center {
-      content: 'Picasso';
-    }
-  }
-
-  .picasso {
-    page-break-after: always;
-    page: picasso;
-  }
+.landscape {
+  transform: rotate(-90deg);
+  position: relative;
+  top: 320px;
 }
 
 .v-calendar {
@@ -128,6 +150,7 @@ export default {
   padding: 2px;
   white-space: normal;
   overflow-wrap: break-word;
+  overflow-y: hidden;
   word-wrap: break-word;
   word-break: break-all;
 

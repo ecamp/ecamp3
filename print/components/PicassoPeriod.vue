@@ -8,6 +8,7 @@
       :end="periodChunk.end.format('YYYY-MM-DD')"
       :events="events"
       :index="index"
+      :landscape="landscape"
     />
   </div>
 </template>
@@ -20,7 +21,7 @@ export default {
   props: {
     period: { type: Object, required: true },
     camp: { type: Object, required: true },
-    orientation: { type: String, required: true },
+    landscape: { type: Boolean, required: true },
     index: { type: Number, required: true },
   },
   data() {
@@ -54,6 +55,28 @@ export default {
           )
         }),
       this.camp.categories().$loadItems(),
+      this.period
+        .days()
+        .$loadItems()
+        .then((days) => {
+          return Promise.all(
+            days.items.map((day) =>
+              day
+                .dayResponsibles()
+                .$loadItems()
+                .then((dayResponsibles) => {
+                  return Promise.all(
+                    dayResponsibles.items.map((dayResponsible) => {
+                      if (dayResponsible.campCollaboration().user === null) {
+                        return Promise.resolve(null)
+                      }
+                      return dayResponsible.campCollaboration().user()._meta.load
+                    })
+                  )
+                })
+            )
+          )
+        }),
     ])
 
     this.events = scheduleEntries.items.map((entry) => ({
@@ -65,8 +88,7 @@ export default {
   },
   computed: {
     periodChunks() {
-      // TODO: choose chunkSize based on orientation
-      const chunkSize = 3
+      const chunkSize = this.landscape ? 5 : 3
 
       const start = dayjs.utc(this.period.start)
       const end = dayjs.utc(this.period.end)
