@@ -39,8 +39,6 @@
             {{ $tc('entity.day.fields.dayResponsibles') }}:
             {{ dayResponsiblesCommaSeparated(date) }}
           </span>
-
-          <!-- <day-responsibles :date="date" :period="period" :readonly="!editable" /> -->
         </template>
 
         <template #event="{ event }">
@@ -52,7 +50,7 @@
             </a>
           </div>
           <span class="tw-float-right tw-text-xs tw-italic ml-1">{{
-            responsiblesCommaSeparated(event)
+            activityResponsiblesCommaSeparated(event)
           }}</span>
         </template>
       </v-calendar>
@@ -61,8 +59,8 @@
 </template>
 
 <script>
-import { responsiblesCommaSeparated } from '@/helpers/activityResponsibles.js'
-import { dayResponsiblesCommaSeparated } from '@/helpers/dayResponsibles.js'
+import { activityResponsiblesCommaSeparated } from '@/../common/helpers/activityResponsibles.js'
+import { dayResponsiblesCommaSeparated } from '@/../common/helpers/dayResponsibles.js'
 
 export default {
   props: {
@@ -89,8 +87,8 @@ export default {
     weekdayFormat() {
       return ''
     },
-    responsiblesCommaSeparated(scheduleEntry) {
-      const responsibles = responsiblesCommaSeparated(
+    activityResponsiblesCommaSeparated(scheduleEntry) {
+      const responsibles = activityResponsiblesCommaSeparated(
         scheduleEntry.activity(),
         this.$tc.bind(this)
       )

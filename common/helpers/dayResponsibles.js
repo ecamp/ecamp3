@@ -1,6 +1,8 @@
-import campCollaborationDisplayName from '@/../common/helpers/campCollaborationDisplayName.js'
+import campCollaborationDisplayName from './campCollaborationDisplayName.js'
 
 const dayResponsiblesCommaSeparated = (day, tc) => {
+  if (!day) return ''
+
   return day
     .dayResponsibles()
     .items.map((dayResponsible) =>

@@ -24,7 +24,6 @@ export default {
   data() {
     return {
       periods: [],
-      landscape: false,
     }
   },
   async fetch() {
@@ -38,8 +37,11 @@ export default {
     this.periods = this.options.periods.map((periodUri) => {
       return this.$api.get(periodUri) // TODO prevent specifying arbitrary absolute URLs that the print container should fetch...
     })
-
-    this.landscape = this.options.orientation === 'L'
+  },
+  computed: {
+    landscape() {
+      return this.options.orientation === 'L'
+    },
   },
 }
 </script>
