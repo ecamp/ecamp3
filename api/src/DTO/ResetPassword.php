@@ -5,6 +5,7 @@ namespace App\DTO;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ApiResource(
     collectionOperations: [
@@ -52,5 +53,6 @@ class ResetPassword {
 
     #[ApiProperty(readable: false, writable: true)]
     #[Groups(['update'])]
+    #[Assert\Length(min: 12, max: 128)]
     public ?string $password = null;
 }

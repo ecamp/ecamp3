@@ -113,6 +113,7 @@ services:
             - '%env(COOKIE_PREFIX)%'
 
     App\Security\ReCaptcha\ReCaptcha:
+        public: true # necessary to be able to mock ReCaptcha in the container in Api tests
         arguments:
             - '%env(RECAPTCHA_SECRET)%'
             - '@ReCaptcha\ReCaptcha'

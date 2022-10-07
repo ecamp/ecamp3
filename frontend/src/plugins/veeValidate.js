@@ -33,14 +33,6 @@ class VeeValidatePlugin {
       },
       message: (field, values) => i18n.t('global.validation.minDate', values),
     })
-
-    extend('pwConfirmed', {
-      params: ['target'],
-      validate: (value, { target }) => {
-        return value === target
-      },
-      message: (field, values) => i18n.t('global.validation.pwConfirmed', values),
-    })
   }
 }
 

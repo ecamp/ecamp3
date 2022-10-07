@@ -32,8 +32,8 @@
       <e-text-field
         v-model="pw1"
         :name="$tc('entity.user.fields.password')"
-        :rules="pw1Rules"
-        vee-rules="required"
+        vee-id="password"
+        vee-rules="required|min:12"
         validate-on-blur
         append-icon="mdi-lock-outline"
         dense
@@ -150,10 +150,7 @@ export default {
       }
     },
     pw2Rules() {
-      return [(v) => (!!v && v) === this.pw1 || 'Nicht übereinstimmend']
-    },
-    pw1Rules() {
-      return [(v) => v.length >= 8 || 'Mindestens 8 Zeichen lang sein']
+      return [(v) => (!!v && v) === this.pw1 || this.$tc('views.auth.register.mustMatch')]
     },
     availableLocales() {
       return VueI18n.availableLocales.map((l) => ({
