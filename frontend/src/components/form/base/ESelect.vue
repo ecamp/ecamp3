@@ -29,10 +29,11 @@
 <script>
 import { ValidationProvider } from 'vee-validate'
 import { formComponentPropsMixin } from '@/mixins/formComponentPropsMixin.js'
+import { formComponentMixin } from '@/mixins/formComponentMixin.js'
 
 export default {
   name: 'ESelect',
   components: { ValidationProvider },
-  mixins: [formComponentPropsMixin],
+  mixins: [formComponentPropsMixin, formComponentMixin],
 }
 </script>

@@ -44,10 +44,12 @@ Displays a field as a date picker (can be used with v-model)
 <script>
 import BasePicker from './BasePicker.vue'
 import { HTML5_FMT } from '@/common/helpers/dateFormat.js'
+import { formComponentMixin } from '@/mixins/formComponentMixin.js'
 
 export default {
   name: 'DatePicker',
   components: { BasePicker },
+  mixins: [formComponentMixin],
   props: {
     value: { type: [String, Number], required: true },
     icon: { type: String, required: false, default: 'mdi-calendar' },

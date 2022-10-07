@@ -33,11 +33,12 @@
 <script>
 import { ValidationProvider } from 'vee-validate'
 import { formComponentPropsMixin } from '@/mixins/formComponentPropsMixin.js'
+import { formComponentMixin } from '@/mixins/formComponentMixin.js'
 
 export default {
   name: 'ETextField',
   components: { ValidationProvider },
-  mixins: [formComponentPropsMixin],
+  mixins: [formComponentPropsMixin, formComponentMixin],
   props: {
     type: {
       type: String,
