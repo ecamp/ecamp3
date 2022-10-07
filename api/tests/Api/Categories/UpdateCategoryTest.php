@@ -29,7 +29,7 @@ class UpdateCategoryTest extends ECampApiTestCase {
 
     public function testPatchCategoryIsDeniedForUnrelatedUser() {
         $category = static::$fixtures['category1'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->getUsername()])
+        static::createClientWithCredentials(['email' => static::$fixtures['user4unrelated']->getEmail()])
             ->request('PATCH', '/categories/'.$category->getId(), ['json' => [
                 'short' => 'LP',
                 'name' => 'Lagerprogramm',
@@ -50,7 +50,7 @@ class UpdateCategoryTest extends ECampApiTestCase {
 
     public function testPatchCategoryIsDeniedForInactiveCollaborator() {
         $category = static::$fixtures['category1'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->getUsername()])
+        static::createClientWithCredentials(['email' => static::$fixtures['user5inactive']->getEmail()])
             ->request('PATCH', '/categories/'.$category->getId(), ['json' => [
                 'short' => 'LP',
                 'name' => 'Lagerprogramm',
@@ -71,7 +71,7 @@ class UpdateCategoryTest extends ECampApiTestCase {
 
     public function testPatchCategoryIsDeniedForGuest() {
         $category = static::$fixtures['category1'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user3guest']->getUsername()])
+        static::createClientWithCredentials(['email' => static::$fixtures['user3guest']->getEmail()])
             ->request('PATCH', '/categories/'.$category->getId(), ['json' => [
                 'short' => 'LP',
                 'name' => 'Lagerprogramm',
@@ -92,7 +92,7 @@ class UpdateCategoryTest extends ECampApiTestCase {
 
     public function testPatchCategoryIsAllowedForMember() {
         $category = static::$fixtures['category1'];
-        $response = static::createClientWithCredentials(['username' => static::$fixtures['user2member']->getUsername()])
+        $response = static::createClientWithCredentials(['email' => static::$fixtures['user2member']->getEmail()])
             ->request('PATCH', '/categories/'.$category->getId(), ['json' => [
                 'short' => 'LP',
                 'name' => 'Lagerprogramm',
@@ -289,21 +289,21 @@ class UpdateCategoryTest extends ECampApiTestCase {
         );
     }
 
-    public function testPatchCategoryCleansHtmlForShort() {
+    public function testPatchCategoryDoesNotCleanHtmlForShort() {
         $category = static::$fixtures['category1'];
         static::createClientWithCredentials()->request(
             'PATCH',
             '/categories/'.$category->getId(),
             [
                 'json' => [
-                    'short' => 'L<script>alert(1)</script>S',
+                    'short' => 'L<b>S</b><a>',
                 ],
                 'headers' => ['Content-Type' => 'application/merge-patch+json'], ]
         );
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains(
             [
-                'short' => 'LS',
+                'short' => 'L<b>S</b><a>',
             ]
         );
     }
@@ -395,7 +395,7 @@ class UpdateCategoryTest extends ECampApiTestCase {
         );
     }
 
-    public function testPatchCategoryCleansHtmlForName() {
+    public function testPatchCategoryDoesNotCleanHtmlForName() {
         $category = static::$fixtures['category1'];
         $client = static::createClientWithCredentials();
         $client->disableReboot();
@@ -404,14 +404,14 @@ class UpdateCategoryTest extends ECampApiTestCase {
             '/categories/'.$category->getId(),
             [
                 'json' => [
-                    'short' => 'Lagersp<script>alert(1)</script>ort',
+                    'name' => '<b>Lager</b>sport<a>',
                 ],
                 'headers' => ['Content-Type' => 'application/merge-patch+json'], ]
         );
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains(
             [
-                'short' => 'Lagersport',
+                'name' => '<b>Lager</b>sport<a>',
             ]
         );
     }

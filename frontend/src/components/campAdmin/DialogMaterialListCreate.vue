@@ -5,7 +5,6 @@
     :error="error"
     icon="mdi-package-variant"
     :title="$tc('components.dialog.dialogMaterialListCreate.title')"
-    max-width="600px"
     :submit-action="createMaterialList"
     submit-color="success"
     :cancel-action="close"

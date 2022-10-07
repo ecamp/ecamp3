@@ -58,7 +58,7 @@
             v-model="period.end"
             input-class="ml-2"
             :name="$tc('entity.period.fields.end')"
-            vee-rules="required|minDate:@start"
+            vee-rules="required|greaterThanOrEqual_date:@start"
             :my="2"
             :filled="false"
             required

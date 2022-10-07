@@ -66,7 +66,7 @@ class ListScheduleEntriesTest extends ECampApiTestCase {
 
     public function testListScheduleEntriesFilteredByPeriodIsDeniedForUnrelatedUser() {
         $period = static::$fixtures['period1'];
-        $response = static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->getUsername()])
+        $response = static::createClientWithCredentials(['email' => static::$fixtures['user4unrelated']->getEmail()])
             ->request('GET', '/schedule_entries?period=%2Fperiods%2F'.$period->getId())
         ;
 
@@ -78,7 +78,7 @@ class ListScheduleEntriesTest extends ECampApiTestCase {
 
     public function testListScheduleEntriesFilteredByPeriodIsDeniedForInactiveCollaborator() {
         $period = static::$fixtures['period1'];
-        $response = static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->getUsername()])
+        $response = static::createClientWithCredentials(['email' => static::$fixtures['user5inactive']->getEmail()])
             ->request('GET', '/schedule_entries?period=%2Fperiods%2F'.$period->getId())
         ;
 
@@ -128,7 +128,7 @@ class ListScheduleEntriesTest extends ECampApiTestCase {
 
     public function testListScheduleEntriesFilteredByActivityIsDeniedForUnrelatedUser() {
         $activity = static::$fixtures['activity1'];
-        $response = static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->getUsername()])
+        $response = static::createClientWithCredentials(['email' => static::$fixtures['user4unrelated']->getEmail()])
             ->request('GET', '/schedule_entries?activity=%2Factivities%2F'.$activity->getId())
         ;
 
@@ -140,7 +140,7 @@ class ListScheduleEntriesTest extends ECampApiTestCase {
 
     public function testListScheduleEntriesFilteredByActivityIsDeniedForInactiveCollaborator() {
         $activity = static::$fixtures['activity1'];
-        $response = static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->getUsername()])
+        $response = static::createClientWithCredentials(['email' => static::$fixtures['user5inactive']->getEmail()])
             ->request('GET', '/schedule_entries?activity=%2Factivities%2F'.$activity->getId())
         ;
 

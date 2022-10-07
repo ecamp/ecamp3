@@ -38,6 +38,14 @@ class CreateSingleTextTest extends CreateContentNodeTestCase {
         $this->assertJsonContains(['data' => ['text' => '']]);
     }
 
+    public function testCreateSingleTextAcceptsNonExistingJson() {
+        $response = $this->create($this->getExampleWritePayload([], ['data']));
+
+        $this->assertResponseStatusCodeSame(201);
+
+        $this->assertJsonContains(['data' => ['text' => '']]);
+    }
+
     public function testCreateSingleTextCleansHTMLFromText() {
         // given
         $text = ' testText<script>alert(1)</script>';

@@ -4,9 +4,18 @@ import { toTime, roundTimeDown } from '@/helpers/vCalendarDragAndDrop.js'
  *
  * @param ref(bool) enabled   drag & drop is disabled if enabled=false
  * @param int threshold       min. mouse movement needed to detect drag & drop
+ * @param update function     callback for update actions
+ * @param minTimestamp        minimum allowed start timestamp (calendar start)
+ * @param maxTimestamp        maximum allowed end timestamp (calender end)
  * @returns
  */
-export default function useDragAndDrop(enabled, threshold, update) {
+export default function useDragAndDrop(
+  enabled,
+  threshold,
+  update,
+  minTimestamp,
+  maxTimestamp
+) {
   /**
    * internal data (not exposed)
    */
@@ -45,8 +54,10 @@ export default function useDragAndDrop(enabled, threshold, update) {
     const newStart = roundTimeDown(mouse - mouseOffset)
     const newEnd = newStart + duration
 
-    draggedEntry.startTimestamp = newStart
-    draggedEntry.endTimestamp = newEnd
+    if (newStart >= minTimestamp && newEnd <= maxTimestamp) {
+      draggedEntry.startTimestamp = newStart
+      draggedEntry.endTimestamp = newEnd
+    }
   }
 
   const clear = () => {

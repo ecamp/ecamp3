@@ -5,13 +5,6 @@
     http_port 3001
     https_port 3443
     auto_https disable_redirects
-
-    # HTTP/3 support
-    servers {
-        protocol {
-            experimental_http3
-        }
-    }
 }
 
 {$SERVER_NAME}

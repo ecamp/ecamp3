@@ -21,7 +21,7 @@ class DeletePeriodTest extends ECampApiTestCase {
 
     public function testDeletePeriodIsDeniedForUnrelatedUser() {
         $period = static::$fixtures['period1'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->getUsername()])
+        static::createClientWithCredentials(['email' => static::$fixtures['user4unrelated']->getEmail()])
             ->request('DELETE', '/periods/'.$period->getId())
         ;
 
@@ -34,7 +34,7 @@ class DeletePeriodTest extends ECampApiTestCase {
 
     public function testDeletePeriodIsDeniedForInactiveCollaborator() {
         $period = static::$fixtures['period1'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->getUsername()])
+        static::createClientWithCredentials(['email' => static::$fixtures['user5inactive']->getEmail()])
             ->request('DELETE', '/periods/'.$period->getId())
         ;
 
@@ -47,7 +47,7 @@ class DeletePeriodTest extends ECampApiTestCase {
 
     public function testDeletePeriodIsDeniedForGuest() {
         $period = static::$fixtures['period1'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user3guest']->getUsername()])
+        static::createClientWithCredentials(['email' => static::$fixtures['user3guest']->getEmail()])
             ->request('DELETE', '/periods/'.$period->getId())
         ;
 
@@ -60,7 +60,7 @@ class DeletePeriodTest extends ECampApiTestCase {
 
     public function testDeletePeriodIsAllowedForMember() {
         $period = static::$fixtures['period1'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->getUsername()])
+        static::createClientWithCredentials(['email' => static::$fixtures['user2member']->getEmail()])
             ->request('DELETE', '/periods/'.$period->getId())
         ;
         $this->assertResponseStatusCodeSame(204);

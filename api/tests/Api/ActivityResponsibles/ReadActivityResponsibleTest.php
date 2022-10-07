@@ -23,7 +23,7 @@ class ReadActivityResponsibleTest extends ECampApiTestCase {
     public function testGetSingleActivityResponsibleIsDeniedForUnrelatedUser() {
         /** @var ActivityResponsible $activityResponsible */
         $activityResponsible = static::$fixtures['activityResponsible1'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->getUsername()])
+        static::createClientWithCredentials(['email' => static::$fixtures['user4unrelated']->getEmail()])
             ->request('GET', '/activity_responsibles/'.$activityResponsible->getId())
         ;
         $this->assertResponseStatusCodeSame(404);
@@ -36,7 +36,7 @@ class ReadActivityResponsibleTest extends ECampApiTestCase {
     public function testGetSingleActivityResponsibleIsDeniedForInactiveCollaborator() {
         /** @var ActivityResponsible $activityResponsible */
         $activityResponsible = static::$fixtures['activityResponsible1'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->getUsername()])
+        static::createClientWithCredentials(['email' => static::$fixtures['user5inactive']->getEmail()])
             ->request('GET', '/activity_responsibles/'.$activityResponsible->getId())
         ;
         $this->assertResponseStatusCodeSame(404);
@@ -49,7 +49,7 @@ class ReadActivityResponsibleTest extends ECampApiTestCase {
     public function testGetSingleActivityResponsibleIsAllowedForGuest() {
         /** @var ActivityResponsible $activityResponsible */
         $activityResponsible = static::$fixtures['activityResponsible1'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user3guest']->getUsername()])
+        static::createClientWithCredentials(['email' => static::$fixtures['user3guest']->getEmail()])
             ->request('GET', '/activity_responsibles/'.$activityResponsible->getId())
         ;
         $this->assertResponseStatusCodeSame(200);
@@ -65,7 +65,7 @@ class ReadActivityResponsibleTest extends ECampApiTestCase {
     public function testGetSingleActivityResponsibleIsAllowedForMember() {
         /** @var ActivityResponsible $activityResponsible */
         $activityResponsible = static::$fixtures['activityResponsible1'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->getUsername()])
+        static::createClientWithCredentials(['email' => static::$fixtures['user2member']->getEmail()])
             ->request('GET', '/activity_responsibles/'.$activityResponsible->getId())
         ;
         $this->assertResponseStatusCodeSame(200);

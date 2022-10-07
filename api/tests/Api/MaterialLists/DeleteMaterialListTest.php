@@ -21,7 +21,7 @@ class DeleteMaterialListTest extends ECampApiTestCase {
 
     public function testDeleteMaterialListIsDeniedForUnrelatedUser() {
         $materialList = static::$fixtures['materialList2WithNoItems'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->getUsername()])
+        static::createClientWithCredentials(['email' => static::$fixtures['user4unrelated']->getEmail()])
             ->request('DELETE', '/material_lists/'.$materialList->getId())
         ;
 
@@ -34,7 +34,7 @@ class DeleteMaterialListTest extends ECampApiTestCase {
 
     public function testDeleteMaterialListIsDeniedForInactiveCollaborator() {
         $materialList = static::$fixtures['materialList2WithNoItems'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->getUsername()])
+        static::createClientWithCredentials(['email' => static::$fixtures['user5inactive']->getEmail()])
             ->request('DELETE', '/material_lists/'.$materialList->getId())
         ;
 
@@ -47,7 +47,7 @@ class DeleteMaterialListTest extends ECampApiTestCase {
 
     public function testDeleteMaterialListIsDeniedForGuest() {
         $materialList = static::$fixtures['materialList2WithNoItems'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user3guest']->getUsername()])
+        static::createClientWithCredentials(['email' => static::$fixtures['user3guest']->getEmail()])
             ->request('DELETE', '/material_lists/'.$materialList->getId())
         ;
 
@@ -60,7 +60,7 @@ class DeleteMaterialListTest extends ECampApiTestCase {
 
     public function testDeleteMaterialListIsAllowedForMember() {
         $materialList = static::$fixtures['materialList2WithNoItems'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->getUsername()])
+        static::createClientWithCredentials(['email' => static::$fixtures['user2member']->getEmail()])
             ->request('DELETE', '/material_lists/'.$materialList->getId())
         ;
         $this->assertResponseStatusCodeSame(204);
