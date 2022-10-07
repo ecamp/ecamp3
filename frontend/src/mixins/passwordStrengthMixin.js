@@ -17,5 +17,5 @@ export const passwordStrengthMixin = {
       if (strength <= 75) return 'yellow'
       return 'green'
     },
-  }
+  },
 }

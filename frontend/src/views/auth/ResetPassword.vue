@@ -48,7 +48,12 @@
           autofocus
         >
           <template #progress>
-            <v-progress-linear :value="strength(password)" :color="strengthColor(password)" absolute height="5" />
+            <v-progress-linear
+              :value="strength(password)"
+              :color="strengthColor(password)"
+              absolute
+              height="5"
+            />
           </template>
         </e-text-field>
 
@@ -97,10 +102,10 @@ import { passwordStrengthMixin } from '../../mixins/passwordStrengthMixin.js'
 export default {
   name: 'ResetPassword',
   components: { ValidationObserver },
+  mixins: [passwordStrengthMixin],
   props: {
     id: { type: String, required: true },
   },
-  mixins: [passwordStrengthMixin],
 
   data() {
     return {

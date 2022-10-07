@@ -42,7 +42,12 @@
           loading
         >
           <template #progress>
-            <v-progress-linear :value="strength(pw1)" :color="strengthColor(pw1)" absolute height="5" />
+            <v-progress-linear
+              :value="strength(pw1)"
+              :color="strengthColor(pw1)"
+              absolute
+              height="5"
+            />
           </template>
         </e-text-field>
 
