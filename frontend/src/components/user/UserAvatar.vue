@@ -18,7 +18,7 @@ export default {
   },
   computed: {
     isLoading() {
-      return (this.user || this.campCollaboration)._meta.loading
+      return (this.user || this.campCollaboration)?._meta.loading
     },
     color() {
       if (this.isLoading) {

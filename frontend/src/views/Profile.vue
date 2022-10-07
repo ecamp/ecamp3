@@ -92,7 +92,7 @@ export default {
   },
   computed: {
     user() {
-      return this.$auth.user()
+      return this.$store.state.auth.user
     },
     profile() {
       return this.user.profile()

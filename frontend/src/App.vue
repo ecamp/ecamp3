@@ -34,7 +34,7 @@ export default {
   components: { LanguageSwitcher },
   computed: {
     profile() {
-      return this.$auth.user()
+      return this.$store.state.auth.user
     },
     deploymentTime() {
       const timestamp = window.environment.DEPLOYMENT_TIME
@@ -57,11 +57,12 @@ export default {
   },
   async mounted() {
     if (this.$auth.isLoggedIn()) {
-      this.profile._meta.load.then((profile) => {
-        if (VueI18n.availableLocales.includes(profile.language)) {
-          this.$store.commit('setLanguage', profile.language)
-        }
-      })
+      const user = await this.$auth.loadUser()
+      const profile = await user.profile()._meta.load
+
+      if (VueI18n.availableLocales.includes(profile.language)) {
+        this.$store.commit('setLanguage', profile.language)
+      }
     }
   },
 }

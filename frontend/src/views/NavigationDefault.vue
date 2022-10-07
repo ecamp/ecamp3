@@ -22,29 +22,5 @@ export default {
     UserMeta,
     Logo,
   },
-  data() {
-    return {
-      logoutIcon: 'mdi-logout',
-    }
-  },
-  computed: {
-    isLoggedIn() {
-      return this.$auth.isLoggedIn()
-    },
-  },
-  methods: {
-    logout() {
-      this.logoutIcon = ''
-      this.$auth.logout().then(() => this.$router.replace({ name: 'login' }))
-    },
-    prevent(event) {
-      event.stopImmediatePropagation()
-      event.preventDefault()
-      event.cancelBubble = true
-      return null
-    },
-  },
 }
 </script>
-
-<style scoped></style>
