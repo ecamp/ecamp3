@@ -109,4 +109,48 @@ class LoginTest extends ECampApiTestCase {
         $this->assertResponseStatusCodeSame(204);
         $this->assertResponseHasHeader('Set-Cookie');
     }
+
+    public function testLoginWithDeletedUserFails() {
+        /** @var User $user */
+        $user = static::$fixtures['userWithStateDeleted'];
+
+        static::createBasicClient()->request(
+            'POST',
+            '/authentication_token',
+            [
+                'json' => [
+                    'identifier' => $user->getEmail(),
+                    'password' => 'test',
+                ],
+            ]
+        );
+
+        $this->assertResponseStatusCodeSame(401);
+        $this->assertJsonContains([
+            'code' => 401,
+            'message' => 'Your user account no longer exists.',
+        ]);
+    }
+
+    public function testLoginWithDeletedUserAndInvalidCredentials() {
+        /** @var User $user */
+        $user = static::$fixtures['userWithStateDeleted'];
+
+        static::createBasicClient()->request(
+            'POST',
+            '/authentication_token',
+            [
+                'json' => [
+                    'identifier' => $user->getEmail(),
+                    'password' => 'wrongPassword',
+                ],
+            ]
+        );
+
+        $this->assertResponseStatusCodeSame(401);
+        $this->assertJsonContains([
+            'code' => 401,
+            'message' => 'Invalid credentials.', // don't disclose user status when wrong credentials are provided
+        ]);
+    }
 }
