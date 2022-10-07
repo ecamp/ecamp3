@@ -5,28 +5,27 @@
       <e-text-field
         v-model="firstname"
         :name="$tc('entity.user.fields.firstname')"
+        vee-rules="required"
         append-icon="mdi-account-outline"
         dense
-        required
         type="text"
       />
 
       <e-text-field
         v-model="surname"
         :name="$tc('entity.user.fields.surname')"
+        vee-rules="required"
         append-icon="mdi-account-outline"
         dense
-        required
         type="text"
       />
 
       <e-text-field
         v-model="email"
         :name="$tc('entity.user.fields.email')"
-        vee-rules="email"
+        vee-rules="email|required"
         append-icon="mdi-at"
         dense
-        required
         type="text"
       />
 
@@ -34,10 +33,10 @@
         v-model="pw1"
         :name="$tc('entity.user.fields.password')"
         :rules="pw1Rules"
+        vee-rules="required"
         validate-on-blur
         append-icon="mdi-lock-outline"
         dense
-        required
         type="password"
       />
 
@@ -45,9 +44,9 @@
         v-model="pw2"
         :name="$tc('views.auth.register.passwordConfirmation')"
         :rules="pw2Rules"
+        vee-rules="required"
         validate-on-blur
         dense
-        required
         append-icon="mdi-lock-outline"
         type="password"
       />
@@ -59,7 +58,7 @@
         :items="availableLocales"
       />
 
-      <e-checkbox v-model="tos" required class="align-center">
+      <e-checkbox v-model="tos" vee-rules="required" class="align-center">
         <template #label>
           <span style="hyphens: auto" :class="{ 'body-2': $vuetify.breakpoint.xsOnly }">
             {{ $tc('views.auth.register.acceptTermsOfUse') }}

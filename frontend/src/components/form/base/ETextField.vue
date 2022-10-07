@@ -6,11 +6,13 @@
     :vid="veeId"
     :rules="veeRules"
     class="e-form-container"
+    :required="required"
   >
     <v-text-field
       ref="textField"
       v-bind="$attrs"
       :filled="filled"
+      :required="required"
       :hide-details="hideDetails"
       :error-messages="veeErrors.concat(errorMessages)"
       :label="label || name"

@@ -60,4 +60,9 @@ export const formComponentPropsMixin = {
       default: () => [],
     },
   },
+  computed: {
+    required () {
+      return this.veeRules.split('|').includes('required')
+    }
+  }
 }
