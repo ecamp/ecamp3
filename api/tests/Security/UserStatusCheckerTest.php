@@ -38,20 +38,24 @@ class UserStatusCheckerTest extends TestCase {
     }
 
     public function testThrowExceptionForDeletedUser() {
-        $this->expectException(CustomUserMessageAccountStatusException::class);
-
         $user = new User();
         $user->state = User::STATE_DELETED;
 
         $this->userChecker->checkPreAuth($user);
+
+        $this->expectException(CustomUserMessageAccountStatusException::class);
+
+        $this->userChecker->checkPostAuth($user);
     }
 
     public function testThrowExceptionForInactivatedUser() {
-        $this->expectException(CustomUserMessageAccountStatusException::class);
-
         $user = new User();
         $user->state = User::STATE_REGISTERED;
 
         $this->userChecker->checkPreAuth($user);
+
+        $this->expectException(CustomUserMessageAccountStatusException::class);
+
+        $this->userChecker->checkPostAuth($user);
     }
 }
