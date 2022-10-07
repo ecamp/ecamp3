@@ -38,17 +38,17 @@
         <e-text-field
           v-model="password"
           :label="$tc('views.auth.resetPassword.password')"
-          name="Password"
           vee-id="password"
           vee-rules="required|min:12|max:128"
           validate-on-blur
+          append-icon="mdi-lock-outline"
           :dense="$vuetify.breakpoint.xsOnly"
           type="password"
           loading
           autofocus
         >
           <template #progress>
-            <v-progress-linear :value="strength" :color="color" absolute height="5" />
+            <v-progress-linear :value="strength(password)" :color="strengthColor(password)" absolute height="5" />
           </template>
         </e-text-field>
 
@@ -59,6 +59,7 @@
           vee-rules="required|confirmed:password"
           validate-on-blur
           :dense="$vuetify.breakpoint.xsOnly"
+          append-icon="mdi-lock-outline"
           type="password"
         />
 
@@ -91,7 +92,7 @@
 <script>
 import { load } from 'recaptcha-v3'
 import { ValidationObserver } from 'vee-validate'
-import { passwordStrength } from 'check-password-strength'
+import { passwordStrengthMixin } from '../../mixins/passwordStrengthMixin.js'
 
 export default {
   name: 'ResetPassword',
@@ -99,6 +100,7 @@ export default {
   props: {
     id: { type: String, required: true },
   },
+  mixins: [passwordStrengthMixin],
 
   data() {
     return {
@@ -110,21 +112,6 @@ export default {
     }
   },
 
-  computed: {
-    strengthInfo() {
-      return passwordStrength(this.password)
-    },
-    strength() {
-      if (this.strengthInfo.length === 0) return 0
-      return (1 + this.strengthInfo.id) * 25
-    },
-    color() {
-      if (this.strength <= 25) return 'red'
-      if (this.strength <= 50) return 'orange'
-      if (this.strength <= 75) return 'yellow'
-      return 'green'
-    },
-  },
   async mounted() {
     if (window.environment.RECAPTCHA_SITE_KEY) {
       this.recaptcha = load(window.environment.RECAPTCHA_SITE_KEY, {

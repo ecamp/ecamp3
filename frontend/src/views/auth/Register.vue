@@ -39,7 +39,12 @@
           append-icon="mdi-lock-outline"
           dense
           type="password"
-        />
+          loading
+        >
+          <template #progress>
+            <v-progress-linear :value="strength(pw1)" :color="strengthColor(pw1)" absolute height="5" />
+          </template>
+        </e-text-field>
 
         <e-text-field
           v-model="pw2"
@@ -111,6 +116,7 @@ import { load } from 'recaptcha-v3'
 import AuthContainer from '@/components/layout/AuthContainer.vue'
 import VueI18n from '@/plugins/i18n'
 import { ValidationObserver } from 'vee-validate'
+import { passwordStrengthMixin } from '../../mixins/passwordStrengthMixin.js'
 
 export default {
   name: 'Register',
@@ -118,6 +124,7 @@ export default {
     AuthContainer,
     ValidationObserver,
   },
+  mixins: [passwordStrengthMixin],
   data() {
     return {
       registering: false,
