@@ -72,6 +72,7 @@ class MultiSelect extends ContentNode {
     #[Groups(['read', 'write'])]
     #[ORM\Column(type: 'json', nullable: true, options: ['jsonb' => true])]
     #[Assert\IsNull(groups: ['create'])] // create with empty data; default value is populated by data persister
+    #[Assert\NotNull(groups: ['update'])]
     #[AssertJsonSchema(schema: self::JSON_SCHEMA, groups: ['update'])]
     public ?array $data = null;
 }

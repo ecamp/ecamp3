@@ -34,7 +34,7 @@ export default function useDragAndDrop(enabled, createEntry) {
   const createNewEntry = (mouse) => {
     newEntry = {
       startTimestamp: roundTimeDown(mouse),
-      endTimestamp: roundTimeDown(mouse) + 15,
+      endTimestamp: roundTimeDown(mouse),
     }
   }
 
@@ -108,7 +108,7 @@ export default function useDragAndDrop(enabled, createEntry) {
       return
     }
 
-    if (newEntry) {
+    if (newEntry && newEntry.endTimestamp - newEntry.startTimestamp > 0) {
       // placeholder for new schedule entry was created --> open dialog to create new activity
       createEntry(newEntry.startTimestamp, newEntry.endTimestamp, true)
     }

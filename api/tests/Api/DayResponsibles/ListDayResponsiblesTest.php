@@ -58,7 +58,7 @@ class ListDayResponsiblesTest extends ECampApiTestCase {
 
     public function testListDayResponsiblesFilteredByDayIsDeniedForUnrelatedUser() {
         $day = static::$fixtures['day1period1'];
-        $response = static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->getUsername()])
+        $response = static::createClientWithCredentials(['email' => static::$fixtures['user4unrelated']->getEmail()])
             ->request('GET', '/day_responsibles?day=%2Fdays%2F'.$day->getId())
         ;
 
@@ -70,7 +70,7 @@ class ListDayResponsiblesTest extends ECampApiTestCase {
 
     public function testListDayResponsiblesFilteredByDayIsDeniedForInactiveCollaborator() {
         $day = static::$fixtures['day1period1'];
-        $response = static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->getUsername()])
+        $response = static::createClientWithCredentials(['email' => static::$fixtures['user5inactive']->getEmail()])
             ->request('GET', '/day_responsibles?day=%2Fdays%2F'.$day->getId())
         ;
 

@@ -54,7 +54,7 @@ class ListCampsTest extends ECampApiTestCase {
     }
 
     public function testListCampsDoesNotShowCampToInactiveCollaborator() {
-        $response = static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->getUsername()])
+        $response = static::createClientWithCredentials(['email' => static::$fixtures['user5inactive']->getEmail()])
             ->request('GET', '/camps')
         ;
         $this->assertResponseStatusCodeSame(200);

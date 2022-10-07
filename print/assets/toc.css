@@ -32,12 +32,6 @@ ul.toc {
   overflow: visible;
 }
 
-ul.toc .toc-element::after {
-  content: ' ';
-  flex: 1;
-  border-bottom: 0.1em dotted rgb(156 163 175);
-}
-
 ul.toc .toc-element {
   display: flex;
   margin-bottom: 0.4em;

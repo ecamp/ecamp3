@@ -1,6 +1,7 @@
 <template>
   <ValidationProvider
     v-slot="{ errors: veeErrors }"
+    ref="validationProvider"
     tag="div"
     :name="name"
     :vid="veeId"

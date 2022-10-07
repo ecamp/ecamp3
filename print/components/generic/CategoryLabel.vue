@@ -17,7 +17,7 @@ export default {
 
 <style lang="scss">
 .category-label {
-  padding: 0.2rem 0.6rem;
+  padding: 0.1rem 0.6rem;
   border-radius: 999px;
 }
 </style>

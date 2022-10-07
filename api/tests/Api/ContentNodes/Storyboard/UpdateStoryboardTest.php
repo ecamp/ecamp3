@@ -80,6 +80,18 @@ class UpdateStoryboardTest extends UpdateContentNodeTestCase {
         $this->assertArrayHasKey('cb26d76a-9e3b-43f0-a7c4-0f2ad0ea8029', $responseArray['data']['sections']);
     }
 
+    public function testPatchStoryboardRejectsRemovingAllSections() {
+        $response = $this->patch($this->defaultEntity, ['data' => [
+            'sections' => [
+                'ab9740f6-61a4-4cae-b574-a73aeb7c5ea0' => null,
+                'cb26d76a-9e3b-43f0-a7c4-0f2ad0ea8029' => null,
+            ],
+        ]]);
+
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonSchemaError($response, 'data');
+    }
+
     public function testPatchStoryboardRejectsInvalidJson() {
         $response = $this->patch($this->defaultEntity, ['data' => [
             'sections' => [

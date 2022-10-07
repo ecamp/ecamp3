@@ -111,9 +111,9 @@ class UpdateColumnLayoutTest extends UpdateContentNodeTestCase {
     }
 
     public function testPatchColumnLayoutValidatesNoParentLoop() {
-        $contentNode = static::$fixtures['columnLayoutChild1'];
+        $contentNode = static::$fixtures['columnLayout1'];
         static::createClientWithCredentials()->request('PATCH', $this->endpoint.'/'.$contentNode->getId(), ['json' => [
-            'parent' => $this->getIriFor('singleText2'),
+            'parent' => $this->getIriFor('columnLayoutChild1'),
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
 
         $this->assertResponseStatusCodeSame(422);

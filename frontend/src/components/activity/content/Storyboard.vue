@@ -23,28 +23,23 @@
         <api-form :entity="contentNode">
           <v-row dense>
             <v-col cols="2">
-              <api-textarea
+              <api-text-field
                 :fieldname="`data.sections[${sortable.itemKey}].column1`"
-                auto-grow
-                rows="2"
                 :disabled="layoutMode || disabled"
                 :filled="layoutMode"
               />
             </v-col>
             <v-col cols="7">
-              <api-textarea
+              <api-richtext
                 :fieldname="`data.sections[${sortable.itemKey}].column2`"
-                auto-grow
                 rows="4"
                 :disabled="layoutMode || disabled"
                 :filled="layoutMode"
               />
             </v-col>
             <v-col cols="2">
-              <api-textarea
+              <api-text-field
                 :fieldname="`data.sections[${sortable.itemKey}].column3`"
-                auto-grow
-                rows="2"
                 :disabled="layoutMode || disabled"
                 :filled="layoutMode"
               />
@@ -53,28 +48,49 @@
               <v-container v-if="!layoutMode && !disabled" class="ma-0 pa-0">
                 <v-row no-gutters>
                   <v-col cols="6">
-                    <!-- TODO: dialog to ask for confirmation before deletion -->
                     <div class="section-buttons">
-                      <v-btn
-                        icon
-                        x-small
-                        color="error"
-                        @click="sortable.on.delete(sortable.itemKey)"
+                      <dialog-remove-section
+                        @submit="sortable.on.delete(sortable.itemKey)"
                       >
-                        <v-icon>mdi-delete</v-icon>
-                      </v-btn>
+                        <template #activator="{ on }">
+                          <v-btn
+                            icon
+                            x-small
+                            color="error"
+                            :disabled="isLastSection"
+                            v-on="on"
+                          >
+                            <v-icon>mdi-delete</v-icon>
+                          </v-btn>
+                        </template>
+                      </dialog-remove-section>
                     </div>
-                    <v-btn icon x-small class="drag-and-drop-handle">
+                    <v-btn
+                      icon
+                      x-small
+                      class="drag-and-drop-handle"
+                      :disabled="isLastSection"
+                    >
                       <v-icon>mdi-drag-horizontal-variant</v-icon>
                     </v-btn>
                   </v-col>
                   <v-col cols="6">
                     <div class="section-buttons">
-                      <v-btn icon x-small @click="sortable.on.moveUp(sortable.itemKey)">
+                      <v-btn
+                        icon
+                        x-small
+                        :disabled="isLastSection"
+                        @click="sortable.on.moveUp(sortable.itemKey)"
+                      >
                         <v-icon>mdi-arrow-up-bold</v-icon>
                       </v-btn>
 
-                      <v-btn icon x-small @click="sortable.on.moveDown(sortable.itemKey)">
+                      <v-btn
+                        icon
+                        x-small
+                        :disabled="isLastSection"
+                        @click="sortable.on.moveDown(sortable.itemKey)"
+                      >
                         <v-icon>mdi-arrow-down-bold</v-icon>
                       </v-btn>
                     </div>
@@ -107,11 +123,12 @@
 </template>
 
 <script>
-import ApiTextarea from '@/components/form/api/ApiTextarea.vue'
 import ApiForm from '@/components/form/api/ApiForm.vue'
 import CardContentNode from '@/components/activity/CardContentNode.vue'
 import { contentNodeMixin } from '@/mixins/contentNodeMixin.js'
 import ApiSortable from '@/components/form/api/ApiSortable.vue'
+
+import DialogRemoveSection from './StoryboardDialogRemoveSection.vue'
 
 import { v4 as uuidv4 } from 'uuid'
 
@@ -120,8 +137,8 @@ export default {
   components: {
     CardContentNode,
     ApiForm,
-    ApiTextarea,
     ApiSortable,
+    DialogRemoveSection,
   },
   mixins: [contentNodeMixin],
   props: {
@@ -134,7 +151,18 @@ export default {
   },
   computed: {
     sections() {
-      return this.api.get(this.contentNode).data.sections
+      const sections = this.api.get(this.contentNode).data.sections
+
+      // workaround because our API return an empty array instead of empty object, if there is no section
+      // this could be removed later, when no empty sections objects are in the DB anymore
+      if (Array.isArray(sections) && sections.length === 0) {
+        return {}
+      }
+
+      return sections
+    },
+    isLastSection() {
+      return Object.keys(this.sections).length === 1
     },
   },
   methods: {

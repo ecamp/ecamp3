@@ -23,7 +23,7 @@ class ReadCategoryTest extends ECampApiTestCase {
     public function testGetSingleCategoryIsDeniedForUnrelatedUser() {
         /** @var Category $category */
         $category = static::$fixtures['category1'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->getUsername()])
+        static::createClientWithCredentials(['email' => static::$fixtures['user4unrelated']->getEmail()])
             ->request('GET', '/categories/'.$category->getId())
         ;
         $this->assertResponseStatusCodeSame(404);
@@ -36,7 +36,7 @@ class ReadCategoryTest extends ECampApiTestCase {
     public function testGetSingleCategoryIsDeniedForInactiveCollaborator() {
         /** @var Category $category */
         $category = static::$fixtures['category1'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->getUsername()])
+        static::createClientWithCredentials(['email' => static::$fixtures['user5inactive']->getEmail()])
             ->request('GET', '/categories/'.$category->getId())
         ;
         $this->assertResponseStatusCodeSame(404);
@@ -49,7 +49,7 @@ class ReadCategoryTest extends ECampApiTestCase {
     public function testGetSingleCategoryIsAllowedForGuest() {
         /** @var Category $category */
         $category = static::$fixtures['category1'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user3guest']->getUsername()])
+        static::createClientWithCredentials(['email' => static::$fixtures['user3guest']->getEmail()])
             ->request('GET', '/categories/'.$category->getId())
         ;
         $this->assertResponseStatusCodeSame(200);
@@ -71,7 +71,7 @@ class ReadCategoryTest extends ECampApiTestCase {
     public function testGetSingleCategoryIsAllowedForMember() {
         /** @var Category $category */
         $category = static::$fixtures['category1'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->getUsername()])
+        static::createClientWithCredentials(['email' => static::$fixtures['user2member']->getEmail()])
             ->request('GET', '/categories/'.$category->getId())
         ;
         $this->assertResponseStatusCodeSame(200);

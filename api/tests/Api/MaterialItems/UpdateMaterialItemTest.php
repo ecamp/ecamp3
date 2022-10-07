@@ -29,7 +29,7 @@ class UpdateMaterialItemTest extends ECampApiTestCase {
 
     public function testPatchMaterialItemIsDeniedForUnrelatedUser() {
         $materialItem = static::$fixtures['materialItem1'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->getUsername()])
+        static::createClientWithCredentials(['email' => static::$fixtures['user4unrelated']->getEmail()])
             ->request('PATCH', '/material_items/'.$materialItem->getId(), ['json' => [
                 'materialList' => $this->getIriFor('materialList2WithNoItems'),
                 'period' => $this->getIriFor('period1'),
@@ -48,7 +48,7 @@ class UpdateMaterialItemTest extends ECampApiTestCase {
 
     public function testPatchMaterialItemIsDeniedForInactiveCollaborator() {
         $materialItem = static::$fixtures['materialItem1'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->getUsername()])
+        static::createClientWithCredentials(['email' => static::$fixtures['user5inactive']->getEmail()])
             ->request('PATCH', '/material_items/'.$materialItem->getId(), ['json' => [
                 'materialList' => $this->getIriFor('materialList2WithNoItems'),
                 'period' => $this->getIriFor('period1'),
@@ -67,7 +67,7 @@ class UpdateMaterialItemTest extends ECampApiTestCase {
 
     public function testPatchMaterialItemIsDeniedForGuest() {
         $materialItem = static::$fixtures['materialItem1'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user3guest']->getUsername()])
+        static::createClientWithCredentials(['email' => static::$fixtures['user3guest']->getEmail()])
             ->request('PATCH', '/material_items/'.$materialItem->getId(), ['json' => [
                 'materialList' => $this->getIriFor('materialList2WithNoItems'),
                 'period' => $this->getIriFor('period1'),
@@ -86,7 +86,7 @@ class UpdateMaterialItemTest extends ECampApiTestCase {
 
     public function testPatchMaterialItemIsAllowedForMember() {
         $materialItem = static::$fixtures['materialItem1'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->getUsername()])
+        static::createClientWithCredentials(['email' => static::$fixtures['user2member']->getEmail()])
             ->request('PATCH', '/material_items/'.$materialItem->getId(), ['json' => [
                 'materialList' => $this->getIriFor('materialList2WithNoItems'),
                 'period' => $this->getIriFor('period1'),
