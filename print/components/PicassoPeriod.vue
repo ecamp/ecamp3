@@ -88,7 +88,7 @@ export default {
   },
   computed: {
     periodChunks() {
-      const chunkSize = this.landscape ? 5 : 3
+      const chunkSize = this.landscape ? 7 : 4
 
       const start = dayjs.utc(this.period.start)
       const end = dayjs.utc(this.period.end)
@@ -96,6 +96,15 @@ export default {
       const days = Math.floor(hours / 24) + 1
 
       const numberOfChunks = Math.ceil(days / chunkSize)
+
+      if (numberOfChunks === 1) {
+        return [
+          {
+            start,
+            end,
+          },
+        ]
+      }
 
       return [...Array(numberOfChunks).keys()].map((i) => {
         return {

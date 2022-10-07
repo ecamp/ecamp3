@@ -21,7 +21,7 @@
         event-overlap-mode="column"
         first-interval="0"
         interval-count="24"
-        :interval-height="landscape ? 23 : 35"
+        :interval-height="landscape ? 22 : 35"
         interval-width="46"
         event-text-color="black"
         :locale="$i18n.locale"
@@ -71,7 +71,6 @@ export default {
     index: { type: Number, required: true },
     landscape: { type: Boolean, required: true },
   },
-
   methods: {
     getActivityColor(scheduleEntry) {
       return scheduleEntry.activity().category().color
