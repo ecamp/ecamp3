@@ -40,7 +40,7 @@
           :label="$tc('views.auth.resetPassword.password')"
           name="Password"
           vee-id="password"
-          vee-rules="required|min:12"
+          vee-rules="required|min:12|max:128"
           validate-on-blur
           :dense="$vuetify.breakpoint.xsOnly"
           type="password"
@@ -56,8 +56,7 @@
           v-model="confirmation"
           :label="$tc('views.auth.resetPassword.passwordConfirmation')"
           name="Confirmation"
-          vee-rules="required"
-          :rules="pw2Rules"
+          vee-rules="required|confirmed:password"
           validate-on-blur
           :dense="$vuetify.breakpoint.xsOnly"
           type="password"
@@ -124,9 +123,6 @@ export default {
       if (this.strength <= 50) return 'orange'
       if (this.strength <= 75) return 'yellow'
       return 'green'
-    },
-    pw2Rules() {
-      return [(v) => (!!v && v) === this.pw1 || this.$tc('views.auth.register.mustMatch')]
     },
   },
   async mounted() {

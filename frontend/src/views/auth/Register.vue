@@ -152,9 +152,6 @@ export default {
         language: this.language,
       }
     },
-    pw2Rules() {
-      return [(v) => (!!v && v) === this.pw1 || this.$tc('views.auth.register.mustMatch')]
-    },
     availableLocales() {
       return VueI18n.availableLocales.map((l) => ({
         value: l,

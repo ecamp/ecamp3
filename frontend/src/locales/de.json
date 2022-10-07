@@ -268,7 +268,6 @@
       "register": {
         "acceptTermsOfUse": "Akzeptieren Sie die Nutzungsbedingungen",
         "alreadyHaveAnAccount": "Haben Sie bereits ein Konto?",
-        "mustMatch": "Nicht übereinstimmend",
         "login": "Anmelden",
         "passwordConfirmation": "Passwort erneut eingeben",
         "register": "Registrieren",
