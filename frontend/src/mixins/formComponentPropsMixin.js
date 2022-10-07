@@ -39,21 +39,7 @@ export const formComponentPropsMixin = {
       default: null,
     },
 
-    // ID for vee-validation
-    veeId: {
-      type: String,
-      required: false,
-      default: null,
-    },
-
-    // rules for vee-validation
-    veeRules: {
-      type: [String, Object],
-      required: false,
-      default: '',
-    },
-
-    // rules for vee-validation
+    // error messages from outside which should be displayed on the component
     errorMessages: {
       type: Array,
       required: false,
