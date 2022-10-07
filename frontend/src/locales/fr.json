@@ -118,7 +118,7 @@
       "409": "Oooops... Cette action a provoqué une erreur côté serveur."
     },
     "validation": {
-      "minDate": "{_field_} ne peut pas être antérieure à {min}"
+      "greaterThanOrEqual_date": "{_field_} ne peut pas être antérieure à {min}"
     }
   },
   "views": {

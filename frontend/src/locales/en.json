@@ -261,7 +261,8 @@
       "short": "Server error"
     },
     "validation": {
-      "minDate": "{_field_} may not be earlier than {min}",
+      "greaterThanOrEqual_date": "{_field_} may not be earlier than {min}",
+      "greaterThan_time": "{_field_} must be later than {min}",
       "pwConfirmed": "Password does not match"
     }
   },

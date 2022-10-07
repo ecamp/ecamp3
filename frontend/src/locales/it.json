@@ -118,7 +118,7 @@
       "409": "Oooops... Questa azione ha causato un errore sul lato server."
     },
     "validation": {
-      "minDate": "{_field_} non può essere prima che {min}"
+      "greaterThanOrEqual_date": "{_field_} non può essere prima che {min}"
     }
   },
   "views": {
