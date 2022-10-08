@@ -219,6 +219,11 @@
         "success": "Email address successfully changed.",
         "error": "An error has occurred."
       }
+    },
+    "generic": {
+      "lockIcon": {
+        "guestsCannotEdit": "Guests have no permission to edit"
+      }
     }
   },
   "entity": {
@@ -255,7 +260,9 @@
       "tryagain": "Try again",
       "update": "Update",
       "close": "Close",
-      "search": "Search"
+      "search": "Search",
+      "lock": "Lock",
+      "unlock": "Unlock"
     },
     "changeLanguage": "Change language",
     "empty": {
