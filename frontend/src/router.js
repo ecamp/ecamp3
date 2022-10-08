@@ -229,8 +229,15 @@ export default new Router({
             import(/* webpackChunkName: "campAdmin" */ './views/camp/Admin.vue'),
         },
         {
+          path: 'program',
+          name: 'camp/program',
+          async beforeEnter(to, from, next) {
+            redirectToPeriod(to, from, next, 'camp/program/period')
+          },
+        },
+        {
           path: 'program/period/:periodId/:periodTitle?',
-          name: 'camp/period',
+          name: 'camp/program/period',
           component: () =>
             import(/* webpackChunkName: "campProgram" */ './views/camp/CampProgram.vue'),
           beforeEnter: requirePeriod,
@@ -245,8 +252,16 @@ export default new Router({
         {
           path: 'story',
           name: 'camp/story',
+          async beforeEnter(to, from, next) {
+            redirectToPeriod(to, from, next, 'camp/story/period')
+          },
+        },
+        {
+          path: 'story/period/:periodId/:periodTitle?',
+          name: 'camp/story/period',
           component: () =>
             import(/* webpackChunkName: "campStory" */ './views/camp/Story.vue'),
+          beforeEnter: requirePeriod,
         },
         {
           path: 'material',
@@ -255,24 +270,10 @@ export default new Router({
             import(/* webpackChunkName: "campMaterial" */ './views/camp/Material.vue'),
         },
         {
-          path: 'program',
-          name: 'camp/program',
-          async beforeEnter(to, from, next) {
-            const period = await firstFuturePeriod(to)
-            if (period) {
-              await period.camp()._meta.load
-              next(periodRoute(period, to.query))
-            } else {
-              const camp = await apiStore.get().camps({ campId: to.params.campId })
-              next(campRoute(camp, 'admin', to.query))
-            }
-          },
-        },
-        {
           path: 'dashboard',
           name: 'camp/dashboard',
           component: () =>
-            import(/* webpackChungName: "camp" */ './views/camp/Dashboard.vue'),
+            import(/* webpackChunkName: "camp" */ './views/camp/Dashboard.vue'),
         },
         {
           path: '',
@@ -406,7 +407,7 @@ function categoryFromRoute(route) {
 
 function getContentLayout(route) {
   switch (route.name) {
-    case 'camp/period':
+    case 'camp/program/period':
       return 'full'
     case 'camp/admin':
       return 'wide'
@@ -441,11 +442,11 @@ export function loginRoute(redirectTo) {
   return { path: '/login', query: { redirect: redirectTo } }
 }
 
-export function periodRoute(period, query = {}) {
+export function periodRoute(period, routeName = 'camp/program/period', query = {}) {
   const camp = period.camp()
   if (camp._meta.loading || period._meta.loading) return {}
   return {
-    name: 'camp/period',
+    name: routeName,
     params: {
       campId: camp.id,
       campTitle: slugify(camp.title),
@@ -497,4 +498,15 @@ async function firstFuturePeriod(route) {
     periods.items.find((period) => new Date(period.end) >= new Date()) ||
     periods.items.find((_) => true)
   )
+}
+
+async function redirectToPeriod(to, from, next, routeName) {
+  const period = await firstFuturePeriod(to)
+  if (period) {
+    await period.camp()._meta.load
+    next(periodRoute(period, routeName, to.query))
+  } else {
+    const camp = await apiStore.get().camps({ campId: to.params.campId })
+    next(campRoute(camp, 'admin', to.query))
+  }
 }
