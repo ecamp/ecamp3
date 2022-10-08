@@ -113,7 +113,7 @@
     },
     "print": {
       "documents": {
-        "pdfDocument": {
+        "campPrint": {
           "filename": {
             "activitiesOnly": "Activities {camp}",
             "picassoOnly": "Picasso {camp}"

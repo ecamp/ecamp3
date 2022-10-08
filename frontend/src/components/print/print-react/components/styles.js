@@ -1,4 +1,4 @@
-import { StyleSheet } from '../reactPdf.js'
+import { StyleSheet } from '@react-pdf/renderer'
 
 const pageBorder = 40
 const marginFontSize = 10
@@ -18,6 +18,17 @@ const styles = StyleSheet.create({
   h1: {
     fontSize: 16,
     fontWeight: 'semibold',
+    marginBottom: 4,
+  },
+  h2: {
+    fontSize: 14,
+    fontWeight: 'semibold',
+    marginBottom: 4,
+  },
+  h3: {
+    fontSize: 12,
+    fontWeight: 'semibold',
+    marginBottom: 4,
   },
   header: {
     fontSize: marginFontSize,
@@ -40,6 +51,12 @@ const styles = StyleSheet.create({
     right: 0,
     marginBottom: pageBorder / 2,
     marginHorizontal: pageBorder,
+  },
+  categoryLabel: {
+    padding: '0 8pt 2pt',
+    borderRadius: '50%',
+    marginBottom: 0,
+    alignSelf: 'center',
   },
 })
 
