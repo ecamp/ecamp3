@@ -9,7 +9,7 @@
 ARG PHP_VERSION=8.1.11
 
 # renovate: datasource=docker depName=caddy
-ARG CADDY_VERSION=2.5.2
+ARG CADDY_VERSION=2.6.1
 
 # "php" stage
 FROM php:${PHP_VERSION}-fpm-alpine AS api_platform_php
@@ -30,7 +30,7 @@ RUN apk add --no-cache \
 ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so
 
 # renovate: datasource=github-releases depName=krakjoe/apcu
-ARG APCU_VERSION=5.1.21
+ARG APCU_VERSION=5.1.22
 RUN set -eux; \
 	apk add --no-cache --virtual .build-deps \
 	$PHPIZE_DEPS \
@@ -68,7 +68,7 @@ RUN set -eux; \
 ###> recipes ###
 ###< recipes ###
 
-COPY --from=composer:2.4@sha256:6d93e21e079fb675b6809438f8017dd147ffc03c3b1ea73e1c1db73d0bd5d169 /usr/bin/composer /usr/bin/composer
+COPY --from=composer:2.4@sha256:b6afd3f0ea53c6314a8af45755c00c483770dfba7aa206e2c87b5baa418da07d /usr/bin/composer /usr/bin/composer
 
 # Copy development php.ini
 RUN cp "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"

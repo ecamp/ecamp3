@@ -107,7 +107,7 @@ import ETextField from '@/components/form/base/ETextField.vue'
 import ESelect from '@/components/form/base/ESelect.vue'
 import InactiveCollaboratorListItem from '@/components/collaborator/InactiveCollaboratorListItem.vue'
 import { campRoleMixin } from '@/mixins/campRoleMixin'
-import { serverErrorToArray } from '@/helpers/serverError'
+import { transformViolations } from '@/helpers/serverError'
 
 const DEFAULT_INVITE_ROLE = 'member'
 
@@ -165,7 +165,10 @@ export default {
         .then(this.refreshCamp, this.handleError)
     },
     handleError(e) {
-      this.inviteEmailMessages = serverErrorToArray(e, 'inviteEmail')
+      const violations = transformViolations(e, this.$i18n)
+      this.inviteEmailMessages = Object.values(violations).flatMap(
+        (violationsOfProperty) => violationsOfProperty
+      )
     },
     refreshCamp() {
       this.inviteEmail = null

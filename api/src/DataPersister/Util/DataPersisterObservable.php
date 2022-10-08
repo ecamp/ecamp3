@@ -80,7 +80,9 @@ class DataPersisterObservable {
     }
 
     public function onCustomAction(CustomActionListener $customActionListener): self {
-        $this->customActionListeners[] = $customActionListener;
+        if (!in_array($customActionListener, $this->customActionListeners)) {
+            $this->customActionListeners[] = $customActionListener;
+        }
 
         return $this;
     }

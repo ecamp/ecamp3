@@ -131,7 +131,7 @@ export default {
         .filter((c) => !c.periods().items.some((p) => new Date(p.end) > new Date()))
     },
     user() {
-      return this.$auth.user()
+      return this.$store.state.auth.user
     },
   },
   mounted() {

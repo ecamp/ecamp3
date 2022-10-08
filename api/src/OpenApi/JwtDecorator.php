@@ -51,11 +51,6 @@ final class JwtDecorator implements OpenApiFactoryInterface {
                                 '$ref' => '#/components/schemas/Credentials',
                             ],
                         ],
-                        'application/vnd.api+json' => [
-                            'schema' => [
-                                '$ref' => '#/components/schemas/Credentials',
-                            ],
-                        ],
                         'application/json' => [
                             'schema' => [
                                 '$ref' => '#/components/schemas/Credentials',

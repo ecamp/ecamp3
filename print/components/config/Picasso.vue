@@ -8,6 +8,7 @@
       :period="period"
       :camp="camp"
       :orientation="options.orientation"
+      :landscape="landscape"
       :index="index"
     />
   </div>
@@ -19,6 +20,7 @@ export default {
   props: {
     options: { type: Object, required: false, default: null },
     camp: { type: Object, required: true },
+    config: { type: Object, required: true },
     index: { type: Number, required: true },
   },
   data() {
@@ -37,6 +39,11 @@ export default {
     this.periods = this.options.periods.map((periodUri) => {
       return this.$api.get(periodUri) // TODO prevent specifying arbitrary absolute URLs that the print container should fetch...
     })
+  },
+  computed: {
+    landscape() {
+      return this.options.orientation === 'L'
+    },
   },
 }
 </script>

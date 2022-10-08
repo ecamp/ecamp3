@@ -163,15 +163,15 @@
     },
     "invitation": {
       "acceptCurrentAuth": "Accept invitation with current account",
-      "backToHome": "Back to Home",
+      "backToHome": "Back to home",
       "error": "An unexpected error occurred",
       "login": "Login",
       "notFound": "This invitation is already accepted or was deleted",
       "register": "Register",
       "reject": "Deny invitation",
-      "title": "Invitation to Camp",
-      "useOtherAuth": "Use another account",
-      "userAlreadyInCamp": "You are already part of this camp",
+      "title": "Invitation to camp",
+      "useOtherAuth": "Logout & use another account",
+      "userAlreadyInCamp": "You are already participating in this camp",
       "userWelcome": "Welcome",
       "openCamp": "Open camp",
       "successfullyRejected": "The invitation was successfully rejected"
@@ -261,7 +261,8 @@
       "short": "Server error"
     },
     "validation": {
-      "minDate": "{_field_} may not be earlier than {min}",
+      "greaterThanOrEqual_date": "{_field_} may not be earlier than {min}",
+      "greaterThan_time": "{_field_} must be later than {min}",
       "pwConfirmed": "Password does not match"
     }
   },
