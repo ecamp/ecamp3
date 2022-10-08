@@ -16,9 +16,9 @@ class UpdatePasswordTest extends ECampApiTestCase {
     // TODO tests for recaptcha check
     // TODO tests for requesting a password reset and retrieving the password reset data, in separate test files
 
-    protected ?User $user = null;
-    protected ?string $passwordResetKey = null;
-    protected $client;
+    private ?User $user;
+    private ?string $passwordResetKey;
+    private $client;
 
     public function setUp(): void {
         parent::setUp();
@@ -72,7 +72,7 @@ class UpdatePasswordTest extends ECampApiTestCase {
     public function testPatchResetPasswordAllowsLongPassword() {
         $this->mockRecaptcha();
         $this->client->request('PATCH', '/auth/reset_password/'.$this->passwordResetKey, ['json' => [
-            'password' => 'this password has a total of 122 characters. this password has a total of 122 characters. OWASP approves of this password.',
+            'password' => str_repeat('a', 128),
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
 
         $this->assertResponseStatusCodeSame(200);
@@ -81,7 +81,7 @@ class UpdatePasswordTest extends ECampApiTestCase {
     public function testPatchResetPasswordValidatesUnreasonablyLongPassword() {
         $this->mockRecaptcha();
         $this->client->request('PATCH', '/auth/reset_password/'.$this->passwordResetKey, ['json' => [
-            'password' => 'this password has a total of more than 128 characters. this password has a total of more than 128 characters. OWASP does not approve this password.',
+            'password' => str_repeat('a', 129),
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
 
         $this->assertResponseStatusCodeSame(422);
