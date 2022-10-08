@@ -1,7 +1,7 @@
 #
 # Automatically drops the database in an external PostgreSQL when completely uninstalling the chart.
 #
-{{- if and (not .Values.postgresql.enabled) .Values.postgresql.dropDBOnUninstall }}
+{{- if and (not .Values.postgresql.enabled) .Values.postgresql.dropDBOnUninstall (not .Values.postgresql.adminUrl | empty) }}
 apiVersion: batch/v1
 kind: Job
 metadata:
