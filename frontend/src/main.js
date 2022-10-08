@@ -20,9 +20,11 @@ import * as Sentry from '@sentry/vue'
 import { Resize } from 'vuetify/lib/directives'
 
 if (window.environment && window.environment.SENTRY_FRONTEND_DSN) {
+  const environment = window.environment.SENTRY_ENVIRONMENT ?? 'http://localhost:3000'
   Sentry.init({
     Vue,
     dsn: window.environment.SENTRY_FRONTEND_DSN,
+    environment,
     tracing: false,
     logErrors: process.env.NODE_ENV !== 'production',
   })
