@@ -92,7 +92,7 @@
         "noMaterialListAvailable": "Für dieses Lager sind noch keine Materiallisten erfasst. Du kannst diese unter 'Admin' erfassen."
       },
       "periodSwitcher": {
-        "title": "Lagerabschnitt"
+        "title": "Lagerabschnitt wählen"
       },
       "picasso": {
         "datetime": {
@@ -172,16 +172,16 @@
       "printNuxt": {
         "downloadNuxtPdfListItem": {
           "error": "Etwas hat nicht geklappt. Probiere es nochmals, oder lade die Seite neu.",
-          "label": "PDF herunterladen"
+          "label": "PDF herunterladen (Layout #1)"
         }
       },
       "printPreviewNuxt": {
         "openPreview": "Vorschau in neuem Fenster öffnen"
       },
       "printReact": {
-        "downloadNuxtPdfListItem": {
+        "downloadReactPdfListItem": {
           "error": "Etwas hat nicht geklappt. Probiere es nochmals, oder lade die Seite neu.",
-          "label": "PDF herunterladen"
+          "label": "PDF herunterladen (Layout #2)"
         }
       }
     },
@@ -391,7 +391,7 @@
       "print": {
         "previewError": "Etwas hat nicht geklappt. Probiere es nochmals mit anderen Druckeinstellungen, oder lade die Seite neu.",
         "previewIframeTitle": "Druckvorschau",
-        "title": "Druckvorschau"
+        "title": "Lager drucken"
       },
       "story": {
         "title": "Geschichte"
