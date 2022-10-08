@@ -89,15 +89,15 @@ export default {
     async downloadXlsx() {
       await this.camp().activities().$loadItems()
 
-      var workbook = XLSX.utils.book_new()
+      let workbook = XLSX.utils.book_new()
 
-      var sheets = await Promise.all(
+      let sheets = await Promise.all(
         this.camp()
           .periods()
           .items.map(async (p) => {
-            var rows = await Promise.all(
+            let rows = await Promise.all(
               p.materialItems().items.map(async (mi) => {
-                var activity = await this.getActivity(mi)
+                let activity = await this.getActivity(mi)
                 return [
                   mi.quantity,
                   mi.unit,
@@ -108,7 +108,7 @@ export default {
               })
             )
 
-            var data = [
+            let data = [
               [
                 this.$tc('views.camp.material.xlsx.quantity'),
                 this.$tc('views.camp.material.xlsx.unit'),
@@ -118,19 +118,19 @@ export default {
               ],
             ]
             rows.forEach((r) => data.push(r))
-            console.log(data)
 
             return { description: p.description, data }
           })
       )
 
       sheets.forEach((s) => {
-        var worksheet = XLSX.utils.aoa_to_sheet(s.data)
-        workbook.SheetNames.push(s.description)
-        workbook.Sheets[s.description] = worksheet
+        let worksheet = XLSX.utils.aoa_to_sheet(s.data)
+        let validSheetName = s.description.replaceAll(/[?*[\]/\\:]/g, '')
+        workbook.SheetNames.push(validSheetName)
+        workbook.Sheets[validSheetName] = worksheet
       })
 
-      XLSX.writeFile(workbook, 'Materialliste.xlsx')
+      XLSX.writeFile(workbook, this.$tc('views.camp.material.xlsx.filename') + '.xlsx')
     },
 
     async getActivity(mi) {
@@ -138,9 +138,8 @@ export default {
         const root = await mi.materialNode().$href('root')
         return this.camp()
           .activities()
-          .items.find(async (activity) => {
-            var rootNode = await activity.rootContentNode()
-            return rootNode._meta.self === root
+          .items.find((activity) => {
+            return activity.rootContentNode()._meta.self === root
           })
       }
       return null

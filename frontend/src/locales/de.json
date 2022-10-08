@@ -360,7 +360,8 @@
           "unit": "Einheit",
           "article": "Artikel",
           "matlist": "Liste",
-          "activity": "Aktivität"
+          "activity": "Aktivität",
+          "filename": "Materialliste"
         }
       },
       "picasso": {

@@ -367,6 +367,7 @@
         "title": "Material",
         "groupByList": "Group by material list",
         "xlsx": {
+          "filename": "material-list",
           "quantity": "Quantity",
           "unit": "Unit",
           "article": "Article",
