@@ -52,7 +52,6 @@
     "@zxcvbn-ts/language-it": "2.1.0",
     "assert": "2.0.0",
     "axios": "0.27.2",
-    "check-password-strength": "2.0.7",
     "comlink": "4.3.1",
     "dayjs": "1.11.5",
     "deepmerge": "4.2.2",
