@@ -4,9 +4,7 @@
       <h3>{{ dateLong(day.start) }}</h3>
     </v-expansion-panel-header>
     <v-expansion-panel-content>
-      <template v-if="loading">
-        <v-skeleton-loader class="mt-2 mt-sm-3" type="list-item-three-line" />
-      </template>
+      <v-skeleton-loader v-if="loading" class="mt-2 mt-sm-3" type="list-item-three-line" />
       <template v-else-if="entriesWithStory.length">
         <template v-for="{ scheduleEntry, storyChapters } in entriesWithStory">
           <div v-for="chapter in storyChapters" :key="chapter._meta.uri">
