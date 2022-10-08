@@ -46,11 +46,12 @@
           type="password"
           loading
           autofocus
+          @input="debouncedPasswordStrengthCheck"
         >
           <template #progress>
             <v-progress-linear
-              :value="strength(password)"
-              :color="strengthColor(password)"
+              :value="passwordStrength"
+              :color="passwordStrengthColor"
               absolute
               height="5"
             />

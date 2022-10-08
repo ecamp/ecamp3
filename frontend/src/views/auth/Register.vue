@@ -40,11 +40,12 @@
           dense
           type="password"
           loading
+          @input="debouncedPasswordStrengthCheck"
         >
           <template #progress>
             <v-progress-linear
-              :value="strength(pw1)"
-              :color="strengthColor(pw1)"
+              :value="passwordStrength"
+              :color="passwordStrengthColor"
               absolute
               height="5"
             />
