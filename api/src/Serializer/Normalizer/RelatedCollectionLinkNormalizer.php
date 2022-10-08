@@ -2,16 +2,16 @@
 
 namespace App\Serializer\Normalizer;
 
+use ApiPlatform\Api\UrlGeneratorInterface;
 use ApiPlatform\Core\Api\FilterInterface;
 use ApiPlatform\Core\Api\IriConverterInterface;
 use ApiPlatform\Core\Api\OperationType;
-use ApiPlatform\Core\Api\UrlGeneratorInterface;
-use ApiPlatform\Core\Bridge\Doctrine\Common\PropertyHelperTrait;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Core\Bridge\Symfony\Routing\RouteNameResolverInterface;
 use ApiPlatform\Core\Exception\ResourceClassNotFoundException;
 use ApiPlatform\Core\Metadata\Resource\Factory\ResourceMetadataFactoryInterface;
 use ApiPlatform\Core\Util\ClassInfoTrait;
+use ApiPlatform\Doctrine\Common\PropertyHelperTrait;
 use App\Entity\BaseEntity;
 use App\Metadata\Resource\Factory\UriTemplateFactory;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
@@ -98,8 +98,8 @@ class RelatedCollectionLinkNormalizer implements NormalizerInterface, Serializer
     ) {
     }
 
-    public function supportsNormalization($data, $format = null): bool {
-        return $this->decorated->supportsNormalization($data, $format);
+    public function supportsNormalization($data, $format = null, array $context = []): bool {
+        return $this->decorated->supportsNormalization($data, $format, $context);
     }
 
     public function normalize($object, $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null {
