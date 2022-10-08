@@ -107,7 +107,6 @@
     },
     "category": {
       "fields": {
-        "activityType": "Type",
         "color": "Color",
         "name": "Name",
         "numberingStyle": "Numbering style",

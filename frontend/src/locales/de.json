@@ -226,6 +226,7 @@
       "edit": "Bearbeiten",
       "editable": "Bearbeitbar",
       "lock": "Sperren",
+      "login": "Anmelden",
       "logout": "Ausloggen",
       "ok": "In Ordnung",
       "open": "Öffnen",
@@ -288,20 +289,17 @@
           "google": "Anmelden mit Google",
           "midata": "Anmelden mit MiData"
         },
-        "registernow": "Jetzt registrieren",
-        "title": "Anmelden"
+        "registernow": "Jetzt registrieren"
       },
       "register": {
         "acceptTermsOfUse": "Akzeptieren Sie die Nutzungsbedingungen",
         "alreadyHaveAnAccount": "Haben Sie bereits ein Konto?",
-        "login": "Anmelden",
         "passwordConfirmation": "Passwort erneut eingeben",
         "register": "Registrieren",
         "requiredField": "Pflichtfelder",
         "title": "Ein Konto erstellen"
       },
       "registerDone": {
-        "login": "Anmelden",
         "message": "Wir haben dir eine Mail geschickt. Bitte schliesse die Registrierung ab, in dem du den Aktivierungs-Link im Mail aufrufst.",
         "success": "Erfolgreich registriert",
         "title": "Konto erstellen"
