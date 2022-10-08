@@ -19,6 +19,7 @@ data:
   MERCURE_PUBLIC_URL: {{ .Values.mercure.publicUrl | default "http://127.0.0.1/.well-known/mercure" | quote }}
   {{- if .Values.php.sentryDsn }}
   SENTRY_API_DSN: {{ .Values.php.sentryDsn | quote }}
+  SENTRY_ENVIRONMENT: {{ .Values.frontend.domain | quote }}
   {{- else }}
   SENTRY_API_DSN: {{ "" | quote }}
   {{- end }}

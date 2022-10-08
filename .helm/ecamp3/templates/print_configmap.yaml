@@ -7,3 +7,4 @@ metadata:
 data:
   INTERNAL_API_ROOT_URL: {{ include "api.url" . | quote }}
   FRONTEND_URL: {{ include "frontend.url" . | quote }}
+  SENTRY_ENVIRONMENT: {{ .Values.frontend.domain | quote }}
