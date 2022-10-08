@@ -1,8 +1,5 @@
 import { throttle } from 'lodash'
 
-// Use dynamic import for large dependency which is only used on very few pages
-const { passwordStrength } = await import('@/plugins/passwordStrength.js')
-
 export const passwordStrengthMixin = {
   data: () => ({
     passwordStrength: 0,
@@ -13,6 +10,8 @@ export const passwordStrengthMixin = {
       if (password.length === 0) {
         this.passwordStrength = 0
       } else {
+        // Use dynamic import for large dependency which is only used on very few pages
+        const { passwordStrength } = await import('@/plugins/passwordStrength.js')
         const strengthInfo = await passwordStrength(password, lang)
         this.passwordStrength = (1 + strengthInfo.score) * 20
       }
