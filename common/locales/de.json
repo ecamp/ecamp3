@@ -6,6 +6,7 @@
           "name": "Spalte"
         }
       },
+      "icon": "",
       "name": "Spaltenlayout"
     },
     "laThematicArea": {
@@ -37,12 +38,19 @@
           }
         }
       },
+      "icon": "",
       "name": "LA Themenbereich"
     },
+    "material": {
+      "icon": "",
+      "name": "Material"
+    },
     "notes": {
+      "icon": "",
       "name": "Notizen"
     },
     "safetyConcept": {
+      "icon": "",
       "name": "Sicherheitskonzept"
     },
     "storyboard": {
@@ -56,19 +64,12 @@
           "name": "Programmpunkt | Programmpunkte"
         }
       },
+      "icon": "",
       "name": "Programmabschnitt"
     },
     "storycontext": {
+      "icon": "",
       "name": "Geschichte"
-    }
-  },
-  "global": {
-    "datetime": {
-      "dateLong": "dd L",
-      "dateShort": "dd D.M.",
-      "dateTimeLong": "dd L HH:mm",
-      "hourLong": "HH:mm",
-      "hourShort": "H:mm"
     }
   },
   "entity": {
@@ -82,25 +83,10 @@
       "name": "Aktivität | Aktivitäten",
       "new": "Neue Aktivität"
     },
-    "category": {
-      "fields": {
-        "activityType": "Typ",
-        "color": "Farbe",
-        "name": "Name",
-        "numberingStyle": "Nummerierung",
-        "short": "Kürzel"
-      },
-      "name": "Block Kategorien",
-      "numberingStyles": {
-        "1": "1, 2, 3 - Zahlen",
-        "A": "A, B, C - grosse Buchstaben",
-        "a": "a, b, c - kleine Buchstaben",
-        "I": "I, II, III - grosse römische Zahlen",
-        "i": "i, ii, iii - kleine römische Zahlen"
-      }
-    },
     "camp": {
       "collaborators": {
+        "guest": "Gast",
+        "invite": "Einladen",
         "manager": "Verwalter",
         "member": "Mitglied"
       },
@@ -119,6 +105,23 @@
     "campCollaboration": {
       "inactive": "inaktiv"
     },
+    "category": {
+      "fields": {
+        "activityType": "Typ",
+        "color": "Farbe",
+        "name": "Name",
+        "numberingStyle": "Nummerierung",
+        "short": "Kürzel"
+      },
+      "name": "Block Kategorien",
+      "numberingStyles": {
+        "1": "1, 2, 3 - Zahlen",
+        "A": "A, B, C - grosse Buchstaben",
+        "I": "I, II, III - grosse römische Zahlen",
+        "a": "a, b, c - kleine Buchstaben",
+        "i": "i, ii, iii - kleine römische Zahlen"
+      }
+    },
     "contentType": {
       "name": "Inhalttyp | Inhalttypen"
     },
@@ -128,7 +131,17 @@
       },
       "name": "Tag | Tage"
     },
+    "materialItem": {
+      "fields": {
+        "article": "Artikel",
+        "quantity": "Menge",
+        "unit": "Einheit"
+      }
+    },
     "materialList": {
+      "fields": {
+        "name": "Name"
+      },
       "name": "Materialliste"
     },
     "period": {
@@ -149,12 +162,21 @@
       "name": "Zeitplaneintrag"
     }
   },
+  "global": {
+    "datetime": {
+      "dateLong": "dd L",
+      "dateShort": "dd D.M.",
+      "dateTimeLong": "dd L HH:mm",
+      "hourLong": "HH:mm",
+      "hourShort": "H:mm"
+    }
+  },
   "print": {
-    "toc": {
-      "title": "Inhaltsverzeichnis"
-    },
     "cover": {
       "title": "Titelseite"
+    },
+    "picasso": {
+      "title": "Grobprogramm für {period}"
     },
     "program": {
       "title": "Detailprogramm"
@@ -162,8 +184,8 @@
     "story": {
       "title": "Roter Faden"
     },
-    "picasso": {
-      "title": "Grobprogramm für {period}"
+    "toc": {
+      "title": "Inhaltsverzeichnis"
     }
   },
   "story": {
