@@ -32,7 +32,7 @@ export const renderPdf = async (
 
 const documentFor = () => {
   // If necessary, this could select a different main document component, depending on the print config
-  return 'pdfDocument'
+  return 'campPrint'
 }
 
 export const mainThreadLoaderFor = async (config) => {

@@ -1,17 +1,13 @@
 // eslint-disable-next-line no-unused-vars
 import React from 'react'
-import { View, Text } from '../../reactPdf.js'
+import { Text, View } from '@react-pdf/renderer'
 import styles from '../styles.js'
 import Responsibles from '../picasso/Responsibles.jsx'
+import CategoryLabel from '../CategoryLabel.jsx'
 import dayjs from '@/common/helpers/dayjs.js'
 import ContentNode from './contentNode/ContentNode.jsx'
 
 const fontSize = 8
-
-const categoryLabelStyles = {
-  borderRadius: '50%',
-  padding: '4pt 8pt',
-}
 
 function ScheduleEntry(props) {
   const scheduleEntry = props.scheduleEntry
@@ -35,26 +31,30 @@ function ScheduleEntry(props) {
             paddingBottom: '8pt',
           }}
         >
-          <Text
-            id={'scheduleEntry-' + scheduleEntry.id}
-            style={{ ...styles.h1, padding: '4pt 0' }}
+          <View
+            style={{ ...styles.h1, display: 'flex', flexDirection: 'row', flexGrow: '1' }}
           >
-            {scheduleEntry.number}{' '}
-          </Text>
-          <Text
-            style={{
-              ...styles.h1,
-              ...categoryLabelStyles,
-              backgroundColor: activity.category().color,
-            }}
-          >
-            {activity.category().short}
-          </Text>
-          <Text
-            style={{ ...styles.h1, padding: '4pt', flexGrow: '1', overflow: 'ellipsis' }}
-          >
-            {activity.title}
-          </Text>
+            <Text
+              id={props.id}
+              bookmark={{
+                title:
+                  activity.category().short +
+                  ' ' +
+                  scheduleEntry.number +
+                  ' ' +
+                  activity.title,
+                fit: true,
+              }}
+              style={{ margin: '4pt 0' }}
+            >
+              {scheduleEntry.number}{' '}
+            </Text>
+            <CategoryLabel activity={activity} style={{ margin: '4pt 0' }} />
+            <Text style={{ margin: '4pt 0', overflow: 'ellipsis' }}>
+              {' '}
+              {activity.title}
+            </Text>
+          </View>
           <View
             style={{
               display: 'flex',

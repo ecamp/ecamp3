@@ -25,12 +25,7 @@ export default {
   /*
    ** Global CSS
    */
-  css: [
-    '~/assets/tailwind.css',
-    '~/assets/fonts.css',
-    '~/assets/toc.css',
-    '~/assets/typography.css',
-  ],
+  css: ['~/assets/tailwind.css', '~/assets/typography.css', '~/assets/print-preview.css'],
   /*
    ** Plugins to load before mounting the App
    ** https://nuxtjs.org/guide/plugins
@@ -94,6 +89,9 @@ export default {
   sentry: {
     dsn: process.env.SENTRY_PRINT_DSN || '',
     disabled: process.env.NODE_ENV === 'development',
+    config: {
+      environment: process.env.SENTRY_ENVIRONMENT ?? 'http://localhost:3000',
+    },
   },
 
   /*
@@ -127,11 +125,6 @@ export default {
       plugins: {
         tailwindcss: {},
         autoprefixer: {},
-        cssnano: {
-          // minifySelectors changes double colon :: to single colon (https://cssnano.co/docs/optimisations/minifyselectors/)
-          // which throws an error in pagedjs (https://gitlab.coko.foundation/pagedjs/pagedjs/-/issues/305)
-          preset: ['default', { minifySelectors: false }],
-        },
       },
     },
   },
@@ -141,21 +134,8 @@ export default {
    ** See https://nuxtjs.org/api/configuration-render/
    */
   render: {
-    // in production: FALSE: deactivates injecting any Javascript on client side ==> pure HTML/CSS output only (except explicit head-scripts)
-    // in development: TRUE: enable javascript injection in dev mode to support hot reloading
-    // injectScripts: process.env.NODE_ENV === 'development',
+    // deactivates injecting nuxt Javascript on client side ==> pure HTML/CSS output only (except explicit head-scripts)
     injectScripts: false,
-
-    csp: {
-      reportOnly: false,
-      policies: {
-        // allow embedding in iFrames
-        'frame-ancestors': [process.env.FRONTEND_URL || 'http://localhost:3000'],
-
-        // allow script loading script from Unkpg (used for PagedJS)
-        'script-src': ["'self'", "'unsafe-inline'", 'https://unpkg.com'],
-      },
-    },
   },
 
   /**

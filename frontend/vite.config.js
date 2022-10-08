@@ -27,6 +27,7 @@ export default defineConfig(({ mode }) => ({
       'core-js/modules/es.array.concat.js',
       'core-js/modules/es.array.splice.js',
       'core-js/modules/es.array.find.js',
+      'core-js/modules/es.array.push.js',
       'core-js/modules/es.object.to-string.js',
       'core-js/modules/es.regexp.exec.js',
       'core-js/modules/es.regexp.test.js',
@@ -38,6 +39,9 @@ export default defineConfig(({ mode }) => ({
       '@zxcvbn-ts/language-fr',
       '@zxcvbn-ts/language-it',
       'raf/polyfill',
+      'vuetify/es5/components/VCalendar/modes/column.js',
+      'vuetify/es5/components/VCalendar/util/events.js',
+      'lodash/keyBy.js',
     ],
   },
   build: {

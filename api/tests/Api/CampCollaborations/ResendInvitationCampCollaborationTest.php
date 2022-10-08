@@ -68,6 +68,34 @@ class ResendInvitationCampCollaborationTest extends ECampApiTestCase {
     }
 
     /**
+     * @throws \Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface
+     */
+    public function testResendInvitationSuccessfulWhenInvitedUserExists() {
+        /** @var CampCollaboration $campCollaboration */
+        $campCollaboration = static::$fixtures['campCollaboration6invitedWithUser'];
+        static::createClientWithCredentials(['email' => static::$fixtures['user1manager']->getEmail()])->request(
+            'PATCH',
+            '/camp_collaborations/'.$campCollaboration->getId().'/'.self::RESEND_INVITATION,
+            [
+                'json' => [],
+                'headers' => ['Content-Type' => 'application/merge-patch+json'],
+            ]
+        );
+
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertJsonContains([
+            'inviteEmail' => $campCollaboration->inviteEmail,
+            'status' => $campCollaboration->status,
+            'role' => $campCollaboration->role,
+        ]);
+        self::assertEmailCount(1);
+    }
+
+    /**
      * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
      */
     public function testResendInvitationFailsWhenNotAuthenticated() {

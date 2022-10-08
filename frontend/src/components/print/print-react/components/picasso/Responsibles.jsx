@@ -1,6 +1,6 @@
 // eslint-disable-next-line no-unused-vars
 import React from 'react'
-import { View, Text } from '../../reactPdf.js'
+import { Text, View } from '@react-pdf/renderer'
 import campCollaborationColor from '@/common/helpers/campCollaborationColor.js'
 import campCollaborationInitials from '@/common/helpers/campCollaborationInitials.js'
 
@@ -39,7 +39,7 @@ function Responsibles({ activity, styles }) {
               backgroundColor: campCollaborationColor(
                 activityResponsible.campCollaboration()
               ),
-              ...(index === last ? {} : { marginRight: '-' + fontSize / 4 + 'px' }),
+              ...(index === last ? {} : { marginRight: '-' + fontSize / 4 + 'pt' }),
             }}
           >
             <Text style={initialsStyles}>

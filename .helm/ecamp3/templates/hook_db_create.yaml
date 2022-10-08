@@ -1,7 +1,7 @@
 #
 # Automatically creates the database in an external PostgreSQL when installing the chart for the first time.
 #
-{{- if not .Values.postgresql.enabled }}
+{{- if and (not .Values.postgresql.enabled) (not (.Values.postgresql.adminUrl | empty)) }}
 apiVersion: batch/v1
 kind: Job
 metadata:

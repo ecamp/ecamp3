@@ -1,7 +1,9 @@
 <template>
   <div class="tw-break-after-page">
+    <generic-error-message v-if="$fetchState.error" :error="$fetchState.error" />
     <program-period
       v-for="period in periods"
+      v-else
       :key="period._meta.self"
       :period="period"
       :camp="camp"
@@ -18,6 +20,7 @@ export default {
   props: {
     options: { type: Object, required: false, default: null },
     camp: { type: Object, required: true },
+    config: { type: Object, required: true },
     index: { type: Number, required: true },
   },
   data() {

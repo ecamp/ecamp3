@@ -6,36 +6,32 @@ import { apiStore } from '@/plugins/store'
 
 Vue.use(Router)
 
-const NavigationAuth = () =>
-  import(/* webpackChunkName: "navigationAuth" */ './views/auth/NavigationAuth.vue')
-const NavigationDefault = () =>
-  import(/* webpackChunkName: "navigationDefault" */ './views/NavigationDefault.vue')
-const NavigationCamp = () =>
-  import(
-    /* webpackChunkName: "navigationCamp" */ './views/camp/navigation/NavigationCamp.vue'
-  )
+const NavigationDefault = () => import('./views/NavigationDefault.vue')
+const NavigationCamp = () => import('./views/camp/navigation/NavigationCamp.vue')
 
 /* istanbul ignore next */
 export default new Router({
   mode: 'history',
   base: window.environment.BASE_URL || '/',
   routes: [
-    // Dev-Pages:
-    {
-      path: '/controls',
-      name: 'controls',
-      components: {
-        default: () =>
-          import(/* webpackChunkName: "controls" */ './views/dev/Controls.vue'),
-      },
-    },
+    ...(process.env.NODE_ENV === 'development'
+      ? [
+          // Dev-Pages:
+          {
+            path: '/controls',
+            name: 'controls',
+            components: {
+              default: () => import('./views/dev/Controls.vue'),
+            },
+          },
+        ]
+      : []),
 
     {
       path: '/performance',
       name: 'performance',
       components: {
-        default: () =>
-          import(/* webpackChunkName: "performance" */ './views/dev/Performance.vue'),
+        default: () => import('./views/dev/Performance.vue'),
       },
     },
 
@@ -44,38 +40,32 @@ export default new Router({
       path: '/register',
       name: 'register',
       components: {
-        navigation: NavigationAuth,
-        default: () =>
-          import(/* webpackChunkName: "register" */ './views/auth/Register.vue'),
+        navigation: NavigationDefault,
+        default: () => import('./views/auth/Register.vue'),
       },
     },
     {
       path: '/register-done',
       name: 'register-done',
       components: {
-        navigation: NavigationAuth,
-        default: () =>
-          import(/* webpackChunkName: "register" */ './views/auth/RegisterDone.vue'),
+        navigation: NavigationDefault,
+        default: () => import('./views/auth/RegisterDone.vue'),
       },
     },
     {
       path: '/reset-password',
       name: 'resetPasswordRequest',
       components: {
-        navigation: NavigationAuth,
-        default: () =>
-          import(
-            /* webpackChunkName: "register" */ './views/auth/ResetPasswordRequest.vue'
-          ),
+        navigation: NavigationDefault,
+        default: () => import('./views/auth/ResetPasswordRequest.vue'),
       },
     },
     {
       path: '/reset-password/:id',
       name: 'resetPassword',
       components: {
-        navigation: NavigationAuth,
-        default: () =>
-          import(/* webpackChunkName: "register" */ './views/auth/ResetPassword.vue'),
+        navigation: NavigationDefault,
+        default: () => import('./views/auth/ResetPassword.vue'),
       },
       props: {
         default: (route) => {
@@ -89,9 +79,8 @@ export default new Router({
       path: '/activate/:userId/:activationKey',
       name: 'activate',
       components: {
-        navigation: NavigationAuth,
-        default: () =>
-          import(/* webpackChunkName: "register" */ './views/auth/Activate.vue'),
+        navigation: NavigationDefault,
+        default: () => import('./views/auth/Activate.vue'),
       },
       props: {
         default: (route) => {
@@ -106,17 +95,16 @@ export default new Router({
       path: '/login',
       name: 'login',
       components: {
-        navigation: NavigationAuth,
-        default: () => import(/* webpackChunkName: "login" */ './views/auth/Login.vue'),
+        navigation: NavigationDefault,
+        default: () => import('./views/auth/Login.vue'),
       },
     },
     {
       path: '/loginCallback',
       name: 'loginCallback',
       components: {
-        navigation: NavigationAuth,
-        default: () =>
-          import(/* webpackChunkName: "login" */ './views/auth/LoginCallback.vue'),
+        navigation: NavigationDefault,
+        default: () => import('./views/auth/LoginCallback.vue'),
       },
     },
     {
@@ -124,7 +112,7 @@ export default new Router({
       name: 'profile',
       components: {
         navigation: NavigationDefault,
-        default: () => import(/* webpackChunkName: "about" */ './views/Profile.vue'),
+        default: () => import('./views/Profile.vue'),
       },
       beforeEnter: requireAuth,
     },
@@ -133,7 +121,7 @@ export default new Router({
       name: 'profileVerifyEmail',
       components: {
         navigation: NavigationDefault,
-        default: () => import(/* webpackChunkName: "about" */ './views/Profile.vue'),
+        default: () => import('./views/Profile.vue'),
       },
       props: {
         default: (route) => {
@@ -147,7 +135,7 @@ export default new Router({
       name: 'camps',
       components: {
         navigation: NavigationDefault,
-        default: () => import(/* webpackChunkName: "camps" */ './views/Camps.vue'),
+        default: () => import('./views/Camps.vue'),
       },
       beforeEnter: requireAuth,
     },
@@ -156,7 +144,7 @@ export default new Router({
       name: 'camps/create',
       components: {
         navigation: NavigationDefault,
-        default: () => import(/* webpackChunkName: "camps" */ './views/CampCreate.vue'),
+        default: () => import('./views/CampCreate.vue'),
       },
       beforeEnter: requireAuth,
     },
@@ -164,9 +152,8 @@ export default new Router({
       path: '/camps/invitation/:inviteKey',
       name: 'campInvitation',
       components: {
-        navigation: NavigationAuth,
-        default: () =>
-          import(/* webpackChunkName: "login" */ './views/camp/Invitation.vue'),
+        navigation: NavigationDefault,
+        default: () => import('./views/camp/Invitation.vue'),
       },
       props: {
         default: (route) => {
@@ -180,27 +167,23 @@ export default new Router({
       path: '/camps/invitation/rejected',
       name: 'invitationRejected',
       components: {
-        navigation: NavigationAuth,
-        default: () =>
-          import(/* webpackChunkName: "login" */ './views/camp/InvitationRejected.vue'),
+        navigation: NavigationDefault,
+        default: () => import('./views/camp/InvitationRejected.vue'),
       },
     },
     {
       path: '/camps/invitation/updateError',
       name: 'invitationUpdateError',
       components: {
-        navigation: NavigationAuth,
-        default: () =>
-          import(
-            /* webpackChunkName: "login" */ './views/camp/InvitationUpdateError.vue'
-          ),
+        navigation: NavigationDefault,
+        default: () => import('./views/camp/InvitationUpdateError.vue'),
       },
     },
     {
       path: '/camps/:campId/:campTitle?',
       components: {
         navigation: NavigationCamp,
-        default: () => import(/* webpackChunkName: "camp" */ './views/camp/Camp.vue'),
+        default: () => import('./views/camp/Camp.vue'),
       },
       beforeEnter: all([requireAuth, requireCamp]),
       props: {
@@ -215,62 +198,54 @@ export default new Router({
         {
           path: 'collaborators',
           name: 'camp/collaborators',
-          component: () =>
-            import(
-              /* webpackChunkName: "campCollaborators" */ './views/camp/Collaborators.vue'
-            ),
+          component: () => import('./views/camp/Collaborators.vue'),
         },
         {
           path: 'admin',
           name: 'camp/admin',
-          component: () =>
-            import(/* webpackChunkName: "campAdmin" */ './views/camp/Admin.vue'),
+          component: () => import('./views/camp/Admin.vue'),
         },
         {
           path: 'program/period/:periodId/:periodTitle?',
-          name: 'camp/period',
-          component: () =>
-            import(/* webpackChunkName: "campProgram" */ './views/camp/CampProgram.vue'),
+          name: 'camp/period/program',
+          component: () => import('./views/camp/CampProgram.vue'),
           beforeEnter: requirePeriod,
-        },
-        {
-          path: 'print',
-          name: 'camp/print',
-          component: () =>
-            import(/* webpackChunkName: "campPrint" */ './views/camp/Print.vue'),
-          props: (route) => ({ camp: campFromRoute(route) }),
-        },
-        {
-          path: 'story',
-          name: 'camp/story',
-          component: () =>
-            import(/* webpackChunkName: "campStory" */ './views/camp/Story.vue'),
-        },
-        {
-          path: 'material',
-          name: 'camp/material',
-          component: () =>
-            import(/* webpackChunkName: "campMaterial" */ './views/camp/Material.vue'),
         },
         {
           path: 'program',
           name: 'camp/program',
           async beforeEnter(to, from, next) {
-            const period = await firstFuturePeriod(to)
-            if (period) {
-              await period.camp()._meta.load
-              next(periodRoute(period, to.query))
-            } else {
-              const camp = await apiStore.get().camps({ campId: to.params.campId })
-              next(campRoute(camp, 'admin', to.query))
-            }
+            redirectToPeriod(to, from, next, 'camp/period/program')
           },
+        },
+        {
+          path: 'print',
+          name: 'camp/print',
+          component: () => import('./views/camp/Print.vue'),
+          props: (route) => ({ camp: campFromRoute(route) }),
+        },
+        {
+          path: 'story/period/:periodId/:periodTitle?',
+          name: 'camp/period/story',
+          component: () => import('./views/camp/Story.vue'),
+          beforeEnter: requirePeriod,
+        },
+        {
+          path: 'story',
+          name: 'camp/story',
+          async beforeEnter(to, from, next) {
+            redirectToPeriod(to, from, next, 'camp/period/story')
+          },
+        },
+        {
+          path: 'material',
+          name: 'camp/material',
+          component: () => import('./views/camp/Material.vue'),
         },
         {
           path: 'dashboard',
           name: 'camp/dashboard',
-          component: () =>
-            import(/* webpackChungName: "camp" */ './views/camp/Dashboard.vue'),
+          component: () => import('./views/camp/Dashboard.vue'),
         },
         {
           path: '',
@@ -284,8 +259,7 @@ export default new Router({
       name: 'category',
       components: {
         navigation: NavigationCamp,
-        default: () =>
-          import(/* webpackChunkName: "campCategory" */ './views/activity/Category.vue'),
+        default: () => import('./views/activity/Category.vue'),
       },
       beforeEnter: requireAuth,
       props: {
@@ -299,10 +273,8 @@ export default new Router({
       name: 'activity',
       components: {
         navigation: NavigationCamp,
-        default: () =>
-          import(/* webpackChunkName: "activity" */ './views/activity/Activity.vue'),
-        aside: () =>
-          import(/* webpackChunkName: "day" */ './views/activity/SideBarProgram.vue'),
+        default: () => import('./views/activity/Activity.vue'),
+        aside: () => import('./views/activity/SideBarProgram.vue'),
       },
       beforeEnter: requireAuth,
       props: {
@@ -404,7 +376,7 @@ function categoryFromRoute(route) {
 
 function getContentLayout(route) {
   switch (route.name) {
-    case 'camp/period':
+    case 'camp/period/program':
       return 'full'
     case 'camp/admin':
       return 'wide'
@@ -439,11 +411,11 @@ export function loginRoute(redirectTo) {
   return { path: '/login', query: { redirect: redirectTo } }
 }
 
-export function periodRoute(period, query = {}) {
+export function periodRoute(period, routeName = 'camp/period/program', query = {}) {
   const camp = period.camp()
   if (camp._meta.loading || period._meta.loading) return {}
   return {
-    name: 'camp/period',
+    name: routeName,
     params: {
       campId: camp.id,
       campTitle: slugify(camp.title),
@@ -495,4 +467,15 @@ async function firstFuturePeriod(route) {
     periods.items.find((period) => new Date(period.end) >= new Date()) ||
     periods.items.find((_) => true)
   )
+}
+
+async function redirectToPeriod(to, from, next, routeName) {
+  const period = await firstFuturePeriod(to)
+  if (period) {
+    await period.camp()._meta.load
+    next(periodRoute(period, routeName, to.query))
+  } else {
+    const camp = await apiStore.get().camps({ campId: to.params.campId })
+    next(campRoute(camp, 'admin', to.query))
+  }
 }

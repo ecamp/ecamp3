@@ -76,7 +76,7 @@ class UserDataPersister extends AbstractDataPersister {
             $data->activationKey = null;
             $data->activationKeyHash = null;
         } else {
-            throw new \Exception('Invalid ActivationKey');
+            throw new HttpException(422, 'Invalid ActivationKey');
         }
 
         return $data;

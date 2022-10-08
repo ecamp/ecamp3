@@ -9,9 +9,10 @@ data:
     window.environment = {
       API_ROOT_URL: '{{ include "api.url" . }}',
       COOKIE_PREFIX: '{{ include "api.cookiePrefix" . }}',
-      PRINT_SERVER: '{{ include "print.url" . }}',
+      PRINT_URL: '{{ include "print.url" . }}',
     {{- if .Values.frontend.sentryDsn }}
       SENTRY_FRONTEND_DSN: '{{ .Values.frontend.sentryDsn }}',
+      SENTRY_ENVIRONMENT: '{{ .Values.frontend.domain }}',
     {{- else }}
       SENTRY_FRONTEND_DSN: null,
     {{- end }}

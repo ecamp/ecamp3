@@ -69,11 +69,16 @@ services:
     App\Serializer\Normalizer\CollectionItemsNormalizer:
         decorates: 'api_platform.hal.normalizer.collection'
 
+    App\Serializer\Normalizer\TranslationConstraintViolationListNormalizer:
+        arguments:
+            - '@api_platform.hydra.normalizer.constraint_violation_list'
+            - '@api_platform.problem.normalizer.constraint_violation_list'
+
     App\Serializer\SerializerContextBuilder:
         decorates: 'api_platform.serializer.context_builder'
 
     App\Serializer\PreventAutomaticEmbeddingPropertyMetadataFactory:
-        decorates: 'api_platform.metadata.property.metadata_factory'
+        decorates: 'api_platform.metadata.property.metadata_factory.legacy'
         # Priority should be 1 lower than the one of SerializerPropertyMetadataFactory, see
         # https://github.com/api-platform/core/blob/main/src/Bridge/Symfony/Bundle/Resources/config/metadata/metadata.xml#L65
         decoration_priority: 29
@@ -117,13 +122,6 @@ services:
         arguments:
             - '%env(RECAPTCHA_SECRET)%'
             - '@ReCaptcha\ReCaptcha'
-
-    ApiPlatform\Core\Bridge\Doctrine\Orm\Extension\EagerLoadingExtension:
-        class: App\Doctrine\EagerLoadingExtension
-    api_platform.doctrine.orm.query_extension.eager_loading:
-        class: App\Doctrine\EagerLoadingExtension
-    App\Doctrine\EagerLoadingExtension:
-        public: false
         
     App\Service\MailService:
         public: true
@@ -131,6 +129,13 @@ services:
             - '@Symfony\Component\Mailer\MailerInterface'
             - "%env(FRONTEND_BASE_URL)%"
             - "%env(MAIL_FROM)%"
+
+    App\Service\TranslateToAllLocalesService:
+        public: true
+        arguments:
+            - '@translator'
+            - '@translator'
+            - '%env(csv:TRANSLATE_ERRORS_TO_LOCALES)%'
 
     App\EventListener\JWTCreatedListener:
         tags:

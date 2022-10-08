@@ -153,9 +153,6 @@
     "felixfbecker/language-server-protocol": {
         "version": "1.5.1"
     },
-    "fig/link-util": {
-        "version": "1.2.0"
-    },
     "friendsofphp/php-cs-fixer": {
         "version": "2.17",
         "recipe": {
@@ -782,6 +779,19 @@
     },
     "symfony/string": {
         "version": "v5.2.6"
+    },
+    "symfony/translation": {
+        "version": "6.1",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "5.3",
+            "ref": "da64f5a2b6d96f5dc24914517c0350a5f91dee43"
+        },
+        "files": [
+            "config/packages/translation.yaml",
+            "translations/.gitignore"
+        ]
     },
     "symfony/translation-contracts": {
         "version": "v2.3.0"

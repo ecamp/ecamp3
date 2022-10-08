@@ -32,7 +32,7 @@ Critical operations on camp
                   color="blue-grey"
                   @click.prevent="on.click"
                 >
-                  {{ $tc('components.camp.campDangerzone.deleteCamp.action') }}
+                  {{ $tc('global.button.delete') }}
                 </button-delete>
               </template>
               <p class="body-1">

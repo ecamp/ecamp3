@@ -29,7 +29,7 @@ describe('Admin view', () => {
       },
       routes: [],
       mocks: {
-        $auth: USER,
+        $store: STORE,
         api: { reload: () => Promise.resolve() },
         $tc: (key) => key,
       },
@@ -57,7 +57,7 @@ describe('Admin view', () => {
       },
       routes: [],
       mocks: {
-        $auth: USER,
+        $store: STORE,
         api: { reload: () => Promise.resolve() },
         $tc: (key) => key,
       },
@@ -85,7 +85,7 @@ describe('Admin view', () => {
       },
       routes: [],
       mocks: {
-        $auth: USER,
+        $store: STORE,
         api: { reload: () => Promise.resolve() },
         $tc: (key) => key,
       },
@@ -109,11 +109,17 @@ describe('Admin view', () => {
 
 const USER_URL = '/users/17d341a80579'
 const USER = {
-  user: () => ({
-    _meta: {
-      self: USER_URL,
+  _meta: {
+    self: USER_URL,
+  },
+}
+
+const STORE = {
+  state: {
+    auth: {
+      user: USER,
     },
-  }),
+  },
 }
 
 function createCampWithRole(role) {
@@ -122,7 +128,7 @@ function createCampWithRole(role) {
       items: [
         {
           role: role,
-          ...USER,
+          user: () => USER,
         },
       ],
     }),

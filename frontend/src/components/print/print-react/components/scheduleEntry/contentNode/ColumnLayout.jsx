@@ -1,6 +1,6 @@
 // eslint-disable-next-line no-unused-vars
 import React from 'react'
-import { View } from '../../../reactPdf.js'
+import { View } from '@react-pdf/renderer'
 
 function ColumnLayout(props) {
   const ContentNode = props.ContentNode
@@ -8,6 +8,10 @@ function ColumnLayout(props) {
   const firstSlot = columns.length ? columns[0].slot : '1'
   const lastSlot = columns.length ? columns[columns.length - 1].slot : '1'
   const children = props.contentNode.children().items
+
+  if (!columns.length) {
+    return <React.Fragment />
+  }
 
   return (
     <View style={{ display: 'flex', flexDirection: 'row' }}>

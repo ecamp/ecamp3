@@ -1,6 +1,6 @@
 // eslint-disable-next-line no-unused-vars
 import React from 'react'
-import { Svg, Circle, Polygon } from '../reactPdf.js'
+import { Circle, Polygon, Svg } from '@react-pdf/renderer'
 
 function Checkmark({ size = 12 }) {
   const scale = size / 8

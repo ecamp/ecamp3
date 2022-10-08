@@ -31,7 +31,6 @@
     "isomorphic-dompurify": "0.23.0",
     "lodash": "4.17.21",
     "nuxt": "2.15.8",
-    "pagedjs": "0.3.5",
     "puppeteer-core": "18.2.1",
     "runes": "0.4.3",
     "vue-i18n": "8.27.2"
@@ -48,7 +47,7 @@
     "autoprefixer": "10.4.12",
     "babel-core": "7.0.0-bridge.0",
     "babel-jest": "29.1.2",
-    "eslint": "8.24.0",
+    "eslint": "8.25.0",
     "eslint-config-prettier": "8.5.0",
     "eslint-plugin-nuxt": "4.0.0",
     "eslint-plugin-prettier": "4.2.1",

@@ -3,9 +3,11 @@
     <v-alert type="info">
       {{ $tc('components.invitation.successfullyRejected') }}
     </v-alert>
-    <v-btn color="primary" x-large class="my-4" block :to="{ name: 'home' }">
-      {{ $tc('components.invitation.backToHome') }}
-    </v-btn>
+    <div class="mb-4 mt-8">
+      <router-link color="primary" x-large block :to="{ name: 'home' }">
+        {{ $tc('components.invitation.backToHome') }}
+      </router-link>
+    </div>
   </auth-container>
 </template>
 

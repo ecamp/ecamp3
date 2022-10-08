@@ -4,7 +4,8 @@
       {{ $tc('print.picasso.title') }}
     </div>
     <ul>
-      <li v-for="period in periods" :key="period._meta.self">
+      <generic-error-message v-if="$fetchState.error" :error="$fetchState.error" />
+      <li v-for="period in periods" v-else :key="period._meta.self">
         <div class="toc-element toc-element-level-2">
           <a :href="`#content_${index}_period_${period.id}`"
             >{{ $tc('entity.period.name') }} {{ period.description }}</a

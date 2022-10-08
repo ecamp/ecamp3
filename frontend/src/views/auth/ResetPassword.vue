@@ -88,7 +88,7 @@
     </validation-observer>
     <p class="mt-8 mb0 text--secondary text-center">
       <router-link :to="{ name: 'login' }">
-        {{ $tc('views.auth.resetPassword.back') }}
+        {{ $tc('global.button.login') }}
       </router-link>
     </p>
   </auth-container>

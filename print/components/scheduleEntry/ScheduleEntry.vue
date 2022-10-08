@@ -1,5 +1,6 @@
 <template>
-  <div class="tw-mb-20 tw-mt-1 tw-break-inside-avoid">
+  <generic-error-message v-if="$fetchState.error" :error="$fetchState.error" />
+  <div v-else class="tw-mb-20 tw-mt-1 tw-break-inside-avoid">
     <div
       :id="`scheduleEntry_${scheduleEntry.id}`"
       class="schedule-entry-title tw-float-left"
@@ -31,7 +32,7 @@
             {{ $tc('entity.activity.fields.responsible') }}
           </th>
           <td class="header-row">
-            {{ responsiblesCommaSeparated }}
+            {{ activityResponsiblesCommaSeparated }}
             <!-- <user-avatar
               v-for="responsible in responsibles"
               :key="responsible.id"
@@ -50,7 +51,7 @@
 import CategoryLabel from '../generic/CategoryLabel.vue'
 import ContentNode from './contentNode/ContentNode.vue'
 import { rangeShort } from '@/../common/helpers/dateHelperUTCFormatted.js'
-import { responsiblesCommaSeparated } from '../../helpers/activityResponsibles.js'
+import { activityResponsiblesCommaSeparated } from '@/../common/helpers/activityResponsibles.js'
 
 export default {
   components: { CategoryLabel, ContentNode },
@@ -84,8 +85,8 @@ export default {
     // responsibles() {
     //   return this.scheduleEntry.activity().activityResponsibles().items
     // },
-    responsiblesCommaSeparated() {
-      return responsiblesCommaSeparated(
+    activityResponsiblesCommaSeparated() {
+      return activityResponsiblesCommaSeparated(
         this.scheduleEntry.activity(),
         this.$tc.bind(this)
       )
