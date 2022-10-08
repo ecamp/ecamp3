@@ -111,10 +111,9 @@ jobs:
             --set api.domain=api-alpha.ecamp3.ch \
             --set frontend.domain=app-alpha.ecamp3.ch \
             --set print.domain=print-alpha.ecamp3.ch \
-            --set mail.domain=mail-alpha.ecamp3.ch \
+            --set mail.dsn=${{ secrets.MAILER_DSN }} \
             --set postgresql.enabled=false \
             --set postgresql.url='${{ secrets.POSTGRES_URL }}/ecamp3alpha?sslmode=require' \
-            --set postgresql.adminUrl='${{ secrets.POSTGRES_ADMIN_URL }}/ecamp3alpha?sslmode=require' \
             --set postgresql.dropDBOnUninstall=false \
             --set php.dataMigrationsDir='${{ secrets.DATA_MIGRATIONS_DIR }}' \
             --set php.appSecret='${{ secrets.API_APP_SECRET }}' \
@@ -124,7 +123,6 @@ jobs:
             --set php.jwt.privateKey='${{ secrets.JWT_PRIVATE_KEY }}' \
             --set frontend.sentryDsn='${{ secrets.FRONTEND_SENTRY_DSN }}' \
             --set print.sentryDsn='${{ secrets.PRINT_SENTRY_DSN }}' \
-            --set print.browserWsEndpoint='${{ secrets.BROWSER_WS_ENDPOINT }}' \
             --set deploymentTime="$(date -u +%s)" \
             --set deployedVersion="$(git rev-parse --short '${{ steps.git-ref.outputs.sha }}')" \
             --set recaptcha.siteKey='${{ secrets.RECAPTCHA_SITE_KEY }}' \
