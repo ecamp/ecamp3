@@ -3,7 +3,7 @@
     <v-btn color="primary" :loading="loading" outlined @click.stop="generatePdf">
       <v-icon>mdi-printer</v-icon>
       <div class="mx-1">
-        {{ $tc('components.print.printReact.downloadNuxtPdfListItem.label') }}
+        {{ $tc('components.print.printReact.downloadReactPdfListItem.label') }}
       </div>
     </v-btn>
     <v-snackbar v-model="error" :timeout="10000">

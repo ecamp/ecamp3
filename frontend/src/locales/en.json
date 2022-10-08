@@ -136,17 +136,17 @@
           }
         }
       },
+      "printNuxt": {
+        "downloadNuxtPdfListItem": {
+          "label": "Download PDF (layout #1)"
+        }
+      },
       "printPreviewNuxt": {
         "openPreview": "Open preview in new window"
       },
       "printReact": {
-        "downloadNuxtPdfListItem": {
+        "downloadReactPdfListItem": {
           "label": "Download PDF (layout #2)"
-        }
-      },
-      "printNuxt": {
-        "downloadNuxtPdfListItem": {
-          "label": "Download PDF (layout #1)"
         }
       }
     },

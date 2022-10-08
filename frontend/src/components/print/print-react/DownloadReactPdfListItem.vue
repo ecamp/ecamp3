@@ -5,7 +5,7 @@
       <v-icon v-else>mdi-printer</v-icon>
     </v-list-item-icon>
     <v-list-item-title>
-      {{ $tc('components.print.printReact.downloadNuxtPdfListItem.label') }}
+      {{ $tc('components.print.printReact.downloadReactPdfListItem.label') }}
     </v-list-item-title>
   </v-list-item>
 </template>
