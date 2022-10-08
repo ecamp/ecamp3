@@ -13,7 +13,7 @@ function Program(props) {
   }
   return periods.map((period) => {
     const periodEntry = (
-      <Link style={tocStyles.entry} href={`#${props.id}-${period.id}`}>
+      <Link style={tocStyles.entry} href={`#${props.id}-${period.id}`} key={period.id}>
         <Text>{period.description}</Text>
       </Link>
     )

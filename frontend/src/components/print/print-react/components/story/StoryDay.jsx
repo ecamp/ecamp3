@@ -45,32 +45,35 @@ function StoryDay(props) {
         {props.$tc('entity.day.name')} {props.day.number} ({dateLong(props.day.start)})
       </Text>
       {entriesWithStory.map(({ scheduleEntry, storyChapters }) => {
-        return storyChapters.map((chapter, idx) => {
-          const chapterTitle =
-            scheduleEntry.activity().title +
-            (chapter.instanceName ? ' - ' + chapter.instanceName : '')
-          return (
-            <React.Fragment>
-              <View
-                key={idx}
-                style={{
-                  ...styles.h3,
-                  display: 'flex',
-                  flexDirection: 'row',
-                  marginTop: '10pt',
-                }}
-                minPresenceAhead={30}
-              >
-                <Text id={`${props.id}-${props.period.id}-${scheduleEntry.id}`}>
-                  {scheduleEntry.number}{' '}
-                </Text>
-                <CategoryLabel activity={scheduleEntry.activity()} />
-                <Text> {chapterTitle}</Text>
-              </View>
-              <RichText richText={chapter.data.text} />
-            </React.Fragment>
-          )
-        })
+        return (
+          <React.Fragment key={scheduleEntry.id}>
+            {storyChapters.map((chapter, idx) => {
+              const chapterTitle =
+                scheduleEntry.activity().title +
+                (chapter.instanceName ? ' - ' + chapter.instanceName : '')
+              return (
+                <React.Fragment key={idx}>
+                  <View
+                    style={{
+                      ...styles.h3,
+                      display: 'flex',
+                      flexDirection: 'row',
+                      marginTop: '10pt',
+                    }}
+                    minPresenceAhead={30}
+                  >
+                    <Text id={`${props.id}-${props.period.id}-${scheduleEntry.id}`}>
+                      {scheduleEntry.number}{' '}
+                    </Text>
+                    <CategoryLabel activity={scheduleEntry.activity()} />
+                    <Text> {chapterTitle}</Text>
+                  </View>
+                  <RichText richText={chapter.data.text} />
+                </React.Fragment>
+              )
+            })}
+          </React.Fragment>
+        )
       })}
     </React.Fragment>
   )

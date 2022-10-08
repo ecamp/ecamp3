@@ -90,7 +90,7 @@ const richTextRules = [
       return node.type === 'tag' && node.name === 'ul'
     },
     processNode: function (node, children) {
-      return children
+      return addKeys(children)
     },
   },
   {
@@ -98,7 +98,7 @@ const richTextRules = [
       return node.type === 'tag' && node.name === 'ol'
     },
     processNode: function (node, children) {
-      return children
+      return addKeys(children)
     },
   },
   {
@@ -107,7 +107,7 @@ const richTextRules = [
     },
     processNode: function (node, children) {
       const bullet = node.parent.name === 'ol' ? getNumbering(node) : '• '
-      return <Text style={{ marginLeft: '4pt' }}>{[bullet, ...children]}</Text>
+      return <Text style={{ marginLeft: '4pt' }}>{[bullet, ...addKeys(children)]}</Text>
     },
   },
 

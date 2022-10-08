@@ -7,7 +7,7 @@ function Story(props) {
   return props.entry.options.periods.map((periodUri) => {
     const period = props.store.get(periodUri)
     return (
-      <Link style={tocStyles.entry} href={`#${props.id}-${period.id}`}>
+      <Link style={tocStyles.entry} href={`#${props.id}-${period.id}`} key={periodUri}>
         <Text>
           {props.$tc('print.story.title')}: {period.description}
         </Text>
