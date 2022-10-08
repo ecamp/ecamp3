@@ -6,6 +6,8 @@
 
 ## English
 
+### [Code of conduct](https://www.ecamp3.ch/en/code-of-conduct)
+
 ### Git setup
 We use a triangular git workflow. This means that all changes are first pushed to a contributor's fork of the repository, and then the changes are merged into the main fork via a pull request. In practice, setting up this workflow looks as follows:
 
@@ -68,6 +70,8 @@ Alternatively you can
 * [x] Did the GitHub Actions CI build run through without test failures?
 
 ## Deutsch
+
+### [Verhaltenskodex](https://www.ecamp3.ch/de/verhaltenskodex)
 
 ### Git einrichten
 Wir wenden einen triangulären Git-Workflow an. Das bedeutet, dass alle Code-Änderungen zuerst auf dem Fork des Entwicklers veröffentlicht werden, und erst dann werden die Änderungen via Pull Request in das offizielle eCamp3-Repository eingefügt. Um dies einzurichten, befolgen wir folgende Schritte:

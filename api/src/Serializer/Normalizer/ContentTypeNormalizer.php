@@ -22,8 +22,8 @@ class ContentTypeNormalizer implements NormalizerInterface, SerializerAwareInter
     ) {
     }
 
-    public function supportsNormalization($data, $format = null): bool {
-        return $this->decorated->supportsNormalization($data, $format);
+    public function supportsNormalization($data, $format = null, array $context = []): bool {
+        return $this->decorated->supportsNormalization($data, $format, $context);
     }
 
     public function normalize($object, $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null {

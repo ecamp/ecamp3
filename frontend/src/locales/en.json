@@ -378,10 +378,19 @@
         "viewDescription": "You work on \"{title}\". Here you can see all the activities for which you are responsible."
       },
       "material": {
+        "downloadXlsx": "Download",
         "showActivityMaterial": "Show activity material",
         "showActivityMaterialShort": "incl. Activity",
         "title": "Material",
-        "groupByList": "Group by material list"
+        "groupByList": "Group by material list",
+        "xlsx": {
+          "filename": "material-list",
+          "quantity": "Quantity",
+          "unit": "Unit",
+          "article": "Article",
+          "matlist": "Material list",
+          "activity": "Activity"
+        }
       },
       "navigation": {
         "desktop": {

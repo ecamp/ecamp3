@@ -89,6 +89,9 @@ export default {
   sentry: {
     dsn: process.env.SENTRY_PRINT_DSN || '',
     disabled: process.env.NODE_ENV === 'development',
+    config: {
+      environment: process.env.SENTRY_ENVIRONMENT ?? 'http://localhost:3000',
+    },
   },
 
   /*
