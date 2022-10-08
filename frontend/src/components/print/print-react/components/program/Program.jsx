@@ -19,11 +19,11 @@ function Program(props) {
           return <React.Fragment key={`${props.id}-${period.id}`} />
         }
         return (
-          <View
-            key={`${props.id}-${period.id}`}
-            id={`${props.id}-${period.id}`}
-            bookmark={{ title: period.description, fit: true }}
-          >
+          <View key={`${props.id}-${period.id}`}>
+            <View
+              id={`${props.id}-${period.id}`}
+              bookmark={{ title: period.description, fit: true }}
+            />
             {sortBy(period.scheduleEntries().items, [
               'dayNumber',
               'scheduleEntryNumber',
