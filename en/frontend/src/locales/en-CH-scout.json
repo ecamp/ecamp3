@@ -1,0 +1,19 @@
+{
+    "components": {
+        "camp": {
+            "campPrint": {
+                "picasso": ""
+            }
+        }
+    },
+    "entity": {
+        "user": {
+            "fields": {
+                "nickname": ""
+            }
+        }
+    },
+    "global": {
+        "language": ""
+    }
+}

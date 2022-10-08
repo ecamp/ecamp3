@@ -1,0 +1,16 @@
+{
+    "global": {
+        "page": {
+            "counter": "Page $%1$s of $%1$s"
+        },
+        "margin": {
+            "pageCounter": {
+                "page": "Page",
+                "of": "of"
+            }
+        }
+    },
+    "welcome": {
+        "print": ""
+    }
+}

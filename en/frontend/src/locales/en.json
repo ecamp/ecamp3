@@ -1,0 +1,466 @@
+{
+    "entity": {
+        "user": {
+            "fields": {
+                "nickname": "Nickname",
+                "birthday": "Birthday",
+                "email": "Email address",
+                "firstname": "Firstname",
+                "language": "Language",
+                "password": "Password",
+                "surname": "Lastname"
+            },
+            "name": "User"
+        }
+    },
+    "global": {
+        "language": "English",
+        "button": {
+            "add": "Add",
+            "back": "Back",
+            "cancel": "Cancel",
+            "content": "Content",
+            "create": "Create",
+            "delete": "Delete",
+            "deleteEntity": "Delete %1$s",
+            "edit": "Edit",
+            "editable": "Editable",
+            "logout": "Logout",
+            "ok": "Okay",
+            "open": "Open",
+            "save": "Save",
+            "saving": "Saving",
+            "submit": "Submit",
+            "tryagain": "Try again",
+            "update": "Update",
+            "close": "Close",
+            "search": "Search",
+            "lock": "",
+            "unlock": ""
+        },
+        "changeLanguage": "Change language",
+        "empty": {
+            "list": "Empty | No %1$s yet",
+            "result": "No result | No results",
+            "resultFor": "No result for %1$s | No results for %1$s"
+        },
+        "loading": "Loading …",
+        "lokaliseMessage": "Language switching powered by lokalise.com",
+        "serverError": {
+            "409": "Uuuups... This action caused an server-side error.",
+            "short": "Server error"
+        },
+        "validation": {
+            "pwConfirmed": "Password does not match",
+            "greaterThanOrEqual_date": "%1$s may not be earlier than %1$s",
+            "greaterThan_time": "%1$s must be later than %1$s"
+        }
+    },
+    "views": {
+        "camp": {
+            "story": {
+                "title": "Story",
+                "editModeOff": "",
+                "editModeOn": ""
+            },
+            "admin": {
+                "collaborators": "Manage Team",
+                "title": "Admin"
+            },
+            "collaborators": {
+                "email": "Email address",
+                "invite": "Invite",
+                "inactiveCollaborators": "Inactive",
+                "members": "Members",
+                "openInvitations": "Open invitations",
+                "title": "Team"
+            },
+            "dashboard": {
+                "noActivitiesLine1": "You are not yet responsible for any activity.",
+                "noActivitiesLine2": "You can see the whole program here.",
+                "program": "Program",
+                "viewDescription": "You work on \"%1$s\". Here you can see all the activities for which you are responsible."
+            },
+            "material": {
+                "showActivityMaterial": "Show activity material",
+                "showActivityMaterialShort": "incl. Activity",
+                "title": "Material",
+                "groupByList": "Group by material list"
+            },
+            "print": {
+                "title": "Print preview",
+                "previewError": "Something did not work. Please try again with different printing settings, or reload the page.",
+                "previewIframeTitle": "Print preview"
+            },
+            "sideBarPeriods": {
+                "title": "Periods"
+            },
+            "picasso": {
+                "editMode": "Edit mode",
+                "title": "Picasso",
+                "guestsCannotEdit": "A guest cannot edit the picasso"
+            },
+            "navigation": {
+                "desktop": {
+                    "navTopbar": {
+                        "admin": "Admin",
+                        "campIsLoading": "Camp is loading",
+                        "material": "Materials",
+                        "print": "Print",
+                        "program": "Program",
+                        "story": "Story",
+                        "team": "Team"
+                    },
+                    "navDesktop": {
+                        "story": ""
+                    }
+                },
+                "mobile": {
+                    "navBottombar": {
+                        "material": "Materials",
+                        "more": "More",
+                        "program": "Program",
+                        "story": "Story"
+                    },
+                    "navSidebar": {
+                        "itemCampAdmin": "Camp settings",
+                        "itemCamps": "My Camps",
+                        "itemClose": "Close menu",
+                        "itemCollaborators": "Team",
+                        "itemPrinting": "PDF \/ Print"
+                    },
+                    "navMobileBottom": {
+                        "story": ""
+                    }
+                }
+            }
+        },
+        "activity": {
+            "activity": {
+                "back": "Back",
+                "backToContents": "Back to editing content",
+                "changeLayout": "Change layout",
+                "layout": "Layout"
+            },
+            "sideBarProgram": {
+                "title": "Activities on this day"
+            },
+            "printPreview": "Open print preview",
+            "deleteWarning": "Do you really want to delete this activity? All content of this activity will be removed."
+        },
+        "auth": {
+            "activate": {
+                "title": "Your account will be activated",
+                "success": "Account successfully activated",
+                "error": "Activation failed"
+            },
+            "login": {
+                "accountless": "Don't have an account yet?",
+                "beta": {
+                    "notice": "This is the site of the new eCamp.<br>IMPORTANT: This website is under construction. This means that all data is public and will be deleted periodically!"
+                },
+                "loginCallback": {
+                    "loginInProgress": "You will be logged in"
+                },
+                "or": "or",
+                "password": "Password",
+                "passwordForgotten": "Forgotten your password?",
+                "provider": {
+                    "ecamp": "Login with eCamp",
+                    "google": "Login with Google",
+                    "midata": "Login with MiData",
+                    "cevidb": "Login with CeviDB"
+                },
+                "registernow": "Register now",
+                "title": "Login",
+                "email": "Email"
+            },
+            "register": {
+                "acceptTermsOfUse": "Accept the terms of use",
+                "alreadyHaveAnAccount": "Already have an account?",
+                "login": "Log in",
+                "openTermsOfUse": "Open",
+                "passwordConfirmation": "Enter Password again",
+                "register": "Register",
+                "title": "Create an account",
+                "requiredField": "required field"
+            },
+            "registerDone": {
+                "login": "Login",
+                "success": "Successfully registered",
+                "title": "Create account",
+                "message": "We sent you an email. Please complete your registration by clicking the activation-link in the email"
+            },
+            "resetPassword": {
+                "back": "Log in",
+                "errorMessage": "Reset password failed.",
+                "invalidRequest": "Invalid link",
+                "password": "New password",
+                "passwordConfirmation": "New password again",
+                "send": "Set password",
+                "successMessage": "Successfully set new password.",
+                "title": "Reset password"
+            },
+            "resetPasswordRequest": {
+                "back": "Log in",
+                "errorMessage": "Reset password failed.",
+                "send": "Send",
+                "successMessage": "Mail with Link to reset your password will be delivered.",
+                "title": "Reset password"
+            }
+        },
+        "campCreate": {
+            "create": "Create the Camp",
+            "period": {
+                "add": "Add a period",
+                "remove": "Remove period"
+            },
+            "title": "Create a Camp"
+        },
+        "camps": {
+            "create": "Create a camp",
+            "pastCamps": "Past camps",
+            "prototypeCamps": "Prototypes",
+            "title": "My Camp | My Camps"
+        },
+        "profile": {
+            "profile": "Profile",
+            "changeEmail": "Change"
+        }
+    },
+    "components": {
+        "activity": {
+            "content": {
+                "columnLayout": {
+                    "resizableColumn": {
+                        "addColumn": "Add a column",
+                        "removeColumn": "Remove empty column"
+                    }
+                },
+                "storyboard": {
+                    "section": {
+                        "deleteWarning": "Do you really want to remove this section?"
+                    }
+                }
+            },
+            "contentNode": {
+                "delete": "Delete",
+                "editName": "Rename",
+                "moveDown": "Move down",
+                "moveUp": "Move up"
+            },
+            "createScheduleEntries": {
+                "fields": {
+                    "duration": "Duration",
+                    "end": "End",
+                    "start": "Start"
+                },
+                "name": "Scheduled"
+            },
+            "menuCardlessContentNode": {
+                "delete": "Delete",
+                "deletingDisabled": "Must be empty to delete"
+            }
+        },
+        "camp": {
+            "campAddress": {
+                "title": "Address"
+            },
+            "campCategories": {
+                "create": "Create activity category",
+                "deleteCategoryNotPossibleInUse": "Activity category can't be deleted. It is used by:",
+                "deleteCategoryQuestion": "Do you really want do delete the Activity category?",
+                "editLayout": "Edit layout",
+                "title": "Activity categories"
+            },
+            "campDangerzone": {
+                "deleteCamp": {
+                    "action": "Delete",
+                    "description": "Once you delete a camp, there is no going back. Please be certain.",
+                    "explanation": "This action cannot be undone. This will permanently delete the \"%1$s\" camp, activities, material lists and remove all collaborator associations.",
+                    "label": "Please type \"%1$s\" to confirm.",
+                    "title": "Delete Camp"
+                },
+                "title": "Danger Zone"
+            },
+            "campInvitations": {
+                "title": "Invite"
+            },
+            "campMaterialLists": {
+                "createMaterialList": "Create material list",
+                "title": "Material lists"
+            },
+            "campMaterialListsItem": {
+                "deleteWarning": "Do you really want to delete this material list?",
+                "deleteError": "Could not delete the material list. Check if the list is empty before deleting it."
+            },
+            "campMembers": {
+                "title": "Members"
+            },
+            "campPeriods": {
+                "createPeriod": "Create period",
+                "title": "Period | Periods"
+            },
+            "campPeriodsListItem": {
+                "deleteWarning": "Do you really want to delete this period?",
+                "lastPeriodNotDeletable": "Last period is not deletable."
+            },
+            "campSettings": {
+                "fields": {
+                    "motto": "motto",
+                    "name": "name",
+                    "title": "title"
+                },
+                "title": "Settings"
+            },
+            "collaboratorListItem": {
+                "cannotAssignAnotherRoleToLastManager": "You cannot assign another role to the last manager.",
+                "cannotRemoveLastManager": "You cannot remove the last manager.",
+                "deactivate": "Deactivate",
+                "resendEmail": "Resend email",
+                "remove": ""
+            },
+            "inactiveCampCollaboratorListItem": {
+                "inviteAgain": "Invite again",
+                "delete": "Do you really want to remove this collaborator from the camp?"
+            },
+            "periodMaterialLists": {
+                "addNewItem": "Add new item"
+            },
+            "picasso": {
+                "datetime": {
+                    "date": "dd. D.MM | D. MMM | DD. MMM YYYY"
+                }
+            },
+            "collaboratorListItemDeactivate": {
+                "deactivate": "Deactivate",
+                "title": "Deactivate collaborator",
+                "warningText": "Do you want to deactivate '%1$s'?"
+            },
+            "materialCreateItem": {
+                "campSettingsButton": "Settings",
+                "noMaterialListAvailable": ""
+            },
+            "periodSwitcher": {
+                "title": ""
+            }
+        },
+        "print": {
+            "localPdfDownloadButton": {
+                "error": "Something did not work. Please try again, or try reloading the page."
+            },
+            "printConfigurator": {
+                "config": {
+                    "Activity": "Single activity",
+                    "Cover": "Cover page",
+                    "Picasso": "Picasso",
+                    "Story": "Story summary",
+                    "Program": "Program",
+                    "Toc": "Table of contents",
+                    "ProgramConfig": {
+                        "dayOverview": "print day overview"
+                    }
+                }
+            },
+            "printPreviewNuxt": {
+                "openPreview": "Open preview in new window"
+            },
+            "printNuxt": {
+                "downloadNuxtPdfListItem": {
+                    "label": "",
+                    "error": ""
+                }
+            },
+            "printReact": {
+                "downloadNuxtPdfListItem": {
+                    "label": "",
+                    "error": ""
+                }
+            },
+            "documents": {
+                "campPrint": {
+                    "filename": {
+                        "activitiesOnly": "Activities %1$s",
+                        "picassoOnly": "Picasso %1$s"
+                    }
+                }
+            }
+        },
+        "dialog": {
+            "dialogCategoryCreate": {
+                "title": "Create activity category"
+            },
+            "dialogEntityDelete": {
+                "title": "Really delete?",
+                "warningText": "Do you really want to delete this?"
+            },
+            "dialogMaterialItemCreate": {
+                "title": "Create material item"
+            },
+            "dialogMaterialListCreate": {
+                "title": "Create material list"
+            },
+            "dialogPeriodCreate": {
+                "title": "Create period"
+            },
+            "dialogPeriodEdit": {
+                "moveScheduleEntries": "Move schedule entries"
+            }
+        },
+        "invitation": {
+            "acceptCurrentAuth": "Accept invitation with current account",
+            "backToHome": "Back to home",
+            "error": "An unexpected error occurred",
+            "login": "Login",
+            "notFound": "This invitation is already accepted or was deleted",
+            "register": "Register",
+            "reject": "Deny invitation",
+            "title": "Invitation to camp",
+            "useOtherAuth": "Logout & use another account",
+            "userAlreadyInCamp": "You are already participating in this camp",
+            "userWelcome": "Welcome",
+            "openCamp": "Open camp",
+            "successfullyRejected": "The invitation was successfully rejected"
+        },
+        "layout": {
+            "authContainer": {
+                "photoCredits": "Photo by Markus Rohner \/ Lotos"
+            }
+        },
+        "navigation": {
+            "searchDesktop": {
+                "search": "Search"
+            },
+            "searchMobile": {
+                "allCamps": "All camps",
+                "search": "Search",
+                "searchActivitiesAndCamps": "Search for activities and camps"
+            },
+            "userMeta": {
+                "logOut": "Log out",
+                "myCamps": "My camp | My camps",
+                "profile": "Profile"
+            }
+        },
+        "user": {
+            "dialogChangeMail": {
+                "title": "Change email address",
+                "message": "You will receive an email for verification.",
+                "success": "Before you can use your new email address, you have to verify it. Check your mailbox now.",
+                "error": "An error has occurred."
+            },
+            "dialogChangeMailRunning": {
+                "title": "Changing email address",
+                "message": "Changing email address ...",
+                "success": "Email address successfully changed.",
+                "error": "An error has occurred."
+            }
+        }
+    },
+    "contentNode": {
+        "storycontext": {
+            "add": "",
+            "name": ""
+        }
+    }
+}

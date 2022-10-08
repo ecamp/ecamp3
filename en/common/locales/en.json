@@ -1,0 +1,196 @@
+{
+    "global": {
+        "datetime": {
+            "dateLong": "dd L",
+            "dateShort": "dd M\/D",
+            "dateTimeLong": "dd L HH:mm",
+            "hourLong": "HH:mm",
+            "hourShort": "h:mm A"
+        }
+    },
+    "entity": {
+        "activity": {
+            "fields": {
+                "category": "Category",
+                "location": "Location",
+                "responsible": "Responsible",
+                "title": "Title"
+            },
+            "name": "Activity | Activities",
+            "new": "New activity"
+        },
+        "category": {
+            "fields": {
+                "activityType": "Type",
+                "color": "Color",
+                "name": "Name",
+                "numberingStyle": "Numbering style",
+                "short": "Short"
+            },
+            "name": "Activity categories",
+            "numberingStyles": {
+                "1": "1, 2, 3 - numbers",
+                "A": "A, B, C - uppercase letters",
+                "a": "a, b, c - lowercase letters",
+                "I": "I, II, III - uppercase roman numerals",
+                "i": "i, ii, iii - lowercase roman numerals"
+            }
+        },
+        "camp": {
+            "collaborators": {
+                "invite": "Invite",
+                "manager": "Manager",
+                "member": "Member",
+                "guest": "Guest"
+            },
+            "fields": {
+                "addressCity": "City",
+                "addressName": "Name",
+                "addressStreet": "Street",
+                "addressZipcode": "Zipcode",
+                "motto": "Motto",
+                "name": "Name",
+                "title": "Title"
+            },
+            "name": "Camp | Camps",
+            "prototype": "Camp prototype"
+        },
+        "campCollaboration": {
+            "inactive": "inactive"
+        },
+        "contentType": {
+            "name": "Contenttype | Contenttypes"
+        },
+        "materialItem": {
+            "fields": {
+                "article": "Article",
+                "quantity": "Quantity",
+                "unit": "Unit"
+            }
+        },
+        "materialList": {
+            "fields": {
+                "name": "Name"
+            },
+            "name": "Material list"
+        },
+        "period": {
+            "defaultDescription": "Main",
+            "fields": {
+                "description": "Description",
+                "end": "End",
+                "start": "Start"
+            },
+            "name": "Period | Periods"
+        },
+        "scheduleEntry": {
+            "fields": {
+                "length": "Length in Minutes",
+                "nr": "Nr",
+                "time": "Time"
+            },
+            "name": "Activity scheduled"
+        },
+        "day": {
+            "fields": {
+                "dayResponsibles": "Responsible of the day"
+            },
+            "name": "Day | Days"
+        }
+    },
+    "contentNode": {
+        "laThematicArea": {
+            "entity": {
+                "option": {
+                    "campsiteAndSurroundings": {
+                        "description": "Construction of a camp \/ surroundings, dismantling \/ setting up of a playground and fabrication of sports equipment.",
+                        "name": "Campsite and Surroundings"
+                    },
+                    "natureAndEnvironment": {
+                        "description": "Fauna and flora, environmental protection in the camp, meteorology and astronomy, transmission techniques, preparation and making a fire.",
+                        "name": "Nature and Environment"
+                    },
+                    "outdoorTechnique": {
+                        "description": "Planning a hike, map reading (e.g. NORDA checklist), croquis, use of instruments (e.g. compass, GPS receiver, altimeter, etc.), orientation in the terrain.",
+                        "name": "Outdoor Technique"
+                    },
+                    "pioneeringTechnique": {
+                        "description": "Setting up a bivouac, building an igloo, knowledge of materials and equipment, equipment maintenance, construction and dismantling of pioneer structures, ropes and knots, zip lines, rope bridges, abseiling.",
+                        "name": "Pioneering Technique"
+                    },
+                    "preventionAndIntegration": {
+                        "description": "Activities promoting prevention and integration or developing participants' skills in this area.",
+                        "name": "Prevention and Integration"
+                    },
+                    "security": {
+                        "description": "Safety during camp activities, measures to be taken in case of accident and alert, first aid, safety considerations.",
+                        "name": "Security"
+                    }
+                }
+            },
+            "name": "LA thematic area",
+            "icon": "mdi-shape"
+        },
+        "notes": {
+            "name": "Notes",
+            "icon": "mdi-pen"
+        },
+        "safetyConcept": {
+            "name": "Safety concept",
+            "icon": "mdi-security"
+        },
+        "storyboard": {
+            "entity": {
+                "section": {
+                    "fields": {
+                        "column1": "Time",
+                        "column2": "Program",
+                        "column3": "Responsible"
+                    },
+                    "name": "Storyboard | Storyboards"
+                }
+            },
+            "name": "Storyboard",
+            "icon": "mdi-script-text-outline"
+        },
+        "storycontext": {
+            "name": "Story",
+            "icon": "mdi-book-open-variant"
+        },
+        "material": {
+            "name": "Material",
+            "icon": "mdi-package-variant"
+        },
+        "columnLayout": {
+            "entity": {
+                "column": {
+                    "name": "Column"
+                }
+            },
+            "icon": "mdi-format-columns",
+            "name": "Column layout"
+        }
+    },
+    "print": {
+        "toc": {
+            "title": "Table of contents"
+        },
+        "cover": {
+            "title": "Cover page"
+        },
+        "program": {
+            "title": "Program"
+        },
+        "story": {
+            "title": "Storyline"
+        },
+        "picasso": {
+            "title": "Program overview for %1$s"
+        }
+    },
+    "story": {
+        "storyDay": {
+            "noStory": "No story content found on this day..."
+        }
+    }
+}
