@@ -1,7 +1,8 @@
 // eslint-disable-next-line no-unused-vars
 import React from 'react'
-import { View, Text } from '../../../reactPdf.js'
+import { Text, View } from '@react-pdf/renderer'
 import RichText from '../../RichText.jsx'
+import InstanceName from '../InstanceName.jsx'
 
 const columnStyles = {
   flexGrow: '1',
@@ -15,10 +16,12 @@ const column1Styles = {
   flexShrink: '0',
   flexGrow: '0',
   paddingRight: '2pt',
+  overflow: 'hidden',
 }
 
 const column2Styles = {
   ...columnStyles,
+  flexBasis: 0,
   flexGrow: '1',
   borderLeft: '1px solid black',
   paddingHorizontal: '2pt',
@@ -31,6 +34,7 @@ const column3Styles = {
   flexGrow: '0',
   borderLeft: '1px solid black',
   paddingLeft: '2pt',
+  overflow: 'hidden',
 }
 
 function Storyboard(props) {
@@ -45,11 +49,7 @@ function Storyboard(props) {
   }))
   return (
     <View style={{ display: 'flex', flexDirection: 'column', marginBottom: '6pt' }}>
-      {storyboard.instanceName ? (
-        <Text style={{ fontWeight: 'bold' }}>{storyboard.instanceName}</Text>
-      ) : (
-        <View />
-      )}
+      <InstanceName contentNode={storyboard} $tc={props.$tc} />
       <View
         style={{
           display: 'flex',
@@ -73,13 +73,13 @@ function Storyboard(props) {
           return (
             <View key={section.key} style={{ display: 'flex', flexDirection: 'row' }}>
               <View style={column1Styles}>
-                <RichText richText={section.column1} />
+                <Text>{section.column1}</Text>
               </View>
               <View style={column2Styles}>
                 <RichText richText={section.column2} />
               </View>
               <View style={column3Styles}>
-                <RichText richText={section.column3} />
+                <Text>{section.column3}</Text>
               </View>
             </View>
           )
