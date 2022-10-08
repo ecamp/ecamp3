@@ -85,7 +85,15 @@ class PeriodDataPersister extends AbstractDataPersister {
                 }
 
                 // Move DayResponsibles
-                foreach ($period->days as $day) {
+                $days = $period->days->getValues();
+                usort($days, fn ($a, $b) => $a->dayOffset <=> $b->dayOffset);
+
+                // UniqueIndex day_campCollaboration_unique forces correct order of Update
+                if ($deltaDaysAtStart > 0) {
+                    $days = array_reverse($days);
+                }
+
+                foreach ($days as $day) {
                     /** @var Day $day */
                     $newDay = $period->days->filter(fn ($d) => $d->dayOffset == $day->dayOffset + $deltaDaysAtStart)->first();
 
