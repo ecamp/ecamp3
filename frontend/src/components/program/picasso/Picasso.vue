@@ -104,15 +104,9 @@ Listing all given activity schedule entries in a calendar view.
       </template>
     </v-calendar>
 
-    <v-snackbar v-model="isSaving" light :color="patchError ? 'orange darken-2' : ''">
-      <template v-if="patchError">
-        <v-icon>mdi-alert</v-icon>
-        {{ patchError }}
-      </template>
-      <template v-else>
-        <v-icon class="mdi-spin">mdi-loading</v-icon>
-        {{ $tc('global.button.saving') }}
-      </template>
+    <v-snackbar v-model="isSaving" light>
+      <v-icon class="mdi-spin">mdi-loading</v-icon>
+      {{ $tc('global.button.saving') }}
     </v-snackbar>
   </div>
 </template>
@@ -126,7 +120,6 @@ import { isCssColor } from 'vuetify/lib/util/colorUtils'
 import { apiStore as api } from '@/plugins/store'
 import { scheduleEntryRoute } from '@/router.js'
 import mergeListeners from '@/helpers/mergeListeners.js'
-import { serverErrorToString } from '@/helpers/serverError.js'
 import {
   timestampToUtcString,
   utcStringToTimestamp,
@@ -134,6 +127,8 @@ import {
 
 import DialogActivityEdit from '../DialogActivityEdit.vue'
 import DayResponsibles from './DayResponsibles.vue'
+import { errorToMultiLineToast } from '@/components/toast/toasts'
+import Vue from 'vue'
 
 export default {
   name: 'Picasso',
@@ -198,7 +193,6 @@ export default {
     const { editable, scheduleEntries } = toRefs(props)
 
     const isSaving = ref(false)
-    const patchError = ref(null)
 
     // callback used to save entry to API
     const updateEntry = (scheduleEntry, startTimestamp, endTimestamp) => {
@@ -209,14 +203,11 @@ export default {
       isSaving.value = true
       api
         .patch(scheduleEntry._meta.self, patchData)
-        .then(() => {
-          patchError.value = null
-          isSaving.value = false
-        })
         .catch((error) => {
-          patchError.value = serverErrorToString(error)
+          Vue.$toast.error(errorToMultiLineToast(error))
         })
         .finally(() => {
+          isSaving.value = false
           reloadScheduleEntries()
         })
     }
@@ -313,7 +304,6 @@ export default {
       startResize: dragAndDropResize.startResize,
       onMouseleave,
       isSaving,
-      patchError,
       reloadScheduleEntries,
       loadCalenderEventsFromScheduleEntries,
       events,

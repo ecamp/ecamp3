@@ -34,6 +34,7 @@
 import DialogForm from '@/components/dialog/DialogForm.vue'
 import DialogBase from '@/components/dialog/DialogBase.vue'
 import campCollaborationDisplayName from '@/common/helpers/campCollaborationDisplayName.js'
+import { errorToMultiLineToast } from '@/components/toast/toasts'
 
 export default {
   name: 'CollaboratorListItemDeactivate',
@@ -58,7 +59,9 @@ export default {
   },
   methods: {
     deactivateUser() {
-      const ok = this.api.patch(this.entity, { status: 'inactive' })
+      const ok = this.api
+        .patch(this.entity, { status: 'inactive' })
+        .catch((e) => this.$toast.error(errorToMultiLineToast(e)))
 
       if (this.isOwnCampCollaboration) {
         // User left camp -> navigate to camp-overview

@@ -43,6 +43,7 @@
 </template>
 <script>
 import { camelCase } from 'lodash'
+import { errorToMultiLineToast } from '@/components/toast/toasts'
 
 export default {
   name: 'ButtonNestedContentNodeAdd',
@@ -95,7 +96,7 @@ export default {
 
         await this.allContentNodes().$reload()
       } catch (error) {
-        console.log(error) // TO DO: display error message in error snackbar/toast
+        this.$toast.error(errorToMultiLineToast(error))
       }
       this.isAdding = false
     },

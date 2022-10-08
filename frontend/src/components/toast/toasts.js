@@ -36,4 +36,8 @@ function violationsToFlatArray(e) {
   return result
 }
 
-export { multiLineToast, violationsToFlatArray }
+function errorToMultiLineToast(error) {
+  return multiLineToast(violationsToFlatArray(error))
+}
+
+export { errorToMultiLineToast, multiLineToast, violationsToFlatArray }
