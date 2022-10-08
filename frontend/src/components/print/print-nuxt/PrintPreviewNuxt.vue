@@ -34,12 +34,10 @@
 </template>
 
 <script>
-import DownloadNuxtPdfButton from '@/components/print/print-nuxt/DownloadNuxtPdfButton.vue'
 const PRINT_SERVER = window.environment.PRINT_SERVER
 
 export default {
   name: 'PrintPreviewNuxt',
-  components: { DownloadNuxtPdfButton },
   props: {
     config: {
       type: Object,
