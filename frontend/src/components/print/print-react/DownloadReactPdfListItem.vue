@@ -1,5 +1,5 @@
 <template>
-  <v-list-item :disabled="loading" @click="generatePdf">
+  <v-list-item :disabled="loading" @click.stop="generatePdf">
     <v-list-item-icon>
       <v-icon v-if="loading" class="mdi-spin">mdi-loading</v-icon>
       <v-icon v-else>mdi-printer</v-icon>
