@@ -11,6 +11,8 @@ Displays a field as a date picker (can be used with v-model)
     :parse="parse"
     :parse-picker="parsePicker"
     :required="required"
+    :vee-id="veeId"
+    :vee-rules="veeRules"
     v-bind="$attrs"
     @input="$emit('input', $event)"
   >

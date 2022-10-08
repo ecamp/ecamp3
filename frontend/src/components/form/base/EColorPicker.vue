@@ -7,8 +7,9 @@ Displays a field as a color picker (can be used with v-model)
     :icon-color="value"
     :value="value"
     v-bind="$attrs"
+    :vee-id="veeId"
     :parse-picker="parsePicker"
-    :vee-rules="{ regex: /#([a-f0-9]{3}){1,2}\b/i }"
+    :vee-rules="veeRules || { regex: /#([a-f0-9]{3}){1,2}\b/i }"
     :required="required"
     @input="$emit('input', $event)"
   >

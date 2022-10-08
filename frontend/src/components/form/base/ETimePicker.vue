@@ -12,6 +12,8 @@ Allows 15min steps only
     :parse="parse"
     :parse-picker="parsePicker"
     v-bind="$attrs"
+    :vee-id="veeId"
+    :vee-rules="veeRules"
     @input="$emit('input', $event)"
   >
     <template slot-scope="picker">
