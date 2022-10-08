@@ -1,7 +1,7 @@
 <template>
   <div style="position: relative">
     <iframe
-      :src="url + '#navpanes=0&pagemode=none&zoom=page-fit'"
+      :src="urlWithPagemodes"
       :title="$tc('views.camp.print.previewIframeTitle')"
       class="d-block"
       v-bind="$attrs"
@@ -39,6 +39,10 @@ export default {
   computed: {
     language() {
       return this.$store.state.lang.language
+    },
+    urlWithPagemodes() {
+      if (!this.url) return null
+      return this.url + '#navpanes=0&pagemode=none&zoom=page-fit'
     },
   },
   watch: {

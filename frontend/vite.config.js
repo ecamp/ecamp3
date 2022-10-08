@@ -27,6 +27,7 @@ export default defineConfig(({ mode }) => ({
       'core-js/modules/es.array.concat.js',
       'core-js/modules/es.array.splice.js',
       'core-js/modules/es.array.find.js',
+      'core-js/modules/es.array.push.js',
       'core-js/modules/es.object.to-string.js',
       '@sentry/browser',
       'raf/polyfill',
