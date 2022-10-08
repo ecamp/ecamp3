@@ -20,6 +20,7 @@
       <e-text-field
         id="inputEmail"
         v-model="email"
+        vee-rules="email|required"
         autofocus
         :label="$tc('views.auth.login.email')"
         name="email"
@@ -32,6 +33,7 @@
         id="inputPassword"
         v-model="password"
         :label="$tc('views.auth.login.password')"
+        vee-rules="required"
         name="password"
         append-icon="mdi-lock-outline"
         :dense="$vuetify.breakpoint.xsOnly"

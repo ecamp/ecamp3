@@ -6,12 +6,14 @@
     :name="name"
     :vid="veeId"
     :rules="veeRules"
+    :required="required"
     class="e-form-container"
   >
     <v-text-field
       ref="textField"
       v-bind="$attrs"
       :filled="filled"
+      :required="required"
       :hide-details="hideDetails"
       :error-messages="veeErrors.concat(errorMessages)"
       :label="label || name"
@@ -31,11 +33,12 @@
 <script>
 import { ValidationProvider } from 'vee-validate'
 import { formComponentPropsMixin } from '@/mixins/formComponentPropsMixin.js'
+import { formComponentMixin } from '@/mixins/formComponentMixin.js'
 
 export default {
   name: 'ETextField',
   components: { ValidationProvider },
-  mixins: [formComponentPropsMixin],
+  mixins: [formComponentPropsMixin, formComponentMixin],
   props: {
     type: {
       type: String,

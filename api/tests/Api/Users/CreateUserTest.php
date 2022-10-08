@@ -571,7 +571,47 @@ class CreateUserTest extends ECampApiTestCase {
             'violations' => [
                 [
                     'propertyPath' => 'password',
-                    'message' => 'This value is too short. It should have 8 characters or more.',
+                    'message' => 'This value is too short. It should have 12 characters or more.',
+                ],
+            ],
+        ]);
+    }
+
+    public function testCreateUserValidatesShortPassword() {
+        static::createClientWithCredentials()->request('POST', '/users', ['json' => $this->getExampleWritePayload([
+            'password' => 'only11chars',
+        ])]);
+
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [
+                    'propertyPath' => 'password',
+                    'message' => 'This value is too short. It should have 12 characters or more.',
+                ],
+            ],
+        ]);
+    }
+
+    public function testCreateUserAllowsLongPassword() {
+        static::createClientWithCredentials()->request('POST', '/users', ['json' => $this->getExampleWritePayload([
+            'password' => 'this password has a total of 122 characters. this password has a total of 122 characters. OWASP approves of this password.',
+        ])]);
+
+        $this->assertResponseStatusCodeSame(201);
+    }
+
+    public function testCreateUserValidatesUnreasonablyLongPassword() {
+        static::createClientWithCredentials()->request('POST', '/users', ['json' => $this->getExampleWritePayload([
+            'password' => 'this password has a total of more than 128 characters. this password has a total of more than 128 characters. OWASP does not approve this password.',
+        ])]);
+
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [
+                    'propertyPath' => 'password',
+                    'message' => 'This value is too long. It should have 128 characters or less.',
                 ],
             ],
         ]);

@@ -256,8 +256,7 @@
     },
     "validation": {
       "greaterThanOrEqual_date": "{_field_} darf nicht vor {min} liegen",
-      "greaterThan_time": "{_field_} muss später als {min} sein",
-      "pwConfirmed": "Passwort stimmt nicht überein"
+      "greaterThan_time": "{_field_} muss später als {min} sein"
     }
   },
   "views": {

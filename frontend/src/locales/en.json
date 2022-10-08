@@ -288,8 +288,7 @@
     },
     "validation": {
       "greaterThanOrEqual_date": "{_field_} may not be earlier than {min}",
-      "greaterThan_time": "{_field_} must be later than {min}",
-      "pwConfirmed": "Password does not match"
+      "greaterThan_time": "{_field_} must be later than {min}"
     }
   },
   "views": {
@@ -335,7 +334,7 @@
       "register": {
         "acceptTermsOfUse": "Accept the terms of use",
         "alreadyHaveAnAccount": "Already have an account?",
-        "passwordConfirmation": "Enter Password again",
+        "passwordConfirmation": "Enter password again",
         "register": "Register",
         "requiredField": "required field",
         "title": "Create an account"

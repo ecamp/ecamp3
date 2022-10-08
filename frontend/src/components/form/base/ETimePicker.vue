@@ -12,6 +12,8 @@ Allows 15min steps only
     :parse="parse"
     :parse-picker="parsePicker"
     v-bind="$attrs"
+    :vee-id="veeId"
+    :vee-rules="veeRules"
     @input="$emit('input', $event)"
   >
     <template slot-scope="picker">
@@ -42,10 +44,12 @@ Allows 15min steps only
 <script>
 import BasePicker from './BasePicker.vue'
 import { HTML5_FMT } from '@/common/helpers/dateFormat.js'
+import { formComponentMixin } from '@/mixins/formComponentMixin.js'
 
 export default {
   name: 'ETimePicker',
   components: { BasePicker },
+  mixins: [formComponentMixin],
   props: {
     icon: { type: String, required: false, default: 'mdi-clock-outline' },
     value: { type: [Number, String], required: true },
