@@ -2,8 +2,8 @@
   <content-card :title="$tc('views.camp.story.title')" toolbar>
     <template #title-actions>
       <period-switcher :period="period" :route-name="'camp/period/story'" />
-      <LockIcon v-model="editing" :hide-tooltip="isContributor" />
       <v-spacer />
+      <LockIcon v-model="editing" :hide-tooltip="isContributor" />
       <v-menu offset-y>
         <template #activator="{ on, attrs }">
           <v-btn class="ml-auto" text icon v-bind="attrs" v-on="on">

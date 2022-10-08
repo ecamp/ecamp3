@@ -34,14 +34,16 @@ export default {
   methods: {
     computeExpandedDays(period) {
       period.days()._meta.load.then((days) => {
-        const now = new Date()
-        if (Date.parse(period.end) < now) {
+        const periodEndInLocalTimezone = this.$date(period.end).add(1, 'days')
+
+        if (periodEndInLocalTimezone.isBefore(this.$date())) {
           this.expandedDays = [...Array(days.items.length).keys()]
           return
         }
-        this.expandedDays = days.items.map((day, idx) =>
-          Date.parse(day.end) >= now ? idx : null
-        )
+        this.expandedDays = days.items.map((day, idx) => {
+          const dayInLocalTimezone = this.$date(day.end.substr(0, 10))
+          return dayInLocalTimezone.isAfter(this.$date()) ? idx : null
+        })
       })
     },
   },

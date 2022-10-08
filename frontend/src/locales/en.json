@@ -109,6 +109,9 @@
         "datetime": {
           "date": "dd. D.MM | D. MMM | DD. MMM YYYY"
         }
+      },
+      "periodSwitcher": {
+        "title": "Choose period"
       }
     },
     "dialog": {
