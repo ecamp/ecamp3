@@ -1,390 +1,475 @@
 {
-  "components": {
-    "activity": {
-      "contentNode": {
-        "editName": "Namen umbenennen",
-        "moveDown": "Nach unten bewegen",
-        "moveUp": "Nach oben bewegen"
-      },
-      "createScheduleEntries": {
-        "fields": {
-          "duration": "Länge",
-          "end": "Ende",
-          "start": "Start"
+    "entity": {
+        "user": {
+            "fields": {
+                "nickname": "Spitzname",
+                "birthday": "Geburtstag",
+                "email": "E-Mail-Adresse",
+                "firstname": "Vorname",
+                "language": "Sprache",
+                "password": "Passwort",
+                "surname": "Nachname"
+            },
+            "name": "User"
+        }
+    },
+    "global": {
+        "language": "Deutsch",
+        "button": {
+            "add": "Hinzufügen",
+            "back": "Zurück",
+            "cancel": "Abbrechen",
+            "content": "Inhalt",
+            "create": "Erstellen",
+            "delete": "Löschen",
+            "deleteEntity": "",
+            "edit": "Bearbeiten",
+            "editable": "Bearbeitbar",
+            "logout": "Ausloggen",
+            "ok": "In Ordnung",
+            "open": "Öffnen",
+            "save": "Speichern",
+            "saving": "Speichert",
+            "submit": "Abschicken",
+            "tryagain": "Erneut versuchen",
+            "update": "Aktualisieren",
+            "close": "Schliessen",
+            "search": "Suchen",
+            "lock": "Sperren",
+            "unlock": "Entsperren"
         },
-        "name": "Geplante Termine"
-      },
-      "content": {
-        "storyboard": {
-          "section": {
-            "deleteWarning": "Möchtest du diesen Abschnitt wirklich löschen?"
-          }
-        }
-      }
-    },
-    "camp": {
-      "campAddress": {
-        "title": "Lageradresse"
-      },
-      "campCategories": {
-        "create": "Block-Kategorie erstellen",
-        "deleteCategoryNotPossibleInUse": "Block-Kategorie kann nicht gelöscht werden. Sie wird noch verwendet:",
-        "deleteCategoryQuestion": "Möchtest du diese Block-Kategorie wirklich löschen?",
-        "editLayout": "Layout bearbeiten",
-        "title": "Block-Kategorien"
-      },
-      "campInvitations": {
-        "title": "Einladen"
-      },
-      "campMaterialLists": {
-        "createMaterialList": "Materialliste erstellen",
-        "title": "Materiallisten"
-      },
-      "campMaterialListsItem": {
-        "deleteWarning": "Möchtest du diese Materialliste wirklich löschen?",
-        "deleteError": "Materialliste konnte nicht gelöscht werden. Überprüfe vor dem Löschen, dass die Liste leer ist."
-      },
-      "campMembers": {
-        "title": "Mitglieder"
-      },
-      "campPeriods": {
-        "createPeriod": "Lagerabschnitt erstellen",
-        "title": "Lagerabschnitt | Lagerabschnitte"
-      },
-      "campPeriodsListItem": {
-        "deleteWarning": "Möchtest du diese Periode wirklich löschen?",
-        "lastPeriodNotDeletable": "Die letzte Periode kann nicht gelöscht werden."
-      },
-      "campSettings": {
-        "fields": {
-          "motto": "Motto",
-          "name": "Name",
-          "title": "Titel"
+        "changeLanguage": "Sprache ändern",
+        "empty": {
+            "list": "",
+            "result": "Kein Resultat | Keine Resultate",
+            "resultFor": "Kein Resultat für %1$s | Keine Resultate für %1$s"
         },
-        "title": "Einstellungen"
-      },
-      "collaboratorListItem": {
-        "cannotAssignAnotherRoleToLastManager": "Du kannst dem letzten Manager keine andere Rolle zuteilen.",
-        "cannotRemoveLastManager": "Du kannst den letzten Manager nicht entfernen",
-        "deactivate": "Deaktivieren",
-        "resendEmail": "E-Mail erneut senden"
-      },
-      "collaboratorListItemDeactivate": {
-        "deactivate": "Deaktivieren",
-        "title": "Mitarbeiter:in deaktivieren",
-        "warningText": "Möchtest du '{name}' wirklich deaktivieren?"
-      },
-      "inactiveCampCollaboratorListItem": {
-        "inviteAgain": "Erneut einladen",
-        "delete": "Möchtest du diese:n Mitarbeiter:in wirklich entfernen?"
-      },
-      "materialCreateItem": {
-        "campSettingsButton": "Einstellungen",
-        "noMaterialListAvailable": "Für dieses Lager sind noch keine Materiallisten erfasst. Du kannst diese unter 'Admin' erfassen."
-      },
-      "periodSwitcher": {
-        "title": "Lagerabschnitt"
-      },
-      "picasso": {
-        "datetime": {
-          "date": "dd. D.MM | D. MMM | DD. MMM YYYY"
+        "loading": "",
+        "lokaliseMessage": "Übersetzungen unterstützt durch lokalise.com",
+        "serverError": {
+            "409": "Uuuups... Diese Aktion hat zu einem Fehler auf dem Server geführt.",
+            "short": "Serverfehler"
+        },
+        "validation": {
+            "pwConfirmed": "Passwort stimmt nicht überein",
+            "greaterThanOrEqual_date": "%1$s darf nicht vor %1$s liegen",
+            "greaterThan_time": "%1$s muss später als %1$s sein"
         }
-      }
     },
-    "print": {
-      "documents": {
-        "campPrint": {
-          "filename": {
-            "activitiesOnly": "Aktivitäten {camp}",
-            "picassoOnly": "Grobprogramm {camp}"
-          }
+    "views": {
+        "camp": {
+            "story": {
+                "title": "Geschichte",
+                "editModeOff": "",
+                "editModeOn": ""
+            },
+            "admin": {
+                "collaborators": "Team verwalten",
+                "title": "Admin"
+            },
+            "collaborators": {
+                "email": "E-Mail-Adresse",
+                "invite": "Einladen",
+                "inactiveCollaborators": "Inaktiv",
+                "members": "Mitarbeitende",
+                "openInvitations": "Offene Einladungen",
+                "title": "Team"
+            },
+            "dashboard": {
+                "noActivitiesLine1": "Du bist noch für keinen Block zuständig.",
+                "noActivitiesLine2": "Den ganzen Picasso kannst du dir hier ansehen.",
+                "program": "Programm",
+                "viewDescription": "Du arbeitest an \"%1$s\" mit. Hier siehst du alle Blöcke, für welche du zuständig bist."
+            },
+            "material": {
+                "showActivityMaterial": "Aktivitätsmaterial anzeigen",
+                "showActivityMaterialShort": "inkl. Aktivität",
+                "title": "Material",
+                "groupByList": "Nach Materialliste gruppieren",
+                "downloadXlsx": "Download",
+                "xlsx": {
+                    "filename": "Materialliste",
+                    "quantity": "Menge",
+                    "unit": "Einheit",
+                    "article": "Artikel",
+                    "matlist": "Liste",
+                    "activity": "Aktivität"
+                }
+            },
+            "print": {
+                "title": "Druckvorschau",
+                "previewError": "Etwas hat nicht geklappt. Probiere es nochmals mit anderen Druckeinstellungen, oder lade die Seite neu.",
+                "previewIframeTitle": "Druckvorschau"
+            },
+            "sideBarPeriods": {
+                "title": ""
+            },
+            "picasso": {
+                "editMode": "Editiermodus",
+                "title": "Grobprogramm",
+                "guestsCannotEdit": ""
+            },
+            "navigation": {
+                "desktop": {
+                    "navTopbar": {
+                        "admin": "Admin",
+                        "campIsLoading": "Lager wird geladen",
+                        "material": "Material",
+                        "print": "Drucken",
+                        "program": "Programm",
+                        "story": "Geschichte",
+                        "team": "Team"
+                    },
+                    "navDesktop": {
+                        "story": ""
+                    }
+                },
+                "mobile": {
+                    "navBottombar": {
+                        "material": "Material",
+                        "more": "Mehr",
+                        "program": "Programm",
+                        "story": "Geschichte"
+                    },
+                    "navSidebar": {
+                        "itemCampAdmin": "Lagereinstellungen",
+                        "itemCamps": "Meine Lager",
+                        "itemClose": "Menü schliessen",
+                        "itemCollaborators": "Team",
+                        "itemPrinting": "PDF \/ Drucken"
+                    },
+                    "navMobileBottom": {
+                        "story": ""
+                    }
+                }
+            }
+        },
+        "activity": {
+            "activity": {
+                "back": "",
+                "backToContents": "",
+                "changeLayout": "Layout ändern",
+                "layout": "Layout"
+            },
+            "sideBarProgram": {
+                "title": "Tagesübersicht"
+            },
+            "printPreview": "Druckvorschau öffnen",
+            "deleteWarning": "Möchtest du diese Aktivität wirklich löschen? Der komplette Inhalt dieser Aktivität wird gelöscht."
+        },
+        "auth": {
+            "activate": {
+                "title": "",
+                "success": "",
+                "error": "Aktivierung fehlgeschlagen"
+            },
+            "login": {
+                "accountless": "Hast du noch keinen Account?",
+                "beta": {
+                    "notice": "Hier entsteht das neue eCamp.<br>WICHTIG: Diese Webseite befindet sich im Aufbau. Das heisst, dass alle Daten öffentlich sind und periodisch gelöscht werden!"
+                },
+                "loginCallback": {
+                    "loginInProgress": "Du wirst eingeloggt"
+                },
+                "or": "oder",
+                "password": "Passwort",
+                "passwordForgotten": "Passwort vergessen?",
+                "provider": {
+                    "ecamp": "Anmelden mit eCamp",
+                    "google": "Anmelden mit Google",
+                    "midata": "Anmelden mit MiData",
+                    "cevidb": "Anmelden mit CeviDB"
+                },
+                "registernow": "Jetzt registrieren",
+                "title": "Anmelden",
+                "email": "E-Mail"
+            },
+            "register": {
+                "acceptTermsOfUse": "Akzeptieren Sie die Nutzungsbedingungen",
+                "alreadyHaveAnAccount": "Haben Sie bereits ein Konto?",
+                "login": "Anmelden",
+                "openTermsOfUse": "",
+                "passwordConfirmation": "Passwort erneut eingeben",
+                "register": "Registrieren",
+                "title": "Ein Konto erstellen",
+                "requiredField": "Pflichtfelder"
+            },
+            "registerDone": {
+                "login": "Anmelden",
+                "success": "Erfolgreich registriert",
+                "title": "Konto erstellen",
+                "message": "Wir haben dir eine Mail geschickt. Bitte schliesse die Registrierung ab, in dem du den Aktivierungs-Link im Mail aufrufst."
+            },
+            "resetPassword": {
+                "back": "Zurück zum Login",
+                "errorMessage": "Passwort konnte nicht geändert werden.",
+                "invalidRequest": "Ungültiger Link",
+                "password": "Neues Passwort",
+                "passwordConfirmation": "Neues Passwort wiederholen",
+                "send": "Passwort setzen",
+                "successMessage": "Neues Passwort erfolgreich gesetzt.",
+                "title": "Neues Passwort setzen"
+            },
+            "resetPasswordRequest": {
+                "back": "Zurück zum Login",
+                "errorMessage": "Passwort zurücksetzen nicht möglich.",
+                "send": "Abschicken",
+                "successMessage": "Mail mit Link für 'Passwort zurücksetzen' wird versendet.",
+                "title": "Passwort zurücksetzen"
+            }
+        },
+        "campCreate": {
+            "create": "Lager erstellen",
+            "period": {
+                "add": "Weiteren Lagerabschnitt hinzufügen",
+                "remove": "Diesen Lagerabschnitt entfernen"
+            },
+            "title": "Lager erstellen"
+        },
+        "camps": {
+            "create": "Lager erstellen",
+            "pastCamps": "Alte Lager",
+            "prototypeCamps": "Vorlagen",
+            "title": "Mein Lager | Meine Lager"
+        },
+        "profile": {
+            "profile": "Profil",
+            "changeEmail": "Ändern"
         }
-      },
-      "localPdfDownloadButton": {
-        "error": "Etwas hat nicht geklappt. Probiere es nochmals, oder lade die Seite neu."
-      },
-      "printConfigurator": {
-        "config": {
-          "Activity": "Einzelaktivität",
-          "Cover": "Titelseite",
-          "Picasso": "Grobprogramm",
-          "Story": "Roter Faden",
-          "Program": "Programm",
-          "Toc": "Inhaltsverzeichnis",
-          "ProgramConfig": {
-            "dayOverview": "Tagesübersicht drucken"
-          }
+    },
+    "components": {
+        "activity": {
+            "content": {
+                "columnLayout": {
+                    "resizableColumn": {
+                        "addColumn": "",
+                        "removeColumn": ""
+                    }
+                },
+                "storyboard": {
+                    "section": {
+                        "deleteWarning": "Möchtest du diesen Abschnitt wirklich löschen?"
+                    }
+                }
+            },
+            "contentNode": {
+                "delete": "",
+                "editName": "Namen umbenennen",
+                "moveDown": "Nach unten bewegen",
+                "moveUp": "Nach oben bewegen"
+            },
+            "createScheduleEntries": {
+                "fields": {
+                    "duration": "Länge",
+                    "end": "Ende",
+                    "start": "Start"
+                },
+                "name": "Geplante Termine"
+            },
+            "menuCardlessContentNode": {
+                "delete": "",
+                "deletingDisabled": ""
+            }
+        },
+        "camp": {
+            "campAddress": {
+                "title": "Lageradresse"
+            },
+            "campCategories": {
+                "create": "Block-Kategorie erstellen",
+                "deleteCategoryNotPossibleInUse": "Block-Kategorie kann nicht gelöscht werden. Sie wird noch verwendet:",
+                "deleteCategoryQuestion": "Möchtest du diese Block-Kategorie wirklich löschen?",
+                "editLayout": "Layout bearbeiten",
+                "title": "Block-Kategorien"
+            },
+            "campDangerzone": {
+                "deleteCamp": {
+                    "action": "",
+                    "description": "Nachdem ein Lager gelöscht ist, gibt es kein zurück mehr. Bitte fahre nur fort, wenn du sicher bist.",
+                    "explanation": "Diese Aktion kann nicht rückgängig gemacht werden. Dadurch wird das Lager \"%1$s\" inklusive allen Aktivitäten, Materiallisten und Verantwortungszuweisungen dauerhaft gelöscht.",
+                    "label": "Bitte gib zur Bestätigung \"%1$s\" ein.",
+                    "title": "Lager löschen"
+                },
+                "title": "Gefahrenzone"
+            },
+            "campInvitations": {
+                "title": "Einladen"
+            },
+            "campMaterialLists": {
+                "createMaterialList": "Materialliste erstellen",
+                "title": "Materiallisten"
+            },
+            "campMaterialListsItem": {
+                "deleteWarning": "Möchtest du diese Materialliste wirklich löschen?",
+                "deleteError": "Materialliste konnte nicht gelöscht werden. Überprüfe vor dem Löschen, dass die Liste leer ist."
+            },
+            "campMembers": {
+                "title": "Mitglieder"
+            },
+            "campPeriods": {
+                "createPeriod": "Lagerabschnitt erstellen",
+                "title": "Lagerabschnitt | Lagerabschnitte"
+            },
+            "campPeriodsListItem": {
+                "deleteWarning": "Möchtest du diese Periode wirklich löschen?",
+                "lastPeriodNotDeletable": "Die letzte Periode kann nicht gelöscht werden."
+            },
+            "campSettings": {
+                "fields": {
+                    "motto": "Motto",
+                    "name": "Name",
+                    "title": "Titel"
+                },
+                "title": "Einstellungen"
+            },
+            "collaboratorListItem": {
+                "cannotAssignAnotherRoleToLastManager": "Du kannst dem letzten Manager keine andere Rolle zuteilen.",
+                "cannotRemoveLastManager": "Du kannst den letzten Manager nicht entfernen",
+                "deactivate": "Deaktivieren",
+                "resendEmail": "E-Mail erneut senden",
+                "remove": ""
+            },
+            "inactiveCampCollaboratorListItem": {
+                "inviteAgain": "Erneut einladen",
+                "delete": "Möchtest du diese:n Mitarbeiter:in wirklich entfernen?"
+            },
+            "periodMaterialLists": {
+                "addNewItem": ""
+            },
+            "picasso": {
+                "datetime": {
+                    "date": "dd. D.MM | D. MMM | DD. MMM YYYY"
+                }
+            },
+            "collaboratorListItemDeactivate": {
+                "deactivate": "Deaktivieren",
+                "title": "Mitarbeiter:in deaktivieren",
+                "warningText": "Möchtest du '%1$s' wirklich deaktivieren?"
+            },
+            "materialCreateItem": {
+                "campSettingsButton": "Einstellungen",
+                "noMaterialListAvailable": "Für dieses Lager sind noch keine Materiallisten erfasst. Du kannst diese unter 'Admin' erfassen."
+            },
+            "periodSwitcher": {
+                "title": "Lagerabschnitt"
+            }
+        },
+        "print": {
+            "localPdfDownloadButton": {
+                "error": "Etwas hat nicht geklappt. Probiere es nochmals, oder lade die Seite neu."
+            },
+            "printConfigurator": {
+                "config": {
+                    "Activity": "Einzelaktivität",
+                    "Cover": "Titelseite",
+                    "Picasso": "Grobprogramm",
+                    "Story": "Roter Faden",
+                    "Program": "Programm",
+                    "Toc": "Inhaltsverzeichnis",
+                    "ProgramConfig": {
+                        "dayOverview": "Tagesübersicht drucken"
+                    }
+                }
+            },
+            "printPreviewNuxt": {
+                "openPreview": "Vorschau in neuem Fenster öffnen"
+            },
+            "printNuxt": {
+                "downloadNuxtPdfListItem": {
+                    "label": "PDF herunterladen",
+                    "error": "Etwas hat nicht geklappt. Probiere es nochmals, oder lade die Seite neu."
+                }
+            },
+            "printReact": {
+                "downloadNuxtPdfListItem": {
+                    "label": "PDF herunterladen",
+                    "error": "Etwas hat nicht geklappt. Probiere es nochmals, oder lade die Seite neu."
+                }
+            },
+            "documents": {
+                "campPrint": {
+                    "filename": {
+                        "activitiesOnly": "Aktivitäten %1$s",
+                        "picassoOnly": "Grobprogramm %1$s"
+                    }
+                }
+            }
+        },
+        "dialog": {
+            "dialogCategoryCreate": {
+                "title": "Block-Kategorie erstellen"
+            },
+            "dialogEntityDelete": {
+                "title": "Wirklich löschen?",
+                "warningText": "Möchtest du das wirklich löschen?"
+            },
+            "dialogMaterialItemCreate": {
+                "title": ""
+            },
+            "dialogMaterialListCreate": {
+                "title": "Materialliste erstellen"
+            },
+            "dialogPeriodCreate": {
+                "title": "Lagerabschnitt erstellen"
+            },
+            "dialogPeriodEdit": {
+                "moveScheduleEntries": "Aktivitäten verschieben"
+            }
+        },
+        "invitation": {
+            "acceptCurrentAuth": "",
+            "backToHome": "",
+            "error": "",
+            "login": "",
+            "notFound": "Die Einladung wurde bereits angenommen oder gelöscht",
+            "register": "Registrieren",
+            "reject": "Einladung ablehnen",
+            "title": "",
+            "useOtherAuth": "Ausloggen und einen anderen Account benutzen",
+            "userAlreadyInCamp": "Du arbeitest schon an diesem Lager mit",
+            "userWelcome": "Willkommen",
+            "openCamp": "Lager öffnen",
+            "successfullyRejected": "Die Einladung wurde erfolgreich abgelehnt"
+        },
+        "layout": {
+            "authContainer": {
+                "photoCredits": "Foto von Markus Rohner \/ Lotos"
+            }
+        },
+        "navigation": {
+            "searchDesktop": {
+                "search": ""
+            },
+            "searchMobile": {
+                "allCamps": "Alle Lager",
+                "search": "",
+                "searchActivitiesAndCamps": "Aktivitäten und Lager suchen"
+            },
+            "userMeta": {
+                "logOut": "Ausloggen",
+                "myCamps": "Mein Lager | Meine Lager",
+                "profile": "Profil"
+            }
+        },
+        "user": {
+            "dialogChangeMail": {
+                "title": "E-Mail-Adresse ändern",
+                "message": "Zur Verifikation schicken wir dir eine Mail.",
+                "success": "Bevor du die neue E-Mail-Adresse verwenden kannst, muss du diese verifizieren. Prüfe jetzt deine Mailbox.",
+                "error": "Leider ist ein Fehler aufgetreten."
+            },
+            "dialogChangeMailRunning": {
+                "title": "E-Mail-Adresse wird geändert",
+                "message": "E-Mail-Adresse wird geändert...",
+                "success": "E-Mail-Adresse erfolgreich geändert.",
+                "error": "Leider ist ein Fehler aufgetreten."
+            }
         }
-      },
-      "printNuxt": {
-        "downloadNuxtPdfListItem": {
-          "label": "PDF herunterladen",
-          "error": "Etwas hat nicht geklappt. Probiere es nochmals, oder lade die Seite neu."
+    },
+    "contentNode": {
+        "storycontext": {
+            "add": "",
+            "name": ""
         }
-      },
-      "printPreviewNuxt": {
-        "openPreview": "Vorschau in neuem Fenster öffnen"
-      },
-      "printReact": {
-        "downloadNuxtPdfListItem": {
-          "label": "PDF herunterladen",
-          "error": "Etwas hat nicht geklappt. Probiere es nochmals, oder lade die Seite neu."
-        }
-      }
-    },
-    "dialog": {
-      "dialogCategoryCreate": {
-        "title": "Block-Kategorie erstellen"
-      },
-      "dialogEntityDelete": {
-        "title": "Wirklich löschen?",
-        "warningText": "Möchtest du das wirklich löschen?"
-      },
-      "dialogPeriodCreate": {
-        "title": "Lagerabschnitt erstellen"
-      },
-      "dialogPeriodEdit": {
-        "moveScheduleEntries": "Aktivitäten verschieben"
-      }
-    },
-    "layout": {
-      "authContainer": {
-        "photoCredits": "Foto von Markus Rohner / Lotos"
-      }
-    },
-    "navigation": {
-      "searchMobile": {
-        "allCamps": "Alle Lager",
-        "searchActivitiesAndCamps": "Aktivitäten und Lager suchen"
-      },
-      "userMeta": {
-        "logOut": "Ausloggen",
-        "myCamps": "Mein Lager | Meine Lager",
-        "profile": "Profil"
-      }
-    },
-    "user": {
-      "dialogChangeMail": {
-        "title": "E-Mail-Adresse ändern",
-        "message": "Zur Verifikation schicken wir dir eine Mail.",
-        "success": "Bevor du die neue E-Mail-Adresse verwenden kannst, muss du diese verifizieren. Prüfe jetzt deine Mailbox.",
-        "error": "Leider ist ein Fehler aufgetreten."
-      },
-      "dialogChangeMailRunning": {
-        "title": "E-Mail-Adresse wird geändert",
-        "message": "E-Mail-Adresse wird geändert...",
-        "success": "E-Mail-Adresse erfolgreich geändert.",
-        "error": "Leider ist ein Fehler aufgetreten."
-      }
     }
-  },
-  "entity": {
-    "user": {
-      "fields": {
-        "birthday": "Geburtstag",
-        "email": "E-Mail-Adresse",
-        "firstname": "Vorname",
-        "language": "Sprache",
-        "nickname": "Spitzname",
-        "password": "Passwort",
-        "surname": "Nachname"
-      },
-      "name": "User"
-    }
-  },
-  "global": {
-    "button": {
-      "add": "Hinzufügen",
-      "back": "Zurück",
-      "cancel": "Abbrechen",
-      "close": "Schliessen",
-      "content": "Inhalt",
-      "create": "Erstellen",
-      "delete": "Löschen",
-      "edit": "Bearbeiten",
-      "editable": "Bearbeitbar",
-      "lock": "Sperren",
-      "logout": "Ausloggen",
-      "ok": "In Ordnung",
-      "open": "Öffnen",
-      "save": "Speichern",
-      "saving": "Speichert",
-      "search": "Suchen",
-      "submit": "Abschicken",
-      "tryagain": "Erneut versuchen",
-      "unlock": "Entsperren",
-      "update": "Aktualisieren"
-    },
-    "changeLanguage": "Sprache ändern",
-    "empty": {
-      "result": "Kein Resultat | Keine Resultate",
-      "resultFor": "Kein Resultat für {search} | Keine Resultate für {search}"
-    },
-    "language": "Deutsch",
-    "lokaliseMessage": "Übersetzungen unterstützt durch lokalise.com",
-    "serverError": {
-      "409": "Uuuups... Diese Aktion hat zu einem Fehler auf dem Server geführt.",
-      "short": "Serverfehler"
-    },
-    "validation": {
-      "greaterThanOrEqual_date": "{_field_} darf nicht vor {min} liegen",
-      "greaterThan_time": "{_field_} muss später als {min} sein",
-      "pwConfirmed": "Passwort stimmt nicht überein"
-    }
-  },
-  "views": {
-    "activity": {
-      "activity": {
-        "changeLayout": "Layout ändern",
-        "layout": "Layout"
-      },
-      "sideBarProgram": {
-        "title": "Tagesübersicht"
-      },
-      "printPreview": "Druckvorschau öffnen",
-      "deleteWarning": "Möchtest du diese Aktivität wirklich löschen? Der komplette Inhalt dieser Aktivität wird gelöscht."
-    },
-    "auth": {
-      "login": {
-        "accountless": "Hast du noch keinen Account?",
-        "beta": {
-          "notice": "Hier entsteht das neue eCamp.<br>WICHTIG: Diese Webseite befindet sich im Aufbau. Das heisst, dass alle Daten öffentlich sind und periodisch gelöscht werden!"
-        },
-        "loginCallback": {
-          "loginInProgress": "Du wirst eingeloggt"
-        },
-        "or": "oder",
-        "password": "Passwort",
-        "passwordForgotten": "Passwort vergessen?",
-        "provider": {
-          "ecamp": "Anmelden mit eCamp",
-          "google": "Anmelden mit Google",
-          "midata": "Anmelden mit MiData",
-          "cevidb": "Anmelden mit CeviDB"
-        },
-        "registernow": "Jetzt registrieren",
-        "title": "Anmelden",
-        "email": "E-Mail"
-      },
-      "register": {
-        "acceptTermsOfUse": "Akzeptieren Sie die Nutzungsbedingungen",
-        "alreadyHaveAnAccount": "Haben Sie bereits ein Konto?",
-        "login": "Anmelden",
-        "passwordConfirmation": "Passwort erneut eingeben",
-        "register": "Registrieren",
-        "requiredField": "Pflichtfelder",
-        "title": "Ein Konto erstellen"
-      },
-      "registerDone": {
-        "login": "Anmelden",
-        "success": "Erfolgreich registriert",
-        "message": "Wir haben dir eine Mail geschickt. Bitte schliesse die Registrierung ab, in dem du den Aktivierungs-Link im Mail aufrufst.",
-        "title": "Konto erstellen"
-      },
-      "resetPassword": {
-        "back": "Zurück zum Login",
-        "errorMessage": "Passwort konnte nicht geändert werden.",
-        "invalidRequest": "Ungültiger Link",
-        "password": "Neues Passwort",
-        "passwordConfirmation": "Neues Passwort wiederholen",
-        "send": "Passwort setzen",
-        "successMessage": "Neues Passwort erfolgreich gesetzt.",
-        "title": "Neues Passwort setzen"
-      },
-      "resetPasswordRequest": {
-        "back": "Zurück zum Login",
-        "errorMessage": "Passwort zurücksetzen nicht möglich.",
-        "send": "Abschicken",
-        "successMessage": "Mail mit Link für 'Passwort zurücksetzen' wird versendet.",
-        "title": "Passwort zurücksetzen"
-      }
-    },
-    "camp": {
-      "admin": {
-        "collaborators": "Team verwalten",
-        "title": "Admin"
-      },
-      "collaborators": {
-        "email": "E-Mail-Adresse",
-        "invite": "Einladen",
-        "members": "Mitarbeitende",
-        "openInvitations": "Offene Einladungen",
-        "title": "Team"
-      },
-      "dashboard": {
-        "noActivitiesLine1": "Du bist noch für keinen Block zuständig.",
-        "noActivitiesLine2": "Den ganzen Picasso kannst du dir hier ansehen.",
-        "program": "Programm",
-        "viewDescription": "Du arbeitest an \"{title}\" mit. Hier siehst du alle Blöcke, für welche du zuständig bist."
-      },
-      "navigation": {
-        "desktop": {
-          "navTopbar": {
-            "admin": "Admin",
-            "campIsLoading": "Lager wird geladen",
-            "material": "Material",
-            "print": "Drucken",
-            "program": "Programm",
-            "story": "Geschichte",
-            "team": "Team"
-          }
-        },
-        "mobile": {
-          "navBottombar": {
-            "material": "Material",
-            "more": "Mehr",
-            "program": "Programm",
-            "story": "Geschichte"
-          },
-          "navSidebar": {
-            "itemCampAdmin": "Lagereinstellungen",
-            "itemCamps": "Meine Lager",
-            "itemClose": "Menü schliessen",
-            "itemCollaborators": "Team",
-            "itemPrinting": "PDF / Drucken"
-          }
-        }
-      },
-      "print": {
-        "title": "Druckvorschau",
-        "previewError": "Etwas hat nicht geklappt. Probiere es nochmals mit anderen Druckeinstellungen, oder lade die Seite neu."
-      },
-      "story": {
-        "title": "Geschichte"
-      },
-      "material": {
-        "downloadXlsx": "Download",
-        "groupByList": "Nach Materialliste gruppieren",
-        "xlsx": {
-          "quantity": "Menge",
-          "unit": "Einheit",
-          "article": "Artikel",
-          "matlist": "Liste",
-          "activity": "Aktivität",
-          "filename": "Materialliste"
-        }
-      },
-      "picasso": {
-        "editMode": "Editiermodus"
-      }
-    },
-    "campCreate": {
-      "create": "Lager erstellen",
-      "period": {
-        "add": "Weiteren Lagerabschnitt hinzufügen",
-        "remove": "Diesen Lagerabschnitt entfernen"
-      },
-      "title": "Lager erstellen"
-    },
-    "camps": {
-      "create": "Lager erstellen",
-      "pastCamps": "Alte Lager",
-      "prototypeCamps": "Vorlagen",
-      "title": "Mein Lager | Meine Lager"
-    },
-    "profile": {
-      "changeEmail": "Ändern",
-      "profile": "Profil"
-    }
-  }
 }

@@ -1,174 +1,196 @@
 {
-  "contentNode": {
-    "columnLayout": {
-      "entity": {
-        "column": {
-          "name": "Spalte"
+    "global": {
+        "datetime": {
+            "dateLong": "dd L",
+            "dateShort": "dd D.M.",
+            "dateTimeLong": "dd L HH:mm",
+            "hourLong": "HH:mm",
+            "hourShort": "H:mm"
         }
-      },
-      "name": "Spaltenlayout"
     },
-    "laThematicArea": {
-      "entity": {
-        "option": {
-          "campsiteAndSurroundings": {
-            "description": "Einrichten von Lagerplatz/Umgebung, Abbau, Erstellen von Spielplatz- einrichtungen und Sportgeräten.",
-            "name": "Lagerplatz/Umgebung"
-          },
-          "natureAndEnvironment": {
-            "description": "Tier- und Pflanzenwelt, Umweltschutz im Lager, Wetter- und Sternkunde, Übermittlungstechniken, Feuer machen.",
-            "name": "Natur und Umwelt"
-          },
-          "outdoorTechnique": {
-            "description": "Wanderplanung, Kartenlesen (z.B. NORDA), Krokieren, Hilfsmittel (z.B. Kompass, GPS, Höhenmeter usw.), orientieren im Gelände.",
-            "name": "Outdoortechniken"
-          },
-          "pioneeringTechnique": {
-            "description": "Biwakbau, Iglubau, Material- und Ausrüstungskunde, Materialpflege, Erstellen und Abbau von Pionierbauten, Seil- und Knotenkunde, Seil- bahnen, Seilbrücken, Abseilen.",
-            "name": "Pioniertechnik"
-          },
-          "preventionAndIntegration": {
-            "description": "Aktivitäten, welche der Prävention und der Integration dienen und die Kompetenzen der Teilnehmenden in diesem Bereich fördern.",
-            "name": "Prävention und Integration"
-          },
-          "security": {
-            "description": "Sicherheit bei Aktivitäten im Lager, Unfallorganisation und Alarmierung, 1. Hilfe, Sicherheitsüberlegungen.",
-            "name": "Sicherheit"
-          }
+    "entity": {
+        "activity": {
+            "fields": {
+                "category": "Block Kategorie",
+                "location": "Ort",
+                "responsible": "Verantwortlich",
+                "title": "Titel"
+            },
+            "name": "Aktivität | Aktivitäten",
+            "new": "Neue Aktivität"
+        },
+        "category": {
+            "fields": {
+                "activityType": "Typ",
+                "color": "Farbe",
+                "name": "Name",
+                "numberingStyle": "Nummerierung",
+                "short": "Kürzel"
+            },
+            "name": "Block Kategorien",
+            "numberingStyles": {
+                "1": "1, 2, 3 - Zahlen",
+                "A": "A, B, C - grosse Buchstaben",
+                "a": "a, b, c - kleine Buchstaben",
+                "I": "I, II, III - grosse römische Zahlen",
+                "i": "i, ii, iii - kleine römische Zahlen"
+            }
+        },
+        "camp": {
+            "collaborators": {
+                "invite": "Einladen",
+                "manager": "Verwalter",
+                "member": "Mitglied",
+                "guest": "Gast"
+            },
+            "fields": {
+                "addressCity": "Ort",
+                "addressName": "Name",
+                "addressStreet": "Strasse",
+                "addressZipcode": "PLZ",
+                "motto": "Motto",
+                "name": "Name",
+                "title": "Titel"
+            },
+            "name": "Lager",
+            "prototype": "Lagervorlage"
+        },
+        "campCollaboration": {
+            "inactive": "inaktiv"
+        },
+        "contentType": {
+            "name": "Inhalttyp | Inhalttypen"
+        },
+        "materialItem": {
+            "fields": {
+                "article": "Artikel",
+                "quantity": "Menge",
+                "unit": "Einheit"
+            }
+        },
+        "materialList": {
+            "fields": {
+                "name": "Name"
+            },
+            "name": "Materialliste"
+        },
+        "period": {
+            "defaultDescription": "Hauptlager",
+            "fields": {
+                "description": "Beschreibung",
+                "end": "Bis",
+                "start": "Von"
+            },
+            "name": "Lagerabschnitt | Lagerabschnitte"
+        },
+        "scheduleEntry": {
+            "fields": {
+                "length": "Dauer in Minuten",
+                "nr": "Nr",
+                "time": "Zeitpunkt"
+            },
+            "name": "Zeitplaneintrag"
+        },
+        "day": {
+            "fields": {
+                "dayResponsibles": "Tagesverantwortliche"
+            },
+            "name": "Tag | Tage"
         }
-      },
-      "name": "LA Themenbereich"
     },
-    "notes": {
-      "name": "Notizen"
-    },
-    "safetyConcept": {
-      "name": "Sicherheitskonzept"
-    },
-    "storyboard": {
-      "entity": {
-        "section": {
-          "fields": {
-            "column1": "Zeit",
-            "column2": "Programm",
-            "column3": "Verantwortlich"
-          },
-          "name": "Programmpunkt | Programmpunkte"
+    "contentNode": {
+        "laThematicArea": {
+            "entity": {
+                "option": {
+                    "campsiteAndSurroundings": {
+                        "description": "Einrichten von Lagerplatz\/Umgebung, Abbau, Erstellen von Spielplatz- einrichtungen und Sportgeräten.",
+                        "name": "Lagerplatz\/Umgebung"
+                    },
+                    "natureAndEnvironment": {
+                        "description": "Tier- und Pflanzenwelt, Umweltschutz im Lager, Wetter- und Sternkunde, Übermittlungstechniken, Feuer machen.",
+                        "name": "Natur und Umwelt"
+                    },
+                    "outdoorTechnique": {
+                        "description": "Wanderplanung, Kartenlesen (z.B. NORDA), Krokieren, Hilfsmittel (z.B. Kompass, GPS, Höhenmeter usw.), orientieren im Gelände.",
+                        "name": "Outdoortechniken"
+                    },
+                    "pioneeringTechnique": {
+                        "description": "Biwakbau, Iglubau, Material- und Ausrüstungskunde, Materialpflege, Erstellen und Abbau von Pionierbauten, Seil- und Knotenkunde, Seil- bahnen, Seilbrücken, Abseilen.",
+                        "name": "Pioniertechnik"
+                    },
+                    "preventionAndIntegration": {
+                        "description": "Aktivitäten, welche der Prävention und der Integration dienen und die Kompetenzen der Teilnehmenden in diesem Bereich fördern.",
+                        "name": "Prävention und Integration"
+                    },
+                    "security": {
+                        "description": "Sicherheit bei Aktivitäten im Lager, Unfallorganisation und Alarmierung, 1. Hilfe, Sicherheitsüberlegungen.",
+                        "name": "Sicherheit"
+                    }
+                }
+            },
+            "name": "LA Themenbereich",
+            "icon": ""
+        },
+        "notes": {
+            "name": "Notizen",
+            "icon": ""
+        },
+        "safetyConcept": {
+            "name": "Sicherheitskonzept",
+            "icon": ""
+        },
+        "storyboard": {
+            "entity": {
+                "section": {
+                    "fields": {
+                        "column1": "Zeit",
+                        "column2": "Programm",
+                        "column3": "Verantwortlich"
+                    },
+                    "name": "Programmpunkt | Programmpunkte"
+                }
+            },
+            "name": "Programmabschnitt",
+            "icon": ""
+        },
+        "storycontext": {
+            "name": "Geschichte",
+            "icon": ""
+        },
+        "material": {
+            "name": "",
+            "icon": ""
+        },
+        "columnLayout": {
+            "entity": {
+                "column": {
+                    "name": "Spalte"
+                }
+            },
+            "icon": "",
+            "name": "Spaltenlayout"
         }
-      },
-      "name": "Programmabschnitt"
     },
-    "storycontext": {
-      "name": "Geschichte"
-    }
-  },
-  "global": {
-    "datetime": {
-      "dateLong": "dd L",
-      "dateShort": "dd D.M.",
-      "dateTimeLong": "dd L HH:mm",
-      "hourLong": "HH:mm",
-      "hourShort": "H:mm"
-    }
-  },
-  "entity": {
-    "activity": {
-      "fields": {
-        "category": "Block Kategorie",
-        "location": "Ort",
-        "responsible": "Verantwortlich",
-        "title": "Titel"
-      },
-      "name": "Aktivität | Aktivitäten",
-      "new": "Neue Aktivität"
-    },
-    "category": {
-      "fields": {
-        "activityType": "Typ",
-        "color": "Farbe",
-        "name": "Name",
-        "numberingStyle": "Nummerierung",
-        "short": "Kürzel"
-      },
-      "name": "Block Kategorien",
-      "numberingStyles": {
-        "1": "1, 2, 3 - Zahlen",
-        "A": "A, B, C - grosse Buchstaben",
-        "a": "a, b, c - kleine Buchstaben",
-        "I": "I, II, III - grosse römische Zahlen",
-        "i": "i, ii, iii - kleine römische Zahlen"
-      }
-    },
-    "camp": {
-      "collaborators": {
-        "manager": "Verwalter",
-        "member": "Mitglied"
-      },
-      "fields": {
-        "addressCity": "Ort",
-        "addressName": "Name",
-        "addressStreet": "Strasse",
-        "addressZipcode": "PLZ",
-        "motto": "Motto",
-        "name": "Name",
-        "title": "Titel"
-      },
-      "name": "Lager",
-      "prototype": "Lagervorlage"
-    },
-    "campCollaboration": {
-      "inactive": "inaktiv"
-    },
-    "contentType": {
-      "name": "Inhalttyp | Inhalttypen"
-    },
-    "day": {
-      "fields": {
-        "dayResponsibles": "Tagesverantwortliche"
-      },
-      "name": "Tag | Tage"
-    },
-    "materialList": {
-      "name": "Materialliste"
-    },
-    "period": {
-      "defaultDescription": "Hauptlager",
-      "fields": {
-        "description": "Beschreibung",
-        "end": "Bis",
-        "start": "Von"
-      },
-      "name": "Lagerabschnitt | Lagerabschnitte"
-    },
-    "scheduleEntry": {
-      "fields": {
-        "length": "Dauer in Minuten",
-        "nr": "Nr",
-        "time": "Zeitpunkt"
-      },
-      "name": "Zeitplaneintrag"
-    }
-  },
-  "print": {
-    "toc": {
-      "title": "Inhaltsverzeichnis"
-    },
-    "cover": {
-      "title": "Titelseite"
-    },
-    "program": {
-      "title": "Detailprogramm"
+    "print": {
+        "toc": {
+            "title": "Inhaltsverzeichnis"
+        },
+        "cover": {
+            "title": "Titelseite"
+        },
+        "program": {
+            "title": "Detailprogramm"
+        },
+        "story": {
+            "title": "Roter Faden"
+        },
+        "picasso": {
+            "title": "Grobprogramm für %1$s"
+        }
     },
     "story": {
-      "title": "Roter Faden"
-    },
-    "picasso": {
-      "title": "Grobprogramm für {period}"
+        "storyDay": {
+            "noStory": "Kein roter Faden an diesem Tag gefunden…"
+        }
     }
-  },
-  "story": {
-    "storyDay": {
-      "noStory": "Kein roter Faden an diesem Tag gefunden…"
-    }
-  }
 }

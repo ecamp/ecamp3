@@ -1,13 +1,13 @@
 {
-  "global": {
-    "page": {
-      "counter": "Page ${index} of ${total}"
-    },
-    "margin": {
-      "pageCounter": {
-        "page": "Page",
-        "of": "of"
-      }
+    "global": {
+        "page": {
+            "counter": "Page $%1$s of $%1$s"
+        },
+        "margin": {
+            "pageCounter": {
+                "page": "Page",
+                "of": "of"
+            }
+        }
     }
-  }
 }
