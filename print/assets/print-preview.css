@@ -1,0 +1,32 @@
+/* styles for in-browser print preview to simulate printing. These styles or only applied in screen media */
+:root {
+  --color-background: whitesmoke;
+  --color-paper: white;
+}
+
+@media screen {
+  body {
+    background-color: var(--color-background);
+  }
+
+  .theme--light.v-application {
+    background-color: var(--color-background) !important;
+  }
+
+  .tw-break-after-page {
+    max-width: 794px; /* page width: A4 width of 210mm at 96dpi */
+    min-height: 1123px; /* page height: A4 height of 297mm at 97dpi */
+    background-color: var(--color-paper);
+    padding: 57px; /* page margin: 15mmm at 96dpi */
+    margin: 35px auto;
+  }
+
+  .tw-break-after-page .tw-break-after-page {
+    margin: 0; /* avoid margin stacking for nested `tw-break-after-page` */
+    padding: 0;
+    min-height: 0px;
+
+    border-bottom: 1px dashed black;
+    margin-bottom: 24px;
+  }
+}

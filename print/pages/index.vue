@@ -20,7 +20,6 @@ export default {
   data() {
     return {
       config: {},
-      pagedjs: '',
       camp: null,
     }
   },

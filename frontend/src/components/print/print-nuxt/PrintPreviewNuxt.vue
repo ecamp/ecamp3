@@ -59,9 +59,7 @@ export default {
       return this.$store.state.lang.language
     },
     url() {
-      return `${PRINT_SERVER}/?pagedjs=true&config=${encodeURIComponent(
-        JSON.stringify(this.config)
-      )}`
+      return `${PRINT_SERVER}/?config=${encodeURIComponent(JSON.stringify(this.config))}`
     },
   },
 }

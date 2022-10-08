@@ -105,7 +105,7 @@ export default {
       const configGetParams = Object.entries(config)
         .map(([key, val]) => `${key}=${val}`)
         .join('&')
-      return `${PRINT_SERVER}/?camp=${this.camp().id}&pagedjs=true&${configGetParams}`
+      return `${PRINT_SERVER}/?camp=${this.camp().id}&${configGetParams}`
     },
   },
   mounted() {
