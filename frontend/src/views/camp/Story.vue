@@ -1,10 +1,8 @@
-<!--
-Admin screen of a camp: Displays details & periods of a single camp and allows to edit them.
--->
-
 <template>
   <content-card :title="$tc('views.camp.story.title')" toolbar>
     <template #title-actions>
+      <period-switcher :period="period" :route-name="'camp/period/story'" />
+      <v-spacer />
       <template v-if="$vuetify.breakpoint.smAndUp">
         <e-switch
           v-model="editing"
@@ -40,29 +38,7 @@ Admin screen of a camp: Displays details & periods of a single camp and allows t
         </v-list>
       </v-menu>
     </template>
-    <v-expansion-panels
-      v-if="camp().periods().items.length > 1"
-      v-model="openPeriods"
-      accordion
-      flat
-      multiple
-    >
-      <story-period
-        v-for="period in camp().periods().items"
-        :key="period._meta.self"
-        :editing="editing"
-        :period="period"
-      />
-    </v-expansion-panels>
-    <div v-else-if="camp().periods().items.length === 1" class="px-4">
-      <story-day
-        v-for="day in camp().periods().items[0].days().items"
-        :key="day._meta.self"
-        :day="day"
-        :editing="editing"
-        class="my-4"
-      />
-    </div>
+    <story-period :editing="editing" :period="period()" />
     <v-card-actions v-if="$vuetify.breakpoint.smAndUp">
       <v-btn :href="previewUrl" class="ml-auto" color="primary" target="_blank">
         <v-icon left>mdi-printer</v-icon>
@@ -76,25 +52,23 @@ Admin screen of a camp: Displays details & periods of a single camp and allows t
 import ContentCard from '@/components/layout/ContentCard.vue'
 import StoryPeriod from '@/components/story/StoryPeriod.vue'
 import { campRoleMixin } from '@/mixins/campRoleMixin'
-import StoryDay from '@/components/story/StoryDay.vue'
 
 const PRINT_SERVER = window.environment.PRINT_SERVER
 
 export default {
   name: 'Story',
   components: {
-    StoryDay,
     StoryPeriod,
     ContentCard,
   },
   mixins: [campRoleMixin],
   props: {
+    period: { type: Function, required: true },
     camp: { type: Function, required: true },
   },
   data() {
     return {
       editing: false,
-      openPeriods: [],
     }
   },
   computed: {
@@ -107,15 +81,6 @@ export default {
         .join('&')
       return `${PRINT_SERVER}/?camp=${this.camp().id}&pagedjs=true&${configGetParams}`
     },
-  },
-  mounted() {
-    this.camp()
-      .periods()
-      ._meta.load.then((periods) => {
-        this.openPeriods = periods.items
-          .map((period, idx) => (Date.parse(period.end) >= new Date() ? idx : null))
-          .filter((idx) => idx !== null)
-      })
   },
 }
 </script>

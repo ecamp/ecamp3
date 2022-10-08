@@ -72,13 +72,7 @@ class CampCollaborationDataPersister extends AbstractDataPersister {
      * @param CampCollaboration $data
      */
     public function afterCreate($data): void {
-        /** @var CampCollaboration $data */
-        /** @var User $user */
-        $user = $this->security->getUser();
-        $emailToInvite = $data->user?->getEmail() ?? $data->inviteEmail;
-        if (CampCollaboration::STATUS_INVITED == $data->status && $emailToInvite) {
-            $this->mailService->sendInviteToCampMail($user, $data->camp, $data->inviteKey, $emailToInvite);
-        }
+        $this->sendInviteEmail($data);
 
         $materialList = new MaterialList();
         $materialList->campCollaboration = $data;
@@ -98,21 +92,7 @@ class CampCollaborationDataPersister extends AbstractDataPersister {
     }
 
     public function onAfterStatusChange(CampCollaboration $data): void {
-        /** @var User $user */
-        $user = $this->security->getUser();
-        if (CampCollaboration::STATUS_INVITED == $data->status && ($data->inviteEmail || $data->user)) {
-            $campCollaborationUser = $data->user;
-            $inviteEmail = $data->inviteEmail;
-            if (null != $campCollaborationUser) {
-                $inviteEmail = $campCollaborationUser->getEmail();
-            }
-            $this->mailService->sendInviteToCampMail(
-                $user,
-                $data->camp,
-                $data->inviteKey,
-                $inviteEmail
-            );
-        }
+        $this->sendInviteEmail($data);
     }
 
     public function onBeforeResendInvitation(CampCollaboration $data) {
@@ -125,8 +105,15 @@ class CampCollaborationDataPersister extends AbstractDataPersister {
     }
 
     public function onAfterResendInvitation(CampCollaboration $data) {
-        /** @var User $user */
-        $user = $this->security->getUser();
-        $this->mailService->sendInviteToCampMail($user, $data->camp, $data->inviteKey, $data->inviteEmail);
+        $this->sendInviteEmail($data);
+    }
+
+    private function sendInviteEmail(CampCollaboration $data) {
+        if (CampCollaboration::STATUS_INVITED == $data->status && $data->getEmail()) {
+            /** @var User $user */
+            $user = $this->security->getUser();
+
+            $this->mailService->sendInviteToCampMail($user, $data->camp, $data->inviteKey, $data->getEmail());
+        }
     }
 }
