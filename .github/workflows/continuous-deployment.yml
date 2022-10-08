@@ -233,5 +233,5 @@ jobs:
           token: ${{ secrets.REPO_ACCESS_TOKEN }}
           status: ${{ job.status }}
           deployment_id: ${{ steps.deployment.outputs.deployment_id }}
-          env_url: https://${{ matrix.deployment.name }}.ecamp3.ch
+          env_url: https://app-${{ matrix.deployment.name }}.ecamp3.ch
           env: ${{ steps.deployment.outputs.env }}
