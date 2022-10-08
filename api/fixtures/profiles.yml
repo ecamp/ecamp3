@@ -71,3 +71,11 @@ App\Entity\Profile:
     nickname: <word()>
     language: en
     roles: [ 'ROLE_USER' ]
+  profileWithStateDeleted:
+    user: '@userWithStateDeleted'
+    email: <email()>
+    firstname: <firstName()>
+    surname: <lastName()>
+    nickname: <word()>
+    language: en
+    roles: [ 'ROLE_USER' ]

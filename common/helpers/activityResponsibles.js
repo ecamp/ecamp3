@@ -1,9 +1,11 @@
-import campCollaborationDisplayName from '@/../common/helpers/campCollaborationDisplayName.js'
+import campCollaborationDisplayName from './campCollaborationDisplayName.js'
 
 /**
  * Returns a display name for a camp collaboration based on its status
  */
-const responsiblesCommaSeparated = (activity, tc) => {
+const activityResponsiblesCommaSeparated = (activity, tc) => {
+  if (!activity) return ''
+
   return activity
     .activityResponsibles()
     .items.map((activityResponsible) =>
@@ -12,4 +14,4 @@ const responsiblesCommaSeparated = (activity, tc) => {
     .join(', ')
 }
 
-export { responsiblesCommaSeparated }
+export { activityResponsiblesCommaSeparated }

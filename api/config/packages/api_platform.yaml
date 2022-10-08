@@ -14,11 +14,9 @@ api_platform:
         html: [ 'text/html' ]
     patch_formats:
         json: [ 'application/merge-patch+json' ]
-        jsonapi: [ 'application/vnd.api+json' ]
     error_formats:
         jsonproblem: [ 'application/problem+json' ]
         jsonld: [ 'application/ld+json' ]
-        jsonapi: [ 'application/vnd.api+json' ]
     swagger:
         versions: [3]
     # Mercure integration, remove if unwanted

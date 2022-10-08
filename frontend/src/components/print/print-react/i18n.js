@@ -1,8 +1,8 @@
 import {
-  translate,
+  compileToFunction,
   createCoreContext,
   registerMessageCompiler,
-  compileToFunction,
+  translate,
 } from '@intlify/core'
 
 const createI18n = (translationData, language) => {
