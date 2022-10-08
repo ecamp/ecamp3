@@ -62,8 +62,8 @@
         "title": "Material lists"
       },
       "campMaterialListsItem": {
-        "deleteWarning": "Do you really want to delete this material list?",
-        "deleteError": "Could not delete the material list. Check if the list is empty before deleting it."
+        "deleteError": "Could not delete the material list. Check if the list is empty before deleting it.",
+        "deleteWarning": "Do you really want to delete this material list?"
       },
       "campMembers": {
         "title": "Members"
@@ -96,8 +96,8 @@
         "warningText": "Do you want to deactivate '{name}'?"
       },
       "inactiveCampCollaboratorListItem": {
-        "inviteAgain": "Invite again",
-        "delete": "Do you really want to remove this collaborator from the camp?"
+        "delete": "Do you really want to remove this collaborator from the camp?",
+        "inviteAgain": "Invite again"
       },
       "materialCreateItem": {
         "campSettingsButton": "Settings"
@@ -109,35 +109,6 @@
         "datetime": {
           "date": "dd. D.MM | D. MMM | DD. MMM YYYY"
         }
-      }
-    },
-    "print": {
-      "documents": {
-        "campPrint": {
-          "filename": {
-            "activitiesOnly": "Activities {camp}",
-            "picassoOnly": "Picasso {camp}"
-          }
-        }
-      },
-      "localPdfDownloadButton": {
-        "error": "Something did not work. Please try again, or try reloading the page."
-      },
-      "printConfigurator": {
-        "config": {
-          "Activity": "Single activity",
-          "Cover": "Cover page",
-          "Picasso": "Picasso",
-          "Story": "Story summary",
-          "Program": "Program",
-          "Toc": "Table of contents",
-          "ProgramConfig": {
-            "dayOverview": "print day overview"
-          }
-        }
-      },
-      "printPreviewNuxt": {
-        "openPreview": "Open preview in new window"
       }
     },
     "dialog": {
@@ -167,14 +138,14 @@
       "error": "An unexpected error occurred",
       "login": "Login",
       "notFound": "This invitation is already accepted or was deleted",
+      "openCamp": "Open camp",
       "register": "Register",
       "reject": "Deny invitation",
+      "successfullyRejected": "The invitation was successfully rejected",
       "title": "Invitation to camp",
       "useOtherAuth": "Logout & use another account",
       "userAlreadyInCamp": "You are already participating in this camp",
-      "userWelcome": "Welcome",
-      "openCamp": "Open camp",
-      "successfullyRejected": "The invitation was successfully rejected"
+      "userWelcome": "Welcome"
     },
     "layout": {
       "authContainer": {
@@ -196,18 +167,47 @@
         "profile": "Profile"
       }
     },
+    "print": {
+      "documents": {
+        "campPrint": {
+          "filename": {
+            "activitiesOnly": "Activities {camp}",
+            "picassoOnly": "Picasso {camp}"
+          }
+        }
+      },
+      "localPdfDownloadButton": {
+        "error": "Something did not work. Please try again, or try reloading the page."
+      },
+      "printConfigurator": {
+        "config": {
+          "Activity": "Single activity",
+          "Cover": "Cover page",
+          "Picasso": "Picasso",
+          "Program": "Program",
+          "ProgramConfig": {
+            "dayOverview": "print day overview"
+          },
+          "Story": "Story summary",
+          "Toc": "Table of contents"
+        }
+      },
+      "printPreviewNuxt": {
+        "openPreview": "Open preview in new window"
+      }
+    },
     "user": {
       "dialogChangeMail": {
-        "title": "Change email address",
+        "error": "An error has occurred.",
         "message": "You will receive an email for verification.",
         "success": "Before you can use your new email address, you have to verify it. Check your mailbox now.",
-        "error": "An error has occurred."
+        "title": "Change email address"
       },
       "dialogChangeMailRunning": {
-        "title": "Changing email address",
+        "error": "An error has occurred.",
         "message": "Changing email address ...",
         "success": "Email address successfully changed.",
-        "error": "An error has occurred."
+        "title": "Changing email address"
       }
     }
   },
@@ -230,6 +230,7 @@
       "add": "Add",
       "back": "Back",
       "cancel": "Cancel",
+      "close": "Close",
       "content": "Content",
       "create": "Create",
       "delete": "Delete",
@@ -241,11 +242,10 @@
       "open": "Open",
       "save": "Save",
       "saving": "Saving",
+      "search": "Search",
       "submit": "Submit",
       "tryagain": "Try again",
-      "update": "Update",
-      "close": "Close",
-      "search": "Search"
+      "update": "Update"
     },
     "changeLanguage": "Change language",
     "empty": {
@@ -274,23 +274,24 @@
         "changeLayout": "Change layout",
         "layout": "Layout"
       },
+      "deleteWarning": "Do you really want to delete this activity? All content of this activity will be removed.",
+      "printPreview": "Open print preview",
       "sideBarProgram": {
         "title": "Activities on this day"
-      },
-      "printPreview": "Open print preview",
-      "deleteWarning": "Do you really want to delete this activity? All content of this activity will be removed."
+      }
     },
     "auth": {
       "activate": {
-        "title": "Your account will be activated",
+        "error": "Activation failed",
         "success": "Account successfully activated",
-        "error": "Activation failed"
+        "title": "Your account will be activated"
       },
       "login": {
         "accountless": "Don't have an account yet?",
         "beta": {
           "notice": "This is the site of the new eCamp.<br>IMPORTANT: This website is under construction. This means that all data is public and will be deleted periodically!"
         },
+        "email": "Email",
         "loginCallback": {
           "loginInProgress": "You will be logged in"
         },
@@ -298,14 +299,13 @@
         "password": "Password",
         "passwordForgotten": "Forgotten your password?",
         "provider": {
+          "cevidb": "Login with CeviDB",
           "ecamp": "Login with eCamp",
           "google": "Login with Google",
-          "midata": "Login with MiData",
-          "cevidb": "Login with CeviDB"
+          "midata": "Login with MiData"
         },
         "registernow": "Register now",
-        "title": "Login",
-        "email": "Email"
+        "title": "Login"
       },
       "register": {
         "acceptTermsOfUse": "Accept the terms of use",
@@ -319,8 +319,8 @@
       },
       "registerDone": {
         "login": "Login",
-        "success": "Successfully registered",
         "message": "We sent you an email. Please complete your registration by clicking the activation-link in the email",
+        "success": "Successfully registered",
         "title": "Create account"
       },
       "resetPassword": {
@@ -348,8 +348,8 @@
       },
       "collaborators": {
         "email": "Email address",
-        "invite": "Invite",
         "inactiveCollaborators": "Inactive",
+        "invite": "Invite",
         "members": "Members",
         "openInvitations": "Open invitations",
         "title": "Team"
@@ -362,17 +362,17 @@
       },
       "material": {
         "downloadXlsx": "Download",
+        "groupByList": "Group by material list",
         "showActivityMaterial": "Show activity material",
         "showActivityMaterialShort": "incl. Activity",
         "title": "Material",
-        "groupByList": "Group by material list",
         "xlsx": {
-          "filename": "material-list",
-          "quantity": "Quantity",
-          "unit": "Unit",
+          "activity": "Activity",
           "article": "Article",
+          "filename": "material-list",
           "matlist": "Material list",
-          "activity": "Activity"
+          "quantity": "Quantity",
+          "unit": "Unit"
         }
       },
       "navigation": {
@@ -403,21 +403,21 @@
           }
         }
       },
+      "picasso": {
+        "editMode": "Edit mode",
+        "guestsCannotEdit": "A guest cannot edit the picasso",
+        "title": "Picasso"
+      },
       "print": {
-        "title": "Print preview",
         "previewError": "Something did not work. Please try again with different printing settings, or reload the page.",
-        "previewIframeTitle": "Print preview"
+        "previewIframeTitle": "Print preview",
+        "title": "Print preview"
       },
       "sideBarPeriods": {
         "title": "Periods"
       },
       "story": {
         "title": "Story"
-      },
-      "picasso": {
-        "editMode": "Edit mode",
-        "title": "Picasso",
-        "guestsCannotEdit": "A guest cannot edit the picasso"
       }
     },
     "campCreate": {
