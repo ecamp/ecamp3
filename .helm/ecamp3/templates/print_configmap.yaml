@@ -7,6 +7,6 @@ metadata:
 data:
   INTERNAL_API_ROOT_URL: {{ include "api.url" . | quote }}
   FRONTEND_URL: {{ include "frontend.url" . | quote }}
-  PRINT_SERVER: {{ include "print.url" . | quote }}
+  PRINT_URL: {{ include "print.url" . | quote }}
   COOKIE_PREFIX: {{ include "api.cookiePrefix" . | quote }}
   SENTRY_ENVIRONMENT: {{ .Values.frontend.domain | quote }}

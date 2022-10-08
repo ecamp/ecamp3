@@ -1,61 +1,95 @@
 <!-- index.html for vite dev server -->
 <!DOCTYPE html>
 <html lang="en">
-<head>
- <meta charset="utf-8">
- <meta http-equiv="X-UA-Compatible" content="IE=edge">
- <meta name="apple-mobile-web-app-capable" content="yes">
- <meta name="mobile-web-app-capable" content="yes">
- <link rel="apple-touch-icon" sizes="180x180" href="/browserassets/apple-touch-icon.png">
- <link rel="icon" type="image/png" sizes="32x32" href="/browserassets/favicon-32x32.png">
- <link rel="icon" type="image/png" sizes="16x16" href="/browserassets/favicon-16x16.png">
- <link rel="mask-icon" href="/browserassets/safari-pinned-tab.svg" color="#263238">
- <meta name="msapplication-TileColor" content="#263238">
- <meta name="theme-color" content="#263238">
- <link rel="manifest" href="/manifest.webmanifest">
- <meta name="viewport" content="width=device-width,initial-scale=1.0">
- <link rel="icon" href="/favicon.svg">
- <title>eCamp3</title>
- <!-- consider enabling CDN for production
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="/browserassets/apple-touch-icon.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="/browserassets/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="/browserassets/favicon-16x16.png"
+    />
+    <link rel="mask-icon" href="/browserassets/safari-pinned-tab.svg" color="#263238" />
+    <meta name="msapplication-TileColor" content="#263238" />
+    <meta name="theme-color" content="#263238" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <link rel="icon" href="/favicon.svg" />
+    <title>eCamp3</title>
+    <!-- consider enabling CDN for production
  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@latest/css/materialdesignicons.min.css"> -->
-</head>
-<body>
-<noscript>
- <strong lang="en">Sorry, eCamp does not work without JavaScript. Please enable JavaScript to continue.</strong><br>
- <strong lang="de">Sorry, eCamp funktioniert nicht ohne JavaScript. Bitte aktiviere JavaScript um fortzufahren.</strong><br>
- <strong lang="fr">Désolé, eCamp ne fonctionne pas sans JavaScript. Veuillez activer JavaScript pour continuer.</strong><br>
- <strong lang="it">Spiacente, eCamp non funziona senza JavaScript. Per favore, abilita JavaScript per continuare.</strong>
-</noscript>
+  </head>
+  <body>
+    <noscript>
+      <strong lang="en"
+        >Sorry, eCamp does not work without JavaScript. Please enable JavaScript to
+        continue.</strong
+      ><br />
+      <strong lang="de"
+        >Sorry, eCamp funktioniert nicht ohne JavaScript. Bitte aktiviere JavaScript um
+        fortzufahren.</strong
+      ><br />
+      <strong lang="fr"
+        >Désolé, eCamp ne fonctionne pas sans JavaScript. Veuillez activer JavaScript pour
+        continuer.</strong
+      ><br />
+      <strong lang="it"
+        >Spiacente, eCamp non funziona senza JavaScript. Per favore, abilita JavaScript
+        per continuare.</strong
+      >
+    </noscript>
 
-<div id="app"></div>
-<script src="/environment.js" lang="application/javascript"></script>
-<script>
-  if ('environment' in window) {
-    const requiredKeys = [
-      'API_ROOT_URL',
-      'COOKIE_PREFIX',
-      'PRINT_SERVER',
-      'SENTRY_FRONTEND_DSN',
-      'SHARED_COOKIE_DOMAIN',
-      'DEPLOYMENT_TIME',
-      'VERSION',
-      'VERSION_LINK_TEMPLATE',
-    ]
+    <div id="app"></div>
+    <script src="/environment.js" lang="application/javascript"></script>
+    <script>
+      if ('environment' in window) {
+        const requiredKeys = [
+          'API_ROOT_URL',
+          'COOKIE_PREFIX',
+          'PRINT_URL',
+          'SENTRY_FRONTEND_DSN',
+          'SHARED_COOKIE_DOMAIN',
+          'DEPLOYMENT_TIME',
+          'VERSION',
+          'VERSION_LINK_TEMPLATE',
+        ]
 
-    const missingKeys = requiredKeys.filter(key => !Object.keys(window.environment).includes(key))
-    if (missingKeys.length > 0) {
-      console.error(`Missing key(s): "${missingKeys.join(',')}" in frontend/public/environment.js
+        const missingKeys = requiredKeys.filter(
+          (key) => !Object.keys(window.environment).includes(key)
+        )
+        if (missingKeys.length > 0) {
+          console.error(`Missing key(s): "${missingKeys.join(
+            ','
+          )}" in frontend/public/environment.js
   You can look up example values in frontend/public/environment.dist`)
-    }
+        }
 
-    const additionalKeys = Object.keys(window.environment).filter(key => !requiredKeys.includes(key))
-    if (additionalKeys.length > 0) {
-      console.error(`Additional defined key(s): "${additionalKeys.join(',')}" in frontend/public/environment.js
+        const additionalKeys = Object.keys(window.environment).filter(
+          (key) => !requiredKeys.includes(key)
+        )
+        if (additionalKeys.length > 0) {
+          console.error(`Additional defined key(s): "${additionalKeys.join(
+            ','
+          )}" in frontend/public/environment.js
   Maybe you forgot to add them here to the requiredKeys`)
-    }
-  }
-</script>
-<script type="module" src="/src/main.js"></script>
-<!-- built files will be auto injected -->
-</body>
+        }
+      }
+    </script>
+    <script type="module" src="/src/main.js"></script>
+    <!-- built files will be auto injected -->
+  </body>
 </html>

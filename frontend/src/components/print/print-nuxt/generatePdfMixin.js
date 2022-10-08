@@ -3,7 +3,7 @@ import slugify from 'slugify'
 import { cloneDeep } from 'lodash'
 import axios from 'axios'
 
-const PRINT_SERVER = window.environment.PRINT_SERVER
+const PRINT_URL = window.environment.PRINT_URL
 
 export const generatePdfMixin = {
   props: {
@@ -34,7 +34,7 @@ export const generatePdfMixin = {
       try {
         const response = await axios({
           method: 'get',
-          url: `${PRINT_SERVER}/server/pdfChrome?config=${encodeURIComponent(
+          url: `${PRINT_URL}/server/pdfChrome?config=${encodeURIComponent(
             JSON.stringify(this.config)
           )}`,
           responseType: 'arraybuffer',

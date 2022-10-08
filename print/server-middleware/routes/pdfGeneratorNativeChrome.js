@@ -46,7 +46,7 @@ router.use('/pdfChrome', async (req, res) => {
 
     measurePerformance('Open new page & set cookies...')
     const page = await browser.newPage()
-    const printUrl = new URL(process.env.PRINT_SERVER)
+    const printUrl = new URL(process.env.PRINT_URL)
     const cookies = [
       {
         name: `${process.env.COOKIE_PREFIX}jwt_s`,
@@ -93,7 +93,7 @@ router.use('/pdfChrome', async (req, res) => {
     )
 
     // HTTP request back to Print Nuxt App
-    await page.goto(`${process.env.PRINT_SERVER}/?config=${req.query.config}`, {
+    await page.goto(`${process.env.PRINT_URL}/?config=${req.query.config}`, {
       waitUntil: 'networkidle0',
     })
 

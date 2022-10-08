@@ -34,7 +34,7 @@
 </template>
 
 <script>
-const PRINT_SERVER = window.environment.PRINT_SERVER
+const PRINT_URL = window.environment.PRINT_URL
 
 export default {
   name: 'PrintPreviewNuxt',
@@ -55,7 +55,7 @@ export default {
       return this.$store.state.lang.language
     },
     url() {
-      return `${PRINT_SERVER}/?config=${encodeURIComponent(JSON.stringify(this.config))}`
+      return `${PRINT_URL}/?config=${encodeURIComponent(JSON.stringify(this.config))}`
     },
   },
 }
