@@ -202,7 +202,7 @@
         "openPreview": "Open preview in new window"
       },
       "printReact": {
-        "downloadNuxtPdfListItem": {
+        "downloadReactPdfListItem": {
           "error": "Something did not work. Please try again, or try reloading the page.",
           "label": "Download PDF (layout #2)"
         }

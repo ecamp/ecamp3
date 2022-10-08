@@ -179,7 +179,7 @@
         "openPreview": "Vorschau in neuem Fenster öffnen"
       },
       "printReact": {
-        "downloadNuxtPdfListItem": {
+        "downloadReactPdfListItem": {
           "error": "Etwas hat nicht geklappt. Probiere es nochmals, oder lade die Seite neu.",
           "label": "PDF herunterladen (Layout #2)"
         }
