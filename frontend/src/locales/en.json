@@ -395,7 +395,7 @@
         }
       },
       "print": {
-        "title": "Print preview",
+        "title": "Print camp",
         "previewError": "Something did not work. Please try again with different printing settings, or reload the page.",
         "previewIframeTitle": "Print preview"
       },

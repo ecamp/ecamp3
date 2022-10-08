@@ -346,7 +346,7 @@
         }
       },
       "print": {
-        "title": "Druckvorschau",
+        "title": "Lager drucken",
         "previewError": "Etwas hat nicht geklappt. Probiere es nochmals mit anderen Druckeinstellungen, oder lade die Seite neu."
       },
       "story": {

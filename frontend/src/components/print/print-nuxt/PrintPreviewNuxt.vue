@@ -1,7 +1,5 @@
 <template>
   <div style="position: relative">
-    <DownloadNuxtPdfButton :config="config" class="mb-3 float-left" />
-
     <v-btn
       class="ml-3 mb-3 float-left"
       color="primary"
