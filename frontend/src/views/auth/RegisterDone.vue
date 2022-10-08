@@ -11,7 +11,7 @@
     </v-alert>
     <v-spacer />
     <v-btn color="primary" :to="{ name: 'login' }" x-large class="my-4" block>
-      {{ $tc('views.auth.registerDone.login') }}
+      {{ $tc('global.button.login') }}
     </v-btn>
   </auth-container>
 </template>

@@ -1,6 +1,6 @@
 <template>
   <auth-container>
-    <h1 class="display-1 text-center">{{ $tc('views.auth.login.title') }}</h1>
+    <h1 class="display-1 text-center">{{ $tc('global.button.login') }}</h1>
 
     <v-alert
       class="mt-2 text-justify"

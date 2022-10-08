@@ -45,7 +45,7 @@
     </v-form>
     <p class="mt-8 mb0 text--secondary text-center">
       <router-link :to="{ name: 'login' }">
-        {{ $tc('views.auth.resetPasswordRequest.back') }}
+        {{ $tc('global.button.login') }}
       </router-link>
     </p>
   </auth-container>

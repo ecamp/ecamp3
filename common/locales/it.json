@@ -68,7 +68,6 @@
     },
     "category": {
       "fields": {
-        "activityType": "Stile",
         "color": "Colore",
         "name": "Nome",
         "numberingStyle": "Stile della numerazione",

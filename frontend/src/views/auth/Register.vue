@@ -100,7 +100,7 @@
     <p class="mt-8 mb-0 text--secondary text-center">
       {{ $tc('views.auth.register.alreadyHaveAnAccount') }}<br />
       <router-link :to="{ name: 'login' }">
-        {{ $tc('views.auth.register.login') }}
+        {{ $tc('global.button.login') }}
       </router-link>
     </p>
   </auth-container>

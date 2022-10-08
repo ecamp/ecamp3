@@ -102,6 +102,7 @@
       "content": "Contenu",
       "create": "Créer",
       "delete": "Effacer",
+      "login": "Se connecter",
       "edit": "Éditer",
       "ok": "D'accord",
       "open": "Ouvrir",
@@ -145,20 +146,16 @@
           "cevidb": "Connectez-vous avec CeviDB"
         },
         "registernow": "Inscrivez-vous maintenant",
-        "title": "Se connecter",
         "email": "Courriel"
       },
       "register": {
         "acceptTermsOfUse": "Accepter les conditions d'utilisation",
         "alreadyHaveAnAccount": "Vous avez déjà un compte ?",
-        "login": "Se connecter",
-        "openTermsOfUse": "Ouvrir",
         "passwordConfirmation": "Entrez à nouveau votre mot de passe",
         "register": "S'inscrire",
         "title": "Créer un compte"
       },
       "registerDone": {
-        "login": "Se connecter",
         "success": "Enregistré avec succès",
         "title": "Créer un compte"
       }
@@ -200,9 +197,6 @@
             "itemPrinting": "PDF / Imprimer"
           }
         }
-      },
-      "sideBarPeriods": {
-        "title": "Périodes"
       },
       "story": {
         "editModeOff": "Modification désactivée",
