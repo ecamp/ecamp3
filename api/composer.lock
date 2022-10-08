@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "82aa56a78392df192d8fa1cb60d9ecf3",
+    "content-hash": "a999a3df6ea1e3c76863412704d8773a",
     "packages": [
         {
             "name": "api-platform/core",
-            "version": "v2.7.1",
+            "version": "v2.7.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/api-platform/core.git",
-                "reference": "fbc076044413e80ef8360376ed4dc8b3c320375a"
+                "reference": "80c3f3c38b9ac234bde0cbc2b77d6628326bdefc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/api-platform/core/zipball/fbc076044413e80ef8360376ed4dc8b3c320375a",
-                "reference": "fbc076044413e80ef8360376ed4dc8b3c320375a",
+                "url": "https://api.github.com/repos/api-platform/core/zipball/80c3f3c38b9ac234bde0cbc2b77d6628326bdefc",
+                "reference": "80c3f3c38b9ac234bde0cbc2b77d6628326bdefc",
                 "shasum": ""
             },
             "require": {
@@ -165,7 +165,7 @@
             ],
             "support": {
                 "issues": "https://github.com/api-platform/core/issues",
-                "source": "https://github.com/api-platform/core/tree/v2.7.1"
+                "source": "https://github.com/api-platform/core/tree/v2.7.2"
             },
             "funding": [
                 {
@@ -173,7 +173,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-09-29T13:55:21+00:00"
+            "time": "2022-10-07T09:12:23+00:00"
         },
         {
             "name": "behat/transliterator",
