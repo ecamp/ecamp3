@@ -6,12 +6,8 @@ import { apiStore } from '@/plugins/store'
 
 Vue.use(Router)
 
-const NavigationDefault = () =>
-  import(/* webpackChunkName: "navigationDefault" */ './views/NavigationDefault.vue')
-const NavigationCamp = () =>
-  import(
-    /* webpackChunkName: "navigationCamp" */ './views/camp/navigation/NavigationCamp.vue'
-  )
+const NavigationDefault = () => import('./views/NavigationDefault.vue')
+const NavigationCamp = () => import('./views/camp/navigation/NavigationCamp.vue')
 
 /* istanbul ignore next */
 export default new Router({
@@ -25,8 +21,7 @@ export default new Router({
             path: '/controls',
             name: 'controls',
             components: {
-              default: () =>
-                import(/* webpackChunkName: "controls" */ './views/dev/Controls.vue'),
+              default: () => import('./views/dev/Controls.vue'),
             },
           },
         ]
@@ -36,8 +31,7 @@ export default new Router({
       path: '/performance',
       name: 'performance',
       components: {
-        default: () =>
-          import(/* webpackChunkName: "performance" */ './views/dev/Performance.vue'),
+        default: () => import('./views/dev/Performance.vue'),
       },
     },
 
@@ -47,8 +41,7 @@ export default new Router({
       name: 'register',
       components: {
         navigation: NavigationDefault,
-        default: () =>
-          import(/* webpackChunkName: "register" */ './views/auth/Register.vue'),
+        default: () => import('./views/auth/Register.vue'),
       },
     },
     {
@@ -56,8 +49,7 @@ export default new Router({
       name: 'register-done',
       components: {
         navigation: NavigationDefault,
-        default: () =>
-          import(/* webpackChunkName: "register" */ './views/auth/RegisterDone.vue'),
+        default: () => import('./views/auth/RegisterDone.vue'),
       },
     },
     {
@@ -65,10 +57,7 @@ export default new Router({
       name: 'resetPasswordRequest',
       components: {
         navigation: NavigationDefault,
-        default: () =>
-          import(
-            /* webpackChunkName: "register" */ './views/auth/ResetPasswordRequest.vue'
-          ),
+        default: () => import('./views/auth/ResetPasswordRequest.vue'),
       },
     },
     {
@@ -76,8 +65,7 @@ export default new Router({
       name: 'resetPassword',
       components: {
         navigation: NavigationDefault,
-        default: () =>
-          import(/* webpackChunkName: "register" */ './views/auth/ResetPassword.vue'),
+        default: () => import('./views/auth/ResetPassword.vue'),
       },
       props: {
         default: (route) => {
@@ -92,8 +80,7 @@ export default new Router({
       name: 'activate',
       components: {
         navigation: NavigationDefault,
-        default: () =>
-          import(/* webpackChunkName: "register" */ './views/auth/Activate.vue'),
+        default: () => import('./views/auth/Activate.vue'),
       },
       props: {
         default: (route) => {
@@ -109,7 +96,7 @@ export default new Router({
       name: 'login',
       components: {
         navigation: NavigationDefault,
-        default: () => import(/* webpackChunkName: "login" */ './views/auth/Login.vue'),
+        default: () => import('./views/auth/Login.vue'),
       },
     },
     {
@@ -117,8 +104,7 @@ export default new Router({
       name: 'loginCallback',
       components: {
         navigation: NavigationDefault,
-        default: () =>
-          import(/* webpackChunkName: "login" */ './views/auth/LoginCallback.vue'),
+        default: () => import('./views/auth/LoginCallback.vue'),
       },
     },
     {
@@ -126,7 +112,7 @@ export default new Router({
       name: 'profile',
       components: {
         navigation: NavigationDefault,
-        default: () => import(/* webpackChunkName: "about" */ './views/Profile.vue'),
+        default: () => import('./views/Profile.vue'),
       },
       beforeEnter: requireAuth,
     },
@@ -135,7 +121,7 @@ export default new Router({
       name: 'profileVerifyEmail',
       components: {
         navigation: NavigationDefault,
-        default: () => import(/* webpackChunkName: "about" */ './views/Profile.vue'),
+        default: () => import('./views/Profile.vue'),
       },
       props: {
         default: (route) => {
@@ -149,7 +135,7 @@ export default new Router({
       name: 'camps',
       components: {
         navigation: NavigationDefault,
-        default: () => import(/* webpackChunkName: "camps" */ './views/Camps.vue'),
+        default: () => import('./views/Camps.vue'),
       },
       beforeEnter: requireAuth,
     },
@@ -158,7 +144,7 @@ export default new Router({
       name: 'camps/create',
       components: {
         navigation: NavigationDefault,
-        default: () => import(/* webpackChunkName: "camps" */ './views/CampCreate.vue'),
+        default: () => import('./views/CampCreate.vue'),
       },
       beforeEnter: requireAuth,
     },
@@ -167,8 +153,7 @@ export default new Router({
       name: 'campInvitation',
       components: {
         navigation: NavigationDefault,
-        default: () =>
-          import(/* webpackChunkName: "login" */ './views/camp/Invitation.vue'),
+        default: () => import('./views/camp/Invitation.vue'),
       },
       props: {
         default: (route) => {
@@ -183,8 +168,7 @@ export default new Router({
       name: 'invitationRejected',
       components: {
         navigation: NavigationDefault,
-        default: () =>
-          import(/* webpackChunkName: "login" */ './views/camp/InvitationRejected.vue'),
+        default: () => import('./views/camp/InvitationRejected.vue'),
       },
     },
     {
@@ -192,17 +176,14 @@ export default new Router({
       name: 'invitationUpdateError',
       components: {
         navigation: NavigationDefault,
-        default: () =>
-          import(
-            /* webpackChunkName: "login" */ './views/camp/InvitationUpdateError.vue'
-          ),
+        default: () => import('./views/camp/InvitationUpdateError.vue'),
       },
     },
     {
       path: '/camps/:campId/:campTitle?',
       components: {
         navigation: NavigationCamp,
-        default: () => import(/* webpackChunkName: "camp" */ './views/camp/Camp.vue'),
+        default: () => import('./views/camp/Camp.vue'),
       },
       beforeEnter: all([requireAuth, requireCamp]),
       props: {
@@ -217,22 +198,17 @@ export default new Router({
         {
           path: 'collaborators',
           name: 'camp/collaborators',
-          component: () =>
-            import(
-              /* webpackChunkName: "campCollaborators" */ './views/camp/Collaborators.vue'
-            ),
+          component: () => import('./views/camp/Collaborators.vue'),
         },
         {
           path: 'admin',
           name: 'camp/admin',
-          component: () =>
-            import(/* webpackChunkName: "campAdmin" */ './views/camp/Admin.vue'),
+          component: () => import('./views/camp/Admin.vue'),
         },
         {
           path: 'program/period/:periodId/:periodTitle?',
           name: 'camp/period/program',
-          component: () =>
-            import(/* webpackChunkName: "campProgram" */ './views/camp/CampProgram.vue'),
+          component: () => import('./views/camp/CampProgram.vue'),
           beforeEnter: requirePeriod,
         },
         {
@@ -245,15 +221,13 @@ export default new Router({
         {
           path: 'print',
           name: 'camp/print',
-          component: () =>
-            import(/* webpackChunkName: "campPrint" */ './views/camp/Print.vue'),
+          component: () => import('./views/camp/Print.vue'),
           props: (route) => ({ camp: campFromRoute(route) }),
         },
         {
           path: 'story/period/:periodId/:periodTitle?',
           name: 'camp/period/story',
-          component: () =>
-            import(/* webpackChunkName: "campStory" */ './views/camp/Story.vue'),
+          component: () => import('./views/camp/Story.vue'),
           beforeEnter: requirePeriod,
         },
         {
@@ -266,14 +240,12 @@ export default new Router({
         {
           path: 'material',
           name: 'camp/material',
-          component: () =>
-            import(/* webpackChunkName: "campMaterial" */ './views/camp/Material.vue'),
+          component: () => import('./views/camp/Material.vue'),
         },
         {
           path: 'dashboard',
           name: 'camp/dashboard',
-          component: () =>
-            import(/* webpackChunkName: "camp" */ './views/camp/Dashboard.vue'),
+          component: () => import('./views/camp/Dashboard.vue'),
         },
         {
           path: '',
@@ -287,8 +259,7 @@ export default new Router({
       name: 'category',
       components: {
         navigation: NavigationCamp,
-        default: () =>
-          import(/* webpackChunkName: "campCategory" */ './views/activity/Category.vue'),
+        default: () => import('./views/activity/Category.vue'),
       },
       beforeEnter: requireAuth,
       props: {
@@ -302,10 +273,8 @@ export default new Router({
       name: 'activity',
       components: {
         navigation: NavigationCamp,
-        default: () =>
-          import(/* webpackChunkName: "activity" */ './views/activity/Activity.vue'),
-        aside: () =>
-          import(/* webpackChunkName: "day" */ './views/activity/SideBarProgram.vue'),
+        default: () => import('./views/activity/Activity.vue'),
+        aside: () => import('./views/activity/SideBarProgram.vue'),
       },
       beforeEnter: requireAuth,
       props: {
