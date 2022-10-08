@@ -118,7 +118,7 @@
       },
       "printNuxt": {
         "downloadNuxtPdfListItem": {
-          "label": "PDF herunterladen",
+          "label": "PDF herunterladen (Layout #1)",
           "error": "Etwas hat nicht geklappt. Probiere es nochmals, oder lade die Seite neu."
         }
       },
@@ -127,7 +127,7 @@
       },
       "printReact": {
         "downloadNuxtPdfListItem": {
-          "label": "PDF herunterladen",
+          "label": "PDF herunterladen (Layout #2)",
           "error": "Etwas hat nicht geklappt. Probiere es nochmals, oder lade die Seite neu."
         }
       }

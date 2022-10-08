@@ -31,8 +31,8 @@ Show all activity schedule entries of a single period.
             </v-list-item-title>
           </v-list-item>
           <v-divider />
-          <DownloadNuxtPdf :config="printConfig()" @error="showPrintError" />
-          <DownloadReactPdf :config="printConfig()" @error="showPrintError" />
+          <DownloadNuxtPdf :config="printConfig" @error="showPrintError" />
+          <DownloadReactPdf :config="printConfig" @error="showPrintError" />
         </v-list>
       </v-menu>
     </template>
@@ -97,12 +97,6 @@ export default {
     camp() {
       return this.period().camp()
     },
-  },
-  methods: {
-    showPrintError(event) {
-      this.error = event
-      this.showError = true
-    },
     printConfig() {
       return {
         camp: this.period().camp()._meta.self,
@@ -118,6 +112,12 @@ export default {
           },
         ],
       }
+    },
+  },
+  methods: {
+    showPrintError(event) {
+      this.error = event
+      this.showError = true
     },
   },
 }
