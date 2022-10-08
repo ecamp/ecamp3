@@ -41,6 +41,10 @@
       "icon": "mdi-shape",
       "name": "LA thematic area"
     },
+    "material": {
+      "icon": "mdi-package-variant",
+      "name": "Material"
+    },
     "notes": {
       "icon": "mdi-pen",
       "name": "Notes"
@@ -66,19 +70,6 @@
     "storycontext": {
       "icon": "mdi-book-open-variant",
       "name": "Story"
-    },
-    "material": {
-      "icon": "mdi-package-variant",
-      "name": "Material"
-    }
-  },
-  "global": {
-    "datetime": {
-      "dateLong": "dd L",
-      "dateShort": "dd M/D",
-      "dateTimeLong": "dd L HH:mm",
-      "hourLong": "HH:mm",
-      "hourShort": "h:mm A"
     }
   },
   "entity": {
@@ -92,29 +83,12 @@
       "name": "Activity | Activities",
       "new": "New activity"
     },
-    "category": {
-      "fields": {
-        "activityType": "Type",
-        "color": "Color",
-        "name": "Name",
-        "numberingStyle": "Numbering style",
-        "short": "Short"
-      },
-      "name": "Activity categories",
-      "numberingStyles": {
-        "1": "1, 2, 3 - numbers",
-        "A": "A, B, C - uppercase letters",
-        "a": "a, b, c - lowercase letters",
-        "I": "I, II, III - uppercase roman numerals",
-        "i": "i, ii, iii - lowercase roman numerals"
-      }
-    },
     "camp": {
       "collaborators": {
+        "guest": "Guest",
         "invite": "Invite",
         "manager": "Manager",
-        "member": "Member",
-        "guest": "Guest"
+        "member": "Member"
       },
       "fields": {
         "addressCity": "City",
@@ -130,6 +104,23 @@
     },
     "campCollaboration": {
       "inactive": "inactive"
+    },
+    "category": {
+      "fields": {
+        "activityType": "Type",
+        "color": "Color",
+        "name": "Name",
+        "numberingStyle": "Numbering style",
+        "short": "Short"
+      },
+      "name": "Activity categories",
+      "numberingStyles": {
+        "1": "1, 2, 3 - numbers",
+        "A": "A, B, C - uppercase letters",
+        "I": "I, II, III - uppercase roman numerals",
+        "a": "a, b, c - lowercase letters",
+        "i": "i, ii, iii - lowercase roman numerals"
+      }
     },
     "contentType": {
       "name": "Contenttype | Contenttypes"
@@ -171,12 +162,21 @@
       "name": "Activity scheduled"
     }
   },
+  "global": {
+    "datetime": {
+      "dateLong": "dd L",
+      "dateShort": "dd M/D",
+      "dateTimeLong": "dd L HH:mm",
+      "hourLong": "HH:mm",
+      "hourShort": "h:mm A"
+    }
+  },
   "print": {
-    "toc": {
-      "title": "Table of contents"
-    },
     "cover": {
       "title": "Cover page"
+    },
+    "picasso": {
+      "title": "Program overview for {period}"
     },
     "program": {
       "title": "Program"
@@ -184,8 +184,8 @@
     "story": {
       "title": "Storyline"
     },
-    "picasso": {
-      "title": "Program overview for {period}"
+    "toc": {
+      "title": "Table of contents"
     }
   },
   "story": {
