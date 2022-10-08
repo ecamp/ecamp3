@@ -28,6 +28,8 @@ export default defineConfig(({ mode }) => ({
       'core-js/modules/es.array.splice.js',
       'core-js/modules/es.array.find.js',
       'core-js/modules/es.object.to-string.js',
+      'core-js/modules/es.regexp.exec.js',
+      'core-js/modules/es.regexp.test.js',
       '@sentry/browser',
       '@zxcvbn-ts/core',
       '@zxcvbn-ts/language-common',

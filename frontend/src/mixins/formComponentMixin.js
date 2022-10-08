@@ -19,7 +19,10 @@ export const formComponentMixin = {
       if ('object' === typeof this.veeRules) {
         return Object.keys(this.veeRules).includes('required')
       }
-      return this.veeRules.split('|').includes('required')
+      return this.veeRules
+        .split('|')
+        .map((rule) => rule.replace(/:.*/, ''))
+        .includes('required')
     },
   },
 }

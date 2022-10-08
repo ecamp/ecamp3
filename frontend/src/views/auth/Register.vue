@@ -1,8 +1,8 @@
 <template>
   <auth-container>
     <h1 class="display-1 text-center">{{ $tc('views.auth.register.title') }}</h1>
-    <v-form @submit.prevent="register">
-      <validation-observer>
+    <validation-observer v-slot="{ handleSubmit }">
+      <v-form @submit.prevent="handleSubmit(register)">
         <e-text-field
           v-model="firstname"
           :name="$tc('entity.user.fields.firstname')"
@@ -69,7 +69,13 @@
           :items="availableLocales"
         />
 
-        <e-checkbox v-model="tos" vee-rules="required" class="align-center">
+        <e-checkbox
+          v-model="tos"
+          :vee-rules="{ required: true }"
+          class="align-center"
+          :name="$tc('views.auth.register.acceptTermsOfUse')"
+          value="true"
+        >
           <template #label>
             <span style="hyphens: auto" :class="{ 'body-2': $vuetify.breakpoint.xsOnly }">
               {{ $tc('views.auth.register.acceptTermsOfUse') }}
@@ -105,8 +111,8 @@
           <v-spacer />
           <icon-spacer />
         </v-btn>
-      </validation-observer>
-    </v-form>
+      </v-form>
+    </validation-observer>
 
     <p class="mt-8 mb-0 text--secondary text-center">
       {{ $tc('views.auth.register.alreadyHaveAnAccount') }}<br />
@@ -146,15 +152,7 @@ export default {
   },
   computed: {
     formComplete() {
-      return (
-        this.tos &&
-        this.firstname !== '' &&
-        this.surname !== '' &&
-        this.email !== '' &&
-        this.pw1 !== '' &&
-        this.pw2 !== '' &&
-        this.pw1 === this.pw2
-      )
+      return !!this.tos
     },
     formData() {
       return {

@@ -20,11 +20,11 @@
       {{ $tc('views.auth.resetPassword.errorMessage') }}
     </v-alert>
 
-    <v-form
-      v-if="status == 'loaded' || status == 'reseting'"
-      @submit.prevent="resetPassword"
-    >
-      <ValidationObserver>
+    <validation-observer v-slot="{ handleSubmit }">
+      <v-form
+        v-if="status == 'loaded' || status == 'reseting'"
+        @submit.prevent="handleSubmit(resetPassword)"
+      >
         <e-text-field
           :value="email"
           :label="$tc('entity.user.fields.email')"
@@ -84,8 +84,8 @@
           <v-spacer />
           <icon-spacer />
         </v-btn>
-      </ValidationObserver>
-    </v-form>
+      </v-form>
+    </validation-observer>
     <p class="mt-8 mb0 text--secondary text-center">
       <router-link :to="{ name: 'login' }">
         {{ $tc('views.auth.resetPassword.back') }}
