@@ -53,7 +53,7 @@ export default {
       type: Function,
       required: true,
     },
-    routeName: { type: String, default: 'camp/program/period' },
+    routeName: { type: String, default: 'camp/period/program' },
   },
   methods: {
     periodRoute,

@@ -230,7 +230,7 @@ export default new Router({
         },
         {
           path: 'program/period/:periodId/:periodTitle?',
-          name: 'camp/program/period',
+          name: 'camp/period/program',
           component: () =>
             import(/* webpackChunkName: "campProgram" */ './views/camp/CampProgram.vue'),
           beforeEnter: requirePeriod,
@@ -239,7 +239,7 @@ export default new Router({
           path: 'program',
           name: 'camp/program',
           async beforeEnter(to, from, next) {
-            redirectToPeriod(to, from, next, 'camp/program/period')
+            redirectToPeriod(to, from, next, 'camp/period/program')
           },
         },
         {
@@ -251,7 +251,7 @@ export default new Router({
         },
         {
           path: 'story/period/:periodId/:periodTitle?',
-          name: 'camp/story/period',
+          name: 'camp/period/story',
           component: () =>
             import(/* webpackChunkName: "campStory" */ './views/camp/Story.vue'),
           beforeEnter: requirePeriod,
@@ -260,7 +260,7 @@ export default new Router({
           path: 'story',
           name: 'camp/story',
           async beforeEnter(to, from, next) {
-            redirectToPeriod(to, from, next, 'camp/story/period')
+            redirectToPeriod(to, from, next, 'camp/period/story')
           },
         },
         {
@@ -407,7 +407,7 @@ function categoryFromRoute(route) {
 
 function getContentLayout(route) {
   switch (route.name) {
-    case 'camp/program/period':
+    case 'camp/period/program':
       return 'full'
     case 'camp/admin':
       return 'wide'
@@ -442,7 +442,7 @@ export function loginRoute(redirectTo) {
   return { path: '/login', query: { redirect: redirectTo } }
 }
 
-export function periodRoute(period, routeName = 'camp/program/period', query = {}) {
+export function periodRoute(period, routeName = 'camp/period/program', query = {}) {
   const camp = period.camp()
   if (camp._meta.loading || period._meta.loading) return {}
   return {

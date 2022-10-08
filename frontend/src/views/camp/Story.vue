@@ -1,7 +1,7 @@
 <template>
   <content-card :title="$tc('views.camp.story.title')" toolbar>
     <template #title-actions>
-      <period-switcher :period="period" :route-name="'camp/story/period'" />
+      <period-switcher :period="period" :route-name="'camp/period/story'" />
       <v-spacer />
       <template v-if="$vuetify.breakpoint.smAndUp">
         <e-switch
