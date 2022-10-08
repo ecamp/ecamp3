@@ -34,8 +34,13 @@ export default {
   methods: {
     computeExpandedDays(period) {
       period.days()._meta.load.then((days) => {
+        const now = new Date()
+        if (Date.parse(period.end) < now) {
+          this.expandedDays = [...Array(days.items.length).keys()]
+          return
+        }
         this.expandedDays = days.items.map((day, idx) =>
-          Date.parse(day.end) >= new Date() ? idx : null
+          Date.parse(day.end) >= now ? idx : null
         )
       })
     },
