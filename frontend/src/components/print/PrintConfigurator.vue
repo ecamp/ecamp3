@@ -5,6 +5,10 @@
       <v-container>
         <v-row>
           <v-col cols="12" md="8">
+            <div>
+              <DownloadNuxtPdfButton :config="cnf" class="mr-3 float-left" />
+              <DownloadReactPdfButton :config="cnf" class="mr-3" />
+            </div>
             <v-list>
               <draggable v-model="cnf.contents" handle=".handle">
                 <v-list-item v-for="(content, idx) in cnf.contents" :key="idx">
@@ -57,7 +61,7 @@
             </v-menu>
           </v-col>
           <v-col cols="12" md="4">
-            <v-expansion-panels>
+            <v-expansion-panels v-if="isDev">
               <v-expansion-panel>
                 <v-expansion-panel-header>View Print-Config</v-expansion-panel-header>
                 <v-expansion-panel-content>
@@ -67,11 +71,11 @@
             </v-expansion-panels>
           </v-col>
         </v-row>
-        <v-row>
+        <v-row v-if="isDev">
           <v-col cols="12">
             <v-tabs v-model="previewTab">
-              <v-tab>Print with Nuxt</v-tab>
-              <v-tab>Print with React</v-tab>
+              <v-tab>Nuxt preview</v-tab>
+              <v-tab>React preview</v-tab>
               <v-tab-item>
                 <print-preview-nuxt
                   v-if="previewTab === 0"
@@ -150,6 +154,9 @@ export default {
   computed: {
     lang() {
       return this.$store.state.lang.language
+    },
+    isDev() {
+      return process.env.NODE_ENV === 'development'
     },
   },
   watch: {

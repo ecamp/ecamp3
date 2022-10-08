@@ -81,8 +81,8 @@ Displays a single activity
           </template>
 
           <v-list>
-            <DownloadNuxtPdf :config="printConfig()" @error="showPrintError" />
-            <DownloadReactPdf :config="printConfig()" @error="showPrintError" />
+            <DownloadNuxtPdf :config="printConfig" @error="showPrintError" />
+            <DownloadReactPdf :config="printConfig" @error="showPrintError" />
 
             <v-divider />
 
@@ -249,6 +249,22 @@ export default {
     preferredContentTypes() {
       return this.category.preferredContentTypes()
     },
+    printConfig() {
+      return {
+        camp: this.camp._meta.self,
+        language: this.$store.state.lang.language,
+        documentName: this.activity.title + '.pdf',
+        contents: [
+          {
+            type: 'Activity',
+            options: {
+              activity: this.activity._meta.self,
+              scheduleEntry: this.scheduleEntry()._meta.self,
+            },
+          },
+        ],
+      }
+    },
   },
 
   // reload data every time user navigates to Activity view
@@ -279,22 +295,6 @@ export default {
     showPrintError(event) {
       this.error = event
       this.showError = true
-    },
-    printConfig() {
-      return {
-        camp: this.camp._meta.self,
-        language: this.$store.state.lang.language,
-        documentName: this.activity.title + '.pdf',
-        contents: [
-          {
-            type: 'Activity',
-            options: {
-              activity: this.activity._meta.self,
-              scheduleEntry: this.scheduleEntry()._meta.self,
-            },
-          },
-        ],
-      }
     },
     onDelete() {
       // redirect to Picasso

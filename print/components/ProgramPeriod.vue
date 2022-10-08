@@ -7,8 +7,10 @@
       </h1>
     </div>
 
+    <generic-error-message v-if="$fetchState.error" :error="$fetchState.error" />
     <program-day
       v-for="day in days"
+      v-else
       :key="'day' + day.id"
       :day="day"
       :show-daily-summary="showDailySummary"

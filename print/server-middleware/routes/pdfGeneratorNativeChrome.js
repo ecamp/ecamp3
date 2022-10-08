@@ -10,7 +10,6 @@
 import puppeteer from 'puppeteer-core'
 const { performance } = require('perf_hooks')
 const { URL } = require('url')
-const { loadNuxt, build } = require('nuxt')
 const { Router } = require('express')
 const { memoryUsage } = require('process')
 
@@ -31,7 +30,7 @@ function measurePerformance(msg) {
   lastTime = now
 
   console.log('\n')
-  console.log(msg)
+  console.log(msg || '')
 }
 
 // Test route
@@ -39,31 +38,36 @@ router.use('/pdfChrome', async (req, res) => {
   let browser = null
 
   try {
-    measurePerformance('Building Nuxt if necessary... ' + process.env.NODE_ENV)
-
-    const isDev = process.env.NODE_ENV !== 'production'
-    // Get nuxt instance for start (production mode)
-    const nuxt = await loadNuxt(isDev ? 'dev' : 'start')
-
-    // Enable live build & reloading on dev
-    if (isDev) {
-      await build(nuxt)
-    }
-
-    // Capture HTML via internal Nuxt render call
-    measurePerformance('Rendering page in Nuxt...')
-    const url = new URL(req.url, `http://${req.headers.host}`)
-    const queryString = url.search
-    const { html } = await nuxt.renderRoute('/' + queryString, { req }) // pass `req` object to Nuxt will also pass authentication cookies automatically
-
     measurePerformance('Connecting to puppeteer...')
-
     // Connect to browserless.io (puppeteer websocket)
     browser = await puppeteer.connect({
       browserWSEndpoint: process.env.BROWSER_WS_ENDPOINT,
     })
 
+    measurePerformance('Open new page & set cookies...')
     const page = await browser.newPage()
+    const printUrl = new URL(process.env.PRINT_URL)
+    const cookies = [
+      {
+        name: `${process.env.COOKIE_PREFIX}jwt_s`,
+        value: req.cookies[`${process.env.COOKIE_PREFIX}jwt_s`],
+        domain: printUrl.host,
+        httpOnly: true,
+        path: '/',
+        sameSite: 'Lax',
+        secure: false,
+      },
+      {
+        name: `${process.env.COOKIE_PREFIX}jwt_hp`,
+        value: req.cookies[`${process.env.COOKIE_PREFIX}jwt_hp`],
+        domain: printUrl.host,
+        httpOnly: true,
+        path: '/',
+        sameSite: 'Lax',
+        secure: false,
+      },
+    ]
+    await page.setCookie(...cookies)
 
     /**
      * Debugging puppeteer
@@ -83,11 +87,15 @@ router.use('/pdfChrome', async (req, res) => {
     }) */
 
     // set HTML content of current page
-    measurePerformance('Puppeteer set HTML content & load resources...')
+    measurePerformance('Puppeteer load HTML content...')
     page.setUserAgent(
       'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:96.0) Gecko/20100101 Firefox/96.0'
     )
-    await page.setContent(html, { waitUntil: 'networkidle0' })
+
+    // HTTP request back to Print Nuxt App
+    await page.goto(`${process.env.PRINT_URL}/?config=${req.query.config}`, {
+      waitUntil: 'networkidle0',
+    })
 
     // print pdf
     measurePerformance('Generate PDf...')

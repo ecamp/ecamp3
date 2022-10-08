@@ -4,8 +4,10 @@
       {{ $tc('print.program.title') }}
     </div>
     <ul>
+      <generic-error-message v-if="$fetchState.error" :error="$fetchState.error" />
       <toc-program-period
         v-for="period in periods"
+        v-else
         :key="period._meta.self"
         :period="period"
         :index="index"

@@ -8,6 +8,7 @@
       {{ period.description }}
     </h1>
 
+    <generic-error-message v-if="$fetchState.error" :error="$fetchState.error" />
     <story-day
       v-for="day in days"
       :key="day._meta.self"
