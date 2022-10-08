@@ -18,15 +18,19 @@ export default new Router({
   mode: 'history',
   base: window.environment.BASE_URL || '/',
   routes: [
-    // Dev-Pages:
-    {
-      path: '/controls',
-      name: 'controls',
-      components: {
-        default: () =>
-          import(/* webpackChunkName: "controls" */ './views/dev/Controls.vue'),
-      },
-    },
+    ...(process.env.NODE_ENV === 'development'
+      ? [
+          // Dev-Pages:
+          {
+            path: '/controls',
+            name: 'controls',
+            components: {
+              default: () =>
+                import(/* webpackChunkName: "controls" */ './views/dev/Controls.vue'),
+            },
+          },
+        ]
+      : []),
 
     {
       path: '/performance',
