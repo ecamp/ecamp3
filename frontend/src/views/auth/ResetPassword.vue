@@ -37,7 +37,7 @@
 
         <e-text-field
           v-model="password"
-          :label="$tc('views.auth.resetPassword.password')"
+          :name="$tc('views.auth.resetPassword.password')"
           vee-id="password"
           vee-rules="required|min:12|max:128"
           validate-on-blur
@@ -60,8 +60,7 @@
 
         <e-text-field
           v-model="confirmation"
-          :label="$tc('views.auth.resetPassword.passwordConfirmation')"
-          name="Confirmation"
+          :name="$tc('views.auth.resetPassword.passwordConfirmation')"
           vee-rules="required|confirmed:password"
           validate-on-blur
           :dense="$vuetify.breakpoint.xsOnly"
