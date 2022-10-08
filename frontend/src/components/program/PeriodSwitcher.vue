@@ -23,7 +23,7 @@
         <v-list-item
           v-for="item in period().camp().periods().items"
           :key="item._meta.self"
-          :to="periodRoute(item)"
+          :to="periodRoute(item, routeName)"
           two-line
         >
           <v-list-item-content>
@@ -53,6 +53,7 @@ export default {
       type: Function,
       required: true,
     },
+    routeName: { type: String, default: 'camp/period/program' },
   },
   methods: {
     periodRoute,

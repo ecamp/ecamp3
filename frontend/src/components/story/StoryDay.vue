@@ -1,54 +1,61 @@
 <template>
-  <div class="e-story-day contents">
-    <h3 class="body-2 grey--text text--darken-2 e-story-day-title">
-      {{ dateLong(day.start) }}
-    </h3>
-    <template v-if="loading">
-      <v-skeleton-loader class="mt-2 mt-sm-3" type="list-item-three-line" />
-    </template>
-    <template v-else-if="entriesWithStory.length">
-      <template v-for="{ scheduleEntry, storyChapters } in entriesWithStory">
-        <div v-for="chapter in storyChapters" :key="chapter._meta.uri">
-          <h4 class="mt-2 mt-sm-3">
-            <span class="d-inline-flex align-center">
-              <span class="tabular-nums">{{ scheduleEntry.number }}</span>
-              <CategoryChip :category="scheduleEntry.activity().category" class="mx-1" />
-            </span>
-            <router-link
-              :to="{
-                name: 'activity',
-                params: {
-                  campId: day.period().camp().id,
-                  scheduleEntryId: scheduleEntry.id,
-                },
-              }"
-              class="e-title-link"
-            >
-              <span>{{ scheduleEntry.activity().title }}</span>
-              <template v-if="chapter.instanceName">
-                - {{ chapter.instanceName }}
-              </template>
-            </router-link>
-          </h4>
-          <api-form :entity="chapter">
-            <api-richtext
-              :outlined="false"
-              :solo="false"
-              auto-grow
-              dense
-              :readonly="!editing"
-              fieldname="data.text"
-              aria-label="Erfassen"
-              label=""
-            />
-          </api-form>
-        </div>
+  <v-expansion-panel>
+    <v-expansion-panel-header>
+      <h3>{{ dateLong(day.start) }}</h3>
+    </v-expansion-panel-header>
+    <v-expansion-panel-content>
+      <v-skeleton-loader
+        v-if="loading"
+        class="mt-2 mt-sm-3"
+        type="list-item-three-line"
+      />
+      <template v-else-if="entriesWithStory.length">
+        <template v-for="{ scheduleEntry, storyChapters } in entriesWithStory">
+          <div v-for="chapter in storyChapters" :key="chapter._meta.uri">
+            <h4 class="mt-2 mt-sm-3">
+              <span class="d-inline-flex align-center">
+                <span class="tabular-nums">{{ scheduleEntry.number }}</span>
+                <CategoryChip
+                  :category="scheduleEntry.activity().category"
+                  class="mx-1"
+                />
+              </span>
+              <router-link
+                :to="{
+                  name: 'activity',
+                  params: {
+                    campId: day.period().camp().id,
+                    scheduleEntryId: scheduleEntry.id,
+                  },
+                }"
+                class="e-title-link"
+              >
+                <span>{{ scheduleEntry.activity().title }}</span>
+                <template v-if="chapter.instanceName">
+                  - {{ chapter.instanceName }}
+                </template>
+              </router-link>
+            </h4>
+            <api-form :entity="chapter">
+              <api-richtext
+                :outlined="false"
+                :solo="false"
+                auto-grow
+                dense
+                :readonly="!editing"
+                fieldname="data.text"
+                aria-label="Erfassen"
+                label=""
+              />
+            </api-form>
+          </div>
+        </template>
       </template>
-    </template>
-    <p v-else>
-      {{ $tc('story.storyDay.noStory') }}
-    </p>
-  </div>
+      <p v-else>
+        {{ $tc('story.storyDay.noStory') }}
+      </p>
+    </v-expansion-panel-content>
+  </v-expansion-panel>
 </template>
 <script>
 import { sortBy } from 'lodash'
@@ -93,10 +100,18 @@ export default {
       return this.entries.filter(({ storyChapters }) => storyChapters.length)
     },
   },
-  mounted() {
-    this.day
-      .scheduleEntries()
-      .items.forEach((entry) => this.api.reload(entry.activity().contentNodes()))
+  async mounted() {
+    // refresh to get new schedule entries
+    await this.day.scheduleEntries().$reload()
+    // refresh individual schedule entries to get new story content nodes
+    await Promise.all(
+      this.day.scheduleEntries().items.map((entry) =>
+        entry
+          .activity()
+          .contentNodes()
+          ._meta.load.then((contentNodes) => this.api.reload(contentNodes))
+      )
+    )
   },
   methods: {
     dateLong,
@@ -105,11 +120,6 @@ export default {
 </script>
 
 <style scoped>
-.e-story-day + .e-story-day .e-story-day-title {
-  border-top: 1px solid #eee;
-  padding-top: 5px;
-}
-
 ::v-deep .v-skeleton-loader__list-item-three-line {
   padding: 0;
   height: auto;
