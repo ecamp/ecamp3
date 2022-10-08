@@ -9,7 +9,6 @@
     <v-checkbox
       v-bind="$attrs"
       :id="id"
-      :value="formValue"
       :hide-details="hideDetails"
       :error-messages="veeErrors.concat(errorMessages)"
       :label="label || name"
@@ -38,7 +37,6 @@ export default {
   mixins: [formComponentPropsMixin, formComponentMixin],
   props: {
     value: { type: Boolean, required: false },
-    formValue: { type: String, default: 'true' },
   },
 }
 </script>

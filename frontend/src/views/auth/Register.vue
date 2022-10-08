@@ -71,10 +71,9 @@
 
         <e-checkbox
           v-model="tos"
-          :vee-rules="{ required: true }"
+          :vee-rules="{ required: { allowFalse: false } }"
           class="align-center"
           :name="$tc('views.auth.register.acceptTermsOfUse')"
-          value="true"
         >
           <template #label>
             <span style="hyphens: auto" :class="{ 'body-2': $vuetify.breakpoint.xsOnly }">
@@ -104,7 +103,7 @@
           </small>
         </p>
 
-        <v-btn type="submit" color="primary" :disabled="!formComplete" block x-large>
+        <v-btn type="submit" color="primary" block x-large>
           <v-progress-circular v-if="registering" indeterminate size="24" />
           <v-spacer />
           <span>{{ $tc('views.auth.register.register') }}</span>
@@ -151,9 +150,6 @@ export default {
     }
   },
   computed: {
-    formComplete() {
-      return !!this.tos
-    },
     formData() {
       return {
         firstname: this.firstname,
