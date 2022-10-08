@@ -59,6 +59,7 @@
     "raf": "3.4.1",
     "react": "17.0.2",
     "runes": "0.4.3",
+    "sheetjs": "^2.0.0",
     "slugify": "1.6.5",
     "url-template": "3.1.0",
     "util": "0.12.4",
@@ -72,7 +73,8 @@
     "vue-router": "3.6.5",
     "vuedraggable": "2.24.3",
     "vuetify": "2.6.11",
-    "vuex": "3.6.2"
+    "vuex": "3.6.2",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@babel/eslint-parser": "7.19.1",

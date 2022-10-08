@@ -353,7 +353,15 @@
         "title": "Geschichte"
       },
       "material": {
-        "groupByList": "Nach Materialliste gruppieren"
+        "downloadXlsx": "Download",
+        "groupByList": "Nach Materialliste gruppieren",
+        "xlsx": {
+          "quantity": "Menge",
+          "unit": "Einheit",
+          "article": "Artikel",
+          "matlist": "Liste",
+          "activity": "Aktivität"
+        }
       },
       "picasso": {
         "editMode": "Editiermodus"
