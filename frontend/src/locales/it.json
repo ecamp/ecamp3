@@ -78,6 +78,11 @@
         "myCamps": "Il mio campo | I miei campi",
         "profile": "Profilo"
       }
+    },
+    "toast": {
+      "multiLineToast": {
+        "generalError": "Si è verificato un errore."
+      }
     }
   },
   "entity": {

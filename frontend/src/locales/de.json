@@ -185,6 +185,11 @@
         }
       }
     },
+    "toast": {
+      "multiLineToast": {
+        "generalError": "Ein Fehler ist aufgetreten."
+      }
+    },
     "user": {
       "dialogChangeMail": {
         "error": "Leider ist ein Fehler aufgetreten.",

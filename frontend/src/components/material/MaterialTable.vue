@@ -197,6 +197,7 @@ import ScheduleEntryLinks from './ScheduleEntryLinks.vue'
 import ServerErrorContent from '@/components/form/ServerErrorContent.vue'
 import ButtonRetry from '@/components/buttons/ButtonRetry.vue'
 import ButtonCancel from '@/components/buttons/ButtonCancel.vue'
+import { errorToMultiLineToast } from '@/components/toast/toasts'
 
 export default {
   name: 'MaterialTable',
@@ -358,7 +359,9 @@ export default {
   methods: {
     // remove existing item
     deleteMaterialItem(materialItem) {
-      this.api.del(materialItem.uri)
+      this.api
+        .del(materialItem.uri)
+        .catch((e) => this.$toast.error(errorToMultiLineToast(e)))
     },
 
     // add new item to list & save to API

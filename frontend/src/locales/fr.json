@@ -78,6 +78,11 @@
         "myCamps": "Mon camp | Mes camps",
         "profile": "Profil"
       }
+    },
+    "toast": {
+      "multiLineToast": {
+        "generalError": "Une erreur est survenue."
+      }
     }
   },
   "entity": {

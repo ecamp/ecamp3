@@ -209,6 +209,11 @@
         }
       }
     },
+    "toast": {
+      "multiLineToast": {
+        "generalError": "An error has occurred."
+      }
+    },
     "user": {
       "dialogChangeMail": {
         "error": "An error has occurred.",
