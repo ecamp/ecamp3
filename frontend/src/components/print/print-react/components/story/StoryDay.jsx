@@ -5,8 +5,11 @@ import styles from '../styles.js'
 import sortBy from 'lodash/sortBy.js'
 import CategoryLabel from '../CategoryLabel.jsx'
 import RichText from '../RichText.jsx'
-import { dateLong } from '../../../../../common/helpers/dateHelperUTCFormatted.js'
+import dayjs from '@/common/helpers/dayjs.js'
 
+function dateLong(dateTimeString, $tc) {
+  return dayjs.utc(dateTimeString).format($tc('global.datetime.dateLong'))
+}
 function isEmptyHtml(html) {
   if (html === null) {
     return true
@@ -42,7 +45,8 @@ function StoryDay(props) {
         id={`${props.id}-${props.period.id}-${props.day.id}`}
         style={{ ...styles.h2, marginTop: '12pt' }}
       >
-        {props.$tc('entity.day.name')} {props.day.number} ({dateLong(props.day.start)})
+        {props.$tc('entity.day.name')} {props.day.number} (
+        {dateLong(props.day.start, props.$tc)})
       </Text>
       {entriesWithStory.map(({ scheduleEntry, storyChapters }) => {
         return (
