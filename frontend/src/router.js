@@ -229,18 +229,18 @@ export default new Router({
             import(/* webpackChunkName: "campAdmin" */ './views/camp/Admin.vue'),
         },
         {
-          path: 'program',
-          name: 'camp/program',
-          async beforeEnter(to, from, next) {
-            redirectToPeriod(to, from, next, 'camp/program/period')
-          },
-        },
-        {
           path: 'program/period/:periodId/:periodTitle?',
           name: 'camp/program/period',
           component: () =>
             import(/* webpackChunkName: "campProgram" */ './views/camp/CampProgram.vue'),
           beforeEnter: requirePeriod,
+        },
+        {
+          path: 'program',
+          name: 'camp/program',
+          async beforeEnter(to, from, next) {
+            redirectToPeriod(to, from, next, 'camp/program/period')
+          },
         },
         {
           path: 'print',
@@ -250,18 +250,18 @@ export default new Router({
           props: (route) => ({ camp: campFromRoute(route) }),
         },
         {
-          path: 'story',
-          name: 'camp/story',
-          async beforeEnter(to, from, next) {
-            redirectToPeriod(to, from, next, 'camp/story/period')
-          },
-        },
-        {
           path: 'story/period/:periodId/:periodTitle?',
           name: 'camp/story/period',
           component: () =>
             import(/* webpackChunkName: "campStory" */ './views/camp/Story.vue'),
           beforeEnter: requirePeriod,
+        },
+        {
+          path: 'story',
+          name: 'camp/story',
+          async beforeEnter(to, from, next) {
+            redirectToPeriod(to, from, next, 'camp/story/period')
+          },
         },
         {
           path: 'material',
