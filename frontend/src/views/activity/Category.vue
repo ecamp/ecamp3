@@ -26,7 +26,7 @@
             <v-icon left>mdi-check</v-icon>
             {{ $tc('views.activity.activity.backToContents') }}
           </template>
-          <template v-else>{{ $tc('views.activity.activity.back') }}</template>
+          <template v-else>{{ $tc('global.button.back') }}</template>
         </v-btn>
       </template>
       <v-card-text class="px-0 py-0">

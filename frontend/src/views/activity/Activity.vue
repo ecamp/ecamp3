@@ -69,7 +69,7 @@ Displays a single activity
             <v-icon left>mdi-file-document-edit-outline</v-icon>
             {{ $tc('views.activity.activity.backToContents') }}
           </template>
-          <template v-else>{{ $tc('views.activity.activity.back') }}</template>
+          <template v-else>{{ $tc('global.button.back') }}</template>
         </v-btn>
 
         <!-- hamburger menu -->

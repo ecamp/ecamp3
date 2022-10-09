@@ -15,7 +15,6 @@
         }
       },
       "contentNode": {
-        "delete": "Delete",
         "editName": "Rename",
         "moveDown": "Move down",
         "moveUp": "Move up"
@@ -257,7 +256,6 @@
       "content": "Content",
       "create": "Create",
       "delete": "Delete",
-      "deleteEntity": "Delete {entity}",
       "edit": "Edit",
       "editable": "Editable",
       "login": "Log in",
@@ -274,11 +272,6 @@
       "update": "Update"
     },
     "changeLanguage": "Change language",
-    "empty": {
-      "list": "Empty | No {entities} yet",
-      "result": "No result | No results",
-      "resultFor": "No result for {search} | No results for {search}"
-    },
     "language": "English",
     "loading": "Loading …",
     "lokaliseMessage": "Language switching powered by lokalise.com",
@@ -294,7 +287,6 @@
   "views": {
     "activity": {
       "activity": {
-        "back": "Back",
         "backToContents": "Back to editing content",
         "changeLayout": "Change layout",
         "layout": "Layout"

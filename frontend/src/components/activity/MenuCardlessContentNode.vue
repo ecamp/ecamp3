@@ -59,7 +59,7 @@ export default {
     deleteCaption() {
       return this.deletingDisabled
         ? this.$tc('components.activity.menuCardlessContentNode.deletingDisabled')
-        : this.$tc('components.activity.menuCardlessContentNode.delete')
+        : this.$tc('global.button.delete')
     },
   },
   methods: {
