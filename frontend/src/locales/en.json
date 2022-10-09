@@ -287,7 +287,6 @@
   "views": {
     "activity": {
       "activity": {
-        "back": "Back",
         "backToContents": "Back to editing content",
         "changeLayout": "Change layout",
         "layout": "Layout"
