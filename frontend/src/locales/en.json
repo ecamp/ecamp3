@@ -337,7 +337,6 @@
         "title": "Create account"
       },
       "resetPassword": {
-        "back": "Log in",
         "errorMessage": "Reset password failed.",
         "invalidRequest": "Invalid link",
         "password": "New password",
@@ -347,7 +346,6 @@
         "title": "Reset password"
       },
       "resetPasswordRequest": {
-        "back": "Log in",
         "errorMessage": "Reset password failed.",
         "send": "Send",
         "successMessage": "Mail with Link to reset your password will be delivered.",
