@@ -265,6 +265,7 @@
     },
     "changeLanguage": "Sprache ändern",
     "language": "Deutsch",
+    "loading": "Laden …",
     "lokaliseMessage": "Übersetzungen unterstützt durch lokalise.com",
     "serverError": {
       "409": "Uuuups... Diese Aktion hat zu einem Fehler auf dem Server geführt.",
