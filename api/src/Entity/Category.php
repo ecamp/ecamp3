@@ -46,6 +46,7 @@ use Symfony\Component\Validator\Constraints as Assert;
     ],
     denormalizationContext: ['groups' => ['write']],
     normalizationContext: ['groups' => ['read']],
+    order: ['camp.id', 'short'],
 )]
 #[ApiFilter(SearchFilter::class, properties: ['camp'])]
 #[ORM\Entity(repositoryClass: CategoryRepository::class)]
