@@ -111,6 +111,46 @@ spec:
                 secretKeyRef:
                   name: {{ include "api.name" . }}
                   key: recaptcha-secret
+            - name: OAUTH_GOOGLE_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "api.name" . }}
+                  key: oauth-google-client-id
+            - name: OAUTH_GOOGLE_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "api.name" . }}
+                  key: oauth-google-client-secret
+            - name: OAUTH_PBSMIDATA_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "api.name" . }}
+                  key: oauth-pbsmidata-client-id
+            - name: OAUTH_PBSMIDATA_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "api.name" . }}
+                  key: oauth-pbsmidata-client-secret
+            - name: OAUTH_PBSMIDATA_BASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "api.name" . }}
+                  key: oauth-pbsmidata-base-url
+            - name: OAUTH_CEVIDB_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "api.name" . }}
+                  key: oauth-cevidb-client-id
+            - name: OAUTH_CEVIDB_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "api.name" . }}
+                  key: oauth-cevidb-client-secret
+            - name: OAUTH_CEVIDB_BASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "api.name" . }}
+                  key: oauth-cevidb-base-url
           volumeMounts:
             - mountPath: /var/run/php
               name: php-socket
