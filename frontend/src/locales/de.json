@@ -140,11 +140,14 @@
     },
     "invitation": {
       "acceptCurrentAuth": "Einladung mit aktuellem Account akzeptieren",
+      "backToHome": "Zurück zur Startseite",
+      "error": "Ein unerwarteter Fehler ist aufgetreten",
       "notFound": "Die Einladung wurde bereits angenommen oder gelöscht",
       "openCamp": "Lager öffnen",
       "register": "Registrieren",
       "reject": "Einladung ablehnen",
       "successfullyRejected": "Die Einladung wurde erfolgreich abgelehnt",
+      "title": "Einladung zum Lager \"{campName}\"",
       "useOtherAuth": "Ausloggen und einen anderen Account benutzen",
       "userAlreadyInCamp": "Du arbeitest schon an diesem Lager mit",
       "userWelcome": "Willkommen"
@@ -155,10 +158,6 @@
       }
     },
     "navigation": {
-      "searchMobile": {
-        "allCamps": "Alle Lager",
-        "searchActivitiesAndCamps": "Aktivitäten und Lager suchen"
-      },
       "userMeta": {
         "logOut": "Ausloggen",
         "myCamps": "Mein Lager | Meine Lager",
