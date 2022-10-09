@@ -97,7 +97,7 @@ browserless:
     port: 3000
 
 mail:
-  dummyEnabled: true
+  dummyEnabled: false
   # If using a real mail server, the connection uri to send emails to
   dsn: # smtp://myuser:mypass@mymailserver:1025
   # If the dummy mail server is enabled, the domain where the web interface is available
