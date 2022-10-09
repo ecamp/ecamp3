@@ -7,12 +7,12 @@ on:
 jobs:
   fast_forward_job:
     name: Fast Forward
+    # Check this issue is a pull request
+    # Check the comment contains the trigger string
+    # Check the comment author has appropriate permissions
     if: |
-      # Check this issue is a pull request
       (github.event.issue.pull_request != null) &&
-      # Check the comment contains the trigger string
       contains(github.event.comment.body, '/fast-forward') &&
-      # Check the comment author has appropriate permissions
       contains(
         github.event.comment.author_association,
         ['OWNER']
