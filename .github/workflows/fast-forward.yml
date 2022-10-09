@@ -13,10 +13,7 @@ jobs:
     if: |
       (github.event.issue.pull_request != null) &&
       contains(github.event.comment.body, '/fast-forward') &&
-      contains(
-        github.event.comment.author_association,
-        ['OWNER']
-      )
+      contains(github.event.comment.author_association, 'OWNER')
       
     runs-on: ubuntu-latest
     steps:
