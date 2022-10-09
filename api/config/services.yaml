@@ -127,8 +127,10 @@ services:
         public: true
         arguments:
             - '@Symfony\Component\Mailer\MailerInterface'
+            - '@translator'
             - "%env(FRONTEND_BASE_URL)%"
-            - "%env(MAIL_FROM)%"
+            - "%env(MAIL_FROM_EMAIL)%"
+            - "%env(MAIL_FROM_NAME)%"
 
     App\Service\TranslateToAllLocalesService:
         public: true
