@@ -9,7 +9,13 @@ Displays all periods of a single camp and allows to edit them & create new ones
         {{ $tc('components.camp.campPeriods.title', api.get().camps().items.length) }}
         <dialog-period-create v-if="!disabled" :camp="camp()">
           <template #activator="{ on }">
-            <button-add color="secondary" text class="my-n2" :hide-label="true" v-on="on">
+            <button-add
+              color="secondary"
+              text
+              class="my-n2"
+              :hide-label="$vuetify.breakpoint.xsOnly"
+              v-on="on"
+            >
               {{ $tc('components.camp.campPeriods.createPeriod') }}
             </button-add>
           </template>
