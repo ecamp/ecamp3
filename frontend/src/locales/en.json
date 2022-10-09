@@ -97,7 +97,8 @@
         "inviteAgain": "Invite again"
       },
       "materialCreateItem": {
-        "campSettingsButton": "Settings"
+        "campSettingsButton": "Settings",
+        "noMaterialListAvailable": "There are no material lists for this camp yet. You can create them in 'Admin'."
       },
       "periodMaterialLists": {
         "addNewItem": "Add new item"
