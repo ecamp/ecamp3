@@ -1,3 +1,5 @@
+name: Fast Forward Merge
+
 on:
   issue_comment:
     types: [created]
@@ -5,13 +7,24 @@ on:
 jobs:
   fast_forward_job:
     name: Fast Forward
-    if: github.event.issue.pull_request != '' && contains(github.event.comment.body, '/fast-forward')
+    if: |
+      # Check this issue is a pull request
+      (github.event.issue.pull_request != null) &&
+      # Check the comment contains the trigger string
+      contains(github.event.comment.body, '/fast-forward') &&
+      # Check the comment author has appropriate permissions
+      contains(
+        github.event.comment.author_association,
+        ['OWNER']
+      )
+      
     runs-on: ubuntu-latest
     steps:
+     
       # To use this repository's private action, you must check out the repository
       - name: Checkout
         uses: actions/checkout@v2
-        
+
       # Basic use case example
       - name: Fast Forward PR
         id: ff-action
