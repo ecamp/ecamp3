@@ -62,13 +62,6 @@
       }
     },
     "navigation": {
-      "searchDesktop": {
-        "search": "Chercher"
-      },
-      "searchMobile": {
-        "search": "Chercher",
-        "searchActivitiesAndCamps": "Recherche d'activités et de camps"
-      },
       "userMeta": {
         "logOut": "Se déconnecter",
         "myCamps": "Mon camp | Mes camps",

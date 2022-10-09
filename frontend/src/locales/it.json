@@ -62,13 +62,6 @@
       }
     },
     "navigation": {
-      "searchDesktop": {
-        "search": "Cerca"
-      },
-      "searchMobile": {
-        "search": "Cerca",
-        "searchActivitiesAndCamps": "Ricerca di attività e campi"
-      },
       "userMeta": {
         "logOut": "Disconnettiti",
         "myCamps": "Il mio campo | I miei campi",

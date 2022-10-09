@@ -158,10 +158,6 @@
       }
     },
     "navigation": {
-      "searchMobile": {
-        "allCamps": "Alle Lager",
-        "searchActivitiesAndCamps": "Aktivitäten und Lager suchen"
-      },
       "userMeta": {
         "logOut": "Ausloggen",
         "myCamps": "Mein Lager | Meine Lager",

@@ -28,7 +28,6 @@
         "name": "Scheduled"
       },
       "menuCardlessContentNode": {
-        "delete": "Delete",
         "deletingDisabled": "Must be empty to delete"
       }
     },
@@ -158,14 +157,6 @@
       }
     },
     "navigation": {
-      "searchDesktop": {
-        "search": "Search"
-      },
-      "searchMobile": {
-        "allCamps": "All camps",
-        "search": "Search",
-        "searchActivitiesAndCamps": "Search for activities and camps"
-      },
       "userMeta": {
         "logOut": "Log out",
         "myCamps": "My camp | My camps",
