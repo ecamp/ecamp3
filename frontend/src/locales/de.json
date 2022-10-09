@@ -265,6 +265,7 @@
     },
     "changeLanguage": "Sprache ändern",
     "language": "Deutsch",
+    "loading": "Laden …",
     "lokaliseMessage": "Übersetzungen unterstützt durch lokalise.com",
     "serverError": {
       "409": "Uuuups... Diese Aktion hat zu einem Fehler auf dem Server geführt.",
@@ -328,7 +329,6 @@
         "title": "Konto erstellen"
       },
       "resetPassword": {
-        "back": "Zurück zum Login",
         "errorMessage": "Passwort konnte nicht geändert werden.",
         "invalidRequest": "Ungültiger Link",
         "password": "Neues Passwort",
@@ -338,7 +338,6 @@
         "title": "Neues Passwort setzen"
       },
       "resetPasswordRequest": {
-        "back": "Zurück zum Login",
         "errorMessage": "Passwort zurücksetzen nicht möglich.",
         "send": "Abschicken",
         "successMessage": "Mail mit Link für 'Passwort zurücksetzen' wird versendet.",
