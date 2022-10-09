@@ -42,6 +42,7 @@ import ResizableColumn from '@/components/activity/content/columnLayout/Resizabl
 import DraggableContentNodes from '@/components/activity/DraggableContentNodes.vue'
 import ColumnOperations from '@/components/activity/content/columnLayout/ColumnOperations.vue'
 import idToColor from '@/common/helpers/idToColor.js'
+import { errorToMultiLineToast } from '@/components/toast/toasts'
 
 function cumulativeSumReducer(cumSum, nextElement) {
   cumSum.push(cumSum[cumSum.length - 1] + nextElement)
@@ -144,7 +145,11 @@ export default {
           })),
         },
       }
-      this.api.patch(this.contentNode, payload)
+      try {
+        await this.api.patch(this.contentNode, payload)
+      } catch (e) {
+        this.$toast.error(errorToMultiLineToast(e))
+      }
     },
   },
 }

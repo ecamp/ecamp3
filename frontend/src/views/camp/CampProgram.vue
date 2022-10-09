@@ -25,8 +25,8 @@ Show all activity schedule entries of a single period.
             @click="editMode = !editMode"
           />
           <v-divider />
-          <DownloadNuxtPdf :config="printConfig" @error="showPrintError" />
-          <DownloadReactPdf :config="printConfig" @error="showPrintError" />
+          <DownloadNuxtPdf :config="printConfig" />
+          <DownloadReactPdf :config="printConfig" />
         </v-list>
       </v-menu>
     </template>
@@ -47,14 +47,6 @@ Show all activity schedule entries of a single period.
         </template>
       </template>
     </schedule-entries>
-    <v-snackbar v-model="showError" app :timeout="10000">
-      {{ error ? error.label : null }}
-      <template #action="{ attrs }">
-        <v-btn color="red" text v-bind="attrs" @click="showError = null">
-          {{ $tc('global.button.close') }}
-        </v-btn>
-      </template>
-    </v-snackbar>
   </content-card>
 </template>
 <script>
@@ -87,8 +79,6 @@ export default {
   data() {
     return {
       editMode: false,
-      showError: null,
-      error: null,
     }
   },
   computed: {
@@ -110,12 +100,6 @@ export default {
           },
         ],
       }
-    },
-  },
-  methods: {
-    showPrintError(event) {
-      this.error = event
-      this.showError = true
     },
   },
 }

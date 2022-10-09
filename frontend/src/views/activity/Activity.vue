@@ -81,8 +81,8 @@ Displays a single activity
           </template>
 
           <v-list>
-            <DownloadNuxtPdf :config="printConfig" @error="showPrintError" />
-            <DownloadReactPdf :config="printConfig" @error="showPrintError" />
+            <DownloadNuxtPdf :config="printConfig" />
+            <DownloadReactPdf :config="printConfig" />
 
             <v-divider />
 
@@ -173,15 +173,6 @@ Displays a single activity
           />
         </template>
       </v-card-text>
-
-      <v-snackbar v-model="showError" app :timeout="10000">
-        {{ error ? error.label : null }}
-        <template #action="{ attrs }">
-          <v-btn color="red" text v-bind="attrs" @click="showError = null">
-            {{ $tc('global.button.close') }}
-          </v-btn>
-        </template>
-      </v-snackbar>
     </content-card>
   </v-container>
 </template>
@@ -196,6 +187,7 @@ import { campRoleMixin } from '@/mixins/campRoleMixin'
 import { periodRoute } from '@/router.js'
 import DownloadNuxtPdf from '@/components/print/print-nuxt/DownloadNuxtPdfListItem.vue'
 import DownloadReactPdf from '@/components/print/print-react/DownloadReactPdfListItem.vue'
+import { errorToMultiLineToast } from '@/components/toast/toasts'
 
 export default {
   name: 'Activity',
@@ -226,8 +218,6 @@ export default {
       layoutMode: false,
       editActivityTitle: false,
       loading: true,
-      showError: null,
-      error: null,
     }
   },
   computed: {
@@ -278,9 +268,11 @@ export default {
   methods: {
     rangeShort,
     changeCategory(category) {
-      this.activity.$patch({
-        category: category._meta.self,
-      })
+      this.activity
+        .$patch({
+          category: category._meta.self,
+        })
+        .catch((e) => this.$toast.error(errorToMultiLineToast(e)))
     },
     countContentNodes(contentType) {
       return this.contentNodes.items.filter((cn) => {
@@ -291,10 +283,6 @@ export default {
       if (this.isContributor) {
         this.editActivityTitle = true
       }
-    },
-    showPrintError(event) {
-      this.error = event
-      this.showError = true
     },
     onDelete() {
       // redirect to Picasso

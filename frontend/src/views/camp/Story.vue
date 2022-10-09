@@ -17,8 +17,8 @@
             @click="editing = !editing"
           />
           <v-divider />
-          <DownloadNuxtPdf :config="printConfig" @error="showPrintError" />
-          <DownloadReactPdf :config="printConfig" @error="showPrintError" />
+          <DownloadNuxtPdf :config="printConfig" />
+          <DownloadReactPdf :config="printConfig" />
         </v-list>
       </v-menu>
     </template>
@@ -53,8 +53,6 @@ export default {
   data() {
     return {
       editing: false,
-      showError: null,
-      error: null,
     }
   },
   computed: {
@@ -74,12 +72,6 @@ export default {
           },
         ],
       }
-    },
-  },
-  methods: {
-    showPrintError(event) {
-      this.error = event
-      this.showError = true
     },
   },
 }

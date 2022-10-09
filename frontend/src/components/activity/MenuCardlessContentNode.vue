@@ -28,6 +28,7 @@
 </template>
 <script>
 import DialogEntityDelete from '@/components/dialog/DialogEntityDelete.vue'
+import { errorToMultiLineToast } from '@/components/toast/toasts'
 
 export default {
   name: 'MenuCardlessContentNode',
@@ -63,7 +64,8 @@ export default {
     },
   },
   methods: {
-    deletingFailed() {
+    deletingFailed(error) {
+      this.$toast.error(errorToMultiLineToast(error))
       this.allContentNodes().$reload()
     },
   },

@@ -6,14 +6,6 @@
         {{ $tc('components.print.printReact.downloadReactPdfListItem.label') }}
       </div>
     </v-btn>
-    <v-snackbar v-model="error" :timeout="10000">
-      {{ $tc('components.print.localPdfDownloadButton.error') }}
-      <template #action="{ attrs }">
-        <v-btn color="red" text v-bind="attrs" @click="error = null">
-          {{ $tc('global.button.close') }}
-        </v-btn>
-      </template>
-    </v-snackbar>
   </div>
 </template>
 
