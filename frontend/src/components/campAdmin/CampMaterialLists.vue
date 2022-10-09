@@ -5,7 +5,13 @@
         {{ $tc('components.camp.campMaterialLists.title') }}
         <dialog-material-list-create v-if="!disabled" :camp="camp()">
           <template #activator="{ on }">
-            <button-add color="secondary" text class="my-n1" v-on="on">
+            <button-add
+              color="secondary"
+              text
+              :hide-label="$vuetify.breakpoint.xsOnly"
+              class="my-n1"
+              v-on="on"
+            >
               {{ $tc('components.camp.campMaterialLists.createMaterialList') }}
             </button-add>
           </template>
