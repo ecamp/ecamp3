@@ -2,7 +2,6 @@
   "components": {
     "activity": {
       "contentNode": {
-        "delete": "Effacer",
         "editName": "Renommer",
         "moveDown": "Descendre",
         "moveUp": "Déplacer vers le haut"
@@ -43,9 +42,6 @@
           "title": "titre"
         },
         "title": "Paramètres"
-      },
-      "collaboratorListItem": {
-        "remove": "Supprimer"
       }
     },
     "dialog": {
@@ -204,8 +200,6 @@
         }
       },
       "story": {
-        "editModeOff": "Modification désactivée",
-        "editModeOn": "Modification activée",
         "title": "Histoire"
       }
     },

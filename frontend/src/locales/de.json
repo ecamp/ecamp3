@@ -244,10 +244,6 @@
       "update": "Aktualisieren"
     },
     "changeLanguage": "Sprache ändern",
-    "empty": {
-      "result": "Kein Resultat | Keine Resultate",
-      "resultFor": "Kein Resultat für {search} | Keine Resultate für {search}"
-    },
     "language": "Deutsch",
     "lokaliseMessage": "Übersetzungen unterstützt durch lokalise.com",
     "serverError": {

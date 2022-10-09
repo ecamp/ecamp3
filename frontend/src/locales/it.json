@@ -2,7 +2,6 @@
   "components": {
     "activity": {
       "contentNode": {
-        "delete": "Cancellare",
         "editName": "Rinominare",
         "moveDown": "Abbassati",
         "moveUp": "Spostare in alto"
@@ -43,9 +42,6 @@
           "title": "titolo"
         },
         "title": "Impostazioni"
-      },
-      "collaboratorListItem": {
-        "remove": "Rimuovere"
       }
     },
     "dialog": {
@@ -204,8 +200,6 @@
         }
       },
       "story": {
-        "editModeOff": "Modifica disattivata",
-        "editModeOn": "Modifica in corso",
         "title": "Storia"
       }
     },
