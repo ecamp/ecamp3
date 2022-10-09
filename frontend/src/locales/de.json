@@ -2,6 +2,12 @@
   "components": {
     "activity": {
       "content": {
+        "columnLayout": {
+          "resizableColumn": {
+            "addColumn": "Spalte hinzufügen",
+            "removeColumn": "Leere Spalte entfernen"
+          }
+        },
         "storyboard": {
           "section": {
             "deleteWarning": "Möchtest du diesen Abschnitt wirklich löschen?"
@@ -20,6 +26,9 @@
           "start": "Start"
         },
         "name": "Geplante Termine"
+      },
+      "menuCardlessContentNode": {
+        "deletingDisabled": "Muss leer sein zum Löschen"
       }
     },
     "camp": {
@@ -91,6 +100,9 @@
         "campSettingsButton": "Einstellungen",
         "noMaterialListAvailable": "Für dieses Lager sind noch keine Materiallisten erfasst. Du kannst diese unter 'Admin' erfassen."
       },
+      "periodMaterialLists": {
+        "addNewItem": "Eintrag hinzufügen"
+      },
       "periodSwitcher": {
         "title": "Lagerabschnitt wählen"
       },
@@ -108,6 +120,9 @@
         "title": "Wirklich löschen?",
         "warningText": "Möchtest du das wirklich löschen?"
       },
+      "dialogMaterialItemCreate": {
+        "title": "Materialeintrag erstellen"
+      },
       "dialogMaterialListCreate": {
         "title": "Materialliste erstellen"
       },
@@ -118,7 +133,13 @@
         "moveScheduleEntries": "Aktivitäten verschieben"
       }
     },
+    "generic": {
+      "lockIcon": {
+        "guestsCannotEdit": "Gäste haben keinen Bearbeitungszugriff"
+      }
+    },
     "invitation": {
+      "acceptCurrentAuth": "Einladung mit aktuellem Account akzeptieren",
       "notFound": "Die Einladung wurde bereits angenommen oder gelöscht",
       "openCamp": "Lager öffnen",
       "register": "Registrieren",
@@ -258,6 +279,7 @@
   "views": {
     "activity": {
       "activity": {
+        "backToContents": "Zurück zum Bearbeiten des Inhalts",
         "changeLayout": "Layout ändern",
         "layout": "Layout"
       },
@@ -269,7 +291,9 @@
     },
     "auth": {
       "activate": {
-        "error": "Aktivierung fehlgeschlagen"
+        "error": "Aktivierung fehlgeschlagen",
+        "success": "Account erfolgreich aktiviert",
+        "title": "Dein Account wird aktiviert"
       },
       "login": {
         "accountless": "Hast du noch keinen Account?",
@@ -386,6 +410,7 @@
       },
       "picasso": {
         "editMode": "Editiermodus",
+        "guestsCannotEdit": "Gäste können das Grobprogramm nicht bearbeiten",
         "title": "Grobprogramm"
       },
       "print": {
