@@ -1,0 +1,4 @@
+inviteToCamp.subject: "You were invited to collaborate in camp {campName}"
+userActivation.subject: "Welcome to eCamp3"
+passwordReset.subject: '[eCamp3] Password reset'
+emailVerification.subject: '[eCamp3] Verify email address'
