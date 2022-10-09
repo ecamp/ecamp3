@@ -17,7 +17,7 @@ Displays a single activity
             :disabled="layoutMode || !isContributor"
           >
             <template #activator="{ on, attrs }">
-              <v-chip :color="category.color" dark v-bind="attrs" v-on="on">
+              <v-chip dark :color="category.color" v-bind="attrs" v-on="on">
                 {{ category.short }}
               </v-chip>
             </template>
@@ -28,7 +28,7 @@ Displays a single activity
                 @click="changeCategory(cat)"
               >
                 <v-list-item-title>
-                  <v-chip :color="cat.color">
+                  <v-chip dark :color="cat.color">
                     {{ cat.short }}
                   </v-chip>
                   {{ cat.name }}
