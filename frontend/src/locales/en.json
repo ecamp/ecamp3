@@ -103,13 +103,13 @@
       "periodMaterialLists": {
         "addNewItem": "Add new item"
       },
+      "periodSwitcher": {
+        "title": "Choose period"
+      },
       "picasso": {
         "datetime": {
           "date": "dd. D.MM | D. MMM | DD. MMM YYYY"
         }
-      },
-      "periodSwitcher": {
-        "title": "Choose period"
       }
     },
     "dialog": {
@@ -131,6 +131,11 @@
       },
       "dialogPeriodEdit": {
         "moveScheduleEntries": "Move schedule entries"
+      }
+    },
+    "generic": {
+      "lockIcon": {
+        "guestsCannotEdit": "Guests have no permission to edit"
       }
     },
     "invitation": {
@@ -226,11 +231,6 @@
         "success": "Email address successfully changed.",
         "title": "Changing email address"
       }
-    },
-    "generic": {
-      "lockIcon": {
-        "guestsCannotEdit": "Guests have no permission to edit"
-      }
     }
   },
   "entity": {
@@ -258,8 +258,8 @@
       "delete": "Delete",
       "edit": "Edit",
       "editable": "Editable",
-      "login": "Log in",
       "lock": "Lock",
+      "login": "Log in",
       "logout": "Logout",
       "ok": "Okay",
       "open": "Open",
