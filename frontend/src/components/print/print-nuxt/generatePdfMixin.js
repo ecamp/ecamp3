@@ -15,7 +15,6 @@ export const generatePdfMixin = {
   data() {
     return {
       loading: false,
-      error: null,
     }
   },
   methods: {
@@ -48,12 +47,9 @@ export const generatePdfMixin = {
 
         saveAs(new Blob([response.data]), config.documentName)
       } catch (error) {
-        this.error = error
-        console.log(error)
-        this.$emit('error', {
-          label: this.$tc('components.print.printNuxt.downloadNuxtPdfListItem.error'),
-          trace: error,
-        })
+        this.$toast.error(
+          this.$tc('components.print.printNuxt.downloadNuxtPdfListItem.error')
+        )
       } finally {
         this.loading = false
       }

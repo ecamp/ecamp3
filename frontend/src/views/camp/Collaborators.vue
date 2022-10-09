@@ -49,51 +49,56 @@ Displays collaborators of a single camp.
       </content-group>
 
       <content-group v-if="isManager" :title="$tc('views.camp.collaborators.invite')">
-        <v-form @submit.prevent="invite">
-          <v-container>
-            <v-row align="center">
-              <v-col>
-                <e-text-field
-                  v-model="inviteEmail"
-                  :name="$tc('views.camp.collaborators.email')"
-                  vee-rules="email"
-                  :error-messages="inviteEmailMessages"
-                  :error-count="2"
-                  single-line
-                  aria-autocomplete="none"
-                  :placeholder="$tc('views.camp.collaborators.email')"
-                  @keyup="clearMessages"
-                />
-              </v-col>
-              <v-col sm="12" md="3">
-                <e-select
-                  v-model="inviteRole"
-                  :items="[
-                    {
-                      key: 'member',
-                      translation: $tc('entity.camp.collaborators.member'),
-                    },
-                    {
-                      key: 'manager',
-                      translation: $tc('entity.camp.collaborators.manager'),
-                    },
-                    { key: 'guest', translation: $tc('entity.camp.collaborators.guest') },
-                  ]"
-                  item-value="key"
-                  item-text="translation"
-                  :my="0"
-                  dense
-                  vee-rules="required"
-                />
-              </v-col>
-              <v-col>
-                <button-add type="submit" icon="mdi-account-plus">
-                  {{ $tc('views.camp.collaborators.invite') }}
-                </button-add>
-              </v-col>
-            </v-row>
-          </v-container>
-        </v-form>
+        <ValidationObserver v-slot="{ handleSubmit }">
+          <v-form ref="form" @submit.prevent="handleSubmit(invite)">
+            <v-container>
+              <v-row align="start">
+                <v-col>
+                  <e-text-field
+                    v-model="inviteEmail"
+                    :name="$tc('views.camp.collaborators.email')"
+                    vee-rules="required|email"
+                    :error-messages="inviteEmailMessages"
+                    :error-count="2"
+                    single-line
+                    aria-autocomplete="none"
+                    :placeholder="$tc('views.camp.collaborators.email')"
+                    @keyup="clearMessages"
+                  />
+                </v-col>
+                <v-col sm="12" md="3">
+                  <e-select
+                    v-model="inviteRole"
+                    :items="[
+                      {
+                        key: 'member',
+                        translation: $tc('entity.camp.collaborators.member'),
+                      },
+                      {
+                        key: 'manager',
+                        translation: $tc('entity.camp.collaborators.manager'),
+                      },
+                      {
+                        key: 'guest',
+                        translation: $tc('entity.camp.collaborators.guest'),
+                      },
+                    ]"
+                    item-value="key"
+                    item-text="translation"
+                    :my="0"
+                    dense
+                    vee-rules="required"
+                  />
+                </v-col>
+                <v-col>
+                  <button-add type="submit" :loading="isSaving" icon="mdi-account-plus">
+                    {{ $tc('views.camp.collaborators.invite') }}
+                  </button-add>
+                </v-col>
+              </v-row>
+            </v-container>
+          </v-form>
+        </ValidationObserver>
       </content-group>
     </v-card-text>
   </content-card>
@@ -108,6 +113,7 @@ import ESelect from '@/components/form/base/ESelect.vue'
 import InactiveCollaboratorListItem from '@/components/collaborator/InactiveCollaboratorListItem.vue'
 import { campRoleMixin } from '@/mixins/campRoleMixin'
 import { transformViolations } from '@/helpers/serverError'
+import { ValidationObserver } from 'vee-validate'
 
 const DEFAULT_INVITE_ROLE = 'member'
 
@@ -121,6 +127,7 @@ export default {
     ETextField,
     ESelect,
     InactiveCollaboratorListItem,
+    ValidationObserver,
   },
   mixins: [campRoleMixin],
   props: {
@@ -132,6 +139,7 @@ export default {
       inviteEmailMessages: [],
       inviteEmail: '',
       inviteRole: DEFAULT_INVITE_ROLE,
+      isSaving: false,
     }
   },
   computed: {
@@ -153,6 +161,7 @@ export default {
   },
   methods: {
     invite() {
+      this.isSaving = true
       this.api
         .href(this.api.get(), 'campCollaborations')
         .then((url) =>
@@ -163,6 +172,9 @@ export default {
           })
         )
         .then(this.refreshCamp, this.handleError)
+        .finally(() => {
+          this.isSaving = false
+        })
     },
     handleError(e) {
       const violations = transformViolations(e, this.$i18n)

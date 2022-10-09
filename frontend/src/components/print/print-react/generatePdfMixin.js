@@ -13,7 +13,6 @@ export const generatePdfMixin = {
   data() {
     return {
       loading: false,
-      error: null,
     }
   },
   methods: {
@@ -35,12 +34,9 @@ export const generatePdfMixin = {
       })
 
       if (error) {
-        this.error = error
-        console.log(error)
-        this.$emit('error', {
-          label: this.$tc('components.print.printReact.downloadReactPdfListItem.error'),
-          trace: error,
-        })
+        this.$toast.error(
+          this.$tc('components.print.printReact.downloadReactPdfListItem.error')
+        )
         this.loading = false
         return
       }

@@ -60,6 +60,7 @@
 import AuthContainer from '@/components/layout/AuthContainer.vue'
 import { loginRoute } from '@/router'
 import VueRouter from 'vue-router'
+import { errorToMultiLineToast } from '@/components/toast/toasts'
 
 const { isNavigationFailure, NavigationFailureType } = VueRouter
 const ignoreNavigationFailure = (e) => {
@@ -135,6 +136,7 @@ export default {
               .catch(ignoreNavigationFailure)
           }
         )
+        .catch((e) => this.$toast.error(errorToMultiLineToast(e)))
     },
     rejectInvitation() {
       this.api
@@ -155,6 +157,7 @@ export default {
               .catch(ignoreNavigationFailure)
           }
         )
+        .catch((e) => this.$toast.error(errorToMultiLineToast(e)))
     },
   },
 }
