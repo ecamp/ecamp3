@@ -2,6 +2,7 @@ import {
   compileToFunction,
   createCoreContext,
   registerMessageCompiler,
+  resolveValue,
   translate,
 } from '@intlify/core'
 
@@ -14,6 +15,7 @@ const createI18n = (translationData, language) => {
     messages: translationData,
     missingWarn: false,
     fallbackWarn: false,
+    messageResolver: resolveValue,
   })
 
   return {
