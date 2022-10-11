@@ -2,22 +2,17 @@ name: Fast Forward Merge
 
 on:
   issue_comment:
-    types: [created]
+    types: [ created ]
 
 jobs:
   fast_forward_job:
     name: Fast Forward
-    # Check this issue is a pull request
-    # Check the comment contains the trigger string
-    # Check the comment author has appropriate permissions
     if: |
-      (github.event.issue.pull_request != null) &&
-      contains(github.event.comment.body, '/fast-forward') &&
+      (github.event.issue.pull_request != '') &&
+      github.event.comment.body == '/fast-forward' &&
       contains(github.event.comment.author_association, 'OWNER')
-      
     runs-on: ubuntu-latest
     steps:
-     
       # To use this repository's private action, you must check out the repository
       - name: Checkout
         uses: actions/checkout@v2
@@ -30,16 +25,3 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           success_message: 'Success! Fast forwarded ***target_base*** to ***source_head***! ```git checkout target_base && git merge source_head --ff-only``` '
           failure_message: 'Failed! Cannot do fast forward!'
-      # Advanced use case example
-      # - name: Fast Forward PR
-      #   id: ff-action
-      #   uses: endre-spotlab/fast-forward-js-action@2.1
-      #   with:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #     success_message: 'Success! Fast forwarded ***target_base*** to ***source_head***! ```git checkout target_base && git merge source_head --ff-only``` '
-      #     failure_message: 'Failed! Cannot do fast forward!'
-      #     update_status: true
-      #     failure_message_same_stage_and_prod: 'Failed! Possible reasons: ***1)Your feature branch ```source_head``` is outdated***. You need to rebase ```git checkout source_head && git pull --rebase origin prod_branch && git push --force``` ***2)Review required***, pull-request is not approved ***3)Checks were not successful*** (build status check failed)'
-      #     failure_message_diff_stage_and_prod: 'Failed! Possible reasons: ***1)```stage_branch``` is currently in use***. Another feature validation is ongoing. You need to wait. Later, when integration finishes, you will need to rebase ```git checkout source_head && git pull --rebase origin prod_branch && git push --force``` ***2)Review required***, pull-request is not approved ***3)Checks were not successful*** (build status check failed)'
-      #     production_branch: 'master'
-      #     staging_branch: 'staging'
