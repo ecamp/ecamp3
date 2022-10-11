@@ -4816,21 +4816,21 @@
         },
         {
             "name": "sentry/sdk",
-            "version": "3.2.0",
+            "version": "3.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/getsentry/sentry-php-sdk.git",
-                "reference": "6d78bd83b43efbb52f81d6824f4af344fa9ba292"
+                "reference": "d0678fc7274dbb03046ed05cb24eb92945bedf8e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/getsentry/sentry-php-sdk/zipball/6d78bd83b43efbb52f81d6824f4af344fa9ba292",
-                "reference": "6d78bd83b43efbb52f81d6824f4af344fa9ba292",
+                "url": "https://api.github.com/repos/getsentry/sentry-php-sdk/zipball/d0678fc7274dbb03046ed05cb24eb92945bedf8e",
+                "reference": "d0678fc7274dbb03046ed05cb24eb92945bedf8e",
                 "shasum": ""
             },
             "require": {
                 "http-interop/http-factory-guzzle": "^1.0",
-                "sentry/sentry": "^3.5",
+                "sentry/sentry": "^3.9",
                 "symfony/http-client": "^4.3|^5.0|^6.0"
             },
             "type": "metapackage",
@@ -4857,7 +4857,7 @@
             ],
             "support": {
                 "issues": "https://github.com/getsentry/sentry-php-sdk/issues",
-                "source": "https://github.com/getsentry/sentry-php-sdk/tree/3.2.0"
+                "source": "https://github.com/getsentry/sentry-php-sdk/tree/3.3.0"
             },
             "funding": [
                 {
@@ -4869,20 +4869,20 @@
                     "type": "custom"
                 }
             ],
-            "time": "2022-05-21T11:10:11+00:00"
+            "time": "2022-10-11T09:05:00+00:00"
         },
         {
             "name": "sentry/sentry",
-            "version": "3.9.0",
+            "version": "3.9.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/getsentry/sentry-php.git",
-                "reference": "0d162e2516f8254e821a1376018e1e021f910bff"
+                "reference": "45b618b2265d11bc9b5a15f31bcc573a2dc3b956"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/getsentry/sentry-php/zipball/0d162e2516f8254e821a1376018e1e021f910bff",
-                "reference": "0d162e2516f8254e821a1376018e1e021f910bff",
+                "url": "https://api.github.com/repos/getsentry/sentry-php/zipball/45b618b2265d11bc9b5a15f31bcc573a2dc3b956",
+                "reference": "45b618b2265d11bc9b5a15f31bcc573a2dc3b956",
                 "shasum": ""
             },
             "require": {
@@ -4961,7 +4961,7 @@
             ],
             "support": {
                 "issues": "https://github.com/getsentry/sentry-php/issues",
-                "source": "https://github.com/getsentry/sentry-php/tree/3.9.0"
+                "source": "https://github.com/getsentry/sentry-php/tree/3.9.1"
             },
             "funding": [
                 {
@@ -4973,7 +4973,7 @@
                     "type": "custom"
                 }
             ],
-            "time": "2022-10-05T09:35:42+00:00"
+            "time": "2022-10-11T09:00:25+00:00"
         },
         {
             "name": "sentry/sentry-symfony",
