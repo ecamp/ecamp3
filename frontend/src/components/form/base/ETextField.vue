@@ -45,6 +45,11 @@ export default {
       default: 'text',
     },
   },
+  data() {
+    return {
+      preventValidationOnBlur: false,
+    }
+  },
   computed: {
     inputListeners: function () {
       const vm = this
@@ -56,15 +61,27 @@ export default {
         // override @input listener for correct handling of numeric values
         {
           input: function (value) {
+            vm.$data.preventValidationOnBlur = false
             if (vm.type === 'number') {
               vm.$emit('input', parseFloat(value))
             } else {
               vm.$emit('input', value)
             }
           },
+          blur: function () {
+            vm.$emit('blur')
+            if (vm.$data.preventValidationOnBlur && vm.$refs.textField.value == '') {
+              vm.$refs.validationProvider.reset()
+            }
+            vm.$data.preventValidationOnBlur = false
+          },
         }
       )
     },
+  },
+  mounted() {
+    this.preventValidationOnBlur =
+      'autofocus' in this.$attrs && 'required' in this.$refs.validationProvider.$attrs
   },
   methods: {
     focus() {
