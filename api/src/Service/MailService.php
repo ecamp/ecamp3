@@ -11,6 +11,7 @@ use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Twig\Environment;
 
 class MailService {
     public const TRANSLATE_DOMAIN = 'email';
@@ -18,6 +19,7 @@ class MailService {
     public function __construct(
         private MailerInterface $mailer,
         private readonly TranslatorInterface $translator,
+        private Environment $twigEnironment,
         private string $frontendBaseUrl,
         private string $senderEmail,
         private string $senderName = ''
@@ -35,6 +37,7 @@ class MailService {
                 'by_user' => $byUser->getDisplayName(),
                 'url' => "{$this->frontendBaseUrl}/camps/invitation/{$key}",
                 'camp_name' => $camp->name,
+                'camp_title' => $camp->title,
             ])
         ;
 
@@ -124,8 +127,7 @@ class MailService {
         while (true) {
             $template = str_replace('{language}', $language, $templateName);
 
-            // TODO: Remove path
-            if (file_exists(__DIR__.'/../../templates/'.$template)) {
+            if ($this->twigEnironment->getLoader()->exists($template)) {
                 return $template;
             }
 
