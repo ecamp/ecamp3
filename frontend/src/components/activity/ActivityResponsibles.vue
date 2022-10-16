@@ -71,10 +71,20 @@ export default {
       return this.activity.camp().campCollaborations()
     },
   },
-  async mounted() {
-    await this.activityResponsibles._meta.load
-    this.oldSelectedCampCollaborations = [...this.currentCampCollaborationIRIs]
-    this.selectedCampCollaborations = [...this.currentCampCollaborationIRIs]
+  watch: {
+    activity: {
+      async handler(newActivity, oldActivity) {
+        // Activity changed; reset SelectedCampCollaboration-Arrays
+        if (oldActivity?._meta.self != newActivity._meta.self) {
+          // Set Array to empty until collection is loaded
+          this.selectedCampCollaborations = []
+          await this.activityResponsibles.$reload()
+          this.selectedCampCollaborations = [...this.currentCampCollaborationIRIs]
+          this.oldSelectedCampCollaborations = [...this.currentCampCollaborationIRIs]
+        }
+      },
+      immediate: true,
+    },
   },
   methods: {
     onInput() {
@@ -108,12 +118,12 @@ export default {
         }
       })
 
-      // reset comparison value
-      this.oldSelectedCampCollaborations = [...this.selectedCampCollaborations]
-
       Promise.all(promises)
-        .then(() => {
-          this.activityResponsibles.$reload()
+        .then(async () => {
+          await this.activityResponsibles.$reload()
+          // reset comparison value
+          this.selectedCampCollaborations = [...this.currentCampCollaborationIRIs]
+          this.oldSelectedCampCollaborations = [...this.currentCampCollaborationIRIs]
         })
         .catch((e) => {
           this.errorMessages.push(serverErrorToString(e))
