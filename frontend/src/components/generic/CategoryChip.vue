@@ -9,6 +9,8 @@
 </template>
 
 <script>
+import bgHexToTextColor from '@/common/helpers/hexStrBgToTextColor.js'
+
 export default {
   name: 'CategoryChip',
   props: {
@@ -28,13 +30,7 @@ export default {
       return this.category || this.scheduleEntry.activity().category()
     },
     textColor() {
-      const c = this.cat.color
-      const r = parseInt(c.substr(1, 2), 16)
-      const g = parseInt(c.substr(3, 2), 16)
-      const b = parseInt(c.substr(5, 2), 16)
-
-      const brightness = Math.round((r * 299 + g * 587 + b * 114) / 1000)
-      return brightness > 125 ? 'black' : 'white'
+      return bgHexToTextColor(this.cat.color)
     },
   },
 }
