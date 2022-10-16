@@ -70,7 +70,7 @@ export default {
           },
           blur: function () {
             vm.$emit('blur')
-            if (vm.$data.preventValidationOnBlur && vm.$refs.textField.value == '') {
+            if (vm.$data.preventValidationOnBlur) {
               vm.$refs.validationProvider.reset()
             }
             vm.$data.preventValidationOnBlur = false
@@ -81,7 +81,9 @@ export default {
   },
   mounted() {
     this.preventValidationOnBlur =
-      'autofocus' in this.$attrs && 'required' in this.$refs.validationProvider.$attrs
+      'autofocus' in this.$attrs &&
+      'required' in this.$refs.validationProvider.$attrs &&
+      this.$refs.textField.value == ''
   },
   methods: {
     focus() {
