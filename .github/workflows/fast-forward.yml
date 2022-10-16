@@ -10,12 +10,12 @@ jobs:
     if: |
       (github.event.issue.pull_request != '') &&
       github.event.comment.body == '/fast-forward' &&
-      contains(github.event.comment.author_association, 'OWNER')
+      (github.event.comment.author_association == 'MEMBER' || github.event.comment.author_association == 'OWNER')
     runs-on: ubuntu-latest
     steps:
       # To use this repository's private action, you must check out the repository
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       # Basic use case example
       - name: Fast Forward PR
