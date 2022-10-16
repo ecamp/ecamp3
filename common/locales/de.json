@@ -40,6 +40,9 @@
       "name": "LA Themenbereich"
     },
     "material": {
+      "info0": "Hier kannst du den Material-Bedarf für diesen Block erfassen.",
+      "info1": "Die Materiallisten kannst du im Menu 'Admin' verwalten.",
+      "info2": "Eine Zusammenstellung für den Einkauf findest du im Menu 'Material'.",
       "name": "Material"
     },
     "notes": {
@@ -49,6 +52,9 @@
       "name": "Sicherheitskonzept"
     },
     "storyboard": {
+      "info0": "Hier kannst du den Inhalt von diesem Block planen.",
+      "info1": "In der linken Spalte [Zeit] kannst du die Dauer der einzelnen Elemente erfassen.",
+      "info2": "In der rechten Spalte [Verantwortlich] kannst du Personen zuteilen.",
       "entity": {
         "section": {
           "fields": {

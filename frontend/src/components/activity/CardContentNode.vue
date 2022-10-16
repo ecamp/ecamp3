@@ -15,30 +15,56 @@
           />
         </div>
 
-        <v-toolbar-title v-else>
+        <v-toolbar-title v-if="!editInstanceName">
           {{ instanceOrContentTypeName }}
         </v-toolbar-title>
+        <v-spacer v-if="!editInstanceName" />
 
-        <v-spacer />
-
-        <v-menu v-if="!layoutMode && !disabled" bottom left offset-y>
-          <template #activator="{ on, attrs }">
-            <v-btn icon v-bind="attrs" v-on="on">
-              <v-icon>mdi-dots-vertical</v-icon>
+        <v-tooltip
+          v-if="infoRows.length > 0 && !editInstanceName && !layoutMode"
+          v-model="showInfoTooltip"
+          max-width="300px"
+          color="#333"
+          bottom
+        >
+          <template #activator="{ attrs }">
+            <v-btn
+              icon
+              class="visible-on-hover"
+              v-bind="attrs"
+              @click="
+                if ($vuetify.breakpoint.xsOnly) {
+                  showInfoTooltip = !showInfoTooltip
+                }
+              "
+              @mouseenter="
+                if (!$vuetify.breakpoint.xsOnly) {
+                  showInfoTooltip = true
+                }
+              "
+              @mouseleave="
+                if (!$vuetify.breakpoint.xsOnly) {
+                  showInfoTooltip = false
+                }
+              "
+            >
+              <v-icon>mdi-information-outline</v-icon>
             </v-btn>
           </template>
-          <v-list>
-            <v-list-item @click="toggleEditInstanceName">
-              <v-list-item-icon>
-                <v-icon>mdi-pencil</v-icon>
-              </v-list-item-icon>
-              <v-list-item-title>
-                {{ $tc('components.activity.contentNode.editName') }}
-              </v-list-item-title>
-            </v-list-item>
-          </v-list>
-        </v-menu>
-        <dialog-entity-delete v-else-if="!disabled" :entity="contentNode">
+          <p v-for="(row, idx) in infoRows" :key="idx">
+            {{ row }}
+          </p>
+        </v-tooltip>
+        <v-btn
+          v-if="!editInstanceName && !layoutMode"
+          icon
+          class="visible-on-hover"
+          @click="toggleEditInstanceName"
+        >
+          <v-icon>mdi-pencil</v-icon>
+        </v-btn>
+
+        <dialog-entity-delete v-if="layoutMode && !disabled" :entity="contentNode">
           <template #activator="{ on }">
             <v-btn icon small color="error" class="float-right" v-on="on">
               <v-icon>mdi-trash-can-outline</v-icon>
@@ -72,6 +98,7 @@ export default {
   },
   data() {
     return {
+      showInfoTooltip: false,
       editInstanceName: false,
     }
   },
@@ -85,6 +112,19 @@ export default {
     icon() {
       return this.$tc(`contentNode.${camelCase(this.contentNode.contentTypeName)}.icon`)
     },
+    infoRows() {
+      let rows = []
+      for (let i = 0; i < 10; i++) {
+        const key = `contentNode.${camelCase(this.contentNode.contentTypeName)}.info${i}`
+        const row = this.$tc(key)
+        if (row != key) {
+          rows.push(row)
+        } else {
+          break
+        }
+      }
+      return rows
+    },
   },
   methods: {
     toggleEditInstanceName() {
@@ -97,4 +137,22 @@ export default {
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+.v-card >>> button {
+  width: 36px !important;
+  height: 36px !important;
+}
+
+.v-card:not(:hover) >>> button.visible-on-hover {
+  opacity: 0;
+  width: 0px !important;
+
+  transition: opacity 0.2s linear, width 0.3s steps(1, end);
+}
+.v-card:hover >>> button.visible-on-hover {
+  opacity: 1;
+  width: 36px !important;
+
+  transition: opacity 0.2s linear, width 0.3s steps(1, start);
+}
+</style>
