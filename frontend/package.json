@@ -66,7 +66,7 @@
     "runes": "0.4.3",
     "slugify": "1.6.5",
     "url-template": "3.1.0",
-    "util": "0.12.4",
+    "util": "0.12.5",
     "uuid": "9.0.0",
     "vee-validate": "3.4.14",
     "vite-plugin-worker": "1.0.5",
