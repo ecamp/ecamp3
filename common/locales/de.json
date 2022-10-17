@@ -9,6 +9,8 @@
       "name": "Spaltenlayout"
     },
     "laThematicArea": {
+      "info0": "Eine J+S Lageraktivität muss mindestens eines der aufgeführten Themen behandeln.",
+      "info1": "Erfasse, welche Themen in diesem Block behandelt werden.",
       "entity": {
         "option": {
           "campsiteAndSurroundings": {
@@ -46,9 +48,13 @@
       "name": "Material"
     },
     "notes": {
+      "info0": "Hier kannst du beliebige Notizen erfassen.",
+      "info1": "z.B. Ideen, Todo's, offene Fragen, Kontakte, ÖV-Verbindungen, usw.",
       "name": "Notizen"
     },
     "safetyConcept": {
+      "info0": "Einige Blöcke erfordern, dass ihr euch Gedanken zu den Risiken macht. Hier könnt ihr diese Gedanken erfassen.",
+      "info1": "Haltet fest, welche Risiken ihr erkannt habt - und wie ihr diesen begegnen könnt.",
       "name": "Sicherheitskonzept"
     },
     "storyboard": {
@@ -68,6 +74,9 @@
       "name": "Programmabschnitt"
     },
     "storycontext": {
+      "info0": "Beschreibe, wie sich dieser Block in die Geschichte vom Lager einbetet.",
+      "info1": "Eine Zusammenstellung aller Geschichts-Elemente findest du im Menu 'Geschichte'.",
+      "info2": "Ihr könnt auch erst im Menu 'Geschichte' zuerst eine durchgänige Geschichte erarbeiten - so dass man den Block-Inhalt perfekt in die Geschichte einbeten kann.",
       "name": "Geschichte"
     }
   },

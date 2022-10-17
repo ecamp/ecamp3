@@ -42,11 +42,7 @@
                   showInfoTooltip = true
                 }
               "
-              @mouseleave="
-                if (!$vuetify.breakpoint.xsOnly) {
-                  showInfoTooltip = false
-                }
-              "
+              @mouseleave="showInfoTooltip = false"
             >
               <v-icon>mdi-information-outline</v-icon>
             </v-btn>
