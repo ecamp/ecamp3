@@ -97,6 +97,7 @@
     "eslint": "8.26.0",
     "eslint-config-prettier": "8.5.0",
     "eslint-plugin-import": "2.26.0",
+    "eslint-plugin-local-rules": "^1.3.2",
     "eslint-plugin-node": "11.1.0",
     "eslint-plugin-prettier": "4.2.1",
     "eslint-plugin-promise": "6.1.1",
@@ -144,11 +145,15 @@
         {
           "argsIgnorePattern": "^_$"
         }
-      ]
+      ],
+      "local-rules/something": "error"
     },
     "parserOptions": {
       "parser": "@babel/eslint-parser"
-    }
+    },
+    "plugins": [
+      "eslint-plugin-local-rules"
+    ]
   },
   "postcss": {
     "plugins": {
