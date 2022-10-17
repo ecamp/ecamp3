@@ -146,7 +146,7 @@
           "argsIgnorePattern": "^_$"
         }
       ],
-      "local-rules/something": "error"
+      "local-rules/matching-translation-keys": "error"
     },
     "parserOptions": {
       "parser": "@babel/eslint-parser"

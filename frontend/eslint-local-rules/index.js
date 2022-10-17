@@ -1,7 +1,5 @@
+const matchingTranslationKeys = require('./matchingTranslationKeys.js')
+
 module.exports = {
-  'something': {
-    create(context) {
-      return {}
-    }
-  }
+  'matching-translation-keys': matchingTranslationKeys,
 }
