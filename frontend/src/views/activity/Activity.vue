@@ -106,7 +106,7 @@ Displays a single activity
                   </v-list-item-title>
                 </v-list-item>
               </template>
-              {{ $tc('views.activity.deleteWarning') }}
+              {{ $tc('views.activity.activity.deleteWarning') }}
             </dialog-entity-delete>
           </v-list>
         </v-menu>

@@ -193,9 +193,11 @@
       "title": "Table of contents"
     }
   },
-  "story": {
-    "storyDay": {
-      "noStory": "No story content found on this day..."
+  "components": {
+    "story": {
+      "storyDay": {
+        "noStory": "No story content found on this day..."
+      }
     }
   }
 }

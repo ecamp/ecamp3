@@ -4,7 +4,7 @@
     :loading="loading"
     :error="error"
     icon="mdi-package-variant"
-    :title="$tc('components.dialog.dialogMaterialListCreate.title')"
+    :title="$tc('components.campAdmin.dialogMaterialListCreate.title')"
     :submit-action="createMaterialList"
     submit-color="success"
     :cancel-action="close"

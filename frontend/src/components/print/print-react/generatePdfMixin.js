@@ -34,9 +34,7 @@ export const generatePdfMixin = {
       })
 
       if (error) {
-        this.$toast.error(
-          this.$tc('components.print.printReact.downloadReactPdfListItem.error')
-        )
+        this.$toast.error(this.$tc('components.print.printReact.generatePdfMixin.error'))
         this.loading = false
         return
       }

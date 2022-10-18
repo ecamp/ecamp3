@@ -3,7 +3,7 @@ Displays details on a single camp and allows to edit them.
 -->
 
 <template>
-  <content-group :title="$tc('components.camp.campSettings.title')">
+  <content-group :title="$tc('components.campAdmin.campSettings.title')">
     <v-skeleton-loader v-if="camp()._meta.loading" type="article" />
     <div v-else class="mt-3">
       <api-form :entity="camp()">

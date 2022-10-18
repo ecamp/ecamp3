@@ -18,7 +18,7 @@
         :disabled="disabled"
         @click="api.patch(collaborator, { status: 'invited' })"
       >
-        {{ $tc('components.camp.inactiveCampCollaboratorListItem.inviteAgain') }}
+        {{ $tc('components.collaborator.inactiveCollaboratorListItem.inviteAgain') }}
       </icon-button>
     </v-list-item-action>
     <v-list-item-action>
@@ -26,7 +26,7 @@
         <template #activator="{ on }">
           <button-delete :disabled="disabled" v-on="on" />
         </template>
-        {{ $tc('components.camp.inactiveCampCollaboratorListItem.delete') }} <br />
+        {{ $tc('components.collaborator.inactiveCollaboratorListItem.delete') }} <br />
         <ul>
           <li>
             <span v-if="collaborator.user">

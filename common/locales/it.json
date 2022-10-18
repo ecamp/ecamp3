@@ -116,9 +116,11 @@
       "name": "Inserimento nel programma"
     }
   },
-  "story": {
-    "storyDay": {
-      "noStory": "Nessun contenuto di storia trovato in questo giorno..."
+  "components": {
+    "story": {
+      "storyDay": {
+        "noStory": "Nessun contenuto di storia trovato in questo giorno..."
+      }
     }
   }
 }

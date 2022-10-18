@@ -8,14 +8,14 @@
       target="_blank"
     >
       <v-icon left>mdi-open-in-new</v-icon>
-      {{ $tc('components.print.printPreviewNuxt.openPreview') }}
+      {{ $tc('components.print.printNuxt.printPreviewNuxt.openPreview') }}
     </v-btn>
 
     <iframe
       id="previewIFrame"
       ref="previewIFrame"
       name="previewIFrame"
-      :title="$tc('views.camp.print.previewIframeTitle')"
+      :title="$tc('components.print.printNuxt.printPreviewNuxt.previewIframeTitle')"
       class="mt-3 d-block"
       frameborder="1"
       width="100%"
@@ -26,7 +26,7 @@
 
     <v-overlay absolute :value="loading || error" z-index="2">
       <div v-if="error">
-        {{ $tc('views.camp.print.previewError') }}
+        {{ $tc('components.print.printNuxt.printPreviewNuxt.previewError') }}
       </div>
       <v-progress-circular v-else indeterminate />
     </v-overlay>

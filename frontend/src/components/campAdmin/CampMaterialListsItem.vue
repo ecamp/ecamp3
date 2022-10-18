@@ -30,7 +30,7 @@
               <template #activator="{ on }">
                 <button-delete v-on="on" />
               </template>
-              {{ $tc('components.camp.campMaterialListsItem.deleteWarning') }} <br />
+              {{ $tc('components.campAdmin.campMaterialListsItem.deleteWarning') }} <br />
               <ul>
                 <li>
                   {{ materialList.name }}
@@ -60,7 +60,7 @@ export default {
   methods: {
     deleteErrorHandler(e) {
       if (e?.response?.status === 422 /* Validation Error */) {
-        return this.$tc('components.camp.campMaterialListsItem.deleteError')
+        return this.$tc('components.campAdmin.campMaterialListsItem.deleteError')
       }
 
       return null
