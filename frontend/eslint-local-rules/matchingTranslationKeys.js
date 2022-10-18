@@ -23,19 +23,25 @@ function escapeForRegExp(str) {
 }
 
 /**
- * Get the first method argument, including source location, from the given CallExpression
+ * Read the value of a string literal
  */
-function getFirstMethodArgument(node) {
-  const nameLiteralNode = node.arguments[0]
-  if (nameLiteralNode && utils.isStringLiteral(nameLiteralNode)) {
-    const value = utils.getStringLiteralValue(nameLiteralNode)
+function getStringLiteral(node) {
+  if (node && utils.isStringLiteral(node)) {
+    const value = utils.getStringLiteralValue(node)
     if (value != null) {
-      return { name: value, value, loc: nameLiteralNode.loc }
+      return { name: value, value, loc: node.loc }
     }
   }
 
   // cannot check
   return null
+}
+
+/**
+ * Get the first method argument, including source location, from the given CallExpression
+ */
+function getFirstMethodArgument(node) {
+  return getStringLiteral(node.arguments[0])
 }
 
 /**
@@ -52,14 +58,36 @@ function getCalledMethodName(node) {
   return null
 }
 
+/**
+ * Gets the key of the given attribute node.
+ * E.g. given a node which represents the attribute id="my-header",
+ * this function would return "id"
+ */
+function getKeyName(attr) {
+  if (attr.directive) {
+    if (attr.key.name.name !== 'bind') {
+      // We are only interested in plain attrs and in v-bind attrs (which start with a colon)
+      return null
+    }
+    return attr.key.argument?.name
+  }
+  return attr.key.name
+}
+
 function shouldProcessFile(filename) {
-  return (
+  if (!(filename.endsWith('.vue') || filename.endsWith('.js'))) {
     // We only process .vue component and .js files
-    (filename.endsWith('.vue') || filename.endsWith('.js')) &&
+    return false
+  }
+  if (
+    filename.endsWith('.spec.js') ||
+    filename.match(/\/__tests__\//) ||
+    filename.match(/\/e2e\//)
+  ) {
     // ignore test files
-    !filename.endsWith('.spec.js') &&
-    !filename.match(/\/__tests__\//)
-  )
+    return false
+  }
+  return true
 }
 
 module.exports = {
@@ -72,6 +100,21 @@ module.exports = {
     },
   },
   create(context) {
+    const filename = context.getFilename()
+    if (!shouldProcessFile(filename)) {
+      // Return no visitor logic if the file is not of interest to us
+      return {}
+    }
+
+    const extension = path.extname(filename)
+    const filesystemPrefix = context.getCwd()
+    const filepath = context
+      .getFilename()
+      .replace(new RegExp(`^${escapeForRegExp(filesystemPrefix)}/`), '')
+      // Optionally, remove src/ from the file path. We have this in frontend, but not in print
+      .replace(/^src\//, '')
+      .replace(new RegExp(`${escapeForRegExp(extension)}$`), '')
+
     function verifyTranslationKey(methodArgument, filepath) {
       const translationKey = methodArgument.value || ''
       if (translationKey.match(/^(global|entity|contentNode\.[a-z][a-zA-Z]+)\..+/)) {
@@ -93,16 +136,6 @@ module.exports = {
 
     const nodeVisitor = {
       CallExpression(node) {
-        const filename = context.getFilename()
-        const extension = path.extname(filename)
-        const filesystemPrefix = context.getCwd()
-        const filepath = context
-          .getFilename()
-          .replace(new RegExp(`^${escapeForRegExp(filesystemPrefix)}/`), '')
-          // Optionally, remove src/ from the file path. We have this in frontend, but not in print
-          .replace(/^src\//, '')
-          .replace(new RegExp(`${escapeForRegExp(extension)}$`), '')
-
         const calledMethodName = getCalledMethodName(node)
         if (!['$tc', 'tc'].includes(calledMethodName)) {
           // Not a translation call
@@ -119,16 +152,44 @@ module.exports = {
       },
     }
 
-    const filename = context.getFilename()
-    if (!shouldProcessFile(filename)) {
-      // Return no visitor logic if the file is not of interest to us
-      return {}
+    /**
+     * Some props of some of our components accept a translation key, which they pass into
+     * the $tc function internally. We can check these translation keys as well.
+     */
+    const attributeVisitor = {
+      // For now, it's only the <dialog-form> component that has props like this
+      "VElement[name='dialog-form'] > VStartTag > VAttribute"(attr) {
+        const keyName = getKeyName(attr)
+        if (!['submit-label', 'cancel-label'].includes(keyName)) {
+          // We are only interested in a very specific selection of props
+          return
+        }
+
+        const valueNode = attr.value
+        let value = null
+        if (valueNode.type === 'VExpressionContainer') {
+          // The attribute is probably using v-bind (or prefix : colon), so it has a dynamic value.
+          // Try to read it as a string literal, and give up otherwise.
+          value = getStringLiteral(valueNode.expression)
+        } else if (valueNode.type === 'VLiteral') {
+          value = valueNode
+        }
+
+        if (value === null) {
+          return
+        }
+
+        verifyTranslationKey(value, filepath)
+      },
     }
 
     return utils.defineTemplateBodyVisitor(
       context,
       // template visitor
-      nodeVisitor,
+      {
+        ...nodeVisitor,
+        ...attributeVisitor,
+      },
       // script visitor
       utils.isScriptSetup(context)
         ? utils.defineScriptSetupVisitor(context, nodeVisitor)
