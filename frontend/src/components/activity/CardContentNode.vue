@@ -18,39 +18,13 @@
         <v-toolbar-title v-if="!editInstanceName">
           {{ instanceOrContentTypeName }}
         </v-toolbar-title>
-        <v-spacer v-if="!editInstanceName" />
 
-        <v-tooltip
-          v-if="infoRows.length > 0 && !editInstanceName && !layoutMode"
-          v-model="showInfoTooltip"
-          max-width="300px"
-          color="#333"
-          bottom
-        >
-          <template #activator="{ attrs }">
-            <v-btn
-              icon
-              class="visible-on-hover"
-              v-bind="attrs"
-              @click="
-                if ($vuetify.breakpoint.xsOnly) {
-                  showInfoTooltip = !showInfoTooltip
-                }
-              "
-              @mouseenter="
-                if (!$vuetify.breakpoint.xsOnly) {
-                  showInfoTooltip = true
-                }
-              "
-              @mouseleave="showInfoTooltip = false"
-            >
-              <v-icon>mdi-information-outline</v-icon>
-            </v-btn>
-          </template>
-          <p v-for="(row, idx) in infoRows" :key="idx">
-            {{ row }}
-          </p>
-        </v-tooltip>
+        <v-spacer v-if="!editInstanceName" />
+        <icon-with-tooltip
+          v-if="!editInstanceName && !layoutMode"
+          :tc-key="`contentNode.${camelCase(contentNode.contentTypeName)}.info`"
+        />
+
         <v-btn
           v-if="!editInstanceName && !layoutMode"
           icon
@@ -94,7 +68,6 @@ export default {
   },
   data() {
     return {
-      showInfoTooltip: false,
       editInstanceName: false,
     }
   },
@@ -108,21 +81,9 @@ export default {
     icon() {
       return this.$tc(`contentNode.${camelCase(this.contentNode.contentTypeName)}.icon`)
     },
-    infoRows() {
-      let rows = []
-      for (let i = 0; i < 10; i++) {
-        const key = `contentNode.${camelCase(this.contentNode.contentTypeName)}.info${i}`
-        const row = this.$tc(key)
-        if (row != key) {
-          rows.push(row)
-        } else {
-          break
-        }
-      }
-      return rows
-    },
   },
   methods: {
+    camelCase,
     toggleEditInstanceName() {
       if (this.disabled) {
         return
@@ -139,13 +100,15 @@ export default {
   height: 36px !important;
 }
 
-.v-card:not(:hover) >>> button.visible-on-hover {
+.v-card:not(:hover) >>> button.visible-on-hover,
+.v-card:not(:hover) >>> button.tooltip-activator {
   opacity: 0;
   width: 0px !important;
 
   transition: opacity 0.2s linear, width 0.3s steps(1, end);
 }
-.v-card:hover >>> button.visible-on-hover {
+.v-card:hover >>> button.visible-on-hover,
+.v-card:hover >>> button.tooltip-activator {
   opacity: 1;
   width: 36px !important;
 
