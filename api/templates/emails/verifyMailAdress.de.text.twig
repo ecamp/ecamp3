@@ -1,14 +1,14 @@
 Änderung deiner E-Mail-Adresse
 
-Hallo {{ name }},
+Hallo {{ name | raw }},
 
 Wir haben die Anfrage erhalten, deine E-Mail-Adresse bei eCamp zu ändern.
 
 Falls du das warst, bestätige deine neue E-Mail-Adresse, indem du den nachfolgenden Link öffnest:
-{{ url }}
+{{ url | raw }}
 
-Alte E-Mail-Adresse:  {{ oldMail }} 
-Neue E-Mail-Adresse:  {{ newMail }} 
+Alte E-Mail-Adresse:  {{ oldMail | raw }} 
+Neue E-Mail-Adresse:  {{ newMail | raw }} 
 
 Beste Grüsse,
 dein eCamp-Team

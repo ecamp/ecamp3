@@ -1,12 +1,12 @@
-Einladung zur Mitarbeit beim Lager "{{ camp_name }}"
+Einladung zur Mitarbeit beim Lager "{{ camp_name | raw }}"
 
-Du wurdest von {{ by_user }} eingeladen, bei folgendem Lager mitzuwirken.
+Du wurdest von {{ by_user | raw }} eingeladen, bei folgendem Lager mitzuwirken.
 
-Name: {{ camp_name }}
-Titel: {{ camp_title }}
+Name: {{ camp_name | raw }}
+Titel: {{ camp_title | raw }}
 
 Klicke hier, um die Einladung zu beantworten:
-{{ url }}
+{{ url | raw }}
 
 Beste Grüsse,
 dein eCamp-Team

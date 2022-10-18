@@ -1,14 +1,14 @@
 Change of your email address
 
-Hello {{ name }},
+Hello {{ name | raw }},
 
 We have received a request to change your email address on eCamp.
 
 If that was initiated by you, please confirm by clicking below link.
-{{ url }}
+{{ url | raw }}
 
-Old email address:  {{ oldMail }} 
-New email address:  {{ newMail }} 
+Old email address:  {{ oldMail | raw }} 
+New email address:  {{ newMail | raw }} 
 
 Cheers,
 your eCamp team
