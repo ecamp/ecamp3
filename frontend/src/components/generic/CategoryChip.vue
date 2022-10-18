@@ -1,15 +1,19 @@
 <template>
-  <v-chip dark :color="cat.color" v-bind="$attrs" v-on="$listeners">
-    <div :style="{ color: textColor }">
-      <slot>
-        {{ cat.short }}
-      </slot>
-    </div>
+  <v-chip
+    v-if="!cat._meta.loading"
+    :color="cat.color"
+    :text-color="textColor"
+    v-bind="$attrs"
+    v-on="$listeners"
+  >
+    <slot>
+      {{ cat.short }}
+    </slot>
   </v-chip>
 </template>
 
 <script>
-import bgHexToTextColor from '@/common/helpers/hexStrBgToTextColor.js'
+import { parseHexColor, contrastColor } from '@/common/helpers/colors.js'
 
 export default {
   name: 'CategoryChip',
@@ -30,7 +34,7 @@ export default {
       return this.category || this.scheduleEntry.activity().category()
     },
     textColor() {
-      return bgHexToTextColor(this.cat.color)
+      return contrastColor(...parseHexColor(this.cat.color))
     },
   },
 }
