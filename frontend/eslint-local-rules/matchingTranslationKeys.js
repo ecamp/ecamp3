@@ -73,10 +73,11 @@ module.exports = {
           return
         }
 
+        const filesystemPrefix = context.getCwd()
         const filepath = context.getFilename()
-          // remove filesystem from the start
-          // TODO make this more flexible by considering node_modules location
-          .replace(/^\/app\/src\//, '')
+          .replace(new RegExp(`^${escapeForRegExp(filesystemPrefix)}\/`), '')
+          // Optionally, remove src/ from the file path. We have this in frontend, but not in print
+          .replace(/^src\//, '')
           .replace(new RegExp(`${escapeForRegExp(extension)}$`), '')
 
         const callee = node.callee
