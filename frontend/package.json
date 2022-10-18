@@ -44,7 +44,7 @@
     "@tiptap/extension-underline": "2.0.0-beta.199",
     "@tiptap/vue-2": "2.0.0-beta.199",
     "@vue/composition-api": "1.7.1",
-    "@zxcvbn-ts/core": "2.0.5",
+    "@zxcvbn-ts/core": "2.1.0",
     "@zxcvbn-ts/language-common": "2.0.1",
     "@zxcvbn-ts/language-de": "2.1.0",
     "@zxcvbn-ts/language-en": "2.1.0",
