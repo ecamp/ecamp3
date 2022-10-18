@@ -9,7 +9,7 @@
 ARG PHP_VERSION=8.1.11
 
 # renovate: datasource=docker depName=caddy
-ARG CADDY_VERSION=2.6.1
+ARG CADDY_VERSION=2.6.2
 
 # "php" stage
 FROM php:${PHP_VERSION}-fpm-alpine AS api_platform_php
@@ -68,7 +68,7 @@ RUN set -eux; \
 ###> recipes ###
 ###< recipes ###
 
-COPY --from=composer:2.4@sha256:1bbf9836771e00dd7bb70ca4dce2494d3d5c16d97a7eb705647a58e9e6f55b19 /usr/bin/composer /usr/bin/composer
+COPY --from=composer:2.4@sha256:32a323d9702c65efb4c3a60341ba0b3c9db52056dd28f9dde081ace4df575a67 /usr/bin/composer /usr/bin/composer
 
 # Copy development php.ini
 RUN cp "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"

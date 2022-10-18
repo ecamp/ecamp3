@@ -182,7 +182,7 @@ jobs:
 
     services:
       postgres:
-        image: 'postgres:13-alpine@sha256:fc3670fa23119159394dfdb98eee89b30ef5a506791aea6ff7d8a4e73a8cd4a4'
+        image: 'postgres:13-alpine@sha256:b5c7c10637b21dbbb8b30593cd91235ec06da12b56ebab8024b3def499d6ed15'
         env:
           POSTGRES_DB: 'ecamp3test'
           POSTGRES_PASSWORD: 'ecamp3'
@@ -255,7 +255,7 @@ jobs:
 
     services:
       postgres:
-        image: 'postgres:13-alpine@sha256:fc3670fa23119159394dfdb98eee89b30ef5a506791aea6ff7d8a4e73a8cd4a4'
+        image: 'postgres:13-alpine@sha256:b5c7c10637b21dbbb8b30593cd91235ec06da12b56ebab8024b3def499d6ed15'
         env:
           POSTGRES_DB: 'ecamp3test'
           POSTGRES_PASSWORD: 'ecamp3'
@@ -466,7 +466,7 @@ jobs:
       - e2e-tests
     runs-on: ubuntu-latest
     steps:
-      - uses: peter-evans/repository-dispatch@11ba7d3f32dc7cc919d1c43f1fec1c05260c26b5 # tag=v2
+      - uses: peter-evans/repository-dispatch@b8601598d81a169e6e83657904679c500a0af9b8 # tag=v2
         with:
           token: ${{ secrets.REPO_ACCESS_TOKEN }}
           event-type: ci-passed
