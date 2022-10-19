@@ -99,7 +99,7 @@ class Period extends BaseEntity implements BelongsToCampInterface {
      *
      * TODO: Make non-nullable in the DB
      */
-    #[InputFilter\CleanHTML]
+    #[InputFilter\CleanText]
     #[InputFilter\Trim]
     #[Assert\NotBlank]
     #[Assert\Length(max: 32)]
