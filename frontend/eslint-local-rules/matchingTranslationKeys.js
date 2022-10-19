@@ -3,6 +3,17 @@ const path = require('path')
 const utils = require('eslint-plugin-vue/lib/utils/index.js')
 
 /**
+ * List of components with special props which accept translation keys.
+ * Key is the component name (in kebab-case, as used in the template), and value is an array
+ * of props which expect a translation key as value.
+ * E.g. <dialog-form submit-label="global.button.submit" :cancel-label="'global.button.cancel'"></dialog-form>
+ */
+const translationKeyComponentProps = {
+  'dialog-form': ['submit-label', 'cancel-label'],
+  'icon-with-tooltip': ['tc-key'],
+}
+
+/**
  * Convert a file path to our convention for translation key structures
  */
 function pathToTranslationKeyStructure(str) {
@@ -156,32 +167,36 @@ module.exports = {
      * Some props of some of our components accept a translation key, which they pass into
      * the $tc function internally. We can check these translation keys as well.
      */
-    const attributeVisitor = {
-      // For now, it's only the <dialog-form> component that has props like this
-      "VElement[name='dialog-form'] > VStartTag > VAttribute"(attr) {
-        const keyName = getKeyName(attr)
-        if (!['submit-label', 'cancel-label'].includes(keyName)) {
-          // We are only interested in a very specific selection of props
-          return
-        }
+    const attributeVisitor = Object.fromEntries(
+      Object.entries(translationKeyComponentProps).map(
+        ([componentName, translationKeyProps]) => [
+          `VElement[name='${componentName}'] > VStartTag > VAttribute`,
+          function (attr) {
+            const keyName = getKeyName(attr)
+            if (!translationKeyProps.includes(keyName)) {
+              // We are only interested in a very specific selection of props
+              return
+            }
 
-        const valueNode = attr.value
-        let value = null
-        if (valueNode.type === 'VExpressionContainer') {
-          // The attribute is probably using v-bind (or prefix : colon), so it has a dynamic value.
-          // Try to read it as a string literal, and give up otherwise.
-          value = getStringLiteral(valueNode.expression)
-        } else if (valueNode.type === 'VLiteral') {
-          value = valueNode
-        }
+            const valueNode = attr.value
+            let value = null
+            if (valueNode.type === 'VExpressionContainer') {
+              // The attribute is probably using v-bind (or prefix : colon), so it has a dynamic value.
+              // Try to read it as a string literal, and give up otherwise.
+              value = getStringLiteral(valueNode.expression)
+            } else if (valueNode.type === 'VLiteral') {
+              value = valueNode
+            }
 
-        if (value === null) {
-          return
-        }
+            if (value === null) {
+              return
+            }
 
-        verifyTranslationKey(value, filepath)
-      },
-    }
+            verifyTranslationKey(value, filepath)
+          },
+        ]
+      )
+    )
 
     return utils.defineTemplateBodyVisitor(
       context,
