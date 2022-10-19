@@ -198,7 +198,7 @@ export default {
 </script>
 
 <style scoped>
-div.editor >>> p.is-editor-empty:first-child::before {
+div.editor:deep(p.is-editor-empty:first-child::before) {
   content: attr(data-empty-text);
   float: left;
   color: #8b8b8b;
@@ -216,13 +216,13 @@ div.editor {
   width: 100%;
 }
 
-div.editor >>> .editor__content {
+div.editor:deep(.editor__content) {
   -webkit-box-flex: 1;
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
 }
 
-div.editor >>> .editor__content .ProseMirror {
+div.editor:deep(.editor__content .ProseMirror) {
   border: 0 !important;
   box-shadow: none !important;
   outline: none;
@@ -230,33 +230,33 @@ div.editor >>> .editor__content .ProseMirror {
   line-height: 1.5;
 }
 
-div.editor >>> .editor__content .ProseMirror p {
+div.editor:deep(.editor__content .ProseMirror p) {
   letter-spacing: -0.011em;
 }
-div.editor >>> .editor__content .ProseMirror p,
-div.editor >>> .editor__content .ProseMirror ol,
-div.editor >>> .editor__content .ProseMirror ul {
+div.editor:deep(.editor__content .ProseMirror p),
+div.editor:deep(.editor__content .ProseMirror ol),
+div.editor:deep(.editor__content .ProseMirror ul) {
   margin-bottom: 6px;
 }
-div.editor >>> .editor__content .ProseMirror h1 {
+div.editor:deep(.editor__content .ProseMirror h1) {
   margin-top: 18px;
   margin-bottom: 6px;
 }
-div.editor >>> .editor__content .ProseMirror h2 {
+div.editor:deep(.editor__content .ProseMirror h2) {
   margin-top: 15px;
   margin-bottom: 6px;
 }
-div.editor >>> .editor__content .ProseMirror h3 {
+div.editor:deep(.editor__content .ProseMirror h3) {
   margin-top: 12px;
   margin-bottom: 6px;
 }
-div.editor >>> .editor__content .ProseMirror :first-child {
+div.editor:deep(.editor__content .ProseMirror :first-child) {
   margin-top: 0;
 }
-div.editor >>> .editor__content .ProseMirror li p {
+div.editor:deep(.editor__content .ProseMirror li p) {
   margin-bottom: 3px;
 }
-div.editor >>> .editor__content .ProseMirror li p:not(:last-child) {
+div.editor:deep(.editor__content .ProseMirror li p:not(:last-child)) {
   margin-bottom: 0;
 }
 </style>

@@ -95,20 +95,20 @@ export default {
 </script>
 
 <style scoped>
-.v-card >>> button {
+.v-card:deep(button) {
   width: 36px !important;
   height: 36px !important;
 }
 
-.v-card:not(:hover) >>> button.visible-on-hover,
-.v-card:not(:hover) >>> button.tooltip-activator {
+.v-card:not(:hover):deep(button.visible-on-hover),
+.v-card:not(:hover):deep(button.tooltip-activator) {
   opacity: 0;
   width: 0px !important;
 
   transition: opacity 0.2s linear, width 0.3s steps(1, end);
 }
-.v-card:hover >>> button.visible-on-hover,
-.v-card:hover >>> button.tooltip-activator {
+.v-card:hover:deep(button.visible-on-hover),
+.v-card:hover:deep(button.tooltip-activator) {
   opacity: 1;
   width: 36px !important;
 
