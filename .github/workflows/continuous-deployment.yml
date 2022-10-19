@@ -15,7 +15,7 @@ jobs:
       never-uninstall: ${{ steps.to-uninstall.outputs.never-uninstall }}
     steps:
 
-      - uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b # tag=v3
+      - uses: actions/checkout@93ea575cb5d8a053eaa0ac8fa3b40d7e05a33cc8 # tag=v3
 
       - name: Get CI status of the devel branch
         id: devel-ci
@@ -131,7 +131,7 @@ jobs:
           token: ${{ secrets.REPO_ACCESS_TOKEN }}
           env: ${{ matrix.deployment.name }}
 
-      - uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b # tag=v3
+      - uses: actions/checkout@93ea575cb5d8a053eaa0ac8fa3b40d7e05a33cc8 # tag=v3
         with:
           ref: ${{ matrix.deployment.sha }}
 
@@ -204,7 +204,7 @@ jobs:
             --set imageTag=${{ matrix.deployment.sha }} \
             --set sharedCookieDomain=.ecamp3.ch \
             --set api.domain=api-${{ matrix.deployment.name }}.ecamp3.ch \
-            --set frontend.domain=${{ matrix.deployment.name }}.ecamp3.ch \
+            --set frontend.domain=app-${{ matrix.deployment.name }}.ecamp3.ch \
             --set print.domain=print-${{ matrix.deployment.name }}.ecamp3.ch \
             --set mail.domain=mail-${{ matrix.deployment.name }}.ecamp3.ch \
             --set postgresql.enabled=false \
@@ -233,5 +233,5 @@ jobs:
           token: ${{ secrets.REPO_ACCESS_TOKEN }}
           status: ${{ job.status }}
           deployment_id: ${{ steps.deployment.outputs.deployment_id }}
-          env_url: https://${{ matrix.deployment.name }}.ecamp3.ch
+          env_url: https://app-${{ matrix.deployment.name }}.ecamp3.ch
           env: ${{ steps.deployment.outputs.env }}

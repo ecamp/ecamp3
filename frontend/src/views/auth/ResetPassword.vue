@@ -20,11 +20,11 @@
       {{ $tc('views.auth.resetPassword.errorMessage') }}
     </v-alert>
 
-    <v-form
-      v-if="status == 'loaded' || status == 'reseting'"
-      @submit.prevent="resetPassword"
-    >
-      <ValidationObserver>
+    <validation-observer v-slot="{ handleSubmit }">
+      <v-form
+        v-if="status == 'loaded' || status == 'reseting'"
+        @submit.prevent="handleSubmit(resetPassword)"
+      >
         <e-text-field
           :value="email"
           :label="$tc('entity.user.fields.email')"
@@ -37,30 +37,34 @@
 
         <e-text-field
           v-model="password"
-          :label="$tc('views.auth.resetPassword.password')"
-          name="Password"
+          :name="$tc('views.auth.resetPassword.password')"
           vee-id="password"
-          vee-rules="min:8"
+          vee-rules="required|min:12|max:128"
           validate-on-blur
+          append-icon="mdi-lock-outline"
           :dense="$vuetify.breakpoint.xsOnly"
           type="password"
           loading
           autofocus
+          @input="debouncedPasswordStrengthCheck"
         >
           <template #progress>
-            <v-progress-linear :value="strength" :color="color" absolute height="5" />
+            <v-progress-linear
+              :value="passwordStrength"
+              :color="passwordStrengthColor"
+              absolute
+              height="5"
+            />
           </template>
         </e-text-field>
 
         <e-text-field
           v-model="confirmation"
-          :label="$tc('views.auth.resetPassword.passwordConfirmation')"
-          name="Confirmation"
-          vee-id="confirmation"
-          vee-rules="pwConfirmed:@password"
-          vee-rules-old="confirmed:password"
+          :name="$tc('views.auth.resetPassword.passwordConfirmation')"
+          vee-rules="required|confirmed:password"
           validate-on-blur
           :dense="$vuetify.breakpoint.xsOnly"
+          append-icon="mdi-lock-outline"
           type="password"
         />
 
@@ -80,11 +84,11 @@
           <v-spacer />
           <icon-spacer />
         </v-btn>
-      </ValidationObserver>
-    </v-form>
+      </v-form>
+    </validation-observer>
     <p class="mt-8 mb0 text--secondary text-center">
       <router-link :to="{ name: 'login' }">
-        {{ $tc('views.auth.resetPassword.back') }}
+        {{ $tc('global.button.login') }}
       </router-link>
     </p>
   </auth-container>
@@ -93,11 +97,12 @@
 <script>
 import { load } from 'recaptcha-v3'
 import { ValidationObserver } from 'vee-validate'
-import { passwordStrength } from 'check-password-strength'
+import { passwordStrengthMixin } from '../../mixins/passwordStrengthMixin.js'
 
 export default {
   name: 'ResetPassword',
   components: { ValidationObserver },
+  mixins: [passwordStrengthMixin],
   props: {
     id: { type: String, required: true },
   },
@@ -110,22 +115,6 @@ export default {
       status: 'loading',
       recaptcha: null,
     }
-  },
-
-  computed: {
-    strengthInfo() {
-      return passwordStrength(this.password)
-    },
-    strength() {
-      if (this.strengthInfo.length === 0) return 0
-      return (1 + this.strengthInfo.id) * 25
-    },
-    color() {
-      if (this.strength <= 25) return 'red'
-      if (this.strength <= 50) return 'orange'
-      if (this.strength <= 75) return 'yellow'
-      return 'green'
-    },
   },
 
   async mounted() {

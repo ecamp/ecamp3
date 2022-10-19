@@ -6,6 +6,7 @@
           v-model="localScheduleEntry.start"
           value-format="YYYY-MM-DDTHH:mm:ssZ"
           :name="$tc('components.activity.createScheduleEntries.fields.start')"
+          vee-id="startDate"
           vee-rules="required"
           :allowed-dates="allowedStartDates"
           :filled="false"
@@ -16,6 +17,7 @@
         <e-time-picker
           v-model="localScheduleEntry.start"
           :name="$tc('components.activity.createScheduleEntries.fields.start')"
+          vee-id="startDatetime"
           vee-rules="required"
           :filled="false"
           class="float-left mt-0 ml-3 time-picker"
@@ -28,7 +30,8 @@
           v-model="localScheduleEntry.end"
           value-format="YYYY-MM-DDTHH:mm:ssZ"
           :name="$tc('components.activity.createScheduleEntries.fields.end')"
-          vee-rules="required"
+          vee-id="endDate"
+          vee-rules="required|greaterThanOrEqual_date:@startDate"
           :allowed-dates="allowedEndDates"
           :filled="false"
           class="float-left date-picker"
@@ -38,7 +41,8 @@
         <e-time-picker
           v-model="localScheduleEntry.end"
           :name="$tc('components.activity.createScheduleEntries.fields.end')"
-          vee-rules="required"
+          vee-id="endDatetime"
+          :vee-rules="endTimeValidation"
           :filled="false"
           class="float-left mt-0 ml-3 time-picker"
           required
@@ -96,6 +100,23 @@ export default {
           '[]'
         )
       })
+    },
+    endTimeValidation() {
+      let validator = {
+        required: true,
+      }
+
+      // only compare time if date is the same day
+      if (
+        this.$date
+          .utc(this.localScheduleEntry.start)
+          .isSame(this.$date.utc(this.localScheduleEntry.end), 'day')
+      ) {
+        validator.greaterThan_time = {
+          min: this.$date.utc(this.localScheduleEntry.start).format('HH:mm'),
+        }
+      }
+      return validator
     },
   },
   watch: {

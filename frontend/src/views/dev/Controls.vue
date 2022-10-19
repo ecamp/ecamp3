@@ -394,7 +394,7 @@ export default {
   }),
   computed: {
     profileUri() {
-      return this.$auth.user().profile()._meta.self
+      return this.$store.state.auth.user.profile()._meta.self
     },
     availableLocales() {
       return VueI18n.availableLocales.map((l) => ({

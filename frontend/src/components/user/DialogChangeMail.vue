@@ -7,7 +7,6 @@
     :cancel-label="$tc('global.button.close')"
     :cancel-visible="status !== 'initial'"
     submit-color="success"
-    max-width="600px"
   >
     <template #activator="scope">
       <slot name="activator" v-bind="scope" />
@@ -52,7 +51,7 @@ export default {
     showDialog: function (showDialog) {
       if (showDialog) {
         this.status = 'initial'
-        this.loadEntityData(this.$auth.user().profile()._meta.self)
+        this.loadEntityData(this.$store.state.auth.user.profile()._meta.self)
       }
     },
   },

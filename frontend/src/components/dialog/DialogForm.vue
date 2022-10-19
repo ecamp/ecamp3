@@ -5,6 +5,7 @@
     eager
     v-bind="$attrs"
     :value="value"
+    :max-width="maxWidth"
     v-on="$listeners"
     @input="onInput"
   >
@@ -108,6 +109,8 @@ export default {
 
     loading: { type: Boolean, default: false, required: false },
     error: { type: [Object, String, Error], default: null, required: false },
+
+    maxWidth: { type: String, default: '600px', required: false },
   },
   data() {
     return {

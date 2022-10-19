@@ -43,6 +43,7 @@
 </template>
 <script>
 import { camelCase } from 'lodash'
+import { errorToMultiLineToast } from '@/components/toast/toasts'
 
 export default {
   name: 'ButtonNestedContentNodeAdd',
@@ -59,9 +60,15 @@ export default {
   },
   computed: {
     preferredContentTypesItems() {
-      return this.preferredContentTypes().items
+      if (this.contentTypesLoading) {
+        return []
+      }
+      return this.preferredContentTypes().items.sort(this.sortContentTypeByTranslatedName)
     },
     nonpreferredContentTypesItems() {
+      if (this.contentTypesLoading) {
+        return []
+      }
       return this.api
         .get()
         .contentTypes()
@@ -71,6 +78,10 @@ export default {
               .items.map((ct) => ct.id)
               .includes(ct.id)
         ) // remove contentTypes already included in preferredContentTypes
+        .sort(this.sortContentTypeByTranslatedName)
+    },
+    contentTypesLoading() {
+      return this.api.get().contentTypes()._meta.loading
     },
   },
   methods: {
@@ -79,6 +90,11 @@ export default {
     },
     contentTypeIconKey(contentType) {
       return 'contentNode.' + camelCase(contentType.name) + '.icon'
+    },
+    sortContentTypeByTranslatedName(ct1, ct2) {
+      const ct1name = this.$i18n.tc(this.contentTypeNameKey(ct1))
+      const ct2name = this.$i18n.tc(this.contentTypeNameKey(ct2))
+      return ct1name.localeCompare(ct2name)
     },
     async addContentNode(contentType) {
       this.isAdding = true
@@ -95,7 +111,7 @@ export default {
 
         await this.allContentNodes().$reload()
       } catch (error) {
-        console.log(error) // TO DO: display error message in error snackbar/toast
+        this.$toast.error(errorToMultiLineToast(error))
       }
       this.isAdding = false
     },

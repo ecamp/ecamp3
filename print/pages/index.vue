@@ -1,7 +1,8 @@
 <template>
   <v-row no-gutters>
     <v-col cols="12">
-      <div v-for="(content, idx) in config.contents" :key="idx">
+      <generic-error-message v-if="$fetchState.error" :error="$fetchState.error" />
+      <div v-for="(content, idx) in config.contents" v-else :key="idx">
         <component
           :is="'Config' + content.type"
           :options="content.options"
@@ -19,21 +20,13 @@ export default {
   data() {
     return {
       config: {},
-      pagedjs: '',
       camp: null,
     }
   },
   async fetch() {
     const query = this.$route.query
-
     this.config = JSON.parse(query.config || '{}')
-
-    try {
-      this.camp = await this.$api.get(this.config.camp)._meta.load // TODO prevent specifying arbitrary absolute URLs that the print container should fetch...
-    } catch (error) {
-      // eslint-disable-next-line
-      console.log(error)
-    }
+    this.camp = await this.$api.get(this.config.camp)._meta.load // TODO prevent specifying arbitrary absolute URLs that the print container should fetch...
   },
 }
 </script>

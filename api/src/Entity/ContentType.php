@@ -20,6 +20,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
     collectionOperations: ['get'],
     itemOperations: ['get'],
     normalizationContext: ['groups' => ['read']],
+    order: ['name' => 'ASC']
 )]
 #[ApiFilter(SearchFilter::class, properties: ['categories'])]
 #[ORM\Entity]

@@ -1,0 +1,148 @@
+name: Deploy alpha
+
+on:
+  repository_dispatch:
+    types: [ ci-passed ]
+  workflow_dispatch:       # Allow triggering manually
+    inputs:
+      confirmDeployWithoutCI:
+        description: 'I confirm that I want to deploy to ALPHA without running CI on the alpha branch first.'
+        required: true
+        type: boolean
+
+jobs:
+  upgrade-or-install-deployment:
+    name: Upgrade or install deployment
+    if: ${{ (inputs.confirmDeployWithoutCI == true) || (github.event.client_payload.ref == 'refs/heads/alpha') }}
+    runs-on: ubuntu-latest
+    environment:
+      name: alpha
+    steps:
+
+      - uses: actions/checkout@93ea575cb5d8a053eaa0ac8fa3b40d7e05a33cc8 # tag=v3
+        with:
+          ref: alpha
+
+      - name: Construct metadata for the alpha branch deployment
+        id: git-ref
+        run: |
+          ALPHA=$(git rev-parse alpha)
+          echo "Git SHA: $ALPHA"
+          echo ::set-output name=sha::$ALPHA
+
+      - name: Create a pending GitHub deployment
+        uses: bobheadxi/deployments@v1.3.0
+        id: deployment
+        with:
+          step: start
+          token: ${{ secrets.REPO_ACCESS_TOKEN }}
+          env: alpha
+
+      - uses: actions/checkout@93ea575cb5d8a053eaa0ac8fa3b40d7e05a33cc8 # tag=v3
+        with:
+          ref: ${{ steps.git-ref.outputs.sha }}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_PASSWORD }}
+
+      - name: Build and push frontend docker image
+        uses: docker/build-push-action@v3
+        with:
+          push: true
+          file: .docker-hub/frontend/Dockerfile
+          tags: ecamp/ecamp3-frontend:alpha,ecamp/ecamp3-frontend:${{ steps.git-ref.outputs.sha }}
+          context: .
+          cache-from: type=gha,scope=frontend
+          cache-to: type=gha,scope=frontend,mode=max
+
+      - name: Build and push api docker image
+        uses: docker/build-push-action@v3
+        with:
+          push: true
+          file: api/Dockerfile
+          tags: ecamp/ecamp3-api:alpha,ecamp/ecamp3-api:${{ steps.git-ref.outputs.sha }}
+          context: './api'
+          target: api_platform_php
+          cache-from: type=gha,scope=api
+          cache-to: type=gha,scope=api,mode=max
+
+      - name: Build and push caddy docker image
+        uses: docker/build-push-action@v3
+        with:
+          push: true
+          file: api/Dockerfile
+          tags: ecamp/ecamp3-caddy:alpha,ecamp/ecamp3-caddy:${{ steps.git-ref.outputs.sha }}
+          context: './api'
+          target: api_platform_caddy_prod
+          cache-from: type=gha,scope=caddy
+          cache-to: type=gha,scope=caddy,mode=max
+
+      - name: Build and push print docker image
+        uses: docker/build-push-action@v3
+        with:
+          push: true
+          file: .docker-hub/print/Dockerfile
+          tags: ecamp/ecamp3-print:alpha,ecamp/ecamp3-print:${{ steps.git-ref.outputs.sha }}
+          context: .
+          cache-from: type=gha,scope=print
+          cache-to: type=gha,scope=print,mode=max
+
+      - name: Upgrade or install helm release
+        run: |
+          # Setup authentication
+          mkdir ~/.kube && echo '${{ secrets.KUBECONFIG }}' > ~/.kube/config && chmod go-r ~/.kube/config
+          # Switch to the helm chart directory
+          cd .helm/ecamp3
+          # Install dependency charts
+          helm dependency update
+          # Set the appVersion, workaround from https://github.com/helm/helm/issues/8194 so that we can
+          # later find out which deployments need to be upgraded
+          sed -i 's/^appVersion:.*$/appVersion: "${{ steps.git-ref.outputs.sha }}"/' Chart.yaml
+          # Install or upgrade the release
+          helm upgrade --install ecamp3-alpha . \
+            --set imageTag=${{ steps.git-ref.outputs.sha }} \
+            --set sharedCookieDomain=.ecamp3.ch \
+            --set api.domain=api-alpha.ecamp3.ch \
+            --set frontend.domain=app-alpha.ecamp3.ch \
+            --set print.domain=print-alpha.ecamp3.ch \
+            --set mail.dsn=${{ secrets.MAILER_DSN }} \
+            --set postgresql.enabled=false \
+            --set postgresql.url='${{ secrets.POSTGRES_URL }}/ecamp3alpha?sslmode=require' \
+            --set postgresql.dropDBOnUninstall=false \
+            --set php.dataMigrationsDir='${{ secrets.DATA_MIGRATIONS_DIR }}' \
+            --set php.appSecret='${{ secrets.API_APP_SECRET }}' \
+            --set php.sentryDsn='${{ secrets.API_SENTRY_DSN }}' \
+            --set php.jwt.passphrase='${{ secrets.JWT_PASSPHRASE }}' \
+            --set php.jwt.publicKey='${{ secrets.JWT_PUBLIC_KEY }}' \
+            --set php.jwt.privateKey='${{ secrets.JWT_PRIVATE_KEY }}' \
+            --set php.oauth.google.clientId='${{ secrets.OAUTH_GOOGLE_CLIENT_ID }}' \
+            --set php.oauth.google.clientSecret='${{ secrets.OAUTH_GOOGLE_CLIENT_SECRET }}' \
+            --set php.oauth.pbsmidata.clientId='${{ secrets.OAUTH_PBSMIDATA_CLIENT_ID }}' \
+            --set php.oauth.pbsmidata.clientSecret='${{ secrets.OAUTH_PBSMIDATA_CLIENT_SECRET }}' \
+            --set php.oauth.pbsmidata.baseUrl='${{ secrets.OAUTH_PBSMIDATA_BASE_URL }}' \
+            --set php.oauth.cevidb.clientId='${{ secrets.OAUTH_CEVIDB_CLIENT_ID }}' \
+            --set php.oauth.cevidb.clientSecret='${{ secrets.OAUTH_CEVIDB_CLIENT_SECRET }}' \
+            --set php.oauth.cevidb.baseUrl='${{ secrets.OAUTH_CEVIDB_BASE_URL }}' \
+            --set frontend.sentryDsn='${{ secrets.FRONTEND_SENTRY_DSN }}' \
+            --set print.sentryDsn='${{ secrets.PRINT_SENTRY_DSN }}' \
+            --set deploymentTime="$(date -u +%s)" \
+            --set deployedVersion="$(git rev-parse --short '${{ steps.git-ref.outputs.sha }}')" \
+            --set recaptcha.siteKey='${{ secrets.RECAPTCHA_SITE_KEY }}' \
+            --set recaptcha.secret='${{ secrets.RECAPTCHA_SECRET }}'
+
+      - name: Finish the GitHub deployment
+        uses: bobheadxi/deployments@v1.3.0
+        if: always()
+        with:
+          step: finish
+          token: ${{ secrets.REPO_ACCESS_TOKEN }}
+          status: ${{ job.status }}
+          deployment_id: ${{ steps.deployment.outputs.deployment_id }}
+          env_url: https://app-alpha.ecamp3.ch
+          env: ${{ steps.deployment.outputs.env }}

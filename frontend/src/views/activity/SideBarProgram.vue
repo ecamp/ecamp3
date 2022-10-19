@@ -11,9 +11,9 @@
             v-else
             :schedule-entries="slotProps.scheduleEntries"
             :period="period()"
-            :start="startOfDay"
+            :start="currentDayAsString"
             :interval-height="36"
-            :end="endOfDay"
+            :end="currentDayAsString"
             type="day"
           />
         </template>
@@ -28,6 +28,8 @@ import SideBar from '@/components/navigation/SideBar.vue'
 import ContentCard from '@/components/layout/ContentCard.vue'
 import ScheduleEntries from '@/components/program/ScheduleEntries.vue'
 
+import { HTML5_FMT } from '@/common/helpers/dateFormat.js'
+
 export default {
   name: 'SideBarProgram',
   components: { ContentCard, SideBar, Picasso, ScheduleEntries },
@@ -38,16 +40,8 @@ export default {
     period() {
       return this.day().period
     },
-    startOfDay() {
-      return this.addDays(this.period().start, this.day().dayOffset)
-    },
-    endOfDay() {
-      return this.addDays(this.startOfDay, 1)
-    },
-  },
-  methods: {
-    addDays(date, days) {
-      return Date.parse(date) + days * 24 * 60 * 60 * 1000
+    currentDayAsString() {
+      return this.$date.utc(this.day().start).format(HTML5_FMT.DATE)
     },
   },
 }

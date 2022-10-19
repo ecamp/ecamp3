@@ -24,7 +24,7 @@ class CreateUserTest extends ECampApiTestCase {
         $this->assertJsonContains($this->getExampleReadPayload([], ['password']));
     }
 
-    public function testLoginAfterRegistration() {
+    public function testLoginFailsWithoutActivation() {
         $client = static::createBasicClient();
         // Disable resetting the database between the two requests
         $client->disableReboot();
@@ -33,11 +33,80 @@ class CreateUserTest extends ECampApiTestCase {
         $this->assertResponseStatusCodeSame(201);
 
         $client->request('POST', '/authentication_token', ['json' => [
-            'username' => 'bipi',
+            'identifier' => 'bi-pi@example.com',
             'password' => 'learning-by-doing-101',
         ]]);
 
+        $this->assertResponseStatusCodeSame(401);
+    }
+
+    public function testLoginAfterRegistrationAndActivation() {
+        $client = static::createBasicClient();
+        // Disable resetting the database between the two requests
+        $client->disableReboot();
+
+        // register user
+        $result = $client->request('POST', '/users', ['json' => $this->getExampleWritePayload()]);
+        $this->assertResponseStatusCodeSame(201);
+
+        $userId = $result->toArray()['id'];
+        $user = $this->getEntityManager()->getRepository(User::class)->find($userId);
+
+        // activate user
+        $client->request('PATCH', "/users/{$userId}/activate", ['json' => [
+            'activationKey' => $user->activationKey,
+        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
         $this->assertResponseIsSuccessful();
+
+        // login
+        $client->request('POST', '/authentication_token', ['json' => [
+            'identifier' => 'bi-pi@example.com',
+            'password' => 'learning-by-doing-101',
+        ]]);
+        $this->assertResponseIsSuccessful();
+    }
+
+    public function testActivationFailsIfAlreadyActivated() {
+        $client = static::createBasicClient();
+        // Disable resetting the database between the two requests
+        $client->disableReboot();
+
+        // register user
+        $result = $client->request('POST', '/users', ['json' => $this->getExampleWritePayload()]);
+        $this->assertResponseStatusCodeSame(201);
+
+        $userId = $result->toArray()['id'];
+        $user = $this->getEntityManager()->getRepository(User::class)->find($userId);
+
+        // activate user
+        $client->request('PATCH', "/users/{$userId}/activate", ['json' => [
+            'activationKey' => $user->activationKey,
+        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
+        $this->assertResponseIsSuccessful();
+
+        // activate user again
+        $client->request('PATCH', "/users/{$userId}/activate", ['json' => [
+            'activationKey' => $user->activationKey,
+        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
+        $this->assertResponseStatusCodeSame(422);
+    }
+
+    public function testActivationFailsWithInvalidActivationKey() {
+        $client = static::createBasicClient();
+        // Disable resetting the database between the two requests
+        $client->disableReboot();
+
+        // register user
+        $result = $client->request('POST', '/users', ['json' => $this->getExampleWritePayload()]);
+        $this->assertResponseStatusCodeSame(201);
+
+        $userId = $result->toArray()['id'];
+
+        // activate user
+        $client->request('PATCH', "/users/{$userId}/activate", ['json' => [
+            'activationKey' => '***',
+        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
+        $this->assertResponseStatusCodeSame(422);
     }
 
     public function testCreateUserValidatesMissingProfile() {
@@ -250,186 +319,6 @@ class CreateUserTest extends ECampApiTestCase {
             'violations' => [
                 [
                     'propertyPath' => 'profile.email',
-                    'message' => 'This value is already used.',
-                ],
-            ],
-        ]);
-    }
-
-    public function testCreateUserTrimsUsername() {
-        static::createBasicClient()->request(
-            'POST',
-            '/users',
-            [
-                'json' => $this->getExampleWritePayload(
-                    mergeEmbeddedAttributes: [
-                        'profile' => [
-                            'username' => '  bipi ',
-                        ],
-                    ]
-                ),
-            ]
-        );
-
-        $this->assertResponseStatusCodeSame(201);
-        $this->assertJsonContains(
-            $this->getExampleReadPayload(
-                [
-                    '_embedded' => [
-                        'profile' => [
-                            'username' => 'bipi',
-                        ],
-                    ],
-                ],
-                ['password']
-            )
-        );
-    }
-
-    public function testCreateUserValidatesMissingUsername() {
-        // use this easy way here, because unsetting a nested attribute would be complicated
-        $exampleWritePayload = $this->getExampleWritePayload();
-        unset($exampleWritePayload['profile']['username']);
-
-        static::createClientWithCredentials()->request('POST', '/users', ['json' => $exampleWritePayload]);
-
-        $this->assertResponseStatusCodeSame(422);
-        $this->assertJsonContains([
-            'violations' => [
-                [
-                    'propertyPath' => 'profile.username',
-                    'message' => 'This value should not be blank.',
-                ],
-            ],
-        ]);
-    }
-
-    public function testCreateUserValidatesBlankUsername() {
-        static::createClientWithCredentials()->request(
-            'POST',
-            '/users',
-            [
-                'json' => $this->getExampleWritePayload(
-                    mergeEmbeddedAttributes: [
-                        'profile' => [
-                            'username' => '',
-                        ],
-                    ]
-                ),
-            ]
-        );
-
-        $this->assertResponseStatusCodeSame(422);
-        $this->assertJsonContains([
-            'violations' => [
-                [
-                    'propertyPath' => 'profile.username',
-                    'message' => 'This value should not be blank.',
-                ],
-            ],
-        ]);
-    }
-
-    public function testCreateUserValidatesInvalidUsername() {
-        static::createClientWithCredentials()->request(
-            'POST',
-            '/users',
-            [
-                'json' => $this->getExampleWritePayload(
-                    mergeEmbeddedAttributes: [
-                        'profile' => [
-                            'username' => 'b*p',
-                        ],
-                    ]
-                ),
-            ]
-        );
-
-        $this->assertResponseStatusCodeSame(422);
-        $this->assertJsonContains([
-            'violations' => [
-                [
-                    'propertyPath' => 'profile.username',
-                    'message' => 'This value is not valid.',
-                ],
-            ],
-        ]);
-    }
-
-    public function testCreateUserValidatesLongUsername() {
-        static::createClientWithCredentials()->request(
-            'POST',
-            '/users',
-            [
-                'json' => $this->getExampleWritePayload(
-                    mergeEmbeddedAttributes: [
-                        'profile' => [
-                            'username' => 'daenerys_targaryen_also_known_as_daenerys_stormborn_queen_of_the_andals_and_the_first_men',
-                        ],
-                    ]
-                ),
-            ]
-        );
-
-        $this->assertResponseStatusCodeSame(422);
-        $this->assertJsonContains([
-            'violations' => [
-                [
-                    'propertyPath' => 'profile.username',
-                    'message' => 'This value is too long. It should have 64 characters or less.',
-                ],
-            ],
-        ]);
-    }
-
-    public function testCreateUserValidatesDuplicateUsername() {
-        $client = static::createClientWithCredentials();
-        $client->request(
-            'POST',
-            '/users',
-            [
-                'json' => $this->getExampleWritePayload(
-                    mergeEmbeddedAttributes: [
-                        'profile' => [
-                            'username' => static::$fixtures['user1manager']->getUsername(),
-                        ],
-                    ]
-                ),
-            ]
-        );
-
-        $this->assertResponseStatusCodeSame(422);
-        $this->assertJsonContains([
-            'violations' => [
-                [
-                    'propertyPath' => 'profile.username',
-                    'message' => 'This value is already used.',
-                ],
-            ],
-        ]);
-    }
-
-    public function testCreateUserTrimsFirstThenValidatesDuplicateUsername() {
-        $client = static::createClientWithCredentials();
-        $client->request(
-            'POST',
-            '/users',
-            [
-                'json' => $this->getExampleWritePayload(
-                    mergeEmbeddedAttributes: [
-                        'profile' => [
-                            'username' => static::$fixtures['user1manager']->getUsername().'   ',
-                        ],
-                    ]
-                ),
-            ]
-        );
-
-        $this->assertResponseStatusCodeSame(422);
-        $this->assertJsonContains([
-            'violations' => [
-                [
-                    'propertyPath' => 'profile.username',
                     'message' => 'This value is already used.',
                 ],
             ],
@@ -682,7 +571,47 @@ class CreateUserTest extends ECampApiTestCase {
             'violations' => [
                 [
                     'propertyPath' => 'password',
-                    'message' => 'This value is too short. It should have 8 characters or more.',
+                    'message' => 'This value is too short. It should have 12 characters or more.',
+                ],
+            ],
+        ]);
+    }
+
+    public function testCreateUserValidatesShortPassword() {
+        static::createClientWithCredentials()->request('POST', '/users', ['json' => $this->getExampleWritePayload([
+            'password' => 'only11chars',
+        ])]);
+
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [
+                    'propertyPath' => 'password',
+                    'message' => 'This value is too short. It should have 12 characters or more.',
+                ],
+            ],
+        ]);
+    }
+
+    public function testCreateUserAllowsLongPassword() {
+        static::createClientWithCredentials()->request('POST', '/users', ['json' => $this->getExampleWritePayload([
+            'password' => 'this password has a total of 122 characters. this password has a total of 122 characters. OWASP approves of this password.',
+        ])]);
+
+        $this->assertResponseStatusCodeSame(201);
+    }
+
+    public function testCreateUserValidatesUnreasonablyLongPassword() {
+        static::createClientWithCredentials()->request('POST', '/users', ['json' => $this->getExampleWritePayload([
+            'password' => 'this password has a total of more than 128 characters. this password has a total of more than 128 characters. OWASP does not approve this password.',
+        ])]);
+
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [
+                    'propertyPath' => 'password',
+                    'message' => 'This value is too long. It should have 128 characters or less.',
                 ],
             ],
         ]);

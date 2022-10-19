@@ -5,10 +5,16 @@
   ],
   "force": {
     "constraints": {
-      "node": "18.9.0"
+      "node": "18.11.0"
     }
   },
   "automergeType": "branch",
+  "lockFileMaintenance": {
+    "enabled": true,
+    "schedule": [
+      "on tuesday"
+    ]
+  },
   "vulnerabilityAlerts": {
     "automerge": true
   },
@@ -19,7 +25,8 @@
         "minor",
         "patch",
         "pin",
-        "digest"
+        "digest",
+        "lockFileMaintenance"
       ],
       "automerge": true
     },

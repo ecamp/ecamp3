@@ -7,13 +7,11 @@ Show all activity schedule entries of a single period.
     <template #title-actions>
       <period-switcher :period="period" />
       <v-spacer />
-      <v-tooltip :disabled="isContributor" bottom>
-        <template #activator="{ on }">
-          <v-icon v-if="editMode" small v-on="on"> mdi-lock-open-variant </v-icon>
-          <v-icon v-else small color="grey" v-on="on"> mdi-lock </v-icon>
-        </template>
-        <span>{{ $tc('views.camp.picasso.guestsCannotEdit') }}</span>
-      </v-tooltip>
+      <LockIcon
+        v-model="editMode"
+        :hide-tooltip="isContributor"
+        :message="$tc('views.camp.picasso.guestsCannotEdit')"
+      />
       <v-menu offset-y>
         <template #activator="{ on, attrs }">
           <v-btn icon v-bind="attrs" v-on="on">
@@ -21,18 +19,14 @@ Show all activity schedule entries of a single period.
           </v-btn>
         </template>
         <v-list class="py-0">
-          <v-list-item @click="editMode = !editMode">
-            <v-list-item-icon>
-              <v-icon v-if="editMode">mdi-lock</v-icon>
-              <v-icon v-else>mdi-lock-open-variant</v-icon>
-            </v-list-item-icon>
-            <v-list-item-title>
-              {{ editMode ? $tc('global.button.lock') : $tc('global.button.unlock') }}
-            </v-list-item-title>
-          </v-list-item>
+          <LockUnlockListItem
+            v-model="editMode"
+            :disabled="!isContributor"
+            @click="editMode = !editMode"
+          />
           <v-divider />
-          <DownloadNuxtPdf :config="printConfig()" @error="showPrintError" />
-          <DownloadReactPdf :config="printConfig()" @error="showPrintError" />
+          <DownloadNuxtPdf :config="printConfig" />
+          <DownloadReactPdf :config="printConfig" />
         </v-list>
       </v-menu>
     </template>
@@ -45,22 +39,14 @@ Show all activity schedule entries of a single period.
           <picasso
             :schedule-entries="slotProps.scheduleEntries"
             :period="period()"
-            :start="Date.parse(period().start)"
-            :end="Date.parse(period().end)"
+            :start="period().start"
+            :end="period().end"
             :editable="editMode"
             @newEntry="slotProps.on.newEntry"
           />
         </template>
       </template>
     </schedule-entries>
-    <v-snackbar v-model="showError" app :timeout="10000">
-      {{ error ? error.label : null }}
-      <template #action="{ attrs }">
-        <v-btn color="red" text v-bind="attrs" @click="showError = null">
-          {{ $tc('global.button.close') }}
-        </v-btn>
-      </template>
-    </v-snackbar>
   </content-card>
 </template>
 <script>
@@ -71,6 +57,8 @@ import ScheduleEntries from '@/components/program/ScheduleEntries.vue'
 import PeriodSwitcher from '@/components/program/PeriodSwitcher.vue'
 import DownloadNuxtPdf from '@/components/print/print-nuxt/DownloadNuxtPdfListItem.vue'
 import DownloadReactPdf from '@/components/print/print-react/DownloadReactPdfListItem.vue'
+import LockIcon from '@/components/generic/LockIcon.vue'
+import LockUnlockListItem from '@/components/generic/LockUnlockListItem.vue'
 
 export default {
   name: 'CampProgram',
@@ -81,6 +69,8 @@ export default {
     ContentCard,
     Picasso,
     ScheduleEntries,
+    LockIcon,
+    LockUnlockListItem,
   },
   mixins: [campRoleMixin],
   props: {
@@ -89,19 +79,11 @@ export default {
   data() {
     return {
       editMode: false,
-      showError: null,
-      error: null,
     }
   },
   computed: {
     camp() {
       return this.period().camp()
-    },
-  },
-  methods: {
-    showPrintError(event) {
-      this.error = event
-      this.showError = true
     },
     printConfig() {
       return {

@@ -46,6 +46,7 @@ use Symfony\Component\Validator\Constraints as Assert;
     ],
     denormalizationContext: ['groups' => ['write']],
     normalizationContext: ['groups' => ['read']],
+    order: ['camp.id', 'short'],
 )]
 #[ApiFilter(SearchFilter::class, properties: ['camp'])]
 #[ORM\Entity(repositoryClass: CategoryRepository::class)]
@@ -80,6 +81,7 @@ class Category extends BaseEntity implements BelongsToCampInterface, CopyFromPro
     #[ORM\JoinTable(name: 'category_contenttype')]
     #[ORM\JoinColumn(name: 'category_id', referencedColumnName: 'id')]
     #[ORM\InverseJoinColumn(name: 'contenttype_id', referencedColumnName: 'id')]
+    #[ORM\OrderBy(['name' => 'ASC'])]
     public Collection $preferredContentTypes;
 
     /**
@@ -106,7 +108,6 @@ class Category extends BaseEntity implements BelongsToCampInterface, CopyFromPro
      * An abbreviated name of the category, for display in tight spaces, often together with the day and
      * schedule entry number, e.g. LS 3.a, where LS is the category's short name.
      */
-    #[InputFilter\CleanHTML]
     #[InputFilter\Trim]
     #[Assert\NotBlank]
     #[Assert\Length(max: 16)]
@@ -118,7 +119,6 @@ class Category extends BaseEntity implements BelongsToCampInterface, CopyFromPro
     /**
      * The full name of the category.
      */
-    #[InputFilter\CleanHTML]
     #[InputFilter\Trim]
     #[Assert\NotBlank]
     #[Assert\Length(max: 32)]

@@ -24,7 +24,7 @@ class CreateCampCollaborationTest extends ECampApiTestCase {
     }
 
     public function testCreateCampCollaborationIsNotPossibleForUnrelatedUserBecauseCampIsNotReadable() {
-        static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->getUsername()])
+        static::createClientWithCredentials(['email' => static::$fixtures['user4unrelated']->getEmail()])
             ->request('POST', '/camp_collaborations', ['json' => $this->getExampleWritePayload([
                 'user' => $this->getIriFor('user4unrelated'),
             ])])
@@ -37,7 +37,7 @@ class CreateCampCollaborationTest extends ECampApiTestCase {
     }
 
     public function testCreateCampCollaborationIsNotPossibleForInactiveCollaboratorBecauseCampIsNotReadable() {
-        static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->getUsername()])
+        static::createClientWithCredentials(['email' => static::$fixtures['user5inactive']->getEmail()])
             ->request('POST', '/camp_collaborations', ['json' => $this->getExampleWritePayload([
                 'user' => $this->getIriFor('user5inactive'),
             ])])
@@ -50,7 +50,7 @@ class CreateCampCollaborationTest extends ECampApiTestCase {
     }
 
     public function testCreateCampCollaborationIsDeniedForGuest() {
-        static::createClientWithCredentials(['username' => static::$fixtures['user3guest']->getUsername()])
+        static::createClientWithCredentials(['email' => static::$fixtures['user3guest']->getEmail()])
             ->request('POST', '/camp_collaborations', ['json' => $this->getExampleWritePayload([
                 'user' => $this->getIriFor('user3guest'),
             ])])
@@ -64,7 +64,7 @@ class CreateCampCollaborationTest extends ECampApiTestCase {
     }
 
     public function testCreateCampCollaborationIsAllowedForMember() {
-        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->getUsername()])
+        static::createClientWithCredentials(['email' => static::$fixtures['user2member']->getEmail()])
             ->request(
                 'POST',
                 '/camp_collaborations',
@@ -338,7 +338,7 @@ class CreateCampCollaborationTest extends ECampApiTestCase {
         $this->assertResponseStatusCodeSame(422);
         $this->assertJsonContains([
             'title' => 'An error occurred',
-            'detail' => 'user: This user is already present in the camp.',
+            'detail' => 'user: This user or a user with this email address is already participating in the camp.',
         ]);
     }
 
@@ -364,6 +364,44 @@ class CreateCampCollaborationTest extends ECampApiTestCase {
                 [
                     'propertyPath' => 'user',
                     'message' => 'Either this value or inviteEmail should not be null.',
+                ],
+            ],
+        ]);
+    }
+
+    public function testCreateCampCollaborationValidatesMissingUserAndInviteEmailAndIncludesTranslationInfo() {
+        static::createClientWithCredentials()->request('POST', '/camp_collaborations', ['json' => $this->getExampleWritePayload([], ['user'])]);
+
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [
+                    'i18n' => [
+                        'key' => 'app.validator.asserteitherisnull',
+                        'parameters' => [
+                            'other' => 'user',
+                        ],
+                        'translations' => [
+                            'en' => 'Either this value or user should not be null.',
+                            'de' => 'Dieser Wert und user dürfen nicht beide null sein.',
+                            'fr' => 'Cette valeur ou user ne doit pas être nulle.',
+                            'it' => 'Questo valore o user non deve essere nullo.',
+                        ],
+                    ],
+                ],
+                [
+                    'i18n' => [
+                        'key' => 'app.validator.asserteitherisnull',
+                        'parameters' => [
+                            'other' => 'inviteEmail',
+                        ],
+                        'translations' => [
+                            'en' => 'Either this value or inviteEmail should not be null.',
+                            'de' => 'Dieser Wert und inviteEmail dürfen nicht beide null sein.',
+                            'fr' => 'Cette valeur ou inviteEmail ne doit pas être nulle.',
+                            'it' => 'Questo valore o inviteEmail non deve essere nullo.',
+                        ],
+                    ],
                 ],
             ],
         ]);

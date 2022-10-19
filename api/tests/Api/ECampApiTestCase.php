@@ -64,18 +64,19 @@ abstract class ECampApiTestCase extends ApiTestCase {
         /** @var Profile $profile */
         $profile = static::getContainer()->get(ProfileRepository::class)
             ->findOneBy(
-                array_diff_key($credentials ?: ['username' => 'test-user'], ['password' => ''])
+                array_diff_key($credentials ?: ['email' => 'test@example.com'], ['password' => ''])
             )
         ;
         $user = $profile->user;
+
         $jwtToken = static::getContainer()->get('lexik_jwt_authentication.jwt_manager')->create($user);
         $lastPeriodPosition = strrpos($jwtToken, '.');
         $jwtHeaderAndPayload = substr($jwtToken, 0, $lastPeriodPosition);
         $jwtSignature = substr($jwtToken, $lastPeriodPosition + 1);
 
         $cookies = $client->getCookieJar();
-        $cookies->set(new Cookie('example_com_jwt_hp', $jwtHeaderAndPayload, null, null, 'example.com', false, false, false, 'strict'));
-        $cookies->set(new Cookie('example_com_jwt_s', $jwtSignature, null, null, 'example.com', false, true, false, 'strict'));
+        $cookies->set(new Cookie('example_com_jwt_hp', $jwtHeaderAndPayload, null, null, 'localhost', false, false, false, 'strict'));
+        $cookies->set(new Cookie('example_com_jwt_s', $jwtSignature, null, null, 'localhost', false, true, false, 'strict'));
 
         return $client;
     }
@@ -87,7 +88,7 @@ abstract class ECampApiTestCase extends ApiTestCase {
      * @throws TransportExceptionInterface
      */
     protected static function createClientWithAdminCredentials(?array $headers = null): Client {
-        return static::createClientWithCredentials(['username' => 'admin']);
+        return static::createClientWithCredentials(['email' => 'admin@example.com']);
     }
 
     protected static function createBasicClient(?array $headers = null): Client {
@@ -159,7 +160,7 @@ abstract class ECampApiTestCase extends ApiTestCase {
     protected function get(?BaseEntity $entity = null, ?User $user = null) {
         $credentials = null;
         if (null !== $user) {
-            $credentials = ['username' => $user->getUsername()];
+            $credentials = ['email' => $user->getEmail()];
         }
 
         $entity ??= $this->defaultEntity;
@@ -170,7 +171,7 @@ abstract class ECampApiTestCase extends ApiTestCase {
     protected function list(?User $user = null) {
         $credentials = null;
         if (null !== $user) {
-            $credentials = ['username' => $user->getUsername()];
+            $credentials = ['email' => $user->getEmail()];
         }
 
         return static::createClientWithCredentials($credentials)->request('GET', $this->endpoint);
@@ -179,7 +180,7 @@ abstract class ECampApiTestCase extends ApiTestCase {
     protected function delete(?BaseEntity $entity = null, ?User $user = null) {
         $credentials = null;
         if (null !== $user) {
-            $credentials = ['username' => $user->getUsername()];
+            $credentials = ['email' => $user->getEmail()];
         }
 
         $entity ??= $this->defaultEntity;
@@ -190,7 +191,7 @@ abstract class ECampApiTestCase extends ApiTestCase {
     protected function create(array $payload = null, ?User $user = null) {
         $credentials = null;
         if (null !== $user) {
-            $credentials = ['username' => $user->getUsername()];
+            $credentials = ['email' => $user->getEmail()];
         }
 
         if (null === $payload) {
@@ -203,7 +204,7 @@ abstract class ECampApiTestCase extends ApiTestCase {
     protected function patch(?BaseEntity $entity = null, array $payload = [], ?User $user = null) {
         $credentials = null;
         if (null !== $user) {
-            $credentials = ['username' => $user->getUsername()];
+            $credentials = ['email' => $user->getEmail()];
         }
 
         $entity ??= $this->defaultEntity;

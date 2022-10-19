@@ -1,15 +1,19 @@
 import { defineConfig } from 'vite'
 import { createVuePlugin } from 'vite-plugin-vue2'
 import { createSvgPlugin } from 'vite-plugin-vue2-svg'
-import ViteComponents, { VuetifyResolver } from 'vite-plugin-components'
 import worker, { pluginHelper } from 'vite-plugin-worker'
 import * as path from 'path'
+import { VuetifyResolver } from 'unplugin-vue-components/resolvers'
+import Components from 'unplugin-vue-components/vite'
 
 export default defineConfig(({ mode }) => ({
   plugins: [
     createVuePlugin(),
-    ViteComponents({
-      customComponentResolvers: [VuetifyResolver()],
+    Components({
+      resolvers: [
+        // Vuetify
+        VuetifyResolver(),
+      ],
     }),
     createSvgPlugin(),
     pluginHelper(),
@@ -21,11 +25,24 @@ export default defineConfig(({ mode }) => ({
       'core-js/modules/es.symbol.description.js',
       'core-js/modules/es.function.name.js',
       'core-js/modules/es.array.concat.js',
+      'core-js/modules/es.array.slice.js',
       'core-js/modules/es.array.splice.js',
       'core-js/modules/es.array.find.js',
+      'core-js/modules/es.array.push.js',
       'core-js/modules/es.object.to-string.js',
+      'core-js/modules/es.regexp.exec.js',
+      'core-js/modules/es.regexp.test.js',
       '@sentry/browser',
+      '@zxcvbn-ts/core',
+      '@zxcvbn-ts/language-common',
+      '@zxcvbn-ts/language-en',
+      '@zxcvbn-ts/language-de',
+      '@zxcvbn-ts/language-fr',
+      '@zxcvbn-ts/language-it',
       'raf/polyfill',
+      'vuetify/es5/components/VCalendar/modes/column.js',
+      'vuetify/es5/components/VCalendar/util/events.js',
+      'lodash/keyBy.js',
     ],
   },
   build: {

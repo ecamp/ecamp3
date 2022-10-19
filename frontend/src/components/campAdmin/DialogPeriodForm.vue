@@ -16,7 +16,7 @@
     <e-date-picker
       v-model="localPeriod.end"
       :name="$tc('entity.period.fields.end')"
-      vee-rules="required|minDate:@start"
+      vee-rules="required|greaterThanOrEqual_date:@start"
     />
   </div>
 </template>

@@ -37,12 +37,12 @@ class AssertJsonSchemaValidatorTest extends ConstraintValidatorTestCase {
         $this->validator->validate(null, new Email());
     }
 
-    public function testNullIsInvalid() {
+    public function testNullIsValid() {
         // when
         $this->validator->validate(null, new AssertJsonSchema());
 
         // then
-        $this->buildViolation(self::message)->setParameter('{{ schemaError }}', 'Object expected, null received')->assertRaised();
+        $this->assertNoViolation();
     }
 
     public function testEmptyObjectIsValid() {

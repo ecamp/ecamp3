@@ -10,12 +10,6 @@
 
 <script>
 export default {
-  data() {
-    return {
-      pagedjs: false,
-    }
-  },
-
   head() {
     const header = {}
 
@@ -74,42 +68,21 @@ export default {
       innerHTML: `window.FRONTEND_URL = '${process.env.FRONTEND_URL}'`,
     })
 
-    if (this.$route.query.pagedjs === 'true') {
-      // confiugration JS for pagedJS
-      header.script.push({
-        src: '/pagedConfig.js',
-      })
-
-      // PagedJS
-      header.script.push({
-        src: 'https://unpkg.com/pagedjs/dist/paged.polyfill.js',
-      })
-
-      // event listener to communicate with parent when embedded in iFrame
-      header.script.push({
-        src: '/iframeEvents.js',
-      })
-
-      header.link = [
-        {
-          rel: 'stylesheet',
-          href: '/print-preview.css',
-        },
-        {
-          rel: 'preconnect',
-          href: 'https://fonts.googleapis.com',
-        },
-        {
-          rel: 'preconnect',
-          href: 'https://fonts.gstatic.com',
-          crossorigin: true,
-        },
-        {
-          rel: 'stylesheet',
-          href: 'https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&display=swap',
-        },
-      ]
-    }
+    header.link = [
+      {
+        rel: 'preconnect',
+        href: 'https://fonts.googleapis.com',
+      },
+      {
+        rel: 'preconnect',
+        href: 'https://fonts.gstatic.com',
+        crossorigin: true,
+      },
+      {
+        rel: 'stylesheet',
+        href: 'https://fonts.googleapis.com/css2?family=Open+Sans&display=block',
+      },
+    ]
 
     return header
   },
@@ -121,10 +94,4 @@ export default {
   margin: 0;
   padding: 0;
 }
-
-// @media print {
-//   @page {
-//     size: a4 portrait;
-//   }
-// }
 </style>

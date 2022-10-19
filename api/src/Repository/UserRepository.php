@@ -5,12 +5,10 @@ namespace App\Repository;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
-use RuntimeException;
 use Symfony\Bridge\Doctrine\Security\User\UserLoaderInterface;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
-use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @method null|User find($id, $lockMode = null, $lockVersion = null)
@@ -45,14 +43,9 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $queryBuilder->select('user');
         $queryBuilder->from(User::class, 'user');
         $queryBuilder->join('user.profile', 'profile');
-        $queryBuilder->andWhere('profile.username = :identifier');
         $queryBuilder->orWhere('profile.email = :identifier');
         $queryBuilder->setParameter('identifier', $identifier);
 
         return $queryBuilder->getQuery()->getOneOrNullResult();
-    }
-
-    public function loadUserByUsername(string $username): ?UserInterface {
-        throw new RuntimeException('this is deprecated and should not be used');
     }
 }

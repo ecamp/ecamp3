@@ -21,7 +21,7 @@ class DeleteScheduleEntryTest extends ECampApiTestCase {
 
     public function testDeleteScheduleEntryIsDeniedForUnrelatedUser() {
         $scheduleEntry = static::$fixtures['scheduleEntry1'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->getUsername()])
+        static::createClientWithCredentials(['email' => static::$fixtures['user4unrelated']->getEmail()])
             ->request('DELETE', '/schedule_entries/'.$scheduleEntry->getId())
         ;
 
@@ -34,7 +34,7 @@ class DeleteScheduleEntryTest extends ECampApiTestCase {
 
     public function testDeleteScheduleEntryIsDeniedForInactiveCollaborator() {
         $scheduleEntry = static::$fixtures['scheduleEntry1'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->getUsername()])
+        static::createClientWithCredentials(['email' => static::$fixtures['user5inactive']->getEmail()])
             ->request('DELETE', '/schedule_entries/'.$scheduleEntry->getId())
         ;
 
@@ -47,7 +47,7 @@ class DeleteScheduleEntryTest extends ECampApiTestCase {
 
     public function testDeleteScheduleEntryIsDeniedForGuest() {
         $scheduleEntry = static::$fixtures['scheduleEntry1'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user3guest']->getUsername()])
+        static::createClientWithCredentials(['email' => static::$fixtures['user3guest']->getEmail()])
             ->request('DELETE', '/schedule_entries/'.$scheduleEntry->getId())
         ;
 
@@ -60,7 +60,7 @@ class DeleteScheduleEntryTest extends ECampApiTestCase {
 
     public function testDeleteScheduleEntryIsAllowedForMember() {
         $scheduleEntry = static::$fixtures['scheduleEntry1'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->getUsername()])
+        static::createClientWithCredentials(['email' => static::$fixtures['user2member']->getEmail()])
             ->request('DELETE', '/schedule_entries/'.$scheduleEntry->getId())
         ;
         $this->assertResponseStatusCodeSame(204);

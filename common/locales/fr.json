@@ -1,11 +1,66 @@
 {
+  "contentNode": {
+    "laThematicArea": {
+      "entity": {
+        "option": {
+          "campsiteAndSurroundings": {
+            "description": "Aménagement d’un camp/des environs, démontage, aménagement d’une place de jeu et fabrication d’engins de sport.",
+            "name": "Campement/Environs"
+          },
+          "natureAndEnvironment": {
+            "description": "Faune et flore, protection de l’environnement dans le cadre du camp, météorologie et astronomie, techniques de transmission, préparation et allumage d’un feu.",
+            "name": "Nature et environment"
+          },
+          "outdoorTechnique": {
+            "description": "Planification d’une randonnée, lecture de carte (p. ex. check-list NORDA), croquis, utilisation d’instruments (p.ex. boussole, récepteur GPS, alti- mètre, etc.), orientation dans le terrain.",
+            "name": "Techniques de plein air"
+          },
+          "pioneeringTechnique": {
+            "description": "Aménagement d’un bivouac, construction d’un igloo, connaissance du matériel et de l’équipement, entretien du matériel, construction et démontage des installations, cordages et nœuds, tyroliennes, ponts de cordes, descentes en rappel.",
+            "name": "Technique de pionnier"
+          },
+          "preventionAndIntegration": {
+            "description": "Activités favorisant la prévention et l’intégration ou développant les compétences des participants dans ce domaine.",
+            "name": "Prévention et intégration"
+          },
+          "security": {
+            "description": "Sécurité lors des activités au camp, mesures à prendre en cas d’accident et alerte, premiers secours, réflexions sur la sécurité.",
+            "name": "Sécurité"
+          }
+        }
+      },
+      "name": "Domaine thématique AC"
+    },
+    "notes": {
+      "name": "Notes"
+    },
+    "safetyConcept": {
+      "name": "Concept de sécurité"
+    },
+    "storyboard": {
+      "entity": {
+        "section": {
+          "fields": {
+            "column1": "Heure",
+            "column2": "Programme",
+            "column3": "Responsable"
+          },
+          "name": "Section du programme | Sections du programme"
+        }
+      },
+      "name": "Programme"
+    },
+    "storycontext": {
+      "name": "Histoire"
+    }
+  },
   "global": {},
   "entity": {
     "activity": {
       "fields": {
         "category": "Catégorie d'activité",
         "location": "Lieu",
-        "responsible": "responsable",
+        "responsible": "Responsable",
         "title": "Titre"
       },
       "name": "Activité",
@@ -13,7 +68,6 @@
     },
     "category": {
       "fields": {
-        "activityType": "Type",
         "color": "Couleur",
         "name": "Nom",
         "numberingStyle": "Style de numérotation",

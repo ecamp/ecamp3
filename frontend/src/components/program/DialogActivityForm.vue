@@ -17,7 +17,7 @@
       <template #item="{ item, on, attrs }">
         <v-list-item :key="item._meta.self" v-bind="attrs" v-on="on">
           <v-list-item-avatar>
-            <v-chip :color="item.color">{{ item.short }}</v-chip>
+            <v-chip dark :color="item.color">{{ item.short }}</v-chip>
           </v-list-item-avatar>
           <v-list-item-content>
             {{ item.name }}
@@ -29,7 +29,7 @@
           <span class="black--text">
             {{ item.name }}
           </span>
-          <v-chip x-small :color="item.color">{{ item.short }}</v-chip>
+          <v-chip x-small dark :color="item.color">{{ item.short }}</v-chip>
         </div>
       </template>
     </e-select>

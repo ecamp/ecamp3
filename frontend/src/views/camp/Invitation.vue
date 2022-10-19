@@ -1,15 +1,15 @@
 <template>
-  <auth-container v-if="ready">
-    <div v-if="invitationFound">
-      <h1 v-if="userDisplayName" class="display-1">
-        {{ $tc('components.invitation.userWelcome') }} {{ userDisplayName }}
-      </h1>
+  <auth-container>
+    <div v-if="!ready" class="text-center">
+      <v-progress-circular size="64" indeterminate color="primary" />
+    </div>
+    <div v-else-if="invitationFound === true">
       <h1 class="display-1">
-        {{ $tc('components.invitation.title') }} {{ invitation().campTitle }}
+        {{ $tc('components.invitation.title', 0, { campName: invitation().campTitle }) }}
       </h1>
 
       <v-spacer />
-      <div v-if="userDisplayName">
+      <div v-if="authUser">
         <v-btn
           v-if="!invitation().userAlreadyInCamp"
           color="primary"
@@ -18,7 +18,7 @@
           block
           @click="acceptInvitation"
         >
-          {{ $tc('components.invitation.acceptCurrentAuth') }}
+          {{ $tc('components.invitation.acceptCurrentAuth') }}<br />
         </v-btn>
         <div v-else>
           <v-alert type="warning">
@@ -35,7 +35,7 @@
       </div>
       <div v-else>
         <v-btn color="primary" x-large class="my-4" block :to="loginLink">
-          {{ $tc('components.invitation.login') }}
+          {{ $tc('global.button.login') }}
         </v-btn>
         <v-btn color="primary" x-large class="my-4" block :to="{ name: 'register' }">
           {{ $tc('components.invitation.register') }}
@@ -48,9 +48,11 @@
     <v-alert v-else-if="invitationFound === false" type="error">
       {{ $tc('components.invitation.notFound') }}
     </v-alert>
-    <v-btn color="primary" x-large class="my-4" block :to="{ name: 'home' }">
-      {{ $tc('components.invitation.backToHome') }}
-    </v-btn>
+    <div class="mb-4 mt-8">
+      <router-link color="primary" x-large block :to="{ name: 'home' }">
+        {{ $tc('components.invitation.backToHome') }}
+      </router-link>
+    </div>
   </auth-container>
 </template>
 
@@ -58,6 +60,7 @@
 import AuthContainer from '@/components/layout/AuthContainer.vue'
 import { loginRoute } from '@/router'
 import VueRouter from 'vue-router'
+import { errorToMultiLineToast } from '@/components/toast/toasts'
 
 const { isNavigationFailure, NavigationFailureType } = VueRouter
 const ignoreNavigationFailure = (e) => {
@@ -91,16 +94,24 @@ export default {
     userDisplayName() {
       return this.invitation().userDisplayName
     },
+    authUser() {
+      return this.$store.state.auth.user
+    },
   },
   mounted() {
-    this.invitation()._meta.load.then(
-      () => {
-        this.invitationFound = true
-      },
-      () => {
-        this.invitationFound = false
-      }
-    )
+    this.invitationFound = undefined
+
+    // Content of api response depends on authenticated user --> reload every time this component is mounted
+    this.invitation()
+      .$reload()
+      .then(
+        () => {
+          this.invitationFound = true
+        },
+        () => {
+          this.invitationFound = false
+        }
+      )
   },
   methods: {
     useAnotherAccount() {
@@ -125,6 +136,7 @@ export default {
               .catch(ignoreNavigationFailure)
           }
         )
+        .catch((e) => this.$toast.error(errorToMultiLineToast(e)))
     },
     rejectInvitation() {
       this.api
@@ -145,6 +157,7 @@ export default {
               .catch(ignoreNavigationFailure)
           }
         )
+        .catch((e) => this.$toast.error(errorToMultiLineToast(e)))
     },
   },
 }

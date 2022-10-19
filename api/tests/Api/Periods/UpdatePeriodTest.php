@@ -2,6 +2,8 @@
 
 namespace App\Tests\Api\Periods;
 
+use App\Entity\Day;
+use App\Entity\DayResponsible;
 use App\Entity\Period;
 use App\Entity\ScheduleEntry;
 use App\Tests\Api\ECampApiTestCase;
@@ -29,7 +31,7 @@ class UpdatePeriodTest extends ECampApiTestCase {
 
     public function testPatchPeriodIsDeniedForUnrelatedUser() {
         $period = static::$fixtures['period1'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->getUsername()])
+        static::createClientWithCredentials(['email' => static::$fixtures['user4unrelated']->getEmail()])
             ->request('PATCH', '/periods/'.$period->getId(), ['json' => [
                 'description' => 'Vorweekend',
                 'start' => '2023-01-01',
@@ -45,7 +47,7 @@ class UpdatePeriodTest extends ECampApiTestCase {
 
     public function testPatchPeriodIsDeniedForInactiveCollaborator() {
         $period = static::$fixtures['period1'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->getUsername()])
+        static::createClientWithCredentials(['email' => static::$fixtures['user5inactive']->getEmail()])
             ->request('PATCH', '/periods/'.$period->getId(), ['json' => [
                 'description' => 'Vorweekend',
                 'start' => '2023-01-01',
@@ -61,7 +63,7 @@ class UpdatePeriodTest extends ECampApiTestCase {
 
     public function testPatchPeriodIsDeniedForGuest() {
         $period = static::$fixtures['period1'];
-        static::createClientWithCredentials(['username' => static::$fixtures['user3guest']->getUsername()])
+        static::createClientWithCredentials(['email' => static::$fixtures['user3guest']->getEmail()])
             ->request('PATCH', '/periods/'.$period->getId(), ['json' => [
                 'description' => 'Vorweekend',
                 'start' => '2023-01-01',
@@ -78,7 +80,7 @@ class UpdatePeriodTest extends ECampApiTestCase {
     public function testPatchPeriodIsAllowedForMember() {
         $period = static::$fixtures['period1'];
 
-        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->getUsername()])
+        static::createClientWithCredentials(['email' => static::$fixtures['user2member']->getEmail()])
             ->request('PATCH', '/periods/'.$period->getId(), ['json' => [
                 'description' => 'Vorweekend',
                 'start' => '2023-01-01',
@@ -287,7 +289,7 @@ at position 10: Trailing data',
         $period = static::$fixtures['period1'];
         date_default_timezone_set('Asia/Singapore');
 
-        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->getUsername()])
+        static::createClientWithCredentials(['email' => static::$fixtures['user2member']->getEmail()])
             ->request('PATCH', '/periods/'.$period->getId(), ['json' => [
                 'start' => '2023-01-01',
                 'end' => '2023-01-02',
@@ -304,7 +306,7 @@ at position 10: Trailing data',
         $period = static::$fixtures['period1'];
         date_default_timezone_set('America/New_York');
 
-        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->getUsername()])
+        static::createClientWithCredentials(['email' => static::$fixtures['user2member']->getEmail()])
             ->request('PATCH', '/periods/'.$period->getId(), ['json' => [
                 'start' => '2023-01-01',
                 'end' => '2023-01-02',
@@ -322,7 +324,7 @@ at position 10: Trailing data',
         $period = static::$fixtures['period1'];
         $this->assertEquals(3, $period->getPeriodLength());
 
-        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->getUsername()])
+        static::createClientWithCredentials(['email' => static::$fixtures['user2member']->getEmail()])
             ->request('PATCH', '/periods/'.$period->getId(), ['json' => [
                 'start' => '2023-01-01',
                 'end' => '2023-01-04',
@@ -340,7 +342,7 @@ at position 10: Trailing data',
         $period = static::$fixtures['period1'];
         $this->assertEquals(3, $period->getPeriodLength());
 
-        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->getUsername()])
+        static::createClientWithCredentials(['email' => static::$fixtures['user2member']->getEmail()])
             ->request('PATCH', '/periods/'.$period->getId(), ['json' => [
                 'start' => '2023-01-01',
                 'end' => '2023-01-02',
@@ -353,11 +355,63 @@ at position 10: Trailing data',
         $this->assertCount(2, $period->days);
     }
 
+    public function testPatchPeriodMovePeriodStart() {
+        // given
+        /** @var Period $period */
+        $period = static::$fixtures['period1'];
+        $this->assertEquals(3, $period->getPeriodLength());
+
+        /** @var Day $day1 */
+        $day1 = static::$fixtures['day1period1'];
+
+        /** @var Day $day2 */
+        $day2 = static::$fixtures['day2period1'];
+
+        /** @var Day $day3 */
+        $day3 = static::$fixtures['day3period1'];
+
+        $day1_resp = static::$fixtures['dayResponsible1'];
+        $day2_resp = static::$fixtures['dayResponsible1day2period1'];
+
+        // Same CampCollaboration Responsible for Day1 and Day2
+        $this->assertEquals($day1, $day1_resp->day);
+        $this->assertEquals($day2, $day2_resp->day);
+        $this->assertEquals($day1_resp->campCollaboration, $day2_resp->campCollaboration);
+
+        // when
+        // add new day bevor Day1
+        static::createClientWithCredentials(['email' => static::$fixtures['user2member']->getEmail()])
+            ->request('PATCH', '/periods/'.$period->getId(), ['json' => [
+                'start' => '2023-04-30',
+                'end' => '2023-05-03',
+                'moveScheduleEntries' => false,
+            ], 'headers' => ['Content-Type' => 'application/merge-patch+json']])
+        ;
+        $this->assertResponseStatusCodeSame(200);
+
+        // then
+        /** @var Period $period */
+        $period = $this->getEntityManager()->getRepository(Period::class)->find($period->getId());
+        // Period has now 4 days
+        $this->assertCount(4, $period->days);
+
+        $day1 = $this->getEntityManager()->getRepository(Day::class)->find($day1->getId());
+        $day2 = $this->getEntityManager()->getRepository(Day::class)->find($day2->getId());
+        $day3 = $this->getEntityManager()->getRepository(Day::class)->find($day3->getId());
+
+        $day1_resp = $this->getEntityManager()->getRepository(DayResponsible::class)->find($day1_resp->getId());
+        $day2_resp = $this->getEntityManager()->getRepository(DayResponsible::class)->find($day2_resp->getId());
+
+        // CampCollaboration is now responsible for Day2 and Day3
+        $this->assertEquals($day2, $day1_resp->day);
+        $this->assertEquals($day3, $day2_resp->day);
+    }
+
     public function testPatchPeriodMovesScheduleEntries() {
         /** @var Period $period */
         $period = static::$fixtures['period1camp2'];
 
-        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->getUsername()])
+        static::createClientWithCredentials(['email' => static::$fixtures['user2member']->getEmail()])
             ->request('PATCH', '/periods/'.$period->getId(), ['json' => [
                 'start' => '2023-03-24',
                 'end' => '2023-03-26',
@@ -380,7 +434,7 @@ at position 10: Trailing data',
         /** @var Period $period */
         $period = static::$fixtures['period1camp2'];
 
-        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->getUsername()])
+        static::createClientWithCredentials(['email' => static::$fixtures['user2member']->getEmail()])
             ->request('PATCH', '/periods/'.$period->getId(), ['json' => [
                 'start' => '2023-03-24',
                 'end' => '2023-03-26',
@@ -403,7 +457,7 @@ at position 10: Trailing data',
         /** @var Period $period */
         $period = static::$fixtures['period1camp2'];
 
-        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->getUsername()])
+        static::createClientWithCredentials(['email' => static::$fixtures['user2member']->getEmail()])
             ->request('PATCH', '/periods/'.$period->getId(), ['json' => [
                 'start' => '2023-03-26',
                 'end' => '2023-03-27',
@@ -425,7 +479,7 @@ at position 10: Trailing data',
         /** @var Period $period */
         $period = static::$fixtures['period1camp2'];
 
-        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->getUsername()])
+        static::createClientWithCredentials(['email' => static::$fixtures['user2member']->getEmail()])
             ->request('PATCH', '/periods/'.$period->getId(), ['json' => [
                 'start' => '2023-03-24',
                 'end' => '2023-03-24',

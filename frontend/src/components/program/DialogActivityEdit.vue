@@ -4,7 +4,6 @@
     :loading="loading"
     :error="error"
     icon="mdi-calendar-plus"
-    max-width="600px"
     :submit-action="updateActivity"
     submit-label="global.button.update"
     submit-color="success"
