@@ -15,6 +15,8 @@ function browserSupportsWorkerType() {
   try {
     new Worker('blob://', tester)
   } finally {
+    // we need the return statement inside finally for this type of feature detection
+    // eslint-disable-next-line no-unsafe-finally
     return supports
   }
 }
