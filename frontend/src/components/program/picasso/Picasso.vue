@@ -82,7 +82,7 @@ Listing all given activity schedule entries in a calendar view.
         <!-- readonly mode: complete div is a HTML link -->
         <router-link v-if="!editable && !event.tmpEvent" :to="scheduleEntryRoute(event)">
           <div class="readonlyEntry">
-            <h4 class="v-event-title">
+            <h4 class="v-event-title" :style="{ color: getActivityTextColor(event) }">
               {{ getActivityName(event) }}
             </h4>
           </div>
@@ -90,7 +90,7 @@ Listing all given activity schedule entries in a calendar view.
 
         <!-- edit mode: normal div with drag & drop -->
         <div v-if="editable" class="editableEntry">
-          <h4 class="v-event-title">
+          <h4 class="v-event-title" :style="{ color: getActivityTextColor(event) }">
             {{ getActivityName(event) }}
           </h4>
 
@@ -120,6 +120,7 @@ import { isCssColor } from 'vuetify/lib/util/colorUtils'
 import { apiStore as api } from '@/plugins/store'
 import { scheduleEntryRoute } from '@/router.js'
 import mergeListeners from '@/helpers/mergeListeners.js'
+import { parseHexColor, contrastColor } from '@/common/helpers/colors.js'
 import {
   timestampToUtcString,
   utcStringToTimestamp,
@@ -382,6 +383,13 @@ export default {
           : '') +
         scheduleEntry.activity().title
       )
+    },
+    getActivityTextColor(scheduleEntry) {
+      if (scheduleEntry.tmpEvent) return '#000'
+      if (this.isCategoryLoading(scheduleEntry)) return '#000'
+
+      const category = scheduleEntry.activity().category()
+      return contrastColor(...parseHexColor(category.color))
     },
     getActivityColor(scheduleEntry, _) {
       if (scheduleEntry.tmpEvent) return 'grey elevation-4 v-event--temporary'
