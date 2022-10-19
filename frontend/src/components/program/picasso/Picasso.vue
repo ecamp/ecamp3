@@ -143,9 +143,9 @@ export default {
       required: true,
     },
 
-    // list of scheduleEntries
+    // collection of scheduleEntries
     scheduleEntries: {
-      type: Array,
+      type: Object,
       required: true,
     },
 
@@ -278,7 +278,7 @@ export default {
     const events = ref([])
     const loadCalenderEventsFromScheduleEntries = () => {
       // prepare scheduleEntries to make them understandable by v-calendar
-      events.value = scheduleEntries.value.map((entry) => ({
+      events.value = scheduleEntries.value.items.map((entry) => ({
         ...entry,
         startTimestamp: utcStringToTimestamp(entry.start),
         endTimestamp: utcStringToTimestamp(entry.end),
@@ -295,7 +295,7 @@ export default {
 
     // reloads schedule entries from API + recreates event array after reload
     const reloadScheduleEntries = async () => {
-      await api.reload(props.period.scheduleEntries())
+      await api.reload(scheduleEntries.value)
       loadCalenderEventsFromScheduleEntries()
     }
 
