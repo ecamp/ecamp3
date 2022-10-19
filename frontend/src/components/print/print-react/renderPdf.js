@@ -37,5 +37,7 @@ const documentFor = () => {
 
 export const mainThreadLoaderFor = async (config) => {
   const document = documentFor(config)
-  return (await import('./documents/' + document + '/prepareInMainThread.js')).default
+  return (
+    await import(/* @vite-ignore */ './documents/' + document + '/prepareInMainThread.js')
+  ).default
 }
