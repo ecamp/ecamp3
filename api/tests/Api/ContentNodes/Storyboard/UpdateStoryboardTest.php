@@ -19,9 +19,9 @@ class UpdateStoryboardTest extends UpdateContentNodeTestCase {
         $response = $this->patch($this->defaultEntity, ['data' => [
             'sections' => [
                 'f5ee1e2a-af0a-4fa5-8f3f-b869ed184c5c' => [
-                    'column1' => 'A',
-                    'column2' => 'B',
-                    'column3' => 'C',
+                    'column1' => " testText\n\t",
+                    'column2' => ' <b>testText</b><script>alert(1)</script>',
+                    'column3' => " testText\n\t",
                     'position' => 99,
                 ],
             ],
@@ -35,9 +35,9 @@ class UpdateStoryboardTest extends UpdateContentNodeTestCase {
         $this->assertArrayHasKey('f5ee1e2a-af0a-4fa5-8f3f-b869ed184c5c', $responseArray['data']['sections']);
 
         $this->assertEquals([
-            'column1' => 'A',
-            'column2' => 'B',
-            'column3' => 'C',
+            'column1' => ' testText',
+            'column2' => ' <b>testText</b>',
+            'column3' => ' testText',
             'position' => 99,
         ], $responseArray['data']['sections']['f5ee1e2a-af0a-4fa5-8f3f-b869ed184c5c']);
     }
@@ -46,7 +46,7 @@ class UpdateStoryboardTest extends UpdateContentNodeTestCase {
         $response = $this->patch($this->defaultEntity, ['data' => [
             'sections' => [
                 'ab9740f6-61a4-4cae-b574-a73aeb7c5ea0' => [
-                    'column1' => ' testText<script>alert(1)</script>',
+                    'column1' => " testText\n\t",
                     'position' => 50,
                 ],
             ],

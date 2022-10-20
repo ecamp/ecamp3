@@ -36,15 +36,15 @@ class StoryboardDataPersisterTest extends TestCase {
         $this->contentNode = new Storyboard();
         $this->contentNode->data = ['sections' => [
             '37bbd7b8-441e-403e-b227-70ea52170b9b' => [
-                'column1' => 'test1<script>alert(1)</script>',
-                'column2' => 'test2<script>alert(2)</script>',
-                'column3' => 'test3<script>alert(3)</script>',
+                'column1' => "test1\n\t",
+                'column2' => "test2\n\t",
+                'column3' => "test3\n\t",
                 'position' => 0,
             ],
             '2c5534d3-d077-4ccd-8c9e-b961b451f6e3' => [
-                'column1' => 'test1<script>alert(1)</script>',
-                'column2' => 'test2<script>alert(2)</script>',
-                'column3' => 'test3<script>alert(3)</script>',
+                'column1' => "test1\n\t",
+                'column2' => "test2\n\t",
+                'column3' => "test3\n\t",
                 'position' => 1,
             ],
         ]];

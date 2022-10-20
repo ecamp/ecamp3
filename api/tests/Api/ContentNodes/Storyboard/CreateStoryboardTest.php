@@ -21,9 +21,9 @@ class CreateStoryboardTest extends CreateContentNodeTestCase {
         $response = $this->create($this->getExampleWritePayload(['data' => [
             'sections' => [
                 'f5ee1e2a-af0a-4fa5-8f3f-b869ed184c5c' => [
-                    'column1' => 'A',
-                    'column2' => 'B',
-                    'column3' => ' testText<script>alert(1)</script>',
+                    'column1' => " testText\n\t",
+                    'column2' => ' <b>testText</b><script>alert(1)</script>',
+                    'column3' => " testText\n\t",
                     'position' => 99,
                 ],
             ],
@@ -34,8 +34,8 @@ class CreateStoryboardTest extends CreateContentNodeTestCase {
         $this->assertJsonContains(['data' => [
             'sections' => [
                 'f5ee1e2a-af0a-4fa5-8f3f-b869ed184c5c' => [
-                    'column1' => 'A',
-                    'column2' => 'B',
+                    'column1' => ' testText',
+                    'column2' => ' <b>testText</b>',
                     'column3' => ' testText',
                     'position' => 99,
                 ],
