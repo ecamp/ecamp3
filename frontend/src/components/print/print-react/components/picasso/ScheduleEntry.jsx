@@ -3,6 +3,7 @@ import React from 'react'
 import { Text, View } from '@react-pdf/renderer'
 import Responsibles from './Responsibles.jsx'
 import picassoStyles from './picassoStyles.js'
+import { parseHexColor, contrastColor } from '@/common/helpers/colors.js'
 
 function scheduleEntryTitle(scheduleEntry) {
   return (
@@ -12,6 +13,9 @@ function scheduleEntryTitle(scheduleEntry) {
     ' ' +
     scheduleEntry.activity().title
   )
+}
+function scheduleEntryTextColor(color) {
+  return contrastColor(...parseHexColor(color))
 }
 
 function ScheduleEntry({ scheduleEntry, styles }) {
@@ -26,7 +30,12 @@ function ScheduleEntry({ scheduleEntry, styles }) {
       }}
     >
       <View style={picassoStyles.scheduleEntrySpacer} />
-      <Text style={picassoStyles.scheduleEntryTitle}>
+      <Text
+        style={{
+          ...picassoStyles.scheduleEntryTitle,
+          color: scheduleEntryTextColor(scheduleEntry.activity().category().color),
+        }}
+      >
         {scheduleEntryTitle(scheduleEntry)}
       </Text>
       <View style={picassoStyles.scheduleEntrySpacer} />
