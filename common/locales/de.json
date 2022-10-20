@@ -53,7 +53,7 @@
         "section": {
           "fields": {
             "column1": "Zeit",
-            "column2": "Programm",
+            "column2Html": "Programm",
             "column3": "Verantwortlich"
           },
           "name": "Programmpunkt | Programmpunkte"

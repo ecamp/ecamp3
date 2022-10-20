@@ -9,7 +9,7 @@ function Storycontext(props) {
   return (
     <View style={{ marginBottom: '6pt' }}>
       <InstanceName contentNode={storycontext} $tc={props.$tc} />
-      <RichText richText={storycontext.data.text} />
+      <RichText richText={storycontext.data.html} />
     </View>
   )
 }

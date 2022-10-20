@@ -20,7 +20,7 @@ class UpdateStoryboardTest extends UpdateContentNodeTestCase {
             'sections' => [
                 'f5ee1e2a-af0a-4fa5-8f3f-b869ed184c5c' => [
                     'column1' => " testText\n\t",
-                    'column2' => ' <b>testText</b><script>alert(1)</script>',
+                    'column2Html' => ' <b>testText</b><script>alert(1)</script>',
                     'column3' => " testText\n\t",
                     'position' => 99,
                 ],
@@ -36,7 +36,7 @@ class UpdateStoryboardTest extends UpdateContentNodeTestCase {
 
         $this->assertEquals([
             'column1' => ' testText',
-            'column2' => ' <b>testText</b>',
+            'column2Html' => ' <b>testText</b>',
             'column3' => ' testText',
             'position' => 99,
         ], $responseArray['data']['sections']['f5ee1e2a-af0a-4fa5-8f3f-b869ed184c5c']);
@@ -60,7 +60,7 @@ class UpdateStoryboardTest extends UpdateContentNodeTestCase {
 
         $this->assertEquals([
             'column1' => ' testText',
-            'column2' => $this->defaultEntity->data['sections']['ab9740f6-61a4-4cae-b574-a73aeb7c5ea0']['column2'],
+            'column2Html' => $this->defaultEntity->data['sections']['ab9740f6-61a4-4cae-b574-a73aeb7c5ea0']['column2Html'],
             'column3' => $this->defaultEntity->data['sections']['ab9740f6-61a4-4cae-b574-a73aeb7c5ea0']['column3'],
             'position' => 50,
         ], $responseArray['data']['sections']['ab9740f6-61a4-4cae-b574-a73aeb7c5ea0']);

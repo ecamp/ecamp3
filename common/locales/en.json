@@ -58,7 +58,7 @@
         "section": {
           "fields": {
             "column1": "Time",
-            "column2": "Program",
+            "column2Html": "Program",
             "column3": "Responsible"
           },
           "name": "Storyboard | Storyboards"

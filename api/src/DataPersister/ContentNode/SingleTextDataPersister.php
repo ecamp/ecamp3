@@ -26,7 +26,7 @@ class SingleTextDataPersister extends ContentNodeAbstractDataPersister {
     public function beforeCreate($data): SingleText {
         $data = parent::beforeCreate($data);
 
-        $data->data = $this->cleanHTMLFilter->applyTo($data->data, 'text');
+        $data->data = $this->cleanHTMLFilter->applyTo($data->data, 'html');
 
         return $data;
     }
@@ -37,7 +37,7 @@ class SingleTextDataPersister extends ContentNodeAbstractDataPersister {
     public function beforeUpdate($data): SingleText {
         $data = parent::beforeUpdate($data);
 
-        $data->data = $this->cleanHTMLFilter->applyTo($data->data, 'text');
+        $data->data = $this->cleanHTMLFilter->applyTo($data->data, 'html');
 
         return $data;
     }

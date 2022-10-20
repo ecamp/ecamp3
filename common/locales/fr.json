@@ -42,7 +42,7 @@
         "section": {
           "fields": {
             "column1": "Heure",
-            "column2": "Programme",
+            "column2Html": "Programme",
             "column3": "Responsable"
           },
           "name": "Section du programme | Sections du programme"

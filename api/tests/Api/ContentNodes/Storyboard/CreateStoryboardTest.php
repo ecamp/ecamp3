@@ -22,7 +22,7 @@ class CreateStoryboardTest extends CreateContentNodeTestCase {
             'sections' => [
                 'f5ee1e2a-af0a-4fa5-8f3f-b869ed184c5c' => [
                     'column1' => " testText\n\t",
-                    'column2' => ' <b>testText</b><script>alert(1)</script>',
+                    'column2Html' => ' <b>testText</b><script>alert(1)</script>',
                     'column3' => " testText\n\t",
                     'position' => 99,
                 ],
@@ -35,7 +35,7 @@ class CreateStoryboardTest extends CreateContentNodeTestCase {
             'sections' => [
                 'f5ee1e2a-af0a-4fa5-8f3f-b869ed184c5c' => [
                     'column1' => ' testText',
-                    'column2' => ' <b>testText</b>',
+                    'column2Html' => ' <b>testText</b>',
                     'column3' => ' testText',
                     'position' => 99,
                 ],

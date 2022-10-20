@@ -3,7 +3,7 @@
     <div class="mb-3">
       <api-form :entity="contentNode">
         <api-richtext
-          fieldname="data.text"
+          fieldname="data.html"
           :label="$tc('contentNode.notes.name')"
           rows="4"
           auto-grow
