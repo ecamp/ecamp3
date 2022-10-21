@@ -460,7 +460,7 @@ export default {
     height: calc(100vh - 168px);
   }
 
-  :deep(*) {
+  :deep {
     .v-calendar-daily_head-day,
     .v-calendar-daily__day {
       min-width: 80px;
@@ -522,8 +522,8 @@ export default {
   }
 }
 
-.ec-picasso-editable:deep(*),
-.ec-picasso:deep(*) {
+.ec-picasso-editable:deep,
+.ec-picasso:deep {
   .v-calendar-daily__day-container {
     width: initial;
   }
