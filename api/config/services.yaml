@@ -71,6 +71,11 @@ services:
     App\Serializer\Normalizer\CollectionItemsNormalizer:
         decorates: 'api_platform.hal.normalizer.collection'
 
+    App\Serializer\Normalizer\TranslationConstraintViolationListNormalizer:
+        arguments:
+            - '@api_platform.hydra.normalizer.constraint_violation_list'
+            - '@api_platform.problem.normalizer.constraint_violation_list'
+
     App\Serializer\SerializerContextBuilder:
         decorates: 'api_platform.serializer.context_builder'
 
@@ -115,6 +120,7 @@ services:
             - '%env(COOKIE_PREFIX)%'
 
     App\Security\ReCaptcha\ReCaptcha:
+        public: true # necessary to be able to mock ReCaptcha in the container in Api tests
         arguments:
             - '%env(RECAPTCHA_SECRET)%'
             - '@ReCaptcha\ReCaptcha'
@@ -123,8 +129,17 @@ services:
         public: true
         arguments:
             - '@Symfony\Component\Mailer\MailerInterface'
+            - '@translator'
             - "%env(FRONTEND_BASE_URL)%"
-            - "%env(MAIL_FROM)%"
+            - "%env(MAIL_FROM_EMAIL)%"
+            - "%env(MAIL_FROM_NAME)%"
+
+    App\Service\TranslateToAllLocalesService:
+        public: true
+        arguments:
+            - '@translator'
+            - '@translator'
+            - '%env(csv:TRANSLATE_ERRORS_TO_LOCALES)%'
 
     App\EventListener\JWTCreatedListener:
         tags:

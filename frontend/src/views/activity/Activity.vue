@@ -17,9 +17,7 @@ Displays a single activity
             :disabled="layoutMode || !isContributor"
           >
             <template #activator="{ on, attrs }">
-              <v-chip :color="category.color" dark v-bind="attrs" v-on="on">
-                {{ category.short }}
-              </v-chip>
+              <CategoryChip :schedule-entry="scheduleEntry()" v-bind="attrs" v-on="on" />
             </template>
             <v-list>
               <v-list-item
@@ -28,9 +26,7 @@ Displays a single activity
                 @click="changeCategory(cat)"
               >
                 <v-list-item-title>
-                  <v-chip :color="cat.color">
-                    {{ cat.short }}
-                  </v-chip>
+                  <CategoryChip :category="cat" />
                   {{ cat.name }}
                 </v-list-item-title>
               </v-list-item>
@@ -69,7 +65,7 @@ Displays a single activity
             <v-icon left>mdi-file-document-edit-outline</v-icon>
             {{ $tc('views.activity.activity.backToContents') }}
           </template>
-          <template v-else>{{ $tc('views.activity.activity.back') }}</template>
+          <template v-else>{{ $tc('global.button.back') }}</template>
         </v-btn>
 
         <!-- hamburger menu -->
@@ -81,8 +77,8 @@ Displays a single activity
           </template>
 
           <v-list>
-            <DownloadNuxtPdf :config="printConfig()" @error="showPrintError" />
-            <DownloadReactPdf :config="printConfig()" @error="showPrintError" />
+            <DownloadNuxtPdf :config="printConfig" />
+            <DownloadReactPdf :config="printConfig" />
 
             <v-divider />
 
@@ -173,15 +169,6 @@ Displays a single activity
           />
         </template>
       </v-card-text>
-
-      <v-snackbar v-model="showError" app :timeout="10000">
-        {{ error ? error.label : null }}
-        <template #action="{ attrs }">
-          <v-btn color="red" text v-bind="attrs" @click="showError = null">
-            {{ $tc('global.button.close') }}
-          </v-btn>
-        </template>
-      </v-snackbar>
     </content-card>
   </v-container>
 </template>
@@ -196,6 +183,8 @@ import { campRoleMixin } from '@/mixins/campRoleMixin'
 import { periodRoute } from '@/router.js'
 import DownloadNuxtPdf from '@/components/print/print-nuxt/DownloadNuxtPdfListItem.vue'
 import DownloadReactPdf from '@/components/print/print-react/DownloadReactPdfListItem.vue'
+import { errorToMultiLineToast } from '@/components/toast/toasts'
+import CategoryChip from '@/components/generic/CategoryChip.vue'
 
 export default {
   name: 'Activity',
@@ -206,6 +195,7 @@ export default {
     ActivityResponsibles,
     DownloadReactPdf,
     DownloadNuxtPdf,
+    CategoryChip,
   },
   mixins: [campRoleMixin],
   provide() {
@@ -226,8 +216,6 @@ export default {
       layoutMode: false,
       editActivityTitle: false,
       loading: true,
-      showError: null,
-      error: null,
     }
   },
   computed: {
@@ -249,37 +237,6 @@ export default {
     preferredContentTypes() {
       return this.category.preferredContentTypes()
     },
-  },
-
-  // reload data every time user navigates to Activity view
-  async mounted() {
-    this.loading = true
-    await this.scheduleEntry().activity()._meta.load // wait if activity is being loaded as part of a collection
-    await this.scheduleEntry().activity().$reload() // reload as single entity to ensure all embedded entities are included in a single network request
-    this.loading = false
-  },
-
-  methods: {
-    rangeShort,
-    changeCategory(category) {
-      this.activity.$patch({
-        category: category._meta.self,
-      })
-    },
-    countContentNodes(contentType) {
-      return this.contentNodes.items.filter((cn) => {
-        return cn.contentType().id === contentType.id
-      }).length
-    },
-    makeTitleEditable() {
-      if (this.isContributor) {
-        this.editActivityTitle = true
-      }
-    },
-    showPrintError(event) {
-      this.error = event
-      this.showError = true
-    },
     printConfig() {
       return {
         camp: this.camp._meta.self,
@@ -294,6 +251,35 @@ export default {
             },
           },
         ],
+      }
+    },
+  },
+
+  // reload data every time user navigates to Activity view
+  async mounted() {
+    this.loading = true
+    await this.scheduleEntry().activity()._meta.load // wait if activity is being loaded as part of a collection
+    await this.scheduleEntry().activity().$reload() // reload as single entity to ensure all embedded entities are included in a single network request
+    this.loading = false
+  },
+
+  methods: {
+    rangeShort,
+    changeCategory(category) {
+      this.activity
+        .$patch({
+          category: category._meta.self,
+        })
+        .catch((e) => this.$toast.error(errorToMultiLineToast(e)))
+    },
+    countContentNodes(contentType) {
+      return this.contentNodes.items.filter((cn) => {
+        return cn.contentType().id === contentType.id
+      }).length
+    },
+    makeTitleEditable() {
+      if (this.isContributor) {
+        this.editActivityTitle = true
       }
     },
     onDelete() {

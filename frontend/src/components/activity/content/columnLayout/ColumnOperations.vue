@@ -24,6 +24,7 @@ import {
   calculateNextSlotName,
   adjustColumnWidths,
 } from '@/components/activity/content/columnLayout/calculateNextSlotName.js'
+import { errorToMultiLineToast } from '@/components/toast/toasts'
 
 export default {
   name: 'ColumnOperations',
@@ -74,7 +75,9 @@ export default {
         width: this.minColumnWidth,
       })
       columns = adjustColumnWidths(columns, this.minColumnWidth, this.totalWidth)
-      this.contentNode.$patch({ data: { columns } })
+      this.contentNode
+        .$patch({ data: { columns } })
+        .catch((e) => this.$toast.error(errorToMultiLineToast(e)))
     },
     removeColumn() {
       let columns = cloneDeep(this.contentNode.data.columns)
@@ -83,7 +86,9 @@ export default {
         this.minColumnWidth,
         this.totalWidth
       )
-      this.contentNode.$patch({ data: { columns } })
+      this.contentNode
+        .$patch({ data: { columns } })
+        .catch((e) => this.$toast.error(errorToMultiLineToast(e)))
     },
   },
 }

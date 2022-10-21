@@ -1,10 +1,19 @@
 // eslint-disable-next-line no-unused-vars
 import React from 'react'
-import { Text, View } from '../reactPdf.js'
+import { Text } from '@react-pdf/renderer'
 import htmlToReact from 'html-to-react'
 
 function addKeys(children) {
   return children.map((child, idx) => ({ ...child, key: idx }))
+}
+
+function getNumbering(liNode) {
+  const list = liNode.parent
+  const number =
+    list.children
+      .filter((child) => child.type === 'tag' && child.name === 'li')
+      .indexOf(liNode) + 1
+  return `${number}. `
 }
 
 const richTextRules = [
@@ -17,16 +26,14 @@ const richTextRules = [
     },
   },
   {
-    replaceChildren: true,
     shouldProcessNode: function (node) {
       return node.type === 'tag' && node.name === 'p'
     },
     processNode: function (node, children) {
-      return children.length ? <Text>{addKeys(children)}</Text> : <Text> </Text>
+      return children.length ? <Text>{addKeys(children)}</Text> : <React.Fragment />
     },
   },
   {
-    replaceChildren: true,
     shouldProcessNode: function (node) {
       return node.type === 'tag' && (node.name === 'strong' || node.name === 'b')
     },
@@ -35,7 +42,6 @@ const richTextRules = [
     },
   },
   {
-    replaceChildren: true,
     shouldProcessNode: function (node) {
       return (
         node.type === 'tag' &&
@@ -56,7 +62,6 @@ const richTextRules = [
     },
   },
   {
-    replaceChildren: true,
     shouldProcessNode: function (node) {
       return node.type === 'tag' && node.name === 'em'
     },
@@ -65,7 +70,6 @@ const richTextRules = [
     },
   },
   {
-    replaceChildren: true,
     shouldProcessNode: function (node) {
       return node.type === 'tag' && node.name === 'u'
     },
@@ -74,7 +78,6 @@ const richTextRules = [
     },
   },
   {
-    replaceChildren: true,
     shouldProcessNode: function (node) {
       return node.type === 'tag' && node.name === 's'
     },
@@ -83,36 +86,33 @@ const richTextRules = [
     },
   },
   {
-    replaceChildren: true,
     shouldProcessNode: function (node) {
       return node.type === 'tag' && node.name === 'ul'
     },
     processNode: function (node, children) {
-      return children
+      return addKeys(children)
     },
   },
   {
-    replaceChildren: true,
     shouldProcessNode: function (node) {
-      return node.type === 'tag' && node.name === 'ol' // TODO implement ordered list enumeration
+      return node.type === 'tag' && node.name === 'ol'
     },
     processNode: function (node, children) {
-      return children
+      return addKeys(children)
     },
   },
   {
-    replaceChildren: true,
     shouldProcessNode: function (node) {
       return node.type === 'tag' && node.name === 'li'
     },
     processNode: function (node, children) {
-      return <Text style={{ marginLeft: '4pt' }}>• {children}</Text>
+      const bullet = node.parent.name === 'ol' ? getNumbering(node) : '• '
+      return <Text style={{ marginLeft: '4pt' }}>{[bullet, ...addKeys(children)]}</Text>
     },
   },
 
   // fall back tag --> print as plain text
   {
-    replaceChildren: true,
     shouldProcessNode: function (node) {
       return node.type === 'tag'
     },
@@ -122,19 +122,18 @@ const richTextRules = [
     },
   },
   {
-    replaceChildren: true,
     shouldProcessNode: function () {
       return true
     },
     processNode: function (node, children) {
       console.log('unknown HTML node type', node, children)
-      return <View />
+      return <React.Fragment />
     },
   },
 ]
 
 function RichText({ richText }) {
-  if (!richText) return <View />
+  if (!richText) return <React.Fragment />
   const htmlToReactParser = new htmlToReact.Parser()
   return htmlToReactParser.parseWithInstructions(richText, () => true, richTextRules)
 }

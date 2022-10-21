@@ -1,5 +1,6 @@
 <template>
   <v-menu
+    v-if="authUser"
     v-model="open"
     offset-y
     dark
@@ -12,7 +13,7 @@
     <template #activator="{ on, value, attrs }">
       <v-toolbar-items>
         <v-btn right text v-bind="attrs" :class="{ 'v-btn--open': value }" v-on="on">
-          <user-avatar :user="authUser" :size="40" />
+          <user-avatar v-if="authUser" :user="authUser" :size="40" />
           <span class="sr-only-sm-and-down mx-3">
             {{ authUser.displayName }}
           </span>
@@ -31,8 +32,14 @@
         }}</span>
       </v-list-item>
       <v-list-item block tag="li" @click="logout">
-        <v-icon v-if="logoutIcon" left>{{ logoutIcon }}</v-icon>
-        <v-progress-circular v-else indeterminate size="18" class="mr-2" />
+        <v-progress-circular
+          v-if="logoutInProgress"
+          indeterminate
+          size="18"
+          class="mr-2"
+        />
+        <v-icon v-else left>mdi-logout</v-icon>
+
         <span>{{ $tc('components.navigation.userMeta.logOut') }}</span>
       </v-list-item>
     </v-list>
@@ -47,28 +54,21 @@ export default {
   components: { UserAvatar },
   data() {
     return {
-      logoutIcon: 'mdi-logout',
       open: false,
+      logoutInProgress: false,
     }
   },
   computed: {
     authUser() {
-      return this.$auth.user()
+      return this.$store.state.auth.user
     },
   },
   methods: {
-    logout() {
-      this.logoutIcon = ''
-      this.$auth.logout()
-    },
-    prevent(event) {
-      event.stopImmediatePropagation()
-      event.preventDefault()
-      event.cancelBubble = true
-      return null
+    async logout() {
+      this.logoutInProgress = true
+      await this.$auth.logout()
+      this.logoutInProgress = false
     },
   },
 }
 </script>
-
-<style scoped></style>

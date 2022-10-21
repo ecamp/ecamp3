@@ -11,6 +11,8 @@ framework:
     # See https://caddyserver.com/docs/caddyfile/directives/reverse_proxy#headers
     trusted_headers: ['x-forwarded-for', 'x-forwarded-proto']
 
+    disallow_search_engine_index: true
+
     #esi: true
     #fragments: true
     php_errors:

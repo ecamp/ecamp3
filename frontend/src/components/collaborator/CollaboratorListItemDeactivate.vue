@@ -4,7 +4,6 @@
     icon="mdi-cancel"
     :title="$tc('components.camp.collaboratorListItemDeactivate.title')"
     :error="error"
-    max-width="600px"
     :submit-action="deactivateUser"
     :submit-enabled="!$slots.error"
     submit-label="components.camp.collaboratorListItemDeactivate.deactivate"
@@ -19,7 +18,7 @@
     <slot>
       {{
         $tc('components.camp.collaboratorListItemDeactivate.warningText', 1, {
-          name: entity.user().displayName,
+          name: displayName,
         })
       }}
     </slot>
@@ -34,6 +33,8 @@
 <script>
 import DialogForm from '@/components/dialog/DialogForm.vue'
 import DialogBase from '@/components/dialog/DialogBase.vue'
+import campCollaborationDisplayName from '@/common/helpers/campCollaborationDisplayName.js'
+import { errorToMultiLineToast } from '@/components/toast/toasts'
 
 export default {
   name: 'CollaboratorListItemDeactivate',
@@ -47,7 +48,10 @@ export default {
       if (!(typeof this.entity.user === 'function')) {
         return false
       }
-      return this.$auth.user().id === this.entity.user().id
+      return this.$store.state.auth.user.id === this.entity.user().id
+    },
+    displayName() {
+      return campCollaborationDisplayName(this.entity, this.$tc.bind(this))
     },
   },
   created() {
@@ -55,7 +59,9 @@ export default {
   },
   methods: {
     deactivateUser() {
-      const ok = this.api.patch(this.entity, { status: 'inactive' })
+      const ok = this.api
+        .patch(this.entity, { status: 'inactive' })
+        .catch((e) => this.$toast.error(errorToMultiLineToast(e)))
 
       if (this.isOwnCampCollaboration) {
         // User left camp -> navigate to camp-overview

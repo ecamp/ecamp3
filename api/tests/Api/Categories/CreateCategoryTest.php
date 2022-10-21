@@ -21,7 +21,7 @@ class CreateCategoryTest extends ECampApiTestCase {
     }
 
     public function testCreateCategoryIsNotPossibleForUnrelatedUserBecauseCampIsNotReadable() {
-        static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->getUsername()])
+        static::createClientWithCredentials(['email' => static::$fixtures['user4unrelated']->getEmail()])
             ->request('POST', '/categories', ['json' => $this->getExampleWritePayload()])
         ;
 
@@ -33,7 +33,7 @@ class CreateCategoryTest extends ECampApiTestCase {
     }
 
     public function testCreateCategoryIsNotPossibleForInactiveCollaboratorBecauseCampIsNotReadable() {
-        static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->getUsername()])
+        static::createClientWithCredentials(['email' => static::$fixtures['user5inactive']->getEmail()])
             ->request('POST', '/categories', ['json' => $this->getExampleWritePayload()])
         ;
 
@@ -45,7 +45,7 @@ class CreateCategoryTest extends ECampApiTestCase {
     }
 
     public function testCreateCategoryIsDeniedForGuest() {
-        static::createClientWithCredentials(['username' => static::$fixtures['user3guest']->getUsername()])
+        static::createClientWithCredentials(['email' => static::$fixtures['user3guest']->getEmail()])
             ->request('POST', '/categories', ['json' => $this->getExampleWritePayload()])
         ;
 
@@ -57,7 +57,7 @@ class CreateCategoryTest extends ECampApiTestCase {
     }
 
     public function testCreateCategoryIsAllowedForMember() {
-        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->getUsername()])
+        static::createClientWithCredentials(['email' => static::$fixtures['user2member']->getEmail()])
             ->request('POST', '/categories', ['json' => $this->getExampleWritePayload()])
         ;
 
@@ -205,14 +205,14 @@ class CreateCategoryTest extends ECampApiTestCase {
         ));
     }
 
-    public function testCreateCategoryCleansHtmlForShort() {
+    public function testCreateCategoryDoesNotCleanHtmlForShort() {
         static::createClientWithCredentials()->request(
             'POST',
             '/categories',
             [
                 'json' => $this->getExampleWritePayload(
                     [
-                        'short' => 'L<script>alert(1)</script>S',
+                        'short' => 'L<b>S</b><a>',
                     ]
                 ),
             ]
@@ -221,7 +221,7 @@ class CreateCategoryTest extends ECampApiTestCase {
         $this->assertResponseStatusCodeSame(201);
         $this->assertJsonContains($this->getExampleReadPayload(
             [
-                'short' => 'LS',
+                'short' => 'L<b>S</b><a>',
             ]
         ));
     }
@@ -309,14 +309,14 @@ class CreateCategoryTest extends ECampApiTestCase {
         ));
     }
 
-    public function testCreateCategoryCleansHtmlForName() {
+    public function testCreateCategoryDoesNotCleanHtmlForName() {
         static::createClientWithCredentials()->request(
             'POST',
             '/categories',
             [
                 'json' => $this->getExampleWritePayload(
                     [
-                        'name' => 'Lagerspo<script>alert(1)</script>rt',
+                        'name' => '<script>Lager</script><b>sport',
                     ]
                 ),
             ]
@@ -325,7 +325,7 @@ class CreateCategoryTest extends ECampApiTestCase {
         $this->assertResponseStatusCodeSame(201);
         $this->assertJsonContains($this->getExampleReadPayload(
             [
-                'name' => 'Lagersport',
+                'name' => '<script>Lager</script><b>sport',
             ]
         ));
     }

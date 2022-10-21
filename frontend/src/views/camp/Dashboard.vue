@@ -179,7 +179,7 @@ export default {
       )
     },
     showScheduleEntry(scheduleEntry) {
-      const authUser = this.$auth.user()
+      const authUser = this.$store.state.auth.user
       const activityResponsibles = scheduleEntry.activity().activityResponsibles().items
       return activityResponsibles.some((activityResponsible) => {
         const campCollaboration = activityResponsible.campCollaboration()

@@ -26,7 +26,7 @@ eCamp v3 is made up of a backend based on the PHP framework API Platform (Symfon
 
 Thanks for helping! There are a few ways to get started.
 
-- Visit our test environment at https://dev.ecamp3.ch. If you discover a bug, [open an issue](https://github.com/ecamp/ecamp3/issues/new) for it.
+- Visit our test environment at https://app-dev.ecamp3.ch. If you discover a bug, [open an issue](https://github.com/ecamp/ecamp3/issues/new) for it.
 - To run the project on your computer for development, follow one of our installation guides:
   - [Installation with Docker on Linux](https://github.com/ecamp/ecamp3/wiki/installation-development-linux) (German only)
   - [Installation with Docker on Windows + WSL 2](https://github.com/ecamp/ecamp3/wiki/installation-development-windows)
@@ -58,7 +58,7 @@ eCamp v3 besteht aus einem Backend basierend auf dem PHP-Framework API Platform 
 
 Danke dass du mithelfen möchtest! Es gibt ein paar verschiedene Arten wie du beginnen kannst.
 
-- Besuche unsere Testumgebung auf https://dev.ecamp3.ch. Wenn du einen Fehler entdeckst, [eröffne ein Issue dafür](https://github.com/ecamp/ecamp3/issues/new).
+- Besuche unsere Testumgebung auf https://app-dev.ecamp3.ch. Wenn du einen Fehler entdeckst, [eröffne ein Issue dafür](https://github.com/ecamp/ecamp3/issues/new).
 - Um das Projekt bei dir auf dem Computer laufen zu lassen, folge einer der Installationsanleitungen:
   - [Installation mit Docker auf Linux](https://github.com/ecamp/ecamp3/wiki/installation-development-linux)
   - [Installation mit Docker auf Windows + WSL2](https://github.com/ecamp/ecamp3/wiki/installation-development-windows) (nur englisch)

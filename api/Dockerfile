@@ -6,10 +6,10 @@
 # https://docs.docker.com/engine/reference/builder/#understand-how-arg-and-from-interact
 
 # renovate: datasource=docker depName=php
-ARG PHP_VERSION=8.1.10
+ARG PHP_VERSION=8.1.11
 
 # renovate: datasource=docker depName=caddy
-ARG CADDY_VERSION=2.5.2
+ARG CADDY_VERSION=2.6.2
 
 # "php" stage
 FROM php:${PHP_VERSION}-fpm-alpine AS api_platform_php
@@ -30,7 +30,7 @@ RUN apk add --no-cache \
 ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so
 
 # renovate: datasource=github-releases depName=krakjoe/apcu
-ARG APCU_VERSION=5.1.21
+ARG APCU_VERSION=5.1.22
 RUN set -eux; \
 	apk add --no-cache --virtual .build-deps \
 	$PHPIZE_DEPS \
@@ -68,7 +68,7 @@ RUN set -eux; \
 ###> recipes ###
 ###< recipes ###
 
-COPY --from=composer:2.4@sha256:5a83f661a80dfb67e90f4400101130501569cf7a3ee996f2e39ac48beb73c444 /usr/bin/composer /usr/bin/composer
+COPY --from=composer:2.4@sha256:32a323d9702c65efb4c3a60341ba0b3c9db52056dd28f9dde081ace4df575a67 /usr/bin/composer /usr/bin/composer
 
 # Copy development php.ini
 RUN cp "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
@@ -103,6 +103,7 @@ COPY fixtures fixtures/
 COPY public public/
 COPY src src/
 COPY templates templates/
+COPY translations translations/
 
 RUN set -eux; \
 	mkdir -p var/cache var/log; \

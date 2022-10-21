@@ -79,6 +79,7 @@ import ApiSelect from '@/components/form/api/ApiSelect.vue'
 import UserAvatar from '@/components/user/UserAvatar.vue'
 import IconButton from '@/components/buttons/IconButton.vue'
 import CollaboratorListItemDeactivate from '@/components/collaborator/CollaboratorListItemDeactivate.vue'
+import { errorToMultiLineToast } from '@/components/toast/toasts'
 
 export default {
   name: 'CollaboratorListItem',
@@ -111,7 +112,7 @@ export default {
       if (!(typeof this.collaborator.user === 'function')) {
         return false
       }
-      return this.$auth.user().id === this.collaborator.user().id
+      return this.$store.state.auth.user.id === this.collaborator.user().id
     },
   },
   methods: {
@@ -123,6 +124,7 @@ export default {
           action: 'resend_invitation',
         })
         .then((postUrl) => this.api.patch(postUrl, {}))
+        .catch((e) => this.$toast.error(errorToMultiLineToast(e)))
         .finally(() => {
           this.resendingEmail = false
         })

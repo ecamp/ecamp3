@@ -7,8 +7,10 @@ Displays a field as a color picker (can be used with v-model)
     :icon-color="value"
     :value="value"
     v-bind="$attrs"
+    :vee-id="veeId"
     :parse-picker="parsePicker"
-    :vee-rules="{ regex: /#([a-f0-9]{3}){1,2}\b/i }"
+    :vee-rules="veeRules || { regex: /#([a-f0-9]{3}){1,2}\b/i }"
+    :required="required"
     @input="$emit('input', $event)"
   >
     <template slot-scope="picker">
@@ -38,10 +40,12 @@ Displays a field as a color picker (can be used with v-model)
 
 <script>
 import BasePicker from './BasePicker.vue'
+import { formComponentMixin } from '@/mixins/formComponentMixin.js'
 
 export default {
   name: 'EColorPicker',
   components: { BasePicker },
+  mixins: [formComponentMixin],
   props: {
     value: { type: String, required: true },
   },

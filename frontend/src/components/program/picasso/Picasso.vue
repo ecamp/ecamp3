@@ -82,7 +82,7 @@ Listing all given activity schedule entries in a calendar view.
         <!-- readonly mode: complete div is a HTML link -->
         <router-link v-if="!editable && !event.tmpEvent" :to="scheduleEntryRoute(event)">
           <div class="readonlyEntry">
-            <h4 class="v-event-title">
+            <h4 class="v-event-title" :style="{ color: getActivityTextColor(event) }">
               {{ getActivityName(event) }}
             </h4>
           </div>
@@ -90,7 +90,7 @@ Listing all given activity schedule entries in a calendar view.
 
         <!-- edit mode: normal div with drag & drop -->
         <div v-if="editable" class="editableEntry">
-          <h4 class="v-event-title">
+          <h4 class="v-event-title" :style="{ color: getActivityTextColor(event) }">
             {{ getActivityName(event) }}
           </h4>
 
@@ -105,19 +105,13 @@ Listing all given activity schedule entries in a calendar view.
     </v-calendar>
 
     <v-snackbar v-model="isSaving" light>
-      <template v-if="patchError">
-        <v-icon>mdi-alert</v-icon>
-        {{ patchError }}
-      </template>
-      <template v-else>
-        <v-icon class="mdi-spin">mdi-loading</v-icon>
-        {{ $tc('global.button.saving') }}
-      </template>
+      <v-icon class="mdi-spin">mdi-loading</v-icon>
+      {{ $tc('global.button.saving') }}
     </v-snackbar>
   </div>
 </template>
 <script>
-import { toRefs, ref, watch, reactive } from '@vue/composition-api'
+import { toRefs, ref, watch, reactive } from 'vue'
 import useDragAndDropMove from './useDragAndDropMove.js'
 import useDragAndDropResize from './useDragAndDropResize.js'
 import useDragAndDropNew from './useDragAndDropNew.js'
@@ -126,6 +120,7 @@ import { isCssColor } from 'vuetify/lib/util/colorUtils'
 import { apiStore as api } from '@/plugins/store'
 import { scheduleEntryRoute } from '@/router.js'
 import mergeListeners from '@/helpers/mergeListeners.js'
+import { parseHexColor, contrastColor } from '@/common/helpers/colors.js'
 import {
   timestampToUtcString,
   utcStringToTimestamp,
@@ -133,6 +128,8 @@ import {
 
 import DialogActivityEdit from '../DialogActivityEdit.vue'
 import DayResponsibles from './DayResponsibles.vue'
+import { errorToMultiLineToast } from '@/components/toast/toasts'
+import Vue from 'vue'
 
 export default {
   name: 'Picasso',
@@ -147,9 +144,9 @@ export default {
       required: true,
     },
 
-    // list of scheduleEntries
+    // collection of scheduleEntries
     scheduleEntries: {
-      type: Array,
+      type: Object,
       required: true,
     },
 
@@ -162,13 +159,13 @@ export default {
 
     // v-calendar start: starting date (first day)
     start: {
-      type: Number,
+      type: String,
       required: true,
     },
 
     // v-calender end: end date (last day)
     end: {
-      type: Number,
+      type: String,
       required: true,
     },
 
@@ -197,7 +194,6 @@ export default {
     const { editable, scheduleEntries } = toRefs(props)
 
     const isSaving = ref(false)
-    const patchError = ref(null)
 
     // callback used to save entry to API
     const updateEntry = (scheduleEntry, startTimestamp, endTimestamp) => {
@@ -208,14 +204,11 @@ export default {
       isSaving.value = true
       api
         .patch(scheduleEntry._meta.self, patchData)
-        .then(() => {
-          patchError.value = null
-          isSaving.value = false
-        })
         .catch((error) => {
-          patchError.value = error
+          Vue.$toast.error(errorToMultiLineToast(error))
         })
         .finally(() => {
+          isSaving.value = false
           reloadScheduleEntries()
         })
     }
@@ -246,8 +239,22 @@ export default {
       refs[`editDialog-${scheduleEntry.id}`].open()
     }
 
-    const dragAndDropMove = useDragAndDropMove(editable, 5, updateEntry)
-    const dragAndDropResize = useDragAndDropResize(editable, updateEntry)
+    const calenderStartTimestamp = utcStringToTimestamp(props.start)
+    const calendarEndTimestamp = utcStringToTimestamp(props.end) + 24 * 60 * 60 * 1000
+
+    const dragAndDropMove = useDragAndDropMove(
+      editable,
+      5,
+      updateEntry,
+      calenderStartTimestamp,
+      calendarEndTimestamp
+    )
+    const dragAndDropResize = useDragAndDropResize(
+      editable,
+      updateEntry,
+      calenderStartTimestamp,
+      calendarEndTimestamp
+    )
     const dragAndDropNew = useDragAndDropNew(editable, createEntry)
     const clickDetector = useClickDetector(editable, 5, onClick)
 
@@ -272,7 +279,7 @@ export default {
     const events = ref([])
     const loadCalenderEventsFromScheduleEntries = () => {
       // prepare scheduleEntries to make them understandable by v-calendar
-      events.value = scheduleEntries.value.map((entry) => ({
+      events.value = scheduleEntries.value.items.map((entry) => ({
         ...entry,
         startTimestamp: utcStringToTimestamp(entry.start),
         endTimestamp: utcStringToTimestamp(entry.end),
@@ -289,7 +296,7 @@ export default {
 
     // reloads schedule entries from API + recreates event array after reload
     const reloadScheduleEntries = async () => {
-      await api.reload(props.period.scheduleEntries())
+      await api.reload(scheduleEntries.value)
       loadCalenderEventsFromScheduleEntries()
     }
 
@@ -298,7 +305,6 @@ export default {
       startResize: dragAndDropResize.startResize,
       onMouseleave,
       isSaving,
-      patchError,
       reloadScheduleEntries,
       loadCalenderEventsFromScheduleEntries,
       events,
@@ -377,6 +383,13 @@ export default {
           : '') +
         scheduleEntry.activity().title
       )
+    },
+    getActivityTextColor(scheduleEntry) {
+      if (scheduleEntry.tmpEvent) return '#000'
+      if (this.isCategoryLoading(scheduleEntry)) return '#000'
+
+      const category = scheduleEntry.activity().category()
+      return contrastColor(...parseHexColor(category.color))
     },
     getActivityColor(scheduleEntry, _) {
       if (scheduleEntry.tmpEvent) return 'grey elevation-4 v-event--temporary'

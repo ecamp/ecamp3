@@ -20,7 +20,7 @@ class CreateMaterialListTest extends ECampApiTestCase {
     }
 
     public function testCreateMaterialListIsNotPossibleForUnrelatedUserBecauseCampIsNotReadable() {
-        static::createClientWithCredentials(['username' => static::$fixtures['user4unrelated']->getUsername()])
+        static::createClientWithCredentials(['email' => static::$fixtures['user4unrelated']->getEmail()])
             ->request('POST', '/material_lists', ['json' => $this->getExampleWritePayload()])
         ;
         $this->assertResponseStatusCodeSame(400);
@@ -31,7 +31,7 @@ class CreateMaterialListTest extends ECampApiTestCase {
     }
 
     public function testCreateMaterialListIsNotPossibleForInactiveCollaboratorBecauseCampIsNotReadable() {
-        static::createClientWithCredentials(['username' => static::$fixtures['user5inactive']->getUsername()])
+        static::createClientWithCredentials(['email' => static::$fixtures['user5inactive']->getEmail()])
             ->request('POST', '/material_lists', ['json' => $this->getExampleWritePayload()])
         ;
         $this->assertResponseStatusCodeSame(400);
@@ -42,7 +42,7 @@ class CreateMaterialListTest extends ECampApiTestCase {
     }
 
     public function testCreateMaterialListIsDeniedForGuest() {
-        static::createClientWithCredentials(['username' => static::$fixtures['user3guest']->getUsername()])
+        static::createClientWithCredentials(['email' => static::$fixtures['user3guest']->getEmail()])
             ->request('POST', '/material_lists', ['json' => $this->getExampleWritePayload()])
         ;
 
@@ -54,7 +54,7 @@ class CreateMaterialListTest extends ECampApiTestCase {
     }
 
     public function testCreateMaterialListIsAllowedForMember() {
-        static::createClientWithCredentials(['username' => static::$fixtures['user2member']->getUsername()])
+        static::createClientWithCredentials(['email' => static::$fixtures['user2member']->getEmail()])
             ->request('POST', '/material_lists', ['json' => $this->getExampleWritePayload()])
         ;
 
@@ -171,14 +171,14 @@ class CreateMaterialListTest extends ECampApiTestCase {
         ]);
     }
 
-    public function testCreateMaterialListCleansHtml() {
+    public function testCreateMaterialListDoesNotCleanHtmlOfName() {
         static::createClientWithCredentials()
             ->request(
                 'POST',
                 '/material_lists',
                 [
                     'json' => $this->getExampleWritePayload([
-                        'name' => ' Some<script>alert(1)</script>thing ',
+                        'name' => ' <script>alert(1)</script><b>t</b ',
                     ]),
                 ]
             )
@@ -186,7 +186,7 @@ class CreateMaterialListTest extends ECampApiTestCase {
 
         $this->assertResponseStatusCodeSame(201);
         $this->assertJsonContains([
-            'name' => 'Something',
+            'name' => '<script>alert(1)</script><b>t</b',
         ]);
     }
 

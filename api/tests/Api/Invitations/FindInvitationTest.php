@@ -69,7 +69,7 @@ class FindInvitationTest extends ECampApiTestCase {
 
         /** @var User $invitedUser */
         $invitedUser = static::$fixtures['user6invited'];
-        static::createClientWithCredentials(['username' => $invitedUser->getUsername()])
+        static::createClientWithCredentials(['email' => $invitedUser->getEmail()])
             ->request('GET', "/invitations/{$campCollaboration->inviteKey}/find")
         ;
         $this->assertResponseStatusCodeSame(200);
@@ -123,7 +123,7 @@ class FindInvitationTest extends ECampApiTestCase {
 
         /** @var User $inactiveUser */
         $inactiveUser = static::$fixtures['user5inactive'];
-        static::createClientWithCredentials(['username' => $inactiveUser->getUsername()])
+        static::createClientWithCredentials(['email' => $inactiveUser->getEmail()])
             ->request('GET', "/invitations/{$campCollaboration->inviteKey}/find")
         ;
         $this->assertResponseStatusCodeSame(200);

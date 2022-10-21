@@ -45,4 +45,44 @@ class UpdateMultiSelectTest extends UpdateContentNodeTestCase {
         $this->assertResponseStatusCodeSame(422);
         $this->assertJsonSchemaError($response, 'data');
     }
+
+    public function testPatchMultiSelectDoesNotSetDataToNull() {
+        $this->patch($this->defaultEntity, ['data' => null]);
+
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertJsonContains([
+            'data' => [
+                'options' => [
+                    'key1' => ['checked' => true],
+                    'key2' => ['checked' => true],
+                ],
+            ],
+        ]);
+    }
+
+    public function testPatchMultiSelectDoesNotSetDataToEmptyArray() {
+        $this->patch($this->defaultEntity, ['data' => []]);
+
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertJsonContains([
+            'data' => [
+                'options' => [
+                    'key1' => ['checked' => true],
+                    'key2' => ['checked' => true],
+                ],
+            ],
+        ]);
+    }
+
+    /**
+     * Because the empty array is not a valid JSON Object.
+     */
+    public function testPatchMultiSelectAccidentallyDoesNotAcceptEmptyOptions() {
+        $response = $this->patch($this->defaultEntity, ['data' => [
+            'options' => [],
+        ]]);
+
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonSchemaError($response, 'data');
+    }
 }

@@ -1,8 +1,13 @@
 // eslint-disable-next-line no-unused-vars
 import React from 'react'
-import { View } from '../../reactPdf.js'
+import { View } from '@react-pdf/renderer'
 import ScheduleEntry from './ScheduleEntry.jsx'
 import dayjs from '@/common/helpers/dayjs.js'
+import picassoStyles from './picassoStyles.js'
+import vuetifyLayouter, * as vuetifyLayouterInMainThread from 'vuetify/es5/components/VCalendar/modes/column.js'
+import vuetifyEvents, * as vuetifyEventsInMainThread from 'vuetify/es5/components/VCalendar/util/events.js'
+import { utcStringToTimestamp } from '../../../../../../../common/helpers/dateHelperVCalendar.js'
+import keyBy from 'lodash/keyBy.js'
 
 // converts ISO String format (UTC timezone) into a unix/seconds timestamp (UTC timezone)
 function stringToTimestamp(string) {
@@ -65,14 +70,15 @@ function scheduleEntryBorderRadiusStyles(scheduleEntry, day, times) {
   const endsOnThisDay = end >= dayStart && end <= dayEnd
 
   return {
-    ...(endsOnThisDay
-      ? {}
-      : { borderBottomRightRadius: '0', borderBottomLeftRadius: '0' }),
+    // prettier-ignore
+    ...(endsOnThisDay ? {} : { borderBottomRightRadius: '0', borderBottomLeftRadius: '0' }),
     ...(startsOnThisDay ? {} : { borderTopRightRadius: '0', borderTopLeftRadius: '0' }),
   }
 }
 
-function scheduleEntryPositionStyles(scheduleEntry, day, times) {
+function scheduleEntryPositionStyles(scheduleEntry, day, times, leftAndWidth) {
+  const left = leftAndWidth[scheduleEntry.id]?.left || 0
+  const width = leftAndWidth[scheduleEntry.id]?.width || 0
   return {
     top:
       percentage(
@@ -86,55 +92,74 @@ function scheduleEntryPositionStyles(scheduleEntry, day, times) {
         times
       ) +
       '%',
+    left: left + '%',
+    right: 100 - width - left + '%',
   }
 }
 
-const columnStyles = {
-  flexGrow: '1',
-  display: 'flex',
-  flexDirection: 'column',
-  overflow: 'hidden',
-}
-const dayGridStyles = {
-  minWidth: '100%',
-  minHeight: '100%',
-  display: 'flex',
-}
-const rowStyles = {
-  display: 'flex',
-}
-const scheduleEntryColumnStyles = {
-  margin: '0 0.5%',
-  position: 'absolute',
-  top: '0',
-  bottom: '0',
-  left: '0',
-  right: '0',
+function vuetifyLayout(scheduleEntries, day, times) {
+  // Work around vite limitations with importing vuetify helpers in main thread vs. worker
+  const parseEvent = vuetifyEvents?.parseEvent || vuetifyEventsInMainThread?.parseEvent
+  const layouter = vuetifyLayouter?.column || vuetifyLayouterInMainThread?.column
+
+  const dayStart = dayjs.utc(day.start).hour(times[0][0])
+  const events = scheduleEntries
+    .map((entry) => ({
+      ...entry,
+      startTimestamp: utcStringToTimestamp(entry.start),
+      endTimestamp: utcStringToTimestamp(entry.end),
+      timed: true,
+    }))
+    .map((evt, index) =>
+      parseEvent(evt, index, 'startTimestamp', 'endTimestamp', true, false)
+    )
+  return keyBy(
+    layouter(
+      events, // schedule entries in vuetify format
+      -1, // we don't want to reset the grouping on any weekday
+      60 // threshold for allowed overlap between two schedule entries before they stack next to each other
+    )(
+      {
+        year: dayStart.year(),
+        month: dayStart.month(),
+        day: dayStart.day(),
+        hour: dayStart.hour(),
+        minute: dayStart.minute(),
+      }, // day start timestamp object
+      events,
+      true, // timed true, we don't want all-day events
+      false // categoryMode false, we use calendar type 'week', not 'category'
+    ),
+    'event.input.id'
+  )
 }
 
 function DayColumn({ times, scheduleEntries, day, styles }) {
+  const relevantScheduleEntries = filterScheduleEntriesByDay(scheduleEntries, day, times)
+  const leftAndWidth = vuetifyLayout(relevantScheduleEntries, day, times)
+
   return (
-    <View style={{ ...columnStyles, ...styles }}>
-      <View style={dayGridStyles}>
+    <View style={{ ...picassoStyles.dayColumn, ...styles }}>
+      <View style={picassoStyles.dayGrid}>
         {times.slice(0, times.length - 1).map(([time, weight], index) => (
           <View
             key={time}
             style={{
-              ...rowStyles,
+              ...picassoStyles.dayGridRow,
               flexGrow: weight,
               ...(index % 2 === 0 ? { backgroundColor: 'lightgrey' } : {}),
             }}
           />
         ))}
       </View>
-      <View style={scheduleEntryColumnStyles}>
-        {filterScheduleEntriesByDay(scheduleEntries, day, times).map((scheduleEntry) => {
+      <View style={picassoStyles.scheduleEntryContainer}>
+        {relevantScheduleEntries.map((scheduleEntry) => {
           return (
             <ScheduleEntry
               key={scheduleEntry.id}
               scheduleEntry={scheduleEntry}
               styles={{
-                ...scheduleEntryPositionStyles(scheduleEntry, day, times),
+                ...scheduleEntryPositionStyles(scheduleEntry, day, times, leftAndWidth),
                 ...scheduleEntryBorderRadiusStyles(scheduleEntry, day, times),
               }}
             />

@@ -32,9 +32,10 @@ import vuetifyIt from 'vuetify/lib/locale/it'
 
 Vue.use(VueI18n)
 
+const fallbackLocale = 'en'
 const i18n = new VueI18n({
   locale: 'de',
-  fallbackLocale: 'en',
+  fallbackLocale,
   messages: deepmerge.all([
     // vee-validate locales
     {
@@ -109,4 +110,4 @@ Object.defineProperty(i18n, 'browserPreferredLocale', {
 
 export default i18n
 
-export { i18n }
+export { i18n, fallbackLocale }

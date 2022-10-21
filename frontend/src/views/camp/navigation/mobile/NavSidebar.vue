@@ -20,7 +20,7 @@
         >
           <template #pre>
             <v-list-item-avatar>
-              <user-avatar :user="$auth.user()" />
+              <user-avatar :user="user" />
             </v-list-item-avatar>
           </template>
         </SidebarListItem>
@@ -95,7 +95,7 @@ export default {
   },
   computed: {
     user() {
-      return this.$auth.user()
+      return this.$store.state.auth.user
     },
   },
   methods: {

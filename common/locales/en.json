@@ -1,6 +1,16 @@
 {
   "contentNode": {
+    "columnLayout": {
+      "entity": {
+        "column": {
+          "name": "Column"
+        }
+      },
+      "icon": "mdi-format-columns",
+      "name": "Column layout"
+    },
     "laThematicArea": {
+      "info": "A Y+S camp activity must address at least one of the listed topics.{br}Select what topics are covered in this block.",
       "entity": {
         "option": {
           "campsiteAndSurroundings": {
@@ -29,17 +39,26 @@
           }
         }
       },
+      "icon": "mdi-shape",
       "name": "LA thematic area"
     },
+    "material": {
+      "icon": "mdi-package-variant",
+      "info": "Here you can enter the material requirements for this block.{br}You can manage the material lists in the menu 'Admin'.{br}You can find a summary for the purchase in the menu 'Material'.",
+      "name": "Material"
+    },
     "notes": {
-      "add": "Add notes",
+      "icon": "mdi-pen",
+      "info": "Here you can enter any notes.{br}e.g. ideas, todo's, open questions, contacts, public transport connections, etc.",
       "name": "Notes"
     },
     "safetyConcept": {
-      "add": "Add safety concept",
+      "icon": "mdi-security",
+      "info": "Some blocks require to think about the risks. Here you can record these thoughts.{br}Record what risks you have identified - and how you can address them.",
       "name": "Safety concept"
     },
     "storyboard": {
+      "info": "Here you can plan the content of this block.{br}In the left column [Time] you can record the duration of the individual elements.{br}In the right column [Responsible] you can assign persons.",
       "entity": {
         "section": {
           "fields": {
@@ -50,23 +69,13 @@
           "name": "Storyboard | Storyboards"
         }
       },
+      "icon": "mdi-script-text-outline",
       "name": "Storyboard"
     },
     "storycontext": {
-      "add": "Add story context",
-      "name": "Story concept"
-    },
-    "material": {
-      "name": "Material"
-    }
-  },
-  "global": {
-    "datetime": {
-      "dateLong": "dd L",
-      "dateShort": "dd M/D",
-      "dateTimeLong": "dd L HH:mm",
-      "hourLong": "HH:mm",
-      "hourShort": "h:mm A"
+      "icon": "mdi-book-open-variant",
+      "info": "Describe how this block fits into the story of the camp.{br}You can find a summary of all story elements in the menu 'Story'.{br}You can also first work out a continuous story in the 'Story' menu - so that you can perfectly embed the block content into the story.",
+      "name": "Story"
     }
   },
   "entity": {
@@ -80,29 +89,12 @@
       "name": "Activity | Activities",
       "new": "New activity"
     },
-    "category": {
-      "fields": {
-        "activityType": "Type",
-        "color": "Color",
-        "name": "Name",
-        "numberingStyle": "Numbering style",
-        "short": "Short"
-      },
-      "name": "Activity categories",
-      "numberingStyles": {
-        "1": "1, 2, 3 - numbers",
-        "A": "A, B, C - uppercase letters",
-        "a": "a, b, c - lowercase letters",
-        "I": "I, II, III - uppercase roman numerals",
-        "i": "i, ii, iii - lowercase roman numerals"
-      }
-    },
     "camp": {
       "collaborators": {
+        "guest": "Guest",
         "invite": "Invite",
         "manager": "Manager",
-        "member": "Member",
-        "guest": "Guest"
+        "member": "Member"
       },
       "fields": {
         "addressCity": "City",
@@ -118,6 +110,22 @@
     },
     "campCollaboration": {
       "inactive": "inactive"
+    },
+    "category": {
+      "fields": {
+        "color": "Color",
+        "name": "Name",
+        "numberingStyle": "Numbering style",
+        "short": "Short"
+      },
+      "name": "Activity categories",
+      "numberingStyles": {
+        "1": "1, 2, 3 - numbers",
+        "A": "A, B, C - uppercase letters",
+        "I": "I, II, III - uppercase roman numerals",
+        "a": "a, b, c - lowercase letters",
+        "i": "i, ii, iii - lowercase roman numerals"
+      }
     },
     "contentType": {
       "name": "Contenttype | Contenttypes"
@@ -159,12 +167,21 @@
       "name": "Activity scheduled"
     }
   },
+  "global": {
+    "datetime": {
+      "dateLong": "dd L",
+      "dateShort": "dd M/D",
+      "dateTimeLong": "dd L HH:mm",
+      "hourLong": "HH:mm",
+      "hourShort": "h:mm A"
+    }
+  },
   "print": {
-    "toc": {
-      "title": "Table of content"
-    },
     "cover": {
       "title": "Cover page"
+    },
+    "picasso": {
+      "title": "Program overview for {period}"
     },
     "program": {
       "title": "Program"
@@ -172,8 +189,8 @@
     "story": {
       "title": "Storyline"
     },
-    "picasso": {
-      "title": "Program overview for {period}"
+    "toc": {
+      "title": "Table of contents"
     }
   },
   "story": {

@@ -61,6 +61,9 @@ export default {
       }))
     },
     contentTypes() {
+      if (this.contentTypesLoading) {
+        return []
+      }
       return this.api
         .get()
         .contentTypes()
@@ -68,6 +71,9 @@ export default {
           value: ct._meta.self,
           text: this.$tc('contentNode.' + camelCase(ct.name) + '.name'),
         }))
+        .sort(function (a, b) {
+          return a.text.localeCompare(b.text)
+        })
     },
     contentTypesLoading() {
       return this.api.get().contentTypes()._meta.loading

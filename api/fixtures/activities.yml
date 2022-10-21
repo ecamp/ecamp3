@@ -2,24 +2,24 @@ App\Entity\Activity:
   activity2:
     camp: '@camp1'
     title: 'Activity 2'
-    location: <sentence()>
+    location: <word()>
     rootContentNode: '@columnLayout3'
     category: '@category2'
   activity1camp2:
     camp: '@camp2'
     title: <word()>
-    location: <sentence()>
+    location: <word()>
     rootContentNode: '@columnLayout1camp2'
     category: '@category1camp2'
   activity1campUnrelated:
     camp: '@campUnrelated'
     title: <word()>
-    location: <sentence()>
+    location: <word()>
     rootContentNode: '@columnLayout1campUnrelated'
     category: '@category1campUnrelated'
   activity1campPrototype:
     camp: '@campPrototype'
     title: <word()>
-    location: <sentence()>
+    location: <word()>
     rootContentNode: '@columnLayout1campPrototype'
     category: '@category1campPrototype'

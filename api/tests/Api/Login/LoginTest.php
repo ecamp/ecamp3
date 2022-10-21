@@ -21,7 +21,7 @@ class LoginTest extends ECampApiTestCase {
             '/authentication_token',
             [
                 'json' => [
-                    'username' => 'unknown',
+                    'identifier' => 'unknown',
                     'password' => self::PASSWORD,
                 ],
             ]
@@ -42,7 +42,7 @@ class LoginTest extends ECampApiTestCase {
             '/authentication_token',
             [
                 'json' => [
-                    'username' => $user->getUsername(),
+                    'identifier' => $user->getEmail(),
                     'password' => 'wrongPassword',
                 ],
             ]
@@ -63,7 +63,7 @@ class LoginTest extends ECampApiTestCase {
             '/authentication_token',
             [
                 'json' => [
-                    'username' => $user->getUsername(),
+                    'identifier' => $user->getEmail(),
                 ],
             ]
         );
@@ -74,7 +74,7 @@ class LoginTest extends ECampApiTestCase {
     /**
      * @throws TransportExceptionInterface
      */
-    public function testLoginWithNoUserName() {
+    public function testLoginWithNoIdentifier() {
         static::createBasicClient()->request(
             'POST',
             '/authentication_token',
@@ -100,7 +100,7 @@ class LoginTest extends ECampApiTestCase {
             '/authentication_token',
             [
                 'json' => [
-                    'username' => $user->getUsername(),
+                    'identifier' => $user->getEmail(),
                     'password' => 'test',
                 ],
             ]
@@ -110,25 +110,47 @@ class LoginTest extends ECampApiTestCase {
         $this->assertResponseHasHeader('Set-Cookie');
     }
 
-    /**
-     * @throws TransportExceptionInterface
-     */
-    public function testLoginWithEmail() {
+    public function testLoginWithDeletedUserFails() {
         /** @var User $user */
-        $user = static::$fixtures['user2member'];
+        $user = static::$fixtures['userWithStateDeleted'];
 
-        $this->createBasicClient()->request(
+        static::createBasicClient()->request(
             'POST',
             '/authentication_token',
             [
                 'json' => [
-                    'username' => $user->getEmail(),
+                    'identifier' => $user->getEmail(),
                     'password' => 'test',
                 ],
             ]
         );
 
-        $this->assertResponseStatusCodeSame(204);
-        $this->assertResponseHasHeader('Set-Cookie');
+        $this->assertResponseStatusCodeSame(401);
+        $this->assertJsonContains([
+            'code' => 401,
+            'message' => 'Your user account no longer exists.',
+        ]);
+    }
+
+    public function testLoginWithDeletedUserAndInvalidCredentials() {
+        /** @var User $user */
+        $user = static::$fixtures['userWithStateDeleted'];
+
+        static::createBasicClient()->request(
+            'POST',
+            '/authentication_token',
+            [
+                'json' => [
+                    'identifier' => $user->getEmail(),
+                    'password' => 'wrongPassword',
+                ],
+            ]
+        );
+
+        $this->assertResponseStatusCodeSame(401);
+        $this->assertJsonContains([
+            'code' => 401,
+            'message' => 'Invalid credentials.', // don't disclose user status when wrong credentials are provided
+        ]);
     }
 }

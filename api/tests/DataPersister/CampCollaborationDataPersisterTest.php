@@ -121,8 +121,6 @@ class CampCollaborationDataPersisterTest extends TestCase {
     }
 
     public function testAfterCreateDoesNotSendEmailIfNoInviteEmailSet() {
-        $this->security->expects(self::once())->method('getUser')->willReturn($this->user);
-
         $this->mailService->expects(self::never())->method('sendInviteToCampMail');
 
         $result = $this->dataPersister->beforeCreate($this->campCollaboration);
@@ -135,7 +133,6 @@ class CampCollaborationDataPersisterTest extends TestCase {
     public function testAfterCreateDoesNotSendEmailIfStatusNotInvited($status) {
         $this->campCollaboration->inviteEmail = 'e@mail.com';
         $this->campCollaboration->status = $status;
-        $this->security->expects(self::once())->method('getUser')->willReturn($this->user);
 
         $this->mailService->expects(self::never())->method('sendInviteToCampMail');
 

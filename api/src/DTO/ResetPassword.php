@@ -8,6 +8,7 @@ use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ApiResource(
     operations: [
@@ -24,6 +25,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
             security: 'true',
             uriTemplate: '',
             status: 204,
+            output: false,
             denormalizationContext: ['groups' => ['create']],
             normalizationContext: ['groups' => ['read']],
             openapiContext: ['summary' => 'Request Password-Reset-Mail', 'description' => 'Password-Reset-Link will be sent to the given email']
@@ -49,5 +51,6 @@ class ResetPassword {
 
     #[ApiProperty(readable: false, writable: true)]
     #[Groups(['update'])]
+    #[Assert\Length(min: 12, max: 128)]
     public ?string $password = null;
 }

@@ -114,11 +114,13 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
     public ?string $password = null;
 
     /**
-     * A new password for this user. At least 8 characters.
+     * A new password for this user. At least 12 characters, as is explicitly recommended by OWASP:
+     * https://github.com/OWASP/ASVS/blob/master/4.0/en/0x11-V2-Authentication.md#v21-password-security
+     * 2.1.1: Verify that user set passwords are at least 12 characters in length (after multiple spaces are combined).
      */
     #[SerializedName('password')]
     #[Assert\NotBlank(groups: ['create'])]
-    #[Assert\Length(min: 8)]
+    #[Assert\Length(min: 12, max: 128)]
     #[ApiProperty(readable: false, writable: true, example: 'learning-by-doing-101')]
     #[Groups(['write'])]
     public ?string $plainPassword = null;
@@ -135,7 +137,6 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
         writableLink: true,
         example: [
             'email' => Profile::EXAMPLE_EMAIL,
-            'username' => Profile::EXAMPLE_USERNAME,
             'firstname' => Profile::EXAMPLE_FIRSTNAME,
             'surname' => Profile::EXAMPLE_SURNAME,
             'nickname' => Profile::EXAMPLE_NICKNAME,
@@ -195,16 +196,12 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
         $this->plainPassword = null;
     }
 
-    public function getUsername(): ?string {
-        return $this->profile->username;
-    }
-
     public function getEmail(): ?string {
         return $this->profile->email;
     }
 
     public function getUserIdentifier(): string {
-        return $this->profile->username;
+        return $this->profile->email;
     }
 
     /**

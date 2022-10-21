@@ -1,7 +1,7 @@
 <template>
   <div>
     <slot
-      :scheduleEntries="scheduleEntries.items"
+      :schedule-entries="scheduleEntries"
       :loading="scheduleEntries._meta.loading"
       :on="eventHandlers"
     />

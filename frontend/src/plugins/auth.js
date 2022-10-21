@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { apiStore } from '@/plugins/store'
+import { apiStore, store } from '@/plugins/store'
 import router from '@/router'
 import Cookies from 'js-cookie'
 
@@ -37,12 +37,18 @@ function getJWTExpirationTimestamp() {
 }
 
 export function isLoggedIn() {
-  return Date.now() < getJWTExpirationTimestamp()
+  const isLoggedIn = Date.now() < getJWTExpirationTimestamp()
+
+  if (isLoggedIn) {
+    loadUser()
+  }
+
+  return isLoggedIn
 }
 
-async function login(username, password) {
+async function login(email, password) {
   const url = await apiStore.href(apiStore.get(), 'login')
-  return apiStore.post(url, { username: username, password: password }).then(() => {
+  return apiStore.post(url, { identifier: email, password: password }).then(() => {
     return isLoggedIn()
   })
 }
@@ -57,12 +63,18 @@ async function resetPassword(id, password, recaptchaToken) {
   return apiStore.patch(url, { password: password, recaptchaToken: recaptchaToken })
 }
 
-function user() {
+async function loadUser() {
   if (!getJWTPayloadFromCookie()) {
+    store.commit('logout')
     return null
   }
-  const user = apiStore.get(parseJWTPayload(getJWTPayloadFromCookie()).user)
-  user._meta.load = user._meta.load.catch((e) => {
+
+  try {
+    const user = await apiStore.get(parseJWTPayload(getJWTPayloadFromCookie()).user)._meta
+      .load
+    store.commit('login', user)
+    return user
+  } catch (e) {
     if (e.response && [401, 403, 404].includes(e.response.status)) {
       // 401 means no complete token was submitted, so we may be missing the JWT signature cookie
       // 403 means we can theoretically interact in some way with the user, but apparently not read it
@@ -70,11 +82,11 @@ function user() {
       // Either way, we aren't allowed to access the user from the token, so it's best to ask the user
       // to log in again.
       auth.logout()
-      return
+      return null
     }
+
     throw e
-  })
-  return user
+  }
 }
 
 async function register(data) {
@@ -113,8 +125,10 @@ export async function logout() {
   Cookies.remove(headerAndPayloadCookieName(), {
     domain: window.environment.SHARED_COOKIE_DOMAIN,
   })
+  store.commit('logout')
   return router
     .push({ name: 'login' })
+    .catch(() => {}) // prevents throwing NavigationDuplicated is already on /login
     .then(() => apiStore.purgeAll())
     .then(() => isLoggedIn())
 }
@@ -135,7 +149,7 @@ export const auth = {
   loginPbsMiData,
   loginCeviDB,
   logout,
-  user,
+  loadUser,
   resetPasswordRequest,
   resetPassword,
 }

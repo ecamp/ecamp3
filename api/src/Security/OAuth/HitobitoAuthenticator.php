@@ -73,7 +73,6 @@ class HitobitoAuthenticator extends OAuth2Authenticator {
                     $profile->firstname = $hitobitoUser->getFirstName();
                     $profile->surname = $hitobitoUser->getLastName();
                     $profile->nickname = $hitobitoUser->getNickName();
-                    $profile->username = $email;
                     $user = new User();
                     $user->profile = $profile;
                     $user->state = User::STATE_ACTIVATED;

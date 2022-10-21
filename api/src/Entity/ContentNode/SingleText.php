@@ -14,6 +14,7 @@ use App\Repository\SingleTextRepository;
 use App\Validator\AssertJsonSchema;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ApiResource(
     operations: [
@@ -62,5 +63,6 @@ class SingleText extends ContentNode {
     #[Groups(['read', 'write'])]
     #[ORM\Column(type: 'json', nullable: true, options: ['jsonb' => true])]
     #[AssertJsonSchema(schema: self::JSON_SCHEMA)]
+    #[Assert\NotNull]
     public ?array $data = ['text' => ''];
 }

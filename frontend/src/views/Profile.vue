@@ -2,7 +2,9 @@
   <v-container fluid>
     <content-card
       max-width="800"
-      :title="$tc('views.profile.profile') + ': ' + user.displayName"
+      :title="
+        $tc('views.profile.profile') + ': ' + (user._meta.loading ? '' : user.displayName)
+      "
       toolbar
     >
       <v-col>
@@ -92,7 +94,7 @@ export default {
   },
   computed: {
     user() {
-      return this.$auth.user()
+      return this.$store.state.auth.user
     },
     profile() {
       return this.user.profile()
@@ -105,7 +107,7 @@ export default {
     },
   },
   watch: {
-    user() {
+    profile() {
       if (VueI18n.availableLocales.includes(this.profile.language)) {
         this.$store.commit('setLanguage', this.profile.language)
       }

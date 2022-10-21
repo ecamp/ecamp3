@@ -37,6 +37,7 @@
 import { keyBy, sortBy } from 'lodash'
 import Draggable from 'vuedraggable'
 import ButtonNestedContentNodeAdd from '@/components/activity/ButtonNestedContentNodeAdd.vue'
+import { errorToMultiLineToast } from '@/components/toast/toasts'
 
 export default {
   name: 'DraggableContentNodes',
@@ -109,11 +110,15 @@ export default {
       this.draggableDirty.setDirty(timestamp)
 
       // patch content node location
-      await this.api.patch(event.item.dataset.href, {
-        slot: this.slotName,
-        parent: this.parentContentNode._meta.self,
-        position: event.newDraggableIndex,
-      })
+      try {
+        await this.api.patch(event.item.dataset.href, {
+          slot: this.slotName,
+          parent: this.parentContentNode._meta.self,
+          position: event.newDraggableIndex,
+        })
+      } catch (e) {
+        this.$toast.error(errorToMultiLineToast(e))
+      }
 
       // reload all contentNodes to update position properties
       await this.allContentNodes().$reload()

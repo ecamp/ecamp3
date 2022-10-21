@@ -81,6 +81,24 @@ abstract class CreateContentNodeTestCase extends ECampApiTestCase {
         $this->assertJsonContains($this->getExampleReadPayload($newContentNode), true);
     }
 
+    /**
+     * @dataProvider getContentNodesWhichCannotHaveChildren
+     */
+    public function testCreateRejectsParentsWhichDontSupportChildren(string $idOfParentFixture) {
+        $this->defaultParent = static::$fixtures[$idOfParentFixture];
+
+        $this->create(user: static::$fixtures['user2member']);
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                0 => [
+                    'propertyPath' => 'parent',
+                    'message' => 'This parent does not support children, only content_nodes of type column_layout support children.',
+                ],
+            ],
+        ]);
+    }
+
     public function testCreateValidatesIncompatibleContentType() {
         // given
         /** @var ContentType $contentType */
@@ -141,6 +159,23 @@ abstract class CreateContentNodeTestCase extends ECampApiTestCase {
                 'contentType' => [
                     'href' => $this->getIriFor($contentType),
                 ],
+            ],
+        ];
+    }
+
+    private static function getContentNodesWhichCannotHaveChildren(): array {
+        return [
+            ContentNode\MaterialNode::class => [
+                'materialNode1',
+            ],
+            ContentNode\MultiSelect::class => [
+                'multiSelect1',
+            ],
+            ContentNode\SingleText::class => [
+                'singleText1',
+            ],
+            ContentNode\StoryBoard::class => [
+                'storyboard1',
             ],
         ];
     }

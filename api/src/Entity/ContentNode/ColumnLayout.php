@@ -10,6 +10,7 @@ use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use App\Entity\ContentNode;
+use App\Entity\SupportsContentNodeChildren;
 use App\Repository\ColumnLayoutRepository;
 use App\Validator\AssertJsonSchema;
 use App\Validator\ColumnLayout\AssertColumWidthsSumTo12;
@@ -47,7 +48,7 @@ use Symfony\Component\Validator\Constraints as Assert;
     routePrefix: '/content_node'
 )]
 #[ORM\Entity(repositoryClass: ColumnLayoutRepository::class)]
-class ColumnLayout extends ContentNode {
+class ColumnLayout extends ContentNode implements SupportsContentNodeChildren {
     public const JSON_SCHEMA = [
         'type' => 'object',
         'additionalProperties' => false,
@@ -87,6 +88,7 @@ class ColumnLayout extends ContentNode {
         new AssertColumWidthsSumTo12(),
         new AssertNoOrphanChildren(),
     ])]
+    #[Assert\NotNull]
     public ?array $data = ['columns' => [['slot' => '1', 'width' => 12]]];
 
     /**
