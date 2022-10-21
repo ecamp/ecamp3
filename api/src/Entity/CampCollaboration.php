@@ -13,6 +13,9 @@ use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use App\InputFilter;
 use App\Repository\CampCollaborationRepository;
+use App\State\CampCollaborationCreateProcessor;
+use App\State\CampCollaborationResendInvitationProcessor;
+use App\State\CampCollaborationUpdateProcessor;
 use App\Validator\AllowTransition\AssertAllowTransitions;
 use App\Validator\AssertEitherIsNull;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -33,6 +36,7 @@ use Symfony\Component\Validator\Constraints as Assert;
             security: 'is_granted("CAMP_COLLABORATOR", object) or is_granted("CAMP_IS_PROTOTYPE", object)'
         ),
         new Patch(
+            processor: CampCollaborationUpdateProcessor::class,
             denormalizationContext: ['groups' => ['write', 'update']],
             normalizationContext: self::ITEM_NORMALIZATION_CONTEXT,
             security: '(is_authenticated() && user === object.user) or is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)',
@@ -42,6 +46,7 @@ use Symfony\Component\Validator\Constraints as Assert;
             security: 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)'
         ),
         new Patch(
+            processor: CampCollaborationResendInvitationProcessor::class,
             security: '(is_authenticated() && user === object.user) or is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)',
             uriTemplate: 'camp_collaborations/{id}/'.self::RESEND_INVITATION,
             denormalizationContext: ['groups' => ['resend_invitation']],
@@ -53,6 +58,7 @@ use Symfony\Component\Validator\Constraints as Assert;
             normalizationContext: self::ITEM_NORMALIZATION_CONTEXT
         ),
         new Post(
+            processor: CampCollaborationCreateProcessor::class,
             denormalizationContext: ['groups' => ['write', 'create']],
             normalizationContext: self::ITEM_NORMALIZATION_CONTEXT,
             openapiContext: ['description' => 'Also sends an invitation email to the inviteEmail address, if specified.'],

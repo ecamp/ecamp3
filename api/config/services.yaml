@@ -130,6 +130,7 @@ services:
         arguments:
             - '@Symfony\Component\Mailer\MailerInterface'
             - '@translator'
+            - '@Symfony\Component\Security\Core\Security'
             - "%env(FRONTEND_BASE_URL)%"
             - "%env(MAIL_FROM_EMAIL)%"
             - "%env(MAIL_FROM_NAME)%"
@@ -169,6 +170,9 @@ services:
                 # (e.g. period start '2021-01-01' in POST payload)
                 datetime_timezone: 'UTC'
 
+    
+    # Decorate State Processors
+
     App\State\ActivityCreateProcessor:
         bind:
             $decorated: '@api_platform.doctrine.orm.state.persist_processor'
@@ -176,5 +180,39 @@ services:
     App\State\ActivityRemoveProcessor:
         bind:
             $decorated: '@api_platform.doctrine.orm.state.remove_processor'
+
+    App\State\CampCollaborationCreateProcessor:
+        bind:
+            $decorated: '@api_platform.doctrine.orm.state.persist_processor'
+    
+    App\State\CampCollaborationUpdateProcessor:
+        bind:
+            $decorated: '@api_platform.doctrine.orm.state.persist_processor'
+
+    App\State\CampCollaborationResendInvitationProcessor:
+        bind:
+            $decorated: '@api_platform.doctrine.orm.state.persist_processor'
+
+
+    # override API-platform memory cache configuration
+    # https://github.com/api-platform/core/issues/4975#issuecomment-1253617780
+    api_platform.cache.metadata.property:
+        parent: cache.system
+        tags: [ cache.pool ]
+    api_platform.cache.metadata.resource:
+        parent: cache.system
+        tags: [ cache.pool ]
+    api_platform.cache.metadata.resource_collection:
+        parent: cache.system
+        tags: [ cache.pool ]
+    api_platform.cache.route_name_resolver:
+        parent: cache.system
+        tags: [ cache.pool ]
+    api_platform.cache.identifiers_extractor:
+        parent: cache.system
+        tags: [ cache.pool ]
+    api_platform.elasticsearch.cache.metadata.document:
+        parent: cache.system
+        tags: [ cache.pool ]
 
 
