@@ -28,7 +28,7 @@ jobs:
         run: |
           ALPHA=$(git rev-parse alpha)
           echo "Git SHA: $ALPHA"
-          echo ::set-output name=sha::$ALPHA
+          echo "sha=$ALPHA" >> $GITHUB_OUTPUT
 
       - name: Create a pending GitHub deployment
         uses: bobheadxi/deployments@v1.3.0
