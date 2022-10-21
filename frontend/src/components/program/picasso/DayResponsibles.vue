@@ -159,18 +159,18 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-::v-deep .v-skeleton-loader__text {
+:deep(.v-skeleton-loader__text) {
   height: 40px;
   padding-left: 0 !important;
   padding-right: 0 !important;
 }
 
-::v-deep .v-input {
+:deep(.v-input) {
   margin-top: 0;
   padding-top: 0;
 }
 
-.ec-day-responsible--readonly ::v-deep .v-input__append-inner {
+.ec-day-responsible--readonly:deep(.v-input__append-inner) {
   display: none;
 }
 </style>

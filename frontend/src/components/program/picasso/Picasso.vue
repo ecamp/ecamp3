@@ -460,7 +460,7 @@ export default {
     height: calc(100vh - 168px);
   }
 
-  ::v-deep {
+  :deep {
     .v-calendar-daily_head-day,
     .v-calendar-daily__day {
       min-width: 80px;
@@ -511,19 +511,19 @@ export default {
 }
 
 .ec-picasso-editable {
-  ::v-deep .v-event-timed {
+  :deep(.v-event-timed) {
     transition: transform 0.1s; /* Animation */
   }
 
-  ::v-deep .v-event-timed:hover {
+  :deep(.v-event-timed:hover) {
     transform: scale(
       1.02
     ); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
   }
 }
 
-.ec-picasso-editable ::v-deep,
-.ec-picasso ::v-deep {
+.ec-picasso-editable:deep,
+.ec-picasso:deep {
   .v-calendar-daily__day-container {
     width: initial;
   }
@@ -588,7 +588,7 @@ export default {
   letter-spacing: -0.1px;
 }
 
-::v-deep .v-calendar-daily_head-day-label {
+:deep(.v-calendar-daily_head-day-label) {
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -639,7 +639,7 @@ export default {
 }
 
 // temporary placeholder (crate new event)
-::v-deep .v-event-timed.v-event--temporary {
+:deep(.v-event-timed.v-event--temporary) {
   border-style: dashed !important;
   opacity: 0.8;
 }

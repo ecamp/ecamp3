@@ -83,7 +83,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.camp--name::v-deep .v-btn__content {
+.camp--name:deep(.v-btn__content) {
   width: 100%;
 }
 </style>

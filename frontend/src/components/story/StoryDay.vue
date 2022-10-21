@@ -117,7 +117,7 @@ export default {
 </script>
 
 <style scoped>
-::v-deep .v-skeleton-loader__list-item-three-line {
+:deep(.v-skeleton-loader__list-item-three-line) {
   padding: 0;
   height: auto;
 }
