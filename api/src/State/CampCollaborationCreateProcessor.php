@@ -2,21 +2,18 @@
 
 namespace App\State;
 
-use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProcessorInterface;
 use ApiPlatform\Validator\ValidatorInterface;
 use App\Entity\CampCollaboration;
 use App\Entity\MaterialList;
 use App\Repository\ProfileRepository;
 use App\Service\MailService;
+use App\State\Util\AbstractPersistProcessor;
 use App\Util\IdGenerator;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactoryInterface;
 
-class CampCollaborationCreateProcessor implements ProcessorInterface {
-    /**
-     * @throws \ReflectionException
-     */
+class CampCollaborationCreateProcessor extends AbstractPersistProcessor {
     public function __construct(
         private ProcessorInterface $decorated,
         private PasswordHasherFactoryInterface $passwordHasherFactory,
@@ -25,25 +22,13 @@ class CampCollaborationCreateProcessor implements ProcessorInterface {
         private MailService $mailService,
         private ValidatorInterface $validator
     ) {
-    }
-
-    /**
-     * @param CampCollaboration $data
-     *
-     * @return CampCollaboration
-     */
-    public function process($data, Operation $operation, array $uriVariables = [], array $context = []) {
-        $data = $this->beforeCreate($data);
-
-        $data = $this->decorated->process($data, $operation, $uriVariables, $context);
-
-        return $this->afterCreate($data);
+        parent::__construct($decorated);
     }
 
     /**
      * @param CampCollaboration $data
      */
-    public function beforeCreate($data): CampCollaboration {
+    public function onBefore($data): CampCollaboration {
         /** @var CampCollaboration $data */
         $inviteEmail = $data->user?->getEmail() ?? $data->inviteEmail;
         if (CampCollaboration::STATUS_INVITED == $data->status && $inviteEmail) {
@@ -63,7 +48,7 @@ class CampCollaborationCreateProcessor implements ProcessorInterface {
     /**
      * @param CampCollaboration $data
      */
-    public function afterCreate($data): void {
+    public function onAfter($data): void {
         $this->mailService->sendInviteToCampMail($data);
 
         $materialList = new MaterialList();
