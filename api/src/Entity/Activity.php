@@ -13,6 +13,8 @@ use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use App\InputFilter;
 use App\Repository\ActivityRepository;
+use App\State\ActivityCreateProcessor;
+use App\State\ActivityRemoveProcessor;
 use App\Validator\AssertBelongsToSameCamp;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -36,6 +38,7 @@ use Symfony\Component\Validator\Constraints as Assert;
             validationContext: ['groups' => ['Default', 'update']]
         ),
         new Delete(
+            processor: ActivityRemoveProcessor::class,
             security: 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)'
         ),
         new GetCollection(
@@ -43,6 +46,7 @@ use Symfony\Component\Validator\Constraints as Assert;
             security: 'is_authenticated()'
         ),
         new Post(
+            processor: ActivityCreateProcessor::class,
             validationContext: ['groups' => ['Default', 'create']],
             denormalizationContext: ['groups' => ['write', 'create']],
             normalizationContext: self::ITEM_NORMALIZATION_CONTEXT,
@@ -80,7 +84,7 @@ class Activity extends BaseEntity implements BelongsToCampInterface {
     )]
     #[ApiProperty(
         writableLink: true,
-        example: '[{ "period": "/periods/1a2b3c4a", "endOffset": 1100, "startOffset": 1000 }]',
+        example: '[{ "period": "/periods/1a2b3c4a",  "start": "2023-05-01T15:00:00+00:00", "end" => "2023-05-01T16:00:00+00:00" }]',
     )]
     #[Groups(['read', 'create'])]
     #[ORM\OneToMany(targetEntity: ScheduleEntry::class, mappedBy: 'activity', orphanRemoval: true, cascade: ['persist'])]

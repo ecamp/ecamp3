@@ -169,4 +169,12 @@ services:
                 # (e.g. period start '2021-01-01' in POST payload)
                 datetime_timezone: 'UTC'
 
+    App\State\ActivityCreateProcessor:
+        bind:
+            $decorated: '@api_platform.doctrine.orm.state.persist_processor'
+
+    App\State\ActivityRemoveProcessor:
+        bind:
+            $decorated: '@api_platform.doctrine.orm.state.remove_processor'
+
 
