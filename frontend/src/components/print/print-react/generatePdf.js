@@ -1,8 +1,5 @@
-import { mainThreadLoaderFor, renderPdf } from './renderPdf.js'
+import prepareInMainThread from './documents/campPrint/index.js'
 import cloneDeep from 'lodash/cloneDeep.js'
-
-// During prod build, force vite to bundle the required fonts
-const fonts = import.meta.glob('../../../assets/fonts/OpenSans/*.ttf') // eslint-disable-line no-unused-vars
 
 function browserSupportsWorkerType() {
   let supports = false
@@ -22,10 +19,7 @@ function browserSupportsWorkerType() {
 }
 
 export const generatePdf = async (data) => {
-  const prepareInMainThread = await mainThreadLoaderFor(data.config)
-  if (typeof prepareInMainThread === 'function') {
-    await prepareInMainThread(data.config)
-  }
+  await prepareInMainThread(data.config)
 
   const serializableData = prepareDataForSerialization(data)
 
@@ -36,14 +30,17 @@ export const generatePdf = async (data) => {
 
   if (data.renderInWorker && workerSupported) {
     // eslint-disable-next-line no-undef
-    const instance = new ComlinkWorker(new URL('./renderPdf.worker.js', import.meta.url))
+    const instance = new ComlinkWorker(
+      new URL('./documents/campPrint/renderPdf.worker.js', import.meta.url)
+    )
     return await instance.renderPdfInWorker(serializableData)
   } else {
     // In Firefox, dynamic imports are only available in the main thread:
     // https://bugzilla.mozilla.org/show_bug.cgi?id=1540913
     // So we use dynamic imports if we are in the main thread, but static imports if we are in the worker.
-    const renderingDependencies = (await import('./renderingDependencies.js')).default
-    return await renderPdf(serializableData, renderingDependencies)
+    return await (
+      await import('./documents/campPrint/renderPdf.js')
+    ).renderPdf(serializableData)
   }
 }
 
