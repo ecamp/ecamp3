@@ -85,6 +85,7 @@ final class PreventAutomaticEmbeddingPropertyMetadataFactory implements Property
             $propertyMetadata->getSchema(),
             $propertyMetadata->isInitializable(),
             $propertyMetadata->getIris(),
+            $propertyMetadata->getGenId(),
             $propertyMetadata->getExtraProperties()
         );
     }

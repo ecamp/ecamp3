@@ -4,7 +4,7 @@
 
 namespace App\Serializer\Normalizer;
 
-use ApiPlatform\Core\Serializer\AbstractConstraintViolationListNormalizer;
+use ApiPlatform\Serializer\AbstractConstraintViolationListNormalizer;
 use App\Serializer\Normalizer\Error\TranslationInfoOfConstraintViolation;
 use App\Service\TranslateToAllLocalesService;
 use Doctrine\Common\Collections\ArrayCollection;
