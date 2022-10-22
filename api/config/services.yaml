@@ -118,6 +118,7 @@ services:
             - '%env(COOKIE_PREFIX)%'
 
     App\Security\ReCaptcha\ReCaptcha:
+        public: true # necessary to be able to mock ReCaptcha in the container in Api tests
         arguments:
             - '%env(RECAPTCHA_SECRET)%'
             - '@ReCaptcha\ReCaptcha'
@@ -126,8 +127,10 @@ services:
         public: true
         arguments:
             - '@Symfony\Component\Mailer\MailerInterface'
+            - '@translator'
             - "%env(FRONTEND_BASE_URL)%"
-            - "%env(MAIL_FROM)%"
+            - "%env(MAIL_FROM_EMAIL)%"
+            - "%env(MAIL_FROM_NAME)%"
 
     App\Service\TranslateToAllLocalesService:
         public: true

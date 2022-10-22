@@ -9,6 +9,7 @@
       "name": "Spaltenlayout"
     },
     "laThematicArea": {
+      "info": "Eine J+S Lageraktivität muss mindestens eines der aufgeführten Themen behandeln.{br}Erfasse, welche Themen in diesem Block behandelt werden.",
       "entity": {
         "option": {
           "campsiteAndSurroundings": {
@@ -40,15 +41,19 @@
       "name": "LA Themenbereich"
     },
     "material": {
+      "info": "Hier kannst du den Material-Bedarf für diesen Block erfassen.{br}Die Materiallisten kannst du im Menu 'Admin' verwalten.{br}Eine Zusammenstellung für den Einkauf findest du im Menu 'Material'.",
       "name": "Material"
     },
     "notes": {
+      "info": "Hier kannst du beliebige Notizen erfassen.{br}z.B. Ideen, Todo's, offene Fragen, Kontakte, ÖV-Verbindungen, usw.",
       "name": "Notizen"
     },
     "safetyConcept": {
+      "info": "Einige Blöcke erfordern, dass ihr euch Gedanken zu den Risiken macht. Hier könnt ihr diese Gedanken erfassen.{br}Haltet fest, welche Risiken ihr erkannt habt - und wie ihr diesen begegnen könnt.",
       "name": "Sicherheitskonzept"
     },
     "storyboard": {
+      "info": "Hier kannst du den Inhalt von diesem Block planen.{br}In der linken Spalte [Zeit] kannst du die Dauer der einzelnen Elemente erfassen.{br}In der rechten Spalte [Verantwortlich] kannst du Personen zuteilen.",
       "entity": {
         "section": {
           "fields": {
@@ -62,6 +67,7 @@
       "name": "Programmabschnitt"
     },
     "storycontext": {
+      "info": "Beschreibe, wie sich dieser Block in die Geschichte vom Lager einbettet.{br}Eine Zusammenstellung aller Geschichts-Elemente findest du im Menu 'Geschichte'.{br}Ihr könnt auch erst im Menu 'Geschichte' zuerst eine durchgängige Geschichte erarbeiten - so dass man den Block-Inhalt perfekt in die Geschichte einbetten kann.",
       "name": "Geschichte"
     }
   },
@@ -100,7 +106,6 @@
     },
     "category": {
       "fields": {
-        "activityType": "Typ",
         "color": "Farbe",
         "name": "Name",
         "numberingStyle": "Nummerierung",

@@ -158,7 +158,7 @@ export default {
   background: #c8ebfb;
 }
 
->>> .drag-and-drop-handle {
+:deep(.drag-and-drop-handle) {
   cursor: grab;
 }
 </style>

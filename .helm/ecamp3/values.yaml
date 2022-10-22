@@ -38,6 +38,18 @@ php:
     passphrase:
     privateKey:
     publicKey:
+  oauth:
+    google:
+      clientId: '889440431087-ueuhpadf2g7h5ucdke92mvfaf4l779m4.apps.googleusercontent.com'
+      clientSecret: 'HNaD1FNO-a1qliacIrIfcGqO'
+    pbsmidata:
+      clientId: '2a955efdaaac73f665b29ec182cd9a114db01675ced710a464d33d10f58be600'
+      clientSecret: '00a23e48bcb776d453b255428ffe810643db7155a9f3d743d7edf52eac400580'
+      baseUrl: 'https://pbs.puzzle.ch'
+    cevidb:
+      clientId: 'raT1QFf6TOQzpn3yVH-My6YLrmsvOrfMhYypxzjPMWk'
+      clientSecret: 'fTxMrzjBn3gPGg3eB0bNMmjRqg4ccs3_su7CaTXtljE'
+      baseUrl: 'https://cevi.puzzle.ch'
 
 caddy:
   image:

@@ -4,6 +4,7 @@
     :name="name"
     :vid="veeId"
     :rules="veeRules"
+    :required="required"
   >
     <v-checkbox
       v-bind="$attrs"
@@ -28,11 +29,12 @@
 <script>
 import { ValidationProvider } from 'vee-validate'
 import { formComponentPropsMixin } from '@/mixins/formComponentPropsMixin.js'
+import { formComponentMixin } from '@/mixins/formComponentMixin.js'
 
 export default {
   name: 'ECheckbox',
   components: { ValidationProvider },
-  mixins: [formComponentPropsMixin],
+  mixins: [formComponentPropsMixin, formComponentMixin],
   props: {
     value: { type: Boolean, required: false },
   },
@@ -40,12 +42,12 @@ export default {
 </script>
 
 <style scoped>
-[required] >>> label::after {
+[required]:deep(label::after) {
   content: '\a0*';
   font-size: 12px;
   color: #d32f2f;
 }
-[required] >>> .v-input--is-label-active label::after {
+[required]:deep(.v-input--is-label-active label::after) {
   color: gray;
 }
 </style>

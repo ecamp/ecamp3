@@ -33,3 +33,25 @@ export default {
   async fetch() {},
 }
 </script>
+
+<style scoped>
+ul.toc {
+  list-style: none;
+}
+
+/* needs implementation of https://bugs.chromium.org/p/chromium/issues/detail?id=740497
+ul.toc .toc-element a::after {
+  content: leader('.') " p. " target-counter(attr(href url), page);
+  float: right;
+}
+*/
+
+ul.toc:deep(.toc-element-level-1) {
+  margin-top: 25px;
+  font-weight: bold;
+}
+
+ul.toc:deep(.toc-element-level-2) {
+  margin-left: 25px;
+}
+</style>

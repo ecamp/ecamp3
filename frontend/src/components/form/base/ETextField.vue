@@ -6,12 +6,14 @@
     :name="name"
     :vid="veeId"
     :rules="veeRules"
+    :required="required"
     class="e-form-container"
   >
     <v-text-field
       ref="textField"
       v-bind="$attrs"
       :filled="filled"
+      :required="required"
       :hide-details="hideDetails"
       :error-messages="veeErrors.concat(errorMessages)"
       :label="label || name"
@@ -31,16 +33,22 @@
 <script>
 import { ValidationProvider } from 'vee-validate'
 import { formComponentPropsMixin } from '@/mixins/formComponentPropsMixin.js'
+import { formComponentMixin } from '@/mixins/formComponentMixin.js'
 
 export default {
   name: 'ETextField',
   components: { ValidationProvider },
-  mixins: [formComponentPropsMixin],
+  mixins: [formComponentPropsMixin, formComponentMixin],
   props: {
     type: {
       type: String,
       default: 'text',
     },
+  },
+  data() {
+    return {
+      preventValidationOnBlur: false,
+    }
   },
   computed: {
     inputListeners: function () {
@@ -53,15 +61,29 @@ export default {
         // override @input listener for correct handling of numeric values
         {
           input: function (value) {
+            vm.$data.preventValidationOnBlur = false
             if (vm.type === 'number') {
               vm.$emit('input', parseFloat(value))
             } else {
               vm.$emit('input', value)
             }
           },
+          blur: function () {
+            vm.$emit('blur')
+            if (vm.$data.preventValidationOnBlur) {
+              vm.$refs.validationProvider.reset()
+            }
+            vm.$data.preventValidationOnBlur = false
+          },
         }
       )
     },
+  },
+  mounted() {
+    this.preventValidationOnBlur =
+      'autofocus' in this.$attrs &&
+      'required' in this.$refs.validationProvider.$attrs &&
+      this.$refs.textField.value == ''
   },
   methods: {
     focus() {
@@ -72,12 +94,12 @@ export default {
 </script>
 
 <style scoped>
-[required] >>> label::after {
+[required]:deep(label::after) {
   content: '\a0*';
   font-size: 12px;
   color: #d32f2f;
 }
-[required] >>> .v-input--is-label-active label::after {
+[required]:deep(.v-input--is-label-active label::after) {
   color: gray;
 }
 </style>

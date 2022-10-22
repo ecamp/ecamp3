@@ -35,7 +35,7 @@ class UpdateUserTest extends ECampApiTestCase {
     public function testPatchUserIsAllowedForSelf() {
         $user = static::$fixtures['user1manager'];
         static::createClientWithCredentials()->request('PATCH', '/users/'.$user->getId(), ['json' => [
-            'password' => 'password',
+            'password' => 'passwordpassword',
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
@@ -53,7 +53,7 @@ class UpdateUserTest extends ECampApiTestCase {
             'violations' => [
                 [
                     'propertyPath' => 'password',
-                    'message' => 'This value is too short. It should have 8 characters or more.',
+                    'message' => 'This value is too short. It should have 12 characters or more.',
                 ],
             ],
         ]);

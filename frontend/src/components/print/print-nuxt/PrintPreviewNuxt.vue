@@ -1,7 +1,5 @@
 <template>
   <div style="position: relative">
-    <DownloadNuxtPdfButton :config="config" class="mb-3 float-left" />
-
     <v-btn
       class="ml-3 mb-3 float-left"
       color="primary"
@@ -36,12 +34,10 @@
 </template>
 
 <script>
-import DownloadNuxtPdfButton from '@/components/print/print-nuxt/DownloadNuxtPdfButton.vue'
-const PRINT_SERVER = window.environment.PRINT_SERVER
+const PRINT_URL = window.environment.PRINT_URL
 
 export default {
   name: 'PrintPreviewNuxt',
-  components: { DownloadNuxtPdfButton },
   props: {
     config: {
       type: Object,
@@ -59,9 +55,7 @@ export default {
       return this.$store.state.lang.language
     },
     url() {
-      return `${PRINT_SERVER}/?pagedjs=true&config=${encodeURIComponent(
-        JSON.stringify(this.config)
-      )}`
+      return `${PRINT_URL}/?config=${encodeURIComponent(JSON.stringify(this.config))}`
     },
   },
 }

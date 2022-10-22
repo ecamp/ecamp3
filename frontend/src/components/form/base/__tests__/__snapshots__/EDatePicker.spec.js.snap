@@ -2,7 +2,8 @@
 
 exports[`An EDatePicker in locale de looks like a date picker: pickerclosed 1`] = `
 <div data-app>
-     <div class="e-form-container">
+     <div class="e-form-container"
+          vee-rules>
           <div class="e-form-container"
                value="01.03.2020">
                <div class="v-input v-input--hide-details v-input--is-label-active v-input--is-dirty theme--light v-text-field v-text-field--single-line v-text-field--filled v-text-field--is-booted v-text-field--enclosed">
@@ -29,7 +30,8 @@ exports[`An EDatePicker in locale de looks like a date picker: pickerclosed 1`] 
 
 exports[`An EDatePicker in locale de looks like a date picker: pickeropen 1`] = `
 <div data-app>
-     <div class="e-form-container">
+     <div class="e-form-container"
+          vee-rules>
           <div class="e-form-container"
                value="01.03.2020">
                <div class="v-input v-input--hide-details v-input--is-label-active v-input--is-dirty theme--light v-text-field v-text-field--single-line v-text-field--filled v-text-field--is-booted v-text-field--enclosed">
@@ -337,7 +339,8 @@ exports[`An EDatePicker in locale de looks like a date picker: pickeropen 1`] = 
 
 exports[`An EDatePicker in locale en looks like a date picker: pickerclosed 1`] = `
 <div data-app>
-     <div class="e-form-container">
+     <div class="e-form-container"
+          vee-rules>
           <div class="e-form-container"
                value="03/01/2020">
                <div class="v-input v-input--hide-details v-input--is-label-active v-input--is-dirty theme--light v-text-field v-text-field--single-line v-text-field--filled v-text-field--is-booted v-text-field--enclosed">
@@ -364,7 +367,8 @@ exports[`An EDatePicker in locale en looks like a date picker: pickerclosed 1`] 
 
 exports[`An EDatePicker in locale en looks like a date picker: pickeropen 1`] = `
 <div data-app>
-     <div class="e-form-container">
+     <div class="e-form-container"
+          vee-rules>
           <div class="e-form-container"
                value="03/01/2020">
                <div class="v-input v-input--hide-details v-input--is-label-active v-input--is-dirty theme--light v-text-field v-text-field--single-line v-text-field--filled v-text-field--is-booted v-text-field--enclosed">

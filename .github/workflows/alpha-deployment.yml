@@ -121,6 +121,14 @@ jobs:
             --set php.jwt.passphrase='${{ secrets.JWT_PASSPHRASE }}' \
             --set php.jwt.publicKey='${{ secrets.JWT_PUBLIC_KEY }}' \
             --set php.jwt.privateKey='${{ secrets.JWT_PRIVATE_KEY }}' \
+            --set php.oauth.google.clientId='${{ secrets.OAUTH_GOOGLE_CLIENT_ID }}' \
+            --set php.oauth.google.clientSecret='${{ secrets.OAUTH_GOOGLE_CLIENT_SECRET }}' \
+            --set php.oauth.pbsmidata.clientId='${{ secrets.OAUTH_PBSMIDATA_CLIENT_ID }}' \
+            --set php.oauth.pbsmidata.clientSecret='${{ secrets.OAUTH_PBSMIDATA_CLIENT_SECRET }}' \
+            --set php.oauth.pbsmidata.baseUrl='${{ secrets.OAUTH_PBSMIDATA_BASE_URL }}' \
+            --set php.oauth.cevidb.clientId='${{ secrets.OAUTH_CEVIDB_CLIENT_ID }}' \
+            --set php.oauth.cevidb.clientSecret='${{ secrets.OAUTH_CEVIDB_CLIENT_SECRET }}' \
+            --set php.oauth.cevidb.baseUrl='${{ secrets.OAUTH_CEVIDB_BASE_URL }}' \
             --set frontend.sentryDsn='${{ secrets.FRONTEND_SENTRY_DSN }}' \
             --set print.sentryDsn='${{ secrets.PRINT_SENTRY_DSN }}' \
             --set deploymentTime="$(date -u +%s)" \

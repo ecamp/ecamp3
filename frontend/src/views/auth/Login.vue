@@ -1,6 +1,6 @@
 <template>
   <auth-container>
-    <h1 class="display-1 text-center">{{ $tc('views.auth.login.title') }}</h1>
+    <h1 class="display-1 text-center">{{ $tc('global.button.login') }}</h1>
 
     <v-alert
       class="mt-2 text-justify"
@@ -20,6 +20,7 @@
       <e-text-field
         id="inputEmail"
         v-model="email"
+        vee-rules="email|required"
         autofocus
         :label="$tc('views.auth.login.email')"
         name="email"
@@ -32,6 +33,7 @@
         id="inputPassword"
         v-model="password"
         :label="$tc('views.auth.login.password')"
+        vee-rules="required"
         name="password"
         append-icon="mdi-lock-outline"
         :dense="$vuetify.breakpoint.xsOnly"

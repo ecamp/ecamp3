@@ -1,66 +1,75 @@
 <template>
-  <div :class="landscape ? 'landscape tw-break-after-page' : 'tw-break-after-page'">
-    <h1
-      :id="`content_${index}_period_${period.id}`"
-      class="tw-text-2xl tw-font-bold tw-mb-6"
-    >
-      {{ $tc('print.picasso.title') }} {{ $tc('entity.period.name') }}
-      {{ period.description }}
-    </h1>
-
-    <v-sheet :width="landscape ? 960 : 680">
-      <v-calendar
-        ref="calendar"
-        :events="events"
-        event-start="startTimestamp"
-        event-end="endTimestamp"
-        :event-color="getActivityColor"
-        :start="start"
-        :end="end"
-        type="custom-daily"
-        event-overlap-mode="column"
-        first-interval="0"
-        interval-count="24"
-        :interval-height="landscape ? 22 : 35"
-        interval-width="46"
-        event-text-color="black"
-        :locale="$i18n.locale"
-        :interval-format="intervalFormat"
-        :day-format="dayFormat"
-        :weekday-format="weekdayFormat"
+  <div class="tw-break-after-page">
+    <div :class="landscape ? 'landscape' : ''">
+      <h1
+        :id="`content_${index}_period_${period.id}`"
+        class="tw-text-2xl tw-font-bold tw-mb-6"
       >
-        <!-- day header -->
-        <template #day-label-header="{ date }">
-          <span class="tw-block">
-            {{ $date.utc(date).format($tc('global.datetime.dateLong')) }}
-          </span>
+        {{ $tc('print.picasso.title') }} {{ $tc('entity.period.name') }}
+        {{ period.description }}
+      </h1>
 
-          <span v-if="hasDayResponsibles(date)" class="tw-text-sm tw-italic">
-            {{ $tc('entity.day.fields.dayResponsibles') }}:
-            {{ dayResponsiblesCommaSeparated(date) }}
-          </span>
-        </template>
+      <v-sheet :width="landscape ? 960 : 680">
+        <v-calendar
+          ref="calendar"
+          :events="events"
+          event-start="startTimestamp"
+          event-end="endTimestamp"
+          :event-color="getActivityColor"
+          :start="start"
+          :end="end"
+          type="custom-daily"
+          event-overlap-mode="column"
+          first-interval="0"
+          interval-count="24"
+          :interval-height="landscape ? 22 : 35"
+          interval-width="46"
+          event-text-color="black"
+          :locale="$i18n.locale"
+          :interval-format="intervalFormat"
+          :day-format="dayFormat"
+          :weekday-format="weekdayFormat"
+        >
+          <!-- day header -->
+          <template #day-label-header="{ date }">
+            <span class="tw-block">
+              {{ $date.utc(date).format($tc('global.datetime.dateLong')) }}
+            </span>
 
-        <template #event="{ event }">
-          <div class="tw-float-left tw-text-xs tw-font-weight-medium">
-            <!-- link jumps to first instance of scheduleEntry within the document -->
-            <a :href="`#scheduleEntry_${event.id}`">
-              ({{ event.number }})&nbsp; {{ event.activity().category().short }}:&nbsp;
-              {{ event.activity().title }}
-            </a>
-          </div>
-          <span class="tw-float-right tw-text-xs tw-italic ml-1">{{
-            activityResponsiblesCommaSeparated(event)
-          }}</span>
-        </template>
-      </v-calendar>
-    </v-sheet>
+            <span v-if="hasDayResponsibles(date)" class="tw-text-sm tw-italic">
+              {{ $tc('entity.day.fields.dayResponsibles') }}:
+              {{ dayResponsiblesCommaSeparated(date) }}
+            </span>
+          </template>
+
+          <template #event="{ event }">
+            <div class="tw-float-left tw-text-xs tw-font-weight-medium">
+              <!-- link jumps to first instance of scheduleEntry within the document -->
+              <a
+                :href="`#scheduleEntry_${event.id}`"
+                :style="{ color: getActivityTextColor(event) }"
+              >
+                ({{ event.number }})&nbsp; {{ event.activity().category().short }}:&nbsp;
+                {{ event.activity().title }}
+              </a>
+            </div>
+            <span
+              class="tw-float-right tw-text-xs tw-italic ml-1"
+              :style="{ color: getActivityTextColor(event) }"
+            >
+              {{ activityResponsiblesCommaSeparated(event) }}
+            </span>
+          </template>
+        </v-calendar>
+      </v-sheet>
+    </div>
   </div>
 </template>
 
 <script>
 import { activityResponsiblesCommaSeparated } from '@/../common/helpers/activityResponsibles.js'
 import { dayResponsiblesCommaSeparated } from '@/../common/helpers/dayResponsibles.js'
+import { parseHexColor, contrastColor } from '@/../common/helpers/colors.js'
 
 export default {
   props: {
@@ -74,6 +83,10 @@ export default {
   methods: {
     getActivityColor(scheduleEntry) {
       return scheduleEntry.activity().category().color
+    },
+    getActivityTextColor(scheduleEntry) {
+      const color = this.getActivityColor(scheduleEntry)
+      return contrastColor(...parseHexColor(color))
     },
     intervalFormat(time) {
       return this.$date

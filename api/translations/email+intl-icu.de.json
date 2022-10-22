@@ -1,0 +1,14 @@
+{
+    "inviteToCamp": {
+        "subject": "Du wurdest ins Lager {campName} eingeladen"
+    },
+    "userActivation": {
+        "subject": "Willkommen bei eCamp3"
+    },
+    "passwordReset": {
+        "subject": "[eCamp3] Passwort zurücksetzen"
+    },
+    "emailVerification": {
+        "subject": "[eCamp3] E-Mail-Adresse verifizieren"
+    }
+}

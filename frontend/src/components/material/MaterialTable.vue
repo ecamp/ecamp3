@@ -197,6 +197,7 @@ import ScheduleEntryLinks from './ScheduleEntryLinks.vue'
 import ServerErrorContent from '@/components/form/ServerErrorContent.vue'
 import ButtonRetry from '@/components/buttons/ButtonRetry.vue'
 import ButtonCancel from '@/components/buttons/ButtonCancel.vue'
+import { errorToMultiLineToast } from '@/components/toast/toasts'
 
 export default {
   name: 'MaterialTable',
@@ -358,7 +359,9 @@ export default {
   methods: {
     // remove existing item
     deleteMaterialItem(materialItem) {
-      this.api.del(materialItem.uri)
+      this.api
+        .del(materialItem.uri)
+        .catch((e) => this.$toast.error(errorToMultiLineToast(e)))
     },
 
     // add new item to list & save to API
@@ -412,19 +415,19 @@ export default {
 </script>
 
 <style scoped>
-.v-data-table >>> .v-data-table__wrapper th {
+.v-data-table:deep(.v-data-table__wrapper th) {
   padding: 0 2px;
 }
-.v-data-table >>> .v-data-table__wrapper td {
+.v-data-table:deep(.v-data-table__wrapper td) {
   padding: 0 2px;
 }
 
-.v-data-table >>> .v-data-table__wrapper tr.readonly td,
-.v-data-table >>> .v-data-table__wrapper tr.new td {
+.v-data-table:deep(.v-data-table__wrapper tr.readonly td),
+.v-data-table:deep(.v-data-table__wrapper tr.new td) {
   padding-left: 10px;
 }
 
-.v-data-table >>> tr.new {
+.v-data-table:deep(tr.new) {
   animation: backgroundHighlight 2s;
 }
 

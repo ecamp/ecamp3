@@ -10,20 +10,25 @@ use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class MailService {
+    public const TRANSLATE_DOMAIN = 'email';
+
     public function __construct(
         private MailerInterface $mailer,
+        private readonly TranslatorInterface $translator,
         private string $frontendBaseUrl,
-        private string $mailFrom,
+        private string $senderEmail,
+        private string $senderName = ''
     ) {
     }
 
     public function sendInviteToCampMail(User $byUser, Camp $camp, string $key, string $emailToInvite): void {
         $email = (new TemplatedEmail())
-            ->from($this->mailFrom)
+            ->from(new Address($this->senderEmail, $this->senderName))
             ->to(new Address($emailToInvite))
-            ->subject("You were invited to collaborate in camp {$camp->name}")
+            ->subject($this->translator->trans('inviteToCamp.subject', ['campName' => $camp->name], self::TRANSLATE_DOMAIN, $byUser->profile->language))
             ->htmlTemplate($this->getTemplate('emails/campCollaborationInvite.{language}.html.twig', $byUser))
             ->textTemplate($this->getTemplate('emails/campCollaborationInvite.{language}.text.twig', $byUser))
             ->context([
@@ -42,9 +47,9 @@ class MailService {
 
     public function sendUserActivationMail(User $user, string $key): void {
         $email = (new TemplatedEmail())
-            ->from($this->mailFrom)
+            ->from(new Address($this->senderEmail, $this->senderName))
             ->to(new Address($user->getEmail()))
-            ->subject('Welcome to eCamp3')
+            ->subject($this->translator->trans('userActivation.subject', [], self::TRANSLATE_DOMAIN, $user->profile->language))
             ->htmlTemplate($this->getTemplate('emails/userActivation.{language}.html.twig', $user))
             ->textTemplate($this->getTemplate('emails/userActivation.{language}.text.twig', $user))
             ->context([
@@ -62,9 +67,9 @@ class MailService {
 
     public function sendPasswordResetLink(User $user, ResetPassword $data): void {
         $email = (new TemplatedEmail())
-            ->from($this->mailFrom)
+            ->from(new Address($this->senderEmail, $this->senderName))
             ->to(new Address($user->getEmail()))
-            ->subject('eCamp3 :: Password reset')
+            ->subject($this->translator->trans('passwordReset.subject', [], self::TRANSLATE_DOMAIN, $user->profile->language))
             ->htmlTemplate($this->getTemplate('emails/passwordResetLink.{language}.html.twig', $user))
             ->textTemplate($this->getTemplate('emails/passwordResetLink.{language}.text.twig', $user))
             ->context([
@@ -82,9 +87,9 @@ class MailService {
 
     public function sendEmailVerificationMail(User $user, Profile $data): void {
         $email = (new TemplatedEmail())
-            ->from($this->mailFrom)
+            ->from(new Address($this->senderEmail, $this->senderName))
             ->to(new Address($data->untrustedEmail))
-            ->subject('eCamp3 :: Verify E-Mail-Adress')
+            ->subject($this->translator->trans('emailVerification.subject', [], self::TRANSLATE_DOMAIN, $user->profile->language))
             ->htmlTemplate($this->getTemplate('emails/verifyMailAdress.{language}.html.twig', $user))
             ->textTemplate($this->getTemplate('emails/verifyMailAdress.{language}.text.twig', $user))
             ->context([

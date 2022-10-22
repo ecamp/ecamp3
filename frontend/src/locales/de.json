@@ -2,6 +2,12 @@
   "components": {
     "activity": {
       "content": {
+        "columnLayout": {
+          "resizableColumn": {
+            "addColumn": "Spalte hinzufügen",
+            "removeColumn": "Leere Spalte entfernen"
+          }
+        },
         "storyboard": {
           "section": {
             "deleteWarning": "Möchtest du diesen Abschnitt wirklich löschen?"
@@ -20,6 +26,9 @@
           "start": "Start"
         },
         "name": "Geplante Termine"
+      },
+      "menuCardlessContentNode": {
+        "deletingDisabled": "Muss leer sein zum Löschen"
       }
     },
     "camp": {
@@ -91,8 +100,11 @@
         "campSettingsButton": "Einstellungen",
         "noMaterialListAvailable": "Für dieses Lager sind noch keine Materiallisten erfasst. Du kannst diese unter 'Admin' erfassen."
       },
+      "periodMaterialLists": {
+        "addNewItem": "Eintrag hinzufügen"
+      },
       "periodSwitcher": {
-        "title": "Lagerabschnitt"
+        "title": "Lagerabschnitt wählen"
       },
       "picasso": {
         "datetime": {
@@ -108,6 +120,9 @@
         "title": "Wirklich löschen?",
         "warningText": "Möchtest du das wirklich löschen?"
       },
+      "dialogMaterialItemCreate": {
+        "title": "Materialeintrag erstellen"
+      },
       "dialogMaterialListCreate": {
         "title": "Materialliste erstellen"
       },
@@ -118,12 +133,21 @@
         "moveScheduleEntries": "Aktivitäten verschieben"
       }
     },
+    "generic": {
+      "lockIcon": {
+        "guestsCannotEdit": "Gäste haben keinen Bearbeitungszugriff"
+      }
+    },
     "invitation": {
+      "acceptCurrentAuth": "Einladung mit aktuellem Account akzeptieren",
+      "backToHome": "Zurück zur Startseite",
+      "error": "Ein unerwarteter Fehler ist aufgetreten",
       "notFound": "Die Einladung wurde bereits angenommen oder gelöscht",
       "openCamp": "Lager öffnen",
       "register": "Registrieren",
       "reject": "Einladung ablehnen",
       "successfullyRejected": "Die Einladung wurde erfolgreich abgelehnt",
+      "title": "Einladung zum Lager \"{campName}\"",
       "useOtherAuth": "Ausloggen und einen anderen Account benutzen",
       "userAlreadyInCamp": "Du arbeitest schon an diesem Lager mit",
       "userWelcome": "Willkommen"
@@ -134,10 +158,6 @@
       }
     },
     "navigation": {
-      "searchMobile": {
-        "allCamps": "Alle Lager",
-        "searchActivitiesAndCamps": "Aktivitäten und Lager suchen"
-      },
       "userMeta": {
         "logOut": "Ausloggen",
         "myCamps": "Mein Lager | Meine Lager",
@@ -172,17 +192,22 @@
       "printNuxt": {
         "downloadNuxtPdfListItem": {
           "error": "Etwas hat nicht geklappt. Probiere es nochmals, oder lade die Seite neu.",
-          "label": "PDF herunterladen"
+          "label": "PDF herunterladen (Layout #1)"
         }
       },
       "printPreviewNuxt": {
         "openPreview": "Vorschau in neuem Fenster öffnen"
       },
       "printReact": {
-        "downloadNuxtPdfListItem": {
+        "downloadReactPdfListItem": {
           "error": "Etwas hat nicht geklappt. Probiere es nochmals, oder lade die Seite neu.",
-          "label": "PDF herunterladen"
+          "label": "PDF herunterladen (Layout #2)"
         }
+      }
+    },
+    "toast": {
+      "multiLineToast": {
+        "generalError": "Ein Fehler ist aufgetreten."
       }
     },
     "user": {
@@ -226,6 +251,7 @@
       "edit": "Bearbeiten",
       "editable": "Bearbeitbar",
       "lock": "Sperren",
+      "login": "Anmelden",
       "logout": "Ausloggen",
       "ok": "In Ordnung",
       "open": "Öffnen",
@@ -238,11 +264,8 @@
       "update": "Aktualisieren"
     },
     "changeLanguage": "Sprache ändern",
-    "empty": {
-      "result": "Kein Resultat | Keine Resultate",
-      "resultFor": "Kein Resultat für {search} | Keine Resultate für {search}"
-    },
     "language": "Deutsch",
+    "loading": "Laden …",
     "lokaliseMessage": "Übersetzungen unterstützt durch lokalise.com",
     "serverError": {
       "409": "Uuuups... Diese Aktion hat zu einem Fehler auf dem Server geführt.",
@@ -250,13 +273,13 @@
     },
     "validation": {
       "greaterThanOrEqual_date": "{_field_} darf nicht vor {min} liegen",
-      "greaterThan_time": "{_field_} muss später als {min} sein",
-      "pwConfirmed": "Passwort stimmt nicht überein"
+      "greaterThan_time": "{_field_} muss später als {min} sein"
     }
   },
   "views": {
     "activity": {
       "activity": {
+        "backToContents": "Zurück zum Bearbeiten des Inhalts",
         "changeLayout": "Layout ändern",
         "layout": "Layout"
       },
@@ -268,7 +291,9 @@
     },
     "auth": {
       "activate": {
-        "error": "Aktivierung fehlgeschlagen"
+        "error": "Aktivierung fehlgeschlagen",
+        "success": "Account erfolgreich aktiviert",
+        "title": "Dein Account wird aktiviert"
       },
       "login": {
         "accountless": "Hast du noch keinen Account?",
@@ -288,26 +313,22 @@
           "google": "Anmelden mit Google",
           "midata": "Anmelden mit MiData"
         },
-        "registernow": "Jetzt registrieren",
-        "title": "Anmelden"
+        "registernow": "Jetzt registrieren"
       },
       "register": {
         "acceptTermsOfUse": "Akzeptieren Sie die Nutzungsbedingungen",
         "alreadyHaveAnAccount": "Haben Sie bereits ein Konto?",
-        "login": "Anmelden",
         "passwordConfirmation": "Passwort erneut eingeben",
         "register": "Registrieren",
         "requiredField": "Pflichtfelder",
         "title": "Ein Konto erstellen"
       },
       "registerDone": {
-        "login": "Anmelden",
         "message": "Wir haben dir eine Mail geschickt. Bitte schliesse die Registrierung ab, in dem du den Aktivierungs-Link im Mail aufrufst.",
         "success": "Erfolgreich registriert",
         "title": "Konto erstellen"
       },
       "resetPassword": {
-        "back": "Zurück zum Login",
         "errorMessage": "Passwort konnte nicht geändert werden.",
         "invalidRequest": "Ungültiger Link",
         "password": "Neues Passwort",
@@ -317,7 +338,6 @@
         "title": "Neues Passwort setzen"
       },
       "resetPasswordRequest": {
-        "back": "Zurück zum Login",
         "errorMessage": "Passwort zurücksetzen nicht möglich.",
         "send": "Abschicken",
         "successMessage": "Mail mit Link für 'Passwort zurücksetzen' wird versendet.",
@@ -388,12 +408,13 @@
       },
       "picasso": {
         "editMode": "Editiermodus",
+        "guestsCannotEdit": "Gäste können das Grobprogramm nicht bearbeiten",
         "title": "Grobprogramm"
       },
       "print": {
         "previewError": "Etwas hat nicht geklappt. Probiere es nochmals mit anderen Druckeinstellungen, oder lade die Seite neu.",
         "previewIframeTitle": "Druckvorschau",
-        "title": "Druckvorschau"
+        "title": "Lager drucken"
       },
       "story": {
         "title": "Geschichte"

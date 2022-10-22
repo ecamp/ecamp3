@@ -10,6 +10,7 @@
       "name": "Column layout"
     },
     "laThematicArea": {
+      "info": "A Y+S camp activity must address at least one of the listed topics.{br}Select what topics are covered in this block.",
       "entity": {
         "option": {
           "campsiteAndSurroundings": {
@@ -43,17 +44,21 @@
     },
     "material": {
       "icon": "mdi-package-variant",
+      "info": "Here you can enter the material requirements for this block.{br}You can manage the material lists in the menu 'Admin'.{br}You can find a summary for the purchase in the menu 'Material'.",
       "name": "Material"
     },
     "notes": {
       "icon": "mdi-pen",
+      "info": "Here you can enter any notes.{br}e.g. ideas, todo's, open questions, contacts, public transport connections, etc.",
       "name": "Notes"
     },
     "safetyConcept": {
       "icon": "mdi-security",
+      "info": "Some blocks require to think about the risks. Here you can record these thoughts.{br}Record what risks you have identified - and how you can address them.",
       "name": "Safety concept"
     },
     "storyboard": {
+      "info": "Here you can plan the content of this block.{br}In the left column [Time] you can record the duration of the individual elements.{br}In the right column [Responsible] you can assign persons.",
       "entity": {
         "section": {
           "fields": {
@@ -69,6 +74,7 @@
     },
     "storycontext": {
       "icon": "mdi-book-open-variant",
+      "info": "Describe how this block fits into the story of the camp.{br}You can find a summary of all story elements in the menu 'Story'.{br}You can also first work out a continuous story in the 'Story' menu - so that you can perfectly embed the block content into the story.",
       "name": "Story"
     }
   },
@@ -107,7 +113,6 @@
     },
     "category": {
       "fields": {
-        "activityType": "Type",
         "color": "Color",
         "name": "Name",
         "numberingStyle": "Numbering style",

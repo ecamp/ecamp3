@@ -131,6 +131,7 @@ import ApiSortable from '@/components/form/api/ApiSortable.vue'
 import DialogRemoveSection from './StoryboardDialogRemoveSection.vue'
 
 import { v4 as uuidv4 } from 'uuid'
+import { errorToMultiLineToast } from '@/components/toast/toasts'
 
 export default {
   name: 'Storyboard',
@@ -185,7 +186,7 @@ export default {
           },
         })
       } catch (error) {
-        console.log(error) // TO DO: display error message in error snackbar/toast
+        this.$toast.error(errorToMultiLineToast(error))
       }
 
       this.isAdding = false
@@ -199,7 +200,7 @@ export default {
           },
         })
       } catch (error) {
-        console.log(error) // TO DO: display error message in error snackbar/toast
+        this.$toast.error(errorToMultiLineToast(error))
       }
     },
   },

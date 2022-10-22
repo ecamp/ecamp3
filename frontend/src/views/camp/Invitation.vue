@@ -5,7 +5,7 @@
     </div>
     <div v-else-if="invitationFound === true">
       <h1 class="display-1">
-        {{ $tc('components.invitation.title') }} "{{ invitation().campTitle }}"
+        {{ $tc('components.invitation.title', 0, { campName: invitation().campTitle }) }}
       </h1>
 
       <v-spacer />
@@ -35,7 +35,7 @@
       </div>
       <div v-else>
         <v-btn color="primary" x-large class="my-4" block :to="loginLink">
-          {{ $tc('components.invitation.login') }}
+          {{ $tc('global.button.login') }}
         </v-btn>
         <v-btn color="primary" x-large class="my-4" block :to="{ name: 'register' }">
           {{ $tc('components.invitation.register') }}
@@ -60,6 +60,7 @@
 import AuthContainer from '@/components/layout/AuthContainer.vue'
 import { loginRoute } from '@/router'
 import VueRouter from 'vue-router'
+import { errorToMultiLineToast } from '@/components/toast/toasts'
 
 const { isNavigationFailure, NavigationFailureType } = VueRouter
 const ignoreNavigationFailure = (e) => {
@@ -135,6 +136,7 @@ export default {
               .catch(ignoreNavigationFailure)
           }
         )
+        .catch((e) => this.$toast.error(errorToMultiLineToast(e)))
     },
     rejectInvitation() {
       this.api
@@ -155,6 +157,7 @@ export default {
               .catch(ignoreNavigationFailure)
           }
         )
+        .catch((e) => this.$toast.error(errorToMultiLineToast(e)))
     },
   },
 }

@@ -14,8 +14,9 @@ import {
 } from './plugins'
 import { store } from './plugins/store'
 import { vuetify } from './plugins/vuetify'
-import VueCompositionAPI from '@vue/composition-api'
 import * as Sentry from '@sentry/vue'
+import Toast from 'vue-toastification'
+import 'vue-toastification/dist/index.css'
 
 import { Resize } from 'vuetify/lib/directives'
 
@@ -38,7 +39,9 @@ Vue.use(veeValidate)
 Vue.use(storeLoader)
 Vue.use(vuetifyLoader)
 Vue.use(dayjs)
-Vue.use(VueCompositionAPI)
+Vue.use(Toast, {
+  maxToasts: 2,
+})
 
 // manually importing necessary vuetify directives (there's no auomatic vuetify-loader for vitejs)
 Vue.directive('resize', Resize)

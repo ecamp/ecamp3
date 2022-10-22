@@ -385,8 +385,8 @@ function getContentLayout(route) {
     case 'camp/period/program':
       return 'full'
     case 'camp/admin':
-      return 'wide'
     case 'camp/print':
+    case 'camp/material':
       return 'wide'
     default:
       return 'normal'

@@ -3,7 +3,14 @@
     {{ $tc('entity.period.name') }} {{ period.description }}
 
     <ul>
-      <toc-program-day v-for="day in days" :key="day.id" :day="day" :index="index" />
+      <generic-error-message v-if="$fetchState.error" :error="$fetchState.error" />
+      <toc-program-day
+        v-for="day in days"
+        v-else
+        :key="day.id"
+        :day="day"
+        :index="index"
+      />
     </ul>
   </li>
 </template>

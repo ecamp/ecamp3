@@ -3,48 +3,26 @@
     <template #title-actions>
       <period-switcher :period="period" :route-name="'camp/period/story'" />
       <v-spacer />
-      <template v-if="$vuetify.breakpoint.smAndUp">
-        <e-switch
-          v-model="editing"
-          :disabled="!isContributor"
-          :label="$tc('global.button.editable')"
-          class="ec-story-editable ml-auto"
-          @click="$event.preventDefault()"
-        />
-      </template>
-      <v-menu v-else offset-y>
+      <LockIcon v-model="editing" :hide-tooltip="isContributor" />
+      <v-menu offset-y>
         <template #activator="{ on, attrs }">
           <v-btn class="ml-auto" text icon v-bind="attrs" v-on="on">
             <v-icon>mdi-dots-vertical</v-icon>
           </v-btn>
         </template>
-        <v-list>
-          <v-list-item :href="previewUrl">
-            <v-list-item-icon>
-              <v-icon>mdi-printer</v-icon>
-            </v-list-item-icon>
-            <v-list-item-content>
-              {{ $tc('views.camp.print.title') }}
-            </v-list-item-content>
-          </v-list-item>
-          <v-list-item>
-            <e-switch
-              v-model="editing"
-              :label="$tc('global.button.editable')"
-              class="ec-story-editable"
-              @click.stop="$event.preventDefault()"
-            />
-          </v-list-item>
+        <v-list class="py-0">
+          <LockUnlockListItem
+            v-model="editing"
+            :disabled="!isContributor"
+            @click="editing = !editing"
+          />
+          <v-divider />
+          <DownloadNuxtPdf :config="printConfig" />
+          <DownloadReactPdf :config="printConfig" />
         </v-list>
       </v-menu>
     </template>
     <story-period :editing="editing" :period="period()" />
-    <v-card-actions v-if="$vuetify.breakpoint.smAndUp">
-      <v-btn :href="previewUrl" class="ml-auto" color="primary" target="_blank">
-        <v-icon left>mdi-printer</v-icon>
-        {{ $tc('views.camp.print.title') }}
-      </v-btn>
-    </v-card-actions>
   </content-card>
 </template>
 
@@ -52,14 +30,20 @@
 import ContentCard from '@/components/layout/ContentCard.vue'
 import StoryPeriod from '@/components/story/StoryPeriod.vue'
 import { campRoleMixin } from '@/mixins/campRoleMixin'
-
-const PRINT_SERVER = window.environment.PRINT_SERVER
+import DownloadNuxtPdf from '@/components/print/print-nuxt/DownloadNuxtPdfListItem.vue'
+import DownloadReactPdf from '@/components/print/print-react/DownloadReactPdfListItem.vue'
+import LockIcon from '@/components/generic/LockIcon.vue'
+import LockUnlockListItem from '@/components/generic/LockUnlockListItem.vue'
 
 export default {
   name: 'Story',
   components: {
     StoryPeriod,
     ContentCard,
+    DownloadReactPdf,
+    DownloadNuxtPdf,
+    LockIcon,
+    LockUnlockListItem,
   },
   mixins: [campRoleMixin],
   props: {
@@ -72,21 +56,29 @@ export default {
     }
   },
   computed: {
-    previewUrl() {
-      const config = {
-        showStoryline: true,
+    printConfig() {
+      return {
+        camp: this.camp()._meta.self,
+        language: this.$store.state.lang.language,
+        documentName: this.camp().title + '-StorySummary.pdf',
+        contents: [
+          {
+            type: 'Story',
+            options: {
+              periods: this.camp()
+                .periods()
+                .items.map((period) => period._meta.self),
+            },
+          },
+        ],
       }
-      const configGetParams = Object.entries(config)
-        .map(([key, val]) => `${key}=${val}`)
-        .join('&')
-      return `${PRINT_SERVER}/?camp=${this.camp().id}&pagedjs=true&${configGetParams}`
     },
   },
 }
 </script>
 
 <style lang="scss" scoped>
-.ec-story-editable ::v-deep .v-input--selection-controls {
+.ec-story-editable:deep(.v-input--selection-controls) {
   margin-top: 0;
 }
 </style>
