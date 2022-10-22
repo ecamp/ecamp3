@@ -4,57 +4,54 @@ Admin screen of a camp: Displays details & periods of a single camp and allows t
 
 <template>
   <content-card :title="camp().title" toolbar>
-    <v-card-text>
-      {{ $tc('views.camp.dashboard.viewDescription', 1, { title: camp().title }) }}
-    </v-card-text>
 
-    <v-skeleton-loader v-if="loading" type="article" />
+    <template #title>
 
-    <v-card-text>
-      <ETextField
-        v-model="filter.title"
-        placeholder="Titel"
-        rounded
-        outlined
-      />
-      <div class="d-flex my-2" style="gap: 0.5rem; overflow-x: scroll">
-        <ESelect
-          outlined
+      <v-card-text>
+        <ETextField
+          v-model="filter.title"
+          placeholder="Aktivitäten suchen"
           rounded
-          v-model="filter.collaborator"
-          placeholder="Collaborator"
-          multiple
-          dense
-          :items="['Forte', 'Linux', 'Smiley', 'Olippo', 'Cosinus', 'Ikarus']"
-          chips
+          outlined
         />
-        <div></div>
-        <ESelect
-          outlined
-          rounded
-          v-model="filter.category"
-          placeholder="Category"
-          multiple
-          dense
-          :items="['LS', 'LA', 'TABS', 'ES']"
-          chips
-        />
-        <div></div>
-        <ESelect
-          outlined
-          rounded
-          v-model="filter.period"
-          placeholder="Period"
-          multiple
-          dense
-          :items="['Vorlager', 'Hauptlager']"
-        />
-        <div></div>
-        <v-btn
-          rounded
-          outlined
-          elevation="4"
-          @click="
+        <div class="d-flex my-2" style="gap: 0.5rem; overflow-x: scroll">
+          <ESelect
+            outlined
+            rounded
+            v-model="filter.collaborator"
+            placeholder="Collaborator"
+            multiple
+            dense
+            :items="[{text: 'Alle', value: ''}, 'Forte', 'Linux', 'Smiley', 'Olippo', 'Cosinus', 'Ikarus']"
+            chips
+          />
+          <div></div>
+          <ESelect
+            outlined
+            rounded
+            v-model="filter.category"
+            placeholder="Category"
+            multiple
+            dense
+            :items="['LS', 'LA', 'TABS', 'ES']"
+            chips
+          />
+          <div></div>
+          <ESelect
+            outlined
+            rounded
+            v-model="filter.period"
+            placeholder="Period"
+            multiple
+            dense
+            :items="[{text: 'Alle', value: ''}, {text:'Vorlager', value:'Vorlager'}, {text: 'Hauptlager', value: 'Hauptlager'}]"
+          />
+          <div></div>
+          <v-btn
+            rounded
+            outlined
+            elevation="4"
+            @click="
             filter = {
               period: '',
               days: '',
@@ -63,9 +60,17 @@ Admin screen of a camp: Displays details & periods of a single camp and allows t
               title: '',
             }
           "
-        >Reset filters<v-icon small right>mdi-filter-remove</v-icon></v-btn
-        >
-      </div>
+          >Reset filters<v-icon small right>mdi-filter-remove</v-icon></v-btn
+          >
+        </div>
+      </v-card-text>
+    </template>
+    <v-card-text>
+      {{ $tc('views.camp.dashboard.viewDescription', 1, { title: camp().title }) }}
+    </v-card-text>
+
+    <v-skeleton-loader v-if="loading" type="article" />
+
 
       <div style="display: flow-root">
         <table style="width: -moz-fit-content; width: -webkit-fill-available">
@@ -96,7 +101,7 @@ Admin screen of a camp: Displays details & periods of a single camp and allows t
             </thead>
             <tbody v-for="day in period.days" :key="period.id + '_body'">
               <tr v-for="scheduleEntry in day.scheduleEntries">
-                <th align="left">{{ day.id }}.{{ scheduleEntry.id }}</th>
+                <th align="left" class="tabular-nums">{{ day.id }}.{{ scheduleEntry.id }}</th>
 
                 <td align="center">
                   <v-chip
@@ -119,7 +124,7 @@ Admin screen of a camp: Displays details & periods of a single camp and allows t
                 <td>
                   <b>{{ scheduleEntry.title }}</b>
                 </td>
-                <td>{{ scheduleEntry.collaborators.join(', ') }}</td>
+                <td align="right">{{ scheduleEntry.collaborators.join(', ') }}</td>
               </tr>
             </tbody>
           </template>
@@ -273,7 +278,11 @@ export default {
   computed: {
     events() {
       return this.results
-        .filter((period) => period.id.includes(this.filter.period))
+        .filter((period) =>
+          Array.isArray(this.filter.period)
+            ? this.filter.period.some((filter) => period.id.includes(filter))
+            : period.id.includes(this.filter.period)
+        )
         .map((period) => ({
           ...period,
           days: period.days.map(({ id, scheduleEntries }) => ({
