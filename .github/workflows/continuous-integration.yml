@@ -40,7 +40,7 @@ jobs:
 
       - name: Get Composer Cache Directory
         id: composer-cache
-        run: 'echo "::set-output name=dir::$(composer config cache-files-dir)"'
+        run: 'echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT'
         working-directory: api
 
       - uses: actions/cache@1c73980b09e7aea7201f325a7aa3ad00beddcdda # tag=v3
@@ -70,7 +70,7 @@ jobs:
 
       - name: Get Composer Cache Directory
         id: composer-cache
-        run: 'echo "::set-output name=dir::$(composer config cache-files-dir)"'
+        run: 'echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT'
         working-directory: api
 
       - uses: actions/cache@1c73980b09e7aea7201f325a7aa3ad00beddcdda # tag=v3
@@ -100,7 +100,7 @@ jobs:
 
       - name: Get Composer Cache Directory
         id: composer-cache
-        run: 'echo "::set-output name=dir::$(composer config cache-files-dir)"'
+        run: 'echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT'
         working-directory: api
 
       - uses: actions/cache@1c73980b09e7aea7201f325a7aa3ad00beddcdda # tag=v3
@@ -206,7 +206,7 @@ jobs:
 
       - name: Get Composer Cache Directory
         id: composer-cache
-        run: 'echo "::set-output name=dir::$(composer config cache-files-dir)"'
+        run: 'echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT'
         working-directory: api
 
       - uses: actions/cache@1c73980b09e7aea7201f325a7aa3ad00beddcdda # tag=v3
@@ -279,7 +279,7 @@ jobs:
 
       - name: Get Composer Cache Directory
         id: composer-cache
-        run: 'echo "::set-output name=dir::$(composer config cache-files-dir)"'
+        run: 'echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT'
         working-directory: api
 
       - uses: actions/cache@1c73980b09e7aea7201f325a7aa3ad00beddcdda # tag=v3
