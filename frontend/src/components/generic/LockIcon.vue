@@ -1,10 +1,10 @@
 <template>
   <v-tooltip :disabled="hideTooltip" bottom>
     <template #activator="{ on }">
-      <v-icon v-if="value" small v-on="{ click: iconClick, ...on }">
+      <v-icon v-if="value" small v-on="{ dblclick: iconDblClick, ...on }">
         mdi-lock-open-variant
       </v-icon>
-      <v-icon v-else small color="grey" v-on="{ click: iconClick, ...on }">
+      <v-icon v-else small color="grey" v-on="{ dblclick: iconDblClick, ...on }">
         mdi-lock
       </v-icon>
     </template>
@@ -32,9 +32,15 @@ export default {
     },
   },
   methods: {
-    iconClick() {
-      this.$emit('click')
+    iconDblClick() {
+      this.$emit('dblclick')
     },
   },
 }
 </script>
+
+<style scoped>
+.v-icon {
+  cursor: pointer;
+}
+</style>
