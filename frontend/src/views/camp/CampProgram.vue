@@ -11,6 +11,7 @@ Show all activity schedule entries of a single period.
         v-model="editMode"
         :hide-tooltip="isContributor"
         :message="$tc('views.camp.picasso.guestsCannotEdit')"
+        @click="editModeLockIconClick"
       />
       <v-menu offset-y>
         <template #activator="{ on, attrs }">
@@ -79,6 +80,7 @@ export default {
   data() {
     return {
       editMode: false,
+      editModeIconClickTimeout: null,
     }
   },
   computed: {
@@ -99,6 +101,22 @@ export default {
             },
           },
         ],
+      }
+    },
+  },
+  methods: {
+    editModeLockIconClick() {
+      if (!this.editModeIconClickTimeout) {
+        // first click
+        this.editModeIconClickTimeout = setTimeout(() => {
+          // no second click
+          this.editModeIconClickTimeout = null
+        }, 250)
+      } else {
+        // second click
+        clearTimeout(this.editModeIconClickTimeout)
+        this.editModeIconClickTimeout = null
+        this.editMode = !this.editMode
       }
     },
   },

@@ -1,8 +1,12 @@
 <template>
   <v-tooltip :disabled="hideTooltip" bottom>
     <template #activator="{ on }">
-      <v-icon v-if="value" small v-on="on"> mdi-lock-open-variant </v-icon>
-      <v-icon v-else small color="grey" v-on="on"> mdi-lock </v-icon>
+      <v-icon v-if="value" small v-on="{ click: iconClick, ...on }">
+        mdi-lock-open-variant
+      </v-icon>
+      <v-icon v-else small color="grey" v-on="{ click: iconClick, ...on }">
+        mdi-lock
+      </v-icon>
     </template>
     <span>{{ message || $tc('components.generic.lockIcon.guestsCannotEdit') }}</span>
   </v-tooltip>
@@ -25,6 +29,11 @@ export default {
       type: Boolean,
       required: false,
       default: false,
+    },
+  },
+  methods: {
+    iconClick() {
+      this.$emit('click')
     },
   },
 }
