@@ -68,6 +68,7 @@ jobs:
           TO_UNINSTALL=$(jq --null-input --argjson prs '${{ env.prs }}' --argjson deployments '${{ env.deployments }}' --argjson never_uninstall '${{ env.never_uninstall }}' '$deployments-$prs-$never_uninstall')
           echo "Will uninstall: $TO_UNINSTALL"
           echo "list=$TO_UNINSTALL" | tr -d "\n" >> $GITHUB_OUTPUT
+          echo "\n" >> $GITHUB_OUTPUT
           echo "never_uninstall=$never_uninstall" | tr -d "\n" >> $GITHUB_OUTPUT
 
       - name: List PRs without up-to-date deployment
