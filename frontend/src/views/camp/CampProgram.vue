@@ -11,6 +11,7 @@ Show all activity schedule entries of a single period.
         v-model="editMode"
         :hide-tooltip="isContributor"
         :message="$tc('views.camp.picasso.guestsCannotEdit')"
+        @dblclick="editMode = !editMode"
       />
       <v-menu offset-y>
         <template #activator="{ on, attrs }">
