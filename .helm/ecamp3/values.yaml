@@ -136,7 +136,7 @@ postgresql:
   pullPolicy: IfNotPresent
   image:
     repository: bitnami/postgresql
-    tag: 14
+    tag: 15
 
 recaptcha:
   siteKey:
