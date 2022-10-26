@@ -91,7 +91,7 @@ browserless:
   image:
     repository: "docker.io/browserless/chrome"
     pullPolicy: IfNotPresent
-    tag: "1.53-puppeteer-13.6.0"
+    tag: "1.56.0-puppeteer-18.0.5"
   service:
     type: ClusterIP
     port: 3000
