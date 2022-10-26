@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "api.name" . }}-configmap
+  labels:
+    {{- include "app.labels" . | nindent 4 }}
+data:
+  MAX_CONCURRENT_SESSIONS: {{ .Values.browserless.maxConcurrentSessions | quote }}
+  CONNECTION_TIMEOUT: {{ .Values.browserless.connectionTimeout | quote }}
+  MAX_QUEUE_LENGTH: {{ .Values.browserless.maxQueueLength | quote }}

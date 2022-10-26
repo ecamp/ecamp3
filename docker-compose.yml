@@ -158,6 +158,15 @@ services:
     container_name: 'ecamp3-browserless'
     ports:
       - '3010:3000'
+    environment:
+      - MAX_CONCURRENT_SESSIONS=1
+      - CONNECTION_TIMEOUT=40000
+      - MAX_QUEUE_LENGTH=10
+      - PREBOOT_CHROME=true
+      - KEEP_ALIVE=true
+      - ENABLE_DEBUGGER=false
+      - DISABLED_FEATURES=["downloadEndpoint","functionEndpoint","pdfEndpoint","screencastEndpoint","scrapeEndpoint","statsEndpoint","workspaces"]
+      - FUNCTION_ENABLE_INCOGNITO_MODE=true 
 
 volumes:
   db-data-postgres: null

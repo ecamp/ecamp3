@@ -190,10 +190,9 @@
         }
       },
       "printNuxt": {
-        "downloadNuxtPdfListItem": {
-          "error": "Etwas hat nicht geklappt. Probiere es nochmals, oder lade die Seite neu.",
-          "label": "PDF herunterladen (Layout #1)"
-        }
+        "error": "Etwas hat nicht geklappt. Probiere es nochmals, oder lade die Seite neu.",
+        "label": "PDF herunterladen (Layout #1)",
+        "queueFull": "Alle unsere PDF-Drucker sind im Moment beschäftigt. Bitte versuche es später nochmals."
       },
       "printPreviewNuxt": {
         "openPreview": "Vorschau in neuem Fenster öffnen"

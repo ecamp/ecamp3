@@ -43,9 +43,10 @@ router.use('/pdfChrome', async (req, res) => {
     browser = await puppeteer.connect({
       browserWSEndpoint: process.env.BROWSER_WS_ENDPOINT,
     })
+    const context = await browser.createIncognitoBrowserContext()
 
     measurePerformance('Open new page & set cookies...')
-    const page = await browser.newPage()
+    const page = await context.newPage()
     const printUrl = new URL(process.env.PRINT_URL)
     const cookies = [
       {
@@ -114,14 +115,29 @@ router.use('/pdfChrome', async (req, res) => {
     })
 
     measurePerformance()
-    browser.close()
+    browser.disconnect()
 
     res.contentType('application/pdf')
     res.send(pdf)
   } catch (error) {
-    console.error({ error }, 'Something happened!')
-    browser.close()
-    res.send(error)
+    if (browser) {
+      browser.disconnect()
+    }
+
+    let errorMessage = null
+    if (error.error) {
+      // error is a WebScocket ErrorEvent Object which contains an error property
+      errorMessage = error.error.toString()
+      res.status(503)
+    } else {
+      errorMessage = error.toString()
+      res.status(500)
+    }
+
+    console.error(error)
+
+    res.contentType('application/json')
+    res.send({ error: errorMessage })
   }
 })
 
