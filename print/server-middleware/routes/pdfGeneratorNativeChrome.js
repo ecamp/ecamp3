@@ -125,19 +125,23 @@ router.use('/pdfChrome', async (req, res) => {
     }
 
     let errorMessage = null
+    let status = 500
     if (error.error) {
       // error is a WebScocket ErrorEvent Object which contains an error property
-      errorMessage = error.error.toString()
-      res.status(503)
+      errorMessage = error.error.message
+      if (errorMessage === 'Unexpected server response: 429') {
+        status = 503
+        errorMessage = 'Server responded with `429 Too Many Requests` (queue is full)'
+      }
     } else {
-      errorMessage = error.toString()
-      res.status(500)
+      errorMessage = error.message
     }
 
     console.error(error)
 
-    res.contentType('application/json')
-    res.send({ error: errorMessage })
+    res.status(status)
+    res.contentType('application/problem+json')
+    res.send({ status, title: errorMessage })
   }
 })
 
