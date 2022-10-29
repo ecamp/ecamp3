@@ -207,7 +207,8 @@
     "collectCoverage": true,
     "collectCoverageFrom": [
       "src/**/*.{js,vue}",
-      "common/**/*.js"
+      "common/**/*.js",
+      "!src/components/print/print-react/generatePdf.js"
     ],
     "coverageReporters": [
       "lcov",
