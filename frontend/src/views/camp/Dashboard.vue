@@ -4,6 +4,11 @@ Admin screen of a camp: Displays details & periods of a single camp and allows t
 
 <template>
   <content-card :title="camp().title" toolbar>
+    <template #title-actions>
+      <v-btn class="mr-n2" color="primary" :to="{ name: 'camp/dashboard/new' }"
+        >Go to new dashboard</v-btn
+      >
+    </template>
     <v-card-text>
       {{ $tc('views.camp.dashboard.viewDescription', 1, { title: camp().title }) }}
     </v-card-text>
