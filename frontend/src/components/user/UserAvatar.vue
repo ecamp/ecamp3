@@ -1,6 +1,7 @@
 <template>
   <v-avatar :size="size" :color="color">
-    <span class="white--text font-weight-medium" :style="style">{{ initials }}</span>
+    <span class="d-sr-only">{{ user.displayName }}</span>
+    <span aria-hidden="true" :style="style">{{ initials }}</span>
   </v-avatar>
 </template>
 <script>
@@ -17,13 +18,13 @@ import userInitials from '@/common/helpers/userInitials.js'
 export default {
   name: 'UserAvatar',
   props: {
-    size: { type: Number, required: false, default: 48 },
+    size: { type: [Number, String], required: false, default: 48 },
     user: { type: Object, default: null },
     campCollaboration: { type: Object, default: null },
   },
   computed: {
     isLoading() {
-      return (this.user || this.campCollaboration)?._meta.loading
+      return (this.user || this.campCollaboration)?._meta?.loading
     },
     hslColor() {
       if (this.isLoading) {
@@ -46,10 +47,11 @@ export default {
     },
     style() {
       return {
-        fontSize: this.size / 2.5 + 'px',
-        fontWeight: 400,
-        letterSpacing: '1px',
-        marginRight: '-1.5px',
+        color: contrastColor(...convertHslColor(...this.hslColor)),
+        fontSize: Number(this.size) / 2.4 + 'px',
+        fontWeight: Number(this.size) >= 40 ? 400 : 600,
+        letterSpacing: '.1em',
+        marginRight: '-.125em',
       }
     },
   },
