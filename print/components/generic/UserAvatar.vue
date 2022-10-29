@@ -4,8 +4,11 @@
   </div>
 </template>
 <script>
-import userColor from '@/../common/helpers/userColor.js'
-import campCollaborationColor from '@/../common/helpers/campCollaborationColor.js'
+import {
+  campCollaborationColor,
+  defaultColor,
+  userColor,
+} from '@/../common/helpers/colors.js'
 import userInitials from '@/../common/helpers/userInitials.js'
 import campCollaborationInitials from '@/../common/helpers/campCollaborationInitials.js'
 
@@ -21,7 +24,7 @@ export default {
     },
     color() {
       if (this.isLoading) {
-        return 'rgba(0,0,0,0)'
+        return defaultColor()
       }
       return this.user
         ? userColor(this.user)
@@ -39,7 +42,7 @@ export default {
       return {
         width: this.size + 'px',
         height: this.size + 'px',
-        backgroundColor: this.color,
+        backgroundColor: this.color.toString({ format: 'hex' }),
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',

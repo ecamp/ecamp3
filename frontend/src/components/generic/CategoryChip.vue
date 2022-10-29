@@ -13,7 +13,8 @@
 </template>
 
 <script>
-import { parseHexColor, contrastColor } from '@/common/helpers/colors.js'
+import { contrastColor } from '@/common/helpers/colors.js'
+import Color from 'colorjs.io'
 
 export default {
   name: 'CategoryChip',
@@ -34,7 +35,7 @@ export default {
       return this.category || this.scheduleEntry.activity().category()
     },
     textColor() {
-      return contrastColor(...parseHexColor(this.cat.color))
+      return contrastColor(new Color(this.cat.color)).toString({ format: 'hex' })
     },
   },
 }

@@ -69,7 +69,8 @@
 <script>
 import { activityResponsiblesCommaSeparated } from '@/../common/helpers/activityResponsibles.js'
 import { dayResponsiblesCommaSeparated } from '@/../common/helpers/dayResponsibles.js'
-import { parseHexColor, contrastColor } from '@/../common/helpers/colors.js'
+import { contrastColor } from '@/../common/helpers/colors.js'
+import Color from 'colorjs.io'
 
 export default {
   props: {
@@ -86,7 +87,7 @@ export default {
     },
     getActivityTextColor(scheduleEntry) {
       const color = this.getActivityColor(scheduleEntry)
-      return contrastColor(...parseHexColor(color))
+      return contrastColor(new Color(color)).toString({ format: 'hex' })
     },
     intervalFormat(time) {
       return this.$date

@@ -125,7 +125,7 @@ import { isCssColor } from 'vuetify/lib/util/colorUtils'
 import { apiStore as api } from '@/plugins/store'
 import { scheduleEntryRoute } from '@/router.js'
 import mergeListeners from '@/helpers/mergeListeners.js'
-import { parseHexColor, contrastColor } from '@/common/helpers/colors.js'
+import { contrastColor } from '@/common/helpers/colors.js'
 import {
   timestampToUtcString,
   utcStringToTimestamp,
@@ -135,6 +135,7 @@ import DialogActivityEdit from '../DialogActivityEdit.vue'
 import DayResponsibles from './DayResponsibles.vue'
 import { errorToMultiLineToast } from '@/components/toast/toasts'
 import Vue from 'vue'
+import Color from 'colorjs.io'
 
 export default {
   name: 'Picasso',
@@ -394,7 +395,7 @@ export default {
       if (this.isCategoryLoading(scheduleEntry)) return '#000'
 
       const category = scheduleEntry.activity().category()
-      return contrastColor(...parseHexColor(category.color))
+      return contrastColor(new Color(category.color)).toString({ format: 'hex' })
     },
     getActivityColor(scheduleEntry, _) {
       if (scheduleEntry.tmpEvent) return 'grey elevation-4 v-event--temporary'

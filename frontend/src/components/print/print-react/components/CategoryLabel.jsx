@@ -2,10 +2,11 @@
 import React from 'react'
 import { Text } from '@react-pdf/renderer'
 import styles from './styles.js'
-import { parseHexColor, contrastColor } from '@/common/helpers/colors.js'
+import { contrastColor } from '@/common/helpers/colors.js'
+import Color from 'colorjs.io'
 
 function textColor(color) {
-  return contrastColor(...parseHexColor(color))
+  return contrastColor(new Color(color)).toString({ format: 'hex' })
 }
 
 function CategoryLabel({ activity, style }) {

@@ -57,8 +57,8 @@
       </v-tooltip>
     </template>
 
-    <template v-else-if="!wrapper.autoSave && wrapper.dirty">
-      <v-tooltip bottom class="ml-auto">
+    <template v-else-if="!wrapper.autoSave && (wrapper.cancelable || wrapper.dirty)">
+      <v-tooltip v-if="wrapper.dirty" bottom class="ml-auto">
         <template #activator="{ on }">
           <v-btn
             fab

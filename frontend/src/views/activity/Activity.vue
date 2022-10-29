@@ -40,7 +40,7 @@ Displays a single activity
             {{ activity.title }}
           </a>
         </v-toolbar-title>
-        <div v-if="editActivityTitle" class="mx-2" style="flex-grow: 1">
+        <div v-if="editActivityTitle" class="mx-2 flex-grow-1">
           <api-text-field
             :uri="activity._meta.self"
             fieldname="title"
@@ -48,6 +48,7 @@ Displays a single activity
             dense
             autofocus
             :auto-save="false"
+            cancelable
             @finished="editActivityTitle = false"
           />
         </div>
