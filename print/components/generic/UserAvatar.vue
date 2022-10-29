@@ -4,8 +4,11 @@
   </div>
 </template>
 <script>
-import userColor from '@/../common/helpers/userColor.js'
-import campCollaborationColor from '@/../common/helpers/campCollaborationColor.js'
+import {
+  campCollaborationHslColor,
+  hslToStringColor,
+  userHslColor,
+} from '@/../common/helpers/colors.js'
 import userInitials from '@/../common/helpers/userInitials.js'
 import campCollaborationInitials from '@/../common/helpers/campCollaborationInitials.js'
 
@@ -19,13 +22,16 @@ export default {
     isLoading() {
       return (this.user || this.campCollaboration)._meta.loading
     },
-    color() {
+    hslColor() {
       if (this.isLoading) {
-        return 'rgba(0,0,0,0)'
+        return [0, 0, 0]
       }
       return this.user
-        ? userColor(this.user)
-        : campCollaborationColor(this.campCollaboration)
+        ? userHslColor(this.user)
+        : campCollaborationHslColor(this.campCollaboration)
+    },
+    color() {
+      return hslToStringColor(...this.hslColor)
     },
     initials() {
       if (this.isLoading) {

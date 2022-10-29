@@ -1,7 +1,7 @@
 // eslint-disable-next-line no-unused-vars
 import React from 'react'
 import { Text, View } from '@react-pdf/renderer'
-import campCollaborationColor from '@/common/helpers/campCollaborationColor.js'
+import { campCollaborationHslColor, hslToStringColor } from '@/common/helpers/colors.js'
 import campCollaborationInitials from '@/common/helpers/campCollaborationInitials.js'
 
 const fontSize = 8
@@ -36,8 +36,8 @@ function Responsibles({ activity, styles }) {
             key={activityResponsible.campCollaboration().id}
             style={{
               ...avatarStyles,
-              backgroundColor: campCollaborationColor(
-                activityResponsible.campCollaboration()
+              backgroundColor: hslToStringColor(
+                ...campCollaborationHslColor(activityResponsible.campCollaboration())
               ),
               ...(index === last ? {} : { marginRight: '-' + fontSize / 4 + 'pt' }),
             }}

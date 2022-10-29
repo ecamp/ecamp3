@@ -41,7 +41,7 @@ import { contentNodeMixin } from '@/mixins/contentNodeMixin.js'
 import ResizableColumn from '@/components/activity/content/columnLayout/ResizableColumn.vue'
 import DraggableContentNodes from '@/components/activity/DraggableContentNodes.vue'
 import ColumnOperations from '@/components/activity/content/columnLayout/ColumnOperations.vue'
-import idToColor from '@/common/helpers/idToColor.js'
+import { hslToStringColor, idToHslColor } from '@/common/helpers/colors.js'
 import { errorToMultiLineToast } from '@/components/toast/toasts'
 
 function cumulativeSumReducer(cumSum, nextElement) {
@@ -93,7 +93,7 @@ export default {
       ])
     },
     color() {
-      return idToColor(this.contentNode.id)
+      return hslToStringColor(...idToHslColor(this.contentNode.id))
     },
     isRoot() {
       return this.contentNode._meta.self === this.contentNode.root()._meta.self
