@@ -17,7 +17,13 @@ Displays a single activity
             :disabled="layoutMode || !isContributor"
           >
             <template #activator="{ on, attrs }">
-              <CategoryChip :schedule-entry="scheduleEntry()" v-bind="attrs" v-on="on" />
+              <CategoryChip
+                :schedule-entry="scheduleEntry()"
+                large
+                dense
+                v-bind="attrs"
+                v-on="on"
+              />
             </template>
             <v-list>
               <v-list-item
@@ -26,7 +32,7 @@ Displays a single activity
                 @click="changeCategory(cat)"
               >
                 <v-list-item-title>
-                  <CategoryChip :category="cat" />
+                  <CategoryChip :category="cat" dense />
                   {{ cat.name }}
                 </v-list-item-title>
               </v-list-item>
