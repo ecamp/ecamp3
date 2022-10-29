@@ -15,10 +15,8 @@ exports[`An ESwitch looks like a switch: checked 1`] = `
                                      value>
                               <div class="v-input--selection-controls__ripple primary--text"></div>
                               <div class="v-input--switch__track theme--light primary--text"></div>
-                              <div class="v-input--switch__thumb theme--light primary--text">
-                                   <transition-stub mode="out-in"
-                                                    name="fab-transition"></transition-stub>
-                              </div>
+                              <div class="v-input--switch__thumb theme--light primary--text"><transition-stub mode="out-in"
+                                                    name="fab-transition"></transition-stub></div>
                          </div>
                     </div>
                </div>
@@ -42,10 +40,8 @@ exports[`An ESwitch looks like a switch: unchecked 1`] = `
                                      value>
                               <div class="v-input--selection-controls__ripple"></div>
                               <div class="v-input--switch__track theme--light"></div>
-                              <div class="v-input--switch__thumb theme--light">
-                                   <transition-stub mode="out-in"
-                                                    name="fab-transition"></transition-stub>
-                              </div>
+                              <div class="v-input--switch__thumb theme--light"><transition-stub mode="out-in"
+                                                    name="fab-transition"></transition-stub></div>
                          </div>
                     </div>
                </div>
