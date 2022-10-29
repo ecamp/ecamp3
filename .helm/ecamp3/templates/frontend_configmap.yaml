@@ -26,3 +26,4 @@ data:
       RECAPTCHA_SITE_KEY: null,
     {{- end }}
     }
+  deployedVersion: {{ .Values.deployedVersion }}

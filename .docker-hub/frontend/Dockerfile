@@ -17,3 +17,5 @@ RUN mkdir /app
 WORKDIR /app
 COPY --from=build-stage /app/dist /app
 COPY .docker-hub/frontend/nginx.conf /etc/nginx/nginx.conf
+COPY .docker-hub/frontend/docker-entrypoint.d/* /docker-entrypoint.d/
+RUN chmod -R +x /docker-entrypoint.d/
