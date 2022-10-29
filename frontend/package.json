@@ -182,7 +182,7 @@
       "^.+\\.jsx?$": "babel-jest"
     },
     "transformIgnorePatterns": [
-      "node_modules/(?!(vuetify|vee-validate))"
+      "node_modules/(?!(vuetify|vee-validate|axios))"
     ],
     "moduleNameMapper": {
       "^@/(.*)$": "<rootDir>/src/$1"
