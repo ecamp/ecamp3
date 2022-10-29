@@ -250,8 +250,7 @@ export default new Router({
         {
           path: 'dashboard-new',
           name: 'camp/dashboard/new',
-          component: () =>
-            import(/* webpackChungName: "camp" */ './views/camp/DashboardNew.vue'),
+          component: () => import('./views/camp/DashboardNew.vue'),
         },
         {
           path: '',

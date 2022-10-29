@@ -3,139 +3,116 @@ Admin screen of a camp: Displays details & periods of a single camp and allows t
 -->
 
 <template>
-  <content-card :title="camp().title" toolbar>
-
-    <template #title>
-
-      <v-card-text>
-        <ETextField
-          v-model="filter.title"
-          placeholder="Aktivitäten suchen"
-          rounded
-          outlined
+  <content-card title="Aktivitäten" toolbar>
+    <div class="d-flow-root">
+      <div class="d-flex flex-wrap ma-4" style="overflow-y: auto; gap: 10px">
+        <BooleanFilter
+          label="Nur meine Aktivitäten"
+          :value="
+            filter.collaborator.includes('Linux') && filter.collaborator.length === 1
+          "
+          @input="toggleMeFilter()"
         />
-        <div class="d-flex my-2" style="gap: 0.5rem; overflow-x: scroll">
-          <ESelect
-            outlined
-            rounded
-            v-model="filter.collaborator"
-            placeholder="Collaborator"
-            multiple
-            dense
-            :items="[{text: 'Alle', value: ''}, 'Forte', 'Linux', 'Smiley', 'Olippo', 'Cosinus', 'Ikarus']"
-            chips
-          />
-          <div></div>
-          <ESelect
-            outlined
-            rounded
-            v-model="filter.category"
-            placeholder="Category"
-            multiple
-            dense
-            :items="['LS', 'LA', 'TABS', 'ES']"
-            chips
-          />
-          <div></div>
-          <ESelect
-            outlined
-            rounded
-            v-model="filter.period"
-            placeholder="Period"
-            multiple
-            dense
-            :items="[{text: 'Alle', value: ''}, {text:'Vorlager', value:'Vorlager'}, {text: 'Hauptlager', value: 'Hauptlager'}]"
-          />
-          <div></div>
-          <v-btn
-            rounded
-            outlined
-            elevation="4"
-            @click="
+        <FilterDivider />
+        <SelectFilter
+          v-model="filter.collaborator"
+          multiple
+          :items="['Forte', 'Linux', 'Smiley', 'Olippo', 'Cosinus', 'Ikarus']"
+          label="Verantwortlich"
+        >
+          <template #item="{ item }">
+            <UserAvatar :user="users[item.value]" size="18" class="mr-1" />
+            {{ item.text }}
+          </template>
+        </SelectFilter>
+        <SelectFilter
+          v-model="filter.category"
+          :items="['LS', 'LA', 'LP', 'TA', 'ES']"
+          label="Kategorie"
+        >
+          <template #item="{ item }">
+            <CategoryChip dense :category="categories[item.value]" class="mr-1" />
+            {{ categories[item.value].name }}
+          </template>
+        </SelectFilter>
+        <SelectFilter
+          v-if="results.length > 1"
+          v-model="filter.period"
+          :items="[
+            { text: 'Vorlager', value: 'Vorlager' },
+            { text: 'Hauptlager', value: 'Hauptlager' },
+          ]"
+          label="Lagerabschnitt"
+        />
+        <v-chip
+          v-if="filter.period || filter.collaborator.length > 0 || filter.category"
+          label
+          outlined
+          @click="
             filter = {
               period: '',
-              days: '',
               collaborator: [],
               category: '',
-              title: '',
             }
           "
-          >Reset filters<v-icon small right>mdi-filter-remove</v-icon></v-btn
-          >
-        </div>
-      </v-card-text>
-    </template>
-    <v-card-text>
-      {{ $tc('views.camp.dashboard.viewDescription', 1, { title: camp().title }) }}
-    </v-card-text>
-
-    <v-skeleton-loader v-if="loading" type="article" />
-
-
-      <div style="display: flow-root">
-        <table style="width: -moz-fit-content; width: -webkit-fill-available">
-          <thead>
-            <tr>
-              <th>Nr</th>
-              <th>Cat.</th>
-              <th align="right" style="padding-right: 10px">Duration</th>
-              <th align="right" style="padding-right: 10px">Time</th>
-              <th align="left" width="100%">Title</th>
-              <th align="left">Collaborators</th>
-            </tr>
-          </thead>
-          <template v-for="period in events">
-            <thead :key="period.id + '_head'">
-              <tr>
-                <th
-                  colspan="6"
-                  style="
-                    text-align: left;
-                    padding-top: 10px;
-                    border-bottom: 1px solid grey;
-                  "
-                >
-                  {{ period.id }}
-                </th>
-              </tr>
-            </thead>
-            <tbody v-for="day in period.days" :key="period.id + '_body'">
-              <tr v-for="scheduleEntry in day.scheduleEntries">
-                <th align="left" class="tabular-nums">{{ day.id }}.{{ scheduleEntry.id }}</th>
-
-                <td align="center">
-                  <v-chip
-                    :color="categories[scheduleEntry.category]"
-                    class="e-category-chip tabular-nums"
-                    dark
-                    small
-                  >
-                    {{ scheduleEntry.category }}
-                  </v-chip>
-                </td>
-
-                <td align="right" style="padding-right: 10px">
-                  {{ scheduleEntry.duration }}
-                </td>
-
-                <td align="right" style="padding-right: 10px">
-                  {{ scheduleEntry.start }}:00
-                </td>
-                <td>
-                  <b>{{ scheduleEntry.title }}</b>
-                </td>
-                <td align="right">{{ scheduleEntry.collaborators.join(', ') }}</td>
-              </tr>
-            </tbody>
-          </template>
-        </table>
+        >
+          <v-icon left>mdi-close</v-icon>
+          Filter entfernen
+        </v-chip>
       </div>
-    </v-card-text>
+      <table
+        v-for="period in events"
+        :key="period.id"
+        class="mx-4 mt-6 mb-3"
+        style="border-collapse: collapse"
+      >
+        <caption class="font-weight-bold text-left">
+          {{
+            period.id
+          }}
+        </caption>
+        <thead :key="period.id + '_head'">
+          <tr class="d-sr-only">
+            <th :id="period.id + 'th-number'" scope="col">Nummer</th>
+            <th :id="period.id + 'th-category'" scope="col">Kategorie</th>
+            <th :id="period.id + 'th-time'" scope="col">Zeit</th>
+            <th :id="period.id + 'th-title'" scope="col">Titel</th>
+            <th :id="period.id + 'th-responsible'" scope="col">Verantwortlich</th>
+          </tr>
+        </thead>
+        <tbody
+          v-for="day in period.days"
+          :key="period.id + day.id"
+          :aria-labelledby="period.id + day.id + 'th'"
+        >
+          <tr>
+            <th
+              :id="period.id + day.id + 'th'"
+              colspan="5"
+              scope="colgroup"
+              align="left"
+              style="
+                padding-top: 0.75rem;
+                font-weight: 400;
+                color: #666;
+                font-size: 0.9rem;
+              "
+            >
+              {{ day.date }}
+            </th>
+          </tr>
+          <ActivityRow
+            v-for="scheduleEntry in day.scheduleEntries"
+            :key="day.id + scheduleEntry.id"
+            :schedule-entry="scheduleEntry"
+          />
+        </tbody>
+      </table>
+    </div>
   </content-card>
 </template>
 
 <script>
-import { campRoute, scheduleEntryRoute } from '@/router.js'
 import ContentCard from '@/components/layout/ContentCard.vue'
 import UserAvatar from '../../components/user/UserAvatar.vue'
 import {
@@ -143,13 +120,20 @@ import {
   dateLong,
   hourShort,
 } from '@/common/helpers/dateHelperUTCFormatted.js'
-import { sortBy } from 'lodash'
-import campCollaborationDisplayName from '@/common/helpers/campCollaborationDisplayName.js'
-import CategoryChip from '@/components/story/CategoryChip.vue'
+import CategoryChip from '@/components/generic/CategoryChip.vue'
+import BooleanFilter from '@/components/dashboard/BooleanFilter.vue'
+import SelectFilter from '@/components/dashboard/SelectFilter.vue'
+import ActivityRow from '@/components/dashboard/ActivityRow.vue'
+import dayjs from 'dayjs'
+import FilterDivider from '@/components/dashboard/FilterDivider.vue'
 
 export default {
-  name: 'Dashboard',
+  name: 'DashboardNew',
   components: {
+    FilterDivider,
+    ActivityRow,
+    SelectFilter,
+    BooleanFilter,
     CategoryChip,
     ContentCard,
     UserAvatar,
@@ -163,16 +147,23 @@ export default {
       openPeriods: [],
       filter: {
         period: '',
-        days: '',
-        collaborator: ['Linux'],
+        collaborator: [],
         category: '',
-        title: '',
+      },
+      users: {
+        Linux: { id: 'ab000df0', displayName: 'Linux' },
+        Olippo: { id: 'ff776300', displayName: 'Olippo' },
+        Forte: { id: 'ff783008', displayName: 'Forte' },
+        Smiley: { id: 'df98651b', displayName: 'Smiley' },
+        Ikarus: { id: '5192fab6', displayName: 'Ikarus' },
+        Cosinus: { id: 'bcc0dd05', displayName: 'Cosinus' },
       },
       categories: {
-        LS: 'red',
-        LA: '#4caf50',
-        TABS: 'red',
-        ES: '#11a1e1',
+        LS: { short: 'LS', color: '#4caf50', name: 'Lagersport' },
+        LA: { short: 'LA', color: '#ffa200', name: 'Lageraktivität' },
+        LP: { short: 'LP', color: '#99ccff', name: 'Lagerprogramm' },
+        TA: { short: 'TA', color: '#ffffff', name: 'Tagesabschluss' },
+        ES: { short: 'ES', color: '#bbbbbb', name: 'Essen' },
       },
       results: [
         {
@@ -183,25 +174,31 @@ export default {
               scheduleEntries: [
                 {
                   id: 1,
+                  number: '1.1',
                   start: '18',
                   duration: '2h',
                   title: 'Stafetten',
-                  collaborators: ['Ikarus', 'Forte'],
+                  location: 'Sportfeld',
+                  collaborators: ['Ikarus', 'Forte', 'Linux'],
                   category: 'LS',
                 },
                 {
                   id: 2,
+                  number: '1.2',
                   start: '20',
                   duration: '1h',
                   title: 'Essen',
-                  collaborators: ['Linux'],
+                  location: 'Aufenthaltsraum',
+                  collaborators: ['Forte'],
                   category: 'ES',
                 },
                 {
                   id: 3,
+                  number: '1.3',
                   start: '21',
                   duration: '30m',
-                  title: 'c',
+                  title: 'Once upon a time there was a long title',
+                  location: 'Gschichtliruum',
                   collaborators: ['Cosinus'],
                   category: 'LS',
                 },
@@ -217,26 +214,32 @@ export default {
               scheduleEntries: [
                 {
                   id: 1,
+                  number: '2.1',
                   start: '8',
                   duration: '2h',
                   title: 'Morgenfit',
+                  location: 'Wiese',
                   collaborators: ['Linux', 'Smiley'],
                   category: 'LA',
                 },
                 {
                   id: 2,
+                  number: '2.2',
                   start: '10',
                   duration: '1h',
                   title: 'Atelier',
-                  collaborators: ['Cosinus'],
+                  location: 'Aufenthaltsraum',
+                  collaborators: ['Cosinus', 'Linux'],
                   category: 'LP',
                 },
                 {
                   id: 3,
+                  number: '2.3',
                   start: '12',
                   duration: '30m',
                   title: 'Zmittag',
-                  collaborators: ['Forte'],
+                  location: 'Aufenthaltsraum',
+                  collaborators: ['Ikarus'],
                   category: 'ES',
                 },
               ],
@@ -246,27 +249,33 @@ export default {
               scheduleEntries: [
                 {
                   id: 1,
+                  number: '3.1',
                   start: '10',
                   duration: '7h',
                   title: 'Geländegame',
-                  collaborators: ['Olippo', 'Forte'],
+                  location: 'Wald',
+                  collaborators: ['Olippo', 'Forte', 'Linux'],
                   category: 'LS',
                 },
                 {
                   id: 2,
+                  number: '3.2',
                   start: '17',
                   duration: '4h',
                   title: 'Partyznacht',
+                  location: 'Aufenthaltsraum',
                   collaborators: ['Linux'],
                   category: 'ES',
                 },
                 {
                   id: 3,
+                  number: '3.3',
                   start: '21',
                   duration: '30m',
-                  title: 'TABS',
+                  title: 'Tabs',
+                  location: 'Feuerschale',
                   collaborators: ['Smiley'],
-                  category: 'TABS',
+                  category: 'TA',
                 },
               ],
             },
@@ -278,37 +287,34 @@ export default {
   computed: {
     events() {
       return this.results
-        .filter((period) =>
-          Array.isArray(this.filter.period)
-            ? this.filter.period.some((filter) => period.id.includes(filter))
-            : period.id.includes(this.filter.period)
+        .filter(
+          (period) =>
+            this.filter.period.length === 0 ||
+            (Array.isArray(this.filter.period)
+              ? this.filter.period.some((filter) => period.id.includes(filter))
+              : period.id.includes(this.filter.period))
         )
         .map((period) => ({
           ...period,
-          days: period.days.map(({ id, scheduleEntries }) => ({
-            id,
-            scheduleEntries: scheduleEntries.filter((scheduleEntry) => {
-              return (
-                scheduleEntry.title.includes(this.filter.title) &&
-                (this.filter.category === ''
-                  ? true
-                  : Array.isArray(this.filter.category)
-                  ? this.filter.category.some(
-                      (category) => scheduleEntry.category === category
-                    )
-                  : scheduleEntry.category.includes(this.filter.category)) &&
-                (this.filter.collaborator === ''
-                  ? true
-                  : Array.isArray(this.filter.collaborator)
-                  ? this.filter.collaborator.every((collaborator) =>
-                      scheduleEntry.collaborators.some((col) => col === collaborator)
-                    )
-                  : scheduleEntry.collaborators.includes(this.filter.collaborator)) &&
-                scheduleEntry.category.includes(this.filter.category)
-              )
-            }),
-          })),
+          days: period.days
+            .map(({ id, scheduleEntries }) => ({
+              id,
+              date: dayjs().add(id, 'day').format('dd, D. MMM YYYY'),
+              scheduleEntries: scheduleEntries
+                .filter((scheduleEntry) => {
+                  return this.filterScheduleEntry(scheduleEntry)
+                })
+                .map((scheduleEntry) => ({
+                  ...scheduleEntry,
+                  collaborators: scheduleEntry.collaborators.map(
+                    (collaborator) => this.users[collaborator]
+                  ),
+                  category: this.categories[scheduleEntry.category],
+                })),
+            }))
+            .filter(({ scheduleEntries }) => scheduleEntries.length > 0),
         }))
+        .filter(({ days }) => days.length > 0)
     },
     // returns scheduleEntries per day without the need for an additional API call for each day
     scheduleEntriesByDay() {
@@ -343,38 +349,30 @@ export default {
     this.loading = false
   },
   methods: {
+    dayjs,
     dateShort,
     dateLong,
     hourShort,
-    campRoute,
-    scheduleEntryRoute,
-    showAnyPeriod(camp) {
-      return camp.periods().items.some(this.showPeriod)
-    },
-    showPeriod(period) {
-      return period.days().items.some(this.showDay)
-    },
-    showDay(day) {
-      return (this.scheduleEntriesByDay[day._meta.self] || []).some(
-        this.showScheduleEntry
-      )
-    },
-    showScheduleEntry(scheduleEntry) {
-      const authUser = this.$auth.user()
-      const activityResponsibles = scheduleEntry.activity().activityResponsibles().items
-      return activityResponsibles.some((activityResponsible) => {
-        const campCollaboration = activityResponsible.campCollaboration()
-        return (
-          !campCollaboration._meta.loading &&
-          typeof campCollaboration.user === 'function' &&
-          campCollaboration.user().id === authUser.id
+    matchCollaborators: function (scheduleEntry) {
+      return (
+        this.filter.collaborator.length === 0 ||
+        this.filter.collaborator.every((collaborator) =>
+          scheduleEntry.collaborators.some((col) => col === collaborator)
         )
-      })
-    },
-    sortActivityResponsibles(activityResponsibles) {
-      return sortBy(activityResponsibles, (activityResponsible) =>
-        campCollaborationDisplayName(activityResponsible.campCollaboration(), null, false)
       )
+    },
+    matchCategory: function (scheduleEntry) {
+      return scheduleEntry.category.includes(this.filter.category)
+    },
+    filterScheduleEntry(scheduleEntry) {
+      return this.matchCollaborators(scheduleEntry) && this.matchCategory(scheduleEntry)
+    },
+    toggleMeFilter() {
+      this.filter.collaborator =
+        this.filter.collaborator.includes('Linux') &&
+        this.filter.collaborator.length === 1
+          ? []
+          : ['Linux']
     },
   },
 }
