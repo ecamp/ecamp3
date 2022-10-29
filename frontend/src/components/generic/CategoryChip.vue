@@ -1,6 +1,6 @@
 <template>
   <v-chip
-    v-if="!cat?._meta?.loading"
+    v-if="!loading"
     :color="cat.color"
     :text-color="textColor"
     :class="{ 'v-chip--dense': dense }"
@@ -43,6 +43,9 @@ export default {
     },
   },
   computed: {
+    loading() {
+      return this.cat?._meta?.loading
+    },
     cat() {
       return this.category || this.scheduleEntry.activity().category()
     },
