@@ -206,6 +206,19 @@ abstract class CreateContentNodeTestCase extends ECampApiTestCase {
         ]);
     }
 
+    public function testCreateCleansTextOfInstanceName() {
+        $this->create($this->getExampleWritePayload(
+            [
+                'instanceName' => "\u{000A}control\u{0007}",
+            ]
+        ));
+
+        $this->assertResponseStatusCodeSame(201);
+        $this->assertJsonContains([
+            'instanceName' => 'control',
+        ]);
+    }
+
     protected function getExampleWritePayload($attributes = [], $except = []) {
         return parent::getExampleWritePayload(
             array_merge([
