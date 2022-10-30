@@ -1,12 +1,8 @@
-<!--
-Displays all periods of a single camp and allows to edit them & create new ones
--->
-
 <template>
   <content-group>
     <slot name="title">
       <div class="ec-content-group__title py-1 subtitle-1">
-        {{ $tc('components.camp.campCategories.title') }}
+        {{ $tc('components.campAdmin.campCategories.title') }}
         <dialog-category-create v-if="!disabled" :camp="camp()">
           <template #activator="{ on }">
             <button-add
@@ -16,7 +12,7 @@ Displays all periods of a single camp and allows to edit them & create new ones
               class="my-n2"
               v-on="on"
             >
-              {{ $tc('components.camp.campCategories.create') }}
+              {{ $tc('components.campAdmin.campCategories.create') }}
             </button-add>
           </template>
         </dialog-category-create>
@@ -50,7 +46,7 @@ Displays all periods of a single camp and allows to edit them & create new ones
               icon="mdi-view-dashboard-variant"
               :to="categoryRoute(camp(), category)"
             >
-              {{ $tc('components.camp.campCategories.editLayout') }}
+              {{ $tc('components.campAdmin.campCategories.editLayout') }}
             </button-edit>
           </v-item-group>
         </v-list-item-action>
@@ -65,7 +61,7 @@ Displays all periods of a single camp and allows to edit them & create new ones
             <v-item-group>
               <v-list-item-action>
                 <dialog-entity-delete :entity="category">
-                  {{ $tc('components.camp.campCategories.deleteCategoryQuestion') }}
+                  {{ $tc('components.campAdmin.campCategories.deleteCategoryQuestion') }}
                   <ul>
                     <li>{{ category.short }}: {{ category.name }}</li>
                   </ul>
@@ -74,7 +70,9 @@ Displays all periods of a single camp and allows to edit them & create new ones
                   </template>
                   <template v-if="findActivities(category).length > 0" #error>
                     {{
-                      $tc('components.camp.campCategories.deleteCategoryNotPossibleInUse')
+                      $tc(
+                        'components.campAdmin.campCategories.deleteCategoryNotPossibleInUse'
+                      )
                     }}
                     <ul>
                       <li

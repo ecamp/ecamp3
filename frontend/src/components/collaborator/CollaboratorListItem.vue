@@ -19,7 +19,7 @@
         :disabled="disabled"
         @click="resendInvitation"
       >
-        {{ $tc('components.camp.collaboratorListItem.resendEmail') }}
+        {{ $tc('components.collaborator.collaboratorListItem.resendEmail') }}
       </icon-button>
     </v-list-item-action>
     <v-list-item-action class="ml-4">
@@ -45,7 +45,9 @@
           </div>
         </template>
         <span>{{
-          $tc('components.camp.collaboratorListItem.cannotAssignAnotherRoleToLastManager')
+          $tc(
+            'components.collaborator.collaboratorListItem.cannotAssignAnotherRoleToLastManager'
+          )
         }}</span>
       </v-tooltip>
     </v-list-item-action>
@@ -60,14 +62,14 @@
                   icon="mdi-cancel"
                   v-on="onDialog"
                 >
-                  {{ $tc('components.camp.collaboratorListItem.deactivate') }}
+                  {{ $tc('components.collaborator.collaboratorListItem.deactivate') }}
                 </button-delete>
               </template>
             </CollaboratorListItemDeactivate>
           </div>
         </template>
         <span>{{
-          $tc('components.camp.collaboratorListItem.cannotRemoveLastManager')
+          $tc('components.collaborator.collaboratorListItem.cannotRemoveLastManager')
         }}</span>
       </v-tooltip>
     </v-list-item-action>

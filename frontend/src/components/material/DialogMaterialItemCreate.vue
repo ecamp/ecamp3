@@ -4,7 +4,7 @@
     :loading="loading"
     :error="error"
     icon="mdi-package-variant"
-    :title="$tc('components.dialog.dialogMaterialItemCreate.title')"
+    :title="$tc('components.material.dialogMaterialItemCreate.title')"
     :submit-action="createMaterialItem"
     submit-color="success"
     :cancel-action="close"

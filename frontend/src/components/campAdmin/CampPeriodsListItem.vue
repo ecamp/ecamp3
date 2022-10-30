@@ -35,10 +35,12 @@ Displays a single period as a list item including controls to edit and delete it
                 <button-delete v-on="on" />
               </template>
               <div v-if="isLastPeriod">
-                {{ $tc('components.camp.campPeriodsListItem.lastPeriodNotDeletable') }}
+                {{
+                  $tc('components.campAdmin.campPeriodsListItem.lastPeriodNotDeletable')
+                }}
               </div>
               <div v-else>
-                {{ $tc('components.camp.campPeriodsListItem.deleteWarning') }} <br />
+                {{ $tc('components.campAdmin.campPeriodsListItem.deleteWarning') }} <br />
                 <ul>
                   <li>
                     {{ period.description }}

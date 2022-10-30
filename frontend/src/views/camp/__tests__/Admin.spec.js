@@ -44,9 +44,9 @@ describe('Admin view', () => {
 
     await flushPromises()
 
-    expect(getByText('components.camp.campDangerzone.title')).toBeInTheDocument()
+    expect(getByText('components.campAdmin.campDangerZone.title')).toBeInTheDocument()
     expect(
-      getByText('components.camp.campDangerzone.deleteCamp.title')
+      getByText('components.campAdmin.campDangerZone.deleteCamp.title')
     ).toBeInTheDocument()
   })
 
@@ -72,9 +72,11 @@ describe('Admin view', () => {
 
     await flushPromises()
 
-    expect(queryByText('components.camp.campDangerzone.title')).not.toBeInTheDocument()
     expect(
-      queryByText('components.camp.campDangerzone.deleteCamp.title')
+      queryByText('components.campAdmin.campDangerZone.title')
+    ).not.toBeInTheDocument()
+    expect(
+      queryByText('components.campAdmin.campDangerZone.deleteCamp.title')
     ).not.toBeInTheDocument()
   })
 
@@ -100,9 +102,11 @@ describe('Admin view', () => {
 
     await flushPromises()
 
-    expect(queryByText('components.camp.campDangerzone.title')).not.toBeInTheDocument()
     expect(
-      queryByText('components.camp.campDangerzone.deleteCamp.title')
+      queryByText('components.campAdmin.campDangerZone.title')
+    ).not.toBeInTheDocument()
+    expect(
+      queryByText('components.campAdmin.campDangerZone.deleteCamp.title')
     ).not.toBeInTheDocument()
   })
 })

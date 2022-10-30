@@ -27,7 +27,7 @@
       </template>
     </template>
     <p v-else>
-      {{ $tc('story.storyDay.noStory') }}
+      {{ $tc('components.story.storyDay.noStory') }}
     </p>
 
     <hr />

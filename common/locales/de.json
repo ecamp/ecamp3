@@ -186,9 +186,11 @@
       "title": "Inhaltsverzeichnis"
     }
   },
-  "story": {
-    "storyDay": {
-      "noStory": "Kein roter Faden an diesem Tag gefunden…"
+  "components": {
+    "story": {
+      "storyDay": {
+        "noStory": "Kein roter Faden an diesem Tag gefunden…"
+      }
     }
   }
 }
