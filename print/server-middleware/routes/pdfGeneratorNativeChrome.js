@@ -127,7 +127,7 @@ router.use('/pdfChrome', async (req, res) => {
     let errorMessage = null
     let status = 500
     if (error.error) {
-      // error is a WebScocket ErrorEvent Object which contains an error property
+      // error is a WebSocket ErrorEvent Object which contains an error property
       errorMessage = error.error.message
       if (errorMessage === 'Unexpected server response: 429') {
         status = 503
