@@ -106,6 +106,25 @@ abstract class UpdateContentNodeTestCase extends ECampApiTestCase {
         ]);
     }
 
+    public function testPatchResortsEntriesIfExistingPositionWasUsed() {
+        if ($this->defaultEntity instanceof ColumnLayout) {
+            $this->defaultEntity = static::$fixtures['columnLayoutChild1'];
+        }
+        $this->patch(
+            payload: [
+                'parent' => $this->getIriFor('columnLayout1'),
+                'slot' => '1',
+                'position' => 0,
+            ]
+        );
+
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertJsonContains([
+            'slot' => '1',
+            'position' => 0,
+        ]);
+    }
+
     private static function getContentNodesWhichCannotHaveChildren(): array {
         return [
             ContentNode\MaterialNode::class => [

@@ -47,6 +47,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Entity(repositoryClass: ContentNodeRepository::class)]
 #[ORM\InheritanceType('SINGLE_TABLE')]
 #[ORM\DiscriminatorColumn(name: 'strategy', type: 'string')]
+#[ORM\UniqueConstraint(name: 'contentnode_parentid_slot_position_unique', columns: ['parentid', 'slot', 'position'])]
 abstract class ContentNode extends BaseEntity implements BelongsToContentNodeTreeInterface, CopyFromPrototypeInterface {
     use ClassInfoTrait;
 
