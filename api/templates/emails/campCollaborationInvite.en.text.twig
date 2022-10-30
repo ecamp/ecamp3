@@ -1,8 +1,12 @@
-Invitation to {{ camp_name }}
+Invitation to camp "{{ camp_name | raw }}"
 
-You have been invited by {{ by_user }} to collaborate in camp {{ camp_name }}.
+You have been invited by {{ by_user | raw }} to collaborate in the following camp:
+
+Name: {{ camp_name | raw }}
+Title: {{ camp_title | raw }}
 
 Answer the invitation:
-{{ url }}
+{{ url | raw }}
 
-Your eCamp-Team
+Cheers,
+your eCamp team

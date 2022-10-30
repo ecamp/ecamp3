@@ -164,7 +164,8 @@
           "label": "Download PDF (layout #1)"
         },
         "generatePdfMixin": {
-          "error": "Something did not work. Please try again, or try reloading the page."
+          "error": "Something did not work. Please try again, or try reloading the page.",
+          "queueFull": "All our PDF printers are busy at the moment. Please try again later."
         },
         "printPreviewNuxt": {
           "openPreview": "Open preview in new window",

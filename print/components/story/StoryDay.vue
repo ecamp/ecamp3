@@ -22,7 +22,7 @@
             </template>
           </h4>
 
-          <rich-text :rich-text="chapter.data.text" />
+          <rich-text :rich-text="chapter.data.html" />
         </div>
       </template>
     </template>
@@ -75,7 +75,7 @@ export default {
           (contentNode) =>
             contentNode.root()._meta.self ===
               scheduleEntry.activity().rootContentNode()._meta.self &&
-            !isEmptyHtml(contentNode.data.text)
+            !isEmptyHtml(contentNode.data.html)
         ),
       }))
     },

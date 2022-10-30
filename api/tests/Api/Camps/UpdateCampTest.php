@@ -123,10 +123,10 @@ class UpdateCampTest extends ECampApiTestCase {
         ]);
     }
 
-    public function testPatchCampCleansHTMLFromName() {
+    public function testPatchCampCleansForbiddenCharactersFromName() {
         $camp = static::$fixtures['camp1'];
         static::createClientWithCredentials()->request('PATCH', '/camps/'.$camp->getId(), ['json' => [
-            'name' => 'So-<script>alert(1)</script>La',
+            'name' => "So-\n\tLa",
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
 
         $this->assertResponseStatusCodeSame(200);
@@ -181,10 +181,10 @@ class UpdateCampTest extends ECampApiTestCase {
         ]);
     }
 
-    public function testPatchCampCleansHTMLFromTitle() {
+    public function testPatchCampCleansForbiddenCharactersFromTitle() {
         $camp = static::$fixtures['camp1'];
         static::createClientWithCredentials()->request('PATCH', '/camps/'.$camp->getId(), ['json' => [
-            'title' => 'Sommer<script>alert(1)</script>lager',
+            'title' => "Sommer\n\tlager",
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
 
         $this->assertResponseStatusCodeSame(200);
@@ -239,15 +239,15 @@ class UpdateCampTest extends ECampApiTestCase {
         ]);
     }
 
-    public function testPatchCampCleansHTMLFromMotto() {
+    public function testPatchCampCleansForbiddenCharactersFromMotto() {
         $camp = static::$fixtures['camp1'];
         static::createClientWithCredentials()->request('PATCH', '/camps/'.$camp->getId(), ['json' => [
-            'motto' => 'Dschungel<script>alert(1)</script>buch',
+            'motto' => "this\n\t\u{202E} is 'a' <sample> text😀 \\",
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
 
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
-            'motto' => 'Dschungelbuch',
+            'motto' => "this is 'a' <sample> text😀 \\",
         ]);
     }
 
@@ -304,10 +304,10 @@ class UpdateCampTest extends ECampApiTestCase {
         ]);
     }
 
-    public function testPatchCampCleansHTMLFromAddressName() {
+    public function testPatchCampCleansForbiddenCharactersFromAddressName() {
         $camp = static::$fixtures['camp1'];
         static::createClientWithCredentials()->request('PATCH', '/camps/'.$camp->getId(), ['json' => [
-            'addressName' => 'Auf dem Hügel<script>alert(1)</script>',
+            'addressName' => "Auf dem Hügel\n\t",
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
 
         $this->assertResponseStatusCodeSame(200);
@@ -369,10 +369,10 @@ class UpdateCampTest extends ECampApiTestCase {
         ]);
     }
 
-    public function testPatchCampCleansHTMLFromAddressStreet() {
+    public function testPatchCampCleansForbiddenCharactersFromAddressStreet() {
         $camp = static::$fixtures['camp1'];
         static::createClientWithCredentials()->request('PATCH', '/camps/'.$camp->getId(), ['json' => [
-            'addressStreet' => 'Suppenstrasse <script>alert(1)</script>123a',
+            'addressStreet' => "Suppenstrasse \n\t123a",
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
 
         $this->assertResponseStatusCodeSame(200);
@@ -434,10 +434,10 @@ class UpdateCampTest extends ECampApiTestCase {
         ]);
     }
 
-    public function testPatchCampCleansHTMLFromAddressZipcode() {
+    public function testPatchCampCleansForbiddenCharactersFromAddressZipcode() {
         $camp = static::$fixtures['camp1'];
         static::createClientWithCredentials()->request('PATCH', '/camps/'.$camp->getId(), ['json' => [
-            'addressZipcode' => '800<script>alert(1)</script>0',
+            'addressZipcode' => "800\n\t0",
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
 
         $this->assertResponseStatusCodeSame(200);
@@ -499,10 +499,10 @@ class UpdateCampTest extends ECampApiTestCase {
         ]);
     }
 
-    public function testPatchCampCleansHTMLFromAddressCity() {
+    public function testPatchCampCleansForbiddenCharactersFromAddressCity() {
         $camp = static::$fixtures['camp1'];
         static::createClientWithCredentials()->request('PATCH', '/camps/'.$camp->getId(), ['json' => [
-            'addressCity' => 'Unter<script>alert(1)</script>berg',
+            'addressCity' => "Unter\n\tberg",
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
 
         $this->assertResponseStatusCodeSame(200);

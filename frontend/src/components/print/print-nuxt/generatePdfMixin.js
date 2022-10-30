@@ -47,7 +47,13 @@ export const generatePdfMixin = {
 
         saveAs(new Blob([response.data]), config.documentName)
       } catch (error) {
-        this.$toast.error(this.$tc('components.print.printNuxt.generatePdfMixin.error'))
+        if (error?.response?.status === 503) {
+          this.$toast.error(
+            this.$tc('components.print.printNuxt.generatePdfMixin.queueFull')
+          )
+        } else {
+          this.$toast.error(this.$tc('components.print.printNuxt.generatePdfMixin.error'))
+        }
       } finally {
         this.loading = false
       }

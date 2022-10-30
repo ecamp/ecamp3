@@ -193,16 +193,16 @@ class UpdateMaterialListTest extends ECampApiTestCase {
         ]);
     }
 
-    public function testPatchMaterialListDoesNotCleanHtmlOfName() {
+    public function testPatchMaterialListCleansForbiddenCharactersFromName() {
         $materialList = static::$fixtures['materialList1'];
         static::createClientWithCredentials(['email' => static::$fixtures['user2member']->getEmail()])
             ->request('PATCH', '/material_lists/'.$materialList->getId(), ['json' => [
-                'name' => ' <script>alert(1)</script><b>t</b ',
+                'name' => " \n\t<b>t</b ",
             ], 'headers' => ['Content-Type' => 'application/merge-patch+json']])
         ;
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
-            'name' => '<script>alert(1)</script><b>t</b',
+            'name' => '<b>t</b',
         ]);
     }
 }

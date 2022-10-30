@@ -129,6 +129,8 @@ jobs:
             --set php.oauth.cevidb.clientId='${{ secrets.OAUTH_CEVIDB_CLIENT_ID }}' \
             --set php.oauth.cevidb.clientSecret='${{ secrets.OAUTH_CEVIDB_CLIENT_SECRET }}' \
             --set php.oauth.cevidb.baseUrl='${{ secrets.OAUTH_CEVIDB_BASE_URL }}' \
+            --set browserless.maxConcurrentSessions=3 \
+            --set browserless.maxQueueLength=9 \
             --set frontend.sentryDsn='${{ secrets.FRONTEND_SENTRY_DSN }}' \
             --set print.sentryDsn='${{ secrets.PRINT_SENTRY_DSN }}' \
             --set deploymentTime="$(date -u +%s)" \

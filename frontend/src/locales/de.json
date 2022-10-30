@@ -167,7 +167,8 @@
           "label": "PDF herunterladen (Layout #1)"
         },
         "generatePdfMixin": {
-          "error": "Etwas hat nicht geklappt. Probiere es nochmals, oder lade die Seite neu."
+          "error": "Etwas hat nicht geklappt. Probiere es nochmals, oder lade die Seite neu.",
+          "queueFull": "Alle unsere PDF-Drucker sind im Moment beschäftigt. Bitte versuche es später nochmals."
         },
         "printPreviewNuxt": {
           "openPreview": "Vorschau in neuem Fenster öffnen",

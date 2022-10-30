@@ -13,7 +13,7 @@ App\Entity\ContentNode\Storyboard:
             'cf13d4b5-3ccd-4d9a-ab40-ad6f7e287140':
               {
                 column1: <word()>,
-                column2: <sentence()>,
+                column2Html: <sentence()>,
                 column3: <word()>,
                 position: 0,
               },
