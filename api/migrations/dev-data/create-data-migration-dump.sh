@@ -13,11 +13,6 @@ sed -i "s/Version[0-9]*/Version${CURRENT_DATE}/" ${NEW_PHP_FILE}
 # remove the lines between //START PHP CODE and //END PHP Code in ${LAST_PHP_FILE}
 sed -i '/\/\/ START PHP CODE/,/\/\/ END PHP CODE/{/\/\/ START PHP CODE/!{/\/\/ END PHP CODE/!d}}' ${LAST_PHP_FILE}
 
-LAST_SQL_FILE=$(ls ${SCRIPT_DIR}/Version*_data.sql | tail -1)
-NEW_SQL_FILE=${SCRIPT_DIR}/Version${CURRENT_DATE}_data.sql
-
-rm ${LAST_SQL_FILE}
-
 docker-compose exec database pg_dump \
                                 -U ecamp3 \
                                 -d ecamp3dev \
@@ -32,4 +27,4 @@ docker-compose exec database pg_dump \
   | grep -v "SET" \
   | grep -v "SELECT pg_catalog" \
   | dos2unix \
-  > ${SCRIPT_DIR}/Version${CURRENT_DATE}_data.sql
+  > ${SCRIPT_DIR}/data.sql

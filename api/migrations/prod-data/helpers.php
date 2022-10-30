@@ -24,8 +24,8 @@ function createTruncateDatabaseCommand(): string {
         ";
 }
 
-function getStatementsForMigrationFile(string $migrationFile): array {
-    $dump_file = str_replace('.php', '_data.sql', $migrationFile);
+function getStatementsForMigrationFile(): array {
+    $dump_file = __DIR__.'/data.sql';
     $sql = file_get_contents($dump_file);
 
     $parser = new Parser($sql);
