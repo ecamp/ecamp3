@@ -166,6 +166,29 @@ class InputFilterDenormalizerTest extends TestCase {
         );
     }
 
+    public function testDenormalizeExtendedEntity() {
+        $this->decoratedMock->expects($this->once())
+            ->method('denormalize')
+            ->willReturnArgument(0)
+        ;
+
+        $result = $this->denormalizer->denormalize(
+            [
+                'foo' => 'test',
+                'childA' => 'test',
+            ],
+            ExtendedEntity::class
+        );
+
+        $this->assertEquals(
+            [
+                'foo' => 'processed',
+                'childA' => 'testA',
+            ],
+            $result
+        );
+    }
+
     public function testDoesNotYetSupportEmbeddableStructuredProperties() {
         $this->decoratedMock->expects($this->once())
             ->method('denormalize')
@@ -339,6 +362,11 @@ class RelatedEntity extends BaseEntity {
 
     #[AppendA]
     public string $a;
+}
+
+class ExtendedEntity extends DummyEntity {
+    #[AppendA]
+    public string $childA;
 }
 
 #[ORM\Embeddable]
