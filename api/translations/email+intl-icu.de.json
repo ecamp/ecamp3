@@ -1,6 +1,6 @@
 {
     "inviteToCamp": {
-        "subject": "Du wurdest ins Lager {campName} eingeladen"
+        "subject": "[eCamp3] Du wurdest ins Lager \"{campName}\" eingeladen"
     },
     "userActivation": {
         "subject": "Willkommen bei eCamp3"
