@@ -365,7 +365,7 @@ class CreateActivityTest extends ECampApiTestCase {
                             ],
                         ],
                     ],
-                    'slot' => '',
+                    'slot' => null,
                     'position' => 0,
                     'instanceName' => 'columnLayout2',
                     'contentTypeName' => 'ColumnLayout',
