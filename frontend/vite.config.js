@@ -1,14 +1,18 @@
 import { defineConfig } from 'vite'
-import { createVuePlugin } from 'vite-plugin-vue2'
+import vue from '@vitejs/plugin-vue2'
 import { createSvgPlugin } from 'vite-plugin-vue2-svg'
-import worker, { pluginHelper } from 'vite-plugin-worker'
+import { comlink } from 'vite-plugin-comlink'
 import * as path from 'path'
 import { VuetifyResolver } from 'unplugin-vue-components/resolvers'
 import Components from 'unplugin-vue-components/vite'
 
 export default defineConfig(({ mode }) => ({
+  server: {
+    port: 3000,
+  },
   plugins: [
-    createVuePlugin(),
+    comlink(), // must be first
+    vue(),
     Components({
       resolvers: [
         // Vuetify
@@ -16,33 +20,48 @@ export default defineConfig(({ mode }) => ({
       ],
     }),
     createSvgPlugin(),
-    pluginHelper(),
-    worker({}),
   ],
+  worker: {
+    plugins: [comlink()],
+  },
   optimizeDeps: {
     include: [
-      'core-js/modules/es.symbol.js',
-      'core-js/modules/es.symbol.description.js',
-      'core-js/modules/es.function.name.js',
+      '@sentry/browser',
+      '@sentry/vue',
+      '@zxcvbn-ts/core',
+      '@zxcvbn-ts/language-common',
+      '@zxcvbn-ts/language-de',
+      '@zxcvbn-ts/language-en',
+      '@zxcvbn-ts/language-fr',
+      '@zxcvbn-ts/language-it',
+      'comlink',
       'core-js/modules/es.array.concat.js',
-      'core-js/modules/es.array.slice.js',
-      'core-js/modules/es.array.splice.js',
       'core-js/modules/es.array.find.js',
       'core-js/modules/es.array.push.js',
+      'core-js/modules/es.array.slice.js',
+      'core-js/modules/es.array.splice.js',
+      'core-js/modules/es.function.name.js',
       'core-js/modules/es.object.to-string.js',
       'core-js/modules/es.regexp.exec.js',
       'core-js/modules/es.regexp.test.js',
-      '@sentry/browser',
-      '@zxcvbn-ts/core',
-      '@zxcvbn-ts/language-common',
-      '@zxcvbn-ts/language-en',
-      '@zxcvbn-ts/language-de',
-      '@zxcvbn-ts/language-fr',
-      '@zxcvbn-ts/language-it',
+      'core-js/modules/es.symbol.description.js',
+      'core-js/modules/es.symbol.js',
+      'dayjs',
+      'dayjs/locale/de',
+      'dayjs/locale/de-ch',
+      'dayjs/locale/fr',
+      'dayjs/locale/it',
+      'dayjs/plugin/customParseFormat',
+      'dayjs/plugin/isBetween',
+      'dayjs/plugin/localizedFormat',
+      'dayjs/plugin/utc',
+      'lodash/keyBy.js',
       'raf/polyfill',
+      'vee-validate',
+      'vue',
+      'vue-toastification',
       'vuetify/es5/components/VCalendar/modes/column.js',
       'vuetify/es5/components/VCalendar/util/events.js',
-      'lodash/keyBy.js',
     ],
   },
   build: {

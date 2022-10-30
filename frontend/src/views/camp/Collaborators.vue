@@ -196,13 +196,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-::v-deep .v-skeleton-loader__list-item-avatar-two-line {
+:deep(.v-skeleton-loader__list-item-avatar-two-line) {
   height: 72px;
   padding-left: 0 !important;
   padding-right: 0 !important;
 }
 
-::v-deep .v-select__selections input {
+:deep(.v-select__selections input) {
   width: 20px;
 }
 </style>

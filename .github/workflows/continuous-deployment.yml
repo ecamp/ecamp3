@@ -12,7 +12,7 @@ jobs:
     outputs:
       to-uninstall: ${{ steps.to-uninstall.outputs.list }}
       to-deploy: ${{ steps.to-deploy.outputs.list }}
-      never-uninstall: ${{ steps.to-uninstall.outputs.never-uninstall }}
+      never-uninstall: ${{ steps.to-uninstall.outputs.never_uninstall }}
     steps:
 
       - uses: actions/checkout@93ea575cb5d8a053eaa0ac8fa3b40d7e05a33cc8 # tag=v3
@@ -26,7 +26,7 @@ jobs:
               -d "{\"query\": \"query { repository(owner: \\\"ecamp\\\", name: \\\"ecamp3\\\") { ref(qualifiedName: \\\"devel\\\") { target { ... on Commit { statusCheckRollup { state } } } } } }\"}" \
             | jq '.data.repository.ref.target.statusCheckRollup.state=="SUCCESS"')
           echo "Devel CI has passed (within the last 100 CI workflow runs across all forks): $DEVEL_GREEN"
-          echo ::set-output name=passed::$DEVEL_GREEN
+          echo "passed=$DEVEL_GREEN" | tr -d "\n" >> $GITHUB_OUTPUT
 
       - name: Find all open PRs that have a "deploy!" label, plus devel
         id: deployment-candidates
@@ -45,7 +45,7 @@ jobs:
             | jq 'map({"name":("pr"+(.node.number|tostring)),env:"feature-branch",sha:.node.headRefOid})' \
             | jq ".+[$DEVEL]")
           echo "Deployment candidates: $LIST"
-          echo ::set-output name=list::$LIST
+          echo "list=$LIST" | tr -d "\n" >> $GITHUB_OUTPUT
 
       - name: Read the list of all currently active deployments
         id: current-deployments
@@ -56,19 +56,20 @@ jobs:
           # Creates a list of objects like [{"name": "pr1234", "sha": "... commit sha ..."}, {"name": "dev", "sha": "..."}]
           LIST=$(helm list -o json | jq 'map(.name|=sub("^ecamp3-";""))' | jq 'map({name:.name,sha:.app_version})')
           echo "Currently active deployments: $LIST"
-          echo ::set-output name=list::$LIST
+          echo "list=$LIST" | tr -d "\n" >> $GITHUB_OUTPUT
 
       - name: List deployments without PR
         id: to-uninstall
         env:
           deployments: ${{ toJSON(fromJSON(steps.current-deployments.outputs.list).*.name) }}
           prs: ${{ toJSON(fromJSON(steps.deployment-candidates.outputs.list).*.name) }}
-          never_uninstall: '["dev", "stage", "staging", "prod"]'
+          never_uninstall: '["dev", "stage", "staging", "prod", "alpha", "beta"]'
         run: |
           TO_UNINSTALL=$(jq --null-input --argjson prs '${{ env.prs }}' --argjson deployments '${{ env.deployments }}' --argjson never_uninstall '${{ env.never_uninstall }}' '$deployments-$prs-$never_uninstall')
           echo "Will uninstall: $TO_UNINSTALL"
-          echo ::set-output name=list::$TO_UNINSTALL
-          echo ::set-output name=never-uninstall::$never_uninstall
+          echo "list=$TO_UNINSTALL" | tr -d "\n" >> $GITHUB_OUTPUT
+          echo "\n" >> $GITHUB_OUTPUT
+          echo "never_uninstall=$never_uninstall" | tr -d "\n" >> $GITHUB_OUTPUT
 
       - name: List PRs without up-to-date deployment
         id: to-deploy
@@ -81,7 +82,7 @@ jobs:
             '$prs|map(select([{name:.name,sha:.sha}]|inside($deployments)|not))' \
             | jq --argjson allow_dev "${{ env.allow_dev }}" 'map(select((.name!="dev")or($allow_dev==true)))')
           echo "Will install the following candidates, because they either aren't deployed or their deployment is out of date: $TO_INSTALL"
-          echo ::set-output name=list::$TO_INSTALL
+          echo "list=$TO_INSTALL" | tr -d "\n" >> $GITHUB_OUTPUT
 
   uninstall-old-deployment:
     name: Uninstall old deployment

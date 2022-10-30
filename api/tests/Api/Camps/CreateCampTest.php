@@ -151,9 +151,9 @@ class CreateCampTest extends ECampApiTestCase {
         ]));
     }
 
-    public function testCreateCampCleansHTMLFromName() {
+    public function testCreateCampCleansForbiddenCharactersFromName() {
         static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExampleWritePayload([
-            'name' => 'So-<script>alert(1)</script>La',
+            'name' => "So-\n\tLa",
         ])]);
 
         $this->assertResponseStatusCodeSame(201);
@@ -219,9 +219,9 @@ class CreateCampTest extends ECampApiTestCase {
         ]));
     }
 
-    public function testCreateCampCleansHTMLFromTitle() {
+    public function testCreateCampCleansForbiddenCharactersFromTitle() {
         static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExampleWritePayload([
-            'title' => 'Sommer<script>alert(1)</script>lager',
+            'title' => "Sommer\n\tlager",
         ])]);
 
         $this->assertResponseStatusCodeSame(201);
@@ -287,14 +287,14 @@ class CreateCampTest extends ECampApiTestCase {
         ]));
     }
 
-    public function testCreateCampCleansHTMLFromMotto() {
+    public function testCreateCampCleansForbiddenCharactersFromMotto() {
         static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExampleWritePayload([
-            'motto' => 'Dschungel<script>alert(1)</script>buch',
+            'motto' => "this\n\t\u{202E} is 'a' <sample> text😀 \\",
         ])]);
 
         $this->assertResponseStatusCodeSame(201);
         $this->assertJsonContains($this->getExampleReadPayload([
-            'motto' => 'Dschungelbuch',
+            'motto' => "this is 'a' <sample> text😀 \\",
         ]));
     }
 
@@ -356,9 +356,9 @@ class CreateCampTest extends ECampApiTestCase {
         ]));
     }
 
-    public function testCreateCampCleansHTMLFromAddressName() {
+    public function testCreateCampCleansForbiddenCharactersFromAddressName() {
         static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExampleWritePayload([
-            'addressName' => 'Auf dem Hügel<script>alert(1)</script>',
+            'addressName' => "Auf dem Hügel\n\t",
         ])]);
 
         $this->assertResponseStatusCodeSame(201);
@@ -425,9 +425,9 @@ class CreateCampTest extends ECampApiTestCase {
         ]));
     }
 
-    public function testCreateCampCleansHTMLFromAddressStreet() {
+    public function testCreateCampCleansForbiddenCharactersFromAddressStreet() {
         static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExampleWritePayload([
-            'addressStreet' => 'Suppenstrasse <script>alert(1)</script>123a',
+            'addressStreet' => "Suppenstrasse \n\t123a",
         ])]);
 
         $this->assertResponseStatusCodeSame(201);
@@ -494,9 +494,9 @@ class CreateCampTest extends ECampApiTestCase {
         ]));
     }
 
-    public function testCreateCampCleansHTMLFromAddressZipcode() {
+    public function testCreateCampCleansForbiddenCharactersFromAddressZipcode() {
         static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExampleWritePayload([
-            'addressZipcode' => '800<script>alert(1)</script>0',
+            'addressZipcode' => "800\n\t0",
         ])]);
 
         $this->assertResponseStatusCodeSame(201);
@@ -563,9 +563,9 @@ class CreateCampTest extends ECampApiTestCase {
         ]));
     }
 
-    public function testCreateCampCleansHTMLFromAddressCity() {
+    public function testCreateCampCleansForbiddenCharactersFromAddressCity() {
         static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExampleWritePayload([
-            'addressCity' => 'Unter<script>alert(1)</script>berg',
+            'addressCity' => "Unter\n\tberg",
         ])]);
 
         $this->assertResponseStatusCodeSame(201);

@@ -45,14 +45,20 @@
           <template #event="{ event }">
             <div class="tw-float-left tw-text-xs tw-font-weight-medium">
               <!-- link jumps to first instance of scheduleEntry within the document -->
-              <a :href="`#scheduleEntry_${event.id}`">
+              <a
+                :href="`#scheduleEntry_${event.id}`"
+                :style="{ color: getActivityTextColor(event) }"
+              >
                 ({{ event.number }})&nbsp; {{ event.activity().category().short }}:&nbsp;
                 {{ event.activity().title }}
               </a>
             </div>
-            <span class="tw-float-right tw-text-xs tw-italic ml-1">{{
-              activityResponsiblesCommaSeparated(event)
-            }}</span>
+            <span
+              class="tw-float-right tw-text-xs tw-italic ml-1"
+              :style="{ color: getActivityTextColor(event) }"
+            >
+              {{ activityResponsiblesCommaSeparated(event) }}
+            </span>
           </template>
         </v-calendar>
       </v-sheet>
@@ -63,6 +69,7 @@
 <script>
 import { activityResponsiblesCommaSeparated } from '@/../common/helpers/activityResponsibles.js'
 import { dayResponsiblesCommaSeparated } from '@/../common/helpers/dayResponsibles.js'
+import { parseHexColor, contrastColor } from '@/../common/helpers/colors.js'
 
 export default {
   props: {
@@ -76,6 +83,10 @@ export default {
   methods: {
     getActivityColor(scheduleEntry) {
       return scheduleEntry.activity().category().color
+    },
+    getActivityTextColor(scheduleEntry) {
+      const color = this.getActivityColor(scheduleEntry)
+      return contrastColor(...parseHexColor(color))
     },
     intervalFormat(time) {
       return this.$date

@@ -17,7 +17,7 @@
       <template #item="{ item, on, attrs }">
         <v-list-item :key="item._meta.self" v-bind="attrs" v-on="on">
           <v-list-item-avatar>
-            <v-chip dark :color="item.color">{{ item.short }}</v-chip>
+            <category-chip :category="item" />
           </v-list-item-avatar>
           <v-list-item-content>
             {{ item.name }}
@@ -26,10 +26,10 @@
       </template>
       <template #selection="{ item }">
         <div class="v-select__selection">
+          <category-chip x-small :category="item" />
           <span class="black--text">
             {{ item.name }}
           </span>
-          <v-chip x-small dark :color="item.color">{{ item.short }}</v-chip>
         </div>
       </template>
     </e-select>
@@ -49,17 +49,20 @@
 </template>
 
 <script>
+import CategoryChip from '@/components/generic/CategoryChip.vue'
 import FormScheduleEntryList from './FormScheduleEntryList.vue'
 
 export default {
   name: 'DialogActivityForm',
-  components: { FormScheduleEntryList },
+  components: {
+    CategoryChip,
+    FormScheduleEntryList,
+  },
   props: {
     activity: {
       type: Object,
       required: true,
     },
-
     // currently visible period
     period: {
       type: Function,

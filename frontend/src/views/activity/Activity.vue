@@ -17,9 +17,7 @@ Displays a single activity
             :disabled="layoutMode || !isContributor"
           >
             <template #activator="{ on, attrs }">
-              <v-chip dark :color="category.color" v-bind="attrs" v-on="on">
-                {{ category.short }}
-              </v-chip>
+              <CategoryChip :schedule-entry="scheduleEntry()" v-bind="attrs" v-on="on" />
             </template>
             <v-list>
               <v-list-item
@@ -28,9 +26,7 @@ Displays a single activity
                 @click="changeCategory(cat)"
               >
                 <v-list-item-title>
-                  <v-chip dark :color="cat.color">
-                    {{ cat.short }}
-                  </v-chip>
+                  <CategoryChip :category="cat" />
                   {{ cat.name }}
                 </v-list-item-title>
               </v-list-item>
@@ -188,6 +184,7 @@ import { periodRoute } from '@/router.js'
 import DownloadNuxtPdf from '@/components/print/print-nuxt/DownloadNuxtPdfListItem.vue'
 import DownloadReactPdf from '@/components/print/print-react/DownloadReactPdfListItem.vue'
 import { errorToMultiLineToast } from '@/components/toast/toasts'
+import CategoryChip from '@/components/generic/CategoryChip.vue'
 
 export default {
   name: 'Activity',
@@ -198,6 +195,7 @@ export default {
     ActivityResponsibles,
     DownloadReactPdf,
     DownloadNuxtPdf,
+    CategoryChip,
   },
   mixins: [campRoleMixin],
   provide() {

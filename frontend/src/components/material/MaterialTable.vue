@@ -415,19 +415,19 @@ export default {
 </script>
 
 <style scoped>
-.v-data-table >>> .v-data-table__wrapper th {
+.v-data-table:deep(.v-data-table__wrapper th) {
   padding: 0 2px;
 }
-.v-data-table >>> .v-data-table__wrapper td {
+.v-data-table:deep(.v-data-table__wrapper td) {
   padding: 0 2px;
 }
 
-.v-data-table >>> .v-data-table__wrapper tr.readonly td,
-.v-data-table >>> .v-data-table__wrapper tr.new td {
+.v-data-table:deep(.v-data-table__wrapper tr.readonly td),
+.v-data-table:deep(.v-data-table__wrapper tr.new td) {
   padding-left: 10px;
 }
 
-.v-data-table >>> tr.new {
+.v-data-table:deep(tr.new) {
   animation: backgroundHighlight 2s;
 }
 

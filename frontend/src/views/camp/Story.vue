@@ -78,7 +78,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.ec-story-editable ::v-deep .v-input--selection-controls {
+.ec-story-editable:deep(.v-input--selection-controls) {
   margin-top: 0;
 }
 </style>
