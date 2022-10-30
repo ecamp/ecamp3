@@ -2,11 +2,11 @@
   <dialog-form
     v-model="showDialog"
     icon="mdi-cancel"
-    :title="$tc('components.camp.collaboratorListItemDeactivate.title')"
+    :title="$tc('components.collaborator.collaboratorListItemDeactivate.title')"
     :error="error"
     :submit-action="deactivateUser"
     :submit-enabled="!$slots.error"
-    submit-label="components.camp.collaboratorListItemDeactivate.deactivate"
+    submit-label="components.collaborator.collaboratorListItemDeactivate.deactivate"
     submit-color="error"
     submit-icon="mdi-cancel"
     cancel-icon=""
@@ -17,7 +17,7 @@
     </template>
     <slot>
       {{
-        $tc('components.camp.collaboratorListItemDeactivate.warningText', 1, {
+        $tc('components.collaborator.collaboratorListItemDeactivate.warningText', 1, {
           name: displayName,
         })
       }}

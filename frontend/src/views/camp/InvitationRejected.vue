@@ -1,11 +1,11 @@
 <template>
   <auth-container>
     <v-alert type="info">
-      {{ $tc('components.invitation.successfullyRejected') }}
+      {{ $tc('views.camp.invitationRejected.successfullyRejected') }}
     </v-alert>
     <div class="mb-4 mt-8">
       <router-link color="primary" x-large block :to="{ name: 'home' }">
-        {{ $tc('components.invitation.backToHome') }}
+        {{ $tc('views.camp.invitationRejected.backToHome') }}
       </router-link>
     </div>
   </auth-container>

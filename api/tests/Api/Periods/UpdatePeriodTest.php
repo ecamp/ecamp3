@@ -198,10 +198,10 @@ class UpdatePeriodTest extends ECampApiTestCase {
         ]);
     }
 
-    public function testPatchPeriodCleansHtmlForDescription() {
+    public function testPatchPeriodCleansForbiddenCharactersForDescription() {
         $period = static::$fixtures['period1'];
         static::createClientWithCredentials()->request('PATCH', '/periods/'.$period->getId(), ['json' => [
-            'description' => 'Vorwe<script>alert(1)</script>ekend',
+            'description' => "Vorwe\n\tekend",
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([

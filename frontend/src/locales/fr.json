@@ -1,32 +1,19 @@
 {
   "components": {
-    "activity": {
-      "contentNode": {
-        "editName": "Renommer",
-        "moveDown": "Descendre",
-        "moveUp": "Déplacer vers le haut"
-      },
-      "createScheduleEntries": {
-        "fields": {
-          "duration": "Durée",
-          "end": "Fin",
-          "start": "Début"
-        },
-        "name": "Prévu"
-      }
-    },
     "camp": {
-      "campCategories": {
-        "create": "Créer une catégorie d'activité",
-        "deleteCategoryNotPossibleInUse": "La catégorie d'activité ne peut pas être supprimée. Elle est utilisée par :",
-        "deleteCategoryQuestion": "Voulez-vous vraiment supprimer la catégorie d'activité?",
-        "title": "Catégories d'activités"
-      },
       "campInvitations": {
         "title": "Inviter"
       },
       "campMembers": {
         "title": "Membres"
+      }
+    },
+    "campAdmin": {
+      "campCategories": {
+        "create": "Créer une catégorie d'activité",
+        "deleteCategoryNotPossibleInUse": "La catégorie d'activité ne peut pas être supprimée. Elle est utilisée par :",
+        "deleteCategoryQuestion": "Voulez-vous vraiment supprimer la catégorie d'activité?",
+        "title": "Catégories d'activités"
       },
       "campPeriods": {
         "createPeriod": "Créer une période",
@@ -36,24 +23,19 @@
         "deleteWarning": "Voulez-vous vraiment le supprimer ?"
       },
       "campSettings": {
-        "fields": {
-          "motto": "Devise",
-          "name": "nom",
-          "title": "titre"
-        },
         "title": "Paramètres"
-      }
-    },
-    "dialog": {
+      },
       "dialogCategoryCreate": {
         "title": "Créer une catégorie d'activité"
       },
+      "dialogPeriodCreate": {
+        "title": "Créer une période"
+      }
+    },
+    "dialog": {
       "dialogEntityDelete": {
         "title": "Vraiment effacer?",
         "warningText": "Voulez-vous vraiment le supprimer ?"
-      },
-      "dialogPeriodCreate": {
-        "title": "Créer une période"
       }
     },
     "layout": {
@@ -68,9 +50,20 @@
         "profile": "Profil"
       }
     },
+    "program": {
+      "formScheduleEntryItem": {
+        "end": "Fin",
+        "start": "Début"
+      },
+      "formScheduleEntryList": {
+        "name": "Prévu"
+      }
+    },
     "toast": {
-      "multiLineToast": {
-        "generalError": "Une erreur est survenue."
+      "toasts": {
+        "multiLineToast": {
+          "generalError": "Une erreur est survenue."
+        }
       }
     }
   },

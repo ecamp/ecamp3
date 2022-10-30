@@ -101,10 +101,10 @@ class UpdateProfileTest extends ECampApiTestCase {
         ]);
     }
 
-    public function testPatchProfileCleansHTMLFromFirstname() {
+    public function testPatchProfileCleansForbiddenCharactersFromFirstname() {
         $profile = static::$fixtures['profile1manager'];
         static::createClientWithCredentials()->request('PATCH', '/profiles/'.$profile->getId(), ['json' => [
-            'firstname' => '<script>alert(1)</script>Hello',
+            'firstname' => "\n\tHello",
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
@@ -123,10 +123,10 @@ class UpdateProfileTest extends ECampApiTestCase {
         ]);
     }
 
-    public function testPatchProfileCleansHTMLFromSurname() {
+    public function testPatchProfileCleansForbiddenCharactersFromSurname() {
         $profile = static::$fixtures['profile1manager'];
         static::createClientWithCredentials()->request('PATCH', '/profiles/'.$profile->getId(), ['json' => [
-            'surname' => '<script>alert(1)</script>Hello',
+            'surname' => "\n\tHello",
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
@@ -145,10 +145,10 @@ class UpdateProfileTest extends ECampApiTestCase {
         ]);
     }
 
-    public function testPatchProfileCleansHTMLFromNickname() {
+    public function testPatchProfileCleansForbiddenCharactersFromNickname() {
         $profile = static::$fixtures['profile1manager'];
         static::createClientWithCredentials()->request('PATCH', '/profiles/'.$profile->getId(), ['json' => [
-            'nickname' => '<script>alert(1)</script>Hello',
+            'nickname' => "\n\tHello",
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([

@@ -44,6 +44,8 @@
         "symfony/twig-bundle": "6.1.1",
         "symfony/validator": "6.1.7",
         "symfony/yaml": "6.1.6",
+        "twig/cssinliner-extra": "^3.4",
+        "twig/extra-bundle": "^3.4",
         "webonyx/graphql-php": "14.11.8"
     },
     "require-dev": {

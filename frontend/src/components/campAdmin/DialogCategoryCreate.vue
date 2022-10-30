@@ -4,7 +4,7 @@
     :loading="loading"
     :error="error"
     icon="mdi-calendar-plus"
-    :title="$tc('components.dialog.dialogCategoryCreate.title')"
+    :title="$tc('components.campAdmin.dialogCategoryCreate.title')"
     :submit-action="createCategory"
     submit-color="success"
     :cancel-action="close"

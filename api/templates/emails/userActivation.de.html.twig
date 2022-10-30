@@ -1,11 +1,20 @@
-<h3>Willkommen bei eCamp3</h3>
-<p>
-    Bestätige deine Mail-Adresse indem du den nachfolgenden Link öffnest:
-</p>
-<p>
-    <a href="{{ url }}">bestätigen</a>
-</p>
-<p>
-    Beste Grüsse,
-    dein eCamp-Team
-</p>
+{% set preheader = 'Willkommen bei eCamp3' %}
+{% extends 'emails/baseLayout.twig' %}
+
+{% block content %}
+    <h1>Willkommen bei eCamp3</h1>
+    <p>Hallo {{ name }},</p>
+    <p>
+        Du hast dich soeben für eCamp registriert. <br />
+        Bestätige deine Mail-Adresse indem du den nachfolgenden Link öffnest:
+    </p>
+
+    {% with { title: 'Bestätigen', url: url } %}
+        {% include 'emails/button.twig' %}
+    {% endwith %}
+
+    <p>
+        Beste Grüsse,<br />
+        dein eCamp-Team
+    </p>
+{% endblock %}

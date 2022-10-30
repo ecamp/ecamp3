@@ -45,7 +45,12 @@ Listing all given activity schedule entries in a calendar view.
           {{
             $date
               .utc(date)
-              .format($tc('components.camp.picasso.datetime.date', widthPluralization))
+              .format(
+                $tc(
+                  'components.program.picasso.picasso.datetime.date',
+                  widthPluralization
+                )
+              )
           }}
         </div>
         <day-responsibles :date="date" :period="period" :readonly="!editable" />

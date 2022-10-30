@@ -40,7 +40,7 @@
                 auto-grow
                 dense
                 :readonly="!editing"
-                fieldname="data.text"
+                fieldname="data.html"
                 aria-label="Erfassen"
                 label=""
               />
@@ -49,7 +49,7 @@
         </template>
       </template>
       <p v-else>
-        {{ $tc('story.storyDay.noStory') }}
+        {{ $tc('components.story.storyDay.noStory') }}
       </p>
     </v-expansion-panel-content>
   </v-expansion-panel>

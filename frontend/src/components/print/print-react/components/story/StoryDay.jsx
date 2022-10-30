@@ -34,7 +34,7 @@ function StoryDay(props) {
           contentNode.contentTypeName === 'Storycontext' &&
           contentNode.root()._meta.self ===
             scheduleEntry.activity().rootContentNode()._meta.self &&
-          !isEmptyHtml(contentNode.data.text)
+          !isEmptyHtml(contentNode.data.html)
       ),
   }))
   const entriesWithStory = entries.filter(({ storyChapters }) => storyChapters.length)
@@ -72,7 +72,7 @@ function StoryDay(props) {
                     <CategoryLabel activity={scheduleEntry.activity()} />
                     <Text> {chapterTitle}</Text>
                   </View>
-                  <RichText richText={chapter.data.text} />
+                  <RichText richText={chapter.data.html} />
                 </React.Fragment>
               )
             })}

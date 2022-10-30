@@ -53,11 +53,11 @@
     <td :colspan="columns">
       <div>
         <p>
-          {{ $tc('components.camp.materialCreateItem.noMaterialListAvailable') }}
+          {{ $tc('components.material.materialCreateItem.noMaterialListAvailable') }}
         </p>
         <v-btn :to="campRoute(camp, 'admin')">
           <v-icon :left="$vuetify.breakpoint.mdAndUp">mdi-cogs</v-icon>
-          {{ $tc('components.camp.materialCreateItem.campSettingsButton') }}
+          {{ $tc('components.material.materialCreateItem.campSettingsButton') }}
         </v-btn>
       </div>
     </td>

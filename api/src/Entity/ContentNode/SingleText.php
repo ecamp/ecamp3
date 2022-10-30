@@ -40,9 +40,9 @@ class SingleText extends ContentNode {
     public const JSON_SCHEMA = [
         'type' => 'object',
         'additionalProperties' => false,
-        'required' => ['text'],
+        'required' => ['html'],
         'properties' => [
-            'text' => [
+            'html' => [
                 'type' => 'string',
             ],
         ],
@@ -52,10 +52,10 @@ class SingleText extends ContentNode {
      * Holds the actual data of the content node
      * (overridden from abstract class in order to add specific validation).
      */
-    #[ApiProperty(example: ['text' => 'my example text'])]
+    #[ApiProperty(example: ['html' => 'my example text'])]
     #[Groups(['read', 'write'])]
     #[ORM\Column(type: 'json', nullable: true, options: ['jsonb' => true])]
     #[AssertJsonSchema(schema: self::JSON_SCHEMA)]
     #[Assert\NotNull]
-    public ?array $data = ['text' => ''];
+    public ?array $data = ['html' => ''];
 }

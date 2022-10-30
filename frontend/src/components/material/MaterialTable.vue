@@ -172,7 +172,7 @@
         >
           <template #activator="{ on }">
             <button-add v-on="on">
-              {{ $tc('components.camp.periodMaterialLists.addNewItem') }}
+              {{ $tc('components.material.materialTable.addNewItem') }}
             </button-add>
           </template>
         </dialog-material-item-create>

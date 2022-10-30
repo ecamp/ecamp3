@@ -1,11 +1,23 @@
-<h3>Einladung zur Mitarbeit beim Lager {{ camp_name }}</h3>
-<p>
-    Du wurdest von {{ by_user }} eingeladen, beim Lager {{ camp_name }} mitzuwirken.
-</p>
-<p>
-    <a href="{{ url }}">Einladung beantworten</a>
-</p>
-<p>
-    Beste Grüsse,
-    dein eCamp-Team
-</p>
+{% set preheader = 'Einladung zur Mitarbeit beim Lager ' ~ camp_name %}
+{% extends 'emails/baseLayout.twig' %}
+
+{% block content %}
+    <h1>Einladung zur Mitarbeit beim Lager "{{ camp_name }}"</h1>
+    <p>Hallo,</p>
+    <p>
+        Du wurdest von {{ by_user }} eingeladen, bei folgendem Lager mitzuwirken:
+    </p>
+    <p>
+        <strong>Name:</strong> {{ camp_name }} <br />
+        <strong>Titel:</strong> {{ camp_title }}
+    </p>
+
+    {% with { title: 'Einladung beantworten', url: url } %}
+        {% include 'emails/button.twig' %}
+    {% endwith %}
+
+    <p>
+        Beste Grüsse,<br />
+        dein eCamp-Team
+    </p>
+{% endblock %}

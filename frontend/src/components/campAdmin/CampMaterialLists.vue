@@ -2,7 +2,7 @@
   <content-group>
     <slot name="title">
       <div class="ec-content-group__title py-1 subtitle-1">
-        {{ $tc('components.camp.campMaterialLists.title') }}
+        {{ $tc('components.campAdmin.campMaterialLists.title') }}
         <dialog-material-list-create v-if="!disabled" :camp="camp()">
           <template #activator="{ on }">
             <button-add
@@ -12,7 +12,7 @@
               class="my-n1"
               v-on="on"
             >
-              {{ $tc('components.camp.campMaterialLists.createMaterialList') }}
+              {{ $tc('components.campAdmin.campMaterialLists.createMaterialList') }}
             </button-add>
           </template>
         </dialog-material-list-create>
