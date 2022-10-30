@@ -152,6 +152,19 @@ abstract class UpdateContentNodeTestCase extends ECampApiTestCase {
         ]);
     }
 
+    public function testPatchCleansTextOfInstanceName() {
+        $this->patch(
+            payload: [
+                'instanceName' => "\u{000A}control\u{0007}",
+            ]
+        );
+
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertJsonContains([
+            'instanceName' => 'control',
+        ]);
+    }
+
     private static function getContentNodesWhichCannotHaveChildren(): array {
         return [
             ContentNode\MaterialNode::class => [
