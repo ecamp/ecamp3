@@ -179,6 +179,33 @@ abstract class CreateContentNodeTestCase extends ECampApiTestCase {
         ]);
     }
 
+    public function testCreateRejectsTooLongInstanceName() {
+        $this->create($this->getExampleWritePayload(
+            [
+                'instanceName' => str_repeat('a', 33),
+            ]
+        ));
+
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'title' => 'An error occurred',
+            'detail' => 'instanceName: This value is too long. It should have 32 characters or less.',
+        ]);
+    }
+
+    public function testCreateTrimsInstanceName() {
+        $this->create($this->getExampleWritePayload(
+            [
+                'instanceName' => " SchlechtwetterProgramm\t\t",
+            ]
+        ));
+
+        $this->assertResponseStatusCodeSame(201);
+        $this->assertJsonContains([
+            'instanceName' => 'SchlechtwetterProgramm',
+        ]);
+    }
+
     protected function getExampleWritePayload($attributes = [], $except = []) {
         return parent::getExampleWritePayload(
             array_merge([

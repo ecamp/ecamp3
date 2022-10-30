@@ -125,6 +125,33 @@ abstract class UpdateContentNodeTestCase extends ECampApiTestCase {
         ]);
     }
 
+    public function testPatchRejectsTooLongInstanceName() {
+        $this->patch(
+            payload: [
+                'instanceName' => str_repeat('a', 33),
+            ]
+        );
+
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'title' => 'An error occurred',
+            'detail' => 'instanceName: This value is too long. It should have 32 characters or less.',
+        ]);
+    }
+
+    public function testPatchTrimsInstanceName() {
+        $this->patch(
+            payload: [
+                'instanceName' => " SchlechtwetterProgramm\t\t",
+            ]
+        );
+
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertJsonContains([
+            'instanceName' => 'SchlechtwetterProgramm',
+        ]);
+    }
+
     private static function getContentNodesWhichCannotHaveChildren(): array {
         return [
             ContentNode\MaterialNode::class => [
