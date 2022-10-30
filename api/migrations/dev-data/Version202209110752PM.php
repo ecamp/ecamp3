@@ -18,7 +18,7 @@ final class Version202209110752PM extends AbstractMigration {
         // START PHP CODE
         $this->addSql(createTruncateDatabaseCommand());
 
-        $statements = getStatementsForMigrationFile(__FILE__);
+        $statements = getStatementsForMigrationFile();
         foreach ($statements as $statement) {
             if (trim($statement)) {
                 $this->addSql($statement);
