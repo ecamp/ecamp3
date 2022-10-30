@@ -70,7 +70,7 @@
     "vee-validate": "3.4.14",
     "vue": "2.7.13",
     "vue-axios": "3.5.1",
-    "vue-i18n": "8.27.2",
+    "vue-i18n": "8.28.0",
     "vue-recaptcha-v3": "1.9.0",
     "vue-router": "3.6.5",
     "vue-toastification": "1.7.14",
