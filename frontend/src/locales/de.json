@@ -77,7 +77,14 @@
         "title": "Lagerabschnitt erstellen"
       },
       "dialogPeriodEdit": {
-        "moveScheduleEntries": "Aktivitäten verschieben"
+        "moveScheduleEntries": "Aktivitäten verschieben",
+        "mode": "Modus",
+        "modes": {
+          "free": "Frei",
+          "move-period": "Lagerabschnitt verschieben",
+          "move-start": "Start-Datum anpassen",
+          "move-end": "End-Datum anpassen"
+        }
       }
     },
     "collaborator": {

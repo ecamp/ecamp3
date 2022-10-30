@@ -74,7 +74,14 @@
         "title": "Create material list"
       },
       "dialogPeriodEdit": {
-        "moveScheduleEntries": "Move schedule entries"
+        "moveScheduleEntries": "Move schedule entries",
+        "mode": "Mode",
+        "modes": {
+          "free": "Free",
+          "move-period": "Move period",
+          "move-start": "Adjust start date",
+          "move-end": "Adjust end date"
+        }
       },
       "dialogPeriodCreate": {
         "title": "Create period"

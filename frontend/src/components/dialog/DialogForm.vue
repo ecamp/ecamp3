@@ -39,14 +39,15 @@
             <slot v-else />
           </div>
 
-          <v-card-text>
-            <!-- error message via slot -->
-            <v-alert v-if="$slots.error" text outlined color="warning" icon="mdi-alert">
+          <!-- error message via slot -->
+          <v-card-text v-if="$slots.error">
+            <v-alert text outlined color="warning" icon="mdi-alert">
               <slot name="error" />
             </v-alert>
-
+          </v-card-text>
+          <v-card-text v-else-if="error">
             <!-- error message via props -->
-            <server-error v-else :server-error="error" />
+            <server-error :server-error="error" />
           </v-card-text>
 
           <v-card-actions>

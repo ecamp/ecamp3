@@ -23,14 +23,14 @@ Displays a field as a picker (can be used with v-model)
           :error-messages="combinedErrorMessages"
           :filled="filled"
           :disabled="disabled"
+          :readonly="readonly"
           @input="debouncedParseValue"
           @focus="textFieldIsActive = true"
           @blur="textFieldIsActive = false"
         >
           <template v-if="icon" #prepend>
-            <v-icon :color="iconColor" @click="on.click">
-              {{ icon }}
-            </v-icon>
+            <v-icon v-if="readonly || disabled" :color="iconColor">{{ icon }}</v-icon>
+            <v-icon v-else :color="iconColor" @click="on.click">{{ icon }}</v-icon>
           </template>
 
           <!-- passing the append slot through -->
