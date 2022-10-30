@@ -43,9 +43,10 @@ router.use('/pdfChrome', async (req, res) => {
     browser = await puppeteer.connect({
       browserWSEndpoint: process.env.BROWSER_WS_ENDPOINT,
     })
+    const context = await browser.createIncognitoBrowserContext()
 
     measurePerformance('Open new page & set cookies...')
-    const page = await browser.newPage()
+    const page = await context.newPage()
     const printUrl = new URL(process.env.PRINT_URL)
     const cookies = [
       {
@@ -114,14 +115,33 @@ router.use('/pdfChrome', async (req, res) => {
     })
 
     measurePerformance()
-    browser.close()
+    browser.disconnect()
 
     res.contentType('application/pdf')
     res.send(pdf)
   } catch (error) {
-    console.error({ error }, 'Something happened!')
-    browser.close()
-    res.send(error)
+    if (browser) {
+      browser.disconnect()
+    }
+
+    let errorMessage = null
+    let status = 500
+    if (error.error) {
+      // error is a WebSocket ErrorEvent Object which contains an error property
+      errorMessage = error.error.message
+      if (errorMessage === 'Unexpected server response: 429') {
+        status = 503
+        errorMessage = 'Server responded with `429 Too Many Requests` (queue is full)'
+      }
+    } else {
+      errorMessage = error.message
+    }
+
+    console.error(error)
+
+    res.status(status)
+    res.contentType('application/problem+json')
+    res.send({ status, title: errorMessage })
   }
 })
 
