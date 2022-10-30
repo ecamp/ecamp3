@@ -163,6 +163,22 @@ abstract class CreateContentNodeTestCase extends ECampApiTestCase {
         ]);
     }
 
+    public function testCreatePutsContentNodeAtEndOfSlot() {
+        $this->create($this->getExampleWritePayload(
+            [
+                'parent' => $this->getIriFor('columnLayout1'),
+                'slot' => '1',
+            ],
+            ['position']
+        ));
+
+        $this->assertResponseStatusCodeSame(201);
+        $this->assertJsonContains([
+            'slot' => '1',
+            'position' => 4,
+        ]);
+    }
+
     protected function getExampleWritePayload($attributes = [], $except = []) {
         return parent::getExampleWritePayload(
             array_merge([
