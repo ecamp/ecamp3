@@ -3,7 +3,7 @@
 set -e
 
 SCRIPT_DIR=$(dirname $(realpath $0))
-CURRENT_DATE=$(date +"%Y%m%d%I%M%p")
+CURRENT_DATE=$(date +"%Y%m%d%H%M%p")
 
 LAST_PHP_FILE=$(ls ${SCRIPT_DIR}/Version*.php | tail -1)
 NEW_PHP_FILE=${SCRIPT_DIR}/Version${CURRENT_DATE}.php
