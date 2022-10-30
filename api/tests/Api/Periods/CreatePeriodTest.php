@@ -173,14 +173,14 @@ class CreatePeriodTest extends ECampApiTestCase {
         ));
     }
 
-    public function testCreatePeriodCleansHtmlForDescription() {
+    public function testCreatePeriodCleansForbiddenCharactersForDescription() {
         static::createClientWithCredentials()->request(
             'POST',
             '/periods',
             [
                 'json' => $this->getExampleWritePayload(
                     [
-                        'description' => 'Vorl<script>alert(1)</script>ager',
+                        'description' => "Vorl\n\tager",
                     ]
                 ),
             ]

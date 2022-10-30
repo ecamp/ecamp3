@@ -7,6 +7,7 @@ use App\DataPersister\Util\DataPersisterObservable;
 use App\Entity\ContentNode\ColumnLayout;
 use App\Entity\ContentNode\Storyboard;
 use App\InputFilter\CleanHTMLFilter;
+use App\InputFilter\CleanTextFilter;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -17,16 +18,29 @@ class StoryboardDataPersisterTest extends TestCase {
     private StoryboardDataPersister $dataPersister;
     private MockObject|DataPersisterObservable $dataPersisterObservable;
     private MockObject|CleanHTMLFilter $cleanHTMLFilter;
+    private MockObject|CleanTextFilter $cleanTextFilter;
     private ColumnLayout $root;
     private Storyboard $contentNode;
 
     protected function setUp(): void {
         $this->dataPersisterObservable = $this->createMock(DataPersisterObservable::class);
+
         $this->cleanHTMLFilter = $this->createMock(CleanHTMLFilter::class);
         $this->cleanHTMLFilter->method('applyTo')->will(
             $this->returnCallback(
                 function ($object, $property) {
-                    $object[$property] = '***sanitzed***';
+                    $object[$property] = '***sanitizedHTML***';
+
+                    return $object;
+                }
+            )
+        );
+
+        $this->cleanTextFilter = $this->createMock(CleanTextFilter::class);
+        $this->cleanTextFilter->method('applyTo')->will(
+            $this->returnCallback(
+                function ($object, $property) {
+                    $object[$property] = '***sanitizedText***';
 
                     return $object;
                 }
@@ -36,15 +50,15 @@ class StoryboardDataPersisterTest extends TestCase {
         $this->contentNode = new Storyboard();
         $this->contentNode->data = ['sections' => [
             '37bbd7b8-441e-403e-b227-70ea52170b9b' => [
-                'column1' => 'test1<script>alert(1)</script>',
-                'column2' => 'test2<script>alert(2)</script>',
-                'column3' => 'test3<script>alert(3)</script>',
+                'column1' => "test1\n\t",
+                'column2Html' => "test2\n\t",
+                'column3' => "test3\n\t",
                 'position' => 0,
             ],
             '2c5534d3-d077-4ccd-8c9e-b961b451f6e3' => [
-                'column1' => 'test1<script>alert(1)</script>',
-                'column2' => 'test2<script>alert(2)</script>',
-                'column3' => 'test3<script>alert(3)</script>',
+                'column1' => "test1\n\t",
+                'column2Html' => "test2\n\t",
+                'column3' => "test3\n\t",
                 'position' => 1,
             ],
         ]];
@@ -53,7 +67,7 @@ class StoryboardDataPersisterTest extends TestCase {
         $this->contentNode->parent = new ColumnLayout();
         $this->contentNode->parent->root = $this->root;
 
-        $this->dataPersister = new StoryboardDataPersister($this->dataPersisterObservable, $this->cleanHTMLFilter);
+        $this->dataPersister = new StoryboardDataPersister($this->dataPersisterObservable, $this->cleanHTMLFilter, $this->cleanTextFilter);
     }
 
     public function testDoesNotSupportNonStoryboard() {
@@ -91,15 +105,15 @@ class StoryboardDataPersisterTest extends TestCase {
         // then
         $this->assertEquals(['sections' => [
             '37bbd7b8-441e-403e-b227-70ea52170b9b' => [
-                'column1' => '***sanitzed***',
-                'column2' => '***sanitzed***',
-                'column3' => '***sanitzed***',
+                'column1' => '***sanitizedText***',
+                'column2Html' => '***sanitizedHTML***',
+                'column3' => '***sanitizedText***',
                 'position' => 0,
             ],
             '2c5534d3-d077-4ccd-8c9e-b961b451f6e3' => [
-                'column1' => '***sanitzed***',
-                'column2' => '***sanitzed***',
-                'column3' => '***sanitzed***',
+                'column1' => '***sanitizedText***',
+                'column2Html' => '***sanitizedHTML***',
+                'column3' => '***sanitizedText***',
                 'position' => 1,
             ],
         ]], $data->data);
@@ -114,15 +128,15 @@ class StoryboardDataPersisterTest extends TestCase {
         // then
         $this->assertEquals(['sections' => [
             '37bbd7b8-441e-403e-b227-70ea52170b9b' => [
-                'column1' => '***sanitzed***',
-                'column2' => '***sanitzed***',
-                'column3' => '***sanitzed***',
+                'column1' => '***sanitizedText***',
+                'column2Html' => '***sanitizedHTML***',
+                'column3' => '***sanitizedText***',
                 'position' => 0,
             ],
             '2c5534d3-d077-4ccd-8c9e-b961b451f6e3' => [
-                'column1' => '***sanitzed***',
-                'column2' => '***sanitzed***',
-                'column3' => '***sanitzed***',
+                'column1' => '***sanitizedText***',
+                'column2Html' => '***sanitizedHTML***',
+                'column3' => '***sanitizedText***',
                 'position' => 1,
             ],
         ]], $data->data);

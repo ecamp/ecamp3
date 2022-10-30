@@ -1,6 +1,6 @@
 <template>
   <content-node-content :content-node="contentNode" :icon-path="mdiPen">
-    <rich-text :rich-text="contentNode.data.text" />
+    <rich-text :rich-text="contentNode.data.html" />
   </content-node-content>
 </template>
 

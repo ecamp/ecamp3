@@ -14,14 +14,14 @@ App\Entity\ContentNode\Storyboard:
             'ab9740f6-61a4-4cae-b574-a73aeb7c5ea0':
               {
                 column1: <word()>,
-                column2: <sentence()>,
+                column2Html: <sentence()>,
                 column3: <word()>,
                 position: 0,
               },
             'cb26d76a-9e3b-43f0-a7c4-0f2ad0ea8029':
               {
                 column1: <word()>,
-                column2: <sentence()>,
+                column2Html: <sentence()>,
                 column3: <word()>,
                 position: 1,
               },

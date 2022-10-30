@@ -40,7 +40,7 @@
                 auto-grow
                 dense
                 :readonly="!editing"
-                fieldname="data.text"
+                fieldname="data.html"
                 aria-label="Erfassen"
                 label=""
               />

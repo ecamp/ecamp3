@@ -353,7 +353,7 @@ class CreateUserTest extends ECampApiTestCase {
         ));
     }
 
-    public function testCreateUserCleansHTMLFromFirstname() {
+    public function testCreateUserCleansForbiddenCharactersFromFirstname() {
         static::createBasicClient()->request(
             'POST',
             '/users',
@@ -361,7 +361,7 @@ class CreateUserTest extends ECampApiTestCase {
                 'json' => $this->getExampleWritePayload(
                     mergeEmbeddedAttributes: [
                         'profile' => [
-                            'firstname' => 'Robert<script>alert(1)</script>',
+                            'firstname' => "Robert\n\t",
                         ],
                     ]
                 ),
@@ -409,7 +409,7 @@ class CreateUserTest extends ECampApiTestCase {
         ));
     }
 
-    public function testCreateUserCleansHTMLFromSurname() {
+    public function testCreateUserCleansForbiddenCharactersFromSurname() {
         static::createBasicClient()->request(
             'POST',
             '/users',
@@ -417,7 +417,7 @@ class CreateUserTest extends ECampApiTestCase {
                 'json' => $this->getExampleWritePayload(
                     mergeEmbeddedAttributes: [
                         'profile' => [
-                            'surname' => 'Baden-Powell<script>alert(1)</script>',
+                            'surname' => "Baden-Powell\n\t",
                         ],
                     ]
                 ),
@@ -465,7 +465,7 @@ class CreateUserTest extends ECampApiTestCase {
         ));
     }
 
-    public function testCreateUserCleansHTMLFromNickname() {
+    public function testCreateUserCleansForbiddenCharactersFromNickname() {
         static::createBasicClient()->request(
             'POST',
             '/users',
@@ -473,7 +473,7 @@ class CreateUserTest extends ECampApiTestCase {
                 'json' => $this->getExampleWritePayload(
                     mergeEmbeddedAttributes: [
                         'profile' => [
-                            'nickname' => 'Bi-Pi<script>alert(1)</script>',
+                            'nickname' => "Bi-Pi\n\t",
                         ],
                     ]
                 ),

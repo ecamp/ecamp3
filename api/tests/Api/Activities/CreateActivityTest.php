@@ -202,7 +202,7 @@ class CreateActivityTest extends ECampApiTestCase {
         ]);
     }
 
-    public function testCreateActivityCleansHtmlFromTitle() {
+    public function testCreateActivityCleansForbiddenCharactersFromTitle() {
         static::createClientWithCredentials(['email' => static::$fixtures['user2member']->getEmail()])
             ->request(
                 'POST',
@@ -210,7 +210,7 @@ class CreateActivityTest extends ECampApiTestCase {
                 [
                     'json' => $this->getExampleWritePayload(
                         [
-                            'title' => 'Dschungel<script>alert(1)</script>buch',
+                            'title' => "this\n\t\u{202E} is 'a' <sample> text😀 \\",
                         ]
                     ),
                 ]
@@ -219,7 +219,7 @@ class CreateActivityTest extends ECampApiTestCase {
 
         $this->assertResponseStatusCodeSame(201);
         $this->assertJsonContains($this->getExampleReadPayload([
-            'title' => 'Dschungelbuch',
+            'title' => "this is 'a' <sample> text😀 \\",
         ]));
     }
 
@@ -299,7 +299,7 @@ class CreateActivityTest extends ECampApiTestCase {
         ]);
     }
 
-    public function testCreateActivityCleansHtmlFromLocation() {
+    public function testCreateActivityCleansForbiddenCharactersFromLocation() {
         static::createClientWithCredentials(['email' => static::$fixtures['user2member']->getEmail()])
             ->request(
                 'POST',
@@ -307,7 +307,7 @@ class CreateActivityTest extends ECampApiTestCase {
                 [
                     'json' => $this->getExampleWritePayload(
                         [
-                            'location' => 'Dschungel<script>alert(1)</script>buch',
+                            'location' => "this\n\t\u{202E} is 'a' <sample> text😀 \\",
                         ]
                     ),
                 ]
@@ -316,7 +316,7 @@ class CreateActivityTest extends ECampApiTestCase {
 
         $this->assertResponseStatusCodeSame(201);
         $this->assertJsonContains($this->getExampleReadPayload([
-            'location' => 'Dschungelbuch',
+            'location' => "this is 'a' <sample> text😀 \\",
         ]));
     }
 

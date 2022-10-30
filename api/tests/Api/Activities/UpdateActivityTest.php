@@ -190,17 +190,17 @@ class UpdateActivityTest extends ECampApiTestCase {
         ]);
     }
 
-    public function testPatchActivityCleansHtmlFromTitle() {
+    public function testPatchActivityCleansForbiddenCharactersFromTitle() {
         $activity = static::$fixtures['activity1'];
         static::createClientWithCredentials(['email' => static::$fixtures['user2member']->getEmail()])
             ->request('PATCH', '/activities/'.$activity->getId(), ['json' => [
-                'title' => 'Dschungel<script>alert(1)</script>buch',
+                'title' => "this\n\t\u{202E} is 'a' <sample> text😀 \\",
             ], 'headers' => ['Content-Type' => 'application/merge-patch+json']])
         ;
 
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
-            'title' => 'Dschungelbuch',
+            'title' => "this is 'a' <sample> text😀 \\",
         ]);
     }
 
@@ -266,17 +266,17 @@ class UpdateActivityTest extends ECampApiTestCase {
         ]);
     }
 
-    public function testPatchActivityCleansHtmlFromLocation() {
+    public function testPatchActivityCleansForbiddenCharactersFromLocation() {
         $activity = static::$fixtures['activity1'];
         static::createClientWithCredentials(['email' => static::$fixtures['user2member']->getEmail()])
             ->request('PATCH', '/activities/'.$activity->getId(), ['json' => [
-                'location' => 'Dschungel<script>alert(1)</script>buch',
+                'location' => "this\n\t\u{202E} is 'a' <sample> text😀 \\",
             ], 'headers' => ['Content-Type' => 'application/merge-patch+json']])
         ;
 
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
-            'location' => 'Dschungelbuch',
+            'location' => "this is 'a' <sample> text😀 \\",
         ]);
     }
 

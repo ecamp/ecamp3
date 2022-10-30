@@ -43,7 +43,7 @@ function Storyboard(props) {
   const sectionsArray = Object.keys(sections).map((key) => ({
     key,
     column1: sections[key].column1,
-    column2: sections[key].column2,
+    column2Html: sections[key].column2Html,
     column3: sections[key].column3,
     position: sections[key].position,
   }))
@@ -61,7 +61,9 @@ function Storyboard(props) {
           <Text>{props.$tc('contentNode.storyboard.entity.section.fields.column1')}</Text>
         </View>
         <View style={{ ...column2Styles, paddingBottom: 0 }}>
-          <Text>{props.$tc('contentNode.storyboard.entity.section.fields.column2')}</Text>
+          <Text>
+            {props.$tc('contentNode.storyboard.entity.section.fields.column2Html')}
+          </Text>
         </View>
         <View style={{ ...column3Styles, paddingBottom: 0 }}>
           <Text>{props.$tc('contentNode.storyboard.entity.section.fields.column3')}</Text>
@@ -76,7 +78,7 @@ function Storyboard(props) {
                 <Text>{section.column1}</Text>
               </View>
               <View style={column2Styles}>
-                <RichText richText={section.column2} />
+                <RichText richText={section.column2Html} />
               </View>
               <View style={column3Styles}>
                 <Text>{section.column3}</Text>

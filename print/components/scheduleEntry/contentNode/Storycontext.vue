@@ -1,6 +1,6 @@
 <template>
   <content-node-content :content-node="contentNode" :icon-path="mdiBookOpenVariant">
-    <rich-text :rich-text="contentNode.data.text" />
+    <rich-text :rich-text="contentNode.data.html" />
   </content-node-content>
 </template>
 

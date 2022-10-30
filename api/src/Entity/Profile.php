@@ -106,7 +106,7 @@ class Profile extends BaseEntity {
      * The user's (optional) first name.
      */
     #[InputFilter\Trim]
-    #[InputFilter\CleanHTML]
+    #[InputFilter\CleanText]
     #[ApiProperty(example: self::EXAMPLE_FIRSTNAME)]
     #[Groups(['read', 'write'])]
     #[ORM\Column(type: 'text', nullable: true)]
@@ -116,7 +116,7 @@ class Profile extends BaseEntity {
      * The user's (optional) last name.
      */
     #[InputFilter\Trim]
-    #[InputFilter\CleanHTML]
+    #[InputFilter\CleanText]
     #[ApiProperty(example: self::EXAMPLE_SURNAME)]
     #[Groups(['read', 'write'])]
     #[ORM\Column(type: 'text', nullable: true)]
@@ -126,7 +126,7 @@ class Profile extends BaseEntity {
      * The user's (optional) nickname or scout name.
      */
     #[InputFilter\Trim]
-    #[InputFilter\CleanHTML]
+    #[InputFilter\CleanText]
     #[ApiProperty(example: self::EXAMPLE_NICKNAME)]
     #[Groups(['read', 'write'])]
     #[ORM\Column(type: 'text', nullable: true)]

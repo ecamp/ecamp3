@@ -6,7 +6,7 @@
           {{ $tc('contentNode.storyboard.entity.section.fields.column1') }}
         </v-col>
         <v-col cols="7">
-          {{ $tc('contentNode.storyboard.entity.section.fields.column2') }}
+          {{ $tc('contentNode.storyboard.entity.section.fields.column2Html') }}
         </v-col>
         <v-col cols="2">
           {{ $tc('contentNode.storyboard.entity.section.fields.column3') }}
@@ -31,7 +31,7 @@
             </v-col>
             <v-col cols="7">
               <api-richtext
-                :fieldname="`data.sections[${sortable.itemKey}].column2`"
+                :fieldname="`data.sections[${sortable.itemKey}].column2Html`"
                 rows="4"
                 :disabled="layoutMode || disabled"
                 :filled="layoutMode"
@@ -178,7 +178,7 @@ export default {
             sections: {
               [sectionId]: {
                 column1: '',
-                column2: '',
+                column2Html: '',
                 column3: '',
                 position: Object.keys(this.sections).length + 1,
               },

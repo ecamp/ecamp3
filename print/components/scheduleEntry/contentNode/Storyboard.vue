@@ -6,7 +6,7 @@
           {{ $tc('contentNode.storyboard.entity.section.fields.column1') }}
         </th>
         <th class="column column2 header tw-w-10/12">
-          {{ $tc('contentNode.storyboard.entity.section.fields.column2') }}
+          {{ $tc('contentNode.storyboard.entity.section.fields.column2Html') }}
         </th>
         <th class="column column3 header tw-w-1/12">
           {{ $tc('contentNode.storyboard.entity.section.fields.column3') }}
@@ -17,7 +17,7 @@
           {{ section.column1 }}
         </td>
         <td class="column column2">
-          <rich-text :rich-text="section.column2" />
+          <rich-text :rich-text="section.column2Html" />
         </td>
         <td class="column column3">
           {{ section.column3 }}

@@ -9,7 +9,7 @@ function Notes(props) {
   return (
     <View style={{ marginBottom: '6pt' }}>
       <InstanceName contentNode={notes} $tc={props.$tc} />
-      <RichText richText={notes.data.text} />
+      <RichText richText={notes.data.html} />
     </View>
   )
 }
