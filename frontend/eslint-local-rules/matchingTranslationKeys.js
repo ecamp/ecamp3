@@ -3,16 +3,6 @@ const path = require('path')
 const utils = require('eslint-plugin-vue/lib/utils/index.js')
 
 /**
- * List of components with special props which accept translation keys.
- * Key is the component name (in kebab-case, as used in the template), and value is an array
- * of props which expect a translation key as value.
- * E.g. <icon-with-tooltip tc-key="global.button.submit"></icon-with-tooltip>
- */
-const translationKeyComponentProps = {
-  'icon-with-tooltip': ['tc-key'],
-}
-
-/**
  * Convert a file path to our convention for translation key structures
  */
 function pathToTranslationKeyStructure(str) {
@@ -84,6 +74,24 @@ function getKeyName(attr) {
   return attr.key.name
 }
 
+/**
+ * Gets the value of the given attribute node.
+ * E.g. given a node which represents the attribute id="my-header",
+ * this function would return "my-header"
+ */
+function getPropValue(attr) {
+  const valueNode = attr.value
+  let value = null
+  if (valueNode.type === 'VExpressionContainer') {
+    // The attribute is probably using v-bind (or prefix : colon), so it has a dynamic value.
+    // Try to read it as a string literal, and give up otherwise.
+    value = getStringLiteral(valueNode.expression)
+  } else if (valueNode.type === 'VLiteral') {
+    value = valueNode
+  }
+  return value
+}
+
 function shouldProcessFile(filename) {
   if (!(filename.endsWith('.vue') || filename.endsWith('.js'))) {
     // We only process .vue component and .js files
@@ -125,10 +133,12 @@ module.exports = {
       .replace(/^src\//, '')
       .replace(new RegExp(`${escapeForRegExp(extension)}$`), '')
 
+    const ignoreKeysRegex = context.options?.[0]?.ignoreKeysRegex
+    const _ignoreKeysRegex = new RegExp(ignoreKeysRegex)
+
     function verifyTranslationKey(methodArgument, filepath) {
       const translationKey = methodArgument.value || ''
-      const ignoreKeysRegex = context.options?.[0]?.ignoreKeysRegex
-      if (ignoreKeysRegex && translationKey.match(new RegExp(ignoreKeysRegex))) {
+      if (ignoreKeysRegex && translationKey.match(_ignoreKeysRegex)) {
         // Some global keys are allowed everywhere
         return
       }
@@ -163,47 +173,37 @@ module.exports = {
       },
     }
 
+    const translationKeyPropRegex = context.options?.[0]?.translationKeyPropRegex
+    const _translationKeyPropRegex = new RegExp(translationKeyPropRegex)
+
     /**
      * Some props of some of our components accept a translation key, which they pass into
      * the $tc function internally. We can check these translation keys as well.
      */
-    const attributeVisitor = Object.fromEntries(
-      Object.entries(translationKeyComponentProps).map(
-        ([componentName, translationKeyProps]) => [
-          `VElement[name='${componentName}'] > VStartTag > VAttribute`,
-          function (attr) {
-            const keyName = getKeyName(attr)
-            if (!translationKeyProps.includes(keyName)) {
-              // We are only interested in a very specific selection of props
-              return
-            }
+    const attributeVisitor = {
+      'VElement > VStartTag > VAttribute': function (attr) {
+        const keyName = getKeyName(attr)
+        if (!keyName || !keyName.match(_translationKeyPropRegex)) {
+          // We are only interested in a very specific selection of props
+          return
+        }
 
-            const valueNode = attr.value
-            let value = null
-            if (valueNode.type === 'VExpressionContainer') {
-              // The attribute is probably using v-bind (or prefix : colon), so it has a dynamic value.
-              // Try to read it as a string literal, and give up otherwise.
-              value = getStringLiteral(valueNode.expression)
-            } else if (valueNode.type === 'VLiteral') {
-              value = valueNode
-            }
+        const value = getPropValue(attr)
+        if (value === null) {
+          // Could not extract value, or value was null. Either way, there is nothing to verify
+          return
+        }
 
-            if (value === null) {
-              return
-            }
-
-            verifyTranslationKey(value, filepath)
-          },
-        ]
-      )
-    )
+        verifyTranslationKey(value, filepath)
+      },
+    }
 
     return utils.defineTemplateBodyVisitor(
       context,
       // template visitor
       {
         ...nodeVisitor,
-        ...attributeVisitor,
+        ...(translationKeyPropRegex ? attributeVisitor : {}),
       },
       // script visitor
       utils.isScriptSetup(context)

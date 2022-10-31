@@ -14,7 +14,7 @@
     </template>
     <slot>
       {{ text }}
-      <i18n v-if="tcKey" :path="tcKey">
+      <i18n v-if="tooltipI18nKey" :path="tooltipI18nKey">
         <template #br><br class="linebreak" /></template>
       </i18n>
     </slot>
@@ -29,7 +29,7 @@ export default {
   props: {
     icon: { type: String, required: false, default: 'mdi-information-outline' },
     text: { type: String, required: false, default: undefined },
-    tcKey: { type: String, required: false, default: undefined },
+    tooltipI18nKey: { type: String, required: false, default: undefined },
   },
   data() {
     return {

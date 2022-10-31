@@ -149,7 +149,8 @@
       "local-rules/matching-translation-keys": [
         "error",
         {
-          "ignoreKeysRegex": "^(global|entity|contentNode\\.[a-z][a-zA-Z]+)\\..+"
+          "ignoreKeysRegex": "^(global|entity|contentNode\\.[a-z][a-zA-Z]+)\\..+",
+          "translationKeyPropRegex": "[a-zA-Z0-9]-i18n-key$"
         }
       ]
     },
