@@ -33,7 +33,7 @@
     "nuxt": "2.15.8",
     "puppeteer-core": "19.2.0",
     "runes": "0.4.3",
-    "vue-i18n": "8.28.0"
+    "vue-i18n": "8.28.1"
   },
   "devDependencies": {
     "@babel/eslint-parser": "7.19.1",
