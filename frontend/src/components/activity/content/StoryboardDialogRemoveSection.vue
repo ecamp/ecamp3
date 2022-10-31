@@ -4,7 +4,7 @@
     icon="mdi-delete"
     :title="$tc('components.activity.content.storyboardDialogRemoveSection.title')"
     :submit-action="submit"
-    submit-label="global.button.delete"
+    :submit-label="$tc('global.button.delete')"
     submit-color="error"
     submit-icon="mdi-delete"
     cancel-icon=""

@@ -59,7 +59,7 @@
               :disabled="!cancelEnabled"
               @click="doCancel"
             >
-              {{ $tc(cancelLabel) }}
+              {{ cancelLabel }}
             </v-btn>
             <v-btn
               v-if="submitAction != null"
@@ -71,7 +71,7 @@
               <v-icon v-if="!!submitIcon" left>
                 {{ submitIcon }}
               </v-icon>
-              {{ $tc(submitLabel) }}
+              {{ submitLabel }}
             </v-btn>
             <slot name="actions" />
           </v-card-actions>

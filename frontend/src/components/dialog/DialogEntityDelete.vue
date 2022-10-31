@@ -6,7 +6,7 @@
     :error="error"
     :submit-action="del"
     :submit-enabled="submitEnabled && !$slots.error"
-    submit-label="global.button.delete"
+    :submit-label="$tc('global.button.delete')"
     submit-color="error"
     :submit-icon="icon"
     cancel-icon=""

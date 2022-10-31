@@ -6,10 +6,9 @@ const utils = require('eslint-plugin-vue/lib/utils/index.js')
  * List of components with special props which accept translation keys.
  * Key is the component name (in kebab-case, as used in the template), and value is an array
  * of props which expect a translation key as value.
- * E.g. <dialog-form submit-label="global.button.submit" :cancel-label="'global.button.cancel'"></dialog-form>
+ * E.g. <icon-with-tooltip tc-key="global.button.submit"></icon-with-tooltip>
  */
 const translationKeyComponentProps = {
-  'dialog-form': ['submit-label', 'cancel-label'],
   'icon-with-tooltip': ['tc-key'],
 }
 
