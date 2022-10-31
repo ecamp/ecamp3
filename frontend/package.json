@@ -146,7 +146,12 @@
           "argsIgnorePattern": "^_$"
         }
       ],
-      "local-rules/matching-translation-keys": "error"
+      "local-rules/matching-translation-keys": [
+        "error",
+        {
+          "ignoreKeysRegex": "^(global|entity|contentNode\\.[a-z][a-zA-Z]+)\\..+"
+        }
+      ]
     },
     "parserOptions": {
       "parser": "@babel/eslint-parser"

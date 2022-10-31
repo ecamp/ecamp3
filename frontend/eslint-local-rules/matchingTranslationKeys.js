@@ -128,7 +128,8 @@ module.exports = {
 
     function verifyTranslationKey(methodArgument, filepath) {
       const translationKey = methodArgument.value || ''
-      if (translationKey.match(/^(global|entity|contentNode\.[a-z][a-zA-Z]+)\..+/)) {
+      const ignoreKeysRegex = context.options?.[0]?.ignoreKeysRegex
+      if (ignoreKeysRegex && translationKey.match(new RegExp(ignoreKeysRegex))) {
         // Some global keys are allowed everywhere
         return
       }
