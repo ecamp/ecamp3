@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "df37790033cc6b9d0518e17d79d95a1f",
+    "content-hash": "2a2e35fc24cb4c87795780a4117e7ffd",
     "packages": [
         {
             "name": "api-platform/core",
@@ -5149,16 +5149,16 @@
         },
         {
             "name": "stof/doctrine-extensions-bundle",
-            "version": "v1.7.0",
+            "version": "v1.7.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/stof/StofDoctrineExtensionsBundle.git",
-                "reference": "a2bffca41974d1c968557b343e269a60a8d5ffa4"
+                "reference": "fa650e60e174afa06c09e28a54fb1854af04c7fe"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stof/StofDoctrineExtensionsBundle/zipball/a2bffca41974d1c968557b343e269a60a8d5ffa4",
-                "reference": "a2bffca41974d1c968557b343e269a60a8d5ffa4",
+                "url": "https://api.github.com/repos/stof/StofDoctrineExtensionsBundle/zipball/fa650e60e174afa06c09e28a54fb1854af04c7fe",
+                "reference": "fa650e60e174afa06c09e28a54fb1854af04c7fe",
                 "shasum": ""
             },
             "require": {
@@ -5217,9 +5217,9 @@
             ],
             "support": {
                 "issues": "https://github.com/stof/StofDoctrineExtensionsBundle/issues",
-                "source": "https://github.com/stof/StofDoctrineExtensionsBundle/tree/v1.7.0"
+                "source": "https://github.com/stof/StofDoctrineExtensionsBundle/tree/v1.7.1"
             },
-            "time": "2021-11-22T15:17:44+00:00"
+            "time": "2022-09-30T11:52:24+00:00"
         },
         {
             "name": "swaggest/json-diff",
