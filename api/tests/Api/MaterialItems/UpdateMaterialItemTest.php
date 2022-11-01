@@ -359,6 +359,43 @@ class UpdateMaterialItemTest extends ECampApiTestCase {
         ]);
     }
 
+    public function testPatchMaterialItemAcceptsLargeNumberForQuantity() {
+        $materialItem = static::$fixtures['materialItem1'];
+        static::createClientWithCredentials()->request('PATCH', '/material_items/'.$materialItem->getId(), ['json' => [
+            // around PHP_FLOAT_MAX. We cannot send a greater number with php.
+            // Via the Swagger UI values greater than FLOAT_MAX result in 0.
+            'quantity' => 1.7E308,
+        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
+
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertJsonContains([
+            'quantity' => 1.7E308,
+        ]);
+    }
+
+    public function testPatchMaterialItemDoesNotCrashForLargeNumberForQuantity() {
+        $materialItem = static::$fixtures['materialItem1'];
+        static::createClientWithCredentials()->request(
+            'PATCH',
+            '/material_items/'.$materialItem->getId(),
+            [
+                'body' => <<<'EOF'
+                        {
+                           "quantity": 1e500
+                         }
+                        EOF,
+                'headers' => [
+                    'Content-Type' => 'application/merge-patch+json',
+                ],
+            ]
+        );
+
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertJsonContains([
+            'quantity' => 0,
+        ]);
+    }
+
     public function testPatchMaterialItemAllowsMissingUnit() {
         $materialItem = static::$fixtures['materialItem1'];
         static::createClientWithCredentials()->request('PATCH', '/material_items/'.$materialItem->getId(), ['json' => [
