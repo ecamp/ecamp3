@@ -6,7 +6,7 @@ import tocStyles from '../tocStyles.js'
 function Cover(props) {
   return (
     <Link style={tocStyles.entry} href={`#${props.id}`}>
-      <Text>{props.$tc('print.cover.title')}</Text>
+      <Text>{props.$tc('components.cover.title')}</Text>
     </Link>
   )
 }

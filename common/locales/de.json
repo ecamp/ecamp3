@@ -169,27 +169,45 @@
       "hourShort": "H:mm"
     }
   },
-  "print": {
+  "components": {
+    "config": {
+      "toc": {
+        "title": "Inhaltsverzeichnis"
+      }
+    },
     "cover": {
       "title": "Titelseite"
     },
-    "picasso": {
+    "picassoChunk": {
       "title": "Grobprogramm für {period}"
     },
-    "program": {
+    "programPeriod": {
       "title": "Detailprogramm"
     },
     "story": {
-      "title": "Roter Faden"
-    },
-    "toc": {
-      "title": "Inhaltsverzeichnis"
-    }
-  },
-  "components": {
-    "story": {
+      "storyPeriod": {
+        "title": "Roter Faden"
+      },
       "storyDay": {
         "noStory": "Kein roter Faden an diesem Tag gefunden…"
+      }
+    },
+    "toc": {
+      "title": "Inhaltsverzeichnis",
+      "tocCover": {
+        "title": "Titelseite"
+      },
+      "tocPicasso": {
+        "title": "Grobprogramm für {period}"
+      },
+      "tocProgram": {
+        "title": "Detailprogramm"
+      },
+      "tocStory": {
+        "title": "Roter Faden"
+      },
+      "tocToc": {
+        "title": "Inhaltsverzeichnis"
       }
     }
   }

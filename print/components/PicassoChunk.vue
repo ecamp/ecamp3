@@ -5,7 +5,7 @@
         :id="`content_${index}_period_${period.id}`"
         class="tw-text-2xl tw-font-bold tw-mb-6"
       >
-        {{ $tc('print.picasso.title') }} {{ $tc('entity.period.name') }}
+        {{ $tc('components.picassoChunk.title') }} {{ $tc('entity.period.name') }}
         {{ period.description }}
       </h1>
 

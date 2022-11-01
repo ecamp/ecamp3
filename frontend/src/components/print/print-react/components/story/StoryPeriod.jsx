@@ -11,12 +11,13 @@ function StoryPeriod(props) {
       <Text
         id={`${props.id}-${period.id}`}
         bookmark={{
-          title: props.$tc('print.story.title') + ': ' + period.description,
+          title:
+            props.$tc('components.story.storyPeriod.title') + ': ' + period.description,
           fit: true,
         }}
         style={styles.h1}
       >
-        {props.$tc('print.story.title')}: {period.description}
+        {props.$tc('components.story.storyPeriod.title')}: {period.description}
       </Text>
       {period.days().items.map((day) => (
         <StoryDay key={day.id} day={day} period={period} {...props} />

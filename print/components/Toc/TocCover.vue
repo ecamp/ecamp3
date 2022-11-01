@@ -1,7 +1,7 @@
 <template>
   <li>
     <div class="toc-element toc-element-level-1">
-      <a :href="`#content_${index}_cover`">{{ $tc('print.cover.title') }}</a>
+      <a :href="`#content_${index}_cover`">{{ $tc('components.toc.tocCover.title') }}</a>
     </div>
   </li>
 </template>

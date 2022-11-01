@@ -1,7 +1,7 @@
 <template>
   <div class="tw-break-after-page">
     <h1 :id="`content_${index}_toc`" class="tw-text-2xl tw-font-bold">
-      {{ $tc('print.toc.title') }}
+      {{ $tc('components.config.toc.title') }}
     </h1>
     <ul class="toc">
       <template v-for="(content, idx) in config.contents">

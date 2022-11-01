@@ -176,27 +176,45 @@
       "hourShort": "h:mm A"
     }
   },
-  "print": {
+  "components": {
+    "config": {
+      "toc": {
+        "title": "Inhaltsverzeichnis"
+      }
+    },
     "cover": {
       "title": "Cover page"
     },
-    "picasso": {
+    "picassoChunk": {
       "title": "Program overview for {period}"
     },
-    "program": {
+    "programPeriod": {
       "title": "Program"
     },
     "story": {
-      "title": "Storyline"
-    },
-    "toc": {
-      "title": "Table of contents"
-    }
-  },
-  "components": {
-    "story": {
       "storyDay": {
         "noStory": "No story content found on this day..."
+      },
+      "storyPeriod": {
+        "title": "Storyline"
+      }
+    },
+    "toc": {
+      "title": "Table of contents",
+      "tocCover": {
+        "title": "Cover page"
+      },
+      "tocPicasso": {
+        "title": "Program overview for {period}"
+      },
+      "tocProgram": {
+        "title": "Program"
+      },
+      "tocStory": {
+        "title": "Storyline"
+      },
+      "tocToc": {
+        "title": "Table of contents"
       }
     }
   }

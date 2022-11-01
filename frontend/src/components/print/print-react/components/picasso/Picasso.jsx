@@ -59,12 +59,14 @@ function Picasso(props) {
         <Text
           id={`${props.id}-${period.id}`}
           bookmark={{
-            title: props.$tc('print.picasso.title', { period: period.description }),
+            title: props.$tc('components.picassoChunk.title', {
+              period: period.description,
+            }),
             fit: true,
           }}
           style={styles.h1}
         >
-          {props.$tc('print.picasso.title', { period: period.description })}
+          {props.$tc('components.picassoChunk.title', { period: period.description })}
         </Text>
         <View style={{ ...picassoStyles.calendarContainer, border: '1pt solid white' }}>
           <TimeColumnSpacer times={times.slice(0, times.length - 1)} />

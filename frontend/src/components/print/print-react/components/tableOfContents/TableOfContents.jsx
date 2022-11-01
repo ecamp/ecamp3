@@ -21,8 +21,8 @@ const entryComponents = {
 function TableOfContents(props) {
   return (
     <Page size="A4" orientation={'portrait'} style={styles.page}>
-      <Text id={props.id} bookmark={props.$tc('print.toc.title')} style={styles.h1}>
-        {props.$tc('print.toc.title')}
+      <Text id={props.id} bookmark={props.$tc('components.toc.title')} style={styles.h1}>
+        {props.$tc('components.toc.title')}
       </Text>
       {props.config.contents.map((entry, index) => {
         if (typeof entryComponents[entry.type] !== 'undefined') {

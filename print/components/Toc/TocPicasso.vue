@@ -1,7 +1,7 @@
 <template>
   <li>
     <div class="toc-element-level-1">
-      {{ $tc('print.picasso.title') }}
+      {{ $tc('components.toc.tocPicasso.title') }}
     </div>
     <ul>
       <generic-error-message v-if="$fetchState.error" :error="$fetchState.error" />
