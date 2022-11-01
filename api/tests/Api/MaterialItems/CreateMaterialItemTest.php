@@ -10,9 +10,6 @@ use App\Tests\Api\ECampApiTestCase;
  * @internal
  */
 class CreateMaterialItemTest extends ECampApiTestCase {
-    // TODO input filter tests
-    // TODO validation tests
-
     public function testCreateMaterialItemIsDeniedForAnonymousUser() {
         static::createBasicClient()->request('POST', '/material_items', ['json' => $this->getExampleWritePayload()]);
 
@@ -230,9 +227,95 @@ class CreateMaterialItemTest extends ECampApiTestCase {
             'violations' => [
                 [
                     'propertyPath' => 'article',
-                    'message' => 'This value should not be null.',
+                    'message' => 'This value should not be blank.',
                 ],
             ],
+        ]);
+    }
+
+    public function testCreateMaterialItemValidatesArticleMinLength() {
+        static::createClientWithCredentials()->request(
+            'POST',
+            '/material_items',
+            [
+                'json' => $this->getExampleWritePayload(
+                    [
+                        'article' => '',
+                    ],
+                ),
+            ]
+        );
+
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [
+                    'propertyPath' => 'article',
+                    'message' => 'This value should not be blank.',
+                ],
+            ],
+        ]);
+    }
+
+    public function testCreateMaterialItemValidatesArticleMaxLength() {
+        static::createClientWithCredentials()->request(
+            'POST',
+            '/material_items',
+            [
+                'json' => $this->getExampleWritePayload(
+                    [
+                        'article' => str_repeat('a', 33),
+                    ],
+                ),
+            ]
+        );
+
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [
+                    'propertyPath' => 'article',
+                    'message' => 'This value is too long. It should have 32 characters or less.',
+                ],
+            ],
+        ]);
+    }
+
+    public function testCreateMaterialItemTrimsArticle() {
+        static::createClientWithCredentials()->request(
+            'POST',
+            '/material_items',
+            [
+                'json' => $this->getExampleWritePayload(
+                    [
+                        'article' => " \tarticle\t ",
+                    ],
+                ),
+            ]
+        );
+
+        $this->assertResponseStatusCodeSame(201);
+        $this->assertJsonContains([
+            'article' => 'article',
+        ]);
+    }
+
+    public function testCreateMaterialItemCleansTextOnArticle() {
+        static::createClientWithCredentials()->request(
+            'POST',
+            '/material_items',
+            [
+                'json' => $this->getExampleWritePayload(
+                    [
+                        'article' => "\u{000A}article\u{0007}",
+                    ],
+                ),
+            ]
+        );
+
+        $this->assertResponseStatusCodeSame(201);
+        $this->assertJsonContains([
+            'article' => 'article',
         ]);
     }
 
@@ -259,6 +342,68 @@ class CreateMaterialItemTest extends ECampApiTestCase {
 
         $this->assertResponseStatusCodeSame(201);
         $this->assertJsonContains(['unit' => null]);
+    }
+
+    public function testCreateMaterialItemValidatesUnitMaxLength() {
+        static::createClientWithCredentials()->request(
+            'POST',
+            '/material_items',
+            [
+                'json' => $this->getExampleWritePayload(
+                    [
+                        'unit' => str_repeat('a', 33),
+                    ],
+                ),
+            ]
+        );
+
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [
+                    'propertyPath' => 'unit',
+                    'message' => 'This value is too long. It should have 32 characters or less.',
+                ],
+            ],
+        ]);
+    }
+
+    public function testCreateMaterialItemTrimsUnit() {
+        static::createClientWithCredentials()->request(
+            'POST',
+            '/material_items',
+            [
+                'json' => $this->getExampleWritePayload(
+                    [
+                        'unit' => " \tunit\t ",
+                    ],
+                ),
+            ]
+        );
+
+        $this->assertResponseStatusCodeSame(201);
+        $this->assertJsonContains([
+            'unit' => 'unit',
+        ]);
+    }
+
+    public function testCreateMaterialItemCleansTextOnUnit() {
+        static::createClientWithCredentials()->request(
+            'POST',
+            '/material_items',
+            [
+                'json' => $this->getExampleWritePayload(
+                    [
+                        'unit' => "\u{000A}unit\u{0007}",
+                    ],
+                ),
+            ]
+        );
+
+        $this->assertResponseStatusCodeSame(201);
+        $this->assertJsonContains([
+            'unit' => 'unit',
+        ]);
     }
 
     public function getExampleWritePayload($attributes = [], $except = []) {

@@ -8,9 +8,6 @@ use App\Tests\Api\ECampApiTestCase;
  * @internal
  */
 class UpdateMaterialItemTest extends ECampApiTestCase {
-    // TODO input filter tests
-    // TODO validation tests
-
     public function testPatchMaterialItemIsDeniedForAnonymousUser() {
         $materialItem = static::$fixtures['materialItem1'];
         static::createBasicClient()->request('PATCH', '/material_items/'.$materialItem->getId(), ['json' => [
@@ -282,6 +279,64 @@ class UpdateMaterialItemTest extends ECampApiTestCase {
         ]);
     }
 
+    public function testPatchMaterialItemValidatesArticleMinLength() {
+        $materialItem = static::$fixtures['materialItem1'];
+        static::createClientWithCredentials()->request('PATCH', '/material_items/'.$materialItem->getId(), ['json' => [
+            'article' => '',
+        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
+
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [
+                    'propertyPath' => 'article',
+                    'message' => 'This value should not be blank.',
+                ],
+            ],
+        ]);
+    }
+
+    public function testPatchMaterialItemValidatesArticleMaxLength() {
+        $materialItem = static::$fixtures['materialItem1'];
+        static::createClientWithCredentials()->request('PATCH', '/material_items/'.$materialItem->getId(), ['json' => [
+            'article' => str_repeat('a', 33),
+        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
+
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [
+                    'propertyPath' => 'article',
+                    'message' => 'This value is too long. It should have 32 characters or less.',
+                ],
+            ],
+        ]);
+    }
+
+    public function testPatchMaterialItemValidatesTrimsArticle() {
+        $materialItem = static::$fixtures['materialItem1'];
+        static::createClientWithCredentials()->request('PATCH', '/material_items/'.$materialItem->getId(), ['json' => [
+            'article' => " \tarticle\t ",
+        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
+
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertJsonContains([
+            'article' => 'article',
+        ]);
+    }
+
+    public function testPatchMaterialItemValidatesCleansTextOnArticle() {
+        $materialItem = static::$fixtures['materialItem1'];
+        static::createClientWithCredentials()->request('PATCH', '/material_items/'.$materialItem->getId(), ['json' => [
+            'article' => "\u{000A}article\u{0007}",
+        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
+
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertJsonContains([
+            'article' => 'article',
+        ]);
+    }
+
     public function testPatchMaterialItemAllowsMissingQuantity() {
         $materialItem = static::$fixtures['materialItem1'];
         static::createClientWithCredentials()->request('PATCH', '/material_items/'.$materialItem->getId(), ['json' => [
@@ -312,5 +367,46 @@ class UpdateMaterialItemTest extends ECampApiTestCase {
 
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains(['unit' => null]);
+    }
+
+    public function testPatchMaterialItemValidatesUnitMaxLength() {
+        $materialItem = static::$fixtures['materialItem1'];
+        static::createClientWithCredentials()->request('PATCH', '/material_items/'.$materialItem->getId(), ['json' => [
+            'unit' => str_repeat('a', 33),
+        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
+
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [
+                    'propertyPath' => 'unit',
+                    'message' => 'This value is too long. It should have 32 characters or less.',
+                ],
+            ],
+        ]);
+    }
+
+    public function testPatchMaterialItemValidatesTrimsUnit() {
+        $materialItem = static::$fixtures['materialItem1'];
+        static::createClientWithCredentials()->request('PATCH', '/material_items/'.$materialItem->getId(), ['json' => [
+            'unit' => " \tunit\t ",
+        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
+
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertJsonContains([
+            'unit' => 'unit',
+        ]);
+    }
+
+    public function testPatchMaterialItemValidatesCleansTextOnUnit() {
+        $materialItem = static::$fixtures['materialItem1'];
+        static::createClientWithCredentials()->request('PATCH', '/material_items/'.$materialItem->getId(), ['json' => [
+            'unit' => "\u{000A}unit\u{0007}",
+        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
+
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertJsonContains([
+            'unit' => 'unit',
+        ]);
     }
 }

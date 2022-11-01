@@ -8,6 +8,7 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Doctrine\Filter\MaterialItemPeriodFilter;
 use App\Entity\ContentNode\MaterialNode;
+use App\InputFilter;
 use App\Repository\MaterialItemRepository;
 use App\Util\EntityMap;
 use App\Validator\AssertBelongsToSameCamp;
@@ -15,6 +16,7 @@ use App\Validator\AssertEitherIsNull;
 use App\Validator\MaterialItemUpdateGroupSequence;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * A physical item that is needed for carrying out a programme or camp.
@@ -75,6 +77,10 @@ class MaterialItem extends BaseEntity implements BelongsToCampInterface, CopyFro
     /**
      * The name of the item that is required.
      */
+    #[InputFilter\Trim]
+    #[InputFilter\CleanText]
+    #[Assert\NotBlank]
+    #[Assert\Length(max: 32)]
     #[ApiProperty(example: 'Volleyball')]
     #[Groups(['read', 'write'])]
     #[ORM\Column(type: 'text', nullable: false)]
@@ -91,6 +97,9 @@ class MaterialItem extends BaseEntity implements BelongsToCampInterface, CopyFro
     /**
      * An optional unit for measuring the amount of items required.
      */
+    #[InputFilter\Trim]
+    #[InputFilter\CleanText]
+    #[Assert\Length(max: 32)]
     #[ApiProperty(example: 'kg')]
     #[Groups(['read', 'write'])]
     #[ORM\Column(type: 'text', nullable: true)]
