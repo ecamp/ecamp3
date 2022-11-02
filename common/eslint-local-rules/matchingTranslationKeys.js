@@ -6,7 +6,7 @@ module.exports = (path, utils) => {
     return (
       str
         // convert words to camel case
-        .replace(/[-_](\w)/gu, (_, c) => (c ? c.toUpperCase() : ''))
+        .replace(/[-_.](\w)/gu, (_, c) => (c ? c.toUpperCase() : ''))
         // convert slashes to dots with lower case letter after them
         .replace(/\/(\w)/gu, (_, c) => '.' + (c ? c.toLowerCase() : ''))
     )
@@ -79,6 +79,9 @@ module.exports = (path, utils) => {
   function getPropValue(attr) {
     const valueNode = attr.value
     let value = null
+    if (!valueNode) {
+      return value
+    }
     if (valueNode.type === 'VExpressionContainer') {
       // The attribute is probably using v-bind (or prefix : colon), so it has a dynamic value.
       // Try to read it as a string literal, and give up otherwise.
