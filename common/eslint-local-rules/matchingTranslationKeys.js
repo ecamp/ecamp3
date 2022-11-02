@@ -113,6 +113,20 @@ module.exports = (path, utils) => {
         description:
           "require translation keys in Vue components to match the component's file name",
       },
+      schema: [
+        {
+          type: 'object',
+          properties: {
+            ignoreKeysRegex: {
+              type: 'string',
+            },
+            translationKeyPropRegex: {
+              type: 'string',
+            },
+          },
+          additionalProperties: false,
+        },
+      ],
     },
     create(context) {
       const filename = context.getFilename()
