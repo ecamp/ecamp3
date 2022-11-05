@@ -5,17 +5,11 @@
 
 namespace App\Tests\Types\Doctrine;
 
-use function date_default_timezone_get;
-use function date_default_timezone_set;
-
-use DateTime;
-use DateTimeImmutable;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\ConversionException;
 use Doctrine\DBAL\Types\Type;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use stdClass;
 
 abstract class BaseDateTypeTestCase extends TestCase {
     /** @var AbstractPlatform&MockObject */
@@ -29,17 +23,17 @@ abstract class BaseDateTypeTestCase extends TestCase {
 
     protected function setUp(): void {
         $this->platform = $this->getMockForAbstractClass(AbstractPlatform::class);
-        $this->currentTimezone = date_default_timezone_get();
+        $this->currentTimezone = \date_default_timezone_get();
 
         self::assertInstanceOf(Type::class, $this->type);
     }
 
     protected function tearDown(): void {
-        date_default_timezone_set($this->currentTimezone);
+        \date_default_timezone_set($this->currentTimezone);
     }
 
     public function testDateConvertsToDatabaseValue(): void {
-        self::assertIsString($this->type->convertToDatabaseValue(new DateTime(), $this->platform));
+        self::assertIsString($this->type->convertToDatabaseValue(new \DateTime(), $this->platform));
     }
 
     /**
@@ -56,7 +50,7 @@ abstract class BaseDateTypeTestCase extends TestCase {
     }
 
     public function testConvertDateTimeToPHPValue(): void {
-        $date = new DateTime('now');
+        $date = new \DateTime('now');
 
         self::assertSame($date, $this->type->convertToPHPValue($date, $this->platform));
     }
@@ -67,7 +61,7 @@ abstract class BaseDateTypeTestCase extends TestCase {
      * This test is just in place to prevent further regressions, even if the type is being misused.
      */
     public function testConvertDateTimeImmutableToPHPValue(): void {
-        $date = new DateTimeImmutable('now');
+        $date = new \DateTimeImmutable('now');
 
         self::assertSame($date, $this->type->convertToPHPValue($date, $this->platform));
     }
@@ -78,7 +72,7 @@ abstract class BaseDateTypeTestCase extends TestCase {
      * This test is just in place to prevent further regressions, even if the type is being misused.
      */
     public function testDateTimeImmutableConvertsToDatabaseValue(): void {
-        self::assertIsString($this->type->convertToDatabaseValue(new DateTimeImmutable(), $this->platform));
+        self::assertIsString($this->type->convertToDatabaseValue(new \DateTimeImmutable(), $this->platform));
     }
 
     /**
@@ -92,7 +86,7 @@ abstract class BaseDateTypeTestCase extends TestCase {
             ['10:11:12'],
             ['2015-01-31'],
             ['2015-01-31 10:11:12'],
-            [new stdClass()],
+            [new \stdClass()],
             [27],
             [-1],
             [1.2],

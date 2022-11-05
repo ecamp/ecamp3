@@ -4,7 +4,6 @@ namespace App\DataPersister\Util;
 
 use ApiPlatform\Core\DataPersister\ContextAwareDataPersisterInterface;
 use App\Entity\BaseEntity;
-use InvalidArgumentException;
 
 abstract class AbstractDataPersister implements ContextAwareDataPersisterInterface {
     /**
@@ -19,12 +18,12 @@ abstract class AbstractDataPersister implements ContextAwareDataPersisterInterfa
     ) {
         foreach ($this->customActionListeners as $listener) {
             if (!$listener instanceof CustomActionListener) {
-                throw new InvalidArgumentException('customActionListeners must be of type '.CustomActionListener::class);
+                throw new \InvalidArgumentException('customActionListeners must be of type '.CustomActionListener::class);
             }
         }
         foreach ($this->propertyChangeListeners as $listener) {
             if (!$listener instanceof PropertyChangeListener) {
-                throw new InvalidArgumentException('propertyChangeListeners must be of type '.PropertyChangeListener::class);
+                throw new \InvalidArgumentException('propertyChangeListeners must be of type '.PropertyChangeListener::class);
             }
         }
     }

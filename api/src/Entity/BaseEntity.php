@@ -4,7 +4,6 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiProperty;
 use App\Util\IdGenerator;
-use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -25,12 +24,12 @@ abstract class BaseEntity {
     #[ApiProperty(writable: false)]
     #[Gedmo\Timestampable(on: 'create')]
     #[ORM\Column(type: 'datetime')]
-    protected DateTime $createTime;
+    protected \DateTime $createTime;
 
     #[ApiProperty(writable: false)]
     #[Gedmo\Timestampable(on: 'update')]
     #[ORM\Column(type: 'datetime')]
-    protected DateTime $updateTime;
+    protected \DateTime $updateTime;
 
     public function __construct() {
         $this->id = IdGenerator::generateRandomHexString(12);

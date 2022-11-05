@@ -3,9 +3,6 @@
 namespace App\Types\Doctrine;
 
 use DateTime;
-use DateTimeImmutable;
-use DateTimeInterface;
-use DateTimeZone;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\ConversionException;
 use Doctrine\DBAL\Types\DateTimeType;
@@ -23,7 +20,7 @@ use Doctrine\DBAL\Types\DateTimeType;
  * '1985-09-01 08:10:10+00:00' if read back from the database)
  */
 class UTCDateTimeType extends DateTimeType {
-    private static ?DateTimeZone $utc = null;
+    private static ?\DateTimeZone $utc = null;
 
     /**
      * {@inheritdoc}
@@ -33,7 +30,7 @@ class UTCDateTimeType extends DateTimeType {
             return null;
         }
 
-        if ($value instanceof DateTime || $value instanceof DateTimeImmutable) {
+        if ($value instanceof \DateTime || $value instanceof \DateTimeImmutable) {
             $value = $value->setTimeZone(self::getUtc());
 
             return parent::convertToDatabaseValue($value, $platform);
@@ -47,12 +44,12 @@ class UTCDateTimeType extends DateTimeType {
      *
      * @throws ConversionException
      */
-    public function convertToPHPValue($value, AbstractPlatform $platform): ?DateTimeInterface {
-        if (null === $value || $value instanceof DateTimeInterface) {
+    public function convertToPHPValue($value, AbstractPlatform $platform): ?\DateTimeInterface {
+        if (null === $value || $value instanceof \DateTimeInterface) {
             return $value;
         }
 
-        $val = DateTime::createFromFormat($platform->getDateTimeFormatString(), $value, self::getUtc());
+        $val = \DateTime::createFromFormat($platform->getDateTimeFormatString(), $value, self::getUtc());
 
         if (!$val) {
             throw ConversionException::conversionFailedFormat(
@@ -65,7 +62,7 @@ class UTCDateTimeType extends DateTimeType {
         return $val;
     }
 
-    private static function getUtc(): DateTimeZone {
-        return self::$utc ?: self::$utc = new DateTimeZone('UTC');
+    private static function getUtc(): \DateTimeZone {
+        return self::$utc ?: self::$utc = new \DateTimeZone('UTC');
     }
 }

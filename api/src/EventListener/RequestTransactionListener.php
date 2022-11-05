@@ -4,8 +4,6 @@ namespace App\EventListener;
 
 use Doctrine\DBAL\Exception;
 use Doctrine\ORM\EntityManagerInterface;
-use RuntimeException;
-use SplStack;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\HttpKernel\Event\KernelEvent;
@@ -16,10 +14,10 @@ use Symfony\Component\HttpKernel\KernelEvents;
  * Wraps a database transaction around all SQL statements in the whole request.
  */
 final class RequestTransactionListener implements EventSubscriberInterface {
-    private SplStack $transactionLevelStack;
+    private \SplStack $transactionLevelStack;
 
     public function __construct(private EntityManagerInterface $entityManager) {
-        $this->transactionLevelStack = new SplStack();
+        $this->transactionLevelStack = new \SplStack();
     }
 
     /** @noinspection PhpArrayShapeAttributeCanBeAddedInspection */
@@ -55,7 +53,7 @@ final class RequestTransactionListener implements EventSubscriberInterface {
             return;
         }
         if (!$this->transactionLevelStack->isEmpty()) {
-            throw new RuntimeException('startTransaction called more than once');
+            throw new \RuntimeException('startTransaction called more than once');
         }
         $this->entityManager->getConnection()->beginTransaction();
         $this->transactionLevelStack->push((object) [
@@ -72,7 +70,7 @@ final class RequestTransactionListener implements EventSubscriberInterface {
             return;
         }
         if ($this->transactionLevelStack->isEmpty()) {
-            throw new RuntimeException('Trying to commit a transaction, when no transaction was started.');
+            throw new \RuntimeException('Trying to commit a transaction, when no transaction was started.');
         }
 
         $transactionLevel = $this->transactionLevelStack->top();
@@ -94,7 +92,7 @@ final class RequestTransactionListener implements EventSubscriberInterface {
 
         try {
             if ($this->transactionLevelStack->isEmpty()) {
-                throw new RuntimeException('Trying to rollback a transaction, when no transaction was started.');
+                throw new \RuntimeException('Trying to rollback a transaction, when no transaction was started.');
             }
 
             $this->validateTransactionNestingLevel();
@@ -113,7 +111,7 @@ final class RequestTransactionListener implements EventSubscriberInterface {
         $currentTransactionNestingLevel = $this->entityManager->getConnection()->getTransactionNestingLevel();
         $expectedTransactionNestingLevel = $this->transactionLevelStack->top()->level;
         if ($currentTransactionNestingLevel !== $expectedTransactionNestingLevel) {
-            throw new RuntimeException(
+            throw new \RuntimeException(
                 "Transaction starts and ends were not symmetric when ending a transaction, 
                 expected nesting level {$expectedTransactionNestingLevel},
                 was {$currentTransactionNestingLevel}"

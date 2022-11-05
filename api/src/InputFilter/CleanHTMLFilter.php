@@ -2,12 +2,10 @@
 
 namespace App\InputFilter;
 
-use HTMLPurifier;
-
 class CleanHTMLFilter extends InputFilter {
-    private HTMLPurifier $htmlPurifier;
+    private \HTMLPurifier $htmlPurifier;
 
-    public function __construct(HTMLPurifier $htmlPurifier) {
+    public function __construct(\HTMLPurifier $htmlPurifier) {
         $this->htmlPurifier = $htmlPurifier;
     }
 

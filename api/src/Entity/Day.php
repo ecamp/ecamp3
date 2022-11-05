@@ -8,12 +8,9 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Repository\DayRepository;
 use App\Serializer\Normalizer\RelatedCollectionLink;
-use DateInterval;
-use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Exception;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Annotation\SerializedName;
@@ -130,13 +127,13 @@ class Day extends BaseEntity implements BelongsToCampInterface {
      */
     #[ApiProperty(example: '2022-01-02T00:00:00+00:00', openapiContext: ['format' => 'date'])]
     #[Groups(['read'])]
-    public function getStart(): ?DateTime {
+    public function getStart(): ?\DateTime {
         try {
-            $start = $this->period?->start ? DateTime::createFromInterface($this->period->start) : null;
-            $start?->add(new DateInterval('P'.$this->dayOffset.'D'));
+            $start = $this->period?->start ? \DateTime::createFromInterface($this->period->start) : null;
+            $start?->add(new \DateInterval('P'.$this->dayOffset.'D'));
 
             return $start;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return null;
         }
     }
@@ -146,13 +143,13 @@ class Day extends BaseEntity implements BelongsToCampInterface {
      */
     #[ApiProperty(example: '2022-01-03T00:00:00+00:00', openapiContext: ['format' => 'date'])]
     #[Groups(['read'])]
-    public function getEnd(): ?DateTime {
+    public function getEnd(): ?\DateTime {
         try {
-            $end = $this->period?->start ? DateTime::createFromInterface($this->period->start) : null;
-            $end?->add(new DateInterval('P'.($this->dayOffset + 1).'D'));
+            $end = $this->period?->start ? \DateTime::createFromInterface($this->period->start) : null;
+            $end?->add(new \DateInterval('P'.($this->dayOffset + 1).'D'));
 
             return $end;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return null;
         }
     }

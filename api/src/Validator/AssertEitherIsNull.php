@@ -6,7 +6,7 @@ use Attribute;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\Exception\InvalidArgumentException;
 
-#[Attribute]
+#[\Attribute]
 class AssertEitherIsNull extends Constraint {
     public string $messageBothNull = 'Either this value or {{ other }} should not be null.';
     public string $messageNoneNull = 'Either this value or {{ other }} should be null.';

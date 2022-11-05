@@ -17,9 +17,7 @@ use App\Metadata\Resource\Factory\UriTemplateFactory;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use Doctrine\ORM\Mapping\MappingException;
 use Doctrine\Persistence\ManagerRegistry;
-use ReflectionClass;
 use Rize\UriTemplate;
-use RuntimeException;
 use Symfony\Component\DependencyInjection\ServiceLocator;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 use Symfony\Component\Routing\RouterInterface;
@@ -151,7 +149,7 @@ class RelatedCollectionLinkNormalizer implements NormalizerInterface, Serializer
             $classMetadata = $this->getClassMetadata($resourceClass);
 
             if (!$classMetadata instanceof ClassMetadataInfo) {
-                throw new RuntimeException("The class metadata for {$resourceClass} must be an instance of ClassMetadataInfo.");
+                throw new \RuntimeException("The class metadata for {$resourceClass} must be an instance of ClassMetadataInfo.");
             }
 
             $relationMetadata = $classMetadata->getAssociationMapping($rel);
@@ -187,8 +185,8 @@ class RelatedCollectionLinkNormalizer implements NormalizerInterface, Serializer
         }
     }
 
-    protected function getReflectionClass($className): ReflectionClass {
-        return new ReflectionClass($className);
+    protected function getReflectionClass($className): \ReflectionClass {
+        return new \ReflectionClass($className);
     }
 
     protected function extractUriParams($object, array $params): array {

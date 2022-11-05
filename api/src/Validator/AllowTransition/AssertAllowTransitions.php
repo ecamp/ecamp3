@@ -11,7 +11,7 @@ use Symfony\Component\Validator\Constraint;
  * Validation attribute to restrict the transitions of a status properties.
  * Due to the limitations of PHP8 attributes, only constant values can be used.
  */
-#[Attribute(Attribute::TARGET_PROPERTY | Attribute::IS_REPEATABLE)]
+#[\Attribute(\Attribute::TARGET_PROPERTY | \Attribute::IS_REPEATABLE)]
 class AssertAllowTransitions extends Constraint {
     public function __construct(
         public array $transitions,
