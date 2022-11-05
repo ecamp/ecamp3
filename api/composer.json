@@ -49,11 +49,11 @@
         "webonyx/graphql-php": "14.11.8"
     },
     "require-dev": {
-        "friendsofphp/php-cs-fixer": "3.12.0",
+        "friendsofphp/php-cs-fixer": "3.13.0",
         "hautelook/alice-bundle": "2.11.0",
         "justinrainbow/json-schema": "5.2.12",
         "php-coveralls/php-coveralls": "2.5.3",
-        "phpstan/phpstan": "1.8.11",
+        "phpstan/phpstan": "1.9.1",
         "phpunit/phpunit": "9.5.26",
         "rector/rector": "0.14.6",
         "symfony/browser-kit": "6.1.3",
