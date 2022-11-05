@@ -720,6 +720,72 @@ class CreateUserTest extends ECampApiTestCase {
         ]);
     }
 
+    /**
+     * @dataProvider notWriteableUserProperties
+     */
+    public function testNotWriteableUserProperties(string $property) {
+        static::createClientWithCredentials()->request(
+            'POST',
+            '/users',
+            [
+                'json' => $this->getExampleWritePayload(
+                    [
+                        $property => 'something',
+                    ]
+                ),
+            ]
+        );
+
+        $this->assertResponseStatusCodeSame(400);
+        $this->assertJsonContains([
+            'title' => 'An error occurred',
+            'detail' => "Extra attributes are not allowed (\"{$property}\" is unknown).",
+        ]);
+    }
+
+    public static function notWriteableUserProperties(): array {
+        return [
+            'activationKeyHash' => ['activationKeyHash'],
+            'passwordResetKeyHash' => ['passwordResetKeyHash'],
+        ];
+    }
+
+    /**
+     * @dataProvider notWriteableProfileProperties
+     */
+    public function testNotWriteableProfileProperties(string $property) {
+        static::createClientWithCredentials()->request(
+            'POST',
+            '/users',
+            [
+                'json' => $this->getExampleWritePayload(
+                    [
+                        'profile' => [
+                            $property => 'something',
+                        ],
+                    ]
+                ),
+            ]
+        );
+
+        $this->assertResponseStatusCodeSame(400);
+        $this->assertJsonContains([
+            'title' => 'An error occurred',
+            'detail' => "Extra attributes are not allowed (\"{$property}\" is unknown).",
+        ]);
+    }
+
+    public static function notWriteableProfileProperties(): array {
+        return [
+            'untrustedEmailKey' => ['untrustedEmailKey'],
+            'untrustedEmailKeyHash' => ['untrustedEmailKeyHash'],
+            'googleId' => ['googleId'],
+            'pbsmidataId' => ['pbsmidataId'],
+            'roles' => ['roles'],
+            'user' => ['user'],
+        ];
+    }
+
     public function getExampleWritePayload($attributes = [], $except = [], $mergeEmbeddedAttributes = []) {
         $examplePayload = $this->getExamplePayload(
             User::class,

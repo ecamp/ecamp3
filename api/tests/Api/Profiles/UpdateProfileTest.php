@@ -239,4 +239,36 @@ class UpdateProfileTest extends ECampApiTestCase {
             'detail' => 'Extra attributes are not allowed ("user" is unknown).',
         ]);
     }
+
+    /**
+     * @dataProvider notWriteableProfileProperties
+     */
+    public function testNotWriteableProperties(string $property) {
+        $user = static::$fixtures['profile1manager'];
+        static::createClientWithCredentials()->request(
+            'PATCH',
+            '/profiles/'.$user->getId(),
+            [
+                'json' => [
+                    $property => 'something',
+                ],
+                'headers' => ['Content-Type' => 'application/merge-patch+json'],
+            ]
+        );
+        $this->assertResponseStatusCodeSame(400);
+        $this->assertJsonContains([
+            'title' => 'An error occurred',
+            'detail' => "Extra attributes are not allowed (\"{$property}\" is unknown).",
+        ]);
+    }
+
+    public static function notWriteableProfileProperties(): array {
+        return [
+            'untrustedEmailKeyHash' => ['untrustedEmailKeyHash'],
+            'googleId' => ['googleId'],
+            'pbsmidataId' => ['pbsmidataId'],
+            'roles' => ['roles'],
+            'user' => ['user'],
+        ];
+    }
 }
