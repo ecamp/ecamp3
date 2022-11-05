@@ -107,6 +107,7 @@ class Profile extends BaseEntity {
      */
     #[InputFilter\Trim]
     #[InputFilter\CleanText]
+    #[Assert\Length(max: 64)]
     #[ApiProperty(example: self::EXAMPLE_FIRSTNAME)]
     #[Groups(['read', 'write'])]
     #[ORM\Column(type: 'text', nullable: true)]
@@ -117,6 +118,7 @@ class Profile extends BaseEntity {
      */
     #[InputFilter\Trim]
     #[InputFilter\CleanText]
+    #[Assert\Length(max: 64)]
     #[ApiProperty(example: self::EXAMPLE_SURNAME)]
     #[Groups(['read', 'write'])]
     #[ORM\Column(type: 'text', nullable: true)]
@@ -127,6 +129,7 @@ class Profile extends BaseEntity {
      */
     #[InputFilter\Trim]
     #[InputFilter\CleanText]
+    #[Assert\Length(max: 32)]
     #[ApiProperty(example: self::EXAMPLE_NICKNAME)]
     #[Groups(['read', 'write'])]
     #[ORM\Column(type: 'text', nullable: true)]

@@ -147,6 +147,28 @@ class CreateUserTest extends ECampApiTestCase {
         );
     }
 
+    public function testCreateUserDoesNotAllowToUseAnotherProfile() {
+        static::createClientWithCredentials()->request(
+            'POST',
+            '/users',
+            [
+                'json' => $this->getExampleWritePayload([
+                    'profile' => $this->getIriFor('profile1manager'),
+                ]),
+            ]
+        );
+
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [
+                    'propertyPath' => 'profile',
+                    'message' => 'Only one User can reference a Profile.',
+                ],
+            ],
+        ]);
+    }
+
     public function testCreateUserTrimsEmail() {
         static::createBasicClient()->request(
             'POST',
@@ -381,6 +403,33 @@ class CreateUserTest extends ECampApiTestCase {
         ));
     }
 
+    public function testCreateUserValidatesFirstnameMaxLength() {
+        $client = static::createClientWithCredentials();
+        $client->request(
+            'POST',
+            '/users',
+            [
+                'json' => $this->getExampleWritePayload(
+                    mergeEmbeddedAttributes: [
+                        'profile' => [
+                            'firstname' => str_repeat('a', 65),
+                        ],
+                    ]
+                ),
+            ]
+        );
+
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [
+                    'propertyPath' => 'profile.firstname',
+                    'message' => 'This value is too long. It should have 64 characters or less.',
+                ],
+            ],
+        ]);
+    }
+
     public function testCreateUserTrimsSurname() {
         static::createBasicClient()->request(
             'POST',
@@ -437,6 +486,33 @@ class CreateUserTest extends ECampApiTestCase {
         ));
     }
 
+    public function testCreateUserValidatesSurnameMaxLength() {
+        $client = static::createClientWithCredentials();
+        $client->request(
+            'POST',
+            '/users',
+            [
+                'json' => $this->getExampleWritePayload(
+                    mergeEmbeddedAttributes: [
+                        'profile' => [
+                            'surname' => str_repeat('a', 65),
+                        ],
+                    ]
+                ),
+            ]
+        );
+
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [
+                    'propertyPath' => 'profile.surname',
+                    'message' => 'This value is too long. It should have 64 characters or less.',
+                ],
+            ],
+        ]);
+    }
+
     public function testCreateUserTrimsNickname() {
         static::createBasicClient()->request(
             'POST',
@@ -491,6 +567,33 @@ class CreateUserTest extends ECampApiTestCase {
             ],
             ['password']
         ));
+    }
+
+    public function testCreateUserValidatesNicknameMaxLength() {
+        $client = static::createClientWithCredentials();
+        $client->request(
+            'POST',
+            '/users',
+            [
+                'json' => $this->getExampleWritePayload(
+                    mergeEmbeddedAttributes: [
+                        'profile' => [
+                            'nickname' => str_repeat('a', 33),
+                        ],
+                    ]
+                ),
+            ]
+        );
+
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [
+                    'propertyPath' => 'profile.nickname',
+                    'message' => 'This value is too long. It should have 32 characters or less.',
+                ],
+            ],
+        ]);
     }
 
     public function testCreateUserTrimsLanguage() {
