@@ -3,6 +3,7 @@
     v-if="!loading"
     :color="cat.color"
     :text-color="textColor"
+    class="e-category-chip"
     :class="{ 'v-chip--dense': dense }"
     v-bind="$attrs"
     v-on="$listeners"
@@ -15,6 +16,7 @@
         {{ cat.short }}
       </span>
     </slot>
+    <slot name="after" />
   </v-chip>
 </template>
 
@@ -58,12 +60,15 @@ export default {
 </script>
 
 <style lang="scss">
+.e-category-chip {
+  font-weight: 500;
+}
+
 .v-chip.v-chip--dense {
   font-size: 1em;
   height: 1.25em;
   vertical-align: baseline;
   padding-inline: 0.5em;
-  font-weight: 600;
 
   .v-chip__content {
     font-size: 0.75em;
