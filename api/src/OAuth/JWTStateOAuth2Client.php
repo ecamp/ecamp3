@@ -15,7 +15,6 @@ use League\OAuth2\Client\Token\AccessTokenInterface;
 use Lexik\Bundle\JWTAuthenticationBundle\Encoder\JWTEncoderInterface;
 use Lexik\Bundle\JWTAuthenticationBundle\Exception\JWTDecodeFailureException;
 use Lexik\Bundle\JWTAuthenticationBundle\Exception\JWTEncodeFailureException;
-use LogicException;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -84,7 +83,7 @@ class JWTStateOAuth2Client extends OAuth2Client implements OAuth2ClientInterface
                     ->withExpires($expires)
             );
         } catch (JWTEncodeFailureException $e) {
-            throw new LogicException('Could not create a JWT token for storing the state parameter securely');
+            throw new \LogicException('Could not create a JWT token for storing the state parameter securely');
         }
 
         $this->stateRepository->deleteAllExpiredBefore(new \DateTime('@'.time()));
@@ -154,7 +153,7 @@ class JWTStateOAuth2Client extends OAuth2Client implements OAuth2ClientInterface
         $request = $this->requestStack->getCurrentRequest();
 
         if (!$request) {
-            throw new LogicException('There is no "current request", and it is needed to perform this action');
+            throw new \LogicException('There is no "current request", and it is needed to perform this action');
         }
 
         return $request;

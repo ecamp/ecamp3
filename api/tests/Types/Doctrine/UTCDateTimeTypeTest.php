@@ -6,7 +6,6 @@
 namespace App\Tests\Types\Doctrine;
 
 use App\Types\Doctrine\UTCDateTimeType;
-use DateTime;
 use Doctrine\DBAL\Types\ConversionException;
 
 /**
@@ -20,7 +19,7 @@ class UTCDateTimeTypeTest extends BaseDateTypeTestCase {
     }
 
     public function testDateTimeConvertsToDatabaseValue(): void {
-        $date = new DateTime('1985-09-01 10:10:10');
+        $date = new \DateTime('1985-09-01 10:10:10');
 
         $expected = $date->format($this->platform->getDateTimeTzFormatString());
         $actual = $this->type->convertToDatabaseValue($date, $this->platform);
@@ -31,7 +30,7 @@ class UTCDateTimeTypeTest extends BaseDateTypeTestCase {
     public function testDateTimeConvertsToPHPValue(): void {
         // Birthday of jwage and also birthday of Doctrine. Send him a present ;)
         $date = $this->type->convertToPHPValue('1985-09-01 00:00:00', $this->platform);
-        self::assertInstanceOf(DateTime::class, $date);
+        self::assertInstanceOf(\DateTime::class, $date);
         self::assertEquals('1985-09-01 00:00:00', $date->format('Y-m-d H:i:s'));
     }
 
@@ -59,7 +58,7 @@ class UTCDateTimeTypeTest extends BaseDateTypeTestCase {
         // set timezone to anything else than UTC
         date_default_timezone_set('America/New_York');
 
-        $date = new DateTime('1985-09-01 10:10:10+02:00');
+        $date = new \DateTime('1985-09-01 10:10:10+02:00');
 
         $actual = $this->type->convertToDatabaseValue($date, $this->platform);
 
@@ -72,7 +71,7 @@ class UTCDateTimeTypeTest extends BaseDateTypeTestCase {
 
         $date = $this->type->convertToPHPValue('1985-09-01 00:00:00', $this->platform);
 
-        self::assertInstanceOf(DateTime::class, $date);
+        self::assertInstanceOf(\DateTime::class, $date);
         self::assertEquals('1985-09-01T00:00:00+00:00', $date->format('c'));
     }
 }

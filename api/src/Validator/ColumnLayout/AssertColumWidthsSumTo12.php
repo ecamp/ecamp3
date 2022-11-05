@@ -5,7 +5,7 @@ namespace App\Validator\ColumnLayout;
 use Attribute;
 use Symfony\Component\Validator\Constraint;
 
-#[Attribute]
+#[\Attribute]
 class AssertColumWidthsSumTo12 extends Constraint {
     public string $message = 'Expected column widths to sum to 12, but got a sum of {{ sum }}';
 

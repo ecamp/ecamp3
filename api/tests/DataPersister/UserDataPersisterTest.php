@@ -7,7 +7,6 @@ use App\DataPersister\Util\DataPersisterObservable;
 use App\Entity\User;
 use App\Security\ReCaptcha\ReCaptcha;
 use App\Service\MailService;
-use Exception;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use ReCaptcha\Response;
@@ -55,7 +54,7 @@ class UserDataPersisterTest extends TestCase {
             ->willReturn(false)
         ;
 
-        $this->expectException(Exception::class);
+        $this->expectException(\Exception::class);
         $this->dataPersister->beforeCreate($this->user);
     }
 
@@ -143,12 +142,12 @@ class UserDataPersisterTest extends TestCase {
         $this->user->activationKey = 'activation key';
         $this->user->activationKeyHash = 'wrong hash';
 
-        $this->expectException(Exception::class);
+        $this->expectException(\Exception::class);
         $this->dataPersister->onActivate($this->user);
     }
 
     /**
-     * @throws Exception
+     * @throws \Exception
      */
     public function testActivatesUserIfActivationKeyIsCorrect() {
         $this->user->activationKey = 'activation key';

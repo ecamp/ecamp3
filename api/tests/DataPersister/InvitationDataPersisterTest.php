@@ -10,7 +10,6 @@ use App\Entity\User;
 use App\Repository\CampCollaborationRepository;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use stdClass;
 use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactory;
 use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactoryInterface;
 use Symfony\Component\PasswordHasher\PasswordHasherInterface;
@@ -63,7 +62,7 @@ class InvitationDataPersisterTest extends TestCase {
     public function testDoesNotSupportAnythingElseThanInvitations() {
         $this->dataPersisterObservable->expects(self::never())->method('supports')->willReturn(false);
 
-        self::assertThat($this->dataPersister->supports(new stdClass()), self::isFalse());
+        self::assertThat($this->dataPersister->supports(new \stdClass()), self::isFalse());
         self::assertThat($this->dataPersister->supports(null), self::isFalse());
     }
 

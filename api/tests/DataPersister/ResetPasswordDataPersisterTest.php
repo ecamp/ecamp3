@@ -10,11 +10,9 @@ use App\Repository\UserRepository;
 use App\Security\ReCaptcha\ReCaptcha;
 use App\Service\MailService;
 use Doctrine\ORM\EntityManagerInterface;
-use Exception;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use ReCaptcha\Response;
-use stdClass;
 use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactory;
 use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactoryInterface;
 use Symfony\Component\PasswordHasher\PasswordHasherInterface;
@@ -82,12 +80,12 @@ class ResetPasswordDataPersisterTest extends TestCase {
     public function testDoesNotSupportAnythingElseThanResetPassword() {
         $this->dataPersisterObservable->expects(self::never())->method('supports')->willReturn(false);
 
-        self::assertThat($this->dataPersister->supports(new stdClass()), self::isFalse());
+        self::assertThat($this->dataPersister->supports(new \stdClass()), self::isFalse());
         self::assertThat($this->dataPersister->supports(null), self::isFalse());
     }
 
     public function testRemoveIsNotSupported() {
-        $this->expectException(Exception::class);
+        $this->expectException(\Exception::class);
 
         $this->dataPersister->remove(null);
     }
@@ -99,7 +97,7 @@ class ResetPasswordDataPersisterTest extends TestCase {
         ;
         $this->resetPassword->recaptchaToken = 'token';
 
-        $this->expectException(Exception::class);
+        $this->expectException(\Exception::class);
         $this->dataPersister->beforeCreate($this->resetPassword);
     }
 
@@ -164,7 +162,7 @@ class ResetPasswordDataPersisterTest extends TestCase {
         $this->resetPassword->id = base64_encode(self::EMAIL.'#');
         $this->resetPassword->recaptchaToken = 'token';
 
-        $this->expectException(Exception::class);
+        $this->expectException(\Exception::class);
         $this->dataPersister->beforeUpdate($this->resetPassword);
     }
 
@@ -183,7 +181,7 @@ class ResetPasswordDataPersisterTest extends TestCase {
         $this->resetPassword->id = base64_encode(self::EMAIL.'#');
         $this->resetPassword->recaptchaToken = 'token';
 
-        $this->expectException(Exception::class);
+        $this->expectException(\Exception::class);
         $this->dataPersister->beforeUpdate($this->resetPassword);
     }
 
@@ -208,7 +206,7 @@ class ResetPasswordDataPersisterTest extends TestCase {
         $this->resetPassword->id = base64_encode(self::EMAIL.'#myKey');
         $this->resetPassword->recaptchaToken = 'token';
 
-        $this->expectException(Exception::class);
+        $this->expectException(\Exception::class);
         $this->dataPersister->beforeUpdate($this->resetPassword);
     }
 

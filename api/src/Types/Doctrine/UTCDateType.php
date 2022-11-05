@@ -2,16 +2,12 @@
 
 namespace App\Types\Doctrine;
 
-use DateTime;
-use DateTimeImmutable;
-use DateTimeInterface;
-use DateTimeZone;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\ConversionException;
 use Doctrine\DBAL\Types\DateType;
 
 class UTCDateType extends DateType {
-    private static ?DateTimeZone $utc = null;
+    private static ?\DateTimeZone $utc = null;
 
     /**
      * {@inheritdoc}
@@ -19,7 +15,7 @@ class UTCDateType extends DateType {
      * @throws ConversionException
      */
     public function convertToDatabaseValue($value, AbstractPlatform $platform): ?string {
-        if ($value instanceof DateTime || $value instanceof DateTimeImmutable) {
+        if ($value instanceof \DateTime || $value instanceof \DateTimeImmutable) {
             $value = $value->setTimezone(self::getUtc());
         }
 
@@ -31,12 +27,12 @@ class UTCDateType extends DateType {
      *
      * @throws ConversionException
      */
-    public function convertToPHPValue($value, AbstractPlatform $platform): ?DateTimeInterface {
-        if (null === $value || $value instanceof DateTimeInterface) {
+    public function convertToPHPValue($value, AbstractPlatform $platform): ?\DateTimeInterface {
+        if (null === $value || $value instanceof \DateTimeInterface) {
             return $value;
         }
 
-        $val = DateTime::createFromFormat('!'.$platform->getDateFormatString(), $value, self::getUtc());
+        $val = \DateTime::createFromFormat('!'.$platform->getDateFormatString(), $value, self::getUtc());
         if (!$val) {
             throw ConversionException::conversionFailedFormat(
                 $value,
@@ -48,7 +44,7 @@ class UTCDateType extends DateType {
         return $val;
     }
 
-    private static function getUtc(): DateTimeZone {
-        return self::$utc ?: self::$utc = new DateTimeZone('UTC');
+    private static function getUtc(): \DateTimeZone {
+        return self::$utc ?: self::$utc = new \DateTimeZone('UTC');
     }
 }

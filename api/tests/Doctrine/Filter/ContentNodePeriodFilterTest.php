@@ -10,7 +10,6 @@ use App\Entity\Period;
 use Doctrine\ORM\Query\Expr;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
-use Exception;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -83,7 +82,7 @@ class ContentNodePeriodFilterTest extends TestCase {
         $filter = new ContentNodePeriodFilter($this->iriConverterMock, $this->managerRegistryMock);
 
         // then
-        $this->expectException(Exception::class);
+        $this->expectException(\Exception::class);
         $this->expectExceptionMessage('ContentNodePeriodFilter can only be applied to entities of type ContentNode (received: DummyClass).');
 
         // when

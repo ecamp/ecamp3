@@ -5,7 +5,7 @@ namespace App\Validator\ColumnLayout;
 use Attribute;
 use Symfony\Component\Validator\Constraint;
 
-#[Attribute]
+#[\Attribute]
 class AssertNoOrphanChildren extends Constraint {
     public string $message = 'The following slots still have child contents and should be present in the columns: {{ slots }}';
 

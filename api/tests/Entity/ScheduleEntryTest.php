@@ -8,9 +8,7 @@ use App\Entity\Category;
 use App\Entity\Day;
 use App\Entity\Period;
 use App\Entity\ScheduleEntry;
-use DateTime;
 use PHPUnit\Framework\TestCase;
-use ReflectionClass;
 
 /**
  * @internal
@@ -32,7 +30,7 @@ class ScheduleEntryTest extends TestCase {
         $this->day2->dayOffset = 1;
 
         $this->period = new Period();
-        $this->period->start = new DateTime('2020-07-14');
+        $this->period->start = new \DateTime('2020-07-14');
         $this->period->addDay($this->day1);
         $this->period->addDay($this->day2);
 
@@ -56,8 +54,8 @@ class ScheduleEntryTest extends TestCase {
     }
 
     public function testGetStart() {
-        $this->assertEquals(new DateTime('2020-07-14T16:00:00+00:00'), $this->scheduleEntry2->getStart());
-        $this->assertEquals(new DateTime('2020-07-15T16:00:00+00:00'), $this->scheduleEntry3->getStart());
+        $this->assertEquals(new \DateTime('2020-07-14T16:00:00+00:00'), $this->scheduleEntry2->getStart());
+        $this->assertEquals(new \DateTime('2020-07-15T16:00:00+00:00'), $this->scheduleEntry3->getStart());
     }
 
     public function testGetStartReturnsNullOnError() {
@@ -67,8 +65,8 @@ class ScheduleEntryTest extends TestCase {
     }
 
     public function testGetEnd() {
-        $this->assertEquals(new DateTime('2020-07-14T17:30:00+00:00'), $this->scheduleEntry2->getEnd());
-        $this->assertEquals(new DateTime('2020-07-15T17:30:00+00:00'), $this->scheduleEntry3->getEnd());
+        $this->assertEquals(new \DateTime('2020-07-14T17:30:00+00:00'), $this->scheduleEntry2->getEnd());
+        $this->assertEquals(new \DateTime('2020-07-15T17:30:00+00:00'), $this->scheduleEntry3->getEnd());
     }
 
     public function testGetEndReturnsNullOnError() {
@@ -155,8 +153,8 @@ class ScheduleEntryTest extends TestCase {
         $this->assertNull($day);
     }
 
-    protected function setCreateTime(ScheduleEntry $scheduleEntry, DateTime $createTime) {
-        $createTimeProperty = (new ReflectionClass(ScheduleEntry::class))->getProperty('createTime');
+    protected function setCreateTime(ScheduleEntry $scheduleEntry, \DateTime $createTime) {
+        $createTimeProperty = (new \ReflectionClass(ScheduleEntry::class))->getProperty('createTime');
         $createTimeProperty->setAccessible(true);
         $createTimeProperty->setValue($scheduleEntry, $createTime);
         $createTimeProperty->setAccessible(false);

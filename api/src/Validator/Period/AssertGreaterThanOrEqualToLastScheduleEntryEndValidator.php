@@ -3,8 +3,6 @@
 namespace App\Validator\Period;
 
 use App\Entity\Period;
-use DateInterval;
-use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
@@ -24,10 +22,10 @@ class AssertGreaterThanOrEqualToLastScheduleEntryEndValidator extends Constraint
             return;
         }
 
-        /** @var DateTime $periodEnd */
+        /** @var \DateTime $periodEnd */
         $periodEnd = clone $value;
         // Period ends at the end of the day (+1day)
-        $periodEnd->add(new DateInterval('P1D'));
+        $periodEnd->add(new \DateInterval('P1D'));
 
         $period = $this->context->getObject();
         if (!$period instanceof Period) {
@@ -35,7 +33,7 @@ class AssertGreaterThanOrEqualToLastScheduleEntryEndValidator extends Constraint
         }
 
         if ($period->scheduleEntries->count() > 0) {
-            /** @var DateTime $periodStart */
+            /** @var \DateTime $periodStart */
             $periodStart = $period->start;
 
             if (!$period->moveScheduleEntries) {
@@ -47,7 +45,7 @@ class AssertGreaterThanOrEqualToLastScheduleEntryEndValidator extends Constraint
 
             $periodStart = clone $periodStart;
             $lastScheduleEntryPeriodEndOffset = max($period->scheduleEntries->map(fn ($se) => $se->endOffset)->toArray());
-            $lastScheduleEntryEnd = $periodStart->add(new DateInterval('PT'.$lastScheduleEntryPeriodEndOffset.'M'));
+            $lastScheduleEntryEnd = $periodStart->add(new \DateInterval('PT'.$lastScheduleEntryPeriodEndOffset.'M'));
 
             if ($periodEnd < $lastScheduleEntryEnd) {
                 $this->context->buildViolation($constraint->message)

@@ -10,7 +10,6 @@ use App\Security\ReCaptcha\ReCaptcha;
 use App\Service\MailService;
 use App\Util\IdGenerator;
 use Doctrine\ORM\EntityManagerInterface;
-use Exception;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactoryInterface;
 use Symfony\Component\PasswordHasher\PasswordHasherInterface;
@@ -41,7 +40,7 @@ class ResetPasswordDataPersister implements ContextAwareDataPersisterInterface {
     }
 
     public function remove($data, array $context = []) {
-        throw new Exception('ResetPasswordDataPersister->remove() is not implemented');
+        throw new \Exception('ResetPasswordDataPersister->remove() is not implemented');
     }
 
     public function beforeCreate(ResetPassword $data): ResetPassword {
