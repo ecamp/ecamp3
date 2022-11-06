@@ -4,7 +4,7 @@ Displays a single activity
 
 <template>
   <v-container fluid>
-    <ScheduleEntry :schedule-entry="scheduleEntry" />
+    <ScheduleEntry :key="scheduleEntry()._meta.self" :schedule-entry="scheduleEntry" />
   </v-container>
 </template>
 

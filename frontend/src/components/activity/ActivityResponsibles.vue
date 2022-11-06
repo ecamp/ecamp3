@@ -78,7 +78,7 @@ export default {
         if (oldActivity?._meta.self != newActivity._meta.self) {
           // Set Array to empty until collection is loaded
           this.selectedCampCollaborations = []
-          await this.activityResponsibles.$reload()
+          await this.activityResponsibles._meta.load
           this.selectedCampCollaborations = [...this.currentCampCollaborationIRIs]
           this.oldSelectedCampCollaborations = [...this.currentCampCollaborationIRIs]
         }
