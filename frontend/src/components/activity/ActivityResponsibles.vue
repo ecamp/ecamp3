@@ -20,6 +20,7 @@
 <script>
 import { serverErrorToString } from '@/helpers/serverError.js'
 import campCollaborationDisplayName from '@/common/helpers/campCollaborationDisplayName.js'
+import { isEqual, sortBy } from 'lodash'
 
 export default {
   name: 'ActivityResponsibles',
@@ -35,6 +36,7 @@ export default {
       selectedCampCollaborations: [],
       errorMessages: [],
       isSaving: false,
+      dirty: false,
     }
   },
   computed: {
@@ -78,24 +80,47 @@ export default {
         if (oldActivity?._meta.self != newActivity._meta.self) {
           // Set Array to empty until collection is loaded
           this.selectedCampCollaborations = []
+          this.oldSelectedCampCollaborations = []
           await this.activityResponsibles._meta.load
-          this.selectedCampCollaborations = [...this.currentCampCollaborationIRIs]
-          this.oldSelectedCampCollaborations = [...this.currentCampCollaborationIRIs]
+          this.resetLocalData()
+        }
+      },
+      immediate: true,
+    },
+    currentCampCollaborationIRIs: {
+      async handler(newIRIs, oldIRIs) {
+        if (isEqual(sortBy(newIRIs), sortBy(oldIRIs))) {
+          return
+        }
+
+        // copy incoming data if not dirty or if incoming data is the same as local data
+        if (
+          !this.dirty ||
+          isEqual(sortBy(newIRIs), sortBy(this.selectedCampCollaborations))
+        ) {
+          this.resetLocalData()
         }
       },
       immediate: true,
     },
   },
   methods: {
+    resetLocalData() {
+      this.selectedCampCollaborations = [...this.currentCampCollaborationIRIs]
+      this.oldSelectedCampCollaborations = [...this.currentCampCollaborationIRIs]
+      this.dirty = false
+    },
     onInput() {
       const promises = []
       this.errorMessages = []
       this.isSaving = true
+      this.dirty = true
 
       // add new items
       const newItems = this.selectedCampCollaborations.filter(
         (item) => !this.oldSelectedCampCollaborations.includes(item)
       )
+
       newItems.forEach((campCollaborationIRI) => {
         promises.push(
           this.activity.activityResponsibles().$post({
@@ -118,12 +143,11 @@ export default {
         }
       })
 
+      this.oldSelectedCampCollaborations = [...this.selectedCampCollaborations]
+
       Promise.all(promises)
         .then(async () => {
           await this.activityResponsibles.$reload()
-          // reset comparison value
-          this.selectedCampCollaborations = [...this.currentCampCollaborationIRIs]
-          this.oldSelectedCampCollaborations = [...this.currentCampCollaborationIRIs]
         })
         .catch((e) => {
           this.errorMessages.push(serverErrorToString(e))
