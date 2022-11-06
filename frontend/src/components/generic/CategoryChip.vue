@@ -1,10 +1,8 @@
 <template>
-  <v-chip
+  <GenericChip
     v-if="!loading"
     :color="cat.color"
     :text-color="textColor"
-    class="e-category-chip"
-    :class="{ 'v-chip--dense': dense }"
     v-bind="$attrs"
     v-on="$listeners"
   >
@@ -17,15 +15,17 @@
       </span>
     </slot>
     <slot name="after" />
-  </v-chip>
+  </GenericChip>
 </template>
 
 <script>
 import { contrastColor } from '@/common/helpers/colors.js'
 import Color from 'colorjs.io'
+import GenericChip from '@/components/generic/GenericChip.vue'
 
 export default {
   name: 'CategoryChip',
+  components: { GenericChip },
   props: {
     scheduleEntry: {
       type: Object,
@@ -36,13 +36,6 @@ export default {
       type: Object,
       required: false,
       default: null,
-    },
-    /**
-     * Inline aligns chip and reduces height
-     */
-    dense: {
-      type: Boolean,
-      default: false,
     },
   },
   computed: {
@@ -59,34 +52,8 @@ export default {
 }
 </script>
 
-<style lang="scss">
-.e-category-chip {
+<style scoped>
+.v-chip {
   font-weight: 500;
-}
-
-.v-chip.v-chip--dense {
-  font-size: 1em;
-  height: 1.25em;
-  vertical-align: baseline;
-  padding-inline: 0.5em;
-
-  .v-chip__content {
-    font-size: 0.75em;
-  }
-
-  &::before {
-    content: '\200B';
-    font-size: 1em;
-    line-height: 1;
-    position: static;
-  }
-
-  &.v-size--large {
-    height: 1.2em;
-
-    .v-chip__content {
-      font-size: 0.8em;
-    }
-  }
 }
 </style>
