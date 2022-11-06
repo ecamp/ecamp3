@@ -223,7 +223,8 @@ jobs:
             --set deploymentTime="$(date -u +%s)" \
             --set deployedVersion="$(git rev-parse --short '${{ matrix.deployment.sha }}')" \
             --set recaptcha.siteKey='${{ secrets.RECAPTCHA_SITE_KEY }}' \
-            --set recaptcha.secret='${{ secrets.RECAPTCHA_SECRET }}'
+            --set recaptcha.secret='${{ secrets.RECAPTCHA_SECRET }}' \
+            --set featureToggle.developer=true
 
       - name: Finish the GitHub deployment
         uses: bobheadxi/deployments@v1.3.0

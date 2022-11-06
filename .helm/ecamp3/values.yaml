@@ -7,8 +7,11 @@ imagePullSecrets: []
 deploymentTime: ""
 deployedVersion: "devel"
 versionLinkTemplate: 'https://github.com/ecamp/ecamp3/commit/{version}'
-
 sharedCookieDomain:
+
+# enable/disable feature across the complete deployment
+featureToggle:
+  developer: false # enables various tools/features foreseen for development deployments (language switcher, form controls view, performance measurement view, etc.)
 
 api:
   domain:

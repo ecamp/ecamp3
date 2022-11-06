@@ -52,7 +52,7 @@ export default {
       )
     },
     isDev() {
-      return process.env.NODE_ENV === 'development'
+      return window.environment.FEATURE_DEVELOPER ?? false
     },
   },
   created() {

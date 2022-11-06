@@ -14,7 +14,7 @@ export default new Router({
   mode: 'history',
   base: window.environment.BASE_URL || '/',
   routes: [
-    ...(process.env.NODE_ENV === 'development'
+    ...(window.environment.FEATURE_DEVELOPER
       ? [
           // Dev-Pages:
           {
@@ -24,16 +24,15 @@ export default new Router({
               default: () => import('./views/dev/Controls.vue'),
             },
           },
+          {
+            path: '/performance',
+            name: 'performance',
+            components: {
+              default: () => import('./views/dev/Performance.vue'),
+            },
+          },
         ]
       : []),
-
-    {
-      path: '/performance',
-      name: 'performance',
-      components: {
-        default: () => import('./views/dev/Performance.vue'),
-      },
-    },
 
     // Prod-Pages:
     {
