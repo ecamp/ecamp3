@@ -2,7 +2,7 @@
 Access the application at one of these URLs:
   Frontend: {{ include "frontend.url" . }}
   API docs: {{ include "api.url" . }}
-  {{- if .Values.mail.dummyEnabled }}
+  {{- if and .Values.mail.dummyEnabled .Values.mail.domain (not .Values.mail.dsn) }}
   View all mails sent out by eCamp: {{ include "mail.url" . }}
   {{- end }}
 {{- else if contains "NodePort" .Values.api.service.type }}
