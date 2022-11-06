@@ -1,32 +1,19 @@
 {
   "components": {
-    "activity": {
-      "contentNode": {
-        "editName": "Rinominare",
-        "moveDown": "Abbassati",
-        "moveUp": "Spostare in alto"
-      },
-      "createScheduleEntries": {
-        "fields": {
-          "duration": "Durata",
-          "end": "Fine",
-          "start": "Inizio"
-        },
-        "name": "Programmato"
-      }
-    },
     "camp": {
-      "campCategories": {
-        "create": "Creare categoria di attività",
-        "deleteCategoryNotPossibleInUse": "La categoria di attività non può essere cancellata. è utilizzata da:",
-        "deleteCategoryQuestion": "Vuoi davvero cancellare la categoria Attività?",
-        "title": "Categorie di attività"
-      },
       "campInvitations": {
         "title": "Invitare"
       },
       "campMembers": {
         "title": "Membri"
+      }
+    },
+    "campAdmin": {
+      "campCategories": {
+        "create": "Creare categoria di attività",
+        "deleteCategoryNotPossibleInUse": "La categoria di attività non può essere cancellata. è utilizzata da:",
+        "deleteCategoryQuestion": "Vuoi davvero cancellare la categoria Attività?",
+        "title": "Categorie di attività"
       },
       "campPeriods": {
         "createPeriod": "Creare il periodo",
@@ -36,24 +23,19 @@
         "deleteWarning": "Volete davvero cancellarlo?"
       },
       "campSettings": {
-        "fields": {
-          "motto": "Motto",
-          "name": "nome",
-          "title": "titolo"
-        },
         "title": "Impostazioni"
-      }
-    },
-    "dialog": {
+      },
       "dialogCategoryCreate": {
         "title": "Creare categoria di attività"
       },
+      "dialogPeriodCreate": {
+        "title": "Creare il periodo"
+      }
+    },
+    "dialog": {
       "dialogEntityDelete": {
         "title": "Davvero cancellare?",
         "warningText": "Volete davvero cancellarlo?"
-      },
-      "dialogPeriodCreate": {
-        "title": "Creare il periodo"
       }
     },
     "layout": {
@@ -68,9 +50,20 @@
         "profile": "Profilo"
       }
     },
+    "program": {
+      "formScheduleEntryItem": {
+        "end": "Fine",
+        "start": "Inizio"
+      },
+      "formScheduleEntryList": {
+        "name": "Programmato"
+      }
+    },
     "toast": {
-      "multiLineToast": {
-        "generalError": "Si è verificato un errore."
+      "toasts": {
+        "multiLineToast": {
+          "generalError": "Si è verificato un errore."
+        }
       }
     }
   },

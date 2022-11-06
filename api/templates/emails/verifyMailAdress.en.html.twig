@@ -1,17 +1,24 @@
-<h3>Hello {{ name }}</h3>
-<p>
-    Someone requested to change your email address on eCamp.
-    If that was you, please confirm by clicking this link:
-</p>
-<p>
-    Old email address:  {{ oldMail }} 
-</p>
-<p>
-    New email address:  {{ newMail }} 
-</p>
-<p>
-    <a href="{{ url }}">confirm</a>
-</p>
-<p>
-    Your eCamp-Team
-</p>
+{% set preheader = 'We have received a request to change your email address on eCamp.' %}
+{% extends 'emails/baseLayout.twig' %}
+
+{% block content %}
+    <h1>Change of your email address</h1>
+    <p>Hello {{ name }},</p>
+    <p>
+        We have received a request to change your email address on eCamp.<br/>
+        If that was initiated by you, please confirm by clicking below link.
+    </p>
+    <p>
+        <strong>Old email address:</strong>  {{ oldMail }} <br/>
+        <strong>New email address:</strong>  {{ newMail }} 
+    </p>
+    
+    {% with { title: 'Confirm', url: url } %}
+        {% include 'emails/button.twig' %}
+    {% endwith %}
+
+    <p>
+        Cheers,<br />
+        your eCamp team
+    </p>
+{% endblock %}

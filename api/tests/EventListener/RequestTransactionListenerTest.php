@@ -14,7 +14,6 @@ use function PHPUnit\Framework\never;
 use function PHPUnit\Framework\once;
 
 use PHPUnit\Framework\TestCase;
-use RuntimeException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\HttpKernel\Event\KernelEvent;
@@ -85,7 +84,7 @@ class RequestTransactionListenerTest extends TestCase {
             )
         );
 
-        $this->expectException(RuntimeException::class);
+        $this->expectException(\RuntimeException::class);
         $this->requestTransactionListener->startTransaction(
             new KernelEvent(
                 $this->kernel,
@@ -141,7 +140,7 @@ class RequestTransactionListenerTest extends TestCase {
     public function testThrowsOnCommitIfNoTransactionStarted() {
         $this->entityManager->expects(never())->method('getConnection');
 
-        $this->expectException(RuntimeException::class);
+        $this->expectException(\RuntimeException::class);
         $this->requestTransactionListener->commitTransaction(
             new KernelEvent(
                 $this->kernel,
@@ -169,7 +168,7 @@ class RequestTransactionListenerTest extends TestCase {
             )
         );
 
-        $this->expectException(RuntimeException::class);
+        $this->expectException(\RuntimeException::class);
         $this->requestTransactionListener->commitTransaction(
             new KernelEvent(
                 $this->kernel,
@@ -194,7 +193,7 @@ class RequestTransactionListenerTest extends TestCase {
                 $this->kernel,
                 $this->request,
                 HttpKernelInterface::MAIN_REQUEST,
-                new RuntimeException()
+                new \RuntimeException()
             )
         );
     }
@@ -226,7 +225,7 @@ class RequestTransactionListenerTest extends TestCase {
                 $this->kernel,
                 $this->request,
                 HttpKernelInterface::MAIN_REQUEST,
-                new RuntimeException()
+                new \RuntimeException()
             )
         );
     }
@@ -242,13 +241,13 @@ class RequestTransactionListenerTest extends TestCase {
     public function testThrowsOnRollbackIfNoTransactionStartedButStillTriesToRollBack() {
         $this->entityManager->expects(once())->method('getConnection');
 
-        $this->expectException(RuntimeException::class);
+        $this->expectException(\RuntimeException::class);
         $this->requestTransactionListener->rollbackTransaction(
             new ExceptionEvent(
                 $this->kernel,
                 $this->request,
                 HttpKernelInterface::MAIN_REQUEST,
-                new RuntimeException()
+                new \RuntimeException()
             )
         );
     }
@@ -271,13 +270,13 @@ class RequestTransactionListenerTest extends TestCase {
             )
         );
 
-        $this->expectException(RuntimeException::class);
+        $this->expectException(\RuntimeException::class);
         $this->requestTransactionListener->rollbackTransaction(
             new ExceptionEvent(
                 $this->kernel,
                 $this->request,
                 HttpKernelInterface::MAIN_REQUEST,
-                new RuntimeException()
+                new \RuntimeException()
             )
         );
     }
@@ -290,7 +289,7 @@ class RequestTransactionListenerTest extends TestCase {
         $this->connection
             ->expects(once())
             ->method('rollback')
-            ->willThrowException(new RuntimeException())
+            ->willThrowException(new \RuntimeException())
         ;
         $this->entityManager->expects(exactly(4))->method('getConnection');
         $this->entityManager->expects(once())->method('clear');
@@ -303,13 +302,13 @@ class RequestTransactionListenerTest extends TestCase {
             )
         );
 
-        $this->expectException(RuntimeException::class);
+        $this->expectException(\RuntimeException::class);
         $this->requestTransactionListener->rollbackTransaction(
             new ExceptionEvent(
                 $this->kernel,
                 $this->request,
                 HttpKernelInterface::MAIN_REQUEST,
-                new RuntimeException()
+                new \RuntimeException()
             )
         );
     }

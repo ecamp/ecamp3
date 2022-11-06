@@ -19,7 +19,7 @@
         class="my-4"
         block
       >
-        {{ $tc('views.auth.registerDone.login') }}
+        {{ $tc('global.button.login') }}
       </v-btn>
     </div>
 

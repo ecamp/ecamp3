@@ -8,7 +8,6 @@ use App\Entity\Day;
 use App\Entity\DayResponsible;
 use App\Entity\Period;
 use App\Entity\ScheduleEntry;
-use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\UnitOfWork;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -35,8 +34,8 @@ class PeriodDataPersisterTest extends TestCase {
      */
     protected function setUp(): void {
         $this->origPeriodData = [
-            'start' => new DateTime('2000-01-10'),
-            'end' => new DateTime('2000-01-12'),
+            'start' => new \DateTime('2000-01-10'),
+            'end' => new \DateTime('2000-01-12'),
         ];
         $this->emptyPeriod = new Period();
         $this->emptyPeriod->start = $this->origPeriodData['start'];
@@ -86,7 +85,7 @@ class PeriodDataPersisterTest extends TestCase {
     public function testAddDayAtStartMoveData() {
         // given
         $this->period->moveScheduleEntries = true;
-        $this->period->start = new DateTime('2000-01-09');
+        $this->period->start = new \DateTime('2000-01-09');
 
         // when
         $this->dataPersister->beforeUpdate($this->period);
@@ -99,7 +98,7 @@ class PeriodDataPersisterTest extends TestCase {
     public function testAddDayAtStartNoMoveData() {
         // given
         $this->period->moveScheduleEntries = false;
-        $this->period->start = new DateTime('2000-01-09');
+        $this->period->start = new \DateTime('2000-01-09');
 
         // when
         $this->dataPersister->beforeUpdate($this->period);
@@ -112,7 +111,7 @@ class PeriodDataPersisterTest extends TestCase {
     public function testRemoveDayAtStartMoveData() {
         // given
         $this->period->moveScheduleEntries = true;
-        $this->period->start = new DateTime('2000-01-11');
+        $this->period->start = new \DateTime('2000-01-11');
 
         // when
         $this->dataPersister->beforeUpdate($this->period);
@@ -125,7 +124,7 @@ class PeriodDataPersisterTest extends TestCase {
     public function testRemoveDayAtStartNoMoveData() {
         // given
         $this->period->moveScheduleEntries = false;
-        $this->period->start = new DateTime('2000-01-11');
+        $this->period->start = new \DateTime('2000-01-11');
 
         // when
         $this->dataPersister->beforeUpdate($this->period);

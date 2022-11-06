@@ -15,7 +15,7 @@
 
     <e-checkbox
       v-model="entityData.moveScheduleEntries"
-      :name="$tc('components.dialog.dialogPeriodEdit.moveScheduleEntries')"
+      :name="$tc('components.campAdmin.dialogPeriodEdit.moveScheduleEntries')"
     />
 
     <svg

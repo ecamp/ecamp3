@@ -4,6 +4,7 @@ namespace App\Tests\Api\ContentNodes\ContentNode;
 
 use App\Entity\ContentNode;
 use App\Tests\Api\ECampApiTestCase;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @internal
@@ -14,6 +15,9 @@ class ReadContentNodeTest extends ECampApiTestCase {
     public function testGetSingleContentNodeIsAllowedForCollaborator() {
         /** @var ContentNode $contentNode */
         $contentNode = static::$fixtures['columnLayoutChild1'];
+        $children = new ArrayCollection($contentNode->getChildren());
+        $childrenIris = $children->map(fn (ContentNode $contentNode) => $this->getIriFor($contentNode))->toArray();
+
         static::createClientWithCredentials()->request('GET', '/content_nodes/'.$contentNode->getId());
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
@@ -31,11 +35,7 @@ class ReadContentNodeTest extends ECampApiTestCase {
                 // for more info on why it was previously removed. You will then probably have to adapt
                 // RelatedCollectionLinkNormalizer and add a way to explicitly disable related collection links on a
                 // specific relation, so that the "parent" filter can co-exist with children being an array.
-                'children' => [
-                    ['href' => $this->getIriFor('multiSelect2')],
-                    ['href' => $this->getIriFor('singleText2')],
-                    ['href' => $this->getIriFor('storyboard2')],
-                ],
+                'children' => $childrenIris,
                 'self' => ['href' => $this->getIriFor('columnLayoutChild1')],
             ],
         ]);

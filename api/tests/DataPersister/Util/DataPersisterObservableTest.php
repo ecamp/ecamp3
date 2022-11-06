@@ -8,7 +8,6 @@ use App\DataPersister\Util\DataPersisterObservable;
 use App\DataPersister\Util\PropertyChangeListener;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use stdClass;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -55,12 +54,12 @@ class DataPersisterObservableTest extends TestCase {
             ->willReturn(true, false)
         ;
 
-        self::assertThat($this->dataPersisterObservable->supports(new stdClass(), []), self::equalTo(true));
-        self::assertThat($this->dataPersisterObservable->supports(new stdClass(), []), self::equalTo(false));
+        self::assertThat($this->dataPersisterObservable->supports(new \stdClass(), []), self::equalTo(true));
+        self::assertThat($this->dataPersisterObservable->supports(new \stdClass(), []), self::equalTo(false));
     }
 
     public function testCallCreateCallbacksOnPost() {
-        $toPersist = new stdClass();
+        $toPersist = new \stdClass();
 
         $this->closure->expects(self::exactly(2))
             ->method('call')
@@ -79,7 +78,7 @@ class DataPersisterObservableTest extends TestCase {
     }
 
     public function testCallUpdateCallbacksOnPatch() {
-        $toPersist = new stdClass();
+        $toPersist = new \stdClass();
 
         $this->closure->expects(self::exactly(2))
             ->method('call')
@@ -98,7 +97,7 @@ class DataPersisterObservableTest extends TestCase {
     }
 
     public function testCallRemoveCallbacksOnRemove() {
-        $toRemove = new stdClass();
+        $toRemove = new \stdClass();
 
         $this->closure->expects(self::exactly(2))
             ->method('call')
@@ -118,7 +117,7 @@ class DataPersisterObservableTest extends TestCase {
     }
 
     public function testRemoveObjectIfOnBeforeRemoveReturnsNull() {
-        $toRemove = new stdClass();
+        $toRemove = new \stdClass();
 
         $this->closure->expects(self::exactly(2))
             ->method('call')
@@ -137,7 +136,7 @@ class DataPersisterObservableTest extends TestCase {
     }
 
     public function testCallCustomActionListenersForItemOperation() {
-        $toPersist = new stdClass();
+        $toPersist = new \stdClass();
 
         $this->closure->expects(self::exactly(2))
             ->method('call')
@@ -155,7 +154,7 @@ class DataPersisterObservableTest extends TestCase {
     }
 
     public function testCallCustomActionListenersForItemOperationOnlyOnceIfRegisteredTwice() {
-        $toPersist = new stdClass();
+        $toPersist = new \stdClass();
 
         $this->closure->expects(self::exactly(2))
             ->method('call')
@@ -174,7 +173,7 @@ class DataPersisterObservableTest extends TestCase {
     }
 
     public function testCallCustomActionListenersForCollectionOperation() {
-        $toPersist = new stdClass();
+        $toPersist = new \stdClass();
 
         $this->closure->expects(self::exactly(2))
             ->method('call')
@@ -192,7 +191,7 @@ class DataPersisterObservableTest extends TestCase {
     }
 
     public function testCallNoOperationCallbacksIfOperationNameDoesNotMatch() {
-        $toPersist = new stdClass();
+        $toPersist = new \stdClass();
         $this->closure->expects(self::never())->method('call');
         $this->contextAwareDataPersister->expects(self::exactly(3))
             ->method('persist')
@@ -217,7 +216,7 @@ class DataPersisterObservableTest extends TestCase {
      * @throws \ReflectionException
      */
     public function testNotCallPropertyChangeListenerIfDataWasNullBefore() {
-        $toPersist = new stdClass();
+        $toPersist = new \stdClass();
 
         $this->parameterBag = new ParameterBag(['previous_data' => null]);
         $propertyChangeListener = PropertyChangeListener::of(
@@ -235,7 +234,7 @@ class DataPersisterObservableTest extends TestCase {
      * @throws \ReflectionException
      */
     public function testThrowErrorIfExtractPropertyFails() {
-        $toPersist = new stdClass();
+        $toPersist = new \stdClass();
 
         $this->parameterBag = new ParameterBag(['previous_data' => $toPersist]);
         $propertyChangeListener = PropertyChangeListener::of(
@@ -253,7 +252,7 @@ class DataPersisterObservableTest extends TestCase {
      * @throws \ReflectionException
      */
     public function testNotCallPropertyChangeListenerIfPropertyDidNotChange() {
-        $toPersist = new stdClass();
+        $toPersist = new \stdClass();
         $toPersist->name = null;
 
         $this->parameterBag = new ParameterBag(['previous_data' => $toPersist]);
@@ -272,9 +271,9 @@ class DataPersisterObservableTest extends TestCase {
      * @throws \ReflectionException
      */
     public function testCallPropertyChangeListenerIfPropertyDidChange() {
-        $oldData = new stdClass();
+        $oldData = new \stdClass();
         $oldData->name = null;
-        $newData = new stdClass();
+        $newData = new \stdClass();
         $newData->name = 'test';
 
         $this->parameterBag = new ParameterBag(['previous_data' => $oldData]);

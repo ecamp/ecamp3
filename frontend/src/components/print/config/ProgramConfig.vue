@@ -3,7 +3,7 @@
     <e-select v-model="options.periods" :items="periods" multiple />
     <e-checkbox
       v-model="options.dayOverview"
-      :label="$tc('components.print.printConfigurator.config.ProgramConfig.dayOverview')"
+      :label="$tc('components.print.config.programConfig.dayOverview')"
     />
   </div>
 </template>

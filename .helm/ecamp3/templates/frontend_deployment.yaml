@@ -29,6 +29,12 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.frontend.image.repository }}:{{ .Values.frontend.image.tag | default .Values.imageTag }}"
           imagePullPolicy: {{ .Values.frontend.image.pullPolicy }}
+          env:
+            - name: VERSION
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ include "frontend.name" . }}-configmap
+                  key: deployedVersion
           ports:
             - name: frontend-http
               containerPort: 3000

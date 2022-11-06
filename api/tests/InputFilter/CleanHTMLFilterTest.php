@@ -5,7 +5,6 @@ namespace App\Tests\InputFilter;
 use App\InputFilter\CleanHTMLFilter;
 use App\InputFilter\InputFilter;
 use App\InputFilter\UnexpectedValueException;
-use HTMLPurifier;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 /**
@@ -17,7 +16,7 @@ class CleanHTMLFilterTest extends KernelTestCase {
     public function setUp(): void {
         parent::setUp();
 
-        $purifierMock = $this->createMock(HTMLPurifier::class);
+        $purifierMock = $this->createMock(\HTMLPurifier::class);
         $purifierMock->method('purify')->willReturnArgument(0);
 
         $this->inputFilter = new CleanHTMLFilter($purifierMock);

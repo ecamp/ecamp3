@@ -3,8 +3,6 @@
 namespace App\Validator\Period;
 
 use App\Entity\Period;
-use DateInterval;
-use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
@@ -32,10 +30,10 @@ class AssertLessThanOrEqualToEarliestScheduleEntryStartValidator extends Constra
         if (!$period->moveScheduleEntries && $period->scheduleEntries->count() > 0) {
             $orig = $this->em->getUnitOfWork()->getOriginalEntityData($period);
             if (null != $orig) {
-                /** @var DateTime $origPeriodStart */
+                /** @var \DateTime $origPeriodStart */
                 $origPeriodStart = clone $orig['start'];
                 $firstScheduleEntryPeriodOffset = min($period->scheduleEntries->map(fn ($se) => $se->startOffset)->toArray());
-                $firstScheduleEntryStart = $origPeriodStart->add(new DateInterval('PT'.$firstScheduleEntryPeriodOffset.'M'));
+                $firstScheduleEntryStart = $origPeriodStart->add(new \DateInterval('PT'.$firstScheduleEntryPeriodOffset.'M'));
 
                 if ($firstScheduleEntryStart < $value) {
                     $this->context->buildViolation($constraint->message)

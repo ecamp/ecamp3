@@ -26,7 +26,7 @@ App\Entity\ContentNode\SingleText:
     position: 2
     instanceName: 'singleText1'
     contentType: '@contentTypeNotes'
-    data: { text: <word()> }
+    data: { html: <word()> }
   safetyConcept1:
     root: '@columnLayout1'
     parent: '@columnLayout1'
@@ -34,4 +34,4 @@ App\Entity\ContentNode\SingleText:
     position: 3
     instanceName: 'safetyConcept1'
     contentType: '@contentTypeSafetyConcept'
-    data: { text: <sentence()> }
+    data: { html: <sentence()> }

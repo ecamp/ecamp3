@@ -3,16 +3,15 @@
 namespace App\DataPersister\Util;
 
 use ApiPlatform\Core\DataPersister\ContextAwareDataPersisterInterface;
-use Closure;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 class DataPersisterObservable {
-    private Closure $onBeforeCreate;
-    private Closure $onAfterCreate;
-    private Closure $onBeforeUpdate;
-    private Closure $onAfterUpdate;
-    private Closure $onBeforeRemove;
-    private Closure $onAfterRemove;
+    private \Closure $onBeforeCreate;
+    private \Closure $onAfterCreate;
+    private \Closure $onBeforeUpdate;
+    private \Closure $onAfterUpdate;
+    private \Closure $onBeforeRemove;
+    private \Closure $onAfterRemove;
 
     /**
      * @var CustomActionListener[]
@@ -43,37 +42,37 @@ class DataPersisterObservable {
         return $this->dataPersister->supports($data, $context);
     }
 
-    public function onBeforeCreate(Closure $onBeforeCreate): self {
+    public function onBeforeCreate(\Closure $onBeforeCreate): self {
         $this->onBeforeCreate = $onBeforeCreate;
 
         return $this;
     }
 
-    public function onAfterCreate(Closure $onAfterCreate): self {
+    public function onAfterCreate(\Closure $onAfterCreate): self {
         $this->onAfterCreate = $onAfterCreate;
 
         return $this;
     }
 
-    public function onBeforeUpdate(Closure $onBeforeUpdate): self {
+    public function onBeforeUpdate(\Closure $onBeforeUpdate): self {
         $this->onBeforeUpdate = $onBeforeUpdate;
 
         return $this;
     }
 
-    public function onAfterUpdate(Closure $onAfterUpdate): self {
+    public function onAfterUpdate(\Closure $onAfterUpdate): self {
         $this->onAfterUpdate = $onAfterUpdate;
 
         return $this;
     }
 
-    public function onBeforeRemove(Closure $onBeforeRemove): self {
+    public function onBeforeRemove(\Closure $onBeforeRemove): self {
         $this->onBeforeRemove = $onBeforeRemove;
 
         return $this;
     }
 
-    public function onAfterRemove(Closure $onAfterRemove): self {
+    public function onAfterRemove(\Closure $onAfterRemove): self {
         $this->onAfterRemove = $onAfterRemove;
 
         return $this;

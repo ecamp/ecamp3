@@ -5,6 +5,7 @@ namespace App\DataPersister\ContentNode;
 use App\DataPersister\Util\DataPersisterObservable;
 use App\Entity\ContentNode\Storyboard;
 use App\InputFilter\CleanHTMLFilter;
+use App\InputFilter\CleanTextFilter;
 use Ramsey\Uuid\Uuid;
 
 class StoryboardDataPersister extends ContentNodeAbstractDataPersister {
@@ -13,7 +14,8 @@ class StoryboardDataPersister extends ContentNodeAbstractDataPersister {
      */
     public function __construct(
         DataPersisterObservable $dataPersisterObservable,
-        private CleanHTMLFilter $cleanHTMLFilter
+        private CleanHTMLFilter $cleanHTMLFilter,
+        private CleanTextFilter $cleanTextFilter
     ) {
         parent::__construct(
             Storyboard::class,
@@ -31,7 +33,7 @@ class StoryboardDataPersister extends ContentNodeAbstractDataPersister {
             $data->data = ['sections' => [
                 Uuid::uuid4()->toString() => [
                     'column1' => '',
-                    'column2' => '',
+                    'column2Html' => '',
                     'column3' => '',
                     'position' => 0,
                 ],
@@ -52,9 +54,9 @@ class StoryboardDataPersister extends ContentNodeAbstractDataPersister {
 
     private function sanitizeData($data) {
         foreach ($data->data['sections'] as &$section) {
-            $section = $this->cleanHTMLFilter->applyTo($section, 'column1');
-            $section = $this->cleanHTMLFilter->applyTo($section, 'column2');
-            $section = $this->cleanHTMLFilter->applyTo($section, 'column3');
+            $section = $this->cleanTextFilter->applyTo($section, 'column1');
+            $section = $this->cleanHTMLFilter->applyTo($section, 'column2Html');
+            $section = $this->cleanTextFilter->applyTo($section, 'column3');
         }
 
         return $data;

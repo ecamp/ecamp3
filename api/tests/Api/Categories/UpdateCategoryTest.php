@@ -289,14 +289,14 @@ class UpdateCategoryTest extends ECampApiTestCase {
         );
     }
 
-    public function testPatchCategoryDoesNotCleanHtmlForShort() {
+    public function testPatchCategoryCleansForbiddenCharactersFromShort() {
         $category = static::$fixtures['category1'];
         static::createClientWithCredentials()->request(
             'PATCH',
             '/categories/'.$category->getId(),
             [
                 'json' => [
-                    'short' => 'L<b>S</b><a>',
+                    'short' => "L<b>S</b>\n\t<a>",
                 ],
                 'headers' => ['Content-Type' => 'application/merge-patch+json'], ]
         );
@@ -395,7 +395,7 @@ class UpdateCategoryTest extends ECampApiTestCase {
         );
     }
 
-    public function testPatchCategoryDoesNotCleanHtmlForName() {
+    public function testPatchCategoryCleansForbiddenCharactersFromName() {
         $category = static::$fixtures['category1'];
         $client = static::createClientWithCredentials();
         $client->disableReboot();
@@ -404,7 +404,7 @@ class UpdateCategoryTest extends ECampApiTestCase {
             '/categories/'.$category->getId(),
             [
                 'json' => [
-                    'name' => '<b>Lager</b>sport<a>',
+                    'name' => "<b>Lager</b>sport\n\t<a>",
                 ],
                 'headers' => ['Content-Type' => 'application/merge-patch+json'], ]
         );

@@ -6,10 +6,6 @@ use App\Entity\BaseEntity;
 use App\InputFilter\FilterAttribute;
 use App\InputFilter\InputFilter;
 use App\InputFilter\UnexpectedValueException;
-use Generator;
-use ReflectionAttribute;
-use ReflectionClass;
-use ReflectionProperty;
 use Symfony\Component\DependencyInjection\ServiceLocator;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
@@ -91,7 +87,7 @@ class InputFilterDenormalizer implements DenormalizerInterface, DenormalizerAwar
         return $data;
     }
 
-    private function getFilterAttributes(ReflectionClass $reflectionClass): array {
+    private function getFilterAttributes(\ReflectionClass $reflectionClass): array {
         $filterAttributes = [];
         foreach ($reflectionClass->getProperties() as $property) {
             if ($property->getDeclaringClass()->name === $reflectionClass->name) {
@@ -104,7 +100,7 @@ class InputFilterDenormalizer implements DenormalizerInterface, DenormalizerAwar
         return $filterAttributes;
     }
 
-    private function getRelatedEntityPropertiesToFilter(ReflectionClass $reflectionClass): array {
+    private function getRelatedEntityPropertiesToFilter(\ReflectionClass $reflectionClass): array {
         $relatedEntityPropertiesToFilter = [];
         foreach ($reflectionClass->getProperties() as $property) {
             $propertyName = $property->name;
@@ -128,14 +124,14 @@ class InputFilterDenormalizer implements DenormalizerInterface, DenormalizerAwar
         return $relatedEntityPropertiesToFilter;
     }
 
-    private function createInputFilterAttributesFrom(ReflectionProperty $reflection): Generator {
-        foreach ($reflection->getAttributes(FilterAttribute::class, ReflectionAttribute::IS_INSTANCEOF) as $attribute) {
+    private function createInputFilterAttributesFrom(\ReflectionProperty $reflection): \Generator {
+        foreach ($reflection->getAttributes(FilterAttribute::class, \ReflectionAttribute::IS_INSTANCEOF) as $attribute) {
             yield $attribute->newInstance();
         }
     }
 
-    private function getReflectionClass($className): ReflectionClass {
-        return new ReflectionClass($className);
+    private function getReflectionClass($className): \ReflectionClass {
+        return new \ReflectionClass($className);
     }
 
     private function applyFilter($data, string $propertyName, FilterAttribute $filterAttribute): array {

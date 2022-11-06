@@ -2,14 +2,11 @@
 
 namespace App\DataPersister\Util;
 
-use Closure;
-use ReflectionFunction;
-
 class CustomActionListener {
     private function __construct(
         private string $actionName,
-        private Closure $beforeAction,
-        private Closure $afterAction
+        private \Closure $beforeAction,
+        private \Closure $afterAction
     ) {
     }
 
@@ -18,8 +15,8 @@ class CustomActionListener {
      */
     public static function of(
         string $actionName,
-        ?Closure $beforeAction = null,
-        ?Closure $afterAction = null
+        ?\Closure $beforeAction = null,
+        ?\Closure $afterAction = null
     ): CustomActionListener {
         if (null == $beforeAction) {
             $beforeAction = fn ($data) => $data;
@@ -42,19 +39,19 @@ class CustomActionListener {
         return $this->actionName;
     }
 
-    public function getBeforeAction(): Closure {
+    public function getBeforeAction(): \Closure {
         return $this->beforeAction;
     }
 
-    public function getAfterAction(): Closure {
+    public function getAfterAction(): \Closure {
         return $this->afterAction;
     }
 
     /**
      * @throws \ReflectionException
      */
-    private static function hasOneParameter(?Closure $beforeAction): bool {
-        $beforeActionReflectionFunction = new ReflectionFunction($beforeAction);
+    private static function hasOneParameter(?\Closure $beforeAction): bool {
+        $beforeActionReflectionFunction = new \ReflectionFunction($beforeAction);
 
         return 1 != $beforeActionReflectionFunction->getNumberOfParameters();
     }

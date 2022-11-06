@@ -15,10 +15,7 @@
             <h4 class="mt-2 mt-sm-3">
               <span class="d-inline-flex align-center">
                 <span class="tabular-nums">{{ scheduleEntry.number }}</span>
-                <CategoryChip
-                  :category="scheduleEntry.activity().category"
-                  class="mx-1"
-                />
+                <CategoryChip :schedule-entry="scheduleEntry" class="mx-1" />
               </span>
               <router-link
                 :to="{
@@ -43,7 +40,7 @@
                 auto-grow
                 dense
                 :readonly="!editing"
-                fieldname="data.text"
+                fieldname="data.html"
                 aria-label="Erfassen"
                 label=""
               />
@@ -52,7 +49,7 @@
         </template>
       </template>
       <p v-else>
-        {{ $tc('story.storyDay.noStory') }}
+        {{ $tc('components.story.storyDay.noStory') }}
       </p>
     </v-expansion-panel-content>
   </v-expansion-panel>
@@ -61,7 +58,7 @@
 import { sortBy } from 'lodash'
 import ApiForm from '@/components/form/api/ApiForm.vue'
 import { dateLong } from '@/common/helpers/dateHelperUTCFormatted.js'
-import CategoryChip from '@/components/story/CategoryChip.vue'
+import CategoryChip from '@/components/generic/CategoryChip.vue'
 
 export default {
   name: 'StoryDay',
@@ -120,7 +117,7 @@ export default {
 </script>
 
 <style scoped>
-::v-deep .v-skeleton-loader__list-item-three-line {
+:deep(.v-skeleton-loader__list-item-three-line) {
   padding: 0;
   height: auto;
 }

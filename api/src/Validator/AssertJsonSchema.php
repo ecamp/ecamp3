@@ -5,7 +5,7 @@ namespace App\Validator;
 use Attribute;
 use Symfony\Component\Validator\Constraint;
 
-#[Attribute]
+#[\Attribute]
 class AssertJsonSchema extends Constraint {
     public string $message = "Provided JSON doesn't match required schema ({{ schemaError }}).";
 

@@ -49,5 +49,19 @@ spec:
             periodSeconds: 10
             timeoutSeconds: 5
           resources:
-            {{- toYaml .Values.resources | nindent 12 }}
+            {{- toYaml .Values.browserless.resources | nindent 12 }}
+          envFrom:
+            - configMapRef:
+                name: {{ include "browserless.name" . }}-configmap
+          env:
+            - name: PREBOOT_CHROME
+              value: "true"
+            - name: KEEP_ALIVE
+              value: "true"
+            - name: ENABLE_DEBUGGER
+              value: "false"
+            - name: FUNCTION_ENABLE_INCOGNITO_MODE
+              value: "true"
+            - name: DISABLED_FEATURES
+              value: '["downloadEndpoint","functionEndpoint","pdfEndpoint","screencastEndpoint","scrapeEndpoint","statsEndpoint","workspaces"]'
 {{- end }}

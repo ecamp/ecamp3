@@ -6,10 +6,6 @@
 namespace App\Tests\Types\Doctrine;
 
 use App\Types\Doctrine\UTCDateType;
-
-use function date_default_timezone_set;
-
-use DateTime;
 use Doctrine\DBAL\Types\ConversionException;
 
 /**
@@ -25,7 +21,7 @@ class UTCDateTypeTest extends BaseDateTypeTestCase {
     public function testDateConvertsToPHPValue(): void {
         // Birthday of jwage and also birthday of Doctrine. Send him a present ;)
         self::assertInstanceOf(
-            DateTime::class,
+            \DateTime::class,
             $this->type->convertToPHPValue('1985-09-01', $this->platform)
         );
     }
@@ -37,7 +33,7 @@ class UTCDateTypeTest extends BaseDateTypeTestCase {
     }
 
     public function testDateRestsSummerTimeAffection(): void {
-        date_default_timezone_set('Europe/Berlin');
+        \date_default_timezone_set('Europe/Berlin');
 
         $date = $this->type->convertToPHPValue('2009-08-01', $this->platform);
         self::assertEquals('00:00:00', $date->format('H:i:s'));
@@ -58,9 +54,9 @@ class UTCDateTypeTest extends BaseDateTypeTestCase {
      */
     public function testConvertsPHPValueToUTC(): void {
         // set timezone to anything else than UTC
-        date_default_timezone_set('America/New_York');
+        \date_default_timezone_set('America/New_York');
 
-        $date = new DateTime('1985-09-02 00:00:00 +02:00'); // is still 1985-09-01 22:00 in UTC time
+        $date = new \DateTime('1985-09-02 00:00:00 +02:00'); // is still 1985-09-01 22:00 in UTC time
 
         $actual = $this->type->convertToDatabaseValue($date, $this->platform);
 
@@ -69,7 +65,7 @@ class UTCDateTypeTest extends BaseDateTypeTestCase {
 
     public function testInterpretsDatabaseValueAsUTC(): void {
         // set timezone to anything else than UTC
-        date_default_timezone_set('America/New_York');
+        \date_default_timezone_set('America/New_York');
 
         $date = $this->type->convertToPHPValue('1985-09-01', $this->platform);
 

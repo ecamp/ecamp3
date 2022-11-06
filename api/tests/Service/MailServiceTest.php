@@ -35,6 +35,7 @@ class MailServiceTest extends KernelTestCase {
 
         $this->camp = new Camp();
         $this->camp->name = 'some camp';
+        $this->camp->title = 'some camp title';
     }
 
     public function testSendInviteToCampMailDeChScout() {
@@ -44,7 +45,7 @@ class MailServiceTest extends KernelTestCase {
         self::assertEmailCount(1);
         $mailerMessage = self::getMailerMessage(0);
         self::assertEmailAddressContains($mailerMessage, 'To', self::INVITE_MAIL);
-        self::assertEmailHeaderSame($mailerMessage, 'subject', 'Du wurdest ins Lager some camp eingeladen');
+        self::assertEmailHeaderSame($mailerMessage, 'subject', '[eCamp3] Du wurdest ins Lager "some camp" eingeladen');
 
         self::assertEmailHtmlBodyContains($mailerMessage, $this->camp->name);
         self::assertEmailHtmlBodyContains($mailerMessage, $this->user->getDisplayName());
@@ -120,9 +121,9 @@ class MailServiceTest extends KernelTestCase {
         self::assertEmailAddressContains($mailerMessage, 'To', self::INVITE_MAIL);
         self::assertEmailHeaderSame($mailerMessage, 'subject', '[eCamp3] E-Mail-Adresse verifizieren');
 
-        self::assertEmailHtmlBodyContains($mailerMessage, 'Jemand hat versucht, deine Mail-Adresse bei eCamp zu ändern');
+        self::assertEmailHtmlBodyContains($mailerMessage, 'Wir haben die Anfrage erhalten, deine E-Mail-Adresse bei eCamp zu ändern.');
         self::assertEmailHtmlBodyContains($mailerMessage, 'profile/verify-mail/some-id');
-        self::assertEmailTextBodyContains($mailerMessage, 'Jemand hat versucht, deine Mail-Adresse bei eCamp zu ändern');
+        self::assertEmailTextBodyContains($mailerMessage, 'Wir haben die Anfrage erhalten, deine E-Mail-Adresse bei eCamp zu ändern.');
         self::assertEmailTextBodyContains($mailerMessage, 'profile/verify-mail/some-id');
     }
 }

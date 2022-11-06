@@ -46,12 +46,12 @@ ul.toc .toc-element a::after {
 }
 */
 
-ul.toc >>> .toc-element-level-1 {
+ul.toc:deep(.toc-element-level-1) {
   margin-top: 25px;
   font-weight: bold;
 }
 
-ul.toc >>> .toc-element-level-2 {
+ul.toc:deep(.toc-element-level-2) {
   margin-left: 25px;
 }
 </style>

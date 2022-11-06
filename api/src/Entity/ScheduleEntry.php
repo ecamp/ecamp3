@@ -11,8 +11,6 @@ use App\Repository\ScheduleEntryRepository;
 use App\Util\DateTimeUtil;
 use App\Validator\AssertBelongsToSameCamp;
 use App\Validator\ScheduleEntryPostGroupSequence;
-use DateTime;
-use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Annotation\SerializedName;
@@ -128,8 +126,8 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
      * internal cache of 'start' and 'end' property during denormalization
      * this is necessary in case period is denormalized after 'start' or 'end'.
      */
-    private ?DateTimeInterface $_start = null;
-    private ?DateTimeInterface $_end = null;
+    private ?\DateTimeInterface $_start = null;
+    private ?\DateTimeInterface $_end = null;
 
     #[ApiProperty(readable: false)]
     public function getCamp(): ?Camp {
@@ -159,19 +157,19 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
     #[ApiProperty(example: '2022-01-02T00:00:00+00:00', required: true, openapiContext: ['format' => 'date-time'])]
     #[Assert\GreaterThanOrEqual(propertyPath: 'period.start')]
     #[Groups(['read'])]
-    public function getStart(): ?DateTimeInterface {
+    public function getStart(): ?\DateTimeInterface {
         if (null === $this->period?->start) {
             return $this->_start;
         }
 
-        $start = DateTime::createFromInterface($this->period->start);
+        $start = \DateTime::createFromInterface($this->period->start);
         $start->modify("{$this->startOffset} minutes");
 
         return $start;
     }
 
     #[Groups(['write'])]
-    public function setStart(DateTimeInterface $start): void {
+    public function setStart(\DateTimeInterface $start): void {
         $this->_start = $start;
 
         if (null !== $this->period?->start) {
@@ -186,19 +184,19 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
     #[Assert\GreaterThan(propertyPath: 'start')]
     #[Assert\LessThanOrEqual(propertyPath: 'period.endOfLastDay')]
     #[Groups(['read'])]
-    public function getEnd(): ?DateTimeInterface {
+    public function getEnd(): ?\DateTimeInterface {
         if (null === $this->period?->start) {
             return $this->_end;
         }
 
-        $end = DateTime::createFromInterface($this->period->start);
+        $end = \DateTime::createFromInterface($this->period->start);
         $end->modify("{$this->endOffset} minutes");
 
         return $end;
     }
 
     #[Groups(['write'])]
-    public function setEnd(DateTimeInterface $end): void {
+    public function setEnd(\DateTimeInterface $end): void {
         $this->_end = $end;
 
         if (null !== $this->period?->start) {

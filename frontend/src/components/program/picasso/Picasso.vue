@@ -45,7 +45,12 @@ Listing all given activity schedule entries in a calendar view.
           {{
             $date
               .utc(date)
-              .format($tc('components.camp.picasso.datetime.date', widthPluralization))
+              .format(
+                $tc(
+                  'components.program.picasso.picasso.datetime.date',
+                  widthPluralization
+                )
+              )
           }}
         </div>
         <day-responsibles :date="date" :period="period" :readonly="!editable" />
@@ -82,7 +87,7 @@ Listing all given activity schedule entries in a calendar view.
         <!-- readonly mode: complete div is a HTML link -->
         <router-link v-if="!editable && !event.tmpEvent" :to="scheduleEntryRoute(event)">
           <div class="readonlyEntry">
-            <h4 class="v-event-title">
+            <h4 class="v-event-title" :style="{ color: getActivityTextColor(event) }">
               {{ getActivityName(event) }}
             </h4>
           </div>
@@ -90,7 +95,7 @@ Listing all given activity schedule entries in a calendar view.
 
         <!-- edit mode: normal div with drag & drop -->
         <div v-if="editable" class="editableEntry">
-          <h4 class="v-event-title">
+          <h4 class="v-event-title" :style="{ color: getActivityTextColor(event) }">
             {{ getActivityName(event) }}
           </h4>
 
@@ -111,7 +116,7 @@ Listing all given activity schedule entries in a calendar view.
   </div>
 </template>
 <script>
-import { toRefs, ref, watch, reactive } from '@vue/composition-api'
+import { toRefs, ref, watch, reactive } from 'vue'
 import useDragAndDropMove from './useDragAndDropMove.js'
 import useDragAndDropResize from './useDragAndDropResize.js'
 import useDragAndDropNew from './useDragAndDropNew.js'
@@ -120,6 +125,7 @@ import { isCssColor } from 'vuetify/lib/util/colorUtils'
 import { apiStore as api } from '@/plugins/store'
 import { scheduleEntryRoute } from '@/router.js'
 import mergeListeners from '@/helpers/mergeListeners.js'
+import { parseHexColor, contrastColor } from '@/common/helpers/colors.js'
 import {
   timestampToUtcString,
   utcStringToTimestamp,
@@ -143,9 +149,9 @@ export default {
       required: true,
     },
 
-    // list of scheduleEntries
+    // collection of scheduleEntries
     scheduleEntries: {
-      type: Array,
+      type: Object,
       required: true,
     },
 
@@ -278,7 +284,7 @@ export default {
     const events = ref([])
     const loadCalenderEventsFromScheduleEntries = () => {
       // prepare scheduleEntries to make them understandable by v-calendar
-      events.value = scheduleEntries.value.map((entry) => ({
+      events.value = scheduleEntries.value.items.map((entry) => ({
         ...entry,
         startTimestamp: utcStringToTimestamp(entry.start),
         endTimestamp: utcStringToTimestamp(entry.end),
@@ -295,7 +301,7 @@ export default {
 
     // reloads schedule entries from API + recreates event array after reload
     const reloadScheduleEntries = async () => {
-      await api.reload(props.period.scheduleEntries())
+      await api.reload(scheduleEntries.value)
       loadCalenderEventsFromScheduleEntries()
     }
 
@@ -383,6 +389,13 @@ export default {
         scheduleEntry.activity().title
       )
     },
+    getActivityTextColor(scheduleEntry) {
+      if (scheduleEntry.tmpEvent) return '#000'
+      if (this.isCategoryLoading(scheduleEntry)) return '#000'
+
+      const category = scheduleEntry.activity().category()
+      return contrastColor(...parseHexColor(category.color))
+    },
     getActivityColor(scheduleEntry, _) {
       if (scheduleEntry.tmpEvent) return 'grey elevation-4 v-event--temporary'
 
@@ -452,7 +465,7 @@ export default {
     height: calc(100vh - 168px);
   }
 
-  ::v-deep {
+  :deep {
     .v-calendar-daily_head-day,
     .v-calendar-daily__day {
       min-width: 80px;
@@ -503,19 +516,20 @@ export default {
 }
 
 .ec-picasso-editable {
-  ::v-deep .v-event-timed {
+  :deep(.v-event-timed) {
     transition: transform 0.1s; /* Animation */
   }
 
-  ::v-deep .v-event-timed:hover {
+  :deep(.v-event-timed:hover) {
+    z-index: 999;
     transform: scale(
       1.02
     ); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
   }
 }
 
-.ec-picasso-editable ::v-deep,
-.ec-picasso ::v-deep {
+.ec-picasso-editable:deep,
+.ec-picasso:deep {
   .v-calendar-daily__day-container {
     width: initial;
   }
@@ -580,7 +594,7 @@ export default {
   letter-spacing: -0.1px;
 }
 
-::v-deep .v-calendar-daily_head-day-label {
+:deep(.v-calendar-daily_head-day-label) {
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -631,7 +645,7 @@ export default {
 }
 
 // temporary placeholder (crate new event)
-::v-deep .v-event-timed.v-event--temporary {
+:deep(.v-event-timed.v-event--temporary) {
   border-style: dashed !important;
   opacity: 0.8;
 }

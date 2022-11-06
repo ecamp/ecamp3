@@ -1,10 +1,24 @@
-<h3>Invitation to {{ camp_name }}</h3>
-<p>
-    You have been invited by {{ by_user }} to collaborate in camp {{ camp_name }}.
-</p>
-<p>
-    <a href="{{ url }}">Answer the invitation</a>
-</p>
-<p>
-    Your eCamp-Team
-</p>
+{% set preheader = 'Invitation to camp ' ~ camp_name %}
+{% extends 'emails/baseLayout.twig' %}
+
+
+{% block content %}
+    <h1>Invitation to camp "{{ camp_name }}"</h1>
+    <p>Hi,</p>
+    <p>
+        You have been invited by {{ by_user }} to collaborate in the following camp: 
+    </p> 
+    <p>
+        <strong>Name:</strong> {{ camp_name }} <br />
+        <strong>Title:</strong> {{ camp_title }}
+    </p>
+
+    {% with { title: 'Answer the invitation', url: url } %}
+        {% include 'emails/button.twig' %}
+    {% endwith %}
+
+    <p>
+        Cheers,<br />
+        your eCamp team
+    </p>
+{% endblock %}
