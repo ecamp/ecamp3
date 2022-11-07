@@ -248,11 +248,6 @@ export default new Router({
           component: () => import('./views/camp/Dashboard.vue'),
         },
         {
-          path: 'dashboard-new',
-          name: 'camp/dashboard/new',
-          component: () => import('./views/camp/DashboardNew.vue'),
-        },
-        {
           path: '',
           name: 'camp/home',
           redirect: { name: 'camp/dashboard' },
