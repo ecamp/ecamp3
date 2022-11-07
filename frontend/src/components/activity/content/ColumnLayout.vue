@@ -93,7 +93,7 @@ export default {
       ])
     },
     color() {
-      return idToColor(this.contentNode.id).toString({ format: 'hex' })
+      return idToColor(this.contentNode.id)
     },
     isRoot() {
       return this.contentNode._meta.self === this.contentNode.root()._meta.self

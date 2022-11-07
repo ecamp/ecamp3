@@ -135,7 +135,6 @@ import DialogActivityEdit from '../DialogActivityEdit.vue'
 import DayResponsibles from './DayResponsibles.vue'
 import { errorToMultiLineToast } from '@/components/toast/toasts'
 import Vue from 'vue'
-import Color from 'colorjs.io'
 
 export default {
   name: 'Picasso',
