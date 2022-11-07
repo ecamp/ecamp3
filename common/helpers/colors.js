@@ -1,29 +1,18 @@
-import {
-  getColor,
-  parse,
-  serialize,
-  contrast,
-  HSL,
-  sRGB,
-  ColorSpace,
-} from 'colorjs.io/fn'
-
-ColorSpace.register(sRGB)
-ColorSpace.register(HSL)
+import Color from 'colorjs.io'
 
 /**
  * @param color {string} CSS compatible string color
  * @returns {string} colorblack or white depending on input color
  */
 function contrastColor(color) {
-  const input = parse(color)
-  const black = parse('#000')
-  const white = parse('#fff')
-  const blackContrast = contrast(input, black, 'APCA')
-  const whiteContrast = contrast(input, white, 'APCA')
+  const input = new Color(color)
+  const black = new Color('#000')
+  const white = new Color('#fff')
+  const blackContrast = input.contrast(black, 'APCA')
+  const whiteContrast = input.contrast(white, 'APCA')
   return blackContrast > whiteContrast
-    ? serialize(black, { format: 'hex' })
-    : serialize(white, { format: 'hex' })
+    ? black.toString({ format: 'hex' })
+    : white.toString({ format: 'hex' })
 }
 
 /**
@@ -33,22 +22,20 @@ function contrastColor(color) {
  */
 function idToColor(id, inactive = false) {
   if (!id) {
-    return serialize(getColor({ space: HSL, coords: [0, 0, 30] }), { format: 'hex' })
+    return new Color('HSL', [0, 0, 30]).to('srgb').toString({ format: 'hex' })
   }
-  return serialize(
-    getColor({
-      space: HSL,
-      coords: [parseInt(id, 16) % 360 || 0, inactive ? 0 : 100, 30],
-    }),
-    { format: 'hex' }
-  )
+  return new Color('HSL', [parseInt(id, 16) % 360 || 0, inactive ? 0 : 100, 30])
+    .to('srgb')
+    .toString({ format: 'hex' })
 }
 
 /**
  * @returns {string}
  */
 function defaultColor() {
-  return serialize(getColor({ space: HSL, coords: [0, 0, 10] }), { format: 'hex' })
+  return new Color('HSL', [0, 0, 10]).toString({
+    format: 'hex',
+  })
 }
 
 /**
