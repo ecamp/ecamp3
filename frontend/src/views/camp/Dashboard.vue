@@ -3,11 +3,8 @@
     <div class="d-flow-root">
       <div class="d-flex flex-wrap ma-4" style="overflow-y: auto; gap: 10px">
         <BooleanFilter
+          v-model="showOnlyMyActivities"
           :label="$tc('views.camp.dashboard.onlyMyActivities')"
-          :value="
-            filter.collaborator.includes('Linux') && filter.collaborator.length === 1
-          "
-          @input="toggleMeFilter()"
         />
         <FilterDivider />
         <SelectFilter
@@ -340,6 +337,17 @@ export default {
 
       return scheduleEntriesByDay
     },
+    showOnlyMyActivities: {
+      get() {
+        return (
+          this.filter.collaborator.includes('Linux') &&
+          this.filter.collaborator.length === 1
+        )
+      },
+      set(value) {
+        this.filter.collaborator = value ? ['Linux'] : []
+      },
+    },
   },
   async mounted() {
     const [periods] = await Promise.all([
@@ -372,13 +380,6 @@ export default {
     },
     filterScheduleEntry(scheduleEntry) {
       return this.matchCollaborators(scheduleEntry) && this.matchCategory(scheduleEntry)
-    },
-    toggleMeFilter() {
-      this.filter.collaborator =
-        this.filter.collaborator.includes('Linux') &&
-        this.filter.collaborator.length === 1
-          ? []
-          : ['Linux']
     },
   },
 }
