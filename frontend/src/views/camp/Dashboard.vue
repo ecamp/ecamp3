@@ -1,13 +1,9 @@
-<!--
-Admin screen of a camp: Displays details & periods of a single camp and allows to edit them.
--->
-
 <template>
-  <content-card title="Aktivitäten" toolbar>
+  <content-card :title="$tc('views.camp.dashboard.activities')" toolbar>
     <div class="d-flow-root">
       <div class="d-flex flex-wrap ma-4" style="overflow-y: auto; gap: 10px">
         <BooleanFilter
-          label="Nur meine Aktivitäten"
+          :label="$tc('views.camp.dashboard.onlyMyActivities')"
           :value="
             filter.collaborator.includes('Linux') && filter.collaborator.length === 1
           "
@@ -18,7 +14,7 @@ Admin screen of a camp: Displays details & periods of a single camp and allows t
           v-model="filter.collaborator"
           multiple
           :items="['Forte', 'Linux', 'Smiley', 'Olippo', 'Cosinus', 'Ikarus']"
-          label="Verantwortlich"
+          :label="$tc('views.camp.dashboard.responsible')"
         >
           <template #item="{ item }">
             <UserAvatar :user="users[item.value]" size="18" class="mr-1" />
@@ -28,7 +24,7 @@ Admin screen of a camp: Displays details & periods of a single camp and allows t
         <SelectFilter
           v-model="filter.category"
           :items="['LS', 'LA', 'LP', 'TA', 'ES']"
-          label="Kategorie"
+          :label="$tc('views.camp.dashboard.category')"
         >
           <template #item="{ item }">
             <CategoryChip dense :category="categories[item.value]" class="mr-1" />
@@ -42,7 +38,7 @@ Admin screen of a camp: Displays details & periods of a single camp and allows t
             { text: 'Vorlager', value: 'Vorlager' },
             { text: 'Hauptlager', value: 'Hauptlager' },
           ]"
-          label="Lagerabschnitt"
+          :label="$tc('views.camp.dashboard.period')"
         />
         <v-chip
           v-if="filter.period || filter.collaborator.length > 0 || filter.category"
@@ -57,7 +53,7 @@ Admin screen of a camp: Displays details & periods of a single camp and allows t
           "
         >
           <v-icon left>mdi-close</v-icon>
-          Filter entfernen
+          {{ $tc('views.camp.dashboard.clearFilters') }}
         </v-chip>
       </div>
       <table
@@ -73,11 +69,21 @@ Admin screen of a camp: Displays details & periods of a single camp and allows t
         </caption>
         <thead :key="period.id + '_head'">
           <tr class="d-sr-only">
-            <th :id="period.id + 'th-number'" scope="col">Nummer</th>
-            <th :id="period.id + 'th-category'" scope="col">Kategorie</th>
-            <th :id="period.id + 'th-time'" scope="col">Zeit</th>
-            <th :id="period.id + 'th-title'" scope="col">Titel</th>
-            <th :id="period.id + 'th-responsible'" scope="col">Verantwortlich</th>
+            <th :id="period.id + 'th-number'" scope="col">
+              {{ $tc('views.camp.dashboard.columns.number') }}
+            </th>
+            <th :id="period.id + 'th-category'" scope="col">
+              {{ $tc('views.camp.dashboard.columns.category') }}
+            </th>
+            <th :id="period.id + 'th-time'" scope="col">
+              {{ $tc('views.camp.dashboard.columns.time') }}
+            </th>
+            <th :id="period.id + 'th-title'" scope="col">
+              {{ $tc('views.camp.dashboard.columns.title') }}
+            </th>
+            <th :id="period.id + 'th-responsible'" scope="col">
+              {{ $tc('views.camp.dashboard.columns.responsible') }}
+            </th>
           </tr>
         </thead>
         <tbody

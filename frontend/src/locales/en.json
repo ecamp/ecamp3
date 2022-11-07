@@ -368,10 +368,19 @@
         "title": "Team"
       },
       "dashboard": {
-        "noActivitiesLine1": "You are not yet responsible for any activity.",
-        "noActivitiesLine2": "You can see the whole program here.",
-        "program": "Program",
-        "viewDescription": "You work on \"{title}\". Here you can see all the activities for which you are responsible."
+        "activities": "Activities",
+        "category": "Category",
+        "clearFilters": "Clear filters",
+        "columns": {
+          "category": "Category",
+          "number": "Number",
+          "responsible": "Responsible",
+          "time": "Time",
+          "title": "Title"
+        },
+        "onlyMyActivities": "Only my activities",
+        "period": "Period",
+        "responsible": "Responsible"
       },
       "invitation": {
         "acceptCurrentAuth": "Accept invitation with current account",
