@@ -3,7 +3,7 @@ import React from 'react'
 import { Text, View } from '@react-pdf/renderer'
 import Responsibles from './Responsibles.jsx'
 import picassoStyles from './picassoStyles.js'
-import { parseHexColor, contrastColor } from '@/common/helpers/colors.js'
+import { contrastColor } from '@/common/helpers/colors.js'
 
 function scheduleEntryTitle(scheduleEntry) {
   return (
@@ -15,7 +15,7 @@ function scheduleEntryTitle(scheduleEntry) {
   )
 }
 function scheduleEntryTextColor(color) {
-  return contrastColor(...parseHexColor(color))
+  return contrastColor(color)
 }
 
 function ScheduleEntry({ scheduleEntry, styles }) {
