@@ -78,9 +78,6 @@ Displays a single activity
             cancelable
             @finished="editActivityTitle = false"
           />
-          <v-btn text v-on="on" @click="editActivityTitle = false"
-            >{{ $tc('global.button.cancel') }}
-          </v-btn>
         </div>
       </template>
       <template #title-actions>
