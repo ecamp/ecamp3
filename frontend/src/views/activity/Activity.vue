@@ -75,7 +75,6 @@ Displays a single activity
             dense
             autofocus
             :auto-save="false"
-            cancelable
             @finished="editActivityTitle = false"
           />
         </div>

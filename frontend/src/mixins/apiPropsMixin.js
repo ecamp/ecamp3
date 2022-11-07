@@ -35,7 +35,6 @@ export const apiPropsMixin = {
     /* enable/disable auto save */
     autoSave: { type: Boolean, default: true, required: false },
     autoSaveDelay: { type: Number, default: 800, required: false },
-    cancelable: Boolean,
 
     /* control style */
     filled: {

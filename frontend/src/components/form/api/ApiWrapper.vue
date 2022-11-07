@@ -15,7 +15,6 @@ Wrapper component for form components to save data back to API
         :has-loading-error="hasLoadingError"
         :has-validation-error="validationObserver.invalid"
         :error-messages="errorMessages"
-        :cancelable="cancelable"
         :is-saving="isSaving"
         :is-loading="isLoading"
         :auto-save="autoSave"
