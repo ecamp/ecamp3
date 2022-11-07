@@ -38,7 +38,7 @@ function Responsibles({ activity, styles }) {
               ...avatarStyles,
               backgroundColor: campCollaborationColor(
                 activityResponsible.campCollaboration()
-              ).toString({ format: 'hex' }),
+              ),
               ...(index === last ? {} : { marginRight: '-' + fontSize / 4 + 'pt' }),
             }}
           >

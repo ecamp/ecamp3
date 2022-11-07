@@ -4,7 +4,6 @@
 
 <script>
 import { contrastColor } from '@/../common/helpers/colors.js'
-import Color from 'colorjs.io'
 
 export default {
   props: {
@@ -17,7 +16,7 @@ export default {
     style() {
       return {
         backgroundColor: this.category.color,
-        color: contrastColor(new Color(this.category.color)).toString({ format: 'hex' }),
+        color: contrastColor(this.category.color),
       }
     },
   },

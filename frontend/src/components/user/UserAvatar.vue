@@ -1,5 +1,5 @@
 <template>
-  <v-avatar :size="size" :color="color.toString({ format: 'hex' })">
+  <v-avatar :size="size" :color="color">
     <span class="d-sr-only">{{ displayName }}</span>
     <span aria-hidden="true" :style="style">{{ initials }}</span>
   </v-avatar>
@@ -53,7 +53,7 @@ export default {
     },
     style() {
       return {
-        color: contrastColor(this.color).toString({ format: 'hex' }),
+        color: contrastColor(this.color),
         fontSize: Number(this.size) / 2.4 + 'px',
         fontWeight: Number(this.size) > 44 ? 450 : Number(this.size) > 24 ? 500 : 600,
         letterSpacing: Number(this.size) < 24 ? '.05em' : 0,

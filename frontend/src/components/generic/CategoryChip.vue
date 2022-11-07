@@ -20,7 +20,6 @@
 
 <script>
 import { contrastColor } from '@/common/helpers/colors.js'
-import Color from 'colorjs.io'
 import GenericChip from '@/components/generic/GenericChip.vue'
 
 export default {
@@ -46,7 +45,7 @@ export default {
       return this.category || this.scheduleEntry.activity().category()
     },
     textColor() {
-      return contrastColor(new Color(this.cat.color)).toString({ format: 'hex' })
+      return contrastColor(this.cat.color)
     },
   },
 }

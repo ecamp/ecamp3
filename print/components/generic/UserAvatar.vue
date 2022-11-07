@@ -42,7 +42,7 @@ export default {
       return {
         width: this.size + 'px',
         height: this.size + 'px',
-        backgroundColor: this.color.toString({ format: 'hex' }),
+        backgroundColor: this.color,
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',

@@ -395,7 +395,7 @@ export default {
       if (this.isCategoryLoading(scheduleEntry)) return '#000'
 
       const category = scheduleEntry.activity().category()
-      return contrastColor(new Color(category.color)).toString({ format: 'hex' })
+      return contrastColor(category.color)
     },
     getActivityColor(scheduleEntry, _) {
       if (scheduleEntry.tmpEvent) return 'grey elevation-4 v-event--temporary'

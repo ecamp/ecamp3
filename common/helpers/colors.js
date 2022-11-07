@@ -1,45 +1,65 @@
-import Color from 'colorjs.io'
+import {
+  getColor,
+  parse,
+  serialize,
+  contrast,
+  HSL,
+  sRGB,
+  ColorSpace,
+} from 'colorjs.io/fn'
+
+ColorSpace.register(sRGB)
+ColorSpace.register(HSL)
 
 /**
- * @param color {Color}
- * @returns {Color} color black or white depending on RGB-Background-Color
+ * @param color {string} CSS compatible string color
+ * @returns {string} colorblack or white depending on input color
  */
 function contrastColor(color) {
-  const black = new Color('#000')
-  const white = new Color('#fff')
-  const blackContrast = color.contrast(black, 'DeltaPhi')
-  const whiteContrast = color.contrast(white, 'DeltaPhi')
-  return blackContrast > whiteContrast ? black : white
+  const input = parse(color)
+  const black = parse('#000')
+  const white = parse('#fff')
+  const blackContrast = contrast(input, black, 'APCA')
+  const whiteContrast = contrast(input, white, 'APCA')
+  return blackContrast > whiteContrast
+    ? serialize(black, { format: 'hex' })
+    : serialize(white, { format: 'hex' })
 }
 
 /**
  * @param id {string} generated id
  * @param inactive {boolean} status
- * @returns {Color} hsl color [0…360, 0…1, 0…1]
+ * @returns {string} hsl color
  */
 function idToColor(id, inactive = false) {
   if (!id) {
-    return new Color('hsl', [0, 0, 30])
+    return serialize(getColor({ space: HSL, coords: [0, 0, 30] }), { format: 'hex' })
   }
-  return new Color('hsl', [parseInt(id, 16) % 360 || 0, inactive ? 0 : 100, 30])
+  return serialize(
+    getColor({
+      space: HSL,
+      coords: [parseInt(id, 16) % 360 || 0, inactive ? 0 : 100, 30],
+    }),
+    { format: 'hex' }
+  )
 }
 
 /**
- * @returns {Color} color for a user based on their id [0…360, 0…1, 0…1]
+ * @returns {string}
  */
 function defaultColor() {
-  return new Color('hsl', [0, 0, 10])
+  return serialize(getColor({ space: HSL, coords: [0, 0, 10] }), { format: 'hex' })
 }
 
 /**
- * @returns {Color} color for a user based on their id [0…360, 0…1, 0…1]
+ * @returns {string} color for a user based on their id
  */
 function userColor(user) {
   return idToColor(user.id, user._meta?.loading)
 }
 
 /**
- * @returns {Color} color for a camp collaboration based on its user id and status
+ * @returns {string} color for a camp collaboration based on its user id and status
  */
 function campCollaborationColor(campCollaboration) {
   if (!campCollaboration) {

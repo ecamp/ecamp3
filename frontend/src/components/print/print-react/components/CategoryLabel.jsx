@@ -3,10 +3,9 @@ import React from 'react'
 import { Text } from '@react-pdf/renderer'
 import styles from './styles.js'
 import { contrastColor } from '@/common/helpers/colors.js'
-import Color from 'colorjs.io'
 
 function textColor(color) {
-  return contrastColor(new Color(color)).toString({ format: 'hex' })
+  return contrastColor(color)
 }
 
 function CategoryLabel({ activity, style }) {

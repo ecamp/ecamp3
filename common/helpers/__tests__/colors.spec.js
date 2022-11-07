@@ -31,11 +31,11 @@ describe('idToColor', () => {
       [0, 100, 30],
     ],
   ])('maps %p to %p', (input, expected) => {
-    expect(idToColor(...input).coords).toEqual(expected)
+    expect(idToColor(...input)).toEqual(expected)
   })
 
   it('uses false as default for inactive', () => {
-    expect(idToColor('fffffff').coords).toEqual([15, 100, 30])
+    expect(idToColor('fffffff')).toEqual([15, 100, 30])
   })
 })
 
@@ -46,7 +46,7 @@ describe('userColor', () => {
     [{ _meta: {} }, [0, 0, 30]],
     [{ _meta: { loading: true } }, [0, 0, 30]],
   ])('maps %p to %p', (input, expected) => {
-    expect(userColor(input).coords).toEqual(expected)
+    expect(userColor(input)).toEqual(expected)
   })
 })
 
@@ -61,6 +61,6 @@ describe('campCollaborationColor', () => {
     [{ _meta: { loading: true } }, [0, 0, 30]],
     [{ id: 'fffffff', user: () => ({ _meta: { loading: true } }) }, [0, 0, 30]],
   ])('maps %p to %p', (input, expected) => {
-    expect(campCollaborationColor(input).coords).toEqual(expected)
+    expect(campCollaborationColor(input)).toEqual(expected)
   })
 })
