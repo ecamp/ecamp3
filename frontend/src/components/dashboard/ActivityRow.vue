@@ -1,25 +1,25 @@
 <template>
   <tr class="row">
-    <th align="left" class="tabular-nums" scope="row">
-      <BaselineCenter smaller>{{ scheduleEntry.number }}</BaselineCenter>
+    <th style="text-align: left" class="tabular-nums" scope="row">
+      <span class="baseline-center"
+        ><span class="smaller">{{ scheduleEntry.number }}</span></span
+      >
       <br />
-      <CategoryChip small dense :category="scheduleEntry.category" class="d-sm-none" />
+      <CategoryChip small dense :category="category" class="d-sm-none" />
     </th>
     <td class="d-none d-sm-table-cell">
-      <CategoryChip small dense :category="scheduleEntry.category" />
+      <CategoryChip small dense :category="category" />
     </td>
-    <td>
-      {{ scheduleEntry.start.padStart(2, '0') }}:00<br />
-      <span class="e-subtitle">{{ scheduleEntry.duration }}</span>
+    <td class="nowrap">
+      {{ start }}<br />
+      <span class="e-subtitle">{{ duration }}</span>
     </td>
-    <td width="100%" class="contentrow">
-      <a :to="{ name: 'dashboard' }" class="black--text">
-        {{ scheduleEntry.title }}<br />
-      </a>
-      <span class="e-subtitle">{{ scheduleEntry.location }}</span>
+    <td style="width: 100%" class="contentrow">
+      <a :to="{ name: 'dashboard' }" class="black--text"> {{ title }}<br /> </a>
+      <span class="e-subtitle">{{ location }}</span>
     </td>
     <td class="contentrow avatarrow overflow-visible">
-      <AvatarRow :users="scheduleEntry.collaborators" size="28" class="ml-auto" />
+      <AvatarRow :users="collaborators" size="28" class="ml-auto" />
     </td>
   </tr>
 </template>
@@ -27,13 +27,36 @@
 <script>
 import AvatarRow from '@/components/user/AvatarRow.vue'
 import CategoryChip from '@/components/generic/CategoryChip.vue'
-import BaselineCenter from '@/components/dashboard/BaselineCenter.vue'
+import {
+  hourShort,
+  timeDurationShort,
+} from '../../common/helpers/dateHelperUTCFormatted.js'
 
 export default {
   name: 'ActivityRow',
-  components: { BaselineCenter, CategoryChip, AvatarRow },
+  components: { CategoryChip, AvatarRow },
   props: {
     scheduleEntry: { type: Object, required: true },
+  },
+  computed: {
+    collaborators() {
+      return this.scheduleEntry.activity().activityResponsibles().items
+    },
+    category() {
+      return this.scheduleEntry.activity().category()
+    },
+    title() {
+      return this.scheduleEntry.activity().title
+    },
+    location() {
+      return this.scheduleEntry.activity().location
+    },
+    start() {
+      return hourShort(this.scheduleEntry.start)
+    },
+    duration() {
+      return timeDurationShort(this.scheduleEntry.start, this.scheduleEntry.end)
+    },
   },
 }
 </script>
@@ -72,5 +95,19 @@ tr + tr :is(td, th) {
 .e-subtitle {
   font-size: 0.9em;
   color: #666;
+}
+
+.nowrap {
+  white-space: nowrap;
+}
+
+.smaller {
+  font-size: 0.75em;
+}
+
+.baseline-center {
+  display: inline-flex;
+  vertical-align: baseline;
+  align-items: center;
 }
 </style>

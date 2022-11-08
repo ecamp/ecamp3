@@ -172,6 +172,7 @@
       "dateLong": "dd L",
       "dateShort": "dd M/D",
       "dateTimeLong": "dd L HH:mm",
+      "durationShort": "H:mm",
       "hourLong": "HH:mm",
       "hourShort": "h:mm A"
     }
