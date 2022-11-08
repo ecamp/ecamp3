@@ -85,7 +85,7 @@ export default {
         name: '',
         title: '',
         motto: '',
-        couponKey: '',
+        couponKey: this.$route.query.coupon,
         periods: [
           {
             start: '',

@@ -94,6 +94,7 @@
         "addressName": "Name",
         "addressStreet": "Strasse",
         "addressZipcode": "PLZ",
+        "couponKey": "Coupon",
         "motto": "Motto",
         "name": "Name",
         "title": "Titel"

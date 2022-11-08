@@ -101,6 +101,7 @@
         "addressName": "Name",
         "addressStreet": "Street",
         "addressZipcode": "Zipcode",
+        "couponKey": "Coupon",
         "motto": "Motto",
         "name": "Name",
         "title": "Title"
