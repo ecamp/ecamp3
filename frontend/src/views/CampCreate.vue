@@ -19,6 +19,12 @@
               required
             />
             <e-text-field v-model="camp.motto" :name="$tc('entity.camp.fields.motto')" />
+            <e-text-field
+              v-model="camp.couponKey"
+              :name="$tc('entity.camp.fields.couponKey')"
+              vee-rules="required"
+              required
+            />
             <e-select
               v-model="camp.campPrototype"
               :name="$tc('entity.camp.prototype')"
@@ -79,6 +85,7 @@ export default {
         name: '',
         title: '',
         motto: '',
+        couponKey: '',
         periods: [
           {
             start: '',
