@@ -21,13 +21,13 @@
       <span class="e-subtitle">{{ location }}</span>
     </td>
     <td class="contentrow avatarrow overflow-visible">
-      <AvatarRow :users="collaborators" size="28" class="ml-auto" />
+      <AvatarRow :camp-collaborations="collaborators" size="28" class="ml-auto" />
     </td>
   </tr>
 </template>
 
 <script>
-import AvatarRow from '@/components/user/AvatarRow.vue'
+import AvatarRow from './AvatarRow.vue'
 import CategoryChip from '@/components/generic/CategoryChip.vue'
 import {
   hourShort,
@@ -42,7 +42,10 @@ export default {
   },
   computed: {
     collaborators() {
-      return this.scheduleEntry.activity().activityResponsibles().items
+      return this.scheduleEntry
+        .activity()
+        .activityResponsibles()
+        .items.map((responsible) => responsible.campCollaboration())
     },
     category() {
       return this.scheduleEntry.activity().category()

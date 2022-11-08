@@ -1,21 +1,31 @@
 <template>
   <div class="avatarrow" :style="avatarrow">
-    <div v-for="user in users" :key="user.id" class="avataritem">
-      <UserAvatar :size="Number(size)" :user="user" />
+    <div
+      v-for="campCollaboration in campCollaborations"
+      :key="campCollaboration && campCollaboration._meta.self"
+      class="avataritem"
+    >
+      <UserAvatar :size="Number(size)" :camp-collaboration="campCollaboration" />
     </div>
   </div>
 </template>
 
 <script>
+import UserAvatar from '@/components/user/UserAvatar.vue'
+
 export default {
   name: 'AvatarRow',
+  components: { UserAvatar },
   props: {
-    users: { type: Array, default: () => [] },
+    campCollaborations: { type: Array, default: () => [] },
     size: { type: [Number, String], default: 20 },
   },
   computed: {
     maxWidth() {
-      return (this.users?.length - 1) * (Number(this.size) * 0.25) + Number(this.size)
+      return (
+        (this.campCollaborations?.length - 1) * (Number(this.size) * 0.25) +
+        Number(this.size)
+      )
     },
     avatarrow() {
       return {
