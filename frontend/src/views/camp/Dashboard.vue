@@ -134,6 +134,7 @@ import SelectFilter from '@/components/dashboard/SelectFilter.vue'
 import ActivityRow from '@/components/dashboard/ActivityRow.vue'
 import dayjs from 'dayjs'
 import FilterDivider from '@/components/dashboard/FilterDivider.vue'
+import { keyBy } from 'lodash'
 
 export default {
   name: 'Dashboard',
@@ -287,18 +288,21 @@ export default {
   },
   computed: {
     users() {
-      return this.camp()
-        .campCollaborations()
-        .items.map((collaboration) => {
-          if (collaboration.user === null) {
-            // Unregistered invited user
-            return {
-              displayName: collaboration.inviteEmail,
-              _meta: collaboration._meta,
+      return keyBy(
+        this.camp()
+          .campCollaborations()
+          .items.map((collaboration) => {
+            if (collaboration.user === null) {
+              // Unregistered invited user
+              return {
+                displayName: collaboration.inviteEmail,
+                _meta: collaboration._meta,
+              }
             }
-          }
-          return collaboration.user()
-        })
+            return collaboration.user()
+          }),
+        '_meta.self'
+      )
     },
     events() {
       return this.results

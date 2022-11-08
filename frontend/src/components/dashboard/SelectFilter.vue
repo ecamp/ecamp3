@@ -43,7 +43,7 @@ export default {
     label: { type: String, required: true },
     multiple: { type: Boolean, default: false },
     value: { type: [Array, String], default: null },
-    items: { type: Array, default: () => [] },
+    items: { type: Object, default: () => ({}) },
     displayField: { type: String, required: true },
     valueField: { type: String, default: '_meta.self' },
   },
@@ -53,7 +53,7 @@ export default {
     },
     processedItems() {
       return keyBy(
-        this.items.map((item) => {
+        Object.values(this.items).map((item) => {
           const text = get(item, this.displayField)
           const value = get(item, this.valueField)
           const selected = this.multiple
