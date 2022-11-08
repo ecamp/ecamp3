@@ -114,7 +114,7 @@
                 text-align: left;
               "
             >
-              {{ days[dayUri].date }}
+              {{ dateLong(days[dayUri].start) }}
             </th>
           </tr>
           <ActivityRow
@@ -138,6 +138,7 @@ import ActivityRow from '@/components/dashboard/ActivityRow.vue'
 import FilterDivider from '@/components/dashboard/FilterDivider.vue'
 import { keyBy, groupBy, mapValues } from 'lodash'
 import campCollaborationDisplayName from '../../common/helpers/campCollaborationDisplayName.js'
+import { dateLong } from '../../common/helpers/dateHelperUTCFormatted.js'
 
 function filterEquals(arr1, arr2) {
   return JSON.stringify(arr1) === JSON.stringify(arr2)
@@ -258,6 +259,7 @@ export default {
   },
   methods: {
     campCollaborationDisplayName,
+    dateLong,
   },
 }
 </script>
