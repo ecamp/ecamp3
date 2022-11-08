@@ -123,6 +123,10 @@ services:
             - '%env(RECAPTCHA_SECRET)%'
             - '@ReCaptcha\ReCaptcha'
         
+    App\Service\CampCouponService:
+        arguments:
+            - '%env(COUPON_SECRET)%'
+
     App\Service\MailService:
         public: true
         arguments:

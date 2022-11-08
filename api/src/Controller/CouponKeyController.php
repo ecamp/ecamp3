@@ -2,25 +2,23 @@
 
 namespace App\Controller;
 
+use App\Service\CampCouponService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
 class CouponKeyController extends AbstractController {
-    private $secret = 'test';
+    public function __construct(private CampCouponService $couponService) {
+    }
 
-    /**
-     * @Route("/coupon", name="coupon")
-     */
+    #[Route('/coupon', name: 'coupon')]
     public function createAction() {
+        // $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
         return new \Symfony\Component\HttpFoundation\JsonResponse(
             array_map(
-                [$this, 'createCoupon'],
+                [$this->couponService, 'createCoupon'],
                 range(1, 20)
             )
         );
-    }
-
-    private function createCoupon() {
-        return base64_encode(password_hash($this->secret, PASSWORD_BCRYPT, ['cost' => 4]));
     }
 }

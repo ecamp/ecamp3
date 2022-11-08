@@ -2,14 +2,13 @@
 
 namespace App\Validator\Camp;
 
+use App\Service\CampCouponService;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 
 class AssertValidCouponKeyValidator extends ConstraintValidator {
-    private $secret = 'test';
-
-    public function __construct() {
+    public function __construct(private CampCouponService $couponService) {
     }
 
     public function validate($value, Constraint $constraint) {
@@ -21,9 +20,7 @@ class AssertValidCouponKeyValidator extends ConstraintValidator {
             return;
         }
 
-        $hash = base64_decode($value);
-
-        if (!password_verify($this->secret, $hash)) {
+        if (!$this->couponService->verifyCoupon($value)) {
             $this->context->buildViolation($constraint->message)
                 ->addViolation()
             ;
