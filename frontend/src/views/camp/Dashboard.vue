@@ -12,7 +12,7 @@
         />
         <FilterDivider />
         <SelectFilter
-          v-model="filter.collaborator"
+          v-model="filter.responsible"
           multiple
           :items="users"
           display-field="displayName"
@@ -45,16 +45,16 @@
         <v-chip
           v-if="
             filter.period ||
-            (filter.collaborator && filter.collaborator.length > 0) ||
-            filter.category
+            (filter.responsible && filter.responsible.length > 0) ||
+            (filter.category && filter.category.length > 0)
           "
           label
           outlined
           @click="
             filter = {
-              period: '',
-              collaborator: [],
-              category: '',
+              period: null,
+              responsible: [],
+              category: [],
             }
           "
         >
@@ -140,6 +140,10 @@ import dayjs from 'dayjs'
 import FilterDivider from '@/components/dashboard/FilterDivider.vue'
 import { keyBy } from 'lodash'
 
+function filterEquals(arr1, arr2) {
+  return JSON.stringify(arr1) === JSON.stringify(arr2)
+}
+
 export default {
   name: 'Dashboard',
   components: {
@@ -161,7 +165,7 @@ export default {
       openPeriods: [],
       filter: {
         period: null,
-        collaborator: [],
+        responsible: [],
         category: [],
       },
       results: [
@@ -359,12 +363,15 @@ export default {
     showOnlyMyActivities: {
       get() {
         return (
-          this.filter.collaborator?.includes(this.loggedInUser?._meta?.self) &&
-          this.filter.collaborator?.length === 1
+          filterEquals(this.filter.responsible, [this.loggedInUser._meta.self]) &&
+          filterEquals(this.filter.category, []) &&
+          filterEquals(this.filter.period, null)
         )
       },
       set(value) {
-        this.filter.collaborator = value ? [this.loggedInUser._meta.self] : []
+        this.filter.responsible = value ? [this.loggedInUser._meta.self] : []
+        this.filter.category = []
+        this.filter.period = null
       },
     },
   },
@@ -390,9 +397,9 @@ export default {
     hourShort,
     matchCollaborators: function (scheduleEntry) {
       return (
-        this.filter.collaborator === null ||
-        this.filter.collaborator.length === 0 ||
-        this.filter.collaborator.every((collaborator) =>
+        this.filter.responsible === null ||
+        this.filter.responsible.length === 0 ||
+        this.filter.responsible.every((collaborator) =>
           scheduleEntry.collaborators.some((col) => col === collaborator)
         )
       )
