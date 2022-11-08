@@ -14,12 +14,16 @@
         <SelectFilter
           v-model="filter.responsible"
           multiple
-          :items="users"
-          display-field="displayName"
+          :items="campCollaborations"
+          :display-field="campCollaborationDisplayName"
           :label="$tc('views.camp.dashboard.responsible')"
         >
           <template #item="{ item }">
-            <UserAvatar :user="users[item.value]" size="18" class="mr-1" />
+            <UserAvatar
+              :camp-collaboration="campCollaborations[item.value]"
+              size="18"
+              class="mr-1"
+            />
             {{ item.text }}
           </template>
         </SelectFilter>
@@ -133,6 +137,7 @@ import SelectFilter from '@/components/dashboard/SelectFilter.vue'
 import ActivityRow from '@/components/dashboard/ActivityRow.vue'
 import FilterDivider from '@/components/dashboard/FilterDivider.vue'
 import { keyBy, groupBy, mapValues } from 'lodash'
+import campCollaborationDisplayName from '../../common/helpers/campCollaborationDisplayName.js'
 
 function filterEquals(arr1, arr2) {
   return JSON.stringify(arr1) === JSON.stringify(arr2)
@@ -164,22 +169,8 @@ export default {
     }
   },
   computed: {
-    users() {
-      return keyBy(
-        this.camp()
-          .campCollaborations()
-          .items.map((collaboration) => {
-            if (collaboration.user === null) {
-              // Unregistered invited user
-              return {
-                displayName: collaboration.inviteEmail,
-                _meta: collaboration._meta,
-              }
-            }
-            return collaboration.user()
-          }),
-        '_meta.self'
-      )
+    campCollaborations() {
+      return keyBy(this.camp().campCollaborations().items, '_meta.self')
     },
     categories() {
       return keyBy(this.camp().categories().items, '_meta.self')
@@ -217,7 +208,7 @@ export default {
               return scheduleEntry
                 .activity()
                 .activityResponsibles()
-                .items.map((responsible) => responsible._meta.self)
+                .items.map((responsible) => responsible.campCollaboration()._meta.self)
                 .includes(responsible)
             }))
       )
@@ -236,16 +227,22 @@ export default {
     showOnlyMyActivities: {
       get() {
         return (
-          filterEquals(this.filter.responsible, [this.loggedInUser._meta.self]) &&
+          filterEquals(this.filter.responsible, [this.loggedInCampCollaboration]) &&
           filterEquals(this.filter.category, []) &&
           filterEquals(this.filter.period, null)
         )
       },
       set(value) {
-        this.filter.responsible = value ? [this.loggedInUser._meta.self] : []
+        this.filter.responsible = value ? [this.loggedInCampCollaboration] : []
         this.filter.category = []
         this.filter.period = null
       },
+    },
+    loggedInCampCollaboration() {
+      return Object.values(this.campCollaborations).find(
+        (collaboration) =>
+          collaboration.user()._meta.self === this.loggedInUser._meta.self
+      )?._meta?.self
     },
   },
   async mounted() {
@@ -258,6 +255,9 @@ export default {
 
     this.loggedInUser = loggedInUser
     this.loading = false
+  },
+  methods: {
+    campCollaborationDisplayName,
   },
 }
 </script>

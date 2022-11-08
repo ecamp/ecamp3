@@ -44,7 +44,7 @@ export default {
     multiple: { type: Boolean, default: false },
     value: { type: [Array, String], default: null },
     items: { type: Object, default: () => ({}) },
-    displayField: { type: String, required: true },
+    displayField: { type: [String, Function], required: true },
     valueField: { type: String, default: '_meta.self' },
   },
   computed: {
@@ -54,7 +54,7 @@ export default {
     processedItems() {
       return keyBy(
         Object.values(this.items).map((item) => {
-          const text = get(item, this.displayField)
+          const text = this.displayValue(item)
           const value = get(item, this.valueField)
           const selected = this.multiple
             ? this.value?.includes(value)
@@ -71,6 +71,12 @@ export default {
     },
   },
   methods: {
+    displayValue(item) {
+      if (typeof this.displayField === 'function') {
+        return this.displayField(item)
+      }
+      return get(item, this.displayField)
+    },
     clear() {
       this.$emit('input', null)
     },
