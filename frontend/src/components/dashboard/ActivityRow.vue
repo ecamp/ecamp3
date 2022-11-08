@@ -15,7 +15,9 @@
       <span class="e-subtitle">{{ duration }}</span>
     </td>
     <td style="width: 100%" class="contentrow">
-      <a :to="{ name: 'dashboard' }" class="black--text"> {{ title }}<br /> </a>
+      <router-link :to="routerLink" class="text-decoration-none black--text">
+        {{ title }}<br />
+      </router-link>
       <span class="e-subtitle">{{ location }}</span>
     </td>
     <td class="contentrow avatarrow overflow-visible">
@@ -56,6 +58,15 @@ export default {
     },
     duration() {
       return timeDurationShort(this.scheduleEntry.start, this.scheduleEntry.end)
+    },
+    routerLink() {
+      return {
+        name: 'activity',
+        params: {
+          campId: this.scheduleEntry.period().camp().id,
+          scheduleEntryId: this.scheduleEntry.id,
+        },
+      }
     },
   },
 }
