@@ -10,7 +10,8 @@
         <SelectFilter
           v-model="filter.collaborator"
           multiple
-          :items="['Forte', 'Linux', 'Smiley', 'Olippo', 'Cosinus', 'Ikarus']"
+          :items="users"
+          display-field="displayName"
           :label="$tc('views.camp.dashboard.responsible')"
         >
           <template #item="{ item }">
@@ -38,7 +39,11 @@
           :label="$tc('views.camp.dashboard.period')"
         />
         <v-chip
-          v-if="filter.period || filter.collaborator.length > 0 || filter.category"
+          v-if="
+            filter.period ||
+            (filter.collaborator && filter.collaborator.length > 0) ||
+            filter.category
+          "
           label
           outlined
           @click="
@@ -340,8 +345,8 @@ export default {
     showOnlyMyActivities: {
       get() {
         return (
-          this.filter.collaborator.includes('Linux') &&
-          this.filter.collaborator.length === 1
+          this.filter.collaborator?.includes('Linux') &&
+          this.filter.collaborator?.length === 1
         )
       },
       set(value) {
@@ -369,6 +374,7 @@ export default {
     hourShort,
     matchCollaborators: function (scheduleEntry) {
       return (
+        this.filter.collaborator === null ||
         this.filter.collaborator.length === 0 ||
         this.filter.collaborator.every((collaborator) =>
           scheduleEntry.collaborators.some((col) => col === collaborator)

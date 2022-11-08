@@ -97,6 +97,11 @@
         "inviteAgain": "Erneut einladen"
       }
     },
+    "dashboard": {
+      "selectFilter": {
+        "all": "Alle"
+      }
+    },
     "dialog": {
       "dialogEntityDelete": {
         "title": "Wirklich löschen?",
