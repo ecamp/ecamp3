@@ -151,20 +151,13 @@ export default {
   },
   data() {
     return {
+      loggedInUser: null,
       loading: true,
       openPeriods: [],
       filter: {
         period: '',
         collaborator: [],
         category: '',
-      },
-      users: {
-        Linux: { id: 'ab000df0', displayName: 'Linux' },
-        Olippo: { id: 'ff776300', displayName: 'Olippo' },
-        Forte: { id: 'ff783008', displayName: 'Forte' },
-        Smiley: { id: 'df98651b', displayName: 'Smiley' },
-        Ikarus: { id: '5192fab6', displayName: 'Ikarus' },
-        Cosinus: { id: 'bcc0dd05', displayName: 'Cosinus' },
       },
       categories: {
         LS: { short: 'LS', color: '#4caf50', name: 'Lagersport' },
@@ -293,6 +286,20 @@ export default {
     }
   },
   computed: {
+    users() {
+      return this.camp()
+        .campCollaborations()
+        .items.map((collaboration) => {
+          if (collaboration.user === null) {
+            // Unregistered invited user
+            return {
+              displayName: collaboration.inviteEmail,
+              _meta: collaboration._meta,
+            }
+          }
+          return collaboration.user()
+        })
+    },
     events() {
       return this.results
         .filter(
@@ -345,17 +352,18 @@ export default {
     showOnlyMyActivities: {
       get() {
         return (
-          this.filter.collaborator?.includes('Linux') &&
+          this.filter.collaborator?.includes(this.loggedInUser?._meta?.self) &&
           this.filter.collaborator?.length === 1
         )
       },
       set(value) {
-        this.filter.collaborator = value ? ['Linux'] : []
+        this.filter.collaborator = value ? [this.loggedInUser._meta.self] : []
       },
     },
   },
   async mounted() {
-    const [periods] = await Promise.all([
+    const [loggedInUser, periods] = await Promise.all([
+      this.$auth.loadUser(),
       this.camp().periods()._meta.load,
       this.camp().activities()._meta.load,
       this.camp().categories()._meta.load,
@@ -365,6 +373,7 @@ export default {
       .map((period, idx) => (Date.parse(period.end) >= new Date() ? idx : null))
       .filter((idx) => idx !== null)
 
+    this.loggedInUser = loggedInUser
     this.loading = false
   },
   methods: {
