@@ -1,7 +1,11 @@
 <template>
   <content-card :title="$tc('views.camp.dashboard.activities')" toolbar>
     <div class="d-flow-root">
-      <div class="d-flex flex-wrap ma-4" style="overflow-y: auto; gap: 10px">
+      <div
+        v-if="!loading"
+        class="d-flex flex-wrap ma-4"
+        style="overflow-y: auto; gap: 10px"
+      >
         <BooleanFilter
           v-model="showOnlyMyActivities"
           :label="$tc('views.camp.dashboard.onlyMyActivities')"
@@ -21,7 +25,9 @@
         </SelectFilter>
         <SelectFilter
           v-model="filter.category"
-          :items="['LS', 'LA', 'LP', 'TA', 'ES']"
+          multiple
+          :items="categories"
+          display-field="short"
           :label="$tc('views.camp.dashboard.category')"
         >
           <template #item="{ item }">
@@ -160,13 +166,6 @@ export default {
         collaborator: [],
         category: '',
       },
-      categories: {
-        LS: { short: 'LS', color: '#4caf50', name: 'Lagersport' },
-        LA: { short: 'LA', color: '#ffa200', name: 'Lageraktivität' },
-        LP: { short: 'LP', color: '#99ccff', name: 'Lagerprogramm' },
-        TA: { short: 'TA', color: '#ffffff', name: 'Tagesabschluss' },
-        ES: { short: 'ES', color: '#bbbbbb', name: 'Essen' },
-      },
       results: [
         {
           id: 'Vorlager',
@@ -303,6 +302,9 @@ export default {
           }),
         '_meta.self'
       )
+    },
+    categories() {
+      return keyBy(this.camp().categories().items, '_meta.self')
     },
     events() {
       return this.results
