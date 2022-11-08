@@ -40,7 +40,7 @@
           </template>
         </SelectFilter>
         <SelectFilter
-          v-if="groupedScheduleEntries.length > 1"
+          v-if="multiplePeriods"
           v-model="filter.period"
           :items="periods"
           display-field="description"
@@ -136,7 +136,7 @@ import BooleanFilter from '@/components/dashboard/BooleanFilter.vue'
 import SelectFilter from '@/components/dashboard/SelectFilter.vue'
 import ActivityRow from '@/components/dashboard/ActivityRow.vue'
 import FilterDivider from '@/components/dashboard/FilterDivider.vue'
-import { keyBy, groupBy, mapValues } from 'lodash'
+import { keyBy, groupBy, mapValues, uniq } from 'lodash'
 import campCollaborationDisplayName from '../../common/helpers/campCollaborationDisplayName.js'
 import { dateLong } from '../../common/helpers/dateHelperUTCFormatted.js'
 
@@ -244,6 +244,13 @@ export default {
         (collaboration) =>
           collaboration.user()._meta.self === this.loggedInUser._meta.self
       )?._meta?.self
+    },
+    multiplePeriods() {
+      return (
+        uniq(
+          this.scheduleEntries.map((scheduleEntry) => scheduleEntry.period()._meta.self)
+        ).length > 1
+      )
     },
   },
   async mounted() {
