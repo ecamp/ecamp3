@@ -38,10 +38,8 @@
         <SelectFilter
           v-if="results.length > 1"
           v-model="filter.period"
-          :items="[
-            { text: 'Vorlager', value: 'Vorlager' },
-            { text: 'Hauptlager', value: 'Hauptlager' },
-          ]"
+          :items="periods"
+          display-field="description"
           :label="$tc('views.camp.dashboard.period')"
         />
         <v-chip
@@ -162,9 +160,9 @@ export default {
       loading: true,
       openPeriods: [],
       filter: {
-        period: '',
+        period: null,
         collaborator: [],
-        category: '',
+        category: [],
       },
       results: [
         {
@@ -305,6 +303,9 @@ export default {
     },
     categories() {
       return keyBy(this.camp().categories().items, '_meta.self')
+    },
+    periods() {
+      return keyBy(this.camp().periods().items, '_meta.self')
     },
     events() {
       return this.results

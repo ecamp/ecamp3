@@ -67,7 +67,7 @@ export default {
     labelValue() {
       return this.multiple
         ? (this.value || []).map((item) => this.processedItems[item].text).join(', ')
-        : this.processedItems[this.value].text
+        : this.processedItems[this.value]?.text
     },
   },
   methods: {
