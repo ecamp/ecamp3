@@ -1,8 +1,8 @@
 <template>
   <tr class="row">
     <th style="text-align: left" class="tabular-nums" scope="row">
-      <span class="baseline-center"
-        ><span class="smaller">{{ scheduleEntry.number }}</span></span
+      <TextAlignBaseline
+        ><span class="smaller">{{ scheduleEntry.number }}</span></TextAlignBaseline
       >
       <br />
       <CategoryChip small dense :category="category" class="d-sm-none" />
@@ -36,10 +36,11 @@ import {
   hourShort,
   timeDurationShort,
 } from '../../common/helpers/dateHelperUTCFormatted.js'
+import TextAlignBaseline from '@/components/layout/TextAlignBaseline.vue'
 
 export default {
   name: 'ActivityRow',
-  components: { CategoryChip, AvatarRow },
+  components: { CategoryChip, AvatarRow, TextAlignBaseline },
   props: {
     scheduleEntry: { type: Object, required: true },
   },
