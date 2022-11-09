@@ -7,12 +7,18 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
 class CouponKeyController extends AbstractController {
-    public function __construct(private CampCouponService $couponService) {
+    public function __construct(
+        private string $appEnv,
+        private CampCouponService $couponService
+    ) {
     }
 
     #[Route('/coupon', name: 'coupon')]
     public function createAction() {
-        // $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        // If not Dev-Environment; Auth as Admin is required
+        if ('dev' !== $this->appEnv) {
+            $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        }
 
         return new \Symfony\Component\HttpFoundation\JsonResponse(
             array_map(
