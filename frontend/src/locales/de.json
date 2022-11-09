@@ -386,9 +386,11 @@
           "time": "Zeit",
           "title": "Titel"
         },
+        "noEntries": "Keine Aktivitäten gefunden. Versuche die Filter zu entfernen oder lade die Seite neu.",
         "onlyMyActivities": "Nur meine Aktivitäten",
         "period": "Lagerabschnitt",
-        "responsible": "Verantwortlich"
+        "responsible": "Verantwortlich",
+        "welcome": "Willkommen in deinem neuen Lager. Es sind noch keine Aktivitäten erfasst. "
       },
       "invitation": {
         "acceptCurrentAuth": "Einladung mit aktuellem Account akzeptieren",

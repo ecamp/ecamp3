@@ -128,6 +128,15 @@
             </tbody>
           </template>
         </table>
+        <p
+          v-if="scheduleEntries.length > 0 && filteredScheduleEntries.length === 0"
+          class="ma-4"
+        >
+          {{ $tc('views.camp.dashboard.noEntries') }}
+        </p>
+        <p v-if="!scheduleEntriesLoading && scheduleEntries.length === 0" class="ma-4">
+          {{ $tc('views.camp.dashboard.welcome') }}
+        </p>
       </template>
     </div>
   </content-card>
@@ -141,7 +150,7 @@ import BooleanFilter from '@/components/dashboard/BooleanFilter.vue'
 import SelectFilter from '@/components/dashboard/SelectFilter.vue'
 import ActivityRow from '@/components/dashboard/ActivityRow.vue'
 import FilterDivider from '@/components/dashboard/FilterDivider.vue'
-import { keyBy, groupBy, mapValues, uniq } from 'lodash'
+import { keyBy, groupBy, mapValues } from 'lodash'
 import campCollaborationDisplayName from '../../common/helpers/campCollaborationDisplayName.js'
 import { dateLong } from '../../common/helpers/dateHelperUTCFormatted.js'
 
@@ -187,6 +196,11 @@ export default {
     scheduleEntries() {
       return Object.values(this.periods).flatMap(
         (period) => period.scheduleEntries().items
+      )
+    },
+    scheduleEntriesLoading() {
+      return Object.values(this.periods).some(
+        (period) => period.scheduleEntries()._meta.loading
       )
     },
     days() {
@@ -253,11 +267,7 @@ export default {
       })?._meta?.self
     },
     multiplePeriods() {
-      return (
-        uniq(
-          this.scheduleEntries.map((scheduleEntry) => scheduleEntry.period()._meta.self)
-        ).length > 1
-      )
+      return Object.keys(this.periods).length > 1
     },
   },
   async mounted() {
