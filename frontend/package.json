@@ -19,7 +19,8 @@
     "test:e2e": "vue-cli-service test:e2e",
     "test:e2e:ci": "vue-cli-service test:e2e --headless",
     "test:unit:debug": "node --inspect-brk=0.0.0.0:9229 ./node_modules/@vue/cli-service/bin/vue-cli-service.js test:unit --no-cache --runInBand",
-    "test:unit:watch": "vue-cli-service test:unit --watch"
+    "test:unit:watch": "vue-cli-service test:unit --watch",
+    "postinstall": "sed -i 's/Color.extend(contrast);/Color.extend({contrast});/g' node_modules/colorjs.io/dist/color.js"
   },
   "dependencies": {
     "@intlify/core": "9.2.2",
