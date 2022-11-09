@@ -46,6 +46,7 @@ export default {
     items: { type: Object, default: () => ({}) },
     displayField: { type: [String, Function], required: true },
     valueField: { type: String, default: '_meta.self' },
+    andFilter: { type: Boolean, default: false },
   },
   computed: {
     active() {
@@ -65,9 +66,15 @@ export default {
       )
     },
     labelValue() {
-      return this.multiple
-        ? (this.value || []).map((item) => this.processedItems[item].text).join(', ')
-        : this.processedItems[this.value]?.text
+      if (this.multiple) {
+        const list = (this.value || []).map((item) => this.processedItems[item].text)
+        const lang = document.querySelector('html').getAttribute('lang')
+        const listFormat = new Intl.ListFormat(lang, {
+          type: this.andFilter ? 'conjunction' : 'disjunction',
+        })
+        return listFormat.format(list)
+      }
+      return this.processedItems[this.value]?.text
     },
   },
   methods: {

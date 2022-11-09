@@ -14,6 +14,7 @@
         <SelectFilter
           v-model="filter.responsible"
           multiple
+          and-filter
           :items="campCollaborations"
           :display-field="campCollaborationDisplayName"
           :label="$tc('views.camp.dashboard.responsible')"
