@@ -99,7 +99,7 @@
     },
     "dashboard": {
       "selectFilter": {
-        "all": "Alle"
+        "clear": "Zurücksetzen"
       }
     },
     "dialog": {

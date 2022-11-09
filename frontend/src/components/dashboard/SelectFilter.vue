@@ -12,7 +12,7 @@
     <v-list dense>
       <v-list-item dense color="primary" @click.prevent="clear()">
         <v-list-item-title>{{
-          $tc('components.dashboard.selectFilter.all')
+          $tc('components.dashboard.selectFilter.clear')
         }}</v-list-item-title>
       </v-list-item>
       <v-list-item
