@@ -49,7 +49,7 @@ export default {
       }
       return this.user
         ? userDisplayName(this.user)
-        : campCollaborationDisplayName(this.campCollaboration)
+        : campCollaborationDisplayName(this.campCollaboration, this.$tc.bind(this))
     },
     style() {
       return {

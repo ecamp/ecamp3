@@ -268,7 +268,9 @@ export default {
     this.loading = false
   },
   methods: {
-    campCollaborationDisplayName,
+    campCollaborationDisplayName(campCollaboration) {
+      return campCollaborationDisplayName(campCollaboration, this.$tc.bind(this))
+    },
     dateLong,
   },
 }
