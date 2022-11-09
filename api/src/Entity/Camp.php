@@ -92,7 +92,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface, CopyFromPrototy
      * All the programme that will be carried out during the camp. An activity may be carried out
      * multiple times in the same camp.
      */
-    #[ApiProperty(writable: false, example: '["/activities/1a2b3c4d"]')]
+    #[ApiProperty(writable: false, example: '/activities?camp=%2Fcamps%2F1a2b3c4d')]
     #[Groups(['read'])]
     #[ORM\OneToMany(targetEntity: Activity::class, mappedBy: 'camp', orphanRemoval: true)]
     public Collection $activities;

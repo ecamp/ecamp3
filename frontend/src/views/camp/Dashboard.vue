@@ -66,64 +66,66 @@
           {{ $tc('views.camp.dashboard.clearFilters') }}
         </v-chip>
       </div>
-      <table
-        v-for="(periodDays, uri) in groupedScheduleEntries"
-        :key="uri"
-        class="mx-4 mt-6 mb-3"
-        style="border-collapse: collapse"
-      >
-        <caption class="font-weight-bold text-left">
-          {{
-            periods[uri].description
-          }}
-        </caption>
-        <thead :key="uri + '_head'">
-          <tr class="d-sr-only">
-            <th :id="uri + 'th-number'" scope="col">
-              {{ $tc('views.camp.dashboard.columns.number') }}
-            </th>
-            <th :id="uri + 'th-category'" scope="col">
-              {{ $tc('views.camp.dashboard.columns.category') }}
-            </th>
-            <th :id="uri + 'th-time'" scope="col">
-              {{ $tc('views.camp.dashboard.columns.time') }}
-            </th>
-            <th :id="uri + 'th-title'" scope="col">
-              {{ $tc('views.camp.dashboard.columns.title') }}
-            </th>
-            <th :id="uri + 'th-responsible'" scope="col">
-              {{ $tc('views.camp.dashboard.columns.responsible') }}
-            </th>
-          </tr>
-        </thead>
-        <tbody
-          v-for="(dayScheduleEntries, dayUri) in periodDays"
-          :key="dayUri"
-          :aria-labelledby="dayUri + 'th'"
+      <template v-if="!loading">
+        <table
+          v-for="(periodDays, uri) in groupedScheduleEntries"
+          :key="uri"
+          class="mx-4 mt-6 mb-3"
+          style="border-collapse: collapse"
         >
-          <tr>
-            <th
-              :id="dayUri + 'th'"
-              colspan="5"
-              scope="colgroup"
-              style="
-                padding-top: 0.75rem;
-                font-weight: 400;
-                color: #666;
-                font-size: 0.9rem;
-                text-align: left;
-              "
-            >
-              {{ dateLong(days[dayUri].start) }}
-            </th>
-          </tr>
-          <ActivityRow
-            v-for="scheduleEntry in dayScheduleEntries"
-            :key="scheduleEntry._meta.self"
-            :schedule-entry="scheduleEntry"
-          />
-        </tbody>
-      </table>
+          <caption class="font-weight-bold text-left">
+            {{
+              periods[uri].description
+            }}
+          </caption>
+          <thead :key="uri + '_head'">
+            <tr class="d-sr-only">
+              <th :id="uri + 'th-number'" scope="col">
+                {{ $tc('views.camp.dashboard.columns.number') }}
+              </th>
+              <th :id="uri + 'th-category'" scope="col">
+                {{ $tc('views.camp.dashboard.columns.category') }}
+              </th>
+              <th :id="uri + 'th-time'" scope="col">
+                {{ $tc('views.camp.dashboard.columns.time') }}
+              </th>
+              <th :id="uri + 'th-title'" scope="col">
+                {{ $tc('views.camp.dashboard.columns.title') }}
+              </th>
+              <th :id="uri + 'th-responsible'" scope="col">
+                {{ $tc('views.camp.dashboard.columns.responsible') }}
+              </th>
+            </tr>
+          </thead>
+          <tbody
+            v-for="(dayScheduleEntries, dayUri) in periodDays"
+            :key="dayUri"
+            :aria-labelledby="dayUri + 'th'"
+          >
+            <tr>
+              <th
+                :id="dayUri + 'th'"
+                colspan="5"
+                scope="colgroup"
+                style="
+                  padding-top: 0.75rem;
+                  font-weight: 400;
+                  color: #666;
+                  font-size: 0.9rem;
+                  text-align: left;
+                "
+              >
+                {{ dateLong(days[dayUri].start) }}
+              </th>
+            </tr>
+            <ActivityRow
+              v-for="scheduleEntry in dayScheduleEntries"
+              :key="scheduleEntry._meta.self"
+              :schedule-entry="scheduleEntry"
+            />
+          </tbody>
+        </table>
+      </template>
     </div>
   </content-card>
 </template>
