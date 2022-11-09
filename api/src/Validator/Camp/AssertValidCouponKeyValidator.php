@@ -16,10 +16,6 @@ class AssertValidCouponKeyValidator extends ConstraintValidator {
             throw new UnexpectedTypeException($constraint, AssertValidCouponKey::class);
         }
 
-        if (null === $value || '' === $value) {
-            return;
-        }
-
         if (!$this->couponService->verifyCoupon($value)) {
             $this->context->buildViolation($constraint->message)
                 ->addViolation()

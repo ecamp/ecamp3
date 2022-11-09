@@ -232,8 +232,11 @@ class Camp extends BaseEntity implements BelongsToCampInterface, CopyFromPrototy
     #[ORM\JoinColumn(nullable: false)]
     public ?User $owner = null;
 
+    /**
+     * Camp Coupon Key
+     * If a COUPON_SECRET is configured, a valid Coupon is required.
+     */
     #[InputFilter\Trim]
-    #[Assert\NotBlank]
     #[AssertValidCouponKey()]
     #[ApiProperty(readable: false)]
     #[Groups(['create'])]
