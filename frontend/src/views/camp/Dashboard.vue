@@ -98,33 +98,35 @@
               </th>
             </tr>
           </thead>
-          <tbody
-            v-for="(dayScheduleEntries, dayUri) in periodDays"
-            :key="dayUri"
-            :aria-labelledby="dayUri + 'th'"
-          >
-            <tr>
-              <th
-                :id="dayUri + 'th'"
-                colspan="5"
-                scope="colgroup"
-                style="
-                  padding-top: 0.75rem;
-                  font-weight: 400;
-                  color: #666;
-                  font-size: 0.9rem;
-                  text-align: left;
-                "
-              >
-                {{ dateLong(days[dayUri].start) }}
-              </th>
-            </tr>
-            <ActivityRow
-              v-for="scheduleEntry in dayScheduleEntries"
-              :key="scheduleEntry._meta.self"
-              :schedule-entry="scheduleEntry"
-            />
-          </tbody>
+          <template v-if="!periods[uri].days()._meta.loading">
+            <tbody
+              v-for="(dayScheduleEntries, dayUri) in periodDays"
+              :key="dayUri"
+              :aria-labelledby="dayUri + 'th'"
+            >
+              <tr>
+                <th
+                  :id="dayUri + 'th'"
+                  colspan="5"
+                  scope="colgroup"
+                  style="
+                    padding-top: 0.75rem;
+                    font-weight: 400;
+                    color: #666;
+                    font-size: 0.9rem;
+                    text-align: left;
+                  "
+                >
+                  {{ dateLong(days[dayUri].start) }}
+                </th>
+              </tr>
+              <ActivityRow
+                v-for="scheduleEntry in dayScheduleEntries"
+                :key="scheduleEntry._meta.self"
+                :schedule-entry="scheduleEntry"
+              />
+            </tbody>
+          </template>
         </table>
       </template>
     </div>
@@ -243,10 +245,12 @@ export default {
       },
     },
     loggedInCampCollaboration() {
-      return Object.values(this.campCollaborations).find(
-        (collaboration) =>
-          collaboration.user()._meta.self === this.loggedInUser._meta.self
-      )?._meta?.self
+      return Object.values(this.campCollaborations).find((collaboration) => {
+        if (typeof collaboration.user !== 'function') {
+          return false
+        }
+        return collaboration.user()?._meta?.self === this.loggedInUser._meta.self
+      })?._meta?.self
     },
     multiplePeriods() {
       return (
