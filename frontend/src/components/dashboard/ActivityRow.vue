@@ -15,7 +15,10 @@
       <span class="e-subtitle">{{ duration }}</span>
     </td>
     <td style="width: 100%" class="contentrow">
-      <router-link :to="routerLink" class="text-decoration-none black--text">
+      <router-link
+        :to="routerLink"
+        class="text-decoration-none text-decoration-hover-underline black--text"
+      >
         {{ title }}<br />
       </router-link>
       <span class="e-subtitle">{{ location }}</span>
@@ -123,5 +126,9 @@ tr + tr :is(td, th) {
   display: inline-flex;
   vertical-align: baseline;
   align-items: center;
+}
+
+.text-decoration-hover-underline:hover {
+  text-decoration: underline !important;
 }
 </style>
