@@ -123,12 +123,6 @@ tr + tr :is(td, th) {
   font-size: 0.75em;
 }
 
-.baseline-center {
-  display: inline-flex;
-  vertical-align: baseline;
-  align-items: center;
-}
-
 .text-decoration-hover-underline:hover {
   text-decoration: underline !important;
 }
