@@ -207,6 +207,7 @@ jobs:
             --set api.domain=api-${{ matrix.deployment.name }}.ecamp3.ch \
             --set frontend.domain=app-${{ matrix.deployment.name }}.ecamp3.ch \
             --set print.domain=print-${{ matrix.deployment.name }}.ecamp3.ch \
+            --set mail.dummyEnabled=true \
             --set mail.domain=mail-${{ matrix.deployment.name }}.ecamp3.ch \
             --set postgresql.enabled=false \
             --set postgresql.url='${{ secrets.POSTGRES_URL }}/ecamp3${{ matrix.deployment.name }}?sslmode=require' \
