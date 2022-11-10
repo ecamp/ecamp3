@@ -8,8 +8,8 @@ function contrastColor(color) {
   const input = new Color(color)
   const black = new Color('#000')
   const white = new Color('#fff')
-  const blackContrast = input.contrast(black, 'APCA')
-  const whiteContrast = input.contrast(white, 'APCA')
+  const blackContrast = Math.abs(input.contrast(black, 'APCA'))
+  const whiteContrast = Math.abs(input.contrast(white, 'APCA'))
   return blackContrast > whiteContrast
     ? black.toString({ format: 'hex' })
     : white.toString({ format: 'hex' })
