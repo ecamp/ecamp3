@@ -97,6 +97,11 @@
         "inviteAgain": "Erneut einladen"
       }
     },
+    "dashboard": {
+      "selectFilter": {
+        "clear": "Zurücksetzen"
+      }
+    },
     "dialog": {
       "dialogEntityDelete": {
         "title": "Wirklich löschen?",
@@ -371,10 +376,21 @@
         "title": "Team"
       },
       "dashboard": {
-        "noActivitiesLine1": "Du bist noch für keinen Block zuständig.",
-        "noActivitiesLine2": "Den ganzen Picasso kannst du dir hier ansehen.",
-        "program": "Programm",
-        "viewDescription": "Du arbeitest an \"{title}\" mit. Hier siehst du alle Blöcke, für welche du zuständig bist."
+        "activities": "Aktivitäten",
+        "category": "Kategorie",
+        "clearFilters": "Filter entfernen",
+        "columns": {
+          "category": "Kategorie",
+          "number": "Nummer",
+          "responsible": "Verantwortlich",
+          "time": "Zeit",
+          "title": "Titel"
+        },
+        "noEntries": "Keine Aktivitäten gefunden. Versuche die Filter zu entfernen oder lade die Seite neu.",
+        "onlyMyActivities": "Nur meine Aktivitäten",
+        "period": "Lagerabschnitt",
+        "responsible": "Verantwortlich",
+        "welcome": "Willkommen in deinem neuen Lager. Es sind noch keine Aktivitäten erfasst. "
       },
       "invitation": {
         "acceptCurrentAuth": "Einladung mit aktuellem Account akzeptieren",

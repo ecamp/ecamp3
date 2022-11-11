@@ -94,3 +94,7 @@ body {
 .pb-safe {
   padding-bottom: env(safe-area-inset-bottom);
 }
+
+.d-flow-root {
+  display: flow-root;
+}

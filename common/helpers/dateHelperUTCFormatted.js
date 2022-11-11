@@ -13,6 +13,27 @@ function hourShort(dateTimeString) {
   return dayjs.utc(dateTimeString).format(i18n.tc('global.datetime.hourShort'))
 }
 
+function timeDurationShort(start, end) {
+  const startTime = dayjs.utc(start)
+  const endTime = dayjs.utc(end)
+  const duration = dayjs(endTime.diff(startTime))
+  const durationInMinutes = duration.valueOf() / 1000 / 60
+  if (durationInMinutes < 60) {
+    return i18n.tc('global.datetime.duration.minutesOnly', 0, {
+      minutes: durationInMinutes,
+    })
+  }
+  if (durationInMinutes % 60 === 0) {
+    return i18n.tc('global.datetime.duration.hoursOnly', 0, {
+      hours: durationInMinutes / 60,
+    })
+  }
+  return i18n.tc('global.datetime.duration.hoursAndMinutes', 0, {
+    hours: Math.floor(durationInMinutes / 60.0),
+    minutes: durationInMinutes % 60,
+  })
+}
+
 // short format of dateTime range
 // doesn't repeat end date if on the same day
 function rangeShort(start, end) {
@@ -42,4 +63,4 @@ function dateRange(start, end) {
   return `${dateShort(start)} - ${dateLong(end)}`
 }
 
-export { dateShort, dateLong, hourShort, dateRange, rangeShort }
+export { dateShort, dateLong, timeDurationShort, hourShort, dateRange, rangeShort }

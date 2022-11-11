@@ -1,121 +1,200 @@
-<!--
-Admin screen of a camp: Displays details & periods of a single camp and allows to edit them.
--->
-
 <template>
-  <content-card :title="camp().title" toolbar>
-    <v-card-text>
-      {{ $tc('views.camp.dashboard.viewDescription', 1, { title: camp().title }) }}
-    </v-card-text>
-
-    <v-skeleton-loader v-if="loading" type="article" />
-
-    <template v-else-if="showAnyPeriod(camp())">
-      <v-expansion-panels v-model="openPeriods" multiple flat accordion>
-        <template v-for="period in camp().periods().items">
-          <v-expansion-panel v-if="showPeriod(period)" :key="period._meta.self">
-            <v-expansion-panel-header>
-              <h3>
-                {{ period.description }}
-              </h3>
-            </v-expansion-panel-header>
-            <v-expansion-panel-content>
-              <v-row>
-                <template v-for="day in period.days().items">
-                  <template v-if="showDay(day)">
-                    <v-col :key="day._meta.self" cols="12" class="pb-0">
-                      <h4>{{ day.dayOffset + 1 }}) {{ dateLong(day.start) }}</h4>
-                    </v-col>
-                    <template
-                      v-for="scheduleEntry in scheduleEntriesByDay[day._meta.self]"
-                    >
-                      <v-col
-                        v-if="showScheduleEntry(scheduleEntry)"
-                        :key="scheduleEntry._meta.self"
-                        cols="12"
-                        sm="6"
-                        md="4"
-                        lg="3"
-                      >
-                        <v-card
-                          :color="scheduleEntry.activity().category().color"
-                          :to="scheduleEntryRoute(scheduleEntry)"
-                        >
-                          <v-card-title>
-                            {{ scheduleEntry.activity().category().short }}
-                            {{ scheduleEntry.number }}:
-                            {{ scheduleEntry.activity().title }}
-                            <v-spacer />
-                            <user-avatar
-                              v-for="ar in sortActivityResponsibles(
-                                scheduleEntry.activity().activityResponsibles().items
-                              )"
-                              :key="ar._meta.self"
-                              :camp-collaboration="ar.campCollaboration()"
-                              :size="24"
-                              style="margin: 2px"
-                            />
-                          </v-card-title>
-                          <v-card-subtitle>
-                            {{
-                              dateShort(scheduleEntry.start) ==
-                              dateShort(scheduleEntry.end)
-                                ? ''
-                                : dateShort(scheduleEntry.start)
-                            }}
-                            <b> {{ hourShort(scheduleEntry.start) }} </b>
-                            -
-                            {{
-                              dateShort(scheduleEntry.start) ==
-                              dateShort(scheduleEntry.end)
-                                ? ''
-                                : dateShort(scheduleEntry.end)
-                            }}
-                            <b> {{ hourShort(scheduleEntry.end) }} </b>
-                          </v-card-subtitle>
-                        </v-card>
-                      </v-col>
-                    </template>
-                  </template>
-                </template>
-              </v-row>
-            </v-expansion-panel-content>
-          </v-expansion-panel>
+  <content-card :title="$tc('views.camp.dashboard.activities')" toolbar>
+    <div class="d-flow-root">
+      <div class="d-flex flex-wrap ma-4" style="overflow-y: auto; gap: 10px">
+        <BooleanFilter
+          v-if="!loading"
+          v-model="showOnlyMyActivities"
+          :label="$tc('views.camp.dashboard.onlyMyActivities')"
+        />
+        <v-skeleton-loader v-else type="button" />
+        <FilterDivider />
+        <template v-if="!loading">
+          <SelectFilter
+            v-model="filter.responsible"
+            multiple
+            and-filter
+            :items="campCollaborations"
+            :display-field="campCollaborationDisplayName"
+            :label="$tc('views.camp.dashboard.responsible')"
+          >
+            <template #item="{ item }">
+              <UserAvatar
+                :camp-collaboration="campCollaborations[item.value]"
+                size="18"
+                class="mr-1"
+              />
+              {{ item.text }}
+            </template>
+          </SelectFilter>
+          <SelectFilter
+            v-model="filter.category"
+            multiple
+            :items="categories"
+            display-field="short"
+            :label="$tc('views.camp.dashboard.category')"
+          >
+            <template #item="{ item }">
+              <CategoryChip dense :category="categories[item.value]" class="mr-1" />
+              {{ categories[item.value].name }}
+            </template>
+          </SelectFilter>
+          <SelectFilter
+            v-if="multiplePeriods"
+            v-model="filter.period"
+            :items="periods"
+            display-field="description"
+            :label="$tc('views.camp.dashboard.period')"
+          />
+          <v-chip
+            v-if="
+              filter.period ||
+              (filter.responsible && filter.responsible.length > 0) ||
+              (filter.category && filter.category.length > 0)
+            "
+            label
+            outlined
+            @click="
+              filter = {
+                period: null,
+                responsible: [],
+                category: [],
+              }
+            "
+          >
+            <v-icon left>mdi-close</v-icon>
+            {{ $tc('views.camp.dashboard.clearFilters') }}
+          </v-chip>
         </template>
-      </v-expansion-panels>
-    </template>
-    <template v-else>
-      <v-card-text>
-        <p style="text-align: center">
-          {{ $tc('views.camp.dashboard.noActivitiesLine1') }} <br />
-          {{ $tc('views.camp.dashboard.noActivitiesLine2') }} <br />
+        <template v-else>
+          <v-skeleton-loader type="button" />
+          <v-skeleton-loader type="button" />
+        </template>
+      </div>
+      <template v-if="!loading && !scheduleEntriesLoading">
+        <table
+          v-for="(periodDays, uri) in groupedScheduleEntries"
+          :key="uri"
+          class="mx-4 mt-6 mb-3"
+          style="border-collapse: collapse"
+        >
+          <caption class="font-weight-bold text-left">
+            {{
+              periods[uri].description
+            }}
+          </caption>
+          <thead :key="uri + '_head'">
+            <tr class="d-sr-only">
+              <th :id="uri + 'th-number'" scope="col">
+                {{ $tc('views.camp.dashboard.columns.number') }}
+              </th>
+              <th :id="uri + 'th-category'" scope="col">
+                {{ $tc('views.camp.dashboard.columns.category') }}
+              </th>
+              <th :id="uri + 'th-time'" scope="col">
+                {{ $tc('views.camp.dashboard.columns.time') }}
+              </th>
+              <th :id="uri + 'th-title'" scope="col">
+                {{ $tc('views.camp.dashboard.columns.title') }}
+              </th>
+              <th :id="uri + 'th-responsible'" scope="col">
+                {{ $tc('views.camp.dashboard.columns.responsible') }}
+              </th>
+            </tr>
+          </thead>
+          <template v-if="!periods[uri].days()._meta.loading">
+            <tbody
+              v-for="(dayScheduleEntries, dayUri) in periodDays"
+              :key="dayUri"
+              :aria-labelledby="dayUri + 'th'"
+            >
+              <tr>
+                <th :id="dayUri + 'th'" colspan="5" scope="colgroup" class="day-header">
+                  {{ dateLong(days[dayUri].start) }}
+                </th>
+              </tr>
+              <ActivityRow
+                v-for="scheduleEntry in dayScheduleEntries"
+                :key="scheduleEntry._meta.self"
+                :schedule-entry="scheduleEntry"
+              />
+            </tbody>
+          </template>
+        </table>
+        <p
+          v-if="scheduleEntries.length > 0 && filteredScheduleEntries.length === 0"
+          class="ma-4"
+        >
+          {{ $tc('views.camp.dashboard.noEntries') }}
         </p>
-        <p style="text-align: center">
-          <v-btn color="success" :to="campRoute(camp(), 'program')">
-            <v-icon size="150%" left> mdi-view-dashboard-variant </v-icon>
-            {{ $tc('views.camp.dashboard.program') }}
-          </v-btn>
+        <p v-if="scheduleEntries.length === 0" class="ma-4">
+          {{ $tc('views.camp.dashboard.welcome') }}
         </p>
-      </v-card-text>
-    </template>
+      </template>
+      <table v-else class="mx-4 mt-6 mb-3 d-sr-none" style="border-collapse: collapse">
+        <caption>
+          <v-skeleton-loader type="heading" class="d-block mb-3" width="45ch" />
+        </caption>
+        <tbody>
+          <tr>
+            <th colspan="5" class="day-header">
+              <v-skeleton-loader type="text" width="15ch" />
+            </th>
+          </tr>
+          <tr
+            v-for="index in 3"
+            :key="index"
+            style="border-top: 1px solid #ddd; vertical-align: top"
+          >
+            <th class="pt-1">
+              <v-skeleton-loader type="text" width="2ch" />
+              <v-skeleton-loader type="text" width="3ch" class="d-sm-none" />
+            </th>
+            <td class="d-none d-sm-table-cell pl-2 pt-1">
+              <v-skeleton-loader type="text" width="3ch" />
+            </td>
+            <td class="nowrap pl-2 pt-1">
+              <v-skeleton-loader type="text" width="6ch" />
+              <v-skeleton-loader type="text" width="4ch" />
+            </td>
+            <td style="width: 100%" class="pl-2 pb-2 pt-1">
+              <v-skeleton-loader type="text" width="20ch" />
+              <v-skeleton-loader type="text" width="15ch" />
+            </td>
+            <td class="contentrow avatarrow overflow-visible pt-1">
+              <v-skeleton-loader type="heading" width="55" />
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </content-card>
 </template>
 
 <script>
-import { campRoute, scheduleEntryRoute } from '@/router.js'
 import ContentCard from '@/components/layout/ContentCard.vue'
 import UserAvatar from '../../components/user/UserAvatar.vue'
-import {
-  dateShort,
-  dateLong,
-  hourShort,
-} from '@/common/helpers/dateHelperUTCFormatted.js'
-import { sortBy } from 'lodash'
-import campCollaborationDisplayName from '@/common/helpers/campCollaborationDisplayName.js'
+import CategoryChip from '@/components/generic/CategoryChip.vue'
+import BooleanFilter from '@/components/dashboard/BooleanFilter.vue'
+import SelectFilter from '@/components/dashboard/SelectFilter.vue'
+import ActivityRow from '@/components/dashboard/ActivityRow.vue'
+import FilterDivider from '@/components/dashboard/FilterDivider.vue'
+import { keyBy, groupBy, mapValues } from 'lodash'
+import campCollaborationDisplayName from '../../common/helpers/campCollaborationDisplayName.js'
+import { dateLong } from '../../common/helpers/dateHelperUTCFormatted.js'
+
+function filterEquals(arr1, arr2) {
+  return JSON.stringify(arr1) === JSON.stringify(arr2)
+}
 
 export default {
   name: 'Dashboard',
   components: {
+    FilterDivider,
+    ActivityRow,
+    SelectFilter,
+    BooleanFilter,
+    CategoryChip,
     ContentCard,
     UserAvatar,
   },
@@ -124,79 +203,128 @@ export default {
   },
   data() {
     return {
+      loggedInUser: null,
       loading: true,
-      openPeriods: [],
+      filter: {
+        period: null,
+        responsible: [],
+        category: [],
+      },
     }
   },
   computed: {
-    // returns scheduleEntries per day without the need for an additional API call for each day
-    scheduleEntriesByDay() {
-      let scheduleEntriesByDay = []
-
-      this.camp()
-        .periods()
-        .items.forEach(function (period) {
-          period.scheduleEntries().items.forEach(function (scheduleEntry) {
-            const dayUri = scheduleEntry.day()._meta.self
-            if (!(dayUri in scheduleEntriesByDay)) {
-              scheduleEntriesByDay[dayUri] = []
-            }
-            scheduleEntriesByDay[dayUri].push(scheduleEntry)
-          })
+    campCollaborations() {
+      return keyBy(this.camp().campCollaborations().items, '_meta.self')
+    },
+    categories() {
+      return keyBy(this.camp().categories().items, '_meta.self')
+    },
+    periods() {
+      return keyBy(this.camp().periods().items, '_meta.self')
+    },
+    scheduleEntries() {
+      return Object.values(this.periods).flatMap(
+        (period) => period.scheduleEntries().items
+      )
+    },
+    scheduleEntriesLoading() {
+      return Object.values(this.periods).some(
+        (period) => period.scheduleEntries()._meta.loading
+      )
+    },
+    days() {
+      return keyBy(
+        Object.values(this.periods).flatMap((period) => period.days().items),
+        '_meta.self'
+      )
+    },
+    filteredScheduleEntries() {
+      return this.scheduleEntries.filter(
+        (scheduleEntry) =>
+          // filter by period
+          (this.filter.period === null ||
+            scheduleEntry.period()._meta.self === this.filter.period) &&
+          // filter by categories: OR filter
+          (this.filter.category === null ||
+            this.filter.category.length === 0 ||
+            this.filter.category?.includes(
+              scheduleEntry.activity().category()._meta.self
+            )) &&
+          // filter by responsibles: AND filter
+          (this.filter.responsible === null ||
+            this.filter.responsible.length === 0 ||
+            this.filter.responsible?.every((responsible) => {
+              return scheduleEntry
+                .activity()
+                .activityResponsibles()
+                .items.map((responsible) => responsible.campCollaboration()._meta.self)
+                .includes(responsible)
+            }))
+      )
+    },
+    groupedScheduleEntries() {
+      const groupedByPeriod = groupBy(
+        this.filteredScheduleEntries,
+        (scheduleEntry) => scheduleEntry.period()._meta.self
+      )
+      return mapValues(groupedByPeriod, (scheduleEntries) =>
+        groupBy(scheduleEntries, (scheduleEntry) => {
+          return scheduleEntry.day()._meta.self
         })
-
-      return scheduleEntriesByDay
+      )
+    },
+    showOnlyMyActivities: {
+      get() {
+        return (
+          filterEquals(this.filter.responsible, [this.loggedInCampCollaboration]) &&
+          filterEquals(this.filter.category, []) &&
+          filterEquals(this.filter.period, null)
+        )
+      },
+      set(value) {
+        this.filter.responsible = value ? [this.loggedInCampCollaboration] : []
+        this.filter.category = []
+        this.filter.period = null
+      },
+    },
+    loggedInCampCollaboration() {
+      return Object.values(this.campCollaborations).find((collaboration) => {
+        if (typeof collaboration.user !== 'function') {
+          return false
+        }
+        return collaboration.user()?._meta?.self === this.loggedInUser._meta.self
+      })?._meta?.self
+    },
+    multiplePeriods() {
+      return Object.keys(this.periods).length > 1
     },
   },
   async mounted() {
-    const [periods] = await Promise.all([
+    const [loggedInUser] = await Promise.all([
+      this.$auth.loadUser(),
       this.camp().periods()._meta.load,
       this.camp().activities()._meta.load,
       this.camp().categories()._meta.load,
     ])
 
-    this.openPeriods = periods.items
-      .map((period, idx) => (Date.parse(period.end) >= new Date() ? idx : null))
-      .filter((idx) => idx !== null)
-
+    this.loggedInUser = loggedInUser
     this.loading = false
   },
   methods: {
-    dateShort,
+    campCollaborationDisplayName(campCollaboration) {
+      return campCollaborationDisplayName(campCollaboration, this.$tc.bind(this))
+    },
     dateLong,
-    hourShort,
-    campRoute,
-    scheduleEntryRoute,
-    showAnyPeriod(camp) {
-      return camp.periods().items.some(this.showPeriod)
-    },
-    showPeriod(period) {
-      return period.days().items.some(this.showDay)
-    },
-    showDay(day) {
-      return (this.scheduleEntriesByDay[day._meta.self] || []).some(
-        this.showScheduleEntry
-      )
-    },
-    showScheduleEntry(scheduleEntry) {
-      const authUser = this.$store.state.auth.user
-      const activityResponsibles = scheduleEntry.activity().activityResponsibles().items
-      return activityResponsibles.some((activityResponsible) => {
-        const campCollaboration = activityResponsible.campCollaboration()
-        return (
-          !campCollaboration._meta.loading &&
-          typeof campCollaboration.user === 'function' &&
-          campCollaboration.user().id === authUser.id
-        )
-      })
-    },
-    sortActivityResponsibles(activityResponsibles) {
-      return sortBy(activityResponsibles, (activityResponsible) =>
-        campCollaborationDisplayName(activityResponsible.campCollaboration(), null, false)
-      )
-    },
   },
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+.day-header {
+  padding-top: 0.75rem;
+  font-weight: 400;
+  color: #666;
+  font-size: 0.9rem;
+  text-align: left;
+}
+</style>
