@@ -11,11 +11,11 @@
     </template>
     <v-list dense>
       <v-list-item dense color="primary" @click.prevent="clear()">
-        <v-list-item-title class="d-flex">
+        <v-list-item-title class="d-flex align-center grey--text text--darken-1">
           <span class="flex-grow-1">{{
             $tc('components.dashboard.selectFilter.clear')
           }}</span>
-          <v-icon right>mdi-close</v-icon>
+          <v-icon right class="d-flex grey--text">mdi-close</v-icon>
         </v-list-item-title>
       </v-list-item>
       <v-list-item
