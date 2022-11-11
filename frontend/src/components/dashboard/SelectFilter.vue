@@ -11,9 +11,12 @@
     </template>
     <v-list dense>
       <v-list-item dense color="primary" @click.prevent="clear()">
-        <v-list-item-title>{{
-          $tc('components.dashboard.selectFilter.clear')
-        }}</v-list-item-title>
+        <v-list-item-title class="d-flex">
+          <span class="flex-grow-1">{{
+            $tc('components.dashboard.selectFilter.clear')
+          }}</span>
+          <v-icon right>mdi-close</v-icon>
+        </v-list-item-title>
       </v-list-item>
       <v-list-item
         v-for="(item, self) in processedItems"
