@@ -9,23 +9,50 @@ Displays a single scheduleEntry
   >
     <template #title>
       <v-toolbar-title class="font-weight-bold">
-        {{ scheduleEntry().number }}
+        <span class="tabular-nums">
+          {{ scheduleEntry().number }}
+        </span>
         <v-menu
-          v-if="!category._meta.loading"
           offset-y
+          rounded="lg"
+          nudge-left="10"
+          nudge-bottom="4"
           :disabled="layoutMode || !isContributor"
         >
           <template #activator="{ on, attrs }">
-            <CategoryChip :schedule-entry="scheduleEntry()" v-bind="attrs" v-on="on" />
+            <CategoryChip
+              :schedule-entry="scheduleEntry()"
+              large
+              dense
+              v-bind="attrs"
+              v-on="on"
+            >
+              <template #after>
+                <v-icon
+                  right
+                  class="ml-0 e-category-chip-save-icon"
+                  :class="{ 'mdi-spin': categoryChangeState === 'saving' }"
+                >
+                  <template v-if="categoryChangeState === 'saving'"
+                    >mdi-autorenew</template
+                  >
+                  <template v-else-if="categoryChangeState === 'error'"
+                    >mdi-alert</template
+                  >
+                  <template v-else>mdi-chevron-down</template>
+                </v-icon>
+              </template>
+            </CategoryChip>
           </template>
-          <v-list>
+          <v-list class="py-0">
             <v-list-item
               v-for="cat in camp.categories().items"
               :key="cat._meta.self"
+              class="px-3"
               @click="changeCategory(cat)"
             >
               <v-list-item-title>
-                <CategoryChip :category="cat" />
+                <CategoryChip :category="cat" dense />
                 {{ cat.name }}
               </v-list-item-title>
             </v-list-item>
@@ -35,7 +62,7 @@ Displays a single scheduleEntry
           {{ activity.title }}
         </a>
       </v-toolbar-title>
-      <div v-if="editActivityTitle" class="mx-2" style="flex-grow: 1">
+      <div v-if="editActivityTitle" class="mx-2 flex-grow-1">
         <api-text-field
           :uri="activity._meta.self"
           fieldname="title"
@@ -58,7 +85,7 @@ Displays a single scheduleEntry
       >
         <template v-if="$vuetify.breakpoint.smAndUp">
           <v-icon left>mdi-file-document-edit-outline</v-icon>
-          {{ $tc('components.activity.scheduleEntry.backToContents') }}
+          {{ $tc('views.activity.activity.backToContents') }}
         </template>
         <template v-else>{{ $tc('global.button.back') }}</template>
       </v-btn>
@@ -83,7 +110,7 @@ Displays a single scheduleEntry
               <v-icon>mdi-puzzle-edit-outline</v-icon>
             </v-list-item-icon>
             <v-list-item-title>
-              {{ $tc('components.activity.scheduleEntry.changeLayout') }}
+              {{ $tc('views.activity.activity.changeLayout') }}
             </v-list-item-title>
           </v-list-item>
 
@@ -101,7 +128,7 @@ Displays a single scheduleEntry
                 </v-list-item-title>
               </v-list-item>
             </template>
-            {{ $tc('components.activity.scheduleEntry.deleteWarning') }}
+            {{ $tc('views.activity.activity.deleteWarning') }}
           </dialog-entity-delete>
         </v-list>
       </v-menu>
@@ -209,6 +236,7 @@ export default {
     return {
       layoutMode: false,
       editActivityTitle: false,
+      categoryChangeState: null,
       loading: true,
     }
   },
@@ -262,11 +290,17 @@ export default {
   methods: {
     rangeShort,
     changeCategory(category) {
+      this.categoryChangeState = 'saving'
       this.activity
         .$patch({
           category: category._meta.self,
         })
         .catch((e) => this.$toast.error(errorToMultiLineToast(e)))
+        .then(() => (this.categoryChangeState = null))
+        .catch((e) => {
+          this.categoryChangeState = 'error'
+          this.$toast.error(errorToMultiLineToast(e))
+        })
     },
     countContentNodes(contentType) {
       return this.contentNodes.items.filter((cn) => {
@@ -295,5 +329,9 @@ export default {
   @media #{map-get($display-breakpoints, 'sm-and-down')} {
     border-bottom: none;
   }
+}
+
+.e-category-chip-save-icon {
+  font-size: 18px;
 }
 </style>

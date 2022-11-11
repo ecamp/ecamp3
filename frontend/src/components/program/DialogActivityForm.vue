@@ -16,20 +16,16 @@
     >
       <template #item="{ item, on, attrs }">
         <v-list-item :key="item._meta.self" v-bind="attrs" v-on="on">
-          <v-list-item-avatar>
-            <category-chip :category="item" />
-          </v-list-item-avatar>
-          <v-list-item-content>
+          <v-list-item-title>
+            <category-chip :category="item" dense />
             {{ item.name }}
-          </v-list-item-content>
+          </v-list-item-title>
         </v-list-item>
       </template>
       <template #selection="{ item }">
         <div class="v-select__selection">
-          <category-chip x-small :category="item" />
-          <span class="black--text">
-            {{ item.name }}
-          </span>
+          <category-chip :category="item" dense />
+          {{ item.name }}
         </div>
       </template>
     </e-select>

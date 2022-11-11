@@ -1,12 +1,10 @@
 <template>
   <v-container fluid>
-    <content-card toolbar>
+    <content-card toolbar back>
       <template #title>
         <v-toolbar-title class="font-weight-bold">
           <template v-if="!category()._meta.loading">
-            <v-chip :color="category().color" dark>
-              {{ category().short }}
-            </v-chip>
+            <CategoryChip :category="category()" dense large />
             {{ category().name }}
           </template>
           <template v-else> loading... </template>
@@ -45,10 +43,12 @@
 <script>
 import ContentCard from '@/components/layout/ContentCard.vue'
 import RootNode from '@/components/activity/RootNode.vue'
+import CategoryChip from '@/components/generic/CategoryChip.vue'
 
 export default {
   name: 'Category',
   components: {
+    CategoryChip,
     ContentCard,
     RootNode,
   },

@@ -19,7 +19,7 @@
         <span class="ml-1">{{ deploymentTime }}</span></small
       >
       <v-spacer />
-      <language-switcher />
+      <language-switcher v-if="isDev" />
     </v-footer>
   </v-app>
 </template>
@@ -50,6 +50,9 @@ export default {
           version: this.version,
         }) || '#'
       )
+    },
+    isDev() {
+      return window.environment.FEATURE_DEVELOPER ?? false
     },
   },
   created() {

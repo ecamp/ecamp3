@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import { parseHexColor, contrastColor } from '@/../common/helpers/colors.js'
+import { contrastColor } from '@/../common/helpers/colors.js'
 
 export default {
   props: {
@@ -16,7 +16,7 @@ export default {
     style() {
       return {
         backgroundColor: this.category.color,
-        color: contrastColor(...parseHexColor(this.category.color)),
+        color: contrastColor(this.category.color),
       }
     },
   },

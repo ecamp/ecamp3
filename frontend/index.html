@@ -68,6 +68,12 @@
           'VERSION_LINK_TEMPLATE',
         ]
 
+        const optionalKeys = [
+          'SENTRY_ENVIRONMENT',
+          'FEATURE_DEVELOPER',
+          'RECAPTCHA_SITE_KEY',
+        ]
+
         const missingKeys = requiredKeys.filter(
           (key) => !Object.keys(window.environment).includes(key)
         )
@@ -79,7 +85,7 @@
         }
 
         const additionalKeys = Object.keys(window.environment).filter(
-          (key) => !requiredKeys.includes(key)
+          (key) => !requiredKeys.includes(key) && !optionalKeys.includes(key)
         )
         if (additionalKeys.length > 0) {
           console.error(`Additional defined key(s): "${additionalKeys.join(
