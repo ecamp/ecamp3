@@ -82,7 +82,6 @@ export default {
 <style scoped>
 .row {
   display: table-row;
-  gap: 1rem;
   vertical-align: baseline;
 }
 

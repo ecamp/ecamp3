@@ -1,73 +1,77 @@
 <template>
   <content-card :title="$tc('views.camp.dashboard.activities')" toolbar>
     <div class="d-flow-root">
-      <div
-        v-if="!loading"
-        class="d-flex flex-wrap ma-4"
-        style="overflow-y: auto; gap: 10px"
-      >
+      <div class="d-flex flex-wrap ma-4" style="overflow-y: auto; gap: 10px">
         <BooleanFilter
+          v-if="!loading"
           v-model="showOnlyMyActivities"
           :label="$tc('views.camp.dashboard.onlyMyActivities')"
         />
+        <v-skeleton-loader v-else type="button" />
         <FilterDivider />
-        <SelectFilter
-          v-model="filter.responsible"
-          multiple
-          and-filter
-          :items="campCollaborations"
-          :display-field="campCollaborationDisplayName"
-          :label="$tc('views.camp.dashboard.responsible')"
-        >
-          <template #item="{ item }">
-            <UserAvatar
-              :camp-collaboration="campCollaborations[item.value]"
-              size="18"
-              class="mr-1"
-            />
-            {{ item.text }}
-          </template>
-        </SelectFilter>
-        <SelectFilter
-          v-model="filter.category"
-          multiple
-          :items="categories"
-          display-field="short"
-          :label="$tc('views.camp.dashboard.category')"
-        >
-          <template #item="{ item }">
-            <CategoryChip dense :category="categories[item.value]" class="mr-1" />
-            {{ categories[item.value].name }}
-          </template>
-        </SelectFilter>
-        <SelectFilter
-          v-if="multiplePeriods"
-          v-model="filter.period"
-          :items="periods"
-          display-field="description"
-          :label="$tc('views.camp.dashboard.period')"
-        />
-        <v-chip
-          v-if="
-            filter.period ||
-            (filter.responsible && filter.responsible.length > 0) ||
-            (filter.category && filter.category.length > 0)
-          "
-          label
-          outlined
-          @click="
-            filter = {
-              period: null,
-              responsible: [],
-              category: [],
-            }
-          "
-        >
-          <v-icon left>mdi-close</v-icon>
-          {{ $tc('views.camp.dashboard.clearFilters') }}
-        </v-chip>
+        <template v-if="!loading">
+          <SelectFilter
+            v-model="filter.responsible"
+            multiple
+            and-filter
+            :items="campCollaborations"
+            :display-field="campCollaborationDisplayName"
+            :label="$tc('views.camp.dashboard.responsible')"
+          >
+            <template #item="{ item }">
+              <UserAvatar
+                :camp-collaboration="campCollaborations[item.value]"
+                size="18"
+                class="mr-1"
+              />
+              {{ item.text }}
+            </template>
+          </SelectFilter>
+          <SelectFilter
+            v-model="filter.category"
+            multiple
+            :items="categories"
+            display-field="short"
+            :label="$tc('views.camp.dashboard.category')"
+          >
+            <template #item="{ item }">
+              <CategoryChip dense :category="categories[item.value]" class="mr-1" />
+              {{ categories[item.value].name }}
+            </template>
+          </SelectFilter>
+          <SelectFilter
+            v-if="multiplePeriods"
+            v-model="filter.period"
+            :items="periods"
+            display-field="description"
+            :label="$tc('views.camp.dashboard.period')"
+          />
+          <v-chip
+            v-if="
+              filter.period ||
+              (filter.responsible && filter.responsible.length > 0) ||
+              (filter.category && filter.category.length > 0)
+            "
+            label
+            outlined
+            @click="
+              filter = {
+                period: null,
+                responsible: [],
+                category: [],
+              }
+            "
+          >
+            <v-icon left>mdi-close</v-icon>
+            {{ $tc('views.camp.dashboard.clearFilters') }}
+          </v-chip>
+        </template>
+        <template v-else>
+          <v-skeleton-loader type="button" />
+          <v-skeleton-loader type="button" />
+        </template>
       </div>
-      <template v-if="!loading">
+      <template v-if="!loading && !scheduleEntriesLoading">
         <table
           v-for="(periodDays, uri) in groupedScheduleEntries"
           :key="uri"
@@ -105,18 +109,7 @@
               :aria-labelledby="dayUri + 'th'"
             >
               <tr>
-                <th
-                  :id="dayUri + 'th'"
-                  colspan="5"
-                  scope="colgroup"
-                  style="
-                    padding-top: 0.75rem;
-                    font-weight: 400;
-                    color: #666;
-                    font-size: 0.9rem;
-                    text-align: left;
-                  "
-                >
+                <th :id="dayUri + 'th'" colspan="5" scope="colgroup" class="day-header">
                   {{ dateLong(days[dayUri].start) }}
                 </th>
               </tr>
@@ -134,10 +127,46 @@
         >
           {{ $tc('views.camp.dashboard.noEntries') }}
         </p>
-        <p v-if="!scheduleEntriesLoading && scheduleEntries.length === 0" class="ma-4">
+        <p v-if="scheduleEntries.length === 0" class="ma-4">
           {{ $tc('views.camp.dashboard.welcome') }}
         </p>
       </template>
+      <table v-else class="mx-4 mt-6 mb-3 d-sr-none" style="border-collapse: collapse">
+        <caption>
+          <v-skeleton-loader type="heading" class="d-block mb-3" width="45ch" />
+        </caption>
+        <tbody>
+          <tr>
+            <th colspan="5" class="day-header">
+              <v-skeleton-loader type="text" width="15ch" />
+            </th>
+          </tr>
+          <tr
+            v-for="index in 3"
+            :key="index"
+            style="border-top: 1px solid #ddd; vertical-align: top"
+          >
+            <th class="pt-1">
+              <v-skeleton-loader type="text" width="2ch" />
+              <v-skeleton-loader type="text" width="3ch" class="d-sm-none" />
+            </th>
+            <td class="d-none d-sm-table-cell pl-2 pt-1">
+              <v-skeleton-loader type="text" width="3ch" />
+            </td>
+            <td class="nowrap pl-2 pt-1">
+              <v-skeleton-loader type="text" width="6ch" />
+              <v-skeleton-loader type="text" width="4ch" />
+            </td>
+            <td style="width: 100%" class="pl-2 pb-2 pt-1">
+              <v-skeleton-loader type="text" width="20ch" />
+              <v-skeleton-loader type="text" width="15ch" />
+            </td>
+            <td class="contentrow avatarrow overflow-visible pt-1">
+              <v-skeleton-loader type="heading" width="55" />
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </content-card>
 </template>
@@ -290,4 +319,12 @@ export default {
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+.day-header {
+  padding-top: 0.75rem;
+  font-weight: 400;
+  color: #666;
+  font-size: 0.9rem;
+  text-align: left;
+}
+</style>
