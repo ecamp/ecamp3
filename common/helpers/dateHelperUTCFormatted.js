@@ -17,7 +17,21 @@ function timeDurationShort(start, end) {
   const startTime = dayjs.utc(start)
   const endTime = dayjs.utc(end)
   const duration = dayjs(endTime.diff(startTime))
-  return duration.format(i18n.tc('global.datetime.durationShort'))
+  const durationInMinutes = duration.valueOf() / 1000 / 60
+  if (durationInMinutes < 60) {
+    return i18n.tc('global.datetime.duration.minutesOnly', 0, {
+      minutes: durationInMinutes,
+    })
+  }
+  if (durationInMinutes % 60 === 0) {
+    return i18n.tc('global.datetime.duration.hoursOnly', 0, {
+      hours: durationInMinutes / 60,
+    })
+  }
+  return i18n.tc('global.datetime.duration.hoursAndMinutes', 0, {
+    hours: Math.floor(durationInMinutes / 60.0),
+    minutes: durationInMinutes % 60,
+  })
 }
 
 // short format of dateTime range

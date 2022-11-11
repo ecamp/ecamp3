@@ -172,7 +172,11 @@
       "dateLong": "dd L",
       "dateShort": "dd M/D",
       "dateTimeLong": "dd L HH:mm",
-      "durationShort": "H[h] m[m]",
+      "duration": {
+        "hoursAndMinutes": "{hours}h {minutes}m",
+        "hoursOnly": "{hours}h",
+        "minutesOnly": "{minutes}m"
+      },
       "hourLong": "HH:mm",
       "hourShort": "h:mm A"
     }
