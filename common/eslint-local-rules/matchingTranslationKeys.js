@@ -1,4 +1,4 @@
-module.exports = (path, utils) => {
+module.exports = (path, utils, fs) => {
   /**
    * Convert a file path to our convention for translation key structures
    */
@@ -114,6 +114,25 @@ module.exports = (path, utils) => {
     return true
   }
 
+  function packageDirectory(filename) {
+    const { root } = path.parse(filename)
+
+    let directory = filename
+    while (directory !== root) {
+      directory = path.dirname(directory)
+
+      try {
+        if (fs.statSync(path.resolve(directory, 'package.json')).isFile()) {
+          return directory
+        }
+      } catch {
+        // Ignore, try going up to the next directory
+      }
+    }
+
+    return ''
+  }
+
   return {
     meta: {
       hasSuggestions: false, // We cannot easily auto-fix the translation JSON, so we can't make an automatic fix suggestion
@@ -145,7 +164,7 @@ module.exports = (path, utils) => {
       }
 
       const extension = path.extname(filename)
-      const filesystemPrefix = context.getCwd()
+      const filesystemPrefix = packageDirectory(filename)
       const filepath = context
         .getFilename()
         .replace(new RegExp(`^${escapeForRegExp(filesystemPrefix)}/`), '')
