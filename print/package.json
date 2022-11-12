@@ -29,7 +29,7 @@
     "deepmerge": "4.2.2",
     "express": "4.18.2",
     "hal-json-vuex": "2.0.0-alpha.14",
-    "isomorphic-dompurify": "0.23.0",
+    "isomorphic-dompurify": "0.24.0",
     "lodash": "4.17.21",
     "nuxt": "2.15.8",
     "puppeteer-core": "19.2.2",
