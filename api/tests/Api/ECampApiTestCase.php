@@ -144,13 +144,13 @@ abstract class ECampApiTestCase extends ApiTestCase {
             case 'get':
             case 'patch':
             case 'put':
-                $fullOperationName = "_api_{$endpoint}/{id}.{_format}_";
+                $fullOperationName = "_api_{$endpoint}/{id}{._format}_";
 
                 break;
 
             case 'post':
             case 'get_collection':
-                $fullOperationName = "_api_{$endpoint}.{_format}_";
+                $fullOperationName = "_api_{$endpoint}{._format}_";
 
                 break;
 

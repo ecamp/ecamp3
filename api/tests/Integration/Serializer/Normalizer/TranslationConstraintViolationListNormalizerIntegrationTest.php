@@ -2,9 +2,9 @@
 
 namespace App\Tests\Integration\Serializer\Normalizer;
 
-use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\ApiTestAssertionsTrait;
-use ApiPlatform\Core\Hydra\Serializer\ConstraintViolationListNormalizer as HydraConstraintViolationListNormalizer;
-use ApiPlatform\Core\Problem\Serializer\ConstraintViolationListNormalizer as JsonProblemConstraintViolationListNormalizer;
+use ApiPlatform\Hydra\Serializer\ConstraintViolationListNormalizer as HydraConstraintViolationListNormalizer;
+use ApiPlatform\Problem\Serializer\ConstraintViolationListNormalizer as JsonProblemConstraintViolationListNormalizer;
+use ApiPlatform\Symfony\Bundle\Test\ApiTestAssertionsTrait;
 use App\Entity\CampCollaboration;
 use App\Serializer\Normalizer\TranslationConstraintViolationListNormalizer;
 use App\Validator\AllowTransition\AssertAllowTransitions;
