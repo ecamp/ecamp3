@@ -3,7 +3,7 @@
 
 
 INSERT INTO public.profile (id, email, firstname, surname, nickname, language, roles, createtime, updatetime, googleid, pbsmidataid, cevidbid, untrustedemail, untrustedemailkeyhash) VALUES
-	('f052d5a73a27', 'support@ecamp3.ch', 'Support', 'Support', 'Support', 'de', '["ROLE_USER"]', '2022-10-08 20:11:57', '2022-10-08 20:38:22', NULL, NULL, NULL, NULL, NULL);
+	('f052d5a73a27', 'support@ecamp3.ch', 'Support', 'Support', 'Support', 'de', '["ROLE_USER", "ROLE_ADMIN"]', '2022-10-08 20:11:57', '2022-10-08 20:38:22', NULL, NULL, NULL, NULL, NULL);
 
 
 

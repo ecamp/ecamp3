@@ -133,7 +133,7 @@
     "navigation": {
       "userMeta": {
         "logOut": "Log out",
-        "myCamps": "My camp | My camps",
+        "myCamps": "My camps",
         "profile": "Profile"
       }
     },
@@ -474,7 +474,7 @@
       "create": "Create a camp",
       "pastCamps": "Past camps",
       "prototypeCamps": "Prototypes",
-      "title": "My Camp | My Camps"
+      "title": "My Camps"
     },
     "profile": {
       "changeEmail": "Change",

@@ -46,6 +46,14 @@ export function isLoggedIn() {
   return isLoggedIn
 }
 
+export function isAdmin() {
+  if (!isLoggedIn()) {
+    return false
+  }
+
+  return parseJWTPayload(getJWTPayloadFromCookie()).roles.includes('ROLE_ADMIN')
+}
+
 async function login(email, password) {
   const url = await apiStore.href(apiStore.get(), 'login')
   return apiStore.post(url, { identifier: email, password: password }).then(() => {
@@ -143,6 +151,7 @@ function cookiePrefix() {
 
 export const auth = {
   isLoggedIn,
+  isAdmin,
   login,
   register,
   loginGoogle,
