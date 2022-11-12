@@ -85,7 +85,7 @@ Displays a single scheduleEntry
       >
         <template v-if="$vuetify.breakpoint.smAndUp">
           <v-icon left>mdi-file-document-edit-outline</v-icon>
-          {{ $tc('views.activity.activity.backToContents') }}
+          {{ $tc('components.activity.scheduleEntry.backToContents') }}
         </template>
         <template v-else>{{ $tc('global.button.back') }}</template>
       </v-btn>
@@ -110,7 +110,7 @@ Displays a single scheduleEntry
               <v-icon>mdi-puzzle-edit-outline</v-icon>
             </v-list-item-icon>
             <v-list-item-title>
-              {{ $tc('views.activity.activity.changeLayout') }}
+              {{ $tc('components.activity.scheduleEntry.changeLayout') }}
             </v-list-item-title>
           </v-list-item>
 
@@ -128,7 +128,7 @@ Displays a single scheduleEntry
                 </v-list-item-title>
               </v-list-item>
             </template>
-            {{ $tc('views.activity.activity.deleteWarning') }}
+            {{ $tc('components.activity.scheduleEntry.deleteWarning') }}
           </dialog-entity-delete>
         </v-list>
       </v-menu>
