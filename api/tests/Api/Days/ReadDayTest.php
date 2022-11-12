@@ -4,7 +4,6 @@ namespace App\Tests\Api\Days;
 
 use App\Entity\Day;
 use App\Tests\Api\ECampApiTestCase;
-use DateTime;
 
 /**
  * @internal
@@ -50,8 +49,8 @@ class ReadDayTest extends ECampApiTestCase {
     public function testGetSingleDayIsAllowedForGuest() {
         /** @var Day $day */
         $day = static::$fixtures['day1period1'];
-        $start = $day->getStart()->format(DateTime::W3C);
-        $end = $day->getEnd()->format(DateTime::W3C);
+        $start = $day->getStart()->format(\DateTime::W3C);
+        $end = $day->getEnd()->format(\DateTime::W3C);
         static::createClientWithCredentials(['email' => static::$fixtures['user3guest']->getEmail()])
             ->request('GET', '/days/'.$day->getId())
         ;
@@ -71,8 +70,8 @@ class ReadDayTest extends ECampApiTestCase {
     public function testGetSingleDayIsAllowedForMember() {
         /** @var Day $day */
         $day = static::$fixtures['day1period1'];
-        $start = $day->getStart()->format(DateTime::W3C);
-        $end = $day->getEnd()->format(DateTime::W3C);
+        $start = $day->getStart()->format(\DateTime::W3C);
+        $end = $day->getEnd()->format(\DateTime::W3C);
         static::createClientWithCredentials(['email' => static::$fixtures['user2member']->getEmail()])
             ->request('GET', '/days/'.$day->getId())
         ;
@@ -92,8 +91,8 @@ class ReadDayTest extends ECampApiTestCase {
     public function testGetSingleDayIsAllowedForManager() {
         /** @var Day $day */
         $day = static::$fixtures['day1period1'];
-        $start = $day->getStart()->format(DateTime::W3C);
-        $end = $day->getEnd()->format(DateTime::W3C);
+        $start = $day->getStart()->format(\DateTime::W3C);
+        $end = $day->getEnd()->format(\DateTime::W3C);
         static::createClientWithCredentials()->request('GET', '/days/'.$day->getId());
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
@@ -111,8 +110,8 @@ class ReadDayTest extends ECampApiTestCase {
     public function testGetSingleDayFromCampPrototypeIsAllowedForUnrelatedUser() {
         /** @var Day $day */
         $day = static::$fixtures['day1period1campPrototype'];
-        $start = $day->getStart()->format(DateTime::W3C);
-        $end = $day->getEnd()->format(DateTime::W3C);
+        $start = $day->getStart()->format(\DateTime::W3C);
+        $end = $day->getEnd()->format(\DateTime::W3C);
         static::createClientWithCredentials()->request('GET', '/days/'.$day->getId());
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([

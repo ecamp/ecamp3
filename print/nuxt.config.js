@@ -122,6 +122,19 @@ export default {
     //     config.devtool = ctx.isClient ? 'source-map' : 'inline-source-map'
     //   }
     // },
+    extend(config) {
+      // TODO: remove once we update to nuxt 3
+      config.module.rules.push({
+        test: /colorjs\.io/,
+        include: /node_modules/,
+        loader: {
+          loader: 'babel-loader',
+          options: {
+            presets: [['@babel/preset-env', { targets: { chrome: '58', ie: '11' } }]],
+          },
+        },
+      })
+    },
     postcss: {
       plugins: {
         tailwindcss: {},

@@ -2,13 +2,13 @@
   <div style="position: relative">
     <iframe
       :src="urlWithPagemodes"
-      :title="$tc('views.camp.print.previewIframeTitle')"
+      :title="$tc('components.print.printReact.printPreviewReact.previewIframeTitle')"
       class="d-block"
       v-bind="$attrs"
     />
     <v-overlay absolute :value="loading || error" z-index="2">
       <div v-if="error">
-        {{ $tc('views.camp.print.previewError') }}
+        {{ $tc('components.print.printReact.printPreviewReact.previewError') }}
       </div>
       <v-progress-circular v-else indeterminate />
     </v-overlay>

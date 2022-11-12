@@ -2,7 +2,7 @@
   <dialog-form
     v-model="showDialog"
     icon="mdi-delete"
-    :title="$tc('components.dialog.dialogEntityDelete.title')"
+    :title="$tc('components.activity.content.storyboardDialogRemoveSection.title')"
     :submit-action="submit"
     submit-label="global.button.delete"
     submit-color="error"
@@ -13,7 +13,9 @@
     <template #activator="scope">
       <slot name="activator" v-bind="scope" />
     </template>
-    <slot>{{ $tc('components.activity.content.storyboard.section.deleteWarning') }}</slot>
+    <slot>{{
+      $tc('components.activity.content.storyboardDialogRemoveSection.deleteWarning')
+    }}</slot>
   </dialog-form>
 </template>
 

@@ -1,5 +1,5 @@
 # build stage
-FROM node:lts-alpine@sha256:2175727cef5cad4020cb77c8c101d56ed41d44fbe9b1157c54f820e3d345eab1 AS build-stage
+FROM node:lts-alpine@sha256:9eff44230b2fdcca57a73b8f908c8029e72d24dd05cac5339c79d3dedf6b208b AS build-stage
 
 COPY common /common
 
@@ -12,8 +12,10 @@ COPY frontend .
 RUN npm run build
 
 # production stage
-FROM nginx:stable-alpine@sha256:5ba534070ae1e5e83d52141b11ddced689b476c0001e7205f50979dc0cbdde3d as production-stage
+FROM nginx:stable-alpine@sha256:e2e00961a61d50daf88d5b2603c5ee4362161d0d90f94be45f380ccff12bbf1e as production-stage
 RUN mkdir /app
 WORKDIR /app
 COPY --from=build-stage /app/dist /app
 COPY .docker-hub/frontend/nginx.conf /etc/nginx/nginx.conf
+COPY .docker-hub/frontend/docker-entrypoint.d/* /docker-entrypoint.d/
+RUN chmod -R +x /docker-entrypoint.d/

@@ -3,17 +3,17 @@ Critical operations on camp
 -->
 
 <template>
-  <content-group :title="$tc('components.camp.campDangerzone.title')">
+  <content-group :title="$tc('components.campAdmin.campDangerZone.title')">
     <v-skeleton-loader v-if="camp()._meta.loading" type="article" />
     <div v-else>
       <v-list>
         <v-list-item class="px-0" three-line>
           <v-list-item-content>
             <v-list-item-title>
-              {{ $tc('components.camp.campDangerzone.deleteCamp.title') }}
+              {{ $tc('components.campAdmin.campDangerZone.deleteCamp.title') }}
             </v-list-item-title>
             <v-list-item-subtitle>
-              {{ $tc('components.camp.campDangerzone.deleteCamp.description') }}
+              {{ $tc('components.campAdmin.campDangerZone.deleteCamp.description') }}
             </v-list-item-subtitle>
           </v-list-item-content>
           <v-list-item-action>
@@ -37,14 +37,14 @@ Critical operations on camp
               </template>
               <p class="body-1">
                 {{
-                  $tc('components.camp.campDangerzone.deleteCamp.explanation', 0, {
+                  $tc('components.campAdmin.campDangerZone.deleteCamp.explanation', 0, {
                     campName: camp().name,
                   })
                 }}
               </p>
               <label>
                 {{
-                  $tc('components.camp.campDangerzone.deleteCamp.label', 0, {
+                  $tc('components.campAdmin.campDangerZone.deleteCamp.label', 0, {
                     campName: camp().name,
                   })
                 }}

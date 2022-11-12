@@ -205,14 +205,14 @@ class CreateCategoryTest extends ECampApiTestCase {
         ));
     }
 
-    public function testCreateCategoryDoesNotCleanHtmlForShort() {
+    public function testCreateCategoryCleansForbiddenCharactersFromShort() {
         static::createClientWithCredentials()->request(
             'POST',
             '/categories',
             [
                 'json' => $this->getExampleWritePayload(
                     [
-                        'short' => 'L<b>S</b><a>',
+                        'short' => "L<b>S</b>\n\t<a>",
                     ]
                 ),
             ]
@@ -309,14 +309,14 @@ class CreateCategoryTest extends ECampApiTestCase {
         ));
     }
 
-    public function testCreateCategoryDoesNotCleanHtmlForName() {
+    public function testCreateCategoryCleansForbiddenCharactersFromName() {
         static::createClientWithCredentials()->request(
             'POST',
             '/categories',
             [
                 'json' => $this->getExampleWritePayload(
                     [
-                        'name' => '<script>Lager</script><b>sport',
+                        'name' => "\n\t<b>sport",
                     ]
                 ),
             ]
@@ -325,7 +325,7 @@ class CreateCategoryTest extends ECampApiTestCase {
         $this->assertResponseStatusCodeSame(201);
         $this->assertJsonContains($this->getExampleReadPayload(
             [
-                'name' => '<script>Lager</script><b>sport',
+                'name' => '<b>sport',
             ]
         ));
     }

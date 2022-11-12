@@ -58,7 +58,7 @@
         "section": {
           "fields": {
             "column1": "Zeit",
-            "column2": "Programm",
+            "column2Html": "Programm",
             "column3": "Verantwortlich"
           },
           "name": "Programmpunkt | Programmpunkte"
@@ -165,6 +165,11 @@
       "dateLong": "dd L",
       "dateShort": "dd D.M.",
       "dateTimeLong": "dd L HH:mm",
+      "duration": {
+        "hoursAndMinutes": "{hours}h {minutes}min",
+        "hoursOnly": "{hours}h",
+        "minutesOnly": "{minutes}min"
+      },
       "hourLong": "HH:mm",
       "hourShort": "H:mm"
     }
@@ -186,9 +191,11 @@
       "title": "Inhaltsverzeichnis"
     }
   },
-  "story": {
-    "storyDay": {
-      "noStory": "Kein roter Faden an diesem Tag gefunden…"
+  "components": {
+    "story": {
+      "storyDay": {
+        "noStory": "Kein roter Faden an diesem Tag gefunden…"
+      }
     }
   }
 }

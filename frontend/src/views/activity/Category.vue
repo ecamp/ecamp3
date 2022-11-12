@@ -1,12 +1,10 @@
 <template>
   <v-container fluid>
-    <content-card toolbar>
+    <content-card toolbar back>
       <template #title>
         <v-toolbar-title class="font-weight-bold">
           <template v-if="!category()._meta.loading">
-            <v-chip :color="category().color" dark>
-              {{ category().short }}
-            </v-chip>
+            <CategoryChip :category="category()" dense large />
             {{ category().name }}
           </template>
           <template v-else> loading... </template>
@@ -17,14 +15,14 @@
         <v-btn v-if="!layoutMode" color="primary" outlined @click="layoutMode = true">
           <template v-if="$vuetify.breakpoint.smAndUp">
             <v-icon left>mdi-puzzle-edit-outline</v-icon>
-            {{ $tc('views.activity.activity.changeLayout') }}
+            {{ $tc('views.activity.category.changeLayout') }}
           </template>
-          <template v-else>{{ $tc('views.activity.activity.layout') }}</template>
+          <template v-else>{{ $tc('views.activity.category.layout') }}</template>
         </v-btn>
         <v-btn v-else color="success" outlined @click="layoutMode = false">
           <template v-if="$vuetify.breakpoint.smAndUp">
             <v-icon left>mdi-check</v-icon>
-            {{ $tc('views.activity.activity.backToContents') }}
+            {{ $tc('views.activity.category.backToContents') }}
           </template>
           <template v-else>{{ $tc('global.button.back') }}</template>
         </v-btn>
@@ -45,10 +43,12 @@
 <script>
 import ContentCard from '@/components/layout/ContentCard.vue'
 import RootNode from '@/components/activity/RootNode.vue'
+import CategoryChip from '@/components/generic/CategoryChip.vue'
 
 export default {
   name: 'Category',
   components: {
+    CategoryChip,
     ContentCard,
     RootNode,
   },

@@ -7,7 +7,6 @@ use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use League\OAuth2\Client\Token\AccessToken;
 use League\OAuth2\Client\Tool\BearerAuthorizationTrait;
 use Psr\Http\Message\ResponseInterface;
-use UnexpectedValueException;
 
 class Hitobito extends AbstractProvider {
     use BearerAuthorizationTrait;
@@ -48,7 +47,7 @@ class Hitobito extends AbstractProvider {
         $response = $this->getParsedResponse($request);
 
         if (false === is_array($response)) {
-            throw new UnexpectedValueException(
+            throw new \UnexpectedValueException(
                 'Invalid response received from Authorization Server. Expected JSON.'
             );
         }

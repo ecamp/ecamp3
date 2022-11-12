@@ -10,7 +10,6 @@ use App\DataPersister\Util\PropertyChangeListener;
 use App\Entity\BaseEntity;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use stdClass;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -77,7 +76,7 @@ class AbstractDataPersisterTest extends TestCase {
             [
                 MyEntity::class,
                 $this->dataPersisterObservable,
-                [$this->actionListener, new stdClass()],
+                [$this->actionListener, new \stdClass()],
                 [$this->propertyChangeListener],
             ]
         );
@@ -91,7 +90,7 @@ class AbstractDataPersisterTest extends TestCase {
                 MyEntity::class,
                 $this->dataPersisterObservable,
                 [$this->actionListener],
-                [$this->propertyChangeListener, new stdClass()],
+                [$this->propertyChangeListener, new \stdClass()],
             ]
         );
     }
@@ -112,7 +111,7 @@ class AbstractDataPersisterTest extends TestCase {
             ->willReturn(false)
         ;
 
-        self::assertThat($this->dataPersister->supports(new stdClass(), []), self::equalTo(false));
+        self::assertThat($this->dataPersister->supports(new \stdClass(), []), self::equalTo(false));
         self::assertThat($this->dataPersister->supports(new MyEntity(), []), self::equalTo(false));
     }
 

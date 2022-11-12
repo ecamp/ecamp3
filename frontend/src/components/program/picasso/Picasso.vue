@@ -45,7 +45,12 @@ Listing all given activity schedule entries in a calendar view.
           {{
             $date
               .utc(date)
-              .format($tc('components.camp.picasso.datetime.date', widthPluralization))
+              .format(
+                $tc(
+                  'components.program.picasso.picasso.datetime.date',
+                  widthPluralization
+                )
+              )
           }}
         </div>
         <day-responsibles :date="date" :period="period" :readonly="!editable" />
@@ -120,7 +125,7 @@ import { isCssColor } from 'vuetify/lib/util/colorUtils'
 import { apiStore as api } from '@/plugins/store'
 import { scheduleEntryRoute } from '@/router.js'
 import mergeListeners from '@/helpers/mergeListeners.js'
-import { parseHexColor, contrastColor } from '@/common/helpers/colors.js'
+import { contrastColor } from '@/common/helpers/colors.js'
 import {
   timestampToUtcString,
   utcStringToTimestamp,
@@ -389,7 +394,7 @@ export default {
       if (this.isCategoryLoading(scheduleEntry)) return '#000'
 
       const category = scheduleEntry.activity().category()
-      return contrastColor(...parseHexColor(category.color))
+      return contrastColor(category.color)
     },
     getActivityColor(scheduleEntry, _) {
       if (scheduleEntry.tmpEvent) return 'grey elevation-4 v-event--temporary'
@@ -460,7 +465,7 @@ export default {
     height: calc(100vh - 168px);
   }
 
-  ::v-deep {
+  :deep {
     .v-calendar-daily_head-day,
     .v-calendar-daily__day {
       min-width: 80px;
@@ -511,19 +516,20 @@ export default {
 }
 
 .ec-picasso-editable {
-  ::v-deep .v-event-timed {
+  :deep(.v-event-timed) {
     transition: transform 0.1s; /* Animation */
   }
 
-  ::v-deep .v-event-timed:hover {
+  :deep(.v-event-timed:hover) {
+    z-index: 999;
     transform: scale(
       1.02
     ); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
   }
 }
 
-.ec-picasso-editable ::v-deep,
-.ec-picasso ::v-deep {
+.ec-picasso-editable:deep,
+.ec-picasso:deep {
   .v-calendar-daily__day-container {
     width: initial;
   }
@@ -588,7 +594,7 @@ export default {
   letter-spacing: -0.1px;
 }
 
-::v-deep .v-calendar-daily_head-day-label {
+:deep(.v-calendar-daily_head-day-label) {
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -639,7 +645,7 @@ export default {
 }
 
 // temporary placeholder (crate new event)
-::v-deep .v-event-timed.v-event--temporary {
+:deep(.v-event-timed.v-event--temporary) {
   border-style: dashed !important;
   opacity: 0.8;
 }

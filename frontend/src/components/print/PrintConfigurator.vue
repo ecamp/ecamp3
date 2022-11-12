@@ -156,7 +156,7 @@ export default {
       return this.$store.state.lang.language
     },
     isDev() {
-      return process.env.NODE_ENV === 'development'
+      return window.environment.FEATURE_DEVELOPER ?? false
     },
   },
   watch: {

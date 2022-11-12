@@ -1,10 +1,20 @@
-<h3>Welcome to eCamp3</h3>
-<p>
-    Confirm your Mail-Address:
-</p>
-<p>
-    <a href="{{ url }}">confirm</a>
-</p>
-<p>
-    Your eCamp-Team
-</p>
+{% set preheader = 'Welcome to eCamp3' %}
+{% extends 'emails/baseLayout.twig' %}
+
+{% block content %}
+    <h1>Welcome to eCamp3</h1>
+    <p>Hi {{ name }},</p>
+    <p>
+        We have just now received your registration for eCamp. <br />
+        Confirm your email address by clicking on below link:
+    </p>
+
+    {% with { title: 'Confirm', url: url } %}
+        {% include 'emails/button.twig' %}
+    {% endwith %}
+
+    <p>
+        Cheers,<br />
+        your eCamp team
+    </p>
+{% endblock %}

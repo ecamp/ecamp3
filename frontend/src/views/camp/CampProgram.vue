@@ -3,14 +3,15 @@ Show all activity schedule entries of a single period.
 -->
 
 <template>
-  <content-card :title="$tc('views.camp.picasso.title')" toolbar>
+  <content-card :title="$tc('views.camp.campProgram.title')" toolbar>
     <template #title-actions>
       <period-switcher :period="period" />
       <v-spacer />
       <LockIcon
         v-model="editMode"
         :hide-tooltip="isContributor"
-        :message="$tc('views.camp.picasso.guestsCannotEdit')"
+        :message="$tc('views.camp.campProgram.guestsCannotEdit')"
+        @dblclick="editMode = !editMode"
       />
       <v-menu offset-y>
         <template #activator="{ on, attrs }">

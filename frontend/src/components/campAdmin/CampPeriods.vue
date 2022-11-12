@@ -6,7 +6,9 @@ Displays all periods of a single camp and allows to edit them & create new ones
   <content-group>
     <slot name="title">
       <div class="ec-content-group__title py-1 subtitle-1">
-        {{ $tc('components.camp.campPeriods.title', api.get().camps().items.length) }}
+        {{
+          $tc('components.campAdmin.campPeriods.title', api.get().camps().items.length)
+        }}
         <dialog-period-create v-if="!disabled" :camp="camp()">
           <template #activator="{ on }">
             <button-add
@@ -16,7 +18,7 @@ Displays all periods of a single camp and allows to edit them & create new ones
               :hide-label="$vuetify.breakpoint.xsOnly"
               v-on="on"
             >
-              {{ $tc('components.camp.campPeriods.createPeriod') }}
+              {{ $tc('components.campAdmin.campPeriods.createPeriod') }}
             </button-add>
           </template>
         </dialog-period-create>

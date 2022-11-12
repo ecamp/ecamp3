@@ -17,7 +17,7 @@ App\Entity\ContentNode\SingleText:
     position: 1
     instanceName: 'singleText2'
     contentType: '@contentTypeNotes'
-    data: { text: <word()> }
+    data: { html: <word()> }
 
 # nested column - slot2
 App\Entity\ContentNode\Storyboard:
@@ -35,7 +35,7 @@ App\Entity\ContentNode\Storyboard:
             'ea6f1e5d-0ef7-454f-8ae0-1d9b3bfd1177':
               {
                 column1: <word()>,
-                column2: <sentence()>,
+                column2Html: <sentence()>,
                 column3: <word()>,
                 position: 0,
               },

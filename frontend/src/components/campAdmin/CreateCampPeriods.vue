@@ -68,7 +68,7 @@
     </v-card>
     <v-btn text block height="auto" class="pa-4" @click="addPeriod">
       <v-icon>mdi-plus</v-icon>
-      {{ $tc('views.campCreate.period.add') }}
+      {{ $tc('components.campAdmin.createCampPeriods.add') }}
     </v-btn>
   </div>
 </template>

@@ -10,7 +10,7 @@ function SafetyConcept(props) {
   return (
     <View style={{ marginBottom: '6pt' }}>
       <InstanceName contentNode={safetyConcept} $tc={props.$tc} />
-      <RichText richText={safetyConcept.data.text} />
+      <RichText richText={safetyConcept.data.html} />
     </View>
   )
 }

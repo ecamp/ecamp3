@@ -11,6 +11,7 @@ use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Util\ClassInfoTrait;
 use App\Doctrine\Filter\ContentNodePeriodFilter;
 use App\Entity\ContentNode\ColumnLayout;
+use App\InputFilter;
 use App\Repository\ContentNodeRepository;
 use App\Util\EntityMap;
 use App\Util\JsonMergePatch;
@@ -102,6 +103,9 @@ abstract class ContentNode extends BaseEntity implements BelongsToContentNodeTre
      * The name of the slot in the parent in which this content node resides. The valid slot names
      * are defined by the content type of the parent.
      */
+    #[InputFilter\Trim]
+    #[InputFilter\CleanText]
+    #[Assert\Length(max: 32)]
     #[ApiProperty(example: 'footer')]
     #[Gedmo\SortableGroup]
     #[Groups(['read', 'write'])]
@@ -122,6 +126,9 @@ abstract class ContentNode extends BaseEntity implements BelongsToContentNodeTre
      * An optional name for this content node. This is useful when planning e.g. an alternative
      * version of the programme suited for bad weather, in addition to the normal version.
      */
+    #[InputFilter\Trim]
+    #[InputFilter\CleanText]
+    #[Assert\Length(max: 32)]
     #[ApiProperty(example: 'Schlechtwetterprogramm')]
     #[Groups(['read', 'write'])]
     #[ORM\Column(type: 'text', nullable: true)]

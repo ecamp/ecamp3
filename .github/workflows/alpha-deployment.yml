@@ -28,7 +28,7 @@ jobs:
         run: |
           ALPHA=$(git rev-parse alpha)
           echo "Git SHA: $ALPHA"
-          echo ::set-output name=sha::$ALPHA
+          echo "sha=$ALPHA" | tr -d "\n" >> $GITHUB_OUTPUT
 
       - name: Create a pending GitHub deployment
         uses: bobheadxi/deployments@v1.3.0
@@ -129,6 +129,8 @@ jobs:
             --set php.oauth.cevidb.clientId='${{ secrets.OAUTH_CEVIDB_CLIENT_ID }}' \
             --set php.oauth.cevidb.clientSecret='${{ secrets.OAUTH_CEVIDB_CLIENT_SECRET }}' \
             --set php.oauth.cevidb.baseUrl='${{ secrets.OAUTH_CEVIDB_BASE_URL }}' \
+            --set browserless.maxConcurrentSessions=3 \
+            --set browserless.maxQueueLength=9 \
             --set frontend.sentryDsn='${{ secrets.FRONTEND_SENTRY_DSN }}' \
             --set print.sentryDsn='${{ secrets.PRINT_SENTRY_DSN }}' \
             --set deploymentTime="$(date -u +%s)" \

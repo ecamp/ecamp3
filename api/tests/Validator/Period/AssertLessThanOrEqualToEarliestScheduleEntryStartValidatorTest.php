@@ -6,7 +6,6 @@ use App\Entity\Period;
 use App\Entity\ScheduleEntry;
 use App\Validator\Period\AssertLessThanOrEqualToEarliestScheduleEntryStart;
 use App\Validator\Period\AssertLessThanOrEqualToEarliestScheduleEntryStartValidator;
-use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\UnitOfWork;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -38,7 +37,7 @@ class AssertLessThanOrEqualToEarliestScheduleEntryStartValidatorTest extends Con
 
         $this->setObject($period);
 
-        $this->validator->validate(new DateTime(), new AssertLessThanOrEqualToEarliestScheduleEntryStart());
+        $this->validator->validate(new \DateTime(), new AssertLessThanOrEqualToEarliestScheduleEntryStart());
         $this->assertNoViolation();
     }
 
@@ -55,7 +54,7 @@ class AssertLessThanOrEqualToEarliestScheduleEntryStartValidatorTest extends Con
         $this->setObject($period);
 
         // when
-        $this->validator->validate(new DateTime('2023-08-02'), new AssertLessThanOrEqualToEarliestScheduleEntryStart());
+        $this->validator->validate(new \DateTime('2023-08-02'), new AssertLessThanOrEqualToEarliestScheduleEntryStart());
         // then
         $this->assertNoViolation();
     }
@@ -74,12 +73,12 @@ class AssertLessThanOrEqualToEarliestScheduleEntryStartValidatorTest extends Con
         $this->setObject($period);
 
         // when
-        $this->validator->validate(new DateTime('2023-07-31'), new AssertLessThanOrEqualToEarliestScheduleEntryStart());
+        $this->validator->validate(new \DateTime('2023-07-31'), new AssertLessThanOrEqualToEarliestScheduleEntryStart());
         // then
         $this->assertNoViolation();
 
         // when
-        $this->validator->validate(new DateTime('2023-08-02'), new AssertLessThanOrEqualToEarliestScheduleEntryStart());
+        $this->validator->validate(new \DateTime('2023-08-02'), new AssertLessThanOrEqualToEarliestScheduleEntryStart());
         // then
         $this->expectNoValidate();
     }
@@ -88,7 +87,7 @@ class AssertLessThanOrEqualToEarliestScheduleEntryStartValidatorTest extends Con
         /** @var MockObject|UnitOfWork $uow */
         $uow = $this->createMock(UnitOfWork::class);
         $uow->method('getOriginalEntityData')->willReturn([
-            'start' => new DateTime('2023-08-01'),
+            'start' => new \DateTime('2023-08-01'),
         ]);
 
         /** @var EntityManagerInterface|MockObject $em */

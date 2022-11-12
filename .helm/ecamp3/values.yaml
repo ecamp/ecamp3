@@ -7,8 +7,11 @@ imagePullSecrets: []
 deploymentTime: ""
 deployedVersion: "devel"
 versionLinkTemplate: 'https://github.com/ecamp/ecamp3/commit/{version}'
-
 sharedCookieDomain:
+
+# enable/disable feature across the complete deployment
+featureToggle:
+  developer: false # enables various tools/features foreseen for development deployments (language switcher, form controls view, performance measurement view, etc.)
 
 api:
   domain:
@@ -91,10 +94,25 @@ browserless:
   image:
     repository: "docker.io/browserless/chrome"
     pullPolicy: IfNotPresent
-    tag: "1.53-puppeteer-13.6.0"
+    tag: "1.56.0-puppeteer-18.0.5"
   service:
     type: ClusterIP
     port: 3000
+  maxConcurrentSessions: 1
+  connectionTimeout: 30000
+  maxQueueLength: 5
+  resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
 
 mail:
   dummyEnabled: true

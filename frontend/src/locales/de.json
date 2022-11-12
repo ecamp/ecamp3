@@ -3,35 +3,35 @@
     "activity": {
       "content": {
         "columnLayout": {
-          "resizableColumn": {
+          "columnOperations": {
             "addColumn": "Spalte hinzufügen",
             "removeColumn": "Leere Spalte entfernen"
           }
         },
-        "storyboard": {
-          "section": {
-            "deleteWarning": "Möchtest du diesen Abschnitt wirklich löschen?"
-          }
+        "storyboardDialogRemoveSection": {
+          "deleteWarning": "Möchtest du diesen Abschnitt wirklich löschen?",
+          "title": "Wirklich löschen?"
         }
-      },
-      "contentNode": {
-        "editName": "Namen umbenennen",
-        "moveDown": "Nach unten bewegen",
-        "moveUp": "Nach oben bewegen"
-      },
-      "createScheduleEntries": {
-        "fields": {
-          "duration": "Länge",
-          "end": "Ende",
-          "start": "Start"
-        },
-        "name": "Geplante Termine"
       },
       "menuCardlessContentNode": {
         "deletingDisabled": "Muss leer sein zum Löschen"
+      },
+      "scheduleEntry": {
+        "backToContents": "Zurück zum Bearbeiten des Inhalts",
+        "changeLayout": "Layout ändern",
+        "deleteWarning": "Möchtest du diese Aktivität wirklich löschen? Der komplette Inhalt dieser Aktivität wird gelöscht.",
+        "layout": "Layout"
       }
     },
     "camp": {
+      "campInvitations": {
+        "title": "Einladen"
+      },
+      "campMembers": {
+        "title": "Mitglieder"
+      }
+    },
+    "campAdmin": {
       "campAddress": {
         "title": "Lageradresse"
       },
@@ -42,7 +42,7 @@
         "editLayout": "Layout bearbeiten",
         "title": "Block-Kategorien"
       },
-      "campDangerzone": {
+      "campDangerZone": {
         "deleteCamp": {
           "description": "Nachdem ein Lager gelöscht ist, gibt es kein zurück mehr. Bitte fahre nur fort, wenn du sicher bist.",
           "explanation": "Diese Aktion kann nicht rückgängig gemacht werden. Dadurch wird das Lager \"{campName}\" inklusive allen Aktivitäten, Materiallisten und Verantwortungszuweisungen dauerhaft gelöscht.",
@@ -51,9 +51,6 @@
         },
         "title": "Gefahrenzone"
       },
-      "campInvitations": {
-        "title": "Einladen"
-      },
       "campMaterialLists": {
         "createMaterialList": "Materialliste erstellen",
         "title": "Materiallisten"
@@ -61,9 +58,6 @@
       "campMaterialListsItem": {
         "deleteError": "Materialliste konnte nicht gelöscht werden. Überprüfe vor dem Löschen, dass die Liste leer ist.",
         "deleteWarning": "Möchtest du diese Materialliste wirklich löschen?"
-      },
-      "campMembers": {
-        "title": "Mitglieder"
       },
       "campPeriods": {
         "createPeriod": "Lagerabschnitt erstellen",
@@ -74,54 +68,13 @@
         "lastPeriodNotDeletable": "Die letzte Periode kann nicht gelöscht werden."
       },
       "campSettings": {
-        "fields": {
-          "motto": "Motto",
-          "name": "Name",
-          "title": "Titel"
-        },
         "title": "Einstellungen"
       },
-      "collaboratorListItem": {
-        "cannotAssignAnotherRoleToLastManager": "Du kannst dem letzten Manager keine andere Rolle zuteilen.",
-        "cannotRemoveLastManager": "Du kannst den letzten Manager nicht entfernen",
-        "deactivate": "Deaktivieren",
-        "resendEmail": "E-Mail erneut senden"
+      "createCampPeriods": {
+        "add": "Weiteren Lagerabschnitt hinzufügen"
       },
-      "collaboratorListItemDeactivate": {
-        "deactivate": "Deaktivieren",
-        "title": "Mitarbeiter:in deaktivieren",
-        "warningText": "Möchtest du '{name}' wirklich deaktivieren?"
-      },
-      "inactiveCampCollaboratorListItem": {
-        "delete": "Möchtest du diese:n Mitarbeiter:in wirklich entfernen?",
-        "inviteAgain": "Erneut einladen"
-      },
-      "materialCreateItem": {
-        "campSettingsButton": "Einstellungen",
-        "noMaterialListAvailable": "Für dieses Lager sind noch keine Materiallisten erfasst. Du kannst diese unter 'Admin' erfassen."
-      },
-      "periodMaterialLists": {
-        "addNewItem": "Eintrag hinzufügen"
-      },
-      "periodSwitcher": {
-        "title": "Lagerabschnitt wählen"
-      },
-      "picasso": {
-        "datetime": {
-          "date": "dd. D.MM | D. MMM | DD. MMM YYYY"
-        }
-      }
-    },
-    "dialog": {
       "dialogCategoryCreate": {
         "title": "Block-Kategorie erstellen"
-      },
-      "dialogEntityDelete": {
-        "title": "Wirklich löschen?",
-        "warningText": "Möchtest du das wirklich löschen?"
-      },
-      "dialogMaterialItemCreate": {
-        "title": "Materialeintrag erstellen"
       },
       "dialogMaterialListCreate": {
         "title": "Materialliste erstellen"
@@ -133,28 +86,54 @@
         "moveScheduleEntries": "Aktivitäten verschieben"
       }
     },
+    "collaborator": {
+      "collaboratorListItem": {
+        "cannotAssignAnotherRoleToLastManager": "Du kannst dem letzten Manager keine andere Rolle zuteilen.",
+        "cannotRemoveLastManager": "Du kannst den letzten Manager nicht entfernen",
+        "deactivate": "Deaktivieren",
+        "resendEmail": "E-Mail erneut senden"
+      },
+      "collaboratorListItemDeactivate": {
+        "deactivate": "Deaktivieren",
+        "title": "Mitarbeiter:in deaktivieren",
+        "warningText": "Möchtest du '{name}' wirklich deaktivieren?"
+      },
+      "inactiveCollaboratorListItem": {
+        "delete": "Möchtest du diese:n Mitarbeiter:in wirklich entfernen?",
+        "inviteAgain": "Erneut einladen"
+      }
+    },
+    "dashboard": {
+      "selectFilter": {
+        "clear": "Zurücksetzen"
+      }
+    },
+    "dialog": {
+      "dialogEntityDelete": {
+        "title": "Wirklich löschen?",
+        "warningText": "Möchtest du das wirklich löschen?"
+      }
+    },
     "generic": {
       "lockIcon": {
         "guestsCannotEdit": "Gäste haben keinen Bearbeitungszugriff"
       }
     },
-    "invitation": {
-      "acceptCurrentAuth": "Einladung mit aktuellem Account akzeptieren",
-      "backToHome": "Zurück zur Startseite",
-      "error": "Ein unerwarteter Fehler ist aufgetreten",
-      "notFound": "Die Einladung wurde bereits angenommen oder gelöscht",
-      "openCamp": "Lager öffnen",
-      "register": "Registrieren",
-      "reject": "Einladung ablehnen",
-      "successfullyRejected": "Die Einladung wurde erfolgreich abgelehnt",
-      "title": "Einladung zum Lager \"{campName}\"",
-      "useOtherAuth": "Ausloggen und einen anderen Account benutzen",
-      "userAlreadyInCamp": "Du arbeitest schon an diesem Lager mit",
-      "userWelcome": "Willkommen"
-    },
     "layout": {
       "authContainer": {
         "photoCredits": "Foto von Markus Rohner / Lotos"
+      }
+    },
+    "material": {
+      "dialogMaterialItemCreate": {
+        "title": "Materialeintrag erstellen"
+      },
+      "materialCreateItem": {
+        "campSettingsButton": "Einstellungen",
+        "noMaterialListAvailable": "Für dieses Lager sind noch keine Materiallisten erfasst. Du kannst diese unter 'Admin' erfassen."
+      },
+      "materialTable": {
+        "addNewItem": "Eintrag hinzufügen"
       }
     },
     "navigation": {
@@ -165,6 +144,11 @@
       }
     },
     "print": {
+      "config": {
+        "programConfig": {
+          "dayOverview": "Tagesübersicht drucken"
+        }
+      },
       "documents": {
         "campPrint": {
           "filename": {
@@ -182,32 +166,67 @@
           "Cover": "Titelseite",
           "Picasso": "Grobprogramm",
           "Program": "Programm",
-          "ProgramConfig": {
-            "dayOverview": "Tagesübersicht drucken"
-          },
           "Story": "Roter Faden",
           "Toc": "Inhaltsverzeichnis"
         }
       },
       "printNuxt": {
-        "downloadNuxtPdfListItem": {
-          "error": "Etwas hat nicht geklappt. Probiere es nochmals, oder lade die Seite neu.",
+        "downloadNuxtPdfButton": {
           "label": "PDF herunterladen (Layout #1)"
+        },
+        "downloadNuxtPdfListItem": {
+          "label": "PDF herunterladen (Layout #1)"
+        },
+        "generatePdfMixin": {
+          "error": "Etwas hat nicht geklappt. Probiere es nochmals, oder lade die Seite neu.",
+          "queueFull": "Alle unsere PDF-Drucker sind im Moment beschäftigt. Bitte versuche es später nochmals."
+        },
+        "printPreviewNuxt": {
+          "openPreview": "Vorschau in neuem Fenster öffnen",
+          "previewError": "Etwas hat nicht geklappt. Probiere es nochmals mit anderen Druckeinstellungen, oder lade die Seite neu.",
+          "previewIframeTitle": "Druckvorschau"
         }
       },
-      "printPreviewNuxt": {
-        "openPreview": "Vorschau in neuem Fenster öffnen"
-      },
       "printReact": {
-        "downloadReactPdfListItem": {
-          "error": "Etwas hat nicht geklappt. Probiere es nochmals, oder lade die Seite neu.",
+        "downloadReactPdfButton": {
           "label": "PDF herunterladen (Layout #2)"
+        },
+        "downloadReactPdfListItem": {
+          "label": "PDF herunterladen (Layout #2)"
+        },
+        "generatePdfMixin": {
+          "error": "Etwas hat nicht geklappt. Probiere es nochmals, oder lade die Seite neu."
+        },
+        "printPreviewReact": {
+          "previewError": "Etwas hat nicht geklappt. Probiere es nochmals mit anderen Druckeinstellungen, oder lade die Seite neu.",
+          "previewIframeTitle": "Druckvorschau"
+        }
+      }
+    },
+    "program": {
+      "formScheduleEntryItem": {
+        "end": "Ende",
+        "start": "Start"
+      },
+      "formScheduleEntryList": {
+        "name": "Geplante Termine"
+      },
+      "periodSwitcher": {
+        "title": "Lagerabschnitt wählen"
+      },
+      "picasso": {
+        "picasso": {
+          "datetime": {
+            "date": "dd. D.MM | D. MMM | DD. MMM YYYY"
+          }
         }
       }
     },
     "toast": {
-      "multiLineToast": {
-        "generalError": "Ein Fehler ist aufgetreten."
+      "toasts": {
+        "multiLineToast": {
+          "generalError": "Ein Fehler ist aufgetreten."
+        }
       }
     },
     "user": {
@@ -278,12 +297,11 @@
   },
   "views": {
     "activity": {
-      "activity": {
+      "category": {
         "backToContents": "Zurück zum Bearbeiten des Inhalts",
         "changeLayout": "Layout ändern",
         "layout": "Layout"
       },
-      "deleteWarning": "Möchtest du diese Aktivität wirklich löschen? Der komplette Inhalt dieser Aktivität wird gelöscht.",
       "printPreview": "Druckvorschau öffnen",
       "sideBarProgram": {
         "title": "Tagesübersicht"
@@ -358,10 +376,40 @@
         "title": "Team"
       },
       "dashboard": {
-        "noActivitiesLine1": "Du bist noch für keinen Block zuständig.",
-        "noActivitiesLine2": "Den ganzen Picasso kannst du dir hier ansehen.",
-        "program": "Programm",
-        "viewDescription": "Du arbeitest an \"{title}\" mit. Hier siehst du alle Blöcke, für welche du zuständig bist."
+        "activities": "Aktivitäten",
+        "category": "Kategorie",
+        "clearFilters": "Filter entfernen",
+        "columns": {
+          "category": "Kategorie",
+          "number": "Nummer",
+          "responsible": "Verantwortlich",
+          "time": "Zeit",
+          "title": "Titel"
+        },
+        "noEntries": "Keine Aktivitäten gefunden. Versuche die Filter zu entfernen oder lade die Seite neu.",
+        "onlyMyActivities": "Nur meine Aktivitäten",
+        "period": "Lagerabschnitt",
+        "responsible": "Verantwortlich",
+        "welcome": "Willkommen in deinem neuen Lager. Es sind noch keine Aktivitäten erfasst. "
+      },
+      "invitation": {
+        "acceptCurrentAuth": "Einladung mit aktuellem Account akzeptieren",
+        "backToHome": "Zurück zur Startseite",
+        "notFound": "Die Einladung wurde bereits angenommen oder gelöscht",
+        "openCamp": "Lager öffnen",
+        "register": "Registrieren",
+        "reject": "Einladung ablehnen",
+        "title": "Einladung zum Lager \"{campName}\"",
+        "useOtherAuth": "Ausloggen und einen anderen Account benutzen",
+        "userAlreadyInCamp": "Du arbeitest schon an diesem Lager mit"
+      },
+      "invitationRejected": {
+        "backToHome": "Zurück zur Startseite",
+        "successfullyRejected": "Die Einladung wurde erfolgreich abgelehnt"
+      },
+      "invitationUpdateError": {
+        "backToHome": "Zurück zur Startseite",
+        "error": "Ein unerwarteter Fehler ist aufgetreten"
       },
       "material": {
         "downloadXlsx": "Download",
@@ -406,14 +454,11 @@
           }
         }
       },
-      "picasso": {
-        "editMode": "Editiermodus",
+      "campProgram": {
         "guestsCannotEdit": "Gäste können das Grobprogramm nicht bearbeiten",
         "title": "Grobprogramm"
       },
       "print": {
-        "previewError": "Etwas hat nicht geklappt. Probiere es nochmals mit anderen Druckeinstellungen, oder lade die Seite neu.",
-        "previewIframeTitle": "Druckvorschau",
         "title": "Lager drucken"
       },
       "story": {

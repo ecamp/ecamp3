@@ -11,7 +11,7 @@ class VeeValidatePlugin {
     configure({
       // this will be used to generate messages.
       defaultMessage: (field, values) => {
-        return i18n.t(`global.validation.${values._rule_}`, values)
+        return i18n.tc(`global.validation.${values._rule_}`, 0, values)
       },
     })
 
@@ -40,7 +40,7 @@ class VeeValidatePlugin {
         return valueDate.diff(minDate, 'day') >= 0
       },
       message: (field, values) =>
-        i18n.t('global.validation.greaterThanOrEqual_date', values),
+        i18n.tc('global.validation.greaterThanOrEqual_date', 0, values),
     })
 
     extend('greaterThan_time', {
@@ -56,7 +56,8 @@ class VeeValidatePlugin {
         const valueDate = new Date('1970-01-01 ' + value)
         return valueDate > minDate
       },
-      message: (field, values) => i18n.t('global.validation.greaterThan_time', values),
+      message: (field, values) =>
+        i18n.tc('global.validation.greaterThan_time', 0, values),
     })
   }
 }

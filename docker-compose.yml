@@ -2,7 +2,7 @@ version: "3.4"
 
 services:
   frontend:
-    image: node:18.11.0@sha256:32b920f09c28e3b27c9c5620d843aab0d2bb2f46e7d0505686626ba20cb5da0e
+    image: node:18.12.1@sha256:d09511bdb23ef545d385562689913f2b6ca82fdced95864e6cde709d91e42d26
     container_name: 'ecamp3-frontend'
     ports:
       - '3000:3000'
@@ -102,7 +102,7 @@ services:
       - ./api/public:/srv/api/public:ro
 
   print:
-    image: node:18.11.0@sha256:32b920f09c28e3b27c9c5620d843aab0d2bb2f46e7d0505686626ba20cb5da0e
+    image: node:18.12.1@sha256:d09511bdb23ef545d385562689913f2b6ca82fdced95864e6cde709d91e42d26
     container_name: 'ecamp3-print'
     ports:
       - '3003:3003'
@@ -154,10 +154,19 @@ services:
     restart: on-failure
 
   browserless:
-    image: browserless/chrome:1.50.0-puppeteer-12.0.1@sha256:ca9c1a56ff88ba91c3aac908713cfe92f4e308c941a64e408d00d26bf1de036a
+    image: browserless/chrome:1.56.0-puppeteer-18.0.5@sha256:83a0f24eb4341c30e0f5106a98f1d1e5a3981805fce2829403cda9ef2e0b965e
     container_name: 'ecamp3-browserless'
     ports:
       - '3010:3000'
+    environment:
+      - MAX_CONCURRENT_SESSIONS=1
+      - CONNECTION_TIMEOUT=40000
+      - MAX_QUEUE_LENGTH=10
+      - PREBOOT_CHROME=true
+      - KEEP_ALIVE=true
+      - ENABLE_DEBUGGER=false
+      - DISABLED_FEATURES=["downloadEndpoint","functionEndpoint","pdfEndpoint","screencastEndpoint","scrapeEndpoint","statsEndpoint","workspaces"]
+      - FUNCTION_ENABLE_INCOGNITO_MODE=true 
 
 volumes:
   db-data-postgres: null

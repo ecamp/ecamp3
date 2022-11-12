@@ -4,7 +4,6 @@ namespace App\Tests\Api\ScheduleEntries;
 
 use App\Entity\ScheduleEntry;
 use App\Tests\Api\ECampApiTestCase;
-use DateTime;
 
 /**
  * @internal
@@ -172,7 +171,7 @@ class ListScheduleEntriesTest extends ECampApiTestCase {
     public function testListScheduleEntriesFilteredByStartBeforeIsAllowedForCollaborator() {
         /** @var ScheduleEntry $scheduleEntry */
         $scheduleEntry = static::$fixtures['scheduleEntry2period1campPrototype'];
-        $response = static::createClientWithCredentials()->request('GET', '/schedule_entries?start[before]='.urlencode($scheduleEntry->getStart()->format(DateTime::W3C)));
+        $response = static::createClientWithCredentials()->request('GET', '/schedule_entries?start[before]='.urlencode($scheduleEntry->getStart()->format(\DateTime::W3C)));
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
             'totalItems' => 2,
@@ -192,7 +191,7 @@ class ListScheduleEntriesTest extends ECampApiTestCase {
     public function testListScheduleEntriesFilteredByStartStrictlyBeforeIsAllowedForCollaborator() {
         /** @var ScheduleEntry $scheduleEntry */
         $scheduleEntry = static::$fixtures['scheduleEntry2period1campPrototype'];
-        $response = static::createClientWithCredentials()->request('GET', '/schedule_entries?start[strictly_before]='.urlencode($scheduleEntry->getStart()->format(DateTime::W3C)));
+        $response = static::createClientWithCredentials()->request('GET', '/schedule_entries?start[strictly_before]='.urlencode($scheduleEntry->getStart()->format(\DateTime::W3C)));
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
             'totalItems' => 1,
@@ -211,7 +210,7 @@ class ListScheduleEntriesTest extends ECampApiTestCase {
     public function testListScheduleEntriesFilteredByStartAfterIsAllowedForCollaborator() {
         /** @var ScheduleEntry $scheduleEntry */
         $scheduleEntry = static::$fixtures['scheduleEntry1period1camp2'];
-        $response = static::createClientWithCredentials()->request('GET', '/schedule_entries?start[after]='.urlencode($scheduleEntry->getStart()->format(DateTime::W3C)));
+        $response = static::createClientWithCredentials()->request('GET', '/schedule_entries?start[after]='.urlencode($scheduleEntry->getStart()->format(\DateTime::W3C)));
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
             'totalItems' => 4,
@@ -233,7 +232,7 @@ class ListScheduleEntriesTest extends ECampApiTestCase {
     public function testListScheduleEntriesFilteredByStartStrictlyAfterIsAllowedForCollaborator() {
         /** @var ScheduleEntry $scheduleEntry */
         $scheduleEntry = static::$fixtures['scheduleEntry1period1camp2'];
-        $response = static::createClientWithCredentials()->request('GET', '/schedule_entries?start[strictly_after]='.urlencode($scheduleEntry->getStart()->format(DateTime::W3C)));
+        $response = static::createClientWithCredentials()->request('GET', '/schedule_entries?start[strictly_after]='.urlencode($scheduleEntry->getStart()->format(\DateTime::W3C)));
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
             'totalItems' => 3,
@@ -276,7 +275,7 @@ class ListScheduleEntriesTest extends ECampApiTestCase {
     public function testListScheduleEntriesFilteredByEndBeforeIsAllowedForCollaborator() {
         /** @var ScheduleEntry $scheduleEntry */
         $scheduleEntry = static::$fixtures['scheduleEntry2period1campPrototype'];
-        $response = static::createClientWithCredentials()->request('GET', '/schedule_entries?end[before]='.urlencode($scheduleEntry->getEnd()->format(DateTime::W3C)));
+        $response = static::createClientWithCredentials()->request('GET', '/schedule_entries?end[before]='.urlencode($scheduleEntry->getEnd()->format(\DateTime::W3C)));
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
             'totalItems' => 2,
@@ -296,7 +295,7 @@ class ListScheduleEntriesTest extends ECampApiTestCase {
     public function testListScheduleEntriesFilteredByEndStrictlyBeforeIsAllowedForCollaborator() {
         /** @var ScheduleEntry $scheduleEntry */
         $scheduleEntry = static::$fixtures['scheduleEntry2period1campPrototype'];
-        $response = static::createClientWithCredentials()->request('GET', '/schedule_entries?end[strictly_before]='.urlencode($scheduleEntry->getEnd()->format(DateTime::W3C)));
+        $response = static::createClientWithCredentials()->request('GET', '/schedule_entries?end[strictly_before]='.urlencode($scheduleEntry->getEnd()->format(\DateTime::W3C)));
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
             'totalItems' => 1,
@@ -315,7 +314,7 @@ class ListScheduleEntriesTest extends ECampApiTestCase {
     public function testListScheduleEntriesFilteredByEndAfterIsAllowedForCollaborator() {
         /** @var ScheduleEntry $scheduleEntry */
         $scheduleEntry = static::$fixtures['scheduleEntry1period1camp2'];
-        $response = static::createClientWithCredentials()->request('GET', '/schedule_entries?end[after]='.urlencode($scheduleEntry->getEnd()->format(DateTime::W3C)));
+        $response = static::createClientWithCredentials()->request('GET', '/schedule_entries?end[after]='.urlencode($scheduleEntry->getEnd()->format(\DateTime::W3C)));
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
             'totalItems' => 4,
@@ -337,7 +336,7 @@ class ListScheduleEntriesTest extends ECampApiTestCase {
     public function testListScheduleEntriesFilteredByEndStrictlyAfterIsAllowedForCollaborator() {
         /** @var ScheduleEntry $scheduleEntry */
         $scheduleEntry = static::$fixtures['scheduleEntry1period1camp2'];
-        $response = static::createClientWithCredentials()->request('GET', '/schedule_entries?end[strictly_after]='.urlencode($scheduleEntry->getEnd()->format(DateTime::W3C)));
+        $response = static::createClientWithCredentials()->request('GET', '/schedule_entries?end[strictly_after]='.urlencode($scheduleEntry->getEnd()->format(\DateTime::W3C)));
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
             'totalItems' => 3,

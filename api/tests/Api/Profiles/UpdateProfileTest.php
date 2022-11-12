@@ -101,14 +101,26 @@ class UpdateProfileTest extends ECampApiTestCase {
         ]);
     }
 
-    public function testPatchProfileCleansHTMLFromFirstname() {
+    public function testPatchProfileCleansForbiddenCharactersFromFirstname() {
         $profile = static::$fixtures['profile1manager'];
         static::createClientWithCredentials()->request('PATCH', '/profiles/'.$profile->getId(), ['json' => [
-            'firstname' => '<script>alert(1)</script>Hello',
+            'firstname' => "\n\tHello",
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
             'firstname' => 'Hello',
+        ]);
+    }
+
+    public function testPatchProfileValidatesFirstnameMaxLength() {
+        /** @var Profile $profile */
+        $profile = static::$fixtures['profile1manager'];
+        static::createClientWithCredentials()->request('PATCH', '/profiles/'.$profile->getId(), ['json' => [
+            'firstname' => str_repeat('a', 65),
+        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'detail' => 'firstname: This value is too long. It should have 64 characters or less.',
         ]);
     }
 
@@ -123,14 +135,26 @@ class UpdateProfileTest extends ECampApiTestCase {
         ]);
     }
 
-    public function testPatchProfileCleansHTMLFromSurname() {
+    public function testPatchProfileCleansForbiddenCharactersFromSurname() {
         $profile = static::$fixtures['profile1manager'];
         static::createClientWithCredentials()->request('PATCH', '/profiles/'.$profile->getId(), ['json' => [
-            'surname' => '<script>alert(1)</script>Hello',
+            'surname' => "\n\tHello",
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
             'surname' => 'Hello',
+        ]);
+    }
+
+    public function testPatchProfileValidatesSurnameMaxLength() {
+        /** @var Profile $profile */
+        $profile = static::$fixtures['profile1manager'];
+        static::createClientWithCredentials()->request('PATCH', '/profiles/'.$profile->getId(), ['json' => [
+            'surname' => str_repeat('a', 65),
+        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'detail' => 'surname: This value is too long. It should have 64 characters or less.',
         ]);
     }
 
@@ -145,14 +169,26 @@ class UpdateProfileTest extends ECampApiTestCase {
         ]);
     }
 
-    public function testPatchProfileCleansHTMLFromNickname() {
+    public function testPatchProfileCleansForbiddenCharactersFromNickname() {
         $profile = static::$fixtures['profile1manager'];
         static::createClientWithCredentials()->request('PATCH', '/profiles/'.$profile->getId(), ['json' => [
-            'nickname' => '<script>alert(1)</script>Hello',
+            'nickname' => "\n\tHello",
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
             'nickname' => 'Hello',
+        ]);
+    }
+
+    public function testPatchProfileValidatesNicknameMaxLength() {
+        /** @var Profile $profile */
+        $profile = static::$fixtures['profile1manager'];
+        static::createClientWithCredentials()->request('PATCH', '/profiles/'.$profile->getId(), ['json' => [
+            'nickname' => str_repeat('a', 33),
+        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'detail' => 'nickname: This value is too long. It should have 32 characters or less.',
         ]);
     }
 
@@ -202,5 +238,37 @@ class UpdateProfileTest extends ECampApiTestCase {
             'title' => 'An error occurred',
             'detail' => 'Extra attributes are not allowed ("user" is unknown).',
         ]);
+    }
+
+    /**
+     * @dataProvider notWriteableProfileProperties
+     */
+    public function testNotWriteableProperties(string $property) {
+        $user = static::$fixtures['profile1manager'];
+        static::createClientWithCredentials()->request(
+            'PATCH',
+            '/profiles/'.$user->getId(),
+            [
+                'json' => [
+                    $property => 'something',
+                ],
+                'headers' => ['Content-Type' => 'application/merge-patch+json'],
+            ]
+        );
+        $this->assertResponseStatusCodeSame(400);
+        $this->assertJsonContains([
+            'title' => 'An error occurred',
+            'detail' => "Extra attributes are not allowed (\"{$property}\" is unknown).",
+        ]);
+    }
+
+    public static function notWriteableProfileProperties(): array {
+        return [
+            'untrustedEmailKeyHash' => ['untrustedEmailKeyHash'],
+            'googleId' => ['googleId'],
+            'pbsmidataId' => ['pbsmidataId'],
+            'roles' => ['roles'],
+            'user' => ['user'],
+        ];
     }
 }

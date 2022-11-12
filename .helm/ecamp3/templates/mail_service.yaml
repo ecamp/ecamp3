@@ -1,4 +1,4 @@
-{{- if .Values.mail.dummyEnabled }}
+{{- if and .Values.mail.dummyEnabled .Values.mail.domain (not .Values.mail.dsn) }}
 apiVersion: v1
 kind: Service
 metadata:

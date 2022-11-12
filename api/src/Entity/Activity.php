@@ -116,7 +116,7 @@ class Activity extends BaseEntity implements BelongsToCampInterface {
      * The title of this activity that is shown in the picasso.
      */
     #[InputFilter\Trim]
-    #[InputFilter\CleanHTML]
+    #[InputFilter\CleanText]
     #[Assert\NotBlank]
     #[Assert\Length(max: 32)]
     #[ApiProperty(example: 'Sportolympiade')]
@@ -128,7 +128,7 @@ class Activity extends BaseEntity implements BelongsToCampInterface {
      * The physical location where this activity's programme will be carried out.
      */
     #[InputFilter\Trim]
-    #[InputFilter\CleanHTML]
+    #[InputFilter\CleanText]
     #[Assert\Length(max: 64)]
     #[ApiProperty(example: 'Spielwiese')]
     #[Groups(['read', 'write'])]

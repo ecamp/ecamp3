@@ -16,8 +16,6 @@ use App\Repository\PeriodRepository;
 use App\Serializer\Normalizer\RelatedCollectionLink;
 use App\Validator\Period\AssertGreaterThanOrEqualToLastScheduleEntryEnd;
 use App\Validator\Period\AssertLessThanOrEqualToEarliestScheduleEntryStart;
-use DateTime;
-use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -106,7 +104,7 @@ class Period extends BaseEntity implements BelongsToCampInterface {
      *
      * TODO: Make non-nullable in the DB
      */
-    #[InputFilter\CleanHTML]
+    #[InputFilter\CleanText]
     #[InputFilter\Trim]
     #[Assert\NotBlank]
     #[Assert\Length(max: 32)]
@@ -133,7 +131,7 @@ class Period extends BaseEntity implements BelongsToCampInterface {
     )]
     #[Groups(['read', 'write'])]
     #[ORM\Column(type: 'date')]
-    public ?DateTimeInterface $start = null;
+    public ?\DateTimeInterface $start = null;
 
     /**
      * The (inclusive) day at the end of which the period ends, as an ISO date string. Should
@@ -149,7 +147,7 @@ class Period extends BaseEntity implements BelongsToCampInterface {
     )]
     #[Groups(['read', 'write'])]
     #[ORM\Column(name: '`end`', type: 'date')]
-    public ?DateTimeInterface $end = null;
+    public ?\DateTimeInterface $end = null;
 
     /**
      * If the start date of the period is changing, moveScheduleEntries defines what happens with the schedule
@@ -328,12 +326,12 @@ class Period extends BaseEntity implements BelongsToCampInterface {
     /**
      * returns the end time of the last day of the period.
      */
-    public function getEndOfLastDay(): ?DateTime {
+    public function getEndOfLastDay(): ?\DateTime {
         if (null === $this->end) {
             return null;
         }
 
-        $endTime = DateTime::createFromInterface($this->end);
+        $endTime = \DateTime::createFromInterface($this->end);
         $endTime->modify('+1 day');
 
         return $endTime;

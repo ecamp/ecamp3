@@ -12,6 +12,7 @@ use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Twig\Environment;
 
 class MailService {
     public const TRANSLATE_DOMAIN = 'email';
@@ -20,6 +21,7 @@ class MailService {
         private MailerInterface $mailer,
         private readonly TranslatorInterface $translator,
         private Security $security,
+        private Environment $twigEnironment,
         private string $frontendBaseUrl,
         private string $senderEmail,
         private string $senderName = ''
@@ -28,7 +30,7 @@ class MailService {
 
     public function sendInviteToCampMail(CampCollaboration $campCollaboration): void {
         if (CampCollaboration::STATUS_INVITED == $campCollaboration->status && $campCollaboration->getEmail()) {
-            /** @var User $user */
+            /** @var User $byUser */
             $byUser = $this->security->getUser();
 
             $camp = $campCollaboration->getCamp();
@@ -45,6 +47,7 @@ class MailService {
                     'by_user' => $byUser->getDisplayName(),
                     'url' => "{$this->frontendBaseUrl}/camps/invitation/{$key}",
                     'camp_name' => $camp->name,
+                    'camp_title' => $camp->title,
                 ])
             ;
 
@@ -135,8 +138,7 @@ class MailService {
         while (true) {
             $template = str_replace('{language}', $language, $templateName);
 
-            // TODO: Remove path
-            if (file_exists(__DIR__.'/../../templates/'.$template)) {
+            if ($this->twigEnironment->getLoader()->exists($template)) {
                 return $template;
             }
 

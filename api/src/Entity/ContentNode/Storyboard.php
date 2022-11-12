@@ -65,12 +65,12 @@ class Storyboard extends ContentNode {
             'section' => [
                 'type' => 'object',
                 'additionalProperties' => false,
-                'required' => ['column1', 'column2', 'column3', 'position'],
+                'required' => ['column1', 'column2Html', 'column3', 'position'],
                 'properties' => [
                     'column1' => [
                         'type' => 'string',
                     ],
-                    'column2' => [
+                    'column2Html' => [
                         'type' => 'string',
                     ],
                     'column3' => [
@@ -92,7 +92,7 @@ class Storyboard extends ContentNode {
     #[ApiProperty(example: ['sections' => [
         '186b7ff2-7470-4de4-8783-082c2c189fcd' => [
             'column1' => '',
-            'column2' => '',
+            'column2Html' => '',
             'column3' => '',
             'position' => 0, ], ]])]
     #[Groups(['read', 'write'])]

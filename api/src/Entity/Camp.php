@@ -99,7 +99,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface, CopyFromPrototy
      * All the programme that will be carried out during the camp. An activity may be carried out
      * multiple times in the same camp.
      */
-    #[ApiProperty(writable: false, example: '["/activities/1a2b3c4d"]')]
+    #[ApiProperty(writable: false, example: '/activities?camp=%2Fcamps%2F1a2b3c4d')]
     #[Groups(['read'])]
     #[ORM\OneToMany(targetEntity: Activity::class, mappedBy: 'camp', orphanRemoval: true)]
     public Collection $activities;
@@ -142,7 +142,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface, CopyFromPrototy
      * A short name for the camp.
      */
     #[InputFilter\Trim]
-    #[InputFilter\CleanHTML]
+    #[InputFilter\CleanText]
     #[Assert\NotBlank]
     #[ApiProperty(example: 'SoLa 2022')]
     #[Groups(['read', 'write'])]
@@ -153,7 +153,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface, CopyFromPrototy
      * The full title of the camp.
      */
     #[InputFilter\Trim]
-    #[InputFilter\CleanHTML]
+    #[InputFilter\CleanText]
     #[Assert\NotBlank]
     #[Assert\Length(max: 32)]
     #[ApiProperty(example: 'Abteilungs-Sommerlager 2022')]
@@ -165,7 +165,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface, CopyFromPrototy
      * The thematic topic (if any) of the camp's programme and storyline.
      */
     #[InputFilter\Trim]
-    #[InputFilter\CleanHTML]
+    #[InputFilter\CleanText]
     #[Assert\Length(max: 128)]
     #[ApiProperty(example: 'Piraten')]
     #[Groups(['read', 'write'])]
@@ -176,7 +176,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface, CopyFromPrototy
      * A textual description of the location of the camp.
      */
     #[InputFilter\Trim]
-    #[InputFilter\CleanHTML]
+    #[InputFilter\CleanText]
     #[Assert\Length(max: 128)]
     #[ApiProperty(example: 'Wiese hinter der alten Mühle')]
     #[Groups(['read', 'write'])]
@@ -187,7 +187,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface, CopyFromPrototy
      * The street name and number (if any) of the location of the camp.
      */
     #[InputFilter\Trim]
-    #[InputFilter\CleanHTML]
+    #[InputFilter\CleanText]
     #[Assert\Length(max: 128)]
     #[ApiProperty(example: 'Schönriedweg 23')]
     #[Groups(['read', 'write'])]
@@ -198,7 +198,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface, CopyFromPrototy
      * The zipcode of the location of the camp.
      */
     #[InputFilter\Trim]
-    #[InputFilter\CleanHTML]
+    #[InputFilter\CleanText]
     #[Assert\Length(max: 128)]
     #[ApiProperty(example: '1234')]
     #[Groups(['read', 'write'])]
@@ -209,7 +209,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface, CopyFromPrototy
      * The name of the town where the camp will take place.
      */
     #[InputFilter\Trim]
-    #[InputFilter\CleanHTML]
+    #[InputFilter\CleanText]
     #[Assert\Length(max: 128)]
     #[ApiProperty(example: 'Hintertüpfingen')]
     #[Groups(['read', 'write'])]

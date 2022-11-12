@@ -19,7 +19,7 @@
         </v-btn>
       </template>
       <v-list>
-        <v-subheader>{{ $tc('components.camp.periodSwitcher.title') }}</v-subheader>
+        <v-subheader>{{ $tc('components.program.periodSwitcher.title') }}</v-subheader>
         <v-list-item
           v-for="item in period().camp().periods().items"
           :key="item._meta.self"

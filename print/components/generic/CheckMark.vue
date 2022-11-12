@@ -9,7 +9,7 @@
     xml:space="preserve"
     width="8"
     height="8"
-    :style="{ transform: `scale(${scale})`, marginTop: '2px' }"
+    :style="{ transform: `scale(${scale})`, marginTop: '-0.15em', display: 'inline' }"
   >
     <metadata id="metadata13">
       <rdf:RDF>

@@ -8,7 +8,6 @@ use ApiPlatform\Serializer\AbstractConstraintViolationListNormalizer;
 use App\Serializer\Normalizer\Error\TranslationInfoOfConstraintViolation;
 use App\Service\TranslateToAllLocalesService;
 use Doctrine\Common\Collections\ArrayCollection;
-use RuntimeException;
 use Symfony\Component\Serializer\Normalizer\CacheableSupportsMethodInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Validator\ConstraintViolation;
@@ -30,7 +29,7 @@ class TranslationConstraintViolationListNormalizer implements NormalizerInterfac
     public function normalize(mixed $object, string $format = null, array $context = []): float|int|bool|\ArrayObject|array|string|null {
         $normalizer = $this->getNormalizerCollection()->filter(fn ($elem) => $elem->supportsNormalization($object, $format))->first();
         if (false === $normalizer) {
-            throw new RuntimeException("Did not find a normalizer to normalize response to format {$format}");
+            throw new \RuntimeException("Did not find a normalizer to normalize response to format {$format}");
         }
         $result = $normalizer->normalize($object, $format, $context);
 

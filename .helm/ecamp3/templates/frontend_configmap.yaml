@@ -25,4 +25,6 @@ data:
     {{- else }}
       RECAPTCHA_SITE_KEY: null,
     {{- end }}
+      FEATURE_DEVELOPER: {{ .Values.featureToggle.developer | default false }},
     }
+  deployedVersion: {{ .Values.deployedVersion }}

@@ -5,7 +5,7 @@
     </div>
     <div v-else-if="invitationFound === true">
       <h1 class="display-1">
-        {{ $tc('components.invitation.title', 0, { campName: invitation().campTitle }) }}
+        {{ $tc('views.camp.invitation.title', 0, { campName: invitation().campTitle }) }}
       </h1>
 
       <v-spacer />
@@ -18,19 +18,19 @@
           block
           @click="acceptInvitation"
         >
-          {{ $tc('components.invitation.acceptCurrentAuth') }}<br />
+          {{ $tc('views.camp.invitation.acceptCurrentAuth') }}<br />
         </v-btn>
         <div v-else>
           <v-alert type="warning">
-            {{ $tc('components.invitation.userAlreadyInCamp') }}
+            {{ $tc('views.camp.invitation.userAlreadyInCamp') }}
           </v-alert>
           <v-spacer />
           <v-btn color="primary" x-large class="my-4" block :to="campLink">
-            {{ $tc('components.invitation.openCamp') }}
+            {{ $tc('views.camp.invitation.openCamp') }}
           </v-btn>
         </div>
         <v-btn color="primary" x-large class="my-4" block @click="useAnotherAccount">
-          {{ $tc('components.invitation.useOtherAuth') }}
+          {{ $tc('views.camp.invitation.useOtherAuth') }}
         </v-btn>
       </div>
       <div v-else>
@@ -38,19 +38,19 @@
           {{ $tc('global.button.login') }}
         </v-btn>
         <v-btn color="primary" x-large class="my-4" block :to="{ name: 'register' }">
-          {{ $tc('components.invitation.register') }}
+          {{ $tc('views.camp.invitation.register') }}
         </v-btn>
       </div>
       <v-btn color="red" x-large class="my-4" block @click="rejectInvitation">
-        {{ $tc('components.invitation.reject') }}
+        {{ $tc('views.camp.invitation.reject') }}
       </v-btn>
     </div>
     <v-alert v-else-if="invitationFound === false" type="error">
-      {{ $tc('components.invitation.notFound') }}
+      {{ $tc('views.camp.invitation.notFound') }}
     </v-alert>
     <div class="mb-4 mt-8">
       <router-link color="primary" x-large block :to="{ name: 'home' }">
-        {{ $tc('components.invitation.backToHome') }}
+        {{ $tc('views.camp.invitation.backToHome') }}
       </router-link>
     </div>
   </auth-container>

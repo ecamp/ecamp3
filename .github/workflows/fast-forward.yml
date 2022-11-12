@@ -9,19 +9,61 @@ jobs:
     name: Fast Forward
     if: |
       (github.event.issue.pull_request != '') &&
-      github.event.comment.body == '/fast-forward' &&
-      (github.event.comment.author_association == 'MEMBER' || github.event.comment.author_association == 'OWNER')
+      github.event.comment.body == '/fast-forward'
     runs-on: ubuntu-latest
     steps:
+      - uses: actions-cool/check-user-permission@v2
+        id: has_permission
+        with:
+          require: 'write'
+
+      - name: Comment PR
+        uses: thollander/actions-comment-pull-request@v1
+        if: steps.has_permission.outputs.require-result != 'true'
+        with:
+          pr_number: ${{ github.event.issue.number }}
+          message: |
+            You have no write permission on this repository
+
+      - name: Exit if no write permission
+        if: steps.has_permission.outputs.require-result != 'true'
+        run: exit 1
+
+      - uses: actions/github-script@v6
+        id: current_pr
+        with:
+          github-token: ${{ secrets.FAST_FORWARD_TOKEN }}
+          script: |
+            return github.rest.pulls.get({
+              pull_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+            })
+
+      - run: echo $prJSON
+        env:
+          prJSON: ${{ toJSON(fromJSON(steps.current_pr.outputs.result).data) }}
+
+      - name: Comment PR
+        uses: thollander/actions-comment-pull-request@v1
+        if: fromJSON(steps.current_pr.outputs.result).data.mergeable_state != 'clean'
+        with:
+          pr_number: ${{ github.event.issue.number }}
+          message: |
+            The PR mergeable_state needs to be clean, was: ${{ fromJSON(steps.current_pr.outputs.result).data.mergeable_state }}
+
+      - name: Exit if PR mergeable_state is not clean
+        if: fromJSON(steps.current_pr.outputs.result).data.mergeable_state != 'clean'
+        run: exit 1
+
       # To use this repository's private action, you must check out the repository
       - name: Checkout
         uses: actions/checkout@v3
 
-      # Basic use case example
       - name: Fast Forward PR
         id: ff-action
         uses: endre-spotlab/fast-forward-js-action@2.1
         with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.FAST_FORWARD_TOKEN }}
           success_message: 'Success! Fast forwarded ***target_base*** to ***source_head***! ```git checkout target_base && git merge source_head --ff-only``` '
           failure_message: 'Failed! Cannot do fast forward!'

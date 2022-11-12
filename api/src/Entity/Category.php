@@ -116,6 +116,7 @@ class Category extends BaseEntity implements BelongsToCampInterface, CopyFromPro
      * schedule entry number, e.g. LS 3.a, where LS is the category's short name.
      */
     #[InputFilter\Trim]
+    #[InputFilter\CleanText]
     #[Assert\NotBlank]
     #[Assert\Length(max: 16)]
     #[ApiProperty(example: 'LS')]
@@ -127,6 +128,7 @@ class Category extends BaseEntity implements BelongsToCampInterface, CopyFromPro
      * The full name of the category.
      */
     #[InputFilter\Trim]
+    #[InputFilter\CleanText]
     #[Assert\NotBlank]
     #[Assert\Length(max: 32)]
     #[ApiProperty(example: 'Lagersport')]

@@ -3,7 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\OAuthStateRepository;
-use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -17,5 +16,5 @@ class OAuthState extends BaseEntity {
     public string $state;
 
     #[ORM\Column(type: 'datetime')]
-    public DateTime $expireTime;
+    public \DateTime $expireTime;
 }

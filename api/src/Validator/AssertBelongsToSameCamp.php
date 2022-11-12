@@ -5,7 +5,7 @@ namespace App\Validator;
 use Attribute;
 use Symfony\Component\Validator\Constraint;
 
-#[Attribute]
+#[\Attribute]
 class AssertBelongsToSameCamp extends Constraint {
     public string $message = 'Must belong to the same camp.';
     public bool $compareToPrevious = false;

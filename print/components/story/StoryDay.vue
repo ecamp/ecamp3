@@ -22,12 +22,12 @@
             </template>
           </h4>
 
-          <rich-text :rich-text="chapter.data.text" />
+          <rich-text :rich-text="chapter.data.html" />
         </div>
       </template>
     </template>
     <p v-else>
-      {{ $tc('story.storyDay.noStory') }}
+      {{ $tc('components.story.storyDay.noStory') }}
     </p>
 
     <hr />
@@ -75,7 +75,7 @@ export default {
           (contentNode) =>
             contentNode.root()._meta.self ===
               scheduleEntry.activity().rootContentNode()._meta.self &&
-            !isEmptyHtml(contentNode.data.text)
+            !isEmptyHtml(contentNode.data.html)
         ),
       }))
     },

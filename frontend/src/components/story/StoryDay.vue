@@ -12,10 +12,10 @@
       <template v-else-if="entriesWithStory.length">
         <template v-for="{ scheduleEntry, storyChapters } in entriesWithStory">
           <div v-for="chapter in storyChapters" :key="chapter._meta.uri">
-            <h4 class="mt-2 mt-sm-3">
+            <h4 class="mt-3 mt-sm-5">
               <span class="d-inline-flex align-center">
                 <span class="tabular-nums">{{ scheduleEntry.number }}</span>
-                <CategoryChip :schedule-entry="scheduleEntry" class="mx-1" />
+                <CategoryChip :schedule-entry="scheduleEntry" class="mx-1" dense />
               </span>
               <router-link
                 :to="{
@@ -35,12 +35,14 @@
             </h4>
             <api-form :entity="chapter">
               <api-richtext
+                class="e-story-day"
+                :class="{ 'e-story-day--textmode': !editing }"
                 :outlined="false"
                 :solo="false"
                 auto-grow
                 dense
                 :readonly="!editing"
-                fieldname="data.text"
+                fieldname="data.html"
                 aria-label="Erfassen"
                 label=""
               />
@@ -49,7 +51,7 @@
         </template>
       </template>
       <p v-else>
-        {{ $tc('story.storyDay.noStory') }}
+        {{ $tc('components.story.storyDay.noStory') }}
       </p>
     </v-expansion-panel-content>
   </v-expansion-panel>
@@ -117,8 +119,18 @@ export default {
 </script>
 
 <style scoped>
-::v-deep .v-skeleton-loader__list-item-three-line {
+:deep(.v-skeleton-loader__list-item-three-line) {
   padding: 0;
   height: auto;
+}
+
+.e-story-day :deep(.v-text-field) {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+/* this disables the bottom border which is displayed for VTextField in "regular" style */
+.e-story-day--textmode :deep(.v-input__slot)::before {
+  display: none;
 }
 </style>

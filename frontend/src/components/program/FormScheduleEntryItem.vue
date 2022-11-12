@@ -5,7 +5,7 @@
         <e-date-picker
           v-model="localScheduleEntry.start"
           value-format="YYYY-MM-DDTHH:mm:ssZ"
-          :name="$tc('components.activity.createScheduleEntries.fields.start')"
+          :name="$tc('components.program.formScheduleEntryItem.start')"
           vee-id="startDate"
           vee-rules="required"
           :allowed-dates="allowedStartDates"
@@ -16,7 +16,7 @@
 
         <e-time-picker
           v-model="localScheduleEntry.start"
-          :name="$tc('components.activity.createScheduleEntries.fields.start')"
+          :name="$tc('components.program.formScheduleEntryItem.start')"
           vee-id="startDatetime"
           vee-rules="required"
           :filled="false"
@@ -29,7 +29,7 @@
         <e-date-picker
           v-model="localScheduleEntry.end"
           value-format="YYYY-MM-DDTHH:mm:ssZ"
-          :name="$tc('components.activity.createScheduleEntries.fields.end')"
+          :name="$tc('components.program.formScheduleEntryItem.end')"
           vee-id="endDate"
           vee-rules="required|greaterThanOrEqual_date:@startDate"
           :allowed-dates="allowedEndDates"
@@ -40,7 +40,7 @@
 
         <e-time-picker
           v-model="localScheduleEntry.end"
-          :name="$tc('components.activity.createScheduleEntries.fields.end')"
+          :name="$tc('components.program.formScheduleEntryItem.end')"
           vee-id="endDatetime"
           :vee-rules="endTimeValidation"
           :filled="false"

@@ -3,7 +3,7 @@ Displays address and allows to edit
 -->
 
 <template>
-  <content-group :title="$tc('components.camp.campAddress.title')">
+  <content-group :title="$tc('components.campAdmin.campAddress.title')">
     <v-skeleton-loader v-if="camp()._meta.loading" type="article" />
     <div v-else class="mt-3">
       <api-form :entity="camp()">
