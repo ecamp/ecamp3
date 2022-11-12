@@ -139,7 +139,7 @@
     "navigation": {
       "userMeta": {
         "logOut": "Ausloggen",
-        "myCamps": "Mein Lager | Meine Lager",
+        "myCamps": "Meine Lager",
         "profile": "Profil"
       }
     },
@@ -477,7 +477,7 @@
       "create": "Lager erstellen",
       "pastCamps": "Alte Lager",
       "prototypeCamps": "Vorlagen",
-      "title": "Mein Lager | Meine Lager"
+      "title": "Meine Lager"
     },
     "profile": {
       "changeEmail": "Ändern",

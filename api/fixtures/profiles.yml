@@ -62,7 +62,7 @@ App\Entity\Profile:
     surname: Nistrator
     nickname: Administrator
     language: de
-    roles: [ 'ROLE_USER' ]
+    roles: [ 'ROLE_USER', 'ROLE_ADMIN' ]
   profileWithoutCampCollaborations:
     user: '@userWithoutCampCollaborations'
     email: <email()>

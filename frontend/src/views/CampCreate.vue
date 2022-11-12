@@ -41,8 +41,8 @@
           </v-card-text>
           <v-divider />
           <v-card-text class="text-right">
-            <button-cancel @click="$router.go(-1)" />
-            <button-add type="submit">
+            <button-cancel :disabled="isSaving" @click="$router.go(-1)" />
+            <button-add type="submit" :loading="isSaving">
               {{ $tc('views.campCreate.create') }}
             </button-add>
           </v-card-text>
@@ -88,6 +88,7 @@ export default {
         ],
       },
       serverError: null,
+      isSaving: false,
     }
   },
   computed: {
@@ -110,16 +111,18 @@ export default {
   },
   created() {},
   methods: {
-    createCamp: function () {
-      this.api.post(this.campsUrl, this.camp).then(
-        (c) => {
-          this.$router.push(campRoute(c, 'admin'))
-          this.api.reload(this.campsUrl)
-        },
-        (error) => {
-          this.serverError = error
-        }
-      )
+    createCamp: async function () {
+      this.isSaving = true
+
+      try {
+        const camp = await this.api.post(this.campsUrl, this.camp)
+        await this.$router.push(campRoute(camp, 'admin'))
+        this.api.reload(this.campsUrl)
+      } catch (error) {
+        this.serverError = error
+      }
+
+      this.isSaving = false
     },
     addPeriod: function () {
       this.camp.periods.push({

@@ -46,7 +46,7 @@
     "navigation": {
       "userMeta": {
         "logOut": "Se déconnecter",
-        "myCamps": "Mon camp | Mes camps",
+        "myCamps": "Mes camps",
         "profile": "Profil"
       }
     },
@@ -199,7 +199,7 @@
     },
     "camps": {
       "create": "Créer un camp",
-      "title": "Mon camp | Mes camps"
+      "title": "Mes camps"
     },
     "profile": {
       "profile": "Profil"

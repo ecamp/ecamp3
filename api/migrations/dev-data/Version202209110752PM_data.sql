@@ -5,7 +5,7 @@
 INSERT INTO public.profile (id, email, username, firstname, surname, nickname, language, roles, createtime, updatetime, googleid, pbsmidataid, cevidbid, untrustedemail, untrustedemailkeyhash) VALUES
 	('5e387cad273d', 'test@example.com', 'test-user', 'Robert', 'Baden-Powell', 'Bi-Pi', 'en', '["ROLE_USER"]', '2022-01-23 16:19:10', '2022-01-23 16:19:10', NULL, NULL, NULL, NULL, NULL),
 	('e5433660140b', 'joan.doyle@lynch.net', 'unrelated-user', 'Wanda', 'Koelpin', 'sit', 'en', '["ROLE_USER"]', '2022-01-23 16:19:10', '2022-01-23 16:19:10', NULL, NULL, NULL, NULL, NULL),
-	('711ad2e96f9f', 'admin@example.com', 'admin', 'Admi', 'Nistrator', 'Administrator', 'de', '["ROLE_USER"]', '2022-01-23 16:19:10', '2022-01-23 16:19:10', NULL, NULL, NULL, NULL, NULL),
+	('711ad2e96f9f', 'admin@example.com', 'admin', 'Admi', 'Nistrator', 'Administrator', 'de', '["ROLE_USER", "ROLE_ADMIN"]', '2022-01-23 16:19:10', '2022-01-23 16:19:10', NULL, NULL, NULL, NULL, NULL),
 	('d36197370d44', 'evonrueden@hotmail.com', 'fresh-user', 'Clifford', 'Beier', 'sed', 'en', '["ROLE_USER"]', '2022-01-23 16:19:10', '2022-01-23 16:19:10', NULL, NULL, NULL, NULL, NULL),
 	('f9f1a2f9af25', 'reichel.zetta@hotmail.com', 'member-user', 'Zora', 'Steuber', 'Baghira', 'en', '["ROLE_USER"]', '2022-01-23 16:19:10', '2022-02-04 19:18:01', NULL, NULL, NULL, NULL, NULL),
 	('0870635edda6', 'lane65@yahoo.com', 'guest-user', 'Tremaine', 'Kohler', 'Idefix', 'en', '["ROLE_USER"]', '2022-01-23 16:19:10', '2022-02-04 19:18:43', NULL, NULL, NULL, NULL, NULL),
