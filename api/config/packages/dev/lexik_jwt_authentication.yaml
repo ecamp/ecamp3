@@ -1,0 +1,10 @@
+parameters:
+    env(COOKIE_PREFIX): ""
+
+lexik_jwt_authentication:
+    set_cookies:
+        '%env(COOKIE_PREFIX)%jwt_hp':
+            secure: false
+        
+        '%env(COOKIE_PREFIX)%jwt_s':
+            secure: false
