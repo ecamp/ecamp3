@@ -15,6 +15,12 @@
       },
       "menuCardlessContentNode": {
         "deletingDisabled": "Must be empty to delete"
+      },
+      "scheduleEntry": {
+        "backToContents": "Back to editing content",
+        "changeLayout": "Change layout",
+        "deleteWarning": "Do you really want to delete this activity? All content of this activity will be removed.",
+        "layout": "Layout"
       }
     },
     "camp": {
@@ -288,12 +294,6 @@
   },
   "views": {
     "activity": {
-      "activity": {
-        "backToContents": "Back to editing content",
-        "changeLayout": "Change layout",
-        "deleteWarning": "Do you really want to delete this activity? All content of this activity will be removed.",
-        "layout": "Layout"
-      },
       "category": {
         "backToContents": "Back to editing content",
         "changeLayout": "Change layout",
