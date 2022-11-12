@@ -15,10 +15,7 @@ class CouponKeyController extends AbstractController {
 
     #[Route('/coupon', name: 'coupon')]
     public function createAction() {
-        // If not Dev-Environment; Auth as Admin is required
-        if ('dev' !== $this->appEnv) {
-            $this->denyAccessUnlessGranted('ROLE_ADMIN');
-        }
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
         return new \Symfony\Component\HttpFoundation\JsonResponse(
             array_map(
