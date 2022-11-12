@@ -1,6 +1,7 @@
 <template>
   <div>
-    <e-select v-model="optionsScheduleEntry" :items="scheduleEntries" />
+    <e-select v-if="!loading" v-model="optionsScheduleEntry" :items="scheduleEntries" />
+    <v-skeleton-loader v-else type="image" height="56" />
   </div>
 </template>
 
@@ -10,9 +11,6 @@ export default {
   props: {
     value: { type: Object, required: true },
     camp: { type: Object, required: true },
-  },
-  data() {
-    return {}
   },
   computed: {
     options: {
@@ -47,6 +45,12 @@ export default {
       })
 
       return scheduleEntries
+    },
+    loading() {
+      return [
+        this.camp.activities(),
+        ...this.camp.periods().items.map((period) => period.scheduleEntries()),
+      ].some((entity) => entity._meta.loading)
     },
   },
   defaultOptions() {
