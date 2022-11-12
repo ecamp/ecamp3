@@ -39,7 +39,9 @@
         </v-list-item>
       </v-list>
       <v-expansion-panels
-        v-if="(isAdmin() && prototypeCamps.length > 0) || pastCamps.length > 0"
+        v-if="
+          !loading && ((isAdmin() && prototypeCamps.length > 0) || pastCamps.length > 0)
+        "
         multiple
         flat
         accordion
