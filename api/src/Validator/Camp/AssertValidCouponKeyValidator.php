@@ -17,7 +17,11 @@ class AssertValidCouponKeyValidator extends ConstraintValidator {
         }
 
         if (!$this->couponService->verifyCoupon($value)) {
-            $this->context->buildViolation($constraint->message)
+            $this->context->buildViolation($constraint->messageInvalid)
+                ->addViolation()
+            ;
+        } elseif (!$this->couponService->isCouponFree($value)) {
+            $this->context->buildViolation($constraint->messageAlreadyUsed)
                 ->addViolation()
             ;
         }
