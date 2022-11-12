@@ -88,7 +88,7 @@
       "local-rules/matching-translation-keys": [
         "error",
         {
-          "ignoreKeysRegex": "^(global|entity|contentNode\\.[a-z][a-zA-Z]+|print\\.(activity|cover|picasso|program|story|toc))\\..+",
+          "ignoreKeysRegex": "^(global|entity|contentNode\\.[a-z][a-zA-Z]+|print\\.(global|activity|cover|picasso|program|story|toc))\\..+",
           "translationKeyPropRegex": "[a-zA-Z0-9]-i18n-key$"
         }
       ]
