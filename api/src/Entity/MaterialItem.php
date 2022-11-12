@@ -80,7 +80,7 @@ class MaterialItem extends BaseEntity implements BelongsToCampInterface, CopyFro
     #[InputFilter\Trim]
     #[InputFilter\CleanText]
     #[Assert\NotBlank]
-    #[Assert\Length(max: 32)]
+    #[Assert\Length(max: 64)]
     #[ApiProperty(example: 'Volleyball')]
     #[Groups(['read', 'write'])]
     #[ORM\Column(type: 'text', nullable: false)]

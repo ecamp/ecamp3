@@ -299,7 +299,7 @@ class UpdateMaterialItemTest extends ECampApiTestCase {
     public function testPatchMaterialItemValidatesArticleMaxLength() {
         $materialItem = static::$fixtures['materialItem1'];
         static::createClientWithCredentials()->request('PATCH', '/material_items/'.$materialItem->getId(), ['json' => [
-            'article' => str_repeat('a', 33),
+            'article' => str_repeat('a', 65),
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
 
         $this->assertResponseStatusCodeSame(422);
@@ -307,7 +307,7 @@ class UpdateMaterialItemTest extends ECampApiTestCase {
             'violations' => [
                 [
                     'propertyPath' => 'article',
-                    'message' => 'This value is too long. It should have 32 characters or less.',
+                    'message' => 'This value is too long. It should have 64 characters or less.',
                 ],
             ],
         ]);

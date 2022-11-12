@@ -264,7 +264,7 @@ class CreateMaterialItemTest extends ECampApiTestCase {
             [
                 'json' => $this->getExampleWritePayload(
                     [
-                        'article' => str_repeat('a', 33),
+                        'article' => str_repeat('a', 65),
                     ],
                 ),
             ]
@@ -275,7 +275,7 @@ class CreateMaterialItemTest extends ECampApiTestCase {
             'violations' => [
                 [
                     'propertyPath' => 'article',
-                    'message' => 'This value is too long. It should have 32 characters or less.',
+                    'message' => 'This value is too long. It should have 64 characters or less.',
                 ],
             ],
         ]);
