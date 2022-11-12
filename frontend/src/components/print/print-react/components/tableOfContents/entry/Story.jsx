@@ -9,7 +9,7 @@ function Story(props) {
     return (
       <Link style={tocStyles.entry} href={`#${props.id}-${period.id}`} key={periodUri}>
         <Text>
-          {props.$tc('components.story.storyPeriod.title')}: {period.description}
+          {props.$tc('print.story.title')}: {period.description}
         </Text>
       </Link>
     )

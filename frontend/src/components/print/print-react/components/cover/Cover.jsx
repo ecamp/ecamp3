@@ -6,11 +6,7 @@ import styles from '../styles.js'
 function Cover(props) {
   const camp = props.store.get(props.config.camp._meta.self)
   return (
-    <Page
-      id={props.id}
-      bookmark={props.$tc('components.cover.title')}
-      style={styles.page}
-    >
+    <Page id={props.id} bookmark={props.$tc('print.cover.title')} style={styles.page}>
       <Text style={{ textAlign: 'center', margin: '40pt 0', fontSize: '40pt' }}>
         {camp.title}
       </Text>
