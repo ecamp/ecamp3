@@ -5,7 +5,7 @@ namespace App\State\ContentNode;
 use ApiPlatform\Metadata\Operation;
 use App\Entity\ContentNode\MultiSelect;
 
-class MultiSelectDataPersister extends ContentNodePersistProcessor {
+class MultiSelectCreateProcessor extends ContentNodePersistProcessor {
     /**
      * @param MultiSelect $data
      */

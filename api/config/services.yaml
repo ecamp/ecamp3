@@ -33,7 +33,6 @@ services:
             - '../src/Tests/'
             - '../src/DataPersister/'
             - '../src/DataProvider/'
-            - '../src/Metadata/Resource/Factory/GraphQLSecurityResourceMetadataFactory.php'
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
@@ -55,9 +54,6 @@ services:
             - '../src/InputFilter/InputFilter.php'
         tags:
             - 'app.input_filter'
-
-    # App\Metadata\Resource\Factory\GraphQLSecurityResourceMetadataFactory:
-    #     decorates: 'api_platform.metadata.resource.metadata_factory'
 
     App\Serializer\Normalizer\RelatedCollectionLinkNormalizer:
         decorates: 'api_platform.hal.normalizer.item'
