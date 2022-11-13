@@ -2,6 +2,7 @@
 
 namespace App\State;
 
+use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProcessorInterface;
 use App\Entity\CampCollaboration;
 use App\Service\MailService;
@@ -21,7 +22,7 @@ class CampCollaborationResendInvitationProcessor extends AbstractPersistProcesso
     /**
      * @param CampCollaboration $data
      */
-    public function onBefore($data): CampCollaboration {
+    public function onBefore($data, Operation $operation, array $uriVariables = [], array $context = []): CampCollaboration {
         $data->inviteKey = IdGenerator::generateRandomHexString(64);
         $data->inviteKeyHash = $this->passwordHasherFactory->getPasswordHasher('MailToken')->hash($data->inviteKey);
 
@@ -31,7 +32,7 @@ class CampCollaborationResendInvitationProcessor extends AbstractPersistProcesso
     /**
      * @param CampCollaboration $data
      */
-    public function onAfter($data): void {
+    public function onAfter($data, Operation $operation, array $uriVariables = [], array $context = []): void {
         $this->mailService->sendInviteToCampMail($data);
     }
 }

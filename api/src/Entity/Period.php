@@ -14,6 +14,7 @@ use ApiPlatform\Metadata\Post;
 use App\InputFilter;
 use App\Repository\PeriodRepository;
 use App\Serializer\Normalizer\RelatedCollectionLink;
+use App\State\PeriodPersistProcessor;
 use App\Validator\Period\AssertGreaterThanOrEqualToLastScheduleEntryEnd;
 use App\Validator\Period\AssertLessThanOrEqualToEarliestScheduleEntryStart;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -36,6 +37,7 @@ use Symfony\Component\Validator\Constraints as Assert;
             normalizationContext: self::ITEM_NORMALIZATION_CONTEXT,
         ),
         new Patch(
+            processor: PeriodPersistProcessor::class,
             security: 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)'
         ),
         new Delete(
@@ -46,6 +48,7 @@ use Symfony\Component\Validator\Constraints as Assert;
             security: 'is_authenticated()'
         ),
         new Post(
+            processor: PeriodPersistProcessor::class,
             denormalizationContext: ['groups' => ['write', 'create']],
             securityPostDenormalize: 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)'
         ),

@@ -13,6 +13,8 @@ use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use App\InputFilter;
 use App\Repository\CampRepository;
+use App\State\CampCreateProcessor;
+use App\State\CampRemoveProcessor;
 use App\Util\EntityMap;
 use App\Validator\AssertContainsAtLeastOneManager;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -38,12 +40,14 @@ use Symfony\Component\Validator\Constraints as Assert;
             normalizationContext: self::ITEM_NORMALIZATION_CONTEXT,
         ),
         new Delete(
+            processor: CampRemoveProcessor::class,
             security: 'object.owner == user'
         ),
         new GetCollection(
             security: 'is_authenticated()'
         ),
         new Post(
+            processor: CampCreateProcessor::class,
             security: 'is_authenticated()',
             inputFormats: ['jsonld', 'jsonapi', 'json'],
             validationContext: ['groups' => ['Default', 'create']],

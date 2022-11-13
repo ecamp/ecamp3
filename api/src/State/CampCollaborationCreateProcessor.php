@@ -2,6 +2,7 @@
 
 namespace App\State;
 
+use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProcessorInterface;
 use ApiPlatform\Validator\ValidatorInterface;
 use App\Entity\CampCollaboration;
@@ -29,7 +30,7 @@ class CampCollaborationCreateProcessor extends AbstractPersistProcessor implemen
     /**
      * @param CampCollaboration $data
      */
-    public function onBefore($data): CampCollaboration {
+    public function onBefore($data, Operation $operation, array $uriVariables = [], array $context = []): CampCollaboration {
         /** @var CampCollaboration $data */
         $inviteEmail = $data->user?->getEmail() ?? $data->inviteEmail;
         if (CampCollaboration::STATUS_INVITED == $data->status && $inviteEmail) {
@@ -49,7 +50,7 @@ class CampCollaborationCreateProcessor extends AbstractPersistProcessor implemen
     /**
      * @param CampCollaboration $data
      */
-    public function onAfter($data): void {
+    public function onAfter($data, Operation $operation, array $uriVariables = [], array $context = []): void {
         $this->mailService->sendInviteToCampMail($data);
 
         $materialList = new MaterialList();

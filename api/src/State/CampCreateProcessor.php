@@ -1,34 +1,32 @@
 <?php
 
-namespace App\DataPersister;
+namespace App\State;
 
-use App\DataPersister\Util\AbstractDataPersister;
-use App\DataPersister\Util\DataPersisterObservable;
+use ApiPlatform\Metadata\Operation;
+use ApiPlatform\State\ProcessorInterface;
 use App\Entity\BaseEntity;
 use App\Entity\Camp;
 use App\Entity\CampCollaboration;
 use App\Entity\MaterialList;
 use App\Entity\User;
+use App\State\Util\AbstractPersistProcessor;
 use App\Util\EntityMap;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\Security;
 
-class CampDataPersister extends AbstractDataPersister {
+class CampCreateProcessor extends AbstractPersistProcessor {
     public function __construct(
-        DataPersisterObservable $dataPersisterObservable,
+        ProcessorInterface $decorated,
         private Security $security,
         private EntityManagerInterface $em,
     ) {
-        parent::__construct(
-            Camp::class,
-            $dataPersisterObservable,
-        );
+        parent::__construct($decorated);
     }
 
     /**
      * @param Camp $data
      */
-    public function beforeCreate($data): BaseEntity {
+    public function onBefore($data, Operation $operation, array $uriVariables = [], array $context = []): BaseEntity {
         /** @var User $user */
         $user = $this->security->getUser();
         $data->creator = $user;
@@ -41,13 +39,13 @@ class CampDataPersister extends AbstractDataPersister {
         }
 
         foreach ($data->periods as $period) {
-            PeriodDataPersister::updateDaysAndScheduleEntries($period);
+            PeriodPersistProcessor::updateDaysAndScheduleEntries($period);
         }
 
         return $data;
     }
 
-    public function afterCreate($data): void {
+    public function onAfter($data, Operation $operation, array $uriVariables = [], array $context = []): void {
         /** @var Camp $data */
         /** @var User $user */
         $user = $this->security->getUser();
@@ -64,25 +62,5 @@ class CampDataPersister extends AbstractDataPersister {
         $this->em->persist($materialList);
 
         $this->em->flush();
-    }
-
-    /**
-     * @param Camp $data
-     */
-    public function beforeRemove($data): ?BaseEntity {
-        // Deleting rootContentNode would normally be done automatically with orphanRemoval:true
-        // However, this currently runs into an error due to https://github.com/doctrine-extensions/DoctrineExtensions/issues/2510
-
-        foreach ($data->activities->getIterator() as $activity) {
-            $this->em->refresh($activity->rootContentNode);
-            $this->em->remove($activity->rootContentNode);
-        }
-
-        foreach ($data->categories->getIterator() as $category) {
-            $this->em->refresh($category->rootContentNode);
-            $this->em->remove($category->rootContentNode);
-        }
-
-        return null;
     }
 }

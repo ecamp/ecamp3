@@ -2,6 +2,7 @@
 
 namespace App\State;
 
+use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProcessorInterface;
 use App\Entity\Activity;
 use App\Entity\ContentNode\ColumnLayout;
@@ -21,7 +22,7 @@ final class ActivityCreateProcessor extends AbstractPersistProcessor {
     /**
      * @param Activity $data
      */
-    public function onBefore($data): Activity {
+    public function onBefore($data, Operation $operation, array $uriVariables = [], array $context = []): Activity {
         $data->camp = $data->category?->camp;
 
         if (!isset($data->category?->rootContentNode)) {

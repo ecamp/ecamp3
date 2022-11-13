@@ -29,7 +29,7 @@ abstract class AbstractPersistProcessor implements ProcessorInterface {
      * @return T
      */
     public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []) {
-        $data = $this->onBefore($data);
+        $data = $this->onBefore($data, $operation, $uriVariables, $context);
 
         $dataBefore = $context['previous_data'];
         if (null != $dataBefore) {
@@ -44,7 +44,7 @@ abstract class AbstractPersistProcessor implements ProcessorInterface {
 
         $data = $this->decorated->process($data, $operation, $uriVariables, $context);
 
-        $this->onAfter($data);
+        $this->onAfter($data, $operation, $uriVariables, $context);
 
         if (null != $dataBefore) {
             foreach ($this->propertyChangeListeners as $listener) {
@@ -68,13 +68,13 @@ abstract class AbstractPersistProcessor implements ProcessorInterface {
      *
      * @return T
      */
-    public function onBefore($data): BaseEntity {
+    public function onBefore($data, Operation $operation, array $uriVariables = [], array $context = []): BaseEntity {
         return $data;
     }
 
     /**
      * For side effects after processing the object.
      */
-    public function onAfter($data): void {
+    public function onAfter($data, Operation $operation, array $uriVariables = [], array $context = []): void {
     }
 }
