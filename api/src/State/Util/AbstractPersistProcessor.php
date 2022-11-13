@@ -5,7 +5,6 @@ namespace App\State\Util;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProcessorInterface;
 use App\Entity\BaseEntity;
-use InvalidArgumentException;
 
 abstract class AbstractPersistProcessor implements ProcessorInterface {
     /**
@@ -17,7 +16,7 @@ abstract class AbstractPersistProcessor implements ProcessorInterface {
     ) {
         foreach ($propertyChangeListeners as $listener) {
             if (!$listener instanceof PropertyChangeListener) {
-                throw new InvalidArgumentException('propertyChangeListeners must be of type '.PropertyChangeListener::class);
+                throw new \InvalidArgumentException('propertyChangeListeners must be of type '.PropertyChangeListener::class);
             }
         }
     }
@@ -30,7 +29,7 @@ abstract class AbstractPersistProcessor implements ProcessorInterface {
      * @return T
      */
     public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []) {
-        $this->onBefore($data);
+        $data = $this->onBefore($data);
 
         $dataBefore = $context['previous_data'];
         if (null != $dataBefore) {
@@ -61,6 +60,8 @@ abstract class AbstractPersistProcessor implements ProcessorInterface {
     }
 
     /**
+     * Return an object of the type and with the properties you want persisted.
+     *
      * @template T of BaseEntity
      *
      * @param T $data

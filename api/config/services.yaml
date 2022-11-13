@@ -11,6 +11,17 @@ services:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
 
+
+    _instanceof:
+        App\State\Util\AbstractPersistProcessor:
+            bind:
+                $decorated: '@api_platform.doctrine.orm.state.persist_processor'
+
+        App\State\Util\AbstractRemoveProcessor:
+            bind:
+                $decorated: '@api_platform.doctrine.orm.state.remove_processor'
+
+
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
     App\:
@@ -167,29 +178,6 @@ services:
                 # ensure, data coming from API without timezone information is interpreted as UTC
                 # (e.g. period start '2021-01-01' in POST payload)
                 datetime_timezone: 'UTC'
-
-    
-    # Decorate State Processors
-
-    App\State\ActivityCreateProcessor:
-        bind:
-            $decorated: '@api_platform.doctrine.orm.state.persist_processor'
-
-    App\State\ActivityRemoveProcessor:
-        bind:
-            $decorated: '@api_platform.doctrine.orm.state.remove_processor'
-
-    App\State\CampCollaborationCreateProcessor:
-        bind:
-            $decorated: '@api_platform.doctrine.orm.state.persist_processor'
-    
-    App\State\CampCollaborationUpdateProcessor:
-        bind:
-            $decorated: '@api_platform.doctrine.orm.state.persist_processor'
-
-    App\State\CampCollaborationResendInvitationProcessor:
-        bind:
-            $decorated: '@api_platform.doctrine.orm.state.persist_processor'
 
 
     # override API-platform memory cache configuration
