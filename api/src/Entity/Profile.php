@@ -9,6 +9,7 @@ use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Patch;
 use App\InputFilter;
 use App\Repository\ProfileRepository;
+use App\State\ProfileUpdateProcessor;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -24,6 +25,7 @@ use Symfony\Component\Validator\Constraints as Assert;
             security: 'is_authenticated()'
         ),
         new Patch(
+            processor: ProfileUpdateProcessor::class,
             denormalizationContext: ['groups' => ['write', 'update']],
             security: 'object.user === user'
         ),

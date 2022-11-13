@@ -1,35 +1,30 @@
 <?php
 
-namespace App\DataPersister;
+namespace App\State;
 
-use App\DataPersister\Util\AbstractDataPersister;
-use App\DataPersister\Util\DataPersisterObservable;
+use ApiPlatform\Metadata\Operation;
+use ApiPlatform\State\ProcessorInterface;
 use App\Entity\Profile;
 use App\Service\MailService;
+use App\State\Util\AbstractPersistProcessor;
 use App\Util\IdGenerator;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactoryInterface;
 use Symfony\Component\PasswordHasher\PasswordHasherInterface;
 
-class ProfileDataPersister extends AbstractDataPersister {
-    /**
-     * @throws \ReflectionException
-     */
+class ProfileUpdateProcessor extends AbstractPersistProcessor {
     public function __construct(
-        DataPersisterObservable $dataPersisterObservable,
+        ProcessorInterface $decorated,
         private PasswordHasherFactoryInterface $pwHasherFactory,
         private MailService $mailService
     ) {
-        parent::__construct(
-            Profile::class,
-            $dataPersisterObservable,
-        );
+        parent::__construct($decorated);
     }
 
     /**
      * @param Profile $data
      */
-    public function beforeUpdate($data): Profile {
+    public function onBefore($data, Operation $operation, array $uriVariables = [], array $context = []): Profile {
         /** @var Profile $data */
         if (isset($data->newEmail)) {
             $verificationKey = IdGenerator::generateRandomHexString(64);
@@ -54,7 +49,7 @@ class ProfileDataPersister extends AbstractDataPersister {
         return $data;
     }
 
-    public function afterUpdate($data): void {
+    public function onAfter($data, Operation $operation, array $uriVariables = [], array $context = []): void {
         /** @var Profile $data */
         if (isset($data->untrustedEmailKey)) {
             $this->mailService->sendEmailVerificationMail($data->user, $data);
