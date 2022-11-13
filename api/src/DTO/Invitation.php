@@ -17,20 +17,20 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ApiResource(
     operations: [
         new Get(
-            uriTemplate: '/{inviteKey}/find.{_format}',
+            uriTemplate: '/{inviteKey}/find{._format}',
             normalizationContext: self::ITEM_NORMALIZATION_CONTEXT,
             openapiContext: ['description' => 'Use myInviteKey to find an invitation in the dev environment.']
         ),
         new Patch(
             security: 'is_authenticated()',
-            uriTemplate: '/{inviteKey}/'.self::ACCEPT.'.{_format}',
+            uriTemplate: '/{inviteKey}/'.self::ACCEPT.'{._format}',
             denormalizationContext: ['groups' => ['write']],
             normalizationContext: self::ITEM_NORMALIZATION_CONTEXT,
             openapiContext: ['summary' => 'Accept an Invitation.', 'description' => 'Use myInviteKey2 to accept an invitation in dev environment.'],
             validationContext: ['groups' => ['Default', 'accept']]
         ),
         new Patch(
-            uriTemplate: '/{inviteKey}/'.self::REJECT.'.{_format}',
+            uriTemplate: '/{inviteKey}/'.self::REJECT.'{._format}',
             denormalizationContext: ['groups' => ['write']],
             normalizationContext: self::ITEM_NORMALIZATION_CONTEXT,
             openapiContext: ['summary' => 'Reject an Invitation.', 'description' => 'Use myInviteKey to reject an invitation in dev environment.']

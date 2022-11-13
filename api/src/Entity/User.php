@@ -10,6 +10,9 @@ use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use App\Repository\UserRepository;
+use App\State\UserActivateProcessor;
+use App\State\UserCreateProcessor;
+use App\State\UserUpdateProcessor;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -27,13 +30,15 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ApiResource(
     operations: [
         new Patch(
-            uriTemplate: 'users/{id}/activate.{_format}',
+            processor: UserActivateProcessor::class,
+            uriTemplate: 'users/{id}/activate{._format}',
             denormalizationContext: ['groups' => ['activate']]
         ),
         new Get(
             security: 'is_authenticated()'
         ),
         new Patch(
+            processor: UserUpdateProcessor::class,
             security: 'object === user'
         ),
         new Delete(
@@ -43,6 +48,7 @@ use Symfony\Component\Validator\Constraints as Assert;
             security: 'false'
         ),
         new Post(
+            processor: UserCreateProcessor::class,
             security: 'true', // allow unauthenticated clients to create (register) users
             inputFormats: ['jsonld', 'jsonapi', 'json'],
             validationContext: ['groups' => ['Default', 'create']],
