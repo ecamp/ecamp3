@@ -13,8 +13,13 @@ use App\Tests\Api\ECampApiTestCase;
  * @internal
  */
 abstract class ReadContentNodeTestCase extends ECampApiTestCase {
+    public function setUp(): void {
+        parent::setUp();
+        $this->routePrefix = '/content_node';
+    }
+
     public function testGetIsDeniedForAnonymousUser() {
-        static::createBasicClient()->request('GET', "{$this->endpoint}/".$this->defaultEntity->getId());
+        static::createBasicClient()->request('GET', $this->routePrefix.$this->endpoint.'/'.$this->defaultEntity->getId());
         $this->assertResponseStatusCodeSame(401);
         $this->assertJsonContains([
             'code' => 401,

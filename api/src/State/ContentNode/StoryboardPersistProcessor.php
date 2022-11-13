@@ -1,35 +1,31 @@
 <?php
 
-namespace App\DataPersister\ContentNode;
+namespace App\State\ContentNode;
 
-use App\DataPersister\Util\DataPersisterObservable;
+use ApiPlatform\Metadata\Operation;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\State\ProcessorInterface;
 use App\Entity\ContentNode\Storyboard;
 use App\InputFilter\CleanHTMLFilter;
 use App\InputFilter\CleanTextFilter;
 use Ramsey\Uuid\Uuid;
 
-class StoryboardDataPersister extends ContentNodeAbstractDataPersister {
-    /**
-     * @throws \ReflectionException
-     */
+class StoryboardPersistProcessor extends ContentNodePersistProcessor {
     public function __construct(
-        DataPersisterObservable $dataPersisterObservable,
+        ProcessorInterface $decorated,
         private CleanHTMLFilter $cleanHTMLFilter,
         private CleanTextFilter $cleanTextFilter
     ) {
-        parent::__construct(
-            Storyboard::class,
-            $dataPersisterObservable
-        );
+        parent::__construct($decorated);
     }
 
     /**
      * @param Storyboard $data
      */
-    public function beforeCreate($data): Storyboard {
-        $data = parent::beforeCreate($data);
+    public function onBefore($data, Operation $operation, array $uriVariables = [], array $context = []): Storyboard {
+        $data = parent::onBefore($data, $operation, $uriVariables, $context);
 
-        if (null === $data->data) {
+        if ($operation instanceof Post && null === $data->data) {
             $data->data = ['sections' => [
                 Uuid::uuid4()->toString() => [
                     'column1' => '',
@@ -39,15 +35,6 @@ class StoryboardDataPersister extends ContentNodeAbstractDataPersister {
                 ],
             ]];
         }
-
-        return $this->sanitizeData($data);
-    }
-
-    /**
-     * @param Storyboard $data
-     */
-    public function beforeUpdate($data): Storyboard {
-        $data = parent::beforeUpdate($data);
 
         return $this->sanitizeData($data);
     }

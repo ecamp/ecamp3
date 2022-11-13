@@ -11,6 +11,7 @@ use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use App\Entity\ContentNode;
 use App\Repository\StoryboardRepository;
+use App\State\ContentNode\StoryboardPersistProcessor;
 use App\Validator\AssertJsonSchema;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -22,6 +23,7 @@ use Symfony\Component\Validator\Constraints as Assert;
             security: 'is_granted("CAMP_COLLABORATOR", object) or is_granted("CAMP_IS_PROTOTYPE", object)'
         ),
         new Patch(
+            processor: StoryboardPersistProcessor::class,
             denormalizationContext: ['groups' => ['write', 'update']],
             security: 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)',
             validationContext: ['groups' => ['Default', 'update']]
@@ -33,6 +35,7 @@ use Symfony\Component\Validator\Constraints as Assert;
             security: 'is_authenticated()'
         ),
         new Post(
+            processor: StoryboardPersistProcessor::class,
             denormalizationContext: ['groups' => ['write', 'create']],
             securityPostDenormalize: 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)',
             validationContext: ['groups' => ['Default', 'create']]

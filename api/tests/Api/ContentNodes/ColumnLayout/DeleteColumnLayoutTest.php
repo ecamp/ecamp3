@@ -11,7 +11,7 @@ class DeleteColumnLayoutTest extends DeleteContentNodeTestCase {
     public function setUp(): void {
         parent::setUp();
 
-        $this->endpoint = '/content_node/column_layouts';
+        $this->endpoint = '/column_layouts';
         $this->defaultEntity = static::$fixtures['columnLayoutChild1'];
     }
 

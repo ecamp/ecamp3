@@ -12,7 +12,7 @@ class CreateMaterialNodeTest extends CreateContentNodeTestCase {
     public function setUp(): void {
         parent::setUp();
 
-        $this->endpoint = '/content_node/material_nodes';
+        $this->endpoint = '/material_nodes';
         $this->entityClass = MaterialNode::class;
         $this->defaultContentType = static::$fixtures['contentTypeMaterial'];
     }

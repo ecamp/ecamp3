@@ -11,7 +11,7 @@ class ListColumnLayoutTest extends ListContentNodeTestCase {
     public function setUp(): void {
         parent::setUp();
 
-        $this->endpoint = '/content_node/column_layouts';
+        $this->endpoint = '/column_layouts';
 
         $this->contentNodesCamp1and2 = [
             $this->getIriFor('columnLayout1'),

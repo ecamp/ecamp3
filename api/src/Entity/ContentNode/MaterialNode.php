@@ -25,6 +25,7 @@ use Symfony\Component\Validator\Constraints as Assert;
             security: 'is_granted("CAMP_COLLABORATOR", object) or is_granted("CAMP_IS_PROTOTYPE", object)'
         ),
         new Patch(
+            processor: ContentNodePersistProcessor::class,
             denormalizationContext: ['groups' => ['write', 'update']],
             security: 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)',
             validationContext: ['groups' => ['Default', 'update']]
@@ -36,6 +37,7 @@ use Symfony\Component\Validator\Constraints as Assert;
             security: 'is_authenticated()'
         ),
         new Post(
+            processor: ContentNodePersistProcessor::class,
             denormalizationContext: ['groups' => ['write', 'create']],
             securityPostDenormalize: 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)',
             validationContext: ['groups' => ['Default', 'create']]

@@ -21,11 +21,12 @@ abstract class CreateContentNodeTestCase extends ECampApiTestCase {
     public function setUp(): void {
         parent::setUp();
 
+        $this->routePrefix = '/content_node';
         $this->defaultParent = static::$fixtures['columnLayout1'];
     }
 
     public function testCreateIsDeniedForAnonymousUser() {
-        static::createBasicClient()->request('POST', $this->endpoint, ['json' => $this->getExampleWritePayload()]);
+        static::createBasicClient()->request('POST', $this->routePrefix.$this->endpoint, ['json' => $this->getExampleWritePayload()]);
         $this->assertResponseStatusCodeSame(401);
         $this->assertJsonContains([
             'code' => 401,
