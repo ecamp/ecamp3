@@ -14,6 +14,8 @@ use ApiPlatform\Metadata\Post;
 use ApiPlatform\Util\ClassInfoTrait;
 use App\InputFilter;
 use App\Repository\CategoryRepository;
+use App\State\CategoryCreateProcessor;
+use App\State\CategoryRemoveProcessor;
 use App\Util\EntityMap;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -40,12 +42,14 @@ use Symfony\Component\Validator\Constraints as Assert;
             security: 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)'
         ),
         new Delete(
+            processor: CategoryRemoveProcessor::class,
             security: 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)'
         ),
         new GetCollection(
             security: 'is_authenticated()'
         ),
         new Post(
+            processor: CategoryCreateProcessor::class,
             denormalizationContext: ['groups' => ['write', 'create']],
             normalizationContext: self::ITEM_NORMALIZATION_CONTEXT,
             securityPostDenormalize: 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)'
