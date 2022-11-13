@@ -7,6 +7,9 @@ use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Patch;
+use App\State\InvitationAcceptProcessor;
+use App\State\InvitationProvider;
+use App\State\InvitationRejectProcessor;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -17,11 +20,14 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ApiResource(
     operations: [
         new Get(
+            provider: InvitationProvider::class,
             uriTemplate: '/{inviteKey}/find{._format}',
             normalizationContext: self::ITEM_NORMALIZATION_CONTEXT,
             openapiContext: ['description' => 'Use myInviteKey to find an invitation in the dev environment.']
         ),
         new Patch(
+            provider: InvitationProvider::class,
+            processor: InvitationAcceptProcessor::class,
             security: 'is_authenticated()',
             uriTemplate: '/{inviteKey}/'.self::ACCEPT.'{._format}',
             denormalizationContext: ['groups' => ['write']],
@@ -30,6 +36,8 @@ use Symfony\Component\Validator\Constraints as Assert;
             validationContext: ['groups' => ['Default', 'accept']]
         ),
         new Patch(
+            provider: InvitationProvider::class,
+            processor: InvitationRejectProcessor::class,
             uriTemplate: '/{inviteKey}/'.self::REJECT.'{._format}',
             denormalizationContext: ['groups' => ['write']],
             normalizationContext: self::ITEM_NORMALIZATION_CONTEXT,

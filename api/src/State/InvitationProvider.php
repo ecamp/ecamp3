@@ -1,10 +1,9 @@
 <?php
 
-namespace App\DataProvider;
+namespace App\State;
 
-use ApiPlatform\Core\DataProvider\ItemDataProviderInterface;
-use ApiPlatform\Core\DataProvider\RestrictedDataProviderInterface;
-use ApiPlatform\Core\DataProvider\SerializerAwareDataProviderTrait;
+use ApiPlatform\Metadata\Operation;
+use ApiPlatform\State\ProviderInterface;
 use App\DTO\Invitation;
 use App\Entity\User;
 use App\Repository\CampCollaborationRepository;
@@ -12,9 +11,7 @@ use App\Repository\UserRepository;
 use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactoryInterface;
 use Symfony\Component\Security\Core\Security;
 
-class InvitationDataProvider implements ItemDataProviderInterface, RestrictedDataProviderInterface {
-    use SerializerAwareDataProviderTrait;
-
+class InvitationProvider implements ProviderInterface {
     public function __construct(
         private Security $security,
         private PasswordHasherFactoryInterface $passwordHasherFactory,
@@ -27,7 +24,8 @@ class InvitationDataProvider implements ItemDataProviderInterface, RestrictedDat
      * @throws \Doctrine\ORM\NonUniqueResultException
      * @throws \Doctrine\ORM\NoResultException
      */
-    public function getItem(string $resourceClass, $id, string $operationName = null, array $context = []): ?Invitation {
+    public function provide(Operation $operation, array $uriVariables = [], array $context = []): ?Invitation {
+        $id = $uriVariables['inviteKey'];
         if (null == $id) {
             return null;
         }
@@ -56,9 +54,5 @@ class InvitationDataProvider implements ItemDataProviderInterface, RestrictedDat
         }
 
         return new Invitation($id, $camp->getId(), $camp->title, $userDisplayName, $userAlreadyInCamp);
-    }
-
-    public function supports(string $resourceClass, string $operationName = null, array $context = []): bool {
-        return Invitation::class === $resourceClass;
     }
 }
