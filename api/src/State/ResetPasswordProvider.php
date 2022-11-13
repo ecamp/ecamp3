@@ -1,22 +1,24 @@
 <?php
 
-namespace App\DataProvider;
+namespace App\State;
 
-use ApiPlatform\Core\DataProvider\ItemDataProviderInterface;
-use ApiPlatform\Core\DataProvider\RestrictedDataProviderInterface;
+use ApiPlatform\Metadata\Operation;
+use ApiPlatform\State\ProviderInterface;
 use App\DTO\ResetPassword;
 use App\Repository\UserRepository;
 use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactoryInterface;
 use Symfony\Component\PasswordHasher\PasswordHasherInterface;
 
-class ResetPasswordDataProvider implements ItemDataProviderInterface, RestrictedDataProviderInterface {
+class ResetPasswordProvider implements ProviderInterface {
     public function __construct(
         private UserRepository $userRepository,
         private PasswordHasherFactoryInterface $pwHasherFactory,
     ) {
     }
 
-    public function getItem(string $resourceClass, $id, string $operationName = null, array $context = []): ?ResetPassword {
+    public function provide(Operation $operation, array $uriVariables = [], array $context = []): ?ResetPassword {
+        $id = $uriVariables['id'];
+
         if (null == $id) {
             return null;
         }
@@ -46,10 +48,6 @@ class ResetPasswordDataProvider implements ItemDataProviderInterface, Restricted
         $resetPassword->email = $email;
 
         return $resetPassword;
-    }
-
-    public function supports(string $resourceClass, string $operationName = null, array $context = []): bool {
-        return ResetPassword::class === $resourceClass;
     }
 
     private function getResetKeyHasher(): PasswordHasherInterface {

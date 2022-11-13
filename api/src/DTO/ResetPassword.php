@@ -7,21 +7,28 @@ use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
+use App\State\ResetPasswordCreateProcessor;
+use App\State\ResetPasswordProvider;
+use App\State\ResetPasswordUpdateProcessor;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ApiResource(
     operations: [
         new Get(
+            provider: ResetPasswordProvider::class,
             security: 'true',
             uriTemplate: '/{id}'
         ),
         new Patch(
+            provider: ResetPasswordProvider::class,
+            processor: ResetPasswordUpdateProcessor::class,
             security: 'true',
             uriTemplate: '/{id}',
             denormalizationContext: ['groups' => ['update']]
         ),
         new Post(
+            processor: ResetPasswordCreateProcessor::class,
             security: 'true',
             uriTemplate: '',
             status: 204,
