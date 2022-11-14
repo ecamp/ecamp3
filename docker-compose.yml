@@ -154,7 +154,7 @@ services:
     restart: on-failure
 
   browserless:
-    image: browserless/chrome:1.56.0-puppeteer-18.0.5@sha256:83a0f24eb4341c30e0f5106a98f1d1e5a3981805fce2829403cda9ef2e0b965e
+    image: browserless/chrome:1.56.0-puppeteer-18.0.5
     container_name: 'ecamp3-browserless'
     ports:
       - '3010:3000'

@@ -71,7 +71,7 @@ export default {
     labelValue() {
       if (this.multiple) {
         const list = (this.value || []).map((item) => this.processedItems[item].text)
-        const lang = document.querySelector('html').getAttribute('lang')
+        const lang = this.$store.state.lang.language
         const listFormat = new Intl.ListFormat(lang, {
           type: this.andFilter ? 'conjunction' : 'disjunction',
         })
