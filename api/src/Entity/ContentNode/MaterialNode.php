@@ -12,6 +12,7 @@ use ApiPlatform\Metadata\Post;
 use App\Entity\ContentNode;
 use App\Entity\MaterialItem;
 use App\Repository\MaterialNodeRepository;
+use App\State\ContentNode\ContentNodePersistProcessor;
 use App\Util\EntityMap;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;

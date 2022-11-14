@@ -11,6 +11,7 @@ use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use App\Entity\ContentNode;
 use App\Repository\MultiSelectRepository;
+use App\State\ContentNode\ContentNodePersistProcessor;
 use App\State\ContentNode\MultiSelectCreateProcessor;
 use App\Validator\AssertJsonSchema;
 use Doctrine\ORM\Mapping as ORM;

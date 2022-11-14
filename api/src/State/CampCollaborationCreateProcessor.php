@@ -10,12 +10,11 @@ use App\Entity\MaterialList;
 use App\Repository\ProfileRepository;
 use App\Service\MailService;
 use App\State\Util\AbstractPersistProcessor;
-use App\State\Util\PersistProcessorInterface;
 use App\Util\IdGenerator;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactoryInterface;
 
-class CampCollaborationCreateProcessor extends AbstractPersistProcessor implements PersistProcessorInterface {
+class CampCollaborationCreateProcessor extends AbstractPersistProcessor {
     public function __construct(
         ProcessorInterface $decorated,
         private PasswordHasherFactoryInterface $passwordHasherFactory,
