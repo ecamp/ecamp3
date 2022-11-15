@@ -16,7 +16,7 @@ Displays a field as a date picker (can be used with v-model)
     v-bind="$attrs"
     @input="$emit('input', $event)"
   >
-    <template slot-scope="picker">
+    <template #default="picker">
       <v-date-picker
         :value="picker.value || ''"
         :locale="$i18n.locale"
