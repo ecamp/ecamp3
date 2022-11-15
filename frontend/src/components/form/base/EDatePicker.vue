@@ -13,6 +13,7 @@ Displays a field as a date picker (can be used with v-model)
     :required="required"
     :vee-id="veeId"
     :vee-rules="veeRules"
+    close-on-picker-input
     v-bind="$attrs"
     @input="$emit('input', $event)"
   >
@@ -24,14 +25,11 @@ Displays a field as a date picker (can be used with v-model)
         :allowed-dates="allowedDates"
         no-title
         scrollable
-        @input="picker.on.input"
+        @input="picker.onInput"
       >
         <v-spacer />
-        <v-btn text color="primary" data-testid="action-cancel" @click="picker.on.close">
-          {{ $tc('global.button.cancel') }}
-        </v-btn>
-        <v-btn text color="primary" data-testid="action-ok" @click="picker.on.save">
-          {{ $tc('global.button.ok') }}
+        <v-btn text color="primary" @click="picker.close">
+          {{ $tc('global.button.close') }}
         </v-btn>
       </v-date-picker>
     </template>

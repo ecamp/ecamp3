@@ -3,11 +3,11 @@ Displays a field as a picker (can be used with v-model)
 -->
 
 <template>
-  <div class="e-form-container">
+  <div ref="picker" class="e-form-container">
     <v-menu
-      ref="menu"
       v-model="showPicker"
       :disabled="disabled || readonly"
+      :close-on-click="false"
       :close-on-content-click="false"
       transition="scale-transition"
       offset-y
@@ -23,9 +23,8 @@ Displays a field as a picker (can be used with v-model)
           :error-messages="combinedErrorMessages"
           :filled="filled"
           :disabled="disabled"
+          @click="on.click"
           @input="debouncedParseValue"
-          @focus="textFieldIsActive = true"
-          @blur="textFieldIsActive = false"
         >
           <template v-if="icon" #prepend>
             <v-icon :color="iconColor" @click="on.click">
@@ -39,7 +38,9 @@ Displays a field as a picker (can be used with v-model)
           </template>
         </e-text-field>
       </template>
-      <slot :value="pickerValue" :show-picker="showPicker" :on="eventHandlers" />
+      <div :id="menuId">
+        <slot :value="pickerValue" :on-input="inputFromPicker" :close="closePicker" />
+      </div>
     </v-menu>
   </div>
 </template>
@@ -58,6 +59,7 @@ export default {
     disabled: { type: Boolean, required: false, default: false },
     filled: { type: Boolean, required: false, default: true },
     errorMessages: { type: Array, required: false, default: () => [] },
+    closeOnPickerInput: { type: Boolean, required: false, default: false },
 
     /**
      * Format internal value for display in the UI
@@ -81,24 +83,19 @@ export default {
   },
   data() {
     return {
+      // internal random string used for identifying the menu in the DOM
+      random: Math.random().toString(36).substring(2),
+
       // internal value
       localValue: this.value,
 
-      // value used to pass to picker component
-      localPickerValue: this.value,
-
       showPicker: false,
-      textFieldIsActive: false,
       parseError: null,
-      eventHandlers: {
-        save: this.savePicker,
-        close: this.closePicker,
-        input: this.inputPicker,
-      },
       // note that it is necessary to debounce in data to have one debounced function per instance, whereas
       // debouncing in watch or methods results in one global debounced function which has unwanted effects
       // when there are multiple picker instances rendered at the same time
       debouncedParseValue: debounce(this.parseValue, 500),
+      clickOutsideHandler: null,
     }
   },
   computed: {
@@ -127,6 +124,9 @@ export default {
       }
       return [...this.errorMessages, this.parseError.message]
     },
+    menuId() {
+      return 'picker-menu-' + this.random
+    },
   },
   watch: {
     value(val) {
@@ -136,7 +136,27 @@ export default {
     },
   },
   mounted() {
+    const el = this.$refs.picker
+    this.clickOutsideHandler = (event) => {
+      const menuEl = document.querySelector(`#${this.menuId}`)
+      if (
+        !(
+          el === event.target ||
+          el.contains(event.target) ||
+          menuEl?.contains(event.target)
+        )
+      ) {
+        this.closePicker()
+      }
+    }
+    document.addEventListener('click', this.clickOutsideHandler)
+
     this.parseValue(this.fieldValue)
+  },
+  beforeDestroy() {
+    if (this.clickOutsideHandler) {
+      document.removeEventListener('click', this.clickOutsideHandler)
+    }
   },
   methods: {
     setValue(val) {
@@ -144,43 +164,40 @@ export default {
         this.$emit('input', val)
         this.localValue = val
       }
-      this.parseError = null
+      this.setParseError(null)
     },
-    parseValue(val) {
-      if (this.parse != null) {
-        this.parse(val).then(this.setValue, this.setParseError)
-      } else {
+    async parseValue(val) {
+      try {
+        if (this.parse != null) {
+          val = await this.parse(val)
+        }
         this.setValue(val)
+      } catch (error) {
+        this.setParseError(error)
       }
-    },
-    setValueOfPicker(val) {
-      if (this.localPickerValue !== val) {
-        this.localPickerValue = val
-      }
-      this.parseError = null
     },
     setParseError(err) {
       this.parseError = err
     },
     closePicker() {
       this.showPicker = false
-      this.localPickerValue = this.localValue
-    },
-    savePicker() {
-      this.showPicker = false
-      this.setValue(this.localPickerValue)
 
-      // after closing picker --> set focus into textfield and validate value
-      this.$refs.textField.focus()
+      // after closing picker, validate value
       this.$refs.textField.$refs.validationProvider.validate(this.fieldValue)
     },
-    inputPicker(val) {
-      if (this.parsePicker !== null) {
-        this.parsePicker(val).then(this.setValueOfPicker, this.setParseError)
-      } else if (this.parse !== null) {
-        this.parse(val).then(this.setValueOfPicker, this.setParseError)
-      } else {
-        this.setValueOfPicker(val)
+    async inputFromPicker(val) {
+      try {
+        if (this.parsePicker !== null) {
+          val = await this.parsePicker(val)
+        } else if (this.parse !== null) {
+          val = await this.parse(val)
+        }
+        this.setValue(val)
+        if (this.closeOnPickerInput) {
+          this.closePicker()
+        }
+      } catch (error) {
+        this.setParseError(error)
       }
     },
   },

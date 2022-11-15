@@ -13,20 +13,11 @@ Displays a field as a color picker (can be used with v-model)
     :required="required"
     @input="$emit('input', $event)"
   >
-    <template slot-scope="picker">
+    <template #default="picker">
       <v-card>
-        <v-color-picker
-          v-if="picker.showPicker"
-          :value="picker.value"
-          flat
-          @input="picker.on.input"
-        />
-        <v-spacer />
-        <v-btn text color="primary" data-testid="action-cancel" @click="picker.on.close">
-          {{ $tc('global.button.cancel') }}
-        </v-btn>
-        <v-btn text color="primary" data-testid="action-ok" @click="picker.on.save">
-          {{ $tc('global.button.ok') }}
+        <v-color-picker :value="removeAlpha(picker.value)" flat @input="picker.onInput" />
+        <v-btn text color="primary" @click="picker.close">
+          {{ $tc('global.button.close') }}
         </v-btn>
       </v-card>
     </template>
@@ -51,11 +42,18 @@ export default {
   },
   methods: {
     parsePicker(val) {
-      if (typeof val === 'object') return Promise.resolve(this.removeAlpha(val.hex))
-      return Promise.resolve(this.removeAlpha(val))
+      const result = this.removeAlpha(val)
+      if (result.toLowerCase() === this.value.toLowerCase()) {
+        // Avoid changing the case if that is all that has changed
+        return Promise.resolve(this.value)
+      }
+      return Promise.resolve(result)
     },
     removeAlpha(hex) {
       return hex.length === 9 ? hex.substring(0, 7) : hex
+    },
+    update(picker, value) {
+      picker.on.input(value)
     },
   },
 }

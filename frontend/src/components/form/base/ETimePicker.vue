@@ -16,20 +16,17 @@ Allows 15min steps only
     :vee-rules="veeRules"
     @input="$emit('input', $event)"
   >
-    <template slot-scope="picker">
+    <template #default="picker">
       <v-time-picker
         :value="picker.value || ''"
         :allowed-minutes="allowedStep"
         format="24hr"
         scrollable
-        @input="picker.on.input"
+        @input="picker.onInput"
       >
         <v-spacer />
-        <v-btn text color="primary" data-testid="action-cancel" @click="picker.on.close">
-          {{ $tc('global.button.cancel') }}
-        </v-btn>
-        <v-btn text color="primary" data-testid="action-ok" @click="picker.on.save">
-          {{ $tc('global.button.ok') }}
+        <v-btn text color="primary" @click="picker.close">
+          {{ $tc('global.button.close') }}
         </v-btn>
       </v-time-picker>
     </template>
