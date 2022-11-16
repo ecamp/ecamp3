@@ -87,9 +87,6 @@ describe('An ApiDatePicker', () => {
       .filter((node) => node.text() === '24')
       .at(0)
       .trigger('click')
-    // click the save button
-    const closeButton = wrapper.find('[data-testid="action-ok"]')
-    await closeButton.trigger('click')
     await wrapper.find('input').trigger('submit')
 
     await waitForDebounce()

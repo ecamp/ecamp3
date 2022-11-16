@@ -141,9 +141,6 @@ describe('An EDatePicker', () => {
         .filter((node) => node.text() === '24')
         .at(0)
         .trigger('click')
-      // click the save button
-      const closeButton = wrapper.find('[data-testid="action-ok"]')
-      await closeButton.trigger('click')
       await waitForDebounce()
       expect(wrapper.find('input[type=text]').element.value).toBe(data.date_3)
       wrapper.destroy()

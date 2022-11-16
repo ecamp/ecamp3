@@ -94,9 +94,6 @@ describe('An ApiTimePicker', () => {
     clockMinute.vm.update(TIME_2_MINUTE)
     clockMinute.vm.valueOnMouseUp = TIME_2_MINUTE
     await clockMinute.trigger('mouseup')
-    // click the save button
-    const closeButton = wrapper.find('[data-testid="action-ok"]')
-    await closeButton.trigger('click')
     await wrapper.find('input').trigger('submit')
     await waitForDebounce()
 

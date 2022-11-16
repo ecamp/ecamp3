@@ -173,9 +173,6 @@ describe('An ETimePicker', () => {
       clockMinute.vm.update(15)
       clockMinute.vm.valueOnMouseUp = 15
       await clockMinute.trigger('mouseup')
-      // click the save button
-      const closeButton = wrapper.find('[data-testid="action-ok"]')
-      await closeButton.trigger('click')
       await waitForDebounce()
       expect(wrapper.find('input[type=text]').element.value).toBe(data.time_3)
       wrapper.destroy()

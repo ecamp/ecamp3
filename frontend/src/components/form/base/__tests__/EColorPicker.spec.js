@@ -136,9 +136,6 @@ describe('An EColorPicker', () => {
     canvas.vm.$el.getBoundingClientRect = () => rectMock
     canvas.vm.handleClick(createMouseEvent(10, 10))
     await flushPromises()
-    // click the save button
-    const closeButton = wrapper.find('[data-testid="action-ok"]')
-    await closeButton.trigger('click')
     await waitForDebounce()
     expect(wrapper.find('input[type=text]').element.value).toBe('#E6CFE6')
     wrapper.destroy()
@@ -161,9 +158,6 @@ describe('An EColorPicker', () => {
     // open the color picker
     const openPicker = wrapper.find('button')
     await openPicker.trigger('click')
-    // click the save button
-    const closeButton = wrapper.find('[data-testid="action-ok"]')
-    await closeButton.trigger('click')
     await waitForDebounce()
     expect(wrapper.find('input[type=text]').element.value).toBe('#AABBCC')
     wrapper.destroy()
