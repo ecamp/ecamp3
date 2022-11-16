@@ -21,13 +21,14 @@ use Symfony\Component\Validator\Constraints as Assert;
     operations: [
         new Get(
             provider: InvitationProvider::class,
-            uriTemplate: '/{inviteKey}/find{._format}',
+            uriTemplate: '/{inviteKey}/find{._format}', // TO DISCUSS: Wouldn't '/{inviteKey}{._format}' be more REST-like
             normalizationContext: self::ITEM_NORMALIZATION_CONTEXT,
             openapiContext: ['description' => 'Use myInviteKey to find an invitation in the dev environment.']
         ),
         new Patch(
             provider: InvitationProvider::class,
             processor: InvitationAcceptProcessor::class,
+            output: Invitation::class,
             security: 'is_authenticated()',
             uriTemplate: '/{inviteKey}/'.self::ACCEPT.'{._format}',
             denormalizationContext: ['groups' => ['write']],
@@ -38,12 +39,14 @@ use Symfony\Component\Validator\Constraints as Assert;
         new Patch(
             provider: InvitationProvider::class,
             processor: InvitationRejectProcessor::class,
+            output: Invitation::class,
             uriTemplate: '/{inviteKey}/'.self::REJECT.'{._format}',
             denormalizationContext: ['groups' => ['write']],
             normalizationContext: self::ITEM_NORMALIZATION_CONTEXT,
             openapiContext: ['summary' => 'Reject an Invitation.', 'description' => 'Use myInviteKey to reject an invitation in dev environment.']
         ),
         new GetCollection(
+            provider: InvitationProvider::class,
             security: 'false',
             uriTemplate: '',
             openapiContext: ['description' => 'Not implemented. Only needed that we can show this endpoint in /index.jsonhal.']
