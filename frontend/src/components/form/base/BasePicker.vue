@@ -96,6 +96,7 @@ export default {
       // when there are multiple picker instances rendered at the same time
       debouncedParseValue: debounce(this.parseValue, 500),
       clickOutsideHandler: null,
+      escapeKeyHandler: null,
     }
   },
   computed: {
@@ -151,11 +152,21 @@ export default {
     }
     document.addEventListener('click', this.clickOutsideHandler)
 
+    this.escapeKeyHandler = (event) => {
+      if (event.keyCode === 27) {
+        this.closePicker()
+      }
+    }
+    document.addEventListener('keydown', this.escapeKeyHandler)
+
     this.parseValue(this.fieldValue)
   },
   beforeDestroy() {
     if (this.clickOutsideHandler) {
       document.removeEventListener('click', this.clickOutsideHandler)
+    }
+    if (this.escapeKeyHandler) {
+      document.removeEventListener('keydown', this.escapeKeyHandler)
     }
   },
   methods: {
