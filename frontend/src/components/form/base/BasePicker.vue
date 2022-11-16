@@ -174,6 +174,9 @@ export default {
       if (this.localValue !== val) {
         this.$emit('input', val)
         this.localValue = val
+
+        // after saving value, trigger validations
+        this.$refs.textField.$refs.validationProvider.validate(this.fieldValue)
       }
       this.setParseError(null)
     },
@@ -192,9 +195,6 @@ export default {
     },
     closePicker() {
       this.showPicker = false
-
-      // after closing picker, validate value
-      this.$refs.textField.$refs.validationProvider.validate(this.fieldValue)
     },
     async inputFromPicker(val) {
       try {
