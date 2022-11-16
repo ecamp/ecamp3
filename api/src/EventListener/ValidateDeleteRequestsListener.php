@@ -40,7 +40,7 @@ class ValidateDeleteRequestsListener implements EventSubscriberInterface {
 
         $resourceMetadata = $this->resourceMetadataCollectionFactory->create($attributes['resource_class']);
 
-        $validationGroups = $resourceMetadata->getOperation('delete')->getValidationContext()['groups'] ?? ['delete'];
+        $validationGroups = $resourceMetadata->getOperation($attributes['operation_name'])->getValidationContext()['groups'] ?? ['delete'];
         $this->validator->validate($controllerResult, ['groups' => $validationGroups]);
     }
 }
