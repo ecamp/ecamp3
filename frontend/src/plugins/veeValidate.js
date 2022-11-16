@@ -52,8 +52,8 @@ class VeeValidatePlugin {
        * @returns {bool}       validation result
        */
       validate: (value, { min }) => {
-        const minDate = new Date('1970-01-01 ' + min)
-        const valueDate = new Date('1970-01-01 ' + value)
+        const minDate = Vue.dayjs('1970-01-01 ' + min, 'YYYY-MM-DD HH:mm')
+        const valueDate = Vue.dayjs('1970-01-01 ' + value, 'YYYY-MM-DD LT')
         return valueDate > minDate
       },
       message: (field, values) =>
