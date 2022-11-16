@@ -116,8 +116,11 @@ export default {
      */
     parse(val) {
       if (val) {
-        const parsedDate = this.$date.utc(val, 'L')
-        if (parsedDate.isValid() && parsedDate.format('L') === val) {
+        const parsedDate = this.$date(val, ['L', 'l'])
+        if (
+          parsedDate.isValid() &&
+          (parsedDate.format('L') === val || parsedDate.format('l') === val)
+        ) {
           const newValue = this.setDateOnValue(parsedDate)
           return Promise.resolve(newValue)
         } else {
