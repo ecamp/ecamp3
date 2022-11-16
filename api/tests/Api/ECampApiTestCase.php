@@ -160,30 +160,34 @@ abstract class ECampApiTestCase extends ApiTestCase {
         }
         $fullOperationName .= $operationName;
 
-        $resourceMetadataCollection = $this->getResourceMetadataFactory()->create($resourceClass);
-        $operation = $resourceMetadataCollection->getOperation($fullOperationName);
+        try {
+            $resourceMetadataCollection = $this->getResourceMetadataFactory()->create($resourceClass);
+            $operation = $resourceMetadataCollection->getOperation($fullOperationName);
 
-        // build JSON schema based on requested operation
-        $schema = $this->getSchemaFactory()->buildSchema($resourceClass, 'json', 'get' === substr($operationName, 0, 3) ? Schema::TYPE_OUTPUT : Schema::TYPE_INPUT, $operation);
+            // build JSON schema based on requested operation
+            $schema = $this->getSchemaFactory()->buildSchema($resourceClass, 'json', 'get' === substr($operationName, 0, 3) ? Schema::TYPE_OUTPUT : Schema::TYPE_INPUT, $operation);
 
-        // transform schema into example payload
-        preg_match('/\/([^\/]+)$/', $schema['$ref'] ?? '', $matches);
-        $schemaName = $matches[1];
-        $properties = $schema->getDefinitions()[$schemaName]['properties'] ?? [];
-        $writableProperties = array_filter($properties, fn ($property) => !($property['readOnly'] ?? false));
-        $writablePropertiesWithExample = array_filter($writableProperties, fn ($property) => ($property['example'] ?? false));
-        $examples = array_map(fn ($property) => $property['example'] ?? $property['default'] ?? null, $writablePropertiesWithExample);
-        $examples = array_map(function ($example) {
-            try {
-                $decoded = json_decode($example, true, 512, JSON_THROW_ON_ERROR);
+            // transform schema into example payload
+            preg_match('/\/([^\/]+)$/', $schema['$ref'] ?? '', $matches);
+            $schemaName = $matches[1];
+            $properties = $schema->getDefinitions()[$schemaName]['properties'] ?? [];
+            $writableProperties = array_filter($properties, fn ($property) => !($property['readOnly'] ?? false));
+            $writablePropertiesWithExample = array_filter($writableProperties, fn ($property) => ($property['example'] ?? false));
+            $examples = array_map(fn ($property) => $property['example'] ?? $property['default'] ?? null, $writablePropertiesWithExample);
+            $examples = array_map(function ($example) {
+                try {
+                    $decoded = json_decode($example, true, 512, JSON_THROW_ON_ERROR);
 
-                return is_array($decoded) || is_null($decoded) ? $decoded : $example;
-            } catch (\JsonException|\TypeError $e) {
-                return $example;
-            }
-        }, $examples);
+                    return is_array($decoded) || is_null($decoded) ? $decoded : $example;
+                } catch (\JsonException|\TypeError $e) {
+                    return $example;
+                }
+            }, $examples);
 
-        return array_diff_key(array_merge(array_diff_key($examples, array_flip($exceptExamples)), $attributes), array_flip($exceptAttributes));
+            return array_diff_key(array_merge(array_diff_key($examples, array_flip($exceptExamples)), $attributes), array_flip($exceptAttributes));
+        } catch (\Exception $e) {
+            return [];
+        }
     }
 
     protected function get(?BaseEntity $entity = null, ?User $user = null) {
