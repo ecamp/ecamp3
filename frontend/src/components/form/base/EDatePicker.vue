@@ -22,7 +22,8 @@ Displays a field as a date picker (can be used with v-model)
         :value="picker.value || ''"
         :locale="$i18n.locale"
         first-day-of-week="1"
-        :allowed-dates="allowedDates"
+        :min="min"
+        :max="max"
         no-title
         scrollable
         @input="picker.onInput"
@@ -57,8 +58,9 @@ export default {
     // format in which the `value` property is being provided & input events are triggered
     valueFormat: { type: [String, Array], default: 'YYYY-MM-DD' },
 
-    // v-date-picker allowedDates
-    allowedDates: { type: Function, default: null },
+    // v-date-picker props
+    min: { type: String, default: null },
+    max: { type: String, default: null },
   },
   methods: {
     /**

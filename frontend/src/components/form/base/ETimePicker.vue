@@ -21,6 +21,8 @@ Allows 15min steps only
         :value="picker.value || ''"
         :allowed-minutes="allowedStep"
         format="24hr"
+        :min="min"
+        :max="max"
         scrollable
         @input="picker.onInput"
       >
@@ -53,6 +55,10 @@ export default {
 
     // format in which the `value` property is being provided & input events are triggered
     valueFormat: { type: [String, Array], default: 'YYYY-MM-DDTHH:mm:ssZ' },
+
+    // v-time-picker props
+    min: { type: String, default: null },
+    max: { type: String, default: null },
   },
   methods: {
     allowedStep: (m) => m % 15 === 0,
