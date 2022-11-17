@@ -25,14 +25,14 @@ export const formComponentPropsMixin = {
       required: false,
     },
 
-    // used as field name for validation and as label (if no fallback label is provided)
+    // used as field name for validation and as label (if no override label is provided)
     name: {
       type: String,
       required: false,
       default: null,
     },
 
-    // fallback label; name is used as label if not provided
+    // override the label which is displayed to the user; name is used instead if no label is provided
     label: {
       type: String,
       required: false,
