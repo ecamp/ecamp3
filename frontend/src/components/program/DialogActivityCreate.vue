@@ -6,7 +6,7 @@
     icon="mdi-calendar-plus"
     :title="$tc('entity.activity.new')"
     :submit-action="createActivity"
-    submit-label="global.button.create"
+    :submit-label="$tc('global.button.create')"
     submit-icon="mdi-plus"
     submit-color="success"
     :cancel-action="cancelCreate"
