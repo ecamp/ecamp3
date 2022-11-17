@@ -117,15 +117,15 @@
     "form": {
       "base": {
         "eColorPicker": {
-          "openPicker": "Open dialog to select the {label} color"
+          "openPicker": "Open dialog to select a color for {label}"
         },
         "eDatePicker": {
           "invalidFormat": "Invalid format, please enter the date in the format MM/DD/YYYY",
-          "openPicker": "Open dialog to select the {label} date"
+          "openPicker": "Open dialog to select a date for {label}"
         },
         "eTimePicker": {
           "invalidFormat": "Invalid format, please enter the time in the format HH:MM",
-          "openPicker": "Open dialog to select the {label} time"
+          "openPicker": "Open dialog to select a time for {label}"
         }
       }
     },

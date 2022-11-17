@@ -12,7 +12,7 @@ describe('An EDatePicker', () => {
       date1: '01.03.2020',
       date2: '19.03.2020',
       dateInWrongLocale: '03/19/2020',
-      labelText: 'Dialog für Datum test öffnen',
+      labelText: 'Dialog öffnen um ein Datum für test zu wählen',
       date1Heading: 'März 2020',
       closeButton: 'Schliessen',
       validationMessage:
@@ -22,7 +22,7 @@ describe('An EDatePicker', () => {
       date1: '03/01/2020',
       date2: '03/19/2020',
       dateInWrongLocale: '19.03.2020',
-      labelText: 'Open dialog to select the test date',
+      labelText: 'Open dialog to select a date for test',
       date1Heading: 'March 2020',
       closeButton: 'Close',
       validationMessage: 'Invalid format, please enter the date in the format MM/DD/YYYY',

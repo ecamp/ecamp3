@@ -10,7 +10,7 @@ exports[`An EDatePicker in locale de looks like a date picker: pickerclosed 1`] 
                     value>
                     <div class="v-input v-input--hide-details theme--light v-text-field v-text-field--filled v-text-field--enclosed">
                          <div class="v-input__prepend-outer">
-                              <button aria-label="Dialog für Datum test öffnen"
+                              <button aria-label="Dialog öffnen um ein Datum für test zu wählen"
                                       class="v-icon notranslate v-icon--link mdi mdi-calendar theme--light"
                                       type="button"></button>
                          </div>
@@ -42,7 +42,7 @@ exports[`An EDatePicker in locale de looks like a date picker: pickeropen 1`] = 
                value="01.03.2020">
                <div class="v-input v-input--hide-details v-input--is-label-active v-input--is-dirty theme--light v-text-field v-text-field--filled v-text-field--is-booted v-text-field--enclosed">
                     <div class="v-input__prepend-outer">
-                         <button aria-label="Dialog für Datum test öffnen"
+                         <button aria-label="Dialog öffnen um ein Datum für test zu wählen"
                                  class="v-icon notranslate v-icon--link mdi mdi-calendar theme--light"
                                  type="button"></button>
                     </div>
@@ -353,7 +353,7 @@ exports[`An EDatePicker in locale en looks like a date picker: pickerclosed 1`] 
                     value>
                     <div class="v-input v-input--hide-details theme--light v-text-field v-text-field--filled v-text-field--enclosed">
                          <div class="v-input__prepend-outer">
-                              <button aria-label="Open dialog to select the test date"
+                              <button aria-label="Open dialog to select a date for test"
                                       class="v-icon notranslate v-icon--link mdi mdi-calendar theme--light"
                                       type="button"></button>
                          </div>
@@ -385,7 +385,7 @@ exports[`An EDatePicker in locale en looks like a date picker: pickeropen 1`] = 
                value="03/01/2020">
                <div class="v-input v-input--hide-details v-input--is-label-active v-input--is-dirty theme--light v-text-field v-text-field--filled v-text-field--is-booted v-text-field--enclosed">
                     <div class="v-input__prepend-outer">
-                         <button aria-label="Open dialog to select the test date"
+                         <button aria-label="Open dialog to select a date for test"
                                  class="v-icon notranslate v-icon--link mdi mdi-calendar theme--light"
                                  type="button"></button>
                     </div>
