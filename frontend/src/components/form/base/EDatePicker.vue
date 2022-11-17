@@ -13,6 +13,7 @@ Displays a field as a date picker (can be used with v-model)
     :required="required"
     :vee-id="veeId"
     :vee-rules="veeRules"
+    button-aria-label-i18n-key="components.form.base.eDatePicker.openPicker"
     close-on-picker-input
     v-bind="$attrs"
     @input="$emit('input', $event)"

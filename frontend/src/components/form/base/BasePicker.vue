@@ -17,17 +17,26 @@ Displays a field as a picker (can be used with v-model)
     >
       <template #activator="{ on }">
         <e-text-field
+          :id="id"
           ref="textField"
           :value="fieldValue"
+          :hide-details="hideDetails"
+          :input-class="inputClass"
+          :name="name"
+          :label="label"
           v-bind="$attrs"
           :error-messages="combinedErrorMessages"
           :filled="filled"
           :disabled="disabled"
-          @click="on.click"
+          @click="(...args) => onMenuOpen(on, ...args)"
           @input="debouncedParseValue"
         >
           <template v-if="icon" #prepend>
-            <v-icon :color="iconColor" @click="on.click">
+            <v-icon
+              :color="iconColor"
+              :aria-label="$tc(buttonAriaLabelI18nKey, 0, { label: label || name })"
+              @click="(...args) => onMenuOpen(on, ...args)"
+            >
               {{ icon }}
             </v-icon>
           </template>
@@ -47,19 +56,21 @@ Displays a field as a picker (can be used with v-model)
 
 <script>
 import { debounce } from 'lodash'
+import { formComponentPropsMixin } from '../../../mixins/formComponentPropsMixin.js'
 
 export default {
   name: 'BasePicker',
   inheritAttr: false,
+  mixins: [formComponentPropsMixin],
   props: {
     value: { type: [Number, String], required: true },
     icon: { type: String, required: false, default: null },
     iconColor: { type: String, required: false, default: null },
     readonly: { type: Boolean, required: false, default: false },
     disabled: { type: Boolean, required: false, default: false },
-    filled: { type: Boolean, required: false, default: true },
     errorMessages: { type: Array, required: false, default: () => [] },
     closeOnPickerInput: { type: Boolean, required: false, default: false },
+    buttonAriaLabelI18nKey: { type: String, required: true },
 
     /**
      * Format internal value for display in the UI
@@ -170,6 +181,12 @@ export default {
     }
   },
   methods: {
+    onMenuOpen(on, ...args) {
+      if (typeof on.click === 'function') {
+        return on.click(...args)
+      }
+      return () => {}
+    },
     setValue(val) {
       if (this.localValue !== val) {
         this.$emit('input', val)

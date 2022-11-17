@@ -114,6 +114,19 @@
         "warningText": "Do you really want to delete this?"
       }
     },
+    "form": {
+      "base": {
+        "eColorPicker": {
+          "openPicker": "Open dialog to select the {label} color"
+        },
+        "eDatePicker": {
+          "openPicker": "Open dialog to select the {label} date"
+        },
+        "eTimePicker": {
+          "openPicker": "Open dialog to select the {label} time"
+        }
+      }
+    },
     "generic": {
       "lockIcon": {
         "guestsCannotEdit": "Guests have no permission to edit"

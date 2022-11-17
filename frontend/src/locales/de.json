@@ -114,6 +114,19 @@
         "warningText": "Möchtest du das wirklich löschen?"
       }
     },
+    "form": {
+      "base": {
+        "eColorPicker": {
+          "openPicker": "Dialog für Farbe {label} öffnen"
+        },
+        "eDatePicker": {
+          "openPicker": "Dialog für Datum {label} öffnen"
+        },
+        "eTimePicker": {
+          "openPicker": "Dialog für Zeit {label} öffnen"
+        }
+      }
+    },
     "generic": {
       "lockIcon": {
         "guestsCannotEdit": "Gäste haben keinen Bearbeitungszugriff"
