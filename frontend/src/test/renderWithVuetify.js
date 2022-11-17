@@ -6,6 +6,7 @@ import Vuetify from 'vuetify'
 import VueI18n from '../plugins/i18n/index.js'
 import formBaseComponents from '@/plugins/formBaseComponents'
 import { Wrapper } from '@vue/test-utils'
+import { localize } from 'vee-validate'
 
 Vue.use(Vuetify)
 Vue.use(formBaseComponents)
@@ -34,6 +35,7 @@ export const render = (component, options, callback) => {
 export const setTestLocale = (locale) => {
   VueI18n.locale = locale
   Vue.dayjs.locale(locale)
+  localize('en')
 }
 
 /**

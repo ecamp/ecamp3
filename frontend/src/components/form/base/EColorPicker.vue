@@ -16,7 +16,11 @@ Displays a field as a color picker (can be used with v-model)
   >
     <template #default="picker">
       <v-card>
-        <v-color-picker :value="removeAlpha(picker.value)" flat @input="picker.onInput" />
+        <v-color-picker
+          :value="removeAlpha(picker.value || '')"
+          flat
+          @input="picker.onInput"
+        />
         <v-btn text color="primary" @click="picker.close">
           {{ $tc('global.button.close') }}
         </v-btn>

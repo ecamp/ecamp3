@@ -1,28 +1,32 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`An EColorPicker looks like a color picker: pickerclosed 1`] = `
-<div data-app>
+<div data-app="true">
      <div class="e-form-container"
+          name="test"
           vee-rules="[object Object]">
-          <div class="e-form-container"
-               value="#ff0000">
-               <div class="v-input v-input--hide-details v-input--is-label-active v-input--is-dirty theme--light v-text-field v-text-field--single-line v-text-field--filled v-text-field--is-booted v-text-field--enclosed">
-                    <div class="v-input__prepend-outer">
-                         <button class="v-icon notranslate v-icon--link mdi mdi-palette theme--light"
-                                 style="color: rgb(255, 0, 0); caret-color: #ff0000;"
-                                 type="button"></button>
-                    </div>
-                    <div class="v-input__control">
-                         <div class="v-input__slot">
-                              <div class="v-text-field__slot">
-                                   <input id
-                                          type="text">
+          <div class="v-menu">
+               <div class="e-form-container">
+                    <div class="v-input v-input--hide-details theme--light v-text-field v-text-field--filled v-text-field--enclosed">
+                         <div class="v-input__prepend-outer">
+                              <button aria-label="Dialog öffnen um eine Farbe für test zu wählen"
+                                      class="v-icon notranslate v-icon--link mdi mdi-palette theme--light"
+                                      style="color: rgb(255, 0, 0); caret-color: #ff0000;"
+                                      type="button"></button>
+                         </div>
+                         <div class="v-input__control">
+                              <div class="v-input__slot">
+                                   <div class="v-text-field__slot">
+                                        <label class="v-label theme--light"
+                                               for
+                                               style="left: 0px; position: absolute;">test</label>
+                                        <input id
+                                               type="text">
+                                   </div>
                               </div>
                          </div>
                     </div>
                </div>
-          </div>
-          <div class="v-menu">
                <!---->
           </div>
      </div>
@@ -30,20 +34,25 @@ exports[`An EColorPicker looks like a color picker: pickerclosed 1`] = `
 `;
 
 exports[`An EColorPicker looks like a color picker: pickeropen 1`] = `
-<div data-app>
+<div data-app="true">
      <div class="e-form-container"
+          name="test"
           vee-rules="[object Object]">
           <div class="e-form-container"
                value="#ff0000">
-               <div class="v-input v-input--hide-details v-input--is-label-active v-input--is-dirty theme--light v-text-field v-text-field--single-line v-text-field--filled v-text-field--is-booted v-text-field--enclosed">
+               <div class="v-input v-input--hide-details v-input--is-label-active v-input--is-dirty theme--light v-text-field v-text-field--filled v-text-field--is-booted v-text-field--enclosed">
                     <div class="v-input__prepend-outer">
-                         <button class="v-icon notranslate v-icon--link mdi mdi-palette theme--light"
+                         <button aria-label="Dialog öffnen um eine Farbe für test zu wählen"
+                                 class="v-icon notranslate v-icon--link mdi mdi-palette theme--light"
                                  style="color: rgb(255, 0, 0); caret-color: #ff0000;"
                                  type="button"></button>
                     </div>
                     <div class="v-input__control">
                          <div class="v-input__slot">
                               <div class="v-text-field__slot">
+                                   <label class="v-label v-label--active theme--light"
+                                          for
+                                          style="left: 0px; position: absolute;">test</label>
                                    <input id
                                           type="text">
                               </div>

@@ -1,165 +1,152 @@
-import Vue from 'vue'
-import Vuetify from 'vuetify'
+import { screen, waitFor } from '@testing-library/vue'
+import { render, setTestLocale, snapshotOf } from '@/test/renderWithVuetify.js'
+import user from '@testing-library/user-event'
+import EColorPicker from '../EColorPicker'
+
 import { regex } from 'vee-validate/dist/rules'
 import { extend } from 'vee-validate'
-
-import i18n from '@/plugins/i18n'
-import formBaseComponents from '@/plugins/formBaseComponents'
-
-import { mount as mountComponent } from '@vue/test-utils'
-import EColorPicker from '../EColorPicker'
-import { waitForDebounce } from '@/test/util'
-import flushPromises from 'flush-promises'
-
-Vue.use(Vuetify)
-Vue.use(formBaseComponents)
-
 extend('regex', regex)
 
 describe('An EColorPicker', () => {
-  let vuetify
-
-  const COLOR_1 = '#ff0000'
-  const COLOR_2 = '#ff00ff'
+  const COLOR1 = '#ff0000'
+  const COLOR2 = '#ff00ff'
+  const COLOR3 = '#FAFFAF'
   const INVALID_COLOR = 'some new color'
-
-  const createMouseEvent = (x, y) => {
-    return {
-      preventDefault: () => {},
-      clientX: x,
-      clientY: y,
-    }
-  }
-
-  const rectMock = {
-    bottom: 0,
-    height: 100,
-    width: 100,
-    left: 0,
-    right: 0,
-    top: 0,
-    x: 0,
-    y: 0,
-  }
-
-  const mount = (options) => mountComponent(EColorPicker, { vuetify, i18n, ...options })
+  const BUTTON_ARIA_LABEL = 'Dialog öffnen um eine Farbe für test zu wählen'
+  const VALIDATION_MESSAGE = 'test is not valid'
 
   beforeEach(() => {
-    vuetify = new Vuetify()
+    setTestLocale('de')
   })
 
-  test('renders', async () => {
-    const wrapper = mount({
-      propsData: {
-        value: COLOR_1,
+  it('renders the component', async () => {
+    // given
+
+    // when
+    render(EColorPicker, {
+      props: {
+        value: COLOR1,
+        name: 'test',
       },
     })
-    await flushPromises()
-    expect(wrapper.find('input[type=text]').element.value).toBe(COLOR_1)
+
+    // then
+    await screen.findByDisplayValue(COLOR1)
+    screen.getByLabelText(BUTTON_ARIA_LABEL)
   })
 
-  test('looks like a color picker', async () => {
-    const wrapper = mountComponent(
-      {
-        data: () => ({ color: COLOR_1 }),
-        template: '<div data-app><e-color-picker v-model="color"></e-color-picker></div>',
-        components: { 'e-color-picker': EColorPicker },
-      },
-      {
-        vuetify,
-        attachTo: document.body,
-        i18n,
-      }
-    )
-    await waitForDebounce()
-    expect(wrapper).toMatchSnapshot('pickerclosed')
-    await wrapper.find('button').trigger('click')
-    expect(wrapper).toMatchSnapshot('pickeropen')
-    wrapper.destroy()
-  })
+  it('looks like a color picker', async () => {
+    // given
 
-  test('updates v-model when the value changes', async () => {
-    const wrapper = mountComponent(
-      {
-        data: () => ({ color: COLOR_1 }),
-        template: '<div><e-color-picker v-model="color"></e-color-picker></div>',
-        components: { 'e-color-picker': EColorPicker },
-      },
-      {
-        vuetify,
-        i18n,
-      }
-    )
-    expect(wrapper.vm.color).toBe(COLOR_1)
-    const inputSpy = jest.fn()
-    wrapper.findComponent(EColorPicker).vm.$on('input', (event) => inputSpy(event))
-    const input = wrapper.find('input[type=text]')
-    await input.setValue(COLOR_2)
-    await waitForDebounce()
-    expect(inputSpy).toBeCalledTimes(1)
-    expect(inputSpy).toBeCalledWith(COLOR_2)
-    expect(wrapper.vm.color).toBe(COLOR_2)
-  })
-
-  test('validates the input', async () => {
-    const wrapper = mount({
-      propsData: {
-        value: COLOR_1,
-        name: 'Color',
-      },
+    // when
+    const { container } = render(EColorPicker, {
+      props: { value: COLOR1, name: 'test' },
     })
-    const input = wrapper.find('input[type=text]')
-    await input.setValue(INVALID_COLOR)
-    await waitForDebounce()
-    expect(wrapper.text()).toContain('Color is not valid.')
+
+    // then
+    expect(snapshotOf(container)).toMatchSnapshot('pickerclosed')
+
+    // when
+    await user.click(screen.getByLabelText(BUTTON_ARIA_LABEL))
+
+    // then
+    await screen.findByText('Schliessen')
+    expect(snapshotOf(container)).toMatchSnapshot('pickeropen')
   })
 
-  test('updates its value when a color is picked', async () => {
-    const wrapper = mountComponent(
-      {
-        data: () => ({ color: COLOR_2 }),
-        template: '<div data-app><e-color-picker v-model="color"></e-color-picker></div>',
-        components: { 'e-color-picker': EColorPicker },
-      },
-      {
-        vuetify,
-        attachTo: document.body,
-        i18n,
-      }
-    )
-    await waitForDebounce()
-    // open the color picker
-    const openPicker = wrapper.find('button')
-    await openPicker.trigger('click')
+  it('updates v-model when the value changes', async () => {
+    // given
+    const { emitted } = render(EColorPicker, {
+      props: { value: COLOR1, name: 'test' },
+    })
+    const inputField = await screen.findByDisplayValue(COLOR1)
+
+    // when
+    await user.clear(inputField)
+    await user.keyboard(COLOR2)
+
+    // then
+    await waitFor(async () => {
+      const events = emitted().input
+      // some input events were fired
+      expect(events.length).toBeGreaterThan(0)
+      // the last one included the parsed version of our entered time
+      expect(events[events.length - 1]).toEqual([COLOR2])
+    })
+    // Our entered time should be visible...
+    screen.getByDisplayValue(COLOR2)
+    // ...and stay visible
+    return expect(
+      waitFor(() => {
+        expect(screen.getByDisplayValue(COLOR2)).not.toBeVisible()
+      })
+    ).rejects.toThrow(/Received element is visible/)
+  })
+
+  it('updates v-model when a new color is selected in the picker', async () => {
+    // given
+    const { emitted, container } = render(EColorPicker, {
+      props: { value: COLOR1, name: 'test' },
+    })
+    await screen.findByDisplayValue(COLOR1)
+
+    // when
+    // click the button to open the picker
+    await user.click(screen.getByLabelText(BUTTON_ARIA_LABEL))
     // click inside the color picker canvas to select a different color
-    const canvas = wrapper.findComponent({ name: 'v-color-picker-canvas' })
-    canvas.vm.$el.getBoundingClientRect = () => rectMock
-    canvas.vm.handleClick(createMouseEvent(10, 10))
-    await flushPromises()
-    await waitForDebounce()
-    expect(wrapper.find('input[type=text]').element.value).toBe('#E6CFE6')
-    wrapper.destroy()
+    const canvas = container.querySelector('canvas')
+    await user.click(canvas, { clientX: 10, clientY: 10 })
+    // click the close button
+    await user.click(screen.getByText('Schliessen'))
+
+    // then
+    await waitFor(async () => {
+      const events = emitted().input
+      // some input events were fired
+      expect(events.length).toBeGreaterThan(0)
+      // the last one included the parsed version of our entered time
+      expect(events[events.length - 1]).toEqual([COLOR3])
+    })
+    // Our entered time should be visible...
+    screen.getByDisplayValue(COLOR3)
+    // ...and stay visible
+    return expect(
+      waitFor(() => {
+        expect(screen.getByDisplayValue(COLOR3)).not.toBeVisible()
+      })
+    ).rejects.toThrow(/Received element is visible/)
   })
 
-  test('accepts 3-digit hex color codes', async () => {
-    const wrapper = mountComponent(
-      {
-        data: () => ({ color: '#abc' }),
-        template: '<div data-app><e-color-picker v-model="color"></e-color-picker></div>',
-        components: { 'e-color-picker': EColorPicker },
-      },
-      {
-        vuetify,
-        attachTo: document.body,
-        i18n,
-      }
-    )
-    await waitForDebounce()
-    // open the color picker
-    const openPicker = wrapper.find('button')
-    await openPicker.trigger('click')
-    await waitForDebounce()
-    expect(wrapper.find('input[type=text]').element.value).toBe('#AABBCC')
-    wrapper.destroy()
+  it('validates the input', async () => {
+    // given
+    render(EColorPicker, {
+      props: { value: COLOR1, name: 'test' },
+    })
+    const inputField = await screen.findByDisplayValue(COLOR1)
+
+    // when
+    await user.clear(inputField)
+    await user.keyboard(INVALID_COLOR)
+
+    // then
+    await screen.findByText(VALIDATION_MESSAGE)
+  })
+
+  it('accepts 3-digit hex color codes, after picker has been shown', async () => {
+    render(EColorPicker, {
+      props: { value: COLOR1, name: 'test' },
+    })
+    const inputField = await screen.findByDisplayValue(COLOR1)
+    // click the button to open the picker
+    await user.click(screen.getByLabelText(BUTTON_ARIA_LABEL))
+
+    // when
+    await user.clear(inputField)
+    await user.keyboard('#abc')
+
+    // then
+    await waitFor(() => {
+      screen.getByDisplayValue('#AABBCC')
+    })
   })
 })
