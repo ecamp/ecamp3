@@ -124,7 +124,7 @@
           "openPicker": "Open dialog to select a date for {label}"
         },
         "eTimePicker": {
-          "invalidFormat": "Invalid format, please enter the time in the format HH:MM",
+          "invalidFormat": "Invalid format, please enter the time in the format HH:MM AM/PM",
           "openPicker": "Open dialog to select a time for {label}"
         }
       }

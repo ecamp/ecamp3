@@ -1,181 +1,197 @@
-import Vue from 'vue'
-import Vuetify from 'vuetify'
-
-import i18n from '@/plugins/i18n'
-import formBaseComponents from '@/plugins/formBaseComponents'
-import dayjs from '@/plugins/dayjs'
-
-import { mount as mountComponent } from '@vue/test-utils'
+import { screen, waitFor } from '@testing-library/vue'
+import { render, setTestLocale, snapshotOf } from '@/test/renderWithVuetify.js'
+import user from '@testing-library/user-event'
 import ETimePicker from '../ETimePicker'
-import { waitForDebounce } from '@/test/util'
-import flushPromises from 'flush-promises'
-
-Vue.use(Vuetify)
-Vue.use(formBaseComponents)
-Vue.use(dayjs)
 
 describe('An ETimePicker', () => {
-  let vuetify
+  const TIME1_ISO = '2037-07-18T09:52:00+00:00'
+  const TIME1_HHMM = '09:52'
+  const TIME2_ISO = '2037-07-18T18:33:00+00:00'
+  const TIME3_ISO = '2037-07-18T00:52:00+00:00'
 
-  const TIME_1 = '2037-07-18T09:52:00+00:00'
-  const TIME_1_HHMM = '09:52'
-  const TIME_2 = '1989-10-27T18:33:00+00:00'
-  const TIME_3 = '1989-10-27T19:15:00+00:00'
-  const INVALID_TIME_1 = 'some time'
-  const INVALID_TIME_2 = '1989-10-27T46:89:00+00:00'
+  const localeData = {
+    de: {
+      time1: '09:52',
+      time2: '18:33',
+      time3: '00:52',
+      labelText: 'Dialog öffnen um eine Zeit für test zu wählen',
+      closeButton: 'Schliessen',
+      timeInWrongLocale: '9:52 AM',
+      validationMessage: 'Ungültiges Format, bitte gib die Zeit im Format HH:MM ein',
+    },
+    en: {
+      time1: '9:52 AM',
+      time2: '6:33 PM',
+      time3: '12:52 AM',
+      labelText: 'Open dialog to select a time for test',
+      closeButton: 'Close',
+      timeInWrongLocale: '09:52',
+      validationMessage:
+        'Invalid format, please enter the time in the format HH:MM AM/PM',
+    },
+  }
 
-  const localeData = [
-    [
-      'de',
-      {
-        time_1: '09:52',
-        time_2: '18:33',
-        time_3: '19:15',
-      },
-    ],
-    [
-      'en',
-      {
-        time_1: '9:52 AM',
-        time_2: '6:33 PM',
-        time_3: '7:15 PM',
-      },
-    ],
-  ]
-
-  const mount = (options) => mountComponent(ETimePicker, { vuetify, i18n, ...options })
-
-  describe.each(localeData)('in locale %s', (locale, data) => {
+  describe.each(Object.entries(localeData))('in locale %s', (locale, data) => {
     beforeEach(() => {
-      i18n.locale = locale
-      Vue.dayjs.locale(locale)
-      vuetify = new Vuetify()
+      setTestLocale(locale)
     })
 
-    test('renders', async () => {
-      const wrapper = mount({
-        propsData: {
-          value: TIME_1,
+    it('renders the component', async () => {
+      // given
+
+      // when
+      render(ETimePicker, {
+        props: {
+          value: TIME1_ISO,
+          name: 'test',
         },
       })
-      await flushPromises()
-      expect(wrapper.find('input[type=text]').element.value).toBe(data.time_1)
+
+      // then
+      await screen.findByDisplayValue(data.time1)
+      screen.getByLabelText(data.labelText)
     })
 
-    test('looks like a time picker', async () => {
-      const wrapper = mountComponent(
-        {
-          data: () => ({ time: TIME_1 }),
-          template: '<div data-app><e-time-picker v-model="time"></e-time-picker></div>',
-          components: { 'e-time-picker': ETimePicker },
-        },
-        {
-          vuetify,
-          attachTo: document.body,
-          i18n,
-        }
-      )
-      await waitForDebounce()
-      expect(wrapper).toMatchSnapshot('pickerclosed')
-      await wrapper.find('button').trigger('click')
-      expect(wrapper).toMatchSnapshot('pickeropen')
-      wrapper.destroy()
+    it('looks like a time picker', async () => {
+      // given
+
+      // when
+      const { container } = render(ETimePicker, {
+        props: { value: TIME1_ISO, name: 'test' },
+      })
+
+      // then
+      expect(snapshotOf(container)).toMatchSnapshot('pickerclosed')
+
+      // when
+      await user.click(screen.getByLabelText(data.labelText))
+
+      // then
+      await screen.findByText(data.closeButton)
+      expect(snapshotOf(container)).toMatchSnapshot('pickeropen')
     })
 
-    test('allows a different valueFormat', async () => {
-      const wrapper = mount({
-        propsData: {
-          value: TIME_1_HHMM,
+    it('allows setting a different valueFormat', async () => {
+      // given
+
+      // when
+      render(ETimePicker, {
+        props: {
+          value: TIME1_HHMM,
+          name: 'test',
           valueFormat: 'HH:mm',
         },
       })
-      await flushPromises()
-      expect(wrapper.find('input[type=text]').element.value).toBe(data.time_1)
+
+      // then
+      await screen.findByDisplayValue(data.time1)
+      screen.getByLabelText(data.labelText)
     })
 
-    test('updates v-model when the value changes', async () => {
-      const wrapper = mountComponent(
-        {
-          data: () => ({ time: TIME_2 }),
-          template: '<div><e-time-picker v-model="time"></e-time-picker></div>',
-          components: { 'e-time-picker': ETimePicker },
-        },
-        {
-          vuetify,
-          i18n,
-        }
-      )
-      expect(wrapper.vm.time).toBe(TIME_2)
-      const inputSpy = jest.fn()
-      wrapper.findComponent(ETimePicker).vm.$on('input', (event) => inputSpy(event))
-      const input = wrapper.find('input[type=text]')
-      await input.setValue(data.time_3)
-      await waitForDebounce()
-      expect(inputSpy).toBeCalledTimes(1)
-      expect(inputSpy).toBeCalledWith(TIME_3)
-      expect(wrapper.vm.time).toBe(TIME_3)
-    })
-
-    test('validates the input', async () => {
-      const wrapper = mount({
-        propsData: {
-          value: TIME_1,
-        },
+    it('updates v-model when the input field is changed', async () => {
+      // given
+      const { emitted } = render(ETimePicker, {
+        props: { value: TIME1_ISO, name: 'test' },
       })
-      const input = wrapper.find('input[type=text]')
-      await input.setValue(INVALID_TIME_1)
-      await waitForDebounce()
-      expect(wrapper.text()).toContain('invalid format')
-      await input.setValue(INVALID_TIME_2)
-      await waitForDebounce()
-      expect(wrapper.text()).toContain('invalid format')
+      const inputField = await screen.findByDisplayValue(data.time1)
+
+      // when
+      await user.clear(inputField)
+      await user.keyboard(data.time2)
+
+      // then
+      await waitFor(async () => {
+        const events = emitted().input
+        // some input events were fired
+        expect(events.length).toBeGreaterThan(0)
+        // the last one included the parsed version of our entered time
+        expect(events[events.length - 1]).toEqual([TIME2_ISO])
+      })
+      // Our entered time should be visible...
+      screen.getByDisplayValue(data.time2)
+      // ...and stay visible
+      return expect(
+        waitFor(() => {
+          expect(screen.getByDisplayValue(data.time2)).not.toBeVisible()
+        })
+      ).rejects.toThrow(/Received element is visible/)
     })
 
-    test('works with invalid initialization', async () => {
-      const wrapper = mount({
-        propsData: {
+    it('updates v-model when a new time is selected in the picker', async () => {
+      // given
+      const { emitted } = render(ETimePicker, {
+        props: { value: TIME1_ISO, name: 'test' },
+      })
+      await screen.findByDisplayValue(data.time1)
+
+      // when
+      // click the button to open the picker
+      await user.click(screen.getByLabelText(data.labelText))
+      // Click the 0th hour. We can only click this one, because
+      // testing library is missing the vuetify styles, and all the
+      // number elements overlap
+      await user.click(await screen.findByText('0'))
+      // click the close button
+      await user.click(screen.getByText(data.closeButton))
+
+      // then
+      await waitFor(() => {
+        expect(screen.queryByText(data.closeButton)).not.toBeVisible()
+      })
+      await waitFor(async () => {
+        const events = emitted().input
+        // some input events were fired
+        expect(events.length).toBeGreaterThan(0)
+        // the last one included the parsed version of our entered time
+        expect(events[events.length - 1]).toEqual([TIME3_ISO])
+      })
+      // Our entered time should be visible...
+      screen.getByDisplayValue(data.time3)
+      // ...and stay visible
+      return expect(
+        waitFor(() => {
+          expect(screen.getByDisplayValue(data.time3)).not.toBeVisible()
+        })
+      ).rejects.toThrow(/Received element is visible/)
+    })
+
+    it('validates the input', async () => {
+      // given
+      render(ETimePicker, {
+        props: { value: TIME1_ISO, name: 'test' },
+      })
+      const inputField = await screen.findByDisplayValue(data.time1)
+
+      // when
+      await user.clear(inputField)
+      await user.keyboard(data.timeInWrongLocale)
+
+      // then
+      await screen.findByText(data.validationMessage)
+    })
+
+    it('works with invalid initialization', async () => {
+      // given
+
+      // when
+      render(ETimePicker, {
+        props: {
           value: 'abc',
+          name: 'test',
         },
       })
-      await waitForDebounce()
-      expect(wrapper.find('input[type=text]').element.value).toBe('Invalid Date')
-      expect(wrapper.text()).toContain('invalid format')
-      const input = wrapper.find('input[type=text]')
-      await input.setValue(data.time_1)
-      await waitForDebounce()
-      expect(wrapper.text()).not.toContain('invalid format')
-    })
 
-    test('updates its value when a time is picked', async () => {
-      const wrapper = mountComponent(
-        {
-          data: () => ({ time: TIME_2 }),
-          template: '<div data-app><e-time-picker v-model="time"></e-time-picker></div>',
-          components: { 'e-time-picker': ETimePicker },
-        },
-        {
-          vuetify,
-          attachTo: document.body,
-          i18n,
-        }
-      )
-      await waitForDebounce()
-      // open the time picker
-      const openPicker = wrapper.find('button')
-      await openPicker.trigger('click')
-      // select hour
-      const clockHour = wrapper.findComponent({ name: 'v-time-picker-clock' })
-      clockHour.vm.update(19)
-      clockHour.vm.valueOnMouseUp = 19
-      await clockHour.trigger('mouseup')
-      // select minute
-      const clockMinute = wrapper.findComponent({ name: 'v-time-picker-clock' })
-      clockMinute.vm.update(15)
-      clockMinute.vm.valueOnMouseUp = 15
-      await clockMinute.trigger('mouseup')
-      await waitForDebounce()
-      expect(wrapper.find('input[type=text]').element.value).toBe(data.time_3)
-      wrapper.destroy()
+      // then
+      const inputField = await screen.findByDisplayValue('Invalid Date')
+
+      // when
+      await user.clear(inputField)
+      await user.keyboard(data.time2)
+
+      // then
+      waitFor(() => {
+        expect(screen.queryByText('Invalid Date')).not.toBeInTheDocument()
+      })
     })
   })
 })
