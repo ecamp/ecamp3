@@ -125,7 +125,9 @@ export default {
           const newValue = this.setDateOnValue(parsedDate)
           return Promise.resolve(newValue)
         } else {
-          return Promise.reject(new Error('invalid format'))
+          return Promise.reject(
+            new Error(this.$tc('components.form.base.eDatePicker.invalidFormat'))
+          )
         }
       } else {
         return Promise.resolve('')

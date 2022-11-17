@@ -123,7 +123,9 @@ export default {
           const newValue = this.setTimeOnValue(parsedDateTime)
           return Promise.resolve(newValue)
         } else {
-          return Promise.reject(new Error('invalid format'))
+          return Promise.reject(
+            new Error(this.$tc('components.form.base.eTimePicker.invalidFormat'))
+          )
         }
       } else {
         return Promise.resolve('')

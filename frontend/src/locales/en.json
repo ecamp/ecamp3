@@ -120,9 +120,11 @@
           "openPicker": "Open dialog to select the {label} color"
         },
         "eDatePicker": {
+          "invalidFormat": "Invalid format, please enter the date in the format MM/DD/YYYY",
           "openPicker": "Open dialog to select the {label} date"
         },
         "eTimePicker": {
+          "invalidFormat": "Invalid format, please enter the time in the format HH:MM",
           "openPicker": "Open dialog to select the {label} time"
         }
       }
