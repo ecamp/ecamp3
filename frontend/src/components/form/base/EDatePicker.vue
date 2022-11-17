@@ -95,7 +95,7 @@ export default {
      * Format internal value for display in the UI
      */
     format(val) {
-      if (val !== '') {
+      if (val !== '' && val !== null) {
         return this.getValueAsDateTime(val).format('L')
       }
       return ''

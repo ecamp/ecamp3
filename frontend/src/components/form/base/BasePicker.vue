@@ -87,7 +87,8 @@ export default {
       random: Math.random().toString(36).substring(2),
 
       // internal value
-      localValue: this.value,
+      localValue: null,
+      localValueInitialized: false,
 
       showPicker: false,
       parseError: null,
@@ -131,9 +132,8 @@ export default {
   },
   watch: {
     value(val) {
-      if (this.showPicker === false) {
-        this.localValue = val
-      }
+      this.localValueInitialized = false
+      this.setValue(val)
     },
   },
   mounted() {
@@ -159,7 +159,7 @@ export default {
     }
     document.addEventListener('keydown', this.escapeKeyHandler)
 
-    this.parseValue(this.fieldValue)
+    this.setValue(this.value)
   },
   beforeDestroy() {
     if (this.clickOutsideHandler) {
@@ -175,9 +175,13 @@ export default {
         this.$emit('input', val)
         this.localValue = val
 
-        // after saving value, trigger validations
-        this.$refs.textField.$refs.validationProvider.validate(this.fieldValue)
+        if (this.localValueInitialized) {
+          this.$emit('input', val)
+          // after saving value, trigger validations
+          this.$refs.textField.$refs.validationProvider.validate(this.fieldValue)
+        }
       }
+      this.localValueInitialized = true
       this.setParseError(null)
     },
     async parseValue(val) {

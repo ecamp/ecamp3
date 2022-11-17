@@ -41,6 +41,12 @@ export default {
     value: { type: String, required: true },
   },
   methods: {
+    /**
+     * Format internal value for display in the UI
+     */
+    format(val) {
+      return val || ''
+    },
     parsePicker(val) {
       const result = this.removeAlpha(val)
       if (result.toLowerCase() === this.value.toLowerCase()) {
