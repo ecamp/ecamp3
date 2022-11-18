@@ -12,7 +12,7 @@ describe('An EColorPicker', () => {
   const COLOR2 = '#ff00ff'
   const COLOR3 = '#FAFFAF'
   const INVALID_COLOR = 'some new color'
-  const BUTTON_ARIA_LABEL = 'Dialog öffnen um eine Farbe für test zu wählen'
+  const PICKER_BUTTON_LABEL_TEXT = 'Dialog öffnen um eine Farbe für test zu wählen'
   const VALIDATION_MESSAGE = 'test is not valid'
 
   beforeEach(() => {
@@ -32,7 +32,7 @@ describe('An EColorPicker', () => {
 
     // then
     await screen.findByDisplayValue(COLOR1)
-    screen.getByLabelText(BUTTON_ARIA_LABEL)
+    screen.getByLabelText(PICKER_BUTTON_LABEL_TEXT)
   })
 
   it('looks like a color picker', async () => {
@@ -47,7 +47,7 @@ describe('An EColorPicker', () => {
     expect(snapshotOf(container)).toMatchSnapshot('pickerclosed')
 
     // when
-    await user.click(screen.getByLabelText(BUTTON_ARIA_LABEL))
+    await user.click(screen.getByLabelText(PICKER_BUTTON_LABEL_TEXT))
 
     // then
     await screen.findByText('Schliessen')
@@ -92,7 +92,7 @@ describe('An EColorPicker', () => {
 
     // when
     // click the button to open the picker
-    await user.click(screen.getByLabelText(BUTTON_ARIA_LABEL))
+    await user.click(screen.getByLabelText(PICKER_BUTTON_LABEL_TEXT))
     // click inside the color picker canvas to select a different color
     const canvas = container.querySelector('canvas')
     await user.click(canvas, { clientX: 10, clientY: 10 })
@@ -138,7 +138,7 @@ describe('An EColorPicker', () => {
     })
     const inputField = await screen.findByDisplayValue(COLOR1)
     // click the button to open the picker
-    await user.click(screen.getByLabelText(BUTTON_ARIA_LABEL))
+    await user.click(screen.getByLabelText(PICKER_BUTTON_LABEL_TEXT))
 
     // when
     await user.clear(inputField)
