@@ -60,7 +60,6 @@
             class="mr-1"
             :aria-label="$tc('global.button.save')"
             v-on="on"
-            @click="wrapper.on.save"
           >
             <v-icon>mdi-check</v-icon>
           </v-btn>
