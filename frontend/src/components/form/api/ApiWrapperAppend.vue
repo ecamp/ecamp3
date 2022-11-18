@@ -86,12 +86,7 @@
     </template>
 
     <!-- Retry button if loading failed -->
-    <button-retry
-      v-if="wrapper.hasLoadingError"
-      text
-      type="submit"
-      @click="wrapper.on.reload"
-    />
+    <button-retry v-if="wrapper.hasLoadingError" text @click="wrapper.on.reload" />
   </div>
 </template>
 
