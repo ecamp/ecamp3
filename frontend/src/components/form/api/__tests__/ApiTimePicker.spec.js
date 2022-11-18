@@ -1,119 +1,88 @@
 import ApiTimePicker from '../ApiTimePicker'
-import ApiWrapper from '@/components/form/api/ApiWrapper'
-import Vue from 'vue'
-import Vuetify from 'vuetify'
-import dayjs from '@/plugins/dayjs'
-import flushPromises from 'flush-promises'
-import formBaseComponents from '@/plugins/formBaseComponents'
-import merge from 'lodash/merge'
+import { screen, waitFor } from '@testing-library/vue'
+import { render, setTestLocale } from '@/test/renderWithVuetify.js'
+import user from '@testing-library/user-event'
 import { ApiMock } from '@/components/form/api/__tests__/ApiMock'
-import { i18n } from '@/plugins'
-import { mount as mountComponent } from '@vue/test-utils'
-import { waitForDebounce } from '@/test/util'
-import { HTML5_FMT } from '@/common/helpers/dateFormat.js'
-
-Vue.use(Vuetify)
-Vue.use(formBaseComponents)
-Vue.use(dayjs)
 
 describe('An ApiTimePicker', () => {
-  let vuetify
-  let wrapper
   let apiMock
 
-  const fieldName = 'test-field/123'
+  const FIELD_NAME = 'test-field/123'
+  const FIELD_LABEL = 'Test field'
   const TIME_1 = '2037-07-18T09:52:00+00:00'
-  const TIME_2_HOUR = 19
-  const TIME_2_MINUTE = 15
-  const TIME_2 = `2037-07-18T${TIME_2_HOUR}:${TIME_2_MINUTE}:00+00:00`
-
-  const format = (date) =>
-    Vue.dayjs.utc(date, HTML5_FMT.DATETIME_LOCAL_SECONDS).format('LT')
+  const TIME_2 = '2037-07-18T00:52:00+00:00'
+  const PICKER_BUTTON_LABEL_TEXT = 'Dialog öffnen um eine Zeit für Test field zu wählen'
 
   beforeEach(() => {
-    i18n.locale = 'de'
-    Vue.dayjs.locale(i18n.locale)
-    vuetify = new Vuetify()
+    setTestLocale('de')
     apiMock = ApiMock.create()
   })
 
   afterEach(() => {
     jest.restoreAllMocks()
-    wrapper.destroy()
   })
 
-  const mount = (options) => {
-    const app = Vue.component('App', {
-      components: { ApiTimePicker },
+  it('triggers api.patch and status update if input changes', async () => {
+    // given
+    apiMock.get().thenReturn(ApiMock.success(TIME_1).forFieldName(FIELD_NAME))
+    apiMock.patch().thenReturn(ApiMock.success(TIME_2))
+    render(ApiTimePicker, {
       props: {
-        fieldName: { type: String, default: fieldName },
+        autoSave: false,
+        fieldname: FIELD_NAME,
+        uri: 'test-field/123',
+        label: FIELD_LABEL,
+        required: true,
       },
-      template: `
-        <div data-app>
-          <api-time-picker
-            :auto-save="false"
-            :fieldname="fieldName"
-            uri="test-field/123"
-            label="Test field"
-            required="true"
-          />
-        </div>
-      `,
-    })
-    apiMock.get().thenReturn(ApiMock.success(TIME_1).forFieldName(fieldName))
-    const defaultOptions = {
       mocks: {
-        $tc: () => {},
         api: apiMock.getMocks(),
       },
-    }
-    return mountComponent(app, {
-      vuetify,
-      i18n,
-      attachTo: document.body,
-      ...merge(defaultOptions, options),
     })
-  }
 
-  test('triggers api.patch and status update if input changes', async () => {
-    apiMock.patch().thenReturn(ApiMock.success(TIME_2))
-    wrapper = mount()
+    // when
+    // click the button to open the picker
+    await user.click(screen.getByLabelText(PICKER_BUTTON_LABEL_TEXT))
+    // Click the 0th hour. We can only click this one, because
+    // testing library is missing the vuetify styles, and all the
+    // number elements overlap
+    await user.click(await screen.findByText('0'))
+    // click the save button
+    await user.click(screen.getByLabelText('Speichern'))
 
-    await flushPromises()
-
-    // open the time picker
-    const openPicker = wrapper.find('button')
-    await openPicker.trigger('click')
-    // select hour
-    const clockHour = wrapper.findComponent({ name: 'v-time-picker-clock' })
-    clockHour.vm.update(TIME_2_HOUR)
-    clockHour.vm.valueOnMouseUp = TIME_2_HOUR
-    await clockHour.trigger('mouseup')
-    // select minute
-    const clockMinute = wrapper.findComponent({ name: 'v-time-picker-clock' })
-    clockMinute.vm.update(TIME_2_MINUTE)
-    clockMinute.vm.valueOnMouseUp = TIME_2_MINUTE
-    await clockMinute.trigger('mouseup')
-    await wrapper.find('input').trigger('submit')
-    await waitForDebounce()
-
-    await waitForDebounce()
-    await flushPromises()
-
-    expect(apiMock.getMocks().patch).toBeCalledTimes(1)
-    expect(wrapper.findComponent(ApiWrapper).vm.localValue).toBe(TIME_2)
+    // then
+    await waitFor(async () => {
+      const inputField = await screen.findByLabelText(FIELD_LABEL)
+      expect(inputField.value).toBe('00:52')
+      expect(apiMock.getMocks().patch).toBeCalledTimes(1)
+    })
   })
 
-  test('updates state if value in store is refreshed and has new value', async () => {
-    wrapper = mount()
-    apiMock.get().thenReturn(ApiMock.success(TIME_2).forFieldName(fieldName))
+  it('updates state if value in store is refreshed and has new value', async () => {
+    // given
+    apiMock.get().thenReturn(ApiMock.networkError().forFieldName(FIELD_NAME))
+    render(ApiTimePicker, {
+      props: {
+        autoSave: false,
+        fieldname: FIELD_NAME,
+        uri: 'test-field/123',
+        label: FIELD_LABEL,
+        required: true,
+      },
+      mocks: {
+        api: apiMock.getMocks(),
+      },
+    })
+    await screen.findByText('A network error occurred.')
+    expect((await screen.findByLabelText(FIELD_LABEL)).value).not.toBe('09:52')
+    const retryButton = await screen.findByText('Erneut versuchen')
+    apiMock.get().thenReturn(ApiMock.success(TIME_1).forFieldName(FIELD_NAME))
 
-    wrapper.findComponent(ApiWrapper).vm.reload()
+    // when
+    await user.click(retryButton)
 
-    await waitForDebounce()
-    await flushPromises()
-
-    expect(wrapper.findComponent(ApiWrapper).vm.localValue).toBe(TIME_2)
-    expect(wrapper.find('input[type=text]').element.value).toBe(format(TIME_2))
+    // then
+    await waitFor(async () => {
+      expect((await screen.findByLabelText(FIELD_LABEL)).value).toBe('09:52')
+    })
   })
 })
