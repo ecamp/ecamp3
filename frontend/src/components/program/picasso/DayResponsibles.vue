@@ -81,10 +81,13 @@ export default {
         })
     },
     currentCampCollaborationIRIs() {
-      return this.dayResponsibles.items.map((item) => item.campCollaboration()._meta.self)
+      return (
+        this.dayResponsibles?.items.map((item) => item.campCollaboration()._meta.self) ??
+        []
+      )
     },
     dayResponsibles() {
-      return this.day.dayResponsibles()
+      return this.day?.dayResponsibles()
     },
     campCollaborations() {
       return this.period.camp().campCollaborations()
