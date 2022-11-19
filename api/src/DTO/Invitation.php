@@ -21,7 +21,7 @@ use Symfony\Component\Validator\Constraints as Assert;
     operations: [
         new Get(
             provider: InvitationProvider::class,
-            uriTemplate: '/{inviteKey}/find{._format}', // TO DISCUSS: Wouldn't '/{inviteKey}{._format}' be more REST-like
+            uriTemplate: '/invitations/{inviteKey}/find{._format}', // TO DISCUSS: Wouldn't '/{inviteKey}{._format}' be more REST-like
             normalizationContext: self::ITEM_NORMALIZATION_CONTEXT,
             openapiContext: ['description' => 'Use myInviteKey to find an invitation in the dev environment.']
         ),
@@ -30,7 +30,7 @@ use Symfony\Component\Validator\Constraints as Assert;
             processor: InvitationAcceptProcessor::class,
             output: Invitation::class,
             security: 'is_authenticated()',
-            uriTemplate: '/{inviteKey}/'.self::ACCEPT.'{._format}',
+            uriTemplate: '/invitations/{inviteKey}/'.self::ACCEPT.'{._format}',
             denormalizationContext: ['groups' => ['write']],
             normalizationContext: self::ITEM_NORMALIZATION_CONTEXT,
             openapiContext: ['summary' => 'Accept an Invitation.', 'description' => 'Use myInviteKey2 to accept an invitation in dev environment.'],
@@ -40,7 +40,7 @@ use Symfony\Component\Validator\Constraints as Assert;
             provider: InvitationProvider::class,
             processor: InvitationRejectProcessor::class,
             output: Invitation::class,
-            uriTemplate: '/{inviteKey}/'.self::REJECT.'{._format}',
+            uriTemplate: '/invitations/{inviteKey}/'.self::REJECT.'{._format}',
             denormalizationContext: ['groups' => ['write']],
             normalizationContext: self::ITEM_NORMALIZATION_CONTEXT,
             openapiContext: ['summary' => 'Reject an Invitation.', 'description' => 'Use myInviteKey to reject an invitation in dev environment.']
@@ -48,11 +48,9 @@ use Symfony\Component\Validator\Constraints as Assert;
         new GetCollection(
             provider: InvitationProvider::class,
             security: 'false',
-            uriTemplate: '',
             openapiContext: ['description' => 'Not implemented. Only needed that we can show this endpoint in /index.jsonhal.']
         ),
     ],
-    routePrefix: '/invitations'
 )]
 class Invitation {
     public const ACCEPT = 'accept';

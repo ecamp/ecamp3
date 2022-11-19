@@ -18,19 +18,16 @@ use Symfony\Component\Validator\Constraints as Assert;
         new Get(
             provider: ResetPasswordProvider::class,
             security: 'true',
-            uriTemplate: '/{id}'
         ),
         new Patch(
             provider: ResetPasswordProvider::class,
             processor: ResetPasswordUpdateProcessor::class,
             security: 'true',
-            uriTemplate: '/{id}',
             denormalizationContext: ['groups' => ['update']]
         ),
         new Post(
             processor: ResetPasswordCreateProcessor::class,
             security: 'true',
-            uriTemplate: '',
             status: 204,
             output: false,
             denormalizationContext: ['groups' => ['create']],
@@ -38,7 +35,7 @@ use Symfony\Component\Validator\Constraints as Assert;
             openapiContext: ['summary' => 'Request Password-Reset-Mail', 'description' => 'Password-Reset-Link will be sent to the given email']
         ),
     ],
-    routePrefix: '/auth/reset_password'
+    routePrefix: '/auth'
 )]
 class ResetPassword {
     /**

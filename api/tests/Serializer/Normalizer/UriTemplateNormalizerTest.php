@@ -2,8 +2,8 @@
 
 namespace App\Tests\Serializer\Normalizer;
 
+use ApiPlatform\Api\Entrypoint;
 use ApiPlatform\Api\UrlGeneratorInterface;
-use ApiPlatform\Core\Api\Entrypoint;
 use ApiPlatform\Metadata\Resource\ResourceNameCollection;
 use App\Entity\Activity;
 use App\Entity\Camp;
@@ -43,6 +43,9 @@ class UriTemplateNormalizerTest extends TestCase {
                 case 'connect_cevidb_start':
                     return '/auth/cevidb';
 
+                case '_api_/reset_passwords{._format}_post':
+                    return '/auth/reset_passwords';
+
                 default:
                     return null;
             }
@@ -72,7 +75,7 @@ class UriTemplateNormalizerTest extends TestCase {
                 'templated' => true,
             ],
             'resetPassword' => [
-                'href' => '{/id}',
+                'href' => '/auth/reset_passwords{/id}',
                 'templated' => true,
             ],
         ];
