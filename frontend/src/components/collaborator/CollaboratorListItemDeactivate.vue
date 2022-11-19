@@ -6,7 +6,9 @@
     :error="error"
     :submit-action="deactivateUser"
     :submit-enabled="!$slots.error"
-    submit-label="components.collaborator.collaboratorListItemDeactivate.deactivate"
+    :submit-label="
+      $tc('components.collaborator.collaboratorListItemDeactivate.deactivate')
+    "
     submit-color="error"
     submit-icon="mdi-cancel"
     cancel-icon=""

@@ -1,10 +1,6 @@
 <template>
   <div>
-    <slot
-      :schedule-entries="scheduleEntries"
-      :loading="scheduleEntries._meta.loading"
-      :on="eventHandlers"
-    />
+    <slot :schedule-entries="scheduleEntries" :loading="loading" :on="eventHandlers" />
     <dialog-activity-create
       ref="dialogActivityCreate"
       :period="period"
@@ -58,6 +54,13 @@ export default {
     scheduleEntries() {
       // TODO for SideBar, add filtering for the current day, now that the API supports it
       return this.period().scheduleEntries()
+    },
+    loading() {
+      return (
+        this.scheduleEntries._meta.loading ||
+        this.period().camp().activities()._meta.loading ||
+        this.period().camp().categories()._meta.loading
+      )
     },
   },
   mounted() {

@@ -20,14 +20,14 @@
     "test:e2e:ci": "vue-cli-service test:e2e --headless",
     "test:unit:debug": "node --inspect-brk=0.0.0.0:9229 ./node_modules/@vue/cli-service/bin/vue-cli-service.js test:unit --no-cache --runInBand",
     "test:unit:watch": "vue-cli-service test:unit --watch",
-    "postinstall": "sed -i 's/Color.extend(contrast);/Color.extend({contrast});/g' node_modules/colorjs.io/dist/color.js"
+    "postinstall": "sed 's/Color.extend(contrast);/Color.extend({contrast});/g' node_modules/colorjs.io/dist/color.js > node_modules/colorjs.io/dist/color.js.tmpfix; cat node_modules/colorjs.io/dist/color.js.tmpfix > node_modules/colorjs.io/dist/color.js; rm node_modules/colorjs.io/dist/color.js.tmpfix"
   },
   "dependencies": {
     "@intlify/core": "9.2.2",
     "@mdi/font": "7.0.96",
     "@react-pdf/renderer": "3.0.1",
-    "@sentry/browser": "7.19.0",
-    "@sentry/vue": "7.19.0",
+    "@sentry/browser": "7.20.0",
+    "@sentry/vue": "7.20.0",
     "@tiptap/extension-bold": "2.0.0-beta.202",
     "@tiptap/extension-bubble-menu": "2.0.0-beta.202",
     "@tiptap/extension-bullet-list": "2.0.0-beta.202",
@@ -111,7 +111,7 @@
     "prettier": "2.7.1",
     "sass": "1.32.13",
     "unplugin-vue-components": "0.22.9",
-    "vite": "3.2.3",
+    "vite": "3.2.4",
     "vite-plugin-comlink": "3.0.4",
     "vite-plugin-vue2-svg": "0.3.0",
     "vue-cli-plugin-vuetify": "2.5.8",
@@ -148,7 +148,13 @@
           "argsIgnorePattern": "^_$"
         }
       ],
-      "local-rules/matching-translation-keys": "error"
+      "local-rules/matching-translation-keys": [
+        "error",
+        {
+          "ignoreKeysRegex": "^(global|entity|contentNode\\.[a-z][a-zA-Z]+|print\\.(global|activity|cover|picasso|program|story|toc))\\..+",
+          "translationKeyPropRegex": "[a-zA-Z0-9]-i18n-key$"
+        }
+      ]
     },
     "parserOptions": {
       "parser": "@babel/eslint-parser"

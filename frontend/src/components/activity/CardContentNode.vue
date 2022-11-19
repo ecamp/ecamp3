@@ -22,7 +22,7 @@
         <v-spacer v-if="!editInstanceName" />
         <icon-with-tooltip
           v-if="!editInstanceName && !layoutMode"
-          :tc-key="`contentNode.${camelCase(contentNode.contentTypeName)}.info`"
+          :tooltip-i18n-key="`contentNode.${camelCase(contentNode.contentTypeName)}.info`"
         />
 
         <v-btn

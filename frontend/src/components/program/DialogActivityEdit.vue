@@ -5,7 +5,7 @@
     :error="error"
     icon="mdi-calendar-plus"
     :submit-action="updateActivity"
-    submit-label="global.button.update"
+    :submit-label="$tc('global.button.update')"
     submit-color="success"
     :cancel-action="close"
   >

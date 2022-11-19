@@ -300,6 +300,8 @@ export default {
     },
   },
   async mounted() {
+    this.api.reload(this.camp())
+
     const [loggedInUser] = await Promise.all([
       this.$auth.loadUser(),
       this.camp().periods()._meta.load,

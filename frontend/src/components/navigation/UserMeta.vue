@@ -27,9 +27,7 @@
       </v-list-item>
       <v-list-item block tag="li" exact :to="{ name: 'camps' }" @click="open = false">
         <v-icon left>mdi-format-list-bulleted-triangle</v-icon>
-        <span>{{
-          $tc('components.navigation.userMeta.myCamps', api.get().camps().items.length)
-        }}</span>
+        <span>{{ $tc('components.navigation.userMeta.myCamps') }}</span>
       </v-list-item>
       <v-list-item block tag="li" @click="logout">
         <v-progress-circular

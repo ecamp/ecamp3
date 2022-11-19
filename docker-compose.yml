@@ -2,7 +2,7 @@ version: "3.4"
 
 services:
   frontend:
-    image: node:18.12.1@sha256:d09511bdb23ef545d385562689913f2b6ca82fdced95864e6cde709d91e42d26
+    image: node:18.12.1@sha256:c47a2c61e635eb4938fcd56a1139b552300624b53e3eca06b5554a577f1842cf
     container_name: 'ecamp3-frontend'
     ports:
       - '3000:3000'
@@ -102,7 +102,7 @@ services:
       - ./api/public:/srv/api/public:ro
 
   print:
-    image: node:18.12.1@sha256:d09511bdb23ef545d385562689913f2b6ca82fdced95864e6cde709d91e42d26
+    image: node:18.12.1@sha256:c47a2c61e635eb4938fcd56a1139b552300624b53e3eca06b5554a577f1842cf
     container_name: 'ecamp3-print'
     ports:
       - '3003:3003'
@@ -154,7 +154,7 @@ services:
     restart: on-failure
 
   browserless:
-    image: browserless/chrome:1.56.0-puppeteer-18.0.5@sha256:83a0f24eb4341c30e0f5106a98f1d1e5a3981805fce2829403cda9ef2e0b965e
+    image: browserless/chrome:1.56.0-puppeteer-18.0.5
     container_name: 'ecamp3-browserless'
     ports:
       - '3010:3000'

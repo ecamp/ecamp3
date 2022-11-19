@@ -46,7 +46,7 @@
     "navigation": {
       "userMeta": {
         "logOut": "Disconnettiti",
-        "myCamps": "Il mio campo | I miei campi",
+        "myCamps": "I miei campi",
         "profile": "Profilo"
       }
     },
@@ -199,7 +199,7 @@
     },
     "camps": {
       "create": "Creare il campo",
-      "title": "Il mio campo | I miei campi"
+      "title": "I miei campi"
     },
     "profile": {
       "profile": "Profilo"

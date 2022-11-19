@@ -59,7 +59,7 @@
               :disabled="!cancelEnabled"
               @click="doCancel"
             >
-              {{ $tc(cancelLabel) }}
+              {{ cancelLabel }}
             </v-btn>
             <v-btn
               v-if="submitAction != null"
@@ -71,7 +71,7 @@
               <v-icon v-if="!!submitIcon" left>
                 {{ submitIcon }}
               </v-icon>
-              {{ $tc(submitLabel) }}
+              {{ submitLabel }}
             </v-btn>
             <slot name="actions" />
           </v-card-actions>
@@ -96,13 +96,25 @@ export default {
 
     submitAction: { type: Function, default: null, required: false },
     submitIcon: { type: String, default: 'mdi-check', required: false },
-    submitLabel: { type: String, default: 'global.button.submit', required: false },
+    submitLabel: {
+      type: String,
+      default: function () {
+        return this.$tc('global.button.submit')
+      },
+      required: false,
+    },
     submitColor: { type: String, default: 'primary', required: false },
     submitEnabled: { type: Boolean, default: true, required: false },
 
     cancelAction: { type: Function, default: null, required: false },
     cancelIcon: { type: String, default: 'mdi-window-close', required: false },
-    cancelLabel: { type: String, default: 'global.button.cancel', required: false },
+    cancelLabel: {
+      type: String,
+      default: function () {
+        return this.$tc('global.button.cancel')
+      },
+      required: false,
+    },
     cancelColor: { type: String, default: 'secondary', required: false },
     cancelEnabled: { type: Boolean, default: true, required: false },
     cancelVisible: { type: Boolean, default: true, required: false },
