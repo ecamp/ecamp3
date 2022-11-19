@@ -8,11 +8,12 @@ Listing all given activity schedule entries in a calendar view.
       ref="calendar"
       v-model="value"
       v-resize="resize"
-      :class="editable ? 'ec-picasso-editable' : 'ec-picasso'"
+      :class="['e-picasso', editable && 'e-picasso--editable']"
       :events="events"
       :event-name="getActivityName"
       event-overlap-mode="column"
       :event-color="getActivityColor"
+      :event-text-color="getActivityTextColor"
       event-start="startTimestamp"
       event-end="endTimestamp"
       :interval-height="computedIntervalHeight"
@@ -39,7 +40,7 @@ Listing all given activity schedule entries in a calendar view.
     >
       <!-- day header -->
       <template #day-label-header="{ date }">
-        <div class="ec-daily_head-day-label">
+        <div class="e-picasso-daily_head-day-label">
           <span v-if="widthPluralization > 0" class="d-block">
             {{ $date.utc(date).format('dddd') }}
           </span>
@@ -59,66 +60,15 @@ Listing all given activity schedule entries in a calendar view.
 
       <!-- template for single scheduleEntry -->
       <template #event="{ event, timed }">
-        <!-- edit button & dialog -->
-        <dialog-activity-edit
-          v-if="editable && !event.tmpEvent"
-          :ref="`editDialog-${event.id}`"
+        <PicassoEntry
+          :activity-name="getActivityName(event)"
+          :timed="timed"
           :schedule-entry="event"
-          @activityUpdated="reloadScheduleEntries()"
-          @error="reloadScheduleEntries()"
-        >
-          <template #activator="{ on }">
-            <v-btn
-              absolute
-              top
-              right
-              x-small
-              dark
-              text
-              class="ec-event--btn rounded-sm"
-              @click.prevent="on.click"
-              @mousedown.stop=""
-              @mouseup.stop=""
-            >
-              <v-icon x-small>mdi-pencil</v-icon>
-            </v-btn>
-          </template>
-        </dialog-activity-edit>
-
-        <!-- readonly mode: complete div is a HTML link -->
-        <router-link v-if="!editable && !event.tmpEvent" :to="scheduleEntryRoute(event)">
-          <div class="readonlyEntry">
-            <h4 class="v-event-title" :style="{ color: getActivityTextColor(event) }">
-              {{ getActivityName(event) }}
-            </h4>
-
-            <schedule-entry-responsibles
-              :schedule-entry="event"
-              :avatar-size="20"
-              class="d-flex justify-end flex-wrap mt-2"
-            />
-          </div>
-        </router-link>
-
-        <!-- edit mode: normal div with drag & drop -->
-        <div v-if="editable" class="editableEntry">
-          <h4 class="v-event-title" :style="{ color: getActivityTextColor(event) }">
-            {{ getActivityName(event) }}
-          </h4>
-
-          <schedule-entry-responsibles
-            :schedule-entry="event"
-            :avatar-size="20"
-            class="d-flex justify-end flex-wrap mt-2"
-          />
-
-          <!-- resize handle -->
-          <div
-            v-if="editable && timed"
-            class="v-event-drag-bottom"
-            @mousedown.stop="startResize(event)"
-          />
-        </div>
+          :schedule-entry-route="picassoScheduleEntryRoute(event)"
+          :editable="editable"
+          @startResize="startResize(event)"
+          @finishEdit="reloadScheduleEntries"
+        />
       </template>
     </v-calendar>
 
@@ -144,20 +94,16 @@ import {
   timestampToUtcString,
   utcStringToTimestamp,
 } from '@/common/helpers/dateHelperVCalendar.js'
-
-import DialogActivityEdit from '../DialogActivityEdit.vue'
 import DayResponsibles from './DayResponsibles.vue'
 import { ONE_DAY } from '@/helpers/vCalendarDragAndDrop.js'
 import { errorToMultiLineToast } from '@/components/toast/toasts'
-import Vue from 'vue'
-import ScheduleEntryResponsibles from './ScheduleEntryResponsibles.vue'
+import PicassoEntry from './PicassoEntry.vue'
 
 export default {
   name: 'Picasso',
   components: {
-    DialogActivityEdit,
+    PicassoEntry,
     DayResponsibles,
-    ScheduleEntryResponsibles,
   },
   props: {
     // period for which to show picasso
@@ -460,15 +406,16 @@ export default {
     weekdayFormat() {
       return ''
     },
-
-    scheduleEntryRoute,
+    picassoScheduleEntryRoute(scheduleEntry) {
+      if (scheduleEntry.tmpEvent) return {}
+      return scheduleEntryRoute(scheduleEntry)
+    },
   },
 }
 </script>
 
 <style scoped lang="scss">
-.ec-picasso,
-.ec-picasso-editable {
+.e-picasso {
   border: none;
   overflow: auto;
 
@@ -502,117 +449,45 @@ export default {
       line-height: 1.15;
       user-select: none;
       -webkit-user-select: none;
+      border-color: white !important;
+    }
 
-      // full size div within v-calendar event
-      div.readonlyEntry,
-      div.editableEntry {
-        width: 100%;
-        height: 100%;
-        left: 0;
-        top: 0;
-        padding: 1px;
-        overflow: hidden;
+    .v-calendar-daily__day-container {
+      width: initial;
+    }
 
-        @media #{map-get($display-breakpoints, 'sm-and-up')} {
-          padding: 3px;
-        }
-      }
+    .v-calendar-daily__head,
+    .v-calendar-daily__intervals-body {
+      position: sticky;
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(4px);
+    }
+
+    .v-calendar-daily__head {
+      top: 0;
+      z-index: 2;
+      min-width: fit-content;
+      overflow: hidden;
+    }
+
+    .v-calendar-daily__pane,
+    .v-calendar-daily__body {
+      overflow: visible;
+    }
+
+    .v-calendar-daily__intervals-body {
+      left: 0;
+      z-index: 1;
+    }
+
+    .v-calendar-daily__scroll-area {
+      overflow-y: visible;
     }
   }
 }
 
-/**
- * entry styling in edit mode
- */
-.editableEntry {
-  cursor: move; /* fallback if grab cursor is unsupported */
-  cursor: grab;
-  cursor: -moz-grab;
-  cursor: -webkit-grab;
-  border: 1px black dashed;
-  border-radius: 4px;
-
-  &:active {
-    cursor: move;
-    cursor: -moz-grabbing;
-    cursor: -webkit-grabbing;
-  }
-}
-
-.ec-picasso-editable {
-  :deep(.v-event-timed) {
-    transition: transform 0.1s; /* Animation */
-  }
-
-  :deep(.v-event-timed:hover) {
-    z-index: 999;
-    transform: scale(
-      1.02
-    ); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
-  }
-}
-
-.ec-picasso-editable:deep,
-.ec-picasso:deep {
-  .v-calendar-daily__day-container {
-    width: initial;
-  }
-
-  .v-calendar-daily__head,
-  .v-calendar-daily__intervals-body {
-    position: sticky;
-    background: rgba(255, 255, 255, 0.85);
-    backdrop-filter: blur(4px);
-  }
-
-  .v-calendar-daily__head {
-    top: 0;
-    z-index: 2;
-    min-width: fit-content;
-    overflow: hidden;
-  }
-
-  .v-calendar-daily__pane,
-  .v-calendar-daily__body {
-    overflow: visible;
-  }
-
-  .v-calendar-daily__intervals-body {
-    left: 0;
-    z-index: 1;
-  }
-
-  .v-calendar-daily__scroll-area {
-    overflow-y: visible;
-  }
-}
-
-// entry edit button
-.ec-event--btn {
-  padding: 0 !important;
-  min-width: 20px !important;
-  top: 0 !important;
-  right: 0 !important;
-  display: block;
-}
-
-// event title text
-.v-event-title {
-  hyphens: auto;
-  hyphenate-limit-chars: 6 3 3;
-  hyphenate-limit-lines: 2;
-  hyphenate-limit-last: always;
-  hyphenate-limit-zone: 8%;
-}
-
-.readonlyEntry .v-event-title {
-  color: white;
-  text-decoration: none;
-  text-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
-}
-
 // day title
-.ec-daily_head-day-label {
+.e-picasso-daily_head-day-label {
   font-size: 11px;
   font-feature-settings: 'tnum';
   letter-spacing: -0.1px;
@@ -652,7 +527,6 @@ export default {
     padding: 4px 2px;
     width: 100%;
     min-width: initial;
-    justify-content: center;
 
     .v-chip {
       margin: 0;
@@ -664,43 +538,6 @@ export default {
       height: 1px;
       padding: 0;
       margin: 0;
-    }
-  }
-}
-
-// temporary placeholder (crate new event)
-:deep(.v-event-timed.v-event--temporary) {
-  border-style: dashed !important;
-  opacity: 0.8;
-}
-
-// resize handle
-.v-event-drag-bottom {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 4px;
-  height: 4px;
-  cursor: ns-resize;
-
-  &::after {
-    display: none;
-    position: absolute;
-    left: 50%;
-    height: 4px;
-    border-top: 1px solid white;
-    border-bottom: 1px solid white;
-    width: 16px;
-    margin-left: -8px;
-    opacity: 0.8;
-    content: '';
-  }
-}
-
-@media #{map-get($display-breakpoints, 'sm-and-up')} {
-  .v-event-timed {
-    &:hover .v-event-drag-bottom::after {
-      display: block; // resize handle not visible on mobile
     }
   }
 }
