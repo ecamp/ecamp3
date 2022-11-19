@@ -14,6 +14,6 @@ class DeleteInvitationTest extends ECampApiTestCase {
         $invitation = static::$fixtures['campCollaboration2invitedCampUnrelated'];
         static::createClientWithCredentials()->request('DELETE', '/invitations/'.$invitation->inviteKey);
 
-        $this->assertResponseStatusCodeSame(405);
+        $this->assertResponseStatusCodeSame(404);
     }
 }

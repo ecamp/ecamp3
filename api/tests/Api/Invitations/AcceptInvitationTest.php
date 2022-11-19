@@ -199,6 +199,6 @@ class AcceptInvitationTest extends ECampApiTestCase {
      */
     public function testNotFoundWhenNoInviteKey() {
         static::createClientWithCredentials()->request('PATCH', '/invitations/'.Invitation::ACCEPT);
-        $this->assertResponseStatusCodeSame(405);
+        $this->assertResponseStatusCodeSame(404);
     }
 }

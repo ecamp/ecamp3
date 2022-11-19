@@ -17,16 +17,19 @@ use Symfony\Component\Validator\Constraints as Assert;
     operations: [
         new Get(
             provider: ResetPasswordProvider::class,
+            uriTemplate: '/reset_password/{id}{._format}', // TO DISCUSS: default uri would be /reset_passwords (plural). Shall we keep or fix?
             security: 'true',
         ),
         new Patch(
             provider: ResetPasswordProvider::class,
             processor: ResetPasswordUpdateProcessor::class,
+            uriTemplate: '/reset_password/{id}{._format}',
             security: 'true',
             denormalizationContext: ['groups' => ['update']]
         ),
         new Post(
             processor: ResetPasswordCreateProcessor::class,
+            uriTemplate: '/reset_password{._format}',
             security: 'true',
             status: 204,
             output: false,
