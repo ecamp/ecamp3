@@ -14,16 +14,31 @@
     small-chips
     v-bind="$attrs"
     @input="onInput"
-  />
+  >
+    <template #selection="{ item }">
+      <v-chip :key="item.value" small class="mx-0">
+        <UserAvatar
+          :user="item.info.user && item.info.user()"
+          :camp-collaboration="item.info.campCollaboration"
+          left
+          size="20"
+          class="ml-n3"
+        />
+        <span>{{ item.text }}</span>
+      </v-chip>
+    </template>
+  </e-select>
 </template>
 
 <script>
 import { serverErrorToString } from '@/helpers/serverError.js'
 import campCollaborationDisplayName from '@/common/helpers/campCollaborationDisplayName.js'
 import { isEqual, sortBy } from 'lodash'
+import UserAvatar from '@/components/user/UserAvatar.vue'
 
 export default {
   name: 'ActivityResponsibles',
+  components: { UserAvatar },
   props: {
     activity: {
       type: Object,
@@ -57,6 +72,7 @@ export default {
           // following structure is defined by vuetify v-select items property
           return {
             value: value._meta.self,
+            info: value,
             text: campCollaborationDisplayName(value, this.$tc.bind(this)),
           }
         })
@@ -159,3 +175,14 @@ export default {
   },
 }
 </script>
+
+<style scoped lang="scss">
+::v-deep(.v-select__selections) {
+  gap: 4px;
+  padding-top: 8px !important;
+
+  & input {
+    padding: 0;
+  }
+}
+</style>

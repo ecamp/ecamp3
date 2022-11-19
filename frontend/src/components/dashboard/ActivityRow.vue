@@ -17,14 +17,14 @@
     <td style="width: 100%" class="contentrow">
       <router-link
         :to="routerLink"
-        class="text-decoration-none text-decoration-hover-underline black--text"
+        class="text-decoration-none text-decoration-hover-underline black--text font-weight-medium d-block"
       >
         {{ title }}<br />
       </router-link>
       <span class="e-subtitle">{{ location }}</span>
     </td>
     <td class="contentrow avatarrow overflow-visible">
-      <AvatarRow :camp-collaborations="collaborators" size="28" class="ml-auto" />
+      <AvatarRow :camp-collaborations="collaborators" max-size="28" class="ml-auto" />
     </td>
   </tr>
 </template>

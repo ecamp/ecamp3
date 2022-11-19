@@ -1,11 +1,11 @@
 <template>
-  <div class="avatarrow" :style="avatarrow">
+  <div ref="row" class="avatarrow" :style="avatarrow">
     <div
       v-for="campCollaboration in campCollaborations"
       :key="campCollaboration && campCollaboration._meta.self"
       class="avataritem"
     >
-      <UserAvatar :size="Number(size)" :camp-collaboration="campCollaboration" />
+      <UserAvatar :size="size" :camp-collaboration="campCollaboration" />
     </div>
   </div>
 </template>
@@ -18,14 +18,17 @@ export default {
   components: { UserAvatar },
   props: {
     campCollaborations: { type: Array, default: () => [] },
-    size: { type: [Number, String], default: 20 },
+    maxSize: { type: [Number, String], default: 20 },
   },
+  data: () => ({
+    maxHeight: 1000,
+  }),
   computed: {
+    size() {
+      return Number(this.maxSize) < this.maxHeight ? Number(this.maxSize) : this.maxHeight
+    },
     maxWidth() {
-      return (
-        (this.campCollaborations?.length - 1) * (Number(this.size) * 0.25) +
-        Number(this.size)
-      )
+      return this.campCollaborations?.length * (this.size * 0.5) + this.size
     },
     avatarrow() {
       return {
@@ -33,6 +36,9 @@ export default {
         'font-size': `${this.size}px`,
       }
     },
+  },
+  mounted() {
+    this.maxHeight = this.$el.clientHeight
   },
 }
 </script>

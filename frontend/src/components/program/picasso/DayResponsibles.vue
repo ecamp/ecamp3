@@ -21,7 +21,7 @@
     persistent-placeholder
     v-bind="$attrs"
     :readonly="readonly"
-    :class="{ 'ec-day-responsible--readonly': readonly }"
+    :class="{ 'e-day-responsible--readonly': readonly }"
     @input="onInput"
   >
     <template #prepend-item>
@@ -173,7 +173,17 @@ export default {
   padding-top: 0;
 }
 
-.ec-day-responsible--readonly:deep(.v-input__append-inner) {
+.e-day-responsible--readonly {
+  &:deep(.v-input__append-inner) {
+    display: none;
+  }
+
+  &:deep(.v-select__selections) {
+    justify-content: center;
+  }
+}
+
+:deep(.v-select__selections) input {
   display: none;
 }
 </style>
