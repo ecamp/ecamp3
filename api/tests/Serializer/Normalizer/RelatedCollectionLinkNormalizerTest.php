@@ -2,14 +2,15 @@
 
 namespace App\Tests\Serializer\Normalizer;
 
+use ApiPlatform\Api\FilterInterface;
 use ApiPlatform\Api\IriConverterInterface;
-use ApiPlatform\Core\Annotation\ApiFilter;
-use ApiPlatform\Core\Api\FilterInterface;
-use ApiPlatform\Core\Bridge\Symfony\Routing\RouteNameResolverInterface;
-use ApiPlatform\Core\Metadata\Resource\Factory\ResourceMetadataFactoryInterface;
-use ApiPlatform\Core\Metadata\Resource\ResourceMetadata;
 use ApiPlatform\Doctrine\Orm\Filter\DateFilter;
 use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Operations;
+use ApiPlatform\Metadata\Resource\Factory\ResourceMetadataCollectionFactoryInterface;
+use ApiPlatform\Metadata\Resource\ResourceMetadataCollection;
 use App\Metadata\Resource\Factory\UriTemplateFactory;
 use App\Serializer\Normalizer\RelatedCollectionLink;
 use App\Serializer\Normalizer\RelatedCollectionLinkNormalizer;
@@ -26,7 +27,6 @@ use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Serializer\Annotation\SerializedName;
 use Symfony\Component\Serializer\NameConverter\AdvancedNameConverterInterface;
 use Symfony\Component\Serializer\NameConverter\NameConverterInterface;
-use Symfony\Component\Serializer\Normalizer\ContextAwareNormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 
@@ -44,7 +44,7 @@ class RelatedCollectionLinkNormalizerTest extends TestCase {
     private MockObject|RouterInterface $routerMock;
     private IriConverterInterface|MockObject $iriConverterMock;
     private ManagerRegistry|MockObject $managerRegistryMock;
-    private MockObject|ResourceMetadataFactoryInterface $resourceMetadataFactoryMock;
+    private MockObject|ResourceMetadataCollectionFactoryInterface $resourceMetadataCollectionFactoryMock;
     private MockObject|PropertyAccessorInterface $propertyAccessor;
 
     private ?FilterInterface $filterInstance;
@@ -55,19 +55,20 @@ class RelatedCollectionLinkNormalizerTest extends TestCase {
             return $this->filterInstance;
         });
 
-        $this->decoratedMock = $this->createMock(ContextAwareNormalizerInterface::class);
+        $this->decoratedMock = $this->createMock(NormalizerInterface::class);
         $this->nameConverterMock = $this->createMock(AdvancedNameConverterInterface::class);
         $this->uriTemplate = $this->createMock(UriTemplate::class);
         $this->uriTemplateFactory = $this->createMock(UriTemplateFactory::class);
         $this->routerMock = $this->createMock(RouterInterface::class);
         $this->iriConverterMock = $this->createMock(IriConverterInterface::class);
         $this->managerRegistryMock = $this->createMock(ManagerRegistry::class);
-        $this->resourceMetadataFactoryMock = $this->createMock(ResourceMetadataFactoryInterface::class);
+        $this->resourceMetadataCollectionFactoryMock = $this->createMock(ResourceMetadataCollectionFactoryInterface::class);
         $this->propertyAccessor = $this->createMock(PropertyAccessorInterface::class);
+
+        $this->iriConverterMock->method('getIriFromResource')->willReturn('/iri');
 
         $this->normalizer = new RelatedCollectionLinkNormalizer(
             $this->decoratedMock,
-            $this->createMock(RouteNameResolverInterface::class),
             $this->filterLocatorMock,
             $this->nameConverterMock,
             $this->uriTemplate,
@@ -75,7 +76,7 @@ class RelatedCollectionLinkNormalizerTest extends TestCase {
             $this->routerMock,
             $this->iriConverterMock,
             $this->managerRegistryMock,
-            $this->resourceMetadataFactoryMock,
+            $this->resourceMetadataCollectionFactoryMock,
             $this->propertyAccessor,
         );
         $this->normalizer->setSerializer($this->createMock(SerializerInterface::class));
@@ -431,8 +432,17 @@ class RelatedCollectionLinkNormalizerTest extends TestCase {
         $this->managerRegistryMock->method('getManagerForClass')->willReturn($manager);
     }
 
-    protected function mockRelatedResourceMetadata($metadata) {
-        $this->resourceMetadataFactoryMock->method('create')->willReturn(new ResourceMetadata(null, null, null, null, null, $metadata));
+    protected function mockRelatedResourceMetadata($collectionOperationMetadata) {
+        $collectionOperationMetadata['name'] = '_api_/dummys{._format}_get_collection';
+
+        $metadataCollection = new ResourceMetadataCollection('Dummy');
+        $metadataCollection->append((new ApiResource())->withOperations(new Operations([
+            new GetCollection(
+                ...$collectionOperationMetadata
+            ),
+        ])));
+
+        $this->resourceMetadataCollectionFactoryMock->method('create')->willReturn($metadataCollection);
     }
 
     protected function mockNameConverter() {

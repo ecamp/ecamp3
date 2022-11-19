@@ -11,7 +11,6 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Rize\UriTemplate;
 use Symfony\Component\Routing\RouterInterface;
-use Symfony\Component\Serializer\Normalizer\ContextAwareNormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 
@@ -29,7 +28,7 @@ class ContentTypeNormalizerTest extends TestCase {
     private MockObject|UriTemplateFactory $uriTemplateFactory;
 
     protected function setUp(): void {
-        $this->decoratedMock = $this->createMock(ContextAwareNormalizerInterface::class);
+        $this->decoratedMock = $this->createMock(NormalizerInterface::class);
 
         $this->iriConverter = $this->createMock(IriConverterInterface::class);
         $this->uriTemplate = $this->createMock(UriTemplate::class);

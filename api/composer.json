@@ -49,6 +49,7 @@
         "webonyx/graphql-php": "14.11.8"
     },
     "require-dev": {
+        "dg/bypass-finals": "^1.4",
         "friendsofphp/php-cs-fixer": "3.13.0",
         "hautelook/alice-bundle": "2.11.0",
         "justinrainbow/json-schema": "5.2.12",

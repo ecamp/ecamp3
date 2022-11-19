@@ -8,11 +8,12 @@ use ApiPlatform\Api\UrlGeneratorInterface;
 use ApiPlatform\Doctrine\Common\PropertyHelperTrait;
 use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Exception\ResourceClassNotFoundException;
-use ApiPlatform\Metadata\HttpOperation;
+use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Resource\Factory\ResourceMetadataCollectionFactoryInterface;
 use ApiPlatform\Util\ClassInfoTrait;
 use App\Entity\BaseEntity;
 use App\Metadata\Resource\Factory\UriTemplateFactory;
+use App\Metadata\Resource\OperationHelper;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use Doctrine\ORM\Mapping\MappingException;
 use Doctrine\Persistence\ManagerRegistry;
@@ -89,7 +90,7 @@ class RelatedCollectionLinkNormalizer implements NormalizerInterface, Serializer
         private RouterInterface $router,
         private IriConverterInterface $iriConverter,
         private ManagerRegistry $managerRegistry,
-        private ResourceMetadataCollectionFactoryInterface $resourceMetadataFactory,
+        private ResourceMetadataCollectionFactoryInterface $resourceMetadataCollectionFactory,
         private PropertyAccessorInterface $propertyAccessor
     ) {
     }
@@ -168,10 +169,10 @@ class RelatedCollectionLinkNormalizer implements NormalizerInterface, Serializer
             throw new UnsupportedRelationException('The resource '.$relatedResourceClass.' does not have a search filter for the relation '.$relatedFilterName.'.');
         }
 
-        $resourceMetadata = $this->resourceMetadataFactory->create($relatedResourceClass);
-        $operation = $resourceMetadata->getOperation(null, true, true);
+        $resourceMetadataCollection = $this->resourceMetadataCollectionFactory->create($relatedResourceClass);
+        $operation = OperationHelper::findOneByType($resourceMetadataCollection, GetCollection::class);
 
-        if (!$operation instanceof HttpOperation) {
+        if (!$operation) {
             throw new UnsupportedRelationException('The resource '.$relatedResourceClass.' does not implement GetCollection() operation.');
         }
 
@@ -226,8 +227,8 @@ class RelatedCollectionLinkNormalizer implements NormalizerInterface, Serializer
      * @throws ResourceClassNotFoundException
      */
     private function exactSearchFilterExists(string $resourceClass, mixed $propertyName): bool {
-        $resourceMetadata = $this->resourceMetadataFactory->create($resourceClass);
-        $filterIds = $resourceMetadata->getOperation(null, true, true)->getFilters() ?? [];
+        $resourceMetadataCollection = $this->resourceMetadataCollectionFactory->create($resourceClass);
+        $filterIds = OperationHelper::findOneByType($resourceMetadataCollection, GetCollection::class)?->getFilters() ?? [];
 
         return 0 < count(array_filter($filterIds, function ($filterId) use ($resourceClass, $propertyName) {
             /** @var FilterInterface $filter */
