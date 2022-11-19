@@ -222,7 +222,7 @@ class UriTemplateFactoryTest extends TestCase {
     /**
      * This behaviour was not yet implemented, because we don't have the use case yet.
      *
-     * @throws \ApiPlatform\Core\Exception\ResourceClassNotFoundException
+     * @throws \ApiPlatform\Exception\ResourceClassNotFoundException
      */
     public function testDoesNotYetIgnoreActionPathsOfOtherRouteStarts() {
         // given

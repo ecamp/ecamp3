@@ -17,7 +17,7 @@ use Symfony\Component\Validator\Constraints as Assert;
     operations: [
         new Get(
             provider: ResetPasswordProvider::class,
-            uriTemplate: '/reset_password/{id}{._format}', // TO DISCUSS: default uri would be /reset_passwords (plural). Shall we keep or fix?
+            uriTemplate: '/reset_password/{id}{._format}', // TO DISCUSS: default uri would be /reset_password (plural). Shall we keep or fix?
             security: 'true',
         ),
         new Patch(

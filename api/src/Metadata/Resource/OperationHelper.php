@@ -2,6 +2,7 @@
 
 namespace App\Metadata\Resource;
 
+use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\Metadata\Resource\ResourceMetadataCollection;
 
