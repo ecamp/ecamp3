@@ -4,15 +4,23 @@ namespace App\Metadata\Resource\Factory;
 
 use ApiPlatform\Api\IriConverterInterface;
 use ApiPlatform\Api\UrlGeneratorInterface;
-use ApiPlatform\Exception\OperationNotFoundException;
 use ApiPlatform\Exception\ResourceClassNotFoundException;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\HttpOperation;
 use ApiPlatform\Metadata\Resource\Factory\ResourceMetadataCollectionFactoryInterface;
 use ApiPlatform\Metadata\Resource\Factory\ResourceNameCollectionFactoryInterface;
 use ApiPlatform\Metadata\Resource\ResourceMetadataCollection;
 use ApiPlatform\State\Pagination\PaginationOptions;
+use App\Metadata\Resource\OperationHelper;
 use Psr\Container\ContainerInterface;
 
+/**
+ * Creates templates URIS for resources.
+ * Format follows RFC6570 (https://datatracker.ietf.org/doc/html/rfc6570).
+ *
+ * Currently, multiple ApiResources per Class ist not implemented (refactoring needed to support this use-case)
+ */
 class UriTemplateFactory {
     protected ?array $resourceNameMapping = [];
 
@@ -24,7 +32,7 @@ class UriTemplateFactory {
         private PaginationOptions $paginationOptions,
     ) {
         foreach ($resourceNameCollectionFactory->create() as $className) {
-            $shortName = $this->resourceMetadataCollectionFactory->create($className)->getOperation()->getShortName();
+            $shortName = $this->resourceMetadataCollectionFactory->create($className)[0]->getShortName();
             $this->resourceNameMapping[lcfirst($shortName)] = $className;
         }
     }
@@ -57,7 +65,7 @@ class UriTemplateFactory {
      */
     public function createFromResourceClass(string $resourceClass): array {
         $resourceMetadataCollection = $this->resourceMetadataCollectionFactory->create($resourceClass);
-        $getCollectionOperation = $resourceMetadataCollection->getOperation(null, true, true);
+        $getCollectionOperation = OperationHelper::findOneByType($resourceMetadataCollection, GetCollection::class);
 
         $baseUri = $this->iriConverter->getIriFromResource($resourceClass, UrlGeneratorInterface::ABS_PATH, $getCollectionOperation);
         $idParameter = $this->getIdParameter($resourceMetadataCollection);
@@ -75,15 +83,11 @@ class UriTemplateFactory {
      * Returns an optional /id URL parameter, if access to single items is allowed.
      */
     protected function getIdParameter(ResourceMetadataCollection $resourceMetadataCollection): string {
-        $getSingleItemIsAllowed = true;
-
-        try {
-            $resourceMetadataCollection->getOperation(null, false, true);
-        } catch (OperationNotFoundException) {
-            $getSingleItemIsAllowed = false;
+        if (OperationHelper::findOneByType($resourceMetadataCollection, Get::class)) {
+            return '{/id}';
         }
 
-        return $getSingleItemIsAllowed ? '{/id}' : '';
+        return '';
     }
 
     /**
@@ -101,8 +105,11 @@ class UriTemplateFactory {
      */
     protected function getFilterParameters(string $resourceClass, ResourceMetadataCollection $resourceMetadataCollection) {
         $parameters = [];
+        $resourceFilters = OperationHelper::findOneByType($resourceMetadataCollection, GetCollection::class)?->getFilters();
+        if (null === $resourceFilters) {
+            return $parameters;
+        }
 
-        $resourceFilters = $resourceMetadataCollection->getOperation(null, true)->getFilters();
         foreach ($resourceFilters as $filterId) {
             if (!$filter = $this->filterLocator->get($filterId)) {
                 continue;
@@ -126,7 +133,7 @@ class UriTemplateFactory {
         }
 
         $parameters = [];
-        $operation = $resourceMetadataCollection->getOperation('get', true);
+        $operation = OperationHelper::findOneByType($resourceMetadataCollection, GetCollection::class);
 
         if ($operation->getPaginationEnabled() ?? $this->paginationOptions->isPaginationEnabled()) {
             $parameters[] = $this->paginationOptions->getPaginationPageParameterName();
