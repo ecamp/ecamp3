@@ -19,8 +19,7 @@
     "test:e2e": "vue-cli-service test:e2e",
     "test:e2e:ci": "vue-cli-service test:e2e --headless",
     "test:unit:debug": "node --inspect-brk=0.0.0.0:9229 ./node_modules/@vue/cli-service/bin/vue-cli-service.js test:unit --no-cache --runInBand",
-    "test:unit:watch": "vue-cli-service test:unit --watch",
-    "postinstall": "sed 's/Color.extend(contrast);/Color.extend({contrast});/g' node_modules/colorjs.io/dist/color.js > node_modules/colorjs.io/dist/color.js.tmpfix; cat node_modules/colorjs.io/dist/color.js.tmpfix > node_modules/colorjs.io/dist/color.js; rm node_modules/colorjs.io/dist/color.js.tmpfix"
+    "test:unit:watch": "vue-cli-service test:unit --watch"
   },
   "dependencies": {
     "@intlify/core": "9.2.2",
@@ -52,7 +51,7 @@
     "@zxcvbn-ts/language-it": "2.1.0",
     "assert": "2.0.0",
     "axios": "1.1.3",
-    "colorjs.io": "^0.4.1-patch.1",
+    "colorjs.io": "0.4.2",
     "comlink": "4.3.1",
     "dayjs": "1.11.6",
     "deepmerge": "4.2.2",
