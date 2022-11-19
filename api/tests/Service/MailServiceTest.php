@@ -4,10 +4,15 @@ namespace App\Tests\Service;
 
 use App\DTO\ResetPassword;
 use App\Entity\Camp;
+use App\Entity\CampCollaboration;
 use App\Entity\Profile;
 use App\Entity\User;
 use App\Service\MailService;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Security\Core\Security;
+use Symfony\Contracts\Translation\TranslatorInterface;
+use Twig\Environment;
 
 /**
  * @internal
@@ -18,29 +23,42 @@ class MailServiceTest extends KernelTestCase {
 
     private Camp $camp;
     private User $user;
+    private CampCollaboration $campCollaboration;
 
     private MailService $mailer;
 
     protected function setUp(): void {
         static::bootKernel();
 
-        /** @var MailService $mailer */
-        $mailer = self::getContainer()->get(MailService::class);
-        $this->mailer = $mailer;
+        $this->security = $this->createMock(Security::class);
+        $mailer = self::getContainer()->get(MailerInterface::class);
+        $translator = self::getContainer()->get(TranslatorInterface::class);
+        $twigEnvironment = self::getContainer()->get(Environment::class);
+
+        $this->mailer = new MailService($mailer, $translator, $this->security, $twigEnvironment, 'frontend.example.com', 'sender@example.com', 'SenderName');
 
         $this->user = new User();
         $profile = new Profile();
         $profile->nickname = 'coolScoutName';
+        $profile->email = self::INVITE_MAIL;
         $this->user->profile = $profile;
 
         $this->camp = new Camp();
         $this->camp->name = 'some camp';
         $this->camp->title = 'some camp title';
+
+        $this->campCollaboration = new CampCollaboration();
+        $this->campCollaboration->camp = $this->camp;
+        $this->campCollaboration->user = $this->user;
+        $this->campCollaboration->status = CampCollaboration::STATUS_INVITED;
+        $this->campCollaboration->inviteKey = self::INVITE_KEY;
     }
 
     public function testSendInviteToCampMailDeChScout() {
         $this->user->profile->language = 'de-CH-scout';
-        $this->mailer->sendInviteToCampMail($this->user, $this->camp, self::INVITE_KEY, self::INVITE_MAIL);
+        $this->security->expects(self::any())->method('getUser')->willReturn($this->user);
+
+        $this->mailer->sendInviteToCampMail($this->campCollaboration);
 
         self::assertEmailCount(1);
         $mailerMessage = self::getMailerMessage(0);
