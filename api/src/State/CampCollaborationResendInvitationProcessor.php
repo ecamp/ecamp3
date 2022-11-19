@@ -12,7 +12,7 @@ use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactoryInterface;
 
 class CampCollaborationResendInvitationProcessor extends AbstractPersistProcessor {
     public function __construct(
-        private ProcessorInterface $decorated,
+        ProcessorInterface $decorated,
         private PasswordHasherFactoryInterface $passwordHasherFactory,
         private MailService $mailService,
     ) {

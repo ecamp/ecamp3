@@ -2,14 +2,11 @@
 
 namespace App\State\Util;
 
-use Closure;
-use ReflectionFunction;
-
 class PropertyChangeListener {
     private function __construct(
-        private Closure $extractProperty,
-        private Closure $beforeAction,
-        private Closure $afterAction
+        private \Closure $extractProperty,
+        private \Closure $beforeAction,
+        private \Closure $afterAction
     ) {
     }
 
@@ -17,9 +14,9 @@ class PropertyChangeListener {
      * @throws \ReflectionException
      */
     public static function of(
-        Closure $extractProperty,
-        ?Closure $beforeAction = null,
-        ?Closure $afterAction = null
+        \Closure $extractProperty,
+        ?\Closure $beforeAction = null,
+        ?\Closure $afterAction = null
     ): PropertyChangeListener {
         if (null == $beforeAction) {
             $beforeAction = function ($data) {
@@ -42,23 +39,23 @@ class PropertyChangeListener {
         return new PropertyChangeListener($extractProperty, $beforeAction, $afterAction);
     }
 
-    public function getExtractProperty(): Closure {
+    public function getExtractProperty(): \Closure {
         return $this->extractProperty;
     }
 
-    public function getBeforeAction(): Closure {
+    public function getBeforeAction(): \Closure {
         return $this->beforeAction;
     }
 
-    public function getAfterAction(): Closure {
+    public function getAfterAction(): \Closure {
         return $this->afterAction;
     }
 
     /**
      * @throws \ReflectionException
      */
-    private static function hasOneParameter(?Closure $beforeAction): bool {
-        $beforeActionReflectionFunction = new ReflectionFunction($beforeAction);
+    private static function hasOneParameter(?\Closure $beforeAction): bool {
+        $beforeActionReflectionFunction = new \ReflectionFunction($beforeAction);
 
         return 1 != $beforeActionReflectionFunction->getNumberOfParameters();
     }

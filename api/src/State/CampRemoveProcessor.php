@@ -7,12 +7,10 @@ use ApiPlatform\State\ProcessorInterface;
 use App\Entity\Camp;
 use App\State\Util\AbstractRemoveProcessor;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Security\Core\Security;
 
 class CampRemoveProcessor extends AbstractRemoveProcessor {
     public function __construct(
         ProcessorInterface $decorated,
-        private Security $security,
         private EntityManagerInterface $em,
     ) {
         parent::__construct($decorated);

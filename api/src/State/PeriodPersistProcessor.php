@@ -9,12 +9,10 @@ use App\Entity\DayResponsible;
 use App\Entity\Period;
 use App\State\Util\AbstractPersistProcessor;
 use App\Util\DateTimeUtil;
-use Doctrine\ORM\EntityManagerInterface;
 
 class PeriodPersistProcessor extends AbstractPersistProcessor {
     public function __construct(
-        ProcessorInterface $decorated,
-        private EntityManagerInterface $em
+        ProcessorInterface $decorated
     ) {
         parent::__construct($decorated);
     }

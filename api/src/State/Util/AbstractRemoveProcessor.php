@@ -4,7 +4,6 @@ namespace App\State\Util;
 
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProcessorInterface;
-use App\Entity\BaseEntity;
 
 abstract class AbstractRemoveProcessor implements ProcessorInterface {
     public function __construct(
@@ -12,13 +11,6 @@ abstract class AbstractRemoveProcessor implements ProcessorInterface {
     ) {
     }
 
-    /**
-     * @template T
-     *
-     * @param T $data
-     *
-     * @return T
-     */
     public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): void {
         $this->onBefore($data, $operation, $uriVariables, $context);
         $this->decorated->process($data, $operation, $uriVariables, $context);
@@ -27,12 +19,6 @@ abstract class AbstractRemoveProcessor implements ProcessorInterface {
 
     /**
      * Hook before the removal of an object.
-     *
-     * @template T of BaseEntity
-     *
-     * @param T $data
-     *
-     * @return T
      */
     public function onBefore($data, Operation $operation, array $uriVariables = [], array $context = []): void {
     }
