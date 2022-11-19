@@ -116,7 +116,8 @@
     },
     "generic": {
       "lockIcon": {
-        "guestsCannotEdit": "Guests have no permission to edit"
+        "guestsCannotEdit": "Guests have no permission to edit",
+        "doubleClickToUnlock": "Double click to unlock"
       }
     },
     "layout": {
@@ -453,6 +454,8 @@
       },
       "campProgram": {
         "guestsCannotEdit": "A guest cannot edit the picasso",
+        "reminderLockedCreate": "Drag to create is only possible in unlocked mode.",
+        "reminderLockedMove": "Drag to move is only possible in unlocked mode.",
         "title": "Picasso"
       },
       "print": {

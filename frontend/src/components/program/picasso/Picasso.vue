@@ -129,11 +129,12 @@ Listing all given activity schedule entries in a calendar view.
   </div>
 </template>
 <script>
-import { toRefs, ref, watch, reactive } from 'vue'
-import useDragAndDropMove from './useDragAndDropMove.js'
-import useDragAndDropResize from './useDragAndDropResize.js'
-import useDragAndDropNew from './useDragAndDropNew.js'
-import useClickDetector from './useClickDetector.js'
+import Vue, { reactive, ref, toRefs, watch } from 'vue'
+import { useDragAndDropMove } from './useDragAndDropMove.js'
+import { useDragAndDropResize } from './useDragAndDropResize.js'
+import { useDragAndDropNew } from './useDragAndDropNew.js'
+import { useDragAndDropReminder } from './useDragAndDropReminder.js'
+import { useClickDetector } from './useClickDetector.js'
 import { isCssColor } from 'vuetify/lib/util/colorUtils'
 import { apiStore as api } from '@/plugins/store'
 import { scheduleEntryRoute } from '@/router.js'
@@ -146,6 +147,7 @@ import {
 
 import DialogActivityEdit from '../DialogActivityEdit.vue'
 import DayResponsibles from './DayResponsibles.vue'
+import { ONE_DAY } from '@/helpers/vCalendarDragAndDrop.js'
 import { errorToMultiLineToast } from '@/components/toast/toasts'
 import Vue from 'vue'
 import ScheduleEntryResponsibles from './ScheduleEntryResponsibles.vue'
@@ -207,6 +209,7 @@ export default {
   // emitted events
   emits: [
     'newEntry', // triggered once when a new entry was created via drag & drop (parameters: startTimestamp, endTimestamp)
+    'unlockReminder', // triggered when we think someone is trying to create/move in non-editable mode
   ],
 
   // composition API setup
@@ -254,13 +257,17 @@ export default {
       }
     }
 
+    const showReminder = (move) => {
+      emit('unlockReminder', move)
+    }
+
     // open edit dialog
     const onClick = (scheduleEntry) => {
       refs[`editDialog-${scheduleEntry.id}`].open()
     }
 
     const calenderStartTimestamp = utcStringToTimestamp(props.start)
-    const calendarEndTimestamp = utcStringToTimestamp(props.end) + 24 * 60 * 60 * 1000
+    const calendarEndTimestamp = utcStringToTimestamp(props.end) + ONE_DAY
 
     const dragAndDropMove = useDragAndDropMove(
       editable,
@@ -276,6 +283,7 @@ export default {
       calendarEndTimestamp
     )
     const dragAndDropNew = useDragAndDropNew(editable, createEntry)
+    const dragAndDropReminder = useDragAndDropReminder(editable, showReminder)
     const clickDetector = useClickDetector(editable, 5, onClick)
 
     // merge mouseleave handlers
@@ -292,6 +300,7 @@ export default {
       dragAndDropMove.vCalendarListeners,
       dragAndDropResize.vCalendarListeners,
       dragAndDropNew.vCalendarListeners,
+      dragAndDropReminder.vCalendarListeners,
       clickDetector.vCalendarListeners,
     ])
 

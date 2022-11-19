@@ -21,4 +21,15 @@ const roundTimeUp = (time) => {
   return time + (roundDownTime - (time % roundDownTime))
 }
 
-export { toTime, roundTimeDown, roundTimeUp }
+const minMaxTime = (start, end) => {
+  const startCeil = roundTimeUp(end)
+  return {
+    min: Math.min(startCeil, roundTimeDown(start)),
+    max: Math.max(startCeil, roundTimeDown(start)),
+  }
+}
+
+const ONE_HOUR = 60 * 60 * 1000
+const ONE_DAY = 24 * 60 * 60 * 1000
+
+export { toTime, roundTimeDown, roundTimeUp, minMaxTime, ONE_HOUR, ONE_DAY }

@@ -1,12 +1,12 @@
-import { toTime, roundTimeUp, roundTimeDown } from '@/helpers/vCalendarDragAndDrop.js'
+import { toTime, roundTimeDown, minMaxTime } from '@/helpers/vCalendarDragAndDrop.js'
 
 /**
  *
- * @param ref(bool) enabled   drag & drop is disabled if enabled=false
- * @param int threshold       min. mouse movement needed to detect drag & drop
+ * @param enabled {Ref<boolean>} drag & drop is disabled if enabled=false
+ * @param createEntry {(startTime:number, endTime:number, finished:boolean) => void}
  * @returns
  */
-export default function useDragAndDrop(enabled, createEntry) {
+export function useDragAndDropNew(enabled, createEntry) {
   /**
    * internal data (not exposed)
    */
@@ -40,9 +40,7 @@ export default function useDragAndDrop(enabled, createEntry) {
 
   // resize placeholder entry
   const resizeEntry = (entry, mouse) => {
-    const mouseRounded = roundTimeUp(mouse)
-    const min = Math.min(mouseRounded, roundTimeDown(mouseStartTimestamp))
-    const max = Math.max(mouseRounded, roundTimeDown(mouseStartTimestamp))
+    const { min, max } = minMaxTime(mouse, mouseStartTimestamp)
 
     entry.startTimestamp = min
     entry.endTimestamp = max

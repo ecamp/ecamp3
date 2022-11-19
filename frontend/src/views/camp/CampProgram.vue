@@ -9,6 +9,7 @@ Show all activity schedule entries of a single period.
       <v-spacer />
       <LockIcon
         v-model="editMode"
+        :shake="showReminder"
         :hide-tooltip="isContributor"
         :message="$tc('views.camp.campProgram.guestsCannotEdit')"
         @dblclick="editMode = !editMode"
@@ -44,10 +45,19 @@ Show all activity schedule entries of a single period.
             :end="period().end"
             :editable="editMode"
             @newEntry="slotProps.on.newEntry"
+            @unlockReminder="showUnlockReminder"
           />
         </template>
       </template>
     </schedule-entries>
+    <v-snackbar v-model="showReminder" light>
+      <v-icon>mdi-lock</v-icon>
+      {{
+        reminderType === 'create'
+          ? $tc('views.camp.campProgram.reminderLockedCreate')
+          : $tc('views.camp.campProgram.reminderLockedMove')
+      }}
+    </v-snackbar>
   </content-card>
 </template>
 <script>
@@ -80,6 +90,8 @@ export default {
   data() {
     return {
       editMode: false,
+      showReminder: false,
+      reminderType: null,
     }
   },
   computed: {
@@ -101,6 +113,12 @@ export default {
           },
         ],
       }
+    },
+  },
+  methods: {
+    showUnlockReminder(move) {
+      this.reminderType = move ? 'move' : 'create'
+      this.showReminder = true
     },
   },
 }

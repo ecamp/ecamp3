@@ -1,10 +1,11 @@
 /**
  *
- * @param ref(bool) enabled   false disables click detection
- * @param int threshold       max. mouse movement to still detect as a click
+ * @param enabled {Ref<boolean>}          false disables click detection
+ * @param threshold {number}              max. mouse movement to still detect as a click
+ * @param onClick {(event:Event) => void} run function on click
  * @returns
  */
-export default function useClickDetector(enabled = true, threshold = 5, onClick = null) {
+export function useClickDetector(enabled, threshold = 5, onClick = null) {
   /**
    * internal data (not exposed)
    */

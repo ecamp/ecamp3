@@ -116,7 +116,8 @@
     },
     "generic": {
       "lockIcon": {
-        "guestsCannotEdit": "Gäste haben keinen Bearbeitungszugriff"
+        "guestsCannotEdit": "Gäste haben keinen Bearbeitungszugriff",
+        "doubleClickToUnlock": "Doppelklick um zu Entsperren"
       }
     },
     "layout": {
@@ -456,6 +457,8 @@
       },
       "campProgram": {
         "guestsCannotEdit": "Gäste können das Grobprogramm nicht bearbeiten",
+        "reminderLockedCreate": "Ziehen zum Erstellen ist nur im entsperrten Modus möglich.",
+        "reminderLockedMove": "Ziehen zum Verschieben ist nur im entsperrten Modus möglich.",
         "title": "Grobprogramm"
       },
       "print": {
