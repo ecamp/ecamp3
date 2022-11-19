@@ -7,25 +7,25 @@ use ApiPlatform\State\ProcessorInterface;
 use App\DTO\Invitation;
 use App\Entity\CampCollaboration;
 use App\Repository\CampCollaborationRepository;
-use App\State\Util\AbstractPersistProcessor;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactoryInterface;
 use Symfony\Component\Security\Core\Security;
 
-class InvitationAcceptProcessor extends AbstractPersistProcessor {
+class InvitationAcceptProcessor implements ProcessorInterface {
     public function __construct(
-        ProcessorInterface $decorated,
         private PasswordHasherFactoryInterface $passwordHasherFactory,
         private CampCollaborationRepository $campCollaborationRepository,
-        private Security $security
+        private Security $security,
+        private EntityManagerInterface $em,
     ) {
-        parent::__construct($decorated);
     }
 
     /**
      * @param Invitation $data
      */
-    public function onBefore($data, Operation $operation, array $uriVariables = [], array $context = []): CampCollaboration {
+    public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): Invitation {
         $inviteKeyHash = $this->passwordHasherFactory->getPasswordHasher('MailToken')->hash($data->inviteKey);
+
         $campCollaboration = $this->campCollaborationRepository->findByInviteKeyHash($inviteKeyHash);
         $campCollaboration->user = $this->security->getUser();
         $campCollaboration->status = CampCollaboration::STATUS_ESTABLISHED;
@@ -33,16 +33,7 @@ class InvitationAcceptProcessor extends AbstractPersistProcessor {
         $campCollaboration->inviteKeyHash = null;
         $campCollaboration->inviteEmail = null;
 
-        return $campCollaboration;
-    }
-
-    /**
-     * Override process method to return Invitation instead of the persisted CampCollaboration.
-     *
-     * @param Invitation $data
-     */
-    public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []) {
-        parent::process($data, $operation, $uriVariables, $context);
+        $this->em->flush();
 
         return $data;
     }
