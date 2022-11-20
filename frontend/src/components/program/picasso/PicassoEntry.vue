@@ -150,6 +150,10 @@ export default {
   color: currentColor;
   text-decoration-color: transparent;
   transition: text-decoration 0.1s ease;
+
+  &:hover {
+    text-decoration-color: currentColor;
+  }
 }
 
 .e-picasso-entry__quickedit {
@@ -204,6 +208,7 @@ export default {
 
 .e-picasso-entry small {
   opacity: 0.7;
+  font-size: 11px;
 }
 
 @media #{map-get($display-breakpoints, 'sm-and-up')} {
