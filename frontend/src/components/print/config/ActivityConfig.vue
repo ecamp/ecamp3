@@ -1,6 +1,12 @@
 <template>
   <div>
-    <e-select v-if="!loading" v-model="optionsScheduleEntry" :items="scheduleEntries" />
+    <e-select
+      v-if="!loading"
+      v-model="optionsScheduleEntry"
+      :items="scheduleEntries"
+      :label="$tc('components.print.config.activityConfig.activity')"
+      :filled="false"
+    />
     <v-skeleton-loader v-else type="image" height="56" />
   </div>
 </template>
@@ -58,6 +64,9 @@ export default {
       activity: null,
       scheduleEntry: null,
     }
+  },
+  design: {
+    multiple: false,
   },
 }
 </script>

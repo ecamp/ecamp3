@@ -1,6 +1,12 @@
 <template>
   <div>
-    <e-select v-model="options.periods" :items="periods" multiple />
+    <e-select
+      v-model="options.periods"
+      :items="periods"
+      :label="$tc('components.print.config.storyConfig.periods')"
+      multiple
+      :filled="false"
+    />
   </div>
 </template>
 
@@ -34,6 +40,9 @@ export default {
     return {
       periods: [],
     }
+  },
+  design: {
+    multiple: false,
   },
 }
 </script>
