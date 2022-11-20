@@ -50,7 +50,7 @@ Show all activity schedule entries of a single period.
         </template>
       </template>
     </schedule-entries>
-    <v-snackbar v-model="showReminder" light>
+    <v-snackbar v-model="showReminder" light class="mb-12">
       <v-icon>mdi-lock</v-icon>
       {{
         reminderType === 'create'
