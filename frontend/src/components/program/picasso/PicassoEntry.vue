@@ -82,11 +82,23 @@ export default {
     editable: { type: Boolean, required: true },
     scheduleEntry: { type: Object, required: true },
     timed: { type: Boolean, required: true },
-    activityName: { type: String, required: true },
     scheduleEntryRoute: { type: Object, required: true },
   },
   emits: ['startResize', 'finishEdit'],
   computed: {
+    activityName() {
+      if (this.scheduleEntry.tmpEvent) return this.$tc('entity.activity.new')
+
+      if (this.activityLoading) return this.$tc('global.loading')
+
+      return (
+        (this.scheduleEntry.number ? this.scheduleEntry.number + ' ' : '') +
+        (this.scheduleEntry.activity().category().short
+          ? this.scheduleEntry.activity().category().short + ': '
+          : '') +
+        this.scheduleEntry.activity().title
+      )
+    },
     activityResponsibles() {
       if (this.scheduleEntry.tmpEvent) return []
       return this.scheduleEntry.activity().activityResponsibles().items
@@ -100,6 +112,13 @@ export default {
     location() {
       if (this.scheduleEntry.tmpEvent) return ''
       return this.scheduleEntry.activity().location
+    },
+    activityLoading() {
+      return (
+        !this.scheduleEntry.tmpEvent &&
+        (this.scheduleEntry.activity()._meta.loading ||
+          this.scheduleEntry.activity().category()._meta.loading)
+      )
     },
   },
 }

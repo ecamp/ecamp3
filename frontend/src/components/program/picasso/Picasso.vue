@@ -10,7 +10,6 @@ Listing all given activity schedule entries in a calendar view.
       v-resize="resize"
       :class="['e-picasso', editable && 'e-picasso--editable']"
       :events="events"
-      :event-name="getActivityName"
       event-overlap-mode="column"
       :event-color="getActivityColor"
       :event-text-color="getActivityTextColor"
@@ -61,7 +60,6 @@ Listing all given activity schedule entries in a calendar view.
       <!-- template for single scheduleEntry -->
       <template #event="{ event, timed }">
         <PicassoEntry
-          :activity-name="getActivityName(event)"
           :timed="timed"
           :schedule-entry="event"
           :schedule-entry-route="picassoScheduleEntryRoute(event)"
@@ -346,19 +344,6 @@ export default {
         80
       )
     },
-    getActivityName(scheduleEntry, _) {
-      if (scheduleEntry.tmpEvent) return this.$tc('entity.activity.new')
-
-      if (this.isActivityLoading(scheduleEntry)) return this.$tc('global.loading')
-
-      return (
-        (scheduleEntry.number ? scheduleEntry.number + ' ' : '') +
-        (scheduleEntry.activity().category().short
-          ? scheduleEntry.activity().category().short + ': '
-          : '') +
-        scheduleEntry.activity().title
-      )
-    },
     getActivityTextColor(scheduleEntry) {
       if (scheduleEntry.tmpEvent) return '#000'
       if (this.isCategoryLoading(scheduleEntry)) return '#000'
@@ -373,14 +358,6 @@ export default {
 
       const color = scheduleEntry.activity().category().color
       return isCssColor(color) ? color : color + ' elevation-4 v-event--temporary'
-    },
-    isActivityLoading(scheduleEntry) {
-      return (
-        !scheduleEntry.tmpEvent &&
-        (this.activitiesLoading ||
-          this.categoriesLoading ||
-          scheduleEntry.activity()._meta.loading)
-      )
     },
     isCategoryLoading(scheduleEntry) {
       return (
