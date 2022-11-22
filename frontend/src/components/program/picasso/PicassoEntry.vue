@@ -86,6 +86,12 @@ export default {
   },
   emits: ['startResize', 'finishEdit'],
   computed: {
+    activity() {
+      return this.scheduleEntry.activity()
+    },
+    category() {
+      return this.activity.category()
+    },
     activityName() {
       if (this.scheduleEntry.tmpEvent) return this.$tc('entity.activity.new')
 
@@ -93,15 +99,13 @@ export default {
 
       return (
         (this.scheduleEntry.number ? this.scheduleEntry.number + ' ' : '') +
-        (this.scheduleEntry.activity().category().short
-          ? this.scheduleEntry.activity().category().short + ': '
-          : '') +
-        this.scheduleEntry.activity().title
+        (this.category.short ? this.category.short + ': ' : '') +
+        this.activity.title
       )
     },
     activityResponsibles() {
       if (this.scheduleEntry.tmpEvent) return []
-      return this.scheduleEntry.activity().activityResponsibles().items
+      return this.activity.activityResponsibles().items
     },
     campCollaboration() {
       if (this.activityResponsibles.length === 0) return ''
@@ -111,13 +115,12 @@ export default {
     },
     location() {
       if (this.scheduleEntry.tmpEvent) return ''
-      return this.scheduleEntry.activity().location
+      return this.activity.location
     },
     activityLoading() {
       return (
         !this.scheduleEntry.tmpEvent &&
-        (this.scheduleEntry.activity()._meta.loading ||
-          this.scheduleEntry.activity().category()._meta.loading)
+        (this.activity._meta.loading || this.category._meta.loading)
       )
     },
     scheduleEntryRoute() {
