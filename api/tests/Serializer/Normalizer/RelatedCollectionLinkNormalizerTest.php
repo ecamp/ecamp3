@@ -226,14 +226,9 @@ class RelatedCollectionLinkNormalizerTest extends TestCase {
 
         $this->nameConverterMock->method('denormalize')->willReturn('renamedChildren');
 
-        $classMetadata = $this->createMock(ORM\ClassMetadata::class);
-        $classMetadata->method('getAssociationMapping')->with('renamedChildren')->willReturn(['targetEntity' => Child::class, 'mappedBy' => 'parent']);
-        $manager = $this->createMock(EntityManagerInterface::class);
-        $manager->method('getClassMetadata')->willReturn($classMetadata);
-        $this->managerRegistryMock->method('getManagerForClass')->willReturn($manager);
-
         $this->mockRelatedResourceMetadata(['filters' => ['attribute_filter_something_something']]);
         $this->mockRelatedFilterDescription(['parent' => ['strategy' => 'exact']]);
+        $this->mockAssociationMetadata(['targetEntity' => Child::class, 'mappedBy' => 'parent']);
         $this->mockGeneratedRoute();
 
         // when
@@ -257,23 +252,6 @@ class RelatedCollectionLinkNormalizerTest extends TestCase {
         $this->mockAssociationMetadata(['targetEntity' => Child::class, 'mappedBy' => 'parent']);
         $this->mockRelatedResourceMetadata(['filters' => ['attribute_filter_something_something']]);
         $this->mockRelatedFilterDescription(['some_other_property' => ['strategy' => 'exact']]);
-        $this->mockGeneratedRoute();
-
-        // when
-        $result = $this->normalizer->normalize($resource, null, ['resource_class' => ParentEntity::class]);
-
-        // then
-        $this->shouldNotReplaceChildren($result);
-    }
-
-    public function testNormalizeDoesntReplaceWhenStrategyIsNotExact() {
-        // given
-        $resource = new ParentEntity();
-        $this->mockDecoratedNormalizer();
-        $this->mockNameConverter();
-        $this->mockAssociationMetadata(['targetEntity' => Child::class, 'mappedBy' => 'parent']);
-        $this->mockRelatedResourceMetadata(['filters' => ['attribute_filter_something_something']]);
-        $this->mockRelatedFilterDescription(['parent' => ['strategy' => 'start']]);
         $this->mockGeneratedRoute();
 
         // when
@@ -398,8 +376,7 @@ class RelatedCollectionLinkNormalizerTest extends TestCase {
         $this->mockNameConverter();
         $this->mockAssociationMetadata(['targetEntity' => Child::class, 'mappedBy' => 'parent']);
         $this->mockRelatedResourceMetadata(['filters' => ['attribute_filter_something_something']]);
-        $this->filterInstance = $this->createMock(DateFilter::class);
-        $this->filterInstance->method('getDescription')->willReturn(['filters' => ['attribute_filter_something_something']]);
+        $this->filterInstance = new DateFilter($this->managerRegistryMock, null, ['filters' => ['attribute_filter_something_something']]);
         $this->mockGeneratedRoute();
 
         // when
@@ -425,6 +402,7 @@ class RelatedCollectionLinkNormalizerTest extends TestCase {
     protected function mockAssociationMetadata($relationMetadata) {
         $classMetadata = $this->createMock(ORM\ClassMetadata::class);
         $classMetadata->method('getAssociationMapping')->willReturn($relationMetadata);
+        $classMetadata->method('hasAssociation')->willReturn(true);
 
         $manager = $this->createMock(EntityManagerInterface::class);
         $manager->method('getClassMetadata')->willReturn($classMetadata);
@@ -449,9 +427,8 @@ class RelatedCollectionLinkNormalizerTest extends TestCase {
         $this->nameConverterMock->method('denormalize')->willReturnArgument(0);
     }
 
-    protected function mockRelatedFilterDescription($description) {
-        $this->filterInstance = $this->createMock(SearchFilter::class);
-        $this->filterInstance->method('getDescription')->willReturn($description);
+    protected function mockRelatedFilterDescription($properties) {
+        $this->filterInstance = new SearchFilter($this->managerRegistryMock, $this->iriConverterMock, null, null, $properties);
     }
 
     protected function shouldReplaceChildrenWithLink($result, $link = '/children?parent=%2Fparents%2F123') {
