@@ -38,9 +38,9 @@
       <h4 class="e-picasso-entry__title">
         {{ activityName }}
       </h4>
-      <template v-if="campCollaboration">
+      <template v-if="campCollaborations">
         <br />
-        <small>{{ campCollaboration }}</small>
+        <small>{{ campCollaborationText }}</small>
       </template>
       <template v-if="$vuetify.breakpoint.lgAndUp && location">
         <br />
@@ -64,11 +64,14 @@
     <h4 class="e-picasso-entry__title">
       {{ activityName }}
     </h4>
-    <template v-if="campCollaboration">
-      <br />
-      <small>{{ campCollaboration }}</small>
+    <template v-if="campCollaborationText">
+      <template v-if="clientWidth < 200 || !showAvatars">
+        <br />
+        <small>{{ campCollaborationText }}</small>
+      </template>
+      <AvatarRow v-else :camp-collaborations="campCollaborations" />
     </template>
-    <template v-if="$vuetify.breakpoint.lgAndUp && location">
+    <template v-if="location">
       <br />
       <small>{{ location }}</small>
     </template>
@@ -81,14 +84,15 @@ import campCollaborationDisplayName from '@/common/helpers/campCollaborationDisp
 import { scheduleEntryRoute } from '../../../router.js'
 import { contrastColor } from '../../../../../common/helpers/colors.js'
 import { useClickDetector } from './useClickDetector.js'
+import AvatarRow from '@/components/generic/AvatarRow.vue'
 
 export default {
   name: 'PicassoEntry',
-  components: { DialogActivityEdit },
+  components: { AvatarRow, DialogActivityEdit },
   props: {
     editable: { type: Boolean, required: true },
     scheduleEntry: { type: Object, required: true },
-    timed: { type: Boolean, required: true },
+    showAvatars: Boolean,
   },
   emits: ['startResize', 'finishEdit'],
   setup(props) {
@@ -102,6 +106,9 @@ export default {
 
     return { listeners, editDialog }
   },
+  data: () => ({
+    clientWidth: 0,
+  }),
   computed: {
     activity() {
       return this.scheduleEntry.activity()
@@ -124,10 +131,13 @@ export default {
       if (this.scheduleEntry.tmpEvent) return []
       return this.activity.activityResponsibles().items
     },
-    campCollaboration() {
-      if (this.activityResponsibles.length === 0) return ''
-      return `[${this.activityResponsibles
-        .map((item) => campCollaborationDisplayName(item.campCollaboration()))
+    campCollaborations() {
+      return this.activityResponsibles.map((item) => item.campCollaboration())
+    },
+    campCollaborationText() {
+      if (this.campCollaborations.length === 0) return ''
+      return `[${this.campCollaborations
+        .map((item) => campCollaborationDisplayName(item))
         .join(', ')}]`
     },
     location() {
@@ -161,6 +171,18 @@ export default {
     scheduleEntryRoute() {
       if (this.scheduleEntry.tmpEvent) return {}
       return scheduleEntryRoute(this.scheduleEntry)
+    },
+  },
+  mounted() {
+    this.clientWidth = this.$el.clientWidth
+    window.addEventListener('resize', this.onResize)
+  },
+  destroyed() {
+    window.removeEventListener('resize', this.onResize)
+  },
+  methods: {
+    onResize() {
+      this.clientWidth = this.$el.clientWidth
     },
   },
 }
@@ -276,5 +298,12 @@ export default {
   .e-picasso-entry:hover .e-picasso-entry__drag-bottom::after {
     display: block; // resize handle not visible on mobile
   }
+}
+
+:deep .avatarrow {
+  position: absolute;
+  bottom: 2px;
+  right: 2px;
+  max-height: calc(100% - 4px);
 }
 </style>

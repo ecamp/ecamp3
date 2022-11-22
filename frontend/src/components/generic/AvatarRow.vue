@@ -25,7 +25,7 @@ export default {
   }),
   computed: {
     size() {
-      return Number(this.maxSize) < this.maxHeight ? Number(this.maxSize) : this.maxHeight
+      return Math.min(Number(this.maxSize), this.maxHeight)
     },
     maxWidth() {
       return this.campCollaborations?.length * (this.size * 0.5) + this.size
