@@ -108,12 +108,6 @@ class Period extends BaseEntity implements BelongsToCampInterface {
 
     /**
      * The day on which the period starts, as an ISO date string. Should not be after "end".
-     *
-     * TODO: Do we keep on implementing the deletion of activities when shortening the period,
-     *       or do we just validate that there must be no activities that would be lost?
-     *       When implementing dangerous operations on the backend, there is no way to enforce
-     *       a user confirmation dialog. But then again, we also support deleting whole camps
-     *       that aren't empty...
      */
     #[Assert\LessThanOrEqual(propertyPath: 'end')]
     #[AssertLessThanOrEqualToEarliestScheduleEntryStart()]
