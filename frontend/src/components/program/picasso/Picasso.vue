@@ -62,7 +62,6 @@ Listing all given activity schedule entries in a calendar view.
         <PicassoEntry
           :timed="timed"
           :schedule-entry="event"
-          :schedule-entry-route="picassoScheduleEntryRoute(event)"
           :editable="editable"
           @startResize="startResize(event)"
           @finishEdit="reloadScheduleEntries"
@@ -85,7 +84,6 @@ import { useDragAndDropReminder } from './useDragAndDropReminder.js'
 import { useClickDetector } from './useClickDetector.js'
 import { isCssColor } from 'vuetify/lib/util/colorUtils'
 import { apiStore as api } from '@/plugins/store'
-import { scheduleEntryRoute } from '@/router.js'
 import mergeListeners from '@/helpers/mergeListeners.js'
 import { contrastColor } from '@/common/helpers/colors.js'
 import {
@@ -382,10 +380,6 @@ export default {
     },
     weekdayFormat() {
       return ''
-    },
-    picassoScheduleEntryRoute(scheduleEntry) {
-      if (scheduleEntry.tmpEvent) return {}
-      return scheduleEntryRoute(scheduleEntry)
     },
   },
 }

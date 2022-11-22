@@ -74,6 +74,7 @@
 <script>
 import DialogActivityEdit from '../DialogActivityEdit.vue'
 import campCollaborationDisplayName from '@/common/helpers/campCollaborationDisplayName.js'
+import { scheduleEntryRoute } from '../../../router.js'
 
 export default {
   name: 'PicassoEntry',
@@ -82,7 +83,6 @@ export default {
     editable: { type: Boolean, required: true },
     scheduleEntry: { type: Object, required: true },
     timed: { type: Boolean, required: true },
-    scheduleEntryRoute: { type: Object, required: true },
   },
   emits: ['startResize', 'finishEdit'],
   computed: {
@@ -119,6 +119,10 @@ export default {
         (this.scheduleEntry.activity()._meta.loading ||
           this.scheduleEntry.activity().category()._meta.loading)
       )
+    },
+    scheduleEntryRoute() {
+      if (this.scheduleEntry.tmpEvent) return {}
+      return scheduleEntryRoute(this.scheduleEntry)
     },
   },
 }
