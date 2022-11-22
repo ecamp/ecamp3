@@ -89,5 +89,6 @@ export function useDragAndDropReminder(enabled, showReminder) {
       'mousemove:time': timeMouseMove,
       'mouseup:time': timeMouseUp,
     },
+    nativeMouseLeave: clear,
   }
 }
