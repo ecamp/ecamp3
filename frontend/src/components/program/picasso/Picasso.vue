@@ -10,10 +10,7 @@ Listing all given activity schedule entries in a calendar view.
       v-resize="resize"
       :class="['e-picasso', editable && 'e-picasso--editable']"
       :events="events"
-      :event-name="getActivityName"
       event-overlap-mode="column"
-      :event-color="getActivityColor"
-      :event-text-color="getActivityTextColor"
       event-start="startTimestamp"
       event-end="endTimestamp"
       :interval-height="computedIntervalHeight"
@@ -61,10 +58,8 @@ Listing all given activity schedule entries in a calendar view.
       <!-- template for single scheduleEntry -->
       <template #event="{ event, timed }">
         <PicassoEntry
-          :activity-name="getActivityName(event)"
           :timed="timed"
           :schedule-entry="event"
-          :schedule-entry-route="picassoScheduleEntryRoute(event)"
           :editable="editable"
           @startResize="startResize(event)"
           @finishEdit="reloadScheduleEntries"
@@ -84,12 +79,8 @@ import { useDragAndDropMove } from './useDragAndDropMove.js'
 import { useDragAndDropResize } from './useDragAndDropResize.js'
 import { useDragAndDropNew } from './useDragAndDropNew.js'
 import { useDragAndDropReminder } from './useDragAndDropReminder.js'
-import { useClickDetector } from './useClickDetector.js'
-import { isCssColor } from 'vuetify/lib/util/colorUtils'
 import { apiStore as api } from '@/plugins/store'
-import { scheduleEntryRoute } from '@/router.js'
 import mergeListeners from '@/helpers/mergeListeners.js'
-import { contrastColor } from '@/common/helpers/colors.js'
 import {
   timestampToUtcString,
   utcStringToTimestamp,
@@ -159,7 +150,7 @@ export default {
   ],
 
   // composition API setup
-  setup(props, { emit, refs }) {
+  setup(props, { emit }) {
     const { editable, scheduleEntries } = toRefs(props)
 
     const isSaving = ref(false)
@@ -207,11 +198,6 @@ export default {
       emit('unlockReminder', move)
     }
 
-    // open edit dialog
-    const onClick = (scheduleEntry) => {
-      refs[`editDialog-${scheduleEntry.id}`].open()
-    }
-
     const calenderStartTimestamp = utcStringToTimestamp(props.start)
     const calendarEndTimestamp = utcStringToTimestamp(props.end) + ONE_DAY
 
@@ -230,7 +216,6 @@ export default {
     )
     const dragAndDropNew = useDragAndDropNew(editable, createEntry)
     const dragAndDropReminder = useDragAndDropReminder(editable, showReminder)
-    const clickDetector = useClickDetector(editable, 5, onClick)
 
     // merge mouseleave handlers
     // this is needed, because .native modifiers doesn't work with v-on property
@@ -247,7 +232,6 @@ export default {
       dragAndDropResize.vCalendarListeners,
       dragAndDropNew.vCalendarListeners,
       dragAndDropReminder.vCalendarListeners,
-      clickDetector.vCalendarListeners,
     ])
 
     // make events a reactive array + load event array from schedule entries
@@ -346,51 +330,6 @@ export default {
         80
       )
     },
-    getActivityName(scheduleEntry, _) {
-      if (scheduleEntry.tmpEvent) return this.$tc('entity.activity.new')
-
-      if (this.isActivityLoading(scheduleEntry)) return this.$tc('global.loading')
-
-      return (
-        (scheduleEntry.number ? scheduleEntry.number + ' ' : '') +
-        (scheduleEntry.activity().category().short
-          ? scheduleEntry.activity().category().short + ': '
-          : '') +
-        scheduleEntry.activity().title
-      )
-    },
-    getActivityTextColor(scheduleEntry) {
-      if (scheduleEntry.tmpEvent) return '#000'
-      if (this.isCategoryLoading(scheduleEntry)) return '#000'
-
-      const category = scheduleEntry.activity().category()
-      return contrastColor(category.color)
-    },
-    getActivityColor(scheduleEntry, _) {
-      if (scheduleEntry.tmpEvent) return 'grey elevation-4 v-event--temporary'
-
-      if (this.isCategoryLoading(scheduleEntry)) return 'grey lighten-1'
-
-      const color = scheduleEntry.activity().category().color
-      return isCssColor(color) ? color : color + ' elevation-4 v-event--temporary'
-    },
-    isActivityLoading(scheduleEntry) {
-      return (
-        !scheduleEntry.tmpEvent &&
-        (this.activitiesLoading ||
-          this.categoriesLoading ||
-          scheduleEntry.activity()._meta.loading)
-      )
-    },
-    isCategoryLoading(scheduleEntry) {
-      return (
-        !scheduleEntry.tmpEvent &&
-        (this.categoriesLoading ||
-          this.activitiesLoading ||
-          scheduleEntry.activity()._meta.loading ||
-          scheduleEntry.activity().category()._meta.loading)
-      )
-    },
     intervalFormat(time) {
       return this.$date
         .utc(time.date + ' ' + time.time)
@@ -405,10 +344,6 @@ export default {
     },
     weekdayFormat() {
       return ''
-    },
-    picassoScheduleEntryRoute(scheduleEntry) {
-      if (scheduleEntry.tmpEvent) return {}
-      return scheduleEntryRoute(scheduleEntry)
     },
   },
 }

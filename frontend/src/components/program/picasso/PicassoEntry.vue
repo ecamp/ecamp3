@@ -3,13 +3,15 @@
     v-if="editable"
     class="e-picasso-entry e-picasso-entry--editable"
     :class="{
-      'e-picasso-entry--temporary': scheduleEntry.tmpEvent,
+      'e-picasso-entry--temporary elevation-4 v-event--temporary': scheduleEntry.tmpEvent,
     }"
+    :style="colorStyles"
+    v-on="listeners"
   >
     <!-- edit button & dialog -->
     <dialog-activity-edit
       v-if="editable && !scheduleEntry.tmpEvent"
-      :ref="`editDialog-${scheduleEntry.id}`"
+      ref="editDialog"
       :schedule-entry="scheduleEntry"
       @activityUpdated="$emit('finishEdit')"
       @error="$emit('finishEdit')"
@@ -57,6 +59,7 @@
     v-else
     class="e-picasso-entry e-piasso-entry--link"
     :to="scheduleEntryRoute"
+    :style="colorStyles"
   >
     <h4 class="e-picasso-entry__title">
       {{ activityName }}
@@ -72,8 +75,12 @@
   </router-link>
 </template>
 <script>
+import { ref, toRefs } from 'vue'
 import DialogActivityEdit from '../DialogActivityEdit.vue'
 import campCollaborationDisplayName from '@/common/helpers/campCollaborationDisplayName.js'
+import { scheduleEntryRoute } from '../../../router.js'
+import { contrastColor } from '../../../../../common/helpers/colors.js'
+import { useClickDetector } from './useClickDetector.js'
 
 export default {
   name: 'PicassoEntry',
@@ -82,14 +89,40 @@ export default {
     editable: { type: Boolean, required: true },
     scheduleEntry: { type: Object, required: true },
     timed: { type: Boolean, required: true },
-    activityName: { type: String, required: true },
-    scheduleEntryRoute: { type: Object, required: true },
   },
   emits: ['startResize', 'finishEdit'],
+  setup(props) {
+    const { editable } = toRefs(props)
+    const editDialog = ref(null)
+
+    // open edit dialog when clicking, but only if it wasn't a drag motion
+    const { listeners } = useClickDetector(editable, 5, () => {
+      editDialog.value.open()
+    })
+
+    return { listeners, editDialog }
+  },
   computed: {
+    activity() {
+      return this.scheduleEntry.activity()
+    },
+    category() {
+      return this.activity.category()
+    },
+    activityName() {
+      if (this.scheduleEntry.tmpEvent) return this.$tc('entity.activity.new')
+
+      if (this.activityLoading) return this.$tc('global.loading')
+
+      return (
+        (this.scheduleEntry.number ? this.scheduleEntry.number + ' ' : '') +
+        (this.category.short ? this.category.short + ': ' : '') +
+        this.activity.title
+      )
+    },
     activityResponsibles() {
       if (this.scheduleEntry.tmpEvent) return []
-      return this.scheduleEntry.activity().activityResponsibles().items
+      return this.activity.activityResponsibles().items
     },
     campCollaboration() {
       if (this.activityResponsibles.length === 0) return ''
@@ -99,7 +132,35 @@ export default {
     },
     location() {
       if (this.scheduleEntry.tmpEvent) return ''
-      return this.scheduleEntry.activity().location
+      return this.activity.location
+    },
+    activityLoading() {
+      return (
+        !this.scheduleEntry.tmpEvent &&
+        (this.activity._meta.loading || this.category._meta.loading)
+      )
+    },
+    activityColor() {
+      if (this.scheduleEntry.tmpEvent) return '#9e9e9e'
+      if (this.category._meta.loading) return '#bdbdbd'
+
+      return this.category.color
+    },
+    activityTextColor() {
+      if (this.scheduleEntry.tmpEvent) return '#000'
+      if (this.category._meta.loading) return '#000'
+
+      return contrastColor(this.category.color)
+    },
+    colorStyles() {
+      return {
+        color: this.activityTextColor,
+        backgroundColor: this.activityColor,
+      }
+    },
+    scheduleEntryRoute() {
+      if (this.scheduleEntry.tmpEvent) return {}
+      return scheduleEntryRoute(this.scheduleEntry)
     },
   },
 }
