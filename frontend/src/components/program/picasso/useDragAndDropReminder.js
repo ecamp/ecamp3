@@ -2,8 +2,8 @@ import { toTime, minMaxTime, ONE_HOUR } from '@/helpers/vCalendarDragAndDrop.js'
 
 /**
  *
- * @param enabled {Ref<boolean>} enabled   drag & drop is disabled if enabled=false
- * @param showReminder {(move?: boolean) => void} threshold       min. mouse movement needed to detect drag & drop
+ * @param enabled {Ref<boolean>} drag & drop is disabled if enabled=false
+ * @param showReminder {(move?: boolean) => void} function to show the reminder
  * @returns
  */
 export function useDragAndDropReminder(enabled, showReminder) {
