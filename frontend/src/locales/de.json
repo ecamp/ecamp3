@@ -117,7 +117,7 @@
     "generic": {
       "lockIcon": {
         "guestsCannotEdit": "Gäste haben keinen Bearbeitungszugriff",
-        "doubleClickToUnlock": "Doppelklick um zu Entsperren"
+        "doubleClickToUnlock": "Doppelklick um zu entsperren"
       }
     },
     "layout": {
