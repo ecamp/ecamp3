@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import AvatarRow from './AvatarRow.vue'
+import AvatarRow from '@/components/generic/AvatarRow.vue'
 import CategoryChip from '@/components/generic/CategoryChip.vue'
 import {
   hourShort,
