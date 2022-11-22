@@ -6,11 +6,12 @@
       'e-picasso-entry--temporary elevation-4 v-event--temporary': scheduleEntry.tmpEvent,
     }"
     :style="colorStyles"
+    v-on="listeners"
   >
     <!-- edit button & dialog -->
     <dialog-activity-edit
       v-if="editable && !scheduleEntry.tmpEvent"
-      :ref="`editDialog-${scheduleEntry.id}`"
+      ref="editDialog"
       :schedule-entry="scheduleEntry"
       @activityUpdated="$emit('finishEdit')"
       @error="$emit('finishEdit')"
@@ -74,10 +75,12 @@
   </router-link>
 </template>
 <script>
+import { ref, toRefs } from 'vue'
 import DialogActivityEdit from '../DialogActivityEdit.vue'
 import campCollaborationDisplayName from '@/common/helpers/campCollaborationDisplayName.js'
 import { scheduleEntryRoute } from '../../../router.js'
 import { contrastColor } from '../../../../../common/helpers/colors.js'
+import { useClickDetector } from './useClickDetector.js'
 
 export default {
   name: 'PicassoEntry',
@@ -88,6 +91,17 @@ export default {
     timed: { type: Boolean, required: true },
   },
   emits: ['startResize', 'finishEdit'],
+  setup(props) {
+    const { editable } = toRefs(props)
+    const editDialog = ref(null)
+
+    // open edit dialog when clicking, but only if it wasn't a drag motion
+    const { listeners } = useClickDetector(editable, 5, () => {
+      editDialog.value.open()
+    })
+
+    return { listeners, editDialog }
+  },
   computed: {
     activity() {
       return this.scheduleEntry.activity()

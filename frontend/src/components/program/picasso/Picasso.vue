@@ -79,7 +79,6 @@ import { useDragAndDropMove } from './useDragAndDropMove.js'
 import { useDragAndDropResize } from './useDragAndDropResize.js'
 import { useDragAndDropNew } from './useDragAndDropNew.js'
 import { useDragAndDropReminder } from './useDragAndDropReminder.js'
-import { useClickDetector } from './useClickDetector.js'
 import { apiStore as api } from '@/plugins/store'
 import mergeListeners from '@/helpers/mergeListeners.js'
 import {
@@ -151,7 +150,7 @@ export default {
   ],
 
   // composition API setup
-  setup(props, { emit, refs }) {
+  setup(props, { emit }) {
     const { editable, scheduleEntries } = toRefs(props)
 
     const isSaving = ref(false)
@@ -199,11 +198,6 @@ export default {
       emit('unlockReminder', move)
     }
 
-    // open edit dialog
-    const onClick = (scheduleEntry) => {
-      refs[`editDialog-${scheduleEntry.id}`].open()
-    }
-
     const calenderStartTimestamp = utcStringToTimestamp(props.start)
     const calendarEndTimestamp = utcStringToTimestamp(props.end) + ONE_DAY
 
@@ -222,7 +216,6 @@ export default {
     )
     const dragAndDropNew = useDragAndDropNew(editable, createEntry)
     const dragAndDropReminder = useDragAndDropReminder(editable, showReminder)
-    const clickDetector = useClickDetector(editable, 5, onClick)
 
     // merge mouseleave handlers
     // this is needed, because .native modifiers doesn't work with v-on property
@@ -239,7 +232,6 @@ export default {
       dragAndDropResize.vCalendarListeners,
       dragAndDropNew.vCalendarListeners,
       dragAndDropReminder.vCalendarListeners,
-      clickDetector.vCalendarListeners,
     ])
 
     // make events a reactive array + load event array from schedule entries
