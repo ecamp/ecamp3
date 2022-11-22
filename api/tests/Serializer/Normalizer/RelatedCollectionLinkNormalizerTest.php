@@ -376,8 +376,7 @@ class RelatedCollectionLinkNormalizerTest extends TestCase {
         $this->mockNameConverter();
         $this->mockAssociationMetadata(['targetEntity' => Child::class, 'mappedBy' => 'parent']);
         $this->mockRelatedResourceMetadata(['filters' => ['attribute_filter_something_something']]);
-        $this->filterInstance = $this->createMock(DateFilter::class);
-        $this->filterInstance->method('getDescription')->willReturn(['filters' => ['attribute_filter_something_something']]);
+        $this->filterInstance = new DateFilter($this->managerRegistryMock, null, ['filters' => ['attribute_filter_something_something']]);
         $this->mockGeneratedRoute();
 
         // when
