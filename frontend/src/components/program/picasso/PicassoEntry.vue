@@ -3,8 +3,9 @@
     v-if="editable"
     class="e-picasso-entry e-picasso-entry--editable"
     :class="{
-      'e-picasso-entry--temporary': scheduleEntry.tmpEvent,
+      'e-picasso-entry--temporary elevation-4 v-event--temporary': scheduleEntry.tmpEvent,
     }"
+    :style="colorStyles"
   >
     <!-- edit button & dialog -->
     <dialog-activity-edit
@@ -57,6 +58,7 @@
     v-else
     class="e-picasso-entry e-piasso-entry--link"
     :to="scheduleEntryRoute"
+    :style="colorStyles"
   >
     <h4 class="e-picasso-entry__title">
       {{ activityName }}
@@ -75,6 +77,7 @@
 import DialogActivityEdit from '../DialogActivityEdit.vue'
 import campCollaborationDisplayName from '@/common/helpers/campCollaborationDisplayName.js'
 import { scheduleEntryRoute } from '../../../router.js'
+import { contrastColor } from '../../../../../common/helpers/colors.js'
 
 export default {
   name: 'PicassoEntry',
@@ -122,6 +125,24 @@ export default {
         !this.scheduleEntry.tmpEvent &&
         (this.activity._meta.loading || this.category._meta.loading)
       )
+    },
+    activityColor() {
+      if (this.scheduleEntry.tmpEvent) return '#9e9e9e'
+      if (this.category._meta.loading) return '#bdbdbd'
+
+      return this.category.color
+    },
+    activityTextColor() {
+      if (this.scheduleEntry.tmpEvent) return '#000'
+      if (this.category._meta.loading) return '#000'
+
+      return contrastColor(this.category.color)
+    },
+    colorStyles() {
+      return {
+        color: this.activityTextColor,
+        backgroundColor: this.activityColor,
+      }
     },
     scheduleEntryRoute() {
       if (this.scheduleEntry.tmpEvent) return {}

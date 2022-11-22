@@ -11,8 +11,6 @@ Listing all given activity schedule entries in a calendar view.
       :class="['e-picasso', editable && 'e-picasso--editable']"
       :events="events"
       event-overlap-mode="column"
-      :event-color="getActivityColor"
-      :event-text-color="getActivityTextColor"
       event-start="startTimestamp"
       event-end="endTimestamp"
       :interval-height="computedIntervalHeight"
@@ -82,10 +80,8 @@ import { useDragAndDropResize } from './useDragAndDropResize.js'
 import { useDragAndDropNew } from './useDragAndDropNew.js'
 import { useDragAndDropReminder } from './useDragAndDropReminder.js'
 import { useClickDetector } from './useClickDetector.js'
-import { isCssColor } from 'vuetify/lib/util/colorUtils'
 import { apiStore as api } from '@/plugins/store'
 import mergeListeners from '@/helpers/mergeListeners.js'
-import { contrastColor } from '@/common/helpers/colors.js'
 import {
   timestampToUtcString,
   utcStringToTimestamp,
@@ -340,30 +336,6 @@ export default {
         (this.$refs.calendar.$el.offsetWidth - widthIntervals) /
           this.$refs.calendar.days.length,
         80
-      )
-    },
-    getActivityTextColor(scheduleEntry) {
-      if (scheduleEntry.tmpEvent) return '#000'
-      if (this.isCategoryLoading(scheduleEntry)) return '#000'
-
-      const category = scheduleEntry.activity().category()
-      return contrastColor(category.color)
-    },
-    getActivityColor(scheduleEntry, _) {
-      if (scheduleEntry.tmpEvent) return 'grey elevation-4 v-event--temporary'
-
-      if (this.isCategoryLoading(scheduleEntry)) return 'grey lighten-1'
-
-      const color = scheduleEntry.activity().category().color
-      return isCssColor(color) ? color : color + ' elevation-4 v-event--temporary'
-    },
-    isCategoryLoading(scheduleEntry) {
-      return (
-        !scheduleEntry.tmpEvent &&
-        (this.categoriesLoading ||
-          this.activitiesLoading ||
-          scheduleEntry.activity()._meta.loading ||
-          scheduleEntry.activity().category()._meta.loading)
       )
     },
     intervalFormat(time) {
