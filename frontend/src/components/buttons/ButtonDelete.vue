@@ -11,7 +11,10 @@
     <v-icon v-if="iconOnly">{{ icon }}</v-icon>
     <v-icon v-else :left="$vuetify.breakpoint.smAndUp" size="150%">{{ icon }}</v-icon>
 
-    <span :class="{ 'd-sr-only': true, 'd-sm-block': !iconOnly }">
+    <span v-if="!iconOnly" class="d-none d-sm-block">
+      <slot>{{ $tc('global.button.delete') }}</slot>
+    </span>
+    <span class="d-sr-only" :class="{ 'd-sm-none': !iconOnly }">
       <slot>{{ $tc('global.button.delete') }}</slot>
     </span>
   </v-btn>
