@@ -30,7 +30,7 @@ use Symfony\Component\Validator\Constraints as Assert;
             validationContext: ['groups' => ['Default', 'update']]
         ),
         new Delete(
-            security: '(is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)) and object.parent !== null'
+            security: '(is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)) and object.parent !== null' // disallow delete when contentNode is a root node
         ),
         new GetCollection(
             security: 'is_authenticated()'

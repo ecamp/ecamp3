@@ -16,7 +16,7 @@ use App\Metadata\Resource\OperationHelper;
 use Psr\Container\ContainerInterface;
 
 /**
- * Creates templates URIS for resources.
+ * Given an entity class, creates an URI template (link with placeholders) for accessing this type of entity in the API.
  * Format follows RFC6570 (https://datatracker.ietf.org/doc/html/rfc6570).
  *
  * Currently, multiple ApiResources per Class ist not implemented (refactoring needed to support this use-case)

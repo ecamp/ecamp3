@@ -84,7 +84,7 @@ class Activity extends BaseEntity implements BelongsToCampInterface {
     )]
     #[ApiProperty(
         writableLink: true,
-        example: '[{ "period": "/periods/1a2b3c4a",  "start": "2023-05-01T15:00:00+00:00", "end" => "2023-05-01T16:00:00+00:00" }]',
+        example: [['period' => '/periods/1a2b3c4a', 'start' => '2023-05-01T15:00:00+00:00', 'end' => '2023-05-01T16:00:00+00:00']],
     )]
     #[Groups(['read', 'create'])]
     #[ORM\OneToMany(targetEntity: ScheduleEntry::class, mappedBy: 'activity', orphanRemoval: true, cascade: ['persist'])]
