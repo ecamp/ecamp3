@@ -33,9 +33,10 @@ export const render = (component, options, callback) => {
  * for use in tests which need to set the application language.
  */
 export const setTestLocale = (locale) => {
+  const language = locale.substring(0, 2)
   VueI18n.locale = locale
   Vue.dayjs.locale(locale)
-  localize('en')
+  localize(language)
 }
 
 /**

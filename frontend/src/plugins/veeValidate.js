@@ -1,6 +1,8 @@
 import { extend, configure, setInteractionMode } from 'vee-validate'
 import * as rules from 'vee-validate/dist/rules'
 import i18n from '@/plugins/i18n'
+import greaterThan_time from './veeValidate/greaterThan_time.js'
+import greaterThanOrEqual_date from './veeValidate/greaterThanOrEqual_date.js'
 
 class VeeValidatePlugin {
   install(Vue) {
@@ -27,38 +29,8 @@ class VeeValidatePlugin {
      */
 
     // check if date (value) is equal or larger than another date (min)
-    extend('greaterThanOrEqual_date', {
-      params: ['min'],
-      /**
-       * @param   {string}  value Dater value in local string format
-       * @param   {string}  min   comparison valye in local string format
-       * @returns {bool}          validation result
-       */
-      validate: (value, { min }) => {
-        const minDate = Vue.dayjs.utc(min, 'L')
-        const valueDate = Vue.dayjs.utc(value, 'L')
-        return valueDate.diff(minDate, 'day') >= 0
-      },
-      message: (field, values) =>
-        i18n.tc('global.validation.greaterThanOrEqual_date', 0, values),
-    })
-
-    extend('greaterThan_time', {
-      params: ['min'],
-      /**
-       *
-       * @param {string} value Time value in string format 'HH:mm'
-       * @param {string} min   Comparison value in string format 'HH:mm'
-       * @returns {bool}       validation result
-       */
-      validate: (value, { min }) => {
-        const minDate = Vue.dayjs('1970-01-01 ' + min, 'YYYY-MM-DD HH:mm')
-        const valueDate = Vue.dayjs('1970-01-01 ' + value, 'YYYY-MM-DD LT')
-        return valueDate > minDate
-      },
-      message: (field, values) =>
-        i18n.tc('global.validation.greaterThan_time', 0, values),
-    })
+    extend('greaterThanOrEqual_date', greaterThanOrEqual_date(Vue.dayjs, i18n))
+    extend('greaterThan_time', greaterThan_time(Vue.dayjs, i18n))
   }
 }
 
