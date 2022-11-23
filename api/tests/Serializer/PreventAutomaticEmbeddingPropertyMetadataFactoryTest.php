@@ -17,7 +17,7 @@ class PreventAutomaticEmbeddingPropertyMetadataFactoryTest extends TestCase {
     public function testCreateResetsReadableLinkAndWritableLinkToNull() {
         // given
         $decorated = $this->createMock(PropertyMetadataFactoryInterface::class);
-        $propertyMetadata = new ApiProperty(
+        $apiProperty = new ApiProperty(
             'description',
             true,
             true,
@@ -46,7 +46,7 @@ class PreventAutomaticEmbeddingPropertyMetadataFactoryTest extends TestCase {
         );
         $decorated->expects($this->once())
             ->method('create')
-            ->willReturn($propertyMetadata)
+            ->willReturn($apiProperty)
         ;
         $factory = new PreventAutomaticEmbeddingPropertyMetadataFactory($decorated);
 
@@ -55,33 +55,33 @@ class PreventAutomaticEmbeddingPropertyMetadataFactoryTest extends TestCase {
 
         // then
 
-        $this->assertEquals($propertyMetadata->getDescription(), $result->getDescription());
-        $this->assertEquals($propertyMetadata->isReadable(), $result->isReadable());
-        $this->assertEquals($propertyMetadata->isWritable(), $result->isWritable());
+        $this->assertEquals($apiProperty->getDescription(), $result->getDescription());
+        $this->assertEquals($apiProperty->isReadable(), $result->isReadable());
+        $this->assertEquals($apiProperty->isWritable(), $result->isWritable());
 
         $this->assertEquals(null, $result->isReadableLink());
         $this->assertEquals(null, $result->isWritableLink());
 
-        $this->assertEquals($propertyMetadata->isRequired(), $result->isRequired());
-        $this->assertEquals($propertyMetadata->isIdentifier(), $result->isIdentifier());
-        $this->assertEquals($propertyMetadata->getDefault(), $result->getDefault());
-        $this->assertEquals($propertyMetadata->getExample(), $result->getExample());
-        $this->assertEquals($propertyMetadata->getDeprecationReason(), $result->getDeprecationReason());
-        $this->assertEquals($propertyMetadata->isFetchable(), $result->isFetchable());
-        $this->assertEquals($propertyMetadata->getFetchEager(), $result->getFetchEager());
-        $this->assertEquals($propertyMetadata->getJsonldContext(), $result->getJsonldContext());
-        $this->assertEquals($propertyMetadata->getOpenapiContext(), $result->getJsonldContext());
-        $this->assertEquals($propertyMetadata->getJsonSchemaContext(), $result->getJsonSchemaContext());
-        $this->assertEquals($propertyMetadata->getPush(), $result->getPush());
-        $this->assertEquals($propertyMetadata->getSecurity(), $result->getSecurity());
-        $this->assertEquals($propertyMetadata->getSecurityPostDenormalize(), $result->getSecurityPostDenormalize());
-        $this->assertEquals($propertyMetadata->getTypes(), $result->getTypes());
-        $this->assertEquals($propertyMetadata->getBuiltinTypes(), $result->getBuiltinTypes());
-        $this->assertEquals($propertyMetadata->getSchema(), $result->getSchema());
-        $this->assertEquals($propertyMetadata->isInitializable(), $result->isInitializable());
-        $this->assertEquals($propertyMetadata->getIris(), $result->getIris());
-        $this->assertEquals($propertyMetadata->getGenId(), $result->getGenId());
-        $this->assertEquals($propertyMetadata->getExtraProperties(), $result->getExtraProperties());
+        $this->assertEquals($apiProperty->isRequired(), $result->isRequired());
+        $this->assertEquals($apiProperty->isIdentifier(), $result->isIdentifier());
+        $this->assertEquals($apiProperty->getDefault(), $result->getDefault());
+        $this->assertEquals($apiProperty->getExample(), $result->getExample());
+        $this->assertEquals($apiProperty->getDeprecationReason(), $result->getDeprecationReason());
+        $this->assertEquals($apiProperty->isFetchable(), $result->isFetchable());
+        $this->assertEquals($apiProperty->getFetchEager(), $result->getFetchEager());
+        $this->assertEquals($apiProperty->getJsonldContext(), $result->getJsonldContext());
+        $this->assertEquals($apiProperty->getOpenapiContext(), $result->getJsonldContext());
+        $this->assertEquals($apiProperty->getJsonSchemaContext(), $result->getJsonSchemaContext());
+        $this->assertEquals($apiProperty->getPush(), $result->getPush());
+        $this->assertEquals($apiProperty->getSecurity(), $result->getSecurity());
+        $this->assertEquals($apiProperty->getSecurityPostDenormalize(), $result->getSecurityPostDenormalize());
+        $this->assertEquals($apiProperty->getTypes(), $result->getTypes());
+        $this->assertEquals($apiProperty->getBuiltinTypes(), $result->getBuiltinTypes());
+        $this->assertEquals($apiProperty->getSchema(), $result->getSchema());
+        $this->assertEquals($apiProperty->isInitializable(), $result->isInitializable());
+        $this->assertEquals($apiProperty->getIris(), $result->getIris());
+        $this->assertEquals($apiProperty->getGenId(), $result->getGenId());
+        $this->assertEquals($apiProperty->getExtraProperties(), $result->getExtraProperties());
     }
 }
 

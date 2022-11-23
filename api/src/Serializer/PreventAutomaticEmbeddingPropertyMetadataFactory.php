@@ -59,34 +59,34 @@ final class PreventAutomaticEmbeddingPropertyMetadataFactory implements Property
      * {@inheritdoc}
      */
     public function create(string $resourceClass, string $property, array $options = []): ApiProperty {
-        $propertyMetadata = $this->decorated->create($resourceClass, $property, $options);
+        $apiProperty = $this->decorated->create($resourceClass, $property, $options);
 
         return new ApiProperty(
-            $propertyMetadata->getDescription(),
-            $propertyMetadata->isReadable(),
-            $propertyMetadata->isWritable(),
+            $apiProperty->getDescription(),
+            $apiProperty->isReadable(),
+            $apiProperty->isWritable(),
             null, // reset readableLink to null
             null, // reset writableLink to null
-            $propertyMetadata->isRequired(),
-            $propertyMetadata->isIdentifier(),
-            $propertyMetadata->getDefault(),
-            $propertyMetadata->getExample(),
-            $propertyMetadata->getDeprecationReason(),
-            $propertyMetadata->isFetchable(),
-            $propertyMetadata->getFetchEager(),
-            $propertyMetadata->getJsonldContext(),
-            $propertyMetadata->getOpenapiContext(),
-            $propertyMetadata->getJsonSchemaContext(),
-            $propertyMetadata->getPush(),
-            $propertyMetadata->getSecurity(),
-            $propertyMetadata->getSecurityPostDenormalize(),
-            $propertyMetadata->getTypes(),
-            $propertyMetadata->getBuiltinTypes(),
-            $propertyMetadata->getSchema(),
-            $propertyMetadata->isInitializable(),
-            $propertyMetadata->getIris(),
-            $propertyMetadata->getGenId(),
-            $propertyMetadata->getExtraProperties()
+            $apiProperty->isRequired(),
+            $apiProperty->isIdentifier(),
+            $apiProperty->getDefault(),
+            $apiProperty->getExample(),
+            $apiProperty->getDeprecationReason(),
+            $apiProperty->isFetchable(),
+            $apiProperty->getFetchEager(),
+            $apiProperty->getJsonldContext(),
+            $apiProperty->getOpenapiContext(),
+            $apiProperty->getJsonSchemaContext(),
+            $apiProperty->getPush(),
+            $apiProperty->getSecurity(),
+            $apiProperty->getSecurityPostDenormalize(),
+            $apiProperty->getTypes(),
+            $apiProperty->getBuiltinTypes(),
+            $apiProperty->getSchema(),
+            $apiProperty->isInitializable(),
+            $apiProperty->getIris(),
+            $apiProperty->getGenId(),
+            $apiProperty->getExtraProperties()
         );
     }
 }
