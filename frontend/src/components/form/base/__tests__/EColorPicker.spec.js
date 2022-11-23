@@ -54,6 +54,108 @@ describe('An EColorPicker', () => {
     expect(snapshotOf(container)).toMatchSnapshot('pickeropen')
   })
 
+  it('opens the picker when the text field is clicked', async () => {
+    // given
+    render(EColorPicker, {
+      props: { value: COLOR1, name: 'test' },
+    })
+    const inputField = await screen.findByDisplayValue(COLOR1)
+
+    // when
+    await user.click(inputField)
+
+    // then
+    await waitFor(async () => {
+      expect(await screen.findByText('Schliessen')).toBeVisible()
+    })
+  })
+
+  it('closes the picker when clicking the close button', async () => {
+    // given
+    render(EColorPicker, {
+      props: { value: COLOR1, name: 'test' },
+    })
+    const inputField = await screen.findByDisplayValue(COLOR1)
+    await user.click(inputField)
+    await waitFor(async () => {
+      expect(await screen.findByText('Schliessen')).toBeVisible()
+    })
+    const closeButton = screen.getByText('Schliessen')
+
+    // when
+    await user.click(closeButton)
+
+    // then
+    await waitFor(async () => {
+      expect(await screen.queryByText('Schliessen')).not.toBeVisible()
+    })
+  })
+
+  it('closes the picker when clicking outside', async () => {
+    // given
+    render(EColorPicker, {
+      props: { value: COLOR1, name: 'test' },
+    })
+    const inputField = await screen.findByDisplayValue(COLOR1)
+    await user.click(inputField)
+    await waitFor(async () => {
+      expect(await screen.findByText('Schliessen')).toBeVisible()
+    })
+
+    // when
+    await user.click(document.body)
+
+    // then
+    await waitFor(async () => {
+      expect(await screen.queryByText('Schliessen')).not.toBeVisible()
+    })
+  })
+
+  it('closes the picker when pressing escape', async () => {
+    // given
+    render(EColorPicker, {
+      props: { value: COLOR1, name: 'test' },
+    })
+    const inputField = await screen.findByDisplayValue(COLOR1)
+    await user.click(inputField)
+    await waitFor(async () => {
+      expect(await screen.findByText('Schliessen')).toBeVisible()
+    })
+
+    // when
+    await user.keyboard('{Escape}')
+
+    // then
+    await waitFor(async () => {
+      expect(await screen.queryByText('Schliessen')).not.toBeVisible()
+    })
+  })
+
+  it('does not close the picker when selecting a color', async () => {
+    // given
+    const { container } = render(EColorPicker, {
+      props: { value: COLOR1, name: 'test' },
+    })
+    const inputField = await screen.findByDisplayValue(COLOR1)
+    await user.click(inputField)
+    await waitFor(async () => {
+      expect(await screen.findByText('Schliessen')).toBeVisible()
+    })
+
+    // when
+    // click inside the color picker canvas to select a different color
+    const canvas = container.querySelector('canvas')
+    await user.click(canvas, { clientX: 10, clientY: 10 })
+
+    // then
+    // close button should stay visible
+    return expect(
+      waitFor(() => {
+        expect(screen.queryByText('Schliessen')).not.toBeVisible()
+      })
+    ).rejects.toThrow(/Received element is visible/)
+  })
+
   it('updates v-model when the value changes', async () => {
     // given
     const { emitted } = render(EColorPicker, {

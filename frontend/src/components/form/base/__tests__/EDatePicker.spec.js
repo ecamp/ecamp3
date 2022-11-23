@@ -65,6 +65,129 @@ describe('An EDatePicker', () => {
       expect(snapshotOf(container)).toMatchSnapshot('pickeropen')
     })
 
+    it('opens the picker when the text field is clicked', async () => {
+      // given
+      render(EDatePicker, {
+        props: { value: DATE1_ISO, name: 'test' },
+      })
+      const inputField = await screen.findByDisplayValue(data.date1)
+
+      // when
+      await user.click(inputField)
+
+      // then
+      await waitFor(async () => {
+        expect(await screen.findByText(data.date1Heading)).toBeVisible()
+      })
+    })
+
+    it('closes the picker when clicking the close button', async () => {
+      // given
+      render(EDatePicker, {
+        props: { value: DATE1_ISO, name: 'test' },
+      })
+      const inputField = await screen.findByDisplayValue(data.date1)
+      await user.click(inputField)
+      await waitFor(async () => {
+        expect(await screen.findByText(data.date1Heading)).toBeVisible()
+      })
+      const closeButton = screen.getByText(data.closeButton)
+
+      // when
+      await user.click(closeButton)
+
+      // then
+      await waitFor(async () => {
+        expect(await screen.queryByText(data.date1Heading)).not.toBeVisible()
+      })
+    })
+
+    it('closes the picker when clicking outside', async () => {
+      // given
+      render(EDatePicker, {
+        props: { value: DATE1_ISO, name: 'test' },
+      })
+      const inputField = await screen.findByDisplayValue(data.date1)
+      await user.click(inputField)
+      await waitFor(async () => {
+        expect(await screen.findByText(data.date1Heading)).toBeVisible()
+      })
+
+      // when
+      await user.click(document.body)
+
+      // then
+      await waitFor(async () => {
+        expect(await screen.queryByText(data.date1Heading)).not.toBeVisible()
+      })
+    })
+
+    it('closes the picker when pressing escape', async () => {
+      // given
+      render(EDatePicker, {
+        props: { value: DATE1_ISO, name: 'test' },
+      })
+      const inputField = await screen.findByDisplayValue(data.date1)
+      await user.click(inputField)
+      await waitFor(async () => {
+        expect(await screen.findByText(data.date1Heading)).toBeVisible()
+      })
+
+      // when
+      await user.keyboard('{Escape}')
+
+      // then
+      await waitFor(async () => {
+        expect(await screen.queryByText(data.date1Heading)).not.toBeVisible()
+      })
+    })
+
+    it('closes the picker when selecting a date', async () => {
+      // given
+      render(EDatePicker, {
+        props: { value: DATE1_ISO, name: 'test' },
+      })
+      const inputField = await screen.findByDisplayValue(data.date1)
+      await user.click(inputField)
+      await waitFor(async () => {
+        expect(await screen.findByText(data.date1Heading)).toBeVisible()
+      })
+
+      // when
+      // click the 19th day of the month
+      await user.click(screen.getByText('19'))
+
+      // then
+      await waitFor(async () => {
+        expect(await screen.queryByText(data.date1Heading)).not.toBeVisible()
+      })
+    })
+
+    it('re-opens the picker when clicking the text field again after selecting a date', async () => {
+      // given
+      render(EDatePicker, {
+        props: { value: DATE1_ISO, name: 'test' },
+      })
+      const inputField = await screen.findByDisplayValue(data.date1)
+      await user.click(inputField)
+      await waitFor(async () => {
+        expect(await screen.findByText(data.date1Heading)).toBeVisible()
+      })
+      // click the 19th day of the month
+      await user.click(screen.getByText('19'))
+      await waitFor(async () => {
+        expect(await screen.queryByText(data.date1Heading)).not.toBeVisible()
+      })
+
+      // when
+      await user.click(inputField)
+
+      // then
+      await waitFor(async () => {
+        expect(await screen.findByText(data.date1Heading)).toBeVisible()
+      })
+    })
+
     it('updates v-model when the input field is changed', async () => {
       // given
       const { emitted } = render(EDatePicker, {

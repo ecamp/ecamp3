@@ -88,6 +88,109 @@ describe('An ETimePicker', () => {
       screen.getByLabelText(data.labelText)
     })
 
+    it('opens the picker when the text field is clicked', async () => {
+      // given
+      render(ETimePicker, {
+        props: { value: TIME1_ISO, name: 'test' },
+      })
+      const inputField = await screen.findByDisplayValue(data.time1)
+
+      // when
+      await user.click(inputField)
+
+      // then
+      await waitFor(async () => {
+        expect(await screen.findByText(data.closeButton)).toBeVisible()
+      })
+    })
+
+    it('closes the picker when clicking the close button', async () => {
+      // given
+      render(ETimePicker, {
+        props: { value: TIME1_ISO, name: 'test' },
+      })
+      const inputField = await screen.findByDisplayValue(data.time1)
+      user.click(inputField)
+      await waitFor(async () => {
+        expect(await screen.findByText(data.closeButton)).toBeVisible()
+      })
+      const closeButton = screen.getByText(data.closeButton)
+
+      // when
+      await user.click(closeButton)
+
+      // then
+      await waitFor(async () => {
+        expect(await screen.queryByText(data.closeButton)).not.toBeVisible()
+      })
+    })
+
+    it('closes the picker when clicking outside', async () => {
+      // given
+      render(ETimePicker, {
+        props: { value: TIME1_ISO, name: 'test' },
+      })
+      const inputField = await screen.findByDisplayValue(data.time1)
+      user.click(inputField)
+      await waitFor(async () => {
+        expect(await screen.findByText(data.closeButton)).toBeVisible()
+      })
+
+      // when
+      await user.click(document.body)
+
+      // then
+      await waitFor(async () => {
+        expect(await screen.queryByText(data.closeButton)).not.toBeVisible()
+      })
+    })
+
+    it('closes the picker when pressing escape', async () => {
+      // given
+      render(ETimePicker, {
+        props: { value: TIME1_ISO, name: 'test' },
+      })
+      const inputField = await screen.findByDisplayValue(data.time1)
+      user.click(inputField)
+      await waitFor(async () => {
+        expect(await screen.findByText(data.closeButton)).toBeVisible()
+      })
+
+      // when
+      await user.click(document.body)
+
+      // then
+      await waitFor(async () => {
+        expect(await screen.queryByText(data.closeButton)).not.toBeVisible()
+      })
+    })
+
+    it('does not close the picker when selecting a time', async () => {
+      // given
+      render(ETimePicker, {
+        props: { value: TIME1_ISO, name: 'test' },
+      })
+      const inputField = await screen.findByDisplayValue(data.time1)
+      user.click(inputField)
+      await waitFor(async () => {
+        expect(await screen.findByText(data.closeButton)).toBeVisible()
+      })
+
+      // when
+      // Click the 0th hour
+      await user.click(await screen.findByText('0'))
+      // Click the 45th minute
+      await user.click(await screen.findByText('45'))
+
+      // then
+      // close button should stay visible
+      return expect(
+        waitFor(() => {
+          expect(screen.queryByText(data.closeButton)).not.toBeVisible()
+        })
+      ).rejects.toThrow(/Received element is visible/)
+    })
+
     it('updates v-model when the input field is changed', async () => {
       // given
       const { emitted } = render(ETimePicker, {
