@@ -11,6 +11,7 @@ describe('An EDatePicker', () => {
     de: {
       date1: '01.03.2020',
       date2: '19.03.2020',
+      dateShort: '2.4.2021',
       dateInWrongLocale: '03/19/2020',
       labelText: 'Dialog öffnen um ein Datum für test zu wählen',
       date1Heading: 'März 2020',
@@ -21,6 +22,7 @@ describe('An EDatePicker', () => {
     en: {
       date1: '03/01/2020',
       date2: '03/19/2020',
+      dateShort: '4/2/2021',
       dateInWrongLocale: '19.03.2020',
       labelText: 'Open dialog to select a date for test',
       date1Heading: 'March 2020',
@@ -261,6 +263,25 @@ describe('An EDatePicker', () => {
 
       // then
       await screen.findByText(data.validationMessage)
+    })
+
+    it('allows inputting a date in short format', async () => {
+      // given
+      render(EDatePicker, {
+        props: { value: DATE1_ISO, name: 'test' },
+      })
+      const inputField = await screen.findByDisplayValue(data.date1)
+
+      // when
+      await user.clear(inputField)
+      await user.keyboard(data.dateShort)
+
+      // then
+      expect(screen.queryByText(data.validationMessage)).not.toBeInTheDocument()
+      // validation message should not appear
+      return expect(screen.findByText(data.validationMessage)).rejects.toThrow(
+        /Unable to find an element with the text/
+      )
     })
   })
 })
