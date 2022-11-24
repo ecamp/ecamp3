@@ -27,6 +27,7 @@ Displays a field as a date picker (can be used with v-model)
         :max="max"
         no-title
         scrollable
+        show-adjacent-months
         @input="picker.onInput"
       >
         <v-spacer />
