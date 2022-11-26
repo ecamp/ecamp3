@@ -111,6 +111,50 @@ class CreateCampTest extends ECampApiTestCase {
         ]);
     }
 
+    public function testCreateCampValidatesOverlappingPeriods() {
+        static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExampleWritePayload([
+            'periods' => [
+                [
+                    'description' => 'Aufbau',
+                    'start' => '2022-01-07',
+                    'end' => '2022-01-09',
+                ],
+                [
+                    'description' => 'Hauptlager',
+                    'start' => '2022-01-08',
+                    'end' => '2022-01-10',
+                ],
+                [
+                    'description' => 'Nachweekend',
+                    'start' => '2022-01-10',
+                    'end' => '2022-01-11',
+                ],
+            ],
+        ])]);
+
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [
+                    'propertyPath' => 'periods[0].end',
+                    'message' => 'Periods must not overlap.',
+                ],
+                [
+                    'propertyPath' => 'periods[1].start',
+                    'message' => 'Periods must not overlap.',
+                ],
+                [
+                    'propertyPath' => 'periods[1].end',
+                    'message' => 'Periods must not overlap.',
+                ],
+                [
+                    'propertyPath' => 'periods[2].start',
+                    'message' => 'Periods must not overlap.',
+                ],
+            ],
+        ]);
+    }
+
     public function testCreateCampCreatesPeriodAndDays() {
         $response = static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExampleWritePayload([
             'periods' => [

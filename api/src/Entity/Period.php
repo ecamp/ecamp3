@@ -11,6 +11,7 @@ use App\Repository\PeriodRepository;
 use App\Serializer\Normalizer\RelatedCollectionLink;
 use App\Validator\Period\AssertGreaterThanOrEqualToLastScheduleEntryEnd;
 use App\Validator\Period\AssertLessThanOrEqualToEarliestScheduleEntryStart;
+use App\Validator\Period\AssertNotOverlappingWithOtherPeriods;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -111,6 +112,7 @@ class Period extends BaseEntity implements BelongsToCampInterface {
      */
     #[Assert\LessThanOrEqual(propertyPath: 'end')]
     #[AssertLessThanOrEqualToEarliestScheduleEntryStart()]
+    #[AssertNotOverlappingWithOtherPeriods]
     #[ApiProperty(example: '2022-01-01', openapiContext: ['format' => 'date'])]
     #[Context(
         normalizationContext: [DateTimeNormalizer::FORMAT_KEY => 'Y-m-d'],
@@ -126,6 +128,7 @@ class Period extends BaseEntity implements BelongsToCampInterface {
      */
     #[Assert\GreaterThanOrEqual(propertyPath: 'start')]
     #[AssertGreaterThanOrEqualToLastScheduleEntryEnd()]
+    #[AssertNotOverlappingWithOtherPeriods]
     #[ApiProperty(example: '2022-01-08', openapiContext: ['format' => 'date'])]
     #[Context([DateTimeNormalizer::FORMAT_KEY => '!Y-m-d'])]
     #[Context(
