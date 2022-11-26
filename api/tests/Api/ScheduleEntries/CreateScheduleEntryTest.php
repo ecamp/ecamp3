@@ -10,9 +10,6 @@ use App\Tests\Api\ECampApiTestCase;
  * @internal
  */
 class CreateScheduleEntryTest extends ECampApiTestCase {
-    // TODO input filter tests
-    // TODO validation tests
-
     public function testCreateScheduleEntryIsDeniedForAnonymousUser() {
         static::createBasicClient()->request('POST', '/schedule_entries', ['json' => $this->getExampleWritePayload()]);
 

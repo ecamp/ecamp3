@@ -36,6 +36,7 @@ use Symfony\Component\Validator\Constraints as Assert;
             'security' => 'is_granted("CAMP_COLLABORATOR", object) or is_granted("CAMP_IS_PROTOTYPE", object)',
         ],
         'patch' => [
+            'denormalization_context' => ['groups' => ['write', 'update']],
             'normalization_context' => self::ITEM_NORMALIZATION_CONTEXT,
             'security' => 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)',
         ],
@@ -67,7 +68,7 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
     #[Assert\NotNull(groups: ['validPeriod'])] // this is validated before all others
     #[AssertBelongsToSameCamp]
     #[ApiProperty(example: '/periods/1a2b3c4d')]
-    #[Groups(['read', 'write'])]
+    #[Groups(['read', 'create'])]
     #[ORM\ManyToOne(targetEntity: Period::class, inversedBy: 'scheduleEntries', fetch: 'EAGER')]
     #[ORM\JoinColumn(nullable: false, onDelete: 'cascade')]
     public ?Period $period = null;

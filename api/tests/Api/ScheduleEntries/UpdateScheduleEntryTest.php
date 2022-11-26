@@ -113,6 +113,30 @@ class UpdateScheduleEntryTest extends ECampApiTestCase {
         ]);
     }
 
+    public function testPatchScheduleEntryDisallowsSettingPeriodToNull() {
+        $scheduleEntry = static::$fixtures['scheduleEntry1'];
+        static::createClientWithCredentials()->request('PATCH', '/schedule_entries/'.$scheduleEntry->getId(), ['json' => [
+            'period' => null,
+        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
+
+        $this->assertResponseStatusCodeSame(400);
+        $this->assertJsonContains([
+            'detail' => 'Extra attributes are not allowed ("period" is unknown).',
+        ]);
+    }
+
+    public function testPatchScheduleEntryDisallowsChangingPeriod() {
+        $scheduleEntry = static::$fixtures['scheduleEntry1'];
+        static::createClientWithCredentials()->request('PATCH', '/schedule_entries/'.$scheduleEntry->getId(), ['json' => [
+            'period' => $this->getIriFor('period2'),
+        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
+
+        $this->assertResponseStatusCodeSame(400);
+        $this->assertJsonContains([
+            'detail' => 'Extra attributes are not allowed ("period" is unknown).',
+        ]);
+    }
+
     public function testPatchScheduleEntryDisallowsChangingActivity() {
         $scheduleEntry = static::$fixtures['scheduleEntry1'];
         static::createClientWithCredentials()->request('PATCH', '/schedule_entries/'.$scheduleEntry->getId(), ['json' => [
@@ -122,23 +146,6 @@ class UpdateScheduleEntryTest extends ECampApiTestCase {
         $this->assertResponseStatusCodeSame(400);
         $this->assertJsonContains([
             'detail' => 'Extra attributes are not allowed ("activity" is unknown).',
-        ]);
-    }
-
-    public function testPatchScheduleEntryValidatesPeriodFromSameCamp() {
-        $scheduleEntry = static::$fixtures['scheduleEntry1'];
-        static::createClientWithCredentials()->request('PATCH', '/schedule_entries/'.$scheduleEntry->getId(), ['json' => [
-            'period' => $this->getIriFor('period1camp2'),
-        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
-
-        $this->assertResponseStatusCodeSame(422);
-        $this->assertJsonContains([
-            'violations' => [
-                [
-                    'propertyPath' => 'period',
-                    'message' => 'Must belong to the same camp.',
-                ],
-            ],
         ]);
     }
 
