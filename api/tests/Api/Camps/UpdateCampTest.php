@@ -111,6 +111,18 @@ class UpdateCampTest extends ECampApiTestCase {
         ]);
     }
 
+    public function testPatchCampDisallowsSettingIsPrototype() {
+        $camp = static::$fixtures['camp1'];
+        static::createClientWithCredentials()->request('PATCH', '/camps/'.$camp->getId(), ['json' => [
+            'isPrototype' => true,
+        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
+
+        $this->assertResponseStatusCodeSame(400);
+        $this->assertJsonContains([
+            'detail' => 'Extra attributes are not allowed ("isPrototype" is unknown).',
+        ]);
+    }
+
     public function testPatchCampTrimsName() {
         $camp = static::$fixtures['camp1'];
         static::createClientWithCredentials()->request('PATCH', '/camps/'.$camp->getId(), ['json' => [

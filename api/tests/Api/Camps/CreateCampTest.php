@@ -59,6 +59,26 @@ class CreateCampTest extends ECampApiTestCase {
         $this->assertEquals($user->getId(), $camp->owner->getId());
     }
 
+    public function testCreateDisallowsSettingIsPrototype() {
+        static::createClientWithCredentials()->request(
+            'POST',
+            '/camps',
+            [
+                'json' => $this->getExampleWritePayload(
+                    [
+                        'isPrototype' => true,
+                    ]
+                ),
+            ]
+        );
+
+        $this->assertResponseStatusCodeSame(400);
+        $this->assertJsonContains([
+            'title' => 'An error occurred',
+            'detail' => 'Extra attributes are not allowed ("isPrototype" is unknown).',
+        ]);
+    }
+
     public function testCreateCampValidatesMissingPeriods() {
         static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExampleWritePayload([], ['periods'])]);
 
