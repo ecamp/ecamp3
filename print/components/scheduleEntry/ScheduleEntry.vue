@@ -50,15 +50,17 @@
 <script>
 import CategoryLabel from '../generic/CategoryLabel.vue'
 import ContentNode from './contentNode/ContentNode.vue'
-import { rangeShort } from '@/../common/helpers/dateHelperUTCFormatted.js'
+import { dateHelperUTCFormatted } from '@/mixins/dateHelperUTCFormatted.js'
 import { activityResponsiblesCommaSeparated } from '@/../common/helpers/activityResponsibles.js'
 
 export default {
   components: { CategoryLabel, ContentNode },
+  mixins: [dateHelperUTCFormatted],
   props: {
     scheduleEntry: { type: Object, required: true },
     index: { type: Number, required: true },
   },
+
   async fetch() {
     await Promise.all([
       this.scheduleEntry._meta.load,
@@ -91,9 +93,6 @@ export default {
         this.$tc.bind(this)
       )
     },
-  },
-  methods: {
-    rangeShort,
   },
 }
 </script>

@@ -14,16 +14,14 @@
 </template>
 
 <script>
-import { dateLong } from '@/../common/helpers/dateHelperUTCFormatted.js'
+import { dateHelperUTCFormatted } from '@/mixins/dateHelperUTCFormatted.js'
 
 export default {
   name: 'TocProgramDay',
+  mixins: [dateHelperUTCFormatted],
   props: {
     index: { type: Number, required: true },
     day: { type: Object, required: true },
-  },
-  data() {
-    return {}
   },
   computed: {
     // returns scheduleEntries of current day without the need for an additional API call
@@ -35,9 +33,6 @@ export default {
           return scheduleEntry.day()._meta.self === this.day._meta.self
         })
     },
-  },
-  methods: {
-    dateLong,
   },
 }
 </script>
