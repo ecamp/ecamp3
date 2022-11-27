@@ -18,8 +18,7 @@
     <template #selection="{ item }">
       <v-chip :key="item.value" small class="mx-0">
         <UserAvatar
-          :user="item.info.user && item.info.user()"
-          :camp-collaboration="item.info.campCollaboration"
+          :camp-collaboration="item.campCollaboration"
           left
           size="20"
           class="ml-n3"
@@ -72,7 +71,7 @@ export default {
           // following structure is defined by vuetify v-select items property
           return {
             value: value._meta.self,
-            info: value,
+            campCollaboration: value,
             text: campCollaborationDisplayName(value, this.$tc.bind(this)),
           }
         })
