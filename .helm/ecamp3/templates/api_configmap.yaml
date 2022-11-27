@@ -3,7 +3,8 @@ kind: ConfigMap
 metadata:
   name: {{ include "api.name" . }}-configmap
   labels:
-    {{- include "app.labels" . | nindent 4 }}
+    {{- include "api.selectorLabels" . | nindent 4 }}
+    {{- include "app.commonLabels" . | nindent 4 }}
 data:
   API_DOMAIN: {{ .Values.api.domain | quote }}
   COOKIE_PREFIX: {{ include "api.cookiePrefix" . | quote }}
