@@ -57,6 +57,12 @@
       },
       "formScheduleEntryList": {
         "name": "Programmato"
+      },
+      "picasso": {
+        "picassoEntry": {
+          "location": "Luogo:",
+          "responsible": "Responsable:"
+        }
       }
     },
     "toast": {
@@ -121,19 +127,19 @@
         "beta": {
           "notice": "Questo è il sito del nuovo eCamp.<br>IMPORTANTE: Questo sito è in costruzione. Ciò significa che tutti i dati sono pubblici e verranno periodicamente cancellati!"
         },
+        "email": "Indirizzo e-mail",
         "loginCallback": {
           "loginInProgress": "Sarai loggato"
         },
         "or": "oppure",
         "password": "Parola d'ordine",
         "provider": {
+          "cevidb": "Accedi con CeviDB",
           "ecamp": "Accedi con eCamp",
           "google": "Accedi con Google",
-          "midata": "Accedi con MiData",
-          "cevidb": "Accedi con CeviDB"
+          "midata": "Accedi con MiData"
         },
-        "registernow": "Iscriviti ora",
-        "email": "Indirizzo e-mail"
+        "registernow": "Iscriviti ora"
       },
       "register": {
         "acceptTermsOfUse": "Accettare le condizioni di utilizzo",

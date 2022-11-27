@@ -79,11 +79,11 @@
       "dialogMaterialListCreate": {
         "title": "Create material list"
       },
-      "dialogPeriodEdit": {
-        "moveScheduleEntries": "Move schedule entries"
-      },
       "dialogPeriodCreate": {
         "title": "Create period"
+      },
+      "dialogPeriodEdit": {
+        "moveScheduleEntries": "Move schedule entries"
       }
     },
     "collaborator": {
@@ -116,8 +116,8 @@
     },
     "generic": {
       "lockIcon": {
-        "guestsCannotEdit": "Guests have no permission to edit",
-        "doubleClickToUnlock": "Double click to unlock"
+        "doubleClickToUnlock": "Double click to unlock",
+        "guestsCannotEdit": "Guests have no permission to edit"
       }
     },
     "layout": {
@@ -217,6 +217,10 @@
           "datetime": {
             "date": "dd. D.MM | D. MMM | DD. MMM YYYY"
           }
+        },
+        "picassoEntry": {
+          "location": "Location:",
+          "responsible": "Responsible: "
         }
       }
     },
@@ -365,6 +369,12 @@
         "collaborators": "Manage Team",
         "title": "Admin"
       },
+      "campProgram": {
+        "guestsCannotEdit": "A guest cannot edit the picasso",
+        "reminderLockedCreate": "Drag to create is only possible in unlocked mode.",
+        "reminderLockedMove": "Drag to move is only possible in unlocked mode.",
+        "title": "Picasso"
+      },
       "collaborators": {
         "email": "Email address",
         "inactiveCollaborators": "Inactive",
@@ -451,12 +461,6 @@
             "itemPrinting": "PDF / Print"
           }
         }
-      },
-      "campProgram": {
-        "guestsCannotEdit": "A guest cannot edit the picasso",
-        "reminderLockedCreate": "Drag to create is only possible in unlocked mode.",
-        "reminderLockedMove": "Drag to move is only possible in unlocked mode.",
-        "title": "Picasso"
       },
       "print": {
         "title": "Print camp"

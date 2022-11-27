@@ -40,16 +40,26 @@
       </h4>
       <template v-if="campCollaborations">
         <br />
-        <small>{{ campCollaborationText }}</small>
+        <small
+          ><span class="d-sr-only">{{
+            $tc('components.program.picasso.picassoEntry.responsible')
+          }}</span
+          >{{ campCollaborationText }}</small
+        >
       </template>
       <template v-if="$vuetify.breakpoint.lgAndUp && location">
         <br />
-        <small>{{ location }}</small>
+        <small
+          ><span class="d-sr-only">{{
+            $tc('components.program.picasso.picassoEntry.location')
+          }}</span
+          >{{ location }}</small
+        >
       </template>
 
       <!-- resize handle -->
       <div
-        v-if="editable && timed"
+        v-if="editable"
         class="e-picasso-entry__drag-bottom"
         @mousedown.stop="$emit('startResize')"
       />
@@ -67,13 +77,23 @@
     <template v-if="campCollaborationText">
       <template v-if="clientWidth < 200 || !showAvatars">
         <br />
-        <small>{{ campCollaborationText }}</small>
+        <small
+          ><span class="d-sr-only">{{
+            $tc('components.program.picasso.picassoEntry.responsible')
+          }}</span
+          >{{ campCollaborationText }}</small
+        >
       </template>
       <AvatarRow v-else :camp-collaborations="campCollaborations" />
     </template>
     <template v-if="location">
       <br />
-      <small>{{ location }}</small>
+      <small
+        ><span class="d-sr-only">{{
+          $tc('components.program.picasso.picassoEntry.location')
+        }}</span
+        >{{ location }}</small
+      >
     </template>
   </router-link>
 </template>
@@ -81,8 +101,8 @@
 import { ref, toRefs } from 'vue'
 import DialogActivityEdit from '../DialogActivityEdit.vue'
 import campCollaborationDisplayName from '@/common/helpers/campCollaborationDisplayName.js'
-import { scheduleEntryRoute } from '../../../router.js'
-import { contrastColor } from '../../../../../common/helpers/colors.js'
+import { scheduleEntryRoute } from '@/router.js'
+import { contrastColor } from '@/common/helpers/colors.js'
 import { useClickDetector } from './useClickDetector.js'
 import AvatarRow from '@/components/generic/AvatarRow.vue'
 
