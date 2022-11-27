@@ -4,16 +4,17 @@ kind: Deployment
 metadata:
   name: {{ include "mail.name" . }}
   labels:
-    {{- include "app.labels" . | nindent 4 }}
+    {{- include "mail.selectorLabels" . | nindent 4 }}
+    {{- include "app.commonLabels" . | nindent 4 }}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      {{- include "app.selectorLabels" . | nindent 6 }}
+      {{- include "mail.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
-        {{- include "app.selectorLabels" . | nindent 8 }}
+        {{- include "mail.selectorLabels" . | nindent 8 }}
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
@@ -43,5 +44,5 @@ spec:
             initialDelaySeconds: 10
             periodSeconds: 5
           resources:
-            {{- toYaml .Values.resources | nindent 12 }}
+            {{- toYaml .Values.mail.resources | nindent 12 }}
 {{- end }}

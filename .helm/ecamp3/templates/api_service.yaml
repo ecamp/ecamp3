@@ -3,7 +3,8 @@ kind: Service
 metadata:
   name: {{ include "api.name" . }}
   labels:
-    {{- include "app.labels" . | nindent 4 }}
+    {{- include "api.selectorLabels" . | nindent 4 }}
+    {{- include "app.commonLabels" . | nindent 4 }}
 spec:
   type: {{ .Values.api.service.type }}
   ports:
@@ -12,4 +13,4 @@ spec:
       protocol: TCP
       name: api-http
   selector:
-    {{- include "app.selectorLabels" . | nindent 4 }}
+    {{- include "api.selectorLabels" . | nindent 4 }}

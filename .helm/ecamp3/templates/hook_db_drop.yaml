@@ -7,7 +7,8 @@ kind: Job
 metadata:
   name: "{{ include "app.name" . }}-db-drop"
   labels:
-    {{- include "app.labels" . | nindent 4 }}
+    {{- include "api.selectorLabels" . | nindent 4 }}
+    {{- include "app.commonLabels" . | nindent 4 }}
   annotations:
     "helm.sh/hook": post-delete
     "helm.sh/hook-weight": "-5"
@@ -17,7 +18,7 @@ spec:
     metadata:
       name: "{{ include "app.name" . }}-post-delete"
       labels:
-        {{- include "app.selectorLabels" . | nindent 8 }}
+        {{- include "api.selectorLabels" . | nindent 8 }}
     spec:
       restartPolicy: Never
       containers:

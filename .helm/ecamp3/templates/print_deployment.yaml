@@ -3,18 +3,19 @@ kind: Deployment
 metadata:
   name: {{ include "print.name" . }}
   labels:
-    {{- include "app.labels" . | nindent 4 }}
+    {{- include "print.selectorLabels" . | nindent 4 }}
+    {{- include "app.commonLabels" . | nindent 4 }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.print.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
-      {{- include "app.selectorLabels" . | nindent 6 }}
+      {{- include "print.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
-        {{- include "app.selectorLabels" . | nindent 8 }}
+        {{- include "print.selectorLabels" . | nindent 8 }}
       annotations:
         # This deployment should be restarted whenever either the configmap or the secrets change
         # because the container depends on environment variables from these places during startup
