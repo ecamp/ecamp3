@@ -62,14 +62,16 @@ spec:
             tcpSocket:
               port: 3001
             initialDelaySeconds: 3
-            periodSeconds: 3
+            periodSeconds: 10
+            timeoutSeconds: 5
           livenessProbe:
             tcpSocket:
               port: 3001
             initialDelaySeconds: 3
-            periodSeconds: 3
+            periodSeconds: 10
+            timeoutSeconds: 5
           resources:
-            {{- toYaml .Values.resources | nindent 12 }}
+            {{- toYaml .Values.caddy.resources | nindent 12 }}
         - name: php
           {{/* Define the php container as a template, so it can be reused in other places */}}
           {{- define "api.phpContainer" }}
@@ -171,7 +173,7 @@ spec:
               exec:
                 command: ["/bin/sh", "-c", "/bin/sleep 1; kill -QUIT 1"]
           resources:
-            {{- toYaml .Values.resources | nindent 12 }}
+            {{- toYaml .Values.php.resources | nindent 12 }}
           {{- end }}
           {{- template "api.phpContainer" . }}
           readinessProbe:
@@ -179,12 +181,14 @@ spec:
               command:
                 - docker-healthcheck
             initialDelaySeconds: 3
-            periodSeconds: 3
+            periodSeconds: 10
+            timeoutSeconds: 5
           livenessProbe:
             exec:
               command:
                 - docker-healthcheck
-            periodSeconds: 3
+            periodSeconds: 10
+            timeoutSeconds: 5
           startupProbe:
             exec:
               command:
