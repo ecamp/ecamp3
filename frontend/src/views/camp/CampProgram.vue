@@ -52,11 +52,7 @@ Show all activity schedule entries of a single period.
     </schedule-entries>
     <v-snackbar v-model="showReminder" light class="mb-12">
       <v-icon>mdi-lock</v-icon>
-      {{
-        reminderType === 'create'
-          ? $tc('views.camp.campProgram.reminderLockedCreate')
-          : $tc('views.camp.campProgram.reminderLockedMove')
-      }}
+      {{ reminderText }}
     </v-snackbar>
   </content-card>
 </template>
@@ -91,7 +87,7 @@ export default {
     return {
       editMode: false,
       showReminder: false,
-      reminderType: null,
+      reminderText: null,
     }
   },
   computed: {
@@ -117,7 +113,9 @@ export default {
   },
   methods: {
     showUnlockReminder(move) {
-      this.reminderType = move ? 'move' : 'create'
+      this.reminderText = move
+        ? this.$tc('views.camp.campProgram.reminderLockedMove')
+        : this.$tc('views.camp.campProgram.reminderLockedCreate')
       this.showReminder = true
     },
   },
