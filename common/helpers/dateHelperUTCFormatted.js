@@ -1,34 +1,33 @@
 import dayjs from './dayjs.js'
-import { i18n } from '@/plugins/i18n' // this imports i18-plugin from "frontend" or from "print", depending on where the helper is used
 
-function dateShort(dateTimeString) {
-  return dayjs.utc(dateTimeString).format(i18n.tc('global.datetime.dateShort'))
+function dateShort(dateTimeString, tc) {
+  return dayjs.utc(dateTimeString).format(tc('global.datetime.dateShort'))
 }
 
-function dateLong(dateTimeString) {
-  return dayjs.utc(dateTimeString).format(i18n.tc('global.datetime.dateLong'))
+function dateLong(dateTimeString, tc) {
+  return dayjs.utc(dateTimeString).format(tc('global.datetime.dateLong'))
 }
 
-function hourShort(dateTimeString) {
-  return dayjs.utc(dateTimeString).format(i18n.tc('global.datetime.hourShort'))
+function hourShort(dateTimeString, tc) {
+  return dayjs.utc(dateTimeString).format(tc('global.datetime.hourShort'))
 }
 
-function timeDurationShort(start, end) {
+function timeDurationShort(start, end, tc) {
   const startTime = dayjs.utc(start)
   const endTime = dayjs.utc(end)
   const duration = dayjs(endTime.diff(startTime))
   const durationInMinutes = duration.valueOf() / 1000 / 60
   if (durationInMinutes < 60) {
-    return i18n.tc('global.datetime.duration.minutesOnly', 0, {
+    return tc('global.datetime.duration.minutesOnly', 0, {
       minutes: durationInMinutes,
     })
   }
   if (durationInMinutes % 60 === 0) {
-    return i18n.tc('global.datetime.duration.hoursOnly', 0, {
+    return tc('global.datetime.duration.hoursOnly', 0, {
       hours: durationInMinutes / 60,
     })
   }
-  return i18n.tc('global.datetime.duration.hoursAndMinutes', 0, {
+  return tc('global.datetime.duration.hoursAndMinutes', 0, {
     hours: Math.floor(durationInMinutes / 60.0),
     minutes: durationInMinutes % 60,
   })
@@ -36,31 +35,31 @@ function timeDurationShort(start, end) {
 
 // short format of dateTime range
 // doesn't repeat end date if on the same day
-function rangeShort(start, end) {
+function rangeShort(start, end, tc) {
   let result = ''
 
-  result += dateShort(start)
+  result += dateShort(start, tc)
   result += ' '
-  result += hourShort(start)
+  result += hourShort(start, tc)
 
   result += ' - '
 
-  if (dateShort(start) !== dateShort(end)) {
-    result += dateShort(end)
+  if (dateShort(start, tc) !== dateShort(end, tc)) {
+    result += dateShort(end, tc)
     result += ' '
   }
 
-  result += hourShort(end)
+  result += hourShort(end, tc)
 
   return result
 }
 
 // format of date range
-function dateRange(start, end) {
-  if (dateLong(start) === dateLong(end)) {
-    return dateLong(start)
+function dateRange(start, end, tc) {
+  if (dateLong(start, tc) === dateLong(end, tc)) {
+    return dateLong(start, tc)
   }
-  return `${dateShort(start)} - ${dateLong(end)}`
+  return `${dateShort(start, tc)} - ${dateLong(end, tc)}`
 }
 
 export { dateShort, dateLong, timeDurationShort, hourShort, dateRange, rangeShort }

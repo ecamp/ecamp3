@@ -121,7 +121,7 @@ import CategoryChip from '@/components/generic/CategoryChip.vue'
 import DialogCategoryEdit from './DialogCategoryEdit.vue'
 import DialogCategoryCreate from './DialogCategoryCreate.vue'
 import DialogEntityDelete from '@/components/dialog/DialogEntityDelete.vue'
-import { rangeShort } from '@/common/helpers/dateHelperUTCFormatted.js'
+import { dateHelperUTCFormatted } from '@/mixins/dateHelperUTCFormatted.js'
 
 export default {
   name: 'CampCategories',
@@ -135,6 +135,7 @@ export default {
     DialogCategoryCreate,
     DialogEntityDelete,
   },
+  mixins: [dateHelperUTCFormatted],
   props: {
     camp: { type: Function, required: true },
     disabled: { type: Boolean, default: false },
@@ -148,7 +149,6 @@ export default {
     },
   },
   methods: {
-    rangeShort,
     categoryRoute,
     findActivities(category) {
       const activities = this.camp().activities()
