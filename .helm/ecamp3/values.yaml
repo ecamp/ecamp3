@@ -53,6 +53,7 @@ php:
       clientId: 'raT1QFf6TOQzpn3yVH-My6YLrmsvOrfMhYypxzjPMWk'
       clientSecret: 'fTxMrzjBn3gPGg3eB0bNMmjRqg4ccs3_su7CaTXtljE'
       baseUrl: 'https://cevi.puzzle.ch'
+  resources: {}
 
 caddy:
   image:
@@ -60,6 +61,7 @@ caddy:
     pullPolicy: IfNotPresent
     # Overrides the image tag whose shared default is .Values.imageTag
     tag:
+  resources: {}
 
 frontend:
   domain:
@@ -73,6 +75,7 @@ frontend:
     type: ClusterIP
     port: 3000
   replicaCount: 1
+  resources: {}
 
 print:
   domain:
@@ -87,6 +90,7 @@ print:
     type: ClusterIP
     port: 3003
   replicaCount: 1
+  resources: {}
 
 browserless:
   enabled: true

@@ -75,6 +75,7 @@ RUN cp "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
 COPY docker/php/conf.d/api-platform.prod.ini $PHP_INI_DIR/conf.d/api-platform.ini
 
 COPY docker/php/php-fpm.d/zz-docker.conf /usr/local/etc/php-fpm.d/zz-docker.conf
+COPY docker/php/php-fpm.d/www.conf /usr/local/etc/php-fpm.d/www.conf
 
 VOLUME /var/run/php
 

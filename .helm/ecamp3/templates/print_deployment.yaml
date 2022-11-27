@@ -55,7 +55,7 @@ spec:
             periodSeconds: 30
             timeoutSeconds: 10
           resources:
-            {{- toYaml .Values.resources | nindent 12 }}
+            {{- toYaml .Values.print.resources | nindent 12 }}
           envFrom:
             - configMapRef:
                 name: {{ include "print.name" . }}-configmap
