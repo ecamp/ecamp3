@@ -2,7 +2,7 @@ App\Entity\ContentNode\ColumnLayout:
   columnLayout2:
     root: '@self'
     parent: null
-    slot: ''
+    slot: null
     position: 0
     data: { columns: [{ slot: '1', width: 12 }] }
     instanceName: 'columnLayout2'
@@ -18,7 +18,7 @@ App\Entity\ContentNode\ColumnLayout:
   columnLayout3:
     root: '@self'
     parent: null
-    slot: ''
+    slot: null
     position: 0
     data: { columns: [{ slot: '1', width: 12 }] }
     instanceName: <word()>
@@ -26,7 +26,7 @@ App\Entity\ContentNode\ColumnLayout:
   columnLayout4:
     root: '@self'
     parent: null
-    slot: ''
+    slot: null
     position: 0
     data: { columns: [{ slot: '1', width: 12 }] }
     instanceName: <word()>
@@ -34,7 +34,7 @@ App\Entity\ContentNode\ColumnLayout:
   columnLayout5:
     root: '@self'
     parent: null
-    slot: ''
+    slot: null
     position: 0
     data: { columns: [{ slot: '1', width: 12 }] }
     instanceName: <word()>
@@ -42,7 +42,7 @@ App\Entity\ContentNode\ColumnLayout:
   columnLayout1camp2:
     root: '@self'
     parent: null
-    slot: ''
+    slot: null
     position: 0
     data: { columns: [{ slot: '1', width: 12 }] }
     instanceName: <word()>
@@ -50,7 +50,7 @@ App\Entity\ContentNode\ColumnLayout:
   columnLayout2camp2:
     root: '@self'
     parent: null
-    slot: ''
+    slot: null
     position: 0
     data: { columns: [{ slot: '1', width: 12 }] }
     instanceName: <word()>
@@ -58,7 +58,7 @@ App\Entity\ContentNode\ColumnLayout:
   columnLayout1campUnrelated:
     root: '@self'
     parent: null
-    slot: ''
+    slot: null
     position: 0
     data: { columns: [{ slot: '1', width: 12 }] }
     instanceName: <word()>
@@ -66,7 +66,7 @@ App\Entity\ContentNode\ColumnLayout:
   columnLayout2campUnrelated:
     root: '@self'
     parent: null
-    slot: ''
+    slot: null
     position: 0
     data: { columns: [{ slot: '1', width: 12 }] }
     instanceName: <word()>
@@ -74,7 +74,7 @@ App\Entity\ContentNode\ColumnLayout:
   columnLayout1campPrototype:
     root: '@self'
     parent: null
-    slot: ''
+    slot: null
     position: 0
     data: { columns: [{ slot: '1', width: 12 }] }
     instanceName: <word()>
@@ -82,7 +82,7 @@ App\Entity\ContentNode\ColumnLayout:
   columnLayout2campPrototype:
     root: '@self'
     parent: null
-    slot: ''
+    slot: null
     position: 0
     data: { columns: [{ slot: '1', width: 12 }] }
     instanceName: <word()>

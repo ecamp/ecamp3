@@ -12,7 +12,6 @@ use App\Tests\Api\ECampApiTestCase;
  * @internal
  */
 class UpdatePeriodTest extends ECampApiTestCase {
-    // TODO validation for no overlapping periods
     // TODO moving a period vs changing the time window
 
     public function testPatchPeriodIsDeniedForAnonymousUser() {
@@ -280,6 +279,23 @@ at position 10: Trailing data',
                 [
                     'propertyPath' => 'end',
                     'message' => 'This value should be greater than or equal to Jan 10, 2021, 12:00 AM.',
+                ],
+            ],
+        ]);
+    }
+
+    public function testPatchPeriodValidatesOverlappingPeriods() {
+        $period = static::$fixtures['period1'];
+        static::createClientWithCredentials()->request('PATCH', '/periods/'.$period->getId(), ['json' => [
+            'start' => '2023-04-15',
+        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
+
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [
+                    'propertyPath' => 'start',
+                    'message' => 'Periods must not overlap.',
                 ],
             ],
         ]);

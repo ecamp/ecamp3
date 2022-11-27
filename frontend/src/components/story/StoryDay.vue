@@ -59,7 +59,7 @@
 <script>
 import { sortBy } from 'lodash'
 import ApiForm from '@/components/form/api/ApiForm.vue'
-import { dateLong } from '@/common/helpers/dateHelperUTCFormatted.js'
+import { dateHelperUTCFormatted } from '@/mixins/dateHelperUTCFormatted.js'
 import CategoryChip from '@/components/generic/CategoryChip.vue'
 
 export default {
@@ -68,6 +68,7 @@ export default {
     CategoryChip,
     ApiForm,
   },
+  mixins: [dateHelperUTCFormatted],
   props: {
     day: { type: Object, required: true },
     editing: { type: Boolean, default: false },
@@ -111,9 +112,6 @@ export default {
           ._meta.load.then((contentNodes) => this.api.reload(contentNodes))
       )
     )
-  },
-  methods: {
-    dateLong,
   },
 }
 </script>

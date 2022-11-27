@@ -28,3 +28,19 @@ We are using the following toolchain to ensure code quality standards:
 - **Psalm**\
   Run `docker-compose exec php composer psalm`\
   psalm is integrated into CI (pull request will not pass)
+
+### Debugging
+
+For debugging you need to add the env variables XDEBUG_MODE and XDEBUG_CONFIG for xdebug in $REPOSITORY_ROOT/.env\
+`XDEBUG_MODE=debug,coverage`\
+Additional possible value: trace\
+For phpstorm:\
+`XDEBUG_CONFIG="client_host=docker-host idekey=PHPSTORM"`\
+For vscode:\
+`XDEBUG_CONFIG="client_host=docker-host idekey=VSCODE"`
+
+After you changed the .env file, you need to recreate the container that the change has an effect.\
+`docker-compose down && docker-compose up`\
+or\
+`docker-compsoe stop php; docker-compose rm php; docker-compose up`\  
+if you don't want to restart the frontend.

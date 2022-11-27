@@ -32,15 +32,13 @@
 <script>
 import AvatarRow from '@/components/generic/AvatarRow.vue'
 import CategoryChip from '@/components/generic/CategoryChip.vue'
-import {
-  hourShort,
-  timeDurationShort,
-} from '../../common/helpers/dateHelperUTCFormatted.js'
+import { dateHelperUTCFormatted } from '@/mixins/dateHelperUTCFormatted.js'
 import TextAlignBaseline from '@/components/layout/TextAlignBaseline.vue'
 
 export default {
   name: 'ActivityRow',
   components: { CategoryChip, AvatarRow, TextAlignBaseline },
+  mixins: [dateHelperUTCFormatted],
   props: {
     scheduleEntry: { type: Object, required: true },
   },
@@ -61,10 +59,10 @@ export default {
       return this.scheduleEntry.activity().location
     },
     start() {
-      return hourShort(this.scheduleEntry.start)
+      return this.hourShort(this.scheduleEntry.start)
     },
     duration() {
-      return timeDurationShort(this.scheduleEntry.start, this.scheduleEntry.end)
+      return this.timeDurationShort(this.scheduleEntry.start, this.scheduleEntry.end)
     },
     routerLink() {
       return {

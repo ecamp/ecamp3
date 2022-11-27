@@ -182,7 +182,7 @@ import ActivityRow from '@/components/dashboard/ActivityRow.vue'
 import FilterDivider from '@/components/dashboard/FilterDivider.vue'
 import { keyBy, groupBy, mapValues } from 'lodash'
 import campCollaborationDisplayName from '../../common/helpers/campCollaborationDisplayName.js'
-import { dateLong } from '../../common/helpers/dateHelperUTCFormatted.js'
+import { dateHelperUTCFormatted } from '@/mixins/dateHelperUTCFormatted.js'
 import TextAlignBaseline from '@/components/layout/TextAlignBaseline.vue'
 
 function filterEquals(arr1, arr2) {
@@ -201,6 +201,7 @@ export default {
     ContentCard,
     UserAvatar,
   },
+  mixins: [dateHelperUTCFormatted],
   props: {
     camp: { type: Function, required: true },
   },
@@ -319,7 +320,6 @@ export default {
     campCollaborationDisplayName(campCollaboration) {
       return campCollaborationDisplayName(campCollaboration, this.$tc.bind(this))
     },
-    dateLong,
   },
 }
 </script>

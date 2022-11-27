@@ -23,7 +23,7 @@ App\Entity\ContentNode\ColumnLayout:
   columnLayout1:
     root: '@self'
     parent: null
-    slot: ''
+    slot: null
     position: 0
     data: { columns: [{ slot: '1', width: 6 }, { slot: '2', width: 6 }] }
     instanceName: 'columnLayout1'

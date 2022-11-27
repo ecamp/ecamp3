@@ -3,7 +3,7 @@ App\Entity\ContentNode\Storyboard:
     root: '@columnLayout1campUnrelated'
     parent: '@columnLayout1campUnrelated'
     slot: '1'
-    position: 1
+    position: 4
     instanceName: <word()>
     contentType: '@contentTypeStoryboard'
     data:

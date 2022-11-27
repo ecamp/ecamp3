@@ -3,7 +3,7 @@ App\Entity\ContentNode\MultiSelect:
     root: '@columnLayout1campUnrelated'
     parent: '@columnLayout1campUnrelated'
     slot: '1'
-    position: 1
+    position: 3
     instanceName: <word()>
     contentType: '@contentTypeMultiSelect'
     data: { options: { 'key1': { 'checked': true } } }

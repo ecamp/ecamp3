@@ -108,18 +108,11 @@ class CreateColumnLayoutTest extends CreateContentNodeTestCase {
         ]);
     }
 
-    public function testCreateColumnLayoutAllowsMissingSlot() {
-        static::createClientWithCredentials()->request('POST', $this->endpoint, ['json' => $this->getExampleWritePayload([], ['slot'])]);
-
-        $this->assertResponseStatusCodeSame(201);
-        $this->assertJsonContains(['slot' => null]);
-    }
-
     public function testCreateColumnLayoutAllowsMissingPosition() {
         static::createClientWithCredentials()->request('POST', $this->endpoint, ['json' => $this->getExampleWritePayload([], ['position'])]);
 
         $this->assertResponseStatusCodeSame(201);
-        $this->assertJsonContains(['position' => 0]);
+        $this->assertJsonContains(['position' => 4]);
     }
 
     public function testCreateColumnLayoutAllowsMissingInstanceName() {

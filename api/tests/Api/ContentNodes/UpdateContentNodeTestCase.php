@@ -3,6 +3,7 @@
 namespace App\Tests\Api\ContentNodes;
 
 use App\Entity\ContentNode;
+use App\Entity\ContentNode\ColumnLayout;
 use App\Tests\Api\ECampApiTestCase;
 
 /**
@@ -67,6 +68,100 @@ abstract class UpdateContentNodeTestCase extends ECampApiTestCase {
                     'message' => 'This parent does not support children, only content_nodes of type column_layout support children.',
                 ],
             ],
+        ]);
+    }
+
+    public function testPatchValidatesThatParentSupportsSlotName() {
+        $this->patch(payload: ['slot' => 'invalidSlot']);
+
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                0 => [
+                    'propertyPath' => 'slot',
+                    'message' => 'This value should be one of [1,2], was invalidSlot.',
+                ],
+            ],
+        ]);
+    }
+
+    public function testPatchRejectsNullSlotOnNonRootNodes() {
+        if ($this->defaultEntity instanceof ColumnLayout) {
+            $this->defaultEntity = static::$fixtures['columnLayoutChild1'];
+        }
+        $this->patch(
+            payload: [
+                'slot' => null,
+            ]
+        );
+
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [
+                    'propertyPath' => 'slot',
+                    'message' => 'This value should be one of [1,2], was null.',
+                ],
+            ],
+        ]);
+    }
+
+    public function testPatchResortsEntriesIfExistingPositionWasUsed() {
+        if ($this->defaultEntity instanceof ColumnLayout) {
+            $this->defaultEntity = static::$fixtures['columnLayoutChild1'];
+        }
+        $this->patch(
+            payload: [
+                'parent' => $this->getIriFor('columnLayout1'),
+                'slot' => '1',
+                'position' => 0,
+            ]
+        );
+
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertJsonContains([
+            'slot' => '1',
+            'position' => 0,
+        ]);
+    }
+
+    public function testPatchRejectsTooLongInstanceName() {
+        $this->patch(
+            payload: [
+                'instanceName' => str_repeat('a', 33),
+            ]
+        );
+
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'title' => 'An error occurred',
+            'detail' => 'instanceName: This value is too long. It should have 32 characters or less.',
+        ]);
+    }
+
+    public function testPatchTrimsInstanceName() {
+        $this->patch(
+            payload: [
+                'instanceName' => " SchlechtwetterProgramm\t\t",
+            ]
+        );
+
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertJsonContains([
+            'instanceName' => 'SchlechtwetterProgramm',
+        ]);
+    }
+
+    public function testPatchCleansTextOfInstanceName() {
+        $this->patch(
+            payload: [
+                'instanceName' => "\u{000A}control\u{0007}",
+            ]
+        );
+
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertJsonContains([
+            'instanceName' => 'control',
         ]);
     }
 

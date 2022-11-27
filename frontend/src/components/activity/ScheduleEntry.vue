@@ -199,7 +199,7 @@ import ContentCard from '@/components/layout/ContentCard.vue'
 import ApiTextField from '@/components/form/api/ApiTextField.vue'
 import RootNode from '@/components/activity/RootNode.vue'
 import ActivityResponsibles from '@/components/activity/ActivityResponsibles.vue'
-import { rangeShort } from '@/common/helpers/dateHelperUTCFormatted.js'
+import { dateHelperUTCFormatted } from '@/mixins/dateHelperUTCFormatted.js'
 import { campRoleMixin } from '@/mixins/campRoleMixin'
 import { periodRoute } from '@/router.js'
 import DownloadNuxtPdf from '@/components/print/print-nuxt/DownloadNuxtPdfListItem.vue'
@@ -218,7 +218,7 @@ export default {
     DownloadNuxtPdf,
     CategoryChip,
   },
-  mixins: [campRoleMixin],
+  mixins: [campRoleMixin, dateHelperUTCFormatted],
   provide() {
     return {
       preferredContentTypes: () => this.preferredContentTypes,
@@ -288,7 +288,6 @@ export default {
   },
 
   methods: {
-    rangeShort,
     changeCategory(category) {
       this.categoryChangeState = 'saving'
       this.activity

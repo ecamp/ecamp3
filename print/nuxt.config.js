@@ -33,7 +33,6 @@ export default {
    */
   plugins: [
     { src: '~/plugins/hal-json-vuex.js' },
-    { src: '~/plugins/i18n.js' },
     { src: '~/plugins/dayjs.js' },
     { src: '~/plugins/axios.js' },
   ],
@@ -58,8 +57,19 @@ export default {
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
+
     // Doc: https://sentry.nuxtjs.org/guide/usage
     '@nuxtjs/sentry',
+
+    // Doc: https://i18n.nuxtjs.org/basic-usage
+    [
+      '@nuxtjs/i18n',
+      {
+        locales: ['en'], // only 'en' to avoid that Nuxt generates URLs for each locale. We only need the embedded vue-i18n library without the advanced features of @nuxtjs/i18n
+        defaultLocale: 'en',
+        vueI18n: '~/locales/vueI18nConfig.js',
+      },
+    ],
   ],
 
   /*
