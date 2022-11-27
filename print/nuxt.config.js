@@ -65,7 +65,7 @@ export default {
     [
       '@nuxtjs/i18n',
       {
-        locales: ['en'], // only 'en' to avoid that Nuxt generates URLs for each locale. We only need the vueI18n library directly
+        locales: ['en'], // only 'en' to avoid that Nuxt generates URLs for each locale. We only need the embedded vue-i18n library without the advanced features of @nuxtjs/i18n
         defaultLocale: 'en',
         vueI18n: '~/locales/vueI18nConfig.js',
       },
