@@ -11,6 +11,7 @@ use App\Repository\PeriodRepository;
 use App\Serializer\Normalizer\RelatedCollectionLink;
 use App\Validator\Period\AssertGreaterThanOrEqualToLastScheduleEntryEnd;
 use App\Validator\Period\AssertLessThanOrEqualToEarliestScheduleEntryStart;
+use App\Validator\Period\AssertNotOverlappingWithOtherPeriods;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -108,15 +109,10 @@ class Period extends BaseEntity implements BelongsToCampInterface {
 
     /**
      * The day on which the period starts, as an ISO date string. Should not be after "end".
-     *
-     * TODO: Do we keep on implementing the deletion of activities when shortening the period,
-     *       or do we just validate that there must be no activities that would be lost?
-     *       When implementing dangerous operations on the backend, there is no way to enforce
-     *       a user confirmation dialog. But then again, we also support deleting whole camps
-     *       that aren't empty...
      */
     #[Assert\LessThanOrEqual(propertyPath: 'end')]
     #[AssertLessThanOrEqualToEarliestScheduleEntryStart()]
+    #[AssertNotOverlappingWithOtherPeriods]
     #[ApiProperty(example: '2022-01-01', openapiContext: ['format' => 'date'])]
     #[Context(
         normalizationContext: [DateTimeNormalizer::FORMAT_KEY => 'Y-m-d'],
@@ -132,6 +128,7 @@ class Period extends BaseEntity implements BelongsToCampInterface {
      */
     #[Assert\GreaterThanOrEqual(propertyPath: 'start')]
     #[AssertGreaterThanOrEqualToLastScheduleEntryEnd()]
+    #[AssertNotOverlappingWithOtherPeriods]
     #[ApiProperty(example: '2022-01-08', openapiContext: ['format' => 'date'])]
     #[Context([DateTimeNormalizer::FORMAT_KEY => '!Y-m-d'])]
     #[Context(

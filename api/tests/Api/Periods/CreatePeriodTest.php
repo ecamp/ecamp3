@@ -10,8 +10,6 @@ use App\Tests\Api\ECampApiTestCase;
  * @internal
  */
 class CreatePeriodTest extends ECampApiTestCase {
-    // TODO validation for no overlapping periods
-
     public function testCreatePeriodIsDeniedForAnonymousUser() {
         static::createBasicClient()->request('POST', '/periods', ['json' => $this->getExampleWritePayload()]);
 
@@ -271,6 +269,23 @@ class CreatePeriodTest extends ECampApiTestCase {
                 [
                     'propertyPath' => 'end',
                     'message' => 'This value should be greater than or equal to Jan 10, 2021, 12:00 AM.',
+                ],
+            ],
+        ]);
+    }
+
+    public function testCreatePeriodValidatesOverlappingPeriods() {
+        static::createClientWithCredentials()->request('POST', '/periods', ['json' => $this->getExampleWritePayload([
+            'start' => '2023-05-03',
+            'end' => '2023-05-10',
+        ])]);
+
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [
+                    'propertyPath' => 'start',
+                    'message' => 'Periods must not overlap.',
                 ],
             ],
         ]);
