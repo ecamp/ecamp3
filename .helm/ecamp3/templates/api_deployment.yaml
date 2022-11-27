@@ -172,10 +172,10 @@ spec:
             preStop:
               exec:
                 command: ["/bin/sh", "-c", "/bin/sleep 1; kill -QUIT 1"]
-          resources:
-            {{- toYaml .Values.php.resources | nindent 12 }}
           {{- end }}
           {{- template "api.phpContainer" . }}
+          resources:
+            {{- toYaml .Values.php.resources | nindent 12 }}
           readinessProbe:
             exec:
               command:
