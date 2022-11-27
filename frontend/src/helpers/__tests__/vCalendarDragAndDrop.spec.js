@@ -23,7 +23,7 @@ describe('toTime', () => {
         present: false,
         future: true,
       },
-      1683547980000,
+      1683555180000,
     ],
     [
       {
@@ -41,7 +41,7 @@ describe('toTime', () => {
         present: false,
         future: true,
       },
-      1683447600000,
+      1683454800000,
     ],
     [
       {
@@ -59,7 +59,7 @@ describe('toTime', () => {
         present: false,
         future: true,
       },
-      1649190120000,
+      1649197320000,
     ],
   ])('maps %p to %p', (input, expected) => {
     expect(toTime(input)).toEqual(expected)
