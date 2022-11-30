@@ -84,7 +84,7 @@
     "@babel/eslint-parser": "7.19.1",
     "@testing-library/jest-dom": "5.16.5",
     "@testing-library/vue": "5.8.3",
-    "@vitejs/plugin-vue2": "2.0.1",
+    "@vitejs/plugin-vue2": "2.1.0",
     "@vue/cli-plugin-babel": "5.0.8",
     "@vue/cli-plugin-e2e-cypress": "5.0.8",
     "@vue/cli-plugin-eslint": "5.0.8",
