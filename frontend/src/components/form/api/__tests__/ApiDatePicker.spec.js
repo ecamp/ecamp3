@@ -10,7 +10,7 @@ describe('An ApiDatePicker', () => {
   const FIELD_NAME = 'test-field/123'
   const FIELD_LABEL = 'Test field'
   const DATE_1 = '2020-03-01'
-  const DATE_2 = '2020-03-24'
+  const DATE_2 = '2020-03-19'
   const PICKER_BUTTON_LABEL_TEXT = 'Dialog öffnen um ein Datum für Test field zu wählen'
 
   beforeEach(() => {
@@ -42,15 +42,15 @@ describe('An ApiDatePicker', () => {
     // when
     // click the button to open the picker
     await user.click(screen.getByLabelText(PICKER_BUTTON_LABEL_TEXT))
-    // click the 24th day of the month
-    await user.click(screen.getByText('24'))
+    // click the 19th day of the month
+    await user.click(screen.getByText('19'))
     // click the save button
     await user.click(screen.getByLabelText('Speichern'))
 
     // then
     await waitFor(async () => {
       const inputField = await screen.findByLabelText(FIELD_LABEL)
-      expect(inputField.value).toBe('24.03.2020')
+      expect(inputField.value).toBe('19.03.2020')
       expect(apiMock.getMocks().patch).toBeCalledTimes(1)
     })
   })
