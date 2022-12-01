@@ -15,6 +15,8 @@ describe('An EDatePicker', () => {
       dateInWrongLocale: '03/19/2020',
       labelText: 'Dialog öffnen um ein Datum für test zu wählen',
       date1Heading: 'März 2020',
+      date3Heading: 'Januar 2111',
+      date4Heading: 'Januar 1999',
       closeButton: 'Schliessen',
       validationMessage:
         'Ungültiges Format, bitte gib das Datum im Format DD.MM.YYYY ein',
@@ -26,6 +28,8 @@ describe('An EDatePicker', () => {
       dateInWrongLocale: '19.03.2020',
       labelText: 'Open dialog to select a date for test',
       date1Heading: 'March 2020',
+      date3Heading: 'January 2111',
+      date4Heading: 'January 1999',
       closeButton: 'Close',
       validationMessage: 'Invalid format, please enter the date in the format MM/DD/YYYY',
     },
@@ -212,7 +216,7 @@ describe('An EDatePicker', () => {
       // Our entered date should be visible...
       screen.getByDisplayValue(data.date2)
       // ...and stay visible
-      return expect(
+      await expect(
         waitFor(() => {
           expect(screen.getByDisplayValue(data.date2)).not.toBeVisible()
         })
@@ -243,7 +247,7 @@ describe('An EDatePicker', () => {
       // Our selected date should be visible...
       screen.getByDisplayValue(data.date2)
       // ...and stay visible
-      return expect(
+      await expect(
         waitFor(() => {
           expect(screen.getByDisplayValue(data.date2)).not.toBeVisible()
         })
@@ -279,9 +283,99 @@ describe('An EDatePicker', () => {
       // then
       expect(screen.queryByText(data.validationMessage)).not.toBeInTheDocument()
       // validation message should not appear
-      return expect(screen.findByText(data.validationMessage)).rejects.toThrow(
+      await expect(screen.findByText(data.validationMessage)).rejects.toThrow(
         /Unable to find an element with the text/
       )
+    })
+
+    it('autoscrolls forward to the earliest allowable month based on min', async () => {
+      // given
+      render(EDatePicker, {
+        props: { value: '', name: 'test', min: '2111-01-01' },
+      })
+
+      // when
+      await user.click(screen.getByLabelText(data.labelText))
+
+      // then
+      await waitFor(async () => {
+        expect(await screen.findByText(data.date3Heading)).toBeVisible()
+      })
+    })
+
+    it('does not autoscroll forward if given a value', async () => {
+      // given
+      render(EDatePicker, {
+        props: { value: DATE1_ISO, name: 'test', min: '2111-01-01' },
+      })
+
+      // when
+      await user.click(screen.getByLabelText(data.labelText))
+
+      // then
+      await expect(async () => {
+        await screen.findByText(data.date3Heading)
+      }).rejects.toThrow(/Unable to find an element with the text/)
+    })
+
+    it('does not autoscroll backward based on min', async () => {
+      // given
+      render(EDatePicker, {
+        props: { value: '', name: 'test', min: '1999-01-01' },
+      })
+
+      // when
+      await user.click(screen.getByLabelText(data.labelText))
+
+      // then
+      await expect(async () => {
+        await screen.findByText(data.date4Heading)
+      }).rejects.toThrow(/Unable to find an element with the text/)
+    })
+
+    it('autoscrolls back to the latest allowable month based on max', async () => {
+      // given
+      render(EDatePicker, {
+        props: { value: '', name: 'test', max: '1999-01-01' },
+      })
+
+      // when
+      await user.click(screen.getByLabelText(data.labelText))
+
+      // then
+      await waitFor(async () => {
+        expect(await screen.findByText(data.date4Heading)).toBeVisible()
+      })
+    })
+
+    it('does not autoscroll forward based on max', async () => {
+      // given
+      render(EDatePicker, {
+        props: { value: '', name: 'test', max: '2111-01-01' },
+      })
+
+      // when
+      await user.click(screen.getByLabelText(data.labelText))
+
+      // then
+      await expect(async () => {
+        await screen.findByText(data.date3Heading)
+      }).rejects.toThrow(/Unable to find an element with the text/)
+    })
+
+    it('does not autoscroll backward if given a value', async () => {
+      // given
+      render(EDatePicker, {
+        props: { value: DATE1_ISO, name: 'test', max: '1999-01-01' },
+      })
+
+      // when
+      await user.click(screen.getByLabelText(data.labelText))
+
+      // then
+      await expect(async () => {
+        await screen.findByText(data.date4Heading)
+      }).rejects.toThrow(/Unable to find an element with the text/)
     })
   })
 })

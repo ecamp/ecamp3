@@ -184,7 +184,7 @@ describe('An ETimePicker', () => {
 
       // then
       // close button should stay visible
-      return expect(
+      await expect(
         waitFor(() => {
           expect(screen.queryByText(data.closeButton)).not.toBeVisible()
         })
@@ -213,7 +213,7 @@ describe('An ETimePicker', () => {
       // Our entered time should be visible...
       screen.getByDisplayValue(data.time2)
       // ...and stay visible
-      return expect(
+      await expect(
         waitFor(() => {
           expect(screen.getByDisplayValue(data.time2)).not.toBeVisible()
         })
@@ -251,7 +251,7 @@ describe('An ETimePicker', () => {
       // Our entered time should be visible...
       screen.getByDisplayValue(data.time3)
       // ...and stay visible
-      return expect(
+      await expect(
         waitFor(() => {
           expect(screen.getByDisplayValue(data.time3)).not.toBeVisible()
         })

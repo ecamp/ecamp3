@@ -28,6 +28,7 @@ Displays a field as a date picker (can be used with v-model)
         no-title
         scrollable
         show-adjacent-months
+        :picker-date.sync="pickerMonth"
         @input="picker.onInput"
       >
         <v-spacer />
@@ -63,6 +64,37 @@ export default {
     // v-date-picker props
     min: { type: String, default: null },
     max: { type: String, default: null },
+  },
+  data: () => ({
+    pickerMonth: undefined,
+  }),
+  watch: {
+    min: {
+      handler(newMin) {
+        if (this.value) return
+        if (!newMin) return
+        const currentPickerMonth = this.$date(this.pickerMonth)
+        const newMinPickerMonth = this.$date(newMin)
+        if (currentPickerMonth.unix() < newMinPickerMonth.unix()) {
+          // Update the month displayed in the picker
+          this.pickerMonth = newMinPickerMonth.format('YYYY-MM')
+        }
+      },
+      immediate: true,
+    },
+    max: {
+      handler(newMax) {
+        if (this.value) return
+        if (!newMax) return
+        const currentPickerMonth = this.$date(this.pickerMonth)
+        const newMaxPickerMonth = this.$date(newMax)
+        if (currentPickerMonth.unix() > newMaxPickerMonth.unix()) {
+          // Update the month displayed in the picker
+          this.pickerMonth = newMaxPickerMonth.format('YYYY-MM')
+        }
+      },
+      immediate: true,
+    },
   },
   methods: {
     /**

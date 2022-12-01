@@ -149,7 +149,7 @@ describe('An EColorPicker', () => {
 
     // then
     // close button should stay visible
-    return expect(
+    await expect(
       waitFor(() => {
         expect(screen.queryByText('Schliessen')).not.toBeVisible()
       })
@@ -178,7 +178,7 @@ describe('An EColorPicker', () => {
     // Our entered time should be visible...
     screen.getByDisplayValue(COLOR2)
     // ...and stay visible
-    return expect(
+    await expect(
       waitFor(() => {
         expect(screen.getByDisplayValue(COLOR2)).not.toBeVisible()
       })
@@ -212,7 +212,7 @@ describe('An EColorPicker', () => {
     // Our entered time should be visible...
     screen.getByDisplayValue(COLOR3)
     // ...and stay visible
-    return expect(
+    await expect(
       waitFor(() => {
         expect(screen.getByDisplayValue(COLOR3)).not.toBeVisible()
       })
