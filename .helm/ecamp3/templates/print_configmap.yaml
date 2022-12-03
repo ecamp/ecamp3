@@ -10,3 +10,4 @@ data:
   PRINT_URL: {{ include "print.url" . | quote }}
   COOKIE_PREFIX: {{ include "api.cookiePrefix" . | quote }}
   SENTRY_ENVIRONMENT: {{ .Values.frontend.domain | quote }}
+  CORS_ALLOW_ALL_ORIGIN: {{ .Values.print.corsAllowAllOrigin | quote }}

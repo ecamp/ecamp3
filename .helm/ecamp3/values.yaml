@@ -84,6 +84,7 @@ print:
     tag:
   sentryDsn:
   browserWsEndpoint:
+  corsAllowAllOrigin: false
   service:
     type: ClusterIP
     port: 3003

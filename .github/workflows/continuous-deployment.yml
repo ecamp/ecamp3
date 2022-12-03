@@ -222,6 +222,7 @@ jobs:
             --set php.corsAllowOrigin='*' \
             --set php.cookieSameSite='none' \
             --set php.jwt.emptyBody='false' \
+            --set print.corsAllowAllOrigin='*' \
             --set frontend.sentryDsn='${{ secrets.FRONTEND_SENTRY_DSN }}' \
             --set print.sentryDsn='${{ secrets.PRINT_SENTRY_DSN }}' \
             --set print.browserWsEndpoint='${{ secrets.BROWSER_WS_ENDPOINT }}' \

@@ -7,7 +7,7 @@ const app = express()
 
 // allow cross origin access
 const corsOptions = {
-  origin: process.env.FRONTEND_URL,
+  origin: 'true' === process.env.CORS_ALLOW_ALL_ORIGIN ? true : process.env.FRONTEND_URL,
   credentials: true,
 }
 app.use(cors(corsOptions))
