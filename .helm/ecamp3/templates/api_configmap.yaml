@@ -13,7 +13,11 @@ data:
   {{- if .Values.php.dataMigrationsDir }}
   DATA_MIGRATIONS_DIR: {{ .Values.php.dataMigrationsDir | quote }}
   {{- end }}
+  {{- if .Values.php.corsAllowOrigin }}
+  CORS_ALLOW_ORIGIN: {{ .Values.php.corsAllowOrigin | quote }}
+  {{- else }}
   CORS_ALLOW_ORIGIN: {{ include "frontend.url" . | quote }}
+  {{- end }}
   TRUSTED_PROXIES: "{{ join "," .Values.php.trustedProxies }}"
   MERCURE_URL: "http://{{ include "api.name" . }}/.well-known/mercure"
   MERCURE_PUBLIC_URL: {{ .Values.mercure.publicUrl | default "http://127.0.0.1/.well-known/mercure" | quote }}
