@@ -126,7 +126,6 @@ import { isLoggedIn } from '@/plugins/auth'
 import AuthContainer from '@/components/layout/AuthContainer.vue'
 import HorizontalRule from '@/components/layout/HorizontalRule.vue'
 import IconSpacer from '@/components/layout/IconSpacer.vue'
-import { serverErrorToString } from '@/helpers/serverError'
 
 export default {
   name: 'Login',

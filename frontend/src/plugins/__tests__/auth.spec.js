@@ -2,6 +2,7 @@ import Vue from 'vue'
 import { auth } from '@/plugins/auth'
 import storeLoader, { store, apiStore } from '@/plugins/store'
 import Cookies from 'js-cookie'
+import axios from 'axios'
 
 Vue.use(storeLoader)
 
@@ -106,7 +107,7 @@ describe('authentication logic', () => {
     it('resolves to true if the user successfully logs in', async () => {
       // given
       store.replaceState(createState())
-      jest.spyOn(apiStore, 'post').mockImplementation(async () => {
+      jest.spyOn(axios, 'post').mockImplementation(async () => {
         Cookies.set('localhost_jwt_hp', validJWTPayload)
       })
 
@@ -115,8 +116,8 @@ describe('authentication logic', () => {
 
       // then
       expect(result).toBeTruthy()
-      expect(apiStore.post).toHaveBeenCalledTimes(1)
-      expect(apiStore.post).toHaveBeenCalledWith('/authentication_token', {
+      expect(axios.post).toHaveBeenCalledTimes(1)
+      expect(axios.post).toHaveBeenCalledWith('/authentication_token', {
         identifier: 'foo',
         password: 'bar',
       })
@@ -124,7 +125,7 @@ describe('authentication logic', () => {
 
     it('resolves to false if the login fails', async () => {
       // given
-      jest.spyOn(apiStore, 'post').mockImplementation(async () => {
+      jest.spyOn(axios, 'post').mockImplementation(async () => {
         // login fails, no cookie added
       })
 
@@ -133,8 +134,8 @@ describe('authentication logic', () => {
 
       // then
       expect(result).toBeFalsy()
-      expect(apiStore.post).toHaveBeenCalledTimes(1)
-      expect(apiStore.post).toHaveBeenCalledWith('/authentication_token', {
+      expect(axios.post).toHaveBeenCalledTimes(1)
+      expect(axios.post).toHaveBeenCalledWith('/authentication_token', {
         identifier: 'foo',
         password: 'barrrr',
       })

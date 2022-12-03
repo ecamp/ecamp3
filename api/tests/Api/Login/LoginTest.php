@@ -106,7 +106,7 @@ class LoginTest extends ECampApiTestCase {
             ]
         );
 
-        $this->assertResponseStatusCodeSame(204);
+        $this->assertResponseStatusCodeSame(200);
         $this->assertResponseHasHeader('Set-Cookie');
     }
 
