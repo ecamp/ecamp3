@@ -165,7 +165,7 @@ export default {
         })
         .catch((e) => {
           this.authenticationInProgress = false
-          this.error = serverErrorToString(e)
+          this.error = e.response?.data?.message
         })
     },
     async loginGoogle() {
