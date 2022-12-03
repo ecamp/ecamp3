@@ -10,6 +10,9 @@ data:
   {{- if .Values.php.cookieSameSite }}
   COOKIE_SAMESITE: {{ .Values.php.cookieSameSite | quote }}
   {{- end }}
+  {{- if .Values.php.jwt.emptyBody }}
+  JWT_EMPTY_BODY: {{ .Values.php.jwt.emptyBody | quote }}
+  {{- end }}
   SHARED_COOKIE_DOMAIN: {{ .Values.sharedCookieDomain | quote }}
   APP_ENV: {{ .Values.php.appEnv | quote }}
   APP_DEBUG: {{ .Values.php.appDebug | quote }}

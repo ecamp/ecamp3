@@ -1,6 +1,7 @@
 parameters:
     env(COOKIE_PREFIX): ""
     env(COOKIE_SAMESITE): "lax"
+    env(JWT_EMPTY_BODY): "true"
 
 lexik_jwt_authentication:
     secret_key: '%env(resolve:JWT_SECRET_KEY)%'
@@ -10,6 +11,10 @@ lexik_jwt_authentication:
     # Tokens are valid for 12 hours, should be safe because we never expose the whole token to JavaScript.
     # Of course it would be even better to have only short-lived tokens but renew them on every request.
     token_ttl: 43200
+
+    # include token in API response
+    # remove_token_from_body_when_cookies_used: '%env(bool:JWT_EMPTY_BODY)%' # this is possible after merge & release of https://github.com/lexik/LexikJWTAuthenticationBundle/pull/1092
+    remove_token_from_body_when_cookies_used: false
 
     # Read the JWT token from a split cookie: The [api-domain]_jwt_hp and [api-domain]_jwt_s cookies are combined with a period (.)
     # to form the full JWT token.

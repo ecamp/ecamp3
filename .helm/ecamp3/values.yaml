@@ -41,6 +41,7 @@ php:
     passphrase:
     privateKey:
     publicKey:
+    emptyBody:
   oauth:
     google:
       clientId: '889440431087-ueuhpadf2g7h5ucdke92mvfaf4l779m4.apps.googleusercontent.com'

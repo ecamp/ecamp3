@@ -10,11 +10,20 @@ axios.interceptors.response.use(null, (error) => {
   return Promise.reject(error)
 })
 
-function getJWTPayloadFromCookie() {
+function getJWTPayload() {
+  // use cookie (preferred)
   const jwtHeaderAndPayload = Cookies.get(headerAndPayloadCookieName())
-  if (!jwtHeaderAndPayload) return ''
+  if (jwtHeaderAndPayload) {
+    return jwtHeaderAndPayload.split('.')[1]
+  }
 
-  return jwtHeaderAndPayload.split('.')[1]
+  // use token from response body (fallback)
+  const token = store.state.auth.token
+  if (token) {
+    return token.split('.')[1]
+  }
+
+  return ''
 }
 
 function parseJWTPayload(payload) {
@@ -33,7 +42,7 @@ function parseJWTPayload(payload) {
 }
 
 function getJWTExpirationTimestamp() {
-  return (parseJWTPayload(getJWTPayloadFromCookie()).exp ?? 0) * 1000
+  return (parseJWTPayload(getJWTPayload()).exp ?? 0) * 1000
 }
 
 export function isLoggedIn() {
@@ -51,12 +60,16 @@ export function isAdmin() {
     return false
   }
 
-  return parseJWTPayload(getJWTPayloadFromCookie()).roles.includes('ROLE_ADMIN')
+  return parseJWTPayload(getJWTPayload()).roles.includes('ROLE_ADMIN')
 }
 
 async function login(email, password) {
   const url = await apiStore.href(apiStore.get(), 'login')
-  return apiStore.post(url, { identifier: email, password: password }).then(() => {
+  return axios.post(url, { identifier: email, password: password }).then((response) => {
+    if (response) {
+      store.commit('setToken', response.data.token)
+    }
+
     return isLoggedIn()
   })
 }
@@ -72,14 +85,13 @@ async function resetPassword(id, password, recaptchaToken) {
 }
 
 async function loadUser() {
-  if (!getJWTPayloadFromCookie()) {
+  if (!getJWTPayload()) {
     store.commit('logout')
     return null
   }
 
   try {
-    const user = await apiStore.get(parseJWTPayload(getJWTPayloadFromCookie()).user)._meta
-      .load
+    const user = await apiStore.get(parseJWTPayload(getJWTPayload()).user)._meta.load
     store.commit('login', user)
     return user
   } catch (e) {
