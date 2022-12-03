@@ -1,0 +1,12 @@
+window.environment = {
+  API_ROOT_URL: 'https://api-dev.ecamp3.ch',
+  COOKIE_PREFIX: 'api-dev_ecamp3_ch_',
+  PRINT_URL: 'https://print-dev.ecamp3.ch',
+  SENTRY_FRONTEND_DSN: null,
+  SENTRY_ENVIRONMENT: "",
+  SHARED_COOKIE_DOMAIN: '.ecamp3.ch',
+  DEPLOYMENT_TIME: '',
+  VERSION: '',
+  VERSION_LINK_TEMPLATE: 'https://github.com/ecamp/ecamp3/commit/{version}',
+  FEATURE_DEVELOPER: true
+}

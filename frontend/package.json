@@ -6,6 +6,7 @@
     "serve": "vite --host 0.0.0.0",
     "preview": "vite preview --host 0.0.0.0 --port 3000",
     "build": "vite build",
+    "build:netlify": "vite build && cp ./dist/environment.netlify.dist ./dist/environment.js",
     "lint": "npm run lint:eslint && npm run lint:prettier",
     "lint:eslint": "vue-cli-service lint",
     "lint:prettier": "prettier --write --ignore-path .prettierignore **/*.{css,scss,json,md}",
