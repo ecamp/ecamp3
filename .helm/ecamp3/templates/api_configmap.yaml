@@ -7,6 +7,9 @@ metadata:
 data:
   API_DOMAIN: {{ .Values.api.domain | quote }}
   COOKIE_PREFIX: {{ include "api.cookiePrefix" . | quote }}
+  {{- if .Values.php.cookieSameSite }}
+  COOKIE_SAMESITE: {{ .Values.php.cookieSameSite | quote }}
+  {{- end }}
   SHARED_COOKIE_DOMAIN: {{ .Values.sharedCookieDomain | quote }}
   APP_ENV: {{ .Values.php.appEnv | quote }}
   APP_DEBUG: {{ .Values.php.appDebug | quote }}
