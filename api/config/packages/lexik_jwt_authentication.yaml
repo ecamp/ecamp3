@@ -1,5 +1,6 @@
 parameters:
     env(COOKIE_PREFIX): ""
+    env(COOKIE_SAMESITE): "lax"
 
 lexik_jwt_authentication:
     secret_key: '%env(resolve:JWT_SECRET_KEY)%'
@@ -25,7 +26,7 @@ lexik_jwt_authentication:
     set_cookies:
         '%env(COOKIE_PREFIX)%jwt_hp':
             lifetime: null
-            samesite: '%env(COOKIE_SAMESITE)'
+            samesite: '%env(COOKIE_SAMESITE)%'
             path: /
             domain: '%env(resolve:SHARED_COOKIE_DOMAIN)%'
             httpOnly: false
@@ -34,7 +35,7 @@ lexik_jwt_authentication:
                 - payload
         '%env(COOKIE_PREFIX)%jwt_s':
             lifetime: null
-            samesite: '%env(COOKIE_SAMESITE)'
+            samesite: '%env(COOKIE_SAMESITE)%'
             path: /
             domain: '%env(resolve:SHARED_COOKIE_DOMAIN)%'
             httpOnly: true
