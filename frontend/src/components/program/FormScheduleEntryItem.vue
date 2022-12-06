@@ -8,7 +8,7 @@
           :name="$tc('components.program.formScheduleEntryItem.start')"
           vee-id="startDate"
           vee-rules="required"
-          :max="localScheduleEntry.start"
+          :allowed-dates="dateIsInAnyPeriod"
           :filled="false"
           class="float-left date-picker"
           required
@@ -19,7 +19,6 @@
           :name="$tc('components.program.formScheduleEntryItem.start')"
           vee-id="startDatetime"
           vee-rules="required"
-          :max="maxStartTime"
           :filled="false"
           class="float-left mt-0 ml-3 time-picker"
           required
@@ -33,7 +32,8 @@
           :name="$tc('components.program.formScheduleEntryItem.end')"
           vee-id="endDate"
           vee-rules="required|greaterThanOrEqual_date:@startDate"
-          :min="localScheduleEntry.end"
+          :min="localScheduleEntry.start"
+          :allowed-dates="dateIsInSelectedPeriod"
           :filled="false"
           class="float-left date-picker"
           required
@@ -121,13 +121,6 @@ export default {
       }
       return validator
     },
-    maxStartTime() {
-      if (!this.isSameDay) return null
-      return this.$date
-        .utc(this.localScheduleEntry.end)
-        .subtract(this.$date.duration(15, 'm'))
-        .format('HH:mm')
-    },
     minEndTime() {
       if (!this.isSameDay) return null
       return this.$date
@@ -153,6 +146,31 @@ export default {
         .utc(this.localScheduleEntry.end)
         .add(delta)
         .format()
+    },
+  },
+  methods: {
+    dateIsInAnyPeriod: function (val) {
+      const calendarDate = dayjs.utc(val)
+      return this.periods.some((period) => {
+        return calendarDate.isBetween(
+          dayjs.utc(period.start),
+          dayjs.utc(period.end),
+          'date',
+          '[]'
+        )
+      })
+    },
+    dateIsInSelectedPeriod: function (val) {
+      if (this.period === undefined) {
+        return this.dateIsInAnyPeriod(val)
+      }
+      const calendarDate = dayjs.utc(val)
+      return calendarDate.isBetween(
+        dayjs.utc(this.period.start),
+        dayjs.utc(this.period.end),
+        'date',
+        '[]'
+      )
     },
   },
 }

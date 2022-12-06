@@ -25,6 +25,7 @@ Displays a field as a date picker (can be used with v-model)
         first-day-of-week="1"
         :min="min"
         :max="max"
+        :allowed-dates="allowedDates"
         no-title
         scrollable
         show-adjacent-months
@@ -62,6 +63,7 @@ export default {
     valueFormat: { type: [String, Array], default: 'YYYY-MM-DD' },
 
     // v-date-picker props
+    allowedDates: { type: Function, default: null },
     min: { type: String, default: null },
     max: { type: String, default: null },
   },
