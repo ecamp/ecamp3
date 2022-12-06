@@ -165,15 +165,15 @@ class RelatedCollectionLinkNormalizer implements NormalizerInterface, Serializer
             throw new UnsupportedRelationException('The '.$resourceClass.'#'.$rel.' relation does not have both a targetEntity and a mappedBy or inversedBy property');
         }
 
-        if (!$this->exactSearchFilterExists($relatedResourceClass, $relatedFilterName)) {
-            throw new UnsupportedRelationException('The resource '.$relatedResourceClass.' does not have a search filter for the relation '.$relatedFilterName.'.');
-        }
-
         $resourceMetadataCollection = $this->resourceMetadataCollectionFactory->create($relatedResourceClass);
         $operation = OperationHelper::findOneByType($resourceMetadataCollection, GetCollection::class);
 
         if (!$operation) {
             throw new UnsupportedRelationException('The resource '.$relatedResourceClass.' does not implement GetCollection() operation.');
+        }
+
+        if (!$this->exactSearchFilterExists($relatedResourceClass, $relatedFilterName)) {
+            throw new UnsupportedRelationException('The resource '.$relatedResourceClass.' does not have a search filter for the relation '.$relatedFilterName.'.');
         }
 
         return $this->router->generate($operation->getName(), [$relatedFilterName => urlencode($this->iriConverter->getIriFromResource($object))], UrlGeneratorInterface::ABS_PATH);

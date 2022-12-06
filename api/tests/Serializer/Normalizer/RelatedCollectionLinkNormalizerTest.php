@@ -7,6 +7,7 @@ use ApiPlatform\Api\IriConverterInterface;
 use ApiPlatform\Doctrine\Orm\Filter\DateFilter;
 use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Operations;
 use ApiPlatform\Metadata\Resource\Factory\ResourceMetadataCollectionFactoryInterface;
@@ -377,6 +378,26 @@ class RelatedCollectionLinkNormalizerTest extends TestCase {
         $this->mockAssociationMetadata(['targetEntity' => Child::class, 'mappedBy' => 'parent']);
         $this->mockRelatedResourceMetadata(['filters' => ['attribute_filter_something_something']]);
         $this->filterInstance = new DateFilter($this->managerRegistryMock, null, ['filters' => ['attribute_filter_something_something']]);
+        $this->mockGeneratedRoute();
+
+        // when
+        $result = $this->normalizer->normalize($resource, null, ['resource_class' => ParentEntity::class]);
+
+        // then
+        $this->shouldNotReplaceChildren($result);
+    }
+
+    public function testNormalizeDoesntReplaceWhenMissingGetCollectionOperation() {
+        // given
+        $resource = new ParentEntity();
+        $this->mockDecoratedNormalizer();
+        $this->mockNameConverter();
+        $this->mockAssociationMetadata(['targetEntity' => Child::class, 'mappedBy' => 'parent']);
+
+        $metadataCollection = new ResourceMetadataCollection('Dummy');
+        $metadataCollection->append((new ApiResource())->withOperations(new Operations([new Get()])));
+        $this->resourceMetadataCollectionFactoryMock->method('create')->willReturn($metadataCollection);
+
         $this->mockGeneratedRoute();
 
         // when
