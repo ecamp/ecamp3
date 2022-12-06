@@ -4,7 +4,8 @@ kind: Service
 metadata:
   name: {{ include "browserless.name" . }}
   labels:
-    {{- include "app.labels" . | nindent 4 }}
+    {{- include "browserless.selectorLabels" . | nindent 4 }}
+    {{- include "app.commonLabels" . | nindent 4 }}
 spec:
   type: {{ .Values.browserless.service.type }}
   ports:
@@ -13,5 +14,5 @@ spec:
       protocol: TCP
       name: browserless-ws
   selector:
-    {{- include "app.selectorLabels" . | nindent 4 }}
+    {{- include "browserless.selectorLabels" . | nindent 4 }}
 {{- end }}
