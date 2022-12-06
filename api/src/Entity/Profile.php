@@ -40,7 +40,7 @@ class Profile extends BaseEntity {
 
     /**
      * Unique email of the user.
-     * Cannot be changed until we have a workflow where the changed email is validated again.
+     * Can only be changed by setting the newEmail field, which triggers an email verification flow.
      */
     #[InputFilter\Trim]
     #[Assert\NotBlank]
