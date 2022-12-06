@@ -108,6 +108,7 @@ jobs:
           helm upgrade --install ecamp3-alpha . \
             --set imageTag=${{ steps.git-ref.outputs.sha }} \
             --set sharedCookieDomain=.ecamp3.ch \
+            --set termsOfServiceLinkTemplate='https://ecamp3.ch/{lang}/tos' \
             --set api.domain=api-alpha.ecamp3.ch \
             --set frontend.domain=app-alpha.ecamp3.ch \
             --set print.domain=print-alpha.ecamp3.ch \

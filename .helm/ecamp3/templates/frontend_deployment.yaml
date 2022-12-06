@@ -3,18 +3,19 @@ kind: Deployment
 metadata:
   name: {{ include "frontend.name" . }}
   labels:
-    {{- include "app.labels" . | nindent 4 }}
+    {{- include "frontend.selectorLabels" . | nindent 4 }}
+    {{- include "app.commonLabels" . | nindent 4 }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.frontend.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
-      {{- include "app.selectorLabels" . | nindent 6 }}
+      {{- include "frontend.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
-        {{- include "app.selectorLabels" . | nindent 8 }}
+        {{- include "frontend.selectorLabels" . | nindent 8 }}
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
@@ -50,7 +51,7 @@ spec:
           # https://developers.redhat.com/blog/2020/11/10/you-probably-need-liveness-and-readiness-probes
           # livenessProbe:
           resources:
-            {{- toYaml .Values.resources | nindent 12 }}
+            {{- toYaml .Values.frontend.resources | nindent 12 }}
           volumeMounts:
             - mountPath: /app/environment.js
               name: environment-js

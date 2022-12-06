@@ -204,6 +204,7 @@ jobs:
           helm upgrade --install ecamp3-${{ matrix.deployment.name }} . \
             --set imageTag=${{ matrix.deployment.sha }} \
             --set sharedCookieDomain=.ecamp3.ch \
+            --set termsOfServiceLinkTemplate='https://ecamp3.ch/{lang}/tos' \
             --set api.domain=api-${{ matrix.deployment.name }}.ecamp3.ch \
             --set frontend.domain=app-${{ matrix.deployment.name }}.ecamp3.ch \
             --set print.domain=print-${{ matrix.deployment.name }}.ecamp3.ch \

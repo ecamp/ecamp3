@@ -70,6 +70,7 @@
         />
 
         <e-checkbox
+          v-if="termsOfServiceLink"
           v-model="tos"
           :vee-rules="{ required: { allowFalse: false } }"
           class="align-center"
@@ -88,7 +89,7 @@
               :title="$tc('global.button.open')"
               target="_blank"
               class="px-1"
-              to="#"
+              :href="termsOfServiceLink"
               tabindex="-1"
             >
               <v-icon small>mdi-open-in-new</v-icon>
@@ -129,6 +130,7 @@ import { errorToMultiLineToast } from '@/components/toast/toasts'
 import VueI18n from '@/plugins/i18n'
 import { ValidationObserver } from 'vee-validate'
 import { passwordStrengthMixin } from '../../mixins/passwordStrengthMixin.js'
+import { parseTemplate } from 'url-template'
 
 export default {
   name: 'Register',
@@ -165,6 +167,13 @@ export default {
         value: l,
         text: this.$tc('global.language', 1, l),
       }))
+    },
+    termsOfServiceLink() {
+      return (
+        parseTemplate(window.environment.TERMS_OF_SERVICE_LINK_TEMPLATE || '').expand({
+          lang: this.language.substring(0, 2),
+        }) || false
+      )
     },
   },
   watch: {
