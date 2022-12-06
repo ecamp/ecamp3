@@ -67,66 +67,56 @@
       </v-btn>
     </v-form>
     <horizontal-rule :label="$tc('views.auth.login.or')" />
-    <v-btn
-      dark
-      color="#91697f"
-      :x-large="$vuetify.breakpoint.smAndUp"
-      block
-      outlined
-      class="my-4"
-      @click="loginPbsMiData"
-    >
-      <v-icon color="#521d3a">$vuetify.icons.pbs</v-icon>
-      <v-spacer />
-      <span class="text--secondary">{{ $tc('views.auth.login.provider.midata') }}</span>
-      <v-spacer />
-      <icon-spacer />
-    </v-btn>
-    <v-btn
-      dark
-      color="green"
-      :x-large="$vuetify.breakpoint.smAndUp"
-      block
-      outlined
-      class="my-4"
-      @click="loginCeviDB"
-    >
-      <v-icon>$vuetify.icons.cevi</v-icon>
-      <v-spacer />
-      <span class="text--secondary">{{ $tc('views.auth.login.provider.cevidb') }}</span>
-      <v-spacer />
-      <icon-spacer />
-    </v-btn>
-    <v-btn
-      dark
-      color="blue"
-      :x-large="$vuetify.breakpoint.smAndUp"
-      block
-      outlined
-      class="my-4"
-      @click="loginJublaDB"
-    >
-      <v-icon>$vuetify.icons.jubla</v-icon>
-      <v-spacer />
-      <span class="text--secondary">{{ $tc('views.auth.login.provider.jubladb') }}</span>
-      <v-spacer />
-      <icon-spacer />
-    </v-btn>
-    <v-btn
-      dark
-      color="blue-grey lighten-3"
-      :x-large="$vuetify.breakpoint.smAndUp"
-      block
-      outlined
-      class="my-4 text--secondary"
-      @click="loginGoogle"
-    >
-      <v-icon>$vuetify.icons.google</v-icon>
-      <v-spacer />
-      <span class="text--secondary">{{ $tc('views.auth.login.provider.google') }}</span>
-      <v-spacer />
-      <icon-spacer />
-    </v-btn>
+    <div class="openid-buttons">
+      <v-btn
+        dark
+        color="#91697f"
+        :x-large="$vuetify.breakpoint.smAndUp"
+        text
+        @click="loginPbsMiData"
+      >
+        <v-icon class="my-1" color="#521d3a">$vuetify.icons.pbs</v-icon>
+        <span class="text--secondary body-2 font-weight-medium">{{
+          $tc('views.auth.login.provider.midata')
+        }}</span>
+      </v-btn>
+      <v-btn
+        dark
+        color="green"
+        :x-large="$vuetify.breakpoint.smAndUp"
+        text
+        @click="loginCeviDB"
+      >
+        <v-icon class="my-1">$vuetify.icons.cevi</v-icon>
+        <span class="text--secondary body-2 font-weight-medium">{{
+          $tc('views.auth.login.provider.cevidb')
+        }}</span>
+      </v-btn>
+      <v-btn
+        dark
+        color="blue"
+        :x-large="$vuetify.breakpoint.smAndUp"
+        text
+        @click="loginJublaDB"
+      >
+        <v-icon size="32">$vuetify.icons.jubla</v-icon>
+        <span class="text--secondary body-2 font-weight-medium">{{
+          $tc('views.auth.login.provider.jubladb')
+        }}</span>
+      </v-btn>
+      <v-btn
+        dark
+        color="blue-grey lighten-3"
+        :x-large="$vuetify.breakpoint.smAndUp"
+        text
+        @click="loginGoogle"
+      >
+        <v-icon class="my-1">$vuetify.icons.google</v-icon>
+        <span class="text--secondary body-2 font-weight-medium">{{
+          $tc('views.auth.login.provider.google')
+        }}</span>
+      </v-btn>
+    </div>
     <p class="mt-8 mb-0 text--secondary text-center">
       {{ $tc('views.auth.login.accountless') }}<br />
       <router-link :to="{ name: 'register' }">
@@ -199,4 +189,21 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.openid-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+
+  :deep .v-btn {
+    height: auto;
+    min-width: auto;
+    padding: 4px 0;
+    flex-grow: 1;
+  }
+
+  :deep .v-btn__content {
+    flex-direction: column;
+  }
+}
+</style>
