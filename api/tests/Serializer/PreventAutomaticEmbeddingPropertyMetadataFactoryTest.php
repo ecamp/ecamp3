@@ -2,9 +2,6 @@
 
 namespace App\Tests\Serializer;
 
-// use ApiPlatform\Metadata\Property\Factory\PropertyMetadataFactoryInterface;
-// use ApiPlatform\Metadata\Property\PropertyMetadata;
-// use ApiPlatform\Metadata\Property\SubresourceMetadata;
 use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\Property\Factory\PropertyMetadataFactoryInterface;
 use App\Serializer\PreventAutomaticEmbeddingPropertyMetadataFactory;

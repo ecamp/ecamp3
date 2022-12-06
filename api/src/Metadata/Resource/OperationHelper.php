@@ -7,22 +7,21 @@ use ApiPlatform\Metadata\Operation;
 use ApiPlatform\Metadata\Resource\ResourceMetadataCollection;
 
 class OperationHelper {
-    public static function findOneByType(ResourceMetadataCollection $collection, string $className): ?Operation {
+    public static function findOneByType(ResourceMetadataCollection $collection, string $operationClassName): ?Operation {
         $it = $collection->getIterator();
-        $metadata = null;
 
         while ($it->valid()) {
             /** @var ApiResource $metadata */
             $metadata = $it->current();
 
             foreach ($metadata->getOperations() ?? [] as $operation) {
-                if ($operation instanceof $className) {
+                if ($operation instanceof $operationClassName) {
                     return $operation;
                 }
             }
 
             foreach ($metadata->getGraphQlOperations() ?? [] as $operation) {
-                if ($operation instanceof $className) {
+                if ($operation instanceof $operationClassName) {
                     return $operation;
                 }
             }

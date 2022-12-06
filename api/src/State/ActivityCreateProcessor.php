@@ -11,7 +11,7 @@ use App\State\Util\AbstractPersistProcessor;
 use App\Util\EntityMap;
 use Doctrine\ORM\EntityManagerInterface;
 
-final class ActivityCreateProcessor extends AbstractPersistProcessor {
+class ActivityCreateProcessor extends AbstractPersistProcessor {
     public function __construct(
         ProcessorInterface $decorated,
         private EntityManagerInterface $em,
