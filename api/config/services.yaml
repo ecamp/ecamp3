@@ -123,10 +123,6 @@ services:
             - '%env(RECAPTCHA_SECRET)%'
             - '@ReCaptcha\ReCaptcha'
     
-    App\Controller\CouponKeyController:
-        arguments:
-            - '%kernel.environment%'
-
     App\Service\CampCouponService:
         arguments:
             - '%env(COUPON_SECRET)%'
