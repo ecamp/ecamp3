@@ -25,6 +25,10 @@ class CampCouponService {
     }
 
     public function verifyCoupon($couponKey) {
+        // Basically, you should not program any security algorithms yourself. However,
+        // since we want to have short coupon keys, we implement our own algorithm here.
+        // In the long run the CampCouponService will be deleted again.
+
         if ('' == $this->secret) {
             return true;
         }
