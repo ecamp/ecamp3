@@ -44,10 +44,11 @@
 </template>
 <script>
 import { periodRoute } from '@/router.js'
-import { dateRange } from '@/common/helpers/dateHelperUTCFormatted.js'
+import { dateHelperUTCFormatted } from '@/mixins/dateHelperUTCFormatted.js'
 
 export default {
   name: 'PeriodSwitcher',
+  mixins: [dateHelperUTCFormatted],
   props: {
     period: {
       type: Function,
@@ -57,7 +58,6 @@ export default {
   },
   methods: {
     periodRoute,
-    dateRange,
   },
 }
 </script>

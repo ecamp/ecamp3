@@ -18,6 +18,7 @@ use App\Util\JsonMergePatch;
 use App\Validator\ContentNode\AssertContentTypeCompatible;
 use App\Validator\ContentNode\AssertNoLoop;
 use App\Validator\ContentNode\AssertNoRootChange;
+use App\Validator\ContentNode\AssertSlotSupportedByParent;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -56,6 +57,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Entity(repositoryClass: ContentNodeRepository::class)]
 #[ORM\InheritanceType('SINGLE_TABLE')]
 #[ORM\DiscriminatorColumn(name: 'strategy', type: 'string')]
+#[ORM\UniqueConstraint(name: 'contentnode_parentid_slot_position_unique', columns: ['parentid', 'slot', 'position'])]
 abstract class ContentNode extends BaseEntity implements BelongsToContentNodeTreeInterface, CopyFromPrototypeInterface {
     use ClassInfoTrait;
 
@@ -112,7 +114,8 @@ abstract class ContentNode extends BaseEntity implements BelongsToContentNodeTre
     #[InputFilter\Trim]
     #[InputFilter\CleanText]
     #[Assert\Length(max: 32)]
-    #[ApiProperty(example: 'footer')]
+    #[AssertSlotSupportedByParent]
+    #[ApiProperty(example: '1')]
     #[Gedmo\SortableGroup]
     #[Groups(['read', 'write'])]
     #[ORM\Column(type: 'text', nullable: true)]
@@ -217,6 +220,10 @@ abstract class ContentNode extends BaseEntity implements BelongsToContentNodeTre
         }
 
         return $this;
+    }
+
+    public function getSupportedSlotNames(): array {
+        return [];
     }
 
     /**

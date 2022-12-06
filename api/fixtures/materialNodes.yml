@@ -10,6 +10,6 @@ App\Entity\ContentNode\MaterialNode:
     root: '@columnLayout1campUnrelated'
     parent: '@columnLayout1campUnrelated'
     slot: '1'
-    position: 1
+    position: 2
     instanceName: <word()>
     contentType: '@contentTypeMaterial'

@@ -144,6 +144,15 @@ class UpdateColumnLayoutTest extends UpdateContentNodeTestCase {
         ]);
     }
 
+    public function testPatchColumnLayoutAllowsNullParentOnRootColumnLayout() {
+        $contentNode = static::$fixtures['columnLayout1'];
+        static::createClientWithCredentials()->request('PATCH', $this->endpoint.'/'.$contentNode->getId(), ['json' => [
+            'parent' => null,
+        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
+
+        $this->assertResponseStatusCodeSame(200);
+    }
+
     public function testPatchColumnLayoutDoesNotAllowParentOnRootColumnLayout() {
         $contentNode = static::$fixtures['columnLayout1'];
         static::createClientWithCredentials()->request('PATCH', $this->routePrefix.$this->endpoint.'/'.$contentNode->getId(), ['json' => [
@@ -173,8 +182,8 @@ class UpdateColumnLayoutTest extends UpdateContentNodeTestCase {
         ]);
     }
 
-    public function testPatchColumnLayoutAcceptsEmptySlot() {
-        $contentNode = static::$fixtures['columnLayoutChild1'];
+    public function testPatchColumnLayoutAcceptsEmptySlotForRoot() {
+        $contentNode = static::$fixtures['columnLayout1'];
         static::createClientWithCredentials()->request('PATCH', $this->routePrefix.$this->endpoint.'/'.$contentNode->getId(), ['json' => [
             'slot' => null,
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
@@ -206,6 +215,21 @@ class UpdateColumnLayoutTest extends UpdateContentNodeTestCase {
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
             'instanceName' => null,
+        ]);
+    }
+
+    public function testPatchValidatesThatParentSupportsSlotName() {
+        $this->defaultEntity = static::$fixtures['columnLayoutChild1'];
+        $this->patch(payload: ['slot' => 'invalidSlot']);
+
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                0 => [
+                    'propertyPath' => 'slot',
+                    'message' => 'This value should be one of [1,2], was invalidSlot.',
+                ],
+            ],
         ]);
     }
 }

@@ -132,4 +132,10 @@ class ColumnLayout extends ContentNode implements SupportsContentNodeChildren {
 
         return $this;
     }
+
+    public function getSupportedSlotNames(): array {
+        $columns = new ArrayCollection($this->getData()['columns']);
+
+        return $columns->map(fn (array $element) => $element['slot'])->getValues();
+    }
 }

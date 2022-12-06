@@ -2,21 +2,21 @@
 
 declare(strict_types=1);
 
-namespace DataMigrations;
+namespace DoctrineMigrations;
 
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 
-require_once __DIR__.'/helpers.php';
-
-final class Version202209110752PM extends AbstractMigration {
+/**
+ * Auto-generated Migration: Please modify to your needs!
+ */
+final class Version20221029182700 extends AbstractMigration {
     public function getDescription(): string {
         return '';
     }
 
     public function up(Schema $schema): void {
-        // START PHP CODE
-        // END PHP CODE
+        $this->addSql('UPDATE content_node SET slot = null WHERE slot = \'\' and parentId IS NULL');
     }
 
     public function down(Schema $schema): void {

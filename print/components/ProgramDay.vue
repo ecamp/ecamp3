@@ -16,17 +16,15 @@
 </template>
 
 <script>
-import { dateLong } from '@/../common/helpers/dateHelperUTCFormatted.js'
+import { dateHelperUTCFormatted } from '@/mixins/dateHelperUTCFormatted.js'
 
 export default {
+  mixins: [dateHelperUTCFormatted],
   props: {
     day: { type: Object, required: true },
     showDailySummary: { type: Boolean, required: true },
     showActivities: { type: Boolean, required: true },
     index: { type: Number, required: true },
-  },
-  data() {
-    return {}
   },
   computed: {
     // returns scheduleEntries of current day without the need for an additional API call
@@ -38,9 +36,6 @@ export default {
           return scheduleEntry.day()._meta.self === this.day._meta.self
         })
     },
-  },
-  methods: {
-    dateLong,
   },
 }
 </script>

@@ -18,7 +18,7 @@ class CleanTextFilter extends InputFilter {
         }
 
         if (!is_scalar($value) && !(\is_object($value) && method_exists($value, '__toString'))) {
-            throw new UnexpectedValueException('Cannot convert value to string for trimming.');
+            throw new UnexpectedValueException('Cannot convert value to string for cleaning.');
         }
 
         $value = (string) $value;

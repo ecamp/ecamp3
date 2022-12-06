@@ -120,6 +120,106 @@ abstract class CreateContentNodeTestCase extends ECampApiTestCase {
         ]);
     }
 
+    public function testCreateValidatesThatParentSupportsSlotName() {
+        $this->create($this->getExampleWritePayload(['slot' => 'invalidSlot']));
+
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [
+                    'propertyPath' => 'slot',
+                    'message' => 'This value should be one of [1,2], was invalidSlot.',
+                ],
+            ],
+        ]);
+    }
+
+    public function testCreateContentNodeRejectsMissingSlot() {
+        $this->create($this->getExampleWritePayload([], ['slot']));
+
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [
+                    'propertyPath' => 'slot',
+                    'message' => 'This value should be one of [1,2], was null.',
+                ],
+            ],
+        ]);
+    }
+
+    public function testCreateResortsEntriesIfExistingPositionWasUsed() {
+        $this->create($this->getExampleWritePayload(
+            [
+                'parent' => $this->getIriFor('columnLayout1'),
+                'slot' => '1',
+                'position' => 0,
+            ]
+        ));
+
+        $this->assertResponseStatusCodeSame(201);
+        $this->assertJsonContains([
+            'slot' => '1',
+            'position' => 0,
+        ]);
+    }
+
+    public function testCreatePutsContentNodeAtEndOfSlot() {
+        $this->create($this->getExampleWritePayload(
+            [
+                'parent' => $this->getIriFor('columnLayout1'),
+                'slot' => '1',
+            ],
+            ['position']
+        ));
+
+        $this->assertResponseStatusCodeSame(201);
+        $this->assertJsonContains([
+            'slot' => '1',
+            'position' => 4,
+        ]);
+    }
+
+    public function testCreateRejectsTooLongInstanceName() {
+        $this->create($this->getExampleWritePayload(
+            [
+                'instanceName' => str_repeat('a', 33),
+            ]
+        ));
+
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'title' => 'An error occurred',
+            'detail' => 'instanceName: This value is too long. It should have 32 characters or less.',
+        ]);
+    }
+
+    public function testCreateTrimsInstanceName() {
+        $this->create($this->getExampleWritePayload(
+            [
+                'instanceName' => " SchlechtwetterProgramm\t\t",
+            ]
+        ));
+
+        $this->assertResponseStatusCodeSame(201);
+        $this->assertJsonContains([
+            'instanceName' => 'SchlechtwetterProgramm',
+        ]);
+    }
+
+    public function testCreateCleansTextOfInstanceName() {
+        $this->create($this->getExampleWritePayload(
+            [
+                'instanceName' => "\u{000A}control\u{0007}",
+            ]
+        ));
+
+        $this->assertResponseStatusCodeSame(201);
+        $this->assertJsonContains([
+            'instanceName' => 'control',
+        ]);
+    }
+
     protected function getExampleWritePayload($attributes = [], $except = []) {
         return parent::getExampleWritePayload(
             array_merge([
@@ -142,7 +242,7 @@ abstract class CreateContentNodeTestCase extends ECampApiTestCase {
         $contentType = $this->defaultContentType;
 
         return [
-            'slot' => 'footer',
+            'slot' => '1',
             'position' => 10,
             'instanceName' => 'Schlechtwetterprogramm',
             'contentTypeName' => $contentType->name,
