@@ -276,6 +276,31 @@ describe('authentication logic', () => {
     })
   })
 
+  describe('loginJublaDB()', () => {
+    const { location } = window
+    beforeEach(() => {
+      delete window.location
+      window.location = {
+        origin: 'http://localhost',
+        href: 'http://localhost/login',
+      }
+      store.replaceState(createState())
+    })
+    afterEach(() => {
+      window.location = location
+    })
+
+    it('forwards to jubladb authentication endpoint', async () => {
+      // when
+      await auth.loginJublaDB()
+
+      // then
+      expect(window.location.href).toBe(
+        'http://localhost/auth/jubladb?callback=http%3A%2F%2Flocalhost%2FloginCallback'
+      )
+    })
+  })
+
   describe('logout()', () => {
     it('resolves to false if the user successfully logs out', async () => {
       // given

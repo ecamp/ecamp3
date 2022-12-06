@@ -345,6 +345,7 @@
         "passwordForgotten": "Passwort vergessen?",
         "provider": {
           "cevidb": "Anmelden mit CeviDB",
+          "jubladb": "Anmelden mit JublaDB",
           "ecamp": "Anmelden mit eCamp",
           "google": "Anmelden mit Google",
           "midata": "Anmelden mit MiData"
