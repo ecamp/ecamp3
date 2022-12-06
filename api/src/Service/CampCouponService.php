@@ -16,10 +16,11 @@ class CampCouponService {
         if ('' == $this->secret) {
             return 'No Coupon-Key required';
         }
-        $min = ceil(78364164096 / intval($this->secret));
-        $max = floor(2821109907455 / intval($this->secret));
-        $rnd = mt_rand($min, $max) * intval($this->secret);
-        $coupon = base_convert($rnd, 10, 36);
+        $secret = intval($this->secret);
+        $min = intval(ceil(78364164096 / $secret));
+        $max = intval(floor(2821109907455 / $secret));
+        $rnd = mt_rand($min, $max) * $secret;
+        $coupon = base_convert(strval($rnd), 10, 36);
 
         return substr($coupon, 0, 4).'-'.substr($coupon, 4, 4);
     }

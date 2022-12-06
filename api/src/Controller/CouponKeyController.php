@@ -8,7 +8,6 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class CouponKeyController extends AbstractController {
     public function __construct(
-        private string $appEnv,
         private CampCouponService $couponService
     ) {
     }
