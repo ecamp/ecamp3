@@ -341,6 +341,10 @@ function createState(authState = {}) {
           href: '/auth/cevidb{?callback}',
           templated: true,
         },
+        oauthJubladb: {
+          href: '/auth/jubladb{?callback}',
+          templated: true,
+        },
         _meta: {
           self: '',
         },
