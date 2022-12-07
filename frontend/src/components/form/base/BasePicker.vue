@@ -3,11 +3,10 @@ Displays a field as a picker (can be used with v-model)
 -->
 
 <template>
-  <div ref="picker" class="e-form-container">
+  <div class="e-form-container">
     <v-menu
       v-model="showPicker"
       :disabled="disabled || readonly"
-      :close-on-click="false"
       :close-on-content-click="false"
       transition="scale-transition"
       offset-y
@@ -148,21 +147,6 @@ export default {
     },
   },
   mounted() {
-    const el = this.$refs.picker
-    this.clickOutsideHandler = (event) => {
-      const menuEl = document.querySelector(`#${this.menuId}`)
-      if (
-        !(
-          el === event.target ||
-          el.contains(event.target) ||
-          menuEl?.contains(event.target)
-        )
-      ) {
-        this.closePicker()
-      }
-    }
-    document.addEventListener('click', this.clickOutsideHandler)
-
     this.escapeKeyHandler = (event) => {
       if (event.code === 'Escape') {
         this.closePicker()
