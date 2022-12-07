@@ -1,3 +1,9 @@
+function normalizeMin(min, dayjs) {
+  return typeof min === 'string'
+    ? dayjs.utc('1970-01-01 ' + min, 'YYYY-MM-DD LT')
+    : min.set('date', 1).set('month', 0).set('year', 1970)
+}
+
 export default (dayjs, i18n) => ({
   params: ['min'],
   /**
@@ -7,9 +13,13 @@ export default (dayjs, i18n) => ({
    * @returns {bool}       validation result
    */
   validate: (value, { min }) => {
-    const minDate = dayjs('1970-01-01 ' + min)
-    const valueDate = dayjs('1970-01-01 ' + value)
-    return valueDate > minDate
+    const valueDate = dayjs.utc('1970-01-01 ' + value, 'YYYY-MM-DD LT')
+    const minDate = normalizeMin(min, dayjs)
+    return valueDate.unix() > minDate.unix()
   },
-  message: (field, values) => i18n.tc('global.validation.greaterThan_time', 0, values),
+  message: (field, values) => {
+    return i18n.tc('global.validation.greaterThan_time', 0, {
+      min: normalizeMin(values.min, dayjs).format('LT'),
+    })
+  },
 })
