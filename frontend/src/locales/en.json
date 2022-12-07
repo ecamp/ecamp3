@@ -295,6 +295,9 @@
       "update": "Update"
     },
     "changeLanguage": "Change language",
+    "datetime": {
+      "vuetifyTimePickerFormat": "ampm"
+    },
     "language": "English",
     "loading": "Loading …",
     "lokaliseMessage": "Language switching powered by lokalise.com",

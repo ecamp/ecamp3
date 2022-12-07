@@ -21,7 +21,7 @@ Allows 15min steps only
       <v-time-picker
         :value="picker.value || ''"
         :allowed-minutes="allowedStep"
-        format="24hr"
+        :format="$tc('global.datetime.vuetifyTimePickerFormat')"
         :min="min"
         :max="max"
         scrollable

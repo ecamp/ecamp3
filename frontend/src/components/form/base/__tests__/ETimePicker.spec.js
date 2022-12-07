@@ -14,6 +14,7 @@ describe('An ETimePicker', () => {
       time1: '09:52',
       time2: '18:33',
       time3: '00:52',
+      firstHour: '0',
       labelText: 'Dialog öffnen um eine Zeit für test zu wählen',
       closeButton: 'Schliessen',
       timeInWrongLocale: '9:52 AM',
@@ -23,6 +24,7 @@ describe('An ETimePicker', () => {
       time1: '9:52 AM',
       time2: '6:33 PM',
       time3: '12:52 AM',
+      firstHour: '12',
       labelText: 'Open dialog to select a time for test',
       closeButton: 'Close',
       timeInWrongLocale: '09:52',
@@ -178,7 +180,7 @@ describe('An ETimePicker', () => {
 
       // when
       // Click the 0th hour
-      await user.click(await screen.findByText('0'))
+      await user.click(await screen.findByText(data.firstHour))
       // Click the 45th minute
       await user.click(await screen.findByText('45'))
 
@@ -233,7 +235,7 @@ describe('An ETimePicker', () => {
       // Click the 0th hour. We can only click this one, because
       // testing library is missing the vuetify styles, and all the
       // number elements overlap
-      await user.click(await screen.findByText('0'))
+      await user.click(await screen.findByText(data.firstHour))
       // click the close button
       await user.click(screen.getByText(data.closeButton))
 
