@@ -9,15 +9,25 @@ import { createRenderer } from '@vue/runtime-core'
 const fontStore = new FontStore()
 
 const pdf = (root) => {
-  const document = {}
+  // For react-pdf, we need an object which will describe the structure of our
+  // pdf document. Our nodeOps will read the Vue component tree and convert it to
+  // the react-pdf-specific data structure inside doc.
+  // For Vue, we need a "root container" (normally the <div id="app"> DOM element).
+  // Vue uses this to keep track of which running Vue app this is. Since we don't do
+  // update operations, it should be fine to just pass the doc object.
+  const doc = {
+    box: {},
+    children: [],
+    props: {},
+    style: {},
+    type: 'DOCUMENT',
+  }
 
   const render = async (compress = true) => {
-    const { createApp } = createRenderer(nodeOpsFor(document))
-    // TODO is it okay to misuse the document as the rootContainer here?
-    //   This ensures that each call to pdf() gets a separate vue app instance.
-    createApp(root).mount(document)
+    const { createApp } = createRenderer(nodeOpsFor(doc))
+    createApp(root).mount(doc)
 
-    const props = document.props || {}
+    const props = doc.props || {}
     const { pdfVersion, language, pageLayout, pageMode } = props
 
     const ctx = new PDFDocument({
@@ -30,9 +40,8 @@ const pdf = (root) => {
       pageMode,
     })
 
-    // TODO remove this, temporary fix as long as nodeOps aren't implemented
-    document.children = []
-    const layout = await layoutDocument(document, fontStore)
+    console.log('doc', doc)
+    const layout = await layoutDocument(doc, fontStore)
 
     return renderPDF(ctx, layout)
   }

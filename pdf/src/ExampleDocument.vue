@@ -1,4 +1,6 @@
-<template>Hello world!</template>
+<template>
+  <page>Hello world!</page>
+</template>
 <script>
 export default {
   name: 'ExampleDocument',

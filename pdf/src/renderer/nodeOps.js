@@ -1,3 +1,7 @@
+const htmlToPdfElementMap = {
+  page: 'PAGE'
+}
+
 function noop(fn) {
   throw Error(`no-op: ${fn}`)
 }
@@ -9,14 +13,35 @@ const nodeOpsFor = (doc) => ({
 
   insert: (child, parent, anchor) => {
     console.log('insert', child, parent, anchor)
+    parent.children.push(child)
   },
 
   createElement: (tag) => {
     console.log('createElement', tag)
+    if (!tag in htmlToPdfElementMap) {
+      throw Error(`Tag <${tag}> cannot be used inside a pdf!`)
+    }
+    return {
+      box: {},
+      children: [],
+      props: {},
+      style: {},
+      type: htmlToPdfElementMap[tag],
+    }
   },
 
   createText: (text) => {
     console.log('createText', text)
+    return {
+      box: {},
+      children: [{
+        type: 'TEXT_INSTANCE',
+        value: text,
+      }],
+      props: {},
+      style: {},
+      type: 'TEXT',
+    }
   },
 
   parentNode: () => {
