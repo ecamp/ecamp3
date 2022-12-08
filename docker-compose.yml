@@ -89,6 +89,26 @@ services:
       - ./api/docker/caddy/Caddyfile:/etc/caddy/Caddyfile:ro
       - ./api/public:/srv/api/public:ro
 
+  pdf:
+    image: node:18.12.1@sha256:1214aee00e17b2f62228071c1f74c5ebc7a081e4aff1a314e13e225304f0afbf
+    container_name: 'ecamp3-pdf'
+    stdin_open: true
+    tty: true
+    user: ${USER_ID:-1000}
+    volumes:
+      - ./.prettierrc:/.prettierrc
+      - ./pdf:/app:delegated
+      - ./common:/common:delegated
+      - ./.cache/npm:/home/node/.npm
+      - ./.cache/cypress:/home/node/.cache/Cypress
+    working_dir: /app
+    command: ./docker-setup.sh
+    environment:
+      - NODE_ENV=development
+      - NPM_CONFIG_UPDATE_NOTIFIER=false
+      - NPM_CONFIG_CACHE=/home/node/.npm
+      - CI=${CI}
+
   print:
     image: node:20.5.1
     container_name: 'ecamp3-print'

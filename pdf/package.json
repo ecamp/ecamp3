@@ -1,0 +1,85 @@
+{
+  "name": "pdf",
+  "version": "0.1.0",
+  "description": "Create pdfs for eCamp, using Vue components",
+  "main": "src/index.js",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "watch": "vite build --watch",
+    "preview": "vite preview",
+    "test:unit": "vitest --environment jsdom --root src/",
+    "lint": "npm run lint:eslint && npm run lint:prettier",
+    "lint:eslint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore",
+    "lint:prettier": "prettier --write --ignore-path .prettierignore **/*.{css,scss,json,md}",
+    "lint:check": "npm run lint:check:eslint && npm run lint:check:prettier",
+    "lint:check:eslint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --no-fix --ignore-path .gitignore",
+    "lint:check:prettier": "prettier --check --ignore-path .prettierignore **/*.{css,scss,json,md}"
+  },
+  "dependencies": {
+    "@react-pdf/font": "^2.3.1",
+    "@react-pdf/layout": "^3.2.1",
+    "@react-pdf/pdfkit": "^3.0.0",
+    "@react-pdf/render": "^3.2.1",
+    "@vue/runtime-core": "^3.2.41"
+  },
+  "devDependencies": {
+    "@rushstack/eslint-patch": "^1.1.4",
+    "@vitejs/plugin-vue": "^3.2.0",
+    "@vue/eslint-config-prettier": "^7.0.0",
+    "@vue/test-utils": "^2.2.4",
+    "eslint": "^8.22.0",
+    "eslint-plugin-vue": "^9.3.0",
+    "jsdom": "^20.0.3",
+    "prettier": "^2.7.1",
+    "vite": "^3.2.4",
+    "vitest": "^0.25.3"
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true,
+      "jest": true
+    },
+    "extends": [
+      "plugin:vue/recommended",
+      "eslint:recommended",
+      "plugin:prettier/recommended",
+      "@vue/eslint-config-prettier"
+    ],
+    "rules": {
+      "prettier/prettier": "error",
+      "vue/component-tags-order": [
+        "error",
+        {
+          "order": [
+            "template",
+            "script",
+            "style"
+          ]
+        }
+      ],
+      "vue/multi-word-component-names": "off",
+      "no-unused-vars": [
+        "error",
+        {
+          "argsIgnorePattern": "^_$"
+        }
+      ],
+      "local-rules/matching-translation-keys": [
+        "error",
+        {
+          "ignoreKeysRegex": "^(global|entity|contentNode\\.[a-z][a-zA-Z]+|print\\.(global|activity|cover|picasso|program|story|toc))\\..+",
+          "translationKeyPropRegex": "[a-zA-Z0-9]-i18n-key$"
+        }
+      ]
+    },
+    "parserOptions": {
+      "parser": "@babel/eslint-parser"
+    },
+    "plugins": [
+      "eslint-plugin-local-rules"
+    ]
+  }
+}
