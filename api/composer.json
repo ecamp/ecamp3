@@ -54,7 +54,7 @@
         "justinrainbow/json-schema": "5.2.12",
         "php-coveralls/php-coveralls": "2.5.3",
         "phpstan/phpstan": "1.9.2",
-        "phpunit/phpunit": "9.5.26",
+        "phpunit/phpunit": "9.5.27",
         "rector/rector": "0.15.0",
         "symfony/browser-kit": "6.2.0",
         "symfony/css-selector": "6.2.0",
