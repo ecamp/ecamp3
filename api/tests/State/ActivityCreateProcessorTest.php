@@ -2,13 +2,14 @@
 
 namespace App\Tests\DataPersister;
 
-use App\DataPersister\ActivityDataPersister;
-use App\DataPersister\Util\DataPersisterObservable;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\State\ProcessorInterface;
 use App\Entity\Activity;
 use App\Entity\Camp;
 use App\Entity\Category;
 use App\Entity\ContentNode\ColumnLayout;
 use App\Entity\ContentType;
+use App\State\ActivityCreateProcessor;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -17,13 +18,13 @@ use PHPUnit\Framework\TestCase;
 /**
  * @internal
  */
-class ActivityDataPersisterTest extends TestCase {
-    private ActivityDataPersister $dataPersister;
+class ActivityCreateProcessorTest extends TestCase {
+    private ActivityCreateProcessor $processor;
     private Activity $activity;
     private MockObject|EntityManagerInterface $em;
 
     protected function setUp(): void {
-        $dataPersisterObservable = $this->createMock(DataPersisterObservable::class);
+        $decoratedProcessor = $this->createMock(ProcessorInterface::class);
         $this->em = $this->createMock(EntityManagerInterface::class);
 
         $this->activity = new Activity();
@@ -44,13 +45,13 @@ class ActivityDataPersisterTest extends TestCase {
         $this->em->method('getRepository')->willReturn($repository);
         $repository->method('findOneBy')->willReturn($contentType);
 
-        $this->dataPersister = new ActivityDataPersister($dataPersisterObservable, $this->em);
+        $this->processor = new ActivityCreateProcessor($decoratedProcessor, $this->em);
     }
 
     public function testSetsCampFromCategory() {
         // when
         /** @var Activity $data */
-        $data = $this->dataPersister->beforeCreate($this->activity);
+        $data = $this->processor->onBefore($this->activity, new Post());
 
         // then
         $this->assertEquals($this->activity->category->camp, $data->getCamp());
@@ -59,7 +60,7 @@ class ActivityDataPersisterTest extends TestCase {
     public function testPostCopiesContentFromCategory() {
         // when
         /** @var Activity $data */
-        $data = $this->dataPersister->beforeCreate($this->activity);
+        $data = $this->processor->onBefore($this->activity, new Post());
 
         // then
         $this->assertNotNull($data->getRootContentNode());
@@ -77,6 +78,6 @@ class ActivityDataPersisterTest extends TestCase {
 
         // when
         /** @var Activity $data */
-        $data = $this->dataPersister->beforeCreate($this->activity);
+        $data = $this->processor->onBefore($this->activity, new Post());
     }
 }
