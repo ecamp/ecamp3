@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Tests\DataPersister;
+namespace App\Tests\State;
 
-use App\DataPersister\CategoryDataPersister;
-use App\DataPersister\Util\DataPersisterObservable;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\State\ProcessorInterface;
 use App\Entity\Category;
 use App\Entity\ContentType;
+use App\State\CategoryCreateProcessor;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -15,7 +16,7 @@ use PHPUnit\Framework\TestCase;
  * @internal
  */
 class CategoryDataPersisterTest extends TestCase {
-    private CategoryDataPersister $dataPersister;
+    private CategoryCreateProcessor $processor;
     private MockObject|EntityManagerInterface $entityManagerMock;
     private Category $category;
 
@@ -23,9 +24,9 @@ class CategoryDataPersisterTest extends TestCase {
         $this->category = new Category();
 
         $this->entityManagerMock = $this->createMock(EntityManagerInterface::class);
-        $dataPersisterObservable = $this->createMock(DataPersisterObservable::class);
-        $this->dataPersister = new CategoryDataPersister(
-            $dataPersisterObservable,
+        $decoratedProcessor = $this->createMock(ProcessorInterface::class);
+        $this->processor = new CategoryCreateProcessor(
+            $decoratedProcessor,
             $this->entityManagerMock
         );
     }
@@ -43,7 +44,7 @@ class CategoryDataPersisterTest extends TestCase {
 
         // when
         /** @var Category $data */
-        $data = $this->dataPersister->beforeCreate($this->category);
+        $data = $this->processor->onBefore($this->category, new Post());
 
         // then
         $this->assertNotNull($data->getRootContentNode());
