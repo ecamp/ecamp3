@@ -2,6 +2,8 @@
 
 namespace App\Tests\Api\Periods;
 
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\Post;
 use App\Entity\Period;
 use App\Tests\Api\ECampApiTestCase;
 
@@ -307,8 +309,7 @@ class CreatePeriodTest extends ECampApiTestCase {
     public function getExampleWritePayload($attributes = [], $except = []) {
         return $this->getExamplePayload(
             Period::class,
-            '/periods',
-            'post',
+            Post::class,
             array_merge(['camp' => $this->getIriFor('camp1')], $attributes),
             [],
             $except
@@ -318,8 +319,7 @@ class CreatePeriodTest extends ECampApiTestCase {
     public function getExampleReadPayload($attributes = [], $except = []) {
         return $this->getExamplePayload(
             Period::class,
-            '/periods',
-            'get',
+            Get::class,
             $attributes,
             ['camp'],
             $except

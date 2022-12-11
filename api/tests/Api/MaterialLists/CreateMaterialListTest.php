@@ -2,6 +2,8 @@
 
 namespace App\Tests\Api\MaterialLists;
 
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\Post;
 use App\Entity\MaterialList;
 use App\Tests\Api\ECampApiTestCase;
 
@@ -193,8 +195,7 @@ class CreateMaterialListTest extends ECampApiTestCase {
     public function getExampleWritePayload($attributes = [], $except = []) {
         return $this->getExamplePayload(
             MaterialList::class,
-            '/material_lists',
-            'post',
+            Post::class,
             array_merge(['camp' => $this->getIriFor('camp1')], $attributes),
             [],
             $except
@@ -204,8 +205,7 @@ class CreateMaterialListTest extends ECampApiTestCase {
     public function getExampleReadPayload($attributes = [], $except = []) {
         return $this->getExamplePayload(
             MaterialList::class,
-            '/material_lists',
-            'get',
+            Get::class,
             $attributes,
             ['camp'],
             $except

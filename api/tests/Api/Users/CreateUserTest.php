@@ -2,6 +2,8 @@
 
 namespace App\Tests\Api\Users;
 
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\Post;
 use App\Entity\User;
 use App\Tests\Api\ECampApiTestCase;
 
@@ -788,8 +790,7 @@ class CreateUserTest extends ECampApiTestCase {
     public function getExampleWritePayload($attributes = [], $except = [], $mergeEmbeddedAttributes = []) {
         $examplePayload = $this->getExamplePayload(
             User::class,
-            '/users',
-            'post',
+            Post::class,
             $attributes,
             [],
             $except
@@ -801,8 +802,7 @@ class CreateUserTest extends ECampApiTestCase {
     public function getExampleReadPayload($attributes = [], $except = []) {
         $exampleReadPayload = $this->getExamplePayload(
             User::class,
-            '/users',
-            'get',
+            Get::class,
             $attributes,
             [],
             $except

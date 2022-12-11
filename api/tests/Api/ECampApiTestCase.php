@@ -5,12 +5,16 @@ namespace App\Tests\Api;
 use ApiPlatform\Api\IriConverterInterface;
 use ApiPlatform\JsonSchema\Schema;
 use ApiPlatform\JsonSchema\SchemaFactoryInterface;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Resource\Factory\ResourceMetadataCollectionFactoryInterface;
 use ApiPlatform\Symfony\Bundle\Test\ApiTestCase;
 use ApiPlatform\Symfony\Bundle\Test\Client;
 use App\Entity\BaseEntity;
 use App\Entity\Profile;
 use App\Entity\User;
+use App\Metadata\Resource\OperationHelper;
 use App\Repository\ProfileRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
@@ -136,36 +140,17 @@ abstract class ECampApiTestCase extends ApiTestCase {
         return $this->entityManager;
     }
 
-    protected function getExamplePayload(string $resourceClass, string $endpoint, string $operationName = 'get', array $attributes = [], array $exceptExamples = [], array $exceptAttributes = []): array {
-        // At the moment, specific operations can only be found via route name
-        // --> build route name based on required operation and resource endpoint
-        $fullOperationName = '';
+    protected function getExamplePayload(string $resourceClass, string $operationClassName = Get::class, array $attributes = [], array $exceptExamples = [], array $exceptAttributes = []): array {
+        $resourceMetadataCollection = $this->getResourceMetadataFactory()->create($resourceClass);
+        $operation = OperationHelper::findOneByType($resourceMetadataCollection, $operationClassName);
 
-        switch ($operationName) {
-            case 'get':
-            case 'patch':
-            case 'put':
-                $fullOperationName = "_api_{$endpoint}/{id}{._format}_";
-
-                break;
-
-            case 'post':
-            case 'get_collection':
-                $fullOperationName = "_api_{$endpoint}{._format}_";
-
-                break;
-
-            default:
-                throw new \Exception("invalid \$operationName {$operationName}");
+        if (null === $operation) {
+            throw new \RuntimeException("Requested operation of type {$operationClassName} on resource {$resourceClass} was not found in order to build example payload.");
         }
-        $fullOperationName .= $operationName;
 
         try {
-            $resourceMetadataCollection = $this->getResourceMetadataFactory()->create($resourceClass);
-            $operation = $resourceMetadataCollection->getOperation($fullOperationName);
-
             // build JSON schema based on requested operation
-            $schema = $this->getSchemaFactory()->buildSchema($resourceClass, 'json', 'get' === substr($operationName, 0, 3) ? Schema::TYPE_OUTPUT : Schema::TYPE_INPUT, $operation);
+            $schema = $this->getSchemaFactory()->buildSchema($resourceClass, 'json', in_array($operationClassName, [Get::class, GetCollection::class]) ? Schema::TYPE_OUTPUT : Schema::TYPE_INPUT, $operation);
 
             // transform schema into example payload
             preg_match('/\/([^\/]+)$/', $schema['$ref'] ?? '', $matches);
@@ -251,8 +236,7 @@ abstract class ECampApiTestCase extends ApiTestCase {
     protected function getExampleWritePayload($attributes = [], $except = []) {
         return $this->getExamplePayload(
             $this->entityClass,
-            $this->endpoint,
-            'post',
+            Post::class,
             $attributes,
             [],
             $except
