@@ -65,6 +65,17 @@ class ResetPasswordUpdateProcessorTest extends TestCase {
         );
     }
 
+    public function testUpdateRequiresReCaptcha() {
+        $this->recaptchaResponse->expects(self::once())
+            ->method('isSuccess')
+            ->willReturn(false)
+        ;
+        $this->resetPassword->recaptchaToken = 'token';
+
+        $this->expectException(\Exception::class);
+        $this->processor->process($this->resetPassword, new Patch());
+    }
+
     public function testUpdateWithUnknownEmailThrowsException() {
         $this->recaptchaResponse->expects(self::once())
             ->method('isSuccess')

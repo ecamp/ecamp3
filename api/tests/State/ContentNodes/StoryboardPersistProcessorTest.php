@@ -89,6 +89,24 @@ class StoryboardPersistProcessorTest extends TestCase {
         $this->assertNotEquals($this->root, $data->root);
     }
 
+    public function testSetDefaultValueOnCreate() {
+        // given
+        $this->contentNode->data = null;
+
+        // when
+        /** @var Storyboard $data */
+        $data = $this->processor->onBefore($this->contentNode, new Post());
+
+        // then
+        $newSection = $data->data['sections'][array_keys($data->data['sections'])[0]];
+        $this->assertEquals([
+            'column1' => '***sanitizedText***',
+            'column2Html' => '***sanitizedHTML***',
+            'column3' => '***sanitizedText***',
+            'position' => 0,
+        ], $newSection);
+    }
+
     public function testSantizeDataOnCreate() {
         // when
         /** @var Storyboard $data */

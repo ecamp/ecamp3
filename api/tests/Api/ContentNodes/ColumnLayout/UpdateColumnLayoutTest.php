@@ -146,7 +146,7 @@ class UpdateColumnLayoutTest extends UpdateContentNodeTestCase {
 
     public function testPatchColumnLayoutAllowsNullParentOnRootColumnLayout() {
         $contentNode = static::$fixtures['columnLayout1'];
-        static::createClientWithCredentials()->request('PATCH', $this->endpoint.'/'.$contentNode->getId(), ['json' => [
+        static::createClientWithCredentials()->request('PATCH', $this->routePrefix.$this->endpoint.'/'.$contentNode->getId(), ['json' => [
             'parent' => null,
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
 

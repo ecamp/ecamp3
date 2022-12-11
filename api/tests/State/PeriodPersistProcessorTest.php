@@ -35,7 +35,10 @@ class PeriodPersistProcessorTest extends TestCase {
         $this->emptyPeriod->start = new \DateTime('2000-01-10');
         $this->emptyPeriod->end = new \DateTime('2000-01-12');
 
-        $this->period = clone $this->emptyPeriod;
+        $this->period = new Period();
+        $this->period->start = new \DateTime('2000-01-10');
+        $this->period->end = new \DateTime('2000-01-12');
+
         for ($i = 0; $i < 3; ++$i) {
             $day = new Day();
             $day->dayOffset = $i;
