@@ -1,14 +1,15 @@
 <?php
 
-namespace App\Tests\DataPersister;
+namespace App\Tests\State;
 
-use App\DataPersister\CampDataPersister;
-use App\DataPersister\Util\DataPersisterObservable;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\State\ProcessorInterface;
 use App\Entity\Camp;
 use App\Entity\CampCollaboration;
 use App\Entity\MaterialList;
 use App\Entity\Profile;
 use App\Entity\User;
+use App\State\CampCreateProcessor;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\Constraint\Callback;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -18,8 +19,8 @@ use Symfony\Component\Security\Core\Security;
 /**
  * @internal
  */
-class CampDataPersisterTest extends TestCase {
-    private CampDataPersister $dataPersister;
+class CampCreateProcessorTest extends TestCase {
+    private CampCreateProcessor $processor;
     private MockObject|Security $security;
     private MockObject|EntityManagerInterface $em;
     private Camp $camp;
@@ -29,8 +30,8 @@ class CampDataPersisterTest extends TestCase {
 
         $this->security = $this->createMock(Security::class);
         $this->em = $this->createMock(EntityManagerInterface::class);
-        $dataPersisterObservable = $this->createMock(DataPersisterObservable::class);
-        $this->dataPersister = new CampDataPersister($dataPersisterObservable, $this->security, $this->em);
+        $decoratedProcessor = $this->createMock(ProcessorInterface::class);
+        $this->processor = new CampCreateProcessor($decoratedProcessor, $this->security, $this->em);
     }
 
     public function testSetsCreatorAndOwnerOnCreate() {
@@ -40,7 +41,7 @@ class CampDataPersisterTest extends TestCase {
 
         // when
         /** @var Camp $data */
-        $data = $this->dataPersister->beforeCreate($this->camp);
+        $data = $this->processor->onBefore($this->camp, new Post());
 
         // then
         $this->assertEquals($user, $data->creator);
@@ -76,7 +77,7 @@ class CampDataPersisterTest extends TestCase {
         ;
 
         // when
-        $this->dataPersister->afterCreate($this->camp);
+        $this->processor->onAfter($this->camp, new Post());
     }
 
     private static function campCollaborationWith(User $user, Camp $camp, string $status, string $role): Callback {
