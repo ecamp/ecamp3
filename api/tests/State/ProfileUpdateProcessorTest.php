@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Tests\DataPersister;
+namespace App\Tests\State;
 
-use App\DataPersister\ProfileDataPersister;
-use App\DataPersister\Util\DataPersisterObservable;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\State\ProcessorInterface;
 use App\Entity\Profile;
 use App\Entity\User;
 use App\Service\MailService;
+use App\State\ProfileUpdateProcessor;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactoryInterface;
@@ -15,8 +16,8 @@ use Symfony\Component\PasswordHasher\PasswordHasherInterface;
 /**
  * @internal
  */
-class ProfileDataPersisterTest extends TestCase {
-    private ProfileDataPersister $dataPersister;
+class ProfileUpdateProcessorTest extends TestCase {
+    private ProfileUpdateProcessor $processor;
     private MockObject|PasswordHasherFactoryInterface $pwHasherFactory;
     private MockObject|PasswordHasherInterface $pwHasher;
     private MockObject|MailService $mailService;
@@ -32,15 +33,15 @@ class ProfileDataPersisterTest extends TestCase {
         $this->pwHasherFactory = $this->createMock(PasswordHasherFactoryInterface::class);
         $this->pwHasher = $this->createMock(PasswordHasherInterface::class);
         $this->mailService = $this->createMock(MailService::class);
-        $dataPersisterObservable = $this->createMock(DataPersisterObservable::class);
+        $decoratedProcessor = $this->createMock(ProcessorInterface::class);
 
         $this->pwHasherFactory->expects(self::any())
             ->method('getPasswordHasher')
             ->willReturn($this->pwHasher)
         ;
 
-        $this->dataPersister = new ProfileDataPersister(
-            $dataPersisterObservable,
+        $this->processor = new ProfileUpdateProcessor(
+            $decoratedProcessor,
             $this->pwHasherFactory,
             $this->mailService
         );
@@ -55,7 +56,7 @@ class ProfileDataPersisterTest extends TestCase {
         $this->profile->newEmail = 'new@mail.com';
 
         // when
-        $this->dataPersister->beforeUpdate($this->profile);
+        $this->processor->onBefore($this->profile, new Patch());
 
         // then
         $this->assertEquals('new@mail.com', $this->profile->untrustedEmail);
@@ -69,7 +70,7 @@ class ProfileDataPersisterTest extends TestCase {
         $this->mailService->expects($this->once())->method('sendEmailVerificationMail');
 
         // when
-        $this->dataPersister->afterUpdate($this->profile);
+        $this->processor->onAfter($this->profile, new Patch());
 
         // then
         $this->assertNull($this->profile->untrustedEmailKey);
@@ -87,7 +88,7 @@ class ProfileDataPersisterTest extends TestCase {
         $this->profile->untrustedEmailKeyHash = 'abc';
 
         // when
-        $this->dataPersister->beforeUpdate($this->profile);
+        $this->processor->onBefore($this->profile, new Patch());
 
         // then
         $this->assertEquals('new@mail.com', $this->profile->email);
