@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d167a26fe3474f368371ce80e7ec4d3d",
+    "content-hash": "55a5f52dbbb4bc9993e20c4359ea4741",
     "packages": [
         {
             "name": "api-platform/core",
-            "version": "v3.0.5",
+            "version": "v3.0.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/api-platform/core.git",
-                "reference": "08e532c6503d62d2d7e47f3e81daf8895bbbfbea"
+                "reference": "ba07ab8a23514c5e7d2c5f45b2e0629a55ef9f3b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/api-platform/core/zipball/08e532c6503d62d2d7e47f3e81daf8895bbbfbea",
-                "reference": "08e532c6503d62d2d7e47f3e81daf8895bbbfbea",
+                "url": "https://api.github.com/repos/api-platform/core/zipball/ba07ab8a23514c5e7d2c5f45b2e0629a55ef9f3b",
+                "reference": "ba07ab8a23514c5e7d2c5f45b2e0629a55ef9f3b",
                 "shasum": ""
             },
             "require": {
@@ -163,7 +163,7 @@
             ],
             "support": {
                 "issues": "https://github.com/api-platform/core/issues",
-                "source": "https://github.com/api-platform/core/tree/v3.0.5"
+                "source": "https://github.com/api-platform/core/tree/v3.0.7"
             },
             "funding": [
                 {
@@ -171,7 +171,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-11-25T08:39:48+00:00"
+            "time": "2022-12-09T13:48:05+00:00"
         },
         {
             "name": "behat/transliterator",
