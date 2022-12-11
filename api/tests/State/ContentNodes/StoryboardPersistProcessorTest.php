@@ -1,29 +1,30 @@
 <?php
 
-namespace App\Tests\DataPersister\ContentNodes;
+namespace App\Tests\State\ContentNodes;
 
-use App\DataPersister\ContentNode\StoryboardDataPersister;
-use App\DataPersister\Util\DataPersisterObservable;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\State\ProcessorInterface;
 use App\Entity\ContentNode\ColumnLayout;
 use App\Entity\ContentNode\Storyboard;
 use App\InputFilter\CleanHTMLFilter;
 use App\InputFilter\CleanTextFilter;
+use App\State\ContentNode\StoryboardPersistProcessor;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @internal
  */
-class StoryboardDataPersisterTest extends TestCase {
-    private StoryboardDataPersister $dataPersister;
-    private MockObject|DataPersisterObservable $dataPersisterObservable;
+class StoryboardPersistProcessorTest extends TestCase {
+    private StoryboardPersistProcessor $dataPersister;
     private MockObject|CleanHTMLFilter $cleanHTMLFilter;
     private MockObject|CleanTextFilter $cleanTextFilter;
     private ColumnLayout $root;
     private Storyboard $contentNode;
 
     protected function setUp(): void {
-        $this->dataPersisterObservable = $this->createMock(DataPersisterObservable::class);
+        $decoratedProcessor = $this->createMock(ProcessorInterface::class);
 
         $this->cleanHTMLFilter = $this->createMock(CleanHTMLFilter::class);
         $this->cleanHTMLFilter->method('applyTo')->will(
@@ -67,22 +68,13 @@ class StoryboardDataPersisterTest extends TestCase {
         $this->contentNode->parent = new ColumnLayout();
         $this->contentNode->parent->root = $this->root;
 
-        $this->dataPersister = new StoryboardDataPersister($this->dataPersisterObservable, $this->cleanHTMLFilter, $this->cleanTextFilter);
-    }
-
-    public function testDoesNotSupportNonStoryboard() {
-        $this->dataPersisterObservable
-            ->method('supports')
-            ->willReturn(true)
-        ;
-
-        $this->assertFalse($this->dataPersister->supports([], []));
+        $this->dataPersister = new StoryboardPersistProcessor($decoratedProcessor, $this->cleanHTMLFilter, $this->cleanTextFilter);
     }
 
     public function testSetsRootFromParentOnCreate() {
         // when
         /** @var Storyboard $data */
-        $data = $this->dataPersister->beforeCreate($this->contentNode);
+        $data = $this->dataPersister->onBefore($this->contentNode, new Post());
 
         // then
         $this->assertEquals($this->root, $data->root);
@@ -91,7 +83,7 @@ class StoryboardDataPersisterTest extends TestCase {
     public function testDoesNotSetRootFromParentOnUpdate() {
         // when
         /** @var Storyboard $data */
-        $data = $this->dataPersister->beforeUpdate($this->contentNode);
+        $data = $this->dataPersister->onBefore($this->contentNode, new Patch());
 
         // then
         $this->assertNotEquals($this->root, $data->root);
@@ -100,7 +92,7 @@ class StoryboardDataPersisterTest extends TestCase {
     public function testSantizeDataOnCreate() {
         // when
         /** @var Storyboard $data */
-        $data = $this->dataPersister->beforeCreate($this->contentNode);
+        $data = $this->dataPersister->onBefore($this->contentNode, new Post());
 
         // then
         $this->assertEquals(['sections' => [
@@ -122,7 +114,7 @@ class StoryboardDataPersisterTest extends TestCase {
     public function testSanitizeOnUpdate() {
         // when
         /** @var Storyboard $data */
-        $data = $this->dataPersister->beforeUpdate($this->contentNode);
+        $data = $this->dataPersister->onBefore($this->contentNode, new Patch());
 
         // then
         // then

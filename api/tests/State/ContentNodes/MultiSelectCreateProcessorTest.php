@@ -1,26 +1,26 @@
 <?php
 
-namespace App\Tests\DataPersister\ContentNodes;
+namespace App\Tests\State\ContentNodes;
 
-use App\DataPersister\ContentNode\MultiSelectDataPersister;
-use App\DataPersister\Util\DataPersisterObservable;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\State\ProcessorInterface;
 use App\Entity\ContentNode\ColumnLayout;
 use App\Entity\ContentNode\MultiSelect;
 use App\Entity\ContentType;
-use PHPUnit\Framework\MockObject\MockObject;
+use App\State\ContentNode\MultiSelectCreateProcessor;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @internal
  */
-class MultiSelectDataPersisterTest extends TestCase {
-    private MultiSelectDataPersister $dataPersister;
-    private MockObject|DataPersisterObservable $dataPersisterObservable;
+class MultiSelectCreateProcessorTest extends TestCase {
+    private MultiSelectCreateProcessor $processor;
     private ColumnLayout $root;
     private MultiSelect $contentNode;
 
     protected function setUp(): void {
-        $this->dataPersisterObservable = $this->createMock(DataPersisterObservable::class);
+        $decoratedProcessor = $this->createMock(ProcessorInterface::class);
         $this->contentNode = new MultiSelect();
 
         $this->root = new ColumnLayout();
@@ -36,22 +36,13 @@ class MultiSelectDataPersisterTest extends TestCase {
         ];
         $this->contentNode->contentType = $contentType;
 
-        $this->dataPersister = new MultiSelectDataPersister($this->dataPersisterObservable);
-    }
-
-    public function testDoesNotSupportNonMultiSelect() {
-        $this->dataPersisterObservable
-            ->method('supports')
-            ->willReturn(true)
-        ;
-
-        $this->assertFalse($this->dataPersister->supports([], []));
+        $this->processor = new MultiSelectCreateProcessor($decoratedProcessor);
     }
 
     public function testSetsRootFromParentOnCreate() {
         // when
         /** @var MultiSelect $data */
-        $data = $this->dataPersister->beforeCreate($this->contentNode);
+        $data = $this->processor->onBefore($this->contentNode, new Post());
 
         // then
         $this->assertEquals($this->root, $data->root);
@@ -60,7 +51,7 @@ class MultiSelectDataPersisterTest extends TestCase {
     public function testCopyMultiSelectOptionsFromContentTypeOnCreate() {
         // when
         /** @var MultiSelect $data */
-        $data = $this->dataPersister->beforeCreate($this->contentNode);
+        $data = $this->processor->onBefore($this->contentNode, new Post());
 
         // then
         $this->assertArrayHasKey('options', $data->data);
@@ -77,7 +68,7 @@ class MultiSelectDataPersisterTest extends TestCase {
     public function testDoesNotSetRootFromParentOnUpdate() {
         // when
         /** @var MultiSelect $data */
-        $data = $this->dataPersister->beforeUpdate($this->contentNode);
+        $data = $this->processor->onBefore($this->contentNode, new Patch());
 
         // then
         $this->assertNotEquals($this->root, $data->root);
@@ -86,7 +77,7 @@ class MultiSelectDataPersisterTest extends TestCase {
     public function testDoesNotCopyMultiSelectOptionsOnUpdate() {
         // when
         /** @var MultiSelect $data */
-        $data = $this->dataPersister->beforeUpdate($this->contentNode);
+        $data = $this->processor->onBefore($this->contentNode, new Patch());
 
         // then
         $this->assertEquals($data->data, $this->contentNode->data);
