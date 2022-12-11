@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Tests\DataPersister;
+namespace App\Tests\State;
 
-use App\DataPersister\UserDataPersister;
-use App\DataPersister\Util\DataPersisterObservable;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\State\ProcessorInterface;
 use App\Entity\User;
 use App\Security\ReCaptcha\ReCaptcha;
 use App\Service\MailService;
+use App\State\UserCreateProcessor;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use ReCaptcha\Response;
@@ -16,8 +17,8 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 /**
  * @internal
  */
-class UserDataPersisterTest extends TestCase {
-    private UserDataPersister $dataPersister;
+class UserCreateProcessorTest extends TestCase {
+    private UserCreateProcessor $processor;
     private MockObject|ReCaptcha $recaptcha;
     private MockObject|Response $recaptchaResponse;
     private MockObject|UserPasswordHasherInterface $userPasswordHasher;
@@ -39,9 +40,9 @@ class UserDataPersisterTest extends TestCase {
 
         $this->userPasswordHasher = $this->createMock(UserPasswordHasher::class);
         $this->mailService = $this->createMock(MailService::class);
-        $dataPersisterObservable = $this->createMock(DataPersisterObservable::class);
-        $this->dataPersister = new UserDataPersister(
-            $dataPersisterObservable,
+        $decoratedProcessor = $this->createMock(ProcessorInterface::class);
+        $this->processor = new UserCreateProcessor(
+            $decoratedProcessor,
             $this->recaptcha,
             $this->userPasswordHasher,
             $this->mailService
@@ -55,7 +56,7 @@ class UserDataPersisterTest extends TestCase {
         ;
 
         $this->expectException(\Exception::class);
-        $this->dataPersister->beforeCreate($this->user);
+        $this->processor->onBefore($this->user, new Post());
     }
 
     public function testDoesNotHashWhenNoPasswordIsSet() {
@@ -68,7 +69,7 @@ class UserDataPersisterTest extends TestCase {
 
         // when
         /** @var User $data */
-        $data = $this->dataPersister->beforeCreate($this->user);
+        $data = $this->processor->onBefore($this->user, new Post());
 
         // then
         $this->assertNull($data->password);
@@ -86,7 +87,7 @@ class UserDataPersisterTest extends TestCase {
 
         // when
         /** @var User $data */
-        $data = $this->dataPersister->beforeCreate($this->user);
+        $data = $this->processor->onBefore($this->user, new Post());
 
         // then
         $this->assertEquals('test hash', $data->password);
@@ -103,8 +104,8 @@ class UserDataPersisterTest extends TestCase {
 
         // when
         /** @var User $data */
-        $data = $this->dataPersister->beforeCreate($this->user);
-        $this->dataPersister->afterCreate($this->user);
+        $data = $this->processor->onBefore($this->user, new Post());
+        $this->processor->onAfter($this->user, new Post());
 
         // then
         $this->assertNotNull($data->activationKeyHash);
@@ -118,45 +119,9 @@ class UserDataPersisterTest extends TestCase {
         ;
 
         /** @var User $data */
-        $data = $this->dataPersister->beforeCreate($this->user);
+        $data = $this->processor->onBefore($this->user, new Post());
 
         // then
         self::assertThat($data->state, self::equalTo(User::STATE_REGISTERED));
-    }
-
-    public function testHashesPasswordBeforeUpdate() {
-        // given
-        $this->user->plainPassword = 'test plain password';
-        $this->userPasswordHasher->expects($this->once())->method('hashPassword')->willReturn('test hash');
-
-        // when
-        /** @var User $data */
-        $data = $this->dataPersister->beforeUpdate($this->user);
-
-        // then
-        $this->assertEquals('test hash', $data->password);
-        $this->assertNull($data->plainPassword);
-    }
-
-    public function testThrowsIfActivationKeyIsWrongForOnActivate() {
-        $this->user->activationKey = 'activation key';
-        $this->user->activationKeyHash = 'wrong hash';
-
-        $this->expectException(\Exception::class);
-        $this->dataPersister->onActivate($this->user);
-    }
-
-    /**
-     * @throws \Exception
-     */
-    public function testActivatesUserIfActivationKeyIsCorrect() {
-        $this->user->activationKey = 'activation key';
-        $this->user->activationKeyHash = md5($this->user->activationKey);
-
-        /** @var User $activatedUser */
-        $activatedUser = $this->dataPersister->onActivate($this->user);
-        self::assertThat($activatedUser->state, self::equalTo(User::STATE_ACTIVATED));
-        self::assertThat($activatedUser->activationKeyHash, self::isNull());
-        self::assertThat($activatedUser->activationKey, self::isNull());
     }
 }
