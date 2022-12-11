@@ -3,6 +3,7 @@
 namespace App\State;
 
 use App\Entity\CampCollaboration;
+use App\Entity\User;
 
 trait CampCollaborationSendEmailTrait {
     private function sendInviteEmail(CampCollaboration $data) {
