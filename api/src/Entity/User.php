@@ -32,7 +32,8 @@ use Symfony\Component\Validator\Constraints as Assert;
         new Patch(
             processor: UserActivateProcessor::class,
             uriTemplate: 'users/{id}/activate{._format}',
-            denormalizationContext: ['groups' => ['activate']]
+            denormalizationContext: ['groups' => ['activate']],
+            output: User::class
         ),
         new Get(
             security: 'is_authenticated()'

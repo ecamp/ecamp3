@@ -33,13 +33,8 @@ class RejectInvitationTest extends ECampApiTestCase {
                 'headers' => ['Content-Type' => 'application/merge-patch+json'],
             ]
         );
-        $this->assertResponseStatusCodeSame(200); // // TO DISCUSS: Wouldn't it be better to get a 204 here? The invitation doesn't really exist anymore after successful acceptance
+        $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
-            /*
-            'campId' => $campCollaboration->camp->getId(),
-            'campTitle' => $campCollaboration->camp->title,
-            'userDisplayName' => null,
-            'userAlreadyInCamp' => null,*/
             '_links' => [
                 'self' => ['href' => "/invitations/{$campCollaboration->inviteKey}/find"],
             ],

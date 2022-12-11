@@ -9,7 +9,7 @@ use App\Tests\Api\ECampApiTestCase;
  */
 class CreateContentNodeTest extends ECampApiTestCase {
     public function testCreateContentNodeIsNotAllowed() {
-        static::createClientWithCredentials()->request('POST', '/content_node/content_nodes', ['json' => []]);
+        static::createClientWithCredentials()->request('POST', '/content_nodes', ['json' => []]);
         $this->assertResponseStatusCodeSame(405);
     }
 }
