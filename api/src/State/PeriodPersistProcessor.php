@@ -21,7 +21,7 @@ class PeriodPersistProcessor extends AbstractPersistProcessor {
      * @param Period $data
      */
     public function onBefore($data, Operation $operation, array $uriVariables = [], array $context = []): Period {
-        static::updateDaysAndScheduleEntries($data, $context['previous_data']);
+        static::updateDaysAndScheduleEntries($data, $context['previous_data'] ?? null);
 
         return $data;
     }

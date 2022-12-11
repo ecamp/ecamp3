@@ -2,48 +2,40 @@
 
 namespace App\Tests\DataPersister;
 
-use App\DataPersister\PeriodDataPersister;
-use App\DataPersister\Util\DataPersisterObservable;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\State\ProcessorInterface;
 use App\Entity\Day;
 use App\Entity\DayResponsible;
 use App\Entity\Period;
 use App\Entity\ScheduleEntry;
+use App\State\PeriodPersistProcessor;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\UnitOfWork;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @internal
  */
-class PeriodDataPersisterTest extends TestCase {
-    private array $origPeriodData;
+class PeriodPersistProcessorTest extends TestCase {
     private Period $emptyPeriod;
     private Period $period;
     private ScheduleEntry $scheduleEntry;
     private DayResponsible $dayResponsible;
 
-    private MockObject|DataPersisterObservable $dataPersisterObservable;
     private MockObject|EntityManagerInterface $em;
-    private MockObject|UnitOfWork $uow;
 
-    private PeriodDataPersister $dataPersister;
+    private PeriodPersistProcessor $processor;
 
     /**
      * @throws \ReflectionException
      */
     protected function setUp(): void {
-        $this->origPeriodData = [
-            'start' => new \DateTime('2000-01-10'),
-            'end' => new \DateTime('2000-01-12'),
-        ];
         $this->emptyPeriod = new Period();
-        $this->emptyPeriod->start = $this->origPeriodData['start'];
-        $this->emptyPeriod->end = $this->origPeriodData['end'];
+        $this->emptyPeriod->start = new \DateTime('2000-01-10');
+        $this->emptyPeriod->end = new \DateTime('2000-01-12');
 
-        $this->period = new Period();
-        $this->period->start = $this->origPeriodData['start'];
-        $this->period->end = $this->origPeriodData['end'];
+        $this->period = clone $this->emptyPeriod;
         for ($i = 0; $i < 3; ++$i) {
             $day = new Day();
             $day->dayOffset = $i;
@@ -57,23 +49,17 @@ class PeriodDataPersisterTest extends TestCase {
         $this->dayResponsible = new DayResponsible();
         $day2->addDayResponsible($this->dayResponsible);
 
-        $this->dataPersisterObservable = $this->createMock(DataPersisterObservable::class);
+        $decoratedProcessor = $this->createMock(ProcessorInterface::class);
         $this->em = $this->createMock(EntityManagerInterface::class);
-        $this->uow = $this->createMock(UnitOfWork::class);
 
-        $this->em->method('getUnitOfWork')->willReturn($this->uow);
-        $this->uow->method('getOriginalEntityData')->will($this->returnCallback(
-            fn () => $this->origPeriodData
-        ));
-
-        $this->dataPersister = new PeriodDataPersister(
-            $this->dataPersisterObservable,
+        $this->processor = new PeriodPersistProcessor(
+            $decoratedProcessor,
             $this->em
         );
     }
 
     public function testCreateDaysForNewPeriod() {
-        $this->dataPersister->beforeCreate($this->emptyPeriod);
+        $this->processor->onBefore($this->emptyPeriod, new Post());
 
         // New Period -> create days
         $this->assertCount(3, $this->emptyPeriod->days);
@@ -84,11 +70,12 @@ class PeriodDataPersisterTest extends TestCase {
 
     public function testAddDayAtStartMoveData() {
         // given
-        $this->period->moveScheduleEntries = true;
-        $this->period->start = new \DateTime('2000-01-09');
+        $patchData = clone $this->period;
+        $patchData->moveScheduleEntries = true;
+        $patchData->start = new \DateTime('2000-01-09');
 
         // when
-        $this->dataPersister->beforeUpdate($this->period);
+        $this->processor->onBefore($patchData, new Patch(), [], ['previous_data' => $this->period]);
 
         // then
         $this->assertEquals(1440 + 600, $this->scheduleEntry->startOffset);
@@ -97,11 +84,12 @@ class PeriodDataPersisterTest extends TestCase {
 
     public function testAddDayAtStartNoMoveData() {
         // given
-        $this->period->moveScheduleEntries = false;
-        $this->period->start = new \DateTime('2000-01-09');
+        $patchData = clone $this->period;
+        $patchData->moveScheduleEntries = false;
+        $patchData->start = new \DateTime('2000-01-09');
 
         // when
-        $this->dataPersister->beforeUpdate($this->period);
+        $this->processor->onBefore($patchData, new Patch(), [], ['previous_data' => $this->period]);
 
         // then
         $this->assertEquals(1440 + 1440 + 600, $this->scheduleEntry->startOffset);
@@ -110,11 +98,12 @@ class PeriodDataPersisterTest extends TestCase {
 
     public function testRemoveDayAtStartMoveData() {
         // given
-        $this->period->moveScheduleEntries = true;
-        $this->period->start = new \DateTime('2000-01-11');
+        $patchData = clone $this->period;
+        $patchData->moveScheduleEntries = true;
+        $patchData->start = new \DateTime('2000-01-11');
 
         // when
-        $this->dataPersister->beforeUpdate($this->period);
+        $this->processor->onBefore($patchData, new Patch(), [], ['previous_data' => $this->period]);
 
         // then
         $this->assertEquals(1440 + 600, $this->scheduleEntry->startOffset);
@@ -123,11 +112,12 @@ class PeriodDataPersisterTest extends TestCase {
 
     public function testRemoveDayAtStartNoMoveData() {
         // given
-        $this->period->moveScheduleEntries = false;
-        $this->period->start = new \DateTime('2000-01-11');
+        $patchData = clone $this->period;
+        $patchData->moveScheduleEntries = false;
+        $patchData->start = new \DateTime('2000-01-11');
 
         // when
-        $this->dataPersister->beforeUpdate($this->period);
+        $this->processor->onBefore($patchData, new Patch(), [], ['previous_data' => $this->period]);
 
         // then
         $this->assertEquals(600, $this->scheduleEntry->startOffset);
