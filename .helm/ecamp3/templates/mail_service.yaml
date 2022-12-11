@@ -4,7 +4,8 @@ kind: Service
 metadata:
   name: {{ include "mail.name" . }}
   labels:
-    {{- include "app.labels" . | nindent 4 }}
+    {{- include "mail.selectorLabels" . | nindent 4 }}
+    {{- include "app.commonLabels" . | nindent 4 }}
 spec:
   type: {{ .Values.mail.service.type }}
   ports:
@@ -17,5 +18,5 @@ spec:
       protocol: TCP
       name: mail-smtp
   selector:
-    {{- include "app.selectorLabels" . | nindent 4 }}
+    {{- include "mail.selectorLabels" . | nindent 4 }}
 {{- end }}

@@ -3,7 +3,8 @@ kind: ConfigMap
 metadata:
   name: {{ include "browserless.name" . }}-configmap
   labels:
-    {{- include "app.labels" . | nindent 4 }}
+    {{- include "browserless.selectorLabels" . | nindent 4 }}
+    {{- include "app.commonLabels" . | nindent 4 }}
 data:
   MAX_CONCURRENT_SESSIONS: {{ .Values.browserless.maxConcurrentSessions | quote }}
   CONNECTION_TIMEOUT: {{ .Values.browserless.connectionTimeout | quote }}

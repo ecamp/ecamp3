@@ -68,13 +68,14 @@ RUN set -eux; \
 ###> recipes ###
 ###< recipes ###
 
-COPY --from=composer:2.4@sha256:356d2db112a3e4c0fbcf4955668d3f64ee43f848baf4fd20f00cfcb6f98245ad /usr/bin/composer /usr/bin/composer
+COPY --from=composer:2.4@sha256:6fb16d897d4376d711880522b13743c8375b29d4c57183555b58c5be751fc164 /usr/bin/composer /usr/bin/composer
 
 # Copy development php.ini
 RUN cp "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
 COPY docker/php/conf.d/api-platform.prod.ini $PHP_INI_DIR/conf.d/api-platform.ini
 
 COPY docker/php/php-fpm.d/zz-docker.conf /usr/local/etc/php-fpm.d/zz-docker.conf
+COPY docker/php/php-fpm.d/www.conf /usr/local/etc/php-fpm.d/www.conf
 
 VOLUME /var/run/php
 

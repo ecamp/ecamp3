@@ -4,7 +4,8 @@ kind: Ingress
 metadata:
   name: {{ include "frontend.name" . }}
   labels:
-    {{- include "app.labels" . | nindent 4 }}
+    {{- include "frontend.selectorLabels" . | nindent 4 }}
+    {{- include "app.commonLabels" . | nindent 4 }}
   {{- with .Values.ingress.annotations }}
   annotations:
     {{- toYaml . | nindent 4 }}
