@@ -35,15 +35,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 #[ApiResource(
     operations: [
-        /*
-         TO DISCUSS: Api-platform 3.0 behaves differently in that the self link returned by this operations looks like
-         '/content_nodes/123' instead of '/content_node/column_layouts/123'. We could raise this as an upstream issue to
-         api-platform (breaking-change). On the other hand, I'm not sure we actually need/want this operation at all
-         */
-
-        // new Get(
-        //     security: 'is_granted("CAMP_COLLABORATOR", object) or is_granted("CAMP_IS_PROTOTYPE", object)'
-        // ),
         new GetCollection(
             security: 'is_authenticated()'
         ),
