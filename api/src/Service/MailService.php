@@ -3,14 +3,13 @@
 namespace App\Service;
 
 use App\DTO\ResetPassword;
-use App\Entity\CampCollaboration;
+use App\Entity\Camp;
 use App\Entity\Profile;
 use App\Entity\User;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
-use Symfony\Component\Security\Core\Security;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment;
 
@@ -20,7 +19,6 @@ class MailService {
     public function __construct(
         private MailerInterface $mailer,
         private readonly TranslatorInterface $translator,
-        private Security $security,
         private Environment $twigEnironment,
         private string $frontendBaseUrl,
         private string $senderEmail,
@@ -28,34 +26,25 @@ class MailService {
     ) {
     }
 
-    public function sendInviteToCampMail(CampCollaboration $campCollaboration): void {
-        if (CampCollaboration::STATUS_INVITED == $campCollaboration->status && $campCollaboration->getEmail()) {
-            /** @var User $byUser */
-            $byUser = $this->security->getUser();
+    public function sendInviteToCampMail(User $byUser, Camp $camp, string $key, string $emailToInvite): void {
+        $email = (new TemplatedEmail())
+            ->from(new Address($this->senderEmail, $this->senderName))
+            ->to(new Address($emailToInvite))
+            ->subject($this->translator->trans('inviteToCamp.subject', ['campName' => $camp->name], self::TRANSLATE_DOMAIN, $byUser->profile->language))
+            ->htmlTemplate($this->getTemplate('emails/campCollaborationInvite.{language}.html.twig', $byUser))
+            ->textTemplate($this->getTemplate('emails/campCollaborationInvite.{language}.text.twig', $byUser))
+            ->context([
+                'by_user' => $byUser->getDisplayName(),
+                'url' => "{$this->frontendBaseUrl}/camps/invitation/{$key}",
+                'camp_name' => $camp->name,
+                'camp_title' => $camp->title,
+            ])
+        ;
 
-            $camp = $campCollaboration->getCamp();
-            $key = $campCollaboration->inviteKey;
-            $emailToInvite = $campCollaboration->getEmail();
-
-            $email = (new TemplatedEmail())
-                ->from(new Address($this->senderEmail, $this->senderName))
-                ->to(new Address($emailToInvite))
-                ->subject($this->translator->trans('inviteToCamp.subject', ['campName' => $camp->name], self::TRANSLATE_DOMAIN, $byUser->profile->language))
-                ->htmlTemplate($this->getTemplate('emails/campCollaborationInvite.{language}.html.twig', $byUser))
-                ->textTemplate($this->getTemplate('emails/campCollaborationInvite.{language}.text.twig', $byUser))
-                ->context([
-                    'by_user' => $byUser->getDisplayName(),
-                    'url' => "{$this->frontendBaseUrl}/camps/invitation/{$key}",
-                    'camp_name' => $camp->name,
-                    'camp_title' => $camp->title,
-                ])
-            ;
-
-            try {
-                $this->mailer->send($email);
-            } catch (TransportExceptionInterface $e) {
-                throw new \RuntimeException($e);
-            }
+        try {
+            $this->mailer->send($email);
+        } catch (TransportExceptionInterface $e) {
+            throw new \RuntimeException($e);
         }
     }
 

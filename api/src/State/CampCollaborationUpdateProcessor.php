@@ -9,12 +9,16 @@ use App\State\Util\AbstractPersistProcessor;
 use App\State\Util\PropertyChangeListener;
 use App\Util\IdGenerator;
 use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactoryInterface;
+use Symfony\Component\Security\Core\Security;
 
 class CampCollaborationUpdateProcessor extends AbstractPersistProcessor {
+    use CampCollaborationSendEmailTrait;
+
     public function __construct(
         ProcessorInterface $decorated,
-        private MailService $mailService,
+        private Security $security,
         private PasswordHasherFactoryInterface $passwordHasherFactory,
+        private MailService $mailService,
     ) {
         $statusChangeListener = PropertyChangeListener::of(
             extractProperty: fn (CampCollaboration $data) => $data->status,
@@ -38,8 +42,6 @@ class CampCollaborationUpdateProcessor extends AbstractPersistProcessor {
     }
 
     public function onAfterStatusChange(CampCollaboration $data): void {
-        if (CampCollaboration::STATUS_INVITED == $data->status && $data->getEmail()) {
-            $this->mailService->sendInviteToCampMail($data);
-        }
+        $this->sendInviteEmail($data);
     }
 }

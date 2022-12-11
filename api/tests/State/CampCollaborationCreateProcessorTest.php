@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Tests\DataPersister;
+namespace App\Tests\State;
 
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\State\ProcessorInterface;
 use ApiPlatform\Validator\ValidatorInterface;
-use App\DataPersister\CampCollaborationDataPersister;
-use App\DataPersister\Util\DataPersisterObservable;
 use App\Entity\Camp;
 use App\Entity\CampCollaboration;
 use App\Entity\MaterialList;
@@ -12,6 +12,7 @@ use App\Entity\Profile;
 use App\Entity\User;
 use App\Repository\ProfileRepository;
 use App\Service\MailService;
+use App\State\CampCollaborationCreateProcessor;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\Constraint\Callback;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -23,7 +24,9 @@ use Symfony\Component\Security\Core\Security;
 /**
  * @internal
  */
-class CampCollaborationDataPersisterTest extends TestCase {
+class CampCollaborationCreateProcessorTest extends TestCase {
+    use CampCollaborationTestTrait;
+
     public const INITIAL_USER = null;
     public const INITIAL_INVITE_EMAIL = null;
     public const INITIAL_INVITE_KEY = null;
@@ -40,7 +43,7 @@ class CampCollaborationDataPersisterTest extends TestCase {
     private MockObject|PasswordHasherFactoryInterface $pwHashFactory;
     private MockObject|MailService $mailService;
 
-    private CampCollaborationDataPersister $dataPersister;
+    private CampCollaborationCreateProcessor $processor;
 
     /**
      * @throws \ReflectionException
@@ -61,7 +64,7 @@ class CampCollaborationDataPersisterTest extends TestCase {
         $this->profile->user = $this->user;
         $this->user->profile = $this->profile;
 
-        $dataPersisterObservable = $this->createMock(DataPersisterObservable::class);
+        $decoratedProcessor = $this->createMock(ProcessorInterface::class);
         $this->security = $this->createMock(Security::class);
         $this->security->expects(self::any())->method('getUser')->willReturn($this->user);
         $this->pwHashFactory = $this->createMock(PasswordHasherFactory::class);
@@ -70,8 +73,8 @@ class CampCollaborationDataPersisterTest extends TestCase {
         $this->mailService = $this->createMock(MailService::class);
         $validator = $this->createMock(ValidatorInterface::class);
 
-        $this->dataPersister = new CampCollaborationDataPersister(
-            $dataPersisterObservable,
+        $this->processor = new CampCollaborationCreateProcessor(
+            $decoratedProcessor,
             $this->security,
             $this->pwHashFactory,
             $this->profileRepository,
@@ -86,8 +89,8 @@ class CampCollaborationDataPersisterTest extends TestCase {
 
         $this->mailService->expects(self::once())->method('sendInviteToCampMail');
 
-        $result = $this->dataPersister->beforeCreate($this->campCollaboration);
-        $this->dataPersister->afterCreate($result);
+        $result = $this->processor->onBefore($this->campCollaboration, new Post());
+        $this->processor->onAfter($result, new Post());
     }
 
     public function testAfterCreateCreatesMaterialList() {
@@ -100,8 +103,8 @@ class CampCollaborationDataPersisterTest extends TestCase {
             ->with(self::materialListWith($this->campCollaboration, $this->camp))
         ;
 
-        $result = $this->dataPersister->beforeCreate($this->campCollaboration);
-        $this->dataPersister->afterCreate($result);
+        $result = $this->processor->onBefore($this->campCollaboration, new Post());
+        $this->processor->onAfter($result, new Post());
     }
 
     public function testAfterCreateSendsEmailIfUserSet() {
@@ -116,15 +119,15 @@ class CampCollaborationDataPersisterTest extends TestCase {
 
         $this->mailService->expects(self::once())->method('sendInviteToCampMail');
 
-        $result = $this->dataPersister->beforeCreate($this->campCollaboration);
-        $this->dataPersister->afterCreate($result);
+        $result = $this->processor->onBefore($this->campCollaboration, new Post());
+        $this->processor->onAfter($result, new Post());
     }
 
     public function testAfterCreateDoesNotSendEmailIfNoInviteEmailSet() {
         $this->mailService->expects(self::never())->method('sendInviteToCampMail');
 
-        $result = $this->dataPersister->beforeCreate($this->campCollaboration);
-        $this->dataPersister->afterCreate($result);
+        $result = $this->processor->onBefore($this->campCollaboration, new Post());
+        $this->processor->onAfter($result, new Post());
     }
 
     /**
@@ -136,64 +139,8 @@ class CampCollaborationDataPersisterTest extends TestCase {
 
         $this->mailService->expects(self::never())->method('sendInviteToCampMail');
 
-        $result = $this->dataPersister->beforeCreate($this->campCollaboration);
-        $this->dataPersister->afterCreate($result);
-    }
-
-    public function testDoesNothingOnStatusChangeWhenNoInviteEmail() {
-        $this->mailService->expects(self::never())->method('sendInviteToCampMail');
-
-        $result = $this->dataPersister->onBeforeStatusChange($this->campCollaboration);
-        $this->dataPersister->onAfterStatusChange($this->campCollaboration);
-
-        self::assertThat($result->user, self::equalTo(self::INITIAL_USER));
-        self::assertThat($result->inviteEmail, self::equalTo(self::INITIAL_INVITE_EMAIL));
-        self::assertThat($result->inviteKey, self::equalTo(self::INITIAL_INVITE_KEY));
-    }
-
-    /**
-     * @dataProvider notInvitedStatuses
-     */
-    public function testOnStatusChangeDoesNothingIfStatusIsNotInvited($status) {
-        $this->campCollaboration->inviteEmail = 'e@mail.com';
-        $this->campCollaboration->status = $status;
-
-        $this->mailService->expects(self::never())->method('sendInviteToCampMail');
-
-        $result = $this->dataPersister->onBeforeStatusChange($this->campCollaboration);
-        $this->dataPersister->onAfterStatusChange($this->campCollaboration);
-
-        self::assertThat($result->user, self::equalTo(self::INITIAL_USER));
-        self::assertThat($result->inviteEmail, self::equalTo($this->campCollaboration->inviteEmail));
-        self::assertThat($result->inviteKey, self::equalTo(self::INITIAL_INVITE_KEY));
-    }
-
-    public function testSendsInviteEmailIfStatusChangesToInvitedAndInviteEmailPresent() {
-        $this->campCollaboration->inviteEmail = 'e@mail.com';
-        $this->mailService->expects(self::once())->method('sendInviteToCampMail');
-
-        $result = $this->dataPersister->onBeforeStatusChange($this->campCollaboration);
-        $this->dataPersister->onAfterStatusChange($this->campCollaboration);
-
-        self::assertThat($result->inviteKey, self::logicalNot(self::isNull()));
-    }
-
-    public function testSendsInviteEmailIfStatusChangesToInvitedAndUserPresent() {
-        $this->campCollaboration->user = $this->user;
-        $this->mailService->expects(self::once())->method('sendInviteToCampMail');
-
-        $result = $this->dataPersister->onBeforeStatusChange($this->campCollaboration);
-        $this->dataPersister->onAfterStatusChange($this->campCollaboration);
-
-        self::assertThat($result->inviteKey, self::logicalNot(self::isNull()));
-    }
-
-    /** @noinspection PhpArrayShapeAttributeCanBeAddedInspection */
-    public static function notInvitedStatuses(): array {
-        return [
-            CampCollaboration::STATUS_INACTIVE => [CampCollaboration::STATUS_INACTIVE],
-            CampCollaboration::STATUS_ESTABLISHED => [CampCollaboration::STATUS_ESTABLISHED],
-        ];
+        $result = $this->processor->onBefore($this->campCollaboration, new Post());
+        $this->processor->onAfter($result, new Post());
     }
 
     private static function materialListWith(CampCollaboration $campCollaboration, Camp $camp): Callback {

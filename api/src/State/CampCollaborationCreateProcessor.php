@@ -13,10 +13,14 @@ use App\State\Util\AbstractPersistProcessor;
 use App\Util\IdGenerator;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactoryInterface;
+use Symfony\Component\Security\Core\Security;
 
 class CampCollaborationCreateProcessor extends AbstractPersistProcessor {
+    use CampCollaborationSendEmailTrait;
+
     public function __construct(
         ProcessorInterface $decorated,
+        private Security $security,
         private PasswordHasherFactoryInterface $passwordHasherFactory,
         private ProfileRepository $profileRepository,
         private EntityManagerInterface $em,
@@ -50,7 +54,7 @@ class CampCollaborationCreateProcessor extends AbstractPersistProcessor {
      * @param CampCollaboration $data
      */
     public function onAfter($data, Operation $operation, array $uriVariables = [], array $context = []): void {
-        $this->mailService->sendInviteToCampMail($data);
+        $this->sendInviteEmail($data);
 
         $materialList = new MaterialList();
         $materialList->campCollaboration = $data;

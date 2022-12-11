@@ -134,7 +134,6 @@ services:
         arguments:
             - '@Symfony\Component\Mailer\MailerInterface'
             - '@translator'
-            - '@Symfony\Component\Security\Core\Security'
             - '@Twig\Environment'
             - "%env(FRONTEND_BASE_URL)%"
             - "%env(MAIL_FROM_EMAIL)%"
