@@ -17,7 +17,7 @@ use PHPUnit\Framework\TestCase;
  * @internal
  */
 class StoryboardPersistProcessorTest extends TestCase {
-    private StoryboardPersistProcessor $dataPersister;
+    private StoryboardPersistProcessor $processor;
     private MockObject|CleanHTMLFilter $cleanHTMLFilter;
     private MockObject|CleanTextFilter $cleanTextFilter;
     private ColumnLayout $root;
@@ -68,13 +68,13 @@ class StoryboardPersistProcessorTest extends TestCase {
         $this->contentNode->parent = new ColumnLayout();
         $this->contentNode->parent->root = $this->root;
 
-        $this->dataPersister = new StoryboardPersistProcessor($decoratedProcessor, $this->cleanHTMLFilter, $this->cleanTextFilter);
+        $this->processor = new StoryboardPersistProcessor($decoratedProcessor, $this->cleanHTMLFilter, $this->cleanTextFilter);
     }
 
     public function testSetsRootFromParentOnCreate() {
         // when
         /** @var Storyboard $data */
-        $data = $this->dataPersister->onBefore($this->contentNode, new Post());
+        $data = $this->processor->onBefore($this->contentNode, new Post());
 
         // then
         $this->assertEquals($this->root, $data->root);
@@ -83,7 +83,7 @@ class StoryboardPersistProcessorTest extends TestCase {
     public function testDoesNotSetRootFromParentOnUpdate() {
         // when
         /** @var Storyboard $data */
-        $data = $this->dataPersister->onBefore($this->contentNode, new Patch());
+        $data = $this->processor->onBefore($this->contentNode, new Patch());
 
         // then
         $this->assertNotEquals($this->root, $data->root);
@@ -92,7 +92,7 @@ class StoryboardPersistProcessorTest extends TestCase {
     public function testSantizeDataOnCreate() {
         // when
         /** @var Storyboard $data */
-        $data = $this->dataPersister->onBefore($this->contentNode, new Post());
+        $data = $this->processor->onBefore($this->contentNode, new Post());
 
         // then
         $this->assertEquals(['sections' => [
@@ -114,7 +114,7 @@ class StoryboardPersistProcessorTest extends TestCase {
     public function testSanitizeOnUpdate() {
         // when
         /** @var Storyboard $data */
-        $data = $this->dataPersister->onBefore($this->contentNode, new Patch());
+        $data = $this->processor->onBefore($this->contentNode, new Patch());
 
         // then
         // then

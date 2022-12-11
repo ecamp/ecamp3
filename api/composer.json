@@ -83,20 +83,12 @@
     "autoload": {
         "psr-4": {
             "App\\": "src/"
-        },
-        "exclude-from-classmap": [
-            "**/DataPersister/**",
-            "**/DataProvider/**"
-        ]
+        }
     },
     "autoload-dev": {
         "psr-4": {
             "App\\Tests\\": "tests/"
-        },
-        "exclude-from-classmap": [
-            "**/DataPersister/**",
-            "**/DataProvider/**"
-        ]
+        }
     },
     "replace": {
         "paragonie/random_compat": "2.*",

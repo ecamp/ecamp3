@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\DataPersister;
+namespace App\Tests\State;
 
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;

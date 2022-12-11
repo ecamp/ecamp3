@@ -31,7 +31,7 @@ abstract class AbstractPersistProcessor implements ProcessorInterface {
     public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []) {
         $data = $this->onBefore($data, $operation, $uriVariables, $context);
 
-        $dataBefore = $context['previous_data'];
+        $dataBefore = $context['previous_data'] ?? null;
         if (null != $dataBefore) {
             foreach ($this->propertyChangeListeners as $listener) {
                 $propertyBefore = call_user_func($listener->getExtractProperty(), $dataBefore);

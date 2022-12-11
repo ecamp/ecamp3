@@ -94,7 +94,7 @@ class Activity extends BaseEntity implements BelongsToCampInterface {
     /**
      * The camp to which this activity belongs.
      */
-    #[Assert\DisableAutoMapping] // camp is set in the DataPersister
+    #[Assert\DisableAutoMapping] // camp is set in the data processor
     #[ApiProperty(writable: false, example: '/camps/1a2b3c4d')]
     #[Groups(['read'])]
     #[ORM\ManyToOne(targetEntity: Camp::class, inversedBy: 'activities')]

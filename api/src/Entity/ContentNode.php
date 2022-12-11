@@ -174,7 +174,7 @@ abstract class ContentNode extends BaseEntity implements BelongsToContentNodeTre
      * (implements BelongsToContentNodeTreeInterface for security voting).
      */
     public function getRoot(): ?ColumnLayout {
-        // Newly created ContentNodes don't have root populated yet (happens later in DataPersister),
+        // Newly created ContentNodes don't have root populated yet (happens later in data processor),
         // so we're using the parent's root here
         if (null === $this->root && null !== $this->parent) {
             return $this->parent->root;

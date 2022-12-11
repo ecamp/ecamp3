@@ -15,7 +15,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * @internal
  */
-class CategoryDataPersisterTest extends TestCase {
+class CategoryCreateProcessorTest extends TestCase {
     private CategoryCreateProcessor $processor;
     private MockObject|EntityManagerInterface $entityManagerMock;
     private Category $category;

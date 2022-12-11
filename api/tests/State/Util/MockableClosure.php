@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\DataPersister\Util;
+namespace App\Tests\State\Util;
 
 /**
  * Interface that it's possible to mock closures.
