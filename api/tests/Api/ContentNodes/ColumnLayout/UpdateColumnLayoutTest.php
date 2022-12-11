@@ -11,7 +11,7 @@ class UpdateColumnLayoutTest extends UpdateContentNodeTestCase {
     public function setUp(): void {
         parent::setUp();
 
-        $this->endpoint = '/column_layouts';
+        $this->endpoint = '/content_node/column_layouts';
         $this->defaultEntity = static::$fixtures['columnLayout1'];
     }
 
@@ -23,7 +23,7 @@ class UpdateColumnLayoutTest extends UpdateContentNodeTestCase {
         ];
 
         $contentNode = static::$fixtures['columnLayout2'];
-        static::createClientWithCredentials()->request('PATCH', $this->routePrefix.$this->endpoint.'/'.$contentNode->getId(), ['json' => ['data' => [
+        static::createClientWithCredentials()->request('PATCH', $this->endpoint.'/'.$contentNode->getId(), ['json' => ['data' => [
             'columns' => $VALID_JSON_CONFIG,
         ]], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
 
@@ -39,7 +39,7 @@ class UpdateColumnLayoutTest extends UpdateContentNodeTestCase {
         ];
 
         $contentNode = static::$fixtures['columnLayout2'];
-        $response = static::createClientWithCredentials()->request('PATCH', $this->routePrefix.$this->endpoint.'/'.$contentNode->getId(), ['json' => ['data' => [
+        $response = static::createClientWithCredentials()->request('PATCH', $this->endpoint.'/'.$contentNode->getId(), ['json' => ['data' => [
             'columns' => $INVALID_JSON_CONFIG,
         ]], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
 
@@ -54,7 +54,7 @@ class UpdateColumnLayoutTest extends UpdateContentNodeTestCase {
         ];
 
         $contentNode = static::$fixtures['columnLayout1'];
-        static::createClientWithCredentials()->request('PATCH', $this->routePrefix.$this->endpoint.'/'.$contentNode->getId(), ['json' => ['data' => [
+        static::createClientWithCredentials()->request('PATCH', $this->endpoint.'/'.$contentNode->getId(), ['json' => ['data' => [
             'columns' => $JSON_CONFIG,
         ]], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
 
@@ -75,7 +75,7 @@ class UpdateColumnLayoutTest extends UpdateContentNodeTestCase {
         ];
 
         $contentNode = static::$fixtures['columnLayout1'];
-        static::createClientWithCredentials()->request('PATCH', $this->routePrefix.$this->endpoint.'/'.$contentNode->getId(), ['json' => ['data' => [
+        static::createClientWithCredentials()->request('PATCH', $this->endpoint.'/'.$contentNode->getId(), ['json' => ['data' => [
             'columns' => $JSON_CONFIG,
         ]], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
 
@@ -95,7 +95,7 @@ class UpdateColumnLayoutTest extends UpdateContentNodeTestCase {
      */
     public function testPatchColumnLayoutValidatesParentBelongsToSameRoot() {
         $contentNode = static::$fixtures['columnLayoutChild1'];
-        static::createClientWithCredentials()->request('PATCH', $this->routePrefix.$this->endpoint.'/'.$contentNode->getId(), ['json' => [
+        static::createClientWithCredentials()->request('PATCH', $this->endpoint.'/'.$contentNode->getId(), ['json' => [
             'parent' => $this->getIriFor('columnLayout2'),
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
 
@@ -112,7 +112,7 @@ class UpdateColumnLayoutTest extends UpdateContentNodeTestCase {
 
     public function testPatchColumnLayoutValidatesNoParentLoop() {
         $contentNode = static::$fixtures['columnLayout1'];
-        static::createClientWithCredentials()->request('PATCH', $this->routePrefix.$this->endpoint.'/'.$contentNode->getId(), ['json' => [
+        static::createClientWithCredentials()->request('PATCH', $this->endpoint.'/'.$contentNode->getId(), ['json' => [
             'parent' => $this->getIriFor('columnLayoutChild1'),
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
 
@@ -129,7 +129,7 @@ class UpdateColumnLayoutTest extends UpdateContentNodeTestCase {
 
     public function testPatchColumnLayoutValidatesMissingParent() {
         $contentNode = static::$fixtures['columnLayoutChild1'];
-        static::createClientWithCredentials()->request('PATCH', $this->routePrefix.$this->endpoint.'/'.$contentNode->getId(), ['json' => [
+        static::createClientWithCredentials()->request('PATCH', $this->endpoint.'/'.$contentNode->getId(), ['json' => [
             'parent' => null,
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
 
@@ -146,7 +146,7 @@ class UpdateColumnLayoutTest extends UpdateContentNodeTestCase {
 
     public function testPatchColumnLayoutAllowsNullParentOnRootColumnLayout() {
         $contentNode = static::$fixtures['columnLayout1'];
-        static::createClientWithCredentials()->request('PATCH', $this->routePrefix.$this->endpoint.'/'.$contentNode->getId(), ['json' => [
+        static::createClientWithCredentials()->request('PATCH', $this->endpoint.'/'.$contentNode->getId(), ['json' => [
             'parent' => null,
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
 
@@ -155,7 +155,7 @@ class UpdateColumnLayoutTest extends UpdateContentNodeTestCase {
 
     public function testPatchColumnLayoutDoesNotAllowParentOnRootColumnLayout() {
         $contentNode = static::$fixtures['columnLayout1'];
-        static::createClientWithCredentials()->request('PATCH', $this->routePrefix.$this->endpoint.'/'.$contentNode->getId(), ['json' => [
+        static::createClientWithCredentials()->request('PATCH', $this->endpoint.'/'.$contentNode->getId(), ['json' => [
             'parent' => $this->getIriFor('columnLayout2'),
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
 
@@ -172,7 +172,7 @@ class UpdateColumnLayoutTest extends UpdateContentNodeTestCase {
 
     public function testPatchColumnLayoutDisallowsChangingContentType() {
         $contentNode = static::$fixtures['columnLayoutChild1'];
-        static::createClientWithCredentials()->request('PATCH', $this->routePrefix.$this->endpoint.'/'.$contentNode->getId(), ['json' => [
+        static::createClientWithCredentials()->request('PATCH', $this->endpoint.'/'.$contentNode->getId(), ['json' => [
             'contentType' => $this->getIriFor('contentTypeNotes'),
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
 
@@ -184,7 +184,7 @@ class UpdateColumnLayoutTest extends UpdateContentNodeTestCase {
 
     public function testPatchColumnLayoutAcceptsEmptySlotForRoot() {
         $contentNode = static::$fixtures['columnLayout1'];
-        static::createClientWithCredentials()->request('PATCH', $this->routePrefix.$this->endpoint.'/'.$contentNode->getId(), ['json' => [
+        static::createClientWithCredentials()->request('PATCH', $this->endpoint.'/'.$contentNode->getId(), ['json' => [
             'slot' => null,
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
 
@@ -196,7 +196,7 @@ class UpdateColumnLayoutTest extends UpdateContentNodeTestCase {
 
     public function testPatchColumnLayoutDisallowsNullPosition() {
         $contentNode = static::$fixtures['columnLayoutChild1'];
-        static::createClientWithCredentials()->request('PATCH', $this->routePrefix.$this->endpoint.'/'.$contentNode->getId(), ['json' => [
+        static::createClientWithCredentials()->request('PATCH', $this->endpoint.'/'.$contentNode->getId(), ['json' => [
             'position' => null,
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
 
@@ -208,7 +208,7 @@ class UpdateColumnLayoutTest extends UpdateContentNodeTestCase {
 
     public function testPatchColumnLayoutAcceptsNullInstanceName() {
         $contentNode = static::$fixtures['columnLayoutChild1'];
-        static::createClientWithCredentials()->request('PATCH', $this->routePrefix.$this->endpoint.'/'.$contentNode->getId(), ['json' => [
+        static::createClientWithCredentials()->request('PATCH', $this->endpoint.'/'.$contentNode->getId(), ['json' => [
             'instanceName' => null,
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
 

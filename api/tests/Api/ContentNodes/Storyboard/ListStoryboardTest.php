@@ -11,7 +11,7 @@ class ListStoryboardTest extends ListContentNodeTestCase {
     public function setUp(): void {
         parent::setUp();
 
-        $this->endpoint = '/storyboards';
+        $this->endpoint = '/content_node/storyboards';
 
         $this->contentNodesCamp1and2 = [
             $this->getIriFor('storyboard1'),

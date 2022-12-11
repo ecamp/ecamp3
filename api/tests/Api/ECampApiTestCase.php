@@ -198,7 +198,7 @@ abstract class ECampApiTestCase extends ApiTestCase {
 
         $entity ??= $this->defaultEntity;
 
-        return static::createClientWithCredentials($credentials)->request('GET', $this->routePrefix.$this->endpoint.'/'.$entity->getId());
+        return static::createClientWithCredentials($credentials)->request('GET', $this->endpoint.'/'.$entity->getId());
     }
 
     protected function list(?User $user = null) {
@@ -207,7 +207,7 @@ abstract class ECampApiTestCase extends ApiTestCase {
             $credentials = ['email' => $user->getEmail()];
         }
 
-        return static::createClientWithCredentials($credentials)->request('GET', $this->routePrefix.$this->endpoint);
+        return static::createClientWithCredentials($credentials)->request('GET', $this->endpoint);
     }
 
     protected function delete(?BaseEntity $entity = null, ?User $user = null) {
@@ -218,7 +218,7 @@ abstract class ECampApiTestCase extends ApiTestCase {
 
         $entity ??= $this->defaultEntity;
 
-        return static::createClientWithCredentials($credentials)->request('DELETE', $this->routePrefix.$this->endpoint.'/'.$entity->getId());
+        return static::createClientWithCredentials($credentials)->request('DELETE', $this->endpoint.'/'.$entity->getId());
     }
 
     protected function create(array $payload = null, ?User $user = null) {
@@ -231,7 +231,7 @@ abstract class ECampApiTestCase extends ApiTestCase {
             $payload = $this->getExampleWritePayload();
         }
 
-        return static::createClientWithCredentials($credentials)->request('POST', $this->routePrefix.$this->endpoint, ['json' => $payload]);
+        return static::createClientWithCredentials($credentials)->request('POST', $this->endpoint, ['json' => $payload]);
     }
 
     protected function patch(?BaseEntity $entity = null, array $payload = [], ?User $user = null) {
@@ -242,7 +242,7 @@ abstract class ECampApiTestCase extends ApiTestCase {
 
         $entity ??= $this->defaultEntity;
 
-        return static::createClientWithCredentials($credentials)->request('PATCH', $this->routePrefix.$this->endpoint.'/'.$entity->getId(), [
+        return static::createClientWithCredentials($credentials)->request('PATCH', $this->endpoint.'/'.$entity->getId(), [
             'json' => $payload,
             'headers' => ['Content-Type' => 'application/merge-patch+json'],
         ]);

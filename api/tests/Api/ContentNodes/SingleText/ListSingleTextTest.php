@@ -11,7 +11,7 @@ class ListSingleTextTest extends ListContentNodeTestCase {
     public function setUp(): void {
         parent::setUp();
 
-        $this->endpoint = '/single_texts';
+        $this->endpoint = '/content_node/single_texts';
 
         $this->contentNodesCamp1and2 = [
             $this->getIriFor('singleText1'),

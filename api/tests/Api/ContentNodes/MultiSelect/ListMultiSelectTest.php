@@ -11,7 +11,7 @@ class ListMultiSelectTest extends ListContentNodeTestCase {
     public function setUp(): void {
         parent::setUp();
 
-        $this->endpoint = '/multi_selects';
+        $this->endpoint = '/content_node/multi_selects';
 
         $this->contentNodesCamp1and2 = [
             $this->getIriFor('multiSelect1'),

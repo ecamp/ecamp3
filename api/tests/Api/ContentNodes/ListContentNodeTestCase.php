@@ -24,11 +24,10 @@ abstract class ListContentNodeTestCase extends ECampApiTestCase {
 
     public function setUp(): void {
         parent::setUp();
-        $this->routePrefix = '/content_node';
     }
 
     public function testListForAnonymousUser() {
-        static::createBasicClient()->request('GET', $this->routePrefix.$this->endpoint);
+        static::createBasicClient()->request('GET', $this->endpoint);
         $this->assertResponseStatusCodeSame(401);
         $this->assertJsonContains([
             'code' => 401,

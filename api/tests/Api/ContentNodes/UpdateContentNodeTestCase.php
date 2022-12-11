@@ -16,11 +16,10 @@ use App\Tests\Api\ECampApiTestCase;
 abstract class UpdateContentNodeTestCase extends ECampApiTestCase {
     public function setUp(): void {
         parent::setUp();
-        $this->routePrefix = '/content_node';
     }
 
     public function testPatchIsDeniedForAnonymousUser() {
-        static::createBasicClient()->request('PATCH', $this->routePrefix.$this->endpoint.'/'.$this->defaultEntity->getId(), ['json' => [], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
+        static::createBasicClient()->request('PATCH', $this->endpoint.'/'.$this->defaultEntity->getId(), ['json' => [], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
         $this->assertResponseStatusCodeSame(401);
         $this->assertJsonContains([
             'code' => 401,
