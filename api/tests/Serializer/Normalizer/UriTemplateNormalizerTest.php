@@ -43,7 +43,7 @@ class UriTemplateNormalizerTest extends TestCase {
                 case 'connect_cevidb_start':
                     return '/auth/cevidb';
 
-                case '_api_/reset_password{._format}_post':
+                case '_api_/auth/reset_password{._format}_post':
                     return '/auth/reset_password';
 
                 default:

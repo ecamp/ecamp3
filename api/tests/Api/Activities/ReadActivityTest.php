@@ -71,7 +71,7 @@ class ReadActivityTest extends ECampApiTestCase {
     public function testGetSingleActivityIsAllowedForMember() {
         /** @var Activity $activity */
         $activity = static::$fixtures['activity1'];
-        static::createClientWithCredentials(['email' => static::$fixtures['user2member']->getEmail()])
+        $result = static::createClientWithCredentials(['email' => static::$fixtures['user2member']->getEmail()])
             ->request('GET', '/activities/'.$activity->getId())
         ;
         $this->assertResponseStatusCodeSame(200);
@@ -81,13 +81,19 @@ class ReadActivityTest extends ECampApiTestCase {
             'location' => $activity->location,
             '_links' => [
                 'rootContentNode' => ['href' => $this->getIriFor('columnLayout1')],
-                // 'contentNodes' => ['href' => '/content_nodes?owner=%2Factivities%2F'.$activity->getId()],
+                'contentNodes' => ['href' => '/content_nodes?root='.urlencode($this->getIriFor('columnLayout1'))],
                 'category' => ['href' => $this->getIriFor('category1')],
                 'camp' => ['href' => $this->getIriFor('camp1')],
                 'scheduleEntries' => ['href' => '/schedule_entries?activity=%2Factivities%2F'.$activity->getId()],
                 'activityResponsibles' => ['href' => '/activity_responsibles?activity=%2Factivities%2F'.$activity->getId()],
             ],
         ]);
+
+        $data = $result->toArray();
+        $this->assertEquals($this->getIriFor($activity->getRootContentNode()), $data['_embedded']['rootContentNode']['_links']['self']['href']);
+        $this->assertEquals($this->getIriFor($activity->getRootContentNode()), $data['_embedded']['rootContentNode']['_links']['root']['href']);
+        $this->assertContains(['href' => $this->getIriFor('multiSelect1')], $data['_embedded']['rootContentNode']['_links']['children']);
+        $this->assertEquals($this->getIriFor('materialNode1'), $data['_embedded']['contentNodes'][0]['_links']['self']['href']);
     }
 
     public function testGetSingleActivityIsAllowedForManager() {
