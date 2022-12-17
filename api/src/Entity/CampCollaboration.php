@@ -184,7 +184,7 @@ class CampCollaboration extends BaseEntity implements BelongsToCampInterface {
         ],
         groups: ['update']
     )]
-    #[ApiProperty(default: self::STATUS_INVITED, example: self::STATUS_INACTIVE)]
+    #[ApiProperty(example: self::STATUS_INACTIVE)]
     #[Groups(['read', 'update'])]
     #[ORM\Column(type: 'string', length: 16, nullable: false)]
     public string $status = self::STATUS_INVITED;

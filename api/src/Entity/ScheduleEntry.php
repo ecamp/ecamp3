@@ -111,7 +111,7 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
      * visible. Should be a decimal number between 0 and 1, and left+width should not exceed 1, but the
      * API currently does not enforce this.
      */
-    #[ApiProperty(default: '0', example: 0.6)]
+    #[ApiProperty(example: 0.6)]
     #[Groups(['read', 'write'])]
     #[ORM\Column(name: '`left`', type: 'float', nullable: true)]
     public ?float $left = 0;

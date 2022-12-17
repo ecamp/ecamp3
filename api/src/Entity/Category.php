@@ -154,7 +154,7 @@ class Category extends BaseEntity implements BelongsToCampInterface, CopyFromPro
      * using arabic numbers, roman numerals or letters.
      */
     #[Assert\Choice(choices: ['a', 'A', 'i', 'I', '1'])]
-    #[ApiProperty(default: '1', example: '1')]
+    #[ApiProperty(example: '1')]
     #[Groups(['read', 'write'])]
     #[ORM\Column(type: 'string', length: 1, nullable: false)]
     public string $numberingStyle = '1';
