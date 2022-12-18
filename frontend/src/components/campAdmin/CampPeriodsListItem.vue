@@ -11,64 +11,133 @@ Displays a single period as a list item including controls to edit and delete it
       </v-list-item-subtitle>
     </v-list-item-content>
 
-    <v-list-item-action v-if="!disabled" style="display: inline">
-      <v-item-group>
-        <dialog-period-edit :period="period">
-          <template #activator="{ on }">
-            <button-edit class="mr-1" v-on="on" />
-          </template>
-        </dialog-period-edit>
-      </v-item-group>
-    </v-list-item-action>
-
-    <v-menu v-if="!disabled" offset-y>
+    <v-menu v-if="!disabled" v-model="showMenuEdit" offset-y>
       <template #activator="{ on, attrs }">
         <v-btn icon v-bind="attrs" v-on="on">
           <v-icon>mdi-dots-vertical</v-icon>
         </v-btn>
       </template>
-      <v-card>
-        <v-item-group>
-          <v-list-item-action>
-            <dialog-entity-delete :entity="period" :submit-enabled="!isLastPeriod">
-              <template #activator="{ on }">
-                <button-delete v-on="on" />
-              </template>
-              <div v-if="isLastPeriod">
+      <v-list>
+        <dialog-period-desc-edit :period="period" @closed="showMenuEdit = false">
+          <template #activator="{ on, attrs }">
+            <v-list-item v-bind="attrs" v-on="on">
+              <v-list-item-icon>
+                <v-icon>mdi-pencil</v-icon>
+              </v-list-item-icon>
+              <v-list-item-title>{{
+                $tc('components.campAdmin.campPeriodsListItem.changePeriodDescription')
+              }}</v-list-item-title>
+            </v-list-item>
+          </template>
+        </dialog-period-desc-edit>
+
+        <dialog-period-date-edit
+          :period="period"
+          modus="move"
+          @closed="showMenuEdit = false"
+        >
+          <template #activator="{ on, attrs }">
+            <v-list-item v-bind="attrs" v-on="on">
+              <v-list-item-icon>
+                <v-icon>mdi-arrow-left-right</v-icon>
+              </v-list-item-icon>
+              <v-list-item-title>
+                {{ $tc('components.campAdmin.campPeriodsListItem.movePeriod') }}
+              </v-list-item-title>
+            </v-list-item>
+          </template>
+        </dialog-period-date-edit>
+
+        <dialog-period-date-edit
+          :period="period"
+          modus="changeStart"
+          @closed="showMenuEdit = false"
+        >
+          <template #activator="{ on, attrs }">
+            <v-list-item v-bind="attrs" v-on="on">
+              <v-list-item-icon>
+                <v-icon>mdi-arrow-collapse-left</v-icon>
+              </v-list-item-icon>
+              <v-list-item-title>
                 {{
-                  $tc('components.campAdmin.campPeriodsListItem.lastPeriodNotDeletable')
-                }}
-              </div>
-              <div v-else>
-                {{ $tc('components.campAdmin.campPeriodsListItem.deleteWarning') }} <br />
-                <ul>
-                  <li>
-                    {{ period.description }}
-                  </li>
-                </ul>
-              </div>
-            </dialog-entity-delete>
-          </v-list-item-action>
-        </v-item-group>
-      </v-card>
+                  $tc('components.campAdmin.campPeriodsListItem.periodChangeStart')
+                }}</v-list-item-title
+              >
+            </v-list-item>
+          </template>
+        </dialog-period-date-edit>
+
+        <dialog-period-date-edit
+          :period="period"
+          modus="changeEnd"
+          @closed="showMenuEdit = false"
+        >
+          <template #activator="{ on, attrs }">
+            <v-list-item v-bind="attrs" v-on="on">
+              <v-list-item-icon>
+                <v-icon>mdi-arrow-collapse-right</v-icon>
+              </v-list-item-icon>
+              <v-list-item-title>
+                {{
+                  $tc('components.campAdmin.campPeriodsListItem.periodChangeEnd')
+                }}</v-list-item-title
+              >
+            </v-list-item>
+          </template>
+        </dialog-period-date-edit>
+
+        <v-divider />
+
+        <dialog-entity-delete
+          :entity="period"
+          :submit-enabled="!isLastPeriod"
+          @closed="showMenuEdit = false"
+        >
+          <template #activator="{ on }">
+            <v-list-item v-on="on">
+              <v-list-item-icon>
+                <v-icon>mdi-delete</v-icon>
+              </v-list-item-icon>
+              <v-list-item-title>
+                {{ $tc('global.button.delete') }}
+              </v-list-item-title>
+            </v-list-item>
+          </template>
+          <div v-if="isLastPeriod">
+            {{ $tc('components.campAdmin.campPeriodsListItem.lastPeriodNotDeletable') }}
+          </div>
+          <div v-else>
+            {{ $tc('components.campAdmin.campPeriodsListItem.deleteWarning') }} <br />
+            <ul>
+              <li>
+                {{ period.description }}
+              </li>
+            </ul>
+          </div>
+        </dialog-entity-delete>
+      </v-list>
     </v-menu>
   </v-list-item>
 </template>
 
 <script>
-import DialogPeriodEdit from './DialogPeriodEdit.vue'
 import DialogEntityDelete from '@/components/dialog/DialogEntityDelete.vue'
-import ButtonEdit from '@/components/buttons/ButtonEdit.vue'
-import ButtonDelete from '@/components/buttons/ButtonDelete.vue'
+import DialogPeriodDateEdit from './DialogPeriodDateEdit.vue'
+import DialogPeriodDescEdit from './DialogPeriodDescEdit.vue'
 import { dateHelperUTCFormatted } from '@/mixins/dateHelperUTCFormatted.js'
 
 export default {
   name: 'CampPeriods',
-  components: { DialogEntityDelete, DialogPeriodEdit, ButtonEdit, ButtonDelete },
+  components: { DialogEntityDelete, DialogPeriodDescEdit, DialogPeriodDateEdit },
   mixins: [dateHelperUTCFormatted],
   props: {
     period: { type: Object, required: true },
     disabled: { type: Boolean, default: false },
+  },
+  data() {
+    return {
+      showMenuEdit: false,
+    }
   },
   computed: {
     isLastPeriod() {

@@ -64,6 +64,10 @@
         "title": "Lagerabschnitt | Lagerabschnitte"
       },
       "campPeriodsListItem": {
+        "changePeriodDescription": "Bezeichnung ändern",
+        "movePeriod": "Lagerabschnitt verschieben",
+        "periodChangeStart": "Zu Begin Tage hinzufügen/entfernen",
+        "periodChangeEnd": "Am Ende Tage hinzufügen/entfernen",
         "deleteWarning": "Möchtest du diese Periode wirklich löschen?",
         "lastPeriodNotDeletable": "Die letzte Periode kann nicht gelöscht werden."
       },
@@ -81,6 +85,11 @@
       },
       "dialogPeriodCreate": {
         "title": "Lagerabschnitt erstellen"
+      },
+      "dialogPeriodDateEdit": {
+        "movePeriod": "Lagerabschnitt verschieben",
+        "periodChangeStart": "Am Anfang vom Lagerabschnitt Tage hinzufügen / entfernen",
+        "periodChangeEnd": "Am Ende vom Lagerabschnitt Tage hinzufügen / entfernen"
       },
       "dialogPeriodEdit": {
         "moveScheduleEntries": "Aktivitäten verschieben"
@@ -292,6 +301,7 @@
     },
     "validation": {
       "greaterThanOrEqual_date": "{_field_} darf nicht vor {min} liegen",
+      "lessThanOrEqual_date": "{_field_} darf nicht nach {max} liegen",
       "greaterThan_time": "{_field_} muss später als {min} sein"
     }
   },

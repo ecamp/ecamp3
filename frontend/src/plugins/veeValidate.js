@@ -43,6 +43,23 @@ class VeeValidatePlugin {
         i18n.tc('global.validation.greaterThanOrEqual_date', 0, values),
     })
 
+    // check if date (value) is equal or less than another date (max)
+    extend('lessThanOrEqual_date', {
+      params: ['max'],
+      /**
+       * @param   {string}  value Dater value in local string format
+       * @param   {string}  max   comparison valye in local string format
+       * @returns {bool}          validation result
+       */
+      validate: (value, { max }) => {
+        const maxDate = Vue.dayjs.utc(max, 'L')
+        const valueDate = Vue.dayjs.utc(value, 'L')
+        return valueDate.diff(maxDate, 'day') <= 0
+      },
+      message: (field, values) =>
+        i18n.tc('global.validation.lessThanOrEqual_date', 0, values),
+    })
+
     extend('greaterThan_time', {
       params: ['min'],
       /**
