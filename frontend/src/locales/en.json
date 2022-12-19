@@ -114,6 +114,21 @@
         "warningText": "Do you really want to delete this?"
       }
     },
+    "form": {
+      "base": {
+        "eColorPicker": {
+          "openPicker": "Open dialog to select a color for {label}"
+        },
+        "eDatePicker": {
+          "invalidFormat": "Invalid format, please enter the date in the format MM/DD/YYYY",
+          "openPicker": "Open dialog to select a date for {label}"
+        },
+        "eTimePicker": {
+          "invalidFormat": "Invalid format, please enter the time in the format HH:MM AM/PM",
+          "openPicker": "Open dialog to select a time for {label}"
+        }
+      }
+    },
     "generic": {
       "lockIcon": {
         "guestsCannotEdit": "Guests have no permission to edit"
@@ -269,7 +284,7 @@
       "lock": "Lock",
       "login": "Log in",
       "logout": "Logout",
-      "ok": "Okay",
+      "ok": "OK",
       "open": "Open",
       "save": "Save",
       "saving": "Saving",
@@ -280,6 +295,9 @@
       "update": "Update"
     },
     "changeLanguage": "Change language",
+    "datetime": {
+      "vuetifyTimePickerFormat": "ampm"
+    },
     "language": "English",
     "loading": "Loading …",
     "lokaliseMessage": "Language switching powered by lokalise.com",

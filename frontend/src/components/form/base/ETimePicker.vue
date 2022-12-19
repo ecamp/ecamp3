@@ -14,22 +14,22 @@ Allows 15min steps only
     v-bind="$attrs"
     :vee-id="veeId"
     :vee-rules="veeRules"
+    button-aria-label-i18n-key="components.form.base.eTimePicker.openPicker"
     @input="$emit('input', $event)"
   >
-    <template slot-scope="picker">
+    <template #default="picker">
       <v-time-picker
         :value="picker.value || ''"
         :allowed-minutes="allowedStep"
-        format="24hr"
+        :format="$tc('global.datetime.vuetifyTimePickerFormat')"
+        :min="min"
+        :max="max"
         scrollable
-        @input="picker.on.input"
+        @input="picker.onInput"
       >
         <v-spacer />
-        <v-btn text color="primary" data-testid="action-cancel" @click="picker.on.close">
-          {{ $tc('global.button.cancel') }}
-        </v-btn>
-        <v-btn text color="primary" data-testid="action-ok" @click="picker.on.save">
-          {{ $tc('global.button.ok') }}
+        <v-btn text color="primary" @click="picker.close">
+          {{ $tc('global.button.close') }}
         </v-btn>
       </v-time-picker>
     </template>
@@ -56,6 +56,10 @@ export default {
 
     // format in which the `value` property is being provided & input events are triggered
     valueFormat: { type: [String, Array], default: 'YYYY-MM-DDTHH:mm:ssZ' },
+
+    // v-time-picker props
+    min: { type: String, default: null },
+    max: { type: String, default: null },
   },
   methods: {
     allowedStep: (m) => m % 15 === 0,
@@ -93,7 +97,7 @@ export default {
      * Format internal value for display in the UI
      */
     format(val) {
-      if (val !== '') {
+      if (val !== '' && val !== null) {
         return this.getValueAsDateTime(val).format('LT')
       }
       return ''
@@ -114,12 +118,16 @@ export default {
      */
     parse(val) {
       if (val) {
-        const parsedDateTime = this.$date.utc(val, 'LT')
-        if (parsedDateTime.isValid() && parsedDateTime.format('LT') === val) {
+        const parsedDateTime = this.$date(val, 'LT')
+        const formatted = parsedDateTime.format('LT')
+        const valIgnoringLeadingZero = val.replace(/^0([1-9].+)/, '$1')
+        if (parsedDateTime.isValid() && formatted === valIgnoringLeadingZero) {
           const newValue = this.setTimeOnValue(parsedDateTime)
           return Promise.resolve(newValue)
         } else {
-          return Promise.reject(new Error('invalid format'))
+          return Promise.reject(
+            new Error(this.$tc('components.form.base.eTimePicker.invalidFormat'))
+          )
         }
       } else {
         return Promise.resolve('')

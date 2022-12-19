@@ -13,25 +13,28 @@ Displays a field as a date picker (can be used with v-model)
     :required="required"
     :vee-id="veeId"
     :vee-rules="veeRules"
+    button-aria-label-i18n-key="components.form.base.eDatePicker.openPicker"
+    close-on-picker-input
     v-bind="$attrs"
     @input="$emit('input', $event)"
   >
-    <template slot-scope="picker">
+    <template #default="picker">
       <v-date-picker
         :value="picker.value || ''"
         :locale="$i18n.locale"
         first-day-of-week="1"
+        :min="min"
+        :max="max"
         :allowed-dates="allowedDates"
         no-title
         scrollable
-        @input="picker.on.input"
+        show-adjacent-months
+        :picker-date.sync="pickerMonth"
+        @input="picker.onInput"
       >
         <v-spacer />
-        <v-btn text color="primary" data-testid="action-cancel" @click="picker.on.close">
-          {{ $tc('global.button.cancel') }}
-        </v-btn>
-        <v-btn text color="primary" data-testid="action-ok" @click="picker.on.save">
-          {{ $tc('global.button.ok') }}
+        <v-btn text color="primary" @click="picker.close">
+          {{ $tc('global.button.close') }}
         </v-btn>
       </v-date-picker>
     </template>
@@ -59,8 +62,41 @@ export default {
     // format in which the `value` property is being provided & input events are triggered
     valueFormat: { type: [String, Array], default: 'YYYY-MM-DD' },
 
-    // v-date-picker allowedDates
+    // v-date-picker props
     allowedDates: { type: Function, default: null },
+    min: { type: String, default: null },
+    max: { type: String, default: null },
+  },
+  data: () => ({
+    pickerMonth: undefined,
+  }),
+  watch: {
+    min: {
+      handler(newMin) {
+        if (this.value) return
+        if (!newMin) return
+        const currentPickerMonth = this.$date(this.pickerMonth)
+        const newMinPickerMonth = this.$date(newMin)
+        if (currentPickerMonth.unix() < newMinPickerMonth.unix()) {
+          // Update the month displayed in the picker
+          this.pickerMonth = newMinPickerMonth.format('YYYY-MM')
+        }
+      },
+      immediate: true,
+    },
+    max: {
+      handler(newMax) {
+        if (this.value) return
+        if (!newMax) return
+        const currentPickerMonth = this.$date(this.pickerMonth)
+        const newMaxPickerMonth = this.$date(newMax)
+        if (currentPickerMonth.unix() > newMaxPickerMonth.unix()) {
+          // Update the month displayed in the picker
+          this.pickerMonth = newMaxPickerMonth.format('YYYY-MM')
+        }
+      },
+      immediate: true,
+    },
   },
   methods: {
     /**
@@ -95,7 +131,7 @@ export default {
      * Format internal value for display in the UI
      */
     format(val) {
-      if (val !== '') {
+      if (val !== '' && val !== null) {
         return this.getValueAsDateTime(val).format('L')
       }
       return ''
@@ -116,12 +152,17 @@ export default {
      */
     parse(val) {
       if (val) {
-        const parsedDate = this.$date.utc(val, 'L')
-        if (parsedDate.isValid() && parsedDate.format('L') === val) {
+        const parsedDate = this.$date(val, ['L', 'l'])
+        if (
+          parsedDate.isValid() &&
+          (parsedDate.format('L') === val || parsedDate.format('l') === val)
+        ) {
           const newValue = this.setDateOnValue(parsedDate)
           return Promise.resolve(newValue)
         } else {
-          return Promise.reject(new Error('invalid format'))
+          return Promise.reject(
+            new Error(this.$tc('components.form.base.eDatePicker.invalidFormat'))
+          )
         }
       } else {
         return Promise.resolve('')

@@ -8,7 +8,7 @@
           :name="$tc('components.program.formScheduleEntryItem.start')"
           vee-id="startDate"
           vee-rules="required"
-          :allowed-dates="allowedStartDates"
+          :allowed-dates="dateIsInAnyPeriod"
           :filled="false"
           class="float-left date-picker"
           required
@@ -32,7 +32,8 @@
           :name="$tc('components.program.formScheduleEntryItem.end')"
           vee-id="endDate"
           vee-rules="required|greaterThanOrEqual_date:@startDate"
-          :allowed-dates="allowedEndDates"
+          :min="localScheduleEntry.start"
+          :allowed-dates="dateIsInSelectedPeriod"
           :filled="false"
           class="float-left date-picker"
           required
@@ -43,6 +44,7 @@
           :name="$tc('components.program.formScheduleEntryItem.end')"
           vee-id="endDatetime"
           :vee-rules="endTimeValidation"
+          :min="minEndTime"
           :filled="false"
           class="float-left mt-0 ml-3 time-picker"
           required
@@ -101,22 +103,30 @@ export default {
         )
       })
     },
+    isSameDay() {
+      return this.$date
+        .utc(this.localScheduleEntry.start)
+        .isSame(this.$date.utc(this.localScheduleEntry.end), 'day')
+    },
     endTimeValidation() {
       let validator = {
         required: true,
       }
 
       // only compare time if date is the same day
-      if (
-        this.$date
-          .utc(this.localScheduleEntry.start)
-          .isSame(this.$date.utc(this.localScheduleEntry.end), 'day')
-      ) {
+      if (this.isSameDay) {
         validator.greaterThan_time = {
-          min: this.$date.utc(this.localScheduleEntry.start).format('HH:mm'),
+          min: this.$date.utc(this.localScheduleEntry.start),
         }
       }
       return validator
+    },
+    minEndTime() {
+      if (!this.isSameDay) return null
+      return this.$date
+        .utc(this.localScheduleEntry.start)
+        .add(this.$date.duration(15, 'm'))
+        .format('HH:mm')
     },
   },
   watch: {
@@ -139,10 +149,8 @@ export default {
     },
   },
   methods: {
-    // returns true for any date that is within any available period
-    allowedStartDates: function (val) {
+    dateIsInAnyPeriod: function (val) {
       const calendarDate = dayjs.utc(val)
-
       return this.periods.some((period) => {
         return calendarDate.isBetween(
           dayjs.utc(period.start),
@@ -152,13 +160,10 @@ export default {
         )
       })
     },
-
-    // if a startDate is selected, returns true only for dates within the period of the selected startDate
-    allowedEndDates: function (val) {
+    dateIsInSelectedPeriod: function (val) {
       if (this.period === undefined) {
-        return this.allowedStartDates(val)
+        return this.dateIsInAnyPeriod(val)
       }
-
       const calendarDate = dayjs.utc(val)
       return calendarDate.isBetween(
         dayjs.utc(this.period.start),

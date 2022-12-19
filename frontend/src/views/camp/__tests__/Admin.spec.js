@@ -1,29 +1,10 @@
-import { render } from '@testing-library/vue'
+import { render } from '@/test/renderWithVuetify.js'
 import Admin from '../Admin.vue'
-import Vue from 'vue'
-import Vuetify from 'vuetify'
 import flushPromises from 'flush-promises'
-
-Vue.use(Vuetify)
-
-const renderWithVuetify = (component, options, callback) => {
-  const root = document.createElement('div')
-  root.setAttribute('data-app', 'true')
-
-  return render(
-    component,
-    {
-      container: document.body.appendChild(root),
-      vuetify: new Vuetify(),
-      ...options,
-    },
-    callback
-  )
-}
 
 describe('Admin view', () => {
   it('shows the danger zone when the user has a manager role', async () => {
-    const { getByText } = renderWithVuetify(Admin, {
+    const { getByText } = render(Admin, {
       props: {
         camp: createCampWithRole('manager'),
       },
@@ -31,7 +12,6 @@ describe('Admin view', () => {
       mocks: {
         $store: STORE,
         api: { reload: () => Promise.resolve() },
-        $tc: (key) => key,
       },
       stubs: [
         'camp-settings',
@@ -44,14 +24,12 @@ describe('Admin view', () => {
 
     await flushPromises()
 
-    expect(getByText('components.campAdmin.campDangerZone.title')).toBeInTheDocument()
-    expect(
-      getByText('components.campAdmin.campDangerZone.deleteCamp.title')
-    ).toBeInTheDocument()
+    expect(getByText('Gefahrenzone')).toBeInTheDocument()
+    expect(getByText('Lager löschen')).toBeInTheDocument()
   })
 
   it("doesn't show the danger zone when the user has a member role", async () => {
-    const { queryByText } = renderWithVuetify(Admin, {
+    const { queryByText } = render(Admin, {
       props: {
         camp: createCampWithRole('member'),
       },
@@ -59,7 +37,6 @@ describe('Admin view', () => {
       mocks: {
         $store: STORE,
         api: { reload: () => Promise.resolve() },
-        $tc: (key) => key,
       },
       stubs: [
         'camp-settings',
@@ -72,16 +49,12 @@ describe('Admin view', () => {
 
     await flushPromises()
 
-    expect(
-      queryByText('components.campAdmin.campDangerZone.title')
-    ).not.toBeInTheDocument()
-    expect(
-      queryByText('components.campAdmin.campDangerZone.deleteCamp.title')
-    ).not.toBeInTheDocument()
+    expect(queryByText('Gefahrenzone')).not.toBeInTheDocument()
+    expect(queryByText('Lager löschen')).not.toBeInTheDocument()
   })
 
   it("doesn't show the danger zone when the user has the guest role", async () => {
-    const { queryByText } = renderWithVuetify(Admin, {
+    const { queryByText } = render(Admin, {
       props: {
         camp: createCampWithRole('guest'),
       },
@@ -89,7 +62,6 @@ describe('Admin view', () => {
       mocks: {
         $store: STORE,
         api: { reload: () => Promise.resolve() },
-        $tc: (key) => key,
       },
       stubs: [
         'camp-settings',
@@ -102,12 +74,8 @@ describe('Admin view', () => {
 
     await flushPromises()
 
-    expect(
-      queryByText('components.campAdmin.campDangerZone.title')
-    ).not.toBeInTheDocument()
-    expect(
-      queryByText('components.campAdmin.campDangerZone.deleteCamp.title')
-    ).not.toBeInTheDocument()
+    expect(queryByText('Gefahrenzone')).not.toBeInTheDocument()
+    expect(queryByText('Lager löschen')).not.toBeInTheDocument()
   })
 })
 

@@ -1,101 +1,90 @@
 import ApiColorPicker from '../ApiColorPicker'
-import ApiWrapper from '@/components/form/api/ApiWrapper'
-import Vue from 'vue'
-import Vuetify from 'vuetify'
-import flushPromises from 'flush-promises'
-import formBaseComponents from '@/plugins/formBaseComponents'
-import merge from 'lodash/merge'
+import { screen, waitFor } from '@testing-library/vue'
+import { render } from '@/test/renderWithVuetify.js'
+import user from '@testing-library/user-event'
 import { ApiMock } from '@/components/form/api/__tests__/ApiMock'
 import { extend } from 'vee-validate'
-import { i18n } from '@/plugins'
-import { mount as mountComponent } from '@vue/test-utils'
 import { regex } from 'vee-validate/dist/rules'
-import { waitForDebounce } from '@/test/util'
-
-Vue.use(Vuetify)
-Vue.use(formBaseComponents)
 
 extend('regex', regex)
 
 describe('An ApiColorPicker', () => {
-  let vuetify
-  let wrapper
   let apiMock
 
-  const fieldName = 'test-field/123'
-  const COLOR_1 = '#ff0000'
-  const COLOR_2 = '#ff00ff'
+  const FIELD_NAME = 'test-field/123'
+  const FIELD_LABEL = 'Test field'
+  const COLOR_1 = '#FF0000'
+  const COLOR_2 = '#FAFFAF'
+  const PICKER_BUTTON_LABEL_TEXT = 'Dialog öffnen um eine Farbe für Test field zu wählen'
 
   beforeEach(() => {
-    vuetify = new Vuetify()
     apiMock = ApiMock.create()
   })
 
   afterEach(() => {
     jest.restoreAllMocks()
-    wrapper.destroy()
   })
 
-  const mount = (options) => {
-    const app = Vue.component('App', {
-      components: { ApiColorPicker },
+  test('triggers api.patch and status update if input changes', async () => {
+    // given
+    apiMock.get().thenReturn(ApiMock.success(COLOR_1).forFieldName(FIELD_NAME))
+    apiMock.patch().thenReturn(ApiMock.success(COLOR_2))
+    const { container } = render(ApiColorPicker, {
       props: {
-        fieldName: { type: String, default: fieldName },
+        autoSave: false,
+        fieldname: FIELD_NAME,
+        uri: 'test-field/123',
+        label: FIELD_LABEL,
+        required: true,
       },
-      template: `
-        <div data-app>
-          <api-color-picker
-            :auto-save="false"
-            :fieldname="fieldName"
-            uri="test-field/123"
-            label="Test field"
-            required="true"
-          />
-        </div>
-      `,
-    })
-    apiMock.get().thenReturn(ApiMock.success(COLOR_1).forFieldName(fieldName))
-    const defaultOptions = {
       mocks: {
-        $tc: () => {},
         api: apiMock.getMocks(),
       },
-    }
-    return mountComponent(app, {
-      vuetify,
-      i18n,
-      attachTo: document.body,
-      ...merge(defaultOptions, options),
     })
-  }
 
-  test('triggers api.patch and status update if input changes', async () => {
-    apiMock.patch().thenReturn(ApiMock.success(COLOR_2))
-    wrapper = mount()
+    // when
+    // click the button to open the picker
+    await user.click(screen.getByLabelText(PICKER_BUTTON_LABEL_TEXT))
+    // click inside the color picker canvas to select a different color
+    const canvas = container.querySelector('canvas')
+    await user.click(canvas, { clientX: 10, clientY: 10 })
+    // click the save button
+    await user.click(screen.getByLabelText('Speichern'))
 
-    await flushPromises()
-
-    const input = wrapper.find('input')
-    await input.setValue(COLOR_2)
-    await input.trigger('submit')
-
-    await waitForDebounce()
-    await flushPromises()
-
-    expect(apiMock.getMocks().patch).toBeCalledTimes(1)
-    expect(wrapper.findComponent(ApiWrapper).vm.localValue).toBe(COLOR_2)
+    // then
+    await waitFor(async () => {
+      const inputField = await screen.findByLabelText(FIELD_LABEL)
+      expect(inputField.value).toBe(COLOR_2)
+      expect(apiMock.getMocks().patch).toBeCalledTimes(1)
+    })
   })
 
   test('updates state if value in store is refreshed and has new value', async () => {
-    wrapper = mount()
-    apiMock.get().thenReturn(ApiMock.success(COLOR_2).forFieldName(fieldName))
+    // given
+    apiMock.get().thenReturn(ApiMock.networkError().forFieldName(FIELD_NAME))
+    render(ApiColorPicker, {
+      props: {
+        autoSave: false,
+        fieldname: FIELD_NAME,
+        uri: 'test-field/123',
+        label: FIELD_LABEL,
+        required: true,
+      },
+      mocks: {
+        api: apiMock.getMocks(),
+      },
+    })
+    await screen.findByText('A network error occurred.')
+    expect((await screen.findByLabelText(FIELD_LABEL)).value).not.toBe(COLOR_1)
+    const retryButton = await screen.findByText('Erneut versuchen')
+    apiMock.get().thenReturn(ApiMock.success(COLOR_1).forFieldName(FIELD_NAME))
 
-    wrapper.findComponent(ApiWrapper).vm.reload()
+    // when
+    await user.click(retryButton)
 
-    await waitForDebounce()
-    await flushPromises()
-
-    expect(wrapper.findComponent(ApiWrapper).vm.localValue).toBe(COLOR_2)
-    expect(wrapper.find('input[type=text]').element.value).toBe(COLOR_2)
+    // then
+    await waitFor(async () => {
+      expect((await screen.findByLabelText(FIELD_LABEL)).value).toBe(COLOR_1)
+    })
   })
 })
