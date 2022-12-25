@@ -46,7 +46,6 @@ services:
     environment:
       APP_ENV: dev
       DATA_MIGRATIONS_DIR: dev-data
-      COMPOSER_HOME: /tmp/composer
       # See https://docs.docker.com/docker-for-mac/networking/#i-want-to-connect-from-a-container-to-a-service-on-the-host
       # See https://github.com/docker/for-linux/issues/264
       # The `remote_host` below may optionally be replaced with `remote_connect_back`
