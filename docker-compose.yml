@@ -2,7 +2,11 @@ version: "3.4"
 
 services:
   frontend:
-    image: node:18.12.1@sha256:9ebe9845301ca70e879f22180dfff496b856bb5f2ec52397462a9f5f903ee654
+    image: ecamp/ecamp3-frontend
+    build:
+      context: ./frontend
+      cache_from:
+        - ecamp/ecamp3-frontend
     container_name: 'ecamp3-frontend'
     ports:
       - '3000:3000'
@@ -11,19 +15,15 @@ services:
     tty: true
     user: ${USER_ID:-1000}
     volumes:
-      - ./.prettierrc:/.prettierrc
+      - ./.prettierrc:/.prettierrc:delegated
       - ./frontend:/app:delegated
       - ./common:/common:delegated
-      - ./.cache/npm:/home/node/.npm
-      - ./.cache/cypress:/home/node/.cache/Cypress
-    working_dir: /app
-    command: ./docker-setup.sh
+      - frontend-npm-cache:/home/node/.npm/_cacache
+      - frontend-node-cache:/home/node/.cache
     environment:
       - NODE_ENV=development
       - NPM_CONFIG_UPDATE_NOTIFIER=false
-      - NPM_CONFIG_CACHE=/home/node/.npm
       - CI=${CI}
-      - CYPRESS_CACHE_FOLDER=/home/node/.cache/Cypress
 
   php:
     image: ecamp/ecamp3-api
@@ -39,13 +39,14 @@ services:
     restart: unless-stopped
     volumes:
       - ./.caddy/php-socket:/var/run/php
-      - ./api:/srv/api:rw,cached
-      - ./api/docker/php/conf.d/api-platform.dev.ini:/usr/local/etc/php/conf.d/api-platform.ini
-      - ./api/docker/php/docker-entrypoint.sh:/usr/local/bin/docker-entrypoint
-      - ./.cache/composer:/tmp/composer/cache
+      - ./api:/srv/api:rw,delegated
+      - ./api/docker/php/conf.d/api-platform.dev.ini:/usr/local/etc/php/conf.d/api-platform.ini:delegated
+      - ./api/docker/php/docker-entrypoint.sh:/usr/local/bin/docker-entrypoint:delegated
+      - composer-cache:/tmp/composer/cache
     environment:
       APP_ENV: dev
       DATA_MIGRATIONS_DIR: dev-data
+      COMPOSER_HOME: /tmp/composer
       # See https://docs.docker.com/docker-for-mac/networking/#i-want-to-connect-from-a-container-to-a-service-on-the-host
       # See https://github.com/docker/for-linux/issues/264
       # The `remote_host` below may optionally be replaced with `remote_connect_back`
@@ -96,13 +97,17 @@ services:
     user: ${USER_ID:-1000}
     volumes:
       - ./.caddy/php-socket:/var/run/php
-      - ./.caddy/data:/data
-      - ./.caddy/config-cache:/config
+      - ./.caddy/data:/data:delegated
+      - ./.caddy/config-cache:/config:delegated
       - ./api/docker/caddy/Caddyfile:/etc/caddy/Caddyfile:ro
       - ./api/public:/srv/api/public:ro
 
   print:
-    image: node:18.12.1@sha256:9ebe9845301ca70e879f22180dfff496b856bb5f2ec52397462a9f5f903ee654
+    image: ecamp/ecamp3-print
+    build:
+      context: ./print
+      cache_from:
+        - ecamp/ecamp3-print
     container_name: 'ecamp3-print'
     ports:
       - '3003:3003'
@@ -110,16 +115,13 @@ services:
       - ./.prettierrc:/.prettierrc
       - ./print:/app:delegated
       - ./common:/common:delegated
-      - ./.cache/npm:/home/node/.npm
-      - node-cache:/home/node/.cache
-    working_dir: /app
-    command: ./docker-setup.sh
+      - print-npm-cache:/home/node/.npm/_cacache
+      - print-node-cache:/home/node/.cache
     environment:
       - NODE_OPTIONS=--openssl-legacy-provider #TODO: remove when we update to webpack >=5
       - NUXT_HOST=0.0.0.0
       - NUXT_PORT=3003
       - NPM_CONFIG_UPDATE_NOTIFIER=false
-      - NPM_CONFIG_CACHE=/home/node/.npm
       - USER_ID=${USER_ID:-1000}
     env_file:
       - ./print/print.env
@@ -170,4 +172,8 @@ services:
 
 volumes:
   db-data-postgres: null
-  node-cache:
+  frontend-node-cache:
+  frontend-npm-cache:
+  print-node-cache:
+  print-npm-cache:
+  composer-cache:
