@@ -33,7 +33,6 @@ if [ "$1" = 'php-fpm' ] || [ "$1" = 'php' ] || [ "$1" = 'bin/console' ] || [ "$1
       fi
     fi
     
-    export COMPOSER_HOME="/tmp/composer"
 		composer install --prefer-dist --no-progress --no-interaction
 
     if grep -q DATABASE_URL= .env; then

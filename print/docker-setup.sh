@@ -7,4 +7,4 @@ usermod -u $USER_ID node
 groupmod -g $USER_ID node
 chown -R node:node /home/node/.cache
 
-exec su node -c "npm ci && npm run dev"
+exec su node -c "npm install && npm run dev"
