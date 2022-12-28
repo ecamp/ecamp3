@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "89f61561cca8a0dae0d8947f98bd4df6",
+    "content-hash": "bafcd7a29aa599738768b045cb434398",
     "packages": [
         {
             "name": "api-platform/core",
@@ -12733,21 +12733,21 @@
         },
         {
             "name": "rector/rector",
-            "version": "0.15.0",
+            "version": "0.15.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/rectorphp/rector.git",
-                "reference": "fbfbe499d0fedfac7fe2fed1a55a00bd08f19c91"
+                "reference": "5bc89fa73d0be2769e02e49a0e924c95b1842093"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rectorphp/rector/zipball/fbfbe499d0fedfac7fe2fed1a55a00bd08f19c91",
-                "reference": "fbfbe499d0fedfac7fe2fed1a55a00bd08f19c91",
+                "url": "https://api.github.com/repos/rectorphp/rector/zipball/5bc89fa73d0be2769e02e49a0e924c95b1842093",
+                "reference": "5bc89fa73d0be2769e02e49a0e924c95b1842093",
                 "shasum": ""
             },
             "require": {
                 "php": "^7.2|^8.0",
-                "phpstan/phpstan": "^1.9.2"
+                "phpstan/phpstan": "^1.9.4"
             },
             "conflict": {
                 "rector/rector-doctrine": "*",
@@ -12777,7 +12777,7 @@
             "description": "Instant Upgrade and Automated Refactoring of any PHP code",
             "support": {
                 "issues": "https://github.com/rectorphp/rector/issues",
-                "source": "https://github.com/rectorphp/rector/tree/0.15.0"
+                "source": "https://github.com/rectorphp/rector/tree/0.15.2"
             },
             "funding": [
                 {
@@ -12785,7 +12785,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-12-04T22:40:18+00:00"
+            "time": "2022-12-24T12:55:36+00:00"
         },
         {
             "name": "sebastian/cli-parser",
