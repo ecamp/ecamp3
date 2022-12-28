@@ -157,7 +157,7 @@ FROM api_platform_php as api_platform_php_dev
 # renovate: datasource=github-tags depName=xdebug/xdebug
 ARG XDEBUG_VERSION=3.2.0
 RUN set -eux; \
-	apk add --no-cache --virtual .build-deps $PHPIZE_DEPS; \
+	apk add --no-cache --virtual .build-deps $PHPIZE_DEPS linux-headers; \
 	pecl install xdebug-$XDEBUG_VERSION; \
 	docker-php-ext-enable xdebug; \
 	apk del .build-deps
