@@ -1,0 +1,19 @@
+{{- if and .Values.browserless.enabled .Values.scaleToZero.enabled }}
+kind: HTTPScaledObject
+apiVersion: http.keda.sh/v1alpha1
+metadata:
+  name: {{ include "browserless.name" . }}
+  labels:
+    {{- include "browserless.selectorLabels" . | nindent 4 }}
+    {{- include "app.commonLabels" . | nindent 4 }}
+spec:
+  host: {{ include "browserless.name" . }}
+  targetPendingRequests: 100
+  scaleTargetRef:
+    deployment: {{ include "browserless.name" . }}
+    service: {{ include "browserless.name" . }}
+    port: 3000
+  replicas:
+    min: 0
+    max: {{ .Values.autoscaling.maxReplicas }}
+{{- end }}

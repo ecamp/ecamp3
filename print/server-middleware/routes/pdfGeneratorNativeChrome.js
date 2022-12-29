@@ -40,8 +40,21 @@ router.use('/pdfChrome', async (req, res) => {
   try {
     measurePerformance('Connecting to puppeteer...')
     // Connect to browserless.io (puppeteer websocket)
+    const browserWSEndpoint = process.env.BROWSER_WS_ENDPOINT
+    const browserHealthCheck = browserWSEndpoint.replace('ws://', 'http://') + '/pressure'
+    // make http request, that browserless is scaled up
+    try {
+      await page.goto(browserHealthCheck, {
+        waitUntil: 'networkidle0',
+      })
+    } catch (e) {
+      /*
+      ignore errors here. If the autoscaling started now, it will not be ready and fail.
+      But we can try, it does not hurt.
+      */
+    }
     browser = await puppeteer.connect({
-      browserWSEndpoint: process.env.BROWSER_WS_ENDPOINT,
+      browserWSEndpoint: browserWSEndpoint,
     })
     const context = await browser.createIncognitoBrowserContext()
 
@@ -79,7 +92,7 @@ router.use('/pdfChrome', async (req, res) => {
     )
     page.on('response', (response) =>
       console.log('<<', response.status(), response.url())
-    ) 
+    )
     page.on('error', (err) => {
       console.log('error happen at the page: ', err)
     })

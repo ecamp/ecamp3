@@ -7,7 +7,6 @@ metadata:
     {{- include "browserless.selectorLabels" . | nindent 4 }}
     {{- include "app.commonLabels" . | nindent 4 }}
 spec:
-  replicas: 1
   selector:
     matchLabels:
       {{- include "browserless.selectorLabels" . | nindent 6 }}
