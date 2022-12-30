@@ -181,6 +181,9 @@ export default {
   &:deep(.v-select__selections) {
     justify-content: center;
   }
+  &:deep(.v-chip--clickable) {
+    cursor: auto;
+  }
 }
 
 :deep(.v-select__selections) input {

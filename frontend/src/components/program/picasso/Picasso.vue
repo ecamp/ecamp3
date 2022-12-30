@@ -369,7 +369,7 @@ export default {
   }
 
   @media #{map-get($display-breakpoints, 'sm-and-up')} {
-    height: calc(100vh - 136px);
+    height: calc(100vh - 106px);
   }
 
   @media #{map-get($display-breakpoints, 'md-and-up')} {
@@ -435,6 +435,20 @@ export default {
       overflow-y: visible;
     }
   }
+
+  &:not(.e-picasso-entry--editable) {
+    &:deep(.v-calendar-daily_head-day-label) {
+      cursor: auto;
+
+      .theme--light.v-text-field > .v-input__control > .v-input__slot {
+        cursor: auto;
+
+        &:before {
+          border: none !important;
+        }
+      }
+    }
+  }
 }
 
 // day title
@@ -448,6 +462,7 @@ export default {
   height: 100%;
   display: flex;
   flex-direction: column;
+  padding: 0;
 
   .v-text-field .v-label {
     text-align: center;
@@ -475,7 +490,10 @@ export default {
 
   .v-select__selections {
     gap: 4px;
-    padding: 4px 2px;
+    padding: 2px;
+    @media #{map-get($display-breakpoints, 'md-and-up')} {
+      padding: 4px 2px;
+    }
     width: 100%;
     min-width: initial;
 
