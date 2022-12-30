@@ -1,5 +1,10 @@
 <template>
-  <v-btn aria-label="Zurück" icon v-bind="$attrs" @click="$router.go(-1)">
+  <v-btn
+    icon
+    :aria-label="$tc('global.button.back')"
+    v-bind="$attrs"
+    @click="$router.go(-1)"
+  >
     <v-icon>mdi-arrow-left</v-icon>
   </v-btn>
 </template>

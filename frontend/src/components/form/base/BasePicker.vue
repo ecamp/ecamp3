@@ -5,7 +5,6 @@ Displays a field as a picker (can be used with v-model)
 <template>
   <div class="e-form-container">
     <v-menu
-      ref="menu"
       v-model="showPicker"
       :disabled="disabled || readonly"
       :close-on-content-click="false"
@@ -17,18 +16,26 @@ Displays a field as a picker (can be used with v-model)
     >
       <template #activator="{ on }">
         <e-text-field
+          :id="id"
           ref="textField"
           :value="fieldValue"
+          :hide-details="hideDetails"
+          :input-class="inputClass"
+          :name="name"
+          :label="label"
           v-bind="$attrs"
           :error-messages="combinedErrorMessages"
           :filled="filled"
           :disabled="disabled"
+          @click="(...args) => onMenuOpen(on, ...args)"
           @input="debouncedParseValue"
-          @focus="textFieldIsActive = true"
-          @blur="textFieldIsActive = false"
         >
           <template v-if="icon" #prepend>
-            <v-icon :color="iconColor" @click="on.click">
+            <v-icon
+              :color="iconColor"
+              :aria-label="$tc(buttonAriaLabelI18nKey, 0, { label: label || name })"
+              @click="(...args) => onMenuOpen(on, ...args)"
+            >
               {{ icon }}
             </v-icon>
           </template>
@@ -39,25 +46,30 @@ Displays a field as a picker (can be used with v-model)
           </template>
         </e-text-field>
       </template>
-      <slot :value="pickerValue" :show-picker="showPicker" :on="eventHandlers" />
+      <div :id="menuId">
+        <slot :value="pickerValue" :on-input="inputFromPicker" :close="closePicker" />
+      </div>
     </v-menu>
   </div>
 </template>
 
 <script>
 import { debounce } from 'lodash'
+import { formComponentPropsMixin } from '../../../mixins/formComponentPropsMixin.js'
 
 export default {
   name: 'BasePicker',
   inheritAttr: false,
+  mixins: [formComponentPropsMixin],
   props: {
     value: { type: [Number, String], required: true },
     icon: { type: String, required: false, default: null },
     iconColor: { type: String, required: false, default: null },
     readonly: { type: Boolean, required: false, default: false },
     disabled: { type: Boolean, required: false, default: false },
-    filled: { type: Boolean, required: false, default: true },
     errorMessages: { type: Array, required: false, default: () => [] },
+    closeOnPickerInput: { type: Boolean, required: false, default: false },
+    buttonAriaLabelI18nKey: { type: String, required: true },
 
     /**
      * Format internal value for display in the UI
@@ -81,24 +93,21 @@ export default {
   },
   data() {
     return {
-      // internal value
-      localValue: this.value,
+      // internal random string used for identifying the menu in the DOM
+      random: Math.random().toString(36).substring(2),
 
-      // value used to pass to picker component
-      localPickerValue: this.value,
+      // internal value
+      localValue: null,
+      localValueInitialized: false,
 
       showPicker: false,
-      textFieldIsActive: false,
       parseError: null,
-      eventHandlers: {
-        save: this.savePicker,
-        close: this.closePicker,
-        input: this.inputPicker,
-      },
       // note that it is necessary to debounce in data to have one debounced function per instance, whereas
       // debouncing in watch or methods results in one global debounced function which has unwanted effects
       // when there are multiple picker instances rendered at the same time
       debouncedParseValue: debounce(this.parseValue, 500),
+      clickOutsideHandler: null,
+      escapeKeyHandler: null,
     }
   },
   computed: {
@@ -127,60 +136,84 @@ export default {
       }
       return [...this.errorMessages, this.parseError.message]
     },
+    menuId() {
+      return 'picker-menu-' + this.random
+    },
   },
   watch: {
     value(val) {
-      if (this.showPicker === false) {
-        this.localValue = val
-      }
+      this.localValueInitialized = false
+      this.setValue(val)
     },
   },
   mounted() {
-    this.parseValue(this.fieldValue)
+    this.escapeKeyHandler = (event) => {
+      if (event.code === 'Escape') {
+        this.closePicker()
+      }
+    }
+    document.addEventListener('keydown', this.escapeKeyHandler)
+
+    this.setValue(this.value)
+  },
+  beforeDestroy() {
+    if (this.clickOutsideHandler) {
+      document.removeEventListener('click', this.clickOutsideHandler)
+    }
+    if (this.escapeKeyHandler) {
+      document.removeEventListener('keydown', this.escapeKeyHandler)
+    }
   },
   methods: {
+    onMenuOpen(on, ...args) {
+      if (typeof on.click === 'function') {
+        return on.click(...args)
+      }
+      return () => {}
+    },
     setValue(val) {
       if (this.localValue !== val) {
         this.$emit('input', val)
         this.localValue = val
+
+        if (this.localValueInitialized) {
+          this.$emit('input', val)
+          // after saving value, trigger validations
+          this.$refs.textField.$refs.validationProvider.validate(this.fieldValue)
+        }
       }
-      this.parseError = null
+      this.localValueInitialized = true
+      this.setParseError(null)
     },
-    parseValue(val) {
-      if (this.parse != null) {
-        this.parse(val).then(this.setValue, this.setParseError)
-      } else {
+    async parseValue(val) {
+      try {
+        if (this.parse != null) {
+          val = await this.parse(val)
+        }
         this.setValue(val)
+      } catch (error) {
+        this.setParseError(error)
       }
-    },
-    setValueOfPicker(val) {
-      if (this.localPickerValue !== val) {
-        this.localPickerValue = val
-      }
-      this.parseError = null
     },
     setParseError(err) {
       this.parseError = err
     },
     closePicker() {
       this.showPicker = false
-      this.localPickerValue = this.localValue
     },
-    savePicker() {
-      this.showPicker = false
-      this.setValue(this.localPickerValue)
-
-      // after closing picker --> set focus into textfield and validate value
-      this.$refs.textField.focus()
-      this.$refs.textField.$refs.validationProvider.validate(this.fieldValue)
-    },
-    inputPicker(val) {
-      if (this.parsePicker !== null) {
-        this.parsePicker(val).then(this.setValueOfPicker, this.setParseError)
-      } else if (this.parse !== null) {
-        this.parse(val).then(this.setValueOfPicker, this.setParseError)
-      } else {
-        this.setValueOfPicker(val)
+    async inputFromPicker(val) {
+      try {
+        if (this.parsePicker !== null) {
+          val = await this.parsePicker(val)
+        } else if (this.parse !== null) {
+          val = await this.parse(val)
+        }
+        this.setValue(val)
+        if (this.closeOnPickerInput) {
+          this.closePicker()
+        }
+      } catch (error) {
+        this.setParseError(error)
       }
     },
   },

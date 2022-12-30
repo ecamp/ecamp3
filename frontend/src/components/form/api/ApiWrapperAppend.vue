@@ -5,18 +5,6 @@
       <v-icon color="green" class="checkIcon" :class="checkIconAddon">
         mdi-content-save
       </v-icon>
-      <!--
-      <v-btn
-        fab
-        dark
-        depressed
-        x-small
-        color="success"
-        class="checkIcon"
-        :class="checkIconAddon">
-        <v-icon>mdi-content-save</v-icon>
-      </v-btn>
-      -->
     </div>
 
     <!-- Retry/Cancel button if saving failed -->
@@ -31,6 +19,7 @@
             color="error"
             type="submit"
             class="mr-1"
+            :aria-label="$tc('global.button.tryagain')"
             v-on="on"
             @click="wrapper.on.save"
           >
@@ -47,6 +36,7 @@
             depressed
             x-small
             color="grey"
+            :aria-label="$tc('global.button.cancel')"
             v-on="on"
             @click="wrapper.on.reset"
           >
@@ -68,8 +58,8 @@
             color="success"
             type="submit"
             class="mr-1"
+            :aria-label="$tc('global.button.save')"
             v-on="on"
-            @click="wrapper.on.save"
           >
             <v-icon>mdi-check</v-icon>
           </v-btn>
@@ -84,6 +74,7 @@
             depressed
             x-small
             color="grey"
+            :aria-label="$tc('global.button.cancel')"
             v-on="on"
             @click="wrapper.on.reset"
           >
@@ -95,12 +86,7 @@
     </template>
 
     <!-- Retry button if loading failed -->
-    <button-retry
-      v-if="wrapper.hasLoadingError"
-      text
-      type="submit"
-      @click="wrapper.on.reload"
-    />
+    <button-retry v-if="wrapper.hasLoadingError" text @click="wrapper.on.reload" />
   </div>
 </template>
 
