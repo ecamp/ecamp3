@@ -133,7 +133,7 @@ class Category extends BaseEntity implements BelongsToCampInterface, CopyFromPro
      * The color of the activities in this category, as a hex color string.
      */
     #[Assert\Regex(pattern: '/^#[0-9a-zA-Z]{6}$/')]
-    #[ApiProperty(example: '#4CAF50')]
+    #[ApiProperty(example: '#4DBB52')]
     #[Groups(['read', 'write'])]
     #[ORM\Column(type: 'string', length: 8, nullable: false)]
     public ?string $color = null;
