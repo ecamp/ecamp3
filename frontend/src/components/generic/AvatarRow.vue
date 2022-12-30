@@ -1,9 +1,9 @@
 <template>
-  <div ref="row" class="avatarrow" :style="avatarrow">
+  <div class="e-avatarrow" :class="{ 'e-avatarrow--narrow': narrow }" :style="styles">
     <div
       v-for="campCollaboration in campCollaborations"
       :key="campCollaboration && campCollaboration._meta.self"
-      class="avataritem"
+      class="e-avataritem"
     >
       <UserAvatar :size="size" :camp-collaboration="campCollaboration" />
     </div>
@@ -30,7 +30,10 @@ export default {
     maxWidth() {
       return this.campCollaborations?.length * (this.size * 0.5) + this.size
     },
-    avatarrow() {
+    narrow() {
+      return this.campCollaborations?.length > 3
+    },
+    styles() {
       return {
         'max-width': `${this.maxWidth}px`,
         'font-size': `${this.size}px`,
@@ -38,32 +41,36 @@ export default {
     },
   },
   mounted() {
-    this.maxHeight = this.$el.clientHeight
+    this.maxHeight = this.$el.getBoundingClientRect().height
   },
 }
 </script>
 
 <style scoped lang="scss">
-.avatarrow {
+.e-avatarrow {
   display: flex;
   flex-direction: row-reverse;
-  gap: 0.75em;
+  gap: 0.8em;
+  @media #{map-get($display-breakpoints, 'md-and-up')} {
+    gap: 1.1em;
+  }
+
   padding-left: 0.5em;
   padding-right: 0.5em;
   transition: gap 0.25s ease;
 }
 
-@media #{map-get($display-breakpoints, 'md-and-up')} {
-  .avatarrow {
-    gap: 1.1em;
+.e-avatarrow--narrow {
+  @media #{map-get($display-breakpoints, 'md-and-up')} {
+    gap: 0.8em;
   }
 }
 
-.avatarrow:hover {
+.e-avatarrow:hover {
   gap: 1.1em;
 }
 
-.avataritem {
+.e-avataritem {
   display: grid;
   width: 0;
   place-content: center;

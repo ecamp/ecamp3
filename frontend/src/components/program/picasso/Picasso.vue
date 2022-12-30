@@ -13,6 +13,7 @@ Listing all given activity schedule entries in a calendar view.
       event-overlap-mode="column"
       event-start="startTimestamp"
       event-end="endTimestamp"
+      event-color="transparent"
       :interval-height="computedIntervalHeight"
       interval-width="46"
       :interval-format="intervalFormat"
@@ -38,18 +39,19 @@ Listing all given activity schedule entries in a calendar view.
       <!-- day header -->
       <template #day-label-header="{ date }">
         <div class="e-picasso-daily_head-day-label">
-          <span v-if="widthPluralization > 0" class="d-block">
-            {{ $date.utc(date).format('dddd') }}
-          </span>
           {{
-            $date
-              .utc(date)
-              .format(
-                $tc(
-                  'components.program.picasso.picasso.datetime.date',
-                  widthPluralization
-                )
-              )
+            entryWidth > 140
+              ? $date
+                  .utc(date)
+                  .format($tc('components.program.picasso.picasso.datetime.fullDate'))
+              : $date
+                  .utc(date)
+                  .format(
+                    $tc(
+                      'components.program.picasso.picasso.datetime.smallDate',
+                      widthPluralization
+                    )
+                  )
           }}
         </div>
         <day-responsibles :date="date" :period="period" :readonly="!editable" />
@@ -289,9 +291,9 @@ export default {
   },
   computed: {
     widthPluralization() {
-      if (this.entryWidth < 81) {
+      if (this.entryWidth < 86) {
         return 0
-      } else if (this.entryWidth < 85) {
+      } else if (this.entryWidth < 89) {
         return 1
       } else {
         return 2
@@ -330,7 +332,7 @@ export default {
       this.entryWidth = Math.max(
         (this.$refs.calendar.$el.offsetWidth - widthIntervals) /
           this.$refs.calendar.days.length,
-        80
+        85
       )
     },
     intervalFormat(time) {
@@ -375,19 +377,29 @@ export default {
   }
 
   :deep {
+    .v-event-timed-container {
+      margin-right: 3px;
+      @media #{map-get($display-breakpoints, 'sm-and-up')} {
+        margin-right: 5px;
+      }
+      @media #{map-get($display-breakpoints, 'md-and-up')} {
+        margin-right: 6px;
+      }
+    }
+
     .v-calendar-daily_head-day,
     .v-calendar-daily__day {
       min-width: 80px;
     }
 
     .v-event-timed {
-      padding: 0px;
-      font-size: 11px !important;
+      padding: 0 1px 1px 0;
+      @media #{map-get($display-breakpoints, 'md-and-up')} {
+        padding-bottom: 2px;
+        padding-right: 2px;
+      }
       white-space: normal;
-      line-height: 1.15;
-      user-select: none;
-      -webkit-user-select: none;
-      border-color: white !important;
+      border: none !important;
     }
 
     .v-calendar-daily__day-container {
@@ -406,6 +418,7 @@ export default {
       z-index: 2;
       min-width: fit-content;
       overflow: hidden;
+      box-shadow: rgba(0, 0, 0, 0.1) 0 4px 6px -1px, rgba(0, 0, 0, 0.06) 0 2px 4px -1px;
     }
 
     .v-calendar-daily__pane,

@@ -97,10 +97,9 @@ tr + tr :is(td, th) {
 }
 
 .contentrow {
-  max-width: 100px;
+  max-width: 64px;
   overflow: hidden;
   text-overflow: ellipsis;
-  white-space: nowrap;
 }
 
 .avatarrow {

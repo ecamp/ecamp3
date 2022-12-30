@@ -1,4 +1,5 @@
 <template>
+  <!-- edit mode: normal div with drag & drop -->
   <div
     v-if="editable"
     class="e-picasso-entry e-picasso-entry--editable"
@@ -20,63 +21,33 @@
         <v-btn
           x-small
           text
-          color="currentColor"
           class="e-picasso-entry__quickedit rounded-sm pr-0"
           @click.prevent="on.click"
           @mousedown.stop=""
           @mouseup.stop=""
         >
-          <v-icon x-small color="currentColor">mdi-pencil</v-icon>
+          <v-icon x-small color="white">mdi-pencil</v-icon>
         </v-btn>
       </template>
     </dialog-activity-edit>
 
-    <!-- readonly mode: complete div is a HTML link -->
-
-    <!-- edit mode: normal div with drag & drop -->
-    <template v-if="editable">
-      <h4 class="e-picasso-entry__title">
-        {{ activityName }}
-      </h4>
-      <template v-if="campCollaborations">
-        <br />
-        <small
-          ><span class="d-sr-only">{{
-            $tc('components.program.picasso.picassoEntry.responsible')
-          }}</span
-          >{{ campCollaborationText }}</small
-        >
-      </template>
-      <template v-if="$vuetify.breakpoint.lgAndUp && location">
-        <br />
-        <small
-          ><span class="d-sr-only">{{
-            $tc('components.program.picasso.picassoEntry.location')
-          }}</span
-          >{{ location }}</small
-        >
-      </template>
-
-      <!-- resize handle -->
-      <div
-        v-if="editable"
-        class="e-picasso-entry__drag-bottom"
-        @mousedown.stop="$emit('startResize')"
-      />
-    </template>
-  </div>
-  <router-link
-    v-else
-    class="e-picasso-entry e-piasso-entry--link"
-    :to="scheduleEntryRoute"
-    :style="colorStyles"
-  >
     <h4 class="e-picasso-entry__title">
       {{ activityName }}
     </h4>
+
+    <template v-if="location">
+      <br v-if="!isTinyDuration" />
+      <small
+        ><span class="d-sr-only">{{
+          $tc('components.program.picasso.picassoEntry.location')
+        }}</span>
+        {{ location }}
+      </small>
+    </template>
     <template v-if="campCollaborationText">
       <template v-if="clientWidth < 200 || !showAvatars">
-        <br />
+        <span v-if="!isLongDuration && location && campCollaborations"> &middot; </span>
+        <br v-if="isLongDuration" />
         <small
           ><span class="d-sr-only">{{
             $tc('components.program.picasso.picassoEntry.responsible')
@@ -86,14 +57,46 @@
       </template>
       <AvatarRow v-else :camp-collaborations="campCollaborations" />
     </template>
+
+    <!-- resize handle -->
+    <div
+      v-if="editable"
+      class="e-picasso-entry__drag-bottom"
+      @mousedown.stop="$emit('startResize')"
+    />
+  </div>
+
+  <!-- readonly mode: component is a HTML link -->
+  <router-link
+    v-else
+    class="e-picasso-entry e-piasso-entry--link"
+    :to="scheduleEntryRoute"
+    :style="colorStyles"
+  >
+    <h4 class="e-picasso-entry__title">
+      {{ activityName }}
+    </h4>
     <template v-if="location">
-      <br />
+      <br v-if="!isTinyDuration" />
       <small
         ><span class="d-sr-only">{{
           $tc('components.program.picasso.picassoEntry.location')
-        }}</span
-        >{{ location }}</small
-      >
+        }}</span>
+        {{ location }}
+      </small>
+    </template>
+    <template v-if="campCollaborationText">
+      <template v-if="clientWidth < 200 || !showAvatars">
+        <span v-if="!isLongDuration && location && campCollaborations"> &middot; </span>
+        <br v-if="isLongDuration" />
+        <small
+          ><span class="d-sr-only">{{
+            $tc('components.program.picasso.picassoEntry.responsible')
+          }}</span
+          >{{ campCollaborationText }}</small
+        >
+      </template>
+      <AvatarRow v-else :camp-collaborations="campCollaborations" />
     </template>
   </router-link>
 </template>
@@ -105,6 +108,7 @@ import { scheduleEntryRoute } from '@/router.js'
 import { contrastColor } from '@/common/helpers/colors.js'
 import { useClickDetector } from './useClickDetector.js'
 import AvatarRow from '@/components/generic/AvatarRow.vue'
+import { ONE_MINUTE } from '@/helpers/vCalendarDragAndDrop.js'
 
 export default {
   name: 'PicassoEntry',
@@ -128,6 +132,8 @@ export default {
   },
   data: () => ({
     clientWidth: 0,
+    scrollHeight: 0,
+    clientHeight: 0,
   }),
   computed: {
     activity() {
@@ -156,9 +162,18 @@ export default {
     },
     campCollaborationText() {
       if (this.campCollaborations.length === 0) return ''
-      return `[${this.campCollaborations
+      return this.campCollaborations
         .map((item) => campCollaborationDisplayName(item))
-        .join(', ')}]`
+        .join(', ')
+    },
+    duration() {
+      return this.scheduleEntry.endTimestamp - this.scheduleEntry.startTimestamp
+    },
+    isTinyDuration() {
+      return this.duration <= 40 * ONE_MINUTE
+    },
+    isLongDuration() {
+      return this.scrollHeight <= this.clientHeight
     },
     location() {
       if (this.scheduleEntry.tmpEvent) return ''
@@ -195,6 +210,8 @@ export default {
   },
   mounted() {
     this.clientWidth = this.$el.clientWidth
+    this.clientHeight = this.$el.clientHeight
+    this.scrollHeight = this.$el.scrollHeight
     window.addEventListener('resize', this.onResize)
   },
   destroyed() {
@@ -203,6 +220,12 @@ export default {
   methods: {
     onResize() {
       this.clientWidth = this.$el.clientWidth
+      this.clientHeight = this.$el.clientHeight
+      this.scrollHeight = this.$el.scrollHeight
+      this.$nextTick(() => {
+        this.clientHeight = this.$el.clientHeight
+        this.scrollHeight = this.$el.scrollHeight
+      })
     },
   },
 }
@@ -212,9 +235,18 @@ export default {
 .e-picasso-entry {
   display: block;
   height: 100%;
-  padding: 2px;
+  padding: 1px;
+  @media #{map-get($display-breakpoints, 'sm-and-up')} {
+    padding: 1px 2px;
+  }
+  @media #{map-get($display-breakpoints, 'md-and-up')} {
+    padding: 2px 3px;
+    line-height: normal;
+  }
   overflow: hidden;
-  border-width: 1px;
+  overflow-wrap: break-word;
+  position: relative;
+  border-width: 0;
   border-color: transparent;
   border-style: solid;
   border-radius: 3px;
@@ -261,17 +293,22 @@ export default {
 
 .e-picasso-entry__quickedit {
   display: none;
-  float: right;
+  position: absolute;
+  right: 0;
+  top: 0;
   max-height: calc(100% + 4px);
   padding: 0 !important;
   min-width: 20px !important;
-  margin: -2px -2px;
   border-radius: 0 3px 0 4px !important;
   z-index: 100;
 }
 
 .e-picasso-entry:hover .e-picasso-entry__quickedit {
   display: inline-block;
+  background-color: rgba(0, 0, 0, 0.75);
+  &:hover {
+    background-color: black;
+  }
 }
 
 // event title text
@@ -320,7 +357,7 @@ export default {
   }
 }
 
-:deep .avatarrow {
+:deep .e-avatarrow {
   position: absolute;
   bottom: 2px;
   right: 2px;

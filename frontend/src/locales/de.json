@@ -218,7 +218,8 @@
       "picasso": {
         "picasso": {
           "datetime": {
-            "date": "dd. D.MM | D. MMM | DD. MMM YYYY"
+            "fullDate": "dd, DD. MMMM YYYY",
+            "smallDate": "dd, D.MM. | dd, D. MMM | dd, D. MMM YY"
           }
         },
         "picassoEntry": {

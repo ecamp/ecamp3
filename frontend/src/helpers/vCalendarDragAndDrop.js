@@ -29,7 +29,7 @@ const minMaxTime = (start, end) => {
   }
 }
 
-const ONE_HOUR = 60 * 60 * 1000
+const ONE_MINUTE = 40 * 60 * 1000
 const ONE_DAY = 24 * 60 * 60 * 1000
 
-export { toTime, roundTimeDown, roundTimeUp, minMaxTime, ONE_HOUR, ONE_DAY }
+export { toTime, roundTimeDown, roundTimeUp, minMaxTime, ONE_MINUTE, ONE_DAY }
