@@ -45,7 +45,7 @@
       </small>
     </template>
     <template v-if="campCollaborationText">
-      <template v-if="clientWidth < 200 || !showAvatars">
+      <template v-if="clientWidth < 200">
         <span v-if="!isLongDuration && location && campCollaborations"> &middot; </span>
         <br v-if="isLongDuration" />
         <small
@@ -86,7 +86,7 @@
       </small>
     </template>
     <template v-if="campCollaborationText">
-      <template v-if="clientWidth < 200 || !showAvatars">
+      <template v-if="clientWidth < 200">
         <span v-if="!isLongDuration && location && campCollaborations"> &middot; </span>
         <br v-if="isLongDuration" />
         <small
@@ -116,7 +116,6 @@ export default {
   props: {
     editable: { type: Boolean, required: true },
     scheduleEntry: { type: Object, required: true },
-    showAvatars: Boolean,
   },
   emits: ['startResize', 'finishEdit'],
   setup(props) {

@@ -60,7 +60,6 @@ Listing all given activity schedule entries in a calendar view.
       <!-- template for single scheduleEntry -->
       <template #event="{ event }">
         <PicassoEntry
-          :show-avatars="showAvatars"
           :schedule-entry="event"
           :editable="editable"
           @startResize="startResize(event)"
@@ -156,8 +155,6 @@ export default {
     const { editable, scheduleEntries } = toRefs(props)
 
     const isSaving = ref(false)
-
-    const showAvatars = new URLSearchParams(document.location.search).has('showAvatars')
 
     // callback used to save entry to API
     const updateEntry = (scheduleEntry, startTimestamp, endTimestamp) => {
@@ -264,7 +261,6 @@ export default {
     }
 
     return {
-      showAvatars,
       vCalendarListeners,
       startResize: dragAndDropResize.startResize,
       onMouseleave,
