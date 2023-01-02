@@ -54,6 +54,10 @@ php:
       clientId: 'raT1QFf6TOQzpn3yVH-My6YLrmsvOrfMhYypxzjPMWk'
       clientSecret: 'fTxMrzjBn3gPGg3eB0bNMmjRqg4ccs3_su7CaTXtljE'
       baseUrl: 'https://cevi.puzzle.ch'
+    jubladb:
+      clientId: 'WrKABq7GwmC6h1F0W73OGX_fOTHWWXnKXfrPMHOdQWY'
+      clientSecret: 'oQ164RDMIAocL6PhmCoeT1Ymcg-7WcOJZdxCnIph5gM'
+      baseUrl: 'https://jubla.puzzle.ch'
   resources:
     requests:
       cpu: 10m

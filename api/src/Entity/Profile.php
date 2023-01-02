@@ -103,6 +103,13 @@ class Profile extends BaseEntity {
     public ?string $cevidbId = null;
 
     /**
+     * JublaDB id of the user.
+     */
+    #[ApiProperty(readable: false, writable: false)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    public ?string $jubladbId = null;
+
+    /**
      * The user's (optional) first name.
      */
     #[InputFilter\Trim]

@@ -43,6 +43,9 @@ class UriTemplateNormalizerTest extends TestCase {
                 case 'connect_cevidb_start':
                     return '/auth/cevidb';
 
+                case 'connect_jubladb_start':
+                    return '/auth/jubladb';
+
                 default:
                     return null;
             }
@@ -69,6 +72,10 @@ class UriTemplateNormalizerTest extends TestCase {
             ],
             'oauthCevidb' => [
                 'href' => '/auth/cevidb{?callback}',
+                'templated' => true,
+            ],
+            'oauthJubladb' => [
+                'href' => '/auth/jubladb{?callback}',
                 'templated' => true,
             ],
             'resetPassword' => [

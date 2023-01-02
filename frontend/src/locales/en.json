@@ -337,14 +337,15 @@
         "loginCallback": {
           "loginInProgress": "You will be logged in"
         },
-        "or": "or",
+        "or": "or with",
         "password": "Password",
         "passwordForgotten": "Forgotten your password?",
         "provider": {
-          "cevidb": "Login with CeviDB",
+          "cevidb": "CeviDB",
           "ecamp": "Login with eCamp",
-          "google": "Login with Google",
-          "midata": "Login with MiData"
+          "google": "Google",
+          "jubladb": "JublaDB",
+          "midata": "MiData"
         },
         "registernow": "Register now"
       },
