@@ -19,7 +19,7 @@
         "lexik/jwt-authentication-bundle": "2.16.0",
         "nelmio/cors-bundle": "2.2.0",
         "phpdocumentor/reflection-docblock": "5.3.0",
-        "phpmyadmin/sql-parser": "5.5.0",
+        "phpmyadmin/sql-parser": "5.6.0",
         "ramsey/uuid": "4.7.1",
         "rize/uri-template": "0.3.5",
         "sentry/sentry-symfony": "4.5.0",
