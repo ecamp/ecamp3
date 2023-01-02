@@ -160,8 +160,8 @@
     },
     "scheduleEntry": {
       "fields": {
-        "length": "Length in Minutes",
-        "nr": "Nr",
+        "duration": "Duration",
+        "nr": "No.",
         "time": "Time"
       },
       "name": "Activity scheduled"
