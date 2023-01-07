@@ -108,7 +108,7 @@
     "jest-canvas-mock": "2.4.0",
     "jest-serializer-vue-tjw": "3.19.0",
     "lint-staged": "13.1.0",
-    "prettier": "2.8.1",
+    "prettier": "2.8.2",
     "sass": "1.32.13",
     "unplugin-vue-components": "0.22.12",
     "vite": "4.0.4",
