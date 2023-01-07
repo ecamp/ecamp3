@@ -2,7 +2,7 @@
   <v-card :elevation="draggable ? 4 : 0" :class="{ 'mx-2 my-2': draggable }">
     <v-card-title hide-actions class="pa-0 pr-sm-2">
       <v-toolbar dense flat>
-        <v-icon class="mr-1">{{ icon }}</v-icon>
+        <v-icon class="mr-2">{{ icon }}</v-icon>
 
         <div v-if="editInstanceName" style="flex: 1" @click.stop @keyup.prevent>
           <api-text-field
@@ -94,8 +94,9 @@ export default {
 }
 </script>
 
-<style scoped>
-.v-card:deep(button) {
+<style scoped lang="scss">
+.v-card:deep(button.visible-on-hover),
+.v-card:deep(button.tooltip-activator) {
   width: 36px !important;
   height: 36px !important;
 }

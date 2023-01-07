@@ -1,124 +1,65 @@
 <template>
-  <card-content-node v-bind="$props">
-    <v-container fluid>
-      <v-row no-gutters class="text-subtitle-2">
-        <v-col cols="2">
-          {{ $tc('contentNode.storyboard.entity.section.fields.column1') }}
-        </v-col>
-        <v-col cols="7">
-          {{ $tc('contentNode.storyboard.entity.section.fields.column2Html') }}
-        </v-col>
-        <v-col cols="2">
-          {{ $tc('contentNode.storyboard.entity.section.fields.column3') }}
-        </v-col>
-        <v-col cols="1" />
-      </v-row>
-
-      <api-sortable
-        v-slot="sortable"
+  <card-content-node v-resizeobserver.debounce="onResize" v-bind="$props">
+    <component :is="variant === 'default' ? 'table' : 'div'">
+      <thead v-if="variant === 'default'">
+        <tr>
+          <th scope="col" class="text-left">
+            {{ $tc('contentNode.storyboard.entity.section.fields.column1') }}
+          </th>
+          <th scope="col" class="text-left">
+            {{ $tc('contentNode.storyboard.entity.section.fields.column2Html') }}
+          </th>
+          <th scope="col" class="text-left">
+            {{ $tc('contentNode.storyboard.entity.section.fields.column3') }}
+          </th>
+          <th>
+            <span class="d-sr-only">
+              {{ $tc('contentNode.storyboard.entity.section.controls') }}
+            </span>
+          </th>
+        </tr>
+      </thead>
+      <StoryboardSortable
+        :entity="contentNode"
         :disabled="layoutMode || disabled"
         :items="sections"
+        :layout-mode="layoutMode"
+        :is-last-section="isLastSection"
+        :variant="variant"
         @sort="updateSections"
-      >
-        <api-form :entity="contentNode">
-          <v-row dense>
-            <v-col cols="2">
-              <api-text-field
-                :fieldname="`data.sections[${sortable.itemKey}].column1`"
-                :disabled="layoutMode || disabled"
-                :filled="layoutMode"
-              />
-            </v-col>
-            <v-col cols="7">
-              <api-richtext
-                :fieldname="`data.sections[${sortable.itemKey}].column2Html`"
-                rows="4"
-                :disabled="layoutMode || disabled"
-                :filled="layoutMode"
-              />
-            </v-col>
-            <v-col cols="2">
-              <api-text-field
-                :fieldname="`data.sections[${sortable.itemKey}].column3`"
-                :disabled="layoutMode || disabled"
-                :filled="layoutMode"
-              />
-            </v-col>
-            <v-col cols="1">
-              <v-container v-if="!layoutMode && !disabled" class="ma-0 pa-0">
-                <v-row no-gutters>
-                  <v-col cols="6">
-                    <div class="section-buttons">
-                      <dialog-remove-section
-                        @submit="sortable.on.delete(sortable.itemKey)"
-                      >
-                        <template #activator="{ on }">
-                          <v-btn
-                            icon
-                            x-small
-                            color="error"
-                            :disabled="isLastSection"
-                            v-on="on"
-                          >
-                            <v-icon>mdi-delete</v-icon>
-                          </v-btn>
-                        </template>
-                      </dialog-remove-section>
-                    </div>
-                    <v-btn
-                      icon
-                      x-small
-                      class="drag-and-drop-handle"
-                      :disabled="isLastSection"
-                    >
-                      <v-icon>mdi-drag-horizontal-variant</v-icon>
-                    </v-btn>
-                  </v-col>
-                  <v-col cols="6">
-                    <div class="section-buttons">
-                      <v-btn
-                        icon
-                        x-small
-                        :disabled="isLastSection"
-                        @click="sortable.on.moveUp(sortable.itemKey)"
-                      >
-                        <v-icon>mdi-arrow-up-bold</v-icon>
-                      </v-btn>
-
-                      <v-btn
-                        icon
-                        x-small
-                        :disabled="isLastSection"
-                        @click="sortable.on.moveDown(sortable.itemKey)"
-                      >
-                        <v-icon>mdi-arrow-down-bold</v-icon>
-                      </v-btn>
-                    </div>
-                  </v-col>
-                </v-row>
-              </v-container>
-            </v-col>
-          </v-row>
-        </api-form>
-      </api-sortable>
-
-      <!-- add at end position -->
-      <v-row no-gutters justify="center">
-        <v-col cols="1">
-          <v-btn
-            v-if="!layoutMode && !disabled"
-            icon
-            small
-            class="button-add"
-            color="success"
-            :loading="isAdding"
-            @click="addSection"
-          >
-            <v-icon>mdi-plus</v-icon>
-          </v-btn>
-        </v-col>
-      </v-row>
-    </v-container>
+      />
+      <template v-if="!layoutMode && !disabled">
+        <tfoot v-if="variant === 'default'">
+          <tr>
+            <td colspan="4">
+              <v-btn
+                block
+                icon
+                class="button-add"
+                color="success"
+                rounded
+                :loading="isAdding"
+                @click="addSection"
+              >
+                <v-icon>mdi-plus</v-icon>
+              </v-btn>
+            </td>
+          </tr>
+        </tfoot>
+        <v-btn
+          v-else
+          block
+          icon
+          class="button-add"
+          color="success"
+          rounded
+          :loading="isAdding"
+          @click="addSection"
+        >
+          <v-icon>mdi-plus</v-icon>
+        </v-btn>
+      </template>
+    </component>
   </card-content-node>
 </template>
 
@@ -128,18 +69,19 @@ import CardContentNode from '@/components/activity/CardContentNode.vue'
 import { contentNodeMixin } from '@/mixins/contentNodeMixin.js'
 import ApiSortable from '@/components/form/api/ApiSortable.vue'
 
-import DialogRemoveSection from './StoryboardDialogRemoveSection.vue'
-
 import { v4 as uuidv4 } from 'uuid'
 import { errorToMultiLineToast } from '@/components/toast/toasts'
+import StoryboardRow from '@/components/activity/content/StoryboardRow.vue'
+import StoryboardSortable from '@/components/activity/content/StoryboardSortable.vue'
 
 export default {
   name: 'Storyboard',
   components: {
+    StoryboardSortable,
+    StoryboardRow,
     CardContentNode,
     ApiForm,
     ApiSortable,
-    DialogRemoveSection,
   },
   mixins: [contentNodeMixin],
   props: {
@@ -148,6 +90,7 @@ export default {
   data() {
     return {
       isAdding: false,
+      clientWidth: 1000,
     }
   },
   computed: {
@@ -165,8 +108,17 @@ export default {
     isLastSection() {
       return Object.keys(this.sections).length === 1
     },
+    variant() {
+      return this.clientWidth <= 910 ? 'dense' : 'default'
+    },
+  },
+  mounted() {
+    this.clientWidth = this.$el.clientWidth
   },
   methods: {
+    onResize({ width }) {
+      this.clientWidth = width
+    },
     async addSection() {
       this.isAdding = true
 
@@ -207,32 +159,13 @@ export default {
 }
 </script>
 
-<style scoped>
-.section-buttons {
-  width: 40px;
-}
-
-.row-inter {
-  height: 4px;
-  transition: 0s height;
-  transition-duration: 0.5s;
-}
-.row-inter:hover {
-  height: 30px;
-  background-color: #eeeeee;
-  transition-delay: 0.3s;
-}
-
-.row-inter .button-add {
-  opacity: 0;
-  height: 0;
-  transition: 0s height, opacity;
-  transition-duration: 0.5s;
-}
-
-.row-inter:hover .button-add {
-  opacity: 1;
-  height: 30px;
-  transition-delay: 0.3s;
+<style scoped lang="scss">
+:deep {
+  .v-text-field.v-text-field--enclosed.v-text-field--outlined:not(.v-input--dense)
+    .editor {
+    margin-top: 10px;
+    padding-top: 5px;
+    margin-bottom: 10px;
+  }
 }
 </style>

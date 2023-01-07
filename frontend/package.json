@@ -68,6 +68,7 @@
     "url-template": "3.1.0",
     "util": "0.12.5",
     "uuid": "9.0.0",
+    "v-resize-observer": "^1.6.3",
     "vee-validate": "3.4.14",
     "vue": "2.7.14",
     "vue-axios": "3.5.2",

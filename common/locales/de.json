@@ -56,6 +56,7 @@
       "info": "Hier kannst du den Inhalt von diesem Block planen.{br}In der linken Spalte [Zeit] kannst du die Dauer der einzelnen Elemente erfassen.{br}In der rechten Spalte [Verantwortlich] kannst du Personen zuteilen.",
       "entity": {
         "section": {
+          "controls": "Aktionen",
           "fields": {
             "column1": "Zeit",
             "column2Html": "Programm",

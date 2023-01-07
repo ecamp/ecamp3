@@ -60,6 +60,7 @@
     "storyboard": {
       "info": "Here you can plan the content of this block.{br}In the left column [Time] you can record the duration of the individual elements.{br}In the right column [Responsible] you can assign persons.",
       "entity": {
+        "controls": "Controls",
         "section": {
           "fields": {
             "column1": "Time",
