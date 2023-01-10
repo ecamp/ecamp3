@@ -6896,16 +6896,16 @@
         },
         {
             "name": "symfony/http-client-contracts",
-            "version": "v3.1.1",
+            "version": "v3.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/http-client-contracts.git",
-                "reference": "fd038f08c623ab5d22b26e9ba35afe8c79071800"
+                "reference": "c5f587eb445224ddfeb05b5ee703476742d730bf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/http-client-contracts/zipball/fd038f08c623ab5d22b26e9ba35afe8c79071800",
-                "reference": "fd038f08c623ab5d22b26e9ba35afe8c79071800",
+                "url": "https://api.github.com/repos/symfony/http-client-contracts/zipball/c5f587eb445224ddfeb05b5ee703476742d730bf",
+                "reference": "c5f587eb445224ddfeb05b5ee703476742d730bf",
                 "shasum": ""
             },
             "require": {
@@ -6917,7 +6917,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-main": "3.1-dev"
+                    "dev-main": "3.3-dev"
                 },
                 "thanks": {
                     "name": "symfony/contracts",
@@ -6957,7 +6957,7 @@
                 "standards"
             ],
             "support": {
-                "source": "https://github.com/symfony/http-client-contracts/tree/v3.1.1"
+                "source": "https://github.com/symfony/http-client-contracts/tree/v3.2.0"
             },
             "funding": [
                 {
@@ -6973,7 +6973,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-04-22T07:30:54+00:00"
+            "time": "2022-11-25T10:21:52+00:00"
         },
         {
             "name": "symfony/http-foundation",
@@ -11083,16 +11083,16 @@
         },
         {
             "name": "doctrine/data-fixtures",
-            "version": "1.6.1",
+            "version": "1.6.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/data-fixtures.git",
-                "reference": "1a4232c15143ca3c127812d19b23a7961c41eeed"
+                "reference": "c27821d038e64f1bfc852a94064d65d2a75ad01f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/data-fixtures/zipball/1a4232c15143ca3c127812d19b23a7961c41eeed",
-                "reference": "1a4232c15143ca3c127812d19b23a7961c41eeed",
+                "url": "https://api.github.com/repos/doctrine/data-fixtures/zipball/c27821d038e64f1bfc852a94064d65d2a75ad01f",
+                "reference": "c27821d038e64f1bfc852a94064d65d2a75ad01f",
                 "shasum": ""
             },
             "require": {
@@ -11145,7 +11145,7 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/data-fixtures/issues",
-                "source": "https://github.com/doctrine/data-fixtures/tree/1.6.1"
+                "source": "https://github.com/doctrine/data-fixtures/tree/1.6.3"
             },
             "funding": [
                 {
@@ -11161,7 +11161,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-12-23T12:13:51+00:00"
+            "time": "2023-01-07T15:10:22+00:00"
         },
         {
             "name": "fakerphp/faker",
