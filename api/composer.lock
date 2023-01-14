@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "bde17b7a1431b0540aa33251b0928460",
+    "content-hash": "b0fd7a93a86ce9bdea816ef32b0e6b08",
     "packages": [
         {
             "name": "api-platform/core",
-            "version": "v2.7.5",
+            "version": "v2.7.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/api-platform/core.git",
-                "reference": "b670958db633d66b05bc46ff34c3bb7c1b306c70"
+                "reference": "e6cb63475c0ae13b9c8861004728751e8d2e899d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/api-platform/core/zipball/b670958db633d66b05bc46ff34c3bb7c1b306c70",
-                "reference": "b670958db633d66b05bc46ff34c3bb7c1b306c70",
+                "url": "https://api.github.com/repos/api-platform/core/zipball/e6cb63475c0ae13b9c8861004728751e8d2e899d",
+                "reference": "e6cb63475c0ae13b9c8861004728751e8d2e899d",
                 "shasum": ""
             },
             "require": {
@@ -71,7 +71,7 @@
                 "psr/log": "^1.0 || ^2.0 || ^3.0",
                 "ramsey/uuid": "^3.7 || ^4.0",
                 "ramsey/uuid-doctrine": "^1.4",
-                "soyuka/contexts": "dev-main",
+                "soyuka/contexts": "^3.3.6",
                 "soyuka/stubs-mongodb": "^1.0",
                 "symfony/asset": "^3.4 || ^4.4 || ^5.1 || ^6.0",
                 "symfony/browser-kit": "^4.4 || ^5.1 || ^6.0",
@@ -165,7 +165,7 @@
             ],
             "support": {
                 "issues": "https://github.com/api-platform/core/issues",
-                "source": "https://github.com/api-platform/core/tree/v2.7.5"
+                "source": "https://github.com/api-platform/core/tree/v2.7.6"
             },
             "funding": [
                 {
@@ -173,7 +173,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-11-25T08:03:09+00:00"
+            "time": "2023-01-14T07:49:28+00:00"
         },
         {
             "name": "behat/transliterator",
