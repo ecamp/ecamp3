@@ -154,8 +154,8 @@
     },
     "scheduleEntry": {
       "fields": {
-        "length": "Dauer in Minuten",
-        "nr": "Nr",
+        "duration": "Dauer",
+        "nr": "Nr.",
         "time": "Zeitpunkt"
       },
       "name": "Zeitplaneintrag"
