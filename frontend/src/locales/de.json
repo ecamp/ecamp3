@@ -123,6 +123,21 @@
         "warningText": "Möchtest du das wirklich löschen?"
       }
     },
+    "form": {
+      "base": {
+        "eColorPicker": {
+          "openPicker": "Dialog öffnen um eine Farbe für {label} zu wählen"
+        },
+        "eDatePicker": {
+          "invalidFormat": "Ungültiges Format, bitte gib das Datum im Format DD.MM.YYYY ein",
+          "openPicker": "Dialog öffnen um ein Datum für {label} zu wählen"
+        },
+        "eTimePicker": {
+          "invalidFormat": "Ungültiges Format, bitte gib die Zeit im Format HH:MM ein",
+          "openPicker": "Dialog öffnen um eine Zeit für {label} zu wählen"
+        }
+      }
+    },
     "generic": {
       "lockIcon": {
         "guestsCannotEdit": "Gäste haben keinen Bearbeitungszugriff"
@@ -281,7 +296,7 @@
       "lock": "Sperren",
       "login": "Anmelden",
       "logout": "Ausloggen",
-      "ok": "In Ordnung",
+      "ok": "OK",
       "open": "Öffnen",
       "save": "Speichern",
       "saving": "Speichert",
@@ -292,6 +307,9 @@
       "update": "Aktualisieren"
     },
     "changeLanguage": "Sprache ändern",
+    "datetime": {
+      "vuetifyTimePickerFormat": "24hr"
+    },
     "language": "Deutsch",
     "loading": "Laden …",
     "lokaliseMessage": "Übersetzungen unterstützt durch lokalise.com",
@@ -332,14 +350,15 @@
         "loginCallback": {
           "loginInProgress": "Du wirst eingeloggt"
         },
-        "or": "oder",
+        "or": "oder mit",
         "password": "Passwort",
         "passwordForgotten": "Passwort vergessen?",
         "provider": {
-          "cevidb": "Anmelden mit CeviDB",
+          "cevidb": "CeviDB",
           "ecamp": "Anmelden mit eCamp",
-          "google": "Anmelden mit Google",
-          "midata": "Anmelden mit MiData"
+          "google": "Google",
+          "jubladb": "JublaDB",
+          "midata": "MiData"
         },
         "registernow": "Jetzt registrieren"
       },

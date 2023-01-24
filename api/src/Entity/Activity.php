@@ -2,12 +2,19 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Core\Annotation\ApiFilter;
-use ApiPlatform\Core\Annotation\ApiProperty;
-use ApiPlatform\Core\Annotation\ApiResource;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Metadata\ApiProperty;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Post;
 use App\InputFilter;
 use App\Repository\ActivityRepository;
+use App\State\ActivityCreateProcessor;
+use App\State\ActivityRemoveProcessor;
 use App\Validator\AssertBelongsToSameCamp;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -20,34 +27,36 @@ use Symfony\Component\Validator\Constraints as Assert;
  * A piece of programme that will be carried out once or multiple times in a camp.
  */
 #[ApiResource(
-    collectionOperations: [
-        'get' => [
-            'normalization_context' => ['groups' => ['read', 'Activity:ActivityResponsibles', 'Activity:ScheduleEntries']],
-            'security' => 'is_authenticated()',
-        ],
-        'post' => [
-            'validation_groups' => ['Default', 'create'],
-            'denormalization_context' => ['groups' => ['write', 'create']],
-            'normalization_context' => self::ITEM_NORMALIZATION_CONTEXT,
-            'security_post_denormalize' => 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)',
-        ],
-    ],
-    itemOperations: [
-        'get' => [
-            'normalization_context' => self::ITEM_NORMALIZATION_CONTEXT,
-            'security' => 'is_granted("CAMP_COLLABORATOR", object) or is_granted("CAMP_IS_PROTOTYPE", object)',
-        ],
-        'patch' => [
-            'normalization_context' => self::ITEM_NORMALIZATION_CONTEXT,
-            'security' => 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)',
-            'validation_groups' => ['Default', 'update'],
-        ],
-        'delete' => ['security' => 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)'],
+    operations: [
+        new Get(
+            normalizationContext: self::ITEM_NORMALIZATION_CONTEXT,
+            security: 'is_granted("CAMP_COLLABORATOR", object) or is_granted("CAMP_IS_PROTOTYPE", object)'
+        ),
+        new Patch(
+            normalizationContext: self::ITEM_NORMALIZATION_CONTEXT,
+            security: 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)',
+            validationContext: ['groups' => ['Default', 'update']]
+        ),
+        new Delete(
+            processor: ActivityRemoveProcessor::class,
+            security: 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)'
+        ),
+        new GetCollection(
+            normalizationContext: ['groups' => ['read', 'Activity:ActivityResponsibles', 'Activity:ScheduleEntries']],
+            security: 'is_authenticated()'
+        ),
+        new Post(
+            processor: ActivityCreateProcessor::class,
+            validationContext: ['groups' => ['Default', 'create']],
+            denormalizationContext: ['groups' => ['write', 'create']],
+            normalizationContext: self::ITEM_NORMALIZATION_CONTEXT,
+            securityPostDenormalize: 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)'
+        ),
     ],
     denormalizationContext: ['groups' => ['write']],
-    normalizationContext: ['groups' => ['read']],
+    normalizationContext: ['groups' => ['read']]
 )]
-#[ApiFilter(SearchFilter::class, properties: ['camp'])]
+#[ApiFilter(filterClass: SearchFilter::class, properties: ['camp'])]
 #[ORM\Entity(repositoryClass: ActivityRepository::class)]
 class Activity extends BaseEntity implements BelongsToCampInterface {
     use HasRootContentNodeTrait;
@@ -75,7 +84,7 @@ class Activity extends BaseEntity implements BelongsToCampInterface {
     )]
     #[ApiProperty(
         writableLink: true,
-        example: '[{ "period": "/periods/1a2b3c4a", "endOffset": 1100, "startOffset": 1000 }]',
+        example: [['period' => '/periods/1a2b3c4a', 'start' => '2023-05-01T15:00:00+00:00', 'end' => '2023-05-01T16:00:00+00:00']],
     )]
     #[Groups(['read', 'create'])]
     #[ORM\OneToMany(targetEntity: ScheduleEntry::class, mappedBy: 'activity', orphanRemoval: true, cascade: ['persist'])]
@@ -85,7 +94,7 @@ class Activity extends BaseEntity implements BelongsToCampInterface {
     /**
      * The camp to which this activity belongs.
      */
-    #[Assert\DisableAutoMapping] // camp is set in the DataPersister
+    #[Assert\DisableAutoMapping] // camp is set in the data processor
     #[ApiProperty(writable: false, example: '/camps/1a2b3c4d')]
     #[Groups(['read'])]
     #[ORM\ManyToOne(targetEntity: Camp::class, inversedBy: 'activities')]

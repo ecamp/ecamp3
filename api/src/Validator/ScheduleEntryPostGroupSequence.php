@@ -2,7 +2,7 @@
 
 namespace App\Validator;
 
-use ApiPlatform\Core\Bridge\Symfony\Validator\ValidationGroupsGeneratorInterface;
+use ApiPlatform\Symfony\Validator\ValidationGroupsGeneratorInterface;
 use Symfony\Component\Validator\Constraints\GroupSequence;
 
 class ScheduleEntryPostGroupSequence implements ValidationGroupsGeneratorInterface {

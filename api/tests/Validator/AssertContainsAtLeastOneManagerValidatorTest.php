@@ -8,6 +8,7 @@ use App\Validator\AssertContainsAtLeastOneManager;
 use App\Validator\AssertContainsAtLeastOneManagerValidator;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints\Email;
+use Symfony\Component\Validator\ConstraintValidatorInterface;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 use Symfony\Component\Validator\Exception\UnexpectedValueException;
 use Symfony\Component\Validator\Test\ConstraintValidatorTestCase;
@@ -93,7 +94,7 @@ class AssertContainsAtLeastOneManagerValidatorTest extends ConstraintValidatorTe
         $this->assertNoViolation();
     }
 
-    protected function createValidator() {
+    protected function createValidator(): ConstraintValidatorInterface {
         return new AssertContainsAtLeastOneManagerValidator();
     }
 

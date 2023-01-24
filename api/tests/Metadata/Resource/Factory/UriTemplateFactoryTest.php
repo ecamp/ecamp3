@@ -2,14 +2,18 @@
 
 namespace App\Tests\Metadata\Resource\Factory;
 
-use ApiPlatform\Core\Action\NotFoundAction;
-use ApiPlatform\Core\Api\FilterInterface;
-use ApiPlatform\Core\Api\IriConverterInterface;
-use ApiPlatform\Core\DataProvider\PaginationOptions;
-use ApiPlatform\Core\Metadata\Resource\Factory\ResourceMetadataFactoryInterface;
-use ApiPlatform\Core\Metadata\Resource\Factory\ResourceNameCollectionFactoryInterface;
-use ApiPlatform\Core\Metadata\Resource\ResourceMetadata;
+use ApiPlatform\Api\FilterInterface;
+use ApiPlatform\Api\IriConverterInterface;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Operations;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Resource\Factory\ResourceMetadataCollectionFactoryInterface;
+use ApiPlatform\Metadata\Resource\Factory\ResourceNameCollectionFactoryInterface;
+use ApiPlatform\Metadata\Resource\ResourceMetadataCollection;
 use ApiPlatform\Metadata\Resource\ResourceNameCollection;
+use ApiPlatform\State\Pagination\PaginationOptions;
 use App\Metadata\Resource\Factory\UriTemplateFactory;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -21,25 +25,34 @@ use Psr\Container\ContainerInterface;
 class UriTemplateFactoryTest extends TestCase {
     private UriTemplateFactory $uriTemplateFactory;
     private MockObject|ContainerInterface $filterLocator;
-    private MockObject|ResourceMetadataFactoryInterface $resourceMetadataFactory;
+    private MockObject|ResourceMetadataCollectionFactoryInterface $resourceMetadataCollectionFactory;
     private MockObject|ResourceNameCollectionFactoryInterface $resourceNameCollectionFactory;
     private MockObject|IriConverterInterface $iriConverter;
     private PaginationOptions $paginationOptions;
     private ResourceNameCollection $resourceNameCollection;
-    private ResourceMetadata $resourceMetadata;
+    private ApiResource $apiResource;
 
     protected function setUp(): void {
         $this->filterLocator = $this->createMock(ContainerInterface::class);
-        $this->resourceMetadataFactory = $this->createMock(ResourceMetadataFactoryInterface::class);
+        $this->resourceMetadataCollectionFactory = $this->createMock(ResourceMetadataCollectionFactoryInterface::class);
         $this->resourceNameCollectionFactory = $this->createMock(ResourceNameCollectionFactoryInterface::class);
         $this->iriConverter = $this->createMock(IriConverterInterface::class);
         $this->paginationOptions = new PaginationOptions(false);
         $this->resourceNameCollection = new ResourceNameCollection(['Dummy']);
-        $this->resourceMetadata = new ResourceMetadata('Dummy', null, null, ['get' => []]);
+        $this->resourceMetadataCollection = new ResourceMetadataCollection('Dummy');
+
+        $this->apiResource = (new ApiResource())->withShortName('Dummy')->withOperations(new Operations([
+            new Get(
+                name: '_api_/dummys/{id}{._format}_get'
+            ),
+            new GetCollection(
+                name: '_api_/dummys{._format}_get_collection'
+            ),
+        ]));
 
         $this->resourceNameCollectionFactory->method('create')->willReturnCallback(fn () => $this->resourceNameCollection);
-        $this->resourceMetadataFactory->method('create')->with('Dummy')->willReturnCallback(fn () => $this->resourceMetadata);
-        $this->iriConverter->method('getIriFromResourceClass')->willReturnCallback(function ($resourceClass) {
+        $this->resourceMetadataCollectionFactory->method('create')->with('Dummy')->willReturnCallback(fn () => $this->resourceMetadataCollection);
+        $this->iriConverter->method('getIriFromResource')->willReturnCallback(function ($resourceClass) {
             return '/'.lcfirst($resourceClass).'s';
         });
     }
@@ -61,10 +74,15 @@ class UriTemplateFactoryTest extends TestCase {
     public function testCreatesNonTemplatedUri() {
         // given
         $resource = 'Dummy';
-        $this->resourceMetadata = $this->resourceMetadata->withItemOperations([
-            'get' => ['controller' => NotFoundAction::class],
-            'patch' => [],
+        $operations = new Operations([
+            new GetCollection(
+                shortName: 'Dummy',
+                name: '_api_/dummys{._format}_get_collection'
+            ),
         ]);
+        $apiResource = (new ApiResource())->withShortName('Dummy')->withOperations($operations);
+        $this->resourceMetadataCollection->append($apiResource);
+
         $this->createFactory();
 
         // when
@@ -78,6 +96,7 @@ class UriTemplateFactoryTest extends TestCase {
     public function testCreatesTemplatedUriWithIdPathParameter() {
         // given
         $resource = 'Dummy';
+        $this->resourceMetadataCollection->append($this->apiResource);
         $this->createFactory();
 
         // when
@@ -91,9 +110,15 @@ class UriTemplateFactoryTest extends TestCase {
     public function testCreatesTemplatedUriWithFilterQueryParameter() {
         // given
         $resource = 'Dummy';
-        $this->resourceMetadata = $this->resourceMetadata->withAttributes([
-            'filters' => ['some_filter_identifier'],
-        ]);
+        $this->resourceMetadataCollection->append((new ApiResource())->withShortName('Dummy')->withOperations(new Operations([
+            new Get(
+                name: '_api_/dummys/{id}{._format}_get'
+            ),
+            new GetCollection(
+                name: '_api_/dummys{._format}_get_collection',
+                filters: ['some_filter_identifier']
+            ),
+        ])));
         $filter = $this->createMock(FilterInterface::class);
         $filter->method('getDescription')->willReturn(['some_filter' => 'something']);
         $this->filterLocator->method('get')->with('some_filter_identifier')->willReturn($filter);
@@ -110,6 +135,7 @@ class UriTemplateFactoryTest extends TestCase {
     public function testCreatesTemplatedUriWithPaginationQueryParameter() {
         // given
         $resource = 'Dummy';
+        $this->resourceMetadataCollection->append($this->apiResource);
         $this->paginationOptions = new PaginationOptions(true);
         $this->createFactory();
 
@@ -125,10 +151,16 @@ class UriTemplateFactoryTest extends TestCase {
         // given
         $resource = 'Dummy';
         $this->paginationOptions = new PaginationOptions(true);
-        $this->resourceMetadata = $this->resourceMetadata->withAttributes([
-            'pagination_client_items_per_page' => true,
-            'pagination_client_enabled' => true,
-        ]);
+        $this->resourceMetadataCollection->append((new ApiResource())->withShortName('Dummy')->withOperations(new Operations([
+            new Get(
+                name: '_api_/dummys/{id}{._format}_get'
+            ),
+            new GetCollection(
+                name: '_api_/dummys{._format}_get_collection',
+                paginationClientEnabled: true,
+                paginationClientItemsPerPage: true
+            ),
+        ])));
         $this->createFactory();
 
         // when
@@ -142,20 +174,20 @@ class UriTemplateFactoryTest extends TestCase {
     public function testCreatesTemplatedUriWithActionPathParameters() {
         // given
         $resource = 'Dummy';
-        $this->resourceMetadata = new ResourceMetadata(
-            'Dummy',
-            null,
-            null,
-            [
-                'get' => [],
-                'find' => [
-                    'path' => '{/inviteKey}/find',
-                ],
-                'accept' => [
-                    'path' => '/{inviteKey}/accept',
-                ],
-            ]
-        );
+
+        $this->resourceMetadataCollection->append((new ApiResource())->withShortName('Dummy')->withOperations(new Operations([
+            new Get(
+                name: '_api_/dummys/{id}{._format}_get'
+            ),
+            new Get(
+                name: '_api_/dummys/{id}/find{._format}_get',
+                uriTemplate: '/{inviteKey}/find{._format}',
+            ),
+            new Patch(
+                name: '_api_/dummys/{id}/accept{._format}_get',
+                uriTemplate: '/{inviteKey}/accept{._format}',
+            ),
+        ])));
         $this->createFactory();
 
         // when
@@ -169,17 +201,14 @@ class UriTemplateFactoryTest extends TestCase {
     public function testIgnoresRoutesWithNoSlashAtEnd() {
         // given
         $resource = 'Dummy';
-        $this->resourceMetadata = new ResourceMetadata(
-            'Dummy',
-            null,
-            null,
-            [
-                'get' => [],
-                'profiles1' => [
-                    'path' => 'profiles{/id}',
-                ],
-            ]
-        );
+        $this->resourceMetadataCollection->append((new ApiResource())->withShortName('Dummy')->withOperations(new Operations([
+            new Get(
+                name: '_api_/dummys/{id}{._format}_get'
+            ),
+            new Get(
+                uriTemplate: '/profiles{inviteKey}{._format}',
+            ),
+        ])));
         $this->createFactory();
 
         // when
@@ -193,22 +222,19 @@ class UriTemplateFactoryTest extends TestCase {
     /**
      * This behaviour was not yet implemented, because we don't have the use case yet.
      *
-     * @throws \ApiPlatform\Core\Exception\ResourceClassNotFoundException
+     * @throws \ApiPlatform\Exception\ResourceClassNotFoundException
      */
     public function testDoesNotYetIgnoreActionPathsOfOtherRouteStarts() {
         // given
         $resource = 'Dummy';
-        $this->resourceMetadata = new ResourceMetadata(
-            'Dummy',
-            null,
-            null,
-            [
-                'get' => [],
-                'profiles1' => [
-                    'path' => 'profiles{/id}/ignoreThis',
-                ],
-            ],
-        );
+        $this->resourceMetadataCollection->append((new ApiResource())->withShortName('Dummy')->withOperations(new Operations([
+            new Get(
+                name: '_api_/dummys/{id}{._format}_get'
+            ),
+            new Get(
+                uriTemplate: '/profiles{/id}/ignoreThis{._format}',
+            ),
+        ])));
         $this->createFactory();
 
         // when
@@ -222,7 +248,7 @@ class UriTemplateFactoryTest extends TestCase {
     protected function createFactory() {
         $this->uriTemplateFactory = new UriTemplateFactory(
             $this->filterLocator,
-            $this->resourceMetadataFactory,
+            $this->resourceMetadataCollectionFactory,
             $this->resourceNameCollectionFactory,
             $this->iriConverter,
             $this->paginationOptions,

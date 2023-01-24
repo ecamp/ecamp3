@@ -2,7 +2,8 @@
 
 namespace App\Tests\Api\BaseEntity;
 
-use ApiPlatform\Core\Api\OperationType;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\Post;
 use App\Entity\Camp;
 use App\Tests\Api\ECampApiTestCase;
 
@@ -85,14 +86,13 @@ class CreateBaseEntityTest extends ECampApiTestCase {
     }
 
     public function getExampleWritePayload($attributes = [], $except = []): array {
-        return $this->getExamplePayload(Camp::class, OperationType::COLLECTION, 'post', $attributes, [], $except);
+        return $this->getExamplePayload(Camp::class, Post::class, $attributes, [], $except);
     }
 
     public function getExampleReadPayload($attributes = [], $except = []): array {
         return $this->getExamplePayload(
             Camp::class,
-            OperationType::ITEM,
-            'get',
+            Get::class,
             $attributes,
             ['periods'],
             $except

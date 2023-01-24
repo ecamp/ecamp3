@@ -124,13 +124,14 @@
         "loginCallback": {
           "loginInProgress": "Sarai loggato"
         },
-        "or": "oppure",
+        "or": "oppure con",
         "password": "Parola d'ordine",
         "provider": {
+          "cevidb": "CeviDB",
           "ecamp": "Accedi con eCamp",
-          "google": "Accedi con Google",
-          "midata": "Accedi con MiData",
-          "cevidb": "Accedi con CeviDB"
+          "google": "Google",
+          "jubladb": "JublaDB",
+          "midata": "MiData"
         },
         "registernow": "Iscriviti ora",
         "email": "Indirizzo e-mail"

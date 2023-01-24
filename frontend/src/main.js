@@ -9,8 +9,8 @@ import {
   formBaseComponents,
   ignoreNativeBindingWarnMessages,
   i18n,
-  veeValidate,
   dayjs,
+  veeValidate,
 } from './plugins'
 import { store } from './plugins/store'
 import { vuetify } from './plugins/vuetify'
@@ -35,10 +35,10 @@ Vue.use(auth)
 Vue.use(filterLoading)
 Vue.use(formBaseComponents)
 Vue.use(ignoreNativeBindingWarnMessages)
-Vue.use(veeValidate)
 Vue.use(storeLoader)
 Vue.use(vuetifyLoader)
 Vue.use(dayjs)
+Vue.use(veeValidate)
 Vue.use(Toast, {
   maxToasts: 2,
 })
