@@ -3,18 +3,19 @@ kind: Deployment
 metadata:
   name: {{ include "api.name" . }}
   labels:
-    {{- include "app.labels" . | nindent 4 }}
+    {{- include "api.selectorLabels" . | nindent 4 }}
+    {{- include "app.commonLabels" . | nindent 4 }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.api.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
-      {{- include "app.selectorLabels" . | nindent 6 }}
+      {{- include "api.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
-        {{- include "app.selectorLabels" . | nindent 8 }}
+        {{- include "api.selectorLabels" . | nindent 8 }}
       annotations:
         # This deployment should be restarted whenever either the configmap or the secrets change
         # because the containers depend on environment variables from these places during startup
@@ -62,14 +63,16 @@ spec:
             tcpSocket:
               port: 3001
             initialDelaySeconds: 3
-            periodSeconds: 3
+            periodSeconds: 10
+            timeoutSeconds: 5
           livenessProbe:
             tcpSocket:
               port: 3001
             initialDelaySeconds: 3
-            periodSeconds: 3
+            periodSeconds: 10
+            timeoutSeconds: 5
           resources:
-            {{- toYaml .Values.resources | nindent 12 }}
+            {{- toYaml .Values.caddy.resources | nindent 12 }}
         - name: php
           {{/* Define the php container as a template, so it can be reused in other places */}}
           {{- define "api.phpContainer" }}
@@ -157,6 +160,23 @@ spec:
                   name: {{ include "api.name" . }}
                   key: oauth-cevidb-base-url
             {{- end }}
+            {{- if .Values.php.oauth.jubladb.clientId }}
+            - name: OAUTH_JUBLADB_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "api.name" . }}
+                  key: oauth-jubladb-client-id
+            - name: OAUTH_JUBLADB_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "api.name" . }}
+                  key: oauth-jubladb-client-secret
+            - name: OAUTH_JUBLADB_BASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "api.name" . }}
+                  key: oauth-jubladb-base-url
+            {{- end }}
           volumeMounts:
             - mountPath: /var/run/php
               name: php-socket
@@ -170,21 +190,23 @@ spec:
             preStop:
               exec:
                 command: ["/bin/sh", "-c", "/bin/sleep 1; kill -QUIT 1"]
-          resources:
-            {{- toYaml .Values.resources | nindent 12 }}
           {{- end }}
           {{- template "api.phpContainer" . }}
+          resources:
+            {{- toYaml .Values.php.resources | nindent 12 }}
           readinessProbe:
             exec:
               command:
                 - docker-healthcheck
             initialDelaySeconds: 3
-            periodSeconds: 3
+            periodSeconds: 10
+            timeoutSeconds: 5
           livenessProbe:
             exec:
               command:
                 - docker-healthcheck
-            periodSeconds: 3
+            periodSeconds: 10
+            timeoutSeconds: 5
           startupProbe:
             exec:
               command:

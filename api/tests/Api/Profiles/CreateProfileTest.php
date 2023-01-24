@@ -2,8 +2,6 @@
 
 namespace App\Tests\Api\Profiles;
 
-use ApiPlatform\Core\Api\OperationType;
-use App\Entity\User;
 use App\Tests\Api\ECampApiTestCase;
 
 /**
@@ -11,12 +9,8 @@ use App\Tests\Api\ECampApiTestCase;
  */
 class CreateProfileTest extends ECampApiTestCase {
     public function testCreateProfileIsNotAllowed() {
-        static::createClientWithCredentials()->request('POST', '/profiles', ['json' => $this->getExampleWritePayload()]);
+        static::createClientWithCredentials()->request('POST', '/profiles', ['json' => []]);
 
         $this->assertResponseStatusCodeSame(405);
-    }
-
-    public function getExampleWritePayload($attributes = [], $except = []) {
-        return $this->getExamplePayload(User::class, OperationType::COLLECTION, 'post', $attributes, [], $except);
     }
 }

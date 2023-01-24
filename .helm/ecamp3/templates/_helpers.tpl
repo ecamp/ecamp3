@@ -127,9 +127,8 @@ The full URL where the dummy mail catcher service will be available.
 {{/*
 Common labels
 */}}
-{{- define "app.labels" -}}
+{{- define "app.commonLabels" -}}
 helm.sh/chart: {{ include "chart.fullname" . }}
-{{ include "app.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
@@ -137,12 +136,51 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end }}
 
 {{/*
-Selector labels
+Common selector labels
 */}}
-{{- define "app.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "chart.name" . }}
+{{- define "app.commonSelectorLabels" -}}
 app.kubernetes.io/instance: {{ .Release.Name }}
 app.kubernetes.io/part-of: {{ include "chart.name" . }}
+{{- end }}
+
+{{/*
+Selector labels for API
+*/}}
+{{- define "api.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "chart.name" . }}-api
+{{ include "app.commonSelectorLabels" . }}
+{{- end }}
+
+{{/*
+Selector labels for Frontend
+*/}}
+{{- define "frontend.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "chart.name" . }}-frontend
+{{ include "app.commonSelectorLabels" . }}
+{{- end }}
+
+{{/*
+Selector labels for Print
+*/}}
+{{- define "print.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "chart.name" . }}-print
+{{ include "app.commonSelectorLabels" . }}
+{{- end }}
+
+{{/*
+Selector labels for Mail
+*/}}
+{{- define "mail.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "chart.name" . }}-mail
+{{ include "app.commonSelectorLabels" . }}
+{{- end }}
+
+{{/*
+Selector labels for Browserless
+*/}}
+{{- define "browserless.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "chart.name" . }}-browserless
+{{ include "app.commonSelectorLabels" . }}
 {{- end }}
 
 {{/*

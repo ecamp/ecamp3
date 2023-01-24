@@ -55,3 +55,18 @@ knpu_oauth2_client:
             client_secret: '%env(OAUTH_CEVIDB_CLIENT_SECRET)%'
             redirect_route: connect_cevidb_check
             redirect_params: {}
+
+        jubladb:
+            type: generic
+            provider_class: App\OAuth\Hitobito
+            client_class: App\OAuth\JWTStateOAuth2Client
+
+            # optional: if your provider has custom constructor options
+            provider_options:
+                baseUrl: '%env(OAUTH_JUBLADB_BASE_URL)%'
+
+            # now, all the normal options!
+            client_id: '%env(OAUTH_JUBLADB_CLIENT_ID)%'
+            client_secret: '%env(OAUTH_JUBLADB_CLIENT_SECRET)%'
+            redirect_route: connect_jubladb_check
+            redirect_params: {}

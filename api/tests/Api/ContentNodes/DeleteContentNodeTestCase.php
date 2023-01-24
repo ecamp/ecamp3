@@ -13,8 +13,12 @@ use App\Tests\Api\ECampApiTestCase;
  * @internal
  */
 abstract class DeleteContentNodeTestCase extends ECampApiTestCase {
+    public function setUp(): void {
+        parent::setUp();
+    }
+
     public function testDeleteIsDeniedForAnonymousUser() {
-        static::createBasicClient()->request('DELETE', "{$this->endpoint}/".$this->defaultEntity->getId());
+        static::createBasicClient()->request('DELETE', $this->endpoint.'/'.$this->defaultEntity->getId());
         $this->assertResponseStatusCodeSame(401);
         $this->assertJsonContains([
             'code' => 401,

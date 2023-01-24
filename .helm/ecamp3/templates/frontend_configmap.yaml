@@ -3,7 +3,8 @@ kind: ConfigMap
 metadata:
   name: {{ include "frontend.name" . }}-configmap
   labels:
-    {{- include "app.labels" . | nindent 4 }}
+    {{- include "frontend.selectorLabels" . | nindent 4 }}
+    {{- include "app.commonLabels" . | nindent 4 }}
 data:
   environment.js: |
     window.environment = {
@@ -20,6 +21,7 @@ data:
       DEPLOYMENT_TIME: '{{ .Values.deploymentTime }}',
       VERSION: '{{ .Values.deployedVersion }}',
       VERSION_LINK_TEMPLATE: '{{ .Values.versionLinkTemplate }}',
+      TERMS_OF_SERVICE_LINK_TEMPLATE: '{{ .Values.termsOfServiceLinkTemplate }}',
     {{- if .Values.recaptcha.siteKey }}
       RECAPTCHA_SITE_KEY: '{{ .Values.recaptcha.siteKey }}',
     {{- else }}
@@ -27,4 +29,4 @@ data:
     {{- end }}
       FEATURE_DEVELOPER: {{ .Values.featureToggle.developer | default false }},
     }
-  deployedVersion: {{ .Values.deployedVersion }}
+  deployedVersion: {{ .Values.deployedVersion | quote }}

@@ -90,10 +90,8 @@ class InputFilterDenormalizer implements DenormalizerInterface, DenormalizerAwar
     private function getFilterAttributes(\ReflectionClass $reflectionClass): array {
         $filterAttributes = [];
         foreach ($reflectionClass->getProperties() as $property) {
-            if ($property->getDeclaringClass()->name === $reflectionClass->name) {
-                foreach ($this->createInputFilterAttributesFrom($property) as $filterAttribute) {
-                    $filterAttributes[] = [$property->name, $filterAttribute];
-                }
+            foreach ($this->createInputFilterAttributesFrom($property) as $filterAttribute) {
+                $filterAttributes[] = [$property->name, $filterAttribute];
             }
         }
 

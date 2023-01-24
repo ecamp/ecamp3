@@ -19,7 +19,7 @@ jobs:
       name: alpha
     steps:
 
-      - uses: actions/checkout@93ea575cb5d8a053eaa0ac8fa3b40d7e05a33cc8 # tag=v3
+      - uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3
         with:
           ref: alpha
 
@@ -31,14 +31,14 @@ jobs:
           echo "sha=$ALPHA" | tr -d "\n" >> $GITHUB_OUTPUT
 
       - name: Create a pending GitHub deployment
-        uses: bobheadxi/deployments@v1.3.0
+        uses: bobheadxi/deployments@v1.4.0
         id: deployment
         with:
           step: start
           token: ${{ secrets.REPO_ACCESS_TOKEN }}
           env: alpha
 
-      - uses: actions/checkout@93ea575cb5d8a053eaa0ac8fa3b40d7e05a33cc8 # tag=v3
+      - uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3
         with:
           ref: ${{ steps.git-ref.outputs.sha }}
 
@@ -108,6 +108,7 @@ jobs:
           helm upgrade --install ecamp3-alpha . \
             --set imageTag=${{ steps.git-ref.outputs.sha }} \
             --set sharedCookieDomain=.ecamp3.ch \
+            --set termsOfServiceLinkTemplate='https://ecamp3.ch/{lang}/tos' \
             --set api.domain=api-alpha.ecamp3.ch \
             --set frontend.domain=app-alpha.ecamp3.ch \
             --set print.domain=print-alpha.ecamp3.ch \
@@ -129,6 +130,9 @@ jobs:
             --set php.oauth.cevidb.clientId='${{ secrets.OAUTH_CEVIDB_CLIENT_ID }}' \
             --set php.oauth.cevidb.clientSecret='${{ secrets.OAUTH_CEVIDB_CLIENT_SECRET }}' \
             --set php.oauth.cevidb.baseUrl='${{ secrets.OAUTH_CEVIDB_BASE_URL }}' \
+            --set php.oauth.jubladb.clientId='${{ secrets.OAUTH_JUBLADB_CLIENT_ID }}' \
+            --set php.oauth.jubladb.clientSecret='${{ secrets.OAUTH_JUBLADB_CLIENT_SECRET }}' \
+            --set php.oauth.jubladb.baseUrl='${{ secrets.OAUTH_JUBLADB_BASE_URL }}' \
             --set browserless.maxConcurrentSessions=3 \
             --set browserless.maxQueueLength=9 \
             --set frontend.sentryDsn='${{ secrets.FRONTEND_SENTRY_DSN }}' \
@@ -139,7 +143,7 @@ jobs:
             --set recaptcha.secret='${{ secrets.RECAPTCHA_SECRET }}'
 
       - name: Finish the GitHub deployment
-        uses: bobheadxi/deployments@v1.3.0
+        uses: bobheadxi/deployments@v1.4.0
         if: always()
         with:
           step: finish

@@ -6,7 +6,8 @@ kind: Job
 metadata:
   name: "{{ include "app.name" . }}-db-migrate"
   labels:
-    {{- include "app.labels" . | nindent 4 }}
+    {{- include "api.selectorLabels" . | nindent 4 }}
+    {{- include "app.commonLabels" . | nindent 4 }}
   annotations:
     "helm.sh/hook": post-install,post-upgrade
     "helm.sh/hook-delete-policy": hook-succeeded
@@ -15,7 +16,7 @@ spec:
     metadata:
       name: "{{ include "app.name" . }}-pre-install"
       labels:
-        {{- include "app.selectorLabels" . | nindent 8 }}
+        {{- include "api.selectorLabels" . | nindent 8 }}
     spec:
       restartPolicy: Never
       containers:

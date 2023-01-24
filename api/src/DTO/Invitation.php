@@ -2,8 +2,14 @@
 
 namespace App\DTO;
 
-use ApiPlatform\Core\Annotation\ApiProperty;
-use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Metadata\ApiProperty;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Patch;
+use App\State\InvitationAcceptProcessor;
+use App\State\InvitationProvider;
+use App\State\InvitationRejectProcessor;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -12,51 +18,39 @@ use Symfony\Component\Validator\Constraints as Assert;
  * already have an account.
  */
 #[ApiResource(
-    collectionOperations: [
-        'get' => [
-            'security' => 'false',
-            'path' => '',
-            'openapi_context' => [
-                'description' => 'Not implemented. Only needed that we can show this endpoint in /index.jsonhal.',
-            ],
-        ],
+    operations: [
+        new Get(
+            provider: InvitationProvider::class,
+            uriTemplate: '/invitations/{inviteKey}/find{._format}', // TO DISCUSS: Wouldn't '/{inviteKey}{._format}' be more REST-like
+            normalizationContext: self::ITEM_NORMALIZATION_CONTEXT,
+            openapiContext: ['description' => 'Use myInviteKey to find an invitation in the dev environment.']
+        ),
+        new Patch(
+            provider: InvitationProvider::class,
+            processor: InvitationAcceptProcessor::class,
+            output: Invitation::class,
+            security: 'is_authenticated()',
+            uriTemplate: '/invitations/{inviteKey}/'.self::ACCEPT.'{._format}',
+            denormalizationContext: ['groups' => ['write']],
+            normalizationContext: self::ITEM_NORMALIZATION_CONTEXT,
+            openapiContext: ['summary' => 'Accept an Invitation.', 'description' => 'Use myInviteKey2 to accept an invitation in dev environment.'],
+            validationContext: ['groups' => ['Default', 'accept']]
+        ),
+        new Patch(
+            provider: InvitationProvider::class,
+            processor: InvitationRejectProcessor::class,
+            output: Invitation::class,
+            uriTemplate: '/invitations/{inviteKey}/'.self::REJECT.'{._format}',
+            denormalizationContext: ['groups' => ['write']],
+            normalizationContext: self::ITEM_NORMALIZATION_CONTEXT,
+            openapiContext: ['summary' => 'Reject an Invitation.', 'description' => 'Use myInviteKey to reject an invitation in dev environment.']
+        ),
+        new GetCollection(
+            provider: InvitationProvider::class,
+            security: 'false',
+            openapiContext: ['description' => 'Not implemented. Only needed that we can show this endpoint in /index.jsonhal.']
+        ),
     ],
-    itemOperations: [
-        'get' => [
-            'path' => '/{inviteKey}/find.{_format}',
-            'normalization_context' => self::ITEM_NORMALIZATION_CONTEXT,
-            'openapi_context' => [
-                'description' => 'Use myInviteKey to find an invitation in the dev environment.',
-            ],
-        ],
-        self::ACCEPT => [
-            'security' => 'is_authenticated()',
-            'method' => 'PATCH',
-            'path' => '/{inviteKey}/'.self::ACCEPT.'.{_format}',
-            'denormalization_context' => [
-                'groups' => ['write'],
-            ],
-            'normalization_context' => self::ITEM_NORMALIZATION_CONTEXT,
-            'openapi_context' => [
-                'summary' => 'Accept an Invitation.',
-                'description' => 'Use myInviteKey2 to accept an invitation in dev environment.',
-            ],
-            'validation_groups' => ['Default', 'accept'],
-        ],
-        self::REJECT => [
-            'method' => 'PATCH',
-            'path' => '/{inviteKey}/'.self::REJECT.'.{_format}',
-            'denormalization_context' => [
-                'groups' => ['write'],
-            ],
-            'normalization_context' => self::ITEM_NORMALIZATION_CONTEXT,
-            'openapi_context' => [
-                'summary' => 'Reject an Invitation.',
-                'description' => 'Use myInviteKey to reject an invitation in dev environment.',
-            ],
-        ],
-    ],
-    routePrefix: '/invitations'
 )]
 class Invitation {
     public const ACCEPT = 'accept';

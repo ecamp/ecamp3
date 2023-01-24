@@ -4,6 +4,9 @@
     <span class="d-none d-sm-block">
       <slot>{{ $tc('global.button.edit') }}</slot>
     </span>
+    <span class="d-sr-only d-sm-none">
+      <slot>{{ $tc('global.button.edit') }}</slot>
+    </span>
   </v-btn>
 </template>
 

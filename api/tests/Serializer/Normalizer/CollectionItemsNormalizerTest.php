@@ -5,7 +5,6 @@ namespace App\Tests\Serializer\Normalizer;
 use App\Serializer\Normalizer\CollectionItemsNormalizer;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\Serializer\Normalizer\ContextAwareNormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 /**
@@ -20,7 +19,7 @@ class CollectionItemsNormalizerTest extends TestCase {
     private $decoratedMock;
 
     protected function setUp(): void {
-        $this->decoratedMock = $this->createMock(ContextAwareNormalizerInterface::class);
+        $this->decoratedMock = $this->createMock(NormalizerInterface::class);
 
         $this->normalizer = new CollectionItemsNormalizer($this->decoratedMock);
         $this->normalizer->setNormalizer($this->createMock(NormalizerInterface::class));

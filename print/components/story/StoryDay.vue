@@ -37,7 +37,7 @@
 <script>
 import CategoryLabel from '@/components/generic/CategoryLabel.vue'
 import RichText from '@/components/generic/RichText.vue'
-import { dateLong } from '@/../common/helpers/dateHelperUTCFormatted.js'
+import { dateHelperUTCFormatted } from '@/mixins/dateHelperUTCFormatted.js'
 
 function isEmptyHtml(html) {
   if (html === null) {
@@ -49,13 +49,11 @@ function isEmptyHtml(html) {
 
 export default {
   components: { CategoryLabel, RichText },
+  mixins: [dateHelperUTCFormatted],
   props: {
     day: { type: Object, required: true },
     index: { type: Number, required: true },
     periodStoryChapters: { type: Array, required: true },
-  },
-  data() {
-    return {}
   },
   computed: {
     // returns scheduleEntries of current day without the need for an additional API call
@@ -82,9 +80,6 @@ export default {
     entriesWithStory() {
       return this.entries.filter(({ storyChapters }) => storyChapters.length)
     },
-  },
-  methods: {
-    dateLong,
   },
 }
 </script>

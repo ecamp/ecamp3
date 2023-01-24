@@ -2,7 +2,8 @@
 
 namespace App\Tests\Api\Camps;
 
-use ApiPlatform\Core\Api\OperationType;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\Post;
 use App\Entity\Camp;
 use App\Entity\User;
 use App\Repository\UserRepository;
@@ -59,6 +60,26 @@ class CreateCampTest extends ECampApiTestCase {
         $this->assertEquals($user->getId(), $camp->owner->getId());
     }
 
+    public function testCreateDisallowsSettingIsPrototype() {
+        static::createClientWithCredentials()->request(
+            'POST',
+            '/camps',
+            [
+                'json' => $this->getExampleWritePayload(
+                    [
+                        'isPrototype' => true,
+                    ]
+                ),
+            ]
+        );
+
+        $this->assertResponseStatusCodeSame(400);
+        $this->assertJsonContains([
+            'title' => 'An error occurred',
+            'detail' => 'Extra attributes are not allowed ("isPrototype" is unknown).',
+        ]);
+    }
+
     public function testCreateCampValidatesMissingPeriods() {
         static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExampleWritePayload([], ['periods'])]);
 
@@ -106,6 +127,50 @@ class CreateCampTest extends ECampApiTestCase {
                 [
                     'propertyPath' => 'periods[0].start',
                     'message' => 'This value should be less than or equal to Jan 8, 2022, 12:00 AM.',
+                ],
+            ],
+        ]);
+    }
+
+    public function testCreateCampValidatesOverlappingPeriods() {
+        static::createClientWithCredentials()->request('POST', '/camps', ['json' => $this->getExampleWritePayload([
+            'periods' => [
+                [
+                    'description' => 'Aufbau',
+                    'start' => '2022-01-07',
+                    'end' => '2022-01-09',
+                ],
+                [
+                    'description' => 'Hauptlager',
+                    'start' => '2022-01-08',
+                    'end' => '2022-01-10',
+                ],
+                [
+                    'description' => 'Nachweekend',
+                    'start' => '2022-01-10',
+                    'end' => '2022-01-11',
+                ],
+            ],
+        ])]);
+
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [
+                    'propertyPath' => 'periods[0].end',
+                    'message' => 'Periods must not overlap.',
+                ],
+                [
+                    'propertyPath' => 'periods[1].start',
+                    'message' => 'Periods must not overlap.',
+                ],
+                [
+                    'propertyPath' => 'periods[1].end',
+                    'message' => 'Periods must not overlap.',
+                ],
+                [
+                    'propertyPath' => 'periods[2].start',
+                    'message' => 'Periods must not overlap.',
                 ],
             ],
         ]);
@@ -688,14 +753,13 @@ class CreateCampTest extends ECampApiTestCase {
     }
 
     public function getExampleWritePayload($attributes = [], $except = []) {
-        return $this->getExamplePayload(Camp::class, OperationType::COLLECTION, 'post', $attributes, [], $except);
+        return $this->getExamplePayload(Camp::class, Post::class, $attributes, [], $except);
     }
 
     public function getExampleReadPayload($attributes = [], $except = []) {
         return $this->getExamplePayload(
             Camp::class,
-            OperationType::ITEM,
-            'get',
+            Get::class,
             $attributes,
             ['periods'],
             $except

@@ -60,11 +60,12 @@ import DialogPeriodEdit from './DialogPeriodEdit.vue'
 import DialogEntityDelete from '@/components/dialog/DialogEntityDelete.vue'
 import ButtonEdit from '@/components/buttons/ButtonEdit.vue'
 import ButtonDelete from '@/components/buttons/ButtonDelete.vue'
-import { dateRange } from '@/common/helpers/dateHelperUTCFormatted.js'
+import { dateHelperUTCFormatted } from '@/mixins/dateHelperUTCFormatted.js'
 
 export default {
   name: 'CampPeriods',
   components: { DialogEntityDelete, DialogPeriodEdit, ButtonEdit, ButtonDelete },
+  mixins: [dateHelperUTCFormatted],
   props: {
     period: { type: Object, required: true },
     disabled: { type: Boolean, default: false },
@@ -73,9 +74,6 @@ export default {
     isLastPeriod() {
       return this.period.camp().periods().items.length === 1
     },
-  },
-  methods: {
-    dateRange,
   },
 }
 </script>

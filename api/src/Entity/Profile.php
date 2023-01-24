@@ -2,10 +2,14 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Core\Annotation\ApiProperty;
-use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Metadata\ApiProperty;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Patch;
 use App\InputFilter;
 use App\Repository\ProfileRepository;
+use App\State\ProfileUpdateProcessor;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -16,18 +20,21 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Related means that they were or are collaborators in the same camp.
  */
 #[ApiResource(
-    collectionOperations: [
-        'get' => ['security' => 'false'],
-    ],
-    itemOperations: [
-        'get' => ['security' => 'is_authenticated()'],
-        'patch' => [
-            'denormalization_context' => ['groups' => ['write', 'update']],
-            'security' => 'object.user === user',
-        ],
+    operations: [
+        new Get(
+            security: 'is_authenticated()'
+        ),
+        new Patch(
+            processor: ProfileUpdateProcessor::class,
+            denormalizationContext: ['groups' => ['write', 'update']],
+            security: 'object.user === user'
+        ),
+        new GetCollection(
+            security: 'false'
+        ),
     ],
     denormalizationContext: ['groups' => ['write']],
-    normalizationContext: ['groups' => ['read']],
+    normalizationContext: ['groups' => ['read']]
 )]
 #[ORM\Entity(repositoryClass: ProfileRepository::class)]
 #[ORM\Table(name: '`profile`')]
@@ -40,7 +47,7 @@ class Profile extends BaseEntity {
 
     /**
      * Unique email of the user.
-     * Cannot be changed until we have a workflow where the changed email is validated again.
+     * Can only be changed by setting the newEmail field, which triggers an email verification flow.
      */
     #[InputFilter\Trim]
     #[Assert\NotBlank]
@@ -101,6 +108,13 @@ class Profile extends BaseEntity {
     #[ApiProperty(readable: false, writable: false)]
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     public ?string $cevidbId = null;
+
+    /**
+     * JublaDB id of the user.
+     */
+    #[ApiProperty(readable: false, writable: false)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    public ?string $jubladbId = null;
 
     /**
      * The user's (optional) first name.

@@ -2,7 +2,8 @@
 
 namespace App\Tests\Api\Periods;
 
-use ApiPlatform\Core\Api\OperationType;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\Post;
 use App\Entity\Period;
 use App\Tests\Api\ECampApiTestCase;
 
@@ -10,8 +11,6 @@ use App\Tests\Api\ECampApiTestCase;
  * @internal
  */
 class CreatePeriodTest extends ECampApiTestCase {
-    // TODO validation for no overlapping periods
-
     public function testCreatePeriodIsDeniedForAnonymousUser() {
         static::createBasicClient()->request('POST', '/periods', ['json' => $this->getExampleWritePayload()]);
 
@@ -276,6 +275,23 @@ class CreatePeriodTest extends ECampApiTestCase {
         ]);
     }
 
+    public function testCreatePeriodValidatesOverlappingPeriods() {
+        static::createClientWithCredentials()->request('POST', '/periods', ['json' => $this->getExampleWritePayload([
+            'start' => '2023-05-03',
+            'end' => '2023-05-10',
+        ])]);
+
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [
+                    'propertyPath' => 'start',
+                    'message' => 'Periods must not overlap.',
+                ],
+            ],
+        ]);
+    }
+
     public function testCreatePeriodCreatesDays() {
         $response = static::createClientWithCredentials()->request('POST', '/periods', ['json' => $this->getExampleWritePayload([
             'start' => '2021-03-01',
@@ -293,8 +309,7 @@ class CreatePeriodTest extends ECampApiTestCase {
     public function getExampleWritePayload($attributes = [], $except = []) {
         return $this->getExamplePayload(
             Period::class,
-            OperationType::COLLECTION,
-            'post',
+            Post::class,
             array_merge(['camp' => $this->getIriFor('camp1')], $attributes),
             [],
             $except
@@ -304,8 +319,7 @@ class CreatePeriodTest extends ECampApiTestCase {
     public function getExampleReadPayload($attributes = [], $except = []) {
         return $this->getExamplePayload(
             Period::class,
-            OperationType::ITEM,
-            'get',
+            Get::class,
             $attributes,
             ['camp'],
             $except

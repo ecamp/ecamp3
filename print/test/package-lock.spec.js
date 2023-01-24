@@ -1,7 +1,7 @@
 import { lockfileVersion } from '../package-lock.json'
 
 describe('The package-lock.json', () => {
-  test('uses lockFileVersion 1', () => {
-    expect(lockfileVersion).toBe(2)
+  test('uses lockfileVersion 3', () => {
+    expect(lockfileVersion).toBe(3)
   })
 })

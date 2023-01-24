@@ -2,10 +2,15 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Core\Annotation\ApiFilter;
-use ApiPlatform\Core\Annotation\ApiProperty;
-use ApiPlatform\Core\Annotation\ApiResource;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Metadata\ApiProperty;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Post;
 use App\InputFilter;
 use App\Repository\MaterialListRepository;
 use App\Util\EntityMap;
@@ -21,23 +26,29 @@ use Symfony\Component\Validator\Constraints as Assert;
  * is automatically created for each person collaborating on the camp.
  */
 #[ApiResource(
-    collectionOperations: [
-        'get' => ['security' => 'is_authenticated()'],
-        'post' => [
-            'denormalization_context' => ['groups' => ['write', 'create']],
-            'security_post_denormalize' => 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)',
-        ],
-    ],
-    itemOperations: [
-        'get' => ['security' => 'is_granted("CAMP_COLLABORATOR", object) or is_granted("CAMP_IS_PROTOTYPE", object)'],
-        'patch' => ['security' => 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)'],
-        'delete' => ['security' => 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)'],
+    operations: [
+        new Get(
+            security: 'is_granted("CAMP_COLLABORATOR", object) or is_granted("CAMP_IS_PROTOTYPE", object)'
+        ),
+        new Patch(
+            security: 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)'
+        ),
+        new Delete(
+            security: 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)'
+        ),
+        new GetCollection(
+            security: 'is_authenticated()'
+        ),
+        new Post(
+            denormalizationContext: ['groups' => ['write', 'create']],
+            securityPostDenormalize: 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)'
+        ),
     ],
     denormalizationContext: ['groups' => ['write']],
     normalizationContext: ['groups' => ['read']],
     order: ['camp.id', 'name'],
 )]
-#[ApiFilter(SearchFilter::class, properties: ['camp'])]
+#[ApiFilter(filterClass: SearchFilter::class, properties: ['camp'])]
 #[ORM\Entity(repositoryClass: MaterialListRepository::class)]
 class MaterialList extends BaseEntity implements BelongsToCampInterface, CopyFromPrototypeInterface {
     /**

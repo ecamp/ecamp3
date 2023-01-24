@@ -5,7 +5,8 @@ kind: Ingress
 metadata:
   name: {{ include "mail.name" . }}
   labels:
-    {{- include "app.labels" . | nindent 4 }}
+    {{- include "mail.selectorLabels" . | nindent 4 }}
+    {{- include "app.commonLabels" . | nindent 4 }}
   {{- with .Values.ingress.annotations }}
   annotations:
     {{- toYaml . | nindent 4 }}

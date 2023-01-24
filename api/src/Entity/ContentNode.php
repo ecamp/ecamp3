@@ -2,11 +2,13 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Core\Annotation\ApiFilter;
-use ApiPlatform\Core\Annotation\ApiProperty;
-use ApiPlatform\Core\Annotation\ApiResource;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
-use ApiPlatform\Core\Util\ClassInfoTrait;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Metadata\ApiProperty;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Util\ClassInfoTrait;
 use App\Doctrine\Filter\ContentNodePeriodFilter;
 use App\Entity\ContentNode\ColumnLayout;
 use App\InputFilter;
@@ -16,6 +18,7 @@ use App\Util\JsonMergePatch;
 use App\Validator\ContentNode\AssertContentTypeCompatible;
 use App\Validator\ContentNode\AssertNoLoop;
 use App\Validator\ContentNode\AssertNoRootChange;
+use App\Validator\ContentNode\AssertSlotSupportedByParent;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -31,21 +34,21 @@ use Symfony\Component\Validator\Constraints as Assert;
  * container content node. This way, a tree of content nodes makes up a complete programme.
  */
 #[ApiResource(
-    collectionOperations: [
-        'get' => ['security' => 'is_authenticated()'],
-    ],
-    itemOperations: [
-        'get' => ['security' => 'is_granted("CAMP_COLLABORATOR", object) or is_granted("CAMP_IS_PROTOTYPE", object)'],
+    operations: [
+        new GetCollection(
+            security: 'is_authenticated()'
+        ),
     ],
     denormalizationContext: ['groups' => ['write']],
     normalizationContext: ['groups' => ['read']],
     order: ['root.id', 'parent.id', 'slot', 'position']
 )]
-#[ApiFilter(SearchFilter::class, properties: ['contentType', 'root'])]
-#[ApiFilter(ContentNodePeriodFilter::class)]
+#[ApiFilter(filterClass: SearchFilter::class, properties: ['contentType', 'root'])]
+#[ApiFilter(filterClass: ContentNodePeriodFilter::class)]
 #[ORM\Entity(repositoryClass: ContentNodeRepository::class)]
 #[ORM\InheritanceType('SINGLE_TABLE')]
 #[ORM\DiscriminatorColumn(name: 'strategy', type: 'string')]
+#[ORM\UniqueConstraint(name: 'contentnode_parentid_slot_position_unique', columns: ['parentid', 'slot', 'position'])]
 abstract class ContentNode extends BaseEntity implements BelongsToContentNodeTreeInterface, CopyFromPrototypeInterface {
     use ClassInfoTrait;
 
@@ -102,7 +105,8 @@ abstract class ContentNode extends BaseEntity implements BelongsToContentNodeTre
     #[InputFilter\Trim]
     #[InputFilter\CleanText]
     #[Assert\Length(max: 32)]
-    #[ApiProperty(example: 'footer')]
+    #[AssertSlotSupportedByParent]
+    #[ApiProperty(example: '1')]
     #[Gedmo\SortableGroup]
     #[Groups(['read', 'write'])]
     #[ORM\Column(type: 'text', nullable: true)]
@@ -161,7 +165,7 @@ abstract class ContentNode extends BaseEntity implements BelongsToContentNodeTre
      * (implements BelongsToContentNodeTreeInterface for security voting).
      */
     public function getRoot(): ?ColumnLayout {
-        // Newly created ContentNodes don't have root populated yet (happens later in DataPersister),
+        // Newly created ContentNodes don't have root populated yet (happens later in data processor),
         // so we're using the parent's root here
         if (null === $this->root && null !== $this->parent) {
             return $this->parent->root;
@@ -207,6 +211,10 @@ abstract class ContentNode extends BaseEntity implements BelongsToContentNodeTre
         }
 
         return $this;
+    }
+
+    public function getSupportedSlotNames(): array {
+        return [];
     }
 
     /**

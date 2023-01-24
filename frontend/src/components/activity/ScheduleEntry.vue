@@ -139,27 +139,45 @@ Displays a single scheduleEntry
       <template v-else>
         <!-- Header -->
         <v-row dense class="activity-header">
-          <v-col class="col col-sm-6 col-12">
-            <v-row v-if="$vuetify.breakpoint.smAndUp" dense>
-              <v-col cols="2">
-                {{ $tc('entity.scheduleEntry.fields.nr') }}
-              </v-col>
-              <v-col cols="10">
-                {{ $tc('entity.scheduleEntry.fields.time') }}
-              </v-col>
-            </v-row>
-            <v-row
-              v-for="scheduleEntryItem in scheduleEntries"
-              :key="scheduleEntryItem._meta.self"
-              dense
-            >
-              <v-col cols="2"> ({{ scheduleEntryItem.number }}) </v-col>
-              <v-col cols="10">
-                {{ rangeShort(scheduleEntryItem.start, scheduleEntryItem.end) }}
-              </v-col>
-            </v-row>
+          <v-col class="col col-sm-6 col-12 px-0 pt-0">
+            <table>
+              <thead>
+                <tr>
+                  <th scope="col" class="text-right pb-2 pr-4">
+                    {{ $tc('entity.scheduleEntry.fields.nr') }}
+                  </th>
+                  <th scope="col" class="text-left pb-2 pr-4">
+                    {{ $tc('entity.scheduleEntry.fields.duration') }}
+                  </th>
+                  <th scope="col" class="text-left pb-2" colspan="2">
+                    {{ $tc('entity.scheduleEntry.fields.time') }}
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  v-for="scheduleEntryItem in scheduleEntries"
+                  :key="scheduleEntryItem._meta.self"
+                >
+                  <th class="text-right tabular-nums pb-2 pr-4">
+                    {{ scheduleEntryItem.number }}
+                  </th>
+                  <td class="text-left tabular-nums pb-2 pr-4">
+                    {{
+                      timeDurationShort(scheduleEntryItem.start, scheduleEntryItem.end)
+                    }}
+                  </td>
+                  <td class="text-right tabular-nums pb-2 pr-1">
+                    {{ dateShort(scheduleEntryItem.start) }}
+                  </td>
+                  <td class="text-left tabular-nums pb-2 pr-0">
+                    {{ rangeLongEnd(scheduleEntryItem.start, scheduleEntryItem.end) }}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </v-col>
-          <v-col class="col col-sm-6 col-12">
+          <v-col class="col col-sm-6 col-12 px-0">
             <v-row dense>
               <v-col>
                 <api-text-field
@@ -199,7 +217,7 @@ import ContentCard from '@/components/layout/ContentCard.vue'
 import ApiTextField from '@/components/form/api/ApiTextField.vue'
 import RootNode from '@/components/activity/RootNode.vue'
 import ActivityResponsibles from '@/components/activity/ActivityResponsibles.vue'
-import { rangeShort } from '@/common/helpers/dateHelperUTCFormatted.js'
+import { dateHelperUTCFormatted } from '@/mixins/dateHelperUTCFormatted.js'
 import { campRoleMixin } from '@/mixins/campRoleMixin'
 import { periodRoute } from '@/router.js'
 import DownloadNuxtPdf from '@/components/print/print-nuxt/DownloadNuxtPdfListItem.vue'
@@ -218,7 +236,7 @@ export default {
     DownloadNuxtPdf,
     CategoryChip,
   },
-  mixins: [campRoleMixin],
+  mixins: [campRoleMixin, dateHelperUTCFormatted],
   provide() {
     return {
       preferredContentTypes: () => this.preferredContentTypes,
@@ -288,7 +306,6 @@ export default {
   },
 
   methods: {
-    rangeShort,
     changeCategory(category) {
       this.categoryChangeState = 'saving'
       this.activity

@@ -2,7 +2,7 @@
 
 namespace App\Tests\EventListener;
 
-use ApiPlatform\Core\Api\IriConverterInterface;
+use ApiPlatform\Api\IriConverterInterface;
 use App\Entity\User;
 use App\EventListener\JWTCreatedListener;
 use Lexik\Bundle\JWTAuthenticationBundle\Event\JWTCreatedEvent;
@@ -42,7 +42,7 @@ class JWTCreatedListenerTest extends TestCase {
         // given
         $event = $this->createMock(JWTCreatedEvent::class);
         $this->security->expects($this->once())->method('getUser')->willReturn(new User());
-        $this->iriConverter->expects($this->once())->method('getIriFromItem')->willReturn('/users/1a2b3c4dtest');
+        $this->iriConverter->expects($this->once())->method('getIriFromResource')->willReturn('/users/1a2b3c4dtest');
 
         // then
         $event->expects($this->once())

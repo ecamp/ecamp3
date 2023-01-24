@@ -124,13 +124,14 @@
         "loginCallback": {
           "loginInProgress": "Vous serez connecté"
         },
-        "or": "ou",
+        "or": "ou avec",
         "password": "Mot de passe",
         "provider": {
+          "cevidb": "CeviDB",
           "ecamp": "Connectez-vous avec eCamp",
-          "google": "Connectez-vous avec Google",
-          "midata": "Connectez-vous avec MiData",
-          "cevidb": "Connectez-vous avec CeviDB"
+          "google": "Google",
+          "jubladb": "Jubla",
+          "midata": "MiData"
         },
         "registernow": "Inscrivez-vous maintenant",
         "email": "Courriel"
