@@ -161,8 +161,19 @@
     },
     "print": {
       "config": {
+        "activityConfig": {
+          "activity": "Aktivität"
+        },
+        "picassoConfig": {
+          "periods": "Lagerabschnitt(e)",
+          "orientation": "Seitenlayout"
+        },
         "programConfig": {
-          "dayOverview": "Tagesübersicht drucken"
+          "dayOverview": "Tagesübersicht",
+          "periods": "Lagerabschnitt(e)"
+        },
+        "storyConfig": {
+          "periods": "Lagerabschnitt(e)"
         }
       },
       "documents": {
@@ -177,11 +188,12 @@
         "error": "Etwas hat nicht geklappt. Probiere es nochmals, oder lade die Seite neu."
       },
       "printConfigurator": {
+        "add": "Inhalt hinzufügen",
         "config": {
-          "Activity": "Einzelaktivität",
+          "Activity": "Einzelne Aktivität",
           "Cover": "Titelseite",
           "Picasso": "Grobprogramm",
-          "Program": "Programm",
+          "Program": "Detailprogramm",
           "Story": "Roter Faden",
           "Toc": "Inhaltsverzeichnis"
         }

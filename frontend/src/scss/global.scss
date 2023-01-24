@@ -102,3 +102,9 @@ body {
 .currentColor--text {
   color: currentColor !important;
 }
+
+.e-button-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
