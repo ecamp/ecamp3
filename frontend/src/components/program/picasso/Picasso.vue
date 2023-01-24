@@ -8,12 +8,11 @@ Listing all given activity schedule entries in a calendar view.
       ref="calendar"
       v-model="value"
       v-resize="resize"
-      :class="editable ? 'ec-picasso-editable' : 'ec-picasso'"
+      :class="['e-picasso', editable && 'e-picasso--editable']"
       :events="events"
-      :event-name="getActivityName"
-      :event-color="getActivityColor"
       event-start="startTimestamp"
       event-end="endTimestamp"
+      event-color="transparent"
       :interval-height="computedIntervalHeight"
       interval-width="46"
       :interval-format="intervalFormat"
@@ -38,74 +37,33 @@ Listing all given activity schedule entries in a calendar view.
     >
       <!-- day header -->
       <template #day-label-header="{ date }">
-        <div class="ec-daily_head-day-label">
-          <span v-if="widthPluralization > 0" class="d-block">
-            {{ $date.utc(date).format('dddd') }}
-          </span>
+        <div class="e-picasso-daily_head-day-label">
           {{
-            $date
-              .utc(date)
-              .format(
-                $tc(
-                  'components.program.picasso.picasso.datetime.date',
-                  widthPluralization
-                )
-              )
+            entryWidth > 140
+              ? $date
+                  .utc(date)
+                  .format($tc('components.program.picasso.picasso.datetime.fullDate'))
+              : $date
+                  .utc(date)
+                  .format(
+                    $tc(
+                      'components.program.picasso.picasso.datetime.smallDate',
+                      widthPluralization
+                    )
+                  )
           }}
         </div>
         <day-responsibles :date="date" :period="period" :readonly="!editable" />
       </template>
 
       <!-- template for single scheduleEntry -->
-      <template #event="{ event, timed }">
-        <!-- edit button & dialog -->
-        <dialog-activity-edit
-          v-if="editable && !event.tmpEvent"
-          :ref="`editDialog-${event.id}`"
+      <template #event="{ event }">
+        <PicassoEntry
           :schedule-entry="event"
-          @activityUpdated="reloadScheduleEntries()"
-          @error="reloadScheduleEntries()"
-        >
-          <template #activator="{ on }">
-            <v-btn
-              absolute
-              top
-              right
-              x-small
-              dark
-              text
-              class="ec-event--btn rounded-sm"
-              @click.prevent="on.click"
-              @mousedown.stop=""
-              @mouseup.stop=""
-            >
-              <v-icon x-small>mdi-pencil</v-icon>
-            </v-btn>
-          </template>
-        </dialog-activity-edit>
-
-        <!-- readonly mode: complete div is a HTML link -->
-        <router-link v-if="!editable && !event.tmpEvent" :to="scheduleEntryRoute(event)">
-          <div class="readonlyEntry">
-            <h4 class="v-event-title" :style="{ color: getActivityTextColor(event) }">
-              {{ getActivityName(event) }}
-            </h4>
-          </div>
-        </router-link>
-
-        <!-- edit mode: normal div with drag & drop -->
-        <div v-if="editable" class="editableEntry">
-          <h4 class="v-event-title" :style="{ color: getActivityTextColor(event) }">
-            {{ getActivityName(event) }}
-          </h4>
-
-          <!-- resize handle -->
-          <div
-            v-if="editable && timed"
-            class="v-event-drag-bottom"
-            @mousedown.stop="startResize(event)"
-          />
-        </div>
+          :editable="editable"
+          @startResize="startResize(event)"
+          @finishEdit="reloadScheduleEntries"
+        />
       </template>
     </v-calendar>
 
@@ -116,30 +74,26 @@ Listing all given activity schedule entries in a calendar view.
   </div>
 </template>
 <script>
-import { toRefs, ref, watch, reactive } from 'vue'
-import useDragAndDropMove from './useDragAndDropMove.js'
-import useDragAndDropResize from './useDragAndDropResize.js'
-import useDragAndDropNew from './useDragAndDropNew.js'
-import useClickDetector from './useClickDetector.js'
-import { isCssColor } from 'vuetify/lib/util/colorUtils'
+import Vue, { reactive, ref, toRefs, watch } from 'vue'
+import { useDragAndDropMove } from './useDragAndDropMove.js'
+import { useDragAndDropResize } from './useDragAndDropResize.js'
+import { useDragAndDropNew } from './useDragAndDropNew.js'
+import { useDragAndDropReminder } from './useDragAndDropReminder.js'
 import { apiStore as api } from '@/plugins/store'
-import { scheduleEntryRoute } from '@/router.js'
 import mergeListeners from '@/helpers/mergeListeners.js'
-import { contrastColor } from '@/common/helpers/colors.js'
 import {
   timestampToUtcString,
   utcStringToTimestamp,
 } from '@/common/helpers/dateHelperVCalendar.js'
-
-import DialogActivityEdit from '../DialogActivityEdit.vue'
 import DayResponsibles from './DayResponsibles.vue'
+import { ONE_DAY } from '@/helpers/vCalendarDragAndDrop.js'
 import { errorToMultiLineToast } from '@/components/toast/toasts'
-import Vue from 'vue'
+import PicassoEntry from './PicassoEntry.vue'
 
 export default {
   name: 'Picasso',
   components: {
-    DialogActivityEdit,
+    PicassoEntry,
     DayResponsibles,
   },
   props: {
@@ -192,10 +146,11 @@ export default {
   // emitted events
   emits: [
     'newEntry', // triggered once when a new entry was created via drag & drop (parameters: startTimestamp, endTimestamp)
+    'unlockReminder', // triggered when we think someone is trying to create/move in non-editable mode
   ],
 
   // composition API setup
-  setup(props, { emit, refs }) {
+  setup(props, { emit }) {
     const { editable, scheduleEntries } = toRefs(props)
 
     const isSaving = ref(false)
@@ -239,13 +194,12 @@ export default {
       }
     }
 
-    // open edit dialog
-    const onClick = (scheduleEntry) => {
-      refs[`editDialog-${scheduleEntry.id}`].open()
+    const showReminder = (move) => {
+      emit('unlockReminder', move)
     }
 
     const calenderStartTimestamp = utcStringToTimestamp(props.start)
-    const calendarEndTimestamp = utcStringToTimestamp(props.end) + 24 * 60 * 60 * 1000
+    const calendarEndTimestamp = utcStringToTimestamp(props.end) + ONE_DAY
 
     const dragAndDropMove = useDragAndDropMove(
       editable,
@@ -261,7 +215,7 @@ export default {
       calendarEndTimestamp
     )
     const dragAndDropNew = useDragAndDropNew(editable, createEntry)
-    const clickDetector = useClickDetector(editable, 5, onClick)
+    const dragAndDropReminder = useDragAndDropReminder(editable, showReminder)
 
     // merge mouseleave handlers
     // this is needed, because .native modifiers doesn't work with v-on property
@@ -277,7 +231,7 @@ export default {
       dragAndDropMove.vCalendarListeners,
       dragAndDropResize.vCalendarListeners,
       dragAndDropNew.vCalendarListeners,
-      clickDetector.vCalendarListeners,
+      dragAndDropReminder.vCalendarListeners,
     ])
 
     // make events a reactive array + load event array from schedule entries
@@ -332,9 +286,9 @@ export default {
   },
   computed: {
     widthPluralization() {
-      if (this.entryWidth < 81) {
+      if (this.entryWidth < 86) {
         return 0
-      } else if (this.entryWidth < 85) {
+      } else if (this.entryWidth < 89) {
         return 1
       } else {
         return 2
@@ -373,52 +327,7 @@ export default {
       this.entryWidth = Math.max(
         (this.$refs.calendar.$el.offsetWidth - widthIntervals) /
           this.$refs.calendar.days.length,
-        80
-      )
-    },
-    getActivityName(scheduleEntry, _) {
-      if (scheduleEntry.tmpEvent) return this.$tc('entity.activity.new')
-
-      if (this.isActivityLoading(scheduleEntry)) return this.$tc('global.loading')
-
-      return (
-        (scheduleEntry.number ? scheduleEntry.number + ' ' : '') +
-        (scheduleEntry.activity().category().short
-          ? scheduleEntry.activity().category().short + ': '
-          : '') +
-        scheduleEntry.activity().title
-      )
-    },
-    getActivityTextColor(scheduleEntry) {
-      if (scheduleEntry.tmpEvent) return '#000'
-      if (this.isCategoryLoading(scheduleEntry)) return '#000'
-
-      const category = scheduleEntry.activity().category()
-      return contrastColor(category.color)
-    },
-    getActivityColor(scheduleEntry, _) {
-      if (scheduleEntry.tmpEvent) return 'grey elevation-4 v-event--temporary'
-
-      if (this.isCategoryLoading(scheduleEntry)) return 'grey lighten-1'
-
-      const color = scheduleEntry.activity().category().color
-      return isCssColor(color) ? color : color + ' elevation-4 v-event--temporary'
-    },
-    isActivityLoading(scheduleEntry) {
-      return (
-        !scheduleEntry.tmpEvent &&
-        (this.activitiesLoading ||
-          this.categoriesLoading ||
-          scheduleEntry.activity()._meta.loading)
-      )
-    },
-    isCategoryLoading(scheduleEntry) {
-      return (
-        !scheduleEntry.tmpEvent &&
-        (this.categoriesLoading ||
-          this.activitiesLoading ||
-          scheduleEntry.activity()._meta.loading ||
-          scheduleEntry.activity().category()._meta.loading)
+        85
       )
     },
     intervalFormat(time) {
@@ -436,15 +345,12 @@ export default {
     weekdayFormat() {
       return ''
     },
-
-    scheduleEntryRoute,
   },
 }
 </script>
 
 <style scoped lang="scss">
-.ec-picasso,
-.ec-picasso-editable {
+.e-picasso {
   border: none;
   overflow: auto;
 
@@ -458,7 +364,7 @@ export default {
   }
 
   @media #{map-get($display-breakpoints, 'sm-and-up')} {
-    height: calc(100vh - 136px);
+    height: calc(100vh - 106px);
   }
 
   @media #{map-get($display-breakpoints, 'md-and-up')} {
@@ -466,129 +372,78 @@ export default {
   }
 
   :deep {
+    .v-event-timed-container {
+      margin-right: 3px;
+      @media #{map-get($display-breakpoints, 'sm-and-up')} {
+        margin-right: 5px;
+      }
+      @media #{map-get($display-breakpoints, 'md-and-up')} {
+        margin-right: 6px;
+      }
+    }
+
     .v-calendar-daily_head-day,
     .v-calendar-daily__day {
       min-width: 80px;
     }
 
     .v-event-timed {
-      padding: 0px;
-      font-size: 11px !important;
+      padding: 0;
       white-space: normal;
-      line-height: 1.15;
-      user-select: none;
-      -webkit-user-select: none;
+      border: none !important;
+    }
 
-      // full size div within v-calendar event
-      div.readonlyEntry,
-      div.editableEntry {
-        width: 100%;
-        height: 100%;
-        left: 0;
-        top: 0;
-        padding: 1px;
-        overflow: hidden;
+    .v-calendar-daily__day-container {
+      width: initial;
+    }
 
-        @media #{map-get($display-breakpoints, 'sm-and-up')} {
-          padding: 3px;
+    .v-calendar-daily__head,
+    .v-calendar-daily__intervals-body {
+      position: sticky;
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(4px);
+    }
+
+    .v-calendar-daily__head {
+      top: 0;
+      z-index: 2;
+      min-width: fit-content;
+      overflow: hidden;
+      box-shadow: rgba(0, 0, 0, 0.1) 0 4px 6px -1px, rgba(0, 0, 0, 0.06) 0 2px 4px -1px;
+    }
+
+    .v-calendar-daily__pane,
+    .v-calendar-daily__body {
+      overflow: visible;
+    }
+
+    .v-calendar-daily__intervals-body {
+      left: 0;
+      z-index: 1;
+    }
+
+    .v-calendar-daily__scroll-area {
+      overflow-y: visible;
+    }
+  }
+
+  &:not(.e-picasso-entry--editable) {
+    &:deep(.v-calendar-daily_head-day-label) {
+      cursor: auto;
+
+      .theme--light.v-text-field > .v-input__control > .v-input__slot {
+        cursor: auto;
+
+        &:before {
+          border: none !important;
         }
       }
     }
   }
 }
 
-/**
- * entry styling in edit mode
- */
-.editableEntry {
-  cursor: move; /* fallback if grab cursor is unsupported */
-  cursor: grab;
-  cursor: -moz-grab;
-  cursor: -webkit-grab;
-  border: 1px black dashed;
-  border-radius: 4px;
-
-  &:active {
-    cursor: move;
-    cursor: -moz-grabbing;
-    cursor: -webkit-grabbing;
-  }
-}
-
-.ec-picasso-editable {
-  :deep(.v-event-timed) {
-    transition: transform 0.1s; /* Animation */
-  }
-
-  :deep(.v-event-timed:hover) {
-    z-index: 999;
-    transform: scale(
-      1.02
-    ); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
-  }
-}
-
-.ec-picasso-editable:deep,
-.ec-picasso:deep {
-  .v-calendar-daily__day-container {
-    width: initial;
-  }
-
-  .v-calendar-daily__head,
-  .v-calendar-daily__intervals-body {
-    position: sticky;
-    background: rgba(255, 255, 255, 0.85);
-    backdrop-filter: blur(4px);
-  }
-
-  .v-calendar-daily__head {
-    top: 0;
-    z-index: 2;
-    min-width: fit-content;
-    overflow: hidden;
-  }
-
-  .v-calendar-daily__pane,
-  .v-calendar-daily__body {
-    overflow: visible;
-  }
-
-  .v-calendar-daily__intervals-body {
-    left: 0;
-    z-index: 1;
-  }
-
-  .v-calendar-daily__scroll-area {
-    overflow-y: visible;
-  }
-}
-
-// entry edit button
-.ec-event--btn {
-  padding: 0 !important;
-  min-width: 20px !important;
-  top: 0 !important;
-  right: 0 !important;
-  display: block;
-}
-
-// event title text
-.v-event-title {
-  hyphens: auto;
-  hyphenate-limit-chars: 6 3 3;
-  hyphenate-limit-lines: 2;
-  hyphenate-limit-last: always;
-  hyphenate-limit-zone: 8%;
-}
-
-.readonlyEntry .v-event-title {
-  color: white;
-  text-decoration: none;
-  text-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
-}
-
 // day title
-.ec-daily_head-day-label {
+.e-picasso-daily_head-day-label {
   font-size: 11px;
   font-feature-settings: 'tnum';
   letter-spacing: -0.1px;
@@ -598,6 +453,7 @@ export default {
   height: 100%;
   display: flex;
   flex-direction: column;
+  padding: 0;
 
   .v-text-field .v-label {
     text-align: center;
@@ -625,10 +481,12 @@ export default {
 
   .v-select__selections {
     gap: 4px;
-    padding: 4px 2px;
+    padding: 2px;
+    @media #{map-get($display-breakpoints, 'md-and-up')} {
+      padding: 4px 2px;
+    }
     width: 100%;
     min-width: initial;
-    justify-content: center;
 
     .v-chip {
       margin: 0;
@@ -640,43 +498,6 @@ export default {
       height: 1px;
       padding: 0;
       margin: 0;
-    }
-  }
-}
-
-// temporary placeholder (crate new event)
-:deep(.v-event-timed.v-event--temporary) {
-  border-style: dashed !important;
-  opacity: 0.8;
-}
-
-// resize handle
-.v-event-drag-bottom {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 4px;
-  height: 4px;
-  cursor: ns-resize;
-
-  &::after {
-    display: none;
-    position: absolute;
-    left: 50%;
-    height: 4px;
-    border-top: 1px solid white;
-    border-bottom: 1px solid white;
-    width: 16px;
-    margin-left: -8px;
-    opacity: 0.8;
-    content: '';
-  }
-}
-
-@media #{map-get($display-breakpoints, 'sm-and-up')} {
-  .v-event-timed {
-    &:hover .v-event-drag-bottom::after {
-      display: block; // resize handle not visible on mobile
     }
   }
 }

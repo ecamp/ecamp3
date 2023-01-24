@@ -21,7 +21,7 @@
     persistent-placeholder
     v-bind="$attrs"
     :readonly="readonly"
-    :class="{ 'ec-day-responsible--readonly': readonly }"
+    :class="{ 'e-day-responsible--readonly': readonly }"
     @input="onInput"
   >
     <template #prepend-item>
@@ -81,10 +81,13 @@ export default {
         })
     },
     currentCampCollaborationIRIs() {
-      return this.dayResponsibles.items.map((item) => item.campCollaboration()._meta.self)
+      return (
+        this.dayResponsibles?.items.map((item) => item.campCollaboration()._meta.self) ??
+        []
+      )
     },
     dayResponsibles() {
-      return this.day.dayResponsibles()
+      return this.day?.dayResponsibles()
     },
     campCollaborations() {
       return this.period.camp().campCollaborations()
@@ -170,7 +173,20 @@ export default {
   padding-top: 0;
 }
 
-.ec-day-responsible--readonly:deep(.v-input__append-inner) {
+.e-day-responsible--readonly {
+  &:deep(.v-input__append-inner) {
+    display: none;
+  }
+
+  &:deep(.v-select__selections) {
+    justify-content: center;
+  }
+  &:deep(.v-chip--clickable) {
+    cursor: auto;
+  }
+}
+
+:deep(.v-select__selections) input {
   display: none;
 }
 </style>
