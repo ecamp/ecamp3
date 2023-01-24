@@ -114,9 +114,25 @@
         "warningText": "Möchtest du das wirklich löschen?"
       }
     },
+    "form": {
+      "base": {
+        "eColorPicker": {
+          "openPicker": "Dialog öffnen um eine Farbe für {label} zu wählen"
+        },
+        "eDatePicker": {
+          "invalidFormat": "Ungültiges Format, bitte gib das Datum im Format DD.MM.YYYY ein",
+          "openPicker": "Dialog öffnen um ein Datum für {label} zu wählen"
+        },
+        "eTimePicker": {
+          "invalidFormat": "Ungültiges Format, bitte gib die Zeit im Format HH:MM ein",
+          "openPicker": "Dialog öffnen um eine Zeit für {label} zu wählen"
+        }
+      }
+    },
     "generic": {
       "lockIcon": {
-        "guestsCannotEdit": "Gäste haben keinen Bearbeitungszugriff"
+        "guestsCannotEdit": "Gäste haben keinen Bearbeitungszugriff",
+        "doubleClickToUnlock": "Doppelklick um zu entsperren"
       }
     },
     "layout": {
@@ -145,8 +161,19 @@
     },
     "print": {
       "config": {
+        "activityConfig": {
+          "activity": "Aktivität"
+        },
+        "picassoConfig": {
+          "periods": "Lagerabschnitt(e)",
+          "orientation": "Seitenlayout"
+        },
         "programConfig": {
-          "dayOverview": "Tagesübersicht drucken"
+          "dayOverview": "Tagesübersicht",
+          "periods": "Lagerabschnitt(e)"
+        },
+        "storyConfig": {
+          "periods": "Lagerabschnitt(e)"
         }
       },
       "documents": {
@@ -161,11 +188,12 @@
         "error": "Etwas hat nicht geklappt. Probiere es nochmals, oder lade die Seite neu."
       },
       "printConfigurator": {
+        "add": "Inhalt hinzufügen",
         "config": {
-          "Activity": "Einzelaktivität",
+          "Activity": "Einzelne Aktivität",
           "Cover": "Titelseite",
           "Picasso": "Grobprogramm",
-          "Program": "Programm",
+          "Program": "Detailprogramm",
           "Story": "Roter Faden",
           "Toc": "Inhaltsverzeichnis"
         }
@@ -217,8 +245,13 @@
       "picasso": {
         "picasso": {
           "datetime": {
-            "date": "dd. D.MM | D. MMM | DD. MMM YYYY"
+            "fullDate": "dd, DD. MMMM YYYY",
+            "smallDate": "dd, D.MM. | dd, D. MMM | dd, D. MMM YY"
           }
+        },
+        "picassoEntry": {
+          "location": "Ort:",
+          "responsible": "Verantwortlich: "
         }
       }
     },
@@ -272,7 +305,7 @@
       "lock": "Sperren",
       "login": "Anmelden",
       "logout": "Ausloggen",
-      "ok": "In Ordnung",
+      "ok": "OK",
       "open": "Öffnen",
       "save": "Speichern",
       "saving": "Speichert",
@@ -283,6 +316,9 @@
       "update": "Aktualisieren"
     },
     "changeLanguage": "Sprache ändern",
+    "datetime": {
+      "vuetifyTimePickerFormat": "24hr"
+    },
     "language": "Deutsch",
     "loading": "Laden …",
     "lokaliseMessage": "Übersetzungen unterstützt durch lokalise.com",
@@ -322,14 +358,15 @@
         "loginCallback": {
           "loginInProgress": "Du wirst eingeloggt"
         },
-        "or": "oder",
+        "or": "oder mit",
         "password": "Passwort",
         "passwordForgotten": "Passwort vergessen?",
         "provider": {
-          "cevidb": "Anmelden mit CeviDB",
+          "cevidb": "CeviDB",
           "ecamp": "Anmelden mit eCamp",
-          "google": "Anmelden mit Google",
-          "midata": "Anmelden mit MiData"
+          "google": "Google",
+          "jubladb": "JublaDB",
+          "midata": "MiData"
         },
         "registernow": "Jetzt registrieren"
       },
@@ -366,6 +403,12 @@
       "admin": {
         "collaborators": "Team verwalten",
         "title": "Admin"
+      },
+      "campProgram": {
+        "guestsCannotEdit": "Gäste können das Grobprogramm nicht bearbeiten",
+        "reminderLockedCreate": "Ziehen zum Erstellen ist nur im entsperrten Modus möglich.",
+        "reminderLockedMove": "Ziehen zum Verschieben ist nur im entsperrten Modus möglich.",
+        "title": "Grobprogramm"
       },
       "collaborators": {
         "email": "E-Mail-Adresse",
@@ -453,10 +496,6 @@
             "itemPrinting": "PDF / Drucken"
           }
         }
-      },
-      "campProgram": {
-        "guestsCannotEdit": "Gäste können das Grobprogramm nicht bearbeiten",
-        "title": "Grobprogramm"
       },
       "print": {
         "title": "Lager drucken"

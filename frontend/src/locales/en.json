@@ -79,11 +79,11 @@
       "dialogMaterialListCreate": {
         "title": "Create material list"
       },
-      "dialogPeriodEdit": {
-        "moveScheduleEntries": "Move schedule entries"
-      },
       "dialogPeriodCreate": {
         "title": "Create period"
+      },
+      "dialogPeriodEdit": {
+        "moveScheduleEntries": "Move schedule entries"
       }
     },
     "collaborator": {
@@ -114,8 +114,24 @@
         "warningText": "Do you really want to delete this?"
       }
     },
+    "form": {
+      "base": {
+        "eColorPicker": {
+          "openPicker": "Open dialog to select a color for {label}"
+        },
+        "eDatePicker": {
+          "invalidFormat": "Invalid format, please enter the date in the format MM/DD/YYYY",
+          "openPicker": "Open dialog to select a date for {label}"
+        },
+        "eTimePicker": {
+          "invalidFormat": "Invalid format, please enter the time in the format HH:MM AM/PM",
+          "openPicker": "Open dialog to select a time for {label}"
+        }
+      }
+    },
     "generic": {
       "lockIcon": {
+        "doubleClickToUnlock": "Double click to unlock",
         "guestsCannotEdit": "Guests have no permission to edit"
       }
     },
@@ -214,8 +230,13 @@
       "picasso": {
         "picasso": {
           "datetime": {
-            "date": "dd. D.MM | D. MMM | DD. MMM YYYY"
+            "fullDate": "ddd, DD. MMMM YYYY",
+            "smallDate": "dd, D.MM. | dd, D. MMM | ddd, D. MMM YY"
           }
+        },
+        "picassoEntry": {
+          "location": "Location:",
+          "responsible": "Responsible: "
         }
       }
     },
@@ -269,7 +290,7 @@
       "lock": "Lock",
       "login": "Log in",
       "logout": "Logout",
-      "ok": "Okay",
+      "ok": "OK",
       "open": "Open",
       "save": "Save",
       "saving": "Saving",
@@ -280,6 +301,9 @@
       "update": "Update"
     },
     "changeLanguage": "Change language",
+    "datetime": {
+      "vuetifyTimePickerFormat": "ampm"
+    },
     "language": "English",
     "loading": "Loading …",
     "lokaliseMessage": "Language switching powered by lokalise.com",
@@ -319,14 +343,15 @@
         "loginCallback": {
           "loginInProgress": "You will be logged in"
         },
-        "or": "or",
+        "or": "or with",
         "password": "Password",
         "passwordForgotten": "Forgotten your password?",
         "provider": {
-          "cevidb": "Login with CeviDB",
+          "cevidb": "CeviDB",
           "ecamp": "Login with eCamp",
-          "google": "Login with Google",
-          "midata": "Login with MiData"
+          "google": "Google",
+          "jubladb": "JublaDB",
+          "midata": "MiData"
         },
         "registernow": "Register now"
       },
@@ -363,6 +388,12 @@
       "admin": {
         "collaborators": "Manage Team",
         "title": "Admin"
+      },
+      "campProgram": {
+        "guestsCannotEdit": "A guest cannot edit the picasso",
+        "reminderLockedCreate": "Drag to create is only possible in unlocked mode.",
+        "reminderLockedMove": "Drag to move is only possible in unlocked mode.",
+        "title": "Picasso"
       },
       "collaborators": {
         "email": "Email address",
@@ -450,10 +481,6 @@
             "itemPrinting": "PDF / Print"
           }
         }
-      },
-      "campProgram": {
-        "guestsCannotEdit": "A guest cannot edit the picasso",
-        "title": "Picasso"
       },
       "print": {
         "title": "Print camp"

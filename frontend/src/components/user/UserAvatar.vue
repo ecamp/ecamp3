@@ -1,5 +1,5 @@
 <template>
-  <v-avatar :size="size" :color="color">
+  <v-avatar :size="size" :color="color" :title="displayName" v-bind="$attrs">
     <span class="d-sr-only">{{ displayName }}</span>
     <span aria-hidden="true" :style="style">{{ initials }}</span>
   </v-avatar>
@@ -12,6 +12,7 @@ import {
   campCollaborationColor,
   defaultColor,
 } from '@/common/helpers/colors.js'
+import { range } from '@/common/helpers/interpolation.js'
 import userInitials from '@/common/helpers/userInitials.js'
 import campCollaborationDisplayName from '@/common/helpers/campCollaborationDisplayName.js'
 import userDisplayName from '@/common/helpers/userDisplayName.js'
@@ -51,10 +52,18 @@ export default {
         ? userDisplayName(this.user)
         : campCollaborationDisplayName(this.campCollaboration, this.$tc.bind(this))
     },
+    /**
+     * Font size of small avatars should be half the size,
+     * bigger avatars should have more visual padding
+     */
+    fontSize() {
+      const ratio = range(16, 32, 2, 2.3, Number(this.size))
+      return Number(this.size) / ratio
+    },
     style() {
       return {
         color: contrastColor(this.color),
-        fontSize: Number(this.size) / 2.4 + 'px',
+        fontSize: `${this.fontSize}px`,
         fontWeight: Number(this.size) > 44 ? 450 : Number(this.size) > 24 ? 500 : 600,
         letterSpacing: Number(this.size) < 24 ? '.05em' : 0,
         marginRight: Number(this.size) < 24 ? '-.125em' : 0,

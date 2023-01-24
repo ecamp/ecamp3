@@ -17,20 +17,20 @@
     <td style="width: 100%" class="contentrow">
       <router-link
         :to="routerLink"
-        class="text-decoration-none text-decoration-hover-underline black--text"
+        class="text-decoration-none text-decoration-hover-underline black--text font-weight-medium d-block"
       >
         {{ title }}<br />
       </router-link>
       <span class="e-subtitle">{{ location }}</span>
     </td>
     <td class="contentrow avatarrow overflow-visible">
-      <AvatarRow :camp-collaborations="collaborators" size="28" class="ml-auto" />
+      <AvatarRow :camp-collaborations="collaborators" max-size="28" class="ml-auto" />
     </td>
   </tr>
 </template>
 
 <script>
-import AvatarRow from './AvatarRow.vue'
+import AvatarRow from '@/components/generic/AvatarRow.vue'
 import CategoryChip from '@/components/generic/CategoryChip.vue'
 import { dateHelperUTCFormatted } from '@/mixins/dateHelperUTCFormatted.js'
 import TextAlignBaseline from '@/components/layout/TextAlignBaseline.vue'
@@ -97,10 +97,9 @@ tr + tr :is(td, th) {
 }
 
 .contentrow {
-  max-width: 100px;
+  max-width: 64px;
   overflow: hidden;
   text-overflow: ellipsis;
-  white-space: nowrap;
 }
 
 .avatarrow {

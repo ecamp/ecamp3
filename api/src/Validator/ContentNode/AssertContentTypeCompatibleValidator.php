@@ -2,7 +2,7 @@
 
 namespace App\Validator\ContentNode;
 
-use ApiPlatform\Core\Util\ClassInfoTrait;
+use ApiPlatform\Util\ClassInfoTrait;
 use App\Entity\ContentNode;
 use App\Entity\ContentType;
 use Symfony\Component\Validator\Constraint;

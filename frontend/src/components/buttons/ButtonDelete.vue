@@ -14,6 +14,9 @@
     <span v-if="!iconOnly" class="d-none d-sm-block">
       <slot>{{ $tc('global.button.delete') }}</slot>
     </span>
+    <span class="d-sr-only" :class="{ 'd-sm-none': !iconOnly }">
+      <slot>{{ $tc('global.button.delete') }}</slot>
+    </span>
   </v-btn>
 </template>
 

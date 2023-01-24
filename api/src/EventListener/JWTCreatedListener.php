@@ -2,7 +2,7 @@
 
 namespace App\EventListener;
 
-use ApiPlatform\Core\Api\IriConverterInterface;
+use ApiPlatform\Api\IriConverterInterface;
 use Lexik\Bundle\JWTAuthenticationBundle\Event\JWTCreatedEvent;
 use Symfony\Component\Security\Core\Security;
 
@@ -22,7 +22,7 @@ class JWTCreatedListener {
             return;
         }
 
-        $payload['user'] = $this->iriConverter->getIriFromItem($user);
+        $payload['user'] = $this->iriConverter->getIriFromResource($user);
         $event->setData($payload);
     }
 }
