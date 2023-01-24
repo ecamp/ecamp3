@@ -68,7 +68,7 @@ RUN set -eux; \
 ###> recipes ###
 ###< recipes ###
 
-COPY --from=composer:2.4@sha256:356d2db112a3e4c0fbcf4955668d3f64ee43f848baf4fd20f00cfcb6f98245ad /usr/bin/composer /usr/bin/composer
+COPY --from=composer:2.5@sha256:fe80818ba94877a47932a6bc00614ff101ca68496871aba9235c5093f40b78a1 /usr/bin/composer /usr/bin/composer
 
 # Copy development php.ini
 RUN cp "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
@@ -155,9 +155,9 @@ COPY docker/caddy/Caddyfile.prod /etc/caddy/Caddyfile
 FROM api_platform_php as api_platform_php_dev
 
 # renovate: datasource=github-tags depName=xdebug/xdebug
-ARG XDEBUG_VERSION=3.1.6
+ARG XDEBUG_VERSION=3.2.0
 RUN set -eux; \
-	apk add --no-cache --virtual .build-deps $PHPIZE_DEPS; \
+	apk add --no-cache --virtual .build-deps $PHPIZE_DEPS linux-headers; \
 	pecl install xdebug-$XDEBUG_VERSION; \
 	docker-php-ext-enable xdebug; \
 	apk del .build-deps

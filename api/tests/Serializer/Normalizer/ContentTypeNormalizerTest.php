@@ -2,16 +2,13 @@
 
 namespace App\Tests\Serializer\Normalizer;
 
-use ApiPlatform\Core\Api\IriConverterInterface;
-use ApiPlatform\Core\Bridge\Symfony\Routing\RouteNameResolverInterface;
+use ApiPlatform\Api\IriConverterInterface;
 use App\Entity\ContentType;
 use App\Metadata\Resource\Factory\UriTemplateFactory;
 use App\Serializer\Normalizer\ContentTypeNormalizer;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Rize\UriTemplate;
-use Symfony\Component\Routing\RouterInterface;
-use Symfony\Component\Serializer\Normalizer\ContextAwareNormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 
@@ -22,14 +19,12 @@ class ContentTypeNormalizerTest extends TestCase {
     private ContentTypeNormalizer $normalizer;
 
     private MockObject|NormalizerInterface $decoratedMock;
-    private MockObject|RouteNameResolverInterface $routeNameResolver;
-    private MockObject|RouterInterface $routerMock;
     private MockObject|IriConverterInterface $iriConverter;
     private MockObject|UriTemplate $uriTemplate;
     private MockObject|UriTemplateFactory $uriTemplateFactory;
 
     protected function setUp(): void {
-        $this->decoratedMock = $this->createMock(ContextAwareNormalizerInterface::class);
+        $this->decoratedMock = $this->createMock(NormalizerInterface::class);
 
         $this->iriConverter = $this->createMock(IriConverterInterface::class);
         $this->uriTemplate = $this->createMock(UriTemplate::class);

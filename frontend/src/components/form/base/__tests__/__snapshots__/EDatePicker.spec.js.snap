@@ -1,27 +1,32 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`An EDatePicker in locale de looks like a date picker: pickerclosed 1`] = `
-<div data-app>
+<div data-app="true">
      <div class="e-form-container"
+          name="test"
           vee-rules>
-          <div class="e-form-container"
-               value="01.03.2020">
-               <div class="v-input v-input--hide-details v-input--is-label-active v-input--is-dirty theme--light v-text-field v-text-field--single-line v-text-field--filled v-text-field--is-booted v-text-field--enclosed">
-                    <div class="v-input__prepend-outer">
-                         <button class="v-icon notranslate v-icon--link mdi mdi-calendar theme--light"
-                                 type="button"></button>
-                    </div>
-                    <div class="v-input__control">
-                         <div class="v-input__slot">
-                              <div class="v-text-field__slot">
-                                   <input id
-                                          type="text">
+          <div class="v-menu">
+               <div class="e-form-container"
+                    value>
+                    <div class="v-input v-input--hide-details theme--light v-text-field v-text-field--filled v-text-field--enclosed">
+                         <div class="v-input__prepend-outer">
+                              <button aria-label="Dialog öffnen um ein Datum für test zu wählen"
+                                      class="v-icon notranslate v-icon--link mdi mdi-calendar theme--light"
+                                      type="button"></button>
+                         </div>
+                         <div class="v-input__control">
+                              <div class="v-input__slot">
+                                   <div class="v-text-field__slot">
+                                        <label class="v-label theme--light"
+                                               for
+                                               style="left: 0px; position: absolute;">test</label>
+                                        <input id
+                                               type="text">
+                                   </div>
                               </div>
                          </div>
                     </div>
                </div>
-          </div>
-          <div class="v-menu">
                <!---->
           </div>
      </div>
@@ -29,19 +34,24 @@ exports[`An EDatePicker in locale de looks like a date picker: pickerclosed 1`] 
 `;
 
 exports[`An EDatePicker in locale de looks like a date picker: pickeropen 1`] = `
-<div data-app>
+<div data-app="true">
      <div class="e-form-container"
+          name="test"
           vee-rules>
           <div class="e-form-container"
                value="01.03.2020">
-               <div class="v-input v-input--hide-details v-input--is-label-active v-input--is-dirty theme--light v-text-field v-text-field--single-line v-text-field--filled v-text-field--is-booted v-text-field--enclosed">
+               <div class="v-input v-input--hide-details v-input--is-label-active v-input--is-dirty theme--light v-text-field v-text-field--filled v-text-field--is-booted v-text-field--enclosed">
                     <div class="v-input__prepend-outer">
-                         <button class="v-icon notranslate v-icon--link mdi mdi-calendar theme--light"
+                         <button aria-label="Dialog öffnen um ein Datum für test zu wählen"
+                                 class="v-icon notranslate v-icon--link mdi mdi-calendar theme--light"
                                  type="button"></button>
                     </div>
                     <div class="v-input__control">
                          <div class="v-input__slot">
                               <div class="v-text-field__slot">
+                                   <label class="v-label v-label--active theme--light"
+                                          for
+                                          style="left: 0px; position: absolute;">test</label>
                                    <input id
                                           type="text">
                               </div>
@@ -56,281 +66,343 @@ exports[`An EDatePicker in locale de looks like a date picker: pickeropen 1`] = 
      <div class="v-menu__content theme--light menuable__content__active "
           role="menu"
           style="max-height: auto; min-width: 290px; max-width: 290px; top: 12px; left: 0px; transform-origin: top left; z-index: 8; display: none;">
-          <div class="v-picker v-card v-picker--date theme--light">
-               <div class="v-picker__body v-picker__body--no-title theme--light"
-                    style="width: 290px;">
-                    <transition-stub name="fade-transition">
-                         <div>
-                              <div class="v-date-picker-header theme--light">
-                                   <button aria-label="Previous month"
-                                           class="v-btn v-btn--icon v-btn--round theme--light v-size--default"
-                                           type="button">
-                                        <span class="v-btn__content">
-                                             <i aria-hidden="true"
-                                                class="v-icon notranslate mdi mdi-chevron-left theme--light"></i>
-                                        </span>
-                                   </button>
-                                   <div class="v-date-picker-header__value">
+          <div id>
+               <div class="v-picker v-card v-picker--date theme--light">
+                    <div class="v-picker__body v-picker__body--no-title theme--light"
+                         style="width: 290px;">
+                         <transition-stub name="fade-transition">
+                              <div>
+                                   <div class="v-date-picker-header theme--light">
+                                        <button aria-label="Previous month"
+                                                class="v-btn v-btn--icon v-btn--round theme--light v-size--default"
+                                                type="button">
+                                             <span class="v-btn__content">
+                                                  <i aria-hidden="true"
+                                                     class="v-icon notranslate mdi mdi-chevron-left theme--light"></i>
+                                             </span>
+                                        </button>
+                                        <div class="v-date-picker-header__value">
+                                             <transition-stub name="tab-transition">
+                                                  <div class="accent--text">
+                                                       <button type="button">März 2020</button>
+                                                  </div>
+                                             </transition-stub>
+                                        </div>
+                                        <button aria-label="Next month"
+                                                class="v-btn v-btn--icon v-btn--round theme--light v-size--default"
+                                                type="button">
+                                             <span class="v-btn__content">
+                                                  <i aria-hidden="true"
+                                                     class="v-icon notranslate mdi mdi-chevron-right theme--light"></i>
+                                             </span>
+                                        </button>
+                                   </div>
+                                   <div class="v-date-picker-table v-date-picker-table--date theme--light">
                                         <transition-stub name="tab-transition">
-                                             <div class="accent--text">
-                                                  <button type="button">März 2020</button>
-                                             </div>
+                                             <table>
+                                                  <thead>
+                                                       <tr>
+                                                            <th>M</th>
+                                                            <th>D</th>
+                                                            <th>M</th>
+                                                            <th>D</th>
+                                                            <th>F</th>
+                                                            <th>S</th>
+                                                            <th>S</th>
+                                                       </tr>
+                                                  </thead>
+                                                  <tbody>
+                                                       <tr>
+                                                            <td>
+                                                                 <button class="v-btn v-btn--flat v-btn--text v-btn--rounded v-btn--disabled theme--light"
+                                                                         disabled
+                                                                         type="button">
+                                                                      <div class="v-btn__content">24</div>
+                                                                 </button>
+                                                            </td>
+                                                            <td>
+                                                                 <button class="v-btn v-btn--flat v-btn--text v-btn--rounded v-btn--disabled theme--light"
+                                                                         disabled
+                                                                         type="button">
+                                                                      <div class="v-btn__content">25</div>
+                                                                 </button>
+                                                            </td>
+                                                            <td>
+                                                                 <button class="v-btn v-btn--flat v-btn--text v-btn--rounded v-btn--disabled theme--light"
+                                                                         disabled
+                                                                         type="button">
+                                                                      <div class="v-btn__content">26</div>
+                                                                 </button>
+                                                            </td>
+                                                            <td>
+                                                                 <button class="v-btn v-btn--flat v-btn--text v-btn--rounded v-btn--disabled theme--light"
+                                                                         disabled
+                                                                         type="button">
+                                                                      <div class="v-btn__content">27</div>
+                                                                 </button>
+                                                            </td>
+                                                            <td>
+                                                                 <button class="v-btn v-btn--flat v-btn--text v-btn--rounded v-btn--disabled theme--light"
+                                                                         disabled
+                                                                         type="button">
+                                                                      <div class="v-btn__content">28</div>
+                                                                 </button>
+                                                            </td>
+                                                            <td>
+                                                                 <button class="v-btn v-btn--flat v-btn--text v-btn--rounded v-btn--disabled theme--light"
+                                                                         disabled
+                                                                         type="button">
+                                                                      <div class="v-btn__content">29</div>
+                                                                 </button>
+                                                            </td>
+                                                            <td>
+                                                                 <button class="v-btn v-btn--active v-btn--rounded theme--light accent"
+                                                                         type="button">
+                                                                      <div class="v-btn__content">1</div>
+                                                                 </button>
+                                                            </td>
+                                                       </tr>
+                                                       <tr>
+                                                            <td>
+                                                                 <button class="v-btn v-btn--text v-btn--rounded theme--light"
+                                                                         type="button">
+                                                                      <div class="v-btn__content">2</div>
+                                                                 </button>
+                                                            </td>
+                                                            <td>
+                                                                 <button class="v-btn v-btn--text v-btn--rounded theme--light"
+                                                                         type="button">
+                                                                      <div class="v-btn__content">3</div>
+                                                                 </button>
+                                                            </td>
+                                                            <td>
+                                                                 <button class="v-btn v-btn--text v-btn--rounded theme--light"
+                                                                         type="button">
+                                                                      <div class="v-btn__content">4</div>
+                                                                 </button>
+                                                            </td>
+                                                            <td>
+                                                                 <button class="v-btn v-btn--text v-btn--rounded theme--light"
+                                                                         type="button">
+                                                                      <div class="v-btn__content">5</div>
+                                                                 </button>
+                                                            </td>
+                                                            <td>
+                                                                 <button class="v-btn v-btn--text v-btn--rounded theme--light"
+                                                                         type="button">
+                                                                      <div class="v-btn__content">6</div>
+                                                                 </button>
+                                                            </td>
+                                                            <td>
+                                                                 <button class="v-btn v-btn--text v-btn--rounded theme--light"
+                                                                         type="button">
+                                                                      <div class="v-btn__content">7</div>
+                                                                 </button>
+                                                            </td>
+                                                            <td>
+                                                                 <button class="v-btn v-btn--text v-btn--rounded theme--light"
+                                                                         type="button">
+                                                                      <div class="v-btn__content">8</div>
+                                                                 </button>
+                                                            </td>
+                                                       </tr>
+                                                       <tr>
+                                                            <td>
+                                                                 <button class="v-btn v-btn--text v-btn--rounded theme--light"
+                                                                         type="button">
+                                                                      <div class="v-btn__content">9</div>
+                                                                 </button>
+                                                            </td>
+                                                            <td>
+                                                                 <button class="v-btn v-btn--text v-btn--rounded theme--light"
+                                                                         type="button">
+                                                                      <div class="v-btn__content">10</div>
+                                                                 </button>
+                                                            </td>
+                                                            <td>
+                                                                 <button class="v-btn v-btn--text v-btn--rounded theme--light"
+                                                                         type="button">
+                                                                      <div class="v-btn__content">11</div>
+                                                                 </button>
+                                                            </td>
+                                                            <td>
+                                                                 <button class="v-btn v-btn--text v-btn--rounded theme--light"
+                                                                         type="button">
+                                                                      <div class="v-btn__content">12</div>
+                                                                 </button>
+                                                            </td>
+                                                            <td>
+                                                                 <button class="v-btn v-btn--text v-btn--rounded theme--light"
+                                                                         type="button">
+                                                                      <div class="v-btn__content">13</div>
+                                                                 </button>
+                                                            </td>
+                                                            <td>
+                                                                 <button class="v-btn v-btn--text v-btn--rounded theme--light"
+                                                                         type="button">
+                                                                      <div class="v-btn__content">14</div>
+                                                                 </button>
+                                                            </td>
+                                                            <td>
+                                                                 <button class="v-btn v-btn--text v-btn--rounded theme--light"
+                                                                         type="button">
+                                                                      <div class="v-btn__content">15</div>
+                                                                 </button>
+                                                            </td>
+                                                       </tr>
+                                                       <tr>
+                                                            <td>
+                                                                 <button class="v-btn v-btn--text v-btn--rounded theme--light"
+                                                                         type="button">
+                                                                      <div class="v-btn__content">16</div>
+                                                                 </button>
+                                                            </td>
+                                                            <td>
+                                                                 <button class="v-btn v-btn--text v-btn--rounded theme--light"
+                                                                         type="button">
+                                                                      <div class="v-btn__content">17</div>
+                                                                 </button>
+                                                            </td>
+                                                            <td>
+                                                                 <button class="v-btn v-btn--text v-btn--rounded theme--light"
+                                                                         type="button">
+                                                                      <div class="v-btn__content">18</div>
+                                                                 </button>
+                                                            </td>
+                                                            <td>
+                                                                 <button class="v-btn v-btn--text v-btn--rounded theme--light"
+                                                                         type="button">
+                                                                      <div class="v-btn__content">19</div>
+                                                                 </button>
+                                                            </td>
+                                                            <td>
+                                                                 <button class="v-btn v-btn--text v-btn--rounded theme--light"
+                                                                         type="button">
+                                                                      <div class="v-btn__content">20</div>
+                                                                 </button>
+                                                            </td>
+                                                            <td>
+                                                                 <button class="v-btn v-btn--text v-btn--rounded theme--light"
+                                                                         type="button">
+                                                                      <div class="v-btn__content">21</div>
+                                                                 </button>
+                                                            </td>
+                                                            <td>
+                                                                 <button class="v-btn v-btn--text v-btn--rounded theme--light"
+                                                                         type="button">
+                                                                      <div class="v-btn__content">22</div>
+                                                                 </button>
+                                                            </td>
+                                                       </tr>
+                                                       <tr>
+                                                            <td>
+                                                                 <button class="v-btn v-btn--text v-btn--rounded theme--light"
+                                                                         type="button">
+                                                                      <div class="v-btn__content">23</div>
+                                                                 </button>
+                                                            </td>
+                                                            <td>
+                                                                 <button class="v-btn v-btn--text v-btn--rounded theme--light"
+                                                                         type="button">
+                                                                      <div class="v-btn__content">24</div>
+                                                                 </button>
+                                                            </td>
+                                                            <td>
+                                                                 <button class="v-btn v-btn--text v-btn--rounded theme--light"
+                                                                         type="button">
+                                                                      <div class="v-btn__content">25</div>
+                                                                 </button>
+                                                            </td>
+                                                            <td>
+                                                                 <button class="v-btn v-btn--text v-btn--rounded theme--light"
+                                                                         type="button">
+                                                                      <div class="v-btn__content">26</div>
+                                                                 </button>
+                                                            </td>
+                                                            <td>
+                                                                 <button class="v-btn v-btn--text v-btn--rounded theme--light"
+                                                                         type="button">
+                                                                      <div class="v-btn__content">27</div>
+                                                                 </button>
+                                                            </td>
+                                                            <td>
+                                                                 <button class="v-btn v-btn--text v-btn--rounded theme--light"
+                                                                         type="button">
+                                                                      <div class="v-btn__content">28</div>
+                                                                 </button>
+                                                            </td>
+                                                            <td>
+                                                                 <button class="v-btn v-btn--text v-btn--rounded theme--light"
+                                                                         type="button">
+                                                                      <div class="v-btn__content">29</div>
+                                                                 </button>
+                                                            </td>
+                                                       </tr>
+                                                       <tr>
+                                                            <td>
+                                                                 <button class="v-btn v-btn--text v-btn--rounded theme--light"
+                                                                         type="button">
+                                                                      <div class="v-btn__content">30</div>
+                                                                 </button>
+                                                            </td>
+                                                            <td>
+                                                                 <button class="v-btn v-btn--text v-btn--rounded theme--light"
+                                                                         type="button">
+                                                                      <div class="v-btn__content">31</div>
+                                                                 </button>
+                                                            </td>
+                                                            <td>
+                                                                 <button class="v-btn v-btn--flat v-btn--text v-btn--rounded v-btn--disabled theme--light"
+                                                                         disabled
+                                                                         type="button">
+                                                                      <div class="v-btn__content">1</div>
+                                                                 </button>
+                                                            </td>
+                                                            <td>
+                                                                 <button class="v-btn v-btn--flat v-btn--text v-btn--rounded v-btn--disabled theme--light"
+                                                                         disabled
+                                                                         type="button">
+                                                                      <div class="v-btn__content">2</div>
+                                                                 </button>
+                                                            </td>
+                                                            <td>
+                                                                 <button class="v-btn v-btn--flat v-btn--text v-btn--rounded v-btn--disabled theme--light"
+                                                                         disabled
+                                                                         type="button">
+                                                                      <div class="v-btn__content">3</div>
+                                                                 </button>
+                                                            </td>
+                                                            <td>
+                                                                 <button class="v-btn v-btn--flat v-btn--text v-btn--rounded v-btn--disabled theme--light"
+                                                                         disabled
+                                                                         type="button">
+                                                                      <div class="v-btn__content">4</div>
+                                                                 </button>
+                                                            </td>
+                                                            <td>
+                                                                 <button class="v-btn v-btn--flat v-btn--text v-btn--rounded v-btn--disabled theme--light"
+                                                                         disabled
+                                                                         type="button">
+                                                                      <div class="v-btn__content">5</div>
+                                                                 </button>
+                                                            </td>
+                                                       </tr>
+                                                  </tbody>
+                                             </table>
                                         </transition-stub>
                                    </div>
-                                   <button aria-label="Next month"
-                                           class="v-btn v-btn--icon v-btn--round theme--light v-size--default"
-                                           type="button">
-                                        <span class="v-btn__content">
-                                             <i aria-hidden="true"
-                                                class="v-icon notranslate mdi mdi-chevron-right theme--light"></i>
-                                        </span>
-                                   </button>
                               </div>
-                              <div class="v-date-picker-table v-date-picker-table--date theme--light">
-                                   <transition-stub name="tab-transition">
-                                        <table>
-                                             <thead>
-                                                  <tr>
-                                                       <th>M</th>
-                                                       <th>D</th>
-                                                       <th>M</th>
-                                                       <th>D</th>
-                                                       <th>F</th>
-                                                       <th>S</th>
-                                                       <th>S</th>
-                                                  </tr>
-                                             </thead>
-                                             <tbody>
-                                                  <tr>
-                                                       <td></td>
-                                                       <td></td>
-                                                       <td></td>
-                                                       <td></td>
-                                                       <td></td>
-                                                       <td></td>
-                                                       <td>
-                                                            <button class="v-btn v-btn--active v-btn--rounded theme--light accent"
-                                                                    type="button">
-                                                                 <div class="v-btn__content">1</div>
-                                                            </button>
-                                                       </td>
-                                                  </tr>
-                                                  <tr>
-                                                       <td>
-                                                            <button class="v-btn v-btn--text v-btn--rounded theme--light"
-                                                                    type="button">
-                                                                 <div class="v-btn__content">2</div>
-                                                            </button>
-                                                       </td>
-                                                       <td>
-                                                            <button class="v-btn v-btn--text v-btn--rounded theme--light"
-                                                                    type="button">
-                                                                 <div class="v-btn__content">3</div>
-                                                            </button>
-                                                       </td>
-                                                       <td>
-                                                            <button class="v-btn v-btn--text v-btn--rounded theme--light"
-                                                                    type="button">
-                                                                 <div class="v-btn__content">4</div>
-                                                            </button>
-                                                       </td>
-                                                       <td>
-                                                            <button class="v-btn v-btn--text v-btn--rounded theme--light"
-                                                                    type="button">
-                                                                 <div class="v-btn__content">5</div>
-                                                            </button>
-                                                       </td>
-                                                       <td>
-                                                            <button class="v-btn v-btn--text v-btn--rounded theme--light"
-                                                                    type="button">
-                                                                 <div class="v-btn__content">6</div>
-                                                            </button>
-                                                       </td>
-                                                       <td>
-                                                            <button class="v-btn v-btn--text v-btn--rounded theme--light"
-                                                                    type="button">
-                                                                 <div class="v-btn__content">7</div>
-                                                            </button>
-                                                       </td>
-                                                       <td>
-                                                            <button class="v-btn v-btn--text v-btn--rounded theme--light"
-                                                                    type="button">
-                                                                 <div class="v-btn__content">8</div>
-                                                            </button>
-                                                       </td>
-                                                  </tr>
-                                                  <tr>
-                                                       <td>
-                                                            <button class="v-btn v-btn--text v-btn--rounded theme--light"
-                                                                    type="button">
-                                                                 <div class="v-btn__content">9</div>
-                                                            </button>
-                                                       </td>
-                                                       <td>
-                                                            <button class="v-btn v-btn--text v-btn--rounded theme--light"
-                                                                    type="button">
-                                                                 <div class="v-btn__content">10</div>
-                                                            </button>
-                                                       </td>
-                                                       <td>
-                                                            <button class="v-btn v-btn--text v-btn--rounded theme--light"
-                                                                    type="button">
-                                                                 <div class="v-btn__content">11</div>
-                                                            </button>
-                                                       </td>
-                                                       <td>
-                                                            <button class="v-btn v-btn--text v-btn--rounded theme--light"
-                                                                    type="button">
-                                                                 <div class="v-btn__content">12</div>
-                                                            </button>
-                                                       </td>
-                                                       <td>
-                                                            <button class="v-btn v-btn--text v-btn--rounded theme--light"
-                                                                    type="button">
-                                                                 <div class="v-btn__content">13</div>
-                                                            </button>
-                                                       </td>
-                                                       <td>
-                                                            <button class="v-btn v-btn--text v-btn--rounded theme--light"
-                                                                    type="button">
-                                                                 <div class="v-btn__content">14</div>
-                                                            </button>
-                                                       </td>
-                                                       <td>
-                                                            <button class="v-btn v-btn--text v-btn--rounded theme--light"
-                                                                    type="button">
-                                                                 <div class="v-btn__content">15</div>
-                                                            </button>
-                                                       </td>
-                                                  </tr>
-                                                  <tr>
-                                                       <td>
-                                                            <button class="v-btn v-btn--text v-btn--rounded theme--light"
-                                                                    type="button">
-                                                                 <div class="v-btn__content">16</div>
-                                                            </button>
-                                                       </td>
-                                                       <td>
-                                                            <button class="v-btn v-btn--text v-btn--rounded theme--light"
-                                                                    type="button">
-                                                                 <div class="v-btn__content">17</div>
-                                                            </button>
-                                                       </td>
-                                                       <td>
-                                                            <button class="v-btn v-btn--text v-btn--rounded theme--light"
-                                                                    type="button">
-                                                                 <div class="v-btn__content">18</div>
-                                                            </button>
-                                                       </td>
-                                                       <td>
-                                                            <button class="v-btn v-btn--text v-btn--rounded theme--light"
-                                                                    type="button">
-                                                                 <div class="v-btn__content">19</div>
-                                                            </button>
-                                                       </td>
-                                                       <td>
-                                                            <button class="v-btn v-btn--text v-btn--rounded theme--light"
-                                                                    type="button">
-                                                                 <div class="v-btn__content">20</div>
-                                                            </button>
-                                                       </td>
-                                                       <td>
-                                                            <button class="v-btn v-btn--text v-btn--rounded theme--light"
-                                                                    type="button">
-                                                                 <div class="v-btn__content">21</div>
-                                                            </button>
-                                                       </td>
-                                                       <td>
-                                                            <button class="v-btn v-btn--text v-btn--rounded theme--light"
-                                                                    type="button">
-                                                                 <div class="v-btn__content">22</div>
-                                                            </button>
-                                                       </td>
-                                                  </tr>
-                                                  <tr>
-                                                       <td>
-                                                            <button class="v-btn v-btn--text v-btn--rounded theme--light"
-                                                                    type="button">
-                                                                 <div class="v-btn__content">23</div>
-                                                            </button>
-                                                       </td>
-                                                       <td>
-                                                            <button class="v-btn v-btn--text v-btn--rounded theme--light"
-                                                                    type="button">
-                                                                 <div class="v-btn__content">24</div>
-                                                            </button>
-                                                       </td>
-                                                       <td>
-                                                            <button class="v-btn v-btn--text v-btn--rounded theme--light"
-                                                                    type="button">
-                                                                 <div class="v-btn__content">25</div>
-                                                            </button>
-                                                       </td>
-                                                       <td>
-                                                            <button class="v-btn v-btn--text v-btn--rounded theme--light"
-                                                                    type="button">
-                                                                 <div class="v-btn__content">26</div>
-                                                            </button>
-                                                       </td>
-                                                       <td>
-                                                            <button class="v-btn v-btn--text v-btn--rounded theme--light"
-                                                                    type="button">
-                                                                 <div class="v-btn__content">27</div>
-                                                            </button>
-                                                       </td>
-                                                       <td>
-                                                            <button class="v-btn v-btn--text v-btn--rounded theme--light"
-                                                                    type="button">
-                                                                 <div class="v-btn__content">28</div>
-                                                            </button>
-                                                       </td>
-                                                       <td>
-                                                            <button class="v-btn v-btn--text v-btn--rounded theme--light"
-                                                                    type="button">
-                                                                 <div class="v-btn__content">29</div>
-                                                            </button>
-                                                       </td>
-                                                  </tr>
-                                                  <tr>
-                                                       <td>
-                                                            <button class="v-btn v-btn--text v-btn--rounded theme--light"
-                                                                    type="button">
-                                                                 <div class="v-btn__content">30</div>
-                                                            </button>
-                                                       </td>
-                                                       <td>
-                                                            <button class="v-btn v-btn--text v-btn--rounded theme--light"
-                                                                    type="button">
-                                                                 <div class="v-btn__content">31</div>
-                                                            </button>
-                                                       </td>
-                                                       <td></td>
-                                                       <td></td>
-                                                       <td></td>
-                                                       <td></td>
-                                                       <td></td>
-                                                  </tr>
-                                             </tbody>
-                                        </table>
-                                   </transition-stub>
-                              </div>
-                         </div>
-                    </transition-stub>
-               </div>
-               <div class="v-picker__actions v-card__actions v-picker__actions--no-title">
-                    <div class="spacer"></div>
-                    <button class="v-btn v-btn--text theme--light v-size--default primary--text"
-                            type="button">
-                         <span class="v-btn__content">
-                              Abbrechen
-                         </span>
-                    </button>
-                    <button class="v-btn v-btn--text theme--light v-size--default primary--text"
-                            type="button">
-                         <span class="v-btn__content">
-                              In Ordnung
-                         </span>
-                    </button>
+                         </transition-stub>
+                    </div>
+                    <div class="v-picker__actions v-card__actions v-picker__actions--no-title">
+                         <div class="spacer"></div>
+                         <button class="v-btn v-btn--text theme--light v-size--default primary--text"
+                                 type="button">
+                              <span class="v-btn__content">
+                                   Schliessen
+                              </span>
+                         </button>
+                    </div>
                </div>
           </div>
      </div>
@@ -338,27 +410,32 @@ exports[`An EDatePicker in locale de looks like a date picker: pickeropen 1`] = 
 `;
 
 exports[`An EDatePicker in locale en looks like a date picker: pickerclosed 1`] = `
-<div data-app>
+<div data-app="true">
      <div class="e-form-container"
+          name="test"
           vee-rules>
-          <div class="e-form-container"
-               value="03/01/2020">
-               <div class="v-input v-input--hide-details v-input--is-label-active v-input--is-dirty theme--light v-text-field v-text-field--single-line v-text-field--filled v-text-field--is-booted v-text-field--enclosed">
-                    <div class="v-input__prepend-outer">
-                         <button class="v-icon notranslate v-icon--link mdi mdi-calendar theme--light"
-                                 type="button"></button>
-                    </div>
-                    <div class="v-input__control">
-                         <div class="v-input__slot">
-                              <div class="v-text-field__slot">
-                                   <input id
-                                          type="text">
+          <div class="v-menu">
+               <div class="e-form-container"
+                    value>
+                    <div class="v-input v-input--hide-details theme--light v-text-field v-text-field--filled v-text-field--enclosed">
+                         <div class="v-input__prepend-outer">
+                              <button aria-label="Open dialog to select a date for test"
+                                      class="v-icon notranslate v-icon--link mdi mdi-calendar theme--light"
+                                      type="button"></button>
+                         </div>
+                         <div class="v-input__control">
+                              <div class="v-input__slot">
+                                   <div class="v-text-field__slot">
+                                        <label class="v-label theme--light"
+                                               for
+                                               style="left: 0px; position: absolute;">test</label>
+                                        <input id
+                                               type="text">
+                                   </div>
                               </div>
                          </div>
                     </div>
                </div>
-          </div>
-          <div class="v-menu">
                <!---->
           </div>
      </div>
@@ -366,19 +443,24 @@ exports[`An EDatePicker in locale en looks like a date picker: pickerclosed 1`] 
 `;
 
 exports[`An EDatePicker in locale en looks like a date picker: pickeropen 1`] = `
-<div data-app>
+<div data-app="true">
      <div class="e-form-container"
+          name="test"
           vee-rules>
           <div class="e-form-container"
                value="03/01/2020">
-               <div class="v-input v-input--hide-details v-input--is-label-active v-input--is-dirty theme--light v-text-field v-text-field--single-line v-text-field--filled v-text-field--is-booted v-text-field--enclosed">
+               <div class="v-input v-input--hide-details v-input--is-label-active v-input--is-dirty theme--light v-text-field v-text-field--filled v-text-field--is-booted v-text-field--enclosed">
                     <div class="v-input__prepend-outer">
-                         <button class="v-icon notranslate v-icon--link mdi mdi-calendar theme--light"
+                         <button aria-label="Open dialog to select a date for test"
+                                 class="v-icon notranslate v-icon--link mdi mdi-calendar theme--light"
                                  type="button"></button>
                     </div>
                     <div class="v-input__control">
                          <div class="v-input__slot">
                               <div class="v-text-field__slot">
+                                   <label class="v-label v-label--active theme--light"
+                                          for
+                                          style="left: 0px; position: absolute;">test</label>
                                    <input id
                                           type="text">
                               </div>
@@ -393,281 +475,343 @@ exports[`An EDatePicker in locale en looks like a date picker: pickeropen 1`] = 
      <div class="v-menu__content theme--light menuable__content__active "
           role="menu"
           style="max-height: auto; min-width: 290px; max-width: 290px; top: 12px; left: 0px; transform-origin: top left; z-index: 8; display: none;">
-          <div class="v-picker v-card v-picker--date theme--light">
-               <div class="v-picker__body v-picker__body--no-title theme--light"
-                    style="width: 290px;">
-                    <transition-stub name="fade-transition">
-                         <div>
-                              <div class="v-date-picker-header theme--light">
-                                   <button aria-label="Previous month"
-                                           class="v-btn v-btn--icon v-btn--round theme--light v-size--default"
-                                           type="button">
-                                        <span class="v-btn__content">
-                                             <i aria-hidden="true"
-                                                class="v-icon notranslate mdi mdi-chevron-left theme--light"></i>
-                                        </span>
-                                   </button>
-                                   <div class="v-date-picker-header__value">
+          <div id>
+               <div class="v-picker v-card v-picker--date theme--light">
+                    <div class="v-picker__body v-picker__body--no-title theme--light"
+                         style="width: 290px;">
+                         <transition-stub name="fade-transition">
+                              <div>
+                                   <div class="v-date-picker-header theme--light">
+                                        <button aria-label="Previous month"
+                                                class="v-btn v-btn--icon v-btn--round theme--light v-size--default"
+                                                type="button">
+                                             <span class="v-btn__content">
+                                                  <i aria-hidden="true"
+                                                     class="v-icon notranslate mdi mdi-chevron-left theme--light"></i>
+                                             </span>
+                                        </button>
+                                        <div class="v-date-picker-header__value">
+                                             <transition-stub name="tab-transition">
+                                                  <div class="accent--text">
+                                                       <button type="button">March 2020</button>
+                                                  </div>
+                                             </transition-stub>
+                                        </div>
+                                        <button aria-label="Next month"
+                                                class="v-btn v-btn--icon v-btn--round theme--light v-size--default"
+                                                type="button">
+                                             <span class="v-btn__content">
+                                                  <i aria-hidden="true"
+                                                     class="v-icon notranslate mdi mdi-chevron-right theme--light"></i>
+                                             </span>
+                                        </button>
+                                   </div>
+                                   <div class="v-date-picker-table v-date-picker-table--date theme--light">
                                         <transition-stub name="tab-transition">
-                                             <div class="accent--text">
-                                                  <button type="button">March 2020</button>
-                                             </div>
+                                             <table>
+                                                  <thead>
+                                                       <tr>
+                                                            <th>M</th>
+                                                            <th>T</th>
+                                                            <th>W</th>
+                                                            <th>T</th>
+                                                            <th>F</th>
+                                                            <th>S</th>
+                                                            <th>S</th>
+                                                       </tr>
+                                                  </thead>
+                                                  <tbody>
+                                                       <tr>
+                                                            <td>
+                                                                 <button class="v-btn v-btn--flat v-btn--text v-btn--rounded v-btn--disabled theme--light"
+                                                                         disabled
+                                                                         type="button">
+                                                                      <div class="v-btn__content">24</div>
+                                                                 </button>
+                                                            </td>
+                                                            <td>
+                                                                 <button class="v-btn v-btn--flat v-btn--text v-btn--rounded v-btn--disabled theme--light"
+                                                                         disabled
+                                                                         type="button">
+                                                                      <div class="v-btn__content">25</div>
+                                                                 </button>
+                                                            </td>
+                                                            <td>
+                                                                 <button class="v-btn v-btn--flat v-btn--text v-btn--rounded v-btn--disabled theme--light"
+                                                                         disabled
+                                                                         type="button">
+                                                                      <div class="v-btn__content">26</div>
+                                                                 </button>
+                                                            </td>
+                                                            <td>
+                                                                 <button class="v-btn v-btn--flat v-btn--text v-btn--rounded v-btn--disabled theme--light"
+                                                                         disabled
+                                                                         type="button">
+                                                                      <div class="v-btn__content">27</div>
+                                                                 </button>
+                                                            </td>
+                                                            <td>
+                                                                 <button class="v-btn v-btn--flat v-btn--text v-btn--rounded v-btn--disabled theme--light"
+                                                                         disabled
+                                                                         type="button">
+                                                                      <div class="v-btn__content">28</div>
+                                                                 </button>
+                                                            </td>
+                                                            <td>
+                                                                 <button class="v-btn v-btn--flat v-btn--text v-btn--rounded v-btn--disabled theme--light"
+                                                                         disabled
+                                                                         type="button">
+                                                                      <div class="v-btn__content">29</div>
+                                                                 </button>
+                                                            </td>
+                                                            <td>
+                                                                 <button class="v-btn v-btn--active v-btn--rounded theme--light accent"
+                                                                         type="button">
+                                                                      <div class="v-btn__content">1</div>
+                                                                 </button>
+                                                            </td>
+                                                       </tr>
+                                                       <tr>
+                                                            <td>
+                                                                 <button class="v-btn v-btn--text v-btn--rounded theme--light"
+                                                                         type="button">
+                                                                      <div class="v-btn__content">2</div>
+                                                                 </button>
+                                                            </td>
+                                                            <td>
+                                                                 <button class="v-btn v-btn--text v-btn--rounded theme--light"
+                                                                         type="button">
+                                                                      <div class="v-btn__content">3</div>
+                                                                 </button>
+                                                            </td>
+                                                            <td>
+                                                                 <button class="v-btn v-btn--text v-btn--rounded theme--light"
+                                                                         type="button">
+                                                                      <div class="v-btn__content">4</div>
+                                                                 </button>
+                                                            </td>
+                                                            <td>
+                                                                 <button class="v-btn v-btn--text v-btn--rounded theme--light"
+                                                                         type="button">
+                                                                      <div class="v-btn__content">5</div>
+                                                                 </button>
+                                                            </td>
+                                                            <td>
+                                                                 <button class="v-btn v-btn--text v-btn--rounded theme--light"
+                                                                         type="button">
+                                                                      <div class="v-btn__content">6</div>
+                                                                 </button>
+                                                            </td>
+                                                            <td>
+                                                                 <button class="v-btn v-btn--text v-btn--rounded theme--light"
+                                                                         type="button">
+                                                                      <div class="v-btn__content">7</div>
+                                                                 </button>
+                                                            </td>
+                                                            <td>
+                                                                 <button class="v-btn v-btn--text v-btn--rounded theme--light"
+                                                                         type="button">
+                                                                      <div class="v-btn__content">8</div>
+                                                                 </button>
+                                                            </td>
+                                                       </tr>
+                                                       <tr>
+                                                            <td>
+                                                                 <button class="v-btn v-btn--text v-btn--rounded theme--light"
+                                                                         type="button">
+                                                                      <div class="v-btn__content">9</div>
+                                                                 </button>
+                                                            </td>
+                                                            <td>
+                                                                 <button class="v-btn v-btn--text v-btn--rounded theme--light"
+                                                                         type="button">
+                                                                      <div class="v-btn__content">10</div>
+                                                                 </button>
+                                                            </td>
+                                                            <td>
+                                                                 <button class="v-btn v-btn--text v-btn--rounded theme--light"
+                                                                         type="button">
+                                                                      <div class="v-btn__content">11</div>
+                                                                 </button>
+                                                            </td>
+                                                            <td>
+                                                                 <button class="v-btn v-btn--text v-btn--rounded theme--light"
+                                                                         type="button">
+                                                                      <div class="v-btn__content">12</div>
+                                                                 </button>
+                                                            </td>
+                                                            <td>
+                                                                 <button class="v-btn v-btn--text v-btn--rounded theme--light"
+                                                                         type="button">
+                                                                      <div class="v-btn__content">13</div>
+                                                                 </button>
+                                                            </td>
+                                                            <td>
+                                                                 <button class="v-btn v-btn--text v-btn--rounded theme--light"
+                                                                         type="button">
+                                                                      <div class="v-btn__content">14</div>
+                                                                 </button>
+                                                            </td>
+                                                            <td>
+                                                                 <button class="v-btn v-btn--text v-btn--rounded theme--light"
+                                                                         type="button">
+                                                                      <div class="v-btn__content">15</div>
+                                                                 </button>
+                                                            </td>
+                                                       </tr>
+                                                       <tr>
+                                                            <td>
+                                                                 <button class="v-btn v-btn--text v-btn--rounded theme--light"
+                                                                         type="button">
+                                                                      <div class="v-btn__content">16</div>
+                                                                 </button>
+                                                            </td>
+                                                            <td>
+                                                                 <button class="v-btn v-btn--text v-btn--rounded theme--light"
+                                                                         type="button">
+                                                                      <div class="v-btn__content">17</div>
+                                                                 </button>
+                                                            </td>
+                                                            <td>
+                                                                 <button class="v-btn v-btn--text v-btn--rounded theme--light"
+                                                                         type="button">
+                                                                      <div class="v-btn__content">18</div>
+                                                                 </button>
+                                                            </td>
+                                                            <td>
+                                                                 <button class="v-btn v-btn--text v-btn--rounded theme--light"
+                                                                         type="button">
+                                                                      <div class="v-btn__content">19</div>
+                                                                 </button>
+                                                            </td>
+                                                            <td>
+                                                                 <button class="v-btn v-btn--text v-btn--rounded theme--light"
+                                                                         type="button">
+                                                                      <div class="v-btn__content">20</div>
+                                                                 </button>
+                                                            </td>
+                                                            <td>
+                                                                 <button class="v-btn v-btn--text v-btn--rounded theme--light"
+                                                                         type="button">
+                                                                      <div class="v-btn__content">21</div>
+                                                                 </button>
+                                                            </td>
+                                                            <td>
+                                                                 <button class="v-btn v-btn--text v-btn--rounded theme--light"
+                                                                         type="button">
+                                                                      <div class="v-btn__content">22</div>
+                                                                 </button>
+                                                            </td>
+                                                       </tr>
+                                                       <tr>
+                                                            <td>
+                                                                 <button class="v-btn v-btn--text v-btn--rounded theme--light"
+                                                                         type="button">
+                                                                      <div class="v-btn__content">23</div>
+                                                                 </button>
+                                                            </td>
+                                                            <td>
+                                                                 <button class="v-btn v-btn--text v-btn--rounded theme--light"
+                                                                         type="button">
+                                                                      <div class="v-btn__content">24</div>
+                                                                 </button>
+                                                            </td>
+                                                            <td>
+                                                                 <button class="v-btn v-btn--text v-btn--rounded theme--light"
+                                                                         type="button">
+                                                                      <div class="v-btn__content">25</div>
+                                                                 </button>
+                                                            </td>
+                                                            <td>
+                                                                 <button class="v-btn v-btn--text v-btn--rounded theme--light"
+                                                                         type="button">
+                                                                      <div class="v-btn__content">26</div>
+                                                                 </button>
+                                                            </td>
+                                                            <td>
+                                                                 <button class="v-btn v-btn--text v-btn--rounded theme--light"
+                                                                         type="button">
+                                                                      <div class="v-btn__content">27</div>
+                                                                 </button>
+                                                            </td>
+                                                            <td>
+                                                                 <button class="v-btn v-btn--text v-btn--rounded theme--light"
+                                                                         type="button">
+                                                                      <div class="v-btn__content">28</div>
+                                                                 </button>
+                                                            </td>
+                                                            <td>
+                                                                 <button class="v-btn v-btn--text v-btn--rounded theme--light"
+                                                                         type="button">
+                                                                      <div class="v-btn__content">29</div>
+                                                                 </button>
+                                                            </td>
+                                                       </tr>
+                                                       <tr>
+                                                            <td>
+                                                                 <button class="v-btn v-btn--text v-btn--rounded theme--light"
+                                                                         type="button">
+                                                                      <div class="v-btn__content">30</div>
+                                                                 </button>
+                                                            </td>
+                                                            <td>
+                                                                 <button class="v-btn v-btn--text v-btn--rounded theme--light"
+                                                                         type="button">
+                                                                      <div class="v-btn__content">31</div>
+                                                                 </button>
+                                                            </td>
+                                                            <td>
+                                                                 <button class="v-btn v-btn--flat v-btn--text v-btn--rounded v-btn--disabled theme--light"
+                                                                         disabled
+                                                                         type="button">
+                                                                      <div class="v-btn__content">1</div>
+                                                                 </button>
+                                                            </td>
+                                                            <td>
+                                                                 <button class="v-btn v-btn--flat v-btn--text v-btn--rounded v-btn--disabled theme--light"
+                                                                         disabled
+                                                                         type="button">
+                                                                      <div class="v-btn__content">2</div>
+                                                                 </button>
+                                                            </td>
+                                                            <td>
+                                                                 <button class="v-btn v-btn--flat v-btn--text v-btn--rounded v-btn--disabled theme--light"
+                                                                         disabled
+                                                                         type="button">
+                                                                      <div class="v-btn__content">3</div>
+                                                                 </button>
+                                                            </td>
+                                                            <td>
+                                                                 <button class="v-btn v-btn--flat v-btn--text v-btn--rounded v-btn--disabled theme--light"
+                                                                         disabled
+                                                                         type="button">
+                                                                      <div class="v-btn__content">4</div>
+                                                                 </button>
+                                                            </td>
+                                                            <td>
+                                                                 <button class="v-btn v-btn--flat v-btn--text v-btn--rounded v-btn--disabled theme--light"
+                                                                         disabled
+                                                                         type="button">
+                                                                      <div class="v-btn__content">5</div>
+                                                                 </button>
+                                                            </td>
+                                                       </tr>
+                                                  </tbody>
+                                             </table>
                                         </transition-stub>
                                    </div>
-                                   <button aria-label="Next month"
-                                           class="v-btn v-btn--icon v-btn--round theme--light v-size--default"
-                                           type="button">
-                                        <span class="v-btn__content">
-                                             <i aria-hidden="true"
-                                                class="v-icon notranslate mdi mdi-chevron-right theme--light"></i>
-                                        </span>
-                                   </button>
                               </div>
-                              <div class="v-date-picker-table v-date-picker-table--date theme--light">
-                                   <transition-stub name="tab-transition">
-                                        <table>
-                                             <thead>
-                                                  <tr>
-                                                       <th>M</th>
-                                                       <th>T</th>
-                                                       <th>W</th>
-                                                       <th>T</th>
-                                                       <th>F</th>
-                                                       <th>S</th>
-                                                       <th>S</th>
-                                                  </tr>
-                                             </thead>
-                                             <tbody>
-                                                  <tr>
-                                                       <td></td>
-                                                       <td></td>
-                                                       <td></td>
-                                                       <td></td>
-                                                       <td></td>
-                                                       <td></td>
-                                                       <td>
-                                                            <button class="v-btn v-btn--active v-btn--rounded theme--light accent"
-                                                                    type="button">
-                                                                 <div class="v-btn__content">1</div>
-                                                            </button>
-                                                       </td>
-                                                  </tr>
-                                                  <tr>
-                                                       <td>
-                                                            <button class="v-btn v-btn--text v-btn--rounded theme--light"
-                                                                    type="button">
-                                                                 <div class="v-btn__content">2</div>
-                                                            </button>
-                                                       </td>
-                                                       <td>
-                                                            <button class="v-btn v-btn--text v-btn--rounded theme--light"
-                                                                    type="button">
-                                                                 <div class="v-btn__content">3</div>
-                                                            </button>
-                                                       </td>
-                                                       <td>
-                                                            <button class="v-btn v-btn--text v-btn--rounded theme--light"
-                                                                    type="button">
-                                                                 <div class="v-btn__content">4</div>
-                                                            </button>
-                                                       </td>
-                                                       <td>
-                                                            <button class="v-btn v-btn--text v-btn--rounded theme--light"
-                                                                    type="button">
-                                                                 <div class="v-btn__content">5</div>
-                                                            </button>
-                                                       </td>
-                                                       <td>
-                                                            <button class="v-btn v-btn--text v-btn--rounded theme--light"
-                                                                    type="button">
-                                                                 <div class="v-btn__content">6</div>
-                                                            </button>
-                                                       </td>
-                                                       <td>
-                                                            <button class="v-btn v-btn--text v-btn--rounded theme--light"
-                                                                    type="button">
-                                                                 <div class="v-btn__content">7</div>
-                                                            </button>
-                                                       </td>
-                                                       <td>
-                                                            <button class="v-btn v-btn--text v-btn--rounded theme--light"
-                                                                    type="button">
-                                                                 <div class="v-btn__content">8</div>
-                                                            </button>
-                                                       </td>
-                                                  </tr>
-                                                  <tr>
-                                                       <td>
-                                                            <button class="v-btn v-btn--text v-btn--rounded theme--light"
-                                                                    type="button">
-                                                                 <div class="v-btn__content">9</div>
-                                                            </button>
-                                                       </td>
-                                                       <td>
-                                                            <button class="v-btn v-btn--text v-btn--rounded theme--light"
-                                                                    type="button">
-                                                                 <div class="v-btn__content">10</div>
-                                                            </button>
-                                                       </td>
-                                                       <td>
-                                                            <button class="v-btn v-btn--text v-btn--rounded theme--light"
-                                                                    type="button">
-                                                                 <div class="v-btn__content">11</div>
-                                                            </button>
-                                                       </td>
-                                                       <td>
-                                                            <button class="v-btn v-btn--text v-btn--rounded theme--light"
-                                                                    type="button">
-                                                                 <div class="v-btn__content">12</div>
-                                                            </button>
-                                                       </td>
-                                                       <td>
-                                                            <button class="v-btn v-btn--text v-btn--rounded theme--light"
-                                                                    type="button">
-                                                                 <div class="v-btn__content">13</div>
-                                                            </button>
-                                                       </td>
-                                                       <td>
-                                                            <button class="v-btn v-btn--text v-btn--rounded theme--light"
-                                                                    type="button">
-                                                                 <div class="v-btn__content">14</div>
-                                                            </button>
-                                                       </td>
-                                                       <td>
-                                                            <button class="v-btn v-btn--text v-btn--rounded theme--light"
-                                                                    type="button">
-                                                                 <div class="v-btn__content">15</div>
-                                                            </button>
-                                                       </td>
-                                                  </tr>
-                                                  <tr>
-                                                       <td>
-                                                            <button class="v-btn v-btn--text v-btn--rounded theme--light"
-                                                                    type="button">
-                                                                 <div class="v-btn__content">16</div>
-                                                            </button>
-                                                       </td>
-                                                       <td>
-                                                            <button class="v-btn v-btn--text v-btn--rounded theme--light"
-                                                                    type="button">
-                                                                 <div class="v-btn__content">17</div>
-                                                            </button>
-                                                       </td>
-                                                       <td>
-                                                            <button class="v-btn v-btn--text v-btn--rounded theme--light"
-                                                                    type="button">
-                                                                 <div class="v-btn__content">18</div>
-                                                            </button>
-                                                       </td>
-                                                       <td>
-                                                            <button class="v-btn v-btn--text v-btn--rounded theme--light"
-                                                                    type="button">
-                                                                 <div class="v-btn__content">19</div>
-                                                            </button>
-                                                       </td>
-                                                       <td>
-                                                            <button class="v-btn v-btn--text v-btn--rounded theme--light"
-                                                                    type="button">
-                                                                 <div class="v-btn__content">20</div>
-                                                            </button>
-                                                       </td>
-                                                       <td>
-                                                            <button class="v-btn v-btn--text v-btn--rounded theme--light"
-                                                                    type="button">
-                                                                 <div class="v-btn__content">21</div>
-                                                            </button>
-                                                       </td>
-                                                       <td>
-                                                            <button class="v-btn v-btn--text v-btn--rounded theme--light"
-                                                                    type="button">
-                                                                 <div class="v-btn__content">22</div>
-                                                            </button>
-                                                       </td>
-                                                  </tr>
-                                                  <tr>
-                                                       <td>
-                                                            <button class="v-btn v-btn--text v-btn--rounded theme--light"
-                                                                    type="button">
-                                                                 <div class="v-btn__content">23</div>
-                                                            </button>
-                                                       </td>
-                                                       <td>
-                                                            <button class="v-btn v-btn--text v-btn--rounded theme--light"
-                                                                    type="button">
-                                                                 <div class="v-btn__content">24</div>
-                                                            </button>
-                                                       </td>
-                                                       <td>
-                                                            <button class="v-btn v-btn--text v-btn--rounded theme--light"
-                                                                    type="button">
-                                                                 <div class="v-btn__content">25</div>
-                                                            </button>
-                                                       </td>
-                                                       <td>
-                                                            <button class="v-btn v-btn--text v-btn--rounded theme--light"
-                                                                    type="button">
-                                                                 <div class="v-btn__content">26</div>
-                                                            </button>
-                                                       </td>
-                                                       <td>
-                                                            <button class="v-btn v-btn--text v-btn--rounded theme--light"
-                                                                    type="button">
-                                                                 <div class="v-btn__content">27</div>
-                                                            </button>
-                                                       </td>
-                                                       <td>
-                                                            <button class="v-btn v-btn--text v-btn--rounded theme--light"
-                                                                    type="button">
-                                                                 <div class="v-btn__content">28</div>
-                                                            </button>
-                                                       </td>
-                                                       <td>
-                                                            <button class="v-btn v-btn--text v-btn--rounded theme--light"
-                                                                    type="button">
-                                                                 <div class="v-btn__content">29</div>
-                                                            </button>
-                                                       </td>
-                                                  </tr>
-                                                  <tr>
-                                                       <td>
-                                                            <button class="v-btn v-btn--text v-btn--rounded theme--light"
-                                                                    type="button">
-                                                                 <div class="v-btn__content">30</div>
-                                                            </button>
-                                                       </td>
-                                                       <td>
-                                                            <button class="v-btn v-btn--text v-btn--rounded theme--light"
-                                                                    type="button">
-                                                                 <div class="v-btn__content">31</div>
-                                                            </button>
-                                                       </td>
-                                                       <td></td>
-                                                       <td></td>
-                                                       <td></td>
-                                                       <td></td>
-                                                       <td></td>
-                                                  </tr>
-                                             </tbody>
-                                        </table>
-                                   </transition-stub>
-                              </div>
-                         </div>
-                    </transition-stub>
-               </div>
-               <div class="v-picker__actions v-card__actions v-picker__actions--no-title">
-                    <div class="spacer"></div>
-                    <button class="v-btn v-btn--text theme--light v-size--default primary--text"
-                            type="button">
-                         <span class="v-btn__content">
-                              Cancel
-                         </span>
-                    </button>
-                    <button class="v-btn v-btn--text theme--light v-size--default primary--text"
-                            type="button">
-                         <span class="v-btn__content">
-                              Okay
-                         </span>
-                    </button>
+                         </transition-stub>
+                    </div>
+                    <div class="v-picker__actions v-card__actions v-picker__actions--no-title">
+                         <div class="spacer"></div>
+                         <button class="v-btn v-btn--text theme--light v-size--default primary--text"
+                                 type="button">
+                              <span class="v-btn__content">
+                                   Close
+                              </span>
+                         </button>
+                    </div>
                </div>
           </div>
      </div>

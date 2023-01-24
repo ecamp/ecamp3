@@ -2,9 +2,9 @@
 
 namespace App\EventListener;
 
-use ApiPlatform\Core\Metadata\Resource\Factory\ResourceMetadataFactoryInterface;
-use ApiPlatform\Core\Util\RequestAttributesExtractor;
-use ApiPlatform\Core\Validator\ValidatorInterface;
+use ApiPlatform\Metadata\Resource\Factory\ResourceMetadataCollectionFactoryInterface;
+use ApiPlatform\Util\RequestAttributesExtractor;
+use ApiPlatform\Validator\ValidatorInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\ViewEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
@@ -12,7 +12,7 @@ use Symfony\Component\HttpKernel\KernelEvents;
 class ValidateDeleteRequestsListener implements EventSubscriberInterface {
     public function __construct(
         private ValidatorInterface $validator,
-        private ResourceMetadataFactoryInterface $resourceMetadataFactory
+        private ResourceMetadataCollectionFactoryInterface $resourceMetadataCollectionFactory
     ) {
     }
 
@@ -25,7 +25,7 @@ class ValidateDeleteRequestsListener implements EventSubscriberInterface {
     }
 
     /**
-     * @throws \ApiPlatform\Core\Exception\ResourceClassNotFoundException
+     * @throws \ApiPlatform\Exception\ResourceClassNotFoundException
      */
     public function validateDeleteRequest(ViewEvent $event): void {
         $controllerResult = $event->getControllerResult();
@@ -38,9 +38,9 @@ class ValidateDeleteRequestsListener implements EventSubscriberInterface {
             return;
         }
 
-        $resourceMetadata = $this->resourceMetadataFactory->create($attributes['resource_class']);
+        $resourceMetadata = $this->resourceMetadataCollectionFactory->create($attributes['resource_class']);
 
-        $validationGroups = $resourceMetadata->getOperationAttribute($attributes, 'validation_groups', ['delete'], true);
+        $validationGroups = $resourceMetadata->getOperation($attributes['operation_name'])->getValidationContext()['groups'] ?? ['delete'];
         $this->validator->validate($controllerResult, ['groups' => $validationGroups]);
     }
 }

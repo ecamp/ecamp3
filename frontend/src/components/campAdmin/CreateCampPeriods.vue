@@ -48,6 +48,7 @@
             :name="$tc('entity.period.fields.start')"
             vee-id="start"
             vee-rules="required"
+            :max="period.end"
             :my="2"
             :filled="false"
             required
@@ -59,6 +60,7 @@
             input-class="ml-2"
             :name="$tc('entity.period.fields.end')"
             vee-rules="required|greaterThanOrEqual_date:@start"
+            :min="period.start"
             :my="2"
             :filled="false"
             required

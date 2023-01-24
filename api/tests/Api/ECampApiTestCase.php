@@ -2,16 +2,19 @@
 
 namespace App\Tests\Api;
 
-use ApiPlatform\Core\Api\IriConverterInterface;
-use ApiPlatform\Core\Api\OperationType;
-use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\ApiTestCase;
-use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\Client;
-use ApiPlatform\Core\JsonSchema\Schema;
-use ApiPlatform\Core\JsonSchema\SchemaFactoryInterface;
-use ApiPlatform\Core\Metadata\Resource\Factory\ResourceMetadataFactoryInterface;
+use ApiPlatform\Api\IriConverterInterface;
+use ApiPlatform\JsonSchema\Schema;
+use ApiPlatform\JsonSchema\SchemaFactoryInterface;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Resource\Factory\ResourceMetadataCollectionFactoryInterface;
+use ApiPlatform\Symfony\Bundle\Test\ApiTestCase;
+use ApiPlatform\Symfony\Bundle\Test\Client;
 use App\Entity\BaseEntity;
 use App\Entity\Profile;
 use App\Entity\User;
+use App\Metadata\Resource\OperationHelper;
 use App\Repository\ProfileRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Hautelook\AliceBundle\PhpUnit\RefreshDatabaseTrait;
@@ -26,13 +29,14 @@ abstract class ECampApiTestCase extends ApiTestCase {
     use RefreshDatabaseTrait;
 
     protected string $endpoint = '';
+    protected string $routePrefix = '';
     protected BaseEntity $defaultEntity;
     protected string $entityClass;
 
     private ?string $token = null;
     private ?IriConverterInterface $iriConverter = null;
     private ?SchemaFactoryInterface $schemaFactory = null;
-    private ?ResourceMetadataFactoryInterface $resourceMetadataFactory = null;
+    private ?ResourceMetadataCollectionFactoryInterface $resourceMetadataFactory = null;
     private ?EntityManagerInterface $entityManager = null;
 
     /** @var string */
@@ -109,7 +113,7 @@ abstract class ECampApiTestCase extends ApiTestCase {
             $entityOrFixtureName = static::$fixtures[$entityOrFixtureName];
         }
 
-        return $this->getIriConverter()->getIriFromItem($entityOrFixtureName);
+        return $this->getIriConverter()->getIriFromResource($entityOrFixtureName);
     }
 
     protected function getSchemaFactory(): SchemaFactoryInterface {
@@ -120,9 +124,9 @@ abstract class ECampApiTestCase extends ApiTestCase {
         return $this->schemaFactory;
     }
 
-    protected function getResourceMetadataFactory(): ResourceMetadataFactoryInterface {
+    protected function getResourceMetadataFactory(): ResourceMetadataCollectionFactoryInterface {
         if (null === $this->resourceMetadataFactory) {
-            $this->resourceMetadataFactory = static::getContainer()->get(ResourceMetadataFactoryInterface::class);
+            $this->resourceMetadataFactory = static::getContainer()->get(ResourceMetadataCollectionFactoryInterface::class);
         }
 
         return $this->resourceMetadataFactory;
@@ -136,25 +140,39 @@ abstract class ECampApiTestCase extends ApiTestCase {
         return $this->entityManager;
     }
 
-    protected function getExamplePayload(string $resourceClass, string $operationType, string $operationName, array $attributes = [], array $exceptExamples = [], array $exceptAttributes = []): array {
-        $schema = $this->getSchemaFactory()->buildSchema($resourceClass, 'json', 'get' === $operationName ? Schema::TYPE_OUTPUT : Schema::TYPE_INPUT, $operationType, $operationName);
-        preg_match('/\/([^\/]+)$/', $schema['$ref'] ?? '', $matches);
-        $schemaName = $matches[1];
-        $properties = $schema->getDefinitions()[$schemaName]['properties'] ?? [];
-        $writableProperties = array_filter($properties, fn ($property) => !($property['readOnly'] ?? false));
-        $writablePropertiesWithExample = array_filter($writableProperties, fn ($property) => ($property['example'] ?? false));
-        $examples = array_map(fn ($property) => $property['example'] ?? $property['default'] ?? null, $writablePropertiesWithExample);
-        $examples = array_map(function ($example) {
-            try {
-                $decoded = json_decode($example, true, 512, JSON_THROW_ON_ERROR);
+    protected function getExamplePayload(string $resourceClass, string $operationClassName = Get::class, array $attributes = [], array $exceptExamples = [], array $exceptAttributes = []): array {
+        $resourceMetadataCollection = $this->getResourceMetadataFactory()->create($resourceClass);
+        $operation = OperationHelper::findOneByType($resourceMetadataCollection, $operationClassName);
 
-                return is_array($decoded) || is_null($decoded) ? $decoded : $example;
-            } catch (\JsonException|\TypeError $e) {
-                return $example;
-            }
-        }, $examples);
+        if (null === $operation) {
+            throw new \RuntimeException("Requested operation of type {$operationClassName} on resource {$resourceClass} was not found in order to build example payload.");
+        }
 
-        return array_diff_key(array_merge(array_diff_key($examples, array_flip($exceptExamples)), $attributes), array_flip($exceptAttributes));
+        try {
+            // build JSON schema based on requested operation
+            $schema = $this->getSchemaFactory()->buildSchema($resourceClass, 'json', in_array($operationClassName, [Get::class, GetCollection::class]) ? Schema::TYPE_OUTPUT : Schema::TYPE_INPUT, $operation);
+
+            // transform schema into example payload
+            preg_match('/\/([^\/]+)$/', $schema['$ref'] ?? '', $matches);
+            $schemaName = $matches[1];
+            $properties = $schema->getDefinitions()[$schemaName]['properties'] ?? [];
+            $writableProperties = array_filter($properties, fn ($property) => !($property['readOnly'] ?? false));
+            $writablePropertiesWithExample = array_filter($writableProperties, fn ($property) => ($property['example'] ?? false));
+            $examples = array_map(fn ($property) => $property['example'] ?? $property['default'] ?? null, $writablePropertiesWithExample);
+            $examples = array_map(function ($example) {
+                try {
+                    $decoded = json_decode($example, true, 512, JSON_THROW_ON_ERROR);
+
+                    return is_array($decoded) || is_null($decoded) ? $decoded : $example;
+                } catch (\JsonException|\TypeError $e) {
+                    return $example;
+                }
+            }, $examples);
+
+            return array_diff_key(array_merge(array_diff_key($examples, array_flip($exceptExamples)), $attributes), array_flip($exceptAttributes));
+        } catch (\Exception $e) {
+            return [];
+        }
     }
 
     protected function get(?BaseEntity $entity = null, ?User $user = null) {
@@ -165,7 +183,7 @@ abstract class ECampApiTestCase extends ApiTestCase {
 
         $entity ??= $this->defaultEntity;
 
-        return static::createClientWithCredentials($credentials)->request('GET', "{$this->endpoint}/".$entity->getId());
+        return static::createClientWithCredentials($credentials)->request('GET', $this->endpoint.'/'.$entity->getId());
     }
 
     protected function list(?User $user = null) {
@@ -185,7 +203,7 @@ abstract class ECampApiTestCase extends ApiTestCase {
 
         $entity ??= $this->defaultEntity;
 
-        return static::createClientWithCredentials($credentials)->request('DELETE', "{$this->endpoint}/".$entity->getId());
+        return static::createClientWithCredentials($credentials)->request('DELETE', $this->endpoint.'/'.$entity->getId());
     }
 
     protected function create(array $payload = null, ?User $user = null) {
@@ -209,7 +227,7 @@ abstract class ECampApiTestCase extends ApiTestCase {
 
         $entity ??= $this->defaultEntity;
 
-        return static::createClientWithCredentials($credentials)->request('PATCH', "{$this->endpoint}/".$entity->getId(), [
+        return static::createClientWithCredentials($credentials)->request('PATCH', $this->endpoint.'/'.$entity->getId(), [
             'json' => $payload,
             'headers' => ['Content-Type' => 'application/merge-patch+json'],
         ]);
@@ -218,8 +236,7 @@ abstract class ECampApiTestCase extends ApiTestCase {
     protected function getExampleWritePayload($attributes = [], $except = []) {
         return $this->getExamplePayload(
             $this->entityClass,
-            OperationType::COLLECTION,
-            'post',
+            Post::class,
             $attributes,
             [],
             $except

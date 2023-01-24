@@ -2,38 +2,49 @@
 
 namespace App\Entity\ContentNode;
 
-use ApiPlatform\Core\Annotation\ApiProperty;
-use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Metadata\ApiProperty;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Post;
 use App\Entity\ContentNode;
 use App\Repository\MultiSelectRepository;
+use App\State\ContentNode\ContentNodePersistProcessor;
+use App\State\ContentNode\MultiSelectCreateProcessor;
 use App\Validator\AssertJsonSchema;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ApiResource(
-    routePrefix: '/content_node',
-    collectionOperations: [
-        'get' => [
-            'security' => 'is_authenticated()',
-        ],
-        'post' => [
-            'denormalization_context' => ['groups' => ['write', 'create']],
-            'security_post_denormalize' => 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)',
-            'validation_groups' => ['Default', 'create'],
-        ],
-    ],
-    itemOperations: [
-        'get' => ['security' => 'is_granted("CAMP_COLLABORATOR", object) or is_granted("CAMP_IS_PROTOTYPE", object)'],
-        'patch' => [
-            'denormalization_context' => ['groups' => ['write', 'update']],
-            'security' => 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)',
-            'validation_groups' => ['Default', 'update'],
-        ],
-        'delete' => ['security' => '(is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)) and object.parent !== null'], // disallow delete when contentNode is a root node
+    operations: [
+        new Get(
+            security: 'is_granted("CAMP_COLLABORATOR", object) or is_granted("CAMP_IS_PROTOTYPE", object)'
+        ),
+        new Patch(
+            processor: ContentNodePersistProcessor::class,
+            denormalizationContext: ['groups' => ['write', 'update']],
+            security: 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)',
+            validationContext: ['groups' => ['Default', 'update']]
+        ),
+        new Delete(
+            security: '(is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)) and object.parent !== null' // disallow delete when contentNode is a root node
+        ),
+        new GetCollection(
+            security: 'is_authenticated()'
+        ),
+        new Post(
+            processor: MultiSelectCreateProcessor::class,
+            denormalizationContext: ['groups' => ['write', 'create']],
+            securityPostDenormalize: 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)',
+            validationContext: ['groups' => ['Default', 'create']]
+        ),
     ],
     denormalizationContext: ['groups' => ['write']],
     normalizationContext: ['groups' => ['read']],
+    routePrefix: '/content_node'
 )]
 #[ORM\Entity(repositoryClass: MultiSelectRepository::class)]
 class MultiSelect extends ContentNode {

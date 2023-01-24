@@ -8,6 +8,9 @@ use App\Entity\Profile;
 use App\Entity\User;
 use App\Service\MailService;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
+use Twig\Environment;
 
 /**
  * @internal
@@ -24,9 +27,11 @@ class MailServiceTest extends KernelTestCase {
     protected function setUp(): void {
         static::bootKernel();
 
-        /** @var MailService $mailer */
-        $mailer = self::getContainer()->get(MailService::class);
-        $this->mailer = $mailer;
+        $mailer = self::getContainer()->get(MailerInterface::class);
+        $translator = self::getContainer()->get(TranslatorInterface::class);
+        $twigEnvironment = self::getContainer()->get(Environment::class);
+
+        $this->mailer = new MailService($mailer, $translator, $twigEnvironment, 'frontend.example.com', 'sender@example.com', 'SenderName');
 
         $this->user = new User();
         $profile = new Profile();

@@ -5,6 +5,7 @@ namespace App\Tests\Validator;
 use App\Validator\AssertEitherIsNull;
 use App\Validator\AssertEitherIsNullValidator;
 use Symfony\Component\Validator\Constraints\Email;
+use Symfony\Component\Validator\ConstraintValidatorInterface;
 use Symfony\Component\Validator\Exception\InvalidArgumentException;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 use Symfony\Component\Validator\Test\ConstraintValidatorTestCase;
@@ -78,7 +79,7 @@ class AssertEitherIsNullValidatorTest extends ConstraintValidatorTestCase {
         ;
     }
 
-    protected function createValidator() {
+    protected function createValidator(): ConstraintValidatorInterface {
         return new AssertEitherIsNullValidator();
     }
 }

@@ -2,7 +2,8 @@
 
 namespace App\Tests\Api\Categories;
 
-use ApiPlatform\Core\Api\OperationType;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\Post;
 use App\Entity\Category;
 use App\Entity\ContentNode;
 use App\Tests\Api\ECampApiTestCase;
@@ -387,8 +388,7 @@ class CreateCategoryTest extends ECampApiTestCase {
     public function getExampleWritePayload($attributes = [], $except = []) {
         return $this->getExamplePayload(
             Category::class,
-            OperationType::COLLECTION,
-            'post',
+            Post::class,
             array_merge([
                 'camp' => $this->getIriFor('camp1'),
                 'preferredContentTypes' => [$this->getIriFor('contentTypeSafetyConcept')],
@@ -401,8 +401,7 @@ class CreateCategoryTest extends ECampApiTestCase {
     public function getExampleReadPayload($attributes = [], $except = []) {
         return $this->getExamplePayload(
             Category::class,
-            OperationType::ITEM,
-            'get',
+            Get::class,
             $attributes,
             ['camp', 'preferredContentTypes'],
             $except
