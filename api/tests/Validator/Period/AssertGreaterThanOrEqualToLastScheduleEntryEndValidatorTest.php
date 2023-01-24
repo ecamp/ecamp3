@@ -10,6 +10,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\UnitOfWork;
 use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\Validator\Constraints\Email;
+use Symfony\Component\Validator\ConstraintValidatorInterface;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 use Symfony\Component\Validator\Test\ConstraintValidatorTestCase;
 
@@ -118,7 +119,7 @@ class AssertGreaterThanOrEqualToLastScheduleEntryEndValidatorTest extends Constr
         $this->expectNoValidate();
     }
 
-    protected function createValidator() {
+    protected function createValidator(): ConstraintValidatorInterface {
         /** @var MockObject|UnitOfWork $uow */
         $uow = $this->createMock(UnitOfWork::class);
         $uow->method('getOriginalEntityData')->willReturn([

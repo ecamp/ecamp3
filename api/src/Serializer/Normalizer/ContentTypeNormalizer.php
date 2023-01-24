@@ -2,7 +2,7 @@
 
 namespace App\Serializer\Normalizer;
 
-use ApiPlatform\Core\Api\IriConverterInterface;
+use ApiPlatform\Api\IriConverterInterface;
 use App\Entity\ContentType;
 use App\Metadata\Resource\Factory\UriTemplateFactory;
 use Rize\UriTemplate;
@@ -32,7 +32,7 @@ class ContentTypeNormalizer implements NormalizerInterface, SerializerAwareInter
         if ($object instanceof ContentType && isset($object->entityClass)) {
             // get uri for the respective ContentNode entity and add ContentType as query parameter
             [$uriTemplate, $templated] = $this->uriTemplateFactory->createFromResourceClass($object->entityClass);
-            $uri = $this->uriTemplate->expand($uriTemplate, ['contentType' => $this->iriConverter->getIriFromItem($object)]);
+            $uri = $this->uriTemplate->expand($uriTemplate, ['contentType' => $this->iriConverter->getIriFromResource($object)]);
 
             // add uri as HAL link
             $data['_links']['contentNodes']['href'] = $uri;

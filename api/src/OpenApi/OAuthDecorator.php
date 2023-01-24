@@ -2,9 +2,9 @@
 
 namespace App\OpenApi;
 
-use ApiPlatform\Core\OpenApi\Factory\OpenApiFactoryInterface;
-use ApiPlatform\Core\OpenApi\Model;
-use ApiPlatform\Core\OpenApi\OpenApi;
+use ApiPlatform\OpenApi\Factory\OpenApiFactoryInterface;
+use ApiPlatform\OpenApi\Model;
+use ApiPlatform\OpenApi\OpenApi;
 
 /**
  * Decorates the OpenApi factory to add API docs for the oauth endpoints.
@@ -87,6 +87,30 @@ final class OAuthDecorator implements OpenApiFactoryInterface {
             ),
         );
         $openApi->getPaths()->addPath('/auth/cevidb', $pathItemCevidb);
+
+        $pathItemJubladb = new Model\PathItem(
+            ref: 'JublaDB OAuth',
+            get: new Model\Operation(
+                operationId: 'oauthJubladbRedirect',
+                tags: ['OAuth'],
+                parameters: [
+                    new Model\Parameter(
+                        name: 'callback',
+                        in: 'path',
+                        schema: [
+                            'type' => 'string',
+                        ]
+                    ),
+                ],
+                responses: [
+                    '302' => [
+                        'description' => 'Redirect to the JublaDB OAuth authorization endpoint',
+                    ],
+                ],
+                summary: 'Log in using JublaDB Oauth.',
+            ),
+        );
+        $openApi->getPaths()->addPath('/auth/jubladb', $pathItemJubladb);
 
         return $openApi;
     }

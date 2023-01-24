@@ -346,14 +346,15 @@
         "loginCallback": {
           "loginInProgress": "Du wirst eingeloggt"
         },
-        "or": "oder",
+        "or": "oder mit",
         "password": "Passwort",
         "passwordForgotten": "Passwort vergessen?",
         "provider": {
-          "cevidb": "Anmelden mit CeviDB",
+          "cevidb": "CeviDB",
           "ecamp": "Anmelden mit eCamp",
-          "google": "Anmelden mit Google",
-          "midata": "Anmelden mit MiData"
+          "google": "Google",
+          "jubladb": "JublaDB",
+          "midata": "MiData"
         },
         "registernow": "Jetzt registrieren"
       },

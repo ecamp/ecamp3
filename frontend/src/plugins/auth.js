@@ -129,6 +129,10 @@ async function loginCeviDB() {
   return redirectToOAuthLogin('oauthCevidb')
 }
 
+async function loginJublaDB() {
+  return redirectToOAuthLogin('oauthJubladb')
+}
+
 export async function logout() {
   Cookies.remove(headerAndPayloadCookieName(), {
     domain: window.environment.SHARED_COOKIE_DOMAIN,
@@ -157,6 +161,7 @@ export const auth = {
   loginGoogle,
   loginPbsMiData,
   loginCeviDB,
+  loginJublaDB,
   logout,
   loadUser,
   resetPasswordRequest,

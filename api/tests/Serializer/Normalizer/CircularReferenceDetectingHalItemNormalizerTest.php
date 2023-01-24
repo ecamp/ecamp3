@@ -2,14 +2,13 @@
 
 namespace App\Tests\Serializer\Normalizer;
 
-use ApiPlatform\Core\Api\IriConverterInterface;
-use ApiPlatform\Core\Api\ResourceClassResolverInterface;
-use ApiPlatform\Core\Metadata\Property\Factory\PropertyMetadataFactoryInterface;
-use ApiPlatform\Core\Metadata\Property\Factory\PropertyNameCollectionFactoryInterface;
+use ApiPlatform\Api\IriConverterInterface;
+use ApiPlatform\Api\ResourceClassResolverInterface;
+use ApiPlatform\Metadata\Property\Factory\PropertyMetadataFactoryInterface;
+use ApiPlatform\Metadata\Property\Factory\PropertyNameCollectionFactoryInterface;
 use App\Serializer\Normalizer\CircularReferenceDetectingHalItemNormalizer;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\Serializer\Normalizer\ContextAwareNormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 
@@ -30,7 +29,7 @@ class CircularReferenceDetectingHalItemNormalizerTest extends TestCase {
     private $iriConverterMock;
 
     protected function setUp(): void {
-        $this->decoratedMock = $this->createMock(ContextAwareNormalizerInterface::class);
+        $this->decoratedMock = $this->createMock(NormalizerInterface::class);
         $this->iriConverterMock = $this->createMock(IriConverterInterface::class);
 
         $this->normalizer = new CircularReferenceDetectingHalItemNormalizer(
@@ -99,7 +98,7 @@ class CircularReferenceDetectingHalItemNormalizerTest extends TestCase {
             })
         ;
         $this->iriConverterMock
-            ->method('getIriFromItem')
+            ->method('getIriFromResource')
             ->willReturnCallback(fn ($object) => '/'.$object->id)
         ;
 
