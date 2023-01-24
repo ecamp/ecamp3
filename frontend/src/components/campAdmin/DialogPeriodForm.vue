@@ -11,12 +11,14 @@
       :name="$tc('entity.period.fields.start')"
       vee-id="start"
       vee-rules="required"
+      :max="localPeriod.end"
     />
 
     <e-date-picker
       v-model="localPeriod.end"
       :name="$tc('entity.period.fields.end')"
       vee-rules="required|greaterThanOrEqual_date:@start"
+      :min="localPeriod.start"
     />
   </div>
 </template>

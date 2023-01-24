@@ -109,9 +109,9 @@
     },
     "scheduleEntry": {
       "fields": {
-        "length": "Durée en minutes",
-        "nr": "Numéro",
-        "time": "Heure"
+        "duration": "Durée",
+        "nr": "No.",
+        "time": "Moment"
       },
       "name": "Inscription au calendrier"
     }

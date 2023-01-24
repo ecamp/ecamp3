@@ -12,6 +12,10 @@ function hourShort(dateTimeString, tc) {
   return dayjs.utc(dateTimeString).format(tc('global.datetime.hourShort'))
 }
 
+function hourLong(dateTimeString, tc) {
+  return dayjs.utc(dateTimeString).format(tc('global.datetime.hourLong'))
+}
+
 function timeDurationShort(start, end, tc) {
   const startTime = dayjs.utc(start)
   const endTime = dayjs.utc(end)
@@ -54,6 +58,25 @@ function rangeShort(start, end, tc) {
   return result
 }
 
+// long end part of dateTime range format
+// doesn't repeat end date if on the same day
+function rangeLongEnd(start, end, tc) {
+  let result = ''
+
+  result += hourLong(start, tc)
+
+  result += ' - '
+
+  if (dateShort(start, tc) !== dateShort(end, tc)) {
+    result += dateShort(end, tc)
+    result += ' '
+  }
+
+  result += hourLong(end, tc)
+
+  return result
+}
+
 // format of date range
 function dateRange(start, end, tc) {
   if (dateLong(start, tc) === dateLong(end, tc)) {
@@ -62,4 +85,13 @@ function dateRange(start, end, tc) {
   return `${dateShort(start, tc)} - ${dateLong(end, tc)}`
 }
 
-export { dateShort, dateLong, timeDurationShort, hourShort, dateRange, rangeShort }
+export {
+  dateShort,
+  dateLong,
+  timeDurationShort,
+  hourShort,
+  hourLong,
+  dateRange,
+  rangeShort,
+  rangeLongEnd,
+}

@@ -109,8 +109,8 @@
     },
     "scheduleEntry": {
       "fields": {
-        "length": "Lunghezza in minuti",
-        "nr": "Numero",
+        "duration": "Durata",
+        "nr": "N.",
         "time": "Tempo"
       },
       "name": "Inserimento nel programma"

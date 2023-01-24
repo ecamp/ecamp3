@@ -160,6 +160,23 @@ spec:
                   name: {{ include "api.name" . }}
                   key: oauth-cevidb-base-url
             {{- end }}
+            {{- if .Values.php.oauth.jubladb.clientId }}
+            - name: OAUTH_JUBLADB_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "api.name" . }}
+                  key: oauth-jubladb-client-id
+            - name: OAUTH_JUBLADB_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "api.name" . }}
+                  key: oauth-jubladb-client-secret
+            - name: OAUTH_JUBLADB_BASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "api.name" . }}
+                  key: oauth-jubladb-base-url
+            {{- end }}
           volumeMounts:
             - mountPath: /var/run/php
               name: php-socket

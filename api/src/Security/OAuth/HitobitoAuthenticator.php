@@ -35,12 +35,12 @@ class HitobitoAuthenticator extends OAuth2Authenticator {
 
     public function supports(Request $request): ?bool {
         // continue ONLY if the current ROUTE matches one of the supported check ROUTES
-        return 1 === preg_match('/^connect_(pbsmidata|cevidb)_check$/', $request->attributes->get('_route'));
+        return 1 === preg_match('/^connect_(pbsmidata|cevidb|jubladb)_check$/', $request->attributes->get('_route'));
     }
 
     public function authenticate(Request $request): Passport {
         // extract provider from request path
-        preg_match('/^\/auth\/(pbsmidata|cevidb)\/callback$/', $request->getPathInfo(), $providerMatch);
+        preg_match('/^\/auth\/(pbsmidata|cevidb|jubladb)\/callback$/', $request->getPathInfo(), $providerMatch);
         $provider = $providerMatch[1];
 
         /** @var OAuth2Client $client */

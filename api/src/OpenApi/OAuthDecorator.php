@@ -88,6 +88,30 @@ final class OAuthDecorator implements OpenApiFactoryInterface {
         );
         $openApi->getPaths()->addPath('/auth/cevidb', $pathItemCevidb);
 
+        $pathItemJubladb = new Model\PathItem(
+            ref: 'JublaDB OAuth',
+            get: new Model\Operation(
+                operationId: 'oauthJubladbRedirect',
+                tags: ['OAuth'],
+                parameters: [
+                    new Model\Parameter(
+                        name: 'callback',
+                        in: 'path',
+                        schema: [
+                            'type' => 'string',
+                        ]
+                    ),
+                ],
+                responses: [
+                    '302' => [
+                        'description' => 'Redirect to the JublaDB OAuth authorization endpoint',
+                    ],
+                ],
+                summary: 'Log in using JublaDB Oauth.',
+            ),
+        );
+        $openApi->getPaths()->addPath('/auth/jubladb', $pathItemJubladb);
+
         return $openApi;
     }
 }
