@@ -98,3 +98,9 @@ body {
 .d-flow-root {
   display: flow-root;
 }
+
+.e-button-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}

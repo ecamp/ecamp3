@@ -1,7 +1,18 @@
 <template>
   <div>
-    <e-select v-model="options.periods" :items="periods" multiple />
-    <e-select v-model="options.orientation" :items="orientations" />
+    <e-select
+      v-model="options.periods"
+      :label="$tc('components.print.config.picassoConfig.periods')"
+      :items="periods"
+      multiple
+      :filled="false"
+    />
+    <e-select
+      v-model="options.orientation"
+      :label="$tc('components.print.config.picassoConfig.orientation')"
+      :items="orientations"
+      :filled="false"
+    />
   </div>
 </template>
 
@@ -47,6 +58,9 @@ export default {
       periods: [],
       orientation: 'L',
     }
+  },
+  design: {
+    multiple: false,
   },
 }
 </script>
