@@ -141,6 +141,7 @@ jobs:
             --set deployedVersion="$(git rev-parse --short '${{ steps.git-ref.outputs.sha }}')" \
             --set recaptcha.siteKey='${{ secrets.RECAPTCHA_SITE_KEY }}' \
             --set recaptcha.secret='${{ secrets.RECAPTCHA_SECRET }}'
+            --set coupon.secret='${{ secrets.COUPON_SECRET }}'
 
       - name: Finish the GitHub deployment
         uses: bobheadxi/deployments@v1.4.0
