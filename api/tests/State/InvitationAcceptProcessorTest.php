@@ -85,34 +85,4 @@ class InvitationAcceptProcessorTest extends TestCase {
         self::assertThat($this->campCollaboration->inviteKey, self::isNull());
         self::assertThat($this->campCollaboration->inviteEmail, self::isNull());
     }
-
-    // public function testUpdatesInvitationCorrectlyOnReject() {
-    //     /** @var MockObject|PasswordHasherInterface $pwHasher */
-    //     $pwHasher = $this->createMock(PasswordHasherInterface::class);
-    //     $pwHasher->expects(self::once())
-    //         ->method('hash')
-    //         ->with(self::INVITEKEY)
-    //         ->willReturn(self::INVITEKEYHASH)
-    //     ;
-    //     $this->pwHasherFactory
-    //         ->expects(self::once())
-    //         ->method('getPasswordHasher')
-    //         ->with('MailToken')
-    //         ->willReturn($pwHasher)
-    //     ;
-    //     $this->collaborationRepository
-    //         ->expects(self::once())
-    //         ->method('findByInviteKeyHash')
-    //         ->with(self::INVITEKEYHASH)
-    //         ->willReturn($this->campCollaboration)
-    //     ;
-    //     $this->security->expects(self::never())->method('getUser');
-
-    //     $result = $this->processor->onReject($this->invitation);
-
-    //     self::assertThat($result->status, self::equalTo(CampCollaboration::STATUS_INACTIVE));
-    //     self::assertThat($result->inviteKey, self::isNull());
-    //     self::assertThat($result->inviteEmail, self::equalTo($this->campCollaboration->inviteEmail));
-    //     self::assertThat($result->user, self::equalTo($this->campCollaboration->user));
-    // }
 }
