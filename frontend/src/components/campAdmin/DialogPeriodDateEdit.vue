@@ -12,7 +12,7 @@
     <template #activator="scope">
       <slot name="activator" v-bind="scope" />
     </template>
-    <div v-if="modus == 'move'">
+    <div v-if="mode == 'move'">
       <p>{{ $tc('components.campAdmin.dialogPeriodDateEdit.movePeriod') }}</p>
       <e-date-picker
         v-model="entityData.start"
@@ -32,7 +32,7 @@
         </v-text-field>
       </div>
     </div>
-    <div v-if="modus == 'changeStart'">
+    <div v-if="mode == 'changeStart'">
       <p>{{ $tc('components.campAdmin.dialogPeriodDateEdit.periodChangeStart') }}</p>
       <e-date-picker
         v-model="entityData.start"
@@ -54,7 +54,7 @@
         </v-text-field>
       </div>
     </div>
-    <div v-if="modus == 'changeEnd'">
+    <div v-if="mode == 'changeEnd'">
       <p>{{ $tc('components.campAdmin.dialogPeriodDateEdit.periodChangeEnd') }}</p>
       <div class="e-form-container">
         <v-text-field
@@ -70,7 +70,7 @@
         </v-text-field>
       </div>
       <e-date-picker
-        v-if="modus == 'changeEnd'"
+        v-if="mode == 'changeEnd'"
         v-model="entityData.end"
         :name="$tc('entity.period.fields.end')"
         :vee-rules="'required|greaterThanOrEqual_date:' + startString"
@@ -89,7 +89,7 @@ export default {
   extends: DialogBase,
   props: {
     period: { type: Object, required: true },
-    modus: { type: String, required: true },
+    mode: { type: String, required: true },
   },
   data() {
     return {
@@ -113,13 +113,13 @@ export default {
     },
     loading: function (isLoading) {
       if (!isLoading) {
-        this.entityData.moveScheduleEntries = this.modus == 'move'
+        this.entityData.moveScheduleEntries = this.mode == 'move'
       }
     },
   },
   methods: {
     startChanged() {
-      if (this.modus == 'move') {
+      if (this.mode == 'move') {
         let origStart = this.$date.utc(this.period.start, 'YYYY-MM-DD')
         let origEnd = this.$date.utc(this.period.end, 'YYYY-MM-DD')
         let origLength = origEnd - origStart

@@ -33,7 +33,7 @@ Displays a single period as a list item including controls to edit and delete it
 
         <dialog-period-date-edit
           :period="period"
-          modus="move"
+          mode="move"
           @closed="showMenuEdit = false"
         >
           <template #activator="{ on, attrs }">
@@ -50,7 +50,7 @@ Displays a single period as a list item including controls to edit and delete it
 
         <dialog-period-date-edit
           :period="period"
-          modus="changeStart"
+          mode="changeStart"
           @closed="showMenuEdit = false"
         >
           <template #activator="{ on, attrs }">
@@ -69,7 +69,7 @@ Displays a single period as a list item including controls to edit and delete it
 
         <dialog-period-date-edit
           :period="period"
-          modus="changeEnd"
+          mode="changeEnd"
           @closed="showMenuEdit = false"
         >
           <template #activator="{ on, attrs }">
