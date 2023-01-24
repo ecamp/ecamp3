@@ -249,6 +249,11 @@ export default {
   border-color: transparent;
   border-style: solid;
   border-radius: 3px;
+  outline: 1px solid white;
+
+  &:hover {
+    z-index: 999;
+  }
 }
 
 @media #{map-get($display-breakpoints, 'sm-and-up')} {
@@ -267,7 +272,6 @@ export default {
   transition: transform 0.1s;
 
   &:hover {
-    z-index: 999;
     transform: scale(
       1.02
     ); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */

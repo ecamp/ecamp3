@@ -10,7 +10,6 @@ Listing all given activity schedule entries in a calendar view.
       v-resize="resize"
       :class="['e-picasso', editable && 'e-picasso--editable']"
       :events="events"
-      event-overlap-mode="column"
       event-start="startTimestamp"
       event-end="endTimestamp"
       event-color="transparent"
@@ -389,11 +388,7 @@ export default {
     }
 
     .v-event-timed {
-      padding: 0 1px 1px 0;
-      @media #{map-get($display-breakpoints, 'md-and-up')} {
-        padding-bottom: 2px;
-        padding-right: 2px;
-      }
+      padding: 0;
       white-space: normal;
       border: none !important;
     }
