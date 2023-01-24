@@ -1,11 +1,11 @@
 <template>
   <div class="e-pages-overview">
     <draggable
-      v-bind="$attrs"
-      v-on="$listeners"
       handle=".handle"
       filter=".e-pages-config--template"
       class="e-pages-overview__grid pa-0 pa-md-8"
+      v-bind="$attrs"
+      v-on="$listeners"
     >
       <slot />
     </draggable>
