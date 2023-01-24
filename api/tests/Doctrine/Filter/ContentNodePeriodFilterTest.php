@@ -2,8 +2,8 @@
 
 namespace App\Tests\Doctrine\Filter;
 
-use ApiPlatform\Core\Api\IriConverterInterface;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Util\QueryNameGeneratorInterface;
+use ApiPlatform\Api\IriConverterInterface;
+use ApiPlatform\Doctrine\Orm\Util\QueryNameGeneratorInterface;
 use App\Doctrine\Filter\ContentNodePeriodFilter;
 use App\Entity\ContentNode;
 use App\Entity\Period;
@@ -125,7 +125,7 @@ class ContentNodePeriodFilterTest extends TestCase {
         // then
         $this->iriConverterMock
             ->expects($this->once())
-            ->method('getItemfromIri')
+            ->method('getResourceFromIri')
             ->with('/period/123')
             ->will($this->returnValue($period))
         ;

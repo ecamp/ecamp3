@@ -53,7 +53,7 @@ class UriTemplateNormalizer implements NormalizerInterface, CacheableSupportsMet
         $result['_links']['oauthPbsmidata'] = ['href' => $this->urlGenerator->generate('connect_pbsmidata_start').'{?callback}', 'templated' => true];
         $result['_links']['oauthCevidb'] = ['href' => $this->urlGenerator->generate('connect_cevidb_start').'{?callback}', 'templated' => true];
         $result['_links']['oauthJubladb'] = ['href' => $this->urlGenerator->generate('connect_jubladb_start').'{?callback}', 'templated' => true];
-        $result['_links']['resetPassword'] = ['href' => $this->urlGenerator->generate('api_reset_passwords_post_collection').'{/id}', 'templated' => true];
+        $result['_links']['resetPassword'] = ['href' => $this->urlGenerator->generate('_api_/auth/reset_password{._format}_post').'{/id}', 'templated' => true];
 
         return $result;
     }

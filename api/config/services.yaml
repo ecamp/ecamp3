@@ -11,6 +11,17 @@ services:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
 
+
+    _instanceof:
+        App\State\Util\AbstractPersistProcessor:
+            bind:
+                $decorated: '@api_platform.doctrine.orm.state.persist_processor'
+
+        App\State\Util\AbstractRemoveProcessor:
+            bind:
+                $decorated: '@api_platform.doctrine.orm.state.remove_processor'
+
+
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
     App\:
@@ -23,9 +34,6 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
-
-    App\DataPersister\Util\DataPersisterObservable:
-        arguments: [ '@api_platform.doctrine.orm.data_persister' ]
 
     App\Validator\MaterialItemUpdateGroupSequence:
         public: true
@@ -45,14 +53,10 @@ services:
         tags:
             - 'app.input_filter'
 
-    App\Metadata\Resource\Factory\GraphQLSecurityResourceMetadataFactory:
-        decorates: 'api_platform.metadata.resource.metadata_factory'
-
     App\Serializer\Normalizer\RelatedCollectionLinkNormalizer:
         decorates: 'api_platform.hal.normalizer.item'
         arguments:
             - '@.inner'
-            - '@api_platform.route_name_resolver'
             - '@api_platform.filter_locator'
             - '@serializer.name_converter.metadata_aware'
             - '@Rize\UriTemplate'
@@ -78,7 +82,7 @@ services:
         decorates: 'api_platform.serializer.context_builder'
 
     App\Serializer\PreventAutomaticEmbeddingPropertyMetadataFactory:
-        decorates: 'api_platform.metadata.property.metadata_factory.legacy'
+        decorates: 'api_platform.metadata.property.metadata_factory'
         # Priority should be 1 lower than the one of SerializerPropertyMetadataFactory, see
         # https://github.com/api-platform/core/blob/main/src/Bridge/Symfony/Bundle/Resources/config/metadata/metadata.xml#L65
         decoration_priority: 29
@@ -167,3 +171,38 @@ services:
                 # ensure, data coming from API without timezone information is interpreted as UTC
                 # (e.g. period start '2021-01-01' in POST payload)
                 datetime_timezone: 'UTC'
+
+    # https://github.com/api-platform/core/issues/4975#issuecomment-1253617780
+    api_platform.cache.metadata.property:
+        parent: cache.system
+        tags: [ cache.pool ]
+    api_platform.cache.metadata.resource:
+        parent: cache.system
+        tags: [ cache.pool ]
+    api_platform.cache.metadata.resource_collection:
+        parent: cache.system
+        tags: [ cache.pool ]
+    api_platform.cache.route_name_resolver:
+        parent: cache.system
+        tags: [ cache.pool ]
+    api_platform.cache.identifiers_extractor:
+        parent: cache.system
+        tags: [ cache.pool ]
+    api_platform.elasticsearch.cache.metadata.document:
+        parent: cache.system
+        tags: [ cache.pool ]
+
+    # https://github.com/api-platform/core/issues/4975#issuecomment-1327620795
+    # Speeds up api-platform cache build substantially
+    # May have to be removed soon when api-platform removes these services
+    # see vendor/api-platform/core/src/Symfony/Bundle/Resources/config/metadata/property.xml:41
+    api_platform.cache.metadata.identifier:
+        parent: cache.adapter.array
+        tags: [ cache.pool ]
+    api_platform.metadata.property.identifier_metadata_factory.cached:
+        class: ApiPlatform\Metadata\Property\Factory\CachedPropertyMetadataFactory
+        decorates: api_platform.metadata.property.identifier_metadata_factory
+        decoration_priority: 99
+        arguments:
+            - '@api_platform.cache.metadata.identifier'
+            - '@api_platform.metadata.property.identifier_metadata_factory.cached.inner'

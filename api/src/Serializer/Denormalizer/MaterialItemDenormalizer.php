@@ -2,6 +2,7 @@
 
 namespace App\Serializer\Denormalizer;
 
+use ApiPlatform\Metadata\Post;
 use App\Entity\MaterialItem;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
@@ -24,7 +25,7 @@ class MaterialItemDenormalizer implements DenormalizerInterface, DenormalizerAwa
      * {@inheritdoc}
      */
     public function denormalize($data, $type, $format = null, array $context = []): mixed {
-        if ('post' === ($context['collection_operation_name'] ?? null)) {
+        if ($context['operation'] instanceof Post) {
             // copy query parameters to POST payload
             // this allows e.g. posting on /material_items?materialNode=/content_node/material_node/123 without explicitly providing materialNode in POST payload
             $data['period'] ??= $this->requestStack->getCurrentRequest()->query->get('period');

@@ -2,17 +2,19 @@
 
 namespace App\Doctrine\Filter;
 
-use ApiPlatform\Core\Bridge\Doctrine\Common\Filter\DateFilterInterface;
-use ApiPlatform\Core\Bridge\Doctrine\Common\Filter\DateFilterTrait;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\AbstractContextAwareFilter;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Util\QueryNameGeneratorInterface;
-use ApiPlatform\Core\Exception\InvalidArgumentException;
+use ApiPlatform\Doctrine\Common\Filter\DateFilterInterface;
+use ApiPlatform\Doctrine\Common\Filter\DateFilterTrait;
+use ApiPlatform\Doctrine\Orm\Filter\AbstractFilter;
+use ApiPlatform\Doctrine\Orm\Util\QueryNameGeneratorInterface;
+use ApiPlatform\Exception\InvalidArgumentException;
+use ApiPlatform\Metadata\Operation;
+use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
 
 /**
  * Filters a computed property on the collection by date intervals.
  */
-class ExpressionDateTimeFilter extends AbstractContextAwareFilter implements DateFilterInterface {
+class ExpressionDateTimeFilter extends AbstractFilter implements DateFilterInterface {
     use DateFilterTrait;
 
     /**
@@ -49,8 +51,9 @@ class ExpressionDateTimeFilter extends AbstractContextAwareFilter implements Dat
         QueryBuilder $queryBuilder,
         QueryNameGeneratorInterface $queryNameGenerator,
         string $resourceClass,
-        string $operationName = null
-    ) {
+        Operation $operation = null,
+        array $context = []
+    ): void {
         if (
             !\is_array($value)
             || !$this->isPropertyEnabled($property, $resourceClass)
@@ -71,7 +74,8 @@ class ExpressionDateTimeFilter extends AbstractContextAwareFilter implements Dat
                 $field,
                 DateFilterInterface::PARAMETER_BEFORE,
                 $value[DateFilterInterface::PARAMETER_BEFORE],
-                $expression
+                $expression,
+                $resourceClass
             );
         }
 
@@ -83,7 +87,8 @@ class ExpressionDateTimeFilter extends AbstractContextAwareFilter implements Dat
                 $field,
                 DateFilterInterface::PARAMETER_STRICTLY_BEFORE,
                 $value[DateFilterInterface::PARAMETER_STRICTLY_BEFORE],
-                $expression
+                $expression,
+                $resourceClass
             );
         }
 
@@ -95,7 +100,8 @@ class ExpressionDateTimeFilter extends AbstractContextAwareFilter implements Dat
                 $field,
                 DateFilterInterface::PARAMETER_AFTER,
                 $value[DateFilterInterface::PARAMETER_AFTER],
-                $expression
+                $expression,
+                $resourceClass
             );
         }
 
@@ -107,7 +113,8 @@ class ExpressionDateTimeFilter extends AbstractContextAwareFilter implements Dat
                 $field,
                 DateFilterInterface::PARAMETER_STRICTLY_AFTER,
                 $value[DateFilterInterface::PARAMETER_STRICTLY_AFTER],
-                $expression
+                $expression,
+                $resourceClass
             );
         }
     }
@@ -122,7 +129,8 @@ class ExpressionDateTimeFilter extends AbstractContextAwareFilter implements Dat
         string $field,
         string $operator,
         string $value,
-        string $expression
+        string $expression,
+        string $resourceClass
     ) {
         try {
             $value = new \DateTime($value);
@@ -142,7 +150,7 @@ class ExpressionDateTimeFilter extends AbstractContextAwareFilter implements Dat
             DateFilterInterface::PARAMETER_AFTER => '>=',
             DateFilterInterface::PARAMETER_STRICTLY_AFTER => '>',
         ];
-        $compiledExpression = $this->compileExpression($queryBuilder, $queryNameGenerator, $alias, $expression);
+        $compiledExpression = $this->compileExpression($queryBuilder, $queryNameGenerator, $alias, $expression, $resourceClass);
         $baseWhere = sprintf('(%s) %s :%s', $compiledExpression, $operatorValue[$operator], $valueParameter);
 
         $queryBuilder->andWhere($baseWhere);
@@ -157,7 +165,8 @@ class ExpressionDateTimeFilter extends AbstractContextAwareFilter implements Dat
         QueryBuilder $queryBuilder,
         QueryNameGeneratorInterface $queryNameGenerator,
         string $alias,
-        string $expression
+        string $expression,
+        string $resourceClass
     ): string {
         // Replace {} with the alias of the current entity
         $expression = preg_replace('/\{\}/', $alias, $expression);
@@ -169,7 +178,7 @@ class ExpressionDateTimeFilter extends AbstractContextAwareFilter implements Dat
 
             // Replace each instance of {xyz.abc} with its respective joined alias
             foreach ($relations as $relation) {
-                [$joinAlias, $property] = $this->addJoinsForNestedProperty($relation, $alias, $queryBuilder, $queryNameGenerator);
+                [$joinAlias, $property] = $this->addJoinsForNestedProperty($relation, $alias, $queryBuilder, $queryNameGenerator, $resourceClass, Join::INNER_JOIN);
                 $expression = preg_replace('/\{'.preg_quote($relation, '/').'\}/', "{$joinAlias}.{$property}", $expression);
             }
         }

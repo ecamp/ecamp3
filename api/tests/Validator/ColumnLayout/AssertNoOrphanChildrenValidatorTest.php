@@ -8,6 +8,7 @@ use App\Validator\ColumnLayout\AssertNoOrphanChildrenValidator;
 use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Validator\Constraints\Email;
+use Symfony\Component\Validator\ConstraintValidatorInterface;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 use Symfony\Component\Validator\Test\ConstraintValidatorTestCase;
 
@@ -113,7 +114,7 @@ class AssertNoOrphanChildrenValidatorTest extends ConstraintValidatorTestCase {
         $this->assertNoViolation();
     }
 
-    protected function createValidator() {
+    protected function createValidator(): ConstraintValidatorInterface {
         $this->requestStack = $this->createMock(RequestStack::class);
 
         return new AssertNoOrphanChildrenValidator($this->requestStack);

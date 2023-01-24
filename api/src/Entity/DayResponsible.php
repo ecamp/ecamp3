@@ -2,10 +2,14 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Core\Annotation\ApiFilter;
-use ApiPlatform\Core\Annotation\ApiProperty;
-use ApiPlatform\Core\Annotation\ApiResource;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Metadata\ApiProperty;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Post;
 use App\Repository\DayResponsibleRepository;
 use App\Validator\AssertBelongsToSameCamp;
 use Doctrine\ORM\Mapping as ORM;
@@ -17,18 +21,24 @@ use Symfony\Component\Validator\Constraints as Assert;
  * A person that has some whole-day responsibility on a day in the camp.
  */
 #[ApiResource(
-    collectionOperations: [
-        'get' => ['security' => 'is_authenticated()'],
-        'post' => ['security_post_denormalize' => 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)'],
-    ],
-    itemOperations: [
-        'get' => ['security' => 'is_granted("CAMP_COLLABORATOR", object) or is_granted("CAMP_IS_PROTOTYPE", object)'],
-        'delete' => ['security' => 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)'],
+    operations: [
+        new Get(
+            security: 'is_granted("CAMP_COLLABORATOR", object) or is_granted("CAMP_IS_PROTOTYPE", object)'
+        ),
+        new Delete(
+            security: 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)'
+        ),
+        new GetCollection(
+            security: 'is_authenticated()'
+        ),
+        new Post(
+            securityPostDenormalize: 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)'
+        ),
     ],
     denormalizationContext: ['groups' => ['write']],
-    normalizationContext: ['groups' => ['read']],
+    normalizationContext: ['groups' => ['read']]
 )]
-#[ApiFilter(SearchFilter::class, properties: ['day'])]
+#[ApiFilter(filterClass: SearchFilter::class, properties: ['day'])]
 #[UniqueEntity(
     fields: ['campCollaboration', 'day'],
     message: 'This campCollaboration (user) is already responsible for this day.',

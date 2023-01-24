@@ -17,6 +17,7 @@ use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Validator\Constraints\Email;
+use Symfony\Component\Validator\ConstraintValidatorInterface;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 use Symfony\Component\Validator\Exception\UnexpectedValueException;
 use Symfony\Component\Validator\Test\ConstraintValidatorTestCase;
@@ -156,7 +157,7 @@ class AssertBelongsToSameCampValidatorTest extends ConstraintValidatorTestCase {
         $this->buildViolation('Must belong to the same camp.')->assertRaised();
     }
 
-    protected function createValidator() {
+    protected function createValidator(): ConstraintValidatorInterface {
         $this->requestStack = $this->createMock(RequestStack::class);
         $this->em = $this->createMock(EntityManagerInterface::class);
 
