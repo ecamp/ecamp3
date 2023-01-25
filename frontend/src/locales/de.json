@@ -131,7 +131,8 @@
     },
     "generic": {
       "lockIcon": {
-        "guestsCannotEdit": "Gäste haben keinen Bearbeitungszugriff"
+        "guestsCannotEdit": "Gäste haben keinen Bearbeitungszugriff",
+        "doubleClickToUnlock": "Doppelklick um zu entsperren"
       }
     },
     "layout": {
@@ -160,8 +161,19 @@
     },
     "print": {
       "config": {
+        "activityConfig": {
+          "activity": "Aktivität"
+        },
+        "picassoConfig": {
+          "periods": "Lagerabschnitt(e)",
+          "orientation": "Seitenlayout"
+        },
         "programConfig": {
-          "dayOverview": "Tagesübersicht drucken"
+          "dayOverview": "Tagesübersicht",
+          "periods": "Lagerabschnitt(e)"
+        },
+        "storyConfig": {
+          "periods": "Lagerabschnitt(e)"
         }
       },
       "documents": {
@@ -176,11 +188,12 @@
         "error": "Etwas hat nicht geklappt. Probiere es nochmals, oder lade die Seite neu."
       },
       "printConfigurator": {
+        "add": "Inhalt hinzufügen",
         "config": {
-          "Activity": "Einzelaktivität",
+          "Activity": "Einzelne Aktivität",
           "Cover": "Titelseite",
           "Picasso": "Grobprogramm",
-          "Program": "Programm",
+          "Program": "Detailprogramm",
           "Story": "Roter Faden",
           "Toc": "Inhaltsverzeichnis"
         }
@@ -232,8 +245,13 @@
       "picasso": {
         "picasso": {
           "datetime": {
-            "date": "dd. D.MM | D. MMM | DD. MMM YYYY"
+            "fullDate": "dd, DD. MMMM YYYY",
+            "smallDate": "dd, D.MM. | dd, D. MMM | dd, D. MMM YY"
           }
+        },
+        "picassoEntry": {
+          "location": "Ort:",
+          "responsible": "Verantwortlich: "
         }
       }
     },
@@ -386,6 +404,12 @@
         "collaborators": "Team verwalten",
         "title": "Admin"
       },
+      "campProgram": {
+        "guestsCannotEdit": "Gäste können das Grobprogramm nicht bearbeiten",
+        "reminderLockedCreate": "Ziehen zum Erstellen ist nur im entsperrten Modus möglich.",
+        "reminderLockedMove": "Ziehen zum Verschieben ist nur im entsperrten Modus möglich.",
+        "title": "Grobprogramm"
+      },
       "collaborators": {
         "email": "E-Mail-Adresse",
         "inactiveCollaborators": "Inaktiv",
@@ -472,10 +496,6 @@
             "itemPrinting": "PDF / Drucken"
           }
         }
-      },
-      "campProgram": {
-        "guestsCannotEdit": "Gäste können das Grobprogramm nicht bearbeiten",
-        "title": "Grobprogramm"
       },
       "print": {
         "title": "Lager drucken"

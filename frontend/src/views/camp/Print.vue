@@ -4,9 +4,7 @@ Basic layout for print preview
 
 <template>
   <content-card :title="$tc('views.camp.print.title')" toolbar>
-    <v-card-text>
-      <print-configurator :camp="camp" />
-    </v-card-text>
+    <print-configurator :camp="camp" />
   </content-card>
 </template>
 

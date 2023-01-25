@@ -2,9 +2,10 @@
 
 namespace App\Doctrine\Filter;
 
-use ApiPlatform\Core\Api\IriConverterInterface;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\AbstractContextAwareFilter;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Util\QueryNameGeneratorInterface;
+use ApiPlatform\Api\IriConverterInterface;
+use ApiPlatform\Doctrine\Orm\Filter\AbstractFilter;
+use ApiPlatform\Doctrine\Orm\Util\QueryNameGeneratorInterface;
+use ApiPlatform\Metadata\Operation;
 use App\Entity\Activity;
 use App\Entity\ContentNode\MaterialNode;
 use App\Entity\MaterialItem;
@@ -13,22 +14,20 @@ use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\PropertyInfo\Type;
 use Symfony\Component\Serializer\NameConverter\NameConverterInterface;
 
-final class MaterialItemPeriodFilter extends AbstractContextAwareFilter {
+final class MaterialItemPeriodFilter extends AbstractFilter {
     public const PERIOD_QUERY_NAME = 'period';
 
     public function __construct(
         private IriConverterInterface $iriConverter,
         ManagerRegistry $managerRegistry,
-        ?RequestStack $requestStack = null,
         LoggerInterface $logger = null,
         array $properties = null,
         NameConverterInterface $nameConverter = null
     ) {
-        parent::__construct($managerRegistry, $requestStack, $logger, $properties, $nameConverter);
+        parent::__construct($managerRegistry, $logger, $properties, $nameConverter);
     }
 
     // This function is only used to hook in documentation generators (supported by Swagger and Hydra)
@@ -49,8 +48,9 @@ final class MaterialItemPeriodFilter extends AbstractContextAwareFilter {
         QueryBuilder $queryBuilder,
         QueryNameGeneratorInterface $queryNameGenerator,
         string $resourceClass,
-        string $operationName = null
-    ) {
+        Operation $operation = null,
+        array $context = []
+    ): void {
         if (MaterialItem::class !== $resourceClass) {
             throw new \Exception("MaterialItemPeriodFilter can only be applied to entities of type MaterialItem (received: {$resourceClass}).");
         }
@@ -60,7 +60,7 @@ final class MaterialItemPeriodFilter extends AbstractContextAwareFilter {
         }
 
         // load period from query parameter value
-        $period = $this->iriConverter->getItemfromIri($value);
+        $period = $this->iriConverter->getResourceFromIri($value);
 
         // generate alias to avoid interference with other filters
         $periodParameterName = $queryNameGenerator->generateParameterName($property);

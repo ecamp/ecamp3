@@ -1,6 +1,12 @@
 <template>
   <div>
-    <e-select v-model="options.periods" :items="periods" multiple />
+    <e-select
+      v-model="options.periods"
+      :items="periods"
+      :label="$tc('components.print.config.programConfig.periods')"
+      multiple
+      :filled="false"
+    />
     <e-checkbox
       v-model="options.dayOverview"
       :label="$tc('components.print.config.programConfig.dayOverview')"
@@ -36,6 +42,9 @@ export default {
       periods: [],
       dayOverview: true,
     }
+  },
+  design: {
+    multiple: true,
   },
 }
 </script>

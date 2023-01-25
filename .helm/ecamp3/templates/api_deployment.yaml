@@ -114,6 +114,11 @@ spec:
                 secretKeyRef:
                   name: {{ include "api.name" . }}
                   key: recaptcha-secret
+            - name: COUPON_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "api.name" . }}
+                  key: coupon-secret
             {{- if .Values.php.oauth.google.clientId }}
             - name: OAUTH_GOOGLE_CLIENT_ID
               valueFrom:

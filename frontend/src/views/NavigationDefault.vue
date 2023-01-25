@@ -1,6 +1,6 @@
 <template>
   <v-app-bar
-    v-if="$vuetify.breakpoint.smAndUp"
+    v-if="$vuetify.breakpoint.mdAndUp"
     app
     clipped-left
     color="blue-grey darken-4"

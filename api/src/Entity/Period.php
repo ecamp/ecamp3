@@ -2,13 +2,19 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Core\Annotation\ApiFilter;
-use ApiPlatform\Core\Annotation\ApiProperty;
-use ApiPlatform\Core\Annotation\ApiResource;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Metadata\ApiProperty;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Post;
 use App\InputFilter;
 use App\Repository\PeriodRepository;
 use App\Serializer\Normalizer\RelatedCollectionLink;
+use App\State\PeriodPersistProcessor;
 use App\Validator\Period\AssertGreaterThanOrEqualToLastScheduleEntryEnd;
 use App\Validator\Period\AssertLessThanOrEqualToEarliestScheduleEntryStart;
 use App\Validator\Period\AssertNotOverlappingWithOtherPeriods;
@@ -26,28 +32,32 @@ use Symfony\Component\Validator\Constraints as Assert;
  * periods in a camp, but they may not overlap. A period is made up of one or more full days.
  */
 #[ApiResource(
-    collectionOperations: [
-        'get' => ['security' => 'is_authenticated()'],
-        'post' => [
-            'denormalization_context' => ['groups' => ['write', 'create']],
-            'security_post_denormalize' => 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)',
-        ],
-    ],
-    itemOperations: [
-        'get' => [
-            'security' => 'is_granted("CAMP_COLLABORATOR", object) or is_granted("CAMP_IS_PROTOTYPE", object)',
-            'normalization_context' => self::ITEM_NORMALIZATION_CONTEXT,
-        ],
-        'patch' => ['security' => 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)'],
-        'delete' => [
-            'security' => 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)',
-            'validation_groups' => ['delete', 'Period:delete'],
-        ],
+    operations: [
+        new Get(
+            security: 'is_granted("CAMP_COLLABORATOR", object) or is_granted("CAMP_IS_PROTOTYPE", object)',
+            normalizationContext: self::ITEM_NORMALIZATION_CONTEXT,
+        ),
+        new Patch(
+            processor: PeriodPersistProcessor::class,
+            security: 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)'
+        ),
+        new Delete(
+            security: 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)',
+            validationContext: ['groups' => ['delete', 'Period:delete']]
+        ),
+        new GetCollection(
+            security: 'is_authenticated()'
+        ),
+        new Post(
+            processor: PeriodPersistProcessor::class,
+            denormalizationContext: ['groups' => ['write', 'create']],
+            securityPostDenormalize: 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)'
+        ),
     ],
     denormalizationContext: ['groups' => ['write']],
-    normalizationContext: ['groups' => ['read']],
+    normalizationContext: ['groups' => ['read']]
 )]
-#[ApiFilter(SearchFilter::class, properties: ['camp'])]
+#[ApiFilter(filterClass: SearchFilter::class, properties: ['camp'])]
 #[ORM\Entity(repositoryClass: PeriodRepository::class)]
 class Period extends BaseEntity implements BelongsToCampInterface {
     public const ITEM_NORMALIZATION_CONTEXT = [

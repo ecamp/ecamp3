@@ -8,6 +8,7 @@ use App\Entity\ContentType;
 use App\Validator\ContentNode\AssertContentTypeCompatible;
 use App\Validator\ContentNode\AssertContentTypeCompatibleValidator;
 use Symfony\Component\Validator\Constraints\Email;
+use Symfony\Component\Validator\ConstraintValidatorInterface;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 use Symfony\Component\Validator\Exception\UnexpectedValueException;
 use Symfony\Component\Validator\Test\ConstraintValidatorTestCase;
@@ -84,7 +85,7 @@ class AssertContentTypeCompatibleValidatorTest extends ConstraintValidatorTestCa
         ;
     }
 
-    protected function createValidator() {
+    protected function createValidator(): ConstraintValidatorInterface {
         return new AssertContentTypeCompatibleValidator();
     }
 }

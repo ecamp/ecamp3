@@ -2,8 +2,8 @@
 
 namespace App\Tests\Serializer\Normalizer;
 
+use ApiPlatform\Api\Entrypoint;
 use ApiPlatform\Api\UrlGeneratorInterface;
-use ApiPlatform\Core\Api\Entrypoint;
 use ApiPlatform\Metadata\Resource\ResourceNameCollection;
 use App\Entity\Activity;
 use App\Entity\Camp;
@@ -46,6 +46,9 @@ class UriTemplateNormalizerTest extends TestCase {
                 case 'connect_jubladb_start':
                     return '/auth/jubladb';
 
+                case '_api_/auth/reset_password{._format}_post':
+                    return '/auth/reset_password';
+
                 default:
                     return null;
             }
@@ -79,7 +82,7 @@ class UriTemplateNormalizerTest extends TestCase {
                 'templated' => true,
             ],
             'resetPassword' => [
-                'href' => '{/id}',
+                'href' => '/auth/reset_password{/id}',
                 'templated' => true,
             ],
         ];

@@ -31,7 +31,7 @@ jobs:
           echo "sha=$ALPHA" | tr -d "\n" >> $GITHUB_OUTPUT
 
       - name: Create a pending GitHub deployment
-        uses: bobheadxi/deployments@v1.3.0
+        uses: bobheadxi/deployments@v1.4.0
         id: deployment
         with:
           step: start
@@ -141,9 +141,10 @@ jobs:
             --set deployedVersion="$(git rev-parse --short '${{ steps.git-ref.outputs.sha }}')" \
             --set recaptcha.siteKey='${{ secrets.RECAPTCHA_SITE_KEY }}' \
             --set recaptcha.secret='${{ secrets.RECAPTCHA_SECRET }}'
+            --set coupon.secret='${{ secrets.COUPON_SECRET }}'
 
       - name: Finish the GitHub deployment
-        uses: bobheadxi/deployments@v1.3.0
+        uses: bobheadxi/deployments@v1.4.0
         if: always()
         with:
           step: finish

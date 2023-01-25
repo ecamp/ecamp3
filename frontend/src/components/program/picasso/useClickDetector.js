@@ -1,10 +1,11 @@
 /**
  *
- * @param ref(bool) enabled   false disables click detection
- * @param int threshold       max. mouse movement to still detect as a click
+ * @param enabled {Ref<boolean>} false disables click detection
+ * @param threshold {number}     max. mouse movement to still detect as a click
+ * @param onClick {() => void}   run function on click
  * @returns
  */
-export default function useClickDetector(enabled = true, threshold = 5, onClick = null) {
+export function useClickDetector(enabled, threshold = 5, onClick = null) {
   /**
    * internal data (not exposed)
    */
@@ -32,7 +33,7 @@ export default function useClickDetector(enabled = true, threshold = 5, onClick 
   /**
    * exposed methods
    */
-  const entryMouseDown = ({ nativeEvent }) => {
+  const entryMouseDown = (nativeEvent) => {
     if (!enabled.value) {
       return
     }
@@ -41,7 +42,7 @@ export default function useClickDetector(enabled = true, threshold = 5, onClick 
     startY = nativeEvent.y
   }
 
-  const entryMouseMove = ({ nativeEvent }) => {
+  const entryMouseMove = (nativeEvent) => {
     if (startX === null) {
       return
     }
@@ -52,7 +53,7 @@ export default function useClickDetector(enabled = true, threshold = 5, onClick 
     }
   }
 
-  const entryMouseUp = ({ event, nativeEvent }) => {
+  const entryMouseUp = (nativeEvent) => {
     if (startX === null) {
       return
     }
@@ -75,7 +76,7 @@ export default function useClickDetector(enabled = true, threshold = 5, onClick 
 
       // onClick callback
       if (onClick !== null) {
-        onClick(event)
+        onClick()
       }
     }
 
@@ -83,10 +84,10 @@ export default function useClickDetector(enabled = true, threshold = 5, onClick 
   }
 
   return {
-    vCalendarListeners: {
-      'mousedown:event': entryMouseDown,
-      'mousemove:event': entryMouseMove,
-      'mouseup:event': entryMouseUp,
+    listeners: {
+      mousedown: entryMouseDown,
+      mousemove: entryMouseMove,
+      mouseup: entryMouseUp,
     },
   }
 }

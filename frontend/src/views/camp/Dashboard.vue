@@ -19,11 +19,12 @@
             :label="$tc('views.camp.dashboard.responsible')"
           >
             <template #item="{ item }">
-              <UserAvatar
-                :camp-collaboration="campCollaborations[item.value]"
-                size="18"
-                class="mr-1"
-              />
+              <TextAlignBaseline class="mr-1">
+                <UserAvatar
+                  :camp-collaboration="campCollaborations[item.value]"
+                  size="20"
+                />
+              </TextAlignBaseline>
               {{ item.text }}
             </template>
           </SelectFilter>
@@ -182,6 +183,7 @@ import FilterDivider from '@/components/dashboard/FilterDivider.vue'
 import { keyBy, groupBy, mapValues } from 'lodash'
 import campCollaborationDisplayName from '../../common/helpers/campCollaborationDisplayName.js'
 import { dateHelperUTCFormatted } from '@/mixins/dateHelperUTCFormatted.js'
+import TextAlignBaseline from '@/components/layout/TextAlignBaseline.vue'
 
 function filterEquals(arr1, arr2) {
   return JSON.stringify(arr1) === JSON.stringify(arr2)
@@ -190,6 +192,7 @@ function filterEquals(arr1, arr2) {
 export default {
   name: 'Dashboard',
   components: {
+    TextAlignBaseline,
     FilterDivider,
     ActivityRow,
     SelectFilter,

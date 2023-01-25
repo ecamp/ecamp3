@@ -102,6 +102,7 @@
         "addressName": "Name",
         "addressStreet": "Street",
         "addressZipcode": "Zipcode",
+        "couponKey": "Coupon",
         "motto": "Motto",
         "name": "Name",
         "title": "Title"
@@ -161,8 +162,8 @@
     },
     "scheduleEntry": {
       "fields": {
-        "length": "Length in Minutes",
-        "nr": "Nr",
+        "duration": "Duration",
+        "nr": "No.",
         "time": "Time"
       },
       "name": "Activity scheduled"

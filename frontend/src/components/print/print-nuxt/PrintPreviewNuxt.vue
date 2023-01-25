@@ -1,12 +1,6 @@
 <template>
   <div style="position: relative">
-    <v-btn
-      class="ml-3 mb-3 float-left"
-      color="primary"
-      outlined
-      :href="url"
-      target="_blank"
-    >
+    <v-btn class="float-right" text :href="url" target="_blank">
       <v-icon left>mdi-open-in-new</v-icon>
       {{ $tc('components.print.printNuxt.printPreviewNuxt.openPreview') }}
     </v-btn>

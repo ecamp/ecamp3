@@ -11,5 +11,8 @@ export default {
   defaultOptions() {
     return {}
   },
+  design: {
+    multiple: false,
+  },
 }
 </script>

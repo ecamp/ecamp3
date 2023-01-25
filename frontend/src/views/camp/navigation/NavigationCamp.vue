@@ -1,5 +1,5 @@
 <template>
-  <NavTopbar v-if="$vuetify.breakpoint.smAndUp" :camp="camp" />
+  <NavTopbar v-if="$vuetify.breakpoint.mdAndUp" :camp="camp" />
   <div v-else>
     <NavBottombar :camp="camp" @input="open = $event" />
     <NavSidebar v-model="open" :camp="camp" />

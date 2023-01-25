@@ -2,10 +2,12 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Core\Annotation\ApiFilter;
-use ApiPlatform\Core\Annotation\ApiProperty;
-use ApiPlatform\Core\Annotation\ApiResource;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Metadata\ApiProperty;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
 use App\Repository\DayRepository;
 use App\Serializer\Normalizer\RelatedCollectionLink;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -22,23 +24,21 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
  * creating or updating periods, and are not writable through the API directly.
  */
 #[ApiResource(
-    collectionOperations: [
-        'get' => [
-            'normalization_context' => self::COLLECTION_NORMALIZATION_CONTEXT,
-            'security' => 'is_authenticated()',
-        ],
-    ],
-    itemOperations: [
-        'get' => [
-            'normalization_context' => self::ITEM_NORMALIZATION_CONTEXT,
-            'security' => 'is_granted("CAMP_COLLABORATOR", object) or is_granted("CAMP_IS_PROTOTYPE", object)',
-        ],
+    operations: [
+        new Get(
+            normalizationContext: self::ITEM_NORMALIZATION_CONTEXT,
+            security: 'is_granted("CAMP_COLLABORATOR", object) or is_granted("CAMP_IS_PROTOTYPE", object)'
+        ),
+        new GetCollection(
+            normalizationContext: self::COLLECTION_NORMALIZATION_CONTEXT,
+            security: 'is_authenticated()'
+        ),
     ],
     denormalizationContext: ['groups' => ['write']],
     normalizationContext: ['groups' => ['read']],
     order: ['period.start', 'dayOffset']
 )]
-#[ApiFilter(SearchFilter::class, properties: ['period'])]
+#[ApiFilter(filterClass: SearchFilter::class, properties: ['period'])]
 #[UniqueEntity(fields: ['period', 'dayOffset'])]
 #[ORM\Entity(repositoryClass: DayRepository::class)]
 #[ORM\UniqueConstraint(name: 'offset_period_idx', columns: ['periodId', 'dayOffset'])]

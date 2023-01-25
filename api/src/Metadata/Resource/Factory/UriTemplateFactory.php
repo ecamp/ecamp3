@@ -2,27 +2,37 @@
 
 namespace App\Metadata\Resource\Factory;
 
-use ApiPlatform\Core\Action\NotFoundAction;
-use ApiPlatform\Core\Api\IriConverterInterface;
-use ApiPlatform\Core\DataProvider\PaginationOptions;
-use ApiPlatform\Core\Exception\ResourceClassNotFoundException;
-use ApiPlatform\Core\Metadata\Resource\Factory\ResourceMetadataFactoryInterface;
-use ApiPlatform\Core\Metadata\Resource\Factory\ResourceNameCollectionFactoryInterface;
-use ApiPlatform\Core\Metadata\Resource\ResourceMetadata;
+use ApiPlatform\Api\IriConverterInterface;
+use ApiPlatform\Api\UrlGeneratorInterface;
+use ApiPlatform\Exception\ResourceClassNotFoundException;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\HttpOperation;
+use ApiPlatform\Metadata\Resource\Factory\ResourceMetadataCollectionFactoryInterface;
+use ApiPlatform\Metadata\Resource\Factory\ResourceNameCollectionFactoryInterface;
+use ApiPlatform\Metadata\Resource\ResourceMetadataCollection;
+use ApiPlatform\State\Pagination\PaginationOptions;
+use App\Metadata\Resource\OperationHelper;
 use Psr\Container\ContainerInterface;
 
+/**
+ * Given an entity class, creates an URI template (link with placeholders) for accessing this type of entity in the API.
+ * Format follows RFC6570 (https://datatracker.ietf.org/doc/html/rfc6570).
+ *
+ * Currently, multiple ApiResources per Class ist not implemented (refactoring needed to support this use-case)
+ */
 class UriTemplateFactory {
     protected ?array $resourceNameMapping = [];
 
     public function __construct(
         private ContainerInterface $filterLocator,
-        private ResourceMetadataFactoryInterface $resourceMetadataFactory,
+        private ResourceMetadataCollectionFactoryInterface $resourceMetadataCollectionFactory,
         ResourceNameCollectionFactoryInterface $resourceNameCollectionFactory,
         private IriConverterInterface $iriConverter,
         private PaginationOptions $paginationOptions,
     ) {
         foreach ($resourceNameCollectionFactory->create() as $className) {
-            $shortName = $this->resourceMetadataFactory->create($className)->getShortName();
+            $shortName = $this->resourceMetadataCollectionFactory->create($className)[0]->getShortName();
             $this->resourceNameMapping[lcfirst($shortName)] = $className;
         }
     }
@@ -54,12 +64,13 @@ class UriTemplateFactory {
      * @throws ResourceClassNotFoundException
      */
     public function createFromResourceClass(string $resourceClass): array {
-        $resourceMetadata = $this->resourceMetadataFactory->create($resourceClass);
+        $resourceMetadataCollection = $this->resourceMetadataCollectionFactory->create($resourceClass);
+        $getCollectionOperation = OperationHelper::findOneByType($resourceMetadataCollection, GetCollection::class);
 
-        $baseUri = $this->iriConverter->getIriFromResourceClass($resourceClass);
-        $idParameter = $this->getIdParameter($resourceMetadata);
-        $queryParameters = $this->getQueryParameters($resourceClass, $resourceMetadata);
-        $additionalPathParameter = $this->allowsActionParameter($resourceMetadata) ? '{/action}' : '';
+        $baseUri = $this->iriConverter->getIriFromResource($resourceClass, UrlGeneratorInterface::ABS_PATH, $getCollectionOperation);
+        $idParameter = $this->getIdParameter($resourceMetadataCollection);
+        $queryParameters = $this->getQueryParameters($resourceClass, $resourceMetadataCollection);
+        $additionalPathParameter = $this->allowsActionParameter($resourceMetadataCollection) ? '{/action}' : '';
 
         return [
             $baseUri.$idParameter.$additionalPathParameter.$queryParameters,
@@ -71,18 +82,19 @@ class UriTemplateFactory {
     /**
      * Returns an optional /id URL parameter, if access to single items is allowed.
      */
-    protected function getIdParameter(ResourceMetadata $resourceMetadata): string {
-        $getSingleItemIsAllowed = array_key_exists('get', $resourceMetadata->getItemOperations())
-            && (NotFoundAction::class !== ($resourceMetadata->getItemOperations()['get']['controller'] ?? ''));
+    protected function getIdParameter(ResourceMetadataCollection $resourceMetadataCollection): string {
+        if (OperationHelper::findOneByType($resourceMetadataCollection, Get::class)) {
+            return '{/id}';
+        }
 
-        return $getSingleItemIsAllowed ? '{/id}' : '';
+        return '';
     }
 
     /**
      * Collects all the query parameters and combines them into an optional URI parameter.
      */
-    protected function getQueryParameters(string $resourceClass, ResourceMetadata $resourceMetadata): string {
-        $parameters = array_merge($this->getFilterParameters($resourceClass, $resourceMetadata), $this->getPaginationParameters($resourceMetadata));
+    protected function getQueryParameters(string $resourceClass, ResourceMetadataCollection $resourceMetadataCollection): string {
+        $parameters = array_merge($this->getFilterParameters($resourceClass, $resourceMetadataCollection), $this->getPaginationParameters($resourceMetadataCollection));
 
         return empty($parameters) ? '' : '{?'.implode(',', $parameters).'}';
     }
@@ -91,10 +103,13 @@ class UriTemplateFactory {
      * Gets parameters corresponding to enabled filters.
      * Based on API Platform's OpenApiFactory::getFilterParameters.
      */
-    protected function getFilterParameters(string $resourceClass, ResourceMetadata $resourceMetadata) {
+    protected function getFilterParameters(string $resourceClass, ResourceMetadataCollection $resourceMetadataCollection) {
         $parameters = [];
+        $resourceFilters = OperationHelper::findOneByType($resourceMetadataCollection, GetCollection::class)?->getFilters();
+        if (null === $resourceFilters) {
+            return $parameters;
+        }
 
-        $resourceFilters = $resourceMetadata->getCollectionOperationAttribute('get', 'filters', [], true);
         foreach ($resourceFilters as $filterId) {
             if (!$filter = $this->filterLocator->get($filterId)) {
                 continue;
@@ -112,30 +127,31 @@ class UriTemplateFactory {
      * Gets parameters corresponding to enabled pagination parameters.
      * Based on API Platform's OpenApiFactory::getPaginationParameters.
      */
-    protected function getPaginationParameters(ResourceMetadata $resourceMetadata) {
+    protected function getPaginationParameters(ResourceMetadataCollection $resourceMetadataCollection) {
         if (!$this->paginationOptions->isPaginationEnabled()) {
             return [];
         }
 
         $parameters = [];
+        $operation = OperationHelper::findOneByType($resourceMetadataCollection, GetCollection::class);
 
-        if ($resourceMetadata->getCollectionOperationAttribute('get', 'pagination_enabled', true, true)) {
+        if ($operation->getPaginationEnabled() ?? $this->paginationOptions->isPaginationEnabled()) {
             $parameters[] = $this->paginationOptions->getPaginationPageParameterName();
 
-            if ($resourceMetadata->getCollectionOperationAttribute('get', 'pagination_client_items_per_page', $this->paginationOptions->getClientItemsPerPage(), true)) {
+            if ($operation->getPaginationClientItemsPerPage() ?? $this->paginationOptions->getClientItemsPerPage()) {
                 $parameters[] = $this->paginationOptions->getItemsPerPageParameterName();
             }
         }
 
-        if ($resourceMetadata->getCollectionOperationAttribute('get', 'pagination_client_enabled', $this->paginationOptions->getPaginationClientEnabled(), true)) {
+        if ($operation->getPaginationClientEnabled() ?? $this->paginationOptions->getPaginationClientEnabled()) {
             $parameters[] = $this->paginationOptions->getPaginationClientEnabledParameterName();
         }
 
         return $parameters;
     }
 
-    protected function allowsActionParameter(ResourceMetadata $resourceMetadata): bool {
-        foreach ($resourceMetadata->getItemOperations() as $itemOperation) {
+    protected function allowsActionParameter(ResourceMetadataCollection $resourceMetadataCollection): bool {
+        foreach ($resourceMetadataCollection->getIterator()->current()->getOperations() as $operation) {
             /*
              * Matches:
              * {/inviteKey}/find
@@ -144,8 +160,10 @@ class UriTemplateFactory {
              * Does not match:
              * profiles{/id}
              */
-            if (preg_match('/^.*\\/?{.*}\\/.+$/', $itemOperation['path'] ?? '')) {
-                return true;
+            if ($operation instanceof HttpOperation) {
+                if (preg_match('/^.*\\/?{.*}\\/.+$/', $operation->getUriTemplate() ?? '')) {
+                    return true;
+                }
             }
         }
 

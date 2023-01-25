@@ -2,14 +2,22 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Core\Annotation\ApiFilter;
-use ApiPlatform\Core\Annotation\ApiProperty;
-use ApiPlatform\Core\Annotation\ApiResource;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Metadata\ApiProperty;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Post;
 use App\InputFilter;
 use App\Repository\CampRepository;
+use App\State\CampCreateProcessor;
+use App\State\CampRemoveProcessor;
 use App\Util\EntityMap;
 use App\Validator\AssertContainsAtLeastOneManager;
+use App\Validator\Camp\AssertValidCouponKey;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -22,35 +30,40 @@ use Symfony\Component\Validator\Constraints as Assert;
  * distributed across multiple time periods.
  */
 #[ApiResource(
-    collectionOperations: [
-        'get' => ['security' => 'is_authenticated()'],
-        'post' => [
-            'security' => 'is_authenticated()',
-            'input_formats' => ['jsonld', 'jsonapi', 'json'],
-            'validation_groups' => ['Default', 'create'],
-            'denormalization_context' => ['groups' => ['write', 'create']],
-            'normalization_context' => self::ITEM_NORMALIZATION_CONTEXT,
-        ],
-    ],
-    itemOperations: [
-        'get' => [
-            'security' => 'is_granted("CAMP_COLLABORATOR", object) or is_granted("CAMP_IS_PROTOTYPE", object)',
-            'normalization_context' => self::ITEM_NORMALIZATION_CONTEXT,
-        ],
-        'patch' => [
-            'security' => 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)',
-            'denormalization_context' => ['groups' => ['write', 'update']],
-            'normalization_context' => self::ITEM_NORMALIZATION_CONTEXT,
-        ],
-        'delete' => ['security' => 'object.owner == user'],
+    operations: [
+        new Get(
+            security: 'is_granted("CAMP_COLLABORATOR", object) or is_granted("CAMP_IS_PROTOTYPE", object)',
+            normalizationContext: self::ITEM_NORMALIZATION_CONTEXT,
+        ),
+        new Patch(
+            security: 'is_granted("CAMP_MEMBER", object) or is_granted("CAMP_MANAGER", object)',
+            denormalizationContext: ['groups' => ['write', 'update']],
+            normalizationContext: self::ITEM_NORMALIZATION_CONTEXT,
+        ),
+        new Delete(
+            processor: CampRemoveProcessor::class,
+            security: 'object.owner == user'
+        ),
+        new GetCollection(
+            security: 'is_authenticated()'
+        ),
+        new Post(
+            processor: CampCreateProcessor::class,
+            security: 'is_authenticated()',
+            inputFormats: ['jsonld', 'jsonapi', 'json'],
+            validationContext: ['groups' => ['Default', 'create']],
+            denormalizationContext: ['groups' => ['write', 'create']],
+            normalizationContext: self::ITEM_NORMALIZATION_CONTEXT,
+        ),
     ],
     denormalizationContext: ['groups' => ['write']],
-    normalizationContext: ['groups' => ['read']],
-    forceEager: false
+    forceEager: false,
+    normalizationContext: ['groups' => ['read']]
 )]
-#[ApiFilter(SearchFilter::class, properties: ['isPrototype'])]
+#[ApiFilter(filterClass: SearchFilter::class, properties: ['isPrototype'])]
 #[ORM\Entity(repositoryClass: CampRepository::class)]
 #[ORM\Index(columns: ['isPrototype'])]
+#[ORM\UniqueConstraint(name: 'couponKey_unique', columns: ['couponKey'])]
 class Camp extends BaseEntity implements BelongsToCampInterface, CopyFromPrototypeInterface {
     public const ITEM_NORMALIZATION_CONTEXT = [
         'groups' => ['read', 'Camp:Periods', 'Period:Days', 'Camp:CampCollaborations', 'CampCollaboration:User'],
@@ -73,7 +86,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface, CopyFromPrototy
     #[Assert\Count(min: 2, minMessage: 'A camp must have at least one period.', groups: ['Period:delete'])]
     #[ApiProperty(
         writableLink: true,
-        example: '[{ "description": "Hauptlager", "start": "2022-01-01", "end": "2022-01-08" }]'
+        example: [['description' => 'Hauptlager', 'start' => '2022-01-01', 'end' => '2022-01-08']]
     )]
     #[Groups(['read', 'create'])]
     #[ORM\OneToMany(targetEntity: Period::class, mappedBy: 'camp', orphanRemoval: true, cascade: ['persist'])]
@@ -229,6 +242,17 @@ class Camp extends BaseEntity implements BelongsToCampInterface, CopyFromPrototy
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'ownedCamps')]
     #[ORM\JoinColumn(nullable: false)]
     public ?User $owner = null;
+
+    /**
+     * Camp Coupon Key
+     * If a COUPON_SECRET is configured, a valid Coupon is required.
+     */
+    #[InputFilter\Trim]
+    #[AssertValidCouponKey()]
+    #[ApiProperty(readable: false)]
+    #[Groups(['create'])]
+    #[ORM\Column(type: 'text', length: 128, nullable: true)]
+    public ?string $couponKey = null;
 
     public function __construct() {
         parent::__construct();
