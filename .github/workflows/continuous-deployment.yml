@@ -147,6 +147,13 @@ jobs:
       name: ${{ matrix.deployment.env }}
     steps:
 
+      - name: Get link to currently running job logs
+        uses: Tiryoh/gha-jobid-action@v0.1.2
+        id: job-url
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          job_name: Upgrade or install deployment (${{ matrix.deployment.name }}, ${{ matrix.deployment.env }}, ${{ matrix.deployment.sha }}, ...
+
       - name: Create a pending GitHub deployment
         uses: bobheadxi/deployments@v1.4.0
         id: deployment
@@ -154,13 +161,6 @@ jobs:
           step: start
           token: ${{ secrets.REPO_ACCESS_TOKEN }}
           env: ${{ matrix.deployment.name }}
-
-      - name: Get link to currently running job logs
-        uses: Tiryoh/gha-jobid-action@v0.1.2
-        id: job-url
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          job_name: Upgrade or install deployment (${{ matrix.deployment.name }}, ${{ matrix.deployment.env }}, ${{ matrix.deployment.sha }}, ${{ matrix.deployment.number }})
 
       - name: Comment progress on PR
         uses: thollander/actions-comment-pull-request@v2
