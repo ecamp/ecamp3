@@ -110,17 +110,27 @@ jobs:
           token: ${{ secrets.REPO_ACCESS_TOKEN }}
           env: ${{ matrix.deployment-name }}
 
+      - name: Find former PR number based on deployment name
+        id: pr-number
+        env:
+          name: ${{ matrix.deployment-name }}
+          regex: '^pr([0-9]+)$'
+        run: |
+          [[ $name =~ $regex ]]
+          echo number=${BASH_REMATCH[1]} >> $GITHUB_OUTPUT
+
       - name: Comment about uninstallation on PR
         uses: thollander/actions-comment-pull-request@v2
-        if: ${{ steps.deployment.outputs.env == 'feature-branch' }}
+        if: steps.pr-number.outputs.number
         with:
-          pr_number: ${{ matrix.deployment.number }}
+          pr_number: ${{ steps.pr-number.outputs.number }}
           message: |
             ### <span aria-hidden="true">⛔</span> Feature branch deployment currently inactive.
 
 
-            You can add the `deploy!` label to this PR to trigger a feature branch deployment.
+            If the PR is still open, you can add the `deploy!` label to this PR to trigger a feature branch deployment.
           comment_tag: feature-branch-deployment-status
+          create_if_not_exists: false
 
 
   upgrade-or-install-deployment:
@@ -137,6 +147,13 @@ jobs:
       name: ${{ matrix.deployment.env }}
     steps:
 
+      - name: Get link to currently running job logs
+        uses: Tiryoh/gha-jobid-action@v0.1.2
+        id: job-url
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          job_name: Upgrade or install deployment (${{ matrix.deployment.name }}, ${{ matrix.deployment.env }}, ${{ matrix.deployment.sha }}, ...
+
       - name: Create a pending GitHub deployment
         uses: bobheadxi/deployments@v1.4.0
         id: deployment
@@ -145,16 +162,9 @@ jobs:
           token: ${{ secrets.REPO_ACCESS_TOKEN }}
           env: ${{ matrix.deployment.name }}
 
-      - name: Get link to currently running job logs
-        uses: Tiryoh/gha-jobid-action@v0.1.2
-        id: job-url
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          job_name: Upgrade or install deployment (${{ matrix.deployment.name }}, ${{ matrix.deployment.env }}, ${{ matrix.deployment.sha }}, ${{ matrix.deployment.number }})
-
       - name: Comment progress on PR
         uses: thollander/actions-comment-pull-request@v2
-        if: ${{ steps.deployment.outputs.env == 'feature-branch' }}
+        if: ${{ matrix.deployment.env == 'feature-branch' }}
         with:
           pr_number: ${{ matrix.deployment.number }}
           message: |
@@ -278,7 +288,7 @@ jobs:
 
       - name: Comment success on PR
         uses: thollander/actions-comment-pull-request@v2
-        if: ${{ success() && steps.deployment.outputs.env == 'feature-branch' }}
+        if: ${{ success() && matrix.deployment.env == 'feature-branch' }}
         with:
           pr_number: ${{ matrix.deployment.number }}
           message: |
@@ -291,5 +301,21 @@ jobs:
             |<span aria-hidden="true">🔍</span> Latest deploy log | [${{ steps.job-url.outputs.html_url }}](${{ steps.job-url.outputs.html_url }}) |
             |<span aria-hidden="true">😎</span> **Deployment** | [https://app-${{ matrix.deployment.name }}.ecamp3.ch/](https://app-${{ matrix.deployment.name }}.ecamp3.ch/) |
             |<span aria-hidden="true">📱</span> Preview on mobile | <details><summary> Toggle QR Code... </summary><br /><br />![QR Code](https://api.qrserver.com/v1/create-qr-code/?size=180x180&ecc=H&format=svg&qzone=4&color=5-72-97&data=https://app-${{ matrix.deployment.name }}.ecamp3.ch/)<br /><br />_Use your smartphone camera to open QR code link._</details> |
+            ---
+          comment_tag: feature-branch-deployment-status
+
+      - name: Comment failure on PR
+        uses: thollander/actions-comment-pull-request@v2
+        if: ${{ failure() && matrix.deployment.env == 'feature-branch' }}
+        with:
+          pr_number: ${{ matrix.deployment.number }}
+          message: |
+            ### <span aria-hidden="true">💥</span> Feature branch deployment failed
+
+
+            |  Name | Link |
+            |---------------------------------|------------------------|
+            |<span aria-hidden="true">🔨</span> Latest commit | [${{ matrix.deployment.sha }}](https://github.com/${{ github.repository }}/commit/${{ matrix.deployment.sha }}) |
+            |<span aria-hidden="true">🔍</span> Latest deploy log | [${{ steps.job-url.outputs.html_url }}](${{ steps.job-url.outputs.html_url }}) |
             ---
           comment_tag: feature-branch-deployment-status
