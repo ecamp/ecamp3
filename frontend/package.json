@@ -51,7 +51,7 @@
     "@zxcvbn-ts/language-it": "2.1.0",
     "assert": "2.0.0",
     "axios": "1.2.5",
-    "colorjs.io": "0.4.2",
+    "colorjs.io": "0.4.3",
     "comlink": "4.3.1",
     "dayjs": "1.11.7",
     "deepmerge": "4.2.2",
