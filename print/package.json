@@ -22,7 +22,7 @@
     "@nuxtjs/axios": "5.13.6",
     "@nuxtjs/i18n": "7.3.1",
     "@nuxtjs/sentry": "7.0.3",
-    "colorjs.io": "0.4.2",
+    "colorjs.io": "0.4.3",
     "cookie-parser": "1.4.6",
     "cors": "2.8.5",
     "cssesc": "3.0.0",
