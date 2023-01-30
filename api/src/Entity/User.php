@@ -51,7 +51,6 @@ use Symfony\Component\Validator\Constraints as Assert;
         new Post(
             processor: UserCreateProcessor::class,
             security: 'true', // allow unauthenticated clients to create (register) users
-            inputFormats: ['jsonld', 'jsonapi', 'json'],
             validationContext: ['groups' => ['Default', 'create']],
             normalizationContext: ['groups' => ['read', 'User:create']],
             denormalizationContext: ['groups' => ['write', 'create']]
