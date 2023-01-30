@@ -50,7 +50,6 @@ use Symfony\Component\Validator\Constraints as Assert;
         new Post(
             processor: CampCreateProcessor::class,
             security: 'is_authenticated()',
-            inputFormats: ['jsonld', 'jsonapi', 'json'],
             validationContext: ['groups' => ['Default', 'create']],
             denormalizationContext: ['groups' => ['write', 'create']],
             normalizationContext: self::ITEM_NORMALIZATION_CONTEXT,
