@@ -29,7 +29,7 @@ class AssertAllowTransitionsValidator extends ConstraintValidator {
 
         $allFrom = $transitions->map(fn (array $elem) => $elem['from'])->toArray();
         $allTo = $transitions->map(fn (array $elem) => $elem['to'])->toArray();
-        $allTo = array_merge(...$allTo);
+        $allTo = array_merge(...array_values($allTo));
         if (!(new ArrayCollection($allTo))->forAll(fn ($_, $to) => in_array($to, $allFrom, true))) {
             throw new InvalidArgumentException('All to must appear in a from again');
         }
