@@ -12,6 +12,7 @@ namespace App\Repository;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\EntityRepository;
 use Gedmo\Sortable\Entity\Repository\SortableRepository;
 
 /**
@@ -28,11 +29,12 @@ use Gedmo\Sortable\Entity\Repository\SortableRepository;
  *     }
  * }
  */
-abstract class SortableServiceEntityRepository extends SortableRepository implements ServiceEntityRepositoryInterface {
+abstract class SortableServiceEntityRepository extends EntityRepository implements ServiceEntityRepositoryInterface {
     /**
      * @param string $entityClass The class name of the entity this repository manages
      */
     public function __construct(EntityManagerInterface $em, string $entityClass) {
         parent::__construct($em, $em->getClassMetadata($entityClass));
+        new SortableRepository($em, $em->getClassMetadata($entityClass));
     }
 }
