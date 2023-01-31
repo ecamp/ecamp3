@@ -52,7 +52,7 @@ jobs:
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
 
       - name: Build and push frontend docker image
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v4
         with:
           push: true
           file: .docker-hub/frontend/Dockerfile
@@ -62,7 +62,7 @@ jobs:
           cache-to: type=gha,scope=frontend,mode=max
 
       - name: Build and push api docker image
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v4
         with:
           push: true
           file: api/Dockerfile
@@ -73,7 +73,7 @@ jobs:
           cache-to: type=gha,scope=api,mode=max
 
       - name: Build and push caddy docker image
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v4
         with:
           push: true
           file: api/Dockerfile
@@ -84,7 +84,7 @@ jobs:
           cache-to: type=gha,scope=caddy,mode=max
 
       - name: Build and push print docker image
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v4
         with:
           push: true
           file: .docker-hub/print/Dockerfile
