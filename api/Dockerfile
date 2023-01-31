@@ -8,11 +8,14 @@
 # renovate: datasource=docker depName=php
 ARG PHP_VERSION=8.1.13
 
+# renovate: datasource=docker depName=alpine
+ARG ALPINE_VERSION=3.16
+
 # renovate: datasource=docker depName=caddy
 ARG CADDY_VERSION=2.6.2
 
 # "php" stage
-FROM php:${PHP_VERSION}-fpm-alpine AS api_platform_php
+FROM php:${PHP_VERSION}-fpm-alpine${ALPINE_VERSION} AS api_platform_php
 
 # persistent / runtime deps
 RUN apk add --no-cache \

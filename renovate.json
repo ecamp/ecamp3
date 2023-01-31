@@ -99,6 +99,12 @@
     },
     {
       "matchPackageNames": [
+        "alpine"
+      ],
+      "allowedVersions": "3.16"
+    },
+    {
+      "matchPackageNames": [
         "postgres"
       ],
       "allowedVersions": "13-alpine"
