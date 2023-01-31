@@ -124,9 +124,6 @@
     "auth": {
       "login": {
         "accountless": "Vous n'avez pas encore de compte?",
-        "beta": {
-          "notice": "Voici le site du nouveau eCamp.<br>IMPORTANT : Ce site est en construction. Cela signifie que toutes les données sont publiques et seront supprimées périodiquement !"
-        },
         "email": "Courriel",
         "loginCallback": {
           "loginInProgress": "Vous serez connecté"
