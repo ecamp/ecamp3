@@ -11,7 +11,9 @@
       color="warning"
     >
       <!-- eslint-disable-next-line vue/no-v-html -->
-      <div v-html="$tc(`views.auth.login.infoText.${window.environment.LOGIN_INFO_TEXT_KEY ?? 'dev'}`)" />
+      <div
+        v-html="$tc(`views.auth.login.infoText.${window.environment.LOGIN_INFO_TEXT_KEY ?? 'dev'}`)"
+      />
     </v-alert>
     <v-alert v-if="error" outlined text border="left" type="error">
       {{ error }}
