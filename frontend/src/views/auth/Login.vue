@@ -11,7 +11,11 @@
       color="warning"
     >
       <div>
-        {{ $tc(`views.auth.login.infoText.${window.environment.LOGIN_INFO_TEXT_KEY ?? 'dev'}`) }}
+        {{
+          $tc(
+            `views.auth.login.infoText.${window.environment.LOGIN_INFO_TEXT_KEY ?? 'dev'}`
+          )
+        }}
       </div>
     </v-alert>
     <v-alert v-if="error" outlined text border="left" type="error">
