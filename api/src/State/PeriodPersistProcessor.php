@@ -44,19 +44,19 @@ class PeriodPersistProcessor extends AbstractPersistProcessor {
                 // Add Days at end
                 for ($i = $daysCount; $i < $length; ++$i) {
                     $day = new Day();
-                    $day->dayOffset = $i++;
+                    $day->dayOffset = $i;
                     $period->addDay($day);
                 }
                 // Remove Days at end
-                for ($i = $daysCount; $i > $length; --$i) {
-                    $day = $days[$i - 1];
+                for ($i = $daysCount - 1; $i >= $length; --$i) {
+                    $day = $days[$i];
                     $period->removeDay($day);
                 }
             } else {
                 $deltaMinutes = DateTimeUtil::differenceInMinutes($period->start, $orig->start);
                 $deltaDaysAtStart = floor($deltaMinutes / 60 / 24);
 
-                // Tage erstellen
+                // Add days
                 for ($i = $daysCount; $i < $length; ++$i) {
                     $day = new Day();
                     $day->dayOffset = $i;
@@ -93,8 +93,8 @@ class PeriodPersistProcessor extends AbstractPersistProcessor {
                 }
 
                 // Remove Days at end
-                for ($i = $daysCount; $i > $length; --$i) {
-                    $day = $days[$i - 1];
+                for ($i = $daysCount - 1; $i >= $length; --$i) {
+                    $day = $days[$i];
                     $period->removeDay($day);
                 }
             }

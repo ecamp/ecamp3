@@ -83,6 +83,12 @@ class PeriodPersistProcessorTest extends TestCase {
         // then
         $this->assertEquals(1440 + 600, $this->scheduleEntry->startOffset);
         $this->assertEquals(1, $this->dayResponsible->day->dayOffset);
+
+        $this->assertCount(4, $this->period->days);
+        $this->assertEquals(0, $this->period->days[0]->dayOffset);
+        $this->assertEquals(1, $this->period->days[1]->dayOffset);
+        $this->assertEquals(2, $this->period->days[2]->dayOffset);
+        $this->assertEquals(3, $this->period->days[3]->dayOffset);
     }
 
     public function testAddDayAtStartNoMoveData() {
@@ -97,6 +103,12 @@ class PeriodPersistProcessorTest extends TestCase {
         // then
         $this->assertEquals(1440 + 1440 + 600, $this->scheduleEntry->startOffset);
         $this->assertEquals(2, $this->dayResponsible->day->dayOffset);
+
+        $this->assertCount(4, $this->period->days);
+        $this->assertEquals(0, $this->period->days[0]->dayOffset);
+        $this->assertEquals(1, $this->period->days[1]->dayOffset);
+        $this->assertEquals(2, $this->period->days[2]->dayOffset);
+        $this->assertEquals(3, $this->period->days[3]->dayOffset);
     }
 
     public function testRemoveDayAtStartMoveData() {
@@ -111,6 +123,10 @@ class PeriodPersistProcessorTest extends TestCase {
         // then
         $this->assertEquals(1440 + 600, $this->scheduleEntry->startOffset);
         $this->assertEquals(1, $this->dayResponsible->day->dayOffset);
+
+        $this->assertCount(2, $this->period->days);
+        $this->assertEquals(0, $this->period->days[0]->dayOffset);
+        $this->assertEquals(1, $this->period->days[1]->dayOffset);
     }
 
     public function testRemoveDayAtStartNoMoveData() {
@@ -125,5 +141,58 @@ class PeriodPersistProcessorTest extends TestCase {
         // then
         $this->assertEquals(600, $this->scheduleEntry->startOffset);
         $this->assertEquals(0, $this->dayResponsible->day->dayOffset);
+
+        $this->assertCount(2, $this->period->days);
+        $this->assertEquals(0, $this->period->days[0]->dayOffset);
+        $this->assertEquals(1, $this->period->days[1]->dayOffset);
+    }
+
+    public function testAddDayAtEndMoveData() {
+        // given
+        $patchData = clone $this->period;
+        $patchData->moveScheduleEntries = true;
+        $patchData->end = new \DateTime('2000-01-14');
+
+        // when
+        $this->processor->onBefore($patchData, new Patch(), [], ['previous_data' => $this->period]);
+
+        // then
+        $this->assertCount(5, $this->period->days);
+        $this->assertEquals(0, $this->period->days[0]->dayOffset);
+        $this->assertEquals(1, $this->period->days[1]->dayOffset);
+        $this->assertEquals(2, $this->period->days[2]->dayOffset);
+        $this->assertEquals(3, $this->period->days[3]->dayOffset);
+        $this->assertEquals(4, $this->period->days[4]->dayOffset);
+    }
+
+    public function testAddDayAtEndNoMoveData() {
+        // given
+        $patchData = clone $this->period;
+        $patchData->moveScheduleEntries = false;
+        $patchData->end = new \DateTime('2000-01-14');
+
+        // when
+        $this->processor->onBefore($patchData, new Patch(), [], ['previous_data' => $this->period]);
+
+        // then
+        $this->assertCount(5, $this->period->days);
+        $this->assertEquals(0, $this->period->days[0]->dayOffset);
+        $this->assertEquals(1, $this->period->days[1]->dayOffset);
+        $this->assertEquals(2, $this->period->days[2]->dayOffset);
+        $this->assertEquals(3, $this->period->days[3]->dayOffset);
+        $this->assertEquals(4, $this->period->days[4]->dayOffset);
+    }
+
+    public function testRemoveAllDaysButOne() {
+        // given
+        $patchData = clone $this->period;
+        $patchData->moveScheduleEntries = true;
+        $patchData->end = new \DateTime('2000-01-10');
+
+        // when
+        $this->processor->onBefore($patchData, new Patch(), [], ['previous_data' => $this->period]);
+
+        $this->assertCount(1, $this->period->days);
+        $this->assertEquals(0, $this->period->days[0]->dayOffset);
     }
 }
