@@ -31,73 +31,58 @@ class PeriodPersistProcessor extends AbstractPersistProcessor {
         $days = $period->getDays();
         $daysCount = count($days);
 
+        // Add new days
+        for ($i = $daysCount; $i < $length; ++$i) {
+            $day = new Day();
+            $day->dayOffset = $i;
+            $period->addDay($day);
+        }
+
+        // if Period was newly created, no more actions needed
         if (0 == $daysCount) {
-            // Create all Days:
-            for ($i = 0; $i < $length; ++$i) {
-                $day = new Day();
-                $day->dayOffset = $i;
-                $period->addDay($day);
+            return;
+        }
+
+        // moveScheduleEntries === true: scheduleEntries move relative to the start date (no change of offset needed)
+        // moveScheduleEntries === false: scheduleEntries stay absolutely on the scheduled calendar date (change of offset needed)
+        $deltaMinutes = DateTimeUtil::differenceInMinutes($period->start, $orig->start);
+        if (!$period->moveScheduleEntries && 0 != $deltaMinutes) {
+            $deltaDays = floor($deltaMinutes / 60 / 24);
+
+            // Move ScheduleEntries
+            foreach ($period->scheduleEntries as $scheduleEntry) {
+                $scheduleEntry->startOffset += $deltaMinutes;
+                $scheduleEntry->endOffset += $deltaMinutes;
             }
-        } else {
-            // Move Schedule-Entries
-            if ($period->moveScheduleEntries) {
-                // Add Days at end
-                for ($i = $daysCount; $i < $length; ++$i) {
-                    $day = new Day();
-                    $day->dayOffset = $i;
-                    $period->addDay($day);
-                }
-                // Remove Days at end
-                for ($i = $daysCount - 1; $i >= $length; --$i) {
-                    $day = $days[$i];
-                    $period->removeDay($day);
-                }
-            } else {
-                $deltaMinutes = DateTimeUtil::differenceInMinutes($period->start, $orig->start);
-                $deltaDaysAtStart = floor($deltaMinutes / 60 / 24);
 
-                // Add days
-                for ($i = $daysCount; $i < $length; ++$i) {
-                    $day = new Day();
-                    $day->dayOffset = $i;
-                    $period->addDay($day);
-                }
+            // Move DayResponsibles
+            $days = $period->days->getValues();
+            usort($days, fn ($a, $b) => $a->dayOffset <=> $b->dayOffset);
 
-                // Move ScheduleEntries
-                foreach ($period->scheduleEntries as $scheduleEntry) {
-                    $scheduleEntry->startOffset += $deltaMinutes;
-                    $scheduleEntry->endOffset += $deltaMinutes;
-                }
+            // UniqueIndex day_campCollaboration_unique forces correct order of Update
+            if ($deltaDays > 0) {
+                $days = array_reverse($days);
+            }
 
-                // Move DayResponsibles
-                $days = $period->days->getValues();
-                usort($days, fn ($a, $b) => $a->dayOffset <=> $b->dayOffset);
+            foreach ($days as $day) {
+                /** @var Day $day */
+                $newDay = $period->days->filter(fn ($d) => $d->dayOffset == $day->dayOffset + $deltaDays)->first();
 
-                // UniqueIndex day_campCollaboration_unique forces correct order of Update
-                if ($deltaDaysAtStart > 0) {
-                    $days = array_reverse($days);
-                }
-
-                foreach ($days as $day) {
-                    /** @var Day $day */
-                    $newDay = $period->days->filter(fn ($d) => $d->dayOffset == $day->dayOffset + $deltaDaysAtStart)->first();
-
-                    /** @var DayResponsible $dayResp */
-                    foreach ($day->dayResponsibles as $dayResp) {
-                        if (null != $newDay) {
-                            $dayResp->day = $newDay;
-                        } else {
-                            $day->removeDayResponsible($dayResp);
-                        }
+                /** @var DayResponsible $dayResp */
+                foreach ($day->dayResponsibles as $dayResp) {
+                    if (null != $newDay) {
+                        $dayResp->day = $newDay;
+                    } else {
+                        $day->removeDayResponsible($dayResp);
                     }
                 }
-
-                // Remove Days at end
-                for ($i = $daysCount - 1; $i >= $length; --$i) {
-                    $day = $days[$i];
-                    $period->removeDay($day);
-                }
             }
+        }
+
+        // Remove extra days
+        for ($i = $daysCount - 1; $i >= $length; --$i) {
+            $day = $days[$i];
+            $period->removeDay($day);
         }
     }
 }
