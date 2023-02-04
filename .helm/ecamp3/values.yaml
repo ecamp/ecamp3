@@ -90,6 +90,7 @@ frontend:
     requests:
       cpu: 10m
       memory: 10Mi
+  loginInfoTextKey: 'dev'
 
 print:
   domain:

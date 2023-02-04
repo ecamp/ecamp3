@@ -351,6 +351,11 @@
       },
       "login": {
         "accountless": "Hast du noch keinen Account?",
+        "infoText": {
+          "dev": "Dies ist die Entwickler-Version von eCamp v3.<br>WICHTIG: Nur für Entwickler-Gebrauch geeignet. Alle Daten sind öffentlich und werden periodisch gelöscht!",
+          "alpha": "Dies ist die Alpha-Version von eCamp v3. Kann Fehler enthalten, und die eingegebenen Daten werden nach Ende der Alpha-Phase gelöscht.",
+          "beta": "Dies ist die Beta-Version von eCamp v3. Kann für echte aber nicht zeitkritische Lagerplanung verwendet werden. Die beschränkte Anzahl an Nutzenden der Beta-Version müssen mit Wartungsunterbrüchen rechnen."
+        },
         "beta": {
           "notice": "Hier entsteht das neue eCamp.<br>WICHTIG: Diese Webseite befindet sich im Aufbau. Das heisst, dass alle Daten öffentlich sind und periodisch gelöscht werden!"
         },
