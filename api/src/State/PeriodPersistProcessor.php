@@ -5,7 +5,6 @@ namespace App\State;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProcessorInterface;
 use App\Entity\Day;
-use App\Entity\DayResponsible;
 use App\Entity\Period;
 use App\State\Util\AbstractPersistProcessor;
 use App\Util\DateTimeUtil;
@@ -21,68 +20,65 @@ class PeriodPersistProcessor extends AbstractPersistProcessor {
      * @param Period $data
      */
     public function onBefore($data, Operation $operation, array $uriVariables = [], array $context = []): Period {
-        static::updateDaysAndScheduleEntries($data, $context['previous_data'] ?? null);
+        self::moveDaysAndScheduleEntries($data, $context['previous_data'] ?? null);
+        self::removeExtraDays($data);
+        self::addMissingDays($data);
 
         return $data;
     }
 
-    public static function updateDaysAndScheduleEntries(Period $period, Period $orig = null) {
-        $length = $period->getPeriodLength();
-        $days = $period->getDays();
-        $daysCount = count($days);
-
-        // Add new days
-        for ($i = $daysCount; $i < $length; ++$i) {
-            $day = new Day();
-            $day->dayOffset = $i;
-            $period->addDay($day);
-        }
-
-        // if Period was newly created, no more actions needed
-        if (0 == $daysCount) {
+    public static function moveDaysAndScheduleEntries(Period $period, Period $originalPeriod = null) {
+        if (!$originalPeriod) {
             return;
         }
 
-        // moveScheduleEntries === true: scheduleEntries move relative to the start date (no change of offset needed)
+        // moveScheduleEntries === true: scheduleEntries move relative to the start date (no change of offset needed -> return)
         // moveScheduleEntries === false: scheduleEntries stay absolutely on the scheduled calendar date (change of offset needed)
-        $deltaMinutes = DateTimeUtil::differenceInMinutes($period->start, $orig->start);
-        if (!$period->moveScheduleEntries && 0 != $deltaMinutes) {
-            $deltaDays = floor($deltaMinutes / 60 / 24);
-
-            // Move ScheduleEntries
-            foreach ($period->scheduleEntries as $scheduleEntry) {
-                $scheduleEntry->startOffset += $deltaMinutes;
-                $scheduleEntry->endOffset += $deltaMinutes;
-            }
-
-            // Move DayResponsibles
-            $days = $period->days->getValues();
-            usort($days, fn ($a, $b) => $a->dayOffset <=> $b->dayOffset);
-
-            // UniqueIndex day_campCollaboration_unique forces correct order of Update
-            if ($deltaDays > 0) {
-                $days = array_reverse($days);
-            }
-
-            foreach ($days as $day) {
-                /** @var Day $day */
-                $newDay = $period->days->filter(fn ($d) => $d->dayOffset == $day->dayOffset + $deltaDays)->first();
-
-                /** @var DayResponsible $dayResp */
-                foreach ($day->dayResponsibles as $dayResp) {
-                    if (null != $newDay) {
-                        $dayResp->day = $newDay;
-                    } else {
-                        $day->removeDayResponsible($dayResp);
-                    }
-                }
-            }
+        if ($period->moveScheduleEntries) {
+            return;
         }
 
-        // Remove extra days
-        for ($i = $daysCount - 1; $i >= $length; --$i) {
-            $day = $days[$i];
-            $period->removeDay($day);
+        $deltaMinutes = DateTimeUtil::differenceInMinutes($originalPeriod->start, $period->start);
+        if (0 === $deltaMinutes) {
+            return;
+        }
+
+        // Move ScheduleEntries
+        // --> existing scheduleEntries outside the new period boundary are not possible (validation should have already failed)
+        foreach ($period->scheduleEntries as $scheduleEntry) {
+            $scheduleEntry->startOffset -= $deltaMinutes;
+            $scheduleEntry->endOffset -= $deltaMinutes;
+        }
+
+        // Move days (incl. related DayResponsibles)
+        // --> existing days outside the new period boundary will be removed in `removeExtraDays`
+        $deltaDays = intval(floor($deltaMinutes / 60 / 24));
+        foreach ($period->getDays() as $day) {
+            $day->dayOffset -= $deltaDays;
+        }
+    }
+
+    public static function removeExtraDays(Period $period) {
+        $length = $period->getPeriodLength();
+        $days = $period->getDays();
+
+        foreach ($days as $day) {
+            if ($day->dayOffset < 0 or $day->dayOffset >= $length) {
+                $period->removeDay($day);
+            }
+        }
+    }
+
+    public static function addMissingDays(Period $period) {
+        $length = $period->getPeriodLength();
+
+        for ($i = 0; $i < $length; ++$i) {
+            $dayAlreadyExists = $period->days->exists(fn ($key, Day $day) => $day->dayOffset === $i);
+            if (!$dayAlreadyExists) {
+                $day = new Day();
+                $day->dayOffset = $i;
+                $period->addDay($day);
+            }
         }
     }
 }

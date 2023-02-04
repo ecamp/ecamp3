@@ -39,7 +39,7 @@ class CampCreateProcessor extends AbstractPersistProcessor {
         }
 
         foreach ($data->periods as $period) {
-            PeriodPersistProcessor::updateDaysAndScheduleEntries($period);
+            PeriodPersistProcessor::addMissingDays($period);
         }
 
         return $data;

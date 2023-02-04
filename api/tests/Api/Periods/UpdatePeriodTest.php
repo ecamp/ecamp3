@@ -418,9 +418,9 @@ at position 10: Trailing data',
         $day1_resp = $this->getEntityManager()->getRepository(DayResponsible::class)->find($day1_resp->getId());
         $day2_resp = $this->getEntityManager()->getRepository(DayResponsible::class)->find($day2_resp->getId());
 
-        // CampCollaboration is now responsible for Day2 and Day3
-        $this->assertEquals($day2, $day1_resp->day);
-        $this->assertEquals($day3, $day2_resp->day);
+        // CampCollaboration is now responsible for Day2 (offset=1) and Day3 (offset=2)
+        $this->assertEquals(1, $day1_resp->day->dayOffset);
+        $this->assertEquals(2, $day2_resp->day->dayOffset);
     }
 
     public function testPatchPeriodMovesScheduleEntries() {

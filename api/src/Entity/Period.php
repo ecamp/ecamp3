@@ -194,6 +194,13 @@ class Period extends BaseEntity implements BelongsToCampInterface {
         return $this->days->getValues();
     }
 
+    public function getDaysSorted(): array {
+        $days = $this->getDays();
+        usort($days, fn (Day $a, Day $b) => $a->dayOffset <=> $b->dayOffset);
+
+        return $days;
+    }
+
     public function addDay(Day $day): self {
         if (!$this->days->contains($day)) {
             $this->days[] = $day;

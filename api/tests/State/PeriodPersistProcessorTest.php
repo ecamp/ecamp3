@@ -84,11 +84,12 @@ class PeriodPersistProcessorTest extends TestCase {
         $this->assertEquals(1440 + 600, $this->scheduleEntry->startOffset);
         $this->assertEquals(1, $this->dayResponsible->day->dayOffset);
 
-        $this->assertCount(4, $this->period->days);
-        $this->assertEquals(0, $this->period->days[0]->dayOffset);
-        $this->assertEquals(1, $this->period->days[1]->dayOffset);
-        $this->assertEquals(2, $this->period->days[2]->dayOffset);
-        $this->assertEquals(3, $this->period->days[3]->dayOffset);
+        $days = $this->period->getDaysSorted();
+        $this->assertCount(4, $days);
+        $this->assertEquals(0, $days[0]->dayOffset);
+        $this->assertEquals(1, $days[1]->dayOffset);
+        $this->assertEquals(2, $days[2]->dayOffset);
+        $this->assertEquals(3, $days[3]->dayOffset);
     }
 
     public function testAddDayAtStartNoMoveData() {
@@ -104,11 +105,12 @@ class PeriodPersistProcessorTest extends TestCase {
         $this->assertEquals(1440 + 1440 + 600, $this->scheduleEntry->startOffset);
         $this->assertEquals(2, $this->dayResponsible->day->dayOffset);
 
-        $this->assertCount(4, $this->period->days);
-        $this->assertEquals(0, $this->period->days[0]->dayOffset);
-        $this->assertEquals(1, $this->period->days[1]->dayOffset);
-        $this->assertEquals(2, $this->period->days[2]->dayOffset);
-        $this->assertEquals(3, $this->period->days[3]->dayOffset);
+        $days = $this->period->getDaysSorted();
+        $this->assertCount(4, $days);
+        $this->assertEquals(0, $days[0]->dayOffset);
+        $this->assertEquals(1, $days[1]->dayOffset);
+        $this->assertEquals(2, $days[2]->dayOffset);
+        $this->assertEquals(3, $days[3]->dayOffset);
     }
 
     public function testRemoveDayAtStartMoveData() {
@@ -124,9 +126,10 @@ class PeriodPersistProcessorTest extends TestCase {
         $this->assertEquals(1440 + 600, $this->scheduleEntry->startOffset);
         $this->assertEquals(1, $this->dayResponsible->day->dayOffset);
 
-        $this->assertCount(2, $this->period->days);
-        $this->assertEquals(0, $this->period->days[0]->dayOffset);
-        $this->assertEquals(1, $this->period->days[1]->dayOffset);
+        $days = $this->period->getDaysSorted();
+        $this->assertCount(2, $days);
+        $this->assertEquals(0, $days[0]->dayOffset);
+        $this->assertEquals(1, $days[1]->dayOffset);
     }
 
     public function testRemoveDayAtStartNoMoveData() {
@@ -142,9 +145,10 @@ class PeriodPersistProcessorTest extends TestCase {
         $this->assertEquals(600, $this->scheduleEntry->startOffset);
         $this->assertEquals(0, $this->dayResponsible->day->dayOffset);
 
-        $this->assertCount(2, $this->period->days);
-        $this->assertEquals(0, $this->period->days[0]->dayOffset);
-        $this->assertEquals(1, $this->period->days[1]->dayOffset);
+        $days = $this->period->getDaysSorted();
+        $this->assertCount(2, $days);
+        $this->assertEquals(0, $days[0]->dayOffset);
+        $this->assertEquals(1, $days[1]->dayOffset);
     }
 
     public function testAddDayAtEndMoveData() {
