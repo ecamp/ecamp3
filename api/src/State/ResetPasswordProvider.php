@@ -9,6 +9,9 @@ use App\Repository\UserRepository;
 use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactoryInterface;
 use Symfony\Component\PasswordHasher\PasswordHasherInterface;
 
+/**
+ * @template-implements ProviderInterface<ResetPassword>
+ */
 class ResetPasswordProvider implements ProviderInterface {
     public function __construct(
         private UserRepository $userRepository,

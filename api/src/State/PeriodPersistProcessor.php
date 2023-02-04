@@ -94,7 +94,7 @@ class PeriodPersistProcessor extends AbstractPersistProcessor {
 
                 // Remove Days at end
                 for ($i = $daysCount; $i > $length; --$i) {
-                    $day = $days[$i - 1];
+                    $day = $days[max(0, $i - 1)];
                     $period->removeDay($day);
                 }
             }
