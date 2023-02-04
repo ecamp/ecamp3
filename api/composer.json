@@ -46,7 +46,7 @@
         "symfony/yaml": "6.2.5",
         "twig/cssinliner-extra": "^3.4",
         "twig/extra-bundle": "^3.4",
-        "webonyx/graphql-php": "15.0.1"
+        "webonyx/graphql-php": "15.0.3"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "3.14.3",
