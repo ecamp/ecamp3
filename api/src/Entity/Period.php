@@ -255,12 +255,14 @@ class Period extends BaseEntity implements BelongsToCampInterface {
     #[RelatedCollectionLink(ContentNode::class, ['period' => '$this'])]
     #[Groups(['read'])]
     public function getContentNodes(): array {
-        return array_values(array_unique(array_merge(...array_map(
+        $listOfDescendantLists = array_map(
             function (ScheduleEntry $scheduleEntry) {
                 return $scheduleEntry->activity->getRootContentNode()->getRootDescendants();
             },
             $this->getScheduleEntries()
-        )), SORT_REGULAR));
+        );
+
+        return array_values(array_unique(array_merge(...array_values($listOfDescendantLists)), SORT_REGULAR));
     }
 
     /**

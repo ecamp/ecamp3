@@ -4,6 +4,7 @@ namespace App\Tests\Api\Users;
 
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Post;
+use App\Entity\Profile;
 use App\Entity\User;
 use App\Tests\Api\ECampApiTestCase;
 
@@ -143,7 +144,7 @@ class CreateUserTest extends ECampApiTestCase {
         $this->assertJsonContains(
             [
                 'title' => 'An error occurred',
-                'detail' => 'Expected IRI or document for resource "App\\Entity\\Profile", "NULL" given.',
+                'detail' => 'The type of the "'.Profile::class.'" resource must be "array" (nested document) or "string" (IRI), "NULL" given.',
             ],
         );
     }

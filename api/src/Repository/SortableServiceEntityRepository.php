@@ -28,10 +28,16 @@ use Gedmo\Sortable\Entity\Repository\SortableRepository;
  *         parent::__construct($em, YourEntity::class);
  *     }
  * }
+ *
+ * @template T2 of object
+ *
+ * @template-extends EntityRepository<T2>
  */
 abstract class SortableServiceEntityRepository extends EntityRepository implements ServiceEntityRepositoryInterface {
     /**
      * @param string $entityClass The class name of the entity this repository manages
+     *
+     * @psalm-param class-string<T2> $entityClass
      */
     public function __construct(EntityManagerInterface $em, string $entityClass) {
         parent::__construct($em, $em->getClassMetadata($entityClass));
