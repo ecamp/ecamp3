@@ -512,4 +512,46 @@ at position 10: Trailing data',
             ],
         ]);
     }
+
+    public function testPatchPeriodDoNotMoveDayResponsibles() {
+        $client = static::createClientWithCredentials(['email' => static::$fixtures['user2member']->getEmail()]);
+        $client->disableReboot();  // Disable resetting the database between the two requests
+
+        /** @var Period $period */
+        $period = static::$fixtures['period2'];
+
+        $client->request('PATCH', '/periods/'.$period->getId(), ['json' => [
+            'start' => '2023-04-17',
+            'end' => '2023-04-18',
+            'moveScheduleEntries' => false,
+        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']])
+        ;
+        $this->assertResponseStatusCodeSame(200);
+
+        /** @var Period $period */
+        $period = $this->getEntityManager()->getRepository(Period::class)->find($period->getId());
+        $this->assertCount(2, $period->days);
+
+        // verify dayResponsibles of old day1 (2023-04-15) were removed silently
+        $client->request('GET', $this->getIriFor(static::$fixtures['dayResponsible1day1period2']));
+        $this->assertResponseStatusCodeSame(404);
+
+        // verify dayResponsibles of old day2 (2023-04-16) were removed silently
+        $client->request('GET', $this->getIriFor(static::$fixtures['dayResponsible1day2period2']));
+        $this->assertResponseStatusCodeSame(404);
+
+        // verify dayResponsibles of old day3 (2023-04-17) were moved to new day1 (2023-03-27)
+        $response = $client->request('GET', '/days?period='.$period->getId())->toArray();
+        $days = $response['_embedded']['items'];
+        usort($days, fn ($a, $b) => $a['dayOffset'] <=> $b['dayOffset']);
+
+        $day1responsibleCampCollaborations = array_map(fn ($dayResponsible) => $dayResponsible['_links']['campCollaboration']['href'], $days[0]['_embedded']['dayResponsibles']);
+        $day2responsibleCampCollaborations = array_map(fn ($dayResponsible) => $dayResponsible['_links']['campCollaboration']['href'], $days[1]['_embedded']['dayResponsibles']);
+
+        $this->assertEqualsCanonicalizing([
+            $this->getIriFor(static::$fixtures['campCollaboration1manager']),
+            $this->getIriFor(static::$fixtures['campCollaboration2member']),
+        ], $day1responsibleCampCollaborations);
+        $this->assertEqualsCanonicalizing([], $day2responsibleCampCollaborations);
+    }
 }

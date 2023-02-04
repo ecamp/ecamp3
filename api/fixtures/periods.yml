@@ -8,7 +8,7 @@ App\Entity\Period:
     camp: '@camp1'
     description: Vorabend
     start: '<(new DateTime("2023-04-15"))>'
-    end: '<(new DateTime("2023-04-15"))>'
+    end: '<(new DateTime("2023-04-17"))>'
   period1camp2:
     camp: '@camp2'
     description: Vorweekend
