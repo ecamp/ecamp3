@@ -10,6 +10,8 @@ use Doctrine\ORM\EntityManagerInterface;
  * @method null|MaterialNode findOneBy(array $criteria, array $orderBy = null)
  * @method MaterialNode[]    findAll()
  * @method MaterialNode[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ *
+ * @template-extends ContentNodeRepository<MaterialNode>
  */
 class MaterialNodeRepository extends ContentNodeRepository {
     public function __construct(EntityManagerInterface $em) {
