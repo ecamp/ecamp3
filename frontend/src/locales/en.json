@@ -88,11 +88,11 @@
         "periodChangeStart": "Add / remove days at start of this period",
         "periodChangeEnd": "Add / remove days at end of this period"
       },
-      "dialogPeriodEdit": {
-        "moveScheduleEntries": "Move schedule entries"
-      },
       "dialogPeriodCreate": {
         "title": "Create period"
+      },
+      "dialogPeriodEdit": {
+        "moveScheduleEntries": "Move schedule entries"
       }
     },
     "collaborator": {
@@ -140,6 +140,7 @@
     },
     "generic": {
       "lockIcon": {
+        "doubleClickToUnlock": "Double click to unlock",
         "guestsCannotEdit": "Guests have no permission to edit"
       }
     },
@@ -238,8 +239,13 @@
       "picasso": {
         "picasso": {
           "datetime": {
-            "date": "dd. D.MM | D. MMM | DD. MMM YYYY"
+            "fullDate": "ddd, DD. MMMM YYYY",
+            "smallDate": "dd, D.MM. | dd, D. MMM | ddd, D. MMM YY"
           }
+        },
+        "picassoEntry": {
+          "location": "Location:",
+          "responsible": "Responsible: "
         }
       }
     },
@@ -340,8 +346,10 @@
       },
       "login": {
         "accountless": "Don't have an account yet?",
-        "beta": {
-          "notice": "This is the site of the new eCamp.<br>IMPORTANT: This website is under construction. This means that all data is public and will be deleted periodically!"
+        "infoText": {
+          "dev": "This is the development version of eCamp v3.<br>IMPORTANT: This is meant for development usage only. All data is public and will be deleted periodically!",
+          "alpha": "This is the alpha version of eCamp v3. It may still contain bugs and the data entered here will be deleted when the alpha phase ends.",
+          "beta": "This is the beta version of eCamp v3. It can be used for real but not time-critical camp planning. The limited number of beta users must expect maintenance interruptions."
         },
         "email": "Email",
         "loginCallback": {
@@ -392,6 +400,12 @@
       "admin": {
         "collaborators": "Manage Team",
         "title": "Admin"
+      },
+      "campProgram": {
+        "guestsCannotEdit": "A guest cannot edit the picasso",
+        "reminderLockedCreate": "Drag to create is only possible in unlocked mode.",
+        "reminderLockedMove": "Drag to move is only possible in unlocked mode.",
+        "title": "Picasso"
       },
       "collaborators": {
         "email": "Email address",
@@ -479,10 +493,6 @@
             "itemPrinting": "PDF / Print"
           }
         }
-      },
-      "campProgram": {
-        "guestsCannotEdit": "A guest cannot edit the picasso",
-        "title": "Picasso"
       },
       "print": {
         "title": "Print camp"

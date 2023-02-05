@@ -11,7 +11,7 @@
       color="warning"
     >
       <!-- eslint-disable-next-line vue/no-v-html -->
-      <div v-html="$tc('views.auth.login.beta.notice')" />
+      <div v-html="$tc(infoTextKey)" />
     </v-alert>
     <v-alert v-if="error" outlined text border="left" type="error">
       {{ error }}
@@ -133,6 +133,8 @@ import HorizontalRule from '@/components/layout/HorizontalRule.vue'
 import IconSpacer from '@/components/layout/IconSpacer.vue'
 import { serverErrorToString } from '@/helpers/serverError'
 
+const LOGIN_INFO_TEXT_KEY = window.environment.LOGIN_INFO_TEXT_KEY
+
 export default {
   name: 'Login',
   components: {
@@ -155,6 +157,11 @@ export default {
       authenticationInProgress: false,
       showCredits: true,
     }
+  },
+  computed: {
+    infoTextKey() {
+      return `views.auth.login.infoText.${LOGIN_INFO_TEXT_KEY ?? 'dev'}`
+    },
   },
   mounted() {
     this.$store.commit('setLanguage', this.$i18n.browserPreferredLocale)

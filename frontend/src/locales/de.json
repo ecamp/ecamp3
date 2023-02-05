@@ -140,7 +140,8 @@
     },
     "generic": {
       "lockIcon": {
-        "guestsCannotEdit": "Gäste haben keinen Bearbeitungszugriff"
+        "guestsCannotEdit": "Gäste haben keinen Bearbeitungszugriff",
+        "doubleClickToUnlock": "Doppelklick um zu entsperren"
       }
     },
     "layout": {
@@ -169,8 +170,19 @@
     },
     "print": {
       "config": {
+        "activityConfig": {
+          "activity": "Aktivität"
+        },
+        "picassoConfig": {
+          "periods": "Lagerabschnitt(e)",
+          "orientation": "Seitenlayout"
+        },
         "programConfig": {
-          "dayOverview": "Tagesübersicht drucken"
+          "dayOverview": "Tagesübersicht",
+          "periods": "Lagerabschnitt(e)"
+        },
+        "storyConfig": {
+          "periods": "Lagerabschnitt(e)"
         }
       },
       "documents": {
@@ -185,11 +197,12 @@
         "error": "Etwas hat nicht geklappt. Probiere es nochmals, oder lade die Seite neu."
       },
       "printConfigurator": {
+        "add": "Inhalt hinzufügen",
         "config": {
-          "Activity": "Einzelaktivität",
+          "Activity": "Einzelne Aktivität",
           "Cover": "Titelseite",
           "Picasso": "Grobprogramm",
-          "Program": "Programm",
+          "Program": "Detailprogramm",
           "Story": "Roter Faden",
           "Toc": "Inhaltsverzeichnis"
         }
@@ -241,8 +254,13 @@
       "picasso": {
         "picasso": {
           "datetime": {
-            "date": "dd. D.MM | D. MMM | DD. MMM YYYY"
+            "fullDate": "dd, DD. MMMM YYYY",
+            "smallDate": "dd, D.MM. | dd, D. MMM | dd, D. MMM YY"
           }
+        },
+        "picassoEntry": {
+          "location": "Ort:",
+          "responsible": "Verantwortlich: "
         }
       }
     },
@@ -343,6 +361,11 @@
       },
       "login": {
         "accountless": "Hast du noch keinen Account?",
+        "infoText": {
+          "dev": "Dies ist die Entwickler-Version von eCamp v3.<br>WICHTIG: Nur für Entwickler-Gebrauch geeignet. Alle Daten sind öffentlich und werden periodisch gelöscht!",
+          "alpha": "Dies ist die Alpha-Version von eCamp v3. Kann Fehler enthalten, und die eingegebenen Daten werden nach Ende der Alpha-Phase gelöscht.",
+          "beta": "Dies ist die Beta-Version von eCamp v3. Kann für echte aber nicht zeitkritische Lagerplanung verwendet werden. Die beschränkte Anzahl an Nutzenden der Beta-Version müssen mit Wartungsunterbrüchen rechnen."
+        },
         "beta": {
           "notice": "Hier entsteht das neue eCamp.<br>WICHTIG: Diese Webseite befindet sich im Aufbau. Das heisst, dass alle Daten öffentlich sind und periodisch gelöscht werden!"
         },
@@ -395,6 +418,12 @@
       "admin": {
         "collaborators": "Team verwalten",
         "title": "Admin"
+      },
+      "campProgram": {
+        "guestsCannotEdit": "Gäste können das Grobprogramm nicht bearbeiten",
+        "reminderLockedCreate": "Ziehen zum Erstellen ist nur im entsperrten Modus möglich.",
+        "reminderLockedMove": "Ziehen zum Verschieben ist nur im entsperrten Modus möglich.",
+        "title": "Grobprogramm"
       },
       "collaborators": {
         "email": "E-Mail-Adresse",
@@ -482,10 +511,6 @@
             "itemPrinting": "PDF / Drucken"
           }
         }
-      },
-      "campProgram": {
-        "guestsCannotEdit": "Gäste können das Grobprogramm nicht bearbeiten",
-        "title": "Grobprogramm"
       },
       "print": {
         "title": "Lager drucken"

@@ -17,6 +17,7 @@ use App\State\CampCreateProcessor;
 use App\State\CampRemoveProcessor;
 use App\Util\EntityMap;
 use App\Validator\AssertContainsAtLeastOneManager;
+use App\Validator\Camp\AssertValidCouponKey;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -49,7 +50,6 @@ use Symfony\Component\Validator\Constraints as Assert;
         new Post(
             processor: CampCreateProcessor::class,
             security: 'is_authenticated()',
-            inputFormats: ['jsonld', 'jsonapi', 'json'],
             validationContext: ['groups' => ['Default', 'create']],
             denormalizationContext: ['groups' => ['write', 'create']],
             normalizationContext: self::ITEM_NORMALIZATION_CONTEXT,
@@ -62,6 +62,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ApiFilter(filterClass: SearchFilter::class, properties: ['isPrototype'])]
 #[ORM\Entity(repositoryClass: CampRepository::class)]
 #[ORM\Index(columns: ['isPrototype'])]
+#[ORM\UniqueConstraint(name: 'couponKey_unique', columns: ['couponKey'])]
 class Camp extends BaseEntity implements BelongsToCampInterface, CopyFromPrototypeInterface {
     public const ITEM_NORMALIZATION_CONTEXT = [
         'groups' => ['read', 'Camp:Periods', 'Period:Days', 'Camp:CampCollaborations', 'CampCollaboration:User'],
@@ -240,6 +241,17 @@ class Camp extends BaseEntity implements BelongsToCampInterface, CopyFromPrototy
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'ownedCamps')]
     #[ORM\JoinColumn(nullable: false)]
     public ?User $owner = null;
+
+    /**
+     * Camp Coupon Key
+     * If a COUPON_SECRET is configured, a valid Coupon is required.
+     */
+    #[InputFilter\Trim]
+    #[AssertValidCouponKey()]
+    #[ApiProperty(readable: false)]
+    #[Groups(['create'])]
+    #[ORM\Column(type: 'text', length: 128, nullable: true)]
+    public ?string $couponKey = null;
 
     public function __construct() {
         parent::__construct();

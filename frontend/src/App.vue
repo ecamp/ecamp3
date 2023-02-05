@@ -10,7 +10,7 @@
     </v-main>
 
     <!-- footer -->
-    <v-footer v-if="$vuetify.breakpoint.smAndUp" app color="grey lighten-5">
+    <v-footer v-if="$vuetify.breakpoint.mdAndUp" app color="grey lighten-5">
       <small
         >eCamp
         <a v-if="version" :href="versionLink" target="_blank">

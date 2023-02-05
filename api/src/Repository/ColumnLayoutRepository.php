@@ -10,6 +10,8 @@ use Doctrine\ORM\EntityManagerInterface;
  * @method null|ColumnLayout findOneBy(array $criteria, array $orderBy = null)
  * @method ColumnLayout[]    findAll()
  * @method ColumnLayout[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ *
+ * @template-extends ContentNodeRepository<ColumnLayout>
  */
 class ColumnLayoutRepository extends ContentNodeRepository {
     public function __construct(EntityManagerInterface $em) {

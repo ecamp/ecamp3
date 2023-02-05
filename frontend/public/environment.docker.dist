@@ -9,5 +9,6 @@ window.environment = {
   VERSION: '',
   VERSION_LINK_TEMPLATE: 'https://github.com/ecamp/ecamp3/commit/{version}',
   TERMS_OF_SERVICE_LINK_TEMPLATE: 'https://ecamp3.ch/{lang}/tos',
-  FEATURE_DEVELOPER: true
+  FEATURE_DEVELOPER: true,
+  LOGIN_INFO_TEXT_KEY: 'dev'
 }

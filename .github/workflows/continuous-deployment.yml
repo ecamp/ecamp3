@@ -32,17 +32,17 @@ jobs:
         id: deployment-candidates
         # create a list of JSON objects like:
         # [
-        #  {"name": "pr1234", "env": "feature-branch", "sha": "... commit sha ..."},
-        #  {"name": "dev", "env": "dev", "sha": "..."}
+        #  {"name": "pr1234", "env": "feature-branch", "sha": "... commit sha ...", "number": "1234"},
+        #  {"name": "dev", "env": "dev", "sha": "...", "number": ""}
         # ]
         run: |
-          DEVEL=$(printf '{"name":"dev","env":"dev","sha":"%s"}' $(git rev-parse devel))
+          DEVEL=$(printf '{"name":"dev","env":"dev","sha":"%s","number":""}' $(git rev-parse devel))
           PULL_REQUESTS=$(curl -X POST --location "https://api.github.com/graphql" \
             -H "Accept: application/vnd.github.v3+json" \
             -H "Authorization: Bearer ${{ secrets.REPO_ACCESS_TOKEN }}" \
             -d "{\"query\": \"query { search(query: \\\"is:open is:pr label:deploy! repo:ecamp/ecamp3\\\", type: ISSUE, first: 100) { edges { node { ... on PullRequest { number headRefOid } } } } }\"}")
           LIST=$(printf "$PULL_REQUESTS" | jq '.data.search.edges' \
-            | jq 'map({"name":("pr"+(.node.number|tostring)),env:"feature-branch",sha:.node.headRefOid})' \
+            | jq 'map({"name":("pr"+(.node.number|tostring)),env:"feature-branch",sha:.node.headRefOid,number:(.node.number|tostring)})' \
             | jq ".+[$DEVEL]")
           echo "Deployment candidates: $LIST"
           echo "list=$LIST" | tr -d "\n" >> $GITHUB_OUTPUT
@@ -110,6 +110,29 @@ jobs:
           token: ${{ secrets.REPO_ACCESS_TOKEN }}
           env: ${{ matrix.deployment-name }}
 
+      - name: Find former PR number based on deployment name
+        id: pr-number
+        env:
+          name: ${{ matrix.deployment-name }}
+          regex: '^pr([0-9]+)$'
+        run: |
+          [[ $name =~ $regex ]]
+          echo number=${BASH_REMATCH[1]} >> $GITHUB_OUTPUT
+
+      - name: Comment about uninstallation on PR
+        uses: thollander/actions-comment-pull-request@v2
+        if: steps.pr-number.outputs.number
+        with:
+          pr_number: ${{ steps.pr-number.outputs.number }}
+          message: |
+            ### <span aria-hidden="true">⛔</span> Feature branch deployment currently inactive.
+
+
+            If the PR is still open, you can add the `deploy!` label to this PR to trigger a feature branch deployment.
+          comment_tag: feature-branch-deployment-status
+          create_if_not_exists: false
+
+
   upgrade-or-install-deployment:
     name: Upgrade or install deployment
     runs-on: ubuntu-latest
@@ -124,6 +147,13 @@ jobs:
       name: ${{ matrix.deployment.env }}
     steps:
 
+      - name: Get link to currently running job logs
+        uses: Tiryoh/gha-jobid-action@v0.1.2
+        id: job-url
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          job_name: Upgrade or install deployment (${{ matrix.deployment.name }}, ${{ matrix.deployment.env }}, ${{ matrix.deployment.sha }}, ...
+
       - name: Create a pending GitHub deployment
         uses: bobheadxi/deployments@v1.4.0
         id: deployment
@@ -131,6 +161,21 @@ jobs:
           step: start
           token: ${{ secrets.REPO_ACCESS_TOKEN }}
           env: ${{ matrix.deployment.name }}
+
+      - name: Comment progress on PR
+        uses: thollander/actions-comment-pull-request@v2
+        if: ${{ matrix.deployment.env == 'feature-branch' }}
+        with:
+          pr_number: ${{ matrix.deployment.number }}
+          message: |
+            ### <span aria-hidden="true">🏗️</span> Feature branch deployment in progress
+
+
+            |  Name | Link |
+            |---------------------------------|------------------------|
+            |<span aria-hidden="true">🔨</span> Latest commit | [${{ matrix.deployment.sha }}](https://github.com/${{ github.repository }}/commit/${{ matrix.deployment.sha }}) |
+            |<span aria-hidden="true">🔍</span> Latest deploy log | [${{ steps.job-url.outputs.html_url }}](${{ steps.job-url.outputs.html_url }}) |
+          comment_tag: feature-branch-deployment-status
 
       - uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3
         with:
@@ -146,7 +191,7 @@ jobs:
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
 
       - name: Build and push frontend docker image
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v4
         with:
           push: true
           file: .docker-hub/frontend/Dockerfile
@@ -156,7 +201,7 @@ jobs:
           cache-to: type=gha,scope=frontend,mode=max
 
       - name: Build and push api docker image
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v4
         with:
           push: true
           file: api/Dockerfile
@@ -167,7 +212,7 @@ jobs:
           cache-to: type=gha,scope=api,mode=max
 
       - name: Build and push caddy docker image
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v4
         with:
           push: true
           file: api/Dockerfile
@@ -178,7 +223,7 @@ jobs:
           cache-to: type=gha,scope=caddy,mode=max
 
       - name: Build and push print docker image
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v4
         with:
           push: true
           file: .docker-hub/print/Dockerfile
@@ -227,7 +272,8 @@ jobs:
             --set deployedVersion="$(git rev-parse --short '${{ matrix.deployment.sha }}')" \
             --set recaptcha.siteKey='${{ secrets.RECAPTCHA_SITE_KEY }}' \
             --set recaptcha.secret='${{ secrets.RECAPTCHA_SECRET }}' \
-            --set featureToggle.developer=true
+            --set featureToggle.developer=true \
+            --set coupon.secret='${{ secrets.COUPON_SECRET }}'
 
       - name: Finish the GitHub deployment
         uses: bobheadxi/deployments@v1.4.0
@@ -239,3 +285,37 @@ jobs:
           deployment_id: ${{ steps.deployment.outputs.deployment_id }}
           env_url: https://app-${{ matrix.deployment.name }}.ecamp3.ch
           env: ${{ steps.deployment.outputs.env }}
+
+      - name: Comment success on PR
+        uses: thollander/actions-comment-pull-request@v2
+        if: ${{ success() && matrix.deployment.env == 'feature-branch' }}
+        with:
+          pr_number: ${{ matrix.deployment.number }}
+          message: |
+            ### <span aria-hidden="true">✅</span> Feature branch deployment ready!
+
+
+            |  Name | Link |
+            |---------------------------------|------------------------|
+            |<span aria-hidden="true">🔨</span> Latest commit | [${{ matrix.deployment.sha }}](https://github.com/${{ github.repository }}/commit/${{ matrix.deployment.sha }}) |
+            |<span aria-hidden="true">🔍</span> Latest deploy log | [${{ steps.job-url.outputs.html_url }}](${{ steps.job-url.outputs.html_url }}) |
+            |<span aria-hidden="true">😎</span> **Deployment** | [https://app-${{ matrix.deployment.name }}.ecamp3.ch/](https://app-${{ matrix.deployment.name }}.ecamp3.ch/) |
+            |<span aria-hidden="true">📱</span> Preview on mobile | <details><summary> Toggle QR Code... </summary><br /><br />![QR Code](https://api.qrserver.com/v1/create-qr-code/?size=180x180&ecc=H&format=svg&qzone=4&color=5-72-97&data=https://app-${{ matrix.deployment.name }}.ecamp3.ch/)<br /><br />_Use your smartphone camera to open QR code link._</details> |
+            ---
+          comment_tag: feature-branch-deployment-status
+
+      - name: Comment failure on PR
+        uses: thollander/actions-comment-pull-request@v2
+        if: ${{ failure() && matrix.deployment.env == 'feature-branch' }}
+        with:
+          pr_number: ${{ matrix.deployment.number }}
+          message: |
+            ### <span aria-hidden="true">💥</span> Feature branch deployment failed
+
+
+            |  Name | Link |
+            |---------------------------------|------------------------|
+            |<span aria-hidden="true">🔨</span> Latest commit | [${{ matrix.deployment.sha }}](https://github.com/${{ github.repository }}/commit/${{ matrix.deployment.sha }}) |
+            |<span aria-hidden="true">🔍</span> Latest deploy log | [${{ steps.job-url.outputs.html_url }}](${{ steps.job-url.outputs.html_url }}) |
+            ---
+          comment_tag: feature-branch-deployment-status

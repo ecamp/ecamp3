@@ -8,5 +8,6 @@ window.environment = {
   DEPLOYMENT_TIME: '',
   VERSION: '',
   VERSION_LINK_TEMPLATE: 'https://github.com/ecamp/ecamp3/commit/{version}',
-  FEATURE_DEVELOPER: true
+  FEATURE_DEVELOPER: true,
+  LOGIN_INFO_TEXT_KEY: 'dev'
 }

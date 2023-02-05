@@ -8,11 +8,14 @@
 # renovate: datasource=docker depName=php
 ARG PHP_VERSION=8.1.13
 
+# renovate: datasource=docker depName=alpine
+ARG ALPINE_VERSION=3.16
+
 # renovate: datasource=docker depName=caddy
 ARG CADDY_VERSION=2.6.2
 
 # "php" stage
-FROM php:${PHP_VERSION}-fpm-alpine AS api_platform_php
+FROM php:${PHP_VERSION}-fpm-alpine${ALPINE_VERSION} AS api_platform_php
 
 # persistent / runtime deps
 RUN apk add --no-cache \
@@ -68,7 +71,7 @@ RUN set -eux; \
 ###> recipes ###
 ###< recipes ###
 
-COPY --from=composer:2.5@sha256:fe80818ba94877a47932a6bc00614ff101ca68496871aba9235c5093f40b78a1 /usr/bin/composer /usr/bin/composer
+COPY --from=composer:2.5@sha256:013450bb533a9049757addd96c41972ad7b0f8f20387223e38c5d413331191c1 /usr/bin/composer /usr/bin/composer
 
 # Copy development php.ini
 RUN cp "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"

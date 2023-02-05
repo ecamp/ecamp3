@@ -10,8 +10,8 @@
 
     <v-btn
       v-if="showButton"
-      :fixed="$vuetify.breakpoint.xs"
-      :absolute="!$vuetify.breakpoint.xs"
+      :fixed="$vuetify.breakpoint.mdAndUp"
+      :absolute="!$vuetify.breakpoint.mdAndUp"
       dark
       fab
       style="z-index: 3"
@@ -103,7 +103,7 @@ export default {
 .fab--bottom_nav {
   position: fixed;
   bottom: calc(16px + 56px + env(safe-area-inset-bottom)) !important;
-  @media #{map-get($display-breakpoints, 'sm-and-up')} {
+  @media #{map-get($display-breakpoints, 'md-and-up')} {
     bottom: calc(16px + 36px + env(safe-area-inset-bottom)) !important;
   }
 }

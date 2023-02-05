@@ -1,14 +1,14 @@
-import { toTime, roundTimeUp, roundTimeDown } from '@/helpers/vCalendarDragAndDrop.js'
+import { toTime, minMaxTime } from '@/helpers/vCalendarDragAndDrop.js'
 
 /**
  *
- * @param ref(bool) enabled   drag & drop is disabled if enabled=false
- * @param int threshold       min. mouse movement needed to detect drag & drop
- * @param minTimestamp        minimum allowed start timestamp (calendar start)
- * @param maxTimestamp        maximum allowed end timestamp (calender end)
+ * @param enabled {Ref<boolean>} drag & drop is disabled if enabled=false
+ * @param update {(scheduleEntry: object, startTime: number, endTime: number) => void} callback for update actions
+ * @param minTimestamp {number}  minimum allowed start timestamp (calendar start)
+ * @param maxTimestamp {number}  maximum allowed end timestamp (calendar end)
  * @returns
  */
-export default function useDragAndDrop(enabled, update, minTimestamp, maxTimestamp) {
+export function useDragAndDropResize(enabled, update, minTimestamp, maxTimestamp) {
   /**
    * internal data (not exposed)
    */
@@ -28,9 +28,7 @@ export default function useDragAndDrop(enabled, update, minTimestamp, maxTimesta
 
   // resize an entry (existing or new placeholder)
   const resizeEntry = (entry, mouse) => {
-    const mouseRounded = roundTimeUp(mouse)
-    const newStart = Math.min(mouseRounded, roundTimeDown(originalStartTimestamp))
-    const newEnd = Math.max(mouseRounded, roundTimeDown(originalStartTimestamp))
+    const { min: newStart, max: newEnd } = minMaxTime(originalStartTimestamp, mouse)
 
     if (newStart >= minTimestamp && newEnd <= maxTimestamp && newEnd - newStart > 0) {
       // TODO review: Here we're changing the store value directly.
