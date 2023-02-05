@@ -18,7 +18,7 @@ Displays a single period as a list item including controls to edit and delete it
         </v-btn>
       </template>
       <v-list>
-        <dialog-period-desc-edit :period="period" @closed="showMenuEdit = false">
+        <dialog-period-description-edit :period="period" @closed="showMenuEdit = false">
           <template #activator="{ on, attrs }">
             <v-list-item v-bind="attrs" v-on="on">
               <v-list-item-icon>
@@ -29,7 +29,7 @@ Displays a single period as a list item including controls to edit and delete it
               }}</v-list-item-title>
             </v-list-item>
           </template>
-        </dialog-period-desc-edit>
+        </dialog-period-description-edit>
 
         <dialog-period-date-edit
           :period="period"
@@ -123,12 +123,12 @@ Displays a single period as a list item including controls to edit and delete it
 <script>
 import DialogEntityDelete from '@/components/dialog/DialogEntityDelete.vue'
 import DialogPeriodDateEdit from './DialogPeriodDateEdit.vue'
-import DialogPeriodDescEdit from './DialogPeriodDescEdit.vue'
+import DialogPeriodDescriptionEdit from './DialogPeriodDescriptionEdit.vue'
 import { dateHelperUTCFormatted } from '@/mixins/dateHelperUTCFormatted.js'
 
 export default {
   name: 'CampPeriods',
-  components: { DialogEntityDelete, DialogPeriodDescEdit, DialogPeriodDateEdit },
+  components: { DialogEntityDelete, DialogPeriodDescriptionEdit, DialogPeriodDateEdit },
   mixins: [dateHelperUTCFormatted],
   props: {
     period: { type: Object, required: true },

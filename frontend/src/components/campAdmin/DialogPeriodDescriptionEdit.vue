@@ -28,7 +28,7 @@ import DialogBase from '@/components/dialog/DialogBase.vue'
 import DialogForm from '@/components/dialog/DialogForm.vue'
 
 export default {
-  name: 'DialogPeriodDescEdit',
+  name: 'DialogPeriodDescriptionEdit',
   components: { DialogForm },
   extends: DialogBase,
   props: {
