@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "52948a3167ff25043c0af93f4af33eaf",
+    "content-hash": "a094ba0e0d9c5b249fb91bcb2e44c084",
     "packages": [
         {
             "name": "api-platform/core",
@@ -2733,21 +2733,21 @@
         },
         {
             "name": "knpuniversity/oauth2-client-bundle",
-            "version": "v2.12.0",
+            "version": "v2.13.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/knpuniversity/oauth2-client-bundle.git",
-                "reference": "d162e3da5d2fd6e71401de8ce23c75abe1457a05"
+                "reference": "f7fe73e98f193503b8aaf2e11f50a0d72539dc7c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/knpuniversity/oauth2-client-bundle/zipball/d162e3da5d2fd6e71401de8ce23c75abe1457a05",
-                "reference": "d162e3da5d2fd6e71401de8ce23c75abe1457a05",
+                "url": "https://api.github.com/repos/knpuniversity/oauth2-client-bundle/zipball/f7fe73e98f193503b8aaf2e11f50a0d72539dc7c",
+                "reference": "f7fe73e98f193503b8aaf2e11f50a0d72539dc7c",
                 "shasum": ""
             },
             "require": {
                 "league/oauth2-client": "^2.0",
-                "php": ">=7.2.5",
+                "php": ">=7.4",
                 "symfony/dependency-injection": "^4.4|^5.0|^6.0",
                 "symfony/framework-bundle": "^4.4|^5.0|^6.0",
                 "symfony/http-foundation": "^4.4|^5.0|^6.0",
@@ -2787,9 +2787,9 @@
             ],
             "support": {
                 "issues": "https://github.com/knpuniversity/oauth2-client-bundle/issues",
-                "source": "https://github.com/knpuniversity/oauth2-client-bundle/tree/v2.12.0"
+                "source": "https://github.com/knpuniversity/oauth2-client-bundle/tree/v2.13.1"
             },
-            "time": "2023-01-31T15:00:52+00:00"
+            "time": "2023-02-03T13:57:47+00:00"
         },
         {
             "name": "laminas/laminas-code",
