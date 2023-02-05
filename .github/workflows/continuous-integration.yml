@@ -425,7 +425,7 @@ jobs:
             docker-compose-
 
       # start necessary containers
-      - run: docker-compose up -d php caddy frontend database docker-host
+      - run: docker compose up -d php caddy frontend database docker-host
 
       # pull cypress while container are starting up
       - run: docker pull cypress/included:12.5.1
@@ -438,7 +438,7 @@ jobs:
         working-directory: frontend
 
       # print docker container logs (good for debugging; can be disabled again lateron)
-      - run: docker-compose logs --tail="all"
+      - run: docker compose logs --tail="all"
 
   coveralls-finished:
     name: 'Finish coveralls report'

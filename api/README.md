@@ -1,6 +1,6 @@
 # eCamp v3 API
 
-After starting the project using `docker-compose up -d`, you can visit the API documentation in the browser at http://localhost:3001
+After starting the project using `docker compose up -d`, you can visit the API documentation in the browser at http://localhost:3001
 
 To use the API, you will need to log in. You can use the "Login" endpoint offered in the Swagger UI for this. The example credentials should work fine in development.
 
@@ -9,7 +9,7 @@ To use the API, you will need to log in. You can use the "Login" endpoint offere
 If you ever need to get an API token for manual use, you can use the following command:
 
 ```
-docker-compose exec php bin/console lexik:jwt:generate-token test@example.com --no-debug
+docker compose exec php bin/console lexik:jwt:generate-token test@example.com --no-debug
 ```
 
 The token must then be split and sent in two cookies to the API. The header and payload (from `ey` until before the second period `.`) must be sent in a cookie named `[api-domain]_jwt_hp`. The signature (everything after the second period `.`) must be sent in a cookie called `[api-domain]_jwt_s` (replace [api-domain] with the domain where the API is served, e.g. `localhost_jwt_hp` or `pr1234.ecamp3.ch_jwt_s`).
@@ -20,13 +20,13 @@ See https://jwt.io for more info on the structure of JWT tokens, and https://med
 We are using the following toolchain to ensure code quality standards:
 
 - **PHP CS Fixer**\
-  Run `docker-compose exec php composer cs-fix` before committing\
+  Run `docker compose exec php composer cs-fix` before committing\
   cs-check is integrated into CI (pull request will not pass)
 - **Phpstan**\
-  Run `docker-compose exec php composer phpstan`\
+  Run `docker compose exec php composer phpstan`\
   phpstan is integrated into CI (pull request will not pass)
 - **Psalm**\
-  Run `docker-compose exec php composer psalm`\
+  Run `docker compose exec php composer psalm`\
   psalm is integrated into CI (pull request will not pass)
 
 ### Debugging
@@ -40,7 +40,7 @@ For vscode:\
 `XDEBUG_CONFIG="client_host=docker-host idekey=VSCODE"`
 
 After you changed the .env file, you need to recreate the container that the change has an effect.\
-`docker-compose down && docker-compose up`\
+`docker compose down && docker compose up`\
 or\
-`docker-compsoe stop php; docker-compose rm php; docker-compose up`\  
+`docker-compsoe stop php; docker compose rm php; docker compose up`\  
 if you don't want to restart the frontend.

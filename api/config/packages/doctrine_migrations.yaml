@@ -7,6 +7,6 @@ doctrine_migrations:
         # as migrations classes should NOT be autoloaded
         'DoctrineMigrations': '%kernel.project_dir%/migrations/schema'
         'DataMigrations': '%kernel.project_dir%/migrations/%data_migrations_dir%'
-    enable_profiler: '%kernel.debug%'
+    enable_profiler: false
     services:
         Doctrine\Migrations\Version\Comparator: App\Doctrine\NameSpaceIgnoringVersionComparator
