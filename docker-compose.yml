@@ -40,8 +40,6 @@ services:
     volumes:
       - ./.caddy/php-socket:/var/run/php
       - ./api:/srv/api:rw,cached
-      - ./api/docker/php/conf.d/api-platform.dev.ini:/usr/local/etc/php/conf.d/api-platform.ini
-      - ./api/docker/php/docker-entrypoint.sh:/usr/local/bin/docker-entrypoint
       - ./.cache/composer:/tmp/composer/cache
     environment:
       DATA_MIGRATIONS_DIR: dev-data
