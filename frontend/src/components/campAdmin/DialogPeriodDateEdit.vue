@@ -17,6 +17,7 @@
       <e-date-picker
         v-model="entityData.start"
         :name="$tc('entity.period.fields.start')"
+        icon="mdi-calendar-start"
         vee-rules="required"
         @input="startChanged"
       />
@@ -28,7 +29,7 @@
           filled
           disabled
         >
-          <template #prepend><v-icon>mdi-calendar</v-icon></template>
+          <template #prepend><v-icon>mdi-calendar-end</v-icon></template>
         </v-text-field>
       </div>
     </div>
@@ -37,6 +38,7 @@
       <e-date-picker
         v-model="entityData.start"
         :name="$tc('entity.period.fields.start')"
+        icon="mdi-calendar-start"
         :vee-rules="'required|lessThanOrEqual_date:' + endString"
         @input="startChanged"
       />
@@ -49,7 +51,7 @@
           disabled
         >
           <template #prepend>
-            <v-icon>mdi-calendar</v-icon>
+            <v-icon>mdi-calendar-end</v-icon>
           </template>
         </v-text-field>
       </div>
@@ -65,7 +67,7 @@
           disabled
         >
           <template #prepend>
-            <v-icon>mdi-calendar</v-icon>
+            <v-icon>mdi-calendar-start</v-icon>
           </template>
         </v-text-field>
       </div>
@@ -73,6 +75,7 @@
         v-if="mode == 'changeEnd'"
         v-model="entityData.end"
         :name="$tc('entity.period.fields.end')"
+        icon="mdi-calendar-end"
         :vee-rules="'required|greaterThanOrEqual_date:' + startString"
       />
     </div>
@@ -84,7 +87,7 @@
         filled
         disabled
       >
-        <template #prepend><v-icon>mdi-counter</v-icon></template>
+        <template #prepend><v-icon>mdi-calendar-expand-horizontal</v-icon></template>
       </v-text-field>
     </div>
   </dialog-form>
