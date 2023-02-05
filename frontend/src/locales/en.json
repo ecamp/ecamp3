@@ -86,7 +86,8 @@
       "dialogPeriodDateEdit": {
         "movePeriod": "Move period",
         "periodChangeStart": "Add / remove days at start of this period",
-        "periodChangeEnd": "Add / remove days at end of this period"
+        "periodChangeEnd": "Add / remove days at end of this period",
+        "periodDuration": "Number of days"
       },
       "dialogPeriodCreate": {
         "title": "Create period"

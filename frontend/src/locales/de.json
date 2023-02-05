@@ -89,7 +89,8 @@
       "dialogPeriodDateEdit": {
         "movePeriod": "Lagerabschnitt verschieben",
         "periodChangeStart": "Am Anfang vom Lagerabschnitt Tage hinzufügen / entfernen",
-        "periodChangeEnd": "Am Ende vom Lagerabschnitt Tage hinzufügen / entfernen"
+        "periodChangeEnd": "Am Ende vom Lagerabschnitt Tage hinzufügen / entfernen",
+        "periodDuration": "Anzahl Tage"
       },
       "dialogPeriodEdit": {
         "moveScheduleEntries": "Aktivitäten verschieben"

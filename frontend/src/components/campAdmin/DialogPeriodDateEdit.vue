@@ -12,7 +12,7 @@
     <template #activator="scope">
       <slot name="activator" v-bind="scope" />
     </template>
-    <div v-if="mode == 'move'">
+    <div v-if="mode == 'move'" class="e-form-container">
       <p>{{ $tc('components.campAdmin.dialogPeriodDateEdit.movePeriod') }}</p>
       <e-date-picker
         v-model="entityData.start"
@@ -32,7 +32,7 @@
         </v-text-field>
       </div>
     </div>
-    <div v-if="mode == 'changeStart'">
+    <div v-if="mode == 'changeStart'" class="e-form-container">
       <p>{{ $tc('components.campAdmin.dialogPeriodDateEdit.periodChangeStart') }}</p>
       <e-date-picker
         v-model="entityData.start"
@@ -54,7 +54,7 @@
         </v-text-field>
       </div>
     </div>
-    <div v-if="mode == 'changeEnd'">
+    <div v-if="mode == 'changeEnd'" class="e-form-container">
       <p>{{ $tc('components.campAdmin.dialogPeriodDateEdit.periodChangeEnd') }}</p>
       <div class="e-form-container">
         <v-text-field
@@ -75,6 +75,17 @@
         :name="$tc('entity.period.fields.end')"
         :vee-rules="'required|greaterThanOrEqual_date:' + startString"
       />
+    </div>
+    <div class="e-form-container">
+      <v-text-field
+        :value="periodDurationInDays"
+        :label="$tc('components.campAdmin.dialogPeriodDateEdit.periodDuration')"
+        hide-details
+        filled
+        disabled
+      >
+        <template #prepend><v-icon>mdi-counter</v-icon></template>
+      </v-text-field>
     </div>
   </dialog-form>
 </template>
@@ -102,6 +113,11 @@ export default {
     },
     endString() {
       return this.$date.utc(this.entityData.end, 'YYYY-MM-DD').format('L')
+    },
+    periodDurationInDays() {
+      let start = this.$date.utc(this.entityData.start, 'YYYY-MM-DD')
+      let end = this.$date.utc(this.entityData.end, 'YYYY-MM-DD')
+      return 1 + end.diff(start, 'day')
     },
   },
   watch: {
